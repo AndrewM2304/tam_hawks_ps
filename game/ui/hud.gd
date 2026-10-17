@@ -552,6 +552,7 @@ func _build_controls(content: VBoxContainer) -> void:
 	_binding_status.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	var trick_help := _label(content, "Hold Ollie to crouch; release to pop. Direction + Flip / Grab selects a trick. Hold grabs.\nTap Grind to lock a rail; tap again to drop. Hold Grind at quarter-pipe coping for a lip trick.\nManual + Up selects Nose Manual. Up–neutral–Down / Down–neutral–Up also starts a manual / nose manual.\nAir left/right spins the skater; shoulders spin too. Quarter-pipe and half-pipe: Clyde quay.", 15, PAPER)
 	trick_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	trick_help.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	if not ResourceLoader.exists("res://game/core/input_profile.gd"):
 		_label(content, "WASD skate · Space ollie · J/K tricks · L grind · M manual\nQ/E spin · Escape pause · R restart · Tab goals", 18, PAPER)
 		return
