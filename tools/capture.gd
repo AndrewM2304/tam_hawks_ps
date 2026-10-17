@@ -31,7 +31,7 @@ func _run() -> void:
 	await _save("air-tricks")
 	game.toggle_pause()
 	await _frames(3)
-	await _save("pause-menu")
+	await _save("pause-menu", "pause")
 	game.toggle_pause()
 	game.restart_run()
 	game.skater.global_position = Vector3(12, 0.04, 18)
@@ -78,29 +78,29 @@ func _run() -> void:
 	await _frames(3)
 	game.hud.toggle_goals()
 	await _frames(4)
-	await _save("career-goals")
+	await _save("career-goals", "goals")
 	game.hud.toggle_goals()
 	game.hud.show_settings()
 	await _frames(4)
-	await _save("settings")
+	await _save("settings", "settings")
 	game.apply_settings({"ui_scale": 1.4}, false)
 	game.hud.hide_menu()
 	game._refresh_hud()
 	game.hud.show_settings()
 	await _frames(4)
-	await _save("settings-large")
+	await _save("settings-large", "settings")
 	game.hud.show_controls()
 	await _frames(4)
-	await _save("controls-large")
+	await _save("controls-large", "controls")
 	game.apply_settings({"ui_scale": 1.0}, false)
 	game.hud.show_title()
 	await _frames(4)
-	await _save("title")
+	await _save("title", "title")
 	game.hud.hide_menu()
 	game.restart_run()
 	game.time_remaining = 0.01
 	await _frames(4)
-	await _save("results")
+	await _save("results", "results")
 	game.hud.hide()
 	game.skater.set_physics_process(false)
 	var camera := Camera3D.new()
@@ -127,10 +127,29 @@ func _frames(count: int) -> void:
 	for i in count:
 		await physics_frame
 
-func _save(label: String) -> void:
-	await RenderingServer.frame_post_draw
+func _save(label: String, expected_page: String = "") -> void:
+	# Physics ticks can finish a run before _process opens results. Require the
+	# intended page and verify it again after drawing, never just a saved PNG.
+	var presented := false
+	for frame in 12:
+		if not _presentation_matches(expected_page):
+			await process_frame
+			continue
+		await RenderingServer.frame_post_draw
+		if _presentation_matches(expected_page):
+			presented = true
+			break
+	if not presented:
+		errors += 1
+		push_error("Expected page '%s' did not become visible, bounded and focused: %s" % [expected_page, label])
+		return
 	var path := "res://.local/%s.png" % label
 	var result := root.get_texture().get_image().save_png(path)
 	if result != OK:
 		errors += 1
-	print("CAPTURE: %s result=%d" % [path, result])
+	print("CAPTURE: %s result=%d page=%s" % [path, result, expected_page])
+
+func _presentation_matches(expected_page: String) -> bool:
+	if not game.hud.visible: return expected_page.is_empty()
+	if expected_page == "results" and not game.run_finished: return false
+	return game.hud._page == expected_page and game.hud.is_menu_ready()

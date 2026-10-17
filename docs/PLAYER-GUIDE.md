@@ -29,6 +29,8 @@ Gamepad names describe the intended standard mapping. Physical DualSense wired/B
 
 To change a binding, pause and open **Controls**, select an action, then press the desired key, gamepad button or axis. Escape cancels listening; **Reset defaults** restores the standard layout. Bindings are saved locally, and prompts follow the saved controls.
 
+Back returns to the menu you came from. Interaction prompts use your current keyboard or controller binding. Goal updates remain visible alongside an active combo.
+
 ## Build a line
 
 Push toward a ramp, ollie, then add a flip, grab or spin. Clean landing leaves a short 0.35-second link window: start another ollie, grind or manual to continue the combo; rolling normally lets it bank. A revert adds a trick without extending that window. A bail drops unbanked points. Repeating one trick reduces its value, while different tricks build the multiplier.
@@ -38,6 +40,8 @@ Hold grind while descending toward an aligned rail. Balance left/right against t
 Banking points fills the special meter. A full meter powers one successful airborne special. Career goals unlock Clyde Carousel (bank 1,000 in a run) and Tenement Tumble (bank a 3,000-point combo). Free skate makes both available for practice but still requires charge; it does not complete career goals.
 
 Open Goals to see the ten career tasks: scores, a long combo, H A W K S letters, cone duty, the Central gap, market items, four districts and a hidden recording. Goal completions, records, bindings and presentation settings use a local save; there is no account or online service. Pause/settings include sound mix, captions, reduced motion, interface size and camera sensitivity.
+
+If a save cannot be loaded or written, a persistent warning explains that progress is staying in the current session. You can keep playing; existing unreadable or newer saves are protected.
 
 ## Useful playtest notes
 

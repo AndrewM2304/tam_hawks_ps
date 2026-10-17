@@ -21,6 +21,7 @@ const PALETTE := {
 	"glass": Color("213747"),
 	"bronze": Color("42615a"),
 	"orange": Color("cb752f"),
+	"asphalt": Color("303b40"),
 }
 
 var _materials: Dictionary = {}
@@ -255,6 +256,7 @@ func _ramp(ramp_name: String, at: Vector3, width: float, run: float, rise: float
 	body.set_meta("rise", rise)
 	body.set_meta("run", run)
 	body.set_meta("width", width)
+	body.set_meta("surface_audio", "metal")
 	add_child(body)
 	var a := Vector3(-width / 2.0, 0.02, run / 2.0)
 	var b := Vector3(width / 2.0, 0.02, run / 2.0)
@@ -469,7 +471,8 @@ func _street(node_name: String, start: Vector3, end: Vector3, width: float = 12.
 	var span := end - start
 	var center := (start + end) * 0.5
 	var size := Vector3(maxf(absf(span.x), width), 0.5, maxf(absf(span.z), width))
-	_box(self, node_name, center + Vector3(0.0, -0.25, 0.0), size, "paving", true)
+	var road := _box(self, node_name, center + Vector3(0.0, -0.25, 0.0), size, "asphalt", true)
+	road.set_meta("surface_audio", "asphalt")
 	# Ends stay open for turning from the connector into either district.
 	if absf(span.x) > absf(span.z):
 		for edge: float in [-1.0, 1.0]:

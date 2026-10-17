@@ -23,6 +23,7 @@ var audio: Node
 var persistence_enabled: bool = not OS.get_cmdline_args().has("--script")
 var profile_path := "user://career.json"
 var save_status := ""
+var save_warning := ""
 var _caption := ""
 var _caption_time := 0.0
 var _last_district := ""
@@ -47,7 +48,8 @@ func _ready() -> void:
 	if persistence_enabled:
 		var loaded: Error = career.load_profile(profile_path)
 		if loaded != OK and loaded != ERR_FILE_NOT_FOUND:
-			save_status = "Profile unavailable — progress stays in this session"
+			save_warning = "Saved progress could not be loaded. Existing files are safe; this session will not be saved."
+			save_status = save_warning
 	career.begin_run(free_skate_mode)
 	world = GlasgowSquare.new()
 	world.name = "GlasgowSquare"
@@ -118,6 +120,7 @@ func _physics_process(delta: float) -> void:
 	_feedback_timer = maxf(0.0, _feedback_timer - delta)
 	_caption_time = maxf(0.0, _caption_time - delta)
 	var district: String = world.get_district_id(skater.global_position)
+	_update_contact_audio()
 	audio.set_motion(skater.speed, skater.is_on_floor(), skater.grinding, district)
 	if free_skate_mode or time_remaining > 0.0:
 		_update_objectives(delta, district)
@@ -150,6 +153,7 @@ func restart_run() -> void:
 	objectives.reset_run()
 	if world.has_method("reset_interactions"): world.reset_interactions()
 	audio.set_paused(false)
+	audio.set_surface("stone")
 	_last_district = ""
 	_caption_time = 0.0
 	_landings = 0
@@ -225,6 +229,7 @@ func _finish_run() -> void:
 	_notify_goals(career.finish_run(score.total_score, score.best_combo))
 	_save_profile()
 	audio.set_motion(0, false, false, "")
+	if _near_npc(): audio.play_bark("again")
 	score.drop_combo()
 	skater.set_controls_enabled(false)
 	skater.set_physics_process(false)
@@ -248,9 +253,11 @@ func _update_objectives(delta: float, district: String) -> void:
 	if district != _last_district and not district.is_empty():
 		_last_district = district
 		completed.append_array(career.record_event("district", district))
+		_feedback = "WELCOME TO " + world.get_location_name(skater.global_position)
+		_feedback_timer = 2.0
 	for event: Dictionary in objectives.poll(skater.global_position, Input.is_action_just_pressed("interact")):
 		completed.append_array(career.record_event(event.kind, event.id))
-		_feedback = "FOUND  %s" % str(event.id).replace("_", " ").to_upper()
+		_feedback = _pickup_message(event)
 		_feedback_timer = 2.0
 		audio.play_event("ui")
 		if event.kind == "interaction" and event.id == "cone" and world.has_method("activate_cone"):
@@ -273,14 +280,46 @@ func _update_objectives(delta: float, district: String) -> void:
 func _notify_goals(ids: Array) -> void:
 	if ids.is_empty():
 		return
-	_feedback = "GOAL COMPLETE  /  " + str(ids.back()).replace("_", " ").to_upper()
+	var titles: Array[String] = []
+	for goal: Dictionary in career.goals_snapshot():
+		if ids.has(goal.id): titles.append(goal.title)
+	if titles.is_empty():
+		return
+	_feedback = "GOAL COMPLETE  /  " + titles.front().to_upper()
+	if titles.size() > 1:
+		_feedback += "  +%d MORE" % (titles.size() - 1)
 	_feedback_timer = 3.0
+
+func _pickup_message(event: Dictionary) -> String:
+	match str(event.kind):
+		"letter":
+			return "LETTER %s  /  %d OF 5" % [event.id, objectives.collected_count("letter")]
+		"market_item":
+			return "MARKET PICKUP  /  %d OF 3" % objectives.collected_count("market_item")
+		"collectible":
+			return "SECRET RECORDING FOUND"
+		"interaction":
+			return "CONE DUTY COMPLETE"
+	return "FOUND SOMETHING NEW"
+
+func _update_contact_audio() -> void:
+	if not skater.is_on_floor() or skater.grinding:
+		return
+	for index in skater.get_slide_collision_count():
+		var collision := skater.get_slide_collision(index)
+		if collision.get_normal().dot(Vector3.UP) < 0.55:
+			continue
+		var body := collision.get_collider()
+		if body is Node:
+			audio.set_surface(str(body.get_meta("surface_audio", "stone")))
+			return
 
 func _save_profile() -> void:
 	if not persistence_enabled:
 		return
 	var result: Error = career.save_profile(profile_path)
-	save_status = "Progress saved" if result == OK else "Save unavailable — progress stays in this session"
+	save_warning = "" if result == OK else "Progress could not be saved. You can keep playing; existing saves are protected."
+	save_status = "Progress saved" if result == OK else save_warning
 
 func apply_settings(settings: Dictionary, persist: bool = true) -> void:
 	# Validate/clamp user-facing settings even before the persistence validator runs.
@@ -349,5 +388,6 @@ func _refresh_hud() -> void:
 		"record_score": career.best_score, "record_combo": career.best_combo,
 		"special_meter": special_meter.value, "settings": career.settings,
 		"caption": _caption if _caption_time > 0 and career.settings.captions else "",
-		"save_status": save_status, "interaction_prompt": objectives.nearby_prompt(skater.global_position),
+		"save_status": save_status, "save_warning": save_warning,
+		"interaction_prompt": objectives.nearby_prompt(skater.global_position),
 	})

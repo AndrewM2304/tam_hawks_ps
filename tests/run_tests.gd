@@ -19,6 +19,9 @@ const AUDIO_TESTS = preload("res://tests/audio_tests.gd")
 const CAREER_INTEGRATION_TESTS = preload("res://tests/career_integration_tests.gd")
 const INPUT_PROFILE_TESTS = preload("res://tests/input_profile_tests.gd")
 const UI_INTEGRATION_TESTS = preload("res://tests/ui_integration_tests.gd")
+const UI_FEEDBACK_TESTS = preload("res://tests/ui_feedback_tests.gd")
+const PRESENTATION_INTEGRATION_TESTS = preload("res://tests/presentation_integration_tests.gd")
+const CAREER_ROUTE_TESTS = preload("res://tests/career_route_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
@@ -71,6 +74,9 @@ func _run() -> void:
 	await COMBO_INTEGRATION_TESTS.run(self, game, _check)
 	await CAREER_INTEGRATION_TESTS.run(self, game, _check)
 	await UI_INTEGRATION_TESTS.run(self, game, _check)
+	await UI_FEEDBACK_TESTS.run(self, game, _check)
+	await PRESENTATION_INTEGRATION_TESTS.run(self, game, _check)
+	await CAREER_ROUTE_TESTS.run(self, game, _check)
 	_release_actions()
 	paused = false
 	game.queue_free()

@@ -132,6 +132,7 @@ func reset_skater() -> void:
 	_steering = 0.0
 	if is_instance_valid(_visual):
 		_visual_rig.reset()
+		_visual.position = Vector3.ZERO
 		_visual.rotation = Vector3.ZERO
 		_board_visual.rotation = Vector3.ZERO
 		_rider_visual.position = Vector3.ZERO
@@ -502,11 +503,19 @@ func _update_pose(delta: float) -> void:
 		desired_pitch = atan2(local_normal.z, local_normal.y)
 	_surface_pitch = lerpf(_surface_pitch, desired_pitch, 1.0 - exp(-14.0 * delta))
 	_visual.rotation.x = _surface_pitch
+	_visual.position = Vector3.ZERO
 	if _special_id == "special_tenement_tumble":
 		_visual.rotation.x += TAU * special_progress
+		# Rotate the visible rider/board around the body, preserving the collision origin.
+		var tumble_pivot := Vector3.UP * 0.8
+		_visual.position = tumble_pivot - _visual.basis * tumble_pivot
 	_visual_rig.animate(delta, {"airborne": airborne, "grab": _grab_remaining > 0.0,
 		"flip": _flip_remaining > 0.0, "speed": speed, "manual": manual_active,
-		"grind": grinding, "push": _controls_enabled and Input.is_action_pressed("push")})
+		"grind": grinding, "push": _controls_enabled and Input.is_action_pressed("push"),
+		"brake": _controls_enabled and Input.is_action_pressed("brake"),
+		"steering": _steering, "manual_balance": manual_balance, "grind_balance": grind_balance,
+		"revert_remaining": _revert_pose_remaining, "special_id": _special_id,
+		"special_progress": special_progress})
 
 
 func _process(delta: float) -> void:

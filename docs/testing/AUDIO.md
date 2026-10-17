@@ -10,7 +10,7 @@ The node has the following integration contract:
 |---|---|
 | `set_mix(sfx, ambience)` | Independently clamp finite levels to 0–1; mute affects active players immediately |
 | `set_motion(speed, grounded, grinding, district)` | Smooth wheel/grind gains, change pitch with speed, crossfade district ambience; use actual contact and grind state |
-| `set_surface("stone" / "asphalt" / "metal")` | Optional contact-material input; unknown values use stone |
+| `set_surface("stone" / "asphalt" / "metal")` | Production floor-contact selection; unknown values use stone |
 | `play_event(id) -> bool` | `ollie`, `landing`, `grind`, `bail`, `bank`, `ui`; true means admitted, false means invalid, muted, paused, debounced or over the bounded pool |
 | `set_paused(bool)` | Pause gameplay/ambient loops, discard current impacts; UI feedback remains usable |
 | `play_bark(id) -> bool` | Original NPC lines `landing`, `cone`, `again`; one voice, shared and per-line cooldowns, no gameplay effect |
@@ -49,3 +49,7 @@ These lines deliberately avoid third-party dialogue and impersonation. Initial p
 Focused check: Godot 4.6.3, `--headless --audio-driver Dummy`, **75 assertions passed, 0 failed**, exit 0 (61 procedural/state checks plus 14 speech/caption checks). Three generated barks total 3.34 seconds of mono 16 kHz audio, each peak-normalized below 0.55 full scale; exact output hashes and durations are in `game/audio/generated/manifest.json`. No human listening or target-Mac audio test has run. The complete integrated game suite is recorded in STATUS when root integration is validated.
 
 Required listening route: from rest push across stone, asphalt and metal, ollie/land, enter/leave a long grind, deliberately bail, bank a combo, pause/restart repeatedly, then traverse all four districts. Listen for clicks, excessive repetition, clipping, harsh grind/roll fatigue, audible district transitions, correct mute controls and speech intelligibility under skating SFX. Check speakers and headphones at a sensible device volume. Confirm each admitted NPC bark has a matching visible caption, remains understandable with audio muted, and cannot overlap or spam. Record hardware, build, levels, defects and actual listener feedback before closing M05 audio/voice acceptance.
+
+## Contact and completion integration
+
+Main now selects wheel surfaces from actual upward collision contacts: connector asphalt, painted-metal ramps and stone fallback. Grinds retain their separate loop. Restart resets the surface, and a completed run near an NPC can play the cooldown-protected “again” reaction. `tests/presentation_integration_tests.gd` verifies real square, street and ramp contact and player-facing feedback; the audio suite retains waveform/state checks. These automated checks do not replace listening.

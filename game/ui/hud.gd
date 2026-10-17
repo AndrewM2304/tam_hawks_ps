@@ -30,6 +30,10 @@ var _speed_bar: ProgressBar
 var _combo: Label
 var _tricks: Label
 var _feedback: Label
+var _combo_status: Label
+var _save_warning: Label
+var _modal_warning: Label
+var _modal_notice: Label
 var _goals: Label
 var _caption: Label
 var _prompt: Label
@@ -53,14 +57,16 @@ var _restart: Button
 var _free: Button
 var _focus_first: Control
 var _page := ""
-var _return_page := "pause"
-var _goals_auto_paused := false
+var _page_revision := 0
+var _navigation: Array[Dictionary] = []
+var _scroll: ScrollContainer
 var _state: Dictionary = {}
 var _settings: Dictionary = {}
 var _binding_action := ""
 var _binding_status: Label
 var _input_profile: Script
 var _binding_rows: Dictionary = {}
+var _binding_preferences: Dictionary = {}
 var _controller_active := false
 var _last_size := Vector2.ZERO
 var _last_scale := -1.0
@@ -157,23 +163,33 @@ func _build_hud() -> void:
 	_special_label = _label(special_box, "SPECIAL  /  BUILD A COMBO", 12, MUTED)
 	_special_bar = _progress(special_box, ORANGE)
 	_special_hint = _label(special_box, "BANK POINTS TO FILL", 11, MUTED)
+	_special_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_combo = _floating_label("", 34, ACCENT)
 	_combo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_tricks = _floating_label("", 19, PAPER)
 	_tricks.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_tricks.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_tricks.max_lines_visible = 2
-	_feedback = _floating_label("", 15, ORANGE)
+	_combo_status = _floating_label("", 15, ACCENT)
+	_combo_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_combo_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_feedback = _floating_label("", 17, ORANGE)
 	_feedback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_feedback.max_lines_visible = 2
+	_save_warning = _floating_label("", 13, ORANGE)
+	_save_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_caption = _floating_label("", 20, PAPER)
 	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_prompt = _floating_label("", 17, ACCENT)
 	_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_footer = _card()
 	_hud.add_child(_footer)
 	_controls_label = _label(_footer, "", 13, MUTED)
 	_controls_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_controls_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 
 func update_display(state: Dictionary) -> void:
@@ -181,6 +197,10 @@ func update_display(state: Dictionary) -> void:
 		return
 	_state = state.duplicate(true)
 	_settings = state.get("settings", {}).duplicate(true)
+	var bindings: Dictionary = _settings.get("bindings", {})
+	if bindings != _binding_preferences:
+		_binding_preferences = bindings.duplicate(true)
+		_binding_rows.clear()
 	_relayout()
 	var seconds := maxi(0, ceili(float(state.get("time", 120.0))))
 	var free: bool = state.get("free_skate", false)
@@ -188,6 +208,7 @@ func update_display(state: Dictionary) -> void:
 	_timer.modulate = ORANGE if seconds <= 15 and not free else Color.WHITE
 	_mode.text = "FREE SKATE" if free else "CAREER RUN"
 	_score.text = _number(int(state.get("score", 0)))
+	_fit_line(_score, 36, 22)
 	_location.text = str(state.get("location", "Glasgow")).to_upper()
 	var completed := 0
 	for goal: Dictionary in state.get("goals", []):
@@ -208,18 +229,20 @@ func update_display(state: Dictionary) -> void:
 	_balance_panel.visible = grinding or manual
 	_balance_marker.position = Vector2(138.0 + balance * 130.0, 0)
 	_balance_marker.color = ORANGE if absf(balance) > 0.7 else ACCENT
-	_balance_label.text = ("RAIL" if grinding else "MANUAL") + " BALANCE  /  " + (_prompt_for("steer_left", "A") + "–" + _prompt_for("steer_right", "D") if grinding else _prompt_for("push", "W") + "–" + _prompt_for("brake", "S"))
+	_balance_label.text = ("RAIL" if grinding else "MANUAL") + "  /  " + (_prompt_for("steer_left", "A") + "–" + _prompt_for("steer_right", "D") if grinding else _prompt_for("push", "W") + "–" + _prompt_for("brake", "S"))
 	if absf(balance) > 0.7:
-		_balance_label.text = "CORRECT " + (("LEFT" if balance > 0.0 else "RIGHT") if grinding else ("WITH PUSH" if balance > 0.0 else "WITH BRAKE"))
+		var correction: String = ("steer_left" if balance > 0.0 else "steer_right") if grinding else ("push" if balance > 0.0 else "brake")
+		_balance_label.text = "CORRECT  ·  " + _prompt_for(correction, "")
 	var combo: int = state.get("combo", 0)
 	_combo.text = "%s × %d" % [_number(int(state.get("combo_base", 0))), int(state.get("multiplier", 0))] if combo > 0 else ""
 	_tricks.text = str(state.get("tricks", "")) if combo > 0 else ""
 	_feedback.text = str(state.get("feedback", ""))
+	_combo_status.text = ""
 	if combo > 0:
 		var link_time := float(state.get("landing_window", 0.0))
-		_feedback.text = "%s PENDING  ·  KEEP THE LINE ALIVE" % _number(combo)
+		_combo_status.text = "%s PENDING  ·  KEEP THE LINE ALIVE" % _number(combo)
 		if link_time > 0.0:
-			_feedback.text = "LINK IT  %.2fs  ·  MANUAL / REVERT" % link_time
+			_combo_status.text = "LINK IT  %.2fs  ·  %s MANUAL / %s REVERT" % [link_time, _prompt_for("manual", "M"), _prompt_for("revert", "C")]
 	if combo != _last_combo and combo > 0 and not bool(_settings.get("reduced_motion", false)):
 		if is_instance_valid(_combo_tween): _combo_tween.kill()
 		_combo.modulate = Color(1.0, 1.0, 0.72)
@@ -227,8 +250,18 @@ func update_display(state: Dictionary) -> void:
 		_combo_tween.tween_property(_combo, "modulate", Color.WHITE, 0.18)
 	_last_combo = combo
 	_caption.text = str(state.get("caption", "")) if bool(_settings.get("captions", true)) else ""
-	_prompt.text = str(state.get("interaction_prompt", ""))
+	var interaction := str(state.get("interaction_prompt", ""))
+	_prompt.text = "%s  ·  %s" % [_prompt_for("interact", "X"), interaction] if not interaction.is_empty() else ""
+	_save_warning.text = str(state.get("save_warning", ""))
+	_save_warning.visible = not _save_warning.text.is_empty()
+	if is_instance_valid(_modal_warning):
+		_modal_warning.text = _save_warning.text
+		_modal_warning.visible = _save_warning.visible
+	if is_instance_valid(_modal_notice):
+		_modal_notice.text = _feedback.text
+		_modal_notice.visible = not _feedback.text.is_empty() and _page != "title"
 	_controls_label.text = "%s  Ollie     %s  Grind     %s  Manual     %s  Pause / controls" % [_prompt_for("ollie", "SPACE"), _prompt_for("grind", "L"), _prompt_for("manual", "M"), _prompt_for("pause", "ESC")]
+	_layout_feedback_stack()
 	var finished: bool = state.get("finished", false)
 	var paused_now: bool = state.get("paused", false)
 	if _page == "" and (finished or paused_now):
@@ -239,6 +272,7 @@ func update_display(state: Dictionary) -> void:
 
 
 func show_title() -> void:
+	_navigation.clear()
 	_show_page("title")
 
 
@@ -250,6 +284,16 @@ func show_controls() -> void:
 	_open_subpage("controls")
 
 
+func is_menu_ready() -> bool:
+	# Physics ticks can outnumber rendered frames. Evidence and automation must
+	# wait for settled presentation, not infer readiness from elapsed physics.
+	if _page.is_empty() or not visible: return true
+	if not is_instance_valid(_dialog) or _dialog.modulate.a < 1.0: return false
+	if not get_viewport().get_visible_rect().encloses(_dialog.get_global_rect()): return false
+	var focused := get_viewport().gui_get_focus_owner()
+	return is_instance_valid(focused) and _dialog.is_ancestor_of(focused) and focused.is_visible_in_tree()
+
+
 func hide_menu() -> void:
 	_hide_modal()
 
@@ -258,11 +302,7 @@ func toggle_goals() -> void:
 	if _page == "goals":
 		_back()
 		return
-	_goals_auto_paused = _page == "" and not bool(_state.get("paused", false)) and not bool(_state.get("finished", false))
-	_return_page = _page if _page != "" else "pause"
-	if _goals_auto_paused:
-		pause_requested.emit()
-	_show_page("goals")
+	_open_subpage("goals")
 
 
 func _input(event: InputEvent) -> void:
@@ -301,8 +341,13 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-func _show_page(page: String) -> void:
+func _show_page(page: String, focus_token: String = "", scroll_position: int = 0) -> void:
+	# Rebuilding the current page (for example after rebinding) keeps its place.
+	if page == _page and focus_token.is_empty():
+		focus_token = _focused_token()
+		scroll_position = _scroll.scroll_vertical if is_instance_valid(_scroll) else 0
 	_page = page
+	_page_revision += 1
 	_binding_action = ""
 	_modal.visible = true
 	_focus_first = null
@@ -310,22 +355,34 @@ func _show_page(page: String) -> void:
 		_modal.remove_child(child)
 		child.queue_free()
 	_dialog = _card(true)
+	_dialog.modulate.a = 0.0
 	_modal.add_child(_dialog)
 	var box := _vbox(_dialog, 12)
 	_label(box, "TAM HAWKS PRO SKATER  /  GLASGOW", 12, ACCENT)
 	_modal_title = _label(box, "", 35, PAPER)
+	_modal_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_modal_title.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	_modal_details = _label(box, "", 17, MUTED)
 	_modal_details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_modal_details.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	_modal_details.custom_minimum_size.y = 42
-	var scroll := ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.follow_focus = true
-	box.add_child(scroll)
+	_modal_warning = _label(box, str(_state.get("save_warning", "")), 14, ORANGE)
+	_modal_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_modal_warning.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	_modal_warning.visible = not _modal_warning.text.is_empty()
+	_modal_notice = _label(box, str(_state.get("feedback", "")), 14, ACCENT)
+	_modal_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_modal_notice.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	_modal_notice.visible = not _modal_notice.text.is_empty() and page != "title"
+	_scroll = ScrollContainer.new()
+	_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_scroll.follow_focus = true
+	box.add_child(_scroll)
 	var content := VBoxContainer.new()
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 10)
-	scroll.add_child(content)
+	_scroll.add_child(content)
 	match page:
 		"title": _build_title(content)
 		"pause": _build_pause(content, false)
@@ -336,7 +393,7 @@ func _show_page(page: String) -> void:
 	if page not in ["title", "pause", "results"]:
 		_button(box, "BACK", _back)
 	_relayout(true)
-	if is_instance_valid(_focus_first): _focus_control.call_deferred(_focus_first)
+	_restore_page_focus.call_deferred(_page_revision, focus_token, scroll_position)
 	_hud.visible = page != "title"
 
 
@@ -348,6 +405,7 @@ func _focus_control(control: Control) -> void:
 func _build_title(content: VBoxContainer) -> void:
 	_modal_title.text = "Your city. Your line."
 	_modal_title.add_theme_font_size_override("font_size", 45)
+	_modal_title.custom_minimum_size.y = 59
 	_modal_details.text = "Four Glasgow districts. One board. Find a line worth another run."
 	var art := PanelContainer.new()
 	var art_style := _style(Color("243e3f"), 10)
@@ -359,13 +417,13 @@ func _build_title(content: VBoxContainer) -> void:
 	art.custom_minimum_size.y = 100
 	content.add_child(art)
 	var intro := _vbox(art, 6)
-	_label(intro, "TWO MINUTES. MAKE THEM COUNT.", 24, ACCENT)
-	_label(intro, "Link tricks, explore the city and work through ten career goals.", 17, PAPER)
+	_label(intro, "TWO MINUTES. MAKE THEM COUNT.", 24, ACCENT).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_label(intro, "Link tricks, explore the city and work through ten career goals.", 17, PAPER).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_button(content, "START CAREER RUN", func(): _start_mode(false))
 	_button(content, "FREE SKATE", func(): _start_mode(true))
 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
 	_button(content, "CONTROLS", func(): _open_subpage("controls"))
-	_label(content, "Play with a controller or keyboard. Progress stays on this device.", 14, MUTED)
+	_label(content, "Play with a controller or keyboard. Your city is ready.", 14, MUTED).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 
 func _build_pause(content: VBoxContainer, finished: bool) -> void:
@@ -389,10 +447,11 @@ func _build_pause(content: VBoxContainer, finished: bool) -> void:
 
 func _build_goals(content: VBoxContainer) -> void:
 	_modal_title.text = "A good day's skating."
-	_modal_details.text = "Career progress is saved on this device." if not _state.get("free_skate", false) else "Explore freely. Career goals and records advance in career runs."
+	_modal_details.text = "Your career goals, rewards and personal progress." if not _state.get("free_skate", false) else "Explore freely. Career goals and records advance in career runs."
 	for goal: Dictionary in _state.get("goals", []):
 		var card := _card()
 		card.focus_mode = Control.FOCUS_ALL
+		card.set_meta("focus_token", "goal:" + str(goal.get("id", goal.get("title", "Goal"))))
 		var focus_style := card.get_theme_stylebox("panel") as StyleBoxFlat
 		card.focus_entered.connect(func(): focus_style.border_color = ACCENT; focus_style.set_border_width_all(2))
 		card.focus_exited.connect(func(): focus_style.border_color = Color("294247"); focus_style.set_border_width_all(1))
@@ -400,9 +459,10 @@ func _build_goals(content: VBoxContainer) -> void:
 		content.add_child(card)
 		var row := _vbox(card, 5)
 		var done: bool = goal.get("done", false)
-		_label(row, ("✓  " if done else "○  ") + str(goal.get("title", "Goal")), 21, ACCENT if done else PAPER)
+		_label(row, ("✓  " if done else "○  ") + str(goal.get("title", "Goal")), 21, ACCENT if done else PAPER).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		var detail := _label(row, str(goal.get("detail", "")), 16, MUTED)
 		detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		detail.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 		var progress := _progress(row, ACCENT)
 		progress.value = float(goal.get("progress", 0)) / maxf(1.0, float(goal.get("target", 1)))
 		_label(row, "COMPLETE" if done else "%s / %s" % [_number(int(goal.get("progress", 0))), _number(int(goal.get("target", 1)))], 13, MUTED)
@@ -423,7 +483,7 @@ func _build_goals(content: VBoxContainer) -> void:
 
 func _build_settings(content: VBoxContainer) -> void:
 	_modal_title.text = "Your kind of session."
-	_modal_details.text = "Sound, readability and camera comfort. Changes save automatically."
+	_modal_details.text = "Sound, readability and camera comfort. Changes take effect immediately."
 	_slider(content, "Master volume", "audio", 0.0, 1.0, 0.05, 0.8)
 	_slider(content, "Skating & voice", "sfx_volume", 0.0, 1.0, 0.05, 1.0)
 	_slider(content, "City ambience", "ambience_volume", 0.0, 1.0, 0.05, 0.6)
@@ -431,7 +491,7 @@ func _build_settings(content: VBoxContainer) -> void:
 	_slider(content, "Camera sensitivity", "camera_sensitivity", 0.5, 2.0, 0.1, 1.0)
 	_toggle(content, "Show captions", "captions", true)
 	_toggle(content, "Reduce motion & camera shake", "reduced_motion", false)
-	_label(content, str(_state.get("save_status", "")), 14, MUTED)
+	_button(content, "CONTROLS", show_controls)
 
 
 func _build_controls(content: VBoxContainer) -> void:
@@ -439,15 +499,17 @@ func _build_controls(content: VBoxContainer) -> void:
 	_modal_details.text = "Choose an action, then press a key, controller button or trigger. Escape cancels."
 	_binding_status = _label(content, "Controller prompts follow your saved bindings.", 15, ACCENT)
 	_binding_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_binding_status.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	if not ResourceLoader.exists("res://game/core/input_profile.gd"):
 		_label(content, "WASD skate · Space ollie · J/K tricks · L grind · M manual\nQ/E spin · Escape pause · R restart · Tab goals", 18, PAPER)
 		return
 	_input_profile = load("res://game/core/input_profile.gd")
 	for row: Dictionary in _input_profile.binding_snapshot():
 		var action: String = row.action
-		_button(content, "%s  /  %s  ·  %s" % [row.label, row.key_text, row.pad_text], func():
+		var button := _button(content, "%s  /  %s  ·  %s" % [row.label, row.key_text, row.pad_text], func():
 			_binding_action = action
 			_binding_status.text = "LISTENING: " + str(row.label) + "  —  press an input, or Escape to cancel.")
+		button.set_meta("focus_token", "binding:" + action)
 	_button(content, "RESTORE DEFAULT CONTROLS", func():
 		_change_setting("bindings", _input_profile.reset_defaults())
 		_show_page("controls"))
@@ -471,6 +533,7 @@ func _slider(parent: Node, title: String, key: String, minimum: float, maximum: 
 	slider.value = float(_settings.get(key, fallback))
 	slider.custom_minimum_size.y = 28
 	slider.focus_mode = Control.FOCUS_ALL
+	slider.set_meta("focus_token", "setting:" + key)
 	box.add_child(slider)
 	value_label.text = "%.1f×" % slider.value if key in ["ui_scale", "camera_sensitivity"] else "%d%%" % roundi(slider.value * 100.0)
 	slider.value_changed.connect(func(value: float):
@@ -483,6 +546,7 @@ func _toggle(parent: Node, title: String, key: String, fallback: bool) -> void:
 	var button := CheckButton.new()
 	button.text = title
 	button.button_pressed = bool(_settings.get(key, fallback))
+	button.set_meta("focus_token", "setting:" + key)
 	button.custom_minimum_size.y = 48
 	parent.add_child(button)
 	button.toggled.connect(func(value: bool): _change_setting(key, value); ui_feedback.emit())
@@ -497,21 +561,59 @@ func _change_setting(key: String, value: Variant) -> void:
 
 
 func _open_subpage(page: String) -> void:
-	_return_page = _page if _page != "" else "pause"
-	if _page == "" and not bool(_state.get("paused", false)) and not bool(_state.get("finished", false)):
-		pause_requested.emit()
+	if page == _page: return
+	var live := _page.is_empty() and not bool(_state.get("paused", false)) and not bool(_state.get("finished", false))
+	var origin := _page
+	if origin.is_empty() and not live:
+		origin = "results" if _state.get("finished", false) else "pause"
+	_navigation.append({"page": origin, "focus": _focused_token(), "resume": live,
+		"scroll": _scroll.scroll_vertical if is_instance_valid(_scroll) else 0})
+	if live: pause_requested.emit()
 	_show_page(page)
 
 
 func _back() -> void:
-	if _page == "title" or _page == "results": return
-	if _page == "pause":
+	if not _navigation.is_empty():
+		var origin: Dictionary = _navigation.pop_back()
+		if str(origin.page).is_empty():
+			_hide_modal()
+			if origin.get("resume", false): pause_requested.emit()
+		else:
+			_show_page(str(origin.page), str(origin.focus), int(origin.scroll))
+	elif _page == "pause":
 		_resume_run()
-	elif _page == "goals" and _goals_auto_paused:
-		_goals_auto_paused = false
-		_resume_run()
-	else:
-		_show_page(_return_page)
+
+
+func _focused_token() -> String:
+	var focused := get_viewport().gui_get_focus_owner()
+	if is_instance_valid(focused) and _modal.is_ancestor_of(focused):
+		return str(focused.get_meta("focus_token", ""))
+	return ""
+
+
+func _restore_page_focus(revision: int, token: String, scroll_position: int) -> void:
+	# Wrapped labels briefly report their height at zero width during container
+	# creation. Fit the dialog after its first layout, then restore visible focus.
+	await get_tree().process_frame
+	if _page_revision != revision or _page.is_empty(): return
+	_relayout(true)
+	await get_tree().process_frame
+	if _page_revision != revision or _page.is_empty(): return
+	_dialog.modulate.a = 1.0
+	var target := _find_focus_token(_dialog, token) if not token.is_empty() else null
+	if not is_instance_valid(target): target = _focus_first
+	if is_instance_valid(_scroll): _scroll.scroll_vertical = scroll_position
+	_focus_control(target)
+	if is_instance_valid(target) and _scroll.is_ancestor_of(target):
+		_scroll.ensure_control_visible(target)
+
+
+func _find_focus_token(node: Node, token: String) -> Control:
+	if node is Control and str(node.get_meta("focus_token", "")) == token: return node
+	for child in node.get_children():
+		var found := _find_focus_token(child, token)
+		if found != null: return found
+	return null
 
 
 func _resume_run() -> void:
@@ -539,7 +641,7 @@ func _hide_modal() -> void:
 	_binding_action = ""
 	_modal.visible = false
 	_hud.visible = true
-	_goals_auto_paused = false
+	_navigation.clear()
 
 
 func _relayout(force: bool = false) -> void:
@@ -549,38 +651,45 @@ func _relayout(force: bool = false) -> void:
 	_last_size = viewport_size
 	_last_scale = preference
 	var scale_factor := minf(viewport_size.x / 1440.0, viewport_size.y / 900.0) * preference
-	scale_factor = maxf(0.5, scale_factor)
+	scale_factor = maxf(0.1, scale_factor)
 	_root.scale = Vector2.ONE * scale_factor
 	_root.size = viewport_size / scale_factor
 	var extent := _root.size
 	_hud.size = extent
 	_top.position = Vector2(28, 24)
 	_top.size = Vector2(extent.x - 56, 90)
-	_location.position = Vector2(29, 126)
-	_location.size = Vector2(345, 30)
-	_goals.position = Vector2(extent.x - 365, 126)
-	_goals.size = Vector2(337, 28)
+	var side_width := minf(345.0, (extent.x - 412.0) * 0.5)
+	_location.position = Vector2(28, 126)
+	_location.size = Vector2(side_width, 30)
+	_goals.position = Vector2(extent.x - side_width - 28, 126)
+	_goals.size = Vector2(side_width, 28)
 	_balance_panel.position = Vector2(extent.x * 0.5 - 158, 132)
 	_balance_panel.size = Vector2(316, 76)
-	_speed_panel.position = Vector2(28, extent.y - 175)
+	_save_warning.position = Vector2(28, extent.y - 288)
+	_save_warning.size = Vector2(180, 84)
+	_speed_panel.position = Vector2(28, extent.y - 195)
 	_speed_panel.size = Vector2(180, 102)
-	_special_panel.position = Vector2(extent.x - 240, extent.y - 175)
+	_special_panel.position = Vector2(extent.x - 240, extent.y - 195)
 	_special_panel.size = Vector2(212, 102)
-	for label in [_combo, _tricks, _feedback, _caption, _prompt]:
+	for label in [_combo, _tricks, _combo_status, _caption, _prompt]:
 		label.position.x = 224
 		label.size.x = extent.x - 480
-	_combo.position.y = extent.y - 235
+	_combo.position.y = extent.y - 264
 	_combo.size.y = 48
-	_tricks.position.y = extent.y - 183
+	_tricks.position.y = extent.y - 211
 	_tricks.size.y = 48
-	_feedback.position.y = extent.y - 130
-	_feedback.size.y = 27
-	_caption.position.y = extent.y - 97
-	_caption.size.y = 40
-	_prompt.position.y = extent.y - 273
-	_prompt.size.y = 29
-	_footer.position = Vector2(28, extent.y - 46)
-	_footer.size = Vector2(extent.x - 56, 34)
+	_combo_status.position.y = extent.y - 160
+	_combo_status.size.y = 40
+	_caption.position.y = extent.y - 116
+	_caption.size.y = 48
+	_prompt.position.y = extent.y - 304
+	_prompt.size.y = 36
+	# Event notices have their own space, so a live combo cannot replace them.
+	var notice_width := minf(800.0, extent.x - 56)
+	_feedback.position = Vector2((extent.x - notice_width) * 0.5, 222)
+	_feedback.size = Vector2(notice_width, 52)
+	_footer.position = Vector2(28, extent.y - 64)
+	_footer.size = Vector2(extent.x - 56, 44)
 	if is_instance_valid(_modal): _modal.size = extent
 	if is_instance_valid(_dialog):
 		var dialog_width := minf(850, extent.x - 96)
@@ -588,6 +697,32 @@ func _relayout(force: bool = false) -> void:
 		var dialog_height := minf(preferred_height, extent.y - 76)
 		_dialog.position = (extent - Vector2(dialog_width, dialog_height)) * 0.5
 		_dialog.size = Vector2(dialog_width, dialog_height)
+	_layout_feedback_stack()
+
+
+func _layout_feedback_stack() -> void:
+	# Empty slots collapse and short lines use their actual height. Large UI
+	# text stays near the bottom without reserving a second line for every cue.
+	var bottom := _footer.position.y - 8.0
+	for label in [_caption, _combo_status, _tricks, _combo, _prompt]:
+		label.visible = not label.text.is_empty()
+		if not label.visible: continue
+		var lines := mini(label.get_line_count(), 1 if label == _combo else 2)
+		var font: Font = label.get_theme_font("font")
+		var height := ceilf(font.get_height(label.get_theme_font_size("font_size"))) * maxi(lines, 1)
+		height += label.get_theme_constant("line_spacing") * maxi(lines - 1, 0)
+		bottom -= height
+		label.position.y = bottom
+		label.size.y = height
+		bottom -= 8.0
+
+
+func _fit_line(label: Label, largest: int, smallest: int) -> void:
+	var font := label.get_theme_font("font")
+	var font_size := largest
+	while font_size > smallest and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > label.size.x:
+		font_size -= 1
+	label.add_theme_font_size_override("font_size", font_size)
 
 
 func _card(dialog: bool = false) -> PanelContainer:
@@ -645,9 +780,11 @@ func _progress(parent: Node, color: Color) -> ProgressBar:
 func _button(parent: Node, text: String, callback: Callable) -> Button:
 	var button := Button.new()
 	button.text = text
+	button.set_meta("focus_token", text.trim_prefix("✓  "))
 	button.custom_minimum_size.y = 48
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	button.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	button.pressed.connect(func(): ui_feedback.emit(); callback.call())
 	parent.add_child(button)
 	if _focus_first == null: _focus_first = button
@@ -701,7 +838,12 @@ func _prompt_for(action: String, fallback: String) -> String:
 		_input_profile = load("res://game/core/input_profile.gd")
 		for row: Dictionary in _input_profile.binding_snapshot(): _binding_rows[row.action] = row
 	if _binding_rows.has(action):
-		return str(_binding_rows[action].get("pad_text" if _pad() else "key_text", fallback))
+		var text := str(_binding_rows[action].get("pad_text" if _pad() else "key_text", fallback))
+		# In play, one primary binding is enough. Controls keeps every full name.
+		text = text.split(" / ")[0]
+		for pair in [["Left stick", "LS"], ["Right stick", "RS"], [" left", " ←"], [" right", " →"], [" up", " ↑"], [" down", " ↓"]]:
+			text = text.replace(pair[0], pair[1])
+		return text if not text.is_empty() else fallback
 	return fallback
 
 

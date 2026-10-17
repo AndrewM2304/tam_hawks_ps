@@ -1,7 +1,10 @@
 extends Node3D
-## Original, locally generated Glasgow architectural character.
-## This layer has no collision or gameplay ownership. No source imagery/assets.
+## Original Glasgow architectural composites with inspected CC0 material maps.
+## This layer has no collision or gameplay ownership; provenance is in the manifest.
 
+const FacadeKit = preload("res://game/levels/art/facade_kit.gd")
+const StreetDressing = preload("res://game/levels/art/street_dressing.gd")
+const ArchMesh = preload("res://game/levels/art/arch_mesh.gd")
 static var _shared_materials: Dictionary = {}
 var materials: Dictionary = {}
 var npc_positions: Array[Vector3] = []
@@ -14,6 +17,7 @@ func make_materials(palette: Dictionary) -> Dictionary:
 	var masonry := _surface_texture("masonry")
 	var paving := _surface_texture("paving")
 	var slate := _surface_texture("slate")
+	var asphalt := _surface_texture("asphalt")
 	for key: String in palette:
 		var material := StandardMaterial3D.new()
 		material.albedo_color = palette[key]
@@ -25,6 +29,9 @@ func make_materials(palette: Dictionary) -> Dictionary:
 			_textured(material, paving, 0.65)
 		elif key == "slate":
 			_textured(material, slate, 0.8)
+		elif key == "asphalt":
+			_textured(material, asphalt, 1.2)
+			material.roughness = 0.93
 		elif key == "glass":
 			material.roughness = 0.18
 			material.metallic = 0.35
@@ -39,12 +46,61 @@ func make_materials(palette: Dictionary) -> Dictionary:
 	materials["leaf"] = _plain(Color("4e6656"), 1.0)
 	materials["leaf_light"] = _plain(Color("63765e"), 1.0)
 	materials["bark"] = _plain(Color("4c463c"), 1.0)
+	materials["shop_green"] = _plain(Color("284b43"), 0.76)
+	materials["shop_burgundy"] = _plain(Color("56333b"), 0.73)
+	materials["shop_navy"] = _plain(Color("2e404e"), 0.75)
+	materials["shop_umber"] = _plain(Color("755849"), 0.8)
+	materials["brass"] = _plain(Color("a69061"), 0.48)
+	materials["brass"].metallic = 0.65
+	materials["interior_plaster"] = _plain(Color("aaa08a"), 0.95)
+	materials["curtain"] = _plain(Color("85867a"), 1.0)
+	materials["window_dull"] = _plain(Color("354349"), 0.4)
+	materials["window_lit"] = _plain(Color("b8a782"), 0.5)
+	materials["window_lit"].emission_enabled = true
+	materials["window_lit"].emission = Color("403a27")
+	materials["warehouse_brick"] = _plain(Color("826451"), 0.9)
+	_textured(materials["warehouse_brick"], masonry, 1.8)
+	var shop_glass := _plain(Color(0.43, 0.53, 0.57, 0.18), 0.22)
+	shop_glass.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	shop_glass.cull_mode = BaseMaterial3D.CULL_DISABLED
+	materials["shop_glass"] = shop_glass
+	materials["cut_stone"] = materials["stone_light"].duplicate()
+	_apply_external_materials()
 	var roof_glass := _plain(Color(0.42, 0.55, 0.58, 0.33), 0.26)
 	roof_glass.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	roof_glass.cull_mode = BaseMaterial3D.CULL_DISABLED
 	materials["roof_glass"] = roof_glass
 	_shared_materials = materials
 	return materials
+
+
+func _apply_external_materials() -> void:
+	# Imported through Godot with tracked 1024px limits/mipmaps. The procedural
+	# fallback keeps source inspection possible before an editor import completes.
+	const MANIFEST := "res://game/art/assets/zc_textures/manifest.json"
+	if not FileAccess.file_exists(MANIFEST):
+		return
+	var raw: Variant = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST))
+	if not raw is Dictionary or not raw.get("materials") is Dictionary:
+		return
+	for pair: Array in [["weathered_brick", "warehouse_brick"], ["mineral_concrete", "cut_stone"]]:
+		var source: Dictionary = raw.materials.get(pair[0], {})
+		var files: Dictionary = source.get("files", {})
+		if not files.has_all(["albedo", "normal_opengl"]) or not ResourceLoader.exists(files.albedo) or not ResourceLoader.exists(files.normal_opengl):
+			continue
+		var albedo := load(String(files.albedo)) as Texture2D
+		var normal := load(String(files.normal_opengl)) as Texture2D
+		if albedo == null or normal == null:
+			continue
+		var material: StandardMaterial3D = materials[pair[1]]
+		var tile: Array = source.get("authored_tile_size_m", [1.0, 1.0])
+		_textured(material, albedo, 1.0 / maxf(0.1, float(tile[0])))
+		material.normal_enabled = true
+		material.normal_texture = normal
+		material.normal_scale = clampf(float(source.get("normal_scale", 0.2)), 0.0, 0.5)
+		material.roughness = clampf(float(source.get("roughness", 0.9)), 0.0, 1.0)
+		if pair[1] == "warehouse_brick":
+			material.albedo_color = Color("dfdbd4")
 
 
 func _textured(material: StandardMaterial3D, texture: Texture2D, scale_value: float) -> void:
@@ -75,7 +131,9 @@ func _surface_texture(kind: String) -> ImageTexture:
 			var cell_tone := float(((cell_x * 17 + row * 13) % 11)) / 11.0
 			var value := 0.62 + grain * 0.08 + cell_tone * 0.1
 			var course := 32 if kind == "slate" else 64
-			if y % course < 2 or shifted % block_width < 2:
+			if kind == "asphalt":
+				value = 0.72 + grain * 0.22
+			elif y % course < 2 or shifted % block_width < 2:
 				value = 0.42 + grain * 0.08
 			elif y % course < 4 or shifted % block_width < 4:
 				value *= 0.9
@@ -85,54 +143,7 @@ func _surface_texture(kind: String) -> ImageTexture:
 
 
 func decorate_building(building: Node3D, width: float, height: float, stone: String, shop: String) -> void:
-	# Window recesses have dark backplanes and separate raised surrounds. Repeated
-	# identical pieces are batched per facade/material/size rather than one node each.
-	var batches: Dictionary = {}
-	_batch_box(batches, "slate", Vector3(width + 0.1, 1.0, 0.25), Vector3(0, 0.5, 6.08))
-	for step: int in range(3):
-		_batch_box(batches, "stone_light", Vector3(width + 0.3 + step * 0.18, 0.17, 0.4 + step * 0.17), Vector3(0, height - 0.45 + step * 0.17, 6.1))
-	var columns := maxi(3, int(width / 3.3))
-	var floors := maxi(2, int((height - 4.3) / 3.2))
-	for row: int in range(floors):
-		var y := 5.25 + row * 3.2
-		_batch_box(batches, stone, Vector3(width, 0.13, 0.3), Vector3(0, y - 1.38, 6.1))
-		for column: int in range(columns):
-			var x := (float(column) - float(columns - 1) / 2.0) * (width - 2.0) / float(columns)
-			_batch_box(batches, "window_shadow", Vector3(1.85, 2.4, 0.06), Vector3(x, y, 6.02))
-			_batch_box(batches, "glass", Vector3(1.45, 2.04, 0.04), Vector3(x, y, 6.065))
-			for side: float in [-1.0, 1.0]:
-				_batch_box(batches, "stone_light", Vector3(0.19, 2.45, 0.23), Vector3(x + side * 0.88, y, 6.17))
-				_batch_box(batches, "window_frame", Vector3(0.055, 2.05, 0.08), Vector3(x + side * 0.73, y, 6.11))
-			_batch_box(batches, "window_frame", Vector3(0.055, 2.06, 0.08), Vector3(x, y, 6.12))
-			_batch_box(batches, "window_frame", Vector3(1.48, 0.07, 0.08), Vector3(x, y + 0.08, 6.12))
-			_batch_box(batches, "stone_light", Vector3(2.12, 0.2, 0.42), Vector3(x, y - 1.25, 6.2))
-			_batch_box(batches, "stone_light", Vector3(2.03, 0.24, 0.28), Vector3(x, y + 1.25, 6.16))
-			_batch_box(batches, "window_reflection", Vector3(0.15, 1.95, 0.012), Vector3(x + 0.45, y, 6.095))
-			if row == 0 and column % 2 == 0:
-				_pediment(building, Vector3(x, y + 1.4, 6.1), 2.25, 0.42, 0.35, materials["stone_light"])
-	# Short signboards and glazed shop bays maintain believable shop scale.
-	var shop_bays := maxi(2, int(width / 5.0))
-	var bay_width := (width - 1.0) / float(shop_bays)
-	for bay: int in range(shop_bays):
-		var x := (float(bay) - float(shop_bays - 1) / 2.0) * bay_width
-		_batch_box(batches, "window_shadow", Vector3(bay_width - 0.3, 2.5, 0.08), Vector3(x, 1.7, 6.1))
-		_batch_box(batches, "glass", Vector3(bay_width - 0.65, 2.1, 0.06), Vector3(x, 1.7, 6.15))
-		_batch_box(batches, "teal", Vector3(bay_width - 0.15, 0.7, 0.32), Vector3(x, 3.22, 6.18))
-		_batch_box(batches, "stone_light", Vector3(0.23, 3.35, 0.4), Vector3(x - bay_width / 2.0, 1.67, 6.2))
-		_batch_box(batches, "window_frame", Vector3(0.09, 2.2, 0.08), Vector3(x, 1.7, 6.21))
-		_batch_box(batches, "wood", Vector3(bay_width - 0.4, 0.36, 0.14), Vector3(x, 0.55, 6.2))
-	_label(building, shop, Vector3(0, 3.24, 6.38), mini(40, int(660.0 / maxf(12.0, shop.length()))), 0.013)
-	_flush_batches(building, batches)
-	# Pitched slate roof, ridge, drainpipes and rounded chimney pots break the box silhouette.
-	for side: float in [-1.0, 1.0]:
-		var roof := _box(building, Vector3(width + 0.9, 0.22, 6.75), Vector3(0, height + 1.22, side * 3.12), materials["slate"])
-		roof.rotation.x = side * atan2(2.5, 6.25)
-	_box(building, Vector3(width + 1.0, 0.25, 0.3), Vector3(0, height + 2.5, 0), materials["slate"])
-	for side: float in [-1.0, 1.0]:
-		_cylinder(building, Vector3(side * (width / 2.0 - 0.22), height / 2.0, 6.32), 0.065, height, materials["iron"])
-		_box(building, Vector3(1.15, 2.7, 1.25), Vector3(side * width * 0.32, height + 2.0, -1.1), materials[stone])
-		for pot: float in [-0.3, 0.3]:
-			_cylinder(building, Vector3(side * width * 0.32 + pot, height + 3.65, -1.1), 0.17, 0.6, materials["sandstone"])
+	FacadeKit.decorate(self, building, width, height, stone, shop)
 
 
 func dress_world(world: Node3D) -> void:
@@ -144,6 +155,7 @@ func dress_world(world: Node3D) -> void:
 	_civic_clock()
 	_station_arches()
 	_market_venue()
+	StreetDressing.build(self, world)
 	for child in world.get_children():
 		if child.get_meta("market_stall", false):
 			_dress_market_stall(child)
@@ -160,6 +172,11 @@ func dress_world(world: Node3D) -> void:
 			_background_facade(Vector3(side * 140.0, 0, z), 36.0, 17.0, -side * PI / 2.0)
 		for x: float in [65.0, 103.0]:
 			_background_facade(Vector3(side * x, 0, 51), 35.0, 15.0, PI)
+		# George's side frontages stop before the back-lane portal at Z=-84.
+		_background_facade(Vector3(side * 42, 0, -105), 38.0, 16.5 + side * 1.5, -side * PI / 2.0)
+		# Frame the north approaches without obstructing X±88 lane centerlines.
+		_background_facade(Vector3(side * 118, 0, -55), 22.0, 13.0, 0.0)
+		_background_facade(Vector3(side * 60, 0, -55), 16.0, 18.0, 0.0)
 
 
 func _background_facade(at: Vector3, width: float, height: float, yaw: float) -> void:
@@ -265,7 +282,7 @@ func _market_venue() -> void:
 		sphere.radius = 0.16
 		sphere.height = 0.32
 		_mesh(facade, sphere, Vector3(x, 9.25, 0.2), materials["orange"])
-	_box(facade, Vector3(23, 0.25, 2.3), Vector3(0, 4.1, 0.6), materials["coral"])
+	_box(facade, Vector3(23, 0.12, 0.9), Vector3(0, 4.1, 0.15), materials["coral"])
 
 
 func _tree(at: Vector3) -> void:
@@ -322,18 +339,58 @@ func _hide_visuals(node: Node) -> void:
 		_hide_visuals(child)
 
 
-func _batch_box(batches: Dictionary, material_key: String, size: Vector3, at: Vector3) -> void:
-	var key := material_key + str(size)
+func _batch_box(batches: Dictionary, material_key: String, size: Vector3, at: Vector3, basis: Basis = Basis.IDENTITY) -> void:
+	# One unit-box MultiMesh per material. Per-instance transforms carry dimensions
+	# and rotation, so window sizes do not multiply draw calls for the same facade.
+	var key := material_key
 	if not batches.has(key):
-		batches[key] = {"material": material_key, "size": size, "transforms": []}
-	batches[key]["transforms"].append(Transform3D(Basis.IDENTITY, at))
+		batches[key] = {"material": material_key, "transforms": []}
+	batches[key]["transforms"].append(Transform3D(basis * Basis.from_scale(size), at))
+
+
+func _batch_cylinder(batches: Dictionary, material_key: String, radius: float, height: float, at: Vector3) -> void:
+	var key := "cylinder:" + material_key
+	if not batches.has(key):
+		batches[key] = {"material": material_key, "mesh_kind": "cylinder", "transforms": []}
+	batches[key]["transforms"].append(Transform3D(Basis.from_scale(Vector3(radius * 2.0, height, radius * 2.0)), at))
+
+
+func _batch_prism(batches: Dictionary, material_key: String, size: Vector3, at: Vector3) -> void:
+	var key := "prism:" + material_key
+	if not batches.has(key):
+		batches[key] = {"material": material_key, "mesh_kind": "prism", "transforms": []}
+	batches[key]["transforms"].append(Transform3D(Basis.from_scale(size), at + Vector3.UP * size.y / 2.0))
+
+
+func _batch_arch(batches: Dictionary, material_key: String, radius: float, at: Vector3) -> void:
+	var key := "arch:" + material_key
+	if not batches.has(key):
+		batches[key] = {"material": material_key, "mesh_kind": "arch", "transforms": []}
+	batches[key]["transforms"].append(Transform3D(Basis.from_scale(Vector3(radius, radius * 0.52, 0.42)), at))
 
 
 func _flush_batches(parent: Node3D, batches: Dictionary) -> void:
 	for key: String in batches:
 		var batch: Dictionary = batches[key]
-		var mesh := BoxMesh.new()
-		mesh.size = batch["size"]
+		var mesh: Mesh
+		match batch.get("mesh_kind", "box"):
+			"arch":
+				mesh = ArchMesh.shared_mesh()
+			"cylinder":
+				var cylinder := CylinderMesh.new()
+				cylinder.top_radius = 0.46
+				cylinder.bottom_radius = 0.5
+				cylinder.height = 1.0
+				cylinder.radial_segments = 12
+				mesh = cylinder
+			"prism":
+				var prism := PrismMesh.new()
+				prism.size = Vector3.ONE
+				mesh = prism
+			_:
+				var box := BoxMesh.new()
+				box.size = Vector3.ONE
+				mesh = box
 		var multimesh := MultiMesh.new()
 		multimesh.transform_format = MultiMesh.TRANSFORM_3D
 		multimesh.mesh = mesh

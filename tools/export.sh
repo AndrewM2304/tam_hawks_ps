@@ -3,6 +3,9 @@
 set -euo pipefail
 TASK_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$TASK_ROOT"
+mkdir -p builds
+# Exported apps/screenshots are outputs, never resources for the next import.
+: > builds/.gdignore
 TASK_TARGET=all
 TASK_PREPARE=false
 TASK_CHECK=true
@@ -100,9 +103,21 @@ python3 - <<'PY'
 import hashlib, json, os, pathlib, subprocess
 root = pathlib.Path.cwd()
 paths = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
-paths += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file() and not p.name.endswith('.import')]
+paths += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
 entries = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 fingerprint = hashlib.sha256(json.dumps(entries, sort_keys=True).encode()).hexdigest()
+texture_manifest = json.loads((root / 'game/art/assets/zc_textures/manifest.json').read_text())
+if entries.get(texture_manifest['license_file']) != texture_manifest['license_sha256']:
+    raise SystemExit('Texture licence differs from its reviewed provenance manifest.')
+for material in texture_manifest['materials'].values():
+    for channel, resource in material['files'].items():
+        if not resource.startswith('res://game/art/assets/'):
+            raise SystemExit('Unexpected texture source path in provenance manifest: ' + resource)
+        relative = resource.removeprefix('res://')
+        if entries.get(relative) != material['file_sha256'][channel]:
+            raise SystemExit('Texture source differs from reviewed provenance: ' + relative)
+        if entries.get(relative + '.import') != material['import_config_sha256'][channel]:
+            raise SystemExit('Texture import settings differ from reviewed provenance: ' + relative)
 manifest = {'git_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
             'working_tree_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
             'runtime_source_sha256': fingerprint, 'source_files_sha256': entries,
@@ -126,7 +141,7 @@ mkdir -p "$TASK_BUILD/resource-inspection" "$TASK_BUILD/resource-inspection/data
 cat > "$TASK_BUILD/check-pack.gd" <<'GDSCRIPT'
 extends SceneTree
 func _initialize() -> void:
-	var report: Dictionary = {"voice_streams": {}, "main_scene_loaded": false}
+	var report: Dictionary = {"voice_streams": {}, "textures": {}, "main_scene_loaded": false}
 	var main_scene := load("res://game/main.tscn") as PackedScene
 	if main_scene == null:
 		push_error("Pack is missing its main scene or script dependencies.")
@@ -149,6 +164,20 @@ func _initialize() -> void:
 			quit(1)
 			return
 		report.voice_streams[id] = {"resource": path, "seconds": stream.get_length()}
+	for material: String in ["T_bricks01", "T_concrete01"]:
+		for channel: String in ["albedo", "normal_opengl"]:
+			var path := "res://game/art/assets/zc_textures/%s/%s_%s.jpg" % [material, material, channel]
+			var texture := load(path) as Texture2D
+			if texture == null or texture.get_width() <= 0 or texture.get_height() <= 0 or texture.get_width() > 1024 or texture.get_height() > 1024:
+				push_error("Pack is missing a bounded imported material texture: " + path)
+				quit(1)
+				return
+			var image := texture.get_image()
+			if image == null or not image.has_mipmaps():
+				push_error("Pack texture is missing its image or required mipmaps: " + path)
+				quit(1)
+				return
+			report.textures[path] = {"width": texture.get_width(), "height": texture.get_height(), "mipmaps": image.get_mipmap_count()}
 	var output := FileAccess.open(OS.get_cmdline_user_args()[0], FileAccess.WRITE)
 	if output == null:
 		push_error("Could not write packaged resource report.")
@@ -156,7 +185,7 @@ func _initialize() -> void:
 		return
 	output.store_string(JSON.stringify(report, "\t") + "\n")
 	output.close()
-	print("RESOURCES VERIFIED: main scene/scripts and 3 imported voice streams")
+	print("RESOURCES VERIFIED: main scene/scripts, 3 voice streams and 4 material textures")
 	quit(0)
 GDSCRIPT
 for TASK_PLATFORM in linux macos; do
@@ -176,7 +205,7 @@ root = pathlib.Path.cwd()
 build = pathlib.Path(os.environ['TASK_BUILD'])
 metadata = json.loads((build / 'BUILD-METADATA.json').read_text())
 current_inputs = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
-current_inputs += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file() and not p.name.endswith('.import')]
+current_inputs += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
 if {str(p.relative_to(root)) for p in current_inputs} != set(metadata['source_files_sha256']):
     raise SystemExit('Source files were added or removed during export. Rebuild a stable checkpoint.')
 for relative, expected in metadata['source_files_sha256'].items():
@@ -211,6 +240,7 @@ for platform in ('linux', 'macos'):
     for source in reviewed_notices: shutil.copy2(source, notices / source.name)
     shutil.copy2(root / 'game/audio/generated/manifest.json', notices / 'VOICE-PROVENANCE.json')
     shutil.copy2(root / 'docs/licences/REGISTER.md', notices / 'PROVENANCE.md')
+    shutil.copy2(root / 'game/art/assets/zc_textures/manifest.json', notices / 'TEXTURE-PROVENANCE.json')
     shutil.copy2(root / 'docs/PLAYER-GUIDE.md', package / 'PLAYER-GUIDE.md')
     shutil.copy2(build / 'BUILD-METADATA.json', package / 'BUILD-METADATA.json')
     resource_report = json.loads((build / (platform + '-resources.json')).read_text())
@@ -229,12 +259,20 @@ for platform in ('linux', 'macos'):
                 z.writestr(info, os.readlink(path))
             elif path.is_file(): z.write(path, relative)
     with zipfile.ZipFile(archive) as z:
-        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt', 'GODOT-LICENSE.txt', 'GODOT-COPYRIGHT.txt']
+        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt', 'zc-spectacular-textures-CC0.txt', 'GODOT-LICENSE.txt', 'GODOT-COPYRIGHT.txt']
         if not all('NOTICES/' + name in z.namelist() for name in required_notices):
             raise SystemExit('A required third-party notice is absent from the completed ZIP.')
         for source in reviewed_notices:
             if z.read('NOTICES/' + source.name) != source.read_bytes():
                 raise SystemExit('Packaged notice differs from reviewed source: ' + source.name)
+        provenance_sources = {
+            'TEXTURE-PROVENANCE.json': root / 'game/art/assets/zc_textures/manifest.json',
+            'VOICE-PROVENANCE.json': root / 'game/audio/generated/manifest.json',
+            'PROVENANCE.md': root / 'docs/licences/REGISTER.md',
+        }
+        for name, source in provenance_sources.items():
+            if z.read('NOTICES/' + name) != source.read_bytes():
+                raise SystemExit('Packaged provenance differs from reviewed source: ' + name)
         if hashlib.sha256(z.read(resource_report['pack_path'])).hexdigest() != resource_report['pack_sha256']:
             raise SystemExit('ZIP data pack differs from the inspected resource pack.')
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()

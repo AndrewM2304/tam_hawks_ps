@@ -30,7 +30,7 @@ There are **54 tickets** across eight dependency-based milestones. M00–M03 fol
 
 M00 foundation and the recorded momentum/reuse/specification work are complete. The current implementation now includes grinds, manuals, reverts, a 0.35-second combo continuation window, specials, named gaps, a connected four-district world, ten career goals, local saves/unlocks, original environment/rider art, synthesized audio with licensed local speech, settings and input remapping. Implemented systems remain in **QE review** where integration, controller or acceptance work is outstanding; the first environment/rider presentation and final cleanup remain **In progress**.
 
-The final integrated Linux suite passed **717 assertions, 0 failures**, exit 0, with clean import/engine logs. Fifteen actual rendered gameplay/menu/district captures passed and were reviewed; screenshots and exact scenarios are in STATUS/QE-REPORT. Native packages were generated from clean commit `13e76ac`, both isolated main-scene/audio checks passed and universal Mac architecture/ZIP notices were verified; actual Mac launch remains open. Standalone Linux normal headless and 1920×1080 rendered launch both exited 0; evidence is recorded in EXPORT.md.
+The latest integrated count, rendered evidence and package source identity are recorded in STATUS/QE/EXPORT. The second cleanup adds verified CC0 materials, skinned clothing, UI feedback/navigation fixes, physical surface audio, a continuous all-ten-goal route and reusable rendered profiling. Dedicated evidence includes matched world views, rider actions and UI stress/normal startup. Native Linux/macOS packaging audits scene, voice, texture and provenance resources; actual Mac launch remains open.
 
 No physical DualSense, target-Mac launch/performance, human listening, subjective skating feel or final realistic/fun visual acceptance is claimed. The supplied first-release scope remains intact, including voiced NPC reactions and the mandatory final art/UI cleanup. Static bystanders, synthesized speech and procedural architectural detail are implemented first passes, not automatically the finished quality target.
 
@@ -311,7 +311,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M03-001–M03-004, M03-007, M02-008
 - **Acceptance criteria:** All four districts form one continuous level; at least three cross-district combo links, one shortcut and one hidden area work; no transition breaks combos; all named gaps and respawns are valid; owner accepts traversal.
 - **Test strategy / evidence:** Run a full four-checkpoint circuit and every authored line; log route times, collision/camera defects and missing returns; human exploration playtest and rendered overview.
-- **Current implementation / remaining:** All four districts connect through paired streets and outer back lanes; nine ramps, six rails, three gaps, shortcuts and a returnable secret alcove exist. Eighty-nine focused world checks cover production collision/markers/cone pause/reset. Human full-circuit/three cross-district combo-line acceptance and verified facade dependency M03-007 remain open.
+- **Current implementation / remaining:** Four districts remain connected with unchanged collision geometry. CAREER-ROUTES documents a continuous 1,085.69m circuit through all four checkpoints, collections, cone and Central gap, plus three bidirectional cross-district combo links. The automated driver directly aims ground heading; human turning, discovery and recovery remain open.
 
 ### M03-006 — Verify Glasgow shopfronts, street edges and landmark relationships
 
@@ -388,7 +388,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M04-003–M04-005
 - **Acceptance criteria:** Three score thresholds and combo targets are based on observed run distributions; all goals fit the intended run/mode rules; no impossible dependency or duplicate reward exists; owner accepts replay loop.
 - **Test strategy / evidence:** Collect novice/intermediate/experienced run evidence, verify all-goals save and fresh profile, and play repeated career/free-skate sessions with recorded tuning rationale.
-- **Current implementation / remaining:** Initial thresholds are 1,000/5,000/15,000 total and 3,000 for one combo. Functional route and model tests are not balance data: A06/A09 must gather timed full-career runs at multiple skill levels, tune with recorded distributions and obtain replay-loop feedback.
+- **Current implementation / remaining:** The production career circuit now earns all ten goals within the ordinary 120-second limit (69.52s in the ordinary focused run), returns to spawn with 19,700 points/3,000 best combo, and has zero bails/stalls. Thresholds remain 1,000/5,000/15,000 and 3,000 combo. Idealized automated steering is feasibility evidence, not novice/intermediate/experienced score distributions or human fun acceptance. See CAREER-ROUTES.
 
 
 ## M05 — Art, audio and ambient characters
@@ -402,7 +402,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M03-005
 - **Acceptance criteria:** After M02-008, A05 coordinates with A08 to produce one representative facade/skating approach, skater and polished HUD treatment; obtain owner review and capture frame cost before repeating the treatment across the world. Follow docs/product/ART_DIRECTION.md: replace generic cuboids and flat placeholder surfaces with believable facade proportions, bevelled architectural detail, varied windows/doors, authored or free licensed stone/brick/paving/glass materials, coherent lighting and recognisable shopfront edges. Keep ramps/rails readable and preserve accepted collision. No voxel/blocky final aesthetic; no paid assets or engine switch without evidence.
 - **Test strategy / evidence:** Representative scene/HUD review and measured frame cost, then matched before/after captures in all districts; replay reference lines and compare frame cost; audit all assets/procedural sources in the provenance register.
-- **Current implementation / remaining:** city_art.gd adds generated masonry/paving/slate materials, batched detailed windows, cornices/roof/chimney detail, civic clock, gallery portico, arched canopy, dressed stalls and rounded foliage. Real district captures and 89 collision checks exist. Repeating materials, stylized forms, unsurveyed shopfronts, frame-cost review and owner visual acceptance remain unfinished.
+- **Current implementation / remaining:** Second cleanup pass adds distinct civic/retail/station/warehouse modules, smoother arch bands, door/display/roof variation and verified CC0 brick/concrete textures with 1024px imports. Sign/awning clipping was reproduced and fixed. Matched 16 before/after frames and draw-call reductions are in docs/levels/VISUAL_PASS.md. Collision remains unchanged. Generated sandstone/paving repetition, unsurveyed shop identities, static scenery and final realistic/owner acceptance remain open.
 
 ### M05-002 — Create readable original skater and trick animation
 
@@ -411,7 +411,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M02-008
 - **Acceptance criteria:** Replace the primitive rider/board with believable proportions, detailed clothing/board materials and a coherent rig. Push, ollie, flip, actual hand-to-board grab, grind, manual, revert, special and bail must show convincing weight/contact and readable motion. Reuse suitable free licensed models/animations with provenance; visuals follow gameplay without adding input delay.
 - **Test strategy / evidence:** Inspect every trick at slow and normal speed, verify state sync and camera readability, then rerun action timing and combo regression tests.
-- **Current implementation / remaining:** skater_visual.gd replaces the cuboid rider with rounded articulated anatomy/clothing/face/hair and a curved deck with wheels/trucks/hardware. Push, landing compression, air tuck and a hand-to-board grab exist (measured 1.1cm target reach); 39 gameplay plus 21 momentum checks passed during review. Final animation weight/contact, variation and hardware/owner presentation acceptance remain open.
+- **Current implementation / remaining:** Original ten-bone Skeleton3D and continuous skinned jacket/trousers replace separate joint surfaces; body/board proportions, push/brake, feet, grab, balance/revert/special poses are refined. Long-route Basis normalization errors and the tumble pivot were fixed. Action captures and a reproducible 30fps motion clip document actual input with explicit fixtures/cuts; final weight, anatomy, hand detail, bail/grind motion and owner/hardware acceptance remain open.
 
 ### M05-003 — Produce and integrate local synthetic skating SFX
 
@@ -420,7 +420,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M02-005
 - **Acceptance criteria:** Original reproducible sounds cover wheel roll, jump, landing, grind, bail, combo and UI; event mapping prevents overlap spam; sound parameters reflect surface/speed where useful; no paid API is used.
 - **Test strategy / evidence:** Record generator/source provenance; test event counts, mute/volume, pause/reset, rapid landing and long grind; listen for clipping and fatigue.
-- **Current implementation / remaining:** Original locally synthesized contact/grind loops and bounded ollie/landing/grind/bail/bank/UI sounds are integrated. Audio state/PCM tests cover debounce, pause, speed/pitch, mute and crossfade; no human listening or fatigue/clipping acceptance has run. See docs/testing/AUDIO.md.
+- **Current implementation / remaining:** Original locally synthesized contact/grind loops and bounded events are integrated. Main now selects stone/asphalt/metal from actual supporting collisions; production integration checks traverse each material. Waveform/event/mute tests remain. Human listening for mix, timbre and fatigue is still required; see AUDIO.md.
 
 ### M05-004 — Add ambient NPCs and lawful free voiced reactions
 
@@ -461,7 +461,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M04-006
 - **Acceptance criteria:** Main menu, mode choice, HUD, goals, pause, settings and results use a cohesive polished typography/spacing/icon/motion system and contextual DualSense prompts per ART_DIRECTION. Score/combo feedback is lively but legible at 1080p; all screens are fully focus-navigable; restart remains fast and saving/record feedback is accurate. Remove temporary debug/template presentation.
 - **Test strategy / evidence:** Traverse every screen using controller and keyboard, test long text/large scores, focus return and rapid input; capture representative screen evidence.
-- **Current implementation / remaining:** The title screen/career-free-skate selection, HUD, ten-goal list, pause/results/settings, records/unlocks/cosmetics, contextual prompts and remapping controls have an implemented visual/interaction pass. Twenty-eight independent UI integration checks pass for Enter/Tab/Escape, controls conflict/cancel/rebind/reset, rebound physical ollie, settings, cosmetics, goals/pause origins, synthetic disconnect and results/replay. Actual 1280×800 and 1.4× UI-scale captures were reviewed; final recapture confirmed the wrapped-label/numeric-value fixes, and independent QE found no blocking overlap/clipping in nine reviewed frames. Physical controller traversal, target-Mac 1080p legibility and owner presentation acceptance remain open.
+- **Current implementation / remaining:** Second UI pass separates goal notices from live combo/link feedback, uses current device/remapped interaction prompts, persists save warnings, preserves nested page history/focus/scroll and fits long scores/text. Focused tests and real 1080p/960 captures cover large UI scale and edge states. Standard capture now checks menu readiness before accepting evidence. Final physical-controller traversal and target-display/owner acceptance remain open; aggregate results belong in STATUS/QE.
 
 ### M06-003 — Implement accessibility and camera comfort settings
 
@@ -470,7 +470,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M06-001, M06-002, M05-005
 - **Acceptance criteria:** High-contrast legible text, captions, UI scaling, separate audio levels, reduced shake/nonessential motion and camera sensitivity are available and persistent; camera avoids ordinary geometry occlusion; visual cues do not rely only on colour.
 - **Test strategy / evidence:** Test settings round trip/default reset, muted play, increased UI scale, reduced shake/motion and high-contrast scenes; human legibility/motion review on target display.
-- **Current implementation / remaining:** Persisted captions, master/SFX/ambience levels, UI scale 1–1.4, camera sensitivity 0.5–2 and reduced motion are implemented with validated defaults/bounds. Independent UI integration verifies settings wiring into audio/camera/reduced motion/captions; actual display readability, muted play and motion comfort still need human evidence.
+- **Current implementation / remaining:** Persisted captions, separate mix levels, UI scale 1–1.4, camera sensitivity 0.5–2 and reduced motion remain validated. New bounds/navigation checks and rendered long-score/notice/caption/save-warning fixtures extend coverage at 1920×1080, 960×600 and640×480. Real target-display legibility, muted play and motion comfort remain open.
 
 ### M06-004 — Profile and optimize the representative full level
 
@@ -479,7 +479,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M03-005, M05-005
 - **Acceptance criteria:** Declare baseline Apple Silicon model; record frame-time distributions at 1080p over a ten-minute full-district route; address sustained misses and visible stutters; optimizations preserve gameplay and visual requirements.
 - **Test strategy / evidence:** Capture build/hardware/power mode, frame/physics metrics and peak cases; compare before/after and rerun collision/score tests. Linux timings do not certify this target.
-- **Current implementation / remaining:** Material sharing/MultiMesh batching and bounded audio/resource work are implemented optimizations, but no declared Apple Silicon baseline or ten-minute 1080p frame-time run exists. Target-performance certification is blocked on access to that Mac; local profiling and defect correction can continue independently.
+- **Current implementation / remaining:** Unit-mesh batching reduces matched chase-view draw calls by approximately 18%, 12%, 27%, 9% across the four districts. tools/profile.sh records bounded real-rendered fixed-view 1080p frame distributions and provenance; headless runs reject. See PERFORMANCE.md. A declared Apple Silicon model and ten-minute moving route are still unavailable; target certification remains blocked while local optimization can continue.
 
 ### M06-005 — Verify a real standalone macOS prototype export
 
@@ -488,7 +488,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M00-002, M04-004, M06-002
 - **Acceptance criteria:** Use matching official export templates; produce a self-contained Apple Silicon-capable app; launch it on a target Mac, play offline and persist saves; document unsigned first-run behaviour without purchasing enrollment.
 - **Test strategy / evidence:** Inspect architecture/package resources; perform fresh-copy launch, controller session, quit/relaunch and save-path tests on macOS. Block when hardware/templates are unavailable; never claim a tested export from settings alone.
-- **Current implementation / remaining:** Unsigned macOS universal and Linux presets plus tools/export.sh are prepared; official Godot 4.6.3 templates and required notices were downloaded/verified into ignored local storage. Clean commit `13e76ac` now produces both standalone ZIPs; isolated main-scene/audio loads, universal Mac architecture and actual ZIP notice checks pass. Real Mac first launch, controller/audio/save round trip remain unverified. See docs/testing/EXPORT.md.
+- **Current implementation / remaining:** Unsigned macOS universal and Linux presets plus tools/export.sh are prepared; official Godot 4.6.3 templates and required notices were downloaded/verified into ignored local storage. The earlier alpha export at `13e76ac` passed isolated scene/audio, architecture and notice checks. The current cleanup also audits texture resources/mipmaps and complete source/import/licence provenance; latest regenerated package identities belong in EXPORT. Real Mac first launch, controller/audio/save round trip remain unverified. See docs/testing/EXPORT.md.
 
 ### M06-006 — Complete target-hardware acceptance and tuning
 
@@ -506,7 +506,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M02-008, M03-007, M05-001, M05-002, M06-002, M06-003, M06-004
 - **Acceptance criteria:** After core skating/combo acceptance, audit and replace every visible placeholder in world, skater, animation, lighting, signage and menus/HUD. Deliver realistic-but-fun Glasgow presentation and polished controller-first UI matching the owner's direction, with no generic blockout used as final art. Close visible clipping, flat/shiny material defects, repetitive facades, camera obstruction and UI layout/focus issues. Owner approves matched final captures and a playable visual build; untested screenshots alone cannot close the gate.
 - **Test strategy / evidence:** Follow docs/testing/VISUAL_ACCEPTANCE.md: maintain a placeholder/defect inventory, matched before/after views and motion recordings for every district and UI state, provenance audit, gameplay regression and target-Mac 1080p/60 fps evidence. Capture pass/fail and owner comments. If time/credits end first, leave the job open with the exact unfinished asset/screen list; release M07 cannot bypass it.
-- **Current implementation / remaining:** Environment/rider/UI cleanup has begun and real captures show the first improvement. Preserve the open inventory: repeated/stylized materials, unsurveyed shopfronts, rider/NPC motion quality, every screen at supported scale (including final verification of wrapped labels/values at 1.4×), current visual defects, target performance and owner realistic/fun presentation acceptance. No final-art or release clearance is claimed.
+- **Current implementation / remaining:** Second environment/rider/UI cleanup and verified free materials are implemented, with repeatable matched/action/UI capture tools. Open inventory remains: generated sandstone/paving repetition, stylized rider face/hands and NPCs, current Glasgow shopfront references, bail/grind/transition motion, bright/shaded readability, target performance and owner realistic/fun acceptance. VISUAL_ACCEPTANCE, VISUAL_PASS and the rider/UI evidence retain exact unfinished work; this mandatory gate stays open.
 
 
 ## M07 — Release readiness and delivery
@@ -520,7 +520,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M04-006, M05-005, M06-006
 - **Acceptance criteria:** Every release requirement maps to passing evidence; no critical/high defect remains; full career/free-skate, all ten goals, save recovery, every trick and all four districts are checked on the candidate build.
 - **Test strategy / evidence:** Run local suite and target hardware matrix; record build identifier, test counts and manual evidence; independently verify prior fixes rather than relying on implementation claims.
-- **Current implementation / remaining:** The final integrated suite passed 717 checks with no failures, including independent gameplay/career/UI regressions; all fifteen final captures succeeded and were reviewed. Final candidate, all-goals play, target hardware matrix and closure of release-level defects remain outstanding; use latest STATUS/QE totals.
+- **Current implementation / remaining:** Independent gameplay/career/UI regressions now include the continuous all-ten-goal route; final aggregate counts and real capture results are in STATUS/QE. Human all-goals play, final release candidate, target hardware matrix and closure of release-level defects remain outstanding.
 
 ### M07-002 — Complete title, asset and dependency release audit
 
@@ -538,7 +538,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M07-001, M07-002, M06-005
 - **Acceptance criteria:** Reproducible local export produces a versioned app/archive with checksum and required notices; fresh-copy macOS launch, offline play, controller and save persistence pass; any unsigned limitations are described accurately.
 - **Test strategy / evidence:** Export from recorded commit/engine/templates, verify artifact checksum, test fresh extraction and launch on target Mac. Do not buy signing enrollment or upload to paid distribution.
-- **Current implementation / remaining:** Reproducible local unsigned export tooling, verified official templates and package/architecture/checksum checks are prepared. Actual unsigned Linux/macOS artifacts now exist from clean commit `13e76ac`, with successful resource/notice/architecture inspection and recorded SHA-256 digests in EXPORT.md. Linux headless and rendered normal startup passed with exit 0; Mac launch remains unverified. Paid signing, hosting and release publication remain outside this preparation.
+- **Current implementation / remaining:** Reproducible local unsigned export tooling, verified official templates and package/architecture/checksum checks are prepared. Unsigned Linux/macOS alpha artifacts previously passed resource/notice/architecture checks; the cleanup artifacts and their source identity/digests are recorded in EXPORT.md. Linux headless and rendered normal startup passed with exit 0; Mac launch remains unverified. Paid signing, hosting and release publication remain outside this preparation.
 
 ### M07-004 — Write player instructions, release notes and support handoff
 

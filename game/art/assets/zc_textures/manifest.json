@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "source_repository": "https://github.com/DaZCDude/ZCs-Spectacular-Textures",
+  "source_commit": "a866769b0ccb5e041f8855a52223d7d1a1166125",
+  "author": "ZC / DaZCDude",
+  "inspected_utc_date": "2026-10-17",
+  "license": "CC0-1.0",
+  "license_file": "docs/licences/third-party/zc-spectacular-textures-CC0.txt",
+  "license_sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+  "author_statement_url": "https://github.com/DaZCDude/ZCs-Spectacular-Textures/blob/a866769b0ccb5e041f8855a52223d7d1a1166125/README.md",
+  "source_images_modified": false,
+  "import_policy": {
+    "maximum_dimension": 1024,
+    "mipmaps": true,
+    "normal_convention": "OpenGL +Y",
+    "roughness_maps_available": false,
+    "vram_compression": true,
+    "formats": [
+      "s3tc_bptc",
+      "etc2_astc"
+    ],
+    "normal_y_inverted": false,
+    "runtime_derivatives": false
+  },
+  "materials": {
+    "weathered_brick": {
+      "source_asset": "T_bricks01",
+      "physical_size_m": null,
+      "authored_tile_size_m": [
+        1.25,
+        1.25
+      ],
+      "tile_scale_note": "Author supplies no measured physical dimensions; this is an art-direction starting value, not a surveyed measurement.",
+      "source_dimensions_px": [
+        3024,
+        3024
+      ],
+      "roughness": 0.88,
+      "normal_scale": 0.35,
+      "files": {
+        "albedo": "res://game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg",
+        "normal_opengl": "res://game/art/assets/zc_textures/T_bricks01/T_bricks01_normal_opengl.jpg"
+      },
+      "file_sha256": {
+        "albedo": "6d7324f1f0335e3f303e8c6d1820e4b25a57b8ccf957d016c5eb9984b7aaf00d",
+        "normal_opengl": "592d367f8ca3bac35b7ae48312eea15ed61587374c751cdc3fb7e7bf61bcd033"
+      },
+      "file_bytes": {
+        "albedo": 1080035,
+        "normal_opengl": 834322
+      },
+      "download_urls": {
+        "albedo": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_bricks01/T_bricks01_albedo.jpg",
+        "normal_opengl": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_bricks01/T_bricks01_normal_opengl.jpg"
+      },
+      "import_config_sha256": {
+        "albedo": "6319a92f580fa132f3e557c32b3d355748c5967ba6f2a6eb29418f440ec5b087",
+        "normal_opengl": "c4ba4e8e81d0b0b03ddf7281b47118efbcb1f14ca313f6468b2bd406e5a1b7a3"
+      }
+    },
+    "mineral_concrete": {
+      "source_asset": "T_concrete01",
+      "physical_size_m": null,
+      "authored_tile_size_m": [
+        1.5,
+        1.5
+      ],
+      "tile_scale_note": "Author supplies no measured physical dimensions; this is an art-direction starting value, not a surveyed measurement.",
+      "source_dimensions_px": [
+        3000,
+        3000
+      ],
+      "roughness": 0.94,
+      "normal_scale": 0.22,
+      "files": {
+        "albedo": "res://game/art/assets/zc_textures/T_concrete01/T_concrete01_albedo.jpg",
+        "normal_opengl": "res://game/art/assets/zc_textures/T_concrete01/T_concrete01_normal_opengl.jpg"
+      },
+      "file_sha256": {
+        "albedo": "384f749991ffc3cb07ff2177e83a5c1e478df7bc1fb54a0e09390626d76084ac",
+        "normal_opengl": "4c5fbaf44b326887441a0c3551a2c62bd41ec5306ed36ff15d5048355f8ec10f"
+      },
+      "file_bytes": {
+        "albedo": 1039958,
+        "normal_opengl": 1103422
+      },
+      "download_urls": {
+        "albedo": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_concrete01/T_concrete01_albedo.jpg",
+        "normal_opengl": "https://raw.githubusercontent.com/DaZCDude/ZCs-Spectacular-Textures/a866769b0ccb5e041f8855a52223d7d1a1166125/textures/T_concrete01/T_concrete01_normal_opengl.jpg"
+      },
+      "import_config_sha256": {
+        "albedo": "4d4ed6886dfa6460ffaaa002373af7d67b801133834845d917fa68c179c462c2",
+        "normal_opengl": "db3116c77e32e3a74214cb6ff57e89ad2608fd400cbc46613d2677566166feb8"
+      }
+    }
+  },
+  "source_texture_bytes": 4057737
+}

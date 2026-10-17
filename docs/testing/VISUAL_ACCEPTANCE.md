@@ -1,6 +1,6 @@
 # Visual cleanup and acceptance — Tam Hawks Pro Skater
 
-**Recorded:** 17 October 2026. **Status:** planned acceptance procedure. Historical screenshots establish the M01 blockout baseline; current captures show an initial architectural/rider/UI pass, without certifying the owner's requested final graphical quality. Follow [ART_DIRECTION.md](../product/ART_DIRECTION.md) and the tracked M05/M06 tasks. **M06-007** owns the required final graphics/UI cleanup gate.
+**Recorded:** 17 October 2026. **Status:** second cleanup pass implemented; final acceptance remains open. Historical screenshots establish the M01 blockout baseline; current captures show architectural/material, skinned-clothing and UI improvements. Follow [ART_DIRECTION.md](../product/ART_DIRECTION.md) and the tracked M05/M06 tasks. **M06-007** owns the required final graphics/UI cleanup gate.
 
 ## Entry gates and evidence discipline
 
@@ -25,6 +25,20 @@ The cleanup owner creates a checklist of actual scene/resource paths and marks e
 | Feedback and effects | Trick poses, banking, bail, records and captions | Consistent visual cues, clear action timing and comfortable repeated play |
 
 Hidden collision primitives and intentional simple geometry do not require cosmetic replacement. Every visible exception must be recorded with its reason and owner disposition; remaining prototype-looking foreground buildings, rider or UI block visual acceptance.
+
+## Second cleanup checkpoint
+
+The containing source commit records the second pass. Exact regression and package results belong in STATUS/QE/EXPORT. [VISUAL_PASS](../levels/VISUAL_PASS.md) retains 16 matched environment images, source baseline, camera transforms, material provenance and render counters. [CAREER-ROUTES](CAREER-ROUTES.md) verifies the complete goal circuit and six boundary combo links while recording its idealized steering limit. [PERFORMANCE](PERFORMANCE.md) provides the repeatable rendered diagnostic; it does not close the target-Mac gate.
+
+| Paths / owner | Implemented and verified slice | Open next edit or evidence |
+|---|---|---|
+| `game/levels/city_art.gd`, `game/levels/art/` · A05 | Varied facade modules, doors/displays/rooflines; clipped shop signs/awnings and jagged arch bands corrected in matched captures | Refine large generated sandstone/paving, repetitive upper rows/displays, foliage and skyline/connector seams; current researched frontages still require access |
+| `game/art/assets/zc_textures/` · A03/A05 | Four reviewed CC0 albedo/normal images, 1024px mipmapped imports, retained source/licence hashes | Review scale/lighting against future reference; these photos lack measured physical dimensions and roughness maps |
+| `game/player/skater_visual.gd`, `skater_garments.gd` · A04/A05 | Ten-bone clothing skin, revised proportions/board, analytic action poses; foot-basis drift, tumble pivot and open sleeve/waist intersections corrected | Refine face/hands, motion weight and transitions; inspect grind/bail and human normal-speed comfort before character acceptance |
+| `game/ui/hud.gd` · A08/A09 | Separate notices/combo cues, live device bindings, save warnings, nested focus/scroll return, long scores and scaled layout | Target-display and physical controller review; continue bright/shaded text contrast and comfort checks |
+| `tools/capture.gd`, dedicated UI/rider/world runners · A09 | Real rendered evidence with declared fixture limitations; modal captures wait for visible, focused layout | Preserve source identity and compare future changes; successful PNG writes alone cannot prove correct content |
+
+The world remains stylized and the static bystanders still use primitive-derived geometry. These are explicit unfinished art items, not approved final exceptions. No final owner or target-hardware acceptance has been recorded.
 
 ## Matched world and action captures
 

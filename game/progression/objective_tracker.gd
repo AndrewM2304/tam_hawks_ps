@@ -13,6 +13,9 @@ func configure(definitions: Array) -> void:
 	for raw in definitions:
 		if not raw is Dictionary or not raw.has_all(["id", "kind", "position"]):
 			continue
+		# District visits are recorded by the world region, not by a collectible.
+		if raw.kind == "district":
+			continue
 		if not raw.position is Vector3 or not raw.position.is_finite():
 			continue
 		var entry: Dictionary = raw.duplicate(true)
@@ -46,8 +49,15 @@ func poll(position: Vector3, interact: bool) -> Array[Dictionary]:
 func nearby_prompt(position: Vector3) -> String:
 	for entry in _markers:
 		if entry.kind == "interaction" and not _collected.has(entry.key) and position.distance_to(entry.position) < 5.0:
-			return "X / DPAD DOWN  —  CONE DUTY"
+			return "CONE DUTY"
 	return ""
+
+func collected_count(kind: String) -> int:
+	var count := 0
+	for entry in _markers:
+		if entry.kind == kind and _collected.has(entry.key):
+			count += 1
+	return count
 
 func _process(delta: float) -> void:
 	if reduced_motion:

@@ -18,14 +18,14 @@ The game has progressed beyond the original movement square. These systems are i
 | Area | Existing implementation to preserve | Next acceptance evidence |
 | --- | --- | --- |
 | Skating/combo | Ollies, flips/grabs/spins, six authored grind rails, manual balance, landing reverts, 0.35-second links, bounded overtime, two meter-gated specials and gap tracking | Complete human combo lines, tuning and physical DualSense review |
-| World | Four connected districts, paired connectors, northern shortcuts, elevated platform gap, market routes, recording alcove, markers and visible cone interaction | Whole-level input-driven circuit, discovery/flow and difficult route checks |
+| World | Four connected districts, paired connectors, northern shortcuts, elevated platform gap, market routes, recording alcove, markers and visible cone interaction | Automated all-ten-goal circuit is recorded in CAREER-ROUTES; human discovery/flow and recovery checks remain |
 | Career | Ten goals, per-run collections, records, earned cosmetics/specials, versioned local saves, backup and corruption handling | Full career completion/pacing and target-Mac persistence/relaunch |
-| Presentation | Original procedural architecture/material pass, articulated skater, district landmarks, four static bystanders, redesigned HUD/menu pages | Mandatory M06-007 cleanup, final realistic/fun visual direction and owner acceptance |
+| Presentation | Varied original architecture, two CC0 texture sets, skinned clothing, district landmarks, four static bystanders, revised HUD/menu navigation | Mandatory M06-007 cleanup, final realistic/fun visual direction and owner acceptance |
 | Audio | Original procedural skating SFX/district ambience plus three licensed locally generated Flite WAV barks, captions and cooldowns | Actual listening/mix/intelligibility review and target-device playback |
 | Settings/controls | Saved mix levels, captions, UI scale, sensitivity, reduced motion, keyboard/controller remapping, conflict guards and current-binding prompts | Physical controller navigation/remapping/reconnect, display/comfort review |
 | Packaging | Local unsigned export tooling and player/export guides | Check STATUS for actual artifact results; Mac launch, offline play and hardware performance remain distinct |
 
-Read `docs/testing/GRINDING.md`, `PROGRESSION.md`, `AUDIO.md`, `EXPORT.md` and the visual checklist as relevant. Read `docs/PLAYER-GUIDE.md` for the playable controls and screens. Preserve tested behavior while improving it; do not replace implemented manual/revert/career/voice features with fresh placeholders because an older document called them planned.
+Read `docs/testing/GRINDING.md`, `PROGRESSION.md`, `CAREER-ROUTES.md`, `AUDIO.md`, `PERFORMANCE.md`, `EXPORT.md` and the visual checklist as relevant. Read `docs/PLAYER-GUIDE.md` for the playable controls and screens. Preserve tested behavior while improving it; do not replace implemented manual/revert/career/voice features with fresh placeholders because an older document called them planned.
 
 ## Work that can continue while human gates are open
 

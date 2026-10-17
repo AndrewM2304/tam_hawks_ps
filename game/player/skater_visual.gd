@@ -1,11 +1,15 @@
 extends RefCounted
 ## Original procedural rider and board. Geometry and animation only: no physics.
-## A small articulated rig keeps feet on the deck and reaches the grab target.
+## Original smooth clothing uses native skinning; analytic posing preserves contact.
+
+const Garments = preload("res://game/player/skater_garments.gd")
 
 var _board: Node3D
+var _board_rest_height := 0.12
 var _rider: Node3D
 var _upper: Node3D
-var _pelvis: MeshInstance3D
+var _garments: RefCounted
+var _head: Node3D
 var _legs: Array[Dictionary] = []
 var _arms: Array[Dictionary] = []
 var _sphere: SphereMesh
@@ -16,9 +20,17 @@ var _air_blend := 0.0
 var _grab_blend := 0.0
 var _landing := 0.0
 var _was_airborne := false
+var _brake_blend := 0.0
+var _flip_blend := 0.0
+var _manual_blend := 0.0
+var _grind_blend := 0.0
+var _air_time := 0.0
+var _motion_time := 0.0
+var _torso_turn := 0.0
 
 func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 	_board = board
+	_board_rest_height = board.position.y
 	_rider = rider
 	_sphere = SphereMesh.new()
 	_sphere.radius = 1.0
@@ -36,42 +48,41 @@ func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 	var rubber := _material(Color("deddd1"), 0.90)
 	var shoes := _material(Color("263236"), 0.88)
 	var dark := _material(Color("262123"), 0.98)
-	var knit := _material(Color("bf5836"), 0.97)
+	var knit := _material(Color("884b36"), 0.97)
 	var eyes := _material(Color("d8cbb5"), 0.68)
 	_build_board()
 	_upper = Node3D.new()
 	_upper.name = "TorsoRig"
 	_rider.add_child(_upper)
-	_pelvis = _ellipsoid(_rider, "TrouserHips", Vector3(0, 0.91, 0), Vector3(0.35, 0.26, 0.25), denim)
-	_loft(_upper, "ShapedJacket", [Vector4(0.03, 0.155, 0.115, 0),
-		Vector4(0.14, 0.16, 0.12, 0), Vector4(0.32, 0.205, 0.135, -0.01),
-		Vector4(0.43, 0.22, 0.12, 0), Vector4(0.49, 0.12, 0.095, 0)], shirt)
-	_loft(_upper, "JacketHem", [Vector4(0.025, 0.158, 0.119, 0), Vector4(0.065, 0.16, 0.12, 0)], seams)
+	_garments = Garments.new()
+	_garments.build(_rider, shirt, denim)
+	_loft(_upper, "JacketHem", [Vector4(0.024, 0.188, 0.146, 0), Vector4(0.050, 0.187, 0.145, 0)], seams)
 	_loft(_upper, "Collar", [Vector4(0.455, 0.09, 0.08, -0.01), Vector4(0.51, 0.075, 0.065, -0.01)], seams)
-	_segment(_upper, "JacketZip", Vector3(0, 0.08, -0.121), Vector3(0, 0.45, -0.115), 0.006, rubber)
+	_segment(_upper, "JacketZip", Vector3(0, 0.08, -0.126), Vector3(0, 0.43, -0.126), 0.006, rubber)
 	for side: float in [-1.0, 1.0]:
 		_segment(_upper, "PocketSeam", Vector3(side * 0.065, 0.15, -0.115), Vector3(side * 0.13, 0.21, -0.112), 0.004, seams)
 	_segment(_upper, "Neck", Vector3(0, 0.47, 0), Vector3(0, 0.59, 0), 0.062, skin)
 	var head := Node3D.new()
 	head.name = "Head"
-	head.position = Vector3(0, 0.69, -0.015)
-	head.rotation.y = 0.55
+	head.position = Vector3(0, 0.675, -0.015)
+	head.rotation.y = 1.05
+	_head = head
 	_upper.add_child(head)
-	_ellipsoid(head, "Face", Vector3.ZERO, Vector3(0.225, 0.295, 0.235), skin)
-	_ellipsoid(head, "Jaw", Vector3(0, -0.075, -0.012), Vector3(0.185, 0.13, 0.19), skin)
+	_loft(head, "SculptedFace", [Vector4(-0.135, 0.037, 0.060, -0.015),
+		Vector4(-0.105, 0.068, 0.082, -0.008), Vector4(-0.065, 0.089, 0.099, 0),
+		Vector4(-0.015, 0.106, 0.112, 0), Vector4(0.025, 0.109, 0.112, 0.002),
+		Vector4(0.075, 0.106, 0.106, 0.008), Vector4(0.115, 0.089, 0.090, 0.012),
+		Vector4(0.145, 0.052, 0.055, 0.015)], skin)
 	_ellipsoid(head, "Nose", Vector3(0, 0.005, -0.124), Vector3(0.043, 0.07, 0.065), skin)
 	_ellipsoid(head, "LowerLip", Vector3(0, -0.059, -0.119), Vector3(0.066, 0.013, 0.012), _material(Color("805347")))
-	_ellipsoid(head, "BackHair", Vector3(0, 0.045, 0.015), Vector3(0.228, 0.21, 0.242), dark)
-	_ellipsoid(head, "KnittedBeanie", Vector3(0, 0.098, 0.004), Vector3(0.247, 0.18, 0.25), knit)
-	_loft(head, "BeanieFold", [Vector4(0.052, 0.124, 0.126, 0), Vector4(0.095, 0.123, 0.125, 0)], knit)
+	_ellipsoid(head, "BackHair", Vector3(0, 0.072, 0.025), Vector3(0.223, 0.16, 0.228), dark)
+	_ellipsoid(head, "KnittedBeanie", Vector3(0, 0.111, 0.010), Vector3(0.237, 0.166, 0.242), knit)
+	_loft(head, "BeanieFold", [Vector4(0.052, 0.119, 0.121, 0.008), Vector4(0.095, 0.118, 0.120, 0.008)], knit)
 	for side: float in [-1.0, 1.0]:
 		_ellipsoid(head, "Ear", Vector3(side * 0.112, -0.008, 0.008), Vector3(0.041, 0.069, 0.044), skin)
-		_ellipsoid(head, "Eye", Vector3(side * 0.042, 0.025, -0.108), Vector3(0.043, 0.023, 0.026), eyes)
-		_ellipsoid(head, "Pupil", Vector3(side * 0.042, 0.025, -0.121), Vector3(0.012, 0.015, 0.009), dark)
+		_ellipsoid(head, "Eye", Vector3(side * 0.042, 0.025, -0.108), Vector3(0.034, 0.016, 0.010), eyes)
+		_ellipsoid(head, "Pupil", Vector3(side * 0.042, 0.025, -0.113), Vector3(0.010, 0.011, 0.004), dark)
 		_segment(head, "Brow", Vector3(side * 0.023, 0.047, -0.111), Vector3(side * 0.065, 0.044, -0.104), 0.006, dark)
-		var upper_leg := _segment(_rider, "Thigh", Vector3.ZERO, Vector3.UP, 0.105, denim)
-		var lower_leg := _segment(_rider, "Calf", Vector3.ZERO, Vector3.UP, 0.078, denim)
-		var knee := _ellipsoid(_rider, "Knee", Vector3.ZERO, Vector3(0.17, 0.18, 0.17), denim)
 		var foot := Node3D.new()
 		foot.name = "FrontFoot" if side < 0.0 else "PushFoot"
 		_rider.add_child(foot)
@@ -80,80 +91,138 @@ func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 		_ellipsoid(foot, "HeelPatch", Vector3(0, 0.004, 0.10), Vector3(0.11, 0.065, 0.04), seams)
 		for lace_z: float in [-0.06, -0.03, 0.0]:
 			_segment(foot, "Lace", Vector3(-0.044, 0.036, lace_z), Vector3(0.044, 0.036, lace_z + 0.008), 0.004, rubber)
-		_legs.append({"side": side, "upper": upper_leg, "lower": lower_leg, "knee": knee, "foot": foot})
-		var upper_arm := _segment(_rider, "Sleeve", Vector3.ZERO, Vector3.UP, 0.081, shirt)
-		var forearm := _segment(_rider, "Forearm", Vector3.ZERO, Vector3.UP, 0.052, skin)
-		var elbow := _ellipsoid(_rider, "Elbow", Vector3.ZERO, Vector3(0.12, 0.13, 0.12), shirt)
-		var hand := _ellipsoid(_rider, "Hand", Vector3.ZERO, Vector3(0.072, 0.11, 0.045), skin)
-		_arms.append({"side": side, "upper": upper_arm, "lower": forearm, "elbow": elbow, "hand": hand})
+		_legs.append({"side": side, "foot": foot})
+		var hand := _loft(_rider, "Hand", [Vector4(-0.055, 0.026, 0.017, 0),
+			Vector4(-0.035, 0.035, 0.022, 0), Vector4(0.015, 0.037, 0.022, 0),
+			Vector4(0.050, 0.026, 0.020, 0)], skin)
+		_ellipsoid(hand, "Thumb", Vector3(side * 0.036, -0.005, -0.006), Vector3(0.031, 0.065, 0.032), skin)
+		_arms.append({"side": side, "hand": hand})
 	reset()
 
 func reset() -> void:
+	if is_instance_valid(_board):
+		_board.position.y = _board_rest_height
 	_push_phase = 0.0
 	_push_blend = 0.0
 	_air_blend = 0.0
 	_grab_blend = 0.0
+	_brake_blend = 0.0
+	_flip_blend = 0.0
+	_manual_blend = 0.0
+	_grind_blend = 0.0
 	_landing = 0.0
+	_air_time = 0.0
+	_motion_time = 0.0
+	_torso_turn = 0.0
 	_was_airborne = false
 
 func animate(delta: float, state: Dictionary) -> void:
 	var air: bool = state["airborne"]
 	var grab: bool = state["grab"]
 	var flip: bool = state["flip"]
+	var manual: bool = state["manual"]
+	var grind: bool = state["grind"]
 	var ride_speed: float = state["speed"]
-	var pushing: bool = state["push"] and not air and not state["manual"] and not state["grind"] and ride_speed < 14.5
+	var braking: bool = state.get("brake", false) and not air and not manual and not grind and ride_speed > 0.2
+	var pushing: bool = state["push"] and not braking and not air and not manual and not grind and ride_speed < 14.5
+	var steer: float = state.get("steering", 0.0)
+	var manual_balance: float = state.get("manual_balance", 0.0)
+	var grind_balance: float = state.get("grind_balance", 0.0)
+	var special_id: String = state.get("special_id", "")
+	var special_progress: float = state.get("special_progress", 0.0)
+	var board_spin := special_id == "special_clyde_carousel"
+	var tumble := sin(PI * special_progress) if special_id == "special_tenement_tumble" else 0.0
 	if _was_airborne and not air:
-		_landing = 0.25
+		_landing = 0.30
+	if not _was_airborne and air:
+		_air_time = 0.0
 	_was_airborne = air
+	_air_time += delta if air else 0.0
+	_motion_time += delta
 	_landing = maxf(0.0, _landing - delta)
-	_push_blend = lerpf(_push_blend, 1.0 if pushing else 0.0, 1.0 - exp(-12.0 * delta))
-	_air_blend = lerpf(_air_blend, 1.0 if air else 0.0, 1.0 - exp(-12.0 * delta))
-	_grab_blend = lerpf(_grab_blend, 1.0 if grab else 0.0, 1.0 - exp(-20.0 * delta))
+	_push_blend = _blend(_push_blend, 1.0 if pushing else 0.0, delta, 10.0)
+	_brake_blend = _blend(_brake_blend, 1.0 if braking else 0.0, delta, 12.0)
+	_air_blend = _blend(_air_blend, 1.0 if air else 0.0, delta, 14.0)
+	_grab_blend = _blend(_grab_blend, 1.0 if grab else 0.0, delta, 22.0)
+	_flip_blend = _blend(_flip_blend, 1.0 if flip or board_spin else 0.0, delta, 24.0)
+	_manual_blend = _blend(_manual_blend, 1.0 if manual else 0.0, delta, 12.0)
+	_grind_blend = _blend(_grind_blend, 1.0 if grind else 0.0, delta, 12.0)
+	# The rear axle stays above the supporting plane as the manual lifts the nose.
+	# Apply the geometric compensation before solving shoe/hand contact targets.
+	var deck_pitch := _board.rotation.x
+	_board.position.y = _board_rest_height + maxf(0.0,
+		0.255 * absf(sin(deck_pitch)) + 0.088 * (cos(deck_pitch) - 1.0))
 	if pushing:
-		_push_phase = fmod(_push_phase + delta * (8.0 + ride_speed * 0.25), TAU)
-	var compression := 0.11 * sin(PI * clampf(_landing / 0.25, 0.0, 1.0))
-	var hips_y := 0.94 - 0.065 * _air_blend - 0.33 * _grab_blend - compression
-	_upper.position.y = hips_y
-	_upper.rotation.x = -0.08 - _grab_blend * 0.22 - _push_blend * 0.09
-	_pelvis.position.y = hips_y
+		_push_phase = fmod(_push_phase + delta * (1.25 + ride_speed * 0.025), 1.0)
+	var landing_curve := sin(PI * clampf(_landing / 0.30, 0.0, 1.0))
+	var compression := 0.14 * landing_curve
+	var launch_tuck := sin(PI * clampf(_air_time / 0.35, 0.0, 1.0)) * _air_blend
+	var hips_y := 0.955 - 0.055 * _air_blend - 0.31 * _grab_blend - compression - 0.08 * launch_tuck - 0.05 * tumble
+	hips_y -= 0.025 * _push_blend + 0.035 * _brake_blend
+	var breathing := sin(_motion_time * 2.1) * 0.004 * (1.0 - _air_blend)
+	_upper.position = Vector3(0.025 * _push_blend - 0.018 * _brake_blend, hips_y + breathing, 0)
+	_upper.rotation.x = -0.07 - _grab_blend * 0.23 - _push_blend * 0.13 + _brake_blend * 0.09 - compression * 0.4
+	_torso_turn = _blend(_torso_turn, 0.08 + steer * 0.10 + sin(TAU * _push_phase) * _push_blend * 0.08, delta, 9.0)
+	_upper.rotation.y = _torso_turn
+	_upper.rotation.z = -steer * 0.045 - manual_balance * _manual_blend * 0.07
+	# Look along accepted travel after a revert, within a comfortable neck turn.
+	var travel_basis: Basis = _board.get_parent().get_parent().global_basis
+	var look_direction := _rider.global_basis.inverse() * -travel_basis.z
+	var look_yaw := clampf(atan2(-look_direction.x, -look_direction.z) - _torso_turn, -1.10, 1.10)
+	_head.rotation.y = lerp_angle(_head.rotation.y, look_yaw + steer * 0.06, 1.0 - exp(-8.0 * delta))
+	_head.rotation.x = -0.04 + _grab_blend * 0.20 + compression * 0.6
+	_garments.pose_body(Transform3D(Basis.IDENTITY, Vector3(0, hips_y, 0)), _upper.transform)
 	for leg: Dictionary in _legs:
 		var side: float = leg["side"]
-		var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, 0.085, side * 0.255)
+		var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, 0.079, side * 0.255)
+		var shoe_yaw := -PI * 0.5 + side * 0.13
 		if side > 0.0:
-			deck_foot.x += 0.27 * _push_blend
-			deck_foot.z += 0.43 * sin(_push_phase) * _push_blend
-			deck_foot.y += (-0.145 + 0.18 * maxf(0.0, -sin(_push_phase))) * _push_blend
-		var target: Vector3
-		var foot_basis: Basis
-		if flip:
-			# Flip the board below lifted shoes; never attach shoes to its upside-down grip.
-			target = _rider.to_local(_board.get_parent().to_global(Vector3(deck_foot.x, 0.35, deck_foot.z)))
-			foot_basis = _board.get_parent().global_basis
+			# Push: planted rearward stroke, then lifted return. Brake: sole drags beside the deck.
+			var stroke := minf(_push_phase / 0.60, 1.0)
+			var recovery := maxf(0.0, (_push_phase - 0.60) / 0.40)
+			var push_z := lerpf(-0.25, 0.40, stroke) if _push_phase < 0.60 else lerpf(0.40, -0.25, recovery)
+			var push_y := -0.139 + (0.26 * sin(PI * recovery) if recovery > 0.0 else 0.008 * sin(PI * stroke))
+			deck_foot.x += 0.25 * _push_blend + 0.24 * _brake_blend
+			deck_foot.z = lerpf(deck_foot.z, push_z, _push_blend)
+			deck_foot.z = lerpf(deck_foot.z, 0.40, _brake_blend)
+			deck_foot.y += push_y * _push_blend - 0.139 * _brake_blend
+			shoe_yaw = lerpf(shoe_yaw, -0.08, maxf(_push_blend, _brake_blend))
 		else:
-			target = _rider.to_local(_board.to_global(deck_foot))
-			foot_basis = _board.global_basis
+			shoe_yaw += 0.20 * _push_blend
+		var attached: Vector3 = _rider.to_local(_board.to_global(deck_foot))
+		# Shoes follow the planted board except during a deliberately separated board spin/flip.
+		var detached := _rider.to_local(_board.get_parent().to_global(Vector3(deck_foot.x, 0.40, deck_foot.z)))
+		var target := attached.lerp(detached, _flip_blend)
+		# Parent rotations can accumulate harmless floating-point drift; slerp needs unit bases.
+		var detached_basis: Basis = _board.get_parent().global_basis.orthonormalized()
+		var foot_basis := _board.global_basis.orthonormalized().slerp(detached_basis, _flip_blend)
 		var hip := Vector3(side * 0.105, hips_y + 0.025, 0)
-		var knee_bend := _rider.global_basis.inverse() * _board.global_basis * Vector3.UP + Vector3(side * 0.25, 0, -0.5)
+		var knee_bend: Vector3 = _rider.global_basis.inverse() * _board.get_parent().global_basis * Vector3.UP + Vector3(side * 0.25, 0, -0.65)
 		var knee := _joint(hip, target, 0.43, 0.41, knee_bend)
-		_pose_segment(leg["upper"], hip, knee, 0.10)
-		_pose_segment(leg["lower"], knee, target, 0.075)
-		leg["knee"].position = knee
+		_garments.pose_leg(side, hip, knee, target)
 		leg["foot"].position = target
-		leg["foot"].basis = _rider.global_basis.inverse() * foot_basis * Basis(Vector3.UP, -PI * 0.5 + side * 0.13)
+		leg["foot"].basis = _rider.global_basis.inverse() * foot_basis * Basis(Vector3.UP, shoe_yaw)
 	for arm: Dictionary in _arms:
 		var side: float = arm["side"]
-		var shoulder: Vector3 = _rider.to_local(_upper.to_global(Vector3(side * 0.225, 0.435, 0)))
-		var hand := Vector3(side * (0.32 + _air_blend * 0.10), hips_y - 0.05, -0.08 + side * 0.11)
-		hand.z += side * 0.13 * sin(_push_phase) * _push_blend
+		var shoulder: Vector3 = _rider.to_local(_upper.to_global(Vector3(side * 0.215, 0.425, 0)))
+		var spread := 0.33 + 0.12 * _air_blend + 0.13 * _grind_blend + 0.07 * _manual_blend
+		var hand := Vector3(side * spread, hips_y + 0.015 + 0.12 * _air_blend + 0.10 * _grind_blend, -0.14 + side * 0.09)
+		hand.z += side * 0.17 * sin(TAU * _push_phase) * _push_blend
+		hand.y += side * (grind_balance * _grind_blend * 0.13 + manual_balance * _manual_blend * 0.08)
+		var revert_remaining: float = state.get("revert_remaining", 0.0)
+		hand.z += side * 0.16 * sin(PI * clampf(revert_remaining / 0.18, 0.0, 1.0))
+		if tumble > 0.0:
+			hand = hand.lerp(Vector3(side * 0.16, hips_y + 0.12, -0.18), tumble * 0.8)
 		if side < 0.0:
-			var grab_target := _rider.to_local(_board.to_global(Vector3(-0.158, 0.022, -0.035)))
+			var grab_target := _rider.to_local(_board.to_global(Vector3(-0.128, 0.022, -0.035)))
 			hand = hand.lerp(grab_target, _grab_blend)
-		var elbow := _joint(shoulder, hand, 0.30, 0.29, Vector3(side, 0, 0.45))
-		_pose_segment(arm["upper"], shoulder, elbow, 0.078)
-		_pose_segment(arm["lower"], elbow, hand, 0.05)
-		arm["elbow"].position = elbow
+		var elbow := _joint(shoulder, hand, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
+		_garments.pose_arm(side, shoulder, elbow, hand)
 		arm["hand"].position = hand
 		arm["hand"].quaternion = Quaternion(Vector3.UP, (elbow - hand).normalized())
+
+func _blend(current: float, target: float, delta: float, rate: float) -> float:
+	return lerpf(current, target, 1.0 - exp(-rate * delta))
 
 func _joint(start: Vector3, end: Vector3, upper_length: float, lower_length: float, bend: Vector3) -> Vector3:
 	var offset := end - start
@@ -178,8 +247,8 @@ func _build_board() -> void:
 	for half in range(2):
 		for i in range(13):
 			var angle := PI * float(i) / 12.0 + half * PI
-			var center_z := -0.33 if half == 0 else 0.33
-			outline.append(Vector3(cos(angle) * 0.145, 0, center_z - sin(angle) * 0.145))
+			var center_z := -0.30 if half == 0 else 0.30
+			outline.append(Vector3(cos(angle) * 0.118, 0, center_z - sin(angle) * 0.118))
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for i in outline.size():
@@ -200,22 +269,22 @@ func _build_board() -> void:
 		_triangle(top, Vector3(0, 0.017, 0), _deck_point(outline[next] * 0.94, 0.017), _deck_point(outline[i] * 0.94, 0.017))
 	top.generate_normals()
 	_instance(_board, "Griptape", top.commit(), grip)
-	_ellipsoid(_board, "DeckUndersideGraphic", Vector3(0, -0.017, 0), Vector3(0.20, 0.006, 0.50), art)
+	_ellipsoid(_board, "DeckUndersideGraphic", Vector3(0, -0.017, 0), Vector3(0.17, 0.006, 0.50), art)
 	for end: float in [-1.0, 1.0]:
-		var z := end * 0.285
+		var z := end * 0.255
 		_ellipsoid(_board, "TruckBaseplate", Vector3(0, -0.026, z), Vector3(0.095, 0.027, 0.11), silver)
-		_segment(_board, "Kingpin", Vector3(0, -0.035, z - end * 0.018), Vector3(0, -0.061, z), 0.021, silver)
-		_segment(_board, "Axle", Vector3(-0.18, -0.058, z), Vector3(0.18, -0.058, z), 0.016, silver)
+		_segment(_board, "Kingpin", Vector3(0, -0.035, z - end * 0.018), Vector3(0, -0.084, z), 0.021, silver)
+		_segment(_board, "Axle", Vector3(-0.14, -0.088, z), Vector3(0.14, -0.088, z), 0.016, silver)
 		for side: float in [-1.0, 1.0]:
 			var wheel := CylinderMesh.new()
-			wheel.top_radius = 0.061
-			wheel.bottom_radius = 0.061
-			wheel.height = 0.041
+			wheel.top_radius = 0.032
+			wheel.bottom_radius = 0.032
+			wheel.height = 0.032
 			wheel.radial_segments = 20
 			var wheel_node := _instance(_board, "Wheel", wheel, rubber)
-			wheel_node.position = Vector3(side * 0.157, -0.058, z)
+			wheel_node.position = Vector3(side * 0.115, -0.088, z)
 			wheel_node.rotation.z = PI / 2.0
-			_ellipsoid(_board, "Bearing", Vector3(side * 0.181, -0.058, z), Vector3(0.008, 0.032, 0.032), bearing)
+			_ellipsoid(_board, "Bearing", Vector3(side * 0.133, -0.088, z), Vector3(0.006, 0.019, 0.019), bearing)
 			for bolt_z: float in [-0.035, 0.035]:
 				_ellipsoid(_board, "DeckBolt", Vector3(side * 0.045, 0.021, z + bolt_z), Vector3(0.012, 0.004, 0.012), silver)
 
