@@ -1,0 +1,66 @@
+{
+	"bin_percussion": {
+		"cached_identity": true,
+		"format": "PCM16",
+		"loop_begin": 0,
+		"loop_end": 176400,
+		"maximum_sample": 10671,
+		"minimum_sample": -8808,
+		"mix_rate": 22050,
+		"pcm_bytes": 352800,
+		"pcm_sha256": "0965cbed26ca6c6ef81360c1567ecf2da0c2c20e4f57b69ba0fbbef49b66b7b9",
+		"resource": "res://game/characters/bin_percussion.gd",
+		"seconds": 8.0,
+		"stereo": false
+	},
+	"district_resources": {
+		"checkpoint_count": 6,
+		"constructed_nodes": {
+			"BarrasCoveredMarket": {
+				"child_count": 14,
+				"geometry_descendants": 14
+			},
+			"BarrowlandLandmark": {
+				"child_count": 14,
+				"geometry_descendants": 14
+			},
+			"ClydeLandmarks": {
+				"child_count": 15,
+				"geometry_descendants": 15
+			},
+			"CourierBag": {
+				"child_count": 6,
+				"geometry_descendants": 6
+			},
+			"DeliveryCounter": {
+				"child_count": 14,
+				"geometry_descendants": 32
+			},
+			"MarketGull": {
+				"child_count": 13,
+				"geometry_descendants": 15
+			},
+			"MarketStallholder": {
+				"child_count": 11,
+				"geometry_descendants": 91
+			}
+		},
+		"loaded_scripts": [
+			"res://game/characters/market_encounter.gd",
+			"res://game/characters/market_actor.gd",
+			"res://game/levels/art/barras_market.gd",
+			"res://game/levels/art/clyde_landmarks.gd"
+		],
+		"market": {
+			"courier_bag_attached_hidden": true,
+			"id": "gull_proof_delivery",
+			"required_gap": "market_hop",
+			"route_ids": [
+				"covered",
+				"west"
+			],
+			"state": "idle"
+		}
+	},
+	"main_scene_loaded": true
+}

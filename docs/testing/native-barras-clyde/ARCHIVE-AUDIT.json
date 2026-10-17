@@ -1,0 +1,312 @@
+{
+  "audit": "Independent native/source/Barras-Clyde construction audit",
+  "runtime_commit": "2a7d20c51559907b0ca30a995d842dcc683ff320",
+  "clean_build": true,
+  "source_input_count": 119,
+  "all_source_inputs_match_git_objects_and_checkout": true,
+  "runtime_source_sha256": "037f91d3a3b98991ed8f3668588927c8702f9049b44a5bd3e4cb5f5456568c3b",
+  "metadata_sha256": "7d297e87ab373e110bcc3da91f6cb7d40c5c0e632f1b846e4865af0ec44afd8c",
+  "notices_and_provenance_records_each": 13,
+  "archives": {
+    "linux": {
+      "bytes": 32099727,
+      "sha256": "500aa3642251d14ea6027f94c401396f2bc02613e107e034c4338788dd0b5348",
+      "format": "ELF64 x86_64",
+      "crc_pass": true,
+      "unique_safe_paths": true,
+      "file_count": 18,
+      "all_members_match_package": true,
+      "all_member_modes_match_package": true,
+      "executable_mode": "0755",
+      "pack_sha256": "a4f5dacae4dd597ec0d384073e488e22269e3e088761023c9354bfd40177bf08"
+    },
+    "macos": {
+      "bytes": 66659261,
+      "sha256": "46b28b9381df63ff8c2b372cf7fbc7a45fb43cc6185ec84d3210d4c07f3d7fd4",
+      "format": "Universal Mach-O x86_64 and arm64",
+      "crc_pass": true,
+      "unique_safe_paths": true,
+      "file_count": 22,
+      "all_members_match_package": true,
+      "all_member_modes_match_package": true,
+      "executable_mode": "0755",
+      "pack_sha256": "a4f5dacae4dd597ec0d384073e488e22269e3e088761023c9354bfd40177bf08"
+    }
+  },
+  "source_evidence": {
+    "docs/testing/screenshots/barras-clyde/manifest.json": {
+      "sha256": "cea83820c9b58e2ba361709a1a4997f824755ce62a846e93cc64a8fe6a81a68a",
+      "inputs": 160,
+      "overlap": 108,
+      "overlap_matches_build": true,
+      "capture_audit": {
+        "capture_count": 24,
+        "all_image_hashes_match": true,
+        "all_png_chunks_crc_and_scanlines_valid": true,
+        "images": {
+          "01-exchange-context.png": {
+            "bytes": 1149062,
+            "sha256": "9a3dc73ab30c0214bea7bff83fef1c84b1b86a5ab29afc4d200c8cb5afe7ee87",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "02-market-south-entry.png": {
+            "bytes": 1157468,
+            "sha256": "7688b727818114c1aa26492dec4536f230115c979e2caab81f973dfd1919475a",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "03-market-interior-north.png": {
+            "bytes": 1018844,
+            "sha256": "53cad41054e01e7b3d6d6f7fc7299a00a7c0048f1ae06724b540b801a9a23421",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "04-market-north-return.png": {
+            "bytes": 986162,
+            "sha256": "128cbfc377a645d158792efd06d321ce7dc0df6d69395e0cfc059ae05ce1a5df",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "05-market-west-return.png": {
+            "bytes": 1323458,
+            "sha256": "5679249b4e072242e534c786078a64508e8dceaa6bd1b603ed2e1f84a061e29b",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "06-barrowland-landmark.png": {
+            "bytes": 970160,
+            "sha256": "273f1f9559dab91e0905e21bc5afbcd66f74ebf18f36d6d143a25101bca6b930",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "07-barras-market-overview.png": {
+            "bytes": 1265134,
+            "sha256": "7345c3209a20f7652138edce661d5fe18a9248580c7d1cd191c22d54e2870892",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "08-clyde-safe-bridge.png": {
+            "bytes": 1042567,
+            "sha256": "ccc80573b842b6e933465d5a0344ad2b2570b50726c5439aced065074a789979",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "09-clyde-bridge-identity.png": {
+            "bytes": 764662,
+            "sha256": "cd3af812d0f346b4d87ee2fcbaf3e0f43964b93d77754950941fec3a359e6727",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "10-city-map-routes.png": {
+            "bytes": 255218,
+            "sha256": "28321206e2761dfc88ce1c748a88ef79a9e6d88b3703aac19c22cf5b1ce0c943",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "11-clyde-south-frontage.png": {
+            "bytes": 760483,
+            "sha256": "7ac3d4dfae78905ec0375d78cd8985a2775da8c0c9000bfe9ac7fefe97afe806",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "12-clyde-broken-bridge.png": {
+            "bytes": 581286,
+            "sha256": "052b3d8f158ecc6af3db5d2ecbc0d4b9dee533ae07d7928371d91830ab836a87",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "13-clyde-print-yard.png": {
+            "bytes": 913145,
+            "sha256": "0ed9020f3c53fb338350563cadde3471c11d7bac17d18d9f6be747a269de98cd",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "14-six-area-context.png": {
+            "bytes": 441378,
+            "sha256": "11fc4ba645c96f1bb53acd696da415854d9e9feabba5368f096752dd0c55714b",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "15-delivery-offer.png": {
+            "bytes": 1107373,
+            "sha256": "f9554464b36e8434cc55b5f1931ba139d88b234255a2e0aa9528c798dc74ad67",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "16-mairi-pickup-medium.png": {
+            "bytes": 1422502,
+            "sha256": "3b79de161380e6f1868e518dacb4e4a0115200570670b286b82e30107ff26ab9",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "17-delivery-manual.png": {
+            "bytes": 1020426,
+            "sha256": "6a99e23b24b82c6abb9b11127771f059002642916a37dc8f7e00a153a6aec342",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "18-delivery-banked-line.png": {
+            "bytes": 1044117,
+            "sha256": "3b311665012bb27f12af4d5de1a132a8882e39126d5c1ef26764b136628fd9cc",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "19-delivery-gate-one.png": {
+            "bytes": 1235123,
+            "sha256": "9dd1ba3e56e8ce9c96201454b59deabc052d3d5bf55523445b2cf101fd8f208d",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "20-delivery-gate-two.png": {
+            "bytes": 954487,
+            "sha256": "b1d44180884b0b04e9a12d233a06006a8da0e583a1df9ce52c5a17ab34f831cc",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "21-delivery-gate-three.png": {
+            "bytes": 890320,
+            "sha256": "c0be194e6aef2503f1616b3efbbbb1af9e6ab38fd3d6269b3773498856634269",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "22-delivery-arrival.png": {
+            "bytes": 994932,
+            "sha256": "e1497bf3a85475b75be9f52112877a1200b2f89b166c7d6fb5851a1b135e89a2",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "23-earned-gull-payoff.png": {
+            "bytes": 1405950,
+            "sha256": "0045a65ef37de5a7e5f133e7fbbd03ba3eaf3130dd4af966a36dab5372c30967",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "24-delivery-static-alternative.png": {
+            "bytes": 1413398,
+            "sha256": "7de9a62a2767ed0201e07ebd4e8c59da9f3c1581bc378cc4703fe8096e8f3807",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          }
+        },
+        "source_capture_git_dirty": true,
+        "source_capture_commit": "1a0e3a3f0d9aca4cd74b5ba2a1ba5add34f6f021",
+        "performance_measurement": false,
+        "subjective_acceptance_claim": false
+      }
+    },
+    "docs/testing/logs/barras-clyde-source.json": {
+      "sha256": "7fa91706d7a19e913e4de8cdd8d8d45ba9524cc49bcddff36ff426e76c74292c",
+      "inputs": 158,
+      "overlap": 108,
+      "overlap_matches_build": true
+    }
+  },
+  "qe_native_launch_performed": false,
+  "macos_launch_tested": false,
+  "macos_signed": false,
+  "macos_notarized": false,
+  "target_hardware_or_subjective_acceptance_claim": false,
+  "bin_percussion": {
+    "cached_identity": true,
+    "format": "PCM16",
+    "loop_begin": 0,
+    "loop_end": 176400,
+    "maximum_sample": 10671,
+    "minimum_sample": -8808,
+    "mix_rate": 22050,
+    "pcm_bytes": 352800,
+    "pcm_sha256": "0965cbed26ca6c6ef81360c1567ecf2da0c2c20e4f57b69ba0fbbef49b66b7b9",
+    "resource": "res://game/characters/bin_percussion.gd",
+    "seconds": 8.0,
+    "stereo": false
+  },
+  "isolated_bin_percussion_probes_pass": true,
+  "isolated_main_construction_probes_pass": true,
+  "district_resources": {
+    "checkpoint_count": 6,
+    "constructed_nodes": {
+      "BarrasCoveredMarket": {
+        "child_count": 14,
+        "geometry_descendants": 14
+      },
+      "BarrowlandLandmark": {
+        "child_count": 14,
+        "geometry_descendants": 14
+      },
+      "ClydeLandmarks": {
+        "child_count": 15,
+        "geometry_descendants": 15
+      },
+      "CourierBag": {
+        "child_count": 6,
+        "geometry_descendants": 6
+      },
+      "DeliveryCounter": {
+        "child_count": 14,
+        "geometry_descendants": 32
+      },
+      "MarketGull": {
+        "child_count": 13,
+        "geometry_descendants": 15
+      },
+      "MarketStallholder": {
+        "child_count": 11,
+        "geometry_descendants": 91
+      }
+    },
+    "loaded_scripts": [
+      "res://game/characters/market_encounter.gd",
+      "res://game/characters/market_actor.gd",
+      "res://game/levels/art/barras_market.gd",
+      "res://game/levels/art/clyde_landmarks.gd"
+    ],
+    "market": {
+      "courier_bag_attached_hidden": true,
+      "id": "gull_proof_delivery",
+      "required_gap": "market_hop",
+      "route_ids": [
+        "covered",
+        "west"
+      ],
+      "state": "idle"
+    }
+  },
+  "required_modules": [
+    "game/characters/market_encounter.gd",
+    "game/characters/market_actor.gd",
+    "game/levels/art/barras_market.gd",
+    "game/levels/art/clyde_landmarks.gd"
+  ],
+  "cross_platform_packs_byte_identical": true,
+  "source_output_import_and_licence_provenance_hashes_pass": true,
+  "native_executables_match_pinned_official_templates": true,
+  "recorded_at_utc": "2026-10-17T18:03:29.826678+00:00",
+  "source_stable_during_audit": true,
+  "audit_helper_sha256": "b8392cc3b79a754a0bc1e6c72752b2c6f0642739069691d0fa8de8c7eedd0701",
+  "pack_probe_sha256": "e0e3921e3da715aa15ad837e1a72b437902dc5551ec8c2bc8457e09b336935dc"
+}

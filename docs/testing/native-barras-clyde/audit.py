@@ -262,7 +262,14 @@ def main():
     script.write_text(PROBE)
     godot = os.environ.get('GODOT_BIN', shutil.which('godot'))
     require(godot, 'Godot unavailable for independent pack probe')
-    version = subprocess.check_output([godot, '--version'], text=True).strip()
+    version_env = os.environ.copy()
+    for key, folder in [('XDG_DATA_HOME','data'),('XDG_CONFIG_HOME','config'),('XDG_CACHE_HOME','cache')]:
+        directory = audit_work / 'version' / folder
+        directory.mkdir(parents=True, exist_ok=True)
+        version_env[key] = str(directory)
+    version_process = subprocess.run([godot, '--version'], env=version_env, text=True, capture_output=True, timeout=15)
+    require(version_process.returncode == 0 and not version_process.stderr.strip(), 'Godot version query failed: ' + version_process.stderr)
+    version = version_process.stdout.strip()
     require(version == metadata['engine'], 'Independent probe engine differs from exported metadata')
     probes = {}
     for platform in ('source', 'linux', 'macos'):
@@ -272,7 +279,9 @@ def main():
         command += ['--script', str(script), '--', str(destination)]
         env = os.environ.copy()
         for key, folder in [('XDG_DATA_HOME','data'),('XDG_CONFIG_HOME','config'),('XDG_CACHE_HOME','cache')]:
-            env[key] = str(audit_work / platform / folder)
+            directory = audit_work / platform / folder
+            directory.mkdir(parents=True, exist_ok=True)
+            env[key] = str(directory)
         process = subprocess.run(command, cwd=empty, env=env, text=True, capture_output=True, timeout=60)
         log = process.stdout + process.stderr
         (audit_work / (platform + '-district-resources.log')).write_text(log)

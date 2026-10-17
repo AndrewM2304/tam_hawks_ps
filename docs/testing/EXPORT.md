@@ -1,6 +1,6 @@
 # Local native exports
 
-**Latest checkpoint:** the corrected bin-drum/dancing-cat act is packaged from clean runtime `100dde5f8d7aef5b1547890dc65ef188da66d697`; see the final section and native-bin-cats receipts. Older ae481e6/court-cat builds remain historical.
+**Latest checkpoint:** Barrowland/Barras, Gull-Proof Delivery and Clyde identity are packaged from clean runtime `2a7d20c51559907b0ca30a995d842dcc683ff320`; see the final section and [native-barras-clyde receipts](native-barras-clyde/README.md). Earlier native checkpoints remain historical.
 
 `tools/export.sh` prepares repeatable, unsigned local packages for Linux x86_64 and macOS universal (arm64 + x86_64). It uses free official Godot 4.6.3 templates and never signs, notarizes, uploads, publishes or calls a paid service. A successful cross-export does not establish that the game launches or performs acceptably on a Mac.
 
@@ -184,3 +184,24 @@ Independent ZIP CRC/unique safe paths, package equality, executable 755/ELF/univ
 Normal Linux main startup passes headless 120 and rendered 1920×1080/30 frames, exit0, isolated XDG and no engine/script/resource errors. The private software driver’s unsupported V-Sync warning is environmental. This is startup evidence, not performance or audible-output acceptance. The Mac app is unsigned, unnotarized and not real-Mac launch-tested.
 
 The final source ZIP is generated from the later committed documentation handoff; its ZIP comment identifies that commit. Native runtime/package inputs remain the clean 100dde5 commit above. The new silent 100-frame bin-cat preview and external download checksums are recorded in STATUS;previous profile/rider-motion footage remains historical. No paid signing, hosted CI or public release was triggered.
+
+### Current native checkpoint — Barrowland, Barras delivery and Clyde
+
+`./tools/export.sh --skip-check` completes exit **0** from clean runtime **`2a7d20c51559907b0ca30a995d842dcc683ff320`**. The ordinary **1,106/0** suite validates the same unchanged source; export skips repeating it. Build: `builds/tam-hawks-20261017T180149Z-2a7d20c51559/`. **119 package inputs**, fingerprint `037f91d3a3b98991ed8f3668588927c8702f9049b44a5bd3e4cb5f5456568c3b`; metadata SHA-256 `7d297e87ab373e110bcc3da91f6cb7d40c5c0e632f1b846e4865af0ec44afd8c`.
+
+Independent ZIP CRC/path/mode/architecture, official-template, licence/provenance and source audits pass. Both packs share SHA-256 `a4f5dacae4dd597ec0d384073e488e22269e3e088761023c9354bfd40177bf08`. Empty-project source/Linux-PCK/Mac-PCK probes construct the Barrowland/market/Clyde nodes, Mairi/gull/counter and hidden torso-attached bag, and preserve the identical original percussion data. All **108 capture/build overlap hashes** match; the aggregate receipt's 108 overlaps match too. The 24 PNGs also pass byte/CRC/scanline checks. [Durable receipts](native-barras-clyde/README.md) and [EXPORT](EXPORT.md) preserve exact commands and results.
+
+Normal Linux headless 120 and rendered 1920×1080/30-frame main startup exit **0**, with isolated XDG profiles and no engine/script/resource errors. The software driver's unsupported V-Sync warning is environmental. All owned game/display processes stopped. This is startup evidence, not a frame-rate or listening test. The Mac app is unsigned, unnotarized and unlaunched on real Mac hardware.
+
+| Download | Bytes | SHA-256 |
+|---|---:|---|
+| `/workspace/TamHawksProSkater-linux.zip` | 32,099,727 | `500aa3642251d14ea6027f94c401396f2bc02613e107e034c4338788dd0b5348` |
+| `/workspace/TamHawksProSkater-macos.zip` | 66,659,261 | `46b28b9381df63ff8c2b372cf7fbc7a45fb43cc6185ec84d3210d4c07f3d7fd4` |
+
+`/workspace/tam-hawks-prototype-source.zip` is generated from the final committed documentation handoff; its ZIP comment identifies that commit. `/workspace/TamHawks-downloads-SHA256SUMS.txt` records current native/source hashes. Both older video previews are explicitly historical; no current-market motion or performance result is inferred from them. Ignored artifacts may disappear after environment replacement and can be regenerated.
+
+```sh
+./tools/native_smoke.sh /workspace/tam_hawks_ps/builds/tam-hawks-20261017T180149Z-2a7d20c51559
+```
+
+All three new district/encounter scripts and the Clyde helper are present in both packages. Cross-loading the Mac PCK under Linux verifies packaged resources; it does not launch the Mac executable. The short independent audit helper initially emitted a Fontconfig cache diagnostic during its bare version query; isolated writable cache paths corrected that audit harness only. Runtime/package inputs stayed unchanged. No paid service, signing, hosted CI or public release was used.

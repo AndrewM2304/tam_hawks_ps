@@ -1,6 +1,6 @@
 # Active Barrowland, Barras and Clyde slice — 17 October 2026
 
-The owner now prioritizes **the actual Barrowland landmark/sign, a skate-through Barras market, Gull-Proof Delivery and stronger Clyde identity**. This explicitly supersedes the earlier Exchange/gallery-first ordering. Work begins from handoff `1a0e3a3f0d9aca4cd74b5ba2a1ba5add34f6f021`, whose verified runtime is `100dde5f8d7aef5b1547890dc65ef188da66d697`. New source is implemented and under final review. The shared delivery driver passes 52 focused checks with both real 1,650-point routes; the corrected 24-image set is accepted, and the full ordinary suite passes **1,106/0** with **158 unchanged inputs**. Native handoff remains pending. No purchases, paid APIs, copied map/photo textures, billing, hosted CI or unattended jobs.
+The owner now prioritizes **the actual Barrowland landmark/sign, a skate-through Barras market, Gull-Proof Delivery and stronger Clyde identity**. This explicitly supersedes the earlier Exchange/gallery-first ordering. Work begins from handoff `1a0e3a3f0d9aca4cd74b5ba2a1ba5add34f6f021`, whose verified runtime is `100dde5f8d7aef5b1547890dc65ef188da66d697`. New source is implemented and under final review. The shared delivery driver passes 52 focused checks with both real 1,650-point routes; the corrected 24-image set is accepted, and the full ordinary suite passes **1,106/0** with **158 unchanged inputs**. Clean `2a7d20c` native exports/audits and normal Linux startup now pass. No purchases, paid APIs, copied map/photo textures, billing, hosted CI or unattended jobs.
 
 ## Preserve the prior checkpoint
 
@@ -67,4 +67,8 @@ The later Exchange/gallery contract remains in BACKLOG/LEAD-DESIGN-REVIEW with i
 
 ## Final ordinary regression
 
-`./tools/check.sh` passes **1,106/0**, exit 0 with clean import/engine/script scans and **158 unchanged inputs**. The [source receipt](../testing/logs/barras-clyde-source.json) and [log](../testing/logs/barras-clyde-final.log) preserve the exact result. All ten goals complete at 75.22 simulated seconds; uninterrupted return at 88.02 s after 1,199.40 m, 20,000 banked/3,200 best, zero bails/stalls. Both real delivery routes and the preserved Mo/Rae challenges pass. Focused 52, static 192 and capture 24 results are separate evidence, not added to the aggregate. Native handoff follows from the same frozen source.
+`./tools/check.sh` passes **1,106/0**, exit 0 with clean import/engine/script scans and **158 unchanged inputs**. The [source receipt](../testing/logs/barras-clyde-source.json) and [log](../testing/logs/barras-clyde-final.log) preserve the exact result. All ten goals complete at 75.22 simulated seconds; uninterrupted return at 88.02 s after 1,199.40 m, 20,000 banked/3,200 best, zero bails/stalls. Both real delivery routes and the preserved Mo/Rae challenges pass. Focused 52, static 192 and capture 24 results are separate evidence, not added to the aggregate. Native handoff passes from the same frozen source; STATUS and EXPORT retain exact package identities.
+
+## Native checkpoint
+
+Clean runtime `2a7d20c51559907b0ca30a995d842dcc683ff320` passes local exports, independent archive/source/resource audits and normal Linux headless/rendered startup. The 119 package inputs and 108 capture/build overlaps match. [STATUS](../STATUS.md), [EXPORT](../testing/EXPORT.md) and [receipts](../testing/native-barras-clyde/README.md) retain exact identities. Mac hardware, listening, performance and final art/fun remain open.
