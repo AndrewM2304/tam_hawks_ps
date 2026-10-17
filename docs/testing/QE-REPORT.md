@@ -1,10 +1,12 @@
 # Integrated QE report — classic tricks and transitions
 
-17 October 2026. The final required ordinary regression is in progress against the corrected classic controls/pipe/HUD source. No passing aggregate is claimed until that command completes. [CLASSIC-TRICKS](CLASSIC-TRICKS.md) records test scope, concrete defects, migrated fixtures and honest limits; [STATUS](../STATUS.md) records the final source and command result.
+17 October 2026. **Current required ordinary regression: 1,612 passed / 0 failed, exit 0**, against the corrected classic controls/pipe/HUD source, with clean import/runtime scans. The [full log](logs/classic-ordinary-final.log), [import](logs/classic-ordinary-import.log) and [source receipt](logs/classic-ordinary-source.json) are retained. [CLASSIC-TRICKS](CLASSIC-TRICKS.md) records test scope, concrete defects, migrated fixtures and honest limits; [STATUS](../STATUS.md) records the final source and command result.
 
 Focused checks pass **170/0** pure selection/pose/transition/geometry, **98/0** actual mapped body/tricks/pipe/lip and **61/0** response/camera. These run inside the aggregate; do not add their counts. The protected quay route finishes in **16.08 s with zero stalls/bails** after a real deck collision led to the 1 m half-pipe shift. New body tests retain actual controls, finite support, real capsule sweeps, collision-adjusted momentum and bounded combo/overtime rules.
 
 Cold copied source passes all four phases with **208 unchanged inputs** and actual title wrapper **44/0**. The broken disposable copy is refused/restored as expected. Current normal-title capture passes **19/0** with **213 unchanged inputs**; action capture has **22 records/42 images/zero errors**, 25 retained. Three actual Controls GUI views pass, including all five help lines at 960×540/1.4× and native scrolling/focus through 19 bindings. The earlier first-line-only help state was a real defect and is rejected evidence. All generated PNGs were decoded; inspected frames are named in their packages.
+
+All six existing grade combo lines pass. The input-driven career earns all ten goals at 75.98 s, completing the 89.03 s circuit with zero bails, 19,900 banked and nine bounded stalled frames; it is not a human pacing result.
 
 Remaining gates include physical Mac/DualSense timing and comfort, repeated high-speed half-pipe aerial cycles, novice input misses, final clothed motion/realistic art/UI, listening, native export replay and moving 1080p hardware frame times. No purchases, paid services, hosted CI, new district or unattended work.
 

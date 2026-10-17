@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "command": "./tools/check.sh",
+  "exit_code": 0,
+  "passed": 1612,
+  "failed": 0,
+  "runtime_test_tool_commit": "ede191b3d75a28bf308d09a1b66a55cbcb0409c3",
+  "documentation_checkpoint": "25c13c732d360b07fd4f3b230bdf36ac2ea88821",
+  "runtime_tests_tools_unchanged_since_commit": true,
+  "completed_utc": "2026-10-17T22:28:13.139247+00:00",
+  "logs_sha256": {
+    "classic-ordinary-final.log": "c47944eef5a71160f4556187f68be9a6997a4059dfe88e5815c1e18a7e32f0e7",
+    "classic-ordinary-import.log": "88a65891fcfd1b9f913a70de3df0508e5bc3ce83dca9418150bf4d7ac5d341b2"
+  },
+  "cold_source_receipt": "../source-launch-classic/SOURCE-LAUNCH.json",
+  "normal_capture_manifest": "../screenshots/playability-repair/manifest.json",
+  "action_capture_manifest": "../screenshots/classic-tricks/manifest.json",
+  "controls_capture_manifest": "../screenshots/classic-controls/manifest.json",
+  "limits": [
+    "Root kept runtime/tests/tools frozen while documentation changed; no automated before-launch full-suite fingerprint is claimed.",
+    "Ordinary 60 Hz headless regression; fixed-clock software captures are separate, not frame times.",
+    "Actual Mac/DualSense, human feel/fun, repeated high-speed half-pipe cycles, final art/UI, current native export and target performance remain open."
+  ]
+}

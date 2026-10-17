@@ -12,9 +12,10 @@
 ## Verification and source checkpoint — A01/A09, P0
 
 - **Dependencies:** frozen production/player/world/animation and capture source; current profile writes disabled.
-- **Next concrete actions:** complete the broad regression with deliberately migrated release-pop/second-tap fixtures; run required `./tools/check.sh`; capture actual directional poses, mid-wall/vert/half-pipe/lip views and normal title-to-play; cold copied source; preserve hashes/logs; commit/push before ending.
+- **Completed checkpoint:** required `./tools/check.sh` passes 1,612/0, exit 0; cold-source launch accepts four phases/208 stable inputs/44 title checks; action capture has 22 records/42 images/zero errors; normal title/play capture has 19 images/zero failures/213 unchanged inputs; three actual Controls views pass. STATUS and CLASSIC-TRICKS retain exact source, hashes and limits. Code, evidence and task guides are pushed; the final log receipt is recorded with this handoff without runtime changes.
+- **Next action if a later edit changes production:** run focused checks for that defect, then the required full check and relevant source-stable capture. Reuse the current receipts for unchanged source; do not repeatedly rerun passed checks without a new change or unresolved concern.
 - **Acceptance:** clean nonzero check count/exit0, all ten career goals and three side acts preserved, protected quay route with zero stalls/bails, actual curved-body and camera views, one lip/rail/manual entry per admitted action, no lost pop momentum or restored blocked motion. Do not replace a failed route assertion with a weaker test.
-- **Test strategy:** pure selectors/animation contacts, finite helper80°/90° at 30/60/120 Hz, actual body mapped input including gestures/errors, natural vert/half rollback, all four real lip entries/drop/pop/overtime, obstruction/removal, game loop and source-stable rendered frames. Software/Linux fixed-time work does not certify target FPS or fun.
+- **Test strategy:** pure selectors/animation contacts, finite helper 80°/90° at 30/60/120 Hz, actual body mapped input including gestures/errors, natural vert/half rollback, all four real lip entries/drop/pop/overtime, obstruction/removal, game loop and source-stable rendered frames. Software/Linux fixed-time work does not certify target FPS or fun.
 
 ## Human controller/feel — M01-007/M02-008/M06-001, owner + A09, P0
 
