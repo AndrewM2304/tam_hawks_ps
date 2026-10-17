@@ -8,6 +8,7 @@ const GrindLineSource = preload("res://game/tricks/grind_line.gd")
 const CityArtSource = preload("res://game/levels/city_art.gd")
 const TerrainSource = preload("res://game/levels/core_terrain.gd")
 const ExchangeGallery = preload("res://game/levels/art/exchange_gallery.gd")
+const ExplorationBoundary = preload("res://game/levels/exploration_boundary.gd")
 const RAIL_COLLISION_LAYER := 2
 const RAIL_TOP_HEIGHT := 0.92
 const PALETTE := {
@@ -48,6 +49,7 @@ func _ready() -> void:
 	_build_skating_lines()
 	_build_statue()
 	_build_district_connections()
+	_build_exploration_joins()
 	_build_merchant_close()
 	_build_george_square()
 	_build_central_station()
@@ -59,6 +61,7 @@ func _ready() -> void:
 		_outdoors.name = "OutdoorRoutes"
 		add_child(_outdoors)
 		_outdoors.build(self, _materials)
+	_build_exploration_boundaries()
 	_city_art.dress_world(self)
 
 
@@ -408,6 +411,71 @@ func _build_district_connections() -> void:
 	_street("KelvingroveCivicPort", Vector3(-35, 6, -122), Vector3(-42, 6, -122), 12)
 
 
+func _build_exploration_joins() -> void:
+	# The gaps beside the gallery and between south-facing shops are open city
+	# closes, not scenery. Match their visible foundations to actual support all
+	# the way between districts, including the previously missing rear seams.
+	for x: float in [-15.0, 9.0]:
+		var side := "West" if x < 0.0 else "East"
+		_slope("Gallery" + side + "Close", Rect2(x,-56,6,14), Vector4(4,4,2,2), "path")
+		_slope("Exchange" + side + "QuayClose", Rect2(x,42,6,13), Vector4(0,0,2,2), "paving")
+	_slope("GalleryRearFoundationJoin", Rect2(-35,-56,70,2), Vector4(4,4,26.0/7.0,26.0/7.0), "path")
+	for span: Vector2 in [Vector2(-35,-15),Vector2(-9,9),Vector2(15,35)]:
+		_flat("ExchangeQuayRearJoin", Rect2(span.x,54,span.y-span.x,1), 2.0, "paving")
+	# Three-metre service shoulders close the cracks between the station/market
+	# plates and the backs of Exchange's solid shopfronts. Graded mouths retain
+	# the existing north/south street heights rather than introducing a kerb.
+	_flat("StationRetailServiceShoulder", Rect2(-50,-15,3,25), 2.0, "paving")
+	_terrain.add_polygon(self, "StationServiceSouthMouth", PackedVector3Array([
+		Vector3(-50,2,10),Vector3(-47,2,10),Vector3(-47,1.6,15),Vector3(-50,2,15)]), _materials["paving"])
+	_flat("BarrasRetailServiceShoulder", Rect2(47,-7,3,22), 0.0, "paving")
+	_terrain.add_polygon(self, "BarrasServiceNorthMouth", PackedVector3Array([
+		Vector3(47,1.6,-15),Vector3(50,1.5,-15),Vector3(50,0,-7),Vector3(47,0,-7)]), _materials["paving"])
+	_slope("MerchantCourtStreetShoulder", Rect2(-50,-32,15,3), Vector4(1,1,2,2), "paving")
+	for side: float in [-1.0,1.0]:
+		_street("ExchangeSouthStreetSeam", Vector3(side*35,0,29.5), Vector3(side*50,2 if side<0 else 0,29.5), 1.0, "asphalt")
+
+
+func _build_exploration_boundaries() -> void:
+	# Finite city/landscape edges must read as boundaries before the missing
+	# ground. Leave the authored street/park mouths and optional river risk open.
+	for span: Vector2 in [Vector2(-130,-94),Vector2(-82,-73),Vector2(-56.5,-50)]:
+		_boundary("StationNorthBoundary",Vector2(span.x,-41.8),Vector2(span.y,-41.8))
+	for span: Vector2 in [Vector2(-130,-102),Vector2(-86,-50)]:
+		_boundary("StationSouthBoundary",Vector2(span.x,44.8),Vector2(span.y,44.8))
+	for span: Vector2 in [Vector2(50,86),Vector2(102,130)]:
+		_boundary("MarketSouthBoundary",Vector2(span.x,44.8),Vector2(span.y,44.8))
+	for span: Vector2 in [Vector2(50,82),Vector2(94,130)]:
+		_boundary("MarketNorthBoundary",Vector2(span.x,-41.8),Vector2(span.y,-41.8))
+	_boundary("MarketEastBoundary",Vector2(129.8,-41.8),Vector2(129.8,44.8))
+	_boundary("StationWestCornerBoundary",Vector2(-129.8,41),Vector2(-129.8,44.8))
+	for side: float in [-1.0,1.0]:
+		var x := side*34.8
+		var spans: Array = [Vector2(-116,-86),Vector2(-74,-56)] if side<0 else [Vector2(-128,-86),Vector2(-74,-56)]
+		for span: Vector2 in spans: _boundary("CivicSideBoundary",Vector2(x,span.x),Vector2(x,span.y))
+		_boundary("CivicRearCornerBoundary",Vector2(side*31,-127.8),Vector2(side*35,-127.8))
+		_boundary("ClimbingStreetOuterBoundary",Vector2(side*93.8,-85.8),Vector2(side*93.8,-41.8))
+		_boundary("BackStreetNorthBoundary",Vector2(side*35,-85.8),Vector2(side*94,-85.8))
+		# The short frontage gaps do not promise unsupported side alleys.
+		_boundary("GalleryOuterCornerBoundary",Vector2(side*34.8,-42),Vector2(side*34.8,-38))
+		_boundary("ExchangeOuterCornerBoundary",Vector2(side*34.8,40),Vector2(side*34.8,41.8))
+		_boundary("ExchangeSouthCornerBoundary",Vector2(side*33,41.8),Vector2(side*35,41.8))
+	_boundary("MarketClimbInnerBoundary",Vector2(82.2,-74.2),Vector2(82.2,-42))
+	_boundary("MarketBackStreetInnerBoundary",Vector2(35,-74.2),Vector2(82.2,-74.2))
+	_boundary("MerchantCourtEastBoundary",Vector2(-34.2,-74),Vector2(-34.2,-56))
+
+
+func _boundary(id: String, start: Vector2, end: Vector2) -> void:
+	var points := PackedVector3Array()
+	var count := maxi(1,ceili(start.distance_to(end)/2.0))
+	for index: int in range(count+1):
+		var at := start.lerp(end,float(index)/count)
+		var height := get_ground_height(to_global(Vector3(at.x,0,at.y)))
+		assert(is_finite(height),"Boundary requires real supported ground: "+id+" "+str(at))
+		points.append(Vector3(at.x,height-global_position.y,at.y))
+	ExplorationBoundary.build(self,id,points,_materials["cut_stone"],_materials["slate"])
+
+
 func _build_merchant_close() -> void:
 	# Lower service ground makes the retained close part of a city block, rather
 	# than a road ribbon suspended over the sky. Both sides have supported exits.
@@ -588,8 +656,10 @@ func _market_stall(at: Vector3, yaw: float = 0.0, trade: String = "books") -> vo
 	_box(stall, "StallCounter", Vector3(0.0, 0.6, 0.0), Vector3(7.0, 1.2, 3.0), "stone", true)
 	for x: float in [-3.5, 3.5]:
 		_box(stall, "StallPole", Vector3(x, 1.5, 0.0), Vector3(0.12, 3.0, 0.12), "slate")
-	for x: float in [-3.0, -1.0, 1.0, 3.0]:
-		_box(stall, "StallAwning", Vector3(x, 3.1, 0.0), Vector3(2.0, 0.16, 4.5), "coral" if x < 0.0 else "cream")
+	# CityArt replaces this plain mesh with matching striped canvas. Keep the
+	# same top/underside and footprint solid, including a jump from the counter.
+	var canopy := _box(stall, "StallAwning", Vector3(0,3.23,0), Vector3(7,0.08,3.1), "cream", true)
+	canopy.add_to_group("market_canopies")
 
 
 func _street(node_name: String, start: Vector3, end: Vector3, width: float = 12.0, material: String = "asphalt") -> void:
@@ -739,6 +809,10 @@ func get_recovery_position(world_position: Vector3) -> Vector3:
 
 func get_route_definitions() -> Array[Dictionary]:
 	var routes: Array[Dictionary] = [
+		_route("gallery_west_close", "Gallery west close to civic court", [Vector3(-12,2,-39),Vector3(-12,2,-42),Vector3(-12,4,-56),Vector3(-12,4,-59)]),
+		_route("gallery_east_close", "Gallery east close to civic court", [Vector3(12,2,-39),Vector3(12,2,-42),Vector3(12,4,-56),Vector3(12,4,-59)]),
+		_route("exchange_west_quay_close", "West shop close to Clyde quay", [Vector3(-12,0,39),Vector3(-12,0,42),Vector3(-12,2,55),Vector3(-12,2,59)]),
+		_route("exchange_east_quay_close", "East shop close to Clyde quay", [Vector3(12,0,39),Vector3(12,0,42),Vector3(12,2,55),Vector3(12,2,59)]),
 		_route("cat_coping_approach", "Busking coping approach", [Vector3(-28,4,-91),Vector3(-22,4,-91),Vector3(-18,4,-91)], false),
 		_route("cat_coping_runout", "Busking coping landing and return", [Vector3(16,4,-91),Vector3(22,4,-91),Vector3(22,4,-74)]),
 		_route("cat_ordered_coping_line", "Busking A to B to C coping line", [Vector3(-28,4,-91),Vector3(-16,4.60,-91),Vector3(-10,4.60,-91),Vector3(-7,4,-91),Vector3(-4,4.60,-91),Vector3(2,4.60,-91),Vector3(5,4,-91),Vector3(8,4.60,-91),Vector3(14,4.60,-91),Vector3(22,4,-91)], true),

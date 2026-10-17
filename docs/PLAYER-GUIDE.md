@@ -4,7 +4,7 @@ Skate a Glasgow-inspired prototype, link tricks, and complete career goals durin
 
 ## Start
 
-From source, open `project.godot` with free Godot 4.6.3 and press F5. A Linux standalone package contains `TamHawksProSkater.x86_64` and its adjacent `.pck`; extract both and run the executable. A macOS package contains `Tam Hawks Pro Skater.app`; it is an unsigned local test build, and actual Mac launch remains to be verified. If the OS refuses it, source play in the official editor remains available without buying signing or disabling security settings.
+From source, open `project.godot` with free Godot 4.6.3 and press F5, or run `./tools/run.sh`. On Mac, use `GODOT_BIN="/Applications/Godot.app/Contents/MacOS/Godot" ./tools/run.sh`. The launcher prepares local assets before opening the game, including on a fresh download. A Linux standalone package contains `TamHawksProSkater.x86_64` and its adjacent `.pck`; extract both and run the executable. A macOS package contains `Tam Hawks Pro Skater.app`; it is an unsigned local test build, and actual Mac app launch remains to be verified. If the OS refuses it, source play in the official editor remains available without buying signing or disabling security settings.
 
 ## Controls
 
@@ -28,6 +28,8 @@ From source, open `project.godot` with free Godot 4.6.3 and press F5. A Linux st
 Gamepad names describe the intended standard mapping. Physical DualSense wired/Bluetooth behavior still needs a Mac playtest.
 
 To change a binding, pause and open **Controls**, select an action, then press the desired key, gamepad button or axis. Escape cancels listening; **Reset defaults** restores the standard layout. Bindings are saved locally, and prompts follow the saved controls.
+
+Release Push to coast and slow naturally; hold Brake for a quicker stop. Steering carves on the ground and makes smaller corrections in the air. Camera sensitivity changes how quickly the view follows, so it does not change the skater's turning rate. The camera keeps a third-person view and moves to the side when a wall blocks the usual rear view.
 
 Back returns to the menu you came from. Interaction prompts use your current keyboard or controller binding. Goal updates remain visible alongside an active combo.
 

@@ -128,7 +128,7 @@ static func _settings_and_controls(tree: SceneTree, game: Node, check: Callable)
 	check.call(is_equal_approx(mix.sfx, 0.2) and is_equal_approx(mix.ambience, 0.1),
 		"UI integration: actual sliders combine master and channel volumes in audio")
 	check.call(is_equal_approx(game.career.settings.ui_scale, 1.3)
-		and is_equal_approx(game.skater._steering_sensitivity, 1.7)
+		and is_equal_approx(game.skater._camera_sensitivity, 1.7)
 		and game.skater._reduced_motion and game.objectives.reduced_motion
 		and not game.career.settings.captions,
 		"UI integration: settings widgets update saved preferences and active presentation")

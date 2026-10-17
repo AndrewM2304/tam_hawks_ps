@@ -1,0 +1,22 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NORMAL BOOT title=title paused=true script_arg=false
+NORMAL VISUAL title rider_torso=true rider_head=true rider_jacket=true mo_head=true mo_jacket=true
+NORMAL VISUAL free_skate rider_torso=true rider_head=true rider_jacket=true mo_head=true mo_jacket=true
+NORMAL CAMERA free_skate { "distance": 6.46697425842285, "full_body": true, "blocked": false, "camera": (-22.0, 3.413039, 34.0), "camera_current": true, "chest": (720.0, 493.5945) }
+PLAYABILITY BEFORE natural_spawn_push { "camera_min": 6.46902370452881, "too_close": 0, "outside": 0, "blocked": 0, "unsupported": 0, "min_y": 0.00020841509104, "first_bad": {  }, "bails": 0, &"final_position": (-22.0, 0.000208, 9.127777) }
+PLAYABILITY BEFORE natural_left { "camera_min": 8.95494937896729, "too_close": 0, "outside": 0, "blocked": 0, "unsupported": 0, "min_y": 0.00020841509104, "first_bad": {  }, "bails": 0, &"final_position": (-31.04234, 0.463043, -1.20254) }
+PLAYABILITY BEFORE natural_right { "camera_min": 2.63600754737854, "too_close": 0, "outside": 0, "blocked": 0, "unsupported": 0, "min_y": 0.00039422977716, "first_bad": {  }, "bails": 0, &"final_position": (-24.66125, 0.142804, -4.88328) }
+NORMAL PAUSE true { "distance": 8.49388790130615, "full_body": true, "blocked": false, "camera": (-32.05862, 3.598252, -8.259039), "camera_current": true, "chest": (706.6711, 475.0011) }
+NORMAL RESTART { "distance": 6.49347114562988, "full_body": true, "blocked": false, "camera": (-22.0, 3.483185, 34.0), "camera_current": true, "chest": (720.0, 493.665) }
+FIXTURE west_shop_close_wall (-34.0, 1.25, 4.0) heading=-1.5707963267949
+PLAYABILITY BEFORE west_shop_close_wall { "camera_min": 1.04221785068512, "too_close": 47, "outside": 45, "blocked": 0, "unsupported": 0, "min_y": 0.45020830631256, "first_bad": { "tick": 13, "position": (-34.0, 0.693889, 4.0), "camera": { "distance": 1.95352160930634, "full_body": true, "blocked": false, "camera": (-34.5633, 3.152016, 5.171665), "camera_current": true, "chest": (464.8866, 696.2096) } }, "bails": 0, &"final_position": (-34.0, 0.450208, 4.0) }
+FIXTURE north_side (-12.0, 2.000208, -39.0) heading=0.0
+PLAYABILITY BEFORE north_side_-12.0 { "camera_min": 5.88842105865479, "too_close": 0, "outside": 0, "blocked": 31, "unsupported": 50, "min_y": -7.96177673339844, "first_bad": { "tick": 67, "position": (-12.0, -0.643495, -44.59643), "camera": { "distance": 7.30210494995117, "full_body": true, "blocked": true, "camera": (-12.0, 3.73699, -38.12395), "camera_current": true, "chest": (720.0, 505.77) } }, "bails": 1, &"final_position": (-12.0, 2.000208, -41.05783) }
+FIXTURE south_lane (-12.0, 0.000208, 38.0) heading=3.14159265358979
+PLAYABILITY BEFORE south_lane_-12.0 { "camera_min": 6.41885185241699, "too_close": 0, "outside": 0, "blocked": 23, "unsupported": 42, "min_y": -7.83617115020752, "first_bad": { "tick": 59, "position": (-12.0, -0.529721, 42.94396), "camera": { "distance": 8.02231311798096, "full_body": true, "blocked": false, "camera": (-12.0, 3.27578, 35.4282), "camera_current": true, "chest": (720.0001, 486.4595) } }, "bails": 1, &"final_position": (-12.0, 0.000208, 35.94217) }
+FIXTURE north_side (12.0, 2.000208, -39.0) heading=0.0
+PLAYABILITY BEFORE north_side_12.0 { "camera_min": 5.88842105865479, "too_close": 0, "outside": 0, "blocked": 31, "unsupported": 50, "min_y": -7.96177673339844, "first_bad": { "tick": 67, "position": (12.0, -0.643495, -44.59643), "camera": { "distance": 7.30210494995117, "full_body": true, "blocked": true, "camera": (12.0, 3.73699, -38.12395), "camera_current": true, "chest": (720.0, 505.7651) } }, "bails": 1, &"final_position": (12.0, 2.000208, -41.05783) }
+FIXTURE south_lane (12.0, 0.000208, 38.0) heading=3.14159265358979
+PLAYABILITY BEFORE south_lane_12.0 { "camera_min": 6.41885185241699, "too_close": 0, "outside": 0, "blocked": 23, "unsupported": 42, "min_y": -7.83617115020752, "first_bad": { "tick": 59, "position": (12.0, -0.529721, 42.94396), "camera": { "distance": 8.02231311798096, "full_body": true, "blocked": false, "camera": (12.0, 3.27578, 35.4282), "camera_current": true, "chest": (720.0001, 486.4595) } }, "bails": 1, &"final_position": (12.0, 0.000208, 35.94217) }
+PLAYABILITY BEFORE COMPLETE

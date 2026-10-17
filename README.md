@@ -6,9 +6,9 @@ An original arcade skateboarding game in a fictionalised Glasgow, built with God
 
 ## Play and develop
 
-- From source, open `project.godot` with the free Godot 4.6.3 editor and press F5, or run `./tools/run.sh` on a graphical desktop.
+- From source, open `project.godot` with the free Godot 4.6.3 editor and press F5, or run `./tools/run.sh` on a graphical desktop. The launcher prepares imported assets and script classes before play, including on a fresh download; preparation errors stop launch and remain in `.local/source-import.log`.
 - Run `./tools/setup.sh` to verify the installed engine and check the project. Run `./tools/check.sh` after gameplay changes.
-- Reproduce the current Exchange/gallery terraces, west seating edge, map and earned bank/ledge combo with `./tools/level_design_capture.sh`; add `--private-display` on the cloud Linux machine. The recipe also checks preserved Barrowland, Barras and Clyde views. Use `./tools/rider_capture.sh` for action poses. Earlier images and motion clips retain their historical source provenance.
+- Verify a fresh source launch with `python3 tools/source_launch_smoke.py`. Reproduce ordinary title-to-play, moving controls, chase framing and repaired level edges with `./tools/playability_capture.sh --private-display`. The earlier Exchange/gallery recipe is `./tools/level_design_capture.sh`; earlier images and motion clips retain their historical source provenance.
 - Measure six rendered city/river/park views with `./tools/profile.sh`; [profiling instructions](docs/testing/PERFORMANCE.md) cover the Mac command and measurement limits.
 - Build unsigned local Linux/macOS packages with `./tools/export.sh`; it downloads free official templates and verifies their pinned checksum. See [export instructions](docs/testing/EXPORT.md).
 

@@ -12,13 +12,14 @@ signal combo_link_ended()
 const GrindRideSource = preload("res://game/tricks/grind_ride.gd")
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const SkaterVisualSource = preload("res://game/player/skater_visual.gd")
+const SkateResponse = preload("res://game/player/skate_response.gd")
+const ChaseCamera = preload("res://game/player/chase_camera.gd")
 const GRIND_RECAPTURE_DELAY := 0.35
 
 const MAX_SPEED := 15.0
 const PUSH_ACCELERATION := 10.0
 const BRAKE_DECELERATION := 22.0
 const ROLLING_DRAG := 0.75
-const TURN_SPEED := 2.3
 const GRAVITY := 22.0
 const OLLIE_SPEED := 8.8
 const COYOTE_TIME := 0.10
@@ -50,7 +51,7 @@ var _special_id := ""
 var _special_remaining := 0.0
 var _special_used_this_air := false
 var _surface_pitch := 0.0
-var _steering_sensitivity := 1.0
+var _camera_sensitivity := 1.0
 var _reduced_motion := false
 var _shirt_material: StandardMaterial3D
 var _shirt_color := Color("4d6270")
@@ -81,6 +82,8 @@ var _board_visual: Node3D
 var _rider_visual: Node3D
 var _camera: Camera3D
 var _visual_rig: RefCounted
+var _response = SkateResponse.new()
+var _camera_follow = ChaseCamera.new()
 
 
 func _ready() -> void:
@@ -104,6 +107,8 @@ func _ready() -> void:
 
 
 func reset_skater() -> void:
+	_response.reset()
+	_camera_follow.reset()
 	_grind.stop()
 	_grind_cooldown = 0.0
 	manual_active = false
@@ -157,6 +162,7 @@ func recover_to(safe_position: Vector3) -> void:
 func set_controls_enabled(enabled: bool) -> void:
 	_controls_enabled = enabled
 	if not enabled:
+		_response.reset()
 		_end_manual(true)
 		speed = 0.0
 		velocity.x = 0.0
@@ -179,7 +185,7 @@ func set_grind_lines(lines: Array) -> void:
 
 
 func set_presentation_settings(camera_sensitivity: float, reduced_motion: bool) -> void:
-	_steering_sensitivity = clampf(camera_sensitivity, 0.5, 2.0) if is_finite(camera_sensitivity) else 1.0
+	_camera_sensitivity = clampf(camera_sensitivity, 0.5, 2.0) if is_finite(camera_sensitivity) else 1.0
 	_reduced_motion = reduced_motion
 
 
@@ -252,10 +258,10 @@ func _physics_process(delta: float) -> void:
 		elif push_input > 0.05:
 			speed = minf(MAX_SPEED, speed + PUSH_ACCELERATION * push_input * delta)
 		else:
-			speed = move_toward(speed, 0.0, ROLLING_DRAG * delta)
-	# Low-speed steering remains useful, and high-speed turns stay controllable.
-	var turn_scale := lerpf(1.0, 0.62, speed / MAX_SPEED)
-	var steering_angle := -_steering * TURN_SPEED * turn_scale * _steering_sensitivity * delta
+			speed = _response.coast_speed(speed, delta)
+	# Ground carving and modest air correction are separate. Camera preferences
+	# cannot change the rider's physical turning rate.
+	var steering_angle: float = _response.steering_step(_steering, speed, grounded_before, delta)
 	rotation.y += steering_angle
 	var forward := -global_basis.z
 	if grounded_before:
@@ -532,21 +538,7 @@ func _update_pose(delta: float) -> void:
 
 
 func _process(delta: float) -> void:
-	if not is_instance_valid(_camera):
-		return
-	var forward := -global_basis.z
-	var target := global_position + Vector3.UP * 1.05 + forward * 1.2
-	var follow_distance := 6.0 if _reduced_motion else 6.0 + speed * 0.04
-	var desired := global_position - forward * follow_distance + Vector3.UP * 3.4
-	var query := PhysicsRayQueryParameters3D.create(target, desired, 1, [get_rid()])
-	var obstruction := get_world_3d().direct_space_state.intersect_ray(query)
-	if not obstruction.is_empty():
-		desired = obstruction["position"] + obstruction["normal"] * 0.3
-	_camera.global_position = _camera.global_position.lerp(desired, 1.0 - exp(-7.0 * delta))
-	if _camera.global_position.distance_squared_to(target) > 0.01:
-		_camera.look_at(target, Vector3.UP)
-	var desired_fov := 68.0 if _reduced_motion else 68.0 + speed * 0.35
-	_camera.fov = lerpf(_camera.fov, desired_fov, 1.0 - exp(-3.0 * delta))
+	_camera_follow.update(self, _camera, delta, _camera_sensitivity, _reduced_motion)
 
 
 func _material(color: Color, roughness: float = 0.85) -> StandardMaterial3D:

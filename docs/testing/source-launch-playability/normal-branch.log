@@ -1,0 +1,63 @@
+Preparing local game assets…
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: playability boot: unmodified Main enters its actual paused title branch
+PASS: playability visuals: board torso jacket and trousers actually exist and are visible
+PASS: playability visuals: all four imported anatomical meshes built into the actual player rig
+PASS: playability visuals: Mo's head clothing and hands finish construction before ordinary animation
+PASS: playability visuals: Rae's actual drummer head clothing and both hands finish construction
+PASS: playability visuals: Mairi's actual head clothing and both hands finish construction
+PASS: playability: title keyboard activation starts ordinary free skate
+PASS: playability: full rider and board remain framed at (1280, 800)
+PASS: playability: full rider and board remain framed at (1920, 1080)
+PASS: playability: full rider and board remain framed at (800, 600)
+PLAYABILITY NATURAL { "samples": 300, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 0.00020841509104, "camera_min": 6.46581983566284, "distance": 63.8737025409937, "previous": (-25.97303, 2.006886, -29.2115), &"left_turn": 0.82887959480286, &"right_turn": -1.89884757995605, &"bails": 0 }
+PASS: playability: spawn push and both steering directions move through real ground without heading assistance
+PASS: playability: natural spawn curves keep actual rider and board in the current chase view
+PASS: playability: ordinary pause freezes player and chase without hiding the built rig
+PASS: playability: mapped pause restart restores supported spawn and third-person framing
+PASS: playability: visible mode control starts timed career with a visible complete rider
+PASS: playability coast: ordinary pushing reaches useful speed on the clear default spine
+PASS: playability coast: releasing push visibly slows in three seconds without a wall or bail doing the braking
+PASS: playability coast: ordinary unassisted coasting stops within a bounded distance and time
+PLAYABILITY COAST launch=14.9963369369507 after3s=5.94083504473958 final=0.0 { "samples": 540, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 0.00020841509104, "camera_min": 6.46300411224365, "distance": 51.474273853004, "previous": (-22.0, 2.013528, -23.33403) }
+PASS: playability: shopfront wall obstruction preserves full third-person rider instead of collapsing into the body
+PASS: playability: actual stationary steering beside the shop wall keeps the rider framed
+PLAYABILITY WALL { "samples": 150, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 0.45020830631256, "camera_min": 6.4621958732605, "distance": 0.0, "previous": (-34.0, 0.450208, 4.0) }
+PASS: playability: station low ceiling keeps full rider and board framed without camera clipping
+PLAYABILITY CAMERA station low ceiling { "samples": 60, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 2.00020837783813, "camera_min": 3.51896333694458, "distance": 0.0, "previous": (-114.0, 2.000208, -8.0) }
+PASS: playability: gallery columns behind rider keeps full rider and board framed without camera clipping
+PLAYABILITY CAMERA gallery columns behind rider { "samples": 60, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 2.65020847320557, "camera_min": 6.46252298355103, "distance": 0.0, "previous": (3.0, 2.650208, -37.0) }
+PASS: playability: gallery close X-12.0 has actual upward support across center and both lateral offsets
+PASS: playability: push-only gallery close X-12.0 forward crosses the formerly open floor without fall or lost rider
+PLAYABILITY CLOSE gallery close X-12.0 reverse=false reached=true bails=0 { "samples": 163, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 2.00020837783813, "camera_min": 6.47080945968628, "distance": 24.7324431687593, "previous": (-12.0, 4.009323, -63.58332) }
+PASS: playability: push-only gallery close X-12.0 reverse crosses the formerly open floor without fall or lost rider
+PLAYABILITY CLOSE gallery close X-12.0 reverse=true reached=true bails=0 { "samples": 163, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 2.01241755485535, "camera_min": 6.47080898284912, "distance": 24.6068786382675, "previous": (-12.0, 2.012418, -34.53066) }
+PASS: playability: quay close X-12.0 has actual upward support across center and both lateral offsets
+PASS: playability: push-only quay close X-12.0 forward crosses the formerly open floor without fall or lost rider
+PLAYABILITY CLOSE quay close X-12.0 reverse=false reached=true bails=0 { "samples": 163, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 0.00020841509104, "camera_min": 6.47080898284912, "distance": 24.5944903343916, "previous": (-12.0, 2.014012, 63.43297) }
+PASS: playability: push-only quay close X-12.0 reverse crosses the formerly open floor without fall or lost rider
+PLAYABILITY CLOSE quay close X-12.0 reverse=true reached=true bails=0 { "samples": 163, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 0.01242214720696, "camera_min": 6.47080945968628, "distance": 24.6093183681369, "previous": (-12.0, 0.012422, 34.54092) }
+PASS: playability: gallery close X12.0 has actual upward support across center and both lateral offsets
+PASS: playability: push-only gallery close X12.0 forward crosses the formerly open floor without fall or lost rider
+PLAYABILITY CLOSE gallery close X12.0 reverse=false reached=true bails=0 { "samples": 163, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 2.00020837783813, "camera_min": 6.47080945968628, "distance": 24.732435554266, "previous": (12.0, 4.009323, -63.58332) }
+PASS: playability: push-only gallery close X12.0 reverse crosses the formerly open floor without fall or lost rider
+PLAYABILITY CLOSE gallery close X12.0 reverse=true reached=true bails=0 { "samples": 163, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 2.01241755485535, "camera_min": 6.47080898284912, "distance": 24.6068786382675, "previous": (12.0, 2.012418, -34.53066) }
+PASS: playability: quay close X12.0 has actual upward support across center and both lateral offsets
+PASS: playability: push-only quay close X12.0 forward crosses the formerly open floor without fall or lost rider
+PLAYABILITY CLOSE quay close X12.0 reverse=false reached=true bails=0 { "samples": 163, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 0.00020841509104, "camera_min": 6.47080898284912, "distance": 24.5952859520912, "previous": (12.00073, 2.012554, 63.43377) }
+PASS: playability: push-only quay close X12.0 reverse crosses the formerly open floor without fall or lost rider
+PLAYABILITY CLOSE quay close X12.0 reverse=true reached=true bails=0 { "samples": 163, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 0, "min_y": 0.01241739559919, "camera_min": 6.47080945968628, "distance": 24.6096733734012, "previous": (12.00042, 0.012417, 34.54123) }
+PASS: playability: Barras east edge physically blocks an off-line exit and permits a natural turn back
+PLAYABILITY EDGE Barras east edge contained=true bails=0 { "samples": 240, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 52, "min_y": 0.00020841509104, "camera_min": 6.4008469581604, "distance": 6.71110433363356, "previous": (124.5582, 0.014014, 1.520316) }
+PASS: playability: station south edge physically blocks an off-line exit and permits a natural turn back
+PLAYABILITY EDGE station south edge contained=true bails=0 { "samples": 240, "hidden": 0, "blocked": 0, "close": 0, "nonfinite": 0, "wall_contacts": 55, "min_y": 2.00020837783813, "camera_min": 6.40099573135376, "distance": 6.5168368529994, "previous": (-121.5207, 2.01243, 39.5568) }
+PASS: playability: all four visible market canvas roofs have matching actual top collision
+PASS: playability: both sloped pavilion roof faces have actual upward support at the visible height
+PASS: playability visuals: board torso jacket and trousers actually exist and are visible
+PASS: playability visuals: all four imported anatomical meshes built into the actual player rig
+PASS: playability visuals: Mo's head clothing and hands finish construction before ordinary animation
+PASS: playability visuals: Rae's actual drummer head clothing and both hands finish construction
+PASS: playability visuals: Mairi's actual head clothing and both hands finish construction
+PASS: playability: diagnosis never writes a player profile
+PLAYABILITY RESULT: 44 passed, 0 failed

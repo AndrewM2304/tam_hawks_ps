@@ -6,9 +6,11 @@ const Surface = preload("res://game/levels/outdoors/surface_builder.gd")
 const Vegetation = preload("res://game/levels/outdoors/vegetation.gd")
 const ClydeLandmarks = preload("res://game/levels/art/clyde_landmarks.gd")
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
+const ExplorationBoundary = preload("res://game/levels/exploration_boundary.gd")
 const PARK := Rect2(-220, -185, 80, 110)
 const PARK_LANDSCAPE := Rect2(-255, -225, 115, 165)
 const RIVER := Rect2(-150, 78, 300, 38)
+const VISIBLE_WATER := Rect2(-450, 78, 900, 38)
 const WATER_Y := -2.0
 const YARD_BANK_RADIUS := 4.0
 const YARD_BANK_ANGLE := deg_to_rad(35.0)
@@ -34,10 +36,55 @@ func build(world: Node3D, materials: Dictionary) -> void:
 	_build_clyde()
 	_build_riverside_edge(world)
 	_build_park()
+	_build_exploration_boundaries()
 
 
 func get_checkpoints() -> Dictionary:
 	return {"clyde": to_global(Vector3(15, 2.8, 67)), "kelvingrove": to_global(Vector3(-155, 6.8, -82))}
+
+
+func _build_exploration_boundaries() -> void:
+	# These are the exposed edges of the three joined landscape rectangles,
+	# not their internal seams. Preserve both real civic/station port mouths.
+	for edge: Array in [
+		[Vector2(-254.8,-224.8),Vector2(-254.8,-60.2)],
+		[Vector2(-254.8,-224.8),Vector2(-140.2,-224.8)],
+		[Vector2(-140.2,-224.8),Vector2(-140.2,-142)],
+		[Vector2(-140.2,-108),Vector2(-140.2,-92)],
+		[Vector2(-140,-141.8),Vector2(-42.2,-141.8)],
+		[Vector2(-140,-108.2),Vector2(-42.2,-108.2)],
+		[Vector2(-42.2,-141.8),Vector2(-42.2,-128)],
+		[Vector2(-42.2,-116),Vector2(-42.2,-108.2)],
+		[Vector2(-140,-91.8),Vector2(-130.2,-91.8)],
+		[Vector2(-130.2,-91.8),Vector2(-130.2,-8)],
+		[Vector2(-130.2,8),Vector2(-130.2,19.8)],
+		[Vector2(-214.8,19.8),Vector2(-130.2,19.8)],
+		[Vector2(-214.8,-60),Vector2(-214.8,19.8)],
+		[Vector2(-254.8,-60.2),Vector2(-215,-60.2)]
+	]: _boundary("ParkRetainedBoundary",edge[0],edge[1])
+	# Bound BOTH sides of the landward void between the city and the quay.
+	# The river-facing edges remain the explicit, recoverable skating hazard.
+	for span: Vector2 in [Vector2(-149.8,-102),Vector2(-86,-15),Vector2(-9,9),Vector2(15,86),Vector2(102,149.8)]:
+		_boundary("QuayLandwardBoundary",Vector2(span.x,55.2),Vector2(span.y,55.2))
+	for x: float in [-149.8,149.8]:
+		_boundary("NorthQuayEndBoundary",Vector2(x,55.2),Vector2(x,77.8))
+		_boundary("SouthQuayEndBoundary",Vector2(x,116.2),Vector2(x,130.2))
+	for x: float in [-279.8,279.8]:
+		_boundary("SouthLandscapeEndBoundary",Vector2(x,130.2),Vector2(x,219.8))
+	_boundary("SouthLandscapeRearBoundary",Vector2(-279.8,219.8),Vector2(279.8,219.8))
+	_boundary("SouthLandscapeNorthBoundary",Vector2(-279.8,130.2),Vector2(-150,130.2))
+	_boundary("SouthLandscapeNorthBoundary",Vector2(150,130.2),Vector2(279.8,130.2))
+
+
+func _boundary(id: String, start: Vector2, end: Vector2) -> void:
+	var points := PackedVector3Array()
+	var count := maxi(1,ceili(start.distance_to(end)/2.0))
+	for index: int in range(count+1):
+		var at := start.lerp(end,float(index)/count)
+		var height := _local_ground(at.x,at.y)
+		assert(is_finite(height),"Outdoor boundary requires real supported ground: "+id+" "+str(at))
+		points.append(Vector3(at.x,height,at.y))
+	ExplorationBoundary.build(self,id,points,_material("cut_stone"),_material("iron"))
 
 
 func get_district_id(world_position: Vector3) -> String:
@@ -62,7 +109,10 @@ func get_ground_height(world_x: float, world_z: float) -> float:
 
 func get_recovery_position(world_position: Vector3) -> Vector3:
 	var at := to_local(world_position)
-	if not RIVER.has_point(Vector2(at.x, at.z)) or at.y >= WATER_Y + 0.25: return Vector3.INF
+	# Every visible part of the river is the same readable water hazard. The
+	# scenic plane is wider than the skating quays; do not leave its ends without
+	# the prompt supported-quay recovery used by a missed bridge transfer.
+	if not VISIBLE_WATER.has_point(Vector2(at.x, at.z)) or at.y >= WATER_Y + 0.25: return Vector3.INF
 	var safe_z := 71.0 if at.z < RIVER.get_center().y else 124.0
 	# Stay away from deck rails and place the skater directly on a broad quay.
 	var safe_x := clampf(at.x, -140.0, 140.0)
@@ -117,7 +167,7 @@ func _build_clyde() -> void:
 	hip_body.add_to_group("curved_banks")
 	hip_body.set_meta("max_angle_degrees", 35.0)
 	hip_body.set_meta("radius", YARD_BANK_RADIUS)
-	_surfaces.append({"bounds": hip_bounds, "height_at": _yard_hip_height})
+	_surfaces.append({"bounds": hip_bounds, "height_at": _yard_hip_height, "spacing":0.25})
 	var hip_route := PackedVector3Array([Vector3(69,2,127.5), Vector3(62.5 + YARD_BANK_RUN,2,127.5)])
 	for degrees: float in [5.0,10.0,15.0,20.0,25.0,30.0,35.0]:
 		var angle := deg_to_rad(degrees)
@@ -136,7 +186,7 @@ func _build_clyde() -> void:
 	bank_material.roughness = 0.95
 	var bank_bounds := Rect2(-280, 130, 560, 90)
 	Surface.terrain(self, "ClydeSouthBankLandscape", bank_bounds, 5.0, _south_bank_height, bank_material)
-	_surfaces.append({"bounds": bank_bounds, "height_at": _south_bank_height})
+	_surfaces.append({"bounds": bank_bounds, "height_at": _south_bank_height, "spacing":5.0})
 	_bridge_structure(safe, 8.0, true)
 	_bridge_structure(north, 5.0, false)
 	_bridge_structure(south, 5.0, false)
@@ -188,8 +238,8 @@ void fragment(){float patches=noise(world_position.xz*0.16)*0.7+noise(world_posi
 	var george_bank := Rect2(-145, -142, 103, 34)
 	Surface.terrain(self, "KelvingroveCentralEmbankment", central_bank, 2.5, _central_bank_height, grass)
 	Surface.terrain(self, "KelvingroveGeorgeEmbankment", george_bank, 3.0, _george_bank_height, grass)
-	_surfaces.append({"bounds": central_bank, "height_at": _central_bank_height})
-	_surfaces.append({"bounds": george_bank, "height_at": _george_bank_height})
+	_surfaces.append({"bounds": central_bank, "height_at": _central_bank_height, "spacing":2.5})
+	_surfaces.append({"bounds": george_bank, "height_at": _george_bank_height, "spacing":3.0})
 	# Broad smooth asphalt ribbons share exact sampled physics/query coordinates.
 	_path("KelvingroveCentralApproach", _park_connector, 10.0, _material("asphalt"))
 	_path("KelvingroveGeorgePromenade", _george_connector, 10.0, _material("paving"))
@@ -295,20 +345,21 @@ func _park_height(x: float, z: float) -> float:
 		var apron := Rect2(-179, -185, 18, 5)
 		var distance_apron := Vector2(x, z).distance_to(Vector2(clampf(x, apron.position.x, apron.end.x), clampf(z, apron.position.y, apron.end.y)))
 		height = minf(height, lerpf(16.75, height, smoothstep(0.0, 3.0, distance_apron)))
-	# Curving lower woodland skirts replace a visible vertical rectangular island.
-	var perimeter := minf(minf(x - PARK_LANDSCAPE.position.x, PARK_LANDSCAPE.end.x - x), minf(z - PARK_LANDSCAPE.position.y, PARK_LANDSCAPE.end.y - z))
-	if x < -225 or z < -195:
-		height = lerpf(1.0 + sin(x * 0.025 + z * 0.014), height, smoothstep(0.0, 23.0, perimeter))
+	# Blend the north/west woodland skirts continuously. A conditional applied
+	# to all four rectangle edges previously produced a~16m discontinuity where
+	# its north cutoff met the east edge, despite looking like ordinary grass.
+	var woodland := minf(smoothstep(-255.0,-225.0,x),smoothstep(-225.0,-195.0,z))
+	height = lerpf(1.0 + sin(x * 0.025 + z * 0.014),height,woodland)
 	return height
 
 
 func _local_ground(x: float, z: float) -> float:
 	var at := Vector2(x, z)
-	var highest := _park_height(x, z) if PARK_LANDSCAPE.has_point(at) else NAN
+	var highest := Surface.grid_height(PARK_LANDSCAPE,2.5,_park_height,x,z) if PARK_LANDSCAPE.has_point(at) else NAN
 	for surface: Dictionary in _surfaces:
 		var height := NAN
 		if surface.has("bounds"):
-			if surface.bounds.has_point(at): height = float(surface.height_at.call(x, z)) if surface.has("height_at") else surface.height
+			if surface.bounds.has_point(at): height = Surface.grid_height(surface.bounds,surface.spacing,surface.height_at,x,z) if surface.has("height_at") else surface.height
 		else:
 			var nearest := Surface.nearest_segment(surface.points, at)
 			if nearest.get("within", true) and float(nearest.distance) <= float(surface.width) * 0.5: height = nearest.height
@@ -390,7 +441,7 @@ func _bridge_structure(points: PackedVector3Array, width: float, safe: bool) -> 
 
 func _water() -> void:
 	var mesh := PlaneMesh.new()
-	mesh.size = Vector2(900, RIVER.size.y)
+	mesh.size = VISIBLE_WATER.size
 	var instance := MeshInstance3D.new()
 	instance.name = "ClydeWater"
 	instance.mesh = mesh
@@ -448,6 +499,7 @@ func _park_pavilion() -> void:
 	for x: float in [-2.0, 2.0]:
 		for z: float in [-1.5, 1.5]: _beam("PavilionColumn", center + Vector3(x, 0, z), center + Vector3(x, 3.1, z), 0.08, _material("iron"), true)
 	for side: float in [-1.0, 1.0]:
-		var roof := _box("PavilionSlateRoof", center + Vector3(side * 1.25, 3.1, 0), Vector3(2.8, 0.14, 4.2), _material("slate"), false)
+		var roof := _box("PavilionSlateRoof", center + Vector3(side * 1.25, 3.1, 0), Vector3(2.8, 0.14, 4.2), _material("slate"), true)
+		roof.add_to_group("pavilion_roofs")
 		roof.rotation.z = -side * 0.25
 	_bench(center + Vector3(0, 0, -0.8))

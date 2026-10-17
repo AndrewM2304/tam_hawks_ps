@@ -1,6 +1,28 @@
 extends RefCounted
 ## Original shared mesh/collision construction for continuous outdoor surfaces.
 
+## The same two triangles used by terrain(), rather than the unsampled height
+## function between mesh vertices. Queries/fence feet must agree with collision.
+static func grid_height(bounds: Rect2, spacing: float, height_at: Callable, x: float, z: float) -> float:
+	var nx := ceili(bounds.size.x/spacing)
+	var nz := ceili(bounds.size.y/spacing)
+	var dx := bounds.size.x/nx
+	var dz := bounds.size.y/nz
+	var gx := clampf((x-bounds.position.x)/dx,0,nx)
+	var gz := clampf((z-bounds.position.y)/dz,0,nz)
+	var ix := mini(floori(gx),nx-1)
+	var iz := mini(floori(gz),nz-1)
+	var u := gx-ix
+	var v := gz-iz
+	var left := bounds.position.x+ix*dx
+	var north := bounds.position.y+iz*dz
+	var a := float(height_at.call(left,north))
+	var b := float(height_at.call(left+dx,north))
+	var c := float(height_at.call(left,north+dz))
+	var d := float(height_at.call(left+dx,north+dz))
+	return a+u*(b-a)+v*(c-a) if u+v<=1.0 else d+(1-u)*(c-d)+(1-v)*(b-d)
+
+
 static func terrain(parent: Node3D, id: String, bounds: Rect2, spacing: float, height_at: Callable, material: Material) -> StaticBody3D:
 	var nx := ceili(bounds.size.x / spacing)
 	var nz := ceili(bounds.size.y / spacing)

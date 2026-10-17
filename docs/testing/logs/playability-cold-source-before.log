@@ -1,0 +1,230 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Compile Error: Identifier not found: GrindLine
+          at: GDScript::reload (res://game/tricks/grind_line.gd:56)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://game/tricks/grind_ride.gd:0)
+ERROR: Cannot open file 'res://.godot/imported/head.obj-7fb1f6ac57dc645f3bd2af5233d16fc4.mesh'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://.godot/imported/head.obj-7fb1f6ac57dc645f3bd2af5233d16fc4.mesh.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Failed loading resource: res://game/art/assets/makehuman_hm08/head.obj.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://.godot/imported/hair.obj-3538a51c365a288072d38c02b1caf21d.mesh'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://.godot/imported/hair.obj-3538a51c365a288072d38c02b1caf21d.mesh.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Failed loading resource: res://game/art/assets/makehuman_hm08/hair.obj.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://.godot/imported/left_hand.obj-c8f2012729a8c7aa9f1a22b0918274d1.mesh'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://.godot/imported/left_hand.obj-c8f2012729a8c7aa9f1a22b0918274d1.mesh.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Failed loading resource: res://game/art/assets/makehuman_hm08/left_hand.obj.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://.godot/imported/right_hand.obj-c6fde73b0be3787f91053598e787653e.mesh'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://.godot/imported/right_hand.obj-c6fde73b0be3787f91053598e787653e.mesh.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Failed loading resource: res://game/art/assets/makehuman_hm08/right_hand.obj.
+   at: _load (core/io/resource_loader.cpp:343)
+SCRIPT ERROR: Parse Error: Could not preload resource file "res://game/art/assets/makehuman_hm08/head.obj".
+          at: GDScript::reload (res://game/player/skater_anatomy.gd:5)
+SCRIPT ERROR: Parse Error: Could not preload resource file "res://game/art/assets/makehuman_hm08/hair.obj".
+          at: GDScript::reload (res://game/player/skater_anatomy.gd:6)
+SCRIPT ERROR: Parse Error: Could not preload resource file "res://game/art/assets/makehuman_hm08/left_hand.obj".
+          at: GDScript::reload (res://game/player/skater_anatomy.gd:7)
+SCRIPT ERROR: Parse Error: Could not preload resource file "res://game/art/assets/makehuman_hm08/right_hand.obj".
+          at: GDScript::reload (res://game/player/skater_anatomy.gd:8)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://game/player/skater_visual.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://game/player/skater.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://game/main.gd:0)
+ERROR: Failed to load script "res://game/main.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+ERROR: Unable to open file: res://.godot/imported/T_bricks01_albedo.jpg-f77d29fbb9df83c08cf58bde8b989d79.s3tc.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:42)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:94)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Failed loading resource: res://.godot/imported/T_bricks01_albedo.jpg-f77d29fbb9df83c08cf58bde8b989d79.s3tc.ctex.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:94)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Failed loading resource: res://game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:94)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Unable to open file: res://.godot/imported/T_bricks01_normal_opengl.jpg-70327d7355cb6d1c7da8f57dd67f352c.s3tc.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:42)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:95)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Failed loading resource: res://.godot/imported/T_bricks01_normal_opengl.jpg-70327d7355cb6d1c7da8f57dd67f352c.s3tc.ctex.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:95)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Failed loading resource: res://game/art/assets/zc_textures/T_bricks01/T_bricks01_normal_opengl.jpg.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:95)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Unable to open file: res://.godot/imported/T_concrete01_albedo.jpg-242d8cb1b8cbeb4edaca826814bdb63a.s3tc.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:42)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:94)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Failed loading resource: res://.godot/imported/T_concrete01_albedo.jpg-242d8cb1b8cbeb4edaca826814bdb63a.s3tc.ctex.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:94)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Failed loading resource: res://game/art/assets/zc_textures/T_concrete01/T_concrete01_albedo.jpg.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:94)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Unable to open file: res://.godot/imported/T_concrete01_normal_opengl.jpg-bf26e9511bdc1b46e23b822e7b4beb14.s3tc.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:42)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:95)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Failed loading resource: res://.godot/imported/T_concrete01_normal_opengl.jpg-bf26e9511bdc1b46e23b822e7b4beb14.s3tc.ctex.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:95)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+ERROR: Failed loading resource: res://game/art/assets/zc_textures/T_concrete01/T_concrete01_normal_opengl.jpg.
+   at: _load (core/io/resource_loader.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] _apply_external_materials (res://game/levels/city_art.gd:95)
+       [1] make_materials (res://game/levels/city_art.gd:71)
+       [2] _make_materials (res://game/levels/glasgow_square.gd:172)
+       [3] _ready (res://game/levels/glasgow_square.gd:45)
+       [4] _ready (res://game/main.gd:63)
+SCRIPT ERROR: Invalid call. Nonexistent function 'from_local_points' in base 'GDScript'.
+          at: _rail (res://game/levels/outdoor_routes.gd:370)
+          GDScript backtrace (most recent call first):
+              [0] _rail (res://game/levels/outdoor_routes.gd:370)
+              [1] _build_clyde (res://game/levels/outdoor_routes.gd:132)
+              [2] build (res://game/levels/outdoor_routes.gd:34)
+              [3] _ready (res://game/levels/glasgow_square.gd:61)
+              [4] _ready (res://game/main.gd:63)
+SCRIPT ERROR: Invalid call. Nonexistent function 'from_local_points' in base 'GDScript'.
+          at: _rail (res://game/levels/outdoor_routes.gd:370)
+          GDScript backtrace (most recent call first):
+              [0] _rail (res://game/levels/outdoor_routes.gd:370)
+              [1] _build_clyde (res://game/levels/outdoor_routes.gd:144)
+              [2] build (res://game/levels/outdoor_routes.gd:34)
+              [3] _ready (res://game/levels/glasgow_square.gd:61)
+              [4] _ready (res://game/main.gd:63)
+SCRIPT ERROR: Invalid call. Nonexistent function 'from_local_points' in base 'GDScript'.
+          at: _rail (res://game/levels/outdoor_routes.gd:370)
+          GDScript backtrace (most recent call first):
+              [0] _rail (res://game/levels/outdoor_routes.gd:370)
+              [1] _build_clyde (res://game/levels/outdoor_routes.gd:145)
+              [2] build (res://game/levels/outdoor_routes.gd:34)
+              [3] _ready (res://game/levels/glasgow_square.gd:61)
+              [4] _ready (res://game/main.gd:63)
+SCRIPT ERROR: Invalid call. Nonexistent function 'from_local_points' in base 'GDScript'.
+          at: _rail (res://game/levels/outdoor_routes.gd:370)
+          GDScript backtrace (most recent call first):
+              [0] _rail (res://game/levels/outdoor_routes.gd:370)
+              [1] _build_park (res://game/levels/outdoor_routes.gd:200)
+              [2] build (res://game/levels/outdoor_routes.gd:36)
+              [3] _ready (res://game/levels/glasgow_square.gd:61)
+              [4] _ready (res://game/main.gd:63)
+SCRIPT ERROR: Invalid call. Nonexistent function 'from_local_points' in base 'GDScript'.
+          at: _rail (res://game/levels/outdoor_routes.gd:370)
+          GDScript backtrace (most recent call first):
+              [0] _rail (res://game/levels/outdoor_routes.gd:370)
+              [1] _build_park (res://game/levels/outdoor_routes.gd:205)
+              [2] build (res://game/levels/outdoor_routes.gd:36)
+              [3] _ready (res://game/levels/glasgow_square.gd:61)
+              [4] _ready (res://game/main.gd:63)
+SCRIPT ERROR: Invalid call. Nonexistent function 'from_local_points' in base 'GDScript'.
+          at: _rail (res://game/levels/outdoor_routes.gd:370)
+          GDScript backtrace (most recent call first):
+              [0] _rail (res://game/levels/outdoor_routes.gd:370)
+              [1] _build_park (res://game/levels/outdoor_routes.gd:215)
+              [2] build (res://game/levels/outdoor_routes.gd:36)
+              [3] _ready (res://game/levels/glasgow_square.gd:61)
+              [4] _ready (res://game/main.gd:63)
+SCRIPT ERROR: Invalid call. Nonexistent function 'from_local_points' in base 'GDScript'.
+          at: _rail (res://game/levels/outdoor_routes.gd:370)
+          GDScript backtrace (most recent call first):
+              [0] _rail (res://game/levels/outdoor_routes.gd:370)
+              [1] _build_park (res://game/levels/outdoor_routes.gd:215)
+              [2] build (res://game/levels/outdoor_routes.gd:36)
+              [3] _ready (res://game/levels/glasgow_square.gd:61)
+              [4] _ready (res://game/main.gd:63)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _ready (res://game/characters/busker_actor.gd:29)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://game/characters/busker_actor.gd:29)
+              [1] configure (res://game/characters/glasgow_encounters.gd:45)
+              [2] _ready (res://game/main.gd:73)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _build_drummer (res://game/characters/cat_actor.gd:180)
+          GDScript backtrace (most recent call first):
+              [0] _build_drummer (res://game/characters/cat_actor.gd:180)
+              [1] _ready (res://game/characters/cat_actor.gd:41)
+              [2] configure (res://game/characters/cat_encounter.gd:69)
+              [3] _ready (res://game/main.gd:79)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _build_stallholder (res://game/characters/market_actor.gd:184)
+          GDScript backtrace (most recent call first):
+              [0] _build_stallholder (res://game/characters/market_actor.gd:184)
+              [1] _ready (res://game/characters/market_actor.gd:35)
+              [2] configure (res://game/characters/market_encounter.gd:85)
+              [3] _ready (res://game/main.gd:85)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: build (res://game/player/skater_visual.gd:48)
+          GDScript backtrace (most recent call first):
+              [0] build (res://game/player/skater_visual.gd:48)
+              [1] _build_skater (res://game/player/skater.gd:581)
+              [2] _ready (res://game/player/skater.gd:94)
+              [3] _ready (res://game/main.gd:95)
+SCRIPT ERROR: Invalid call. Nonexistent function 'from_local_points' in base 'GDScript'.
+          at: get_grind_lines (res://game/levels/glasgow_square.gd:911)
+          GDScript backtrace (most recent call first):
+              [0] get_grind_lines (res://game/levels/glasgow_square.gd:911)
+              [1] _ready (res://game/main.gd:97)
