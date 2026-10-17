@@ -17,7 +17,7 @@ The integration currently uses **64 m compatible opaque static batches**. It als
 | Current setting | Performance | Balanced | High |
 |---|---:|---:|---:|
 | 3D render scale | 0.75 | 1.0 | 1.0 |
-| Camera far plane | 150 m | 220 m | 220 m |
+| Camera far plane | 220 m | 220 m | 220 m |
 | Directional shadow distance | 30 m | 45 m | 75 m |
 | MSAA | Disabled | 2× | 2× |
 
@@ -37,7 +37,7 @@ The native UI remains separate from 3D render scale. Scaling both 3D dimensions 
 
 **A small camera comparison is worthwhile; it is not the main optimization.** Current chase settles at 66° vertical FOV, rising to 69.75° at 15 m/s; nominal rear distance is 5.8→6.325 m, normal height 2.7 m. With Godot's default keep-height mode, vertical FOV is not horizontal FOV: the visible horizontal angle also depends on aspect ratio. A 66° vertical view is already broad on a widescreen display.
 
-A narrower view can cull extra side geometry and reduce exposed distant scenery. It retains the same output pixel count, makes surviving objects larger, and can select higher mesh LODs; a draw-limited view may improve while a pixel-limited view does not. Moving the camera closer changes projection/framing and foreground occlusion, but does not unload the world or automatically shorten the 150/220 m far plane. It can reduce landing-space awareness, hide a rail entry and enlarge expensive close materials. Camera collision alternatives and reverse travel must still work.
+A narrower view can cull extra side geometry and reduce exposed distant scenery. It retains the same output pixel count, makes surviving objects larger, and can select higher mesh LODs; a draw-limited view may improve while a pixel-limited view does not. Moving the camera closer changes projection/framing and foreground occlusion, but does not unload the world or automatically shorten the 220 m far plane. It can reduce landing-space awareness, hide a rail entry and enlarge expensive close materials. Camera collision alternatives and reverse travel must still work.
 
 Keep the present camera as baseline. Compare **66° fixed**, **62° fixed** and the existing **66→69.75° dynamic** FOV with the same far plane, resolution, quality and actual route. If a closer variant is wanted, change only rear distance from 5.8 to **5.3 m** in a separate comparison; retain the 0.25 m sphere, minimum useful arm, body visibility checks and reverse hysteresis. These are proposed comparison values, not installed changes. Record draws, primitives, process/physics intervals, frame percentiles and visible next landing/rail. Review fountain circles, market approaches, station undercroft, quay jumps, park descents and a reverse bank. A faster frame that obscures the next move is not a useful skate camera.
 

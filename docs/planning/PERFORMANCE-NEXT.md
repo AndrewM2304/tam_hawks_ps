@@ -20,7 +20,7 @@ Acceptance: measured bounded HUD CPU savings, no invented FPS improvement, no ca
 
 ## 4. Graphics choices and moving measurement — A01/A08/A09, P0, in progress
 
-Dependencies: frozen source and preserved legacy profiles. Settings cycles Performance/Balanced/High. Balanced keeps native render scale and view range, reducing distant shadow coverage; Performance lowers 3D resolution, shadow range and far clip while UI stays native; High keeps previous visual budgets. No FOV/turning/physics change. Older saves default to Balanced; invalid profiles retain normal safe refusal.
+Dependencies: frozen source and preserved legacy profiles. Settings cycles Performance/Balanced/High. Balanced keeps native render scale and view range, reducing distant shadow coverage; Performance lowers 3D resolution and shadow cost while UI stays native. All presets preserve the 220 m skyline range after a 150 m candidate clipped landmark assemblies; High keeps previous visual budgets. No FOV/turning/physics change. Older saves default to Balanced; invalid profiles retain normal safe refusal.
 
 Acceptance: actual preset application and profile round trips, no gameplay unload, readable Settings and chase frames. `moving_profile.sh` uses native rendering and actual input-driven quay/market/park trips; monotonic frame CSV, route progress, long frames, hardware/settings and source/artifact hashes are retained. Incomplete slow software-rendered travel must fail its progress gate. Owner's ten-minute Mac/DualSense route and 1080p p50/p95/p99 remain distinct.
 

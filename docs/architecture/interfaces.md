@@ -89,7 +89,7 @@ Main constructs each encounter status once per HUD refresh and reuses it for cha
 
 | ID | `scaling_3d_scale` | Chase far plane | Directional shadow distance | MSAA |
 |---|---:|---:|---:|---|
-| `performance` | 0.75 | 150m | 30m | Disabled |
+| `performance` | 0.75 | 220m | 30m | Disabled |
 | `balanced` | 1.0 | 220m | 45m | 2× |
 | `high` | 1.0 | 220m | 75m | 2× |
 

@@ -3,8 +3,9 @@ extends RefCounted
 
 const IDS: Array[String] = ["performance", "balanced", "high"]
 const LABELS := {"performance":"Performance", "balanced":"Balanced", "high":"High"}
+# Preserve the skyline range: a shorter clip cuts through landmark assemblies.
 const PROFILES := {
-	"performance":{"scale":0.75,"far":150.0,"shadows":30.0,"msaa":Viewport.MSAA_DISABLED},
+	"performance":{"scale":0.75,"far":220.0,"shadows":30.0,"msaa":Viewport.MSAA_DISABLED},
 	"balanced":{"scale":1.0,"far":220.0,"shadows":45.0,"msaa":Viewport.MSAA_2X},
 	"high":{"scale":1.0,"far":220.0,"shadows":75.0,"msaa":Viewport.MSAA_2X},
 }

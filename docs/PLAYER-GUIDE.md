@@ -39,7 +39,7 @@ Open **Settings** and select **Graphics** to cycle through the saved presets. Tr
 
 | Preset | 3D render scale | View distance | Shadow distance | Anti-aliasing |
 |---|---|---|---|---|
-| Performance | 75% | 150m | 30m | Off |
+| Performance | 75% | 220m | 30m | Off |
 | Balanced | Native | 220m | 45m | 2× MSAA |
 | High | Native | 220m | 75m | 2× MSAA |
 
