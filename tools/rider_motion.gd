@@ -14,6 +14,10 @@ func _run() -> void:
 	game = Main.new()
 	game.persistence_enabled = false
 	root.add_child(game)
+	if not is_instance_valid(game.skater) or not is_instance_valid(game.hud):
+		push_error("Rider motion capture requires a fully initialized Main scene.")
+		quit(1)
+		return
 	game.start_mode(true)
 	await frames(40)
 	cut("Push, foot-drag brake, coast")

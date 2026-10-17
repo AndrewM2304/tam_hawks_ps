@@ -9,12 +9,18 @@ const PARK := Rect2(-220, -185, 80, 110)
 const PARK_LANDSCAPE := Rect2(-255, -225, 115, 165)
 const RIVER := Rect2(-150, 78, 300, 38)
 const WATER_Y := -2.0
+const YARD_BANK_RADIUS := 4.0
+const YARD_BANK_ANGLE := deg_to_rad(35.0)
+const YARD_BANK_RUN := YARD_BANK_RADIUS * sin(YARD_BANK_ANGLE)
+const YARD_BANK_RISE := YARD_BANK_RADIUS * (1.0 - cos(YARD_BANK_ANGLE))
 
 var _materials: Dictionary
 var _surfaces: Array[Dictionary] = []
 var _routes: Array[Dictionary] = []
 var _rails: Array = []
 var _park_path := PackedVector3Array()
+var _park_cutback := PackedVector3Array()
+var _clyde_yard := PackedVector3Array()
 var _park_connector := PackedVector3Array()
 var _george_connector := PackedVector3Array()
 var _built := false
@@ -99,13 +105,36 @@ func _build_clyde() -> void:
 	# Retaining masonry leaves the water visibly below skateable quays.
 	_box("NorthEmbankment", Vector3(0, -0.2, 77.6), Vector3(300, 4.4, 0.8), _material("cut_stone"))
 	_box("SouthEmbankment", Vector3(0, -0.2, 116.4), Vector3(300, 4.4, 0.8), _material("cut_stone"))
-	_box("SouthQuayBacking", Vector3(0, 1.25, 130.0), Vector3(300, 1.5, 1.0), _material("cut_stone"))
+	for piece: Vector2 in [Vector2(-150,39), Vector2(53,62), Vector2(76,150)]:
+		_box("SouthQuayBacking", Vector3((piece.x + piece.y) * 0.5, 1.25, 130), Vector3(piece.y - piece.x, 1.5, 1), _material("cut_stone"))
+	_clyde_yard = PackedVector3Array([Vector3(35,2,124), Vector3(56,2,137), Vector3(78,2,124), Vector3(45,2,122), Vector3(35,2,124)])
+	_path("ClydePrintYard", _clyde_yard, 8.0, _material("paving"))
+	_box("PrintYardPlanter", Vector3(58,2.35,127), Vector3(9,0.7,5), _material("cut_stone"))
+	_box("PrintYardSoil", Vector3(56,2.73,127), Vector3(3.0,0.08,4.4), _material("bark"), false)
+	var hip_bounds := Rect2(58, 126, 4.5 + YARD_BANK_RUN, 3.5 + YARD_BANK_RUN)
+	var hip_body := Surface.terrain(self, "PrintYardCurvedBankHip", hip_bounds, 0.25, _yard_hip_height, _material("cut_stone"))
+	hip_body.add_to_group("curved_banks")
+	hip_body.set_meta("max_angle_degrees", 35.0)
+	hip_body.set_meta("radius", YARD_BANK_RADIUS)
+	_surfaces.append({"bounds": hip_bounds, "height_at": _yard_hip_height})
+	var hip_route := PackedVector3Array([Vector3(69,2,127.5), Vector3(62.5 + YARD_BANK_RUN,2,127.5)])
+	for degrees: float in [5.0,10.0,15.0,20.0,25.0,30.0,35.0]:
+		var angle := deg_to_rad(degrees)
+		hip_route.append(Vector3(62.5 + YARD_BANK_RUN - 4.0 * sin(angle), 2.0 + 4.0 * (1.0 - cos(angle)), 127.5))
+	hip_route.append(Vector3(60,2 + YARD_BANK_RISE,127.5))
+	hip_route.append(Vector3(60,2 + YARD_BANK_RISE,129.5))
+	for degrees: float in [30.0,25.0,20.0,15.0,10.0,5.0,0.0]:
+		var angle := deg_to_rad(degrees)
+		hip_route.append(Vector3(60,2.0 + 4.0 * (1.0 - cos(angle)),129.5 + YARD_BANK_RUN - 4.0 * sin(angle)))
+	hip_route.append(Vector3(60,2,135.5))
+	_route("clyde_print_yard_hip", "Print-yard curved bank and hip", hip_route)
+	_rail("clyde_print_yard_ledge", PackedVector3Array([Vector3(53.3,2.77,124.4), Vector3(62.7,2.77,124.4)]), "ledge", 0.16)
 	_water()
 	var bank_material := StandardMaterial3D.new()
 	bank_material.albedo_color = Color(0.23, 0.29, 0.18)
 	bank_material.roughness = 0.95
 	var bank_bounds := Rect2(-280, 130, 560, 90)
-	Surface.terrain(self, "ClydeSouthBankLandscape", bank_bounds, 10.0, _south_bank_height, bank_material)
+	Surface.terrain(self, "ClydeSouthBankLandscape", bank_bounds, 5.0, _south_bank_height, bank_material)
 	_surfaces.append({"bounds": bank_bounds, "height_at": _south_bank_height})
 	_bridge_structure(safe, 8.0, true)
 	_bridge_structure(north, 5.0, false)
@@ -126,13 +155,22 @@ func _build_clyde() -> void:
 	transfer.append_array(north)
 	transfer.append_array(south)
 	_route("clyde_bridge_transfer", "Clyde eight-metre transfer", transfer, true)
+	_route("clyde_print_yard_loop", "Clyde print-yard landing loop", _clyde_yard)
 
 
 func _build_park() -> void:
 	_park_connector = Surface.smooth_points(PackedVector3Array([Vector3(-145, 2, 0), Vector3(-151, 3, -22), Vector3(-147, 4.5, -48), Vector3(-155, 6, -82)]))
 	_george_connector = PackedVector3Array([Vector3(-42, 6, -122), Vector3(-145, 6, -125)])
+	_park_cutback = Surface.smooth_points(PackedVector3Array([Vector3(-208,11,-126), Vector3(-226,10,-111), Vector3(-210,8,-86), Vector3(-185,6.5,-70), Vector3(-162,5,-54), Vector3(-147,4.5,-48)]))
 	_park_path = Surface.smooth_points(PackedVector3Array([
 		Vector3(-155, 6, -82), Vector3(-173, 7, -96), Vector3(-195, 9, -106), Vector3(-208, 11, -126), Vector3(-200, 13, -147), Vector3(-181, 15, -164), Vector3(-161, 17, -178), Vector3(-146, 15, -165), Vector3(-145, 11, -146), Vector3(-145, 6, -125), Vector3(-145, 6, -104), Vector3(-155, 6, -82)]))
+	# A level fork apron joins the two graded branches without overlapping lips.
+	for path: PackedVector3Array in [_park_path, _park_cutback]:
+		for index in path.size():
+			var distance := Vector2(path[index].x + 208, path[index].z + 126).length()
+			var at := path[index]
+			at.y = lerpf(11.0, at.y, smoothstep(6.0, 14.0, distance))
+			path[index] = at
 	var grass := ShaderMaterial.new()
 	var shader := Shader.new()
 	shader.code = """shader_type spatial;
@@ -145,7 +183,7 @@ void fragment(){float patches=noise(world_position.xz*0.16)*0.7+noise(world_posi
 	grass.shader = shader
 	Surface.terrain(self, "KelvingroveRollingGround", PARK_LANDSCAPE, 2.5, _park_height, grass)
 	# The approaches are raised park embankments, not unsupported road ribbons.
-	var central_bank := Rect2(-167, -83, 32, 85)
+	var central_bank := Rect2(-215, -92, 85, 112)
 	var george_bank := Rect2(-145, -142, 103, 34)
 	Surface.terrain(self, "KelvingroveCentralEmbankment", central_bank, 2.5, _central_bank_height, grass)
 	Surface.terrain(self, "KelvingroveGeorgeEmbankment", george_bank, 3.0, _george_bank_height, grass)
@@ -155,15 +193,28 @@ void fragment(){float patches=noise(world_position.xz*0.16)*0.7+noise(world_posi
 	_path("KelvingroveCentralApproach", _park_connector, 10.0, _material("asphalt"))
 	_path("KelvingroveGeorgePromenade", _george_connector, 10.0, _material("paving"))
 	_path("KelvingroveRollingLoop", _park_path, 8.0, _material("asphalt"))
+	_path("KelvingroveCutbackReturn", _park_cutback, 8.0, _material("asphalt"))
+	var hip := PackedVector3Array([Vector3(-224,8.0,-91), Vector3(-226,9.1,-84), Vector3(-220,8.4,-78)])
+	_path("KelvingroveCutbackHip", hip, 4.5, _material("paving"))
+	_rail("kelvingrove_cutback_ledge", PackedVector3Array([Vector3(-227.2,9.5,-84), Vector3(-221.2,8.8,-78)]), "ledge", 0.18)
 	_path_border(_park_path)
 	# Upper viewpoint sits off the riding line and is reached at the summit.
 	_patch("KelvingroveViewTerrace", Rect2(-179, -185, 18, 5), 17.0, _material("paving"))
 	_path("KelvingroveViewpointSpur", PackedVector3Array([Vector3(-161, 17, -178), Vector3(-165, 17, -182), Vector3(-173, 17, -182)]), 4.0, _material("paving"))
 	_rail("kelvingrove_terrace_coping", PackedVector3Array([Vector3(-177, 17.4, -184), Vector3(-164, 17.4, -184)]), "coping", 0.2)
 	var bend := PackedVector3Array()
+	var bend_piece := 0
 	for at: Vector3 in _park_path:
-		if at.x < -201 and at.z < -113 and at.z > -139: bend.append(at + Vector3(-3.3, 0.55, 0))
-	if bend.size() >= 2: _rail("kelvingrove_s_bend", bend, "rail", 0.065)
+		var edge := at + Vector3(-3.3, 0.55, 0)
+		var branch := Surface.nearest_segment(_park_cutback, Vector2(edge.x, edge.z))
+		if at.x < -201 and at.z < -113 and at.z > -139 and float(branch.distance) > 6.0:
+			bend.append(edge)
+		else:
+			if bend.size() >= 2:
+				_rail("kelvingrove_s_bend_" + str(bend_piece), bend, "rail", 0.065)
+				bend_piece += 1
+			bend = PackedVector3Array()
+	if bend.size() >= 2: _rail("kelvingrove_s_bend_" + str(bend_piece), bend, "rail", 0.065)
 	_park_pavilion()
 	var trees: Array[Dictionary] = []
 	for row in 11:
@@ -173,12 +224,14 @@ void fragment(){float patches=noise(world_position.xz*0.16)*0.7+noise(world_posi
 			var nearest := Surface.nearest_segment(_park_path, Vector2(x, z))
 			var central := Surface.nearest_segment(_park_connector, Vector2(x, z))
 			var george := Surface.nearest_segment(_george_connector, Vector2(x, z))
-			if minf(float(nearest.distance), minf(float(central.distance), float(george.distance))) < 8.0 or (x > -184 and z < -172): continue
+			var cutback := Surface.nearest_segment(_park_cutback, Vector2(x, z))
+			if minf(minf(float(nearest.distance), float(cutback.distance)), minf(float(central.distance), float(george.distance))) < 8.0 or (x > -184 and z < -172): continue
 			trees.append({"position": Vector3(x, _park_height(x, z), z), "scale": 0.78 + fmod(row * 0.13 + col * 0.21, 0.36), "yaw": row * 1.7 + col * 0.7})
 	Vegetation.build(self, trees, _material("bark"))
 	_route("kelvingrove_central_climb", "Central to Kelvingrove", _park_connector)
 	_route("kelvingrove_george_promenade", "George Square park promenade", _george_connector)
 	_route("kelvingrove_rolling_loop", "Kelvingrove hillside loop", _park_path)
+	_route("kelvingrove_cutback_return", "Kelvingrove cutback to Central", _park_cutback)
 
 
 func _build_riverside_edge(world: Node3D) -> void:
@@ -194,13 +247,25 @@ func _build_riverside_edge(world: Node3D) -> void:
 		world.call("_building", world.to_local(to_global(Vector3(front.x, 2, 145))), front.width, front.height, front.stone, front.label, PI)
 
 
+func _yard_hip_height(x: float, z: float) -> float:
+	var distance := Vector2(maxf(0.0, x - 62.5), maxf(0.0, z - 129.5)).length()
+	var toward_deck := clampf(YARD_BANK_RUN - distance, 0.0, YARD_BANK_RUN)
+	return 2.0 + YARD_BANK_RADIUS - sqrt(maxf(0.0, YARD_BANK_RADIUS * YARD_BANK_RADIUS - toward_deck * toward_deck))
+
+
 func _south_bank_height(x: float, z: float) -> float:
 	var depth := smoothstep(130.0, 215.0, z)
-	return 2.0 + depth * (5.5 + sin(x * 0.025) * 2.0 + cos(x * 0.011 + z * 0.03))
+	var natural := 2.0 + depth * (5.5 + sin(x * 0.025) * 2.0 + cos(x * 0.011 + z * 0.03))
+	if not _clyde_yard.is_empty() and x > 24 and x < 88 and z < 149:
+		var nearest := Surface.nearest_segment(_clyde_yard, Vector2(x,z))
+		natural = minf(natural, lerpf(1.8, natural, smoothstep(8.0, 14.0, float(nearest.distance))))
+	return natural
 
 
 func _central_bank_height(x: float, z: float) -> float:
 	var nearest := Surface.nearest_segment(_park_connector, Vector2(x, z))
+	var cutback := Surface.nearest_segment(_park_cutback, Vector2(x, z))
+	if float(cutback.distance) < float(nearest.distance): nearest = cutback
 	return lerpf(float(nearest.height) - 0.35, 0.5, smoothstep(7.0, 15.0, float(nearest.distance)))
 
 
@@ -213,7 +278,7 @@ func _park_height(x: float, z: float) -> float:
 	var rise := clampf((-z - 80.0) / 100.0, 0.0, 1.0)
 	var natural := 6.0 + rise * 10.0 + sin(x * 0.09 + z * 0.03) * 1.15 + sin(z * 0.12) * 0.65
 	var nearest := Surface.nearest_segment(_park_path, Vector2(x, z))
-	for path: PackedVector3Array in [_park_connector, _george_connector]:
+	for path: PackedVector3Array in [_park_connector, _george_connector, _park_cutback]:
 		var candidate := Surface.nearest_segment(path, Vector2(x, z))
 		if float(candidate.distance) < float(nearest.distance): nearest = candidate
 	var distance: float = nearest.distance
@@ -361,8 +426,14 @@ func _path_border(points: PackedVector3Array) -> void:
 		for i in points.size():
 			var direction := points[mini(i + 1, points.size() - 1)] - points[maxi(0, i - 1)]
 			var offset := Vector3(direction.z, 0, -direction.x).normalized() * (4.0 * side)
-			edge.append(points[i] + offset + Vector3.UP * 0.025)
-		Surface.strip(self, "ParkGranitePathEdge", edge, 0.30, _material("cut_stone"))
+			var at := points[i] + offset + Vector3.UP * 0.025
+			var branch := Surface.nearest_segment(_park_cutback, Vector2(at.x, at.z))
+			if float(branch.distance) <= 6.0:
+				if edge.size() >= 2: Surface.strip(self, "ParkGranitePathEdge", edge, 0.30, _material("cut_stone"))
+				edge = PackedVector3Array()
+			else:
+				edge.append(at)
+		if edge.size() >= 2: Surface.strip(self, "ParkGranitePathEdge", edge, 0.30, _material("cut_stone"))
 
 
 func _park_pavilion() -> void:

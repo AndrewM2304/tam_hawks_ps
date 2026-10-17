@@ -1,8 +1,38 @@
 # Terrain, coping and outdoor route evidence
 
-Independent QE for the terrain redesign, Godot 4.6.3, 17 October 2026. The redesigned production geometry passes the focused checks below with clean engine/script logs and exit 0. The final aggregate gate is **pending root’s run**; these focused passes are not a full-project result. The former 778-check result and 69.52-second career circuit describe the previous flat layout; current career evidence is in [CAREER-ROUTES](CAREER-ROUTES.md).
+Independent QE for the terrain redesign and subsequent nonlinear route/encounter extension, Godot 4.6.3, 17 October 2026. The focused checks below have clean engine/script logs and exit 0. The final aggregate gate for the frozen extension is **pending root’s run**; focused passes are not a full-project result. The former 778-check result describes the flat layout; the later 871-check redesign result predates this extension and final outdoor corrections. Current career evidence and its timing limits are in [CAREER-ROUTES](CAREER-ROUTES.md).
 
-## Focused results
+## Nonlinear extension: final focused evidence
+
+The final `topography_tests.gd` module contains **60 checks**, including all 33 earlier terrain checks, 24 new branch/clearance checks and three local combo checks. This is its expected integrated count, not a claimed standalone 60-check result. The focused final branch/outdoor runner passes **30/0**; the independent local-combo probe passes **3/0**. Root owns the complete ordinary-scheduler aggregate after source freeze.
+
+| New physical connection | Forward / reverse fixed-60Hz time | Evidence |
+| --- | --- | --- |
+| Station low-level close | 6.07s / 6.07s | Real movement beneath both suspended 5m decks; independent rays prove the 2m floor, downward-facing 4.6m underside and upward-facing 5m deck |
+| Merchant Close cut-through | 4.47s / 4.47s | Every angled bend traversed between 2m and 4m support |
+| Kelvingrove cutback return | 9.25s / 9.28s | Branch/fork transit between approximately 4.5m and 11m |
+| Clyde print-yard loop | 6.83s / 6.83s | All sides of the closed angled pocket traversed on 2m paving |
+| Clyde curved bank and hip | 2.33s / 2.42s | Genuine curved ascent/descent, natural crest airtime and return to supported ground |
+| Merchant service-court east escape | 2.25s / 2.25s | Physical slope contact and correct 1m↔2m endpoints |
+| Merchant service-court west escape | 1.88s / 1.80s | Physical slope contact and correct 1m↔3.75m endpoints; natural uphill crest airtime |
+
+Every route reaches each intermediate waypoint in both directions with **zero bails and stalled frames**. The final check includes the added lower service court, both real escape banks, trimmed park curb/grind rail, extended park embankment and cleared yard paving. The existing full Central→park circuit→Central route also passes after these corrections: **29.30s**, 868 non-flat contact ticks, no stalls/bails. Its observed rider peak of 18.11m includes natural airtime above the 17m path.
+
+Independent collision rays on the curved bank find **five distinct 5-degree slope bins**, with a sampled maximum of **31.06°**, within the authored 35° limit. These are actual collision normals, not a pass inferred from shape metadata. Highest-support queries intentionally return the upper station deck; the low route uses physical floor/ceiling rays and actual movement to establish the separate lower passage.
+
+The new local combo uses actual push and ollie inputs to acquire the print-yard ledge, rides it, rail-ollies into Kickflip + Melon Grab, enters a manual after real landing, then releases. Observed events are **Ollie, Rail Grind, Ollie, Kickflip, Melon Grab, Manual** with no bail. The line stays unbanked until release, then banks exactly **5,000** once: `(100 + 200 + 50 + 300 + 250 + 100) × 5`. A second waiting period cannot award it again. This establishes one genuine local rail/air/manual opportunity without claiming human comfort or replay appeal.
+
+The unchanged all-ten career circuit passes **13/0** after the Merchant entrance repair: all goals by **75.20s**, return at **88.00s**, 1,199.52m, 20,000 banked/3,200 best, no bails/stalls. These are fixed-60Hz results; the final ordinary aggregate including the later service-court additions remains root's separate gate. The world owner reports **157/0** static support/clearance checks on final geometry; independent QE previously reproduced 148/0 before the hip/service-court additions, so root's final aggregate must confirm the complete current static set.
+
+## Glasgow encounter integration
+
+`glasgow_encounters_tests.gd` passes **30/0**. A real ground approach and mapped interaction start Mo's Big Finish; an actual Ollie + Kickflip + Melon Grab banks 1,950 and wins once. A replay using actual Frontside spin input also succeeds; repeated checks do not duplicate wins. Tests cover proximity, same-combo family diversity, short banks, leaving/re-entering the court, pending-combo replay rejection, pause, deadline, real manual-balance bail, restart, run expiry/results input and free-skate persistence. The ten original career/save goal IDs remain unchanged, and tests disable profile writes.
+
+Audio checks decode the original PCM and establish nonempty bounded samples, a quiet loop seam, spatial range, master/ambience multiplication, both mute paths, and animation/process pause/resume. The Dummy driver deliberately skips playback; no audible quality, accent or hardware listening acceptance is implied. Actor appearance is covered by separate retained renders.
+
+Clean focused logs are `.local/nonlinear-qe-service-final.log`, `.local/localcombo-qe.log`, `.local/encounters-qe-final.log` and `.local/career-nonlinear-final.log`. Earlier nonlinear runs are superseded where geometry changed. The existing temporary runner recipe below applies; the frozen production runner calls the new modules directly.
+
+## Earlier terrain checkpoint: retained regression coverage
 
 | Source suite | Result | What the checks establish |
 | --- | --- | --- |
@@ -12,7 +42,7 @@ Independent QE for the terrain redesign, Godot 4.6.3, 17 October 2026. The redes
 | `presentation_integration_tests.gd` | **9 passed, 0 failed** | Real stone/asphalt/metal floor contact, new readable location name, marker/count feedback and protected-save warning |
 | `career_route_tests.gd` | **13 passed, 0 failed** | All ten original goals in one 120-second career, four physical checkpoints and six linked graded boundary-combo directions |
 
-These are focused module counts, not an aggregate suite total. All four core checkpoint positions are passed by the career circuit; the topography driver's actual motion passes the Clyde and Kelvingrove checkpoint positions. Profile persistence is disabled except the existing protected-save test's unique ignored fixture path, whose bytes are preserved and file removed.
+These are earlier focused module counts, not current aggregate totals or a substitute for rerunning changed geometry. All four core checkpoint positions are passed by the career circuit; the topography driver's actual motion passes the Clyde and Kelvingrove checkpoint positions. Profile persistence is disabled except the existing protected-save test's unique ignored fixture path, whose bytes are preserved and file removed.
 
 | Actual physical route | Fixed-60Hz elapsed | Measured result |
 | --- | --- | --- |
@@ -62,6 +92,8 @@ A clean result requires both successful assertions and a scan of the complete im
 - The Clyde eastern quay approach originally ended its rise beyond the start of the higher quay. It now reaches 2m where the quay begins at Z=55.
 - Park terrain/terrace overlaps and interpolated undershoot produced mismatched support and blocked capsule sweeps. The outdoor owner conformed nearby terrain beneath paths, moved the summit apron, removed height tangents at flat/sign-change knots, and preserved exact sampled endpoints. The final complete static route and real player circuit pass; tolerances were not widened to hide these failures.
 - Natural uphill crest airtime legitimately ends a manual. The career driver now uses fresh post-landing manual inputs within the unchanged cooldown/deadline. This is documented input adaptation, not a controller or scoring workaround.
+- The first new Merchant Close foundation created an unintended curb across the retained Central concourse route, stopping the rider at approximately `(-70.737,2.012,-37.726)`. The geometry owner kept the close mouth flat at 2m until it leaves the concourse and starts climbing beyond Z=-42. The original career test then passed unchanged; no detour, collision bypass or weakened assertion hid the defect.
+- Mo's family classifier initially missed the production names `Frontside 180` and `Backside 360`. The feature owner corrected the parser. Public-callback family checks and a real spin-input winning line now pass.
 
 ## Local evidence and rerun
 
@@ -69,6 +101,6 @@ After the final colliding grass embankments were added below the Central and Geo
 
 Clean focused logs: `.local/world-routes-redesign.log`, `.local/topography-final.log`, `.local/career-integration-redesign.log`, `.local/presentation-redesign.log`, `.local/career-redesign.log` and `.local/career-redesign-ordinary.log`. Assertions and engine-error scans pass. No downloaded testing dependency is used.
 
-Use the temporary runner recipe in CAREER-ROUTES, replacing its preload with the desired test module. The topography, career integration and presentation modules accept `(tree, game, check)`; world routes accepts `(tree, game.world, check)`. For a fast focused run use `./tools/run.sh --headless --fixed-fps 60 --script .local/<runner>.gd > .local/<log>.log 2>&1`, then scan the complete log. The topography route timings above use this fixed-delta mode. The separate all-goal career circuit also passed ordinary scheduling at 75.33s to all goals and 88.13s to return.
+Use the temporary runner recipe in CAREER-ROUTES, replacing its preload with the desired test module. The topography, encounter, career integration and presentation modules accept `(tree, game, check)`; world routes accepts `(tree, game.world, check)`. For a fast focused run use `./tools/run.sh --headless --fixed-fps 60 --script .local/<runner>.gd > .local/<log>.log 2>&1`, then scan the complete log. The topography route timings above use this fixed-delta mode. The earlier all-goal career circuit passed ordinary scheduling at 75.33s to all goals and 88.13s to return before the nonlinear extension.
 
 All affected source tests are wired into root's `tests/run_tests.gd`; `./tools/check.sh` is the aggregate import/test gate. New rendering/collision edits still require the appropriate rerun. Passing focused modules does not certify final visuals or replace the pending human/hardware gates.

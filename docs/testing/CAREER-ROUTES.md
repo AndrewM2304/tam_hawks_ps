@@ -4,9 +4,9 @@ Independent QE, 17 October 2026. Source: `tests/career_route_tests.gd`; Godot 4.
 
 ## Redesigned circuit
 
-The continuous career circuit starts at the new Exchange spawn **(-22, 0.8, 28)** and returns there. In the clean **ordinary-scheduler** run it completes **all ten original goals by 75.33 seconds**, returns at **88.13 seconds**, travels **1,199.40 metres**, and finishes with **20,000 banked points / 3,200 best combo**. No bail, recovery or stalled frame occurred. All four original career checkpoint positions were passed within the actual 120-second career deadline. Clyde and Kelvingrove are separately traversed in [TOPOGRAPHY](TOPOGRAPHY.md); they do not enlarge the original four-district goal.
+The continuous career circuit starts at the new Exchange spawn **(-22, 0.8, 28)** and returns there. After the nonlinear-route extension's Merchant entrance repair, the unchanged **fixed-60Hz** circuit completes **all ten original goals by 75.20 seconds**, returns at **88.00 seconds**, travels **1,199.52 metres**, and finishes with **20,000 banked points / 3,200 best combo**. No bail, recovery or stalled frame occurred. All four original career checkpoint positions were passed within the actual 120-second career deadline. Clyde and Kelvingrove are separately traversed in [TOPOGRAPHY](TOPOGRAPHY.md); they do not enlarge the original four-district goal.
 
-The fixed-frame probe completes all goals at **75.22s** and returns at **88.02s** over **1,199.42m** with the same score, tricks and zero failures. The following stage times use that fixed-frame probe; ordinary scheduling differs by about 0.12s from startup.
+The earlier redesigned terrain also passed an ordinary-scheduler circuit at **75.33s** to all goals and **88.13s** to return over **1,199.40m**; its earlier fixed-frame counterpart recorded **75.22s/88.02s**. Those ordinary timings predate the nonlinear extension and are retained as historical evidence. Root's final ordinary aggregate must verify the frozen extension, including the later service-court additions. The following stage times use the latest focused fixed-frame probe; they are not human completion-time targets.
 
 | Stage | Physical path / action | Fixed-frame time |
 | --- | --- | --- |
@@ -16,9 +16,9 @@ The fixed-frame probe completes all goals at **75.22s** and returns at **88.02s*
 | Central | Pass its checkpoint, reach the southern platform approach, climb 2→5m, ollie the actual break and collect W; descend the north return bank | Takeoff 46.27s; W waypoint 47.37s |
 | South connection | Return along the station aisle and descend the Exchange street, then pass the Barras checkpoint and western market item | Barras checkpoint 64.38s |
 | Market | Collect K and the southern market item, go around stall collision via X=126 and climb the 1.5m loading bank | HAWKS complete 66.62s; loading top waypoint 71.88s |
-| Recording | Enter the side court south of its wall, collect the recording and leave by the same opening | Recording collected 73.52s; court exit waypoint 74.17s |
-| Remaining item | Cross the open loading terrace and collect the northern market item | Market set and all ten goals complete 75.22s |
-| Return | Use the northern market/Exchange street, cross the gallery and descend the west bank to spawn | 88.02s |
+| Recording | Enter the side court south of its wall, collect the recording and leave by the same opening | Recording collected 73.50s; court exit waypoint 74.15s |
+| Remaining item | Cross the open loading terrace and collect the northern market item | Market set and all ten goals complete 75.20s |
+| Return | Use the northern market/Exchange street, cross the gallery and descend the west bank to spawn | 88.00s |
 
 The exact **40 waypoints** and **six scoring legs** are constants in the test. Seven real ollies, six flips, six grabs and nine manual entries are issued through `Input.action_press/release`. Each scoring leg links Ollie + Kickflip + Melon Grab → Manual and releases to bank through the ordinary deadline. When a crest produces real airtime, the driver releases Manual and issues fresh presses after landing, respecting its cooldown and the existing 0.35-second deadline. A repeated valid manual receives the normal repeat reduction; the driver never edits score or extends the deadline. The Central gap award comes from main's real swept crossing detector.
 
@@ -41,7 +41,7 @@ The exact expected totals are 3,000 for the first manual and 3,200 when a second
 - The fixture changes spawn position only **before** starting each independent route. After that, only production movement advances position; it never assigns position, velocity or speed, disables collisions, changes gravity, or teleports through a wall.
 - The driver directly aims heading while grounded. This permits precise and sometimes instantaneous ground turns. Air turns use ordinary bounded steering actions. The times above are therefore idealized authored-route results, **not human completion-time targets**. Turning radius, camera comfort, discovery and recovery from mistakes still need human trials.
 - Manual correction is deterministic feedback from the public balance meter. Fresh presses after crest airtime are idealized timing assistance; they do not establish appropriate human difficulty.
-- Measurements use the game's actual timer and 60Hz physics. The fast probe uses `--fixed-fps 60`; it does not modify `Engine.time_scale`, the career clock or gameplay tuning. The independent ordinary-scheduler run also passes all 13 checks with clean engine/script logs. The aggregate suite is root's separate gate.
+- Measurements use the game's actual timer and 60Hz physics. The fast probe uses `--fixed-fps 60`; it does not modify `Engine.time_scale`, the career clock or gameplay tuning. The latest fixed-frame probe passes all 13 checks with clean engine/script logs. The earlier ordinary-scheduler 13/0 result predates the nonlinear extension; root's current aggregate is a separate gate.
 - Resource import/rendering wall time is not route acceptance. No headless result establishes framerate or Apple Silicon performance.
 
 ## Reproduce and resume
@@ -92,8 +92,10 @@ The first uphill combo probes legitimately left support at slope crests for 3–
 
 Static route checks also found raised corner overlaps and outdoor curve/join slivers. Their fixes and independent physical verification are recorded in TOPOGRAPHY. The older flat-map 69.52s/78.63s route and 778-check aggregate remain historical evidence only.
 
+The first nonlinear extension blocked the unchanged Central concourse shortcut from `(-94,2,-38)` to `(-62,2,-38)`: the rider stopped at `(-70.737,2.012,-37.726)` against the raised Merchant Close foundation. The world owner confirmed an unintended curb and flattened the close's mouth through the existing concourse, beginning its climb only beyond Z=-42. The exact same career waypoints, scoring legs and assertions then passed **13/0**. The six boundary-combo directions retain their exact 3,000/3,200 banks; no detour or scoring workaround was introduced.
+
 The earlier long route exposed `Basis ... must be normalized in order to be casted to a Quaternion` in rider-foot interpolation, following `animate → _update_pose → _physics_process`. One reported X axis was `(-0.058169,0,-0.998302)` and Z axis `(0.998302,0,-0.058169)`. The visual owner orthonormalized both bases. The new continuous circuit retains many heading changes; any recurrence must fail the complete engine-error scan even if functional assertions pass.
 
-Clean current local evidence: `.local/career-redesign.log` (fixed-frame) and `.local/career-redesign-ordinary.log` (ordinary scheduling). Both runners exit 0 with 13 passed, 0 failed and no `ERROR:`, `SCRIPT ERROR:` or `FAIL:` lines. Source tests and the runner recipe survive environment replacement; ignored logs must be regenerated.
+Latest focused evidence after the nonlinear entrance repair: `.local/career-nonlinear-final.log` (fixed-frame), exit 0, **13 passed, 0 failed**, no `ERROR:`, `SCRIPT ERROR:` or `FAIL:` lines. Earlier clean evidence is retained in `.local/career-redesign.log` and `.local/career-redesign-ordinary.log`; these do not certify later geometry edits. Root records the final ordinary aggregate separately. Source tests and the runner recipe survive environment replacement; ignored logs must be regenerated.
 
 No unreachable collectible or forced collision remains on this tested circuit. Its idealized completion time does not justify tightening score thresholds. Keep human novice/intermediate/experienced distributions, discovery, replay appeal, real Mac/DualSense and final art gates open.

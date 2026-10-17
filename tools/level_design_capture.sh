@@ -112,7 +112,7 @@ report.update(git_commit=git('rev-parse', 'HEAD'), git_dirty=bool(git('status', 
               source_sha256=before, source_changed_during_run=bool(changed), changed_inputs=changed,
               command=command, source_stable_capture_set=bool(report.get('valid_capture_set')) and not changed)
 manifest_path.write_text(json.dumps(report, indent=2) + '\n')
-if not report['source_stable_capture_set'] or len(report.get('captures', [])) != 10:
+if not report['source_stable_capture_set'] or len(report.get('captures', [])) != 21:
     raise SystemExit('Incomplete captures or source inputs changed during capture; no images published.')
 for capture in report['captures']:
     filename = capture['file']
@@ -124,7 +124,7 @@ destination.mkdir(parents=True, exist_ok=True)
 for capture in report['captures']:
     shutil.copyfile(output / capture['file'], destination / capture['file'])
 shutil.copyfile(manifest_path, destination / 'manifest.json')
-print(f'LEVEL_CAPTURE_OK: 10 actual PNGs and source/fixture manifest in {destination}', flush=True)
+print(f'LEVEL_CAPTURE_OK: 21 actual PNGs and source/fixture manifest in {destination}', flush=True)
 PY
 TASK_CAPTURE_PID=$!
 wait "$TASK_CAPTURE_PID"

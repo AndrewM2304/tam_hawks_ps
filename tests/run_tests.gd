@@ -21,6 +21,7 @@ const INPUT_PROFILE_TESTS = preload("res://tests/input_profile_tests.gd")
 const UI_INTEGRATION_TESTS = preload("res://tests/ui_integration_tests.gd")
 const UI_FEEDBACK_TESTS = preload("res://tests/ui_feedback_tests.gd")
 const PRESENTATION_INTEGRATION_TESTS = preload("res://tests/presentation_integration_tests.gd")
+const ENCOUNTERS_TESTS = preload("res://tests/glasgow_encounters_tests.gd")
 const TOPOGRAPHY_TESTS = preload("res://tests/topography_tests.gd")
 const CAREER_ROUTE_TESTS = preload("res://tests/career_route_tests.gd")
 const ACTIONS = [
@@ -77,6 +78,7 @@ func _run() -> void:
 	await UI_INTEGRATION_TESTS.run(self, game, _check)
 	await UI_FEEDBACK_TESTS.run(self, game, _check)
 	await PRESENTATION_INTEGRATION_TESTS.run(self, game, _check)
+	await ENCOUNTERS_TESTS.run(self, game, _check)
 	await TOPOGRAPHY_TESTS.run(self, game, _check)
 	await CAREER_ROUTE_TESTS.run(self, game, _check)
 	_release_actions()
@@ -178,7 +180,9 @@ func _test_ramp_collision_and_boundaries() -> void:
 	var ramps: Array[Node] = get_nodes_in_group("skateable_ramps")
 	_check(ramps.size() >= 9, "city and outdoor routes include at least nine authored graded surfaces")
 	for ramp in ramps:
-		var from: Vector3 = ramp.global_position + Vector3.UP * 40.0
+		# Authored local probes allow a lower bank beneath a genuine upper deck.
+		var probe: Vector3 = ramp.get_meta("support_probe", ramp.global_position + Vector3.UP * 39.75)
+		var from: Vector3 = probe + Vector3.UP * 0.25
 		var query = PhysicsRayQueryParameters3D.create(from, from - Vector3.UP * 80.0, 1)
 		var hit: Dictionary = game.world.get_world_3d().direct_space_state.intersect_ray(query)
 		_check(not hit.is_empty() and hit.collider == ramp,

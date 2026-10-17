@@ -55,6 +55,14 @@ Northwest, follow the park connections to a winding paved climb and downhill run
 
 The ten career goals remain in the four city districts. River and park routes are open in both modes; **Free skate** gives you unlimited time to learn them.
 
+## Glasgow side challenges
+
+Find Mo, the guitarist at the east edge of the Exchange fountain court, and use the displayed interaction key to accept **Mo's Big Finish**. Start with a settled combo, then bank at least 1,000 points using three different trick types in one clean line within 35 seconds. An ollie, flip and grab is a good first attempt; spins, grinds and manuals offer other approaches. Stay in the court. The timer and type count remain visible while you skate.
+
+A bail or timeout ends the attempt. Return to Mo to replay. The challenge is available in career and free skate and keeps its own session result alongside the ten career goals. Music follows the master and ambience sliders.
+
+New route choices include the low station undercroft beneath the high platform route, Merchant Close's angled passage, a second park descent back toward Central, and the Clyde print-yard loop with a low curved bank and hip. Use the map to find the branches and try both directions.
+
 ## Useful playtest notes
 
 Record your computer/OS, keyboard or wired/Bluetooth controller, then note any sticking input, difficult rail capture, unclear balance direction, camera discomfort, unreadable text, missing sound, save failure or route that feels unrewarding. Include the package's `BUILD-METADATA.json` when reporting a defect. Automated Linux checks do not replace this controller and feel review.

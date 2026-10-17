@@ -160,7 +160,7 @@ func dress_world(world: Node3D) -> void:
 	for child in world.get_children():
 		if child.get_meta("market_stall", false):
 			_dress_market_stall(child)
-	_npc(Vector3(28,0,31), Color("596e78"), 0.4)
+	npc_positions.append(Vector3(28,0,31)) # The interactive busker owns this visible actor.
 	_npc(Vector3(-27,6,-116), Color("766354"), -0.6)
 	_npc(Vector3(-120,2,28), Color("6b5866"), 1.2)
 	_npc(Vector3(123,0,29), Color("847c67"), -0.3)

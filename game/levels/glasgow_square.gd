@@ -47,6 +47,7 @@ func _ready() -> void:
 	_build_skating_lines()
 	_build_statue()
 	_build_district_connections()
+	_build_merchant_close()
 	_build_george_square()
 	_build_central_station()
 	_build_barras()
@@ -69,6 +70,10 @@ func get_npc_positions() -> Array[Vector3]:
 	for at: Vector3 in _city_art.npc_positions:
 		positions.append(to_global(at))
 	return positions
+
+
+func get_encounter_definitions() -> Array[Dictionary]:
+	return [{"id": "busker_big_finish", "position": to_global(Vector3(28,0,31)), "heading": 0.93}]
 
 
 func activate_cone() -> void:
@@ -133,11 +138,17 @@ func get_gap_definitions() -> Array[Dictionary]:
 
 
 func get_location_name(world_position: Vector3) -> String:
+	var at := to_local(world_position)
+	if at.x > -83 and at.x < -49 and at.z <= -30 and at.z > -85:
+		return "MERCHANT CLOSE / SERVICE COURT" if at.y < 1.9 else "MERCHANT CLOSE / PRINT WORKS"
+	if at.x >= -123 and at.x <= -86 and at.z >= -20 and at.z <= 4 and at.y < 4.4:
+		return "CENTRAL STATION / LOW LEVEL CLOSE"
 	if is_instance_valid(_outdoors) and not _outdoors.get_district_id(world_position).is_empty():
 		return _outdoors.get_location_name(world_position)
 	match get_district_id(world_position):
 		"george_square": return "GEORGE SQUARE / CIVIC TERRACES"
-		"central_station": return "CENTRAL STATION / HIGH LINE"
+		"central_station":
+			return "CENTRAL STATION / HIGH LINE" if at.y >= 4.4 else "CENTRAL STATION / CONCOURSE"
 		"barras": return "THE BARRAS / MARKET LANES"
 	if world_position.z < -18.0:
 		return "EXCHANGE GALLERY TERRACE"
@@ -310,6 +321,39 @@ func _build_district_connections() -> void:
 	_street("KelvingroveCivicPort", Vector3(-35, 6, -122), Vector3(-42, 6, -122), 12)
 
 
+func _build_merchant_close() -> void:
+	# Lower service ground makes the retained close part of a city block, rather
+	# than a road ribbon suspended over the sky. Both sides have supported exits.
+	_flat("MerchantServiceCourt", Rect2(-94,-86,60,56), 1.0, "paving")
+	_slope("MerchantCourtEastReturn", Rect2(-61,-54,4,12), Vector4(1,1,2,2), "paving")
+	_slope("MerchantCourtWestReturn", Rect2(-82,-72,8,4), Vector4(3.875,1,1,3.625), "paving")
+	# Original dogleg through a close between the station and civic district.
+	# Its angled footprint occupies previously unsupported negative space.
+	var points := PackedVector3Array([Vector3(-64,2,-30), Vector3(-68,2,-44), Vector3(-69,2.5,-50), Vector3(-61,3.2,-60), Vector3(-55,3.5,-65), Vector3(-59,4,-74), Vector3(-59,4,-80)])
+	_retained_path("MerchantClose", points, 8.0, "asphalt")
+	_terrain.add_polygon(self, "MerchantClosePocket", PackedVector3Array([Vector3(-70,3.2,-58), Vector3(-74,3.2,-69), Vector3(-60,3.2,-65)]), _materials["path"])
+	var print_works := _building(Vector3(-77.5,2.5,-55), 18, 14, "stone", "THE CLOSE / PRINT WORKS", PI / 2.0)
+	print_works.scale.z = 0.7
+	_box(print_works, "CloseRetainingFoundation", Vector3(0,-2.75,0), Vector3(18,5.5,12), "stone", true)
+	var close_frontage := _building(Vector3(-44,2.7,-45), 16, 17, "sandstone", "MERCHANT CLOSE", -0.32)
+	_box(close_frontage, "CloseRetainingFoundation", Vector3(0,-2.85,0), Vector3(16,5.7,12), "sandstone", true)
+	_box(self, "ClosePocketPlanter", Vector3(-71,3.45,-66), Vector3(1.0,0.5,3.8), "stone", true)
+	_grind_path("Grind_Ledge_MerchantClose", PackedVector3Array([Vector3(-67.8,3.65,-61.3), Vector3(-61.8,3.95,-66.3)]), "ledge")
+	_label(self, "MerchantCloseWayfinding", "MERCHANT CLOSE / CIVIC SQUARE", Vector3(-65,4.9,-42), 26, "cream", Vector3(0, 20, 0), 0.012)
+
+
+func _retained_path(id: String, points: PackedVector3Array, width: float, material: String) -> void:
+	var edges: Array[Vector3] = []
+	for index in points.size():
+		var direction := points[mini(index + 1, points.size() - 1)] - points[maxi(index - 1, 0)]
+		edges.append(Vector3(direction.z, 0, -direction.x).normalized() * width * 0.5)
+	for index in range(points.size() - 1):
+		_terrain.add_polygon(self, id + str(index), PackedVector3Array([
+			points[index] - edges[index], points[index] + edges[index],
+			points[index + 1] + edges[index + 1], points[index + 1] - edges[index + 1]]),
+			_materials[material], "asphalt" if material == "asphalt" else "stone")
+
+
 func _build_george_square() -> void:
 	_flat("GeorgeSquareFloor", Rect2(-35, -128, 70, 72), 4, "path")
 	_flat("CivicForecourt", Rect2(-35, -128, 70, 20), 6, "path")
@@ -327,8 +371,8 @@ func _build_george_square() -> void:
 func _build_central_station() -> void:
 	_flat("CentralStationFloor", Rect2(-130, -42, 80, 87), 2, "paving")
 	_slope("CentralPlatformApproach", Rect2(-101, 14, 14, 18), Vector4(5, 5, 2, 2), "stone")
-	_flat("CentralPlatformSouth", Rect2(-101, -1, 14, 15), 5, "path")
-	_flat("CentralPlatformNorth", Rect2(-101, -20, 14, 15), 5, "path")
+	_terrain.add_patch(self, "CentralPlatformSouth", Rect2(-101, -1, 14, 15), Vector4.ONE * 5, _materials["path"], "stone", 0.4)
+	_terrain.add_patch(self, "CentralPlatformNorth", Rect2(-101, -20, 14, 15), Vector4.ONE * 5, _materials["path"], "stone", 0.4)
 	_slope("CentralPlatformExit", Rect2(-101, -38, 14, 18), Vector4(2, 2, 5, 5), "stone")
 	_rail("Grind_Rail_CentralPlatform", Vector3(-99, 5, 6), 11)
 	_rail("Grind_Rail_CentralGround", Vector3(-64, 2, -5), 17)
@@ -344,7 +388,7 @@ func _build_central_station() -> void:
 	_label(self, "StationCloseSign", "LOW LEVEL / QUAY & PARK", Vector3(-126, 4.1, -3), 28, "cream", Vector3(0, 90, 0), 0.012)
 	_slope("StationUpperReturn", Rect2(-122, -38, 17, 18), Vector4(2, 2, 5, 5), "stone")
 	for x: float in [-124.0, -76.0]:
-		for z: float in [-28.0, -10.0, 10.0, 28.0]:
+		for z: float in [-28.0, -17.0, 10.0, 28.0]:
 			_box(self, "CanopyColumn", Vector3(x, 7, z), Vector3(0.48, 10, 0.48), "slate", true)
 
 
@@ -420,7 +464,7 @@ func _ground_label(node_name: String, words: String, at: Vector3, yaw: float) ->
 	_label(self, node_name, words, at, 34, "cream", Vector3(-90.0, rad_to_deg(yaw), 0.0), 0.015)
 
 
-func _building(at: Vector3, width: float, height: float, color: String, shop: String, yaw: float) -> void:
+func _building(at: Vector3, width: float, height: float, color: String, shop: String, yaw: float) -> Node3D:
 	var building := Node3D.new()
 	building.name = "TenementFacade"
 	building.position = at
@@ -428,6 +472,7 @@ func _building(at: Vector3, width: float, height: float, color: String, shop: St
 	add_child(building)
 	_box(building, "Facade", Vector3(0.0, height / 2.0, 0.0), Vector3(width, height, 12.0), color, true)
 	_city_art.decorate_building(building, width, height, color, shop)
+	return building
 
 
 func _build_street_furniture() -> void:
@@ -503,6 +548,18 @@ func get_ground_height(world_position: Vector3) -> float:
 	return NAN
 
 
+## Highest terrain support near/below the supplied height, including low routes
+## underneath suspended decks. This is a query, not a collision/clearance proof.
+func get_support_height(world_position: Vector3, max_step_up: float = 1.0) -> float:
+	var at := to_local(world_position)
+	var height: float = _terrain.height_at(at.x, at.z, at.y + maxf(0.0, max_step_up))
+	if not is_nan(height): return to_global(Vector3(at.x, height, at.z)).y
+	if is_instance_valid(_outdoors):
+		var outdoor_height: float = _outdoors.get_ground_height(world_position.x, world_position.z)
+		if outdoor_height <= world_position.y + maxf(0.0, max_step_up): return outdoor_height
+	return NAN
+
+
 func get_recovery_position(world_position: Vector3) -> Vector3:
 	if is_instance_valid(_outdoors):
 		return _outdoors.get_recovery_position(world_position)
@@ -524,7 +581,10 @@ func get_route_definitions() -> Array[Dictionary]:
 		_route("market_loading_ascent", "Warehouse loading street", [Vector3(126,0,30), Vector3(126,0,-6), Vector3(126,1.5,-18), Vector3(120,1.5,-24), Vector3(120,1.5,-33)]),
 		_route("gallery_step_drop", "Gallery stair drop", [Vector3(0,2,-20), Vector3(0,2,-13), Vector3(0,0,-3)], true),
 		_route("market_step_drop", "Market stair drop", [Vector3(93,1.5,-24), Vector3(93,1.5,-15), Vector3(93,0,-5)], true),
-		_route("station_low_level_close", "Station service-walk underpass", [Vector3(-126,2,0), Vector3(-118,2,-6), Vector3(-110,2,-8), Vector3(-103,2,-10), Vector3(-103,2,-28), Vector3(-82,2,-40)]),
+		_route("merchant_service_east_return", "Service court to station concourse", [Vector3(-56,1,-56), Vector3(-59,1,-54), Vector3(-59,2,-42), Vector3(-59,2,-34)]),
+		_route("merchant_service_west_return", "Service court to outer climbing lane", [Vector3(-72,1,-70), Vector3(-74,1,-70), Vector3(-82,3.75,-70), Vector3(-88,3.75,-70)]),
+		_route("merchant_close_cutthrough", "Merchant Close dogleg", [Vector3(-64,2,-30), Vector3(-68,2,-44), Vector3(-69,2.5,-50), Vector3(-61,3.2,-60), Vector3(-55,3.5,-65), Vector3(-59,4,-74), Vector3(-59,4,-80)]),
+		_route("station_low_level_close", "Station service-walk underpass", [Vector3(-126,2,0), Vector3(-126,2,-8), Vector3(-114,2,-8), Vector3(-103,2,-8), Vector3(-82,2,-8), Vector3(-82,2,22)]),
 		_route("station_park_port", "Station to Kelvingrove", [Vector3(-126,2,0), Vector3(-145,2,0)]),
 		_route("civic_park_port", "Civic terrace to park", [Vector3(-22,6,-122), Vector3(-42,6,-122)]),
 	]
@@ -553,6 +613,7 @@ func _slope(label: String, bounds: Rect2, heights: Vector4, material: String) ->
 		body.set_meta("rise", highest - lowest)
 		body.set_meta("run", bounds.size.x if heights.x != heights.y else bounds.size.y)
 		body.set_meta("width", bounds.size.y if heights.x != heights.y else bounds.size.x)
+		body.set_meta("support_probe", to_global(Vector3(bounds.get_center().x, (heights.x + heights.y + heights.z + heights.w) * 0.25, bounds.get_center().y)))
 	return body
 
 

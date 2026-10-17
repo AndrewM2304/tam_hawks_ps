@@ -8,6 +8,8 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	game.persistence_enabled = false
 	await _terrain_heights(tree, game, check)
 	await _slopes(tree, game, check)
+	await _nonlinear_routes(tree, game, check)
+	await _local_combo(tree, game, check)
 	await _fountain(tree, game, check)
 	await _outdoor_routes(tree, game, check)
 	await _bridge_and_recovery(tree, game, check)
@@ -57,6 +59,137 @@ static func _slopes(tree: SceneTree, game: Node, check: Callable) -> void:
 			print("TOPOGRAPHY route=%s reached=%s seconds=%.2f height=%.2f..%.2f slope_frames=%d bails=%d stalled=%d" % [
 				label, evidence.reached, evidence.frames / 60.0, evidence.min_y, evidence.max_y,
 				evidence.slope_frames, evidence.bails, evidence.stalled_frames])
+
+
+static func _nonlinear_routes(tree: SceneTree, game: Node, check: Callable) -> void:
+	# Each new branch is ridden in both directions. Straight-line endpoint
+	# reachability alone would not prove the intermediate close/return is open.
+	for id: String in ["station_low_level_close", "merchant_close_cutthrough",
+		"kelvingrove_cutback_return", "clyde_print_yard_loop", "clyde_print_yard_hip",
+		"merchant_service_east_return", "merchant_service_west_return"]:
+		var route: Dictionary = _route(game, id)
+		check.call(not route.is_empty(), "topography: nonlinear branch published " + id)
+		if route.is_empty(): continue
+		for reverse in [false, true]:
+			var points: PackedVector3Array = route.points.duplicate()
+			if reverse: points.reverse()
+			await _reset_at(tree, game, points[0] + Vector3.UP * 0.8)
+			var evidence: Dictionary = await _drive(tree, game, points)
+			var label: String = id + (" reverse" if reverse else " forward")
+			var shaped_support: bool = id != "clyde_print_yard_hip" or (
+				evidence.max_y - evidence.min_y > 0.65 and evidence.slope_frames >= 5)
+			if id.begins_with("merchant_service_"):
+				shaped_support = evidence.slope_frames >= 5 \
+					and evidence.max_y - evidence.min_y >= absf(points[-1].y - points[0].y) - 0.15 \
+					and absf(game.skater.global_position.y - points[-1].y) < 0.15
+			check.call(evidence.reached and evidence.bails == 0 and evidence.stalled_frames == 0 and shaped_support,
+				"topography: real physical transit through every bend " + label)
+			print("TOPOGRAPHY branch=%s reached=%s seconds=%.2f height=%.2f..%.2f bails=%d stalled=%d position=%s" % [
+				label, evidence.reached, evidence.frames / 60.0, evidence.min_y, evidence.max_y,
+				evidence.bails, evidence.stalled_frames, game.skater.global_position])
+	var space: PhysicsDirectSpaceState3D = game.world.get_world_3d().direct_space_state
+	var hip: Dictionary = _route(game, "clyde_print_yard_hip")
+	if not hip.is_empty():
+		var angle_bins: Dictionary = {}
+		var steepest := 0.0
+		for index in range(hip.points.size() - 1):
+			var at: Vector3 = hip.points[index]
+			if hip.points[index + 1].y <= at.y + 0.005: continue
+			var hit: Dictionary = space.intersect_ray(PhysicsRayQueryParameters3D.create(
+				at + Vector3.UP * 0.8, at - Vector3.UP * 0.4, 1))
+			if hit.is_empty(): continue
+			var angle := rad_to_deg(acos(clampf(hit.normal.y, -1.0, 1.0)))
+			steepest = maxf(steepest, angle)
+			angle_bins[floori(angle / 5.0)] = true
+		check.call(angle_bins.size() >= 4 and steepest >= 30.0 and steepest <= 36.0,
+			"topography: curved bank has multiple actual collision grades within its 35-degree contract")
+		print("TOPOGRAPHY hip slope_bins=%d steepest=%.2f" % [angle_bins.size(), steepest])
+	for x: float in [-114.0, -94.0]:
+		var floor_hit: Dictionary = space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(x, 3.0, -8), Vector3(x, 1.0, -8), 1))
+		var ceiling_hit: Dictionary = space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(x, 3.0, -8), Vector3(x, 6.0, -8), 1))
+		var deck_hit: Dictionary = space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(x, 6.0, -8), Vector3(x, 4.8, -8), 1))
+		check.call(not floor_hit.is_empty() and not ceiling_hit.is_empty() and not deck_hit.is_empty()
+			and absf(floor_hit.position.y - 2.0) < 0.05 and floor_hit.normal.y > 0.99
+			and absf(ceiling_hit.position.y - 4.6) < 0.05 and ceiling_hit.normal.y < -0.99
+			and absf(deck_hit.position.y - 5.0) < 0.05 and deck_hit.normal.y > 0.99,
+			"topography: independent low floor, overhead clearance and upper deck support x=" + str(x))
+
+
+static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
+	var ledge = null
+	for line in game.world.get_grind_lines():
+		if line.id == "clyde_print_yard_ledge": ledge = line
+	check.call(ledge != null and ledge.is_valid, "topography: print-yard ledge publishes a usable local trick line")
+	if ledge == null or not ledge.is_valid: return
+	var target: Vector3 = ledge.point_at(2.2)
+	var tangent: Vector3 = ledge.dir_at(2.2)
+	var start: Vector3 = target - tangent * 20.0
+	start.y = 2.8
+	await _reset_at(tree, game, start)
+	var evidence := {"bails": 0, "names": []}
+	var on_bail := func(): evidence.bails += 1
+	var on_trick := func(title: String, _points: int): evidence.names.append(title)
+	game.skater.bailed.connect(on_bail)
+	game.skater.trick_performed.connect(on_trick)
+	var launched := false
+	var captured := false
+	for frame in range(240):
+		_aim(game.skater, tangent)
+		Input.action_press("push")
+		Input.action_press("grind")
+		if not launched and (target - game.skater.global_position).dot(tangent) < 9.5:
+			Input.action_press("ollie")
+			launched = true
+		else: Input.action_release("ollie")
+		await _frames(tree, 1)
+		if game.skater.grinding:
+			captured = true
+			break
+		if evidence.bails > 0: break
+	var manual_entered := false
+	var connected := false
+	if captured:
+		Input.action_release("push")
+		Input.action_release("ollie")
+		await _frames(tree, 6)
+		Input.action_press("ollie")
+		await _frames(tree, 1)
+		Input.action_release("ollie")
+		Input.action_release("grind")
+		await _frames(tree, 2)
+		Input.action_press("flip")
+		Input.action_press("grab")
+		await _frames(tree, 1)
+		Input.action_release("flip")
+		Input.action_release("grab")
+		for frame in range(100):
+			await _frames(tree, 1)
+			if game.skater.is_on_floor() and not game.skater.airborne:
+				Input.action_press("manual")
+				await _frames(tree, 2)
+				manual_entered = game.skater.manual_active
+				break
+			if evidence.bails > 0: break
+		await _frames(tree, 12)
+		connected = game.score.total_score == 0 and game.skater.manual_active
+	check.call(captured and manual_entered and connected and evidence.bails == 0
+		and evidence.names.count("Ollie") == 2 and evidence.names.count("Rail Grind") == 1
+		and evidence.names.has("Kickflip") and evidence.names.has("Melon Grab") and evidence.names.count("Manual") == 1,
+		"topography: actual yard ollie capture rail-ollie air tricks and manual stay in one unbanked line")
+	_release()
+	await _frames(tree, 30)
+	var banked: int = game.score.total_score
+	await _frames(tree, 30)
+	check.call(evidence.bails == 0 and banked == 5000 and game.score.total_score == banked
+		and game.score.get_combo_value() == 0,
+		"topography: new local rail-air-manual route banks its exact repeated-trick combo once")
+	print("TOPOGRAPHY localcombo captured=%s manual=%s connected=%s bank=%d bails=%d tricks=%s" % [
+		captured, manual_entered, connected, banked, evidence.bails, evidence.names])
+	game.skater.bailed.disconnect(on_bail)
+	game.skater.trick_performed.disconnect(on_trick)
 
 
 static func _route(game: Node, id: String) -> Dictionary:

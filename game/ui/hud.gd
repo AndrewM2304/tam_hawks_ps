@@ -40,6 +40,7 @@ var _save_warning: Label
 var _modal_warning: Label
 var _modal_notice: Label
 var _goals: Label
+var _challenge: Label
 var _caption: Label
 var _prompt: Label
 var _controls_label: Label
@@ -187,6 +188,11 @@ func _build_hud() -> void:
 	_caption = _floating_label("", 20, PAPER)
 	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_challenge = _floating_label("", 16, ACCENT)
+	_challenge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_challenge.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_challenge.max_lines_visible = 2
+	_challenge.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	_prompt = _floating_label("", 17, ACCENT)
 	_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -254,6 +260,7 @@ func update_display(state: Dictionary) -> void:
 		_combo_tween = create_tween()
 		_combo_tween.tween_property(_combo, "modulate", Color.WHITE, 0.18)
 	_last_combo = combo
+	_challenge.text = str(state.get("challenge_text", ""))
 	_caption.text = str(state.get("caption", "")) if bool(_settings.get("captions", true)) else ""
 	var interaction := str(state.get("interaction_prompt", ""))
 	_prompt.text = "%s  ·  %s" % [_prompt_for("interact", "X"), interaction] if not interaction.is_empty() else ""
@@ -465,6 +472,9 @@ func _build_goals(content: VBoxContainer) -> void:
 	_modal_title.text = "A good day's skating."
 	_modal_details.text = "Your career goals, rewards and personal progress." if not _state.get("free_skate", false) else "Explore freely. Career goals and records advance in career runs."
 	_button(content, "CITY MAP & ROUTES", show_map)
+	var side_hint := _label(content, "SIDE CHALLENGE  /  Talk to Mo, the guitarist by the east edge of the Exchange fountain court.", 14, MUTED)
+	side_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	side_hint.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	for goal: Dictionary in _state.get("goals", []):
 		var card := _card()
 		card.focus_mode = Control.FOCUS_ALL
@@ -510,7 +520,7 @@ func _build_map(content: VBoxContainer) -> void:
 	for row: Array in [
 		["PALE LINES  /  CONNECTED ROUTES     ORANGE  /  JUMP LINE", 13, MUTED],
 		["Gallery steps & fountain → station platforms → hilly park paths. Follow the south quay to the Clyde bridge transfer.", 16, PAPER],
-		["Career goals are in the four city districts. River and park routes are open in both modes; free skate gives you time to explore.", 14, MUTED],
+		["Career goals are in the four city districts. Talk to Mo by the Exchange fountain for a side challenge. Free skate gives you time to explore.", 14, MUTED],
 	]:
 		var description := _label(content, row[0], row[1], row[2])
 		description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -708,7 +718,7 @@ func _relayout(force: bool = false) -> void:
 	_speed_panel.size = Vector2(180, 102)
 	_special_panel.position = Vector2(extent.x - 240, extent.y - 195)
 	_special_panel.size = Vector2(212, 102)
-	for label in [_combo, _tricks, _combo_status, _caption, _prompt]:
+	for label in [_combo, _tricks, _combo_status, _caption, _prompt, _challenge]:
 		label.position.x = 224
 		label.size.x = extent.x - 480
 	_combo.position.y = extent.y - 264
@@ -741,7 +751,7 @@ func _layout_feedback_stack() -> void:
 	# Empty slots collapse and short lines use their actual height. Large UI
 	# text stays near the bottom without reserving a second line for every cue.
 	var bottom := _footer.position.y - 8.0
-	for label in [_caption, _combo_status, _tricks, _combo, _prompt]:
+	for label in [_challenge, _caption, _combo_status, _tricks, _combo, _prompt]:
 		label.visible = not label.text.is_empty()
 		if not label.visible: continue
 		var lines := mini(label.get_line_count(), 1 if label == _combo else 2)

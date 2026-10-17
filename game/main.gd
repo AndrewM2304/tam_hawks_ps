@@ -11,6 +11,7 @@ const ObjectiveTrackerSource = preload("res://game/progression/objective_tracker
 const GapTrackerSource = preload("res://game/tricks/gap_tracker.gd")
 const SpecialMeterSource = preload("res://game/tricks/special_meter.gd")
 const SkateAudioSource = preload("res://game/audio/skate_audio.gd")
+const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounters.gd")
 const RUN_SECONDS := 120.0
 
 var score := ScoreSession.new()
@@ -18,6 +19,7 @@ var career = CareerProgressSource.new()
 var gaps = GapTrackerSource.new()
 var special_meter = SpecialMeterSource.new()
 var objectives: Node3D
+var encounters: Node3D
 var audio: Node
 # Developer/script runners never write the player's profile by default.
 var persistence_enabled: bool = not OS.get_cmdline_args().has("--script")
@@ -59,6 +61,12 @@ func _ready() -> void:
 	add_child(objectives)
 	objectives.configure(world.get_goal_markers())
 	gaps.configure(world.get_gap_definitions())
+	encounters = GlasgowEncountersSource.new()
+	encounters.name = "GlasgowEncounters"
+	encounters.process_mode = Node.PROCESS_MODE_PAUSABLE
+	add_child(encounters)
+	encounters.configure(world.get_encounter_definitions())
+	encounters.feedback.connect(_on_encounter_feedback)
 	audio = SkateAudioSource.new()
 	add_child(audio)
 	if audio.has_signal("caption"):
@@ -131,6 +139,7 @@ func _physics_process(delta: float) -> void:
 	audio.set_motion(skater.speed, skater.is_on_floor(), skater.grinding, district)
 	if free_skate_mode or time_remaining > 0.0:
 		_update_objectives(delta, district)
+		encounters.poll(skater.global_position, Input.is_action_just_pressed("interact"), delta, score.get_combo_value())
 	if skater.airborne or skater.grinding or skater.manual_active:
 		score.continue_combo()
 	var banked: int = score.tick(delta)
@@ -158,6 +167,7 @@ func restart_run() -> void:
 	gaps.reset()
 	career.begin_run(free_skate_mode)
 	objectives.reset_run()
+	encounters.reset_run()
 	if world.has_method("reset_interactions"): world.reset_interactions()
 	audio.set_paused(false)
 	audio.set_surface("stone")
@@ -195,6 +205,7 @@ func _on_trick(trick_name: String, points: int) -> void:
 	if run_finished:
 		return
 	score.add_trick(trick_name, points)
+	encounters.on_trick(trick_name, points, skater.global_position)
 	if trick_name == "Ollie": audio.play_event("ollie")
 	elif trick_name == "Rail Grind": audio.play_event("grind")
 	if "flip" in trick_name.to_lower():
@@ -219,6 +230,7 @@ func _on_combo_banked(banked: int) -> void:
 	_notify_goals(career.record_score(score.total_score, score.best_combo))
 	_save_profile()
 	audio.play_event("bank")
+	encounters.on_bank(banked, skater.global_position)
 	if banked >= 1000 and _near_npc() and audio.has_method("play_bark"):
 		audio.play_bark("landing")
 
@@ -228,11 +240,13 @@ func _on_bailed() -> void:
 	audio.play_event("bail")
 	_feedback = "BACK ON THE BOARD."
 	_feedback_timer = 2.0
+	encounters.on_bail()
 
 func _finish_run() -> void:
 	if run_finished:
 		return
 	run_finished = true
+	encounters.finish_run()
 	_notify_goals(career.finish_run(score.total_score, score.best_combo))
 	_save_profile()
 	audio.set_motion(0, false, false, "")
@@ -343,8 +357,10 @@ func apply_settings(settings: Dictionary, persist: bool = true) -> void:
 	career.settings.ui_scale = clampf(float(settings.get("ui_scale", career.settings.ui_scale)), 1.0, 1.4)
 	career.settings.camera_sensitivity = clampf(float(settings.get("camera_sensitivity", career.settings.camera_sensitivity)), 0.5, 2.0)
 	audio.set_mix(career.settings.audio * career.settings.sfx_volume, career.settings.audio * career.settings.ambience_volume)
+	encounters.set_mix(career.settings.audio, career.settings.ambience_volume)
 	skater.set_presentation_settings(career.settings.camera_sensitivity, career.settings.reduced_motion)
 	objectives.reduced_motion = career.settings.reduced_motion
+	encounters.reduced_motion = career.settings.reduced_motion
 	select_cosmetic(str(settings.get("cosmetic_id", career.settings.get("cosmetic_id", "color_blue"))), false)
 	if persist: _save_profile()
 
@@ -371,6 +387,19 @@ func _on_controller_connection(_device: int, connected: bool) -> void:
 		_feedback = "CONTROLLER DISCONNECTED — RECONNECT OR USE KEYBOARD"
 		_feedback_timer = 8.0
 
+func _on_encounter_feedback(text: String) -> void:
+	_feedback = text
+	_feedback_timer = 5.0
+	audio.play_event("ui")
+
+
+func _interaction_prompt() -> String:
+	var prompt: String = objectives.nearby_prompt(skater.global_position)
+	if not prompt.is_empty():
+		return prompt
+	return encounters.nearby_prompt(skater.global_position)
+
+
 func _on_caption(text: String) -> void:
 	_caption = text
 	_caption_time = 3.0
@@ -391,11 +420,12 @@ func _refresh_hud() -> void:
 		"player_position": skater.global_position, "player_heading": skater.rotation.y,
 		"paused": paused, "finished": run_finished, "free_skate": free_skate_mode,
 		"feedback": _feedback if _feedback_timer > 0 else "",
+		"challenge_text": encounters.status_snapshot().get("hud_text", ""),
 		"landings": _landings, "flips": _flips, "grabs": _grabs,
 		"goals": career.goals_snapshot(), "unlocks": career.unlocks(),
 		"record_score": career.best_score, "record_combo": career.best_combo,
 		"special_meter": special_meter.value, "settings": career.settings,
 		"caption": _caption if _caption_time > 0 and career.settings.captions else "",
 		"save_status": save_status, "save_warning": save_warning,
-		"interaction_prompt": objectives.nearby_prompt(skater.global_position),
+		"interaction_prompt": _interaction_prompt(),
 	})

@@ -20,6 +20,8 @@ Inspection also exposed an older clothing defect: shortest-arc rotations from `U
 
 `./tools/rider_motion.sh` records the documented fixed-timestep input sequence as a silent 30 fps clip with labelled reset cuts. Its encoded duration reflects simulation time, not software-rendering wall time. The clip is inspection evidence, not a performance result or human playtest.
 
+Both runners reject a partially initialized game scene. The motion shell runner removes previous count/sequence metadata before capture, requires a new positive frame count and checks the encoded frame count and full video decode before reporting success. This prevents an interrupted or failed future run from relabelling earlier frames as fresh evidence.
+
 Selected actual-game frames are retained in [screenshots/rider-realism](screenshots/rider-realism/README.md), including normal chase, front/profile anatomy, feet, grab contact and action poses. The runner starts at the world's current clear spawn; it does not move the rider to the old fountain coordinates. The standalone grey-stage images used during fitting remain ignored working evidence, separate from these game captures.
 
 ## Recorded checks
@@ -28,6 +30,7 @@ Selected actual-game frames are retained in [screenshots/rider-realism](screensh
 | --- | --- |
 | Godot 4.6.3 Compatibility import | Clean; no parse/script errors in the final import log |
 | Actual-input action capture | `RIG ACTION CAPTURE errors=0`, all 11 requested states reached |
+| Refreshed motion preview | 222 frames, 7.4 seconds, silent H.264 at 1280×800 / 30 fps; all frames decode cleanly and the input runner reports zero errors |
 | Focused manual/revert/special checks | 39 passed, 0 failed |
 | Independent takeoff regression cases | 21 passed, 0 failed |
 | Rider/board geometry | 62 `MeshInstance3D` nodes, 37,304 triangles across instances, ten clothing bones |
@@ -38,6 +41,8 @@ Selected actual-game frames are retained in [screenshots/rider-realism](screensh
 Front/profile and full-body review checked head size, nose/jaw/ear silhouette, neck/collar attachment, inward resting palms and continuous knees/elbows. Action review checked planted shoes, foot-drag braking, separated flip/special board motion, compressed landing, manual wheel clearance, palm/deck alignment and the deep tumble pose. Reversed new shoe side/end faces found in the first close inspection were corrected before the retained evidence. Final aggregate verification belongs to the orchestrator's STATUS/QE record.
 
 Independent QE inspected the final idle close/face/profile, grab-hand, manual and tumble screenshots. It found no concrete blocking regression in those six frames: visible limbs stayed connected, the palm reached the board edge and the captured foot/tumble contact remained coherent. This is a still-image review, not approval of motion or human realism.
+
+The final refreshed video has replaced the older artifact at `/workspace/TamHawks-motion-preview.mp4`. It was recorded after the corrected nonlinear-level/Glasgow-encounter source freeze, using the unchanged action recipe. All **97 pinned game/resource/capture files** remained byte-identical throughout recording. Its frame count, encoding data, exact checksum and explicit reset/special-meter cuts are retained with the screenshot evidence in `motion-source.json`, `motion-artifact.txt` and `motion-sequence.json`. The full decoded-frame-count check and video decode passed; the 222-frame clip lasts 7.4 seconds. This brief core-area rider sequence is not a tour or acceptance test of every level route or encounter.
 
 ## Remaining quality boundary
 
