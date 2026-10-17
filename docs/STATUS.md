@@ -4,7 +4,7 @@
 
 The owner authorizes continued ready work without recurring task approvals. Preserve all **75 full task records**, ten career goals and three side acts. No purchases, billing, paid APIs, hosted CI, infrastructure or unattended jobs. [CONTROL-AND-FIDELITY-NEXT](planning/CONTROL-AND-FIDELITY-NEXT.md) now supplies exact owners, dependencies, first edits, acceptance and validation for the next controller/art/performance work inside existing backlog IDs. [ACTIVE_WORK](planning/ACTIVE_WORK.md), [RESUME](planning/RESUME.md), [interfaces](architecture/interfaces.md) and [ADR-014](architecture/decisions/ADR-014-human-input-and-render-budget.md) describe the current contracts.
 
-Prior gameplay/evidence checkpoint `86d286c512fc3e0a541ececfc970b28401f80f7f` and handoff `315d245c32bb480b6c79d697b86588bd35524992` are pushed and remain the before boundary. This review's committed/pushed identity is recorded at the final checkpoint below. The saved environment draft still points to the older setup checkpoint; this game review changes no environment configuration. Publishing that draft is unnecessary for source development.
+Prior gameplay/evidence checkpoint `86d286c512fc3e0a541ececfc970b28401f80f7f` and handoff `315d245c32bb480b6c79d697b86588bd35524992` are pushed and remain the before boundary. The tested code/research/evidence checkpoint **`2071e3d933137e29384d4f62c1a3598e37f76ef1`** is pushed to `origin/bootstrap/m00-m01`; the remote ref was verified. The following documentation-only handoff records that identity without changing tested inputs. The saved environment draft still points to the older setup checkpoint; this game review changes no environment configuration. Publishing that draft is unnecessary for source development.
 
 ## Run and verify
 
