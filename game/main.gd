@@ -384,6 +384,7 @@ func apply_settings(settings: Dictionary, persist: bool = true) -> void:
 	career.settings.camera_sensitivity = clampf(float(settings.get("camera_sensitivity", career.settings.camera_sensitivity)), 0.5, 2.0)
 	audio.set_mix(career.settings.audio * career.settings.sfx_volume, career.settings.audio * career.settings.ambience_volume)
 	encounters.set_mix(career.settings.audio, career.settings.ambience_volume)
+	cat_encounter.set_mix(career.settings.audio, career.settings.ambience_volume)
 	skater.set_presentation_settings(career.settings.camera_sensitivity, career.settings.reduced_motion)
 	objectives.reduced_motion = career.settings.reduced_motion
 	encounters.reduced_motion = career.settings.reduced_motion

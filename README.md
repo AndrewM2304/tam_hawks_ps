@@ -1,6 +1,6 @@
 # Tam Hawks Pro Skater
 
-An original arcade skateboarding game in a fictionalised Glasgow, built with Godot 4.6.3. Link aerial tricks, grinds, manuals and reverts across six connected city, river and park areas, chase ten career goals, unlock specials and colours, or explore in free skate and take Mo’s busker challenge or charge Rae’s clockwork cat through an ordered coping line.
+An original arcade skateboarding game in a fictionalised Glasgow, built with Godot 4.6.3. Link aerial tricks, grinds, manuals and reverts across six connected city, river and park areas, chase ten career goals, unlock specials and colours, or explore in free skate and take Mo’s busker challenge or join Rae’s bin-drum and dancing-cat act through an ordered coping line.
 
 **Current stage: playable development alpha.** The complete core loop, local saves, original sound, menus and a substantial terrain and adult-rider redesign are implemented. Final realistic visual polish, verified current Glasgow shopfronts, physical DualSense testing and Mac performance acceptance remain open. [Current status](docs/STATUS.md) records exact evidence and remaining work; [the QE report](docs/testing/QE-REPORT.md) separates automated checks from human acceptance.
 
@@ -8,7 +8,7 @@ An original arcade skateboarding game in a fictionalised Glasgow, built with God
 
 - From source, open `project.godot` with the free Godot 4.6.3 editor and press F5, or run `./tools/run.sh` on a graphical desktop.
 - Run `./tools/setup.sh` to verify the installed engine and check the project. Run `./tools/check.sh` after gameplay changes.
-- Reproduce current terrain/map evidence with `./tools/level_design_capture.sh` (including the current court/cat views); use `./tools/rider_capture.sh` for action poses. Earlier screenshots retain their original checkpoint provenance.
+- Reproduce current terrain/map evidence with `./tools/level_design_capture.sh` (including the current bin-drum/dancing-cat views); use `./tools/rider_capture.sh` for action poses. Earlier screenshots retain their original checkpoint provenance.
 - Measure six rendered city/river/park views with `./tools/profile.sh`; [profiling instructions](docs/testing/PERFORMANCE.md) cover the Mac command and measurement limits.
 - Build unsigned local Linux/macOS packages with `./tools/export.sh`; it downloads free official templates and verifies their pinned checksum. See [export instructions](docs/testing/EXPORT.md).
 

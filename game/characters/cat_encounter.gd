@@ -1,5 +1,5 @@
 extends Node3D
-## Session-local workshop challenge, driven only by attributed real grind captures
+## Session-local bin-busker challenge, driven only by attributed real grind captures
 ## and resolved score banks. No proximity capture, points, saves or career awards.
 
 const CatActor = preload("res://game/characters/cat_actor.gd")
@@ -35,6 +35,8 @@ var _wins := 0
 var _reason := ""
 var _celebration_state := "none"
 var _celebration_started := false
+var _audio_gain := 0.0
+var _audio_enabled := true
 
 func configure(definitions: Array) -> void:
 	if is_instance_valid(_actor):
@@ -60,7 +62,7 @@ func configure(definitions: Array) -> void:
 		for rail_id: String in sequence:
 			_required_ids.append(rail_id)
 		_actor = CatActor.new()
-		_actor.name = "RaeWorkshop"
+		_actor.name = "RaeBinBusker"
 		_actor.position = to_local(_anchor)
 		var yaw: float = float(raw.get("heading", PI))
 		_actor.rotation.y = yaw if is_finite(yaw) else PI
@@ -73,14 +75,14 @@ func poll(position: Vector3, interact: bool, delta: float, combo_value: int = 0,
 		return
 	if _state == "active":
 		if not _inside_area(position):
-			_fail("Back to the workshop for another go. Keep the line in this court.")
+			_fail("Back to the bin session for another go. Keep the line in this court.")
 		elif is_finite(delta) and delta > 0.0:
 			_remaining = maxf(0.0, _remaining - delta)
 			if _remaining <= 0.000000001:
-				_fail("Time's up. The wee cat can wait for another charge.")
+				_fail("Time's up. The wee cats can wait for another beat.")
 	elif interact and _near_actor(position):
 		if combo_value > 0:
-			feedback.emit("RAE: Bank that line first. Fresh charge, fresh start.")
+			feedback.emit("RAE: Bank that line first. Fresh beat, fresh start.")
 		else:
 			_state = "active"
 			_remaining = ATTEMPT_SECONDS
@@ -90,14 +92,14 @@ func poll(position: Vector3, interact: bool, delta: float, combo_value: int = 0,
 			_celebration_state = "none"
 			_celebration_started = false
 			_attempts += 1
-			feedback.emit("RAE: Charge the wee cat! Grind A > B > C, then land and bank. 60 seconds.")
+			feedback.emit("RAE: Give us a skate beat! Grind A > B > C, then land and bank. 60 seconds.")
 	_update_celebration(position, audience_visible)
 	_sync_actor()
 
 func on_grind_capture(rail_id: String, position: Vector3) -> void:
 	if _state != "active": return
 	if not _inside_area(position):
-		_fail("That line left the workshop. Come back for another go.")
+		_fail("That line left the busking court. Come back for another go.")
 		return
 	if not _required_ids.has(rail_id) or rail_id == _last_capture_id:
 		return
@@ -105,45 +107,53 @@ func on_grind_capture(rail_id: String, position: Vector3) -> void:
 	if _sequence_index < _required_ids.size() and rail_id == _required_ids[_sequence_index]:
 		_sequence_index += 1
 		if _sequence_index == _required_ids.size():
-			feedback.emit("RAE: All three charged! Land and bank to give it a whirl.")
+			feedback.emit("RAE: All three in time! Land and bank for the cats' big finish.")
 		else:
 			feedback.emit("RAE: Nice one. Next coping: %s." % _letter(_sequence_index))
 	else:
 		_sequence_index = 1 if rail_id == _required_ids[0] else 0
-		feedback.emit("RAE: Wrong order. %s" % ("A's charged; next is B." if _sequence_index == 1 else "Start again at A."))
+		feedback.emit("RAE: Wrong order. %s" % ("A's in time; next is B." if _sequence_index == 1 else "Start again at A."))
 	_sync_actor()
 
 func on_bank(points: int, position: Vector3) -> void:
 	if _state != "active": return
 	if not _inside_area(position):
-		_fail("Bank it in the workshop court. Back to Rae for another go.")
+		_fail("Bank it in the busking court. Back to Rae for another go.")
 		return
 	if points <= 0 or _sequence_index != _required_ids.size(): return
 	_state = "success"
 	_wins += 1
-	_reason = "Three copings. One very pleased mechanical cat."
+	_reason = "Three copings. Two dancing toy cats and one big bin beat."
 	_celebration_state = "static" if reduced_motion else "queued"
 	_celebration_started = false
 	if reduced_motion:
-		feedback.emit("RAE: PURR-FECT! CAT'S GOT THE BEAT COMPLETE. One proud wee paw salute!")
+		feedback.emit("RAE: PURR-FECT! CAT'S GOT THE BEAT COMPLETE. Two proud wee paw salutes!")
 	else:
-		feedback.emit("RAE: PURR-FECT! CAT'S GOT THE BEAT COMPLETE. Come back for the wee cat's dance.")
+		feedback.emit("RAE: PURR-FECT! CAT'S GOT THE BEAT COMPLETE. Come back for the wee cats' dance.")
 	_sync_actor()
 
 func on_bail() -> void:
-	if _state == "active": _fail("No bother. Come back and we'll wind it up again.")
+	if _state == "active": _fail("No bother. Come back and we'll strike up another beat.")
 
 func cancel_attempt() -> void:
-	if _state == "active": _fail("Workshop paused for another challenge. Come back any time.")
+	if _state == "active": _fail("Bin session paused for another challenge. Come back any time.")
 
 func finish_run() -> void:
-	if _state == "active": _fail("Shift's over. The workshop will be here next run.")
+	if _state == "active": _fail("Shift's over. The bin session will be here next run.")
 	elif _state == "success" and _celebration_state in ["queued", "playing"]:
 		_celebration_state = "finished"
 		if is_instance_valid(_actor): _actor.stop_celebration()
-		_sync_actor()
+	_audio_enabled = false
+	_sync_actor()
+
+func set_mix(master: float, ambience: float) -> void:
+	var master_gain := clampf(master,0.0,1.0) if is_finite(master) else 0.0
+	var ambience_gain := clampf(ambience,0.0,1.0) if is_finite(ambience) else 0.0
+	_audio_gain = master_gain*ambience_gain
+	_sync_actor()
 
 func reset_run() -> void:
+	if is_instance_valid(_actor): _actor.set_audio_enabled(false)
 	_state = "idle"
 	_remaining = 0.0
 	_sequence_index = 0
@@ -153,6 +163,7 @@ func reset_run() -> void:
 	_reason = ""
 	_celebration_state = "none"
 	_celebration_started = false
+	_audio_enabled = true
 	_sync_actor()
 
 func nearby_prompt(position: Vector3) -> String:
@@ -207,12 +218,12 @@ func _letter(index: int) -> String:
 func _display_detail() -> String:
 	if _state == "active":
 		if _sequence_index == 3:
-			return "RAE  %ss | A > B > C CHARGED | LAND AND BANK" % ceili(_remaining)
-		return "RAE  %ss | %s/3 charged | A > B > C | NEXT: %s" % [ceili(_remaining), _sequence_index, _letter(_sequence_index)]
+			return "RAE  %ss | A > B > C IN TIME | LAND AND BANK" % ceili(_remaining)
+		return "RAE  %ss | %s/3 beats | A > B > C | NEXT: %s" % [ceili(_remaining), _sequence_index, _letter(_sequence_index)]
 	if _state == "success":
-		if _celebration_state == "queued": return "CAT'S GOT THE BEAT COMPLETE | Return to Rae to see the cat dance"
-		if _celebration_state == "playing": return "CAT'S GOT THE BEAT COMPLETE | The wee cat's dancing!"
-		if _celebration_state == "static": return "CAT'S GOT THE BEAT COMPLETE | Cat charged (reduced motion)"
+		if _celebration_state == "queued": return "CAT'S GOT THE BEAT COMPLETE | Return to Rae to see the cats dance"
+		if _celebration_state == "playing": return "CAT'S GOT THE BEAT COMPLETE | The wee cats are dancing!"
+		if _celebration_state == "static": return "CAT'S GOT THE BEAT COMPLETE | Two paw salutes (reduced motion)"
 		return "CAT'S GOT THE BEAT COMPLETE | Return to Rae to replay"
 	if _state == "failed": return "CAT'S GOT THE BEAT | Return to Rae for another go"
 	return ""
@@ -230,3 +241,5 @@ func _fail(reason: String) -> void:
 func _sync_actor() -> void:
 	if is_instance_valid(_actor):
 		_actor.set_encounter_state(_state, _sequence_index, _remaining, reduced_motion, _celebration_state)
+		_actor.set_audio_gain(_audio_gain)
+		_actor.set_audio_enabled(_audio_enabled)

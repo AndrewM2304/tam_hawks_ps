@@ -1,0 +1,58 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: cat rules: duplicate authored segment IDs cannot create an impossible accepted offer
+PASS: cat rules: pending combos and horizontal or vertical distance reject fresh attempts
+PASS: cat rules: a deliberate eligible offer starts at the first marked segment
+PASS: cat rules: unmarked or wrong first captures and an unrelated bank cannot advance the sequence
+PASS: cat rules: duplicate latest capture is ignored while an intermediate clean bank preserves progress
+PASS: cat rules: skipping the middle marked rail clears the ordered sequence
+PASS: cat rules: the first marked rail restarts a wrong-order sequence at one
+PASS: cat rules: all three captures still require a subsequent positive clean bank
+PASS: cat rules: a positive final bank wins once without a hidden score threshold
+PASS: cat rules: the earned payoff waits for both close audience and visibility without repeating rewards
+PASS: cat rules: eligible visibility starts the queued payoff once without restarting its clock
+PASS: cat rules: reduced motion stops an already started payoff without replaying it when disabled
+PASS: cat rules: a pending combo cannot replace a completed attempt
+PASS: cat rules: immediate clean replay starts fresh and preserves the run-local win count
+PASS: cat rules: an outside capture fails even before the next polling tick
+PASS: cat rules: an outside final bank cannot complete the attempt
+PASS: cat rules: leaving and returning cannot resume an invalidated attempt
+PASS: cat rules: invalid deltas are ignored and the actual sixty-second deadline expires
+PASS: cat rules: bail invalidates an incomplete sequence without adding a win
+PASS: cat rules: repeated run-finish notification is idempotent
+PASS: cat rules: restart removes all run-local attempt progress
+PASS: cat integration: three distinct authored tracks expose real player capture identity
+PASS: Techno Bin presentation: two separate visible cat props use soft nonmetal materials
+PASS: Techno Bin presentation: the active street drummer has a visible improvised bin kit
+PASS: Techno Bin presentation: a legible-sized outlined world sign identifies the corrected street act
+PASS: cat integration: a real free-skate interaction starts a fresh ordered attempt
+PASS: cat integration: real push ollie and rail transfers capture A B C once before any success
+PASS: cat integration: actual final release and landing bank complete the sequence with only earned trick points
+PASS: cat integration: success cannot repeat or add free-skate career progress, goals or profile writes
+PASS: cat presentation: the real offscreen final bank queues its earned payoff for the returning player
+PASS: cat presentation: actual input return and the production camera frustum start one visible payoff
+PASS: Techno Bin presentation: the earned visible payoff actually moves both soft cats and the drummer
+PASS: cat presentation: menu pause freezes the accepted payoff
+PASS: cat presentation: the visible payoff completes its full bound without another completion
+PASS: cat presentation: reduced motion holds both cats and drummer still while the underlying drum clock continues
+PASS: cat presentation: lingering and toggling motion cannot replay the completed payoff or reward
+CAT audience returned_frames=51 trigger_distance=9.87 frustum=true celebration=finished elapsed=3.20
+CAT physical approach=true captures=["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"] positions=[(-16.0, 4.6, -91.0), (-3.65707, 4.6, -91.0), (8.162316, 4.6, -91.0)] sequence=[1, 2, 3] tricks=["Ollie", "Rail Grind", "Ollie", "Rail Grind", "Ollie", "Rail Grind"] bank=1050 bails=0 state=success remaining=52.32
+PASS: cat integration: mapped nearby interaction starts the production attempt
+PASS: cat integration: pause freezes the challenge deadline
+PASS: cat integration: career expiry ends the side attempt while the real airborne combo still resolves
+PASS: cat integration: final banking or results-screen interaction cannot revive an expired attempt
+PASS: cat integration: restart clears the challenge while retaining career identity
+PASS: cat integration: actual manual imbalance bails once and clears the live attempt and pending score
+CAT bail entered=true bails=1 state=failed reason=No bother. Come back and we'll strike up another beat. position=(0.0, 5.45, -95.0) speed=0.00 manual=false
+PASS: Techno Bin audio: the performer owns exactly one spatial percussion source
+PASS: Techno Bin audio: original percussion is a bounded spatial mono PCM loop
+PASS: Techno Bin audio: generated drum samples carry energy without clipping or a loud loop seam
+PASS: Techno Bin audio: nonfinite gains mute safely and excessive direct gains clamp to full mix
+PASS: Techno Bin audio: the public master and ambience controls both scale the drum mix
+PASS: Techno Bin audio: either mute control stops the percussion source
+PASS: Techno Bin audio: a real menu pause suspends the source and visible drum rhythm
+PASS: Techno Bin audio: resuming restores performer processing and rhythm
+PASS: Techno Bin audio: run end stops the beat and changing settings cannot restart a finished act
+PASS: Techno Bin audio: the next run restores the local street performance
+CAT RESULT: 52 passed, 0 failed

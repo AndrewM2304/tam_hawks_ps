@@ -14,6 +14,8 @@ var routes: Array
 var _post_draw_seen := false
 var _cat_capture_ids: Array[String] = []
 var _cat_payoff_trigger: Dictionary = {}
+var _capture_cat_motion := false
+var _cat_motion: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -77,7 +79,7 @@ func _run() -> void:
 	await _court_views()
 	await _cat_views()
 	var report: Dictionary = {
-		"schema_version": 2, "evidence_slice": "two_courts_and_mechanical_cat", "expected_captures": EXPECTED_CAPTURES, "recorded_at_utc": Time.get_datetime_string_from_system(true),
+		"schema_version": 3, "evidence_slice": "bin_drumming_and_dancing_cats_correction", "expected_captures": EXPECTED_CAPTURES, "recorded_at_utc": Time.get_datetime_string_from_system(true),
 		"valid_capture_set": failures == 0 and captures.size() == EXPECTED_CAPTURES, "failures": failures,
 		"engine": Engine.get_version_info(), "display_server": DisplayServer.get_name(),
 		"renderer": RenderingServer.get_current_rendering_method(), "driver": RenderingServer.get_current_rendering_driver_name(),
@@ -92,7 +94,7 @@ func _run() -> void:
 			"Busker images position a supported rider, then use actual interact/ollie/flip/grab input actions and runtime banking; no trick, score or encounter completion is injected.",
 			"Cat states come from real production rail-capture events and a positive clean bank; direct grounded heading, if used, is explicitly idealized. No encounter completion is injected.",
 			"Automatic rendering is disabled; force_draw produces each captured frame after 60 Hz fixture steps. No real-time FPS claim."],
-		"checkpoints": _serialise(checkpoints), "routes": _serialise(routes), "cat_payoff_trigger": _serialise(_cat_payoff_trigger), "captures": captures,
+		"checkpoints": _serialise(checkpoints), "routes": _serialise(routes), "cat_payoff_trigger": _serialise(_cat_payoff_trigger), "cat_motion": _serialise(_cat_motion), "captures": captures,
 	}
 	var file := FileAccess.open(output.path_join("manifest.json"), FileAccess.WRITE)
 	if file == null:
@@ -109,7 +111,10 @@ func _run() -> void:
 
 func _read_arguments() -> bool:
 	var args := OS.get_cmdline_user_args()
-	if args.size() != 1: return false
+	if args.size() < 1 or args.size() > 2: return false
+	if args.size() == 2:
+		if args[1] != "--cat-motion": return false
+		_capture_cat_motion = true
 	output = ProjectSettings.globalize_path(args[0]).simplify_path()
 	var local := ProjectSettings.globalize_path("res://.local/").simplify_path().trim_suffix("/") + "/"
 	if not (output + "/").begins_with(local): return false
@@ -302,7 +307,7 @@ func _cat_views() -> void:
 	var anchor: Vector3 = initial.get("position", Vector3.INF)
 	if not _check(anchor.is_finite(), "Rae has an authored supported world anchor"): return
 	await _chase("27-cat-offer", anchor + Vector3(0, 0, 3.0), 0.0,
-		"Positioned on actual support three metres in front of Rae's workshop; production actor, mechanical cat and input-aware offer.")
+		"Positioned on actual support three metres in front of the original bin-busking pitch; production drummer, bin percussion and dancing cats and input-aware offer.")
 	await _cat_medium(anchor)
 	_resume_player()
 	Input.action_press("interact")
@@ -356,7 +361,7 @@ func _cat_views() -> void:
 
 
 func _cat_payoff_views(anchor: Vector3) -> void:
-	var actor: Node3D = game.cat_encounter.get_node("RaeWorkshop")
+	var actor: Node3D = game.cat_encounter.get_node("RaeBinBusker")
 	if not _check(game.cat_encounter.status_snapshot().get("celebration_state") == "queued" and not actor.animation_snapshot().dance_active,
 		"the offscreen earned cat payoff remains queued before the real return"): return
 	_resume_player()
@@ -379,12 +384,15 @@ func _cat_payoff_views(anchor: Vector3) -> void:
 		and game.score.total_score == 1050 and game.cat_encounter.status_snapshot().wins == 1,
 		"actual return and the production chase frustum trigger one earned cat dance"): return
 	_freeze_player()
-	# Allow the ordinary decorative animation to advance after its actual trigger.
-	# The authored medium camera below does not supply the triggering visibility.
-	await _frames(35)
-	await _cat_medium(anchor, "33-cat-earned-payoff",
-		"Same real1050-point win after an actual push-driven return within10m and production chase-frustum visibility triggered the queued3.2s dance. Player movement freezes for inspection; normal actor animation advances, then this clearly authored stage camera shows its live pose. No success, animation time, visibility or reward is injected; unrelated rider/HUD are hidden only for framing.")
-	if not _check(actor.animation_snapshot().dance_active, "earned cat dance is still live in its actual stage capture"): return
+	# Only ordinary actor processing advances this already-earned response.
+	# The authored camera is created after production visibility triggered it.
+	if _capture_cat_motion:
+		await _cat_stage_motion(anchor, actor)
+	else:
+		await _frames(35)
+		await _cat_medium(anchor, "33-cat-earned-payoff",
+			"Same real 1,050-point win after a push-driven return within 10 m and production chase-frustum visibility triggered the queued 3.2-second response. Player movement freezes for inspection; normal actor animation advances before this authored stage camera shows the live bin-drumming/dancing-cat pose. No success, animation time, visibility or reward is injected; unrelated rider/HUD are hidden only for framing.")
+		if not _check(actor.animation_snapshot().dance_active, "earned cat dance is still live in its actual stage capture"): return
 	var prior_motion: bool = game.career.settings.reduced_motion
 	game.apply_settings({"reduced_motion": true}, false)
 	if not _check(actor.animation_snapshot().reduced_motion and not actor.animation_snapshot().dance_active,
@@ -394,9 +402,69 @@ func _cat_payoff_views(anchor: Vector3) -> void:
 	game.apply_settings({"reduced_motion": prior_motion}, false)
 
 
-func _cat_medium(anchor: Vector3, label: String = "28-cat-workshop-medium", fixture: String = "") -> void:
-	var actor: Node3D = game.cat_encounter.get_node_or_null("RaeWorkshop")
-	if not _check(is_instance_valid(actor), "original Rae workshop actor exists"): return
+func _cat_stage_motion(anchor: Vector3, actor: Node3D) -> void:
+	var frame_dir := output.path_join("cat-motion-frames")
+	if not _check(DirAccess.make_dir_recursive_absolute(frame_dir) == OK, "cat motion output opens"): return
+	game.hud.visible = false
+	game.skater.visible = false
+	var camera := Camera3D.new()
+	game.add_child(camera)
+	camera.global_position = anchor + Vector3(4.0, 2.4, 5.0)
+	camera.look_at(anchor + Vector3(0, 0.95, 0))
+	camera.fov = 42.0
+	camera.current = true
+	var samples: Array[Dictionary] = []
+	var active_frames := 0
+	var finished_frames := 0
+	for index in 100:
+		# Advance ordinary process callbacks for two physics ticks, then hold the
+		# actor only during draw/readback. No animation phase/state is assigned.
+		actor.set_process(true)
+		await _frames(2)
+		actor.set_process(false)
+		var snapshot: Dictionary = actor.animation_snapshot().duplicate(true)
+		_post_draw_seen = false
+		RenderingServer.frame_post_draw.connect(_on_post_draw, CONNECT_ONE_SHOT)
+		RenderingServer.force_draw(true, 1.0 / 60.0)
+		for attempt in 8:
+			if _post_draw_seen: break
+			await process_frame
+		if not _check(_post_draw_seen, "cat motion actual frame_post_draw"):
+			if RenderingServer.frame_post_draw.is_connected(_on_post_draw): RenderingServer.frame_post_draw.disconnect(_on_post_draw)
+			break
+		var rendered := root.get_texture().get_image()
+		if not _check(rendered.get_size() == CAPTURE_SIZE, "cat motion actual framebuffer size"): break
+		var filename := "%05d.png" % index
+		if not _check(rendered.save_png(frame_dir.path_join(filename)) == OK, "cat motion frame saved"): break
+		if snapshot.get("dance_active", false): active_frames += 1
+		else: finished_frames += 1
+		samples.append({"file": filename, "frame_index": index, "animation": _serialise(snapshot),
+			"banked_score": game.score.total_score, "wins": game.cat_encounter.status_snapshot().wins})
+		if index == 20:
+			if _check(snapshot.get("dance_active", false), "motion still shows the live earned response"):
+				var label := "33-cat-earned-payoff"
+				_check(rendered.save_png(output.path_join(label + ".png")) == OK, "live payoff still saved from actual motion frame")
+				_record_capture(label, "authored_character_view", "Actual frame 20 from the same earned bin-drumming/dancing-cat motion recording. Real A/B/C captures banked 1,050 once; the physical return and production chase frustum triggered the response before this authored stage camera. Ordinary animation callbacks advance two physics ticks per sample and pause only for image readback. No phase, score, win or visibility is injected; unrelated rider/HUD are hidden.")
+		if index % 20 == 0: print("CAT MOTION FRAME: ", index)
+	actor.set_process(true)
+	_cat_motion = {"frame_count": samples.size(), "encoded_fps": 30, "silent": true,
+		"active_frames": active_frames, "finished_frames": finished_frames, "frames": samples,
+		"camera_position": _serialise(camera.global_position), "camera_rotation": _serialise(camera.global_rotation),
+		"fixture": "Same actual earned response after physical return; authored stage camera and hidden unrelated rider/HUD. Normal actor callbacks advance two physics ticks per sample; actor processing pauses only during draw/readback. Silent 30 fps presentation, not real-time rendering, output-audio, human play or Mac performance evidence."}
+	_check(samples.size() == 100 and active_frames > 30 and finished_frames > 0,
+		"cat motion records the actual bounded response through its finish")
+	_check(game.score.total_score == 1050 and game.cat_encounter.status_snapshot().wins == 1,
+		"cat motion preserves the sole actual earned win")
+	camera.queue_free()
+	await process_frame
+	game.skater._camera.current = true
+	game.hud.visible = true
+	game.skater.visible = true
+
+
+func _cat_medium(anchor: Vector3, label: String = "28-bin-busker-medium", fixture: String = "") -> void:
+	var actor: Node3D = game.cat_encounter.get_node_or_null("RaeBinBusker")
+	if not _check(is_instance_valid(actor), "original bin-busking actor exists"): return
 	game.hud.visible = false
 	game.skater.visible = false
 	var camera := Camera3D.new()
@@ -406,7 +474,7 @@ func _cat_medium(anchor: Vector3, label: String = "28-cat-workshop-medium", fixt
 	camera.fov = 42.0
 	camera.current = true
 	if fixture.is_empty():
-		fixture = "Authored three-quarter inspection camera for actual Rae, original mechanical cat and steady A/B/C stage indicators; unrelated player visual and HUD hidden only in this medium view. No injected challenge or animation state."
+		fixture = "Authored three-quarter inspection camera for the original fictional drummer, fake-bin percussion, dancing-cat figures and steady A/B/C stage indicators; unrelated player visual and HUD hidden only in this medium view. No injected challenge or animation state."
 	await _capture(label, "authored_character_view", fixture)
 	camera.queue_free()
 	await process_frame
@@ -417,7 +485,7 @@ func _cat_medium(anchor: Vector3, label: String = "28-cat-workshop-medium", fixt
 
 func _cat_animation_snapshot() -> Dictionary:
 	if not is_instance_valid(game.get("cat_encounter")): return {}
-	var actor: Node3D = game.cat_encounter.get_node_or_null("RaeWorkshop")
+	var actor: Node3D = game.cat_encounter.get_node_or_null("RaeBinBusker")
 	return actor.animation_snapshot() if is_instance_valid(actor) else {}
 
 
@@ -541,6 +609,10 @@ func _capture(label: String, kind: String, fixture: String, require_map: bool = 
 	var captured := root.get_texture().get_image()
 	if not _check(captured.get_size() == CAPTURE_SIZE, label + " actual framebuffer size"): return
 	if not _check(captured.save_png(output.path_join(label + ".png")) == OK, label + " saved"): return
+	_record_capture(label, kind, fixture)
+
+
+func _record_capture(label: String, kind: String, fixture: String) -> void:
 	var camera: Camera3D = root.get_camera_3d()
 	captures.append({"file": label + ".png", "kind": kind, "fixture": fixture,
 		"player_position": _serialise(game.skater.global_position), "player_heading": game.skater.rotation.y,
@@ -557,7 +629,7 @@ func _capture(label: String, kind: String, fixture: String, require_map: bool = 
 		"cat_animation": _cat_animation_snapshot(), "presentation_settings": game.career.settings.duplicate(true),
 		"banked_score": game.score.total_score, "pending_combo": game.score.get_combo_value(),
 		"draw_calls": Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)})
-	print("LEVEL CAPTURE: ", label, " size=", captured.get_size(), " kind=", kind)
+	print("LEVEL CAPTURE: ", label, " size=", CAPTURE_SIZE, " kind=", kind)
 
 
 func _on_post_draw() -> void:

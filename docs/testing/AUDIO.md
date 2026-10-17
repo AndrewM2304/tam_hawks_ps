@@ -53,3 +53,10 @@ Required listening route: from rest push across stone, asphalt and metal, ollie/
 ## Contact and completion integration
 
 Main now selects wheel surfaces from actual upward collision contacts: connector asphalt, painted-metal ramps and stone fallback. Grinds retain their separate loop. Restart resets the surface, and a completed run near an NPC can play the cooldown-protected “again” reaction. `tests/presentation_integration_tests.gd` verifies real square, street and ramp contact and player-facing feedback; the audio suite retains waveform/state checks. These automated checks do not replace listening.
+
+
+## Bin-drum busking correction — 17 October 2026
+
+`game/characters/bin_percussion.gd` generates a separate original eight-second, 120 BPM mono 22,050 Hz/16-bit PCM loop. Sine sweeps, inharmonic container resonances and deterministic filtered noise supply kick, tub, snare and hat sounds. No article/video soundtrack, melody, sample or recording is imported. The source generator is the reproducible asset.
+
+`main.apply_settings` forwards master and ambience volumes to `cat_encounter.set_mix`; the actor owns one bounded spatial player. Pause freezes its animation/playback, run end disables it, settings changes cannot re-enable a finished run, and run reset restores eligibility. Reduced motion holds the drummer and fabric-cat poses still. Independent cat tests inspect PCM format, duration, peak/energy/seam, finite mix clamping, mute, settings forwarding and lifecycle state; the Dummy driver does not provide audible playback evidence. Current counts and rendered evidence belong in STATUS/QE after the final source pass. Human listening, instrument mix, local tone and target-device audio remain open.

@@ -1,5 +1,7 @@
 # Local native exports
 
+**Latest correction:** bin drums and soft dancing cats are being verified and rebuilt. All ae481e6/court-cat packages below are historical until the new clean build and independent audit are recorded. No old native result certifies the corrected actor.
+
 `tools/export.sh` prepares repeatable, unsigned local packages for Linux x86_64 and macOS universal (arm64 + x86_64). It uses free official Godot 4.6.3 templates and never signs, notarizes, uploads, publishes or calls a paid service. A successful cross-export does not establish that the game launches or performs acceptably on a Mac.
 
 ## Prepare and build
@@ -136,7 +138,7 @@ Durable [native-redesign receipts](native-redesign/README.md) include exact meta
 The Mac app remains unsigned, unnotarized and not launch-tested on a real Mac. Actual DualSense use, offline Mac save relaunch, Apple Silicon frame times, listening, human route discovery/fun and final realistic art remain open. M06-007 and the explicit later mechanics/encounter tasks remain tracked. No build was published and no paid service was used.
 
 
-### Current native checkpoint — ae481e6, 17 October 2026
+### Historical mechanical-cat native checkpoint — ae481e6, 17 October 2026
 
 `./tools/export.sh --skip-check` completed exit **0** from clean runtime **`ae481e684a0e7c897a4f0ff5b2492e7ceb4390d1`**. The unchanged production source had already passed **1,025/0**,34 accepted source-stable images, an audited six-view rendered diagnostic and decoded rider motion. Metadata records the skipped repeat. All **109** package inputs remained unchanged; fingerprint **`9bf76faacdefb8497cf1552363fb3eac93cf0ca46e874acba06012ddceb6f11c`**. Later handoff-only commits do not change this runtime or packaged player/provenance documents.
 

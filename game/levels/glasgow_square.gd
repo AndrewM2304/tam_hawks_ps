@@ -378,7 +378,7 @@ func _build_george_square() -> void:
 
 
 func _build_civic_workshop() -> void:
-	# The original workshop/garden backdrop is a real chamfered terrace. The
+	# The original civic garden/busking backdrop is a real chamfered terrace. The
 	# ordered coping course in front stays on the ordinary Y4 civic floor.
 	_terrain.add_polygon(self, "CivicWorkshopBackdrop", PackedVector3Array([
 		Vector3(-16,4.65,-95),Vector3(-13,4.65,-99),Vector3(13,4.65,-99),
@@ -408,7 +408,7 @@ func _build_civic_workshop() -> void:
 	# The low side-seat caps explain the raised backdrop as civic architecture.
 	for x: float in [-10.5,10.5]:
 		_box(self, "WorkshopBackSeat", Vector3(x,4.91,-98), Vector3(5.2,0.52,0.7), "stone", true)
-	_label(self, "WorkshopBackdropSign", "THE WEE WORKSHOP / REPAIR & PLAY", Vector3(0,5.25,-99.0), 26, "cream", Vector3.ZERO, 0.01)
+	_label(self, "WorkshopBackdropSign", "THE WEE BIN SESSION / DRUMS & DANCING CATS", Vector3(0,5.25,-99.0), 26, "cream", Vector3.ZERO, 0.01)
 
 
 func _build_central_station() -> void:
@@ -629,11 +629,11 @@ func get_recovery_position(world_position: Vector3) -> Vector3:
 
 func get_route_definitions() -> Array[Dictionary]:
 	var routes: Array[Dictionary] = [
-		_route("cat_coping_approach", "Workshop coping approach", [Vector3(-28,4,-91),Vector3(-22,4,-91),Vector3(-18,4,-91)], false),
-		_route("cat_coping_runout", "Workshop coping landing and return", [Vector3(16,4,-91),Vector3(22,4,-91),Vector3(22,4,-74)]),
-		_route("cat_ordered_coping_line", "Workshop A to B to C coping line", [Vector3(-28,4,-91),Vector3(-16,4.60,-91),Vector3(-10,4.60,-91),Vector3(-7,4,-91),Vector3(-4,4.60,-91),Vector3(2,4.60,-91),Vector3(5,4,-91),Vector3(8,4.60,-91),Vector3(14,4.60,-91),Vector3(22,4,-91)], true),
-		_route("cat_workshop_bypass", "Workshop permanent civic bypass", [Vector3(-22,4,-91),Vector3(-22,4,-74),Vector3(22,4,-74),Vector3(22,4,-91)]),
-		_route("civic_workshop_bank_loop", "Civic workshop terrace banks", [Vector3(-22,4,-95.5),Vector3(-19.625,4,-95.5),Vector3(-15.625,4.65,-95.5),Vector3(-10,4.65,-94.5),Vector3(10,4.65,-94.5),Vector3(15.625,4.65,-95.5),Vector3(19.625,4,-95.5),Vector3(22,4,-95.5)]),
+		_route("cat_coping_approach", "Busking coping approach", [Vector3(-28,4,-91),Vector3(-22,4,-91),Vector3(-18,4,-91)], false),
+		_route("cat_coping_runout", "Busking coping landing and return", [Vector3(16,4,-91),Vector3(22,4,-91),Vector3(22,4,-74)]),
+		_route("cat_ordered_coping_line", "Busking A to B to C coping line", [Vector3(-28,4,-91),Vector3(-16,4.60,-91),Vector3(-10,4.60,-91),Vector3(-7,4,-91),Vector3(-4,4.60,-91),Vector3(2,4.60,-91),Vector3(5,4,-91),Vector3(8,4.60,-91),Vector3(14,4.60,-91),Vector3(22,4,-91)], true),
+		_route("cat_workshop_bypass", "Busking permanent civic bypass", [Vector3(-22,4,-91),Vector3(-22,4,-74),Vector3(22,4,-74),Vector3(22,4,-91)]),
+		_route("civic_workshop_bank_loop", "Civic busking terrace banks", [Vector3(-22,4,-95.5),Vector3(-19.625,4,-95.5),Vector3(-15.625,4.65,-95.5),Vector3(-10,4.65,-94.5),Vector3(10,4.65,-94.5),Vector3(15.625,4.65,-95.5),Vector3(19.625,4,-95.5),Vector3(22,4,-95.5)]),
 		_route("market_hall_bank_loop", "Market hall bank and angled aisle", [Vector3(82,0,8),Vector3(80,0,8),Vector3(76,0.65,8),Vector3(68,0.65,8),Vector3(67,0.65,13),Vector3(69,0.65,17),Vector3(73,0,17),Vector3(78,0,17),Vector3(82,0,8)]),
 		_route("gallery_civic_ascent", "Gallery to civic terraces", [Vector3(-22,0,28), Vector3(-22,0,-4), Vector3(-22,2,-18), Vector3(-22,2,-42), Vector3(-22,4,-56), Vector3(-22,4,-96), Vector3(-22,6,-108), Vector3(-22,6,-118)]),
 		_route("exchange_fountain_loop", "Fountain court loop", [Vector3(-22,0,28), Vector3(22,0,28), Vector3(22,0,-2), Vector3(-22,0,-2), Vector3(-22,0,28)]),

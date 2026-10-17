@@ -15,6 +15,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	game.career = CareerSource.new()
 	await _physical_sequence(tree, game, check)
 	await _lifecycle(tree, game, check)
+	await _audio_controls(tree, game, check)
 	_release()
 	game.career = original_career
 	game.apply_settings(original_career.settings, false)
@@ -82,7 +83,7 @@ static func _rules(tree: SceneTree, check: Callable) -> void:
 		"cat rules: the earned payoff waits for both close audience and visibility without repeating rewards")
 	cat.poll(Vector3(9.99, 0, 0), false, 0.0, 0, true)
 	await _frames(tree, 5)
-	var actor = cat.get_node("RaeWorkshop")
+	var actor = cat.get_node("RaeBinBusker")
 	var elapsed: float = actor.animation_snapshot().dance_elapsed
 	cat.poll(Vector3.ZERO, false, 0.0, 0, true)
 	check.call(cat.status_snapshot().celebration_started and actor.animation_snapshot().dance_active
@@ -153,6 +154,7 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 	if rails.size() != 3 or not game.skater.has_signal("grind_captured"): return
 	var anchor: Vector3 = game.cat_encounter.status_snapshot().position
 	await _reset(tree, game, anchor + Vector3(0, 0.8, 3), true)
+	_actor_structure(game.cat_encounter.get_node("RaeBinBusker"), check)
 	var completed: Array = game.career.completed_ids.duplicate()
 	var record: int = game.career.best_score
 	var evidence := {"ids": [], "positions": [], "tricks": [], "bails": 0, "states": []}
@@ -242,9 +244,10 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 
 
 static func _payoff(tree: SceneTree, game: Node, check: Callable) -> void:
-	var actor = game.cat_encounter.get_node("RaeWorkshop")
-	var sculpture: Node3D = actor.get_node("OriginalClockworkCat")
-	var paw: Node3D = sculpture.get_node("FrontLeftPaw")
+	var actor = game.cat_encounter.get_node("RaeBinBusker")
+	var first_cat: Node3D = actor.get_node("FabricCatOne")
+	var second_cat: Node3D = actor.get_node("FabricCatTwo")
+	var drummer: Node3D = actor.get_node("StreetDrummer")
 	var indicator: MeshInstance3D = actor.get_node("ChargeIndicator1")
 	var anchor: Vector3 = game.cat_encounter.status_snapshot().position
 	var stage_point := anchor + Vector3(0, 0.8, 0)
@@ -277,6 +280,13 @@ static func _payoff(tree: SceneTree, game: Node, check: Callable) -> void:
 		and trigger_visible and trigger_distance <= 10.0 and game.cat_encounter.status_snapshot().wins == 1
 		and game.score.total_score == banked,
 		"cat presentation: actual input return and the production camera frustum start one visible payoff")
+	var first_active_pose := _pose_snapshot(first_cat)
+	var second_active_pose := _pose_snapshot(second_cat)
+	var drummer_active_pose := _pose_snapshot(drummer)
+	await _frames(tree, 8)
+	check.call(actor.animation_snapshot().dance_active and not _same_pose(first_cat, first_active_pose)
+		and not _same_pose(second_cat, second_active_pose) and not _same_pose(drummer, drummer_active_pose),
+		"Techno Bin presentation: the earned visible payoff actually moves both soft cats and the drummer")
 	var elapsed: float = actor.animation_snapshot().dance_elapsed
 	game.toggle_pause()
 	await _frames(tree, 20)
@@ -294,14 +304,18 @@ static func _payoff(tree: SceneTree, game: Node, check: Callable) -> void:
 		and game.cat_encounter.status_snapshot().wins == 1 and game.score.total_score == banked,
 		"cat presentation: the visible payoff completes its full bound without another completion")
 	game.apply_settings({"reduced_motion": true}, false)
-	var body_pose: Transform3D = sculpture.transform
-	var paw_pose: Transform3D = paw.transform
+	var first_pose := _pose_snapshot(first_cat)
+	var second_pose := _pose_snapshot(second_cat)
+	var drummer_pose := _pose_snapshot(drummer)
+	var reduced_beat_phase: float = actor.animation_snapshot().drum_phase
 	var indicator_colour: Color = indicator.material_override.albedo_color
 	await _frames(tree, 30)
 	check.call(actor.animation_snapshot().reduced_motion and not actor.animation_snapshot().dance_active
-		and sculpture.transform.is_equal_approx(body_pose) and paw.transform.is_equal_approx(paw_pose)
+		and _same_pose(first_cat, first_pose) and _same_pose(second_cat, second_pose)
+		and _same_pose(drummer, drummer_pose)
+		and not is_equal_approx(actor.animation_snapshot().drum_phase, reduced_beat_phase)
 		and indicator.material_override.albedo_color == indicator_colour,
-		"cat presentation: live reduced motion uses a stable pose and steady charge indicator")
+		"cat presentation: reduced motion holds both cats and drummer still while the underlying drum clock continues")
 	game.apply_settings({"reduced_motion": false}, false)
 	await _frames(tree, 30)
 	check.call(not actor.animation_snapshot().dance_active
@@ -371,6 +385,128 @@ static func _lifecycle(tree: SceneTree, game: Node, check: Callable) -> void:
 		game.cat_encounter.status_snapshot().reason, game.skater.global_position,
 		game.skater.speed, game.skater.manual_active])
 	game.skater.bailed.disconnect(on_bail)
+
+
+static func _actor_structure(actor: Node3D, check: Callable) -> void:
+	var first_cat := actor.get_node_or_null("FabricCatOne") as Node3D
+	var second_cat := actor.get_node_or_null("FabricCatTwo") as Node3D
+	check.call(first_cat != null and second_cat != null and first_cat != second_cat
+		and _has_fabric_mesh(first_cat) and _has_fabric_mesh(second_cat)
+		and actor.animation_snapshot().soft_cat_count == 2,
+		"Techno Bin presentation: two separate visible cat props use soft nonmetal materials")
+	var drummer := actor.get_node_or_null("StreetDrummer") as Node3D
+	var kit := actor.get_node_or_null("BinDrumKit") as Node3D
+	check.call(drummer != null and kit != null and _has_visible_mesh(drummer)
+		and _has_visible_mesh(kit) and actor.animation_snapshot().drummer_active,
+		"Techno Bin presentation: the active street drummer has a visible improvised bin kit")
+	var sign := actor.get_node_or_null("PitchSign") as Label3D
+	check.call(sign != null and sign.is_visible_in_tree() and "TECHNO BIN" in sign.text.to_upper()
+		and not "MECHANICAL" in sign.text.to_upper() and sign.font_size >= 24
+		and sign.pixel_size >= 0.002 and sign.outline_size > 0 and sign.visibility_range_end >= 10.0,
+		"Techno Bin presentation: a legible-sized outlined world sign identifies the corrected street act")
+
+
+static func _audio_controls(tree: SceneTree, game: Node, check: Callable) -> void:
+	var anchor: Vector3 = game.cat_encounter.status_snapshot().position
+	await _reset(tree, game, anchor + Vector3(0, 0.8, 3), false)
+	var actor: Node = game.cat_encounter.get_node("RaeBinBusker")
+	var players := actor.find_children("*", "AudioStreamPlayer3D", true, false)
+	check.call(players.size() == 1,
+		"Techno Bin audio: the performer owns exactly one spatial percussion source")
+	if players.size() != 1: return
+	var player := players[0] as AudioStreamPlayer3D
+	var stream := player.stream as AudioStreamWAV
+	check.call(stream != null and stream.format == AudioStreamWAV.FORMAT_16_BITS
+		and not stream.stereo and stream.get_length() >= 2.0 and stream.get_length() <= 12.0
+		and stream.loop_mode == AudioStreamWAV.LOOP_FORWARD and player.max_distance <= 32.0,
+		"Techno Bin audio: original percussion is a bounded spatial mono PCM loop")
+	if stream != null:
+		var peak := 0
+		var energy := 0.0
+		for sample in range(stream.data.size() / 2):
+			var value: int = stream.data.decode_s16(sample * 2)
+			peak = maxi(peak, absi(value))
+			energy += float(value) * value
+		var rms := sqrt(energy / maxf(1.0, stream.data.size() / 2.0))
+		check.call(peak > 500 and peak < 32767 and rms > 100
+			and absi(stream.data.decode_s16(0) - stream.data.decode_s16(stream.data.size() - 2)) < 128,
+			"Techno Bin audio: generated drum samples carry energy without clipping or a loud loop seam")
+	game.apply_settings({"audio": 1.0, "ambience_volume": 1.0}, false)
+	var full_gain: float = db_to_linear(player.volume_db)
+	game.cat_encounter.set_mix(NAN, 1.0)
+	var invalid_master_muted: bool = not player.playing and player.volume_db <= -70.0
+	game.cat_encounter.set_mix(1.0, NAN)
+	var invalid_ambience_muted: bool = not player.playing and player.volume_db <= -70.0
+	game.cat_encounter.set_mix(2.0, 2.0)
+	check.call(invalid_master_muted and invalid_ambience_muted
+		and is_equal_approx(db_to_linear(player.volume_db), full_gain),
+		"Techno Bin audio: nonfinite gains mute safely and excessive direct gains clamp to full mix")
+	game.apply_settings({"audio": 0.5, "ambience_volume": 0.5}, false)
+	check.call(full_gain > 0.0 and is_equal_approx(db_to_linear(player.volume_db), full_gain * 0.25),
+		"Techno Bin audio: the public master and ambience controls both scale the drum mix")
+	game.apply_settings({"audio": 0.0, "ambience_volume": 1.0}, false)
+	var master_muted: bool = not player.playing and player.volume_db <= -70.0
+	game.apply_settings({"audio": 1.0, "ambience_volume": 0.0}, false)
+	check.call(master_muted and not player.playing and player.volume_db <= -70.0,
+		"Techno Bin audio: either mute control stops the percussion source")
+	game.apply_settings({"audio": 1.0, "ambience_volume": 1.0}, false)
+	var phase: float = actor.animation_snapshot().drum_phase
+	game.toggle_pause()
+	await _frames(tree, 12)
+	check.call(not player.can_process() and not actor.can_process()
+		and is_equal_approx(actor.animation_snapshot().drum_phase, phase),
+		"Techno Bin audio: a real menu pause suspends the source and visible drum rhythm")
+	game.toggle_pause()
+	await _frames(tree, 2)
+	check.call(player.can_process() and actor.animation_snapshot().audio_enabled
+		and actor.animation_snapshot().drum_phase > phase,
+		"Techno Bin audio: resuming restores performer processing and rhythm")
+	game.time_remaining = 0.01 # Explicit run-boundary fixture; no movement or score injection.
+	await _frames(tree, 3)
+	phase = actor.animation_snapshot().drum_phase
+	game.apply_settings({"audio": 0.5, "ambience_volume": 1.0}, false)
+	await _frames(tree, 3)
+	check.call(game.run_finished and not actor.animation_snapshot().audio_enabled
+		and not actor.animation_snapshot().drummer_active and not player.playing
+		and is_equal_approx(actor.animation_snapshot().drum_phase, phase),
+		"Techno Bin audio: run end stops the beat and changing settings cannot restart a finished act")
+	game.restart_run()
+	var restarted_phase: float = actor.animation_snapshot().drum_phase
+	await _frames(tree, 3)
+	check.call(actor.animation_snapshot().audio_enabled and actor.animation_snapshot().drummer_active
+		and actor.animation_snapshot().drum_phase > restarted_phase,
+		"Techno Bin audio: the next run restores the local street performance")
+	# Dummy-driver evidence establishes data/gates, not audible playback quality.
+
+
+static func _has_visible_mesh(parent: Node3D) -> bool:
+	if parent == null or not parent.is_visible_in_tree(): return false
+	for child in parent.find_children("*", "MeshInstance3D", true, false):
+		if child.is_visible_in_tree() and child.mesh != null: return true
+	return false
+
+
+static func _has_fabric_mesh(parent: Node3D) -> bool:
+	if parent == null or not parent.is_visible_in_tree(): return false
+	for child in parent.find_children("*", "MeshInstance3D", true, false):
+		var material: StandardMaterial3D = child.material_override as StandardMaterial3D
+		if child.is_visible_in_tree() and child.mesh != null and material != null:
+			if material.metallic <= 0.1 and material.roughness >= 0.65: return true
+	return false
+
+
+static func _pose_snapshot(parent: Node3D) -> Dictionary:
+	var poses := {".": parent.transform}
+	for child in parent.find_children("*", "Node3D", true, false):
+		poses[String(parent.get_path_to(child))] = child.transform
+	return poses
+
+
+static func _same_pose(parent: Node3D, poses: Dictionary) -> bool:
+	for path: String in poses:
+		var node := parent.get_node_or_null(path) as Node3D
+		if node == null or not node.transform.is_equal_approx(poses[path]): return false
+	return true
 
 
 static func _reset(tree: SceneTree, game: Node, at: Vector3, free: bool) -> void:

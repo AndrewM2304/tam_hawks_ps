@@ -4,15 +4,20 @@ set -euo pipefail
 TASK_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$TASK_ROOT"
 TASK_PRIVATE_DISPLAY=false
+TASK_CAT_MOTION=false
 while (($#)); do
   case "$1" in
     --private-display) TASK_PRIVATE_DISPLAY=true ;;
-    --help|-h) echo 'Usage: tools/level_design_capture.sh [--private-display]'; exit 0 ;;
+    --cat-motion) TASK_CAT_MOTION=true ;;
+    --help|-h) echo 'Usage: tools/level_design_capture.sh [--private-display] [--cat-motion]'; exit 0 ;;
     --headless) echo 'Headless cannot provide rendered image evidence.' >&2; exit 2 ;;
-    *) echo 'Usage: tools/level_design_capture.sh [--private-display]' >&2; exit 2 ;;
+    *) echo 'Usage: tools/level_design_capture.sh [--private-display] [--cat-motion]' >&2; exit 2 ;;
   esac
   shift
 done
+if [[ "$TASK_CAT_MOTION" == true ]]; then
+  command -v ffmpeg >/dev/null 2>&1 && command -v ffprobe >/dev/null 2>&1 || { echo 'The optional motion capture requires installed free ffmpeg/ffprobe.' >&2; exit 1; }
+fi
 TASK_VERSION="$(./tools/run.sh --version)"
 case "$TASK_VERSION" in 4.6.3.*) ;; *) echo "Expected Godot 4.6.3, found $TASK_VERSION" >&2; exit 1 ;; esac
 mkdir -p .local
@@ -59,10 +64,11 @@ elif [[ "$TASK_PRIVATE_DISPLAY" == true && "$(uname -s)" != Linux ]]; then
   echo '--private-display requires the Linux Xorg dummy driver; use the native macOS desktop.' >&2
   exit 2
 fi
-python3 - "$TASK_ROOT" "$TASK_OUTPUT" <<'PY' &
+python3 - "$TASK_ROOT" "$TASK_OUTPUT" "$TASK_CAT_MOTION" <<'PY' &
 import hashlib, json, os, pathlib, re, shutil, signal, subprocess, sys
 root, output = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
-destination = root / 'docs/testing/screenshots/court-cat'
+destination = root / 'docs/testing/screenshots/bin-cats'
+capture_motion = sys.argv[3] == 'true'
 def fingerprint():
     inputs = [root / name for name in ('project.godot', 'tools/run.sh', 'tools/level_design_capture.gd', 'tools/level_design_capture.sh', 'tools/xorg-dummy.conf')]
     for name in ('game', 'assets'):
@@ -75,6 +81,8 @@ before = fingerprint()
 command = [str(root / 'tools/run.sh'), '--rendering-method', 'gl_compatibility', '--audio-driver', 'Dummy',
            '--windowed', '--resolution', '1280x800', '--disable-render-loop', '--fixed-fps', '60',
            '--script', 'tools/level_design_capture.gd', '--', str(output)]
+if capture_motion:
+    command.append('--cat-motion')
 process = None
 def stop_process():
     if process is not None and process.poll() is None:
@@ -89,7 +97,19 @@ def interrupted(signum, _frame):
     raise SystemExit(128 + signum)
 signal.signal(signal.SIGINT, interrupted)
 signal.signal(signal.SIGTERM, interrupted)
-print(f'Capturing actual six-area court/cat/map evidence; temporary outputs: {output}', flush=True)
+def run_media(arguments, timeout):
+    global process
+    process = subprocess.Popen(arguments, cwd=root, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               text=True, start_new_session=True)
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        stop_process()
+        raise SystemExit('Media validation exceeded its bound; child process stopped.')
+    if process.returncode:
+        raise SystemExit('Media validation failed: ' + stderr[-2000:])
+    return stdout
+print(f'Capturing actual six-area bin-drumming/cat/map evidence; temporary outputs: {output}', flush=True)
 try:
     with (output / 'engine.log').open('w') as log:
         process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
@@ -119,11 +139,39 @@ for capture in report['captures']:
     if pathlib.Path(filename).name != filename or not filename.endswith('.png') or not (output / filename).is_file():
         raise SystemExit('Unexpected/missing capture file; no images published.')
     capture['sha256'] = hashlib.sha256((output / filename).read_bytes()).hexdigest()
+if capture_motion:
+    motion = report.get('cat_motion', {})
+    frames = motion.get('frames', [])
+    if motion.get('frame_count') != 100 or len(frames) != 100:
+        raise SystemExit('Incomplete earned-stage motion; no images published.')
+    for index, frame in enumerate(frames):
+        frame_path = output / 'cat-motion-frames' / f'{index:05d}.png'
+        if frame.get('file') != frame_path.name or not frame_path.is_file():
+            raise SystemExit('Missing motion frame; no evidence published.')
+        frame['sha256'] = hashlib.sha256(frame_path.read_bytes()).hexdigest()
+    video = output / 'bin-cats-earned-motion.mp4'
+    run_media(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-framerate', '30',
+                    '-i', str(output / 'cat-motion-frames/%05d.png'), '-frames:v', '100',
+                    '-c:v', 'libx264', '-crf', '20', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', str(video)],
+                   timeout=60)
+    decoded = run_media(['ffprobe', '-v', 'error', '-count_frames', '-select_streams', 'v:0',
+                              '-show_entries', 'stream=nb_read_frames', '-of', 'default=noprint_wrappers=1:nokey=1', str(video)],
+                             timeout=30).strip()
+    if decoded != '100':
+        raise SystemExit('Motion decode frame count differs; no evidence published.')
+    run_media(['ffmpeg', '-v', 'error', '-i', str(video), '-f', 'null', '-'], timeout=60)
+    motion.update(video_file=video.name, video_sha256=hashlib.sha256(video.read_bytes()).hexdigest(),
+                  video_bytes=video.stat().st_size, decoded_frames=100, full_decode_passed=True,
+                  promoted_path=str(root.parent / 'TamHawks-bin-cats-preview.mp4'))
+    if fingerprint() != before:
+        raise SystemExit('Source changed during motion validation; no evidence published.')
 manifest_path.write_text(json.dumps(report, indent=2) + '\n')
 destination.mkdir(parents=True, exist_ok=True)
 for capture in report['captures']:
     shutil.copyfile(output / capture['file'], destination / capture['file'])
 shutil.copyfile(manifest_path, destination / 'manifest.json')
+if capture_motion:
+    shutil.copyfile(video, root.parent / 'TamHawks-bin-cats-preview.mp4')
 print(f'LEVEL_CAPTURE_OK: 34 actual PNGs and source/fixture manifest in {destination}', flush=True)
 PY
 TASK_CAPTURE_PID=$!
