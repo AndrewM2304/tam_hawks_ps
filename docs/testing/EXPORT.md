@@ -1,6 +1,6 @@
 # Local native exports
 
-**Latest correction:** bin drums and soft dancing cats are being verified and rebuilt. All ae481e6/court-cat packages below are historical until the new clean build and independent audit are recorded. No old native result certifies the corrected actor.
+**Latest checkpoint:** the corrected bin-drum/dancing-cat act is packaged from clean runtime `100dde5f8d7aef5b1547890dc65ef188da66d697`; see the final section and native-bin-cats receipts. Older ae481e6/court-cat builds remain historical.
 
 `tools/export.sh` prepares repeatable, unsigned local packages for Linux x86_64 and macOS universal (arm64 + x86_64). It uses free official Godot 4.6.3 templates and never signs, notarizes, uploads, publishes or calls a paid service. A successful cross-export does not establish that the game launches or performs acceptably on a Mac.
 
@@ -162,3 +162,25 @@ Headless120 frames and rendered 1920×1080/30 frames both exit **0**, clean engi
 Durable [native-court-cat receipts](native-court-cat/README.md) preserve clean metadata, isolated pack reports, independent archive audit and startup logs. Exact runtime inputs bind the pre-commit dirty-base world/profile/motion evidence to this clean runtime. The final source ZIP contains subsequent handoff-only commits; external `TamHawks-downloads-SHA256SUMS.txt` records native/source/video digests.
 
 The Mac app remains unsigned, unnotarized and not launch-tested on Mac. Physical DualSense, offline Mac save relaunch, Apple Silicon moving-route frame times, human listening/fun and final realistic-art acceptance remain open. No artifact was publicly released and no paid service was used.
+
+
+### Current native checkpoint — corrected bin drums and dancing cats
+
+`./tools/export.sh --skip-check` exits 0 from clean runtime **`100dde5f8d7aef5b1547890dc65ef188da66d697`**. Export and the final **1,039/0** ordinary suite use the same frozen inputs; the export script skips repeating that suite. The final suite receipt verifies 148 unchanged source/test files. Focused 52/0 and 104-input/34-image/100-frame capture evidence are separate, not added to the aggregate.
+
+Build: `builds/tam-hawks-20261017T171619Z-100dde5f8d7a/`. Metadata records a clean checkout, 111 package inputs and fingerprint `e3b365e78d248125fe36cd360a475e8945117048ed48f905d75d8f39ae8e5182`; metadata SHA-256 `871d4d8bcaebdf371284e90f060436c5d70dec219d340428c580181e71090f5d`. Both native packs share SHA-256 `e103f0a47092f752ca2c81801ce5e85c74f518890c4b55693d0c42666e31f85d`.
+
+| Convenience archive | Bytes | SHA-256 |
+|---|---:|---|
+| `/workspace/TamHawksProSkater-linux.zip` | 32,051,394 | `182147536cdec951bddead4ef94939df36addb34c28bf3c168d39dc8e5d0ee67` |
+| `/workspace/TamHawksProSkater-macos.zip` | 66,610,929 | `0a84b144d6ea719913dc4f21da73d4bc327fffa97d4a33c9958babc4d2e00133` |
+
+Independent ZIP CRC/unique safe paths, package equality, executable 755/ELF/universal Mach-O, all 13 notices/provenance and 111-source-input checks pass. All 100 capture/package overlaps match. Empty-project source/Linux/Mac probes load the new bin-percussion module and generate identical cached 8s/22,050Hz mono16 PCM, alongside existing scene/voice/texture/anatomy pack checks. The audit helper, reports, metadata and startup logs are retained in [native-bin-cats](native-bin-cats/README.md).
+
+```sh
+./tools/native_smoke.sh /workspace/tam_hawks_ps/builds/tam-hawks-20261017T171619Z-100dde5f8d7a
+```
+
+Normal Linux main startup passes headless 120 and rendered 1920×1080/30 frames, exit0, isolated XDG and no engine/script/resource errors. The private software driver’s unsupported V-Sync warning is environmental. This is startup evidence, not performance or audible-output acceptance. The Mac app is unsigned, unnotarized and not real-Mac launch-tested.
+
+The final source ZIP is generated from the later committed documentation handoff; its ZIP comment identifies that commit. Native runtime/package inputs remain the clean 100dde5 commit above. The new silent 100-frame bin-cat preview and external download checksums are recorded in STATUS;previous profile/rider-motion footage remains historical. No paid signing, hosted CI or public release was triggered.

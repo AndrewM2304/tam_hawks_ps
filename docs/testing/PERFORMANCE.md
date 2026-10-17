@@ -1,5 +1,7 @@
 # Reproducible rendered performance diagnostic
 
+**Checkpoint note:** The retained six-view measurements below predate the bin-drum/dancing-cat correction. They remain a historical software-rendered checkpoint; no new-actor or target-Mac performance pass is claimed. Current corrected-scene evidence belongs in STATUS and screenshots/bin-cats.
+
 `tools/profile.sh` runs the installed **Godot 4.6.3** through `tools/run.sh` and measures six supported checkpoint views using the game's actual chase camera, HUD, world and idle physics. It provides a repeatable rendering workload for M06-004. **The Apple Silicon 60 fps acceptance gate remains open:** this diagnostic does not replace a ten-minute moving gameplay route on the declared target Mac.
 
 **Current workload:** schema 2 samples all six current checkpoints, including Clyde and Kelvingrove, using the actual production chase camera. It requires supported, stationary rider/camera settling and fingerprints source inputs and each image. The six-view run completed successfully on 17 October 2026 at 16:28 UTC with 114 samples, six inspected images and 101 unchanged source inputs. Its Linux software-rendered results are recorded below. The four-view numbers below remain historical and are not a before/after comparison with this expanded workload.

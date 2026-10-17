@@ -1,5 +1,7 @@
 # Anatomical rider revision — 17 October 2026
 
+**Checkpoint note:** The retained rider video below predates the bin-drum/dancing-cat correction. Its source-bound rider evidence remains historical for the complete game. The current corrected act has a separate silent preview and source manifest in screenshots/bin-cats; STATUS records the latest packages.
+
 The owner rejected the previous cartoon rider. This revision replaces its invented loft face and mitten hands with anatomical geometry derived from the verified CC0 MakeHuman `hm08` base, while retaining the game's native skating rig and movement contracts. Source permission, exact revision and extraction details belong in [the human reuse record](../research/HUMAN_MODEL_REUSE.md) and [the asset manifest](../../game/art/assets/makehuman_hm08/manifest.json).
 
 The visual target is an adult of roughly 1.75 m with a normally sized head, visible nose/lips/ears and five-finger hands, restrained skate clothing and shaped cupsole shoes. It is a substantial model correction; automated checks alone cannot approve realism, animation quality or final character art.

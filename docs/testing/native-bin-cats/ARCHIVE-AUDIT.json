@@ -1,0 +1,77 @@
+{
+  "audit": "Independent native/source/bin-percussion audit",
+  "runtime_commit": "100dde5f8d7aef5b1547890dc65ef188da66d697",
+  "clean_build": true,
+  "source_input_count": 111,
+  "all_source_inputs_match_git_objects_and_checkout": true,
+  "runtime_source_sha256": "e3b365e78d248125fe36cd360a475e8945117048ed48f905d75d8f39ae8e5182",
+  "metadata_sha256": "871d4d8bcaebdf371284e90f060436c5d70dec219d340428c580181e71090f5d",
+  "notices_and_provenance_records_each": 13,
+  "archives": {
+    "linux": {
+      "bytes": 32051394,
+      "sha256": "182147536cdec951bddead4ef94939df36addb34c28bf3c168d39dc8e5d0ee67",
+      "format": "ELF64 x86_64",
+      "crc_pass": true,
+      "unique_safe_paths": true,
+      "file_count": 18,
+      "all_members_match_package": true,
+      "executable_mode": "0755",
+      "pack_sha256": "e103f0a47092f752ca2c81801ce5e85c74f518890c4b55693d0c42666e31f85d"
+    },
+    "macos": {
+      "bytes": 66610929,
+      "sha256": "0a84b144d6ea719913dc4f21da73d4bc327fffa97d4a33c9958babc4d2e00133",
+      "format": "Universal Mach-O x86_64 and arm64",
+      "crc_pass": true,
+      "unique_safe_paths": true,
+      "file_count": 22,
+      "all_members_match_package": true,
+      "executable_mode": "0755",
+      "pack_sha256": "e103f0a47092f752ca2c81801ce5e85c74f518890c4b55693d0c42666e31f85d"
+    }
+  },
+  "source_evidence": {
+    "docs/testing/screenshots/bin-cats/manifest.json": {
+      "sha256": "f172612c2194f223c37a62d47ec6d93fec3446add119afb3485fad1f9d43cf87",
+      "inputs": 104,
+      "overlap": 100,
+      "overlap_matches_build": true
+    }
+  },
+  "qe_native_launch_performed": false,
+  "macos_launch_tested": false,
+  "macos_signed": false,
+  "macos_notarized": false,
+  "target_hardware_or_subjective_acceptance_claim": false,
+  "bin_percussion": {
+    "cached_identity": true,
+    "format": "PCM16",
+    "loop_begin": 0,
+    "loop_end": 176400,
+    "maximum_sample": 10671,
+    "minimum_sample": -8808,
+    "mix_rate": 22050,
+    "pcm_bytes": 352800,
+    "pcm_sha256": "0965cbed26ca6c6ef81360c1567ecf2da0c2c20e4f57b69ba0fbbef49b66b7b9",
+    "resource": "res://game/characters/bin_percussion.gd",
+    "seconds": 8.0,
+    "stereo": false
+  },
+  "isolated_bin_percussion_probes_pass": true,
+  "cross_platform_packs_byte_identical": true,
+  "source_output_import_and_licence_provenance_hashes_pass": true,
+  "native_executables_match_pinned_official_templates": true,
+  "preview": {
+    "file": "TamHawks-bin-cats-preview.mp4",
+    "bytes": 547672,
+    "sha256": "00a929553cb13ee7f7b6b10e96d07a2e29ced73c87fb25b0128da38aa7ec26fb",
+    "silent": true,
+    "decoded_frames": 100,
+    "fps": 30,
+    "seconds": 3.333333,
+    "full_decode_pass": true,
+    "performance_claim": false
+  },
+  "recorded_at_utc": "2026-10-17T17:17:20.248601+00:00"
+}
