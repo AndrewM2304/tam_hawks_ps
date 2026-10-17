@@ -277,13 +277,17 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 			and absf(angle_difference(initial_heading, game.skater.rotation.y)) > 0.5,
 			"topography: curved grind follows changing tangent without cutting through the fountain")
 		_release()
+		await _frames(tree, 1)
+		Input.action_press("grind")
+		await _frames(tree, 1)
+		Input.action_release("grind")
 		await _frames(tree, 80)
 		check.call(not game.skater.grinding and state.bails == 0
 			and game.score.total_score >= 600 and game.score.get_combo_value() == 0,
-			"topography: released curved coping lands and banks once without a bail")
+			"topography: second-tap drop from curved coping lands and banks once without a bail")
 	else:
 		check.call(false, "topography: curved grind follows changing tangent without cutting through the fountain")
-		check.call(false, "topography: released curved coping lands and banks once without a bail")
+		check.call(false, "topography: second-tap drop from curved coping lands and banks once without a bail")
 	print("TOPOGRAPHY fountain captured=%s bails=%d position=%s" % [captured, state.bails, game.skater.global_position])
 	game.skater.bailed.disconnect(on_bail)
 	_release()

@@ -6,6 +6,7 @@ const Garments = preload("res://game/player/skater_garments.gd")
 const Footwear = preload("res://game/player/skater_footwear.gd")
 const Anatomy = preload("res://game/player/skater_anatomy.gd")
 const Skateboard = preload("res://game/art/assets/tam_skateboard/tam_skateboard.glb")
+const TrickAnimation = preload("res://game/player/trick_animation.gd")
 
 var _board: Node3D
 var _board_rest_height := 0.12
@@ -28,6 +29,8 @@ var _brake_blend := 0.0
 var _flip_blend := 0.0
 var _manual_blend := 0.0
 var _grind_blend := 0.0
+var _lip_blend := 0.0
+var _crouch_blend := 0.0
 var _air_time := 0.0
 var _motion_time := 0.0
 var _torso_turn := 0.0
@@ -91,6 +94,8 @@ func reset() -> void:
 	_flip_blend = 0.0
 	_manual_blend = 0.0
 	_grind_blend = 0.0
+	_lip_blend = 0.0
+	_crouch_blend = 0.0
 	_landing = 0.0
 	_air_time = 0.0
 	_motion_time = 0.0
@@ -103,9 +108,23 @@ func animate(delta: float, state: Dictionary) -> void:
 	var flip: bool = state["flip"]
 	var manual: bool = state["manual"]
 	var grind: bool = state["grind"]
+	var lip_id: String = state.get("lip_id", "")
+	var lip := not lip_id.is_empty()
+	var lip_progress: float = clampf(state.get("lip_progress", 0.0), 0.0, 1.0)
+	var flip_id: String = state.get("flip_id", "kickflip")
+	var flip_progress: float = clampf(state.get("flip_progress", 0.5), 0.0, 1.0)
+	var grab_id: String = state.get("grab_id", "melon_grab")
+	var grab_pose := TrickAnimation.grab_pose(grab_id)
+	var grab_side: float = grab_pose["hand_side"]
+	var palm_local := Vector3.RIGHT if grab_side < 0.0 else Vector3.LEFT
+	if grab_id == "nose_grab":
+		palm_local = Vector3.BACK
+	elif grab_id == "tail_grab":
+		palm_local = Vector3.FORWARD
+	var nose_manual: bool = state.get("manual_id", "manual") == "nose_manual"
 	var ride_speed: float = state["speed"]
-	var braking: bool = state.get("brake", false) and not air and not manual and not grind and ride_speed > 0.2
-	var pushing: bool = state["push"] and not braking and not air and not manual and not grind and ride_speed < 14.5
+	var braking: bool = state.get("brake", false) and not air and not manual and not grind and not lip and ride_speed > 0.2
+	var pushing: bool = state["push"] and not braking and not air and not manual and not grind and not lip and ride_speed < 14.5
 	var steer: float = state.get("steering", 0.0)
 	var manual_balance: float = state.get("manual_balance", 0.0)
 	var grind_balance: float = state.get("grind_balance", 0.0)
@@ -125,27 +144,51 @@ func animate(delta: float, state: Dictionary) -> void:
 	_brake_blend = _blend(_brake_blend, 1.0 if braking else 0.0, delta, 12.0)
 	_air_blend = _blend(_air_blend, 1.0 if air else 0.0, delta, 14.0)
 	_grab_blend = _blend(_grab_blend, 1.0 if grab else 0.0, delta, 22.0)
-	_flip_blend = _blend(_flip_blend, 1.0 if flip or board_spin else 0.0, delta, 24.0)
+	# Detach through the board rotation, then visibly catch before the timer ends.
+	var flip_separation := smoothstep(0.0, 0.18, flip_progress) * (1.0 - smoothstep(0.80, 1.0, flip_progress)) if flip else 0.0
+	_flip_blend = _blend(_flip_blend, maxf(flip_separation, 1.0 if board_spin else 0.0), delta, 24.0)
 	_manual_blend = _blend(_manual_blend, 1.0 if manual else 0.0, delta, 12.0)
 	_grind_blend = _blend(_grind_blend, 1.0 if grind else 0.0, delta, 12.0)
-	# The rear axle stays above the supporting plane as the manual lifts the nose.
-	# Apply the geometric compensation before solving shoe/hand contact targets.
+	_lip_blend = _blend(_lip_blend, 1.0 if lip else 0.0, delta, 14.0)
+	_crouch_blend = _blend(_crouch_blend, clampf(state.get("crouch", 0.0), 0.0, 1.0), delta, 15.0)
+	# Raise the unweighted axle while balancing on either end of the board.
+	# Airborne grab/flip tilts must not manufacture a ground-support height offset.
 	var deck_pitch := _board.rotation.x
-	_board.position.y = _board_rest_height + maxf(0.0,
-		0.255 * absf(sin(deck_pitch)) + 0.088 * (cos(deck_pitch) - 1.0))
+	var support_lift := maxf(0.0, 0.255 * absf(sin(deck_pitch)) + 0.088 * (cos(deck_pitch) - 1.0))
+	_board.position.y = _board_rest_height + (support_lift if not air else 0.0)
+	if lip and lip_id == "disaster": _board.position.y -= 0.08
 	if pushing:
 		_push_phase = fmod(_push_phase + delta * (1.25 + ride_speed * 0.025), 1.0)
 	var landing_curve := sin(PI * clampf(_landing / 0.30, 0.0, 1.0))
 	var compression := 0.14 * landing_curve
 	var launch_tuck := sin(PI * clampf(_air_time / 0.35, 0.0, 1.0)) * _air_blend
-	var hips_y := 0.955 - 0.055 * _air_blend - 0.31 * _grab_blend - compression - 0.08 * launch_tuck - 0.05 * tumble
+	var grab_tuck: float = grab_pose["tuck"]
+	var hips_y := 0.955 - 0.055 * _air_blend - grab_tuck * _grab_blend - compression - 0.08 * launch_tuck - 0.05 * tumble
 	hips_y -= 0.025 * _push_blend + 0.035 * _brake_blend
+	hips_y -= 0.17 * _crouch_blend + 0.07 * _lip_blend
+	# Distinct weight placement reads in chase view and leaves both feet on deck.
+	var weight_z := (-0.105 if nose_manual else 0.055) * _manual_blend
+	var grab_reach_z := -0.10 if grab_id == "nose_grab" else (0.24 if grab_id == "tail_grab" else 0.0)
+	weight_z += grab_reach_z * _grab_blend
+	if lip_id == "nose_stall":
+		weight_z -= 0.10 * _lip_blend
+	elif lip_id == "tail_stall":
+		weight_z += 0.10 * _lip_blend
+	elif lip_id == "disaster":
+		hips_y -= 0.08 * _lip_blend
+	var lip_sway := sin(TAU * lip_progress) * 0.025 * _lip_blend
 	var breathing := sin(_motion_time * 2.1) * 0.004 * (1.0 - _air_blend)
-	_upper.position = Vector3(0.025 * _push_blend - 0.018 * _brake_blend, hips_y + breathing, 0)
+	_upper.position = Vector3(0.025 * _push_blend - 0.018 * _brake_blend + lip_sway, hips_y + breathing, weight_z)
 	_upper.rotation.x = -0.07 - _grab_blend * 0.23 - _push_blend * 0.13 + _brake_blend * 0.09 - compression * 0.4
+	_upper.rotation.x -= 0.20 * _crouch_blend + (0.16 if nose_manual else -0.05) * _manual_blend
+	_upper.rotation.x += grab_reach_z * 2.0 * _grab_blend
+	if grab_id == "method_grab":
+		_upper.rotation.x += 0.18 * _grab_blend
 	_torso_turn = _blend(_torso_turn, 0.08 + steer * 0.10 + sin(TAU * _push_phase) * _push_blend * 0.08, delta, 9.0)
-	_upper.rotation.y = _torso_turn
-	_upper.rotation.z = -steer * 0.045 - manual_balance * _manual_blend * 0.07
+	_upper.rotation.y = _torso_turn + (0.35 * _lip_blend if lip_id == "disaster" else 0.0)
+	_upper.rotation.z = -steer * 0.045 - manual_balance * _manual_blend * 0.07 + lip_sway
+	if grab_id == "method_grab":
+		_upper.rotation.z += 0.16 * _grab_blend
 	# Look along accepted travel after a revert, within a comfortable neck turn.
 	var travel_basis: Basis = _board.get_parent().get_parent().global_basis
 	var look_direction := _rider.global_basis.inverse() * -travel_basis.z
@@ -154,7 +197,7 @@ func animate(delta: float, state: Dictionary) -> void:
 	_head.rotation.x = -0.04 + _grab_blend * 0.20 + compression * 0.6
 	# Turn about the base of the anatomical neck, keeping its crop inside the collar.
 	_head.position = Vector3(0, 0.51, 0.010) - _head.basis * Vector3(0, -0.13, 0.036)
-	_garments.pose_body(Transform3D(Basis.IDENTITY, Vector3(0, hips_y, 0)), _upper.transform)
+	_garments.pose_body(Transform3D(Basis.IDENTITY, Vector3(lip_sway, hips_y, weight_z)), _upper.transform)
 	for leg: Dictionary in _legs:
 		var side: float = leg["side"]
 		var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, 0.079, side * 0.255)
@@ -175,11 +218,19 @@ func animate(delta: float, state: Dictionary) -> void:
 		var attached: Vector3 = _rider.to_local(_board.to_global(deck_foot))
 		# Shoes follow the planted board except during a deliberately separated board spin/flip.
 		var detached := _rider.to_local(_board.get_parent().to_global(Vector3(deck_foot.x, 0.40, deck_foot.z)))
+		var flick := sin(PI * flip_progress) * _flip_blend
+		if side < 0.0:
+			var flick_x := 0.12 if flip_id in ["heelflip", "hardflip"] else -0.12
+			if flip_id in ["pop_shuvit", "frontside_shuvit"]:
+				flick_x = 0.0
+			detached += Vector3(flick_x, 0.04, -0.035) * flick
+		elif flip_id in ["pop_shuvit", "frontside_shuvit", "varial_flip", "hardflip"]:
+			detached += Vector3(0.06 if flip_id in ["frontside_shuvit", "hardflip"] else -0.06, 0.025, 0.11) * flick
 		var target := attached.lerp(detached, _flip_blend)
 		# Parent rotations can accumulate harmless floating-point drift; slerp needs unit bases.
 		var detached_basis: Basis = _board.get_parent().global_basis.orthonormalized()
 		var foot_basis := _board.global_basis.orthonormalized().slerp(detached_basis, _flip_blend)
-		var hip := Vector3(side * 0.105, hips_y + 0.025, 0)
+		var hip := Vector3(side * 0.105 + lip_sway, hips_y + 0.025, weight_z)
 		var knee_bend: Vector3 = _rider.global_basis.inverse() * _board.get_parent().global_basis * Vector3.UP + Vector3(side * 0.25, 0, -0.65)
 		var knee := _joint(hip, target, 0.43, 0.41, knee_bend)
 		_garments.pose_leg(side, hip, knee, target)
@@ -188,34 +239,36 @@ func animate(delta: float, state: Dictionary) -> void:
 	for arm: Dictionary in _arms:
 		var side: float = arm["side"]
 		var shoulder: Vector3 = _rider.to_local(_upper.to_global(Vector3(side * 0.195, 0.425, 0)))
-		var spread := 0.33 + 0.12 * _air_blend + 0.13 * _grind_blend + 0.07 * _manual_blend
+		var spread := 0.33 + 0.12 * _air_blend + 0.13 * _grind_blend + 0.07 * _manual_blend + 0.15 * _lip_blend
 		var hand := Vector3(side * spread, hips_y + 0.015 + 0.12 * _air_blend + 0.10 * _grind_blend, -0.14 + side * 0.09)
+		hand.z += weight_z - 0.04 * _crouch_blend
 		hand.z += side * 0.17 * sin(TAU * _push_phase) * _push_blend
-		hand.y += side * (grind_balance * _grind_blend * 0.13 + manual_balance * _manual_blend * 0.08)
+		hand.y += side * (grind_balance * _grind_blend * 0.13 + manual_balance * _manual_blend * 0.08 + lip_sway * 3.0)
 		var revert_remaining: float = state.get("revert_remaining", 0.0)
 		hand.z += side * 0.16 * sin(PI * clampf(revert_remaining / 0.18, 0.0, 1.0))
 		if tumble > 0.0:
 			hand = hand.lerp(Vector3(side * 0.16, hips_y + 0.12, -0.18), tumble * 0.8)
-		if side < 0.0:
-			var grab_target := _rider.to_local(_board.to_global(Vector3(-0.128, 0.022, -0.035)))
+		if side == grab_side:
+			var grab_target := _rider.to_local(_board.to_global(grab_pose["deck_target"]))
 			# The anatomical hand's origin is its wrist, not its palm. Solve that
-			# offset so the distal palm meets the rail edge instead of passing through it.
+			# offset so the distal palm meets the deck edge instead of passing through it.
 			var grab_wrist := grab_target + (shoulder - grab_target).normalized() * 0.075
 			for iteration in 4:
 				var grab_elbow := _joint(shoulder, grab_wrist, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
-				var grab_basis := _hand_basis(side, grab_elbow - grab_wrist, 1.0)
+				var grab_basis := _hand_basis(side, grab_elbow - grab_wrist, 1.0, palm_local)
 				grab_wrist = grab_target - grab_basis * Vector3(0, -0.075, -0.015)
 			hand = hand.lerp(grab_wrist, _grab_blend)
 		var elbow := _joint(shoulder, hand, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
 		_garments.pose_arm(side, shoulder, elbow, hand)
 		arm["hand"].position = hand
-		arm["hand"].basis = _hand_basis(side, elbow - hand, _grab_blend if side < 0 else 0.0)
-		_anatomy.pose_hand(arm["hand"], _grab_blend if side < 0 else 0.0)
+		var hand_grab := _grab_blend if side == grab_side else 0.0
+		arm["hand"].basis = _hand_basis(side, elbow - hand, hand_grab, palm_local)
+		_anatomy.pose_hand(arm["hand"], hand_grab)
 
-func _hand_basis(side: float, forearm: Vector3, grabbing: float) -> Basis:
+func _hand_basis(side: float, forearm: Vector3, grabbing: float, palm_local: Vector3 = Vector3.RIGHT) -> Basis:
 	var y := forearm.normalized()
 	var neutral := Basis(Quaternion(Vector3.UP, y)) * Basis(Vector3.UP, side * PI * 0.5)
-	var palm_direction: Vector3 = _rider.global_basis.inverse() * _board.global_basis.x
+	var palm_direction: Vector3 = _rider.global_basis.inverse() * _board.global_basis * palm_local
 	var z := -palm_direction.slide(y).normalized()
 	if z.length_squared() < 0.01:
 		return neutral

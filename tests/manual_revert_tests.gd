@@ -75,6 +75,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(skater.airborne and not skater.manual_active and events["starts"] == starts + 1
 		and events["ends"] == ends, "manual: eligible ollie continues link without a ground-end event")
 	await _land(tree, skater)
@@ -115,6 +116,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_press("revert")
 	await _frames(tree, 2)
 	check.call(events["Revert"] == 0, "revert: a fresh airborne press is ineligible")
@@ -147,6 +149,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	await _land(tree, skater)
 	await _frames(tree, 23)
 	Input.action_press("revert")
@@ -163,6 +166,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(not skater.try_special("unknown_special"), "special: unknown ID cannot score or use an air slot")
 	tree.paused = true
 	check.call(not skater.try_special("special_clyde_carousel"), "special: direct requests reject while gameplay is paused")
@@ -190,6 +194,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(skater.try_special("special_tenement_tumble"),
 		"special: a new actual airtime permits the other catalog special")
 	await _frames(tree, 6)

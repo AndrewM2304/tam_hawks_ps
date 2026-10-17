@@ -95,6 +95,7 @@ func _ready() -> void:
 	add_child(skater)
 	skater.reset_skater()
 	skater.set_grind_lines(world.get_grind_lines())
+	skater.set_transition_features(world.get_transition_features())
 	market_encounter.set_carrier(skater.get_node("SkaterVisual/Rider"))
 	skater.trick_performed.connect(_on_trick)
 	skater.grind_captured.connect(_on_grind_captured)
@@ -155,12 +156,12 @@ func _physics_process(delta: float) -> void:
 			_feedback_timer = 3.0
 	var district: String = world.get_district_id(skater.global_position)
 	_update_contact_audio()
-	audio.set_motion(skater.speed, skater.is_on_floor(), skater.grinding, district)
+	audio.set_motion(skater.speed, skater.is_on_floor() or skater.transition_active, skater.grinding, district)
 	if free_skate_mode or time_remaining > 0.0:
 		var objective_has_prompt: bool = not objectives.nearby_prompt(skater.global_position).is_empty()
 		_update_objectives(delta, district)
 		_update_encounters(delta, Input.is_action_just_pressed("interact") and not objective_has_prompt)
-	if skater.airborne or skater.grinding or skater.manual_active:
+	if skater.airborne or skater.grinding or skater.manual_active or skater.lip_active:
 		score.continue_combo()
 	var banked: int = score.tick(delta)
 	if banked > 0:
@@ -174,7 +175,7 @@ func _physics_process(delta: float) -> void:
 			market_encounter.finish_run()
 		if time_remaining <= 0.0:
 			var resolving: bool = score.get_combo_value() > 0 and (skater.airborne
-				or skater.grinding or skater.manual_active or score.pending_landing)
+				or skater.grinding or skater.manual_active or skater.lip_active or score.pending_landing)
 			if resolving and _overtime < 3.0:
 				_overtime += delta
 			else:
@@ -237,7 +238,7 @@ func _on_trick(trick_name: String, points: int) -> void:
 	market_encounter.on_trick(trick_name, points, skater.global_position)
 	if trick_name == "Ollie": audio.play_event("ollie")
 	elif trick_name == "Rail Grind": audio.play_event("grind")
-	if "flip" in trick_name.to_lower():
+	if "flip" in trick_name.to_lower() or "shuvit" in trick_name.to_lower():
 		_flips += 1
 	if "grab" in trick_name.to_lower() or "indy" in trick_name.to_lower():
 		_grabs += 1
@@ -331,7 +332,7 @@ func _update_objectives(delta: float, district: String) -> void:
 		score.add_trick(gap.name, gap.points)
 		market_encounter.on_gap(gap.id, skater.global_position)
 		completed.append_array(career.record_event("gap", gap.id))
-		if not skater.airborne and not skater.grinding and not skater.manual_active:
+		if not skater.airborne and not skater.grinding and not skater.manual_active and not skater.lip_active:
 			score.begin_landing()
 		_feedback = "GAP  /  " + str(gap.name).to_upper()
 		_feedback_timer = 2.0
@@ -534,6 +535,7 @@ func _refresh_hud() -> void:
 		"speed": skater.speed, "airborne": skater.airborne,
 		"grinding": skater.grinding, "balance": skater.grind_balance,
 		"manual": skater.manual_active, "manual_balance": skater.manual_balance,
+		"lip": skater.lip_active, "lip_balance": skater.lip_balance,
 		"landing_window": score.landing_remaining, "revert_window": skater.revert_remaining,
 		"location": world.get_location_name(skater.global_position),
 		"player_position": skater.global_position, "player_heading": skater.rotation.y,

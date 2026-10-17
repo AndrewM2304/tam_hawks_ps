@@ -1,6 +1,6 @@
 extends RefCounted
-## Original M02 definitions and structural guards. See ADR-006 for runtime guards.
-## Future entries describe planned mechanics; this file does not enable them.
+## Original trick definitions and structural guards. See ADR-006 for runtime guards.
+## A definition does not establish physical entry, input freshness or animation.
 
 const LANDING_LINK_SECONDS: float = 0.35
 const RUN_OVERTIME_SECONDS: float = 3.0
@@ -8,22 +8,41 @@ const REPEAT_HALVING_LIMIT: int = 4
 const UNIQUE_MULTIPLIER_LIMIT: int = 8
 const MAX_BASE_POINTS: int = 1000000
 
-const STATES: Array[String] = ["ground", "air", "grind", "manual", "revert", "bail"]
+const STATES: Array[String] = ["ground", "air", "grind", "manual", "lip", "revert", "bail"]
 const ACTIVATIONS: Array[String] = ["launch", "press", "landing", "entry", "crossing"]
 const TRANSITIONS: Dictionary = {
 	"ground": ["air", "manual", "revert", "bail"],
-	"air": ["ground", "grind", "bail"],
+	"air": ["ground", "grind", "lip", "bail"],
 	"grind": ["air", "ground", "bail"],
 	"manual": ["ground", "air", "bail"],
+	"lip": ["air", "ground", "bail"],
 	"revert": ["ground", "manual", "air", "bail"],
 	"bail": ["ground"],
 }
 const DEFINITIONS: Array = [
 	{"id": "ollie", "display_name": "Ollie", "base_points": 100,
-		"allowed_states": ["ground", "manual", "grind"], "activation": "launch"},
+		"allowed_states": ["ground", "manual", "grind", "lip"], "activation": "launch"},
 	{"id": "kickflip", "display_name": "Kickflip", "base_points": 300,
 		"allowed_states": ["air"], "activation": "press"},
+	{"id": "heelflip", "display_name": "Heelflip", "base_points": 300,
+		"allowed_states": ["air"], "activation": "press"},
+	{"id": "pop_shuvit", "display_name": "Pop Shuvit", "base_points": 180,
+		"allowed_states": ["air"], "activation": "press"},
+	{"id": "frontside_shuvit", "display_name": "Frontside Shuvit", "base_points": 200,
+		"allowed_states": ["air"], "activation": "press"},
+	{"id": "varial_flip", "display_name": "Varial Flip", "base_points": 450,
+		"allowed_states": ["air"], "activation": "press"},
+	{"id": "hardflip", "display_name": "Hardflip", "base_points": 550,
+		"allowed_states": ["air"], "activation": "press"},
 	{"id": "melon_grab", "display_name": "Melon Grab", "base_points": 250,
+		"allowed_states": ["air"], "activation": "press"},
+	{"id": "indy_grab", "display_name": "Indy Grab", "base_points": 300,
+		"allowed_states": ["air"], "activation": "press"},
+	{"id": "nose_grab", "display_name": "Nose Grab", "base_points": 300,
+		"allowed_states": ["air"], "activation": "press"},
+	{"id": "tail_grab", "display_name": "Tail Grab", "base_points": 300,
+		"allowed_states": ["air"], "activation": "press"},
+	{"id": "method_grab", "display_name": "Method Grab", "base_points": 400,
 		"allowed_states": ["air"], "activation": "press"},
 	{"id": "spin_180", "display_name": "Spin 180", "base_points": 200,
 		"allowed_states": ["air"], "activation": "landing"},
@@ -31,6 +50,16 @@ const DEFINITIONS: Array = [
 		"allowed_states": ["grind"], "activation": "entry"},
 	{"id": "manual", "display_name": "Manual", "base_points": 100,
 		"allowed_states": ["manual"], "activation": "entry"},
+	{"id": "nose_manual", "display_name": "Nose Manual", "base_points": 100,
+		"allowed_states": ["manual"], "activation": "entry"},
+	{"id": "axle_stall", "display_name": "Axle Stall", "base_points": 200,
+		"allowed_states": ["lip"], "activation": "entry"},
+	{"id": "nose_stall", "display_name": "Nose Stall", "base_points": 250,
+		"allowed_states": ["lip"], "activation": "entry"},
+	{"id": "tail_stall", "display_name": "Tail Stall", "base_points": 250,
+		"allowed_states": ["lip"], "activation": "entry"},
+	{"id": "disaster", "display_name": "Disaster", "base_points": 300,
+		"allowed_states": ["lip"], "activation": "entry"},
 	{"id": "revert", "display_name": "Revert", "base_points": 150,
 		"allowed_states": ["revert"], "activation": "entry"},
 	{"id": "special_clyde_carousel", "display_name": "Clyde Carousel", "base_points": 1000,

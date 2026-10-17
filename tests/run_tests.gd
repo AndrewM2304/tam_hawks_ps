@@ -31,6 +31,12 @@ const EXCHANGE_PLACE_TESTS = preload("res://tests/exchange_place_tests.gd")
 const PLAYABILITY_TESTS = preload("res://tests/playability_regression_tests.gd")
 const TOPOGRAPHY_TESTS = preload("res://tests/topography_tests.gd")
 const CAREER_ROUTE_TESTS = preload("res://tests/career_route_tests.gd")
+const DIRECTIONAL_TRICKS_TESTS = preload("res://tests/directional_tricks_tests.gd")
+const TRICK_ANIMATION_TESTS = preload("res://tests/trick_animation_tests.gd")
+const TRANSITION_RIDE_TESTS = preload("res://tests/transition_ride_tests.gd")
+const TRANSITION_GEOMETRY_TESTS = preload("res://tests/transition_geometry_tests.gd")
+const CLASSIC_TRICKS_TESTS = preload("res://tests/classic_tricks_integration_tests.gd")
+const CAMERA_TURN_REVIEW_TESTS = preload("res://tests/camera_turn_review_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
@@ -56,6 +62,8 @@ func _run() -> void:
 	RAIL_GEOMETRY_TESTS.run(_check)
 	GRIND_RIDE_TESTS.run(_check)
 	CATALOG_TESTS.run(_check)
+	DIRECTIONAL_TRICKS_TESTS.run(_check)
+	TRICK_ANIMATION_TESTS.run(self, _check)
 	COMBO_RESOLUTION_TESTS.run(_check)
 	PROGRESSION_TESTS.run(_check)
 	INPUT_PROFILE_TESTS.run(_check)
@@ -64,6 +72,10 @@ func _run() -> void:
 	await MANUAL_REVERT_TESTS.run(self, _check)
 	await TAKEOFF_TESTS.run(self, _check)
 	await PLAYER_FORGIVENESS_TESTS.run(self, _check)
+	await TRANSITION_RIDE_TESTS.run(self, _check)
+	await TRANSITION_GEOMETRY_TESTS.run(self, _check)
+	await CAMERA_TURN_REVIEW_TESTS.run(self, _check)
+	await CLASSIC_TRICKS_TESTS.run(self, _check)
 	game = MAIN_SCRIPT.new()
 	game.persistence_enabled = false
 	root.add_child(game)
@@ -276,6 +288,9 @@ func _test_jump_tricks_and_landing() -> void:
 	var resting_y: float = game.skater.global_position.y
 	Input.action_press("ollie")
 	await _physics_frames(3)
+	_check(not game.skater.airborne, "held ollie crouches before a release pop")
+	Input.action_release("ollie")
+	await _physics_frames(3)
 	_check(game.skater.airborne and game.skater.global_position.y > resting_y + 0.1,
 		"ollie launches from the floor")
 	Input.action_press("flip")
@@ -286,7 +301,7 @@ func _test_jump_tricks_and_landing() -> void:
 	# Keep trick inputs held until after touchdown: one press must not farm points.
 	await _physics_frames(60)
 	_release_actions()
-	_check(observed_tricks.count("Ollie") == 1, "holding ollie does not auto-jump after landing")
+	_check(observed_tricks.count("Ollie") == 1, "one released ollie does not auto-jump after landing")
 	_check(observed_tricks.count("Kickflip") == 1, "held flip registers once during the jump")
 	_check(observed_tricks.count("Melon Grab") == 1, "held grab registers once during the jump")
 	_check(observed_landings.size() == 1 and observed_landings[0],
@@ -420,6 +435,7 @@ func _test_overtime() -> void:
 	Input.action_press("ollie")
 	await _physics_frames(3)
 	Input.action_release("ollie")
+	await _physics_frames(1)
 	game.time_remaining = 0.01
 	await _physics_frames(6)
 	_check(game.time_remaining <= 0.0 and not game.run_finished

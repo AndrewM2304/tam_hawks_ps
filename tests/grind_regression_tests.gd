@@ -115,7 +115,10 @@ static func _overtime_admission(tree: SceneTree, game: Node, check: Callable) ->
 		and game.skater.velocity.y < 0.1,
 		"grind regression: overtime cannot start a new scored rail ollie")
 	Input.action_release("grind")
+	await _frames(tree, 1)
+	Input.action_press("grind")
 	await _frames(tree, 2)
+	Input.action_release("grind")
 	check.call(not game.skater.grinding and game.skater.airborne,
 		"grind regression: overtime still permits releasing an existing rail")
 	await _frames(tree, 60)

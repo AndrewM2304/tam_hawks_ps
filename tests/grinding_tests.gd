@@ -36,6 +36,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(not game.skater.grinding and game.skater.airborne and game.skater.velocity.y > 0,
 		"ollie releases a held rail upward and cooldown prevents immediate recapture")
 	Input.action_release("grind")
@@ -54,9 +55,12 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	check.call(game.skater.grinding and game.skater.global_position.z > z,
 		"the production rail can be ridden in the reverse direction")
 	Input.action_release("grind")
+	await _frames(tree, 1)
+	Input.action_press("grind")
 	await _frames(tree, 2)
+	Input.action_release("grind")
 	check.call(not game.skater.grinding and game.skater.airborne,
-		"releasing grind drops off without teleporting to spawn")
+		"a second fresh grind tap drops off without teleporting to spawn")
 
 	await _start(tree, game, Vector3(12, 1.08, 5.75), Vector3(0, -1, -6))
 	Input.action_press("grind")

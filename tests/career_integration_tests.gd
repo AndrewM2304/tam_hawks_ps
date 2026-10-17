@@ -80,6 +80,7 @@ static func _special_admission(tree: SceneTree, game: Node, check: Callable) -> 
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	_key(KEY_U, true)
 	_key(KEY_U, false)
 	await _frames(tree, 2)
@@ -106,6 +107,7 @@ static func _special_admission(tree: SceneTree, game: Node, check: Callable) -> 
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	_key(KEY_U, true)
 	_key(KEY_U, false)
 	await _frames(tree, 2)
@@ -147,6 +149,7 @@ static func _physical_gap_and_reset(tree: SceneTree, game: Node, check: Callable
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_release("push")
 	var awarded: bool = false
 	for i in range(90):

@@ -63,11 +63,11 @@ static func _early_tricks(tree: SceneTree, check: Callable, lead: int) -> void:
 	Input.action_press("push")
 	await _frames(tree, 45)
 	Input.action_release("push")
+	Input.action_press("ollie")
+	await _frames(tree, 1)
 	Input.action_press("flip")
 	Input.action_press("grab")
 	if lead > 0: await _frames(tree, lead)
-	Input.action_press("ollie")
-	await _frames(tree, 1)
 	Input.action_release("ollie")
 	await _frames(tree, 65)
 	var expected := 1 if lead <= 6 else 0

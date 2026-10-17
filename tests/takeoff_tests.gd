@@ -66,9 +66,8 @@ static func _roll_off(tree: SceneTree, check: Callable, angle_degrees: float, la
 			var after_turn: Vector3 = _planar(skater.velocity)
 			check.call(absf(after_turn.length() - before_turn.length()) < 0.05,
 				"takeoff steering: arcade air steering rotates without adding horizontal speed")
-			check.call(before_turn.angle_to(after_turn) > 0.03
-				and before_turn.angle_to(after_turn) < 0.3,
-				"takeoff steering: six frames turn the carried motion by a bounded angle")
+			check.call(before_turn.angle_to(after_turn) < 0.001 and absf(skater._spin_angle) > 0.3,
+				"takeoff steering: stick input visibly spins the rider without bending carried flight")
 	fixture.queue_free()
 	await tree.process_frame
 	await _frames(tree, 1)

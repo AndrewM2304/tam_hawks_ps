@@ -130,7 +130,7 @@ func poll(position: Vector3, interact: bool, delta: float, combo_value: int = 0,
 
 func on_trick(trick: String, points: int, position: Vector3) -> void:
 	if not _check_callback(position): return
-	if not _line_banked and points > 0 and trick == "Manual":
+	if not _line_banked and points > 0 and trick in ["Manual", "Nose Manual"]:
 		if not _manual_seen: feedback.emit("MAIRI: Steady! Now ollie the marked loading steps in this line.")
 		_manual_seen = true
 	_sync_actor()

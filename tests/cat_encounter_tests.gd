@@ -207,6 +207,9 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 		Input.action_press("ollie")
 		await _frames(tree, 1)
 		Input.action_release("ollie")
+		Input.action_release("grind")
+		await _frames(tree, 1)
+		Input.action_press("grind")
 		captured = false
 		for frame in range(120):
 			_aim(game.skater, tangent)
@@ -220,6 +223,10 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 		and game.cat_encounter.status_snapshot().wins == 0,
 		"cat integration: real push ollie and rail transfers capture A B C once before any success")
 	_release()
+	await _frames(tree, 1)
+	Input.action_press("grind")
+	await _frames(tree, 1)
+	Input.action_release("grind")
 	for frame in range(100):
 		if game.skater.is_on_floor(): Input.action_press("brake")
 		await _frames(tree, 1)

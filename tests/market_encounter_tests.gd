@@ -26,6 +26,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 			if stage == "banked":
 				observed_navigation.targets = game.market_encounter.status_snapshot().navigation_targets
 				observed_navigation.text = game._market_navigation_text(observed_navigation.targets)
+				print("DELIVERY NAV ",route.id," at=",game.skater.global_position," heading=",game.skater.rotation.y," ",observed_navigation.text)
 		var result: Dictionary = await drive_delivery(tree, game, route.id, observe_bank)
 		check.call(result.accepted and result.carried and result.manual_entered,
 			"delivery physics: real pickup attaches the parcel and fresh Manual starts " + route.id)
@@ -39,8 +40,8 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 			"delivery camera: actual chase remains finite unobstructed and sees the rider " + route.id)
 		check.call(observed_navigation.get("targets", []).size() == 2
 			and str(observed_navigation.get("text", "")).contains("COVERED 1: LEFT")
-			and str(observed_navigation.get("text", "")).contains("CALTON 1: TURN BACK"),
-			"delivery navigation: the actual bank directs the south-facing rider back towards both north entries " + route.id)
+			and str(observed_navigation.get("text", "")).contains("CALTON 1: LEFT"),
+			"delivery navigation: the release-pop landing directs the south-facing rider left towards both north entries " + route.id)
 		check.call(game.career.completed_ids == completed and game.career.best_score == record
 			and game.career.goals_snapshot().size() == 10 and not game.persistence_enabled
 			and game.encounters.status_snapshot().attempts == 0 and game.cat_encounter.status_snapshot().attempts == 0,

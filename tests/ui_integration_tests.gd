@@ -152,6 +152,7 @@ static func _settings_and_controls(tree: SceneTree, game: Node, check: Callable)
 	_key(KEY_B, true)
 	await _frames(tree, 2)
 	_key(KEY_B, false)
+	await _frames(tree, 1)
 	check.call(game.skater.airborne and game.score.trick_history.has("Ollie"),
 		"UI integration: the newly bound key performs an actual ollie after menu exit")
 	await _frames(tree, 80)

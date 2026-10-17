@@ -5,9 +5,10 @@ extends RefCounted
 const COAST_BASE_DECELERATION := 1.0
 const COAST_SPEED_RESISTANCE := 0.2
 const REFERENCE_SPEED := 15.0
-const GROUND_TURN_SLOW := 2.3
-const GROUND_TURN_FAST := 1.1
+const GROUND_TURN_SLOW := 2.8
+const GROUND_TURN_FAST := 2.2
 const GROUND_RESPONSE_TIME := 0.10
+const ANALOG_LINEAR_WEIGHT := 0.75
 const AIR_TURN_RATE := 0.50
 const SLOPE_GRAVITY_SCALE := 0.28
 
@@ -58,7 +59,11 @@ func steering_step(input: float, speed: float, grounded: bool, delta: float) -> 
 		var air_angle := -steer * AIR_TURN_RATE * delta
 		return air_angle if is_finite(air_angle) else 0.0
 	var speed_fraction := clampf(absf(speed) / REFERENCE_SPEED, 0.0, 1.0) if is_finite(speed) else 0.0
-	var target_rate := -steer * lerpf(GROUND_TURN_SLOW, GROUND_TURN_FAST, speed_fraction)
+	# Keep full-stick carving useful inside the existing streets without making
+	# a small correction as aggressive. A mostly linear, symmetric curve has no
+	# extra deadzone; Godot's mapped axis already owns that device preference.
+	var shaped_steer := lerpf(steer * steer * steer, steer, ANALOG_LINEAR_WEIGHT)
+	var target_rate := -shaped_steer * lerpf(GROUND_TURN_SLOW, GROUND_TURN_FAST, speed_fraction)
 	var decay := exp(-delta / GROUND_RESPONSE_TIME)
 	# Integrate the response as well as updating its end value. At fixed input
 	# and speed, 30/60/120 Hz therefore produce the same total heading change.

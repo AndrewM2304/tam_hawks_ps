@@ -35,6 +35,7 @@ static func _eligibility(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_press("manual")
 	await _frames(tree, 2)
 	check.call(game.skater.airborne and not game.skater.manual_active
@@ -52,6 +53,7 @@ static func _continuous_manual_line(tree: SceneTree, game: Node, check: Callable
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_press("flip")
 	await _frames(tree, 2)
 	Input.action_release("flip")
@@ -82,6 +84,7 @@ static func _continuous_manual_line(tree: SceneTree, game: Node, check: Callable
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	_key(KEY_M, false)
 	check.call(game.skater.airborne and not game.skater.manual_active
 		and not game.score.pending_landing and game.score.total_score == 0,
@@ -110,6 +113,7 @@ static func _revert_windows(tree: SceneTree, game: Node, check: Callable) -> voi
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_press("revert")
 	await _frames(tree, 2)
 	check.call(not game.score.trick_history.has("Revert"),
@@ -207,6 +211,7 @@ static func _manual_overtime(tree: SceneTree, game: Node, check: Callable) -> vo
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(game.skater.manual_active and not game.skater.airborne
 		and game.score.combo_base == 100,
 		"combo integration: overtime blocks starting an ollie link from a manual")
@@ -227,6 +232,7 @@ static func _manual_overtime(tree: SceneTree, game: Node, check: Callable) -> vo
 	Input.action_press("ollie")
 	await _frames(tree, 3)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	game.time_remaining = 0.01
 	await _wait_landing(tree, game)
 	Input.action_press("manual")
@@ -256,6 +262,7 @@ static func _ollie_and_land(tree: SceneTree, game: Node) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	await _wait_landing(tree, game)
 
 

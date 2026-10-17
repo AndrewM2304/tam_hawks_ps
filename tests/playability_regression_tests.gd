@@ -114,8 +114,12 @@ static func drive_natural_spawn(tree: SceneTree,game:Node,observer:Callable=Call
 	Input.action_release("steer_left")
 	first_heading = game.skater.rotation.y
 	Input.action_press("steer_right")
-	await _observe(tree,game,120,e)
-	e.right_turn = angle_difference(first_heading,game.skater.rotation.y)
+	var accumulated_right := 0.0
+	for frame in 120:
+		var before: float = game.skater.rotation.y
+		await _observe(tree,game,1,e)
+		accumulated_right += angle_difference(before,game.skater.rotation.y)
+	e.right_turn = accumulated_right
 	if observer.is_valid():await observer.call("right",e.duplicate(true))
 	_release()
 	e.bails = bail_counter[0]

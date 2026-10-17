@@ -1,3 +1,7 @@
+# In-progress classic trick checkpoint — 17 October 2026
+
+New directional trick controls, actual quarter/half-pipe and lip/camera integration are implemented under ADR-015. Focused body checks pass98/0; the current required full check and final captures are still pending. Earlier1311/0 below certifies the prior source only. See planning/CLASSIC-TRICKS-NEXT.md for concrete remaining verification/resumption steps. This is a recoverable work checkpoint, not a final acceptance claim. No spending/new district.
+
 # Current handoff — 17 October 2026
 
 **Tam Hawks Pro Skater**, Godot 4.6.3 Compatibility alpha, feature branch `bootstrap/m00-m01`. Current-map control/fidelity/efficiency review is integrated. **`./tools/check.sh`: 1,311 passed / 0 failed, exit 0**; actual normal-title capture **19 frames / 0 failures**; cold-source launch **188 stable inputs / four accepted phases**. Five completed research agents inspected arcade control implementations, human rail margins, renderer budgets, rider assets and environment fidelity. No new area or paid service was added. Human Mac/DualSense feel, Apple Silicon frame times and realistic final-art/UI acceptance remain open.

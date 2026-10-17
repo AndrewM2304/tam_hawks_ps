@@ -7,8 +7,11 @@ const CAMERA_RADIUS := 0.25
 const CLEARANCE := 0.045
 const MIN_USEFUL_ARM := 3.0
 const REAR_RETURN_DELAY := 0.40
-const NORMAL_HEIGHT := 3.4
-const LOW_HEIGHT := 2.4
+const NORMAL_HEIGHT := 2.7
+const LOW_HEIGHT := 1.95
+const REVERSE_MIN_SPEED := 1.2
+const REVERSE_CONFIRM_TIME := 0.28
+const FORWARD_CONFIRM_TIME := 0.22
 const ORBIT_ANGLES := [0.7853981634, -0.7853981634, 1.5707963268, -1.5707963268, 2.3561944902, -2.3561944902, PI]
 
 var _sphere := SphereShape3D.new()
@@ -17,6 +20,9 @@ var _ready := false
 var _selected_angle := 0.0
 var _rear_clear_time := 0.0
 var _last_anchor := Vector3.ZERO
+var _body_up := Vector3.UP
+var _travel_sign := 1.0
+var _direction_confirm := 0.0
 
 
 func _init() -> void:
@@ -33,23 +39,32 @@ func reset() -> void:
 	_selected_angle = 0.0
 	_rear_clear_time = 0.0
 	_last_anchor = Vector3.ZERO
+	_body_up = Vector3.UP
+	_travel_sign = 1.0
+	_direction_confirm = 0.0
 
 
 func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity: float, reduced_motion: bool) -> void:
 	if not is_instance_valid(rider) or not is_instance_valid(camera) or not rider.is_inside_tree(): return
 	var board := rider.global_position
 	if not board.is_finite(): return
-	var anchor := board + Vector3.UP * CHEST_HEIGHT
+	# Transitions can lay the skater back against a curved wall. Occlusion rays
+	# follow the actual body axis, while the camera's horizon stays world-up.
+	_body_up = _contact_up(rider)
+	var anchor := board + _body_up * CHEST_HEIGHT
 	var space := rider.get_world_3d().direct_space_state
 	var excluded: Array[RID] = [rider.get_rid()]
 	_query.exclude = excluded
 	var step := clampf(delta, 0.0, 0.15) if is_finite(delta) else 0.0
 	var response := clampf(sensitivity, 0.5, 2.0) if is_finite(sensitivity) else 1.0
 	var speed := clampf(Vector2(rider.velocity.x, rider.velocity.z).length(), 0.0, 15.0)
-	var distance := 6.0 if reduced_motion else 6.0 + speed * 0.04
+	var distance := 5.8 if reduced_motion else 5.8 + speed * 0.035
 	var rear := Vector3(rider.global_basis.z.x, 0, rider.global_basis.z.z).normalized()
 	if rear.length_squared() < 0.1: rear = Vector3.BACK
-	if _ready and anchor.distance_to(_last_anchor) > 12.0: reset()
+	if _ready and anchor.distance_to(_last_anchor) > 12.0:
+		reset()
+		_body_up = _contact_up(rider)
+	rear *= _direction_sign(rider.velocity, rear, step)
 	var selected := _choose(space, anchor, board, rear, distance, excluded, step)
 	var desired: Vector3 = selected.position
 	var resolved := desired
@@ -80,14 +95,43 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	# Every chosen endpoint has an anchor sweep and a clear camera volume.
 	camera.global_position = resolved
 	var actual_arm := anchor.distance_to(resolved)
-	var lookahead := clampf((actual_arm - 3.0) * 0.3, 0.0, 1.2)
+	var lookahead := clampf((actual_arm - 3.0) / 3.0, 0.0, 1.0) \
+		* (0.35 if reduced_motion else 0.35 + speed * 0.055)
 	var target := anchor - rear * lookahead
 	if resolved.distance_squared_to(target) > 0.01:
 		camera.look_at(target, Vector3.UP)
-	var desired_fov := 68.0 if reduced_motion else 68.0 + speed * 0.35
+	var desired_fov := 66.0 if reduced_motion else 66.0 + speed * 0.25
 	camera.fov = lerpf(camera.fov, desired_fov, 1.0 - exp(-3.0 * step))
 	_ready = true
 	_last_anchor = anchor
+
+
+func _contact_up(rider: CharacterBody3D) -> Vector3:
+	if "transition_active" in rider and bool(rider.get("transition_active")) \
+			and "transition_normal" in rider:
+		var value: Variant = rider.get("transition_normal")
+		if value is Vector3 and value.is_finite() and value.length_squared() > 0.1:
+			return value.normalized()
+	return Vector3.UP
+
+
+func _direction_sign(velocity: Vector3, facing_rear: Vector3, delta: float) -> float:
+	var travel := Vector3(velocity.x, 0.0, velocity.z)
+	if not travel.is_finite() or travel.length() < REVERSE_MIN_SPEED:
+		# Stopping on a ramp must not trigger alternating front/back views.
+		_direction_confirm = 0.0
+		return _travel_sign
+	var facing_alignment := travel.normalized().dot(-facing_rear)
+	var request := -1.0 if facing_alignment < -0.45 else (1.0 if facing_alignment > 0.45 else _travel_sign)
+	if request == _travel_sign:
+		_direction_confirm = 0.0
+	else:
+		_direction_confirm += delta
+		var delay := REVERSE_CONFIRM_TIME if request < 0.0 else FORWARD_CONFIRM_TIME
+		if _direction_confirm >= delay:
+			_travel_sign = request
+			_direction_confirm = 0.0
+	return _travel_sign
 
 
 func _choose(space: PhysicsDirectSpaceState3D, anchor: Vector3, board: Vector3, rear: Vector3, distance: float, excluded: Array[RID], delta: float) -> Dictionary:
@@ -154,6 +198,6 @@ func _usable(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Vector3, 
 	if anchor.distance_to(position) < MIN_USEFUL_ARM or not _clear_volume(space, position): return false
 	# Chest alone can be clear while a lip or column hides the board or head.
 	for height: float in [0.12, CHEST_HEIGHT, 1.8]:
-		var query := PhysicsRayQueryParameters3D.create(position, board + Vector3.UP * height, 1, excluded)
+		var query := PhysicsRayQueryParameters3D.create(position, board + _body_up * height, 1, excluded)
 		if not space.intersect_ray(query).is_empty(): return false
 	return true

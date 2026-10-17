@@ -117,6 +117,7 @@ static func _physical_performance(tree: SceneTree, game: Node, check: Callable) 
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	await _interact(tree)
 	check.call(game.score.get_combo_value() > 0 and game.encounters.status_snapshot().attempts == 1
 		and game.encounters.status_snapshot().state == "success",
@@ -232,6 +233,7 @@ static func _performance(tree: SceneTree, spin: bool) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_press("flip")
 	Input.action_press("spin_left" if spin else "grab")
 	await _frames(tree, 1)

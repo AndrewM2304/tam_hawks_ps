@@ -47,13 +47,13 @@ static func run(check: Callable) -> void:
 		for frame in range(hz):
 			angle += response.steering_step(-1.0, 15.0, true, 1.0 / hz)
 		if hz == 30: reference_angle = angle
-		check.call(angle > 0.98 and angle < 1.01 and absf(angle - reference_angle) < 0.000001,
+		check.call(angle > 1.97 and angle < 1.99 and absf(angle - reference_angle) < 0.000001,
 			"skate response: %d Hz high-speed carving preserves the 0.1-second response" % hz)
 	response.reset()
 	var first := response.steering_step(-1.0, 15.0, true, 1.0 / 60.0)
 	var later := first
 	for frame in range(30): later = response.steering_step(-1.0, 15.0, true, 1.0 / 60.0)
-	check.call(first > 0.0 and first < 0.002 and later > first * 5.0 and later <= 1.1 / 60.0,
+	check.call(first > 0.0 and first < 0.003 and later > first * 5.0 and later <= 2.2 / 60.0,
 		"skate response: ground input builds smoothly within the high-speed rate")
 	var air := response.steering_step(-1.0, 15.0, false, 0.1)
 	check.call(absf(air - 0.05) < 0.000001,
@@ -80,3 +80,19 @@ static func run(check: Callable) -> void:
 	check.call(absf(response.steering_step(10.0, 0.0, false, 0.1) + 0.05) < 0.000001
 		and absf(response.steering_step(1.0, 100.0, false, 0.1) + 0.05) < 0.000001,
 		"skate response: air correction is bounded independently of ground speed")
+	for strength: float in [0.1, 0.25, 0.5, 1.0]:
+		response.reset()
+		var positive := response.steering_step(-strength, 15.0, true, 1.0)
+		response.reset()
+		var negative := response.steering_step(strength, -15.0, true, 1.0)
+		check.call(positive > 0.0 and absf(positive + negative) < 0.000001
+			and positive <= 1.981,
+			"skate response: analogue %.2f is symmetric and signed speed cannot amplify steering" % strength)
+	response.reset()
+	var quarter := response.steering_step(-0.25, 15.0, true, 1.0)
+	response.reset()
+	var full := response.steering_step(-1.0, 15.0, true, 1.0)
+	check.call(quarter / full > 0.18 and quarter / full < 0.20,
+		"skate response: quarter-stick remains a fine correction rather than a full-rate carve")
+	check.call(15.0 / Response.GROUND_TURN_FAST > 6.8 and 15.0 / Response.GROUND_TURN_FAST < 6.9,
+		"skate response: steady full-speed radius is about 6.82m instead of 13.64m")
