@@ -4,6 +4,8 @@
 
 The owner authorizes ready work without recurring routine approval. No purchases, paid APIs, billing, hosted CI, infrastructure or unattended jobs. All **75 complete task records** remain in [BACKLOG](planning/BACKLOG.md); [ACTIVE_WORK](planning/ACTIVE_WORK.md), [RESUME](planning/RESUME.md), [interfaces](architecture/interfaces.md) and [ADR-012](architecture/decisions/ADR-012-source-launch-and-playability-repair.md) preserve implementation contracts and exact next actions. Final realistic art, human skating feel and hardware acceptance remain open.
 
+The tested gameplay/evidence checkpoint **`86d286c512fc3e0a541ececfc970b28401f80f7f`** is pushed to `origin/bootstrap/m00-m01`; the remote ref was verified. The saved cloud startup draft points to that checkpoint and awaits review/publication in environment settings.
+
 ## Run and resume
 
 Read `AGENTS.md`, this file, BACKLOG/ACTIVE_WORK/RESUME and ADR-007 through **013**. Preserve later edits in this checkout; no worktree is needed. The owner’s existing Mac command stays the same:
