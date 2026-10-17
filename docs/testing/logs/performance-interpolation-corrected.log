@@ -1,0 +1,18 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: interpolation: fixture begins from confirmed supported rest
+PASS: interpolation: physics rider/poses opt in under an opted-out parent and per-render world camera opts out
+PASS: interpolation: high-render/10-Hz physics produces intermediate displayed movement with smaller frame steps
+PASS: interpolation: chase anchor follows the displayed frame rather than the newest stepped physics origin
+INTERPOLATION samples=120 within_tick_changes=110 raw_max_step=1.50000 displayed_max_step=0.15033 anchor_error=0.0000000 displayed_lag=1.47957
+PASS: interpolation: restart clears old rider/camera history before the next displayed frame
+PASS: interpolation: hazard recovery resets descendant/support history and preserves the normal restart location
+INTERPOLATION TRAJECTORY enabled=false stalled=false ticks=42 elapsed_ticks=42 initial_settled=true stalls=0 catchup_ticks=0
+INTERPOLATION TRAJECTORY enabled=true stalled=false ticks=42 elapsed_ticks=42 initial_settled=true stalls=0 catchup_ticks=0
+PASS: interpolation: equivalence inputs and snapshots cover exactly 42 consecutive physics ticks
+PASS: interpolation: identical real push/crouch/pop/spin inputs preserve every physics position, velocity and spin
+INTERPOLATION TRAJECTORY enabled=false stalled=true ticks=42 elapsed_ticks=42 initial_settled=true stalls=9 catchup_ticks=13
+INTERPOLATION TRAJECTORY enabled=true stalled=true ticks=42 elapsed_ticks=42 initial_settled=true stalls=9 catchup_ticks=14
+PASS: interpolation: bounded render stalls cannot shift the 42-tick input schedule or snapshots
+PASS: interpolation: exact physical trajectories remain equivalent through deliberate 45-ms render stalls
+INTERPOLATION RESULT: 10 passed, 0 failed

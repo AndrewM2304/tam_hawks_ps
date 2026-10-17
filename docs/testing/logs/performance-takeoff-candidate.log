@@ -1,0 +1,40 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: takeoff uphill: fixture settles onto the intended surface
+PASS: takeoff uphill: actual skating leaves the elevated platform lip
+TAKEOFF uphill: outgoing=(0.0, 0.0, -11.94728) real_departure=(0.0, 0.0, -11.94729) next=(0.0, 0.0, -11.94728) real_next=(0.0, 0.0, -12.01816) ticks=188->189 initial_gap_m=0.00680185 safe_margin_m=0.01500 native_margin_clear=false
+PASS: takeoff uphill: comparison samples a moving airborne skater
+PASS: takeoff uphill: first airborne tick preserves outgoing horizontal momentum
+PASS: takeoff uphill: native lip separation remains within the declared spatial safe margin
+PASS: takeoff uphill: actual capsule and recovery margin clear the finite lip within eight samples
+TAKEOFF CLEAR uphill: ticks=189->190 gap_m=0.12193370 native_clear=true edge_error_m=0.00118126 clearance_samples=1 carried=(0.0, 0.0, -11.94728) real=(0.0, 0.0, -11.94729) displacement_velocity=(0.0, 0.0, -11.94729)
+PASS: takeoff uphill: actual airborne displacement matches outgoing horizontal motion after native clearance
+PASS: takeoff downhill: fixture settles onto the intended surface
+PASS: takeoff downhill: actual skating leaves the elevated platform lip
+TAKEOFF downhill: outgoing=(0.0, 0.0, -12.99038) real_departure=(0.0, 0.0, -12.99036) next=(0.0, 0.0, -12.99038) real_next=(0.0, 0.0, -12.99039) ticks=320->321 initial_gap_m=0.06880173 safe_margin_m=0.01500 native_margin_clear=true
+PASS: takeoff downhill: comparison samples a moving airborne skater
+PASS: takeoff downhill: first airborne tick preserves outgoing horizontal momentum
+PASS: takeoff downhill: native lip separation remains within the declared spatial safe margin
+PASS: takeoff downhill: actual capsule and recovery margin clear the finite lip within eight samples
+TAKEOFF CLEAR downhill: ticks=321->322 gap_m=0.24764336 native_clear=true edge_error_m=0.00000012 clearance_samples=1 carried=(0.0, 0.0, -12.99038) real=(0.0, 0.0, -12.99039) displacement_velocity=(0.0, 0.0, -12.99039)
+PASS: takeoff downhill: actual airborne displacement matches outgoing horizontal motion after native clearance
+PASS: takeoff flat: fixture settles onto the intended surface
+PASS: takeoff flat: actual skating leaves the elevated platform lip
+TAKEOFF flat: outgoing=(0.0, 0.0, -12.87233) real_departure=(0.0, 0.0, -12.86957) next=(0.0, 0.0, -12.87233) real_next=(0.0, 0.0, -12.87231) ticks=465->466 initial_gap_m=0.08833980 safe_margin_m=0.01500 native_margin_clear=true
+PASS: takeoff flat: comparison samples a moving airborne skater
+PASS: takeoff flat: first airborne tick preserves outgoing horizontal momentum
+PASS: takeoff flat: native lip separation remains within the declared spatial safe margin
+PASS: takeoff flat: actual capsule and recovery margin clear the finite lip within eight samples
+TAKEOFF CLEAR flat: ticks=466->467 gap_m=0.27459172 native_clear=true edge_error_m=0.00000024 clearance_samples=1 carried=(0.0, 0.0, -12.87233) real=(0.0, 0.0, -12.87231) displacement_velocity=(0.0, 0.0, -12.87231)
+PASS: takeoff flat: actual airborne displacement matches outgoing horizontal motion after native clearance
+PASS: takeoff steering: arcade air steering rotates without adding horizontal speed
+PASS: takeoff steering: stick input visibly spins the rider without bending carried flight
+PASS: slope rollback: skater settles on the upper part of a supported bank
+PASS: slope rollback: unpowered uphill skater rolls downhill under actual contact gravity
+TAKEOFF rollback: start=(0.0, 7.134815, -2.483035) end=(0.0, 6.95526, -1.989709) signed_speed=-1.000 distance=0.493
+PASS: takeoff collision: moving airborne skater actually contacts the test wall
+PASS: takeoff collision: wall removes the blocked horizontal velocity
+TAKEOFF collided: stopped=(0.0, 0.0, 0.0) after_removal=(0.0, 0.0, 0.0) real=(0.0, 0.0, 0.0) speed=0.00000
+PASS: takeoff collision: removing the wall cannot resurrect lost airborne momentum
+PASS: takeoff collision: public speed reflects the remaining horizontal motion
+TAKEOFF CANDIDATE 29 passed / 0 failed

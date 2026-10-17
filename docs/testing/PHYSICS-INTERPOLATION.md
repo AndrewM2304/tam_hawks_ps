@@ -43,9 +43,11 @@ missing interpolation easy to detect; production physics remains 60 Hz.
 
 ## Actual focused evidence
 
-`tests/physics_interpolation_tests.gd` reports **6 passed / 0 failed** both with a
+The original pre-correction fixture reported **6 passed / 0 failed** both with a
 fixed 240 Hz process cadence and with the ordinary clock capped at 120 process
-frames per second. These are **headless displayed-transform/process samples**,
+frames per second. Those focused receipts are historical: the later ordinary
+aggregate exposed a timing flaw in its trajectory comparison, corrected below.
+These are **headless displayed-transform/process samples**,
 not rasterized images, monitor captures or measured GPU throughput.
 
 | Headless trial | Samples over ten 10 Hz physics intervals | Movement changes within a physics interval | Largest raw physics-origin jump | Largest displayed-transform step | Chase anchor error |
@@ -86,6 +88,70 @@ the same command without `--fixed-fps 240`, and the fixed-rate command with
 `.local/interpolation-camera-check.gd`. The aggregate runner provides the durable
 entry point. Each fixture restores the prior physics rate, global interpolation
 state and frame cap, and writes no career profile.
+
+## Ordinary-run diagnosis and corrected tick contract
+
+The source-guarded ordinary run at runtime `8a975b2` finished **1,689 passed /
+2 failed**, exit 1, with **284 unchanged inputs**. One failure was this module's
+on/off physical trajectory equivalence; the other was a separately investigated
+takeoff fixture. That failed aggregate is not a passing checkpoint. Its
+interpolation cadence, displayed camera anchor, reset and recovery checks passed.
+The ordinary interpolation trial recorded 116 process samples and a largest
+displayed step of 0.70430 m under host load, versus the 1.50000 m raw step.
+
+The original equivalence driver awaited `physics_frame` and then `process_frame`
+for each nominal tick. A render stall allows several real physics ticks before
+the next process signal: the test counted process samples and consequently held
+controls for different physical durations. Its fixed 12-sample setup wait could
+also leave a rider dropped 0.8 m still airborne; at 60 Hz the nominal 0.2 seconds
+is shorter than the roughly 0.27-second fall under the controller's 22 m/s²
+gravity. These were harness defects, not evidence that native interpolation
+changed skating forces.
+
+Ignored diagnostic code reproduced the first mismatch with bounded 45 ms render
+stalls: **42 process samples consumed 65 physical ticks with interpolation off
+and 64 with it on**, crouch began at physical tick 23 versus 24, and the first
+divergent sample was 12. Maximum position difference reached 0.270227 m. A second
+diagnostic confirmed the same supported initial point and zero velocity in both
+modes; its process-driven input schedule still expanded 42 samples to 64 physical
+ticks. The replacement physics-callback diagnostic retained exactly 42 ticks and
+the intended input phases despite render stalls, with **zero position, velocity
+or spin difference**.
+
+Only `tests/physics_interpolation_tests.gd` was corrected after that run:
+
+- Setup now waits for three confirmed supported-rest samples within a bounded
+  90-sample limit. It never rewrites rider position or velocity after creation.
+- A physics-priority −100 driver applies the original controls before the real
+  player callback; a priority +100 recorder captures its result afterward.
+- Guards require exactly 42 consecutive actual physics frame IDs, matching
+  before/after frame IDs and the intended push/crouch/pop/spin input phases.
+- Physical equality keeps the original **0.00001** position/velocity/spin
+  tolerance and exact airborne-state comparison.
+- A second on/off pair inserts at most ten 45 ms render stalls per trajectory.
+  Drivers, signals, inputs, global interpolation, tick rate and frame cap are
+  cleaned up/restored; no background job or profile write remains.
+
+The exact corrected module first passed under an ignored copy, then was applied
+without further edits to its tracked path. The ordinary-clock tracked-path
+focused run reports **10 passed / 0 failed**, exit 0. Both normal and stalled
+pairs covered exactly 42 physical ticks from supported rest. Each stalled trial
+recorded nine stalls, with **13 and 14 catch-up physics ticks** respectively; the
+strict physical trajectories still matched. Its displayed-transform trial
+recorded 120 samples, a 0.15033 m maximum displayed step, and zero anchor error.
+This is focused harness verification; the replacement full aggregate result
+belongs in STATUS after its separate run. Production player/camera code and the
+source-bound rendered evidence were unchanged by this correction.
+
+Retained diagnostics and current focused evidence:
+
+- [Original phase diagnosis](logs/performance-interpolation-phase.log), SHA-256
+  `f38546680e89822936ed6b3703e2eff6c7021353ba3786a5058999d07a2ad66b`.
+- [Supported-start diagnosis](logs/performance-interpolation-grounded.log), SHA-256
+  `74b766b47f03d93e3ff0630c8e93204cd4c606a09a45f62d759f69fd018e254e`.
+- [Corrected tracked-path focused run](logs/performance-interpolation-corrected.log),
+  **10/0**, using `./tools/run.sh --headless --script .local/interpolation-review-check.gd`,
+  SHA-256 `5b08d918257d646387d2cbb6ba47080c4962727738517264b819af2c0d0d0ca5`.
 
 ## Inspected official sources
 

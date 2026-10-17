@@ -46,20 +46,59 @@ static func _roll_off(tree: SceneTree, check: Callable, angle_degrees: float, la
 		var outgoing: Vector3 = _planar(skater.velocity)
 		var departure_position: Vector3 = skater.global_position
 		var outgoing_real: Vector3 = _planar(skater.get_real_velocity())
+		var departure_frame := Engine.get_physics_frames()
+		var departure_gap := _capsule_box_gap(skater, platform)
+		var departure_native_clear := _native_margin_clear(skater)
 		await _frames(tree, 1)
 		var next_velocity: Vector3 = _planar(skater.velocity)
 		var actual_next_velocity: Vector3 = _planar(skater.get_real_velocity())
-		print("TAKEOFF %s: outgoing=%s real_departure=%s next=%s real_next=%s" % [
-			label, outgoing, outgoing_real, next_velocity, actual_next_velocity])
+		var immediate_frame := Engine.get_physics_frames()
+		print("TAKEOFF %s: outgoing=%s real_departure=%s next=%s real_next=%s ticks=%d->%d initial_gap_m=%.8f safe_margin_m=%.5f native_margin_clear=%s" % [
+			label, outgoing, outgoing_real, next_velocity, actual_next_velocity, departure_frame,
+			immediate_frame, departure_gap, skater.safe_margin, departure_native_clear])
 		check.call(outgoing.length() > 3.0 and not skater.is_on_floor(),
 			"takeoff %s: comparison samples a moving airborne skater" % label)
 		check.call(next_velocity.distance_to(outgoing) < 0.05,
 			"takeoff %s: first airborne tick preserves outgoing horizontal momentum" % label)
-		check.call(actual_next_velocity.distance_to(outgoing) < 0.05
-			and _planar(skater.global_position - departure_position).length() > 0.01,
-			"takeoff %s: actual airborne displacement matches outgoing horizontal motion" % label)
+		# An unsupported capsule may still be within native safe-margin recovery
+		# distance of the lip. That positional separation is not carried velocity.
+		# Bound it spatially, then keep the original strict speed gate in actual
+		# free flight, after the complete capsule plus margin clears the platform.
+		var clearance_wait := 1
+		var gap := _capsule_box_gap(skater, platform)
+		var native_clear := _native_margin_clear(skater)
+		var elapsed := float(Engine.get_physics_frames() - departure_frame) / Engine.physics_ticks_per_second
+		var recovery_error := _planar(skater.global_position - departure_position - outgoing * elapsed).length()
+		while (not native_clear or gap <= skater.safe_margin) and clearance_wait < 8:
+			await _frames(tree, 1)
+			clearance_wait += 1
+			gap = _capsule_box_gap(skater, platform)
+			native_clear = _native_margin_clear(skater)
+			elapsed = float(Engine.get_physics_frames() - departure_frame) / Engine.physics_ticks_per_second
+			recovery_error = maxf(recovery_error,
+				_planar(skater.global_position - departure_position - outgoing * elapsed).length())
+		check.call(recovery_error <= skater.safe_margin + 0.0002,
+			"takeoff %s: native lip separation remains within the declared spatial safe margin" % label)
+		var fully_clear: bool = native_clear and gap > skater.safe_margin
+		check.call(fully_clear and not skater.is_on_floor(),
+			"takeoff %s: actual capsule and recovery margin clear the finite lip within eight samples" % label)
+		var free_position: Vector3 = skater.global_position
+		var free_frame := Engine.get_physics_frames()
+		await _frames(tree, 1)
+		var final_frame := Engine.get_physics_frames()
+		var free_seconds := float(final_frame - free_frame) / Engine.physics_ticks_per_second
+		var free_displacement: Vector3 = _planar(skater.global_position - free_position)
+		var real_free: Vector3 = _planar(skater.get_real_velocity())
+		var measured_free: Vector3 = free_displacement / maxf(free_seconds, 0.000001)
+		print("TAKEOFF CLEAR %s: ticks=%d->%d gap_m=%.8f native_clear=%s edge_error_m=%.8f clearance_samples=%d carried=%s real=%s displacement_velocity=%s" % [
+			label, free_frame, final_frame, gap, native_clear, recovery_error, clearance_wait,
+			_planar(skater.velocity), real_free, measured_free])
+		check.call(fully_clear and final_frame > free_frame and not skater.is_on_floor()
+			and real_free.distance_to(outgoing) < 0.05 and measured_free.distance_to(outgoing) < 0.05
+			and free_displacement.length() > 0.01,
+			"takeoff %s: actual airborne displacement matches outgoing horizontal motion after native clearance" % label)
 		if label == "flat":
-			var before_turn: Vector3 = next_velocity
+			var before_turn: Vector3 = _planar(skater.velocity)
 			Input.action_press("steer_left")
 			await _frames(tree, 6)
 			Input.action_release("steer_left")
@@ -139,6 +178,48 @@ static func _uphill_rollback(tree: SceneTree, check: Callable) -> void:
 	fixture.queue_free()
 	await tree.process_frame
 	await _frames(tree, 1)
+
+
+static func _native_margin_clear(skater: CharacterBody3D) -> bool:
+	var collision: CollisionShape3D = skater.get_node("BodyCollision")
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = collision.shape
+	query.transform = collision.global_transform
+	query.margin = skater.safe_margin
+	query.collision_mask = skater.collision_mask
+	query.exclude = [skater.get_rid()]
+	return skater.get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty()
+
+
+static func _capsule_box_gap(skater: CharacterBody3D, platform: StaticBody3D) -> float:
+	# Independent geometric clearance uses the actual fixture shapes/transforms.
+	# Distance from the capsule axis segment to the oriented box is convex;
+	# ternary search finds its closest point without using floor/contact flags.
+	var capsule_node: CollisionShape3D = skater.get_node("BodyCollision")
+	var box_node: CollisionShape3D = platform.get_child(0)
+	var capsule: CapsuleShape3D = capsule_node.shape
+	var box: BoxShape3D = box_node.shape
+	var frame := box_node.global_transform.affine_inverse() * capsule_node.global_transform
+	var axis_half := maxf(0.0, capsule.height * 0.5 - capsule.radius)
+	var start: Vector3 = frame * Vector3(0, -axis_half, 0)
+	var end: Vector3 = frame * Vector3(0, axis_half, 0)
+	var half_size: Vector3 = box.size * 0.5
+	var low := 0.0
+	var high := 1.0
+	for step in 40:
+		var first := lerpf(low, high, 1.0 / 3.0)
+		var second := lerpf(low, high, 2.0 / 3.0)
+		if _point_box_squared(start.lerp(end, first), half_size) < _point_box_squared(start.lerp(end, second), half_size):
+			high = second
+		else:
+			low = first
+	var squared := minf(_point_box_squared(start, half_size), _point_box_squared(end, half_size))
+	squared = minf(squared, _point_box_squared(start.lerp(end, (low + high) * 0.5), half_size))
+	return sqrt(squared) - capsule.radius
+
+
+static func _point_box_squared(point: Vector3, half_size: Vector3) -> float:
+	return (point.abs() - half_size).max(Vector3.ZERO).length_squared()
 
 
 static func _box(size: Vector3, center: Vector3) -> StaticBody3D:
