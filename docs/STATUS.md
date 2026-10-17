@@ -1,6 +1,6 @@
 # Current handoff — 17 October 2026
 
-**Tam Hawks Pro Skater**, Godot 4.6.3 development alpha, branch `bootstrap/m00-m01`. The next court/place and mechanical-cat slice is implemented and frozen: **1,025 checks/0 failures**, corrected **34 source-stable images** independently accepted, and a complete six-area rendered diagnostic. Native package/source identities are recorded below when packaging finishes. Final realistic art, human fun and actual Mac/controller performance remain open.
+**Tam Hawks Pro Skater**, Godot 4.6.3 development alpha, branch `bootstrap/m00-m01`. The next court/place and mechanical-cat slice is implemented and frozen: **1,025 checks/0 failures**, corrected **34 source-stable images** independently accepted, and a complete six-area rendered diagnostic. Both native packages are rebuilt and normal Linux startup passes from clean runtime **`ae481e684a0e7c897a4f0ff5b2492e7ceb4390d1`**; later handoff-only commits preserve that runtime. Final realistic art, human fun and actual Mac/controller performance remain open.
 
 The owner authorizes ready work without recurring approvals. No purchases, paid APIs, billing, hosted CI, infrastructure or unattended jobs. The [feature branch](https://github.com/AndrewM2304/tam_hawks_ps/tree/bootstrap/m00-m01), [75 complete task records](planning/BACKLOG.md), ADRs, tests, research and exact evidence preserve continuity. No public release, remote issues or PR were created; the original repo had no `main`/PR base.
 
@@ -34,11 +34,20 @@ The real A/B/C line emits exactly the three authored capture IDs and banks **1,0
 
 The corrected [34 actual frames](testing/screenshots/court-cat/README.md) pass 102 input hashes unchanged, six checkpoints and 34 routes; manifest SHA-256 **`9ba441c01c7dd24e2e5dd52505eb8314346720327bc7224ff81c6f3906c377e9`**. Lead/geometry/fun/root inspected them. The first review’s inward retaining faces, inside-stall aisle fixture and offscreen dance are corrected; its [diagnostic subset](testing/screenshots/court-cat-diagnostics/README.md) and older 21-frame set remain historical. Stage medium/reduced-motion shots follow the same real earned win/return with explicitly authored inspection framing.
 
-The six-view 60-second 1920×1080 diagnostic completed exit 0: 114 samples/49.279667 sampled seconds, 101 unchanged source inputs, supported stationary riders and<=1.27mm camera drift. This Linux llvmpipe software workload reports 2.3133 combined FPS/p95 656.522ms, not a Mac result or a comparison with the old four-view workload. It excludes moving traversal/loading/thermal behavior. PERFORMANCE retains raw CSV, hashes, settings, views and independent validation. The refreshed motion preview is 222 frames/7.4 seconds at30fps, full decode passed with103unchanged input hashes. `/workspace/TamHawks-motion-preview.mp4` is6,651,674bytes, SHA-256 `f09b5ca42e6754f1ff7a3c7c30e546b25803caeff67980f7751284f2e957ae20`. Cuts, fixtures and limits are recorded in RIDER-REALISM; this is animation evidence, not a frame-rate benchmark.
+The six-view 60-second 1920×1080 diagnostic completed exit 0: 114 samples/49.279667 sampled seconds, 101 unchanged source inputs, supported stationary riders and<=1.27mm camera drift. This Linux llvmpipe software workload reports 2.3133 combined FPS/p95 656.522ms, not a Mac result or a comparison with the old four-view workload. It excludes moving traversal/loading/thermal behavior. PERFORMANCE retains raw CSV, hashes, settings, views and independent validation. The refreshed motion preview is 222 frames/7.4 seconds at 30fps, full decode passed with 103 unchanged input hashes. `/workspace/TamHawks-motion-preview.mp4` is 6,651,674 bytes, SHA-256 `f09b5ca42e6754f1ff7a3c7c30e546b25803caeff67980f7751284f2e957ae20`. Cuts, fixtures and limits are recorded in RIDER-REALISM; this is animation evidence, not a frame-rate benchmark.
 
 ## Native/source downloads
 
-The a301279 native ZIPs belong to the preceding 955-check runtime. The current clean-source native export, archive/resource/notices/architecture audit, Linux startup and convenience source/checksum refresh are the remaining checkpoint steps. Do not present those previous ZIPs as containing Rae or the new courts. Source/artifacts must retain exact runtime/package hashes; Mac launch is a separate gate.
+`./tools/export.sh --skip-check` completes exit 0 from clean runtime **`ae481e684a0e7c897a4f0ff5b2492e7ceb4390d1`**, after the unchanged 1,025-check source pass. Build: `builds/tam-hawks-20261017T163413Z-ae481e684a0e/`; 109 input hashes, fingerprint **`9bf76faacdefb8497cf1552363fb3eac93cf0ca46e874acba06012ddceb6f11c`**. Both packs load main/scripts, three voices, four mipmapped textures and four anatomical meshes; complete CRC/notices/provenance/architecture checks pass. Both pack SHA-256: `045b5e92afdb146392fee63660f80082d5c6fe218c759815dad51097d5a35933`.
+
+| Download | Bytes | SHA-256 |
+|---|---:|---|
+| `/workspace/TamHawksProSkater-linux.zip` | 32,040,167 | `ffb8c980be0d587b8bd1e89da263634260cb4f8e22e153f2beba4f3faab8af59` |
+| `/workspace/TamHawksProSkater-macos.zip` | 66,599,701 | `447e92a171a953ca0a39bcbd2dbdfca34db458f39eec373f6b1364ebfd5ee8cd` |
+
+`tools/native_smoke.sh` passes normal Linux headless 120 and rendered 1920×1080/30 frames, exit 0, isolated profile and clean engine/script/resource logs. This is startup evidence, not a performance or audible-output result. Durable metadata/resource/independent-audit/startup receipts are in [native-court-cat](testing/native-court-cat/README.md). [EXPORT](testing/EXPORT.md) records exact verification and historical diagnostics. The Mac app is unsigned, unnotarized and not real-Mac launch-tested.
+
+`/workspace/tam-hawks-prototype-source.zip` contains the final committed source/docs; `/workspace/TamHawks-downloads-SHA256SUMS.txt` records native/source/video hashes. Runtime/package identity remains ae481e6 even when the source ZIP contains later handoff-only commits. Ignored artifacts must be regenerated after environment replacement. Old a301279/a99f993 packages are historical.
 
 ## Concrete continuation tasks
 

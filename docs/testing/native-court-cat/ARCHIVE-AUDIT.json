@@ -1,0 +1,51 @@
+{
+  "audit": "Integration-recorded receipt of completed independent read-only QE archive audit.",
+  "runtime_commit": "ae481e684a0e7c897a4f0ff5b2492e7ceb4390d1",
+  "clean_build": true,
+  "source_input_count": 109,
+  "all_source_inputs_match_git_objects_and_checkout": true,
+  "runtime_source_sha256": "9bf76faacdefb8497cf1552363fb3eac93cf0ca46e874acba06012ddceb6f11c",
+  "metadata_sha256": "28eed6ad717807739716860fc6b7dbcda6d3fe3fa45ae8d22372f0a938ff459d",
+  "zip_crc_pass": true,
+  "unique_safe_archive_paths": true,
+  "executable_permissions": "0755",
+  "embedded_metadata_and_package_files_byte_identical": true,
+  "notices_and_provenance_records_each": 13,
+  "notices_and_provenance_byte_match": true,
+  "pack_sha256": "045b5e92afdb146392fee63660f80082d5c6fe218c759815dad51097d5a35933",
+  "pack_resource_reports_match": true,
+  "resource_counts": {
+    "anatomical_meshes": 4,
+    "voice_streams_pcm16": 3,
+    "textures_1024px_10mipmaps": 4
+  },
+  "source_output_import_and_licence_provenance_hashes_pass": true,
+  "export_and_resource_logs_clean": true,
+  "archives": {
+    "linux": {
+      "bytes": 32040167,
+      "sha256": "ffb8c980be0d587b8bd1e89da263634260cb4f8e22e153f2beba4f3faab8af59",
+      "format": "ELF64 x86_64"
+    },
+    "macos": {
+      "bytes": 66599701,
+      "sha256": "447e92a171a953ca0a39bcbd2dbdfca34db458f39eec373f6b1364ebfd5ee8cd",
+      "format": "Universal Mach-O x86_64 and arm64"
+    }
+  },
+  "source_evidence": {
+    "capture_files": 102,
+    "profile_files": 101,
+    "motion_files": 103,
+    "each_overlaps_98_build_inputs": true,
+    "all_receipt_hashes_match_current_source": true,
+    "all_overlap_hashes_match_build": true,
+    "dirty_base_identity_honest": true
+  },
+  "qe_native_launch_performed": false,
+  "macos_launch_tested": false,
+  "macos_signed": false,
+  "macos_notarized": false,
+  "target_hardware_or_subjective_acceptance_claim": false,
+  "recorded_at_utc": "2026-10-17T16:41:11.430558+00:00"
+}

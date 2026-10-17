@@ -108,7 +108,7 @@ Smoke-harness diagnostics are retained transparently: the initial 180-frame grap
 This checkpoint's Mac app remains **unsigned, unnotarized and not launch-tested on a real Mac**. Actual Apple Silicon frame times, physical DualSense behavior, audible playback and final owner visual acceptance remain open. No build was published, and no paid service was used.
 
 
-### Current native checkpoint — a301279, 17 October 2026
+### Historical native checkpoint — a301279, 17 October 2026
 
 `./tools/export.sh --prepare` and `./tools/export.sh --skip-check` completed exit **0** from clean runtime **`a30127940eacd4d2fe56d07a34ee1af4bacf95e5`**. Its unchanged gameplay had passed **955/0**, with clean import/engine/script scans. Metadata records that the export skipped repeating that already-completed suite. All 105 package inputs remained unchanged during export; fingerprint **`5c763454af485ccdabade16e5b0ed3aa4aa664a8e6e1b724aa238c1f3c442602`**. Exact input hashes are retained in the [build metadata](native-redesign/BUILD-METADATA.json).
 
@@ -134,3 +134,29 @@ The actual exported binary runs its normal main scene, using isolated XDG profil
 Durable [native-redesign receipts](native-redesign/README.md) include exact metadata, pack resource reports, independent archive audit and startup logs. The final source archive includes subsequent handoff-only commits; package-input identity remains the clean runtime above. `/workspace/TamHawks-downloads-SHA256SUMS.txt` records the two native ZIPs, final source ZIP and refreshed 7.4-second motion preview. Ignored binary/cached artifacts can be regenerated with these scripts after environment replacement.
 
 The Mac app remains unsigned, unnotarized and not launch-tested on a real Mac. Actual DualSense use, offline Mac save relaunch, Apple Silicon frame times, listening, human route discovery/fun and final realistic art remain open. M06-007 and the explicit later mechanics/encounter tasks remain tracked. No build was published and no paid service was used.
+
+
+### Current native checkpoint — ae481e6, 17 October 2026
+
+`./tools/export.sh --skip-check` completed exit **0** from clean runtime **`ae481e684a0e7c897a4f0ff5b2492e7ceb4390d1`**. The unchanged production source had already passed **1,025/0**,34 accepted source-stable images, an audited six-view rendered diagnostic and decoded rider motion. Metadata records the skipped repeat. All **109** package inputs remained unchanged; fingerprint **`9bf76faacdefb8497cf1552363fb3eac93cf0ca46e874acba06012ddceb6f11c`**. Later handoff-only commits do not change this runtime or packaged player/provenance documents.
+
+Build: `builds/tam-hawks-20261017T163413Z-ae481e684a0e/`. Convenience copies in `/workspace`:
+
+| Archive | Bytes | SHA-256 |
+|---|---:|---|
+| `TamHawksProSkater-linux.zip` | 32,040,167 | `ffb8c980be0d587b8bd1e89da263634260cb4f8e22e153f2beba4f3faab8af59` |
+| `TamHawksProSkater-macos.zip` | 66,599,701 | `447e92a171a953ca0a39bcbd2dbdfca34db458f39eec373f6b1364ebfd5ee8cd` |
+
+Both isolated probes instantiate/load the packed main scene/scripts and load three voice streams, four 1024×1024/ten-mipmap textures and four anatomical meshes (head 4,470/scalp 425/hands 1,901 each, one surface each). Both archives contain the exact inspected pack, SHA-256 **`045b5e92afdb146392fee63660f80082d5c6fe218c759815dad51097d5a35933`**. Full ZIP CRC, executable architecture/permission and all 13 notice/provenance byte checks pass; Linux is ELF x86_64 and the Mac app contains arm64+x86_64 slices. No runtime/package input changed while exporting.
+
+Normal Linux startup uses the actual exported executable/main scene, isolated XDG save directories and the bounded helper:
+
+```bash
+./tools/native_smoke.sh /workspace/tam_hawks_ps/builds/tam-hawks-20261017T163413Z-ae481e684a0e
+```
+
+Headless120 frames and rendered 1920×1080/30 frames both exit **0**, clean engine/script/resource logs. The graphical run uses Compatibility/Mesa llvmpipe and Dummy audio; its V-Sync warning belongs to the software display. Owned game/display processes stop and are waited. This is normal rendered startup evidence; current34 source frames are separate from native startup and no new native screenshot or frame-rate/audio acceptance is invented.
+
+Durable [native-court-cat receipts](native-court-cat/README.md) preserve clean metadata, isolated pack reports, independent archive audit and startup logs. Exact runtime inputs bind the pre-commit dirty-base world/profile/motion evidence to this clean runtime. The final source ZIP contains subsequent handoff-only commits; external `TamHawks-downloads-SHA256SUMS.txt` records native/source/video digests.
+
+The Mac app remains unsigned, unnotarized and not launch-tested on Mac. Physical DualSense, offline Mac save relaunch, Apple Silicon moving-route frame times, human listening/fun and final realistic-art acceptance remain open. No artifact was publicly released and no paid service was used.
