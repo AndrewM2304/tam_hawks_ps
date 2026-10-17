@@ -1,10 +1,36 @@
 # Terrain, coping and outdoor route evidence
 
-Independent QE for the terrain redesign and subsequent nonlinear route/encounter extension, Godot 4.6.3, 17 October 2026. The focused checks below have clean engine/script logs and exit 0. The final aggregate gate for the frozen extension is **pending root’s run**; focused passes are not a full-project result. The former 778-check result describes the flat layout; the later 871-check redesign result predates this extension and final outdoor corrections. Current career evidence and its timing limits are in [CAREER-ROUTES](CAREER-ROUTES.md).
+Independent QE for the terrain redesign, nonlinear routes and current court/workshop extension, Godot 4.6.3, 17 October 2026. The previous nonlinear/Mo runtime passed the final **955/0** aggregate. The new court/cat focused checks below have clean engine/script logs and exit 0; their final aggregate is **pending root's run**. The older 778/871 results describe earlier layouts. Career evidence and timing limits are in [CAREER-ROUTES](CAREER-ROUTES.md); earlier passes do not certify later geometry changes.
 
-## Nonlinear extension: final focused evidence
+## Court and mechanical-cat extension: focused evidence
 
-The final `topography_tests.gd` module contains **60 checks**, including all 33 earlier terrain checks, 24 new branch/clearance checks and three local combo checks. This is its expected integrated count, not a claimed standalone 60-check result. The focused final branch/outdoor runner passes **30/0**; the independent local-combo probe passes **3/0**. Root owns the complete ordinary-scheduler aggregate after source freeze.
+`cat_encounter_tests.gd` passes **38/0**: 21 explicitly separate callback-rule checks and 17 physical integration/presentation checks. The scene fixture disables persistence and uses a fresh in-memory career. After the initial spawn, the successful route never assigns position, velocity or speed, and never injects a capture, trick, score or bank. Direct grounded heading remains an explicit idealization.
+
+The rider accepts Rae's offer through the mapped interaction key, physically travels to the west approach, then pushes/ollies onto `Grind_Cat_A`. Two actual rail ollies transfer to `Grind_Cat_B` and `Grind_Cat_C`; all three emit one capture each, with sequence states 1→2→3. The attempt remains active until the final real release/landing bank. The exact earned total is **1,050**, once: `(100 + 200 + 50 + 100 + 25 + 50) × 2`, for three ollies and three repeat-degraded Rail Grinds. No bail occurs and the 60-second attempt has **52.32 seconds** remaining at success. Although this fixture links all three rails, the stated challenge permits intermediate clean banks; the pure rule checks verify that permission separately.
+
+The rule checks cover invalid duplicate rail definitions, offer distance, pending-combo rejection, unmarked/wrong-order captures, repeated last segment, restarting at A, intermediate banks, nonpositive final banks, replay, leaving, callback-before-poll area validation, the actual 60-second deadline, bail and run reset. Scene checks exercise pause, a real airborne combo during career expiry, results-screen interaction rejection, retained career identity, one actual manual-imbalance bail and free-skate progression isolation. Both side challenges now end when career time first reaches zero; ordinary scoring overtime may still finish an existing line. A last-positive-frame bank remains governed by main's existing update order.
+
+Rendered review found that starting the payoff immediately at the C landing could spend its entire duration behind the player. The real bank now earns the win once and **queues** the payoff. Independent physical testing verifies the stage is outside the actual camera frustum at that bank. The rider then returns using ordinary push/brake and grounded heading toward the open gap near `(4,4,-93)`; after **51 physics ticks / 0.85s**, the rider is **9.87m** from Rae and the production camera's stage-frustum test is true. Only then does the one-shot start. The test never assigns a camera transform or audience-visible flag during this route.
+
+Tests verify menu pause freezes playback, the visible payoff completes its full **3.2 seconds**, live reduced motion produces a stable raised-paw pose/steady indicator, and lingering or toggling motion cannot repeat the animation or reward. Separate callback fixtures check the 10m horizontal/2.5m vertical visibility gate and stopping an already playing animation when reduced motion is enabled. These checks do not replace rendered prop/readability review or human comic-timing acceptance.
+
+The five changed continuous court routes pass **15/0**, with every intermediate waypoint traversed in both directions, no stalls/bails and correct supported endpoint heights:
+
+| Court route | Forward / reverse fixed-60Hz time | Physical evidence |
+| --- | --- | --- |
+| Cat coping approach | 1.35s / 1.37s | Supported west-side entry to the marked course |
+| Cat coping runout | 2.18s / 2.20s | Supported landing area and eastern return |
+| Workshop permanent bypass | 5.80s / 5.80s | Existing X=±22 and Z=-74 civic corridor stays open |
+| Civic workshop bank loop | 3.70s / 3.70s | 43 actual slope-contact ticks in each direction; 4m→4.65m terrace and descent |
+| Market hall bank loop | 3.48s / 3.45s | 43/31 slope-contact ticks; 0m→0.65m raised skirt, angled aisle and descent |
+
+Measured rider peaks include natural crest airtime; they are not new authored floor heights. The geometry owner's independent static route result is 173/0; root's aggregate must confirm it together with the preserved ten-goal career. `topography_tests.gd` now expects **75 checks** (the previous 60 plus these 15), and the new cat module adds 38. No earlier route assertion was removed or relaxed. A later retaining-side winding correction changes rendered triangle direction only; the geometry owner's control comparison reports identical 247 collision shapes/transforms and terrain registries, preserving the physical route fixture.
+
+Clean current focused logs: `.local/cat-qe-visible-first.log` and `.local/courts-qe-first.log`. The earlier `.local/cat-qe-final.log` is the 33-check pre-visibility result, superseded for payoff behavior. Both current probes use `--fixed-fps 60`, not `Engine.time_scale`. The full ordinary-scheduler run, current rendered evidence and package identity remain separate gates. No human difficulty, real controller, Mac performance or final-art acceptance is inferred.
+
+## Previous nonlinear extension: retained evidence
+
+At the previous accepted checkpoint, `topography_tests.gd` contained **60 checks**, including all 33 earlier terrain checks, 24 new branch/clearance checks and three local combo checks. The focused final branch/outdoor runner passed **30/0**; the independent local-combo probe passed **3/0**. Root's subsequent ordinary aggregate passed 955/0. This retained evidence predates the court/workshop extension above.
 
 | New physical connection | Forward / reverse fixed-60Hz time | Evidence |
 | --- | --- | --- |

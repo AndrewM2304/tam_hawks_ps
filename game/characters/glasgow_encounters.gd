@@ -104,6 +104,10 @@ func on_bail() -> void:
 	if _state == "active":
 		_fail("No bother. Back to Mo for another go.")
 
+func cancel_attempt() -> void:
+	if _state == "active":
+		_fail("Another time. Mo will keep the spot warm.")
+
 func finish_run() -> void:
 	if _state == "active":
 		_fail("Shift's over. Find Mo again on your next run.")

@@ -73,7 +73,12 @@ func get_npc_positions() -> Array[Vector3]:
 
 
 func get_encounter_definitions() -> Array[Dictionary]:
-	return [{"id": "busker_big_finish", "position": to_global(Vector3(28,0,31)), "heading": 0.93}]
+	return [
+		{"id": "busker_big_finish", "position": to_global(Vector3(28,0,31)), "heading": 0.93},
+		{"id": "cat_got_the_beat", "position": to_global(Vector3(0,4.65,-98)), "heading": PI,
+			"sequence": ["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"],
+			"area_center": to_global(Vector3(0,4,-91)), "area_radius": 32.0},
+	]
 
 
 func activate_cone() -> void:
@@ -360,12 +365,50 @@ func _build_george_square() -> void:
 	_slope("CivicWestBank", Rect2(-35, -108, 18, 12), Vector4(6, 6, 4, 4), "paving")
 	_slope("CivicEastBank", Rect2(17, -108, 18, 12), Vector4(6, 6, 4, 4), "paving")
 	_steps("CivicStairs", -13, 13, -102, -108, 4, 6, 10)
-	for x: float in [-13.0, 13.0]:
-		_box(self, "CivicGarden", Vector3(x, 4.28, -84), Vector3(8, 0.56, 10), "stone", true)
-		_box(self, "CivicGardenSoil", Vector3(x, 4.59, -84), Vector3(7.4, 0.08, 9.4), "bark")
+	_build_civic_workshop()
+	for side: float in [-1.0, 1.0]:
+		var wing := PackedVector3Array()
+		for at: Vector2 in [Vector2(18,-87),Vector2(11,-88.5),Vector2(7,-84.5),Vector2(10,-80),Vector2(17,-81)]:
+			wing.append(Vector3(at.x * side,4.55,at.y))
+		_terrain.add_polygon(self, "ChamferedCivicGarden", wing, _materials["stone"])
+		_box(self, "CivicGardenSoil", Vector3(side * 13,4.59,-84), Vector3(4.8,0.08,3.5), "bark")
 	_grind_path("Grind_Rail_George", PackedVector3Array([
 		Vector3(14, 4.92, -100), Vector3(14, 6.92, -109), Vector3(14, 6.92, -117)]), "rail")
-	_grind_path("Grind_Ledge_Civic", PackedVector3Array([Vector3(-17.15, 4.62, -79), Vector3(-17.15, 4.62, -89)]), "ledge")
+	_grind_path("Grind_Ledge_Civic", PackedVector3Array([Vector3(-17,4.65,-81),Vector3(-18,4.65,-87),Vector3(-11,4.65,-88.5)]), "ledge")
+
+
+func _build_civic_workshop() -> void:
+	# The original workshop/garden backdrop is a real chamfered terrace. The
+	# ordered coping course in front stays on the ordinary Y4 civic floor.
+	_terrain.add_polygon(self, "CivicWorkshopBackdrop", PackedVector3Array([
+		Vector3(-16,4.65,-95),Vector3(-13,4.65,-99),Vector3(13,4.65,-99),
+		Vector3(16,4.65,-95),Vector3(12,4.65,-94),Vector3(-12,4.65,-94)]), _materials["cut_stone"])
+	# Toe heights match the existing civic banks beyond Z=-96 exactly.
+	for side: float in [-1.0,1.0]:
+		_terrain.add_polygon(self, "CivicWorkshopFrontBank", PackedVector3Array([
+			Vector3(20 * side,4,-95),Vector3(16 * side,4.65,-95),
+			Vector3(15.25 * side,4.65,-96),Vector3(19.25 * side,4,-96)]), _materials["paving"])
+		_terrain.add_polygon(self, "CivicWorkshopRearBank", PackedVector3Array([
+			Vector3(19.25 * side,4,-96),Vector3(15.25 * side,4.65,-96),
+			Vector3(13 * side,4.65,-99),Vector3(17 * side,4.5,-99)]), _materials["paving"])
+	_terrain.add_polygon(self, "CivicWorkshopApron", PackedVector3Array([
+		Vector3(-18,4.01,-94),Vector3(18,4.01,-94),Vector3(20,4.01,-90),
+		Vector3(17,4.01,-86),Vector3(-17,4.01,-86),Vector3(-20,4.01,-90)]), _materials["paving"])
+	for entry: Dictionary in [
+		{"id":"Grind_Cat_A", "from":-16.0, "to":-10.0, "label":"A", "accent":"teal"},
+		{"id":"Grind_Cat_B", "from":-4.0, "to":2.0, "label":"B", "accent":"coral"},
+		{"id":"Grind_Cat_C", "from":8.0, "to":14.0, "label":"C", "accent":"cream"}]:
+		var middle := (float(entry.from) + float(entry.to)) * 0.5
+		_box(self, entry.id + "Plinth", Vector3(middle,4.225,-91), Vector3(6,0.45,1.5), "stone", true)
+		_grind_path(entry.id, PackedVector3Array([Vector3(entry.from,4.60,-91),Vector3(entry.to,4.60,-91)]), "coping")
+		_box(self, entry.id + "Accent",Vector3(entry.from + 0.22,4.46,-91),Vector3(0.32,0.02,1.54),entry.accent)
+		var marker := _label(self, entry.id + "Marker", entry.label, Vector3(middle,5.35,-92.25), 28, "cream", Vector3.ZERO, 0.012)
+		marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		marker.outline_size = 8
+	# The low side-seat caps explain the raised backdrop as civic architecture.
+	for x: float in [-10.5,10.5]:
+		_box(self, "WorkshopBackSeat", Vector3(x,4.91,-98), Vector3(5.2,0.52,0.7), "stone", true)
+	_label(self, "WorkshopBackdropSign", "THE WEE WORKSHOP / REPAIR & PLAY", Vector3(0,5.25,-99.0), 26, "cream", Vector3.ZERO, 0.01)
 
 
 func _build_central_station() -> void:
@@ -399,7 +442,8 @@ func _build_barras() -> void:
 	_slope("MarketEastLoadingBank", Rect2(108, -18, 22, 12), Vector4(1.5, 1.5, 0, 0), "stone")
 	_steps("MarketLoadingSteps", 87, 99, -8, -14, 0, 1.5, 6)
 	_flat("MarketStepLanding", Rect2(87, -18, 12, 4), 1.5, "stone")
-	for at: Vector3 in [Vector3(67, 0, 10), Vector3(80, 0, -2), Vector3(104, 0, 16), Vector3(118, 0, 1)]:
+	_build_market_hall_island()
+	for at: Vector3 in [Vector3(105, 0, -2), Vector3(80, 0, -2), Vector3(104, 0, 16), Vector3(118, 0, 1)]:
 		_market_stall(at)
 	_rail("Grind_Rail_Barras", Vector3(114, 0, 27), 12)
 	_grind_path("Grind_Rail_MarketSteps", PackedVector3Array([Vector3(99.8, 0.92, -7), Vector3(99.8, 2.42, -15), Vector3(99.8, 2.42, -19)]), "rail")
@@ -407,6 +451,22 @@ func _build_barras() -> void:
 	_box(self, "RecordingAlcoveSide", Vector3(113, 3.0, -31), Vector3(0.5, 3, 14), "warehouse_brick", true)
 	_box(self, "RecordingAlcoveBack", Vector3(120, 3.0, -39), Vector3(14, 3, 0.5), "warehouse_brick", true)
 	_label(self, "RecordingHint", "AFTER HOURS", Vector3(120, 3.6, -38.7), 30, "cream")
+
+
+func _build_market_hall_island() -> void:
+	# A raised, chamfered loading/seating skirt attaches to a proper brick hall;
+	# its low banks face the clear market aisle instead of the career corridor.
+	_terrain.add_polygon(self, "MarketHallMasonrySkirt", PackedVector3Array([
+		Vector3(50,0.65,-2),Vector3(66,0.65,-2),Vector3(76,0.65,4),
+		Vector3(76,0.65,10),Vector3(69,0.65,17),Vector3(50,0.65,17)]), _materials["cut_stone"])
+	var hall := _building(Vector3(56,0.65,7.5),15,10,"warehouse_brick","MARKET REPAIR HALL",PI / 2.0)
+	_box(hall,"MarketHallFoundation",Vector3(0,-1.825,0),Vector3(15,3.65,12),"warehouse_brick",true)
+	_terrain.add_polygon(self, "MarketHallEastBank", PackedVector3Array([
+		Vector3(76,0.65,4),Vector3(80,0,4),Vector3(80,0,10),Vector3(76,0.65,10)]), _materials["paving"])
+	_terrain.add_polygon(self, "MarketHallCornerBank", PackedVector3Array([
+		Vector3(76,0.65,10),Vector3(80,0,10),Vector3(73,0,17),Vector3(69,0.65,17)]), _materials["paving"])
+	_grind_path("Grind_Ledge_MarketHall",PackedVector3Array([Vector3(76,0.77,4),Vector3(76,0.77,10),Vector3(69,0.77,17)]),"ledge")
+	_label(self,"MarketHallAisleSign","MARKET AISLE / LOADING BANK",Vector3(68,2.8,15.5),24,"cream",Vector3(0,90,0),0.01)
 
 
 func _market_stall(at: Vector3) -> void:
@@ -523,7 +583,7 @@ func _cylinder(parent: Node3D, node_name: String, at: Vector3, top_radius: float
 	parent.add_child(geometry)
 
 
-func _label(parent: Node3D, node_name: String, words: String, at: Vector3, font_size: int, color: String, angles: Vector3 = Vector3.ZERO, pixel_size: float = 0.01) -> void:
+func _label(parent: Node3D, node_name: String, words: String, at: Vector3, font_size: int, color: String, angles: Vector3 = Vector3.ZERO, pixel_size: float = 0.01) -> Label3D:
 	var label := Label3D.new()
 	label.name = node_name
 	label.text = words
@@ -534,6 +594,7 @@ func _label(parent: Node3D, node_name: String, words: String, at: Vector3, font_
 	label.modulate = PALETTE[color]
 	label.outline_size = 0
 	parent.add_child(label)
+	return label
 
 
 ## Highest authored terrain support, excluding rail caps and decorative props.
@@ -568,6 +629,12 @@ func get_recovery_position(world_position: Vector3) -> Vector3:
 
 func get_route_definitions() -> Array[Dictionary]:
 	var routes: Array[Dictionary] = [
+		_route("cat_coping_approach", "Workshop coping approach", [Vector3(-28,4,-91),Vector3(-22,4,-91),Vector3(-18,4,-91)], false),
+		_route("cat_coping_runout", "Workshop coping landing and return", [Vector3(16,4,-91),Vector3(22,4,-91),Vector3(22,4,-74)]),
+		_route("cat_ordered_coping_line", "Workshop A to B to C coping line", [Vector3(-28,4,-91),Vector3(-16,4.60,-91),Vector3(-10,4.60,-91),Vector3(-7,4,-91),Vector3(-4,4.60,-91),Vector3(2,4.60,-91),Vector3(5,4,-91),Vector3(8,4.60,-91),Vector3(14,4.60,-91),Vector3(22,4,-91)], true),
+		_route("cat_workshop_bypass", "Workshop permanent civic bypass", [Vector3(-22,4,-91),Vector3(-22,4,-74),Vector3(22,4,-74),Vector3(22,4,-91)]),
+		_route("civic_workshop_bank_loop", "Civic workshop terrace banks", [Vector3(-22,4,-95.5),Vector3(-19.625,4,-95.5),Vector3(-15.625,4.65,-95.5),Vector3(-10,4.65,-94.5),Vector3(10,4.65,-94.5),Vector3(15.625,4.65,-95.5),Vector3(19.625,4,-95.5),Vector3(22,4,-95.5)]),
+		_route("market_hall_bank_loop", "Market hall bank and angled aisle", [Vector3(82,0,8),Vector3(80,0,8),Vector3(76,0.65,8),Vector3(68,0.65,8),Vector3(67,0.65,13),Vector3(69,0.65,17),Vector3(73,0,17),Vector3(78,0,17),Vector3(82,0,8)]),
 		_route("gallery_civic_ascent", "Gallery to civic terraces", [Vector3(-22,0,28), Vector3(-22,0,-4), Vector3(-22,2,-18), Vector3(-22,2,-42), Vector3(-22,4,-56), Vector3(-22,4,-96), Vector3(-22,6,-108), Vector3(-22,6,-118)]),
 		_route("exchange_fountain_loop", "Fountain court loop", [Vector3(-22,0,28), Vector3(22,0,28), Vector3(22,0,-2), Vector3(-22,0,-2), Vector3(-22,0,28)]),
 		_route("central_south_link", "Station climbing street", [Vector3(-22,0,22), Vector3(-35,0,22), Vector3(-50,2,22), Vector3(-70,2,22)]),

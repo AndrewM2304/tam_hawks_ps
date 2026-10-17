@@ -118,3 +118,32 @@ After the lower-court/rendered integration corrections, the focused static world
 
 
 The refreshed 21-view set has `valid_capture_set=true`, `source_changed_during_run=false` and `source_stable_capture_set=true`. Geometry review inspected both Merchant mouths, the lower station passage, the park fork/join and both yard-bank views. It confirms the lower service ground, clear branch opening and blended join foundation. The independent lead reviewer accepts this as a substantial topology development iteration. Four broad core courts, repeated/sparse facades, detailed landscaping, human camera/fun and final realistic-art acceptance remain open. The small grass wedge inside the print-yard loop should receive a defined planting edge or paved apron during that art pass; it does not block traversal or reopen the frozen slice.
+
+
+## Civic workshop and market-hall edge pass
+
+This bounded M06-007/M05-001 iteration reshapes two existing courts, preserving the established career and nonlinear routes. It adds no detached district, changes no career/save IDs and requires no new movement engine. The signs/buildings are original Glasgow-inspired composites, not verified current occupants.
+
+**George Square** replaces the rectangular garden pair with chamfered planted wings around X±13/Z−84, topY4.55, a shallow irregular paving apron atY4.01 and a raised workshop backdrop atY4.65, Z−94…−99. Diagonal side banks match the existing civic bank's toe heights beyond Z−96, so the terrace connects to the existing square rather than floating above it. The protected X±22 civic lines and Z−74 cross-court route remain open. `civic_workshop_bank_loop` runs from `(-22,4,-95.5)` through `(-19.625,4,-95.5)`, `(-15.625,4.65,-95.5)`, `(-10,4.65,-94.5)`, `(10,4.65,-94.5)`, `(15.625,4.65,-95.5)`, `(19.625,4,-95.5)` and `(22,4,-95.5)`. The original `Grind_Ledge_Civic` ID now follows the west garden's actual angled edge.
+
+The workshop encounter anchor is **`(0,4.65,-98)`**, heading PI, on real raised ground. Its three separately authored coping segments are:
+
+| ID / steady marker | World board-contact endpoints | Physical context |
+|---|---|---|
+| `Grind_Cat_A` / A | `(-16,4.60,-91) → (-10,4.60,-91)` | Independent 6m low plinth, quiet teal start accent |
+| `Grind_Cat_B` / B | `(-4,4.60,-91) → (2,4.60,-91)` | Independent 6m low plinth, copper start accent |
+| `Grind_Cat_C` / C | `(8,4.60,-91) → (14,4.60,-91)` | Independent 6m low plinth, cream start accent |
+
+The ordinary support beneath the course stays atY4/4.01. Plinth tops areY4.45; coping board tracks areY4.60. Billboard A/B/C labels face the eastbound chase camera without flashing or relying on colour alone. Each 6m space between plinths permits grounded landing and a separate re-approach; it is not a promise of an automatic transfer at every speed. Ordinary push caps at 15m/s, whereas the existing grind state permits 18m/s and has a 0.35s recapture cooldown. The encounter allows separate combos and requires actual distinct ordered captures plus a final clean bank; geometry does not grant any challenge progress.
+
+`cat_coping_approach` follows `(-28,4,-91) → (-22,4,-91) → (-18,4,-91)`; `cat_coping_runout` follows `(16,4,-91) → (22,4,-91) → (22,4,-74)`. `cat_ordered_coping_line` publishes the approach, actual elevated track points, intermediate landing spaces and runout with `requires_jump=true`. `cat_workshop_bypass` follows the permanent ordinary-floor route along X−22→Z−74→X22, so neither the encounter nor missed captures block district travel. Cat actors/stage props stay behind Z−96 and do not add riding collision.
+
+**The Barras** gains a brick Market Repair Hall attached to a chamfered masonry loading/seating skirt inside X50…76/Z−2…17. The skirt rises 0.65m with an east bank and an angled corner return to the market floor. `Grind_Ledge_MarketHall` follows the actual outer skirt edge atY0.77. The aisle X80…88, career Z18…28, central stair runout X86…101 and outer X126 route remain clear. The former stall at `(67,0,10)` moves to `(105,0,-2)`; all four stall objects and market goal positions remain intact. `market_hall_bank_loop` follows `(82,0,8) → (80,0,8) → (76,0.65,8) → (68,0.65,8) → (67,0.65,13) → (69,0.65,17) → (73,0,17) → (78,0,17) → (82,0,8)`.
+
+The focused static production-route pass is **173/0**, with a clean Godot 4.6.3 import. Independent changed-court physical checks pass **15/0**: cat approach/runout/bypass travel works in both directions; the civic workshop loop takes 3.70s each direction and the market hall loop 3.48/3.45s, with real slope contact, >0.6m height change and zero stalls/bails. The actual ordered A→B→C rail/ollie route also produces one real 1,050-point bank. This driver directly aims supported heading, so these are feasibility results, not human timing/fun. Fresh complete career/aggregate verification and real rendered court/actor review are required before replacing the prior source-bound package. Final counts and accepted capture identity belong in STATUS/QE; earlier 955/0 and older imagery do not certify this pass.
+
+
+The first court render revealed inward-facing retaining side triangles on some chamfered/mirrored polygons. `core_terrain.add_polygon` now chooses outward side winding from the footprint direction while retaining its original top triangulation and collision prisms. An actual representative side-normal probe changes outward-dot from −0.961 to +0.961; a control-world comparison verifies identical 247 collision shapes/transforms, 74 rectangular patches and 18 polygon registries before/after this visual correction. Static routes remain 173/0. Final rendered review must inspect these restored foundations, rather than infer appearance from collision checks.
+
+
+The corrected court/cat capture completed **34/34**, with 34 authored routes and 102 unchanged source inputs at 16:18:46 UTC on 17 October 2026. Manifest SHA-256: `9ba441c01c7dd24e2e5dd52505eb8314346720327bc7224ff81c6f3906c377e9`. Actual garden/terrace retaining walls are visibly closed/lit in frames 22/25/26, and the supported Barras return in 24 shows the rider clear of the old stall. Geometry review finds no further concrete blocker in this bounded slice. The initial stall-intersecting fixture was corrected without altering gameplay geometry. Broader court shaping, sparse/repeated facades, horizon/landscape materials, human route choice/camera comfort and final realistic-art acceptance remain open under the existing tasks. Source is frozen for the root-owned aggregate/export checks.

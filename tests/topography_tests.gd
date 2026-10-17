@@ -9,6 +9,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _terrain_heights(tree, game, check)
 	await _slopes(tree, game, check)
 	await _nonlinear_routes(tree, game, check)
+	await _court_routes(tree, game, check)
 	await _local_combo(tree, game, check)
 	await _fountain(tree, game, check)
 	await _outdoor_routes(tree, game, check)
@@ -190,6 +191,29 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 		captured, manual_entered, connected, banked, evidence.bails, evidence.names])
 	game.skater.bailed.disconnect(on_bail)
 	game.skater.trick_performed.disconnect(on_trick)
+
+
+static func _court_routes(tree: SceneTree, game: Node, check: Callable) -> void:
+	for id: String in ["cat_coping_approach", "cat_coping_runout", "cat_workshop_bypass",
+		"civic_workshop_bank_loop", "market_hall_bank_loop"]:
+		var route: Dictionary = _route(game, id)
+		check.call(not route.is_empty() and not route.requires_jump,
+			"topography: permanent court approach or bank loop published " + id)
+		if route.is_empty(): continue
+		for reverse in [false, true]:
+			var points: PackedVector3Array = route.points.duplicate()
+			if reverse: points.reverse()
+			await _reset_at(tree, game, points[0] + Vector3.UP * 0.8)
+			var evidence: Dictionary = await _drive(tree, game, points)
+			var grade_verified: bool = not id.ends_with("bank_loop") or (
+				evidence.max_y - evidence.min_y > 0.6 and evidence.slope_frames >= 5)
+			var label: String = id + (" reverse" if reverse else " forward")
+			check.call(evidence.reached and evidence.bails == 0 and evidence.stalled_frames == 0
+				and grade_verified and absf(game.skater.global_position.y - points[-1].y) < 0.15,
+				"topography: physical court access and grade transit " + label)
+			print("TOPOGRAPHY court=%s reached=%s seconds=%.2f height=%.2f..%.2f slope_frames=%d bails=%d stalled=%d position=%s" % [
+				label, evidence.reached, evidence.frames / 60.0, evidence.min_y, evidence.max_y,
+				evidence.slope_frames, evidence.bails, evidence.stalled_frames, game.skater.global_position])
 
 
 static func _route(game: Node, id: String) -> Dictionary:

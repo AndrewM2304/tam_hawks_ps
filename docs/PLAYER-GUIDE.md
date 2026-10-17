@@ -61,6 +61,12 @@ Find Mo, the guitarist at the east edge of the Exchange fountain court, and use 
 
 A bail or timeout ends the attempt. Return to Mo to replay. The challenge is available in career and free skate and keeps its own session result alongside the ten career goals. Music follows the master and ambience sliders.
 
+Find Rae and the clockwork cat in **George Square’s garden workshop** for **Cat’s Got the Beat**. Accept the offer with a settled combo, then grind the three marked coping segments **A → B → C** within 60 seconds. The approach runs east along the garden’s south edge; use the wide square to return and line up again. Each segment must be a real grind capture. You can bank separate lines between segments. After the third, land and bank cleanly, then return to Rae and look toward the workshop to see the cat’s little dance.
+
+Repeating the most recent segment adds no progress. A wrong marked segment resets the sequence; starting again on A begins a fresh sequence. A bail, timeout or leaving the workshop area ends the attempt. The steady world indicators and HUD show the next segment. Reduced motion uses a static raised paw. Return to Rae to replay.
+
+Only one side challenge is active at a time: accepting another offer ends the previous attempt. Career time reaching zero ends side attempts even if an ordinary combo still has overtime to land. Side completion adds no extra career goal, points or unlock; normal skating scores as usual. Free skate gives unlimited run time for practising either encounter.
+
 New route choices include the low station undercroft beneath the high platform route, Merchant Close's angled passage, a second park descent back toward Central, and the Clyde print-yard loop with a low curved bank and hip. Use the map to find the branches and try both directions.
 
 ## Useful playtest notes

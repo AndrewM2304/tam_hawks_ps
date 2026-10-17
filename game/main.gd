@@ -12,6 +12,7 @@ const GapTrackerSource = preload("res://game/tricks/gap_tracker.gd")
 const SpecialMeterSource = preload("res://game/tricks/special_meter.gd")
 const SkateAudioSource = preload("res://game/audio/skate_audio.gd")
 const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounters.gd")
+const CatEncounterSource = preload("res://game/characters/cat_encounter.gd")
 const RUN_SECONDS := 120.0
 
 var score := ScoreSession.new()
@@ -20,6 +21,8 @@ var gaps = GapTrackerSource.new()
 var special_meter = SpecialMeterSource.new()
 var objectives: Node3D
 var encounters: Node3D
+var cat_encounter: Node3D
+var _focused_encounter := "busker_big_finish"
 var audio: Node
 # Developer/script runners never write the player's profile by default.
 var persistence_enabled: bool = not OS.get_cmdline_args().has("--script")
@@ -67,6 +70,12 @@ func _ready() -> void:
 	add_child(encounters)
 	encounters.configure(world.get_encounter_definitions())
 	encounters.feedback.connect(_on_encounter_feedback)
+	cat_encounter = CatEncounterSource.new()
+	cat_encounter.name = "CatEncounter"
+	cat_encounter.process_mode = Node.PROCESS_MODE_PAUSABLE
+	add_child(cat_encounter)
+	cat_encounter.configure(world.get_encounter_definitions())
+	cat_encounter.feedback.connect(_on_encounter_feedback)
 	audio = SkateAudioSource.new()
 	add_child(audio)
 	if audio.has_signal("caption"):
@@ -79,6 +88,7 @@ func _ready() -> void:
 	skater.reset_skater()
 	skater.set_grind_lines(world.get_grind_lines())
 	skater.trick_performed.connect(_on_trick)
+	skater.grind_captured.connect(_on_grind_captured)
 	skater.landed.connect(_on_landed)
 	skater.bailed.connect(_on_bailed)
 	skater.combo_link_started.connect(score.continue_combo)
@@ -138,15 +148,20 @@ func _physics_process(delta: float) -> void:
 	_update_contact_audio()
 	audio.set_motion(skater.speed, skater.is_on_floor(), skater.grinding, district)
 	if free_skate_mode or time_remaining > 0.0:
+		var objective_has_prompt: bool = not objectives.nearby_prompt(skater.global_position).is_empty()
 		_update_objectives(delta, district)
-		encounters.poll(skater.global_position, Input.is_action_just_pressed("interact"), delta, score.get_combo_value())
+		_update_encounters(delta, Input.is_action_just_pressed("interact") and not objective_has_prompt)
 	if skater.airborne or skater.grinding or skater.manual_active:
 		score.continue_combo()
 	var banked: int = score.tick(delta)
 	if banked > 0:
 		_on_combo_banked(banked)
 	if not free_skate_mode:
+		var had_career_time := time_remaining > 0.0
 		time_remaining = maxf(0.0, time_remaining - delta)
+		if had_career_time and time_remaining <= 0.0:
+			encounters.finish_run()
+			cat_encounter.finish_run()
 		if time_remaining <= 0.0:
 			var resolving: bool = score.get_combo_value() > 0 and (skater.airborne
 				or skater.grinding or skater.manual_active or score.pending_landing)
@@ -168,6 +183,8 @@ func restart_run() -> void:
 	career.begin_run(free_skate_mode)
 	objectives.reset_run()
 	encounters.reset_run()
+	cat_encounter.reset_run()
+	_focused_encounter = "busker_big_finish"
 	if world.has_method("reset_interactions"): world.reset_interactions()
 	audio.set_paused(false)
 	audio.set_surface("stone")
@@ -213,6 +230,12 @@ func _on_trick(trick_name: String, points: int) -> void:
 	if "grab" in trick_name.to_lower() or "indy" in trick_name.to_lower():
 		_grabs += 1
 
+func _on_grind_captured(rail_id: String) -> void:
+	if paused or run_finished or (not free_skate_mode and time_remaining <= 0.0):
+		return
+	cat_encounter.on_grind_capture(rail_id, skater.global_position)
+
+
 func _on_landed(clean: bool) -> void:
 	if run_finished:
 		return
@@ -231,6 +254,7 @@ func _on_combo_banked(banked: int) -> void:
 	_save_profile()
 	audio.play_event("bank")
 	encounters.on_bank(banked, skater.global_position)
+	cat_encounter.on_bank(banked, skater.global_position)
 	if banked >= 1000 and _near_npc() and audio.has_method("play_bark"):
 		audio.play_bark("landing")
 
@@ -241,12 +265,14 @@ func _on_bailed() -> void:
 	_feedback = "BACK ON THE BOARD."
 	_feedback_timer = 2.0
 	encounters.on_bail()
+	cat_encounter.on_bail()
 
 func _finish_run() -> void:
 	if run_finished:
 		return
 	run_finished = true
 	encounters.finish_run()
+	cat_encounter.finish_run()
 	_notify_goals(career.finish_run(score.total_score, score.best_combo))
 	_save_profile()
 	audio.set_motion(0, false, false, "")
@@ -361,6 +387,7 @@ func apply_settings(settings: Dictionary, persist: bool = true) -> void:
 	skater.set_presentation_settings(career.settings.camera_sensitivity, career.settings.reduced_motion)
 	objectives.reduced_motion = career.settings.reduced_motion
 	encounters.reduced_motion = career.settings.reduced_motion
+	cat_encounter.reduced_motion = career.settings.reduced_motion
 	select_cosmetic(str(settings.get("cosmetic_id", career.settings.get("cosmetic_id", "color_blue"))), false)
 	if persist: _save_profile()
 
@@ -393,11 +420,57 @@ func _on_encounter_feedback(text: String) -> void:
 	audio.play_event("ui")
 
 
+## Objectives retain their existing interaction priority. Side offers select the
+## nearest eligible performer and accepting one ends the other active attempt.
+func _nearby_encounter_id() -> String:
+	var at := skater.global_position
+	var mo_offer: String = encounters.nearby_prompt(at)
+	var cat_offer: String = cat_encounter.nearby_prompt(at)
+	if cat_offer.is_empty():
+		return "busker_big_finish" if not mo_offer.is_empty() else ""
+	if mo_offer.is_empty():
+		return "cat_got_the_beat"
+	var mo_position: Vector3 = encounters.status_snapshot().position
+	var cat_position: Vector3 = cat_encounter.status_snapshot().position
+	return "cat_got_the_beat" if at.distance_squared_to(cat_position) < at.distance_squared_to(mo_position) else "busker_big_finish"
+
+
+func _update_encounters(delta: float, interact: bool) -> void:
+	var chosen := _nearby_encounter_id() if interact else ""
+	var combo_value: int = score.get_combo_value()
+	if combo_value == 0:
+		if chosen == "cat_got_the_beat":
+			encounters.cancel_attempt()
+			_focused_encounter = chosen
+		elif chosen == "busker_big_finish":
+			cat_encounter.cancel_attempt()
+			_focused_encounter = chosen
+	encounters.poll(skater.global_position, chosen == "busker_big_finish", delta, combo_value)
+	var camera: Camera3D = get_viewport().get_camera_3d()
+	var stage_position: Vector3 = cat_encounter.status_snapshot().position
+	var audience_visible := is_instance_valid(camera) and stage_position.is_finite() \
+		and camera.is_position_in_frustum(stage_position + Vector3(0, 0.8, 0))
+	cat_encounter.poll(skater.global_position, chosen == "cat_got_the_beat", delta, combo_value, audience_visible)
+
+
+func _challenge_text() -> String:
+	var cat_status: Dictionary = cat_encounter.status_snapshot()
+	var mo_status: Dictionary = encounters.status_snapshot()
+	if cat_status.state == "active":
+		return str(cat_status.get("hud_text", ""))
+	if mo_status.state == "active":
+		return str(mo_status.get("hud_text", ""))
+	return str((cat_status if _focused_encounter == "cat_got_the_beat" else mo_status).get("hud_text", ""))
+
+
 func _interaction_prompt() -> String:
 	var prompt: String = objectives.nearby_prompt(skater.global_position)
 	if not prompt.is_empty():
 		return prompt
-	return encounters.nearby_prompt(skater.global_position)
+	match _nearby_encounter_id():
+		"cat_got_the_beat": return cat_encounter.nearby_prompt(skater.global_position)
+		"busker_big_finish": return encounters.nearby_prompt(skater.global_position)
+	return ""
 
 
 func _on_caption(text: String) -> void:
@@ -420,7 +493,7 @@ func _refresh_hud() -> void:
 		"player_position": skater.global_position, "player_heading": skater.rotation.y,
 		"paused": paused, "finished": run_finished, "free_skate": free_skate_mode,
 		"feedback": _feedback if _feedback_timer > 0 else "",
-		"challenge_text": encounters.status_snapshot().get("hud_text", ""),
+		"challenge_text": _challenge_text(),
 		"landings": _landings, "flips": _flips, "grabs": _grabs,
 		"goals": career.goals_snapshot(), "unlocks": career.unlocks(),
 		"record_score": career.best_score, "record_combo": career.best_combo,

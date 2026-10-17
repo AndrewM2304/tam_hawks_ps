@@ -20,7 +20,9 @@ The source was a dirty working tree based on `bd12b61e81b9ed4e7b918836a2bf76d329
 
 All 21 images were reviewed, including the final changed images and unchanged PNGs verified against the previously inspected set. Lead design, root and geometry review cleared the specific topology blockers: lower service court/return, open park fork and grounded shoulder. Local labels and isolated Mo framing are corrected. The small yard planting/apron wedge is retained as a nonblocking art detail. The core courts remain broad, materials/facades repetitive and perimeter landscaping unfinished; M03-014/M06-007 preserve that further work. These frames do not close owner visual acceptance.
 
-## Reproduce
+## Reproduce the current successor set
+
+This directory is the preserved **historical 21-image checkpoint**, not the output destination of the later court/cat iteration. Its source hashes, PNGs and original manifest remain unchanged. The current runner now publishes separately under `docs/testing/screenshots/court-cat/`; use the historical committed runner/source identified by the manifest to reproduce this earlier workload exactly. Running the current command below records the current successor geometry and fixtures, not these original bytes.
 
 After the normal project import, on the installed Linux development image:
 

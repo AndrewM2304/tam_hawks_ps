@@ -3,6 +3,7 @@ extends CharacterBody3D
 ## Travel heading and cosmetic aerial spins are deliberately independent in M01.
 
 signal trick_performed(trick_name: String, points: int)
+signal grind_captured(rail_id: String)
 signal landed(clean: bool)
 signal bailed()
 signal combo_link_started()
@@ -420,6 +421,7 @@ func _try_grind() -> bool:
 	speed = _grind.speed
 	_align_to_travel()
 	combo_link_started.emit()
+	grind_captured.emit(_grind.line.id)
 	trick_performed.emit(TrickCatalog.definition("rail_grind")["display_name"],
 		TrickCatalog.base_points("rail_grind"))
 	return true

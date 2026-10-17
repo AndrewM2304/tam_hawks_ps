@@ -84,10 +84,15 @@ func add_polygon(parent: Node3D, label: String, corners: PackedVector3Array,
 	for index in range(0, triangles.size(), 3):
 		for corner: int in [triangles[index], triangles[index + 1], triangles[index + 2]]:
 			surface.add_vertex(points[corner])
+	# Mirrored/clockwise footprints need the opposite side winding. Keep top
+	# triangulation and collision unchanged, and face retaining walls outward.
+	var clockwise := Geometry2D.is_polygon_clockwise(footprint)
 	for index in corners.size():
 		var next := (index + 1) % corners.size()
-		for corner: int in [index, next, index + corners.size(), next, next + corners.size(), index + corners.size()]:
-			surface.add_vertex(points[corner])
+		var side_faces: Array[int] = [index, index + corners.size(), next + corners.size(), index, next + corners.size(), next]
+		for triangle in range(0, side_faces.size(), 3):
+			for offset: int in ([0,2,1] if clockwise else [0,1,2]):
+				surface.add_vertex(points[side_faces[triangle + offset]])
 	surface.generate_normals()
 	var mesh := MeshInstance3D.new()
 	mesh.mesh = surface.commit()

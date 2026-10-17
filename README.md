@@ -1,6 +1,6 @@
 # Tam Hawks Pro Skater
 
-An original arcade skateboarding game in a fictionalised Glasgow, built with Godot 4.6.3. Link aerial tricks, grinds, manuals and reverts across six connected city, river and park areas, chase ten career goals, unlock specials and colours, or explore in free skate and take Mo’s busker challenge.
+An original arcade skateboarding game in a fictionalised Glasgow, built with Godot 4.6.3. Link aerial tricks, grinds, manuals and reverts across six connected city, river and park areas, chase ten career goals, unlock specials and colours, or explore in free skate and take Mo’s busker challenge or charge Rae’s clockwork cat through an ordered coping line.
 
 **Current stage: playable development alpha.** The complete core loop, local saves, original sound, menus and a substantial terrain and adult-rider redesign are implemented. Final realistic visual polish, verified current Glasgow shopfronts, physical DualSense testing and Mac performance acceptance remain open. [Current status](docs/STATUS.md) records exact evidence and remaining work; [the QE report](docs/testing/QE-REPORT.md) separates automated checks from human acceptance.
 
@@ -8,8 +8,8 @@ An original arcade skateboarding game in a fictionalised Glasgow, built with God
 
 - From source, open `project.godot` with the free Godot 4.6.3 editor and press F5, or run `./tools/run.sh` on a graphical desktop.
 - Run `./tools/setup.sh` to verify the installed engine and check the project. Run `./tools/check.sh` after gameplay changes.
-- Reproduce current terrain/map evidence with `./tools/level_design_capture.sh`; use `./tools/rider_capture.sh` for action poses. Older capture fixtures describe the preceding flat map.
-- Measure four rendered district views with `./tools/profile.sh`; [profiling instructions](docs/testing/PERFORMANCE.md) cover the Mac command and measurement limits.
+- Reproduce current terrain/map evidence with `./tools/level_design_capture.sh` (including the current court/cat views); use `./tools/rider_capture.sh` for action poses. Earlier screenshots retain their original checkpoint provenance.
+- Measure six rendered city/river/park views with `./tools/profile.sh`; [profiling instructions](docs/testing/PERFORMANCE.md) cover the Mac command and measurement limits.
 - Build unsigned local Linux/macOS packages with `./tools/export.sh`; it downloads free official templates and verifies their pinned checksum. See [export instructions](docs/testing/EXPORT.md).
 
 The [player guide](docs/PLAYER-GUIDE.md) explains controls, combo links, specials and career progression. Default keyboard controls are W/A/S/D, Space to ollie, J/K for flip/grab, Q/E to spin, L to grind, M to manual, C to revert and U/I for specials. Tab opens goals; Escape pauses. Controls can be rebound in Settings. Physical DualSense mappings remain a hardware test requirement.
@@ -20,7 +20,7 @@ On macOS, source play uses the official editor; terminal scripts accept `GODOT_B
 
 The owner requires polished UI and believable, detailed, realistic-but-fun graphics. The cleanup pass adds verified CC0 brick/concrete textures, varied facade modules, terraced streets, fountain coping, Clyde bridge transfers, hilly park paths, a CC0 anatomical head/hands, skinned clothing and a route map. Final cleanup remains tracked in **M06-007**. See [art direction](docs/product/ART_DIRECTION.md), [visual acceptance](docs/testing/VISUAL_ACCEPTANCE.md) and [level design](docs/levels/DESIGN-BRIEF.md).
 
-The [level-design review](docs/levels/LEAD-DESIGN-REVIEW.md) studies the classic city/School references and tracks the implemented undercroft, angled close, park return and riverside curved-bank loop. [Glasgow performer research](docs/research/GLASGOW-CHARACTERS.md) informs original fictional locals and [playable/future side challenges](docs/product/GLASGOW-FUN.md).
+The [level-design review](docs/levels/LEAD-DESIGN-REVIEW.md) studies the classic city/School references and tracks the implemented undercroft, angled close, park return, riverside curved-bank loop and civic-garden/market-hall pockets. [Glasgow performer research](docs/research/GLASGOW-CHARACTERS.md) informs original fictional locals and [playable/future side challenges](docs/product/GLASGOW-FUN.md).
 
 The six areas interpret Royal Exchange Square, George Square, Central Station, the Barras, Clyde quays and Kelvingrove-inspired parkland. Ten career goals retain their four-city-district identities; river and park routes are open to explore. Current business occupants and exact frontage relationships still need accessible primary/map references. The [Glasgow dossier](docs/research/GLASGOW_REFERENCES.md) records inspected historical leads and blocked sources without presenting them as current verification. No Street View imagery is bundled.
 

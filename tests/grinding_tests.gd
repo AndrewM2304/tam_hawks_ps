@@ -2,6 +2,9 @@ extends RefCounted
 ## Actual input/physics/scoring integration on the production scene.
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
+	var captures: Array[String] = []
+	var capture_spy: Callable = func(rail_id: String): captures.append(rail_id)
+	game.skater.grind_captured.connect(capture_spy)
 	var lines: Array = game.world.get_grind_lines()
 	check.call(lines.size() >= 6 and lines[0].is_valid and lines[1].is_valid,
 		"world retains original rail tracks and adds valid district rails")
@@ -20,6 +23,8 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		"held grind advances along the visible rail")
 	check.call(game.score.get_combo_value() == value,
 		"holding a rail does not award entry points every physics tick")
+	check.call(captures == ["Grind_Rail_Exchange"],
+		"a real capture emits its authored ID once, without per-tick repeats")
 	game.toggle_pause()
 	var paused_position: Vector3 = game.skater.global_position
 	var paused_balance: float = game.skater.grind_balance
@@ -60,18 +65,20 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		"open rail endpoint releases into forward airborne travel without wrapping")
 	Input.action_release("grind")
 
+	var captures_before := captures.size()
 	await _start(tree, game, Vector3(12, 1.1, 10), Vector3(6, -1, 0))
 	Input.action_press("grind")
 	await _frames(tree, 2)
-	check.call(not game.skater.grinding and not game.score.trick_history.has("Rail Grind"),
-		"perpendicular travel does not snap or score a rail")
+	check.call(not game.skater.grinding and not game.score.trick_history.has("Rail Grind") and captures.size() == captures_before,
+		"perpendicular travel cannot snap, score or emit an authored rail capture")
 	Input.action_release("grind")
 
+	captures_before = captures.size()
 	await _start(tree, game, Vector3(-6, 1.1, 24), Vector3(0, -1, -6))
 	Input.action_press("grind")
 	await _frames(tree, 3)
-	check.call(not game.skater.grinding and game.score.get_combo_value() == 0,
-		"grind input away from authored rails cannot generate points")
+	check.call(not game.skater.grinding and game.score.get_combo_value() == 0 and captures.size() == captures_before,
+		"grind input away from authored rails cannot generate points or capture events")
 	Input.action_release("grind")
 
 	# A real world-layer obstacle must reject the acquisition sweep.
@@ -84,11 +91,12 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	wall.position = Vector3(12.28, 1.5, 10)
 	game.world.add_child(wall)
 	await _frames(tree, 2)
+	captures_before = captures.size()
 	await _start(tree, game, Vector3(12.6, 1.1, 10), Vector3(0, -1, -6))
 	Input.action_press("grind")
 	await _frames(tree, 2)
-	check.call(not game.skater.grinding and game.score.get_combo_value() == 0,
-		"solid scenery between rider and rail prevents capture through a wall")
+	check.call(not game.skater.grinding and game.score.get_combo_value() == 0 and captures.size() == captures_before,
+		"solid scenery prevents through-wall capture and emits no rail-ID event")
 	Input.action_release("grind")
 	wall.queue_free()
 	await _frames(tree, 2)
@@ -116,6 +124,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	check.call(game.run_finished, "rail overtime still resolves within its three-second bound")
 	Input.action_release("grind")
 	game.restart_run()
+	game.skater.grind_captured.disconnect(capture_spy)
 	check.call(not game.skater.grinding and is_zero_approx(game.skater.grind_balance)
 		and game.score.get_combo_value() == 0, "restart clears the rail state, balance and pending score")
 
