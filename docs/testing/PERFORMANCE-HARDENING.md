@@ -1,0 +1,46 @@
+# Current-map performance hardening
+
+17–18 October 2026 (Europe/London). The owner reports widespread stuttering. This pass keeps the existing map and skating controls, reduces avoidable rendering/presentation work, and separates frame stalls, displayed-motion judder and missing/flickering surfaces. Final integrated results and runtime identity belong in [STATUS](../STATUS.md). Apple M5/DualSense and ten-minute 1080p acceptance remain open.
+
+## What changed
+
+- **Static submissions:** explicitly registered opaque facade instances are combined in 64 m world-position cells only when compatible mesh/material/full render state produces fewer batches. Finalization happens once after world dressing and threshold/ancestor changes. All 17,742 registered pieces survive; 234 nodes/MultiMeshes are removed. All 351 bodies and 1,863 collision shapes remain.
+- **CPU presentation:** Main caches event-derived career snapshots, each encounter produces one snapshot per refresh, and HUD avoids unchanged copies, binding formatting, score measurement and feedback layout. Balance/settings/menu feedback remains immediate. The matched headless microbenchmark saves 0.18–0.23 ms per refresh on this host; that is not an FPS claim.
+- **Displayed motion:** the authoritative skater stays at 60 Hz with unchanged forces/trajectory. Native interpolation displays rider/physics poses between ticks; the per-render chase follows the displayed rider/support frame. Restart/recovery clear histories. Main and process-animated actors opt out. Headless cadence tests are evidence of displayed-transform interpolation, not rendered hardware throughput.
+- **Graphics choices:** Settings cycles Performance/Balanced/High and preserves the choice in existing profiles. Balanced retains native 3D resolution, 220 m view range and 2× MSAA, with 45 m shadows. High uses 75 m shadows. Performance uses 0.75 3D scale, 220 m view range, 30 m shadows and no MSAA. UI stays native; gameplay/collision outside the camera remains loaded and active.
+- **Depth precision:** chase near plane is 0.20 m, retaining its minimum useful obstruction-safe arm and FOV. This improves available depth precision; the tested missing-wall occlusion defect did **not** improve with that change. No measured universal flicker cure is claimed.
+
+## Static comparison and rejected experiments
+
+[Static evidence](performance-static-20261017/README.md) records source-stable 32/48/64 m comparisons using eight unchanged real-renderer views. These are world-only draw/primitive counters, distinct from full-game timing views.
+
+| View | Original draws | Selected batching only | Change | Original / batched primitives |
+| --- | ---: | ---: | ---: | ---: |
+| Exchange | 1,585 | 1,302 | −17.9% | 809,294 / 865,282 |
+| George Square | 660 | 598 | −9.4% | 720,870 / 780,190 |
+| Central | 567 | 591 | +4.2% | 466,078 / 479,250 |
+| Barras | 1,284 | 1,015 | −21.0% | 1,002,800 / 1,053,396 |
+| Clyde | 154 | 154 | 0 | 149,228 / 149,228 |
+| Kelvingrove | 73 | 73 | 0 | 465,538 / 465,538 |
+| Park north | 54 | 54 | 0 | 462,560 / 462,560 |
+| Park south | 457 | 420 | −8.1% | 608,816 / 636,772 |
+
+This is a submission/visibility tradeoff, not a win in every view. Larger bounds submit some additional primitives; Central regresses slightly. Independent still-image review found no missing walls, shifted doors or passage loss across eight batch-only views. Clyde/two closer park views are pixel-identical; park south differs by one pixel. Small Exchange base-seam and Central/Barras trim tone/edge changes remain for temporal review. Stills cannot establish absence of flicker during motion.
+
+The first 64 m validation was rejected: it read queued west-door instance data before renderer upload and compared rounded hashes across six 1 mm rounding boundaries. The repaired check verifies authored/live records on both sides plus consuming before/after multisets, complete render state/channels and a 0.1 mm transform bound. Maximum actual world-space difference is under two micrometres; no geometry or assertion was removed.
+
+**Native occlusion is disabled.** Although 23 inset boxes lie inside actual opaque facade walls and reduce submissions, exact off/on/off-repeat captures show distant wall planes disappearing while window frames remain. All repeat baselines match exactly. Near 0.05→0.20 m leaves the defect; protecting occluder-owner meshes repairs most of one park hole but leaves 364 park pixels and 136 Central pixels different. Counter and containment validity did not establish visual correctness. The candidate and bounded diagnostic tools remain for investigation; no incomplete protection patch is installed. A 150 m Performance far-clip experiment cut through City Hall while leaving its dome visible; all shipped presets retain 220 m until structural silhouettes/detail LOD can support shorter visibility cleanly. The previous 48/96 m tree candidates also remain opt-in after close-park regressions.
+
+## Verification and measurements
+
+Pushed runtime **8a975b2c0e0bce5ffbc212c91368d659e6f8b30d** is frozen for the final source-guarded ordinary regression. [Eight preset/UI images](screenshots/performance-hardening/README.md) pass with 284 unchanged inputs; [19 normal-play images](screenshots/playability-repair/README.md) pass with 229 unchanged inputs. [Cold source](source-launch-performance/SOURCE-LAUNCH.json) passes four phases with 224 stable inputs and actual title branch 44/0, including expected refusal/restoration of a deliberately broken disposable copy. Full ordinary and exclusive after/moving timing are still running or pending. Rejected/interrupted attempts are not passing evidence.
+
+The retained [baseline](performance-baseline-20261017/report.json) uses clean `1b20e26`, six supported full-game chase views and 102 samples at 1280×800. Godot 4.6.3 Compatibility runs on Linux llvmpipe software rendering, not the owner's Apple M5. Exchange/Barras baseline median draws are 1,930/1,617. Native post-draw intervals include CPU/render/presentation; they are not isolated GPU timings. Fixed-clock image captures and concurrent diagnostic jobs cannot be used as timing evidence.
+
+[HUD-EFFICIENCY](HUD-EFFICIENCY.md), [PHYSICS-INTERPOLATION](PHYSICS-INTERPOLATION.md) and [CURRENT-MAP-VISIBILITY](../research/CURRENT-MAP-VISIBILITY.md) retain implementation contracts, bounded measurements, reliable engine references and camera/loading tradeoffs. FOV alone does not unload geometry or remove HUD/physics/shadow work. Whole-map residency remains separate from submitted visuals; no district streaming system is introduced.
+
+## Remaining work
+
+Owner/A09: record actual Mac model/RAM/macOS, quality, power/thermal conditions and source. Run the stationary and actual-input moving tools on that machine, then a separate ten-minute keyboard/DualSense route through all areas, transitions, dense views and menus. Compare p50/p95/p99/max and long frames against 16.67 ms. Keep startup/first traversal separate from warmed play. Linux software timings cannot close that gate.
+
+A05/A09: pilot explicit secondary-detail ranges/HLOD on one existing block, preserving landmarks, coping, passages and structural silhouettes. Compatibility uses hard visibility ranges with hysteresis; smooth range fades are Forward+ only. Verify both approach directions and turns before rollout. Identify the remaining native-occlusion geometry loss before reenabling that candidate. Continue the connected clothed hero and original existing-facade/PBR/LOD proof without new areas, spend or background scheduling. All 75 complete backlog tasks remain in place.

@@ -1,13 +1,7 @@
 # Ordinary-play and presentation capture
 
-Captured 17 October 2026 at **22:18:54 UTC** from the real `game/main.tscn` title branch in Godot 4.6.3 Compatibility (`llvmpipe`, 1280×800). The capture drives production callbacks with mapped input and disables profile writes. It passes **19 rendered frames / zero failures**, with **213 unchanged source inputs**, 300 natural push/turn samples, chase framing, four supported closes, park taper, route map, Barras market and Clyde bridge. No source input changed during capture.
+Captured at **2026-10-17T23:15:07 UTC** (18 October 2026 in Europe/London) from the real `game/main.tscn` title branch in Godot 4.6.3 Compatibility (`llvmpipe`,1280×800). The capture drives production callbacks with mapped input and disables profile writes. It passes **19 rendered frames / zero failures**, with **229 unchanged source inputs**. The real chase shows the rider/board through natural push/turn/coast/brake, four supported closes, shop/station/gallery obstructions, park taper, route map, Barras market and Clyde bridge.
 
-The images review current rider/board framing, ground/water materials, original GLB board, removal of live location text, compact HUD, supported routes and landmark readability. Root inspected the current normal spawn; the ordinary player and board remain visible. Every PNG was fully decoded and validated. Software-rendered Linux evidence does not certify Mac shaders, human skating feel, hardware timing or final art. The environment and clothing remain alpha quality.
+Root inspected natural push, shop-wall camera, Barras aisle and Clyde bridge frames. All PNGs passed CRC and complete row decoding. This set reviews the interpolated chase/HUD and batch-only world; native occlusion remains off. Software-rendered fixed-clock evidence does not certify Mac shaders, frame rates, human skating feel or final art. Environment, clothing and small world-sign/UI polish remain alpha.
 
-Reproduce after local import preparation:
-
-```sh
-./tools/playability_capture.sh --private-display
-```
-
-[manifest.json](manifest.json) records exact inputs, all frame hashes, fixtures and limits, against runtime `ede191b3d75a28bf308d09a1b66a55cbcb0409c3`. Manifest SHA-256: `b5ab39cbd43d1e5122de399b70d278c978fa0994f4747163378c35d47ba0af21`.
+Reproduce: `./tools/playability_capture.sh --private-display`. [manifest.json](manifest.json) records exact inputs, all frame hashes, fixtures and limits, against runtime `8a975b2c0e0bce5ffbc212c91368d659e6f8b30d`. Manifest SHA-256: `ccc5802f9dfc1d89ee7dc61fd50d9e9c4f5a9b4751eaf509698e6b967fd48c67`. Git history retains the older classic-control captures; their old manifest hashes do not identify these refreshed frames.

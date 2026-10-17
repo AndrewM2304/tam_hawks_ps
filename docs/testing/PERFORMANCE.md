@@ -1,3 +1,19 @@
+# Current-map performance measurements
+
+18 October 2026 (Europe/London). [PERFORMANCE-HARDENING](PERFORMANCE-HARDENING.md) and [STATUS](../STATUS.md) describe the current pass. The source-stable [baseline](performance-baseline-20261017/report.json) and [32/48/64 m static comparisons](performance-static-20261017/README.md) are retained. Final after/moving measurements are being completed; historical timings below do not certify the new source.
+
+The selected 64 m architecture batching preserves 17,742 records and all collision; batching-only Exchange/Barras submissions change 1,585→1,302 / 1,284→1,015 in matched world views, with Central 567→591. Native occlusion is disabled after actual missing-wall captures. All graphics presets retain the 220 m skyline range after a 150 m candidate clipped City Hall. Balanced uses native resolution, 2× MSAA and 45 m shadows; Performance uses 0.75 3D scale, no MSAA and 30 m shadows; High uses 75 m shadows. UI stays native. No smaller FOV or district unload is installed.
+
+`./tools/moving_profile.sh` adds native-render, actual-input quay/market/park trips with route-progress gates, post-draw CSV, CPU/physics/driver costs, draw/primitive/memory counters, hardware/settings and source/artifact hashes. It uses no fixed FPS, forced draws or per-tick pose correction. On the Mac:
+
+```sh
+GODOT_BIN="/Applications/Godot.app/Contents/MacOS/Godot" ./tools/moving_profile.sh --duration 120 --resolution 1920x1080
+```
+
+The tool's three bounded loops are separate from the owner's required ten-minute full-map human route. Preserve raw frame distributions and long frames; compare p50/p95/p99/max against 16.67 ms. Linux llvmpipe and fixed-clock screenshots cannot certify Apple M5 performance.
+
+## Historical profiling reference
+
 # Reproducible rendered performance diagnostic
 
 **Checkpoint note:** The retained six-view measurements below predate the bin-drum/dancing-cat correction. They remain a historical software-rendered checkpoint; no new-actor or target-Mac performance pass is claimed. Current corrected-scene evidence belongs in STATUS and screenshots/bin-cats.

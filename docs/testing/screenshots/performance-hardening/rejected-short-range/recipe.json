@@ -1,0 +1,132 @@
+{
+	"errors": 0,
+	"limits": "Actual GUI clicks and supported initial fixtures, production chase, fixed clock captures. Not Mac/FPS/human acceptance.",
+	"performance_measurement": false,
+	"persistence": false,
+	"records": [
+		{
+			"fixture": {
+				"kind": "actual GUI",
+				"quality": "balanced"
+			},
+			"image": "settings-balanced.png",
+			"resolution": [
+				1280,
+				800
+			]
+		},
+		{
+			"fixture": {
+				"kind": "actual GUI",
+				"ui_scale": 1.4
+			},
+			"image": "settings-small-large-ui.png",
+			"resolution": [
+				960,
+				540
+			]
+		},
+		{
+			"fixture": {
+				"far": 220.0,
+				"fov": 66.0233535766602,
+				"kind": "declared supported initial fixture; production chase",
+				"msaa": 1,
+				"position": "(-22.0, 0.000208, 28.0)",
+				"quality": "high",
+				"scale_3d": 1.0,
+				"shadow_distance": 75.0
+			},
+			"image": "spawn-high.png",
+			"resolution": [
+				1280,
+				800
+			]
+		},
+		{
+			"fixture": {
+				"far": 220.0,
+				"fov": 66.0011520385742,
+				"kind": "declared supported initial fixture; production chase",
+				"msaa": 1,
+				"position": "(-22.0, 0.000208, 28.0)",
+				"quality": "balanced",
+				"scale_3d": 1.0,
+				"shadow_distance": 45.0
+			},
+			"image": "spawn-balanced.png",
+			"resolution": [
+				1280,
+				800
+			]
+		},
+		{
+			"fixture": {
+				"far": 150.0,
+				"fov": 66.0000762939453,
+				"kind": "declared supported initial fixture; production chase",
+				"msaa": 0,
+				"position": "(-22.0, 0.000208, 28.0)",
+				"quality": "performance",
+				"scale_3d": 0.75,
+				"shadow_distance": 30.0
+			},
+			"image": "spawn-performance.png",
+			"resolution": [
+				1280,
+				800
+			]
+		},
+		{
+			"fixture": {
+				"far": 220.0,
+				"fov": 66.0011749267578,
+				"kind": "declared supported initial fixture; production chase",
+				"msaa": 1,
+				"position": "(-154.992, 6.01408, -81.99207)",
+				"quality": "high",
+				"scale_3d": 1.0,
+				"shadow_distance": 75.0
+			},
+			"image": "park-high.png",
+			"resolution": [
+				1280,
+				800
+			]
+		},
+		{
+			"fixture": {
+				"far": 220.0,
+				"fov": 66.001220703125,
+				"kind": "declared supported initial fixture; production chase",
+				"msaa": 1,
+				"position": "(-154.992, 6.01408, -81.99207)",
+				"quality": "balanced",
+				"scale_3d": 1.0,
+				"shadow_distance": 45.0
+			},
+			"image": "park-balanced.png",
+			"resolution": [
+				1280,
+				800
+			]
+		},
+		{
+			"fixture": {
+				"far": 150.0,
+				"fov": 66.0012283325195,
+				"kind": "declared supported initial fixture; production chase",
+				"msaa": 0,
+				"position": "(-154.992, 6.01408, -81.99207)",
+				"quality": "performance",
+				"scale_3d": 0.75,
+				"shadow_distance": 30.0
+			},
+			"image": "park-performance.png",
+			"resolution": [
+				1280,
+				800
+			]
+		}
+	]
+}
