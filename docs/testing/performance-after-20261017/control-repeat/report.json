@@ -1,0 +1,604 @@
+{
+  "adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+  "adapter_type": 0,
+  "adapter_vendor": "Mesa",
+  "audio_driver": "Dummy",
+  "benchmark": "six_supported_production_chase_views_v2",
+  "benchmark_content_scale_override": true,
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "display_server": "X11",
+  "elapsed_scan_seconds": 88.543248,
+  "engine": {
+    "build": "official",
+    "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+    "hex": 263683,
+    "major": 4,
+    "minor": 6,
+    "patch": 3,
+    "status": "stable",
+    "string": "4.6.3-stable (official)",
+    "timestamp": 0
+  },
+  "expected_districts": [
+    "royal_exchange",
+    "george_square",
+    "central_station",
+    "barras",
+    "clyde",
+    "kelvingrove"
+  ],
+  "expected_view_count": 6,
+  "graphics_api": "4.5 (Core Profile) Mesa 25.0.7-2+deb13u1",
+  "hud_visible": true,
+  "limitations": [
+    "Stationary viewpoints do not reproduce a ten-minute moving gameplay route.",
+    "One stationary checkpoint view per area is sampled; no area-wide or worst-case rendering claim is made.",
+    "Wall-clock post-draw frame intervals include CPU, rendering and presentation; they are not isolated GPU times.",
+    "Warmups and screenshot readback are excluded; scene loading and traversal stutters are not measured.",
+    "Audio uses the declared driver; this is not audible-output or controller certification."
+  ],
+  "logical_cpu_count": 5,
+  "max_fps": 0,
+  "max_physics_steps_per_frame": 8,
+  "minimum_samples_per_view": 3,
+  "mode": "free_skate",
+  "os": "Linux",
+  "os_version": "13",
+  "physics_ticks_per_second": 60,
+  "profile_writes_enabled": false,
+  "recorded_at_utc": "2026-10-17T23:37:07",
+  "render_loop_enabled": true,
+  "render_resolution": [
+    1280,
+    800
+  ],
+  "renderer": "gl_compatibility",
+  "rendering_driver": "opengl3",
+  "requested_resolution": [
+    1280,
+    800
+  ],
+  "requested_scan_seconds": 60.0,
+  "schema_version": 2,
+  "scripted_frame_advance": false,
+  "settings": {
+    "ambience_volume": 0.6,
+    "audio": 0.8,
+    "bindings": {},
+    "camera_sensitivity": 1.0,
+    "captions": true,
+    "cosmetic_id": "color_blue",
+    "reduced_motion": false,
+    "sfx_volume": 1.0,
+    "ui_scale": 1.0
+  },
+  "settle_contract": {
+    "camera_angle_radians": 0.005,
+    "camera_displacement_m": 0.02,
+    "consecutive_rendered_frames": 3,
+    "maximum_seconds": 12.0,
+    "minimum_seconds": 2.0,
+    "player_displacement_m": 0.01,
+    "real_speed_mps": 0.05
+  },
+  "skater_controls_enabled": false,
+  "software_renderer": true,
+  "summary": {
+    "draw_calls_max": 1935.0,
+    "draw_calls_p50": 281.0,
+    "draw_calls_p95": 1930.0,
+    "max_ms": 2086.841,
+    "mean_fps": 1.58526386271139,
+    "mean_ms": 630.8098125,
+    "nodes_max": 4488.0,
+    "p50_ms": 488.325,
+    "p95_ms": 1348.186,
+    "p99_ms": 2086.841,
+    "primitives_p95": 1170081.0,
+    "sampled_seconds": 50.464785,
+    "samples": 80
+  },
+  "target_hardware_acceptance": false,
+  "time_scale": 1.0,
+  "ui_design_resolution": [
+    1280,
+    800
+  ],
+  "valid_rendered_run": true,
+  "views": [
+    {
+      "authored_checkpoint": [
+        -22.0,
+        0.800000011920929,
+        28.0
+      ],
+      "authored_ground_height": 0.0,
+      "camera_far": 220.0,
+      "camera_fov": 66.0049057006836,
+      "camera_node_path": "/root/@Node3D@2/Skater/ChaseCamera",
+      "camera_position": [
+        -22.0,
+        2.70026469230652,
+        33.7999992370605
+      ],
+      "camera_rotation_radians": [
+        -0.262128382921219,
+        0.0,
+        0.0
+      ],
+      "camera_start_position": [
+        -22.0,
+        2.70138072967529,
+        33.7999992370605
+      ],
+      "district": "royal_exchange",
+      "draw_calls_max": 1935.0,
+      "draw_calls_p50": 1931.0,
+      "draw_calls_p95": 1935.0,
+      "ground_contact_verified": true,
+      "max_camera_angle_radians": 0.000690533954184502,
+      "max_camera_displacement_m": 0.00111603736877441,
+      "max_ms": 2086.841,
+      "max_player_displacement_m": 0.0,
+      "max_real_speed_mps": 0.0,
+      "mean_fps": 0.843123299676253,
+      "mean_ms": 1186.06614285714,
+      "minimum_warmup_seconds": 2.0,
+      "nodes_max": 4488.0,
+      "p50_ms": 1106.771,
+      "p95_ms": 2086.841,
+      "p99_ms": 2086.841,
+      "player_heading_radians": 0.0,
+      "player_position": [
+        -22.0,
+        0.00020841509103775,
+        28.0
+      ],
+      "player_start_position": [
+        -22.0,
+        0.00020841509103775,
+        28.0
+      ],
+      "primitives_p95": 957258.0,
+      "render_resolution": [
+        1280,
+        800
+      ],
+      "requested_sample_seconds": 8.0,
+      "sampled_seconds": 8.302463,
+      "samples": 7,
+      "screenshot": "royal_exchange.png",
+      "valid_view": true,
+      "warmup": {
+        "consecutive_stable_frames": 3,
+        "elapsed_seconds": 9.856501,
+        "rendered_frames": 8,
+        "settled": true
+      },
+      "screenshot_sha256": "d1b23835c0d79b3534fc9049bd433926379b0a18cce77dcbafb733ef83639f97",
+      "screenshot_bytes": 1187625,
+      "source_manifest": "source-manifest.json",
+      "source_manifest_sha256": "a945e9572e1455f055f9728c22b1b2389131f9305735b224fc41ee17ff3627f5",
+      "source_stable": true,
+      "frame_csv": "frames.csv",
+      "frame_rows_sha256": "4879a25fbec5911648d0dbc3ac5c7a1085434d687b0d9a7831644d56a0a25980"
+    },
+    {
+      "authored_checkpoint": [
+        -22.0,
+        4.80000019073486,
+        -74.0
+      ],
+      "authored_ground_height": 4.0,
+      "camera_far": 220.0,
+      "camera_fov": 66.0000076293945,
+      "camera_node_path": "/root/@Node3D@2/Skater/ChaseCamera",
+      "camera_position": [
+        -22.0,
+        6.70026874542236,
+        -68.1999969482422
+      ],
+      "camera_rotation_radians": [
+        -0.262128978967667,
+        0.0,
+        0.0
+      ],
+      "camera_start_position": [
+        -22.0,
+        6.7012677192688,
+        -68.1999969482422
+      ],
+      "district": "george_square",
+      "draw_calls_max": 933.0,
+      "draw_calls_p50": 933.0,
+      "draw_calls_p95": 933.0,
+      "ground_contact_verified": true,
+      "max_camera_angle_radians": 0.0,
+      "max_camera_displacement_m": 0.000998973846435547,
+      "max_ms": 1689.857,
+      "max_player_displacement_m": 0.0,
+      "max_real_speed_mps": 0.0,
+      "mean_fps": 1.04581822610172,
+      "mean_ms": 956.189111111111,
+      "minimum_warmup_seconds": 2.0,
+      "nodes_max": 4488.0,
+      "p50_ms": 932.686,
+      "p95_ms": 1689.857,
+      "p99_ms": 1689.857,
+      "player_heading_radians": 0.0,
+      "player_position": [
+        -22.0,
+        4.00020837783813,
+        -74.0
+      ],
+      "player_start_position": [
+        -22.0,
+        4.00020837783813,
+        -74.0
+      ],
+      "primitives_p95": 877480.0,
+      "render_resolution": [
+        1280,
+        800
+      ],
+      "requested_sample_seconds": 8.0,
+      "sampled_seconds": 8.605702,
+      "samples": 9,
+      "screenshot": "george_square.png",
+      "valid_view": true,
+      "warmup": {
+        "consecutive_stable_frames": 3,
+        "elapsed_seconds": 5.388527,
+        "rendered_frames": 8,
+        "settled": true
+      },
+      "screenshot_sha256": "85758a23ed3ca54aa1216874eb7723d50a9c30aa7b809f65df219512867fa80c",
+      "screenshot_bytes": 1391152,
+      "source_manifest": "source-manifest.json",
+      "source_manifest_sha256": "a945e9572e1455f055f9728c22b1b2389131f9305735b224fc41ee17ff3627f5",
+      "source_stable": true,
+      "frame_csv": "frames.csv",
+      "frame_rows_sha256": "777269603166ccf48ad388640b65ae3eb18f0a5c27e029168afc4bbcd08462ce"
+    },
+    {
+      "authored_checkpoint": [
+        -62.0,
+        2.79999995231628,
+        22.0
+      ],
+      "authored_ground_height": 2.0,
+      "camera_far": 220.0,
+      "camera_fov": 66.0000076293945,
+      "camera_node_path": "/root/@Node3D@2/Skater/ChaseCamera",
+      "camera_position": [
+        -57.8987808227539,
+        4.70027780532837,
+        26.1012191772461
+      ],
+      "camera_rotation_radians": [
+        -0.262130409479141,
+        0.785398006439209,
+        0.0
+      ],
+      "camera_start_position": [
+        -57.8987808227539,
+        4.7013783454895,
+        26.1012191772461
+      ],
+      "district": "central_station",
+      "draw_calls_max": 669.0,
+      "draw_calls_p50": 669.0,
+      "draw_calls_p95": 669.0,
+      "ground_contact_verified": true,
+      "max_camera_angle_radians": 0.0,
+      "max_camera_displacement_m": 0.00110054016113281,
+      "max_ms": 1041.954,
+      "max_player_displacement_m": 0.0,
+      "max_real_speed_mps": 0.0,
+      "mean_fps": 1.92045776031175,
+      "mean_ms": 520.7091875,
+      "minimum_warmup_seconds": 2.0,
+      "nodes_max": 4488.0,
+      "p50_ms": 488.325,
+      "p95_ms": 1041.954,
+      "p99_ms": 1041.954,
+      "player_heading_radians": 0.785398185253143,
+      "player_position": [
+        -62.0,
+        2.00020837783813,
+        22.0
+      ],
+      "player_start_position": [
+        -62.0,
+        2.00020837783813,
+        22.0
+      ],
+      "primitives_p95": 514618.0,
+      "render_resolution": [
+        1280,
+        800
+      ],
+      "requested_sample_seconds": 8.0,
+      "sampled_seconds": 8.331347,
+      "samples": 16,
+      "screenshot": "central_station.png",
+      "valid_view": true,
+      "warmup": {
+        "consecutive_stable_frames": 3,
+        "elapsed_seconds": 5.143105,
+        "rendered_frames": 8,
+        "settled": true
+      },
+      "screenshot_sha256": "7b8196de64444caeea1f5569bd9ffad024cc9a18e0635f022c2a4523b7674482",
+      "screenshot_bytes": 1213144,
+      "source_manifest": "source-manifest.json",
+      "source_manifest_sha256": "a945e9572e1455f055f9728c22b1b2389131f9305735b224fc41ee17ff3627f5",
+      "source_stable": true,
+      "frame_csv": "frames.csv",
+      "frame_rows_sha256": "615539eb93e1b7356aaf2785431d308497ed018201482e1a66b01f5d6bbb7bbe"
+    },
+    {
+      "authored_checkpoint": [
+        60.0,
+        0.800000011920929,
+        22.0
+      ],
+      "authored_ground_height": 0.0,
+      "camera_far": 220.0,
+      "camera_fov": 66.0000076293945,
+      "camera_node_path": "/root/@Node3D@2/Skater/ChaseCamera",
+      "camera_position": [
+        60.0,
+        2.70026302337646,
+        27.7999992370605
+      ],
+      "camera_rotation_radians": [
+        -0.26212814450264,
+        0.0,
+        0.0
+      ],
+      "camera_start_position": [
+        60.0,
+        2.70127153396606,
+        27.7999992370605
+      ],
+      "district": "barras",
+      "draw_calls_max": 1617.0,
+      "draw_calls_p50": 1617.0,
+      "draw_calls_p95": 1617.0,
+      "ground_contact_verified": true,
+      "max_camera_angle_radians": 0.0,
+      "max_camera_displacement_m": 0.00100851058959961,
+      "max_ms": 1391.854,
+      "max_player_displacement_m": 0.0,
+      "max_real_speed_mps": 0.0,
+      "mean_fps": 0.915477299538794,
+      "mean_ms": 1092.326375,
+      "minimum_warmup_seconds": 2.0,
+      "nodes_max": 4488.0,
+      "p50_ms": 1134.339,
+      "p95_ms": 1391.854,
+      "p99_ms": 1391.854,
+      "player_heading_radians": 0.0,
+      "player_position": [
+        60.0,
+        0.00020841509103775,
+        22.0
+      ],
+      "player_start_position": [
+        60.0,
+        0.00020841509103775,
+        22.0
+      ],
+      "primitives_p95": 1170081.0,
+      "render_resolution": [
+        1280,
+        800
+      ],
+      "requested_sample_seconds": 8.0,
+      "sampled_seconds": 8.738611,
+      "samples": 8,
+      "screenshot": "barras.png",
+      "valid_view": true,
+      "warmup": {
+        "consecutive_stable_frames": 3,
+        "elapsed_seconds": 7.466982,
+        "rendered_frames": 8,
+        "settled": true
+      },
+      "screenshot_sha256": "f697d3c156340c04629f5407424563c3a9d8b438748858aea241baa04a5d2baa",
+      "screenshot_bytes": 1154142,
+      "source_manifest": "source-manifest.json",
+      "source_manifest_sha256": "a945e9572e1455f055f9728c22b1b2389131f9305735b224fc41ee17ff3627f5",
+      "source_stable": true,
+      "frame_csv": "frames.csv",
+      "frame_rows_sha256": "98faa2bea5380012291f1b00db432479cf938ee8c456441e0f1dc2975df97f5c"
+    },
+    {
+      "authored_checkpoint": [
+        15.0,
+        2.79999995231628,
+        67.0
+      ],
+      "authored_ground_height": 2.0,
+      "camera_far": 220.0,
+      "camera_fov": 66.0000076293945,
+      "camera_node_path": "/root/@Node3D@2/Skater/ChaseCamera",
+      "camera_position": [
+        10.898832321167,
+        4.70021724700928,
+        62.8987350463867
+      ],
+      "camera_rotation_radians": [
+        -0.266146630048752,
+        -2.39710688591003,
+        0.0
+      ],
+      "camera_start_position": [
+        10.8996067047119,
+        4.70034980773926,
+        62.8980903625488
+      ],
+      "district": "clyde",
+      "draw_calls_max": 281.0,
+      "draw_calls_p50": 279.0,
+      "draw_calls_p95": 281.0,
+      "ground_contact_verified": true,
+      "max_camera_angle_radians": 0.000690533954184502,
+      "max_camera_displacement_m": 0.00101629691198468,
+      "max_ms": 646.464,
+      "max_player_displacement_m": 0.0,
+      "max_real_speed_mps": 0.0,
+      "mean_fps": 2.92612021940537,
+      "mean_ms": 341.749458333333,
+      "minimum_warmup_seconds": 2.0,
+      "nodes_max": 4488.0,
+      "p50_ms": 287.783,
+      "p95_ms": 605.866,
+      "p99_ms": 646.464,
+      "player_heading_radians": -3.14159250259399,
+      "player_position": [
+        15.0,
+        2.00020837783813,
+        67.0
+      ],
+      "player_start_position": [
+        15.0,
+        2.00020837783813,
+        67.0
+      ],
+      "primitives_p95": 224608.0,
+      "render_resolution": [
+        1280,
+        800
+      ],
+      "requested_sample_seconds": 8.0,
+      "sampled_seconds": 8.201987,
+      "samples": 24,
+      "screenshot": "clyde.png",
+      "valid_view": true,
+      "warmup": {
+        "consecutive_stable_frames": 3,
+        "elapsed_seconds": 4.173473,
+        "rendered_frames": 10,
+        "settled": true
+      },
+      "screenshot_sha256": "7f4da4ba5e3334ad93e07a8cfbeda5e31a3e98a8df4a27d2a937848c7373473e",
+      "screenshot_bytes": 1126955,
+      "source_manifest": "source-manifest.json",
+      "source_manifest_sha256": "a945e9572e1455f055f9728c22b1b2389131f9305735b224fc41ee17ff3627f5",
+      "source_stable": true,
+      "frame_csv": "frames.csv",
+      "frame_rows_sha256": "ecb18f72c17d7335091a29b2bee21292029180ca7d1bf60fa368a22ea9294076"
+    },
+    {
+      "authored_checkpoint": [
+        -155.0,
+        6.80000019073486,
+        -82.0
+      ],
+      "authored_ground_height": 6.0,
+      "camera_far": 220.0,
+      "camera_fov": 66.0000076293945,
+      "camera_node_path": "/root/@Node3D@2/Skater/ChaseCamera",
+      "camera_position": [
+        -150.898773193359,
+        8.70064544677734,
+        -77.8987808227539
+      ],
+      "camera_rotation_radians": [
+        -0.26212802529335,
+        0.785398185253143,
+        0.0
+      ],
+      "camera_start_position": [
+        -150.898773193359,
+        8.70159912109375,
+        -77.8987808227539
+      ],
+      "district": "kelvingrove",
+      "draw_calls_max": 179.0,
+      "draw_calls_p50": 179.0,
+      "draw_calls_p95": 179.0,
+      "ground_contact_verified": true,
+      "max_camera_angle_radians": 0.0,
+      "max_camera_displacement_m": 0.00095367431640625,
+      "max_ms": 1020.867,
+      "max_player_displacement_m": 0.0,
+      "max_real_speed_mps": 0.0,
+      "mean_fps": 1.93127672479608,
+      "mean_ms": 517.7921875,
+      "minimum_warmup_seconds": 2.0,
+      "nodes_max": 4488.0,
+      "p50_ms": 451.561,
+      "p95_ms": 1020.867,
+      "p99_ms": 1020.867,
+      "player_heading_radians": 0.785398185253143,
+      "player_position": [
+        -155.0,
+        6.00059032440186,
+        -82.0
+      ],
+      "player_start_position": [
+        -155.0,
+        6.00059032440186,
+        -82.0
+      ],
+      "primitives_p95": 527218.0,
+      "render_resolution": [
+        1280,
+        800
+      ],
+      "requested_sample_seconds": 8.0,
+      "sampled_seconds": 8.284675,
+      "samples": 16,
+      "screenshot": "kelvingrove.png",
+      "valid_view": true,
+      "warmup": {
+        "consecutive_stable_frames": 3,
+        "elapsed_seconds": 3.648153,
+        "rendered_frames": 8,
+        "settled": true
+      },
+      "screenshot_sha256": "7f3c3f7305a7bc4e15132b068f353ef89472a01e22e80b6ff118c31ba5452f61",
+      "screenshot_bytes": 887024,
+      "source_manifest": "source-manifest.json",
+      "source_manifest_sha256": "a945e9572e1455f055f9728c22b1b2389131f9305735b224fc41ee17ff3627f5",
+      "source_stable": true,
+      "frame_csv": "frames.csv",
+      "frame_rows_sha256": "e21b93eee58993b547436c380cf38f033eb0d0bc11c689f32b9335f7c4d213c1"
+    }
+  ],
+  "vsync_mode": 0,
+  "window_resolution": [
+    1280,
+    800
+  ],
+  "git_commit": "unavailable",
+  "git_commit_after": "unavailable",
+  "git_dirty": true,
+  "source_manifest": "source-manifest.json",
+  "source_manifest_sha256": "a945e9572e1455f055f9728c22b1b2389131f9305735b224fc41ee17ff3627f5",
+  "source_changed_during_run": false,
+  "changed_inputs": [],
+  "process_elapsed_seconds": 105.564,
+  "command": [
+    "/workspace/tam_hawks_ps/.local/performance-control-1b20e26/tools/run.sh",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "tools/profile.gd",
+    "--",
+    "60",
+    "/workspace/tam_hawks_ps/.local/performance-control-1b20e26/.local/profile-20261017T233522Z-FCpjcg",
+    "1280",
+    "800"
+  ],
+  "source_stable_rendered_run": true,
+  "wrapper_validation_errors": [],
+  "artifact_manifest": "artifacts.json"
+}

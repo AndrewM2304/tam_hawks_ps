@@ -1,6 +1,6 @@
 # Performance hardening continuation
 
-17 October 2026. Existing M06-004, M01-005, M05-001/M06-007 and M07 work; all 75 full backlog IDs remain. The owner reports widespread stuttering and prioritizes current-map performance over new areas. Work stays in the authorized interactive session, with a commit/push at each completed task. No purchases, paid services, hosted CI or unattended jobs.
+18 October 2026 (Europe/London). Existing M06-004, M01-005, M05-001/M06-007 and M07 work; all 75 full backlog IDs remain. The owner reports widespread stuttering and prioritizes current-map performance over new areas. Work stays in the authorized interactive session, with a commit/push at each completed task. No purchases, paid services, hosted CI or unattended jobs.
 
 ## 1. Current baseline — A01/A09, P0, complete
 
@@ -12,17 +12,17 @@ Dependencies: actual authored CPU instance records, final world dressing/parent 
 
 Accepted comparison: all 17,742 authored/live records preserved, maximum transform difference under two micrometres; 351 bodies/1,863 shapes unchanged. Selected 64 m batching only: Exchange 1,585→1,302 and Barras 1,284→1,015 draws, Central 567→591. Native occlusion is disabled: exact off/on/off-repeat captures expose missing distant wall planes despite all 23 candidates lying inside opaque boxes. Investigate owner-surface self-culling separately; do not ship the rejected combined savings. The first rejected validator result came from queued startup readback and rounded hash boundaries; actual before/after multiset checks replaced that invalid gate. [Static evidence](../testing/performance-static-20261017/README.md) retains exact inputs/counters and selected frames. Integrated timing, regression and depth-precision checks remain separate.
 
-## 3. CPU presentation and smooth motion — A04/A08/A09, P0, in progress
+## 3. CPU presentation and smooth motion — A04/A08/A09, P0, implemented; final aggregate running
 
 Dependencies: unchanged 60 Hz authoritative physics and score deadlines. HUD skips unchanged copies/layout while explicit settings/menu/progress updates remain immediate; Career exposes a presentation revision. Interpolation displays between physics frames; per-render camera follows displayed rider/support frame with explicit teleport history reset. Other process-animated actors opt out. Focused tests prove copy isolation, invalidation, responsive balance, physical trajectory equivalence and high-render/low-physics cadence.
 
 Acceptance: measured bounded HUD CPU savings, no invented FPS improvement, no camera/body visibility loss, actual moving/render evidence and complete ordinary suite. Fine-grained profiler captures CPU/physics/driver costs separately. Keep collision/camera query safety.
 
-## 4. Graphics choices and moving measurement — A01/A08/A09, P0, in progress
+## 4. Graphics choices and moving measurement — A01/A08/A09, P0, local evidence complete; target gate open
 
 Dependencies: frozen source and preserved legacy profiles. Settings cycles Performance/Balanced/High. Balanced keeps native render scale and view range, reducing distant shadow coverage; Performance lowers 3D resolution and shadow cost while UI stays native. All presets preserve the 220 m skyline range after a 150 m candidate clipped landmark assemblies; High keeps previous visual budgets. No FOV/turning/physics change. Older saves default to Balanced; invalid profiles retain normal safe refusal.
 
-Acceptance: actual preset application and profile round trips, no gameplay unload, readable Settings and chase frames. `moving_profile.sh` uses native rendering and actual input-driven quay/market/park trips; monotonic frame CSV, route progress, long frames, hardware/settings and source/artifact hashes are retained. Incomplete slow software-rendered travel must fail its progress gate. Owner's ten-minute Mac/DualSense route and 1080p p50/p95/p99 remain distinct.
+Acceptance: actual preset application and profile round trips, no gameplay unload, readable Settings and chase frames. `moving_profile.sh` uses native rendering and actual input-driven quay/market/park trips; monotonic frame CSV, route progress, long frames, hardware/settings and source/artifact hashes are retained. Incomplete slow software-rendered travel must fail its progress gate. Owner's ten-minute Mac/DualSense route and 1080p p50/p95/p99 remain distinct. Eight preset/UI images, 19 normal-play images and source-cold launch pass. Completed after/control/Performance/moving evidence is retained in testing/performance-after-20261017: 21 images and verified source/CSV/artifact hashes. Full-game Balanced Exchange/Barras draws fall 38.7%/29.0%, including shorter shadows; timing remains mixed with demonstrated old-source host variation. Performance reduces software-render cost across all six views. Moving passes three actual-input segments/217 frames/zero bails or recoveries; 8–12 simulated seconds per segment and zero completed laps are explicit limits.
 
 ## 5. Freeze, verify, push — A01/A09, P0
 

@@ -1,6 +1,6 @@
 # Current-map performance measurements
 
-18 October 2026 (Europe/London). [PERFORMANCE-HARDENING](PERFORMANCE-HARDENING.md) and [STATUS](../STATUS.md) describe the current pass. The source-stable [baseline](performance-baseline-20261017/report.json) and [32/48/64 m static comparisons](performance-static-20261017/README.md) are retained. Final after/moving measurements are being completed; historical timings below do not certify the new source.
+18 October 2026 (Europe/London). [PERFORMANCE-HARDENING](PERFORMANCE-HARDENING.md) and [STATUS](../STATUS.md) describe the current pass. The source-stable [baseline](performance-baseline-20261017/report.json) and [32/48/64 m static comparisons](performance-static-20261017/README.md) are retained. Completed [after/control/Performance/moving evidence](performance-after-20261017/README.md) retains reports, CSV, 21 actual images and independently verified source/artifact hashes. Historical timings below remain separate.
 
 The selected 64 m architecture batching preserves 17,742 records and all collision; batching-only Exchange/Barras submissions change 1,585→1,302 / 1,284→1,015 in matched world views, with Central 567→591. Native occlusion is disabled after actual missing-wall captures. All graphics presets retain the 220 m skyline range after a 150 m candidate clipped City Hall. Balanced uses native resolution, 2× MSAA and 45 m shadows; Performance uses 0.75 3D scale, no MSAA and 30 m shadows; High uses 75 m shadows. UI stays native. No smaller FOV or district unload is installed.
 
@@ -13,6 +13,12 @@ GODOT_BIN="/Applications/Godot.app/Contents/MacOS/Godot" ./tools/moving_profile.
 Both `profile.sh` and `moving_profile.sh` accept `--quality performance|balanced|high` (default Balanced), apply it without saving a player profile, and record/validate requested versus applied settings. Repeat the same route with `--quality performance` to compare the lighter preset. Render scale, MSAA, far plane, shadow distance and native occlusion state are retained in new reports.
 
 The tool's three bounded loops are separate from the owner's required ten-minute full-map human route. Preserve raw frame distributions and long frames; compare p50/p95/p99/max against 16.67 ms. Linux llvmpipe and fixed-clock screenshots cannot certify Apple M5 performance.
+
+## Completed current-map measurements
+
+Six matched supported views at 1280×800 show Balanced full-game Exchange/Barras median submissions **1,930→1,183 / 1,617→1,148**, including shorter shadows as well as batching. The batch-only comparison above is distinct. Balanced timings are mixed, and an unchanged old-source repeat also slowed down: these measurements do not prove a universal FPS improvement. Performance lowers measured cost across all six software-rendered views; aggregate p50/p95/p99 is **186.492 / 392.026 / 545.971 ms**, versus Balanced **672.944 / 1,613.057 / 2,101.846 ms**. These are llvmpipe CPU-rendered intervals, not predicted Apple M5 frame rates.
+
+The 120-second actual-input moving diagnostic passes all three segment progress gates with **217 rendered frames**, zero bails/recoveries and no per-tick pose/heading/speed assignment. Quay/market/park travel is **45.197 / 43.885 / 67.721 m**, but slow rendering advances only **8.267 / 8.400 / 12.267 simulated seconds** and completes no laps. All frames exceed 100 ms on this software renderer. It verifies the moving tool's declared workload and counters, not a moving before/after improvement or a completed tour. [The full table and provenance](performance-after-20261017/README.md) retain every limitation and rejected first-use control attempt.
 
 ## Historical profiling reference
 
