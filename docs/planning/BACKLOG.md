@@ -1,8 +1,8 @@
 # Full Release 1 task backlog
 
-Working title: **Tam Jaws Pro Skater**. Baseline date: 17 October 2026. This is the durable local source of task truth; these entries are not claims that GitHub issues have been published. Latest implementation and command evidence is in [STATUS](../STATUS.md). Product scope maps through [requirements](../product/requirements.md).
+Title: **Tam Hawks Pro Skater**. Baseline date: 17 October 2026. This is the durable local source of task truth; these entries are not claims that GitHub issues have been published. Latest implementation and command evidence is in [STATUS](../STATUS.md). Product scope maps through [requirements](../product/requirements.md).
 
-There are **51 tickets** across eight dependency-based milestones. M00–M03 follow the supplied document. Its text stops after M03; **M04–M07 are a proposed continuation derived from the document's complete Release 1 scope**, not supplied missing text. Nothing below implies unattended development or paid work.
+There are **54 tickets** across eight dependency-based milestones. M00–M03 follow the supplied document. Its text stops after M03; **M04–M07 are a proposed continuation derived from the document's complete Release 1 scope**, not supplied missing text. Nothing below implies unattended development or paid work.
 
 ## How to use this backlog
 
@@ -10,7 +10,7 @@ There are **51 tickets** across eight dependency-based milestones. M00–M03 fol
 - Statuses: Planned → Ready → In progress → QE review → Done. Blocked records the missing dependency and responsible role. Move to Done only when acceptance evidence is linked; update STATUS at the same time.
 - Owners are logical roles: A01 orchestration, A02 product, A03 research/licences, A04 gameplay, A05 world/art, A06 missions/progression, A07 audio/narrative, A08 UI/UX, A09 independent QE. Owner = the human owner when a hardware/creative gate requires them.
 - Dependency ranges include every task between the listed IDs. Planning/research may proceed while an earlier human gate is pending, but its dependent milestone cannot be certified complete.
-- No purchases, billing changes, paid APIs, hosted CI, infrastructure provisioning or unattended agent loops. Use local checks and original assets. Keep the no-cost voice and macOS constraints visible.
+- No purchases, billing changes, paid APIs, hosted CI, infrastructure provisioning or unattended agent loops. Use local checks and original or compatible free licensed assets. Keep the no-cost voice and macOS constraints visible.
 - Before pausing, record exact changes/results/defects and the next concrete action in STATUS. [Resume instructions](RESUME.md) explain how to restart without chat history.
 
 ## Milestone map
@@ -274,9 +274,25 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 
 - **Owner:** A05 / A09
 - **Priority:** P0 · **Milestone:** M03 · **Status:** Planned
-- **Dependencies:** M03-001–M03-004, M02-008
+- **Dependencies:** M03-001–M03-004, M03-007, M02-008
 - **Acceptance criteria:** All four districts form one continuous level; at least three cross-district combo links, one shortcut and one hidden area work; no transition breaks combos; all named gaps and respawns are valid; owner accepts traversal.
 - **Test strategy / evidence:** Run a full four-checkpoint circuit and every authored line; log route times, collision/camera defects and missing returns; human exploration playtest and rendered overview.
+
+### M03-006 — Verify Glasgow shopfronts, street edges and landmark relationships
+
+- **Owner:** A03 / A05
+- **Priority:** P0 · **Milestone:** M03 · **Status:** Blocked
+- **Dependencies:** M00-005; current reference-site access
+- **Acceptance criteria:** Build a dated reference register for all four districts using official venue/business sources and public maps/Street View where accessible. Verify at least three distinctive boundary anchors per district, street/corner relationships, approximate frontage proportions and adjacent entrances. Separate stable architecture from changing tenancies; distinguish inspected facts, dated secondary leads and unverified candidates. No paid API, imagery scraping or map assets bundled in the game.
+- **Test strategy / evidence:** Cross-check source URLs and capture dates, review an annotated district/block sketch against inspected references, record source licensing separately for any imported asset. Initial leads/access evidence: docs/research/GLASGOW_REFERENCES.md. Blocker: proxy HTTP 403 for official/map sites; A01 saved narrow domain additions, user must review/save environment settings and publish before A03 retries in an environment using that configuration. Dated GitHub address data does not establish current storefront geometry.
+
+### M03-007 — Replace generic perimeter shops with recognisable Glasgow boundaries
+
+- **Owner:** A05 / A03
+- **Priority:** P0 · **Milestone:** M03 · **Status:** Planned
+- **Dependencies:** M03-006, M03-001–M03-004
+- **Acceptance criteria:** Use verified shops/venues and street-edge relationships to give each district a recognisable perimeter; retain characteristic entrances, corners, facade rhythm and landmark sightlines while compressing travel for gameplay. Reproduce architecture with authored/licensed assets and factual signage references; do not substitute the same generic shop row in every district. Border buildings need not have enterable interiors. Keep collision simple and clear of accepted skating routes.
+- **Test strategy / evidence:** Compare blockout and later detailed facade captures against the source register; verify each district's three anchors and deliberate geography changes; replay border-adjacent lines and inspect camera occlusion, collision and asset provenance.
 
 ## M04 — Missions and progression
 
@@ -332,22 +348,22 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 
 ## M05 — Art, audio and ambient characters
 
-**Source:** Proposed continuation. **Exit gate:** Original coherent visual presentation, skating audio, ambience and captioned NPC reactions support the skating loop with complete provenance and no additional spend.
+**Source:** Proposed continuation. **Exit gate:** Believable, detailed, realistic-but-fun environments/characters, skating audio, ambience and captioned NPC reactions support the accepted skating loop; blocky placeholder art is not the release target. Complete provenance and no additional spend remain required.
 
-### M05-001 — Refine original environment art and lighting
+### M05-001 — Replace blockout with detailed Glasgow environment art and lighting
 
 - **Owner:** A05
 - **Priority:** P1 · **Milestone:** M05 · **Status:** Planned
 - **Dependencies:** M03-005
-- **Acceptance criteria:** Four districts have coherent readable original materials, silhouettes and lighting; ramps/rails remain easy to identify; decorative art does not alter accepted collision or obscure objectives.
-- **Test strategy / evidence:** Before/after captures in all districts; replay reference lines and compare frame cost; audit all assets/procedural sources in the provenance register.
+- **Acceptance criteria:** After M02-008, A05 coordinates with A08 to produce one representative facade/skating approach, skater and polished HUD treatment; obtain owner review and capture frame cost before repeating the treatment across the world. Follow docs/product/ART_DIRECTION.md: replace generic cuboids and flat placeholder surfaces with believable facade proportions, bevelled architectural detail, varied windows/doors, authored or free licensed stone/brick/paving/glass materials, coherent lighting and recognisable shopfront edges. Keep ramps/rails readable and preserve accepted collision. No voxel/blocky final aesthetic; no paid assets or engine switch without evidence.
+- **Test strategy / evidence:** Representative scene/HUD review and measured frame cost, then matched before/after captures in all districts; replay reference lines and compare frame cost; audit all assets/procedural sources in the provenance register.
 
 ### M05-002 — Create readable original skater and trick animation
 
 - **Owner:** A05 / A04
 - **Priority:** P1 · **Milestone:** M05 · **Status:** Planned
 - **Dependencies:** M02-008
-- **Acceptance criteria:** Skater/board and animations distinguish push, ollie, flip, grab, grind, manual, revert, special and bail; visuals follow gameplay state without delaying input; no copied animation is used.
+- **Acceptance criteria:** Replace the primitive rider/board with believable proportions, detailed clothing/board materials and a coherent rig. Push, ollie, flip, actual hand-to-board grab, grind, manual, revert, special and bail must show convincing weight/contact and readable motion. Reuse suitable free licensed models/animations with provenance; visuals follow gameplay without adding input delay.
 - **Test strategy / evidence:** Inspect every trick at slow and normal speed, verify state sync and camera readability, then rerun action timing and combo regression tests.
 
 ### M05-003 — Produce and integrate local synthetic skating SFX
@@ -391,7 +407,7 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 - **Owner:** A08
 - **Priority:** P0 · **Milestone:** M06 · **Status:** Planned
 - **Dependencies:** M04-006
-- **Acceptance criteria:** Main menu, mode choice, HUD, goals, pause, settings and results are readable at 1080p and fully focus-navigable; restarting is fast; saving/record updates are clear and not misleading.
+- **Acceptance criteria:** Main menu, mode choice, HUD, goals, pause, settings and results use a cohesive polished typography/spacing/icon/motion system and contextual DualSense prompts per ART_DIRECTION. Score/combo feedback is lively but legible at 1080p; all screens are fully focus-navigable; restart remains fast and saving/record feedback is accurate. Remove temporary debug/template presentation.
 - **Test strategy / evidence:** Traverse every screen using controller and keyboard, test long text/large scores, focus return and rapid input; capture representative screen evidence.
 
 ### M06-003 — Implement accessibility and camera comfort settings
@@ -399,8 +415,8 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 - **Owner:** A08 / A04
 - **Priority:** P1 · **Milestone:** M06 · **Status:** Planned
 - **Dependencies:** M06-001, M06-002, M05-005
-- **Acceptance criteria:** High-contrast legible text, captions, separate audio levels, reduced shake and camera sensitivity are available and persistent; camera avoids ordinary geometry occlusion; visual cues do not rely only on colour.
-- **Test strategy / evidence:** Test settings round trip/default reset, muted play, reduced shake and high-contrast scenes; human legibility/motion review on target display.
+- **Acceptance criteria:** High-contrast legible text, captions, UI scaling, separate audio levels, reduced shake/nonessential motion and camera sensitivity are available and persistent; camera avoids ordinary geometry occlusion; visual cues do not rely only on colour.
+- **Test strategy / evidence:** Test settings round trip/default reset, muted play, increased UI scale, reduced shake/motion and high-contrast scenes; human legibility/motion review on target display.
 
 ### M06-004 — Profile and optimize the representative full level
 
@@ -422,9 +438,17 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 
 - **Owner:** A09 / Owner
 - **Priority:** P0 · **Milestone:** M06 · **Status:** Planned
-- **Dependencies:** M06-001–M06-005, M04-006
+- **Dependencies:** M06-001–M06-005, M06-007, M04-006
 - **Acceptance criteria:** Owner plays career/free skate and continuous combos on the real Mac/DualSense; all high-severity input, UX and performance defects are resolved and replayed; accessibility decisions are recorded.
 - **Test strategy / evidence:** Full controller checklist, goal completion samples, long session and performance report; document remaining low-severity issues with explicit release disposition.
+
+### M06-007 — Final graphics/UI cleanup and owner visual acceptance
+
+- **Owner:** A05 / A08 / A09 / Owner
+- **Priority:** P0 · **Milestone:** M06 · **Status:** Planned
+- **Dependencies:** M02-008, M03-007, M05-001, M05-002, M06-002, M06-003, M06-004
+- **Acceptance criteria:** After core skating/combo acceptance, audit and replace every visible placeholder in world, skater, animation, lighting, signage and menus/HUD. Deliver realistic-but-fun Glasgow presentation and polished controller-first UI matching the owner's direction, with no generic blockout used as final art. Close visible clipping, flat/shiny material defects, repetitive facades, camera obstruction and UI layout/focus issues. Owner approves matched final captures and a playable visual build; untested screenshots alone cannot close the gate.
+- **Test strategy / evidence:** Follow docs/testing/VISUAL_ACCEPTANCE.md: maintain a placeholder/defect inventory, matched before/after views and motion recordings for every district and UI state, provenance audit, gameplay regression and target-Mac 1080p/60 fps evidence. Capture pass/fail and owner comments. If time/credits end first, leave the job open with the exact unfinished asset/screen list; release M07 cannot bypass it.
 
 ## M07 — Release readiness and delivery
 

@@ -35,6 +35,8 @@ The supplied plan is the source of product requirements; [vision](vision.md) sta
 
 The owner also explicitly authorizes free compatible reuse. Inspect existing implementations before writing substantial new generic systems; follow ADR-004 and the source/asset provenance register.
 
+**Owner visual requirements:** the correct title is Tam Hawks Pro Skater. Final presentation must replace blockout with believable realistic-but-fun environments/characters and polished UI; recognise real Glasgow shops and street edges through verified references. M03-006/M03-007 implement reference/boundary work, M05-001/M05-002 and M06-002 deliver detailed art/UI, and required M06-007 signs off the final cleanup after core gameplay. These are release requirements, not optional polish.
+
 ## Explicit exclusions
 
 Online multiplayer, realistic simulation physics, open-world mission structures, character creation, complex dialogue and additional cities are outside Release 1. A large connected arcade level does not imply a streaming open-world game. Neither online accounts nor a server backend are needed.

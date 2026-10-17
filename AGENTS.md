@@ -1,12 +1,14 @@
-# Tam Jaws Pro Skater — agent operating rules
+# Tam Hawks Pro Skater — agent operating rules
 
 Read `docs/STATUS.md`, `docs/planning/BACKLOG.md`, and `docs/architecture/interfaces.md` before implementation. The supplied plan is preserved in `docs/product/original-plan.md`.
 
 ## Budget and scope
-- Do not purchase anything, enable billing, use paid APIs, trigger hosted CI, provision infrastructure, or launch background agent loops. Use installed tools and original procedural assets. Ordinary work stays within the current user-authorized session; stop with a durable handoff when it ends.
+- Do not purchase anything, enable billing, use paid APIs, trigger hosted CI, provision infrastructure, or launch background agent loops. Use installed tools and original or compatible free licensed assets. Ordinary work stays within the current user-authorized session; stop with a durable handoff when it ends.
 - Godot 4.6.3, GDScript, single-player, macOS/Apple Silicon target, DualSense first and keyboard fallback. The Linux development machine cannot certify macOS, physical controllers, or Apple Silicon performance.
 - Build original content. No copied franchise branding, music, voices, layouts, models, or animations. Record third-party assets and dependencies before use.
 - Keep the skating-first roadmap intact. Scope changes belong in an ADR and material creative/hardware changes require the user.
+- The correct title is **Tam Hawks Pro Skater**. Current cuboid/procedural art is temporary gameplay blockout, not the release look. The owner requires polished UI and believable, detailed, realistic-but-fun visuals after core gameplay is stable; read `docs/product/ART_DIRECTION.md` and complete the explicit cleanup gate.
+- Research recognisable Glasgow streets, shops and venues for level-edge facades. Prefer verified location relationships and distinctive architecture over generic shop rows. Record source/date/confidence, including Street View capture dates when inspected. Maps/Street View are reference material, not bundled textures; use no paid Maps API.
 - Prefer built-in Godot systems and suitable existing open-source components before writing substantial new movement, trick, camera or tooling infrastructure. The owner explicitly authorizes free, compatible reuse and adaptation. Read `docs/research/SKATING_REUSE.md` and ADR-004; inspect actual source/licences, pin revisions, retain notices and test adaptations. Review code and asset permissions separately; a publicly visible repo alone is not a reuse licence.
 
 ## Coordination

@@ -102,7 +102,7 @@ func _build_floor() -> void:
 		_box(self, "BoundaryWall", Vector3(x, 0.65, 0.0), Vector3(1.0, 1.3, 84.0), "stone", true)
 	for z: float in [-41.5, 41.5]:
 		_box(self, "BoundaryWall", Vector3(0.0, 0.65, z), Vector3(70.0, 1.3, 1.0), "stone", true)
-	_label(self, "GroundTitle", "TAM JAWS", Vector3(0.0, 0.035, 22.0), 80, "cream", Vector3(-90.0, 0.0, 0.0), 0.018)
+	_label(self, "GroundTitle", "TAM HAWKS", Vector3(0.0, 0.035, 22.0), 80, "cream", Vector3(-90.0, 0.0, 0.0), 0.018)
 	_label(self, "GroundSubtitle", "PRO SKATER  /  GLASGOW", Vector3(0.0, 0.037, 24.0), 36, "cream", Vector3(-90.0, 0.0, 0.0), 0.018)
 	# Spawn starts on a clear 14 m approach to the central ramp.
 	for z: float in [7.0, 3.0, -1.0]:

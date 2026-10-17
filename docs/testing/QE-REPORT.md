@@ -39,7 +39,7 @@ The original gameplay baseline had 94 assertions. `tests/rail_geometry_tests.gd`
 
 The first focused run reported **40 passed, 2 failed**, with Godot duplicate-geometry errors. The two issues were an out-of-range bent-rail tangent falling back to the endpoint chord, and duplicate points reaching the engine bake/sample path. Production now clamps the tangent distance before finite-difference sampling and removes consecutive duplicate vertices before baking. The assertions were not weakened. Focused rerun: **42 passed, 0 failed**. Final `tools/check.sh`: **136 passed, 0 failed**, exit 0; no scanned engine/script errors.
 
-A09 independently reviewed the fixes. This verifies the isolated helper under Godot 4.6.3, not the entire upstream 4.7.2 game or complete grinding gameplay. Source, licence, changes and limits are in `docs/research/SKATING_REUSE.md`. The integration adds no active player/world/UI behavior; earlier rendered captures remain the visual evidence for the playable prototype.
+A09 independently reviewed the fixes. This verifies the isolated helper under Godot 4.6.3, not the entire upstream 4.7.2 game or complete grinding gameplay. Source, licence, changes and limits are in `docs/research/SKATING_REUSE.md`. The helper integration adds no active player/world/UI behavior. After the title correction to Tam Hawks, the orchestrator reran the full check successfully (136 passed, 0 failed, exit 0), regenerated all three captures and inspected the renamed HUD and menu. No new gameplay acceptance is inferred from that rename check.
 
 ## Defects and limits
 
@@ -57,13 +57,15 @@ Rendered-frame evidence belongs in the rendering record below and `docs/STATUS.m
 
 ## Rendering record
 
-The orchestrator captured three real 1280×800 frames using the Compatibility renderer with software Mesa OpenGL on an Xorg dummy display. A09 independently opened all three images:
+The orchestrator captured three real 1280×800 frames using the Compatibility renderer with software Mesa OpenGL on an Xorg dummy display. A09 independently opened the original three images. The orchestrator regenerated and opened all three after the title correction; the checked-in files now show Tam Hawks:
 
 - [Initial square](screenshots/prototype.png): skater, board, forward ramp, statue and building facades are visible; score/timer/control instructions are legible and the central route is unobstructed.
 - [Aerial tricks](screenshots/air-tricks.png): the skater is visibly airborne; HUD shows `650 ×3` and `1950 POINTS — LAND TO BANK IT` with the three trick names; the speed gauge is present without clipping.
 - [Pause menu](screenshots/pause-menu.png): the dimmed gameplay context and three readable actions are visible; the resume action has an obvious focus outline.
 
 Source captures were `.local/prototype.png`, `.local/air-tricks.png` and `.local/pause-menu.png`; the orchestrator copies the reviewed images to the linked durable paths. These samples show no obvious missing geometry, text clipping or overlap. Static frames do not establish readable motion, comfortable camera behavior, correct physical controller glyphs, or real-time performance on the target Mac.
+
+The renamed capture baseline is part of the commit containing ADR-005; identify it with `git log -1 -- docs/architecture/decisions/ADR-005-title-and-visual-finish.md`. The previous captures are retained in Git at `9322aebdba224d215d6a3660703419fecf6fb74f`. These remain blockout evidence, not final visual acceptance; use `docs/testing/VISUAL_ACCEPTANCE.md` for M06-007.
 
 ## Next QE session
 

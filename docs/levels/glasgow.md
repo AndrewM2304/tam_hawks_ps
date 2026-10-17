@@ -1,6 +1,6 @@
 # The Glasgow level
 
-This is a fictional arrangement of Glasgow-inspired districts, not a geographical reconstruction. Every asset and traversable layout is original. No scraped map, photograph, logo or commercial game layout is bundled.
+This is a fictional arrangement of Glasgow-inspired districts, not a geographical reconstruction. Models/textures are authored or reused with appropriate permissions; real street/shopfront references guide recognisable perimeter architecture, while playable routes are deliberately adapted. No scraped map, photograph, logo or commercial game layout is bundled.
 
 ## District plan
 
@@ -12,6 +12,12 @@ This is a fictional arrangement of Glasgow-inspired districts, not a geographica
 | Barras / Barrowlands | Market stalls, warehouse fronts, original bright venue sign | Tight technical turns, stall gaps, roof-adjacent transfer | Market collectibles and lost recording |
 
 Connections use fictional compressed streets. Provide at least two ways into each district and avoid a single corridor that prevents combo flow. Loading transitions cannot interrupt a running combo.
+
+## Recognisable perimeter edges
+
+The owner specifically wants researched Glasgow shops/venues and street layouts instead of generic shop rows. Use the [reference register](../research/GLASGOW_REFERENCES.md) to verify real street relationships, entrances, bay rhythms, corners and skyline cues. Non-playable border facades can establish place without adding interior gameplay scope. Keep reference imagery separate from shipped assets, verify changing tenancies and date every source. M03-006 verifies references; M03-007 implements authentic boundaries. The current fictional shop signs are temporary.
+
+After core gameplay is accepted, replace blockout visuals under [art direction](../product/ART_DIRECTION.md) and the required M06-007 cleanup gate. Generic cuboids are not the final aesthetic.
 
 ## Route acceptance
 

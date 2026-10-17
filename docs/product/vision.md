@@ -1,8 +1,12 @@
 # Product vision
 
-**Working title:** Tam Jaws Pro Skater. **Product:** an original, single-player, arcade 3D skating game set in a compressed fictional Glasgow. The user's spelling “scater” is treated as the requested title's spelling variant, not a new mechanic. Final naming and trademark clearance belong to release preparation.
+**Title:** Tam Hawks Pro Skater, corrected explicitly by the owner. **Product:** an original, single-player, arcade 3D skating game set in a compressed fictional Glasgow. Normal release naming checks remain part of preparation; the requested name is no longer an open creative decision.
 
 The target experience is a two-minute run that makes the player want another attempt: find a line, ollie a gap, join tricks, spot a shortcut, knock a cone off a fictional Wellington-inspired statue, and immediately restart. Free skate supports exploration and practice. Skating feel takes precedence over visual detail.
+
+The final visual target is polished UI and believable, detailed, realistic-but-fun Glasgow environments and skaters. The current primitive meshes are temporary blockout for controller testing, not the chosen final art style. Once core gameplay is accepted, a required cleanup pass replaces placeholders and demonstrates the final look through matched captures and owner review. Follow [art direction](ART_DIRECTION.md).
+
+Recognisable real Glasgow shopfronts, streets and landmark relationships should shape non-playable level edges. Compress travel distances for skating while retaining local character; verify reference dates and businesses before presenting a facade as current. Generic fictional shops are prototype placeholders, not the default release solution.
 
 ## Release boundary
 

@@ -1,10 +1,12 @@
-# Tam Jaws Pro Skater
+# Tam Hawks Pro Skater
 
-An original arcade skateboarding game in a fictionalised Glasgow. The working title follows the owner's request; the supplied design document used **Glasgow: Grind City**. This project aims for responsive skating, continuous combos, two-minute runs and an interconnected four-district playground.
+An original arcade skateboarding game in a fictionalised Glasgow. This project aims for responsive skating, continuous combos, two-minute runs and an interconnected four-district playground.
 
 **Current stage: M01 skating prototype in progress.** This is not the complete game. The current implementation targets a procedural Glasgow-inspired square, basic skating and aerial tricks, a camera, run scoring and a restartable session. Grinds, manuals, reverts, specials, a complete four-district world, goals and persistent progression remain release work. [Current status](docs/STATUS.md) records exactly what has been implemented and tested.
 
 The first playable slice passes **136 automated checks** and has [reviewed gameplay captures](docs/testing/screenshots/air-tricks.png). Physical DualSense/Mac playtesting is the next acceptance gate. The [QE report](docs/testing/QE-REPORT.md) records the tested behavior and limitations.
+
+**Visual direction:** the current blocky scene is temporary gameplay blockout. The final target is realistic-but-fun Glasgow graphics and polished UI, with recognisable real shopfronts/street edges. A required post-gameplay cleanup and owner visual signoff are tracked in M06-007; see [art direction](docs/product/ART_DIRECTION.md) and [Glasgow references](docs/research/GLASGOW_REFERENCES.md).
 
 ## Start here
 
@@ -38,12 +40,12 @@ We use Godot’s built-in engine facilities and prefer suitable existing compone
 
 ## Development and continuity
 
-[The backlog](docs/planning/BACKLOG.md) has 51 local tickets covering the full first release. Every ticket includes ownership, dependencies, acceptance criteria and validation. [Requirements](docs/product/requirements.md) map the supplied vision to those tickets; [the design](docs/product/game-design.md) describes the intended rules. The original pasted plan is preserved in [original-plan.md](docs/product/original-plan.md).
+[The backlog](docs/planning/BACKLOG.md) has 54 local tickets covering the full first release. Every ticket includes ownership, dependencies, acceptance criteria and validation. [Requirements](docs/product/requirements.md) map the supplied vision to those tickets; [the design](docs/product/game-design.md) describes the intended rules. The original pasted plan is preserved in [original-plan.md](docs/product/original-plan.md).
 
 Keep work on a feature branch in this existing checkout. Cloud tasks already have isolated environments; do not create extra Git worktrees unless explicitly requested. Before ending a session, update the status document and ticket evidence so another session can continue without chat history. The [resume guide](docs/planning/RESUME.md) gives the sequence.
 
 ## Cost and content policy
 
-Use free local tools and original procedural assets. Do not purchase assets, call paid APIs, enable billing, provision hosting, trigger hosted CI, or run autonomous background agents. This repository has local issue/PR templates and local checks; it deliberately has no hosted workflow. Normal assistant use is subject to the owner's existing credit allowance; there is no unattended continuation after a session ends.
+Use free local tools and original or compatible free licensed assets. Do not purchase assets, call paid APIs, enable billing, provision hosting, trigger hosted CI, or run autonomous background agents. This repository has local issue/PR templates and local checks; it deliberately has no hosted workflow. Normal assistant use is subject to the owner's existing credit allowance; there is no unattended continuation after a session ends.
 
 The game uses original characters, geometry, text and sounds. It must not copy another skating game's branding, level layouts, assets or music. [The provenance register](docs/licences/REGISTER.md) tracks dependencies and assets. The engine's MIT licence does not assign a licence to this game's original code or content.

@@ -21,7 +21,7 @@ func _initialize() -> void:
 
 
 func _run() -> void:
-	print("Tam Jaws Pro Skater — independent QE checks")
+	print("Tam Hawks Pro Skater — independent QE checks")
 	_test_score_session()
 	RAIL_GEOMETRY_TESTS.run(_check)
 	game = MAIN_SCRIPT.new()

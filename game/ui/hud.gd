@@ -36,7 +36,7 @@ func _ready() -> void:
 	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_root)
 	var brand := _panel(Vector2(28, 26), Vector2(300, 102))
-	_label(brand, "TAM JAWS", Vector2(18, 9), 32, PAPER)
+	_label(brand, "TAM HAWKS", Vector2(18, 9), 32, PAPER)
 	_label(brand, "P R O  S K A T E R", Vector2(20, 49), 15, ORANGE)
 	_label(brand, "GLASGOW  /  FIRST PUSH", Vector2(20, 76), 11, MUTED)
 	var timer_panel := _panel(Vector2(-95, 26), Vector2(190, 102))

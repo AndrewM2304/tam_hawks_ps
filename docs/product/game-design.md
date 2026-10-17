@@ -33,7 +33,7 @@ At career timeout, stop admitting new tricks. Final combo treatment must be expl
 
 ## World and exploration
 
-The four districts share one continuous level and visual identity. Real locations provide architectural and cultural reference, but geometry, routes, signs and characters are original. Streets are compressed for traversal; every connector should offer a skating choice. Use broad approaches and recovery space around difficult obstacles. Include routes accessible with basic skills plus higher-risk links for combo mastery.
+The four districts share one continuous level and visual identity. Real Glasgow streets, shopfronts and landmark relationships guide recognisable boundary facades; models and texture assets are created or reused with appropriate permissions. Use verified real business/venue references where they fit, with source dates and accurate placement. See `docs/research/GLASGOW_REFERENCES.md` for evidence and unverified leads. Streets are compressed for traversal; every connector should offer a skating choice. Use broad approaches and recovery space around difficult obstacles. Include routes accessible with basic skills plus higher-risk links for combo mastery.
 
 The prototype square establishes a mood and reusable geometry; it does not constitute four completed districts. District descriptions, route tests and planned secrets live in `docs/levels/glasgow.md`.
 
@@ -56,7 +56,9 @@ No score thresholds are production-balanced yet. Temporary UI text must not impl
 
 ## Audio, humour and presentation
 
-Use original short observational humour without impersonating real people. Fictional shop names avoid lifting commercial logos. React to speed, wheel contact, jump, landing, bail, combo banking and district ambience. Generated local SFX are valid initial assets and must have reproducible source. Music is optional polish, not a licence to reuse commercial tracks. Ambient NPC barks require an approved zero-cost voice source and captions before acceptance; paid voice generation is prohibited.
+Use original short observational humour without impersonating real people. Recognisable Glasgow business/venue references are welcome; verify their location and treat logo/photographic assets separately from factual names. React to speed, wheel contact, jump, landing, bail, combo banking and district ambience. Generated local SFX are valid initial assets and must have reproducible source. Music is optional polish, not a licence to reuse commercial tracks. Ambient NPC barks require an approved zero-cost voice source and captions before acceptance; paid voice generation is prohibited.
+
+Follow `docs/product/ART_DIRECTION.md`: final art should have believable materials, proportions and animation, with polished controller-first UI. The current cuboid scene is not a final visual target. M06-007 is a required cleanup/signoff job after core gameplay.
 
 ## Accessibility and UI
 
@@ -64,4 +66,4 @@ Provide keyboard equivalents, controller focus indicators, readable high-contras
 
 ## Outstanding product decisions
 
-The exact M02 trick button combinations, special input, final timeout resolution, voice source, and final title need evidence or owner feedback at their assigned gates. No such uncertainty blocks foundation or M01 development. Do not silently solve a difficult requirement by removing it.
+The exact M02 trick button combinations, special input, final timeout resolution, and voice source need evidence or owner feedback at their assigned gates. No such uncertainty blocks foundation or M01 development. Do not silently solve a difficult requirement by removing it.

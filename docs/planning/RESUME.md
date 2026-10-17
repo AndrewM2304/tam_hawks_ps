@@ -2,7 +2,7 @@
 
 A new session should be able to work from this repository alone. Treat local files as authoritative; a chat promise is not an implementation result.
 
-1. Read `AGENTS.md`, `docs/STATUS.md`, the relevant backlog tickets, `docs/architecture/interfaces.md`, and `docs/research/SKATING_REUSE.md`. Check `git status --short` and the current branch before editing. Preserve existing changes.
+1. Read `AGENTS.md`, `docs/STATUS.md`, the relevant backlog tickets, `docs/architecture/interfaces.md`, `docs/research/SKATING_REUSE.md`, and `docs/product/ART_DIRECTION.md`. Glasgow reference work starts from `docs/research/GLASGOW_REFERENCES.md`; M06-007 remains a mandatory final cleanup gate. Check `git status --short` and the current branch before editing. Preserve existing changes.
 2. Inspect the most recent recorded command results and defects. Run `tools/check.sh` once the engine is available. If the environment was replaced, use `tools/setup.sh` to verify the installed engine and run checks. If the engine is missing, obtain free Godot 4.6.3 from the official archive with normal artifact verification, then set `GODOT_BIN` if needed; the setup script does not download it.
 3. Select the earliest ready ticket whose dependencies are complete. A milestone's human playtest gate cannot be passed by synthetic tests. Independent planning and test work may continue while hardware feedback is pending.
 4. Use the existing isolated checkout and a feature branch. Do not create a worktree unless the user explicitly asks. Assign disjoint files before parallel edits; the orchestrator owns shared interfaces.
