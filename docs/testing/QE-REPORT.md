@@ -1,6 +1,6 @@
 # Integrated QE report — 17 October 2026
 
-Scope: the playable alpha's skating/combo loop, four-district world, career/persistence, audio, input and UI. Godot `4.6.3.stable.official.7d41c59c4`, Linux cloud machine. `./tools/check.sh`: **778 passed, 0 failed**, exit 0, clean import and engine/script logs after the final visual contact fix.; this report does not certify real Mac/controller behavior, fun, listening quality or final artwork.
+Scope: the playable alpha's skating/combo loop, four-district world, career/persistence, audio, input and UI. Godot `4.6.3.stable.official.7d41c59c4`, Linux cloud machine. `./tools/check.sh`: **778 passed, 0 failed**, exit 0, clean import and engine/script logs after the final visual contact fix. This report does not certify real Mac/controller behavior, fun, listening quality or final artwork.
 
 ## Reproduce and evidence
 

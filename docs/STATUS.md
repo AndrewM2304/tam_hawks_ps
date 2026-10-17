@@ -40,7 +40,14 @@ Routes: real production physics completes all ten goals in one circuit, 19,700 p
 
 Fifteen standard 1280×800 gameplay/menu/district captures and dedicated matched world/UI/rider evidence are retained under `docs/testing/screenshots/`. Normal startup and modal readiness are checked separately from successful file writes. Linux Compatibility/llvmpipe rendering demonstrates the captured content; it cannot certify Mac performance, real-controller comfort, human listening or final art.
 
-The cleanup source is validated; native ZIPs are being regenerated from the clean source commit. The earlier 13e76ac packages are the previous alpha, not this cleanup. Final package identities and smoke results will be recorded in EXPORT before handoff.
+Unsigned Linux/macOS packages are built from clean source **`a99f9933091d8931853ef375a2c029cccb6875f2`**, the runtime that passed 778 checks. Both isolated probes load the main scene/scripts, three voices and four 1024px mipmapped textures. ZIP CRC, executable architectures, reviewed licences and provenance bytes pass. Metadata input fingerprint: `1ce6dff6927dd7b5fdb8c5845a0061ebea422f6159719d4e891adaabde38eb97`. Build directory: `builds/tam-hawks-20261017T141540Z-a99f9933091d/`; later documentation commits do not change that runtime.
+
+| Download | Bytes | SHA-256 |
+|---|---:|---|
+| `/workspace/TamHawksProSkater-linux.zip` | 31,518,442 | `cac607b28acfa68bb623d7379a2ab4754f0d1134f266484ea7e076d7e0ffb81f` |
+| `/workspace/TamHawksProSkater-macos.zip` | 66,077,978 | `2b5ca131c4b110305c9e25729eae100bc09a2644790b1292aaab915fd182b9b9` |
+
+The exported Linux game passed normal headless startup (120 frames) and rendered 1920×1080 startup (30 frames), both exit 0 with clean engine/script/resource logs. The title is captured and reviewed. EXPORT preserves the earlier long software-render timeout and capture-harness diagnostics; neither is a target-performance pass. Mac launch remains untested. `/workspace/TamHawks-motion-preview.mp4` is the 7.4-second fixed-timestep animation preview, with explicit cuts/fixtures and no performance claim. `/workspace/tam-hawks-prototype-source.zip` contains the final committed source/docs; `/workspace/TamHawks-downloads-SHA256SUMS.txt` records convenience-file hashes. Ignored artifacts must be regenerated after environment replacement.
 
 ## Concrete remaining work
 
