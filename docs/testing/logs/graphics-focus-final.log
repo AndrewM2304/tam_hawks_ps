@@ -1,0 +1,116 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: graphics quality: applying performance changes the real 3D render budget
+PASS: graphics quality: performance preserves position, framing and loaded gameplay nodes
+PASS: graphics quality: performance round-trips through the existing local profile
+PASS: graphics quality: applying balanced changes the real 3D render budget
+PASS: graphics quality: balanced preserves position, framing and loaded gameplay nodes
+PASS: graphics quality: balanced round-trips through the existing local profile
+PASS: graphics quality: applying high changes the real 3D render budget
+PASS: graphics quality: high preserves position, framing and loaded gameplay nodes
+PASS: graphics quality: high round-trips through the existing local profile
+PASS: graphics quality: existing profiles gain Balanced without losing progress or changing version
+PASS: graphics quality: invalid saved preset is refused safely (ultra)
+PASS: graphics quality: invalid saved preset is refused safely (0)
+PASS: graphics quality: invalid saved preset is refused safely (<null>)
+PASS: graphics quality: a bad live request falls back to a finite Balanced budget
+PASS: graphics quality: actual Settings page explains the selected preset
+PASS: graphics quality: native Settings button activation changes the saved choice and visible label
+PASS: graphics quality: settings controls expose stable UI-scale and Graphics focus identities
+PASS: graphics quality: an already focused Graphics control stays fully inside its scroll clip after 960x540/1.4x relayout without rebuilding
+PASS: graphics quality: the visible focused Graphics control still accepts native keyboard activation after the resize
+PASS: graphics quality: settled unchanged refreshes create no repeated layout or deferred visibility work
+PASS: graphics quality: a page change during deferred resize reveals only a live control in the new scroll view
+PASS: HUD efficiency: disposable career-load fixture is writable
+PASS: HUD efficiency: loading saved completed goals invalidates presentation revision on the same career object
+PASS: HUD efficiency: unchanged refreshes reuse career snapshots without weakening their copy boundary
+PASS: HUD efficiency: a public collection event updates goal progress on the very next explicit refresh
+PASS: HUD efficiency: direct completed-ID edits invalidate both goals and unlocks
+PASS: HUD efficiency: starting a fresh career run clears cached collection progress
+PASS: HUD efficiency: a bank immediately refreshes completed goals, new rewards and record text
+PASS: HUD efficiency: an accepted new event changes presentation while a duplicate event creates no revision churn
+PASS: HUD efficiency: nested state arrays/dictionaries and editable settings remain detached from callers
+PASS: HUD efficiency: changed nested values are accepted immediately after an earlier cached snapshot
+PASS: HUD efficiency: refreshing production data discards removed fields and caller edits cannot corrupt career data
+PASS: HUD efficiency: active encounter start and elapsed-time text update without a refresh throttle
+PASS: HUD efficiency: new encounter feedback reaches the live event card immediately
+PASS: HUD efficiency: each balance change moves the correction marker in the same call
+PASS: HUD efficiency: remapped key, captions and UI-scale changes invalidate their cached presentation
+PASS: HUD efficiency: authoritative settings restore a rejected local preference even when the source snapshot is unchanged
+PASS: HUD efficiency: controller-device changes refresh prompts even when the game snapshot is unchanged
+PASS: HUD efficiency: explicit pause refresh still opens the menu in the same call
+PASS: HUD efficiency: an explicit unchanged-state refresh still reconciles a required menu transition
+PASS: HUD efficiency: explicit resume immediately restores the live HUD
+PASS: HUD efficiency: run completion immediately opens current results
+PASS: HUD efficiency: replacing the career object invalidates cache and the review writes no profile
+PASS: UI integration: title consumes Escape and gameplay restart/mode shortcuts
+PASS: UI integration: keyboard activation opens title settings without starting a run
+PASS: UI integration: settings Escape returns to its title origin
+PASS: UI integration: title career button starts a fresh timed run
+PASS: UI integration: title free-skate button starts untimed skating
+PASS: UI integration: pause mode button switches free skate back to career
+PASS: UI integration: mapped goals input pauses timer and physical skating
+PASS: UI integration: route map opened through goals keeps the run paused
+PASS: UI integration: map receives six places and authored world routes
+PASS: UI integration: closing map returns to the goals page without resuming
+PASS: UI integration: closing goals opened during skating resumes the run
+PASS: UI integration: pause-menu goals opens while retaining pause
+PASS: UI integration: goals opened from pause returns to pause without resuming
+PASS: UI integration: synthetic controller disconnect pauses gameplay and skating audio
+PASS: UI integration: repeated disconnect preserves an already open modal
+PASS: UI integration: settings exposes audio, readability and camera controls
+PASS: UI integration: actual sliders combine master and channel volumes in audio
+PASS: UI integration: settings widgets update saved preferences and active presentation
+PASS: UI integration: conflicting live rebind keeps capture open without changing preferences
+PASS: UI integration: Escape cancels binding capture without closing controls or resuming
+PASS: UI integration: physical rebind input updates both live controls and profile preferences
+PASS: UI integration: the newly bound key performs an actual ollie after menu exit
+PASS: UI integration: restore-defaults button clears persisted overrides and restores Space
+PASS: UI integration: locked cosmetic remains unavailable in goals menu
+PASS: UI integration: selecting an earned cosmetic changes rider and stored selection
+PASS: UI integration: pause restart clears run state and retains customization
+PASS: UI integration: timed expiry presents final banked score and stops skating
+PASS: UI integration: results consumes Escape without resuming a finished run
+PASS: UI integration: results settings returns to results
+PASS: UI integration: results replay button starts a fresh timed run
+PASS: UI integration: all scene flows keep profile writes disabled
+PASS: UI feedback: a newly built menu reports its pending layout instead of false readiness
+PASS: UI feedback: title becomes opaque, bounded and focused after actual process frames
+PASS: UI feedback: title → settings → controls → goals preserves paused title session
+PASS: UI feedback: nested goals returns to controls
+PASS: UI feedback: controls returns to settings and the button that opened it
+PASS: UI feedback: settings returns to title with original focus instead of looping
+PASS: UI feedback: nested controls/settings return to goals without prematurely resuming
+PASS: UI feedback: the live goals origin resumes exactly once after nested menus
+PASS: UI feedback: three nested results pages return to results with focus and finished state
+PASS: UI feedback: controller-disconnect explanation is readable above the pause menu
+PASS: UI feedback: modified key rejection leaves binding capture and preferences intact
+PASS: UI feedback: cancelling binding capture keeps the selected action focused
+PASS: UI feedback: successful rebinding preserves action focus and scroll position
+PASS: UI feedback: restoring defaults leaves its visible button focused after rebuilding
+PASS: UI feedback: event notice, active combo and timed link cue remain visible together
+PASS: UI feedback: event and combo text occupy separate screen regions
+PASS: UI feedback: long-key prompt fixture applies valid live bindings
+PASS: UI feedback: externally changed bindings refresh both interaction and combo link prompts
+PASS: UI feedback: controller prompts use mapped buttons and compact stick directions
+PASS: UI feedback: persistent save failure stays visible during a live combo
+PASS: UI feedback: all active HUD regions fit (1920, 1080) at 1.4× UI
+PASS: UI feedback: balance, goals and save warning have clear space at (1920, 1080)
+PASS: UI feedback: full ten-digit score fits without ellipsis at (1920, 1080)
+PASS: UI feedback: title and persistent warning fit (1920, 1080) at 1.4× UI
+PASS: UI feedback: large title has enough height to render its complete line at (1920, 1080)
+PASS: UI feedback: nested controls retain a usable scroll region at (1920, 1080)
+PASS: UI feedback: all active HUD regions fit (960, 600) at 1.4× UI
+PASS: UI feedback: balance, goals and save warning have clear space at (960, 600)
+PASS: UI feedback: full ten-digit score fits without ellipsis at (960, 600)
+PASS: UI feedback: title and persistent warning fit (960, 600) at 1.4× UI
+PASS: UI feedback: large title has enough height to render its complete line at (960, 600)
+PASS: UI feedback: nested controls retain a usable scroll region at (960, 600)
+PASS: UI feedback: all active HUD regions fit (640, 480) at 1.4× UI
+PASS: UI feedback: balance, goals and save warning have clear space at (640, 480)
+PASS: UI feedback: full ten-digit score fits without ellipsis at (640, 480)
+PASS: UI feedback: title and persistent warning fit (640, 480) at 1.4× UI
+PASS: UI feedback: large title has enough height to render its complete line at (640, 480)
+PASS: UI feedback: nested controls retain a usable scroll region at (640, 480)
+PASS: UI feedback: successful save recovery removes the warning from live and modal layouts
+RESULT: 113 passed, 0 failed

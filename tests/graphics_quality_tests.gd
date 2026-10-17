@@ -55,7 +55,9 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 
 static func _focused_quality_resize(tree: SceneTree, game: Node, button: Button, check: Callable) -> void:
 	var original_size := tree.root.size
+	var original_content_size := tree.root.content_scale_size
 	tree.root.size = Vector2i(1280, 800)
+	tree.root.content_scale_size = tree.root.size
 	game.apply_settings({"ui_scale": 1.0}, false)
 	game._refresh_hud()
 	await UIActions._frames(tree, 6)
@@ -65,12 +67,19 @@ static func _focused_quality_resize(tree: SceneTree, game: Node, button: Button,
 	var slider: HSlider = game.hud._find_focus_token(game.hud._dialog, "setting:ui_scale")
 	check.call(slider != null and button.get_meta("focus_token", "") == "setting:graphics_quality",
 		"graphics quality: settings controls expose stable UI-scale and Graphics focus identities")
-	if slider != null: slider.value = 1.4
+	if slider != null:
+		slider.grab_focus()
+		await UIActions._tap(tree, KEY_END)
+		await UIActions._frames(tree, 6)
+	button.grab_focus()
+	await UIActions._frames(tree, 4)
 	tree.root.size = Vector2i(960, 540)
+	tree.root.content_scale_size = tree.root.size
 	await UIActions._frames(tree, 8)
 	var clip: Rect2 = game.hud._scroll.get_global_rect()
 	check.call(game.career.settings.ui_scale == 1.4 and tree.root.gui_get_focus_owner() == button
-		and game.hud._page_revision == page_revision and clip.encloses(button.get_global_rect()),
+		and game.hud._page_revision == page_revision and clip.encloses(button.get_global_rect())
+		and clip.end.y - button.get_global_rect().end.y >= 2.0,
 		"graphics quality: an already focused Graphics control stays fully inside its scroll clip after 960x540/1.4x relayout without rebuilding")
 	var previous: String = game.career.settings.graphics_quality
 	await UIActions._tap(tree, KEY_ENTER)
@@ -84,6 +93,7 @@ static func _focused_quality_resize(tree: SceneTree, game: Node, button: Button,
 		"graphics quality: settled unchanged refreshes create no repeated layout or deferred visibility work")
 	# A newer page invalidates pending resize work instead of targeting freed controls.
 	tree.root.size = Vector2i(1024, 600)
+	tree.root.content_scale_size = tree.root.size
 	game._refresh_hud()
 	game.hud.show_controls()
 	await UIActions._frames(tree, 8)
@@ -93,6 +103,7 @@ static func _focused_quality_resize(tree: SceneTree, game: Node, button: Button,
 		and game.hud._scroll.get_global_rect().encloses(focused.get_global_rect()),
 		"graphics quality: a page change during deferred resize reveals only a live control in the new scroll view")
 	tree.root.size = original_size
+	tree.root.content_scale_size = original_content_size
 	game._refresh_hud()
 	await UIActions._frames(tree, 6)
 

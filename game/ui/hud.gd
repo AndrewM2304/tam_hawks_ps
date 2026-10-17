@@ -19,6 +19,7 @@ const MUTED := Color("aebfbb")
 const ACCENT := Color("d8ef96")
 const ORANGE := Color("ffb27d")
 const TRACK := Color("365056")
+const FOCUS_REVEAL_PADDING := 4.0
 
 var _map_checkpoints: Dictionary = {}
 var _map_routes: Array = []
@@ -830,16 +831,17 @@ func _settle_focused_visibility(page_revision: int, layout_revision: int, scroll
 	var focused := get_viewport().gui_get_focus_owner()
 	if is_instance_valid(focused) and scroll.is_ancestor_of(focused) and focused.is_visible_in_tree():
 		scroll.ensure_control_visible(focused)
-		# Native scrolling stores integer offsets. With a scaled HUD it can round
-		# the last pixel down, leaving the focus border clipped at the bottom.
+		# Leave real space for the focus border and fractional-scale rasterization.
+		# Exact edge alignment can round outside the clip even after integer repair.
 		var local_rect := scroll.get_global_transform().affine_inverse() * focused.get_global_rect()
 		var height := scroll.size.y
 		var horizontal_bar := scroll.get_h_scroll_bar()
 		if horizontal_bar.is_visible_in_tree(): height -= horizontal_bar.size.y
-		if local_rect.end.y > height:
-			scroll.scroll_vertical += ceili(local_rect.end.y - height)
-		elif local_rect.position.y < 0.0:
-			scroll.scroll_vertical -= ceili(-local_rect.position.y)
+		var padding := minf(FOCUS_REVEAL_PADDING, maxf(0.0, (height - local_rect.size.y) * 0.5))
+		if local_rect.end.y > height - padding:
+			scroll.scroll_vertical += ceili(local_rect.end.y - height + padding)
+		elif local_rect.position.y < padding:
+			scroll.scroll_vertical -= ceili(padding - local_rect.position.y)
 
 
 func _layout_feedback_stack(force: bool = false) -> void:
