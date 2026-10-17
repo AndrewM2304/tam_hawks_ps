@@ -4,7 +4,9 @@
 
 ## Evidence available now
 
-The runtime network proxy rejected official sites, Google Maps/Street View and OpenStreetMap with `Tunnel connection failed: 403 Forbidden`. No street imagery or map layout was inspected. The reference-domain additions now appear in the saved environment base configuration (read returned no pending draft), yet this running machine still rejects fresh requests. Fresh-task access using the saved configuration has not been verified. Retry at next environment startup before asking the owner to change the same settings again. Maps may require additional image hosts; add only hosts demonstrated necessary, without enabling billing or a paid API.
+The [Barrowland/Barras and central Clyde reference dossier](BARRAS-CLYDE-REFERENCES.md) now records **actual inspected photographs, the official four-page market plan, current operator pages and official/local heritage records**. Working sources include `barrowland.co.uk`, `market.barrowland.co.uk`, Glasgow City Heritage Trust, Historic Environment Scotland and Wikimedia Commons. The evidence supports the singular slanted Barrowland sign and star/panel hierarchy, connected market halls/aisles, and the South Portland Street bridge/Carlton Place/quay character. Dated photographs and undated official-site images are distinguished; no current full street survey or measured layout is claimed.
+
+Earlier in this session, the runtime proxy rejected the specific official/map URLs recorded below with `Tunnel connection failed: 403 Forbidden`. Those earlier attempts yielded no imagery. The saved domain configuration alone did not change that result. The later research used working alternative source addresses rather than repeating unchanged blocked Maps/Street View/OpenStreetMap endpoints. Do not treat the historical failures as proof that every reference source is inaccessible, or the later successful pages as proof that paid/map APIs are enabled.
 
 A reachable community source provides **dated address leads only**:
 
@@ -30,16 +32,17 @@ A reachable community source provides **dated address leads only**:
 
 Additional inspected Gordon Street candidates: Blue Lagoon, 69 Gordon Street (2025-12-11; FHRS 104180), and The Grand Central Hotel, 99 Gordon Street (2025-10-16; FHRS 1170576). All rows remain unverified for 17 October 2026. Choose a manageable set of distinctive anchors after current checks; this list is not a commitment to model every business.
 
-## Survey plan after access is available
+## Remaining survey plan
 
 | Area | Questions to resolve from inspected maps and street views | Intended use |
 |---|---|---|
 | George Square | Establish square outline, civic frontage, adjoining street/corner relationships, entrances, paving and current works. Identify at least three distinctive edge anchors. | Recognisable civic perimeter and skyline around the skating space |
 | Royal Exchange Square / Queen Street | Locate GoMA and actual approaches; verify Di Maggio's, Banca Di Roma and current occupants, frontage sides, bays, sign zones, recesses and stone colours. | Detailed court borders, gallery silhouette and believable retail/hospitality edges |
 | Central / Gordon / Union / Buchanan / Argyle | Confirm the walking route and corner relationships before compressing it; inspect station massing/canopy, shop order, Tantrum/FOPP candidates and changing street widths. | Station edge and researched shopfront sequences framing a playable route |
-| Gallowgate / Barras / Bain Street / Calton Entry | Confirm Barrowland frontage and market entrances; inspect BAaD, Saint Luke's and Van Winkle surroundings, shutters, arches, railings and paving. | Distinct market/venue boundaries and street silhouettes |
+| Gallowgate / Barras / Bain Street / Calton Entry | Barrowland sign/frontage and market hall/aisle cues are now visually evidenced in the [district dossier](BARRAS-CLYDE-REFERENCES.md). Still verify current occupancy, detailed street relationships, BAaD/Saint Luke's/Van Winkle surroundings and measured clearances. | Distinct market/venue boundaries and street silhouettes |
+| Central Clyde / South Portland Street / Carlton Place | Inspected bridge/terrace/quay references now establish architectural character; complete current bank access, street relationships and any selected additional facade survey before claiming a reconstructed route. | Recognisable river, crossing and opposite-bank edge with clearly labelled game compression |
 
-These are survey questions, not verified spatial relationships. Preserve useful real adjacency, then explicitly document compression or relocation needed for fun skating. Model shallow facades and convincing upper storeys before considering interiors. Keep decorative details clear of accepted landing zones and camera paths.
+Unresolved entries are survey questions, not verified spatial relationships. The district dossier separately identifies the operator-described market bounds and schematic circulation that were actually inspected. Preserve useful verified adjacency, then explicitly document compression or relocation needed for fun skating. Model shallow facades and convincing upper storeys before considering interiors. Keep decorative details clear of accepted landing zones and camera paths.
 
 For each selected frontage, record:
 
@@ -49,11 +52,11 @@ For each selected frontage, record:
 4. A small original layout sketch based on those observations, with intentional game adaptations labelled; no geographic diagram is claimed yet.
 5. Associated facade scene/resource, source/asset attribution and acceptance capture. Mark a location current, historical or intentionally composite.
 
-M03-006 remains **Blocked** until the current location/layout survey meets its acceptance criteria. M03-007 consumes that verified dossier; do not replace generic signs with guesses and call the district authentic.
+M03-006 has **partial evidence progress**; this research update does not mark the full current location/layout survey complete or change its authoritative backlog status. M03-007 can consume the verified district references while other current-location checks remain unresolved. Do not replace generic signs with guesses and call the district authentic.
 
-## Exact source pages to retry
+## Historical blocked source attempts
 
-The following pages were attempted on 17 October 2026; all were blocked by the proxy, so their contents were not read:
+The following exact pages were attempted earlier on 17 October 2026; all were blocked by the proxy in those attempts, so their contents were not read. Working alternative Barrowland/Barras and heritage URLs are recorded in the later district dossier; this list is not an instruction to repeat unchanged failures:
 
 - [GoMA — Glasgow Life](https://www.glasgowlife.org.uk/museums/venues/gallery-of-modern-art-goma)
 - [Princes Square](https://princessquare.co.uk/)
@@ -79,7 +82,7 @@ Use free public map/Street View access for research when available. No paid API,
 
 The inspected [GlasgowData/GlasgowMapping repository](https://github.com/GlasgowData/GlasgowMapping/tree/3ccd1f32dba5c1b12ac5eb89bfc0be603b9898e2) was rejected as an asset source: its README says “Not to be used for commercial purposes” and “Crown copyright 2016”, and its administrative boundaries do not solve shopfront research. No files were imported.
 
-The current game's fictional signs and procedural buildings remain temporary blockout assets. [ART_DIRECTION.md](../product/ART_DIRECTION.md) and M06-007 require the later detailed environment/UI cleanup and owner review.
+The initial fictional signs and procedural buildings were temporary blockout assets. Subsequent production passes and the new district brief introduce original, reference-informed geometry; their actual implementation and remaining limitations belong in current status/evidence documents. [ART_DIRECTION.md](../product/ART_DIRECTION.md) and M06-007 still require detailed environment/UI cleanup and owner review. A source dossier alone does not pass that visual gate.
 
 ## Configuration follow-up during rail implementation
 

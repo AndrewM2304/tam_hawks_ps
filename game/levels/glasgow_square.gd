@@ -78,6 +78,13 @@ func get_encounter_definitions() -> Array[Dictionary]:
 		{"id": "cat_got_the_beat", "position": to_global(Vector3(0,4.65,-98)), "heading": PI,
 			"sequence": ["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"],
 			"area_center": to_global(Vector3(0,4,-91)), "area_radius": 32.0},
+		{"id": "gull_proof_delivery", "position": to_global(Vector3(105,1.5,-26)), "heading": PI,
+			"delivery_position": to_global(Vector3(105,0,20)), "delivery_heading": PI,
+			"area_bounds": Rect2(Vector2(to_global(Vector3(78,0,-38)).x, to_global(Vector3(78,0,-38)).z), Vector2(53,68)),
+			"required_gap": "market_hop", "gate_radius":2.2, "delivery_radius":2.6, "routes": [
+				{"id":"covered", "label":"Covered market", "gates":PackedVector3Array([to_global(Vector3(114,0,-5)),to_global(Vector3(114,0,7)),to_global(Vector3(114,0,18))])},
+				{"id":"west", "label":"Calton lane", "gates":PackedVector3Array([to_global(Vector3(103,0,-5)),to_global(Vector3(103,0,7)),to_global(Vector3(103,0,18))])},
+			]},
 	]
 
 
@@ -306,7 +313,9 @@ func _build_city() -> void:
 	# Western station facade is split to leave the Kelvingrove route open.
 	for z: float in [-26.0, 26.0]:
 		_building(Vector3(-136, 2, z), 30, 17, "stone", "STATION APPROACH", PI / 2.0)
-	_building(Vector3(108, 1.5, -48), 32, 12, "sandstone", "BARROWLANDS / MARKET QUARTER", 0)
+	# Original landmark frontage is dressed from inspected day/night references.
+	# Keep the same solid backdrop footprint and all loading-street approaches.
+	_box(self, "BarrowlandVenue", Vector3(108,7.5,-48), Vector3(32,12,12), "slate", true)
 	_building(Vector3(65, 1.5, -48), 28, 13, "stone", "THE MARKET HALL", 0)
 
 
@@ -443,8 +452,7 @@ func _build_barras() -> void:
 	_steps("MarketLoadingSteps", 87, 99, -8, -14, 0, 1.5, 6)
 	_flat("MarketStepLanding", Rect2(87, -18, 12, 4), 1.5, "stone")
 	_build_market_hall_island()
-	for at: Vector3 in [Vector3(105, 0, -2), Vector3(80, 0, -2), Vector3(104, 0, 16), Vector3(118, 0, 1)]:
-		_market_stall(at)
+	_build_barras_through_market()
 	_rail("Grind_Rail_Barras", Vector3(114, 0, 27), 12)
 	_grind_path("Grind_Rail_MarketSteps", PackedVector3Array([Vector3(99.8, 0.92, -7), Vector3(99.8, 2.42, -15), Vector3(99.8, 2.42, -19)]), "rail")
 	# A lower side opening and the loading bank give the hidden court an exit.
@@ -459,7 +467,9 @@ func _build_market_hall_island() -> void:
 	_terrain.add_polygon(self, "MarketHallMasonrySkirt", PackedVector3Array([
 		Vector3(50,0.65,-2),Vector3(66,0.65,-2),Vector3(76,0.65,4),
 		Vector3(76,0.65,10),Vector3(69,0.65,17),Vector3(50,0.65,17)]), _materials["cut_stone"])
-	var hall := _building(Vector3(56,0.65,7.5),15,10,"warehouse_brick","MARKET REPAIR HALL",PI / 2.0)
+	# This one-storey shed uses local roof/shutter trim; the generic multi-storey
+	# facade module intentionally retains its own taller-building contract.
+	var hall := _building(Vector3(56,0.65,7.5),15,4.2,"warehouse_brick","MARKET REPAIR HALL",PI / 2.0,false)
 	_box(hall,"MarketHallFoundation",Vector3(0,-1.825,0),Vector3(15,3.65,12),"warehouse_brick",true)
 	_terrain.add_polygon(self, "MarketHallEastBank", PackedVector3Array([
 		Vector3(76,0.65,4),Vector3(80,0,4),Vector3(80,0,10),Vector3(76,0.65,10)]), _materials["paving"])
@@ -469,11 +479,38 @@ func _build_market_hall_island() -> void:
 	_label(self,"MarketHallAisleSign","MARKET AISLE / LOADING BANK",Vector3(68,2.8,15.5),24,"cream",Vector3(0,90,0),0.01)
 
 
-func _market_stall(at: Vector3) -> void:
+func _build_barras_through_market() -> void:
+	# A genuine street market: opposed stall rows, supported open-ended aisles,
+	# projecting shelters, two return loops and an optional loading-bank link.
+	# The centre light slot keeps the venue/sign readable from the south gate.
+	for stall: Dictionary in [
+		{"at":Vector3(108,0,2),"trade":"records"},
+		{"at":Vector3(120,0,2),"trade":"clothes"},
+		{"at":Vector3(108,0,13),"trade":"homewares"},
+		{"at":Vector3(120,0,13),"trade":"books"}]:
+		_market_stall(stall.at, PI / 2.0, stall.trade)
+	for x: float in [105.5,122.5]:
+		_box(self,"MarketRowBacking",Vector3(x,1.6,9),Vector3(0.4,3.2,18),"warehouse_brick",true)
+	for x: float in [106.3,121.7]:
+		for z: float in [-1.0,7.5,17.0]:
+			_box(self,"MarketCanopyColumn",Vector3(x,2.5,z),Vector3(0.18,5,0.18),"iron",true)
+	for x: float in [109.0,119.0]:
+		var roof := _box(self,"MarketProjectingCanopy",Vector3(x,5.50,7),Vector3(6.06,0.14,22),"shop_green",true)
+		roof.rotation.z = -0.14 if x < 114 else 0.14
+		roof.set_meta("overhead_shelter",true)
+	# Real posts are outside the riding opening; high curved ironwork is art.
+	for z: float in [-2.0,18.0]:
+		for x: float in [110.0,118.0]:
+			_box(self,"BarrasGatewayPost",Vector3(x,2.7,z),Vector3(0.16,5.4,0.16),"coral",true)
+
+
+func _market_stall(at: Vector3, yaw: float = 0.0, trade: String = "books") -> void:
 	var stall := Node3D.new()
 	stall.name = "MarketStall"
 	stall.set_meta("market_stall", true)
+	stall.set_meta("market_trade",trade)
 	stall.position = at
+	stall.rotation.y = yaw
 	add_child(stall)
 	_box(stall, "StallCounter", Vector3(0.0, 0.6, 0.0), Vector3(7.0, 1.2, 3.0), "stone", true)
 	for x: float in [-3.5, 3.5]:
@@ -524,14 +561,14 @@ func _ground_label(node_name: String, words: String, at: Vector3, yaw: float) ->
 	_label(self, node_name, words, at, 34, "cream", Vector3(-90.0, rad_to_deg(yaw), 0.0), 0.015)
 
 
-func _building(at: Vector3, width: float, height: float, color: String, shop: String, yaw: float) -> Node3D:
+func _building(at: Vector3, width: float, height: float, color: String, shop: String, yaw: float, decorate: bool = true) -> Node3D:
 	var building := Node3D.new()
 	building.name = "TenementFacade"
 	building.position = at
 	building.rotation.y = yaw
 	add_child(building)
 	_box(building, "Facade", Vector3(0.0, height / 2.0, 0.0), Vector3(width, height, 12.0), color, true)
-	_city_art.decorate_building(building, width, height, color, shop)
+	if decorate: _city_art.decorate_building(building, width, height, color, shop)
 	return building
 
 
@@ -635,6 +672,11 @@ func get_route_definitions() -> Array[Dictionary]:
 		_route("cat_workshop_bypass", "Busking permanent civic bypass", [Vector3(-22,4,-91),Vector3(-22,4,-74),Vector3(22,4,-74),Vector3(22,4,-91)]),
 		_route("civic_workshop_bank_loop", "Civic busking terrace banks", [Vector3(-22,4,-95.5),Vector3(-19.625,4,-95.5),Vector3(-15.625,4.65,-95.5),Vector3(-10,4.65,-94.5),Vector3(10,4.65,-94.5),Vector3(15.625,4.65,-95.5),Vector3(19.625,4,-95.5),Vector3(22,4,-95.5)]),
 		_route("market_hall_bank_loop", "Market hall bank and angled aisle", [Vector3(82,0,8),Vector3(80,0,8),Vector3(76,0.65,8),Vector3(68,0.65,8),Vector3(67,0.65,13),Vector3(69,0.65,17),Vector3(73,0,17),Vector3(78,0,17),Vector3(82,0,8)]),
+		_route("barras_covered_delivery_lane", "Barras sheltered stall aisle", [Vector3(114,0,-5),Vector3(114,0,7),Vector3(114,0,18)]),
+		_route("barras_west_delivery_lane", "Barras open west delivery lane", [Vector3(103,0,-5),Vector3(103,0,7),Vector3(103,0,18),Vector3(105,0,20)]),
+		_route("barras_market_inner_loop", "Barras market inner return loop", [Vector3(103,0,22),Vector3(103,0,-5),Vector3(114,0,-5),Vector3(114,0,18),Vector3(109,0,20),Vector3(103,0,22)]),
+		_route("barras_market_outer_loop", "Barras market outer return loop", [Vector3(126,0,22),Vector3(126,0,-5),Vector3(114,0,-5),Vector3(114,0,18),Vector3(119,0,20),Vector3(126,0,22)]),
+		_route("barras_covered_loading_link", "Barras aisle to loading terrace", [Vector3(114,0,18),Vector3(114,0,-6),Vector3(114,1.5,-18),Vector3(114,1.5,-22)]),
 		_route("gallery_civic_ascent", "Gallery to civic terraces", [Vector3(-22,0,28), Vector3(-22,0,-4), Vector3(-22,2,-18), Vector3(-22,2,-42), Vector3(-22,4,-56), Vector3(-22,4,-96), Vector3(-22,6,-108), Vector3(-22,6,-118)]),
 		_route("exchange_fountain_loop", "Fountain court loop", [Vector3(-22,0,28), Vector3(22,0,28), Vector3(22,0,-2), Vector3(-22,0,-2), Vector3(-22,0,28)]),
 		_route("central_south_link", "Station climbing street", [Vector3(-22,0,22), Vector3(-35,0,22), Vector3(-50,2,22), Vector3(-70,2,22)]),

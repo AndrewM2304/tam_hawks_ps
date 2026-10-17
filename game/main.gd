@@ -13,6 +13,7 @@ const SpecialMeterSource = preload("res://game/tricks/special_meter.gd")
 const SkateAudioSource = preload("res://game/audio/skate_audio.gd")
 const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounters.gd")
 const CatEncounterSource = preload("res://game/characters/cat_encounter.gd")
+const MarketEncounterSource = preload("res://game/characters/market_encounter.gd")
 const RUN_SECONDS := 120.0
 
 var score := ScoreSession.new()
@@ -22,6 +23,7 @@ var special_meter = SpecialMeterSource.new()
 var objectives: Node3D
 var encounters: Node3D
 var cat_encounter: Node3D
+var market_encounter: Node3D
 var _focused_encounter := "busker_big_finish"
 var audio: Node
 # Developer/script runners never write the player's profile by default.
@@ -76,6 +78,12 @@ func _ready() -> void:
 	add_child(cat_encounter)
 	cat_encounter.configure(world.get_encounter_definitions())
 	cat_encounter.feedback.connect(_on_encounter_feedback)
+	market_encounter = MarketEncounterSource.new()
+	market_encounter.name = "MarketEncounter"
+	market_encounter.process_mode = Node.PROCESS_MODE_PAUSABLE
+	add_child(market_encounter)
+	market_encounter.configure(world.get_encounter_definitions())
+	market_encounter.feedback.connect(_on_encounter_feedback)
 	audio = SkateAudioSource.new()
 	add_child(audio)
 	if audio.has_signal("caption"):
@@ -87,6 +95,7 @@ func _ready() -> void:
 	add_child(skater)
 	skater.reset_skater()
 	skater.set_grind_lines(world.get_grind_lines())
+	market_encounter.set_carrier(skater.get_node("SkaterVisual/Rider"))
 	skater.trick_performed.connect(_on_trick)
 	skater.grind_captured.connect(_on_grind_captured)
 	skater.landed.connect(_on_landed)
@@ -162,6 +171,7 @@ func _physics_process(delta: float) -> void:
 		if had_career_time and time_remaining <= 0.0:
 			encounters.finish_run()
 			cat_encounter.finish_run()
+			market_encounter.finish_run()
 		if time_remaining <= 0.0:
 			var resolving: bool = score.get_combo_value() > 0 and (skater.airborne
 				or skater.grinding or skater.manual_active or score.pending_landing)
@@ -184,6 +194,7 @@ func restart_run() -> void:
 	objectives.reset_run()
 	encounters.reset_run()
 	cat_encounter.reset_run()
+	market_encounter.reset_run()
 	_focused_encounter = "busker_big_finish"
 	if world.has_method("reset_interactions"): world.reset_interactions()
 	audio.set_paused(false)
@@ -223,6 +234,7 @@ func _on_trick(trick_name: String, points: int) -> void:
 		return
 	score.add_trick(trick_name, points)
 	encounters.on_trick(trick_name, points, skater.global_position)
+	market_encounter.on_trick(trick_name, points, skater.global_position)
 	if trick_name == "Ollie": audio.play_event("ollie")
 	elif trick_name == "Rail Grind": audio.play_event("grind")
 	if "flip" in trick_name.to_lower():
@@ -255,6 +267,7 @@ func _on_combo_banked(banked: int) -> void:
 	audio.play_event("bank")
 	encounters.on_bank(banked, skater.global_position)
 	cat_encounter.on_bank(banked, skater.global_position)
+	market_encounter.on_bank(banked, skater.global_position)
 	if banked >= 1000 and _near_npc() and audio.has_method("play_bark"):
 		audio.play_bark("landing")
 
@@ -266,6 +279,7 @@ func _on_bailed() -> void:
 	_feedback_timer = 2.0
 	encounters.on_bail()
 	cat_encounter.on_bail()
+	market_encounter.on_bail()
 
 func _finish_run() -> void:
 	if run_finished:
@@ -273,6 +287,7 @@ func _finish_run() -> void:
 	run_finished = true
 	encounters.finish_run()
 	cat_encounter.finish_run()
+	market_encounter.finish_run()
 	_notify_goals(career.finish_run(score.total_score, score.best_combo))
 	_save_profile()
 	audio.set_motion(0, false, false, "")
@@ -314,6 +329,7 @@ func _update_objectives(delta: float, district: String) -> void:
 		_save_profile()
 	for gap: Dictionary in gaps.update(skater.global_position, skater.airborne, delta):
 		score.add_trick(gap.name, gap.points)
+		market_encounter.on_gap(gap.id, skater.global_position)
 		completed.append_array(career.record_event("gap", gap.id))
 		if not skater.airborne and not skater.grinding and not skater.manual_active:
 			score.begin_landing()
@@ -389,6 +405,7 @@ func apply_settings(settings: Dictionary, persist: bool = true) -> void:
 	objectives.reduced_motion = career.settings.reduced_motion
 	encounters.reduced_motion = career.settings.reduced_motion
 	cat_encounter.reduced_motion = career.settings.reduced_motion
+	market_encounter.reduced_motion = career.settings.reduced_motion
 	select_cosmetic(str(settings.get("cosmetic_id", career.settings.get("cosmetic_id", "color_blue"))), false)
 	if persist: _save_profile()
 
@@ -421,56 +438,84 @@ func _on_encounter_feedback(text: String) -> void:
 	audio.play_event("ui")
 
 
-## Objectives retain their existing interaction priority. Side offers select the
-## nearest eligible performer and accepting one ends the other active attempt.
+## Objectives retain interaction priority. The nearest eligible side offer wins;
+## accepting it cancels other active attempts without changing ordinary scoring.
+func _side_encounters() -> Array[Node3D]:
+	return [encounters, cat_encounter, market_encounter]
+
+
 func _nearby_encounter_id() -> String:
 	var at := skater.global_position
-	var mo_offer: String = encounters.nearby_prompt(at)
-	var cat_offer: String = cat_encounter.nearby_prompt(at)
-	if cat_offer.is_empty():
-		return "busker_big_finish" if not mo_offer.is_empty() else ""
-	if mo_offer.is_empty():
-		return "cat_got_the_beat"
-	var mo_position: Vector3 = encounters.status_snapshot().position
-	var cat_position: Vector3 = cat_encounter.status_snapshot().position
-	return "cat_got_the_beat" if at.distance_squared_to(cat_position) < at.distance_squared_to(mo_position) else "busker_big_finish"
+	var chosen := ""
+	var closest := INF
+	for component: Node3D in _side_encounters():
+		if component.nearby_prompt(at).is_empty(): continue
+		var status: Dictionary = component.status_snapshot()
+		var offer_position: Vector3 = status.position
+		var distance := at.distance_squared_to(offer_position)
+		if distance < closest:
+			closest = distance
+			chosen = str(status.id)
+	return chosen
 
 
 func _update_encounters(delta: float, interact: bool) -> void:
 	var chosen := _nearby_encounter_id() if interact else ""
 	var combo_value: int = score.get_combo_value()
-	if combo_value == 0:
-		if chosen == "cat_got_the_beat":
-			encounters.cancel_attempt()
-			_focused_encounter = chosen
-		elif chosen == "busker_big_finish":
-			cat_encounter.cancel_attempt()
-			_focused_encounter = chosen
+	if combo_value == 0 and not chosen.is_empty():
+		for component: Node3D in _side_encounters():
+			if str(component.status_snapshot().id) != chosen:
+				component.cancel_attempt()
+		_focused_encounter = chosen
 	encounters.poll(skater.global_position, chosen == "busker_big_finish", delta, combo_value)
 	var camera: Camera3D = get_viewport().get_camera_3d()
 	var stage_position: Vector3 = cat_encounter.status_snapshot().position
 	var audience_visible := is_instance_valid(camera) and stage_position.is_finite() \
 		and camera.is_position_in_frustum(stage_position + Vector3(0, 0.8, 0))
 	cat_encounter.poll(skater.global_position, chosen == "cat_got_the_beat", delta, combo_value, audience_visible)
+	var delivery_position: Vector3 = market_encounter.status_snapshot().payoff_position
+	var delivery_visible := is_instance_valid(camera) and delivery_position.is_finite() \
+		and camera.is_position_in_frustum(delivery_position + Vector3(0, 0.8, 0))
+	market_encounter.poll(skater.global_position, chosen == "gull_proof_delivery", delta, combo_value, delivery_visible)
 
 
 func _challenge_text() -> String:
-	var cat_status: Dictionary = cat_encounter.status_snapshot()
-	var mo_status: Dictionary = encounters.status_snapshot()
-	if cat_status.state == "active":
-		return str(cat_status.get("hud_text", ""))
-	if mo_status.state == "active":
-		return str(mo_status.get("hud_text", ""))
-	return str((cat_status if _focused_encounter == "cat_got_the_beat" else mo_status).get("hud_text", ""))
+	for component: Node3D in _side_encounters():
+		var status: Dictionary = component.status_snapshot()
+		if status.state == "active":
+			var text := str(status.get("hud_text", ""))
+			var navigation := _market_navigation_text(status.get("navigation_targets", []))
+			return text + ("\n" + navigation if not navigation.is_empty() else "")
+	for component: Node3D in _side_encounters():
+		var status: Dictionary = component.status_snapshot()
+		if str(status.id) == _focused_encounter: return str(status.get("hud_text", ""))
+	return ""
+
+
+func _market_navigation_text(targets: Array) -> String:
+	var cues: PackedStringArray = []
+	for target: Dictionary in targets:
+		var at: Vector3 = target.get("position", Vector3.INF)
+		if not at.is_finite(): continue
+		var offset := at - skater.global_position
+		offset.y = 0.0
+		var local := Basis(Vector3.UP, -skater.rotation.y) * offset
+		var angle := rad_to_deg(atan2(local.x, -local.z))
+		var direction := "AHEAD"
+		if absf(angle) > 120.0: direction = "TURN BACK"
+		elif angle > 30.0: direction = "RIGHT"
+		elif angle < -30.0: direction = "LEFT"
+		cues.append("%s: %s %dm" % [str(target.get("label", "MARKER")), direction, ceili(offset.length())])
+	return "  /  ".join(cues)
 
 
 func _interaction_prompt() -> String:
 	var prompt: String = objectives.nearby_prompt(skater.global_position)
-	if not prompt.is_empty():
-		return prompt
-	match _nearby_encounter_id():
-		"cat_got_the_beat": return cat_encounter.nearby_prompt(skater.global_position)
-		"busker_big_finish": return encounters.nearby_prompt(skater.global_position)
+	if not prompt.is_empty(): return prompt
+	var chosen := _nearby_encounter_id()
+	for component: Node3D in _side_encounters():
+		if str(component.status_snapshot().id) == chosen:
+			return component.nearby_prompt(skater.global_position)
 	return ""
 
 

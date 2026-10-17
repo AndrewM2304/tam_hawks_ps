@@ -67,11 +67,12 @@ fi
 python3 - "$TASK_ROOT" "$TASK_OUTPUT" "$TASK_CAT_MOTION" <<'PY' &
 import hashlib, json, os, pathlib, re, shutil, signal, subprocess, sys
 root, output = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
-destination = root / 'docs/testing/screenshots/bin-cats'
+destination = root / 'docs/testing/screenshots/barras-clyde'
 capture_motion = sys.argv[3] == 'true'
+expected_captures = 32 if capture_motion else 24
 def fingerprint():
     inputs = [root / name for name in ('project.godot', 'tools/run.sh', 'tools/level_design_capture.gd', 'tools/level_design_capture.sh', 'tools/xorg-dummy.conf')]
-    for name in ('game', 'assets'):
+    for name in ('game', 'assets', 'tests'):
         inputs.extend(path for path in (root / name).rglob('*') if path.is_file())
     return {str(path.relative_to(root)): hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(inputs)}
 def git(*args):
@@ -109,7 +110,7 @@ def run_media(arguments, timeout):
     if process.returncode:
         raise SystemExit('Media validation failed: ' + stderr[-2000:])
     return stdout
-print(f'Capturing actual six-area bin-drumming/cat/map evidence; temporary outputs: {output}', flush=True)
+print(f'Capturing actual Barrowland/Barras/Clyde/delivery evidence; temporary outputs: {output}', flush=True)
 try:
     with (output / 'engine.log').open('w') as log:
         process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
@@ -132,7 +133,7 @@ report.update(git_commit=git('rev-parse', 'HEAD'), git_dirty=bool(git('status', 
               source_sha256=before, source_changed_during_run=bool(changed), changed_inputs=changed,
               command=command, source_stable_capture_set=bool(report.get('valid_capture_set')) and not changed)
 manifest_path.write_text(json.dumps(report, indent=2) + '\n')
-if not report['source_stable_capture_set'] or len(report.get('captures', [])) != 34:
+if not report['source_stable_capture_set'] or len(report.get('captures', [])) != expected_captures:
     raise SystemExit('Incomplete captures or source inputs changed during capture; no images published.')
 for capture in report['captures']:
     filename = capture['file']
@@ -172,7 +173,7 @@ for capture in report['captures']:
 shutil.copyfile(manifest_path, destination / 'manifest.json')
 if capture_motion:
     shutil.copyfile(video, root.parent / 'TamHawks-bin-cats-preview.mp4')
-print(f'LEVEL_CAPTURE_OK: 34 actual PNGs and source/fixture manifest in {destination}', flush=True)
+print(f'LEVEL_CAPTURE_OK: {expected_captures} actual PNGs and source/fixture manifest in {destination}', flush=True)
 PY
 TASK_CAPTURE_PID=$!
 wait "$TASK_CAPTURE_PID"

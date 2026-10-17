@@ -1,0 +1,7 @@
+# Initial Barras/Clyde render diagnostic
+
+The first actual 24-frame candidate completed 17 October 2026 at 17:42:11 UTC with zero capture failures and 160 unchanged input hashes. Manifest SHA-256: `157bf60ceb54b95f4e452cef1950cd94af5e661d46f576aeeb3c1c19fc30b8a2`. It records the entire initial set, but only the five relevant diagnostic images are retained here. Other initial images remain in ignored `.local/level-design-20261017T174146Z-tlcyDK/` while available.
+
+Actual interior north/reverse views exposed mirrored THE BARRAS lettering on the gateway back face. Lead review of overview07 also found upper window strips floating above the repair hall after its roof was lowered to 4.2 m. The delivery bank/first-gate views 18/19 additionally exposed a discoverability gap: ordered targets were not visibly marked, despite the scripted route completing. Root approved steady labelled ground targets and actual bearing/distance cues without changing gates or scoring. These are production presentation findings, not gameplay fixture failures. The same candidate's reused real-input delivery driver banked 1,650, passed all three covered gates, arrived once without a bail and triggered the gull through the actual production camera. That success does not erase the sign defect.
+
+The current corrected set will live in [barras-clyde](../barras-clyde/README.md) after any bounded correction and fresh source-stable capture. Historical bin-cats and earlier folders are unchanged.

@@ -6,6 +6,7 @@ const FacadeKit = preload("res://game/levels/art/facade_kit.gd")
 const StreetDressing = preload("res://game/levels/art/street_dressing.gd")
 const ArchMesh = preload("res://game/levels/art/arch_mesh.gd")
 const FoliageMesh = preload("res://game/levels/art/foliage_mesh.gd")
+const MarketArchitecture = preload("res://game/levels/art/barras_market.gd")
 static var _shared_materials: Dictionary = {}
 var materials: Dictionary = {}
 var npc_positions: Array[Vector3] = []
@@ -156,6 +157,7 @@ func dress_world(world: Node3D) -> void:
 	_civic_clock()
 	_station_arches()
 	_market_venue()
+	MarketArchitecture.build_rows(self)
 	StreetDressing.build(self, world)
 	for child in world.get_children():
 		if child.get_meta("market_stall", false):
@@ -182,20 +184,7 @@ func _background_facade(at: Vector3, width: float, height: float, yaw: float) ->
 
 
 func _dress_market_stall(stall: Node3D) -> void:
-	# Merchandise stays entirely above the original solid counter footprint.
-	_box(stall, Vector3(7, 1.2, 3), Vector3(0, 0.6, 0), materials["wood"])
-	for x: float in [-3.5, 3.5]:
-		for z: float in [-1.5, 1.5]:
-			_cylinder(stall, Vector3(x, 1.55, z), 0.055, 3.1, materials["iron"])
-	for side: float in [-1.0, 1.0]:
-		for stripe: int in range(8):
-			var panel := _box(stall, Vector3(1, 0.05, 2.35), Vector3(-3.5 + stripe, 3.08, side * 1.1), materials["coral"] if stripe % 2 else materials["cream"])
-			panel.rotation.x = side * 0.17
-	for x: float in [-2.6, -0.8, 1.0, 2.6]:
-		_box(stall, Vector3(1.15, 0.13, 1.1), Vector3(x, 1.28, 0.1), materials["stone_light"])
-		for row: int in range(4):
-			var book := _box(stall, Vector3(0.19, 0.38, 0.42), Vector3(x - 0.32 + row * 0.21, 1.52, 0.1), materials["teal"] if row % 2 else materials["coral"])
-			book.rotation.z = 0.05
+	MarketArchitecture.dress_stall(self,stall)
 
 
 func _gallery_portico(at: Vector3, width: float, height: float) -> void:
@@ -264,18 +253,7 @@ func _station_arches() -> void:
 
 
 func _market_venue() -> void:
-	var facade := Node3D.new()
-	facade.position = Vector3(108, 1.5, -41.5)
-	add_child(facade)
-	_box(facade, Vector3(22, 3.1, 0.5), Vector3(0, 7.5, 0), materials["iron"])
-	_label(facade, "BARROWLANDS", Vector3(0, 7.7, 0.3), 70, 0.037)
-	_label(facade, "MARKET  /  MUSIC  /  GLASGOW", Vector3(0, 6.6, 0.31), 30, 0.021)
-	for x: float in [-10.0, -5.0, 0.0, 5.0, 10.0]:
-		var sphere := SphereMesh.new()
-		sphere.radius = 0.16
-		sphere.height = 0.32
-		_mesh(facade, sphere, Vector3(x, 9.25, 0.2), materials["orange"])
-	_box(facade, Vector3(23, 0.12, 0.9), Vector3(0, 4.1, 0.15), materials["coral"])
+	MarketArchitecture.build_venue(self)
 
 
 func _tree(at: Vector3) -> void:

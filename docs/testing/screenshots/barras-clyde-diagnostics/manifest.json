@@ -1,0 +1,6872 @@
+{
+  "adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+  "captures": [
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        -22.0,
+        3.40023493766785,
+        34.0
+      ],
+      "camera_rotation": [
+        -0.315490901470184,
+        0.0,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 1902.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "01-exchange-context.png",
+      "fixture": "Unchanged supported spawn context; this is an authored static fixture, not route completion.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 0.0,
+      "player_position": [
+        -22.0,
+        0.00020841509103775,
+        28.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "d77ddd9c2cde79fb17e1965f4178de93c0032cee39ebc3b3c19e65dc13d54d8a"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        114.0,
+        3.40023827552795,
+        25.0
+      ],
+      "camera_rotation": [
+        -0.315491288900375,
+        0.0,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 1379.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "02-market-south-entry.png",
+      "fixture": "Supported market entrance facing north through the central skylight toward the Barrowland landmark.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 0.0,
+      "player_position": [
+        114.0,
+        0.00020841509103775,
+        19.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "3947894cf5dae2fc3206debd45b1dbd5c58331f64057b960e38548d44de4e4c1"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        114.0,
+        3.40023827552795,
+        16.0
+      ],
+      "camera_rotation": [
+        -0.31549134850502,
+        0.0,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 1309.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "03-market-interior-north.png",
+      "fixture": "Supported interior chase view along the covered delivery lane; opposed canopies leave a sky slot.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 0.0,
+      "player_position": [
+        114.0,
+        0.00020841509103775,
+        10.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "d68dfc4d7168f627b03651b9113b6dd4d20e45906c6086aa00f4c90423ada75d"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        114.0,
+        3.40023827552795,
+        -10.9998960494995
+      ],
+      "camera_rotation": [
+        -0.315495610237122,
+        -3.14159250259399,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 570.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "04-market-north-return.png",
+      "fixture": "Supported north entrance facing south along the market lane and return.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.14159250259399,
+      "player_position": [
+        114.0,
+        0.00020841509103775,
+        -5.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "bae33d1b2a4df5524d418b8ff3634e347253baec56d5bf13f9e9c4ca2d1eaa22"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        103.0,
+        3.40023827552795,
+        1.00010287761688
+      ],
+      "camera_rotation": [
+        -0.315495580434799,
+        -3.14159250259399,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 513.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "05-market-west-return.png",
+      "fixture": "Supported open west delivery choice, facing the southern arrival.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.14159250259399,
+      "player_position": [
+        103.0,
+        0.00020841509103775,
+        7.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "efb2fd936ae95fd18964b55de6ce4167f4a940c45f7bfccbc02a19ece607c621"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 1000.0,
+      "camera_fov": 45.0,
+      "camera_position": [
+        114.0,
+        9.5,
+        -17.9000015258789
+      ],
+      "camera_rotation": [
+        -0.0806697756052017,
+        0.244978681206703,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.93333333333333,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 338.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "06-barrowland-landmark.png",
+      "fixture": "Authored venue/sign inspection camera in the production world; original geometry informed by inspected dated references, not a surveyed replica or photo texture. HUD and unrelated rider visual hidden only for framing.",
+      "ground_height": 0.0,
+      "hud_visible": false,
+      "kind": "authored_inspection",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.14159250259399,
+      "player_position": [
+        103.0,
+        0.00020841509103775,
+        7.0
+      ],
+      "player_visual_visible": false,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "273f1f9559dab91e0905e21bc5afbcd66f74ebf18f36d6d143a25101bca6b930"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 1000.0,
+      "camera_fov": 58.0,
+      "camera_position": [
+        146.0,
+        37.0,
+        42.0
+      ],
+      "camera_rotation": [
+        -0.506408870220184,
+        0.70049637556076,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 2.08333333333333,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 1632.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "07-barras-market-overview.png",
+      "fixture": "Authored market overview shows landmark, central aisle, loading street and returning choices; not the playable camera. HUD and unrelated rider visual hidden only for framing.",
+      "ground_height": 0.0,
+      "hud_visible": false,
+      "kind": "authored_inspection",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.14159250259399,
+      "player_position": [
+        103.0,
+        0.00020841509103775,
+        7.0
+      ],
+      "player_visual_visible": false,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "4fafef6dba57c58a013e8375d3f9a4a5a469db26d46bdebb79663e44cfce517b"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        -98.0,
+        5.40138339996338,
+        66.0000991821289
+      ],
+      "camera_rotation": [
+        -0.31549546122551,
+        -3.14159250259399,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 290.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "08-clyde-safe-bridge.png",
+      "fixture": "Supported north quay approach along the unchanged safe bridge, with South Portland-inspired authored portals and chains.",
+      "ground_height": 2.0,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.14159250259399,
+      "player_position": [
+        -98.0,
+        2.0013542175293,
+        72.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 2.0,
+      "supported": true,
+      "sha256": "ccc80573b842b6e933465d5a0344ad2b2570b50726c5439aced065074a789979"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 1000.0,
+      "camera_fov": 55.0,
+      "camera_position": [
+        -66.0,
+        7.0,
+        67.0
+      ],
+      "camera_rotation": [
+        -0.0441654361784458,
+        2.35619449615479,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.93333333333333,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 146.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "09-clyde-bridge-identity.png",
+      "fixture": "Authored oblique quay camera inspects the original safe-bridge treatment and southern frontage; existing water/collision remain production geometry. HUD and unrelated rider visual hidden only for framing.",
+      "ground_height": 2.0,
+      "hud_visible": false,
+      "kind": "authored_inspection",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.14159250259399,
+      "player_position": [
+        -98.0,
+        2.0013542175293,
+        72.0
+      ],
+      "player_visual_visible": false,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 2.0,
+      "supported": true,
+      "sha256": "cd3af812d0f346b4d87ee2fcbaf3e0f43964b93d77754950941fec3a359e6727"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        -22.0,
+        3.40023827552795,
+        34.0
+      ],
+      "camera_rotation": [
+        -0.315491288900375,
+        0.0,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.66666666666667,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 1943.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "10-city-map-routes.png",
+      "fixture": "Real CITY MAP & ROUTES page opened by show_map(); player reset to the authored spawn; readiness checked before/after rendering.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_menu",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "map",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": true,
+      "pending_combo": 0,
+      "player_heading": 0.0,
+      "player_position": [
+        -22.0,
+        0.00020841509103775,
+        28.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "28321206e2761dfc88ce1c748a88ef79a9e6d88b3703aac19c22cf5b1ce0c943"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        -98.0,
+        5.40023756027222,
+        119.000099182129
+      ],
+      "camera_rotation": [
+        -0.31549546122551,
+        -3.14159250259399,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 194.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "11-clyde-south-frontage.png",
+      "fixture": "Supported southern quay facing the joined Carlton Place-inspired frontage; authored geographic compression.",
+      "ground_height": 2.0,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.14159250259399,
+      "player_position": [
+        -98.0,
+        2.00020837783813,
+        125.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 2.0,
+      "supported": true,
+      "sha256": "7ac3d4dfae78905ec0375d78cd8985a2775da8c0c9000bfe9ac7fefe97afe806"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        35.0,
+        6.00100135803223,
+        80.0000991821289
+      ],
+      "camera_rotation": [
+        -0.31549546122551,
+        -3.14159250259399,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 282.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "12-clyde-broken-bridge.png",
+      "fixture": "Positioned six metres before the unchanged actual eight-metre Clyde opening; no jump execution is implied.",
+      "ground_height": 2.59999990463257,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 3.14159250259399,
+      "player_position": [
+        35.0,
+        2.60097217559814,
+        86.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 2.59999990463257,
+      "supported": true,
+      "sha256": "052b3d8f158ecc6af3db5d2ecbc0d4b9dee533ae07d7928371d91830ab836a87"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        74.9999465942383,
+        5.40023756027222,
+        127.500053405762
+      ],
+      "camera_rotation": [
+        -0.315493643283844,
+        1.57078886032104,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 685.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "13-clyde-print-yard.png",
+      "fixture": "Positioned at point 0 of runtime route clyde_print_yard_hip, facing the next point. Intended support selected near the route height; static route/clearance inspection, not a completed traversal.",
+      "ground_height": 2.0,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 1.57079637050629,
+      "player_position": [
+        69.0,
+        2.00020837783813,
+        127.5
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 2.0,
+      "supported": true,
+      "sha256": "0ed9020f3c53fb338350563cadde3471c11d7bac17d18d9f6be747a269de98cd"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 1647.84936523438,
+      "camera_fov": 55.0,
+      "camera_position": [
+        135.401885986328,
+        317.471740722656,
+        247.275329589844
+      ],
+      "camera_rotation": [
+        -0.759070217609406,
+        0.605544745922089,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.96666666666666,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 1784.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "14-six-area-context.png",
+      "fixture": "Inspection camera derived from six-area route bounds; HUD hidden; not the playable chase camera.",
+      "ground_height": 2.0,
+      "hud_visible": false,
+      "kind": "authored_overview",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 1.57079637050629,
+      "player_position": [
+        69.0,
+        2.00020837783813,
+        127.5
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 2.0,
+      "supported": true,
+      "sha256": "71764fd8b75cc28765cd8d39f41719cf1a3f6f008b22b28ca19c6bff61fcb050"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 68.0,
+      "camera_position": [
+        105.0,
+        4.90023756027222,
+        -31.9998970031738
+      ],
+      "camera_rotation": [
+        -0.315495520830154,
+        -3.14159250259399,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.8,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 844.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "15-delivery-offer.png",
+      "fixture": "The one supported pickup placement used by the independently checked driver; actual production offer, no score or encounter mutation.",
+      "ground_height": 1.5,
+      "hud_visible": true,
+      "kind": "production_chase",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.14159250259399,
+      "player_position": [
+        105.0,
+        1.50020813941956,
+        -26.0
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 1.5,
+      "supported": true,
+      "sha256": "5ad8dbad73c935b5dd9cc675038dd35445127570f9bc6c74ed1bb0bc1796dfff"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 1000.0,
+      "camera_fov": 43.0,
+      "camera_position": [
+        101.5,
+        4.0,
+        -21.6999988555908
+      ],
+      "camera_rotation": [
+        -0.272603422403336,
+        -0.683191299438477,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.93333333333333,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 229.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "16-mairi-pickup-medium.png",
+      "fixture": "Authored medium of original Mairi and the pickup parcel before accepting; no likeness or endorsement claim. HUD and unrelated rider visual hidden only for framing.",
+      "ground_height": 1.5,
+      "hud_visible": false,
+      "kind": "authored_inspection",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "idle"
+      },
+      "market_driver_evidence": {},
+      "market_driver_stage": "",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 0,
+        "carrying": false,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": false,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "idle",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.14159250259399,
+      "player_position": [
+        105.0,
+        1.50020813941956,
+        -26.0
+      ],
+      "player_visual_visible": false,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 1.5,
+      "supported": true,
+      "sha256": "40e02db52ecfcbf11dd5731ce3640516eb41db03c91613f750d7417330f49284"
+    },
+    {
+      "banked_score": 0,
+      "camera_far": 220.0,
+      "camera_fov": 71.6982727050781,
+      "camera_position": [
+        93.6289443969727,
+        4.9002103805542,
+        -29.987699508667
+      ],
+      "camera_rotation": [
+        -0.248070910573006,
+        3.14006066322327,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 4.74999999999999,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 965.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "17-delivery-manual.png",
+      "fixture": "Shared QE drive_delivery actual-input stage: manual. Player/main processing paused for inspection only; grounded heading is idealized. No post-start placement, score, gap, gate or success injection.",
+      "ground_height": 1.5,
+      "hud_visible": true,
+      "kind": "production_delivery",
+      "market_animation": {
+        "carrying": true,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "active"
+      },
+      "market_driver_evidence": {
+        "accepted": true,
+        "bails": 0,
+        "bank": 0,
+        "camera_blocked": 0,
+        "camera_hidden": 0,
+        "camera_samples": 160,
+        "carried": true,
+        "frames": 160,
+        "gap_seen": false,
+        "line_banked": false,
+        "manual_entered": true,
+        "payoff_started": false,
+        "payoff_visible": false,
+        "reached": false,
+        "remaining": 0.0,
+        "requested_route": "covered",
+        "route_id": "",
+        "route_index": 0,
+        "success": false,
+        "tricks": [
+          "Manual"
+        ],
+        "wins": 0
+      },
+      "market_driver_stage": "manual",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 1,
+        "carrying": true,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": false,
+        "hud_text": "MAIRI  58s | MANUAL READY | OLLIE THE LOADING STEPS",
+        "id": "gull_proof_delivery",
+        "line_banked": false,
+        "manual_seen": true,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 57.3500000000002,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "active",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 100,
+      "player_heading": 3.14159250259399,
+      "player_position": [
+        93.6147308349609,
+        1.50020813941956,
+        -21.6874771118164
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 1.5,
+      "supported": true,
+      "sha256": "dbb54cbbb9c40f778ee2981e3d30d708d203461cc2570a06b070a8e05bd727ff"
+    },
+    {
+      "banked_score": 1650,
+      "camera_far": 220.0,
+      "camera_fov": 71.544319152832,
+      "camera_position": [
+        93.6147613525391,
+        3.52377533912659,
+        -7.01630735397339
+      ],
+      "camera_rotation": [
+        -0.277282476425171,
+        3.14158916473389,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 6.69999999999998,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 600.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "18-delivery-banked-line.png",
+      "fixture": "Shared QE drive_delivery actual-input stage: banked. Player/main processing paused for inspection only; grounded heading is idealized. No post-start placement, score, gap, gate or success injection.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_delivery",
+      "market_animation": {
+        "carrying": true,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "active"
+      },
+      "market_driver_evidence": {
+        "accepted": true,
+        "bails": 0,
+        "bank": 1650,
+        "camera_blocked": 0,
+        "camera_hidden": 0,
+        "camera_samples": 269,
+        "carried": true,
+        "frames": 269,
+        "gap_seen": true,
+        "line_banked": true,
+        "manual_entered": true,
+        "payoff_started": false,
+        "payoff_visible": false,
+        "reached": false,
+        "remaining": 0.0,
+        "requested_route": "covered",
+        "route_id": "",
+        "route_index": 0,
+        "success": false,
+        "tricks": [
+          "Manual",
+          "Ollie"
+        ],
+        "wins": 0
+      },
+      "market_driver_stage": "banked",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 1,
+        "carrying": true,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": true,
+        "hud_text": "MAIRI  56s | LINE BANKED | ENTER COVERED OR WEST LANE (NORTH MARKER)",
+        "id": "gull_proof_delivery",
+        "line_banked": true,
+        "manual_seen": true,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 55.5333333333336,
+        "required_gap": "market_hop",
+        "route_id": "",
+        "route_index": 0,
+        "route_label": "",
+        "route_total": 3,
+        "state": "active",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 3.14159250259399,
+      "player_position": [
+        93.6147308349609,
+        0.012411430478096,
+        0.519211530685425
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "9011daa306800d44a90d2e395014b4fdc65b8ee17cac1edb40bc6691f9112560"
+    },
+    {
+      "banked_score": 1650,
+      "camera_far": 220.0,
+      "camera_fov": 71.0806350708008,
+      "camera_position": [
+        106.436950683594,
+        3.41241240501404,
+        -2.73617243766785
+      ],
+      "camera_rotation": [
+        -0.273119866847992,
+        -1.27995681762695,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 1.44999999999998,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 433.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "19-delivery-gate-one.png",
+      "fixture": "Shared QE drive_delivery actual-input stage: gate_1. Player/main processing paused for inspection only; grounded heading is idealized. No post-start placement, score, gap, gate or success injection.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_delivery",
+      "market_animation": {
+        "carrying": true,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "active"
+      },
+      "market_driver_evidence": {
+        "accepted": true,
+        "bails": 0,
+        "bank": 1650,
+        "camera_blocked": 0,
+        "camera_hidden": 0,
+        "camera_samples": 426,
+        "carried": true,
+        "frames": 426,
+        "gap_seen": true,
+        "line_banked": true,
+        "manual_entered": true,
+        "payoff_started": false,
+        "payoff_visible": false,
+        "reached": false,
+        "remaining": 0.0,
+        "requested_route": "covered",
+        "route_id": "",
+        "route_index": 0,
+        "success": false,
+        "tricks": [
+          "Manual",
+          "Ollie"
+        ],
+        "wins": 0
+      },
+      "market_driver_stage": "gate_1",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 1,
+        "carrying": true,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": true,
+        "hud_text": "MAIRI  53s | Covered market 1/3 | NEXT: MARKER 2",
+        "id": "gull_proof_delivery",
+        "line_banked": true,
+        "manual_seen": true,
+        "next_gate": [
+          114.0,
+          0.0,
+          7.0
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 52.9166666666671,
+        "required_gap": "market_hop",
+        "route_id": "covered",
+        "route_index": 1,
+        "route_label": "Covered market",
+        "route_total": 3,
+        "state": "active",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -1.27995777130127,
+      "player_position": [
+        113.394493103027,
+        0.012411430478096,
+        -4.81875514984131
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "8df855cd21845fc5484760148867b87e5ecc0265d1682c8c3f6400586579de6f"
+    },
+    {
+      "banked_score": 1650,
+      "camera_far": 220.0,
+      "camera_fov": 70.7949600219727,
+      "camera_position": [
+        113.598365783691,
+        3.41241240501404,
+        -0.828706085681915
+      ],
+      "camera_rotation": [
+        -0.27410489320755,
+        -3.09033989906311,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 2.91666666666664,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 560.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "20-delivery-gate-two.png",
+      "fixture": "Shared QE drive_delivery actual-input stage: gate_2. Player/main processing paused for inspection only; grounded heading is idealized. No post-start placement, score, gap, gate or success injection.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_delivery",
+      "market_animation": {
+        "carrying": true,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "active"
+      },
+      "market_driver_evidence": {
+        "accepted": true,
+        "bails": 0,
+        "bank": 1650,
+        "camera_blocked": 0,
+        "camera_hidden": 0,
+        "camera_samples": 506,
+        "carried": true,
+        "frames": 506,
+        "gap_seen": true,
+        "line_banked": true,
+        "manual_entered": true,
+        "payoff_started": false,
+        "payoff_visible": false,
+        "reached": false,
+        "remaining": 0.0,
+        "requested_route": "covered",
+        "route_id": "",
+        "route_index": 0,
+        "success": false,
+        "tricks": [
+          "Manual",
+          "Ollie"
+        ],
+        "wins": 0
+      },
+      "market_driver_stage": "gate_2",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 1,
+        "carrying": true,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": true,
+        "hud_text": "MAIRI  52s | Covered market 2/3 | NEXT: MARKER 3",
+        "id": "gull_proof_delivery",
+        "line_banked": true,
+        "manual_seen": true,
+        "next_gate": [
+          114.0,
+          0.0,
+          18.0
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 51.5833333333338,
+        "required_gap": "market_hop",
+        "route_id": "covered",
+        "route_index": 2,
+        "route_label": "Covered market",
+        "route_total": 3,
+        "state": "active",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.09041547775269,
+      "player_position": [
+        113.968887329102,
+        0.012411430478096,
+        6.39262962341309
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "d6cb0b54113350f9861c5e73f737f302753fdb2ef31f6e79a4255a06073fb806"
+    },
+    {
+      "banked_score": 1650,
+      "camera_far": 220.0,
+      "camera_fov": 70.7703247070312,
+      "camera_position": [
+        113.978973388672,
+        3.41241240501404,
+        10.1727075576782
+      ],
+      "camera_rotation": [
+        -0.274324893951416,
+        -3.13890647888184,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 4.36666666666663,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 504.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "21-delivery-gate-three.png",
+      "fixture": "Shared QE drive_delivery actual-input stage: gate_3. Player/main processing paused for inspection only; grounded heading is idealized. No post-start placement, score, gap, gate or success injection.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_delivery",
+      "market_animation": {
+        "carrying": true,
+        "celebration_state": "none",
+        "delivered": false,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "active"
+      },
+      "market_driver_evidence": {
+        "accepted": true,
+        "bails": 0,
+        "bank": 1650,
+        "camera_blocked": 0,
+        "camera_hidden": 0,
+        "camera_samples": 585,
+        "carried": true,
+        "frames": 585,
+        "gap_seen": true,
+        "line_banked": true,
+        "manual_entered": true,
+        "payoff_started": false,
+        "payoff_visible": false,
+        "reached": false,
+        "remaining": 0.0,
+        "requested_route": "covered",
+        "route_id": "",
+        "route_index": 0,
+        "success": false,
+        "tricks": [
+          "Manual",
+          "Ollie"
+        ],
+        "wins": 0
+      },
+      "market_driver_stage": "gate_3",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 1,
+        "carrying": true,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "gap_seen": true,
+        "hud_text": "MAIRI  51s | 3/3 LANE MARKERS | ARRIVE AT SOUTH DELIVERY COUNTER",
+        "id": "gull_proof_delivery",
+        "line_banked": true,
+        "manual_seen": true,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "",
+        "remaining": 50.2666666666672,
+        "required_gap": "market_hop",
+        "route_id": "covered",
+        "route_index": 3,
+        "route_label": "Covered market",
+        "route_total": 3,
+        "state": "active",
+        "title": "Gull-Proof Delivery",
+        "wins": 0
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": -3.13890981674194,
+      "player_position": [
+        113.998374938965,
+        0.012411430478096,
+        17.3936767578125
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "618545e784fcee5bb56faa7fab475c9b7f3261e89c2453a61d95017a1b246c5d"
+    },
+    {
+      "banked_score": 1650,
+      "camera_far": 220.0,
+      "camera_fov": 70.6527557373047,
+      "camera_position": [
+        112.524063110352,
+        3.41241240501404,
+        17.8181266784668
+      ],
+      "camera_rotation": [
+        -0.274397194385529,
+        1.85302126407623,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 5.6333333333333,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 1613.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "22-delivery-arrival.png",
+      "fixture": "Shared QE drive_delivery actual-input stage: arrival. Player/main processing paused for inspection only; grounded heading is idealized. No post-start placement, score, gap, gate or success injection.",
+      "ground_height": 0.0,
+      "hud_visible": true,
+      "kind": "production_delivery",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "playing",
+        "delivered": true,
+        "payoff_active": true,
+        "payoff_duration": 3.2,
+        "payoff_time": 0.416666666666667,
+        "reduced_motion": false,
+        "spare_taken": false,
+        "state": "success"
+      },
+      "market_driver_evidence": {
+        "accepted": true,
+        "bails": 0,
+        "bank": 1650,
+        "camera_blocked": 0,
+        "camera_hidden": 0,
+        "camera_samples": 653,
+        "carried": true,
+        "frames": 653,
+        "gap_seen": true,
+        "line_banked": true,
+        "manual_entered": true,
+        "payoff_started": false,
+        "payoff_visible": false,
+        "reached": true,
+        "remaining": 49.4166666666673,
+        "requested_route": "covered",
+        "route_id": "covered",
+        "route_index": 3,
+        "success": true,
+        "tricks": [
+          "Manual",
+          "Ollie"
+        ],
+        "wins": 1
+      },
+      "market_driver_stage": "arrival",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 1,
+        "carrying": false,
+        "celebration_started": true,
+        "celebration_state": "playing",
+        "gap_seen": true,
+        "hud_text": "DELIVERY COMPLETE | That feathered chancer! Yours is safe.",
+        "id": "gull_proof_delivery",
+        "line_banked": true,
+        "manual_seen": true,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "Breakfast delivered. The gull gets the spare wrapping parcel.",
+        "remaining": 49.4166666666673,
+        "required_gap": "market_hop",
+        "route_id": "covered",
+        "route_index": 3,
+        "route_label": "Covered market",
+        "route_total": 3,
+        "state": "success",
+        "title": "Gull-Proof Delivery",
+        "wins": 1
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 1.85272204875946,
+      "player_position": [
+        105.589012145996,
+        0.012411430478096,
+        19.8293972015381
+      ],
+      "player_visual_visible": true,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "dd016686d736881b08c577aea1bdf196d054211824ccc4703e0005bc698984c8"
+    },
+    {
+      "banked_score": 1650,
+      "camera_far": 1000.0,
+      "camera_fov": 45.0,
+      "camera_position": [
+        100.000015258789,
+        2.5,
+        24.3000011444092
+      ],
+      "camera_rotation": [
+        -0.247338250279427,
+        -0.683191299438477,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 6.46666666666663,
+        "drummer_active": true,
+        "reduced_motion": false,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 411.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "23-earned-gull-payoff.png",
+      "fixture": "Same actual 1650-bank delivery; production proximity/frustum already triggered the earned gull. Authored counter camera follows ordinary elapsed animation, with no animation-phase or completion injection; delivered parcel remains. HUD and unrelated rider visual hidden only for framing.",
+      "ground_height": 0.0,
+      "hud_visible": false,
+      "kind": "authored_inspection",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "playing",
+        "delivered": true,
+        "payoff_active": true,
+        "payoff_duration": 3.2,
+        "payoff_time": 1.25,
+        "reduced_motion": false,
+        "spare_taken": true,
+        "state": "success"
+      },
+      "market_driver_evidence": {
+        "accepted": true,
+        "bails": 0,
+        "bank": 1650,
+        "camera_blocked": 0,
+        "camera_hidden": 0,
+        "camera_samples": 653,
+        "carried": true,
+        "frames": 653,
+        "gap_seen": true,
+        "line_banked": true,
+        "manual_entered": true,
+        "payoff_started": true,
+        "payoff_visible": true,
+        "reached": true,
+        "remaining": 49.4166666666673,
+        "requested_route": "covered",
+        "route_id": "covered",
+        "route_index": 3,
+        "success": true,
+        "tricks": [
+          "Manual",
+          "Ollie"
+        ],
+        "wins": 1
+      },
+      "market_driver_stage": "payoff",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 1,
+        "carrying": false,
+        "celebration_started": true,
+        "celebration_state": "playing",
+        "gap_seen": true,
+        "hud_text": "DELIVERY COMPLETE | That feathered chancer! Yours is safe.",
+        "id": "gull_proof_delivery",
+        "line_banked": true,
+        "manual_seen": true,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "Breakfast delivered. The gull gets the spare wrapping parcel.",
+        "remaining": 49.4166666666673,
+        "required_gap": "market_hop",
+        "route_id": "covered",
+        "route_index": 3,
+        "route_label": "Covered market",
+        "route_total": 3,
+        "state": "success",
+        "title": "Gull-Proof Delivery",
+        "wins": 1
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 1.85272204875946,
+      "player_position": [
+        105.209281921387,
+        0.012411430478096,
+        19.9393844604492
+      ],
+      "player_visual_visible": false,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": false,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "bf73e69e9d65e033dde2b70d1945c27684f821bbb855e72b5a8273a1ae394a0b"
+    },
+    {
+      "banked_score": 1650,
+      "camera_far": 1000.0,
+      "camera_fov": 45.0,
+      "camera_position": [
+        100.000015258789,
+        2.5,
+        24.3000011444092
+      ],
+      "camera_rotation": [
+        -0.247338250279427,
+        -0.683191299438477,
+        0.0
+      ],
+      "cat_animation": {
+        "audio_enabled": true,
+        "audio_gain": 0.48,
+        "celebration_state": "none",
+        "dance_active": false,
+        "dance_duration": 3.2,
+        "dance_elapsed": 3.2,
+        "drum_phase": 6.61666666666663,
+        "drummer_active": false,
+        "reduced_motion": true,
+        "sequence_index": 0,
+        "soft_cat_count": 2,
+        "state": "idle"
+      },
+      "cat_encounter": {
+        "area_center": [
+          0.0,
+          4.0,
+          -91.0
+        ],
+        "area_radius": 32.0,
+        "attempts": 0,
+        "celebration_started": false,
+        "celebration_state": "none",
+        "hud_text": "",
+        "id": "cat_got_the_beat",
+        "next_rail_id": "Grind_Cat_A",
+        "position": [
+          0.0,
+          4.65000009536743,
+          -98.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_ids": [
+          "Grind_Cat_A",
+          "Grind_Cat_B",
+          "Grind_Cat_C"
+        ],
+        "sequence_index": 0,
+        "state": "idle",
+        "title": "Cat's Got the Beat",
+        "wins": 0
+      },
+      "draw_calls": 411.0,
+      "encounter": {
+        "attempts": 0,
+        "combo_valid": true,
+        "detail": "",
+        "family_count": 0,
+        "hud_text": "",
+        "id": "busker_big_finish",
+        "position": [
+          28.0,
+          0.0,
+          31.0
+        ],
+        "reason": "",
+        "remaining": 0.0,
+        "required_families": 3,
+        "state": "idle",
+        "target_points": 1000,
+        "title": "Mo's Big Finish",
+        "wins": 0
+      },
+      "file": "24-delivery-static-alternative.png",
+      "fixture": "Public reduced-motion preference on the same earned delivery; static original gull/spare-parcel alternative, no second win or profile write. HUD and unrelated rider visual hidden only for framing.",
+      "ground_height": 0.0,
+      "hud_visible": false,
+      "kind": "authored_inspection",
+      "market_animation": {
+        "carrying": false,
+        "celebration_state": "static",
+        "delivered": true,
+        "payoff_active": false,
+        "payoff_duration": 3.2,
+        "payoff_time": 3.2,
+        "reduced_motion": true,
+        "spare_taken": true,
+        "state": "success"
+      },
+      "market_driver_evidence": {
+        "accepted": true,
+        "bails": 0,
+        "bank": 1650,
+        "camera_blocked": 0,
+        "camera_hidden": 0,
+        "camera_samples": 653,
+        "carried": true,
+        "frames": 653,
+        "gap_seen": true,
+        "line_banked": true,
+        "manual_entered": true,
+        "payoff_started": true,
+        "payoff_visible": true,
+        "reached": true,
+        "remaining": 49.4166666666673,
+        "requested_route": "covered",
+        "route_id": "covered",
+        "route_index": 3,
+        "success": true,
+        "tricks": [
+          "Manual",
+          "Ollie"
+        ],
+        "wins": 1
+      },
+      "market_driver_stage": "payoff",
+      "market_encounter": {
+        "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+        "attempts": 1,
+        "carrying": false,
+        "celebration_started": true,
+        "celebration_state": "static",
+        "gap_seen": true,
+        "hud_text": "DELIVERY COMPLETE | Gull with spare wrapper (reduced motion)",
+        "id": "gull_proof_delivery",
+        "line_banked": true,
+        "manual_seen": true,
+        "next_gate": [
+          Infinity,
+          Infinity,
+          Infinity
+        ],
+        "payoff_position": [
+          105.0,
+          0.0,
+          20.0
+        ],
+        "position": [
+          105.0,
+          1.5,
+          -26.0
+        ],
+        "reason": "Breakfast delivered. The gull gets the spare wrapping parcel.",
+        "remaining": 49.4166666666673,
+        "required_gap": "market_hop",
+        "route_id": "covered",
+        "route_index": 3,
+        "route_label": "Covered market",
+        "route_total": 3,
+        "state": "success",
+        "title": "Gull-Proof Delivery",
+        "wins": 1
+      },
+      "menu_page": "",
+      "menu_ready": true,
+      "observed_cat_capture_ids": [],
+      "paused": false,
+      "pending_combo": 0,
+      "player_heading": 1.85272204875946,
+      "player_position": [
+        105.209281921387,
+        0.012411430478096,
+        19.9393844604492
+      ],
+      "player_visual_visible": false,
+      "presentation_settings": {
+        "ambience_volume": 0.6,
+        "audio": 0.8,
+        "bindings": {},
+        "camera_sensitivity": 1.0,
+        "captions": true,
+        "cosmetic_id": "color_blue",
+        "reduced_motion": true,
+        "sfx_volume": 1.0,
+        "ui_scale": 1.0
+      },
+      "support_height": 0.0,
+      "supported": true,
+      "sha256": "85fe709f9e6ac71250d841a4fab296f61654fcb7e4e5029a11effb3bf8090247"
+    }
+  ],
+  "cat_motion": {},
+  "cat_payoff_trigger": {},
+  "checkpoints": {
+    "barras": [
+      60.0,
+      0.800000011920929,
+      22.0
+    ],
+    "central_station": [
+      -62.0,
+      2.79999995231628,
+      22.0
+    ],
+    "clyde": [
+      15.0,
+      2.79999995231628,
+      67.0
+    ],
+    "george_square": [
+      -22.0,
+      4.80000019073486,
+      -74.0
+    ],
+    "kelvingrove": [
+      -155.0,
+      6.80000019073486,
+      -82.0
+    ],
+    "royal_exchange": [
+      -22.0,
+      0.800000011920929,
+      28.0
+    ]
+  },
+  "content_scale_override": true,
+  "display_server": "X11",
+  "driver": "opengl3",
+  "engine": {
+    "build": "official",
+    "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+    "hex": 263683,
+    "major": 4,
+    "minor": 6,
+    "patch": 3,
+    "status": "stable",
+    "string": "4.6.3-stable (official)",
+    "timestamp": 0
+  },
+  "evidence_slice": "barrowland_barras_market_and_clyde",
+  "expected_captures": 24,
+  "failures": 0,
+  "fixed_physics_hz": 60,
+  "fixture_limits": [
+    "Chase views position the production skater on authored ground and settle actual physics; they are not completed routes.",
+    "Overview cameras are explicitly authored inspection viewpoints, with the HUD hidden.",
+    "The map is the real production page opened through show_map(), with readiness checked around the actual draw.",
+    "Delivery evidence reuses tests/market_encounter_tests.gd drive_delivery with actual inputs after one supported pickup fixture; grounded heading is idealized, speed/position/score/events are not injected after start.",
+    "Observer screenshots pause player/main processing only to inspect actual earned stages; this is not an uninterrupted human route or timing measurement.",
+    "The gull response starts through the actual nearby production camera before the authored inspection camera; reduced motion is the public preference on the same earned win.",
+    "Cat states come from real production rail-capture events and a positive clean bank; direct grounded heading, if used, is explicitly idealized. No encounter completion is injected.",
+    "Automatic rendering is disabled; force_draw produces each captured frame after 60 Hz fixture steps. No real-time FPS claim."
+  ],
+  "gameplay_input_injected": true,
+  "market_driver": "tests/market_encounter_tests.gd::drive_delivery",
+  "market_evidence": {
+    "accepted": true,
+    "bails": 0,
+    "bank": 1650,
+    "camera_blocked": 0,
+    "camera_hidden": 0,
+    "camera_samples": 653,
+    "carried": true,
+    "frames": 653,
+    "gap_seen": true,
+    "line_banked": true,
+    "manual_entered": true,
+    "payoff_started": true,
+    "payoff_visible": true,
+    "reached": true,
+    "remaining": 49.4166666666673,
+    "requested_route": "covered",
+    "route_id": "covered",
+    "route_index": 3,
+    "success": true,
+    "tricks": [
+      "Manual",
+      "Ollie"
+    ],
+    "wins": 1
+  },
+  "market_payoff_trigger": {
+    "animation": {
+      "carrying": false,
+      "celebration_state": "playing",
+      "delivered": true,
+      "payoff_active": true,
+      "payoff_duration": 3.2,
+      "payoff_time": 0.416666666666667,
+      "reduced_motion": false,
+      "spare_taken": false,
+      "state": "success"
+    },
+    "camera_position": [
+      112.524063110352,
+      3.41241240501404,
+      17.8181266784668
+    ],
+    "camera_rotation": [
+      -0.274397194385529,
+      1.85302126407623,
+      0.0
+    ],
+    "encounter": {
+      "area_bounds": "[P: (78.0, -38.0), S: (53.0, 68.0)]",
+      "attempts": 1,
+      "carrying": false,
+      "celebration_started": true,
+      "celebration_state": "playing",
+      "gap_seen": true,
+      "hud_text": "DELIVERY COMPLETE | That feathered chancer! Yours is safe.",
+      "id": "gull_proof_delivery",
+      "line_banked": true,
+      "manual_seen": true,
+      "next_gate": [
+        Infinity,
+        Infinity,
+        Infinity
+      ],
+      "payoff_position": [
+        105.0,
+        0.0,
+        20.0
+      ],
+      "position": [
+        105.0,
+        1.5,
+        -26.0
+      ],
+      "reason": "Breakfast delivered. The gull gets the spare wrapping parcel.",
+      "remaining": 49.4166666666673,
+      "required_gap": "market_hop",
+      "route_id": "covered",
+      "route_index": 3,
+      "route_label": "Covered market",
+      "route_total": 3,
+      "state": "success",
+      "title": "Gull-Proof Delivery",
+      "wins": 1
+    },
+    "evidence": {
+      "accepted": true,
+      "bails": 0,
+      "bank": 1650,
+      "camera_blocked": 0,
+      "camera_hidden": 0,
+      "camera_samples": 653,
+      "carried": true,
+      "frames": 653,
+      "gap_seen": true,
+      "line_banked": true,
+      "manual_entered": true,
+      "payoff_started": true,
+      "payoff_visible": true,
+      "reached": true,
+      "remaining": 49.4166666666673,
+      "requested_route": "covered",
+      "route_id": "covered",
+      "route_index": 3,
+      "success": true,
+      "tricks": [
+        "Manual",
+        "Ollie"
+      ],
+      "wins": 1
+    },
+    "player_position": [
+      105.589012145996,
+      0.012411430478096,
+      19.8293972015381
+    ]
+  },
+  "performance_measurement": false,
+  "profile_writes_enabled": false,
+  "recorded_at_utc": "2026-10-17T17:42:11",
+  "render_loop_enabled": false,
+  "renderer": "gl_compatibility",
+  "resolution": [
+    1280,
+    800
+  ],
+  "route_count": 39,
+  "routes": [
+    {
+      "id": "cat_coping_approach",
+      "label": "Busking coping approach",
+      "points": [
+        [
+          -28.0,
+          4.0,
+          -91.0
+        ],
+        [
+          -22.0,
+          4.0,
+          -91.0
+        ],
+        [
+          -18.0,
+          4.0,
+          -91.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "cat_coping_runout",
+      "label": "Busking coping landing and return",
+      "points": [
+        [
+          16.0,
+          4.0,
+          -91.0
+        ],
+        [
+          22.0,
+          4.0,
+          -91.0
+        ],
+        [
+          22.0,
+          4.0,
+          -74.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "cat_ordered_coping_line",
+      "label": "Busking A to B to C coping line",
+      "points": [
+        [
+          -28.0,
+          4.0,
+          -91.0
+        ],
+        [
+          -16.0,
+          4.59999990463257,
+          -91.0
+        ],
+        [
+          -10.0,
+          4.59999990463257,
+          -91.0
+        ],
+        [
+          -7.0,
+          4.0,
+          -91.0
+        ],
+        [
+          -4.0,
+          4.59999990463257,
+          -91.0
+        ],
+        [
+          2.0,
+          4.59999990463257,
+          -91.0
+        ],
+        [
+          5.0,
+          4.0,
+          -91.0
+        ],
+        [
+          8.0,
+          4.59999990463257,
+          -91.0
+        ],
+        [
+          14.0,
+          4.59999990463257,
+          -91.0
+        ],
+        [
+          22.0,
+          4.0,
+          -91.0
+        ]
+      ],
+      "requires_jump": true
+    },
+    {
+      "id": "cat_workshop_bypass",
+      "label": "Busking permanent civic bypass",
+      "points": [
+        [
+          -22.0,
+          4.0,
+          -91.0
+        ],
+        [
+          -22.0,
+          4.0,
+          -74.0
+        ],
+        [
+          22.0,
+          4.0,
+          -74.0
+        ],
+        [
+          22.0,
+          4.0,
+          -91.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "civic_workshop_bank_loop",
+      "label": "Civic busking terrace banks",
+      "points": [
+        [
+          -22.0,
+          4.0,
+          -95.5
+        ],
+        [
+          -19.625,
+          4.0,
+          -95.5
+        ],
+        [
+          -15.625,
+          4.65000009536743,
+          -95.5
+        ],
+        [
+          -10.0,
+          4.65000009536743,
+          -94.5
+        ],
+        [
+          10.0,
+          4.65000009536743,
+          -94.5
+        ],
+        [
+          15.625,
+          4.65000009536743,
+          -95.5
+        ],
+        [
+          19.625,
+          4.0,
+          -95.5
+        ],
+        [
+          22.0,
+          4.0,
+          -95.5
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "market_hall_bank_loop",
+      "label": "Market hall bank and angled aisle",
+      "points": [
+        [
+          82.0,
+          0.0,
+          8.0
+        ],
+        [
+          80.0,
+          0.0,
+          8.0
+        ],
+        [
+          76.0,
+          0.649999976158142,
+          8.0
+        ],
+        [
+          68.0,
+          0.649999976158142,
+          8.0
+        ],
+        [
+          67.0,
+          0.649999976158142,
+          13.0
+        ],
+        [
+          69.0,
+          0.649999976158142,
+          17.0
+        ],
+        [
+          73.0,
+          0.0,
+          17.0
+        ],
+        [
+          78.0,
+          0.0,
+          17.0
+        ],
+        [
+          82.0,
+          0.0,
+          8.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "barras_covered_delivery_lane",
+      "label": "Barras sheltered stall aisle",
+      "points": [
+        [
+          114.0,
+          0.0,
+          -5.0
+        ],
+        [
+          114.0,
+          0.0,
+          7.0
+        ],
+        [
+          114.0,
+          0.0,
+          18.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "barras_west_delivery_lane",
+      "label": "Barras open west delivery lane",
+      "points": [
+        [
+          103.0,
+          0.0,
+          -5.0
+        ],
+        [
+          103.0,
+          0.0,
+          7.0
+        ],
+        [
+          103.0,
+          0.0,
+          18.0
+        ],
+        [
+          105.0,
+          0.0,
+          20.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "barras_market_inner_loop",
+      "label": "Barras market inner return loop",
+      "points": [
+        [
+          103.0,
+          0.0,
+          22.0
+        ],
+        [
+          103.0,
+          0.0,
+          -5.0
+        ],
+        [
+          114.0,
+          0.0,
+          -5.0
+        ],
+        [
+          114.0,
+          0.0,
+          18.0
+        ],
+        [
+          109.0,
+          0.0,
+          20.0
+        ],
+        [
+          103.0,
+          0.0,
+          22.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "barras_market_outer_loop",
+      "label": "Barras market outer return loop",
+      "points": [
+        [
+          126.0,
+          0.0,
+          22.0
+        ],
+        [
+          126.0,
+          0.0,
+          -5.0
+        ],
+        [
+          114.0,
+          0.0,
+          -5.0
+        ],
+        [
+          114.0,
+          0.0,
+          18.0
+        ],
+        [
+          119.0,
+          0.0,
+          20.0
+        ],
+        [
+          126.0,
+          0.0,
+          22.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "barras_covered_loading_link",
+      "label": "Barras aisle to loading terrace",
+      "points": [
+        [
+          114.0,
+          0.0,
+          18.0
+        ],
+        [
+          114.0,
+          0.0,
+          -6.0
+        ],
+        [
+          114.0,
+          1.5,
+          -18.0
+        ],
+        [
+          114.0,
+          1.5,
+          -22.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "gallery_civic_ascent",
+      "label": "Gallery to civic terraces",
+      "points": [
+        [
+          -22.0,
+          0.0,
+          28.0
+        ],
+        [
+          -22.0,
+          0.0,
+          -4.0
+        ],
+        [
+          -22.0,
+          2.0,
+          -18.0
+        ],
+        [
+          -22.0,
+          2.0,
+          -42.0
+        ],
+        [
+          -22.0,
+          4.0,
+          -56.0
+        ],
+        [
+          -22.0,
+          4.0,
+          -96.0
+        ],
+        [
+          -22.0,
+          6.0,
+          -108.0
+        ],
+        [
+          -22.0,
+          6.0,
+          -118.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "exchange_fountain_loop",
+      "label": "Fountain court loop",
+      "points": [
+        [
+          -22.0,
+          0.0,
+          28.0
+        ],
+        [
+          22.0,
+          0.0,
+          28.0
+        ],
+        [
+          22.0,
+          0.0,
+          -2.0
+        ],
+        [
+          -22.0,
+          0.0,
+          -2.0
+        ],
+        [
+          -22.0,
+          0.0,
+          28.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "central_south_link",
+      "label": "Station climbing street",
+      "points": [
+        [
+          -22.0,
+          0.0,
+          22.0
+        ],
+        [
+          -35.0,
+          0.0,
+          22.0
+        ],
+        [
+          -50.0,
+          2.0,
+          22.0
+        ],
+        [
+          -70.0,
+          2.0,
+          22.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "central_north_link",
+      "label": "Gallery station street",
+      "points": [
+        [
+          -22.0,
+          2.0,
+          -22.0
+        ],
+        [
+          -35.0,
+          2.0,
+          -22.0
+        ],
+        [
+          -50.0,
+          2.0,
+          -22.0
+        ],
+        [
+          -64.0,
+          2.0,
+          -22.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "barras_south_link",
+      "label": "Market approach",
+      "points": [
+        [
+          22.0,
+          0.0,
+          22.0
+        ],
+        [
+          35.0,
+          0.0,
+          22.0
+        ],
+        [
+          50.0,
+          0.0,
+          22.0
+        ],
+        [
+          94.0,
+          0.0,
+          22.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "barras_north_link",
+      "label": "Gallery loading street",
+      "points": [
+        [
+          22.0,
+          2.0,
+          -22.0
+        ],
+        [
+          35.0,
+          2.0,
+          -22.0
+        ],
+        [
+          50.0,
+          1.5,
+          -22.0
+        ],
+        [
+          75.0,
+          1.5,
+          -22.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "central_back_lane",
+      "label": "Station to civic back lane",
+      "points": [
+        [
+          -88.0,
+          2.0,
+          -38.0
+        ],
+        [
+          -88.0,
+          2.0,
+          -42.0
+        ],
+        [
+          -88.0,
+          4.0,
+          -74.0
+        ],
+        [
+          -88.0,
+          4.0,
+          -80.0
+        ],
+        [
+          -35.0,
+          4.0,
+          -80.0
+        ],
+        [
+          -22.0,
+          4.0,
+          -80.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "barras_back_lane",
+      "label": "Market to civic back lane",
+      "points": [
+        [
+          88.0,
+          1.5,
+          -30.0
+        ],
+        [
+          88.0,
+          1.5,
+          -42.0
+        ],
+        [
+          88.0,
+          4.0,
+          -74.0
+        ],
+        [
+          88.0,
+          4.0,
+          -80.0
+        ],
+        [
+          35.0,
+          4.0,
+          -80.0
+        ],
+        [
+          22.0,
+          4.0,
+          -80.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "central_high_line",
+      "label": "Station platform transfer",
+      "points": [
+        [
+          -94.0,
+          2.0,
+          34.0
+        ],
+        [
+          -94.0,
+          2.0,
+          32.0
+        ],
+        [
+          -94.0,
+          5.0,
+          14.0
+        ],
+        [
+          -94.0,
+          5.0,
+          0.0
+        ],
+        [
+          -94.0,
+          5.0,
+          -6.0
+        ],
+        [
+          -94.0,
+          5.0,
+          -20.0
+        ],
+        [
+          -94.0,
+          2.0,
+          -38.0
+        ]
+      ],
+      "requires_jump": true
+    },
+    {
+      "id": "central_high_line_bypass",
+      "label": "Station concourse bypass",
+      "points": [
+        [
+          -82.0,
+          2.0,
+          34.0
+        ],
+        [
+          -82.0,
+          2.0,
+          -34.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "market_loading_ascent",
+      "label": "Warehouse loading street",
+      "points": [
+        [
+          126.0,
+          0.0,
+          30.0
+        ],
+        [
+          126.0,
+          0.0,
+          -6.0
+        ],
+        [
+          126.0,
+          1.5,
+          -18.0
+        ],
+        [
+          120.0,
+          1.5,
+          -24.0
+        ],
+        [
+          120.0,
+          1.5,
+          -33.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "gallery_step_drop",
+      "label": "Gallery stair drop",
+      "points": [
+        [
+          0.0,
+          2.0,
+          -20.0
+        ],
+        [
+          0.0,
+          2.0,
+          -13.0
+        ],
+        [
+          0.0,
+          0.0,
+          -3.0
+        ]
+      ],
+      "requires_jump": true
+    },
+    {
+      "id": "market_step_drop",
+      "label": "Market stair drop",
+      "points": [
+        [
+          93.0,
+          1.5,
+          -24.0
+        ],
+        [
+          93.0,
+          1.5,
+          -15.0
+        ],
+        [
+          93.0,
+          0.0,
+          -5.0
+        ]
+      ],
+      "requires_jump": true
+    },
+    {
+      "id": "merchant_service_east_return",
+      "label": "Service court to station concourse",
+      "points": [
+        [
+          -56.0,
+          1.0,
+          -56.0
+        ],
+        [
+          -59.0,
+          1.0,
+          -54.0
+        ],
+        [
+          -59.0,
+          2.0,
+          -42.0
+        ],
+        [
+          -59.0,
+          2.0,
+          -34.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "merchant_service_west_return",
+      "label": "Service court to outer climbing lane",
+      "points": [
+        [
+          -72.0,
+          1.0,
+          -70.0
+        ],
+        [
+          -74.0,
+          1.0,
+          -70.0
+        ],
+        [
+          -82.0,
+          3.75,
+          -70.0
+        ],
+        [
+          -88.0,
+          3.75,
+          -70.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "merchant_close_cutthrough",
+      "label": "Merchant Close dogleg",
+      "points": [
+        [
+          -64.0,
+          2.0,
+          -30.0
+        ],
+        [
+          -68.0,
+          2.0,
+          -44.0
+        ],
+        [
+          -69.0,
+          2.5,
+          -50.0
+        ],
+        [
+          -61.0,
+          3.20000004768372,
+          -60.0
+        ],
+        [
+          -55.0,
+          3.5,
+          -65.0
+        ],
+        [
+          -59.0,
+          4.0,
+          -74.0
+        ],
+        [
+          -59.0,
+          4.0,
+          -80.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "station_low_level_close",
+      "label": "Station service-walk underpass",
+      "points": [
+        [
+          -126.0,
+          2.0,
+          0.0
+        ],
+        [
+          -126.0,
+          2.0,
+          -8.0
+        ],
+        [
+          -114.0,
+          2.0,
+          -8.0
+        ],
+        [
+          -103.0,
+          2.0,
+          -8.0
+        ],
+        [
+          -82.0,
+          2.0,
+          -8.0
+        ],
+        [
+          -82.0,
+          2.0,
+          22.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "station_park_port",
+      "label": "Station to Kelvingrove",
+      "points": [
+        [
+          -126.0,
+          2.0,
+          0.0
+        ],
+        [
+          -145.0,
+          2.0,
+          0.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "civic_park_port",
+      "label": "Civic terrace to park",
+      "points": [
+        [
+          -22.0,
+          6.0,
+          -122.0
+        ],
+        [
+          -42.0,
+          6.0,
+          -122.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "clyde_print_yard_hip",
+      "label": "Print-yard curved bank and hip",
+      "points": [
+        [
+          69.0,
+          2.0,
+          127.5
+        ],
+        [
+          64.794303894043,
+          2.0,
+          127.5
+        ],
+        [
+          64.445686340332,
+          2.015221118927,
+          127.5
+        ],
+        [
+          64.0997161865234,
+          2.06076908111572,
+          127.5
+        ],
+        [
+          63.7590293884277,
+          2.13629674911499,
+          127.5
+        ],
+        [
+          63.4262237548828,
+          2.24122953414917,
+          127.5
+        ],
+        [
+          63.103832244873,
+          2.37476873397827,
+          127.5
+        ],
+        [
+          62.794303894043,
+          2.53589844703674,
+          127.5
+        ],
+        [
+          62.5,
+          2.72339177131653,
+          127.5
+        ],
+        [
+          60.0,
+          2.72339177131653,
+          127.5
+        ],
+        [
+          60.0,
+          2.72339177131653,
+          129.5
+        ],
+        [
+          60.0,
+          2.53589844703674,
+          129.794311523438
+        ],
+        [
+          60.0,
+          2.37476873397827,
+          130.10383605957
+        ],
+        [
+          60.0,
+          2.24122953414917,
+          130.426223754883
+        ],
+        [
+          60.0,
+          2.13629674911499,
+          130.759033203125
+        ],
+        [
+          60.0,
+          2.06076908111572,
+          131.099716186523
+        ],
+        [
+          60.0,
+          2.015221118927,
+          131.445678710938
+        ],
+        [
+          60.0,
+          2.0,
+          131.794311523438
+        ],
+        [
+          60.0,
+          2.0,
+          135.5
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "clyde_north_quay",
+      "label": "Station to Barras via Clyde",
+      "points": [
+        [
+          -94.0,
+          2.0,
+          45.0
+        ],
+        [
+          -94.0,
+          2.0,
+          67.0
+        ],
+        [
+          94.0,
+          2.0,
+          67.0
+        ],
+        [
+          94.0,
+          2.0,
+          55.0
+        ],
+        [
+          94.0,
+          0.0,
+          45.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "clyde_safe_crossing",
+      "label": "Clyde continuous crossing",
+      "points": [
+        [
+          -98.0,
+          2.0,
+          67.0
+        ],
+        [
+          -98.0,
+          2.0,
+          72.0
+        ],
+        [
+          -98.0,
+          3.40000009536743,
+          89.0
+        ],
+        [
+          -98.0,
+          3.40000009536743,
+          105.0
+        ],
+        [
+          -98.0,
+          2.0,
+          122.0
+        ],
+        [
+          -98.0,
+          2.0,
+          125.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "clyde_bridge_transfer",
+      "label": "Clyde eight-metre transfer",
+      "points": [
+        [
+          35.0,
+          2.0,
+          65.0
+        ],
+        [
+          35.0,
+          2.0,
+          74.0
+        ],
+        [
+          35.0,
+          2.59999990463257,
+          86.0
+        ],
+        [
+          35.0,
+          3.20000004768372,
+          94.0
+        ],
+        [
+          35.0,
+          2.79999995231628,
+          102.0
+        ],
+        [
+          35.0,
+          2.0,
+          116.0
+        ],
+        [
+          35.0,
+          2.0,
+          124.0
+        ]
+      ],
+      "requires_jump": true
+    },
+    {
+      "id": "clyde_print_yard_loop",
+      "label": "Clyde print-yard landing loop",
+      "points": [
+        [
+          35.0,
+          2.0,
+          124.0
+        ],
+        [
+          56.0,
+          2.0,
+          137.0
+        ],
+        [
+          78.0,
+          2.0,
+          124.0
+        ],
+        [
+          45.0,
+          2.0,
+          122.0
+        ],
+        [
+          35.0,
+          2.0,
+          124.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "kelvingrove_central_climb",
+      "label": "Central to Kelvingrove",
+      "points": [
+        [
+          -145.0,
+          2.0,
+          0.0
+        ],
+        [
+          -145.597854614258,
+          2.08227753639221,
+          -1.86620402336121
+        ],
+        [
+          -146.25146484375,
+          2.16196775436401,
+          -3.71388530731201
+        ],
+        [
+          -146.910736083984,
+          2.24143600463867,
+          -5.56042957305908
+        ],
+        [
+          -147.55827331543,
+          2.32145142555237,
+          -7.41093063354492
+        ],
+        [
+          -148.184036254883,
+          2.40250730514526,
+          -9.2692403793335
+        ],
+        [
+          -148.779266357422,
+          2.48494076728821,
+          -11.1369647979736
+        ],
+        [
+          -149.335403442383,
+          2.5691339969635,
+          -13.0166540145874
+        ],
+        [
+          -149.842132568359,
+          2.65547847747803,
+          -14.9101276397705
+        ],
+        [
+          -150.28630065918,
+          2.74443936347961,
+          -16.8190250396729
+        ],
+        [
+          -150.649978637695,
+          2.83662271499634,
+          -18.7450637817383
+        ],
+        [
+          -150.906814575195,
+          2.93275475502014,
+          -20.6876754760742
+        ],
+        [
+          -151.014678955078,
+          3.0338568687439,
+          -22.6428070068359
+        ],
+        [
+          -150.92594909668,
+          3.14103937149048,
+          -24.5992221832275
+        ],
+        [
+          -150.676742553711,
+          3.25242161750793,
+          -26.5416717529297
+        ],
+        [
+          -150.31413269043,
+          3.36630082130432,
+          -28.4663600921631
+        ],
+        [
+          -149.877517700195,
+          3.48155665397644,
+          -30.3758506774902
+        ],
+        [
+          -149.399642944336,
+          3.59742116928101,
+          -32.2753105163574
+        ],
+        [
+          -148.908096313477,
+          3.71335673332214,
+          -34.171215057373
+        ],
+        [
+          -148.427230834961,
+          3.82892036437988,
+          -36.0699081420898
+        ],
+        [
+          -147.979522705078,
+          3.94367241859436,
+          -37.9767189025879
+        ],
+        [
+          -147.586730957031,
+          4.05712556838989,
+          -39.8955993652344
+        ],
+        [
+          -147.269943237305,
+          4.16870021820068,
+          -41.8285179138184
+        ],
+        [
+          -147.050308227539,
+          4.27769231796265,
+          -43.7749443054199
+        ],
+        [
+          -146.947998046875,
+          4.38325500488281,
+          -45.7311210632324
+        ],
+        [
+          -146.981216430664,
+          4.48442697525024,
+          -47.6898040771484
+        ],
+        [
+          -147.150588989258,
+          4.58065700531006,
+          -49.6418647766113
+        ],
+        [
+          -147.411193847656,
+          4.67318868637085,
+          -51.5839424133301
+        ],
+        [
+          -147.733688354492,
+          4.76309776306152,
+          -53.5172157287598
+        ],
+        [
+          -148.101486206055,
+          4.8510160446167,
+          -55.4426193237305
+        ],
+        [
+          -148.503997802734,
+          4.93734884262085,
+          -57.360897064209
+        ],
+        [
+          -148.934204101562,
+          5.02241325378418,
+          -59.2733840942383
+        ],
+        [
+          -149.386901855469,
+          5.1064248085022,
+          -61.1806793212891
+        ],
+        [
+          -149.858154296875,
+          5.18955087661743,
+          -63.0834922790527
+        ],
+        [
+          -150.344909667969,
+          5.27193164825439,
+          -64.982421875
+        ],
+        [
+          -150.844711303711,
+          5.35368394851685,
+          -66.8779907226562
+        ],
+        [
+          -151.355316162109,
+          5.43491411209106,
+          -68.7707824707031
+        ],
+        [
+          -151.874710083008,
+          5.51571416854858,
+          -70.6612167358398
+        ],
+        [
+          -152.400802612305,
+          5.5961709022522,
+          -72.5495758056641
+        ],
+        [
+          -152.931503295898,
+          5.67640542984009,
+          -74.4367599487305
+        ],
+        [
+          -153.464019775391,
+          5.75656938552856,
+          -76.3237686157227
+        ],
+        [
+          -153.994033813477,
+          5.83684492111206,
+          -78.2112731933594
+        ],
+        [
+          -154.513488769531,
+          5.91761159896851,
+          -80.1011276245117
+        ],
+        [
+          -155.0,
+          6.0,
+          -82.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "kelvingrove_george_promenade",
+      "label": "George Square park promenade",
+      "points": [
+        [
+          -42.0,
+          6.0,
+          -122.0
+        ],
+        [
+          -145.0,
+          6.0,
+          -125.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "kelvingrove_rolling_loop",
+      "label": "Kelvingrove hillside loop",
+      "points": [
+        [
+          -155.0,
+          6.0,
+          -82.0
+        ],
+        [
+          -156.538650512695,
+          6.07913970947266,
+          -83.254753112793
+        ],
+        [
+          -158.057189941406,
+          6.15286111831665,
+          -84.5330963134766
+        ],
+        [
+          -159.574554443359,
+          6.22613430023193,
+          -85.8140716552734
+        ],
+        [
+          -161.096603393555,
+          6.30061292648315,
+          -87.0899963378906
+        ],
+        [
+          -162.626480102539,
+          6.37727737426758,
+          -88.3560791015625
+        ],
+        [
+          -164.16716003418,
+          6.45694875717163,
+          -89.6085357666016
+        ],
+        [
+          -165.721694946289,
+          6.54047584533691,
+          -90.8434906005859
+        ],
+        [
+          -167.293304443359,
+          6.62884569168091,
+          -92.0562362670898
+        ],
+        [
+          -168.886169433594,
+          6.72332572937012,
+          -93.2403793334961
+        ],
+        [
+          -170.505828857422,
+          6.82569169998169,
+          -94.3868865966797
+        ],
+        [
+          -172.160629272461,
+          6.9386420249939,
+          -95.481803894043
+        ],
+        [
+          -173.865173339844,
+          7.06564092636108,
+          -96.4930648803711
+        ],
+        [
+          -175.639862060547,
+          7.20439624786377,
+          -97.3752136230469
+        ],
+        [
+          -177.460708618164,
+          7.3515682220459,
+          -98.1566467285156
+        ],
+        [
+          -179.309036254883,
+          7.50526094436646,
+          -98.8698120117188
+        ],
+        [
+          -181.172302246094,
+          7.66423177719116,
+          -99.5419616699219
+        ],
+        [
+          -183.041275024414,
+          7.82765531539917,
+          -100.196990966797
+        ],
+        [
+          -184.908065795898,
+          7.99495077133179,
+          -100.857200622559
+        ],
+        [
+          -186.764617919922,
+          8.16564178466797,
+          -101.544700622559
+        ],
+        [
+          -188.601226806641,
+          8.3392448425293,
+          -102.282997131348
+        ],
+        [
+          -190.404541015625,
+          8.51512622833252,
+          -103.098236083984
+        ],
+        [
+          -192.155288696289,
+          8.69229984283447,
+          -104.020645141602
+        ],
+        [
+          -193.823684692383,
+          8.86898803710938,
+          -105.084083557129
+        ],
+        [
+          -195.36799621582,
+          9.04201316833496,
+          -106.319679260254
+        ],
+        [
+          -196.822082519531,
+          9.20781707763672,
+          -107.663963317871
+        ],
+        [
+          -198.215774536133,
+          9.36797714233398,
+          -109.071380615234
+        ],
+        [
+          -199.552368164062,
+          9.52460479736328,
+          -110.533271789551
+        ],
+        [
+          -200.832397460938,
+          9.67928314208984,
+          -112.045104980469
+        ],
+        [
+          -202.053771972656,
+          9.83671188354492,
+          -113.604759216309
+        ],
+        [
+          -203.211975097656,
+          10.1749134063721,
+          -115.211845397949
+        ],
+        [
+          -204.299423217773,
+          10.5954236984253,
+          -116.867408752441
+        ],
+        [
+          -205.304901123047,
+          10.9007263183594,
+          -118.574035644531
+        ],
+        [
+          -206.211059570312,
+          11.0,
+          -120.334655761719
+        ],
+        [
+          -206.992126464844,
+          11.0,
+          -122.153228759766
+        ],
+        [
+          -207.608551025391,
+          11.0,
+          -124.033432006836
+        ],
+        [
+          -207.996505737305,
+          11.0,
+          -125.971466064453
+        ],
+        [
+          -208.088989257812,
+          11.0,
+          -127.945281982422
+        ],
+        [
+          -207.920181274414,
+          11.0,
+          -129.915328979492
+        ],
+        [
+          -207.546279907227,
+          11.0,
+          -131.857940673828
+        ],
+        [
+          -207.011520385742,
+          11.0967483520508,
+          -133.762908935547
+        ],
+        [
+          -206.348510742188,
+          11.4122381210327,
+          -135.628112792969
+        ],
+        [
+          -205.581649780273,
+          11.8578395843506,
+          -137.453155517578
+        ],
+        [
+          -204.728469848633,
+          12.2310438156128,
+          -139.239883422852
+        ],
+        [
+          -203.802307128906,
+          12.4036302566528,
+          -140.990097045898
+        ],
+        [
+          -202.813034057617,
+          12.5682525634766,
+          -142.705429077148
+        ],
+        [
+          -201.767852783203,
+          12.7332820892334,
+          -144.387420654297
+        ],
+        [
+          -200.672256469727,
+          12.8998651504517,
+          -146.036819458008
+        ],
+        [
+          -199.523529052734,
+          13.0686111450195,
+          -147.648483276367
+        ],
+        [
+          -198.275085449219,
+          13.2339115142822,
+          -149.185134887695
+        ],
+        [
+          -196.941955566406,
+          13.394905090332,
+          -150.649826049805
+        ],
+        [
+          -195.545806884766,
+          13.5523681640625,
+          -152.054931640625
+        ],
+        [
+          -194.101745605469,
+          13.7070531845093,
+          -153.411010742188
+        ],
+        [
+          -192.620819091797,
+          13.859637260437,
+          -154.727081298828
+        ],
+        [
+          -191.111541748047,
+          14.0107460021973,
+          -156.010665893555
+        ],
+        [
+          -189.580535888672,
+          14.1609630584717,
+          -157.268463134766
+        ],
+        [
+          -188.033554077148,
+          14.310863494873,
+          -158.506591796875
+        ],
+        [
+          -186.475601196289,
+          14.4610433578491,
+          -159.730743408203
+        ],
+        [
+          -184.911315917969,
+          14.6121511459351,
+          -160.946807861328
+        ],
+        [
+          -183.345550537109,
+          14.7649421691895,
+          -162.161056518555
+        ],
+        [
+          -181.784057617188,
+          14.9202947616577,
+          -163.380310058594
+        ],
+        [
+          -180.238037109375,
+          15.0805816650391,
+          -164.616683959961
+        ],
+        [
+          -178.724426269531,
+          15.2524824142456,
+          -165.893432617188
+        ],
+        [
+          -177.233047485352,
+          15.4325685501099,
+          -167.194046020508
+        ],
+        [
+          -175.750946044922,
+          15.6176328659058,
+          -168.50471496582
+        ],
+        [
+          -174.268127441406,
+          15.805214881897,
+          -169.814147949219
+        ],
+        [
+          -172.775344848633,
+          15.9932022094727,
+          -171.11213684082
+        ],
+        [
+          -171.263229370117,
+          16.179500579834,
+          -172.387680053711
+        ],
+        [
+          -169.721038818359,
+          16.3617248535156,
+          -173.627471923828
+        ],
+        [
+          -168.138076782227,
+          16.5365333557129,
+          -174.81184387207
+        ],
+        [
+          -166.492141723633,
+          16.6999263763428,
+          -175.917083740234
+        ],
+        [
+          -164.767105102539,
+          16.8436126708984,
+          -176.891738891602
+        ],
+        [
+          -162.935272216797,
+          16.95339012146,
+          -177.647430419922
+        ],
+        [
+          -160.98698425293,
+          17.0000038146973,
+          -178.000366210938
+        ],
+        [
+          -159.024200439453,
+          16.9603271484375,
+          -177.745971679688
+        ],
+        [
+          -157.17626953125,
+          16.8604755401611,
+          -177.030166625977
+        ],
+        [
+          -155.467636108398,
+          16.7213287353516,
+          -176.028442382812
+        ],
+        [
+          -153.883499145508,
+          16.5546321868896,
+          -174.841445922852
+        ],
+        [
+          -152.407180786133,
+          16.3665504455566,
+          -173.525344848633
+        ],
+        [
+          -151.025955200195,
+          16.1600189208984,
+          -172.112167358398
+        ],
+        [
+          -149.732391357422,
+          15.9359264373779,
+          -170.620834350586
+        ],
+        [
+          -148.5244140625,
+          15.693431854248,
+          -169.061752319336
+        ],
+        [
+          -147.407012939453,
+          15.4296846389771,
+          -167.439987182617
+        ],
+        [
+          -146.39680480957,
+          15.1384038925171,
+          -165.754730224609
+        ],
+        [
+          -145.558410644531,
+          14.8074989318848,
+          -163.986114501953
+        ],
+        [
+          -145.015853881836,
+          14.4411535263062,
+          -162.111938476562
+        ],
+        [
+          -144.717620849609,
+          14.0539398193359,
+          -160.186737060547
+        ],
+        [
+          -144.59521484375,
+          13.6546192169189,
+          -158.24462890625
+        ],
+        [
+          -144.592269897461,
+          13.2475280761719,
+          -156.299713134766
+        ],
+        [
+          -144.664245605469,
+          12.8348178863525,
+          -154.357376098633
+        ],
+        [
+          -144.774566650391,
+          12.4171934127808,
+          -152.417770385742
+        ],
+        [
+          -144.890701293945,
+          11.9947853088379,
+          -150.4794921875
+        ],
+        [
+          -144.980712890625,
+          11.5674600601196,
+          -148.540969848633
+        ],
+        [
+          -145.009658813477,
+          11.1351900100708,
+          -146.601928710938
+        ],
+        [
+          -144.971542358398,
+          10.6771898269653,
+          -144.669158935547
+        ],
+        [
+          -144.945098876953,
+          10.1485557556152,
+          -142.753860473633
+        ],
+        [
+          -144.932022094727,
+          9.57650661468506,
+          -140.850891113281
+        ],
+        [
+          -144.928955078125,
+          8.98514366149902,
+          -138.953704833984
+        ],
+        [
+          -144.933242797852,
+          8.39448165893555,
+          -137.056442260742
+        ],
+        [
+          -144.942687988281,
+          7.82279872894287,
+          -135.153335571289
+        ],
+        [
+          -144.955429077148,
+          7.28865528106689,
+          -133.239486694336
+        ],
+        [
+          -144.969589233398,
+          6.81247186660767,
+          -131.310363769531
+        ],
+        [
+          -144.983276367188,
+          6.4184365272522,
+          -129.362899780273
+        ],
+        [
+          -144.994216918945,
+          6.13646745681763,
+          -127.396278381348
+        ],
+        [
+          -144.999801635742,
+          6.00442743301392,
+          -125.414237976074
+        ],
+        [
+          -144.97346496582,
+          6.0,
+          -123.427642822266
+        ],
+        [
+          -144.880310058594,
+          6.0,
+          -121.442817687988
+        ],
+        [
+          -144.746643066406,
+          6.0,
+          -119.460250854492
+        ],
+        [
+          -144.597717285156,
+          6.0,
+          -117.478736877441
+        ],
+        [
+          -144.457046508789,
+          6.0,
+          -115.496658325195
+        ],
+        [
+          -144.347381591797,
+          6.0,
+          -113.512634277344
+        ],
+        [
+          -144.291656494141,
+          6.0,
+          -111.526420593262
+        ],
+        [
+          -144.313430786133,
+          6.0,
+          -109.539611816406
+        ],
+        [
+          -144.437057495117,
+          6.0,
+          -107.556640625
+        ],
+        [
+          -144.687133789062,
+          6.0,
+          -105.58576965332
+        ],
+        [
+          -145.087265014648,
+          6.0,
+          -103.640350341797
+        ],
+        [
+          -145.649368286133,
+          6.0,
+          -101.735313415527
+        ],
+        [
+          -146.32243347168,
+          6.0,
+          -99.8651580810547
+        ],
+        [
+          -147.06803894043,
+          6.0,
+          -98.0233306884766
+        ],
+        [
+          -147.865432739258,
+          6.0,
+          -96.2032318115234
+        ],
+        [
+          -148.701461791992,
+          6.0,
+          -94.4005508422852
+        ],
+        [
+          -149.567169189453,
+          6.0,
+          -92.6119384765625
+        ],
+        [
+          -150.455825805664,
+          6.0,
+          -90.8345794677734
+        ],
+        [
+          -151.361755371094,
+          6.0,
+          -89.0661010742188
+        ],
+        [
+          -152.279800415039,
+          6.0,
+          -87.3035888671875
+        ],
+        [
+          -153.203536987305,
+          6.0,
+          -85.5434722900391
+        ],
+        [
+          -154.121643066406,
+          6.0,
+          -83.7807540893555
+        ],
+        [
+          -155.0,
+          6.0,
+          -82.0
+        ]
+      ],
+      "requires_jump": false
+    },
+    {
+      "id": "kelvingrove_cutback_return",
+      "label": "Kelvingrove cutback to Central",
+      "points": [
+        [
+          -208.0,
+          11.0,
+          -126.0
+        ],
+        [
+          -209.63639831543,
+          11.0,
+          -124.899192810059
+        ],
+        [
+          -211.344436645508,
+          11.0,
+          -123.90601348877
+        ],
+        [
+          -213.062423706055,
+          11.0,
+          -122.931198120117
+        ],
+        [
+          -214.774520874023,
+          10.9636669158936,
+          -121.946365356445
+        ],
+        [
+          -216.470855712891,
+          10.8476428985596,
+          -120.934684753418
+        ],
+        [
+          -218.141876220703,
+          10.6816854476929,
+          -119.88200378418
+        ],
+        [
+          -219.775665283203,
+          10.5413885116577,
+          -118.772857666016
+        ],
+        [
+          -221.354965209961,
+          10.4628238677979,
+          -117.587959289551
+        ],
+        [
+          -222.851089477539,
+          10.3766536712646,
+          -116.30069732666
+        ],
+        [
+          -224.21142578125,
+          10.2788505554199,
+          -114.872123718262
+        ],
+        [
+          -225.326873779297,
+          10.1645565032959,
+          -113.248275756836
+        ],
+        [
+          -225.962341308594,
+          10.0293483734131,
+          -111.393051147461
+        ],
+        [
+          -225.901382446289,
+          9.88132286071777,
+          -109.430793762207
+        ],
+        [
+          -225.425308227539,
+          9.73436546325684,
+          -107.514808654785
+        ],
+        [
+          -224.720443725586,
+          9.5921630859375,
+          -105.680770874023
+        ],
+        [
+          -223.866394042969,
+          9.45329856872559,
+          -103.904472351074
+        ],
+        [
+          -222.910232543945,
+          9.317626953125,
+          -102.180763244629
+        ],
+        [
+          -221.878128051758,
+          9.18461418151855,
+          -100.500915527344
+        ],
+        [
+          -220.786712646484,
+          9.05387878417969,
+          -98.8589630126953
+        ],
+        [
+          -219.646850585938,
+          8.92507743835449,
+          -97.2498779296875
+        ],
+        [
+          -218.46614074707,
+          8.79798030853271,
+          -95.6704711914062
+        ],
+        [
+          -217.249816894531,
+          8.6723747253418,
+          -94.1181488037109
+        ],
+        [
+          -216.001586914062,
+          8.54810619354248,
+          -92.5912628173828
+        ],
+        [
+          -214.723892211914,
+          8.42504215240479,
+          -91.0887680053711
+        ],
+        [
+          -213.418167114258,
+          8.30308818817139,
+          -89.6106719970703
+        ],
+        [
+          -212.084594726562,
+          8.18214988708496,
+          -88.1574935913086
+        ],
+        [
+          -210.722045898438,
+          8.06214618682861,
+          -86.7310562133789
+        ],
+        [
+          -209.321273803711,
+          7.94360113143921,
+          -85.3429183959961
+        ],
+        [
+          -207.842758178711,
+          7.82968235015869,
+          -84.0371932983398
+        ],
+        [
+          -206.296737670898,
+          7.72048950195312,
+          -82.8115234375
+        ],
+        [
+          -204.698516845703,
+          7.61540460586548,
+          -81.6544036865234
+        ],
+        [
+          -203.059951782227,
+          7.51378917694092,
+          -80.5546035766602
+        ],
+        [
+          -201.390640258789,
+          7.4150390625,
+          -79.5018310546875
+        ],
+        [
+          -199.698181152344,
+          7.31855773925781,
+          -78.4863815307617
+        ],
+        [
+          -197.988952636719,
+          7.22378158569336,
+          -77.4992141723633
+        ],
+        [
+          -196.268493652344,
+          7.13015985488892,
+          -76.531623840332
+        ],
+        [
+          -194.541732788086,
+          7.0371527671814,
+          -75.5752410888672
+        ],
+        [
+          -192.813491821289,
+          6.94420957565308,
+          -74.6215286254883
+        ],
+        [
+          -191.088638305664,
+          6.85075998306274,
+          -73.6617584228516
+        ],
+        [
+          -189.372543334961,
+          6.75619649887085,
+          -72.6865768432617
+        ],
+        [
+          -187.671417236328,
+          6.65984725952148,
+          -71.6856231689453
+        ],
+        [
+          -185.993087768555,
+          6.5609655380249,
+          -70.6472702026367
+        ],
+        [
+          -184.345764160156,
+          6.45882415771484,
+          -69.5610427856445
+        ],
+        [
+          -182.717193603516,
+          6.35412406921387,
+          -68.4467239379883
+        ],
+        [
+          -181.100250244141,
+          6.24766206741333,
+          -67.3156356811523
+        ],
+        [
+          -179.492065429688,
+          6.13993310928345,
+          -66.1723937988281
+        ],
+        [
+          -177.889999389648,
+          6.03132343292236,
+          -65.0205383300781
+        ],
+        [
+          -176.291946411133,
+          5.92218542098999,
+          -63.8633041381836
+        ],
+        [
+          -174.695648193359,
+          5.81283569335938,
+          -62.7036018371582
+        ],
+        [
+          -173.09912109375,
+          5.70359086990356,
+          -61.544303894043
+        ],
+        [
+          -171.5,
+          5.59477949142456,
+          -60.3883628845215
+        ],
+        [
+          -169.89599609375,
+          5.48678493499756,
+          -59.2392807006836
+        ],
+        [
+          -168.2841796875,
+          5.38005638122559,
+          -58.1010551452637
+        ],
+        [
+          -166.660873413086,
+          5.27518081665039,
+          -56.9789619445801
+        ],
+        [
+          -165.021331787109,
+          5.17297601699829,
+          -55.8803787231445
+        ],
+        [
+          -163.358551025391,
+          5.07468461990356,
+          -54.8164520263672
+        ],
+        [
+          -161.663040161133,
+          4.98251056671143,
+          -53.8071899414062
+        ],
+        [
+          -159.921371459961,
+          4.89933681488037,
+          -52.877613067627
+        ],
+        [
+          -158.139251708984,
+          4.82509326934814,
+          -52.0271682739258
+        ],
+        [
+          -156.324813842773,
+          4.75884628295898,
+          -51.247917175293
+        ],
+        [
+          -154.484039306641,
+          4.69961023330688,
+          -50.5313034057617
+        ],
+        [
+          -152.623565673828,
+          4.64634895324707,
+          -49.8682899475098
+        ],
+        [
+          -150.748550415039,
+          4.59767055511475,
+          -49.2464485168457
+        ],
+        [
+          -148.871292114258,
+          4.55133676528931,
+          -48.6461524963379
+        ],
+        [
+          -147.0,
+          4.5,
+          -48.0
+        ]
+      ],
+      "requires_jump": false
+    }
+  ],
+  "schema_version": 3,
+  "settings": {
+    "ambience_volume": 0.6,
+    "audio": 0.8,
+    "bindings": {},
+    "camera_sensitivity": 1.0,
+    "captions": true,
+    "cosmetic_id": "color_blue",
+    "reduced_motion": false,
+    "sfx_volume": 1.0,
+    "ui_scale": 1.0
+  },
+  "target_hardware_acceptance": false,
+  "valid_capture_set": true,
+  "git_commit": "1a0e3a3f0d9aca4cd74b5ba2a1ba5add34f6f021",
+  "git_dirty": true,
+  "source_sha256": {
+    "game/art/assets/makehuman_hm08/generate.py": "b469b177bef392c1941de816be5fe75213bd7d14626fc34d8d64eab1625ad319",
+    "game/art/assets/makehuman_hm08/hair.obj": "906b29d0238e7c527ce8115d80ddc134d4be5f143f2b16e6ab0cbb359060ba1e",
+    "game/art/assets/makehuman_hm08/hair.obj.import": "b5c624d8decad3e41f5184896fdcce319e90b6966cd0f07aca455c2eb899dfef",
+    "game/art/assets/makehuman_hm08/head.obj": "e6baabf4dcdc7e38d316fb967769ed0b51a9bd7ba544058431734c3e2d917ff0",
+    "game/art/assets/makehuman_hm08/head.obj.import": "73747d61284e366ff38685deab8fecccccf3f9e5481415e19c2d96dd72a646b1",
+    "game/art/assets/makehuman_hm08/left_hand.obj": "a63152ba3ce3e54868ea9985f259c0bec047b9329797314e8dde9d7f3348dac3",
+    "game/art/assets/makehuman_hm08/left_hand.obj.import": "96e54609df80819110041e2c5be6ccbe255b9f9f9f51f12a5a783fe80867c96b",
+    "game/art/assets/makehuman_hm08/manifest.json": "cd8792d529f509d8defb55b65ea6fced02c754678f7846af65dba20ed8218f0b",
+    "game/art/assets/makehuman_hm08/right_hand.obj": "be68d644bb4b9a558937d7a1f6dd5ec9f0c2a33195a5bdc17c0cc97f9413d126",
+    "game/art/assets/makehuman_hm08/right_hand.obj.import": "0476cb12805608174d678211d51aa141017a494d98fc5a1c7ed34a40822e7e55",
+    "game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg": "6d7324f1f0335e3f303e8c6d1820e4b25a57b8ccf957d016c5eb9984b7aaf00d",
+    "game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg.import": "6319a92f580fa132f3e557c32b3d355748c5967ba6f2a6eb29418f440ec5b087",
+    "game/art/assets/zc_textures/T_bricks01/T_bricks01_normal_opengl.jpg": "592d367f8ca3bac35b7ae48312eea15ed61587374c751cdc3fb7e7bf61bcd033",
+    "game/art/assets/zc_textures/T_bricks01/T_bricks01_normal_opengl.jpg.import": "c4ba4e8e81d0b0b03ddf7281b47118efbcb1f14ca313f6468b2bd406e5a1b7a3",
+    "game/art/assets/zc_textures/T_concrete01/T_concrete01_albedo.jpg": "384f749991ffc3cb07ff2177e83a5c1e478df7bc1fb54a0e09390626d76084ac",
+    "game/art/assets/zc_textures/T_concrete01/T_concrete01_albedo.jpg.import": "4d4ed6886dfa6460ffaaa002373af7d67b801133834845d917fa68c179c462c2",
+    "game/art/assets/zc_textures/T_concrete01/T_concrete01_normal_opengl.jpg": "4c5fbaf44b326887441a0c3551a2c62bd41ec5306ed36ff15d5048355f8ec10f",
+    "game/art/assets/zc_textures/T_concrete01/T_concrete01_normal_opengl.jpg.import": "db3116c77e32e3a74214cb6ff57e89ad2608fd400cbc46613d2677566166feb8",
+    "game/art/assets/zc_textures/manifest.json": "1f8566a46754942269e4e5f7215ed660ba7f0c62adc52696f2a90a5c12fc25bd",
+    "game/audio/generated/again.wav": "a3053fec5c8d7c8a22ca65bcc9ebbbf6802ab47fc4f92b0f5c74b4d81367b176",
+    "game/audio/generated/again.wav.import": "7ecd2e5124b7151012b13b8c7192c012527bb15730f7a6f1c955a47cc828839d",
+    "game/audio/generated/cone.wav": "9540f285f244abed8a7ab0ae5066c0236df19ec3d6b86e26852844d88ce9ebb2",
+    "game/audio/generated/cone.wav.import": "8b1f57ab03ee7de0f7a0102b4ad4c2910d3803a5da0de9652e2fe33e7a62b456",
+    "game/audio/generated/landing.wav": "d555c721f290d80ce255f56fa84af41eb3a51da42da908bb6068a7aa8f5820ef",
+    "game/audio/generated/landing.wav.import": "f41a62330ac728292227e40d893f0a21dd616ae4fa0ab07dfb41f738f273bb2e",
+    "game/audio/generated/manifest.json": "931e788b93c8d730d8f815dc0e2053cd44fd6899b369aab8a2bf5f8be46912c9",
+    "game/audio/skate_audio.gd": "41400e1781e3346cd591bb7a39de553c349316e571cf11c126fe5678813dab7a",
+    "game/audio/skate_audio.gd.uid": "e2c76a283966cc5242a00162792f09f727900b7eefbfdcaf6f1efb0d0f91380d",
+    "game/characters/bin_percussion.gd": "4b4dd4eb559f0197c0e12af6c091fdc287404ddd764af706af4048e4ae3c398a",
+    "game/characters/bin_percussion.gd.uid": "c8b9b99d647978cdf50ee8544fcd7c4a6a148b372892a6335cea9ce7ad00c97f",
+    "game/characters/busker_actor.gd": "e7f1c5514c8577da2eef7c0877391d4406fddc0e561f0d7f4e115408bd795ddb",
+    "game/characters/busker_actor.gd.uid": "dc01ab6e8e50e0e24caaae2182b68d08234c9c8684e8658fc88b0ee661822c2b",
+    "game/characters/busker_sound.gd": "b117d7f6445af7113e5086951d2114cf3a21aff0f92abfcc073afad90b2e8832",
+    "game/characters/busker_sound.gd.uid": "e54ea4e4b1e4bf2f7f25b9f9d4ad967952df8c213241004c522b002a90d008b5",
+    "game/characters/cat_actor.gd": "75d905a2f13f90b90355a2690c3dadaab6e4c9c75abdec7a33f9f14d1101cc70",
+    "game/characters/cat_actor.gd.uid": "625ed8390b7dd3e5f625fa450375f6abac9eb30d615c548a790f3652671c8baa",
+    "game/characters/cat_encounter.gd": "ff9af14a8f1667914047171f32b501adaf9f14985277b75f96f63b3ca6dbc588",
+    "game/characters/cat_encounter.gd.uid": "a00d989ee2721d48c2609f1470fe3361c98e8bc9637f88f35ae34889d910b741",
+    "game/characters/glasgow_encounters.gd": "78f4bb7caf752d07298ba08cf82efcd7b9566467dc852d7d7588e74aac2e373a",
+    "game/characters/glasgow_encounters.gd.uid": "9fe657b05b11e21815da6ed9edcc1e7d9f62b09ca947f42156283778bc3e780d",
+    "game/characters/market_actor.gd": "5c410d6cc8aeb5f78975877b74f87712b45fe78262afd7c23327fb64ed4a6001",
+    "game/characters/market_actor.gd.uid": "8e2c5e29db3bd05f3dafdced9531fda6ec54d7274cf7e65cd7ed5f1e87c8adb9",
+    "game/characters/market_encounter.gd": "f60ab3781dd4cd9e8756d93da73d9847072c8772de4f6c172517f14aebfe0442",
+    "game/characters/market_encounter.gd.uid": "811c78626e6397cf6acd68e1513cd3c57db6867abb35e9f9aa08a9ec3626c417",
+    "game/core/input_profile.gd": "67e24932bdb10866b3d0c9a6836ce161f5d13b0fbb35f93e00f2906dd2102f3a",
+    "game/core/input_profile.gd.uid": "90900a8771315b44d80a40c04b8c5d9ac7ee57067f4b58af676a088a9d12ebfc",
+    "game/core/input_setup.gd": "f72af97ff5d7c8c8125ed1471a07cf544484bfa00c5fd64a4c390a7340ef6a14",
+    "game/core/input_setup.gd.uid": "496ab0ef2708318f7a129249e003dfb66e0d1954621504d0491e987e1abbf231",
+    "game/icon.svg": "26458813824e3fdfae7a734035a4538123162fa818fea9a35ef419f2140685e4",
+    "game/icon.svg.import": "699eaf3ecb918d70439a5ec1370364de3b75ff180502677404ab0b7225001f69",
+    "game/levels/art/arch_mesh.gd": "0e6d7bf957e9f2f646d0ac879eb2a8130d95cc24076bc3818bd5758d75f55a71",
+    "game/levels/art/arch_mesh.gd.uid": "4f62516cb95a3195334fb884cebec52b47554261ed7571f0fb00ca4a625a3cf4",
+    "game/levels/art/barras_market.gd": "f81bfab51383b15e80106008caf9de405e18077d10118b732e72bdc39070fbf9",
+    "game/levels/art/barras_market.gd.uid": "c491dd67916e7caf1fb7d3c9761feba1c0015d9ab13d7a6e43f8dee66df4728d",
+    "game/levels/art/clyde_landmarks.gd": "dce367363e6dda8fe02957d82926cf733deeb79c52b26613c8d56ecc5c406ac5",
+    "game/levels/art/clyde_landmarks.gd.uid": "383922d524ad927b57038f1c778bca8e6c0f0ffaaa7fa4aaac11f2a63174955b",
+    "game/levels/art/facade_kit.gd": "32b3c99e921db2d570f8e1ca9276a24e166a5ac642752c18369bb397d14af021",
+    "game/levels/art/facade_kit.gd.uid": "ea4ea8fef9aa8b7102f019c30e491ec2aef23751a0659ac32700af3bfb1ca04e",
+    "game/levels/art/foliage_mesh.gd": "13962d2d5cc4aca846db5560265a770b80bbefb4272951a56a7c2f8cfe76dea1",
+    "game/levels/art/foliage_mesh.gd.uid": "a1649b3e43cdcc0a851432ba32cadb0dc3115f8e9cc8917e4dbf4e19e87b3d03",
+    "game/levels/art/street_dressing.gd": "988c7c20bdbcef872fe5be68d0454b1b6631c56df3595903cc19205e2179ecc0",
+    "game/levels/art/street_dressing.gd.uid": "51b2131c5f849d9e6a25aff5f7eebeb1491d643424835916394c772d1802a81a",
+    "game/levels/city_art.gd": "9d2a7dbd9853a4a0a121e480123b2a60acd7496d610f8b99dc19b1db7db19cda",
+    "game/levels/city_art.gd.uid": "d16af8eb2aaf4d80754340cbb8c129a9dceafa5abde2e7e6cefbfbd9f0292dfd",
+    "game/levels/core_terrain.gd": "458df45cb4042bceabde86d672ecbaa03a86ff4763334460e3188e8c6c442a6b",
+    "game/levels/core_terrain.gd.uid": "2988d2fd92573384e6ac88244525fbdf9c1d93e9f26e3c30614e89fae666c1ef",
+    "game/levels/glasgow_square.gd": "52fd3165687b1ccc4bf59a211b2c199673b3f15e86a04054e0a6934e6e179a38",
+    "game/levels/glasgow_square.gd.uid": "99b53834b78a54bf880b126db8f7dfed18b98b0669ff3a42fc401279d29f06ce",
+    "game/levels/outdoor_routes.gd": "3180e6b24678f3b52cde0b73f7e00dd697effbd9612ee984f11d20ef46f20b5f",
+    "game/levels/outdoor_routes.gd.uid": "e0deaa2467fe854c2c5e4bb018cf37f0a830f5b3f6bd0551f484f2782f311a68",
+    "game/levels/outdoors/surface_builder.gd": "f32c813adf51e7991cc20adcdb0d9a67ea2673bc04302cefd6796b4936c42452",
+    "game/levels/outdoors/surface_builder.gd.uid": "764873f7068eebb13401ac5364a1be6db2169f468e64a5f30c0d5e990799344c",
+    "game/levels/outdoors/vegetation.gd": "c6a4dd57c14fc4448a151c4f9feb92b89448c19d4d435df2595d584c4652ab64",
+    "game/levels/outdoors/vegetation.gd.uid": "2f8d75c1725ccba550e30e59c4792bd841d8c687e5d1f63afd85798d2d8447d3",
+    "game/main.gd": "42d0945b5f3a38d77d3a765ca56de5a6ce0f642cbd81ca682db33aba0456a581",
+    "game/main.gd.uid": "a8d0af569a4aa184b2098add56f0c513179c13f16e52ac8020cc8c4652afcddd",
+    "game/main.tscn": "b9380a545b38079c1267c3737af1b041a64825fb953ce56f06edeeecaec6b92c",
+    "game/player/skater.gd": "23d87e2a83fe167c511dd6f0756bdb5d1fd95bb2fd6415dd30d66e643eaccbb8",
+    "game/player/skater.gd.uid": "5a48c1fc5bbc644df884a2322095576ab1af0a6be33e46af79ba4f240571043d",
+    "game/player/skater_anatomy.gd": "c4998cce043d2545bc762c6c17111608184502071cfc0f1a9ccd4d58267fc4c8",
+    "game/player/skater_anatomy.gd.uid": "7471ce6819041de4758e0f9dfcc6a132c0eef79b35dea954fe29cbec66966706",
+    "game/player/skater_footwear.gd": "26fc714b4859771ff3fe3627b447592b07d91d843a56c65302fb7d762dd31ebc",
+    "game/player/skater_footwear.gd.uid": "3886da5e203aefc5225209140d33ee7e3c27932baf7cc81169fe7b432838da7a",
+    "game/player/skater_garments.gd": "e4c5c5f3481780073807bcce928ff6aa0c9dfa4e81a7641e28d02bd78f66b95d",
+    "game/player/skater_garments.gd.uid": "2fa603b9e864f1b4358de16359a87b2979626b78bbd22f57dd967ea70bb49f8a",
+    "game/player/skater_visual.gd": "df18a6cf57a6a977a08ff519e9726fac1deebc88591a7c833f8e5c53a4416d50",
+    "game/player/skater_visual.gd.uid": "954eb2b19dfaaa1c006f80b8729d5d18089fc4745ddb54c546876ad9929060c7",
+    "game/progression/career_progress.gd": "174eb3864fd202a411f7cfc68458f0dea0260cb18ff3a9b2e1bdf558049e8a1b",
+    "game/progression/career_progress.gd.uid": "f5c14062921f5ed9bc095f090bee614e4d8f843a499a7873c5a7babfbe6b2fd9",
+    "game/progression/objective_tracker.gd": "1759f088348bb97c2766e93432a249fbb18dbb57ede144e63a33157d76a65f73",
+    "game/progression/objective_tracker.gd.uid": "0c601371f79b8f1b5ac317d66d293cf648cf6fdb767f0ab1cf33a74918b9d15e",
+    "game/scoring/score_session.gd": "fb022641d33660e8a5604478df224a362f04141b7eb91f96e5ff7614d2e45af5",
+    "game/scoring/score_session.gd.uid": "b8bae631793cceaa70a5a165b425abe32a4831ca7b7e5aa161a1bf1dff5f0d3c",
+    "game/tricks/gap_tracker.gd": "cd43ba41e367bc4b887e28da6e6d16ba14af26e043af757b7ebab3188687e0bb",
+    "game/tricks/gap_tracker.gd.uid": "57a57bc9d0d06ee97878fe623082ab54353e01550f6aab9596cdce1b0ad9c6d1",
+    "game/tricks/grind_line.gd": "3f6debac281cdc162895a2fedef1eb1f77a06075527484bcea1ff2a5544bab79",
+    "game/tricks/grind_line.gd.uid": "7a4e5be66e1808cd2e3a90adb777050483bebe14b63a42436fea700d2f5ab6cc",
+    "game/tricks/grind_ride.gd": "39ca4738a9c06dbd43c71a7cb0725d4dee2ee0e7967b230b0f1bb68e74f9c92c",
+    "game/tricks/grind_ride.gd.uid": "4a6bd1f8e937190f0b70017b88c8d4e725070a53829011197a455b1e386f3354",
+    "game/tricks/special_meter.gd": "5bc141b702ca444300e9bf2789565e11f1e0b2c574383b722f043e42e5248e77",
+    "game/tricks/special_meter.gd.uid": "5e8b4953b2733fea68a0152a44d4c2cc09e5a74a8b919556dff53d947b33b9e9",
+    "game/tricks/trick_catalog.gd": "b5011788ce3fa80bce947aac34ce6df89611832604f8d058af4b0262e8723008",
+    "game/tricks/trick_catalog.gd.uid": "e1637a1df4c0f689ef73c39176d0be4836793f51bdd561e788a5183491f51427",
+    "game/ui/hud.gd": "08e7f7bd456387ea1758bf5871965dd1a43656697c40d9a827a56fea57b1fa28",
+    "game/ui/hud.gd.uid": "6e26dc53c7e036672581b8c5388d6a42b63c2b57d05845859415f28036eee716",
+    "game/ui/route_map.gd": "2658acac796d7f74749ceb444417a121d89f2ad93685b3c8abd591153b8e719d",
+    "game/ui/route_map.gd.uid": "6a03fafdda8b89f5e2aa952ec6af329dca908a9ed3cc6f9baffa1f7a5260a460",
+    "project.godot": "b8a3975474ea3826e5f7527f2892510c0fdfdfabb7de8b1ebd3498239bafd5f0",
+    "tests/audio_tests.gd": "4e5dbda40756ba7f935286325c805db63b557fec4634203c5d56fba7a0cae7ce",
+    "tests/audio_tests.gd.uid": "a018e391b86a58c808b0e4ae8999843040e10d731d1de447f69896eb2a09f418",
+    "tests/career_integration_tests.gd": "c02ad292eec847fe780faef978eb78944b365865def07afa04ab677745d130aa",
+    "tests/career_integration_tests.gd.uid": "65a0efffc824021c58a69fecf06ea91d5611ee86d55558f739b18c9cf44e11fb",
+    "tests/career_route_tests.gd": "97e4b2c414fd77ff2c85fe6756d75152791260b47d11e5b73732cbdf92cbd8ed",
+    "tests/career_route_tests.gd.uid": "e47650f1ff4ff537220ec96d848037ecb78b4deea1fd029b780dcbdd4adbff9b",
+    "tests/cat_encounter_tests.gd": "67c64b305f8ebc8aa6a8fbaa580caf05886ac0e28a28f3e9fa39a17f876eb8f9",
+    "tests/cat_encounter_tests.gd.uid": "942aa4f50496f2c2ee26df2d1ee54b295f58f79f9df15a8367ecdd0c43a66e08",
+    "tests/combo_integration_tests.gd": "b07d58a511fddea94f65adf9b99bde5e319e0df0c1916939d17ada9c19a3a91d",
+    "tests/combo_integration_tests.gd.uid": "33248f00b4d630e35927946644f9a453b45399ac38c4676d69837460294c5ed2",
+    "tests/combo_resolution_tests.gd": "58b9a21aace9a7412eb34aeb07ec90d35adbd80349ebe6c4b0fd24d1820760fd",
+    "tests/combo_resolution_tests.gd.uid": "0e2a0132d61f9fb42f916b4407a66036d5664981e6762ceb2dc611610d13b342",
+    "tests/glasgow_encounters_tests.gd": "b6ad4e4b7b00742e9485ddc4e861d96630a2ff6492ab56ab0022ef1a1e5e33ba",
+    "tests/glasgow_encounters_tests.gd.uid": "fd55fc5dff17964881ef991d3f76f388379b2cecaf64bc00614e4356811c2f32",
+    "tests/grind_regression_tests.gd": "a26cee3f6fab4cb75a618c316785cc98aeddb4e3f206b4a3df6e8578dc706142",
+    "tests/grind_regression_tests.gd.uid": "95a254e02b57b5769bcdacd026e881f7310da4f8a88214952a7beab7161b89f0",
+    "tests/grind_ride_tests.gd": "3d0987efcddb0bbe685a6365b42e06c8d60754895543ed7a151887151de8898e",
+    "tests/grind_ride_tests.gd.uid": "338d8f220c62ac9bea53bf5c649618898123baf8646e88ff989c6c3cc9c68370",
+    "tests/grinding_tests.gd": "de7ed757fa3ab767725f3f32e9b0315a8cf5fdcd2cdff7e8ce2a4cc0eb9723bf",
+    "tests/grinding_tests.gd.uid": "ec26d5cc023c9a2127dfe842bfe83baa071b5b463b5b90a5fc24de2c106ce8a4",
+    "tests/input_profile_tests.gd": "83fc9fe66ccfbf9bfaa7c0d784e19082c4298a9aab6dfc2e9509c64bd1114344",
+    "tests/input_profile_tests.gd.uid": "cdc6e62e5b2813db058dcec2a095da403253f6ebb1276870eca9f7f1871f8955",
+    "tests/manual_revert_tests.gd": "9ad42f39e8aed525fa007d7235f4dc29d2afa6aca9a827831453dccbc18203a1",
+    "tests/manual_revert_tests.gd.uid": "200a6de7cd1f2896154443b4c98b28ce17176d870d46522f7fe78c82102b7cba",
+    "tests/market_encounter_tests.gd": "9cf274779617a942269faff73668d23c0e0b0f5745faabd4941ebb4f05287f2e",
+    "tests/market_encounter_tests.gd.uid": "210684e9c6df124c5dee5e0d41356ee9ee89a714059a5d925fd2240b63446907",
+    "tests/presentation_integration_tests.gd": "74ccf1e0cf91315d7133bac58aae99a6fd24a843601c39d631487395b2b84144",
+    "tests/presentation_integration_tests.gd.uid": "3ef9266bd974db0cef620e0d92fbbff79763606f03a1def4ab3230dc8354eddc",
+    "tests/progression_tests.gd": "929a2d4b4cb6bf8c6a417b9a162a300d1b3ea4d454ccbd38e0cf0786048294e5",
+    "tests/progression_tests.gd.uid": "d1623375e43c22ea333aace2cb467c9beac9d166ae33acfe3222febbf485d1a8",
+    "tests/rail_geometry_tests.gd": "981b1ca76911e8458c1e2a9dca5b98b69fe6d9f62a8db16ed99ed515674f35f3",
+    "tests/rail_geometry_tests.gd.uid": "6293cd6b5a4d6d2f74f189561179d2c41e575c9784b8096309d7c753b45c2377",
+    "tests/run_tests.gd": "1a6c55f1bcbba782822ed710fc2da2d99d402f51be86dba914265365c7a50669",
+    "tests/run_tests.gd.uid": "d75ea0ab04879a6837800a5685952645852d8a82140219424f6afef579f799b9",
+    "tests/special_gap_tests.gd": "10c0f8a4a6d12dd9829ec288858ccbddfc97cc0835247c100759886b8a4672c6",
+    "tests/special_gap_tests.gd.uid": "d743ca2ca3b9307c891409638ee326c6e3ab05507c6955735994b7fd6a7cc28c",
+    "tests/takeoff_tests.gd": "5ebc311bfec672a8aa5e800309974c6248bd97601a8380ad57464dedf850ca6c",
+    "tests/takeoff_tests.gd.uid": "4bc5d9b3c70c2ba5ab1486a23fa643c7a21a686dbec37c924a61c379c730e05f",
+    "tests/topography_tests.gd": "2070c974834f22d9ffd1d3cf91046beab19dd52b14b15d2cd50169e7beaa8a8b",
+    "tests/topography_tests.gd.uid": "1a0642edff3aa73fd900eb38c0a50ef42dede397f8031e09263848a9d6d0d79a",
+    "tests/trick_catalog_tests.gd": "c45f5ab30d0f35babd79074aed9bcc85ddae1d4a87b093ed12975059774fb33c",
+    "tests/trick_catalog_tests.gd.uid": "f050ff2be0e132048b48ef632aa71935db4f5ab3350e762f45145b5e024071b9",
+    "tests/ui_feedback_tests.gd": "9e410ef203d1ddbe78967aa05e24c865b8107bc0b51d830bc6955ba8cb51a538",
+    "tests/ui_feedback_tests.gd.uid": "a0777fe322d341dee2c6c177b17cd23278de5bea9d4ccc209877cf13fdc78743",
+    "tests/ui_integration_tests.gd": "129cce49726ab629b49d68cd603559d159ad3b31899457e11118fd25a85f04fa",
+    "tests/ui_integration_tests.gd.uid": "a128bc110780ab7dbd23f353af0f4b8bd7b6f4eb2ef4f622dea17b4d19799d5d",
+    "tests/world_routes_tests.gd": "886c89f458d190fea70cd687c6f23891fc5886f20c6dd92af80923e3fc0a4a75",
+    "tests/world_routes_tests.gd.uid": "9f648b4df3a3e03cf207152e0baababc08509876cecb9ade025a6e6dd948394f",
+    "tools/level_design_capture.gd": "046aef0994f0777de20ac5fddad91377689d9c9eaa2d7408531854b6f5256698",
+    "tools/level_design_capture.sh": "0bc3217104d2ea7894cf81b5ea27a4d00d63b7a21ed2a1ffc9091062982c326b",
+    "tools/run.sh": "2ee6239341cfc13f92c7f49f1b2631ae60c2ad05b7fcb9214ccb38b019bccdb8",
+    "tools/xorg-dummy.conf": "1fc8da04099116f6ff29963508d0ac21463351e15d6d3153b08977630704ebf2"
+  },
+  "source_changed_during_run": false,
+  "changed_inputs": [],
+  "command": [
+    "/workspace/tam_hawks_ps/tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--audio-driver",
+    "Dummy",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-render-loop",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "tools/level_design_capture.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/level-design-20261017T174146Z-tlcyDK"
+  ],
+  "source_stable_capture_set": true
+}

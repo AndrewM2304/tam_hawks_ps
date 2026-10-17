@@ -1,6 +1,6 @@
 # Tam Hawks Pro Skater
 
-An original arcade skateboarding game in a fictionalised Glasgow, built with Godot 4.6.3. Link aerial tricks, grinds, manuals and reverts across six connected city, river and park areas, chase ten career goals, unlock specials and colours, or explore in free skate and take Mo’s busker challenge or join Rae’s bin-drum and dancing-cat act through an ordered coping line.
+An original arcade skateboarding game in a fictionalised Glasgow, built with Godot 4.6.3. Link aerial tricks, grinds, manuals and reverts across six connected city, river and park areas, chase ten career goals, or explore in free skate. Take Mo’s guitar challenge, join Rae’s bin-drum and dancing-cat act, or deliver Mairi’s breakfast parcel through the Barras market.
 
 **Current stage: playable development alpha.** The complete core loop, local saves, original sound, menus and a substantial terrain and adult-rider redesign are implemented. Final realistic visual polish, verified current Glasgow shopfronts, physical DualSense testing and Mac performance acceptance remain open. [Current status](docs/STATUS.md) records exact evidence and remaining work; [the QE report](docs/testing/QE-REPORT.md) separates automated checks from human acceptance.
 
@@ -8,7 +8,7 @@ An original arcade skateboarding game in a fictionalised Glasgow, built with God
 
 - From source, open `project.godot` with the free Godot 4.6.3 editor and press F5, or run `./tools/run.sh` on a graphical desktop.
 - Run `./tools/setup.sh` to verify the installed engine and check the project. Run `./tools/check.sh` after gameplay changes.
-- Reproduce current terrain/map evidence with `./tools/level_design_capture.sh` (including the current bin-drum/dancing-cat views); use `./tools/rider_capture.sh` for action poses. Earlier screenshots retain their original checkpoint provenance.
+- Reproduce current Barrowland, Barras/Clyde, map and real delivery evidence with `./tools/level_design_capture.sh`; add `--private-display` on the cloud Linux machine. Use `./tools/rider_capture.sh` for action poses. Earlier bin-cat images and motion clips retain their historical source provenance.
 - Measure six rendered city/river/park views with `./tools/profile.sh`; [profiling instructions](docs/testing/PERFORMANCE.md) cover the Mac command and measurement limits.
 - Build unsigned local Linux/macOS packages with `./tools/export.sh`; it downloads free official templates and verifies their pinned checksum. See [export instructions](docs/testing/EXPORT.md).
 
@@ -22,7 +22,7 @@ The owner requires polished UI and believable, detailed, realistic-but-fun graph
 
 The [level-design review](docs/levels/LEAD-DESIGN-REVIEW.md) studies the classic city/School references and tracks the implemented undercroft, angled close, park return, riverside curved-bank loop and civic-garden/market-hall pockets. [Glasgow performer research](docs/research/GLASGOW-CHARACTERS.md) informs original fictional locals and [playable/future side challenges](docs/product/GLASGOW-FUN.md).
 
-The six areas interpret Royal Exchange Square, George Square, Central Station, the Barras, Clyde quays and Kelvingrove-inspired parkland. Ten career goals retain their four-city-district identities; river and park routes are open to explore. Current business occupants and exact frontage relationships still need accessible primary/map references. The [Glasgow dossier](docs/research/GLASGOW_REFERENCES.md) records inspected historical leads and blocked sources without presenting them as current verification. No Street View imagery is bundled.
+The six areas interpret Royal Exchange Square, George Square, Central Station, the Barras, Clyde quays and Kelvingrove-inspired parkland. The current place pass uses inspected Barrowland sign/market references and South Portland suspension-bridge/Carlton Place riverfront cues, authored as original compressed geometry. Ten career goals retain their four-city-district identities; river and park routes are open to explore. Current business occupants and exact frontage relationships still need accessible primary/map references. The [Glasgow dossier](docs/research/GLASGOW_REFERENCES.md) records inspected historical leads and blocked sources without presenting them as current verification. No Street View imagery is bundled.
 
 ## Continuity and reuse
 

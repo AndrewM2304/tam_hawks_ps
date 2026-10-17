@@ -4,6 +4,7 @@ extends Node3D
 
 const Surface = preload("res://game/levels/outdoors/surface_builder.gd")
 const Vegetation = preload("res://game/levels/outdoors/vegetation.gd")
+const ClydeLandmarks = preload("res://game/levels/art/clyde_landmarks.gd")
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
 const PARK := Rect2(-220, -185, 80, 110)
 const PARK_LANDSCAPE := Rect2(-255, -225, 115, 165)
@@ -234,17 +235,22 @@ void fragment(){float patches=noise(world_position.xz*0.16)*0.7+noise(world_posi
 	_route("kelvingrove_cutback_return", "Kelvingrove cutback to Central", _park_cutback)
 
 
-func _build_riverside_edge(world: Node3D) -> void:
-	# Reuse the core's material-batched facade authoring, set behind the tested
-	# landing/promenade. These are original composites, not verified businesses.
-	if not world.has_method("_building"): return
-	for front: Dictionary in [
-		{"x": -112.0, "width": 38.0, "height": 16.0, "stone": "stone", "label": "QUAY WORKSHOPS"},
-		{"x": -62.0, "width": 28.0, "height": 13.0, "stone": "sandstone", "label": "CLYDE PRINT ROOM"},
-		{"x": -12.0, "width": 34.0, "height": 19.0, "stone": "sandstone", "label": "RIVER RECORDS"},
-		{"x": 38.0, "width": 26.0, "height": 16.0, "stone": "stone_light", "label": "SOUTH BANK STORES"},
-		{"x": 100.0, "width": 38.0, "height": 14.0, "stone": "stone", "label": "OLD QUAY WORKSHOP"}]:
-		world.call("_building", world.to_local(to_global(Vector3(front.x, 2, 145))), front.width, front.height, front.stone, front.label, PI)
+func _build_riverside_edge(_world: Node3D) -> void:
+	# Original, researched bridge/terrace geometry replaces the generic shop row.
+	# It adds no collision or grind path; tested routes remain authoritative.
+	ClydeLandmarks.build(self, _materials)
+	# The old generic facades were solid. Keep the new joined houses solid too,
+	# matching their actual footprints instead of retaining hidden old boxes.
+	for block: Vector2 in [Vector2(-100,96), Vector2(-1,88), Vector2(99,92)]:
+		var body := StaticBody3D.new()
+		body.name = "CarltonPlaceBoundary"
+		body.position = Vector3(block.x,7.5,151.4)
+		var shape := BoxShape3D.new()
+		shape.size = Vector3(block.y,13.0,12.0)
+		var collision := CollisionShape3D.new()
+		collision.shape = shape
+		body.add_child(collision)
+		add_child(body)
 
 
 func _yard_hip_height(x: float, z: float) -> float:

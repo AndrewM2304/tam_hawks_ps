@@ -164,7 +164,7 @@ Durable [native-court-cat receipts](native-court-cat/README.md) preserve clean m
 The Mac app remains unsigned, unnotarized and not launch-tested on Mac. Physical DualSense, offline Mac save relaunch, Apple Silicon moving-route frame times, human listening/fun and final realistic-art acceptance remain open. No artifact was publicly released and no paid service was used.
 
 
-### Current native checkpoint — corrected bin drums and dancing cats
+### Historical native checkpoint — corrected bin drums and dancing cats
 
 `./tools/export.sh --skip-check` exits 0 from clean runtime **`100dde5f8d7aef5b1547890dc65ef188da66d697`**. Export and the final **1,039/0** ordinary suite use the same frozen inputs; the export script skips repeating that suite. The final suite receipt verifies 148 unchanged source/test files. Focused 52/0 and 104-input/34-image/100-frame capture evidence are separate, not added to the aggregate.
 

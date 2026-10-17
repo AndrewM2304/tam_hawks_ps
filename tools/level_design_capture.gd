@@ -2,8 +2,9 @@ extends SceneTree
 ## Actual rendered terrain/map inspection. Authored placements are fixtures, not route playtests.
 ## Run tools/level_design_capture.sh; the wrapper publishes only a source-stable complete set.
 const Main = preload("res://game/main.gd")
+const MarketChecks = preload("res://tests/market_encounter_tests.gd")
 const CAPTURE_SIZE := Vector2i(1280, 800)
-const EXPECTED_CAPTURES := 34
+const EXPECTED_CAPTURES := 24
 const AREA_IDS: Array[String] = ["royal_exchange", "george_square", "central_station", "barras", "clyde", "kelvingrove"]
 var game: Node
 var failures := 0
@@ -16,6 +17,9 @@ var _cat_capture_ids: Array[String] = []
 var _cat_payoff_trigger: Dictionary = {}
 var _capture_cat_motion := false
 var _cat_motion: Dictionary = {}
+var _market_evidence: Dictionary = {}
+var _market_stage := ""
+var _market_payoff_trigger: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -46,41 +50,13 @@ func _run() -> void:
 	if failures:
 		quit(1)
 		return
-	await _chase("01-exchange-spawn", checkpoints.royal_exchange, 0.0, "World spawn checkpoint; northbound approach with fountain beside the line.")
-	var gallery := _route_point("gallery_civic_ascent", 2)
-	if gallery.is_finite():
-		gallery.z -= 6.0
-		await _chase("02-gallery-descent", gallery, PI, "Positioned on the gallery terrace, facing down toward the fountain court.")
-	await _chase("03-george-civic-rise", checkpoints.george_square, 0.0, "World George checkpoint; civic bank and higher terrace ahead.")
-	await _chase("04-central-platforms", checkpoints.central_station, PI / 4.0, "World Central checkpoint; real station canopy and elevated platform line.")
-	await _chase("05-barras-loading-street", checkpoints.barras, 0.0, "World Barras checkpoint; market and higher loading-street approach.")
-	var river_gap := _gap("clyde_bridge_transfer")
-	if not river_gap.is_empty():
-		var direction: Vector3 = river_gap.end - river_gap.start
-		direction.y = 0.0
-		direction = direction.normalized()
-		await _chase("06-clyde-bridge-approach", river_gap.start - direction * 6.0,
-			atan2(-direction.x, -direction.z), "Positioned six metres before the actual Clyde gap start; no jump execution is implied.")
-	var park := _park_approach()
-	if not park.is_empty():
-		await _chase("07-kelvingrove-climb", park.position, park.heading,
-			"Low point of the authored kelvingrove_rolling_loop, facing its next point; static climb inspection.")
-	await _route_chase("14-station-undercroft", "station_low_level_close", 2)
-	await _route_chase("15-merchant-close", "merchant_close_cutthrough")
-	await _route_chase("16-park-cutback", "kelvingrove_cutback_return")
-	await _route_chase("17-clyde-print-yard", "clyde_print_yard_hip")
-	await _route_chase("19-merchant-close-return", "merchant_close_cutthrough", -1, true)
-	await _route_chase("20-park-cutback-join", "kelvingrove_cutback_return", -1, true)
-	await _route_chase("21-clyde-hip-return", "clyde_print_yard_hip", -1, true)
-	await _overview("08-core-terraces-overview", false)
-	await _overview("09-six-area-overview", true)
-	await _map_view()
-	await _busker_views()
-	await _court_views()
-	await _cat_views()
+	await _barras_clyde_views()
+	await _market_views()
+	if _capture_cat_motion: await _cat_views()
+	var expected := EXPECTED_CAPTURES + (8 if _capture_cat_motion else 0)
 	var report: Dictionary = {
-		"schema_version": 3, "evidence_slice": "bin_drumming_and_dancing_cats_correction", "expected_captures": EXPECTED_CAPTURES, "recorded_at_utc": Time.get_datetime_string_from_system(true),
-		"valid_capture_set": failures == 0 and captures.size() == EXPECTED_CAPTURES, "failures": failures,
+		"schema_version": 3, "evidence_slice": "barrowland_barras_market_and_clyde", "expected_captures": expected, "recorded_at_utc": Time.get_datetime_string_from_system(true),
+		"valid_capture_set": failures == 0 and captures.size() == expected, "failures": failures,
 		"engine": Engine.get_version_info(), "display_server": DisplayServer.get_name(),
 		"renderer": RenderingServer.get_current_rendering_method(), "driver": RenderingServer.get_current_rendering_driver_name(),
 		"adapter": RenderingServer.get_video_adapter_name(), "resolution": [CAPTURE_SIZE.x, CAPTURE_SIZE.y],
@@ -91,10 +67,13 @@ func _run() -> void:
 		"fixture_limits": ["Chase views position the production skater on authored ground and settle actual physics; they are not completed routes.",
 			"Overview cameras are explicitly authored inspection viewpoints, with the HUD hidden.",
 			"The map is the real production page opened through show_map(), with readiness checked around the actual draw.",
-			"Busker images position a supported rider, then use actual interact/ollie/flip/grab input actions and runtime banking; no trick, score or encounter completion is injected.",
+			"Delivery evidence reuses tests/market_encounter_tests.gd drive_delivery with actual inputs after one supported pickup fixture; grounded heading is idealized, speed/position/score/events are not injected after start.",
+			"Observer screenshots pause player/main processing only to inspect actual earned stages; this is not an uninterrupted human route or timing measurement.",
+			"The gull response starts through the actual nearby production camera before the authored inspection camera; reduced motion is the public preference on the same earned win.",
 			"Cat states come from real production rail-capture events and a positive clean bank; direct grounded heading, if used, is explicitly idealized. No encounter completion is injected.",
 			"Automatic rendering is disabled; force_draw produces each captured frame after 60 Hz fixture steps. No real-time FPS claim."],
-		"checkpoints": _serialise(checkpoints), "routes": _serialise(routes), "cat_payoff_trigger": _serialise(_cat_payoff_trigger), "cat_motion": _serialise(_cat_motion), "captures": captures,
+		"checkpoints": _serialise(checkpoints), "route_count": routes.size(), "routes": _serialise(routes),
+		"market_driver": "tests/market_encounter_tests.gd::drive_delivery", "market_evidence": _serialise(_market_evidence), "market_payoff_trigger": _serialise(_market_payoff_trigger), "cat_payoff_trigger": _serialise(_cat_payoff_trigger), "cat_motion": _serialise(_cat_motion), "captures": captures,
 	}
 	var file := FileAccess.open(output.path_join("manifest.json"), FileAccess.WRITE)
 	if file == null:
@@ -106,7 +85,117 @@ func _run() -> void:
 		file.close()
 	paused = false
 	print("LEVEL CAPTURE RESULT: %d frames, %d failures; no profile writes or performance claim" % [captures.size(), failures])
-	quit(0 if failures == 0 and captures.size() == EXPECTED_CAPTURES else 1)
+	quit(0 if failures == 0 and captures.size() == expected else 1)
+
+
+func _barras_clyde_views() -> void:
+	await _chase("01-exchange-context", checkpoints.royal_exchange, 0.0, "Unchanged supported spawn context; this is an authored static fixture, not route completion.")
+	await _chase("02-market-south-entry", Vector3(114, 0, 19), 0.0, "Supported market entrance facing north through the central skylight toward the Barrowland landmark.")
+	await _chase("03-market-interior-north", Vector3(114, 0, 10), 0.0, "Supported interior chase view along the covered delivery lane; opposed canopies leave a sky slot.")
+	await _chase("04-market-north-return", Vector3(114, 0, -5), PI, "Supported north entrance facing south along the market lane and return.")
+	await _chase("05-market-west-return", Vector3(103, 0, 7), PI, "Supported open west delivery choice, facing the southern arrival.")
+	var landmark := game.world.get_node_or_null("CityArt/BarrowlandLandmark") as Node3D
+	if _check(is_instance_valid(landmark), "actual Barrowland landmark node exists"):
+		await _authored_view("06-barrowland-landmark", landmark.global_position + Vector3(6, 8, 24), landmark.global_position + Vector3(0, 6, 0), 45.0,
+			"Authored venue/sign inspection camera in the production world; original geometry informed by inspected dated references, not a surveyed replica or photo texture.")
+	await _authored_view("07-barras-market-overview", Vector3(146, 37, 42), Vector3(103, 0, -9), 58.0,
+		"Authored market overview shows landmark, central aisle, loading street and returning choices; not the playable camera.")
+	await _chase("08-clyde-safe-bridge", Vector3(-98, 2, 72), PI, "Supported north quay approach along the unchanged safe bridge, with South Portland-inspired authored portals and chains.")
+	await _authored_view("09-clyde-bridge-identity", Vector3(-66, 7, 67), Vector3(-98, 5, 99), 55.0,
+		"Authored oblique quay camera inspects the original safe-bridge treatment and southern frontage; existing water/collision remain production geometry.")
+	await _map_view()
+	await _chase("11-clyde-south-frontage", Vector3(-98, 2, 125), PI, "Supported southern quay facing the joined Carlton Place-inspired frontage; authored geographic compression.")
+	var river_gap := _gap("clyde_bridge_transfer")
+	if not river_gap.is_empty():
+		var direction: Vector3 = river_gap.end - river_gap.start
+		direction.y = 0.0
+		direction = direction.normalized()
+		await _chase("12-clyde-broken-bridge", river_gap.start - direction * 6.0,
+			atan2(-direction.x, -direction.z), "Positioned six metres before the unchanged actual eight-metre Clyde opening; no jump execution is implied.")
+	await _route_chase("13-clyde-print-yard", "clyde_print_yard_hip")
+	await _overview("14-six-area-context", true)
+
+
+func _authored_view(label: String, at: Vector3, focus: Vector3, field_of_view: float, fixture: String) -> void:
+	_freeze_player()
+	var previous_hud: bool = game.hud.visible
+	var previous_player: bool = game.skater.visible
+	game.hud.visible = false
+	game.skater.visible = false
+	var camera := Camera3D.new()
+	game.add_child(camera)
+	camera.global_position = at
+	camera.look_at(focus)
+	camera.fov = field_of_view
+	camera.far = 1000.0
+	camera.current = true
+	await _capture(label, "authored_inspection", fixture + " HUD and unrelated rider visual hidden only for framing.")
+	camera.queue_free()
+	await process_frame
+	game.skater._camera.current = true
+	game.hud.visible = previous_hud
+	game.skater.visible = previous_player
+
+
+func _market_views() -> void:
+	if not _check(is_instance_valid(game.get("market_encounter")), "production market integration exists"): return
+	var initial: Dictionary = game.market_encounter.status_snapshot()
+	var anchor: Vector3 = initial.get("position", Vector3.INF)
+	if not _check(anchor.is_finite(), "market pickup has an authored world anchor"): return
+	await _chase("15-delivery-offer", anchor, PI,
+		"The one supported pickup placement used by the independently checked driver; actual production offer, no score or encounter mutation.")
+	var actor := game.market_encounter.get_node_or_null("MarketStallholder") as Node3D
+	if not _check(is_instance_valid(actor), "original market actor exists"): return
+	await _authored_view("16-mairi-pickup-medium", actor.to_global(Vector3(3.5, 2.5, -4.3)), actor.to_global(Vector3(0, 0.95, 0)), 43.0,
+		"Authored medium of original Mairi and the pickup parcel before accepting; no likeness or endorsement claim.")
+	_resume_player()
+	_market_evidence = await MarketChecks.drive_delivery(self, game, "covered", _market_observer)
+	_release_fixture_inputs()
+	_check(_market_evidence.get("accepted", false) and _market_evidence.get("carried", false)
+		and _market_evidence.get("manual_entered", false) and _market_evidence.get("gap_seen", false)
+		and _market_evidence.get("line_banked", false) and _market_evidence.get("reached", false)
+		and _market_evidence.get("success", false) and int(_market_evidence.get("bank", 0)) == 1650
+		and int(_market_evidence.get("wins", 0)) == 1 and int(_market_evidence.get("bails", -1)) == 0
+		and _market_evidence.get("route_id", "") == "covered" and int(_market_evidence.get("route_index", 0)) == 3
+		and _market_evidence.get("payoff_started", false) and _market_evidence.get("payoff_visible", false),
+		"shared actual-input delivery driver earns one 1650 bank, all three gates, arrival and actual visible payoff")
+	_freeze_player()
+
+
+func _market_observer(stage: String, evidence: Dictionary) -> void:
+	_market_stage = stage
+	_market_evidence = evidence.duplicate(true)
+	var labels := {"manual": "17-delivery-manual", "banked": "18-delivery-banked-line",
+		"gate_1": "19-delivery-gate-one", "gate_2": "20-delivery-gate-two", "gate_3": "21-delivery-gate-three",
+		"arrival": "22-delivery-arrival"}
+	if labels.has(stage):
+		game._refresh_hud()
+		_freeze_player()
+		await _capture(labels[stage], "production_delivery",
+			"Shared QE drive_delivery actual-input stage: " + stage + ". Player/main processing paused for inspection only; grounded heading is idealized. No post-start placement, score, gap, gate or success injection.")
+		_resume_player()
+	if stage != "payoff": return
+	var actor := game.market_encounter.get_node("MarketStallholder") as Node3D
+	var counter := actor.get_node("DeliveryCounter") as Node3D
+	var camera: Camera3D = root.get_camera_3d()
+	_market_payoff_trigger = {"player_position": game.skater.global_position,
+		"camera_position": camera.global_position, "camera_rotation": camera.global_rotation,
+		"evidence": evidence.duplicate(true), "encounter": game.market_encounter.status_snapshot(),
+		"animation": actor.animation_snapshot()}
+	if not _check(evidence.get("payoff_started", false) and evidence.get("payoff_visible", false),
+		"actual nearby production camera triggers the earned gull response before inspection camera"): return
+	Input.action_press("brake")
+	await _frames(42)
+	Input.action_release("brake")
+	_check(actor.animation_snapshot().payoff_active and actor.animation_snapshot().spare_taken,
+		"naturally elapsed bounded response shows the gull taking the spare")
+	await _authored_view("23-earned-gull-payoff", counter.to_global(Vector3(5.0, 2.5, -4.3)), counter.to_global(Vector3(1.5, 1.1, 0)), 45.0,
+		"Same actual 1650-bank delivery; production proximity/frustum already triggered the earned gull. Authored counter camera follows ordinary elapsed animation, with no animation-phase or completion injection; delivered parcel remains.")
+	game.apply_settings({"reduced_motion": true}, false)
+	await _authored_view("24-delivery-static-alternative", counter.to_global(Vector3(5.0, 2.5, -4.3)), counter.to_global(Vector3(1.5, 1.1, 0)), 45.0,
+		"Public reduced-motion preference on the same earned delivery; static original gull/spare-parcel alternative, no second win or profile write.")
+	game.apply_settings({"reduced_motion": false}, false)
+	_resume_player()
 
 
 func _read_arguments() -> bool:
@@ -625,6 +714,9 @@ func _record_capture(label: String, kind: String, fixture: String) -> void:
 		"menu_page": game.hud._page, "menu_ready": game.hud.is_menu_ready(), "paused": paused,
 		"encounter": _serialise(game.encounters.status_snapshot()) if is_instance_valid(game.get("encounters")) else {},
 		"cat_encounter": _serialise(game.cat_encounter.status_snapshot()) if is_instance_valid(game.get("cat_encounter")) else {},
+		"market_encounter": _serialise(game.market_encounter.status_snapshot()) if is_instance_valid(game.get("market_encounter")) else {},
+		"market_animation": _serialise(game.market_encounter.get_node("MarketStallholder").animation_snapshot()) if is_instance_valid(game.get("market_encounter")) else {},
+		"market_driver_stage": _market_stage, "market_driver_evidence": _serialise(_market_evidence),
 		"observed_cat_capture_ids": _cat_capture_ids.duplicate(),
 		"cat_animation": _cat_animation_snapshot(), "presentation_settings": game.career.settings.duplicate(true),
 		"banked_score": game.score.total_score, "pending_combo": game.score.get_combo_value(),
