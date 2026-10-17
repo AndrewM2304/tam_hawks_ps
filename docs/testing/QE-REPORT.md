@@ -24,7 +24,7 @@ Final command result: **717 passed, 0 failed; exit 0**, clean import and no scan
 | UI | Actual focused Enter buttons, Tab/Escape navigation, career/free start, goals' pause ownership, results/replay, five sliders/toggles applied to real subsystems, rebinding followed by actual B-key ollie, conflict/cancel/reset, earned/locked cosmetic selection |
 | Audio | Deterministic finite PCM, peaks/fades/loop boundaries, generated voice hashes/durations, bounded event pool, debounce, district/wheel/grind state, mix/mute/pause, global/per-line bark cooldown and caption admission |
 
-Focused suites remain available as small scripts called by the shared runner. `tests/ui_integration_tests.gd` recreates the title's public paused/show_title state because developer `--script` runners intentionally bypass normal startup title behavior. The standalone export smoke provides separate normal-boot evidence.
+Focused suites remain available as small scripts called by the shared runner. `tests/ui_integration_tests.gd` recreates the title's public paused/show_title state because developer `--script` runners intentionally bypass normal startup title behavior. The standalone export smoke provides separate normal-boot evidence: native Linux headless and actual 1920×1080 graphical startup both exited 0, no script/resource errors. The reviewed `screenshots/standalone-title-1080.png` shows the default title, focused career button and readable controls. Only the expected unsupported V-Sync warning occurred on the temporary dummy display.
 
 ## Rendering evidence
 

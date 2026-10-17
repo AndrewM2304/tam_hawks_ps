@@ -30,7 +30,7 @@ There are **54 tickets** across eight dependency-based milestones. M00–M03 fol
 
 M00 foundation and the recorded momentum/reuse/specification work are complete. The current implementation now includes grinds, manuals, reverts, a 0.35-second combo continuation window, specials, named gaps, a connected four-district world, ten career goals, local saves/unlocks, original environment/rider art, synthesized audio with licensed local speech, settings and input remapping. Implemented systems remain in **QE review** where integration, controller or acceptance work is outstanding; the first environment/rider presentation and final cleanup remain **In progress**.
 
-The final integrated Linux suite passed **717 assertions, 0 failures**, exit 0, with clean import/engine logs. Fifteen actual rendered gameplay/menu/district captures passed and were reviewed; screenshots and exact scenarios are in STATUS/QE-REPORT. Native packaging preparation is verified; actual package generation/launch evidence is recorded separately and must not be inferred from installed templates.
+The final integrated Linux suite passed **717 assertions, 0 failures**, exit 0, with clean import/engine logs. Fifteen actual rendered gameplay/menu/district captures passed and were reviewed; screenshots and exact scenarios are in STATUS/QE-REPORT. Native packages were generated from clean commit `13e76ac`, both isolated main-scene/audio checks passed and universal Mac architecture/ZIP notices were verified; actual Mac launch remains open. Standalone Linux normal headless and 1920×1080 rendered launch both exited 0; evidence is recorded in EXPORT.md.
 
 No physical DualSense, target-Mac launch/performance, human listening, subjective skating feel or final realistic/fun visual acceptance is claimed. The supplied first-release scope remains intact, including voiced NPC reactions and the mandatory final art/UI cleanup. Static bystanders, synthesized speech and procedural architectural detail are implemented first passes, not automatically the finished quality target.
 
@@ -488,7 +488,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M00-002, M04-004, M06-002
 - **Acceptance criteria:** Use matching official export templates; produce a self-contained Apple Silicon-capable app; launch it on a target Mac, play offline and persist saves; document unsigned first-run behaviour without purchasing enrollment.
 - **Test strategy / evidence:** Inspect architecture/package resources; perform fresh-copy launch, controller session, quit/relaunch and save-path tests on macOS. Block when hardware/templates are unavailable; never claim a tested export from settings alone.
-- **Current implementation / remaining:** Unsigned macOS universal and Linux presets plus tools/export.sh are prepared; official Godot 4.6.3 templates and required notices were downloaded/verified into ignored local storage. Actual source-stable exports and package inspection are next; real Mac first launch, controller/audio/save round trip remain unverified. See docs/testing/EXPORT.md.
+- **Current implementation / remaining:** Unsigned macOS universal and Linux presets plus tools/export.sh are prepared; official Godot 4.6.3 templates and required notices were downloaded/verified into ignored local storage. Clean commit `13e76ac` now produces both standalone ZIPs; isolated main-scene/audio loads, universal Mac architecture and actual ZIP notice checks pass. Real Mac first launch, controller/audio/save round trip remain unverified. See docs/testing/EXPORT.md.
 
 ### M06-006 — Complete target-hardware acceptance and tuning
 
@@ -538,7 +538,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M07-001, M07-002, M06-005
 - **Acceptance criteria:** Reproducible local export produces a versioned app/archive with checksum and required notices; fresh-copy macOS launch, offline play, controller and save persistence pass; any unsigned limitations are described accurately.
 - **Test strategy / evidence:** Export from recorded commit/engine/templates, verify artifact checksum, test fresh extraction and launch on target Mac. Do not buy signing enrollment or upload to paid distribution.
-- **Current implementation / remaining:** Reproducible local unsigned export tooling, verified official templates and package/architecture/checksum checks are prepared. No final tested artifact is claimed here: generate from a stable checkpoint, inspect actual outputs and record hashes/Linux smoke/Mac launch separately. Paid signing, hosting and release publication remain outside this preparation.
+- **Current implementation / remaining:** Reproducible local unsigned export tooling, verified official templates and package/architecture/checksum checks are prepared. Actual unsigned Linux/macOS artifacts now exist from clean commit `13e76ac`, with successful resource/notice/architecture inspection and recorded SHA-256 digests in EXPORT.md. Linux headless and rendered normal startup passed with exit 0; Mac launch remains unverified. Paid signing, hosting and release publication remain outside this preparation.
 
 ### M07-004 — Write player instructions, release notes and support handoff
 

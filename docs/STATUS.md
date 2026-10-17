@@ -34,6 +34,14 @@ Source and 54 full task records are kept on the [feature branch](https://github.
 
 Automated checks exercise production physics/input/signals, combo boundaries, world support and connector sweeps, actual Central gap traversal, objective interactions, persistence faults, input remapping, settings and menu navigation. They do not establish physical controller feel, real Mac launch, sound quality or target-machine performance. Rendered screenshots use Mesa llvmpipe at 1280×800, Compatibility renderer, 2× MSAA; authored district overview cameras are scenery evidence rather than full player-route acceptance.
 
+## Downloadable build checkpoint
+
+Unsigned test packages were produced successfully from clean commit **`13e76aca241f5603c5ecbe52623f30d60e9ee842`** with the same gameplay that passed 717 checks. The packaging follow-up changes export selection and resource auditing only. Both isolated data-pack probes load/instantiate the main scene and all three voice streams; the macOS binary contains arm64 and x86_64 slices. Required engine, rail-helper and Flite notices are verified in each ZIP.
+
+Local build directory: `builds/tam-hawks-20261017T130506Z-13e76aca241f/`. Each package contains a player guide, build metadata, resource inspection and notices. `SHA256SUMS.txt` records digests. Convenient copies and the latest source archive are at `/workspace/TamHawksProSkater-macos.zip`, `/workspace/TamHawksProSkater-linux.zip` and `/workspace/tam-hawks-prototype-source.zip`. The final documentation checkpoint may be newer than the package commit; runtime code is unchanged.
+
+Mac ZIP: 62,100,941 bytes; SHA-256 `1ec905891b87aa1a727f98bc61d294fccf6362b75dcf11c26e8144f1efaebf44`. Linux ZIP: 27,541,414 bytes; SHA-256 `3e215cf25c5da4b1ea832e84cad42bde03bc271ab0035b76ff11c501710fa1b7`. The exported Linux game passed normal headless and actual 1920×1080 graphical startup, both exit 0 with no script/resource errors. The title capture is `docs/testing/screenshots/standalone-title-1080.png`; temporary game/display processes were stopped. Mac launch remains untested. See EXPORT.md for exact smoke commands and the expected dummy-display V-Sync warning. The initial failed package attempt was corrected before these ZIPs were produced.
+
 ## Concrete remaining work
 
 1. **M06-007 / M05 art cleanup:** replace repeated foreground facade/shop modules with researched variants and convincing materials; refine skyline/border continuity, street detail and lighting; evolve the articulated primitive-derived rider into a convincing character with better joint/clothing/hand animation. Review all transitions at normal speed, bright/shaded HUD readability and 1080p scale. Current sources are `game/levels/city_art.gd`, `game/player/skater_visual.gd` and `game/ui/hud.gd`. Preserve tested collisions. Follow ART_DIRECTION and VISUAL_ACCEPTANCE; final owner visual acceptance stays open.
