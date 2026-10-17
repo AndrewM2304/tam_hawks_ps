@@ -4,8 +4,13 @@ extends SceneTree
 const SCORE_SCRIPT = preload("res://game/scoring/score_session.gd")
 const MAIN_SCRIPT = preload("res://game/main.gd")
 const RAIL_GEOMETRY_TESTS = preload("res://tests/rail_geometry_tests.gd")
+const TAKEOFF_TESTS = preload("res://tests/takeoff_tests.gd")
+const GRINDING_TESTS = preload("res://tests/grinding_tests.gd")
+const GRIND_REGRESSION_TESTS = preload("res://tests/grind_regression_tests.gd")
+const GRIND_RIDE_TESTS = preload("res://tests/grind_ride_tests.gd")
+const CATALOG_TESTS = preload("res://tests/trick_catalog_tests.gd")
 const ACTIONS = [
-	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab",
+	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
 ]
 
@@ -24,6 +29,9 @@ func _run() -> void:
 	print("Tam Hawks Pro Skater — independent QE checks")
 	_test_score_session()
 	RAIL_GEOMETRY_TESTS.run(_check)
+	GRIND_RIDE_TESTS.run(_check)
+	CATALOG_TESTS.run(_check)
+	await TAKEOFF_TESTS.run(self, _check)
 	game = MAIN_SCRIPT.new()
 	root.add_child(game)
 	await _physics_frames(35)
@@ -39,6 +47,8 @@ func _run() -> void:
 	await _test_run_flow()
 	await _test_overtime()
 	await _test_input_events()
+	await GRINDING_TESTS.run(self, game, _check)
+	await GRIND_REGRESSION_TESTS.run(self, game, _check)
 	_release_actions()
 	paused = false
 	game.queue_free()

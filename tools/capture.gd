@@ -32,6 +32,34 @@ func _run() -> void:
 	await _frames(3)
 	await _save("pause-menu")
 	game.toggle_pause()
+	game.restart_run()
+	game.skater.global_position = Vector3(12, 0.04, 18)
+	await _frames(45)
+	game.skater.speed = 10.0
+	game.skater.velocity = Vector3(0, 0, -10)
+	Input.action_press("push")
+	Input.action_press("ollie")
+	Input.action_press("grind")
+	await _frames(2)
+	Input.action_release("ollie")
+	var caught := false
+	for i in 90:
+		await _frames(1)
+		if game.skater.grinding:
+			caught = true
+			break
+	if caught:
+		await _frames(8)
+		if game.skater.grinding:
+			await _save("rail-grind")
+		else:
+			errors += 1
+			push_error("Rail capture released before evidence frame.")
+	else:
+		errors += 1
+		push_error("Ground approach failed to catch the authored east rail.")
+	Input.action_release("push")
+	Input.action_release("grind")
 	game.queue_free()
 	await process_frame
 	quit(0 if errors == 0 else 1)

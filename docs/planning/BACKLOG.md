@@ -28,7 +28,7 @@ There are **54 tickets** across eight dependency-based milestones. M00–M03 fol
 
 ## Current acceptance boundary
 
-M00 foundation is complete: pinned engine reuse, source startup, 94 automated assertions, a deliberate harness-failure probe, three rendered captures and durable documentation are verified in STATUS. M01-001–006 are implemented and in QE review: automated checks pass; physical input and human feel/camera checks remain with M01-007. M01 cannot be closed without the owner's physical DualSense/target-Mac playtest. M02 research and rail-geometry preparation are complete; playable M02 mechanics and M03–M07 remain planned; a basic aerial scoring loop does not complete grinds, manuals, reverts or career progression.
+M00 foundation is complete: pinned engine reuse, source startup, 94 automated assertions, a deliberate harness-failure probe, three rendered captures and durable documentation are verified in STATUS. M01-001–006 are implemented and in QE review: automated checks pass; physical input and human feel/camera checks remain with M01-007. M01 cannot be closed without the owner's physical DualSense/target-Mac playtest. M01-008 momentum fixes and M02-001 specification are complete; first playable rail grinding is in M02-002 QE review, while manuals/reverts and M03–M07 remain planned; a basic aerial scoring loop does not complete grinds, manuals, reverts or career progression.
 
 ## M00 — Project foundation
 
@@ -145,10 +145,10 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 ### M01-008 — Measure ramp takeoff momentum before changing air control
 
 - **Owner:** A04 / A09
-- **Priority:** P1 · **Milestone:** M01 · **Status:** Ready
+- **Priority:** P1 · **Milestone:** M01 · **Status:** Done
 - **Dependencies:** M01-003 implementation; current baseline is available for measurement
 - **Acceptance criteria:** Reproduce or disprove the code-review risk that full surface speed is reapplied as horizontal speed after slope departure; record outgoing/in-air velocity for uphill, downhill, flat and collided takeoffs. If confirmed, preserve intended momentum while retaining bounded arcade steering and existing jump feel; document intentional boosts separately.
-- **Test strategy / evidence:** Add deterministic slope-lip velocity assertions at fixed physics steps and compare requested/real velocity; run existing 136-check suite and representative rendered/manual routes if behavior changes. The research finding is currently unmeasured, not a confirmed failing gameplay test. Source: docs/research/SKATING_REUSE.md.
+- **Test strategy / evidence:** Add deterministic slope-lip velocity assertions at fixed physics steps and compare requested/real velocity; run existing 136-check suite and representative rendered/manual routes if behavior changes. Confirmed uphill/flat boosts, downhill damping and restored wall-collision momentum were fixed. Independent real-physics tests: 21 passed, 0 failed, with before/after results in docs/testing/TAKEOFF-MOMENTUM.md. Integrated final check evidence is in STATUS. Source: docs/research/SKATING_REUSE.md.
 
 ## M02 — Complete trick and combo system
 
@@ -157,18 +157,18 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 ### M02-001 — Specify trick states, timing windows and data definitions
 
 - **Owner:** A04 / A02
-- **Priority:** P0 · **Milestone:** M02 · **Status:** Planned
+- **Priority:** P0 · **Milestone:** M02 · **Status:** Done
 - **Dependencies:** M00-003, M01-004, M02-009
 - **Acceptance criteria:** Use the inspected upstream state/input and scoring references to decide adaptation boundaries; document states and permitted transitions for air, grind, manual, revert and bail; define trick IDs, base values and repetition rules; agree final input combinations and timeout handling in an ADR.
-- **Test strategy / evidence:** Review a transition/edge-case table with A08/A09; test trick data validation, unknown IDs and illegal transitions.
+- **Test strategy / evidence:** Review a transition/edge-case table with A08/A09; test trick data validation, unknown IDs and illegal transitions. Implemented ADR-006 and game/tricks/trick_catalog.gd; 27 focused assertions cover records, unknown IDs, transition guards, defensive copies and scoring compatibility. The future 0.35-second landing window remains specified, not implemented. Controls remain provisional pending physical QA.
 
 ### M02-002 — Implement rail acquisition, travel, release and balance
 
 - **Owner:** A04
-- **Priority:** P0 · **Milestone:** M02 · **Status:** Planned
+- **Priority:** P0 · **Milestone:** M02 · **Status:** QE review
 - **Dependencies:** M02-001, M01-003, M02-010
 - **Acceptance criteria:** Integrate the adopted GrindLine geometry helper with capture/travel/balance; authored rail metadata supports forgiving but bounded snap; speed/direction persist along rails; jump release and end release are reliable; balance risk can bail; unrelated ledges do not award rail points.
-- **Test strategy / evidence:** Simulate approach angle/speed bounds, adjacent rails, reverse travel, ends, jumps, balance extremes and no-rail cases; human DualSense line trial.
+- **Test strategy / evidence:** Simulate approach angle/speed bounds, adjacent rails, reverse travel, ends, jumps, balance extremes and no-rail cases; human DualSense line trial. Implemented game/tricks/grind_ride.gd plus skater/world/main/input/HUD integration; two actual rails, held L/R2 capture, bidirectional travel, balance, swept obstacle rejection, release/ollie/end, cooldown, one entry award and pending-combo continuity. Pure helper and production-scene tests plus a real rendered ground-approach capture verify the local slice; see docs/testing/GRINDING.md. Human DualSense line trial remains open; no complete M02 acceptance is claimed.
 
 ### M02-003 — Implement manuals as combo links
 
@@ -284,7 +284,7 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 - **Priority:** P0 · **Milestone:** M03 · **Status:** Blocked
 - **Dependencies:** M00-005; current reference-site access
 - **Acceptance criteria:** Build a dated reference register for all four districts using official venue/business sources and public maps/Street View where accessible. Verify at least three distinctive boundary anchors per district, street/corner relationships, approximate frontage proportions and adjacent entrances. Separate stable architecture from changing tenancies; distinguish inspected facts, dated secondary leads and unverified candidates. No paid API, imagery scraping or map assets bundled in the game.
-- **Test strategy / evidence:** Cross-check source URLs and capture dates, review an annotated district/block sketch against inspected references, record source licensing separately for any imported asset. Initial leads/access evidence: docs/research/GLASGOW_REFERENCES.md. Blocker: proxy HTTP 403 for official/map sites; A01 saved narrow domain additions, user must review/save environment settings and publish before A03 retries in an environment using that configuration. Dated GitHub address data does not establish current storefront geometry.
+- **Test strategy / evidence:** Cross-check source URLs and capture dates, review an annotated district/block sketch against inspected references, record source licensing separately for any imported asset. Initial leads/access evidence: docs/research/GLASGOW_REFERENCES.md. Blocker: proxy HTTP 403 for official/map sites; narrow domain additions are now present in the saved base configuration, but current-instance requests still fail. Retry in a fresh environment using that configuration; do not ask the owner to repeat the same edit without evidence. Dated GitHub address data does not establish current storefront geometry.
 
 ### M03-007 — Replace generic perimeter shops with recognisable Glasgow boundaries
 

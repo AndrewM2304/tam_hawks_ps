@@ -28,6 +28,9 @@ var _modal_details: Label
 var _resume: Button
 var _restart: Button
 var _free: Button
+var _balance_panel: Panel
+var _balance_marker: ColorRect
+var _balance_label: Label
 var _was_modal: bool = false
 
 func _ready() -> void:
@@ -112,6 +115,27 @@ func _ready() -> void:
 	_actions_label = _label(footer, "", Vector2(-337, 9), 14, MUTED)
 	_actions_label.anchor_left = 1.0
 	_actions_label.anchor_right = 1.0
+	_balance_panel = _panel(Vector2(-155, 145), Vector2(310, 76))
+	_balance_panel.anchor_left = 0.5
+	_balance_panel.anchor_right = 0.5
+	_balance_label = _label(_balance_panel, "RAIL BALANCE  /  A-D", Vector2(15, 9), 15, PAPER)
+	var balance_track := ColorRect.new()
+	balance_track.color = Color("36535a")
+	balance_track.position = Vector2(20, 39)
+	balance_track.size = Vector2(270, 7)
+	_balance_panel.add_child(balance_track)
+	var centre := ColorRect.new()
+	centre.color = MUTED
+	centre.position = Vector2(153, 34)
+	centre.size = Vector2(4, 18)
+	_balance_panel.add_child(centre)
+	_balance_marker = ColorRect.new()
+	_balance_marker.color = ORANGE
+	_balance_marker.position = Vector2(151, 32)
+	_balance_marker.size = Vector2(8, 22)
+	_balance_panel.add_child(_balance_marker)
+	_label(_balance_panel, "KEEP CENTRED  /  OLLIE TO JUMP OFF", Vector2(15, 57), 11, MUTED)
+	_balance_panel.visible = false
 	_build_modal()
 
 func update_display(state: Dictionary) -> void:
@@ -125,8 +149,15 @@ func update_display(state: Dictionary) -> void:
 	_score.text = "%06d" % int(state.get("score", 0))
 	_location.text = str(state.get("location", "GLASGOW")).to_upper()
 	var controller := not Input.get_connected_joypads().is_empty()
-	_controls_label.text = "LEFT STICK  skate    CROSS  ollie    SQUARE  flip    CIRCLE  grab    L1 / R1  spin" if controller else "WASD  skate     SPACE  ollie     J  flip     K  grab     Q / E  spin"
+	_controls_label.text = "STICK skate   CROSS ollie   SQUARE/CIRCLE tricks   L1/R1 spin   R2 grind" if controller else "WASD skate   SPACE ollie   J/K tricks   Q/E spin   L grind"
 	_actions_label.text = "TRIANGLE  restart     OPTIONS  pause" if controller else "R  restart     F  free skate     ESC  pause"
+	var grinding: bool = state.get("grinding", false)
+	var balance := clampf(float(state.get("balance", 0.0)), -1.0, 1.0)
+	_balance_panel.visible = grinding
+	_balance_marker.position.x = 151.0 + balance * 131.0
+	_balance_label.text = "RAIL BALANCE  /  %s" % ("LEFT STICK" if controller else "A-D")
+	if absf(balance) >= 0.7:
+		_balance_label.text = "LEAN " + ("LEFT" if balance > 0.0 else "RIGHT") + "  /  LOSING BALANCE"
 	var kmh := roundi(float(state.get("speed", 0.0)) * 3.6)
 	_speed.text = "%d KM/H" % kmh
 	_speed_bar.size.x = 158.0 * clampf(float(kmh) / 60.0, 0.0, 1.0)
@@ -134,6 +165,8 @@ func update_display(state: Dictionary) -> void:
 	_combo.text = "%s  ×%d" % [state.get("combo_base", 0), state.get("multiplier", 0)] if combo > 0 else ""
 	_tricks.text = str(state.get("tricks", ""))
 	_feedback.text = str(state.get("feedback", "")) if combo == 0 else "%s POINTS — LAND IT TO BANK IT" % combo
+	if grinding:
+		_feedback.text = "%s POINTS — HOLD GRIND / LAND TO BANK" % combo
 	_goals.text = "%s  Land an ollie\n%s  Try a flip + grab\n%s  Bank 1,000 points" % [
 		"✓" if int(state.get("landings", 0)) > 0 else "○",
 		"✓" if int(state.get("flips", 0)) > 0 and int(state.get("grabs", 0)) > 0 else "○",

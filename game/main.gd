@@ -34,6 +34,7 @@ func _ready() -> void:
 	skater.spawn_position = world.get_spawn_position()
 	add_child(skater)
 	skater.reset_skater()
+	skater.set_grind_lines(world.get_grind_lines())
 	skater.trick_performed.connect(_on_trick)
 	skater.landed.connect(_on_landed)
 	skater.bailed.connect(_on_bailed)
@@ -59,10 +60,11 @@ func _process(delta: float) -> void:
 		if not free_skate_mode:
 			time_remaining = maxf(0.0, time_remaining - delta)
 			if time_remaining <= 0.0:
-				if skater.airborne and score.get_combo_value() > 0 and _overtime < 3.0:
+				if (skater.airborne or skater.grinding) and score.get_combo_value() > 0 and _overtime < 3.0:
 					_overtime += delta
 				else:
 					_finish_run()
+		skater.set_trick_entries_enabled(free_skate_mode or time_remaining > 0.0)
 	_refresh_hud()
 
 func restart_run() -> void:
@@ -78,6 +80,7 @@ func restart_run() -> void:
 	_feedback = "FRESH RUN. GIE IT LALDY."
 	_feedback_timer = 3.0
 	skater.reset_skater()
+	skater.set_trick_entries_enabled(true)
 	skater.set_controls_enabled(true)
 	skater.set_physics_process(true)
 	_refresh_hud()
@@ -134,6 +137,7 @@ func _refresh_hud() -> void:
 		"combo_base": score.combo_base,
 		"tricks": "  +  ".join(score.trick_history), "best": score.best_combo,
 		"speed": skater.speed, "airborne": skater.airborne,
+		"grinding": skater.grinding, "balance": skater.grind_balance,
 		"location": world.get_location_name(skater.global_position),
 		"paused": paused, "finished": run_finished, "free_skate": free_skate_mode,
 		"feedback": _feedback if _feedback_timer > 0 else "",

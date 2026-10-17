@@ -12,7 +12,7 @@ Local changes add safe handling for empty, single-point, collapsed and non-finit
 
 Independent checks first exposed two compatibility/edge-case failures: duplicate vertices caused Godot bake/sample errors, and tangent queries beyond a bent rail's ends returned the whole-line chord. Both were corrected in the adaptation; the focused suite now passes 42 assertions without those engine errors. See the QE report for the integrated result.
 
-This is a tested building block for M02-002. It does **not** yet attach the skater to rails, implement balance, prevent obstructed snaps, or link combos. No upstream levels, characters, animations, audio or autonomous-agent scripts were imported. The upstream whole game specifies Godot 4.7.2; only this small built-in-API component is being validated against our pinned 4.6.3.
+Follow-up: M02-002 now uses this tested building block for the first playable rail slice. Original `grind_ride.gd` and player integration add signed travel, balance, capture/travel clearance sweeps and air→rail→air→landing scoring. Manuals/reverts and complete combo acceptance remain open; see [the grinding record](../testing/GRINDING.md). No upstream levels, characters, animations, audio or autonomous-agent scripts were imported. The upstream whole game specifies Godot 4.7.2; only this small built-in-API component is being validated against our pinned 4.6.3.
 
 ## Inspected shortlist
 
@@ -43,7 +43,7 @@ Required M02 integration checks: both travel directions; sloped/curved/transform
 
 ### Ground, air and vert
 
-Our controller already uses built-in plane projection, `move_and_slide`, floor snap and constant slope speed. Keep those engine facilities. Source review identified a **risk to measure**, not a reproduced defect: the first airborne frame reconstructs horizontal velocity from full surface speed. A 45-degree 15 m/s slope tangent has about 10.61 m/s horizontal speed, so replacing that with 15 could introduce a takeoff boost. M01-008 must measure actual outgoing velocity and add an uphill/downhill regression before changing behavior.
+Our controller already uses built-in plane projection, `move_and_slide`, floor snap and constant slope speed. Keep those engine facilities. Source review initially identified a risk: the first airborne frame reconstructs horizontal velocity from full surface speed. A 45-degree 15 m/s slope tangent has about 10.61 m/s horizontal speed, so replacing that with 15 could introduce a takeoff boost. M01-008 subsequently reproduced and fixed actual takeoff boosts, downhill damping and restored wall-impact momentum. Independent real-physics regressions now pass; [before/after measurements](../testing/TAKEOFF-MOMENTUM.md) preserve the evidence.
 
 The existing 56-degree floor-angle limit makes steeper surfaces walls. Vert/quarter-pipe riding therefore needs an explicit surface-support state and transition rules; increasing a floor angle alone is not an accepted implementation. 3deric's pipe/pipesnap/lip states are a useful design reference, with their coordinate/input contracts reviewed before reuse.
 

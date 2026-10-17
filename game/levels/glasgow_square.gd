@@ -4,6 +4,9 @@ extends Node3D
 
 const SPAWN := Vector3(0.0, 0.8, 12.0)
 const FLOOR_SIZE := Vector3(70.0, 0.5, 84.0)
+const GrindLineSource = preload("res://game/tricks/grind_line.gd")
+const RAIL_COLLISION_LAYER := 2
+const RAIL_TOP_HEIGHT := 0.92
 const PALETTE := {
 	"stone": Color("b99777"),
 	"stone_light": Color("d5b99b"),
@@ -20,6 +23,7 @@ const PALETTE := {
 }
 
 var _materials: Dictionary = {}
+var _rail_authors: Array[Node3D] = []
 
 
 func _ready() -> void:
@@ -35,6 +39,17 @@ func _ready() -> void:
 
 func get_spawn_position() -> Vector3:
 	return SPAWN
+
+
+## Snapshot authored rail tops into world coordinates. Call again after moving
+## this level; the returned GrindLine instances deliberately own fixed curves.
+func get_grind_lines() -> Array:
+	var lines: Array = []
+	for rail: Node3D in _rail_authors:
+		var local_points: PackedVector3Array = rail.get_meta("grind_points")
+		lines.append(GrindLineSource.from_local_points(
+			String(rail.get_meta("grind_id")), local_points, rail.global_transform, "rail"))
+	return lines
 
 
 func get_location_name(world_position: Vector3) -> String:
@@ -120,9 +135,13 @@ func _build_skating_lines() -> void:
 		_box(self, "LedgeCap", Vector3(-11.5, 0.495, z), Vector3(1.35, 0.03, 7.1), "cream")
 	_box(self, "EastLedge", Vector3(22.0, 0.28, 2.0), Vector3(7.0, 0.56, 1.3), "stone", true)
 	_box(self, "EastLedgeCap", Vector3(22.0, 0.575, 2.0), Vector3(7.1, 0.03, 1.4), "cream")
-	# Rail props have ordinary collision only; grinding arrives in M02.
-	_rail(Vector3(12.0, 0.0, 9.0), 7.5)
-	_rail(Vector3(-26.0, 0.0, -22.0), 8.0)
+	# Rail tops and their geometry share one local coordinate system. The
+	# controller acquires these lines explicitly; unrelated ledges stay solid.
+	_rail("Grind_Rail_Exchange", Vector3(12.0, 0.0, 9.0), 7.5)
+	_rail("Grind_Rail_Tenement", Vector3(-26.0, 0.0, -22.0), 8.0)
+	_label(self, "RailApproachHint", "OLLIE ON / HOLD GRIND", Vector3(12.0, 0.04, 17.0), 28, "cream", Vector3(-90.0, 0.0, 0.0), 0.012)
+	for z: float in [15.0, 14.0]:
+		_box(self, "RailApproachDash", Vector3(12.0, 0.03, z), Vector3(0.12, 0.02, 0.5), "coral")
 
 
 func _ramp(ramp_name: String, at: Vector3, width: float, run: float, rise: float, yaw: float) -> void:
@@ -167,10 +186,28 @@ func _ramp(ramp_name: String, at: Vector3, width: float, run: float, rise: float
 		direction_mark.rotation.x = atan2(rise - 0.02, run)
 
 
-func _rail(at: Vector3, length: float) -> void:
-	_box(self, "RailProp", at + Vector3(0.0, 0.85, 0.0), Vector3(0.14, 0.14, length), "coral", true)
+func _rail(rail_id: String, at: Vector3, length: float) -> void:
+	var rail := Node3D.new()
+	rail.name = rail_id
+	rail.position = at
+	rail.add_to_group("grind_rails")
+	rail.set_meta("grind_id", rail_id)
+	# First point is the south approach; increasing distance travels north (-Z).
+	rail.set_meta("grind_points", PackedVector3Array([
+		Vector3(0.0, RAIL_TOP_HEIGHT, length / 2.0),
+		Vector3(0.0, RAIL_TOP_HEIGHT, -length / 2.0),
+	]))
+	add_child(rail)
+	_rail_authors.append(rail)
+	var bar := _box(rail, "RailProp", Vector3(0.0, RAIL_TOP_HEIGHT - 0.07, 0.0), Vector3(0.14, 0.14, length), "coral", true) as StaticBody3D
+	bar.collision_layer = RAIL_COLLISION_LAYER
+	bar.collision_mask = 0
 	for z: float in [-length / 2.0 + 0.4, length / 2.0 - 0.4]:
-		_box(self, "RailPost", at + Vector3(0.0, 0.42, z), Vector3(0.12, 0.84, 0.12), "slate", true)
+		var post := _box(rail, "RailPost", Vector3(0.0, 0.42, z), Vector3(0.12, 0.84, 0.12), "slate", true) as StaticBody3D
+		# Thin supports cannot catch a rider entering/leaving the authored line.
+		# Ordinary world solids stay on layer1 for clearance and collision checks.
+		post.collision_layer = RAIL_COLLISION_LAYER
+		post.collision_mask = 0
 
 
 func _build_statue() -> void:

@@ -4,7 +4,7 @@
 
 ## Evidence available now
 
-The runtime network proxy rejected official sites, Google Maps/Street View and OpenStreetMap with `Tunnel connection failed: 403 Forbidden`. No street imagery or map layout was inspected. Specific domain additions have been saved in the cloud environment draft; saving a draft does not apply network access. Review and save the changes in environment settings, then publish the environment before retrying in an environment using those settings. Maps may require additional image hosts; add only hosts demonstrated necessary, without enabling billing or a paid API.
+The runtime network proxy rejected official sites, Google Maps/Street View and OpenStreetMap with `Tunnel connection failed: 403 Forbidden`. No street imagery or map layout was inspected. The reference-domain additions now appear in the saved environment base configuration (read returned no pending draft), yet this running machine still rejects fresh requests. Fresh-task access using the saved configuration has not been verified. Retry at next environment startup before asking the owner to change the same settings again. Maps may require additional image hosts; add only hosts demonstrated necessary, without enabling billing or a paid API.
 
 A reachable community source provides **dated address leads only**:
 
@@ -69,6 +69,10 @@ The following pages were attempted on 17 October 2026; all were blocked by the p
 
 The draft includes exact bare/`www` variants used by these sites. Check actual redirects and runtime access before assuming the saved policy is active. A blocked source is not evidence of its content.
 
+### Access recheck — 17 October 2026, 13:11 BST (12:11 UTC)
+
+After the owner asked to proceed, one parallel read-only request per source retried Google Maps (Royal Exchange Square), Glasgow Life (GoMA), Network Rail (Glasgow Central) and Barras Market at the exact URLs above, with 15-second timeouts. All four again returned `Tunnel connection failed: 403 Forbidden`; no page body, map, current shopfront or Street View imagery was inspected. The saved network draft is therefore not evidence of working runtime access. M03-006 remains blocked; retry only after a relevant environment setting or runtime change. No further unchanged retries, paid API calls or image imports were made.
+
 ## Reuse and production boundary
 
 Use free public map/Street View access for research when available. No paid API, key, subscription or billing setup is needed. Reference photographs, panoramas, map tiles and logos are not automatically licensed production textures. Create original geometry/materials or use compatible free assets with recorded permissions in [REGISTER.md](../licences/REGISTER.md). Reference links and observations can preserve the research without bundling source imagery.
@@ -76,3 +80,7 @@ Use free public map/Street View access for research when available. No paid API,
 The inspected [GlasgowData/GlasgowMapping repository](https://github.com/GlasgowData/GlasgowMapping/tree/3ccd1f32dba5c1b12ac5eb89bfc0be603b9898e2) was rejected as an asset source: its README says “Not to be used for commercial purposes” and “Crown copyright 2016”, and its administrative boundaries do not solve shopfront research. No files were imported.
 
 The current game's fictional signs and procedural buildings remain temporary blockout assets. [ART_DIRECTION.md](../product/ART_DIRECTION.md) and M06-007 require the later detailed environment/UI cleanup and owner review.
+
+## Configuration follow-up during rail implementation
+
+The configuration read returned `draft_id: null` and base version `c74f4d99-ee6c-4535-a6ea-acb860e09938~cecfgver_6ad364de66e4819b8f18cbc79718b37d`, with the requested reference domains present. A subsequent direct check of Google Maps and Glasgow Life still returned proxy tunnel HTTP 403 in the current machine. This distinguishes saved configuration from effective runtime access. No site content was inspected; fresh-task access remains unverified. Do not ask the owner to repeat the previous domain edit without new evidence.

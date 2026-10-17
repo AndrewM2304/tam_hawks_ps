@@ -1,6 +1,6 @@
 # Independent QE report — 17 October 2026
 
-Owner: A09 QE. Scope: initial M01 local gameplay slice plus the isolated M02 rail-helper adaptation. Latest result: **136 assertions passed, 0 failed** using Godot `4.6.3.stable.official.7d41c59c4` on the Linux cloud machine. The tested slice is suitable for the next human playtest; this is not M01 hardware/feel acceptance or a release certification.
+Owner: A09 QE. Scope: M01 gameplay, measured takeoff fixes, trick definitions and first playable M02 rail integration. Latest result: **260 assertions passed, 0 failed** using Godot `4.6.3.stable.official.7d41c59c4` on the Linux cloud machine. The tested slice is suitable for the next human playtest; this is not M01 hardware/feel acceptance or a release certification.
 
 ## Reproduce
 
@@ -11,7 +11,7 @@ From the repository root:
 ./tools/check.sh
 ```
 
-The final `tools/check.sh` invocation returned exit code 0 and printed `RESULT: 136 passed, 0 failed`. It imported the project successfully, ran `tests/run_tests.gd`, and checked both logs for engine/script errors. Generated evidence is `.local/import.log` and `.local/tests.log`; these files are intentionally ignored and can be recreated. `tools/run.sh` supplies writable XDG directories. No external testing framework, paid service, hosted CI or downloaded test dependency is involved.
+The final integrated `tools/check.sh` invocation returned exit code 0 and printed `RESULT: 260 passed, 0 failed`. It imported the project successfully, ran `tests/run_tests.gd`, and checked both logs for engine/script errors. Generated evidence is `.local/import.log` and `.local/tests.log`; these files are intentionally ignored and can be recreated. `tools/run.sh` supplies writable XDG directories. No external testing framework, paid service, hosted CI or downloaded test dependency is involved.
 
 The standalone runner exits 1 when an assertion fails, uses deferred initialization, and reports explicit counts. It instantiates the production main script, uses real physics frames, and sends action input through the Godot input system. UI routing checks inject key and standard gamepad button events. These are synthetic inputs, not evidence of a connected physical device.
 
@@ -20,7 +20,7 @@ The standalone runner exits 1 when an assertion fails, uses deferred initializat
 | Area | Verified behavior |
 |---|---|
 | Score session | Empty state; half/quarter repeat degradation; distinct-trick multiplier; cap; pending preview; bank exactly once; best combo; per-combo degradation reset; bail loss; full run reset |
-| Scene and bindings | Production world/skater/camera creation; visible geometry and static bodies; all 12 actions registered with keyboard and gamepad bindings; spawn contract; location text |
+| Scene and bindings | Production world/skater/camera creation; visible geometry and static bodies; all 13 actions registered with keyboard and gamepad bindings; spawn contract; location text |
 | Floor and ramps | Spawn floor at Y=0; stable floor settling; all four ramps expose raised collision surfaces and top normals below 15°; each ramp has visible mesh geometry; four boundary collision rays |
 | Route traversal | Actual push-driven central approach climbs the ramp, clears its crest and lands; the tenement return route also climbs, clears and lands |
 | Basic skating | Forward acceleration; heading stability; braking; steering; ollie ascent; disabled controls prevent movement and tricks |
@@ -41,6 +41,18 @@ The first focused run reported **40 passed, 2 failed**, with Godot duplicate-geo
 
 A09 independently reviewed the fixes. This verifies the isolated helper under Godot 4.6.3, not the entire upstream 4.7.2 game or complete grinding gameplay. Source, licence, changes and limits are in `docs/research/SKATING_REUSE.md`. The helper integration adds no active player/world/UI behavior. After the title correction to Tam Hawks, the orchestrator reran the full check successfully (136 passed, 0 failed, exit 0), regenerated all three captures and inspected the renamed HUD and menu. No new gameplay acceptance is inferred from that rename check.
 
+## Momentum and first playable rail follow-up
+
+M01-008 independently reproduced uphill/flat takeoff boosts, unintended downhill damping and restored horizontal motion after removing an airborne collision wall. The same real-physics regressions passed after the controller preserved collision-adjusted planar momentum and used capped actual surface travel. [TAKEOFF-MOMENTUM.md](TAKEOFF-MOMENTUM.md) records diagnostic fixtures, exact before/after values and 21 durable assertions.
+
+M02-001 adds the documented state/input contract and validated trick catalog, with 27 checks for valid/malformed definitions, unknown IDs, illegal transitions, defensive copies and score compatibility. Future manual/revert/special entries do not enable those mechanics.
+
+M02-002 integrates the reused geometry helper with original ride state, two authored rails, L/R2 input, balance UI, capsule clearance sweeps and one-entry scoring. `tests/grind_ride_tests.gd` has 41 checks for capture bounds, nearest/obstructed candidates, reverse/sloped/curved travel, speed/friction/end handling and balance. `tests/grinding_tests.gd` adds 19 production-scene checks for input, travel/release/ollie/end, pause, combo preservation/banking, obstruction, bail, reset and overtime. One additional structure check verifies the new input action.
+
+A09's independent review found that the first integration still admitted new tricks during overtime despite ADR-006. Production now gates fresh trick/spin/capture/rail-ollie inputs at timer expiry while letting existing combos release and land. `tests/grind_regression_tests.gd` adds 15 passing assertions for an actual from-rest push→ollie→descending rail catch, a newly inserted rail obstruction causing exactly one bail, and overtime admission/earned-score resolution. These checks use the production scene and physical frames; they do not replace the hardware trial.
+
+All previous 136 assertions remain; the added groups total 124. Final integrated command results are recorded at the top of this report and in STATUS. No failed assertion was weakened to obtain a pass. [GRINDING.md](GRINDING.md) records exact tuning, controls, fixture/capture routes and remaining acceptance.
+
 ## Defects and limits
 
 No failing automated cases remain in the tested slice. QE did not edit production behavior to achieve these results. This is limited evidence, not proof that all untested routes, inputs or edge cases work.
@@ -53,20 +65,21 @@ The following require separate evidence before milestone acceptance:
 - Full traversal of the north and warm-up banks, every ledge/rail prop and extreme-speed/corner contacts. Current automated passage coverage is the central and tenement routes; all four ramps have collision-normal checks.
 - Input buffering/coyote-time edge boundaries, camera obstruction recovery, and longer randomized regression runs. These are useful next test additions when related behavior changes.
 
-Rendered-frame evidence belongs in the rendering record below and `docs/STATUS.md`; headless execution alone cannot certify the visual result. Grinds, manuals, reverts, missions, progression, saves, audio, multiple districts and cone interaction remain roadmap work and are not certified by this suite.
+Rendered-frame evidence belongs in the rendering record below and `docs/STATUS.md`; headless execution alone cannot certify the visual result. Manuals, reverts, missions, progression, saves, audio, multiple districts and cone interaction remain roadmap work. First grinds have local evidence; physical feel and full M02 acceptance remain open.
 
 ## Rendering record
 
-The orchestrator captured three real 1280×800 frames using the Compatibility renderer with software Mesa OpenGL on an Xorg dummy display. A09 independently opened the original three images. The orchestrator regenerated and opened all three after the title correction; the checked-in files now show Tam Hawks:
+`./tools/capture.sh` produced four real 1280×800 Compatibility-renderer frames using Mesa llvmpipe software OpenGL on a temporary Xorg dummy display; every capture returned 0 and the script exited 0. The orchestrator reviewed all four, and A09 independently reviewed the new rail frame:
 
-- [Initial square](screenshots/prototype.png): skater, board, forward ramp, statue and building facades are visible; score/timer/control instructions are legible and the central route is unobstructed.
-- [Aerial tricks](screenshots/air-tricks.png): the skater is visibly airborne; HUD shows `650 ×3` and `1950 POINTS — LAND TO BANK IT` with the three trick names; the speed gauge is present without clipping.
-- [Pause menu](screenshots/pause-menu.png): the dimmed gameplay context and three readable actions are visible; the resume action has an obvious focus outline.
+- [Initial square](screenshots/prototype.png): normal prototype route and updated grind controls.
+- [Aerial tricks](screenshots/air-tricks.png): actual airborne rider, 650 ×3 and 1,950 pending points, unclipped speed/control labels.
+- [Pause menu](screenshots/pause-menu.png): readable actions, visible focus and dimmed game context.
+- [Rail grind](screenshots/rail-grind.png): actual ground-approach/ollie/capture sequence, rail alignment, balance meter, Ollie + Rail Grind, 300 ×2 and 600 pending points. No visible clipping or panel overlap in the reviewed frame.
 
-Source captures were `.local/prototype.png`, `.local/air-tricks.png` and `.local/pause-menu.png`; the orchestrator copies the reviewed images to the linked durable paths. These samples show no obvious missing geometry, text clipping or overlap. Static frames do not establish readable motion, comfortable camera behavior, correct physical controller glyphs, or real-time performance on the target Mac.
+The repeatable scenario is in `tools/capture.gd` and GRINDING.md. The rail capture initializes a fixed approach speed; independent QE also verifies acceleration from rest through normal push input. No mocked grinding flag or image edit supplies the evidence. The new capture baseline is the commit introducing `docs/testing/GRINDING.md` (`git log -1 -- docs/testing/GRINDING.md`). Previous title-corrected baseline is retained in Git at `ad31a56c3cf6c324c10bb13520a3b8890dd54afb`.
 
-The renamed capture baseline is part of the commit containing ADR-005; identify it with `git log -1 -- docs/architecture/decisions/ADR-005-title-and-visual-finish.md`. The previous captures are retained in Git at `9322aebdba224d215d6a3660703419fecf6fb74f`. These remain blockout evidence, not final visual acceptance; use `docs/testing/VISUAL_ACCEPTANCE.md` for M06-007.
+These remain gameplay blockout captures. Static/software-rendered frames do not establish final visual quality, readable motion, comfortable camera behavior, real controller prompts or target-Mac 1080p/60 fps. Follow `docs/testing/VISUAL_ACCEPTANCE.md` and mandatory M06-007 for final art/UI acceptance.
 
 ## Next QE session
 
-Read `docs/STATUS.md` and the earliest ready QE ticket in `docs/planning/BACKLOG.md`, then run `./tools/check.sh`. Preserve the separation between local automated evidence and the human/platform gates. For a new regression, record exact inputs, starting position, observed/expected result and affected build before changing production code. Keep the 136-check baseline unless an intentional behavior change makes a specific assertion obsolete; document the reason for any replacement.
+Read `docs/STATUS.md` and the earliest ready QE ticket in `docs/planning/BACKLOG.md`, then run `./tools/check.sh`. Preserve the separation between local automated evidence and the human/platform gates. For a new regression, record exact inputs, starting position, observed/expected result and affected build before changing production code. Keep the 260-check baseline unless an intentional behavior change makes a specific assertion obsolete; document the reason for any replacement.

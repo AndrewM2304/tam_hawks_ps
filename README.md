@@ -2,9 +2,9 @@
 
 An original arcade skateboarding game in a fictionalised Glasgow. This project aims for responsive skating, continuous combos, two-minute runs and an interconnected four-district playground.
 
-**Current stage: M01 skating prototype in progress.** This is not the complete game. The current implementation targets a procedural Glasgow-inspired square, basic skating and aerial tricks, a camera, run scoring and a restartable session. Grinds, manuals, reverts, specials, a complete four-district world, goals and persistent progression remain release work. [Current status](docs/STATUS.md) records exactly what has been implemented and tested.
+**Current stage: M01 skating prototype in progress.** This is not the complete game. The current implementation targets a procedural Glasgow-inspired square, basic skating and aerial tricks, two grindable rails with balance, a camera, run scoring and a restartable session. Manuals, reverts, specials, a complete four-district world, goals and persistent progression remain release work. [Current status](docs/STATUS.md) records exactly what has been implemented and tested.
 
-The first playable slice passes **136 automated checks** and has [reviewed gameplay captures](docs/testing/screenshots/air-tricks.png). Physical DualSense/Mac playtesting is the next acceptance gate. The [QE report](docs/testing/QE-REPORT.md) records the tested behavior and limitations.
+The first playable slice passes **260 automated checks** and has [reviewed gameplay captures](docs/testing/screenshots/air-tricks.png). Physical DualSense/Mac playtesting is the next acceptance gate. The [QE report](docs/testing/QE-REPORT.md) records the tested behavior and limitations.
 
 **Visual direction:** the current blocky scene is temporary gameplay blockout. The final target is realistic-but-fun Glasgow graphics and polished UI, with recognisable real shopfronts/street edges. A required post-gameplay cleanup and owner visual signoff are tracked in M06-007; see [art direction](docs/product/ART_DIRECTION.md) and [Glasgow references](docs/research/GLASGOW_REFERENCES.md).
 
@@ -28,15 +28,18 @@ The cloud Linux machine is useful for development and automated tests. A rendere
 | Ollie | Space | Cross |
 | Flip / grab | J / K | Square / Circle |
 | Spin left / right | Q / E | L1 / R1 |
+| Hold grind / balance | L / A-D | R2 / left stick |
 | Pause | Escape | Options |
 | Restart | R | Triangle |
 | Toggle free skate | F | Touchpad |
 
-The controller layout is implemented through Godot's standard gamepad mapping and needs testing on a real DualSense. Final grind/manual/revert controls will be specified in M02 and verified with the user.
+The controller layout is implemented through Godot's standard gamepad mapping and needs testing on a real DualSense. Manual/revert controls will be specified in M02 and verified with the user.
+
+To try the first rail, approach the orange rail on the right of the square, ollie onto it while holding **L** (controller candidate: **R2**), and keep the balance marker centred with left/right steering. Release grind to drop off or press ollie to jump off; land to bank the combo. The [rail test guide](docs/testing/GRINDING.md) records the exact repeatable route and remaining checks.
 
 ## Reuse and implementation research
 
-We use Godot’s built-in engine facilities and prefer suitable existing components over rebuilding generic systems. [The inspected source shortlist](docs/research/SKATING_REUSE.md) includes GodotSkate and Not Pro Skater. An MIT rail-geometry helper is now adapted and tested; playable grinds remain M02 work. Attribution and the complete licence are retained.
+We use Godot’s built-in engine facilities and prefer suitable existing components over rebuilding generic systems. [The inspected source shortlist](docs/research/SKATING_REUSE.md) includes GodotSkate and Not Pro Skater. An MIT rail-geometry helper now drives the first playable grinds; manuals, reverts and complete combo-flow acceptance remain M02 work. Attribution and the complete licence are retained.
 
 ## Development and continuity
 

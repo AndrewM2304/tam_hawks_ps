@@ -6,6 +6,10 @@ signal trick_performed(trick_name: String, points: int)
 signal landed(clean: bool)
 signal bailed()
 
+const GrindRideSource = preload("res://game/tricks/grind_ride.gd")
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
+const GRIND_RECAPTURE_DELAY := 0.35
+
 const MAX_SPEED := 15.0
 const PUSH_ACCELERATION := 10.0
 const BRAKE_DECELERATION := 22.0
@@ -22,6 +26,17 @@ var speed: float = 0.0
 var airborne: bool = false
 var spawn_position: Vector3 = Vector3(0.0, 0.8, 12.0)
 
+var _grind = GrindRideSource.new()
+var _grind_lines: Array = []
+var _grind_cooldown := 0.0
+var grinding: bool:
+	get:
+		return _grind.active
+var grind_balance: float:
+	get:
+		return _grind.balance if grinding else 0.0
+
+var _trick_entries_enabled := true
 var _controls_enabled := true
 var _coyote_remaining := 0.0
 var _jump_buffer_remaining := 0.0
@@ -59,6 +74,8 @@ func _ready() -> void:
 
 
 func reset_skater() -> void:
+	_grind.stop()
+	_grind_cooldown = 0.0
 	global_position = spawn_position
 	rotation = Vector3.ZERO
 	velocity = Vector3.ZERO
@@ -92,7 +109,24 @@ func set_controls_enabled(enabled: bool) -> void:
 		_jump_buffer_remaining = 0.0
 
 
+func set_trick_entries_enabled(enabled: bool) -> void:
+	# Run overtime permits an existing combo to land, without starting links.
+	_trick_entries_enabled = enabled
+	if not enabled:
+		_jump_buffer_remaining = 0.0
+
+
+func set_grind_lines(lines: Array) -> void:
+	# Snapshot the collection; geometry itself is immutable during a run.
+	_grind_lines = lines.duplicate()
+
+
 func _physics_process(delta: float) -> void:
+	_grind_cooldown = maxf(0.0, _grind_cooldown - delta)
+	if grinding:
+		_tick_grind(delta)
+		_update_pose(delta)
+		return
 	var grounded_before := is_on_floor()
 	var push_input := 0.0
 	var brake_input := 0.0
@@ -101,7 +135,7 @@ func _physics_process(delta: float) -> void:
 		push_input = Input.get_action_strength("push")
 		brake_input = Input.get_action_strength("brake")
 		_steering = Input.get_axis("steer_left", "steer_right")
-		if Input.is_action_just_pressed("ollie"):
+		if _trick_entries_enabled and Input.is_action_just_pressed("ollie"):
 			_jump_buffer_remaining = JUMP_BUFFER_TIME
 	_jump_buffer_remaining = maxf(0.0, _jump_buffer_remaining - delta)
 	_coyote_remaining = COYOTE_TIME if grounded_before else maxf(0.0, _coyote_remaining - delta)
@@ -115,14 +149,16 @@ func _physics_process(delta: float) -> void:
 			speed = move_toward(speed, 0.0, ROLLING_DRAG * delta)
 	# Low-speed steering remains useful, and high-speed turns stay controllable.
 	var turn_scale := lerpf(1.0, 0.62, speed / MAX_SPEED)
-	rotation.y -= _steering * TURN_SPEED * turn_scale * delta
+	var steering_angle := -_steering * TURN_SPEED * turn_scale * delta
+	rotation.y += steering_angle
 	var forward := -global_basis.z
 	if grounded_before:
 		var ground_direction := forward.slide(get_floor_normal()).normalized()
 		velocity = ground_direction * speed
 	else:
-		velocity.x = forward.x * speed
-		velocity.z = forward.z * speed
+		# Carry the ramp/contact-adjusted momentum into air. Rebuilding X/Z
+		# from surface speed adds energy at lips and restores blocked motion.
+		velocity = velocity.rotated(Vector3.UP, steering_angle)
 		velocity.y -= GRAVITY * delta
 
 	if _jump_buffer_remaining > 0.0 and _coyote_remaining > 0.0:
@@ -132,17 +168,24 @@ func _physics_process(delta: float) -> void:
 		_coyote_remaining = 0.0
 		trick_performed.emit("Ollie", 100)
 
-	if airborne and _controls_enabled:
+	if airborne and _controls_enabled and _trick_entries_enabled:
 		_apply_air_tricks(delta)
+		if _try_grind():
+			_update_pose(delta)
+			return
 
 	move_and_slide()
 	if is_on_floor():
-		# Wall contacts should not allow the speed meter to keep accelerating.
-		speed = minf(speed, velocity.length())
+		# Godot can clear requested Y while snapping down a slope. Real travel
+		# retains that component, avoiding repeated artificial downhill braking.
+		# The cap prevents collision recovery/snap displacement adding speed.
+		speed = minf(speed, get_real_velocity().length())
 		if airborne:
 			_finish_landing()
-	elif not airborne:
-		_begin_air()
+	else:
+		speed = Vector2(velocity.x, velocity.z).length()
+		if not airborne:
+			_begin_air()
 
 	if global_position.y < -8.0 or absf(global_position.x) > 100.0 or absf(global_position.z) > 110.0:
 		bailed.emit()
@@ -175,17 +218,96 @@ func _apply_air_tricks(delta: float) -> void:
 	_spin_angle = _air_spin
 
 
-func _finish_landing() -> void:
+func _award_air_spin() -> void:
 	# M01 uses forgiving, clean landings at any heading. Small spin tolerance
 	# keeps the 180 accessible without precise last-frame timing.
 	var half_turns := int(floor((absf(_air_spin) + deg_to_rad(20.0)) / PI))
 	if half_turns > 0:
 		var direction := "Frontside" if _air_spin > 0.0 else "Backside"
 		trick_performed.emit("%s %d" % [direction, half_turns * 180], half_turns * 200)
+	_air_spin = 0.0
+
+
+func _finish_landing() -> void:
+	_award_air_spin()
 	airborne = false
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
 	landed.emit(true)
+
+
+func _try_grind() -> bool:
+	if _grind_cooldown > 0.0 or not Input.is_action_pressed("grind"):
+		return false
+	if not _grind.start(_grind_lines, global_position, velocity, _rail_path_clear):
+		return false
+	_award_air_spin()
+	airborne = false
+	_flip_remaining = 0.0
+	_grab_remaining = 0.0
+	_spin_angle = 0.0
+	_jump_buffer_remaining = 0.0
+	_coyote_remaining = 0.0
+	global_position = _grind.position()
+	velocity = _grind.travel_velocity()
+	speed = _grind.speed
+	_align_to_travel()
+	trick_performed.emit(TrickCatalog.definition("rail_grind")["display_name"],
+		TrickCatalog.base_points("rail_grind"))
+	return true
+
+
+func _rail_path_clear(from: Vector3, to: Vector3) -> bool:
+	var start := global_transform
+	start.origin = from
+	# Sweep the real rider capsule against ordinary scenery, including overlap
+	# recovery. Rail-only props are layer 2; world obstacles remain layer 1.
+	return not test_move(start, to - from, null, safe_margin, true)
+
+
+func _align_to_travel() -> void:
+	if Vector2(velocity.x, velocity.z).length_squared() > 0.001:
+		rotation.y = atan2(-velocity.x, -velocity.z)
+
+
+func _tick_grind(delta: float) -> void:
+	if not _controls_enabled:
+		return
+	_steering = Input.get_axis("steer_left", "steer_right")
+	if _trick_entries_enabled and Input.is_action_just_pressed("ollie"):
+		_release_grind(true)
+		return
+	if not Input.is_action_pressed("grind"):
+		_release_grind(false)
+		return
+	# Short collision sweeps follow bends instead of cutting through scenery.
+	var steps := maxi(1, ceili(delta * maxf(_grind.speed, 1.0) / 0.20))
+	for i in steps:
+		var result: String = _grind.step(delta / steps, _steering)
+		var target: Vector3 = _grind.position()
+		if result == "bail" or not _rail_path_clear(global_position, target):
+			bailed.emit()
+			reset_skater()
+			_grind_cooldown = GRIND_RECAPTURE_DELAY
+			return
+		global_position = target
+		velocity = _grind.travel_velocity()
+		speed = _grind.speed
+		_align_to_travel()
+		if result != "riding":
+			_release_grind(false)
+			return
+
+
+func _release_grind(jump: bool) -> void:
+	velocity = _grind.travel_velocity()
+	_grind.stop()
+	_grind_cooldown = GRIND_RECAPTURE_DELAY
+	_begin_air()
+	speed = Vector2(velocity.x, velocity.z).length()
+	if jump:
+		velocity.y = maxf(0.0, velocity.y) + OLLIE_SPEED
+		trick_performed.emit("Ollie", TrickCatalog.base_points("ollie"))
 
 
 func _update_pose(delta: float) -> void:
@@ -199,9 +321,14 @@ func _update_pose(delta: float) -> void:
 	var grab_pose := 1.0 if _grab_remaining > 0.0 else 0.0
 	_rider_visual.position.y = lerpf(_rider_visual.position.y, -0.17 * grab_pose, 1.0 - exp(-16.0 * delta))
 	_rider_visual.rotation.x = lerpf(_rider_visual.rotation.x, -0.1 - grab_pose * 0.2, 1.0 - exp(-10.0 * delta))
+	if grinding:
+		_visual.rotation.z = -grind_balance * 0.35
+		_rider_visual.position.y = -0.12
 	# Lean the visible board into slopes without pitching the upright collision.
 	var desired_pitch := 0.0
-	if is_on_floor():
+	if grinding:
+		desired_pitch = atan2(velocity.y, Vector2(velocity.x, velocity.z).length())
+	elif is_on_floor():
 		var local_normal := global_basis.inverse() * get_floor_normal()
 		desired_pitch = atan2(local_normal.z, local_normal.y)
 	_visual.rotation.x = lerpf(_visual.rotation.x, desired_pitch, 1.0 - exp(-14.0 * delta))

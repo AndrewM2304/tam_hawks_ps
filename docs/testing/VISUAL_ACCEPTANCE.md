@@ -8,7 +8,7 @@ Reference gathering, asset inspection and task preparation can proceed now. Fina
 
 Each evidence set must identify commit, Godot version, platform/GPU, renderer, window/render resolution, quality settings, camera transform, route/pose and lighting state. Save capture instructions alongside the results so the next session can repeat them. Evidence must be real rendered gameplay or UI. Concept images and editor-only views cannot establish playable quality.
 
-`./tools/capture.sh` currently produces `.local/prototype.png`, `.local/air-tricks.png` and `.local/pause-menu.png`. Its existing 1280×800 software-rendered captures are useful comparisons, but the runner does not yet exercise all screens, districts or M02 trick states. Extend or complement capture coverage as those systems arrive and record exact commands. Preserve historical captures with their original build identity; capture a new, correctly titled baseline for later comparisons.
+`./tools/capture.sh` currently produces `.local/prototype.png`, `.local/air-tricks.png` `.local/pause-menu.png` and `.local/rail-grind.png`. Its existing 1280×800 software-rendered captures are useful comparisons, but the runner does not yet exercise all screens, districts or all M02 trick states. Extend or complement capture coverage as those systems arrive and record exact commands. Preserve historical captures with their original build identity; the title-corrected baseline is retained at `ad31a56`, and the first rail baseline is the commit introducing `docs/testing/GRINDING.md`.
 
 ## Required placeholder inventory
 
