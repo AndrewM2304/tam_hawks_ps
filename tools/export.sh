@@ -126,7 +126,20 @@ mkdir -p "$TASK_BUILD/resource-inspection" "$TASK_BUILD/resource-inspection/data
 cat > "$TASK_BUILD/check-pack.gd" <<'GDSCRIPT'
 extends SceneTree
 func _initialize() -> void:
-	var report: Dictionary = {"voice_streams": {}, "embedded_notices": []}
+	var report: Dictionary = {"voice_streams": {}, "main_scene_loaded": false}
+	var main_scene := load("res://game/main.tscn") as PackedScene
+	if main_scene == null:
+		push_error("Pack is missing its main scene or script dependencies.")
+		quit(1)
+		return
+	var instance := main_scene.instantiate()
+	if instance.get_script() == null:
+		push_error("Pack main scene has no loadable game script.")
+		instance.free()
+		quit(1)
+		return
+	instance.free()
+	report.main_scene_loaded = true
 	var durations: Dictionary = {"landing": 0.9495, "cone": 1.2485, "again": 1.137875}
 	for id: String in durations:
 		var path := "res://game/audio/generated/%s.wav" % id
@@ -136,13 +149,6 @@ func _initialize() -> void:
 			quit(1)
 			return
 		report.voice_streams[id] = {"resource": path, "seconds": stream.get_length()}
-	for name: String in ["not-pro-skater-MIT.txt", "flite-COPYING.txt", "flite-kal16-LICENSE.txt", "flite-debian-copyright.txt"]:
-		var path := "res://docs/licences/third-party/" + name
-		if FileAccess.get_file_as_string(path).strip_edges().is_empty():
-			push_error("Pack is missing the full third-party notice: " + name)
-			quit(1)
-			return
-		report.embedded_notices.append(name)
 	var output := FileAccess.open(OS.get_cmdline_user_args()[0], FileAccess.WRITE)
 	if output == null:
 		push_error("Could not write packaged resource report.")
@@ -150,7 +156,7 @@ func _initialize() -> void:
 		return
 	output.store_string(JSON.stringify(report, "\t") + "\n")
 	output.close()
-	print("RESOURCES VERIFIED: 3 imported voice streams and 4 third-party notices")
+	print("RESOURCES VERIFIED: main scene/scripts and 3 imported voice streams")
 	quit(0)
 GDSCRIPT
 for TASK_PLATFORM in linux macos; do
@@ -223,7 +229,7 @@ for platform in ('linux', 'macos'):
                 z.writestr(info, os.readlink(path))
             elif path.is_file(): z.write(path, relative)
     with zipfile.ZipFile(archive) as z:
-        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt']
+        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt', 'GODOT-LICENSE.txt', 'GODOT-COPYRIGHT.txt']
         if not all('NOTICES/' + name in z.namelist() for name in required_notices):
             raise SystemExit('A required third-party notice is absent from the completed ZIP.')
         for source in reviewed_notices:
