@@ -12,11 +12,11 @@ From source, open `project.godot` with free Godot 4.6.3 and press F5, or run `./
 |---|---|---|
 | Push / brake | W / S, or up / down | Left stick up / down |
 | Steer | A / D, or left / right | Left stick left / right |
-| Ollie | Space | Cross |
-| Kickflip / grab | J / K | Square / Circle |
-| Spin | Q / E | L1 / R1 |
-| Grind | Hold L near a rail | Hold Triangle |
-| Manual | Hold M | Hold L2 |
+| Crouch / ollie | Hold Space, release to pop | Hold Cross, release to pop |
+| Flip / grab family | Direction + J / hold K | Direction + Square / hold Circle |
+| Air spin | A/D or Q/E | Left stick or L1/R1 |
+| Rail grind | Tap L; tap again to drop | Tap Triangle; tap again to drop |
+| Manual / nose manual | Hold M; Up + M selects nose | Hold L2; Up + L2 selects nose |
 | Revert after landing | C | R2 |
 | Special tricks | U / I | D-pad up / right |
 | Interact near an object | X | D-pad down |
@@ -29,7 +29,7 @@ Gamepad names describe the intended standard mapping. Physical DualSense wired/B
 
 To change a binding, pause and open **Controls**, select an action, then press the desired key, gamepad button or axis. Escape cancels listening; **Reset defaults** restores the standard layout. Bindings are saved locally, and prompts follow the saved controls. Existing custom layouts are retained; use Reset defaults to adopt Triangle grind, R2 revert and R3 restart. A conflicting old override reports a warning instead of replacing your controls silently.
 
-Release Push to coast and slow naturally; hold Brake for a quicker stop. Steering carves on the ground and makes smaller corrections in the air. Camera sensitivity changes how quickly the view follows, so it does not change the skater's turning rate. The camera keeps a third-person view and moves to the side when a wall blocks the usual rear view.
+Release Push to coast and slow naturally; hold Brake for a quicker stop. Ground steering now turns more tightly. In the air, left/right visibly spins the skater while preserving flight direction; Q/E or the shoulder buttons are alternate spin inputs. Camera sensitivity changes how quickly the view follows, so it does not change the skater's turning rate. The camera keeps a third-person view and moves to the side when a wall blocks the usual rear view.
 
 Back returns to the menu you came from. Interaction prompts use your current keyboard or controller binding. Goal updates remain visible alongside an active combo.
 
@@ -37,7 +37,27 @@ Back returns to the menu you came from. Interaction prompts use your current key
 
 Push toward a ramp, ollie, then add a flip, grab or spin. Clean landing leaves a short 0.35-second link window: start another ollie, grind or manual to continue the combo; rolling normally lets it bank. A revert adds a trick without extending that window. A bail drops unbanked points. Repeating one trick reduces its value, while different tricks build the multiplier.
 
-A flip/grab pressed just before takeoff, or a held manual pressed just before landing, has a short 120ms input margin. Hold grind while descending toward an aligned rail. Balance left/right against the meter's lean; ollie or leave the rail to carry your momentum onward. Hold manual on suitable ground and correct the fore/aft balance with push/brake (W/S or the stick up/down). Controls, tuning and landing forgiveness are still subject to human feel testing.
+A flip/grab pressed just before takeoff, or a held manual pressed just before landing, has a short 120ms input margin. Tap grind while descending toward an aligned rail, or hold it through the approach for one catch. The rail stays locked after release; a second tap drops off. A released early tap has a short 140ms margin. Balance left/right against the meter's lean; hold/release Ollie to jump off, or tap Grind again to drop with your momentum. Hold manual on suitable ground and correct the fore/aft balance with push/brake (W/S or the stick up/down). Controls, tuning and landing forgiveness are still subject to human feel testing.
+
+Choose the direction when pressing the trick button; changing direction afterward does not relabel that trick. Release a grab to let go. A held flip cannot repeat; a fresh press can start another flip after the first animation completes.
+
+| Direction + family button | Flip (J / Square) | Held grab (K / Circle) |
+|---|---|---|
+| Neutral / left | Kickflip | Melon |
+| Right | Heelflip | Indy |
+| Up | Frontside Shuvit | Nose Grab |
+| Down | Pop Shuvit | Tail Grab |
+| Down-left | Varial Flip | Melon |
+| Up-right | Hardflip | Indy |
+| Up-left | Kickflip | Method |
+
+Manuals also accept Up → neutral → Down, and nose manuals Down → neutral → Up, within 220ms. These gesture manuals stay latched while you balance; press the dedicated manual button to end one. A direct push-to-brake change does not count as that gesture. Nose manuals raise the rear truck and shift weight forward. Nollie/switch modifier combinations are not needed.
+
+## Quarter-pipe, half-pipe and lips
+
+Both features are on the **Clyde north quay**, near the existing Clyde checkpoint: a standalone quarter to the east and a half-pipe to the west, with the through-quay route left open. The half-pipe has open side access to its flat bottom. Push or hold Ollie to build speed; low speed rolls back naturally, higher speed reaches the vertical lip and returns under gravity. Ground turns, air spin and the camera keep separate jobs.
+
+Hold Grind while approaching the top of a quarter-pipe to request a lip trick. Neutral selects **Axle Stall**, Up **Nose Stall**, Down **Tail Stall**, and Left/Right **Disaster**. Balance left/right, release Grind to drop back into the ramp, or hold/release Ollie to pop out. Lip holds are bounded and ordinary career overtime still ends after three seconds. A wall, flat ground or the back of a ramp cannot create a lip trick.
 
 Banking points fills the special meter. A full meter powers one successful airborne special. Career goals unlock Clyde Carousel (bank 1,000 in a run) and Tenement Tumble (bank a 3,000-point combo). Free skate makes both available for practice but still requires charge; it does not complete career goals.
 

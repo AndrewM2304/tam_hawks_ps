@@ -12,7 +12,9 @@ An original arcade skateboarding game in a fictionalised Glasgow, built with God
 - Measure six rendered city/river/park views with `./tools/profile.sh`; [profiling instructions](docs/testing/PERFORMANCE.md) cover the Mac command and measurement limits.
 - Build unsigned local Linux/macOS packages with `./tools/export.sh`; it downloads free official templates and verifies their pinned checksum. See [export instructions](docs/testing/EXPORT.md).
 
-The [player guide](docs/PLAYER-GUIDE.md) explains controls, combo links, specials and career progression. Default keyboard controls are W/A/S/D, Space to ollie, J/K for flip/grab, Q/E to spin, L to grind, M to manual, C to revert and U/I for specials. Tab opens goals; Escape pauses. Controls can be rebound in Settings. Physical DualSense mappings remain a hardware test requirement.
+The [player guide](docs/PLAYER-GUIDE.md) explains controls, combo links, specials and career progression. Default keyboard controls are W/A/S/D, hold/release Space to ollie, direction + J/held K for flip/grab, A/D or Q/E for air spin, tap L to lock a rail (tap again to drop), M for manual, C to revert and U/I for specials. Tab opens goals; Escape pauses. Controls can be rebound in Settings. Physical DualSense mappings remain a hardware test requirement.
+
+Six flips, five held grabs, Manual/Nose Manual and four lip poses now have distinct original animation. A real quarter-pipe and half-pipe sit on the existing Clyde north quay. Hold Grind near the coping for a lip; balance left/right, release to drop or hold/release Ollie to pop. The [classic-control handoff](docs/planning/CLASSIC-TRICKS-NEXT.md) and [verification report](docs/testing/CLASSIC-TRICKS.md) cover the current implementation and remaining human/art gates.
 
 On macOS, source play uses the official editor; terminal scripts accept `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot`. Standalone macOS packages are unsigned universal test builds, with launch and Apple Silicon performance still unverified. No paid signing is required for development.
 

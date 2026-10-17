@@ -22,6 +22,10 @@ The archived **Tony Hawk's Pro Skater 4 PlayStation 2 instruction booklet**, pri
 
 Both manuals say tricks can be configured differently for each skater. There is no universal direction→trick-name table to reproduce. We should document our own useful defaults, preserve the familiar family buttons and make the movements truthful to their names.
 
+## Implementation status
+
+The tables below were research recommendations. The integrated defaults, including six flips, five grabs and the exact four lip poses, are in [PLAYER-GUIDE](../PLAYER-GUIDE.md) and ADR-015. The implemented threshold is 0.35; rails use buffered tap-to-lock, not the optional retained hold-only scheme discussed below. This research is a reference basis, not the current binding specification.
+
 ## Concrete first-pass mapping and animation targets
 
 The table is an **original recommended mapping**, informed by that grammar. Neutral preserves the previous simple Kickflip/Melon paths. It is not a claim that every named franchise skater uses this setup. Up/Down/Left/Right are board-relative **raw control directions**, never world compass or chase-camera directions. A neutral press chooses the neutral entry deliberately; do not reuse an old direction indefinitely.
@@ -108,3 +112,12 @@ The attempted current Activision controls URL redirected to an error page; guess
 - Manual tests cover Up held to push then Down brake (reject), short Up→Down / Down→Up on ground/landing, expiry, speed eligibility, reset/disabled/overtime and steer/balance independence.
 - Quarter/half-pipe tests cover low-speed rollback, a no-push energy baseline, real multi-cycle return, lip versus along-coping grind, missed/high/late/offset lip approaches, side exits, deck clearance, deliberate drop, occluded ramp camera, reverse near-zero camera and no automatic Spin score.
 - Run the full production suite and source-cold import/launch, then capture all new families and a natural half-pipe pass. Actual Mac, wired/Bluetooth DualSense, comfort, feel, fun and final-art acceptance remain human/hardware gates.
+
+## Owner-provided links reviewed during implementation
+
+The owner supplied GodotSkate again and the Godot sports guide. Both were inspected on 17 October 2026 without installing a service or copying new upstream code/assets.
+
+- [GodotSkate README](https://github.com/3deric/godot-skateboarding-game/blob/4fad39ecfb21e79ca4799b90e77ef6c1edfa7928/README.md), revision `4fad39ecfb21e79ca4799b90e77ef6c1edfa7928`, confirms separate pipe colliders, ordered per-rail polylines and a glTF/Blender import convention. Its pipe/lip/input source was already inspected above. Those ideas inform our explicit transition contact and rail paths; our new geometry and controller integration are original. Its stated Godot 4.5 compatibility does not establish 4.6.3 behavior. The code's MIT licence does not clear its modified Epic MetaHuman characters for reuse; none were imported.
+- [Godot sports guide](https://github.com/ahmet-cetinkaya/dotfiles/blob/3bab7c380a9ad0f2ef941e879656d0bfd6555cf0/agent-ctrl/profiles/godot/skills/godot-genre-sports/SKILL.md), revision `3bab7c380a9ad0f2ef941e879656d0bfd6555cf0`, is mostly a ball/team-sport blueprint. Useful principles are fixed-step physics, collision-safe fast travel, contextual actions and input magnitude discipline. Our existing 60 Hz physics, bounded capsule sweeps, exclusive pipe/lip/rail states, direction snapshots and tests address those principles. Its blanket suggestions to use 120/240 Hz, root motion and multiple character colliders are not skate-specific evidence and were not applied. Higher physics frequency multiplies CPU work; any change needs measured tunnelling/latency benefit and target-Mac cost. Do not normalize away analog stick magnitude, which our partial-input tests deliberately preserve. Ball Magnus force, goalkeepers, formations and authoritative multiplayer goals do not apply to this single-player skate slice.
+
+Retrieval SHA-256: sports guide `81c45d1c0f6c6904b71b858bbf24fee1524e47c49fd2bafe6c60df46c1b62b4b`; dotfiles MIT licence `d8f2b55ec0a76076b5b5a8bdd5d494f0f9eeb9ef34cba10a1d5c28f5daa832a3`; GodotSkate README `633c6ba5549aef03388b50f1a6f3489f3e093e3b4c3ac5ec0c3b624065ef3eb5`; GodotSkate MIT licence `9b646934ce371139c3813793a3d094aca34713175e7a7f81d3da0d22bcb7b264`. The pinned sports guide was verified byte-identical to the initially inspected main URL. These are reference observations; no remote skill was installed or given authority over repository/budget rules.

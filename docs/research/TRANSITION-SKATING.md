@@ -1,5 +1,8 @@
 # M02-011 — transition and vert skating research
 
+**Current implementation note:** this is the historical research proposal. [ADR-015](../architecture/decisions/ADR-015-directional-tricks-and-transitions.md) and [CLASSIC-TRICKS-NEXT](../planning/CLASSIC-TRICKS-NEXT.md) now implement its first finite quarter/half-pipe, vert/re-entry and lip prototype on the existing Clyde quay. The source observations below retain their original date and scope; full bowls, wallrides, repeated high-speed cycles and human feel remain open.
+
+
 **17 October 2026 · A04 · Research only. M02-011 remains Planned.** This bounded review prepares an isolated prototype after the current Exchange/gallery checkpoint. No movement, geometry, scoring, tests, licences or task status were changed by this research. No upstream game was launched, and no transition prototype or human-fun result is claimed.
 
 Read with [SKATING_REUSE](SKATING_REUSE.md), [classic level references](CLASSIC-LEVEL-DESIGN.md), [ADR-004](../architecture/decisions/ADR-004-selective-reuse.md), [runtime interfaces](../architecture/interfaces.md) and [M02-011](../planning/BACKLOG.md#m02-011--prototype-genuine-transition-and-vert-skating). All network reads were free public pinned source requests. The earlier `/tmp/tam-jaws-research` cache was absent; the same pinned revisions were fetched into `/tmp/tam-hawks-transition-research`. No blocked article/API endpoint was retried and no code or assets were imported into the game.

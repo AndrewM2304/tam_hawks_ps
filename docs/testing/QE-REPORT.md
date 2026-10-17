@@ -1,6 +1,16 @@
-# Integrated QE report — control, fidelity and playability
+# Integrated QE report — classic tricks and transitions
 
-17 October 2026. **Current aggregate: 1,311 passed / 0 failed, exit 0.** [CONTROL-FIDELITY-REVIEW](CONTROL-FIDELITY-REVIEW.md) records the new buffers, swept admission, hill holds, bindings, sharing, GLB board and unchanged human gates. The full [log](logs/control-fidelity-final.log) and [import](logs/control-fidelity-import.log) have exact hashes in STATUS. Focused input checks pass144/0 (included in the aggregate). Normal-title capture passes **19/0** with stable source; cold copied source accepts all four phases with **188 stable inputs** and **44/0** through the title wrapper. Rider action inspection reports **0 errors/44 meshes/10 bones**, with **129 stable inputs**. Both tree partition candidates remain disabled after draw-call regressions. Mac controller feel, target frame times and final art remain open.
+17 October 2026. The final required ordinary regression is in progress against the corrected classic controls/pipe/HUD source. No passing aggregate is claimed until that command completes. [CLASSIC-TRICKS](CLASSIC-TRICKS.md) records test scope, concrete defects, migrated fixtures and honest limits; [STATUS](../STATUS.md) records the final source and command result.
+
+Focused checks pass **170/0** pure selection/pose/transition/geometry, **98/0** actual mapped body/tricks/pipe/lip and **61/0** response/camera. These run inside the aggregate; do not add their counts. The protected quay route finishes in **16.08 s with zero stalls/bails** after a real deck collision led to the 1 m half-pipe shift. New body tests retain actual controls, finite support, real capsule sweeps, collision-adjusted momentum and bounded combo/overtime rules.
+
+Cold copied source passes all four phases with **208 unchanged inputs** and actual title wrapper **44/0**. The broken disposable copy is refused/restored as expected. Current normal-title capture passes **19/0** with **213 unchanged inputs**; action capture has **22 records/42 images/zero errors**, 25 retained. Three actual Controls GUI views pass, including all five help lines at 960×540/1.4× and native scrolling/focus through 19 bindings. The earlier first-line-only help state was a real defect and is rejected evidence. All generated PNGs were decoded; inspected frames are named in their packages.
+
+Remaining gates include physical Mac/DualSense timing and comfort, repeated high-speed half-pipe aerial cycles, novice input misses, final clothed motion/realistic art/UI, listening, native export replay and moving 1080p hardware frame times. No purchases, paid services, hosted CI, new district or unattended work.
+
+## Previous control/fidelity checkpoint
+
+Source `2071e3d933137e29384d4f62c1a3598e37f76ef1` passed **1,311/0**, with focused input **144/0**, cold source **188 stable inputs/44 title checks**, action rig **44 meshes/10 bones**, and 19 normal-play frames. [CONTROL-FIDELITY-REVIEW](CONTROL-FIDELITY-REVIEW.md), its logs and asset/culling packages retain those bounded claims. Primitive resource counts and tree candidate counters predate the new pipe world. The normal-play folder has now been refreshed; Git history preserves the old frames. Historical exports/video and older receipts cannot certify the current source.
 
 ## Previous ordinary-play repair checkpoint
 

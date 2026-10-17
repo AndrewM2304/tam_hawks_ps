@@ -1,0 +1,109 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: classic input: holding mapped Space for 2 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (2f)
+PASS: classic input: releasing mapped Space pops exactly once (2f)
+PASS: classic input: one held/released request lands without automatic hopping (2f)
+PASS: classic input: holding mapped Space for 36 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (36f)
+PASS: classic input: releasing mapped Space pops exactly once (36f)
+PASS: classic input: one held/released request lands without automatic hopping (36f)
+PASS: classic input: a deliberate crouch charges a measurably higher real ollie
+CLASSIC OLLIE short_apex=1.846 charged_apex=2.366
+PASS: classic flip: mapped J snapshots kickflip across a direction change before release
+PASS: classic flip: held kickflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots heelflip across a direction change before release
+PASS: classic flip: held heelflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots frontside_shuvit across a direction change before release
+PASS: classic flip: held frontside_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots pop_shuvit across a direction change before release
+PASS: classic flip: held pop_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots varial_flip across a direction change before release
+PASS: classic flip: held varial_flip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots hardflip across a direction change before release
+PASS: classic flip: held hardflip finishes with one family award and a real landing
+PASS: classic grab: direction plus mapped K selects melon_grab in real airtime
+PASS: classic grab: held melon_grab stays selected while the stick changes direction
+PASS: classic grab: release ends melon_grab without a second award
+PASS: classic grab: direction plus mapped K selects indy_grab in real airtime
+PASS: classic grab: held indy_grab stays selected while the stick changes direction
+PASS: classic grab: release ends indy_grab without a second award
+PASS: classic grab: direction plus mapped K selects nose_grab in real airtime
+PASS: classic grab: held nose_grab stays selected while the stick changes direction
+PASS: classic grab: release ends nose_grab without a second award
+PASS: classic grab: direction plus mapped K selects tail_grab in real airtime
+PASS: classic grab: held tail_grab stays selected while the stick changes direction
+PASS: classic grab: release ends tail_grab without a second award
+PASS: classic grab: direction plus mapped K selects method_grab in real airtime
+PASS: classic grab: held method_grab stays selected while the stick changes direction
+PASS: classic grab: release ends method_grab without a second award
+PASS: classic flip: a fresh press during the unfinished clip cannot overlap or score twice
+PASS: classic flip: a fresh directional press after clip completion starts a second distinct flip
+PASS: classic manual: mapped M selects manual at eligible real ground speed
+PASS: classic manual: manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends manual
+PASS: classic manual: mapped M selects nose_manual at eligible real ground speed
+PASS: classic manual: nose_manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends nose_manual
+PASS: classic manual: tail and nose variants tilt the visible board in opposite directions
+PASS: classic gesture: mapped Left-Y Up-neutral-Down admits manual once within 220ms
+PASS: classic gesture: releasing the completed manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: mapped Left-Y Down-neutral-Up admits nose_manual once within 220ms
+PASS: classic gesture: releasing the completed nose_manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched nose_manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: a direct push-to-brake reversal with no sampled neutral cannot turn ordinary braking into an automatic manual
+PASS: classic gesture: an expired >220ms stick sequence cannot turn ordinary braking into an automatic manual
+PASS: classic air: partial stick spin preserves physical flight heading and horizontal momentum
+PASS: classic air: the same partial stick visibly spins rider and deck
+PASS: classic rail: a short mapped Triangle tap buffers a real descending catch and remains latched after release
+PASS: classic rail: a released capture button neither drops nor repeatedly awards the locked rail
+PASS: classic rail: a second fresh mapped Triangle press drops without an immediate recapture
+PASS: classic gates: disabling controls clears a crouch so its stale release cannot pop
+PASS: classic gates: overtime allows existing airtime but rejects new flip and grab entries
+PASS: classic gates: reset clears every selected/active trick family
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before axle_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits axle_stall at actual coping
+PASS: classic lip: held axle_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops axle_stall inward toward its own ramp
+PASS: classic lip: axle_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE axle_stall max_pitch=72.8292528701774 position=(17.0, 2.011996, 79.61829) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before nose_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits nose_stall at actual coping
+PASS: classic lip: held nose_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: holding Ollie crouches in the stall until release
+CLASSIC LIP POP air=true lip=false velocity=(0.0, 8.433333, 1.2) seen=["Nose Stall", "Ollie"]
+PASS: classic lip: release-pop exits the real coping once into upward airtime
+PASS: classic lip: nose_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE nose_stall max_pitch=72.8292528701774 position=(17.0, 2.01199, 76.30973) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before tail_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits tail_stall at actual coping
+PASS: classic lip: held tail_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: overtime preserves an existing stall but rejects new tricks and pop
+PASS: classic lip: existing overtime stall still permits an ordinary release/drop
+PASS: classic lip: tail_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE tail_stall max_pitch=72.8292528701774 position=(17.0, 2.011996, 79.61829) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before disaster
+PASS: classic lip: a fresh mapped Triangle plus direction admits disaster at actual coping
+PASS: classic lip: held disaster balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops disaster inward toward its own ramp
+PASS: classic lip: disaster exits and returns to supported current fixture without falling through
+CLASSIC PIPE disaster max_pitch=72.8292528701774 position=(17.04968, 2.011997, 79.4225) bails=0
+PASS: classic lip: Triangle on ordinary flat approach cannot create a stall
+PASS: classic lip: a released expired Triangle from flat ground cannot acquire a later coping
+PASS: classic lip: a real solid obstruction at the coping rejects an otherwise held approach
+PASS: classic pipe: blocked coping contact never restores an analytic target through the obstacle
+PASS: classic pipe: removing a real obstruction cannot resurrect momentum already removed by its collision
+PASS: classic vert: ordinary roll-up naturally releases upward from the actual quarter without a jump input
+PASS: classic vert: the first ordinary air ticks preserve outgoing ramp momentum despite stale engine floor state
+CLASSIC VERT released=true launch=(0.0, 7.079561, -0.0) after=(0.0, 6.346227, -0.0)
+PASS: classic halfpipe: a modest actual push climbs its finite east wall and naturally reverses below the coping
+PASS: classic halfpipe: reverse wall exit carries momentum back across the supported flat bottom
+CLASSIC HALFPIPE entered=true reversed=true crossed=true maxheight=2.98455595970154 position=(-20.07261, 2.018597, 61.5) velocity=(-5.640855, 0.0, -0.0)
+CLASSIC INTEGRATION 98 passed / 0 failed

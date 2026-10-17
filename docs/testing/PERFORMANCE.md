@@ -8,7 +8,7 @@
 
 ## Current resource/culling review
 
-The new [render-efficiency review](../research/RENDER-EFFICIENCY-REVIEW.md) audits the current world independently of the historical timing runs below. Exact primitive sharing reduces unique world mesh resources **1,419→324**, preserving nodes, instances, materials and physics. This is a resource-count reduction, not measured VRAM bytes, draw savings or FPS. Production keeps the existing automatic frustum culling, 220m camera far plane and 75m shadows.
+The new [render-efficiency review](../research/RENDER-EFFICIENCY-REVIEW.md) audits the current world independently of the historical timing runs below. At the preceding control/fidelity checkpoint, exact primitive sharing reduced unique world mesh resources **1,419→324**, preserving nodes, instances, materials and physics. Those counts predate the new quarter/half-pipes and have not been remeasured for the expanded scene. This is a resource-count reduction, not measured VRAM bytes, draw savings or FPS. Production keeps the existing automatic frustum culling, 220m camera far plane and 75m shadows.
 
 Two matched eight-view world-only candidates, [48m cells](render-budget-20261017/README.md) and [96m cells](render-budget-96m-20261017/README.md), retain all 110 tree records and stable source. Both improve distant-tree submissions in some city views, but the normal park checkpoint regresses from 73 draws to 109/89; the 96m candidate saves no primitives there. Both remain opt-in diagnostics. Their fixed three-sample counters are not frame-time or target-Mac evidence. The original GLB board replaces 25 separate procedural mesh instances with four material surfaces; its actual view performance still needs measurement.
 

@@ -35,3 +35,7 @@ Record stable source URL, exact version/download date, author, licence text path
 - Check the Tam Hawks title and included real/fictional shop signs during release review; reference photographs/logos are not automatically production assets.
 - Validate runtime notices in each exported package; `tools/export.sh` includes engine notices and the reviewed third-party notice files.
 - Review synthetic NPC voice clarity and tone by listening on target hardware; the lawful local source is implemented, while audio acceptance remains open.
+
+## Current transition geometry and trick motion
+
+ADR-015's Clyde quarter/half-pipe meshes, collision samples and finite contact helper are original project code/geometry. The six flips, five grabs, two manuals and four lip poses are original; no franchise animation, model, layout or media is bundled. Ramp faces reuse existing mineral-concrete/normal textures from the registered CC0 set, with shared native materials and generated tangents. The primary manuals and pinned MIT sources in CLASSIC-TRICK-CONTROLS are research references. This slice adds no paid dependency or new external asset.

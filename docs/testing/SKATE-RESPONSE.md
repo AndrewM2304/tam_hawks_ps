@@ -1,5 +1,8 @@
 # Street skating response repair
 
+**Current control contract:** [ADR-015](../architecture/decisions/ADR-015-directional-tricks-and-transitions.md) supersedes this report's initial 1.1 rad/s fast turn, press-to-pop and airborne velocity steering. Current ground response is 2.8→2.2 rad/s with a 0.10 s response, hold/release Ollie, and visible airborne yaw that preserves carried velocity. [CLASSIC-CAMERA-TURNS](CLASSIC-CAMERA-TURNS.md) records the actual turn/camera review; [CLASSIC-TRICKS](CLASSIC-TRICKS.md) records integrated verification. The dated measurements below remain evidence for their original source, including the earlier coasting and slope repairs.
+
+
 **17 October 2026.** The owner's Mac playtest reported that releasing push retained too much speed and the movement did not feel like the intended arcade skating game. This investigation measures those complaints with the existing controller and a bounded response helper. These Linux measurements do not certify Mac input, camera visibility or human skating feel. Native cold-start/visual initialization and missing world support are separate repairs.
 
 ## Subsequent control review

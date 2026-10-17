@@ -1,0 +1,185 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: directional tricks: flip (0.0, 0.0) selects kickflip
+PASS: directional tricks: flip (-1.0, 0.0) selects kickflip
+PASS: directional tricks: flip (1.0, 0.0) selects heelflip
+PASS: directional tricks: flip (0.0, -1.0) selects frontside_shuvit
+PASS: directional tricks: flip (0.0, 1.0) selects pop_shuvit
+PASS: directional tricks: flip (-1.0, 1.0) selects varial_flip
+PASS: directional tricks: flip (1.0, -1.0) selects hardflip
+PASS: directional tricks: grab (0.0, 0.0) selects melon_grab
+PASS: directional tricks: grab (-1.0, 0.0) selects melon_grab
+PASS: directional tricks: grab (1.0, 0.0) selects indy_grab
+PASS: directional tricks: grab (0.0, -1.0) selects nose_grab
+PASS: directional tricks: grab (0.0, 1.0) selects tail_grab
+PASS: directional tricks: grab (-1.0, -1.0) selects method_grab
+PASS: directional tricks: manual (0.0, 0.0) selects manual
+PASS: directional tricks: manual (0.0, -1.0) selects nose_manual
+PASS: directional tricks: manual (0.0, 1.0) selects manual
+PASS: directional tricks: manual (-1.0, 0.0) selects manual
+PASS: directional tricks: manual (1.0, 0.0) selects manual
+PASS: directional tricks: lip (0.0, 0.0) selects axle_stall
+PASS: directional tricks: lip (0.0, -1.0) selects nose_stall
+PASS: directional tricks: lip (0.0, 1.0) selects tail_stall
+PASS: directional tricks: lip (-1.0, 0.0) selects disaster
+PASS: directional tricks: lip (1.0, 0.0) selects disaster
+PASS: directional tricks: small stick drift preserves each neutral default
+PASS: directional tricks: cardinal and named diagonal thresholds include exactly 0.35
+PASS: directional tricks: authored diagonals take priority over the stronger cardinal
+PASS: directional tricks: unassigned diagonals resolve to the dominant cardinal
+PASS: directional tricks: equal unassigned diagonals resolve deterministically to horizontal
+PASS: directional tricks: nose manual requires an up-dominant stick rather than any negative Y drift
+PASS: directional tricks: nonfinite device input rejects without a fallback award
+PASS: directional tricks: nonfinite device input rejects without a fallback award
+PASS: directional tricks: nonfinite device input rejects without a fallback award
+PASS: directional tricks: unsupported categories cannot select or score a fallback
+PASS: directional tricks: callers cannot mutate catalogue points or nested eligibility
+PASS: directional tricks: expanded original definitions retain the complete authoring schema
+PASS: directional tricks: every authored flip variant is reachable from a normal input
+PASS: directional tricks: every authored grab variant is reachable from a normal input
+PASS: directional tricks: every authored manual variant is reachable from a normal input
+PASS: directional tricks: every authored lip variant is reachable from a normal input
+PASS: directional tricks: lip awards require actual lip state while ollie can pop out
+PASS: directional tricks: lip capture, release and recovery have explicit non-repeating structural paths
+PASS: directional tricks: existing career and encounter trick values retain compatibility
+PASS: trick animation: flips roll opposite ways and shuvits rotate flat in opposite directions
+PASS: trick animation: combined flips add a shuvit and hardflip has a vertical deck accent
+PASS: trick animation: all six rotations clamp safely and finish with a flat deck
+PASS: trick animation: melon_grab wrist stays within the 59cm authored arm reach
+PASS: trick animation: melon_grab selected hand meets the tilted deck within 12mm
+PASS: trick animation: melon_grab retains both shoe contacts on the tilted board
+PASS: trick animation: indy_grab wrist stays within the 59cm authored arm reach
+PASS: trick animation: indy_grab selected hand meets the tilted deck within 12mm
+PASS: trick animation: indy_grab retains both shoe contacts on the tilted board
+PASS: trick animation: nose_grab wrist stays within the 59cm authored arm reach
+PASS: trick animation: nose_grab selected hand meets the tilted deck within 12mm
+PASS: trick animation: nose_grab retains both shoe contacts on the tilted board
+PASS: trick animation: tail_grab wrist stays within the 59cm authored arm reach
+PASS: trick animation: tail_grab selected hand meets the tilted deck within 12mm
+PASS: trick animation: tail_grab retains both shoe contacts on the tilted board
+PASS: trick animation: method_grab wrist stays within the 59cm authored arm reach
+PASS: trick animation: method_grab selected hand meets the tilted deck within 12mm
+PASS: trick animation: method_grab retains both shoe contacts on the tilted board
+PASS: trick animation: nose, tail and method shift weight/tuck rather than changing only a label
+PASS: trick animation: nose manual moves visible body weight toward the front truck
+PASS: trick animation: axle_stall holds a finite crouched balance pose
+PASS: trick animation: nose_stall holds a finite crouched balance pose
+PASS: trick animation: tail_stall holds a finite crouched balance pose
+PASS: trick animation: disaster holds a finite crouched balance pose
+PASS: trick animation: lip variants visibly weight opposite ends or compress for disaster
+PASS: trick animation: held ollie crouch visibly lowers the connected body
+PASS: transition: eligible finite front-face contact starts
+PASS: transition: capture preserves signed tangent speed and support frame
+PASS: transition: an active contact cannot be silently replaced
+PASS: transition: zero-time pause consumes no movement or energy
+PASS: transition: explicit stop clears contact without erasing outgoing momentum
+PASS: transition: admission rejects back face
+PASS: transition: admission rejects distant front face
+PASS: transition: admission rejects past finite width
+PASS: transition: admission rejects past toe seam
+PASS: transition: admission rejects past finite lip
+PASS: transition: admission rejects departing front face
+PASS: transition: admission rejects rising vert takeoff
+PASS: transition: admission rejects nonfinite point
+PASS: transition: admission rejects nonfinite velocity
+PASS: transition: missing physical support callback cannot attach
+PASS: transition: explicit physical support rejection overrides geometric proximity
+PASS: transition: descending front-face re-entry near the lip is eligible
+PASS: transition: nonfinite feature radius is rejected
+PASS: transition: nonfinite feature width is rejected
+PASS: transition: nonfinite feature angle is rejected
+PASS: transition: scaled transforms cannot invalidate metre/energy bounds
+PASS: transition: translated yawed features retain their own world tangent frame
+PASS: transition: malformed features and mismatched live body identity cannot attach
+PASS: transition: 80-degree 30 Hz 4 m/s unforced approach exits toe
+PASS: transition: 80-degree 30 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=30 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS: transition: 80-degree 30 Hz 15 m/s unforced approach exits lip
+PASS: transition: 80-degree 30 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=30 entry=15.0 release=lip max_gain=0.000000% max_y=2.6443 release_velocity=(0.0, 10.18929, -1.796647)
+PASS: transition: 80-degree 60 Hz 4 m/s unforced approach exits toe
+PASS: transition: 80-degree 60 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=60 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS: transition: 80-degree 60 Hz 15 m/s unforced approach exits lip
+PASS: transition: 80-degree 60 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=60 entry=15.0 release=lip max_gain=0.000000% max_y=2.6443 release_velocity=(0.0, 10.18929, -1.796647)
+PASS: transition: 80-degree 120 Hz 4 m/s unforced approach exits toe
+PASS: transition: 80-degree 120 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=120 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS: transition: 80-degree 120 Hz 15 m/s unforced approach exits lip
+PASS: transition: 80-degree 120 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=120 entry=15.0 release=lip max_gain=0.000000% max_y=2.6443 release_velocity=(0.0, 10.18929, -1.796647)
+PASS: transition: 90-degree 30 Hz 4 m/s unforced approach exits toe
+PASS: transition: 90-degree 30 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=30 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS: transition: 90-degree 30 Hz 15 m/s unforced approach exits lip
+PASS: transition: 90-degree 30 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=30 entry=15.0 release=lip max_gain=0.000000% max_y=3.2000 release_velocity=(0.0, 9.077455, -0.0)
+PASS: transition: 90-degree 60 Hz 4 m/s unforced approach exits toe
+PASS: transition: 90-degree 60 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=60 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS: transition: 90-degree 60 Hz 15 m/s unforced approach exits lip
+PASS: transition: 90-degree 60 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=60 entry=15.0 release=lip max_gain=0.000000% max_y=3.2000 release_velocity=(0.0, 9.077455, -0.0)
+PASS: transition: 90-degree 120 Hz 4 m/s unforced approach exits toe
+PASS: transition: 90-degree 120 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=120 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS: transition: 90-degree 120 Hz 15 m/s unforced approach exits lip
+PASS: transition: 90-degree 120 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=120 entry=15.0 release=lip max_gain=0.000000% max_y=3.2000 release_velocity=(0.0, 9.077455, -0.0)
+PASS: transition: right steering carves across the real surface tangent without adding energy
+PASS: transition: finite side boundary releases with lateral momentum and unused frame time
+PASS: transition: explicit pushing adds only bounded acceleration
+PASS: transition: braking removes speed and suppresses simultaneous pumping
+PASS: transition: capture projects and bounds extreme finite tangent velocities
+PASS: transition: real blocked motion replaces the predicted arc and discarded momentum
+PASS: transition: the next update cannot reconstruct pre-obstacle contact speed
+PASS: transition: an actual move outside the finite surface releases contact
+PASS: transition: invalid elapsed time safely releases: nan
+PASS: transition: invalid elapsed time safely releases: inf
+PASS: transition: invalid elapsed time safely releases: -0.01
+PASS: transition: invalid elapsed time safely releases: 0.251
+PASS: transition: nonfinite steering releases safely
+PASS: transition: lost actual support releases instead of following a metadata-only surface
+PASS: transition: removed feature body cannot retain an invisible attachment
+PASS: transition: real front-face triangle collision confirms shallow, steep and near-vertical support
+PASS: transition: disabling actual curve collision prevents tagged geometry capture
+PASS: transition geometry: one quarter and both half-pipe sides are published
+PASS: transition geometry: clyde_quarter exposes a unit world-space contact frame
+PASS: transition geometry: clyde_quarter is a physical tagged 90-degree transition
+PASS: transition geometry: clyde_quarter collision uses every visible front-face triangle exactly
+PASS: transition geometry: clyde_quarter has finite correctly wound samples no more than 2 degrees apart
+PASS: transition geometry: clyde_quarter actual collision supports 1.0 degrees
+PASS: transition geometry: clyde_quarter actual collision supports 20.0 degrees
+PASS: transition geometry: clyde_quarter actual collision supports 44.0 degrees
+PASS: transition geometry: clyde_quarter actual collision supports 70.0 degrees
+PASS: transition geometry: clyde_quarter actual collision supports 88.0 degrees
+PASS: transition geometry: clyde_quarter publishes the visible coping top in world metres
+PASS: transition geometry: clyde_quarter raised deck has matching physical support
+PASS: transition geometry: clyde_half_west exposes a unit world-space contact frame
+PASS: transition geometry: clyde_half_west is a physical tagged 90-degree transition
+PASS: transition geometry: clyde_half_west collision uses every visible front-face triangle exactly
+PASS: transition geometry: clyde_half_west has finite correctly wound samples no more than 2 degrees apart
+PASS: transition geometry: clyde_half_west actual collision supports 1.0 degrees
+PASS: transition geometry: clyde_half_west actual collision supports 20.0 degrees
+PASS: transition geometry: clyde_half_west actual collision supports 44.0 degrees
+PASS: transition geometry: clyde_half_west actual collision supports 70.0 degrees
+PASS: transition geometry: clyde_half_west actual collision supports 88.0 degrees
+PASS: transition geometry: clyde_half_west publishes the visible coping top in world metres
+PASS: transition geometry: clyde_half_west raised deck has matching physical support
+PASS: transition geometry: clyde_half_east exposes a unit world-space contact frame
+PASS: transition geometry: clyde_half_east is a physical tagged 90-degree transition
+PASS: transition geometry: clyde_half_east collision uses every visible front-face triangle exactly
+PASS: transition geometry: clyde_half_east has finite correctly wound samples no more than 2 degrees apart
+PASS: transition geometry: clyde_half_east actual collision supports 1.0 degrees
+PASS: transition geometry: clyde_half_east actual collision supports 20.0 degrees
+PASS: transition geometry: clyde_half_east actual collision supports 44.0 degrees
+PASS: transition geometry: clyde_half_east actual collision supports 70.0 degrees
+PASS: transition geometry: clyde_half_east actual collision supports 88.0 degrees
+PASS: transition geometry: clyde_half_east publishes the visible coping top in world metres
+PASS: transition geometry: clyde_half_east raised deck has matching physical support
+PASS: transition geometry: half-pipe sides oppose across an eight-metre flat bottom
+PASS: transition geometry: half-pipe bottom has real visible flat collision support
+PASS: transition geometry: quay approach enters the open half-pipe bottom without a side wall
+PASS: transition geometry: back-facing curve cannot masquerade as front support
+CLASSIC PURE: 170 passed, 0 failed
