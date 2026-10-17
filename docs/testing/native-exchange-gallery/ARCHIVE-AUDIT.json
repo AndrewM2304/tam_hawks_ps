@@ -1,0 +1,431 @@
+{
+  "audit": "Independent native/source/Exchange-gallery construction audit",
+  "runtime_commit": "00da63a29990c0839cf15d4c9a34edc2fc167122",
+  "clean_build": true,
+  "source_input_count": 121,
+  "all_source_inputs_match_git_objects_and_checkout": true,
+  "runtime_source_sha256": "26b9606113ff7fa97319ff5650f519664ab5db81b8a5fbc26d653165bda31cef",
+  "metadata_sha256": "c1b0f49bf5cbd1698ea7d37ce9553628b5f4c227da5b64524aea2fa839d3094d",
+  "notices_and_provenance_records_each": 13,
+  "archives": {
+    "linux": {
+      "bytes": 32105526,
+      "sha256": "900689e0aff5035288118255913b26ac3185f215293fdab6a7ae015694c78cd1",
+      "format": "ELF64 x86_64",
+      "crc_pass": true,
+      "unique_safe_paths": true,
+      "file_count": 18,
+      "all_members_match_package": true,
+      "all_member_modes_match_package": true,
+      "executable_mode": "0755",
+      "pack_sha256": "6447f96516e715e1d4881e934175c137f28dcc7283895e611b1b51e4b38b76cc"
+    },
+    "macos": {
+      "bytes": 66665060,
+      "sha256": "ac4ad7cb4f7b9a7c1e653a3783e7dfd93bb262285c1cf27a3ac535f9d1fd3d1a",
+      "format": "Universal Mach-O x86_64 and arm64",
+      "crc_pass": true,
+      "unique_safe_paths": true,
+      "file_count": 22,
+      "all_members_match_package": true,
+      "all_member_modes_match_package": true,
+      "executable_mode": "0755",
+      "pack_sha256": "6447f96516e715e1d4881e934175c137f28dcc7283895e611b1b51e4b38b76cc"
+    }
+  },
+  "source_evidence": {
+    "docs/testing/screenshots/exchange-gallery/manifest.json": {
+      "sha256": "8c6122729aad2fda9c7c609fb6c53dda36accec62c41e3cef0571f7484b9e39e",
+      "inputs": 164,
+      "overlap": 110,
+      "overlap_matches_build": true,
+      "capture_audit": {
+        "capture_count": 22,
+        "all_image_hashes_match": true,
+        "all_png_chunks_crc_and_scanlines_valid": true,
+        "images": {
+          "01-exchange-spawn.png": {
+            "bytes": 1138475,
+            "sha256": "59fed430446fd75608aa56bf8033205c8259490626781a237f8fd87960a9f39d",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "02-west-planter-port-approach.png": {
+            "bytes": 1203742,
+            "sha256": "286269d16083a607ef0ffafd164b9bc2c801a85155ee2359a39927532cefdf12",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "03-gallery-west-bank.png": {
+            "bytes": 1195412,
+            "sha256": "467f1f5fcebb58f3b9c9d6b20ba72de834ac61f63d1d959a4526b85e0b57fa03",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "04-gallery-east-bank.png": {
+            "bytes": 1068234,
+            "sha256": "894b1766edf93ec595836215064ff55b4ea94887f767b41c5f55a6934cf6af4d",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "05-gallery-frontage-detail.png": {
+            "bytes": 974881,
+            "sha256": "404d6d9398a2dac36ef3d2da800b9c48336511f997541e731ab83035e4967e65",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "06-gallery-front-descent.png": {
+            "bytes": 1412971,
+            "sha256": "efbf8b867382308e846ee2c940fd7924489841bb3fa57149f8ce1a70aea9d93d",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "07-west-edge-approach.png": {
+            "bytes": 1007781,
+            "sha256": "3f457fd9eecc828181c456b11e16848c4700c6336f1ccb4459a9ad7320cdf89b",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "08-west-edge-return.png": {
+            "bytes": 984749,
+            "sha256": "eac7a09e291ea80288ca29b7d307b84b9911f7de1141e7bdd80b5773e1b35753",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "09-west-seating-deck.png": {
+            "bytes": 1464139,
+            "sha256": "85915b16ba760ffdb8fe8f1ab6895fc43a38bae4b2084bf19daac52d042d149b",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "10-west-beginner-bypass.png": {
+            "bytes": 1003042,
+            "sha256": "03bd1ac2180dd328fe9fcf9ba39945577278d7d49aa9dfbf878832e1b74cc0e1",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "11-gallery-protected-crossing.png": {
+            "bytes": 1218160,
+            "sha256": "0457321df7262182319c5cce35d5cebfcc222ae2f3400fc5b06e5de9da85adb0",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "12-exchange-place-overview.png": {
+            "bytes": 1290968,
+            "sha256": "c66c9d5a21241c1254ec060d83abd7fd537d765287d52912716ef75d0e84870b",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "13-city-map-routes.png": {
+            "bytes": 254313,
+            "sha256": "52dc3de9fcff86f98ae87e7f0e526bf33382b9f879f96ed6e5211bc52d4f6d33",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "14-west-foundation-detail.png": {
+            "bytes": 1125005,
+            "sha256": "854335d300a0644139d1eb68e9f45b4952eeac48857f110252449fbdc20b7d8e",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "15-preserved-barrowland.png": {
+            "bytes": 970154,
+            "sha256": "954d68c2afeabd0ae006ec83e38f3d658c0dfc9c1e8ac4bd7649306b25fc491a",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "16-preserved-barras-interior.png": {
+            "bytes": 1018858,
+            "sha256": "e042df902dae5b8da99e9b430b1c78b87ce93d559b187c2272919819656a881b",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "17-preserved-clyde-bridge.png": {
+            "bytes": 1042794,
+            "sha256": "ed2e12195e874c681a664066224fb95906b3955983508e6ea551e191d9b91e9d",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "18-earned-bank-ascent.png": {
+            "bytes": 1234029,
+            "sha256": "46233f22fad509ee2b0f82edcf3f28859400a50d8ef2b0ce4a7a7ba895336447",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "19-earned-gallery-ledge.png": {
+            "bytes": 1453906,
+            "sha256": "7fa3b7c11dd6ddcaa003d1c34d9b6b3288234e8ec56cb47299090135cb050106",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "20-earned-rail-air.png": {
+            "bytes": 1426103,
+            "sha256": "35b1cdb9905ea65d41c560fdc0893b1fb87af53cf4a4d222678b7c12d2d46fc8",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "21-earned-manual-link.png": {
+            "bytes": 1133613,
+            "sha256": "ee937d95fd8c03712dc2746db0d0a27d3bd2a348e30c09816287210ba2262aa2",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          },
+          "22-earned-clean-bank.png": {
+            "bytes": 1115662,
+            "sha256": "9a48084d3bfb9021b4d51b94fc9240d4e9ffd1f72b9945c77642525dfcb5d70c",
+            "width": 1280,
+            "height": 800,
+            "png_crc_and_scanlines_pass": true
+          }
+        },
+        "source_capture_git_dirty": true,
+        "source_capture_commit": "76b096347e88d652a5ca01195b2d4343d82e3011",
+        "performance_measurement": false,
+        "subjective_acceptance_claim": false
+      }
+    },
+    "docs/testing/logs/exchange-gallery-source.json": {
+      "sha256": "cb0dbf69a948805b3c336673d089c6056063e5be270abbebc7cb157efe36bb1b",
+      "inputs": 162,
+      "overlap": 110,
+      "overlap_matches_build": true
+    }
+  },
+  "qe_native_launch_performed": false,
+  "macos_launch_tested": false,
+  "macos_signed": false,
+  "macos_notarized": false,
+  "target_hardware_or_subjective_acceptance_claim": false,
+  "bin_percussion": {
+    "cached_identity": true,
+    "format": "PCM16",
+    "loop_begin": 0,
+    "loop_end": 176400,
+    "maximum_sample": 10671,
+    "minimum_sample": -8808,
+    "mix_rate": 22050,
+    "pcm_bytes": 352800,
+    "pcm_sha256": "0965cbed26ca6c6ef81360c1567ecf2da0c2c20e4f57b69ba0fbbef49b66b7b9",
+    "resource": "res://game/characters/bin_percussion.gd",
+    "seconds": 8.0,
+    "stereo": false
+  },
+  "isolated_bin_percussion_probes_pass": true,
+  "isolated_main_construction_probes_pass": true,
+  "district_resources": {
+    "checkpoint_count": 6,
+    "constructed_nodes": {
+      "BarrasCoveredMarket": {
+        "child_count": 14,
+        "geometry_descendants": 14
+      },
+      "BarrowlandLandmark": {
+        "child_count": 14,
+        "geometry_descendants": 14
+      },
+      "ClydeLandmarks": {
+        "child_count": 15,
+        "geometry_descendants": 15
+      },
+      "CourierBag": {
+        "child_count": 6,
+        "geometry_descendants": 6
+      },
+      "DeliveryCounter": {
+        "child_count": 14,
+        "geometry_descendants": 32
+      },
+      "ExchangeGalleryArchitecture": {
+        "child_count": 6,
+        "geometry_descendants": 6
+      },
+      "ExchangeWestShopBank": {
+        "child_count": 2,
+        "geometry_descendants": 1
+      },
+      "ExchangeWestShopNorthCorner": {
+        "child_count": 3,
+        "geometry_descendants": 1
+      },
+      "ExchangeWestShopSouthCorner": {
+        "child_count": 3,
+        "geometry_descendants": 1
+      },
+      "ExchangeWestShopTerrace": {
+        "child_count": 5,
+        "geometry_descendants": 1
+      },
+      "GalleryDoorThreshold": {
+        "child_count": 2,
+        "geometry_descendants": 1
+      },
+      "GalleryEntranceEastBank": {
+        "child_count": 2,
+        "geometry_descendants": 1
+      },
+      "GalleryEntranceFrontBank": {
+        "child_count": 2,
+        "geometry_descendants": 1
+      },
+      "GalleryEntranceTerrace": {
+        "child_count": 5,
+        "geometry_descendants": 1
+      },
+      "GalleryEntranceWestBank": {
+        "child_count": 2,
+        "geometry_descendants": 1
+      },
+      "MarketGull": {
+        "child_count": 13,
+        "geometry_descendants": 15
+      },
+      "MarketStallholder": {
+        "child_count": 11,
+        "geometry_descendants": 91
+      }
+    },
+    "exchange_gallery": {
+      "architecture_column_count": 8,
+      "columns": [
+        {
+          "collision_shapes": 3,
+          "name": "GalleryPorticoColumn1",
+          "position": [
+            -6.07999992370605,
+            2.65000009536743,
+            -40.4000015258789
+          ]
+        },
+        {
+          "collision_shapes": 3,
+          "name": "GalleryPorticoColumn2",
+          "position": [
+            -4.34285736083984,
+            2.65000009536743,
+            -40.4000015258789
+          ]
+        },
+        {
+          "collision_shapes": 3,
+          "name": "GalleryPorticoColumn3",
+          "position": [
+            -2.60571432113647,
+            2.65000009536743,
+            -40.4000015258789
+          ]
+        },
+        {
+          "collision_shapes": 3,
+          "name": "GalleryPorticoColumn4",
+          "position": [
+            -0.868571400642395,
+            2.65000009536743,
+            -40.4000015258789
+          ]
+        },
+        {
+          "collision_shapes": 3,
+          "name": "GalleryPorticoColumn5",
+          "position": [
+            0.868571400642395,
+            2.65000009536743,
+            -40.4000015258789
+          ]
+        },
+        {
+          "collision_shapes": 3,
+          "name": "GalleryPorticoColumn6",
+          "position": [
+            2.60571432113647,
+            2.65000009536743,
+            -40.4000015258789
+          ]
+        },
+        {
+          "collision_shapes": 3,
+          "name": "GalleryPorticoColumn7",
+          "position": [
+            4.34285736083984,
+            2.65000009536743,
+            -40.4000015258789
+          ]
+        },
+        {
+          "collision_shapes": 3,
+          "name": "GalleryPorticoColumn8",
+          "position": [
+            6.07999992370605,
+            2.65000009536743,
+            -40.4000015258789
+          ]
+        }
+      ],
+      "construction_only": true,
+      "new_grind_ids": [
+        "Grind_Ledge_ExchangeShops",
+        "Grind_Ledge_GalleryEntrance"
+      ],
+      "new_routes": {
+        "exchange_west_bank_loop": 9,
+        "exchange_west_bypass": 2,
+        "gallery_entrance_bank_loop": 7,
+        "gallery_entrance_bypass": 4,
+        "gallery_entrance_front_return": 5
+      },
+      "physical_route_or_art_acceptance_claim": false,
+      "route_count": 44
+    },
+    "loaded_scripts": [
+      "res://game/characters/market_encounter.gd",
+      "res://game/characters/market_actor.gd",
+      "res://game/levels/art/barras_market.gd",
+      "res://game/levels/art/clyde_landmarks.gd",
+      "res://game/levels/art/exchange_gallery.gd"
+    ],
+    "market": {
+      "courier_bag_attached_hidden": true,
+      "id": "gull_proof_delivery",
+      "required_gap": "market_hop",
+      "route_ids": [
+        "covered",
+        "west"
+      ],
+      "state": "idle"
+    }
+  },
+  "required_modules": [
+    "game/characters/market_encounter.gd",
+    "game/characters/market_actor.gd",
+    "game/levels/art/barras_market.gd",
+    "game/levels/art/clyde_landmarks.gd",
+    "game/levels/art/exchange_gallery.gd"
+  ],
+  "cross_platform_packs_byte_identical": true,
+  "source_output_import_and_licence_provenance_hashes_pass": true,
+  "native_executables_match_pinned_official_templates": true,
+  "recorded_at_utc": "2026-10-17T18:53:11.761733+00:00",
+  "source_stable_during_audit": true,
+  "audit_helper_sha256": "9c1821c67543a6c0be0a89f556c5b605de5d23c8897f6a3682937c3b235f399e",
+  "pack_probe_sha256": "924d4736af4c09e844e8bf8bc49eb90bec1b1a876396b35beb6a86cac35b4cee"
+}

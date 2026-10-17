@@ -35,7 +35,7 @@ The gallery-only portico becomes **eight columns**, shifted forward about 1.5m t
 
 ## Released route metadata and focused physical evidence
 
-Core source now contains five additional routes, bringing the runtime graph to **44**. Static route checks pass **203/0**, or **207/0** including the four retained Barras ingress sweeps; this is geometry-owner static evidence. Independent Exchange checks now pass **22/0**, including both-direction routes, protected ports, column/support/camera checks and the earned line; the corrected rendered set is accepted and the final ordinary suite passes **1,155/0**. Native evidence remains a separate root-owned checkpoint.
+Core source now contains five additional routes, bringing the runtime graph to **44**. Static route checks pass **203/0**, or **207/0** including the four retained Barras ingress sweeps; this is geometry-owner static evidence. Independent Exchange checks now pass **22/0**, including both-direction routes, protected ports, column/support/camera checks and the earned line; the corrected rendered set is accepted and the final ordinary suite passes **1,155/0**. Clean local exports, independent audits and normal Linux startup pass from runtime `00da63a29990c0839cf15d4c9a34edc2fc167122`; exact source/package receipts are in STATUS/EXPORT.
 
 | Stable route ID | Authored supported line |
 |---|---|
@@ -62,11 +62,11 @@ The corrected matched set completes **22/22**, zero failures, **164 unchanged in
 
 The first pass exposed a tall generic brown building behind the portico. [Diagnostic 01/03/05/12 and the complete original manifest](../testing/screenshots/exchange-gallery-diagnostics/README.md) retain that finding. The final gallery-only correction uses base Y2 / height 6.75 / eaves Y8.75, a closed low roof below the Y10.85 pediment, pale ashlar, one upper opening row and a readable front-frieze label. It preserves the 18×12 footprint and all terrace/column/ledge/route contracts. Older court-side voids and broader final-art limitations remain separate next work.
 
-The ordinary `./tools/check.sh` now passes **1,155/0**, exit 0, clean engine/script scans and **162 unchanged inputs**; its exact log/source receipt is in STATUS/QE. The all-ten-goal run returns at 88.02s/1,199.39m with 20,000 banked and zero bails/stalls. Native rebuild/audit/startup remains pending at this documentation checkpoint; check STATUS/EXPORT before rerunning completed work. Do not claim the previous Barras/Clyde package validates changed Exchange source. No new performance measurement or target-Mac result is claimed.
+The ordinary `./tools/check.sh` now passes **1,155/0**, exit 0, clean engine/script scans and **162 unchanged inputs**; its exact log/source receipt is in STATUS/QE. The all-ten-goal run returns at 88.02s/1,199.39m with 20,000 banked and zero bails/stalls. Clean runtime `00da63a29990c0839cf15d4c9a34edc2fc167122` passes both local exports, independent source/archive/resource audits and normal Linux startup; the 121 package inputs and both 110-file source overlaps match. STATUS/EXPORT retain exact receipts. Do not claim the previous Barras/Clyde package validates changed Exchange source. No new performance measurement or target-Mac result is claimed.
 
 ## Resume and next concrete edits
 
-Read AGENTS, STATUS, this file, the M05-001/M06-007 records and [EXCHANGE-GALLERY-BRIEF](../levels/EXCHANGE-GALLERY-BRIEF.md). Inspect Git status and retain current work. Geometry, focused tests and the corrected 22-frame review are complete for this bounded slice: resume only the outstanding native receipts if STATUS has not already recorded them. Do not redesign or rerender this accepted source without a new change or reproduced defect.
+Read AGENTS, STATUS, this file, the M05-001/M06-007 records and [EXCHANGE-GALLERY-BRIEF](../levels/EXCHANGE-GALLERY-BRIEF.md). Inspect Git status and retain current work. Geometry, focused tests and the corrected 22-frame review are complete for this bounded slice: ordinary regression and native verification are also complete; proceed to the concrete next edits below after checking STATUS and the current Git state. Do not redesign or rerender this accepted source without a new change or reproduced defect.
 
 | Existing task / owner | Next edit and acceptance boundary |
 |---|---|

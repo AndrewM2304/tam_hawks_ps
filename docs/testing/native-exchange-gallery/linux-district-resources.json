@@ -1,0 +1,198 @@
+{
+	"bin_percussion": {
+		"cached_identity": true,
+		"format": "PCM16",
+		"loop_begin": 0,
+		"loop_end": 176400,
+		"maximum_sample": 10671,
+		"minimum_sample": -8808,
+		"mix_rate": 22050,
+		"pcm_bytes": 352800,
+		"pcm_sha256": "0965cbed26ca6c6ef81360c1567ecf2da0c2c20e4f57b69ba0fbbef49b66b7b9",
+		"resource": "res://game/characters/bin_percussion.gd",
+		"seconds": 8.0,
+		"stereo": false
+	},
+	"district_resources": {
+		"checkpoint_count": 6,
+		"constructed_nodes": {
+			"BarrasCoveredMarket": {
+				"child_count": 14,
+				"geometry_descendants": 14
+			},
+			"BarrowlandLandmark": {
+				"child_count": 14,
+				"geometry_descendants": 14
+			},
+			"ClydeLandmarks": {
+				"child_count": 15,
+				"geometry_descendants": 15
+			},
+			"CourierBag": {
+				"child_count": 6,
+				"geometry_descendants": 6
+			},
+			"DeliveryCounter": {
+				"child_count": 14,
+				"geometry_descendants": 32
+			},
+			"ExchangeGalleryArchitecture": {
+				"child_count": 6,
+				"geometry_descendants": 6
+			},
+			"ExchangeWestShopBank": {
+				"child_count": 2,
+				"geometry_descendants": 1
+			},
+			"ExchangeWestShopNorthCorner": {
+				"child_count": 3,
+				"geometry_descendants": 1
+			},
+			"ExchangeWestShopSouthCorner": {
+				"child_count": 3,
+				"geometry_descendants": 1
+			},
+			"ExchangeWestShopTerrace": {
+				"child_count": 5,
+				"geometry_descendants": 1
+			},
+			"GalleryDoorThreshold": {
+				"child_count": 2,
+				"geometry_descendants": 1
+			},
+			"GalleryEntranceEastBank": {
+				"child_count": 2,
+				"geometry_descendants": 1
+			},
+			"GalleryEntranceFrontBank": {
+				"child_count": 2,
+				"geometry_descendants": 1
+			},
+			"GalleryEntranceTerrace": {
+				"child_count": 5,
+				"geometry_descendants": 1
+			},
+			"GalleryEntranceWestBank": {
+				"child_count": 2,
+				"geometry_descendants": 1
+			},
+			"MarketGull": {
+				"child_count": 13,
+				"geometry_descendants": 15
+			},
+			"MarketStallholder": {
+				"child_count": 11,
+				"geometry_descendants": 91
+			}
+		},
+		"exchange_gallery": {
+			"architecture_column_count": 8,
+			"columns": [
+				{
+					"collision_shapes": 3,
+					"name": "GalleryPorticoColumn1",
+					"position": [
+						-6.07999992370605,
+						2.65000009536743,
+						-40.4000015258789
+					]
+				},
+				{
+					"collision_shapes": 3,
+					"name": "GalleryPorticoColumn2",
+					"position": [
+						-4.34285736083984,
+						2.65000009536743,
+						-40.4000015258789
+					]
+				},
+				{
+					"collision_shapes": 3,
+					"name": "GalleryPorticoColumn3",
+					"position": [
+						-2.60571432113647,
+						2.65000009536743,
+						-40.4000015258789
+					]
+				},
+				{
+					"collision_shapes": 3,
+					"name": "GalleryPorticoColumn4",
+					"position": [
+						-0.868571400642395,
+						2.65000009536743,
+						-40.4000015258789
+					]
+				},
+				{
+					"collision_shapes": 3,
+					"name": "GalleryPorticoColumn5",
+					"position": [
+						0.868571400642395,
+						2.65000009536743,
+						-40.4000015258789
+					]
+				},
+				{
+					"collision_shapes": 3,
+					"name": "GalleryPorticoColumn6",
+					"position": [
+						2.60571432113647,
+						2.65000009536743,
+						-40.4000015258789
+					]
+				},
+				{
+					"collision_shapes": 3,
+					"name": "GalleryPorticoColumn7",
+					"position": [
+						4.34285736083984,
+						2.65000009536743,
+						-40.4000015258789
+					]
+				},
+				{
+					"collision_shapes": 3,
+					"name": "GalleryPorticoColumn8",
+					"position": [
+						6.07999992370605,
+						2.65000009536743,
+						-40.4000015258789
+					]
+				}
+			],
+			"construction_only": true,
+			"new_grind_ids": [
+				"Grind_Ledge_ExchangeShops",
+				"Grind_Ledge_GalleryEntrance"
+			],
+			"new_routes": {
+				"exchange_west_bank_loop": 9,
+				"exchange_west_bypass": 2,
+				"gallery_entrance_bank_loop": 7,
+				"gallery_entrance_bypass": 4,
+				"gallery_entrance_front_return": 5
+			},
+			"physical_route_or_art_acceptance_claim": false,
+			"route_count": 44
+		},
+		"loaded_scripts": [
+			"res://game/characters/market_encounter.gd",
+			"res://game/characters/market_actor.gd",
+			"res://game/levels/art/barras_market.gd",
+			"res://game/levels/art/clyde_landmarks.gd",
+			"res://game/levels/art/exchange_gallery.gd"
+		],
+		"market": {
+			"courier_bag_attached_hidden": true,
+			"id": "gull_proof_delivery",
+			"required_gap": "market_hop",
+			"route_ids": [
+				"covered",
+				"west"
+			],
+			"state": "idle"
+		}
+	},
+	"main_scene_loaded": true
+}

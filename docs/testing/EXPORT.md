@@ -1,6 +1,6 @@
 # Local native exports
 
-**Latest checkpoint:** Barrowland/Barras, Gull-Proof Delivery and Clyde identity are packaged from clean runtime `2a7d20c51559907b0ca30a995d842dcc683ff320`; see the final section and [native-barras-clyde receipts](native-barras-clyde/README.md). Earlier native checkpoints remain historical.
+**Latest checkpoint:** the Exchange/gallery entrance and west seating pass is packaged from clean runtime `00da63a29990c0839cf15d4c9a34edc2fc167122`; see the final section and [native-exchange-gallery receipts](native-exchange-gallery/README.md). Earlier native checkpoints remain historical.
 
 `tools/export.sh` prepares repeatable, unsigned local packages for Linux x86_64 and macOS universal (arm64 + x86_64). It uses free official Godot 4.6.3 templates and never signs, notarizes, uploads, publishes or calls a paid service. A successful cross-export does not establish that the game launches or performs acceptably on a Mac.
 
@@ -185,7 +185,7 @@ Normal Linux main startup passes headless 120 and rendered 1920×1080/30 frames,
 
 The final source ZIP is generated from the later committed documentation handoff; its ZIP comment identifies that commit. Native runtime/package inputs remain the clean 100dde5 commit above. The new silent 100-frame bin-cat preview and external download checksums are recorded in STATUS;previous profile/rider-motion footage remains historical. No paid signing, hosted CI or public release was triggered.
 
-### Current native checkpoint — Barrowland, Barras delivery and Clyde
+### Historical native checkpoint — Barrowland, Barras delivery and Clyde
 
 `./tools/export.sh --skip-check` completes exit **0** from clean runtime **`2a7d20c51559907b0ca30a995d842dcc683ff320`**. The ordinary **1,106/0** suite validates the same unchanged source; export skips repeating it. Build: `builds/tam-hawks-20261017T180149Z-2a7d20c51559/`. **119 package inputs**, fingerprint `037f91d3a3b98991ed8f3668588927c8702f9049b44a5bd3e4cb5f5456568c3b`; metadata SHA-256 `7d297e87ab373e110bcc3da91f6cb7d40c5c0e632f1b846e4865af0ec44afd8c`.
 
@@ -205,3 +205,28 @@ Normal Linux headless 120 and rendered 1920×1080/30-frame main startup exit **0
 ```
 
 All three new district/encounter scripts and the Clyde helper are present in both packages. Cross-loading the Mac PCK under Linux verifies packaged resources; it does not launch the Mac executable. The short independent audit helper initially emitted a Fontconfig cache diagnostic during its bare version query; isolated writable cache paths corrected that audit harness only. Runtime/package inputs stayed unchanged. No paid service, signing, hosted CI or public release was used.
+
+### Current native checkpoint — Exchange/gallery entrance and west seating
+
+`./tools/export.sh --skip-check` completed exit **0** from clean runtime **`00da63a29990c0839cf15d4c9a34edc2fc167122`**. The unchanged source had already passed the ordinary **1,155 passed / 0 failed** suite, exit 0, with 162 unchanged inputs and clean error scans; export records the skipped repeat. Build: `builds/tam-hawks-20261017T185223Z-00da63a29990/`.
+
+[Build metadata](native-exchange-gallery/BUILD-METADATA.json) records a clean checkout and **121 package inputs**, fingerprint `26b9606113ff7fa97319ff5650f519664ab5db81b8a5fbc26d653165bda31cef`; metadata SHA-256 `c1b0f49bf5cbd1698ea7d37ce9553628b5f4c227da5b64524aea2fa839d3094d`. Both inspected data packs share SHA-256 `6447f96516e715e1d4881e934175c137f28dcc7283895e611b1b51e4b38b76cc`.
+
+| Build archive | Bytes | SHA-256 |
+|---|---:|---|
+| `TamHawksProSkater-linux.zip` | 32,105,526 | `900689e0aff5035288118255913b26ac3185f215293fdab6a7ae015694c78cd1` |
+| `TamHawksProSkater-macos.zip` | 66,665,060 | `ac4ad7cb4f7b9a7c1e653a3783e7dfd93bb262285c1cf27a3ac535f9d1fd3d1a` |
+
+The independent archive audit passed on its first invocation with clean logs. Full ZIP CRC, unique safe paths, member bytes/modes, executable permissions, official-template identity and all **13 notices/provenance records** match. Linux is ELF64 x86_64; the unsigned Mac executable contains x86_64 and arm64 Mach-O slices. All package inputs match their named Git objects and current source. [ARCHIVE-AUDIT.json](native-exchange-gallery/ARCHIVE-AUDIT.json) has SHA-256 `45e5fa7e05cf1ac7f4eb24d8a55920bfb497392f854996362fe1ab3bddbbddf8`.
+
+Source, Linux-PCK and Mac-PCK construction probes load the new `exchange_gallery.gd` helper and find the terraces, banks, threshold, eight portico columns with three collision shapes each, **44 routes**, all five new route IDs and both new ledges. They retain the Barras/Clyde/market modules, six checkpoints, actors, attached bag and identical original percussion data. Export-resource probes also verify the three voices, four 1024×1024 textures and four anatomical meshes. Reading the Mac PCK with Linux Godot verifies packaged resources; it does not launch the Mac binary or replay physical routes.
+
+The corrected [22-image capture manifest](screenshots/exchange-gallery/manifest.json), SHA-256 `8c6122729aad2fda9c7c609fb6c53dda36accec62c41e3cef0571f7484b9e39e`, records 164 unchanged inputs. Every PNG passes its hash, CRC, 1280×800 header and scanline checks. All **110 capture/package overlaps** match. The [ordinary-suite receipt](logs/exchange-gallery-source.json), SHA-256 `cb0dbf69a948805b3c336673d089c6056063e5be270abbebc7cb157efe36bb1b`, also matches all 110 shared package inputs. Exact evidence and audit commands are retained in [native-exchange-gallery](native-exchange-gallery/README.md).
+
+```sh
+./tools/native_smoke.sh /workspace/tam_hawks_ps/builds/tam-hawks-20261017T185223Z-00da63a29990
+```
+
+The actual exported Linux main scene naturally exits **0** after both headless 120-frame and rendered 1920×1080/30-frame startup, using isolated profiles. Exact [headless](native-exchange-gallery/headless.log), [rendered](native-exchange-gallery/rendered.log) and [wrapper](native-exchange-gallery/smoke-summary.log) logs are retained with the private-display configuration. No engine/script/resource errors occurred; Mesa llvmpipe's unsupported V-Sync warning is the sole graphical warning. Owned game/display processes stopped and were waited. These are bounded startup checks; earlier profile and video evidence remains historical.
+
+The Mac app remains unsigned, unnotarized and not launched on a real Mac. Physical DualSense use, Mac save relaunch, listening, moving-route performance, human discovery/fun and final realistic-art acceptance remain open. No artifact was publicly released and no paid service was used.
