@@ -5,23 +5,22 @@ extends RefCounted
 
 const CareerSource = preload("res://game/progression/career_progress.gd")
 const CIRCUIT: Array[Vector3] = [
-	Vector3(0, 0, -20), Vector3(18, 0, -20), Vector3(18, 0, -8), Vector3(14, 0, -8),
-	Vector3(18, 0, -8), Vector3(20, 0, -25), Vector3(20, 0, -65), Vector3(0, 0, -70),
-	Vector3(0, 0, -101), Vector3(15, 0, -101), Vector3(15, 0, -106),
-	Vector3(15, 0, -101), Vector3(0, 0, -101), Vector3(0, 0, -78),
-	Vector3(-60, 0, -78), Vector3(-88, 0, -78), Vector3(-88, 0, -34),
-	Vector3(-65, 0, -34), Vector3(-65, 0, 30), Vector3(-94, 0, 30),
-	Vector3(-94, 2, 4.5), Vector3(-94, 2, -10), Vector3(-94, 0, -32),
-	Vector3(-65, 0, -32), Vector3(-65, 0, 22), Vector3(-30, 0, 22),
-	Vector3(0, 0, 22), Vector3(65, 0, 22), Vector3(105, 0, 22),
-	Vector3(96, 0, 22), Vector3(96, 0, -24), Vector3(105, 0, -24),
-	Vector3(110, 0, -19), Vector3(120, 0, -19), Vector3(120, 0, -33),
-	Vector3(120, 0, -19), Vector3(96, 0, -19), Vector3(88, 0, 0),
-	Vector3(72, 0, 2), Vector3(80, 0, 2), Vector3(80, 0, -22),
-	Vector3(30, 0, -22), Vector3(0, 0, 12),
+	Vector3(-22, 2, -26), Vector3(-22, 2, -22), Vector3(18, 2, -22),
+	Vector3(22, 2, -22), Vector3(22, 4, -74), Vector3(-22, 4, -74),
+	Vector3(22, 4, -74), Vector3(22, 6, -116), Vector3(20, 6, -116),
+	Vector3(22, 4, -74), Vector3(-60, 4, -80), Vector3(-88, 4, -80),
+	Vector3(-88, 2, -40), Vector3(-82, 2, -40), Vector3(-62, 2, 22),
+	Vector3(-82, 2, 34), Vector3(-94, 2, 34), Vector3(-94, 5, 4.5),
+	Vector3(-94, 5, -12), Vector3(-94, 2, -38), Vector3(-62, 2, -38),
+	Vector3(-62, 2, 22), Vector3(-22, 0, 22), Vector3(22, 0, 22),
+	Vector3(60, 0, 22), Vector3(70, 0, 22), Vector3(94, 0, 20),
+	Vector3(106, 0, 26), Vector3(126, 0, 26), Vector3(126, 1.5, -18),
+	Vector3(120, 1.5, -22), Vector3(120, 1.5, -33), Vector3(120, 1.5, -22),
+	Vector3(106, 1.5, -22), Vector3(106, 1.5, -26), Vector3(75, 1.5, -26),
+	Vector3(75, 1.5, -22), Vector3(22, 2, -22), Vector3(-22, 2, -22),
+	Vector3(-22, 0, 28),
 ]
-const COMBO_TARGETS: Array[Vector3] = [Vector3(20, 0, -65), Vector3(-60, 0, -78),
-	Vector3(-88, 0, -34), Vector3(-65, 0, 22), Vector3(96, 0, -24), Vector3(30, 0, -22)]
+const COMBO_WAYPOINTS: Array[int] = [0, 4, 10, 21, 29, 37]
 
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
@@ -52,7 +51,7 @@ static func _collection_circuit(tree: SceneTree, game: Node, check: Callable) ->
 	var completed_route := true
 	for index in CIRCUIT.size():
 		var target: Vector3 = CIRCUIT[index]
-		var scoring_leg: bool = COMBO_TARGETS.has(target)
+		var scoring_leg: bool = COMBO_WAYPOINTS.has(index)
 		var result: Dictionary = await _drive_to(tree, game, target, evidence, scoring_leg)
 		print("ROUTE waypoint %d %s reached=%s t=%.2f pos=%s speed=%.2f" % [
 			index, CIRCUIT[index], result.reached, 120.0 - game.time_remaining,
@@ -60,11 +59,11 @@ static func _collection_circuit(tree: SceneTree, game: Node, check: Callable) ->
 		if not result.reached:
 			completed_route = false
 			break
-		if target == Vector3(14, 0, -8):
+		if target == Vector3(18, 2, -22):
 			Input.action_press("interact")
 			await _recorded_frames(tree, game, evidence, 1)
 			Input.action_release("interact")
-		elif target == Vector3(-94, 2, 4.5):
+		elif target == Vector3(-94, 5, 4.5):
 			Input.action_press("ollie")
 			await _recorded_frames(tree, game, evidence, 1)
 			Input.action_release("ollie")
@@ -78,7 +77,7 @@ static func _collection_circuit(tree: SceneTree, game: Node, check: Callable) ->
 	game.skater.trick_performed.disconnect(on_trick)
 	check.call(completed_route and not game.run_finished and evidence.bails == 0,
 		"career routes: input-driven collection circuit returns to spawn within 120 seconds without recovery")
-	check.call(evidence.checkpoints.size() == 4,
+	check.call(evidence.checkpoints.has_all(["royal_exchange", "george_square", "central_station", "barras"]),
 		"career routes: continuous circuit physically passes all four district checkpoints")
 	check.call(game.career.completed_ids.has("letters"),
 		"career routes: continuous career run collects every HAWKS letter")
@@ -101,9 +100,9 @@ static func _collection_circuit(tree: SceneTree, game: Node, check: Callable) ->
 
 static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> void:
 	var routes := [
-		["Exchange to George east street", Vector3(20, 0.8, -26), Vector3(20, 0, -70)],
-		["Exchange to Central south street", Vector3(-20, 0.8, 22), Vector3(-65, 0, 22)],
-		["Exchange to Barras north street", Vector3(20, 0.8, -22), Vector3(65, 0, -22)],
+		["Exchange to George east grade", Vector3(22, 2.8, -26), Vector3(22, 4, -74)],
+		["Exchange to Central south grade", Vector3(-20, 0.8, 22), Vector3(-65, 2, 22)],
+		["Exchange to Barras north grade", Vector3(22, 2.8, -22), Vector3(65, 1.5, -22)],
 	]
 	for route: Array in routes:
 		for reverse in [false, true]:
@@ -113,9 +112,12 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 			game.skater.spawn_position = start
 			game.start_mode(false)
 			await _frames(tree, 45)
-			var evidence := {"bails": 0, "crossed": false, "connected": true, "manual": false}
+			var evidence := {"bails": 0, "crossed": false, "connected": true, "manual": false, "entries": 0}
 			var on_bail := func(): evidence.bails += 1
 			game.skater.bailed.connect(on_bail)
+			var on_trick := func(name: String, _points: int):
+				if name == "Manual": evidence.entries += 1
+			game.skater.trick_performed.connect(on_trick)
 			var origin_district: String = game.world.get_district_id(start)
 			var jumped := false
 			var performed_air_tricks := false
@@ -139,14 +141,18 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 						Input.action_press("ollie")
 						jumped = true
 				elif game.skater.airborne:
+					Input.action_release("manual")
 					Input.action_release("push")
 					if not performed_air_tricks:
 						Input.action_press("flip")
 						Input.action_press("grab")
 						performed_air_tricks = true
-				elif performed_air_tricks and not manual_entered:
+				elif performed_air_tricks and not game.skater.manual_active:
 					Input.action_release("push")
-					Input.action_press("manual")
+					# Natural crest airtime ends a manual. Fresh presses after
+					# landing respect its cooldown and the existing bank deadline.
+					if Input.is_action_pressed("manual"): Input.action_release("manual")
+					else: Input.action_press("manual")
 					manual_entered = true
 				elif game.skater.manual_active:
 					Input.action_release("push")
@@ -161,19 +167,23 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 			_release()
 			await _frames(tree, 25)
 			game.skater.bailed.disconnect(on_bail)
+			game.skater.trick_performed.disconnect(on_trick)
+			var expected_bank: int = {1: 3000, 2: 3200, 3: 3300}.get(evidence.entries, -1)
+			var bank_before: int = game.score.total_score
+			await _frames(tree, 25)
 			var label: String = route[0] + (" reverse" if reverse else " forward")
 			check.call(reached and evidence.bails == 0 and evidence.crossed and evidence.manual
-				and evidence.connected and game.score.total_score == 3000 and game.score.get_combo_value() == 0,
+				and evidence.connected and bank_before == expected_bank and game.score.total_score == bank_before
+				and game.score.get_combo_value() == 0,
 				"career routes: uninterrupted air/manual combo crosses and banks " + label)
-			print("ROUTE COMBO %s seconds=%.2f bank=%d crossed=%s connected=%s manual=%s bails=%d" % [
+			print("ROUTE COMBO %s seconds=%.2f bank=%d crossed=%s connected=%s manual=%s entries=%d bails=%d" % [
 				label, 120.0 - game.time_remaining, game.score.total_score, evidence.crossed,
-				evidence.connected, evidence.manual, evidence.bails])
+				evidence.connected, evidence.manual, evidence.entries, evidence.bails])
 
 
 static func _drive_to(tree: SceneTree, game: Node, target: Vector3, evidence: Dictionary, scoring: bool = false) -> Dictionary:
 	var jumped := false
 	var air_tricks := false
-	var manual_entered := false
 	for frame in range(900):
 		var at: Vector3 = game.skater.global_position
 		var offset := Vector3(target.x - at.x, 0, target.z - at.z)
@@ -195,15 +205,16 @@ static func _drive_to(tree: SceneTree, game: Node, target: Vector3, evidence: Di
 					Input.action_press("ollie")
 					jumped = true
 			elif game.skater.airborne:
+				Input.action_release("manual")
 				Input.action_release("push")
 				if not air_tricks:
 					Input.action_press("flip")
 					Input.action_press("grab")
 					air_tricks = true
-			elif air_tricks and not manual_entered:
+			elif air_tricks and not game.skater.manual_active:
 				Input.action_release("push")
-				Input.action_press("manual")
-				manual_entered = true
+				if Input.is_action_pressed("manual"): Input.action_release("manual")
+				else: Input.action_press("manual")
 			elif game.skater.manual_active:
 				Input.action_release("push")
 				if game.skater.manual_balance > 0.08: Input.action_press("push")

@@ -1,0 +1,28 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: takeoff uphill: fixture settles onto the intended surface
+PASS: takeoff uphill: actual skating leaves the elevated platform lip
+TAKEOFF uphill: outgoing=(0.0, 0.0, -12.99038) real_departure=(0.0, 0.0, -12.99039) next=(0.0, 0.0, -12.99038) real_next=(0.0, 0.0, -12.99039)
+PASS: takeoff uphill: comparison samples a moving airborne skater
+PASS: takeoff uphill: first airborne tick preserves outgoing horizontal momentum
+PASS: takeoff uphill: actual airborne displacement matches outgoing horizontal motion
+PASS: takeoff downhill: fixture settles onto the intended surface
+PASS: takeoff downhill: actual skating leaves the elevated platform lip
+TAKEOFF downhill: outgoing=(0.0, 0.0, -12.99038) real_departure=(0.0, 0.0, -12.99039) next=(0.0, 0.0, -12.99038) real_next=(0.0, 0.0, -12.99039)
+PASS: takeoff downhill: comparison samples a moving airborne skater
+PASS: takeoff downhill: first airborne tick preserves outgoing horizontal momentum
+PASS: takeoff downhill: actual airborne displacement matches outgoing horizontal motion
+PASS: takeoff flat: fixture settles onto the intended surface
+PASS: takeoff flat: actual skating leaves the elevated platform lip
+TAKEOFF flat: outgoing=(0.0, 0.0, -13.37894) real_departure=(0.0, 0.0, -13.37574) next=(0.0, 0.0, -13.37894) real_next=(0.0, 0.0, -13.37894)
+PASS: takeoff flat: comparison samples a moving airborne skater
+PASS: takeoff flat: first airborne tick preserves outgoing horizontal momentum
+PASS: takeoff flat: actual airborne displacement matches outgoing horizontal motion
+PASS: takeoff steering: arcade air steering rotates without adding horizontal speed
+PASS: takeoff steering: six frames turn the carried motion by a bounded angle
+PASS: takeoff collision: moving airborne skater actually contacts the test wall
+PASS: takeoff collision: wall removes the blocked horizontal velocity
+TAKEOFF collided: stopped=(0.0, 0.0, 0.0) after_removal=(0.0, 0.0, 0.0) real=(0.0, 0.0, 0.0) speed=0.00000
+PASS: takeoff collision: removing the wall cannot resurrect lost airborne momentum
+PASS: takeoff collision: public speed reflects the remaining horizontal motion
+TAKEOFF RESULT: 21 passed, 0 failed

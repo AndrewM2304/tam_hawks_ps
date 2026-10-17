@@ -17,17 +17,16 @@ static func build(art: Node3D, world: Node3D) -> void:
 			Vector3(-31, 0.035, -110), Vector3(31, 0.035, -96),
 			Vector3(-124, 0.035, 30), Vector3(-51, 0.035, -10),
 			Vector3(124, 0.035, 29), Vector3(51, 0.035, -10)]:
-		_drain(art, batches, at)
+		var height: float = world.get_ground_height(at)
+		if not is_nan(height):
+			_drain(art, batches, Vector3(at.x, height + 0.035, at.z))
 	# Street furniture occupies the nonplayable strip behind the outside walls,
 	# between wall and facade. It cannot clutter or fake collision in the routes.
-	for at: Vector3 in [Vector3(-130.5, 0.0, 28), Vector3(130.5, 0.0, 27), Vector3(70, 0.0, 44.0), Vector3(-70, 0.0, 44.0)]:
+	for at: Vector3 in [Vector3(-127,2,28), Vector3(60,0,36), Vector3(29,6,-116), Vector3(29,0,27)]:
 		_bench(art, batches, at)
 		art._cylinder(art, at + Vector3(2.5, 0.56, 0), 0.34, 1.12, art.materials["iron"])
 		art._cylinder(art, at + Vector3(2.5, 1.13, 0), 0.39, 0.08, art.materials["slate"])
 		art._batch_box(batches, "brass", Vector3(0.27, 0.11, 0.06), at + Vector3(2.5, 0.82, 0.34))
-	# Thin visible sidewalk strips remain on the far side of existing walls.
-	for x: float in [-130.5, 130.5]:
-		art._batch_box(batches, "path", Vector3(4.4, 0.12, 80), Vector3(x, 0.02, 0))
 	art._flush_batches(art, batches)
 
 

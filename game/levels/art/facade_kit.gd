@@ -43,7 +43,25 @@ static func decorate(art: Node3D, building: Node3D, width: float, height: float,
 	else:
 		_shops(art, building, batches, width, style, shop, seed_value)
 	_roof(art, building, batches, width, height, facade_stone, style, seed_value)
+	_return_windows(art, batches, width, floors, style)
 	art._flush_batches(building, batches)
+
+
+static func _return_windows(art: Node3D, batches: Dictionary, width: float, floors: int, style: String) -> void:
+	# Exposed ends face the linked streets. Reuse the facade's existing batches
+	# so a side elevation is an authored return rather than a blank giant box.
+	for side: float in [-1.0, 1.0]:
+		var local_batches: Dictionary = {}
+		for floor_index: int in range(floors):
+			for column: int in range(3):
+				_window(art, local_batches, float(column - 1) * 3.2,
+					5.25 + floor_index * 3.2, 1.3, 1.9, 0, style, (column + floor_index) % 5)
+		var transform := Transform3D(Basis(Vector3.UP, side * PI / 2.0), Vector3(side * (width / 2.0 - 6.0), 0, 0))
+		for key: String in local_batches:
+			if not batches.has(key):
+				batches[key] = {"material": local_batches[key].material, "transforms": []}
+			for instance: Transform3D in local_batches[key].transforms:
+				batches[key].transforms.append(transform * instance)
 
 
 static func _style(building: Node3D, shop: String) -> String:

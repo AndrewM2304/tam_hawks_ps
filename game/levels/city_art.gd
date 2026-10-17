@@ -5,6 +5,7 @@ extends Node3D
 const FacadeKit = preload("res://game/levels/art/facade_kit.gd")
 const StreetDressing = preload("res://game/levels/art/street_dressing.gd")
 const ArchMesh = preload("res://game/levels/art/arch_mesh.gd")
+const FoliageMesh = preload("res://game/levels/art/foliage_mesh.gd")
 static var _shared_materials: Dictionary = {}
 var materials: Dictionary = {}
 var npc_positions: Array[Vector3] = []
@@ -147,11 +148,11 @@ func decorate_building(building: Node3D, width: float, height: float, stone: Str
 
 
 func dress_world(world: Node3D) -> void:
-	# Hide only obsolete visual meshes; collision and authoring nodes stay intact.
-	_hide_named_meshes(world, ["TreeCrown", "CivicTree", "StationCanopy", "ClockTower", "TowerSpire", "ClockFace", "ClockHand", "TowerCornice", "CivicPortico", "CivicColumn", "StallAwning", "StallPole", "StallCounter"])
-	for at: Vector3 in [Vector3(-29, 0, 8), Vector3(28, 0, 18), Vector3(-27, 0, -32), Vector3(27, 0, -29), Vector3(-26, 0, -94), Vector3(26, 0, -94)]:
+	# Geography belongs to world/outdoors. No horizon plane may cover the Clyde.
+	_hide_named_meshes(world, ["StallAwning", "StallPole", "StallCounter"])
+	for at: Vector3 in [Vector3(-29,0.8,13), Vector3(28,0.8,14), Vector3(-28,2.8,-32), Vector3(28,2.8,-32), Vector3(-13,4.6,-84), Vector3(13,4.6,-84)]:
 		_tree(at)
-	_gallery_portico(Vector3(0, 0, -40.9), 14.0, 5.0)
+	_gallery_portico(Vector3(0,2,-41.9), 16.0, 6.0)
 	_civic_clock()
 	_station_arches()
 	_market_venue()
@@ -159,25 +160,17 @@ func dress_world(world: Node3D) -> void:
 	for child in world.get_children():
 		if child.get_meta("market_stall", false):
 			_dress_market_stall(child)
-	_npc(Vector3(28, 0, 31), Color("596e78"), 0.4)
-	_npc(Vector3(-27, 0, -113), Color("766354"), -0.6)
-	_npc(Vector3(-120, 0, 28), Color("6b5866"), 1.2)
-	_npc(Vector3(119, 0, 29), Color("a78e57"), -0.3)
-	# A quiet horizon ground and distant roofs stop the playground floating in sky.
-	_box(self, Vector3(900, 0.2, 900), Vector3(0, -0.7, -30), materials["paving"])
-	for x: float in [-140.0, -105.0, -70.0, 70.0, 105.0, 140.0]:
-		_background_facade(Vector3(x, 0, -145), 32.0, 15.0 + fmod(absf(x), 7.0), 0.0)
-	for side: float in [-1.0, 1.0]:
-		for z: float in [-27.0, 11.0]:
-			_background_facade(Vector3(side * 140.0, 0, z), 36.0, 17.0, -side * PI / 2.0)
-		for x: float in [65.0, 103.0]:
-			_background_facade(Vector3(side * x, 0, 51), 35.0, 15.0, PI)
-		# George's side frontages stop before the back-lane portal at Z=-84.
-		_background_facade(Vector3(side * 42, 0, -105), 38.0, 16.5 + side * 1.5, -side * PI / 2.0)
-		# Frame the north approaches without obstructing X±88 lane centerlines.
-		_background_facade(Vector3(side * 118, 0, -55), 22.0, 13.0, 0.0)
-		_background_facade(Vector3(side * 60, 0, -55), 16.0, 18.0, 0.0)
-
+	_npc(Vector3(28,0,31), Color("596e78"), 0.4)
+	_npc(Vector3(-27,6,-116), Color("766354"), -0.6)
+	_npc(Vector3(-120,2,28), Color("6b5866"), 1.2)
+	_npc(Vector3(123,0,29), Color("847c67"), -0.3)
+	# Beyond the civic square, a restrained skyline frames the horizon. Western
+	# and southern edges remain open to real park/river terrain and route ports.
+	for x: float in [-105.0,-70.0,70.0,105.0]:
+		_background_facade(Vector3(x,6,-149), 32.0, 15.0 + fmod(absf(x),7.0), 0.0)
+	for z: float in [-24.0,18.0]:
+		_background_facade(Vector3(142,0,z), 34, 16, -PI / 2.0)
+	_background_facade(Vector3(42,6,-118), 20, 18, -PI / 2.0)
 
 func _background_facade(at: Vector3, width: float, height: float, yaw: float) -> void:
 	var building := Node3D.new()
@@ -218,9 +211,9 @@ func _gallery_portico(at: Vector3, width: float, height: float) -> void:
 
 
 func _civic_clock() -> void:
-	_gallery_portico(Vector3(0, 0, -124.7), 25.0, 8.0)
+	_gallery_portico(Vector3(0, 6, -127.7), 25.0, 8.0)
 	var tower := Node3D.new()
-	tower.position = Vector3(0, 20, -131)
+	tower.position = Vector3(0, 26, -134)
 	add_child(tower)
 	_box(tower, Vector3(7, 8, 7), Vector3(0, 4, 0), materials["stone"])
 	for y: float in [0.0, 5.7, 8.0]:
@@ -256,23 +249,23 @@ func _station_arches() -> void:
 		for segment: int in range(12):
 			var a := PI * float(segment) / 12.0
 			var b := PI * float(segment + 1) / 12.0
-			var start := Vector3(-94 + cos(a) * 18, 8.0 + sin(a) * 5, z)
-			var end := Vector3(-94 + cos(b) * 18, 8.0 + sin(b) * 5, z)
+			var start := Vector3(-100 + cos(a) * 24, 12.0 + sin(a) * 5, z)
+			var end := Vector3(-100 + cos(b) * 24, 12.0 + sin(b) * 5, z)
 			_beam(self, start, end, 0.18, materials["iron"])
 	for segment: int in range(12):
 		var a := PI * float(segment) / 12.0
 		var b := PI * float(segment + 1) / 12.0
-		var start := Vector3(-94 + cos(a) * 18, 8.0 + sin(a) * 5, 0)
-		var end := Vector3(-94 + cos(b) * 18, 8.0 + sin(b) * 5, 0)
+		var start := Vector3(-100 + cos(a) * 24, 12.0 + sin(a) * 5, 0)
+		var end := Vector3(-100 + cos(b) * 24, 12.0 + sin(b) * 5, 0)
 		var pane := _box(self, Vector3(start.distance_to(end), 0.06, 60), (start + end) / 2.0, materials["roof_glass"])
 		pane.rotation.z = atan2(end.y - start.y, end.x - start.x)
 		_beam(self, start + Vector3(0, 0, -30), start + Vector3(0, 0, 30), 0.1, materials["iron"])
-	_label(self, "CENTRAL", Vector3(-94, 6.5, 30.3), 66, 0.035)
+	_label(self, "CENTRAL", Vector3(-100, 10.5, 30.3), 66, 0.035)
 
 
 func _market_venue() -> void:
 	var facade := Node3D.new()
-	facade.position = Vector3(108, 0, -41.5)
+	facade.position = Vector3(108, 1.5, -41.5)
 	add_child(facade)
 	_box(facade, Vector3(22, 3.1, 0.5), Vector3(0, 7.5, 0), materials["iron"])
 	_label(facade, "BARROWLANDS", Vector3(0, 7.7, 0.3), 70, 0.037)
@@ -289,12 +282,9 @@ func _tree(at: Vector3) -> void:
 	_cylinder(self, at + Vector3(0, 2.8, 0), 0.19, 4.5, materials["bark"])
 	for branch: Vector3 in [Vector3(-1.1, 4.3, 0.2), Vector3(1.0, 4.6, 0.0), Vector3(0.2, 5.6, -0.3), Vector3(0, 4.6, 1.0)]:
 		_beam(self, at + Vector3(0, 3.5, 0), at + branch, 0.12, materials["bark"])
-		var foliage := SphereMesh.new()
-		foliage.radius = 1.3
-		foliage.height = 2.3
-		foliage.radial_segments = 12
-		foliage.rings = 6
-		_mesh(self, foliage, at + branch, materials["leaf_light"] if branch.y > 5.0 else materials["leaf"])
+	var crown := _mesh(self, FoliageMesh.canopy_mesh(), at + Vector3(0, 4.9, 0), FoliageMesh.canopy_material())
+	crown.scale = Vector3(2.3, 1.9, 2.2)
+	crown.rotation.y = fmod(absf(at.x + at.z), TAU)
 
 
 func _npc(at: Vector3, coat_color: Color, yaw: float) -> void:

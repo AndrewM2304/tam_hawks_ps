@@ -1,5 +1,7 @@
 # Current handoff — 17 October 2026
 
+> **Active redesign in progress:** the owner has requested substantial terrain/place changes and a less cartoony rider. The checkpoint below describes the previous build, not current uncommitted source. Follow `docs/planning/ACTIVE_WORK.md`, ADR-007 and new M03-008–012 / M05-006 / M06-008 / M07-006 tickets. New six-area terrain, route map and anatomical character work must pass fresh integration and rendered checks before replacing the downloadable packages.
+
 **Project:** Tam Hawks Pro Skater. **Branch:** `bootstrap/m00-m01`. **State:** playable development alpha with a second environment, rider and UI cleanup pass. Final realistic visual acceptance remains open. Run `git log -1` and `git status --short` before resuming; preserve subsequent edits.
 
 The owner authorizes all ready implementation without recurring approvals. No purchases, paid APIs, billing, hosted CI, infrastructure or unattended jobs. Ordinary assistant work uses existing session credits. Missing human/hardware evidence does not block independent work.

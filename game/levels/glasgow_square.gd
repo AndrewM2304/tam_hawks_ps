@@ -1,11 +1,12 @@
 extends Node3D
-## Original procedural test square. One unit represents approximately one metre.
+## Compressed original Glasgow skating routes. One unit is approximately one metre.
 ## Keep geometry and collision together; skating physics belongs to the player.
 
-const SPAWN := Vector3(0.0, 0.8, 12.0)
+const SPAWN := Vector3(-22.0, 0.8, 28.0)
 const FLOOR_SIZE := Vector3(70.0, 0.5, 84.0)
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
 const CityArtSource = preload("res://game/levels/city_art.gd")
+const TerrainSource = preload("res://game/levels/core_terrain.gd")
 const RAIL_COLLISION_LAYER := 2
 const RAIL_TOP_HEIGHT := 0.92
 const PALETTE := {
@@ -30,6 +31,8 @@ var _city_art: Node3D
 var _cone: Node3D
 var _cone_tween: Tween
 var cone_activated := false
+var _terrain = TerrainSource.new()
+var _outdoors: Node3D
 
 
 func _ready() -> void:
@@ -43,12 +46,17 @@ func _ready() -> void:
 	_build_floor()
 	_build_skating_lines()
 	_build_statue()
-	_build_city()
-	_build_street_furniture()
 	_build_district_connections()
 	_build_george_square()
 	_build_central_station()
 	_build_barras()
+	_build_city()
+	_build_street_furniture()
+	if ResourceLoader.exists("res://game/levels/outdoor_routes.gd"):
+		_outdoors = load("res://game/levels/outdoor_routes.gd").new()
+		_outdoors.name = "OutdoorRoutes"
+		add_child(_outdoors)
+		_outdoors.build(self, _materials)
 	_city_art.dress_world(self)
 
 
@@ -84,6 +92,10 @@ func reset_interactions() -> void:
 
 
 func get_district_id(world_position: Vector3) -> String:
+	if is_instance_valid(_outdoors):
+		var outdoor_id: String = _outdoors.get_district_id(world_position)
+		if not outdoor_id.is_empty():
+			return outdoor_id
 	var at := to_local(world_position)
 	if at.x < -42.0:
 		return "central_station"
@@ -95,76 +107,41 @@ func get_district_id(world_position: Vector3) -> String:
 
 
 func get_district_checkpoints() -> Dictionary:
-	return {
+	var checkpoints := {
 		"royal_exchange": to_global(SPAWN),
-		"george_square": to_global(Vector3(0.0, 0.8, -70.0)),
-		"central_station": to_global(Vector3(-65.0, 0.8, 22.0)),
-		"barras": to_global(Vector3(65.0, 0.8, 22.0)),
+		"george_square": to_global(Vector3(-22.0, 4.8, -74.0)),
+		"central_station": to_global(Vector3(-62.0, 2.8, 22.0)),
+		"barras": to_global(Vector3(60.0, 0.8, 22.0)),
 	}
-
-
-## Markers are authored here, but rendering/collection belongs to the goal system.
-func get_goal_markers() -> Array[Dictionary]:
-	var markers: Array[Dictionary] = [
-		{"id": "H", "kind": "letter", "position": Vector3(0.0, 0.9, -20.0), "radius": 1.8},
-		{"id": "A", "kind": "letter", "position": Vector3(15.0, 0.9, -106.0), "radius": 1.8},
-		{"id": "W", "kind": "letter", "position": Vector3(-94.0, 2.9, -10.0), "radius": 1.8},
-		{"id": "K", "kind": "letter", "position": Vector3(88.0, 0.9, 0.0), "radius": 1.8},
-		{"id": "S", "kind": "letter", "position": Vector3(-60.0, 0.9, -78.0), "radius": 1.8},
-		{"id": "market_1", "kind": "market_item", "position": Vector3(72.0, 0.9, 2.0), "radius": 1.8},
-		{"id": "market_2", "kind": "market_item", "position": Vector3(105.0, 0.9, 22.0), "radius": 1.8},
-		{"id": "market_3", "kind": "market_item", "position": Vector3(105.0, 0.9, -24.0), "radius": 1.8},
-		{"id": "cone", "kind": "interaction", "position": Vector3(14.0, 0.8, -10.0), "radius": 2.4},
-		{"id": "secret_recording", "kind": "collectible", "position": Vector3(120.0, 0.9, -33.0), "radius": 1.8},
-	]
-	for marker: Dictionary in markers:
-		marker["position"] = to_global(marker["position"])
-	var checkpoints := get_district_checkpoints()
-	for id: String in checkpoints:
-		markers.append({"id": id, "kind": "district", "position": checkpoints[id], "radius": 3.5})
-	return markers
+	if is_instance_valid(_outdoors):
+		checkpoints.merge(_outdoors.get_checkpoints())
+	return checkpoints
 
 
 func get_gap_definitions() -> Array[Dictionary]:
 	var gaps: Array[Dictionary] = [
-		{"id": "exchange_launch", "name": "Exchange Air", "start": Vector3(0.0, 1.5, -12.5), "end": Vector3(0.0, 0.8, -18.0), "radius": 2.2, "points": 300, "airborne_required": true},
-		{"id": "central_gap", "name": "Mind The Gap", "start": Vector3(-94.0, 2.4, 1.0), "end": Vector3(-94.0, 2.4, -5.0), "radius": 2.0, "points": 600, "airborne_required": true},
-		{"id": "market_hop", "name": "Barras Basket Hop", "start": Vector3(88.0, 0.8, 8.0), "end": Vector3(88.0, 0.8, 2.0), "radius": 2.0, "points": 350, "airborne_required": true},
+		{"id": "exchange_launch", "name": "Gallery Steps", "start": Vector3(0, 2.4, -13), "end": Vector3(0, 0.8, -5), "radius": 2.2, "points": 300, "airborne_required": true},
+		{"id": "central_gap", "name": "Mind The Gap", "start": Vector3(-94, 5.4, 0), "end": Vector3(-94, 5.4, -6), "radius": 2.0, "points": 600, "airborne_required": true},
+		{"id": "market_hop", "name": "Market Loading Steps", "start": Vector3(93, 1.9, -15), "end": Vector3(93, 0.8, -7), "radius": 2.0, "points": 350, "airborne_required": true},
 	]
 	for gap: Dictionary in gaps:
-		gap["start"] = to_global(gap["start"])
-		gap["end"] = to_global(gap["end"])
+		gap.start = to_global(gap.start)
+		gap.end = to_global(gap.end)
+	if is_instance_valid(_outdoors):
+		gaps.append_array(_outdoors.get_gap_definitions())
 	return gaps
 
 
-## Snapshot authored rail tops into world coordinates. Call again after moving
-## this level; the returned GrindLine instances deliberately own fixed curves.
-func get_grind_lines() -> Array:
-	var lines: Array = []
-	for rail: Node3D in _rail_authors:
-		var local_points: PackedVector3Array = rail.get_meta("grind_points")
-		lines.append(GrindLineSource.from_local_points(
-			String(rail.get_meta("grind_id")), local_points, rail.global_transform, "rail"))
-	return lines
-
-
 func get_location_name(world_position: Vector3) -> String:
+	if is_instance_valid(_outdoors) and not _outdoors.get_district_id(world_position).is_empty():
+		return _outdoors.get_location_name(world_position)
 	match get_district_id(world_position):
-		"george_square":
-			return "GEORGE SQUARE"
-		"central_station":
-			return "CENTRAL STATION"
-		"barras":
-			return "THE BARRAS"
-	if world_position.x > 7.0 and world_position.z < -5.0:
-		return "CONE COURT"
-	if world_position.x < -9.0:
-		return "TENEMENT RUN"
-	if world_position.z < -23.0:
-		return "BUCHANAN BANKS"
-	if world_position.z > 20.0:
-		return "THE WEE WARM-UP"
-	return "EXCHANGE SQUARE"
+		"george_square": return "GEORGE SQUARE / CIVIC TERRACES"
+		"central_station": return "CENTRAL STATION / HIGH LINE"
+		"barras": return "THE BARRAS / MARKET LANES"
+	if world_position.z < -18.0:
+		return "EXCHANGE GALLERY TERRACE"
+	return "ROYAL EXCHANGE / FOUNTAIN COURT"
 
 
 func _make_materials() -> void:
@@ -208,86 +185,36 @@ func _build_lighting() -> void:
 
 
 func _build_floor() -> void:
-	_box(self, "SquareFloor", Vector3(0.0, -0.25, 0.0), FLOOR_SIZE, "paving", true)
-	# Paint is slightly above the collision surface and never obstructs wheels.
-	_box(self, "CentralPromenade", Vector3(0.0, 0.006, 0.0), Vector3(11.0, 0.01, 78.0), "path")
-	_box(self, "CrossPromenade", Vector3(0.0, 0.008, -19.0), Vector3(65.0, 0.01, 9.0), "path")
-	for x: float in [-29.0, -20.0, -11.0, 11.0, 20.0, 29.0]:
-		_box(self, "PavingJoint", Vector3(x, 0.012, 0.0), Vector3(0.055, 0.012, 80.0), "slate")
-	for z: float in [-35.0, -26.0, -17.0, -8.0, 1.0, 10.0, 19.0, 28.0, 37.0]:
-		_box(self, "PavingJoint", Vector3(0.0, 0.014, z), Vector3(68.0, 0.012, 0.055), "slate")
-	for x: float in [-34.5, 34.5]:
-		_wall_z("BoundaryWall", x, -42.0, 42.0, [-22.0, 22.0])
-	_wall_x("BoundaryWall", -41.5, -35.0, 35.0, [-20.0, 20.0])
-	_wall_x("BoundaryWall", 41.5, -35.0, 35.0, [])
-	_label(self, "GroundTitle", "TAM HAWKS", Vector3(0.0, 0.035, 22.0), 80, "cream", Vector3(-90.0, 0.0, 0.0), 0.018)
-	_label(self, "GroundSubtitle", "PRO SKATER  /  GLASGOW", Vector3(0.0, 0.037, 24.0), 36, "cream", Vector3(-90.0, 0.0, 0.0), 0.018)
-	# Spawn starts on a clear 14 m approach to the central ramp.
-	for z: float in [7.0, 3.0, -1.0]:
-		_box(self, "ApproachDash", Vector3(0.0, 0.03, z), Vector3(0.18, 0.02, 1.25), "cream")
+	_flat("ExchangeLowerCourt", Rect2(-35, -18, 70, 60), 0.0, "paving")
+	_flat("GalleryTerrace", Rect2(-35, -42, 70, 24), 2.0, "path")
+	_slope("GalleryWestApproach", Rect2(-35, -18, 24, 14), Vector4(2, 2, 0, 0), "paving")
+	_slope("GalleryEastApproach", Rect2(11, -18, 24, 14), Vector4(2, 2, 0, 0), "paving")
+	_steps("GallerySteps", -9, 9, -4, -12, 0, 2, 8)
+	_flat("GalleryStepLanding", Rect2(-11, -18, 22, 6), 2.0, "path")
+	# The low retaining cheeks are architecture beside, never across, the banks.
+	for x: float in [-10.0, 10.0]:
+		_box(self, "GalleryStairCheek", Vector3(x, 0.9, -9), Vector3(1.0, 1.8, 10), "stone", true)
+	# Furniture and normal urban edges define the court; no runway markings.
+	_fountain(Vector3(0, 0, 10), 6.2)
 
 
 func _build_skating_lines() -> void:
-	# Each wedge is a true convex solid. Central incline: 1.6 m / 8 m = 11.3 degrees.
-	_ramp("CentralRamp", Vector3(0.0, 0.0, -8.0), 7.0, 8.0, 1.6, 0.0)
-	_ramp("TenementReturnRamp", Vector3(-17.0, 0.0, -11.0), 6.0, 7.0, 1.35, PI)
-	_ramp("NorthBank", Vector3(-5.0, 0.0, -33.0), 9.0, 7.0, 1.8, 0.0)
-	_ramp("WarmUpBank", Vector3(16.0, 0.0, 24.0), 6.0, 7.0, 1.1, -PI / 2.0)
-	for z: float in [-8.0, 13.0]:
-		_box(self, "LowSkateLedge", Vector3(-11.5, 0.24, z), Vector3(1.25, 0.48, 7.0), "stone", true)
-		_box(self, "LedgeCap", Vector3(-11.5, 0.495, z), Vector3(1.35, 0.03, 7.1), "cream")
-	_box(self, "EastLedge", Vector3(22.0, 0.28, 2.0), Vector3(7.0, 0.56, 1.3), "stone", true)
-	_box(self, "EastLedgeCap", Vector3(22.0, 0.575, 2.0), Vector3(7.1, 0.03, 1.4), "cream")
-	# Rail tops and their geometry share one local coordinate system. The
-	# controller acquires these lines explicitly; unrelated ledges stay solid.
-	_rail("Grind_Rail_Exchange", Vector3(12.0, 0.0, 9.0), 7.5)
-	_rail("Grind_Rail_Tenement", Vector3(-26.0, 0.0, -22.0), 8.0)
-	_label(self, "RailApproachHint", "OLLIE ON / HOLD GRIND", Vector3(12.0, 0.04, 17.0), 28, "cream", Vector3(-90.0, 0.0, 0.0), 0.012)
-	for z: float in [15.0, 14.0]:
-		_box(self, "RailApproachDash", Vector3(12.0, 0.03, z), Vector3(0.12, 0.02, 0.5), "coral")
+	# Low public-space handrails and ledges give the fountain loop optional links.
+	_rail("Grind_Rail_Exchange", Vector3(12, 0, 9), 7.5)
+	_rail("Grind_Rail_Tenement", Vector3(-29, 2, -27), 10)
+	_grind_path("Grind_Rail_GallerySteps", PackedVector3Array([
+		Vector3(9.4, 0.92, -3), Vector3(9.4, 2.92, -13), Vector3(9.4, 2.92, -17)]), "rail")
+	for at: Vector3 in [Vector3(-15, 0, 13), Vector3(17, 0, 13)]:
+		_box(self, "CourtPlanterSeat", at + Vector3(0, 0.24, 0), Vector3(1.15, 0.48, 8), "stone", true)
+		_box(self, "CourtPlanterCap", at + Vector3(0, 0.51, 0), Vector3(1.25, 0.06, 8.1), "cut_stone")
+	_grind_path("Grind_Ledge_Court", PackedVector3Array([Vector3(-15.6, 0.55, 17), Vector3(-15.6, 0.55, 9)]), "ledge")
 
 
 func _ramp(ramp_name: String, at: Vector3, width: float, run: float, rise: float, yaw: float) -> void:
-	var body := StaticBody3D.new()
-	body.name = ramp_name
-	body.position = at
-	body.rotation.y = yaw
-	body.add_to_group("skateable_ramps")
-	body.set_meta("rise", rise)
-	body.set_meta("run", run)
-	body.set_meta("width", width)
-	body.set_meta("surface_audio", "metal")
-	add_child(body)
-	var a := Vector3(-width / 2.0, 0.02, run / 2.0)
-	var b := Vector3(width / 2.0, 0.02, run / 2.0)
-	var c := Vector3(-width / 2.0, rise, -run / 2.0)
-	var d := Vector3(width / 2.0, rise, -run / 2.0)
-	var e := Vector3(-width / 2.0, 0.0, -run / 2.0)
-	var f := Vector3(width / 2.0, 0.0, -run / 2.0)
-	var points := PackedVector3Array([a, b, c, d, e, f])
-	var shape := ConvexPolygonShape3D.new()
-	shape.points = points
-	var collider := CollisionShape3D.new()
-	collider.shape = shape
-	body.add_child(collider)
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	surface.set_smooth_group(-1)
-	# Godot front faces use clockwise winding; preserve outward normals.
-	for triangle: Array in [[a, c, b], [b, c, d], [a, e, c], [b, d, f], [c, e, d], [d, e, f], [a, b, e], [b, f, e]]:
-		for vertex: Vector3 in triangle:
-			surface.add_vertex(vertex)
-	surface.generate_normals()
-	var mesh := MeshInstance3D.new()
-	mesh.mesh = surface.commit()
-	mesh.material_override = _materials["teal"]
-	body.add_child(mesh)
-	for x: float in [-width / 2.0 + 0.25, width / 2.0 - 0.25]:
-		var stripe := _box(body, "RampEdgePaint", Vector3(x, rise / 2.0 + 0.045, 0.0), Vector3(0.1, 0.025, sqrt(run * run + rise * rise)), "cream")
-		stripe.rotation.x = atan2(rise - 0.02, run)
-	for x: float in [-0.3, 0.3]:
-		var direction_mark := _box(body, "RampDirectionPaint", Vector3(x, rise / 2.0 + 0.06, 0.0), Vector3(0.08, 0.025, 1.4), "cream")
-		direction_mark.rotation.x = atan2(rise - 0.02, run)
+	# Retained helper for small authored banks; material is the adjacent masonry.
+	var start := at + Basis(Vector3.UP, yaw) * Vector3(0, 0, run / 2.0)
+	var end := at + Basis(Vector3.UP, yaw) * Vector3(0, rise, -run / 2.0)
+	_street(ramp_name, start, end, width, "paving")
 
 
 func _rail(rail_id: String, at: Vector3, length: float) -> void:
@@ -317,7 +244,7 @@ func _rail(rail_id: String, at: Vector3, length: float) -> void:
 func _build_statue() -> void:
 	var statue := Node3D.new()
 	statue.name = "ProvostOfPush"
-	statue.position = Vector3(14.0, 0.0, -15.0)
+	statue.position = Vector3(18.0, 2.0, -27.0)
 	add_child(statue)
 	_box(statue, "PlinthFoot", Vector3(0.0, 0.25, 0.0), Vector3(5.0, 0.5, 5.0), "stone_light", true)
 	_box(statue, "Plinth", Vector3(0.0, 1.85, 0.0), Vector3(3.4, 2.7, 3.4), "stone", true)
@@ -344,114 +271,98 @@ func _build_statue() -> void:
 
 
 func _build_city() -> void:
-	# Leave real openings through facades at the paired district connectors.
-	_building(Vector3(-32.0, 0.0, -47.0), 10.0, 17.0, "stone", "THE WEE PIE CO.", 0.0)
-	_building(Vector3(0.0, 0.0, -47.0), 16.0, 21.0, "sandstone", "EXCHANGE HALL", 0.0)
-	_building(Vector3(32.0, 0.0, -47.0), 10.0, 18.5, "stone_light", "CLYDE VINYL", 0.0)
-	for z: float in [-35.0, 0.0, 35.0]:
-		var width := 24.0 if is_zero_approx(z) else 10.0
-		_building(Vector3(-41.0, 0.0, z), width, 16.0, "stone", "TENEMENT WORKS", PI / 2.0)
-		_building(Vector3(41.0, 0.0, z), width, 17.0, "sandstone", "CONE CULTURE", -PI / 2.0)
-	for x: float in [-24.0, -4.0, 16.0, 33.0]:
-		_building(Vector3(x, 0.0, 47.0), 17.0, 15.0, "stone_light", "GLASGOW / KEEP ROLLING", PI)
-	# Clock tower silhouette anchors the north end without copying a real building.
-	_box(self, "ClockTower", Vector3(-5.0, 24.0, -47.0), Vector3(5.0, 9.0, 5.0), "stone", true)
-	_box(self, "TowerCornice", Vector3(-5.0, 28.4, -47.0), Vector3(5.8, 0.6, 5.8), "slate")
-	_cylinder(self, "TowerSpire", Vector3(-5.0, 31.0, -47.0), 0.0, 3.1, 5.0, "teal")
-	_box(self, "ClockFace", Vector3(-5.0, 25.0, -44.46), Vector3(2.7, 2.7, 0.06), "cream")
-	_box(self, "ClockHand", Vector3(-5.0, 25.43, -44.40), Vector3(0.13, 1.0, 0.04), "slate")
-	var hand := _box(self, "ClockHand", Vector3(-4.66, 24.85, -44.39), Vector3(0.8, 0.13, 0.04), "slate")
-	hand.rotation.z = -0.3
+	_building(Vector3(0, 2, -48), 18, 19, "sandstone", "EXCHANGE GALLERY", 0)
+	for x: float in [-32.0, 32.0]:
+		_building(Vector3(x, 2, -48), 10, 17, "stone", "THE WEE PIE CO.", 0)
+	for z: float in [-33.0, 0.0, 35.0]:
+		var height := 2.0 if z < -18.0 else 0.0
+		var width := 30.0 if z == 0.0 else 10.0
+		_building(Vector3(-41, height, z), width, 16, "stone", "TENEMENT WORKS", PI / 2.0)
+		_building(Vector3(41, height, z), width, 18, "sandstone", "CLOSE COFFEE", -PI / 2.0)
+	# South retail edge has two shallow closes, rather than a sealed sandbox wall.
+	for x: float in [-24.0, 0.0, 24.0]:
+		_building(Vector3(x, 0, 48), 18, 15, "stone_light", "EXCHANGE ARCADE", PI)
+	_building(Vector3(0, 6, -134), 62, 19, "stone_light", "CIVIC CHAMBERS", 0)
+	for side: float in [-1.0, 1.0]:
+		# Two frontage blocks frame the Z=-80 cross street instead of sealing it.
+		_building(Vector3(side * 42, 4, -99), 20, 17, "sandstone", "CIVIC CLOSE", -side * PI / 2.0)
+		_building(Vector3(side * 42, 4, -63.5), 14, 16, "sandstone", "CIVIC CLOSE", -side * PI / 2.0)
+	# Western station facade is split to leave the Kelvingrove route open.
+	for z: float in [-26.0, 26.0]:
+		_building(Vector3(-136, 2, z), 30, 17, "stone", "STATION APPROACH", PI / 2.0)
+	_building(Vector3(108, 1.5, -48), 32, 12, "sandstone", "BARROWLANDS / MARKET QUARTER", 0)
+	_building(Vector3(65, 1.5, -48), 28, 13, "stone", "THE MARKET HALL", 0)
 
 
 func _build_district_connections() -> void:
-	# This compressed skating map is original; these are not surveyed streets.
-	for x: float in [-20.0, 20.0]:
-		_street("GeorgeConnector", Vector3(x, 0.0, -42.0), Vector3(x, 0.0, -55.0))
-	for z: float in [-22.0, 22.0]:
-		_street("CentralConnector", Vector3(-35.0, 0.0, z), Vector3(-48.0, 0.0, z))
-		_street("BarrasConnector", Vector3(35.0, 0.0, z), Vector3(48.0, 0.0, z))
+	for x: float in [-22.0, 22.0]:
+		_street("GeorgeGradedStreet", Vector3(x, 2, -42), Vector3(x, 4, -56), 14)
+	_street("CentralSouthStreet", Vector3(-35, 0, 22), Vector3(-50, 2, 22), 14)
+	_street("CentralNorthStreet", Vector3(-35, 2, -22), Vector3(-50, 2, -22), 14)
+	_street("BarrasSouthStreet", Vector3(35, 0, 22), Vector3(50, 0, 22), 14)
+	_street("BarrasNorthStreet", Vector3(35, 2, -22), Vector3(50, 1.5, -22), 14)
 	for x: float in [-88.0, 88.0]:
-		_street("NorthShortcut", Vector3(x, 0.0, -42.0), Vector3(x, 0.0, -78.0))
-		_street("NorthShortcut", Vector3(x, 0.0, -78.0), Vector3(signf(x) * 35.0, 0.0, -78.0))
-		# The corner square bridges the two orthogonal road footprints.
-		_box(self, "ShortcutCorner", Vector3(x, -0.25, -78.0), Vector3(12.0, 0.5, 12.0), "paving", true)
-	_ground_label("GeorgeWayfinding", "GEORGE SQUARE", Vector3(20.0, 0.04, -38.0), 0.0)
-	_ground_label("CentralWayfinding", "CENTRAL STATION", Vector3(-29.0, 0.04, 22.0), PI / 2.0)
-	_ground_label("BarrasWayfinding", "THE BARRAS", Vector3(29.0, 0.04, 22.0), -PI / 2.0)
-	_ground_label("ShortcutWayfinding", "THE BACK LANES", Vector3(-60.0, 0.04, -78.0), PI / 2.0)
+		var start_height := 2.0 if x < 0 else 1.5
+		_street("NorthClimbingLane", Vector3(x, start_height, -42), Vector3(x, 4, -74), 12)
+		_street("CivicBackStreet", Vector3(x, 4, -80), Vector3(signf(x) * 35, 4, -80), 12)
+		_flat("BackStreetCorner", Rect2(x - 6, -86, 12, 12), 4, "asphalt")
+	_street("KelvingroveWestPort", Vector3(-130, 2, 0), Vector3(-145, 2, 0), 16)
+	_street("KelvingroveCivicPort", Vector3(-35, 6, -122), Vector3(-42, 6, -122), 12)
 
 
 func _build_george_square() -> void:
-	_box(self, "GeorgeSquareFloor", Vector3(0.0, -0.25, -90.0), Vector3(70.0, 0.5, 70.0), "path", true)
-	_wall_x("GeorgeBoundary", -124.5, -35.0, 35.0, [])
-	_wall_x("GeorgeBoundary", -55.5, -35.0, 35.0, [-20.0, 20.0])
-	for x: float in [-34.5, 34.5]:
-		_wall_z("GeorgeBoundary", x, -125.0, -55.0, [-78.0])
-	_ground_label("GeorgeTitle", "GEORGE SQUARE", Vector3(0.0, 0.04, -66.0), 0.0)
-	# An open civic loop with broad sightlines, modest learning banks and ledges.
-	_ramp("GeorgeLearningBank", Vector3(-15.0, 0.0, -90.0), 8.0, 10.0, 1.1, 0.0)
-	_ramp("GeorgeReturnBank", Vector3(15.0, 0.0, -90.0), 8.0, 10.0, 1.1, PI)
-	_rail("Grind_Rail_George", Vector3(22.0, 0.0, -106.0), 12.0)
-	for x: float in [-8.0, 8.0]:
-		_box(self, "GeorgeLowLedge", Vector3(x, 0.22, -108.0), Vector3(1.1, 0.44, 9.0), "stone", true)
-	for x: float in [-26.0, 26.0]:
-		_box(self, "CivicPlanter", Vector3(x, 0.35, -94.0), Vector3(5.0, 0.7, 6.0), "stone", true)
-		_cylinder(self, "CivicTree", Vector3(x, 3.0, -94.0), 0.3, 1.8, 4.0, "teal")
-	_building(Vector3(0.0, 0.0, -131.0), 62.0, 19.0, "stone_light", "CIVIC CHAMBERS", 0.0)
-	# Civic portico silhouette is deliberately an original composition.
-	for x: float in [-9.0, -3.0, 3.0, 9.0]:
-		_cylinder(self, "CivicColumn", Vector3(x, 4.0, -123.0), 0.6, 0.75, 8.0, "stone_light")
-	_box(self, "CivicPortico", Vector3(0.0, 8.25, -122.5), Vector3(24.0, 0.8, 5.0), "stone", false)
+	_flat("GeorgeSquareFloor", Rect2(-35, -128, 70, 72), 4, "path")
+	_flat("CivicForecourt", Rect2(-35, -128, 70, 20), 6, "path")
+	_slope("CivicWestBank", Rect2(-35, -108, 18, 12), Vector4(6, 6, 4, 4), "paving")
+	_slope("CivicEastBank", Rect2(17, -108, 18, 12), Vector4(6, 6, 4, 4), "paving")
+	_steps("CivicStairs", -13, 13, -102, -108, 4, 6, 10)
+	for x: float in [-13.0, 13.0]:
+		_box(self, "CivicGarden", Vector3(x, 4.28, -84), Vector3(8, 0.56, 10), "stone", true)
+		_box(self, "CivicGardenSoil", Vector3(x, 4.59, -84), Vector3(7.4, 0.08, 9.4), "bark")
+	_grind_path("Grind_Rail_George", PackedVector3Array([
+		Vector3(14, 4.92, -100), Vector3(14, 6.92, -109), Vector3(14, 6.92, -117)]), "rail")
+	_grind_path("Grind_Ledge_Civic", PackedVector3Array([Vector3(-17.15, 4.62, -79), Vector3(-17.15, 4.62, -89)]), "ledge")
 
 
 func _build_central_station() -> void:
-	_box(self, "CentralStationFloor", Vector3(-88.0, -0.25, 0.0), Vector3(80.0, 0.5, 84.0), "paving", true)
-	_wall_z("CentralBoundary", -127.5, -42.0, 42.0, [])
-	_wall_z("CentralBoundary", -48.5, -42.0, 42.0, [-22.0, 22.0])
-	_wall_x("CentralBoundary", -41.5, -128.0, -48.0, [-88.0])
-	_wall_x("CentralBoundary", 41.5, -128.0, -48.0, [])
-	_ground_label("CentralTitle", "CENTRAL STATION", Vector3(-64.0, 0.04, 28.0), 0.0)
-	# Raised platforms have a real 4m break, with a safe floor underneath.
-	_ramp("CentralPlatformApproach", Vector3(-94.0, 0.0, 18.0), 12.0, 12.0, 2.0, 0.0)
-	_box(self, "CentralPlatformSouth", Vector3(-94.0, 1.0, 6.0), Vector3(12.0, 2.0, 12.0), "stone", true)
-	_box(self, "CentralPlatformNorth", Vector3(-94.0, 1.0, -10.0), Vector3(12.0, 2.0, 12.0), "stone", true)
-	_ramp("CentralPlatformExit", Vector3(-94.0, 0.0, -22.0), 12.0, 12.0, 2.0, PI)
-	_rail("Grind_Rail_CentralPlatform", Vector3(-98.0, 2.0, 6.0), 9.0)
-	_rail("Grind_Rail_CentralGround", Vector3(-69.0, 0.0, -5.0), 17.0)
-	_box(self, "PlatformGapPaint", Vector3(-94.0, 0.02, -2.0), Vector3(12.0, 0.025, 4.0), "coral")
-	_ground_label("PlatformGapHint", "OLLIE / MIND THE GAP", Vector3(-94.0, 2.04, 5.0), 0.0)
-	# Broad, high canopy leaves a clear camera corridor above the elevated route.
-	for x: float in [-112.0, -76.0]:
-		for z: float in [-27.0, -9.0, 9.0, 27.0]:
-			_box(self, "CanopyColumn", Vector3(x, 4.0, z), Vector3(0.45, 8.0, 0.45), "slate", true)
-	for side: float in [-1.0, 1.0]:
-		var roof := _box(self, "StationCanopy", Vector3(-94.0 + side * 9.0, 9.4, 0.0), Vector3(19.0, 0.18, 62.0), "glass")
-		roof.rotation.z = -side * 0.16
-	for z: float in [-30.0, -15.0, 0.0, 15.0, 30.0]:
-		_box(self, "CanopyCrossBeam", Vector3(-94.0, 8.1, z), Vector3(37.0, 0.3, 0.3), "slate")
-	_building(Vector3(-134.0, 0.0, 0.0), 72.0, 17.0, "stone", "CENTRAL / KEEP MOVING", PI / 2.0)
+	_flat("CentralStationFloor", Rect2(-130, -42, 80, 87), 2, "paving")
+	_slope("CentralPlatformApproach", Rect2(-101, 14, 14, 18), Vector4(5, 5, 2, 2), "stone")
+	_flat("CentralPlatformSouth", Rect2(-101, -1, 14, 15), 5, "path")
+	_flat("CentralPlatformNorth", Rect2(-101, -20, 14, 15), 5, "path")
+	_slope("CentralPlatformExit", Rect2(-101, -38, 14, 18), Vector4(2, 2, 5, 5), "stone")
+	_rail("Grind_Rail_CentralPlatform", Vector3(-99, 5, 6), 11)
+	_rail("Grind_Rail_CentralGround", Vector3(-64, 2, -5), 17)
+	# The adjacent station steps make the raised route part of its architecture.
+	_steps("StationEntranceSteps", -117, -105, 16, 4, 2, 5, 12)
+	# A real suspended service walk creates overlapping high/low routes.
+	# The deck underside is Y4.6, leaving 2.6m above the lower concourse.
+	_terrain.add_patch(self, "StationUpperWalk", Rect2(-122, -20, 17, 24), Vector4.ONE * 5.0, _materials["path"], "stone", 0.4)
+	for x: float in [-121.0, -106.0]:
+		for z: float in [-18.5, 2.5]:
+			_box(self, "ServiceWalkPier", Vector3(x, 3.25, z), Vector3(0.65, 2.5, 0.65), "stone", true)
+	_grind_path("Grind_Ledge_ServiceWalk", PackedVector3Array([Vector3(-121.6, 5.45, 1), Vector3(-121.6, 5.45, -17)]), "ledge")
+	_label(self, "StationCloseSign", "LOW LEVEL / QUAY & PARK", Vector3(-126, 4.1, -3), 28, "cream", Vector3(0, 90, 0), 0.012)
+	_slope("StationUpperReturn", Rect2(-122, -38, 17, 18), Vector4(2, 2, 5, 5), "stone")
+	for x: float in [-124.0, -76.0]:
+		for z: float in [-28.0, -10.0, 10.0, 28.0]:
+			_box(self, "CanopyColumn", Vector3(x, 7, z), Vector3(0.48, 10, 0.48), "slate", true)
 
 
 func _build_barras() -> void:
-	_box(self, "BarrasFloor", Vector3(88.0, -0.25, 0.0), Vector3(80.0, 0.5, 84.0), "paving", true)
-	_wall_z("BarrasBoundary", 127.5, -42.0, 42.0, [])
-	_wall_z("BarrasBoundary", 48.5, -42.0, 42.0, [-22.0, 22.0])
-	_wall_x("BarrasBoundary", -41.5, 48.0, 128.0, [88.0])
-	_wall_x("BarrasBoundary", 41.5, 48.0, 128.0, [])
-	_ground_label("BarrasTitle", "THE BARRAS", Vector3(64.0, 0.04, 28.0), 0.0)
-	for x: float in [70.0, 105.0]:
-		for z: float in [-12.0, 12.0]:
-			_market_stall(Vector3(x, 0.0, z))
-	_ramp("MarketHopBank", Vector3(88.0, 0.0, 11.0), 5.0, 6.0, 0.7, 0.0)
-	_box(self, "MarketBasket", Vector3(88.0, 0.26, 5.0), Vector3(2.5, 0.52, 1.0), "stone", true)
-	_rail("Grind_Rail_Barras", Vector3(114.0, 0.0, 18.0), 12.0)
-	_building(Vector3(108.0, 0.0, -48.0), 32.0, 11.0, "sandstone", "BARROWLANDS / MARKET QUARTER", 0.0)
-	_building(Vector3(65.0, 0.0, -48.0), 28.0, 13.0, "stone", "THE MARKET HALL", 0.0)
-	# Open south entrance: a hidden court that always has a ground-level exit.
-	_box(self, "RecordingAlcoveSide", Vector3(114.0, 1.5, -30.0), Vector3(0.5, 3.0, 16.0), "sandstone", true)
-	_box(self, "RecordingAlcoveBack", Vector3(120.0, 1.5, -38.0), Vector3(12.0, 3.0, 0.5), "sandstone", true)
-	_label(self, "RecordingHint", "AFTER HOURS", Vector3(120.0, 2.2, -37.7), 34, "cream")
+	_flat("BarrasFloor", Rect2(50, -42, 80, 87), 0, "paving")
+	_flat("MarketLoadingTerrace", Rect2(50, -42, 80, 24), 1.5, "stone")
+	_slope("MarketWestLoadingBank", Rect2(54, -18, 22, 12), Vector4(1.5, 1.5, 0, 0), "stone")
+	_slope("MarketEastLoadingBank", Rect2(108, -18, 22, 12), Vector4(1.5, 1.5, 0, 0), "stone")
+	_steps("MarketLoadingSteps", 87, 99, -8, -14, 0, 1.5, 6)
+	_flat("MarketStepLanding", Rect2(87, -18, 12, 4), 1.5, "stone")
+	for at: Vector3 in [Vector3(67, 0, 10), Vector3(80, 0, -2), Vector3(104, 0, 16), Vector3(118, 0, 1)]:
+		_market_stall(at)
+	_rail("Grind_Rail_Barras", Vector3(114, 0, 27), 12)
+	_grind_path("Grind_Rail_MarketSteps", PackedVector3Array([Vector3(99.8, 0.92, -7), Vector3(99.8, 2.42, -15), Vector3(99.8, 2.42, -19)]), "rail")
+	# A lower side opening and the loading bank give the hidden court an exit.
+	_box(self, "RecordingAlcoveSide", Vector3(113, 3.0, -31), Vector3(0.5, 3, 14), "warehouse_brick", true)
+	_box(self, "RecordingAlcoveBack", Vector3(120, 3.0, -39), Vector3(14, 3, 0.5), "warehouse_brick", true)
+	_label(self, "RecordingHint", "AFTER HOURS", Vector3(120, 3.6, -38.7), 30, "cream")
 
 
 func _market_stall(at: Vector3) -> void:
@@ -467,19 +378,20 @@ func _market_stall(at: Vector3) -> void:
 		_box(stall, "StallAwning", Vector3(x, 3.1, 0.0), Vector3(2.0, 0.16, 4.5), "coral" if x < 0.0 else "cream")
 
 
-func _street(node_name: String, start: Vector3, end: Vector3, width: float = 12.0) -> void:
-	var span := end - start
-	var center := (start + end) * 0.5
-	var size := Vector3(maxf(absf(span.x), width), 0.5, maxf(absf(span.z), width))
-	var road := _box(self, node_name, center + Vector3(0.0, -0.25, 0.0), size, "asphalt", true)
-	road.set_meta("surface_audio", "asphalt")
-	# Ends stay open for turning from the connector into either district.
-	if absf(span.x) > absf(span.z):
-		for edge: float in [-1.0, 1.0]:
-			_box(self, "StreetEdge", center + Vector3(0.0, 0.65, edge * width / 2.0), Vector3(maxf(1.0, size.x - width), 1.3, 0.4), "stone", true)
+func _street(node_name: String, start: Vector3, end: Vector3, width: float = 12.0, material: String = "asphalt") -> void:
+	var bounds: Rect2
+	var heights: Vector4
+	if absf(end.x - start.x) > absf(end.z - start.z):
+		bounds = Rect2(minf(start.x, end.x), start.z - width / 2.0, absf(end.x - start.x), width)
+		var left := start.y if start.x < end.x else end.y
+		var right := end.y if start.x < end.x else start.y
+		heights = Vector4(left, right, right, left)
 	else:
-		for edge: float in [-1.0, 1.0]:
-			_box(self, "StreetEdge", center + Vector3(edge * width / 2.0, 0.65, 0.0), Vector3(0.4, 1.3, maxf(1.0, size.z - width)), "stone", true)
+		bounds = Rect2(start.x - width / 2.0, minf(start.z, end.z), width, absf(end.z - start.z))
+		var north := start.y if start.z < end.z else end.y
+		var south := end.y if start.z < end.z else start.y
+		heights = Vector4(north, north, south, south)
+	_slope(node_name, bounds, heights, material)
 
 
 func _wall_x(node_name: String, z: float, start: float, end: float, openings: Array) -> void:
@@ -519,19 +431,12 @@ func _building(at: Vector3, width: float, height: float, color: String, shop: St
 
 
 func _build_street_furniture() -> void:
-	for at: Vector3 in [Vector3(-29.0, 0.0, 8.0), Vector3(28.0, 0.0, 18.0), Vector3(-27.0, 0.0, -32.0), Vector3(27.0, 0.0, -29.0)]:
-		_box(self, "Planter", at + Vector3(0.0, 0.5, 0.0), Vector3(3.0, 1.0, 3.0), "stone", true)
-		_cylinder(self, "TreeTrunk", at + Vector3(0.0, 2.4, 0.0), 0.22, 0.3, 3.0, "slate")
-		_cylinder(self, "TreeCrown", at + Vector3(0.0, 4.8, 0.0), 0.85, 2.2, 3.5, "teal")
-	for x: float in [-31.0, 31.0]:
-		for z: float in [-20.0, 0.0, 22.0]:
-			_cylinder(self, "LampPost", Vector3(x, 2.5, z), 0.07, 0.12, 5.0, "slate")
-			_box(self, "LampLantern", Vector3(x, 5.2, z), Vector3(0.45, 0.7, 0.45), "cream")
-			_box(self, "LampCap", Vector3(x, 5.62, z), Vector3(0.65, 0.12, 0.65), "slate")
-	_box(self, "WelcomeSign", Vector3(-8.0, 1.3, 23.0), Vector3(3.0, 2.6, 0.2), "teal", true)
-	_label(self, "WelcomeText", "AYE, YOU CAN\nSKATE HERE.", Vector3(-8.0, 1.45, 23.12), 40, "cream", Vector3.ZERO, 0.012)
-	_box(self, "SessionSign", Vector3(8.0, 1.3, 29.0), Vector3(3.0, 2.6, 0.2), "coral", true)
-	_label(self, "SessionText", "GOOD LUCK.\nMIND THE CONE.", Vector3(8.0, 1.45, 29.12), 36, "cream", Vector3.ZERO, 0.012)
+	for at: Vector3 in [Vector3(-29, 0, 13), Vector3(28, 0, 14), Vector3(-28, 2, -32), Vector3(28, 2, -32)]:
+		_box(self, "Planter", at + Vector3(0, 0.4, 0), Vector3(3, 0.8, 3), "stone", true)
+	for at: Vector3 in [Vector3(-31, 0, 30), Vector3(31, 0, 30), Vector3(-31, 2, -29), Vector3(31, 2, -29)]:
+		_cylinder(self, "LampPost", at + Vector3(0, 2.5, 0), 0.07, 0.12, 5, "slate")
+		_box(self, "LampLantern", at + Vector3(0, 5.2, 0), Vector3(0.45, 0.7, 0.45), "cream")
+	_label(self, "GalleryWayfinding", "GALLERY / CIVIC TERRACES", Vector3(-31, 1.8, -2), 28, "cream")
 
 
 func _box(parent: Node3D, node_name: String, at: Vector3, size: Vector3, color: String, solid: bool = false) -> Node3D:
@@ -584,3 +489,179 @@ func _label(parent: Node3D, node_name: String, words: String, at: Vector3, font_
 	label.modulate = PALETTE[color]
 	label.outline_size = 0
 	parent.add_child(label)
+
+
+## Highest authored terrain support, excluding rail caps and decorative props.
+## Unsupported positions return NAN rather than inventing a flat world floor.
+func get_ground_height(world_position: Vector3) -> float:
+	var at := to_local(world_position)
+	var height: float = _terrain.height_at(at.x, at.z)
+	if not is_nan(height):
+		return to_global(Vector3(at.x, height, at.z)).y
+	if is_instance_valid(_outdoors):
+		return _outdoors.get_ground_height(world_position.x, world_position.z)
+	return NAN
+
+
+func get_recovery_position(world_position: Vector3) -> Vector3:
+	if is_instance_valid(_outdoors):
+		return _outdoors.get_recovery_position(world_position)
+	return Vector3.INF
+
+
+func get_route_definitions() -> Array[Dictionary]:
+	var routes: Array[Dictionary] = [
+		_route("gallery_civic_ascent", "Gallery to civic terraces", [Vector3(-22,0,28), Vector3(-22,0,-4), Vector3(-22,2,-18), Vector3(-22,2,-42), Vector3(-22,4,-56), Vector3(-22,4,-96), Vector3(-22,6,-108), Vector3(-22,6,-118)]),
+		_route("exchange_fountain_loop", "Fountain court loop", [Vector3(-22,0,28), Vector3(22,0,28), Vector3(22,0,-2), Vector3(-22,0,-2), Vector3(-22,0,28)]),
+		_route("central_south_link", "Station climbing street", [Vector3(-22,0,22), Vector3(-35,0,22), Vector3(-50,2,22), Vector3(-70,2,22)]),
+		_route("central_north_link", "Gallery station street", [Vector3(-22,2,-22), Vector3(-35,2,-22), Vector3(-50,2,-22), Vector3(-64,2,-22)]),
+		_route("barras_south_link", "Market approach", [Vector3(22,0,22), Vector3(35,0,22), Vector3(50,0,22), Vector3(94,0,22)]),
+		_route("barras_north_link", "Gallery loading street", [Vector3(22,2,-22), Vector3(35,2,-22), Vector3(50,1.5,-22), Vector3(75,1.5,-22)]),
+		_route("central_back_lane", "Station to civic back lane", [Vector3(-88,2,-38), Vector3(-88,2,-42), Vector3(-88,4,-74), Vector3(-88,4,-80), Vector3(-35,4,-80), Vector3(-22,4,-80)]),
+		_route("barras_back_lane", "Market to civic back lane", [Vector3(88,1.5,-30), Vector3(88,1.5,-42), Vector3(88,4,-74), Vector3(88,4,-80), Vector3(35,4,-80), Vector3(22,4,-80)]),
+		_route("central_high_line", "Station platform transfer", [Vector3(-94,2,34), Vector3(-94,2,32), Vector3(-94,5,14), Vector3(-94,5,0), Vector3(-94,5,-6), Vector3(-94,5,-20), Vector3(-94,2,-38)], true),
+		_route("central_high_line_bypass", "Station concourse bypass", [Vector3(-82,2,34), Vector3(-82,2,-34)]),
+		_route("market_loading_ascent", "Warehouse loading street", [Vector3(126,0,30), Vector3(126,0,-6), Vector3(126,1.5,-18), Vector3(120,1.5,-24), Vector3(120,1.5,-33)]),
+		_route("gallery_step_drop", "Gallery stair drop", [Vector3(0,2,-20), Vector3(0,2,-13), Vector3(0,0,-3)], true),
+		_route("market_step_drop", "Market stair drop", [Vector3(93,1.5,-24), Vector3(93,1.5,-15), Vector3(93,0,-5)], true),
+		_route("station_low_level_close", "Station service-walk underpass", [Vector3(-126,2,0), Vector3(-118,2,-6), Vector3(-110,2,-8), Vector3(-103,2,-10), Vector3(-103,2,-28), Vector3(-82,2,-40)]),
+		_route("station_park_port", "Station to Kelvingrove", [Vector3(-126,2,0), Vector3(-145,2,0)]),
+		_route("civic_park_port", "Civic terrace to park", [Vector3(-22,6,-122), Vector3(-42,6,-122)]),
+	]
+	if is_instance_valid(_outdoors):
+		routes.append_array(_outdoors.get_route_definitions())
+	return routes
+
+
+func _route(id: String, label: String, points: Array, requires_jump: bool = false) -> Dictionary:
+	var world_points := PackedVector3Array()
+	for at: Vector3 in points:
+		world_points.append(to_global(at))
+	return {"id": id, "label": label, "points": world_points, "requires_jump": requires_jump}
+
+
+func _flat(label: String, bounds: Rect2, height: float, material: String) -> StaticBody3D:
+	return _terrain.add_patch(self, label, bounds, Vector4.ONE * height, _materials[material], "asphalt" if material == "asphalt" else "stone")
+
+
+func _slope(label: String, bounds: Rect2, heights: Vector4, material: String) -> StaticBody3D:
+	var body: StaticBody3D = _terrain.add_patch(self, label, bounds, heights, _materials[material], "asphalt" if material == "asphalt" else "stone")
+	var lowest := minf(minf(heights.x, heights.y), minf(heights.z, heights.w))
+	var highest := maxf(maxf(heights.x, heights.y), maxf(heights.z, heights.w))
+	if highest - lowest > 0.01:
+		body.add_to_group("skateable_ramps")
+		body.set_meta("rise", highest - lowest)
+		body.set_meta("run", bounds.size.x if heights.x != heights.y else bounds.size.y)
+		body.set_meta("width", bounds.size.y if heights.x != heights.y else bounds.size.x)
+	return body
+
+
+func _steps(label: String, x_min: float, x_max: float, z_start: float, z_end: float, low: float, high: float, count: int) -> void:
+	var depth := absf(z_end - z_start) / float(count)
+	for index: int in range(count):
+		var z := lerpf(z_start, z_end, float(index) / float(count))
+		var height := lerpf(low, high, float(index + 1) / float(count))
+		_flat(label + str(index + 1), Rect2(x_min, z - depth, x_max - x_min, depth), height, "cut_stone")
+
+
+func _grind_path(id: String, points: PackedVector3Array, kind: String = "rail") -> void:
+	var author := Node3D.new()
+	author.name = id
+	author.add_to_group("grind_rails")
+	author.set_meta("grind_id", id)
+	author.set_meta("grind_kind", kind)
+	author.set_meta("grind_points", points)
+	add_child(author)
+	_rail_authors.append(author)
+	var radius := 0.23 if kind == "coping" else 0.07
+	var cylinder := CylinderMesh.new()
+	cylinder.top_radius = radius
+	cylinder.bottom_radius = radius
+	cylinder.height = 1.0
+	cylinder.radial_segments = 12
+	var batches := MultiMesh.new()
+	batches.transform_format = MultiMesh.TRANSFORM_3D
+	batches.mesh = cylinder
+	batches.instance_count = points.size() - 1
+	for index: int in range(points.size() - 1):
+		var start := points[index] - Vector3.UP * radius
+		var end := points[index + 1] - Vector3.UP * radius
+		var direction := end - start
+		var basis := Basis(Quaternion(Vector3.UP, direction.normalized())) * Basis.from_scale(Vector3(1, direction.length(), 1))
+		batches.set_instance_transform(index, Transform3D(basis, (start + end) / 2.0))
+	var visual := MultiMeshInstance3D.new()
+	visual.multimesh = batches
+	visual.material_override = _materials["cut_stone" if kind != "rail" else "iron"]
+	author.add_child(visual)
+	# Rail supports are decorative only; they cannot snag acquisition/exit.
+	if kind == "rail":
+		for index: int in range(0, points.size(), 2):
+			var at := points[index]
+			var ground := get_ground_height(to_global(at))
+			if not is_nan(ground):
+				var height := at.y - ground - radius
+				_cylinder(author, "HandrailSupport", Vector3(at.x, ground + height / 2.0, at.z), 0.045, 0.045, height, "iron")
+
+
+func _fountain(at: Vector3, radius: float) -> void:
+	var body := StaticBody3D.new()
+	body.name = "ExchangeFountain"
+	body.position = at
+	body.set_meta("surface_audio", "stone")
+	add_child(body)
+	var collision := CollisionShape3D.new()
+	var shape := CylinderShape3D.new()
+	shape.radius = radius
+	shape.height = 0.55
+	collision.shape = shape
+	collision.position.y = 0.275
+	body.add_child(collision)
+	_cylinder(body, "FountainBasin", Vector3(0, 0.275, 0), radius, radius, 0.55, "stone")
+	var pedestal_collision := CollisionShape3D.new()
+	var pedestal_shape := CylinderShape3D.new()
+	pedestal_shape.radius = 0.7
+	pedestal_shape.height = 2.7
+	pedestal_collision.shape = pedestal_shape
+	pedestal_collision.position.y = 1.35
+	body.add_child(pedestal_collision)
+	_cylinder(body, "FountainWater", Vector3(0, 0.57, 0), radius - 0.85, radius - 0.85, 0.04, "glass")
+	_cylinder(body, "FountainPedestal", Vector3(0, 1.2, 0), 0.65, 1.0, 2.0, "stone_light")
+	_cylinder(body, "FountainBowl", Vector3(0, 2.1, 0), 1.65, 0.65, 0.5, "stone_light")
+	_cylinder(body, "FountainCrown", Vector3(0, 2.7, 0), 0.22, 0.42, 0.85, "bronze")
+	var points := PackedVector3Array()
+	for index: int in range(65):
+		var angle := TAU * float(index) / 64.0
+		points.append(at + Vector3(cos(angle) * radius, 0.92, sin(angle) * radius))
+	_grind_path("Grind_Coping_ExchangeFountain", points, "coping")
+
+
+func get_goal_markers() -> Array[Dictionary]:
+	var markers: Array[Dictionary] = [
+		{"id": "H", "kind": "letter", "position": Vector3(-22, 2.9, -26), "radius": 1.8},
+		{"id": "A", "kind": "letter", "position": Vector3(20, 6.9, -116), "radius": 1.8},
+		{"id": "W", "kind": "letter", "position": Vector3(-94, 5.9, -12), "radius": 1.8},
+		{"id": "K", "kind": "letter", "position": Vector3(94, 0.9, 20), "radius": 1.8},
+		{"id": "S", "kind": "letter", "position": Vector3(-60, 4.9, -80), "radius": 1.8},
+		{"id": "market_1", "kind": "market_item", "position": Vector3(70, 0.9, 22), "radius": 1.8},
+		{"id": "market_2", "kind": "market_item", "position": Vector3(106, 0.9, 26), "radius": 1.8},
+		{"id": "market_3", "kind": "market_item", "position": Vector3(106, 2.4, -26), "radius": 1.8},
+		{"id": "cone", "kind": "interaction", "position": Vector3(18, 2.8, -22), "radius": 2.4},
+		{"id": "secret_recording", "kind": "collectible", "position": Vector3(120, 2.4, -33), "radius": 1.8},
+	]
+	for marker: Dictionary in markers:
+		marker.position = to_global(marker.position)
+	var checkpoints := get_district_checkpoints()
+	for id: String in checkpoints:
+		markers.append({"id": id, "kind": "district", "position": checkpoints[id], "radius": 3.5})
+	return markers
+
+
+func get_grind_lines() -> Array:
+	var lines: Array = []
+	for rail: Node3D in _rail_authors:
+		var local_points: PackedVector3Array = rail.get_meta("grind_points")
+		lines.append(GrindLineSource.from_local_points(String(rail.get_meta("grind_id")),
+			local_points, rail.global_transform, String(rail.get_meta("grind_kind", "rail"))))
+	if is_instance_valid(_outdoors):
+		lines.append_array(_outdoors.get_grind_lines())
+	return lines

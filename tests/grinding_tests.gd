@@ -67,7 +67,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		"perpendicular travel does not snap or score a rail")
 	Input.action_release("grind")
 
-	await _start(tree, game, Vector3(0, 1.1, 10), Vector3(0, -1, -6))
+	await _start(tree, game, Vector3(-6, 1.1, 24), Vector3(0, -1, -6))
 	Input.action_press("grind")
 	await _frames(tree, 3)
 	check.call(not game.skater.grinding and game.score.get_combo_value() == 0,

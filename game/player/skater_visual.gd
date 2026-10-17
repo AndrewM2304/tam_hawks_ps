@@ -1,8 +1,10 @@
 extends RefCounted
-## Original procedural rider and board. Geometry and animation only: no physics.
-## Original smooth clothing uses native skinning; analytic posing preserves contact.
+## Original skating clothes/board with attributed CC0 anatomical head and hands.
+## Geometry and animation only: native skinning and analytic contact poses, no physics.
 
 const Garments = preload("res://game/player/skater_garments.gd")
+const Footwear = preload("res://game/player/skater_footwear.gd")
+const Anatomy = preload("res://game/player/skater_anatomy.gd")
 
 var _board: Node3D
 var _board_rest_height := 0.12
@@ -10,6 +12,7 @@ var _rider: Node3D
 var _upper: Node3D
 var _garments: RefCounted
 var _head: Node3D
+var _anatomy: RefCounted
 var _legs: Array[Dictionary] = []
 var _arms: Array[Dictionary] = []
 var _sphere: SphereMesh
@@ -42,60 +45,37 @@ func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 	_cylinder.bottom_radius = 1.0
 	_cylinder.height = 1.0
 	_cylinder.radial_segments = 12
-	var skin := _material(Color("bb8668"), 0.78)
-	var denim := _material(Color("253247"), 0.96)
-	var seams := _material(Color("46516a"), 0.92)
-	var rubber := _material(Color("deddd1"), 0.90)
-	var shoes := _material(Color("263236"), 0.88)
+	_anatomy = Anatomy.new()
+	var denim := _material(Color("343b42"), 0.96)
+	var seams := _material(Color("435057"), 0.92)
+	var rubber := _material(Color("aaa79a"), 0.90)
+	var shoes := _material(Color("35332e"), 0.88)
 	var dark := _material(Color("262123"), 0.98)
-	var knit := _material(Color("884b36"), 0.97)
-	var eyes := _material(Color("d8cbb5"), 0.68)
 	_build_board()
 	_upper = Node3D.new()
 	_upper.name = "TorsoRig"
 	_rider.add_child(_upper)
 	_garments = Garments.new()
 	_garments.build(_rider, shirt, denim)
-	_loft(_upper, "JacketHem", [Vector4(0.024, 0.188, 0.146, 0), Vector4(0.050, 0.187, 0.145, 0)], seams)
-	_loft(_upper, "Collar", [Vector4(0.455, 0.09, 0.08, -0.01), Vector4(0.51, 0.075, 0.065, -0.01)], seams)
-	_segment(_upper, "JacketZip", Vector3(0, 0.08, -0.126), Vector3(0, 0.43, -0.126), 0.006, rubber)
+	_loft(_upper, "JacketHem", [Vector4(0.016, 0.177, 0.128, 0), Vector4(0.035, 0.178, 0.128, 0)], seams)
+	_loft(_upper, "Collar", [Vector4(0.475, 0.075, 0.064, -0.008), Vector4(0.515, 0.062, 0.054, -0.008)], seams)
+	_segment(_upper, "JacketZip", Vector3(0, 0.055, -0.128), Vector3(0, 0.415, -0.124), 0.0025, dark)
 	for side: float in [-1.0, 1.0]:
-		_segment(_upper, "PocketSeam", Vector3(side * 0.065, 0.15, -0.115), Vector3(side * 0.13, 0.21, -0.112), 0.004, seams)
-	_segment(_upper, "Neck", Vector3(0, 0.47, 0), Vector3(0, 0.59, 0), 0.062, skin)
+		_segment(_upper, "PocketSeam", Vector3(side * 0.065, 0.13, -0.117), Vector3(side * 0.125, 0.19, -0.107), 0.002, seams)
 	var head := Node3D.new()
 	head.name = "Head"
-	head.position = Vector3(0, 0.675, -0.015)
+	head.position = Vector3(0, 0.655, -0.015)
 	head.rotation.y = 1.05
 	_head = head
 	_upper.add_child(head)
-	_loft(head, "SculptedFace", [Vector4(-0.135, 0.037, 0.060, -0.015),
-		Vector4(-0.105, 0.068, 0.082, -0.008), Vector4(-0.065, 0.089, 0.099, 0),
-		Vector4(-0.015, 0.106, 0.112, 0), Vector4(0.025, 0.109, 0.112, 0.002),
-		Vector4(0.075, 0.106, 0.106, 0.008), Vector4(0.115, 0.089, 0.090, 0.012),
-		Vector4(0.145, 0.052, 0.055, 0.015)], skin)
-	_ellipsoid(head, "Nose", Vector3(0, 0.005, -0.124), Vector3(0.043, 0.07, 0.065), skin)
-	_ellipsoid(head, "LowerLip", Vector3(0, -0.059, -0.119), Vector3(0.066, 0.013, 0.012), _material(Color("805347")))
-	_ellipsoid(head, "BackHair", Vector3(0, 0.072, 0.025), Vector3(0.223, 0.16, 0.228), dark)
-	_ellipsoid(head, "KnittedBeanie", Vector3(0, 0.111, 0.010), Vector3(0.237, 0.166, 0.242), knit)
-	_loft(head, "BeanieFold", [Vector4(0.052, 0.119, 0.121, 0.008), Vector4(0.095, 0.118, 0.120, 0.008)], knit)
+	_anatomy.build_head(head)
 	for side: float in [-1.0, 1.0]:
-		_ellipsoid(head, "Ear", Vector3(side * 0.112, -0.008, 0.008), Vector3(0.041, 0.069, 0.044), skin)
-		_ellipsoid(head, "Eye", Vector3(side * 0.042, 0.025, -0.108), Vector3(0.034, 0.016, 0.010), eyes)
-		_ellipsoid(head, "Pupil", Vector3(side * 0.042, 0.025, -0.113), Vector3(0.010, 0.011, 0.004), dark)
-		_segment(head, "Brow", Vector3(side * 0.023, 0.047, -0.111), Vector3(side * 0.065, 0.044, -0.104), 0.006, dark)
 		var foot := Node3D.new()
 		foot.name = "FrontFoot" if side < 0.0 else "PushFoot"
 		_rider.add_child(foot)
-		_ellipsoid(foot, "Sole", Vector3(0, -0.043, 0), Vector3(0.14, 0.035, 0.285), rubber)
-		_ellipsoid(foot, "Shoe", Vector3(0, -0.006, -0.012), Vector3(0.135, 0.10, 0.265), shoes)
-		_ellipsoid(foot, "HeelPatch", Vector3(0, 0.004, 0.10), Vector3(0.11, 0.065, 0.04), seams)
-		for lace_z: float in [-0.06, -0.03, 0.0]:
-			_segment(foot, "Lace", Vector3(-0.044, 0.036, lace_z), Vector3(0.044, 0.036, lace_z + 0.008), 0.004, rubber)
+		Footwear.build(foot, shoes, rubber, seams)
 		_legs.append({"side": side, "foot": foot})
-		var hand := _loft(_rider, "Hand", [Vector4(-0.055, 0.026, 0.017, 0),
-			Vector4(-0.035, 0.035, 0.022, 0), Vector4(0.015, 0.037, 0.022, 0),
-			Vector4(0.050, 0.026, 0.020, 0)], skin)
-		_ellipsoid(hand, "Thumb", Vector3(side * 0.036, -0.005, -0.006), Vector3(0.031, 0.065, 0.032), skin)
+		var hand: Node3D = _anatomy.build_hand(_rider, side)
 		_arms.append({"side": side, "hand": hand})
 	reset()
 
@@ -171,6 +151,8 @@ func animate(delta: float, state: Dictionary) -> void:
 	var look_yaw := clampf(atan2(-look_direction.x, -look_direction.z) - _torso_turn, -1.10, 1.10)
 	_head.rotation.y = lerp_angle(_head.rotation.y, look_yaw + steer * 0.06, 1.0 - exp(-8.0 * delta))
 	_head.rotation.x = -0.04 + _grab_blend * 0.20 + compression * 0.6
+	# Turn about the base of the anatomical neck, keeping its crop inside the collar.
+	_head.position = Vector3(0, 0.51, 0.010) - _head.basis * Vector3(0, -0.13, 0.036)
 	_garments.pose_body(Transform3D(Basis.IDENTITY, Vector3(0, hips_y, 0)), _upper.transform)
 	for leg: Dictionary in _legs:
 		var side: float = leg["side"]
@@ -204,7 +186,7 @@ func animate(delta: float, state: Dictionary) -> void:
 		leg["foot"].basis = _rider.global_basis.inverse() * foot_basis * Basis(Vector3.UP, shoe_yaw)
 	for arm: Dictionary in _arms:
 		var side: float = arm["side"]
-		var shoulder: Vector3 = _rider.to_local(_upper.to_global(Vector3(side * 0.215, 0.425, 0)))
+		var shoulder: Vector3 = _rider.to_local(_upper.to_global(Vector3(side * 0.195, 0.425, 0)))
 		var spread := 0.33 + 0.12 * _air_blend + 0.13 * _grind_blend + 0.07 * _manual_blend
 		var hand := Vector3(side * spread, hips_y + 0.015 + 0.12 * _air_blend + 0.10 * _grind_blend, -0.14 + side * 0.09)
 		hand.z += side * 0.17 * sin(TAU * _push_phase) * _push_blend
@@ -215,11 +197,30 @@ func animate(delta: float, state: Dictionary) -> void:
 			hand = hand.lerp(Vector3(side * 0.16, hips_y + 0.12, -0.18), tumble * 0.8)
 		if side < 0.0:
 			var grab_target := _rider.to_local(_board.to_global(Vector3(-0.128, 0.022, -0.035)))
-			hand = hand.lerp(grab_target, _grab_blend)
+			# The anatomical hand's origin is its wrist, not its palm. Solve that
+			# offset so the distal palm meets the rail edge instead of passing through it.
+			var grab_wrist := grab_target + (shoulder - grab_target).normalized() * 0.075
+			for iteration in 4:
+				var grab_elbow := _joint(shoulder, grab_wrist, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
+				var grab_basis := _hand_basis(side, grab_elbow - grab_wrist, 1.0)
+				grab_wrist = grab_target - grab_basis * Vector3(0, -0.075, -0.015)
+			hand = hand.lerp(grab_wrist, _grab_blend)
 		var elbow := _joint(shoulder, hand, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
 		_garments.pose_arm(side, shoulder, elbow, hand)
 		arm["hand"].position = hand
-		arm["hand"].quaternion = Quaternion(Vector3.UP, (elbow - hand).normalized())
+		arm["hand"].basis = _hand_basis(side, elbow - hand, _grab_blend if side < 0 else 0.0)
+		_anatomy.pose_hand(arm["hand"], _grab_blend if side < 0 else 0.0)
+
+func _hand_basis(side: float, forearm: Vector3, grabbing: float) -> Basis:
+	var y := forearm.normalized()
+	var neutral := Basis(Quaternion(Vector3.UP, y)) * Basis(Vector3.UP, side * PI * 0.5)
+	var palm_direction: Vector3 = _rider.global_basis.inverse() * _board.global_basis.x
+	var z := -palm_direction.slide(y).normalized()
+	if z.length_squared() < 0.01:
+		return neutral
+	var x := y.cross(z).normalized()
+	var grab_basis := Basis(x, y, x.cross(y).normalized())
+	return neutral.orthonormalized().slerp(grab_basis, grabbing)
 
 func _blend(current: float, target: float, delta: float, rate: float) -> float:
 	return lerpf(current, target, 1.0 - exp(-rate * delta))

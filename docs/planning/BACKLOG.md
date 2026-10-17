@@ -2,7 +2,7 @@
 
 Title: **Tam Hawks Pro Skater**. Baseline date: 17 October 2026. This is the durable local source of task truth; these entries are not claims that GitHub issues have been published. Latest implementation and command evidence is in [STATUS](../STATUS.md). Product scope maps through [requirements](../product/requirements.md).
 
-There are **54 tickets** across eight dependency-based milestones. M00–M03 follow the supplied document. Its text stops after M03; **M04–M07 are a proposed continuation derived from the document's complete Release 1 scope**, not supplied missing text. The owner has authorized implementation of all remaining work within the no-spend constraint. “Proposed continuation” identifies the roadmap text’s source, not a requirement to seek routine permission before those tasks. Nothing below implies unattended development or paid work.
+There are **62 tickets** across eight dependency-based milestones: the original 54 task records plus eight owner-requested terrain/character redesign groups added on 17 October 2026. M00–M03 initially follow the supplied document. Its text stops after M03; **M04–M07 are a proposed continuation derived from the document's complete Release 1 scope**, not supplied missing text. The later redesign extends M03/M05/M06/M07 under [ADR-007](../architecture/decisions/ADR-007-authored-glasgow-terrain-redesign.md). The owner has authorized implementation of all remaining work within the no-spend constraint. “Proposed continuation” identifies the roadmap text’s source, not a requirement to seek routine permission before those tasks. Nothing below implies unattended development or paid work.
 
 ## How to use this backlog
 
@@ -28,7 +28,9 @@ There are **54 tickets** across eight dependency-based milestones. M00–M03 fol
 
 ## Current acceptance boundary
 
-M00 foundation and the recorded momentum/reuse/specification work are complete. The current implementation now includes grinds, manuals, reverts, a 0.35-second combo continuation window, specials, named gaps, a connected four-district world, ten career goals, local saves/unlocks, original environment/rider art, synthesized audio with licensed local speech, settings and input remapping. Implemented systems remain in **QE review** where integration, controller or acceptance work is outstanding; the first environment/rider presentation and final cleanup remain **In progress**.
+M00 foundation and the recorded momentum/reuse/specification work are complete. The previous cleanup implemented grinds, manuals, reverts, a 0.35-second combo continuation window, specials, named gaps, a connected four-district world, ten career goals, local saves/unlocks, original environment/rider art, synthesized audio with licensed local speech, settings and input remapping. Implemented systems remain in **QE review** where integration, controller or acceptance work is outstanding; the environment/rider presentation and final cleanup remain **In progress**.
+
+**Active redesign:** the owner subsequently requested recognisable Glasgow-inspired skating terrain with meaningful elevation, a fountain grind, a Clyde jump, hilly grassy Kelvingrove and an adult skater. [DESIGN-BRIEF](../levels/DESIGN-BRIEF.md) supplies authored route criteria and agreed ports/heights. M03-008–M03-012, M05-006, M06-008 and M07-006 track implementation. This explicitly authorizes revising old flat collision geometry; it does not permit silently changing the ten career goals or saved identities. Four career districts plus two exploration areas require fresh physical and rendered evidence. The previous **778 checks**, old career-route timings and old four-view performance captures are historical baselines, not a pass for the new source.
 
 The latest integrated count, rendered evidence and package source identity are recorded in STATUS/QE/EXPORT. The second cleanup adds verified CC0 materials, skinned clothing, UI feedback/navigation fixes, physical surface audio, a continuous all-ten-goal route and reusable rendered profiling. Dedicated evidence includes matched world views, rider actions and UI stress/normal startup. Native Linux/macOS packaging audits scene, voice, texture and provenance resources; actual Mac launch remains open.
 
@@ -38,6 +40,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 
 | Tickets / accountable roles | Concrete next evidence or work | Current boundary |
 |---|---|---|
+| M03-008–012, M05-006, M06-008, M07-006 — A01/A02/A04/A05/A08/A09 | Implement/verify graded core terraces, fountain coping, Clyde transfer/recovery, hilly park connections, adult anatomy and the six-area runtime map; rerun the ten-goal career route and capture real terrain/rider/menu evidence. | Owner-authorized redesign is in progress. Preserve canonical career/save IDs; do not reuse the old 778-check result as new-geometry acceptance. |
 | M01-007, M02-008 — Owner + A09/A04 | Play a real Mac with wired and Bluetooth DualSense; perform air→manual→air, rail exit, revert links, both specials, pause/restart, then record sensitivity, timing, camera comfort and replay appeal. | Human feel/controller gates remain open. Independent coding and regressions continue. |
 | M03-006, M03-007 — A03/A05 | In a fresh environment using saved network settings, retry the recorded official/map URLs; inspect current street/corner/frontage relationships, dates and at least three verified boundary anchors per district, then replace unsurveyed shop edges. | Current proxy HTTP 403 remains a reference-access blocker. Do not claim Street View/current frontage inspection from historical address data. |
 | M03-005, M04-003, M04-006 — A05/A06/A09 + Owner | Skate the complete four-district circuit, every authored gap/secret and all ten goals; collect novice/intermediate/experienced run scores to tune provisional 1,000/5,000/15,000 and 3,000-combo thresholds. | Collision/event tests and implementation exist; full human traversal/discoverability/balance evidence is still needed. |
@@ -311,7 +314,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M03-001–M03-004, M03-007, M02-008
 - **Acceptance criteria:** All four districts form one continuous level; at least three cross-district combo links, one shortcut and one hidden area work; no transition breaks combos; all named gaps and respawns are valid; owner accepts traversal.
 - **Test strategy / evidence:** Run a full four-checkpoint circuit and every authored line; log route times, collision/camera defects and missing returns; human exploration playtest and rendered overview.
-- **Current implementation / remaining:** Four districts remain connected with unchanged collision geometry. CAREER-ROUTES documents a continuous 1,085.69m circuit through all four checkpoints, collections, cone and Central gap, plus three bidirectional cross-district combo links. The automated driver directly aims ground heading; human turning, discovery and recovery remain open.
+- **Current implementation / remaining:** The previous cleanup connected four districts and CAREER-ROUTES recorded a continuous 1,085.69m circuit plus three bidirectional cross-district combo links. M03-008–M03-012 now intentionally revise the ground and add two exploration areas; rerun physical route/career evidence before treating those old results as applicable. Automated direct ground aiming remains an explicit idealization; human turning/discovery/recovery remain open.
 
 ### M03-006 — Verify Glasgow shopfronts, street edges and landmark relationships
 
@@ -331,6 +334,56 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Test strategy / evidence:** Compare blockout and later detailed facade captures against the source register; verify each district's three anchors and deliberate geography changes; replay border-adjacent lines and inspect camera occlusion, collision and asset provenance.
 - **Current implementation / remaining:** Original architectural facade modules and differentiated district silhouettes are implemented, but current shops/corners/entrances remain unsurveyed. Completion is blocked by M03-006’s verified reference inputs; A05 can continue independent material/detail work without inventing frontage facts.
 
+
+### M03-008 — Define the authored six-area terrain and compatibility contract
+
+- **Owner:** A02 / A01, with A05/A06/A09
+- **Priority:** P0 · **Milestone:** M03 · **Status:** QE review
+- **Dependencies:** M00-003, M04-002; owner's explicit redesign request
+- **Requirements:** Turn the requested Glasgow places, elevation, fountain, Clyde and park into one coherent skating design. Preserve four career districts/ten goals while adding two labelled exploration areas; identify deliberate geographic compression and current-reference limits.
+- **Acceptance criteria:** DESIGN-BRIEF and ADR-007 specify six-area identity, ground/route/checkpoint/recovery contracts, connector ports, beginner/technical/return criteria, fountain/river/park behavior and adult scale. Final source agrees with shared interfaces. All goal/event/save IDs are unchanged; optional new areas cannot make `across_toon` require six visits. Geometry-preservation guidance is explicitly superseded only for this tracked redesign.
+- **Test strategy / evidence:** Cross-review world/outdoor/main/map interfaces and compare the canonical goal/event ID set with the previous save model. Check new task fields/links and route ownership; inspect actual data after integration, not just the planning table.
+- **Current implementation / remaining:** Eight full-field work groups, DESIGN-BRIEF and ADR-007 are authored. The merged world exposes six checkpoints and ordered route data with the agreed spawn, core heights and outdoor ports; physical fixtures preserve all ten goals and the four career district IDs. Final terrain/map captures and A01's shared-interface/STATUS reconciliation remain part of the integration gate. Human place/route acceptance remains open.
+
+### M03-009 — Rebuild the core squares and streets with playable elevation
+
+- **Owner:** A05 core world / A04, with A09 verification
+- **Priority:** P0 · **Milestone:** M03 · **Status:** In progress
+- **Dependencies:** M03-008, M01-003, M02-005
+- **Requirements:** Replace flat disconnected-feeling courts with a coherent lower Exchange/market, raised gallery/station, higher civic square and graded connecting streets. Terrain must change traversal and sightlines while keeping every original goal reachable.
+- **Acceptance criteria:** Exchange court Y0/gallery Y2, George square Y4/civic Y6, Central concourse Y2/platform Y5 and Barras market Y0/loading edge Y1.5 have rideable approaches and returns. Visible ramps match collision; all intended seams support the real capsule both ways. Original career IDs/markers and `central_gap` remain valid; no obligatory path crosses an unmarked jump. Spawn faces a clear northbound route. Shared terrain/route data match the final geometry.
+- **Test strategy / evidence:** Ray/capsule support probes plus actual push-driven ascent/descent and full core circuit; retain at least three cross-district combo links and rerun the physical Central gap. Capture normal chase views uphill/downhill/under canopy and inspect floating props, occlusion and silhouette.
+- **Current implementation / remaining:** Terraces, streets, relocated markers and height/route queries are implemented. Root's focused 49 checks pass the default ascent/descent and flat trick/bank behavior. Independent world-route checks pass 136/0; the expanded topography suite passes 33/0 with expected heights, real slope motion, fountain and outdoors; career integration passes 23/0 on the rebuilt 5 m station platform. Final aggregate and combined render review are pending; human line enjoyment remains open. See TOPOGRAPHY.md.
+
+### M03-010 — Author and physically verify the fountain coping line
+
+- **Owner:** A05 core world / A04, with A09 verification
+- **Priority:** P0 · **Milestone:** M03 · **Status:** In progress
+- **Dependencies:** M03-008, M03-009, M02-002
+- **Requirements:** A visible fountain becomes a deliberate curved grind opportunity with a usable approach, exit and outside return, rather than decorative water on a flat court.
+- **Acceptance criteria:** Exchange fountain at authored centre (0,0,10) has a visible 6.2 m-radius rim matching the 64-segment closed `Grind_Coping_ExchangeFountain` path at Y0.92. A ground push/ollie/descending tangent approach captures it; actual travel changes direction with the curve, handles the closure seam and exits/lands/banks once. Obstruction and balance failure behave consistently; nearby geometry does not trap the rider. Its placement is labelled a skating adaptation, not a claimed real fountain survey.
+- **Test strategy / evidence:** Independent actual-input capture/travel/exit in intended directions, path-to-visible-rim checks, seam/clearance/duplicate-award/bail cases, and real chase/close captured frames. Human capture forgiveness and repeated-line feel remain a later acceptance check.
+- **Current implementation / remaining:** Fountain basin/pedestal/coping and route metadata are implemented. The expanded independent 33-check topography run includes actual ground push→ollie→curved capture→release→bank. Full closure/direction/obstruction coverage, combined rendered review and controller capture feel remain required; this focused pass does not close all acceptance criteria.
+
+### M03-011 — Build Clyde Quays with a river transfer and safe crossing
+
+- **Owner:** A05 outdoors / A01 integration / A09
+- **Priority:** P0 · **Milestone:** M03 · **Status:** In progress
+- **Dependencies:** M03-008, M03-009, M02-007
+- **Requirements:** Add a distinct waterside exploration area south of the core, an optional clearable bridge gap, a continuous alternative route and reliable water-miss recovery without expanding the career goal count.
+- **Acceptance criteria:** Clyde connects at (-94,2,45)/(94,0,45); quay surface Y2 and water Y-2 form readable edges. The authored bridge near X35 has an actual 8 m opening Z94…102 and a supported landing/run-out; `clyde_bridge_transfer` awards once through existing gap rules. The X-98 alternate bridge is continuous. Water entry emits one bail, drops only the active combo, preserves banked score and returns to supported ground. `clyde`/CLYDE QUAYS appears on the map; existing career/save IDs remain unchanged.
+- **Test strategy / evidence:** Real approach/takeoff/full-gap/landing and score trace; missed-jump, repeated water-contact, pause/restart and preserved-bank tests; both safe-crossing directions and port seams. Capture chase takeoff/landing, water edge and a topology overview. Review gap comfort on actual controls later.
+- **Current implementation / remaining:** Outdoor geometry and root hazard recovery are implemented. Independent topography verifies a real 8 m bridge ollie banking 2,000 once; a missed jump emits one bail, drops the pending Flip and preserves an already earned 100-point bank before supported recovery. Focused quay/checkpoint and continuous bridge routes pass in 16.08s/4.57s. Static world-route checks pass 136/0 and full topography 33/0; aggregate/combined images and human gap comfort remain pending. These are authored gameplay dimensions and idealized automated approaches.
+
+### M03-012 — Build a hilly Kelvingrove-inspired park circuit
+
+- **Owner:** A05 outdoors / A04, with A09 verification
+- **Priority:** P0 · **Milestone:** M03 · **Status:** In progress
+- **Dependencies:** M03-008, M03-009
+- **Requirements:** Add recognisable grassy, rolling outdoor terrain and a paved climbing/descending loop northwest of the city. Hills must be actual supported terrain or visibly bounded scenery, with two continuous city connections.
+- **Acceptance criteria:** Within the authored main riding bounds X[-220,-140], Z[-185,-75], a visible S-path climbs approximately Y6→17 and returns; surrounding woodland completes the landscape edges. Central-side (-145,2,0) and civic-side (-42,6,-122) connections meet supported grades. Uphill/downhill movement and every seam work without hidden flat floors, unintended stalls/bails or camera traps. Grass/trees frame the path; terrace/S-bend grind metadata match visible edges. `kelvingrove`/KELVINGROVE PARK is exploration/map data, not a fifth/sixth career requirement.
+- **Test strategy / evidence:** Real push-driven full climb/descent/return through both ports, height/collision probes, path/rail matching and reduced-motion camera checks; chase views at bottom/crest/descent plus overview. Record idealized automated steering and keep subjective hill/grass feel open.
+- **Current implementation / remaining:** Rolling ground, paved switchbacks, terraces, both connectors and leaf/twig foliage are implemented. The independent physical fixture travels from Central through the complete hill loop and back to the same port in 29.45s, reaches the actual park checkpoint and records zero stalls/bails. Static routes pass 136/0 and expanded topography 33/0; final combined images, aggregate regression and human path/grass feel remain open. Direct ground-heading control is explicitly idealized.
 
 ## M04 — Missions and progression
 
@@ -388,7 +441,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M04-003–M04-005
 - **Acceptance criteria:** Three score thresholds and combo targets are based on observed run distributions; all goals fit the intended run/mode rules; no impossible dependency or duplicate reward exists; owner accepts replay loop.
 - **Test strategy / evidence:** Collect novice/intermediate/experienced run evidence, verify all-goals save and fresh profile, and play repeated career/free-skate sessions with recorded tuning rationale.
-- **Current implementation / remaining:** The production career circuit now earns all ten goals within the ordinary 120-second limit (69.52s in the ordinary focused run), returns to spawn with 19,700 points/3,000 best combo, and has zero bails/stalls. Thresholds remain 1,000/5,000/15,000 and 3,000 combo. Idealized automated steering is feasibility evidence, not novice/intermediate/experienced score distributions or human fun acceptance. See CAREER-ROUTES.
+- **Current implementation / remaining:** The previous 69.52s cleanup route is historical. The redesigned ordinary-scheduler fixture passes 13 checks: all ten goals in 75.33s, return at 88.13s over 1,199.40m, 20,000 points/3,200 best combo and zero bails/stalls. A separate fixed-60-Hz fixture records 75.22s/88.02s. Final aggregate remains pending. Thresholds and all ten IDs stay stable; idealized direct ground aiming is feasibility evidence, not human score distributions or fun acceptance. See CAREER-ROUTES and M07-006.
 
 
 ## M05 — Art, audio and ambient characters
@@ -402,7 +455,7 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M03-005
 - **Acceptance criteria:** After M02-008, A05 coordinates with A08 to produce one representative facade/skating approach, skater and polished HUD treatment; obtain owner review and capture frame cost before repeating the treatment across the world. Follow docs/product/ART_DIRECTION.md: replace generic cuboids and flat placeholder surfaces with believable facade proportions, bevelled architectural detail, varied windows/doors, authored or free licensed stone/brick/paving/glass materials, coherent lighting and recognisable shopfront edges. Keep ramps/rails readable and preserve accepted collision. No voxel/blocky final aesthetic; no paid assets or engine switch without evidence.
 - **Test strategy / evidence:** Representative scene/HUD review and measured frame cost, then matched before/after captures in all districts; replay reference lines and compare frame cost; audit all assets/procedural sources in the provenance register.
-- **Current implementation / remaining:** Second cleanup pass adds distinct civic/retail/station/warehouse modules, smoother arch bands, door/display/roof variation and verified CC0 brick/concrete textures with 1024px imports. Sign/awning clipping was reproduced and fixed. Matched 16 before/after frames and draw-call reductions are in docs/levels/VISUAL_PASS.md. Collision remains unchanged. Generated sandstone/paving repetition, unsurveyed shop identities, static scenery and final realistic/owner acceptance remain open.
+- **Current implementation / remaining:** The second cleanup added distinct civic/retail/station/warehouse modules, smoother arches, door/display/roof variation and verified CC0 brick/concrete textures. Its matched captures/draw-call evidence remain in VISUAL_PASS. ADR-007 now authorizes substantial terrain changes under M03-008–M03-012, superseding this ticket's old collision freeze for those tracked routes. Retain useful licensed materials/detail while rebuilding the world; current references and final realistic/owner acceptance remain open.
 
 ### M05-002 — Create readable original skater and trick animation
 
@@ -440,6 +493,16 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Test strategy / evidence:** Play the full route with speakers/headphones, mute channels, pause/restart and save settings; compare visual/audio event timing and review complete provenance.
 - **Current implementation / remaining:** Four synthesized district beds, separate mix controls, captions, bounded reaction cooldowns and pause behavior are implemented; 75 focused audio assertions pass. A07/A09 still need a real speakers/headphones listening route and complete visual/audio timing review before acceptance.
 
+
+### M05-006 — Replace cartoon anatomy with a believable adult skater
+
+- **Owner:** A05 rider / A04 / A03, with A09 and owner review
+- **Priority:** P0 · **Milestone:** M05 · **Status:** QE review
+- **Dependencies:** M03-008, M05-002, M00-005
+- **Requirements:** The rider must visibly read as an adult with plausible anatomy, clothing volume, hands/face and motion, at a coherent scale against the redesigned streets and obstacles. Reuse an appropriate free anatomical source when its terms are inspected.
+- **Acceptance criteria:** Target approximately 1.75 m standing height, 0.25 m head and 0.44 m shoulder width, natural wrist/hand/foot proportions, restrained skate clothing and shaped shoes; remove oversized hat/mitten/cartoon face cues. Any imported anatomy has pinned source/licence/notices and documented adaptation. Preserve board/contact origin, collision/controller timing, native rig/pose interfaces and credible hand/deck/sole contact across all actions. Owner visual acceptance remains explicit; passing rig math cannot certify realism.
+- **Test strategy / evidence:** Source/licence review; front/profile/full-body/head and normal chase frames; real-input coast/push/brake/ollie/flip/grab/grind/manual/revert/special/landing/bail clips with contact/clipping/transition review; focused pose/action checks followed by aggregate regression. Actual Mac/controller feel remains unverified.
+- **Current implementation / remaining:** Verified CC0 MakeHuman head/five-finger hands, restrained native clothing, stable bone orientation, shaped cupsole shoes, fitted neck/collar, palm contact and GripCurl are implemented with source/asset provenance. Final action capture reached all 11 requested states without errors; 17 actual frames and independent six-frame review are recorded in RIDER-REALISM. The model has 62 mesh instances, 37,304 triangles and ten clothing bones. Final motion rendering/aggregate are integration evidence; real motion weight, material refinement and owner adult-realism acceptance remain open.
 
 ## M06 — UX, hardware and performance
 
@@ -506,8 +569,18 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Dependencies:** M02-008, M03-007, M05-001, M05-002, M06-002, M06-003, M06-004
 - **Acceptance criteria:** After core skating/combo acceptance, audit and replace every visible placeholder in world, skater, animation, lighting, signage and menus/HUD. Deliver realistic-but-fun Glasgow presentation and polished controller-first UI matching the owner's direction, with no generic blockout used as final art. Close visible clipping, flat/shiny material defects, repetitive facades, camera obstruction and UI layout/focus issues. Owner approves matched final captures and a playable visual build; untested screenshots alone cannot close the gate.
 - **Test strategy / evidence:** Follow docs/testing/VISUAL_ACCEPTANCE.md: maintain a placeholder/defect inventory, matched before/after views and motion recordings for every district and UI state, provenance audit, gameplay regression and target-Mac 1080p/60 fps evidence. Capture pass/fail and owner comments. If time/credits end first, leave the job open with the exact unfinished asset/screen list; release M07 cannot bypass it.
-- **Current implementation / remaining:** Second environment/rider/UI cleanup and verified free materials are implemented, with repeatable matched/action/UI capture tools. Open inventory remains: generated sandstone/paving repetition, stylized rider face/hands and NPCs, current Glasgow shopfront references, bail/grind/transition motion, bright/shaded readability, target performance and owner realistic/fun acceptance. VISUAL_ACCEPTANCE, VISUAL_PASS and the rider/UI evidence retain exact unfinished work; this mandatory gate stays open.
+- **Current implementation / remaining:** Terrain/adult-rider redesign now builds on the earlier environment/UI cleanup and verified free materials. Anatomical adult face/hands replace the old cartoon geometry; final art remains open for material repetition, skin/hair detail, NPCs, current Glasgow shopfront references, motion/transition quality, bright/shaded readability, target performance and owner realistic/fun acceptance. VISUAL_ACCEPTANCE and current terrain/rider/UI evidence retain exact unfinished work; this mandatory gate stays open.
 
+
+### M06-008 — Add a six-area route map and readable terrain navigation
+
+- **Owner:** A01 / A08, with A05 world data and A09
+- **Priority:** P0 · **Milestone:** M06 · **Status:** In progress
+- **Dependencies:** M03-008, M03-009, M03-011, M03-012, M06-002
+- **Requirements:** Help players understand the connected city, its elevation and optional jump/return choices using the actual authored routes, without adding another gameplay input binding or changing career progress.
+- **Acceptance criteria:** CITY MAP & ROUTES is reachable from pause and goals with existing controls. It draws final runtime route polylines and all six checkpoints, readable labels, current rider position/heading, elevation cues and distinguishable jump versus safe links. Data follows changed geometry; no static illustration falsely depicts unsupported connections. Open/close/back preserves pause, focus and page history. Captions/prompts and 1–1.4 UI scale remain usable; exploration labels do not imply new career goals.
+- **Test strategy / evidence:** Compare map data to world route/checkpoint queries; inject real keyboard/gamepad navigation; test nested focus/pause return and long labels at normal/increased scale. Capture the actual ready production map page before/after a changed rider position and inspect route/legend readability.
+- **Current implementation / remaining:** Root is implementing runtime route-map drawing and pause/goals entry; show_map()/is_menu_ready() are the capture contract. Full six-area data integration, navigation regression and rendered map acceptance are pending. Physical controller/target-display readability stays open.
 
 ## M07 — Release readiness and delivery
 
@@ -557,3 +630,13 @@ No physical DualSense, target-Mac launch/performance, human listening, subjectiv
 - **Acceptance criteria:** A09 recommends readiness with complete evidence, A01 checks architecture/scope, and owner reviews the playable artifact and distribution decision; no unapproved publication, purchase or hosted job occurs; future work is recorded.
 - **Test strategy / evidence:** Review requirement coverage and defects; verify artifact identity against tested build; record owner feedback and any approved exceptions. A release decision is distinct from a local build or an uploaded file.
 - **Current implementation / remaining:** Release acceptance awaits the candidate/regression/licence/package evidence plus real Mac/DualSense, listening and final visual gates. The owner’s authorization to continue implementation remains active; do not ask for routine next-ticket approval or treat a local build as a completed release decision.
+
+### M07-006 — Verify and preserve the terrain/adult-rider redesign checkpoint
+
+- **Owner:** A09 independent QE / A01 integration, with A05/A08 evidence
+- **Priority:** P0 · **Milestone:** M07 · **Status:** In progress
+- **Dependencies:** M03-008–M03-012, M05-006, M06-008; existing scoring/save/input regressions
+- **Requirements:** Produce a concrete, reproducible redesign checkpoint with physical routes, intact career/saves, actual terrain/character/map imagery, compatible assets and explicit remaining human/hardware gates. Old geometry results cannot certify this build.
+- **Acceptance criteria:** Clean import/aggregate suite passes after source settles. Real movement validates core slopes, fountain curve/exit, Clyde takeoff/landing/miss recovery and park uphill/downhill/return. All ten original goals complete through physical core routes within 120 seconds with profile writes disabled; all six areas are explored separately and four career visits remain distinct. Capture real chase/overview/map/rider evidence with source/fixtures; audit new assets and update six-area render cost. Rebuild any distributed candidate from the tested source, and preserve exact open defects/tasks if time/credits end. No Mac/physical-controller/final visual acceptance is invented.
+- **Test strategy / evidence:** A09 runs focused independent route/hazard/career checks and the final aggregate once integrated; capture runners reject headless and verify ready scenes/menus. Inspect PNGs and real-input motion, record source hashes/fixture limits, compare frame-time evidence only under matching settings, and verify export resources/provenance if packages change. A01 records results in STATUS/ACTIVE_WORK/INTERFACES and keeps M06-006/M06-007 open pending actual acceptance.
+- **Current implementation / remaining:** Independent focused release: world routes 136/0, topography 33/0, career integration 23/0, presentation 9/0 and career route 13/0; the ordinary career fixture completes all ten goals at 75.33s and returns at 88.13s. Clyde jump/miss recovery, safe crossing and complete park climb/return pass; reported join defects are corrected. Six graded combo directions use fresh manual links after natural crest airtime. New level_design_capture helpers parse/reject headless; combined rendering awaits final asset import. Previous aggregate/package identities remain historical; no final redesign aggregate, render, performance or package pass is claimed. Reference access, hardware, human route enjoyment/listening and owner visual acceptance remain outstanding.

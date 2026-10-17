@@ -6,37 +6,42 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	await tree.physics_frame
 	await tree.process_frame
 	var checkpoints: Dictionary = world.get_district_checkpoints()
-	check.call(checkpoints.size() == 4, "district routes: four named checkpoints")
+	check.call(checkpoints.size() == 6, "district routes: six named checkpoints")
 	for id: String in checkpoints:
 		var at: Vector3 = checkpoints[id]
 		check.call(world.get_district_id(at) == id, "district routes: checkpoint classification " + id)
 		check.call(_ground_below(world, at), "district routes: supported checkpoint " + id)
 		check.call(_clear_standing(world, at), "district routes: clear checkpoint capsule " + id)
 
-	# Paired connectors, outer loop and the secret court all use actual world
-	# collision. A capsule sweep catches walls that a center ray could miss.
-	var routes := [
-		["Exchange/George west", Vector3(-20, 0, -38), Vector3(-20, 0, -62)],
-		["Exchange/George east", Vector3(20, 0, -38), Vector3(20, 0, -62)],
-		["Exchange/Central north", Vector3(-30, 0, -22), Vector3(-56, 0, -22)],
-		["Exchange/Central south", Vector3(-30, 0, 22), Vector3(-65, 0, 22)],
-		["Exchange/Barras north", Vector3(30, 0, -22), Vector3(56, 0, -22)],
-		["Exchange/Barras south", Vector3(30, 0, 22), Vector3(65, 0, 22)],
-		["Central north lane", Vector3(-85, 0, -36), Vector3(-85, 0, -75)],
-		["Central/George back lane", Vector3(-85, 0, -75), Vector3(-30, 0, -75)],
-		["Barras north lane", Vector3(88, 0, -36), Vector3(88, 0, -78)],
-		["Barras/George back lane", Vector3(88, 0, -78), Vector3(30, 0, -78)],
-		["secret court", Vector3(120, 0, -20), Vector3(120, 0, -33)],
-	]
-	for route: Array in routes:
-		var start: Vector3 = route[1]
-		var end: Vector3 = route[2]
-		check.call(_clear_sweep(world, start, end) and _clear_sweep(world, end, start),
-			"district routes: unobstructed capsule in both directions " + route[0])
+	# Authored ground-contact waypoints are checked against production collision,
+	# not trusted as evidence themselves. The separate player route suite tests
+	# acceleration, slope support and actual transit along these connections.
+	var routes: Array = world.get_route_definitions()
+	check.call(routes.size() >= 8, "district routes: core and outdoor navigation routes published")
+	for route: Dictionary in routes:
+		var points: PackedVector3Array = route.points
+		check.call(points.size() >= 2, "district routes: usable waypoint route " + route.id)
+		if points.size() < 2 or route.get("requires_jump", false):
+			continue
 		var supported := true
-		for i: int in range(17):
-			supported = supported and _ground_below(world, start.lerp(end, float(i) / 16.0) + Vector3.UP * 0.8)
-		check.call(supported, "district routes: continuous floor " + route[0])
+		var clear := true
+		for segment in range(points.size() - 1):
+			var start: Vector3 = points[segment]
+			var end: Vector3 = points[segment + 1]
+			var samples: int = maxi(2, ceili(start.distance_to(end) / 1.5))
+			for step in range(samples + 1):
+				var ground := start.lerp(end, float(step) / samples)
+				var hit := _floor_hit(world, ground + Vector3.UP * 0.8)
+				var sample_ok: bool = not hit.is_empty() and absf(hit.position.y - ground.y) < 0.25 and hit.normal.y >= cos(deg_to_rad(56.0))
+				if not sample_ok and supported:
+					print("ROUTE SUPPORT %s expected=%s actual=%s" % [route.id, ground, hit.get("position", Vector3.INF)])
+				supported = supported and sample_ok
+			var segment_clear := _clear_sweep(world, start, end) and _clear_sweep(world, end, start)
+			if not segment_clear and clear:
+				print("ROUTE CLEARANCE %s start=%s end=%s" % [route.id, start, end])
+			clear = clear and segment_clear
+		check.call(supported, "district routes: continuous collision matches route elevation " + route.id)
+		check.call(clear, "district routes: unobstructed capsule in both directions " + route.id)
 
 	var marker_ids: Array[String] = []
 	for marker: Dictionary in world.get_goal_markers():
@@ -51,16 +56,16 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	var gap_ids: Array[String] = []
 	for gap: Dictionary in world.get_gap_definitions():
 		gap_ids.append(gap.id)
-		check.call(gap.start.distance_to(gap.end) <= 7.0 and gap.radius > 0.0 and gap.points > 0,
+		check.call(gap.start.distance_to(gap.end) > 1.0 and gap.start.distance_to(gap.end) <= 16.0 and gap.radius > 0.0 and gap.points > 0,
 			"district routes: bounded authored gap " + gap.id)
 	check.call(gap_ids.has("central_gap") and gap_ids.size() >= 3, "district routes: platform gap and two other routes")
 	var space := world.get_world_3d().direct_space_state
-	var gap_floor := space.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(-94, 4, -2), Vector3(-94, -1, -2), 1))
-	check.call(not gap_floor.is_empty() and absf(gap_floor.position.y) < 0.05,
+	var gap_floor := space.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(-94, 8, -3), Vector3(-94, -1, -3), 1))
+	check.call(not gap_floor.is_empty() and absf(gap_floor.position.y - 2.0) < 0.05,
 		"district routes: platform gap has a real break and safe lower floor")
 	for z: float in [6.0, -10.0]:
-		var platform := space.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(-94, 4, z), Vector3(-94, -1, z), 1))
-		check.call(not platform.is_empty() and is_equal_approx(platform.position.y, 2.0),
+		var platform := space.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(-94, 8, z), Vector3(-94, -1, z), 1))
+		check.call(not platform.is_empty() and is_equal_approx(platform.position.y, 5.0),
 			"district routes: raised platform supports its route " + str(z))
 	var supported_npcs := true
 	var npc_positions: Array[Vector3] = world.get_npc_positions()
@@ -93,9 +98,13 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 
 
 static func _ground_below(world: Node3D, at: Vector3) -> bool:
+	var hit := _floor_hit(world, at)
+	return not hit.is_empty() and hit.normal.y >= cos(deg_to_rad(56.0))
+
+
+static func _floor_hit(world: Node3D, at: Vector3) -> Dictionary:
 	var query := PhysicsRayQueryParameters3D.create(at + Vector3.UP * 0.1, at - Vector3.UP * 1.5, 1)
-	var hit := world.get_world_3d().direct_space_state.intersect_ray(query)
-	return not hit.is_empty() and hit.normal.y > 0.9
+	return world.get_world_3d().direct_space_state.intersect_ray(query)
 
 
 static func _clear_standing(world: Node3D, marker: Vector3) -> bool:
@@ -120,7 +129,7 @@ static func _capsule_query(floor_at: Vector3) -> PhysicsShapeQueryParameters3D:
 	shape.height = 1.7
 	var query := PhysicsShapeQueryParameters3D.new()
 	query.shape = shape
-	query.transform = Transform3D(Basis.IDENTITY, floor_at + Vector3.UP * 0.9)
+	query.transform = Transform3D(Basis.IDENTITY, floor_at + Vector3.UP * 0.98)
 	query.collision_mask = 1
 	query.margin = 0.01
 	return query

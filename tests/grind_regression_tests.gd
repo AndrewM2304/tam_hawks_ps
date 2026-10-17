@@ -75,7 +75,7 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 static func _overtime_admission(tree: SceneTree, game: Node, check: Callable) -> void:
 	# Pre-position only for precise timeout-boundary checks; approach was tested
 	# entirely through played movement above.
-	await _air_fixture(tree, game, Vector3(0, 5, 10), Vector3.ZERO)
+	await _air_fixture(tree, game, Vector3(-6, 5, 24), Vector3.ZERO)
 	game.score.add_trick("Existing combo", 100)
 	game.time_remaining = 0.01
 	await _frames(tree, 3)
@@ -123,7 +123,7 @@ static func _overtime_admission(tree: SceneTree, game: Node, check: Callable) ->
 		and game.score.get_combo_value() == 0,
 		"grind regression: released overtime rail combo banks once on physical landing")
 
-	await _air_fixture(tree, game, Vector3(0, 6, 10), Vector3.ZERO)
+	await _air_fixture(tree, game, Vector3(-6, 6, 24), Vector3.ZERO)
 	game.score.add_trick("Existing combo", 100)
 	Input.action_press("spin_right")
 	await _frames(tree, 30)

@@ -1,7 +1,8 @@
 extends RefCounted
 ## Independent real-input/physics checks for manuals, reverts and pending banks.
 
-const FLAT_SPAWN := Vector3(5.0, 0.8, 24.0)
+# The west approach has clear flat runout before the new gallery grade.
+const FLAT_SPAWN := Vector3(-22.0, 0.8, 28.0)
 
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:

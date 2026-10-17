@@ -52,7 +52,7 @@ var _surface_pitch := 0.0
 var _steering_sensitivity := 1.0
 var _reduced_motion := false
 var _shirt_material: StandardMaterial3D
-var _shirt_color := Color("20a59f")
+var _shirt_color := Color("4d6270")
 
 var _grind = GrindRideSource.new()
 var _grind_lines: Array = []
@@ -140,6 +140,17 @@ func reset_skater() -> void:
 	if is_instance_valid(_camera):
 		_camera.global_position = global_position + Vector3(0.0, 3.4, 6.0)
 		_camera.look_at(global_position + Vector3(0.0, 1.0, -1.5))
+
+
+func recover_to(safe_position: Vector3) -> void:
+	# A local hazard return preserves the career's original restart location.
+	if not safe_position.is_finite():
+		return
+	bailed.emit()
+	var run_spawn := spawn_position
+	spawn_position = safe_position
+	reset_skater()
+	spawn_position = run_spawn
 
 
 func set_controls_enabled(enabled: bool) -> void:

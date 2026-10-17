@@ -2,6 +2,8 @@
 
 `tools/profile.sh` runs the installed **Godot 4.6.3** through `tools/run.sh` and measures four fixed views using the game's actual chase camera, HUD, world and idle physics. It provides a repeatable rendering workload for M06-004. **The Apple Silicon 60 fps acceptance gate remains open:** this diagnostic does not replace a ten-minute moving gameplay route on the declared target Mac.
 
+**Terrain redesign status:** the runner now resolves the four career checkpoint heights from the current world and requires real floor contact after warmup. Clyde and Kelvingrove are outside this four-view diagnostic. The numerical results below are the earlier cleanup baseline; no timed run has been made against the six-area redesign. Do not compare those numbers to current geometry without repeating an equivalent measurement and recording its source identity.
+
 ## Run on the target Mac
 
 From the repository root, with the free Godot 4.6.3 app and Python 3 already installed, first prepare a fresh checkout with the ordinary import/check command. This prerequisite runs outside the measured workload:
@@ -30,7 +32,7 @@ The Linux private-display option requires the already installed Xorg dummy drive
 
 ## Workload and output
 
-The rider resets to each authored district checkpoint: Royal Exchange, George Square, Central Station and the Barras. Exchange/George look north; Central looks northwest; Barras looks northeast. The real follow camera settles during warmup, including its collision handling. No alternate overview camera replaces it. Player input is disabled, but normal world/HUD/physics processing continues in free skate. Default presentation settings are recorded with each run. Profile loading and saving are explicitly disabled before the game enters the tree; no career progress, records or settings are written.
+The rider resets to each authored district checkpoint: Royal Exchange, George Square, Central Station and the Barras. Exchange/George/Barras look north; Central looks northwest. The runner queries the current ground height, starts 0.8 m above it and requires actual floor contact before sampling; missing/unsupported checkpoints fail the run. Each view records its authored checkpoint, ground height and contact result. The real follow camera settles during warmup, including its collision handling. No alternate overview camera replaces it. Player input is disabled, but normal world/HUD/physics processing continues in free skate. Default presentation settings are recorded with each run. Profile loading and saving are explicitly disabled before the game enters the tree; no career progress, records or settings are written.
 
 For this diagnostic, both the window and content-scale design size are explicitly set to the requested resolution, matching the verified UI capture helper. The HUD then scales from that actual viewport. This is recorded as `benchmark_content_scale_override: true`; the project's ordinary 1440×900 design canvas is not silently treated as a native 1080p measurement. An initial local attempt with only the window size set was rejected because the render texture was approximately 2074×1296. No frames from that rejected run contribute to the results below.
 
@@ -56,13 +58,13 @@ Historical 1280×800 art-review captures use authored cameras; their draw-call r
 
 ## Required target-hardware follow-up
 
-Owner + A09 record a real Apple Silicon model/chip/memory/macOS, native build/version and exact settings. Run this diagnostic, then play a separate ten-minute 1920×1080 route through all four districts with real keyboard/DualSense input: turns, ramps, grinds, manual links, both specials, all goals, dense market/civic sightlines and pause/settings transitions. Capture frame-time evidence for that moving workload, long-frame causes and any thermal degradation; verify audio and controller behavior separately. Investigate p95/p99 spikes against the 16.67 ms target before claiming 60 fps acceptance. Preserve the raw evidence and resulting fixes in M06-004/QE rather than marking the gate complete from Linux or fixed views alone.
+Owner + A09 record a real Apple Silicon model/chip/memory/macOS, native build/version and exact settings. Run this diagnostic, then play a separate ten-minute 1920×1080 route through all six areas with real keyboard/DualSense input: turns, slopes, grinds, manual links, both specials, all goals, dense market/civic sightlines, fountain, Clyde bridges/water, the full park climb and pause/settings/map transitions. Capture frame-time evidence for that moving workload, long-frame causes and any thermal degradation; verify audio and controller behavior separately. Investigate p95/p99 spikes against the 16.67 ms target before claiming 60 fps acceptance. Preserve the raw evidence and resulting fixes in M06-004/QE rather than marking the gate complete from Linux or fixed views alone.
 
 ## Local validation
 
 Shell syntax, embedded Python parsing and CLI help have been checked. Five invalid invocations (headless, below/above duration bounds and below/above resolution bounds) each exit 2. A direct headless script launch also intentionally exits 2 with the message that headless cannot provide GPU/frame evidence. Independent read-only QE found no concrete defect in the persistence isolation, sampling or process cleanup.
 
-The corrected 36-second command completed **exit 0** on **17 October 2026 at 14:09:44 UTC**, using the final cleanup working tree based on commit `550a6dac7892f970724ef10d9856a66af9f52fcb` (`git_dirty: true`). Source inputs were unchanged during the run. Other agents' Godot test/render processes were stopped for the measurement window, and this helper's own game/display were confirmed stopped afterward.
+The corrected 36-second command completed **exit 0** on **17 October 2026 at 14:09:44 UTC**, using the earlier cleanup working tree based on commit `550a6dac7892f970724ef10d9856a66af9f52fcb` (`git_dirty: true`). This predates ADR-007's terrain redesign and used the earlier checkpoint geometry plus a northeast-facing Barras camera. Source inputs were unchanged during that run. Other agents' Godot test/render processes were stopped for the measurement window, and this helper's own game/display were confirmed stopped afterward.
 
 - Host: Linux 13, engine-reported AMD EPYC 9V74 80-Core Processor, **5 logical CPUs available to this process**.
 - Graphics: X11, Compatibility/OpenGL 3 driver, Mesa OpenGL 4.5, **llvmpipe LLVM 19.1.7 software renderer**. This is CPU rendering, not Apple Silicon GPU evidence.
@@ -82,7 +84,7 @@ This software-rendered cloud workload is far below 60 fps. These measurements va
 
 The compact baseline is preserved in [report.json](performance/cleanup-20261017/report.json), [frames.csv](performance/cleanup-20261017/frames.csv) and [source-manifest.json](performance/cleanup-20261017/source-manifest.json). CSV row counts, per-view nearest-rank quantiles and throughput FPS were independently recomputed from the raw CSV and matched the JSON; resolution, disabled persistence and stable-source flags were also checked. The report intentionally retains the dirty working-tree provenance and original local invocation; it does not claim to be a clean release build.
 
-Original logs and the four inspected PNGs remain ignored under `.local/profile-20261017T140853Z-kCBlTx/`; running the command above reproduces the same checkpoint/headings/camera procedure in a new uniquely named directory. Keep those optional images/logs before replacing the workspace if needed. The JSON stores each camera transform and screenshot filename even when the ignored image is unavailable.
+Original logs and the four inspected PNGs remain ignored under `.local/profile-20261017T140853Z-kCBlTx/`; running the command above now uses the redesigned world's supported checkpoints and the current headings, so it does not reproduce the old geometry or exact old workload. Keep those optional images/logs before replacing the workspace if needed. The historical JSON stores each old camera transform and screenshot filename even when the ignored image is unavailable.
 
 - `report.json` SHA-256: `63db4aeca01114ad23e0271f385fc5aab7ecd0368f8637e58cff43a0e5e24521`
 - `source-manifest.json` SHA-256: `b6ce78c102ae4bd5f951d6b15ca06badad1a7e9451fdb31f2416bae3ab42a167`

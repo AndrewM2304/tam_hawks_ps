@@ -1,0 +1,280 @@
+{
+  "schema": 1,
+  "asset": "MakeHuman hm08 cropped adult head, hands and scalp",
+  "licence": "CC0-1.0",
+  "source_repository": "https://github.com/makehumancommunity/makehuman",
+  "source_revision": "a8bc2d54ff0ac92e78ff71431b1023eda42bf482",
+  "generator_sha256": "b469b177bef392c1941de816be5fe75213bd7d14626fc34d8d64eab1625ad319",
+  "sources": {
+    "base.obj": {
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/3dobjs/base.obj",
+      "sha256": "8e761e6624b8f54536409135d1636da63b32486a90d4897f84e121d144f6fb4c",
+      "bytes": 1749303
+    },
+    "caucasian-male-young.target": {
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/caucasian-male-young.target",
+      "sha256": "70e228ba7164737dae664454394536fc5935fa48d333c1a97d77e2dc6eacc5f5",
+      "bytes": 396479
+    },
+    "asian-male-young.target": {
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/asian-male-young.target",
+      "sha256": "ed2e8c191cb6b87b4a2d97c80486acb2604fa549316c7aa2a738a5d5a14334dc",
+      "bytes": 421040
+    },
+    "african-male-young.target": {
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/african-male-young.target",
+      "sha256": "894abc1fbb3d28543a51fef16f89d5d4bdf9aa2e1534413339811a3d47818b7d",
+      "bytes": 406170
+    }
+  },
+  "adaptation": {
+    "generator": "generate.py",
+    "source_units_to_metres": 0.1,
+    "body_group_only": true,
+    "adult_morph": "Each of three bundled male-young ancestry target displacements weighted 1/3; young corresponds to age 25. The average muscle/weight target is empty and is not needed.",
+    "head_selection": "Original unmorphed body faces with every vertex Y >= 5.9; origin is morphed joint-head; reflect Z and reverse winding.",
+    "hands_selection": "Original body faces wholly beyond wrist plane -0.3 along wrist-to-middle-knuckle and in appropriate |X| > 3.3 side; then transform morphed positions to orthonormal hand-local frame.",
+    "hair_selection": "Clip head faces against local Y >= .025 + .045*clamp((.025-Z)/.13,0,1) + .035*clamp((abs(X)-.062)/.012,0,1), interpolating boundary positions/UV/normals; offset 0.0015 m along smooth normals. Higher forehead and ear clearance, lower rear scalp.",
+    "uvs": "Original UV coordinates retained, with linear interpolation at new hair boundary vertices; no third-party skin texture/material imported.",
+    "normals": "Area-weighted body normals recomputed before crops; no smoothing across disconnected source vertices.",
+    "excluded": "Full unclothed body, all helper/joint render groups, MakeHuman code, textures, clothes and rig."
+  },
+  "head_markers_m": {
+    "left_eye": [
+      0.02940833333333334,
+      0.0412700000000001,
+      -0.07879333333333335
+    ],
+    "right_eye": [
+      -0.02940833333333334,
+      0.0412700000000001,
+      -0.07879333333333335
+    ],
+    "neck": [
+      0.0,
+      -0.0965866666666666,
+      0.03607
+    ],
+    "eye_radius_assumed_m": 0.0138
+  },
+  "eye_centers": [
+    [
+      0.02940833333333334,
+      0.0412700000000001,
+      -0.07879333333333335
+    ],
+    [
+      -0.02940833333333334,
+      0.0412700000000001,
+      -0.07879333333333335
+    ]
+  ],
+  "eye_radius": 0.0138,
+  "outputs": {
+    "head.obj": {
+      "path": "res://game/art/assets/makehuman_hm08/head.obj",
+      "sha256": "e6baabf4dcdc7e38d316fb967769ed0b51a9bd7ba544058431734c3e2d917ff0",
+      "bytes": 810775,
+      "vertices": 4278,
+      "faces": 8508,
+      "triangles": 8508,
+      "concave_quads_split": 0,
+      "bounds_min_m": [
+        -0.08565,
+        -0.12999999999999998,
+        -0.11998833333333332
+      ],
+      "bounds_max_m": [
+        0.08565,
+        0.1497350000000001,
+        0.09855833333333335
+      ],
+      "origin_source": [
+        0.0,
+        7.619949999999999,
+        0.47591666666666665
+      ],
+      "basis_rows": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      ],
+      "outward_offset_m": 0.0,
+      "selected_vertex_indices_sha256": "bd39dddadee267cddc27fc875d0b603a47dc4c36cc3561294d2e628de26fbab4"
+    },
+    "hair.obj": {
+      "path": "res://game/art/assets/makehuman_hm08/hair.obj",
+      "sha256": "906b29d0238e7c527ce8115d80ddc134d4be5f143f2b16e6ab0cbb359060ba1e",
+      "bytes": 67757,
+      "vertices": 415,
+      "faces": 748,
+      "triangles": 748,
+      "concave_quads_split": 0,
+      "bounds_min_m": [
+        -0.07418178538010163,
+        0.024422112561136713,
+        -0.10537054548647423
+      ],
+      "bounds_max_m": [
+        0.07418178538010163,
+        0.15123435166716015,
+        0.10003999908474816
+      ],
+      "origin_source": [
+        0.0,
+        7.619949999999999,
+        0.47591666666666665
+      ],
+      "basis_rows": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -1.0
+        ]
+      ],
+      "outward_offset_m": 0.0015,
+      "selected_vertex_indices_sha256": "79a935bf429c6648e8b0c6638d90914d9c29535a0ce043a2e593be113671878c"
+    },
+    "left_hand.obj": {
+      "path": "res://game/art/assets/makehuman_hm08/left_hand.obj",
+      "sha256": "a63152ba3ce3e54868ea9985f259c0bec047b9329797314e8dde9d7f3348dac3",
+      "bytes": 309313,
+      "vertices": 1669,
+      "faces": 3316,
+      "triangles": 3316,
+      "concave_quads_split": 0,
+      "bounds_min_m": [
+        -0.08014837557127193,
+        -0.1992897305970346,
+        -0.0686339992550894
+      ],
+      "bounds_max_m": [
+        0.0677444702353661,
+        0.032724181261432436,
+        0.02067883952052029
+      ],
+      "origin_source": [
+        4.868516666666666,
+        2.422133333333333,
+        2.0758833333333335
+      ],
+      "basis_rows": [
+        [
+          0.5066206303635638,
+          -0.5786536092862152,
+          -0.6391365561052362
+        ],
+        [
+          -0.4277063344017018,
+          0.47498405090307716,
+          -0.7690627041408019
+        ],
+        [
+          0.7486005800175987,
+          0.6629857855548182,
+          -0.00685709483496566
+        ]
+      ],
+      "outward_offset_m": 0.0,
+      "selected_vertex_indices_sha256": "8be11c881e73812dc7bf3ebd429338f99c0f2c4068953e7593ac3bc106613e0e"
+    },
+    "right_hand.obj": {
+      "path": "res://game/art/assets/makehuman_hm08/right_hand.obj",
+      "sha256": "be68d644bb4b9a558937d7a1f6dd5ec9f0c2a33195a5bdc17c0cc97f9413d126",
+      "bytes": 309573,
+      "vertices": 1669,
+      "faces": 3316,
+      "triangles": 3316,
+      "concave_quads_split": 0,
+      "bounds_min_m": [
+        -0.0677444702353661,
+        -0.1992897305970346,
+        -0.0686339992550894
+      ],
+      "bounds_max_m": [
+        0.08014837557127193,
+        0.032724181261432436,
+        0.02067883952052029
+      ],
+      "origin_source": [
+        -4.868516666666666,
+        2.422133333333333,
+        2.0758833333333335
+      ],
+      "basis_rows": [
+        [
+          0.5066206303635638,
+          0.5786536092862152,
+          0.6391365561052362
+        ],
+        [
+          0.4277063344017018,
+          0.47498405090307716,
+          -0.7690627041408019
+        ],
+        [
+          -0.7486005800175987,
+          0.6629857855548182,
+          -0.00685709483496566
+        ]
+      ],
+      "outward_offset_m": 0.0,
+      "selected_vertex_indices_sha256": "c7293ca30f98f5afa57c7022cbfe06d282c663ce8028b8706ce43d5b13174f72"
+    }
+  },
+  "neck_fit": {
+    "boundary_vertices": 46,
+    "adjusted_vertices": 130,
+    "bottom_y_m": -0.13,
+    "ellipse_center_xz_m": [
+      0.0,
+      0.036
+    ],
+    "ellipse_radii_xz_m": [
+      0.043,
+      0.039
+    ],
+    "neighbor_ring_blends": [
+      0.35,
+      0.12
+    ],
+    "description": "Only the low open neck boundary and two neighboring topology rings are fitted to an ellipse under the opaque collar; facial landmarks are unchanged."
+  },
+  "notices": [
+    "docs/licences/third-party/makehuman-CC0.txt",
+    "docs/licences/third-party/makehuman-LICENCE-SCOPE.txt"
+  ],
+  "licences": [
+    {
+      "path": "docs/licences/third-party/makehuman-CC0.txt",
+      "sha256": "f6089cba01cb570a24712b41ab8a586ccd3cc5ef53dc266ca50b95c288956d2c"
+    },
+    {
+      "path": "docs/licences/third-party/makehuman-LICENCE-SCOPE.txt",
+      "sha256": "edd99571ca62698f78c943fd4fffb159a413c315fa0d4819d3cec5cadaf8b4f1"
+    }
+  ],
+  "regenerate": "python3 game/art/assets/makehuman_hm08/generate.py (uses only Python standard library; pinned downloads cached in ignored .local/downloads/makehuman_hm08)"
+}

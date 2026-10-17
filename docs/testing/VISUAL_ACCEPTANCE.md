@@ -26,7 +26,11 @@ The cleanup owner creates a checklist of actual scene/resource paths and marks e
 
 Hidden collision primitives and intentional simple geometry do not require cosmetic replacement. Every visible exception must be recorded with its reason and owner disposition; remaining prototype-looking foreground buildings, rider or UI block visual acceptance.
 
-## Second cleanup checkpoint
+## Terrain redesign checkpoint
+
+The newer owner request supersedes the previous flat geometry under ADR-007. Current evidence/fixtures are in [TOPOGRAPHY](TOPOGRAPHY.md), [CAREER-ROUTES](CAREER-ROUTES.md), [RIDER-REALISM](RIDER-REALISM.md) and `tools/level_design_capture.gd`. The new spawn is `(-22,0.8,28)`; V02 is now the gallery/civic ascent and V03 is its descent. V04 covers all six places including Clyde transfer/recovery and the park loop. Earlier matched screenshots below are historical baselines. The new anatomy, terrain and leaf silhouettes do not close final realistic-art, human animation or target-Mac performance acceptance.
+
+## Second cleanup checkpoint (historical)
 
 The containing source commit records the second pass. Exact regression and package results belong in STATUS/QE/EXPORT. [VISUAL_PASS](../levels/VISUAL_PASS.md) retains 16 matched environment images, source baseline, camera transforms, material provenance and render counters. [CAREER-ROUTES](CAREER-ROUTES.md) verifies the complete goal circuit and six boundary combo links while recording its idealized steering limit. [PERFORMANCE](PERFORMANCE.md) provides the repeatable rendered diagnostic; it does not close the target-Mac gate.
 
@@ -46,15 +50,15 @@ For each before/after pair, keep resolution, camera framing, route/pose and scen
 
 | Capture ID | View or route | Inspect |
 |---|---|---|
-| V01 | Spawn `(0, 0.8, 12)` facing `-Z`, normal chase view | Title/HUD hierarchy, rider scale, central composition, facade quality and safe first approach |
-| V02 | Central launch: spawn toward `-Z`, ramp Z=-4 to -12, landing through Z=-28 | Approach readability, airborne silhouette, board contact, exposure and landing visibility |
-| V03 | Tenement return: X=-17, Z=-23 toward `+Z`, ramp Z=-14.5 to -7.5 | Shopfront close pass, textured facade detail, rail/ledge contrast, camera clearance and skating snags |
-| V04 | Full four-district loop, once each direction where supported | District identity, border continuity, material transitions, skyline seams, popping and occlusion |
+| V01 | Spawn `(-22, 0.8, 28)` facing `-Z`, normal chase view | Title/HUD hierarchy, rider scale, central composition, facade quality and safe first approach |
+| V02 | Gallery/civic ascent: X=-22, Z=28 through -118, height0→2→4→6m | Approach readability, airborne silhouette, board contact, exposure and landing visibility |
+| V03 | Gallery descent: X=-22, Z=-80 toward +Z, height4→2→0m | Shopfront close pass, textured facade detail, rail/ledge contrast, camera clearance and skating snags |
+| V04 | Full six-area loop, once each direction where supported | District identity, border continuity, material transitions, skyline seams, popping and occlusion |
 | V05 | One fixed close shopfront view and one street-width view in each district | Researched frontage arrangement, bay proportions, entrance depth, texture density and repeated modules |
 | V06 | M02 reference combo: air → grind → release → revert/manual → bank, plus a deliberate bail | State transitions, grind/manual balance, feet/board alignment, trick history, banking and recovery cues |
 | V07 | A bright and a shaded landing zone with captions and a long combo visible | Text contrast, obstacle readability, highlight/shadow range and HUD overlap |
 
-V01–V03 use the current square's documented coordinates; update their manifest when the accepted level moves. The four districts and combo mechanics now exist; V04–V07 still need the prescribed continuous-route and matched lighting review. At implementation, assign saved transforms and deterministic actions/timings where practical, rather than silently skipping missing routes. The fixed shopfront views must link to the corresponding dated location reference and explain intentional adaptations.
+V01–V03 use the current square's documented coordinates; update their manifest when the accepted level moves. The six-area redesign and combo mechanics now exist; V04–V07 still need the prescribed continuous-route and matched lighting review. At implementation, assign saved transforms and deterministic actions/timings where practical, rather than silently skipping missing routes. The fixed shopfront views must link to the corresponding dated location reference and explain intentional adaptations.
 
 ## Screen and interaction coverage
 

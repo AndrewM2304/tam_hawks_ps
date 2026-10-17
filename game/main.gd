@@ -78,6 +78,7 @@ func _ready() -> void:
 	hud = Hud.new()
 	hud.name = "HUD"
 	add_child(hud)
+	hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions())
 	hud.restart_requested.connect(restart_run)
 	hud.pause_requested.connect(toggle_pause)
 	hud.free_skate_requested.connect(toggle_free_skate)
@@ -119,6 +120,12 @@ func _physics_process(delta: float) -> void:
 		return
 	_feedback_timer = maxf(0.0, _feedback_timer - delta)
 	_caption_time = maxf(0.0, _caption_time - delta)
+	if world.has_method("get_recovery_position"):
+		var recovery: Vector3 = world.get_recovery_position(skater.global_position)
+		if recovery.is_finite():
+			skater.recover_to(recovery)
+			_feedback = "BACK ON THE QUAY. FIND YOUR NEXT LINE."
+			_feedback_timer = 3.0
 	var district: String = world.get_district_id(skater.global_position)
 	_update_contact_audio()
 	audio.set_motion(skater.speed, skater.is_on_floor(), skater.grinding, district)
@@ -344,7 +351,7 @@ func apply_settings(settings: Dictionary, persist: bool = true) -> void:
 func select_cosmetic(id: String, persist: bool = true) -> void:
 	if not career.unlocks().has(id):
 		return
-	var colours := {"color_blue": Color("357d93"), "color_orange": Color("d68448"), "color_purple": Color("7862a7")}
+	var colours := {"color_blue": Color("4d6270"), "color_orange": Color("a66642"), "color_purple": Color("695a76")}
 	if colours.has(id):
 		skater.set_skater_color(colours[id])
 		career.settings["cosmetic_id"] = id
@@ -381,6 +388,7 @@ func _refresh_hud() -> void:
 		"manual": skater.manual_active, "manual_balance": skater.manual_balance,
 		"landing_window": score.landing_remaining, "revert_window": skater.revert_remaining,
 		"location": world.get_location_name(skater.global_position),
+		"player_position": skater.global_position, "player_heading": skater.rotation.y,
 		"paused": paused, "finished": run_finished, "free_skate": free_skate_mode,
 		"feedback": _feedback if _feedback_timer > 0 else "",
 		"landings": _landings, "flips": _flips, "grabs": _grabs,

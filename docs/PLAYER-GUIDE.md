@@ -1,6 +1,6 @@
 # Tam Hawks Pro Skater — prototype player guide
 
-Skate a Glasgow-inspired prototype, link tricks, and complete career goals during two-minute runs. The current build has an initial art and interface pass, local sound and voiced reactions. Further visual refinement, animation work and human playtesting remain part of the roadmap.
+Skate a Glasgow-inspired prototype, link tricks, and complete career goals during two-minute runs. Explore an original compressed Glasgow map with city terraces, fountain coping, station platforms, river crossings and hilly park paths, with local sound and voiced reactions. Further visual refinement, animation work and human playtesting remain part of the roadmap.
 
 ## Start
 
@@ -42,6 +42,18 @@ Banking points fills the special meter. A full meter powers one successful airbo
 Open Goals to see the ten career tasks: scores, a long combo, H A W K S letters, cone duty, the Central gap, market items, four districts and a hidden recording. Goal completions, records, bindings and presentation settings use a local save; there is no account or online service. Pause/settings include sound mix, captions, reduced motion, interface size and camera sensitivity.
 
 If a save cannot be loaded or written, a persistent warning explains that progress is staying in the current session. You can keep playing; existing unreadable or newer saves are protected.
+
+## Explore Glasgow
+
+Open **City map & routes** from Pause or Goals. The arrow shows your position and heading; brighter routes climb higher and orange lines mark jump routes. Looking at the map pauses your run.
+
+Your start faces a clear uphill line beside the fountain. Climb the gallery banks into George Square, choose the station's raised platforms, or head east through the Barras loading streets. The fountain rim is a curved grind: approach along its tangent, ollie and hold grind as you descend.
+
+Head south to the Clyde quays for embankment lines and a broken-footbridge transfer. Build speed and ollie the opening; a continuous bridge provides another way across. Falling into the river returns you to a safe quay and loses your pending combo. Restart still returns you to the original city start.
+
+Northwest, follow the park connections to a winding paved climb and downhill run through rolling grass. The map compresses Glasgow into connected skating places; it is an original game layout rather than a street navigation map.
+
+The ten career goals remain in the four city districts. River and park routes are open in both modes; **Free skate** gives you unlimited time to learn them.
 
 ## Useful playtest notes
 

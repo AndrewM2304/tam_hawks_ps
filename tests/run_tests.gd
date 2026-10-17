@@ -21,6 +21,7 @@ const INPUT_PROFILE_TESTS = preload("res://tests/input_profile_tests.gd")
 const UI_INTEGRATION_TESTS = preload("res://tests/ui_integration_tests.gd")
 const UI_FEEDBACK_TESTS = preload("res://tests/ui_feedback_tests.gd")
 const PRESENTATION_INTEGRATION_TESTS = preload("res://tests/presentation_integration_tests.gd")
+const TOPOGRAPHY_TESTS = preload("res://tests/topography_tests.gd")
 const CAREER_ROUTE_TESTS = preload("res://tests/career_route_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
@@ -76,6 +77,7 @@ func _run() -> void:
 	await UI_INTEGRATION_TESTS.run(self, game, _check)
 	await UI_FEEDBACK_TESTS.run(self, game, _check)
 	await PRESENTATION_INTEGRATION_TESTS.run(self, game, _check)
+	await TOPOGRAPHY_TESTS.run(self, game, _check)
 	await CAREER_ROUTE_TESTS.run(self, game, _check)
 	_release_actions()
 	paused = false
@@ -153,14 +155,15 @@ func _test_structure() -> void:
 		controller_actions += 1 if has_pad else 0
 	_check(keyboard_actions == ACTIONS.size(), "every gameplay action has a keyboard binding")
 	_check(controller_actions == ACTIONS.size(), "every gameplay action has a gamepad binding")
-	_check(game.world.get_spawn_position().is_equal_approx(Vector3(0, 0.8, 12)),
+	_check(game.world.get_spawn_position().is_equal_approx(Vector3(-22, 0.8, 28)),
 		"world spawn matches the shared coordinate contract")
 	_check(not game.world.get_location_name(game.skater.global_position).is_empty(),
 		"world provides a readable location label")
 
 
 func _test_world_floor() -> void:
-	var query = PhysicsRayQueryParameters3D.create(Vector3(0, 5, 12), Vector3(0, -2, 12))
+	var spawn: Vector3 = game.world.get_spawn_position()
+	var query = PhysicsRayQueryParameters3D.create(spawn + Vector3.UP * 5, spawn - Vector3.UP * 3)
 	query.exclude = [game.skater.get_rid()]
 	var hit: Dictionary = game.world.get_world_3d().direct_space_state.intersect_ray(query)
 	_check(not hit.is_empty(), "spawn has a supporting collision surface")
@@ -173,26 +176,22 @@ func _test_world_floor() -> void:
 
 func _test_ramp_collision_and_boundaries() -> void:
 	var ramps: Array[Node] = get_nodes_in_group("skateable_ramps")
-	_check(ramps.size() >= 9, "connected level retains original ramps and adds district routes")
-	for original in ["CentralRamp", "TenementReturnRamp", "NorthBank", "WarmUpBank"]:
-		_check(game.world.has_node(original), "original regression ramp retained: " + original)
+	_check(ramps.size() >= 9, "city and outdoor routes include at least nine authored graded surfaces")
 	for ramp in ramps:
-		var from: Vector3 = ramp.global_position + Vector3.UP * 8.0
-		var query = PhysicsRayQueryParameters3D.create(from, from - Vector3.UP * 10.0, 1)
+		var from: Vector3 = ramp.global_position + Vector3.UP * 40.0
+		var query = PhysicsRayQueryParameters3D.create(from, from - Vector3.UP * 80.0, 1)
 		var hit: Dictionary = game.world.get_world_3d().direct_space_state.intersect_ray(query)
-		_check(not hit.is_empty() and hit.collider == ramp and hit.position.y > 0.25,
-			"ramp has a raised supporting collision surface: " + ramp.name)
+		_check(not hit.is_empty() and hit.collider == ramp,
+			"graded surface owns its supporting collision: " + ramp.name)
 		if not hit.is_empty():
-			_check(hit.normal.y >= cos(deg_to_rad(15.0)),
-				"ramp top normal stays within its documented gentle incline: " + ramp.name)
+			_check(hit.normal.y >= cos(game.skater.floor_max_angle),
+				"graded surface is within the skating floor angle: " + ramp.name)
 		_check(_count_nodes(ramp, "MeshInstance3D") > 0,
-			"ramp collision has visible procedural geometry: " + ramp.name)
-	for direction in [Vector3.LEFT, Vector3.RIGHT, Vector3.FORWARD, Vector3.BACK]:
-		var near_edge: Vector3 = direction * (32.0 if direction.x != 0.0 else 39.0)
-		near_edge.y = 0.6
-		var query = PhysicsRayQueryParameters3D.create(near_edge, near_edge + direction * 6.0, 1)
-		var hit: Dictionary = game.world.get_world_3d().direct_space_state.intersect_ray(query)
-		_check(not hit.is_empty(), "boundary blocks outward floor travel toward " + str(direction))
+			"graded collision has visible geometry: " + ramp.name)
+	# Closed walls at the former square edge would obstruct the new streets.
+	# Route support/clearance and river recovery are exercised by topography tests.
+	_check(game.world.get_district_checkpoints().size() == 6,
+		"the level exposes six connected places instead of sealing the original square")
 
 
 func _test_movement() -> void:
@@ -227,28 +226,26 @@ func _test_ramp_routes() -> void:
 	await _physics_frames(30)
 	Input.action_press("push")
 	var max_height: float = 0.0
-	for i in range(210):
+	for i in range(480):
 		await _physics_frames(1)
 		max_height = maxf(max_height, game.skater.global_position.y)
 	Input.action_release("push")
-	_check(max_height > 1.2, "central approach physically climbs the launch ramp")
-	_check(game.skater.global_position.z < -16.0 and absf(game.skater.global_position.x) < 0.25,
-		"central ramp route passes its crest and reaches the clear landing lane")
-	_check(game.skater.is_on_floor(), "central ramp route returns to floor collision")
+	_check(max_height > 3.9, "default approach climbs the gallery and George Square terraces")
+	_check(game.skater.global_position.z < -60.0 and absf(game.skater.global_position.x + 22.0) < 0.25,
+		"default forward route connects the lower square to the upper city without jumping")
+	_check(game.skater.is_on_floor(), "uphill city route finishes on supporting collision")
 	game.restart_run()
-	game.skater.global_position = Vector3(-17.0, 0.8, -23.0)
+	game.skater.global_position = Vector3(-22.0, 4.8, -80.0)
 	game.skater.rotation.y = PI
 	await _physics_frames(30)
 	Input.action_press("push")
-	max_height = 0.0
-	for i in range(180):
+	for i in range(480):
 		await _physics_frames(1)
-		max_height = maxf(max_height, game.skater.global_position.y)
 	Input.action_release("push")
-	_check(max_height > 1.0, "tenement return approach physically climbs its ramp")
-	_check(game.skater.global_position.z > 0.0 and absf(game.skater.global_position.x + 17.0) < 0.25,
-		"tenement return route passes its crest and reaches its landing lane")
-	_check(game.skater.is_on_floor(), "tenement return route returns to floor collision")
+	_check(game.skater.global_position.z > 10.0 and absf(game.skater.global_position.x + 22.0) < 0.25,
+		"reverse route descends through both terrace transitions to the lower square")
+	_check(game.skater.is_on_floor() and game.skater.global_position.y < 0.1,
+		"downhill city route finishes on the lower square floor")
 
 
 func _test_jump_tricks_and_landing() -> void:

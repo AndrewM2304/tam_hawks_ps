@@ -1,0 +1,376 @@
+extends Node3D
+## Original, compressed Glasgow-inspired landscapes; not surveyed street geometry.
+## Published coordinates are world-space board-contact positions except checkpoints.
+
+const Surface = preload("res://game/levels/outdoors/surface_builder.gd")
+const Vegetation = preload("res://game/levels/outdoors/vegetation.gd")
+const GrindLineSource = preload("res://game/tricks/grind_line.gd")
+const PARK := Rect2(-220, -185, 80, 110)
+const PARK_LANDSCAPE := Rect2(-255, -225, 115, 165)
+const RIVER := Rect2(-150, 78, 300, 38)
+const WATER_Y := -2.0
+
+var _materials: Dictionary
+var _surfaces: Array[Dictionary] = []
+var _routes: Array[Dictionary] = []
+var _rails: Array = []
+var _park_path := PackedVector3Array()
+var _park_connector := PackedVector3Array()
+var _george_connector := PackedVector3Array()
+var _built := false
+
+
+func build(world: Node3D, materials: Dictionary) -> void:
+	if _built: return
+	_built = true
+	_materials = materials
+	_build_clyde()
+	_build_riverside_edge(world)
+	_build_park()
+
+
+func get_checkpoints() -> Dictionary:
+	return {"clyde": to_global(Vector3(15, 2.8, 67)), "kelvingrove": to_global(Vector3(-155, 6.8, -82))}
+
+
+func get_district_id(world_position: Vector3) -> String:
+	var at := to_local(world_position)
+	if at.z >= 54.0 and at.z <= 220.0 and absf(at.x) <= 280.0: return "clyde"
+	if PARK_LANDSCAPE.has_point(Vector2(at.x, at.z)): return "kelvingrove"
+	# Narrow connector footprints avoid capturing Central/George from broad bounds.
+	if at.x < -145.0 and float(Surface.nearest_segment(_park_connector, Vector2(at.x, at.z)).distance) < 6.5: return "kelvingrove"
+	if at.x < -46.0 and float(Surface.nearest_segment(_george_connector, Vector2(at.x, at.z)).distance) < 5.0: return "kelvingrove"
+	return ""
+
+
+func get_location_name(world_position: Vector3) -> String:
+	return "CLYDE QUAYS" if get_district_id(world_position) == "clyde" else "KELVINGROVE PARK"
+
+
+func get_ground_height(world_x: float, world_z: float) -> float:
+	var local := to_local(Vector3(world_x, global_position.y, world_z))
+	var height := _local_ground(local.x, local.z)
+	return NAN if is_nan(height) else to_global(Vector3(local.x, height, local.z)).y
+
+
+func get_recovery_position(world_position: Vector3) -> Vector3:
+	var at := to_local(world_position)
+	if not RIVER.has_point(Vector2(at.x, at.z)) or at.y >= WATER_Y + 0.25: return Vector3.INF
+	var safe_z := 71.0 if at.z < RIVER.get_center().y else 124.0
+	# Stay away from deck rails and place the skater directly on a broad quay.
+	var safe_x := clampf(at.x, -140.0, 140.0)
+	if absf(safe_x + 98.0) < 7.0: safe_x = -86.0
+	if absf(safe_x - 35.0) < 5.0: safe_x = 25.0
+	return to_global(Vector3(safe_x, 2.8, safe_z))
+
+
+func get_grind_lines() -> Array:
+	return _rails.duplicate()
+
+
+func get_gap_definitions() -> Array[Dictionary]:
+	return [{"id": "clyde_bridge_transfer", "name": "Clyde Broken Bridge", "start": to_global(Vector3(35, 3.05, 92)), "end": to_global(Vector3(35, 2.69, 104)), "radius": 2.4, "points": 900, "airborne_required": true}]
+
+
+func get_route_definitions() -> Array[Dictionary]:
+	var routes: Array[Dictionary] = []
+	for source: Dictionary in _routes:
+		var route := source.duplicate()
+		var points := PackedVector3Array()
+		for at: Vector3 in source.points: points.append(to_global(at))
+		route.points = points
+		routes.append(route)
+	return routes
+
+
+func _build_clyde() -> void:
+	_patch("ClydeNorthQuay", Rect2(-150, 55, 300, 23), 2.0, _material("paving"))
+	_patch("ClydeSouthQuay", Rect2(-150, 116, 300, 14), 2.0, _material("paving"))
+	var west := PackedVector3Array([Vector3(-94, 2, 45), Vector3(-94, 2, 65)])
+	var east := PackedVector3Array([Vector3(94, 0, 45), Vector3(94, 2, 55), Vector3(94, 2, 68)])
+	_path("ClydeWestApproach", west, 16.0, _material("asphalt"))
+	_path("ClydeEastApproach", east, 16.0, _material("asphalt"))
+	var safe := PackedVector3Array([Vector3(-98, 2, 72), Vector3(-98, 3.4, 89), Vector3(-98, 3.4, 105), Vector3(-98, 2, 122)])
+	_path("ClydeSafeBridge", safe, 8.0, _material("iron"), "metal")
+	var north := PackedVector3Array([Vector3(35, 2, 74), Vector3(35, 2.6, 86), Vector3(35, 3.2, 94)])
+	var south := PackedVector3Array([Vector3(35, 2.8, 102), Vector3(35, 2, 116), Vector3(35, 2, 124)])
+	_path("ClydeBridgeNorthDeck", north, 5.0, _material("iron"), "metal")
+	_path("ClydeBridgeSouthDeck", south, 5.0, _material("iron"), "metal")
+	# Retaining masonry leaves the water visibly below skateable quays.
+	_box("NorthEmbankment", Vector3(0, -0.2, 77.6), Vector3(300, 4.4, 0.8), _material("cut_stone"))
+	_box("SouthEmbankment", Vector3(0, -0.2, 116.4), Vector3(300, 4.4, 0.8), _material("cut_stone"))
+	_box("SouthQuayBacking", Vector3(0, 1.25, 130.0), Vector3(300, 1.5, 1.0), _material("cut_stone"))
+	_water()
+	var bank_material := StandardMaterial3D.new()
+	bank_material.albedo_color = Color(0.23, 0.29, 0.18)
+	bank_material.roughness = 0.95
+	var bank_bounds := Rect2(-280, 130, 560, 90)
+	Surface.terrain(self, "ClydeSouthBankLandscape", bank_bounds, 10.0, _south_bank_height, bank_material)
+	_surfaces.append({"bounds": bank_bounds, "height_at": _south_bank_height})
+	_bridge_structure(safe, 8.0, true)
+	_bridge_structure(north, 5.0, false)
+	_bridge_structure(south, 5.0, false)
+	# Low coping is readable from the quay and accessible to ordinary ollies.
+	_rail("clyde_quay_coping", PackedVector3Array([Vector3(-68, 2.42, 76.7), Vector3(-22, 2.42, 76.7)]), "coping", 0.22)
+	_rail("clyde_bridge_rail", PackedVector3Array([Vector3(37.2, 3.25, 80), Vector3(37.2, 3.55, 86), Vector3(37.2, 4.0, 92)]), "rail", 0.065)
+	for x: float in [-138.0, -118.0, -74.0, -48.0, -8.0, 15.0, 58.0, 84.0, 116.0, 140.0]:
+		_bollard(Vector3(x, 2.0, 75.0))
+	for x: float in [-135.0, -70.0, -10.0, 65.0, 130.0]:
+		_bench(Vector3(x, 2.0, 59.0))
+	_route("clyde_north_quay", "Station to Barras via Clyde", PackedVector3Array([Vector3(-94, 2, 45), Vector3(-94, 2, 67), Vector3(94, 2, 67), Vector3(94, 2, 55), Vector3(94, 0, 45)]))
+	var safe_route := PackedVector3Array([Vector3(-98, 2, 67)])
+	safe_route.append_array(safe)
+	safe_route.append(Vector3(-98, 2, 125))
+	_route("clyde_safe_crossing", "Clyde continuous crossing", safe_route)
+	var transfer := PackedVector3Array([Vector3(35, 2, 65)])
+	transfer.append_array(north)
+	transfer.append_array(south)
+	_route("clyde_bridge_transfer", "Clyde eight-metre transfer", transfer, true)
+
+
+func _build_park() -> void:
+	_park_connector = Surface.smooth_points(PackedVector3Array([Vector3(-145, 2, 0), Vector3(-151, 3, -22), Vector3(-147, 4.5, -48), Vector3(-155, 6, -82)]))
+	_george_connector = PackedVector3Array([Vector3(-42, 6, -122), Vector3(-145, 6, -125)])
+	_park_path = Surface.smooth_points(PackedVector3Array([
+		Vector3(-155, 6, -82), Vector3(-173, 7, -96), Vector3(-195, 9, -106), Vector3(-208, 11, -126), Vector3(-200, 13, -147), Vector3(-181, 15, -164), Vector3(-161, 17, -178), Vector3(-146, 15, -165), Vector3(-145, 11, -146), Vector3(-145, 6, -125), Vector3(-145, 6, -104), Vector3(-155, 6, -82)]))
+	var grass := ShaderMaterial.new()
+	var shader := Shader.new()
+	shader.code = """shader_type spatial;
+varying vec3 world_position;
+void vertex(){world_position=(MODEL_MATRIX*vec4(VERTEX,1.0)).xyz;}
+float hash(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
+float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x),u.y);}
+void fragment(){float patches=noise(world_position.xz*0.16)*0.7+noise(world_position.xz*0.63)*0.3;float grain=noise(world_position.xz*9.0);ALBEDO=mix(vec3(0.18,0.25,0.12),vec3(0.25,0.31,0.15),patches)*mix(0.96,1.04,grain);ROUGHNESS=0.98;}
+"""
+	grass.shader = shader
+	Surface.terrain(self, "KelvingroveRollingGround", PARK_LANDSCAPE, 2.5, _park_height, grass)
+	# The approaches are raised park embankments, not unsupported road ribbons.
+	var central_bank := Rect2(-167, -83, 32, 85)
+	var george_bank := Rect2(-145, -142, 103, 34)
+	Surface.terrain(self, "KelvingroveCentralEmbankment", central_bank, 2.5, _central_bank_height, grass)
+	Surface.terrain(self, "KelvingroveGeorgeEmbankment", george_bank, 3.0, _george_bank_height, grass)
+	_surfaces.append({"bounds": central_bank, "height_at": _central_bank_height})
+	_surfaces.append({"bounds": george_bank, "height_at": _george_bank_height})
+	# Broad smooth asphalt ribbons share exact sampled physics/query coordinates.
+	_path("KelvingroveCentralApproach", _park_connector, 10.0, _material("asphalt"))
+	_path("KelvingroveGeorgePromenade", _george_connector, 10.0, _material("paving"))
+	_path("KelvingroveRollingLoop", _park_path, 8.0, _material("asphalt"))
+	_path_border(_park_path)
+	# Upper viewpoint sits off the riding line and is reached at the summit.
+	_patch("KelvingroveViewTerrace", Rect2(-179, -185, 18, 5), 17.0, _material("paving"))
+	_path("KelvingroveViewpointSpur", PackedVector3Array([Vector3(-161, 17, -178), Vector3(-165, 17, -182), Vector3(-173, 17, -182)]), 4.0, _material("paving"))
+	_rail("kelvingrove_terrace_coping", PackedVector3Array([Vector3(-177, 17.4, -184), Vector3(-164, 17.4, -184)]), "coping", 0.2)
+	var bend := PackedVector3Array()
+	for at: Vector3 in _park_path:
+		if at.x < -201 and at.z < -113 and at.z > -139: bend.append(at + Vector3(-3.3, 0.55, 0))
+	if bend.size() >= 2: _rail("kelvingrove_s_bend", bend, "rail", 0.065)
+	_park_pavilion()
+	var trees: Array[Dictionary] = []
+	for row in 11:
+		for col in 8:
+			var x := -247.0 + col * 13.5 + sin(row * 5.13 + col) * 2.7
+			var z := -217.0 + row * 14.5 + cos(col * 4.1 + row) * 2.5
+			var nearest := Surface.nearest_segment(_park_path, Vector2(x, z))
+			var central := Surface.nearest_segment(_park_connector, Vector2(x, z))
+			var george := Surface.nearest_segment(_george_connector, Vector2(x, z))
+			if minf(float(nearest.distance), minf(float(central.distance), float(george.distance))) < 8.0 or (x > -184 and z < -172): continue
+			trees.append({"position": Vector3(x, _park_height(x, z), z), "scale": 0.78 + fmod(row * 0.13 + col * 0.21, 0.36), "yaw": row * 1.7 + col * 0.7})
+	Vegetation.build(self, trees, _material("bark"))
+	_route("kelvingrove_central_climb", "Central to Kelvingrove", _park_connector)
+	_route("kelvingrove_george_promenade", "George Square park promenade", _george_connector)
+	_route("kelvingrove_rolling_loop", "Kelvingrove hillside loop", _park_path)
+
+
+func _build_riverside_edge(world: Node3D) -> void:
+	# Reuse the core's material-batched facade authoring, set behind the tested
+	# landing/promenade. These are original composites, not verified businesses.
+	if not world.has_method("_building"): return
+	for front: Dictionary in [
+		{"x": -112.0, "width": 38.0, "height": 16.0, "stone": "stone", "label": "QUAY WORKSHOPS"},
+		{"x": -62.0, "width": 28.0, "height": 13.0, "stone": "sandstone", "label": "CLYDE PRINT ROOM"},
+		{"x": -12.0, "width": 34.0, "height": 19.0, "stone": "sandstone", "label": "RIVER RECORDS"},
+		{"x": 38.0, "width": 26.0, "height": 16.0, "stone": "stone_light", "label": "SOUTH BANK STORES"},
+		{"x": 100.0, "width": 38.0, "height": 14.0, "stone": "stone", "label": "OLD QUAY WORKSHOP"}]:
+		world.call("_building", world.to_local(to_global(Vector3(front.x, 2, 145))), front.width, front.height, front.stone, front.label, PI)
+
+
+func _south_bank_height(x: float, z: float) -> float:
+	var depth := smoothstep(130.0, 215.0, z)
+	return 2.0 + depth * (5.5 + sin(x * 0.025) * 2.0 + cos(x * 0.011 + z * 0.03))
+
+
+func _central_bank_height(x: float, z: float) -> float:
+	var nearest := Surface.nearest_segment(_park_connector, Vector2(x, z))
+	return lerpf(float(nearest.height) - 0.35, 0.5, smoothstep(7.0, 15.0, float(nearest.distance)))
+
+
+func _george_bank_height(x: float, z: float) -> float:
+	var nearest := Surface.nearest_segment(_george_connector, Vector2(x, z))
+	return lerpf(5.75, 0.5, smoothstep(6.0, 15.5, float(nearest.distance)))
+
+
+func _park_height(x: float, z: float) -> float:
+	var rise := clampf((-z - 80.0) / 100.0, 0.0, 1.0)
+	var natural := 6.0 + rise * 10.0 + sin(x * 0.09 + z * 0.03) * 1.15 + sin(z * 0.12) * 0.65
+	var nearest := Surface.nearest_segment(_park_path, Vector2(x, z))
+	for path: PackedVector3Array in [_park_connector, _george_connector]:
+		var candidate := Surface.nearest_segment(path, Vector2(x, z))
+		if float(candidate.distance) < float(nearest.distance): nearest = candidate
+	var distance: float = nearest.distance
+	var weight := smoothstep(6.0, 13.0, distance)
+	var height := lerpf(float(nearest.height) - 0.25, natural, weight)
+	# Flatten the summit apron into the hillside, not a floating slab.
+	if x >= -181 and x <= -159 and z <= -178:
+		var apron := Rect2(-179, -185, 18, 5)
+		var distance_apron := Vector2(x, z).distance_to(Vector2(clampf(x, apron.position.x, apron.end.x), clampf(z, apron.position.y, apron.end.y)))
+		height = minf(height, lerpf(16.75, height, smoothstep(0.0, 3.0, distance_apron)))
+	# Curving lower woodland skirts replace a visible vertical rectangular island.
+	var perimeter := minf(minf(x - PARK_LANDSCAPE.position.x, PARK_LANDSCAPE.end.x - x), minf(z - PARK_LANDSCAPE.position.y, PARK_LANDSCAPE.end.y - z))
+	if x < -225 or z < -195:
+		height = lerpf(1.0 + sin(x * 0.025 + z * 0.014), height, smoothstep(0.0, 23.0, perimeter))
+	return height
+
+
+func _local_ground(x: float, z: float) -> float:
+	var at := Vector2(x, z)
+	var highest := _park_height(x, z) if PARK_LANDSCAPE.has_point(at) else NAN
+	for surface: Dictionary in _surfaces:
+		var height := NAN
+		if surface.has("bounds"):
+			if surface.bounds.has_point(at): height = float(surface.height_at.call(x, z)) if surface.has("height_at") else surface.height
+		else:
+			var nearest := Surface.nearest_segment(surface.points, at)
+			if nearest.get("within", true) and float(nearest.distance) <= float(surface.width) * 0.5: height = nearest.height
+		if is_finite(height) and (is_nan(highest) or height > highest): highest = height
+	if not is_nan(highest): return highest
+	return NAN
+
+
+func _patch(id: String, bounds: Rect2, height: float, material: Material) -> void:
+	Surface.terrain(self, id, bounds, 5.0, func(_x: float, _z: float) -> float: return height, material)
+	_surfaces.append({"bounds": bounds, "height": height})
+
+
+func _path(id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "asphalt") -> void:
+	Surface.strip(self, id, points, width, material, audio)
+	_surfaces.append({"points": points, "width": width})
+
+
+func _route(id: String, label: String, points: PackedVector3Array, jump: bool = false) -> void:
+	_routes.append({"id": id, "label": label, "points": points, "requires_jump": jump})
+
+
+func _material(id: String) -> Material:
+	if _materials.has(id): return _materials[id]
+	var fallback := StandardMaterial3D.new()
+	fallback.albedo_color = Color(0.3, 0.32, 0.3)
+	fallback.roughness = 0.9
+	return fallback
+
+
+func _box(id: String, at: Vector3, size: Vector3, material: Material, colliding: bool = true) -> Node3D:
+	var root: Node3D = StaticBody3D.new() if colliding else Node3D.new()
+	root.name = id
+	root.position = at
+	add_child(root)
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	var visual := MeshInstance3D.new()
+	visual.mesh = mesh
+	visual.material_override = material
+	root.add_child(visual)
+	if colliding:
+		root.set_meta("surface_audio", "stone")
+		var collision := CollisionShape3D.new()
+		var shape := BoxShape3D.new()
+		shape.size = size
+		collision.shape = shape
+		root.add_child(collision)
+	return root
+
+
+func _beam(id: String, a: Vector3, b: Vector3, radius: float, material: Material, colliding: bool = false) -> void:
+	var delta := b - a
+	var piece := _box(id, (a + b) * 0.5, Vector3(radius * 2.0, radius * 2.0, delta.length()), material, colliding)
+	piece.look_at(to_global(b), Vector3.UP if absf(delta.normalized().y) < 0.98 else Vector3.FORWARD)
+
+
+func _rail(id: String, points: PackedVector3Array, kind: String, radius: float) -> void:
+	_rails.append(GrindLineSource.from_local_points(id, points, global_transform, kind))
+	for i in range(points.size() - 1): _beam(id + "Visual", points[i], points[i + 1], radius, _material("cut_stone" if kind == "coping" else "iron"))
+
+
+func _bridge_structure(points: PackedVector3Array, width: float, safe: bool) -> void:
+	for side: float in [-1.0, 1.0]:
+		for i in range(points.size() - 1):
+			var a := points[i] + Vector3(side * (width * 0.5 - 0.15), 0, 0)
+			var b := points[i + 1] + Vector3(side * (width * 0.5 - 0.15), 0, 0)
+			_beam("BridgeEdgeGirder", a - Vector3.UP * 0.25, b - Vector3.UP * 0.25, 0.18, _material("iron"))
+			_beam("BridgeHandrail", a + Vector3.UP * 1.05, b + Vector3.UP * 1.05, 0.045, _material("iron"), safe)
+			if safe: _beam("BridgeLowerRail", a + Vector3.UP * 0.5, b + Vector3.UP * 0.5, 0.025, _material("iron"))
+			var steps := maxi(1, ceili(a.distance_to(b) / 4.0))
+			for j in steps:
+				var at := a.lerp(b, float(j) / steps)
+				_beam("BridgePost", at, at + Vector3.UP * 1.1, 0.045, _material("iron"))
+	for i in [0, points.size() - 1]:
+		var at := points[i]
+		_box("BridgePier", Vector3(at.x, -0.6, at.z), Vector3(width - 1.0, 4.0, 1.0), _material("cut_stone"), false)
+
+
+func _water() -> void:
+	var mesh := PlaneMesh.new()
+	mesh.size = Vector2(900, RIVER.size.y)
+	var instance := MeshInstance3D.new()
+	instance.name = "ClydeWater"
+	instance.mesh = mesh
+	instance.position = Vector3(0, WATER_Y, RIVER.get_center().y)
+	var material := ShaderMaterial.new()
+	var shader := Shader.new()
+	shader.code = """shader_type spatial;
+varying vec3 world_position;
+void vertex(){world_position=(MODEL_MATRIX*vec4(VERTEX,1.0)).xyz;}
+void fragment(){vec2 p=world_position.xz;float a=sin(p.x*2.7+p.y*1.3+TIME*0.7);float b=sin(p.x*0.8-p.y*3.1-TIME*0.5);float c=sin(p.x*1.7+p.y*4.2+TIME*0.35);float wave=(a+b+c)/3.0;ALBEDO=mix(vec3(0.09,0.16,0.17),vec3(0.13,0.20,0.21),wave*0.5+0.5);ROUGHNESS=0.62;METALLIC=0.02;SPECULAR=0.25;NORMAL_MAP=vec3(0.5+(a+b)*0.012,0.5+(b+c)*0.01,1.0);}
+"""
+	material.shader = shader
+	instance.material_override = material
+	add_child(instance)
+
+
+func _bollard(at: Vector3) -> void:
+	var cylinder := CylinderMesh.new()
+	cylinder.top_radius = 0.14
+	cylinder.bottom_radius = 0.20
+	cylinder.height = 0.70
+	cylinder.radial_segments = 12
+	var visual := MeshInstance3D.new()
+	visual.mesh = cylinder
+	visual.material_override = _material("iron")
+	visual.position = at + Vector3.UP * 0.35
+	add_child(visual)
+
+
+func _bench(at: Vector3) -> void:
+	_box("QuayBenchSeat", at + Vector3.UP * 0.44, Vector3(2.8, 0.10, 0.55), _material("wood"))
+	for x: float in [-1.0, 1.0]: _box("QuayBenchSupport", at + Vector3(x, 0.20, 0), Vector3(0.14, 0.4, 0.45), _material("iron"), false)
+
+
+func _path_border(points: PackedVector3Array) -> void:
+	# One ribbon per edge rather than hundreds of individual kerb MeshInstances.
+	for side: float in [-1.0, 1.0]:
+		var edge := PackedVector3Array()
+		for i in points.size():
+			var direction := points[mini(i + 1, points.size() - 1)] - points[maxi(0, i - 1)]
+			var offset := Vector3(direction.z, 0, -direction.x).normalized() * (4.0 * side)
+			edge.append(points[i] + offset + Vector3.UP * 0.025)
+		Surface.strip(self, "ParkGranitePathEdge", edge, 0.30, _material("cut_stone"))
+
+
+func _park_pavilion() -> void:
+	# Small original Victorian-inspired viewing shelter, outside the main ride line.
+	var center := Vector3(-174, 17, -182.5)
+	for x: float in [-2.0, 2.0]:
+		for z: float in [-1.5, 1.5]: _beam("PavilionColumn", center + Vector3(x, 0, z), center + Vector3(x, 3.1, z), 0.08, _material("iron"), true)
+	for side: float in [-1.0, 1.0]:
+		var roof := _box("PavilionSlateRoof", center + Vector3(side * 1.25, 3.1, 0), Vector3(2.8, 0.14, 4.2), _material("slate"), false)
+		roof.rotation.z = -side * 0.25
+	_bench(center + Vector3(0, 0, -0.8))

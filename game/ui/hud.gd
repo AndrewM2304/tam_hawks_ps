@@ -9,6 +9,8 @@ signal cosmetic_selected(id: String)
 signal start_requested(free_skate: bool)
 signal ui_feedback
 
+const RouteMap = preload("res://game/ui/route_map.gd")
+
 const INK := Color("101d22")
 const PANEL := Color("14272c")
 const PAPER := Color("f2f4e9")
@@ -16,6 +18,9 @@ const MUTED := Color("aebfbb")
 const ACCENT := Color("d8ef96")
 const ORANGE := Color("ffb27d")
 const TRACK := Color("365056")
+
+var _map_checkpoints: Dictionary = {}
+var _map_routes: Array = []
 
 var _root: Control
 var _hud: Control
@@ -298,6 +303,15 @@ func hide_menu() -> void:
 	_hide_modal()
 
 
+func set_map_data(checkpoints: Dictionary, routes: Array) -> void:
+	_map_checkpoints = checkpoints.duplicate(true)
+	_map_routes = routes.duplicate(true)
+
+
+func show_map() -> void:
+	_open_subpage("map")
+
+
 func toggle_goals() -> void:
 	if _page == "goals":
 		_back()
@@ -388,6 +402,7 @@ func _show_page(page: String, focus_token: String = "", scroll_position: int = 0
 		"pause": _build_pause(content, false)
 		"results": _build_pause(content, true)
 		"goals": _build_goals(content)
+		"map": _build_map(content)
 		"settings": _build_settings(content)
 		"controls": _build_controls(content)
 	if page not in ["title", "pause", "results"]:
@@ -406,7 +421,7 @@ func _build_title(content: VBoxContainer) -> void:
 	_modal_title.text = "Your city. Your line."
 	_modal_title.add_theme_font_size_override("font_size", 45)
 	_modal_title.custom_minimum_size.y = 59
-	_modal_details.text = "Four Glasgow districts. One board. Find a line worth another run."
+	_modal_details.text = "City terraces. Riverside transfers. Park descents. Find your line."
 	var art := PanelContainer.new()
 	var art_style := _style(Color("243e3f"), 10)
 	art_style.content_margin_left = 18
@@ -439,6 +454,7 @@ func _build_pause(content: VBoxContainer, finished: bool) -> void:
 	else:
 		_resume = _button(content, "BACK TO THE BOARD", _resume_run)
 	_restart = _button(content, "ONE MORE RUN" if finished else "RESTART RUN", _restart_run)
+	_button(content, "CITY MAP & ROUTES", show_map)
 	_button(content, "GOALS & UNLOCKS", toggle_goals)
 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
 	_button(content, "CONTROLS", func(): _open_subpage("controls"))
@@ -448,6 +464,7 @@ func _build_pause(content: VBoxContainer, finished: bool) -> void:
 func _build_goals(content: VBoxContainer) -> void:
 	_modal_title.text = "A good day's skating."
 	_modal_details.text = "Your career goals, rewards and personal progress." if not _state.get("free_skate", false) else "Explore freely. Career goals and records advance in career runs."
+	_button(content, "CITY MAP & ROUTES", show_map)
 	for goal: Dictionary in _state.get("goals", []):
 		var card := _card()
 		card.focus_mode = Control.FOCUS_ALL
@@ -479,6 +496,26 @@ func _build_goals(content: VBoxContainer) -> void:
 		button.disabled = not owned
 	for item in [["special_clyde_carousel", "Clyde Carousel"], ["special_tenement_tumble", "Tenement Tumble"]]:
 		_label(content, ("UNLOCKED  " if unlocks.has(item[0]) else "LOCKED  ") + str(item[1]), 16, MUTED)
+
+
+func _build_map(content: VBoxContainer) -> void:
+	_modal_title.text = "Find your next line."
+	_modal_details.text = "You are in " + str(_state.get("location", "Glasgow")) + ". Explore the city, river and park."
+	var map := RouteMap.new()
+	map.custom_minimum_size = Vector2(0, 360)
+	map.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	map.configure(_map_checkpoints, _map_routes,
+		_state.get("player_position", Vector3.ZERO), float(_state.get("player_heading", 0.0)))
+	content.add_child(map)
+	for row: Array in [
+		["PALE LINES  /  CONNECTED ROUTES     ORANGE  /  JUMP LINE", 13, MUTED],
+		["Gallery steps & fountain → station platforms → hilly park paths. Follow the south quay to the Clyde bridge transfer.", 16, PAPER],
+		["Career goals are in the four city districts. River and park routes are open in both modes; free skate gives you time to explore.", 14, MUTED],
+	]:
+		var description := _label(content, row[0], row[1], row[2])
+		description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		description.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+
 
 
 func _build_settings(content: VBoxContainer) -> void:

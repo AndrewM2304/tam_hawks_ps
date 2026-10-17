@@ -30,30 +30,30 @@ func build(parent: Node3D, shirt: StandardMaterial3D, denim: StandardMaterial3D)
 	var jacket := SurfaceTool.new()
 	jacket.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var body_rings: Array[Vector4] = [
-		Vector4(0.02, 0.184, 0.143, 0), Vector4(0.045, 0.183, 0.141, 0),
-		Vector4(0.08, 0.178, 0.137, 0), Vector4(0.16, 0.170, 0.130, -0.002),
-		Vector4(0.24, 0.184, 0.137, -0.004), Vector4(0.33, 0.206, 0.141, -0.008),
-		Vector4(0.40, 0.221, 0.133, 0), Vector4(0.445, 0.214, 0.116, 0),
-		Vector4(0.475, 0.143, 0.092, -0.003), Vector4(0.495, 0.078, 0.071, -0.008)]
-	_body(jacket, body_rings, Vector3(0, 0.94, 0), int(_bones["torso"]), 0.006)
+		Vector4(0.015, 0.176, 0.126, 0), Vector4(0.04, 0.178, 0.127, 0),
+		Vector4(0.10, 0.174, 0.121, 0), Vector4(0.17, 0.175, 0.116, -0.002),
+		Vector4(0.25, 0.188, 0.118, -0.005), Vector4(0.33, 0.207, 0.121, -0.007),
+		Vector4(0.40, 0.219, 0.115, -0.003), Vector4(0.44, 0.204, 0.104, 0),
+		Vector4(0.475, 0.131, 0.081, -0.003), Vector4(0.495, 0.065, 0.057, -0.008)]
+	_body(jacket, body_rings, Vector3(0, 0.94, 0), int(_bones["torso"]), 0.002)
 	for side: float in SIDES:
 		var prefix := "left" if side < 0 else "right"
 		_tube(jacket, Vector3(side * 0.215, 1.365, 0), 0.59,
-			[0.102, 0.107, 0.104, 0.098, 0.089, 0.092, 0.083, 0.076, 0.070, 0.062, 0.058, 0.061],
+			[0.078, 0.083, 0.081, 0.076, 0.070, 0.071, 0.065, 0.061, 0.057, 0.052, 0.046, 0.047],
 			int(_bones[prefix + "_sleeve"]), int(_bones[prefix + "_forearm"]),
-			0.30 / 0.59, int(_bones["torso"]), 0.01)
+			0.30 / 0.59, int(_bones["torso"]), 0.003)
 	_finish(parent, "SkinnedJacket", jacket, shirt)
 	var trousers := SurfaceTool.new()
 	trousers.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_body(trousers, [Vector4(-0.13, 0.15, 0.112, 0), Vector4(-0.085, 0.172, 0.128, 0.006),
-		Vector4(0.01, 0.177, 0.126, 0), Vector4(0.07, 0.158, 0.111, 0)],
-		Vector3(0, 0.94, 0), int(_bones["hips"]), 0.004)
+	_body(trousers, [Vector4(-0.13, 0.148, 0.103, 0), Vector4(-0.085, 0.168, 0.115, 0.006),
+		Vector4(0.01, 0.170, 0.115, 0), Vector4(0.07, 0.157, 0.103, 0)],
+		Vector3(0, 0.94, 0), int(_bones["hips"]), 0.002)
 	for side: float in SIDES:
 		var prefix := "left" if side < 0 else "right"
 		_tube(trousers, Vector3(side * 0.105, 0.965, 0), 0.84,
-			[0.112, 0.125, 0.121, 0.114, 0.105, 0.104, 0.110, 0.100, 0.090, 0.085, 0.079, 0.077, 0.081],
+			[0.100, 0.108, 0.104, 0.096, 0.085, 0.080, 0.079, 0.077, 0.072, 0.067, 0.063, 0.062, 0.064],
 			int(_bones[prefix + "_thigh"]), int(_bones[prefix + "_calf"]),
-			0.43 / 0.84, int(_bones["hips"]), 0.009)
+			0.43 / 0.84, int(_bones["hips"]), 0.003)
 	_finish(parent, "SkinnedTrousers", trousers, denim)
 	var skin := skeleton.create_skin_from_rest_transforms()
 	for mesh: MeshInstance3D in _surfaces:
@@ -82,7 +82,15 @@ func _add_bone(bone_name: String, rest: Transform3D) -> void:
 	_bones[bone_name] = index
 
 func _bone_transform(origin: Vector3, direction: Vector3) -> Transform3D:
-	return Transform3D(Basis(Quaternion(Vector3.UP, direction.normalized())), origin)
+	# A shortest-arc UP rotation twists unpredictably near DOWN when the knee
+	# changes sides. A shared back-facing pole keeps sleeve/trouser rings aligned.
+	var y := direction.normalized()
+	var z := Vector3.BACK.slide(y).normalized()
+	if z.length_squared() < 0.01:
+		z = Vector3.RIGHT.slide(y).normalized()
+	var x := y.cross(z).normalized()
+	z = x.cross(y).normalized()
+	return Transform3D(Basis(x, y, z), origin)
 
 func _pose(bone_name: String, transform: Transform3D) -> void:
 	var bone: int = _bones[bone_name]

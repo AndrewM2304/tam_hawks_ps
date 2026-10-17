@@ -129,7 +129,7 @@ static func _special_admission(tree: SceneTree, game: Node, check: Callable) -> 
 
 
 static func _physical_gap_and_reset(tree: SceneTree, game: Node, check: Callable) -> void:
-	await _reset_at(tree, game, Vector3(-94, 0.8, 30))
+	await _reset_at(tree, game, Vector3(-94, 2.8, 30))
 	var definition: Dictionary = {}
 	for entry: Dictionary in game.world.get_gap_definitions():
 		if entry.id == "central_gap":
@@ -142,7 +142,7 @@ static func _physical_gap_and_reset(tree: SceneTree, game: Node, check: Callable
 		if game.skater.global_position.z <= 4.5 and game.skater.is_on_floor():
 			reached_takeoff = true
 			break
-	check.call(reached_takeoff and game.skater.global_position.y > 1.8,
+	check.call(reached_takeoff and game.skater.global_position.y > 4.8,
 		"career integration: actual push-driven approach climbs onto the Central platform")
 	Input.action_press("ollie")
 	await _frames(tree, 2)

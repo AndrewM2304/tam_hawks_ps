@@ -12,7 +12,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _frames(tree, 35)
 	check.call(game.audio.get_debug_state().surface == "stone",
 		"presentation: real square floor selects stone wheel sound")
-	check.call(not "ROYAL_EXCHANGE" in game._feedback and "EXCHANGE SQUARE" in game._feedback,
+	check.call(not "ROYAL_EXCHANGE" in game._feedback and "ROYAL EXCHANGE" in game._feedback and "FOUNTAIN COURT" in game._feedback,
 		"presentation: district welcome uses a readable location, not its internal ID")
 	check.call(game.objectives.get_child_count() == 10,
 		"presentation: district visits do not leave misleading collectible orbs")
@@ -24,19 +24,21 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_release("push")
 	check.call(game.audio.get_debug_state().surface == "asphalt",
 		"presentation: real connector floor contact selects asphalt wheel sound")
-	game.skater.spawn_position = original_spawn
+	game.skater.spawn_position = Vector3(35, 2.8, 65)
 	game.restart_run()
 	await _frames(tree, 35)
+	game.skater.rotation.y = PI
 	Input.action_press("push")
 	var metal_heard := false
 	for i in 150:
 		await _frames(tree, 1)
 		metal_heard = metal_heard or game.audio.get_debug_state().surface == "metal"
 	Input.action_release("push")
-	check.call(metal_heard, "presentation: actual ramp approach selects painted-metal wheel sound")
+	check.call(metal_heard, "presentation: actual Clyde bridge approach selects metal wheel sound")
 	# Collect using the production tracker; rendering and count use the same event.
 	game.restart_run()
-	game.objectives.poll(Vector3(0, 0.9, -20), false)
+	for marker: Dictionary in game.world.get_goal_markers():
+		if marker.id == "H": game.objectives.poll(marker.position, false)
 	check.call(game._pickup_message({"kind": "letter", "id": "H"}) == "LETTER H  /  1 OF 5",
 		"presentation: pickup feedback reports the actual run collection count")
 	game._notify_goals(["letters"])

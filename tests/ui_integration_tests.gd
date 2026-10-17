@@ -75,6 +75,16 @@ static func _goals_pause(tree: SceneTree, game: Node, check: Callable) -> void:
 		and game.time_remaining == stopped_time
 		and game.skater.global_position.is_equal_approx(stopped_position),
 		"UI integration: mapped goals input pauses timer and physical skating")
+	await _activate(tree, game.hud, "CITY MAP & ROUTES")
+	await _frames(tree, 5)
+	check.call(game.hud._page == "map" and game.paused and tree.paused
+		and game.time_remaining == stopped_time,
+		"UI integration: route map opened through goals keeps the run paused")
+	check.call(game.hud._map_checkpoints.size() == 6 and game.hud._map_routes.size() >= 6,
+		"UI integration: map receives six places and authored world routes")
+	await _tap(tree, KEY_ESCAPE)
+	check.call(game.hud._page == "goals" and game.paused,
+		"UI integration: closing map returns to the goals page without resuming")
 	await _tap(tree, KEY_ESCAPE)
 	check.call(game.hud._page == "" and not game.paused and not tree.paused,
 		"UI integration: closing goals opened during skating resumes the run")
@@ -163,7 +173,7 @@ static func _cosmetics_and_results(tree: SceneTree, game: Node, check: Callable)
 		"UI integration: locked cosmetic remains unavailable in goals menu")
 	await _activate(tree, game.hud, "CONE ORANGE")
 	check.call(game.career.settings.cosmetic_id == "color_orange"
-		and game.skater._shirt_color.is_equal_approx(Color("d68448")),
+		and game.skater._shirt_color.is_equal_approx(Color("a66642")),
 		"UI integration: selecting an earned cosmetic changes rider and stored selection")
 	await _tap(tree, KEY_ESCAPE)
 	await _activate(tree, game.hud, "RESTART RUN")

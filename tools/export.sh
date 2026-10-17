@@ -118,6 +118,16 @@ for material in texture_manifest['materials'].values():
             raise SystemExit('Texture source differs from reviewed provenance: ' + relative)
         if entries.get(relative + '.import') != material['import_config_sha256'][channel]:
             raise SystemExit('Texture import settings differ from reviewed provenance: ' + relative)
+human_manifest = json.loads((root / 'game/art/assets/makehuman_hm08/manifest.json').read_text())
+if entries.get('game/art/assets/makehuman_hm08/generate.py') != human_manifest['generator_sha256']:
+    raise SystemExit('Human asset generator differs from reviewed provenance.')
+for notice in human_manifest['licences']:
+    if entries.get(notice['path']) != notice['sha256']:
+        raise SystemExit('Human asset licence differs from reviewed provenance: ' + notice['path'])
+for model in human_manifest['outputs'].values():
+    relative = model['path'].removeprefix('res://')
+    if not relative.startswith('game/art/assets/makehuman_hm08/') or entries.get(relative) != model['sha256']:
+        raise SystemExit('Cropped human mesh differs from reviewed provenance: ' + relative)
 manifest = {'git_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
             'working_tree_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
             'runtime_source_sha256': fingerprint, 'source_files_sha256': entries,
@@ -141,7 +151,7 @@ mkdir -p "$TASK_BUILD/resource-inspection" "$TASK_BUILD/resource-inspection/data
 cat > "$TASK_BUILD/check-pack.gd" <<'GDSCRIPT'
 extends SceneTree
 func _initialize() -> void:
-	var report: Dictionary = {"voice_streams": {}, "textures": {}, "main_scene_loaded": false}
+	var report: Dictionary = {"voice_streams": {}, "textures": {}, "human_meshes": {}, "main_scene_loaded": false}
 	var main_scene := load("res://game/main.tscn") as PackedScene
 	if main_scene == null:
 		push_error("Pack is missing its main scene or script dependencies.")
@@ -178,6 +188,14 @@ func _initialize() -> void:
 				quit(1)
 				return
 			report.textures[path] = {"width": texture.get_width(), "height": texture.get_height(), "mipmaps": image.get_mipmap_count()}
+	for id: String in ["head", "hair", "left_hand", "right_hand"]:
+		var path := "res://game/art/assets/makehuman_hm08/%s.obj" % id
+		var mesh := load(path) as ArrayMesh
+		if mesh == null or mesh.get_surface_count() == 0 or mesh.surface_get_array_len(0) < 50:
+			push_error("Pack is missing cropped anatomical mesh: " + path)
+			quit(1)
+			return
+		report.human_meshes[id] = {"resource": path, "surfaces": mesh.get_surface_count(), "vertices": mesh.surface_get_array_len(0)}
 	var output := FileAccess.open(OS.get_cmdline_user_args()[0], FileAccess.WRITE)
 	if output == null:
 		push_error("Could not write packaged resource report.")
@@ -185,7 +203,7 @@ func _initialize() -> void:
 		return
 	output.store_string(JSON.stringify(report, "\t") + "\n")
 	output.close()
-	print("RESOURCES VERIFIED: main scene/scripts, 3 voice streams and 4 material textures")
+	print("RESOURCES VERIFIED: main scene/scripts, 3 voice streams, 4 material textures and 4 anatomical meshes")
 	quit(0)
 GDSCRIPT
 for TASK_PLATFORM in linux macos; do
@@ -241,6 +259,7 @@ for platform in ('linux', 'macos'):
     shutil.copy2(root / 'game/audio/generated/manifest.json', notices / 'VOICE-PROVENANCE.json')
     shutil.copy2(root / 'docs/licences/REGISTER.md', notices / 'PROVENANCE.md')
     shutil.copy2(root / 'game/art/assets/zc_textures/manifest.json', notices / 'TEXTURE-PROVENANCE.json')
+    shutil.copy2(root / 'game/art/assets/makehuman_hm08/manifest.json', notices / 'HUMAN-MESH-PROVENANCE.json')
     shutil.copy2(root / 'docs/PLAYER-GUIDE.md', package / 'PLAYER-GUIDE.md')
     shutil.copy2(build / 'BUILD-METADATA.json', package / 'BUILD-METADATA.json')
     resource_report = json.loads((build / (platform + '-resources.json')).read_text())
@@ -259,7 +278,10 @@ for platform in ('linux', 'macos'):
                 z.writestr(info, os.readlink(path))
             elif path.is_file(): z.write(path, relative)
     with zipfile.ZipFile(archive) as z:
-        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt', 'zc-spectacular-textures-CC0.txt', 'GODOT-LICENSE.txt', 'GODOT-COPYRIGHT.txt']
+        bad_entry = z.testzip()
+        if bad_entry is not None:
+            raise SystemExit('ZIP CRC check failed: ' + bad_entry)
+        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt', 'zc-spectacular-textures-CC0.txt', 'makehuman-CC0.txt', 'makehuman-LICENCE-SCOPE.txt', 'GODOT-LICENSE.txt', 'GODOT-COPYRIGHT.txt']
         if not all('NOTICES/' + name in z.namelist() for name in required_notices):
             raise SystemExit('A required third-party notice is absent from the completed ZIP.')
         for source in reviewed_notices:
@@ -267,6 +289,7 @@ for platform in ('linux', 'macos'):
                 raise SystemExit('Packaged notice differs from reviewed source: ' + source.name)
         provenance_sources = {
             'TEXTURE-PROVENANCE.json': root / 'game/art/assets/zc_textures/manifest.json',
+            'HUMAN-MESH-PROVENANCE.json': root / 'game/art/assets/makehuman_hm08/manifest.json',
             'VOICE-PROVENANCE.json': root / 'game/audio/generated/manifest.json',
             'PROVENANCE.md': root / 'docs/licences/REGISTER.md',
         }

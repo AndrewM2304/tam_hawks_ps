@@ -2,7 +2,7 @@ extends SceneTree
 ## Fixed-view rendered diagnostic. It never loads/saves the player's career profile.
 const Main = preload("res://game/main.gd")
 const DISTRICTS: Array[String] = ["royal_exchange", "george_square", "central_station", "barras"]
-const HEADINGS: Dictionary = {"royal_exchange": 0.0, "george_square": 0.0, "central_station": PI / 4.0, "barras": -PI / 4.0}
+const HEADINGS: Dictionary = {"royal_exchange": 0.0, "george_square": 0.0, "central_station": PI / 4.0, "barras": 0.0}
 const WARMUP_SECONDS: float = 1.5
 var game: Node
 var _duration: float = 36.0
@@ -45,12 +45,26 @@ func _run() -> void:
 	var started := Time.get_ticks_usec()
 	var checkpoints: Dictionary = game.world.get_district_checkpoints()
 	for district: String in DISTRICTS:
-		game.skater.spawn_position = checkpoints[district]
+		if not checkpoints.has(district):
+			push_error("PROFILE: missing current district checkpoint: " + district)
+			_errors += 1
+			break
+		var checkpoint: Vector3 = checkpoints[district]
+		var ground_height: float = game.world.get_ground_height(checkpoint)
+		if not is_finite(ground_height):
+			push_error("PROFILE: current district checkpoint has no authored support: " + district)
+			_errors += 1
+			break
+		game.skater.spawn_position = Vector3(checkpoint.x, ground_height + 0.8, checkpoint.z)
 		game.restart_run()
 		game.skater.rotation.y = HEADINGS[district]
 		game.skater.set_controls_enabled(false)
 		game.skater.set_trick_entries_enabled(false)
 		await _wait_rendered(WARMUP_SECONDS)
+		if not game.skater.is_on_floor():
+			push_error("PROFILE: rider did not settle on the current district ground: " + district)
+			_errors += 1
+			break
 		var actual_size: Vector2i = root.get_texture().get_size()
 		if actual_size != _requested_size:
 			push_error("PROFILE: actual render size %s differs from requested %s." % [actual_size, _requested_size])
@@ -78,6 +92,9 @@ func _run() -> void:
 		var camera: Camera3D = root.get_camera_3d()
 		var view := _summarize(_samples.slice(first))
 		view["district"] = district
+		view["authored_checkpoint"] = _vector(checkpoint)
+		view["authored_ground_height"] = ground_height
+		view["ground_contact_verified"] = game.skater.is_on_floor()
 		view["player_position"] = _vector(game.skater.global_position)
 		view["player_heading_radians"] = game.skater.rotation.y
 		view["camera_position"] = _vector(camera.global_position)
@@ -101,6 +118,7 @@ func _run() -> void:
 		"recorded_at_utc": Time.get_datetime_string_from_system(true),
 		"benchmark": "four_fixed_production_chase_views", "target_hardware_acceptance": false,
 		"limitations": ["Stationary viewpoints do not reproduce a ten-minute moving gameplay route.",
+			"Only the four career districts are sampled; Clyde and Kelvingrove are not measured by this diagnostic.",
 			"Wall-clock post-draw frame intervals include CPU, rendering and presentation; they are not isolated GPU times.",
 			"Warmups and screenshot readback are excluded; scene loading and traversal stutters are not measured.",
 			"Audio uses the declared driver; this is not audible-output or controller certification."],

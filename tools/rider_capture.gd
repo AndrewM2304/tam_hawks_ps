@@ -118,17 +118,35 @@ func shot(label: String, close: bool) -> void:
 		RenderingServer.force_draw(true, 1.0 / 60.0)
 		check(root.get_texture().get_image().save_png("res://.local/rider-capture/" + label + "-close.png") == OK, label + " close saved")
 		if label == "idle":
-			camera.position = game.skater.global_position + Vector3(-2.0, 1.5, -2.2)
-			camera.look_at(game.skater.global_position + Vector3(0, 0.88, 0))
-			await process_frame
-			RenderingServer.force_draw(true, 1.0 / 60.0)
-			check(root.get_texture().get_image().save_png("res://.local/rider-capture/idle-face.png") == OK, "face view saved")
+			var rider: Node3D = game.skater._rider_visual
+			var head: Node3D = game.skater._visual_rig._head
+			var body_target: Vector3 = game.skater.global_position + Vector3(0, 0.86, 0)
+			await inspection_view(camera, "idle-front", body_target - rider.global_basis.z * 3.15 + Vector3.UP * 0.12, body_target, 38)
+			await inspection_view(camera, "idle-side", body_target + rider.global_basis.x * 3.15 + Vector3.UP * 0.12, body_target, 38)
+			var face_target := head.to_global(Vector3(0, 0.02, -0.025))
+			await inspection_view(camera, "idle-face", face_target - head.global_basis.z * 0.82, face_target, 35)
+			await inspection_view(camera, "idle-profile", face_target + head.global_basis.x * 0.82, face_target, 35)
+			var deck: Node3D = game.skater._board_visual
+			await inspection_view(camera, "idle-feet", deck.to_global(Vector3(0.70, 0.38, 0.80)), deck.to_global(Vector3(0, 0.04, 0)), 38)
+		if label == "grab":
+			var hand: Node3D = game.skater._visual_rig._arms[0]["hand"]
+			var deck: Node3D = game.skater._board_visual
+			var contact := deck.to_global(Vector3(-0.128, 0.022, -0.035))
+			print("RIG CONTACT palm_to_deck_m=", hand.to_global(Vector3(0, -0.075, -0.015)).distance_to(contact))
+			await inspection_view(camera, "grab-hand", deck.to_global(Vector3(-0.72, 0.45, -0.40)), contact, 38)
 		camera.queue_free()
 		game.skater._camera.current = true
 		game.hud.visible = true
 	game.set_physics_process(true)
 	game.skater.set_physics_process(true)
 	game.skater.set_process(true)
+func inspection_view(camera: Camera3D, label: String, from: Vector3, toward: Vector3, field_of_view: float) -> void:
+	camera.global_position = from
+	camera.look_at(toward)
+	camera.fov = field_of_view
+	await process_frame
+	RenderingServer.force_draw(true, 1.0 / 60.0)
+	check(root.get_texture().get_image().save_png("res://.local/rider-capture/" + label + ".png") == OK, label + " saved")
 func check(value: bool, label: String) -> void:
 	if not value:
 		errors += 1

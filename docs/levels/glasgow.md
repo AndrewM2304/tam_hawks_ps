@@ -1,3 +1,5 @@
+> Historical four-district blockout specification. The current six-area terrain contracts are [GLASGOW-ROUTES](GLASGOW-ROUTES.md), [OUTDOOR-ROUTES](OUTDOOR-ROUTES.md) and [DESIGN-BRIEF](DESIGN-BRIEF.md). ADR-007 authorizes the geometry redesign; old floor/marker coordinates below are retained as history only.
+
 # The Glasgow level
 
 This is a fictional arrangement of Glasgow-inspired districts, not a geographical reconstruction. Models/textures are authored or reused with appropriate permissions; real street/shopfront references guide recognisable perimeter architecture, while playable routes are deliberately adapted. No scraped map, photograph, logo or commercial game layout is bundled.

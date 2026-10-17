@@ -15,6 +15,7 @@ func _run() -> void:
 	game = Main.new()
 	game.persistence_enabled = false
 	root.add_child(game)
+	var original_spawn: Vector3 = game.world.get_spawn_position()
 	await _frames(30)
 	await _save("prototype")
 	Input.action_press("push")
@@ -33,16 +34,24 @@ func _run() -> void:
 	await _frames(3)
 	await _save("pause-menu", "pause")
 	game.toggle_pause()
+	# Use the supported ground approach exercised by grind_regression_tests.
+	# Terrain heights come from the current world, not the former flat layout.
+	var rail_approach := Vector3(12.0, 0.0, 20.0)
+	var rail_ground: float = game.world.get_ground_height(rail_approach)
+	if not is_finite(rail_ground):
+		push_error("Rail capture approach has no authored ground support.")
+		quit(1)
+		return
+	game.skater.spawn_position = Vector3(rail_approach.x, rail_ground + 0.8, rail_approach.z)
 	game.restart_run()
-	game.skater.global_position = Vector3(12, 0.04, 18)
-	await _frames(45)
-	game.skater.speed = 10.0
-	game.skater.velocity = Vector3(0, 0, -10)
+	await _frames(40)
 	Input.action_press("push")
-	Input.action_press("ollie")
 	Input.action_press("grind")
+	await _frames(50)
+	Input.action_press("ollie")
 	await _frames(2)
 	Input.action_release("ollie")
+	Input.action_release("push")
 	var caught := false
 	for i in 90:
 		await _frames(1)
@@ -61,6 +70,7 @@ func _run() -> void:
 		push_error("Ground approach failed to catch the authored east rail.")
 	Input.action_release("push")
 	Input.action_release("grind")
+	game.skater.spawn_position = original_spawn
 	game.restart_run()
 	await _frames(35)
 	Input.action_press("push")
@@ -110,10 +120,10 @@ func _run() -> void:
 	camera.current = true
 	# Authored overview viewpoints document scenery, not completed player routes.
 	for shot: Array in [
-		["district-george", Vector3(29, 18, -62), Vector3(0, 0, -98)],
-		["district-central", Vector3(-61, 7, 31), Vector3(-94, 2, -7)],
-		["district-barras", Vector3(57, 16, 31), Vector3(95, 0, -8)],
-		["district-overview", Vector3(180, 210, 180), Vector3(0, 0, -40)],
+		["district-george", Vector3(29, 22, -62), Vector3(0, 6, -110)],
+		["district-central", Vector3(-61, 13, 31), Vector3(-94, 5, -7)],
+		["district-barras", Vector3(57, 17.5, 31), Vector3(95, 1.5, -18)],
+		["district-overview", Vector3(180, 210, 180), Vector3(0, 3, -40)],
 	]:
 		camera.position = shot[1]
 		camera.look_at(shot[2])

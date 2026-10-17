@@ -1,46 +1,48 @@
 # Physical career and district routes
 
-Independent QE, 17 October 2026. Source: `tests/career_route_tests.gd`; Godot 4.6.3, production main scene, collision bodies, input actions, score ownership and career events. Player-profile persistence is disabled. This is automated feasibility evidence for M03-005/M04-006, not human discovery, difficulty, fun, controller comfort or Mac performance acceptance.
+Independent QE, 17 October 2026. Source: `tests/career_route_tests.gd`; Godot 4.6.3, production main scene, collision bodies, input actions, score ownership and career events. Player-profile persistence is disabled. This is automated feasibility evidence for M03-005/M04-006 and the terrain redesign, not human discovery, difficulty, fun, controller comfort or Mac performance acceptance.
 
-## Measured route
+## Redesigned circuit
 
-The single continuous career circuit starts at the normal Exchange spawn and returns there. In the clean **ordinary-scheduler** run it completes **all ten goals by 69.52 seconds**, returns at **78.63 seconds**, travels **1,085.69 metres**, and finishes with **19,700 banked points / 3,000 best combo**. No bail/recovery or stalled frame occurred. All four actual checkpoint positions were passed; the clock remained within its ordinary 120-second career deadline. The fixed-frame probe had the same physical route and a 0.13-second smaller startup offset (all goals 69.38s, return 78.50s); the detailed stage times below are from that fixed-frame probe.
+The continuous career circuit starts at the new Exchange spawn **(-22, 0.8, 28)** and returns there. In the clean **ordinary-scheduler** run it completes **all ten original goals by 75.33 seconds**, returns at **88.13 seconds**, travels **1,199.40 metres**, and finishes with **20,000 banked points / 3,200 best combo**. No bail, recovery or stalled frame occurred. All four original career checkpoint positions were passed within the actual 120-second career deadline. Clyde and Kelvingrove are separately traversed in [TOPOGRAPHY](TOPOGRAPHY.md); they do not enlarge the original four-district goal.
 
-| Stage | Physical path / action | Observed time |
+The fixed-frame probe completes all goals at **75.22s** and returns at **88.02s** over **1,199.42m** with the same score, tricks and zero failures. The following stage times use that fixed-frame probe; ordinary scheduling differs by about 0.12s from startup.
+
+| Stage | Physical path / action | Fixed-frame time |
 | --- | --- | --- |
-| Exchange | Ride central bank to H; travel east around the statue plinth, press interact beside the cone, then use the east George connector | Cone approach 5.73s; George connector endpoint 9.77s |
-| George | Pass its checkpoint, approach A from the open south side of the ledges, return to the northern cross street | A waypoint 15.07s |
-| West back lane | Manual across the George/Central boundary through S; turn south along the supported outer lane | S waypoint 21.93s |
-| Central | Use the clear east aisle to reach the platform's southern approach; climb its ramp, ollie from roughly Z=5.45 over the real break, collect W, and leave by the north ramp | Takeoff 37.45s; W waypoint 38.42s |
-| South connection | Pass Central checkpoint; traverse the south Exchange connectors to Barras checkpoint | Barras checkpoint 55.00s |
-| Market | Collect the southern item, use X=96 aisle around stall collision, collect the northern item | Northern item waypoint 62.67s |
-| Recording court | Enter south of the side wall at Z=-19, travel along X=120 to the recording, then reverse through the same open entrance | Recording collected 64.63s; court exit waypoint 65.48s |
-| Remaining collections | Ride the open central aisle through K, then the western market item | HAWKS complete 68.33s; market set and all ten goals complete 69.38s |
-| Return | Use the north Barras/Exchange connector, then travel diagonally through the open square to spawn | 78.50s |
+| Exchange | Push up the west 0→2m gallery bank, collect H, cross the clear south side of the plinth and interact with the cone | H waypoint 5.98s; cone approach 9.97s |
+| George | Climb the east 2→4m street, pass the west checkpoint, use the east 4→6m civic bank and collect A | A waypoint 23.23s |
+| West connection | Cross the opened civic back street through S, then descend the graded station lane | S waypoint 32.08s; lane exit 37.38s |
+| Central | Pass its checkpoint, reach the southern platform approach, climb 2→5m, ollie the actual break and collect W; descend the north return bank | Takeoff 46.27s; W waypoint 47.37s |
+| South connection | Return along the station aisle and descend the Exchange street, then pass the Barras checkpoint and western market item | Barras checkpoint 64.38s |
+| Market | Collect K and the southern market item, go around stall collision via X=126 and climb the 1.5m loading bank | HAWKS complete 66.62s; loading top waypoint 71.88s |
+| Recording | Enter the side court south of its wall, collect the recording and leave by the same opening | Recording collected 73.52s; court exit waypoint 74.17s |
+| Remaining item | Cross the open loading terrace and collect the northern market item | Market set and all ten goals complete 75.22s |
+| Return | Use the northern market/Exchange street, cross the gallery and descend the west bank to spawn | 88.02s |
 
-The exact 43 waypoints and six scoring legs are constants in the test. Seven real ollies, six flips, six grabs and six manuals are issued through `Input.action_press/release`. Scoring legs use Ollie + Kickflip + Melon Grab → Manual, release the manual, then allow the normal landing deadline to bank. Named gap points come from main's real swept gap detector. No score, goal, collection or gap event is injected. The circuit also naturally earns Exchange Air before its scripted Central platform jump.
+The exact **40 waypoints** and **six scoring legs** are constants in the test. Seven real ollies, six flips, six grabs and nine manual entries are issued through `Input.action_press/release`. Each scoring leg links Ollie + Kickflip + Melon Grab → Manual and releases to bank through the ordinary deadline. When a crest produces real airtime, the driver releases Manual and issues fresh presses after landing, respecting its cooldown and the existing 0.35-second deadline. A repeated valid manual receives the normal repeat reduction; the driver never edits score or extends the deadline. The Central gap award comes from main's real swept crossing detector.
 
-All previous collection assertions remain: HAWKS in one career run, all three market items, recording court entry **and exit**, four checkpoint visits, Across the toon, return to spawn without recovery, plus cone/gap and all ten goals. A fresh in-memory career ensures completed goals cannot leak in from earlier tests.
+All prior assertions remain: HAWKS in one career run, all three market items, recording court entry **and exit**, four actual checkpoint visits, Across the toon, cone interaction, the actual Central platform gap, all ten goals, and return to spawn without recovery. A fresh in-memory career prevents completed goals leaking from earlier fixtures. No score, goal, collection or gap event is injected by this circuit.
 
 ## Boundary combos
 
-Each independent fixture starts from rest, accelerates with push, ollies at at least 12m/s, performs flip/grab, enters a manual after actual landing, corrects balance using push/brake, crosses the boundary, and releases. The score remains unbanked during the link and banks **3,000 exactly once** afterward. There are no bails.
+Each independent fixture starts from rest, accelerates with push, ollies at at least 12m/s, performs flip/grab, enters a manual after actual landing, corrects balance using push/brake, crosses the boundary and releases. Genuine crest airtime may require a second fresh manual. The score remains unbanked through the entire link; it banks exactly once after release and stays unchanged through a second waiting period. All six directions pass without bails.
 
-| Street | Fixture endpoints X/Z | Forward | Reverse |
+| Graded street | Fixture endpoints X/Y/Z (ground) | Forward / reverse bank | Manual entries forward / reverse |
 | --- | --- | --- | --- |
-| Exchange / George east | `(20,-26)` ↔ `(20,-70)` | 5.42s | 5.42s |
-| Exchange / Central south | `(-20,22)` ↔ `(-65,22)` | 5.52s | 5.52s |
-| Exchange / Barras north | `(20,-22)` ↔ `(65,-22)` | 5.52s | 5.52s |
+| Exchange / George east | `(22,2,-26)` ↔ `(22,4,-74)` | 3,200 / 3,000 | 2 / 1 |
+| Exchange / Central south | `(-20,0,22)` ↔ `(-65,2,22)` | 3,200 / 3,000 | 2 / 1 |
+| Exchange / Barras north | `(22,2,-22)` ↔ `(65,1.5,-22)` | 3,000 / 3,200 | 1 / 2 |
 
-These six real-physics routes establish three bidirectional cross-district combo opportunities. They do not establish whether novices find or comfortably perform them.
+The exact expected totals are 3,000 for the first manual and 3,200 when a second manual adds 50 repeat-degraded base points at ×4. The test observes actual trick entries and checks those explicit values; it does not call the production score calculation to predict itself. These routes establish three bidirectional combo opportunities, not novice comfort or discoverability.
 
 ## Driver limits
 
-- The fixture changes spawn position only **before** starting each independent route. After that, only production movement advances position; it never assigns position, velocity or speed, disables collisions, changes gravity, or teleports across a wall.
-- The route driver directly aims heading while grounded. That permits precise and sometimes instantaneous ground turns. Air turns use ordinary bounded steering actions. Consequently the times above are an idealized authored-route result, **not a human completion-time target**. Turning radius, camera comfort, recovery from mistakes and discovery still need human trials.
-- Manual correction is deterministic feedback from the public balance meter. This establishes that the route supports the mechanic, not that its difficulty is appropriate.
-- Measurements use the game's actual timer and 60Hz physics. The fast focused probe uses `--fixed-fps 60` to run fixed-delta frames without real-time pacing; it does not modify `Engine.time_scale`, the career clock or any gameplay tuning. An independent ordinary-scheduler focused run also passed all 13 checks with zero scanned engine/script errors, exit 0; its exact times are reported above. The aggregate suite remains root's separate gate.
-- Initial resource import and rendering wall time are excluded from route acceptance. No framerate or Apple Silicon performance claim follows from headless simulation.
+- The fixture changes spawn position only **before** starting each independent route. After that, only production movement advances position; it never assigns position, velocity or speed, disables collisions, changes gravity, or teleports through a wall.
+- The driver directly aims heading while grounded. This permits precise and sometimes instantaneous ground turns. Air turns use ordinary bounded steering actions. The times above are therefore idealized authored-route results, **not human completion-time targets**. Turning radius, camera comfort, discovery and recovery from mistakes still need human trials.
+- Manual correction is deterministic feedback from the public balance meter. Fresh presses after crest airtime are idealized timing assistance; they do not establish appropriate human difficulty.
+- Measurements use the game's actual timer and 60Hz physics. The fast probe uses `--fixed-fps 60`; it does not modify `Engine.time_scale`, the career clock or gameplay tuning. The independent ordinary-scheduler run also passes all 13 checks with clean engine/script logs. The aggregate suite is root's separate gate.
+- Resource import/rendering wall time is not route acceptance. No headless result establishes framerate or Apple Silicon performance.
 
 ## Reproduce and resume
 
@@ -80,14 +82,18 @@ After importing newly added assets, run:
 rg 'ROUTE SUMMARY|ROUTE CAREER|ROUTE COMBO|RESULT' .local/career-routes.log
 ```
 
-Expected functional result: **13 passed, 0 failed**. Also scan the complete log for `ERROR:`, `SCRIPT ERROR:` and `FAIL:`; assertion counts alone are not a clean pass. Remove `--fixed-fps 60` for ordinary real-time scheduling. The runner, logs and caches remain ignored; the route and this reconstruction recipe are durable source.
+Expected focused functional result: **13 passed, 0 failed**. Also scan the complete log for `ERROR:`, `SCRIPT ERROR:` and `FAIL:`; assertion counts alone are not a clean pass. Remove `--fixed-fps 60` for ordinary real-time scheduling. The runner, logs and caches remain ignored; the route and this reconstruction recipe are durable source.
 
-## Findings and remaining acceptance
+## Findings and historical evidence
 
-The first longer circuit exposed a repeated `Basis` → quaternion normalization error in rider-foot interpolation (`skater_visual.gd`, then line 183) after about 12.37 simulated seconds. QE reported it without changing production. The visual owner orthonormalized both interpolation bases; the next 11-case route run was clean and preserved the same timing. This is precisely the kind of accumulated transform defect that short startup checks missed.
+The first redesigned circuit hit a real blocked civic connection at approximately `(-35.706,4.012,-77.431)`. A frontage sealed the route to S. QE reported the collision; the world owner split both civic frontages around the back street. The final full career circuit and both-direction collision sweeps pass through the repaired opening. QE did not edit production to hide the failure.
 
-The reproducible error appeared during the return turn beside A, with the message `Basis ... must be normalized in order to be casted to a Quaternion`, followed by `animate → _update_pose → _physics_process`. One reported X axis was `(-0.058169, 0, -0.998302)` and Z axis `(0.998302, 0, -0.058169)`. The continuous route retains those repeated heading changes; removing the normalization fix must fail the engine-error scan even if route assertions pass.
+The first uphill combo probes legitimately left support at slope crests for 3–10 physics ticks with 10–11.5m/s remaining speed. Holding the original manual input could not trigger a fresh entry after landing, so those old flat-world fixtures banked early. The corrected driver releases and presses Manual again within the unchanged rules; production movement, scoring and deadline behavior were not altered.
 
-The first extended all-goal probe passed all 13 assertions but overlapped newly added texture files before import, producing missing `.ctex` errors. That run is **functional evidence only**, not a clean validation result. QE then coordinated the completed asset handoff, ran `--headless --editor --import --quit` (exit 0, zero error lines), and reran the entire route under ordinary scheduling: **13 passed, 0 failed**, exit 0, zero `ERROR:`, `SCRIPT ERROR:` or `FAIL:` lines. Local evidence is `.local/career-route-import.log` and `.local/career-routes-ordinary.log`; root's aggregate result is authoritative for the full project.
+Static route checks also found raised corner overlaps and outdoor curve/join slivers. Their fixes and independent physical verification are recorded in TOPOGRAPHY. The older flat-map 69.52s/78.63s route and 778-check aggregate remain historical evidence only.
 
-No unreachable collectible or forced collision was found on the tested authored circuit. Completion within 120 seconds with idealized steering does not justify tightening goal thresholds. Keep M04-006's novice/intermediate/experienced distributions, discovery and replay review open. Other lines and recovery paths still need playtesting; this circuit does not certify every square metre or final art.
+The earlier long route exposed `Basis ... must be normalized in order to be casted to a Quaternion` in rider-foot interpolation, following `animate → _update_pose → _physics_process`. One reported X axis was `(-0.058169,0,-0.998302)` and Z axis `(0.998302,0,-0.058169)`. The visual owner orthonormalized both bases. The new continuous circuit retains many heading changes; any recurrence must fail the complete engine-error scan even if functional assertions pass.
+
+Clean current local evidence: `.local/career-redesign.log` (fixed-frame) and `.local/career-redesign-ordinary.log` (ordinary scheduling). Both runners exit 0 with 13 passed, 0 failed and no `ERROR:`, `SCRIPT ERROR:` or `FAIL:` lines. Source tests and the runner recipe survive environment replacement; ignored logs must be regenerated.
+
+No unreachable collectible or forced collision remains on this tested circuit. Its idealized completion time does not justify tightening score thresholds. Keep human novice/intermediate/experienced distributions, discovery, replay appeal, real Mac/DualSense and final art gates open.
