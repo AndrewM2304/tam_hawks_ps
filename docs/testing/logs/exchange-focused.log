@@ -1,0 +1,36 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Exchange place: both attachments publish their supported bank joins and permanent bypasses
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bank_loop forward
+EXCHANGE ROUTE gallery_entrance_bank_loop forward reached=true seconds=4.65 height=2.010..2.690 slope_frames=69 bails=0 stalls=0 camera=279/0/0 final=(13.46423, 2.009635, -37.0)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bank_loop reverse
+EXCHANGE ROUTE gallery_entrance_bank_loop reverse reached=true seconds=4.63 height=2.000..2.690 slope_frames=67 bails=0 stalls=0 camera=278/0/0 final=(-13.48623, 2.013825, -37.0)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_front_return forward
+EXCHANGE ROUTE gallery_entrance_front_return forward reached=true seconds=3.08 height=2.003..2.664 slope_frames=25 bails=0 stalls=0 camera=185/0/0 final=(0.280733, 2.012848, -20.42056)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_front_return reverse
+EXCHANGE ROUTE gallery_entrance_front_return reverse reached=true seconds=3.10 height=2.000..2.710 slope_frames=24 bails=0 stalls=0 camera=186/0/0 final=(2.999537, 2.662418, -36.46897)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bypass forward
+EXCHANGE ROUTE gallery_entrance_bypass forward reached=true seconds=7.38 height=2.000..2.000 slope_frames=0 bails=0 stalls=0 camera=443/0/0 final=(21.9845, 1.999826, -38.48322)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bypass reverse
+EXCHANGE ROUTE gallery_entrance_bypass reverse reached=true seconds=7.38 height=1.999..1.999 slope_frames=0 bails=0 stalls=0 camera=443/0/0 final=(-21.9845, 1.999444, -38.48322)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bank_loop forward
+EXCHANGE ROUTE exchange_west_bank_loop forward reached=true seconds=5.47 height=0.000..0.481 slope_frames=63 bails=0 stalls=0 camera=328/0/0 final=(-22.03468, 0.003908, 0.835921)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bank_loop reverse
+EXCHANGE ROUTE exchange_west_bank_loop reverse reached=true seconds=5.55 height=0.000..0.483 slope_frames=63 bails=0 stalls=0 camera=333/0/0 final=(-22.51371, 0.013936, 0.3017)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bypass forward
+EXCHANGE ROUTE exchange_west_bypass forward reached=true seconds=2.03 height=0.000..0.000 slope_frames=0 bails=0 stalls=0 camera=122/0/0 final=(-22.0, 0.000208, -1.471455)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bypass reverse
+EXCHANGE ROUTE exchange_west_bypass reverse reached=true seconds=2.03 height=0.000..0.000 slope_frames=0 bails=0 stalls=0 camera=122/0/0 final=(-22.0, 0.000208, 13.47248)
+PASS: Exchange portico: each exposed column has actual blocking collision above its base
+PASS: Exchange portico: the front terrace crossing remains clear of the real columns
+PASS: Exchange place: preserved physical port and chase station south port forward
+PASS: Exchange place: preserved physical port and chase station south port reverse
+PASS: Exchange place: preserved physical port and chase cone and east spine forward
+PASS: Exchange place: preserved physical port and chase cone and east spine reverse
+PASS: Exchange combo: actual push rides the new entrance bank before the ollie
+PASS: Exchange combo: one real capture follows the bent seating ledge into its south-facing exit
+PASS: Exchange combo: rail ollie air tricks and a fresh Manual remain one physical line
+PASS: Exchange combo: exact repeat-degraded line banks 5000 once without event injection
+PASS: Exchange combo: actual bank ledge and landing chase remains finite clear and visible
+EXCHANGE COMBO captured=true south_exit=true manual=true connected=true bank=5000 bails=0 grounded_ascent=0.274 camera=324/0/0 tricks=["Ollie", "Rail Grind", "Ollie", "Kickflip", "Melon Grab", "Manual"]
+EXCHANGE RESULT: 22 passed, 0 failed

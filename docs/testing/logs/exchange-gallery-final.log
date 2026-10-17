@@ -1,0 +1,1282 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+Tam Hawks Pro Skater — independent QE checks
+PASS: new scoring session has no score or active combo
+PASS: first trick contributes its base points and one multiplier
+PASS: repeating a trick degrades to half then quarter without farming multiplier
+PASS: distinct tricks increase combo multiplier
+PASS: active combo previews multiplied value without awarding unlanded points
+PASS: landing bank awards combo and records best combo
+PASS: banking clears active combo
+PASS: banking twice cannot award the same combo again
+PASS: repeat degradation resets for a new combo
+PASS: bailing drops the active combo and preserves previously banked score
+PASS: unique trick multiplier obeys its cap
+PASS: run reset clears totals, best combo, bank feedback and active combo
+PASS: rail geometry: two finite distinct world points form a valid Curve3D line
+PASS: rail geometry: straight line length is measured in world metres
+PASS: rail geometry: point sampling preserves nonzero world origin
+PASS: rail geometry: straight tangent is a normalized increasing-distance direction
+PASS: rail geometry: closest query reports world point, along-line offset and 3D gap
+PASS: rail geometry: negative point distance clamps to start
+PASS: rail geometry: overshooting point distance clamps to end
+PASS: rail geometry: nearest projection beyond the rail clamps to its endpoint
+PASS: rail geometry: slope length uses all three dimensions
+PASS: rail geometry: sloped midpoint includes its vertical component
+PASS: rail geometry: sloped tangent is normalized in 3D
+PASS: rail geometry: multisegment line retains its authored path length
+PASS: rail geometry: curved line samples follow both legs instead of the endpoint chord
+PASS: rail geometry: tangent follows the local segment on a curved path
+PASS: rail geometry: closest offset follows path distance across a corner
+PASS: rail geometry: negative tangent distance clamps to the start tangent
+PASS: rail geometry: overshooting tangent distance clamps to the end tangent
+PASS: rail geometry: reverse travel has the opposite signed tangent
+PASS: rail geometry: authoring scale changes physical world length
+PASS: rail geometry: authoring rotation and translation produce world endpoints
+PASS: rail geometry: authoring rotation changes the world tangent
+PASS: rail geometry: transformed closest query stays in world coordinates and metres
+PASS: rail geometry: explicit kind overrides ID inference in authoring factory
+PASS: rail geometry: line snapshots authored points rather than sharing mutable input
+PASS: rail geometry: invalid authoring is rejected safely: empty
+PASS: rail geometry: invalid queries return defined empty results: empty
+PASS: rail geometry: invalid authoring is rejected safely: single point
+PASS: rail geometry: invalid queries return defined empty results: single point
+PASS: rail geometry: invalid authoring is rejected safely: all duplicates
+PASS: rail geometry: invalid queries return defined empty results: all duplicates
+PASS: rail geometry: invalid authoring is rejected safely: infinity
+PASS: rail geometry: invalid queries return defined empty results: infinity
+PASS: rail geometry: invalid authoring is rejected safely: NaN
+PASS: rail geometry: invalid queries return defined empty results: NaN
+PASS: rail geometry: duplicate vertices do not invalidate an otherwise nonzero path
+PASS: rail geometry: duplicate endpoints still produce finite usable tangents
+PASS: rail geometry: nonfinite sample distances return safe empty vectors
+PASS: rail geometry: nonfinite closest-query coordinates return no result
+PASS: rail geometry: a nonfinite authoring transform cannot produce a valid rail
+PASS: rail geometry: coping and curb kinds are inferred from upstream naming convention
+PASS: rail geometry: ledge, bench and funbox IDs share ledge classification
+PASS: rail geometry: unknown IDs default to rail and constructor accepts explicit kind
+PASS: grind ride: an airborne approach within capture bounds attaches
+PASS: grind ride: entry preserves projected speed and samples the rail
+PASS: grind ride: forward travel advances distance and loses speed to friction
+PASS: grind ride: stop retains finite release position and momentum
+PASS: grind ride: inactive updates do not keep moving the released skater
+PASS: grind ride: selects nearest eligible rail regardless of list order
+PASS: grind ride: blocked nearest rail falls back to a clear eligible rail
+PASS: grind ride: obstructed snap is rejected
+PASS: grind ride: reverse entry keeps its signed travel direction
+PASS: grind ride: reverse motion decreases distance and keeps momentum
+PASS: grind ride: crossing an open endpoint releases in direction -1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: crossing an open endpoint releases in direction 1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: outward approaches beyond either endpoint do not attach
+PASS: grind ride: an inward approach near an endpoint can attach
+PASS: grind ride: distance follows a translated bent rail and the outgoing tangent turns with it
+PASS: grind ride: approach angle gate distinguishes either side of 55 degrees
+PASS: grind ride: approach angle gate distinguishes either side of 55 degrees
+PASS: grind ride: sloped rails capture both travel directions
+PASS: grind ride: slope gravity changes speed and outgoing velocity retains the vertical tangent
+PASS: grind ride: insufficient uphill momentum releases without silently reversing
+PASS: grind ride: downhill acceleration respects the speed ceiling
+PASS: grind ride: rejects full snap distance
+PASS: grind ride: rejects vertical reach
+PASS: grind ride: rejects below the rail
+PASS: grind ride: rejects rising ascent
+PASS: grind ride: rejects sideways approach
+PASS: grind ride: rejects too little speed
+PASS: grind ride: rejects excessive speed
+PASS: grind ride: rejects nonfinite position
+PASS: grind ride: rejects nonfinite velocity
+PASS: grind ride: malformed rail lists cannot attach
+PASS: grind ride: vertical lines have no usable horizontal approach
+PASS: grind ride: unattended deterministic balance eventually bails
+PASS: grind ride: countersteering controls the balance instead of an unavoidable timeout
+PASS: grind ride: analog correction is bounded to the normal input range
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: trick catalog: every authored definition satisfies the schema
+PASS: trick catalog: core continuation mechanics have unique stable IDs
+PASS: trick catalog: editing a lookup copy cannot alter shared scoring or state data
+PASS: trick catalog: editing an ID-list copy cannot erase the catalog
+PASS: trick catalog: unknown IDs cannot acquire a fallback scoring definition
+PASS: trick catalog: unknown trick or state rejects execution eligibility
+PASS: trick catalog: air tricks and rail-entry awards cannot use the wrong movement state
+PASS: trick catalog: supported launch states are explicit and midair ollies reject
+PASS: trick catalog: launch, landing, grind release, manual/revert links and recovery have structural paths
+PASS: trick catalog: unsupported snaps, airborne manuals, bail tricks and unknown states reject
+PASS: trick catalog: same-state updates cannot become repeated entry awards
+PASS: trick catalog: every active movement state can enter hazard recovery
+PASS: trick catalog: proposed repeat helper preserves current scoring through and beyond the degradation cap
+PASS: trick catalog: invalid base points award nothing and negative repeat counts cannot boost values
+PASS: trick catalog: long repetition remains bounded and positive with integer rounding
+PASS: trick catalog: empty authoring data reports an error
+PASS: trick catalog: non-record values reject without unsafe conversion
+PASS: trick catalog: missing required fields produce actionable validation errors
+PASS: trick catalog: numeric and empty IDs reject
+PASS: trick catalog: unstable display-like IDs reject
+PASS: trick catalog: duplicate stable IDs reject
+PASS: trick catalog: blank or non-text visible names reject
+PASS: trick catalog: missing, non-integer, nonpositive and excessive base points reject
+PASS: trick catalog: missing state membership cannot silently authorize all states
+PASS: trick catalog: unknown and non-text state names reject
+PASS: trick catalog: duplicate state membership is reported to the author
+PASS: trick catalog: unrecognized scoring-event authoring rejects
+PASS: combo resolution: landing without a combo creates no deadline
+PASS: combo resolution: clean landing starts the 0.35-second pending window
+PASS: combo resolution: the combo remains pending immediately before the deadline
+PASS: combo resolution: expiry banks once and clears its deadline
+PASS: combo resolution: later ticks cannot duplicate the bank or erase its feedback
+PASS: combo resolution: one update exactly at the deadline awards the combo
+PASS: combo resolution: an update crossing the deadline resolves once
+PASS: combo resolution: 21 physics steps expire 0.35 seconds without floating-point delay
+PASS: combo resolution: repeated landing notifications cannot refresh the window
+PASS: combo resolution: a revert adds points without refreshing the deadline
+PASS: combo resolution: a valid movement link suspends banking without losing points
+PASS: combo resolution: the next real landing starts a fresh window for the linked combo
+PASS: combo resolution: a bail before expiry discards the combo and its pending award
+PASS: combo resolution: explicit bank clears the pending timer too
+PASS: combo resolution: restarting cannot retain a delayed score award
+PASS: combo resolution: unticked or zero-delta pause preserves the remaining active time
+PASS: combo resolution: invalid delta cannot consume, extend or poison the deadline
+PASS: combo resolution: invalid delta cannot consume, extend or poison the deadline
+PASS: combo resolution: invalid delta cannot consume, extend or poison the deadline
+PASS: combo resolution: invalid delta cannot consume, extend or poison the deadline
+PASS: combo resolution: repeat reduction stays at one sixteenth after four halvings
+PASS: combo resolution: existing dynamic spin names retain distinct repeat identities
+PASS: combo resolution: event awards clamp before float conversion or accumulation
+PASS: combo resolution: combo arithmetic saturates without integer overflow
+PASS: combo resolution: total and best records respect the documented portable cap
+PASS: combo resolution: malformed awards cannot alter a pending combo
+PASS: career: a new profile has exactly ten incomplete goals
+PASS: career: a fresh profile provides its base colour without locking basic skating
+PASS: career: events before an active run cannot award progress
+PASS: career: the first score goal rejects a value one point below its threshold
+PASS: career: banking the first threshold completes its goal exactly once
+PASS: career: repeated score events cannot duplicate rewards or lower a record
+PASS: career: first score unlocks only the first special and its cosmetic reward
+PASS: career: duplicate and unknown collectible events cannot inflate progress
+PASS: career: partial collection resets between runs instead of accumulating across them
+PASS: career: all five unique HAWKS letters complete one goal once
+PASS: career: completed goals remain completed after per-run state resets
+PASS: career: combo goal uses a banked single combo rather than total score
+PASS: career: the combo threshold unlocks its separate special once
+PASS: career: intermediate and advanced score thresholds complete independently
+PASS: career: advanced score completion unlocks the third cosmetic colour
+PASS: career: unrecognized event kinds and target IDs cannot complete goals
+PASS: career: validated cone and Central gap events complete their distinct goals
+PASS: career: three market items and four distinct districts complete their respective goals
+PASS: career: the secret recording makes all ten authored goals achievable through their events
+PASS: career: HUD snapshot edits cannot alter persistent completion
+PASS: career: finishing closes event admission and duplicate results cannot rewrite records
+PASS: career: free skate cannot award career goals, partial collections or records
+PASS: career: negative scores and impossible larger combos cannot manufacture records
+PASS: career persistence: unique local fixture directory is writable
+PASS: career persistence: a missing profile is a first-run state without an overwrite lock
+PASS: career persistence: a first profile is written and verified successfully
+PASS: career persistence: completion and records survive a new instance load
+PASS: career persistence: finite setting values clamp to supported bounds while booleans survive
+PASS: career persistence: loading restores derived unlocks without admitting a phantom active run
+PASS: career persistence: replacing a profile creates a verified prior-generation backup
+PASS: career persistence: backup contains the previous good profile rather than the new write
+PASS: career persistence: a third save atomically replaces both existing primary and backup
+PASS: career persistence: corrupt primary recovers the most recent valid backup
+PASS: career persistence: saving recovered data does not replace a good backup with corrupt bytes
+PASS: career persistence: an interrupted temporary write cannot shadow a valid primary
+PASS: career persistence: missing primary can recover and safely restore its existing backup
+PASS: career persistence: unknown keys and goal names are ignored, duplicates deduplicate and settings default
+PASS: career persistence: explicit version-zero fields migrate to the current in-memory schema
+PASS: career persistence: saving a migrated profile writes version one while preserving a backup
+PASS: career persistence: malformed structures, versions, scores, goal IDs and setting types reject safely
+PASS: career persistence: oversized files reject before unrestricted parsing
+PASS: career persistence: empty paths do not resolve to a directory or real default profile
+PASS: career persistence: a future primary version preserves memory and cannot downgrade through its older backup
+PASS: career persistence: both loaded and fresh instances refuse to overwrite future-version data
+PASS: career persistence: unrecoverable data locks saving and is preserved byte for byte
+PASS: career persistence: a missing primary cannot silently overwrite an unread backup
+PASS: career persistence: a newer orphan backup is protected from fresh-profile replacement
+PASS: career persistence: a valid older primary cannot overwrite a newer-version backup
+PASS: career persistence: a pending newer-version temporary profile is preserved
+PASS: career persistence: explicit recovery resets memory only after archiving existing data
+PASS: career persistence: explicit recovery retains the exact future-version file beside a valid new profile
+PASS: career persistence: directory/write failures preserve existing files
+PASS: career persistence: failed backup replacement cannot replace the valid primary
+PASS: career persistence: nonfinite in-memory settings cannot corrupt an existing save
+PASS: career settings: known bindings and earned cosmetic save successfully
+PASS: career settings: numeric binding overrides and earned selected colour round-trip
+PASS: career settings: loading an unearned known colour safely selects the unlocked base colour
+PASS: career settings: an unknown binding action cannot enter a saved profile
+PASS: career settings: duplicate explicit binding assignments reject before writing
+PASS: career settings: unknown cosmetic IDs reject rather than loading external data
+PASS: input profile: readable action snapshots include all current skating controls
+PASS: input profile: snapshot retains default keyboard alternatives
+PASS: input profile: remapping a physical key preserves the controller binding
+PASS: input profile: controller remapping preserves the independently remapped keyboard slot
+PASS: input profile: remapped controller events accept a reconnected device at another index
+PASS: input profile: caller edits to returned settings cannot mutate live assignments
+PASS: input profile: duplicate live keyboard bindings reject without partial changes
+PASS: input profile: duplicate controller buttons reject
+PASS: input profile: a default secondary keyboard alias also participates in collision checks
+PASS: input profile: saved overrides conflicting with an untouched default reject atomically
+PASS: input profile: a complete saved profile can atomically swap otherwise conflicting keys
+PASS: input profile: a signed axis capture retains keyboard fallback and normalizes its direction
+PASS: input profile: opposite directions of one stick remain distinct bindable inputs
+PASS: input profile: duplicate axis directions reject even when capture magnitudes differ
+PASS: input profile: resting-stick noise and nonfinite axis values cannot capture a binding
+PASS: input profile: trigger bindings cannot use the unpressed negative direction
+PASS: input profile: held axes cannot repeatedly toggle a discrete menu action
+PASS: input profile: switching from axis to button replaces the controller slot without losing keyboard input
+PASS: input profile: Escape pause recovery and Enter menu confirmation cannot be reassigned
+PASS: input profile: pause controller remapping still retains Escape recovery
+PASS: input profile: releases, repeated key events and modifier chords do not bind
+PASS: input profile: unknown actions and unsupported/null event types reject safely
+PASS: input profile: malformed serialized data rejects without constructing resources or mutating InputMap
+PASS: input profile: simple numeric JSON bindings round-trip through validated actual InputMap events
+PASS: input profile: Godot resolves new key events and preserved controller fallback while releasing the old key
+PASS: input profile: reset returns an empty override profile and restores canonical controls
+PASS: input profile: rebinding and resetting never alter built-in menu accept/cancel inputs
+PASS: special meter: empty meter cannot spend a special
+PASS: special meter: a bank earns one unit per 25 points
+PASS: special meter: zero or negative bank values earn nothing
+PASS: special meter: one bank earns at most 50 and cannot spend a partial meter
+PASS: special meter: a full charge spends exactly once and resets
+PASS: special meter: run reset clears charge
+PASS: special meter: nonfinite state cannot unlock a special
+PASS: special meter: public meter state is bounded before earning
+PASS: gap tracker: first sample only primes the route
+PASS: gap tracker: crossing start alone does not award
+PASS: gap tracker: ordered forward airborne traversal produces the defined reward
+PASS: gap tracker: staying in the finish trigger cannot duplicate rewards
+PASS: gap tracker: leaving both triggers allows a new forward traversal
+PASS: gap tracker: reverse crossing of both triggers does not award
+PASS: gap tracker: reversing an armed traversal invalidates that attempt
+PASS: gap tracker: teleporting over a finish cannot claim the route
+PASS: gap tracker: bail or restart reset removes armed progress
+PASS: gap tracker: an expired four-second attempt cannot finish later
+PASS: gap tracker: a required aerial gap cannot be rolled along the ground
+PASS: gap tracker: air earlier in the route is insufficient when grounded at the finish
+PASS: gap tracker: becoming airborne only at the finish does not establish air between triggers
+PASS: gap tracker: an explicitly ground-optional route accepts ground travel
+PASS: gap tracker: swept segments detect both ordered triggers without endpoint samples inside
+PASS: gap tracker: a segment passing outside the trigger radius does not award
+PASS: gap tracker: duplicate definition IDs cannot double-award
+PASS: gap tracker: overlapping start and finish spheres are rejected as invalid authoring
+PASS: gap tracker: independent definitions preserve their own progress and IDs
+PASS: gap tracker: configuration snapshots authoring data
+PASS: gap tracker: malformed and nonfinite authoring entries are ignored
+PASS: gap tracker: invalid update timing cannot bridge a route
+PASS: gap tracker: invalid update timing cannot bridge a route
+PASS: gap tracker: invalid update timing cannot bridge a route
+PASS: gap tracker: a nonfinite position resets continuous traversal evidence
+PASS: audio: fixed players bound loop, event and UI resource usage
+PASS: audio: surface selection made before ready is retained
+PASS: audio PCM: audible bounded 16-bit mono data for ollie
+PASS: audio PCM: quiet endpoints and bounded DC offset for ollie
+PASS: audio PCM: audible bounded 16-bit mono data for landing
+PASS: audio PCM: quiet endpoints and bounded DC offset for landing
+PASS: audio PCM: audible bounded 16-bit mono data for grind
+PASS: audio PCM: quiet endpoints and bounded DC offset for grind
+PASS: audio PCM: audible bounded 16-bit mono data for bail
+PASS: audio PCM: quiet endpoints and bounded DC offset for bail
+PASS: audio PCM: audible bounded 16-bit mono data for bank
+PASS: audio PCM: quiet endpoints and bounded DC offset for bank
+PASS: audio PCM: audible bounded 16-bit mono data for ui
+PASS: audio PCM: quiet endpoints and bounded DC offset for ui
+PASS: audio PCM: audible bounded 16-bit mono data for roll_stone
+PASS: audio PCM: quiet endpoints and bounded DC offset for roll_stone
+PASS: audio PCM: loop bounds cover exactly the available frames for roll_stone
+PASS: audio PCM: audible bounded 16-bit mono data for roll_asphalt
+PASS: audio PCM: quiet endpoints and bounded DC offset for roll_asphalt
+PASS: audio PCM: loop bounds cover exactly the available frames for roll_asphalt
+PASS: audio PCM: audible bounded 16-bit mono data for roll_metal
+PASS: audio PCM: quiet endpoints and bounded DC offset for roll_metal
+PASS: audio PCM: loop bounds cover exactly the available frames for roll_metal
+PASS: audio PCM: audible bounded 16-bit mono data for grind_loop
+PASS: audio PCM: quiet endpoints and bounded DC offset for grind_loop
+PASS: audio PCM: loop bounds cover exactly the available frames for grind_loop
+PASS: audio PCM: audible bounded 16-bit mono data for amb_exchange
+PASS: audio PCM: quiet endpoints and bounded DC offset for amb_exchange
+PASS: audio PCM: loop bounds cover exactly the available frames for amb_exchange
+PASS: audio PCM: audible bounded 16-bit mono data for amb_george
+PASS: audio PCM: quiet endpoints and bounded DC offset for amb_george
+PASS: audio PCM: loop bounds cover exactly the available frames for amb_george
+PASS: audio PCM: audible bounded 16-bit mono data for amb_central
+PASS: audio PCM: quiet endpoints and bounded DC offset for amb_central
+PASS: audio PCM: loop bounds cover exactly the available frames for amb_central
+PASS: audio PCM: audible bounded 16-bit mono data for amb_barras
+PASS: audio PCM: quiet endpoints and bounded DC offset for amb_barras
+PASS: audio PCM: loop bounds cover exactly the available frames for amb_barras
+PASS: audio: separately supplied mix levels survive initialization
+PASS: audio: stationary skater produces no rolling or grinding loop
+PASS: audio: rolling gains level and pitch with skating speed
+PASS: audio: airborne travel fades wheel contact to silence
+PASS: audio: acquired grind replaces wheel roll with the metal loop
+PASS: audio: grind exit fades its continuous loop
+PASS: audio: changing surface selects the appropriate original waveform
+PASS: audio: unknown surfaces use the safe stone default
+PASS: audio: repeated same-frame landing cannot stack duplicate impact sounds
+PASS: audio: unknown event IDs are rejected
+PASS: audio: a later landing can play after its debounce window
+PASS: audio: simultaneous distinct gameplay events have a bounded three-voice pool
+PASS: audio: an important bank replaces a voice instead of exceeding the pool
+PASS: audio: event spam cannot allocate players or repeat the bank cue
+PASS: audio: pause suspends all gameplay and ambience loops
+PASS: audio: pause discards old impacts and rejects new gameplay sounds
+PASS: audio: menu navigation feedback remains available during pause
+PASS: audio: district changes during pause cannot leak ambience
+PASS: audio: resume completes the requested district crossfade with bounded bed gain
+PASS: audio: both channel mutes silence active loops and cues immediately
+PASS: audio: out-of-range volume preferences clamp safely
+PASS: audio: nonfinite external values cannot contaminate audio state
+PASS: audio: unknown district labels fall back to the square ambience
+PASS: audio voice: a muted admitted bark still emits its exact accessible caption
+PASS: audio voice: shared cooldown prevents overlapping speech and caption spam
+PASS: audio voice: per-line cooldown prevents repeated identical NPC reactions
+PASS: audio voice: another nearby reaction can play after the shared cooldown
+PASS: audio voice: pause blocks new NPC reactions
+PASS: audio voice: resume permits the next original reaction
+PASS: audio voice: unknown bark IDs are rejected
+PASS: audio voice: pinned local speech is bounded mono PCM16: landing
+PASS: audio voice: generated speech has silent endpoints: landing
+PASS: audio voice: pinned local speech is bounded mono PCM16: cone
+PASS: audio voice: generated speech has silent endpoints: cone
+PASS: audio voice: pinned local speech is bounded mono PCM16: again
+PASS: audio voice: generated speech has silent endpoints: again
+PASS: audio voice: repeated NPC triggers retain a single voice player and exactly three captions
+PASS: manual: fixture reaches actual floor support
+PASS: manual: stopped input cannot start a manual
+PASS: manual: held rejected input cannot enter when speed becomes eligible
+PASS: manual: fresh supported entry scores once and starts one combo link
+PASS: manual: held ride drifts visibly without repeat entry points
+PASS: manual: real board pose raises its nose while balanced
+PASS: manual: braking input shifts balance forward
+PASS: manual: pushing input corrects forward balance
+PASS: manual: release ends the supported link exactly once
+PASS: manual: immediate fresh reentry is blocked by cooldown
+PASS: manual: holding through cooldown cannot manufacture a new entry
+PASS: manual: fresh input after cooldown can enter again
+PASS: manual: eligible ollie continues link without a ground-end event
+PASS: manual: holding through air and landing cannot auto-enter another manual
+PASS: manual: losing required speed ends one supported link
+PASS: manual: actual balance input exceeding the limit bails once and clears state
+PASS: manual/revert: overtime entry gate rejects all fresh grounded links
+PASS: revert: a fresh airborne press is ineligible
+PASS: revert: landing opens eligibility but a held early press stays rejected
+PASS: revert: eligible fresh entry scores once without starting a new landing link
+PASS: revert: accepted entry applies the documented 15 percent speed cost
+PASS: revert: entry neither refreshes eligibility nor changes travel heading
+PASS: revert: another fresh press on the same landing cannot score twice
+PASS: revert: completed visual turn visibly changes stance by 180 degrees
+PASS: revert: a press after the original landing deadline is rejected
+PASS: manual/revert: reset clears balance, holds, cooldown eligibility and visual transition
+PASS: special: ordinary ground travel cannot execute an aerial special
+PASS: special: unknown ID cannot score or use an air slot
+PASS: special: direct requests reject while gameplay is paused
+PASS: special: overtime blocks a fresh aerial special
+PASS: special: disabled controls reject a fresh request
+PASS: special: eligible fresh air request exposes the accepted display name
+PASS: special: accepting a cosmetic move preserves the physical velocity
+PASS: special: neither repeating nor switching IDs bypasses one execution per airtime
+PASS: special: Clyde Carousel actually rotates the visible board horizontally
+PASS: special: finished animation clears its label without reopening the air slot
+PASS: special: a new actual airtime permits the other catalog special
+PASS: special: Tenement Tumble rotates the visual while collision stays upright
+PASS: special: reset clears the active label and restores the visual transform
+PASS: takeoff uphill: fixture settles onto the intended surface
+PASS: takeoff uphill: actual skating leaves the elevated platform lip
+TAKEOFF uphill: outgoing=(0.0, 0.0, -12.99038) real_departure=(0.0, 0.0, -12.99039) next=(0.0, 0.0, -12.99038) real_next=(0.0, 0.0, -12.99039)
+PASS: takeoff uphill: comparison samples a moving airborne skater
+PASS: takeoff uphill: first airborne tick preserves outgoing horizontal momentum
+PASS: takeoff uphill: actual airborne displacement matches outgoing horizontal motion
+PASS: takeoff downhill: fixture settles onto the intended surface
+PASS: takeoff downhill: actual skating leaves the elevated platform lip
+TAKEOFF downhill: outgoing=(0.0, 0.0, -12.99038) real_departure=(0.0, 0.0, -12.99039) next=(0.0, 0.0, -12.99038) real_next=(0.0, 0.0, -12.99039)
+PASS: takeoff downhill: comparison samples a moving airborne skater
+PASS: takeoff downhill: first airborne tick preserves outgoing horizontal momentum
+PASS: takeoff downhill: actual airborne displacement matches outgoing horizontal motion
+PASS: takeoff flat: fixture settles onto the intended surface
+PASS: takeoff flat: actual skating leaves the elevated platform lip
+TAKEOFF flat: outgoing=(0.0, 0.0, -13.37894) real_departure=(0.0, 0.0, -13.37574) next=(0.0, 0.0, -13.37894) real_next=(0.0, 0.0, -13.37894)
+PASS: takeoff flat: comparison samples a moving airborne skater
+PASS: takeoff flat: first airborne tick preserves outgoing horizontal momentum
+PASS: takeoff flat: actual airborne displacement matches outgoing horizontal motion
+PASS: takeoff steering: arcade air steering rotates without adding horizontal speed
+PASS: takeoff steering: six frames turn the carried motion by a bounded angle
+PASS: takeoff collision: moving airborne skater actually contacts the test wall
+PASS: takeoff collision: wall removes the blocked horizontal velocity
+TAKEOFF collided: stopped=(0.0, 0.0, 0.0) after_removal=(0.0, 0.0, 0.0) real=(0.0, 0.0, 0.0) speed=0.00000
+PASS: takeoff collision: removing the wall cannot resurrect lost airborne momentum
+PASS: takeoff collision: public speed reflects the remaining horizontal motion
+PASS: district routes: six named checkpoints
+PASS: district routes: checkpoint classification royal_exchange
+PASS: district routes: supported checkpoint royal_exchange
+PASS: district routes: clear checkpoint capsule royal_exchange
+PASS: district routes: checkpoint classification george_square
+PASS: district routes: supported checkpoint george_square
+PASS: district routes: clear checkpoint capsule george_square
+PASS: district routes: checkpoint classification central_station
+PASS: district routes: supported checkpoint central_station
+PASS: district routes: clear checkpoint capsule central_station
+PASS: district routes: checkpoint classification barras
+PASS: district routes: supported checkpoint barras
+PASS: district routes: clear checkpoint capsule barras
+PASS: district routes: checkpoint classification clyde
+PASS: district routes: supported checkpoint clyde
+PASS: district routes: clear checkpoint capsule clyde
+PASS: district routes: checkpoint classification kelvingrove
+PASS: district routes: supported checkpoint kelvingrove
+PASS: district routes: clear checkpoint capsule kelvingrove
+PASS: district routes: core and outdoor navigation routes published
+PASS: district routes: usable waypoint route cat_coping_approach
+PASS: district routes: continuous collision matches route elevation cat_coping_approach
+PASS: district routes: unobstructed capsule in both directions cat_coping_approach
+PASS: district routes: usable waypoint route cat_coping_runout
+PASS: district routes: continuous collision matches route elevation cat_coping_runout
+PASS: district routes: unobstructed capsule in both directions cat_coping_runout
+PASS: district routes: usable waypoint route cat_ordered_coping_line
+PASS: district routes: usable waypoint route cat_workshop_bypass
+PASS: district routes: continuous collision matches route elevation cat_workshop_bypass
+PASS: district routes: unobstructed capsule in both directions cat_workshop_bypass
+PASS: district routes: usable waypoint route civic_workshop_bank_loop
+PASS: district routes: continuous collision matches route elevation civic_workshop_bank_loop
+PASS: district routes: unobstructed capsule in both directions civic_workshop_bank_loop
+PASS: district routes: usable waypoint route market_hall_bank_loop
+PASS: district routes: continuous collision matches route elevation market_hall_bank_loop
+PASS: district routes: unobstructed capsule in both directions market_hall_bank_loop
+PASS: district routes: usable waypoint route gallery_entrance_bank_loop
+PASS: district routes: continuous collision matches route elevation gallery_entrance_bank_loop
+PASS: district routes: unobstructed capsule in both directions gallery_entrance_bank_loop
+PASS: district routes: usable waypoint route gallery_entrance_front_return
+PASS: district routes: continuous collision matches route elevation gallery_entrance_front_return
+PASS: district routes: unobstructed capsule in both directions gallery_entrance_front_return
+PASS: district routes: usable waypoint route gallery_entrance_bypass
+PASS: district routes: continuous collision matches route elevation gallery_entrance_bypass
+PASS: district routes: unobstructed capsule in both directions gallery_entrance_bypass
+PASS: district routes: usable waypoint route exchange_west_bank_loop
+PASS: district routes: continuous collision matches route elevation exchange_west_bank_loop
+PASS: district routes: unobstructed capsule in both directions exchange_west_bank_loop
+PASS: district routes: usable waypoint route exchange_west_bypass
+PASS: district routes: continuous collision matches route elevation exchange_west_bypass
+PASS: district routes: unobstructed capsule in both directions exchange_west_bypass
+PASS: district routes: usable waypoint route barras_covered_delivery_lane
+PASS: district routes: continuous collision matches route elevation barras_covered_delivery_lane
+PASS: district routes: unobstructed capsule in both directions barras_covered_delivery_lane
+PASS: district routes: usable waypoint route barras_west_delivery_lane
+PASS: district routes: continuous collision matches route elevation barras_west_delivery_lane
+PASS: district routes: unobstructed capsule in both directions barras_west_delivery_lane
+PASS: district routes: usable waypoint route barras_market_inner_loop
+PASS: district routes: continuous collision matches route elevation barras_market_inner_loop
+PASS: district routes: unobstructed capsule in both directions barras_market_inner_loop
+PASS: district routes: usable waypoint route barras_market_outer_loop
+PASS: district routes: continuous collision matches route elevation barras_market_outer_loop
+PASS: district routes: unobstructed capsule in both directions barras_market_outer_loop
+PASS: district routes: usable waypoint route barras_covered_loading_link
+PASS: district routes: continuous collision matches route elevation barras_covered_loading_link
+PASS: district routes: unobstructed capsule in both directions barras_covered_loading_link
+PASS: district routes: usable waypoint route gallery_civic_ascent
+PASS: district routes: continuous collision matches route elevation gallery_civic_ascent
+PASS: district routes: unobstructed capsule in both directions gallery_civic_ascent
+PASS: district routes: usable waypoint route exchange_fountain_loop
+PASS: district routes: continuous collision matches route elevation exchange_fountain_loop
+PASS: district routes: unobstructed capsule in both directions exchange_fountain_loop
+PASS: district routes: usable waypoint route central_south_link
+PASS: district routes: continuous collision matches route elevation central_south_link
+PASS: district routes: unobstructed capsule in both directions central_south_link
+PASS: district routes: usable waypoint route central_north_link
+PASS: district routes: continuous collision matches route elevation central_north_link
+PASS: district routes: unobstructed capsule in both directions central_north_link
+PASS: district routes: usable waypoint route barras_south_link
+PASS: district routes: continuous collision matches route elevation barras_south_link
+PASS: district routes: unobstructed capsule in both directions barras_south_link
+PASS: district routes: usable waypoint route barras_north_link
+PASS: district routes: continuous collision matches route elevation barras_north_link
+PASS: district routes: unobstructed capsule in both directions barras_north_link
+PASS: district routes: usable waypoint route central_back_lane
+PASS: district routes: continuous collision matches route elevation central_back_lane
+PASS: district routes: unobstructed capsule in both directions central_back_lane
+PASS: district routes: usable waypoint route barras_back_lane
+PASS: district routes: continuous collision matches route elevation barras_back_lane
+PASS: district routes: unobstructed capsule in both directions barras_back_lane
+PASS: district routes: usable waypoint route central_high_line
+PASS: district routes: usable waypoint route central_high_line_bypass
+PASS: district routes: continuous collision matches route elevation central_high_line_bypass
+PASS: district routes: unobstructed capsule in both directions central_high_line_bypass
+PASS: district routes: usable waypoint route market_loading_ascent
+PASS: district routes: continuous collision matches route elevation market_loading_ascent
+PASS: district routes: unobstructed capsule in both directions market_loading_ascent
+PASS: district routes: usable waypoint route gallery_step_drop
+PASS: district routes: usable waypoint route market_step_drop
+PASS: district routes: usable waypoint route merchant_service_east_return
+PASS: district routes: continuous collision matches route elevation merchant_service_east_return
+PASS: district routes: unobstructed capsule in both directions merchant_service_east_return
+PASS: district routes: usable waypoint route merchant_service_west_return
+PASS: district routes: continuous collision matches route elevation merchant_service_west_return
+PASS: district routes: unobstructed capsule in both directions merchant_service_west_return
+PASS: district routes: usable waypoint route merchant_close_cutthrough
+PASS: district routes: continuous collision matches route elevation merchant_close_cutthrough
+PASS: district routes: unobstructed capsule in both directions merchant_close_cutthrough
+PASS: district routes: usable waypoint route station_low_level_close
+PASS: district routes: continuous collision matches route elevation station_low_level_close
+PASS: district routes: unobstructed capsule in both directions station_low_level_close
+PASS: district routes: usable waypoint route station_park_port
+PASS: district routes: continuous collision matches route elevation station_park_port
+PASS: district routes: unobstructed capsule in both directions station_park_port
+PASS: district routes: usable waypoint route civic_park_port
+PASS: district routes: continuous collision matches route elevation civic_park_port
+PASS: district routes: unobstructed capsule in both directions civic_park_port
+PASS: district routes: usable waypoint route clyde_print_yard_hip
+PASS: district routes: continuous collision matches route elevation clyde_print_yard_hip
+PASS: district routes: unobstructed capsule in both directions clyde_print_yard_hip
+PASS: district routes: usable waypoint route clyde_north_quay
+PASS: district routes: continuous collision matches route elevation clyde_north_quay
+PASS: district routes: unobstructed capsule in both directions clyde_north_quay
+PASS: district routes: usable waypoint route clyde_safe_crossing
+PASS: district routes: continuous collision matches route elevation clyde_safe_crossing
+PASS: district routes: unobstructed capsule in both directions clyde_safe_crossing
+PASS: district routes: usable waypoint route clyde_bridge_transfer
+PASS: district routes: usable waypoint route clyde_print_yard_loop
+PASS: district routes: continuous collision matches route elevation clyde_print_yard_loop
+PASS: district routes: unobstructed capsule in both directions clyde_print_yard_loop
+PASS: district routes: usable waypoint route kelvingrove_central_climb
+PASS: district routes: continuous collision matches route elevation kelvingrove_central_climb
+PASS: district routes: unobstructed capsule in both directions kelvingrove_central_climb
+PASS: district routes: usable waypoint route kelvingrove_george_promenade
+PASS: district routes: continuous collision matches route elevation kelvingrove_george_promenade
+PASS: district routes: unobstructed capsule in both directions kelvingrove_george_promenade
+PASS: district routes: usable waypoint route kelvingrove_rolling_loop
+PASS: district routes: continuous collision matches route elevation kelvingrove_rolling_loop
+PASS: district routes: unobstructed capsule in both directions kelvingrove_rolling_loop
+PASS: district routes: usable waypoint route kelvingrove_cutback_return
+PASS: district routes: continuous collision matches route elevation kelvingrove_cutback_return
+PASS: district routes: unobstructed capsule in both directions kelvingrove_cutback_return
+PASS: district routes: unique marker H
+PASS: district routes: supported marker H
+PASS: district routes: reachable marker capsule H
+PASS: district routes: unique marker A
+PASS: district routes: supported marker A
+PASS: district routes: reachable marker capsule A
+PASS: district routes: unique marker W
+PASS: district routes: supported marker W
+PASS: district routes: reachable marker capsule W
+PASS: district routes: unique marker K
+PASS: district routes: supported marker K
+PASS: district routes: reachable marker capsule K
+PASS: district routes: unique marker S
+PASS: district routes: supported marker S
+PASS: district routes: reachable marker capsule S
+PASS: district routes: unique marker market_1
+PASS: district routes: supported marker market_1
+PASS: district routes: reachable marker capsule market_1
+PASS: district routes: unique marker market_2
+PASS: district routes: supported marker market_2
+PASS: district routes: reachable marker capsule market_2
+PASS: district routes: unique marker market_3
+PASS: district routes: supported marker market_3
+PASS: district routes: reachable marker capsule market_3
+PASS: district routes: unique marker cone
+PASS: district routes: supported marker cone
+PASS: district routes: reachable marker capsule cone
+PASS: district routes: unique marker secret_recording
+PASS: district routes: supported marker secret_recording
+PASS: district routes: reachable marker capsule secret_recording
+PASS: district routes: unique marker royal_exchange
+PASS: district routes: supported marker royal_exchange
+PASS: district routes: reachable marker capsule royal_exchange
+PASS: district routes: unique marker george_square
+PASS: district routes: supported marker george_square
+PASS: district routes: reachable marker capsule george_square
+PASS: district routes: unique marker central_station
+PASS: district routes: supported marker central_station
+PASS: district routes: reachable marker capsule central_station
+PASS: district routes: unique marker barras
+PASS: district routes: supported marker barras
+PASS: district routes: reachable marker capsule barras
+PASS: district routes: unique marker clyde
+PASS: district routes: supported marker clyde
+PASS: district routes: reachable marker capsule clyde
+PASS: district routes: unique marker kelvingrove
+PASS: district routes: supported marker kelvingrove
+PASS: district routes: reachable marker capsule kelvingrove
+PASS: district routes: complete letters and recording hooks
+PASS: district routes: bounded authored gap exchange_launch
+PASS: district routes: bounded authored gap central_gap
+PASS: district routes: bounded authored gap market_hop
+PASS: district routes: bounded authored gap clyde_bridge_transfer
+PASS: district routes: platform gap and two other routes
+PASS: district routes: platform gap has a real break and safe lower floor
+PASS: district routes: raised platform supports its route 6.0
+PASS: district routes: raised platform supports its route -10.0
+PASS: district routes: bystanders stand on actual district floors
+PASS: district routes: cone interaction visibly pops the original cone
+PASS: district routes: cone animation freezes while paused
+PASS: district routes: reset restores cone and clears interaction state
+PASS: main instantiates the procedural world
+PASS: main instantiates the skating physics body
+PASS: skater includes a gameplay camera
+PASS: square contains original procedural visible geometry
+PASS: floor, obstacles and boundaries include static collision
+PASS: input action is registered: push
+PASS: input action is registered: brake
+PASS: input action is registered: steer_left
+PASS: input action is registered: steer_right
+PASS: input action is registered: ollie
+PASS: input action is registered: flip
+PASS: input action is registered: grab
+PASS: input action is registered: grind
+PASS: input action is registered: spin_left
+PASS: input action is registered: spin_right
+PASS: input action is registered: restart
+PASS: input action is registered: pause
+PASS: input action is registered: free_skate
+PASS: input action is registered: manual
+PASS: input action is registered: revert
+PASS: input action is registered: special_one
+PASS: input action is registered: special_two
+PASS: input action is registered: interact
+PASS: input action is registered: goals
+PASS: every gameplay action has a keyboard binding
+PASS: every gameplay action has a gamepad binding
+PASS: world spawn matches the shared coordinate contract
+PASS: world provides a readable location label
+PASS: spawn has a supporting collision surface
+PASS: spawn support is a level floor at the documented ground height
+PASS: spawn settles onto the floor without falling or becoming stuck airborne
+PASS: city and outdoor routes include at least nine authored graded surfaces
+PASS: graded surface owns its supporting collision: GalleryWestApproach
+PASS: graded surface is within the skating floor angle: GalleryWestApproach
+PASS: graded collision has visible geometry: GalleryWestApproach
+PASS: graded surface owns its supporting collision: GalleryEastApproach
+PASS: graded surface is within the skating floor angle: GalleryEastApproach
+PASS: graded collision has visible geometry: GalleryEastApproach
+PASS: graded surface owns its supporting collision: GalleryEntranceWestBank
+PASS: graded surface is within the skating floor angle: GalleryEntranceWestBank
+PASS: graded collision has visible geometry: GalleryEntranceWestBank
+PASS: graded surface owns its supporting collision: GalleryEntranceEastBank
+PASS: graded surface is within the skating floor angle: GalleryEntranceEastBank
+PASS: graded collision has visible geometry: GalleryEntranceEastBank
+PASS: graded surface owns its supporting collision: GalleryEntranceFrontBank
+PASS: graded surface is within the skating floor angle: GalleryEntranceFrontBank
+PASS: graded collision has visible geometry: GalleryEntranceFrontBank
+PASS: graded surface owns its supporting collision: ExchangeWestShopBank
+PASS: graded surface is within the skating floor angle: ExchangeWestShopBank
+PASS: graded collision has visible geometry: ExchangeWestShopBank
+PASS: graded surface owns its supporting collision: GeorgeGradedStreet
+PASS: graded surface is within the skating floor angle: GeorgeGradedStreet
+PASS: graded collision has visible geometry: GeorgeGradedStreet
+PASS: graded surface owns its supporting collision: @StaticBody3D@372
+PASS: graded surface is within the skating floor angle: @StaticBody3D@372
+PASS: graded collision has visible geometry: @StaticBody3D@372
+PASS: graded surface owns its supporting collision: CentralSouthStreet
+PASS: graded surface is within the skating floor angle: CentralSouthStreet
+PASS: graded collision has visible geometry: CentralSouthStreet
+PASS: graded surface owns its supporting collision: BarrasNorthStreet
+PASS: graded surface is within the skating floor angle: BarrasNorthStreet
+PASS: graded collision has visible geometry: BarrasNorthStreet
+PASS: graded surface owns its supporting collision: NorthClimbingLane
+PASS: graded surface is within the skating floor angle: NorthClimbingLane
+PASS: graded collision has visible geometry: NorthClimbingLane
+PASS: graded surface owns its supporting collision: @StaticBody3D@389
+PASS: graded surface is within the skating floor angle: @StaticBody3D@389
+PASS: graded collision has visible geometry: @StaticBody3D@389
+PASS: graded surface owns its supporting collision: MerchantCourtEastReturn
+PASS: graded surface is within the skating floor angle: MerchantCourtEastReturn
+PASS: graded collision has visible geometry: MerchantCourtEastReturn
+PASS: graded surface owns its supporting collision: MerchantCourtWestReturn
+PASS: graded surface is within the skating floor angle: MerchantCourtWestReturn
+PASS: graded collision has visible geometry: MerchantCourtWestReturn
+PASS: graded surface owns its supporting collision: CivicWestBank
+PASS: graded surface is within the skating floor angle: CivicWestBank
+PASS: graded collision has visible geometry: CivicWestBank
+PASS: graded surface owns its supporting collision: CivicEastBank
+PASS: graded surface is within the skating floor angle: CivicEastBank
+PASS: graded collision has visible geometry: CivicEastBank
+PASS: graded surface owns its supporting collision: CentralPlatformApproach
+PASS: graded surface is within the skating floor angle: CentralPlatformApproach
+PASS: graded collision has visible geometry: CentralPlatformApproach
+PASS: graded surface owns its supporting collision: CentralPlatformExit
+PASS: graded surface is within the skating floor angle: CentralPlatformExit
+PASS: graded collision has visible geometry: CentralPlatformExit
+PASS: graded surface owns its supporting collision: StationUpperReturn
+PASS: graded surface is within the skating floor angle: StationUpperReturn
+PASS: graded collision has visible geometry: StationUpperReturn
+PASS: graded surface owns its supporting collision: MarketWestLoadingBank
+PASS: graded surface is within the skating floor angle: MarketWestLoadingBank
+PASS: graded collision has visible geometry: MarketWestLoadingBank
+PASS: graded surface owns its supporting collision: MarketEastLoadingBank
+PASS: graded surface is within the skating floor angle: MarketEastLoadingBank
+PASS: graded collision has visible geometry: MarketEastLoadingBank
+PASS: the level exposes six connected places instead of sealing the original square
+PASS: pushing accelerates and travels forward through the central route
+PASS: unsteered flat-ground travel stays on its heading
+PASS: braking reduces forward speed
+PASS: steering changes heading while skating
+PASS: default approach climbs the gallery and George Square terraces
+PASS: default forward route connects the lower square to the upper city without jumping
+PASS: uphill city route finishes on supporting collision
+PASS: reverse route descends through both terrace transitions to the lower square
+PASS: downhill city route finishes on the lower square floor
+PASS: ollie launches from the floor
+PASS: aerial tricks create a pending combo before landing
+PASS: holding ollie does not auto-jump after landing
+PASS: held flip registers once during the jump
+PASS: held grab registers once during the jump
+PASS: flat-ground airtime ends in exactly one clean landing signal
+PASS: clean landing banks the observed tricks through the main-to-score wiring
+PASS: skater returns to grounded physics state after landing
+PASS: remaining grounded does not emit duplicate landings or awards
+PASS: sustained aerial spin registers one completed 180 on landing
+PASS: spin points join the ollie combo before clean landing banks it
+PASS: opposing spins cancel net rotation instead of farming rotation awards
+PASS: disabled controls prevent movement, jumps and scoring inputs
+PASS: out-of-world fall recovers to the spawn area
+PASS: bail signal drops the pending combo without erasing banked points
+PASS: run timer decreases during active play
+PASS: pausing freezes the run timer
+PASS: pausing freezes skater physics
+PASS: unpausing resumes the run timer
+PASS: free skate disables countdown expiry
+PASS: grounded run ends when countdown reaches zero
+PASS: finished run gates player movement
+PASS: restart restores a fresh 120-second run and clears score
+PASS: restart restores the world spawn position
+PASS: timer expiry gives an active aerial combo time to land
+PASS: overtime clean landing banks its combo before finishing the run
+PASS: overtime cannot preserve an unlanded combo indefinitely
+PASS: injected Escape key event reaches pause flow
+PASS: injected Escape key event resumes paused play
+PASS: injected standard gamepad Options event reaches pause flow
+PASS: injected R key restarts directly from a paused run
+PASS: world retains original rail tracks and adds valid district rails
+PASS: descending aligned skater catches the real east rail while grind is held
+PASS: rail catch adds one trick and preserves the unbanked aerial combo
+PASS: held grind advances along the visible rail
+PASS: holding a rail does not award entry points every physics tick
+PASS: a real capture emits its authored ID once, without per-tick repeats
+PASS: pause freezes rail travel and balance
+PASS: ollie releases a held rail upward and cooldown prevents immediate recapture
+PASS: rail-to-ollie-to-ground combo banks exactly once on real landing
+PASS: resting after rail combo cannot bank it again
+PASS: the production rail can be ridden in the reverse direction
+PASS: releasing grind drops off without teleporting to spawn
+PASS: open rail endpoint releases into forward airborne travel without wrapping
+PASS: perpendicular travel cannot snap, score or emit an authored rail capture
+PASS: grind input away from authored rails cannot generate points or capture events
+PASS: solid scenery prevents through-wall capture and emits no rail-ID event
+PASS: excessive rail lean bails and loses only the pending combo
+PASS: a pending rail combo receives the same bounded run overtime as air
+PASS: rail overtime still resolves within its three-second bound
+PASS: restart clears the rail state, balance and pending score
+PASS: grind regression: ground approach starts with real floor support
+PASS: grind regression: grounded push builds speed without snapping or scoring a rail
+PASS: grind regression: real push and ollie descend into an eligible rail catch
+PASS: grind regression: played approach links ollie and rail without banking early
+PASS: grind regression: scenery blocking an active ride produces exactly one bail
+PASS: grind regression: obstructed ride loses its pending combo and preserves prior bank
+PASS: grind regression: obstructed ride recovers at the supported spawn
+PASS: grind regression: overtime rejects fresh aerial flip and grab entries
+PASS: grind regression: fresh overtime spin cannot increase the landing award
+PASS: grind regression: overtime rejects a fresh otherwise eligible rail attachment
+PASS: grind regression: timeout fixture begins on a valid active rail
+PASS: grind regression: overtime cannot start a new scored rail ollie
+PASS: grind regression: overtime still permits releasing an existing rail
+PASS: grind regression: released overtime rail combo banks once on physical landing
+PASS: grind regression: a spin completed before expiry still resolves in the landing combo
+PASS: combo integration: stationary manual and out-of-window revert cannot award points
+PASS: combo integration: fresh manual input cannot enter from the air
+PASS: combo integration: manual held from the air does not manufacture a landing entry
+PASS: combo integration: real ollie and flip land into an unbanked 0.35-second link window
+PASS: combo integration: mapped M key links the landing into one manual entry
+PASS: combo integration: balanced held manual preserves the combo beyond the landing deadline
+PASS: combo integration: pause freezes manual movement, balance and run time
+PASS: combo integration: ollie exits the manual into air without prematurely banking
+PASS: combo integration: air-manual-air sequence retains repeat degradation across links
+PASS: combo integration: 0.25 seconds of clean ground time is still inside the bank window
+PASS: combo integration: the complete played line banks exactly 3200 after the deadline
+PASS: combo integration: continued ground travel cannot bank the linked line twice
+PASS: combo integration: an early aerial revert press is rejected
+PASS: combo integration: holding an early revert does not queue a landing award
+PASS: combo integration: a valid fresh landing revert scores once and costs 15 percent speed
+PASS: combo integration: revert consumes the original bank window without refreshing it
+PASS: combo integration: repeated fresh revert presses cannot score twice on one landing
+PASS: combo integration: revert alone cannot keep an ollie combo alive indefinitely
+PASS: combo integration: late revert after the landing window cannot open a new combo
+PASS: combo integration: clean manual release opens a single pending bank
+PASS: combo integration: immediate manual reentry is blocked by its cooldown
+PASS: combo integration: holding through cooldown cannot farm manual entry or postpone banking
+PASS: combo integration: a fresh eligible manual after cooldown starts a new full-value combo
+PASS: combo integration: failed manual balance bails once and preserves only the previous bank
+PASS: combo integration: an ollie inside the landing window continues with repeat degradation
+PASS: combo integration: an ollie after the landing window starts a separate full-value combo
+PASS: combo integration: an already active manual receives bounded overtime
+PASS: combo integration: overtime blocks starting an ollie link from a manual
+PASS: combo integration: clean overtime manual release completes its pending bank before results
+PASS: combo integration: maintained manual cannot extend the three-second overtime deadline
+PASS: combo integration: a fresh manual cannot enter after expiry even inside a landing window
+PASS: combo integration: rejected overtime link still permits the earned ollie to bank
+PASS: career integration: level publishes the H objective marker
+PASS: career integration: actual skating through the world marker collects one letter
+PASS: career integration: remaining near a collected marker cannot duplicate progress
+PASS: career integration: passing near the cone requires an explicit interaction
+PASS: career integration: mapped X input completes the nearby cone interaction
+PASS: career integration: restart clears run collections and retains completed career goals
+PASS: career integration: free-skate collection and banking do not grant career progress or records
+PASS: career integration: automated scene checks keep profile persistence disabled
+PASS: career integration: locked special input cannot consume a full meter or award points
+PASS: career integration: unlocked special still requires a full meter
+PASS: career integration: a grounded special request cannot spend its charge
+PASS: career integration: mapped U input performs one unlocked aerial special and spends one charge
+PASS: career integration: a second request in the same airtime neither spends nor awards again
+PASS: career integration: the earned special joins the ollie and banks through real landing
+PASS: career integration: restart clears run score and meter while keeping career unlocks
+PASS: career integration: central platform gap has authored trigger geometry
+PASS: career integration: actual push-driven approach climbs onto the Central platform
+PASS: career integration: a physical platform ollie crosses both gap triggers and awards once
+PASS: career integration: the real Central gap event completes its career goal
+PASS: career integration: physical gap points and ollie resolve through the landing bank
+PASS: career integration: continued travel after the gap cannot award or bank it twice
+PASS: career integration: main bail wiring resets an armed gap and drops only pending score
+PASS: career integration: restart retains the completed gap goal and resets run scoring
+PASS: UI integration: title consumes Escape and gameplay restart/mode shortcuts
+PASS: UI integration: keyboard activation opens title settings without starting a run
+PASS: UI integration: settings Escape returns to its title origin
+PASS: UI integration: title career button starts a fresh timed run
+PASS: UI integration: title free-skate button starts untimed skating
+PASS: UI integration: pause mode button switches free skate back to career
+PASS: UI integration: mapped goals input pauses timer and physical skating
+PASS: UI integration: route map opened through goals keeps the run paused
+PASS: UI integration: map receives six places and authored world routes
+PASS: UI integration: closing map returns to the goals page without resuming
+PASS: UI integration: closing goals opened during skating resumes the run
+PASS: UI integration: pause-menu goals opens while retaining pause
+PASS: UI integration: goals opened from pause returns to pause without resuming
+PASS: UI integration: synthetic controller disconnect pauses gameplay and skating audio
+PASS: UI integration: repeated disconnect preserves an already open modal
+PASS: UI integration: settings exposes audio, readability and camera controls
+PASS: UI integration: actual sliders combine master and channel volumes in audio
+PASS: UI integration: settings widgets update saved preferences and active presentation
+PASS: UI integration: conflicting live rebind keeps capture open without changing preferences
+PASS: UI integration: Escape cancels binding capture without closing controls or resuming
+PASS: UI integration: physical rebind input updates both live controls and profile preferences
+PASS: UI integration: the newly bound key performs an actual ollie after menu exit
+PASS: UI integration: restore-defaults button clears persisted overrides and restores Space
+PASS: UI integration: locked cosmetic remains unavailable in goals menu
+PASS: UI integration: selecting an earned cosmetic changes rider and stored selection
+PASS: UI integration: pause restart clears run state and retains customization
+PASS: UI integration: timed expiry presents final banked score and stops skating
+PASS: UI integration: results consumes Escape without resuming a finished run
+PASS: UI integration: results settings returns to results
+PASS: UI integration: results replay button starts a fresh timed run
+PASS: UI integration: all scene flows keep profile writes disabled
+PASS: UI feedback: a newly built menu reports its pending layout instead of false readiness
+PASS: UI feedback: title becomes opaque, bounded and focused after actual process frames
+PASS: UI feedback: title → settings → controls → goals preserves paused title session
+PASS: UI feedback: nested goals returns to controls
+PASS: UI feedback: controls returns to settings and the button that opened it
+PASS: UI feedback: settings returns to title with original focus instead of looping
+PASS: UI feedback: nested controls/settings return to goals without prematurely resuming
+PASS: UI feedback: the live goals origin resumes exactly once after nested menus
+PASS: UI feedback: three nested results pages return to results with focus and finished state
+PASS: UI feedback: controller-disconnect explanation is readable above the pause menu
+PASS: UI feedback: modified key rejection leaves binding capture and preferences intact
+PASS: UI feedback: cancelling binding capture keeps the selected action focused
+PASS: UI feedback: successful rebinding preserves action focus and scroll position
+PASS: UI feedback: restoring defaults leaves its visible button focused after rebuilding
+PASS: UI feedback: event notice, active combo and timed link cue remain visible together
+PASS: UI feedback: event and combo text occupy separate screen regions
+PASS: UI feedback: long-key prompt fixture applies valid live bindings
+PASS: UI feedback: externally changed bindings refresh both interaction and combo link prompts
+PASS: UI feedback: controller prompts use mapped buttons and compact stick directions
+PASS: UI feedback: persistent save failure stays visible during a live combo
+PASS: UI feedback: all active HUD regions fit (1920, 1080) at 1.4× UI
+PASS: UI feedback: balance, district, goals and save warning have clear space at (1920, 1080)
+PASS: UI feedback: full ten-digit score fits without ellipsis at (1920, 1080)
+PASS: UI feedback: title and persistent warning fit (1920, 1080) at 1.4× UI
+PASS: UI feedback: large title has enough height to render its complete line at (1920, 1080)
+PASS: UI feedback: nested controls retain a usable scroll region at (1920, 1080)
+PASS: UI feedback: all active HUD regions fit (960, 600) at 1.4× UI
+PASS: UI feedback: balance, district, goals and save warning have clear space at (960, 600)
+PASS: UI feedback: full ten-digit score fits without ellipsis at (960, 600)
+PASS: UI feedback: title and persistent warning fit (960, 600) at 1.4× UI
+PASS: UI feedback: large title has enough height to render its complete line at (960, 600)
+PASS: UI feedback: nested controls retain a usable scroll region at (960, 600)
+PASS: UI feedback: all active HUD regions fit (640, 480) at 1.4× UI
+PASS: UI feedback: balance, district, goals and save warning have clear space at (640, 480)
+PASS: UI feedback: full ten-digit score fits without ellipsis at (640, 480)
+PASS: UI feedback: title and persistent warning fit (640, 480) at 1.4× UI
+PASS: UI feedback: large title has enough height to render its complete line at (640, 480)
+PASS: UI feedback: nested controls retain a usable scroll region at (640, 480)
+PASS: UI feedback: successful save recovery removes the warning from live and modal layouts
+PASS: presentation: real square floor selects stone wheel sound
+PASS: presentation: district welcome uses a readable location, not its internal ID
+PASS: presentation: district visits do not leave misleading collectible orbs
+PASS: presentation: real connector floor contact selects asphalt wheel sound
+PASS: presentation: actual Clyde bridge approach selects metal wheel sound
+PASS: presentation: pickup feedback reports the actual run collection count
+PASS: presentation: completed goals display their authored player-facing titles
+PASS: presentation: simultaneous goals use bounded readable feedback
+PASS: presentation: real protected-save failure exposes a warning and preserves file bytes
+PASS: encounter rules: a pre-existing unbanked combo cannot enter a fresh attempt
+PASS: encounter rules: interaction checks horizontal and vertical proximity
+PASS: encounter rules: eligible deliberate nearby interaction starts one attempt
+PASS: encounter rules: real frontside/backside labels share a single spin family
+PASS: encounter rules: a short bank cannot win or carry trick families into the next combo
+PASS: encounter rules: repeating one trick family cannot satisfy variety even with a large bank
+PASS: encounter rules: leaving and returning cannot import a qualifying outside combo
+PASS: encounter rules: a fresh valid combo wins once and duplicate bank callbacks cannot repeat it
+PASS: encounter rules: invalid elapsed time neither extends nor consumes the deadline
+PASS: encounter rules: the actual 35-second boundary expires a replay without inventing a win
+PASS: encounter rules: reset clears run-local attempt and performance state
+PASS: encounter integration: restarting outside interaction range does not auto-start Mo
+PASS: encounter integration: a physical push/brake approach reveals the offer without activating it
+PASS: encounter integration: mapped interaction input starts the live challenge
+PASS: encounter integration: pause freezes the live challenge deadline
+PASS: encounter integration: real ollie flip grab and landing bank complete Mo's challenge
+PASS: encounter integration: lingering after completion cannot repeat the win or bank
+PASS: encounter integration: mapped replay input rejects a real pending airborne combo
+PASS: encounter integration: actual frontside spin input counts as variety in a successful replay
+ENCOUNTER physical wins=2 score=3850 attempts=2
+PASS: encounter integration: a real unbalanced manual bail fails the attempt and drops pending score
+PASS: encounter integration: restart clears the side challenge while retaining existing career identity
+PASS: encounter integration: timed run completion ends Mo's active attempt and blocks results-screen replay
+PASS: encounter integration: free-skate performance succeeds without career awards, records or profile writes
+PASS: encounter integration: the replayable side activity preserves the original ten-goal career
+PASS: encounter audio: a bounded local mono PCM loop is spatially limited to Mo's court
+PASS: encounter audio: plucks contain non-silent unclipped samples and a quiet loop seam
+PASS: encounter audio: live master and ambience settings both scale the local instrument
+PASS: encounter audio: either master mute or ambience mute stops the local instrument
+PASS: encounter audio: menu pause suspends the instrument node and its visible performance
+PASS: encounter audio: resume restores the local performer processing
+PASS: cat rules: duplicate authored segment IDs cannot create an impossible accepted offer
+PASS: cat rules: pending combos and horizontal or vertical distance reject fresh attempts
+PASS: cat rules: a deliberate eligible offer starts at the first marked segment
+PASS: cat rules: unmarked or wrong first captures and an unrelated bank cannot advance the sequence
+PASS: cat rules: duplicate latest capture is ignored while an intermediate clean bank preserves progress
+PASS: cat rules: skipping the middle marked rail clears the ordered sequence
+PASS: cat rules: the first marked rail restarts a wrong-order sequence at one
+PASS: cat rules: all three captures still require a subsequent positive clean bank
+PASS: cat rules: a positive final bank wins once without a hidden score threshold
+PASS: cat rules: the earned payoff waits for both close audience and visibility without repeating rewards
+PASS: cat rules: eligible visibility starts the queued payoff once without restarting its clock
+PASS: cat rules: reduced motion stops an already started payoff without replaying it when disabled
+PASS: cat rules: a pending combo cannot replace a completed attempt
+PASS: cat rules: immediate clean replay starts fresh and preserves the run-local win count
+PASS: cat rules: an outside capture fails even before the next polling tick
+PASS: cat rules: an outside final bank cannot complete the attempt
+PASS: cat rules: leaving and returning cannot resume an invalidated attempt
+PASS: cat rules: invalid deltas are ignored and the actual sixty-second deadline expires
+PASS: cat rules: bail invalidates an incomplete sequence without adding a win
+PASS: cat rules: repeated run-finish notification is idempotent
+PASS: cat rules: restart removes all run-local attempt progress
+PASS: cat integration: three distinct authored tracks expose real player capture identity
+PASS: Techno Bin presentation: two separate visible cat props use soft nonmetal materials
+PASS: Techno Bin presentation: the active street drummer has a visible improvised bin kit
+PASS: Techno Bin presentation: a legible-sized outlined world sign identifies the corrected street act
+PASS: cat integration: a real free-skate interaction starts a fresh ordered attempt
+PASS: cat integration: real push ollie and rail transfers capture A B C once before any success
+PASS: cat integration: actual final release and landing bank complete the sequence with only earned trick points
+PASS: cat integration: success cannot repeat or add free-skate career progress, goals or profile writes
+PASS: cat presentation: the real offscreen final bank queues its earned payoff for the returning player
+PASS: cat presentation: actual input return and the production camera frustum start one visible payoff
+PASS: Techno Bin presentation: the earned visible payoff actually moves both soft cats and the drummer
+PASS: cat presentation: menu pause freezes the accepted payoff
+PASS: cat presentation: the visible payoff completes its full bound without another completion
+PASS: cat presentation: reduced motion holds both cats and drummer still while the underlying drum clock continues
+PASS: cat presentation: lingering and toggling motion cannot replay the completed payoff or reward
+CAT audience returned_frames=50 trigger_distance=9.86 frustum=true celebration=finished elapsed=3.20
+CAT physical approach=true captures=["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"] positions=[(-16.0, 4.6, -91.0), (-3.700701, 4.6, -91.00001), (8.060581, 4.6, -91.0)] sequence=[1, 2, 3] tricks=["Ollie", "Rail Grind", "Ollie", "Rail Grind", "Ollie", "Rail Grind"] bank=1050 bails=0 state=success remaining=52.25
+PASS: cat integration: mapped nearby interaction starts the production attempt
+PASS: cat integration: pause freezes the challenge deadline
+PASS: cat integration: career expiry ends the side attempt while the real airborne combo still resolves
+PASS: cat integration: final banking or results-screen interaction cannot revive an expired attempt
+PASS: cat integration: restart clears the challenge while retaining career identity
+PASS: cat integration: actual manual imbalance bails once and clears the live attempt and pending score
+CAT bail entered=true bails=1 state=failed reason=No bother. Come back and we'll strike up another beat. position=(0.0, 5.45, -95.0) speed=0.00 manual=false
+PASS: Techno Bin audio: the performer owns exactly one spatial percussion source
+PASS: Techno Bin audio: original percussion is a bounded spatial mono PCM loop
+PASS: Techno Bin audio: generated drum samples carry energy without clipping or a loud loop seam
+PASS: Techno Bin audio: nonfinite gains mute safely and excessive direct gains clamp to full mix
+PASS: Techno Bin audio: the public master and ambience controls both scale the drum mix
+PASS: Techno Bin audio: either mute control stops the percussion source
+PASS: Techno Bin audio: a real menu pause suspends the source and visible drum rhythm
+PASS: Techno Bin audio: resuming restores performer processing and rhythm
+PASS: Techno Bin audio: run end stops the beat and changing settings cannot restart a finished act
+PASS: Techno Bin audio: the next run restores the local street performance
+PASS: delivery: two authored market choices and a stable encounter definition exist
+PASS: delivery rules: pending combos and out-of-range offers cannot collect a parcel
+PASS: delivery rules: pickup and proximity to the counter alone cannot win
+PASS: delivery rules: reversed gap/manual order cannot qualify and the early bank clears that line
+PASS: delivery rules: a zero-point or missing Manual cannot arm the required gap
+PASS: delivery rules: an unrelated gap and large bank cannot substitute for the market line
+PASS: delivery rules: first gate commits the branch and duplicate gap, other lane or skipped gates cannot advance it
+PASS: delivery rules: the qualified line still needs a positive clean bank
+PASS: delivery rules: a bank without the complete chosen route cannot deliver
+PASS: delivery rules: arrival also checks actual vertical proximity
+PASS: delivery rules: valid arrival completes once and queues an unseen payoff without another reward
+PASS: delivery rules: the gull payoff waits for both audience range and visibility
+PASS: delivery rules: an eligible visible audience starts the already earned response
+PASS: delivery rules: a pending combo cannot overwrite a completed attempt
+PASS: delivery rules: clean replay resets parcel and route while preserving the run-local win
+PASS: delivery rules: a bail returns the parcel and invalidates all line evidence
+PASS: delivery rules: outside on_trick fails before any subsequent poll
+PASS: delivery rules: outside on_gap fails before any subsequent poll
+PASS: delivery rules: outside on_bank fails before any subsequent poll
+PASS: delivery rules: invalid deltas are ignored and the actual sixty-second deadline returns the parcel
+PASS: delivery rules: cancellation and repeated run finish cannot produce another delivery
+PASS: delivery rules: reset clears every session-local attempt and parcel state
+PASS: delivery markers: all six numbered lane markers and arrival match the configured world positions
+PASS: delivery markers: visible route cues add no collision objects to either skating lane
+PASS: delivery navigation: idle and pre-gap states do not invent a premature lane target
+PASS: delivery navigation: the real configured first gates of both choices become visible after the required gap
+PASS: delivery navigation: committing a branch highlights only its next ordered gate
+PASS: delivery navigation: all three gates lead to the physical counter instead of another lane marker
+PASS: delivery markers: ordinary and reduced-motion cues remain steady with identical navigation
+PASS: delivery navigation: failure and reset remove stale target highlights
+PASS: delivery physics: real pickup attaches the parcel and fresh Manual starts covered
+PASS: delivery physics: actual Manual ollie gap and clean bank earn exactly 1650 covered
+PASS: delivery physics: continuous movement completes all three chosen gates and physical arrival covered
+PASS: delivery camera: actual chase remains finite unobstructed and sees the rider covered
+PASS: delivery navigation: the actual bank directs the south-facing rider back towards both north entries covered
+PASS: delivery isolation: free skating preserves career saves and both other side acts covered
+PASS: delivery payoff: real arrival and the actual camera start the earned spare-parcel response
+PASS: delivery payoff: menu pause freezes the visible gull response
+PASS: delivery payoff: the bounded gull takes only the spare with no repeated delivery or score
+PASS: delivery payoff: reduced motion keeps the complete actor and parcels static
+PASS: delivery camera: the earned run returns north through the covered aisle without reset or camera blockage
+DELIVERY route=covered reached=true bank=1650 bails=0 gates=3 time=10.58 camera_samples=653 blocked=0 hidden=0
+PASS: delivery physics: real pickup attaches the parcel and fresh Manual starts west
+PASS: delivery physics: actual Manual ollie gap and clean bank earn exactly 1650 west
+PASS: delivery physics: continuous movement completes all three chosen gates and physical arrival west
+PASS: delivery camera: actual chase remains finite unobstructed and sees the rider west
+PASS: delivery navigation: the actual bank directs the south-facing rider back towards both north entries west
+PASS: delivery isolation: free skating preserves career saves and both other side acts west
+DELIVERY route=west reached=true bank=1650 bails=0 gates=3 time=9.10 camera_samples=565 blocked=0 hidden=0
+PASS: delivery lifecycle: real menu pause freezes the pickup deadline
+PASS: delivery lifecycle: first career expiry returns the parcel during ordinary combo overtime
+PASS: delivery lifecycle: results input cannot revive the expired parcel
+PASS: delivery lifecycle: restart restores the pickup with no stale route or attempt
+PASS: delivery lifecycle: a real unbalanced Manual bails once and visibly returns the carried parcel
+PASS: Exchange place: both attachments publish their supported bank joins and permanent bypasses
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bank_loop forward
+EXCHANGE ROUTE gallery_entrance_bank_loop forward reached=true seconds=4.65 height=2.008..2.690 slope_frames=69 bails=0 stalls=0 camera=279/0/0 final=(13.4718, 2.008036, -37.0)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bank_loop reverse
+EXCHANGE ROUTE gallery_entrance_bank_loop reverse reached=true seconds=4.65 height=2.008..2.690 slope_frames=69 bails=0 stalls=0 camera=279/0/0 final=(-13.47184, 2.008029, -37.0)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_front_return forward
+EXCHANGE ROUTE gallery_entrance_front_return forward reached=true seconds=3.08 height=2.004..2.664 slope_frames=25 bails=0 stalls=0 camera=185/0/0 final=(0.277215, 2.012947, -20.41557)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_front_return reverse
+EXCHANGE ROUTE gallery_entrance_front_return reverse reached=true seconds=3.10 height=2.000..2.710 slope_frames=24 bails=0 stalls=0 camera=186/0/0 final=(2.999535, 2.66242, -36.46793)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bypass forward
+EXCHANGE ROUTE gallery_entrance_bypass forward reached=true seconds=7.38 height=2.000..2.000 slope_frames=0 bails=0 stalls=0 camera=443/0/0 final=(21.9845, 2.000208, -38.48322)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bypass reverse
+EXCHANGE ROUTE gallery_entrance_bypass reverse reached=true seconds=7.38 height=2.000..2.000 slope_frames=0 bails=0 stalls=0 camera=443/0/0 final=(-21.9845, 2.000208, -38.48322)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bank_loop forward
+EXCHANGE ROUTE exchange_west_bank_loop forward reached=true seconds=5.45 height=0.000..0.481 slope_frames=63 bails=0 stalls=0 camera=327/0/0 final=(-22.03465, 0.003663, 0.836675)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bank_loop reverse
+EXCHANGE ROUTE exchange_west_bank_loop reverse reached=true seconds=5.55 height=0.000..0.483 slope_frames=63 bails=0 stalls=0 camera=333/0/0 final=(-22.51371, 0.013936, 0.3017)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bypass forward
+EXCHANGE ROUTE exchange_west_bypass forward reached=true seconds=2.03 height=0.000..0.000 slope_frames=0 bails=0 stalls=0 camera=122/0/0 final=(-22.0, 0.000208, -1.471455)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bypass reverse
+EXCHANGE ROUTE exchange_west_bypass reverse reached=true seconds=2.03 height=0.000..0.000 slope_frames=0 bails=0 stalls=0 camera=122/0/0 final=(-22.0, 0.000208, 13.47248)
+PASS: Exchange portico: each exposed column has actual blocking collision above its base
+PASS: Exchange portico: the front terrace crossing remains clear of the real columns
+PASS: Exchange place: preserved physical port and chase station south port forward
+PASS: Exchange place: preserved physical port and chase station south port reverse
+PASS: Exchange place: preserved physical port and chase cone and east spine forward
+PASS: Exchange place: preserved physical port and chase cone and east spine reverse
+PASS: Exchange combo: actual push rides the new entrance bank before the ollie
+PASS: Exchange combo: one real capture follows the bent seating ledge into its south-facing exit
+PASS: Exchange combo: rail ollie air tricks and a fresh Manual remain one physical line
+PASS: Exchange combo: exact repeat-degraded line banks 5000 once without event injection
+PASS: Exchange combo: actual bank ledge and landing chase remains finite clear and visible
+EXCHANGE COMBO captured=true south_exit=true manual=true connected=true bank=5000 bails=0 grounded_ascent=0.274 camera=324/0/0 tricks=["Ollie", "Rail Grind", "Ollie", "Kickflip", "Melon Grab", "Manual"]
+PASS: topography: actual level and upward support Exchange lower square
+PASS: topography: actual level and upward support Exchange gallery
+PASS: topography: actual level and upward support George square
+PASS: topography: actual level and upward support George civic terrace
+PASS: topography: actual level and upward support Central concourse
+PASS: topography: actual level and upward support Central elevated platform
+PASS: topography: actual level and upward support Barras market
+PASS: topography: actual level and upward support Barras loading terrace
+PASS: topography: authored graded route gallery_civic_ascent
+PASS: topography: physical grade and seam transit gallery_civic_ascent uphill
+TOPOGRAPHY route=gallery_civic_ascent uphill reached=true seconds=10.47 height=0.01..6.15 slope_frames=162 bails=0 stalled=0
+PASS: topography: physical grade and seam transit gallery_civic_ascent downhill
+TOPOGRAPHY route=gallery_civic_ascent downhill reached=true seconds=10.47 height=0.00..6.00 slope_frames=162 bails=0 stalled=0
+PASS: topography: authored graded route central_south_link
+PASS: topography: physical grade and seam transit central_south_link uphill
+TOPOGRAPHY route=central_south_link uphill reached=true seconds=3.90 height=0.00..2.02 slope_frames=61 bails=0 stalled=0
+PASS: topography: physical grade and seam transit central_south_link downhill
+TOPOGRAPHY route=central_south_link downhill reached=true seconds=3.90 height=0.00..2.00 slope_frames=61 bails=0 stalled=0
+PASS: topography: authored graded route market_loading_ascent
+PASS: topography: physical grade and seam transit market_loading_ascent uphill
+TOPOGRAPHY route=market_loading_ascent uphill reached=true seconds=5.05 height=0.00..1.54 slope_frames=49 bails=0 stalled=0
+PASS: topography: physical grade and seam transit market_loading_ascent downhill
+TOPOGRAPHY route=market_loading_ascent downhill reached=true seconds=5.05 height=0.01..1.50 slope_frames=48 bails=0 stalled=0
+PASS: topography: nonlinear branch published station_low_level_close
+PASS: topography: real physical transit through every bend station_low_level_close forward
+TOPOGRAPHY branch=station_low_level_close forward reached=true seconds=6.07 height=2.00..2.00 bails=0 stalled=0 position=(-82.01755, 2.000208, 21.24225)
+PASS: topography: real physical transit through every bend station_low_level_close reverse
+TOPOGRAPHY branch=station_low_level_close reverse reached=true seconds=6.07 height=2.00..2.00 bails=0 stalled=0 position=(-125.9257, 2.000208, -0.782347)
+PASS: topography: nonlinear branch published merchant_close_cutthrough
+PASS: topography: real physical transit through every bend merchant_close_cutthrough forward
+TOPOGRAPHY branch=merchant_close_cutthrough forward reached=true seconds=4.47 height=2.00..4.03 bails=0 stalled=0 position=(-58.98143, 4.005922, -79.41744)
+PASS: topography: real physical transit through every bend merchant_close_cutthrough reverse
+TOPOGRAPHY branch=merchant_close_cutthrough reverse reached=true seconds=4.47 height=2.00..4.01 bails=0 stalled=0 position=(-64.16037, 2.014053, -30.58203)
+PASS: topography: nonlinear branch published kelvingrove_cutback_return
+PASS: topography: real physical transit through every bend kelvingrove_cutback_return forward
+TOPOGRAPHY branch=kelvingrove_cutback_return forward reached=true seconds=9.25 height=4.53..11.01 bails=0 stalled=0 position=(-147.7447, 4.534587, -48.2537)
+PASS: topography: real physical transit through every bend kelvingrove_cutback_return reverse
+TOPOGRAPHY branch=kelvingrove_cutback_return reverse reached=true seconds=9.28 height=4.50..11.02 bails=0 stalled=0 position=(-208.586, 11.01411, -125.6211)
+PASS: topography: nonlinear branch published clyde_print_yard_loop
+PASS: topography: real physical transit through every bend clyde_print_yard_loop forward
+TOPOGRAPHY branch=clyde_print_yard_loop forward reached=true seconds=6.83 height=2.00..2.01 bails=0 stalled=0 position=(35.74448, 2.014243, 123.8621)
+PASS: topography: real physical transit through every bend clyde_print_yard_loop reverse
+TOPOGRAPHY branch=clyde_print_yard_loop reverse reached=true seconds=6.83 height=2.00..2.01 bails=0 stalled=0 position=(35.49256, 2.014242, 124.2859)
+PASS: topography: nonlinear branch published clyde_print_yard_hip
+PASS: topography: real physical transit through every bend clyde_print_yard_hip forward
+TOPOGRAPHY branch=clyde_print_yard_hip forward reached=true seconds=2.33 height=2.00..3.42 bails=0 stalled=0 position=(59.99303, 2.006068, 134.8414)
+PASS: topography: real physical transit through every bend clyde_print_yard_hip reverse
+TOPOGRAPHY branch=clyde_print_yard_hip reverse reached=true seconds=2.42 height=2.00..3.32 bails=0 stalled=0 position=(68.26847, 2.014186, 127.5815)
+PASS: topography: nonlinear branch published merchant_service_east_return
+PASS: topography: real physical transit through every bend merchant_service_east_return forward
+TOPOGRAPHY branch=merchant_service_east_return forward reached=true seconds=2.25 height=1.00..2.04 bails=0 stalled=0 position=(-58.99719, 2.003873, -34.71913)
+PASS: topography: real physical transit through every bend merchant_service_east_return reverse
+TOPOGRAPHY branch=merchant_service_east_return reverse reached=true seconds=2.25 height=1.00..2.00 bails=0 stalled=0 position=(-56.57224, 1.010798, -55.48971)
+PASS: topography: nonlinear branch published merchant_service_west_return
+PASS: topography: real physical transit through every bend merchant_service_west_return forward
+TOPOGRAPHY branch=merchant_service_west_return forward reached=true seconds=1.88 height=1.00..4.15 bails=0 stalled=0 position=(-87.38413, 3.759377, -69.94226)
+PASS: topography: real physical transit through every bend merchant_service_west_return reverse
+TOPOGRAPHY branch=merchant_service_west_return reverse reached=true seconds=1.80 height=1.00..3.75 bails=0 stalled=0 position=(-72.61939, 1.000051, -70.00143)
+PASS: topography: curved bank has multiple actual collision grades within its 35-degree contract
+TOPOGRAPHY hip slope_bins=5 steepest=31.06
+PASS: topography: independent low floor, overhead clearance and upper deck support x=-114.0
+PASS: topography: independent low floor, overhead clearance and upper deck support x=-94.0
+PASS: topography: permanent court approach or bank loop published cat_coping_approach
+PASS: topography: physical court access and grade transit cat_coping_approach forward
+TOPOGRAPHY court=cat_coping_approach forward reached=true seconds=1.35 height=4.00..4.02 slope_frames=0 bails=0 stalled=0 position=(-18.77725, 4.021517, -91.0)
+PASS: topography: physical court access and grade transit cat_coping_approach reverse
+TOPOGRAPHY court=cat_coping_approach reverse reached=true seconds=1.37 height=4.00..4.01 slope_frames=1 bails=0 stalled=0 position=(-27.4168, 4.011094, -90.99997)
+PASS: topography: permanent court approach or bank loop published cat_coping_runout
+PASS: topography: physical court access and grade transit cat_coping_runout forward
+TOPOGRAPHY court=cat_coping_runout forward reached=true seconds=2.18 height=4.01..4.02 slope_frames=1 bails=0 stalled=0 position=(21.96996, 4.011241, -74.67348)
+PASS: topography: physical court access and grade transit cat_coping_runout reverse
+TOPOGRAPHY court=cat_coping_runout reverse reached=true seconds=2.20 height=4.01..4.18 slope_frames=1 bails=0 stalled=0 position=(16.58291, 4.084474, -90.99652)
+PASS: topography: permanent court approach or bank loop published cat_workshop_bypass
+PASS: topography: physical court access and grade transit cat_workshop_bypass forward
+TOPOGRAPHY court=cat_workshop_bypass forward reached=true seconds=5.80 height=4.00..4.00 slope_frames=0 bails=0 stalled=0 position=(21.96647, 4.000208, -90.2449)
+PASS: topography: physical court access and grade transit cat_workshop_bypass reverse
+TOPOGRAPHY court=cat_workshop_bypass reverse reached=true seconds=5.80 height=4.00..4.00 slope_frames=0 bails=0 stalled=0 position=(-21.96647, 4.000208, -90.2449)
+PASS: topography: permanent court approach or bank loop published civic_workshop_bank_loop
+PASS: topography: physical court access and grade transit civic_workshop_bank_loop forward
+TOPOGRAPHY court=civic_workshop_bank_loop forward reached=true seconds=3.70 height=4.00..4.75 slope_frames=43 bails=0 stalled=0 position=(21.36184, 4.012421, -95.48647)
+PASS: topography: physical court access and grade transit civic_workshop_bank_loop reverse
+TOPOGRAPHY court=civic_workshop_bank_loop reverse reached=true seconds=3.70 height=4.00..4.75 slope_frames=43 bails=0 stalled=0 position=(-21.3625, 4.012423, -95.48656)
+PASS: topography: permanent court approach or bank loop published market_hall_bank_loop
+PASS: topography: physical court access and grade transit market_hall_bank_loop forward
+TOPOGRAPHY court=market_hall_bank_loop forward reached=true seconds=3.48 height=-0.00..0.73 slope_frames=43 bails=0 stalled=0 position=(81.68667, 0.012933, 8.589786)
+PASS: topography: physical court access and grade transit market_hall_bank_loop reverse
+TOPOGRAPHY court=market_hall_bank_loop reverse reached=true seconds=3.45 height=-0.00..0.89 slope_frames=31 bails=0 stalled=0 position=(81.2724, 0.014013, 8.002419)
+PASS: topography: print-yard ledge publishes a usable local trick line
+PASS: topography: actual yard ollie capture rail-ollie air tricks and manual stay in one unbanked line
+PASS: topography: new local rail-air-manual route banks its exact repeated-trick combo once
+TOPOGRAPHY localcombo captured=true manual=true connected=true bank=5000 bails=0 tricks=["Ollie", "Rail Grind", "Ollie", "Kickflip", "Melon Grab", "Manual"]
+PASS: topography: fountain publishes a full curved coping circuit
+PASS: topography: real ground approach and descending ollie capture fountain coping
+PASS: topography: curved grind follows changing tangent without cutting through the fountain
+PASS: topography: released curved coping lands and banks once without a bail
+TOPOGRAPHY fountain captured=true bails=0 position=(-19.09912, 0.012419, 5.77217)
+PASS: topography: authored outdoor connection clyde_north_quay
+PASS: topography: actual supported outdoor travel clyde_north_quay
+TOPOGRAPHY outdoor=clyde_north_quay reached=true seconds=16.08 bails=0 stalled=0
+PASS: topography: authored outdoor connection clyde_safe_crossing
+PASS: topography: actual supported outdoor travel clyde_safe_crossing
+TOPOGRAPHY outdoor=clyde_safe_crossing reached=true seconds=4.57 bails=0 stalled=0
+PASS: topography: park climb and rolling loop published
+PASS: topography: actual park climb, hill circuit and descent return to the Central port
+TOPOGRAPHY park reached=true seconds=29.13 height=2.00..18.25 slopes=860 bails=0 stalled=0
+PASS: topography: broken bridge publishes its run-up and landing
+PASS: topography: broken bridge has a named scored gap
+PASS: topography: actual push run-up reaches the bridge launch grade
+PASS: topography: physical eight-metre bridge ollie reaches south bank and banks the named gap once
+TOPOGRAPHY bridge takeoff=true landed=true awards=1 bank=2000 bails=0
+PASS: topography: missed bridge drops the real fall combo once and preserves the earned bank
+PASS: topography: water recovery returns to supported quay without changing the run restart spawn
+TOPOGRAPHY water bails=1 pending=true sampled_water=true bank=100 position=(25.0, 2.000208, 124.0)
+ROUTE waypoint 0 (-22.0, 2.0, -26.0) reached=true t=5.98 pos=(-22.0, 2.012423, -25.06434) speed=9.95
+ROUTE waypoint 1 (-22.0, 2.0, -22.0) reached=true t=7.25 pos=(-22.0, 2.012423, -22.87674) speed=9.28
+ROUTE waypoint 2 (18.0, 2.0, -22.0) reached=true t=9.97 pos=(17.15155, 2.012423, -22.0186) speed=15.00
+ROUTE waypoint 3 (22.0, 2.0, -22.0) reached=true t=10.23 pos=(21.15146, 2.012423, -22.00242) speed=15.00
+ROUTE waypoint 4 (22.0, 4.0, -74.0) reached=true t=13.87 pos=(21.98649, 4.012417, -73.15943) speed=12.80
+ROUTE waypoint 5 (-22.0, 4.0, -74.0) reached=true t=17.58 pos=(-21.02039, 4.012417, -74.05571) speed=15.00
+ROUTE waypoint 6 (22.0, 4.0, -74.0) reached=true t=20.40 pos=(21.2296, 4.012417, -74.001) speed=15.00
+ROUTE waypoint 7 (22.0, 6.0, -116.0) reached=true t=23.15 pos=(21.98302, 6.012395, -115.0284) speed=15.00
+ROUTE waypoint 8 (20.0, 6.0, -116.0) reached=true t=23.23 pos=(20.86052, 6.012395, -115.5784) speed=15.00
+ROUTE waypoint 9 (22.0, 4.0, -74.0) reached=true t=25.97 pos=(21.9794, 4.012424, -74.76094) speed=15.00
+ROUTE waypoint 10 (-60.0, 4.0, -80.0) reached=true t=32.08 pos=(-59.09522, 4.012452, -79.94218) speed=11.03
+ROUTE waypoint 11 (-88.0, 4.0, -80.0) reached=true t=34.77 pos=(-87.17648, 4.012452, -80.0034) speed=15.00
+ROUTE waypoint 12 (-88.0, 2.0, -40.0) reached=true t=37.38 pos=(-87.98323, 2.01115, -40.82433) speed=15.00
+ROUTE waypoint 13 (-82.0, 2.0, -40.0) reached=true t=37.73 pos=(-82.78242, 2.01115, -40.1078) speed=15.00
+ROUTE waypoint 14 (-62.0, 2.0, 22.0) reached=true t=42.03 pos=(-62.31502, 2.01115, 21.0586) speed=15.00
+ROUTE waypoint 15 (-82.0, 2.0, 34.0) reached=true t=43.55 pos=(-81.32496, 2.01115, 33.55621) speed=15.00
+ROUTE waypoint 16 (-94.0, 2.0, 34.0) reached=true t=44.33 pos=(-93.06779, 2.01115, 33.96736) speed=15.00
+ROUTE waypoint 17 (-94.0, 5.0, 4.5) reached=true t=46.27 pos=(-93.97649, 5.010691, 5.276464) speed=15.00
+ROUTE waypoint 18 (-94.0, 5.0, -12.0) reached=true t=47.37 pos=(-94.03663, 5.012431, -11.21722) speed=15.00
+ROUTE waypoint 19 (-94.0, 2.0, -38.0) reached=true t=49.12 pos=(-94.00096, 2.134174, -37.23259) speed=15.00
+ROUTE waypoint 20 (-62.0, 2.0, -38.0) reached=true t=51.20 pos=(-62.75957, 2.001832, -37.98171) speed=15.00
+ROUTE waypoint 21 (-62.0, 2.0, 22.0) reached=true t=55.43 pos=(-62.01063, 2.012444, 21.16032) speed=12.45
+ROUTE waypoint 22 (-22.0, 0.0, 22.0) reached=true t=58.92 pos=(-22.93814, 0.011998, 22.05466) speed=15.00
+ROUTE waypoint 23 (22.0, 0.0, 22.0) reached=true t=61.85 pos=(21.06185, 0.011998, 22.00114) speed=15.00
+ROUTE waypoint 24 (60.0, 0.0, 22.0) reached=true t=64.38 pos=(59.06185, 0.011998, 22.00002) speed=15.00
+ROUTE waypoint 25 (70.0, 0.0, 22.0) reached=true t=65.05 pos=(69.06185, 0.011998, 22.0) speed=15.00
+ROUTE waypoint 26 (94.0, 0.0, 20.0) reached=true t=66.67 pos=(93.23415, 0.011998, 20.06142) speed=15.00
+ROUTE waypoint 27 (106.0, 0.0, 26.0) reached=true t=67.55 pos=(105.248, 0.011998, 25.65015) speed=15.00
+ROUTE waypoint 28 (126.0, 0.0, 26.0) reached=true t=68.88 pos=(125.2449, 0.011998, 25.98727) speed=15.00
+ROUTE waypoint 29 (126.0, 1.5, -18.0) reached=true t=71.88 pos=(125.986, 1.397646, -17.14614) speed=13.37
+ROUTE waypoint 30 (120.0, 1.5, -22.0) reached=true t=72.85 pos=(120.8347, 1.506277, -21.92137) speed=12.20
+ROUTE waypoint 31 (120.0, 1.5, -33.0) reached=true t=73.55 pos=(120.0735, 1.506277, -32.02408) speed=15.00
+ROUTE waypoint 32 (120.0, 1.5, -22.0) reached=true t=74.17 pos=(120.0057, 1.506277, -22.77436) speed=15.00
+ROUTE waypoint 33 (106.0, 1.5, -22.0) reached=true t=75.05 pos=(106.7759, 1.506277, -22.0429) speed=15.00
+ROUTE waypoint 34 (106.0, 1.5, -26.0) reached=true t=75.27 pos=(106.1506, 1.506277, -25.23217) speed=15.00
+ROUTE waypoint 35 (75.0, 1.5, -26.0) reached=true t=77.28 pos=(75.90979, 1.506277, -25.97758) speed=15.00
+ROUTE waypoint 36 (75.0, 1.5, -22.0) reached=true t=77.50 pos=(75.18514, 1.506277, -22.8094) speed=15.00
+ROUTE waypoint 37 (22.0, 2.0, -22.0) reached=true t=81.18 pos=(22.99566, 2.003622, -22.01514) speed=12.89
+ROUTE waypoint 38 (-22.0, 2.0, -22.0) reached=true t=84.73 pos=(-21.11629, 2.003622, -21.99923) speed=15.00
+ROUTE waypoint 39 (-22.0, 0.0, 28.0) reached=true t=88.02 pos=(-21.98425, 0.01036, 27.10235) speed=15.00
+PASS: career routes: input-driven collection circuit returns to spawn within 120 seconds without recovery
+PASS: career routes: continuous circuit physically passes all four district checkpoints
+PASS: career routes: continuous career run collects every HAWKS letter
+PASS: career routes: continuous route collects all market items and enters/exits the recording court
+PASS: career routes: physical district traversal grants Across the toon
+PASS: career routes: continuous circuit interacts with the cone and physically ollies the Central gap
+PASS: career routes: actual input tricks and collections complete all ten goals in one timed career run
+ROUTE SUMMARY circuit=true seconds=88.02 distance=1199.39 bails=0 stalled_frames=0 letters_at=66.62 market_at=75.22 secret_at=73.52
+ROUTE CAREER all_goals_at=75.22 score=20000 best_combo=3200 trick_inputs={ "Ollie": 7, "Kickflip": 6, "Melon Grab": 6, "Manual": 9 }
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to George east grade forward
+ROUTE COMBO Exchange to George east grade forward seconds=6.23 bank=3200 crossed=true connected=true manual=true entries=2 bails=0
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to George east grade reverse
+ROUTE COMBO Exchange to George east grade reverse seconds=6.23 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to Central south grade forward
+ROUTE COMBO Exchange to Central south grade forward seconds=6.25 bank=3200 crossed=true connected=true manual=true entries=2 bails=0
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to Central south grade reverse
+ROUTE COMBO Exchange to Central south grade reverse seconds=5.93 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to Barras north grade forward
+ROUTE COMBO Exchange to Barras north grade forward seconds=5.73 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to Barras north grade reverse
+ROUTE COMBO Exchange to Barras north grade reverse seconds=5.75 bank=3200 crossed=true connected=true manual=true entries=2 bails=0
+RESULT: 1155 passed, 0 failed

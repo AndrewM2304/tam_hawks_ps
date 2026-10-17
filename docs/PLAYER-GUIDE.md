@@ -79,3 +79,9 @@ Record your computer/OS, keyboard or wired/Bluetooth controller, then note any s
 Find Mairi's breakfast-parcel stall on the loading terrace below the Barrowland sign. Settle your current combo, then interact to collect the courier bag and start the 60-second delivery. Manual toward the loading steps, ollie the marked **Market Loading Steps** gap and land a clean bank in the same line. Banking too early lets you retry while the clock keeps running.
 
 After the jump, choose the **Covered market** or **Calton lane** entrance, pass its three numbered markers in order and reach the **south delivery counter**. The first marker commits your lane. Steady world markers highlight the next target; the HUD gives its direction and distance. The first entrance is behind the fast stair landing, so follow the turn-back cue to hook into the market. A bail, leaving the market or timeout returns the parcel to Mairi. On success, your breakfast is safe and the gull raids a spare wrapper. Look toward the counter for the short response; reduced motion uses a static pose. Return to Mairi to replay. This optional challenge works in either mode and does not add a saved career goal.
+
+### Exchange/gallery skating edges
+
+The gallery entrance has low side banks leading to a raised stone terrace and an angled seating ledge. Use a controlled approach: full speed carries the bank's extra lift past this short ledge. Ollie onto it with Grind held, then ollie off and start a Manual after landing to continue the line. The open apron leads back toward the existing gallery stairs and fountain. These are ordinary skating opportunities; there is no extra challenge offer or saved goal.
+
+The west shopfronts have a separate low seating edge and bank. Ride up and back down, or try its coping, while the broad street beside it remains available for an easier pass. The city map shows the authored local routes. Both attachments are original game layouts informed by Glasgow architecture.

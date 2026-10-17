@@ -7,6 +7,7 @@ const FLOOR_SIZE := Vector3(70.0, 0.5, 84.0)
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
 const CityArtSource = preload("res://game/levels/city_art.gd")
 const TerrainSource = preload("res://game/levels/core_terrain.gd")
+const ExchangeGallery = preload("res://game/levels/art/exchange_gallery.gd")
 const RAIL_COLLISION_LAYER := 2
 const RAIL_TOP_HEIGHT := 0.92
 const PALETTE := {
@@ -219,6 +220,78 @@ func _build_floor() -> void:
 		_box(self, "GalleryStairCheek", Vector3(x, 0.9, -9), Vector3(1.0, 1.8, 10), "stone", true)
 	# Furniture and normal urban edges define the court; no runway markings.
 	_fountain(Vector3(0, 0, 10), 6.2)
+	_build_exchange_attachments()
+
+
+func _build_exchange_attachments() -> void:
+	_terrain.add_polygon(self,"GalleryEntranceTerrace",PackedVector3Array([
+		Vector3(-6.75,2.65,-42),Vector3(6.75,2.65,-42),Vector3(6.75,2.65,-35),
+		Vector3(4.75,2.65,-33),Vector3(-4.75,2.65,-33),Vector3(-6.75,2.65,-35)]),_materials["cut_stone"])
+	_slope("GalleryEntranceWestBank",Rect2(-10,-39.5,3.25,4.5),Vector4(2,2.65,2.65,2),"path")
+	_slope("GalleryEntranceEastBank",Rect2(6.75,-39.5,3.25,4.5),Vector4(2.65,2,2,2.65),"path")
+	_terrain.add_polygon(self,"GalleryEntranceWestCorner",PackedVector3Array([
+		Vector3(-6.75,2.65,-35),Vector3(-4.75,2.65,-33),Vector3(-4.75,2,-31),Vector3(-10,2,-35)]),_materials["path"])
+	_terrain.add_polygon(self,"GalleryEntranceEastCorner",PackedVector3Array([
+		Vector3(6.75,2.65,-35),Vector3(10,2,-35),Vector3(4.75,2,-31),Vector3(4.75,2.65,-33)]),_materials["path"])
+	_slope("GalleryEntranceFrontBank",Rect2(-4.75,-33,9.5,2),Vector4(2.65,2.65,2,2),"path")
+	_flat("GalleryDoorThreshold",Rect2(-2.2,-42,4.4,0.8),2.73,"cut_stone")
+	_build_gallery_column_collision()
+	_build_seating_ledge("Grind_Ledge_GalleryEntrance",PackedVector3Array([
+		Vector3(-5,3.20,-35),Vector3(-1,3.20,-35),Vector3(0,3.20,-34),Vector3(0,3.20,-33.4)]),2.65,0.40)
+	_terrain.add_polygon(self,"ExchangeWestShopTerrace",PackedVector3Array([
+		Vector3(-35,0.45,-2),Vector3(-29,0.45,-2),Vector3(-27,0.45,0),
+		Vector3(-27,0.45,7),Vector3(-30,0.45,10),Vector3(-35,0.45,10)]),_materials["cut_stone"])
+	_slope("ExchangeWestShopBank",Rect2(-27,0,3,7),Vector4(0.45,0,0,0.45),"paving")
+	_terrain.add_polygon(self,"ExchangeWestShopNorthCorner",PackedVector3Array([
+		Vector3(-29,0.45,-2),Vector3(-24,0,-2),Vector3(-24,0,0),Vector3(-27,0.45,0)]),_materials["paving"])
+	_terrain.add_polygon(self,"ExchangeWestShopSouthCorner",PackedVector3Array([
+		Vector3(-27,0.45,7),Vector3(-24,0,7),Vector3(-27,0,10),Vector3(-30,0.45,10)]),_materials["paving"])
+	for z: float in [3.75,9.59]:
+		_flat("ExchangeShopDoorThreshold",Rect2(-35,z-0.6,0.65,1.2),0.53,"cut_stone")
+	_build_seating_ledge("Grind_Ledge_ExchangeShops",PackedVector3Array([
+		Vector3(-27.4,0.97,1),Vector3(-27.4,0.97,6.5)]),0.45,0.37)
+
+
+func _build_gallery_column_collision() -> void:
+	# Share exact local positions/dimensions with the original art-only portico.
+	# Exposed columns are solid architecture, never invisible skating obstacles.
+	var column_index:=0
+	for at: Vector3 in ExchangeGallery.column_positions():
+		var body:=StaticBody3D.new()
+		column_index+=1
+		body.name="GalleryPorticoColumn"+str(column_index)
+		body.position=at
+		body.set_meta("surface_audio","stone")
+		body.add_to_group("gallery_portico_columns")
+		add_child(body)
+		for dimensions: Vector2 in [Vector2(ExchangeGallery.BASE_RADIUS,ExchangeGallery.BASE_HEIGHT),Vector2(ExchangeGallery.SHAFT_RADIUS,ExchangeGallery.COLUMN_HEIGHT)]:
+			var shape:=CylinderShape3D.new()
+			shape.radius=dimensions.x
+			shape.height=dimensions.y
+			var collision:=CollisionShape3D.new()
+			collision.shape=shape
+			collision.position.y=dimensions.y/2.0
+			body.add_child(collision)
+		var capital:=CollisionShape3D.new()
+		var cap_shape:=BoxShape3D.new()
+		cap_shape.size=Vector3(0.95,0.35,0.95)
+		capital.shape=cap_shape
+		capital.position.y=ExchangeGallery.COLUMN_HEIGHT
+		body.add_child(capital)
+	_box(self,"GalleryPorticoEntablature",Vector3(0,8.45,-40.8),Vector3(16,0.6,2.4),"stone_light",true)
+
+
+func _build_seating_ledge(id: String, points: PackedVector3Array, floor_y: float, body_height: float) -> void:
+	for index: int in range(points.size()-1):
+		var start: Vector3=points[index]
+		var end: Vector3=points[index+1]
+		var centre: Vector3=(start+end)/2.0
+		var yaw:=atan2(end.x-start.x,end.z-start.z)
+		var body:=_box(self,id+"Masonry",Vector3(centre.x,floor_y+body_height/2,centre.z),Vector3(0.56,body_height,start.distance_to(end)+0.04),"stone",true)
+		body.rotation.y=yaw
+		var cap:=_box(self,id+"SeatCap",Vector3(centre.x,floor_y+body_height+0.04,centre.z),Vector3(0.62,0.08,start.distance_to(end)+0.06),"cut_stone")
+		cap.rotation.y=yaw
+	_grind_path(id,points,"ledge")
 
 
 func _build_skating_lines() -> void:
@@ -294,7 +367,7 @@ func _build_statue() -> void:
 
 
 func _build_city() -> void:
-	_building(Vector3(0, 2, -48), 18, 19, "sandstone", "EXCHANGE GALLERY", 0)
+	_building(Vector3(0, 2, -48), 18, 6.75, "stone_light", "EXCHANGE GALLERY", 0)
 	for x: float in [-32.0, 32.0]:
 		_building(Vector3(x, 2, -48), 10, 17, "stone", "THE WEE PIE CO.", 0)
 	for z: float in [-33.0, 0.0, 35.0]:
@@ -672,6 +745,11 @@ func get_route_definitions() -> Array[Dictionary]:
 		_route("cat_workshop_bypass", "Busking permanent civic bypass", [Vector3(-22,4,-91),Vector3(-22,4,-74),Vector3(22,4,-74),Vector3(22,4,-91)]),
 		_route("civic_workshop_bank_loop", "Civic busking terrace banks", [Vector3(-22,4,-95.5),Vector3(-19.625,4,-95.5),Vector3(-15.625,4.65,-95.5),Vector3(-10,4.65,-94.5),Vector3(10,4.65,-94.5),Vector3(15.625,4.65,-95.5),Vector3(19.625,4,-95.5),Vector3(22,4,-95.5)]),
 		_route("market_hall_bank_loop", "Market hall bank and angled aisle", [Vector3(82,0,8),Vector3(80,0,8),Vector3(76,0.65,8),Vector3(68,0.65,8),Vector3(67,0.65,13),Vector3(69,0.65,17),Vector3(73,0,17),Vector3(78,0,17),Vector3(82,0,8)]),
+		_route("gallery_entrance_bank_loop", "Gallery entrance side banks", [Vector3(-14,2,-37),Vector3(-10,2,-37),Vector3(-6.75,2.65,-37),Vector3(0,2.65,-37),Vector3(6.75,2.65,-37),Vector3(10,2,-37),Vector3(14,2,-37)]),
+		_route("gallery_entrance_front_return", "Gallery entrance to stair apron", [Vector3(3,2.65,-37),Vector3(3,2.65,-33),Vector3(3,2,-31),Vector3(3,2,-24),Vector3(0,2,-20)]),
+		_route("gallery_entrance_bypass", "Gallery permanent cross-court bypass", [Vector3(-22,2,-39),Vector3(-22,2,-22),Vector3(22,2,-22),Vector3(22,2,-39)]),
+		_route("exchange_west_bank_loop", "Exchange shopfront seating banks", [Vector3(-22,0,0.3),Vector3(-24,0,0.3),Vector3(-27,0.45,0.3),Vector3(-31.5,0.45,0.3),Vector3(-31.5,0.45,7.5),Vector3(-28.5,0.45,8.5),Vector3(-25.5,0,8.5),Vector3(-22,0,8.5),Vector3(-22,0,0.3)]),
+		_route("exchange_west_bypass", "Exchange west ground bypass", [Vector3(-22,0,14),Vector3(-22,0,-2)]),
 		_route("barras_covered_delivery_lane", "Barras sheltered stall aisle", [Vector3(114,0,-5),Vector3(114,0,7),Vector3(114,0,18)]),
 		_route("barras_west_delivery_lane", "Barras open west delivery lane", [Vector3(103,0,-5),Vector3(103,0,7),Vector3(103,0,18),Vector3(105,0,20)]),
 		_route("barras_market_inner_loop", "Barras market inner return loop", [Vector3(103,0,22),Vector3(103,0,-5),Vector3(114,0,-5),Vector3(114,0,18),Vector3(109,0,20),Vector3(103,0,22)]),

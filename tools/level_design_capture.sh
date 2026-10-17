@@ -67,9 +67,9 @@ fi
 python3 - "$TASK_ROOT" "$TASK_OUTPUT" "$TASK_CAT_MOTION" <<'PY' &
 import hashlib, json, os, pathlib, re, shutil, signal, subprocess, sys
 root, output = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
-destination = root / 'docs/testing/screenshots/barras-clyde'
+destination = root / 'docs/testing/screenshots/exchange-gallery'
 capture_motion = sys.argv[3] == 'true'
-expected_captures = 32 if capture_motion else 24
+expected_captures = 30 if capture_motion else 22
 def fingerprint():
     inputs = [root / name for name in ('project.godot', 'tools/run.sh', 'tools/level_design_capture.gd', 'tools/level_design_capture.sh', 'tools/xorg-dummy.conf')]
     for name in ('game', 'assets', 'tests'):
@@ -110,7 +110,7 @@ def run_media(arguments, timeout):
     if process.returncode:
         raise SystemExit('Media validation failed: ' + stderr[-2000:])
     return stdout
-print(f'Capturing actual Barrowland/Barras/Clyde/delivery evidence; temporary outputs: {output}', flush=True)
+print(f'Capturing actual Exchange/gallery terrain and earned-line evidence; temporary outputs: {output}', flush=True)
 try:
     with (output / 'engine.log').open('w') as log:
         process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)

@@ -6,6 +6,8 @@
 
 The [Barrowland/Barras and central Clyde reference dossier](BARRAS-CLYDE-REFERENCES.md) now records **actual inspected photographs, the official four-page market plan, current operator pages and official/local heritage records**. Working sources include `barrowland.co.uk`, `market.barrowland.co.uk`, Glasgow City Heritage Trust, Historic Environment Scotland and Wikimedia Commons. The evidence supports the singular slanted Barrowland sign and star/panel hierarchy, connected market halls/aisles, and the South Portland Street bridge/Carlton Place/quay character. Dated photographs and undated official-site images are distinguished; no current full street survey or measured layout is claimed.
 
+The later [Exchange/gallery dossier](EXCHANGE-GALLERY-REFERENCES.md) adds **four inspected photographs**, HES's GoMA architectural record and GCHT's public conservation description. It establishes the low plinth, moulded column feet, broad shallow steps, recessed entrance, grey rectangular paving and pale curved edge bands used to inform the bounded gallery/west-seating pass. The baseline game's four-column portico was a simplification; the bounded new pass may use an original eight-column entrance. Its Y2.65/Y0.45 terrace heights remain explicitly authored. Historic café imagery is not a current-tenant check.
+
 Earlier in this session, the runtime proxy rejected the specific official/map URLs recorded below with `Tunnel connection failed: 403 Forbidden`. Those earlier attempts yielded no imagery. The saved domain configuration alone did not change that result. The later research used working alternative source addresses rather than repeating unchanged blocked Maps/Street View/OpenStreetMap endpoints. Do not treat the historical failures as proof that every reference source is inaccessible, or the later successful pages as proof that paid/map APIs are enabled.
 
 A reachable community source provides **dated address leads only**:
@@ -37,7 +39,7 @@ Additional inspected Gordon Street candidates: Blue Lagoon, 69 Gordon Street (20
 | Area | Questions to resolve from inspected maps and street views | Intended use |
 |---|---|---|
 | George Square | Establish square outline, civic frontage, adjoining street/corner relationships, entrances, paving and current works. Identify at least three distinctive edge anchors. | Recognisable civic perimeter and skyline around the skating space |
-| Royal Exchange Square / Queen Street | Locate GoMA and actual approaches; verify Di Maggio's, Banca Di Roma and current occupants, frontage sides, bays, sign zones, recesses and stone colours. | Detailed court borders, gallery silhouette and believable retail/hospitality edges |
+| Royal Exchange Square / Queen Street | GoMA portico/plinth/threshold/paving and west-boundary edge cues now have inspected evidence in the [Exchange dossier](EXCHANGE-GALLERY-REFERENCES.md). Still verify current occupants, detailed approach geometry, measured clearances and shop order; Di Maggio's/Banca Di Roma remain address leads. | Detailed court borders, gallery silhouette and believable retail/hospitality edges |
 | Central / Gordon / Union / Buchanan / Argyle | Confirm the walking route and corner relationships before compressing it; inspect station massing/canopy, shop order, Tantrum/FOPP candidates and changing street widths. | Station edge and researched shopfront sequences framing a playable route |
 | Gallowgate / Barras / Bain Street / Calton Entry | Barrowland sign/frontage and market hall/aisle cues are now visually evidenced in the [district dossier](BARRAS-CLYDE-REFERENCES.md). Still verify current occupancy, detailed street relationships, BAaD/Saint Luke's/Van Winkle surroundings and measured clearances. | Distinct market/venue boundaries and street silhouettes |
 | Central Clyde / South Portland Street / Carlton Place | Inspected bridge/terrace/quay references now establish architectural character; complete current bank access, street relationships and any selected additional facade survey before claiming a reconstructed route. | Recognisable river, crossing and opposite-bank edge with clearly labelled game compression |
@@ -56,7 +58,7 @@ M03-006 has **partial evidence progress**; this research update does not mark th
 
 ## Historical blocked source attempts
 
-The following exact pages were attempted earlier on 17 October 2026; all were blocked by the proxy in those attempts, so their contents were not read. Working alternative Barrowland/Barras and heritage URLs are recorded in the later district dossier; this list is not an instruction to repeat unchanged failures:
+The following exact pages were attempted earlier on 17 October 2026; all were blocked by the proxy in those attempts, so their contents were not read then. Working alternative Barrowland/Barras and heritage URLs are recorded in the later district dossier. Royal Exchange Square Wikipedia subsequently returned 200 during the Exchange reference pass and supplied photograph links; that limited success does not change the Maps/Street View status. This list is not an instruction to repeat unchanged failures:
 
 - [GoMA — Glasgow Life](https://www.glasgowlife.org.uk/museums/venues/gallery-of-modern-art-goma)
 - [Princes Square](https://princessquare.co.uk/)

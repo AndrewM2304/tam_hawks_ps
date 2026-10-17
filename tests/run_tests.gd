@@ -24,6 +24,7 @@ const PRESENTATION_INTEGRATION_TESTS = preload("res://tests/presentation_integra
 const ENCOUNTERS_TESTS = preload("res://tests/glasgow_encounters_tests.gd")
 const CAT_ENCOUNTER_TESTS = preload("res://tests/cat_encounter_tests.gd")
 const MARKET_ENCOUNTER_TESTS = preload("res://tests/market_encounter_tests.gd")
+const EXCHANGE_PLACE_TESTS = preload("res://tests/exchange_place_tests.gd")
 const TOPOGRAPHY_TESTS = preload("res://tests/topography_tests.gd")
 const CAREER_ROUTE_TESTS = preload("res://tests/career_route_tests.gd")
 const ACTIONS = [
@@ -83,6 +84,7 @@ func _run() -> void:
 	await ENCOUNTERS_TESTS.run(self, game, _check)
 	await CAT_ENCOUNTER_TESTS.run(self, game, _check)
 	await MARKET_ENCOUNTER_TESTS.run(self, game, _check)
+	await EXCHANGE_PLACE_TESTS.run(self, game, _check)
 	await TOPOGRAPHY_TESTS.run(self, game, _check)
 	await CAREER_ROUTE_TESTS.run(self, game, _check)
 	_release_actions()

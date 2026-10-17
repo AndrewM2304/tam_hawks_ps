@@ -7,6 +7,7 @@ const StreetDressing = preload("res://game/levels/art/street_dressing.gd")
 const ArchMesh = preload("res://game/levels/art/arch_mesh.gd")
 const FoliageMesh = preload("res://game/levels/art/foliage_mesh.gd")
 const MarketArchitecture = preload("res://game/levels/art/barras_market.gd")
+const ExchangeGallery = preload("res://game/levels/art/exchange_gallery.gd")
 static var _shared_materials: Dictionary = {}
 var materials: Dictionary = {}
 var npc_positions: Array[Vector3] = []
@@ -145,7 +146,12 @@ func _surface_texture(kind: String) -> ImageTexture:
 
 
 func decorate_building(building: Node3D, width: float, height: float, stone: String, shop: String) -> void:
+	if shop == "EXCHANGE GALLERY":
+		ExchangeGallery.adapt_gallery_front(self,building)
+		return
 	FacadeKit.decorate(self, building, width, height, stone, shop)
+	if shop == "TENEMENT WORKS" and building.position.is_equal_approx(Vector3(-41,0,0)):
+		ExchangeGallery.align_west_thresholds(building)
 
 
 func dress_world(world: Node3D) -> void:
@@ -153,7 +159,7 @@ func dress_world(world: Node3D) -> void:
 	_hide_named_meshes(world, ["StallAwning", "StallPole", "StallCounter"])
 	for at: Vector3 in [Vector3(-29,0.8,13), Vector3(28,0.8,14), Vector3(-28,2.8,-32), Vector3(28,2.8,-32), Vector3(-13,4.6,-84), Vector3(13,4.6,-84)]:
 		_tree(at)
-	_gallery_portico(Vector3(0,2,-41.9), 16.0, 6.0)
+	ExchangeGallery.build(self)
 	_civic_clock()
 	_station_arches()
 	_market_venue()
