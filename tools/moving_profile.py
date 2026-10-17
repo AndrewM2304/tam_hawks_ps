@@ -85,12 +85,14 @@ def png(path, width, height):
 
 def main():
     duration, output, width, height, mode = float(sys.argv[1]), pathlib.Path(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]), sys.argv[5]
+    quality = sys.argv[6] if len(sys.argv) > 6 else "balanced"
+    if quality not in ("performance", "balanced", "high"): raise SystemExit("Unknown graphics quality.")
     before = fingerprint()
     commit = git('rev-parse', 'HEAD')
     (output / 'source-manifest.json').write_text(json.dumps(before, indent=2) + '\n')
     command = [str(ROOT / 'tools/run.sh'), '--rendering-method', 'gl_compatibility', '--windowed',
                '--resolution', f'{width}x{height}', '--disable-vsync', '--audio-driver', 'Dummy',
-               '--script', 'tools/moving_profile.gd', '--', str(duration), str(output), str(width), str(height), mode]
+               '--script', 'tools/moving_profile.gd', '--', str(duration), str(output), str(width), str(height), mode, quality]
     child = None
 
     def stop():
@@ -137,6 +139,8 @@ def main():
         report = {}
         reasons.append('Engine report is absent or invalid.')
     trials = report.get('trials', [])
+    if report.get('requested_quality') != quality or report.get('settings', {}).get('graphics_quality') != quality:
+        reasons.append('Requested graphics quality differs from applied profile.')
     if [trial.get('route') for trial in trials] != EXPECTED or not report.get('valid_rendered_run'):
         reasons.append('Three valid moving route trials were not completed.')
     if report.get('render_resolution') != [width, height] or report.get('profile_writes_enabled') is not False:

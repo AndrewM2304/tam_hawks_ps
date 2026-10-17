@@ -10,7 +10,8 @@ TASK_QUICK=false
 TASK_DURATION_SET=false
 TASK_RESOLUTION_SET=false
 TASK_PRIVATE_DISPLAY=false
-usage() { echo 'Usage: tools/moving_profile.sh [--quick] [--duration 15..600] [--resolution WIDTHxHEIGHT] [--private-display]'; }
+TASK_QUALITY=balanced
+usage() { echo 'Usage: tools/moving_profile.sh [--quick] [--duration 15..600] [--resolution WIDTHxHEIGHT] [--private-display] [--quality performance|balanced|high]'; }
 while (($#)); do
   case "$1" in
     --quick) TASK_QUICK=true ;;
@@ -20,12 +21,14 @@ while (($#)); do
       [[ "${1:?Supply WIDTHxHEIGHT}" =~ ^([0-9]+)x([0-9]+)$ ]] || { usage >&2; exit 2; }
       TASK_WIDTH="${BASH_REMATCH[1]}"; TASK_HEIGHT="${BASH_REMATCH[2]}"; TASK_RESOLUTION_SET=true ;;
     --private-display) TASK_PRIVATE_DISPLAY=true ;;
+    --quality) shift; TASK_QUALITY="${1:?Supply performance, balanced or high}" ;;
     --help|-h) usage; exit 0 ;;
     --headless) echo 'Headless cannot provide rendered moving evidence.' >&2; exit 2 ;;
     *) usage >&2; exit 2 ;;
   esac
   shift
 done
+case "$TASK_QUALITY" in performance|balanced|high) ;; *) echo 'Unknown graphics quality.' >&2; exit 2 ;; esac
 if "$TASK_QUICK"; then
   "$TASK_DURATION_SET" || TASK_DURATION=24
   if ! "$TASK_RESOLUTION_SET"; then TASK_WIDTH=960; TASK_HEIGHT=540; fi
@@ -88,7 +91,7 @@ if [[ "$(uname -s)" == Linux && ( -z "${DISPLAY:-}" || "$TASK_PRIVATE_DISPLAY" =
 fi
 TASK_MODE=normal
 "$TASK_QUICK" && TASK_MODE=quick
-python3 tools/moving_profile.py "$TASK_DURATION" "$TASK_OUTPUT" "$TASK_WIDTH" "$TASK_HEIGHT" "$TASK_MODE" &
+python3 tools/moving_profile.py "$TASK_DURATION" "$TASK_OUTPUT" "$TASK_WIDTH" "$TASK_HEIGHT" "$TASK_MODE" "$TASK_QUALITY" &
 TASK_PROFILE_PID=$!
 wait "$TASK_PROFILE_PID"
 TASK_PROFILE_PID=""

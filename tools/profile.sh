@@ -7,8 +7,9 @@ TASK_DURATION=60
 TASK_WIDTH=1920
 TASK_HEIGHT=1080
 TASK_PRIVATE_DISPLAY=false
+TASK_QUALITY=balanced
 usage() {
-  echo 'Usage: tools/profile.sh [--duration 60..600] [--resolution WIDTHxHEIGHT] [--private-display]'
+  echo 'Usage: tools/profile.sh [--duration 60..600] [--resolution WIDTHxHEIGHT] [--private-display] [--quality performance|balanced|high]'
 }
 while (($#)); do
   case "$1" in
@@ -20,12 +21,14 @@ while (($#)); do
       TASK_WIDTH="${BASH_REMATCH[1]}"; TASK_HEIGHT="${BASH_REMATCH[2]}"
       ;;
     --private-display) TASK_PRIVATE_DISPLAY=true ;;
+    --quality) shift; TASK_QUALITY="${1:?Supply performance, balanced or high}" ;;
     --help|-h) usage; exit 0 ;;
     --headless) echo 'Headless runs cannot supply rendered GPU evidence.' >&2; exit 2 ;;
     *) usage >&2; exit 2 ;;
   esac
   shift
 done
+case "$TASK_QUALITY" in performance|balanced|high) ;; *) echo 'Unknown graphics quality.' >&2; exit 2 ;; esac
 [[ "$TASK_DURATION" =~ ^[0-9]{1,3}$ && "$TASK_WIDTH" =~ ^[0-9]{1,4}$ && "$TASK_HEIGHT" =~ ^[0-9]{1,4}$ ]] || { usage >&2; exit 2; }
 TASK_DURATION=$((10#$TASK_DURATION))
 TASK_WIDTH=$((10#$TASK_WIDTH))
@@ -107,9 +110,10 @@ elif [[ "$TASK_PRIVATE_DISPLAY" == true && "$(uname -s)" != Linux ]]; then
   echo '--private-display is for the installed Linux Xorg dummy driver; use the native desktop on macOS.' >&2
   exit 2
 fi
-python3 - "$TASK_ROOT" "$TASK_DURATION" "$TASK_OUTPUT" "$TASK_WIDTH" "$TASK_HEIGHT" <<'PY' &
+python3 - "$TASK_ROOT" "$TASK_DURATION" "$TASK_OUTPUT" "$TASK_WIDTH" "$TASK_HEIGHT" "$TASK_QUALITY" <<'PY' &
 import csv, hashlib, json, math, os, pathlib, re, signal, struct, subprocess, sys, time
 root, duration, output, width, height = pathlib.Path(sys.argv[1]), int(sys.argv[2]), pathlib.Path(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5])
+quality = sys.argv[6]
 def manifest():
     files = [root / 'project.godot', root / 'tools/profile.gd', root / 'tools/profile.sh', root / 'tools/run.sh']
     for folder in ('game', 'assets'):
@@ -128,7 +132,7 @@ before = manifest()
 commit_before = git('rev-parse', 'HEAD')
 (output / 'source-manifest.json').write_text(json.dumps(before, indent=2) + '\n')
 command = [str(root / 'tools/run.sh'), '--windowed', '--resolution', f'{width}x{height}', '--disable-vsync',
-           '--audio-driver', 'Dummy', '--script', 'tools/profile.gd', '--', str(duration), str(output), str(width), str(height)]
+           '--audio-driver', 'Dummy', '--script', 'tools/profile.gd', '--', str(duration), str(output), str(width), str(height), quality]
 print(f'Profiling six supported chase views for at least {duration}s plus settling/capture overhead; outputs: {output}', flush=True)
 process = None
 def stop_process():
@@ -173,6 +177,8 @@ except (OSError, ValueError):
     report = {}
     reasons.append('Engine did not write a readable report.')
 views = report.get('views', [])
+if report.get('requested_quality') != quality or report.get('settings', {}).get('graphics_quality') != quality:
+    reasons.append('Requested graphics quality differs from applied profile.')
 if not report.get('valid_rendered_run') or report.get('expected_view_count') != len(expected_districts):
     reasons.append('Engine did not report six valid views.')
 if [view.get('district') for view in views] != expected_districts:

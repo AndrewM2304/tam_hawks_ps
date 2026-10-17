@@ -1,6 +1,7 @@
 extends SceneTree
 ## Fixed-view rendered diagnostic. It never loads/saves the player's career profile.
 const Main = preload("res://game/main.gd")
+const Quality = preload("res://game/core/graphics_quality.gd")
 const DISTRICTS: Array[String] = ["royal_exchange", "george_square", "central_station", "barras", "clyde", "kelvingrove"]
 const HEADINGS: Dictionary = {"royal_exchange": 0.0, "george_square": 0.0, "central_station": PI / 4.0,
 	"barras": 0.0, "clyde": PI, "kelvingrove": PI / 4.0}
@@ -14,6 +15,7 @@ const CAMERA_POSITION_TOLERANCE: float = 0.02
 const CAMERA_ANGLE_TOLERANCE: float = 0.005
 var game: Node
 var _duration: float = 60.0
+var _quality := "balanced"
 var _output: String = ""
 var _requested_size := Vector2i(1920, 1080)
 var _samples: Array[Dictionary] = []
@@ -45,6 +47,7 @@ func _run() -> void:
 	game = Main.new()
 	game.persistence_enabled = false
 	root.add_child(game)
+	game.apply_settings({"graphics_quality":_quality},false)
 	if not is_instance_valid(game.skater) or not is_instance_valid(game.hud):
 		push_error("PROFILE: production scene did not initialize its rider and HUD.")
 		quit(1)
@@ -174,6 +177,7 @@ func _run() -> void:
 		"physics_ticks_per_second": Engine.physics_ticks_per_second,
 		"max_physics_steps_per_frame": Engine.max_physics_steps_per_frame, "time_scale": Engine.time_scale,
 		"render_loop_enabled": RenderingServer.render_loop_enabled, "scripted_frame_advance": false,
+		"requested_quality":_quality,"graphics_budget":Quality.profile(_quality),"applied_graphics":{"scale_3d":root.scaling_3d_scale,"msaa_3d":root.msaa_3d,"camera_far":game.skater._camera.far,"shadow_distance":game.world.get_node("LateAfternoonSun").directional_shadow_max_distance},"occlusion_enabled":root.use_occlusion_culling,
 		"settings": game.career.settings.duplicate(true), "profile_writes_enabled": game.persistence_enabled,
 		"mode": "free_skate", "hud_visible": game.hud.visible, "skater_controls_enabled": false,
 		"settle_contract": {"minimum_seconds": WARMUP_SECONDS, "maximum_seconds": MAX_WARMUP_SECONDS,
@@ -192,9 +196,11 @@ func _run() -> void:
 
 func _parse_arguments() -> bool:
 	var args := OS.get_cmdline_user_args()
-	if args.size() != 4 or not args[0].is_valid_int() or not args[2].is_valid_int() or not args[3].is_valid_int():
+	if not args.size() in [4,5] or not args[0].is_valid_int() or not args[2].is_valid_int() or not args[3].is_valid_int():
 		push_error("PROFILE: run tools/profile.sh; expected duration, output directory, width and height.")
 		return false
+	_quality = args[4] if args.size() == 5 else "balanced"
+	if not Quality.IDS.has(_quality): return false
 	_duration = float(args[0])
 	_output = ProjectSettings.globalize_path(args[1]).simplify_path()
 	_requested_size = Vector2i(int(args[2]), int(args[3]))

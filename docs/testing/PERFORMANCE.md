@@ -7,8 +7,10 @@ The selected 64 m architecture batching preserves 17,742 records and all collisi
 `./tools/moving_profile.sh` adds native-render, actual-input quay/market/park trips with route-progress gates, post-draw CSV, CPU/physics/driver costs, draw/primitive/memory counters, hardware/settings and source/artifact hashes. It uses no fixed FPS, forced draws or per-tick pose correction. On the Mac:
 
 ```sh
-GODOT_BIN="/Applications/Godot.app/Contents/MacOS/Godot" ./tools/moving_profile.sh --duration 120 --resolution 1920x1080
+GODOT_BIN="/Applications/Godot.app/Contents/MacOS/Godot" ./tools/moving_profile.sh --duration 120 --resolution 1920x1080 --quality balanced
 ```
+
+Both `profile.sh` and `moving_profile.sh` accept `--quality performance|balanced|high` (default Balanced), apply it without saving a player profile, and record/validate requested versus applied settings. Repeat the same route with `--quality performance` to compare the lighter preset. Render scale, MSAA, far plane, shadow distance and native occlusion state are retained in new reports.
 
 The tool's three bounded loops are separate from the owner's required ten-minute full-map human route. Preserve raw frame distributions and long frames; compare p50/p95/p99/max against 16.67 ms. Linux llvmpipe and fixed-clock screenshots cannot certify Apple M5 performance.
 

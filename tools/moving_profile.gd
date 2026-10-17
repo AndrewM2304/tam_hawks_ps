@@ -3,6 +3,7 @@ extends SceneTree
 ## actions at native physics rate; only declared trial starts set pose.
 
 const Main = preload("res://game/main.gd")
+const Quality = preload("res://game/core/graphics_quality.gd")
 const Metrics = preload("res://tools/profile.gd")
 const MIN_DISTANCE := 4.0
 const MIN_SIM_SECONDS := 1.0
@@ -17,6 +18,7 @@ class RouteDriver extends Node:
 
 var game: Node
 var _driver: RouteDriver
+var _quality := "balanced"
 var _output := ""
 var _duration := 60.0
 var _size := Vector2i(1920, 1080)
@@ -67,6 +69,7 @@ func _run() -> void:
 	game = Main.new()
 	game.persistence_enabled = false
 	root.add_child(game)
+	game.apply_settings({"graphics_quality":_quality},false)
 	game.start_mode(true)
 	_driver = RouteDriver.new()
 	_driver.profiler = self
@@ -108,6 +111,7 @@ func _run() -> void:
 		"vsync_mode": DisplayServer.window_get_vsync_mode(), "max_fps": Engine.max_fps,
 		"physics_ticks_per_second": Engine.physics_ticks_per_second, "max_physics_steps_per_frame": Engine.max_physics_steps_per_frame,
 		"time_scale": Engine.time_scale, "render_loop_enabled": RenderingServer.render_loop_enabled, "scripted_frame_advance": false,
+		"requested_quality":_quality,"graphics_budget":Quality.profile(_quality),"applied_graphics":{"scale_3d":root.scaling_3d_scale,"msaa_3d":root.msaa_3d,"camera_far":game.skater._camera.far,"shadow_distance":game.world.get_node("LateAfternoonSun").directional_shadow_max_distance},"occlusion_enabled":root.use_occlusion_culling,
 		"settings": game.career.settings.duplicate(true), "profile_writes_enabled": game.persistence_enabled,
 		"mode": "free_skate", "hud_visible": game.hud.visible, "controls_enabled_during_sampling": true,
 		"admission": {"minimum_samples": MIN_SAMPLES, "minimum_distance_m": MIN_DISTANCE,
@@ -286,7 +290,9 @@ func _arguments() -> bool:
 		return false
 	if Engine.physics_ticks_per_second != 60: return false
 	var args := OS.get_cmdline_user_args()
-	if args.size() != 5: return false
+	if not args.size() in [5,6]: return false
+	_quality = args[5] if args.size() == 6 else "balanced"
+	if not Quality.IDS.has(_quality): return false
 	_duration = float(args[0])
 	_output = ProjectSettings.globalize_path(args[1]).simplify_path()
 	_size = Vector2i(int(args[2]), int(args[3]))
