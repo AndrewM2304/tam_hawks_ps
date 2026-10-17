@@ -2,6 +2,8 @@
 
 **Project:** Tam Jaws Pro Skater (working title). **Branch:** `bootstrap/m00-m01`. **State:** a working M01 prototype, ready for its first human skating playtest. This is an initial slice, not the full Release 1 game. `git log -1` identifies the latest checkpoint; all work stays on the feature branch.
 
+The source, tests, screenshots and full task records have been pushed to [the GitHub feature branch](https://github.com/AndrewM2304/tam_hawks_ps/tree/bootstrap/m00-m01). The first implementation checkpoint is `de11b1f`. The original remote had no commits or `main` branch, so there is no base branch for a pull request yet. No GitHub issues, hosted workflows or release publication were created. Continue from the feature branch and preserve this history.
+
 ## Start or resume
 
 1. Read `AGENTS.md`, this file, `docs/planning/BACKLOG.md`, and `docs/architecture/interfaces.md`.

@@ -4,6 +4,8 @@ An original arcade skateboarding game in a fictionalised Glasgow. The working ti
 
 **Current stage: M01 skating prototype in progress.** This is not the complete game. The current implementation targets a procedural Glasgow-inspired square, basic skating and aerial tricks, a camera, run scoring and a restartable session. Grinds, manuals, reverts, specials, a complete four-district world, goals and persistent progression remain release work. [Current status](docs/STATUS.md) records exactly what has been implemented and tested.
 
+The first playable slice passes **94 automated checks** and has [reviewed gameplay captures](docs/testing/screenshots/air-tricks.png). Physical DualSense/Mac playtesting is the next acceptance gate. The [QE report](docs/testing/QE-REPORT.md) records the tested behavior and limitations.
+
 ## Start here
 
 1. Read [the current handoff](docs/STATUS.md), [the full task backlog](docs/planning/BACKLOG.md) and [agent instructions](AGENTS.md).
