@@ -598,8 +598,8 @@ func _physics_process(delta: float) -> void:
 			speed = minf(MAX_SPEED, speed + PUSH_ACCELERATION * push_input * delta)
 		else:
 			speed = _response.coast_speed(speed, delta)
-	# Ground carving and modest air correction are separate. Camera preferences
-	# cannot change the rider's physical turning rate.
+	# Ground carving turns travel; airborne stick input drives visible spin.
+	# Camera preferences cannot change physical turning or carried momentum.
 	var steering_angle: float = _response.steering_step(_steering, speed, true, delta) if grounded_before else 0.0
 	rotation.y += steering_angle
 	var forward := -global_basis.z

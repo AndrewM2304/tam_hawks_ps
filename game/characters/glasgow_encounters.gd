@@ -184,10 +184,11 @@ func _sync_actor() -> void:
 func _trick_family(trick_name: String) -> String:
 	var lower := trick_name.strip_edges().to_lower()
 	if lower == "ollie": return "ollie"
-	if "flip" in lower: return "flip"
+	if "flip" in lower or "shuvit" in lower: return "flip"
 	if "grab" in lower or "indy" in lower: return "grab"
 	if "grind" in lower: return "grind"
 	if "manual" in lower: return "manual"
+	if "stall" in lower or lower == "disaster": return "lip"
 	if "revert" in lower: return "revert"
 	if "spin" in lower or lower.begins_with("frontside ") or lower.begins_with("backside ") or lower.begins_with("180") or lower.begins_with("360") or lower.begins_with("540") or lower.begins_with("720"): return "spin"
 	if "clyde carousel" in lower or "tenement tumble" in lower: return "special"

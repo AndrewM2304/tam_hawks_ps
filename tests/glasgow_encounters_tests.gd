@@ -34,6 +34,12 @@ static func _rules(tree: SceneTree, check: Callable) -> void:
 	encounter.poll(Vector3(4.19, 0, 0), true, 0.0)
 	check.call(encounter.status_snapshot().state == "active" and encounter.status_snapshot().attempts == 1,
 		"encounter rules: eligible deliberate nearby interaction starts one attempt")
+	check.call(encounter._trick_family("Pop Shuvit") == "flip"
+		and encounter._trick_family("Frontside Shuvit") == "flip",
+		"encounter rules: both directional shuvits count as flips rather than cosmetic spins")
+	check.call(encounter._trick_family("Axle Stall") == "lip"
+		and encounter._trick_family("Disaster") == "lip",
+		"encounter rules: distinct coping tricks share the lip family for variety")
 	encounter.on_trick("Ollie", 100, Vector3.ZERO)
 	encounter.on_trick("Frontside 180", 200, Vector3.ZERO)
 	encounter.on_trick("Backside 360", 400, Vector3.ZERO)
