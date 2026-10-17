@@ -16,9 +16,9 @@ Godot's engine is MIT licensed. Official reference entry points are [Godot docum
 | Existing skating implementations | Selective reuse adopted | [Research](SKATING_REUSE.md) inspected four projects. One MIT rail helper adapted and tested; broader controller/trick patterns inform M02. No entire external game imported. |
 | Procedural primitive art | Use | Original, reproducible and sufficient to evaluate geometry/feel |
 | Purchased/free-download asset packs | Defer | Purchases prohibited; free downloads still require asset-level provenance review |
-| Local synthetic SFX | Planned for M05; current M01 is silent | Reproducible source, no paid API, no copied recordings |
+| Local synthetic SFX | Implemented original deterministic PCM | Reproducible source, no paid API, no copied recordings |
 | Cloud voice generation | Prohibited under current budget | Paid services and billing are not authorized |
-| Local/open voice model | Investigate in M05 | Must be free, licensed for redistribution, fit available hardware and avoid identity imitation |
+| Local/open voice model | Implemented installed Flite KAL16 | Three original lines generated locally with inspected permissive notices; no runtime Flite dependency; human listening still required |
 | Hosted GitHub CI | Deferred | Local checks provide current gates without risking billed runner use |
 | Signed/notarized macOS distribution | Investigate in M07 | Do not purchase Apple enrollment; document unsigned local distribution limits if needed |
 
@@ -26,7 +26,7 @@ Godot's engine is MIT licensed. Official reference entry points are [Godot docum
 
 The owner explicitly encouraged reuse after the initial prototype. [ADR-004](../architecture/decisions/ADR-004-selective-reuse.md) supersedes any assumption that movement infrastructure must be custom-built. Source/licence inspection and focused adaptation tests now precede substantial new skating systems.
 
-M02 needs experiments for rail snapping, balance, input buffering and landing/revert windows. M05 needs a lawful zero-cost voice solution or an explicit owner decision about the voice requirement. M06 needs a real target Mac and DualSense test record, including wired/Bluetooth behaviour. M07 needs export templates, packaging and first-run checks. Do not let research quietly substitute an easier product for the requested game.
+M02 mechanics now have local regression evidence; physical feel still needs testing. M05 has a lawful zero-cost Flite voice source and original PCM sounds, pending listening acceptance. Official Godot 4.6.3 export templates and runtime notices were downloaded and checksum-verified; EXPORT.md records packaging results. M06 still needs a real target Mac and DualSense test record, including wired/Bluetooth behaviour, performance and first-run checks. Do not let research quietly substitute an easier product for the requested game.
 
 ## Budget guardrails
 

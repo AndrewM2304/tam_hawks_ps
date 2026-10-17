@@ -1,0 +1,44 @@
+{
+  "generator": "tools/generate_voice.py",
+  "engine": "installed Debian libflite1 2.2-7",
+  "upstream_commit": "e9e2e37c329dbe98bfeb27a1828ef9a71fa84f88",
+  "voice": "cmu_us_kal16",
+  "libraries_sha256": {
+    "libflite.so.2.2": "490ffd91ee67acbe4279a6b736dafdacba7a88211985960282e27c0d2d7c6eaf",
+    "libflite_usenglish.so.2.2": "bd46f4507c4cfd14a470ea4775778518af55d7ce9a688c77606607c3414b0357",
+    "libflite_cmulex.so.2.2": "0bbf45f1cdc8f045ea04723494e6f870fe695f9926e75a4c8c2c9916e3970bb8",
+    "libflite_cmu_us_kal16.so.2.2": "8f701f8618eda9b912ba249ddecda3f9f4af8148072c9df8f9e82e16b84cabd3"
+  },
+  "processing": "original text; normalize peak to 0.55; 8ms endpoint fades; mono PCM16 16000Hz",
+  "notices": [
+    "docs/licences/third-party/flite-COPYING.txt",
+    "docs/licences/third-party/flite-debian-copyright.txt",
+    "docs/licences/third-party/flite-kal16-LICENSE.txt"
+  ],
+  "barks": {
+    "landing": {
+      "text": "Some landing.",
+      "file": "landing.wav",
+      "sample_rate": 16000,
+      "frames": 15192,
+      "seconds": 0.9495,
+      "sha256": "d555c721f290d80ce255f56fa84af41eb3a51da42da908bb6068a7aa8f5820ef"
+    },
+    "cone": {
+      "text": "Mind the cone.",
+      "file": "cone.wav",
+      "sample_rate": 16000,
+      "frames": 19976,
+      "seconds": 1.2485,
+      "sha256": "9540f285f244abed8a7ab0ae5066c0236df19ec3d6b86e26852844d88ce9ebb2"
+    },
+    "again": {
+      "text": "One more run.",
+      "file": "again.wav",
+      "sample_rate": 16000,
+      "frames": 18206,
+      "seconds": 1.137875,
+      "sha256": "a3053fec5c8d7c8a22ca65bcc9ebbbf6802ab47fc4f92b0f5c74b4d81367b176"
+    }
+  }
+}

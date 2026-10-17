@@ -9,9 +9,20 @@ const GRINDING_TESTS = preload("res://tests/grinding_tests.gd")
 const GRIND_REGRESSION_TESTS = preload("res://tests/grind_regression_tests.gd")
 const GRIND_RIDE_TESTS = preload("res://tests/grind_ride_tests.gd")
 const CATALOG_TESTS = preload("res://tests/trick_catalog_tests.gd")
+const COMBO_RESOLUTION_TESTS = preload("res://tests/combo_resolution_tests.gd")
+const MANUAL_REVERT_TESTS = preload("res://tests/manual_revert_tests.gd")
+const COMBO_INTEGRATION_TESTS = preload("res://tests/combo_integration_tests.gd")
+const PROGRESSION_TESTS = preload("res://tests/progression_tests.gd")
+const SPECIAL_GAP_TESTS = preload("res://tests/special_gap_tests.gd")
+const WORLD_ROUTES_TESTS = preload("res://tests/world_routes_tests.gd")
+const AUDIO_TESTS = preload("res://tests/audio_tests.gd")
+const CAREER_INTEGRATION_TESTS = preload("res://tests/career_integration_tests.gd")
+const INPUT_PROFILE_TESTS = preload("res://tests/input_profile_tests.gd")
+const UI_INTEGRATION_TESTS = preload("res://tests/ui_integration_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
+	"manual", "revert", "special_one", "special_two", "interact", "goals",
 ]
 
 var passed: int = 0
@@ -31,10 +42,18 @@ func _run() -> void:
 	RAIL_GEOMETRY_TESTS.run(_check)
 	GRIND_RIDE_TESTS.run(_check)
 	CATALOG_TESTS.run(_check)
+	COMBO_RESOLUTION_TESTS.run(_check)
+	PROGRESSION_TESTS.run(_check)
+	INPUT_PROFILE_TESTS.run(_check)
+	SPECIAL_GAP_TESTS.run(_check)
+	AUDIO_TESTS.run(self, _check)
+	await MANUAL_REVERT_TESTS.run(self, _check)
 	await TAKEOFF_TESTS.run(self, _check)
 	game = MAIN_SCRIPT.new()
+	game.persistence_enabled = false
 	root.add_child(game)
 	await _physics_frames(35)
+	await WORLD_ROUTES_TESTS.run(self, game.world, _check)
 	_test_structure()
 	_test_world_floor()
 	_test_ramp_collision_and_boundaries()
@@ -49,6 +68,9 @@ func _run() -> void:
 	await _test_input_events()
 	await GRINDING_TESTS.run(self, game, _check)
 	await GRIND_REGRESSION_TESTS.run(self, game, _check)
+	await COMBO_INTEGRATION_TESTS.run(self, game, _check)
+	await CAREER_INTEGRATION_TESTS.run(self, game, _check)
+	await UI_INTEGRATION_TESTS.run(self, game, _check)
 	_release_actions()
 	paused = false
 	game.queue_free()
@@ -145,7 +167,9 @@ func _test_world_floor() -> void:
 
 func _test_ramp_collision_and_boundaries() -> void:
 	var ramps: Array[Node] = get_nodes_in_group("skateable_ramps")
-	_check(ramps.size() == 4, "square exposes its four intended skateable ramps")
+	_check(ramps.size() >= 9, "connected level retains original ramps and adds district routes")
+	for original in ["CentralRamp", "TenementReturnRamp", "NorthBank", "WarmUpBank"]:
+		_check(game.world.has_node(original), "original regression ramp retained: " + original)
 	for ramp in ramps:
 		var from: Vector3 = ramp.global_position + Vector3.UP * 8.0
 		var query = PhysicsRayQueryParameters3D.create(from, from - Vector3.UP * 10.0, 1)

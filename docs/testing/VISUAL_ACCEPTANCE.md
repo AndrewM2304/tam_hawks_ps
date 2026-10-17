@@ -1,14 +1,14 @@
 # Visual cleanup and acceptance — Tam Hawks Pro Skater
 
-**Recorded:** 17 October 2026. **Status:** planned acceptance procedure. The existing screenshots establish the M01 blockout baseline; they do not meet or certify the owner's requested final graphical quality. Follow [ART_DIRECTION.md](../product/ART_DIRECTION.md) and the tracked M05/M06 tasks. **M06-007** owns the required final graphics/UI cleanup gate.
+**Recorded:** 17 October 2026. **Status:** planned acceptance procedure. Historical screenshots establish the M01 blockout baseline; current captures show an initial architectural/rider/UI pass, without certifying the owner's requested final graphical quality. Follow [ART_DIRECTION.md](../product/ART_DIRECTION.md) and the tracked M05/M06 tasks. **M06-007** owns the required final graphics/UI cleanup gate.
 
 ## Entry gates and evidence discipline
 
-Reference gathering, asset inspection and task preparation can proceed now. Final gameplay-facing art integration starts after M02-008's owner acceptance of continuous combos. Full-world cleanup also requires M03's accepted traversal/collision layout. Use the same accepted gameplay build as the before/after reference and record any subsequent gameplay change explicitly.
+The owner authorizes implementation and cleanup to proceed without recurring approvals while M02-008 feel and M03 traversal acceptance remain open. Preserve tested movement and collision, record subsequent gameplay changes, and retain human acceptance as a release gate. The initial art pass is implemented; it does not substitute for those acceptance results.
 
 Each evidence set must identify commit, Godot version, platform/GPU, renderer, window/render resolution, quality settings, camera transform, route/pose and lighting state. Save capture instructions alongside the results so the next session can repeat them. Evidence must be real rendered gameplay or UI. Concept images and editor-only views cannot establish playable quality.
 
-`./tools/capture.sh` currently produces `.local/prototype.png`, `.local/air-tricks.png` `.local/pause-menu.png` and `.local/rail-grind.png`. Its existing 1280×800 software-rendered captures are useful comparisons, but the runner does not yet exercise all screens, districts or all M02 trick states. Extend or complement capture coverage as those systems arrive and record exact commands. Preserve historical captures with their original build identity; the title-corrected baseline is retained at `ad31a56`, and the first rail baseline is the commit introducing `docs/testing/GRINDING.md`.
+`./tools/capture.sh` now exercises ordinary play, air tricks, rail capture, manual balance, goals, pause, title, results, settings at both scales, controls and authored district viewpoints. Capture results and exact image paths are recorded in STATUS/QE-REPORT. The 1280×800 software-rendered frames establish visibility, while 1080p target hardware and normal-speed animation review remain open. Preserve historical captures with their original build identity; the title-corrected baseline is retained at `ad31a56`, and the first rail baseline is the commit introducing `docs/testing/GRINDING.md`.
 
 ## Required placeholder inventory
 
@@ -40,7 +40,7 @@ For each before/after pair, keep resolution, camera framing, route/pose and scen
 | V06 | M02 reference combo: air → grind → release → revert/manual → bank, plus a deliberate bail | State transitions, grind/manual balance, feet/board alignment, trick history, banking and recovery cues |
 | V07 | A bright and a shaded landing zone with captions and a long combo visible | Text contrast, obstacle readability, highlight/shadow range and HUD overlap |
 
-V01–V03 use the current square's documented coordinates; update their manifest when the accepted level moves. V04–V07 require future content. At implementation, assign saved transforms and deterministic actions/timings where practical, rather than silently skipping missing routes. The fixed shopfront views must link to the corresponding dated location reference and explain intentional adaptations.
+V01–V03 use the current square's documented coordinates; update their manifest when the accepted level moves. The four districts and combo mechanics now exist; V04–V07 still need the prescribed continuous-route and matched lighting review. At implementation, assign saved transforms and deterministic actions/timings where practical, rather than silently skipping missing routes. The fixed shopfront views must link to the corresponding dated location reference and explain intentional adaptations.
 
 ## Screen and interaction coverage
 

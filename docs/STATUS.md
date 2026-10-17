@@ -1,64 +1,54 @@
 # Current handoff — 17 October 2026
 
-**Project:** Tam Hawks Pro Skater. **Branch:** `bootstrap/m00-m01`. **State:** M01 prototype plus first playable M02 rail grinding; ready for human keyboard/Mac/DualSense playtests. This is an initial gameplay slice, not the complete game or final art. `git log -1` identifies the latest checkpoint; preserve this feature-branch history.
+**Project:** Tam Hawks Pro Skater. **Branch:** `bootstrap/m00-m01`. **State:** playable development alpha with the core gameplay, career, four districts, local audio and menus implemented. Initial procedural art remains below the requested final realistic finish. Use `git log -1` and `git status --short` to identify the exact checkpoint and preserve later changes.
 
-The source, tests, captures and 54 full task records are saved on [the GitHub feature branch](https://github.com/AndrewM2304/tam_hawks_ps/tree/bootstrap/m00-m01). The original remote had no commits or `main`, so there is no PR base yet. No GitHub issues, hosted workflows or release publication were created. Check actual Git state before assuming a remote result.
+The owner authorizes continuing through all ready tasks without routine approval requests. Hardware, current-reference and final creative acceptance remain evidence gates; proceed with independent implementation while they are open. No purchases, paid APIs, billing, hosted CI, infrastructure or unattended future work. Ordinary assistant work uses existing session credits.
 
-## Start or resume
+Source and 54 full task records are kept on the [feature branch](https://github.com/AndrewM2304/tam_hawks_ps/tree/bootstrap/m00-m01). The original remote had no `main` or PR base; no PR, GitHub issues, hosted workflow or public release has been created. Read [the full backlog](planning/BACKLOG.md) before resuming.
 
-1. Read `AGENTS.md`, this file, `docs/planning/BACKLOG.md`, `docs/architecture/interfaces.md` and ADR-006. Check `git status --short` and preserve later work. Use the existing isolated checkout.
-2. Run `./tools/setup.sh`. It verifies the installed Godot 4.6.3 and runs import/tests. No package download, server, paid service or secret is required.
-3. Play using `./tools/run.sh` on a graphical desktop. On macOS, install the free official Godot 4.6.3 editor, import `project.godot` and press F5. For terminal scripts set `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot` if that is its path. There is no verified native Mac export yet.
-4. Reproduce captures using `./tools/capture.sh`. On this Linux image it starts an installed temporary Xorg dummy display, uses software OpenGL, captures four frames and stops the display. Outputs: `.local/prototype.png`, `.local/air-tricks.png`, `.local/pause-menu.png`, `.local/rail-grind.png`.
-5. Read `docs/product/ART_DIRECTION.md` before visual work, `docs/research/SKATING_REUSE.md` before generic skating infrastructure, and `docs/research/GLASGOW_REFERENCES.md` before authentic frontage work.
+## Resume and run
 
-## Implemented and latest changes
+1. Read `AGENTS.md`, this file, `docs/planning/BACKLOG.md`, `docs/architecture/interfaces.md` and ADR-006. Use this isolated checkout and existing feature branch; preserve later edits.
+2. Run `./tools/setup.sh` to verify installed Godot 4.6.3 and run import/tests. It does not download dependencies. `./tools/check.sh` is the ordinary regression command.
+3. Play with `./tools/run.sh` on a graphical desktop, or open `project.godot` in the free Godot 4.6.3 editor. On macOS terminal scripts accept `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot`.
+4. See `docs/PLAYER-GUIDE.md` for controls and the combo/career loop. Settings includes keyboard/gamepad rebinding, mix, captions, reduced motion, camera sensitivity and UI scale.
+5. `./tools/capture.sh` reproduces actual rendered evidence on this Linux image using a temporary Xorg dummy display and software OpenGL; it stops its own display on exit. See QE-REPORT for scenarios and limits.
+6. `./tools/export.sh` creates local unsigned Linux/macOS packages with official checksum-verified templates. It uses only ignored `.local/` and `builds/` paths. See `docs/testing/EXPORT.md` for exact artifact evidence and Mac limits.
 
-- Original procedural Glasgow-inspired square, four skateable ramps, ledges, boundaries, fictional placeholder shops and cone-topped statue. Two existing orange rail props now have matching authored grind geometry.
-- Arcade push/brake/steering, buffered/coyote ollies, flip/grab/spin, forgiving landings and smoothed obstacle-aware camera. Primitive rider/board and presentation remain temporary.
-- **M01-008 Done:** measured and fixed uphill/flat takeoff boosts, unintended downhill damping and horizontal momentum returning after airborne wall contact. Preserve actual collision-adjusted velocity in air and capped real surface velocity on ground. Independent 21-case regression and exact before/after evidence: `docs/testing/TAKEOFF-MOMENTUM.md`.
-- **M02-001 Done:** ADR-006 defines state/input/score contracts; validated trick catalog adds IDs, structural guards and point rules. Future manual/revert/special records and the 0.35-second landing window are specifications, not enabled features.
-- **M02-002 in QE review:** hold L/R2 to catch an aligned rail while descending; steer to balance; release, reach an end or ollie to exit. Full 3D signed travel, bounded capture, capsule clearance sweeps, cooldown, balance/obstruction bail and reset work. One Rail Grind award per attachment; no per-frame farming. Air→rail→air→ground combos bank on landing. Exact tuning and replay: `docs/testing/GRINDING.md`.
-- Two-minute runs/free skate, pause/results/restart, score/history/repeat degradation and best combo. Active air/rail combos have bounded three-second overtime; fresh tricks/spins/captures are disabled at expiry while earned combo resolution remains possible. Manuals/reverts will later change immediate landing-bank behavior.
-- Original MIT `GrindLine` adaptation retains its complete upstream notice. New ride/catalog/controller orchestration is original project code informed by inspected references. No third-party game assets were imported.
+## Implemented
 
-## Verified evidence at this checkpoint
+- One connected, compressed original interpretation of Royal Exchange Square, George Square, Central Station and the Barras: nine ramps, six authored grind rails, district entrances, northern shortcuts, elevated platforms and a hidden alcove. World queries expose district, goal and gap metadata. Actual cone interaction visibly tips/pops the cone and resets safely.
+- Push/brake/steer, buffered/coyote ollies, flip/grab/spin, momentum-preserving takeoff and wall contact, obstacle-aware follow camera, rail acquisition/travel/balance and manual balance. Failure drops the active combo; ordinary heading-only ground landings remain forgiving.
+- A single **0.35-second landing link window** owned by ScoreSession. Manual, rail or ollie links retain the combo; one eligible revert reduces speed without extending the deadline. Clean expiry banks once. Pauses freeze state and overtime is bounded at three seconds with new entries disabled.
+- Repeat degradation, capped distinct-trick multipliers, two airborne specials requiring bank-earned charge, career unlock checks, named swept-crossing gaps, anti-teleport/timeout/rearm guards and explicit restart/bail resets.
+- Two-minute career runs and free skate; ten goals for score tiers, combo, HAWKS letters, cone, station gap, market items, four districts and hidden recording. Earned goals, records, colours, specials, settings and bindings persist locally. Free skate does not progress career or records.
+- Validated versioned JSON saves, verified temporary writes, backup recovery and atomic replacement. Future-version or unrecoverable files are protected from overwriting; explicit recovery archives files. Developer tests use isolated fixtures and disable player-profile writes.
+- Title/mode choice, gameplay HUD, rail/manual balance, link/special feedback, goals/unlocks/colour selection, pause/results, scrolling settings and control remapping. Keyboard and standard gamepad events are covered; physical DualSense remains untested.
+- Original cached PCM effects, wheel/grind loops and four abstract ambience beds; three licensed locally generated Flite NPC lines with captions and cooldowns. No music, paid generation or runtime network dependency. Listening acceptance remains open.
+- Initial architectural materials/facade detail, rooflines, civic clock/portico, station canopy, dressed market, original rounded articulated rider and detailed board. Push/landing/grab animation is implemented. This is procedural initial artwork, not final realistic art acceptance.
+- Free export tooling, pinned template/runtime-notice verification, unsigned universal Mac and Linux presets, provenance packaging and player guide.
 
-| Check | Observed result |
-|---|---|
-| Engine | Installed `4.6.3.stable.official.7d41c59c4`; no engine artifact downloaded |
-| `./tools/check.sh` | Clean import, **260 assertions passed, 0 failed**, exit 0; no scanned engine/script errors |
-| Coverage totals | Previous 136 + 21 momentum + 27 catalog + 41 ride-helper + 19 production grinding + 15 independent grind regressions + 1 new input-action check |
-| Independent physics evidence | Actual uphill/downhill/flat departures, air steering and wall-removal behavior; unchanged regressions fail before the fix and pass afterward |
-| Production rail evidence | Real from-rest push→ollie→descending capture, both directions, release/ollie/end, pause/reset, one-entry scoring, ground banking, capture/travel obstruction and balance bail |
-| Overtime review | Independent review found fresh-entry admission gap; fixed and verified rejection of new flip/grab/spin/rail/rail-ollie while earned spin and release/landing still resolve |
-| `./tools/capture.sh` | Four real 1280×800 Compatibility/llvmpipe frames saved, all return 0; script exit 0. Orchestrator reviewed all four; A09 independently reviewed the new rail frame |
-| Rail screenshot | Balance gauge and Ollie + Rail Grind, 300 ×2 = 600 pending points, readable controls and visible rail alignment |
-| Local services/cost | No hosted CI, purchases, paid API calls, credentials, runtime network, unattended jobs or new downloaded dependencies |
+## Verification at this checkpoint
 
-Full report: `docs/testing/QE-REPORT.md`. Reproducible logs are ignored under `.local/`; reviewed captures are committed in `docs/testing/screenshots/`. The suite verifies the local slice, not physical controller behavior, target-Mac performance or finished game quality. Previous title-corrected captures remain in Git at `ad31a56c3cf6c324c10bb13520a3b8890dd54afb`.
+`./tools/check.sh` completed successfully: **717 assertions passed, 0 failed**, clean import and no scanned engine/script errors, exit 0. `./tools/capture.sh` completed successfully: **15 real 1280×800 images**, all save results 0, script exit 0. Reviewed images are committed under `docs/testing/screenshots/`; exact scenarios and limitations are in `docs/testing/QE-REPORT.md`. `docs/testing/EXPORT.md` carries the package results. The previous committed baseline `07ec43a` had 260 assertions; the first broader integration passed 615.
 
-## Owner visual direction and Glasgow access
+Automated checks exercise production physics/input/signals, combo boundaries, world support and connector sweeps, actual Central gap traversal, objective interactions, persistence faults, input remapping, settings and menu navigation. They do not establish physical controller feel, real Mac launch, sound quality or target-machine performance. Rendered screenshots use Mesa llvmpipe at 1280×800, Compatibility renderer, 2× MSAA; authored district overview cameras are scenery evidence rather than full player-route acceptance.
 
-The corrected title is **Tam Hawks Pro Skater**. The owner requires believable detailed Glasgow graphics, convincing animation and polished UI after core gameplay acceptance. `ART_DIRECTION.md`, `VISUAL_ACCEPTANCE.md`, ADR-005 and **mandatory M06-007** define the finish and owner review. Do not drop that cleanup if credits/session time end. The visible blockout does not satisfy it.
+## Concrete remaining work
 
-The Glasgow dossier preserves 12 dated address candidates (including Di Maggio's, Banca Di Roma, FOPP, Tantrum Doughnuts, BAaD and Saint Luke's), inspected source commit/hash, confidence limits and district survey questions. These historical community-data leads do not establish current occupants or actual street/corner/frontage geometry. No dataset or reference imagery was imported.
+1. **M06-007 / M05 art cleanup:** replace repeated foreground facade/shop modules with researched variants and convincing materials; refine skyline/border continuity, street detail and lighting; evolve the articulated primitive-derived rider into a convincing character with better joint/clothing/hand animation. Review all transitions at normal speed, bright/shaded HUD readability and 1080p scale. Current sources are `game/levels/city_art.gd`, `game/player/skater_visual.gd` and `game/ui/hud.gd`. Preserve tested collisions. Follow ART_DIRECTION and VISUAL_ACCEPTANCE; final owner visual acceptance stays open.
+2. **M03-006 / M03-007 current Glasgow frontages:** twelve dated historical business/address leads are preserved in GLASGOW_REFERENCES. They do not verify current occupants or corner/frontage geometry. Google Maps, Glasgow Life, Network Rail and Barras requests last returned proxy tunnel HTTP 403; local incognito Chrome is not connected. Saved domain configuration exists but this running machine remained blocked. Retry only after actual access/environment changes; do not repeatedly ask the owner to change the same settings. Record source/capture dates before building authentic shop borders. No paid Maps API or copied panoramas.
+3. **M01-007 / M02-008 / M04-006 human playtest:** target Mac keyboard then real wired/Bluetooth DualSense; record input mappings, capture forgiveness, manual correction, 0.35-second links, special usability, camera comfort, complete ten-goal route and actual score distributions. Tune thresholds/routes from evidence. No automated test can certify fun or replay appeal.
+4. **M05 listening:** headphones and speakers, motion/land/grind/bail/bank, district transitions, captions, mute and repeated NPC barks. Synthetic voice timbre and initial procedural audio need real listening feedback; no Glasgow accent is claimed.
+5. **M06-004 / M06-005 / M06-006:** launch the unsigned universal app on an actual Mac, play offline, relaunch to verify saves, unplug/reconnect DualSense and profile the complete route at 1920×1080 on a declared Apple Silicon model. Target 60 fps/16.67 ms. Linux software rendering and Mach-O inspection cannot close these gates.
+6. **M07 release:** resolve remaining functional/art/hardware findings; review title/signage and choose original-code/content licensing before granting public rights; verify final notices, archive checksums and release contents. No automatic release publication or paid signing.
 
-**M03-006 still Blocked:** a new 17 October 2026 12:11 UTC check of Google Maps, Glasgow Life, Network Rail and Barras again returned proxy tunnel HTTP 403. Local Chrome/incognito is not connected to this cloud task. A later configuration read shows the reference domains in the saved base version with no pending draft, but a fresh request from this running machine still returns 403. Startup in a fresh environment using those settings has not been verified; retry there before asking the owner to change the same settings again. Do not repeatedly retry unchanged blocked access or claim Street View was inspected. M03-007 will build verified facade borders. No paid Maps API is needed.
+All these have acceptance criteria, dependencies and next actions in BACKLOG. M04–M07 remain explicitly authored continuation of the source plan, which ends at M03; the owner has authorized proceeding through that work. No requirement was silently dropped.
 
-## Next concrete work
+## Continuity and limits
 
-1. **M02-003 — manuals as combo links.** Read ADR-006 and the existing score ownership first. Implement eligible deliberate entry, balance/travel, release/bail and air/ground transitions with actual input/physics tests. Do not activate catalog entries or bind manual controls without mechanics. Keep current rail/air behavior and 260-check baseline.
-2. **M02-004 / M02-005 — reverts and combo resolution.** After manuals, implement the original 0.35-second landing window, one revert per landing, authoritative pending-bank ownership and exploit bounds. Preserve timeout admission and existing earned-score tests; add exact boundary cases before replacing immediate landing banking.
-3. **M01-007 and M02-002 hardware line trial remain open.** On a target Mac, play central/return ramp routes and the right-hand Exchange rail with keyboard, then real wired/Bluetooth DualSense. Record hardware/build, feel, R2 threshold, capture forgiveness, balance/ollie/release, camera comfort and replay appeal. Fix measured issues; synthetic tests cannot close these gates.
-4. Resume **M03-006** once actual runtime access changes. Inspect maps, current official sources and imagery dates, record real corner/entrance/frontage relationships, then implement M03-007 through its dependencies. Do not infer geometry from dated address points.
-5. Follow the backlog for specials/gaps, full four-district traversal, career/saves, art/audio/NPCs, accessibility/performance and packaging. M04–M07 remain explicitly proposed continuation because the supplied document ends at M03. Start representative production art after M02-008 acceptance and keep M06-007 as a release gate.
+Save progress is local (`user://career.json` under Godot's platform data path; scripts supply ignored `.local` XDG directories). Do not overwrite unfamiliar future-version profiles. Saves are not cloud accounts.
 
-## Limits and checkpoint discipline
+No real Mac/DualSense or final visual/feel/listening review has run. Standard gamepad injection is synthetic evidence. The world is an original compressed interpretation; generic shop names are not verified real locations. There is no sculpted/skinned production character, commercial music, street reconstruction or release-quality claim.
 
-- No physical DualSense, macOS export/launch or Apple Silicon 1080p/60 fps test has run. Software-rendered Linux captures establish visibility only.
-- No manuals, reverts, specials, named gaps, career missions, persistent saves/records, unlocks, cone interaction, secrets, NPCs, sound/music or full four-district level yet. Generic shop signs are placeholders.
-- Flat landings remain forgiving at all headings. Spin is cosmetic to travel heading; grab is a crouch pose. Rail bail returns directly to spawn. Detailed contact/animation and full comfort review remain work.
-- No standalone distributable or paid signing/notarization exists; free source/editor play is the current route. Do not buy Apple enrollment, assets or voice services.
-- No unattended future work is scheduled. Normal in-session assistant credits are still consumed. Local ticket records are not published GitHub issues.
-- Before ending each session, update this file and affected tickets with exact tests, defects, paths and next edits; commit source, tests and handoff together. Keep `.godot/`, `.local/`, builds and credentials out of Git. Environment draft saving does not apply/publish it, and fresh-task restoration requires separate evidence.
+Before ending a session, update STATUS and affected tickets with exact commands, defects and next edits; commit source/tests/docs together and push the authorized feature branch. Keep caches/builds/credentials out of Git. Source archives and packages are local artifacts; future work must not rely on ignored caches surviving. Do not make cloud configuration publication a recurring task approval or claim an unpublished draft is active.

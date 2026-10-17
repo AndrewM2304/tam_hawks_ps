@@ -10,6 +10,12 @@ static func register_actions() -> void:
 	_key_action("flip", [KEY_J])
 	_key_action("grab", [KEY_K])
 	_key_action("grind", [KEY_L])
+	_key_action("manual", [KEY_M])
+	_key_action("revert", [KEY_C])
+	_key_action("special_one", [KEY_U])
+	_key_action("special_two", [KEY_I])
+	_key_action("interact", [KEY_X])
+	_key_action("goals", [KEY_TAB])
 	_key_action("spin_left", [KEY_Q])
 	_key_action("spin_right", [KEY_E])
 	_key_action("restart", [KEY_R])
@@ -18,8 +24,14 @@ static func register_actions() -> void:
 	_axis("steer_left", JOY_AXIS_LEFT_X, -1.0)
 	_axis("steer_right", JOY_AXIS_LEFT_X, 1.0)
 	_axis("grind", JOY_AXIS_TRIGGER_RIGHT, 1.0)
+	_axis("manual", JOY_AXIS_TRIGGER_LEFT, 1.0)
 	_axis("push", JOY_AXIS_LEFT_Y, -1.0)
 	_axis("brake", JOY_AXIS_LEFT_Y, 1.0)
+	_button("special_one", JOY_BUTTON_DPAD_UP)
+	_button("special_two", JOY_BUTTON_DPAD_RIGHT)
+	_button("interact", JOY_BUTTON_DPAD_DOWN)
+	_button("goals", JOY_BUTTON_BACK)
+	_button("revert", JOY_BUTTON_RIGHT_STICK)
 	_button("ollie", JOY_BUTTON_A)
 	_button("flip", JOY_BUTTON_X)
 	_button("grab", JOY_BUTTON_B)
@@ -40,6 +52,7 @@ static func _key_action(action: String, keys: Array) -> void:
 
 static func _axis(action: String, axis: JoyAxis, value: float) -> void:
 	var event := InputEventJoypadMotion.new()
+	event.device = -1
 	event.axis = axis
 	event.axis_value = value
 	if not InputMap.action_has_event(action, event):
@@ -47,6 +60,7 @@ static func _axis(action: String, axis: JoyAxis, value: float) -> void:
 
 static func _button(action: String, button: JoyButton) -> void:
 	var event := InputEventJoypadButton.new()
+	event.device = -1
 	event.button_index = button
 	if not InputMap.action_has_event(action, event):
 		InputMap.action_add_event(action, event)

@@ -1,15 +1,41 @@
 # Resuming development
 
-A new session should be able to work from this repository alone. Treat local files as authoritative; a chat promise is not an implementation result.
+A new session should be able to work from this repository alone. Treat source, tests and the recorded handoff as evidence; a chat promise is not an implementation result. The owner has authorized continuing the remaining work without routine task-by-task approval, subject to the no-spend constraint. Do not restart from the earlier M01-only state or ask whether to proceed with an already authorized next ticket.
 
 1. Read `AGENTS.md`, `docs/STATUS.md`, the relevant backlog tickets, `docs/architecture/interfaces.md`, `docs/research/SKATING_REUSE.md`, and `docs/product/ART_DIRECTION.md`. Glasgow reference work starts from `docs/research/GLASGOW_REFERENCES.md`; M06-007 remains a mandatory final cleanup gate. Check `git status --short` and the current branch before editing. Preserve existing changes.
 2. Inspect the most recent recorded command results and defects. Run `tools/check.sh` once the engine is available. If the environment was replaced, use `tools/setup.sh` to verify the installed engine and run checks. If the engine is missing, obtain free Godot 4.6.3 from the official archive with normal artifact verification, then set `GODOT_BIN` if needed; the setup script does not download it.
-3. Select the earliest ready ticket whose dependencies are complete. A milestone's human playtest gate cannot be passed by synthetic tests. Independent planning and test work may continue while hardware feedback is pending.
+3. Compare the current implementation map below with STATUS/backlog, then address recorded failures or the earliest unblocked acceptance slice. Human playtest gates cannot be passed by synthetic tests, but their pending status does not halt independent implementation, art cleanup, fixes, research, tooling or local verification. Record the evidence dependency and proceed with the useful work that does not require it.
 4. Use the existing isolated checkout and a feature branch. Do not create a worktree unless the user explicitly asks. Assign disjoint files before parallel edits; the orchestrator owns shared interfaces.
-5. Implement the smallest complete acceptance slice. Record any changes to gameplay contracts in an ADR before dependent agents implement against it.
+5. Complete the selected acceptance slice and continue to the next authorized step. Record changed gameplay contracts in an ADR before dependent agents implement against them. Avoid repeated approval pauses for routine implementation decisions or reversible local fixes.
 6. Run appropriate local automated checks. For visible changes, capture an actual rendered frame or record the exact rendering blocker. Document manual steps and platform limitations separately.
 7. Update `docs/STATUS.md` and the ticket: files changed, command and result, unresolved defects, next action, and dependency state. Mark Done only with acceptance evidence.
 8. Leave source, decisions and tests reviewable. Do not purchase anything, enable hosted services, trigger hosted CI or start unattended agents. Publishing issues, pushing changes and release distribution must follow the owner's current instructions; this initial session's ticket templates are local.
+
+## Current implementation map
+
+The game has progressed beyond the original movement square. These systems are implemented with local automated coverage; the latest aggregate result belongs in STATUS/QE, not a frozen count in this resume guide.
+
+| Area | Existing implementation to preserve | Next acceptance evidence |
+| --- | --- | --- |
+| Skating/combo | Ollies, flips/grabs/spins, six authored grind rails, manual balance, landing reverts, 0.35-second links, bounded overtime, two meter-gated specials and gap tracking | Complete human combo lines, tuning and physical DualSense review |
+| World | Four connected districts, paired connectors, northern shortcuts, elevated platform gap, market routes, recording alcove, markers and visible cone interaction | Whole-level input-driven circuit, discovery/flow and difficult route checks |
+| Career | Ten goals, per-run collections, records, earned cosmetics/specials, versioned local saves, backup and corruption handling | Full career completion/pacing and target-Mac persistence/relaunch |
+| Presentation | Original procedural architecture/material pass, articulated skater, district landmarks, four static bystanders, redesigned HUD/menu pages | Mandatory M06-007 cleanup, final realistic/fun visual direction and owner acceptance |
+| Audio | Original procedural skating SFX/district ambience plus three licensed locally generated Flite WAV barks, captions and cooldowns | Actual listening/mix/intelligibility review and target-device playback |
+| Settings/controls | Saved mix levels, captions, UI scale, sensitivity, reduced motion, keyboard/controller remapping, conflict guards and current-binding prompts | Physical controller navigation/remapping/reconnect, display/comfort review |
+| Packaging | Local unsigned export tooling and player/export guides | Check STATUS for actual artifact results; Mac launch, offline play and hardware performance remain distinct |
+
+Read `docs/testing/GRINDING.md`, `PROGRESSION.md`, `AUDIO.md`, `EXPORT.md` and the visual checklist as relevant. Read `docs/PLAYER-GUIDE.md` for the playable controls and screens. Preserve tested behavior while improving it; do not replace implemented manual/revert/career/voice features with fresh placeholders because an older document called them planned.
+
+## Work that can continue while human gates are open
+
+- Fix reproduced gameplay/UI/export defects and strengthen focused regressions where the failure warrants them. Keep save tests isolated from any player's profile; preserve unreadable/newer profiles and backup-recovery behavior.
+- Continue the mandatory graphics/UI cleanup after the functional gameplay baseline. The current architectural/material pass is an improvement, not final realistic acceptance. Track remaining repetition, facade variation, animations, route readability, menu polish and performance against M05/M06 and `VISUAL_ACCEPTANCE.md`.
+- Verify actual Glasgow frontage/street references when network access permits, then use dated evidence for boundary art. Current compressed geography and generic shop identities are not a verified map. Read `GLASGOW_REFERENCES.md` before retrying its known blocked sources; do not use paid APIs or import StreetView photographs as textures. A reference-site blocker does not block unrelated local development.
+- Finish repeatable packaging, source/provenance audits and local launch/offline checks within the existing free toolchain. Do not claim a packaged Mac app works merely because export succeeded on Linux.
+- Prepare exact human test routes for Mac/DualSense, visual review and listening. Keep those acceptance items open until real evidence arrives, while completing their independent preparation and implementation work.
+
+The no-spend rule persists across resumed sessions: no purchases, paid maps/voice services, billing, hosted CI or scheduled autonomous runs. Free compatible reuse remains encouraged after source/licence inspection. M06-007 cannot be dropped because credits or a session end.
 
 ## Minimum end-of-session record
 

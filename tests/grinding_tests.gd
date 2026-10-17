@@ -3,8 +3,8 @@ extends RefCounted
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	var lines: Array = game.world.get_grind_lines()
-	check.call(lines.size() == 2 and lines[0].is_valid and lines[1].is_valid,
-		"world publishes two valid tracks matching the visible rails")
+	check.call(lines.size() >= 6 and lines[0].is_valid and lines[1].is_valid,
+		"world retains original rail tracks and adds valid district rails")
 	await _start(tree, game, Vector3(12.15, 1.10, 11.5), Vector3(0, -1, -6))
 	game.score.add_trick("Kickflip", 300)
 	Input.action_press("grind")

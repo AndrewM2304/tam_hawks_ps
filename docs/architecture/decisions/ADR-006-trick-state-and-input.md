@@ -1,90 +1,105 @@
-# ADR-006: Trick states, input and combo continuation contract
+# ADR-006: Trick states, input and combo continuation
 
-Status: Accepted engineering specification for M02-001; tuning and controller feel remain provisional until physical QA. Date: 17 October 2026. Owners: A01/A04 with A08/A09 review through integration. No M01/M02 human acceptance is implied.
+Status: Accepted engineering contract, implemented for ground/air/grind/manual/revert, the landing-link timer, two specials and three named gaps. Updated 17 October 2026. Owners: A01/A04 with independent QE. Physical controller feel, target-Mac performance and M01/M02 human acceptance remain open; they do not stop separately authorized implementation work.
 
-## Context and reuse decision
+## Decision and source boundary
 
-The existing controller supports ground/air movement and basic tricks. `main.gd` banks immediately on clean landing; a held flip/grab is already edge-gated, and score repetition halves value down to a sixteenth. The adopted `GrindLine` provides world-space rail geometry but does not own input, movement, balance or scoring. M02 needs explicit boundaries before rails, manuals and reverts can join combos.
+Use Godot `CharacterBody3D`, InputMap and the adopted `GrindLine` geometry helper, with small original runtime systems for skating rules. Inspected state/input/rail/score patterns and upstream caveats are recorded in [SKATING_REUSE](../../research/SKATING_REUSE.md). The helper is an attributed MIT adaptation; the state, timing, catalog, manual/revert and scoring integration here are original implementation. No whole upstream game or its assets was imported.
 
-Read the inspected sources and pinned revisions in [SKATING_REUSE](../../research/SKATING_REUSE.md): 3deric's state separation and input buffer, Not Pro Skater's signed rail travel and combo grace, and their documented compatibility/correctness caveats. Use built-in Godot input, `CharacterBody3D` and the already adopted rail helper. The catalog and contracts here are original project work informed by those inspections; they contain no copied upstream implementation. The existing rail helper remains an attributed MIT adaptation. Do not import an entire controller or its assets merely to obtain a small timing/state pattern.
+Choose one explicit **0.35-second pending landing bank** owned by `ScoreSession`. Immediate banking prevents manual/revert links; copying an unrelated controller and its 0.5-second queue would introduce unnecessary coupling and tuning. Preserve the short tested ollie buffer/coyote behavior instead of introducing a general input queue. Movement confirms eligible transitions; scoring owns point totals and the banking deadline; main owns run expiry, career, special charge and persistence.
 
-Alternatives considered: preserving immediate landing-bank forever would prevent the requested manual/revert combo links; copying an upstream 0.5-second grace and whole controller would introduce unrelated tuning and coupling. Choose an explicit 0.35-second future landing window and keep its implementation separate from the first grind integration.
+## Runtime ownership and transitions
 
-## State ownership and transition table
+The catalog's transition/state checks describe structural permission. They do not prove support, valid rails, charge, unlocks or fresh input. The player implements current state with contact/air/rail/manual flags and contextual timers. Revert is a timed cosmetic stance change during ground travel, not a replacement collision mode. Staying in a state produces no entry award.
 
-The player owns movement state and verifies physical/input guards. The session owns scoring, pending combo resolution, run timeout and results. The catalog's `can_transition` checks structural permission only: it cannot prove floor contact, rail clearance, input freshness or meter availability. Same-state updates do not produce transition awards. Unknown states/IDs always reject.
-
-| From | Allowed destination | Required runtime guard / effect |
+| From | Destination | Runtime guard and effect |
 |---|---|---|
-| `ground` | `air` | Fresh/buffered eligible ollie, or actual loss of support. Walking off a ledge does not award Ollie. |
-| `ground` | `manual` | Fresh manual action, enough forward speed, stable floor support, balance initialised. |
-| `ground` | `revert` | Fresh revert action within the eligible landing window; one revert per landing. Ordinary ground travel cannot enter it. |
-| `ground` | `bail` | Confirmed hazard or invalid position; emit bail once and drop only unbanked points. |
-| `air` | `ground` | Actual clean support transition; resolve spin once, then emit landing once. |
-| `air` | `grind` | Grind held, valid nearby rail, angle/height/speed checks, clear snap path and reacquisition cooldown passed. |
-| `air` | `bail` | Confirmed unsafe/hazard outcome; current forgiving heading-only landings remain until a tested rule replaces them. |
-| `grind` | `air` | Ollie-off, released input or rail endpoint without floor support; preserve signed tangent momentum. |
-| `grind` | `ground` | Release/end with real floor support; landing/score resolution occurs once. |
-| `grind` | `bail` | Failed balance, obstructed travel or hazard; clear rail reference and emit one bail. |
-| `manual` | `ground` | Release, insufficient speed or clean balance resolution; end manual once. |
-| `manual` | `air` | Eligible ollie or loss of support; preserve motion and active combo eligibility. |
-| `manual` | `bail` | Balance failure or hazard; emit one bail. |
-| `revert` | `ground` | Revert animation/timing finishes with support. |
-| `revert` | `manual` | Eligible manual input within the same original landing window. |
-| `revert` | `air` | Eligible ollie or actual loss of support. |
-| `revert` | `bail` | Hazard or physically invalid transition. |
-| `bail` | `ground` | Recovery/reset completes at a safe supported location; clear transient trick/rail state. |
+| Ground | Air | Actual eligible buffered/coyote ollie or support loss. Only an accepted ollie awards 100 and emits link-start. |
+| Ground | Manual | Fresh action, real floor support, speed ≥2 m/s, no incompatible ride, and 0.35-second reentry cooldown elapsed. Entry awards 100 once. |
+| Ground | Revert | Fresh action within 0.35 seconds of actual air landing, no manual/rail and unused revert for that landing. Costs 15% speed and awards 150. |
+| Ground | Bail | Confirmed recovery/hazard condition. Drop active score once and reset safely. |
+| Air | Ground | Actual support transition. Resolve air spin once, clear air visuals and emit one clean landing. |
+| Air | Grind | Held grind, eligible nearby rail and approach/speed/height, swept clearance and cooldown. Resolve spin and award rail entry without landing/banking. |
+| Air | Bail | Confirmed invalid/hazard outcome. Ordinary heading-only landings remain forgiving. |
+| Grind | Air / ground | Ollie-off, release, slow ride or open endpoint retains signed tangent motion; actual later support resolves the ground landing once. |
+| Grind | Bail | Balance or travel obstruction failure clears the ride and loses unbanked score. |
+| Manual | Ground | Release or insufficient speed ends the held link once; ordinary pending banking starts. |
+| Manual | Air | Ollie ends the manual without a false ground-end and emits a valid link-start; support loss preserves physical airtime without an Ollie award. |
+| Manual | Bail | Absolute balance reaches 1, or a hazard occurs. Clear state and emit bail once. |
+| Revert | Ground / manual / air | Cosmetic turn finishes, an eligible manual starts, or an eligible ollie/support loss occurs. Revert itself never refreshes the original banking deadline. |
+| Bail | Ground | Recovery/reset clears all transient movement, trick and visual state; no transition score. |
 
-No ground-to-grind snap, air-to-manual, grind-to-manual or manual-to-revert shortcut is implicit. Those paths must pass the listed support transitions, with the guards checked on each transition. A restart is an explicit out-of-band reset of the whole player/session, not a scored transition. Pause freezes all timers/state updates. Controls disabled by results prevent all new action transitions.
+There is no ground-to-grind acquisition, airborne manual entry or manual-to-revert shortcut. A fresh manual press on the actual landing frame may be accepted after the player emits that landing. Restart is an out-of-band reset. Pause freezes timers/state. Results disable controls, and overtime rejects fresh trick entries while existing holds can resolve.
 
-## Input contract
+## Enabled inputs and movement rules
 
-| Action | Keyboard | DualSense candidate | Semantics / rollout |
+| Action | Keyboard default | Standard DualSense candidate | Current behavior |
 |---|---|---|---|
-| Ollie | Space | Cross | Fresh press; existing short buffer/coyote behaviour stays. |
-| Flip / grab | J / K | Square / Circle | Fresh press while eligible in air; one execution per actual press. |
-| Spin | Q / E | L1 / R1 | Held rotational intent; award completed half-turns once on ground landing or successful rail capture. |
-| Grind | L | R2 positive trigger axis | Hold to request eligible capture and sustain grind. R2 is not the digital Triangle button. Initial M02-002 implementation. |
-| Manual | M | L2 positive trigger axis | Candidate: fresh press enters a supported manual; holding sustains it. Future M02-003. |
-| Revert | C | Right-stick press | Candidate: fresh press in landing window; cannot restart the window. Future M02-004. |
-| Restart | R | Triangle | Preserved. Grind must not consume or rebind it. |
-| Pause / free skate | Escape / F | Options / touchpad | Preserved session actions. |
+| Push / brake / steer | W/S/A/D or arrows | Left stick | Ground movement; push/brake correct manual balance and steer corrects grind balance. |
+| Ollie | Space | Cross | Fresh press with 0.12-second buffer and 0.10-second coyote allowance; accepted launch only. |
+| Flip / grab | J / K | Square / Circle | Fresh eligible air press; current implementation permits each once per air segment. |
+| Spin | Q / E | L1 / R1 | Held visual rotation; completed half-turns resolve once on ground landing or rail capture. |
+| Grind | L | R2 positive trigger | Hold to acquire/sustain; release or ollie exits. |
+| Manual | M | L2 positive trigger | Fresh supported entry, held sustain, explicit balance and reentry cooldown. |
+| Revert | C | R3 | Fresh press during landing eligibility, once per landing; no window reset. |
+| Clyde Carousel / Tenement Tumble | U / I | D-pad up/right | Fresh main input; career unlock, full meter and eligible player airtime required. |
+| Interact / goals | X / Tab | D-pad down / Create | Nearby deliberate interaction and goal view. |
+| Restart / pause / free skate | R / Escape / F | Triangle / Options / touchpad | Explicit session actions. |
 
-Use the existing standard Godot/SDL gamepad mapping and action deadzones. Trigger threshold, manual/revert ergonomics and deliberate versus accidental actuation need real wired/Bluetooth DualSense tests. These controls are an engineering candidate, not a claim of owner-approved final feel. Do not activate manual/revert actions before their mechanics and tests exist. No global 0.5-second trick input queue is introduced now; preserve the tested ollie buffer and add only explicitly tested contextual buffers later.
+Mappings are enabled candidates through standard Godot/SDL events, with device -1 and default deadzone 0.2. `InputProfile` permits validated physical-key/controller remaps, rejects conflicts before applying changes, preserves `ui_*` menu actions and persists accepted overrides. Axis capture needs magnitude 0.5. Wired/Bluetooth DualSense mapping and ergonomics remain unverified on physical hardware. A controller disconnect pauses an active session.
 
-## Trick data and repeat rules
+Manual balance starts at 0.05 and has deterministic outward drift `0.18 + 0.08 × elapsed` per second. Fore/aft control contributes `(brake − push) ×1.5` per second. The manual coasts with rolling drag; those controls do not simultaneously accelerate/brake normal travel. Left/right steering remains available. Exit cooldown is 0.35 seconds, and holding through a rejected entry, cooldown or airtime cannot create a fresh press. Holding does not generate duration points.
 
-`game/tricks/trick_catalog.gd` exposes immutable-by-copy lookup data and structural guards. Each record has a stable lowercase ID, display name, positive integer base points, allowed states and activation event. `definition(id)` returns a deep copy or `{}` for an unknown ID; `base_points` returns zero for unknown IDs. `can_perform` checks structural eligibility only and does not enable an unimplemented mechanic. `validate_definitions` reports malformed types/fields, duplicate IDs/states, unknown states/activation events and invalid point bounds without executing game events.
+Revert animation lasts 0.18 seconds, rotates visible stance by 180° and preserves accepted travel heading. The skater's `revert_remaining` is input eligibility only; the score's `landing_remaining` is authoritative for banking. An already spent/expired revert cannot be renewed by pressing again, scoring a gap or adding a trick.
 
-| ID | Base points | Award event |
+## Trick definitions and scoring
+
+`TrickCatalog.definition(id)` returns a deep copy or `{}`; unknown IDs score zero through lookup. Definitions include stable lowercase ID, display name, positive base value, allowed state and activation type. Validation rejects malformed records, duplicate IDs/states, invalid field types and unsupported state/activation values. `can_perform`/`can_transition` are structural guards, never substitutes for runtime checks.
+
+| ID | Base points | Enabled award event |
 |---|---:|---|
-| `ollie` | 100 | Actual eligible launch, not every airborne frame |
-| `kickflip` | 300 | One accepted fresh air action |
-| `melon_grab` | 250 | One accepted fresh air action |
-| `spin_180` | 200 per completed half-turn | One ground/rail contact resolution; retain direction/rotation in visible label |
-| `rail_grind` | 200 | One successful rail entry |
-| `manual` | 100 | One successful manual entry; future |
-| `revert` | 150 | One successful revert entry; future |
-| `special_clyde_carousel` | 1000 | Eligible special press with meter consumption; future |
-| `special_tenement_tumble` | 1200 | Eligible special press with meter consumption; future |
-| `named_gap` | 500 default | One validated authored traversal; future per-gap data |
+| `ollie` | 100 | Accepted physical launch |
+| `kickflip` | 300 | Accepted fresh air action |
+| `melon_grab` | 250 | Accepted fresh air action |
+| `spin_180` | 200 per half-turn | One ground/rail contact resolution with direction/rotation in the display label |
+| `rail_grind` | 200 | Successful attachment |
+| `manual` | 100 | Successful supported entry |
+| `revert` | 150 | Eligible once-per-landing press |
+| `special_clyde_carousel` | 1,000 | Charged/unlocked eligible air request accepted by the player |
+| `special_tenement_tumble` | 1,200 | Charged/unlocked eligible air request accepted by the player |
+| `named_gap` | 500 catalog default | World-authored routes provide their actual named values: 300 / 600 / 350 |
 
-Special names/values are original provisional content definitions, not implemented animations or unlocks. Gap records will provide unique gap IDs and authored values. The generic catalog entry is a schema baseline, not permission to award every trigger crossing. Completed spin half-turns currently use a dynamic display label and multiplied base value; do not silently change existing score semantics during a catalog migration.
+`ScoreSession` deliberately retains **display-name repetition identity**, including distinct dynamic spin labels and named gaps. Stable catalog IDs are not falsely described as the current score key. Repeat value is `max(1,floor(base/2^min(previous_repeats,4)))`; non-positive values/blank names reject. The distinct-name multiplier caps at 8. Events cap at 1,000,000 points; combo/base/total scores saturate at 2,147,483,647 rather than overflow. Repetition state clears on bank, bail or reset.
 
-A repeat's points are `max(1, floor(base / 2^min(previous_repeats, 4)))`. Non-positive base values produce zero, and negative repeat counts clamp to zero. Unique trick count multiplies accumulated base, capped at 8. Current `score_session.gd` keys repetitions by display name; a future M02-005 migration to stable IDs must preserve reference scores and document spin/gap identity rules. The catalog helper matches today's numeric degradation but does not automatically replace the session's implementation.
+No grind/manual per-frame hold awards exist. Later duration scoring would require its own cap and exploit checks. Existing entry cooldowns, input freshness and physical eligibility prevent held-button repetition. Catalog entries alone cannot enable future tricks.
 
-Grind entry awards once per attachment. First integration has no time-based hold points; holding a button must never call `add_trick` every frame. Later hold scoring must introduce a separately tested duration cap and cannot inflate the unique-trick multiplier by emitting synthetic names. Same-rail cooldown and fresh physical capture guard against immediate repeat entry exploits. Manual/revert repeated input cannot manufacture transitions or extend landing grace.
+## Authoritative landing window and event order
 
-## Landing continuation and bounded run timeout
+The enabled flow is:
 
-**Current integration boundary:** the first playable grind retains immediate clean-landing banking. `LANDING_LINK_SECONDS = 0.35` is a specification constant for M02-004/M02-005, not an enabled timing change. Do not mark continuous combo acceptance complete merely because the constant and rail state exist.
+1. Actual clean landing or a supported manual release calls `ScoreSession.begin_landing()`. A nonempty combo receives one 0.35-second pending bank. An empty combo creates no timer; duplicate begin calls cannot extend one.
+2. Accepted manual/ollie/rail entry emits `combo_link_started` before its award. Main routes it to `continue_combo()`. Main also holds pending banking while actual air, rail or manual is active, so natural support loss can sustain an existing combo without awarding Ollie.
+3. `add_trick()` only adds points. Revert adds its award without link-start, leaving the same deadline. A valid manual or ollie within the remaining window continues it; a revert by itself does not.
+4. Main calls `score.tick(delta)` during active play. Ground expiry banks exactly once; bank routes through goal evaluation, special charge, audio and save feedback. Bail drops pending score; restart clears it. Pause consumes no deadline time.
 
-The future rule starts a single 0.35-second pending bank on a clean landing with an active combo. A valid manual, revert-to-manual or supported launch within that original window can continue the combo. A revert alone does not refresh or extend the deadline. Clean ground travel after expiry banks exactly once; a bail before resolution drops the pending combo. Restart clears it. Pausing freezes it. Empty combos do not create pending windows.
+Main's physics callback updates an existing pending deadline before the child's new movement input. If that deadline has already expired in the tick, it banks before a later accepted launch starts a new combo. Tests cover inside/outside-window ollies, duplicate events and revert timing; do not silently grant a late input the old combo.
 
-At 120 seconds the session stops admitting new trick/rail/manual/revert entries. An already active combo may resolve for at most **3.0 seconds** of active-play overtime; pause freezes this timer. No accepted event can extend the deadline. During overtime the player can release a hold and physically finish a landing but cannot start a fresh scoring link. Clean resolution banks once. Bail or an unresolved combo at the hard deadline drops unbanked points and enters results. Timeout and landing in the same physics tick must resolve in a defined order and never double-bank. Main now bounds air/rail landing grace at 3.0 seconds and disables fresh trick/capture inputs during it. Manual eligibility and pending landing banks remain M02-004/M02-005 work.
+A supported manual release creates a new window for that new ground transition. An already active pending window cannot be stretched by repeated releases/landing signals or repeated trick awards. Natural support loss is handled through actual physical air state, not a fabricated combo-link event.
 
-## Validation and consequences
+## Specials, gaps and career boundaries
 
-A09 must validate all records, lookup-copy isolation, unknown IDs/states, illegal transitions, repeat boundaries, existing point compatibility and future timing constants. Runtime integration checks additionally cover fresh input edges, signed rail directions, capture clearance, endpoints, same-rail cooldown, bail/reset, pause and timeout. Structural guards must not replace those checks.
+`SpecialMeter` earns only banked points, at points/25 with a maximum gain of 50 per bank and capacity 100. Main first checks unpaused active play, career unlock (bypassed in free skate) and full charge, then calls `skater.try_special(id)`. Only a `true` result consumes charge. The player rejects unknown IDs, ground/rail/manual state, disabled controls/entries, pause and a second special in the same air segment. The two 0.65-second original visual animations leave velocity/collision unchanged. Landing/capture/reset clears animation; an actual new air segment reopens eligibility.
 
-Use a controller playtest to tune acquisition and the proposed 0.35-second link window after manuals/reverts exist. Keep M01/M02 human gates open until that evidence arrives. This ADR adds no paid dependency, copied implementation, asset or background service. It gives subsequent sessions a stable definition while keeping actual enabled features and scoring ownership explicit.
+`GapTracker` snapshots validated world-space definitions, detects ordered swept start/end crossings within 4 seconds and returns named award records. Required airborne travel must be established between triggers and at the end; a final airborne sample alone is insufficient. Wrong order/direction, expired traversal, bad geometry and displacement over 20 m reject. Completion/failure locks until both triggers have been left; first observation establishes position only. Main resets it on bail/restart and routes accepted records to scoring/career. Current authored values are Exchange Air 300, Mind The Gap 600 and Barras Basket Hop 350.
+
+Career accepts only recognized events during an active career run. Ten goals include three banked score levels, a banked combo, letters, cone interaction, Central gap, market items, district visits and a recording. Free skate can exercise mechanics but does not advance career records/unlocks. Unlocks and meter are separate prerequisites. Profile versioning, backup preservation and remapping/settings contracts are documented in [interfaces](../interfaces.md); no runtime network/paid service is involved.
+
+## Bounded run overtime
+
+At 120 seconds main rejects all fresh trick/capture/manual/revert/special entries. An already active air/rail/manual/pending-ground combo has at most **3.0 seconds** of active-play overtime to resolve. Existing manual/rail balance and release continue; no entry can extend the deadline. Clean resolution banks once. Bail or hard deadline loses remaining unbanked score and enters results. Pausing freezes both timers. Restart resets the run clock, overtime, score, charge and transient movement while retaining career data.
+
+Banking is evaluated before the remaining-run timer is processed for that tick. Results are guarded against repeated finalization. A pending clean ground window is eligible to finish in overtime; an indefinitely held rail/manual cannot prevent results.
+
+## Verification and acceptance
+
+Dedicated catalog, combo-resolution, manual/revert, special/gap, takeoff, rail-state, real-game combo, progression and input-profile suites are invoked by `tools/check.sh`; newest counts belong in STATUS and QE-REPORT. Visual capture is separate from headless state/physics verification. The authored rider uses procedural articulated parts; quarter-pipe/vert support, specialized grind animation, human controller feel and final art/hardware acceptance are not implied by these implemented mechanics or passing Linux tests. Continue authorized engineering while keeping those acceptance gates explicit.

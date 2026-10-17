@@ -1,15 +1,15 @@
 # Tam Hawks Pro Skater — art and UI direction
 
-**Owner direction recorded:** 17 October 2026. **Status:** production specification; the current M01 visuals remain a gameplay blockout. The corrected title is **Tam Hawks Pro Skater**. The owner wants polished UI, realistic and fun graphics, and recognisable Glasgow shopfronts and street edges.
+**Owner direction recorded:** 17 October 2026. **Status:** production specification; an initial procedural architectural/rider/UI pass is implemented, with final realistic finish still open. The corrected title is **Tam Hawks Pro Skater**. The owner wants polished UI, realistic and fun graphics, and recognisable Glasgow shopfronts and street edges.
 
 ## Intended finish and delivery order
 
 Aim for a polished independent skating game with believable human proportions, recognisable Glasgow architecture, textured surfaces, convincing light and expressive movement. Arcade physics, readable tricks and a lively visual identity support the fun. The target is a convincing, cohesive city at skating speed and in ordinary close views; photographic fidelity is not an established capability or acceptance claim.
 
-The current solid-colour cuboid buildings, primitive rider and flat shop strips are temporary. Blockout geometry is useful for agreeing lines and collision, but its appearance does not satisfy final presentation. Basic geometric meshes may remain as hidden collision or construction elements; visible production art needs deliberate silhouette, surface detail and finish.
+The original cuboid blockout has an initial generated material/facade and articulated-rider pass. Repeated building modules, primitive-derived character surfaces and unverified shop strips remain temporary. Blockout geometry is useful for agreeing lines and collision, but its appearance does not satisfy final presentation. Basic geometric meshes may remain as hidden collision or construction elements; visible production art needs deliberate silhouette, surface detail and finish.
 
 1. **Now:** maintain the reference dossier, art direction, placeholder inventory and actionable tasks while core skating develops. Record real locations and reusable free assets before investing in final production art.
-2. **After M02-008:** the owner has accepted continuous combo feel, following M01's physical-controller gate. Establish one representative polished scene and HUD treatment, including a skater, a shopfront edge, a skateable approach and readable trick feedback. Capture the result and its frame cost before expanding the treatment.
+2. **Representative art pass:** continuous combos are implemented and locally tested. The owner authorizes proceeding while M02-008 physical/feel acceptance remains open. Establish a representative scene and HUD treatment, including a skater, a shopfront edge, a skateable approach and readable trick feedback. Capture the result and its frame cost; subsequent hardware/feel findings can still require revisions.
 3. **M03 / M05:** retain approved skating layouts, then replace visible blockout throughout all four districts using the approved art treatment. Grey-box acceptance remains distinct from art acceptance.
 4. **M06 and final cleanup (M06-007):** complete polished menus and accessibility, remove the remaining visible placeholders, compare matched before/after evidence, verify target performance and obtain the owner's visual signoff. This cleanup is a required release gate with tracked defects, not discretionary decoration.
 

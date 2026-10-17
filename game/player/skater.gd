@@ -5,9 +5,12 @@ extends CharacterBody3D
 signal trick_performed(trick_name: String, points: int)
 signal landed(clean: bool)
 signal bailed()
+signal combo_link_started()
+signal combo_link_ended()
 
 const GrindRideSource = preload("res://game/tricks/grind_ride.gd")
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
+const SkaterVisualSource = preload("res://game/player/skater_visual.gd")
 const GRIND_RECAPTURE_DELAY := 0.35
 
 const MAX_SPEED := 15.0
@@ -21,10 +24,35 @@ const COYOTE_TIME := 0.10
 const JUMP_BUFFER_TIME := 0.12
 const SPIN_SPEED := 7.2
 const FLIP_DURATION := 0.48
+const MANUAL_MIN_SPEED := 2.0
+const MANUAL_REENTRY_DELAY := 0.35
+const MANUAL_BALANCE_CONTROL := 1.5
+const REVERT_DURATION := 0.18
+const REVERT_SPEED_RETAINED := 0.85
+const SPECIAL_DURATION := 0.65
+const WORLD_LIMIT := 400.0
 
 var speed: float = 0.0
 var airborne: bool = false
 var spawn_position: Vector3 = Vector3(0.0, 0.8, 12.0)
+var manual_active := false
+var manual_balance := 0.0
+var revert_remaining := 0.0
+var special_name := ""
+
+var _manual_cooldown := 0.0
+var _manual_elapsed := 0.0
+var _revert_used := false
+var _revert_pose_remaining := 0.0
+var _stance_angle := 0.0
+var _special_id := ""
+var _special_remaining := 0.0
+var _special_used_this_air := false
+var _surface_pitch := 0.0
+var _steering_sensitivity := 1.0
+var _reduced_motion := false
+var _shirt_material: StandardMaterial3D
+var _shirt_color := Color("20a59f")
 
 var _grind = GrindRideSource.new()
 var _grind_lines: Array = []
@@ -51,6 +79,7 @@ var _visual: Node3D
 var _board_visual: Node3D
 var _rider_visual: Node3D
 var _camera: Camera3D
+var _visual_rig: RefCounted
 
 
 func _ready() -> void:
@@ -76,6 +105,17 @@ func _ready() -> void:
 func reset_skater() -> void:
 	_grind.stop()
 	_grind_cooldown = 0.0
+	manual_active = false
+	manual_balance = 0.0
+	_manual_cooldown = 0.0
+	_manual_elapsed = 0.0
+	revert_remaining = 0.0
+	_revert_used = false
+	_revert_pose_remaining = 0.0
+	_stance_angle = 0.0
+	_special_used_this_air = false
+	_clear_special_visual()
+	_surface_pitch = 0.0
 	global_position = spawn_position
 	rotation = Vector3.ZERO
 	velocity = Vector3.ZERO
@@ -91,10 +131,11 @@ func reset_skater() -> void:
 	_air_spin = 0.0
 	_steering = 0.0
 	if is_instance_valid(_visual):
+		_visual_rig.reset()
 		_visual.rotation = Vector3.ZERO
 		_board_visual.rotation = Vector3.ZERO
 		_rider_visual.position = Vector3.ZERO
-		_rider_visual.rotation = Vector3(0.0, -0.45, 0.0)
+		_rider_visual.rotation = Vector3(0.0, -PI / 2.0 + 0.28, 0.0)
 	if is_instance_valid(_camera):
 		_camera.global_position = global_position + Vector3(0.0, 3.4, 6.0)
 		_camera.look_at(global_position + Vector3(0.0, 1.0, -1.5))
@@ -103,10 +144,12 @@ func reset_skater() -> void:
 func set_controls_enabled(enabled: bool) -> void:
 	_controls_enabled = enabled
 	if not enabled:
+		_end_manual(true)
 		speed = 0.0
 		velocity.x = 0.0
 		velocity.z = 0.0
 		_jump_buffer_remaining = 0.0
+		revert_remaining = 0.0
 
 
 func set_trick_entries_enabled(enabled: bool) -> void:
@@ -114,6 +157,7 @@ func set_trick_entries_enabled(enabled: bool) -> void:
 	_trick_entries_enabled = enabled
 	if not enabled:
 		_jump_buffer_remaining = 0.0
+		revert_remaining = 0.0
 
 
 func set_grind_lines(lines: Array) -> void:
@@ -121,8 +165,46 @@ func set_grind_lines(lines: Array) -> void:
 	_grind_lines = lines.duplicate()
 
 
+func set_presentation_settings(camera_sensitivity: float, reduced_motion: bool) -> void:
+	_steering_sensitivity = clampf(camera_sensitivity, 0.5, 2.0) if is_finite(camera_sensitivity) else 1.0
+	_reduced_motion = reduced_motion
+
+
+func set_skater_color(color: Color) -> void:
+	if not is_finite(color.r) or not is_finite(color.g) or not is_finite(color.b):
+		return
+	_shirt_color = Color(clampf(color.r, 0.0, 1.0), clampf(color.g, 0.0, 1.0), clampf(color.b, 0.0, 1.0))
+	if is_instance_valid(_shirt_material):
+		_shirt_material.albedo_color = _shirt_color
+
+
+func try_special(trick_id: String) -> bool:
+	# Main owns unlocks and meter spending; only a true result consumes a charge.
+	if not is_inside_tree() or get_tree().paused or not airborne or grinding or manual_active or not _controls_enabled \
+			or not _trick_entries_enabled or _special_used_this_air:
+		return false
+	if trick_id not in ["special_clyde_carousel", "special_tenement_tumble"]:
+		return false
+	_special_used_this_air = true
+	_special_id = trick_id
+	_special_remaining = SPECIAL_DURATION
+	special_name = TrickCatalog.definition(trick_id)["display_name"]
+	trick_performed.emit(special_name, TrickCatalog.base_points(trick_id))
+	return true
+
+
+func _clear_special_visual() -> void:
+	_special_remaining = 0.0
+	_special_id = ""
+	special_name = ""
+	if is_instance_valid(_board_visual):
+		_board_visual.rotation.y = 0.0
+
+
 func _physics_process(delta: float) -> void:
 	_grind_cooldown = maxf(0.0, _grind_cooldown - delta)
+	_manual_cooldown = maxf(0.0, _manual_cooldown - delta)
+	revert_remaining = maxf(0.0, revert_remaining - delta)
 	if grinding:
 		_tick_grind(delta)
 		_update_pose(delta)
@@ -140,8 +222,19 @@ func _physics_process(delta: float) -> void:
 	_jump_buffer_remaining = maxf(0.0, _jump_buffer_remaining - delta)
 	_coyote_remaining = COYOTE_TIME if grounded_before else maxf(0.0, _coyote_remaining - delta)
 
+	if manual_active:
+		if not grounded_before:
+			_end_manual(false)
+		elif not _controls_enabled or not Input.is_action_pressed("manual") or speed < MANUAL_MIN_SPEED:
+			_end_manual(true)
+		elif not _tick_manual_balance(delta, push_input, brake_input):
+			return
+
 	if grounded_before:
-		if brake_input > 0.05:
+		if manual_active:
+			# Fore/aft input corrects balance while the manual coasts.
+			speed = move_toward(speed, 0.0, ROLLING_DRAG * delta)
+		elif brake_input > 0.05:
 			speed = move_toward(speed, 0.0, BRAKE_DECELERATION * brake_input * delta)
 		elif push_input > 0.05:
 			speed = minf(MAX_SPEED, speed + PUSH_ACCELERATION * push_input * delta)
@@ -149,7 +242,7 @@ func _physics_process(delta: float) -> void:
 			speed = move_toward(speed, 0.0, ROLLING_DRAG * delta)
 	# Low-speed steering remains useful, and high-speed turns stay controllable.
 	var turn_scale := lerpf(1.0, 0.62, speed / MAX_SPEED)
-	var steering_angle := -_steering * TURN_SPEED * turn_scale * delta
+	var steering_angle := -_steering * TURN_SPEED * turn_scale * _steering_sensitivity * delta
 	rotation.y += steering_angle
 	var forward := -global_basis.z
 	if grounded_before:
@@ -162,10 +255,12 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= GRAVITY * delta
 
 	if _jump_buffer_remaining > 0.0 and _coyote_remaining > 0.0:
+		_end_manual(false)
 		_begin_air()
 		velocity.y = maxf(0.0, velocity.y) + OLLIE_SPEED
 		_jump_buffer_remaining = 0.0
 		_coyote_remaining = 0.0
+		combo_link_started.emit()
 		trick_performed.emit("Ollie", 100)
 
 	if airborne and _controls_enabled and _trick_entries_enabled:
@@ -182,12 +277,16 @@ func _physics_process(delta: float) -> void:
 		speed = minf(speed, get_real_velocity().length())
 		if airborne:
 			_finish_landing()
+		if manual_active and speed < MANUAL_MIN_SPEED:
+			_end_manual(true)
+		_try_ground_links()
 	else:
+		_end_manual(false)
 		speed = Vector2(velocity.x, velocity.z).length()
 		if not airborne:
 			_begin_air()
 
-	if global_position.y < -8.0 or absf(global_position.x) > 100.0 or absf(global_position.z) > 110.0:
+	if global_position.y < -8.0 or absf(global_position.x) > WORLD_LIMIT or absf(global_position.z) > WORLD_LIMIT:
 		bailed.emit()
 		reset_skater()
 
@@ -198,6 +297,9 @@ func _begin_air() -> void:
 	if airborne:
 		return
 	airborne = true
+	revert_remaining = 0.0
+	_special_used_this_air = false
+	_clear_special_visual()
 	_flip_used = false
 	_grab_used = false
 	_air_spin = 0.0
@@ -230,10 +332,61 @@ func _award_air_spin() -> void:
 
 func _finish_landing() -> void:
 	_award_air_spin()
+	_clear_special_visual()
 	airborne = false
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
+	revert_remaining = TrickCatalog.LANDING_LINK_SECONDS if _trick_entries_enabled else 0.0
+	_revert_used = false
 	landed.emit(true)
+
+
+func _try_ground_links() -> void:
+	if not _controls_enabled or not _trick_entries_enabled or grinding or not is_on_floor():
+		return
+	if not manual_active and _manual_cooldown <= 0.0 and speed >= MANUAL_MIN_SPEED \
+			and Input.is_action_just_pressed("manual"):
+		manual_active = true
+		manual_balance = 0.05
+		_manual_elapsed = 0.0
+		combo_link_started.emit()
+		trick_performed.emit(TrickCatalog.definition("manual")["display_name"],
+			TrickCatalog.base_points("manual"))
+	if not manual_active and not _revert_used and revert_remaining > 0.0 \
+			and Input.is_action_just_pressed("revert"):
+		_revert_used = true
+		_revert_pose_remaining = REVERT_DURATION
+		_stance_angle = wrapf(_stance_angle + PI, -PI, PI)
+		speed *= REVERT_SPEED_RETAINED
+		velocity.x *= REVERT_SPEED_RETAINED
+		velocity.z *= REVERT_SPEED_RETAINED
+		# A revert spends the existing landing window; it never opens a new one.
+		trick_performed.emit(TrickCatalog.definition("revert")["display_name"],
+			TrickCatalog.base_points("revert"))
+
+
+func _tick_manual_balance(delta: float, push_input: float, brake_input: float) -> bool:
+	_manual_elapsed += delta
+	var outward := 1.0 if manual_balance >= 0.0 else -1.0
+	var drift := outward * (0.18 + 0.08 * _manual_elapsed)
+	manual_balance += (drift + (brake_input - push_input) * MANUAL_BALANCE_CONTROL) * delta
+	if absf(manual_balance) >= 1.0:
+		bailed.emit()
+		reset_skater()
+		_manual_cooldown = MANUAL_REENTRY_DELAY
+		return false
+	return true
+
+
+func _end_manual(grounded_exit: bool) -> void:
+	if not manual_active:
+		return
+	manual_active = false
+	manual_balance = 0.0
+	_manual_elapsed = 0.0
+	_manual_cooldown = MANUAL_REENTRY_DELAY
+	if grounded_exit:
+		combo_link_ended.emit()
 
 
 func _try_grind() -> bool:
@@ -242,16 +395,19 @@ func _try_grind() -> bool:
 	if not _grind.start(_grind_lines, global_position, velocity, _rail_path_clear):
 		return false
 	_award_air_spin()
+	_clear_special_visual()
 	airborne = false
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
 	_spin_angle = 0.0
 	_jump_buffer_remaining = 0.0
 	_coyote_remaining = 0.0
+	revert_remaining = 0.0
 	global_position = _grind.position()
 	velocity = _grind.travel_velocity()
 	speed = _grind.speed
 	_align_to_travel()
+	combo_link_started.emit()
 	trick_performed.emit(TrickCatalog.definition("rail_grind")["display_name"],
 		TrickCatalog.base_points("rail_grind"))
 	return true
@@ -307,23 +463,36 @@ func _release_grind(jump: bool) -> void:
 	speed = Vector2(velocity.x, velocity.z).length()
 	if jump:
 		velocity.y = maxf(0.0, velocity.y) + OLLIE_SPEED
+		combo_link_started.emit()
 		trick_performed.emit("Ollie", TrickCatalog.base_points("ollie"))
 
 
 func _update_pose(delta: float) -> void:
 	_flip_remaining = maxf(0.0, _flip_remaining - delta)
 	_grab_remaining = maxf(0.0, _grab_remaining - delta)
+	_revert_pose_remaining = maxf(0.0, _revert_pose_remaining - delta)
+	_special_remaining = maxf(0.0, _special_remaining - delta)
+	if _special_remaining <= 0.0:
+		_clear_special_visual()
 	if not airborne:
 		_spin_angle = lerp_angle(_spin_angle, 0.0, 1.0 - exp(-18.0 * delta))
-	_visual.rotation.y = _spin_angle
+	_visual.rotation.y = _spin_angle + _stance_angle - PI * (_revert_pose_remaining / REVERT_DURATION)
 	_visual.rotation.z = lerpf(_visual.rotation.z, -_steering * 0.11 * (speed / MAX_SPEED), 1.0 - exp(-10.0 * delta))
 	_board_visual.rotation.z = TAU * (1.0 - _flip_remaining / FLIP_DURATION) if _flip_remaining > 0.0 else 0.0
+	var manual_pitch := deg_to_rad(16.0) + manual_balance * 0.12 if manual_active else 0.0
+	_board_visual.rotation.x = lerpf(_board_visual.rotation.x, manual_pitch, 1.0 - exp(-16.0 * delta))
+	var special_progress := 1.0 - _special_remaining / SPECIAL_DURATION
+	_board_visual.rotation.y = TAU * special_progress if _special_id == "special_clyde_carousel" else 0.0
 	var grab_pose := 1.0 if _grab_remaining > 0.0 else 0.0
-	_rider_visual.position.y = lerpf(_rider_visual.position.y, -0.17 * grab_pose, 1.0 - exp(-16.0 * delta))
+	var special_tuck := 0.25 * sin(PI * special_progress) if _special_id == "special_tenement_tumble" else 0.0
+	_rider_visual.position.y = lerpf(_rider_visual.position.y, -0.17 * grab_pose - special_tuck, 1.0 - exp(-16.0 * delta))
 	_rider_visual.rotation.x = lerpf(_rider_visual.rotation.x, -0.1 - grab_pose * 0.2, 1.0 - exp(-10.0 * delta))
 	if grinding:
 		_visual.rotation.z = -grind_balance * 0.35
 		_rider_visual.position.y = -0.12
+	elif manual_active:
+		_rider_visual.position.y = -0.10
+		_rider_visual.rotation.x = -0.18 - manual_balance * 0.12
 	# Lean the visible board into slopes without pitching the upright collision.
 	var desired_pitch := 0.0
 	if grinding:
@@ -331,7 +500,13 @@ func _update_pose(delta: float) -> void:
 	elif is_on_floor():
 		var local_normal := global_basis.inverse() * get_floor_normal()
 		desired_pitch = atan2(local_normal.z, local_normal.y)
-	_visual.rotation.x = lerpf(_visual.rotation.x, desired_pitch, 1.0 - exp(-14.0 * delta))
+	_surface_pitch = lerpf(_surface_pitch, desired_pitch, 1.0 - exp(-14.0 * delta))
+	_visual.rotation.x = _surface_pitch
+	if _special_id == "special_tenement_tumble":
+		_visual.rotation.x += TAU * special_progress
+	_visual_rig.animate(delta, {"airborne": airborne, "grab": _grab_remaining > 0.0,
+		"flip": _flip_remaining > 0.0, "speed": speed, "manual": manual_active,
+		"grind": grinding, "push": _controls_enabled and Input.is_action_pressed("push")})
 
 
 func _process(delta: float) -> void:
@@ -339,7 +514,8 @@ func _process(delta: float) -> void:
 		return
 	var forward := -global_basis.z
 	var target := global_position + Vector3.UP * 1.05 + forward * 1.2
-	var desired := global_position - forward * (6.0 + speed * 0.04) + Vector3.UP * 3.4
+	var follow_distance := 6.0 if _reduced_motion else 6.0 + speed * 0.04
+	var desired := global_position - forward * follow_distance + Vector3.UP * 3.4
 	var query := PhysicsRayQueryParameters3D.create(target, desired, 1, [get_rid()])
 	var obstruction := get_world_3d().direct_space_state.intersect_ray(query)
 	if not obstruction.is_empty():
@@ -347,7 +523,8 @@ func _process(delta: float) -> void:
 	_camera.global_position = _camera.global_position.lerp(desired, 1.0 - exp(-7.0 * delta))
 	if _camera.global_position.distance_squared_to(target) > 0.01:
 		_camera.look_at(target, Vector3.UP)
-	_camera.fov = lerpf(_camera.fov, 68.0 + speed * 0.35, 1.0 - exp(-3.0 * delta))
+	var desired_fov := 68.0 if _reduced_motion else 68.0 + speed * 0.35
+	_camera.fov = lerpf(_camera.fov, desired_fov, 1.0 - exp(-3.0 * delta))
 
 
 func _material(color: Color, roughness: float = 0.85) -> StandardMaterial3D:
@@ -355,31 +532,6 @@ func _material(color: Color, roughness: float = 0.85) -> StandardMaterial3D:
 	material.albedo_color = color
 	material.roughness = roughness
 	return material
-
-
-func _box(parent: Node3D, size: Vector3, center: Vector3, material: Material) -> MeshInstance3D:
-	var mesh := BoxMesh.new()
-	mesh.size = size
-	var instance := MeshInstance3D.new()
-	instance.mesh = mesh
-	instance.material_override = material
-	instance.position = center
-	parent.add_child(instance)
-	return instance
-
-
-func _limb(parent: Node3D, start: Vector3, end: Vector3, radius: float, material: Material) -> void:
-	var mesh := CylinderMesh.new()
-	mesh.top_radius = radius * 0.85
-	mesh.bottom_radius = radius
-	mesh.height = start.distance_to(end)
-	mesh.radial_segments = 8
-	var instance := MeshInstance3D.new()
-	instance.mesh = mesh
-	instance.material_override = material
-	instance.position = (start + end) * 0.5
-	instance.quaternion = Quaternion(Vector3.UP, (end - start).normalized())
-	parent.add_child(instance)
 
 
 func _build_skater() -> void:
@@ -396,69 +548,12 @@ func _build_skater() -> void:
 	add_child(_visual)
 	_board_visual = Node3D.new()
 	_board_visual.name = "Board"
-	_board_visual.position.y = 0.17
+	_board_visual.position.y = 0.12
 	_visual.add_child(_board_visual)
 	_rider_visual = Node3D.new()
 	_rider_visual.name = "Rider"
 	_visual.add_child(_rider_visual)
 
-	var grip := _material(Color("252c3b"))
-	var deck := _material(Color("f7b94b"))
-	var wheels := _material(Color("eee4c9"))
-	var metal := _material(Color("8f99a5"), 0.45)
-	var teal := _material(Color("20a59f"))
-	var orange := _material(Color("ef7849"))
-	var trousers := _material(Color("2e3b55"))
-	var skin := _material(Color("d6a17d"))
-	var shoes := _material(Color("f1eee1"))
-	_box(_board_visual, Vector3(0.4, 0.075, 1.06), Vector3.ZERO, deck)
-	_box(_board_visual, Vector3(0.36, 0.015, 1.01), Vector3(0, 0.045, 0), grip)
-	for end: float in [-1.0, 1.0]:
-		var tip := _box(_board_visual, Vector3(0.38, 0.06, 0.18), Vector3(0, 0.045, end * 0.57), deck)
-		tip.rotation.x = -end * 0.22
-		_box(_board_visual, Vector3(0.48, 0.04, 0.07), Vector3(0, -0.055, end * 0.36), metal)
-		for side: float in [-1.0, 1.0]:
-			var wheel_mesh := CylinderMesh.new()
-			wheel_mesh.top_radius = 0.075
-			wheel_mesh.bottom_radius = 0.075
-			wheel_mesh.height = 0.065
-			wheel_mesh.radial_segments = 12
-			var wheel := MeshInstance3D.new()
-			wheel.mesh = wheel_mesh
-			wheel.material_override = wheels
-			wheel.position = Vector3(side * 0.23, -0.075, end * 0.36)
-			wheel.rotation.z = PI / 2.0
-			_board_visual.add_child(wheel)
-
-	# Bent stance, outward feet, and relaxed arms give a clear original silhouette.
-	_box(_rider_visual, Vector3(0.43, 0.23, 0.3), Vector3(0, 0.82, 0), trousers)
-	_box(_rider_visual, Vector3(0.55, 0.46, 0.36), Vector3(0, 1.12, 0), teal)
-	_box(_rider_visual, Vector3(0.3, 0.065, 0.018), Vector3(0, 1.14, 0.19), deck)
-	_box(_rider_visual, Vector3(0.25, 0.065, 0.018), Vector3(0, 1.14, -0.19), deck)
-	_limb(_rider_visual, Vector3(-0.11, 0.84, -0.07), Vector3(-0.18, 0.56, -0.29), 0.12, trousers)
-	_limb(_rider_visual, Vector3(-0.18, 0.56, -0.29), Vector3(-0.06, 0.29, -0.32), 0.09, trousers)
-	_limb(_rider_visual, Vector3(0.11, 0.84, 0.08), Vector3(0.2, 0.55, 0.23), 0.12, trousers)
-	_limb(_rider_visual, Vector3(0.2, 0.55, 0.23), Vector3(0.02, 0.29, 0.33), 0.09, trousers)
-	var front_shoe := _box(_rider_visual, Vector3(0.31, 0.13, 0.17), Vector3(-0.01, 0.27, -0.32), shoes)
-	front_shoe.rotation.y = -0.12
-	var rear_shoe := _box(_rider_visual, Vector3(0.31, 0.13, 0.17), Vector3(0.02, 0.27, 0.32), shoes)
-	rear_shoe.rotation.y = 0.15
-	_limb(_rider_visual, Vector3(-0.28, 1.26, 0), Vector3(-0.46, 1.04, -0.1), 0.11, teal)
-	_limb(_rider_visual, Vector3(-0.46, 1.04, -0.1), Vector3(-0.54, 0.91, -0.22), 0.075, skin)
-	_limb(_rider_visual, Vector3(0.28, 1.26, 0), Vector3(0.48, 1.03, 0.11), 0.11, teal)
-	_limb(_rider_visual, Vector3(0.48, 1.03, 0.11), Vector3(0.55, 0.96, 0.27), 0.075, skin)
-	_limb(_rider_visual, Vector3(0, 1.3, 0), Vector3(0, 1.43, 0), 0.075, skin)
-	var head_mesh := SphereMesh.new()
-	head_mesh.radius = 0.17
-	head_mesh.height = 0.34
-	head_mesh.radial_segments = 16
-	head_mesh.rings = 8
-	var head := MeshInstance3D.new()
-	head.mesh = head_mesh
-	head.material_override = skin
-	head.position = Vector3(0, 1.49, -0.025)
-	_rider_visual.add_child(head)
-	_box(_rider_visual, Vector3(0.35, 0.12, 0.33), Vector3(0, 1.63, -0.025), orange)
-	_box(_rider_visual, Vector3(0.3, 0.035, 0.17), Vector3(0, 1.585, -0.22), orange)
-	for eye_x: float in [-0.06, 0.06]:
-		_box(_rider_visual, Vector3(0.035, 0.035, 0.018), Vector3(eye_x, 1.51, -0.18), grip)
+	_shirt_material = _material(_shirt_color, 0.94)
+	_visual_rig = SkaterVisualSource.new()
+	_visual_rig.build(_board_visual, _rider_visual, _shirt_material)

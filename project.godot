@@ -5,7 +5,8 @@ config_version=5
 config/name="Tam Hawks Pro Skater"
 run/main_scene="res://game/main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/description="Two minutes. One square. Pure Glasgow."
+config/description="Four districts. Two minutes. Find your line through Glasgow."
+config/icon="res://game/icon.svg"
 
 [display]
 window/size/viewport_width=1440
@@ -15,6 +16,9 @@ window/size/window_height_override=800
 window/stretch/mode="canvas_items"
 
 [rendering]
+textures/vram_compression/import_etc2_astc=true
+textures/vram_compression/import_s3tc_bptc=true
+anti_aliasing/quality/msaa_3d=1
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/default_filters/use_nearest_mipmap_filter=false
