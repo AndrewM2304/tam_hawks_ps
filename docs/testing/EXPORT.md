@@ -82,7 +82,7 @@ This is a normal Linux startup/resource/visual smoke using software rendering an
 
 The updated visual pass was packaged with `./tools/export.sh --skip-check`, exit **0**, from clean commit **`a99f9933091d8931853ef375a2c029cccb6875f2`**. The unchanged runtime had passed the orchestrator's final `./tools/check.sh`: **778 passed, 0 failed**, exit 0 with clean engine logs. Export metadata records the skipped repeat honestly and includes all material import settings. The runtime/package input fingerprint is `1ce6dff6927dd7b5fdb8c5845a0061ebea422f6159719d4e891adaabde38eb97`.
 
-Current local artifacts: `builds/tam-hawks-20261017T141540Z-a99f9933091d/`.
+Historical local artifacts: `builds/tam-hawks-20261017T141540Z-a99f9933091d/`.
 
 | Archive | Bytes | SHA-256 |
 | --- | ---: | --- |
