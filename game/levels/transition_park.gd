@@ -16,9 +16,14 @@ static func build(parent: Node3D, materials: Dictionary) -> Array[Dictionary]:
 	var root := Node3D.new()
 	root.name = "TransitionPark"
 	parent.add_child(root)
+	# Reuse the verified existing mineral-concrete PBR set. A plain pale face
+	# clipped to white in the actual quay view and hid the curved form.
 	var concrete := StandardMaterial3D.new()
-	concrete.albedo_color = Color("b2aca0")
-	concrete.roughness = 0.88
+	if materials.get("cut_stone") is StandardMaterial3D:
+		concrete = materials["cut_stone"].duplicate() as StandardMaterial3D
+	concrete.albedo_color = Color("737a77")
+	concrete.roughness = 0.92
+	concrete.uv1_scale = Vector3.ONE
 	concrete.vertex_color_use_as_albedo = true
 	var sides := StandardMaterial3D.new()
 	sides.albedo_color = Color("777d7a")
@@ -69,7 +74,7 @@ static func _quarter(parent: Node3D, id: String, toe: Vector3, yaw: float,
 			for x: float in [left, left + 2.0]:
 				vertices.append(Vector3(x, RADIUS * (1.0 - cos(theta)), -RADIUS * sin(theta)))
 				normals.append(Vector3(0, cos(theta), sin(theta)))
-				uvs.append(Vector2(x * 0.2, RADIUS * theta * 0.2))
+				uvs.append(Vector2(x * 0.5, RADIUS * theta * 0.5))
 				colours.append(shade)
 			if step < SEGMENTS:
 				var at := start + step * 2
@@ -83,6 +88,10 @@ static func _quarter(parent: Node3D, id: String, toe: Vector3, yaw: float,
 	arrays[Mesh.ARRAY_INDEX] = indices
 	var mesh := ArrayMesh.new()
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	var tangent_builder := SurfaceTool.new()
+	tangent_builder.create_from(mesh, 0)
+	tangent_builder.generate_tangents()
+	mesh = tangent_builder.commit()
 	var body := StaticBody3D.new()
 	body.name = id
 	body.collision_layer = 1
