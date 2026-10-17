@@ -2,7 +2,7 @@
 
 17 October 2026. These are concrete work packages inside the existing **75 backlog records**, not extra game areas or a scheduled agent queue. The owner authorizes autonomous work without recurring task approvals, with no purchases, paid generation, APIs or hosted CI. Current-map hardening remains first priority.
 
-**Superseded control first edits:** ADR-015 and [CLASSIC-TRICKS-NEXT](CLASSIC-TRICKS-NEXT.md) now implement tighter turns, release-pop crouch, directional trick poses, visible air spin/stance, latched rails, finite quarter/half-pipe and lip actions. The older review/control proposals below preserve why those changes were chosen; do not restart their completed first edits. The clothed hero, facade/PBR/LOD, vegetation and target-performance work packages remain outstanding and authoritative.
+**Superseded control first edits:** ADR-015 and [CLASSIC-TRICKS-NEXT](CLASSIC-TRICKS-NEXT.md) now implement tighter turns, release-pop crouch, directional trick poses, visible air spin/stance, latched rails, finite quarter/half-pipe and lip actions. The older review/control proposals below preserve why those changes were chosen; do not restart their completed first edits. The clothed hero, live facade/PBR/LOD integration, vegetation and target-performance work packages remain outstanding and authoritative. The original isolated [facade prototype](../../art_source/glasgow_bay/README.md) now has three audited GLBs and six actual Godot front/detail previews; it remains outside the live map. Continue at one real placement/LOD/material-sharing proof, rather than recreating its generator.
 
 ## Review and implemented slice
 

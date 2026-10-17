@@ -1,0 +1,70 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"engine": "4.6.3-stable (official)",
+	"errors": 0,
+	"images": [
+		{
+			"asset_sha256": "193e20c6a6f65bf816b99dd592cf4a2196f309e7c096643a636359972f6a5ea0",
+			"bounds": "[P: (-3.25, 0.0, -0.5), S: (6.5, 16.0, 0.86)]",
+			"camera": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 8.0, 20.0)]",
+			"fov": 55.0,
+			"image": "near-front.png",
+			"lod": "near",
+			"surfaces": 4,
+			"view": "front"
+		},
+		{
+			"asset_sha256": "193e20c6a6f65bf816b99dd592cf4a2196f309e7c096643a636359972f6a5ea0",
+			"bounds": "[P: (-3.25, 0.0, -0.5), S: (6.5, 16.0, 0.86)]",
+			"camera": "[X: (0.863297, 0.0, -0.504697), Y: (0.066448, 0.991295, 0.113661), Z: (0.500303, -0.131659, 0.855782), O: (3.8, 3.2, 6.5)]",
+			"fov": 60.0,
+			"image": "near-detail.png",
+			"lod": "near",
+			"surfaces": 4,
+			"view": "detail"
+		},
+		{
+			"asset_sha256": "2794aff0ad9aa6c9865c6c25940388186b72514b695330578b856fc7108cd5bd",
+			"bounds": "[P: (-3.25, 0.0, -0.5), S: (6.5, 16.0, 0.86)]",
+			"camera": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 8.0, 20.0)]",
+			"fov": 55.0,
+			"image": "mid-front.png",
+			"lod": "mid",
+			"surfaces": 4,
+			"view": "front"
+		},
+		{
+			"asset_sha256": "2794aff0ad9aa6c9865c6c25940388186b72514b695330578b856fc7108cd5bd",
+			"bounds": "[P: (-3.25, 0.0, -0.5), S: (6.5, 16.0, 0.86)]",
+			"camera": "[X: (0.863297, 0.0, -0.504697), Y: (0.066448, 0.991295, 0.113661), Z: (0.500303, -0.131659, 0.855782), O: (3.8, 3.2, 6.5)]",
+			"fov": 60.0,
+			"image": "mid-detail.png",
+			"lod": "mid",
+			"surfaces": 4,
+			"view": "detail"
+		},
+		{
+			"asset_sha256": "5caa367a6d8d4e2e30e97df8a462251edc6826e5bec2a5ef76669a907efe9994",
+			"bounds": "[P: (-3.25, 0.0, -0.5), S: (6.5, 16.0, 0.86)]",
+			"camera": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 8.0, 20.0)]",
+			"fov": 55.0,
+			"image": "far-front.png",
+			"lod": "far",
+			"surfaces": 4,
+			"view": "front"
+		},
+		{
+			"asset_sha256": "5caa367a6d8d4e2e30e97df8a462251edc6826e5bec2a5ef76669a907efe9994",
+			"bounds": "[P: (-3.25, 0.0, -0.5), S: (6.5, 16.0, 0.86)]",
+			"camera": "[X: (0.863297, 0.0, -0.504697), Y: (0.066448, 0.991295, 0.113661), Z: (0.500303, -0.131659, 0.855782), O: (3.8, 3.2, 6.5)]",
+			"fov": 60.0,
+			"image": "far-detail.png",
+			"lod": "far",
+			"surfaces": 4,
+			"view": "detail"
+		}
+	],
+	"limits": "Isolated GLB import and static front/detail presentation. Matches production ambient/light/ACES values, with neutral background/ground and no scene fog. Not live placement, LOD switching, before/after fidelity, Mac, physics or performance acceptance.",
+	"performance_measurement": false,
+	"renderer": "gl_compatibility"
+}

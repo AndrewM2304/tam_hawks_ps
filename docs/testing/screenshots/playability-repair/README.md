@@ -1,6 +1,6 @@
 # Ordinary-play and presentation capture
 
-Captured at **2026-10-17T23:15:07 UTC** (18 October 2026 in Europe/London) from the real `game/main.tscn` title branch in Godot 4.6.3 Compatibility (`llvmpipe`,1280×800). The capture drives production callbacks with mapped input and disables profile writes. It passes **19 rendered frames / zero failures**, with **229 unchanged source inputs**. The real chase shows the rider/board through natural push/turn/coast/brake, four supported closes, shop/station/gallery obstructions, park taper, route map, Barras market and Clyde bridge.
+Captured at **2026-10-17T23:15:07 UTC** (18 October 2026 in Europe/London) from the real `game/main.tscn` title branch in Godot 4.6.3 Compatibility (`llvmpipe`, 1280×800). The capture drives production callbacks with mapped input and disables profile writes. It passes **19 rendered frames / zero failures**, with **229 unchanged source inputs**. The real chase shows the rider/board through natural push/turn/coast/brake, four supported closes, shop/station/gallery obstructions, park taper, route map, Barras market and Clyde bridge.
 
 Root inspected natural push, shop-wall camera, Barras aisle and Clyde bridge frames. All PNGs passed CRC and complete row decoding. This set reviews the interpolated chase/HUD and batch-only world; native occlusion remains off. Software-rendered fixed-clock evidence does not certify Mac shaders, frame rates, human skating feel or final art. Environment, clothing and small world-sign/UI polish remain alpha.
 
