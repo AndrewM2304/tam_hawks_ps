@@ -1,49 +1,49 @@
 {
   "changed_inputs": [],
   "cold_import_created_cache": true,
-  "completed_utc": "2026-10-17T21:10:14.584144+00:00",
+  "completed_utc": "2026-10-17T21:32:47.738529+00:00",
   "copied_main_restored": true,
   "copied_source_unchanged": true,
   "helper_sha256": "af572af85b2f4b9d294a133973f5b154a2cad682f2818c1a8477fadec7298214",
   "initial_cache_absent": true,
   "injected_copy_only": "game/main.gd: deliberately incomplete function declaration",
-  "input_count": 174,
+  "input_count": 188,
   "limits": [
     "Linux source-launch diagnostic; no Mac executable was launched.",
     "Headless Dummy audio; no rendered-frame, listening or performance acceptance.",
     "The normal-scene test uses synthetic mapped inputs at fixed 60 Hz.",
     "Wall-clock timeouts bound work; durations are not frame-rate measurements."
   ],
-  "output": "/workspace/tam_hawks_ps/.local/source-launch-20261017T210936115350Z",
+  "output": "/workspace/tam_hawks_ps/.local/source-launch-20261017T213213892559Z",
   "passed": true,
   "phases": [
     {
       "accepted": true,
       "command": [
-        "/workspace/tam_hawks_ps/.local/source-launch-20261017T210936115350Z/project/tools/run.sh",
+        "/workspace/tam_hawks_ps/.local/source-launch-20261017T213213892559Z/project/tools/run.sh",
         "--headless",
         "--audio-driver",
         "Dummy",
         "--quit-after",
         "5"
       ],
-      "completed_utc": "2026-10-17T21:09:48.059074+00:00",
+      "completed_utc": "2026-10-17T21:32:23.890297+00:00",
       "error_lines": [],
       "exit_code": 0,
       "import_error_lines": [],
       "import_log": "cold-source-import.log",
-      "import_sha256": "24f15671b4e6c88460a59f9ca802d2f8daf758f2e4b0b0663b6f5c2d40e663bd",
+      "import_sha256": "7c4f8849fda80a67c7cd3fd1084a83c97c00dc3b2a1373ff12d94c406154a90c",
       "log": "cold.log",
       "log_sha256": "d2645a5848c31d28ac77e12d2c415235045c5e0f0f17528d5de6e3feca3f8f37",
       "name": "cold",
-      "started_utc": "2026-10-17T21:09:36.244915+00:00",
+      "started_utc": "2026-10-17T21:32:13.992609+00:00",
       "timeout_seconds": 180,
-      "wall_seconds": 11.814152
+      "wall_seconds": 9.897708
     },
     {
       "accepted": true,
       "command": [
-        "/workspace/tam_hawks_ps/.local/source-launch-20261017T210936115350Z/project/tools/run.sh",
+        "/workspace/tam_hawks_ps/.local/source-launch-20261017T213213892559Z/project/tools/run.sh",
         "--headless",
         "--audio-driver",
         "Dummy",
@@ -51,7 +51,7 @@
         "60",
         "res://tests/playability_boot.tscn"
       ],
-      "completed_utc": "2026-10-17T21:10:01.091444+00:00",
+      "completed_utc": "2026-10-17T21:32:36.508624+00:00",
       "error_lines": [],
       "exit_code": 0,
       "failed": 0,
@@ -59,25 +59,25 @@
       "import_log": "normal-branch-source-import.log",
       "import_sha256": "9572934ad4d57fbab2c09b2c82f3821584fba7ba71d7e1dec5055bc7fa531f3f",
       "log": "normal-branch.log",
-      "log_sha256": "9333d9a0dc7d7e2dc1db4ff560c1ee7c06f2a969c75fac882fd4575dbb99c581",
+      "log_sha256": "0a5a7de3f3985c0d39794cf48c4f6ec8469594cbb927f81df5128f099326c35e",
       "name": "normal-branch",
       "normal_title_branch_count": 1,
       "passed": 44,
-      "started_utc": "2026-10-17T21:09:48.060492+00:00",
+      "started_utc": "2026-10-17T21:32:23.892470+00:00",
       "timeout_seconds": 240,
-      "wall_seconds": 13.030687
+      "wall_seconds": 12.61615
     },
     {
       "accepted": true,
       "command": [
-        "/workspace/tam_hawks_ps/.local/source-launch-20261017T210936115350Z/project/tools/run.sh",
+        "/workspace/tam_hawks_ps/.local/source-launch-20261017T213213892559Z/project/tools/run.sh",
         "--headless",
         "--audio-driver",
         "Dummy",
         "--quit-after",
         "5"
       ],
-      "completed_utc": "2026-10-17T21:10:10.087486+00:00",
+      "completed_utc": "2026-10-17T21:32:43.695431+00:00",
       "error_lines": [],
       "exit_code": 0,
       "import_error_lines": [],
@@ -86,21 +86,21 @@
       "log": "warm.log",
       "log_sha256": "d2645a5848c31d28ac77e12d2c415235045c5e0f0f17528d5de6e3feca3f8f37",
       "name": "warm",
-      "started_utc": "2026-10-17T21:10:01.092692+00:00",
+      "started_utc": "2026-10-17T21:32:36.509691+00:00",
       "timeout_seconds": 120,
-      "wall_seconds": 8.99483
+      "wall_seconds": 7.185757
     },
     {
       "accepted": true,
       "command": [
-        "/workspace/tam_hawks_ps/.local/source-launch-20261017T210936115350Z/project/tools/run.sh",
+        "/workspace/tam_hawks_ps/.local/source-launch-20261017T213213892559Z/project/tools/run.sh",
         "--headless",
         "--audio-driver",
         "Dummy",
         "--quit-after",
         "5"
       ],
-      "completed_utc": "2026-10-17T21:10:14.467337+00:00",
+      "completed_utc": "2026-10-17T21:32:47.660771+00:00",
       "error_lines": [
         "SCRIPT ERROR: Parse Error: Expected parameter name.",
         "ERROR: Failed to load script \"res://game/main.gd\" with error \"Parse error\"."
@@ -117,14 +117,14 @@
       "log_sha256": "81e7c435b33a0c4b0acdf12af711156b309fa21838b273c472397d9904fc33c5",
       "name": "invalid-source",
       "parse_error_detected": true,
-      "started_utc": "2026-10-17T21:10:10.088999+00:00",
+      "started_utc": "2026-10-17T21:32:43.696341+00:00",
       "timeout_seconds": 120,
-      "wall_seconds": 4.378322
+      "wall_seconds": 3.964431
     }
   ],
   "schema": 1,
-  "source_fingerprint": "569ba0ac245dcda6dc3c18a7ead094ee8c713276c336766df0b2b048889c671f",
-  "source_fingerprint_after": "569ba0ac245dcda6dc3c18a7ead094ee8c713276c336766df0b2b048889c671f",
+  "source_fingerprint": "018a08eef377d263e94ef682e48f8476b56d1ceb8310aa263b9875089ba0ff18",
+  "source_fingerprint_after": "018a08eef377d263e94ef682e48f8476b56d1ceb8310aa263b9875089ba0ff18",
   "source_inputs": {
     "game/art/assets/makehuman_hm08/generate.py": {
       "bytes": 15412,
@@ -175,6 +175,46 @@
       "bytes": 740,
       "mode": "0o644",
       "sha256": "0476cb12805608174d678211d51aa141017a494d98fc5a1c7ed34a40822e7e55"
+    },
+    "game/art/assets/tam_skateboard/README.md": {
+      "bytes": 1128,
+      "mode": "0o600",
+      "sha256": "73005fd4707df3816ef9c5134bd96b6a9c3430d57db34777b51952bf2fe25382"
+    },
+    "game/art/assets/tam_skateboard/board_albedo.png": {
+      "bytes": 469086,
+      "mode": "0o600",
+      "sha256": "0d7ffd2f597771878348e79e4673b48737668fc2251338b7a9e1586ac51cbed3"
+    },
+    "game/art/assets/tam_skateboard/board_albedo.png.import": {
+      "bytes": 971,
+      "mode": "0o644",
+      "sha256": "2e1b89f593531c2d618cb5d9b3902749a5a538a085caf6731a7ed218ff92c7e2"
+    },
+    "game/art/assets/tam_skateboard/manifest.json": {
+      "bytes": 1733,
+      "mode": "0o600",
+      "sha256": "5636e34a2bfa842c8f1d6f496450e3475fe03f19aee2177981ba100f05c2379b"
+    },
+    "game/art/assets/tam_skateboard/tam_skateboard.glb": {
+      "bytes": 626756,
+      "mode": "0o600",
+      "sha256": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99"
+    },
+    "game/art/assets/tam_skateboard/tam_skateboard.glb.import": {
+      "bytes": 1079,
+      "mode": "0o644",
+      "sha256": "fb0c6ca2f42f58f92191cf80c6a9ecbdee65104f73d9a4b0a11228e0e0d01662"
+    },
+    "game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png": {
+      "bytes": 469086,
+      "mode": "0o644",
+      "sha256": "0d7ffd2f597771878348e79e4673b48737668fc2251338b7a9e1586ac51cbed3"
+    },
+    "game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png.import": {
+      "bytes": 1082,
+      "mode": "0o644",
+      "sha256": "09f6a206e2ae2c9461836fb124a2aaec7ac355c1395142d29dbfe9278bf5f6c8"
     },
     "game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg": {
       "bytes": 1080035,
@@ -347,9 +387,9 @@
       "sha256": "811c78626e6397cf6acd68e1513cd3c57db6867abb35e9f9aa08a9ec3626c417"
     },
     "game/core/input_profile.gd": {
-      "bytes": 12197,
+      "bytes": 12207,
       "mode": "0o600",
-      "sha256": "67e24932bdb10866b3d0c9a6836ce161f5d13b0fbb35f93e00f2906dd2102f3a"
+      "sha256": "a226e41146bcddd06d2f5189b4252a456cdf52eb704aa6b0a693866564f300c9"
     },
     "game/core/input_profile.gd.uid": {
       "bytes": 20,
@@ -359,7 +399,7 @@
     "game/core/input_setup.gd": {
       "bytes": 2435,
       "mode": "0o600",
-      "sha256": "f72af97ff5d7c8c8125ed1471a07cf544484bfa00c5fd64a4c390a7340ef6a14"
+      "sha256": "253c2cc34203830d4d387ef57ce5b85cb51b27ac496b2a51a9f500c622eba149"
     },
     "game/core/input_setup.gd.uid": {
       "bytes": 20,
@@ -477,9 +517,9 @@
       "sha256": "60c8db842377e847d991a49011245586fdf82a905076afaae7ca95c432e5d683"
     },
     "game/levels/glasgow_square.gd": {
-      "bytes": 54935,
+      "bytes": 55322,
       "mode": "0o600",
-      "sha256": "492b512919494e3853547eeea62b30cd9741a225bce85a3d5f7730e4feb67a68"
+      "sha256": "f63aa5471b849f86cd4bde88db9ce062ee0e137d9829e8c947571403ab9f26b8"
     },
     "game/levels/glasgow_square.gd.uid": {
       "bytes": 20,
@@ -516,10 +556,20 @@
       "mode": "0o644",
       "sha256": "2f8d75c1725ccba550e30e59c4792bd841d8c687e5d1f63afd85798d2d8447d3"
     },
-    "game/main.gd": {
-      "bytes": 21610,
+    "game/levels/render_budget.gd": {
+      "bytes": 4837,
       "mode": "0o600",
-      "sha256": "6757feb005e15cfe6dca232dd2a019cb895c1f0dd1bc3a076587e6443dd67c4e"
+      "sha256": "ca784b8be7985b4ef11a29fd79e69cf98b568df1f59c898e9f3231df3f399233"
+    },
+    "game/levels/render_budget.gd.uid": {
+      "bytes": 19,
+      "mode": "0o644",
+      "sha256": "185bb9edd9691612dfe9e7e825608f62b0c27fa8e57d7123f47972813bd2b657"
+    },
+    "game/main.gd": {
+      "bytes": 21615,
+      "mode": "0o600",
+      "sha256": "638044a118cbb2bcd8b24f0c8deddc2e211b15aa4dda076561fb51fe6e6309a8"
     },
     "game/main.gd.uid": {
       "bytes": 19,
@@ -552,9 +602,9 @@
       "sha256": "e4742c073039108733b03913671ce80e1097a1539f3e84fa4f3e66f2122f0f76"
     },
     "game/player/skater.gd": {
-      "bytes": 19668,
+      "bytes": 21564,
       "mode": "0o600",
-      "sha256": "f0c80f26cc4bb5becd2baf2c5ee5457d8ca2e10f563e74d56481794e34648627"
+      "sha256": "9fb5dc47e9a8fcfe702720d266d44496b5d3bf9dcaa396610ea5cd3cf2748954"
     },
     "game/player/skater.gd.uid": {
       "bytes": 19,
@@ -592,9 +642,9 @@
       "sha256": "2fa603b9e864f1b4358de16359a87b2979626b78bbd22f57dd967ea70bb49f8a"
     },
     "game/player/skater_visual.gd": {
-      "bytes": 17548,
+      "bytes": 15088,
       "mode": "0o600",
-      "sha256": "df18a6cf57a6a977a08ff519e9726fac1deebc88591a7c833f8e5c53a4416d50"
+      "sha256": "ff1032eb163f5070e260c2b706d33a0c6674efc6ba25803969e4aff8e7a9518e"
     },
     "game/player/skater_visual.gd.uid": {
       "bytes": 20,
@@ -652,9 +702,9 @@
       "sha256": "7a4e5be66e1808cd2e3a90adb777050483bebe14b63a42436fea700d2f5ab6cc"
     },
     "game/tricks/grind_ride.gd": {
-      "bytes": 5402,
+      "bytes": 6563,
       "mode": "0o600",
-      "sha256": "39ca4738a9c06dbd43c71a7cb0725d4dee2ee0e7967b230b0f1bb68e74f9c92c"
+      "sha256": "57057397e11ff59a1544f151123c06482d1a6d549d151be0e96c4e1a243a29c1"
     },
     "game/tricks/grind_ride.gd.uid": {
       "bytes": 20,
@@ -682,9 +732,9 @@
       "sha256": "e1637a1df4c0f689ef73c39176d0be4836793f51bdd561e788a5183491f51427"
     },
     "game/ui/hud.gd": {
-      "bytes": 38704,
+      "bytes": 38470,
       "mode": "0o600",
-      "sha256": "0bc142c67c6ab950e34b60a657643e02ca7af297e5782070c3caafa1b6b1f0ef"
+      "sha256": "2ef8dd128ba4f80b3e771549f01fede6280ca5d7a57926b4ab2f797c3a28d9e2"
     },
     "game/ui/hud.gd.uid": {
       "bytes": 20,
@@ -797,9 +847,9 @@
       "sha256": "95a254e02b57b5769bcdacd026e881f7310da4f8a88214952a7beab7161b89f0"
     },
     "tests/grind_ride_tests.gd": {
-      "bytes": 8264,
+      "bytes": 11684,
       "mode": "0o600",
-      "sha256": "3d0987efcddb0bbe685a6365b42e06c8d60754895543ed7a151887151de8898e"
+      "sha256": "d81ad52570d8ec6de8f8605cdf9270e960fda8fa836933b8d51b94fa561db5af"
     },
     "tests/grind_ride_tests.gd.uid": {
       "bytes": 20,
@@ -817,9 +867,9 @@
       "sha256": "ec26d5cc023c9a2127dfe842bfe83baa071b5b463b5b90a5fc24de2c106ce8a4"
     },
     "tests/input_profile_tests.gd": {
-      "bytes": 8901,
+      "bytes": 9011,
       "mode": "0o600",
-      "sha256": "83fc9fe66ccfbf9bfaa7c0d784e19082c4298a9aab6dfc2e9509c64bd1114344"
+      "sha256": "ad3f0a093a51c9c8308bc512c08ea117c479b4729fd819fd73d1a3614cfccb4e"
     },
     "tests/input_profile_tests.gd.uid": {
       "bytes": 20,
@@ -862,19 +912,29 @@
       "sha256": "d6b847473078a72452a635b87486f4cfd06808907643728c81dde4aabbf5a2e1"
     },
     "tests/playability_regression_tests.gd": {
-      "bytes": 16878,
+      "bytes": 16895,
       "mode": "0o600",
-      "sha256": "09dc160f77704aba05f19250d18d5009ae57b5c4d917953ad0f3ee51f91d6ed0"
+      "sha256": "f3566f9ab21245a548cbaba4a558c5e3359901f6b94443a2d0c6d9e5690dba9f"
     },
     "tests/playability_regression_tests.gd.uid": {
       "bytes": 19,
       "mode": "0o644",
       "sha256": "52d8e924e33a23e9d902e02e8ec100a71328ff41f93dbfd88d16ba84cf732886"
     },
-    "tests/presentation_integration_tests.gd": {
-      "bytes": 3528,
+    "tests/player_forgiveness_tests.gd": {
+      "bytes": 8161,
       "mode": "0o600",
-      "sha256": "c7d6fc53e8ca8fc07d9666b48f0ddf966f407c6e663e8b230017bb092e7974e3"
+      "sha256": "5d6527eeeeb48e00f44119d167b47c5f8ba4009a1cb40011be1de4558d647400"
+    },
+    "tests/player_forgiveness_tests.gd.uid": {
+      "bytes": 20,
+      "mode": "0o644",
+      "sha256": "365d396f1569b30ff49d8d30794f71404cf6513e525a9e17f3bc7174124df190"
+    },
+    "tests/presentation_integration_tests.gd": {
+      "bytes": 3703,
+      "mode": "0o600",
+      "sha256": "407ae36719e7a4cefd22bd0dd1033d85d402b4e2217c30843610997adf9fada6"
     },
     "tests/presentation_integration_tests.gd.uid": {
       "bytes": 19,
@@ -901,10 +961,20 @@
       "mode": "0o644",
       "sha256": "6293cd6b5a4d6d2f74f189561179d2c41e575c9784b8096309d7c753b45c2377"
     },
-    "tests/run_tests.gd": {
-      "bytes": 21056,
+    "tests/render_budget_tests.gd": {
+      "bytes": 6167,
       "mode": "0o600",
-      "sha256": "596eed51c9fa9712060d09e2a923e2a7c433d2fa474f449ae63a2375599d59e9"
+      "sha256": "56dcf3b2ed5880033491a965a5179eca7f09ed89e25c7c5c52bd6a46c49e0801"
+    },
+    "tests/render_budget_tests.gd.uid": {
+      "bytes": 19,
+      "mode": "0o644",
+      "sha256": "32842fc89fc161a05a986fa883fd0a6e587e1ce04965c9104c4c11bafc50e2ff"
+    },
+    "tests/run_tests.gd": {
+      "bytes": 21297,
+      "mode": "0o600",
+      "sha256": "36b7cc26517fe2d3916d12648900da263042683d7e811a8ed3e68f73d05a7fc2"
     },
     "tests/run_tests.gd.uid": {
       "bytes": 19,
@@ -962,9 +1032,9 @@
       "sha256": "f050ff2be0e132048b48ef632aa71935db4f5ab3350e762f45145b5e024071b9"
     },
     "tests/ui_feedback_tests.gd": {
-      "bytes": 10476,
+      "bytes": 10359,
       "mode": "0o600",
-      "sha256": "9bf33986bbe2dce0e1e95691ea141d7f15b705943feda12206f68f9485e15ea3"
+      "sha256": "2c6cae1fb00c8fb262aea046e34c5d44e84d28e488d9663b4d1f33ca1045fc5f"
     },
     "tests/ui_feedback_tests.gd.uid": {
       "bytes": 20,
@@ -999,5 +1069,5 @@
   },
   "source_root": "/workspace/tam_hawks_ps",
   "source_stable": true,
-  "started_utc": "2026-10-17T21:09:36.115757+00:00"
+  "started_utc": "2026-10-17T21:32:13.892900+00:00"
 }

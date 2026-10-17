@@ -1,0 +1,148 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: input profile: face-button grind cannot accidentally restart a run; revert uses R2
+PASS: input profile: snapshot retains default keyboard alternatives
+PASS: input profile: remapping a physical key preserves the controller binding
+PASS: input profile: controller remapping preserves the independently remapped keyboard slot
+PASS: input profile: remapped controller events accept a reconnected device at another index
+PASS: input profile: caller edits to returned settings cannot mutate live assignments
+PASS: input profile: duplicate live keyboard bindings reject without partial changes
+PASS: input profile: duplicate controller buttons reject
+PASS: input profile: a default secondary keyboard alias also participates in collision checks
+PASS: input profile: saved overrides conflicting with an untouched default reject atomically
+PASS: input profile: a complete saved profile can atomically swap otherwise conflicting keys
+PASS: input profile: a signed axis capture retains keyboard fallback and normalizes its direction
+PASS: input profile: opposite directions of one stick remain distinct bindable inputs
+PASS: input profile: duplicate axis directions reject even when capture magnitudes differ
+PASS: input profile: resting-stick noise and nonfinite axis values cannot capture a binding
+PASS: input profile: trigger bindings cannot use the unpressed negative direction
+PASS: input profile: held axes cannot repeatedly toggle a discrete menu action
+PASS: input profile: switching from axis to button replaces the controller slot without losing keyboard input
+PASS: input profile: Escape pause recovery and Enter menu confirmation cannot be reassigned
+PASS: input profile: pause controller remapping still retains Escape recovery
+PASS: input profile: releases, repeated key events and modifier chords do not bind
+PASS: input profile: unknown actions and unsupported/null event types reject safely
+PASS: input profile: malformed serialized data rejects without constructing resources or mutating InputMap
+PASS: input profile: simple numeric JSON bindings round-trip through validated actual InputMap events
+PASS: input profile: Godot resolves new key events and preserved controller fallback while releasing the old key
+PASS: input profile: reset returns an empty override profile and restores canonical controls
+PASS: input profile: rebinding and resetting never alter built-in menu accept/cancel inputs
+PASS: grind ride: an airborne approach within capture bounds attaches
+PASS: grind ride: entry preserves projected speed and samples the rail
+PASS: grind ride: forward travel advances distance and loses speed to friction
+PASS: grind ride: stop retains finite release position and momentum
+PASS: grind ride: inactive updates do not keep moving the released skater
+PASS: grind ride: selects nearest eligible rail regardless of list order
+PASS: grind ride: blocked nearest rail falls back to a clear eligible rail
+PASS: grind ride: obstructed snap is rejected
+PASS: grind ride: reverse entry keeps its signed travel direction
+PASS: grind ride: reverse motion decreases distance and keeps momentum
+PASS: grind ride: crossing an open endpoint releases in direction -1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: crossing an open endpoint releases in direction 1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: outward approaches beyond either endpoint do not attach
+PASS: grind ride: an inward approach near an endpoint can attach
+PASS: grind ride: distance follows a translated bent rail and the outgoing tangent turns with it
+PASS: grind ride: approach angle gate distinguishes either side of 55 degrees
+PASS: grind ride: approach angle gate distinguishes either side of 55 degrees
+PASS: grind ride: sloped rails capture both travel directions
+PASS: grind ride: slope gravity changes speed and outgoing velocity retains the vertical tangent
+PASS: grind ride: insufficient uphill momentum releases without silently reversing
+PASS: grind ride: downhill acceleration respects the speed ceiling
+PASS: grind ride: rejects full snap distance
+PASS: grind ride: rejects vertical reach
+PASS: grind ride: rejects below the rail
+PASS: grind ride: rejects rising ascent
+PASS: grind ride: rejects sideways approach
+PASS: grind ride: rejects too little speed
+PASS: grind ride: rejects excessive speed
+PASS: grind ride: rejects nonfinite position
+PASS: grind ride: rejects nonfinite velocity
+PASS: grind ride: malformed rail lists cannot attach
+PASS: grind ride: vertical lines have no usable horizontal approach
+PASS: grind ride: unattended deterministic balance eventually bails
+PASS: grind ride: countersteering controls the balance instead of an unavoidable timeout
+PASS: grind ride: analog correction is bounded to the normal input range
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [30.0, -0.4, -35.0, 8.0, 22.0, 0.5]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [60.0, 0.4, 35.0, 12.0, 42.0, 0.5]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [120.0, -0.5, -25.0, 17.0, 60.0, 0.46]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [60.0, 0.55, 0.0, 4.0, 28.0, 0.46]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [120.0, -0.3, 45.0, 10.0, 18.0, 0.46]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [30.0, 0.0, 0.0, 17.0, 18.0, 0.46]
+PASS: grind forgiveness: actual descending travel recovers a window missed at both frame endpoints
+PASS: grind forgiveness: a blocked actual-body sweep rejects every historical sample
+PASS: grind forgiveness: clearance always starts at the current body, never a past sample
+PASS: grind forgiveness: no larger admission envelope for lateral miss
+PASS: grind forgiveness: no larger admission envelope for wrong upper level
+PASS: grind forgiveness: no larger admission envelope for below rail
+PASS: grind forgiveness: no larger admission envelope for perpendicular motion
+PASS: grind forgiveness: no larger admission envelope for rail behind travel
+PASS: grind forgiveness: no larger admission envelope for rising toward rail
+PASS: grind forgiveness: no larger admission envelope for insufficient forward speed
+PASS: grind forgiveness: no larger admission envelope for excessive forward speed
+PASS: grind forgiveness: no larger admission envelope for teleport-sized sweep
+PASS: grind forgiveness: no larger admission envelope for nonfinite history
+PASS: grind forgiveness: a second sweep cannot restart an active rail or duplicate its admission
+PASS: manual: fixture reaches actual floor support
+PASS: manual: stopped input cannot start a manual
+PASS: manual: held rejected input cannot enter when speed becomes eligible
+PASS: manual: fresh supported entry scores once and starts one combo link
+PASS: manual: held ride drifts visibly without repeat entry points
+PASS: manual: real board pose raises its nose while balanced
+PASS: manual: braking input shifts balance forward
+PASS: manual: pushing input corrects forward balance
+PASS: manual: release ends the supported link exactly once
+PASS: manual: immediate fresh reentry is blocked by cooldown
+PASS: manual: holding through cooldown cannot manufacture a new entry
+PASS: manual: fresh input after cooldown can enter again
+PASS: manual: eligible ollie continues link without a ground-end event
+PASS: manual: holding through air and landing cannot auto-enter another manual
+PASS: manual: losing required speed ends one supported link
+PASS: manual: actual balance input exceeding the limit bails once and clears state
+PASS: manual/revert: overtime entry gate rejects all fresh grounded links
+PASS: revert: a fresh airborne press is ineligible
+PASS: revert: landing opens eligibility but a held early press stays rejected
+PASS: revert: eligible fresh entry scores once without starting a new landing link
+PASS: revert: accepted entry applies the documented 15 percent speed cost
+PASS: revert: entry neither refreshes eligibility nor changes travel heading
+PASS: revert: another fresh press on the same landing cannot score twice
+PASS: revert: completed visual turn visibly changes stance by 180 degrees
+PASS: revert: a press after the original landing deadline is rejected
+PASS: manual/revert: reset clears balance, holds, cooldown eligibility and visual transition
+PASS: special: ordinary ground travel cannot execute an aerial special
+PASS: special: unknown ID cannot score or use an air slot
+PASS: special: direct requests reject while gameplay is paused
+PASS: special: overtime blocks a fresh aerial special
+PASS: special: disabled controls reject a fresh request
+PASS: special: eligible fresh air request exposes the accepted display name
+PASS: special: accepting a cosmetic move preserves the physical velocity
+PASS: special: neither repeating nor switching IDs bypasses one execution per airtime
+PASS: special: Clyde Carousel actually rotates the visible board horizontally
+PASS: special: finished animation clears its label without reopening the air slot
+PASS: special: a new actual airtime permits the other catalog special
+PASS: special: Tenement Tumble rotates the visual while collision stays upright
+PASS: special: reset clears the active label and restores the visual transform
+PASS: human input: disabled controls keep the rider stopped on an actual 20-degree bank
+PASS: human input: holding the brake at rest prevents downhill creep
+PASS: human input: releasing the brake allows supported downhill rollback
+PASS: human input: a fresh manual can balance while rolling backwards
+HUMAN SLOPE reverse_speed=-2.522 distance=3.955 manual=true
+PASS: human input: 0-frame early flip/grab request survives takeoff and held buttons cannot repeat
+PASS: human input: 3-frame early flip/grab request survives takeoff and held buttons cannot repeat
+PASS: human input: 6-frame early flip/grab request survives takeoff and held buttons cannot repeat
+PASS: human input: 9-frame early flip/grab request expires before takeoff and held buttons cannot repeat
+PASS: human input: a held manual pressed just before real landing links once after contact
+PASS: human input: disabled controls clear a pending pre-takeoff trick
+PASS: human rail: offset=-0.22m yaw=0.0deg press=0f push=45f via=action capture=true
+PASS: human rail: offset=0.22m yaw=0.0deg press=28f push=60f via=pad capture=true
+PASS: human rail: alternate physical grind key is admitted
+PASS: human rail: offset=0.00m yaw=2.0deg press=34f push=45f via=remap capture=true
+PASS: human rail: offset=0.00m yaw=-2.0deg press=34f push=60f via=action capture=true
+PASS: human rail: offset=0.90m yaw=0.0deg press=0f push=45f via=action capture=false
+PASS: human rail: offset=0.00m yaw=0.0deg press=48f push=45f via=action capture=false
+REVIEW FOCUSED: 144 passed, 0 failed

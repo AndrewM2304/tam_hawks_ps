@@ -1,0 +1,588 @@
+{
+  "adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+  "changes": {
+    "primitive_assignments_shared": 1095,
+    "tree_batches_split": 2,
+    "tree_chunks_created": 10,
+    "tree_instances_preserved": 110
+  },
+  "engine": {
+    "build": "official",
+    "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+    "hex": 263683,
+    "major": 4,
+    "minor": 6,
+    "patch": 3,
+    "status": "stable",
+    "string": "4.6.3-stable (official)",
+    "timestamp": 0
+  },
+  "inventory_after": {
+    "multimeshes": 770,
+    "nodes": 3935,
+    "physics_bodies": 338,
+    "shapes": 1850,
+    "unique_meshes": 324
+  },
+  "inventory_before": {
+    "multimeshes": 762,
+    "nodes": 3927,
+    "physics_bodies": 338,
+    "shapes": 1850,
+    "unique_meshes": 1419
+  },
+  "recorded_at_utc": "2026-10-17T21:24:38",
+  "render_resolution": [
+    1280,
+    800
+  ],
+  "renderer": "gl_compatibility",
+  "schema_version": 1,
+  "scope": "Frozen production world, exact same eight cameras before/after one startup helper. No rider, HUD, gameplay, frame-time or Mac acceptance claim.",
+  "target_hardware_acceptance": false,
+  "tree_data_preserved": true,
+  "views": [
+    {
+      "camera_position": [
+        -22.0,
+        3.40000009536743,
+        34.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.0,
+        0.0
+      ],
+      "draw_calls": [
+        1576,
+        1576,
+        1576
+      ],
+      "draw_calls_p50": 1576,
+      "objects": [
+        1576,
+        1576,
+        1576
+      ],
+      "phase": "before",
+      "primitives": [
+        807606,
+        807606,
+        807606
+      ],
+      "primitives_p50": 807606,
+      "screenshot": "before-royal_exchange.png",
+      "screenshot_error": 0,
+      "view": "royal_exchange"
+    },
+    {
+      "camera_position": [
+        -22.0,
+        7.40000009536743,
+        -68.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.0,
+        0.0
+      ],
+      "draw_calls": [
+        660,
+        660,
+        660
+      ],
+      "draw_calls_p50": 660,
+      "objects": [
+        660,
+        660,
+        660
+      ],
+      "phase": "before",
+      "primitives": [
+        720870,
+        720870,
+        720870
+      ],
+      "primitives_p50": 720870,
+      "screenshot": "before-george_square.png",
+      "screenshot_error": 0,
+      "view": "george_square"
+    },
+    {
+      "camera_position": [
+        -57.7569999694824,
+        5.40000009536743,
+        26.2430000305176
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.785398185253143,
+        0.0
+      ],
+      "draw_calls": [
+        567,
+        567,
+        567
+      ],
+      "draw_calls_p50": 567,
+      "objects": [
+        567,
+        567,
+        567
+      ],
+      "phase": "before",
+      "primitives": [
+        466078,
+        466078,
+        466078
+      ],
+      "primitives_p50": 466078,
+      "screenshot": "before-central_station.png",
+      "screenshot_error": 0,
+      "view": "central_station"
+    },
+    {
+      "camera_position": [
+        60.0,
+        3.40000009536743,
+        28.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.0,
+        0.0
+      ],
+      "draw_calls": [
+        1271,
+        1271,
+        1271
+      ],
+      "draw_calls_p50": 1271,
+      "objects": [
+        1271,
+        1271,
+        1271
+      ],
+      "phase": "before",
+      "primitives": [
+        1000274,
+        1000274,
+        1000274
+      ],
+      "primitives_p50": 1000274,
+      "screenshot": "before-barras.png",
+      "screenshot_error": 0,
+      "view": "barras"
+    },
+    {
+      "camera_position": [
+        15.0,
+        5.40000009536743,
+        61.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        3.14159274101257,
+        0.0
+      ],
+      "draw_calls": [
+        146,
+        146,
+        146
+      ],
+      "draw_calls_p50": 146,
+      "objects": [
+        146,
+        146,
+        146
+      ],
+      "phase": "before",
+      "primitives": [
+        147552,
+        147552,
+        147552
+      ],
+      "primitives_p50": 147552,
+      "screenshot": "before-clyde.png",
+      "screenshot_error": 0,
+      "view": "clyde"
+    },
+    {
+      "camera_position": [
+        -150.75700378418,
+        9.39999961853027,
+        -77.7570037841797
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.785398185253143,
+        0.0
+      ],
+      "draw_calls": [
+        73,
+        73,
+        73
+      ],
+      "draw_calls_p50": 73,
+      "objects": [
+        73,
+        73,
+        73
+      ],
+      "phase": "before",
+      "primitives": [
+        465538,
+        465538,
+        465538
+      ],
+      "primitives_p50": 465538,
+      "screenshot": "before-kelvingrove.png",
+      "screenshot_error": 0,
+      "view": "kelvingrove"
+    },
+    {
+      "camera_position": [
+        -204.0,
+        16.0,
+        -146.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.0,
+        0.0
+      ],
+      "draw_calls": [
+        54,
+        54,
+        54
+      ],
+      "draw_calls_p50": 54,
+      "objects": [
+        54,
+        54,
+        54
+      ],
+      "phase": "before",
+      "primitives": [
+        462560,
+        462560,
+        462560
+      ],
+      "primitives_p50": 462560,
+      "screenshot": "before-park_north.png",
+      "screenshot_error": 0,
+      "view": "park_north"
+    },
+    {
+      "camera_position": [
+        -204.0,
+        16.0,
+        -146.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        3.14159274101257,
+        0.0
+      ],
+      "draw_calls": [
+        444,
+        444,
+        444
+      ],
+      "draw_calls_p50": 444,
+      "objects": [
+        444,
+        444,
+        444
+      ],
+      "phase": "before",
+      "primitives": [
+        606290,
+        606290,
+        606290
+      ],
+      "primitives_p50": 606290,
+      "screenshot": "before-park_south.png",
+      "screenshot_error": 0,
+      "view": "park_south"
+    },
+    {
+      "camera_position": [
+        -22.0,
+        3.40000009536743,
+        34.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.0,
+        0.0
+      ],
+      "draw_calls": [
+        1580,
+        1580,
+        1580
+      ],
+      "draw_calls_p50": 1580,
+      "objects": [
+        1580,
+        1580,
+        1580
+      ],
+      "phase": "after",
+      "primitives": [
+        772006,
+        772006,
+        772006
+      ],
+      "primitives_p50": 772006,
+      "screenshot": "after-royal_exchange.png",
+      "screenshot_error": 0,
+      "view": "royal_exchange"
+    },
+    {
+      "camera_position": [
+        -22.0,
+        7.40000009536743,
+        -68.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.0,
+        0.0
+      ],
+      "draw_calls": [
+        656,
+        656,
+        656
+      ],
+      "draw_calls_p50": 656,
+      "objects": [
+        656,
+        656,
+        656
+      ],
+      "phase": "after",
+      "primitives": [
+        329270,
+        329270,
+        329270
+      ],
+      "primitives_p50": 329270,
+      "screenshot": "after-george_square.png",
+      "screenshot_error": 0,
+      "view": "george_square"
+    },
+    {
+      "camera_position": [
+        -57.7569999694824,
+        5.40000009536743,
+        26.2430000305176
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.785398185253143,
+        0.0
+      ],
+      "draw_calls": [
+        573,
+        573,
+        573
+      ],
+      "draw_calls_p50": 573,
+      "objects": [
+        573,
+        573,
+        573
+      ],
+      "phase": "after",
+      "primitives": [
+        430478,
+        430478,
+        430478
+      ],
+      "primitives_p50": 430478,
+      "screenshot": "after-central_station.png",
+      "screenshot_error": 0,
+      "view": "central_station"
+    },
+    {
+      "camera_position": [
+        60.0,
+        3.40000009536743,
+        28.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.0,
+        0.0
+      ],
+      "draw_calls": [
+        1273,
+        1273,
+        1273
+      ],
+      "draw_calls_p50": 1273,
+      "objects": [
+        1273,
+        1273,
+        1273
+      ],
+      "phase": "after",
+      "primitives": [
+        879234,
+        879234,
+        879234
+      ],
+      "primitives_p50": 879234,
+      "screenshot": "after-barras.png",
+      "screenshot_error": 0,
+      "view": "barras"
+    },
+    {
+      "camera_position": [
+        15.0,
+        5.40000009536743,
+        61.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        3.14159274101257,
+        0.0
+      ],
+      "draw_calls": [
+        146,
+        146,
+        146
+      ],
+      "draw_calls_p50": 146,
+      "objects": [
+        146,
+        146,
+        146
+      ],
+      "phase": "after",
+      "primitives": [
+        147552,
+        147552,
+        147552
+      ],
+      "primitives_p50": 147552,
+      "screenshot": "after-clyde.png",
+      "screenshot_error": 0,
+      "view": "clyde"
+    },
+    {
+      "camera_position": [
+        -150.75700378418,
+        9.39999961853027,
+        -77.7570037841797
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.785398185253143,
+        0.0
+      ],
+      "draw_calls": [
+        89,
+        89,
+        89
+      ],
+      "draw_calls_p50": 89,
+      "objects": [
+        89,
+        89,
+        89
+      ],
+      "phase": "after",
+      "primitives": [
+        465538,
+        465538,
+        465538
+      ],
+      "primitives_p50": 465538,
+      "screenshot": "after-kelvingrove.png",
+      "screenshot_error": 0,
+      "view": "kelvingrove"
+    },
+    {
+      "camera_position": [
+        -204.0,
+        16.0,
+        -146.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        0.0,
+        0.0
+      ],
+      "draw_calls": [
+        62,
+        62,
+        62
+      ],
+      "draw_calls_p50": 62,
+      "objects": [
+        62,
+        62,
+        62
+      ],
+      "phase": "after",
+      "primitives": [
+        391360,
+        391360,
+        391360
+      ],
+      "primitives_p50": 391360,
+      "screenshot": "after-park_north.png",
+      "screenshot_error": 0,
+      "view": "park_north"
+    },
+    {
+      "camera_position": [
+        -204.0,
+        16.0,
+        -146.0
+      ],
+      "camera_rotation": [
+        -0.315487593412399,
+        3.14159274101257,
+        0.0
+      ],
+      "draw_calls": [
+        456,
+        456,
+        456
+      ],
+      "draw_calls_p50": 456,
+      "objects": [
+        456,
+        456,
+        456
+      ],
+      "phase": "after",
+      "primitives": [
+        535090,
+        535090,
+        535090
+      ],
+      "primitives_p50": 535090,
+      "screenshot": "after-park_south.png",
+      "screenshot_error": 0,
+      "view": "park_south"
+    }
+  ],
+  "world_only": true,
+  "source_stable": true,
+  "changed_inputs": [],
+  "command": [
+    "/workspace/tam_hawks_ps/tools/run.sh",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "res://tools/render_budget_probe.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/render-budget-20261017T212329Z-6rgGHA"
+  ],
+  "source_manifest_sha256": "4dc3d3dbdab972dffb786f438859268245ab2e6c17ca52b631e514aa04c35f3a",
+  "valid_rendered_comparison": true
+}

@@ -138,6 +138,71 @@ static func run(check: Callable) -> void:
 		check.call(invalid.step(invalid_step[0], invalid_step[1]) == "bail"
 			and not invalid.active and invalid.position().is_finite() and invalid.travel_velocity().is_finite(),
 			"grind ride: invalid update safely releases without contaminating body transforms")
+	_human_error_margin(check, rail)
+
+
+static func _human_error_margin(check: Callable, rail: RefCounted) -> void:
+	# An offset approach must remain usable across angle, speed and tick phase;
+	# these are envelopes for a human playtest, not evidence that it feels good.
+	var approaches := [
+		[30.0, -0.4, -35.0, 8.0, 22.0, 0.50],
+		[60.0, 0.4, 35.0, 12.0, 42.0, 0.50],
+		[120.0, -0.5, -25.0, 17.0, 60.0, 0.46],
+		[60.0, 0.55, 0.0, 4.0, 28.0, 0.46],
+		[120.0, -0.3, 45.0, 10.0, 18.0, 0.46],
+		[30.0, 0.0, 0.0, 17.0, 18.0, 0.46],
+	]
+	for entry in approaches:
+		var from := Vector3(entry[1], entry[5], -5.0)
+		var radians: float = deg_to_rad(entry[2])
+		var velocity := Vector3(sin(radians) * entry[3], -entry[4], -cos(radians) * entry[3])
+		var to: Vector3 = from + velocity / entry[0]
+		check.call(Ride.new().start_swept([rail], from, to, velocity),
+			"grind forgiveness: offset/angle/speed admission survives tick phase " + str(entry))
+
+	var from := Vector3(0.35, 0.50, -5.0)
+	var velocity := Vector3(0, -42, -12)
+	var to: Vector3 = from + velocity / 60.0
+	check.call(not Ride.new().start([rail], from, velocity)
+		and not Ride.new().start([rail], to, velocity)
+		and Ride.new().start_swept([rail], from, to, velocity),
+		"grind forgiveness: actual descending travel recovers a window missed at both frame endpoints")
+
+	var queried_origins: Array[Vector3] = []
+	var reject_path := func(origin: Vector3, _at: Vector3) -> bool:
+		queried_origins.append(origin)
+		return false
+	check.call(not Ride.new().start_swept([rail], from, to, velocity, reject_path)
+		and not queried_origins.is_empty(),
+		"grind forgiveness: a blocked actual-body sweep rejects every historical sample")
+	var actual_origin_only := true
+	for origin in queried_origins:
+		actual_origin_only = actual_origin_only and origin.is_equal_approx(to)
+	check.call(actual_origin_only,
+		"grind forgiveness: clearance always starts at the current body, never a past sample")
+
+	var rejected_approaches := [
+		[Vector3(0.75, 0.1, -5), Vector3(0.75, 0.05, -5.2), Vector3(0, -3, -12), "lateral miss"],
+		[Vector3(0, 0.9, -5), Vector3(0, 0.7, -5.2), Vector3(0, -12, -12), "wrong upper level"],
+		[Vector3(0, -0.3, -5), Vector3(0, -0.5, -5.2), Vector3(0, -12, -12), "below rail"],
+		[Vector3(0, 0.3, -5), Vector3(0, 0.1, -5), Vector3(8, -12, 0), "perpendicular motion"],
+		[Vector3(0, 0.1, 0.1), Vector3(0, 0.05, 0.3), Vector3(0, -3, 12), "rail behind travel"],
+		[Vector3(0, 0.1, -5), Vector3(0, 0.2, -5.2), Vector3(0, 6, -12), "rising toward rail"],
+		[Vector3(0, 0.3, -5), Vector3(0, 0.1, -5.02), Vector3(0, -12, -1), "insufficient forward speed"],
+		[Vector3(0, 0.3, -5), Vector3(0, 0.1, -5.32), Vector3(0, -12, -19), "excessive forward speed"],
+		[Vector3(0, 1, -5), Vector3(0, -1, -5.2), Vector3(0, -120, -12), "teleport-sized sweep"],
+		[Vector3(INF, 0.3, -5), Vector3(0, 0.1, -5.2), Vector3(0, -12, -12), "nonfinite history"],
+	]
+	for entry in rejected_approaches:
+		check.call(not Ride.new().start_swept([rail], entry[0], entry[1], entry[2]),
+			"grind forgiveness: no larger admission envelope for " + entry[3])
+
+	var riding = Ride.new()
+	riding.start([rail], Vector3(0, 0.1, -5), Vector3(0, 0, -8))
+	var held_distance: float = riding.distance
+	check.call(not riding.start_swept([rail], from, to, velocity)
+		and is_equal_approx(riding.distance, held_distance),
+		"grind forgiveness: a second sweep cannot restart an active rail or duplicate its admission")
 
 
 static func _rail(id: String, start: Vector3, end: Vector3) -> RefCounted:

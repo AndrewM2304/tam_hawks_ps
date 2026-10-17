@@ -12,10 +12,9 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _frames(tree, 35)
 	check.call(game.audio.get_debug_state().surface == "stone",
 		"presentation: real square floor selects stone wheel sound")
-	check.call(game._feedback == "FRESH RUN. GIE IT LALDY." and "ROYAL EXCHANGE" in game.hud._location.text
-		and "ROYAL EXCHANGE" not in game._feedback
-		and "FOUNTAIN COURT" in game.hud._location.text,
-		"presentation: persistent district label replaces the duplicated district welcome toast")
+	check.call(game._feedback == "FRESH RUN. GIE IT LALDY."
+		and not _has_live_area_name(game.hud._hud),
+		"presentation: entering a district adds no floating area name or welcome banner")
 	check.call(game.objectives.get_child_count() == 10,
 		"presentation: district visits do not leave misleading collectible orbs")
 	game.skater.spawn_position = Vector3(40, 0.8, 22)
@@ -73,3 +72,11 @@ static func _frames(tree: SceneTree, count: int) -> void:
 	for i in count:
 		await tree.physics_frame
 		await tree.process_frame
+
+
+static func _has_live_area_name(root: Node) -> bool:
+	if root is Label and root.is_visible_in_tree() and ("ROYAL EXCHANGE" in root.text or "FOUNTAIN COURT" in root.text):
+		return true
+	for child in root.get_children():
+		if _has_live_area_name(child): return true
+	return false

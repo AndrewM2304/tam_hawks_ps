@@ -232,7 +232,7 @@ static func _edges_and_roofs(tree:SceneTree,game:Node,check:Callable) -> void:
 static func _check_visuals(game:Node,check:Callable) -> void:
 	var rider:Node=game.skater.get_node("SkaterVisual/Rider")
 	var board:Node=game.skater.get_node("SkaterVisual/Board")
-	check.call(_mesh_ok(board,"CurvedMapleDeck") and rider.has_node("TorsoRig/Head")
+	check.call(_mesh_ok(board,"DetailedSkateboard/TamSkateboard") and rider.has_node("TorsoRig/Head")
 		and _mesh_ok(rider,"SkinnedJacket") and _mesh_ok(rider,"SkinnedTrousers"),
 		"playability visuals: board torso jacket and trousers actually exist and are visible")
 	check.call(_mesh_ok(rider,"TorsoRig/Head/AnatomicalHead") and _mesh_ok(rider,"TorsoRig/Head/CroppedHair")

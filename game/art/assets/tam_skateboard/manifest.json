@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "asset": "Original Tam skateboard",
+  "author": "Original project-authored geometry and texture",
+  "licence": "Project-owned original content; no public project licence grant selected (ART-001)",
+  "external_assets": [],
+  "network_required": false,
+  "blender_version": "4.3.2",
+  "generator": "tools/art/build_skateboard.py",
+  "generator_sha256": "2eebc13deacb3b464caacbc15862f4b7e8bfaaf15e4f025ca15c604067aaaf15",
+  "regenerate": "blender --background --factory-startup --python tools/art/build_skateboard.py",
+  "coordinates": "Godot board-local metres: X right, Y up, Z along deck. No runtime offset or scale.",
+  "contract": {
+    "axle_z_m": [
+      -0.255,
+      0.255
+    ],
+    "wheel_center_y_m": -0.088,
+    "wheel_radius_m": 0.032,
+    "deck_grip_center_y_m": 0.017,
+    "shoe_contact_at_z_m": [
+      -0.255,
+      0.255
+    ],
+    "collision": "None; visual replacement only"
+  },
+  "bounds_min_m": [
+    -0.14,
+    -0.12,
+    -0.4175
+  ],
+  "bounds_max_m": [
+    0.14,
+    0.0468632,
+    0.4175
+  ],
+  "meshes": 1,
+  "surfaces": 4,
+  "triangles": 5696,
+  "materials": [
+    "MapleAndRiverInk",
+    "Griptape",
+    "CastAluminium",
+    "Urethane"
+  ],
+  "texture": {
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "purpose": "Shared basecolor atlas; grip/maple/river ink/metal/urethane",
+    "sources": "Deterministic original NumPy shapes and noise, seed 241017; no external imagery"
+  },
+  "outputs": {
+    "tam_skateboard.glb": {
+      "bytes": 626756,
+      "sha256": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99"
+    },
+    "board_albedo.png": {
+      "bytes": 469086,
+      "sha256": "0d7ffd2f597771878348e79e4673b48737668fc2251338b7a9e1586ac51cbed3"
+    }
+  }
+}

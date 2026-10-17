@@ -24,6 +24,7 @@ const GRAVITY := 22.0
 const OLLIE_SPEED := 8.8
 const COYOTE_TIME := 0.10
 const JUMP_BUFFER_TIME := 0.12
+const TRICK_BUFFER_TIME := 0.12
 const SPIN_SPEED := 7.2
 const FLIP_DURATION := 0.48
 const MANUAL_MIN_SPEED := 2.0
@@ -70,6 +71,9 @@ var _trick_entries_enabled := true
 var _controls_enabled := true
 var _coyote_remaining := 0.0
 var _jump_buffer_remaining := 0.0
+var _flip_buffer_remaining := 0.0
+var _grab_buffer_remaining := 0.0
+var _manual_buffer_remaining := 0.0
 var _flip_used := false
 var _grab_used := false
 var _flip_remaining := 0.0
@@ -129,6 +133,7 @@ func reset_skater() -> void:
 	airborne = false
 	_coyote_remaining = 0.0
 	_jump_buffer_remaining = 0.0
+	_clear_trick_buffers()
 	_flip_used = false
 	_grab_used = false
 	_flip_remaining = 0.0
@@ -168,6 +173,7 @@ func set_controls_enabled(enabled: bool) -> void:
 		velocity.x = 0.0
 		velocity.z = 0.0
 		_jump_buffer_remaining = 0.0
+		_clear_trick_buffers()
 		revert_remaining = 0.0
 
 
@@ -176,6 +182,7 @@ func set_trick_entries_enabled(enabled: bool) -> void:
 	_trick_entries_enabled = enabled
 	if not enabled:
 		_jump_buffer_remaining = 0.0
+		_clear_trick_buffers()
 		revert_remaining = 0.0
 
 
@@ -238,18 +245,37 @@ func _physics_process(delta: float) -> void:
 		_steering = Input.get_axis("steer_left", "steer_right")
 		if _trick_entries_enabled and Input.is_action_just_pressed("ollie"):
 			_jump_buffer_remaining = JUMP_BUFFER_TIME
+		if _trick_entries_enabled:
+			if Input.is_action_just_pressed("flip") and not (airborne and _flip_used):
+				_flip_buffer_remaining = TRICK_BUFFER_TIME
+			if Input.is_action_just_pressed("grab") and not (airborne and _grab_used):
+				_grab_buffer_remaining = TRICK_BUFFER_TIME
+			if Input.is_action_just_pressed("manual") and not manual_active and _manual_cooldown <= 0.0 \
+					and (airborne or absf(speed) >= MANUAL_MIN_SPEED):
+				_manual_buffer_remaining = TRICK_BUFFER_TIME
 	_jump_buffer_remaining = maxf(0.0, _jump_buffer_remaining - delta)
+	_flip_buffer_remaining = maxf(0.0, _flip_buffer_remaining - delta)
+	_grab_buffer_remaining = maxf(0.0, _grab_buffer_remaining - delta)
+	_manual_buffer_remaining = maxf(0.0, _manual_buffer_remaining - delta)
 	_coyote_remaining = COYOTE_TIME if grounded_before else maxf(0.0, _coyote_remaining - delta)
 
 	if manual_active:
 		if not grounded_before:
 			_end_manual(false)
-		elif not _controls_enabled or not Input.is_action_pressed("manual") or speed < MANUAL_MIN_SPEED:
+		elif not _controls_enabled or not Input.is_action_pressed("manual") or absf(speed) < MANUAL_MIN_SPEED:
 			_end_manual(true)
 		elif not _tick_manual_balance(delta, push_input, brake_input):
 			return
 
 	if grounded_before:
+		# Apply hill acceleration before deliberate braking, so a stopped brake
+		# holds a grade and disabled controls cannot restart a finished run.
+		if _controls_enabled:
+			var normal := get_floor_normal()
+			var tangent := (-global_basis.z).slide(normal).normalized()
+			speed = _response.apply_slope_gravity(speed, Vector3.DOWN.slide(normal).dot(tangent), delta, GRAVITY)
+		else:
+			speed = 0.0
 		if manual_active:
 			# Fore/aft input corrects balance while the manual coasts.
 			speed = move_toward(speed, 0.0, ROLLING_DRAG * delta)
@@ -267,9 +293,6 @@ func _physics_process(delta: float) -> void:
 	if grounded_before:
 		var floor_normal := get_floor_normal()
 		var ground_direction := forward.slide(floor_normal).normalized()
-		var downhill_tangent := Vector3.DOWN.slide(floor_normal)
-		var downhill_alignment := downhill_tangent.dot(ground_direction)
-		speed = _response.apply_slope_gravity(speed, downhill_alignment, delta, GRAVITY)
 		velocity = ground_direction * speed
 	else:
 		# Carry the ramp/contact-adjusted momentum into air. Rebuilding X/Z
@@ -292,7 +315,13 @@ func _physics_process(delta: float) -> void:
 			_update_pose(delta)
 			return
 
+	var before_move := global_position
+	var was_airborne := airborne
 	move_and_slide()
+	if was_airborne and not is_on_floor() and _controls_enabled and _trick_entries_enabled \
+			and _try_grind(before_move, true):
+		_update_pose(delta)
+		return
 	if is_on_floor():
 		# Derive signed board-forward speed from actual contact-adjusted travel.
 		# This preserves collision response while allowing a steep uphill to
@@ -301,7 +330,7 @@ func _physics_process(delta: float) -> void:
 		speed = clampf(get_real_velocity().dot(contact_direction), -MAX_SPEED, MAX_SPEED)
 		if airborne:
 			_finish_landing()
-		if manual_active and speed < MANUAL_MIN_SPEED:
+		if manual_active and absf(speed) < MANUAL_MIN_SPEED:
 			_end_manual(true)
 		_try_ground_links()
 	else:
@@ -331,11 +360,13 @@ func _begin_air() -> void:
 
 
 func _apply_air_tricks(delta: float) -> void:
-	if Input.is_action_just_pressed("flip") and not _flip_used:
+	if _flip_buffer_remaining > 0.0 and not _flip_used:
+		_flip_buffer_remaining = 0.0
 		_flip_used = true
 		_flip_remaining = FLIP_DURATION
 		trick_performed.emit("Kickflip", 300)
-	if Input.is_action_just_pressed("grab") and not _grab_used:
+	if _grab_buffer_remaining > 0.0 and not _grab_used:
+		_grab_buffer_remaining = 0.0
 		_grab_used = true
 		_grab_remaining = 0.5
 		trick_performed.emit("Melon Grab", 250)
@@ -355,6 +386,8 @@ func _award_air_spin() -> void:
 
 
 func _finish_landing() -> void:
+	_flip_buffer_remaining = 0.0
+	_grab_buffer_remaining = 0.0
 	_award_air_spin()
 	_clear_special_visual()
 	airborne = false
@@ -368,8 +401,9 @@ func _finish_landing() -> void:
 func _try_ground_links() -> void:
 	if not _controls_enabled or not _trick_entries_enabled or grinding or not is_on_floor():
 		return
-	if not manual_active and _manual_cooldown <= 0.0 and speed >= MANUAL_MIN_SPEED \
-			and Input.is_action_just_pressed("manual"):
+	if not manual_active and _manual_cooldown <= 0.0 and absf(speed) >= MANUAL_MIN_SPEED \
+			and _manual_buffer_remaining > 0.0 and Input.is_action_pressed("manual"):
+		_manual_buffer_remaining = 0.0
 		manual_active = true
 		manual_balance = 0.05
 		_manual_elapsed = 0.0
@@ -413,11 +447,23 @@ func _end_manual(grounded_exit: bool) -> void:
 		combo_link_ended.emit()
 
 
-func _try_grind() -> bool:
+func _clear_trick_buffers() -> void:
+	_flip_buffer_remaining = 0.0
+	_grab_buffer_remaining = 0.0
+	_manual_buffer_remaining = 0.0
+
+
+func _try_grind(previous_position: Vector3 = Vector3.ZERO, swept: bool = false) -> bool:
 	if _grind_cooldown > 0.0 or not Input.is_action_pressed("grind"):
 		return false
-	if not _grind.start(_grind_lines, global_position, velocity, _rail_path_clear):
+	var captured: bool
+	if swept:
+		captured = _grind.start_swept(_grind_lines, previous_position, global_position, get_real_velocity(), _rail_path_clear)
+	else:
+		captured = _grind.start(_grind_lines, global_position, velocity, _rail_path_clear)
+	if not captured:
 		return false
+	_clear_trick_buffers()
 	_award_air_spin()
 	_clear_special_visual()
 	airborne = false

@@ -14,6 +14,8 @@ const RELEASE_SPEED: float = 1.0
 const GRAVITY: float = 22.0
 const FRICTION: float = 0.6 # Linear speed loss in metres/second squared.
 const END_EPSILON: float = 0.001
+const CAPTURE_SWEEP_STEP: float = 0.10
+const MAX_CAPTURE_SWEEP: float = 1.0
 
 var active: bool = false
 var line: GrindLine = null
@@ -94,6 +96,27 @@ func start(lines: Array, from: Vector3, velocity: Vector3,
 	_result = "riding"
 	_sample()
 	return true
+
+
+## Recover a capture window crossed during one completed physics move. `to` is
+## the body's actual current origin, never a predicted position. Keep the same
+## admission envelope as point capture; do not widen it with speed or frame time.
+## Clearance always starts at that actual origin, including for earlier samples.
+func start_swept(lines: Array, from: Vector3, to: Vector3, velocity: Vector3,
+		clearance: Callable = Callable()) -> bool:
+	if active or not from.is_finite() or not to.is_finite() or not velocity.is_finite():
+		return false
+	var travel: float = from.distance_to(to)
+	if not is_finite(travel) or travel > MAX_CAPTURE_SWEEP:
+		return false
+	var sample_count: int = maxi(1, ceili(travel / CAPTURE_SWEEP_STEP))
+	var actual_origin_clearance := func(_sample_origin: Vector3, at: Vector3) -> bool:
+		return not clearance.is_valid() or clearance.call(to, at) == true
+	for i in range(sample_count + 1):
+		var sample_origin: Vector3 = from.lerp(to, float(i) / sample_count)
+		if start(lines, sample_origin, velocity, actual_origin_clearance):
+			return true
+	return false
 
 
 ## Positive input tips toward positive balance; counter that lean with negative input.

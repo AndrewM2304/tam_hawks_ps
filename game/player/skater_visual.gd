@@ -5,6 +5,7 @@ extends RefCounted
 const Garments = preload("res://game/player/skater_garments.gd")
 const Footwear = preload("res://game/player/skater_footwear.gd")
 const Anatomy = preload("res://game/player/skater_anatomy.gd")
+const Skateboard = preload("res://game/art/assets/tam_skateboard/tam_skateboard.glb")
 
 var _board: Node3D
 var _board_rest_height := 0.12
@@ -238,60 +239,10 @@ func _joint(start: Vector3, end: Vector3, upper_length: float, lower_length: flo
 	return start + direction * along + pole * height
 
 func _build_board() -> void:
-	var maple := _material(Color("c99a5b"), 0.75)
-	var grip := _material(Color("202529"), 0.98)
-	var art := _material(Color("b65035"), 0.82)
-	var silver := _material(Color("9da7ac"), 0.32, 0.65)
-	var rubber := _material(Color("e5d7b7"), 0.83)
-	var bearing := _material(Color("546066"), 0.48, 0.40)
-	var outline := PackedVector3Array()
-	for half in range(2):
-		for i in range(13):
-			var angle := PI * float(i) / 12.0 + half * PI
-			var center_z := -0.30 if half == 0 else 0.30
-			outline.append(Vector3(cos(angle) * 0.118, 0, center_z - sin(angle) * 0.118))
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for i in outline.size():
-		var next := (i + 1) % outline.size()
-		var a := _deck_point(outline[i], -0.014)
-		var b := _deck_point(outline[next], -0.014)
-		var c := _deck_point(outline[i], 0.014)
-		var d := _deck_point(outline[next], 0.014)
-		_triangle(surface, a, c, b)
-		_triangle(surface, b, c, d)
-		_triangle(surface, Vector3(0, -0.014, 0), a, b)
-	surface.generate_normals()
-	_instance(_board, "CurvedMapleDeck", surface.commit(), maple)
-	var top := SurfaceTool.new()
-	top.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for i in outline.size():
-		var next := (i + 1) % outline.size()
-		_triangle(top, Vector3(0, 0.017, 0), _deck_point(outline[next] * 0.94, 0.017), _deck_point(outline[i] * 0.94, 0.017))
-	top.generate_normals()
-	_instance(_board, "Griptape", top.commit(), grip)
-	_ellipsoid(_board, "DeckUndersideGraphic", Vector3(0, -0.017, 0), Vector3(0.17, 0.006, 0.50), art)
-	for end: float in [-1.0, 1.0]:
-		var z := end * 0.255
-		_ellipsoid(_board, "TruckBaseplate", Vector3(0, -0.026, z), Vector3(0.095, 0.027, 0.11), silver)
-		_segment(_board, "Kingpin", Vector3(0, -0.035, z - end * 0.018), Vector3(0, -0.084, z), 0.021, silver)
-		_segment(_board, "Axle", Vector3(-0.14, -0.088, z), Vector3(0.14, -0.088, z), 0.016, silver)
-		for side: float in [-1.0, 1.0]:
-			var wheel := CylinderMesh.new()
-			wheel.top_radius = 0.032
-			wheel.bottom_radius = 0.032
-			wheel.height = 0.032
-			wheel.radial_segments = 20
-			var wheel_node := _instance(_board, "Wheel", wheel, rubber)
-			wheel_node.position = Vector3(side * 0.115, -0.088, z)
-			wheel_node.rotation.z = PI / 2.0
-			_ellipsoid(_board, "Bearing", Vector3(side * 0.133, -0.088, z), Vector3(0.006, 0.019, 0.019), bearing)
-			for bolt_z: float in [-0.035, 0.035]:
-				_ellipsoid(_board, "DeckBolt", Vector3(side * 0.045, 0.021, z + bolt_z), Vector3(0.012, 0.004, 0.012), silver)
-
-func _deck_point(point: Vector3, offset_y: float) -> Vector3:
-	# Rounded concave deck with lifted nose/tail and a shallow cross-section dish.
-	return Vector3(point.x, offset_y + 0.65 * pow(maxf(0.0, absf(point.z) - 0.28), 1.5) + point.x * point.x * 0.14, point.z)
+	# Original Blender GLB preserves all deck/axle/shoe contact coordinates.
+	var model := Skateboard.instantiate()
+	model.name = "DetailedSkateboard"
+	_board.add_child(model)
 
 func _loft(parent: Node3D, node_name: String, rings: Array, material: Material) -> MeshInstance3D:
 	var surface := SurfaceTool.new()

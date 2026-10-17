@@ -7,9 +7,10 @@ static func run(check: Callable) -> void:
 	var ui_cancel_before: Array[InputEvent] = InputMap.action_get_events("ui_cancel").duplicate(true)
 	Profile.reset_defaults()
 	var initial := Profile.binding_snapshot()
-	check.call(initial.size() == 19 and _row(initial, "grind")["pad_text"] == "R2"
+	check.call(initial.size() == 19 and _row(initial, "grind")["pad_text"] == "Triangle"
+		and _row(initial, "revert")["pad_text"] == "R2" and _row(initial, "restart")["pad_text"] == "R3"
 		and _row(initial, "ollie")["key_text"] == "Space",
-		"input profile: readable action snapshots include all current skating controls")
+		"input profile: face-button grind cannot accidentally restart a run; revert uses R2")
 	check.call(_row(initial, "push")["key_text"].contains("W")
 		and _row(initial, "push")["key_text"].contains("Up"),
 		"input profile: snapshot retains default keyboard alternatives")

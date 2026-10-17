@@ -6,6 +6,14 @@
 
 **Current workload:** schema 2 samples all six current checkpoints, including Clyde and Kelvingrove, using the actual production chase camera. It requires supported, stationary rider/camera settling and fingerprints source inputs and each image. The six-view run completed successfully on 17 October 2026 at 16:28 UTC with 114 samples, six inspected images and 101 unchanged source inputs. Its Linux software-rendered results are recorded below. The four-view numbers below remain historical and are not a before/after comparison with this expanded workload.
 
+## Current resource/culling review
+
+The new [render-efficiency review](../research/RENDER-EFFICIENCY-REVIEW.md) audits the current world independently of the historical timing runs below. Exact primitive sharing reduces unique world mesh resources **1,419→324**, preserving nodes, instances, materials and physics. This is a resource-count reduction, not measured VRAM bytes, draw savings or FPS. Production keeps the existing automatic frustum culling, 220m camera far plane and 75m shadows.
+
+Two matched eight-view world-only candidates, [48m cells](render-budget-20261017/README.md) and [96m cells](render-budget-96m-20261017/README.md), retain all 110 tree records and stable source. Both improve distant-tree submissions in some city views, but the normal park checkpoint regresses from 73 draws to 109/89; the 96m candidate saves no primitives there. Both remain opt-in diagnostics. Their fixed three-sample counters are not frame-time or target-Mac evidence. The original GLB board replaces 25 separate procedural mesh instances with four material surfaces; its actual view performance still needs measurement.
+
+The next measured optimization is author-time static facade batching/shared PBR atlases and imported LODs, preserving gameplay collision and skyline readability. See the existing M06-004 work package in CONTROL-AND-FIDELITY-NEXT. Do not hide whole districts by current-area ID or assume a lower far plane improves every view. Actual Apple M5 model/memory/macOS/settings and ten-minute moving-route p50/p95/p99 remain required.
+
 ## Run on the target Mac
 
 From the repository root, with the free Godot 4.6.3 app and Python 3 already installed, first prepare a fresh checkout with the ordinary import/check command. This prerequisite runs outside the measured workload:

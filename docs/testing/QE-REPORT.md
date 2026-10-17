@@ -1,4 +1,10 @@
-# Integrated QE report — playability repair
+# Integrated QE report — control, fidelity and playability
+
+17 October 2026. **Current aggregate: 1,311 passed / 0 failed, exit 0.** [CONTROL-FIDELITY-REVIEW](CONTROL-FIDELITY-REVIEW.md) records the new buffers, swept admission, hill holds, bindings, sharing, GLB board and unchanged human gates. The full [log](logs/control-fidelity-final.log) and [import](logs/control-fidelity-import.log) have exact hashes in STATUS. Focused input checks pass144/0 (included in the aggregate). Normal-title capture passes **19/0** with stable source; cold copied source accepts all four phases with **188 stable inputs** and **44/0** through the title wrapper. Rider action inspection reports **0 errors/44 meshes/10 bones**, with **129 stable inputs**. Both tree partition candidates remain disabled after draw-call regressions. Mac controller feel, target frame times and final art remain open.
+
+## Previous ordinary-play repair checkpoint
+
+The following 1,264/0 measurements and numerical motion traces belong to the preceding hardening source. Their failure/repair history is retained; the current receipts above supersede their counts and hashes.
 
 17 October 2026. **Latest ordinary suite passes 1,264/0; normal-play capture passes 19/0.** The owner’s latest Mac play launches without errors but reports excessive coasting, messy shaders and buggy UI. This slice pauses new areas and hardens the current rendering, HUD and hill response. Earlier no-skater/floor/wall findings and their repairs are preserved below. The previous Exchange 1,155/0 suite and guided 22-frame capture remain historical evidence for their declared fixtures; they do not override the original normal-play failures.
 

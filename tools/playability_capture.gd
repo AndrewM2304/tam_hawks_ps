@@ -200,7 +200,7 @@ func _capture(label: String, kind: String, fixture: String, require_body: bool =
 
 func _visual_snapshot() -> Dictionary:
 	var head := game.skater.get_node("SkaterVisual/Rider/TorsoRig/Head/AnatomicalHead") as MeshInstance3D
-	var deck := game.skater.get_node("SkaterVisual/Board/CurvedMapleDeck") as MeshInstance3D
+	var deck := game.skater.get_node("SkaterVisual/Board/DetailedSkateboard/TamSkateboard") as MeshInstance3D
 	return {"head": _mesh_frame(head), "board": _mesh_frame(deck), "all_construction_checks_passed": _visual_checks.all(func(item): return item.ok)}
 
 func _mesh_frame(mesh: MeshInstance3D) -> Dictionary:

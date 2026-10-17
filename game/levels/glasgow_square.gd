@@ -9,6 +9,7 @@ const CityArtSource = preload("res://game/levels/city_art.gd")
 const TerrainSource = preload("res://game/levels/core_terrain.gd")
 const ExchangeGallery = preload("res://game/levels/art/exchange_gallery.gd")
 const ExplorationBoundary = preload("res://game/levels/exploration_boundary.gd")
+const RenderBudget = preload("res://game/levels/render_budget.gd")
 const RAIL_COLLISION_LAYER := 2
 const RAIL_TOP_HEIGHT := 0.92
 const PALETTE := {
@@ -35,6 +36,7 @@ var _cone_tween: Tween
 var cone_activated := false
 var _terrain = TerrainSource.new()
 var _outdoors: Node3D
+var render_budget_report: Dictionary = {}
 
 
 func _ready() -> void:
@@ -63,6 +65,10 @@ func _ready() -> void:
 		_outdoors.build(self, _materials)
 	_build_exploration_boundaries()
 	_city_art.dress_world(self)
+	if not bool(get_meta("render_budget_probe_baseline", false)):
+		# Share exact static primitives once. Spatial splitting stays opt-in: the
+		# measured candidate added close-park draw calls without saving geometry.
+		render_budget_report = RenderBudget.apply_static_decor(self)
 
 
 func get_spawn_position() -> Vector3:

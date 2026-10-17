@@ -29,7 +29,6 @@ var _brand: Label
 var _timer: Label
 var _score: Label
 var _mode: Label
-var _location: Label
 var _speed: Label
 var _speed_bar: ProgressBar
 var _combo: Label
@@ -128,7 +127,6 @@ func _build_hud() -> void:
 	var score_box := _vbox(score_card, 2)
 	_label(score_box, "RUN SCORE", 15, MUTED)
 	_score = _label(score_box, "0", 36, PAPER)
-	_location = _floating_label("ROYAL EXCHANGE SQUARE", 17, PAPER)
 	_goals = _floating_label("0 / 10 GOALS", 16, ACCENT)
 	_goals.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_balance_panel = _card()
@@ -223,7 +221,6 @@ func update_display(state: Dictionary) -> void:
 	_mode.text = "FREE SKATE" if free else "CAREER RUN"
 	_score.text = _number(int(state.get("score", 0)))
 	_fit_line(_score, 36, 22)
-	_location.text = str(state.get("location", "Glasgow")).to_upper()
 	var completed := 0
 	for goal: Dictionary in state.get("goals", []):
 		if goal.get("done", false): completed += 1
@@ -710,8 +707,6 @@ func _relayout(force: bool = false) -> void:
 	_top.position = Vector2(28, 24)
 	_top.size = Vector2(extent.x - 56, 96)
 	var side_width := minf(345.0, (extent.x - 412.0) * 0.5)
-	_location.position = Vector2(28, 126)
-	_location.size = Vector2(side_width, 30)
 	_goals.position = Vector2(extent.x - side_width - 28, 126)
 	_goals.size = Vector2(side_width, 28)
 	_balance_panel.position = Vector2(extent.x * 0.5 - 158, 132)

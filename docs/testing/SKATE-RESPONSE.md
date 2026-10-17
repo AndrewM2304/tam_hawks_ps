@@ -2,6 +2,12 @@
 
 **17 October 2026.** The owner's Mac playtest reported that releasing push retained too much speed and the movement did not feel like the intended arcade skating game. This investigation measures those complaints with the existing controller and a bounded response helper. These Linux measurements do not certify Mac input, camera visibility or human skating feel. Native cold-start/visual initialization and missing world support are separate repairs.
 
+## Subsequent control review
+
+[ARCADE-HANDLING-REVIEW](../research/ARCADE-HANDLING-REVIEW.md) inspects pinned MIT Not Pro Skater/GodotSkate implementations and distinguishes their source arithmetic from played measurements. Current full-speed steering remains 1.1rad/s (about 13.6m steady radius at 15m/s); no tighter-turn claim follows from the bounded repairs below. Press-pop ollies, separated visible spin/air correction and unconditional clean landings remain larger explicit follow-ups in CONTROL-AND-FIDELITY-NEXT.
+
+The integrated review fixes disabled hill drift and brake creep by applying signed slope acceleration before braking and suppressing it while controls are disabled. It admits reverse manuals by speed magnitude, adds 120ms consumable flip/grab requests and held near-landing manual requests, and preserves rejected at-rest/held-input behavior. Actual 20° body fixtures prove disabled/braked rest and release rollback. Perturbed actual-input rail approaches cover offsets, heading errors, press timing, remapped keyboard and synthetic Triangle events without per-tick pose/speed correction. Helper capture sweeps additionally cover 30/60/120Hz; physical DualSense and full player timing matrices remain open. Exact current counts belong in STATUS/QE.
+
 ## Baseline actually measured
 
 The baseline controller is the exact `game/player/skater.gd` from clean runtime `00da63a29990c0839cf15d4c9a34edc2fc167122`, SHA-256 `23d87e2a83fe167c511dd6f0756bdb5d1fd95bb2fd6415dd30d66e643eaccbb8`. The local probe copies it to `.local/feel-review/skater-baseline.gd`; its preload dependencies remain the checkout's visual/trick helpers. This is a source-controller measurement, not a launch of the owner's Mac executable.
