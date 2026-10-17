@@ -9,6 +9,7 @@ signal cosmetic_selected(id: String)
 signal start_requested(free_skate: bool)
 signal ui_feedback
 
+const GraphicsQuality = preload("res://game/core/graphics_quality.gd")
 const RouteMap = preload("res://game/ui/route_map.gd")
 
 const INK := Color("101d22")
@@ -78,6 +79,11 @@ var _last_size := Vector2.ZERO
 var _last_scale := -1.0
 var _last_combo := 0
 var _combo_tween: Tween
+var _prompt_texts: Dictionary = {}
+var _display_controller_active := false
+var _score_fit_text := ""
+var _score_fit_width := -1.0
+var _feedback_layout_texts: Array[String] = []
 
 
 func _ready() -> void:
@@ -207,25 +213,40 @@ func _build_hud() -> void:
 func update_display(state: Dictionary) -> void:
 	if not is_instance_valid(_timer):
 		return
-	_state = state.duplicate(true)
-	_settings = state.get("settings", {}).duplicate(true)
+	var device_changed := _display_controller_active != _controller_active
+	var viewport_changed := get_viewport().get_visible_rect().size != _last_size
+	var incoming_settings: Dictionary = state.get("settings", {})
+	var needs_page_transition := (_page == "" and (bool(state.get("paused", false)) or bool(state.get("finished", false)))) \
+		or (_page not in ["", "title"] and not bool(state.get("paused", false)) and not bool(state.get("finished", false)))
+	if state == _state and incoming_settings == _settings and not device_changed \
+			and not viewport_changed and not needs_page_transition:
+		return
+	var previous := _state
+	_state = _detached_display_state(state)
+	_display_controller_active = _controller_active
+	if incoming_settings != _settings:
+		_settings = incoming_settings.duplicate(true)
 	var bindings: Dictionary = _settings.get("bindings", {})
-	if bindings != _binding_preferences:
+	var bindings_changed := bindings != _binding_preferences
+	if bindings_changed:
 		_binding_preferences = bindings.duplicate(true)
 		_binding_rows.clear()
+		_prompt_texts.clear()
 	_relayout()
 	var seconds := maxi(0, ceili(float(state.get("time", 120.0))))
 	var free: bool = state.get("free_skate", false)
 	_timer.text = "∞" if free else "%d:%02d" % [seconds / 60, seconds % 60]
 	_timer.modulate = ORANGE if seconds <= 15 and not free else Color.WHITE
 	_mode.text = "FREE SKATE" if free else "CAREER RUN"
-	_score.text = _number(int(state.get("score", 0)))
+	if state.get("score", 0) != previous.get("score", -1):
+		_score.text = _number(int(state.get("score", 0)))
 	_fit_line(_score, 36, 22)
-	var completed := 0
-	for goal: Dictionary in state.get("goals", []):
-		if goal.get("done", false): completed += 1
-	_goals.text = "%d / 10 GOALS  ·  %s" % [completed, _prompt_for("goals", "TAB")]
-	if free: _goals.text = "FREE SKATE  ·  NO TIMER"
+	if state.get("goals", []) != previous.get("goals", []) or previous.is_empty() \
+			or free != bool(previous.get("free_skate", false)) or device_changed or bindings_changed:
+		var completed := 0
+		for goal: Dictionary in state.get("goals", []):
+			if goal.get("done", false): completed += 1
+		_goals.text = "FREE SKATE  ·  NO TIMER" if free else "%d / 10 GOALS  ·  %s" % [completed, _prompt_for("goals", "TAB")]
 	var kmh := roundi(absf(float(state.get("speed", 0.0))) * 3.6)
 	_speed.text = "%d km/h" % kmh
 	_speed_bar.value = clampf(float(kmh) / 60.0, 0.0, 1.0)
@@ -275,7 +296,8 @@ func update_display(state: Dictionary) -> void:
 	if is_instance_valid(_modal_notice):
 		_modal_notice.text = _feedback.text
 		_modal_notice.visible = not _feedback.text.is_empty() and _page != "title"
-	_controls_label.text = "Hold %s, release Ollie  ·  Direction + %s / %s tricks  ·  %s rail/lip  ·  %s controls" % [_prompt_for("ollie", "SPACE"), _prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("grind", "L"), _prompt_for("pause", "ESC")]
+	if previous.is_empty() or device_changed or bindings_changed:
+		_controls_label.text = "Hold %s, release Ollie  ·  Direction + %s / %s tricks  ·  %s rail/lip  ·  %s controls" % [_prompt_for("ollie", "SPACE"), _prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("grind", "L"), _prompt_for("pause", "ESC")]
 	_layout_feedback_stack()
 	var finished: bool = state.get("finished", false)
 	var paused_now: bool = state.get("paused", false)
@@ -284,6 +306,17 @@ func update_display(state: Dictionary) -> void:
 	elif _page not in ["", "title"] and not finished and not paused_now:
 		_hide_modal()
 	_hud.visible = _page != "title"
+
+
+func _detached_display_state(incoming: Dictionary) -> Dictionary:
+	# Scalar fields change every frame. Retain owned nested snapshots when their
+	# values agree; never retain a caller's mutable arrays or dictionaries.
+	var detached := incoming.duplicate()
+	for key: Variant in incoming:
+		var value: Variant = incoming[key]
+		if value is Dictionary or value is Array:
+			detached[key] = _state[key] if _state.has(key) and _state[key] == value else value.duplicate(true)
+	return detached
 
 
 func show_title() -> void:
@@ -541,6 +574,16 @@ func _build_settings(content: VBoxContainer) -> void:
 	_slider(content, "Camera sensitivity", "camera_sensitivity", 0.5, 2.0, 0.1, 1.0)
 	_toggle(content, "Show captions", "captions", true)
 	_toggle(content, "Reduce motion & camera shake", "reduced_motion", false)
+	var quality := _button(content, "", func(): pass)
+	var update_quality := func(): quality.text = "GRAPHICS: " + GraphicsQuality.LABELS[GraphicsQuality.normalized(_settings.get("graphics_quality", "balanced"))]
+	update_quality.call()
+	quality.pressed.connect(func():
+		var current := GraphicsQuality.IDS.find(GraphicsQuality.normalized(_settings.get("graphics_quality", "balanced")))
+		_change_setting("graphics_quality", GraphicsQuality.IDS[(current + 1) % GraphicsQuality.IDS.size()])
+		update_quality.call())
+	var quality_help := _label(content, "Choose Performance for a lighter scene, Balanced for sharper nearby detail, or High for longer shadows.", 15, MUTED)
+	quality_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	quality_help.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	_button(content, "CONTROLS", show_controls)
 
 
@@ -608,7 +651,9 @@ func _toggle(parent: Node, title: String, key: String, fallback: bool) -> void:
 
 func _change_setting(key: String, value: Variant) -> void:
 	_settings[key] = value
-	if key == "bindings": _binding_rows.clear()
+	if key == "bindings":
+		_binding_rows.clear()
+		_prompt_texts.clear()
 	settings_changed.emit({key: value})
 	_relayout()
 
@@ -748,14 +793,19 @@ func _relayout(force: bool = false) -> void:
 		var dialog_height := minf(preferred_height, extent.y - 76)
 		_dialog.position = (extent - Vector2(dialog_width, dialog_height)) * 0.5
 		_dialog.size = Vector2(dialog_width, dialog_height)
-	_layout_feedback_stack()
+	_layout_feedback_stack(true)
 
 
-func _layout_feedback_stack() -> void:
+func _layout_feedback_stack(force: bool = false) -> void:
 	# Empty slots collapse and short lines use their actual height. Large UI
 	# text stays near the bottom without reserving a second line for every cue.
+	var labels := [_challenge, _caption, _combo_status, _tricks, _combo, _prompt]
+	var texts: Array[String] = []
+	for label: Label in labels: texts.append(label.text)
+	if not force and texts == _feedback_layout_texts: return
+	_feedback_layout_texts = texts
 	var bottom := _footer.position.y - 8.0
-	for label in [_challenge, _caption, _combo_status, _tricks, _combo, _prompt]:
+	for label: Label in labels:
 		label.visible = not label.text.is_empty()
 		if not label.visible: continue
 		var lines := mini(label.get_line_count(), 1 if label == _combo else 2)
@@ -769,6 +819,9 @@ func _layout_feedback_stack() -> void:
 
 
 func _fit_line(label: Label, largest: int, smallest: int) -> void:
+	if label.text == _score_fit_text and label.size.x == _score_fit_width: return
+	_score_fit_text = label.text
+	_score_fit_width = label.size.x
 	var font := label.get_theme_font("font")
 	var font_size := largest
 	while font_size > smallest and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > label.size.x:
@@ -885,6 +938,8 @@ func _pad() -> bool:
 
 
 func _prompt_for(action: String, fallback: String) -> String:
+	var cache_key := action + (":pad:" if _pad() else ":key:") + fallback
+	if _prompt_texts.has(cache_key): return _prompt_texts[cache_key]
 	if _binding_rows.is_empty() and ResourceLoader.exists("res://game/core/input_profile.gd"):
 		_input_profile = load("res://game/core/input_profile.gd")
 		for row: Dictionary in _input_profile.binding_snapshot(): _binding_rows[row.action] = row
@@ -894,7 +949,8 @@ func _prompt_for(action: String, fallback: String) -> String:
 		text = text.split(" / ")[0]
 		for pair in [["Left stick", "LS"], ["Right stick", "RS"], [" left", " ←"], [" right", " →"], [" up", " ↑"], [" down", " ↓"]]:
 			text = text.replace(pair[0], pair[1])
-		return text if not text.is_empty() else fallback
+		_prompt_texts[cache_key] = text if not text.is_empty() else fallback
+		return _prompt_texts[cache_key]
 	return fallback
 
 

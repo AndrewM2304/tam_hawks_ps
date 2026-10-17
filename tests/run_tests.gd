@@ -1,6 +1,11 @@
 extends SceneTree
 ## Dependency-free unit and physics integration checks. Run with tools/check.sh.
 
+const STATIC_BATCHES_TESTS = preload("res://tests/static_batches_tests.gd")
+const PHYSICS_INTERPOLATION_TESTS = preload("res://tests/physics_interpolation_tests.gd")
+const HUD_EFFICIENCY_TESTS = preload("res://tests/hud_efficiency_tests.gd")
+const GRAPHICS_QUALITY_TESTS = preload("res://tests/graphics_quality_tests.gd")
+const CITY_VISIBILITY_TESTS = preload("res://tests/city_visibility_tests.gd")
 const SCORE_SCRIPT = preload("res://game/scoring/score_session.gd")
 const MAIN_SCRIPT = preload("res://game/main.gd")
 const RAIL_GEOMETRY_TESTS = preload("res://tests/rail_geometry_tests.gd")
@@ -59,6 +64,9 @@ func _run() -> void:
 	_test_score_session()
 	SKATE_RESPONSE_TESTS.run(_check)
 	RENDER_BUDGET_TESTS.run(_check)
+	await STATIC_BATCHES_TESTS.run(self, _check)
+	CITY_VISIBILITY_TESTS.run(self, _check)
+	await PHYSICS_INTERPOLATION_TESTS.run(self, _check)
 	RAIL_GEOMETRY_TESTS.run(_check)
 	GRIND_RIDE_TESTS.run(_check)
 	CATALOG_TESTS.run(_check)
@@ -99,6 +107,8 @@ func _run() -> void:
 	await CAREER_INTEGRATION_TESTS.run(self, game, _check)
 	await UI_INTEGRATION_TESTS.run(self, game, _check)
 	await UI_FEEDBACK_TESTS.run(self, game, _check)
+	await HUD_EFFICIENCY_TESTS.run(self, game, _check)
+	await GRAPHICS_QUALITY_TESTS.run(self, game, _check)
 	await PRESENTATION_INTEGRATION_TESTS.run(self, game, _check)
 	await ENCOUNTERS_TESTS.run(self, game, _check)
 	await CAT_ENCOUNTER_TESTS.run(self, game, _check)

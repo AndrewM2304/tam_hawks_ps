@@ -1,5 +1,6 @@
 extends Node3D
 
+const GraphicsQuality = preload("res://game/core/graphics_quality.gd")
 const InputSetup = preload("res://game/core/input_setup.gd")
 const InputProfile = preload("res://game/core/input_profile.gd")
 const ScoreSession = preload("res://game/scoring/score_session.gd")
@@ -47,9 +48,15 @@ var _feedback_timer: float = 4.0
 var _landings: int = 0
 var _flips: int = 0
 var _grabs: int = 0
+var _hud_career_source: RefCounted
+var _hud_career_revision := -1
+var _hud_goals: Array[Dictionary] = []
+var _hud_unlocks: Array[String] = []
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# Only physics-driven actors opt in; render-step NPC/UI motion stays direct.
+	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	InputSetup.register_actions()
 	Input.joy_connection_changed.connect(_on_controller_connection)
 	if persistence_enabled:
@@ -399,6 +406,7 @@ func apply_settings(settings: Dictionary, persist: bool = true) -> void:
 		if settings.has(key): career.settings[key] = bool(settings[key])
 	career.settings.ui_scale = clampf(float(settings.get("ui_scale", career.settings.ui_scale)), 1.0, 1.4)
 	career.settings.camera_sensitivity = clampf(float(settings.get("camera_sensitivity", career.settings.camera_sensitivity)), 0.5, 2.0)
+	career.settings.graphics_quality = GraphicsQuality.apply(get_viewport(), skater, world, settings.get("graphics_quality", career.settings.graphics_quality))
 	audio.set_mix(career.settings.audio * career.settings.sfx_volume, career.settings.audio * career.settings.ambience_volume)
 	encounters.set_mix(career.settings.audio, career.settings.ambience_volume)
 	cat_encounter.set_mix(career.settings.audio, career.settings.ambience_volume)
@@ -445,13 +453,15 @@ func _side_encounters() -> Array[Node3D]:
 	return [encounters, cat_encounter, market_encounter]
 
 
-func _nearby_encounter_id() -> String:
+func _nearby_encounter_id(statuses: Array[Dictionary] = []) -> String:
 	var at := skater.global_position
 	var chosen := ""
 	var closest := INF
-	for component: Node3D in _side_encounters():
+	var components := _side_encounters()
+	for index in components.size():
+		var component: Node3D = components[index]
 		if component.nearby_prompt(at).is_empty(): continue
-		var status: Dictionary = component.status_snapshot()
+		var status: Dictionary = statuses[index] if statuses.size() == components.size() else component.status_snapshot()
 		var offer_position: Vector3 = status.position
 		var distance := at.distance_squared_to(offer_position)
 		if distance < closest:
@@ -480,15 +490,14 @@ func _update_encounters(delta: float, interact: bool) -> void:
 	market_encounter.poll(skater.global_position, chosen == "gull_proof_delivery", delta, combo_value, delivery_visible)
 
 
-func _challenge_text() -> String:
-	for component: Node3D in _side_encounters():
-		var status: Dictionary = component.status_snapshot()
+func _challenge_text(statuses: Array[Dictionary] = []) -> String:
+	if statuses.is_empty(): statuses = _encounter_snapshots()
+	for status: Dictionary in statuses:
 		if status.state == "active":
 			var text := str(status.get("hud_text", ""))
 			var navigation := _market_navigation_text(status.get("navigation_targets", []))
 			return text + ("\n" + navigation if not navigation.is_empty() else "")
-	for component: Node3D in _side_encounters():
-		var status: Dictionary = component.status_snapshot()
+	for status: Dictionary in statuses:
 		if str(status.id) == _focused_encounter: return str(status.get("hud_text", ""))
 	return ""
 
@@ -510,14 +519,21 @@ func _market_navigation_text(targets: Array) -> String:
 	return "  /  ".join(cues)
 
 
-func _interaction_prompt() -> String:
+func _interaction_prompt(statuses: Array[Dictionary] = []) -> String:
 	var prompt: String = objectives.nearby_prompt(skater.global_position)
 	if not prompt.is_empty(): return prompt
-	var chosen := _nearby_encounter_id()
-	for component: Node3D in _side_encounters():
-		if str(component.status_snapshot().id) == chosen:
+	if statuses.is_empty(): statuses = _encounter_snapshots()
+	var chosen := _nearby_encounter_id(statuses)
+	var components := _side_encounters()
+	for index in components.size():
+		var component: Node3D = components[index]
+		if str(statuses[index].id) == chosen:
 			return component.nearby_prompt(skater.global_position)
 	return ""
+
+
+func _encounter_snapshots() -> Array[Dictionary]:
+	return [encounters.status_snapshot(), cat_encounter.status_snapshot(), market_encounter.status_snapshot()]
 
 
 func _on_caption(text: String) -> void:
@@ -527,6 +543,13 @@ func _on_caption(text: String) -> void:
 func _refresh_hud() -> void:
 	if not is_instance_valid(hud):
 		return
+	var revision: int = career.presentation_revision()
+	if career != _hud_career_source or revision != _hud_career_revision:
+		_hud_career_source = career
+		_hud_career_revision = revision
+		_hud_goals = career.goals_snapshot()
+		_hud_unlocks = career.unlocks()
+	var statuses := _encounter_snapshots()
 	hud.update_display({
 		"time": time_remaining, "score": score.total_score,
 		"combo": score.get_combo_value(), "multiplier": score.combo_multiplier,
@@ -541,12 +564,12 @@ func _refresh_hud() -> void:
 		"player_position": skater.global_position, "player_heading": skater.rotation.y,
 		"paused": paused, "finished": run_finished, "free_skate": free_skate_mode,
 		"feedback": _feedback if _feedback_timer > 0 else "",
-		"challenge_text": _challenge_text(),
+		"challenge_text": _challenge_text(statuses),
 		"landings": _landings, "flips": _flips, "grabs": _grabs,
-		"goals": career.goals_snapshot(), "unlocks": career.unlocks(),
+		"goals": _hud_goals, "unlocks": _hud_unlocks,
 		"record_score": career.best_score, "record_combo": career.best_combo,
 		"special_meter": special_meter.value, "settings": career.settings,
 		"caption": _caption if _caption_time > 0 and career.settings.captions else "",
 		"save_status": save_status, "save_warning": save_warning,
-		"interaction_prompt": _interaction_prompt(),
+		"interaction_prompt": _interaction_prompt(statuses),
 	})

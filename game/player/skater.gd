@@ -129,6 +129,9 @@ var _camera_follow = ChaseCamera.new()
 
 
 func _ready() -> void:
+	# Movement/poses remain fixed-tick physics. Only their presentation is
+	# interpolated; the independently updated chase camera opts out below.
+	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
 	floor_max_angle = deg_to_rad(56.0)
 	floor_snap_length = 0.45
 	floor_constant_speed = true
@@ -139,11 +142,12 @@ func _ready() -> void:
 	_build_skater()
 	_camera = Camera3D.new()
 	_camera.name = "ChaseCamera"
+	_camera.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	add_child(_camera)
 	_camera.top_level = true
 	_camera.current = true
 	_camera.fov = 68.0
-	_camera.near = 0.08
+	_camera.near = 0.20 # More depth precision for layered facades; clear body arm is >=3m.
 	_camera.far = 220.0
 	reset_skater()
 
@@ -211,6 +215,11 @@ func reset_skater() -> void:
 	if is_instance_valid(_camera):
 		_camera.global_position = global_position + Vector3(0.0, 3.4, 6.0)
 		_camera.look_at(global_position + Vector3(0.0, 1.0, -1.5))
+	# Prime native interpolation pumps before resetting them, including the
+	# support axis used by the per-render camera. Descendant poses reset too.
+	get_global_transform_interpolated()
+	if is_instance_valid(_body_collision): _body_collision.get_global_transform_interpolated()
+	reset_physics_interpolation()
 
 
 func recover_to(safe_position: Vector3) -> void:

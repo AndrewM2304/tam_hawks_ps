@@ -1,4 +1,6 @@
 extends Node3D
+const StaticBatches = preload("res://game/levels/static_batches.gd")
+const CityVisibility = preload("res://game/levels/city_visibility.gd")
 ## Compressed original Glasgow skating routes. One unit is approximately one metre.
 ## Keep geometry and collision together; skating physics belongs to the player.
 
@@ -39,6 +41,8 @@ var _terrain = TerrainSource.new()
 var _outdoors: Node3D
 var _transition_features: Array = []
 var render_budget_report: Dictionary = {}
+var static_batch_report: Dictionary = {}
+var solid_wall_occluders := 0
 
 
 func _ready() -> void:
@@ -68,10 +72,12 @@ func _ready() -> void:
 	_build_exploration_boundaries()
 	_transition_features = TransitionPark.build(self, _materials)
 	_city_art.dress_world(self)
+	solid_wall_occluders = CityVisibility.build(self)
 	if not bool(get_meta("render_budget_probe_baseline", false)):
 		# Share exact static primitives once. Spatial splitting stays opt-in: the
 		# measured candidate added close-park draw calls without saving geometry.
 		render_budget_report = RenderBudget.apply_static_decor(self)
+		static_batch_report = StaticBatches.finalize(self)
 
 
 func get_transition_features() -> Array:
@@ -725,7 +731,8 @@ func _building(at: Vector3, width: float, height: float, color: String, shop: St
 	building.position = at
 	building.rotation.y = yaw
 	add_child(building)
-	_box(building, "Facade", Vector3(0.0, height / 2.0, 0.0), Vector3(width, height, 12.0), color, true)
+	var closed_wall := _box(building, "Facade", Vector3(0.0, height / 2.0, 0.0), Vector3(width, height, 12.0), color, true)
+	CityVisibility.register_closed_facade(closed_wall)
 	if decorate: _city_art.decorate_building(building, width, height, color, shop)
 	return building
 

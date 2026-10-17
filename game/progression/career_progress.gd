@@ -3,6 +3,7 @@ extends RefCounted
 ## Local-only career state. Callers supply validated gameplay events, never frame counts.
 
 const InputProfile = preload("res://game/core/input_profile.gd")
+const GraphicsQuality = preload("res://game/core/graphics_quality.gd")
 const PROFILE_VERSION: int = 1
 const MAX_SCORE: int = 2000000000
 const MAX_PROFILE_BYTES: int = 1048576
@@ -10,7 +11,7 @@ const DEFAULT_PATH: String = "user://career.json"
 const DEFAULT_SETTINGS: Dictionary = {
 	"audio": 0.8, "sfx_volume": 1.0, "ambience_volume": 0.6,
 	"captions": true, "reduced_motion": false,
-	"ui_scale": 1.0, "camera_sensitivity": 1.0,
+	"ui_scale": 1.0, "camera_sensitivity": 1.0, "graphics_quality": "balanced",
 	"bindings": {}, "cosmetic_id": "color_blue",
 }
 const LETTER_IDS: Array[String] = ["H", "A", "W", "K", "S"]
@@ -42,6 +43,24 @@ var _run_combo: int = 0
 var _collections: Dictionary = {}
 var _blocked_paths: Dictionary = {}
 var _recovered_paths: Dictionary = {}
+var _presentation_revision := 0
+var _presentation_score := -1
+var _presentation_combo := -1
+var _presentation_completed: Array[String] = []
+var _presentation_collections: Dictionary = {}
+
+## Revision of goal/unlock presentation only. Exact source comparisons also
+## notice direct fixture edits; copies are made only when those values change.
+## Settings and record values remain independently readable public fields.
+func presentation_revision() -> int:
+	if _presentation_score != _run_score or _presentation_combo != _run_combo \
+			or _presentation_completed != completed_ids or _presentation_collections != _collections:
+		_presentation_score = _run_score
+		_presentation_combo = _run_combo
+		_presentation_completed = completed_ids.duplicate()
+		_presentation_collections = _collections.duplicate(true)
+		_presentation_revision += 1
+	return _presentation_revision
 
 func begin_run(free_skate: bool) -> void:
 	_clear_run()
@@ -308,6 +327,10 @@ static func _validate_profile(raw: Variant) -> Dictionary:
 				return {"error": ERR_FILE_CORRUPT}
 			var earned: bool = value == "color_blue" or (value == "color_orange" and cleaned_ids.has("first_shift")) or (value == "color_purple" and cleaned_ids.has("some_shift"))
 			cleaned_settings[key] = value if earned else "color_blue"
+		elif key == "graphics_quality":
+			if not value is String or not GraphicsQuality.IDS.has(value):
+				return {"error": ERR_FILE_CORRUPT}
+			cleaned_settings[key] = value
 		elif DEFAULT_SETTINGS[key] is bool:
 			if not value is bool:
 				return {"error": ERR_FILE_CORRUPT}

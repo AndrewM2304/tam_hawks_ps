@@ -1,4 +1,5 @@
 extends Node3D
+const StaticBatches = preload("res://game/levels/static_batches.gd")
 ## Original Glasgow architectural composites with inspected CC0 material maps.
 ## This layer has no collision or gameplay ownership; provenance is in the manifest.
 
@@ -344,6 +345,7 @@ func _batch_arch(batches: Dictionary, material_key: String, radius: float, at: V
 
 
 func _flush_batches(parent: Node3D, batches: Dictionary) -> void:
+	set_meta(StaticBatches.META_STATIC_SCOPE, true)
 	for key: String in batches:
 		var batch: Dictionary = batches[key]
 		var mesh: Mesh
@@ -375,6 +377,7 @@ func _flush_batches(parent: Node3D, batches: Dictionary) -> void:
 		instance.multimesh = multimesh
 		instance.material_override = materials[batch["material"]]
 		parent.add_child(instance)
+		StaticBatches.register(instance, batch["transforms"])
 
 
 func _pediment(parent: Node3D, at: Vector3, width: float, height: float, depth: float, material: Material) -> void:

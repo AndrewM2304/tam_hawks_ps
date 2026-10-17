@@ -1,0 +1,10 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: interpolation: physics rider/poses opt in under an opted-out parent and per-render world camera opts out
+PASS: interpolation: high-render/10-Hz physics produces intermediate displayed movement with smaller frame steps
+PASS: interpolation: chase anchor follows the displayed frame rather than the newest stepped physics origin
+INTERPOLATION samples=120 within_tick_changes=110 raw_max_step=1.50000 displayed_max_step=0.13059 anchor_error=0.0000000 displayed_lag=1.48131
+PASS: interpolation: restart clears old rider/camera history before the next displayed frame
+PASS: interpolation: hazard recovery resets descendant/support history and preserves the normal restart location
+PASS: interpolation: identical real push/crouch/pop/spin inputs preserve every physics position, velocity and spin
+INTERPOLATION RESULT: 6 passed, 0 failed

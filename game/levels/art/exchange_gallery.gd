@@ -1,4 +1,5 @@
 extends RefCounted
+const StaticBatches = preload("res://game/levels/static_batches.gd")
 ## Original gallery and shop-edge detail. Geometry/collision remain in world.
 ## Shared local portico dimensions keep visible shafts and their solids aligned.
 
@@ -132,11 +133,14 @@ static func align_west_thresholds(building: Node3D) -> void:
 	# Other door bays, displays, upper windows and the whole building stay put.
 	for child: Node in building.get_children():
 		if not child is MultiMeshInstance3D: continue
+		var authored := StaticBatches.authored_transforms(child)
 		for index: int in range(child.multimesh.instance_count):
-			var transform: Transform3D=child.multimesh.get_instance_transform(index)
+			var transform: Transform3D = authored[index] if index < authored.size() else child.multimesh.get_instance_transform(index)
 			if transform.origin.y>3.0 or transform.origin.z<6.15: continue
 			for door_x: float in [-9.59,-3.75]:
 				if absf(transform.origin.x-door_x)<0.45:
 					transform.origin.y+=0.205
 					child.multimesh.set_instance_transform(index,transform)
+					if index < authored.size(): authored[index] = transform
 					break
+		if not authored.is_empty(): StaticBatches.register(child, authored)

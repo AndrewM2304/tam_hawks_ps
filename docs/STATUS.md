@@ -1,3 +1,9 @@
+# Performance work in progress — 17 October 2026
+
+The owner now prioritizes widespread stutter and current-map performance. [PERFORMANCE-NEXT](planning/PERFORMANCE-NEXT.md) and ADR-016 record exact work, owners, dependencies and remaining verification. Fresh six-view baseline at clean `1b20e26` is pushed as `9c6f123`; it records 1,930 Exchange/1,617 Barras median draws at 1280×800 on software rendering. The current code checkpoint adds explicit static batches, closed-wall occluders (native culling still opt-in pending comparison), HUD caching, interpolated rider/chase and saved graphics choices. Focused integrated checks pass **74/0**. Final ordinary regression, captures and after/moving measurements are pending; the earlier 1,612/0 below certifies older source only. No new area or spend.
+
+The 32 m batch/culling comparison is accepted with complete renderer-record preservation. The first 64 m comparison was rejected by a faulty validator (queued startup buffer reads plus rounding boundaries), repaired with actual diagnostic evidence, and is being rerun. Candidate selection remains open; do not claim Mac FPS or final stutter acceptance. Continue independently within the authorized session and push each completed task/checkpoint. All 75 full tasks remain.
+
 # Current handoff — 17 October 2026
 
 **Tam Hawks Pro Skater**, Godot 4.6.3 Compatibility alpha, feature branch `bootstrap/m00-m01`. Directional tricks, real quarter/half-pipes, lip actions and revised classic controls are implemented under [ADR-015](architecture/decisions/ADR-015-directional-tricks-and-transitions.md). **`./tools/check.sh`: 1,612 passed / 0 failed, exit 0**, with clean import/runtime scans. Cold-source launch, 42 action/transition images, 19 normal-play images and three Controls GUI views also pass. Mac/DualSense feel, final animation/art/UI and Apple Silicon frame times remain open.

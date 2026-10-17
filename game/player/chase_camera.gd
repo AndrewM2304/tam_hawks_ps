@@ -46,7 +46,11 @@ func reset() -> void:
 
 func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity: float, reduced_motion: bool) -> void:
 	if not is_instance_valid(rider) or not is_instance_valid(camera) or not rider.is_inside_tree(): return
-	var board := rider.global_position
+	# _process follows the same frame the renderer displays. Reading the newest
+	# physics transform here makes an otherwise smoothed camera judder at 60 Hz.
+	# Physics callers/tests retain their exact current contact frame.
+	var frame := _follow_transform(rider)
+	var board := frame.origin
 	if not board.is_finite(): return
 	# Transitions can lay the skater back against a curved wall. Occlusion rays
 	# follow the actual body axis, while the camera's horizon stays world-up.
@@ -59,7 +63,7 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	var response := clampf(sensitivity, 0.5, 2.0) if is_finite(sensitivity) else 1.0
 	var speed := clampf(Vector2(rider.velocity.x, rider.velocity.z).length(), 0.0, 15.0)
 	var distance := 5.8 if reduced_motion else 5.8 + speed * 0.035
-	var rear := Vector3(rider.global_basis.z.x, 0, rider.global_basis.z.z).normalized()
+	var rear := Vector3(frame.basis.z.x, 0, frame.basis.z.z).normalized()
 	if rear.length_squared() < 0.1: rear = Vector3.BACK
 	if _ready and anchor.distance_to(_last_anchor) > 12.0:
 		reset()
@@ -107,12 +111,23 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 
 
 func _contact_up(rider: CharacterBody3D) -> Vector3:
-	if "transition_active" in rider and bool(rider.get("transition_active")) \
-			and "transition_normal" in rider:
-		var value: Variant = rider.get("transition_normal")
-		if value is Vector3 and value.is_finite() and value.length_squared() > 0.1:
+	# The collider is aligned to curved support in physics and upright elsewhere.
+	# Its displayed axis also blends across a transition exit, instead of popping
+	# when the current physics-state Boolean changes ahead of the rendered body.
+	var collision := rider.get_node_or_null("BodyCollision") as Node3D
+	if is_instance_valid(collision):
+		var value := _follow_transform(collision).basis.y
+		if value.is_finite() and value.length_squared() > 0.1:
 			return value.normalized()
 	return Vector3.UP
+
+
+func _follow_transform(node: Node3D) -> Transform3D:
+	# A reset can happen after this render frame's native interpolation cache was
+	# prepared. Use the new transform once, then resume displayed-frame tracking.
+	if _ready and not Engine.is_in_physics_frame() and node.is_physics_interpolated_and_enabled():
+		return node.get_global_transform_interpolated()
+	return node.global_transform
 
 
 func _direction_sign(velocity: Vector3, facing_rear: Vector3, delta: float) -> float:

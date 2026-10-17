@@ -1,0 +1,21 @@
+# ADR-016 — Current-map rendering and frame consistency
+
+- Date: 17 October 2026
+- Status: Implementation under verification; final receipts in STATUS.
+- Scope: Existing M06-004/M01-005/M05-001/M06-007 and release checks. No map expansion, paid dependency or unattended work.
+
+The owner reports persistent stuttering and prioritizes performance. A fresh source-stable six-view baseline measures 1,930 median Exchange draws and 1,617 Barras draws at 1280×800 on Linux software rendering. Those are current workload observations, not Apple M5 timings. Camera FOV alone cannot resolve repeated submission, pixel shading, per-frame CPU work or the mismatch between physics and rendered motion. Keep current gameplay framing while reducing avoidable work.
+
+Use explicit static author records for opaque architectural MultiMeshes. Finalize after all world dressing and parent/threshold changes. Share only identical mesh/material/full render state in actual instance-position cells, preserving transforms/channels and all physics. Require a strict per-family batch-count saving. Measure 32 m/64 m candidates in eight unchanged world-only views, validating authored and live renderer records after upload warmup with consuming tolerant multiset checks. Integer-quantized hash identity is diagnostic, not the geometry-preservation gate.
+
+Create occluders only inset inside explicitly registered closed opaque facade boxes. Replaced/hidden originals, transparent walls, porticos, aisles, canopies and bridges cannot become blockers. Compare native CPU occlusion separately; keep it disabled unless the scene shows a useful benefit. Gameplay/collision stays active outside the view; no per-district load/unload triggers or traversal-time rebatching are introduced.
+
+Cache event-derived goal/unlock snapshots using a public exact presentation revision and retain defensive ownership. Avoid unchanged HUD/settings copies, prompt formatting and text layout. Do not throttle balance feedback or authoritative physics. The measured microbenchmark saves about 0.18–0.23 ms per refresh on this host; it cannot alone certify a frame-rate improvement.
+
+Enable native physics interpolation for the Skater and its physics-driven poses. Main and the per-render world-space camera opt out. Chase follows the displayed interpolated rider and support axis, while collision/camera queries retain real physics space. Restart/recovery clear histories, with a first-update fallback for Godot's same-frame cache. Controls, forces, scoring and physical trajectories remain unchanged. This addresses stepping between render frames; shader/CPU/GPU stalls need separate evidence.
+
+Add saved Performance/Balanced/High choices without changing save version or existing progress. Balanced retains native 3D scale, 220 m far plane, 2× MSAA and 45 m shadows. High retains the previous 75 m shadows. Performance uses 0.75 3D scale, 150 m far plane, 30 m shadows and no MSAA; native UI resolution and all simulation remain. The short minimum clear camera arm permits a 0.20 m near plane instead of 0.08 m, improving depth precision for layered facades without changing FOV or follow distance. Its practical flicker benefit needs Mac motion review.
+
+Add a bounded native-render moving diagnostic with mapped controls, no per-tick pose/velocity correction, monotonic post-draw CSV, CPU/physics/submission counters, progress gates and source/artifact hashes. Fixed-clock screenshots remain presentation evidence, not performance measurements. Required ordinary regressions, cold-source launch, actual UI/chase images and matched after timing/counters precede completion. Keep physical Mac/DualSense feel, ten-minute 1080p p50/p95/p99, final art and unsigned export acceptance explicit.
+
+Commit/push completed tasks and recoverable source checkpoints throughout the session. Preserve all 75 full backlog records, ten goals, three side acts and exact resume steps.
