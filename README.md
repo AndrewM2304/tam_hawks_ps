@@ -18,7 +18,7 @@ Six flips, five held grabs, Manual/Nose Manual and four lip poses now have disti
 
 On macOS, source play uses the official editor; terminal scripts accept `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot`. Standalone macOS packages are unsigned universal test builds, with launch and Apple Silicon performance still unverified. No paid signing is required for development.
 
-Settings includes a saved **Graphics** choice: **Performance** uses 75% 3D resolution, 150m view distance, 30m shadows and no MSAA; **Balanced** defaults to native 3D resolution, 220m view distance, 45m shadows and 2× MSAA; **High** extends shadows to 75m at the same native resolution, view distance and anti-aliasing. HUD and menus stay native. These choices change rendering budgets while retaining the same chase framing and active connected-map gameplay. The [performance guide](docs/testing/PERFORMANCE.md) explains measurement; target-Mac frame-rate acceptance remains open.
+Settings includes a saved **Graphics** choice: **Performance** uses 75% 3D resolution, 220m view distance, 30m shadows and no MSAA; **Balanced** defaults to native 3D resolution, 220m view distance, 45m shadows and 2× MSAA; **High** extends shadows to 75m at the same native resolution, view distance and anti-aliasing. HUD and menus stay native. These choices change rendering budgets while retaining the same chase framing and active connected-map gameplay. The [performance guide](docs/testing/PERFORMANCE.md) explains measurement; target-Mac frame-rate acceptance remains open.
 
 ## Visual direction and Glasgow
 

@@ -1,5 +1,7 @@
 # Rendering efficiency review — 17 October 2026
 
+**Historical resource-sharing review.** The later current-map pass now also ships selected 64 m architectural batching, 30/45/75 m graphics-profile shadow ranges, HUD caching and displayed-motion interpolation. Native occlusion and tree partitioning remain off. Current source-bound counters, rejected candidates and completed timings belong in [PERFORMANCE-HARDENING](../testing/PERFORMANCE-HARDENING.md) and [after/control/moving evidence](../testing/performance-after-20261017/README.md); the counts/defaults below describe this earlier source.
+
 Owner direction: harden the current map, raise fidelity and investigate rendering only the visible/current area. No new areas, paid services, asset purchases or renderer migration are required by this review.
 
 ## What the engine already does

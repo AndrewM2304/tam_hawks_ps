@@ -63,6 +63,9 @@ The current slice also stops disabled/braked riders on slopes, admits reverse ma
 
 ## Existing M06-004 — material submissions, LOD and target performance
 
+**Completed first optimization slice:** the 64 m compatible architecture merge, HUD cache, displayed-rider/chase interpolation, saved graphics budgets and actual source-bound after/control/moving measurements are now preserved in PERFORMANCE-HARDENING/STATUS. Do not recreate that implementation or enable rejected native occlusion/tree partitions. Continue from secondary-detail HLOD/material sharing and target-Mac evidence; final performance acceptance stays open.
+
+
 - **Owner / priority:** A05 rendering + A09 + owner hardware, P0.
 - **Dependencies:** current static mesh-sharing baseline and one proof asset.
 - **First edit:** audit cross-parent opaque facade batches using actual transformed geometry bounds, material/layer/shadow state and movement ownership. The research found an approximate upper bound of 414 mergeable submissions; this is not an implemented or certified saving. Improve authored modular meshes and shared atlases before global draw-distance cuts.

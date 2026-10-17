@@ -43,7 +43,7 @@ Open **Settings** and select **Graphics** to cycle through the saved presets. Tr
 | Balanced | Native | 220m | 45m | 2× MSAA |
 | High | Native | 220m | 75m | 2× MSAA |
 
-Menus and HUD stay at native resolution. Presets keep the same chase framing, field of view and controls; the connected map's collisions, tricks and challenges remain active. Performance reduces distant rendering rather than unloading gameplay areas. See [performance testing](testing/PERFORMANCE.md) for measurement instructions and the limits of current evidence.
+Menus and HUD stay at native resolution. Presets keep the same chase framing, field of view and controls; the connected map's collisions, tricks and challenges remain active. Performance reduces 3D resolution, anti-aliasing and shadow cost while retaining the same skyline range. See [performance testing](testing/PERFORMANCE.md) for measurement instructions and the limits of current evidence.
 
 ## Build a line
 
