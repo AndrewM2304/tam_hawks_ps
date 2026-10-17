@@ -2,7 +2,7 @@
 
 Working title: **Tam Jaws Pro Skater**. Baseline date: 17 October 2026. This is the durable local source of task truth; these entries are not claims that GitHub issues have been published. Latest implementation and command evidence is in [STATUS](../STATUS.md). Product scope maps through [requirements](../product/requirements.md).
 
-There are **48 tickets** across eight dependency-based milestones. M00–M03 follow the supplied document. Its text stops after M03; **M04–M07 are a proposed continuation derived from the document's complete Release 1 scope**, not supplied missing text. Nothing below implies unattended development or paid work.
+There are **51 tickets** across eight dependency-based milestones. M00–M03 follow the supplied document. Its text stops after M03; **M04–M07 are a proposed continuation derived from the document's complete Release 1 scope**, not supplied missing text. Nothing below implies unattended development or paid work.
 
 ## How to use this backlog
 
@@ -28,7 +28,7 @@ There are **48 tickets** across eight dependency-based milestones. M00–M03 fol
 
 ## Current acceptance boundary
 
-M00 foundation is complete: pinned engine reuse, source startup, 94 automated assertions, a deliberate harness-failure probe, three rendered captures and durable documentation are verified in STATUS. M01-001–006 are implemented and in QE review: automated checks pass; physical input and human feel/camera checks remain with M01-007. M01 cannot be closed without the owner's physical DualSense/target-Mac playtest. M02–M07 remain planned; a basic aerial scoring loop does not complete grinds, manuals, reverts or career progression.
+M00 foundation is complete: pinned engine reuse, source startup, 94 automated assertions, a deliberate harness-failure probe, three rendered captures and durable documentation are verified in STATUS. M01-001–006 are implemented and in QE review: automated checks pass; physical input and human feel/camera checks remain with M01-007. M01 cannot be closed without the owner's physical DualSense/target-Mac playtest. M02 research and rail-geometry preparation are complete; playable M02 mechanics and M03–M07 remain planned; a basic aerial scoring loop does not complete grinds, manuals, reverts or career progression.
 
 ## M00 — Project foundation
 
@@ -142,6 +142,14 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 - **Acceptance criteria:** Owner plays the prototype on the target Mac with a real DualSense and records feel feedback; A09 verifies core loop and identifies regressions; material responsiveness/landing/camera issues are fixed and replayed.
 - **Test strategy / evidence:** Follow docs/testing/STRATEGY.md M01 checklist; record device/connection/macOS/build and observations. Blocker: physical target hardware and owner feedback; A01 coordinates. Linux tests cannot close this ticket.
 
+### M01-008 — Measure ramp takeoff momentum before changing air control
+
+- **Owner:** A04 / A09
+- **Priority:** P1 · **Milestone:** M01 · **Status:** Ready
+- **Dependencies:** M01-003 implementation; current baseline is available for measurement
+- **Acceptance criteria:** Reproduce or disprove the code-review risk that full surface speed is reapplied as horizontal speed after slope departure; record outgoing/in-air velocity for uphill, downhill, flat and collided takeoffs. If confirmed, preserve intended momentum while retaining bounded arcade steering and existing jump feel; document intentional boosts separately.
+- **Test strategy / evidence:** Add deterministic slope-lip velocity assertions at fixed physics steps and compare requested/real velocity; run existing 136-check suite and representative rendered/manual routes if behavior changes. The research finding is currently unmeasured, not a confirmed failing gameplay test. Source: docs/research/SKATING_REUSE.md.
+
 ## M02 — Complete trick and combo system
 
 **Source:** Supplied roadmap. **Exit gate:** Every core trick type works, continuous combos are understandable and satisfying, exploit checks pass, and the owner accepts controller combo flow.
@@ -150,16 +158,16 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 
 - **Owner:** A04 / A02
 - **Priority:** P0 · **Milestone:** M02 · **Status:** Planned
-- **Dependencies:** M00-003, M01-004
-- **Acceptance criteria:** Document states and permitted transitions for air, grind, manual, revert and bail; define trick IDs, base values and repetition rules; agree final input combinations and timeout handling in an ADR.
+- **Dependencies:** M00-003, M01-004, M02-009
+- **Acceptance criteria:** Use the inspected upstream state/input and scoring references to decide adaptation boundaries; document states and permitted transitions for air, grind, manual, revert and bail; define trick IDs, base values and repetition rules; agree final input combinations and timeout handling in an ADR.
 - **Test strategy / evidence:** Review a transition/edge-case table with A08/A09; test trick data validation, unknown IDs and illegal transitions.
 
 ### M02-002 — Implement rail acquisition, travel, release and balance
 
 - **Owner:** A04
 - **Priority:** P0 · **Milestone:** M02 · **Status:** Planned
-- **Dependencies:** M02-001, M01-003
-- **Acceptance criteria:** Authored rail metadata supports forgiving but bounded snap; speed/direction persist along rails; jump release and end release are reliable; balance risk can bail; unrelated ledges do not award rail points.
+- **Dependencies:** M02-001, M01-003, M02-010
+- **Acceptance criteria:** Integrate the adopted GrindLine geometry helper with capture/travel/balance; authored rail metadata supports forgiving but bounded snap; speed/direction persist along rails; jump release and end release are reliable; balance risk can bail; unrelated ledges do not award rail points.
 - **Test strategy / evidence:** Simulate approach angle/speed bounds, adjacent rails, reverse travel, ends, jumps, balance extremes and no-rail cases; human DualSense line trial.
 
 ### M02-003 — Implement manuals as combo links
@@ -209,6 +217,22 @@ M00 foundation is complete: pinned engine reuse, source startup, 94 automated as
 - **Dependencies:** M02-002–M02-007, M01-007
 - **Acceptance criteria:** Trick history, multiplier, balance and bail cues remain readable; A09 completes exploit/regression checks; owner can deliberately link air, rail, revert and manual in a repeatable line and accepts feel.
 - **Test strategy / evidence:** Run full scoring/state tests, five-minute controller combo playtest, screenshot/video review and fresh-player readability notes; unresolved feel defects block M02 exit.
+
+### M02-009 — Inspect reusable skating foundations and record source decisions
+
+- **Owner:** A03 / A01
+- **Priority:** P0 · **Milestone:** M02 · **Status:** Done
+- **Dependencies:** M00-003, M00-005
+- **Acceptance criteria:** Inspect actual free source, engine versions and licence files; compare controller, grind, state/input and scoring approaches; identify assets separately; pin sources and record which code is imported versus reference-only. Update operating rules to prefer suitable reuse.
+- **Test strategy / evidence:** Four-project shortlist and official engine XML inspection in docs/research/SKATING_REUSE.md; full imported MIT notice/provenance; ADR-004 and AGENTS reuse rule. Unread blocked articles are labelled as leads.
+
+### M02-010 — Adapt and verify a reusable rail-geometry building block
+
+- **Owner:** A04 / A09
+- **Priority:** P0 · **Milestone:** M02 · **Status:** Done
+- **Dependencies:** M02-009, M00-004
+- **Acceptance criteria:** Adapt the pinned MIT GrindLine helper under Godot4.6.3 with world-space length/closest point/full3D tangents; correctly handle transformed authored points, open endpoints, duplicates and invalid data; retain attribution/modifications. No claim that rail riding is finished until M02-002 acceptance.
+- **Test strategy / evidence:** tests/rail_geometry_tests.gd covers42 assertions. Initial duplicate-bake and endpoint-tangent failures were corrected without weakening checks; the complete suite covers136 assertions. Source/modifications/licence in research and provenance records.
 
 ## M03 — Glasgow grey-box
 

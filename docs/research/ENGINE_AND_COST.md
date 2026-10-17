@@ -12,8 +12,8 @@ Godot's engine is MIT licensed. Official reference entry points are [Godot docum
 
 | Option | Decision | Reason / next evidence |
 |---|---|---|
-| Native GDScript controller | Use | Small auditable dependency surface; own arcade behaviour and test hooks |
-| External skating controller plugin | Defer | Licence/maintenance review and behaviour compatibility would be needed; none imported |
+| Native GDScript controller | Current playable reference | Uses Godot's engine facilities; compare reusable components before further infrastructure work |
+| Existing skating implementations | Selective reuse adopted | [Research](SKATING_REUSE.md) inspected four projects. One MIT rail helper adapted and tested; broader controller/trick patterns inform M02. No entire external game imported. |
 | Procedural primitive art | Use | Original, reproducible and sufficient to evaluate geometry/feel |
 | Purchased/free-download asset packs | Defer | Purchases prohibited; free downloads still require asset-level provenance review |
 | Local synthetic SFX | Planned for M05; current M01 is silent | Reproducible source, no paid API, no copied recordings |
@@ -23,6 +23,8 @@ Godot's engine is MIT licensed. Official reference entry points are [Godot docum
 | Signed/notarized macOS distribution | Investigate in M07 | Do not purchase Apple enrollment; document unsigned local distribution limits if needed |
 
 ## Research tasks still open
+
+The owner explicitly encouraged reuse after the initial prototype. [ADR-004](../architecture/decisions/ADR-004-selective-reuse.md) supersedes any assumption that movement infrastructure must be custom-built. Source/licence inspection and focused adaptation tests now precede substantial new skating systems.
 
 M02 needs experiments for rail snapping, balance, input buffering and landing/revert windows. M05 needs a lawful zero-cost voice solution or an explicit owner decision about the voice requirement. M06 needs a real target Mac and DualSense test record, including wired/Bluetooth behaviour. M07 needs export templates, packaging and first-run checks. Do not let research quietly substitute an easier product for the requested game.
 

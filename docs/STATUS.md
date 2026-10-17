@@ -18,28 +18,36 @@ The source, tests, screenshots and full task records have been pushed to [the Gi
 - Arcade acceleration/braking/steering, buffered/coyote ollies, kickflip, melon-grab pose, scored spins and forgiving landings. Original primitive rider/board and a smoothed obstacle-aware chase camera.
 - Aerial combo preview, unique-trick multiplier, repeat degradation, bank-on-landing, out-of-world recovery, session score and best combo.
 - Two-minute runs with bounded landing grace, free skate, pause/results, fast restart, HUD, and standard gamepad plus keyboard bindings. Training prompts are temporary session hints, not persistent career goals.
-- Dependency-free automated tests, a screenshot runner, local issue/PR templates, product requirements, architecture decisions, provenance register and 48 detailed release tickets.
+- Dependency-free automated tests, a screenshot runner, local issue/PR templates, product requirements, architecture decisions, provenance register and 51 detailed release tickets.
 
 ## Verified evidence
 
 | Check | Observed result |
 |---|---|
 | Engine | Preinstalled `4.6.3.stable.official.7d41c59c4`; no engine artifact downloaded or upstream checksum comparison claimed |
-| `./tools/check.sh` | Clean Godot import; **94 assertions passed, 0 failed**, exit 0 |
-| `./tools/setup.sh` | Same pinned-toolchain/import/test path executes successfully; safe to repeat |
+| `./tools/check.sh` | Clean Godot import; **136 assertions passed, 0 failed** (original 94 plus 42 rail-helper checks), exit 0 |
+| `./tools/setup.sh` | Verified pinned-toolchain/import/test path in initial session (94-check baseline); delegates to the same check script |
 | Physics/integration | Movement, jump/held-button behavior, flip/grab/spin scoring, bank/drop/reset, four ramp surface normals, two actual ramp traversal routes, boundaries, pause, restart, mode switches and timer overtime |
 | Failure detection | Temporary runner invoked the actual assertion helper with a deliberate failure; explicit FAIL and exit 1 observed; probe removed |
 | Rendered evidence | Real 1280×800 software OpenGL captures; reviewed by orchestrator, gameplay/world specialists and independent QE |
-| Local dependencies/services | No plug-ins, third-party game assets, network runtime, credentials, asset purchases or paid API calls |
+| Reused component | Isolated MIT helper verified on 4.6.3; duplicate-bake and endpoint-tangent defects fixed under unchanged QE assertions; full notice retained |
+| Local dependencies/services | One vendored MIT source component; no plug-ins, third-party game assets, network runtime, credentials, asset purchases or paid API calls |
 
 See `docs/testing/QE-REPORT.md` for exact coverage and limitations. Logs in `.local/` are reproducible and ignored. Reviewed screenshots are checked into `docs/testing/screenshots/`. Early overexposed lighting and a clipped speed gauge were fixed during visual review.
+
+## Reuse follow-up completed
+
+The owner encouraged research/reuse instead of building all skating infrastructure ourselves. M02-009/M02-010 are complete: four public projects and official engine APIs were inspected, one self-contained licensed component was adapted, and tests verified it on the pinned engine. `docs/research/SKATING_REUSE.md` has exact source commits, algorithms, limitations and file hashes. ADR-004 and AGENTS establish the reuse preference. The full upstream games were not imported or runtime-certified; no upstream assets or paid tools were used. Candidate Mick West articles were inaccessible and are explicitly recorded as unread leads.
+
+`game/tricks/grind_line.gd` now supplies world-space curve geometry, closest points, full 3D tangents, authoring transforms and malformed-data guards. It is a foundation for M02; playable grinding is not enabled yet. Research also identified a possible ramp takeoff momentum discontinuity in our existing controller. It is not a reproduced failure: M01-008 records the measurement/regression task before any air-control change. The live prototype's movement/UI are unchanged by the helper addition, so earlier rendered captures remain representative.
 
 ## Next concrete work
 
 1. **M01-007 — owner playtest on Mac + DualSense.** Play the central launch ramp and tenement return loop for several runs. Record keyboard vs wired/Bluetooth controller, turn sensitivity, jump timing, landing forgiveness, camera comfort and whether another run is appealing. Use `docs/testing/STRATEGY.md`; record actual results instead of treating synthetic input as hardware proof.
-2. Fix any concrete feel/input/camera defects from that playtest under M01-001–006. The current automated baseline is 94 assertions; add focused regressions where meaningful.
-3. **M02-001 — trick-state/input specification.** Independent specification work can start while hardware feedback is pending. Agree grind acquisition, manual balance, revert window, combo continuation and bail rules before implementing M02-002–006. Do not mark M01 or M02 accepted without their human gates.
-4. Follow the dependency graph in the backlog. Full four-district level is M03; career goals/saves/unlocks M04; art/audio/NPCs M05; accessibility/hardware/performance M06; packaging/release M07. M04–M07 are explicitly proposed continuation because the supplied paste stops at M03.
+2. Fix any concrete feel/input/camera defects from that playtest under M01-001–006. The current automated baseline is 136 assertions; add focused regressions where meaningful.
+3. **M01-008 — takeoff momentum measurement** can proceed independently. Measure uphill/downhill departures and distinguish intended arcade tuning from a velocity discontinuity before fixing a demonstrated issue.
+4. **M02-001 — trick-state/input specification.** Independent specification work can start while hardware feedback is pending. Read the inspected 3deric/Not Pro Skater examples in `docs/research/SKATING_REUSE.md`; agree grind acquisition, manual balance, revert window, combo continuation and bail rules. M02-002 should integrate the adopted helper rather than recreate rail geometry. Do not mark M01 or M02 accepted without their human gates.
+5. Follow the dependency graph in the backlog. Full four-district level is M03; career goals/saves/unlocks M04; art/audio/NPCs M05; accessibility/hardware/performance M06; packaging/release M07. M04–M07 are explicitly proposed continuation because the supplied paste stops at M03.
 
 ## Known limits and outstanding gates
 

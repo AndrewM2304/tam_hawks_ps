@@ -1,6 +1,6 @@
 # Independent QE report — 17 October 2026
 
-Owner: A09 QE. Scope: initial M01 local gameplay slice. Result: **94 assertions passed, 0 failed** using Godot `4.6.3.stable.official.7d41c59c4` on the Linux cloud machine. The tested slice is suitable for the next human playtest; this is not M01 hardware/feel acceptance or a release certification.
+Owner: A09 QE. Scope: initial M01 local gameplay slice plus the isolated M02 rail-helper adaptation. Latest result: **136 assertions passed, 0 failed** using Godot `4.6.3.stable.official.7d41c59c4` on the Linux cloud machine. The tested slice is suitable for the next human playtest; this is not M01 hardware/feel acceptance or a release certification.
 
 ## Reproduce
 
@@ -11,7 +11,7 @@ From the repository root:
 ./tools/check.sh
 ```
 
-The final `tools/check.sh` invocation returned exit code 0 and printed `RESULT: 94 passed, 0 failed`. It imported the project successfully, ran `tests/run_tests.gd`, and checked both logs for engine/script errors. Generated evidence is `.local/import.log` and `.local/tests.log`; these files are intentionally ignored and can be recreated. `tools/run.sh` supplies writable XDG directories. No external testing framework, paid service, hosted CI or downloaded test dependency is involved.
+The final `tools/check.sh` invocation returned exit code 0 and printed `RESULT: 136 passed, 0 failed`. It imported the project successfully, ran `tests/run_tests.gd`, and checked both logs for engine/script errors. Generated evidence is `.local/import.log` and `.local/tests.log`; these files are intentionally ignored and can be recreated. `tools/run.sh` supplies writable XDG directories. No external testing framework, paid service, hosted CI or downloaded test dependency is involved.
 
 The standalone runner exits 1 when an assertion fails, uses deferred initialization, and reports explicit counts. It instantiates the production main script, uses real physics frames, and sends action input through the Godot input system. UI routing checks inject key and standard gamepad button events. These are synthetic inputs, not evidence of a connected physical device.
 
@@ -32,6 +32,14 @@ The standalone runner exits 1 when an assertion fails, uses deferred initializat
 | Event routing | Escape pauses/resumes; synthetic standard Options button pauses; R restarts directly from pause |
 
 The runner intentionally checks outcomes, not only whether methods return successfully. Route tests inspect achieved height, final position and grounded state. Trick tests observe real player signals and banked production scores.
+
+## Reuse follow-up: isolated rail helper
+
+The original gameplay baseline had 94 assertions. `tests/rail_geometry_tests.gd` adds 42 independent assertions for the adapted MIT `GrindLine`: straight/bent/sloped paths, closest points, full 3D tangents, signed reverse travel, endpoint clamps, translated/rotated/nonuniformly-scaled authoring, input snapshots, explicit/inferred kinds, and empty/single/duplicate/non-finite data.
+
+The first focused run reported **40 passed, 2 failed**, with Godot duplicate-geometry errors. The two issues were an out-of-range bent-rail tangent falling back to the endpoint chord, and duplicate points reaching the engine bake/sample path. Production now clamps the tangent distance before finite-difference sampling and removes consecutive duplicate vertices before baking. The assertions were not weakened. Focused rerun: **42 passed, 0 failed**. Final `tools/check.sh`: **136 passed, 0 failed**, exit 0; no scanned engine/script errors.
+
+A09 independently reviewed the fixes. This verifies the isolated helper under Godot 4.6.3, not the entire upstream 4.7.2 game or complete grinding gameplay. Source, licence, changes and limits are in `docs/research/SKATING_REUSE.md`. The integration adds no active player/world/UI behavior; earlier rendered captures remain the visual evidence for the playable prototype.
 
 ## Defects and limits
 
@@ -59,4 +67,4 @@ Source captures were `.local/prototype.png`, `.local/air-tricks.png` and `.local
 
 ## Next QE session
 
-Read `docs/STATUS.md` and the earliest ready QE ticket in `docs/planning/BACKLOG.md`, then run `./tools/check.sh`. Preserve the separation between local automated evidence and the human/platform gates. For a new regression, record exact inputs, starting position, observed/expected result and affected build before changing production code. Keep the 94-check baseline unless an intentional behavior change makes a specific assertion obsolete; document the reason for any replacement.
+Read `docs/STATUS.md` and the earliest ready QE ticket in `docs/planning/BACKLOG.md`, then run `./tools/check.sh`. Preserve the separation between local automated evidence and the human/platform gates. For a new regression, record exact inputs, starting position, observed/expected result and affected build before changing production code. Keep the 136-check baseline unless an intentional behavior change makes a specific assertion obsolete; document the reason for any replacement.

@@ -2,6 +2,8 @@
 
 Status: Accepted for M00/M01. Date: 17 October 2026. Owner: A01.
 
+Follow-up: [ADR-004](ADR-004-selective-reuse.md) records the owner's direction to prefer inspected reusable components. This initial prototype choice is not a restriction on third-party reuse.
+
 ## Context
 
 The owner's plan specifies Godot 4.x, arcade skating and a macOS/Apple Silicon target. The repository is empty, and responsiveness must be assessed before investing in a large world or polished assets.

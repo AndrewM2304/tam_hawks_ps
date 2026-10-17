@@ -7,13 +7,13 @@ The supplied plan is the source of product requirements; [vision](vision.md) sta
 | ID | Requirement and acceptance intent | Implementing tickets | Acceptance evidence | State |
 |---|---|---|---|---|
 | R01 | Original single-player arcade 3D skating game; responsive and forgiving rather than simulation physics | M01-002–M01-007, M02-008 | Movement tests plus owner controller feel review | Prototype / Gate |
-| R02 | Godot 4.x implementation, pinned repeatable toolchain and maintainable system boundaries | M00-002–M00-004 | Engine version, import/start/test command and interface review | Prototype |
+| R02 | Godot 4.x implementation, pinned repeatable toolchain and maintainable system boundaries | M00-002–M00-004, M02-009–M02-010 | Engine version, import/start/test command and interface review | Prototype |
 | R03 | macOS standalone app with Apple Silicon as primary target | M06-005, M07-003 | Real exported app launch, offline play and save persistence on Mac | Planned / Gate |
 | R04 | Target 60 fps at 1080p on a declared Apple Silicon baseline | M06-004, M06-006 | Representative ten-minute route, frame-time report and hardware details | Planned / Gate |
 | R05 | DualSense-first controls and complete keyboard fallback | M01-001, M01-007, M06-001 | Action tests, physical wired/Bluetooth controller session, keyboard navigation | Prototype / Gate |
 | R06 | Ollie, flip tricks and grabs | M01-003, M01-004, M02-001, M05-002 | Eligibility/edge tests, original visible animation, controller timing review | Prototype |
 | R07 | Spins with consistent rotation awards | M01-004, M02-006 | Rotation threshold/direction tests and readable landing feedback | Prototype / Planned |
-| R08 | Grinds, manuals and reverts with forgiving deliberate transitions | M02-002–M02-004 | State/window/balance tests and continuous controller line | Planned |
+| R08 | Grinds, manuals and reverts with forgiving deliberate transitions | M02-002–M02-004, M02-010 | State/window/balance tests and continuous controller line | Planned |
 | R09 | Combo scoring, multipliers, repeated-trick degradation and bail loss | M01-006, M02-005, M02-008 | Deterministic score sequences, exploit checks and owner combo flow review | Prototype / Planned |
 | R10 | Special tricks and named gaps | M02-006, M02-007, M03-005 | Special-meter tests, gap traversal tests and authored world routes | Planned |
 | R11 | Two-minute career runs and free skate | M01-006, M04-001 | Timer/pause/restart/timeout/mode integration tests and complete mode play | Prototype / Planned |
@@ -32,6 +32,8 @@ The supplied plan is the source of product requirements; [vision](vision.md) sta
 | R24 | Full local tickets, durable decisions and continuation after credits end | M00-001, M00-006, M07-004 | Complete backlog fields, source preservation and actionable STATUS/resume record | In progress |
 | R25 | Zero additional spend: no purchases, paid APIs, billing, hosted compute or unattended loops | M00-005; applies to every ticket | Tool/dependency/workflow review; no paid service provisioned | Required throughout |
 | R26 | Independent QE and evidence-based milestone/release decisions | M01-007, M02-008, M03-005, M04-006, M06-006, M07-001, M07-005 | Recorded automated results, real screenshots and human/hardware gates | Required throughout |
+
+The owner also explicitly authorizes free compatible reuse. Inspect existing implementations before writing substantial new generic systems; follow ADR-004 and the source/asset provenance register.
 
 ## Explicit exclusions
 

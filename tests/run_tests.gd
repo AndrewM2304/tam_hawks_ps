@@ -3,6 +3,7 @@ extends SceneTree
 
 const SCORE_SCRIPT = preload("res://game/scoring/score_session.gd")
 const MAIN_SCRIPT = preload("res://game/main.gd")
+const RAIL_GEOMETRY_TESTS = preload("res://tests/rail_geometry_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
@@ -22,6 +23,7 @@ func _initialize() -> void:
 func _run() -> void:
 	print("Tam Jaws Pro Skater — independent QE checks")
 	_test_score_session()
+	RAIL_GEOMETRY_TESTS.run(_check)
 	game = MAIN_SCRIPT.new()
 	root.add_child(game)
 	await _physics_frames(35)

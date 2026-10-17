@@ -7,6 +7,7 @@ Read `docs/STATUS.md`, `docs/planning/BACKLOG.md`, and `docs/architecture/interf
 - Godot 4.6.3, GDScript, single-player, macOS/Apple Silicon target, DualSense first and keyboard fallback. The Linux development machine cannot certify macOS, physical controllers, or Apple Silicon performance.
 - Build original content. No copied franchise branding, music, voices, layouts, models, or animations. Record third-party assets and dependencies before use.
 - Keep the skating-first roadmap intact. Scope changes belong in an ADR and material creative/hardware changes require the user.
+- Prefer built-in Godot systems and suitable existing open-source components before writing substantial new movement, trick, camera or tooling infrastructure. The owner explicitly authorizes free, compatible reuse and adaptation. Read `docs/research/SKATING_REUSE.md` and ADR-004; inspect actual source/licences, pin revisions, retain notices and test adaptations. Review code and asset permissions separately; a publicly visible repo alone is not a reuse licence.
 
 ## Coordination
 - Work on a feature branch, never directly on `main`. Cloud tasks are already isolated: use the existing checkout; do not create Git worktrees unless the user explicitly requests them. Parallel agents must own disjoint files and agree shared interfaces first.

@@ -4,7 +4,7 @@ An original arcade skateboarding game in a fictionalised Glasgow. The working ti
 
 **Current stage: M01 skating prototype in progress.** This is not the complete game. The current implementation targets a procedural Glasgow-inspired square, basic skating and aerial tricks, a camera, run scoring and a restartable session. Grinds, manuals, reverts, specials, a complete four-district world, goals and persistent progression remain release work. [Current status](docs/STATUS.md) records exactly what has been implemented and tested.
 
-The first playable slice passes **94 automated checks** and has [reviewed gameplay captures](docs/testing/screenshots/air-tricks.png). Physical DualSense/Mac playtesting is the next acceptance gate. The [QE report](docs/testing/QE-REPORT.md) records the tested behavior and limitations.
+The first playable slice passes **136 automated checks** and has [reviewed gameplay captures](docs/testing/screenshots/air-tricks.png). Physical DualSense/Mac playtesting is the next acceptance gate. The [QE report](docs/testing/QE-REPORT.md) records the tested behavior and limitations.
 
 ## Start here
 
@@ -32,9 +32,13 @@ The cloud Linux machine is useful for development and automated tests. A rendere
 
 The controller layout is implemented through Godot's standard gamepad mapping and needs testing on a real DualSense. Final grind/manual/revert controls will be specified in M02 and verified with the user.
 
+## Reuse and implementation research
+
+We use Godot’s built-in engine facilities and prefer suitable existing components over rebuilding generic systems. [The inspected source shortlist](docs/research/SKATING_REUSE.md) includes GodotSkate and Not Pro Skater. An MIT rail-geometry helper is now adapted and tested; playable grinds remain M02 work. Attribution and the complete licence are retained.
+
 ## Development and continuity
 
-[The backlog](docs/planning/BACKLOG.md) has 48 local tickets covering the full first release. Every ticket includes ownership, dependencies, acceptance criteria and validation. [Requirements](docs/product/requirements.md) map the supplied vision to those tickets; [the design](docs/product/game-design.md) describes the intended rules. The original pasted plan is preserved in [original-plan.md](docs/product/original-plan.md).
+[The backlog](docs/planning/BACKLOG.md) has 51 local tickets covering the full first release. Every ticket includes ownership, dependencies, acceptance criteria and validation. [Requirements](docs/product/requirements.md) map the supplied vision to those tickets; [the design](docs/product/game-design.md) describes the intended rules. The original pasted plan is preserved in [original-plan.md](docs/product/original-plan.md).
 
 Keep work on a feature branch in this existing checkout. Cloud tasks already have isolated environments; do not create extra Git worktrees unless explicitly requested. Before ending a session, update the status document and ticket evidence so another session can continue without chat history. The [resume guide](docs/planning/RESUME.md) gives the sequence.
 
