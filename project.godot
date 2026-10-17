@@ -1,0 +1,25 @@
+; Godot 4.6.3 — original arcade skating prototype.
+config_version=5
+
+[application]
+config/name="Tam Jaws Pro Skater"
+run/main_scene="res://game/main.tscn"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+config/description="Two minutes. One square. Pure Glasgow."
+
+[display]
+window/size/viewport_width=1440
+window/size/viewport_height=900
+window/size/window_width_override=1280
+window/size/window_height_override=800
+window/stretch/mode="canvas_items"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+environment/defaults/default_clear_color=Color(0.55, 0.66, 0.69, 1)
+
+[physics]
+common/physics_ticks_per_second=60
+3d/default_gravity=24.0
