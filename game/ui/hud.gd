@@ -84,6 +84,8 @@ var _display_controller_active := false
 var _score_fit_text := ""
 var _score_fit_width := -1.0
 var _feedback_layout_texts: Array[String] = []
+var _layout_visibility_revision := 0
+var _layout_visibility_pending := false
 
 
 func _ready() -> void:
@@ -575,6 +577,7 @@ func _build_settings(content: VBoxContainer) -> void:
 	_toggle(content, "Show captions", "captions", true)
 	_toggle(content, "Reduce motion & camera shake", "reduced_motion", false)
 	var quality := _button(content, "", func(): pass)
+	quality.set_meta("focus_token", "setting:graphics_quality")
 	var update_quality := func(): quality.text = "GRAPHICS: " + GraphicsQuality.LABELS[GraphicsQuality.normalized(_settings.get("graphics_quality", "balanced"))]
 	update_quality.call()
 	quality.pressed.connect(func():
@@ -794,6 +797,49 @@ func _relayout(force: bool = false) -> void:
 		_dialog.position = (extent - Vector2(dialog_width, dialog_height)) * 0.5
 		_dialog.size = Vector2(dialog_width, dialog_height)
 	_layout_feedback_stack(true)
+	_layout_visibility_revision += 1
+	_queue_focused_visibility()
+
+
+func _queue_focused_visibility() -> void:
+	if _layout_visibility_pending or _page.is_empty() or not is_inside_tree() \
+			or is_queued_for_deletion() or not is_instance_valid(_scroll): return
+	_layout_visibility_pending = true
+	get_tree().process_frame.connect(_settle_focused_visibility.bind(
+		_page_revision, _layout_visibility_revision, _scroll.get_instance_id(), 1), CONNECT_ONE_SHOT)
+
+
+func _settle_focused_visibility(page_revision: int, layout_revision: int, scroll_instance_id: int, remaining_frames: int) -> void:
+	# follow_focus reacts to focus changes. A resize can clip an already focused
+	# child, so let wrapping/container sorts settle before revealing it again.
+	if not is_inside_tree() or is_queued_for_deletion():
+		_layout_visibility_pending = false
+		return
+	if remaining_frames > 0:
+		# One-shot connections are disconnected with this HUD on teardown; there
+		# is no suspended coroutine retaining arguments after a menu is freed.
+		get_tree().process_frame.connect(_settle_focused_visibility.bind(
+			page_revision, layout_revision, scroll_instance_id, remaining_frames - 1), CONNECT_ONE_SHOT)
+		return
+	_layout_visibility_pending = false
+	if page_revision != _page_revision or layout_revision != _layout_visibility_revision:
+		_queue_focused_visibility()
+		return
+	var scroll := instance_from_id(scroll_instance_id) as ScrollContainer
+	if not is_instance_valid(scroll) or scroll != _scroll or not scroll.is_inside_tree(): return
+	var focused := get_viewport().gui_get_focus_owner()
+	if is_instance_valid(focused) and scroll.is_ancestor_of(focused) and focused.is_visible_in_tree():
+		scroll.ensure_control_visible(focused)
+		# Native scrolling stores integer offsets. With a scaled HUD it can round
+		# the last pixel down, leaving the focus border clipped at the bottom.
+		var local_rect := scroll.get_global_transform().affine_inverse() * focused.get_global_rect()
+		var height := scroll.size.y
+		var horizontal_bar := scroll.get_h_scroll_bar()
+		if horizontal_bar.is_visible_in_tree(): height -= horizontal_bar.size.y
+		if local_rect.end.y > height:
+			scroll.scroll_vertical += ceili(local_rect.end.y - height)
+		elif local_rect.position.y < 0.0:
+			scroll.scroll_vertical -= ceili(-local_rect.position.y)
 
 
 func _layout_feedback_stack(force: bool = false) -> void:

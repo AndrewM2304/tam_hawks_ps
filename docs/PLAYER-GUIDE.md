@@ -33,6 +33,18 @@ Release Push to coast and slow naturally; hold Brake for a quicker stop. Ground 
 
 Back returns to the menu you came from. Interaction prompts use your current keyboard or controller binding. Goal updates remain visible alongside an active combo.
 
+## Graphics settings
+
+Open **Settings** and select **Graphics** to cycle through the saved presets. Try Performance if play stutters; Balanced is the default.
+
+| Preset | 3D render scale | View distance | Shadow distance | Anti-aliasing |
+|---|---|---|---|---|
+| Performance | 75% | 150m | 30m | Off |
+| Balanced | Native | 220m | 45m | 2× MSAA |
+| High | Native | 220m | 75m | 2× MSAA |
+
+Menus and HUD stay at native resolution. Presets keep the same chase framing, field of view and controls; the connected map's collisions, tricks and challenges remain active. Performance reduces distant rendering rather than unloading gameplay areas. See [performance testing](testing/PERFORMANCE.md) for measurement instructions and the limits of current evidence.
+
 ## Build a line
 
 Push toward a ramp, ollie, then add a flip, grab or spin. Clean landing leaves a short 0.35-second link window: start another ollie, grind or manual to continue the combo; rolling normally lets it bank. A revert adds a trick without extending that window. A bail drops unbanked points. Repeating one trick reduces its value, while different tricks build the multiplier.

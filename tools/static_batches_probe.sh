@@ -3,7 +3,7 @@ set -euo pipefail
 TASK_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$TASK_ROOT"
 TASK_CELL="${1:-64}"
-[[ "$TASK_CELL" == 32 || "$TASK_CELL" == 64 ]] || { echo 'Usage: tools/static_batches_probe.sh [32|64]' >&2; exit 2; }
+[[ "$TASK_CELL" == 32 || "$TASK_CELL" == 48 || "$TASK_CELL" == 64 ]] || { echo 'Usage: tools/static_batches_probe.sh [32|48|64]' >&2; exit 2; }
 mkdir -p .local
 TASK_OUTPUT="$(mktemp -d "$TASK_ROOT/.local/static-batches-${TASK_CELL}-XXXXXX")"
 TASK_DISPLAY_PID=""

@@ -1,0 +1,40 @@
+{
+  "32": {
+    "source_directory": ".local/static-batches-32-wQEl5x",
+    "retained_images": [],
+    "unretained_image_count": 24,
+    "all_original_artifact_hashes": "artifacts.json",
+    "comparison_valid": true
+  },
+  "48": {
+    "source_directory": ".local/static-batches-48-87vPrj",
+    "retained_images": [],
+    "unretained_image_count": 24,
+    "all_original_artifact_hashes": "artifacts.json",
+    "comparison_valid": true
+  },
+  "64": {
+    "source_directory": ".local/static-batches-64-cwMD3s",
+    "retained_images": [
+      "before-royal_exchange.png",
+      "occlusion-royal_exchange.png",
+      "before-central_station.png",
+      "occlusion-central_station.png",
+      "before-barras.png",
+      "occlusion-barras.png",
+      "before-park_south.png",
+      "occlusion-park_south.png",
+      "batched-royal_exchange.png",
+      "batched-central_station.png",
+      "batched-barras.png",
+      "batched-park_south.png"
+    ],
+    "unretained_image_count": 12,
+    "all_original_artifact_hashes": "artifacts.json",
+    "comparison_valid": true,
+    "visual_disposition": {
+      "batched": "accepted still-view geometry; human temporal review remains",
+      "occlusion": "REJECTED: actual distant wall loss; default off"
+    }
+  }
+}

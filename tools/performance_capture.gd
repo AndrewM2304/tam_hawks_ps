@@ -35,14 +35,27 @@ func _run():
 		await _click(quality)
 		await _frames(4)
 		_check(game.career.settings.graphics_quality==id,"native GUI click selects "+id)
-	root.size=Vector2i(960,540)
-	root.content_scale_size=root.size
-	game.apply_settings({"ui_scale":1.4},false)
-	game._refresh_hud()
+	var size_slider: HSlider=game.hud._find_focus_token(game.hud._dialog,"setting:ui_scale")
+	_check(size_slider!=null,"actual Settings exposes interface-size slider")
+	if size_slider==null: quit(1); return
+	size_slider.grab_focus()
+	await _frames(4)
+	for pressed:bool in [true,false]:
+		var end:=InputEventKey.new()
+		end.keycode=KEY_END
+		end.pressed=pressed
+		Input.parse_input_event(end)
+		Input.flush_buffered_events()
+		await _frames(2)
+	_check(is_equal_approx(game.career.settings.ui_scale,1.4) and is_equal_approx(size_slider.value,1.4),"native slider input selects enlarged UI")
 	await _frames(12)
 	quality.grab_focus()
 	await _frames(8)
-	_check(Rect2(Vector2.ZERO,Vector2(root.size)).encloses(quality.get_global_rect()),"quality control remains visible at small enlarged UI")
+	# Preserve existing focus while the viewport shrinks, matching a window resize.
+	root.size=Vector2i(960,540)
+	root.content_scale_size=root.size
+	await _frames(12)
+	_check(Rect2(Vector2.ZERO,Vector2(root.size)).encloses(quality.get_global_rect()) and game.hud._scroll.get_global_rect().encloses(quality.get_global_rect()),"focused quality control remains inside the resized scroll clip at enlarged UI")
 	await _shot("settings-small-large-ui",{"kind":"actual GUI","ui_scale":1.4})
 	root.size=Vector2i(1280,800)
 	root.content_scale_size=root.size

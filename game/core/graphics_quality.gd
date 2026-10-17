@@ -8,7 +8,8 @@ const PROFILES := {
 	"balanced":{"scale":1.0,"far":220.0,"shadows":45.0,"msaa":Viewport.MSAA_2X},
 	"high":{"scale":1.0,"far":220.0,"shadows":75.0,"msaa":Viewport.MSAA_2X},
 }
-# Enabled only after the independent same-world occlusion comparison accepts it.
+# Native culling currently hides distant facade walls on the reference renderer.
+# Keep the audited candidate for diagnostics; default off until visual parity passes.
 const SOLID_WALL_OCCLUSION := false
 
 
