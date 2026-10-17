@@ -1,6 +1,6 @@
 # Current handoff — 17 October 2026
 
-**Tam Hawks Pro Skater** is a playable Godot 4.6.3 development alpha on branch `bootstrap/m00-m01`. The six-area terrain/adult-rider foundation is committed as `bd12b61`; the nonlinear routes and Glasgow encounter now pass **955 checks, 0 failures**, with corrected source-stable imagery independently reviewed. Final packaging is the only active checkpoint step; the exact runtime/build identity will be recorded below after export. Final realistic graphics, human fun and target-hardware acceptance remain open.
+**Tam Hawks Pro Skater** is a playable Godot 4.6.3 development alpha on branch `bootstrap/m00-m01`. The final checked runtime is committed as **`a30127940eacd4d2fe56d07a34ee1af4bacf95e5`**, following the `bd12b61` terrain/adult-rider foundation. The nonlinear routes and Glasgow encounter pass **955 checks, 0 failures**, with corrected source-stable imagery independently reviewed. Both native packages are rebuilt/audited and normal Linux startup passes; later handoff-only commits preserve that runtime. Final realistic graphics, human fun and target-hardware acceptance remain open.
 
 The owner authorizes ready work without recurring approvals. No purchases, paid APIs, billing, hosted CI, infrastructure or unattended agents. The [feature branch](https://github.com/AndrewM2304/tam_hawks_ps/tree/bootstrap/m00-m01), [75 complete task records](planning/BACKLOG.md), decisions, tests and research preserve continuity. No public release, remote issues or PR were created; the original repo had no `main`/PR base.
 
@@ -35,7 +35,16 @@ The refreshed `/workspace/TamHawks-motion-preview.mp4` is 6,640,769 bytes, SHA-2
 
 ## Native/source downloads
 
-The previous `a99f993` packages and old convenience source ZIP are historical. The next step is to commit this checked runtime, export both platforms, audit packed meshes/voices/textures/notices/architectures/ZIP CRC and run normal Linux startup. Then replace the convenience downloads, archive the final committed source and write their SHA-256 sums. Do not present the old native files as containing the new routes or Mo.
+`./tools/export.sh --prepare` and `./tools/export.sh --skip-check` both completed exit 0. The export uses clean runtime **`a30127940eacd4d2fe56d07a34ee1af4bacf95e5`**, whose unchanged gameplay already passed the suite above. Build: `builds/tam-hawks-20261017T155310Z-a30127940eac/`; 105 package input hashes, fingerprint `5c763454af485ccdabade16e5b0ed3aa4aa664a8e6e1b724aa238c1f3c442602`. Both probes instantiate the main scene and load three voices, four mipmapped 1024px textures and all four head/scalp/hand meshes. Both ZIPs pass CRC, executable architecture/permission and 13-notice/provenance checks. The input fingerprints also match the final world/motion capture inputs where they overlap.
+
+| Download | Bytes | SHA-256 |
+|---|---:|---|
+| `/workspace/TamHawksProSkater-linux.zip` | 32,015,059 | `8e13443bde9d70a897c1814940fa7ed5713011b1496a9415ab7a893af01c1dea` |
+| `/workspace/TamHawksProSkater-macos.zip` | 66,574,593 | `44e780c9d271ea8f21ca127d8009a97767be8f4d2ee7d80bd4e11cfcbba5a81b` |
+
+`./tools/native_smoke.sh /workspace/tam_hawks_ps/builds/tam-hawks-20261017T155310Z-a30127940eac` passed exit 0: normal Linux main scene, isolated profile, headless 120 frames and rendered 1920×1080 30 frames. Both logs are clean; software display V-Sync is the sole warning. This is startup evidence, not a frame-rate, audible-output or Mac test. Durable metadata/resource/startup receipts are in [native-redesign](testing/native-redesign/README.md); [EXPORT](testing/EXPORT.md) contains exact verification and historical diagnostics.
+
+The Mac app is unsigned, unnotarized and not launch-tested on Mac. `/workspace/tam-hawks-prototype-source.zip` contains the final committed source/docs; `/workspace/TamHawks-downloads-SHA256SUMS.txt` records Linux, Mac, source and motion digests. The native package identity above remains the runtime commit even when the source archive includes later handoff-only commits. Ignored artifacts must be regenerated after environment replacement. Earlier `a99f993` packages are historical.
 
 ## Concrete continuation tasks
 
@@ -45,7 +54,7 @@ The previous `a99f993` packages and old convenience source ZIP are historical. T
 4. **M04-008–011:** four specified local prototypes: recoverable foam-cone river stunt, mechanical-cat coping sequence, market parcel line and alternative park lap. Preserve the normal ten-goal/save contract. Human tone, discovery and replay appeal guide later tuning.
 5. **M01-007 / M02-008 / M04-006 / M05:** human Mac keyboard then physical wired/Bluetooth DualSense playtest, camera/turning/balance/link forgiveness, ten-goal discovery/pacing, Mo, sound/mix/caption and local-dialogue review. Automated feasibility and dummy-audio checks cannot close these gates.
 6. **M06-004–006:** launch the unsigned universal app on an actual Mac, verify offline play/save relaunch/controller reconnect, then measure complete moving routes at 1920×1080 on a declared Apple Silicon model. Target 60 fps/16.67 ms; Linux software rendering and binary inspection cannot establish it.
-7. **M07:** finish source-bound packages/handoff now, then resolve actual remaining art/hardware/playtest findings, title/rights/release review and original-content licence before any public distribution. No paid signing or automatic publication.
+7. **M07:** preserve this completed source-bound package/handoff checkpoint, then resolve actual remaining art/hardware/playtest findings, title/rights/release review and original-content licence before any public distribution. No paid signing or automatic publication.
 
 ## Continuity
 

@@ -1,0 +1,42 @@
+{
+  "runtime_commit": "a30127940eacd4d2fe56d07a34ee1af4bacf95e5",
+  "build_directory": "builds/tam-hawks-20261017T155310Z-a30127940eac",
+  "commands": [
+    {
+      "arguments": [
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--quit-after",
+        "120"
+      ],
+      "exit_code": 0,
+      "timeout_seconds": 45,
+      "log": "headless.log"
+    },
+    {
+      "arguments": [
+        "--audio-driver",
+        "Dummy",
+        "--resolution",
+        "1920x1080",
+        "--position",
+        "0,0",
+        "--quit-after",
+        "30"
+      ],
+      "exit_code": 0,
+      "timeout_seconds": 90,
+      "log": "rendered.log"
+    }
+  ],
+  "normal_main_scene": true,
+  "isolated_xdg_profile": true,
+  "renderer": "Compatibility/OpenGL, Mesa llvmpipe software rendering",
+  "log_error_scan": "No SCRIPT ERROR:, ERROR: or Parse Error: in either normal startup log.",
+  "warning": "Dummy display cannot change V-Sync mode.",
+  "target_performance_claim": false,
+  "real_macos_launch_tested": false,
+  "real_controller_tested": false,
+  "verified_at_utc": "2026-10-17T15:54:47.232005+00:00"
+}

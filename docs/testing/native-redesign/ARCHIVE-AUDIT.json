@@ -1,0 +1,60 @@
+{
+  "audit": "Independent read-only QE audit, recorded by integration agent from the completed review.",
+  "runtime_commit": "a30127940eacd4d2fe56d07a34ee1af4bacf95e5",
+  "build_directory": "builds/tam-hawks-20261017T155310Z-a30127940eac",
+  "runtime_source_sha256": "5c763454af485ccdabade16e5b0ed3aa4aa664a8e6e1b724aa238c1f3c442602",
+  "clean_build": true,
+  "all_105_input_hashes_match_commit_and_checkout": true,
+  "zip_crc_pass": true,
+  "metadata_and_pack_report_identity_pass": true,
+  "reviewed_notices_and_provenance_per_archive": 13,
+  "notices_byte_match": true,
+  "executable_permissions": "0755",
+  "pack_sha256": "d5c0ae6d23787ed5faa42a13673659b679d38cfbac746067390f150e6238c049",
+  "pack_probe": {
+    "main_scene_loaded": true,
+    "human_mesh_vertices": {
+      "hair": 425,
+      "head": 4470,
+      "left_hand": 1901,
+      "right_hand": 1901
+    },
+    "human_mesh_surfaces_each": 1,
+    "textures": 4,
+    "texture_dimensions": [
+      1024,
+      1024
+    ],
+    "mipmap_levels": 10,
+    "voice_streams": 3
+  },
+  "archives": {
+    "linux": {
+      "bytes": 32015059,
+      "sha256": "8e13443bde9d70a897c1814940fa7ed5713011b1496a9415ab7a893af01c1dea",
+      "executable_format": "ELF64 x86_64"
+    },
+    "macos": {
+      "bytes": 66574593,
+      "sha256": "44e780c9d271ea8f21ca127d8009a97767be8f4d2ee7d80bd4e11cfcbba5a81b",
+      "executable_format": "Universal Mach-O x86_64 and arm64"
+    }
+  },
+  "capture_identity": {
+    "level_recorded_files": 98,
+    "motion_recorded_files": 97,
+    "build_overlap_each": 94,
+    "all_overlap_hashes_match": true,
+    "evidence_only_tools_match_checkout": true
+  },
+  "source_output_import_and_licence_provenance_hashes_pass": true,
+  "export_resource_error_scan_clean": true,
+  "qe_native_launch_performed": false,
+  "macos_signed": false,
+  "macos_notarized": false,
+  "macos_launch_tested": false,
+  "real_controller_tested": false,
+  "target_performance_claim": false,
+  "audible_listening_claim": false,
+  "recorded_at_utc": "2026-10-17T15:56:17.177852+00:00"
+}

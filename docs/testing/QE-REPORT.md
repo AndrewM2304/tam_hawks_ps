@@ -37,6 +37,6 @@ Full realistic finish remains open: broad core courts and some long approaches, 
 
 ## Native and hardware boundary
 
-Final native packages must be regenerated from a clean checked runtime, with isolated main/voice/texture/four-anatomical-mesh probes, complete notice/provenance copies, ZIP CRC and executable architecture checks. `tools/native_smoke.sh` provides bounded normal Linux startup with isolated profiles. EXPORT records the actual outcome; old a99f993 packages are historical until replaced.
+Final native packages were rebuilt with exit 0 from clean runtime `a30127940eacd4d2fe56d07a34ee1af4bacf95e5`. Both isolated main/voice/texture/four-anatomical-mesh probes, 13 notice/provenance copies, complete ZIP CRC and executable architecture/permission checks pass. `tools/native_smoke.sh` then passed normal Linux headless 120-frame and rendered 1920×1080 30-frame startup with isolated profiles, exit 0 and clean logs. EXPORT and the tracked native-redesign receipts preserve exact identities; old a99f993 packages are historical.
 
 Actual Mac launch, wired/Bluetooth DualSense, offline Mac save relaunch, Apple Silicon frame times, audible listening, Glasgow dialogue review, human line discovery and final owner visual/fun acceptance remain unverified. Local software rendering and automated input do not close those gates. No purchases, paid APIs, hosted CI or public release are involved.

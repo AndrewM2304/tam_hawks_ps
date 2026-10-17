@@ -10,12 +10,11 @@ The owner authorized the six-area terrain/adult-rider redesign, a senior skate-g
 - Final aggregate **955/0**, exit 0; final import clean. Independent route/encounter tests and corrected 21-frame source-stable capture accepted. Updated 222-frame rider preview decoded, with 97 unchanged input hashes.
 - 75 complete backlog task records, ADR-007/008, source/licence provenance, exact route contracts and four explicitly Planned local encounters plus later mechanics prototypes.
 
-## Root-owned remaining checkpoint steps
+## Completed root handoff
 
-1. Commit the checked runtime and documentation on `bootstrap/m00-m01`.
-2. `./tools/export.sh --skip-check` from that clean checkpoint; audit both platforms, packed anatomical meshes/voices/textures, notices, CRC and architectures. No package inputs may change while exporting.
-3. `./tools/native_smoke.sh /absolute/build/directory` for bounded normal Linux headless/rendered startup. Keep Mac/hardware/performance acceptance open.
-4. Record build/source identity and actual results in STATUS/EXPORT/QE/BACKLOG; commit and push. Refresh convenience native ZIPs, final source ZIP, MP4 and external SHA256SUMS. Ignored downloads are not a substitute for committed source.
+Clean runtime `a30127940eacd4d2fe56d07a34ee1af4bacf95e5` is exported to both platforms in `builds/tam-hawks-20261017T155310Z-a30127940eac/`. Exports exit 0; both resource probes, archive CRC/notices/provenance/architecture checks and bounded normal Linux headless/rendered startup pass. Durable receipts and exact identities are in STATUS/EXPORT. Convenience native ZIPs and the refreshed MP4 are replaced; the final committed source ZIP and external checksums accompany the handoff. The authorized feature branch is pushed before ending this session.
+
+No feature edits are left uncommitted at this checkpoint. If later work exists, preserve it and follow the newer Git/status evidence. M07-006/007 remain in QE review for explicitly open evidence dependencies; local export/startup and source preservation are complete, not pending implementation.
 
 After this checkpoint, follow STATUS's concrete continuation tasks. In particular M06-007 retains broad court edges, sparse/repeated frontage, material/landscape joins, horizon and character motion work. Full vert/lip/wallride/skitch/traffic/changing routes and four extra encounters remain Planned, not silently implemented. Human fun, local tone/listening, actual Mac/DualSense and Apple Silicon performance remain open evidence gates.
 
