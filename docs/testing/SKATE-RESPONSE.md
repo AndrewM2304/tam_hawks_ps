@@ -46,7 +46,7 @@ The original `game/player/skate_response.gd` owns only response calculations. `c
 
 `steering_step(input,speed,grounded,delta)` returns a heading increment. Ground steering targets 2.3rad/s at rest and 1.1rad/s at 15m/s, with a 0.10s exponential response; the angle integral makes fixed input/rate results consistent at 30/60/120Hz. Air correction is independently limited to 0.50rad/s. Entering air clears the ground response, and releasing air steering stops that correction immediately. `reset()` clears residual ground turning. The helper has no camera sensitivity argument and never reconstructs movement velocity.
 
-Root integration retains maximum push speed 15m/s, push acceleration 10m/s², brake deceleration 22m/s², the existing 0.75m/s² manual coasting, immediate 8.8m/s ollie, forgiving landing rules and score/link deadlines. It resets the response on player reset or controls being disabled. Collision-adjusted takeoff motion remains authoritative. New slope gravity, rollback, charge/release jumps, strict sideways-landing bails and a full transition/vert state are outside this repair.
+Root integration retains maximum push speed 15m/s, push acceleration 10m/s², brake deceleration 22m/s², immediate 8.8m/s ollie, forgiving landing rules and score/link deadlines. It resets the response on player reset or controls being disabled. Collision-adjusted takeoff motion remains authoritative. Manual coast remains as designed on level ground; speed-dependent resistance now lets forward and reverse roll approach rest without sign changes. Slope response is recorded in the follow-up below. Charge/release jumps, strict sideways-landing bails and a full transition/vert state remain outside this repair.
 
 ## Reference basis and permissions
 
@@ -78,3 +78,11 @@ The ignored probes and measurements are currently `.local/feel-review/baseline.g
 After environment replacement, recover the exact baseline controller with `git show 00da63a29990c0839cf15d4c9a34edc2fc167122:game/player/skater.gd`, then recreate the simple isolated fixture and input durations above. Sample only after each `physics_frame` followed by `process_frame`, so each row reflects completed `move_and_slide`. A current-source comparison must load `res://game/player/skater.gd` with the same fixture and inputs. Preserve initial-only fixture placement; a route driven by direct heading assignments cannot establish steering usability.
 
 No ordinary suite or graphical capture was run by this movement reviewer. Those integrated checks are owned by the root/QE agents, and their exact later-source results belong in STATUS and the QE report. These passing measurements address excessive coasting and oversteering; they do not certify the intended skating feel. Real Mac/controller playtesting and human acceptance remain open.
+
+## Slope response follow-up — 17 October 2026
+
+The owner asked to harden the current game and pause area expansion. `game/player/skater.gd` now projects world-down gravity onto the contacted ground tangent and integrates **0.28 × gravity** along the board's forward axis. The signed street-speed cap is **±15m/s**. Coast resistance is symmetric: reverse rollback slows to zero without unexpectedly changing direction, while mapped push and brake can recover. This is a bounded street hill response; no new terrain or vert/transition state was added. See [ADR-013](../architecture/decisions/ADR-013-slope-responsive-street-skating.md).
+
+The focused response helper now reports **32/0** and the independent takeoff suite **23/0**. The real 20° supported-bank regression begins at `(0, 7.134492, -2.482148)`, then after one second of no input is at `(0, 6.948609, -1.971434)`: **0.511m downhill**, signed speed **−1.020m/s**, still supported. A previously failing reverse Exchange→Barras career line also passed during the first full run after slope response. The final full-suite count is recorded in STATUS/QE after its source-frozen run completes.
+
+This shows that grades now affect travel; it does not prove exact Tony Hawk parity or final controller feel. Human Mac play remains needed to tune uphill carry, rollback, coast and steering together.

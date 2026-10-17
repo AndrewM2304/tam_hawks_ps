@@ -12,6 +12,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	await _roll_off(tree, check, 30.0, "uphill")
 	await _roll_off(tree, check, -30.0, "downhill")
 	await _roll_off(tree, check, 0.0, "flat")
+	await _uphill_rollback(tree, check)
 	await _airborne_wall_contact(tree, check)
 	_release_actions()
 
@@ -107,6 +108,35 @@ static func _airborne_wall_contact(tree: SceneTree, check: Callable) -> void:
 		"takeoff collision: removing the wall cannot resurrect lost airborne momentum")
 	check.call(skater.speed < 0.05,
 		"takeoff collision: public speed reflects the remaining horizontal motion")
+	fixture.queue_free()
+	await tree.process_frame
+	await _frames(tree, 1)
+
+
+static func _uphill_rollback(tree: SceneTree, check: Callable) -> void:
+	var fixture := Node3D.new()
+	fixture.name = "SlopeRollbackFixture"
+	tree.root.add_child(fixture)
+	var angle := deg_to_rad(20.0)
+	var platform := _box(Vector3(12, 0.4, 20), Vector3(0, 6, 0))
+	platform.rotation.x = angle
+	fixture.add_child(platform)
+	var skater = SkaterScript.new()
+	var start_z := -3.0
+	var floor_height := 6.0 + 0.2 / cos(angle) - tan(angle) * start_z
+	skater.spawn_position = Vector3(0, floor_height + 0.7, start_z)
+	fixture.add_child(skater)
+	await _frames(tree, 45)
+	check.call(skater.is_on_floor(), "slope rollback: skater settles on the upper part of a supported bank")
+	skater.speed = 0.0
+	skater.velocity = Vector3.ZERO
+	var start_position: Vector3 = skater.global_position
+	await _frames(tree, 60)
+	var rollback_distance: float = skater.global_position.z - start_position.z
+	check.call(skater.is_on_floor() and skater.speed < -0.5 and rollback_distance > 0.3,
+		"slope rollback: unpowered uphill skater rolls downhill under actual contact gravity")
+	print("TAKEOFF rollback: start=%s end=%s signed_speed=%.3f distance=%.3f" % [
+		start_position, skater.global_position, skater.speed, rollback_distance])
 	fixture.queue_free()
 	await tree.process_frame
 	await _frames(tree, 1)

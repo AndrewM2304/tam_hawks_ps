@@ -229,7 +229,16 @@ varying vec3 world_position;
 void vertex(){world_position=(MODEL_MATRIX*vec4(VERTEX,1.0)).xyz;}
 float hash(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
 float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x),u.y);}
-void fragment(){float patches=noise(world_position.xz*0.16)*0.7+noise(world_position.xz*0.63)*0.3;float grain=noise(world_position.xz*9.0);ALBEDO=mix(vec3(0.18,0.25,0.12),vec3(0.25,0.31,0.15),patches)*mix(0.96,1.04,grain);ROUGHNESS=0.98;}
+void fragment(){
+	// Keep detail broad enough to remain stable across the Mac and GL renderer.
+	// Sub-10cm hash cells shimmer and alias on this large, shallow landscape.
+	vec2 p=world_position.xz;
+	float patches=noise(p*0.12)*0.68+noise(p*0.38)*0.32;
+	float shade=0.96+0.04*sin(dot(p,vec2(0.037,0.051)));
+	ALBEDO=mix(vec3(0.20,0.27,0.14),vec3(0.29,0.35,0.20),patches)*shade;
+	ROUGHNESS=0.98;
+	SPECULAR=0.08;
+}
 """
 	grass.shader = shader
 	Surface.terrain(self, "KelvingroveRollingGround", PARK_LANDSCAPE, 2.5, _park_height, grass)
@@ -451,7 +460,24 @@ func _water() -> void:
 	shader.code = """shader_type spatial;
 varying vec3 world_position;
 void vertex(){world_position=(MODEL_MATRIX*vec4(VERTEX,1.0)).xyz;}
-void fragment(){vec2 p=world_position.xz;float a=sin(p.x*2.7+p.y*1.3+TIME*0.7);float b=sin(p.x*0.8-p.y*3.1-TIME*0.5);float c=sin(p.x*1.7+p.y*4.2+TIME*0.35);float wave=(a+b+c)/3.0;ALBEDO=mix(vec3(0.09,0.16,0.17),vec3(0.13,0.20,0.21),wave*0.5+0.5);ROUGHNESS=0.62;METALLIC=0.02;SPECULAR=0.25;NORMAL_MAP=vec3(0.5+(a+b)*0.012,0.5+(b+c)*0.01,1.0);}
+void fragment(){
+	vec2 p=world_position.xz;
+	float phase_a=dot(p,vec2(0.085,0.031))+TIME*0.31;
+	float phase_b=dot(p,vec2(-0.028,0.13))-TIME*0.46;
+	float phase_c=dot(p,vec2(0.21,-0.17))+TIME*0.22;
+	float wave=0.58*sin(phase_a)+0.32*sin(phase_b)+0.10*sin(phase_c);
+	float tone=clamp(0.5+0.5*wave,0.0,1.0);
+	ALBEDO=mix(vec3(0.075,0.17,0.19),vec3(0.13,0.245,0.26),tone);
+	ROUGHNESS=mix(0.62,0.76,tone);
+	METALLIC=0.0;
+	SPECULAR=0.10;
+	vec2 slope=0.52*cos(phase_a)*vec2(0.085,0.031)
+		+0.29*cos(phase_b)*vec2(-0.028,0.13)
+		+0.10*cos(phase_c)*vec2(0.21,-0.17);
+	vec3 tangent_normal=normalize(vec3(-slope.x*2.2,-slope.y*2.2,1.0));
+	NORMAL_MAP=tangent_normal*0.5+0.5;
+	NORMAL_MAP_DEPTH=0.55;
+}
 """
 	material.shader = shader
 	instance.material_override = material

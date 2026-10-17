@@ -39,6 +39,7 @@ var _combo_status: Label
 var _save_warning: Label
 var _modal_warning: Label
 var _modal_notice: Label
+var _feedback_panel: PanelContainer
 var _goals: Label
 var _challenge: Label
 var _caption: Label
@@ -114,21 +115,21 @@ func _build_hud() -> void:
 	sub.add_theme_constant_override("outline_size", 4)
 	sub.add_theme_color_override("font_outline_color", INK)
 	var timer_card := _card()
-	timer_card.custom_minimum_size = Vector2(148, 90)
+	timer_card.custom_minimum_size = Vector2(148, 96)
 	_top.add_child(timer_card)
 	var timer_box := _vbox(timer_card, 2)
-	_mode = _label(timer_box, "CAREER RUN", 12, MUTED)
+	_mode = _label(timer_box, "CAREER RUN", 15, MUTED)
 	_mode.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_timer = _label(timer_box, "2:00", 36, PAPER)
 	_timer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var score_card := _card()
-	score_card.custom_minimum_size = Vector2(248, 90)
+	score_card.custom_minimum_size = Vector2(248, 96)
 	_top.add_child(score_card)
 	var score_box := _vbox(score_card, 2)
-	_label(score_box, "RUN SCORE", 12, MUTED)
+	_label(score_box, "RUN SCORE", 15, MUTED)
 	_score = _label(score_box, "0", 36, PAPER)
 	_location = _floating_label("ROYAL EXCHANGE SQUARE", 17, PAPER)
-	_goals = _floating_label("0 / 10 GOALS", 14, ACCENT)
+	_goals = _floating_label("0 / 10 GOALS", 16, ACCENT)
 	_goals.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_balance_panel = _card()
 	_hud.add_child(_balance_panel)
@@ -160,15 +161,15 @@ func _build_hud() -> void:
 	_speed_panel = _card()
 	_hud.add_child(_speed_panel)
 	var speed_box := _vbox(_speed_panel, 5)
-	_label(speed_box, "STREET SPEED", 12, MUTED)
+	_label(speed_box, "STREET SPEED", 15, MUTED)
 	_speed = _label(speed_box, "0 km/h", 27, PAPER)
 	_speed_bar = _progress(speed_box, ACCENT)
 	_special_panel = _card()
 	_hud.add_child(_special_panel)
 	var special_box := _vbox(_special_panel, 7)
-	_special_label = _label(special_box, "SPECIAL  /  BUILD A COMBO", 12, MUTED)
+	_special_label = _label(special_box, "SPECIAL  /  BUILD A COMBO", 15, MUTED)
 	_special_bar = _progress(special_box, ORANGE)
-	_special_hint = _label(special_box, "BANK POINTS TO FILL", 11, MUTED)
+	_special_hint = _label(special_box, "BANK POINTS TO FILL", 13, MUTED)
 	_special_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_combo = _floating_label("", 34, ACCENT)
 	_combo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -179,11 +180,13 @@ func _build_hud() -> void:
 	_combo_status = _floating_label("", 15, ACCENT)
 	_combo_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_combo_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_feedback = _floating_label("", 17, ORANGE)
+	_feedback_panel = _card()
+	_hud.add_child(_feedback_panel)
+	_feedback = _label(_feedback_panel, "", 17, ORANGE)
 	_feedback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_feedback.max_lines_visible = 2
-	_save_warning = _floating_label("", 13, ORANGE)
+	_save_warning = _floating_label("", 14, ORANGE)
 	_save_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_caption = _floating_label("", 20, PAPER)
 	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -198,7 +201,7 @@ func _build_hud() -> void:
 	_prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_footer = _card()
 	_hud.add_child(_footer)
-	_controls_label = _label(_footer, "", 13, MUTED)
+	_controls_label = _label(_footer, "", 16, MUTED)
 	_controls_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_controls_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
@@ -225,8 +228,8 @@ func update_display(state: Dictionary) -> void:
 	for goal: Dictionary in state.get("goals", []):
 		if goal.get("done", false): completed += 1
 	_goals.text = "%d / 10 GOALS  ·  %s" % [completed, _prompt_for("goals", "TAB")]
-	if free: _goals.text = "FREE SKATE  ·  CAREER GOALS PAUSED"
-	var kmh := roundi(float(state.get("speed", 0.0)) * 3.6)
+	if free: _goals.text = "FREE SKATE  ·  NO TIMER"
+	var kmh := roundi(absf(float(state.get("speed", 0.0))) * 3.6)
 	_speed.text = "%d km/h" % kmh
 	_speed_bar.value = clampf(float(kmh) / 60.0, 0.0, 1.0)
 	var meter := clampf(float(state.get("special_meter", 0.0)), 0.0, 100.0)
@@ -248,6 +251,7 @@ func update_display(state: Dictionary) -> void:
 	_combo.text = "%s × %d" % [_number(int(state.get("combo_base", 0))), int(state.get("multiplier", 0))] if combo > 0 else ""
 	_tricks.text = str(state.get("tricks", "")) if combo > 0 else ""
 	_feedback.text = str(state.get("feedback", ""))
+	_feedback_panel.visible = not _feedback.text.is_empty()
 	_combo_status.text = ""
 	if combo > 0:
 		var link_time := float(state.get("landing_window", 0.0))
@@ -704,7 +708,7 @@ func _relayout(force: bool = false) -> void:
 	var extent := _root.size
 	_hud.size = extent
 	_top.position = Vector2(28, 24)
-	_top.size = Vector2(extent.x - 56, 90)
+	_top.size = Vector2(extent.x - 56, 96)
 	var side_width := minf(345.0, (extent.x - 412.0) * 0.5)
 	_location.position = Vector2(28, 126)
 	_location.size = Vector2(side_width, 30)
@@ -732,11 +736,11 @@ func _relayout(force: bool = false) -> void:
 	_prompt.position.y = extent.y - 304
 	_prompt.size.y = 36
 	# Event notices have their own space, so a live combo cannot replace them.
-	var notice_width := minf(800.0, extent.x - 56)
-	_feedback.position = Vector2((extent.x - notice_width) * 0.5, 222)
-	_feedback.size = Vector2(notice_width, 52)
-	_footer.position = Vector2(28, extent.y - 64)
-	_footer.size = Vector2(extent.x - 56, 44)
+	var notice_width := minf(440.0, extent.x - 56)
+	_feedback_panel.position = Vector2(28, 166)
+	_feedback_panel.size = Vector2(notice_width, 52)
+	_footer.position = Vector2(28, extent.y - 76)
+	_footer.size = Vector2(extent.x - 56, 56)
 	if is_instance_valid(_modal): _modal.size = extent
 	if is_instance_valid(_dialog):
 		var dialog_width := minf(850, extent.x - 96)

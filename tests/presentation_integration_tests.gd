@@ -12,8 +12,10 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _frames(tree, 35)
 	check.call(game.audio.get_debug_state().surface == "stone",
 		"presentation: real square floor selects stone wheel sound")
-	check.call(not "ROYAL_EXCHANGE" in game._feedback and "ROYAL EXCHANGE" in game._feedback and "FOUNTAIN COURT" in game._feedback,
-		"presentation: district welcome uses a readable location, not its internal ID")
+	check.call(game._feedback == "FRESH RUN. GIE IT LALDY." and "ROYAL EXCHANGE" in game.hud._location.text
+		and "ROYAL EXCHANGE" not in game._feedback
+		and "FOUNTAIN COURT" in game.hud._location.text,
+		"presentation: persistent district label replaces the duplicated district welcome toast")
 	check.call(game.objectives.get_child_count() == 10,
 		"presentation: district visits do not leave misleading collectible orbs")
 	game.skater.spawn_position = Vector3(40, 0.8, 22)

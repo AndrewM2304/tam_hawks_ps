@@ -150,7 +150,8 @@ static func _notices_and_geometry(tree: SceneTree, game: Node, check: Callable) 
 		var bounds := Rect2(Vector2.ZERO, Vector2(size))
 		var all_inside := true
 		for control in [hud._top, hud._location, hud._goals, hud._balance_panel, hud._speed_panel,
-			hud._special_panel, hud._combo, hud._tricks, hud._combo_status, hud._feedback,
+			hud._special_panel, hud._combo, hud._tricks, hud._combo_status,
+			hud._feedback_panel, hud._feedback,
 			hud._caption, hud._prompt, hud._footer, hud._save_warning]:
 			all_inside = all_inside and bounds.encloses(control.get_global_rect())
 		check.call(all_inside, "UI feedback: all active HUD regions fit %s at 1.4× UI" % size)

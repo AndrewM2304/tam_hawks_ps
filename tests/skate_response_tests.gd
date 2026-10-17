@@ -18,9 +18,19 @@ static func run(check: Callable) -> void:
 			monotonic = monotonic and speed >= 0.0 and speed <= previous
 		check.call(monotonic and absf(speed - 5.97623272188) < 0.000001,
 			"skate response: %d Hz coasting matches elapsed time without generating speed" % hz)
-	for invalid: float in [NAN, INF, -INF, -1.0]:
+	for invalid: float in [NAN, INF, -INF]:
 		check.call(response.coast_speed(invalid, 0.1) == 0.0,
-			"skate response: invalid/negative speed cannot persist: %s" % invalid)
+			"skate response: nonfinite speed cannot persist: %s" % invalid)
+	check.call(absf(response.coast_speed(-15.0, 3.0) + 5.97623272188) < 0.000001
+		and response.coast_speed(-15.0, 7.0) == 0.0,
+		"skate response: rollback coasts toward rest without flipping direction")
+	var down_slope := response.apply_slope_gravity(0.0, 0.5, 0.1, 22.0)
+	var up_slope := response.apply_slope_gravity(0.0, -0.5, 0.1, 22.0)
+	check.call(down_slope > 0.0 and absf(down_slope + up_slope) < 0.000001,
+		"skate response: projected slope gravity accelerates downhill and rolls back uphill")
+	check.call(response.apply_slope_gravity(15.0, 1.0, 1.0, 22.0) == 15.0
+		and response.apply_slope_gravity(-15.0, -1.0, 1.0, 22.0) == -15.0,
+		"skate response: ground slope acceleration respects both signed speed limits")
 	for invalid_delta: float in [NAN, INF, -INF, -1.0, 0.0]:
 		check.call(response.coast_speed(10.0, invalid_delta) == 10.0
 			and response.steering_step(1.0, 10.0, true, invalid_delta) == 0.0,

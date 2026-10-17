@@ -315,8 +315,8 @@ func _update_objectives(delta: float, district: String) -> void:
 	if district != _last_district and not district.is_empty():
 		_last_district = district
 		completed.append_array(career.record_event("district", district))
-		_feedback = "WELCOME TO " + world.get_location_name(skater.global_position)
-		_feedback_timer = 2.0
+		# The always-visible location header already announces this change. A
+		# center-screen duplicate obscures the next line while entering a district.
 	for event: Dictionary in objectives.poll(skater.global_position, Input.is_action_just_pressed("interact")):
 		completed.append_array(career.record_event(event.kind, event.id))
 		_feedback = _pickup_message(event)

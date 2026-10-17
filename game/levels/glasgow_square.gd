@@ -189,8 +189,10 @@ func _build_lighting() -> void:
 	environment.sky = sky
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.ambient_light_color = Color("c7dfeb")
-	environment.ambient_light_energy = 0.48
-	environment.tonemap_mode = Environment.TONE_MAPPER_LINEAR
+	environment.ambient_light_energy = 0.44
+	# Filmic rolloff keeps the sandstone highlights while recovering colour and
+	# contrast in pale stone, water and the Glasgow sky on the Compatibility path.
+	environment.tonemap_mode = Environment.TONE_MAPPER_ACES
 	environment.fog_enabled = true
 	environment.fog_density = 0.0015
 	environment.fog_light_color = Color("b4bec3")
@@ -202,7 +204,7 @@ func _build_lighting() -> void:
 	sun.name = "LateAfternoonSun"
 	sun.rotation_degrees = Vector3(-42.0, -32.0, 0.0)
 	sun.light_color = Color("ffe8d1")
-	sun.light_energy = 0.85
+	sun.light_energy = 0.80
 	sun.shadow_opacity = 0.65
 	# One short-range shadow source; no dynamic local lights or post-processing.
 	sun.shadow_enabled = true

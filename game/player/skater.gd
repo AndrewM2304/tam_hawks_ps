@@ -265,7 +265,11 @@ func _physics_process(delta: float) -> void:
 	rotation.y += steering_angle
 	var forward := -global_basis.z
 	if grounded_before:
-		var ground_direction := forward.slide(get_floor_normal()).normalized()
+		var floor_normal := get_floor_normal()
+		var ground_direction := forward.slide(floor_normal).normalized()
+		var downhill_tangent := Vector3.DOWN.slide(floor_normal)
+		var downhill_alignment := downhill_tangent.dot(ground_direction)
+		speed = _response.apply_slope_gravity(speed, downhill_alignment, delta, GRAVITY)
 		velocity = ground_direction * speed
 	else:
 		# Carry the ramp/contact-adjusted momentum into air. Rebuilding X/Z
@@ -290,10 +294,11 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	if is_on_floor():
-		# Godot can clear requested Y while snapping down a slope. Real travel
-		# retains that component, avoiding repeated artificial downhill braking.
-		# The cap prevents collision recovery/snap displacement adding speed.
-		speed = minf(speed, get_real_velocity().length())
+		# Derive signed board-forward speed from actual contact-adjusted travel.
+		# This preserves collision response while allowing a steep uphill to
+		# become a controlled roll back down its bank.
+		var contact_direction := (-global_basis.z).slide(get_floor_normal()).normalized()
+		speed = clampf(get_real_velocity().dot(contact_direction), -MAX_SPEED, MAX_SPEED)
 		if airborne:
 			_finish_landing()
 		if manual_active and speed < MANUAL_MIN_SPEED:
@@ -529,7 +534,7 @@ func _update_pose(delta: float) -> void:
 		var tumble_pivot := Vector3.UP * 0.8
 		_visual.position = tumble_pivot - _visual.basis * tumble_pivot
 	_visual_rig.animate(delta, {"airborne": airborne, "grab": _grab_remaining > 0.0,
-		"flip": _flip_remaining > 0.0, "speed": speed, "manual": manual_active,
+		"flip": _flip_remaining > 0.0, "speed": absf(speed), "manual": manual_active,
 		"grind": grinding, "push": _controls_enabled and Input.is_action_pressed("push"),
 		"brake": _controls_enabled and Input.is_action_pressed("brake"),
 		"steering": _steering, "manual_balance": manual_balance, "grind_balance": grind_balance,
