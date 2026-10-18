@@ -1,6 +1,8 @@
-# Implementation/evidence update — 18 October 2026
+# Final first-candidate decision — 18 October 2026
 
-The proposal below is now implemented as a **single gated candidate** in `FacadeBay` / `FacadeKit`, with original fitted geometry-only GLBs, four shared maps and pre-batch omissions. [Current live receipt](../testing/facade-bay-live/README.md) owns results and acceptance; the source/date below identify the original plan, not a later tested checkpoint. Independent focused geometry/resource checks pass 33/0; actual native LOD selection passes 21/0. Corrected close-up joins pass bounded art review. Matched timing and full required regression are still being evaluated; no rollout beyond this one bay is authorized by these partial results.
+This plan was implemented for exactly one existing frontage, then **disabled in normal play** after three conservative frame-spike comparisons failed. Stationary reported 3D submissions rise +2…3 within the +4 budget; Compatibility does not separate shadow submissions. Independent focused checks pass37/0 and actual native hard LOD/hysteresis passes21/0. Neutral stone, the repaired neighbour jamb and cheap 12-triangle original building-mass shadow pass bounded close/oblique review. [Final measurements](../testing/facade-bay-live/RESULTS.md) retain ten datasets/52 images at executed `c2e86ab`, with the two exact later text changes declared. Current ordinary/native status belongs in STATUS.
+
+The geometric plan below remains the tested placement contract, not an instruction to enable the rejected default. The [two-surface source prototype](../../art_source/glasgow_bay/two_surface/README.md) is a separate unintegrated next experiment; actual import/quality/LOD and fresh matched timing gates must pass before rollout. No new area or physical gameplay changes.
 
 # One live Exchange facade proof — proposed integration
 

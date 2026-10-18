@@ -20,6 +20,8 @@ Read `docs/STATUS.md`, `docs/planning/BACKLOG.md`, and `docs/architecture/interf
 - Before ending a session, update `docs/STATUS.md` with completed work, exact commands/results, defects, next tasks, and resumption instructions. Update backlog statuses and record material decisions.
 
 ## Quality
+- Treat performance as an acceptance requirement for every new feature. Keep work on the existing map until the reported stuttering is resolved; declare draw, geometry, texture/memory and frame-time budgets before adding rendering cost. Prefer shared resources, native culling/LOD and startup-only construction over per-frame rebuilding or allocation. Preserve offscreen gameplay, collision, routes and skyline visibility.
+- Compare visible changes on frozen source with matched settings, camera/input workload and uncontended rendering. Record p50/p95/p99 and long frames alongside draw/primitive/memory counters; reject failed gates instead of inferring FPS from polygon or draw counts. Linux software-rendered diagnostics cannot certify the target Mac.
 - Run `tools/check.sh` for production GDScript changes. Tests must report counts and fail nonzero on assertion failures.
 - Do not change production behavior to hide a failing test. Investigate failures and keep missing hardware/exports distinct from passing Linux checks.
 - Graphical changes need a captured frame or an explicit rendering blocker. Do not fabricate screenshot evidence.

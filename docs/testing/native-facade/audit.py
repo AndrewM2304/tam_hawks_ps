@@ -38,6 +38,15 @@ def main():
     source_inputs = ordinary.get('source_inputs', {})
     base.require(len(source_inputs) == ordinary.get('input_count') and source_inputs,
                  'Ordinary source inventory is incomplete')
+    current_inventory = {'project.godot'}
+    for directory in ('game', 'assets', 'tests', 'tools'):
+        current_inventory.update(str(path.relative_to(ROOT))
+                                 for path in (ROOT / directory).rglob('*')
+                                 if path.is_file() and '__pycache__' not in path.parts)
+    base.require(current_inventory == set(source_inputs)
+                 and all(base.file_sha(ROOT / name) == expected
+                         for name, expected in source_inputs.items()),
+                 'Current game/test/tool/project inputs differ from the ordinary-tested source')
     for name, expected in ordinary['logs_sha256'].items():
         retained = HERE.parent / 'logs' / ('facade-ordinary-final.log' if name.endswith('/tests.log')
                     else 'facade-ordinary-import.log' if name.endswith('/import.log')
@@ -94,7 +103,8 @@ def main():
                                     'sha256':hashlib.sha256(ordinary_bytes).hexdigest(),
                                     'passed':ordinary['passed'], 'failed':ordinary['failed'],
                                     'source_input_count':len(source_inputs), 'package_overlap':len(overlap),
-                                    'all_overlap_matches':True},
+                                    'all_overlap_matches':True, 'all_current_inputs_match':True,
+                                    'current_source_input_count':len(current_inventory)},
                   prototype_excluded_from_both_packs=True)
     report_path.write_text(json.dumps(report, indent=2) + '\n')
     print('CURRENT HELD-FACADE PACKAGE AUDIT PASS:', ordinary['passed'], 'ordinary checks;',

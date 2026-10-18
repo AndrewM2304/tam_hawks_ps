@@ -1,0 +1,19 @@
+changed_tested_tool
+Traceback (most recent call last):
+  File "/workspace/tam_hawks_ps/docs/testing/native-facade/audit.py", line 115, in <module>
+    main()
+  File "/workspace/tam_hawks_ps/docs/testing/native-facade/audit.py", line 46, in main
+    base.require(current_inventory == set(source_inputs)
+  File "/workspace/tam_hawks_ps/docs/testing/native-exchange-gallery/audit.py", line 34, in require
+    raise RuntimeError(message)
+RuntimeError: Current game/test/tool/project inputs differ from the ordinary-tested source
+
+added_inventory_member
+Traceback (most recent call last):
+  File "/workspace/tam_hawks_ps/docs/testing/native-facade/audit.py", line 115, in <module>
+    main()
+  File "/workspace/tam_hawks_ps/docs/testing/native-facade/audit.py", line 46, in main
+    base.require(current_inventory == set(source_inputs)
+  File "/workspace/tam_hawks_ps/docs/testing/native-exchange-gallery/audit.py", line 34, in require
+    raise RuntimeError(message)
+RuntimeError: Current game/test/tool/project inputs differ from the ordinary-tested source
