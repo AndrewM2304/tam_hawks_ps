@@ -1,0 +1,17 @@
+extends SceneTree
+## Focused replay of migrated diagnostic snapshots and the actual safe handrail.
+var good := 0
+var bad := 0
+func _initialize() -> void: _run.call_deferred()
+func _run() -> void:
+ await load("res://tests/city_backdrop_tests.gd").run(self,_check)
+ await load("res://tests/edge_grind_integration_tests.gd").run(self,_check)
+ print("RESULT: ",good," passed, ",bad," failed")
+ quit(1 if bad>0 else 0)
+func _check(ok: bool, label: String) -> void:
+ if ok:
+  good+=1
+  print("PASS: ",label)
+ else:
+  bad+=1
+  push_error("FAIL: "+label)

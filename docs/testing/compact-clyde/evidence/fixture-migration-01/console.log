@@ -1,0 +1,59 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: City backdrop: ordinary startup constructs no rejected candidate geometry
+PASS: City backdrop: explicit preview world installs the actual candidate scenery
+PASS: City backdrop: actual visible arrays fit eight mesh/surface submissions and 6000 triangles
+PASS: City backdrop: explicit preview contains only the two compact Clyde chunks, exactly 940 real triangles and two surfaces
+PASS: City backdrop: every actual scenery mesh avoids additional shadow/GI submissions
+PASS: City backdrop: actual node tree contains only static visuals, no physics/light/camera/processing actors
+PASS: City backdrop: exactly one shared opaque unshaded vertex-colour material, no textures/extra passes/specular or received shadows
+PASS: City backdrop: actual visible triangles remain finite and nondegenerate
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: river channel
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: station quay access
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: market quay access
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: station park access
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: civic park access
+PASS: City backdrop: repeated build retains the same single geometry tree
+PHYSICS_INVENTORY bodies=354 shapes=1296 protected_bodies=271 protected_shapes=720 bench_bodies=12 bench_boxes=44 identified=true
+PASS: City backdrop: protected core/bench collision stays exact and compact-world collision remains within its original budget
+HELD_BACKDROP names=["ClydeEastContext", "ClydeWestContext", "ExistingBoundaryRetainingSkirts", "ParkNorthHillside", "ParkWestHillside", "StationServiceBacks"] surfaces=6 triangles=2848 per_node={ "ExistingBoundaryRetainingSkirts": { "surfaces": 1, "triangles": 152 }, "StationServiceBacks": { "surfaces": 1, "triangles": 148 }, "ClydeWestContext": { "surfaces": 1, "triangles": 456 }, "ClydeEastContext": { "surfaces": 1, "triangles": 484 }, "ParkWestHillside": { "surfaces": 1, "triangles": 822 }, "ParkNorthHillside": { "surfaces": 1, "triangles": 786 } } port_offenders={  }
+PASS: City backdrop: explicit fresh held-context fixture preserves the exact six named geometry chunks
+PASS: City backdrop: explicit fresh held-context fixture preserves exactly six actual surfaces
+PASS: City backdrop: held-context preserves exact per-chunk counts and 2848 actual triangles within its original 4040 budget
+HELD_SKIRT_QUERY_WITNESS source=@StaticBody3D@4886 rendered=[(-56.5, 2.0, -41.8), (-51.625, 2.0, -41.8), (-50.0, 1.0, -41.8)] endpoint_height=1.0
+PASS: City backdrop: four added held triangles come only from the identified StationNorthBoundary endpoint segment
+PASS: City backdrop: the extra skirt segment follows repaired Y1 service-court ownership beside unchanged Y2 station support
+PASS: City backdrop: held-context actual triangles leave protected geometry open: river channel
+PASS: City backdrop: held-context actual triangles leave protected geometry open: station quay access
+PASS: City backdrop: held-context actual triangles leave protected geometry open: market quay access
+PASS: City backdrop: held-context actual triangles leave protected geometry open: station park access
+PASS: City backdrop: held-context actual triangles leave protected geometry open: civic park access
+PASS: world edge: actual selected Planter_ line exists at its authored physical prop
+PASS: world edge: Planter_ declared outside approach has actual authored ground
+PASS: world edge: Planter_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+PASS: world edge: mapped approach descends into exactly the selected real Planter_ edge once
+PASS: world edge: Planter_ carries the actual clear capsule over 0.30m along the selected edge
+PASS: world edge: fresh mapped L tap exits Planter_ with one total catch/award and no bail
+WORLD_EDGE family=Planter_ selected=Grind_Edge_Planter_x-2900y40z1300_0_0 fixture=(-31.28, 0.8, 11.15) captured=["Grind_Edge_Planter_x-2900y40z1300_0_0"] ride_m=0.43530464172363 clear=true bails=0 final=(-29.16159, 0.81241, 11.5)
+PASS: world edge: actual selected MarketCounter_ line exists at its authored physical prop
+PASS: world edge: MarketCounter_ declared outside approach has actual authored ground
+PASS: world edge: MarketCounter_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+PASS: world edge: mapped approach descends into exactly the selected real MarketCounter_ edge once
+PASS: world edge: MarketCounter_ carries the actual clear capsule over 0.30m along the selected edge
+PASS: world edge: fresh mapped L tap exits MarketCounter_ with one total catch/award and no bail
+WORLD_EDGE family=MarketCounter_ selected=Grind_Edge_MarketCounter_x10800y60z200_2_0 fixture=(109.85, 0.8, 8.38) captured=["Grind_Edge_MarketCounter_x10800y60z200_2_0"] ride_m=0.4948673248291 clear=true bails=0 final=(109.5, 1.212417, 2.853534)
+PASS: world edge: actual selected StreetBenchSeat_ line exists at its authored physical prop
+PASS: world edge: StreetBenchSeat_ declared outside approach has actual authored ground
+PASS: world edge: StreetBenchSeat_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+PASS: world edge: mapped approach descends into exactly the selected real StreetBenchSeat_ edge once
+PASS: world edge: StreetBenchSeat_ carries the actual clear capsule over 0.30m along the selected edge
+PASS: world edge: fresh mapped L tap exits StreetBenchSeat_ with one total catch/award and no bail
+WORLD_EDGE family=StreetBenchSeat_ selected=Grind_Edge_StreetBenchSeat_x2900y0z2700_2_0 fixture=(31.13, 0.8, 27.61) captured=["Grind_Edge_StreetBenchSeat_x2900y0z2700_2_0"] ride_m=0.43530464172363 clear=true bails=0 final=(29.01159, 0.55742, 27.26)
+PASS: world edge: actual selected BridgeRail_ line exists at its authored physical prop
+PASS: world edge: BridgeRail_ declared outside approach has actual authored ground
+PASS: world edge: BridgeRail_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+PASS: world edge: mapped approach descends into exactly the selected real BridgeRail_ edge once
+PASS: world edge: BridgeRail_ carries the actual clear capsule over 0.30m along the selected edge
+PASS: world edge: fresh mapped L tap exits BridgeRail_ with one total catch/award and no bail
+WORLD_EDGE family=BridgeRail_ selected=Grind_Edge_BridgeRail_x-2885y375z8050_0 fixture=(-28.5, 2.8, 69.12603) captured=["Grind_Edge_BridgeRail_x-2885y375z8050_0"] ride_m=0.48847207427025 clear=true bails=0 final=(-28.85, 3.308547, 74.42852)
+RESULT: 49 passed, 0 failed
