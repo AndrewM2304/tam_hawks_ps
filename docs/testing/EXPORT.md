@@ -1,6 +1,6 @@
 # Local native exports
 
-**Latest checkpoint:** the Exchange/gallery entrance and west seating pass is packaged from clean runtime `00da63a29990c0839cf15d4c9a34edc2fc167122`; see the final section and [native-exchange-gallery receipts](native-exchange-gallery/README.md). Earlier native checkpoints remain historical.
+**Latest checkpoint:** the performance/classic-mechanics game is packaged from clean `9930b304ecd7f9d0f5800a0380e84cfaf2c63a78` after **1,701/0** on unchanged inputs. Both archives/source/captures audit and actual Linux headless/rendered startup pass; see [native-performance receipts](native-performance/README.md) and the final section. Earlier native checkpoints remain historical.
 
 `tools/export.sh` prepares repeatable, unsigned local packages for Linux x86_64 and macOS universal (arm64 + x86_64). It uses free official Godot 4.6.3 templates and never signs, notarizes, uploads, publishes or calls a paid service. A successful cross-export does not establish that the game launches or performs acceptably on a Mac.
 
@@ -230,3 +230,19 @@ The corrected [22-image capture manifest](screenshots/exchange-gallery/manifest.
 The actual exported Linux main scene naturally exits **0** after both headless 120-frame and rendered 1920×1080/30-frame startup, using isolated profiles. Exact [headless](native-exchange-gallery/headless.log), [rendered](native-exchange-gallery/rendered.log) and [wrapper](native-exchange-gallery/smoke-summary.log) logs are retained with the private-display configuration. No engine/script/resource errors occurred; Mesa llvmpipe's unsupported V-Sync warning is the sole graphical warning. Owned game/display processes stopped and were waited. These are bounded startup checks; earlier profile and video evidence remains historical.
 
 The Mac app remains unsigned, unnotarized and not launched on a real Mac. Physical DualSense use, Mac save relaunch, listening, moving-route performance, human discovery/fun and final realistic-art acceptance remain open. No artifact was publicly released and no paid service was used.
+
+
+## Current performance/classic-mechanics checkpoint — 18 October 2026
+
+`./tools/export.sh --skip-check` completes **exit 0** from clean **`9930b304ecd7f9d0f5800a0380e84cfaf2c63a78`**. The unchanged gameplay/tests/tools already passed the actual required ordinary suite **1,701/0**, with 284 stable inputs and clean scans. Build: `builds/tam-hawks-20261018T000141Z-9930b304ecd7/`. Export verifies **151 unchanged package inputs**, fingerprint **`7ae2f095cbb4d4616c23b7c0fd19733cb8342df46eaf68bd728003e8be1e156c`**. Later docs/audit edits do not change those package inputs.
+
+| Archive | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `TamHawksProSkater-linux.zip` | 32,813,204 | `a66a5b22a277c948b9a2d67735ada7bb4e4688c818bfa0475962ffa17484c8ec` |
+| `TamHawksProSkater-macos.zip` | 67,372,739 | `76943cf5e8cc1586b20404e49272d2c9cee1c564b7cd8a87d3ea529cdee178a7` |
+
+[Complete native receipts](native-performance/README.md) retain metadata, corrected audit, source/Linux-PCK/Mac-PCK construction reports, export/resource logs, exact checksums and an actual exported [1080p title image](native-performance/title-live.png). ZIP/member/source/notice/binary checks pass; Linux is ELF64 x86_64 and Mac is unsigned universal x86_64+arm64. All 141 ordinary/package and 140 normal-capture/package overlaps match, and all 19 capture PNGs decode. Both packs construct current graphics/interpolation/batches, 48 routes, three quarter/half-pipe faces and directional trick catalogue, while excluding the isolated unused art prototype. The old gallery probe's current schema/route/performance extensions live in native-performance; its first consumed-engine-argument wrapper failure is retained as rejected evidence, not a pass.
+
+The actual exported Linux main exits **0** after headless 120-frame and rendered 1920×1080/30-frame startup, from an empty working directory and isolated profiles. Only the software driver's expected V-Sync warning appears. The first screen capture was a loading splash and is rejected as title evidence; the corrected native title is fully decoded and reviewed with all four menu choices/focus border visible. No script override, fixed clock or forced draws; this is bounded startup, not FPS or native gameplay acceptance. The helper stops/waits its game/display; no live job remains.
+
+Local ZIPs are not uploaded or published. Mac executable launch, Gatekeeper, physical keyboard/DualSense, save relaunch, listening, moving 1080p target frame times, human feel and final art/UI remain open. The Linux engine reading a Mac PCK is resource evidence only. No paid service, signing or notarization is used.

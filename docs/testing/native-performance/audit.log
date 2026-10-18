@@ -1,0 +1,28 @@
+INDEPENDENT AUDIT PASS: 9930b304ecd7f9d0f5800a0380e84cfaf2c63a78 151 source inputs; 13 notices each; both archives, captures and isolated district construction
+{
+  "linux": {
+    "bytes": 32813204,
+    "sha256": "a66a5b22a277c948b9a2d67735ada7bb4e4688c818bfa0475962ffa17484c8ec",
+    "format": "ELF64 x86_64",
+    "crc_pass": true,
+    "unique_safe_paths": true,
+    "file_count": 18,
+    "all_members_match_package": true,
+    "all_member_modes_match_package": true,
+    "executable_mode": "0755",
+    "pack_sha256": "a45d7105e5e873c4379e9146ce758c2ae634e58acd6a04d5281b1337b79dbd45"
+  },
+  "macos": {
+    "bytes": 67372739,
+    "sha256": "76943cf5e8cc1586b20404e49272d2c9cee1c564b7cd8a87d3ea529cdee178a7",
+    "format": "Universal Mach-O x86_64 and arm64",
+    "crc_pass": true,
+    "unique_safe_paths": true,
+    "file_count": 22,
+    "all_members_match_package": true,
+    "all_member_modes_match_package": true,
+    "executable_mode": "0755",
+    "pack_sha256": "a45d7105e5e873c4379e9146ce758c2ae634e58acd6a04d5281b1337b79dbd45"
+  }
+}
+CURRENT PERFORMANCE PACKAGE AUDIT PASS: 1701 ordinary checks; 141 source overlaps; current probe, all 19 capture PNGs and both archives

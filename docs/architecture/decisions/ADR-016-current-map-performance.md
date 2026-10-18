@@ -1,7 +1,7 @@
 # ADR-016 — Current-map rendering and frame consistency
 
 - Date: 17 October 2026
-- Status: Implemented; local measurements/captures complete, final ordinary/native receipts in STATUS; target-hardware acceptance open.
+- Status: Implemented; local measurements/captures, 1,701/0 ordinary regression, unsigned native audits and Linux startup complete; exact receipts in STATUS. Target-hardware/final-art acceptance open.
 - Scope: Existing M06-004/M01-005/M05-001/M06-007 and release checks. No map expansion, paid dependency or unattended work.
 
 The owner reports persistent stuttering and prioritizes performance. A fresh source-stable six-view baseline measures 1,930 median Exchange draws and 1,617 Barras draws at 1280×800 on Linux software rendering. Those are current workload observations, not Apple M5 timings. Camera FOV alone cannot resolve repeated submission, pixel shading, per-frame CPU work or the mismatch between physics and rendered motion. Keep current gameplay framing while reducing avoidable work.

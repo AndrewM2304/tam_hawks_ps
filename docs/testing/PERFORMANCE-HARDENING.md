@@ -41,6 +41,8 @@ Completed [after/control/Performance/moving evidence](performance-after-20261017
 
 [HUD-EFFICIENCY](HUD-EFFICIENCY.md), [PHYSICS-INTERPOLATION](PHYSICS-INTERPOLATION.md) and [CURRENT-MAP-VISIBILITY](../research/CURRENT-MAP-VISIBILITY.md) retain implementation contracts, bounded measurements, reliable engine references and camera/loading tradeoffs. FOV alone does not unload geometry or remove HUD/physics/shadow work. Whole-map residency remains separate from submitted visuals; no district streaming system is introduced.
 
+Both local native exports now pass from clean **9930b30** with **151 stable package inputs**, complete source/archive/19-image audit and actual Linux headless 120-frame/rendered 1080p/30-frame normal-main startup. [Native receipts](native-performance/README.md) retain hashes, three matching source/PCK construction probes and the reviewed actual exported title. The unused art prototype is absent from both packs. Mac executable launch and performance remain untested; local archives are not published.
+
 ## Remaining work
 
 Owner/A09: record actual Mac model/RAM/macOS, quality, power/thermal conditions and source. Run the stationary and actual-input moving tools on that machine, then a separate ten-minute keyboard/DualSense route through all areas, transitions, dense views and menus. Compare p50/p95/p99/max and long frames against 16.67 ms. Keep startup/first traversal separate from warmed play. Linux software timings cannot close that gate.

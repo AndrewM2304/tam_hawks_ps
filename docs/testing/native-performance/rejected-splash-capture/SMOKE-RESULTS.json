@@ -1,0 +1,26 @@
+{
+  "command": [
+    "/workspace/tam_hawks_ps/tools/native_smoke.sh",
+    "/workspace/tam_hawks_ps/builds/tam-hawks-20261018T000141Z-9930b304ecd7"
+  ],
+  "empty_working_directory": "/workspace/tam_hawks_ps/builds/tam-hawks-20261018T000141Z-9930b304ecd7/standalone-smoke/empty-working-directory",
+  "exit_code": 0,
+  "wall_seconds": 65.14474196999981,
+  "title_capture": {
+    "path": "title-live.png",
+    "bytes": 29152,
+    "sha256": "1722d48078a2839c78004cac8764f351226847efbfd1a21e45b9fc18632814e8",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "capture_method": "X11 root while exported native main window is visible",
+    "window_tree": "\nxwininfo: Window id: 0x266 (the root window) (has no name)\n\n  Root window id: 0x266 (the root window) (has no name)\n  Parent window id: 0x0 (none)\n     2 children:\n     0x400001 (has no name): ()  10x10+-20+-20  +-20+-20\n     0x200003 \"Tam Hawks Pro Skater\": (\"Godot_Engine\" \"Tam Hawks Pro Skater\")  1920x1080+0+0  +0+0\n        1 child:\n        0x200004 (has no name): ()  1x1+0+0  +0+0\n\n",
+    "wall_seconds_since_smoke_start": 13.408569814000657,
+    "fixed_clock": false,
+    "script_override": false,
+    "performance_measurement": false
+  },
+  "macos_launch_tested": false,
+  "target_performance_acceptance": false
+}
