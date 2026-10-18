@@ -1,0 +1,19 @@
+{
+  "started_london": "2026-10-18T12:11:26.018620+01:00",
+  "completed_london": "2026-10-18T12:15:30.293165+01:00",
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/arcade-response/toe-review.gd"
+  ],
+  "source_stable": true,
+  "changed_inputs": [],
+  "input_count": 348,
+  "exit_code": 0,
+  "clean_log": true,
+  "limits": "World-only fixed views, no physics/input/fun/Mac claim. Resource and strict A/B/A frame-spike gates plus actual seam visual review decide retention."
+}

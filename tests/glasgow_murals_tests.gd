@@ -5,6 +5,7 @@ const Murals = preload("res://game/levels/glasgow_murals.gd")
 static func run(world: Node3D, check: Callable) -> void:
 	var before_bodies := world.get_tree().get_nodes_in_group("exploration_boundaries").size()
 	var existing := world.get_node_or_null("GlasgowMurals")
+	check.call(existing == null, "murals: normal startup constructs no prototype paint after failed frame-spike admission")
 	var art := Murals.build(world, {})
 	var report: Dictionary = art.get_meta("mural_report")
 	check.call(report.triangles > 500 and report.triangles <= 1200 and art.get_child_count() == 2,

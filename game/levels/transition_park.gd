@@ -44,9 +44,10 @@ static func build(parent: Node3D, materials: Dictionary) -> Array[Dictionary]:
 		concrete, sides, coping))
 	# Open north/south ends admit riders from the existing z=67 quay through-line.
 	# Physical support meets both toes exactly. Keep only the visible concrete
-	# six millimetres above the quay, preserving its original non-coplanar mesh.
+	# top six millimetres above the quay. Its hidden box sides leave a subpixel
+	# vertical seam beside the unraised toes; the top-only mesh omits those faces.
 	_box(root, "HalfPipeFlatBottom", Vector3(-22, 1.88, 60.5),
-		Vector3(8, 0.24, WIDTH), concrete, Vector3.UP * 0.006)
+		Vector3(8, 0.24, WIDTH), concrete, Vector3.UP * 0.006, true)
 	return features
 
 
@@ -193,7 +194,7 @@ static func _coping(parent: Node3D, id: String, material: Material) -> void:
 
 
 static func _box(parent: Node3D, id: String, at: Vector3, size: Vector3,
-		material: Material, visual_offset: Vector3 = Vector3.ZERO) -> StaticBody3D:
+		material: Material, visual_offset: Vector3 = Vector3.ZERO, visible_top_only: bool = false) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = id
 	body.position = at
@@ -201,12 +202,19 @@ static func _box(parent: Node3D, id: String, at: Vector3, size: Vector3,
 	body.collision_mask = 0
 	body.set_meta("surface_audio", "stone")
 	parent.add_child(body)
-	var mesh := BoxMesh.new()
-	mesh.size = size
+	var mesh: PrimitiveMesh
+	if visible_top_only:
+		var plane := PlaneMesh.new()
+		plane.size = Vector2(size.x,size.z)
+		mesh = plane
+	else:
+		var box := BoxMesh.new()
+		box.size = size
+		mesh = box
 	var visual := MeshInstance3D.new()
 	visual.mesh = mesh
 	visual.material_override = material
-	visual.position = visual_offset
+	visual.position = visual_offset + Vector3.UP * (size.y * 0.5 if visible_top_only else 0.0)
 	body.add_child(visual)
 	var shape := BoxShape3D.new()
 	shape.size = size

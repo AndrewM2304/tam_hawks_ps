@@ -1,0 +1,113 @@
+{
+  "retained": "plane-shadow",
+  "rejected": "plane-no-shadow",
+  "reason": "Both retained-variant p95/p99/draw/primitive gates pass; visual dotted join absent in both matched stills. No-shadow variant fails north p95 and is rejected.",
+  "actual_review": "Root inspected both Box/Plane-shadow pairs at960x600; these are authored world-only stationary views, not gameplay/flicker/Mac evidence.",
+  "production_delta_after_capture": "Removed candidate-only shadow OFF assignment; retained production state is the explicitly captured plane-shadow state. Physical floor remainsY2.000; visible top cornersY2.006; original shared material. No new source buffers in normal scene.",
+  "images": [
+    {
+      "file": "east_north-box-after.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "db1b41269cfb158606d116262b36e6e6c24389668fb45e377cffd07f623c2e5d"
+    },
+    {
+      "file": "east_north-box-before.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "db1b41269cfb158606d116262b36e6e6c24389668fb45e377cffd07f623c2e5d"
+    },
+    {
+      "file": "east_north-box-between.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "db1b41269cfb158606d116262b36e6e6c24389668fb45e377cffd07f623c2e5d"
+    },
+    {
+      "file": "east_north-plane-no-shadow.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "3f9ce820ed3b77665d613dca62f6089bb1b38785d1149613a3471e84bb08eb34"
+    },
+    {
+      "file": "east_north-plane-shadow.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "8b156d1d48afa861c248b08105111576418c92897e0997d312986409129ccd92"
+    },
+    {
+      "file": "east_south-box-after.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "46d9c3e09822e083e5d31ae9f9885499d052edbd9c92cbf3bc810a67dce41509"
+    },
+    {
+      "file": "east_south-box-before.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "b1583364523709774ef82a7a76001f7b760904c43eef1c1888668aef1b286235"
+    },
+    {
+      "file": "east_south-box-between.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "2eda80bb239143413e69abbec14c3f4cd413a86f4eaed7d2289ce125e30f5af8"
+    },
+    {
+      "file": "east_south-plane-no-shadow.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "64bed669312dde772a5adff37796ae683e013c12c6573b0c34f0a2d08ab81bdd"
+    },
+    {
+      "file": "east_south-plane-shadow.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "1b568c215899ba8c283712b4f2cd6d1602d426d13a4fb346ac17f83acb8eacda"
+    }
+  ],
+  "all_decoded": true,
+  "pixel_comparisons": [
+    {
+      "view": "east_north",
+      "box_before_vs_between_changed_pixels": 0,
+      "box_before_vs_after_changed_pixels": 0,
+      "box_to_plane_on_changed_pixels": 214,
+      "lower_half_box_before_vs_between_changed_pixels": 0,
+      "lower_half_box_before_vs_after_changed_pixels": 0,
+      "lower_half_box_to_plane_on_changed_pixels": 214
+    },
+    {
+      "view": "east_south",
+      "box_before_vs_between_changed_pixels": 3110,
+      "box_before_vs_after_changed_pixels": 2862,
+      "box_to_plane_on_changed_pixels": 3275,
+      "lower_half_box_before_vs_between_changed_pixels": 0,
+      "lower_half_box_before_vs_after_changed_pixels": 0,
+      "lower_half_box_to_plane_on_changed_pixels": 291
+    }
+  ],
+  "resource_limits": "One resident visible mesh,12->2triangles, unchanged surface/material/texture/collider count. Profile retainsBox+Plane for swaps, so124byte lazybufferupload is not a production allocation delta.",
+  "fps_claim": false,
+  "water_limit": "The south view includes animated Clyde water; whole-image Box controls differ. Lower half excludes water and independently isolates the floor join. North whole-image controls are identical."
+}

@@ -1,0 +1,215 @@
+{
+  "formula": "Same strict frame-spike gate: candidate <= midpoint + abs(A0-A1)+.05*midpoint AND candidate<=1.05*max(A0,A1), both p95/p99; nonincreasing actualdraws/primitives",
+  "rows": [
+    {
+      "view": "east_north",
+      "candidate": "plane-shadow",
+      "phases": {
+        "box-before": {
+          "draws": 907,
+          "p50_ms": 212.326,
+          "p95_ms": 481.473,
+          "p99_ms": 727.607,
+          "primitives": 567064,
+          "video_memory": 25750531.0
+        },
+        "plane-shadow": {
+          "draws": 907,
+          "p50_ms": 195.985,
+          "p95_ms": 492.744,
+          "p99_ms": 610.367,
+          "primitives": 567054,
+          "video_memory": 25750655.0
+        },
+        "box-between": {
+          "draws": 907,
+          "p50_ms": 195.289,
+          "p95_ms": 321.229,
+          "p99_ms": 514.227,
+          "primitives": 567064,
+          "video_memory": 25750655.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 492.744,
+          "envelope": 581.66255,
+          "cap": 505.54665000000006,
+          "pass": true
+        },
+        "p99_ms": {
+          "on": 610.367,
+          "envelope": 865.3428499999999,
+          "cap": 763.98735,
+          "pass": true
+        },
+        "draws": {
+          "pass": true
+        },
+        "primitives": {
+          "pass": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "view": "east_north",
+      "candidate": "plane-no-shadow",
+      "phases": {
+        "box-between": {
+          "draws": 907,
+          "p50_ms": 195.289,
+          "p95_ms": 321.229,
+          "p99_ms": 514.227,
+          "primitives": 567064,
+          "video_memory": 25750655.0
+        },
+        "plane-no-shadow": {
+          "draws": 906,
+          "p50_ms": 198.653,
+          "p95_ms": 398.347,
+          "p99_ms": 552.887,
+          "primitives": 567054,
+          "video_memory": 25750655.0
+        },
+        "box-after": {
+          "draws": 907,
+          "p50_ms": 194.628,
+          "p95_ms": 286.548,
+          "p99_ms": 684.237,
+          "primitives": 567064,
+          "video_memory": 25750655.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 398.347,
+          "envelope": 353.76392500000003,
+          "cap": 337.29045,
+          "pass": false
+        },
+        "p99_ms": {
+          "on": 552.887,
+          "envelope": 799.2035999999999,
+          "cap": 718.44885,
+          "pass": true
+        },
+        "draws": {
+          "pass": true
+        },
+        "primitives": {
+          "pass": true
+        }
+      },
+      "pass": false
+    },
+    {
+      "view": "east_south",
+      "candidate": "plane-shadow",
+      "phases": {
+        "box-before": {
+          "draws": 86,
+          "p50_ms": 99.461,
+          "p95_ms": 205.547,
+          "p99_ms": 336.629,
+          "primitives": 79348,
+          "video_memory": 25750655.0
+        },
+        "plane-shadow": {
+          "draws": 86,
+          "p50_ms": 90.611,
+          "p95_ms": 183.698,
+          "p99_ms": 408.523,
+          "primitives": 79338,
+          "video_memory": 25750655.0
+        },
+        "box-between": {
+          "draws": 86,
+          "p50_ms": 93.425,
+          "p95_ms": 183.854,
+          "p99_ms": 410.403,
+          "primitives": 79348,
+          "video_memory": 25750655.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 183.698,
+          "envelope": 226.128525,
+          "cap": 215.82435,
+          "pass": true
+        },
+        "p99_ms": {
+          "on": 408.523,
+          "envelope": 465.9658,
+          "cap": 430.92315,
+          "pass": true
+        },
+        "draws": {
+          "pass": true
+        },
+        "primitives": {
+          "pass": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "view": "east_south",
+      "candidate": "plane-no-shadow",
+      "phases": {
+        "box-between": {
+          "draws": 86,
+          "p50_ms": 93.425,
+          "p95_ms": 183.854,
+          "p99_ms": 410.403,
+          "primitives": 79348,
+          "video_memory": 25750655.0
+        },
+        "plane-no-shadow": {
+          "draws": 85,
+          "p50_ms": 92.841,
+          "p95_ms": 187.608,
+          "p99_ms": 314.824,
+          "primitives": 79338,
+          "video_memory": 25750655.0
+        },
+        "box-after": {
+          "draws": 86,
+          "p50_ms": 92.299,
+          "p95_ms": 245.181,
+          "p99_ms": 352.981,
+          "primitives": 79348,
+          "video_memory": 25750655.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 187.608,
+          "envelope": 286.570375,
+          "cap": 257.44005000000004,
+          "pass": true
+        },
+        "p99_ms": {
+          "on": 314.824,
+          "envelope": 458.19860000000006,
+          "cap": 430.92315,
+          "pass": true
+        },
+        "draws": {
+          "pass": true
+        },
+        "primitives": {
+          "pass": true
+        }
+      },
+      "pass": true
+    }
+  ],
+  "timing_acceptance": {
+    "plane-shadow": true,
+    "plane-no-shadow": false
+  },
+  "visual_acceptance_pending": true,
+  "limits": "A/B/A controls retain both meshes for toggling, so lazy PlaneMesh native buffer upload is not an isolated production allocation delta. No Mac performance certification."
+}

@@ -81,11 +81,31 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	var visible_bottom: MeshInstance3D
 	for child: Node in flat.get_children():
 		if child is MeshInstance3D: visible_bottom = child
-	var original_visual := fixture.global_transform * Transform3D(Basis.IDENTITY, Vector3(-22, 1.886, 60.5))
-	check.call(visible_bottom != null and visible_bottom.global_transform == original_visual
-		and visible_bottom.position == Vector3.UP * 0.006
-		and visible_bottom.mesh is BoxMesh and visible_bottom.mesh.size == Vector3(8, 0.24, Park.WIDTH),
-		"transition geometry: six-millimetre visual skin preserves the original flat mesh world transform and dimensions")
+	var expected_corners := PackedVector3Array([
+		fixture.to_global(Vector3(-26,2.006,55.5)),fixture.to_global(Vector3(-18,2.006,55.5)),
+		fixture.to_global(Vector3(-18,2.006,65.5)),fixture.to_global(Vector3(-26,2.006,65.5))])
+	var top_matches := visible_bottom != null
+	var seen: Array[int] = []
+	if visible_bottom != null:
+		var faces: PackedVector3Array = visible_bottom.mesh.get_faces()
+		top_matches = faces.size() == 6
+		for vertex: Vector3 in faces:
+			var at := visible_bottom.to_global(vertex)
+			var matched := false
+			for index: int in range(expected_corners.size()):
+				if at.distance_to(expected_corners[index]) < 0.0001:
+					matched = true
+					if not seen.has(index): seen.append(index)
+			top_matches = top_matches and matched
+	check.call(top_matches and seen.size() == 4,
+		"transition geometry: two visible flat triangles preserve all four original world top corners at2.006m")
+	var toes_supported := true
+	for x: float in [-25.999,-18.001]:
+		var at := fixture.to_global(Vector3(x,2.0,60.5))
+		var hit := _ray(fixture,at+Vector3.UP*.25,at-Vector3.UP*.25)
+		toes_supported = toes_supported and not hit.is_empty() and hit.collider == flat and hit.position.distance_to(at) < .001
+	check.call(toes_supported,
+		"transition geometry: unchanged physical box supports both flat-to-curve toe joins at2.000m")
 	var access_from := fixture.to_global(Vector3(-22, 2.4, 68))
 	var access_to := fixture.to_global(Vector3(-22, 2.4, 60))
 	check.call(_ray(fixture, access_from, access_to).is_empty(),

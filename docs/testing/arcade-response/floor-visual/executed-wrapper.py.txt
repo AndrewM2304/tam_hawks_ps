@@ -1,0 +1,33 @@
+from pathlib import Path
+import subprocess,os,time,hashlib,json,signal,datetime,zoneinfo,shutil
+root=Path.cwd();out=root/'.local/arcade-response/toe-review';out.mkdir(exist_ok=True)
+def fingerprint():
+ paths=[root/'project.godot']+[p for folder in ['game','assets','tests','tools'] for p in (root/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+ paths.extend([root/'.local/arcade-response/toe-review.gd',Path(__file__).resolve()])
+ return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
+before=fingerprint();(out/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+start=datetime.datetime.now(zoneinfo.ZoneInfo('Europe/London')).isoformat()
+with (out/'display').open('w') as df,(out/'xorg-console.log').open('w') as xf:
+ xp=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd','1','-config',str(root/'tools/xorg-dummy.conf'),'-logfile',str(out/'xorg.log'),'-noreset','-nolisten','tcp'],stdout=df,stderr=xf)
+ try:
+  for i in range(50):
+   if (out/'display').read_text().strip():break
+   if xp.poll() is not None:raise RuntimeError('Display failed')
+   time.sleep(.1)
+  env=os.environ.copy();env.update(DISPLAY=':'+(out/'display').read_text().strip(),LIBGL_ALWAYS_SOFTWARE='1',LP_NUM_THREADS='4')
+  command=['./tools/run.sh','--rendering-method','gl_compatibility','--audio-driver','Dummy','--script','.local/arcade-response/toe-review.gd']
+  with (out/'run.log').open('w') as log:
+   child=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,env=env,start_new_session=True)
+   try:code=child.wait(timeout=360)
+   except subprocess.TimeoutExpired:
+    os.killpg(child.pid,signal.SIGTERM);child.wait(timeout=10);code=124
+ finally:
+  xp.terminate()
+  try:xp.wait(timeout=5)
+  except subprocess.TimeoutExpired:xp.kill();xp.wait()
+after=fingerprint();changed=[p for p in before.keys()|after.keys() if before.get(p)!=after.get(p)]
+receipt={'started_london':start,'completed_london':datetime.datetime.now(zoneinfo.ZoneInfo('Europe/London')).isoformat(),'command':command,'source_stable':not changed,'changed_inputs':changed,'input_count':len(before),'exit_code':code,'clean_log':not any(x in (out/'run.log').read_text() for x in ['SCRIPT ERROR:','ERROR:']),'limits':'World-only fixed views, no physics/input/fun/Mac claim. Resource and strict A/B/A frame-spike gates plus actual seam visual review decide retention.'}
+(out/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+shutil.copy2(root/'.local/arcade-response/toe-review.gd',out/'executed-driver.gd.txt');shutil.copy2(__file__,out/'executed-wrapper.py.txt')
+print(json.dumps(receipt,indent=2),flush=True)
+raise SystemExit(code)

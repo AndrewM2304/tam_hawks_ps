@@ -1,0 +1,57 @@
+extends SceneTree
+var records:Array[Dictionary]=[]
+var output="res://.local/arcade-response/toe-review/"
+func _initialize(): go.call_deferred()
+func go():
+ root.size=Vector2i(960,600)
+ root.content_scale_size=root.size
+ root.msaa_3d=Viewport.MSAA_DISABLED
+ root.scaling_3d_scale=.75
+ Engine.max_fps=0
+ var world=load("res://game/levels/glasgow_square.gd").new()
+ root.add_child(world)
+ world.process_mode=Node.PROCESS_MODE_DISABLED
+ world.get_node("LateAfternoonSun").directional_shadow_max_distance=30
+ var body=world.get_node("TransitionPark/HalfPipeFlatBottom")
+ var visual:MeshInstance3D
+ for child in body.get_children():
+  if child is MeshInstance3D:visual=child
+ var box=BoxMesh.new()
+ box.size=Vector3(8,.24,10)
+ var plane=PlaneMesh.new()
+ plane.size=Vector2(8,10)
+ var camera=Camera3D.new()
+ camera.near=.2
+ camera.far=220
+ camera.fov=68
+ root.add_child(camera)
+ camera.make_current()
+ var views=[
+ {"id":"east_north","at":Vector3(-16.921591,5.213993,66.741531),"target":Vector3(-17.130772,3.075944,60.499569)},
+ {"id":"east_south","at":Vector3(-16.614944,5.276271,55.319233),"target":Vector3(-16.758427,3.205389,60.499577)}]
+ for view in views:
+  camera.position=view.at
+  camera.look_at(view.target)
+  for phase in ["box-before","plane-shadow","box-between","plane-no-shadow","box-after"]:
+   visual.mesh=box if phase.begins_with("box") else plane
+   visual.position=Vector3.UP*(.006 if phase.begins_with("box") else .126)
+   visual.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if phase=="plane-no-shadow" else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+   for warm in 15:await RenderingServer.frame_post_draw
+   var samples:Array[Dictionary]=[]
+   var previous=Time.get_ticks_usec()
+   for i in 120:
+    await RenderingServer.frame_post_draw
+    var now=Time.get_ticks_usec()
+    samples.append({"frame_ms":(now-previous)/1000.0,"draws":root.get_render_info(Viewport.RENDER_INFO_TYPE_VISIBLE,Viewport.RENDER_INFO_DRAW_CALLS_IN_FRAME),"primitives":root.get_render_info(Viewport.RENDER_INFO_TYPE_VISIBLE,Viewport.RENDER_INFO_PRIMITIVES_IN_FRAME),"video_memory":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)})
+    previous=now
+   var frame=root.get_texture().get_image()
+   frame.save_png(output+view.id+"-"+phase+".png")
+   var times:Array=[]
+   for row in samples:times.append(row.frame_ms)
+   times.sort()
+   var summary={"p50_ms":times[59],"p95_ms":times[113],"p99_ms":times[118],"draws":samples[-1].draws,"primitives":samples[-1].primitives,"video_memory":samples[-1].video_memory}
+   records.append({"view":view.id,"camera":str(camera.global_transform),"phase":phase,"summary":summary,"samples":samples})
+   print("TOE_VISUAL ",view.id," ",phase," ",JSON.stringify(summary))
+ var file=FileAccess.open(output+"measurements.json",FileAccess.WRITE)
+ file.store_string(JSON.stringify({"kind":"world-only observer at prior chase origins, target+0.95m; no actor/HUD/input","records":records,"frames":1200,"scale":.75,"resolution":[960,600],"shadows_m":30,"source":"frozen snapshot receipt","limits":"Static composition and bounded software-rendered matched cost diagnostic, not Mac or gameplay/flicker acceptance."},"\t"))
+ quit()

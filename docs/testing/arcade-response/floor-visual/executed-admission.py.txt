@@ -1,0 +1,16 @@
+from pathlib import Path
+import json
+p=Path('.local/arcade-response/toe-review')
+x=json.loads((p/'measurements.json').read_text());rows=[]
+for view in sorted({r['view'] for r in x['records']}):
+ phases={r['phase']:r['summary'] for r in x['records'] if r['view']==view}
+ for candidate,a0,a1 in [('plane-shadow','box-before','box-between'),('plane-no-shadow','box-between','box-after')]:
+  gates={};r={'view':view,'candidate':candidate,'phases':{z:phases[z] for z in [a0,candidate,a1]}}
+  for metric in ['p95_ms','p99_ms']:
+   a,b,c=(phases[z][metric] for z in [a0,candidate,a1]);mid=(a+c)/2
+   gates[metric]={'on':b,'envelope':mid+abs(a-c)+.05*mid,'cap':max(a,c)*1.05,'pass':b<=mid+abs(a-c)+.05*mid and b<=max(a,c)*1.05}
+  gates['draws']={'pass':phases[candidate]['draws']<=min(phases[a0]['draws'],phases[a1]['draws'])}
+  gates['primitives']={'pass':phases[candidate]['primitives']<=min(phases[a0]['primitives'],phases[a1]['primitives'])}
+  r['gates']=gates;r['pass']=all(g['pass'] for g in gates.values());rows.append(r)
+report={'formula':'Same strict frame-spike gate: candidate <= midpoint + abs(A0-A1)+.05*midpoint AND candidate<=1.05*max(A0,A1), both p95/p99; nonincreasing actualdraws/primitives','rows':rows,'timing_acceptance':{v:all(r['pass'] for r in rows if r['candidate']==v) for v in ['plane-shadow','plane-no-shadow']},'visual_acceptance_pending':True,'limits':'A/B/A controls retain both meshes for toggling, so lazy PlaneMesh native buffer upload is not an isolated production allocation delta. No Mac performance certification.'}
+(p/'admission.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
