@@ -80,6 +80,10 @@ def main():
     sys.argv = [str(PARENT), str(build), '--root', str(ROOT), '--receipt-dir', str(output),
                 '--evidence', args.capture, '--evidence', str(normalized_path)]
     base.main()
+    for platform in ('linux', 'macos'):
+        base.require('PACK ART EXCLUSION CHECK: art_source absent' in
+                     (output / (platform + '-district-resources.log')).read_text(),
+                     'Pack-only prototype exclusion was not checked: ' + platform)
     report_path = output / 'ARCHIVE-AUDIT.json'
     report = json.loads(report_path.read_text())
     report.update(audit='Current performance/classic-mechanics native/source construction audit',

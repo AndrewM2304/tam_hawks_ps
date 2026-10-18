@@ -212,7 +212,9 @@ func _inspect_performance(instance: Node) -> Dictionary:
 		if not ids.has(id):
 			_fail("Missing current packaged trick: " + id)
 			return {}
-	if OS.get_cmdline_args().has("--main-pack") and DirAccess.dir_exists_absolute("res://art_source"):
-		_fail("Isolated art prototype was unexpectedly exported")
-		return {}
+	if OS.get_cmdline_args().has("--main-pack"):
+		if DirAccess.dir_exists_absolute("res://art_source"):
+			_fail("Isolated art prototype was unexpectedly exported")
+			return {}
+		print("PACK ART EXCLUSION CHECK: art_source absent")
 	return {"graphics_quality":"balanced", "scale_3d":viewport.scaling_3d_scale, "msaa_3d":viewport.msaa_3d, "far_m":camera.far, "near_m":camera.near, "shadow_distance_m":sun.directional_shadow_max_distance, "occlusion_enabled":viewport.use_occlusion_culling, "native_interpolation":true, "static_batches":batches, "static_bodies":bodies, "collision_shapes":shapes, "transition_ids":transition_ids, "trick_ids":ids, "construction_only":true}
