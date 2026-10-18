@@ -1,0 +1,86 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: manual: fixture reaches actual floor support
+PASS: manual: stopped input cannot start a manual
+PASS: manual: held rejected input cannot enter when speed becomes eligible
+PASS: manual: fresh supported entry scores once and starts one combo link
+PASS: manual: held ride drifts visibly without repeat entry points
+PASS: manual: real board pose raises its nose while balanced
+PASS: manual: right input shifts balance right
+PASS: manual: left input corrects rightward balance
+PASS: manual: release ends the supported link exactly once
+PASS: manual: immediate fresh reentry is blocked by cooldown
+PASS: manual: holding through cooldown cannot manufacture a new entry
+PASS: manual: fresh input after cooldown can enter again
+PASS: manual: eligible ollie continues link without a ground-end event
+PASS: manual: holding through air and landing cannot auto-enter another manual
+PASS: manual: losing required speed ends one supported link
+PASS: manual: actual balance input exceeding the limit bails once and clears state
+PASS: manual/revert: overtime entry gate rejects all fresh grounded links
+PASS: revert: a fresh airborne press is ineligible
+PASS: revert: landing opens eligibility but a held early press stays rejected
+PASS: revert: eligible fresh entry scores once without starting a new landing link
+PASS: revert: accepted entry applies the documented 15 percent speed cost
+MANUAL REVERT heading_before=-0.0466665700078 after=-0.04666658863425 delta=-0.00000001862645 window_before=0.33333333333333 after=0.31666666666667
+ERROR: FAIL: revert: entry neither refreshes eligibility nor changes travel heading
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/water-controls/manual_debug.gd:15)
+       [1] run (res://tests/manual_revert_tests.gd:228)
+       [2] _frames (res://tests/manual_revert_tests.gd:384)
+PASS: revert: another fresh press on the same landing cannot score twice
+PASS: revert: completed visual turn visibly changes stance by 180 degrees
+PASS: revert: a press after the original landing deadline is rejected
+PASS: manual/revert: reset clears balance, holds, cooldown eligibility and visual transition
+PASS: special: ordinary ground travel cannot execute an aerial special
+PASS: special: unknown ID cannot score or use an air slot
+PASS: special: direct requests reject while gameplay is paused
+PASS: special: overtime blocks a fresh aerial special
+PASS: special: disabled controls reject a fresh request
+PASS: special: eligible fresh air request exposes the accepted display name
+PASS: special: accepting a cosmetic move preserves the physical velocity
+PASS: special: neither repeating nor switching IDs bypasses one execution per airtime
+PASS: special: Clyde Carousel actually rotates the visible board horizontally
+PASS: special: finished animation clears its label without reopening the air slot
+PASS: special: a new actual airtime permits the other catalog special
+PASS: special: Tenement Tumble rotates the visual while collision stays upright
+PASS: special: reset clears the active label and restores the visual transform
+MANUAL BUFFER held phase=2 processing=true done=true entries=[542, 564] exit=543 presses=[542, 559] request_elapsed=16 samples=27 position=(0.0, 0.000506, 7.416973) speed=5.079660 floor=true active=true cooldown=0.000000000000000 controls=true banks=[564] request={ "active": false, "cooldown": 0.08333333333333, "buffer": 0.12, "speed": 5.32527875900269, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.05333333333333, "speed": 5.18857908248901, "floor": true, "held": true } eligible={ "active": true, "cooldown": 0.0, "buffer": 0.0, "speed": 5.15467596054077, "floor": true, "held": true }
+PASS: manual buffer (held): real push, supported manual and release establish the recovery window
+PASS: manual buffer (held): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (held): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (held): one fresh near-expiry request waits, then enters exactly once on eligible floor
+MANUAL BUFFER gesture phase=2 processing=true done=true entries=[622, 644] exit=623 presses=[622] request_elapsed=15 samples=27 position=(0.0, 0.000506, 7.438279) speed=4.951057 floor=true active=true cooldown=0.000000000000000 controls=true banks=[644] request={ "active": false, "cooldown": 0.1, "buffer": 0.12, "speed": 5.22863340377808, "floor": true, "held": false } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.03666666666667, "speed": 5.05954694747925, "floor": true, "held": false } eligible={ "active": true, "cooldown": 0.0, "buffer": 0.0, "speed": 5.02607297897339, "floor": true, "held": false }
+PASS: manual buffer (gesture): real push, supported manual and release establish the recovery window
+PASS: manual buffer (gesture): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (gesture): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (gesture): one fresh near-expiry request waits, then enters exactly once on eligible floor
+PASS: manual buffer (gesture): neutral-separated Up/Down retains its latched selection through recovery
+MANUAL BUFFER too_early phase=2 processing=true done=true entries=[702] exit=703 presses=[702, 705] request_elapsed=2 samples=27 position=(0.0, 0.000506, 7.424358) speed=4.953603 floor=true active=false cooldown=0.000000000000000 controls=true banks=[724] request={ "active": false, "cooldown": 0.31666666666667, "buffer": 0.0, "speed": 5.81874799728394, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.0, "speed": 5.18857908248901, "floor": true, "held": true } eligible={ "active": false, "cooldown": 0.0, "buffer": 0.0, "speed": 5.15467596054077, "floor": true, "held": true }
+PASS: manual buffer (too_early): real push, supported manual and release establish the recovery window
+PASS: manual buffer (too_early): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (too_early): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (too_early): rejected, released or expired input cannot manufacture another link or award
+PASS: manual buffer (too_early): a too-early fresh press stays rejected even when held beyond recovery
+MANUAL BUFFER outside_window phase=2 processing=true done=true entries=[782] exit=783 presses=[782, 796] request_elapsed=13 samples=27 position=(0.0, 0.000506, 7.424358) speed=4.953603 floor=true active=false cooldown=0.000000000000000 controls=true banks=[804] request={ "active": false, "cooldown": 0.13333333333333, "buffer": 0.0, "speed": 5.42913389205933, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.0, "speed": 5.18857908248901, "floor": true, "held": true } eligible={ "active": false, "cooldown": 0.0, "buffer": 0.0, "speed": 5.15467596054077, "floor": true, "held": true }
+PASS: manual buffer (outside_window): real push, supported manual and release establish the recovery window
+PASS: manual buffer (outside_window): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (outside_window): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (outside_window): rejected, released or expired input cannot manufacture another link or award
+PASS: manual buffer (outside_window): a too-early fresh press stays rejected even when held beyond recovery
+PASS: manual buffer (outside_window): the observed fresh edge is just outside the 120ms buffer boundary
+MANUAL BUFFER released phase=2 processing=true done=true entries=[862] exit=863 presses=[862, 879] request_elapsed=16 samples=27 position=(0.0, 0.000506, 7.424358) speed=4.953603 floor=true active=false cooldown=0.000000000000000 controls=true banks=[884] request={ "active": false, "cooldown": 0.08333333333333, "buffer": 0.12, "speed": 5.32527875900269, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.05333333333333, "speed": 5.18857908248901, "floor": true, "held": false } eligible={ "active": false, "cooldown": 0.0, "buffer": 0.03666666666667, "speed": 5.15467596054077, "floor": true, "held": false }
+PASS: manual buffer (released): real push, supported manual and release establish the recovery window
+PASS: manual buffer (released): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (released): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (released): rejected, released or expired input cannot manufacture another link or award
+PASS: manual buffer (released): the fresh press was actually buffered before rejection
+PASS: manual buffer (released): release alone rejects the otherwise eligible supported entry
+MANUAL BUFFER expired phase=2 processing=true done=true entries=[942] exit=943 presses=[942, 959] request_elapsed=16 samples=55 position=(0.0, 0.000506, 7.38532) speed=5.000238 floor=true active=false cooldown=0.000000000000000 controls=true banks=[964] request={ "active": false, "cooldown": 0.08333333333333, "buffer": 0.12, "speed": 1.67776095867157, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.05333333333333, "speed": 0.2110862582922, "floor": true, "held": true } eligible={ "active": false, "cooldown": 0.0, "buffer": 0.03666666666667, "speed": 0.0, "floor": true, "held": true }
+PASS: manual buffer (expired): real push, supported manual and release establish the recovery window
+PASS: manual buffer (expired): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (expired): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (expired): rejected, released or expired input cannot manufacture another link or award
+PASS: manual buffer (expired): the fresh press was actually buffered before rejection
+PASS: manual buffer (expired): actual braking spends the buffer; later pushing cannot revive the held request
+RESULT: 70 passed, 1 failed

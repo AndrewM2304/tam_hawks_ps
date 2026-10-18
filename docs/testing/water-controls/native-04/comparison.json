@@ -1,0 +1,256 @@
+{
+  "schema": 1,
+  "timing_pass": false,
+  "results": [
+    {
+      "id": "clyde-raised-deck",
+      "control_a": {
+        "p50": 486.144,
+        "p95": 542.47935,
+        "p99": 559.6162899999999,
+        "frames": 40,
+        "max_ms": 566.086,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 966.0,
+        "primitives": 450682.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "candidate": {
+        "p50": 475.1385,
+        "p95": 497.6311499999999,
+        "p99": 543.68487,
+        "frames": 40,
+        "max_ms": 551.043,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 966.0,
+        "primitives": 450682.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "control_b": {
+        "p50": 487.582,
+        "p95": 521.6339999999999,
+        "p99": 557.19218,
+        "frames": 40,
+        "max_ms": 570.779,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 966.0,
+        "primitives": 450682.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 579.5048587499999,
+          "worse_limit_ms": 569.6033175,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 588.7485567499999,
+          "worse_limit_ms": 587.5971045,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 0.0,
+      "primitive_delta": 0.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "clyde-river-east",
+      "control_a": {
+        "p50": 197.224,
+        "p95": 220.81369999999998,
+        "p99": 230.40834,
+        "frames": 40,
+        "max_ms": 235.125,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 377.0,
+        "primitives": 127868.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "candidate": {
+        "p50": 197.6925,
+        "p95": 229.18519999999998,
+        "p99": 259.08286999999996,
+        "frames": 40,
+        "max_ms": 273.968,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 377.0,
+        "primitives": 127868.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "control_b": {
+        "p50": 206.99,
+        "p95": 232.87425,
+        "p99": 243.09299,
+        "frames": 40,
+        "max_ms": 249.356,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 377.0,
+        "primitives": 127868.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 250.24672375,
+          "worse_limit_ms": 244.5179625,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 261.27284825,
+          "worse_limit_ms": 255.2476395,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 0.0,
+      "primitive_delta": 0.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "clyde-southeast-corner",
+      "control_a": {
+        "p50": 142.585,
+        "p95": 170.45954999999998,
+        "p99": 179.99629,
+        "frames": 40,
+        "max_ms": 184.204,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 107.0,
+        "primitives": 37555.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "candidate": {
+        "p50": 155.4855,
+        "p95": 179.14414999999994,
+        "p99": 194.37276,
+        "frames": 40,
+        "max_ms": 196.758,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 107.0,
+        "primitives": 37555.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "control_b": {
+        "p50": 153.673,
+        "p95": 177.95915,
+        "p99": 180.92202999999998,
+        "frames": 40,
+        "max_ms": 181.867,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 107.0,
+        "primitives": 37555.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 190.41941749999998,
+          "worse_limit_ms": 186.8571075,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 190.40785799999998,
+          "worse_limit_ms": 189.9681315,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 0.0,
+      "primitive_delta": 0.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "clyde-river-west",
+      "control_a": {
+        "p50": 263.64099999999996,
+        "p95": 294.04179999999997,
+        "p99": 300.85105,
+        "frames": 40,
+        "max_ms": 303.154,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 328.0,
+        "primitives": 304318.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "candidate": {
+        "p50": 269.48400000000004,
+        "p95": 300.07785,
+        "p99": 307.17833,
+        "frames": 40,
+        "max_ms": 307.784,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 328.0,
+        "primitives": 304318.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "control_b": {
+        "p50": 275.249,
+        "p95": 337.41110000000003,
+        "p99": 341.02586,
+        "frames": 40,
+        "max_ms": 342.947,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 328.0,
+        "primitives": 304318.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 374.88207250000005,
+          "worse_limit_ms": 354.28165500000006,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 377.16018775000003,
+          "worse_limit_ms": 358.07715300000007,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 0.0,
+      "primitive_delta": 0.0,
+      "buffer_delta": 0.0
+    }
+  ],
+  "native_samples": 480,
+  "candidate_views": 4,
+  "matched_views": 4,
+  "method": "Same-process original/candidate/original at4fixed Clyde water bearings,40native post-draw intervals/phase,12minimumwarmframes,4candidateviews/12observations/480samples. Readback outsidetimings. Frozenidenticalsource,settings,position/layer,camera/input,lightingintent.",
+  "gate": "Each p95/p99 <= control midpoint + absolute repeat difference +5% midpoint AND <=1.05*worse original control. Unchanged strict gate.",
+  "limits": "Stationary llvmpipe, no Mac FPS/human/flicker certification. Candidate allocations stayresident duringappearance-off controls; actualimportbytes/coldbaseline separate. Reported3Ddraws include shadow work, not isolated main submissions."
+}

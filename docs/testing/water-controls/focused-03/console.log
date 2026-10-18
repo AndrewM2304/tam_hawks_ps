@@ -1,0 +1,276 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: input profile: classic faces/revert/restart remain; specials and interact leave D-pad directions free
+PASS: input profile: snapshot retains default keyboard alternatives
+PASS: input profile: remapping a physical key preserves the controller binding
+PASS: input profile: controller remapping preserves the independently remapped keyboard slot
+PASS: input profile: remapped controller events accept a reconnected device at another index
+PASS: input profile: caller edits to returned settings cannot mutate live assignments
+PASS: input profile: duplicate live keyboard bindings reject without partial changes
+PASS: input profile: duplicate controller buttons reject
+PASS: input profile: a default secondary keyboard alias also participates in collision checks
+PASS: input profile: saved overrides conflicting with an untouched default reject atomically
+PASS: input profile: a complete saved profile can atomically swap otherwise conflicting keys
+PASS: input profile: a signed axis capture retains keyboard fallback and normalizes its direction
+PASS: input profile: opposite directions of one stick remain distinct bindable inputs
+PASS: input profile: duplicate axis directions reject even when capture magnitudes differ
+PASS: input profile: resting-stick noise and nonfinite axis values cannot capture a binding
+PASS: input profile: trigger bindings cannot use the unpressed negative direction
+PASS: input profile: held axes cannot repeatedly toggle a discrete menu action
+PASS: input profile: switching from axis to button replaces the controller slot without losing keyboard input
+PASS: input profile: Escape pause recovery and Enter menu confirmation cannot be reassigned
+PASS: input profile: pause controller remapping still retains Escape recovery
+PASS: input profile: releases, repeated key events and modifier chords do not bind
+PASS: input profile: unknown actions and unsupported/null event types reject safely
+PASS: input profile: malformed serialized data rejects without constructing resources or mutating InputMap
+PASS: input profile: simple numeric JSON bindings round-trip through validated actual InputMap events
+PASS: input profile: Godot resolves new key events and preserved controller fallback while releasing the old key
+PASS: input profile: reset returns an empty override profile and restores canonical controls
+PASS: input profile: rebinding and resetting never alter built-in menu accept/cancel inputs
+PASS: classic pad: repeated held right-stick events attempt a special only once
+PASS: classic pad: opposite right-stick excursion reaches the distinct special once
+PASS: classic pad: sampled neutral resets each special latch without held-event spam
+PASS: classic pad: production Skater settles on real supported floor
+PASS: classic pad: all four actual D-pad events drive movement without specials or interaction
+PASS: classic pad: signed right-stick Y reaches two distinct specials without movement
+PASS: classic pad: L3 interaction, R3 restart, Touchpad free skate and R2 revert retain distinct inputs
+PASS: classic pad: D-pad pushes, physically carves and brakes without creating a manual
+PASS: classic pad: dpad sampled-neutral gesture enters manual exactly once
+PASS: classic pad: dpad Left corrects positive manual balance
+CLASSIC PAD MANUAL device=dpad nose=false same_tick=false balance=[0.05913333333333, 0.01533333333333, -0.1508, -0.06408888888889] yaw_delta=0.0 speed=6.45687055587769 active=true awards=["Manual"]
+PASS: classic pad: dpad Right corrects negative manual balance without carving, relabel or duplicate award
+PASS: classic pad: R1 can deliberately carve during a latched manual while directions balance
+PASS: classic pad: dpad sampled-neutral gesture enters nose_manual exactly once
+PASS: classic pad: dpad Left corrects positive nose_manual balance
+CLASSIC PAD MANUAL device=dpad nose=true same_tick=false balance=[0.05913333333333, 0.01533333333333, -0.1508, -0.06408888888889] yaw_delta=0.0 speed=5.93067121505737 active=true awards=["Nose Manual"]
+PASS: classic pad: dpad Right corrects negative nose_manual balance without carving, relabel or duplicate award
+PASS: classic pad: stick sampled-neutral gesture enters manual exactly once
+PASS: classic pad: stick Left corrects positive manual balance
+CLASSIC PAD MANUAL device=stick nose=false same_tick=false balance=[0.05913333333333, 0.02158333333333, -0.11948888888889, -0.04527777777778] yaw_delta=0.0 speed=6.45687055587769 active=true awards=["Manual"]
+PASS: classic pad: stick Right corrects negative manual balance without carving, relabel or duplicate award
+PASS: classic pad: stick sampled-neutral gesture enters nose_manual exactly once
+PASS: classic pad: stick Left corrects positive nose_manual balance
+CLASSIC PAD MANUAL device=stick nose=true same_tick=false balance=[0.05913333333333, 0.02158333333333, -0.11948888888889, -0.04527777777778] yaw_delta=0.0 speed=5.93067121505737 active=true awards=["Nose Manual"]
+PASS: classic pad: stick Right corrects negative nose_manual balance without carving, relabel or duplicate award
+PASS: classic pad: dpad release/opposite within one tick gesture enters manual exactly once
+PASS: classic pad: dpad Left corrects positive manual balance
+CLASSIC PAD MANUAL device=dpad nose=false same_tick=true balance=[0.05913333333333, 0.01533333333333, -0.1508, -0.06408888888889] yaw_delta=0.0 speed=6.53732252120972 active=true awards=["Manual"]
+PASS: classic pad: dpad Right corrects negative manual balance without carving, relabel or duplicate award
+PASS: classic pad: optional held L2 manual still enters on real ground and ends when released
+CLASSIC PAD REFUSAL scenario=direct speed=6.294593334198 active=false awards=[]
+PASS: classic pad: direct input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=opposite_hold speed=5.56629133224487 active=false awards=[]
+PASS: classic pad: opposite_hold input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=expired speed=5.67031812667847 active=false awards=[]
+PASS: classic pad: expired input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=noise speed=6.38454389572144 active=false awards=[]
+PASS: classic pad: noise input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=releases speed=6.53720808029175 active=false awards=[]
+PASS: classic pad: releases input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=slow speed=0.0 active=false awards=[]
+PASS: classic pad: slow input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=disabled speed=6.21482801437378 active=false awards=[]
+PASS: classic pad: disabled input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=entry_reset speed=6.25476789474487 active=false awards=[]
+PASS: classic pad: entry_reset input cannot fabricate a fresh manual
+PASS: classic pad: early post-exit gesture is refused and cannot revive when cooldown later expires
+PASS: classic pause: real tree pause discards the pending Up-neutral edge before menu Down/resume
+PASS: classic pause: latched manual motion, balance, identity and visible pose stay exactly frozen during menu input
+CLASSIC PAD PAUSE ghost_eligible=true ghost_frozen=true manual_admitted=true manual_unchanged=true resumed_distance=0.32970428466797 active=true awards=["Manual"]
+PASS: classic pause: existing manual latch resumes actual travel without a new gesture or duplicate award
+CLASSIC PAD AIR released=false eligible=true request=(0.0, 0.374908, 22.65347) velocity=(0.0, 10.73333, -9.222227) final=(0.0, 0.012423, 16.65903) floor=true awards=["Ollie"]
+PASS: classic pad: expired early-air held L2 request cannot create a manual at actual landing
+CLASSIC PAD AIR released=true eligible=true request=(0.0, 0.979909, 17.58125) velocity=(0.0, -7.966665, -9.222227) final=(0.0, 0.012423, 16.65903) floor=true awards=["Ollie"]
+PASS: classic pad: released near-landing L2 request cannot create a manual at actual landing
+PASS: classic pad: holding then releasing Cross produces a real supported Ollie
+PASS: classic pad: D-pad Right plus Square selects and performs the airborne heelflip
+PASS: classic pad: D-pad Up plus Circle selects and performs the airborne nose grab
+CLASSIC PAD FACES descending=true captures=["ControllerRail"] awards=["Ollie", "Heelflip", "Nose Grab", "Rail Grind"] at=(0.0, 0.92, 18.27292)
+PASS: classic pad: Triangle reaches actual rail capture and awards exactly one grind
+PASS: classic pad: every physical input, saved profile and supported fixture is cleaned up
+PASS: manual: fixture reaches actual floor support
+PASS: manual: stopped input cannot start a manual
+PASS: manual: held rejected input cannot enter when speed becomes eligible
+PASS: manual: fresh supported entry scores once and starts one combo link
+PASS: manual: held ride drifts visibly without repeat entry points
+PASS: manual: real board pose raises its nose while balanced
+PASS: manual: right input shifts balance right
+PASS: manual: left input corrects rightward balance
+PASS: manual: release ends the supported link exactly once
+PASS: manual: immediate fresh reentry is blocked by cooldown
+PASS: manual: holding through cooldown cannot manufacture a new entry
+PASS: manual: fresh input after cooldown can enter again
+PASS: manual: eligible ollie continues link without a ground-end event
+PASS: manual: holding through air and landing cannot auto-enter another manual
+PASS: manual: losing required speed ends one supported link
+PASS: manual: actual balance input exceeding the limit bails once and clears state
+PASS: manual/revert: overtime entry gate rejects all fresh grounded links
+PASS: revert: a fresh airborne press is ineligible
+PASS: revert: landing opens eligibility but a held early press stays rejected
+PASS: revert: eligible fresh entry scores once without starting a new landing link
+PASS: revert: accepted entry applies the documented 15 percent speed cost
+MANUAL REVERT heading_before=0.0 after=0.0 delta=0.0 window_before=0.33333333333333 after=0.31666666666667
+PASS: revert: entry neither refreshes eligibility nor changes travel heading
+PASS: revert: another fresh press on the same landing cannot score twice
+PASS: revert: completed visual turn visibly changes stance by 180 degrees
+PASS: revert: a press after the original landing deadline is rejected
+PASS: manual/revert: reset clears balance, holds, cooldown eligibility and visual transition
+PASS: special: ordinary ground travel cannot execute an aerial special
+PASS: special: unknown ID cannot score or use an air slot
+PASS: special: direct requests reject while gameplay is paused
+PASS: special: overtime blocks a fresh aerial special
+PASS: special: disabled controls reject a fresh request
+PASS: special: eligible fresh air request exposes the accepted display name
+PASS: special: accepting a cosmetic move preserves the physical velocity
+PASS: special: neither repeating nor switching IDs bypasses one execution per airtime
+PASS: special: Clyde Carousel actually rotates the visible board horizontally
+PASS: special: finished animation clears its label without reopening the air slot
+PASS: special: a new actual airtime permits the other catalog special
+PASS: special: Tenement Tumble rotates the visual while collision stays upright
+PASS: special: reset clears the active label and restores the visual transform
+MANUAL BUFFER held phase=2 processing=true done=true entries=[2810, 2832] exit=2811 presses=[2810, 2827] request_elapsed=16 samples=27 position=(0.0, 0.000506, 7.416973) speed=5.079660 floor=true active=true cooldown=0.000000000000000 controls=true banks=[2832] request={ "active": false, "cooldown": 0.08333333333333, "buffer": 0.12, "speed": 5.32527875900269, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.05333333333333, "speed": 5.18857908248901, "floor": true, "held": true } eligible={ "active": true, "cooldown": 0.0, "buffer": 0.0, "speed": 5.15467596054077, "floor": true, "held": true }
+PASS: manual buffer (held): real push, supported manual and release establish the recovery window
+PASS: manual buffer (held): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (held): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (held): one fresh near-expiry request waits, then enters exactly once on eligible floor
+MANUAL BUFFER gesture phase=2 processing=true done=true entries=[2890, 2912] exit=2891 presses=[2890] request_elapsed=15 samples=27 position=(0.0, 0.000506, 7.438279) speed=4.951057 floor=true active=true cooldown=0.000000000000000 controls=true banks=[2912] request={ "active": false, "cooldown": 0.1, "buffer": 0.12, "speed": 5.22863340377808, "floor": true, "held": false } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.03666666666667, "speed": 5.05954694747925, "floor": true, "held": false } eligible={ "active": true, "cooldown": 0.0, "buffer": 0.0, "speed": 5.02607297897339, "floor": true, "held": false }
+PASS: manual buffer (gesture): real push, supported manual and release establish the recovery window
+PASS: manual buffer (gesture): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (gesture): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (gesture): one fresh near-expiry request waits, then enters exactly once on eligible floor
+PASS: manual buffer (gesture): neutral-separated Up/Down retains its latched selection through recovery
+MANUAL BUFFER too_early phase=2 processing=true done=true entries=[2970] exit=2971 presses=[2970, 2973] request_elapsed=2 samples=27 position=(0.0, 0.000506, 7.424358) speed=4.953603 floor=true active=false cooldown=0.000000000000000 controls=true banks=[2992] request={ "active": false, "cooldown": 0.31666666666667, "buffer": 0.0, "speed": 5.81874799728394, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.0, "speed": 5.18857908248901, "floor": true, "held": true } eligible={ "active": false, "cooldown": 0.0, "buffer": 0.0, "speed": 5.15467596054077, "floor": true, "held": true }
+PASS: manual buffer (too_early): real push, supported manual and release establish the recovery window
+PASS: manual buffer (too_early): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (too_early): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (too_early): rejected, released or expired input cannot manufacture another link or award
+PASS: manual buffer (too_early): a too-early fresh press stays rejected even when held beyond recovery
+MANUAL BUFFER outside_window phase=2 processing=true done=true entries=[3050] exit=3051 presses=[3050, 3064] request_elapsed=13 samples=27 position=(0.0, 0.000506, 7.424358) speed=4.953603 floor=true active=false cooldown=0.000000000000000 controls=true banks=[3072] request={ "active": false, "cooldown": 0.13333333333333, "buffer": 0.0, "speed": 5.42913389205933, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.0, "speed": 5.18857908248901, "floor": true, "held": true } eligible={ "active": false, "cooldown": 0.0, "buffer": 0.0, "speed": 5.15467596054077, "floor": true, "held": true }
+PASS: manual buffer (outside_window): real push, supported manual and release establish the recovery window
+PASS: manual buffer (outside_window): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (outside_window): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (outside_window): rejected, released or expired input cannot manufacture another link or award
+PASS: manual buffer (outside_window): a too-early fresh press stays rejected even when held beyond recovery
+PASS: manual buffer (outside_window): the observed fresh edge is just outside the 120ms buffer boundary
+MANUAL BUFFER released phase=2 processing=true done=true entries=[3130] exit=3131 presses=[3130, 3147] request_elapsed=16 samples=27 position=(0.0, 0.000506, 7.424358) speed=4.953603 floor=true active=false cooldown=0.000000000000000 controls=true banks=[3152] request={ "active": false, "cooldown": 0.08333333333333, "buffer": 0.12, "speed": 5.32527875900269, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.05333333333333, "speed": 5.18857908248901, "floor": true, "held": false } eligible={ "active": false, "cooldown": 0.0, "buffer": 0.03666666666667, "speed": 5.15467596054077, "floor": true, "held": false }
+PASS: manual buffer (released): real push, supported manual and release establish the recovery window
+PASS: manual buffer (released): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (released): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (released): rejected, released or expired input cannot manufacture another link or award
+PASS: manual buffer (released): the fresh press was actually buffered before rejection
+PASS: manual buffer (released): release alone rejects the otherwise eligible supported entry
+MANUAL BUFFER expired phase=2 processing=true done=true entries=[3210] exit=3211 presses=[3210, 3227] request_elapsed=16 samples=55 position=(0.0, 0.000506, 7.38532) speed=5.000238 floor=true active=false cooldown=0.000000000000000 controls=true banks=[3232] request={ "active": false, "cooldown": 0.08333333333333, "buffer": 0.12, "speed": 1.67776095867157, "floor": true, "held": true } before={ "active": false, "cooldown": 0.01666666666667, "buffer": 0.05333333333333, "speed": 0.2110862582922, "floor": true, "held": true } eligible={ "active": false, "cooldown": 0.0, "buffer": 0.03666666666667, "speed": 0.0, "floor": true, "held": true }
+PASS: manual buffer (expired): real push, supported manual and release establish the recovery window
+PASS: manual buffer (expired): full 0.35-second recovery expires on native tick 21, never tick 20 or 22
+PASS: manual buffer (expired): pending input cannot extend or duplicate the original 0.35-second bank
+PASS: manual buffer (expired): rejected, released or expired input cannot manufacture another link or award
+PASS: manual buffer (expired): the fresh press was actually buffered before rejection
+PASS: manual buffer (expired): actual braking spends the buffer; later pushing cannot revive the held request
+PASS: classic input: holding mapped Space for 2 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (2f)
+PASS: classic input: releasing mapped Space pops exactly once (2f)
+PASS: classic input: one held/released request lands without automatic hopping (2f)
+PASS: classic input: holding mapped Space for 36 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (36f)
+PASS: classic input: releasing mapped Space pops exactly once (36f)
+PASS: classic input: one held/released request lands without automatic hopping (36f)
+PASS: classic input: a deliberate crouch charges a measurably higher real ollie
+CLASSIC OLLIE short_apex=1.021 charged_apex=1.982
+PASS: classic flip: mapped J snapshots kickflip across a direction change before release
+PASS: classic flip: held kickflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots heelflip across a direction change before release
+PASS: classic flip: held heelflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots frontside_shuvit across a direction change before release
+PASS: classic flip: held frontside_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots pop_shuvit across a direction change before release
+PASS: classic flip: held pop_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots varial_flip across a direction change before release
+PASS: classic flip: held varial_flip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots hardflip across a direction change before release
+PASS: classic flip: held hardflip finishes with one family award and a real landing
+PASS: classic grab: direction plus mapped K selects melon_grab in real airtime
+PASS: classic grab: held melon_grab stays selected while the stick changes direction
+PASS: classic grab: release ends melon_grab without a second award
+PASS: classic grab: direction plus mapped K selects indy_grab in real airtime
+PASS: classic grab: held indy_grab stays selected while the stick changes direction
+PASS: classic grab: release ends indy_grab without a second award
+PASS: classic grab: direction plus mapped K selects nose_grab in real airtime
+PASS: classic grab: held nose_grab stays selected while the stick changes direction
+PASS: classic grab: release ends nose_grab without a second award
+PASS: classic grab: direction plus mapped K selects tail_grab in real airtime
+PASS: classic grab: held tail_grab stays selected while the stick changes direction
+PASS: classic grab: release ends tail_grab without a second award
+PASS: classic grab: direction plus mapped K selects method_grab in real airtime
+PASS: classic grab: held method_grab stays selected while the stick changes direction
+PASS: classic grab: release ends method_grab without a second award
+PASS: classic flip: a fresh press during the unfinished clip cannot overlap or score twice
+PASS: classic flip: a fresh directional press after clip completion starts a second distinct flip
+PASS: classic manual: mapped M selects manual at eligible real ground speed
+PASS: classic manual: manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends manual
+PASS: classic manual: mapped M selects nose_manual at eligible real ground speed
+PASS: classic manual: nose_manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends nose_manual
+PASS: classic manual: tail and nose variants tilt the visible board in opposite directions
+PASS: classic gesture: mapped Left-Y Up-neutral-Down admits manual once within 220ms
+PASS: classic gesture: releasing the completed manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: mapped Left-Y Down-neutral-Up admits nose_manual once within 220ms
+PASS: classic gesture: releasing the completed nose_manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched nose_manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: a direct push-to-brake reversal with no sampled neutral cannot turn ordinary braking into an automatic manual
+PASS: classic gesture: an expired >220ms stick sequence cannot turn ordinary braking into an automatic manual
+PASS: classic air: partial stick spin preserves physical flight heading and horizontal momentum
+PASS: classic air: the same partial stick visibly spins rider and deck
+PASS: classic rail: a released one-tick mapped Triangle tap buffers a witnessed descending catch within180ms
+CLASSIC RAIL request_tick=5767 release_tick=5768 capture_ticks=[5772] request_at=(0.0, 1.832473, -3.962817) request_velocity=(0.0, -2.866666, -13.9374) uncaptured_while_pressed=true buttons_at_capture=[false]
+PASS: classic rail: a released capture button neither drops nor repeatedly awards the locked rail
+PASS: classic rail: a second fresh mapped Triangle press drops without an immediate recapture
+PASS: classic gates: disabling controls clears a crouch so its stale release cannot pop
+PASS: classic gates: overtime allows existing airtime but rejects new flip and grab entries
+PASS: classic gates: reset clears every selected/active trick family
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before axle_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits axle_stall at actual coping
+PASS: classic lip: held axle_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops axle_stall inward toward its own ramp
+PASS: classic lip: axle_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE axle_stall max_pitch=72.8294995042203 position=(17.0, 2.011557, 82.37067) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before nose_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits nose_stall at actual coping
+PASS: classic lip: held nose_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: holding Ollie crouches in the stall until release
+CLASSIC LIP POP air=true lip=false velocity=(0.0, 8.155825, 1.2) seen=["Nose Stall", "Ollie"]
+PASS: classic lip: release-pop exits the real coping once into upward airtime
+PASS: classic lip: nose_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE nose_stall max_pitch=72.8294995042203 position=(17.0, 2.011559, 82.2523) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before tail_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits tail_stall at actual coping
+PASS: classic lip: held tail_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: overtime preserves an existing stall but rejects new tricks and pop
+PASS: classic lip: existing overtime stall still permits an ordinary release/drop
+PASS: classic lip: tail_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE tail_stall max_pitch=72.8294995042203 position=(17.0, 2.011557, 82.37067) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before disaster
+PASS: classic lip: a fresh mapped Triangle plus direction admits disaster at actual coping
+PASS: classic lip: held disaster balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops disaster inward toward its own ramp
+PASS: classic lip: disaster exits and returns to supported current fixture without falling through
+CLASSIC PIPE disaster max_pitch=72.8294995042203 position=(17.04967, 2.011558, 82.36981) bails=0
+PASS: classic lip: Triangle on ordinary flat approach cannot create a stall
+PASS: classic lip: a released expired Triangle from flat ground cannot acquire a later coping
+PASS: classic lip: a real solid obstruction at the coping rejects an otherwise held approach
+PASS: classic pipe: blocked coping contact never restores an analytic target through the obstacle
+PASS: classic pipe: removing a real obstruction cannot resurrect momentum already removed by its collision
+PASS: classic vert: ordinary roll-up naturally releases upward from the actual quarter without a jump input
+PASS: classic vert: exactly two real air ticks preserve XZ momentum and apply the intended34m/s2 gravity
+CLASSIC VERT released=true launch_tick=7701 elapsed_ticks=2 launch=(0.0, 7.079565, -0.0) expected_up=5.94623123804728 after=(0.0, 5.946231, -0.0)
+PASS: classic halfpipe: a modest actual push climbs its finite east wall and naturally reverses below the coping
+PASS: classic halfpipe: reverse wall exit carries momentum back across the supported flat bottom
+CLASSIC HALFPIPE entered=true reversed=true crossed=true maxheight=2.98458480834961 position=(-40.03687, 2.014028, 61.5) velocity=(-5.762101, 0.0, -0.0)
+RESULT: 240 passed, 0 failed

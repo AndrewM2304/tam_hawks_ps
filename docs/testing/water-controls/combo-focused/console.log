@@ -1,0 +1,35 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: combo integration: stationary manual and out-of-window revert cannot award points
+PASS: combo integration: fresh manual input cannot enter from the air
+PASS: combo integration: manual held from the air does not manufacture a landing entry
+PASS: combo integration: real ollie and flip land into an unbanked 0.35-second link window
+PASS: combo integration: mapped M key links the landing into one manual entry
+PASS: combo integration: balanced held manual preserves the combo beyond the landing deadline
+PASS: combo integration: pause freezes manual movement, balance and run time
+PASS: combo integration: ollie exits the manual into air without prematurely banking
+PASS: combo integration: air-manual-air sequence retains repeat degradation across links
+PASS: combo integration: 0.25 seconds of clean ground time is still inside the bank window
+PASS: combo integration: the complete played line banks exactly 3200 after the deadline
+PASS: combo integration: continued ground travel cannot bank the linked line twice
+PASS: combo integration: an early aerial revert press is rejected
+PASS: combo integration: holding an early revert does not queue a landing award
+PASS: combo integration: a valid fresh landing revert scores once and costs 15 percent speed
+PASS: combo integration: revert consumes the original bank window without refreshing it
+PASS: combo integration: repeated fresh revert presses cannot score twice on one landing
+PASS: combo integration: revert alone cannot keep an ollie combo alive indefinitely
+PASS: combo integration: late revert after the landing window cannot open a new combo
+PASS: combo integration: clean manual release opens a single pending bank
+PASS: combo integration: immediate manual reentry is blocked by its cooldown
+PASS: combo integration: holding through cooldown cannot farm manual entry or postpone banking
+PASS: combo integration: a fresh eligible manual after cooldown starts a new full-value combo
+PASS: combo integration: failed manual balance bails once and preserves only the previous bank
+PASS: combo integration: an ollie inside the landing window continues with repeat degradation
+PASS: combo integration: an ollie after the landing window starts a separate full-value combo
+PASS: combo integration: an already active manual receives bounded overtime
+PASS: combo integration: overtime blocks starting an ollie link from a manual
+PASS: combo integration: clean overtime manual release completes its pending bank before results
+PASS: combo integration: maintained manual cannot extend the three-second overtime deadline
+PASS: combo integration: a fresh manual cannot enter after expiry even inside a landing window
+PASS: combo integration: rejected overtime link still permits the earned ollie to bank
+RESULT: 32 passed, 0 failed
