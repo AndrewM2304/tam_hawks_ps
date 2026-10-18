@@ -5,7 +5,7 @@ const EdgeSource = preload("res://game/levels/city_backdrop.gd")
 const SKY_CUBE = preload("res://game/art/assets/horizon/glasgow_horizon_cube.png")
 const SKY_SHADER = preload("res://game/art/assets/horizon/horizon_sky.gdshader")
 const MASONRY = preload("res://game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg")
-const MAX_TRIANGLES := 768
+const MAX_TRIANGLES := 832
 const MAX_SURFACES := 4
 const BOTTOM := -35.0
 
@@ -75,6 +75,7 @@ static func install(world: Node3D, sky: Sky) -> Node3D:
 	# The distant water must turn behind real scenic banks before the camera's
 	# far clip. A sky cannot disguise a rectangular water plane ending in air.
 	_river_bends(world, context, chunks.ClydeFootings)
+	_frontage_foundations(world, chunks.CityFootings)
 	var triangles := 0
 	var surfaces := 0
 	var parts: Array = []
@@ -94,7 +95,6 @@ static func install(world: Node3D, sky: Sky) -> Node3D:
 	assert(triangles + 18 <= MAX_TRIANGLES and surfaces <= MAX_SURFACES, "Horizon context budget exceeded")
 	context.set_meta("footing_report", {"triangles":triangles,"surfaces":surfaces,"parts":parts})
 	_finish_guard(world,context)
-	_ground_frontages(world,context)
 	set_enabled(world, true)
 	return context
 
@@ -108,9 +108,6 @@ static func set_enabled(world: Node3D, enabled: bool) -> void:
 	context.visible = enabled
 	for row: Dictionary in context.get_meta("wall_finishes", []):
 		row.display.material_override = row.candidate if enabled else row.original
-	for row: Dictionary in context.get_meta("frontage_finishes", []):
-		row.display.mesh = row.candidate if enabled else row.original
-		row.display.position = row.candidate_position if enabled else row.original_position
 	var river: Dictionary = context.get_meta("river_report")
 	river.display.mesh = river.candidate if enabled else river.original
 
@@ -141,20 +138,27 @@ static func _finish_guard(world: Node3D, context: Node3D) -> void:
 	context.set_meta("wall_finishes",finishes)
 
 
-static func _ground_frontages(world: Node3D, context: Node3D) -> void:
-	var finishes: Array = []
+static func _frontage_foundations(world: Node3D, chunk: Dictionary) -> void:
+	# Leave the original lit/shadow-casting masses intact. Only their four
+	# vertical foundations join the existing unshaded, shadow-free footing mesh.
+	# Read each original bottom corner through both transforms so parent yaw,
+	# scale and placement cannot shift its footprint or elevate its roof.
 	for display: MeshInstance3D in world.find_children("*","MeshInstance3D",true,false):
 		if not bool(display.get_meta("horizon_frontage",false)) or not display.mesh is BoxMesh: continue
 		var original := display.mesh as BoxMesh
-		var bottom: float = world.to_local(display.to_global(Vector3(0,-original.size.y*.5,0))).y
-		var extension: float = maxf(bottom-BOTTOM,0.0)
-		var candidate := original.duplicate() as BoxMesh
-		candidate.size.y += extension
-		# Extend the same closed building mass down. Roof, footprint, material
-		# and storefront dressing stay fixed; no new meshes or triangles.
-		finishes.append({"display":display,"original":original,"candidate":candidate,
-			"original_position":display.position,"candidate_position":display.position-Vector3.UP*extension*.5})
-	context.set_meta("frontage_finishes",finishes)
+		var half: Vector3 = original.size*.5
+		var corners := PackedVector3Array()
+		for point: Vector3 in [Vector3(-half.x,-half.y,-half.z),Vector3(half.x,-half.y,-half.z),
+			Vector3(half.x,-half.y,half.z),Vector3(-half.x,-half.y,half.z)]:
+			corners.append(world.to_local(display.to_global(point)))
+		for side: int in 4:
+			var a := corners[side]
+			var b := corners[(side+1)%4]
+			_quad(chunk.tool,a,b,Vector3(b.x,BOTTOM,b.z),Vector3(a.x,BOTTOM,a.z),Color("877b6b"))
+			chunk.triangles += 2
+			chunk.parts.append({"source_path":str(world.get_path_to(display)),
+				"family":"HorizonFrontageFoundation","foundation":true,"side":side,
+				"a":a,"b":b,"top_lift":0.0,"bottom":BOTTOM})
 
 
 static func _river_bends(world: Node3D, context: Node3D, chunk: Dictionary) -> void:

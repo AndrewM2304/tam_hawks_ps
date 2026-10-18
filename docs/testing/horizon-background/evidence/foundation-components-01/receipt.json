@@ -1,0 +1,38 @@
+{
+  "started_london": "2026-10-18T19:55:36.911948+01:00",
+  "completed_london": "2026-10-18T19:57:05.684057+01:00",
+  "wall_seconds": 88.77216717400006,
+  "source_inputs": 368,
+  "source_stable": true,
+  "exit_code": 1,
+  "clean_log": true,
+  "image_sha256": {
+    "authored-overview.png": "8f6ce02da47747706f0999eef4ab85dc6910587ac770a771d36562cc4181479b",
+    "route-map.png": "e74dd73bf1341e59fc751379d82634c2c33fa8e03e0964b75677a15f9a2fe2c4",
+    "station-south-candidate.png": "389c1654424354f86ec7766dd1fa9f8615f5e9a99bee86f5a0bc6c05ad3eda47",
+    "station-south-meshes.png": "68f4835e8b7ec85231f96ba8ba26e15aa7761dcfa2929cdbc86641c89996ff58",
+    "station-south-original-a.png": "81e9da095f81377bb2fbdce1c84d0911865019331bb5f67d615fdf58ba9abec2",
+    "station-south-original-b.png": "3bd5978b61758dc82ec14c25b026475a9e077e1dda15160ecc161efce97c92a8",
+    "station-south-original-c.png": "bccccd6928ebef0c5d1e7b99897247a8247c5969dfc831d923fefcbae62b79e6",
+    "station-south-original-d.png": "893c4170773dda89e944c6149371b13cf59c61bf0f3fc1d22f3b3fdef2e810aa",
+    "station-south-sky.png": "9b1a4e83c3134133b23edaed51c26d9f71b1861e92b3204031b58e900bf57810"
+  },
+  "valid": false,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/horizon-background/foundation-components.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/horizon-background/foundation-components-01"
+  ],
+  "git_head": "41cd63a21247b82458d1a8ca8e035e341eaf4a08",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

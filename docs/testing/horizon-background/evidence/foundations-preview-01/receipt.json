@@ -1,0 +1,49 @@
+{
+  "started_london": "2026-10-18T19:51:04.662405+01:00",
+  "completed_london": "2026-10-18T19:54:40.719019+01:00",
+  "wall_seconds": 216.05671168499975,
+  "source_inputs": 368,
+  "source_stable": true,
+  "exit_code": 0,
+  "clean_log": true,
+  "image_sha256": {
+    "authored-overview.png": "20d4ea9129540c7db670fee524b977c96de4baf2e5a4635d8bfde8ab07444989",
+    "barras-reported-gap-candidate.png": "4e6564373d0c8460a099072dd2f5f11cb6a061fc91ae703aa5a403142106e93d",
+    "barras-reported-gap-original-a.png": "d9b950e099560d5f3f9bbfd7c1bbd37f8b144e7603a069d66f90c5c6510bc157",
+    "barras-reported-gap-original-b.png": "394a5b3676033f13a540fa2e194d6d8e9c93d388cf0d5ad962e3e7959af027c7",
+    "park-civic-connector-candidate.png": "882de5f63397b8709fefd1f75a292054e60d395a658260a5d2c87c6e6ba415a1",
+    "park-terrace-west-candidate.png": "48388c0ecc4405c7ab17b6cb747695128150564e16ec0dbfb9488784f3ceb5a1",
+    "park-terrace-west-original-a.png": "a1c2398ca542509a00eb2e47740e767a1e203daa5f20ff6ccdbc82d8f7b2fe75",
+    "park-terrace-west-original-b.png": "9f8b926d52cae10123cf4d8719d5d2255d5c6ed556fb9cd4fb59d9750bb3f940",
+    "route-map.png": "ae63c898178520c61870059669a0119bc403304ca6940cb4e78bad9fb561cee2",
+    "station-south-candidate.png": "1e33002df792cb488ea95e46909a3ec88b7ee182e311433665d50d31dbeb8528",
+    "station-south-original-a.png": "97746670afbc4609e0a7d953ab82cbf4f63c5e430ca3ed76bc98ad2f26d072cb",
+    "station-south-original-b.png": "c4eee56b49fc8e6bb6bf3f2ec4c938fc69fff9bd5d491151e4fffae58acd8b57"
+  },
+  "valid": true,
+  "cgroup_cpu_stat_before": "usage_usec 39416486611\nuser_usec 38449180346\nsystem_usec 967306264\nnice_usec 134767\nnr_periods 306676\nnr_throttled 48515\nthrottled_usec 3735953759\nnr_bursts 0\nburst_usec 0\n",
+  "cgroup_cpu_stat_after": "usage_usec 39991446924\nuser_usec 39016084676\nsystem_usec 975362247\nnice_usec 134767\nnr_periods 308837\nnr_throttled 48524\nthrottled_usec 3736120743\nnr_bursts 0\nburst_usec 0\n",
+  "render_environment": {
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "3",
+    "cpu_max": "400000 100000",
+    "cpuset": "0-4"
+  },
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/horizon-background/foundations-preview.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/horizon-background/foundations-preview-01"
+  ],
+  "git_head": "41cd63a21247b82458d1a8ca8e035e341eaf4a08",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

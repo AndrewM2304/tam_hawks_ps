@@ -1,0 +1,927 @@
+{
+  "schema": 1,
+  "timing_pass": false,
+  "results": [
+    {
+      "id": "exchange-east",
+      "control_a": {
+        "p50": 575.1915,
+        "p95": 624.6618,
+        "p99": 666.8444199999999,
+        "frames": 40,
+        "max_ms": 692.905,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 705.0,
+        "primitives": 374784.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 600.5485,
+        "p95": 659.5209,
+        "p99": 859.1153299999999,
+        "frames": 40,
+        "max_ms": 973.133,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 708.0,
+        "primitives": 374998.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 570.514,
+        "p95": 605.1872999999999,
+        "p99": 635.16645,
+        "frames": 40,
+        "max_ms": 642.243,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 705.0,
+        "primitives": 374784.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 665.1452775,
+          "worse_limit_ms": 655.89489,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 715.2336767499999,
+          "worse_limit_ms": 700.1866409999999,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 3.0,
+      "primitive_delta": 214.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "station-south",
+      "control_a": {
+        "p50": 203.4695,
+        "p95": 318.05085,
+        "p99": 339.79965,
+        "frames": 40,
+        "max_ms": 352.929,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 128.0,
+        "primitives": 44454.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 229.291,
+        "p95": 397.11195,
+        "p99": 509.7849099999999,
+        "frames": 40,
+        "max_ms": 579.49,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 130.0,
+        "primitives": 44668.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 206.6705,
+        "p95": 327.57095,
+        "p99": 390.91713999999996,
+        "frames": 40,
+        "max_ms": 426.085,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 128.0,
+        "primitives": 44454.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 348.47154499999994,
+          "worse_limit_ms": 343.9494975,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 434.7438047499999,
+          "worse_limit_ms": 410.462997,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 2.0,
+      "primitive_delta": 214.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "clyde-west-end",
+      "control_a": {
+        "p50": 278.1635,
+        "p95": 325.4852499999999,
+        "p99": 345.94485000000003,
+        "frames": 40,
+        "max_ms": 346.134,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 209.0,
+        "primitives": 282764.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 360.0195,
+        "p95": 456.4424999999999,
+        "p99": 529.5237199999999,
+        "frames": 40,
+        "max_ms": 554.036,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 212.0,
+        "primitives": 283270.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 339.47900000000004,
+        "p95": 361.3624,
+        "p99": 462.2480599999999,
+        "frames": 40,
+        "max_ms": 522.638,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 209.0,
+        "primitives": 282764.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 396.47216625000004,
+          "worse_limit_ms": 379.43052,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 540.6044877499999,
+          "worse_limit_ms": 485.3604629999999,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 3.0,
+      "primitive_delta": 506.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "clyde-east-end",
+      "control_a": {
+        "p50": 254.513,
+        "p95": 258.29429999999996,
+        "p99": 259.33534,
+        "frames": 40,
+        "max_ms": 259.645,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 185.0,
+        "primitives": 54452.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 236.90949999999998,
+        "p95": 298.06905,
+        "p99": 299.22917,
+        "frames": 40,
+        "max_ms": 299.618,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 189.0,
+        "primitives": 54678.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 259.31100000000004,
+        "p95": 363.21019999999993,
+        "p99": 422.8674,
+        "frames": 40,
+        "max_ms": 449.442,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 185.0,
+        "primitives": 54452.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 431.20576249999993,
+          "worse_limit_ms": 381.3707099999999,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 521.6884984999999,
+          "worse_limit_ms": 444.01077,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 4.0,
+      "primitive_delta": 226.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "clyde-raised-deck",
+      "control_a": {
+        "p50": 824.8105,
+        "p95": 877.1272499999999,
+        "p99": 922.9242899999999,
+        "frames": 40,
+        "max_ms": 929.862,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 1229.0,
+        "primitives": 653132.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 1077.2485,
+        "p95": 1150.6473999999998,
+        "p99": 1186.0581200000001,
+        "frames": 40,
+        "max_ms": 1197.833,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 1233.0,
+        "primitives": 653882.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 1048.9105,
+        "p95": 1430.00065,
+        "p99": 1456.8078,
+        "frames": 40,
+        "max_ms": 1469.748,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 1229.0,
+        "primitives": 653132.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 1764.1155475,
+          "worse_limit_ms": 1501.5006825,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 1783.24285725,
+          "worse_limit_ms": 1529.64819,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 4.0,
+      "primitive_delta": 750.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "park-west-slope",
+      "control_a": {
+        "p50": 329.62,
+        "p95": 347.2752,
+        "p99": 358.29926,
+        "frames": 40,
+        "max_ms": 363.122,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 113.0,
+        "primitives": 245186.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 325.6765,
+        "p95": 425.8603499999999,
+        "p99": 478.30458,
+        "frames": 40,
+        "max_ms": 501.189,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 113.0,
+        "primitives": 245736.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 366.26099999999997,
+        "p95": 395.3824,
+        "p99": 400.08095000000003,
+        "frames": 40,
+        "max_ms": 402.497,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 113.0,
+        "primitives": 245186.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 438.00244000000004,
+          "worse_limit_ms": 415.15152000000006,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 439.93130025000005,
+          "worse_limit_ms": 420.08499750000004,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 0.0,
+      "primitive_delta": 550.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "park-terrace-west",
+      "control_a": {
+        "p50": 462.228,
+        "p95": 476.09475,
+        "p99": 494.13081999999997,
+        "frames": 40,
+        "max_ms": 504.256,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 140.0,
+        "primitives": 254310.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 472.4165,
+        "p95": 678.697,
+        "p99": 743.98083,
+        "frames": 40,
+        "max_ms": 783.606,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 140.0,
+        "primitives": 254860.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 461.651,
+        "p95": 473.6131999999999,
+        "p99": 585.1760199999999,
+        "frames": 40,
+        "max_ms": 638.17,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 140.0,
+        "primitives": 254310.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 501.07822375,
+          "worse_limit_ms": 499.8994875,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 657.6812909999998,
+          "worse_limit_ms": 614.4348209999999,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 0.0,
+      "primitive_delta": 550.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "clyde-river-east",
+      "control_a": {
+        "p50": 316.487,
+        "p95": 341.3979,
+        "p99": 355.18552999999997,
+        "frames": 40,
+        "max_ms": 358.256,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 375.0,
+        "primitives": 127590.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 339.302,
+        "p95": 371.35284999999993,
+        "p99": 417.64414999999997,
+        "frames": 40,
+        "max_ms": 432.665,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 377.0,
+        "primitives": 127804.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 257.725,
+        "p95": 318.57039999999995,
+        "p99": 328.62818,
+        "frames": 40,
+        "max_ms": 332.114,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 375.0,
+        "primitives": 127590.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 369.31085750000005,
+          "worse_limit_ms": 358.467795,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 385.5595477499999,
+          "worse_limit_ms": 372.94480649999997,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 2.0,
+      "primitive_delta": 214.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "civic-reported-gap",
+      "control_a": {
+        "p50": 796.9590000000001,
+        "p95": 839.23565,
+        "p99": 918.3137899999999,
+        "frames": 40,
+        "max_ms": 943.913,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 725.0,
+        "primitives": 421635.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 856.6315,
+        "p95": 1048.25615,
+        "p99": 1186.5611699999997,
+        "frames": 40,
+        "max_ms": 1270.137,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 728.0,
+        "primitives": 421849.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 786.931,
+        "p95": 815.42455,
+        "p99": 820.21133,
+        "frames": 40,
+        "max_ms": 822.026,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 725.0,
+        "primitives": 421635.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 892.5077049999999,
+          "worse_limit_ms": 881.1974325,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 1010.8281479999998,
+          "worse_limit_ms": 964.2294794999999,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 3.0,
+      "primitive_delta": 214.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "barras-reported-gap",
+      "control_a": {
+        "p50": 448.52,
+        "p95": 482.10465,
+        "p99": 516.26222,
+        "frames": 40,
+        "max_ms": 526.832,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 262.0,
+        "primitives": 79222.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 579.0415,
+        "p95": 590.7403,
+        "p99": 595.57772,
+        "frames": 40,
+        "max_ms": 597.197,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 264.0,
+        "primitives": 79436.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 448.659,
+        "p95": 479.80719999999997,
+        "p99": 490.71181,
+        "frames": 40,
+        "max_ms": 494.62,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 262.0,
+        "primitives": 79222.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 507.30117125,
+          "worse_limit_ms": 506.2098825,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 554.21177575,
+          "worse_limit_ms": 542.075331,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 2.0,
+      "primitive_delta": 214.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "park-northwest-corner",
+      "control_a": {
+        "p50": 180.994,
+        "p95": 185.65385,
+        "p99": 185.90026,
+        "frames": 40,
+        "max_ms": 185.926,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 96.0,
+        "primitives": 253404.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 187.768,
+        "p95": 315.2132999999999,
+        "p99": 368.7369,
+        "frames": 40,
+        "max_ms": 378.561,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 97.0,
+        "primitives": 253664.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 180.77100000000002,
+        "p95": 190.24849999999995,
+        "p99": 214.58194999999998,
+        "frames": 40,
+        "max_ms": 221.132,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 96.0,
+        "primitives": 253404.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 201.94338374999992,
+          "worse_limit_ms": 199.76092499999996,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 238.93485024999998,
+          "worse_limit_ms": 225.31104749999997,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 1.0,
+      "primitive_delta": 260.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "park-northeast-corner",
+      "control_a": {
+        "p50": 170.44,
+        "p95": 192.06444999999994,
+        "p99": 215.21278,
+        "frames": 40,
+        "max_ms": 218.722,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 115.0,
+        "primitives": 220608.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 176.68900000000002,
+        "p95": 189.3248,
+        "p99": 190.67782,
+        "frames": 40,
+        "max_ms": 191.521,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 115.0,
+        "primitives": 220868.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 180.03050000000002,
+        "p95": 204.23799999999991,
+        "p99": 239.74004,
+        "frames": 40,
+        "max_ms": 243.002,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 115.0,
+        "primitives": 220608.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 220.2323362499999,
+          "worse_limit_ms": 214.44989999999993,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 263.37749049999996,
+          "worse_limit_ms": 251.727042,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 0.0,
+      "primitive_delta": 260.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "station-platform-axis",
+      "control_a": {
+        "p50": 469.327,
+        "p95": 612.71505,
+        "p99": 637.60748,
+        "frames": 40,
+        "max_ms": 649.841,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 521.0,
+        "primitives": 104918.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 549.8475,
+        "p95": 655.3585499999998,
+        "p99": 737.06772,
+        "frames": 40,
+        "max_ms": 746.214,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 524.0,
+        "primitives": 105424.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 538.8515,
+        "p95": 651.7342499999996,
+        "p99": 794.4007499999999,
+        "frames": 40,
+        "max_ms": 822.978,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 521.0,
+        "primitives": 104918.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 702.8550824999995,
+          "worse_limit_ms": 684.3209624999996,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 908.5975907499999,
+          "worse_limit_ms": 834.1207874999999,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 3.0,
+      "primitive_delta": 506.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "clyde-southeast-corner",
+      "control_a": {
+        "p50": 158.0325,
+        "p95": 190.14964999999998,
+        "p99": 193.65548,
+        "frames": 40,
+        "max_ms": 193.994,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 104.0,
+        "primitives": 37433.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 207.989,
+        "p95": 214.82614999999998,
+        "p99": 227.58425,
+        "frames": 40,
+        "max_ms": 234.731,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 107.0,
+        "primitives": 37555.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 196.06099999999998,
+        "p95": 201.10775,
+        "p99": 210.77144,
+        "frames": 40,
+        "max_ms": 216.467,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 104.0,
+        "primitives": 37433.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 216.368235,
+          "worse_limit_ms": 211.16313750000003,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 229.440093,
+          "worse_limit_ms": 221.31001200000003,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 3.0,
+      "primitive_delta": 122.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "clyde-river-west",
+      "control_a": {
+        "p50": 324.0635,
+        "p95": 398.3932,
+        "p99": 408.77417,
+        "frames": 40,
+        "max_ms": 414.194,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 324.0,
+        "primitives": 303488.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "candidate": {
+        "p50": 407.9945,
+        "p95": 414.053,
+        "p99": 418.39904,
+        "frames": 40,
+        "max_ms": 420.218,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 328.0,
+        "primitives": 304254.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "control_b": {
+        "p50": 396.0655,
+        "p95": 517.4934,
+        "p99": 656.0483699999999,
+        "frames": 40,
+        "max_ms": 728.01,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 324.0,
+        "primitives": 303488.0,
+        "texture_bytes": 48782340.0,
+        "buffer_bytes": 15506852.0,
+        "video_bytes": 64289192.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 599.940665,
+          "worse_limit_ms": 543.36807,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 806.3060334999998,
+          "worse_limit_ms": 688.8507884999999,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 4.0,
+      "primitive_delta": 766.0,
+      "buffer_delta": 0.0
+    }
+  ],
+  "native_samples": 2680,
+  "candidate_views": 37,
+  "matched_views": 15,
+  "method": "Same-process original/candidate/original at15fixed boundary bearings,40native post-draw intervals/phase,12minimumwarmframes,37candidateviews/67observations/2680samples. Readback outsidetimings. Frozenidenticalsource,settings,position/layer,camera/input,lightingintent.",
+  "gate": "Each p95/p99 <= control midpoint + absolute repeat difference +5% midpoint AND <=1.05*worse original control. Unchanged strict gate.",
+  "limits": "Stationary llvmpipe, no Mac FPS/human/flicker certification. Candidate allocations stayresident duringappearance-off controls; actualimportbytes/coldbaseline separate. Reported3Ddraws include shadow work, not isolated main submissions."
+}

@@ -26,7 +26,7 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	_river(world, context, geometry, check)
 	_preservation(world, context, check)
 	_finish(world, context, check)
-	_frontages(world, check)
+	_frontages(world, context, geometry, check)
 
 
 static func _sky(world: Node3D, context: Node3D, check: Callable) -> void:
@@ -45,11 +45,12 @@ static func _sky(world: Node3D, context: Node3D, check: Callable) -> void:
 		and cube.get_format()==CUBE_FORMAT and cube.has_mipmaps(),
 		"horizon cube: actual bound native resource has six512-square RGB8 mipmapped faces")
 	var code: String = material.shader.code.replace(" ","").replace("\n","").replace("\t","")
-	check.call(code.contains("uniformsamplerCubecontext_sky:source_color,filter_linear_mipmap;")
-		and code.contains("COLOR=texture(context_sky,EYEDIR).rgb;") and code.count("texture(")==1
+	check.call(code.contains("uniformsamplerCubecontext_sky:source_color,filter_linear;")
+		and code.contains("COLOR=textureLod(context_sky,EYEDIR,0.0).rgb;") and code.count("textureLod(")==1
+		and not code.contains("texture(")
 		and not code.contains("use_half_res_pass") and not code.contains("HALF_RES_COLOR")
 		and not code.contains("TIME") and not code.contains("POSITION"),
-		"horizon cube: bound static sky performs one direct colour-correct cubemap lookup without a half-resolution pass")
+		"horizon cube: bound static sky performs one explicit base-level colour-correct linear lookup without derivatives or a half-resolution pass")
 	if cube != null: _cube_pixels(cube,check)
 	check.call(environment.ambient_light_source == Environment.AMBIENT_SOURCE_COLOR
 		and environment.ambient_light_color.is_equal_approx(Color("c7dfeb"))
@@ -70,6 +71,7 @@ static func _sky(world: Node3D, context: Node3D, check: Callable) -> void:
 static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictionary:
 	var all_faces := PackedVector3Array()
 	var emitted_normals := PackedVector3Array()
+	var emitted_chunks: Array[String] = []
 	var bins: Dictionary = {}
 	var surfaces := 0
 	var material: StandardMaterial3D
@@ -105,9 +107,11 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 				var at: Vector3 = vertices[vertex_index]
 				all_faces.append(world.to_local(display.to_global(at)))
 				emitted_normals.append((world.global_basis.inverse()*display.global_basis*normals[vertex_index]).normalized())
+				emitted_chunks.append(str(display.name))
 	var faces := PackedVector3Array()
 	var bank_faces := PackedVector3Array()
 	var service_faces := PackedVector3Array()
+	var foundation_faces := PackedVector3Array()
 	var expected_banks := _expected_banks()
 	var expected_service := _expected_service()
 	for index: int in range(0,all_faces.size(),3):
@@ -125,6 +129,10 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 			bank_faces.append_array(PackedVector3Array([a,b,c]))
 			continue
 		valid = absf(normal.normalized().y)<.00001 and valid
+		if _foundation_face_index(a,b,c)>=0:
+			foundation_faces.append_array(PackedVector3Array([a,b,c]))
+			valid = emitted_chunks[index]=="CityFootings" and valid
+			continue
 		var footing_index: int = faces.size()
 		faces.append_array(PackedVector3Array([a,b,c]))
 		var low := Vector2(minf(a.x,minf(b.x,c.x)),minf(a.z,minf(b.z,c.z)))
@@ -137,9 +145,9 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 	actual_names.sort()
 	var expected_names: Array = FOOTINGS.duplicate()
 	expected_names.sort()
-	check.call(actual_names == expected_names and surfaces <= 4 and all_faces.size()/3 <= 768
+	check.call(actual_names == expected_names and surfaces <= 4 and all_faces.size()/3 <= 832
 		and faces.size() > 0 and valid,
-		"horizon: four actual static regional meshes stay within budget with valid footing/bank triangles and opaque vertex colours")
+		"horizon: four actual static regional meshes stay within832 combined budget with valid footing/bank/foundation triangles and opaque vertex colours")
 	check.call(shared and material.transparency == BaseMaterial3D.TRANSPARENCY_DISABLED
 		and material.shading_mode == BaseMaterial3D.SHADING_MODE_UNSHADED
 		and material.vertex_color_use_as_albedo and material.vertex_color_is_srgb
@@ -152,7 +160,8 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 			and not node is Camera3D and node.get_script() == null and not node.is_processing() \
 			and not node.is_physics_processing() and passive
 	check.call(passive, "horizon: context introduces no collision, cameras, lights, scripts or frame callbacks")
-	return {"faces":faces,"bins":bins,"bank_faces":bank_faces,"service_faces":service_faces,"regional_triangles":all_faces.size()/3}
+	return {"faces":faces,"bins":bins,"bank_faces":bank_faces,"service_faces":service_faces,
+		"foundation_faces":foundation_faces,"regional_triangles":all_faces.size()/3}
 
 
 static func _cube_pixels(cube: TextureLayered, check: Callable) -> void:
@@ -371,6 +380,9 @@ static func _coverage(world: Node3D, geometry: Dictionary, check: Callable) -> v
 	for at: Vector3 in [Vector3(34.8,2,-80),Vector3(-34.8,2,-80),Vector3(88,1,-41.8),
 		Vector3(-88,2,-41.8),Vector3(94,1,44.8),Vector3(-94,2,44.8),Vector3(-42.2,3,-122)]:
 		ports = not _covered(at,geometry) and ports
+		var foundations: PackedVector3Array = geometry.foundation_faces
+		for index: int in range(0,foundations.size(),3):
+			ports = not _on_triangle(at,foundations[index],foundations[index+1],foundations[index+2]) and ports
 	check.call(ports, "horizon: real civic, station, market, park and quay openings contain no footing cap")
 	print("HORIZON independent geometry samples=",samples," triangles=",faces.size()/3," area=",area)
 
@@ -431,8 +443,8 @@ static func _river(world: Node3D, context: Node3D, geometry: Dictionary, check: 
 		max_front_area = maxf(max_front_area,front_area)
 		valid = front_area<-.0001 and valid
 	print("HORIZON WATER vertices=",vertices.size()," indices=",indices.size()," normals=",normals.size()," uvs=",uvs.size()," tangents=",tangents.size()," max_y=",max_y," max_uv=",max_uv," min_normal_dot=",min_normal_dot," max_normal_error=",max_normal_error," front_area=",Vector2(min_front_area,max_front_area)," missing=",missing," combined_triangles=",int(geometry.regional_triangles)+water_faces.size()/3)
-	check.call(valid and int(geometry.regional_triangles)+water_faces.size()/3<=768,
-		"horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and total768-triangle ceiling")
+	check.call(valid and int(geometry.regional_triangles)+water_faces.size()/3<=832,
+		"horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and total832-triangle ceiling")
 	var water_top := Protected._horizontal_triangles(water_faces,-2)
 	var bank_top := Protected._horizontal_triangles(banks,2)
 	var water_overlap := 0.0
@@ -598,45 +610,138 @@ static func _covered(at: Vector3, geometry: Dictionary) -> bool:
 	return false
 
 
-static func _frontages(world: Node3D, check: Callable) -> void:
-	var expected := [Vector4(-105,-149,32,21),Vector4(-70,-149,32,21),
-		Vector4(70,-149,32,21),Vector4(105,-149,32,21),
-		Vector4(142,-24,34,16),Vector4(142,18,34,16),Vector4(42,-118,20,24),Vector4(0,-134,62,25)]
+static func _frontages(world: Node3D, context: Node3D, geometry: Dictionary, check: Callable) -> void:
+	var expected: Array[AABB] = _frontage_specs()
 	var displays: Array[MeshInstance3D] = []
-	var candidates: Array[Mesh] = []
-	var materials: Array[Material] = []
+	var states: Array[Dictionary] = []
 	var identities: Dictionary = {}
+	var defaults := MeshInstance3D.new()
+	var palette: Dictionary = world.get_node("CityArt").get("materials")
 	var valid := true
 	for display: MeshInstance3D in world.find_children("*","MeshInstance3D",true,false):
 		if not bool(display.get_meta("horizon_frontage",false)): continue
+		if not display.mesh is BoxMesh:
+			valid = false
+			continue
 		displays.append(display)
-		candidates.append(display.mesh)
-		materials.append(display.material_override)
+		states.append(_frontage_state(display))
 		var bounds := _frontage_bounds(world,display)
 		var found := -1
 		for index: int in range(expected.size()):
-			var spec: Vector4 = expected[index]
-			var width: float = 12 if index>=4 and index<=6 else spec.z
-			var depth: float = spec.z if index>=4 and index<=6 else 12
-			if bounds.position.distance_to(Vector3(spec.x-width/2,-35,spec.y-depth/2))<EPS \
-				and bounds.end.distance_to(Vector3(spec.x+width/2,spec.w,spec.y+depth/2))<EPS: found=index
-		valid = found>=0 and not identities.has(found) and display.mesh is BoxMesh \
-			and display.mesh.get_faces().size()==36 and valid
+			if bounds.position.distance_to(expected[index].position)<EPS \
+				and bounds.end.distance_to(expected[index].end)<EPS: found=index
+		valid = found>=0 and not identities.has(found) and display.mesh.get_faces().size()==36 \
+			and display.cast_shadow==defaults.cast_shadow and display.gi_mode==defaults.gi_mode \
+			and display.layers==defaults.layers and display.custom_aabb==defaults.custom_aabb \
+			and display.extra_cull_margin==defaults.extra_cull_margin \
+			and display.visibility_range_begin==0 and display.visibility_range_end==0 \
+			and display.ignore_occlusion_culling==defaults.ignore_occlusion_culling and valid
+		if found>=0:
+			var rotated: bool = found in [4,5,6]
+			var frame: Transform3D = world.global_transform.affine_inverse()*display.global_transform
+			var original_basis := Basis(Vector3.UP,-PI*.5) if rotated else Basis.IDENTITY
+			var original_size: Vector3 = Vector3(expected[found].size.z,expected[found].size.y,expected[found].size.x) if rotated else expected[found].size
+			var original_position: Vector3 = Vector3.ZERO if found==7 else Vector3.UP*original_size.y*.5
+			valid = frame.origin.distance_to(expected[found].get_center())<EPS \
+				and frame.basis.is_equal_approx(original_basis) and display.basis.is_equal_approx(Basis.IDENTITY) \
+				and display.position.distance_to(original_position)<EPS \
+				and (display.mesh as BoxMesh).size.distance_to(original_size)<EPS and valid
+			var material_key: String = "stone_light" if found==7 else ("warehouse_brick" if found in [2,3,4,5] else "sandstone")
+			var material := display.material_override as StandardMaterial3D
+			valid = material!=null and display.material_override==palette[material_key] and valid
+			if material!=null:
+				valid = material.shading_mode==BaseMaterial3D.SHADING_MODE_PER_PIXEL \
+					and material.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED \
+					and material.uv1_triplanar and material.uv1_world_triplanar \
+					and material.normal_enabled==(material_key=="warehouse_brick") \
+					and not material.disable_receive_shadows and material.next_pass==null and valid
 		identities[found]=true
-	check.call(valid and identities.size()==8 and displays.size()==8,
-		"horizon frontage: eight actual closed12-triangle masses reachY-35 while preserving their existing footprints and roofs")
-	Horizon.set_enabled(world,false)
-	var restored := true
-	for index: int in range(displays.size()):
-		var bounds := _frontage_bounds(world,displays[index])
-		var base: float = 0 if absf(bounds.get_center().x-142)<EPS else 6
-		restored = absf(bounds.position.y-base)<EPS and displays[index].material_override==materials[index] \
-			and displays[index].mesh.get_faces().size()==36 and candidates[index].get_aabb().size.y>bounds.size.y and restored
-	Horizon.set_enabled(world,true)
-	for index: int in range(displays.size()):
-		restored = displays[index].mesh==candidates[index] and displays[index].material_override==materials[index] \
-			and absf(_frontage_bounds(world,displays[index]).position.y+35)<EPS and restored
-	check.call(restored, "horizon frontage: comparison restores original0/6m bases and candidate foundations with unchanged mesh count and materials")
+	defaults.free()
+	var foundations: PackedVector3Array = geometry.foundation_faces
+	var groups: Dictionary = {}
+	for index: int in range(0,foundations.size(),3):
+		var face: int = _foundation_face_index(foundations[index],foundations[index+1],foundations[index+2])
+		if not groups.has(face): groups[face]=PackedVector3Array()
+		var triangles: PackedVector3Array = groups[face]
+		triangles.append_array(PackedVector3Array([foundations[index],foundations[index+1],foundations[index+2]]))
+		groups[face]=triangles
+	var complete: bool = foundations.size()==64*3 and groups.size()==32
+	var samples := 0
+	var edges: Array[PackedVector3Array] = _foundation_edges()
+	for face: int in range(edges.size()):
+		var triangles: PackedVector3Array = groups.get(face,PackedVector3Array())
+		var a: Vector3 = edges[face][0]
+		var b: Vector3 = edges[face][1]
+		var area := 0.0
+		for index: int in range(0,triangles.size(),3):
+			area += (triangles[index+1]-triangles[index]).cross(triangles[index+2]-triangles[index]).length()*.5
+		complete = triangles.size()==6 and absf(area-a.distance_to(b)*(a.y-BOTTOM))<.025 and complete
+		for t: float in [0.0,.25,.5,.75,1.0]:
+			var top := a.lerp(b,t)
+			for depth: float in [0.0,.25,.5,.75,1.0]:
+				var at := Vector3(top.x,lerpf(top.y,BOTTOM,depth),top.z)
+				var covered := false
+				for index: int in range(0,triangles.size(),3):
+					covered = _on_triangle(at,triangles[index],triangles[index+1],triangles[index+2]) or covered
+				complete = covered and complete
+				samples += 1
+	print("HORIZON FOUNDATION triangles=",foundations.size()/3," faces=",groups.size()," independent_samples=",samples," complete=",complete," originals_valid=",valid)
+	check.call(valid and identities.size()==8 and displays.size()==8 and complete,
+		"horizon frontage:64 actual unshaded triangles cover all32 fixed vertical foundations while eight original lit/shadowed masses retain their bases, roofs and footprints")
+	var unchanged := true
+	for enabled: bool in [false,true]:
+		Horizon.set_enabled(world,enabled)
+		unchanged = context.visible==enabled and unchanged
+		for index: int in range(displays.size()):
+			unchanged = _frontage_state(displays[index])==states[index] and unchanged
+	check.call(unchanged and displays.size()==8,
+		"horizon frontage: appearance toggle changes only context foundations and never original meshes, poses, bounds, materials or shadow properties")
+
+
+static func _frontage_specs() -> Array[AABB]:
+	# Fixed original World bounds, independent of candidate part metadata,
+	# transformed corners or whichever meshes the implementation selected.
+	return [AABB(Vector3(-121,6,-155),Vector3(32,15,12)),AABB(Vector3(-86,6,-155),Vector3(32,15,12)),
+		AABB(Vector3(54,6,-155),Vector3(32,15,12)),AABB(Vector3(89,6,-155),Vector3(32,15,12)),
+		AABB(Vector3(136,0,-41),Vector3(12,16,34)),AABB(Vector3(136,0,1),Vector3(12,16,34)),
+		AABB(Vector3(36,6,-128),Vector3(12,18,20)),AABB(Vector3(-31,6,-140),Vector3(62,19,12))]
+
+
+static func _foundation_edges() -> Array[PackedVector3Array]:
+	var edges: Array[PackedVector3Array] = []
+	for bounds: AABB in _frontage_specs():
+		var a := bounds.position
+		var b := Vector3(bounds.end.x,a.y,a.z)
+		var c := Vector3(bounds.end.x,a.y,bounds.end.z)
+		var d := Vector3(a.x,a.y,bounds.end.z)
+		for pair: Array in [[a,b],[b,c],[c,d],[d,a]]:
+			edges.append(PackedVector3Array(pair))
+	return edges
+
+
+static func _foundation_face_index(a: Vector3, b: Vector3, c: Vector3) -> int:
+	var edges: Array[PackedVector3Array] = _foundation_edges()
+	for index: int in range(edges.size()):
+		var first: Vector3 = edges[index][0]
+		var last: Vector3 = edges[index][1]
+		var inside := true
+		for at: Vector3 in [a,b,c]:
+			inside = at.y>=BOTTOM-EPS and at.y<=first.y+EPS \
+				and _segment_distance(Vector3(at.x,first.y,at.z),first,last)<EPS and inside
+		if inside: return index
+	return -1
+
+
+static func _frontage_state(display: MeshInstance3D) -> Dictionary:
+	var material := display.material_override as StandardMaterial3D
+	return {"mesh":display.mesh,"mesh_size":(display.mesh as BoxMesh).size,"faces":display.mesh.get_faces(),
+		"pose":display.transform,"world_pose":display.global_transform,"material":material,"overlay":display.material_overlay,
+		"shadow":display.cast_shadow,"gi":display.gi_mode,"bounds":display.get_aabb(),"custom_bounds":display.custom_aabb,
+		"margin":display.extra_cull_margin,"layers":display.layers,"ignore_occlusion":display.ignore_occlusion_culling,
+		"visible":display.visible,"range_begin":display.visibility_range_begin,"range_end":display.visibility_range_end,
+		"material_values":[] if material==null else [material.shading_mode,material.albedo_color,material.albedo_texture,
+			material.normal_enabled,material.normal_texture,material.uv1_scale,material.uv1_triplanar,
+			material.uv1_world_triplanar,material.roughness,material.disable_receive_shadows,material.transparency]}
 
 
 static func _frontage_bounds(world: Node3D, display: MeshInstance3D) -> AABB:

@@ -1,0 +1,3506 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"errors": [],
+	"functional_counts": [
+		34,
+		0
+	],
+	"limits": "4 candidate chase views;3 matched original/candidate/original triples.40 native samples each/10observations/400samples,12warmminimum; no readbacks in timings. Same-process controls retain candidate allocations; cold baseline/resource check separate. No moving-input/human/Mac claim.",
+	"native_render_loop": true,
+	"quality": {
+		"far": 220.0,
+		"msaa": 1,
+		"scale": 1.0,
+		"shadows": 45.0
+	},
+	"renderer": "gl_compatibility",
+	"resolution": [
+		1280,
+		800
+	],
+	"schema": 1,
+	"valid": true,
+	"views": [
+		{
+			"actual_player": [
+				-110.0,
+				2.00050568580627,
+				40.0
+			],
+			"camera": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 0.965837, 0.259149), Z: (-0.0, 0.259149, -0.965837), O: (-110.0, 4.700642, 34.2)]",
+			"contact": "CentralStationFloor:<StaticBody3D#71689046550>",
+			"contact_y": 2.0,
+			"far": 220.0,
+			"fixture": [
+				-110.0,
+				2.0,
+				40.0
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 2.0,
+			"grounded": true,
+			"id": "station-south",
+			"image": "station-south-original-a.png",
+			"initial_yaw": 3.14159265358979,
+			"phase": "original-a",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 165.881,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 174.788,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 171.882,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 215.999,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 307.875,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 297.218,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 266.58,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 256.288,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 270.955,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 259.461,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 291.919,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 316.394,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 296.911,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 226.525,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 180.54,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 170.272,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 168.813,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 176.336,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 176.479,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 168.316,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 172.298,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 177.144,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 167.988,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 175.473,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 178.715,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 182.901,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 183.655,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 170.639,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 210.42,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 221.021,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 265.254,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 277.685,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 248.47,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 239.315,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 235.075,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 325.958,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 265.527,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 464.75,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 276.587,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 245.706,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 6,
+			"xz_error": 0.0
+		},
+		{
+			"actual_player": [
+				-110.0,
+				2.00050568580627,
+				40.0
+			],
+			"camera": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 0.965838, 0.259148), Z: (-0.0, 0.259148, -0.965838), O: (-110.0, 4.700635, 34.2)]",
+			"contact": "CentralStationFloor:<StaticBody3D#71689046550>",
+			"contact_y": 2.0,
+			"far": 220.0,
+			"fixture": [
+				-110.0,
+				2.0,
+				40.0
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 2.0,
+			"grounded": true,
+			"id": "station-south",
+			"image": "station-south-candidate.png",
+			"initial_yaw": 3.14159265358979,
+			"phase": "candidate",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 530.081,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 306.969,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 427.524,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 369.607,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 365.916,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 343.429,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 264.966,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 247.454,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 232.48,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 258.425,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 229.868,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 230.411,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 239.338,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 254.122,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 238.658,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 236.528,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 227.828,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 238.373,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 233.276,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 327.356,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 335.333,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 394.714,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 278.97,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 370.057,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 256.001,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 225.015,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 291.768,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 228.005,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 232.598,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 218.427,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 237.78,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 193.587,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 205.16,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 230.351,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 240.99,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 237.282,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 231.87,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 253.205,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 235.421,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 130,
+					"ms": 236.856,
+					"primitives": 44732,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 7,
+			"xz_error": 0.0
+		},
+		{
+			"actual_player": [
+				-110.0,
+				2.00050568580627,
+				40.0
+			],
+			"camera": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 0.965838, 0.259147), Z: (-0.0, 0.259147, -0.965838), O: (-110.0, 4.700629, 34.2)]",
+			"contact": "CentralStationFloor:<StaticBody3D#71689046550>",
+			"contact_y": 2.0,
+			"far": 220.0,
+			"fixture": [
+				-110.0,
+				2.0,
+				40.0
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 2.0,
+			"grounded": true,
+			"id": "station-south",
+			"image": "station-south-original-b.png",
+			"initial_yaw": 3.14159265358979,
+			"phase": "original-b",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 218.562,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 205.523,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 219.743,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 202.136,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 203.23,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 220.192,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 215.535,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 225.895,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 215.138,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 201.936,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 199.127,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 197.876,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 201.356,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 191.402,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 202.006,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 197.515,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 196.436,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 204.732,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 203.142,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 219.441,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 211.05,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 201.091,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 208.469,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 195.687,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 204.889,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 214.11,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 231.171,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 204.091,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 196.826,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 207.379,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 204.678,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 204.669,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 231.038,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 250.394,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 317.757,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 263.739,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 272.328,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 321.864,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 355.481,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 128,
+					"ms": 617.715,
+					"primitives": 44454,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 8,
+			"xz_error": 0.0
+		},
+		{
+			"actual_player": [
+				-164.0,
+				17.0005054473877,
+				-182.0
+			],
+			"camera": "[X: (-0.0, 0.0, -1.0), Y: (-0.259146, 0.965838, 0.0), Z: (0.965838, 0.259146, -0.0), O: (-158.2, 19.70063, -182.0)]",
+			"contact": "KelvingroveViewpointSpur:<StaticBody3D#114554835811>",
+			"contact_y": 17.0,
+			"far": 220.0,
+			"fixture": [
+				-164.0,
+				17.0,
+				-182.0
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 17.0,
+			"grounded": true,
+			"id": "park-terrace-west",
+			"image": "park-terrace-west-original-a.png",
+			"initial_yaw": 1.5707963267949,
+			"phase": "original-a",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 387.328,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 432.914,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 402.952,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 386.569,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 434.296,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 420.864,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 382.332,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 383.183,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 387.615,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 382.411,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 377.575,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 732.811,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 518.625,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 546.851,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 542.218,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 549.641,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 385.983,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 466.552,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 480.212,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 469.001,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 394.934,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 385.419,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 378.105,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 381.127,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 378.693,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 378.112,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 376.914,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 375.024,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 386.885,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 378.51,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 381.608,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 381.772,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 381.039,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 380.791,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 371.663,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 394.432,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 397.145,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 466.143,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 473.504,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 394.482,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 8,
+			"xz_error": 0.0
+		},
+		{
+			"actual_player": [
+				-164.0,
+				17.0005054473877,
+				-182.0
+			],
+			"camera": "[X: (-0.0, 0.0, -1.0), Y: (-0.259147, 0.965838, 0.0), Z: (0.965838, 0.259147, -0.0), O: (-158.2, 19.70063, -182.0)]",
+			"contact": "KelvingroveViewpointSpur:<StaticBody3D#114554835811>",
+			"contact_y": 17.0,
+			"far": 220.0,
+			"fixture": [
+				-164.0,
+				17.0,
+				-182.0
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 17.0,
+			"grounded": true,
+			"id": "park-terrace-west",
+			"image": "park-terrace-west-candidate.png",
+			"initial_yaw": 1.5707963267949,
+			"phase": "candidate",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 563.105,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 443.798,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 390.828,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 469.025,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 535.125,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 473.397,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 478.783,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 475.751,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 476.621,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 474.322,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 481.719,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 475.771,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 475.061,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 473.647,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 387.455,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 375.773,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 375.78,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 374.171,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 378.821,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 431.911,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 377.232,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 374.15,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 380.313,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 384.616,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 375.323,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 376.196,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 376.55,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 380.457,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 377.852,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 375.659,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 402.264,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 400.177,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 385.978,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 417.218,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 412.243,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 396.297,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 400.591,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 387.406,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 383.012,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 381.736,
+					"primitives": 254860,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 8,
+			"xz_error": 0.0
+		},
+		{
+			"actual_player": [
+				-164.0,
+				17.0005054473877,
+				-182.0
+			],
+			"camera": "[X: (-0.0, 0.0, -1.0), Y: (-0.259146, 0.965838, 0.0), Z: (0.965838, 0.259146, -0.0), O: (-158.2, 19.70062, -182.0)]",
+			"contact": "KelvingroveViewpointSpur:<StaticBody3D#114554835811>",
+			"contact_y": 17.0,
+			"far": 220.0,
+			"fixture": [
+				-164.0,
+				17.0,
+				-182.0
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 17.0,
+			"grounded": true,
+			"id": "park-terrace-west",
+			"image": "park-terrace-west-original-b.png",
+			"initial_yaw": 1.5707963267949,
+			"phase": "original-b",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 385.873,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 387.96,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 386.96,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 387.066,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 385.941,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 392.278,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 392.818,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 378.43,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 449.982,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 447.31,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 373.471,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 372.661,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 372.143,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 376.696,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 374.492,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 372.801,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 371.283,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 368.919,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 368.672,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 368.204,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 372.234,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 371.499,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 368.492,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 370.403,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 368.669,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 369.621,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 411.274,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 394.908,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 696.213,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 498.219,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 512.303,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 455.697,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 419.339,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 373.727,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 402.922,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 428.312,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 425.35,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 371.763,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 370.794,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 140,
+					"ms": 371.029,
+					"primitives": 254310,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 8,
+			"xz_error": 0.0
+		},
+		{
+			"actual_player": [
+				113.00700378418,
+				0.000505648553371429,
+				-5.13700008392334
+			],
+			"camera": "[X: (-0.0, 0.0, 1.0), Y: (0.259146, 0.965838, 0.0), Z: (-0.965838, 0.259146, -0.0), O: (107.207, 2.700624, -5.137001)]",
+			"contact": "BarrasFloor:<StaticBody3D#75212262101>",
+			"contact_y": 0.0,
+			"far": 220.0,
+			"fixture": [
+				113.00700378418,
+				0.0,
+				-5.13700008392334
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 0.0,
+			"grounded": true,
+			"id": "barras-reported-gap",
+			"image": "barras-reported-gap-original-a.png",
+			"initial_yaw": -1.5707963267949,
+			"phase": "original-a",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 453.661,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 459.038,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 467.155,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 465.891,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 461.96,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 462.09,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 462.216,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.079,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 461.231,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.318,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 463.461,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.954,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 474.295,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 479.863,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 459.052,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 456.244,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.588,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 462.349,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 459.254,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 455.832,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 454.738,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 454.812,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 455.127,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 466.756,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 480.713,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 465.972,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 473.286,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 531.565,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 490.645,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 487.564,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 457.667,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 456.881,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 454.763,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 474.416,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 474.981,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.504,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 455.425,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.735,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 459.841,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 460.473,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 7,
+			"xz_error": 0.0
+		},
+		{
+			"actual_player": [
+				113.00700378418,
+				0.000505648553371429,
+				-5.13700008392334
+			],
+			"camera": "[X: (-0.0, 0.0, 1.0), Y: (0.259147, 0.965838, 0.0), Z: (-0.965838, 0.259147, -0.0), O: (107.207, 2.70063, -5.137001)]",
+			"contact": "BarrasFloor:<StaticBody3D#75212262101>",
+			"contact_y": 0.0,
+			"far": 220.0,
+			"fixture": [
+				113.00700378418,
+				0.0,
+				-5.13700008392334
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 0.0,
+			"grounded": true,
+			"id": "barras-reported-gap",
+			"image": "barras-reported-gap-candidate.png",
+			"initial_yaw": -1.5707963267949,
+			"phase": "candidate",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 482.28,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 481.477,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 486.099,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 484.579,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 482.726,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 481.67,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 478.994,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 479.711,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 478.208,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 478.416,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 483.749,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 483.274,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 485.761,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 488.693,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 491.06,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 485.332,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 482.371,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 483.169,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 477.109,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 474.994,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 478.659,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 477.356,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 483.404,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 483.691,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 477.608,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 399.597,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 386.803,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 384.735,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 377.928,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 377.026,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 379.154,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 377.135,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 376.397,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 378.2,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 378.996,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 384.591,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 460.955,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 379.5,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 375.977,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 264,
+					"ms": 374.739,
+					"primitives": 79500,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 8,
+			"xz_error": 0.0
+		},
+		{
+			"actual_player": [
+				113.00700378418,
+				0.000505648553371429,
+				-5.13700008392334
+			],
+			"camera": "[X: (-0.0, 0.0, 1.0), Y: (0.259147, 0.965838, 0.0), Z: (-0.965838, 0.259147, -0.0), O: (107.207, 2.700632, -5.137001)]",
+			"contact": "BarrasFloor:<StaticBody3D#75212262101>",
+			"contact_y": 0.0,
+			"far": 220.0,
+			"fixture": [
+				113.00700378418,
+				0.0,
+				-5.13700008392334
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 0.0,
+			"grounded": true,
+			"id": "barras-reported-gap",
+			"image": "barras-reported-gap-original-b.png",
+			"initial_yaw": -1.5707963267949,
+			"phase": "original-b",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 457.945,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 457.502,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 457.458,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.609,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.099,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.721,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 462.723,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 589.372,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 468.197,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 757.502,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 465.165,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 527.281,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 613.067,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 553.258,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 455.654,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 478.897,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 481.984,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 459.383,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 455.589,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 514.109,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 537.86,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 459.079,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 457.849,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 457.682,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 455.594,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 459.036,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 459.501,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 458.75,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 456.262,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 456.136,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 491.423,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 478.523,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 460.334,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 459.612,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 453.15,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 364.648,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 364.537,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 361.598,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 359.755,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 262,
+					"ms": 356.833,
+					"primitives": 79222,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 7,
+			"xz_error": 0.0
+		},
+		{
+			"actual_player": [
+				-52.0,
+				5.99906730651855,
+				-122.0
+			],
+			"camera": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.965838, -0.259147), Z: (0.0, 0.259147, 0.965838), O: (-52.0, 8.699196, -116.2)]",
+			"contact": "KelvingroveGeorgePromenade:<StaticBody3D#113564980008>",
+			"contact_y": 6.0,
+			"far": 220.0,
+			"fixture": [
+				-52.0,
+				6.0,
+				-122.0
+			],
+			"fov": 66.0000076293945,
+			"ground_reference": 6.0,
+			"grounded": true,
+			"id": "park-civic-connector",
+			"image": "park-civic-connector-candidate.png",
+			"initial_yaw": 0.0,
+			"phase": "candidate",
+			"rows": [
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 292.675,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 296.797,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 293.141,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 290.715,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 293.03,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 294.836,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 295.943,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 304.128,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 357.397,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 293.119,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 291.822,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 289.421,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 292.034,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 291.099,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 291.854,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 291.451,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 288.948,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 291.544,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 288.501,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 344.348,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 356.199,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 351.47,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 360.651,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 354.723,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 356.869,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 359.098,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 360.156,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 359.267,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 366.667,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 365.5,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 364.8,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 365.51,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 358.03,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 363.37,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 371.181,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 368.951,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 363.781,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 360.38,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 363.023,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				},
+				{
+					"buffer_bytes": 15502532.0,
+					"draws": 211,
+					"ms": 363.81,
+					"primitives": 290240,
+					"texture_bytes": 48651268.0,
+					"video_bytes": 64153800.0
+				}
+			],
+			"stable": 8,
+			"xz_error": 0.0
+		}
+	]
+}

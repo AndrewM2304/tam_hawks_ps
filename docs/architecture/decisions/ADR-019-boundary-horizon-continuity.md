@@ -1,5 +1,11 @@
 # ADR-019 — Ground the existing boundaries and paint the distant horizon
 
+## Unshaded foundation correction after RGB rejection
+
+The complete512/RGB8 run is valid/clean/frozen and fixes all sampled visual gaps, but fails10/15 strict timing comparisons. Low throttling(51/16,458 periods) does not waive it. Preserve the source-bound failed run. Next replace the extended lit/shadow-casting building masses with64 unshaded vertical foundation triangles, merged into the existing CityFootings surface. Keep all eight original visible building meshes, bounds, materials and shadow behavior unchanged. Foundation faces occupy only their original footprints below the true0/6m bases down toY−35; no horizontal caps, collision or route promises. Revise the combined context/water ceiling explicitly to832 triangles; still four shared-material regional surfaces. This avoids expanding the original lit/shadow raster footprint merely to hide a background gap.
+
+The direct512/RGB8 sky uses an explicit base-level linear lookup instead of implicit derivatives/mip selection; mip data remains independently verified. Inspect actual appearance and measure the complete corrected candidate with the same strict gate. Neither the cheaper shader form nor the new triangle count is an admission proof.
+
 ## Current direct RGB cubemap candidate
 
 The native half-resolution experiment failed GLSL compilation on the pinned Compatibility renderer and was stopped. Its34/0 finite assertions do not admit the renderer. Retain that failure; do not ship the broken native subpass. Restore the simple direct sky lookup and use six512² RGB8 uncompressed faces with mipmaps:6,291,450 actual pixel-chain bytes, six bytes below the unchanged6MiB source-image ceiling. This avoids DXT software decoding and compression banding at a lower angular resolution suited to atmospheric distant scenery. No extra sky intermediate/subpass is used. The original4096×2048 artwork remains the offline reference, and eight existing visual masses retain their roofs/footprints while reachingY−35. Fresh native composition/performance and the ordinary required suite must decide admission; no timing pass is implied by this representation change.
