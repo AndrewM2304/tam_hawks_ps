@@ -407,10 +407,12 @@ static func _actor_structure(actor: Node3D, check: Callable) -> void:
 		and _has_visible_mesh(kit) and actor.animation_snapshot().drummer_active,
 		"Techno Bin presentation: the active street drummer has a visible improvised bin kit")
 	var sign := actor.get_node_or_null("PitchSign") as Label3D
-	check.call(sign != null and sign.is_visible_in_tree() and "TECHNO BIN" in sign.text.to_upper()
+	# The owner removed hovering text; retain state identity without a rendered sign.
+	check.call(sign != null and not sign.visible and sign.billboard == BaseMaterial3D.BILLBOARD_DISABLED
+		and "TECHNO BIN" in sign.text.to_upper()
 		and not "MECHANICAL" in sign.text.to_upper() and sign.font_size >= 24
 		and sign.pixel_size >= 0.002 and sign.outline_size > 0 and sign.visibility_range_end >= 10.0,
-		"Techno Bin presentation: a legible-sized outlined world sign identifies the corrected street act")
+		"Techno Bin presentation: hidden logical state identifies the corrected act without hovering text")
 
 
 static func _audio_controls(tree: SceneTree, game: Node, check: Callable) -> void:

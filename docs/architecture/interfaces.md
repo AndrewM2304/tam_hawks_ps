@@ -1,3 +1,9 @@
+## 18 October arcade hardening addendum
+
+[ADR-017](decisions/ADR-017-arcade-response-hardening.md) is the current skating tuning contract: free-air gravity34, contact gravity22; release-pop8.0→11.3m/s over250ms, flip320ms, ground response55ms; one seek/180ms rail buffer, .85m radius/.60m above/.14m below/65° angle with real clearance. Finite steep departures automatically face their downhill return without scored spin or velocity reconstruction. Uphill rollback and lateral contact pose now follow travel. An upright departure uses a collision-checked <=.34m normal clearance and awards nothing after a failed departure. Initial diagnostics/final receipts are in newest STATUS; old acceptance sections below remain source-bound history.
+
+World startup registers selected physical edge snapshots after dressing, adds exact collision to four reachable street benches and caches the full physical ribbon vertices for exact support queries. An8m grind index preserves bounded swept capture while excluding distant curves; explicitly closed copings wrap, open tracks end. Hovering encounter state/route captions are hidden; HUD callbacks and physical lettering/rings remain. No career/save ID,48route set or water hazard is replaced. The two original wall paintings use one alpha-one depth-tested/no-depth-write painter material, <=1200triangles,0textures/process/physics; live default depends on the recorded performance admission.
+
 # Runtime interfaces
 
 Updated 17 October 2026 against the current implementation. Godot 4.6.3, Compatibility renderer, native GDScript, one attributed MIT rail-geometry component, original world/garment geometry and Blender-exported GLB board, CC0 cropped MakeHuman anatomical meshes, two attributed CC0 material sets, and local audio. Runtime has no network service or paid dependency. This describes enabled behavior, not human acceptance or target-Mac certification.

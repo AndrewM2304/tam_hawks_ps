@@ -1,3 +1,5 @@
+Current arcade hardening: tap and release **Space/Cross** for a low, fast hop; hold about a quarter-second before releasing for the higher Ollie. The half-pipe automatically turns the rider back downhill; the turn itself earns no spin score. Hold **L/Triangle** on an approach to seek one rail catch, or tap just before contact; after locking, release stays on, another fresh tap drops, and release-Ollie pops. The latest source and validation limits are in STATUS.
+
 # Tam Hawks Pro Skater — prototype player guide
 
 Skate a Glasgow-inspired prototype, link tricks, and complete career goals during two-minute runs. Explore an original compressed Glasgow map with city terraces, fountain coping, station platforms, river crossings and hilly park paths, with local sound and voiced reactions. Further visual refinement, animation work and human playtesting remain part of the roadmap.

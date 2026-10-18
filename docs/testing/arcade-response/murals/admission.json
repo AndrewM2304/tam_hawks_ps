@@ -1,0 +1,579 @@
+{
+  "accepted_for_measurement": true,
+  "admitted_to_normal_play": false,
+  "reason": "Strict p95/p99 A/B/A frame-spike gate failed. Preview only. No Mac performance claim.",
+  "formula": "ON <= midpoint(OFFs) + abs(OFF0-OFF1) + .05*midpoint AND ON <=1.05*max(OFFs), for both p95 and p99 at each view",
+  "rows": [
+    {
+      "view": "barras",
+      "phases": {
+        "before-a": {
+          "draws": 678,
+          "over_100ms": 120,
+          "p50_ms": 175.994,
+          "p95_ms": 323.989,
+          "p99_ms": 622.022,
+          "primitives": 623244,
+          "static_memory": 78912491.0,
+          "video_memory": 26034337.0
+        },
+        "murals": {
+          "draws": 678,
+          "over_100ms": 120,
+          "p50_ms": 174.878,
+          "p95_ms": 351.988,
+          "p99_ms": 417.542,
+          "primitives": 623244,
+          "static_memory": 79004899.0,
+          "video_memory": 26034337.0
+        },
+        "before-b": {
+          "draws": 678,
+          "over_100ms": 120,
+          "p50_ms": 178.401,
+          "p95_ms": 399.66,
+          "p99_ms": 536.026,
+          "primitives": 623244,
+          "static_memory": 79097307.0,
+          "video_memory": 26034337.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 351.988,
+          "envelope": 455.58672500000006,
+          "max_control_105pct": 419.64300000000003,
+          "pass": true
+        },
+        "p99_ms": {
+          "on": 417.542,
+          "envelope": 693.9712000000001,
+          "max_control_105pct": 653.1231,
+          "pass": true
+        }
+      }
+    },
+    {
+      "view": "bloom",
+      "phases": {
+        "before-a": {
+          "draws": 968,
+          "over_100ms": 120,
+          "p50_ms": 162.21,
+          "p95_ms": 203.973,
+          "p99_ms": 368.594,
+          "primitives": 551880,
+          "static_memory": 80070471.0,
+          "video_memory": 26034337.0
+        },
+        "murals": {
+          "draws": 969,
+          "over_100ms": 120,
+          "p50_ms": 166.613,
+          "p95_ms": 375.477,
+          "p99_ms": 636.641,
+          "primitives": 552433,
+          "static_memory": 80163275.0,
+          "video_memory": 26034337.0
+        },
+        "before-b": {
+          "draws": 968,
+          "over_100ms": 120,
+          "p50_ms": 168.611,
+          "p95_ms": 367.621,
+          "p99_ms": 534.947,
+          "primitives": 551880,
+          "static_memory": 80255739.0,
+          "video_memory": 26034337.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 375.477,
+          "envelope": 463.73485,
+          "max_control_105pct": 386.00205,
+          "pass": true
+        },
+        "p99_ms": {
+          "on": 636.641,
+          "envelope": 640.7120249999999,
+          "max_control_105pct": 561.69435,
+          "pass": false
+        }
+      }
+    },
+    {
+      "view": "clyde",
+      "phases": {
+        "before-a": {
+          "draws": 96,
+          "over_100ms": 16,
+          "p50_ms": 74.689,
+          "p95_ms": 127.306,
+          "p99_ms": 254.761,
+          "primitives": 84842,
+          "static_memory": 79199359.0,
+          "video_memory": 26034337.0
+        },
+        "murals": {
+          "draws": 96,
+          "over_100ms": 13,
+          "p50_ms": 73.068,
+          "p95_ms": 139.941,
+          "p99_ms": 231.68,
+          "primitives": 84842,
+          "static_memory": 79291971.0,
+          "video_memory": 26034337.0
+        },
+        "before-b": {
+          "draws": 96,
+          "over_100ms": 27,
+          "p50_ms": 77.009,
+          "p95_ms": 142.038,
+          "p99_ms": 270.449,
+          "primitives": 84842,
+          "static_memory": 79384435.0,
+          "video_memory": 26034337.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 139.941,
+          "envelope": 156.1376,
+          "max_control_105pct": 149.1399,
+          "pass": true
+        },
+        "p99_ms": {
+          "on": 231.68,
+          "envelope": 291.42325,
+          "max_control_105pct": 283.97145,
+          "pass": true
+        }
+      }
+    },
+    {
+      "view": "exchange",
+      "phases": {
+        "before-a": {
+          "draws": 918,
+          "over_100ms": 120,
+          "p50_ms": 185.895,
+          "p95_ms": 358.847,
+          "p99_ms": 639.746,
+          "primitives": 475055,
+          "static_memory": 78032567.0,
+          "video_memory": 26034337.0
+        },
+        "murals": {
+          "draws": 918,
+          "over_100ms": 120,
+          "p50_ms": 189.679,
+          "p95_ms": 533.213,
+          "p99_ms": 591.984,
+          "primitives": 475055,
+          "static_memory": 78126183.0,
+          "video_memory": 26034337.0
+        },
+        "before-b": {
+          "draws": 918,
+          "over_100ms": 120,
+          "p50_ms": 195.214,
+          "p95_ms": 453.82,
+          "p99_ms": 717.017,
+          "primitives": 475055,
+          "static_memory": 78218803.0,
+          "video_memory": 26034337.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 533.213,
+          "envelope": 521.623175,
+          "max_control_105pct": 476.511,
+          "pass": false
+        },
+        "p99_ms": {
+          "on": 591.984,
+          "envelope": 789.571575,
+          "max_control_105pct": 752.8678500000001,
+          "pass": true
+        }
+      }
+    },
+    {
+      "view": "george",
+      "phases": {
+        "before-a": {
+          "draws": 441,
+          "over_100ms": 120,
+          "p50_ms": 156.994,
+          "p95_ms": 254.863,
+          "p99_ms": 360.314,
+          "primitives": 333546,
+          "static_memory": 78329723.0,
+          "video_memory": 26034337.0
+        },
+        "murals": {
+          "draws": 441,
+          "over_100ms": 120,
+          "p50_ms": 162.165,
+          "p95_ms": 303.982,
+          "p99_ms": 409.913,
+          "primitives": 333546,
+          "static_memory": 78422179.0,
+          "video_memory": 26034337.0
+        },
+        "before-b": {
+          "draws": 441,
+          "over_100ms": 120,
+          "p50_ms": 161.854,
+          "p95_ms": 280.399,
+          "p99_ms": 424.736,
+          "primitives": 333546,
+          "static_memory": 78514587.0,
+          "video_memory": 26034337.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 303.982,
+          "envelope": 306.54855,
+          "max_control_105pct": 294.41895,
+          "pass": false
+        },
+        "p99_ms": {
+          "on": 409.913,
+          "envelope": 476.5732499999999,
+          "max_control_105pct": 445.9728,
+          "pass": true
+        }
+      }
+    },
+    {
+      "view": "heron",
+      "phases": {
+        "before-a": {
+          "draws": 902,
+          "over_100ms": 120,
+          "p50_ms": 186.583,
+          "p95_ms": 383.545,
+          "p99_ms": 556.867,
+          "primitives": 543353,
+          "static_memory": 79778411.0,
+          "video_memory": 26034337.0
+        },
+        "murals": {
+          "draws": 903,
+          "over_100ms": 120,
+          "p50_ms": 171.962,
+          "p95_ms": 340.567,
+          "p99_ms": 467.308,
+          "primitives": 543892,
+          "static_memory": 79875963.0,
+          "video_memory": 26034337.0
+        },
+        "before-b": {
+          "draws": 902,
+          "over_100ms": 120,
+          "p50_ms": 162.248,
+          "p95_ms": 236.483,
+          "p99_ms": 443.533,
+          "primitives": 543353,
+          "static_memory": 79968395.0,
+          "video_memory": 26034337.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 340.567,
+          "envelope": 472.5767,
+          "max_control_105pct": 402.72225000000003,
+          "pass": true
+        },
+        "p99_ms": {
+          "on": 467.308,
+          "envelope": 638.5439999999999,
+          "max_control_105pct": 584.71035,
+          "pass": true
+        }
+      }
+    },
+    {
+      "view": "park",
+      "phases": {
+        "before-a": {
+          "draws": 12,
+          "over_100ms": 42,
+          "p50_ms": 97.161,
+          "p95_ms": 155.562,
+          "p99_ms": 267.015,
+          "primitives": 210920,
+          "static_memory": 79477579.0,
+          "video_memory": 26034337.0
+        },
+        "murals": {
+          "draws": 12,
+          "over_100ms": 43,
+          "p50_ms": 93.148,
+          "p95_ms": 205.588,
+          "p99_ms": 264.954,
+          "primitives": 210920,
+          "static_memory": 79570047.0,
+          "video_memory": 26034337.0
+        },
+        "before-b": {
+          "draws": 12,
+          "over_100ms": 51,
+          "p50_ms": 98.481,
+          "p95_ms": 245.87,
+          "p99_ms": 389.978,
+          "primitives": 210920,
+          "static_memory": 79662511.0,
+          "video_memory": 26034337.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 205.588,
+          "envelope": 301.0598,
+          "max_control_105pct": 258.1635,
+          "pass": true
+        },
+        "p99_ms": {
+          "on": 264.954,
+          "envelope": 467.884325,
+          "max_control_105pct": 409.4769,
+          "pass": true
+        }
+      }
+    },
+    {
+      "view": "station",
+      "phases": {
+        "before-a": {
+          "draws": 179,
+          "over_100ms": 35,
+          "p50_ms": 85.069,
+          "p95_ms": 152.377,
+          "p99_ms": 222.63,
+          "primitives": 101170,
+          "static_memory": 78620695.0,
+          "video_memory": 26034337.0
+        },
+        "murals": {
+          "draws": 179,
+          "over_100ms": 25,
+          "p50_ms": 85.602,
+          "p95_ms": 170.915,
+          "p99_ms": 329.386,
+          "primitives": 101170,
+          "static_memory": 78713175.0,
+          "video_memory": 26034337.0
+        },
+        "before-b": {
+          "draws": 179,
+          "over_100ms": 20,
+          "p50_ms": 85.362,
+          "p95_ms": 174.895,
+          "p99_ms": 300.921,
+          "primitives": 101170,
+          "static_memory": 78805647.0,
+          "video_memory": 26034337.0
+        }
+      },
+      "gates": {
+        "p95_ms": {
+          "on": 170.915,
+          "envelope": 194.33580000000003,
+          "max_control_105pct": 183.63975000000002,
+          "pass": true
+        },
+        "p99_ms": {
+          "on": 329.386,
+          "envelope": 353.15527499999996,
+          "max_control_105pct": 315.96705000000003,
+          "pass": false
+        }
+      }
+    }
+  ],
+  "images": [
+    {
+      "file": "barras-before-a.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "6c52004f04b506f86eb81c4e9b2a241931b30a9874c0b5d7f5d442d87f946fcf"
+    },
+    {
+      "file": "barras-murals.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "6c52004f04b506f86eb81c4e9b2a241931b30a9874c0b5d7f5d442d87f946fcf"
+    },
+    {
+      "file": "bloom-before-a.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "2add4229f7d7ae97eb0eda59cb0f5853a38893d2d2dd51d7522a6ebdc9d2306d"
+    },
+    {
+      "file": "bloom-murals.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "ef7fb5b09b0ba54ca491243c3ea21bfe3bc251dfe6479d596a8d19a090b16876"
+    },
+    {
+      "file": "bloom_close.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "84e99a4c5fc455762a49ada5e44d51682784a189b0f0d306d85766363de78f96"
+    },
+    {
+      "file": "bloom_front.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "ef7fb5b09b0ba54ca491243c3ea21bfe3bc251dfe6479d596a8d19a090b16876"
+    },
+    {
+      "file": "bloom_oblique.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "5eb8d255585b8fd48e1948b90757a91a7c59a2c77853ac261bf12c3e21f8055d"
+    },
+    {
+      "file": "clyde-before-a.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "e3104c45d29229086edaa58cf16a6bacd973c3a23e4952377f3ba974dc51a767"
+    },
+    {
+      "file": "clyde-murals.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "81606372e40450e08c927b56ce18b1cf4217d4dea7da5f7fcbcbbbfb5f582f66"
+    },
+    {
+      "file": "exchange-before-a.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "1e2534aad3c1f95eef504c326766d0f1923ffd185b03ea77da84017b58438c6c"
+    },
+    {
+      "file": "exchange-murals.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "1e2534aad3c1f95eef504c326766d0f1923ffd185b03ea77da84017b58438c6c"
+    },
+    {
+      "file": "george-before-a.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "edba88050611b30eaf5b8df673b9b4ce10c93eec3bf4181b1a2995dfe001d08b"
+    },
+    {
+      "file": "george-murals.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "edba88050611b30eaf5b8df673b9b4ce10c93eec3bf4181b1a2995dfe001d08b"
+    },
+    {
+      "file": "heron-before-a.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "bf130ad30b9c10d9e11652fafd694610a6d7ebfd669dbc80c5f48c12d1930cbe"
+    },
+    {
+      "file": "heron-murals.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "003288dcf7578a9e19dd0331a7ba7f53ab353ce11c76fedc44ae9f84df64d050"
+    },
+    {
+      "file": "heron_approach.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "f2da5d3f1243f0aa039e7b021c288e43df4c15f1bffa63d90afc6fba4ecdf1b5"
+    },
+    {
+      "file": "heron_close.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "ab179c679eeaa30d8dc7b0d636e069902ee7e1d633d7898b3cea68efac0a644c"
+    },
+    {
+      "file": "heron_front.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "003288dcf7578a9e19dd0331a7ba7f53ab353ce11c76fedc44ae9f84df64d050"
+    },
+    {
+      "file": "park-before-a.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "80def3e0b431a7fa0594617947613a52d0a336eb4de250d9cb1923076f3f8415"
+    },
+    {
+      "file": "park-murals.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "80def3e0b431a7fa0594617947613a52d0a336eb4de250d9cb1923076f3f8415"
+    },
+    {
+      "file": "station-before-a.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "05fcf2d071390bbdc4eea93e741e2027f4b5dc62097afdf4a38402b4cd2f4304"
+    },
+    {
+      "file": "station-murals.png",
+      "size": [
+        960,
+        600
+      ],
+      "sha256": "ddae8b79dd7ea55f9b8f35ffbe7b865baaeea0a6cd9c497697f02c64ebff4610"
+    }
+  ],
+  "all_images_decoded": true
+}

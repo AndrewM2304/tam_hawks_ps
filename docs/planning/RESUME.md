@@ -1,3 +1,5 @@
+**Current continuation:** [ARCADE-HARDENING](ARCADE-HARDENING.md) owns the weighted physics/finite return/reachable-edge/text/mural work. Production is frozen for actual six-area rendering and the required full regression. Focused results: world112/0, edge24/0, geometry39/0, new return refusal20/0. Murals defaultOFF after failed timing admission; all75full backlog records persist. Older instructions below are historical.
+
 # Resuming development
 
 A new session should be able to work from this repository alone. Treat source, tests and the recorded handoff as evidence; a chat promise is not an implementation result. The owner has authorized continuing the remaining work without routine task-by-task approval, subject to the no-spend constraint. Do not restart from the earlier M01-only state or ask whether to proceed with an already authorized next ticket.

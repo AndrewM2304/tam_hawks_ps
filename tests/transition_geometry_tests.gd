@@ -72,11 +72,20 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call((west.basis * Vector3.FORWARD).dot(east.basis * Vector3.FORWARD) < -0.999
 		and absf(west.origin.distance_to(east.origin) - 8.0) < 0.0001,
 		"transition geometry: half-pipe sides oppose across an eight-metre flat bottom")
-	var bottom_at := fixture.to_global(Vector3(-22, 2.006, 61.5))
+	var bottom_at := fixture.to_global(Vector3(-22, 2.0, 61.5))
 	var bottom := _ray(fixture, bottom_at + Vector3.UP, bottom_at - Vector3.UP)
 	check.call(not bottom.is_empty() and bottom.collider.name == "HalfPipeFlatBottom"
 		and bottom.position.distance_to(bottom_at) < 0.001,
-		"transition geometry: half-pipe bottom has real visible flat collision support")
+		"transition geometry: half-pipe physical bottom meets both two-metre curve toes without a raised collision edge")
+	var flat: StaticBody3D = fixture.get_node("TransitionPark/HalfPipeFlatBottom")
+	var visible_bottom: MeshInstance3D
+	for child: Node in flat.get_children():
+		if child is MeshInstance3D: visible_bottom = child
+	var original_visual := fixture.global_transform * Transform3D(Basis.IDENTITY, Vector3(-22, 1.886, 60.5))
+	check.call(visible_bottom != null and visible_bottom.global_transform == original_visual
+		and visible_bottom.position == Vector3.UP * 0.006
+		and visible_bottom.mesh is BoxMesh and visible_bottom.mesh.size == Vector3(8, 0.24, Park.WIDTH),
+		"transition geometry: six-millimetre visual skin preserves the original flat mesh world transform and dimensions")
 	var access_from := fixture.to_global(Vector3(-22, 2.4, 68))
 	var access_to := fixture.to_global(Vector3(-22, 2.4, 60))
 	check.call(_ray(fixture, access_from, access_to).is_empty(),

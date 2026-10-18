@@ -1,0 +1,255 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS rail index: exact candidate preserved across signed cell boundary (-960.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-959.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-948.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-947.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-12.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-11.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-0.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (0.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (11.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (12.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (947.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (948.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: historical swept window remains in actual-origin candidate cell
+PASS closed coping: crosses authored seam continuously in direction -1.0
+PASS closed coping: crosses authored seam continuously in direction 1.0
+PASS rail index: replaced lists and nonfinite positions cannot reuse stale tracks
+PASS grind ride: an airborne approach within capture bounds attaches
+PASS grind ride: entry preserves projected speed and samples the rail
+PASS grind ride: forward travel advances distance and loses speed to friction
+PASS grind ride: stop retains finite release position and momentum
+PASS grind ride: inactive updates do not keep moving the released skater
+PASS grind ride: selects nearest eligible rail regardless of list order
+PASS grind ride: blocked nearest rail falls back to a clear eligible rail
+PASS grind ride: obstructed snap is rejected
+PASS grind ride: reverse entry keeps its signed travel direction
+PASS grind ride: reverse motion decreases distance and keeps momentum
+PASS grind ride: crossing an open endpoint releases in direction -1.0
+PASS grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS grind ride: crossing an open endpoint releases in direction 1.0
+PASS grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS grind ride: outward approaches beyond either endpoint do not attach
+PASS grind ride: an inward approach near an endpoint can attach
+PASS grind ride: distance follows a translated bent rail and the outgoing tangent turns with it
+PASS grind ride: approach angle gate distinguishes either side of 65 degrees
+PASS grind ride: approach angle gate distinguishes either side of 65 degrees
+PASS grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.78, 0.1, -5.0)
+PASS grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.0, 0.58, -5.0)
+PASS grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.0, -0.13, -5.0)
+PASS grind ride: angled catch retains at least 90 percent horizontal speed without converting a fall to flat-rail boost
+PASS grind ride: angled catch retains at least 90 percent horizontal speed without converting a fall to flat-rail boost
+PASS grind ride: sloped rails capture both travel directions
+PASS grind ride: slope gravity changes speed and outgoing velocity retains the vertical tangent
+PASS grind ride: insufficient uphill momentum releases without silently reversing
+PASS grind ride: downhill acceleration respects the speed ceiling
+PASS grind ride: rejects full snap distance
+PASS grind ride: rejects vertical reach
+PASS grind ride: rejects below the rail
+PASS grind ride: rejects rising ascent
+PASS grind ride: rejects sideways approach
+PASS grind ride: rejects too little speed
+PASS grind ride: rejects excessive speed
+PASS grind ride: rejects nonfinite position
+PASS grind ride: rejects nonfinite velocity
+PASS grind ride: malformed rail lists cannot attach
+PASS grind ride: vertical lines have no usable horizontal approach
+PASS grind ride: unattended deterministic balance eventually bails
+PASS grind ride: countersteering controls the balance instead of an unavoidable timeout
+PASS grind ride: analog correction is bounded to the normal input range
+PASS grind ride: invalid update safely releases without contaminating body transforms
+PASS grind ride: invalid update safely releases without contaminating body transforms
+PASS grind ride: invalid update safely releases without contaminating body transforms
+PASS grind ride: invalid update safely releases without contaminating body transforms
+PASS grind forgiveness: offset/angle/speed admission survives tick phase [30.0, -0.4, -35.0, 8.0, 22.0, 0.5]
+PASS grind forgiveness: offset/angle/speed admission survives tick phase [60.0, 0.4, 35.0, 12.0, 42.0, 0.5]
+PASS grind forgiveness: offset/angle/speed admission survives tick phase [120.0, -0.5, -25.0, 17.0, 60.0, 0.46]
+PASS grind forgiveness: offset/angle/speed admission survives tick phase [60.0, 0.55, 0.0, 4.0, 28.0, 0.46]
+PASS grind forgiveness: offset/angle/speed admission survives tick phase [120.0, -0.3, 45.0, 10.0, 18.0, 0.46]
+PASS grind forgiveness: offset/angle/speed admission survives tick phase [30.0, 0.0, 0.0, 17.0, 18.0, 0.46]
+PASS grind forgiveness: actual descending travel recovers a window missed at both frame endpoints
+PASS grind forgiveness: a blocked actual-body sweep rejects every historical sample
+PASS grind forgiveness: clearance always starts at the current body, never a past sample
+PASS grind forgiveness: no larger admission envelope for lateral miss
+PASS grind forgiveness: no larger admission envelope for wrong upper level
+PASS grind forgiveness: no larger admission envelope for below rail
+PASS grind forgiveness: no larger admission envelope for perpendicular motion
+PASS grind forgiveness: no larger admission envelope for rail behind travel
+PASS grind forgiveness: no larger admission envelope for rising toward rail
+PASS grind forgiveness: no larger admission envelope for insufficient forward speed
+PASS grind forgiveness: no larger admission envelope for excessive forward speed
+PASS grind forgiveness: no larger admission envelope for teleport-sized sweep
+PASS grind forgiveness: no larger admission envelope for nonfinite history
+PASS grind forgiveness: a second sweep cannot restart an active rail or duplicate its admission
+PASS transition: eligible finite front-face contact starts
+PASS transition: capture preserves signed tangent speed and support frame
+PASS transition: an active contact cannot be silently replaced
+PASS transition: zero-time pause consumes no movement or energy
+PASS transition: explicit stop clears contact without erasing outgoing momentum
+PASS transition: admission rejects back face
+PASS transition: admission rejects distant front face
+PASS transition: admission rejects past finite width
+PASS transition: admission rejects past toe seam
+PASS transition: admission rejects past finite lip
+PASS transition: admission rejects departing front face
+PASS transition: admission rejects rising vert takeoff
+PASS transition: admission rejects nonfinite point
+PASS transition: admission rejects nonfinite velocity
+PASS transition: missing physical support callback cannot attach
+PASS transition: explicit physical support rejection overrides geometric proximity
+PASS transition: descending front-face re-entry near the lip is eligible
+PASS transition: nonfinite feature radius is rejected
+PASS transition: nonfinite feature width is rejected
+PASS transition: nonfinite feature angle is rejected
+PASS transition: scaled transforms cannot invalidate metre/energy bounds
+PASS transition: translated yawed features retain their own world tangent frame
+PASS transition: malformed features and mismatched live body identity cannot attach
+PASS transition: 80-degree 30 Hz 4 m/s unforced approach exits toe
+PASS transition: 80-degree 30 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=30 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS transition: 80-degree 30 Hz 15 m/s unforced approach exits lip
+PASS transition: 80-degree 30 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=30 entry=15.0 release=lip max_gain=0.000000% max_y=2.6443 release_velocity=(0.0, 10.18929, -1.796647)
+PASS transition: 80-degree 60 Hz 4 m/s unforced approach exits toe
+PASS transition: 80-degree 60 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=60 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS transition: 80-degree 60 Hz 15 m/s unforced approach exits lip
+PASS transition: 80-degree 60 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=60 entry=15.0 release=lip max_gain=0.000000% max_y=2.6443 release_velocity=(0.0, 10.18929, -1.796647)
+PASS transition: 80-degree 120 Hz 4 m/s unforced approach exits toe
+PASS transition: 80-degree 120 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=120 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS transition: 80-degree 120 Hz 15 m/s unforced approach exits lip
+PASS transition: 80-degree 120 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=80 hz=120 entry=15.0 release=lip max_gain=0.000000% max_y=2.6443 release_velocity=(0.0, 10.18929, -1.796647)
+PASS transition: 90-degree 30 Hz 4 m/s unforced approach exits toe
+PASS transition: 90-degree 30 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=30 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS transition: 90-degree 30 Hz 15 m/s unforced approach exits lip
+PASS transition: 90-degree 30 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=30 entry=15.0 release=lip max_gain=0.000000% max_y=3.2000 release_velocity=(0.0, 9.077455, -0.0)
+PASS transition: 90-degree 60 Hz 4 m/s unforced approach exits toe
+PASS transition: 90-degree 60 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=60 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS transition: 90-degree 60 Hz 15 m/s unforced approach exits lip
+PASS transition: 90-degree 60 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=60 entry=15.0 release=lip max_gain=0.000000% max_y=3.2000 release_velocity=(0.0, 9.077455, -0.0)
+PASS transition: 90-degree 120 Hz 4 m/s unforced approach exits toe
+PASS transition: 90-degree 120 Hz 4 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=120 entry=4.0 release=toe max_gain=0.000000% max_y=0.3514 release_velocity=(0.0, 0.0, 3.861537)
+PASS transition: 90-degree 120 Hz 15 m/s unforced approach exits lip
+PASS transition: 90-degree 120 Hz 15 m/s contact adds no unexplained energy
+TRANSITION ENERGY angle=90 hz=120 entry=15.0 release=lip max_gain=0.000000% max_y=3.2000 release_velocity=(0.0, 9.077455, -0.0)
+PASS transition: right steering carves across the real surface tangent without adding energy
+PASS transition: finite side boundary releases with lateral momentum and unused frame time
+PASS transition: explicit pushing adds only bounded acceleration
+PASS transition: braking removes speed and suppresses simultaneous pumping
+PASS transition: capture projects and bounds extreme finite tangent velocities
+PASS transition: -90-degree wall -8 m/s steer -1 keeps signed ground handedness without extra energy
+PASS transition: -90-degree wall -8 m/s steer 1 keeps signed ground handedness without extra energy
+PASS transition: -90-degree wall 8 m/s steer -1 keeps signed ground handedness without extra energy
+PASS transition: -90-degree wall 8 m/s steer 1 keeps signed ground handedness without extra energy
+PASS transition: 0-degree wall -8 m/s steer -1 keeps signed ground handedness without extra energy
+PASS transition: 0-degree wall -8 m/s steer 1 keeps signed ground handedness without extra energy
+PASS transition: 0-degree wall 8 m/s steer -1 keeps signed ground handedness without extra energy
+PASS transition: 0-degree wall 8 m/s steer 1 keeps signed ground handedness without extra energy
+PASS transition: 90-degree wall -8 m/s steer -1 keeps signed ground handedness without extra energy
+PASS transition: 90-degree wall -8 m/s steer 1 keeps signed ground handedness without extra energy
+PASS transition: 90-degree wall 8 m/s steer -1 keeps signed ground handedness without extra energy
+PASS transition: 90-degree wall 8 m/s steer 1 keeps signed ground handedness without extra energy
+PASS transition: real blocked motion replaces the predicted arc and discarded momentum
+PASS transition: the next update cannot reconstruct pre-obstacle contact speed
+PASS transition: an actual move outside the finite surface releases contact
+PASS transition: actual oblique collision replaces both signed arc and lateral momentum
+PASS transition: an actual full stop clears both predicted tangent components
+PASS transition: after an impact only downhill gravity resumes, without restored lateral speed
+PASS transition: invalid elapsed time safely releases: nan
+PASS transition: invalid elapsed time safely releases: inf
+PASS transition: invalid elapsed time safely releases: -0.01
+PASS transition: invalid elapsed time safely releases: 0.251
+PASS transition: nonfinite steering releases safely
+PASS transition: lost actual support releases instead of following a metadata-only surface
+PASS transition: removed feature body cannot retain an invisible attachment
+PASS transition: real front-face triangle collision confirms shallow, steep and near-vertical support
+PASS transition: disabling actual curve collision prevents tagged geometry capture
+PASS human input: disabled controls keep the rider stopped on an actual 20-degree bank
+PASS human input: holding the brake at rest prevents downhill creep
+PASS human input: releasing the brake allows supported downhill rollback
+PASS human input: a fresh manual can balance while rolling backwards
+HUMAN SLOPE reverse_speed=-2.521 distance=3.955 manual=true
+PASS human input: 0-frame early flip/grab request survives takeoff and held buttons cannot repeat
+PASS human input: 3-frame early flip/grab request survives takeoff and held buttons cannot repeat
+PASS human input: 6-frame early flip/grab request survives takeoff and held buttons cannot repeat
+PASS human input: 9-frame early flip/grab request expires before takeoff and held buttons cannot repeat
+PASS human input: a held manual pressed just before real landing links once after contact
+PASS human input: disabled controls clear a pending pre-takeoff trick
+PASS human rail: offset=-0.22m yaw=0.0deg request=early push=45f via=action capture=true
+HUMAN_RAIL_EVENT when=early requested=true tick=1297 captures=1
+PASS human rail: offset=0.22m yaw=0.0deg request=descending push=60f via=pad capture=true
+HUMAN_RAIL_EVENT when=descending requested=true tick=1486 captures=1
+PASS human rail: alternate physical grind key is admitted
+PASS human rail: offset=0.00m yaw=2.0deg request=descending push=45f via=remap capture=true
+HUMAN_RAIL_EVENT when=descending requested=true tick=1643 captures=1
+PASS human rail: offset=0.00m yaw=-2.0deg request=descending push=60f via=action capture=true
+HUMAN_RAIL_EVENT when=descending requested=true tick=1816 captures=1
+PASS human rail: offset=0.90m yaw=0.0deg request=early push=45f via=action capture=false
+HUMAN_RAIL_EVENT when=early requested=true tick=1958 captures=0
+PASS human rail: offset=0.00m yaw=0.0deg request=after_landing push=45f via=action capture=false
+HUMAN_RAIL_EVENT when=after_landing requested=true tick=2147 captures=0
+PASS skate edges: startup authoring adds no render nodes or colliders
+PASS skate edges: all48existing navigation routes remain intact
+PASS skate edges: finite unique usable lines cover selected existing skate architecture
+PASS skate edges: rebuilding snapshots is deterministic without registering duplicate nodes
+PASS skate edges: registered visible feature family Planter_
+PASS skate edges: registered visible feature family CourtSeat_
+PASS skate edges: registered visible feature family WorkshopSeat_
+PASS skate edges: registered visible feature family MarketCounter_
+PASS skate edges: registered visible feature family Bench_
+PASS skate edges: registered visible feature family StreetBenchSeat_
+PASS skate edges: registered visible feature family StreetBenchBack_
+PASS skate edges: registered visible feature family CivicGarden_
+PASS skate edges: registered visible feature family PlatformNorthGap_
+PASS skate edges: registered visible feature family ServiceWalkFront_
+PASS skate edges: registered visible feature family BridgeRail_
+PASS skate edges: registered visible feature family NorthEmbankment_
+PASS skate edges: registered visible feature family SouthEmbankment_
+PASS skate edges: registered visible feature family ParkGranite_
+PASS skate edges: all four counters and four small planters expose each physical top edge
+PASS skate edges: physical box transform preserves orientation scale and world-up contact skin
+PASS skate edges: previous authored tracks and challenge IDs are unchanged
+FAIL skate edges: actual short top rays support registered physical edges: ["Grind_Edge_StreetBenchSeat_x-12700y200z2800_3_0 (-128.35, 2.585, 27.99)", "Grind_Edge_StreetBenchBack_x-12700y200z2800_2_0 (-127.0, 3.09, 27.7375)", "Grind_Edge_StreetBenchSeat_x2900y600z-11600_1_0 (30.35, 6.585, -116.01)", "Grind_Edge_StreetBenchSeat_x2900y600z-11600_3_0 (27.65, 6.585, -116.01)", "Grind_Edge_StreetBenchBack_x2900y600z-11600_0_0 (29.0, 7.09, -116.3375)", "Grind_Edge_StreetBenchSeat_x2900y0z2700_1_0 (30.35, 0.585, 26.99)", "Grind_Edge_StreetBenchSeat_x2900y0z2700_3_0 (27.65, 0.585, 26.99)", "Grind_Edge_StreetBenchBack_x2900y0z2700_2_0 (29.0, 1.09, 26.7375)"]
+PASS skate edges: physical registrations stay above existing world support: []
+PASS skate edges: real upright rider skin and short sweep clear representative Planter_
+PASS skate edges: real upright rider skin and short sweep clear representative CourtSeat_
+PASS skate edges: real upright rider skin and short sweep clear representative WorkshopSeat_
+PASS skate edges: real upright rider skin and short sweep clear representative ClosePocket_
+PASS skate edges: real upright rider skin and short sweep clear representative PrintYard_
+PASS skate edges: real upright rider skin and short sweep clear representative MarketCounter_
+PASS skate edges: real upright rider skin and short sweep clear representative Bench_
+PASS skate edges: real upright rider skin and short sweep clear representative StreetBenchSeat_
+PASS skate edges: real upright rider skin and short sweep clear representative StreetBenchBack_
+PASS skate edges: real upright rider skin and short sweep clear representative StairCheek_
+PASS skate edges: real upright rider skin and short sweep clear representative BuskingPlinth_
+PASS skate edges: real upright rider skin and short sweep clear representative CivicGarden_
+PASS skate edges: real upright rider skin and short sweep clear representative PlatformNorthGap_
+PASS skate edges: real upright rider skin and short sweep clear representative ServiceWalkFront_
+PASS skate edges: real upright rider skin and short sweep clear representative BridgeRail_
+PASS skate edges: real upright rider skin and short sweep clear representative NorthEmbankment_
+PASS skate edges: real upright rider skin and short sweep clear representative SouthEmbankment_
+PASS skate edges: real upright rider skin and short sweep clear representative ParkGranite_
+SKATE EDGE CONTACTS rays=1355 rail_only=50 top_failures=8 outside_failures=0
+WORLD_TRACKS 196
+COMPONENT RESULT: 230 passed, 1 failed

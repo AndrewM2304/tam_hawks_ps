@@ -374,8 +374,7 @@ func _local_ground(x: float, z: float) -> float:
 		if surface.has("bounds"):
 			if surface.bounds.has_point(at): height = Surface.grid_height(surface.bounds,surface.spacing,surface.height_at,x,z) if surface.has("height_at") else surface.height
 		else:
-			var nearest := Surface.nearest_segment(surface.points, at)
-			if nearest.get("within", true) and float(nearest.distance) <= float(surface.width) * 0.5: height = nearest.height
+			height = Surface.strip_height(surface.support_vertices,at)
 		if is_finite(height) and (is_nan(highest) or height > highest): highest = height
 	if not is_nan(highest): return highest
 	return NAN
@@ -387,8 +386,8 @@ func _patch(id: String, bounds: Rect2, height: float, material: Material) -> voi
 
 
 func _path(id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "asphalt", visual_points: PackedVector3Array = PackedVector3Array()) -> void:
-	Surface.strip(self, id, points, width, material, audio, visual_points)
-	_surfaces.append({"points": points, "width": width})
+	var body := Surface.strip(self, id, points, width, material, audio, visual_points)
+	_surfaces.append({"points": points, "width": width, "support_vertices":body.get_meta("support_vertices")})
 
 
 func _route(id: String, label: String, points: PackedVector3Array, jump: bool = false) -> void:
@@ -406,6 +405,7 @@ func _material(id: String) -> Material:
 func _box(id: String, at: Vector3, size: Vector3, material: Material, colliding: bool = true) -> Node3D:
 	var root: Node3D = StaticBody3D.new() if colliding else Node3D.new()
 	root.name = id
+	root.set_meta("art_label", id)
 	root.position = at
 	add_child(root)
 	var mesh := BoxMesh.new()

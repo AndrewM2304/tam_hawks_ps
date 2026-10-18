@@ -1,0 +1,675 @@
+{
+  "boundary_count": 58,
+  "boundary_crossing_fault_count": 0,
+  "boundary_crossing_faults": [],
+  "boundary_fault_count": 0,
+  "boundary_faults": [],
+  "boundary_samples": 4548,
+  "engine": {
+    "build": "official",
+    "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+    "hex": 263683,
+    "major": 4,
+    "minor": 6,
+    "patch": 3,
+    "status": "stable",
+    "string": "4.6.3-stable (official)",
+    "timestamp": 0
+  },
+  "grid_spacing_m": 4.0,
+  "hazard": 1422,
+  "height_tolerance_m": 0.1,
+  "limits": [
+    "Finite terrain is compared with actual layer1 rays; occupied scenery is classified separately using the actual rider capsule.",
+    "The4mgrid can miss smaller holes. Route offsets and boundary joins supplement it; ordinary-input traversal/render review remain separate.",
+    "NANoutside mappedterrain is not silently a floor failure; inviting route offsets are reported separately, and intentional river water is classified.",
+    "This does not certify targetperformance, everypossible aerial or humanplayability."
+  ],
+  "offset_unmapped": [],
+  "offset_unmapped_count": 0,
+  "recorded_at_utc": "2026-10-18T10:13:23",
+  "regions": {
+    "barras_market": 638,
+    "central_station": 650,
+    "clyde_and_southbank": 6063,
+    "exchange_gallery": 754,
+    "george_and_backstreets": 1104,
+    "kelvingrove_and_connectors": 3465
+  },
+  "route_count": 48,
+  "route_offset_samples": 7880,
+  "samples": 20620,
+  "schema_version": 1,
+  "solid_occupied": 1209,
+  "source_after_sha256": {
+    "res://game/levels/art/arch_mesh.gd": "0e6d7bf957e9f2f646d0ac879eb2a8130d95cc24076bc3818bd5758d75f55a71",
+    "res://game/levels/art/barras_market.gd": "27818b611ea7765c34fa58daa9e714a7d6efca74f4581562245e4344db20a4af",
+    "res://game/levels/art/clyde_landmarks.gd": "dce367363e6dda8fe02957d82926cf733deeb79c52b26613c8d56ecc5c406ac5",
+    "res://game/levels/art/exchange_gallery.gd": "fed395990b0638c148d1cd30aa65e27c495010c6824c7b15ab8e75293fc9447f",
+    "res://game/levels/art/facade_bay.gd": "5532963556c976e350423b7305b7e32110bcdf4c2042cda445c4844899359ef6",
+    "res://game/levels/art/facade_kit.gd": "cbc6e601d1136e248df2b83d831f04031a7f35f0af2275f671bb1b406d886da6",
+    "res://game/levels/art/foliage_mesh.gd": "13962d2d5cc4aca846db5560265a770b80bbefb4272951a56a7c2f8cfe76dea1",
+    "res://game/levels/art/street_dressing.gd": "2300dc9e41e0b32886ceba681562909a7836c7d18e82d201e5315bafb7d01741",
+    "res://game/levels/city_art.gd": "1f4968ab368abb5fbe934e3b9d875cbe0205bc0d87e2b6e183a4a775445de2e5",
+    "res://game/levels/city_backdrop.gd": "49eb071b6a3873e6af3832edc597f75415bede843323ec2248c3eebeb5ccd32f",
+    "res://game/levels/city_visibility.gd": "470b0a9a14ee5a6dbe67223c9ef1a8336064db9189769e679c340f4898e0bb99",
+    "res://game/levels/core_terrain.gd": "75931d88005dac965dc47ef7ff1a74841910bc6ec294861dc26b40cb44dfe36d",
+    "res://game/levels/exploration_boundary.gd": "8dbce6b8b961aaeabe53740a74aced04c585312cd3f80b0ffce5f3ffb1fa3f7b",
+    "res://game/levels/glasgow_murals.gd": "114e22f52d1ad76e0cf3d3f47efbce80acca3af12850e71c97a078b225635b19",
+    "res://game/levels/glasgow_square.gd": "ce3edcd49ca49a790ea3b828077115effb5a19e50ca82acdfbe1e9da9564ec28",
+    "res://game/levels/outdoor_routes.gd": "8cd5fb0544bed33291bcc7f92859d777b81b8c5547c2ecc33062a31f78d6748c",
+    "res://game/levels/outdoors/surface_builder.gd": "1920db7d71cf0c4c6f826c844b9e1b54ac51632107ae6119f5af76ccf8b074e7",
+    "res://game/levels/outdoors/vegetation.gd": "c6a4dd57c14fc4448a151c4f9feb92b89448c19d4d435df2595d584c4652ab64",
+    "res://game/levels/render_budget.gd": "ca784b8be7985b4ef11a29fd79e69cf98b568df1f59c898e9f3231df3f399233",
+    "res://game/levels/skate_edges.gd": "d85c1121c10b87c4d5fb657f5b2d1173ce37c1f743d198d2cd9a85675cd8a5e9",
+    "res://game/levels/static_batches.gd": "ee1168abc8129024f7cc75bbb17355c61d7c862c674b95c393c6b5944a519931",
+    "res://game/levels/transition_park.gd": "270ce0480e9524d662bf644f45afd6e4001f655308acf1ea7acbcfbdb675995c"
+  },
+  "source_changed_during_run": false,
+  "source_sha256": {
+    "res://game/levels/art/arch_mesh.gd": "0e6d7bf957e9f2f646d0ac879eb2a8130d95cc24076bc3818bd5758d75f55a71",
+    "res://game/levels/art/barras_market.gd": "27818b611ea7765c34fa58daa9e714a7d6efca74f4581562245e4344db20a4af",
+    "res://game/levels/art/clyde_landmarks.gd": "dce367363e6dda8fe02957d82926cf733deeb79c52b26613c8d56ecc5c406ac5",
+    "res://game/levels/art/exchange_gallery.gd": "fed395990b0638c148d1cd30aa65e27c495010c6824c7b15ab8e75293fc9447f",
+    "res://game/levels/art/facade_bay.gd": "5532963556c976e350423b7305b7e32110bcdf4c2042cda445c4844899359ef6",
+    "res://game/levels/art/facade_kit.gd": "cbc6e601d1136e248df2b83d831f04031a7f35f0af2275f671bb1b406d886da6",
+    "res://game/levels/art/foliage_mesh.gd": "13962d2d5cc4aca846db5560265a770b80bbefb4272951a56a7c2f8cfe76dea1",
+    "res://game/levels/art/street_dressing.gd": "2300dc9e41e0b32886ceba681562909a7836c7d18e82d201e5315bafb7d01741",
+    "res://game/levels/city_art.gd": "1f4968ab368abb5fbe934e3b9d875cbe0205bc0d87e2b6e183a4a775445de2e5",
+    "res://game/levels/city_backdrop.gd": "49eb071b6a3873e6af3832edc597f75415bede843323ec2248c3eebeb5ccd32f",
+    "res://game/levels/city_visibility.gd": "470b0a9a14ee5a6dbe67223c9ef1a8336064db9189769e679c340f4898e0bb99",
+    "res://game/levels/core_terrain.gd": "75931d88005dac965dc47ef7ff1a74841910bc6ec294861dc26b40cb44dfe36d",
+    "res://game/levels/exploration_boundary.gd": "8dbce6b8b961aaeabe53740a74aced04c585312cd3f80b0ffce5f3ffb1fa3f7b",
+    "res://game/levels/glasgow_murals.gd": "114e22f52d1ad76e0cf3d3f47efbce80acca3af12850e71c97a078b225635b19",
+    "res://game/levels/glasgow_square.gd": "ce3edcd49ca49a790ea3b828077115effb5a19e50ca82acdfbe1e9da9564ec28",
+    "res://game/levels/outdoor_routes.gd": "8cd5fb0544bed33291bcc7f92859d777b81b8c5547c2ecc33062a31f78d6748c",
+    "res://game/levels/outdoors/surface_builder.gd": "1920db7d71cf0c4c6f826c844b9e1b54ac51632107ae6119f5af76ccf8b074e7",
+    "res://game/levels/outdoors/vegetation.gd": "c6a4dd57c14fc4448a151c4f9feb92b89448c19d4d435df2595d584c4652ab64",
+    "res://game/levels/render_budget.gd": "ca784b8be7985b4ef11a29fd79e69cf98b568df1f59c898e9f3231df3f399233",
+    "res://game/levels/skate_edges.gd": "d85c1121c10b87c4d5fb657f5b2d1173ce37c1f743d198d2cd9a85675cd8a5e9",
+    "res://game/levels/static_batches.gd": "ee1168abc8129024f7cc75bbb17355c61d7c862c674b95c393c6b5944a519931",
+    "res://game/levels/transition_park.gd": "270ce0480e9524d662bf644f45afd6e4001f655308acf1ea7acbcfbdb675995c"
+  },
+  "support_fault_count": 32,
+  "support_faults": [
+    {
+      "actual": [
+        50.0,
+        0.000000119209289550781,
+        -16.0
+      ],
+      "collider": "BarrasFloor",
+      "context": "grid:exchange_gallery",
+      "expected": [
+        50.0,
+        1.5,
+        -16.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        -2.0,
+        1.0,
+        -8.0
+      ],
+      "collider": "GallerySteps4",
+      "context": "grid:exchange_gallery",
+      "expected": [
+        -2.0,
+        1.25,
+        -8.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        2.0,
+        1.0,
+        -8.0
+      ],
+      "collider": "GallerySteps4",
+      "context": "grid:exchange_gallery",
+      "expected": [
+        2.0,
+        1.25,
+        -8.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        -2.0,
+        0.0000000298023223876953,
+        -4.0
+      ],
+      "collider": "ExchangeLowerCourt",
+      "context": "grid:exchange_gallery",
+      "expected": [
+        -2.0,
+        0.25,
+        -4.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        2.0,
+        0.0000000298023223876953,
+        -4.0
+      ],
+      "collider": "ExchangeLowerCourt",
+      "context": "grid:exchange_gallery",
+      "expected": [
+        2.0,
+        0.25,
+        -4.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        -10.0,
+        4.0,
+        -102.0
+      ],
+      "collider": "GeorgeSquareFloor",
+      "context": "grid:george_and_backstreets",
+      "expected": [
+        -10.0,
+        4.19999980926514,
+        -102.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        -6.0,
+        4.0,
+        -102.0
+      ],
+      "collider": "GeorgeSquareFloor",
+      "context": "grid:george_and_backstreets",
+      "expected": [
+        -6.0,
+        4.19999980926514,
+        -102.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        -2.0,
+        4.0,
+        -102.0
+      ],
+      "collider": "GeorgeSquareFloor",
+      "context": "grid:george_and_backstreets",
+      "expected": [
+        -2.0,
+        4.19999980926514,
+        -102.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        2.0,
+        4.0,
+        -102.0
+      ],
+      "collider": "GeorgeSquareFloor",
+      "context": "grid:george_and_backstreets",
+      "expected": [
+        2.0,
+        4.19999980926514,
+        -102.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        6.0,
+        4.0,
+        -102.0
+      ],
+      "collider": "GeorgeSquareFloor",
+      "context": "grid:george_and_backstreets",
+      "expected": [
+        6.0,
+        4.19999980926514,
+        -102.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        10.0,
+        4.0,
+        -102.0
+      ],
+      "collider": "GeorgeSquareFloor",
+      "context": "grid:george_and_backstreets",
+      "expected": [
+        10.0,
+        4.19999980926514,
+        -102.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        -227.0,
+        8.85253524780273,
+        -85.0
+      ],
+      "collider": "OutdoorRoutes/KelvingroveCutbackHip",
+      "context": "grid:kelvingrove_and_connectors",
+      "expected": [
+        -227.0,
+        8.99622631072998,
+        -85.0
+      ],
+      "normal": [
+        0.0352282784879208,
+        0.991743743419647,
+        -0.123301908373833
+      ]
+    },
+    {
+      "actual": null,
+      "collider": "NONE",
+      "context": "grid:kelvingrove_and_connectors",
+      "expected": [
+        -99.0,
+        5.0,
+        -5.0
+      ],
+      "normal": null
+    },
+    {
+      "actual": null,
+      "collider": "NONE",
+      "context": "grid:kelvingrove_and_connectors",
+      "expected": [
+        -95.0,
+        5.0,
+        -5.0
+      ],
+      "normal": null
+    },
+    {
+      "actual": null,
+      "collider": "NONE",
+      "context": "grid:kelvingrove_and_connectors",
+      "expected": [
+        -91.0,
+        5.0,
+        -5.0
+      ],
+      "normal": null
+    },
+    {
+      "actual": null,
+      "collider": "NONE",
+      "context": "grid:kelvingrove_and_connectors",
+      "expected": [
+        -87.0,
+        5.0,
+        -5.0
+      ],
+      "normal": null
+    },
+    {
+      "actual": [
+        72.0,
+        1.79999995231628,
+        131.0
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "grid:clyde_and_southbank",
+      "expected": [
+        72.0,
+        2.0,
+        131.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        64.0,
+        1.79999995231628,
+        135.0
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "grid:clyde_and_southbank",
+      "expected": [
+        64.0,
+        2.0,
+        135.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        52.0,
+        1.79999995231628,
+        139.0
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "grid:clyde_and_southbank",
+      "expected": [
+        52.0,
+        2.0,
+        139.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        60.0,
+        1.79999995231628,
+        139.0
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "grid:clyde_and_southbank",
+      "expected": [
+        60.0,
+        2.0,
+        139.0
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        57.0,
+        1.79999995231628,
+        131.794311523438
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_hip offset=-3.0",
+      "expected": [
+        57.0,
+        2.0,
+        131.794311523438
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        58.5,
+        1.79999995231628,
+        131.794311523438
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_hip offset=-1.5",
+      "expected": [
+        58.5,
+        2.0,
+        131.794311523438
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        57.0,
+        1.79999995231628,
+        131.794311523438
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_hip offset=-3.0",
+      "expected": [
+        57.0,
+        2.0,
+        131.794311523438
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        58.5,
+        1.79999995231628,
+        131.794311523438
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_hip offset=-1.5",
+      "expected": [
+        58.5,
+        2.0,
+        131.794311523438
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        59.970630645752,
+        1.79999995231628,
+        138.138336181641
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_loop offset=-3.0",
+      "expected": [
+        59.970630645752,
+        2.0,
+        138.138336181641
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        62.4150772094727,
+        1.79999995231628,
+        136.693893432617
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_loop offset=-3.0",
+      "expected": [
+        62.4150772094727,
+        2.0,
+        136.693893432617
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        64.8595199584961,
+        1.79999995231628,
+        135.249450683594
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_loop offset=-3.0",
+      "expected": [
+        64.8595199584961,
+        2.0,
+        135.249450683594
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        67.3039703369141,
+        1.79999995231628,
+        133.80500793457
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_loop offset=-3.0",
+      "expected": [
+        67.3039703369141,
+        2.0,
+        133.80500793457
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        69.7484130859375,
+        1.79999995231628,
+        132.360549926758
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_loop offset=-3.0",
+      "expected": [
+        69.7484130859375,
+        2.0,
+        132.360549926758
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        68.9853134155273,
+        1.79999995231628,
+        131.06916809082
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_loop offset=-1.5",
+      "expected": [
+        68.9853134155273,
+        2.0,
+        131.06916809082
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        72.1928558349609,
+        1.79999995231628,
+        130.916107177734
+      ],
+      "collider": "OutdoorRoutes/ClydeSouthBankLandscape",
+      "context": "route:clyde_print_yard_loop offset=-3.0",
+      "expected": [
+        72.1928558349609,
+        2.0,
+        130.916107177734
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "actual": [
+        -147.856979370117,
+        1.66903746128082,
+        0.91525661945343
+      ],
+      "collider": "OutdoorRoutes/KelvingroveCentralEmbankment",
+      "context": "route:kelvingrove_central_climb offset=3.0",
+      "expected": [
+        -147.856979370117,
+        2.0,
+        0.91525661945343
+      ],
+      "normal": [
+        0.0,
+        0.999934434890747,
+        0.0114500746130943
+      ]
+    }
+  ],
+  "supported": 15351,
+  "tool_sha256": "16380405b388f8349ae89317b7d97c22918fc829537d916e2ea54a8bd0f1b486",
+  "unmapped": 2606
+}

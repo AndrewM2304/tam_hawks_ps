@@ -107,17 +107,26 @@ func add_polygon(parent: Node3D, label: String, corners: PackedVector3Array,
 
 func height_at(x: float, z: float, maximum_height: float = INF) -> float:
 	var found := NAN
+	var outer_edge := NAN
 	for patch: Dictionary in patches:
 		var bounds: Rect2 = patch.bounds
-		if x < bounds.position.x - 0.001 or x > bounds.end.x + 0.001 \
-			or z < bounds.position.y - 0.001 or z > bounds.end.y + 0.001:
+		if x < bounds.position.x or x > bounds.end.x \
+			or z < bounds.position.y or z > bounds.end.y:
 			continue
 		var heights: Vector4 = patch.heights
 		var tx := clampf((x - bounds.position.x) / bounds.size.x, 0.0, 1.0)
 		var tz := clampf((z - bounds.position.y) / bounds.size.y, 0.0, 1.0)
 		var height := lerpf(lerpf(heights.x, heights.y, tx), lerpf(heights.w, heights.z, tx), tz)
-		if height <= maximum_height and (is_nan(found) or height > found):
-			found = height
+		if height > maximum_height: continue
+		# At a stair/deck's maximum edge the next interior floor owns the point,
+		# matching actual downward rays. Closed inclusion formerly selected an
+		# unsupported higher riser at exact seams (and a1.5m road corner).
+		if bounds.has_point(Vector2(x,z)):
+			if is_nan(found) or height > found: found = height
+		elif is_nan(outer_edge) or height > outer_edge:
+			# Keep isolated exposed corners available to existing retained-edge
+			# builders. This fallback cannot override an adjacent interior floor.
+			outer_edge = height
 	for polygon: Dictionary in polygons:
 		if not Geometry2D.is_point_in_polygon(Vector2(x, z), polygon.footprint): continue
 		var triangles: PackedInt32Array = polygon.triangles
@@ -130,7 +139,7 @@ func height_at(x: float, z: float, maximum_height: float = INF) -> float:
 			var normal := (b - a).cross(c - a)
 			var height := a.y - (normal.x * (x - a.x) + normal.z * (z - a.z)) / normal.y
 			if height <= maximum_height and (is_nan(found) or height > found): found = height
-	return found
+	return outer_edge if is_nan(found) else found
 
 
 ## One horizontal half-plane, with edge interpolation and original winding.

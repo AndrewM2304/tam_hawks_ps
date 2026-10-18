@@ -56,7 +56,10 @@ func _ready() -> void:
 	_sign = Label3D.new()
 	_sign.name = "ChallengeSign"
 	_sign.position = Vector3(0.0, 2.03, 0.0)
-	_sign.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	# Keep diagnostic state text available without hovering over the performer.
+	# The live encounter snapshot supplies the HUD prompt and challenge progress.
+	_sign.visible = false
+	_sign.billboard = BaseMaterial3D.BILLBOARD_DISABLED
 	_sign.font_size = 34
 	_sign.pixel_size = 0.0038
 	_sign.modulate = Color("f5e7c9")
@@ -220,6 +223,7 @@ func _build_case() -> void:
 	sign.pixel_size = 0.0018
 	sign.position = Vector3(0.63, 0.29, -0.80)
 	sign.rotation.y = PI
+	sign.billboard = BaseMaterial3D.BILLBOARD_DISABLED
 	sign.modulate = Color("e9ddbd")
 	_box(self, "CaseSignBacking", Vector3(0.63, 0.29, -0.79), Vector3(0.46, 0.16, 0.016), canvas)
 	add_child(sign)

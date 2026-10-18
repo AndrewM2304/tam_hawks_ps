@@ -90,7 +90,8 @@ func _build_route_mark(node_name: String,at: Vector3,radius: float,caption: Stri
 	torus.ring_segments=6
 	var ring:=_mesh(mark,"GroundRing",Vector3(0,0.055,0),torus,_mark_quiet)
 	ring.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	var label:=_label(mark,"RouteLabel",Vector3(0,0.64,0),caption,0.0026,27)
+	# Ground rings retain route guidance; captions stay in the HUD and logical state.
+	var label:=_label(mark,"RouteLabel",Vector3(0,0.64,0),caption,0.0026,27,false)
 	label.visibility_range_end=34.0
 	_markers.append({"node":mark,"position":at,"ring":ring,"label":label,"caption":caption})
 
@@ -231,8 +232,10 @@ func _build_pickup() -> void:
 	_pickup_parcel=_parcel(self,"PickupParcel",Vector3(-.5,.92,0),false)
 	_cylinder(self,"TeaFlask",Vector3(-.76,1.03,.08),.055,.38,_material(Color("49626a")))
 	_cylinder(self,"FlaskLid",Vector3(-.76,1.23,.08),.058,.04,_material(Color("b8b3a3")))
-	_sign=_label(self,"PickupSign",Vector3(0,2.02,0),"GULL-PROOF DELIVERY\nMAIRI · Fresh breakfast parcels",.0034,30)
-	_label(self,"PickupCounterNote",Vector3(-.5,1.14,-.16),"SEALED PARCELS\nKeep them upright!",.0018,24)
+	_sign=_label(self,"PickupSign",Vector3(0,2.02,0),"GULL-PROOF DELIVERY\nMAIRI · Fresh breakfast parcels",.0034,30,false)
+	# Existing lettering lies on the real counter top instead of facing the camera.
+	var note:=_label(self,"PickupCounterNote",Vector3(-.5,.838,.18),"SEALED PARCELS\nKeep them upright!",.0018,24)
+	note.rotation.x=-PI/2.0
 
 func _build_delivery() -> void:
 	_delivery=Node3D.new()
@@ -248,8 +251,10 @@ func _build_delivery() -> void:
 		for row in 3: _box(_delivery,"CrateSlat",Vector3(1.5+side*.48,.20+row*.18,0),Vector3(.045,.115,.62),timber)
 	_delivered_parcel=_parcel(_delivery,"DeliveredParcel",Vector3(1.63,.97,.12),false)
 	_spare=_parcel(_delivery,"SpareParcel",Vector3(1.12,.91,-.1),true)
-	_delivery_sign=_label(_delivery,"DeliverySign",Vector3(1.5,1.9,.12),"SOUTH COUNTER\nDELIVER HERE",.0033,30)
-	_label(_delivery,"SpareWrapperNote",Vector3(1.1,1.19,-.22),"SPARE\nEMPTY WRAPPER",.0015,24)
+	_delivery_sign=_label(_delivery,"DeliverySign",Vector3(1.5,1.9,.12),"SOUTH COUNTER\nDELIVER HERE",.0033,30,false)
+	# The fixed label follows its wrapper when the gull picks the spare up.
+	var note:=_label(_spare,"SpareWrapperNote",Vector3(0,.0435,.02),"SPARE\nEMPTY WRAPPER",.0009,24)
+	note.rotation.x=-PI/2.0
 	_build_gull()
 
 func _build_gull() -> void:
@@ -303,14 +308,15 @@ static func _parcel(parent: Node3D,node_name: String,at: Vector3,spare: bool) ->
 	_box(parcel,"ParcelBand",Vector3(0,.002,0),Vector3(.029,.15 if not spare else .075,.184),_material(Color("4b766a")))
 	return parcel
 
-static func _label(parent: Node3D,node_name: String,at: Vector3,caption: String,pixel: float,size: int) -> Label3D:
+static func _label(parent: Node3D,node_name: String,at: Vector3,caption: String,pixel: float,size: int,rendered: bool=true) -> Label3D:
 	var label:=Label3D.new()
 	label.name=node_name
 	label.position=at
 	label.text=caption
 	label.font_size=size
 	label.pixel_size=pixel
-	label.billboard=BaseMaterial3D.BILLBOARD_ENABLED
+	label.visible=rendered
+	label.billboard=BaseMaterial3D.BILLBOARD_DISABLED
 	label.modulate=Color("f2e8ce")
 	label.outline_modulate=Color("23332f")
 	label.outline_size=7

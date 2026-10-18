@@ -365,9 +365,11 @@ func _build_pitch_signs()->void:
 	_sign=Label3D.new()
 	_sign.name="PitchSign"
 	_sign.position=Vector3(0,1.97,0)
+	# Logical state remains inspectable; the HUD carries live challenge text.
+	_sign.visible=false
 	_sign.font_size=34
 	_sign.pixel_size=0.0038
-	_sign.billboard=BaseMaterial3D.BILLBOARD_ENABLED
+	_sign.billboard=BaseMaterial3D.BILLBOARD_DISABLED
 	_sign.modulate=Color("eee0bc")
 	_sign.outline_modulate=Color("23302d")
 	_sign.outline_size=7
@@ -410,6 +412,7 @@ func _label(parent:Node3D,text:String,at:Vector3,font_size:int,pixel_size:float)
 	label.pixel_size=pixel_size
 	label.position=at
 	label.rotation.y=PI
+	label.billboard=BaseMaterial3D.BILLBOARD_DISABLED
 	label.modulate=Color("eee0ba")
 	label.outline_size=3
 	parent.add_child(label)

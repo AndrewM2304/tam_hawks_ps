@@ -43,9 +43,10 @@ static func build(parent: Node3D, materials: Dictionary) -> Array[Dictionary]:
 	features.append(_quarter(root, "clyde_half_east", Vector3(-18, 2, 60.5), -PI * 0.5,
 		concrete, sides, coping))
 	# Open north/south ends admit riders from the existing z=67 quay through-line.
-	# Six millimetres of real raised support prevents two visible coplanar floors.
-	_box(root, "HalfPipeFlatBottom", Vector3(-22, 1.886, 60.5),
-		Vector3(8, 0.24, WIDTH), concrete)
+	# Physical support meets both toes exactly. Keep only the visible concrete
+	# six millimetres above the quay, preserving its original non-coplanar mesh.
+	_box(root, "HalfPipeFlatBottom", Vector3(-22, 1.88, 60.5),
+		Vector3(8, 0.24, WIDTH), concrete, Vector3.UP * 0.006)
 	return features
 
 
@@ -192,7 +193,7 @@ static func _coping(parent: Node3D, id: String, material: Material) -> void:
 
 
 static func _box(parent: Node3D, id: String, at: Vector3, size: Vector3,
-		material: Material) -> StaticBody3D:
+		material: Material, visual_offset: Vector3 = Vector3.ZERO) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = id
 	body.position = at
@@ -205,6 +206,7 @@ static func _box(parent: Node3D, id: String, at: Vector3, size: Vector3,
 	var visual := MeshInstance3D.new()
 	visual.mesh = mesh
 	visual.material_override = material
+	visual.position = visual_offset
 	body.add_child(visual)
 	var shape := BoxShape3D.new()
 	shape.size = size

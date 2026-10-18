@@ -1,0 +1,101 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS rail index: exact candidate preserved across signed cell boundary (-960.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-959.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-948.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-947.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-12.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-11.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (-0.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (0.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (11.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (12.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (947.2, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: exact candidate preserved across signed cell boundary (948.8, 2.12, -8.01)
+PASS rail index: local request excludes distant curves from 160-line world
+PASS rail index: historical swept window remains in actual-origin candidate cell
+PASS closed coping: crosses authored seam continuously in direction -1.0
+PASS closed coping: crosses authored seam continuously in direction 1.0
+PASS rail index: replaced lists and nonfinite positions cannot reuse stale tracks
+PASS skate edges: startup authoring adds no render nodes or colliders
+PASS skate edges: all48existing navigation routes remain intact
+PASS skate edges: finite unique usable lines cover selected existing skate architecture
+PASS skate edges: rebuilding snapshots is deterministic without registering duplicate nodes
+PASS skate edges: registered visible feature family Planter_
+PASS skate edges: registered visible feature family CourtSeat_
+PASS skate edges: registered visible feature family WorkshopSeat_
+PASS skate edges: registered visible feature family MarketCounter_
+PASS skate edges: registered visible feature family Bench_
+PASS skate edges: registered visible feature family StreetBenchSeat_
+PASS skate edges: registered visible feature family StreetBenchBack_
+PASS skate edges: registered visible feature family CivicGarden_
+PASS skate edges: registered visible feature family PlatformNorthGap_
+PASS skate edges: registered visible feature family ServiceWalkFront_
+PASS skate edges: registered visible feature family BridgeRail_
+PASS skate edges: registered visible feature family NorthEmbankment_
+PASS skate edges: registered visible feature family SouthEmbankment_
+PASS skate edges: registered visible feature family ParkGranite_
+PASS skate edges: all four counters and four small planters expose each physical top edge
+PASS skate edges: physical box transform preserves orientation scale and world-up contact skin
+PASS skate edges: previous authored tracks and challenge IDs are unchanged
+PASS skate edges: actual short top rays support registered physical edges: []
+PASS skate edges: physical registrations stay above existing world support: []
+PASS skate edges: real upright rider skin and short sweep clear representative Planter_
+PASS skate edges: real upright rider skin and short sweep clear representative CourtSeat_
+PASS skate edges: real upright rider skin and short sweep clear representative WorkshopSeat_
+PASS skate edges: real upright rider skin and short sweep clear representative ClosePocket_
+PASS skate edges: real upright rider skin and short sweep clear representative PrintYard_
+PASS skate edges: real upright rider skin and short sweep clear representative MarketCounter_
+PASS skate edges: real upright rider skin and short sweep clear representative Bench_
+PASS skate edges: real upright rider skin and short sweep clear representative StreetBenchSeat_
+PASS skate edges: real upright rider skin and short sweep clear representative StreetBenchBack_
+PASS skate edges: real upright rider skin and short sweep clear representative StairCheek_
+PASS skate edges: real upright rider skin and short sweep clear representative BuskingPlinth_
+PASS skate edges: real upright rider skin and short sweep clear representative CivicGarden_
+PASS skate edges: real upright rider skin and short sweep clear representative PlatformNorthGap_
+PASS skate edges: real upright rider skin and short sweep clear representative ServiceWalkFront_
+PASS skate edges: real upright rider skin and short sweep clear representative BridgeRail_
+PASS skate edges: real upright rider skin and short sweep clear representative NorthEmbankment_
+PASS skate edges: real upright rider skin and short sweep clear representative SouthEmbankment_
+PASS skate edges: real upright rider skin and short sweep clear representative ParkGranite_
+SKATE EDGE CONTACTS rays=1355 rail_only=50 top_failures=0 outside_failures=0
+PASS environment text: all three encounters start without visible hovering or billboard labels
+PASS environment text: the existing backed guitar-case lettering remains fixed physical signage
+PASS environment text: pickup lettering lies on the existing counter rather than hovering above it
+PASS environment text: spare lettering is attached to the actual wrapper and follows the gull pickup
+PASS environment text: nearby idle interaction remains in the HUD for Mo's Big Finish
+PASS environment text: accepted challenge progress reaches the real HUD for Mo's Big Finish
+PASS environment text: failure and retry remain visible in the HUD without restoring hovering signs
+PASS environment text: nearby idle interaction remains in the HUD for Cat's Got the Beat
+PASS environment text: accepted challenge progress reaches the real HUD for Cat's Got the Beat
+PASS environment text: failure and retry remain visible in the HUD without restoring hovering signs
+PASS environment text: nearby idle interaction remains in the HUD for Gull-Proof Delivery
+PASS environment text: accepted challenge progress reaches the real HUD for Gull-Proof Delivery
+PASS environment text: failure and retry remain visible in the HUD without restoring hovering signs
+PASS environment text: completed challenge stays readable in the HUD while world signs stay hidden
+PASS environment text: completed challenge stays readable in the HUD while world signs stay hidden
+PASS environment text: completed challenge stays readable in the HUD while world signs stay hidden
+PASS environment text: the existing ground ring can guide an active target without a floating route caption
+PASS environment text: success, target updates and reduced motion add no geometry or visible billboard text
+PASS murals: two original paintings fit the declared geometry budget
+PASS murals: repeated build preserves the same art and physical world
+PASS murals: one painter-order surface uses real scenery depth without self depth conflicts
+PASS murals: near-wall detail adds no distant/shadow workload
+PASS murals: all original brush shapes share one plane/opaque colour with no added textures
+PASS murals: one painter-order surface uses real scenery depth without self depth conflicts
+PASS murals: near-wall detail adds no distant/shadow workload
+PASS murals: all original brush shapes share one plane/opaque colour with no added textures
+PASS murals: both walls share one startup-only material
+WORLD_TRACKS 196
+WORLD RESULT: 96 passed, 0 failed

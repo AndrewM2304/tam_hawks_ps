@@ -398,7 +398,27 @@ func _transition_support(at: Vector3, normal: Vector3, body: StaticBody3D) -> bo
 	if not is_instance_valid(body) or not body.is_inside_tree(): return false
 	var query := PhysicsRayQueryParameters3D.create(at + normal * 0.15, at - normal * 0.10, 1, [get_rid()])
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
-	return not hit.is_empty() and hit.collider == body and Vector3(hit.normal).dot(normal) > 0.85
+	if not hit.is_empty() and hit.collider == body and Vector3(hit.normal).dot(normal) > 0.85:
+		return true
+	# The exact coping seam is shared with the deck. Resolve that one endpoint
+	# on the curve's interior, rather than accepting the neighbouring deck body.
+	for feature: Dictionary in _transition_features:
+		if feature.get("body") != body: continue
+		var toe: Transform3D = feature.transform
+		var local := toe.affine_inverse() * at
+		var radius: float = feature.radius
+		var angle: float = feature.angle
+		var lip := Vector3(local.x, radius * (1.0 - cos(angle)), -radius * sin(angle))
+		if absf(local.x) > float(feature.width) * 0.5 or local.distance_to(lip) > 0.005:
+			return false
+		var inside := angle - deg_to_rad(0.5)
+		var point := toe * Vector3(local.x, radius * (1.0 - cos(inside)), -radius * sin(inside))
+		var inward := toe.basis * Vector3(0, cos(inside), sin(inside))
+		query.from = point + inward * 0.15
+		query.to = point - inward * 0.10
+		hit = get_world_3d().direct_space_state.intersect_ray(query)
+		return not hit.is_empty() and hit.collider == body and Vector3(hit.normal).dot(inward) > 0.85
+	return false
 
 
 func _try_transition() -> bool:
@@ -508,6 +528,46 @@ func _tick_vert_return() -> void:
 	var return_yaw := atan2(-downhill.x, -downhill.z)
 	var progress := clampf(1.0 - velocity.y / maxf(_vert_start_up, 0.1), 0.0, 1.0)
 	rotation.y = lerp_angle(_vert_start_yaw, return_yaw, smoothstep(0.0, 1.0, progress))
+
+
+func _prepare_vert_return_contact(delta: float) -> bool:
+	if _vert_return.is_empty() or not airborne or not _controls_enabled \
+			or _transition_cooldown > 0.0 or velocity.y >= -0.25:
+		return false
+	var toe: Transform3D = _vert_return.transform
+	var local := toe.affine_inverse() * global_position
+	var next := toe.affine_inverse() * (global_position + velocity * delta)
+	var radius: float = _vert_return.radius
+	var angle: float = _vert_return.angle
+	var lip_height := radius * (1.0 - cos(angle))
+	# Only the imminent downward crossing of this finite, previously departed
+	# lip can change the air collider's frame. No position or velocity is changed.
+	if local.y < lip_height or next.y > lip_height or local.y - lip_height > 0.35:
+		return false
+	var fraction := (lip_height - local.y) / (next.y - local.y)
+	var crossing := local.lerp(next, fraction)
+	var contact := Vector3(crossing.x, lip_height, -radius * sin(angle))
+	if absf(crossing.x) > float(_vert_return.width) * 0.5 \
+			or crossing.distance_to(contact) > TransitionRide.CAPTURE_GAP:
+		return false
+	var normal := toe.basis * Vector3(0, cos(angle), sin(angle))
+	if velocity.dot(normal) > TransitionRide.MAX_OUTWARD_SPEED \
+			or not _transition_support(toe * contact, normal, _vert_return.body):
+		return false
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = _body_collision.shape
+	query.collision_mask = 1
+	query.exclude = [get_rid()]
+	query.margin = 0.001
+	for progress: float in [0.25, 0.5, 0.75, 1.0]:
+		var axis := Vector3.UP.slerp(normal, progress).normalized()
+		query.transform = Transform3D(Basis(Quaternion(Vector3.UP, axis)), global_position + axis * 0.85)
+		if not get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty():
+			return false
+	# The real move below still determines position/impact velocity; normal
+	# transition admission after it must confirm the actual same-face contact.
+	_orient_contact_shape(normal)
+	return true
 
 
 func _leave_transition(in_air: bool) -> bool:
@@ -717,7 +777,17 @@ func _physics_process(delta: float) -> void:
 
 	var before_move := global_position
 	var was_airborne := airborne
+	var returning_to_curve := _prepare_vert_return_contact(delta)
 	move_and_slide()
+	if returning_to_curve:
+		if _try_transition():
+			_update_pose(delta)
+			return
+		# An unexpected obstruction/edge miss cannot leave an air/grind rider
+		# using the temporary contact frame. Restore only with real clearance.
+		if not _leave_transition(true):
+			_update_pose(delta)
+			return
 	if was_airborne and not is_on_floor() and _controls_enabled and _trick_entries_enabled \
 			and _try_grind(before_move, true):
 		_update_pose(delta)

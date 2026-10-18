@@ -1,3 +1,5 @@
+**Current continuation:** [ARCADE-HARDENING](ARCADE-HARDENING.md) owns the weighted physics/finite return/reachable-edge/text/mural work. Production is frozen for actual six-area rendering and the required full regression. Focused results: world112/0, edge24/0, geometry39/0, new return refusal20/0. Murals defaultOFF after failed timing admission; all75full backlog records persist. Older instructions below are historical.
+
 # Owner priority: arcade response and whole-map hardening
 
 A01 integrates; A04/A09 own weighted jump/finite pipe return/imperfect rail controls; A05/A09 own semantic reachable-edge coverage, real support audit and existing prop collision; A05/A03 own researched original Glasgow wall art. Current physics focused development trials pass34/0; the full current-source suite and six-area moving render are pending. The supplied 75 complete task records remain the source of scope. Source checkpoints must be committed/pushed before final handoff. Continue autonomously without routine approvals, purchases, paid APIs or map expansion.

@@ -2,6 +2,8 @@ extends Node3D
 const StaticBatches = preload("res://game/levels/static_batches.gd")
 const FacadeBay = preload("res://game/levels/art/facade_bay.gd")
 const CityVisibility = preload("res://game/levels/city_visibility.gd")
+const GlasgowMurals = preload("res://game/levels/glasgow_murals.gd")
+const SkateEdges = preload("res://game/levels/skate_edges.gd")
 const CityBackdrop = preload("res://game/levels/city_backdrop.gd")
 ## Compressed original Glasgow skating routes. One unit is approximately one metre.
 ## Keep geometry and collision together; skating physics belongs to the player.
@@ -35,6 +37,7 @@ const PALETTE := {
 
 var _materials: Dictionary = {}
 var _rail_authors: Array[Node3D] = []
+var _extra_grind_lines: Array = []
 var _city_art: Node3D
 var _cone: Node3D
 var _cone_tween: Tween
@@ -74,6 +77,9 @@ func _ready() -> void:
 	_build_exploration_boundaries()
 	_transition_features = TransitionPark.build(self, _materials)
 	_city_art.dress_world(self)
+	_extra_grind_lines = SkateEdges.build(self)
+	if bool(get_meta("arcade_murals_preview", false)):
+		GlasgowMurals.build(self, _materials)
 	# The backdrop drafts failed their frame-spike admission gate. Keep normal
 	# play free of their construction/render cost; explicit fixtures retain them.
 	if bool(get_meta("render_repair_backdrop_preview", false)):
@@ -521,7 +527,6 @@ func _build_merchant_close() -> void:
 	_box(close_frontage, "CloseRetainingFoundation", Vector3(0,-2.85,0), Vector3(16,5.7,12), "sandstone", true)
 	_box(self, "ClosePocketPlanter", Vector3(-71,3.45,-66), Vector3(1.0,0.5,3.8), "stone", true)
 	_grind_path("Grind_Ledge_MerchantClose", PackedVector3Array([Vector3(-67.8,3.65,-61.3), Vector3(-61.8,3.95,-66.3)]), "ledge")
-	_label(self, "MerchantCloseWayfinding", "MERCHANT CLOSE / CIVIC SQUARE", Vector3(-65,4.9,-42), 26, "cream", Vector3(0, 20, 0), 0.012)
 
 
 func _retained_path(id: String, points: PackedVector3Array, width: float, material: String) -> void:
@@ -580,13 +585,12 @@ func _build_civic_workshop() -> void:
 		_box(self, entry.id + "Plinth", Vector3(middle,4.225,-91), Vector3(6,0.45,1.5), "stone", true)
 		_grind_path(entry.id, PackedVector3Array([Vector3(entry.from,4.60,-91),Vector3(entry.to,4.60,-91)]), "coping")
 		_box(self, entry.id + "Accent",Vector3(entry.from + 0.22,4.46,-91),Vector3(0.32,0.02,1.54),entry.accent)
-		var marker := _label(self, entry.id + "Marker", entry.label, Vector3(middle,5.35,-92.25), 28, "cream", Vector3.ZERO, 0.012)
-		marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		marker.outline_size = 8
+		var marker := _label(self, entry.id + "Marker", entry.label, Vector3(middle,4.465,-91), 28, "cream", Vector3(-90,0,0), 0.012)
+		marker.billboard = BaseMaterial3D.BILLBOARD_DISABLED
+		marker.outline_size = 0
 	# The low side-seat caps explain the raised backdrop as civic architecture.
 	for x: float in [-10.5,10.5]:
 		_box(self, "WorkshopBackSeat", Vector3(x,4.91,-98), Vector3(5.2,0.52,0.7), "stone", true)
-	_label(self, "WorkshopBackdropSign", "THE WEE BIN SESSION / DRUMS & DANCING CATS", Vector3(0,5.25,-99.0), 26, "cream", Vector3.ZERO, 0.01)
 
 
 func _build_central_station() -> void:
@@ -606,7 +610,6 @@ func _build_central_station() -> void:
 		for z: float in [-18.5, 2.5]:
 			_box(self, "ServiceWalkPier", Vector3(x, 3.25, z), Vector3(0.65, 2.5, 0.65), "stone", true)
 	_grind_path("Grind_Ledge_ServiceWalk", PackedVector3Array([Vector3(-121.6, 5.45, 1), Vector3(-121.6, 5.45, -17)]), "ledge")
-	_label(self, "StationCloseSign", "LOW LEVEL / QUAY & PARK", Vector3(-126, 4.1, -3), 28, "cream", Vector3(0, 90, 0), 0.012)
 	_slope("StationUpperReturn", Rect2(-122, -38, 17, 18), Vector4(2, 2, 5, 5), "stone")
 	for x: float in [-124.0, -76.0]:
 		for z: float in [-28.0, -17.0, 10.0, 28.0]:
@@ -627,7 +630,6 @@ func _build_barras() -> void:
 	# A lower side opening and the loading bank give the hidden court an exit.
 	_box(self, "RecordingAlcoveSide", Vector3(113, 3.0, -31), Vector3(0.5, 3, 14), "warehouse_brick", true)
 	_box(self, "RecordingAlcoveBack", Vector3(120, 3.0, -39), Vector3(14, 3, 0.5), "warehouse_brick", true)
-	_label(self, "RecordingHint", "AFTER HOURS", Vector3(120, 3.6, -38.7), 30, "cream")
 
 
 func _build_market_hall_island() -> void:
@@ -645,7 +647,6 @@ func _build_market_hall_island() -> void:
 	_terrain.add_polygon(self, "MarketHallCornerBank", PackedVector3Array([
 		Vector3(76,0.65,10),Vector3(80,0,10),Vector3(73,0,17),Vector3(69,0.65,17)]), _materials["paving"])
 	_grind_path("Grind_Ledge_MarketHall",PackedVector3Array([Vector3(76,0.77,4),Vector3(76,0.77,10),Vector3(69,0.77,17)]),"ledge")
-	_label(self,"MarketHallAisleSign","MARKET AISLE / LOADING BANK",Vector3(68,2.8,15.5),24,"cream",Vector3(0,90,0),0.01)
 
 
 func _build_barras_through_market() -> void:
@@ -752,7 +753,6 @@ func _build_street_furniture() -> void:
 	for at: Vector3 in [Vector3(-31, 0, 30), Vector3(31, 0, 30), Vector3(-31, 2, -29), Vector3(31, 2, -29)]:
 		_cylinder(self, "LampPost", at + Vector3(0, 2.5, 0), 0.07, 0.12, 5, "slate")
 		_box(self, "LampLantern", at + Vector3(0, 5.2, 0), Vector3(0.45, 0.7, 0.45), "cream")
-	_label(self, "GalleryWayfinding", "GALLERY / CIVIC TERRACES", Vector3(-31, 1.8, -2), 28, "cream")
 
 
 func _box(parent: Node3D, node_name: String, at: Vector3, size: Vector3, color: String, solid: bool = false) -> Node3D:
@@ -1017,4 +1017,7 @@ func get_grind_lines() -> Array:
 			local_points, rail.global_transform, String(rail.get_meta("grind_kind", "rail"))))
 	if is_instance_valid(_outdoors):
 		lines.append_array(_outdoors.get_grind_lines())
+	for feature: Dictionary in _transition_features:
+		lines.append(GrindLineSource.new(str(feature.id) + "_coping", feature.coping_points, "coping"))
+	lines.append_array(_extra_grind_lines)
 	return lines

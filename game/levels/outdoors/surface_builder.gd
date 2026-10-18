@@ -1,5 +1,6 @@
 extends RefCounted
 ## Original shared mesh/collision construction for continuous outdoor surfaces.
+const EDGE_OWNERSHIP_EPSILON := 0.00005 # 50 micrometres; exterior-ray precision only.
 
 ## The same two triangles used by terrain(), rather than the unsampled height
 ## function between mesh vertices. Queries/fence feet must agree with collision.
@@ -56,7 +57,51 @@ static func terrain(parent: Node3D, id: String, bounds: Rect2, spacing: float, h
 static func strip(parent: Node3D, id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "stone", visual_points: PackedVector3Array = PackedVector3Array()) -> StaticBody3D:
 	var arrays := _strip_arrays(points, width)
 	var visual_arrays := _strip_arrays(visual_points, width) if visual_points.size() >= 2 else []
-	return _body(parent, id, arrays[Mesh.ARRAY_VERTEX], arrays[Mesh.ARRAY_NORMAL], arrays[Mesh.ARRAY_TEX_UV], arrays[Mesh.ARRAY_INDEX], material, audio, visual_arrays)
+	var body := _body(parent, id, arrays[Mesh.ARRAY_VERTEX], arrays[Mesh.ARRAY_NORMAL], arrays[Mesh.ARRAY_TEX_UV], arrays[Mesh.ARRAY_INDEX], material, audio, visual_arrays)
+	# The full collision strip stays authoritative when only the displayed road
+	# is trimmed at a paving seam. Cache its exact paired vertices once.
+	body.set_meta("support_vertices",arrays[Mesh.ARRAY_VERTEX])
+	return body
+
+
+## Exact footprint and triangle-plane height of the paired ribbon vertices.
+## A nearest-centreline radius invents support beyond inside corners and gives
+## wrong side heights on a graded bend, even when the mesh itself is sound.
+static func strip_height(vertices: PackedVector3Array,at: Vector2) -> float:
+	var highest := NAN
+	for index: int in range(0,vertices.size()-2,2):
+		var a:=vertices[index]
+		var b:=vertices[index+1]
+		var c:=vertices[index+2]
+		var d:=vertices[index+3]
+		if at.x<minf(minf(a.x,b.x),minf(c.x,d.x)) or at.x>maxf(maxf(a.x,b.x),maxf(c.x,d.x)) \
+			or at.y<minf(minf(a.z,b.z),minf(c.z,d.z)) or at.y>maxf(maxf(a.z,b.z),maxf(c.z,d.z)): continue
+		for triangle_index: int in range(2):
+			var triangle: Array=[a,b,c] if triangle_index==0 else [b,d,c]
+			var first: Vector3=triangle[0]
+			var second: Vector3=triangle[1]
+			var third: Vector3=triangle[2]
+			var ab:=Vector2(second.x-first.x,second.z-first.z)
+			var ac:=Vector2(third.x-first.x,third.z-first.z)
+			var relative:=at-Vector2(first.x,first.z)
+			var denominator:=ab.cross(ac)
+			if absf(denominator)<0.0000001: continue
+			var second_weight:=relative.cross(ac)/denominator
+			var third_weight:=ab.cross(relative)/denominator
+			var first_weight:=1.0-second_weight-third_weight
+			if minf(first_weight,minf(second_weight,third_weight))< -0.000001: continue
+			# Shared quad diagonals/cross-sections are inclusive. The engine's
+			# generic triangle test excludes a shared diagonal and invented a NAN
+			# hole at the centre of an otherwise solid approach. Exterior edges
+			# instead belong to the adjoining terrain, like core stair seams.
+			var area:=absf(denominator)
+			if triangle_index==0:
+				if second_weight*area/ac.length()<=EDGE_OWNERSHIP_EPSILON or (index==0 and third_weight*area/ab.length()<=EDGE_OWNERSHIP_EPSILON): continue
+			else:
+				if third_weight*area/ab.length()<=EDGE_OWNERSHIP_EPSILON or (index==vertices.size()-4 and first_weight*area/Vector2(third.x-second.x,third.z-second.z).length()<=EDGE_OWNERSHIP_EPSILON): continue
+			var height:=first.y*first_weight+second.y*second_weight+third.y*third_weight
+			if is_nan(highest) or height>highest: highest=height
+	return highest
 
 
 static func _strip_arrays(points: PackedVector3Array, width: float) -> Array:
@@ -98,6 +143,7 @@ static func _body(parent: Node3D, id: String, vertices: PackedVector3Array, norm
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	var body := StaticBody3D.new()
 	body.name = id
+	body.set_meta("geometry_id", id)
 	body.collision_layer = 1
 	body.collision_mask = 0
 	body.set_meta("surface_audio", audio)

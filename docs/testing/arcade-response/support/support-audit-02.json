@@ -1,0 +1,148 @@
+{
+  "boundary_count": 58,
+  "boundary_crossing_fault_count": 0,
+  "boundary_crossing_faults": [],
+  "boundary_fault_count": 0,
+  "boundary_faults": [],
+  "boundary_samples": 4548,
+  "engine": {
+    "build": "official",
+    "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+    "hex": 263683,
+    "major": 4,
+    "minor": 6,
+    "patch": 3,
+    "status": "stable",
+    "string": "4.6.3-stable (official)",
+    "timestamp": 0
+  },
+  "grid_spacing_m": 4.0,
+  "hazard": 1463,
+  "height_tolerance_m": 0.1,
+  "limits": [
+    "Finite terrain is compared with actual layer1 rays; occupied scenery is classified separately using the actual rider capsule.",
+    "The4mgrid can miss smaller holes. Route offsets and boundary joins supplement it; ordinary-input traversal/render review remain separate.",
+    "NANoutside mappedterrain is not silently a floor failure; inviting route offsets are reported separately, and intentional river water is classified.",
+    "This does not certify targetperformance, everypossible aerial or humanplayability."
+  ],
+  "offset_unmapped": [
+    {
+      "offset_m": 0.0,
+      "point": [
+        94.0,
+        1.0,
+        50.0
+      ],
+      "requires_jump": false,
+      "route": "clyde_north_quay"
+    }
+  ],
+  "offset_unmapped_count": 1,
+  "recorded_at_utc": "2026-10-18T10:19:06",
+  "regions": {
+    "barras_market": 638,
+    "central_station": 650,
+    "clyde_and_southbank": 6063,
+    "exchange_gallery": 754,
+    "george_and_backstreets": 1104,
+    "kelvingrove_and_connectors": 3465
+  },
+  "route_count": 48,
+  "route_offset_samples": 7880,
+  "samples": 20620,
+  "schema_version": 1,
+  "solid_occupied": 1751,
+  "source_after_sha256": {
+    "res://game/levels/art/arch_mesh.gd": "0e6d7bf957e9f2f646d0ac879eb2a8130d95cc24076bc3818bd5758d75f55a71",
+    "res://game/levels/art/barras_market.gd": "27818b611ea7765c34fa58daa9e714a7d6efca74f4581562245e4344db20a4af",
+    "res://game/levels/art/clyde_landmarks.gd": "dce367363e6dda8fe02957d82926cf733deeb79c52b26613c8d56ecc5c406ac5",
+    "res://game/levels/art/exchange_gallery.gd": "fed395990b0638c148d1cd30aa65e27c495010c6824c7b15ab8e75293fc9447f",
+    "res://game/levels/art/facade_bay.gd": "5532963556c976e350423b7305b7e32110bcdf4c2042cda445c4844899359ef6",
+    "res://game/levels/art/facade_kit.gd": "cbc6e601d1136e248df2b83d831f04031a7f35f0af2275f671bb1b406d886da6",
+    "res://game/levels/art/foliage_mesh.gd": "13962d2d5cc4aca846db5560265a770b80bbefb4272951a56a7c2f8cfe76dea1",
+    "res://game/levels/art/street_dressing.gd": "2300dc9e41e0b32886ceba681562909a7836c7d18e82d201e5315bafb7d01741",
+    "res://game/levels/city_art.gd": "1f4968ab368abb5fbe934e3b9d875cbe0205bc0d87e2b6e183a4a775445de2e5",
+    "res://game/levels/city_backdrop.gd": "49eb071b6a3873e6af3832edc597f75415bede843323ec2248c3eebeb5ccd32f",
+    "res://game/levels/city_visibility.gd": "470b0a9a14ee5a6dbe67223c9ef1a8336064db9189769e679c340f4898e0bb99",
+    "res://game/levels/core_terrain.gd": "64c8a4399ea72bc13139611cdb9d9afda14e8a5198d291943dd4ab277859d768",
+    "res://game/levels/exploration_boundary.gd": "8dbce6b8b961aaeabe53740a74aced04c585312cd3f80b0ffce5f3ffb1fa3f7b",
+    "res://game/levels/glasgow_murals.gd": "18a84ea587868fbfdc06626a0eaab323ec25a86ac0a7b98b297a92c9608c5ee1",
+    "res://game/levels/glasgow_square.gd": "ce3edcd49ca49a790ea3b828077115effb5a19e50ca82acdfbe1e9da9564ec28",
+    "res://game/levels/outdoor_routes.gd": "8c8382ced7c14202903297e71acf6e9c108cbc7d0485f079eeebc9cca81199bd",
+    "res://game/levels/outdoors/surface_builder.gd": "5081a917414a5a05186541b437a55ceddbf10096d23e6d60ee331f0d2016c706",
+    "res://game/levels/outdoors/vegetation.gd": "c6a4dd57c14fc4448a151c4f9feb92b89448c19d4d435df2595d584c4652ab64",
+    "res://game/levels/render_budget.gd": "ca784b8be7985b4ef11a29fd79e69cf98b568df1f59c898e9f3231df3f399233",
+    "res://game/levels/skate_edges.gd": "d85c1121c10b87c4d5fb657f5b2d1173ce37c1f743d198d2cd9a85675cd8a5e9",
+    "res://game/levels/static_batches.gd": "ee1168abc8129024f7cc75bbb17355c61d7c862c674b95c393c6b5944a519931",
+    "res://game/levels/transition_park.gd": "270ce0480e9524d662bf644f45afd6e4001f655308acf1ea7acbcfbdb675995c"
+  },
+  "source_changed_during_run": false,
+  "source_sha256": {
+    "res://game/levels/art/arch_mesh.gd": "0e6d7bf957e9f2f646d0ac879eb2a8130d95cc24076bc3818bd5758d75f55a71",
+    "res://game/levels/art/barras_market.gd": "27818b611ea7765c34fa58daa9e714a7d6efca74f4581562245e4344db20a4af",
+    "res://game/levels/art/clyde_landmarks.gd": "dce367363e6dda8fe02957d82926cf733deeb79c52b26613c8d56ecc5c406ac5",
+    "res://game/levels/art/exchange_gallery.gd": "fed395990b0638c148d1cd30aa65e27c495010c6824c7b15ab8e75293fc9447f",
+    "res://game/levels/art/facade_bay.gd": "5532963556c976e350423b7305b7e32110bcdf4c2042cda445c4844899359ef6",
+    "res://game/levels/art/facade_kit.gd": "cbc6e601d1136e248df2b83d831f04031a7f35f0af2275f671bb1b406d886da6",
+    "res://game/levels/art/foliage_mesh.gd": "13962d2d5cc4aca846db5560265a770b80bbefb4272951a56a7c2f8cfe76dea1",
+    "res://game/levels/art/street_dressing.gd": "2300dc9e41e0b32886ceba681562909a7836c7d18e82d201e5315bafb7d01741",
+    "res://game/levels/city_art.gd": "1f4968ab368abb5fbe934e3b9d875cbe0205bc0d87e2b6e183a4a775445de2e5",
+    "res://game/levels/city_backdrop.gd": "49eb071b6a3873e6af3832edc597f75415bede843323ec2248c3eebeb5ccd32f",
+    "res://game/levels/city_visibility.gd": "470b0a9a14ee5a6dbe67223c9ef1a8336064db9189769e679c340f4898e0bb99",
+    "res://game/levels/core_terrain.gd": "64c8a4399ea72bc13139611cdb9d9afda14e8a5198d291943dd4ab277859d768",
+    "res://game/levels/exploration_boundary.gd": "8dbce6b8b961aaeabe53740a74aced04c585312cd3f80b0ffce5f3ffb1fa3f7b",
+    "res://game/levels/glasgow_murals.gd": "18a84ea587868fbfdc06626a0eaab323ec25a86ac0a7b98b297a92c9608c5ee1",
+    "res://game/levels/glasgow_square.gd": "ce3edcd49ca49a790ea3b828077115effb5a19e50ca82acdfbe1e9da9564ec28",
+    "res://game/levels/outdoor_routes.gd": "8c8382ced7c14202903297e71acf6e9c108cbc7d0485f079eeebc9cca81199bd",
+    "res://game/levels/outdoors/surface_builder.gd": "5081a917414a5a05186541b437a55ceddbf10096d23e6d60ee331f0d2016c706",
+    "res://game/levels/outdoors/vegetation.gd": "c6a4dd57c14fc4448a151c4f9feb92b89448c19d4d435df2595d584c4652ab64",
+    "res://game/levels/render_budget.gd": "ca784b8be7985b4ef11a29fd79e69cf98b568df1f59c898e9f3231df3f399233",
+    "res://game/levels/skate_edges.gd": "d85c1121c10b87c4d5fb657f5b2d1173ce37c1f743d198d2cd9a85675cd8a5e9",
+    "res://game/levels/static_batches.gd": "ee1168abc8129024f7cc75bbb17355c61d7c862c674b95c393c6b5944a519931",
+    "res://game/levels/transition_park.gd": "270ce0480e9524d662bf644f45afd6e4001f655308acf1ea7acbcfbdb675995c"
+  },
+  "support_fault_count": 2,
+  "support_faults": [
+    {
+      "actual": [
+        -147.856979370117,
+        1.66903746128082,
+        0.91525661945343
+      ],
+      "collider": "OutdoorRoutes/KelvingroveCentralEmbankment",
+      "context": "route:kelvingrove_central_climb offset=3.0",
+      "expected": [
+        -147.856979370117,
+        2.0,
+        0.91525661945343
+      ],
+      "normal": [
+        0.0,
+        0.999934434890747,
+        0.0114500746130943
+      ]
+    },
+    {
+      "actual": [
+        -42.0873413085938,
+        5.75,
+        -119.001274108887
+      ],
+      "collider": "OutdoorRoutes/KelvingroveGeorgeEmbankment",
+      "context": "route:kelvingrove_george_promenade offset=3.0",
+      "expected": [
+        -42.0873413085938,
+        6.0,
+        -119.001274108887
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    }
+  ],
+  "supported": 14797,
+  "tool_sha256": "16380405b388f8349ae89317b7d97c22918fc829537d916e2ea54a8bd0f1b486",
+  "unmapped": 2607
+}
