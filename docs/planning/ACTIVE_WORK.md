@@ -1,4 +1,4 @@
-**Current continuation:** [ARCADE-HARDENING](ARCADE-HARDENING.md) is current. All runtime fixes are pushed at68781fc; finalactualsix-area+pipe tour passes41PNGs/346stableinputs, zero bails,5directreturns. Required `./tools/check.sh` is running, not yet claimed. No game/assets/tests/tools/project edits until its receipt completes. Murals/defaultbackdrops stayOFF; all75full backlog records remain byte-identical. Older instructions below are historical.
+**Current continuation:** [ARCADE-HARDENING](ARCADE-HARDENING.md) and the newest STATUS take precedence. Runtime/world checkpoint `68781fc` and the six-area/41-image rendered tour are pushed. The first required aggregate is rejected at 1,960/38 with 346 unchanged inputs; passing scoped repairs are recorded separately. A bounded manual re-entry buffer is being verified before the next all-source freeze and required check. Murals and rejected backdrop/facade previews remain OFF. Preserve all 75 full backlog records and the no-spend/current-map-only rules. Older checkpoint instructions below are historical.
 
 # Owner priority: arcade response and whole-map hardening
 

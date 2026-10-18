@@ -1,0 +1,20 @@
+extends SceneTree
+class Probe extends Node:
+	var parent_probe := false
+	var phase := 0
+	func _physics_process(_delta: float) -> void:
+		var tick := Engine.get_physics_frames()
+		if parent_probe:
+			if phase == 2: Input.action_press("probe_manual")
+			if phase == 3: Input.action_release("probe_manual")
+			phase += 1
+		print("INPUT_PROBE parent=", parent_probe, " tick=", tick, " held=", Input.is_action_pressed("probe_manual"), " just=", Input.is_action_just_pressed("probe_manual"))
+		if parent_probe and phase >= 7: get_tree().quit()
+func _initialize() -> void:
+	InputMap.add_action("probe_manual")
+	call_deferred("_run")
+func _run() -> void:
+	var parent := Probe.new()
+	parent.parent_probe = true
+	root.add_child(parent)
+	parent.add_child(Probe.new())

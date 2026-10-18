@@ -130,34 +130,56 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 	var start: Vector3 = target - tangent * 20.0
 	start.y = 2.8
 	await _reset_at(tree, game, start)
-	var evidence := {"bails": 0, "names": []}
+	var evidence := {"bails": 0, "names": [], "captured_ids": []}
 	var on_bail := func(): evidence.bails += 1
 	var on_trick := func(title: String, _points: int): evidence.names.append(title)
+	var on_capture := func(id: String): evidence.captured_ids.append(id)
 	game.skater.bailed.connect(on_bail)
 	game.skater.trick_performed.connect(on_trick)
+	game.skater.grind_captured.connect(on_capture)
 	var launched := false
+	var released := false
+	var charge_frames := 0
+	var release_distance := INF
 	var captured := false
+	var captured_id := ""
+	var captured_at := Vector3.INF
+	var post_manual: Array[Dictionary] = []
 	for frame in range(240):
 		_aim(game.skater, tangent)
 		Input.action_press("push")
 		Input.action_press("grind")
-		if not launched and (target - game.skater.global_position).dot(tangent) < 9.5:
+		# This long approach needs a full charge with the weighted tap/charge
+		# grammar. Crouch during the real run-up, then release before the ledge.
+		if not launched and (target - game.skater.global_position).dot(tangent) < 13.0:
 			Input.action_press("ollie")
 			launched = true
-		else: Input.action_release("ollie")
+		if launched and not released:
+			if charge_frames >= 15:
+				Input.action_release("ollie")
+				release_distance = (target - game.skater.global_position).dot(tangent)
+				released = true
+			else:
+				charge_frames += 1
 		await _frames(tree, 1)
 		if game.skater.grinding:
 			captured = true
+			var live_grind = game.skater.get("_grind")
+			captured_id = str(live_grind.line.id)
+			captured_at = game.skater.global_position
 			break
 		if evidence.bails > 0: break
 	var manual_entered := false
+	var landed_on_quay := false
 	var connected := false
 	if captured:
 		Input.action_release("push")
 		Input.action_release("ollie")
 		await _frames(tree, 6)
 		Input.action_press("ollie")
-		await _frames(tree, 1)
+		# Clear the complete planter before requesting a ground manual. A tap
+		# touches its far top edge and immediately drops the 0.7m to the quay.
+		await _frames(tree, 15)
 		Input.action_release("ollie")
 		Input.action_release("grind")
 		await _frames(tree, 2)
@@ -174,9 +196,17 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 				manual_entered = game.skater.manual_active
 				break
 			if evidence.bails > 0: break
-		await _frames(tree, 12)
+		var landing := _local_combo_state(game, -1)
+		post_manual.append(landing)
+		landed_on_quay = landing.floor and landing.position.x > 62.8 and absf(landing.position.y - 2.0) < 0.05 \
+			and (landing.support.has("ClydePrintYard") or landing.support.has("ClydeSouthQuay"))
 		connected = game.score.total_score == 0 and game.skater.manual_active
-	check.call(captured and manual_entered and connected and evidence.bails == 0
+		for frame in 12:
+			await _frames(tree, 1)
+			post_manual.append(_local_combo_state(game, frame))
+			connected = connected and game.score.total_score == 0 and game.skater.manual_active
+	check.call(captured and captured_id == ledge.id and evidence.captured_ids == [ledge.id]
+		and manual_entered and landed_on_quay and connected and evidence.bails == 0
 		and evidence.names.count("Ollie") == 2 and evidence.names.count("Rail Grind") == 1
 		and evidence.names.has("Kickflip") and evidence.names.has("Melon Grab") and evidence.names.count("Manual") == 1,
 		"topography: actual yard ollie capture rail-ollie air tricks and manual stay in one unbanked line")
@@ -184,13 +214,29 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _frames(tree, 30)
 	var banked: int = game.score.total_score
 	await _frames(tree, 30)
-	check.call(evidence.bails == 0 and banked == 5000 and game.score.total_score == banked
+	check.call(captured_id == ledge.id and evidence.bails == 0 and banked == 5000 and game.score.total_score == banked
 		and game.score.get_combo_value() == 0,
 		"topography: new local rail-air-manual route banks its exact repeated-trick combo once")
-	print("TOPOGRAPHY localcombo captured=%s manual=%s connected=%s bank=%d bails=%d tricks=%s" % [
-		captured, manual_entered, connected, banked, evidence.bails, evidence.names])
+	print("TOPOGRAPHY localcombo captured=%s manual=%s quay_landing=%s connected=%s bank=%d bails=%d charge_frames=%d rail_pop_charge_frames=15 release_distance=%.3f tricks=%s" % [
+		captured, manual_entered, landed_on_quay, connected, banked, evidence.bails, charge_frames, release_distance, evidence.names])
+	print("TOPOGRAPHY LOCAL WITNESS capture_id=%s signal_ids=%s capture_at=%s post_manual=%s" % [
+		captured_id, evidence.captured_ids, captured_at, post_manual])
 	game.skater.bailed.disconnect(on_bail)
 	game.skater.trick_performed.disconnect(on_trick)
+	game.skater.grind_captured.disconnect(on_capture)
+
+
+static func _local_combo_state(game: Node, frame: int) -> Dictionary:
+	var support: Array[String] = []
+	for index in game.skater.get_slide_collision_count():
+		var collision: KinematicCollision3D = game.skater.get_slide_collision(index)
+		var body: Object = collision.get_collider()
+		if body is Node and collision.get_normal().y > 0.5: support.append(str(body.name))
+	return {"frame": frame, "position": game.skater.global_position, "velocity": game.skater.velocity,
+		"floor": game.skater.is_on_floor(), "airborne": game.skater.airborne,
+		"manual": game.skater.manual_active, "manual_cooldown": game.skater.get("_manual_cooldown"),
+		"pending_landing": game.score.pending_landing, "landing_remaining": game.score.landing_remaining,
+		"bank": game.score.total_score, "support": support}
 
 
 static func _court_routes(tree: SceneTree, game: Node, check: Callable) -> void:
@@ -238,16 +284,24 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 	var on_bail := func(): state.bails += 1
 	game.skater.bailed.connect(on_bail)
 	var jumped := false
+	var released := false
+	var charge_frames := 0
+	var release_distance := INF
 	var captured := false
 	for frame in range(240):
 		_aim(game.skater, tangent)
 		Input.action_press("push")
 		Input.action_press("grind")
-		if not jumped and (contact - game.skater.global_position).dot(tangent) < 9.5:
+		if not jumped and (contact - game.skater.global_position).dot(tangent) < 13.0:
 			Input.action_press("ollie")
 			jumped = true
-		else:
-			Input.action_release("ollie")
+		if jumped and not released:
+			if charge_frames >= 15:
+				Input.action_release("ollie")
+				release_distance = (contact - game.skater.global_position).dot(tangent)
+				released = true
+			else:
+				charge_frames += 1
 		await _frames(tree, 1)
 		if game.skater.grinding:
 			captured = true
@@ -288,7 +342,8 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 	else:
 		check.call(false, "topography: curved grind follows changing tangent without cutting through the fountain")
 		check.call(false, "topography: second-tap drop from curved coping lands and banks once without a bail")
-	print("TOPOGRAPHY fountain captured=%s bails=%d position=%s" % [captured, state.bails, game.skater.global_position])
+	print("TOPOGRAPHY fountain captured=%s bails=%d charge_frames=%d release_distance=%.3f position=%s" % [
+		captured, state.bails, charge_frames, release_distance, game.skater.global_position])
 	game.skater.bailed.disconnect(on_bail)
 	_release()
 
@@ -341,18 +396,22 @@ static func _bridge_and_recovery(tree: SceneTree, game: Node, check: Callable) -
 	var on_bail := func(): state.bails += 1
 	game.skater.bailed.connect(on_bail)
 	var reached_takeoff := false
+	var charging := false
+	var charge_frames := 0
 	Input.action_press("push")
 	for frame in range(300):
 		_aim(game.skater, Vector3.BACK)
+		if not charging and game.skater.is_on_floor() and game.skater.global_position.z >= 87.5:
+			Input.action_press("ollie")
+			charging = true
+		if charging: charge_frames += 1
 		await _frames(tree, 1)
 		if game.skater.global_position.z >= 91.8 and game.skater.is_on_floor():
 			reached_takeoff = true
 			break
 		if state.bails > 0: break
-	check.call(reached_takeoff and game.skater.speed >= 12.0 and game.skater.global_position.y > 2.8,
-		"topography: actual push run-up reaches the bridge launch grade")
-	Input.action_press("ollie")
-	await _frames(tree, 1)
+	check.call(reached_takeoff and charge_frames >= 15 and game.skater.speed >= 12.0 and game.skater.global_position.y > 2.8,
+		"topography: actual push run-up and charged crouch reach the bridge launch grade")
 	Input.action_release("ollie")
 	var landed_south := false
 	for frame in range(240):
@@ -369,8 +428,8 @@ static func _bridge_and_recovery(tree: SceneTree, game: Node, check: Callable) -
 	check.call(landed_south and state.bails == 0 and state.awards == 1
 		and game.score.total_score >= 2000 and game.score.get_combo_value() == 0,
 		"topography: physical eight-metre bridge ollie reaches south bank and banks the named gap once")
-	print("TOPOGRAPHY bridge takeoff=%s landed=%s awards=%d bank=%d bails=%d" % [
-		reached_takeoff, landed_south, state.awards, game.score.total_score, state.bails])
+	print("TOPOGRAPHY bridge takeoff=%s landed=%s awards=%d bank=%d bails=%d charge_frames=%d" % [
+		reached_takeoff, landed_south, state.awards, game.score.total_score, state.bails, charge_frames])
 	game.skater.bailed.disconnect(on_bail)
 	# A separate missed-jump fixture earns an actual bank first, then rides off
 	# the real deck without an ollie and performs a flip during the fall.

@@ -2,6 +2,95 @@ extends RefCounted
 ## Actual player-state regressions; run without a gameplay scene in the tree.
 const SkaterScript = preload("res://game/player/skater.gd")
 const InputSetup = preload("res://game/core/input_setup.gd")
+const ScoreSession = preload("res://game/scoring/score_session.gd")
+
+## Native-tick input driver and parent-before-player score order, as in Main.
+## Only controls change after spawning; no motion, cooldown or score injection.
+class ManualBufferFixture extends Node3D:
+	var rider: CharacterBody3D
+	var score: RefCounted = ScoreSession.new()
+	var scenario: String
+	var phase: int = 0
+	var exit_tick: int = -1
+	var entries: Array[int] = []
+	var manual_press_ticks: Array[int] = []
+	var banks: Array[int] = []
+	var samples: Dictionary = {}
+	var bails: int = 0
+	var done: bool = false
+	var start_position: Vector3
+
+	func _ready() -> void:
+		var floor_body := StaticBody3D.new()
+		var collision := CollisionShape3D.new()
+		var shape := BoxShape3D.new()
+		shape.size = Vector3(150, 1, 180)
+		collision.shape = shape
+		floor_body.position.y = -0.5
+		floor_body.add_child(collision)
+		add_child(floor_body)
+		rider = SkaterScript.new()
+		add_child(rider)
+		start_position = rider.global_position
+		rider.trick_performed.connect(score.add_trick)
+		rider.combo_link_started.connect(func() -> void:
+			entries.append(Engine.get_physics_frames())
+			score.continue_combo())
+		rider.combo_link_ended.connect(func() -> void:
+			if exit_tick < 0: exit_tick = Engine.get_physics_frames()
+			score.begin_landing())
+		rider.bailed.connect(func() -> void:
+			bails += 1
+			score.drop_combo())
+
+	func _physics_process(delta: float) -> void:
+		var tick: int = Engine.get_physics_frames()
+		if Input.is_action_just_pressed("manual"):
+			manual_press_ticks.append(tick)
+		if exit_tick >= 0:
+			# The child completed the preceding native tick; retain even ticks
+			# a slower rendered frame/coroutine would otherwise skip.
+			samples[tick - exit_tick - 1] = {"active": rider.manual_active,
+				"cooldown": rider._manual_cooldown, "buffer": rider._manual_buffer_remaining,
+				"speed": rider.speed, "floor": rider.is_on_floor(),
+				"held": Input.is_action_pressed("manual")}
+		if phase == 0:
+			if not Input.is_action_pressed("push"): Input.action_press("push")
+			if rider.is_on_floor() and rider.speed >= 6.0:
+				Input.action_release("push")
+				Input.action_press("manual")
+				phase = 1
+		elif phase == 1:
+			# A press sent during physics can expose its fresh edge next tick.
+			# Keep it held until the real child confirms entry before releasing.
+			if rider.manual_active:
+				Input.action_release("manual")
+				phase = 2
+		elif exit_tick >= 0:
+			var elapsed: int = tick - exit_tick
+			if scenario == "too_early" and elapsed == 1:
+				Input.action_press("manual")
+			if scenario == "outside_window" and elapsed == 12:
+				Input.action_press("manual")
+			if scenario == "expired" and elapsed == 6:
+				Input.action_press("brake")
+			if scenario == "gesture":
+				if elapsed == 13: Input.action_press("push")
+				if elapsed == 14: Input.action_release("push")
+				if elapsed == 15: Input.action_press("brake")
+				if elapsed == 16: Input.action_release("brake")
+			elif scenario != "too_early" and scenario != "outside_window" and elapsed == 15:
+				Input.action_press("manual")
+			if scenario == "released" and rider._manual_buffer_remaining > 0.0:
+				Input.action_release("manual")
+			if scenario == "expired":
+				if elapsed == 25: Input.action_release("brake")
+				if elapsed == 26: Input.action_press("push")
+			done = elapsed >= (55 if scenario == "expired" else 27)
+		if rider.airborne or rider.manual_active:
+			score.continue_combo()
+		if score.tick(delta) > 0:
+			banks.append(tick)
 
 static func run(tree: SceneTree, check: Callable) -> void:
 	InputSetup.register_actions()
@@ -208,6 +297,79 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	fixture.queue_free()
 	await tree.process_frame
 	await _frames(tree, 1)
+	await _manual_request_buffer(tree, check)
+
+static func _manual_request_buffer(tree: SceneTree, check: Callable) -> void:
+	InputSetup.register_actions()
+	for scenario: String in ["held", "gesture", "too_early", "outside_window", "released", "expired"]:
+		_release_actions()
+		var fixture := ManualBufferFixture.new()
+		fixture.scenario = scenario
+		tree.root.add_child(fixture)
+		for frame in 240:
+			await _frames(tree, 1)
+			if fixture.done: break
+		var rider: CharacterBody3D = fixture.rider
+		var prefix: String = "manual buffer (%s): " % scenario
+		var request_elapsed: int = 15 if scenario == "gesture" else (
+			fixture.manual_press_ticks.back() - fixture.exit_tick if fixture.manual_press_ticks.size() >= 2 else -1)
+		print("MANUAL BUFFER %s phase=%d processing=%s done=%s entries=%s exit=%d presses=%s request_elapsed=%d samples=%d position=%s speed=%.6f floor=%s active=%s cooldown=%.15f controls=%s banks=%s request=%s before=%s eligible=%s" % [
+			scenario, fixture.phase, fixture.is_physics_processing(), fixture.done, fixture.entries,
+			fixture.exit_tick, fixture.manual_press_ticks, request_elapsed, fixture.samples.size(),
+			rider.global_position, rider.speed, rider.is_on_floor(), rider.manual_active,
+			rider._manual_cooldown, rider._controls_enabled, fixture.banks,
+			fixture.samples.get(request_elapsed, {}), fixture.samples.get(20, {}), fixture.samples.get(21, {})])
+		check.call(fixture.done and fixture.exit_tick >= 0 and fixture.bails == 0
+			and rider.global_position.distance_to(fixture.start_position) > 2.0,
+			prefix + "real push, supported manual and release establish the recovery window")
+		var before: Dictionary = fixture.samples.get(20, {})
+		var eligible: Dictionary = fixture.samples.get(21, {})
+		check.call(not before.is_empty() and not eligible.is_empty()
+			and not bool(before.get("active", true)) and float(before.get("cooldown", 0.0)) > 0.0
+			and float(eligible.get("cooldown", -1.0)) == 0.0,
+			prefix + "full 0.35-second recovery expires on native tick 21, never tick 20 or 22")
+		check.call(fixture.banks.size() == 1 and fixture.banks[0] - fixture.exit_tick == 21
+			and fixture.score.total_score == 100,
+			prefix + "pending input cannot extend or duplicate the original 0.35-second bank")
+		if scenario == "held" or scenario == "gesture":
+			var requested: Dictionary = fixture.samples.get(request_elapsed, {})
+			check.call(float(requested.get("buffer", 0.0)) > 0.0
+				and not bool(requested.get("active", true))
+				and fixture.entries.size() == 2 and fixture.entries[1] - fixture.exit_tick == 21
+				and rider.manual_active and fixture.score.get_combo_value() == 100,
+				prefix + "one fresh near-expiry request waits, then enters exactly once on eligible floor")
+			if scenario == "gesture":
+				check.call(not Input.is_action_pressed("manual") and rider.manual_id == "manual",
+					prefix + "neutral-separated Up/Down retains its latched selection through recovery")
+		else:
+			check.call(fixture.entries.size() == 1 and not rider.manual_active
+				and fixture.score.get_combo_value() == 0,
+				prefix + "rejected, released or expired input cannot manufacture another link or award")
+			if scenario == "too_early" or scenario == "outside_window":
+				var early: Dictionary = fixture.samples.get(request_elapsed, {})
+				check.call(float(early.get("cooldown", 0.0)) > 0.12
+					and float(early.get("buffer", -1.0)) == 0.0 and Input.is_action_pressed("manual"),
+					prefix + "a too-early fresh press stays rejected even when held beyond recovery")
+				if scenario == "outside_window":
+					check.call(request_elapsed == 13 and float(early.get("cooldown", 1.0)) < 0.14,
+						prefix + "the observed fresh edge is just outside the 120ms buffer boundary")
+			else:
+				var requested: Dictionary = fixture.samples.get(request_elapsed, {})
+				check.call(float(requested.get("buffer", 0.0)) > 0.0,
+					prefix + "the fresh press was actually buffered before rejection")
+				if scenario == "released":
+					check.call(not bool(eligible.get("held", true)) and bool(eligible.get("floor", false))
+						and absf(float(eligible.get("speed", 0.0))) >= 2.0,
+						prefix + "release alone rejects the otherwise eligible supported entry")
+				else:
+					check.call(absf(float(eligible.get("speed", 10.0))) < 2.0
+						and rider.speed > 2.0 and Input.is_action_pressed("manual")
+						and rider._manual_buffer_remaining == 0.0,
+						prefix + "actual braking spends the buffer; later pushing cannot revive the held request")
+		_release_actions()
+		fixture.queue_free()
+		await tree.process_frame
+		await _frames(tree, 1)
 
 static func _land(tree: SceneTree, skater: CharacterBody3D) -> void:
 	for i in range(100):

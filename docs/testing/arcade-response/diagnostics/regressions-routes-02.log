@@ -1,0 +1,85 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FOCUS_BEGIN topography:_local_combo
+PASS: topography: print-yard ledge publishes a usable local trick line
+ERROR: FAIL: topography: actual yard ollie capture rail-ollie air tricks and manual stay in one unbanked line
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/arcade-response/focused-regressions.gd:40)
+       [1] _local_combo (res://tests/topography_tests.gd:201)
+       [2] _frames (res://tests/topography_tests.gd:534)
+PASS: topography: new local rail-air-manual route banks its exact repeated-trick combo once
+TOPOGRAPHY localcombo captured=true manual=true connected=false bank=5000 bails=0 charge_frames=15 release_distance=9.616 tricks=["Ollie", "Rail Grind", "Ollie", "Kickflip", "Melon Grab", "Manual"]
+TOPOGRAPHY LOCAL WITNESS capture_id=clyde_print_yard_ledge signal_ids=["clyde_print_yard_ledge"] capture_at=(53.61275, 2.77, 124.4) post_manual=[{ "frame": -1, "position": (62.50795, 2.679913, 124.3963), "velocity": (14.3448, 0.000236, 0.000591), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["PrintYardPlanter"] }, { "frame": 0, "position": (62.74671, 2.673885, 124.3987), "velocity": (14.3242, -0.361655, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.35, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 1, "position": (62.98544, 2.658413, 124.4011), "velocity": (14.3242, -0.928322, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.33333333333333, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 2, "position": (63.22418, 2.633496, 124.4035), "velocity": (14.3242, -1.494989, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.31666666666667, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 3, "position": (63.46291, 2.599135, 124.4059), "velocity": (14.3242, -2.061656, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.3, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 4, "position": (63.70165, 2.55533, 124.4084), "velocity": (14.3242, -2.628322, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.28333333333333, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 5, "position": (63.94038, 2.50208, 124.4108), "velocity": (14.3242, -3.194989, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.26666666666667, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 6, "position": (64.17912, 2.439386, 124.4132), "velocity": (14.3242, -3.761655, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.25, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 7, "position": (64.41786, 2.367247, 124.4156), "velocity": (14.3242, -4.328322, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.23333333333333, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 8, "position": (64.6566, 2.285664, 124.418), "velocity": (14.3242, -4.894989, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.21666666666667, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 9, "position": (64.89534, 2.194636, 124.4204), "velocity": (14.3242, -5.461655, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.2, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 10, "position": (65.13408, 2.094164, 124.4229), "velocity": (14.3242, -6.028322, 0.145039), "floor": false, "airborne": true, "manual": false, "manual_cooldown": 0.18333333333333, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": [] }, { "frame": 11, "position": (65.37281, 2.01401, 124.4253), "velocity": (14.3242, 0.0, 0.145039), "floor": true, "airborne": false, "manual": false, "manual_cooldown": 0.16666666666667, "pending_landing": true, "landing_remaining": 0.35, "bank": 0, "support": ["ClydePrintYard", "ClydePrintYard", "ClydePrintYard"] }]
+FOCUS_END topography:_local_combo passed=2 failed=1
+FOCUS_BEGIN career_route
+ROUTE waypoint 0 (-22.0, 2.0, -26.0) reached=true t=6.37 pos=(-22.0, 2.012415, -25.02989) speed=7.43
+ROUTE waypoint 1 (-22.0, 2.0, -22.0) reached=true t=7.58 pos=(-22.0, 2.012415, -22.95638) speed=8.00
+ROUTE waypoint 2 (18.0, 2.0, -22.0) reached=true t=10.35 pos=(17.09589, 2.012415, -22.02161) speed=15.00
+ROUTE waypoint 3 (22.0, 2.0, -22.0) reached=true t=10.62 pos=(21.09579, 2.012415, -22.00304) speed=15.00
+ROUTE waypoint 4 (22.0, 4.0, -74.0) reached=true t=14.53 pos=(21.9858, 4.012424, -73.17206) speed=10.74
+ROUTE waypoint 5 (-22.0, 4.0, -74.0) reached=true t=18.42 pos=(-21.03256, 4.012424, -74.03648) speed=15.00
+ROUTE waypoint 6 (22.0, 4.0, -74.0) reached=true t=21.23 pos=(21.21744, 4.012424, -74.00066) speed=15.00
+ROUTE waypoint 7 (22.0, 6.0, -116.0) reached=true t=23.98 pos=(21.98285, 6.0119, -115.0444) speed=15.00
+ROUTE waypoint 8 (20.0, 6.0, -116.0) reached=true t=24.07 pos=(20.8568, 6.0119, -115.5871) speed=15.00
+ROUTE waypoint 9 (22.0, 4.0, -74.0) reached=true t=26.80 pos=(21.97911, 4.012419, -74.76951) speed=15.00
+ROUTE waypoint 10 (-60.0, 4.0, -80.0) reached=true t=33.07 pos=(-59.03757, 4.012366, -79.93859) speed=10.62
+ROUTE waypoint 11 (-88.0, 4.0, -80.0) reached=true t=35.80 pos=(-87.15553, 4.012366, -80.00298) speed=15.00
+ROUTE waypoint 12 (-88.0, 2.0, -40.0) reached=true t=38.42 pos=(-87.98281, 2.011153, -40.8239) speed=15.00
+ROUTE waypoint 13 (-82.0, 2.0, -40.0) reached=true t=38.77 pos=(-82.78184, 2.011153, -40.10767) speed=15.00
+ROUTE waypoint 14 (-62.0, 2.0, 22.0) reached=true t=43.07 pos=(-62.31485, 2.011153, 21.05903) speed=15.00
+ROUTE waypoint 15 (-82.0, 2.0, 34.0) reached=true t=44.58 pos=(-81.32479, 2.011153, 33.55613) speed=15.00
+ROUTE waypoint 16 (-94.0, 2.0, 34.0) reached=true t=45.37 pos=(-93.06762, 2.011153, 33.96735) speed=15.00
+ROUTE waypoint 17 (-94.0, 5.0, 4.5) reached=true t=47.30 pos=(-93.97674, 5.012416, 5.26376) speed=15.00
+ROUTE waypoint 18 (-94.0, 5.0, -12.0) reached=true t=48.40 pos=(-94.00515, 5.002278, -11.23498) speed=15.00
+ROUTE waypoint 19 (-94.0, 2.0, -38.0) reached=true t=50.13 pos=(-94.00019, 2.172526, -37.00334) speed=15.00
+ROUTE waypoint 20 (-62.0, 2.0, -38.0) reached=true t=52.22 pos=(-62.76539, 2.012629, -37.97605) speed=15.00
+ROUTE waypoint 21 (-62.0, 2.0, 22.0) reached=true t=56.53 pos=(-62.01168, 2.014014, 21.08464) speed=12.09
+ROUTE waypoint 22 (-22.0, 0.0, 22.0) reached=true t=60.05 pos=(-22.85833, 0.007272, 22.0452) speed=15.00
+ROUTE waypoint 23 (22.0, 0.0, 22.0) reached=true t=62.98 pos=(21.14167, 0.007272, 22.00087) speed=15.00
+ROUTE waypoint 24 (60.0, 0.0, 22.0) reached=true t=65.52 pos=(59.14167, 0.007272, 22.00002) speed=15.00
+ROUTE waypoint 25 (70.0, 0.0, 22.0) reached=true t=66.18 pos=(69.14167, 0.007272, 22.0) speed=15.00
+ROUTE waypoint 26 (94.0, 0.0, 20.0) reached=true t=67.78 pos=(93.06403, 0.007272, 20.0753) speed=15.00
+ROUTE waypoint 27 (106.0, 0.0, 26.0) reached=true t=68.67 pos=(105.1107, 0.007272, 25.59268) speed=15.00
+ROUTE waypoint 28 (126.0, 0.0, 26.0) reached=true t=70.00 pos=(125.107, 0.007272, 25.98259) speed=15.00
+ROUTE waypoint 29 (126.0, 1.5, -18.0) reached=true t=73.08 pos=(125.9831, 1.397439, -17.13381) speed=12.24
+ROUTE waypoint 30 (120.0, 1.5, -22.0) reached=true t=74.15 pos=(120.9036, 1.512367, -21.81185) speed=11.26
+ROUTE waypoint 31 (120.0, 1.5, -33.0) reached=true t=74.88 pos=(120.072, 1.512367, -32.10866) speed=15.00
+ROUTE waypoint 32 (120.0, 1.5, -22.0) reached=true t=75.50 pos=(120.0061, 1.512367, -22.85887) speed=15.00
+ROUTE waypoint 33 (106.0, 1.5, -22.0) reached=true t=76.38 pos=(106.7808, 1.512367, -22.04788) speed=15.00
+ROUTE waypoint 34 (106.0, 1.5, -26.0) reached=true t=76.60 pos=(106.1509, 1.512367, -25.23626) speed=15.00
+ROUTE waypoint 35 (75.0, 1.5, -26.0) reached=true t=78.62 pos=(75.91011, 1.512367, -25.97769) speed=15.00
+ROUTE waypoint 36 (75.0, 1.5, -22.0) reached=true t=78.83 pos=(75.18523, 1.512367, -22.80956) speed=15.00
+ROUTE waypoint 37 (22.0, 2.0, -22.0) reached=true t=82.70 pos=(22.817, 2.01144, -22.01242) speed=11.24
+ROUTE waypoint 38 (-22.0, 2.0, -22.0) reached=true t=86.42 pos=(-21.13538, 2.01144, -21.99941) speed=15.00
+ROUTE waypoint 39 (-22.0, 0.0, 28.0) reached=true t=89.70 pos=(-21.98459, 0.010423, 27.10254) speed=15.00
+PASS: career routes: input-driven collection circuit returns to spawn within 120 seconds without recovery
+PASS: career routes: continuous circuit physically passes all four district checkpoints
+PASS: career routes: continuous career run collects every HAWKS letter
+PASS: career routes: continuous route collects all market items and enters/exits the recording court
+PASS: career routes: physical district traversal grants Across the toon
+PASS: career routes: continuous circuit interacts with the cone and physically ollies the Central gap
+PASS: career routes: charged Central gap traversal lands on the real upper platform rather than the lower concourse
+PASS: career routes: actual input tricks and collections complete all ten goals in one timed career run
+ROUTE SUMMARY circuit=true seconds=89.70 distance=1195.26 bails=0 stalled_frames=10 letters_at=67.75 market_at=76.55 secret_at=74.85
+ROUTE CAREER all_goals_at=76.55 score=19900 best_combo=3200 trick_inputs={ "Ollie": 7, "Kickflip": 6, "Melon Grab": 6, "Manual": 9 }
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to George east grade forward
+ROUTE COMBO Exchange to George east grade forward seconds=6.75 bank=3200 crossed=true connected=true manual=true entries=2 bails=0
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to George east grade reverse
+ROUTE COMBO Exchange to George east grade reverse seconds=6.12 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to Central south grade forward
+ROUTE COMBO Exchange to Central south grade forward seconds=6.38 bank=3200 crossed=true connected=true manual=true entries=2 bails=0
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to Central south grade reverse
+ROUTE COMBO Exchange to Central south grade reverse seconds=5.83 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+PASS: career routes: uninterrupted air/manual combo crosses and banks Exchange to Barras north grade forward
+ROUTE COMBO Exchange to Barras north grade forward seconds=5.70 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+ROUTE COMBO WITNESS Exchange to Barras north grade reverse [{ "frame": 73, "position": (57.2879, 1.637027, -22.0), "velocity": (-12.33036, 8.0, 0.000001), "airborne": true, "manual": false, "manual_cooldown": 0.0, "landing_remaining": 0.0, "bank": 0 }, { "frame": 102, "position": (51.32824, 1.512448, -22.0), "velocity": (-12.33036, 0.0, 0.000001), "airborne": false, "manual": false, "manual_cooldown": 0.0, "landing_remaining": 0.35, "bank": 0 }, { "frame": 103, "position": (51.1237, 1.512448, -22.0), "velocity": (-12.27265, 0.0, 0.000001), "airborne": false, "manual": true, "manual_cooldown": 0.0, "landing_remaining": 0.0, "bank": 0 }, { "frame": 187, "position": (34.89661, 2.012785, -22.0), "velocity": (-10.9164, 0.364023, 0.0), "airborne": true, "manual": false, "manual_cooldown": 0.35, "landing_remaining": 0.0, "bank": 0 }, { "frame": 188, "position": (34.71468, 2.013622, -22.0), "velocity": (-10.9164, 0.0, 0.0), "airborne": false, "manual": false, "manual_cooldown": 0.33333333333333, "landing_remaining": 0.35, "bank": 0 }, { "frame": 209, "position": (31.09345, 2.013622, -22.0), "velocity": (-9.840204, 0.0, 0.0), "airborne": false, "manual": true, "manual_cooldown": 0.0, "landing_remaining": 0.0, "bank": 3000 }]
+ERROR: FAIL: career routes: uninterrupted air/manual combo crosses and banks Exchange to Barras north grade reverse
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/arcade-response/focused-regressions.gd:40)
+       [1] _boundary_combos (res://tests/career_route_tests.gd:196)
+       [2] _frames (res://tests/career_route_tests.gd:294)
+ROUTE COMBO Exchange to Barras north grade reverse seconds=5.95 bank=3100 crossed=true connected=false manual=true entries=2 bails=0
+FOCUS_END career_route passed=15 failed=2
+RESULT: 15 passed, 2 failed

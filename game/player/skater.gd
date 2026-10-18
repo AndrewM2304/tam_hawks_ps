@@ -361,7 +361,9 @@ func _sample_trick_requests(delta: float) -> void:
 		_grind_buffer_remaining = 0.18
 		_grind_direction = direction
 		_selection_remaining = 0.14
-	if Input.is_action_just_pressed("manual") and not manual_active and _manual_cooldown <= 0.0 \
+	# Fresh requests may wait for the last buffer-length of recovery; actual
+	# entry still needs the full cooldown, floor support and a held request.
+	if Input.is_action_just_pressed("manual") and not manual_active and _manual_cooldown <= TRICK_BUFFER_TIME \
 			and (airborne or absf(speed) >= MANUAL_MIN_SPEED):
 		_manual_request = DirectionalTricks.select("manual", direction)
 		_manual_buffer_remaining = TRICK_BUFFER_TIME
@@ -371,7 +373,7 @@ func _sample_trick_requests(delta: float) -> void:
 	if vertical != 0 and vertical != _last_vertical:
 		if _vertical_neutral_seen and _vertical_edge != 0 and vertical == -_vertical_edge and _vertical_edge_age <= 0.22 \
 				and not manual_active and not transition_active and not lip_active \
-				and _manual_cooldown <= 0.0 and (airborne or absf(speed) >= MANUAL_MIN_SPEED):
+				and _manual_cooldown <= TRICK_BUFFER_TIME and (airborne or absf(speed) >= MANUAL_MIN_SPEED):
 			_manual_request = TrickCatalog.definition("manual" if _vertical_edge < 0 else "nose_manual")
 			_manual_buffer_remaining = TRICK_BUFFER_TIME
 			_manual_gesture_hold = true
@@ -694,6 +696,9 @@ func _physics_process(delta: float) -> void:
 	_grind_cooldown = maxf(0.0, _grind_cooldown - delta)
 	_transition_cooldown = maxf(0.0, _transition_cooldown - delta)
 	_manual_cooldown = maxf(0.0, _manual_cooldown - delta)
+	# Match the score deadline's treatment of accumulated physics-step residue.
+	if _manual_cooldown <= 0.000000000001:
+		_manual_cooldown = 0.0
 	revert_remaining = maxf(0.0, revert_remaining - delta)
 	_sample_trick_requests(delta)
 	if lip_active:

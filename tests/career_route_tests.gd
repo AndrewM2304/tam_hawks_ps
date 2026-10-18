@@ -43,7 +43,7 @@ static func _collection_circuit(tree: SceneTree, game: Node, check: Callable) ->
 	await _frames(tree, 45)
 	var evidence := {"bails": 0, "frames": 45, "distance": 0.0, "stalled_frames": 0,
 		"checkpoints": {}, "letters_at": -1.0, "market_at": -1.0, "secret_at": -1.0,
-		"all_goals_at": -1.0, "tricks": {}}
+		"all_goals_at": -1.0, "tricks": {}, "central_upper_landing": false}
 	var on_bail := func(): evidence.bails += 1
 	var on_trick := func(name: String, _points: int): evidence.tricks[name] = evidence.tricks.get(name, 0) + 1
 	game.skater.bailed.connect(on_bail)
@@ -64,9 +64,14 @@ static func _collection_circuit(tree: SceneTree, game: Node, check: Callable) ->
 			await _recorded_frames(tree, game, evidence, 1)
 			Input.action_release("interact")
 		elif target == Vector3(-94, 5, 4.5):
+			# Charge while physically traversing the remaining south platform.
+			# A one-tick tap now lands in its gap rather than on the north deck.
 			Input.action_press("ollie")
-			await _recorded_frames(tree, game, evidence, 1)
+			await _recorded_frames(tree, game, evidence, 15)
 			Input.action_release("ollie")
+		elif target == Vector3(-94, 5, -12):
+			evidence.central_upper_landing = game.skater.is_on_floor() and not game.skater.airborne \
+				and absf(game.skater.global_position.y - 5.0) < 0.20
 		if scoring_leg:
 			_release()
 			Input.action_press("brake")
@@ -88,6 +93,8 @@ static func _collection_circuit(tree: SceneTree, game: Node, check: Callable) ->
 	check.call(game.career.completed_ids.has("cone") and game.world.cone_activated
 		and game.career.completed_ids.has("platform_change"),
 		"career routes: continuous circuit interacts with the cone and physically ollies the Central gap")
+	check.call(evidence.central_upper_landing,
+		"career routes: charged Central gap traversal lands on the real upper platform rather than the lower concourse")
 	check.call(game.career.completed_ids.size() == 10 and game.score.total_score >= 15000
 		and game.score.best_combo >= 3000 and evidence.tricks.get("Manual", 0) >= 5,
 		"career routes: actual input tricks and collections complete all ten goals in one timed career run")
@@ -112,7 +119,7 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 			game.skater.spawn_position = start
 			game.start_mode(false)
 			await _frames(tree, 45)
-			var evidence := {"bails": 0, "crossed": false, "connected": true, "manual": false, "entries": 0}
+			var evidence := {"bails": 0, "crossed": false, "connected": true, "manual": false, "entries": 0, "transitions": []}
 			var on_bail := func(): evidence.bails += 1
 			game.skater.bailed.connect(on_bail)
 			var on_trick := func(name: String, _points: int):
@@ -123,6 +130,12 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 			var performed_air_tricks := false
 			var manual_entered := false
 			var reached := false
+			var trace: bool = str(route[0]) == "Exchange to Barras north grade" and reverse
+			var previous_airborne: bool = game.skater.airborne
+			var previous_manual: bool = game.skater.manual_active
+			var previous_bank := 0
+			var previous_manual_input := false
+			var previous_manual_buffer := 0.0
 			for frame in range(900):
 				var offset: Vector3 = target - game.skater.global_position
 				offset.y = 0
@@ -147,18 +160,37 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 						Input.action_press("flip")
 						Input.action_press("grab")
 						performed_air_tricks = true
-				elif performed_air_tricks and not game.skater.manual_active:
+				elif performed_air_tricks and game.skater.is_on_floor() and not game.skater.manual_active:
 					Input.action_release("push")
-					# Natural crest airtime ends a manual. Fresh presses after
-					# landing respect its cooldown and the existing bank deadline.
-					if Input.is_action_pressed("manual"): Input.action_release("manual")
-					else: Input.action_press("manual")
+					# Make one deliberate held request near eligibility. Alternating
+					# presses every tick tests an artificial release phase instead of
+					# the bounded human request buffer after a natural crest landing.
+					var cooldown: float = game.skater.get("_manual_cooldown")
+					if cooldown > 0.10:
+						Input.action_release("manual")
+					elif not Input.is_action_pressed("manual"):
+						Input.action_press("manual")
 					manual_entered = true
 				elif game.skater.manual_active:
 					Input.action_release("push")
 					if game.skater.manual_balance > 0.08: Input.action_press("push")
 					elif game.skater.manual_balance < -0.08: Input.action_press("brake")
 				await _frames(tree, 1)
+				var manual_input: bool = Input.is_action_pressed("manual")
+				var manual_buffer: float = game.skater.get("_manual_buffer_remaining")
+				if trace and (previous_airborne != game.skater.airborne or previous_manual != game.skater.manual_active \
+						or previous_bank != game.score.total_score or previous_manual_input != manual_input \
+						or (previous_manual_buffer <= 0.0 and manual_buffer > 0.0)):
+					evidence.transitions.append({"frame": frame, "position": game.skater.global_position,
+						"velocity": game.skater.velocity, "airborne": game.skater.airborne,
+						"manual": game.skater.manual_active, "manual_cooldown": game.skater.get("_manual_cooldown"),
+						"manual_input": manual_input, "manual_buffer": manual_buffer,
+						"landing_remaining": game.score.landing_remaining, "bank": game.score.total_score})
+				previous_airborne = game.skater.airborne
+				previous_manual = game.skater.manual_active
+				previous_bank = game.score.total_score
+				previous_manual_input = manual_input
+				previous_manual_buffer = manual_buffer
 				if manual_entered:
 					evidence.connected = evidence.connected and game.score.total_score == 0
 				if game.world.get_district_id(game.skater.global_position) != origin_district:
@@ -172,6 +204,7 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 			var bank_before: int = game.score.total_score
 			await _frames(tree, 25)
 			var label: String = route[0] + (" reverse" if reverse else " forward")
+			if trace: print("ROUTE COMBO WITNESS ", label, " ", evidence.transitions)
 			check.call(reached and evidence.bails == 0 and evidence.crossed and evidence.manual
 				and evidence.connected and bank_before == expected_bank and game.score.total_score == bank_before
 				and game.score.get_combo_value() == 0,
