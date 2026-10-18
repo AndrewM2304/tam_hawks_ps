@@ -1,5 +1,10 @@
 # ADR-019 — Ground the existing boundaries and paint the distant horizon
 
+## Minimal footing shader after station preview
+
+The unshaded-foundation preview closes both old floating bases but passes only2/3 strict timing views; station-south p95 fails. Preserve that result rather than calling noise acceptance. A subsequent one-fixture component diagnostic accidentally retained a14-view validity predicate for7views and is invalid; raw outputs remain diagnostic only. Pinned Godot4.6.3 `scene/resources/material.cpp` lines1618–1623 emit an albedo/default-white texture lookup even for the standard untextured material, with UV scale work at1244–1250 and colour/albedo multiplication at1669–1676. Replace only this shared boundary material with a minimal opaque unshaded vertex-colour shader. Keep the standard sRGB vertex transfer convention, engine fog/depth/tonemap, double-sided faces and shadow/GI OFF; omit textures/UV work, ALPHA and extra passes. This is a concrete work reduction, not a timing waiver. Geometry, original building states and832-triangle/four-surface budgets stay unchanged. Repeat focused checks and the limited native preview before final admission. The source files were read as engine references; no external art or dependency is added.
+
+
 ## Unshaded foundation correction after RGB rejection
 
 The complete512/RGB8 run is valid/clean/frozen and fixes all sampled visual gaps, but fails10/15 strict timing comparisons. Low throttling(51/16,458 periods) does not waive it. Preserve the source-bound failed run. Next replace the extended lit/shadow-casting building masses with64 unshaded vertical foundation triangles, merged into the existing CityFootings surface. Keep all eight original visible building meshes, bounds, materials and shadow behavior unchanged. Foundation faces occupy only their original footprints below the true0/6m bases down toY−35; no horizontal caps, collision or route promises. Revise the combined context/water ceiling explicitly to832 triangles; still four shared-material regional surfaces. This avoids expanding the original lit/shadow raster footprint merely to hide a background gap.

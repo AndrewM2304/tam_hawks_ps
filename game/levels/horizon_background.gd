@@ -4,6 +4,7 @@ extends RefCounted
 const EdgeSource = preload("res://game/levels/city_backdrop.gd")
 const SKY_CUBE = preload("res://game/art/assets/horizon/glasgow_horizon_cube.png")
 const SKY_SHADER = preload("res://game/art/assets/horizon/horizon_sky.gdshader")
+const FOOTING_SHADER = preload("res://game/art/assets/horizon/footing_colour.gdshader")
 const MASONRY = preload("res://game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg")
 const MAX_TRIANGLES := 832
 const MAX_SURFACES := 4
@@ -24,14 +25,9 @@ static func install(world: Node3D, sky: Sky) -> Node3D:
 	context.set_meta("original_sky_material", sky.sky_material)
 	context.set_meta("original_sky_process_mode", sky.process_mode)
 	context.set_meta("panorama_material", panorama)
-	var material := StandardMaterial3D.new()
+	var material := ShaderMaterial.new()
 	material.resource_name = "BoundaryFootingColour"
-	material.vertex_color_use_as_albedo = true
-	material.vertex_color_is_srgb = true
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	material.disable_receive_shadows = true
-	material.specular_mode = BaseMaterial3D.SPECULAR_DISABLED
+	material.shader = FOOTING_SHADER
 	var chunks := {}
 	for id: String in ["CityFootings", "ClydeFootings", "ParkWestFootings", "ParkNorthFootings"]:
 		var tool := SurfaceTool.new()

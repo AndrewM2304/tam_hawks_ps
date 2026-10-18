@@ -74,7 +74,7 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 	var emitted_chunks: Array[String] = []
 	var bins: Dictionary = {}
 	var surfaces := 0
-	var material: StandardMaterial3D
+	var material: ShaderMaterial
 	var shared := true
 	var valid := true
 	var actual_names: Array[String] = []
@@ -86,7 +86,7 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 		valid = display.mesh is ArrayMesh and display.mesh.get_surface_count() == 1 \
 			and display.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF \
 			and display.gi_mode == GeometryInstance3D.GI_MODE_DISABLED and valid
-		if material == null: material = display.material_override as StandardMaterial3D
+		if material == null: material = display.material_override as ShaderMaterial
 		shared = material != null and display.material_override == material and shared
 		for surface: int in range(display.mesh.get_surface_count()):
 			surfaces += 1
@@ -148,12 +148,21 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 	check.call(actual_names == expected_names and surfaces <= 4 and all_faces.size()/3 <= 832
 		and faces.size() > 0 and valid,
 		"horizon: four actual static regional meshes stay within832 combined budget with valid footing/bank/foundation triangles and opaque vertex colours")
-	check.call(shared and material.transparency == BaseMaterial3D.TRANSPARENCY_DISABLED
-		and material.shading_mode == BaseMaterial3D.SHADING_MODE_UNSHADED
-		and material.vertex_color_use_as_albedo and material.vertex_color_is_srgb
-		and material.cull_mode == BaseMaterial3D.CULL_DISABLED and material.disable_receive_shadows
-		and material.albedo_texture == null and not material.normal_enabled and material.next_pass == null,
-		"horizon: footing surfaces share one opaque double-sided unshaded material without textures or extra passes")
+	var shader_valid := false
+	if shared and material != null and material.shader != null:
+		var code: String = ""
+		for line: String in material.shader.code.split("\n"):
+			code += line.get_slice("//",0).replace(" ","").replace("\t","").strip_edges()
+		shader_valid = material.next_pass==null and code.contains("shader_typespatial;") \
+			and code.contains("render_modeunshaded,cull_disabled,shadows_disabled,specular_disabled;") \
+			and code.contains("if(!OUTPUT_IS_SRGB){vec3colour=COLOR.rgb;COLOR.rgb=mix(pow((colour+vec3(0.055))/1.055,vec3(2.4)),colour/12.92,lessThan(colour,vec3(0.04045)));}") \
+			and code.contains("voidfragment(){ALBEDO=COLOR.rgb;}") \
+			and not code.contains("sampler") and not code.contains("texture") \
+			and not code.contains("ALPHA") and not code.contains("fog_disabled") \
+			and not code.contains("FOG") and not code.contains("depth_test_disabled") \
+			and not code.contains("UV") and not code.contains("TIME")
+	check.call(shader_valid,
+		"horizon: four footing surfaces share one opaque double-sided texture-free shader with standard sRGB vertex conversion, native fog and no extra pass")
 	var passive := context.get_script() == null and not context.is_processing() and not context.is_physics_processing()
 	for node: Node in context.find_children("*","",true,false):
 		passive = not node is CollisionObject3D and not node is CollisionShape3D and not node is Light3D \

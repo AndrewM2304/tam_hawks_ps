@@ -1,10 +1,14 @@
+# Recovery checkpoint
+
+Workspace access recovered18October2026 with pending source intact. `evidence/recovered-focused-01` passes34/0, clean/frozen369inputs (367core +2helpers),3.006s; current editor import succeeds. `minimal-focused-01` is the earlier34/0 source-matching result before the shader UID was generated. `evidence/minimal-preview-01` is an incomplete outage-interrupted run: one original-control PNG, no candidate or valid timing comparison, shutdown static-string errors retained. It is not admitted. Original art regenerates byte-identically (`reproduction-512.json`). Required full regression and strict native performance/composition are pending; existing failed gates remain open.
+
 # Boundary and horizon repair
 
 The current correction adds original static hills/urban skyline, exact vertical boundary footings, a market service back and scenic Clyde bends.64 unshaded foundation triangles now ground eight existing background/civic masses without expanding their original lit/shadow-casting meshes. Four regional static surfaces plus the existing water replacement total832triangles. Native512² RGB8 cubemap pixel chains occupy6,291,450bytes (≤6MiB); the4096×2048 panorama is an offline reference only. Existing camera/fog/lighting,354bodies/1,296shapes and48routes remain unchanged. No new playable area, paid service, light, collision or frame callback.
 
 ## Current admission
 
-Current focused proof:34/0, clean/frozen367inputs in `foundations-focused-01`. Native small preview `foundations-preview-01` is valid/frozen368inputs,12PNGs,400intervals: park/Barras pass, station-south fails the unchanged strict timing gate. It is diagnostic, not final admission. The independent design review finds both old floating connector bases closed; plain foundation finish remains an art limitation. Component isolation is the next step before the full37-view/15-bearing admission and required `./tools/check.sh`.
+Current focused proof:34/0, clean/frozen367inputs in `foundations-focused-01`. Native small preview `foundations-preview-01` is valid/frozen368inputs,12PNGs,400intervals: park/Barras pass, station-south fails the unchanged strict timing gate. It is diagnostic, not final admission. The independent design review finds both old floating connector bases closed; plain foundation finish remains an art limitation. Pinned engine-source inspection identified the standard material's otherwise unnecessary default-white lookup and UV work. Current source replaces it with a minimal vertex-colour shader preserving sRGB convention, native fog/depth/tonemap. Its focused/native preview is pending before the full37-view/15-bearing admission and required `./tools/check.sh`.
 
 The latest pushed checkpoint41cd63a is durable but its RGB+lit-extrusion candidate is **rejected:5/15 timing passes,10failures**. Its69PNGs/67observations/2,680intervals and34/0functional checks are retained in `evidence/render-rgb-final-02`. The first panorama candidate is also rejected:8/15timing passes and a floating frontage. No failed timing result is averaged away or treated as Mac FPS evidence.
 
