@@ -65,7 +65,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		{"family":"Planter_","at":Vector3(-29,0.84,11.5),"direction":Vector3.RIGHT,"outside":Vector3.FORWARD,"behind":0.9,"charge":2},
 		{"family":"MarketCounter_","at":Vector3(109.5,1.24,2),"direction":Vector3.FORWARD,"outside":Vector3.RIGHT,"behind":3.0,"charge":18},
 		{"family":"StreetBenchSeat_","at":Vector3(29,0.585,27.26),"direction":Vector3.LEFT,"outside":Vector3.BACK,"behind":0.9,"charge":2},
-		{"family":"BridgeRail_","at":Vector3(-101.85,3.8,81),"direction":Vector3.BACK,"outside":Vector3.RIGHT,"behind":3.0,"charge":18}]:
+		{"family":"BridgeRail_","at":Vector3(-28.85,3.8,81),"direction":Vector3.BACK,"outside":Vector3.RIGHT,"behind":3.0,"charge":18}]:
 		await _approach(tree,game,lines,check,specification)
 	_release()
 	game.free()

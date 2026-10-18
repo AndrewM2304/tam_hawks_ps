@@ -61,8 +61,10 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	var names: Array[String] = []
 	for child: Node in backdrop.get_children(): names.append(str(child.name))
 	names.sort()
-	check.call(names == ["ClydeEastContext", "ClydeWestContext"] and meshes.size() == 2 and surfaces == 2 and triangles == 2132,
-		"City backdrop: explicit preview contains only the two Clyde chunks, exactly 2132 real triangles and two surfaces")
+	# The fixed river scenery contributes 444 west/472 east triangles. Compact
+	# retained edges add three skirt segments (12 triangles) to each side.
+	check.call(names == ["ClydeEastContext", "ClydeWestContext"] and meshes.size() == 2 and surfaces == 2 and triangles == 940,
+		"City backdrop: explicit preview contains only the two compact Clyde chunks, exactly 940 real triangles and two surfaces")
 	check.call(no_casting, "City backdrop: every actual scenery mesh avoids additional shadow/GI submissions")
 	var quiet_nodes := backdrop.get_script() == null and not backdrop.is_processing() and not backdrop.is_physics_processing()
 	for node: Node in backdrop.find_children("*", "Node", true, false):
@@ -135,17 +137,17 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		"City backdrop: explicit fresh held-context fixture preserves the exact six named geometry chunks")
 	check.call(held_surfaces == 6,
 		"City backdrop: explicit fresh held-context fixture preserves exactly six actual surfaces")
-	# The exact support-query repair adds one segment/two opposed quads at the
-	# StationNorthBoundary's X-50 endpoint. The prior held fixture was 4036;
-	# 4040 remains within the original declared 4040 budget, with no new chunk.
-	check.call(held_triangles == 4040 and held_counts == {
+	# Compact Clyde removes 298 old skirt segments/four triangles each, reducing
+	# 4040 to 2848. Other chunks and the original 4040 budget stay unchanged;
+	# the Station endpoint's four query-owned triangles remain checked below.
+	check.call(held_triangles == 2848 and held_counts == {
 		"ExistingBoundaryRetainingSkirts":{"surfaces":1,"triangles":152},
 		"StationServiceBacks":{"surfaces":1,"triangles":148},
-		"ClydeWestContext":{"surfaces":1,"triangles":1060},
-		"ClydeEastContext":{"surfaces":1,"triangles":1072},
+		"ClydeWestContext":{"surfaces":1,"triangles":456},
+		"ClydeEastContext":{"surfaces":1,"triangles":484},
 		"ParkWestHillside":{"surfaces":1,"triangles":822},
 		"ParkNorthHillside":{"surfaces":1,"triangles":786}},
-		"City backdrop: held-context preserves exact per-chunk counts and 4040 actual triangles within its original budget")
+		"City backdrop: held-context preserves exact per-chunk counts and 2848 actual triangles within its original 4040 budget")
 	_check_query_owned_skirt(world, held, check)
 	for id: String in PORTS:
 		var clear := true

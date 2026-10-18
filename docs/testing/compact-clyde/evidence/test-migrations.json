@@ -1,0 +1,21 @@
+{
+  "before_head": "d2eda661e67552dca6779c8a83528a3b95ed7fe1",
+  "paths": {
+    "tests/city_backdrop_tests.gd": {
+      "before_sha256": "de560829c0625eb8410fd6f18047ffbd3424a8a394fa514fbc1fd0c0c6fb447f",
+      "after_sha256": "fa05f3e4bb254977003aa29c17d383cb0c2e150c7ad90a3bc89311d73d2f2047",
+      "before_copy": "test-migration-source/tests__city_backdrop_tests.gd.before.txt",
+      "after_copy": "test-migration-source/tests__city_backdrop_tests.gd.after.txt",
+      "reason": "Disabled diagnostic preview snapshots: remove298 old boundary segments/four triangles each; exact940/2848 totals and456/484 Clyde chunks, all original budgets/port/geometry/resource checks retained."
+    },
+    "tests/edge_grind_integration_tests.gd": {
+      "before_sha256": "1f36c8c3921b8551a9d268e87abef6dd0efc17ead3798551f86f74459946a7f9",
+      "after_sha256": "8f1e6929cba04165215ff159633253fd7a3bc8a4e2ee5e90516f82085a5b7400",
+      "before_copy": "test-migration-source/tests__edge_grind_integration_tests.gd.before.txt",
+      "after_copy": "test-migration-source/tests__edge_grind_integration_tests.gd.after.txt",
+      "reason": "Translate sole initial safe-hand-rail probe X\u2212101.85\u2192\u221228.85 by the same+73m as the unchanged native safe crossing; all mapped input/capture/clearance/ride/exit assertions retained."
+    }
+  },
+  "production_changes": [],
+  "rendering_scope": "These two tests are not imported/executed by ordinary Main/capture/detail; all current game/project/tool inputs are identical to the final rendering inventories. Exact old inventories are retained, not relabelled current."
+}
