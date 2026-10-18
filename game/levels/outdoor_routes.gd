@@ -102,7 +102,7 @@ func _approach_boundaries(id: String, side: float) -> Vector2:
 				edge.append(point)
 				break
 			edge.append(point)
-		ExplorationBoundary.build(self,"QuayApproachBoundary",edge,_material("cut_stone"),_material("iron"),3.0,false,true)
+		ExplorationBoundary.build(self,"QuayApproachBoundary",edge,_material("stone_light"),_material("iron"),3.0,false,true)
 	return result
 
 
@@ -120,7 +120,11 @@ func _boundary(id: String, start: Vector2, end: Vector2) -> void:
 	# Top Y12 also clears the unpumped 18m/s vertical lip's ~Y10 apex.
 	var behind_decks := id == "QuayLandwardBoundary" and end.x <= -15.0
 	var opaque_edge := id == "NorthQuayEndBoundary" or id == "QuayLandwardBoundary"
-	ExplorationBoundary.build(self,id,points,_material("cut_stone"),_material("iron"),
+	# Large screen-filling walls share the city's lighter masonry family;
+	# reserve normal-mapped concrete for the existing shaped skating features.
+	var wall_material := _material("cut_stone") if id == "ParkRetainedBoundary" else _material("stone_light")
+	if behind_decks: wall_material = _material("interior_plaster")
+	ExplorationBoundary.build(self,id,points,wall_material,_material("iron"),
 		10.0 if behind_decks else 3.0,behind_decks or id.begins_with("SouthPocket"),opaque_edge)
 
 
@@ -223,7 +227,7 @@ func _build_clyde() -> void:
 	_route("clyde_print_yard_hip", "Print-yard curved bank and hip", hip_route)
 	_rail("clyde_print_yard_ledge", PackedVector3Array([Vector3(38.3,2.77,124.4), Vector3(47.7,2.77,124.4)]), "ledge", 0.16)
 	_water()
-	var bank_material := _material("cut_stone")
+	var bank_material := _material("paving")
 	var bank_bounds := Layout.YARD_GROUND
 	var yard_ground := Surface.terrain(self, "ClydePrintYardGround", bank_bounds, 5.0, _yard_ground_height, bank_material)
 	# The hip includes flat toe triangles. Its complete display owns that

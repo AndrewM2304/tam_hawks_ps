@@ -408,7 +408,7 @@ static func _opaque_boundary_faces(world: Node3D, outdoors: Node3D, check: Calla
 	var prisms := 0
 	var triangles := 0
 	var shared_materials: Dictionary = world.get("_materials")
-	var shared_stone: Material = shared_materials.get("cut_stone")
+	var shared_stone: Material = shared_materials.get("stone_light")
 	for body: StaticBody3D in outdoors.find_children("*","StaticBody3D",true,false):
 		var family := str(body.get_meta("boundary_family",""))
 		var intended := family in ["QuayApproachBoundary","NorthQuayEndBoundary","QuayLandwardBoundary"] \
@@ -440,7 +440,8 @@ static func _opaque_boundary_faces(world: Node3D, outdoors: Node3D, check: Calla
 				continue
 			material_and_data = display.material_override==shared_stone \
 				and shared_stone is BaseMaterial3D \
-				and shared_stone.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED and material_and_data
+				and shared_stone.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED \
+				and not shared_stone.normal_enabled and material_and_data
 			var data: Array = display.mesh.surface_get_arrays(0)
 			if not data[Mesh.ARRAY_VERTEX] is PackedVector3Array or not data[Mesh.ARRAY_NORMAL] is PackedVector3Array \
 				or not data[Mesh.ARRAY_TEX_UV] is PackedVector2Array or not data[Mesh.ARRAY_TANGENT] is PackedFloat32Array:
