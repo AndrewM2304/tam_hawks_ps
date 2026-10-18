@@ -1,0 +1,38 @@
+{
+  "started_london": "2026-10-18T17:48:18.599547+01:00",
+  "completed_london": "2026-10-18T17:50:16.191670+01:00",
+  "wall_seconds": 117.59215254300216,
+  "source_inputs": 253,
+  "source_stable": true,
+  "exit_code": 0,
+  "clean_log": true,
+  "image_sha256": {
+    "authored-overview.png": "31e95349dd743ee7895436b7c76e3f5d6664b7e1d355ac3d3043373e49578916",
+    "clyde-east-end.png": "a1a4a26f4e5a6f3105c2caa751b70ff3e5c7647ecf6431ea7992e1b9c590b703",
+    "clyde-raised-deck.png": "14726b150403192868e7a8a3cf0e852aafc893068d73b9cbdbcc3a42f2c9b3fa",
+    "clyde-river-east.png": "4d46cb9a8155aea1ff9381ffdf0a045a7c55c0f21cd8ecf3a94ebff1c52580bf",
+    "clyde-river-west.png": "ecd583bbeb5cf8763c484ea3f9971bea35e25d73d15ca788fcb76b7155d19f9a",
+    "clyde-southeast-corner.png": "f09851bbcb2fb3d7bea8bdb55a051361785ed10277a6e0df156a177b996cfb33",
+    "clyde-southwest-corner.png": "81bc74df2f691aed8ae51cb5c70cd2760bf09ab326372c8bac859b4129647ef6",
+    "clyde-west-end.png": "1c2adb4fd1eb911100f49109bacc6f854a0f1fb57256154efc94d1a0d25a6daf",
+    "route-map.png": "a1d7360c168ab66d23a33ca3d8c7fde6cf2dbcf89e64b4a64fa5ffdcae319a08"
+  },
+  "valid": true,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/horizon-background/preview-bend.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/horizon-background/preview-bend-02"
+  ],
+  "git_head": "a6a78b8b918e68cc00d94413588c342252ca6cd3",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

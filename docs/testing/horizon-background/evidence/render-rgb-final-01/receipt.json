@@ -1,0 +1,38 @@
+{
+  "started_london": "2026-10-18T19:10:28.594492+01:00",
+  "completed_london": "2026-10-18T19:11:10.644557+01:00",
+  "wall_seconds": 42.050131691998104,
+  "source_inputs": 368,
+  "source_stable": true,
+  "exit_code": -15,
+  "clean_log": true,
+  "image_sha256": {
+    "exchange-west-candidate.png": "52673958998f920143250d8d009fc9d74b6d9b3ceabaa2610fbf3939e00a5ba2"
+  },
+  "valid": false,
+  "cgroup_cpu_stat_before": "usage_usec 34671816506\nuser_usec 33748831348\nsystem_usec 922985158\nnice_usec 130767\nnr_periods 287930\nnr_throttled 48423\nthrottled_usec 3730350347\nnr_bursts 0\nburst_usec 0\n",
+  "cgroup_cpu_stat_after": "usage_usec 34774055428\nuser_usec 33849414260\nsystem_usec 924641167\nnice_usec 134767\nnr_periods 288351\nnr_throttled 48427\nthrottled_usec 3730601497\nnr_bursts 0\nburst_usec 0\n",
+  "render_environment": {
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "3",
+    "cpu_max": "400000 100000",
+    "cpuset": "0-4"
+  },
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/horizon-background/compare.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/horizon-background/render-rgb-final-01"
+  ],
+  "git_head": "a617000a45518228466a6acf1f64b86da081117d",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

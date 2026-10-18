@@ -3,9 +3,12 @@
   "external_inputs": [],
   "seeded": true,
   "source": "art_source/horizon/generate.py",
-  "generator_sha256": "5eeb4237bc97143ebd80d8f125eef31c33713953ca87eb839754bf6d18274ca0",
+  "generator_sha256": "a017e2da201ce58efa91b27299e02e45fb2e8ccdeab21ffd78edd8c5a27509a7",
   "description": "Original atmospheric composite hills/woodland/tenement/warehouse skyline; not surveyed 360-degree Glasgow.",
-  "import_budget_bytes": 7340032,
+  "runtime_texture": "glasgow_horizon_cube.png",
+  "reference_only": "glasgow_horizon.png",
+  "cube_layout": "3x2 row-major +X,-X,+Y,-Y,+Z,-Z;512px faces",
+  "import_budget_bytes": 6291456,
   "files": {
     "glasgow_horizon.png": {
       "sha256": "99197604f04a3ccfca8857cb2cc32ac4a0582163383d5a36bcc9451be67b46be",
@@ -13,6 +16,15 @@
       "size": [
         4096,
         2048
+      ],
+      "mode": "RGB"
+    },
+    "glasgow_horizon_cube.png": {
+      "sha256": "3b0b7d233aebbdb3afd02b5226ae16c6eddaab394eb13ddec0d95bac6d776b57",
+      "source_bytes": 539756,
+      "size": [
+        1536,
+        1024
       ],
       "mode": "RGB"
     }

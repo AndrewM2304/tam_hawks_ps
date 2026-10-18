@@ -186,7 +186,8 @@ func _background_facade(at: Vector3, width: float, height: float, yaw: float) ->
 	building.position = at
 	building.rotation.y = yaw
 	add_child(building)
-	_box(building, Vector3(width, height, 12), Vector3(0, height / 2.0, 0), materials["sandstone"])
+	var mass := _box(building, Vector3(width, height, 12), Vector3(0, height / 2.0, 0), materials["sandstone"])
+	mass.set_meta("horizon_frontage", true)
 	decorate_building(building, width, height, "sandstone", "")
 
 

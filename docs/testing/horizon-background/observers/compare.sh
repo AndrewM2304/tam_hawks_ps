@@ -22,6 +22,8 @@ for attempt in {1..50}; do
 done
 export DISPLAY=":$(cat "$TASK_CAPTURE_OUTPUT/display")"
 export LIBGL_ALWAYS_SOFTWARE=1
+# Four-core cgroup quota; reserve one core for main/Xorg instead of oversubscribing.
+export LP_NUM_THREADS=3
 python3 - "$TASK_CAPTURE_OUTPUT" <<'PY'
 from pathlib import Path
 import hashlib,json,os,signal,subprocess,sys,time
@@ -33,6 +35,7 @@ def fingerprint():
  files=[root/'project.godot',root/'.local/horizon-background/compare.gd',root/'.local/horizon-background/compare.sh',root/'.local/horizon-background/views.gd']
  files += [p for folder in ('game','tests','tools') for p in (root/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
  return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)}
+cpu_stat_before=Path('/sys/fs/cgroup/cpu.stat').read_text()
 before=fingerprint();(out/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
 command=['./tools/run.sh','--rendering-method','gl_compatibility','--windowed','--resolution','1280x800','--disable-vsync','--audio-driver','Dummy','--script','.local/horizon-background/compare.gd','--',str(out)]
 started=datetime.now(ZoneInfo('Europe/London')).isoformat();wall=time.monotonic()
@@ -58,6 +61,8 @@ valid=code==0 and before==after and clean and data.get('valid') and len(images)=
 receipt={'started_london':started,'completed_london':datetime.now(ZoneInfo('Europe/London')).isoformat(),
  'wall_seconds':time.monotonic()-wall,'source_inputs':len(before),'source_stable':before==after,
  'exit_code':code,'clean_log':clean,'image_sha256':images,'valid':valid,
+ 'cgroup_cpu_stat_before':cpu_stat_before,'cgroup_cpu_stat_after':Path('/sys/fs/cgroup/cpu.stat').read_text(),
+ 'render_environment':{'LIBGL_ALWAYS_SOFTWARE':os.environ.get('LIBGL_ALWAYS_SOFTWARE'),'LP_NUM_THREADS':os.environ.get('LP_NUM_THREADS'),'cpu_max':Path('/sys/fs/cgroup/cpu.max').read_text().strip(),'cpuset':Path('/sys/fs/cgroup/cpuset.cpus.effective').read_text().strip()},
  'command':command,'git_head':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
  'limits':'Native settled production chase observers; not moving play, human fun or target-Mac timings.'}
 (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

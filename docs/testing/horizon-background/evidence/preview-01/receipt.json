@@ -1,0 +1,37 @@
+{
+  "started_london": "2026-10-18T17:38:26.839830+01:00",
+  "completed_london": "2026-10-18T17:40:25.372883+01:00",
+  "wall_seconds": 118.53316109900334,
+  "source_inputs": 364,
+  "source_stable": true,
+  "exit_code": 0,
+  "clean_log": true,
+  "image_sha256": {
+    "authored-overview.png": "12ace41a9e134ee897e4f38edbc6ac3b3f3eb15d2252a612835bdd70aef0d2d4",
+    "barras-reported-gap.png": "cfd52ec00eda07e330ce9dba5f0ec27e6b866c26bd71d03f96e071c873f398f7",
+    "civic-reported-gap.png": "28155a41035636966b4c5ca9dbb9e094f7720bbc25db51d681211e9d86e36682",
+    "clyde-raised-deck.png": "44e04417733d9ce7bbe3b6cb15d74fee6fbc7c1b1d242f966d057dd3c91f2563",
+    "clyde-river-east.png": "214325916d433ce1bed7f5eb2c83522cc7744f93f2d9e7083186c38dd618b3cf",
+    "park-terrace-west.png": "73586845aa1cfb5f895e19497699c2dfe8d534968cd3c51d33fb02e88556b411",
+    "park-west-slope.png": "007438e607609e4e039c7f48468031604e3075996bbb18e4adfd64475b7213fb",
+    "route-map.png": "4b400d2a2b3b0d2e45065baadf149c714a21429a61c589e16c5c7d49964d9908"
+  },
+  "valid": true,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/horizon-background/preview.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/horizon-background/preview-01"
+  ],
+  "git_head": "a6a78b8b918e68cc00d94413588c342252ca6cd3",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

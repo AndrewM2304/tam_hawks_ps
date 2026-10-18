@@ -1,0 +1,72 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS: horizon: normal production World installs its context
+PASS: horizon: one native environment without an extra scene sky
+PASS: horizon: native static quality cubemap replaces the uniform procedural sky
+PASS: horizon cube: actual bound native resource has six1024-square DXT1 mipmapped faces
+PASS: horizon cube: bound sky shader performs one static colour-correct native direction lookup
+PASS: horizon cube: opaque source atlas and retained offline panorama have the agreed dimensions
+HORIZON CUBE SOURCE blocks=230 worst=0.00113980425522 where=(5, 1020, 0)
+PASS: horizon cube: independent world-direction oracle matches axes, all12 joins, eight corners and both polar caps
+HORIZON CUBE IMPORT FILE path=res://.godot/imported/glasgow_horizon_cube.png-d445cc4a6292254f28162bd04b6f0dc5.s3tc.ccube bytes=4194516 payload=4194384 sha256=96aa4a6dd19e0663fa72dd78e1d0ab6cbd9c6dd660fd25eedc851574e9780071
+PASS: horizon cube: actual validated six-face S3TC import chains including mipmaps stay within6MiB
+PASS: horizon cube: actual imported base and two lower mip levels decode as opaque images
+HORIZON CUBE IMPORT imported_bytes=4194384 sampled_mips=3 block_checks=690 worst_mean_error=0.02478516660631 where=face3 mip0 x512 y1020
+PASS: horizon cube: actual imported face means preserve directions, all joins, corners and poles through three mip levels
+HORIZON CUBE GPU readback_bytes=33554424 (decoded readback, NOT residency) worst_import_match=1.3496972322464
+ERROR: FAIL: horizon cube native: actual GPU face readback matches validated imported base directions and joins
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/horizon-background/components-cube.gd:121)
+       [1] _cube_pixels (res://tests/horizon_background_tests.gd:263)
+       [2] _sky (res://tests/horizon_background_tests.gd:48)
+       [3] run (res://tests/horizon_background_tests.gd:19)
+PASS: horizon: established ambient light, ACES and fog remain unchanged rather than concealing gaps
+PASS: horizon: existing sun colour and energy are retained
+PASS: horizon: controlled comparison retains the original procedural material
+PASS: horizon: four actual static regional meshes stay within budget with valid footing/bank triangles and opaque vertex colours
+PASS: horizon: footing surfaces share one opaque double-sided unshaded material without textures or extra passes
+PASS: horizon: context introduces no collision, cameras, lights, scripts or frame callbacks
+PASS: horizon: actual triangles completely cover every raw physical boundary baseline, corners and downward footing samples
+PASS: horizon: actual face area matches the raw boundary envelope without floating extensions or route-mouth caps
+PASS: horizon: separate flat service-back plane matches X129.81/Z-8..2/Y-.1..5.05 and embeds behind the blocked graded boundary
+PASS: horizon: real civic, station, market, park and quay openings contain no footing cap
+HORIZON independent geometry samples=12336 triangles=676 area=78179.6890678406
+PASS: horizon river: actual72 bank triangles match independently fixed shore/back sections behind closed quay ends
+PASS: horizon river: one existing water display retains its ShaderMaterial and one replacement mesh surface
+HORIZON WATER vertices=54 indices=0 normals=54 uvs=54 tangents=216 max_y=0.0 max_uv=0.0 min_normal_dot=1.0 max_normal_error=0.00001525902189 front_area=(-6460.0, -1102.0) missing= combined_triangles=768
+PASS: horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and total768-triangle ceiling
+PASS: horizon river: actual water triangles never overlap each other or project through the new bank tops
+PASS: horizon river: all36 scenic bank-top triangle interiors stay outside actual playable collision support
+PASS: horizon river: controlled comparison swaps only the existing water mesh and retains exactly the same animated material
+PHYSICS_INVENTORY bodies=354 shapes=1296 protected_bodies=271 protected_shapes=720 bench_bodies=12 bench_boxes=44 identified=true
+PASS: horizon: exact354 bodies/1296 shapes and independent protected core/bench identities are retained
+PASS: horizon: all48 unique published routes and the six district checkpoints remain
+PASS: horizon: representative real support/query contacts remain correct across all six areas
+PASS: horizon: scenic backing creates no catch floor in deleted quays or former south landscape
+PASS: horizon: reversible appearance comparison restores both materials while physical routes stay identical
+PASS: horizon: existing high Clyde wall reuses one resident CC0 albedo without another mesh, normal map or pass
+PASS: horizon frontage: seven actual closed12-triangle masses reachY-35 while preserving their existing footprints and roofs
+PASS: horizon frontage: comparison restores original0/6m bases and candidate foundations with unchanged mesh count and materials
+RESULT: 34 passed, 1 failed
+HORIZON_CAPTURE station-south original-a frames=40
+HORIZON_CAPTURE station-south sky frames=40
+HORIZON_CAPTURE station-south original-b frames=40
+HORIZON_CAPTURE station-south meshes frames=40
+HORIZON_CAPTURE station-south original-c frames=40
+HORIZON_CAPTURE station-south candidate frames=40
+HORIZON_CAPTURE station-south original-d frames=40
+HORIZON_CAPTURE clyde-southeast-corner original-a frames=40
+HORIZON_CAPTURE clyde-southeast-corner sky frames=40
+HORIZON_CAPTURE clyde-southeast-corner original-b frames=40
+HORIZON_CAPTURE clyde-southeast-corner meshes frames=40
+HORIZON_CAPTURE clyde-southeast-corner original-c frames=40
+HORIZON_CAPTURE clyde-southeast-corner candidate frames=40
+HORIZON_CAPTURE clyde-southeast-corner original-d frames=40
+HORIZON_CAPTURE park-city-return candidate frames=40
+HORIZON_CAPTURE clyde-river-east candidate frames=40
+HORIZON_CAPTURE park-civic-connector candidate frames=40
+HORIZON_CAPTURE_RESULT views=17 errors=["horizon cube native: actual GPU face readback matches validated imported base directions and joins"]

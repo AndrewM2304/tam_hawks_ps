@@ -16,6 +16,7 @@ from PIL import Image, ImageDraw
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / "game/art/assets/horizon"
 W, H = 4096, 2048
+CUBE_SIZE = 512
 
 
 def mix(a, b, t):
@@ -127,16 +128,49 @@ def panorama():
     return Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8), "RGB")
 
 
+def cubemap(reference):
+    """Bake native +X,-X,+Y,-Y,+Z,-Z faces, row-major in a3x2 atlas.
+
+    Pixel-centre sampling and bilinear azimuth wrap match Godot's sky direction
+    convention. This is an offline resample, never a runtime image conversion.
+    """
+    source = np.asarray(reference, dtype=np.float32)
+    coord = (np.arange(CUBE_SIZE, dtype=np.float32) + .5) / CUBE_SIZE * 2 - 1
+    u, v = np.meshgrid(coord, coord)
+    one = np.ones_like(u)
+    directions = [(one, -v, -u), (-one, -v, u), (u, one, v),
+                  (u, -one, -v), (u, -v, one), (-u, -v, -one)]
+    atlas = Image.new("RGB", (CUBE_SIZE * 3, CUBE_SIZE * 2))
+    for face, (x, y, z) in enumerate(directions):
+        length = np.sqrt(x*x + y*y + z*z)
+        azimuth = np.mod(np.arctan2(x, -z) / (2*np.pi), 1)
+        elevation = np.arccos(np.clip(y/length, -1, 1)) / np.pi
+        sx, sy = azimuth * W - .5, np.clip(elevation * H - .5, 0, H-1)
+        ix, iy = np.floor(sx).astype(int), np.floor(sy).astype(int)
+        fx, fy = (sx-ix)[..., None], (sy-iy)[..., None]
+        a, b = source[iy, ix % W], source[iy, (ix+1) % W]
+        c, d = source[np.minimum(iy+1,H-1), ix % W], source[np.minimum(iy+1,H-1), (ix+1) % W]
+        pixels = (a*(1-fx)+b*fx)*(1-fy)+(c*(1-fx)+d*fx)*fy
+        atlas.paste(Image.fromarray(np.rint(pixels).astype(np.uint8), "RGB"),
+                    ((face % 3)*CUBE_SIZE, (face // 3)*CUBE_SIZE))
+    return atlas
+
+
 def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    panorama().save(OUTPUT / "glasgow_horizon.png", optimize=True)
+    reference = panorama()
+    reference.save(OUTPUT / "glasgow_horizon.png", optimize=True)
+    cubemap(reference).save(OUTPUT / "glasgow_horizon_cube.png", optimize=True)
     files = {p.name: {"sha256": hashlib.sha256(p.read_bytes()).hexdigest(), "source_bytes": p.stat().st_size,
                       "size": list(Image.open(p).size), "mode": Image.open(p).mode}
              for p in sorted(OUTPUT.glob("*.png"))}
     record = {"original_content": True, "external_inputs": [], "seeded": True,
               "source": "art_source/horizon/generate.py", "generator_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
               "description": "Original atmospheric composite hills/woodland/tenement/warehouse skyline; not surveyed 360-degree Glasgow.",
-              "import_budget_bytes": 7 * 1024 * 1024, "files": files}
+              "runtime_texture": "glasgow_horizon_cube.png",
+              "reference_only": "glasgow_horizon.png",
+              "cube_layout": "3x2 row-major +X,-X,+Y,-Y,+Z,-Z;512px faces",
+              "import_budget_bytes": 6 * 1024 * 1024, "files": files}
     (OUTPUT / "manifest.json").write_text(json.dumps(record, indent=2) + "\n")
     print(json.dumps(record, indent=2))
 

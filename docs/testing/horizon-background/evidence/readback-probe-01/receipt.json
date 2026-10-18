@@ -1,0 +1,36 @@
+{
+  "started_london": "2026-10-18T19:02:06.342158+01:00",
+  "completed_london": "2026-10-18T19:02:17.232872+01:00",
+  "wall_seconds": 10.890719301001809,
+  "source_inputs": 368,
+  "source_stable": true,
+  "exit_code": 0,
+  "clean_log": true,
+  "image_sha256": {
+    "connector-probe.png": "9d3255a448067e60e4c3be2b934549160fd3e2b45d4efde4bfd064ca06d6b9e5"
+  },
+  "valid": true,
+  "render_environment": {
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "3",
+    "cpu_max": "400000 100000",
+    "cpuset": "0-4"
+  },
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/horizon-background/readback-probe.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/horizon-background/readback-probe-01"
+  ],
+  "git_head": "a617000a45518228466a6acf1f64b86da081117d",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

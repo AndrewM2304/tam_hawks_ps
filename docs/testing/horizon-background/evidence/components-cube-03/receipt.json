@@ -1,0 +1,42 @@
+{
+  "started_london": "2026-10-18T19:05:35.231039+01:00",
+  "completed_london": "2026-10-18T19:07:03.357402+01:00",
+  "wall_seconds": 88.12637492500653,
+  "source_inputs": 368,
+  "source_stable": true,
+  "exit_code": -15,
+  "clean_log": false,
+  "image_sha256": {
+    "station-south-candidate.png": "fa41fbacb40991275b6fde15763d46ee4c110a331a57b46b50ab5c9eedd2c25a",
+    "station-south-meshes.png": "d19e2cf4497d8bf6c21ae84211e84ff529e4263b6a2e685f1b0ce48119423d10",
+    "station-south-original-a.png": "ea6863fcebb0c789963aa6060406f0e9896a6d7ac6bd50fabd8493c63608f8dc",
+    "station-south-original-b.png": "b127fb47ec45ac9c1a49bbbc49047e5bc26e4467d78dbac318aacec86814becc",
+    "station-south-original-c.png": "36ddba98923c32e8794489f3e5af08da993be1efba07fbcbe4544f75e3633856",
+    "station-south-original-d.png": "5e6ed74104ba9dbffe3ea3bbe45559152738beb9d5b307308f18174ad24958ea",
+    "station-south-sky.png": "f7cdad29299eea62f98a170393fd83967719c41a0333998926469fab7d239a41"
+  },
+  "valid": false,
+  "render_environment": {
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "3",
+    "cpu_max": "400000 100000",
+    "cpuset": "0-4"
+  },
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/horizon-background/components-cube.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/horizon-background/components-cube-03"
+  ],
+  "git_head": "a617000a45518228466a6acf1f64b86da081117d",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

@@ -7,6 +7,10 @@ const Protected = preload("res://tests/clyde_surface_tests.gd")
 const EPS := .00035
 const BOTTOM := -35.0
 const CELL := 8.0
+const CUBE_SIZE := 512
+const CUBE_MIPS := 9
+const CUBE_FORMAT := Image.FORMAT_RGB8
+const CUBE_FACE_BYTES := 1048575
 const FOOTINGS := ["CityFootings", "ClydeFootings", "ParkWestFootings", "ParkNorthFootings"]
 
 
@@ -22,6 +26,7 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	_river(world, context, geometry, check)
 	_preservation(world, context, check)
 	_finish(world, context, check)
+	_frontages(world, check)
 
 
 static func _sky(world: Node3D, context: Node3D, check: Callable) -> void:
@@ -29,62 +34,23 @@ static func _sky(world: Node3D, context: Node3D, check: Callable) -> void:
 	check.call(environments.size() == 1, "horizon: one native environment without an extra scene sky")
 	if environments.size() != 1: return
 	var environment: Environment = (environments[0] as WorldEnvironment).environment
-	var panorama := environment.sky.sky_material as PanoramaSkyMaterial
-	check.call(environment.background_mode == Environment.BG_SKY and panorama != null
+	var material := environment.sky.sky_material as ShaderMaterial
+	check.call(environment.background_mode == Environment.BG_SKY and material != null
 		and environment.sky.process_mode == Sky.PROCESS_MODE_QUALITY,
-		"horizon: native static quality panorama replaces the uniform procedural sky")
-	if panorama == null or panorama.panorama == null: return
-	var image: Image = panorama.panorama.get_image()
-	var resident_bytes: int = image.get_data().size()
-	var imported_ok := image.get_width() == 4096 and image.get_height() == 2048 \
-		and image.has_mipmaps() and resident_bytes > 0 and resident_bytes <= 6*1024*1024
-	check.call(imported_ok, "horizon: actual imported 4096x2048 mipmapped panorama data stays within6MiB")
-	if image.is_compressed(): image.decompress()
-	check.call(not image.is_compressed() and image.detect_alpha() == Image.ALPHA_NONE,
-		"horizon: decoded actual panorama is opaque including its lower hemisphere")
-	var raw: Image = Image.load_from_file(panorama.panorama.resource_path)
-	var source_wrap: bool = raw != null and raw.get_width()==4096 and raw.get_height()==2048
-	var native_pattern := true
-	var block_wrap := true
-	var max_seam := 0.0
-	var max_block_seam := 0.0
-	var max_pattern_delta := 0.0
-	var max_repeat_excess := 0.0
-	var varied := false
-	var low := Color(1,1,1)
-	var high := Color(0,0,0)
-	for y: int in range(image.get_height()):
-		var difference := _colour_distance(image.get_pixel(0,y),image.get_pixel(image.get_width()-1,y))
-		max_seam = maxf(max_seam,difference)
-		var first_mean := Color(0,0,0,0)
-		var last_mean := Color(0,0,0,0)
-		for x: int in range(4):
-			var first := image.get_pixel(x,y)
-			var last := image.get_pixel(image.get_width()-4+x,y)
-			first_mean += first*.25
-			last_mean += last*.25
-			var pattern_delta := _colour_distance(first,last)
-			max_pattern_delta = maxf(max_pattern_delta,pattern_delta)
-			native_pattern = pattern_delta<.00001 and native_pattern
-			if source_wrap:
-				source_wrap = raw.get_pixel(x,y)==raw.get_pixel(raw.get_width()-4+x,y) and source_wrap
-		var block_delta := _colour_distance(first_mean,last_mean)
-		max_block_seam = maxf(max_block_seam,block_delta)
-		block_wrap = block_delta<.04 and block_wrap
-		# DXT1 dithers within a flat4px block. Wrapping column3->0 must be
-		# no larger than that same ordinary periodic boundary in the matching
-		# first block; otherwise raw texel noise is mistaken for a unique seam.
-		var ordinary_repeat := _colour_distance(image.get_pixel(3,y),image.get_pixel(0,y))
-		max_repeat_excess = maxf(max_repeat_excess,difference-ordinary_repeat)
-	for y: int in [960,1000,1024,1100,1200]:
-		for x: int in range(0,image.get_width(),32):
-			var colour := image.get_pixel(x,y)
-			low = Color(minf(low.r,colour.r),minf(low.g,colour.g),minf(low.b,colour.b))
-			high = Color(maxf(high.r,colour.r),maxf(high.g,colour.g),maxf(high.b,colour.b))
-	varied = _colour_distance(low,high) > .15
-	print("HORIZON PIXELS raw_max_texel_seam=",max_seam," block_mean_seam=",max_block_seam," decoded_pattern_delta=",max_pattern_delta," ordinary_repeat_excess=",max_repeat_excess," source_blocks_match=",source_wrap," range=",_colour_distance(low,high)," low=",low," high=",high," imported_bytes=",resident_bytes)
-	check.call(source_wrap and block_wrap and native_pattern and max_repeat_excess<.00001 and varied,
-		"horizon: exact source edge blocks and native periodic block means/pattern wrap correctly with varied distant land/building silhouettes")
+		"horizon: native static quality cubemap replaces the uniform procedural sky")
+	if material == null: return
+	var cube := material.get_shader_parameter("context_sky") as TextureLayered
+	check.call(cube != null and cube.get_layered_type()==TextureLayered.LAYERED_TYPE_CUBEMAP
+		and cube.get_layers()==6 and cube.get_width()==CUBE_SIZE and cube.get_height()==CUBE_SIZE
+		and cube.get_format()==CUBE_FORMAT and cube.has_mipmaps(),
+		"horizon cube: actual bound native resource has six512-square RGB8 mipmapped faces")
+	var code: String = material.shader.code.replace(" ","").replace("\n","").replace("\t","")
+	check.call(code.contains("uniformsamplerCubecontext_sky:source_color,filter_linear_mipmap;")
+		and code.contains("COLOR=texture(context_sky,EYEDIR).rgb;") and code.count("texture(")==1
+		and not code.contains("use_half_res_pass") and not code.contains("HALF_RES_COLOR")
+		and not code.contains("TIME") and not code.contains("POSITION"),
+		"horizon cube: bound static sky performs one direct colour-correct cubemap lookup without a half-resolution pass")
+	if cube != null: _cube_pixels(cube,check)
 	check.call(environment.ambient_light_source == Environment.AMBIENT_SOURCE_COLOR
 		and environment.ambient_light_color.is_equal_approx(Color("c7dfeb"))
 		and absf(environment.ambient_light_energy-.44)<.00001
@@ -187,6 +153,162 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 			and not node.is_physics_processing() and passive
 	check.call(passive, "horizon: context introduces no collision, cameras, lights, scripts or frame callbacks")
 	return {"faces":faces,"bins":bins,"bank_faces":bank_faces,"service_faces":service_faces,"regional_triangles":all_faces.size()/3}
+
+
+static func _cube_pixels(cube: TextureLayered, check: Callable) -> void:
+	var reference := Image.new()
+	var atlas := Image.new()
+	var loaded: bool = reference.load_png_from_buffer(FileAccess.get_file_as_bytes("res://game/art/assets/horizon/glasgow_horizon.png"))==OK \
+		and atlas.load_png_from_buffer(FileAccess.get_file_as_bytes(cube.resource_path))==OK
+	check.call(loaded and reference.get_size()==Vector2i(4096,2048) and atlas.get_size()==Vector2i(CUBE_SIZE*3,CUBE_SIZE*2)
+		and atlas.detect_alpha()==Image.ALPHA_NONE,
+		"horizon cube: opaque source atlas and retained offline panorama have the agreed dimensions")
+	if not loaded: return
+	var blocks: Dictionary = {}
+	for face: int in range(6):
+		_add_cube_block(blocks,face,0,0)
+		for edge: int in range(4):
+			for t: float in [-.875,-.5,0.0,.5,.875]:
+				var uv: Vector2 = [Vector2(-1,t),Vector2(1,t),Vector2(t,-1),Vector2(t,1)][edge]
+				_add_cube_block(blocks,face,uv.x,uv.y)
+		for s: float in [-1.0,1.0]:
+			for t: float in [-1.0,1.0]: _add_cube_block(blocks,face,s,t)
+	# Distinct bearings/latitudes catch swapped or mirrored faces. All24 face
+	# edges above inspect both sides of every one of the12 physical joins.
+	for degrees: int in range(0,360,15):
+		for latitude: float in [-15.0,0.0,15.0]:
+			var yaw := deg_to_rad(degrees)
+			var pitch := deg_to_rad(latitude)
+			var direction := Vector3(sin(yaw)*cos(pitch),sin(pitch),-cos(yaw)*cos(pitch))
+			var mapped := _cube_coordinates(direction)
+			_add_cube_block(blocks,int(mapped.x),mapped.y,mapped.z)
+	for face: int in [2,3]:
+		for angle: int in range(0,360,45):
+			_add_cube_block(blocks,face,.05*cos(deg_to_rad(angle)),.05*sin(deg_to_rad(angle)))
+	var source_ok := true
+	var source_worst := 0.0
+	var source_where := Vector3i.ZERO
+	for key: Vector3i in blocks:
+		var actual := _atlas_mean(atlas,key.x,key.y,key.z,4)
+		var expected := Color(0,0,0,0)
+		for y: int in range(key.z,key.z+4):
+			for x: int in range(key.y,key.y+4): expected += _panorama_colour(reference,_cube_direction(key.x,x,y)) / 16.0
+		var error := _colour_distance(actual,expected)
+		if error>source_worst: source_worst=error;source_where=key
+		# sqrt(3)*.5/255 rounding is .003397; .005 also covers float32 bake
+		# coordinate arithmetic. This limit was fixed before native results.
+		source_ok = error<.005 and source_ok
+	print("HORIZON CUBE SOURCE blocks=",blocks.size()," worst=",source_worst," where=",source_where)
+	check.call(source_ok, "horizon cube: independent world-direction oracle matches axes, all12 joins, eight corners and both polar caps")
+	# Renderer readback is not an imported-payload measurement. Parse only the
+	# inspected Godot4.6.3 raw RGB8 layered format, with strict headers/EOF.
+	var imported := _imported_cube(cube)
+	check.call(not imported.is_empty() and int(imported.get("bytes",0))<=6*1024*1024,
+		"horizon cube: actual validated six-face RGB8 import chains including mipmaps stay within6MiB")
+	if imported.is_empty(): return
+	var faces: Array[Image] = imported.faces
+	var levels: Dictionary = {}
+	var opaque := true
+	for face: int in range(6):
+		for mip: int in [0,1,2]:
+			var chain: Image = faces[face]
+			var dimension: int = CUBE_SIZE>>mip
+			var offset: int = chain.get_mipmap_offset(mip)
+			var length: int = dimension*dimension*3
+			var image := Image.create_from_data(dimension,dimension,false,CUBE_FORMAT,chain.get_data().slice(offset,offset+length))
+			opaque = not image.is_compressed() and image.detect_alpha()==Image.ALPHA_NONE and opaque
+			levels[Vector2i(face,mip)]=image
+	check.call(opaque, "horizon cube: actual imported base and two lower mip levels decode as opaque images")
+	var pixel_ok := true
+	var worst := 0.0
+	var where := ""
+	for mip: int in [0,1,2]:
+		var scale: int = 1<<mip
+		for key: Vector3i in blocks:
+			var native_image: Image = levels[Vector2i(key.x,mip)]
+			var x: int = clampi((key.y/scale)/4,0,native_image.get_width()/4-1)*4
+			var y: int = clampi((key.z/scale)/4,0,native_image.get_height()/4-1)*4
+			var actual := Color(0,0,0,0)
+			for dy: int in range(4):
+				for dx: int in range(4): actual += native_image.get_pixel(x+dx,y+dy)/16.0
+			var expected := _atlas_mean(atlas,key.x,x*scale,y*scale,4*scale)
+			var error := _colour_distance(actual,expected)
+			if error>worst: worst=error;where="face%s mip%s x%s y%s"%[key.x,mip,x,y]
+			pixel_ok = error<.04 and pixel_ok
+	print("HORIZON CUBE IMPORT imported_bytes=",imported.bytes," sampled_mips=3 block_checks=",blocks.size()*3," worst_mean_error=",worst," where=",where)
+	check.call(pixel_ok, "horizon cube: actual imported face means preserve directions, all joins, corners and poles through three mip levels")
+	if DisplayServer.get_name()=="headless":
+		print("HORIZON_NATIVE_PIXELS_DEFERRED: actual RGB8 import chains were checked; Dummy cannot verify GPU upload/readback. No GPU assertion is counted; native focused replay is required.")
+		return
+	# A warmed native probe on this Compatibility backend returned black RGBA
+	# at every face centre/corner despite its visibly rendered correct sky.
+	# Preserve that API limitation instead of counting a fabricated GPU pass.
+	print("HORIZON_GPU_READBACK_UNVERIFIED: retained1024/DXT1 readback-probe-01 returned blackRGBA after4 native draws while the sky rendered correctly; it does not verify this512/RGB8 upload. No GPU-layer pixel assertion is counted; source-bound37-view native composition and strict timing remain required. Backend=",RenderingServer.get_current_rendering_method())
+
+
+static func _imported_cube(cube: TextureLayered) -> Dictionary:
+	var config := ConfigFile.new()
+	if config.load(cube.resource_path+".import")!=OK or not config.has_section_key("remap","path"): return {}
+	var path: String = str(config.get_value("remap","path"))
+	var file := FileAccess.open(path,FileAccess.READ)
+	if file==null or file.get_buffer(4).get_string_from_ascii()!="GSTL": return {}
+	# Version1 / six layers / cubemap1 / raw-image data and five zero fields.
+	for expected: int in [1,6,1,0,0,0,0,0]:
+		if file.get_32()!=expected: return {}
+	var faces: Array[Image] = []
+	var total := 0
+	for face: int in range(6):
+		if file.get_32()!=0 or file.get_16()!=CUBE_SIZE or file.get_16()!=CUBE_SIZE \
+			or file.get_32()!=CUBE_MIPS or file.get_32()!=CUBE_FORMAT: return {}
+		var bytes: PackedByteArray = file.get_buffer(CUBE_FACE_BYTES)
+		if bytes.size()!=CUBE_FACE_BYTES: return {}
+		var image := Image.create_from_data(CUBE_SIZE,CUBE_SIZE,true,CUBE_FORMAT,bytes)
+		if image==null or image.get_mipmap_count()!=CUBE_MIPS: return {}
+		faces.append(image)
+		total+=bytes.size()
+	if file.get_position()!=file.get_length(): return {}
+	print("HORIZON CUBE IMPORT FILE path=",path," bytes=",file.get_length()," payload=",total," sha256=",FileAccess.get_sha256(path))
+	return {"faces":faces,"bytes":total}
+
+
+static func _add_cube_block(blocks: Dictionary, face: int, s: float, t: float) -> void:
+	blocks[Vector3i(face,clampi(floori((s+1)*CUBE_SIZE*.5)/4,0,CUBE_SIZE/4-1)*4,clampi(floori((t+1)*CUBE_SIZE*.5)/4,0,CUBE_SIZE/4-1)*4)] = true
+
+
+static func _cube_direction(face: int, x: int, y: int) -> Vector3:
+	var s := 2.0*(x+.5)/CUBE_SIZE-1.0
+	var t := 2.0*(y+.5)/CUBE_SIZE-1.0
+	var direction: Vector3 = [Vector3(1,-t,-s),Vector3(-1,-t,s),Vector3(s,1,t),
+		Vector3(s,-1,-t),Vector3(s,-t,1),Vector3(-s,-t,-1)][face]
+	return direction.normalized()
+
+
+static func _cube_coordinates(d: Vector3) -> Vector3:
+	var a := d.abs()
+	if a.x>=a.y and a.x>=a.z:
+		return Vector3(0,-d.z/a.x,-d.y/a.x) if d.x>=0 else Vector3(1,d.z/a.x,-d.y/a.x)
+	if a.y>=a.z:
+		return Vector3(2,d.x/a.y,d.z/a.y) if d.y>=0 else Vector3(3,d.x/a.y,-d.z/a.y)
+	return Vector3(4,d.x/a.z,-d.y/a.z) if d.z>=0 else Vector3(5,-d.x/a.z,-d.y/a.z)
+
+
+static func _panorama_colour(image: Image, direction: Vector3) -> Color:
+	var u := fposmod(atan2(direction.x,-direction.z)/TAU,1.0)
+	var v := acos(clampf(direction.y,-1,1))/PI
+	var x := u*image.get_width()-.5
+	var y := clampf(v*image.get_height()-.5,0,image.get_height()-1)
+	var ix := floori(x)
+	var iy := floori(y)
+	var a := image.get_pixel(posmod(ix,image.get_width()),iy).lerp(image.get_pixel(posmod(ix+1,image.get_width()),iy),x-ix)
+	var b := image.get_pixel(posmod(ix,image.get_width()),mini(iy+1,image.get_height()-1)).lerp(image.get_pixel(posmod(ix+1,image.get_width()),mini(iy+1,image.get_height()-1)),x-ix)
+	return a.lerp(b,y-iy)
+
+
+static func _atlas_mean(atlas: Image, face: int, x: int, y: int, span: int) -> Color:
+	var result := Color(0,0,0,0)
+	for dy: int in range(span):
+		for dx: int in range(span): result += atlas.get_pixel((face%3)*CUBE_SIZE+x+dx,(face/3)*CUBE_SIZE+y+dy)/float(span*span)
+	return result
 
 
 static func _coverage(world: Node3D, geometry: Dictionary, check: Callable) -> void:
@@ -474,6 +596,54 @@ static func _covered(at: Vector3, geometry: Dictionary) -> bool:
 	for index: int in geometry.bins.get(key,[]):
 		if _on_triangle(at,faces[index],faces[index+1],faces[index+2]): return true
 	return false
+
+
+static func _frontages(world: Node3D, check: Callable) -> void:
+	var expected := [Vector4(-105,-149,32,21),Vector4(-70,-149,32,21),
+		Vector4(70,-149,32,21),Vector4(105,-149,32,21),
+		Vector4(142,-24,34,16),Vector4(142,18,34,16),Vector4(42,-118,20,24),Vector4(0,-134,62,25)]
+	var displays: Array[MeshInstance3D] = []
+	var candidates: Array[Mesh] = []
+	var materials: Array[Material] = []
+	var identities: Dictionary = {}
+	var valid := true
+	for display: MeshInstance3D in world.find_children("*","MeshInstance3D",true,false):
+		if not bool(display.get_meta("horizon_frontage",false)): continue
+		displays.append(display)
+		candidates.append(display.mesh)
+		materials.append(display.material_override)
+		var bounds := _frontage_bounds(world,display)
+		var found := -1
+		for index: int in range(expected.size()):
+			var spec: Vector4 = expected[index]
+			var width: float = 12 if index>=4 and index<=6 else spec.z
+			var depth: float = spec.z if index>=4 and index<=6 else 12
+			if bounds.position.distance_to(Vector3(spec.x-width/2,-35,spec.y-depth/2))<EPS \
+				and bounds.end.distance_to(Vector3(spec.x+width/2,spec.w,spec.y+depth/2))<EPS: found=index
+		valid = found>=0 and not identities.has(found) and display.mesh is BoxMesh \
+			and display.mesh.get_faces().size()==36 and valid
+		identities[found]=true
+	check.call(valid and identities.size()==8 and displays.size()==8,
+		"horizon frontage: eight actual closed12-triangle masses reachY-35 while preserving their existing footprints and roofs")
+	Horizon.set_enabled(world,false)
+	var restored := true
+	for index: int in range(displays.size()):
+		var bounds := _frontage_bounds(world,displays[index])
+		var base: float = 0 if absf(bounds.get_center().x-142)<EPS else 6
+		restored = absf(bounds.position.y-base)<EPS and displays[index].material_override==materials[index] \
+			and displays[index].mesh.get_faces().size()==36 and candidates[index].get_aabb().size.y>bounds.size.y and restored
+	Horizon.set_enabled(world,true)
+	for index: int in range(displays.size()):
+		restored = displays[index].mesh==candidates[index] and displays[index].material_override==materials[index] \
+			and absf(_frontage_bounds(world,displays[index]).position.y+35)<EPS and restored
+	check.call(restored, "horizon frontage: comparison restores original0/6m bases and candidate foundations with unchanged mesh count and materials")
+
+
+static func _frontage_bounds(world: Node3D, display: MeshInstance3D) -> AABB:
+	var faces: PackedVector3Array = display.mesh.get_faces()
+	var bounds := AABB(world.to_local(display.to_global(faces[0])),Vector3.ZERO)
+	for point: Vector3 in faces: bounds=bounds.expand(world.to_local(display.to_global(point)))
+	return bounds
 
 
 static func _on_triangle(at: Vector3, a: Vector3, b: Vector3, c: Vector3) -> bool:

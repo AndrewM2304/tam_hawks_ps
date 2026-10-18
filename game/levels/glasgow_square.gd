@@ -745,6 +745,11 @@ func _building(at: Vector3, width: float, height: float, color: String, shop: St
 	building.rotation.y = yaw
 	add_child(building)
 	var closed_wall := _box(building, "Facade", Vector3(0.0, height / 2.0, 0.0), Vector3(width, height, 12.0), color, true)
+	if shop == "CIVIC CHAMBERS":
+		# The raised park connector sees below this existing civic mass.
+		# Ground its visual only; retain the original solid/support contract.
+		for child: Node in closed_wall.get_children():
+			if child is MeshInstance3D: child.set_meta("horizon_frontage", true)
 	CityVisibility.register_closed_facade(closed_wall)
 	if fitted_bay and FacadeBay.enabled(self):
 		FacadeBay.install(building, closed_wall, bool(get_meta(&"facade_bay_audit", false)))

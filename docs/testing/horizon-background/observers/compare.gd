@@ -1,11 +1,14 @@
 extends SceneTree
 ## Production chase views plus a labelled authored overview; native scheduling.
+const Independent=preload("res://tests/horizon_background_tests.gd")
 const Main = preload("res://game/main.gd")
 const Horizon = preload("res://game/levels/horizon_background.gd")
 const EXTRA = [["clyde-river-west",Vector3(-25,3.4,90),PI*.5]]
 const TIMED = ["clyde-river-west","exchange-east","civic-reported-gap","station-south","barras-reported-gap","park-west-slope","park-terrace-west","park-northwest-corner","park-northeast-corner","station-platform-axis","clyde-raised-deck","clyde-river-east","clyde-west-end","clyde-east-end","clyde-southeast-corner"]
 const Quality = preload("res://game/core/graphics_quality.gd")
 const VIEWS = preload("res://.local/horizon-background/views.gd").VIEWS
+var passed_checks:int=0
+var failed_checks:int=0
 var game: Node
 var output: String
 var views: Array=[]
@@ -24,6 +27,8 @@ func _run()->void:
 	game.persistence_enabled=false
 	root.add_child(game)
 	game.apply_settings({"graphics_quality":"balanced"},false)
+	await Independent.run(self,game.world,_check)
+	print("RESULT: ",passed_checks," passed, ",failed_checks," failed")
 	var workloads: Array=[]
 	for row: Array in VIEWS+EXTRA:
 		for phase: String in (["original-a","candidate","original-b"] if str(row[0]) in TIMED else ["candidate"]): workloads.append(row+[phase])
@@ -53,7 +58,7 @@ func _run()->void:
 		var expected_y: float=at.y if str(specification[0])=="clyde-raised-deck" else height
 		var xz_error: float=Vector2(actual.x-at.x,actual.z-at.z).length()
 		var query:=PhysicsRayQueryParameters3D.create(actual+Vector3.UP*.05,actual-Vector3.UP*.15,1,[game.skater.get_rid()])
-		var contact:=game.world.get_world_3d().direct_space_state.intersect_ray(query)
+		var contact: Dictionary=game.world.get_world_3d().direct_space_state.intersect_ray(query)
 		if xz_error>.15 or absf(actual.y-expected_y)>.1 or contact.is_empty(): errors.append(str(specification[0])+" wrong fixture layer/contact")
 		var rows:Array=[]
 		var previous:=Time.get_ticks_usec()
@@ -88,7 +93,7 @@ func _run()->void:
 	overview.make_current()
 	for frame: int in 6: await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png(output.path_join("authored-overview.png"))
-	var result={"schema":1,"valid":errors.is_empty() and views.size()==67,"errors":errors,"views":views,
+	var result={"schema":1,"functional_counts":[passed_checks,failed_checks],"valid":errors.is_empty() and views.size()==67,"errors":errors,"views":views,
 		"engine":Engine.get_version_info(),"adapter":RenderingServer.get_video_adapter_name(),"renderer":RenderingServer.get_current_rendering_method(),
 		"resolution":[1280,800],"quality":Quality.profile("balanced"),"native_render_loop":RenderingServer.render_loop_enabled,
 		"limits":"37 candidate chase views;15 matched original/candidate/original triples.40 native samples each/67observations/2680samples,12warmminimum; no readbacks in timings. Same-process controls retain candidate allocations; cold baseline/resource check separate. No moving-input/human/Mac claim."}
@@ -97,3 +102,7 @@ func _run()->void:
 	print("HORIZON_CAPTURE_RESULT views=",views.size()," errors=",errors)
 	quit(0 if result.valid else 1)
 func _v(at:Vector3)->Array:return [at.x,at.y,at.z]
+
+func _check(ok:bool,label:String)->void:
+	if ok: passed_checks+=1;print("PASS: ",label)
+	else: failed_checks+=1;errors.append(label);push_error("FAIL: "+label)

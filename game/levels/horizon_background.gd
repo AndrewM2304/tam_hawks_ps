@@ -2,7 +2,8 @@ extends RefCounted
 ## Startup-only, original distant context and exact vertical boundary footings.
 ## No collision, horizontal support, lights or frame callbacks.
 const EdgeSource = preload("res://game/levels/city_backdrop.gd")
-const PANORAMA = preload("res://game/art/assets/horizon/glasgow_horizon.png")
+const SKY_CUBE = preload("res://game/art/assets/horizon/glasgow_horizon_cube.png")
+const SKY_SHADER = preload("res://game/art/assets/horizon/horizon_sky.gdshader")
 const MASONRY = preload("res://game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg")
 const MAX_TRIANGLES := 768
 const MAX_SURFACES := 4
@@ -16,9 +17,9 @@ static func install(world: Node3D, sky: Sky) -> Node3D:
 	context.name = "HorizonContext"
 	context.set_meta("art_only", true)
 	world.add_child(context)
-	var panorama := PanoramaSkyMaterial.new()
-	panorama.panorama = PANORAMA
-	panorama.filter = true
+	var panorama := ShaderMaterial.new()
+	panorama.shader = SKY_SHADER
+	panorama.set_shader_parameter("context_sky", SKY_CUBE)
 	context.set_meta("sky", sky)
 	context.set_meta("original_sky_material", sky.sky_material)
 	context.set_meta("original_sky_process_mode", sky.process_mode)
@@ -93,6 +94,7 @@ static func install(world: Node3D, sky: Sky) -> Node3D:
 	assert(triangles + 18 <= MAX_TRIANGLES and surfaces <= MAX_SURFACES, "Horizon context budget exceeded")
 	context.set_meta("footing_report", {"triangles":triangles,"surfaces":surfaces,"parts":parts})
 	_finish_guard(world,context)
+	_ground_frontages(world,context)
 	set_enabled(world, true)
 	return context
 
@@ -106,6 +108,9 @@ static func set_enabled(world: Node3D, enabled: bool) -> void:
 	context.visible = enabled
 	for row: Dictionary in context.get_meta("wall_finishes", []):
 		row.display.material_override = row.candidate if enabled else row.original
+	for row: Dictionary in context.get_meta("frontage_finishes", []):
+		row.display.mesh = row.candidate if enabled else row.original
+		row.display.position = row.candidate_position if enabled else row.original_position
 	var river: Dictionary = context.get_meta("river_report")
 	river.display.mesh = river.candidate if enabled else river.original
 
@@ -134,6 +139,22 @@ static func _finish_guard(world: Node3D, context: Node3D) -> void:
 		finish.uv1_scale = Vector3(size.x/1.25,size.y/1.25,1)
 		finishes.append({"display":display,"original":display.material_override,"candidate":finish})
 	context.set_meta("wall_finishes",finishes)
+
+
+static func _ground_frontages(world: Node3D, context: Node3D) -> void:
+	var finishes: Array = []
+	for display: MeshInstance3D in world.find_children("*","MeshInstance3D",true,false):
+		if not bool(display.get_meta("horizon_frontage",false)) or not display.mesh is BoxMesh: continue
+		var original := display.mesh as BoxMesh
+		var bottom: float = world.to_local(display.to_global(Vector3(0,-original.size.y*.5,0))).y
+		var extension: float = maxf(bottom-BOTTOM,0.0)
+		var candidate := original.duplicate() as BoxMesh
+		candidate.size.y += extension
+		# Extend the same closed building mass down. Roof, footprint, material
+		# and storefront dressing stay fixed; no new meshes or triangles.
+		finishes.append({"display":display,"original":original,"candidate":candidate,
+			"original_position":display.position,"candidate_position":display.position-Vector3.UP*extension*.5})
+	context.set_meta("frontage_finishes",finishes)
 
 
 static func _river_bends(world: Node3D, context: Node3D, chunk: Dictionary) -> void:
