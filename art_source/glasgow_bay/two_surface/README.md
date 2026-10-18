@@ -1,3 +1,7 @@
+# Actual preview update — 18 October 2026
+
+The [disposable import/native LOD/capture comparison](../../../docs/testing/facade-bay-two-surface/README.md) now passes 16 scene images, 23 diagnostic mip images, 22 exact stage checks and 26 stable inputs under production source lighting. Actual ORM-only no-mipmap sampling passes at 128² DXT1/8,192 data bytes; total imported texture data adds 8,192 bytes versus the fitted reference. This is not resident VRAM or timing. **Paint compression banding and coarse colour-mip contamination keep visual quality open.** An optional lossless accent-colour quality/cost diagnostic is next; no live import or two-slot rollout. The prospective statements below describe the original offline scope and are superseded only by those exact measured results; the original bad ORM mip counterexample is retained.
+
 # Experimental two-surface Glasgow bay
 
 **Offline generation and independent structural/base-level sampling audit pass;

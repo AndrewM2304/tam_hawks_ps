@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "sources_sha256": {
+    "art_source/glasgow_bay/two_surface/preview/run.sh": "3569330fc8e16e9c6e3174093d7ae2d1f5e5a9162bf52e00ee350244dd4e4278",
+    "art_source/glasgow_bay/two_surface/preview/prepare.py": "8a3ba62027df609a6cc32a0e15f3c37057b0f06ce2d6ee9bd9b728e3cd04dd98",
+    "art_source/glasgow_bay/two_surface/preview/render.gd": "cc0d82a28bf5e81412649798c8f9e49b5911af04fbbdc31ac72fc44d6e16a47a",
+    "art_source/glasgow_bay/two_surface/preview/project.godot": "dc038f47dffb8a2e2ee9909b28aad7d36e1de9e57ce122fe005b0f547848f82c",
+    "art_source/glasgow_bay/two_surface/preview/xorg.conf": "cc68d2903c522469295982c240c57ee31d40898612a825fd2e52f6864deb8c1a",
+    "game/levels/art/facade_bay.gd": "5532963556c976e350423b7305b7e32110bcdf4c2042cda445c4844899359ef6",
+    "game/levels/glasgow_square.gd": "9c87d405402b2a754cfd599d62b7b4dafc3ad84691b3f9e773a2e47e6b8841d9",
+    "art_source/glasgow_bay/audit.py": "93073cee92d5ad34f17badaf1175cc56495aff9eb0492f6b1d68d9fdd3493622",
+    "art_source/glasgow_bay/two_surface/audit.json": "e9e488909bf8fa14a4747db2301a70d6502cde485f1e04d2285f139d9526e2f9",
+    "art_source/glasgow_bay/two_surface/reproducibility.json": "c29f8a7b295c7f68922e59197c3629a6fb840ca0378c232744e0ac04aa3b65fa",
+    "game/art/assets/glasgow_bay/manifest.json": "0ae9641f2702e1ae3869c1de10ad36734334affbed834da90c9d8a341f75f487",
+    "art_source/glasgow_bay/two_surface/generated/glasgow_bay_far.glb": "03d32769df29bed22e60c66b35f6bc443c69a083ead0b9a2bd1e2c837a7dabe9",
+    "art_source/glasgow_bay/two_surface/generated/glasgow_bay_mid.glb": "0e9479f39886cb1dfd977fc6ae968ea526be0cbdaa7fc6888454883e9be3b473",
+    "art_source/glasgow_bay/two_surface/generated/glasgow_bay_near.glb": "90a2803a22819c57c6511515341c5f80538f4ec4f3a10a411ba256edb8456c37",
+    "game/art/assets/glasgow_bay/glasgow_bay_far.glb": "d21b45202d29345d6c5ee935fde7b38e5598751a968306fdbb88dc1dbfdcf50a",
+    "game/art/assets/glasgow_bay/glasgow_bay_mid.glb": "7015c9bb99f89598cd77955e4024a221ab222fe7e5cd5fff63ccc45a8f4e5160",
+    "game/art/assets/glasgow_bay/glasgow_bay_near.glb": "bd472749297e42b21564e24ba93b44212aa0a1790150fba2e27dec79b00d9a6e",
+    "art_source/glasgow_bay/two_surface/textures/accent_basecolor.png": "eab44d0de9fe735ee93b820fd06f9b27dd1d8292a9651a35ca57b44c3cfa978d",
+    "art_source/glasgow_bay/two_surface/textures/accent_orm.png": "f3eba422951c1a02816c371ded53390974a5a0b8fa4b8c104af8de0f1ad0f027",
+    "art_source/glasgow_bay/two_surface/textures/sandstone_basecolor.png": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+    "art_source/glasgow_bay/two_surface/textures/sandstone_normal_opengl.png": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+    "art_source/glasgow_bay/two_surface/textures/sandstone_orm.png": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9",
+    "game/art/assets/glasgow_bay/textures/opaque_glazing_basecolor.png": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894",
+    "game/art/assets/glasgow_bay/textures/sandstone_basecolor.png": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+    "game/art/assets/glasgow_bay/textures/sandstone_normal_opengl.png": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+    "game/art/assets/glasgow_bay/textures/sandstone_orm.png": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9"
+  },
+  "staged_executed_recipes_sha256": {
+    "project.godot": "dc038f47dffb8a2e2ee9909b28aad7d36e1de9e57ce122fe005b0f547848f82c",
+    "render.gd": "cc0d82a28bf5e81412649798c8f9e49b5911af04fbbdc31ac72fc44d6e16a47a"
+  },
+  "assets": [
+    {
+      "path": "candidate/glasgow_bay_near.glb",
+      "variant": "candidate",
+      "lod": "near",
+      "sha256": "90a2803a22819c57c6511515341c5f80538f4ec4f3a10a411ba256edb8456c37",
+      "triangles": 9864,
+      "surfaces": 2
+    },
+    {
+      "path": "candidate/glasgow_bay_mid.glb",
+      "variant": "candidate",
+      "lod": "mid",
+      "sha256": "0e9479f39886cb1dfd977fc6ae968ea526be0cbdaa7fc6888454883e9be3b473",
+      "triangles": 3544,
+      "surfaces": 2
+    },
+    {
+      "path": "candidate/glasgow_bay_far.glb",
+      "variant": "candidate",
+      "lod": "far",
+      "sha256": "03d32769df29bed22e60c66b35f6bc443c69a083ead0b9a2bd1e2c837a7dabe9",
+      "triangles": 648,
+      "surfaces": 2
+    },
+    {
+      "path": "fitted/glasgow_bay_near.glb",
+      "variant": "fitted",
+      "lod": "near",
+      "sha256": "bd472749297e42b21564e24ba93b44212aa0a1790150fba2e27dec79b00d9a6e",
+      "triangles": 18392,
+      "surfaces": 4
+    },
+    {
+      "path": "fitted/glasgow_bay_mid.glb",
+      "variant": "fitted",
+      "lod": "mid",
+      "sha256": "7015c9bb99f89598cd77955e4024a221ab222fe7e5cd5fff63ccc45a8f4e5160",
+      "triangles": 3544,
+      "surfaces": 4
+    },
+    {
+      "path": "fitted/glasgow_bay_far.glb",
+      "variant": "fitted",
+      "lod": "far",
+      "sha256": "d21b45202d29345d6c5ee935fde7b38e5598751a968306fdbb88dc1dbfdcf50a",
+      "triangles": 648,
+      "surfaces": 4
+    }
+  ],
+  "textures": [
+    {
+      "path": "textures/sandstone_basecolor.png",
+      "role": "basecolour_srgb",
+      "sha256": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+      "mipmaps": true,
+      "size": 1024
+    },
+    {
+      "path": "textures/sandstone_normal_opengl.png",
+      "role": "normal_opengl_linear",
+      "sha256": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+      "mipmaps": true,
+      "size": 1024
+    },
+    {
+      "path": "textures/sandstone_orm.png",
+      "role": "orm_linear",
+      "sha256": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9",
+      "mipmaps": true,
+      "size": 1024
+    },
+    {
+      "path": "textures/opaque_glazing_basecolor.png",
+      "role": "basecolour_srgb",
+      "sha256": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894",
+      "mipmaps": true,
+      "size": 1024
+    },
+    {
+      "path": "textures/accent_basecolor.png",
+      "role": "basecolour_srgb",
+      "sha256": "eab44d0de9fe735ee93b820fd06f9b27dd1d8292a9651a35ca57b44c3cfa978d",
+      "mipmaps": true,
+      "size": 1024
+    },
+    {
+      "path": "textures/accent_orm.png",
+      "role": "orm_linear",
+      "sha256": "f3eba422951c1a02816c371ded53390974a5a0b8fa4b8c104af8de0f1ad0f027",
+      "mipmaps": false,
+      "size": 128
+    }
+  ],
+  "limits": "Isolated source-bound comparison; live integration, owner acceptance and Mac/FPS gates remain open."
+}

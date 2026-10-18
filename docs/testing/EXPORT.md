@@ -1,6 +1,6 @@
 # Local native exports
 
-**Latest checkpoint:** the performance/classic-mechanics game is packaged from clean `9930b304ecd7f9d0f5800a0380e84cfaf2c63a78` after **1,701/0** on unchanged inputs. Both archives/source/captures audit and actual Linux headless/rendered startup pass; see [native-performance receipts](native-performance/README.md) and the final section. Earlier native checkpoints remain historical.
+**Latest checkpoint:** the performance/classic-mechanics game is packaged from clean `b97dac100f2993a26aaf50a05cb3b9676ea3d4e2` after **1,739/0** on **309 unchanged inputs**. Both archives/source/current captures audit and actual Linux headless/rendered startup pass; see [native-facade receipts](native-facade/README.md). The fitted facade stays disabled after its frame-spike gate failed, while its prepared resources are separately verified. The smaller source prototype is excluded. Mac execution remains untested. The native-performance checkpoint and earlier sections below are historical.
 
 `tools/export.sh` prepares repeatable, unsigned local packages for Linux x86_64 and macOS universal (arm64 + x86_64). It uses free official Godot 4.6.3 templates and never signs, notarizes, uploads, publishes or calls a paid service. A successful cross-export does not establish that the game launches or performs acceptably on a Mac.
 

@@ -17,6 +17,7 @@ var _native_records: Array[Dictionary] = []
 var _image_records: Array[Dictionary] = []
 var _material_records: Array[Dictionary] = []
 var _mip_records: Array[Dictionary] = []
+var _environment_record: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -255,13 +256,25 @@ func _native_lod_checks() -> void:
 func _capture_views() -> void:
 	var world := Node3D.new()
 	root.add_child(world)
+	var sky_material := ProceduralSkyMaterial.new()
+	sky_material.sky_top_color = Color("8e9eaa")
+	sky_material.sky_horizon_color = Color("c4c8c4")
+	sky_material.ground_bottom_color = Color("727b7c")
+	sky_material.ground_horizon_color = Color("c4c8c4")
+	sky_material.sun_angle_max = 5.0
+	var sky := Sky.new()
+	sky.sky_material = sky_material
 	var environment := Environment.new()
-	environment.background_mode = Environment.BG_COLOR
-	environment.background_color = Color("b4bec3")
+	environment.background_mode = Environment.BG_SKY
+	environment.sky = sky
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.ambient_light_color = Color("c7dfeb")
 	environment.ambient_light_energy = 0.44
 	environment.tonemap_mode = Environment.TONE_MAPPER_ACES
+	environment.fog_enabled = true
+	environment.fog_density = 0.0015
+	environment.fog_light_color = Color("b4bec3")
+	environment.fog_sky_affect = 0.15
 	var env := WorldEnvironment.new()
 	env.environment = environment
 	world.add_child(env)
@@ -274,6 +287,18 @@ func _capture_views() -> void:
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
 	sun.directional_shadow_max_distance = 75.0
 	world.add_child(sun)
+	_environment_record = {"source":"game/levels/glasgow_square.gd:_build_lighting", "source_sha256":_manifest.sources_sha256["game/levels/glasgow_square.gd"],
+		"background_mode":environment.background_mode, "sky_material_class":sky_material.get_class(), "sky_radiance_size":sky.radiance_size,
+		"sky_top_color":sky_material.sky_top_color.to_html(), "sky_horizon_color":sky_material.sky_horizon_color.to_html(),
+		"ground_bottom_color":sky_material.ground_bottom_color.to_html(), "ground_horizon_color":sky_material.ground_horizon_color.to_html(),
+		"sky_sun_angle_max":sky_material.sun_angle_max, "ambient_source":environment.ambient_light_source,
+		"ambient_color":environment.ambient_light_color.to_html(), "ambient_energy":environment.ambient_light_energy,
+		"ambient_sky_contribution":environment.ambient_light_sky_contribution, "reflected_source":environment.reflected_light_source,
+		"tonemap_mode":environment.tonemap_mode, "tonemap_exposure":environment.tonemap_exposure,
+		"fog_enabled":environment.fog_enabled, "fog_density":environment.fog_density, "fog_color":environment.fog_light_color.to_html(),
+		"fog_sky_affect":environment.fog_sky_affect, "sun_rotation_degrees":_vector(sun.rotation_degrees),
+		"sun_color":sun.light_color.to_html(), "sun_energy":sun.light_energy, "shadow_opacity":sun.shadow_opacity,
+		"shadow_mode":sun.directional_shadow_mode, "shadow_max_distance":sun.directional_shadow_max_distance}
 	var fixture := Node3D.new()
 	fixture.rotation.y = YAW
 	world.add_child(fixture)
@@ -359,7 +384,8 @@ func _finish() -> void:
 		"renderer":RenderingServer.get_current_rendering_method(), "images":_image_records, "errors":_errors,
 		"meshes":_mesh_records, "textures":_texture_records, "materials":_material_records, "native_lod_samples":_native_records,
 		"decoded_imported_mip_images":_mip_records, "performance_measurement":false, "live_integration":false,
-		"lighting":"Production ambient/sun/ACES and west-frontage yaw; neutral background, no scene fog; identical floor/apron/mass-shadow fixture",
+		"environment":_environment_record,
+		"lighting":"Production procedural sky/radiance, ambient, fog, sun, ACES and west-frontage yaw; identical isolated floor/apron/mass-shadow fixture",
 		"limits":"Isolated static visual/import comparison; no full-game FPS, collision, camera, actual mip selection, Mac or human acceptance claim"}
 	var file := FileAccess.open("res://report.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "\t") + "\n")

@@ -1,0 +1,26 @@
+{
+  "accepted_capture_evidence": true,
+  "trials": {
+    "dark-diagnostic": {
+      "source_inputs": 26,
+      "scene_pngs": 16,
+      "mip_pngs": 23,
+      "native_lod_checks": 22,
+      "source_artifact_decode_checks_pass": true,
+      "disposition": "Import/LOD admitted; missing sky makes this inadequate for quality comparison"
+    },
+    "production-sky": {
+      "source_inputs": 26,
+      "scene_pngs": 16,
+      "mip_pngs": 23,
+      "native_lod_checks": 22,
+      "source_artifact_decode_checks_pass": true,
+      "disposition": "Import/LOD admitted; paint compression and coarse colour filtering remain open quality defects"
+    }
+  },
+  "visual_acceptance": false,
+  "live_integration": false,
+  "fps_or_mac_claim": false,
+  "manifest_sha256": "97408d74f9bbf0385b769b86531b9f902bb1bba46f375ae5c92636de9cb4620b",
+  "audit_sha256": "3644046fcefe57e0a4684b95a6339872393d6702aca07379ef5a87b06d717ae9"
+}

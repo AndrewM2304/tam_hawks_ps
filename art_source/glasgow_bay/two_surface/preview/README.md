@@ -1,7 +1,8 @@
 # Disposable two-surface / fitted comparison
 
-**Prepared source only. No import, native-LOD check, capture or visual pass is
-claimed yet. Wait for the root's exclusive render window before execution.**
+**Corrected production-sky comparison completed: import/capture evidence passes;
+paint and coarse colour-mip quality gates remain open.** Future reruns require
+the root's exclusive render window.
 This directory owns the entire disposable fixture. `runs/` is ignored; the
 parent `.gdignore` keeps every source and generated asset outside the live
 Godot project. No original/fitted/runtime asset, collision, route, gameplay
@@ -48,9 +49,10 @@ not solve or conceal colour-atlas region bleeding; distant/foreshortened colour
 appearance remains its own acceptance gate. Numeric mip errors include normal
 minification/compression loss and do not identify the GPU-selected mip level.
 
-Lighting uses the production ambient colour/energy, warm directional light,
-ACES settings and west Exchange frontage yaw. A neutral background and a simple
-0.45 m apron replace the surrounding city; scene fog is omitted deliberately.
+Lighting uses the exact production procedural sky/radiance, ambient
+colour/energy, fog, warm directional light, ACES settings and west Exchange
+frontage yaw. Actual values and the inspected environment source hash are
+recorded in `report.json`. A simple 0.45 m apron replaces the surrounding city.
 Detailed mesh casters are OFF. Both variants share one identical original-mass
 30×16×12 shadow-only box. These fixture differences are recorded; this is not a
 full-city grounding, route, lighting or performance comparison.
@@ -85,3 +87,61 @@ gates, Apple Silicon, human acceptance and live integration remain open.
 The staged, executed `render.gd` and `project.godot` copies are hashed against
 their source recipes before staging, inside the running fixture and at final
 receipt time; unchanged source hashes alone are not accepted as execution proof.
+
+The first trial, `runs/comparison-oGJMNm`, passed 16 captures, 22 actual native
+stage checks and all source/import/mip receipts on 26 stable inputs. Its
+inherited BG_COLOR fixture omitted the production sky/radiance and left both
+versions' glazing nearly black. Preserve it as admitted diagnostic captures
+with an inadequate visual-comparison fixture, **not** quality acceptance. The
+corrected fixture copies the existing production sky/environment only; no live
+lighting or asset change is involved. Every rerun uses a new disposable folder.
+
+The accepted capture batch is `runs/comparison-mIMLuJ`: Godot 4.6.3 Compatibility
+on Linux llvmpipe, exit 0, **16 matched 1920×1080 scene PNGs**, **23 independently
+decoded/imported mip PNGs**, **22 native-stage/hysteresis samples**, six mesh
+imports, six shared texture imports and **26 unchanged source inputs**. Both
+executed-copy checks and every scene-image primitive delta pass. Receipt SHA-256:
+`cc777d656cda350b43ffe798053ea28fa352bb685071b6f8691307d72663d10a`.
+The exact source/environment/material graph and all PNG/mip hashes are in that
+run's `report.json` and `receipt.json`. There were no parse/import/admission
+failures in either trial. V-Sync is unsupported on this private software display;
+this does not affect the explicitly non-performance purpose of the captures.
+
+Actual imported compressed texture data totals **3,503,512 bytes** for the
+candidate's five maps versus **3,495,320 bytes** for the reference's four: an
+**8,192-byte** delta from the no-mip 128² DXT1 ORM. These are imported image-data
+bytes, not measured resident GPU memory. Stone/colour chains have ten mip levels;
+accent ORM has zero. Actual sampled ORM maximum linear-channel errors are
+0.009725 paint, 0.012005 glazing and 0.027055 metal after compression. The built-in
+ORM material has white albedo and unit roughness/metallic factors with the
+recorded packed texture; no custom shader or hidden scalar material remains.
+
+All sixteen corrected originals were visually inspected. The front, recesses,
+entry threshold, oblique silhouette and near/mid/far composition remain aligned.
+Single-segment chamfers change small edge highlights without an observed missing
+part or entry join. Production sky restores readable glass and joinery compared
+with the dark trial. The candidate has faint repeated streaks on broad painted
+fascia/pilaster/door areas, especially in close and threshold views. This is
+**accepted comparison evidence, not final candidate art acceptance**.
+
+The repeatable post-capture `diagnose_paint.py` confirms that source paint is a
+single RGB [47,82,73], while actual imported mip 0 becomes four periodically
+arranged colours spanning [41,81,66] to [49,85,74]. The no-mip roughness field also
+dithers from source G=122 to G=121..125. Broad fascia triangle positions are
+identical; their weighted corner normals change modestly with the bevel policy.
+Thus compression contributes a real repeated texture pattern; smooth normal
+changes can also affect highlights. No out-of-region UV/phase failure was found,
+and no lossless-render control was run to assign every changed pixel to one
+cause. `paint-diagnostic.json` separately binds its script, decoded inputs and
+geometry; it leaves the accepted capture receipt unchanged.
+
+Colour mipmaps remain enabled. Actual decoded **8×8 and coarser** colour levels
+mix material regions; for example, level 7 maximum linear-channel errors reach
+about 0.031 paint / 0.025 glazing / 0.038 metal relative to base reference, and
+coarser levels worsen. Mid/far images show no obvious broad colour breakout at
+the captured framing, but do not establish GPU mip selection or blanket
+filtering quality. Resolve/accept the paint pattern and distance/foreshortened
+colour behaviour before any live integration, then perform controlled runtime
+performance checks. The existing runtime loader still requires **four slots**;
+these two-slot assets are **not drop-in replacements**. No live enablement,
+frame-time improvement, Mac result, or final-art signoff follows from this run.
