@@ -1,4 +1,4 @@
-**Current continuation:** [ARCADE-HARDENING](ARCADE-HARDENING.md) owns the weighted physics/finite return/reachable-edge/text/mural work. Production is frozen for actual six-area rendering and the required full regression. Focused results: world112/0, edge24/0, geometry39/0, new return refusal20/0. Murals defaultOFF after failed timing admission; all75full backlog records persist. Older instructions below are historical.
+**Current continuation:** [ARCADE-HARDENING](ARCADE-HARDENING.md) is current. All runtime fixes are pushed at68781fc; finalactualsix-area+pipe tour passes41PNGs/346stableinputs, zero bails,5directreturns. Required `./tools/check.sh` is running, not yet claimed. No game/assets/tests/tools/project edits until its receipt completes. Murals/defaultbackdrops stayOFF; all75full backlog records remain byte-identical. Older instructions below are historical.
 
 # Owner priority: arcade response and whole-map hardening
 

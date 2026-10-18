@@ -49,7 +49,9 @@ The first [edge diagnostic](arcade-response/diagnostics/edge-focused-01.log) ret
 
 ## Support and rendering scope
 
-The final refreshed [support audit 04](arcade-response/support/support-audit-04.json) classifies **20,620 queries**: 15,259 supported, 1,321 occupied by actual scenery, 2,606 unmapped and 1,434 intentional hazards. It reports zero finite-floor mismatches, route-offset holes or boundary/crossing faults. All **22 executed geometry input hashes** are stable before/after and independently match current files, including the physical toe repair and rejected-art default policy. Earlier audits remain retained for diagnosis.
+The refreshed [support audit 04](arcade-response/support/support-audit-04.json) classifies **20,620 queries**: 15,259 supported, 1,321 occupied by actual scenery, 2,606 unmapped and 1,434 intentional hazards. It reports zero finite-floor mismatches, route-offset holes or boundary/crossing faults. All **22 executed geometry input hashes** are stable before/after at that run, including the physical toe repair and rejected-art default policy. Two later visual changes remove the floating rear CENTRAL caption and replace the halfpipe floor's visible box with a top-only plane; those files no longer match the older audit byte for byte. Their collision construction is unchanged, and the refreshed geometry check below separately validates the current physical floor. Earlier audits remain retained for diagnosis.
+
+The current [geometry run](arcade-response/diagnostics/geometry-focused-02.log) passes **40/0**, checking both the unchanged physical flat-to-toe support at 2.000 m and the two visible triangles' original four top corners at 2.006 m. The [floor visual experiment](arcade-response/floor-visual/README.md) separately retains its rendered before/after evidence and source binding; it does not replace physical collision checks.
 
 The 4 m grid can miss smaller holes; route offsets and boundary joins supplement it. These queries do not establish a full gameplay tour or successful aerials. Candidate murals also remain **off in normal play** after a source-stable profile failed the strict frame-spike gate; saved preview frames are not live-art acceptance. No target-Mac performance gain is claimed.
 
@@ -84,19 +86,19 @@ During movement a feedback driver submits binary mapped W/S/A/D events. It never
 
 The output directory retains the command, engine log, executed driver, before/after input hashes, per-area traces, PNGs and manifest. Changed source, runtime errors, incomplete routes or invalid camera framing reject the run. Six independent fixtures are **not** a continuous between-district tour, completion of all 48 routes or a human playtest.
 
-The actual native rendered run at checkpoint **3620363** passes with a clean log, exit 0 and **346 unchanged executed inputs**. Its [manifest](arcade-response/area-diagnostic/manifest.json), [source-bound receipt](arcade-response/area-diagnostic/receipt.json), traces and representative frames are retained. Linux X11 used Godot 4.6.3 Compatibility with llvmpipe, native 60 Hz physics, time scale 1 and the declared Performance preset. All **41 generated PNGs** were independently decoded, verified as 960×600 and checked against the receipt's file hashes; the review covers 24 ordinary-area images and 17 separate halfpipe images. This rendered receipt describes the executed checkpoint; subsequent changes require their own validation.
+The final actual native rendered run at checkpoint **68781fc** passes with a clean log, exit 0 and **346 unchanged executed inputs**, independently verified against current source. Its [manifest](arcade-response/area-final/manifest.json), [source-bound receipt](arcade-response/area-final/receipt.json), seven traces and all 41 frames are retained. The archived executed driver also matches its bound source hash. Linux X11 used Godot 4.6.3 Compatibility with llvmpipe, native 60 Hz physics, time scale 1 and the declared Performance preset. All **41 generated PNGs** were independently decoded, verified as 960×600 and checked against the receipt's file hashes; the review covers 24 ordinary-area images and 17 separate halfpipe images. The earlier [3620363 diagnostic](arcade-response/area-diagnostic/receipt.json) remains retained separately and does not stand in for this final source.
 
 | Actual segment | Distance | Simulated time | Native trace rows | Maximum corridor deviation |
 | --- | --- | --- | --- | --- |
 | Royal Exchange | 73.27 m | 13.47 s | 808 | 0.84 m |
-| George Square | 77.52 m | 14.50 s | 870 | 0.74 m |
-| Central Station | 81.63 m | 15.20 s | 912 | 0.92 m |
-| Barras | 71.93 m | 13.72 s | 823 | 0.76 m |
-| Clyde | 95.81 m | 17.18 s | 1,031 | 0.35 m |
-| Kelvingrove | 65.03 m | 11.78 s | 707 | 0.10 m |
+| George Square | 77.61 m | 14.52 s | 871 | 0.74 m |
+| Central Station | 81.81 m | 15.23 s | 914 | 0.92 m |
+| Barras | 72.21 m | 13.77 s | 826 | 0.76 m |
+| Clyde | 95.72 m | 17.17 s | 1,030 | 0.35 m |
+| Kelvingrove | 65.30 m | 11.83 s | 710 | 0.10 m |
 
-Every segment completes with **zero bails, discontinuities or stalled ticks**. All 5,875 recorded rows, including the separate pipe stage, have consecutive actual physics tick IDs and 1/60-second intervals. Kelvingrove has 26 airborne flags across 21 brief spans of one or two ticks while following its sloped path; this is not a sustained airborne phase or evidence of a fall through the map.
+Every segment completes with **zero bails, discontinuities or stalled ticks**. All 5,886 recorded rows, including the separate pipe stage, have consecutive actual physics tick IDs and 1/60-second intervals. Kelvingrove has 26 airborne flags across 21 brief spans of one or two ticks while following its sloped path; this is not a sustained airborne phase or evidence of a fall through the map.
 
-The separate W-only pipe stage records **121.71 m over 12.07 simulated seconds**, six alternating east/west wall visits, **five real upward departures and five descending same-face airborne recaptures**, followed by an opposite-wall visit. It records no bail or discontinuous recovery. Full-size supported-wall and apex frames show the actual board and body with the production chase camera; no custom capture orientation or pose was substituted.
+The separate W-only pipe stage records **122.46 m over 12.12 simulated seconds**, six alternating east/west wall visits, **five real upward departures and five descending same-face airborne recaptures**, followed by an opposite-wall visit. It records no bail or discontinuous recovery. Full-size supported-wall and apex frames show the actual board and body with the production chase camera; no custom capture orientation or pose was substituted.
 
 Independent inspection of the 41 stills found the skater/board visible and HUD within the frame, without a new camera obstruction or obvious ground hole along these sampled routes. Current architecture and character art remain an alpha visual treatment. Sparse stills cannot establish absence of temporal shader flicker, target-Mac frame time, controller feel or human fun; those remain separate acceptance work. The required ordinary full-suite result remains pending.
