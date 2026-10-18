@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "generated_game_diagnostics": true,
+  "owner_recording_or_frames_committed": false,
+  "engine": "Godot 4.6.3 Compatibility / Linux Mesa llvmpipe",
+  "camera": {
+    "fov_degrees": 56,
+    "near": 0.2,
+    "far": 220,
+    "shadow_distance_m": 45,
+    "msaa": "2x"
+  },
+  "clyde": {
+    "poses": 4,
+    "position_formula": "(94 + pose*0.11, 5.6, 53 + pose*0.17)",
+    "look_at_offset": [
+      0,
+      -2.6,
+      8
+    ],
+    "changed_controls": [
+      "normal",
+      "sun shadow disabled only",
+      "east road visual hidden only"
+    ],
+    "pixel_comparison_roi_xywh": [
+      120,
+      170,
+      720,
+      340
+    ]
+  },
+  "merchant": {
+    "poses": 4,
+    "position_formula": "(-66 + pose*0.11, 5.6, -33 - pose*0.17)",
+    "look_at_offset": [
+      0,
+      -2.6,
+      -8
+    ],
+    "limits": "Before/after montage also spans initial backdrop integration. Only the road-area comparison is relevant; that backdrop draft is disabled in the final ordinary game. No numeric whole-frame equivalence is claimed for Merchant Close."
+  },
+  "montage": "Resized actual diagnostic frames; labels outside image content. Full private diagnostic PNGs remain local/ignored.",
+  "resolution": [
+    864,
+    540
+  ]
+}
