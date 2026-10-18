@@ -1,6 +1,6 @@
 # Water and directional controls
 
-18 October 2026. [PLAY-01/04/05](../../planning/NEXT-PLAY-HARDENING.md), [ADR-020](../../architecture/decisions/ADR-020-classic-controls-and-water.md). Final source is pushed at **db2b28e263a5305fe0d8064a967ed645a3c3d3fa**. Native admission passes all four comparisons; required full regression replay is running. No new area, spending, hosted CI or paid dependency.
+18 October 2026. [PLAY-01/04/05](../../planning/NEXT-PLAY-HARDENING.md), [ADR-020](../../architecture/decisions/ADR-020-classic-controls-and-water.md). Final source is pushed at **db2b28e263a5305fe0d8064a967ed645a3c3d3fa**. Native admission passes all four comparisons; required `./tools/check.sh` passes **2,183/0**, exit 0, with clean import/runtime logs and 372 unchanged inputs. No new area, spending, hosted CI or paid dependency.
 
 ## Implemented controls
 
@@ -28,9 +28,9 @@ One original opaque shared material/display and the existing 18 triangles remain
 | focused-03 | 240/0 | Adds three actual pause checks: 44 controller assertions |
 | combo-focused | 32/0 | Preserves the exact manual-bail and subsequent link/overtime assertions |
 | ordinary-final | 2,182/1 | First required run, rejected; one stale Brake balance driver |
-| ordinary-02 | Running | Required full replay on final pushed source |
+| ordinary-02 | **2,183/0** | Required full replay; clean exit 0, 372 unchanged inputs |
 
-These counts overlap; do not add them. Focused03 predates the final shader and the unrelated combo helper's one-input correction. Final full replay must cover the final source and all 44 controller checks together.
+These counts overlap; do not add them. Focused03 predates the final shader and the unrelated combo helper's one-input correction. Final ordinary02 covers the final source and all 44 controller checks together.
 
 The first exact-heading assertion saw 1.862645e−8 rad after a preceding manual-bail trial started using horizontal input. The independent revert trial now uses normal reset/settle and its original 8 m/s setup; its exact assertion and production response are unchanged. The first full run's sole failure instead used Brake to force outward manual imbalance. Independent QE confirmed Right reproduces the original correction from positive entry balance. Only that input changed: 65 ticks, one-bail/previous-bank/no-combo assertion and later fixture reset remain intact. All failed logs are retained.
 
@@ -65,4 +65,8 @@ Root inspected all four final candidate chase frames, static temporal 00/03, dia
 
 Manual rider/board, balance metre, face-button footer and current controller help are readable. Physical DualSense comfort, Mac/M5 frame times, continuous shimmer, final realistic art, full-map horizon admission, ramp-response/grind-variant review and a broader human six-area play remain open. No new ramp physics or grind catalogue is claimed by this slice.
 
-Reproduction observers are under [observers](observers/); their commands refer to the recorded ignored `.local` paths. Restore those paths explicitly when replaying. Serialise engines/renderers, preserve source freezes, rerun analysis with unchanged gates, and bind final ordinary/native inputs to the pushed source before acceptance. Full logs and final audit will be added after ordinary-02 completes.
+Reproduction observers are under [observers](observers/); their commands refer to the recorded ignored `.local` paths. Restore those paths explicitly when replaying. Serialise engines/renderers, preserve source freezes, rerun analysis with unchanged gates, and bind final ordinary/native inputs to the pushed source before acceptance. [Required full log](ordinary-02/console.log), [receipt](ordinary-02/receipt.json), [before](ordinary-02/source-before.json) / [after](ordinary-02/source-after.json) and [final source/artifact audit](audit.json) retain the completed result.
+
+[Independent QE review](INDEPENDENT-REVIEW.md) separately validates native arithmetic, PNG/source hashes, supported fixtures and bounded controls/pause claims. Its unverified pre-existing Ollie pause/release hypothesis is a written PLAY-07 investigation, not a reproduced defect or a claim that the current manual tests cover all paused actions.
+
+Required final run: 2026-10-18T23:22:10.582319+01:00–2026-10-18T23:42:09.124771+01:00 (Europe/London), 1198.542 s. Receipt HEAD is evidence-only descendant36b2c2a; all 371 core game/test/tool/project inputs match pushed db2b28e byte-for-byte and native05. The additional wrapper/helper inputs are bound separately. No engine remains active after the run. All 75 full BACKLOG bodies retain SHA256 `48604a8ca25d8763f496a6c5ccbd8cf215d67583cc7d78dbc153c20694c14cae`.
