@@ -32,6 +32,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	for scenario: String in ["direct","opposite_hold","expired","noise","releases","slow","disabled","entry_reset"]:
 		await _refusal(tree, rider, check, scenario)
 	await _cooldown(tree, rider, check)
+	await _pause(tree,rider,check)
 	for released: bool in [false,true]:
 		await _air_manual_refusal(tree, rider, check, released)
 	await _face_tricks(tree, rider, check)
@@ -298,6 +299,74 @@ static func _air_manual_refusal(tree: SceneTree, rider: Node3D, check: Callable,
 	rider.trick_performed.disconnect(listener)
 
 
+static func _pause(tree: SceneTree, rider: Node3D, check: Callable) -> void:
+	await _roll(tree,rider)
+	var seen: Array[String] = []
+	var listener: Callable = func(name: String, _points: int): seen.append(name)
+	rider.trick_performed.connect(listener)
+	# A genuinely sampled first direction/neutral remains young in physics
+	# time throughout pause. Menu Down must not finish that pre-pause request.
+	_vertical("dpad",-1)
+	await _frames(tree,2)
+	_vertical("dpad",0)
+	await _frames(tree,1)
+	var eligible: bool = rider.speed>3 and rider.is_on_floor() and not rider.manual_active
+	var before_pause: Vector3 = rider.global_position
+	var before_velocity: Vector3 = rider.velocity
+	tree.paused=true
+	for frame: int in 2: await tree.process_frame
+	_pad(JOY_BUTTON_DPAD_DOWN,true)
+	for frame: int in 2: await tree.process_frame
+	var frozen: bool = rider.global_position==before_pause and rider.velocity==before_velocity
+	var menu_held: bool = Input.is_action_pressed("brake")
+	# Never await physics or invoke the assertion callback while paused.
+	tree.paused=false
+	await _frames(tree,2)
+	check.call(eligible and frozen and menu_held and rider.speed>2 and rider.is_on_floor()
+		and not rider.manual_active and _manual_count(seen)==0,
+		"classic pause: real tree pause discards the pending Up-neutral edge before menu Down/resume")
+	_pad(JOY_BUTTON_DPAD_DOWN,false)
+	await _roll(tree,rider)
+	seen.clear()
+	_vertical("dpad",-1)
+	await _frames(tree,2)
+	_vertical("dpad",0)
+	await _frames(tree,2)
+	_vertical("dpad",1)
+	await _frames(tree,2)
+	_vertical("dpad",0)
+	await _frames(tree,2)
+	var admitted: bool = rider.manual_active and rider.manual_id=="manual" and _manual_count(seen)==1
+	var state: Dictionary = _paused_manual_state(rider)
+	tree.paused=true
+	await tree.process_frame
+	_pad(JOY_BUTTON_DPAD_LEFT,true)
+	for frame: int in 3: await tree.process_frame
+	_pad(JOY_BUTTON_DPAD_LEFT,false)
+	await tree.process_frame
+	var unchanged: bool = _paused_manual_state(rider)==state and _manual_count(seen)==1
+	tree.paused=false
+	check.call(admitted and unchanged,
+		"classic pause: latched manual motion, balance, identity and visible pose stay exactly frozen during menu input")
+	await _frames(tree,3)
+	var resumed_distance: float = rider.global_position.distance_to(state.position)
+	print("CLASSIC PAD PAUSE ghost_eligible=",eligible," ghost_frozen=",frozen,
+		" manual_admitted=",admitted," manual_unchanged=",unchanged,
+		" resumed_distance=",resumed_distance," active=",rider.manual_active," awards=",seen)
+	check.call(rider.manual_active and rider.manual_id=="manual" and rider.speed>2 and rider.is_on_floor()
+		and resumed_distance>.02 and _manual_count(seen)==1,
+		"classic pause: existing manual latch resumes actual travel without a new gesture or duplicate award")
+	rider.trick_performed.disconnect(listener)
+
+
+static func _paused_manual_state(rider: Node3D) -> Dictionary:
+	var board := rider.get_node("SkaterVisual/Board") as Node3D
+	var visual := rider.get_node("SkaterVisual/Rider") as Node3D
+	return {"position":rider.global_position,"frame":rider.global_transform,"velocity":rider.velocity,
+		"speed":float(rider.speed),"balance":float(rider.manual_balance),"id":str(rider.manual_id),
+		"active":bool(rider.manual_active),"board_pose":board.transform,"rider_pose":visual.transform}
+
+
 static func _face_tricks(tree: SceneTree, rider: Node3D, check: Callable) -> void:
 	await _roll(tree,rider)
 	var seen: Array[String] = []
@@ -388,6 +457,9 @@ static func _fixture(tree: SceneTree) -> Dictionary:
 	floor.position.y=-.2
 	root.add_child(floor)
 	var rider=Skater.new()
+	# Mirror Main's explicit setting even if a surrounding runner processes
+	# while paused; these regressions must exercise the real pause notification.
+	rider.process_mode=Node.PROCESS_MODE_PAUSABLE
 	rider.spawn_position=Vector3(0,.8,30)
 	root.add_child(rider)
 	await _frames(tree,24)

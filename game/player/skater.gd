@@ -325,6 +325,20 @@ func _direction_snapshot() -> Vector2:
 	return Vector2(Input.get_axis("steer_left", "steer_right"), Input.get_axis("push", "brake"))
 
 
+func _clear_direction_gesture() -> void:
+	_vertical_edge = 0
+	_vertical_edge_age = 1.0
+	_last_vertical = 0
+	_vertical_neutral_seen = false
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PAUSED:
+		# Menu navigation cannot complete a half-entered gesture on resume.
+		# An existing manual, motion, pose and eligibility timers remain frozen.
+		_clear_direction_gesture()
+
+
 func _input(event: InputEvent) -> void:
 	# A real D-pad release can cross neutral between physics ticks. Preserve
 	# that event; a direct stick reversal or two held directions still refuses.
@@ -955,10 +969,7 @@ func _end_manual(grounded_exit: bool) -> void:
 
 func _clear_trick_buffers() -> void:
 	if not manual_active: _manual_gesture_hold = false
-	_vertical_edge = 0
-	_vertical_edge_age = 1.0
-	_last_vertical = 0
-	_vertical_neutral_seen = false
+	_clear_direction_gesture()
 	_flip_buffer_remaining = 0.0
 	_grab_buffer_remaining = 0.0
 	_manual_buffer_remaining = 0.0
