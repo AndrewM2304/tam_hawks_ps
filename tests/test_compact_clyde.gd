@@ -3,6 +3,8 @@ extends RefCounted
 ## Fixed anchors come from COMPACT-CLYDE-CONTRACT, not candidate success metadata.
 ## Does not certify ordinary-input loops, temporal rendering, fun or Mac timing.
 
+const FaceProbe = preload("res://tests/clyde_surface_tests.gd")
+
 const NORTH := Rect2(-85, 55, 170, 23)
 const SOUTH := Rect2(-39, 116, 115, 14)
 const YARD := Rect2(-39, 130, 115, 13)
@@ -26,8 +28,12 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	_broken_crossing(world, outdoors, check)
 	_transition_groups(world, outdoors, check)
 	_yard_group(world, outdoors, check)
+	_south_return(world, outdoors, check)
 	_grind_mouths(world, outdoors, check)
 	_visible_boundaries(world, outdoors, check)
+	_raised_deck_containment(world, outdoors, check)
+	_opaque_boundary_faces(world, outdoors, check)
+	_compact_surface_separation(outdoors, check)
 	_water_recovery(world, outdoors, check)
 	_landmark_group(outdoors, check)
 
@@ -266,6 +272,36 @@ static func _yard_group(world: Node3D, outdoors: Node3D, check: Callable) -> voi
 		"compact Clyde: translated yard hip retains actual curved support and its original 35-degree rise")
 
 
+static func _south_return(world: Node3D, outdoors: Node3D, check: Callable) -> void:
+	var yard := _route(world,"clyde_print_yard_loop")
+	var safe := _route(world,"clyde_safe_crossing")
+	var endpoint := outdoors.to_global(Vector3(-25,2,125))
+	var joined := not yard.is_empty() and not safe.is_empty()
+	var declared_return := false
+	if joined:
+		var points: PackedVector3Array = yard.points
+		joined = points.size()>2 and points[0].distance_to(endpoint)<.001 and points[-1].distance_to(endpoint)<.001 \
+			and safe.points[-1].distance_to(endpoint)<.001 and not yard.get("requires_jump",true)
+		for index in range(points.size()-1):
+			var a := outdoors.to_local(points[index])
+			var b := outdoors.to_local(points[index+1])
+			if absf(a.z-124)<.001 and absf(b.z-124)<.001 and absf(a.y-2)<.001 and absf(b.y-2)<.001 \
+				and minf(a.x,b.x)<=-25.0+.001 and maxf(a.x,b.x)>=20.0-.001:
+				declared_return=true
+	check.call(joined and declared_return,
+		"compact Clyde: published yard circuit joins the safe crossing at both ends through the actual south-return lane")
+	var clear := true
+	for offset: float in [-.7,0.0,.7]:
+		var previous := Vector3.INF
+		for index: int in range(91):
+			var at := outdoors.to_global(Vector3(-25+float(index)*.5,2,124+offset))
+			clear=_supported_clear(world,at,at.y) and clear
+			if previous.is_finite(): clear=_clear_sweep(world,previous,at) and _clear_sweep(world,at,previous) and clear
+			previous=at
+	check.call(clear,
+		"compact Clyde: complete south return has real centre/plus-minus0.7m rider support and capsule motion in both directions")
+
+
 static func _grind_mouths(world: Node3D, outdoors: Node3D, check: Callable) -> void:
 	var clear := true
 	for line in world.get_grind_lines():
@@ -297,6 +333,267 @@ static func _visible_boundaries(world: Node3D, outdoors: Node3D, check: Callable
 			visible = body.is_in_group("exploration_boundaries") and _has_visible_geometry(body)
 		closed = visible and closed
 	check.call(closed, "compact Clyde: retained dry ends have real collision with visible matching boundary geometry")
+
+
+static func _raised_deck_containment(world: Node3D, outdoors: Node3D, check: Callable) -> void:
+	var guard: StaticBody3D = null
+	for body: StaticBody3D in outdoors.find_children("*","StaticBody3D",true,false):
+		if str(body.get_meta("boundary_family",""))!="QuayLandwardBoundary": continue
+		var points: PackedVector3Array = body.get_meta("boundary_points",PackedVector3Array())
+		if points.size()>1 and points[0].x < -70 and absf(points[-1].x+15)<.001:
+			guard = body
+	var solid := guard!=null
+	var real_top := -INF
+	if guard!=null:
+		solid = bool(guard.get_meta("solid_boundary",false)) and _has_visible_geometry(guard)
+		for node: Node in guard.get_children():
+			if node is CollisionShape3D and node.shape is BoxShape3D and not node.disabled:
+				var top: Vector3 = node.to_global(Vector3(0,node.shape.size.y/2,0))
+				real_top = maxf(real_top,outdoors.to_local(top).y)
+	check.call(solid and absf(real_top-12)<.001,
+		"compact Clyde: existing west landward span is visible solid masonry with actual topY12 behind the raised ramps")
+	var decks := [Vector3(-50.2,5.2,60.5),Vector3(-33.8,5.2,60.5),Vector3(-19.2,5.2,62)]
+	var supported := true
+	var roll_blocked := true
+	var charged_blocked := true
+	var vert_bound_blocked := true
+	for local: Vector3 in decks:
+		var at := outdoors.to_global(local)
+		var floor_hit := _ray(world,at+Vector3.UP*.2,at-Vector3.UP*.2)
+		supported = not floor_hit.is_empty() and floor_hit.collider.name=="SupportedDeck" \
+			and floor_hit.position.distance_to(at)<.001 and _capsule_clear(world,at) and supported
+		for foot_y: float in [5.2,7.4,10.2]:
+			var from := outdoors.to_global(Vector3(local.x,foot_y,local.z))
+			var to := outdoors.to_global(Vector3(local.x,foot_y,52))
+			var hit := _ray(world,from+Vector3.UP*.2,to+Vector3.UP*.2)
+			var blocked: bool = not _clear_sweep(world,from,to) and not hit.is_empty() and hit.collider==guard
+			if foot_y<6: roll_blocked = blocked and roll_blocked
+			elif foot_y<8: charged_blocked = blocked and charged_blocked
+			else: vert_bound_blocked = blocked and vert_bound_blocked
+	check.call(supported,
+		"compact Clyde: both half-pipe decks and quarter deck retain actual supported clear Y5.2 starts")
+	check.call(roll_blocked,
+		"compact Clyde: real rider capsules cannot roll north from any raised deck above the oldY5 guard")
+	check.call(charged_blocked,
+		"compact Clyde: physical west closure blocks northward capsules at charged deck-jump heightY7.4")
+	check.call(vert_bound_blocked,
+		"compact Clyde: physical west closure blocks northward capsules above the conservative native lip-apex heightY10.2")
+	var joins := true
+	for x: float in [-80.9,-15.1]:
+		var hit := _ray(world,outdoors.to_global(Vector3(x,3.1,56)),outdoors.to_global(Vector3(x,3.1,54)))
+		joins = not hit.is_empty() and hit.collider==guard and joins
+	var port := true
+	for x: float in [-14.3,-12.0,-9.7]:
+		var previous := Vector3.INF
+		for z: float in [50.0,52.0,54.0,55.5,57.0,59.0]:
+			var at := outdoors.to_global(Vector3(x,0,z))
+			var height: float = world.get_ground_height(at)
+			if not is_finite(height):
+				port=false
+				previous=Vector3.INF
+				continue
+			at.y=height
+			port = _supported_clear(world,at,height) and port
+			if previous.is_finite(): port=_clear_sweep(world,previous,at) and _clear_sweep(world,at,previous) and port
+			previous=at
+	check.call(joins and port,
+		"compact Clyde: taller west closure meets the road edge and preserves all3 clear Exchange-close tracks in both directions")
+
+
+static func _opaque_boundary_faces(world: Node3D, outdoors: Node3D, check: Callable) -> void:
+	var scope := true
+	var material_and_data := true
+	var face_coverage := true
+	var panels := 0
+	var prisms := 0
+	var triangles := 0
+	var shared_materials: Dictionary = world.get("_materials")
+	var shared_stone: Material = shared_materials.get("cut_stone")
+	for body: StaticBody3D in outdoors.find_children("*","StaticBody3D",true,false):
+		var family := str(body.get_meta("boundary_family",""))
+		var intended := family in ["QuayApproachBoundary","NorthQuayEndBoundary","QuayLandwardBoundary"] \
+			and not bool(body.get_meta("solid_boundary",false))
+		var opaque := bool(body.get_meta("opaque_boundary",false))
+		scope = intended==opaque and scope
+		if not intended: continue
+		panels+=1
+		var faces: Array[Dictionary] = []
+		for shape: Node in body.get_children():
+			if not shape is CollisionShape3D: continue
+			if not shape.shape is ConvexPolygonShape3D or shape.disabled:
+				face_coverage=false
+				continue
+			prisms+=1
+			var points := PackedVector3Array()
+			for point: Vector3 in shape.shape.points: points.append(shape.to_global(point))
+			var hull_faces := _convex_supporting_faces(points)
+			face_coverage = points.size()==8 and hull_faces.size()==6 and face_coverage
+			faces.append_array(hull_faces)
+		var displays: Array[MeshInstance3D] = []
+		for child: Node in body.get_children():
+			if child is MeshInstance3D and child.is_visible_in_tree(): displays.append(child)
+			if child is MultiMeshInstance3D: material_and_data=false
+		material_and_data = displays.size()==1 and material_and_data
+		for display: MeshInstance3D in displays:
+			if not display.mesh is ArrayMesh or display.mesh.get_surface_count()!=1:
+				material_and_data=false
+				continue
+			material_and_data = display.material_override==shared_stone \
+				and shared_stone is BaseMaterial3D \
+				and shared_stone.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED and material_and_data
+			var data: Array = display.mesh.surface_get_arrays(0)
+			if not data[Mesh.ARRAY_VERTEX] is PackedVector3Array or not data[Mesh.ARRAY_NORMAL] is PackedVector3Array \
+				or not data[Mesh.ARRAY_TEX_UV] is PackedVector2Array or not data[Mesh.ARRAY_TANGENT] is PackedFloat32Array:
+				material_and_data=false
+				continue
+			var vertices: PackedVector3Array = data[Mesh.ARRAY_VERTEX]
+			var normals: PackedVector3Array = data[Mesh.ARRAY_NORMAL]
+			var uvs: PackedVector2Array = data[Mesh.ARRAY_TEX_UV]
+			var tangents: PackedFloat32Array = data[Mesh.ARRAY_TANGENT]
+			var indices := PackedInt32Array()
+			if data[Mesh.ARRAY_INDEX] is PackedInt32Array: indices=data[Mesh.ARRAY_INDEX]
+			if indices.is_empty():
+				for index: int in vertices.size(): indices.append(index)
+			if normals.size()!=vertices.size() or uvs.size()!=vertices.size() or tangents.size()!=vertices.size()*4:
+				material_and_data=false
+				continue
+			var normal_frame: Basis = display.global_basis.inverse().transposed()
+			for offset: int in range(0,indices.size(),3):
+				var ia: int=indices[offset]
+				var ib: int=indices[offset+1]
+				var ic: int=indices[offset+2]
+				var a: Vector3=display.to_global(vertices[ia])
+				var b: Vector3=display.to_global(vertices[ib])
+				var c: Vector3=display.to_global(vertices[ic])
+				var cross: Vector3=(b-a).cross(c-a)
+				var area: float=cross.length()*.5
+				var outward: Vector3=-cross.normalized()
+				var triangle:=PackedVector3Array([a,b,c])
+				triangles+=1
+				face_coverage = area>.000001 and _record_matching_face(faces,triangle,outward,area) and face_coverage
+				material_and_data = absf((uvs[ib]-uvs[ia]).cross(uvs[ic]-uvs[ia]))>.000001 and material_and_data
+				for index: int in [ia,ib,ic]:
+					var normal: Vector3=(normal_frame*normals[index]).normalized()
+					var tangent:=Vector3(tangents[index*4],tangents[index*4+1],tangents[index*4+2])
+					material_and_data = normal.is_finite() and normal.dot(outward)>.999 \
+						and tangent.is_finite() and tangent.length()>.9 \
+						and absf(normals[index].dot(tangent))<.001 and material_and_data
+		for face: Dictionary in faces:
+			if absf(float(face.seen)-float(face.area))>maxf(.0003,float(face.area)*.00003):
+				print("COMPACT_CLYDE_OPAQUE_FACE body=",body.name," normal=",face.normal," required=",face.area," actual=",face.seen)
+				face_coverage=false
+	check.call(scope and panels==8,
+		"compact Clyde: opaque treatment is limited to all8 existing dry approach/end/ordinary-landward boundary bodies")
+	check.call(material_and_data,
+		"compact Clyde: each graded closure uses one opaque shared-stone surface with finite outward normals and valid texture tangents")
+	check.call(face_coverage and triangles==prisms*12,
+		"compact Clyde: displayed closed prism faces match every actual graded convex collision face without a bounding-box shortcut")
+	print("COMPACT_CLYDE_OPAQUE panels=",panels," preserved_prisms=",prisms," triangles=",triangles," surfaces=",panels)
+
+
+static func _convex_supporting_faces(points: PackedVector3Array) -> Array[Dictionary]:
+	# Derive supporting planes from the actual convex points, independently of
+	# the renderer's face index list. Each prism must expose six closed quads.
+	var result: Array[Dictionary]=[]
+	for ia: int in range(points.size()-2):
+		for ib: int in range(ia+1,points.size()-1):
+			for ic: int in range(ib+1,points.size()):
+				var normal: Vector3=(points[ib]-points[ia]).cross(points[ic]-points[ia])
+				if normal.length()<.000001: continue
+				normal=normal.normalized()
+				var distance: float=normal.dot(points[ia])
+				var positive:=false
+				var negative:=false
+				for point: Vector3 in points:
+					positive=positive or normal.dot(point)-distance>.0003
+					negative=negative or normal.dot(point)-distance<-.0003
+				if positive and negative: continue
+				if positive:
+					normal=-normal
+					distance=-distance
+				var duplicate:=false
+				for face: Dictionary in result:
+					if normal.dot(face.normal)>.99999 and absf(distance-float(face.distance))<.0003: duplicate=true
+				if duplicate: continue
+				var corners:=PackedVector3Array()
+				var center:=Vector3.ZERO
+				for point: Vector3 in points:
+					if absf(normal.dot(point)-distance)<.0003:
+						corners.append(point)
+						center+=point
+				if corners.size()!=4: continue
+				center/=corners.size()
+				var axis: Vector3=(corners[0]-center).normalized()
+				var other: Vector3=normal.cross(axis)
+				var ordered: Array[Dictionary]=[]
+				for point: Vector3 in corners:
+					var offset: Vector3=point-center
+					ordered.append({"point":point,"angle":atan2(offset.dot(other),offset.dot(axis))})
+				ordered.sort_custom(func(a: Dictionary,b: Dictionary)->bool: return float(a.angle)<float(b.angle))
+				var area:=0.0
+				for index: int in ordered.size():
+					var a: Vector3=ordered[index].point-center
+					var b: Vector3=ordered[(index+1)%ordered.size()].point-center
+					area+=a.cross(b).dot(normal)*.5
+				result.append({"normal":normal,"distance":distance,"corners":corners,"area":absf(area),"seen":0.0})
+	return result
+
+
+static func _record_matching_face(faces: Array[Dictionary], triangle: PackedVector3Array,
+		outward: Vector3, area: float) -> bool:
+	for face: Dictionary in faces:
+		if outward.dot(face.normal)<.999: continue
+		var matches:=true
+		for vertex: Vector3 in triangle:
+			var found:=false
+			for corner: Vector3 in face.corners:
+				if vertex.distance_to(corner)<.0003: found=true
+			matches=matches and found
+		if matches:
+			face.seen=float(face.seen)+area
+			return true
+	return false
+
+
+static func _compact_surface_separation(outdoors: Node3D, check: Callable) -> void:
+	var run: float=4*sin(deg_to_rad(35))
+	var footprint:=Rect2(43,126,4.5+run,3.5+run)
+	var hip: Node3D=outdoors.get_node("PrintYardCurvedBankHip")
+	var hip_faces: PackedVector3Array=FaceProbe._visual_faces(hip)
+	var hip_flat: Array[PackedVector2Array]=FaceProbe._horizontal_triangles(hip_faces,2)
+	var extent: Dictionary=_visible_extent(outdoors,hip)
+	var coverage: bool=not extent.is_empty() and not hip_faces.is_empty() \
+		and Vector2(extent.low.x,extent.low.z).distance_to(footprint.position)<.001 \
+		and Vector2(extent.high.x,extent.high.z).distance_to(footprint.end)<.001 \
+		and absf(FaceProbe._projected_area(hip_faces)-footprint.get_area())<.005
+	var previous_overlap:=0.0
+	var current_overlap:=0.0
+	for id: String in ["ClydeSouthQuay","ClydePrintYardGround"]:
+		var body: Node3D=outdoors.get_node(id)
+		var original: PackedVector3Array=FaceProbe._collision_faces(body)
+		var visible: PackedVector3Array=FaceProbe._visual_faces(body)
+		previous_overlap+=FaceProbe._overlap_area(FaceProbe._horizontal_triangles(original,2),hip_flat)
+		current_overlap+=FaceProbe._overlap_area(FaceProbe._horizontal_triangles(visible,2),hip_flat)
+		var expected_region: Rect2=SOUTH if id=="ClydeSouthQuay" else YARD
+		var expected_removed: float=expected_region.intersection(footprint).get_area()
+		coverage=absf(FaceProbe._projected_area(original)-FaceProbe._projected_area(visible)-expected_removed)<.01 and coverage
+		for vertex: Vector3 in visible: coverage=FaceProbe._on_faces(vertex,original) and coverage
+	check.call(previous_overlap>.001 and current_overlap<.00001 and coverage,
+		"compact Clyde: genuine hip-to-floor coplanar counterexample is removed while the whole physical hip footprint stays visibly covered")
+	var deck: Node3D=outdoors.get_node("ClydeBridgeSouthDeck")
+	var quay: Node3D=outdoors.get_node("ClydeSouthQuay")
+	var collision: PackedVector3Array=FaceProbe._collision_faces(deck)
+	var display: PackedVector3Array=FaceProbe._visual_faces(deck)
+	var ground: Array[PackedVector2Array]=FaceProbe._horizontal_triangles(FaceProbe._collision_faces(quay),2)
+	var old_area: float=FaceProbe._overlap_area(FaceProbe._horizontal_triangles(collision,2),ground)
+	var new_area: float=FaceProbe._overlap_area(FaceProbe._horizontal_triangles(display,2),ground)
+	var slope_preserved: bool=not display.is_empty()
+	for vertex: Vector3 in display: slope_preserved=FaceProbe._on_faces(vertex,collision) and slope_preserved
+	check.call(absf(old_area-40)<.001 and new_area<.00001 and slope_preserved \
+		and absf(FaceProbe._projected_area(collision)-FaceProbe._projected_area(display)-40)<.005,
+		"compact Clyde: flat metal landing loses its actual40m2 paving overlap while its complete graded approach remains visible")
+	print("COMPACT_CLYDE_SURFACE hip_old_overlap=",previous_overlap," hip_current_overlap=",current_overlap,
+		" hip_projected_area=",FaceProbe._projected_area(hip_faces)," bridge_old_overlap=",old_area," bridge_current_overlap=",new_area)
 
 
 static func _water_recovery(world: Node3D, outdoors: Node3D, check: Callable) -> void:

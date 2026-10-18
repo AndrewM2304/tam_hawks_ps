@@ -1,0 +1,140 @@
+{
+  "status": "accepted-focused-keyboard-feasibility",
+  "exit_code": 0,
+  "passed": 16,
+  "failed": 0,
+  "inputs": 354,
+  "unchanged": true,
+  "source_manifest_sha256": "91182691dd65dc89b91a46a6d09f1cf7578a2ed494d52cc983c0b7860aac98c4",
+  "finished_london": "2026-10-18T15:10:25.991159+01:00",
+  "total_native_samples": 11089,
+  "maximum_native_step": 0.732098996639252,
+  "trials": {
+    "clyde_print_yard_ledge": {
+      "summary": {
+        "bails": 0,
+        "captured_ids": [
+          "clyde_print_yard_ledge"
+        ],
+        "clean_landings": 1,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.732098996639252,
+        "metres": 106.951692717557,
+        "samples": 1272,
+        "scored_tricks": [
+          "Ollie",
+          "Rail Grind",
+          "Ollie",
+          "Kickflip",
+          "Melon Grab",
+          "Manual"
+        ],
+        "seconds": 21.2,
+        "tricks": [
+          "Ollie",
+          "Rail Grind",
+          "Ollie",
+          "Kickflip",
+          "Melon Grab",
+          "Manual"
+        ]
+      },
+      "bank": 5000,
+      "return_ticks": 949,
+      "sha256": "31b05666ffbfa35dd079839f5674a8de33b4b638b0aa9054c384693c56d75c9f",
+      "bytes": 582265
+    },
+    "clyde_quay_coping": {
+      "summary": {
+        "bails": 0,
+        "captured_ids": [
+          "clyde_quay_coping"
+        ],
+        "clean_landings": 3,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.729950189590454,
+        "metres": 242.025751924884,
+        "samples": 3372,
+        "scored_tricks": [
+          "Ollie",
+          "Rail Grind",
+          "Ollie",
+          "Frontside Shuvit",
+          "Nose Grab",
+          "Manual"
+        ],
+        "seconds": 56.2,
+        "tricks": [
+          "Ollie",
+          "Rail Grind",
+          "Ollie",
+          "Frontside Shuvit",
+          "Nose Grab",
+          "Manual"
+        ]
+      },
+      "bank": 4750,
+      "return_ticks": 3017,
+      "sha256": "1517e08ea9198ab7b9b09fdc5eab1d10492cfb1702e9c3b77d4ec06c14e0613f",
+      "bytes": 1551634
+    },
+    "vert-circuit": {
+      "summary": {
+        "bails": 0,
+        "captured_ids": [],
+        "clean_landings": 3,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.368136167526245,
+        "metres": 166.96856005094,
+        "samples": 2314,
+        "scored_tricks": [
+          "Nose Stall",
+          "Manual"
+        ],
+        "seconds": 38.5666666666667,
+        "tricks": [
+          "Nose Stall",
+          "Manual"
+        ]
+      },
+      "bank": 700,
+      "return_ticks": 785,
+      "sha256": "97ab46fe818c80bae9e66d8a88ab8f0ad1986d0fef962696b8f15196d44a9bf6",
+      "bytes": 1052620,
+      "face_angles": {
+        "clyde_half_east": 37.1910497409204,
+        "clyde_half_west": 74.7164669946702
+      }
+    },
+    "river-circuit": {
+      "summary": {
+        "bails": 0,
+        "captured_ids": [],
+        "clean_landings": 8,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.33114966750145,
+        "metres": 303.352135839159,
+        "samples": 4131,
+        "scored_tricks": [
+          "Ollie",
+          "Clyde Broken Bridge"
+        ],
+        "seconds": 68.85,
+        "tricks": [
+          "Ollie"
+        ]
+      },
+      "bank": 2000,
+      "return_ticks": 2760,
+      "sha256": "cc572ae84c0cf26f873a70ba262cd07b52e2be10372a3d2ab6aa633740f8ff67",
+      "bytes": 1906233,
+      "hip_high": 2.7375750541687,
+      "charge_ticks": 16
+    }
+  },
+  "limits": "Initial fixtures only; keyboard action feedback, conservative brake/turn returns. No continuous-combo claim for full circuits. No human-fun, physical DualSense, rendering or target-Mac frame-time acceptance."
+}

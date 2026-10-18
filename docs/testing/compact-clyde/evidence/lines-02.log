@@ -1,0 +1,39 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: compact Clyde: real authored feature clyde_print_yard_ledge
+PASS: compact Clyde: clyde_print_yard_ledge real capture, rail pop, air tricks and supported manual link
+PASS: compact Clyde: clyde_print_yard_ledge complete combo banks once
+ERROR: FAIL: compact Clyde: clyde_print_yard_ledge banks then uses real steering/braking to return safely
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/compact-clyde/lines-focused.gd:16)
+       [1] _line (res://tests/compact_clyde_lines_tests.gd:111)
+       [2] stop (res://tests/support/compact_clyde_lines_driver.gd:101)
+       [3] ticks (res://tests/support/compact_clyde_lines_driver.gd:153)
+ERROR: FAIL: compact Clyde: clyde_print_yard_ledge native consecutive samples preserve real identity/landings without forced motion
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/compact-clyde/lines-focused.gd:16)
+       [1] _line (res://tests/compact_clyde_lines_tests.gd:115)
+       [2] stop (res://tests/support/compact_clyde_lines_driver.gd:101)
+       [3] ticks (res://tests/support/compact_clyde_lines_driver.gd:153)
+COMPACT_CLYDE_LINE rail=clyde_print_yard_ledge capture=(38.63494, 2.77, 124.4) landing={ "tick": 233, "dt": 0.01666666666667, "at": (54.39394, 2.014013, 124.4003), "velocity": (14.21846, 0.0, 0.000679), "yaw": -1.57084405422211, "floor": true, "air": false, "manual": true, "grind": "", "transition": "", "bank": 0, "combo": 5000, "support": ["ClydePrintYard"], "input": { "manual": 1.0 } } bank=5000 return={ "reached": false, "ticks": 1697, "targets": [{ "at": (61.60219, 2.014013, 124.4006), "tick": 332 }, { "at": (61.93013, 1.956028, 136.3063), "tick": 529 }], "stall_ticks": 0 } summary={ "captured_ids": ["clyde_print_yard_ledge"], "tricks": ["Ollie", "Rail Grind", "Ollie", "Kickflip", "Melon Grab", "Manual", "Manual", "Manual", "Manual", "Manual", "Manual", "Manual", "Manual", "Manual", "Manual"], "bails": 8, "clean_landings": 17, "contiguous": true, "finite": true, "maximum_step": 43.1578750610352, "metres": 219.219912511995, "samples": 2016, "seconds": 33.6 }
+PASS: compact Clyde: real authored feature clyde_quay_coping
+PASS: compact Clyde: clyde_quay_coping real capture, rail pop, air tricks and supported manual link
+PASS: compact Clyde: clyde_quay_coping complete combo banks once
+ERROR: FAIL: compact Clyde: clyde_quay_coping banks then uses real steering/braking to return safely
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/compact-clyde/lines-focused.gd:16)
+       [1] _line (res://tests/compact_clyde_lines_tests.gd:111)
+       [2] stop (res://tests/support/compact_clyde_lines_driver.gd:101)
+       [3] ticks (res://tests/support/compact_clyde_lines_driver.gd:153)
+PASS: compact Clyde: clyde_quay_coping native consecutive samples preserve real identity/landings without forced motion
+COMPACT_CLYDE_LINE rail=clyde_quay_coping capture=(-66.43645, 2.42, 76.7) landing={ "tick": 2284, "dt": 0.01666666666667, "at": (-52.85741, 2.012469, 76.70033), "velocity": (12.4318, 0.0, 0.000593), "yaw": -1.57084405422211, "floor": true, "air": false, "manual": true, "grind": "", "transition": "", "bank": 0, "combo": 4750, "support": ["ClydeNorthQuay"], "input": { "manual": 1.0 } } bank=4750 return={ "reached": false, "ticks": 308, "targets": [], "stall_ticks": 61 } summary={ "captured_ids": ["clyde_quay_coping"], "tricks": ["Ollie", "Rail Grind", "Ollie", "Frontside Shuvit", "Nose Grab", "Manual"], "bails": 0, "clean_landings": 1, "contiguous": true, "finite": true, "maximum_step": 0.72995018959045, "metres": 55.5401315183844, "samples": 603, "seconds": 10.05 }
+ERROR: FAIL: compact Clyde circuit: live east-facing quarter lip drops through real contact to a supported manual and bank
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/compact-clyde/lines-focused.gd:16)
+       [1] _vert_circuit (res://tests/compact_clyde_lines_tests.gd:164)
+       [2] stop (res://tests/support/compact_clyde_lines_driver.gd:101)
+       [3] ticks (res://tests/support/compact_clyde_lines_driver.gd:153)

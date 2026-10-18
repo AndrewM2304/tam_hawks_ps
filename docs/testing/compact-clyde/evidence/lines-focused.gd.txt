@@ -1,0 +1,16 @@
+extends SceneTree
+var good:=0
+var bad:=0
+func _initialize()->void: _run.call_deferred()
+func _run()->void:
+ var game=load("res://game/main.gd").new()
+ game.persistence_enabled=false
+ root.add_child(game)
+ await physics_frame
+ await process_frame
+ await load("res://tests/compact_clyde_lines_tests.gd").run(self,game,_check)
+ print("RESULT: ",good," passed, ",bad," failed")
+ quit(1 if bad>0 else 0)
+func _check(ok:bool,label:String)->void:
+ if ok:good+=1;print("PASS: ",label)
+ else:bad+=1;push_error("FAIL: "+label)

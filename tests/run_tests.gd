@@ -107,7 +107,6 @@ func _run() -> void:
 	root.add_child(game)
 	await _physics_frames(35)
 	await COMPACT_CLYDE_TESTS.run(self, game.world, _check)
-	await COMPACT_CLYDE_LINES.run(self, game, _check)
 	await WORLD_ROUTES_TESTS.run(self, game.world, _check)
 	await SKATE_EDGES_TESTS.run(game.world, _check)
 	await SUPPORT_QUERY_TESTS.run(game.world, _check)
@@ -141,6 +140,7 @@ func _run() -> void:
 	await PLAYABILITY_TESTS.run(self, game, _check)
 	await TOPOGRAPHY_TESTS.run(self, game, _check)
 	await CAREER_ROUTE_TESTS.run(self, game, _check)
+	await COMPACT_CLYDE_LINES.run(self, game, _check)
 	_release_actions()
 	paused = false
 	game.queue_free()

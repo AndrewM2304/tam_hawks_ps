@@ -1,0 +1,188 @@
+extends RefCounted
+## Proof driver only. The initial fixture may place/face a rider; thereafter
+## every move and turn is produced by normal action input and native physics.
+
+class Recorder extends Node:
+	var game: Node
+	var active := false
+	var rows: Array[Dictionary] = []
+	var events: Array[Dictionary] = []
+	var scored: Array[String] = []
+	var _prior_history: Array[String] = []
+	func _physics_process(delta: float) -> void:
+		if not active: return
+		var rider: CharacterBody3D = game.skater
+		var history: Array[String]=[]
+		for title: String in game.score.trick_history: history.append(title)
+		for index: int in range(_prior_history.size(),history.size()):
+			scored.append(history[index])
+			events.append({"tick":Engine.get_physics_frames(),"event":"score-trick","id":history[index]})
+		_prior_history=history
+		var support: Array[String] = []
+		for index: int in rider.get_slide_collision_count():
+			var collision: KinematicCollision3D = rider.get_slide_collision(index)
+			var body: Object = collision.get_collider()
+			if body is Node and collision.get_normal().y > 0.5: support.append(str(body.name))
+		rows.append({"tick":Engine.get_physics_frames(), "dt":delta,
+			"at":rider.global_position, "velocity":rider.velocity, "yaw":rider.rotation.y,
+			"floor":rider.is_on_floor(), "air":rider.airborne, "manual":rider.manual_active,
+			"grind":str(rider._grind.line.id) if rider.grinding else "",
+			"transition":str(rider._transition.feature.get("id", "")) if rider.transition_active else "",
+			"bank":game.score.total_score, "combo":game.score.get_combo_value(), "support":support,
+			"input":_inputs()})
+	func _inputs() -> Dictionary:
+		var result: Dictionary={}
+		for id: String in ["push","brake","steer_left","steer_right","ollie","grind","manual","flip","grab"]:
+			if Input.is_action_pressed(id): result[id]=Input.get_action_strength(id)
+		return result
+	func on_bail() -> void: events.append({"tick":Engine.get_physics_frames(), "event":"bail"})
+	func on_trick(title: String, points: int) -> void:
+		events.append({"tick":Engine.get_physics_frames(), "event":"trick", "id":title, "points":points})
+	func on_capture(id: String) -> void:
+		events.append({"tick":Engine.get_physics_frames(), "event":"capture", "id":id, "at":game.skater.global_position})
+	func on_land(clean: bool) -> void:
+		events.append({"tick":Engine.get_physics_frames(), "event":"land", "clean":clean, "at":game.skater.global_position})
+
+
+static func fixture(tree: SceneTree, game: Node, at: Vector3, direction: Vector3) -> Recorder:
+	release()
+	game.skater.spawn_position = at
+	game.start_mode(true)
+	# Sole explicit heading assignment. No speed or airborne/contact state is set.
+	game.skater.rotation.y = atan2(-direction.x, -direction.z)
+	game.skater.reset_physics_interpolation()
+	await ticks(tree, 40)
+	var recorder := Recorder.new()
+	recorder.game = game
+	recorder.process_physics_priority = 100
+	game.add_child(recorder)
+	game.skater.bailed.connect(recorder.on_bail)
+	game.skater.trick_performed.connect(recorder.on_trick)
+	game.skater.grind_captured.connect(recorder.on_capture)
+	game.skater.landed.connect(recorder.on_land)
+	recorder.active = true
+	return recorder
+
+
+static func drive(tree: SceneTree, game: Node, points: PackedVector3Array) -> Dictionary:
+	var result := {"reached":true, "ticks":0, "targets":[], "stall_ticks":0}
+	for target: Vector3 in points:
+		var reached := false
+		for tick: int in 1500:
+			var rider: CharacterBody3D = game.skater
+			var before: Vector3 = rider.global_position
+			var offset := Vector3(target.x-before.x, 0, target.z-before.z)
+			if offset.length() < 0.7:
+				reached = true
+				result.targets.append({"at":before,"tick":Engine.get_physics_frames()})
+				break
+			var desired := atan2(-offset.x,-offset.z)
+			var error := angle_difference(rider.rotation.y,desired)
+			# Stop for a sharp corner, then physically steer before pushing. This
+			# deliberately conservative return proves access, not expert/fun flow.
+			var turn := clampf(absf(error)*3.0,0.0,1.0) if absf(error)>0.025 else 0.0
+			action("steer_left",turn if error>0.0 else 0.0)
+			action("steer_right",turn if error<0.0 else 0.0)
+			var ceiling := 4.8 if offset.length()>3.0 else 2.4
+			var braking := absf(error)>0.35 or absf(rider.speed)>ceiling+0.3
+			action("brake",1.0 if braking else 0.0)
+			# Keep Up held during braking: Up+Down is a neutral direction and
+			# still brakes normally. Alternating Up-neutral-Down would request
+			# the game's real gesture manual rather than a plain return.
+			action("push",1.0)
+			await ticks(tree,1)
+			result.ticks += 1
+			if before.distance_to(rider.global_position)<0.001 and absf(error)<0.15 and tick>90:
+				result.stall_ticks += 1
+			if result.stall_ticks>60 or rider.global_position.y < 1.0:
+				break
+		result.reached = result.reached and reached
+		if not reached: break
+	release()
+	return result
+
+
+static func stop(tree: SceneTree, game: Node) -> void:
+	release()
+	action("push",1.0)
+	action("brake",1.0)
+	for tick: int in 240:
+		await ticks(tree,1)
+		if game.skater.is_on_floor() and not game.skater.transition_active and absf(game.skater.speed)<0.02: break
+	release()
+	await ticks(tree,24)
+
+
+static func face(tree: SceneTree, game: Node, direction: Vector3) -> bool:
+	await stop(tree,game)
+	var desired := atan2(-direction.x,-direction.z)
+	for tick: int in 240:
+		var error := angle_difference(game.skater.rotation.y,desired)
+		if absf(error)<0.025:
+			release()
+			await ticks(tree,3)
+			return absf(angle_difference(game.skater.rotation.y,desired))<0.05
+		action("brake",1.0)
+		action("push",1.0)
+		action("steer_left",clampf(absf(error)*3.0,0.0,1.0) if error>0 else 0.0)
+		action("steer_right",clampf(absf(error)*3.0,0.0,1.0) if error<0 else 0.0)
+		await ticks(tree,1)
+	release()
+	return false
+
+
+static func summary(recorder: Recorder) -> Dictionary:
+	var ids: Array[String] = []
+	var names: Array[String] = []
+	var bails := 0
+	var clean_landings := 0
+	for event: Dictionary in recorder.events:
+		if event.event == "capture": ids.append(str(event.id))
+		if event.event == "trick": names.append(str(event.id))
+		if event.event == "bail": bails += 1
+		if event.event == "land" and event.clean: clean_landings += 1
+	var contiguous := true
+	var finite := true
+	var maximum_step := 0.0
+	var length := 0.0
+	for index: int in recorder.rows.size():
+		var row: Dictionary = recorder.rows[index]
+		finite = finite and row.at.is_finite() and row.velocity.is_finite()
+		if index==0: continue
+		var prior: Dictionary=recorder.rows[index-1]
+		contiguous = contiguous and row.tick==prior.tick+1
+		var step: float=row.at.distance_to(prior.at)
+		maximum_step=maxf(maximum_step,step)
+		length+=step
+	return {"captured_ids":ids,"tricks":names,"scored_tricks":recorder.scored.duplicate(),"bails":bails,"clean_landings":clean_landings,
+		"contiguous":contiguous,"finite":finite,"maximum_step":maximum_step,"metres":length,
+		"samples":recorder.rows.size(),"seconds":recorder.rows.size()/60.0}
+
+
+static func ticks(tree: SceneTree, count: int) -> void:
+	var target := Engine.get_physics_frames()+count
+	while Engine.get_physics_frames()<target:
+		await tree.physics_frame
+		await tree.process_frame
+
+
+static func action(id: String, strength: float) -> void:
+	if strength>0.0: Input.action_press(id,strength)
+	else: Input.action_release(id)
+
+
+static func release() -> void:
+	for id: StringName in InputMap.get_actions(): Input.action_release(id)
+
+
+static func serializable(value: Variant) -> Variant:
+	if value is Vector3: return [value.x,value.y,value.z]
+	if value is Array:
+		var result: Array=[]
+		for item: Variant in value: result.append(serializable(item))
+		return result
+	if value is Dictionary:
+		var result: Dictionary={}
+		for id: Variant in value: result[id]=serializable(value[id])
+		return result
+	return value

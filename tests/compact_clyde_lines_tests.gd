@@ -11,6 +11,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _line(tree,game,check,"clyde_quay_coping",5.2,18.0,false)
 	await _vert_circuit(tree,game,check)
 	await _river_circuit(tree,game,check)
+	await _deck_containment(tree,game,check)
 	Driver.release()
 	game.skater.spawn_position=original_spawn
 	game.start_mode(false)
@@ -152,7 +153,8 @@ static func _vert_circuit(tree: SceneTree, game: Node, check: Callable) -> void:
 	var manual := false
 	for tick: int in 240:
 		await Driver.ticks(tree,1)
-		if not game.skater.airborne and not game.skater.transition_active and game.skater.is_on_floor():
+		if not game.skater.airborne and not game.skater.transition_active and game.skater.is_on_floor() \
+				and absf(game.skater.global_position.y-2.0)<0.05 and absf(game.skater.speed)>=2.0:
 			Driver.action("manual",1.0)
 			await Driver.ticks(tree,2)
 			manual=game.skater.manual_active
@@ -265,7 +267,7 @@ static func _river_circuit(tree: SceneTree, game: Node, check: Callable) -> void
 	check.call(returned.reached and result.bails==0 and result.contiguous and result.finite and result.maximum_step<1.0
 		and game.skater.is_on_floor() and game.skater.global_position.distance_to(Vector3(20,2,65))<1.0
 		and game.score.total_score>=bank and game.score.get_combo_value()==0
-		and result.tricks.count("Clyde Broken Bridge")==1,
+		and result.scored_tricks.count("Clyde Broken Bridge")==1,
 		"compact Clyde river circuit: yard returns through continuous bridge to optional approach without teleport or another gap award")
 	var data: Dictionary={"summary":result,"launch":launch,"charge_ticks":charge_ticks,"landed":landed,
 		"bank":bank,"hip_high":hip_high,"yard":yard,"return":returned,"events":recorder.events,"samples":recorder.rows}
@@ -276,6 +278,53 @@ static func _river_circuit(tree: SceneTree, game: Node, check: Callable) -> void
 	recorder.active=false
 	recorder.queue_free()
 	await tree.process_frame
+
+
+static func _deck_containment(tree: SceneTree, game: Node, check: Callable) -> void:
+	for charged: bool in [false,true]:
+		var start := Vector3(-50.2,5.2,60.5)
+		var recorder=await Driver.fixture(tree,game,start,Vector3.FORWARD)
+		Driver.action("push",1.0)
+		await Driver.ticks(tree,20)
+		if charged:
+			Driver.action("ollie",1.0)
+			await Driver.ticks(tree,15)
+			Driver.action("ollie",0.0)
+		await Driver.ticks(tree,180)
+		var minimum_z := INF
+		var minimum_y := INF
+		var peak := -INF
+		var wall_contacts := 0
+		var elevated_wall_contact := false
+		for row: Dictionary in recorder.rows:
+			minimum_z=minf(minimum_z,float(row.at.z))
+			minimum_y=minf(minimum_y,float(row.at.y))
+			peak=maxf(peak,float(row.at.y))
+			for contact: Dictionary in row.contacts:
+				if str(contact.boundary_family)=="QuayLandwardBoundary" and contact.normal.z>0.9:
+					wall_contacts+=1
+					elevated_wall_contact=elevated_wall_contact or contact.at.y>5.1
+		var result: Dictionary=Driver.summary(recorder)
+		var label := "charged outward ollie" if charged else "ordinary outward roll"
+		check.call(wall_contacts>=5 and elevated_wall_contact and game.skater.is_on_floor()
+			and absf(game.skater.global_position.y-5.2)<0.05
+			and Vector2(game.skater.velocity.x,game.skater.velocity.z).length()<0.1,
+			"compact Clyde deck: "+label+" meets the actual raised landward wall and physically stops on deck")
+		check.call(minimum_z>=55.35 and minimum_y>=5.15 and result.bails==0
+			and result.contiguous and result.finite and result.maximum_step<1.0
+			and result.tricks.count("Ollie")==int(charged) and (not charged or peak>=6.8),
+			"compact Clyde deck: "+label+" cannot reach the dry void or manufacture recovery/extra jumps")
+		var data: Dictionary={"charged":charged,"fixture":start,"minimum_z":minimum_z,"minimum_y":minimum_y,
+			"peak":peak,"wall_contacts":wall_contacts,"elevated_wall_contact":elevated_wall_contact,
+			"summary":result,"events":recorder.events,"samples":recorder.rows}
+		var brief: Dictionary=data.duplicate()
+		brief.erase("samples")
+		print("COMPACT_CLYDE_DECK ",Driver.serializable(brief))
+		_save("deck-charged" if charged else "deck-roll",data)
+		Driver.release()
+		recorder.active=false
+		recorder.queue_free()
+		await tree.process_frame
 
 
 static func _save(id: String, data: Dictionary) -> void:

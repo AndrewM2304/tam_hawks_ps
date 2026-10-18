@@ -102,7 +102,7 @@ func _approach_boundaries(id: String, side: float) -> Vector2:
 				edge.append(point)
 				break
 			edge.append(point)
-		ExplorationBoundary.build(self,"QuayApproachBoundary",edge,_material("cut_stone"),_material("iron"))
+		ExplorationBoundary.build(self,"QuayApproachBoundary",edge,_material("cut_stone"),_material("iron"),3.0,false,true)
 	return result
 
 
@@ -115,7 +115,13 @@ func _boundary(id: String, start: Vector2, end: Vector2) -> void:
 		var height := _local_ground(at.x,at.y)
 		assert(is_finite(height),"Outdoor boundary requires real supported ground: "+id+" "+str(at))
 		points.append(Vector3(at.x,height,at.y))
-	ExplorationBoundary.build(self,id,points,_material("cut_stone"),_material("iron"),3.0,id.begins_with("SouthPocket"))
+	# The west half/quarter decks stand at Y5.2, above a normal fence's Y5
+	# top. Use the existing property back wall to contain their outward exits.
+	# Top Y12 also clears the unpumped 18m/s vertical lip's ~Y10 apex.
+	var behind_decks := id == "QuayLandwardBoundary" and end.x <= -15.0
+	var opaque_edge := id == "NorthQuayEndBoundary" or id == "QuayLandwardBoundary"
+	ExplorationBoundary.build(self,id,points,_material("cut_stone"),_material("iron"),
+		10.0 if behind_decks else 3.0,behind_decks or id.begins_with("SouthPocket"),opaque_edge)
 
 
 func get_district_id(world_position: Vector3) -> String:
@@ -192,6 +198,10 @@ func _build_clyde() -> void:
 	_box("SouthEmbankment", Vector3(18.5, -0.2, 116.4), Vector3(115, 4.4, 0.8), _material("cut_stone"))
 	_clyde_yard = PackedVector3Array([Vector3(Layout.TRANSFER_X,2,124), Vector3(41.0,2,137), Vector3(63.0,2,124), Vector3(30.0,2,122), Vector3(Layout.TRANSFER_X,2,124)])
 	_path("ClydePrintYard", _clyde_yard, 8.0, _material("paving"))
+	# The compact urban yard has one flush Y2 floor, not a raised road ribbon
+	# over low grass. Keep route/collision data; remove duplicate coplanar art.
+	for child: Node in get_node("ClydePrintYard").get_children():
+		if child is MeshInstance3D: child.free()
 	_box("PrintYardPlanter", Vector3(43.0,2.35,127), Vector3(9,0.7,5), _material("cut_stone"))
 	_box("PrintYardSoil", Vector3(41.0,2.73,127), Vector3(3.0,0.08,4.4), _material("bark"), false)
 	var hip_bounds := Rect2(43, 126, 4.5 + YARD_BANK_RUN, 3.5 + YARD_BANK_RUN)
@@ -215,8 +225,15 @@ func _build_clyde() -> void:
 	_water()
 	var bank_material := _material("cut_stone")
 	var bank_bounds := Layout.YARD_GROUND
-	Surface.terrain(self, "ClydePrintYardGround", bank_bounds, 5.0, _south_bank_height, bank_material)
-	_surfaces.append({"bounds": bank_bounds, "height_at": _south_bank_height, "spacing":5.0})
+	var yard_ground := Surface.terrain(self, "ClydePrintYardGround", bank_bounds, 5.0, _yard_ground_height, bank_material)
+	# The hip includes flat toe triangles. Its complete display owns that
+	# footprint; duplicate Y2 paving underneath would shimmer after flattening
+	# the yard. Keep all support/collision; subtract displayed faces only.
+	Surface.trim_visual_rect(yard_ground,hip_bounds)
+	Surface.trim_visual_rect(get_node("ClydeSouthQuay"),hip_bounds)
+	# The optional landing's flat metal run-out is also flush with this quay.
+	Surface.trim_visual_rect(get_node("ClydeBridgeSouthDeck"),Layout.SOUTH_QUAY)
+	_surfaces.append({"bounds": bank_bounds, "height_at": _yard_ground_height, "spacing":5.0})
 	_bridge_structure(safe, 8.0, true)
 	_bridge_structure(north, 5.0, false)
 	_bridge_structure(south, 5.0, false)
@@ -240,7 +257,12 @@ func _build_clyde() -> void:
 	transfer.append_array(north)
 	transfer.append_array(south)
 	_route("clyde_bridge_transfer", "Clyde eight-metre transfer", transfer, true)
-	_route("clyde_print_yard_loop", "Clyde print-yard landing loop", _clyde_yard)
+	# Publish the real south-bank return too: otherwise the route map depicts
+	# the continuous bridge as a dead end disconnected from the yard circuit.
+	var yard_return := PackedVector3Array([Vector3(Layout.SAFE_X,2,125),Vector3(Layout.SAFE_X,2,124)])
+	yard_return.append_array(_clyde_yard)
+	yard_return.append_array(PackedVector3Array([Vector3(Layout.SAFE_X,2,124),Vector3(Layout.SAFE_X,2,125)]))
+	_route("clyde_print_yard_loop", "Clyde print-yard loop and safe bridge return", yard_return)
 
 
 func _build_park() -> void:
@@ -352,13 +374,10 @@ func _yard_hip_height(x: float, z: float) -> float:
 	return 2.0 + YARD_BANK_RADIUS - sqrt(maxf(0.0, YARD_BANK_RADIUS * YARD_BANK_RADIUS - toward_deck * toward_deck))
 
 
-func _south_bank_height(x: float, z: float) -> float:
-	var depth := smoothstep(130.0, 215.0, z)
-	var natural := 2.0 + depth * (5.5 + sin(x * 0.025) * 2.0 + cos(x * 0.011 + z * 0.03))
-	if not _clyde_yard.is_empty() and x > 9 and x < 73 and z < 149:
-		var nearest := Surface.nearest_segment(_clyde_yard, Vector2(x,z))
-		natural = minf(natural, lerpf(1.8, natural, smoothstep(8.0, 14.0, float(nearest.distance))))
-	return natural
+func _yard_ground_height(_x: float, _z: float) -> float:
+	# Flat supported work yard meets the quay and native hip toe exactly.
+	# The old 1.8m grass trough trapped ordinary riders against a 20cm lip.
+	return 2.0
 
 
 func _central_bank_height(x: float, z: float) -> float:

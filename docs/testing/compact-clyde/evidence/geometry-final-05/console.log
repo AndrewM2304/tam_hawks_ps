@@ -1,0 +1,376 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Clyde surface separation: compact quay has actual Y2 paving triangles
+CLYDE_LITERAL_FLOAT actual=[(-102.0, 2.0, 45.0), (-86.0, 2.0, 45.0), (-100.4699, 2.0, 59.7054), (-86.0, 2.0, 45.0), (-87.5301, 2.0, 50.2946), (-100.4699, 2.0, 59.7054), (-100.4699, 2.0, 59.7054), (-87.5301, 2.0, 50.2946), (-82.8, 2.0, 73.4), (-87.5301, 2.0, 50.2946), (-73.2, 2.0, 60.6), (-82.8, 2.0, 73.4)] independent=[(-102.0, 2.0, 45.0), (-86.0, 2.0, 45.0), (-100.4699, 2.0, 59.70537), (-86.0, 2.0, 45.0), (-87.53011, 2.0, 50.29463), (-100.4699, 2.0, 59.70537), (-100.4699, 2.0, 59.70537), (-87.53011, 2.0, 50.29463), (-82.8, 2.0, 73.4), (-87.53011, 2.0, 50.29463), (-73.2, 2.0, 60.6), (-82.8, 2.0, 73.4)] maximum_corner_error_m=0.0000341196901
+PASS: Clyde surface separation: bent16m collision retains independently fixed corners/layers/audio/backface support ClydeWestApproach
+PASS: Clyde surface separation: actual bent-road collision independently exposes132.00065m2 paving overlap ClydeWestApproach
+PASS: Clyde surface separation: displayed bent road has no positive-area Y2 overlap with compact paving ClydeWestApproach
+PASS: Clyde surface separation: complete exterior road footprint retains original triangle planes without height offsets ClydeWestApproach
+PASS: Clyde surface separation: real graded ray/query and rider capsule support cover every bent-road collision triangle ClydeWestApproach
+PASS: Clyde surface separation: exterior graded road remains visibly covered after native clipping ClydeWestApproach
+CLYDE_LITERAL_FLOAT actual=[(86.0, 0.0, 45.0), (102.0, 0.0, 45.0), (87.5301, 2.0, 50.2946), (102.0, 0.0, 45.0), (100.4699, 2.0, 59.7054), (87.5301, 2.0, 50.2946), (87.5301, 2.0, 50.2946), (100.4699, 2.0, 59.7054), (73.2, 2.0, 60.6), (100.4699, 2.0, 59.7054), (82.8, 2.0, 73.4), (73.2, 2.0, 60.6)] independent=[(86.0, 0.0, 45.0), (102.0, 0.0, 45.0), (87.53011, 2.0, 50.29463), (102.0, 0.0, 45.0), (100.4699, 2.0, 59.70537), (87.53011, 2.0, 50.29463), (87.53011, 2.0, 50.29463), (100.4699, 2.0, 59.70537), (73.2, 2.0, 60.6), (100.4699, 2.0, 59.70537), (82.8, 2.0, 73.4), (73.2, 2.0, 60.6)] maximum_corner_error_m=0.0000341196901
+PASS: Clyde surface separation: bent16m collision retains independently fixed corners/layers/audio/backface support ClydeEastApproach
+PASS: Clyde surface separation: actual bent-road collision independently exposes132.00065m2 paving overlap ClydeEastApproach
+PASS: Clyde surface separation: displayed bent road has no positive-area Y2 overlap with compact paving ClydeEastApproach
+PASS: Clyde surface separation: complete exterior road footprint retains original triangle planes without height offsets ClydeEastApproach
+PASS: Clyde surface separation: real graded ray/query and rider capsule support cover every bent-road collision triangle ClydeEastApproach
+PASS: Clyde surface separation: exterior graded road remains visibly covered after native clipping ClydeEastApproach
+PASS: Station surface separation: both original full-height collision prisms retain all authored corners and complete footprint
+PASS: Station surface separation: actual original prism tops independently expose the 99.8176m2 asphalt/paving counterexample
+PASS: Station surface separation: displayed top stops at the real floor edge, preserving the exterior road at Y2 without offsets
+PASS: Station surface separation: original collision and terrain height support remain across the clipped visual seam
+PHYSICS_INVENTORY bodies=354 shapes=1296 protected_bodies=271 protected_shapes=720 bench_bodies=12 bench_boxes=44 identified=true
+PASS: Surface separation: protected core/benches remain exact and compact total collision stays within its original budget
+PASS: Surface separation: unique current routes use compact Clyde joins while unrelated Merchant Close points stay unchanged
+PASS: transition geometry: one quarter and both half-pipe sides are published
+PASS: transition geometry: clyde_quarter exposes a unit world-space contact frame
+PASS: transition geometry: clyde_quarter is a physical tagged 90-degree transition
+PASS: transition geometry: clyde_quarter collision uses every visible front-face triangle exactly
+PASS: transition geometry: clyde_quarter has finite correctly wound samples no more than 2 degrees apart
+PASS: transition geometry: clyde_quarter actual collision supports 1.0 degrees
+PASS: transition geometry: clyde_quarter actual collision supports 20.0 degrees
+PASS: transition geometry: clyde_quarter actual collision supports 44.0 degrees
+PASS: transition geometry: clyde_quarter actual collision supports 70.0 degrees
+PASS: transition geometry: clyde_quarter actual collision supports 88.0 degrees
+PASS: transition geometry: clyde_quarter publishes the visible coping top in world metres
+PASS: transition geometry: clyde_quarter raised deck has matching physical support
+PASS: transition geometry: clyde_half_west exposes a unit world-space contact frame
+PASS: transition geometry: clyde_half_west is a physical tagged 90-degree transition
+PASS: transition geometry: clyde_half_west collision uses every visible front-face triangle exactly
+PASS: transition geometry: clyde_half_west has finite correctly wound samples no more than 2 degrees apart
+PASS: transition geometry: clyde_half_west actual collision supports 1.0 degrees
+PASS: transition geometry: clyde_half_west actual collision supports 20.0 degrees
+PASS: transition geometry: clyde_half_west actual collision supports 44.0 degrees
+PASS: transition geometry: clyde_half_west actual collision supports 70.0 degrees
+PASS: transition geometry: clyde_half_west actual collision supports 88.0 degrees
+PASS: transition geometry: clyde_half_west publishes the visible coping top in world metres
+PASS: transition geometry: clyde_half_west raised deck has matching physical support
+PASS: transition geometry: clyde_half_east exposes a unit world-space contact frame
+PASS: transition geometry: clyde_half_east is a physical tagged 90-degree transition
+PASS: transition geometry: clyde_half_east collision uses every visible front-face triangle exactly
+PASS: transition geometry: clyde_half_east has finite correctly wound samples no more than 2 degrees apart
+PASS: transition geometry: clyde_half_east actual collision supports 1.0 degrees
+PASS: transition geometry: clyde_half_east actual collision supports 20.0 degrees
+PASS: transition geometry: clyde_half_east actual collision supports 44.0 degrees
+PASS: transition geometry: clyde_half_east actual collision supports 70.0 degrees
+PASS: transition geometry: clyde_half_east actual collision supports 88.0 degrees
+PASS: transition geometry: clyde_half_east publishes the visible coping top in world metres
+PASS: transition geometry: clyde_half_east raised deck has matching physical support
+PASS: transition geometry: half-pipe sides oppose across an eight-metre flat bottom
+PASS: transition geometry: half-pipe physical bottom meets both two-metre curve toes without a raised collision edge
+PASS: transition geometry: two visible flat triangles preserve all four original world top corners at2.006m
+PASS: transition geometry: unchanged physical box supports both flat-to-curve toe joins at2.000m
+PASS: transition geometry: quay approach enters the open half-pipe bottom without a side wall
+PASS: transition geometry: back-facing curve cannot masquerade as front support
+PASS: compact Clyde: actual visible supported footprint matches the retained ClydeNorthQuay
+PASS: compact Clyde: actual visible supported footprint matches the retained ClydeSouthQuay
+PASS: compact Clyde: obsolete 560x90m landscape body is removed
+PASS: compact Clyde: retained quay approaches and useful return have real clear rider support
+PASS: compact Clyde: bounded rear strip is real support rather than a hidden catch plane
+PASS: compact Clyde: old outer quays and 33 former landscape samples contain no obsolete floor or query support
+PASS: compact Clyde: removed south roaming space is not advertised as the Clyde district
+PASS: compact Clyde: complete cross-quay route is landward atZ69 rather than behind solid bridge handrails
+PASS: compact Clyde: full city-to-city quay route retains actual rider support and plus/minus0.7m lateral clearance
+PASS: compact Clyde: full3-track quay route clears real capsule motion in both directions through every join
+PASS: compact Clyde: true safe bridge supports centre and both novice lateral margins for the full crossing
+PASS: compact Clyde: rider-size sweeps clear safe bridge joins and both travel directions without jumping
+PASS: compact Clyde: safe navigation route follows the moved continuous crossing rather than the removed bridge
+PASS: compact Clyde: native eight-metre optional opening has no collision filler across its usable deck width
+PASS: compact Clyde: actual launch and landing decks retain native heights and recoverable lateral margins
+PASS: compact Clyde: stable scored gap moves with the physical bridge without wider scoring gates
+PASS: compact Clyde: distinct optional and safe bridge routes are 45m apart with the real opening retained
+PASS: compact Clyde: both half-pipe faces and east-facing quarter move physical contact frames and decks intact at native dimensions
+PASS: compact Clyde: half-pipe open end and rotated quarter entry remain clear rider-size approaches
+PASS: compact Clyde: moved native flat box retains its8m footprint and actual Y2 support across both opposing toes
+PASS: compact Clyde: stable yard ledge moves its complete native 9.4m profile with the planter
+PASS: compact Clyde: moved planter has matching real top support rather than only a moved grind track
+PASS: compact Clyde: ledge runout beyond the planter remains supported with a useful recovery margin
+COMPACT_CLYDE_HIP_RANGE min=2.0 max=2.72339177131653 steepest=31.0640595585423 support=true
+PASS: compact Clyde: translated yard hip retains actual curved support and its original 35-degree rise
+PASS: compact Clyde: published yard circuit joins the safe crossing at both ends through the actual south-return lane
+PASS: compact Clyde: complete south return has real centre/plus-minus0.7m rider support and capsule motion in both directions
+PASS: compact Clyde: no low coping or selected embankment grind crosses either flush bridge mouth
+PASS: compact Clyde: retained dry ends have real collision with visible matching boundary geometry
+PASS: compact Clyde: existing west landward span is visible solid masonry with actual topY12 behind the raised ramps
+PASS: compact Clyde: both half-pipe decks and quarter deck retain actual supported clear Y5.2 starts
+PASS: compact Clyde: real rider capsules cannot roll north from any raised deck above the oldY5 guard
+PASS: compact Clyde: physical west closure blocks northward capsules at charged deck-jump heightY7.4
+PASS: compact Clyde: physical west closure blocks northward capsules above the conservative native lip-apex heightY10.2
+PASS: compact Clyde: taller west closure meets the road edge and preserves all3 clear Exchange-close tracks in both directions
+PASS: compact Clyde: both banks and scenic-water extremes recover onto retained clear quay rather than deleted grass
+PASS: compact Clyde: moved-layout district checkpoint remains a real supported clear retry point
+PASS: compact Clyde: both visible suspension portals follow the physical safe crossing
+PASS: district routes: six named checkpoints
+PASS: district routes: checkpoint classification royal_exchange
+PASS: district routes: supported checkpoint royal_exchange
+PASS: district routes: clear checkpoint capsule royal_exchange
+PASS: district routes: checkpoint classification george_square
+PASS: district routes: supported checkpoint george_square
+PASS: district routes: clear checkpoint capsule george_square
+PASS: district routes: checkpoint classification central_station
+PASS: district routes: supported checkpoint central_station
+PASS: district routes: clear checkpoint capsule central_station
+PASS: district routes: checkpoint classification barras
+PASS: district routes: supported checkpoint barras
+PASS: district routes: clear checkpoint capsule barras
+PASS: district routes: checkpoint classification clyde
+PASS: district routes: supported checkpoint clyde
+PASS: district routes: clear checkpoint capsule clyde
+PASS: district routes: checkpoint classification kelvingrove
+PASS: district routes: supported checkpoint kelvingrove
+PASS: district routes: clear checkpoint capsule kelvingrove
+PASS: district routes: core and outdoor navigation routes published
+PASS: district routes: usable waypoint route gallery_west_close
+PASS: district routes: continuous collision matches route elevation gallery_west_close
+PASS: district routes: unobstructed capsule in both directions gallery_west_close
+PASS: district routes: usable waypoint route gallery_east_close
+PASS: district routes: continuous collision matches route elevation gallery_east_close
+PASS: district routes: unobstructed capsule in both directions gallery_east_close
+PASS: district routes: usable waypoint route exchange_west_quay_close
+PASS: district routes: continuous collision matches route elevation exchange_west_quay_close
+PASS: district routes: unobstructed capsule in both directions exchange_west_quay_close
+PASS: district routes: usable waypoint route exchange_east_quay_close
+PASS: district routes: continuous collision matches route elevation exchange_east_quay_close
+PASS: district routes: unobstructed capsule in both directions exchange_east_quay_close
+PASS: district routes: usable waypoint route cat_coping_approach
+PASS: district routes: continuous collision matches route elevation cat_coping_approach
+PASS: district routes: unobstructed capsule in both directions cat_coping_approach
+PASS: district routes: usable waypoint route cat_coping_runout
+PASS: district routes: continuous collision matches route elevation cat_coping_runout
+PASS: district routes: unobstructed capsule in both directions cat_coping_runout
+PASS: district routes: usable waypoint route cat_ordered_coping_line
+PASS: district routes: usable waypoint route cat_workshop_bypass
+PASS: district routes: continuous collision matches route elevation cat_workshop_bypass
+PASS: district routes: unobstructed capsule in both directions cat_workshop_bypass
+PASS: district routes: usable waypoint route civic_workshop_bank_loop
+PASS: district routes: continuous collision matches route elevation civic_workshop_bank_loop
+PASS: district routes: unobstructed capsule in both directions civic_workshop_bank_loop
+PASS: district routes: usable waypoint route market_hall_bank_loop
+PASS: district routes: continuous collision matches route elevation market_hall_bank_loop
+PASS: district routes: unobstructed capsule in both directions market_hall_bank_loop
+PASS: district routes: usable waypoint route gallery_entrance_bank_loop
+PASS: district routes: continuous collision matches route elevation gallery_entrance_bank_loop
+PASS: district routes: unobstructed capsule in both directions gallery_entrance_bank_loop
+PASS: district routes: usable waypoint route gallery_entrance_front_return
+PASS: district routes: continuous collision matches route elevation gallery_entrance_front_return
+PASS: district routes: unobstructed capsule in both directions gallery_entrance_front_return
+PASS: district routes: usable waypoint route gallery_entrance_bypass
+PASS: district routes: continuous collision matches route elevation gallery_entrance_bypass
+PASS: district routes: unobstructed capsule in both directions gallery_entrance_bypass
+PASS: district routes: usable waypoint route exchange_west_bank_loop
+PASS: district routes: continuous collision matches route elevation exchange_west_bank_loop
+PASS: district routes: unobstructed capsule in both directions exchange_west_bank_loop
+PASS: district routes: usable waypoint route exchange_west_bypass
+PASS: district routes: continuous collision matches route elevation exchange_west_bypass
+PASS: district routes: unobstructed capsule in both directions exchange_west_bypass
+PASS: district routes: usable waypoint route barras_covered_delivery_lane
+PASS: district routes: continuous collision matches route elevation barras_covered_delivery_lane
+PASS: district routes: unobstructed capsule in both directions barras_covered_delivery_lane
+PASS: district routes: usable waypoint route barras_west_delivery_lane
+PASS: district routes: continuous collision matches route elevation barras_west_delivery_lane
+PASS: district routes: unobstructed capsule in both directions barras_west_delivery_lane
+PASS: district routes: usable waypoint route barras_market_inner_loop
+PASS: district routes: continuous collision matches route elevation barras_market_inner_loop
+PASS: district routes: unobstructed capsule in both directions barras_market_inner_loop
+PASS: district routes: usable waypoint route barras_market_outer_loop
+PASS: district routes: continuous collision matches route elevation barras_market_outer_loop
+PASS: district routes: unobstructed capsule in both directions barras_market_outer_loop
+PASS: district routes: usable waypoint route barras_covered_loading_link
+PASS: district routes: continuous collision matches route elevation barras_covered_loading_link
+PASS: district routes: unobstructed capsule in both directions barras_covered_loading_link
+PASS: district routes: usable waypoint route gallery_civic_ascent
+PASS: district routes: continuous collision matches route elevation gallery_civic_ascent
+PASS: district routes: unobstructed capsule in both directions gallery_civic_ascent
+PASS: district routes: usable waypoint route exchange_fountain_loop
+PASS: district routes: continuous collision matches route elevation exchange_fountain_loop
+PASS: district routes: unobstructed capsule in both directions exchange_fountain_loop
+PASS: district routes: usable waypoint route central_south_link
+PASS: district routes: continuous collision matches route elevation central_south_link
+PASS: district routes: unobstructed capsule in both directions central_south_link
+PASS: district routes: usable waypoint route central_north_link
+PASS: district routes: continuous collision matches route elevation central_north_link
+PASS: district routes: unobstructed capsule in both directions central_north_link
+PASS: district routes: usable waypoint route barras_south_link
+PASS: district routes: continuous collision matches route elevation barras_south_link
+PASS: district routes: unobstructed capsule in both directions barras_south_link
+PASS: district routes: usable waypoint route barras_north_link
+PASS: district routes: continuous collision matches route elevation barras_north_link
+PASS: district routes: unobstructed capsule in both directions barras_north_link
+PASS: district routes: usable waypoint route central_back_lane
+PASS: district routes: continuous collision matches route elevation central_back_lane
+PASS: district routes: unobstructed capsule in both directions central_back_lane
+PASS: district routes: usable waypoint route barras_back_lane
+PASS: district routes: continuous collision matches route elevation barras_back_lane
+PASS: district routes: unobstructed capsule in both directions barras_back_lane
+PASS: district routes: usable waypoint route central_high_line
+PASS: district routes: usable waypoint route central_high_line_bypass
+PASS: district routes: continuous collision matches route elevation central_high_line_bypass
+PASS: district routes: unobstructed capsule in both directions central_high_line_bypass
+PASS: district routes: usable waypoint route market_loading_ascent
+PASS: district routes: continuous collision matches route elevation market_loading_ascent
+PASS: district routes: unobstructed capsule in both directions market_loading_ascent
+PASS: district routes: usable waypoint route gallery_step_drop
+PASS: district routes: usable waypoint route market_step_drop
+PASS: district routes: usable waypoint route merchant_service_east_return
+PASS: district routes: continuous collision matches route elevation merchant_service_east_return
+PASS: district routes: unobstructed capsule in both directions merchant_service_east_return
+PASS: district routes: usable waypoint route merchant_service_west_return
+PASS: district routes: continuous collision matches route elevation merchant_service_west_return
+PASS: district routes: unobstructed capsule in both directions merchant_service_west_return
+PASS: district routes: usable waypoint route merchant_close_cutthrough
+PASS: district routes: continuous collision matches route elevation merchant_close_cutthrough
+PASS: district routes: unobstructed capsule in both directions merchant_close_cutthrough
+PASS: district routes: usable waypoint route station_low_level_close
+PASS: district routes: continuous collision matches route elevation station_low_level_close
+PASS: district routes: unobstructed capsule in both directions station_low_level_close
+PASS: district routes: usable waypoint route station_park_port
+PASS: district routes: continuous collision matches route elevation station_park_port
+PASS: district routes: unobstructed capsule in both directions station_park_port
+PASS: district routes: usable waypoint route civic_park_port
+PASS: district routes: continuous collision matches route elevation civic_park_port
+PASS: district routes: unobstructed capsule in both directions civic_park_port
+PASS: district routes: usable waypoint route clyde_print_yard_hip
+PASS: district routes: continuous collision matches route elevation clyde_print_yard_hip
+PASS: district routes: unobstructed capsule in both directions clyde_print_yard_hip
+PASS: district routes: usable waypoint route clyde_north_quay
+PASS: district routes: continuous collision matches route elevation clyde_north_quay
+PASS: district routes: unobstructed capsule in both directions clyde_north_quay
+PASS: district routes: usable waypoint route clyde_safe_crossing
+PASS: district routes: continuous collision matches route elevation clyde_safe_crossing
+PASS: district routes: unobstructed capsule in both directions clyde_safe_crossing
+PASS: district routes: usable waypoint route clyde_bridge_transfer
+PASS: district routes: usable waypoint route clyde_print_yard_loop
+PASS: district routes: continuous collision matches route elevation clyde_print_yard_loop
+PASS: district routes: unobstructed capsule in both directions clyde_print_yard_loop
+PASS: district routes: usable waypoint route kelvingrove_central_climb
+PASS: district routes: continuous collision matches route elevation kelvingrove_central_climb
+PASS: district routes: unobstructed capsule in both directions kelvingrove_central_climb
+PASS: district routes: usable waypoint route kelvingrove_george_promenade
+PASS: district routes: continuous collision matches route elevation kelvingrove_george_promenade
+PASS: district routes: unobstructed capsule in both directions kelvingrove_george_promenade
+PASS: district routes: usable waypoint route kelvingrove_rolling_loop
+PASS: district routes: continuous collision matches route elevation kelvingrove_rolling_loop
+PASS: district routes: unobstructed capsule in both directions kelvingrove_rolling_loop
+PASS: district routes: usable waypoint route kelvingrove_cutback_return
+PASS: district routes: continuous collision matches route elevation kelvingrove_cutback_return
+PASS: district routes: unobstructed capsule in both directions kelvingrove_cutback_return
+PASS: district routes: unique marker H
+PASS: district routes: supported marker H
+PASS: district routes: reachable marker capsule H
+PASS: district routes: unique marker A
+PASS: district routes: supported marker A
+PASS: district routes: reachable marker capsule A
+PASS: district routes: unique marker W
+PASS: district routes: supported marker W
+PASS: district routes: reachable marker capsule W
+PASS: district routes: unique marker K
+PASS: district routes: supported marker K
+PASS: district routes: reachable marker capsule K
+PASS: district routes: unique marker S
+PASS: district routes: supported marker S
+PASS: district routes: reachable marker capsule S
+PASS: district routes: unique marker market_1
+PASS: district routes: supported marker market_1
+PASS: district routes: reachable marker capsule market_1
+PASS: district routes: unique marker market_2
+PASS: district routes: supported marker market_2
+PASS: district routes: reachable marker capsule market_2
+PASS: district routes: unique marker market_3
+PASS: district routes: supported marker market_3
+PASS: district routes: reachable marker capsule market_3
+PASS: district routes: unique marker cone
+PASS: district routes: supported marker cone
+PASS: district routes: reachable marker capsule cone
+PASS: district routes: unique marker secret_recording
+PASS: district routes: supported marker secret_recording
+PASS: district routes: reachable marker capsule secret_recording
+PASS: district routes: unique marker royal_exchange
+PASS: district routes: supported marker royal_exchange
+PASS: district routes: reachable marker capsule royal_exchange
+PASS: district routes: unique marker george_square
+PASS: district routes: supported marker george_square
+PASS: district routes: reachable marker capsule george_square
+PASS: district routes: unique marker central_station
+PASS: district routes: supported marker central_station
+PASS: district routes: reachable marker capsule central_station
+PASS: district routes: unique marker barras
+PASS: district routes: supported marker barras
+PASS: district routes: reachable marker capsule barras
+PASS: district routes: unique marker clyde
+PASS: district routes: supported marker clyde
+PASS: district routes: reachable marker capsule clyde
+PASS: district routes: unique marker kelvingrove
+PASS: district routes: supported marker kelvingrove
+PASS: district routes: reachable marker capsule kelvingrove
+PASS: district routes: complete letters and recording hooks
+PASS: district routes: bounded authored gap exchange_launch
+PASS: district routes: bounded authored gap central_gap
+PASS: district routes: bounded authored gap market_hop
+PASS: district routes: bounded authored gap clyde_bridge_transfer
+PASS: district routes: platform gap and two other routes
+PASS: district routes: platform gap has a real break and safe lower floor
+PASS: district routes: raised platform supports its route 6.0
+PASS: district routes: raised platform supports its route -10.0
+PASS: district routes: bystanders stand on actual district floors
+PASS: district routes: cone interaction visibly pops the original cone
+PASS: district routes: cone animation freezes while paused
+PASS: district routes: reset restores cone and clears interaction state
+PASS: skate edges: startup authoring adds no render nodes or colliders
+PASS: skate edges: all48existing navigation routes remain intact
+PASS: skate edges: finite unique usable lines cover selected existing skate architecture
+PASS: skate edges: rebuilding snapshots is deterministic without registering duplicate nodes
+PASS: skate edges: registered visible feature family Planter_
+PASS: skate edges: registered visible feature family CourtSeat_
+PASS: skate edges: registered visible feature family WorkshopSeat_
+PASS: skate edges: registered visible feature family MarketCounter_
+PASS: skate edges: registered visible feature family Bench_
+PASS: skate edges: registered visible feature family StreetBenchSeat_
+PASS: skate edges: registered visible feature family StreetBenchBack_
+PASS: skate edges: registered visible feature family CivicGarden_
+PASS: skate edges: registered visible feature family PlatformNorthGap_
+PASS: skate edges: registered visible feature family ServiceWalkFront_
+PASS: skate edges: registered visible feature family BridgeRail_
+PASS: skate edges: registered visible feature family NorthEmbankment_
+PASS: skate edges: registered visible feature family SouthEmbankment_
+PASS: skate edges: registered visible feature family ParkGranite_
+PASS: skate edges: all four counters and four small planters expose each physical top edge
+PASS: skate edges: physical box transform preserves orientation scale and world-up contact skin
+PASS: skate edges: previous authored tracks and challenge IDs are unchanged
+PASS: skate edges: actual short top rays support registered physical edges: []
+PASS: skate edges: physical registrations stay above existing world support: []
+PASS: skate edges: real upright rider skin and short sweep clear representative Planter_
+PASS: skate edges: real upright rider skin and short sweep clear representative CourtSeat_
+PASS: skate edges: real upright rider skin and short sweep clear representative WorkshopSeat_
+PASS: skate edges: real upright rider skin and short sweep clear representative ClosePocket_
+PASS: skate edges: real upright rider skin and short sweep clear representative PrintYard_
+PASS: skate edges: real upright rider skin and short sweep clear representative MarketCounter_
+PASS: skate edges: real upright rider skin and short sweep clear representative Bench_
+PASS: skate edges: real upright rider skin and short sweep clear representative StreetBenchSeat_
+PASS: skate edges: real upright rider skin and short sweep clear representative StreetBenchBack_
+PASS: skate edges: real upright rider skin and short sweep clear representative StairCheek_
+PASS: skate edges: real upright rider skin and short sweep clear representative BuskingPlinth_
+PASS: skate edges: real upright rider skin and short sweep clear representative CivicGarden_
+PASS: skate edges: real upright rider skin and short sweep clear representative PlatformNorthGap_
+PASS: skate edges: real upright rider skin and short sweep clear representative ServiceWalkFront_
+PASS: skate edges: real upright rider skin and short sweep clear representative BridgeRail_
+PASS: skate edges: real upright rider skin and short sweep clear representative NorthEmbankment_
+PASS: skate edges: real upright rider skin and short sweep clear representative SouthEmbankment_
+PASS: skate edges: real upright rider skin and short sweep clear representative ParkGranite_
+SKATE EDGE CONTACTS rays=1173 rail_only=50 top_failures=0 outside_failures=0
+PASS: support query: matches real collision at gallery riser seam
+PASS: support query: matches real collision at gallery first step end
+PASS: support query: matches real collision at civic first step end
+PASS: support query: matches real collision at market street maximum X shoulder
+PASS: support query: matches real collision at platform maximum Z with lower concourse
+PASS: support query: matches real collision at yard flush floor beyond the retained route ribbon
+PASS: support query: matches real collision at park hip actual sloping triangle
+PASS: support query: matches real collision at park port beside actual ribbon end
+PASS: support query: matches real collision at civic park port exact start cap
+PASS: support query: matches real collision at Clyde approach shared triangle diagonal
+PASS: support query: height-aware station lower and upper levels remain distinct
+PASS: support query: isolated exposed outside corners remain available to retained boundaries
+PASS: support query: a centreline-radius false positive stays outside the actual bent ribbon
+PASS: support query: graded triangle interior interpolates its actual plane
+PASS: support query: shared ribbon triangle diagonal has no artificial NAN seam
+PASS: support query: exterior cap ownership preserves millimetre inside and outside distinction
+RESULT: 368 passed, 0 failed

@@ -1,0 +1,191 @@
+extends SceneTree
+## Deliberately imperfect ordinary-input trials on the full current World.
+## Each attempt assigns one initial fixture/facing. No later motion/state,
+## heading, collision or recovery position is assigned by this harness.
+const MainSource = preload("res://game/main.gd")
+const Driver = preload("res://tests/support/compact_clyde_lines_driver.gd")
+var passed := 0
+var failed := 0
+var started_ms := 0
+
+
+func _initialize() -> void:
+	started_ms=Time.get_ticks_msec()
+	_run.call_deferred()
+
+
+func _process(_delta: float) -> bool:
+	if Time.get_ticks_msec()-started_ms>240000:
+		push_error("COMPACT MARGINS TIMEOUT")
+		quit(2)
+	return false
+
+
+func _run() -> void:
+	var game=MainSource.new()
+	game.persistence_enabled=false
+	root.add_child(game)
+	await physics_frame
+	await process_frame
+	await _missed_bridge(game)
+	await _late_yard_grind(game)
+	Driver.release()
+	game.queue_free()
+	await process_frame
+	print("RESULT: %d passed, %d failed" % [passed,failed])
+	quit(1 if failed else 0)
+
+
+func _missed_bridge(game: Node) -> void:
+	var start:=Vector3(20,2.8,65)
+	var recorder=await Driver.fixture(self,game,start,Vector3.BACK)
+	var water_events: Array[Dictionary]=[]
+	var on_water:=func():
+		var at: Vector3=game.skater.global_position
+		var target: Vector3=game.world.get_recovery_position(at)
+		water_events.append({"tick":Engine.get_physics_frames(),"at":at,"target":target,
+			"water":at.y< -1.75 and at.z>78 and at.z<116 and target.is_finite()})
+	game.skater.bailed.connect(on_water)
+	# Earn the preserved bank through a real tap and real landing first.
+	Driver.action("ollie",1.0)
+	await Driver.ticks(self,2)
+	Driver.action("ollie",0.0)
+	await Driver.ticks(self,90)
+	var bank_before: int=game.score.total_score
+	_check(bank_before==100 and game.skater.is_on_floor(),
+		"compact margins: missed-bridge fixture first earns a real supported 100-point bank")
+	Driver.action("push",1.0)
+	var fall_trick := false
+	var pending_before_water := false
+	for tick: int in 600:
+		if not fall_trick and game.skater.airborne and game.skater.global_position.z>94:
+			Driver.action("flip",1.0)
+			fall_trick=true
+		else: Driver.action("flip",0.0)
+		await Driver.ticks(self,1)
+		pending_before_water=pending_before_water or (fall_trick and game.score.get_combo_value()>0)
+		if not water_events.is_empty(): break
+	Driver.release()
+	await Driver.stop(self,game)
+	await Driver.ticks(self,40)
+	var result: Dictionary=Driver.summary(recorder)
+	var trace: Dictionary=_trace(recorder.rows,water_events)
+	var at: Vector3=game.skater.global_position
+	var ground: float=game.world.get_ground_height(at)
+	_check(fall_trick and pending_before_water and water_events.size()==1 and water_events[0].water
+		and result.bails==1 and game.score.total_score==bank_before and game.score.get_combo_value()==0,
+		"compact margins: no-Ollie bridge miss really enters water, bails once and loses the fall trick while preserving bank")
+	_check(game.skater.is_on_floor() and is_finite(ground) and absf(at.y-ground)<0.05
+		and game.skater.spawn_position.is_equal_approx(start) and not game.world.get_recovery_position(at).is_finite()
+		and trace.contiguous and trace.finite and trace.unexplained_jumps==0 and trace.recovery_jumps==1,
+		"compact margins: production water recovery reaches actual retained support, with precisely one explained relocation")
+	var data: Dictionary={"fixture":start,"bank_before":bank_before,"pending_before_water":pending_before_water,
+		"summary":result,"trace":trace,"water_events":water_events,"final_at":at,"support_height":ground,
+		"events":recorder.events,"samples":recorder.rows}
+	_save("missed-bridge",data)
+	var brief:=data.duplicate()
+	brief.erase("samples")
+	print("COMPACT_MARGIN_WATER ",Driver.serializable(brief))
+	game.skater.bailed.disconnect(on_water)
+	recorder.active=false
+	recorder.queue_free()
+	await process_frame
+
+
+func _late_yard_grind(game: Node) -> void:
+	var rail=null
+	for candidate in game.world.get_grind_lines():
+		if candidate.id=="clyde_print_yard_ledge": rail=candidate
+	_check(rail!=null and rail.is_valid,"compact margins: late-grind attempt uses the real yard ledge")
+	if rail==null or not rail.is_valid: return
+	var target: Vector3=rail.point_at(2.2)
+	var tangent: Vector3=rail.dir_at(2.2)
+	var endpoint: Vector3=rail.point_at(rail.length)
+	var start: Vector3=target-tangent*20
+	start.y=2.8
+	var recorder=await Driver.fixture(self,game,start,tangent)
+	var charged := false
+	var released := false
+	var charge_ticks := 0
+	var late_pressed := false
+	var press_at := Vector3.INF
+	for tick: int in 400:
+		Driver.action("push",1.0)
+		if not charged and (target-game.skater.global_position).dot(tangent)<13:
+			Driver.action("ollie",1.0)
+			charged=true
+		if charged and not released:
+			if charge_ticks>=15:
+				Driver.action("ollie",0.0)
+				released=true
+			else: charge_ticks+=1
+		await Driver.ticks(self,1)
+		# Human-style late request: the entire real ledge is already behind the
+		# rider by more than the native0.85m capture radius. No rail is removed.
+		if (game.skater.global_position-endpoint).dot(tangent)>1.15:
+			press_at=game.skater.global_position
+			Driver.action("grind",1.0)
+			late_pressed=true
+			await Driver.ticks(self,12)
+			break
+	Driver.release()
+	await Driver.stop(self,game)
+	var result: Dictionary=Driver.summary(recorder)
+	var trace: Dictionary=_trace(recorder.rows,[])
+	var at: Vector3=game.skater.global_position
+	var support: float=game.world.get_ground_height(at)
+	_check(late_pressed and press_at.is_finite() and (press_at-endpoint).dot(tangent)>1.15
+		and result.captured_ids.is_empty() and result.tricks.count("Rail Grind")==0,
+		"compact margins: overshot yard press misses actual ledge without a phantom capture or grind award")
+	_check(result.bails==0 and result.clean_landings>=1 and result.tricks.count("Ollie")==1
+		and game.skater.is_on_floor() and is_finite(support) and absf(at.y-support)<0.05
+		and trace.contiguous and trace.finite and trace.unexplained_jumps==0 and trace.recovery_jumps==0,
+		"compact margins: missed grind lands and brakes on retained quay support without forced motion or recovery")
+	var data: Dictionary={"fixture":start,"rail_id":rail.id,"endpoint":endpoint,"press_at":press_at,
+		"summary":result,"trace":trace,"final_at":at,"support_height":support,
+		"events":recorder.events,"samples":recorder.rows}
+	_save("late-yard-grind",data)
+	var brief:=data.duplicate()
+	brief.erase("samples")
+	print("COMPACT_MARGIN_LATE ",Driver.serializable(brief))
+	recorder.active=false
+	recorder.queue_free()
+	await process_frame
+
+
+func _trace(rows: Array[Dictionary], recoveries: Array) -> Dictionary:
+	var result: Dictionary={"contiguous":true,"finite":true,"unexplained_jumps":0,"recovery_jumps":0,"maximum_step":0.0}
+	for index: int in rows.size():
+		var row: Dictionary=rows[index]
+		result.finite=result.finite and row.at.is_finite() and row.velocity.is_finite() and absf(float(row.dt)-1.0/60.0)<0.0000001
+		if index==0: continue
+		var previous: Dictionary=rows[index-1]
+		result.contiguous=result.contiguous and row.tick==previous.tick+1
+		var step: float=row.at.distance_to(previous.at)
+		result.maximum_step=maxf(float(result.maximum_step),step)
+		if step<1.0: continue
+		var explained := false
+		for event: Dictionary in recoveries:
+			if row.tick==event.tick and event.water and row.at.distance_to(event.target)<0.35 \
+					and previous.at.distance_to(event.at)<1.0:
+				explained=true
+		if explained: result.recovery_jumps+=1
+		else: result.unexplained_jumps+=1
+	return result
+
+
+func _save(id: String,data: Dictionary) -> void:
+	var output:=OS.get_environment("COMPACT_CLYDE_LINES_OUTPUT")
+	if output.is_empty(): return
+	DirAccess.make_dir_recursive_absolute(output)
+	var file:=FileAccess.open(output.path_join(id+".json"),FileAccess.WRITE)
+	if file: file.store_string(JSON.stringify(Driver.serializable(data),"\t"))
+
+
+func _check(ok: bool,label: String) -> void:
+	if ok:
+		passed+=1
+		print("PASS: "+label)
+	else:
+		failed+=1
+		push_error("FAIL: "+label)

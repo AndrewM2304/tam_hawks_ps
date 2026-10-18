@@ -7,20 +7,32 @@ class Recorder extends Node:
 	var active := false
 	var rows: Array[Dictionary] = []
 	var events: Array[Dictionary] = []
+	var scored: Array[String] = []
+	var _prior_history: Array[String] = []
 	func _physics_process(delta: float) -> void:
 		if not active: return
 		var rider: CharacterBody3D = game.skater
+		var history: Array[String]=[]
+		for title: String in game.score.trick_history: history.append(title)
+		for index: int in range(_prior_history.size(),history.size()):
+			scored.append(history[index])
+			events.append({"tick":Engine.get_physics_frames(),"event":"score-trick","id":history[index]})
+		_prior_history=history
 		var support: Array[String] = []
+		var contacts: Array[Dictionary] = []
 		for index: int in rider.get_slide_collision_count():
 			var collision: KinematicCollision3D = rider.get_slide_collision(index)
 			var body: Object = collision.get_collider()
 			if body is Node and collision.get_normal().y > 0.5: support.append(str(body.name))
+			if body is Node:
+				contacts.append({"id":str(body.name),"boundary_family":str(body.get_meta("boundary_family","")),
+					"normal":collision.get_normal(),"at":collision.get_position()})
 		rows.append({"tick":Engine.get_physics_frames(), "dt":delta,
 			"at":rider.global_position, "velocity":rider.velocity, "yaw":rider.rotation.y,
 			"floor":rider.is_on_floor(), "air":rider.airborne, "manual":rider.manual_active,
 			"grind":str(rider._grind.line.id) if rider.grinding else "",
 			"transition":str(rider._transition.feature.get("id", "")) if rider.transition_active else "",
-			"bank":game.score.total_score, "combo":game.score.get_combo_value(), "support":support,
+			"bank":game.score.total_score, "combo":game.score.get_combo_value(), "support":support,"contacts":contacts,
 			"input":_inputs()})
 	func _inputs() -> Dictionary:
 		var result: Dictionary={}
@@ -146,7 +158,7 @@ static func summary(recorder: Recorder) -> Dictionary:
 		var step: float=row.at.distance_to(prior.at)
 		maximum_step=maxf(maximum_step,step)
 		length+=step
-	return {"captured_ids":ids,"tricks":names,"bails":bails,"clean_landings":clean_landings,
+	return {"captured_ids":ids,"tricks":names,"scored_tricks":recorder.scored.duplicate(),"bails":bails,"clean_landings":clean_landings,
 		"contiguous":contiguous,"finite":finite,"maximum_step":maximum_step,"metres":length,
 		"samples":recorder.rows.size(),"seconds":recorder.rows.size()/60.0}
 

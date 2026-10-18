@@ -1,0 +1,21 @@
+extends SceneTree
+var good:=0
+var bad:=0
+func _initialize()->void: _run.call_deferred()
+func _run()->void:
+ await load("res://tests/clyde_surface_tests.gd").run(self,_check)
+ await load("res://tests/transition_geometry_tests.gd").run(self,_check)
+ var game=load("res://game/main.gd").new()
+ game.persistence_enabled=false
+ root.add_child(game)
+ await physics_frame
+ await process_frame
+ await load("res://tests/test_compact_clyde.gd").run(self,game.world,_check)
+ await load("res://tests/world_routes_tests.gd").run(self,game.world,_check)
+ await load("res://tests/skate_edges_tests.gd").run(game.world,_check)
+ await load("res://tests/support_query_tests.gd").run(game.world,_check)
+ print("RESULT: ",good," passed, ",bad," failed")
+ quit(1 if bad>0 else 0)
+func _check(ok:bool,label:String)->void:
+ if ok:good+=1;print("PASS: ",label)
+ else:bad+=1;push_error("FAIL: "+label)

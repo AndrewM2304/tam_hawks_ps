@@ -25,7 +25,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_release("push")
 	check.call(game.audio.get_debug_state().surface == "asphalt",
 		"presentation: real connector floor contact selects asphalt wheel sound")
-	game.skater.spawn_position = Vector3(35, 2.8, 65)
+	game.skater.spawn_position = Vector3(20, 2.8, 65)
 	game.restart_run()
 	await _frames(tree, 35)
 	game.skater.rotation.y = PI

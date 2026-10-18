@@ -97,6 +97,7 @@ static func trim_visual_rect(body: StaticBody3D, bounds: Rect2) -> void:
 						output.set_normal(normal)
 						output.set_uv(Vector2(point.x,point.z)*0.2)
 						output.add_vertex(point)
+		output.generate_tangents()
 		visual.mesh=output.commit()
 
 

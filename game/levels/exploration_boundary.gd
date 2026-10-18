@@ -3,7 +3,8 @@ extends RefCounted
 ## Each solid panel follows the same grade/footprint as its batched masonry/rails.
 
 static func build(parent: Node3D, id: String, points: PackedVector3Array,
-		stone: Material, iron: Material, height: float = 3.0, solid: bool = false) -> StaticBody3D:
+		stone: Material, iron: Material, height: float = 3.0, solid: bool = false,
+		opaque: bool = false) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = id
 	body.add_to_group("exploration_boundaries")
@@ -14,7 +15,8 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 	body.set_meta("surface_audio", "metal")
 	parent.add_child(body)
 	if solid:
-		# A straight masonry property wall closes the cut yard's dry world edge.
+		# A straight masonry property wall closes a dry world edge behind the
+		# retained yard or raised transition decks.
 		# Its buried base covers the small ground grade; one box replaces many
 		# fence panels/bars and cannot show empty ground through ironwork gaps.
 		var low := points[0]
@@ -36,6 +38,8 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 		return body
 	var masonry: Array[Transform3D] = []
 	var metal: Array[Transform3D] = []
+	var panels := SurfaceTool.new()
+	if opaque: panels.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for segment: int in range(points.size() - 1):
 		var a := points[segment]
 		var b := points[segment + 1]
@@ -53,6 +57,12 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 		var collision := CollisionShape3D.new()
 		collision.shape = shape
 		body.add_child(collision)
+		if opaque:
+			# Reuse the exact graded collision prism; a bounding box would cut
+			# across the bent approach. Merge all panels into one shared-material
+			# surface instead of displaying hundreds of bars and plinths.
+			_panel_prism(panels,vertices)
+			continue
 		var divisions := maxi(1,ceili(run / 0.28))
 		for index: int in range(divisions + 1):
 			var at := a.lerp(b,float(index)/divisions)
@@ -66,9 +76,35 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 			var end := a.lerp(b,float(index+1)/count)
 			var plinth := _beam_transform(start+Vector3.UP*0.15,end+Vector3.UP*0.15,0.5)
 			masonry.append(plinth)
-	_flush(body,"RetainedMasonry",masonry,stone)
-	_flush(body,"Ironwork",metal,iron)
+	if opaque:
+		panels.generate_tangents()
+		var display := MeshInstance3D.new()
+		display.name = "GradedMasonryPanels"
+		display.mesh = panels.commit()
+		display.material_override = stone
+		body.add_child(display)
+		body.set_meta("opaque_boundary",true)
+		body.set_meta("surface_audio","stone")
+	else:
+		_flush(body,"RetainedMasonry",masonry,stone)
+		_flush(body,"Ironwork",metal,iron)
 	return body
+
+
+static func _panel_prism(tool: SurfaceTool, vertices: PackedVector3Array) -> void:
+	# Clockwise outward faces match the enabled convex collision's eight
+	# corners. Face-local UVs preserve stone scale on slopes and diagonal runs.
+	for face: Array in [[0,1,4,5],[2,6,3,7],[1,3,5,7],
+		[0,4,2,6],[0,2,1,3],[4,5,6,7]]:
+		var a: Vector3 = vertices[face[0]]
+		var width: float = a.distance_to(vertices[face[2]])*.5
+		var height: float = a.distance_to(vertices[face[1]])*.5
+		var normal: Vector3 = -(vertices[face[1]]-a).cross(vertices[face[2]]-a).normalized()
+		var uvs := [Vector2.ZERO,Vector2(0,height),Vector2(width,0),Vector2(width,height)]
+		for corner: int in [0,1,2,1,3,2]:
+			tool.set_normal(normal)
+			tool.set_uv(uvs[corner])
+			tool.add_vertex(vertices[face[corner]])
 
 
 static func _box_transform(size: Vector3, center: Vector3) -> Transform3D:

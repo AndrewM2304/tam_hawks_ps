@@ -1,0 +1,9 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: compact Clyde deck: ordinary outward roll meets the actual raised landward wall and physically stops on deck
+PASS: compact Clyde deck: ordinary outward roll cannot reach the dry void or manufacture recovery/extra jumps
+COMPACT_CLYDE_DECK { "charged": false, "fixture": [-50.2000007629395, 5.19999980926514, 60.5], "minimum_z": 55.6706237792969, "minimum_y": 5.19999980926514, "peak": 5.21240282058716, "wall_contacts": 136, "elevated_wall_contact": true, "summary": { "captured_ids": [], "tricks": [], "scored_tricks": [], "bails": 0, "clean_landings": 0, "contiguous": true, "finite": true, "maximum_step": 0.16107177734375, "metres": 4.83900213241577, "samples": 200, "seconds": 3.33333333333333 }, "events": [] }
+PASS: compact Clyde deck: charged outward ollie meets the actual raised landward wall and physically stops on deck
+PASS: compact Clyde deck: charged outward ollie cannot reach the dry void or manufacture recovery/extra jumps
+COMPACT_CLYDE_DECK { "charged": true, "fixture": [-50.2000007629395, 5.19999980926514, 60.5], "minimum_z": 55.673999786377, "minimum_y": 5.19984912872314, "peak": 7.18189811706543, "wall_contacts": 150, "elevated_wall_contact": true, "summary": { "captured_ids": [], "tricks": ["Ollie"], "scored_tricks": ["Ollie"], "bails": 0, "clean_landings": 1, "contiguous": true, "finite": true, "maximum_step": 0.22418008744717, "metres": 7.37522120773792, "samples": 215, "seconds": 3.58333333333333 }, "events": [{ "tick": 324, "event": "trick", "id": "Ollie", "points": 100 }, { "tick": 324, "event": "score-trick", "id": "Ollie" }, { "tick": 364, "event": "land", "clean": true, "at": [-50.2000007629395, 5.19984912872314, 55.673999786377] }] }
+RESULT: 4 passed, 0 failed
