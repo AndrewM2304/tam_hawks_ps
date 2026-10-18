@@ -1,0 +1,35 @@
+extends SceneTree
+var passed := 0
+var failed := 0
+func _initialize() -> void:
+	call_deferred("_run")
+func _run() -> void:
+	var args := OS.get_cmdline_user_args()
+	var game: Node
+	for suite in args:
+		print("FOCUS_BEGIN ", suite)
+		var script = load("res://tests/" + suite + "_tests.gd")
+		if suite == "skate_response":
+			script.run(_check)
+		elif suite in ["clyde_surface", "city_backdrop", "classic_tricks_integration"]:
+			await script.run(self, _check)
+		else:
+			if game == null:
+				game = load("res://game/main.gd").new()
+				game.persistence_enabled = false
+				root.add_child(game)
+				for frame in 35: await physics_frame
+			await script.run(self, game, _check)
+		print("FOCUS_END ", suite, " passed=", passed, " failed=", failed)
+	if game != null:
+		game.queue_free()
+		await process_frame
+	print("RESULT: %d passed, %d failed" % [passed, failed])
+	quit(1 if failed else 0)
+func _check(ok: bool, label: String) -> void:
+	if ok:
+		passed += 1
+		print("PASS: ", label)
+	else:
+		failed += 1
+		push_error("FAIL: " + label)

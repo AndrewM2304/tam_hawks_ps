@@ -157,15 +157,26 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 	_actor_structure(game.cat_encounter.get_node("RaeBinBusker"), check)
 	var completed: Array = game.career.completed_ids.duplicate()
 	var record: int = game.career.best_score
-	var evidence := {"ids": [], "positions": [], "tricks": [], "bails": 0, "states": []}
+	var evidence := {"ids": [], "positions": [], "tricks": [], "bails": 0, "states": [],
+		"launches": [], "first_landing": {}, "descending_samples": 0, "closest_a": {}}
 	var on_capture := func(id: String):
 		evidence.ids.append(id)
 		evidence.positions.append(game.skater.global_position)
 		evidence.states.append(game.cat_encounter.status_snapshot().sequence_index)
-	var on_trick := func(title: String, _points: int): evidence.tricks.append(title)
+	var on_trick := func(title: String, _points: int):
+		evidence.tricks.append(title)
+		if title == "Ollie":
+			evidence.launches.append({"position": game.skater.global_position,
+				"speed": game.skater.speed, "velocity": game.skater.velocity})
+	var on_landing := func(clean: bool):
+		if not evidence.launches.is_empty() and evidence.first_landing.is_empty():
+			evidence.first_landing = {"position": game.skater.global_position,
+				"speed": game.skater.speed, "velocity": game.skater.velocity,
+				"clean": clean, "captures": evidence.ids.duplicate()}
 	var on_bail := func(): evidence.bails += 1
 	game.skater.grind_captured.connect(on_capture)
 	game.skater.trick_performed.connect(on_trick)
+	game.skater.landed.connect(on_landing)
 	game.skater.bailed.connect(on_bail)
 	await _interact(tree)
 	check.call(game.cat_encounter.status_snapshot().state == "active"
@@ -182,17 +193,24 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 		_aim(game.skater, tangent)
 		Input.action_press("push")
 		Input.action_press("grind")
-		if not launched and (target - game.skater.global_position).dot(tangent) < 9.5:
+		# The weighted tap has a shorter flight. Approach within about four
+		# metres of A's beginning before the real one-frame press/release.
+		if not launched and (target - game.skater.global_position).dot(tangent) < 6.0:
 			Input.action_press("ollie")
 			launched = true
 		else: Input.action_release("ollie")
+		_first_rail_witness(game, first, evidence)
 		await _frames(tree, 1)
+		_first_rail_witness(game, first, evidence)
 		if evidence.ids.has(RAIL_IDS[0]) and game.skater.grinding:
 			captured = true
 			break
 		if evidence.bails > 0 or game.cat_encounter.status_snapshot().state != "active": break
 	Input.action_release("push")
 	Input.action_release("ollie")
+	print("CAT initial_flight launches=%s first_landing=%s descending_samples=%d closest_A=%s end_position=%s end_speed=%.3f" % [
+		evidence.launches, evidence.first_landing, evidence.descending_samples,
+		evidence.closest_a, game.skater.global_position, game.skater.speed])
 	for index in range(1, 3):
 		if not captured: break
 		var prior = rails[RAIL_IDS[index - 1]]
@@ -245,9 +263,30 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 	print("CAT physical approach=%s captures=%s positions=%s sequence=%s tricks=%s bank=%d bails=%d state=%s remaining=%.2f" % [
 		approach, evidence.ids, evidence.positions, evidence.states, evidence.tricks, banked,
 		evidence.bails, game.cat_encounter.status_snapshot().state, game.cat_encounter.status_snapshot().remaining])
+	print("CAT flight_witness launches=%s first_landing=%s" % [evidence.launches,evidence.first_landing])
 	game.skater.grind_captured.disconnect(on_capture)
 	game.skater.trick_performed.disconnect(on_trick)
+	game.skater.landed.disconnect(on_landing)
 	game.skater.bailed.disconnect(on_bail)
+
+
+static func _first_rail_witness(game: Node, first, evidence: Dictionary) -> void:
+	# Observations only: retain the closest actual descending approach so a
+	# missing catch cannot be mistaken for a score/payoff or competing-ID issue.
+	if not game.skater.airborne or game.skater.grinding or game.skater.velocity.y > 1.0:
+		return
+	var near: Dictionary = first.closest(game.skater.global_position)
+	if near.is_empty(): return
+	evidence.descending_samples += 1
+	if not evidence.closest_a.is_empty() and float(near.gap) >= float(evidence.closest_a.gap): return
+	var horizontal := Vector3(game.skater.velocity.x, 0, game.skater.velocity.z)
+	var tangent: Vector3 = first.dir_at(near.dist)
+	tangent.y = 0.0
+	evidence.closest_a = {"position": game.skater.global_position, "rail_point": near.point,
+		"gap": near.gap, "height_above_rail": game.skater.global_position.y - near.point.y,
+		"speed": game.skater.speed, "velocity": game.skater.velocity,
+		"alignment": horizontal.normalized().dot(tangent.normalized()),
+		"grounded": game.skater.is_on_floor(), "grind_held": Input.is_action_pressed("grind")}
 
 
 static func _payoff(tree: SceneTree, game: Node, check: Callable) -> void:

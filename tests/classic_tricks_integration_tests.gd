@@ -306,22 +306,48 @@ static func _latched_rail(tree: SceneTree, check: Callable) -> void:
 	rider.set_grind_lines([Line.new("ClassicTapRail", PackedVector3Array([
 		Vector3(0, 0.92, 30), Vector3(0, 0.92, -30)]))])
 	var captures: Array[String] = []
+	var capture_ticks: Array[int] = []
+	var capture_buttons: Array[bool] = []
 	var seen: Array[String] = []
-	rider.grind_captured.connect(func(id: String): captures.append(id))
+	rider.grind_captured.connect(func(id: String):
+		captures.append(id)
+		capture_ticks.append(Engine.get_physics_frames())
+		capture_buttons.append(Input.is_action_pressed("grind")))
 	rider.trick_performed.connect(func(name: String, _points: int): seen.append(name))
 	Input.action_press("push")
 	await _frames(tree, 60)
 	Input.action_release("push")
 	Input.action_press("ollie")
-	await _frames(tree, 3)
+	# Charge this jump so a released Triangle tap can precede real admission.
+	# Tap-jump height/airtime are checked separately; they are no longer tied to
+	# the old 34-frame airborne schedule here.
+	await _frames(tree, 24)
 	Input.action_release("ollie")
-	await _frames(tree, 34)
+	var descending_window := false
+	for frame in 90:
+		await _frames(tree, 1)
+		if rider.airborne and rider.velocity.y < 0.0 and rider.global_position.y > 1.72 \
+				and rider.global_position.y < 1.87:
+			descending_window = true
+			break
+	var request_tick := Engine.get_physics_frames()
+	var request_position: Vector3 = rider.global_position
+	var request_velocity: Vector3 = rider.velocity
 	_pad(JOY_BUTTON_Y, true)
 	await _frames(tree, 1)
+	var released_tick := Engine.get_physics_frames()
+	var uncaptured_while_pressed: bool = not rider.grinding and captures.is_empty()
 	_pad(JOY_BUTTON_Y, false)
 	await _frames(tree, 7)
-	check.call(rider.grinding and captures.size() == 1 and seen.count("Rail Grind") == 1,
-		"classic rail: a short mapped Triangle tap buffers a real descending catch and remains latched after release")
+	var released_catch := capture_ticks.size() == 1 and capture_buttons.size() == 1 \
+		and not capture_buttons[0] and capture_ticks[0] > released_tick \
+		and float(capture_ticks[0] - request_tick) / Engine.physics_ticks_per_second <= 0.18
+	check.call(descending_window and released_tick - request_tick == 1 and uncaptured_while_pressed
+		and released_catch and rider.grinding and captures == ["ClassicTapRail"] and seen.count("Rail Grind") == 1,
+		"classic rail: a released one-tick mapped Triangle tap buffers a witnessed descending catch within180ms")
+	print("CLASSIC RAIL request_tick=", request_tick, " release_tick=", released_tick,
+		" capture_ticks=", capture_ticks, " request_at=", request_position, " request_velocity=", request_velocity,
+		" uncaptured_while_pressed=", uncaptured_while_pressed, " buttons_at_capture=", capture_buttons)
 	await _frames(tree, 5)
 	check.call(rider.grinding and captures.size() == 1,
 		"classic rail: a released capture button neither drops nor repeatedly awards the locked rail")
@@ -498,13 +524,18 @@ static func _pipe_natural_vert(tree: SceneTree, check: Callable) -> void:
 			released = true
 			break
 	var launch_velocity: Vector3 = rider.velocity
+	var launch_tick := Engine.get_physics_frames()
 	check.call(released and rider.global_position.y > 5.0 and launch_velocity.y > 4.0 and not seen.has("Ollie"),
 		"classic vert: ordinary roll-up naturally releases upward from the actual quarter without a jump input")
 	await _frames(tree, 2)
-	check.call(rider.airborne and rider.velocity.y > launch_velocity.y - 1.0
+	var elapsed_ticks := Engine.get_physics_frames() - launch_tick
+	var expected_up := launch_velocity.y - 34.0 * float(elapsed_ticks) / Engine.physics_ticks_per_second
+	check.call(elapsed_ticks == 2 and rider.airborne and not rider.transition_active
+		and absf(rider.velocity.y - expected_up) < 0.05
 		and Vector2(rider.velocity.x, rider.velocity.z).distance_to(Vector2(launch_velocity.x, launch_velocity.z)) < 0.05,
-		"classic vert: the first ordinary air ticks preserve outgoing ramp momentum despite stale engine floor state")
-	print("CLASSIC VERT released=", released, " launch=", launch_velocity, " after=", rider.velocity)
+		"classic vert: exactly two real air ticks preserve XZ momentum and apply the intended34m/s2 gravity")
+	print("CLASSIC VERT released=", released, " launch_tick=", launch_tick, " elapsed_ticks=", elapsed_ticks,
+		" launch=", launch_velocity, " expected_up=", expected_up, " after=", rider.velocity)
 	await _dispose(tree, fixture)
 
 

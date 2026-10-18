@@ -1,6 +1,8 @@
 extends RefCounted
 
 const Response = preload("res://game/player/skate_response.gd")
+const EXPECTED_GROUND_RESPONSE_SECONDS := 0.055
+const EXPECTED_HIGH_SPEED_TURN_RATE := 2.2
 
 
 static func run(check: Callable) -> void:
@@ -41,20 +43,26 @@ static func run(check: Callable) -> void:
 		"skate response: external downhill/rail speed dissipates without an artificial cap jump")
 
 	var reference_angle := 0.0
+	check.call(absf(Response.GROUND_RESPONSE_TIME - EXPECTED_GROUND_RESPONSE_SECONDS) < 0.000000001,
+		"skate response: ground carving retains the intended 55ms response time")
+	var expected_angle := _full_stick_angle(1.0)
 	for hz: int in [30, 60, 120]:
 		response.reset()
 		var angle := 0.0
 		for frame in range(hz):
 			angle += response.steering_step(-1.0, 15.0, true, 1.0 / hz)
 		if hz == 30: reference_angle = angle
-		check.call(angle > 1.97 and angle < 1.99 and absf(angle - reference_angle) < 0.000001,
-			"skate response: %d Hz high-speed carving preserves the 0.1-second response" % hz)
+		check.call(absf(angle - expected_angle) < 0.000001 and absf(angle - reference_angle) < 0.000001,
+			"skate response: %d Hz high-speed carving matches the intended 55ms exponential response" % hz)
 	response.reset()
 	var first := response.steering_step(-1.0, 15.0, true, 1.0 / 60.0)
 	var later := first
 	for frame in range(30): later = response.steering_step(-1.0, 15.0, true, 1.0 / 60.0)
-	check.call(first > 0.0 and first < 0.003 and later > first * 5.0 and later <= 2.2 / 60.0,
-		"skate response: ground input builds smoothly within the high-speed rate")
+	var expected_first := _full_stick_angle(1.0 / 60.0)
+	var expected_later := _full_stick_angle(31.0 / 60.0) - _full_stick_angle(30.0 / 60.0)
+	check.call(absf(first - expected_first) < 0.000001 and absf(later - expected_later) < 0.000001
+		and first > 0.0 and later > first * 5.0 and later <= EXPECTED_HIGH_SPEED_TURN_RATE / 60.0,
+		"skate response: ground input builds by the intended response without exceeding the high-speed rate")
 	var air := response.steering_step(-1.0, 15.0, false, 0.1)
 	check.call(absf(air - 0.05) < 0.000001,
 		"skate response: takeoff cannot carry ground turn rate into air correction")
@@ -85,8 +93,9 @@ static func run(check: Callable) -> void:
 		var positive := response.steering_step(-strength, 15.0, true, 1.0)
 		response.reset()
 		var negative := response.steering_step(strength, -15.0, true, 1.0)
+		var expected_analogue := (0.75 * strength + 0.25 * strength * strength * strength) * expected_angle
 		check.call(positive > 0.0 and absf(positive + negative) < 0.000001
-			and positive <= 1.981,
+			and absf(positive - expected_analogue) < 0.000001,
 			"skate response: analogue %.2f is symmetric and signed speed cannot amplify steering" % strength)
 	response.reset()
 	var quarter := response.steering_step(-0.25, 15.0, true, 1.0)
@@ -96,3 +105,10 @@ static func run(check: Callable) -> void:
 		"skate response: quarter-stick remains a fine correction rather than a full-rate carve")
 	check.call(15.0 / Response.GROUND_TURN_FAST > 6.8 and 15.0 / Response.GROUND_TURN_FAST < 6.9,
 		"skate response: steady full-speed radius is about 6.82m instead of 13.64m")
+
+
+static func _full_stick_angle(seconds: float) -> float:
+	# Independent intended step-response integral, with literal contract values:
+	# omega(t) = 2.2 * (1 - exp(-t / 0.055)), initially at rest.
+	return EXPECTED_HIGH_SPEED_TURN_RATE * (seconds - EXPECTED_GROUND_RESPONSE_SECONDS
+		* (1.0 - exp(-seconds / EXPECTED_GROUND_RESPONSE_SECONDS)))

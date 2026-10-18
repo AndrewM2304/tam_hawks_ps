@@ -22,6 +22,10 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 	await _frames(tree, 40)
 	check.call(game.skater.is_on_floor() and not game.skater.airborne,
 		"grind regression: ground approach starts with real floor support")
+	var floor_height: float = game.skater.global_position.y
+	var captures: Array[String] = []
+	var on_capture := func(id: String) -> void: captures.append(id)
+	game.skater.grind_captured.connect(on_capture)
 	game.score.add_trick("Previously banked", 500)
 	game.score.bank_combo()
 	Input.action_press("push")
@@ -36,14 +40,27 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 	Input.action_release("push")
 	var peak_height: float = game.skater.global_position.y
 	var caught: bool = false
+	var left_floor := false
+	# Rail admission replaces velocity with its tangent. Keep the preceding
+	# actual airborne sample as the independent descending-approach witness.
+	var previous_airborne := false
+	var previous_vertical_velocity := 0.0
+	var descending_capture := false
 	for i in range(75):
 		await _frames(tree, 1)
 		peak_height = maxf(peak_height, game.skater.global_position.y)
 		if game.skater.grinding:
 			caught = true
+			descending_capture = previous_airborne and previous_vertical_velocity < 0.0
 			break
-	check.call(caught and peak_height > 1.5,
-		"grind regression: real push and ollie descend into an eligible rail catch")
+		previous_airborne = game.skater.airborne and not game.skater.is_on_floor()
+		previous_vertical_velocity = game.skater.velocity.y
+		left_floor = left_floor or (previous_airborne and game.skater.global_position.y > floor_height + 0.25)
+	game.skater.grind_captured.disconnect(on_capture)
+	check.call(caught and left_floor and descending_capture and captures == ["Grind_Rail_Exchange"],
+		"grind regression: real push and tap ollie leave support and descend into exactly one Exchange rail catch")
+	print("GRIND APPROACH peak=", peak_height, " prior_air_vy=", previous_vertical_velocity,
+		" departed=", left_floor, " descending_capture=", descending_capture, " captures=", captures)
 	check.call(game.score.trick_history.has("Ollie")
 		and game.score.trick_history.has("Rail Grind") and game.score.total_score == 500,
 		"grind regression: played approach links ollie and rail without banking early")

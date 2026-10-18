@@ -1,5 +1,7 @@
 # Gull-Proof Delivery — independent focused QE
 
+**18 October update:** both weighted-jump delivery routes pass the same 52 checks. The covered driver now rides through the south apron before choosing its entry, avoiding an unintended crossing of the west entry. [Current encounter regression evidence](arcade-response/ENCOUNTER-REGRESSIONS.md) records both actual three-gate sequences, unchanged 1,650 banks/payoffs/save rules and the combined 104/0 log. Timings, screenshots and native evidence below belong to the earlier checkpoint.
+
 17 October 2026. The production delivery encounter passes **52 checks, 0 failures**, exit 0, with no engine/script errors. The [focused log](logs/market-focused.log) follows the market entrance-clearance correction, gull beak/wrapper-contact correction, and visible lane-marker/navigation additions. The same `tests/market_encounter_tests.gd` module is invoked by the shared runner; these 52 checks are part of the eventual aggregate, not an additional total.
 
 ```sh

@@ -1,0 +1,25 @@
+{
+  "observed_london": "2026-10-18T12:46:49.086399+01:00",
+  "type": "post-run scoped diagnostic receipt, not a before/after full source freeze",
+  "commands": [
+    "./tools/run.sh --headless --script .local/arcade-response/focused-regressions.gd -- skate_response classic_tricks_integration grind_regression",
+    "./tools/run.sh --headless --script .local/arcade-response/focused-regressions.gd -- cat_encounter market_encounter"
+  ],
+  "results": [
+    "151 passed, 0 failed; exit0",
+    "104 passed, 0 failed; exit0"
+  ],
+  "tests_post_run_sha256": {
+    "tests/skate_response_tests.gd": "de31778b091cb661ed30305eb6bdb681324dc5a2ad81a621fcc6f17e18bf110a",
+    "tests/classic_tricks_integration_tests.gd": "c1cf453fc2477b6894ec93cc1fdbc9bdeea07761d756eae121126097ecb68057",
+    "tests/grind_regression_tests.gd": "4731676cc12e92fb53c634229d4b714941c077fa1e84d710754ef36c04b2b2b8",
+    "tests/cat_encounter_tests.gd": "9dd88c3e6e4959aac3b8e8ab3693cd52289a5af25f1a9267d8b9fb6116d0afe0",
+    "tests/market_encounter_tests.gd": "9a14333071214314f1d24ff67a55114cfeb8f6d6eb7ca979ee6405c44436bcf1"
+  },
+  "artifacts_sha256": {
+    "regressions-physics-01.log": "f5d3e27eaa624aae40c789d3bdfbd7b5118a212c856569f86574fc77fef59c8b",
+    "regressions-encounters-01.log": "0608b310505c2811e346509c07c1510c03f39234069f3b27b5bfa6206977d5b3",
+    "executed-focused-runner.gd.txt": "3093be30024e296e5045fcec71b1b56619d2f09ea262fadf7ae73568442c415c"
+  },
+  "ordinary_acceptance": "pending; see failed-check-01 for rejected first aggregate"
+}

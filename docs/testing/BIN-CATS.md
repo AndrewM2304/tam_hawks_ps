@@ -1,5 +1,7 @@
 # Techno Bin and dancing cats — focused QE
 
+**18 October update:** the weighted-jump input driver now passes the same 52 checks with a closer real tap, exact A→B→C, 1,050 once and the complete visible-return payoff. [Current encounter regression evidence](arcade-response/ENCOUNTER-REGRESSIONS.md) records measured launches, the first landing, limits and the combined 104/0 log. The timings, screenshots and native evidence below belong to the earlier checkpoint.
+
 17 October 2026. The corrected original street act uses a seated bin drummer and two soft fabric cats. The existing `cat_got_the_beat` ID, ordered `Grind_Cat_A/B/C` captures, score rules and queued visible payoff remain intact. This record covers the correction; the earlier mechanical-cat screenshots and native packages are historical evidence for the prior presentation.
 
 ## Focused result

@@ -301,6 +301,11 @@ static func drive_delivery(tree: SceneTree, game: Node, route_id: String, observ
 			await _observe(observer, "banked", evidence)
 		if bank_reported and game.skater.speed < 0.1: break
 	_release()
+	if route_id == "covered":
+		# The weighted tap lands farther north. A direct diagonal from there
+		# crosses Calton's first gate and deliberately commits the wrong lane.
+		# Ride out onto the south apron before turning to the covered entrance.
+		reached = await _drive_to(tree, game, Vector3(93, 0, 1.5), evidence) and reached
 	for index in route.gates.size():
 		reached = await _drive_to(tree, game, route.gates[index], evidence) and reached
 		await _observe(observer, "gate_" + str(index + 1), evidence)
@@ -324,6 +329,7 @@ static func drive_delivery(tree: SceneTree, game: Node, route_id: String, observ
 	var camera: Camera3D = tree.root.get_camera_3d()
 	evidence.payoff_visible = camera.is_position_in_frustum(definition.delivery_position + Vector3.UP * 0.8)
 	await _observe(observer, "payoff", evidence)
+	print("DELIVERY GATE WITNESS requested=%s events=%s" % [route_id,evidence.gate_events])
 	game.skater.trick_performed.disconnect(on_trick)
 	game.skater.bailed.disconnect(on_bail)
 	return evidence
@@ -423,7 +429,7 @@ static func _evidence(route_id: String) -> Dictionary:
 		"gap_seen": false, "bank": 0, "line_banked": false, "reached": false, "success": false,
 		"wins": 0, "bails": 0, "tricks": [], "route_id": "", "route_index": 0, "remaining": 0.0,
 		"frames": 0, "camera_samples": 0, "camera_blocked": 0, "camera_hidden": 0,
-		"payoff_started": false, "payoff_visible": false}
+		"payoff_started": false, "payoff_visible": false, "gate_events": [], "last_gate": ""}
 
 
 static func _observe(observer: Callable, stage: String, evidence: Dictionary) -> void:
@@ -465,6 +471,13 @@ static func _aim(skater: CharacterBody3D, direction: Vector3) -> void:
 static func _step(tree: SceneTree, game: Node, evidence: Dictionary) -> void:
 	await _frames(tree, 1)
 	evidence.frames += 1
+	var snapshot: Dictionary = game.market_encounter.status_snapshot()
+	var gate := "%s:%d" % [snapshot.route_id,snapshot.route_index]
+	if snapshot.route_index > 0 and gate != evidence.last_gate:
+		evidence.gate_events.append({"position": game.skater.global_position,
+			"speed": game.skater.speed, "route_id": snapshot.route_id,
+			"route_index": snapshot.route_index, "state": snapshot.state})
+		evidence.last_gate = gate
 	var camera: Camera3D = tree.root.get_camera_3d()
 	var body_point: Vector3 = game.skater.global_position + Vector3.UP * 0.85
 	evidence.camera_samples += 1

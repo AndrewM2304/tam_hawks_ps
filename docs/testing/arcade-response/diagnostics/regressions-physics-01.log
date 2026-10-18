@@ -1,0 +1,170 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FOCUS_BEGIN skate_response
+PASS: skate response: top-speed release reaches about 6 m/s after three seconds
+PASS: skate response: ordinary release stops rather than retaining a minimum cruise
+PASS: skate response: 30 Hz coasting matches elapsed time without generating speed
+PASS: skate response: 60 Hz coasting matches elapsed time without generating speed
+PASS: skate response: 120 Hz coasting matches elapsed time without generating speed
+PASS: skate response: nonfinite speed cannot persist: nan
+PASS: skate response: nonfinite speed cannot persist: inf
+PASS: skate response: nonfinite speed cannot persist: -inf
+PASS: skate response: rollback coasts toward rest without flipping direction
+PASS: skate response: projected slope gravity accelerates downhill and rolls back uphill
+PASS: skate response: ground slope acceleration respects both signed speed limits
+PASS: skate response: invalid/nonpositive time does not advance motion: nan
+PASS: skate response: invalid/nonpositive time does not advance motion: inf
+PASS: skate response: invalid/nonpositive time does not advance motion: -inf
+PASS: skate response: invalid/nonpositive time does not advance motion: -1.0
+PASS: skate response: invalid/nonpositive time does not advance motion: 0.0
+PASS: skate response: rest and the final low-speed interval stop without reversing
+PASS: skate response: external downhill/rail speed dissipates without an artificial cap jump
+PASS: skate response: ground carving retains the intended 55ms response time
+PASS: skate response: 30 Hz high-speed carving matches the intended 55ms exponential response
+PASS: skate response: 60 Hz high-speed carving matches the intended 55ms exponential response
+PASS: skate response: 120 Hz high-speed carving matches the intended 55ms exponential response
+PASS: skate response: ground input builds by the intended response without exceeding the high-speed rate
+PASS: skate response: takeoff cannot carry ground turn rate into air correction
+PASS: skate response: released air steering stops correcting immediately
+PASS: skate response: a landing begins a new ground response without stale yaw
+PASS: skate response: reset clears all residual steering
+PASS: skate response: nonfinite input/speed produces finite steering: nan
+PASS: skate response: nonfinite input/speed produces finite steering: inf
+PASS: skate response: nonfinite input/speed produces finite steering: -inf
+PASS: skate response: steering clamps inputs and treats both directions equally
+PASS: skate response: air correction is bounded independently of ground speed
+PASS: skate response: analogue 0.10 is symmetric and signed speed cannot amplify steering
+PASS: skate response: analogue 0.25 is symmetric and signed speed cannot amplify steering
+PASS: skate response: analogue 0.50 is symmetric and signed speed cannot amplify steering
+PASS: skate response: analogue 1.00 is symmetric and signed speed cannot amplify steering
+PASS: skate response: quarter-stick remains a fine correction rather than a full-rate carve
+PASS: skate response: steady full-speed radius is about 6.82m instead of 13.64m
+FOCUS_END skate_response passed=38 failed=0
+FOCUS_BEGIN classic_tricks_integration
+PASS: classic input: holding mapped Space for 2 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (2f)
+PASS: classic input: releasing mapped Space pops exactly once (2f)
+PASS: classic input: one held/released request lands without automatic hopping (2f)
+PASS: classic input: holding mapped Space for 36 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (36f)
+PASS: classic input: releasing mapped Space pops exactly once (36f)
+PASS: classic input: one held/released request lands without automatic hopping (36f)
+PASS: classic input: a deliberate crouch charges a measurably higher real ollie
+CLASSIC OLLIE short_apex=1.021 charged_apex=1.982
+PASS: classic flip: mapped J snapshots kickflip across a direction change before release
+PASS: classic flip: held kickflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots heelflip across a direction change before release
+PASS: classic flip: held heelflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots frontside_shuvit across a direction change before release
+PASS: classic flip: held frontside_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots pop_shuvit across a direction change before release
+PASS: classic flip: held pop_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots varial_flip across a direction change before release
+PASS: classic flip: held varial_flip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots hardflip across a direction change before release
+PASS: classic flip: held hardflip finishes with one family award and a real landing
+PASS: classic grab: direction plus mapped K selects melon_grab in real airtime
+PASS: classic grab: held melon_grab stays selected while the stick changes direction
+PASS: classic grab: release ends melon_grab without a second award
+PASS: classic grab: direction plus mapped K selects indy_grab in real airtime
+PASS: classic grab: held indy_grab stays selected while the stick changes direction
+PASS: classic grab: release ends indy_grab without a second award
+PASS: classic grab: direction plus mapped K selects nose_grab in real airtime
+PASS: classic grab: held nose_grab stays selected while the stick changes direction
+PASS: classic grab: release ends nose_grab without a second award
+PASS: classic grab: direction plus mapped K selects tail_grab in real airtime
+PASS: classic grab: held tail_grab stays selected while the stick changes direction
+PASS: classic grab: release ends tail_grab without a second award
+PASS: classic grab: direction plus mapped K selects method_grab in real airtime
+PASS: classic grab: held method_grab stays selected while the stick changes direction
+PASS: classic grab: release ends method_grab without a second award
+PASS: classic flip: a fresh press during the unfinished clip cannot overlap or score twice
+PASS: classic flip: a fresh directional press after clip completion starts a second distinct flip
+PASS: classic manual: mapped M selects manual at eligible real ground speed
+PASS: classic manual: manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends manual
+PASS: classic manual: mapped M selects nose_manual at eligible real ground speed
+PASS: classic manual: nose_manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends nose_manual
+PASS: classic manual: tail and nose variants tilt the visible board in opposite directions
+PASS: classic gesture: mapped Left-Y Up-neutral-Down admits manual once within 220ms
+PASS: classic gesture: releasing the completed manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: mapped Left-Y Down-neutral-Up admits nose_manual once within 220ms
+PASS: classic gesture: releasing the completed nose_manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched nose_manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: a direct push-to-brake reversal with no sampled neutral cannot turn ordinary braking into an automatic manual
+PASS: classic gesture: an expired >220ms stick sequence cannot turn ordinary braking into an automatic manual
+PASS: classic air: partial stick spin preserves physical flight heading and horizontal momentum
+PASS: classic air: the same partial stick visibly spins rider and deck
+PASS: classic rail: a released one-tick mapped Triangle tap buffers a witnessed descending catch within180ms
+CLASSIC RAIL request_tick=2520 release_tick=2521 capture_ticks=[2525] request_at=(0.0, 1.832473, -3.962817) request_velocity=(0.0, -2.866666, -13.9374) uncaptured_while_pressed=true buttons_at_capture=[false]
+PASS: classic rail: a released capture button neither drops nor repeatedly awards the locked rail
+PASS: classic rail: a second fresh mapped Triangle press drops without an immediate recapture
+PASS: classic gates: disabling controls clears a crouch so its stale release cannot pop
+PASS: classic gates: overtime allows existing airtime but rejects new flip and grab entries
+PASS: classic gates: reset clears every selected/active trick family
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before axle_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits axle_stall at actual coping
+PASS: classic lip: held axle_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops axle_stall inward toward its own ramp
+PASS: classic lip: axle_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE axle_stall max_pitch=72.8294995042203 position=(17.0, 2.011557, 82.37067) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before nose_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits nose_stall at actual coping
+PASS: classic lip: held nose_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: holding Ollie crouches in the stall until release
+CLASSIC LIP POP air=true lip=false velocity=(0.0, 8.155825, 1.2) seen=["Nose Stall", "Ollie"]
+PASS: classic lip: release-pop exits the real coping once into upward airtime
+PASS: classic lip: nose_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE nose_stall max_pitch=72.8294995042203 position=(17.0, 2.011559, 82.2523) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before tail_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits tail_stall at actual coping
+PASS: classic lip: held tail_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: overtime preserves an existing stall but rejects new tricks and pop
+PASS: classic lip: existing overtime stall still permits an ordinary release/drop
+PASS: classic lip: tail_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE tail_stall max_pitch=72.8294995042203 position=(17.0, 2.011557, 82.37067) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before disaster
+PASS: classic lip: a fresh mapped Triangle plus direction admits disaster at actual coping
+PASS: classic lip: held disaster balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops disaster inward toward its own ramp
+PASS: classic lip: disaster exits and returns to supported current fixture without falling through
+CLASSIC PIPE disaster max_pitch=72.8294995042203 position=(17.04967, 2.011558, 82.36981) bails=0
+PASS: classic lip: Triangle on ordinary flat approach cannot create a stall
+PASS: classic lip: a released expired Triangle from flat ground cannot acquire a later coping
+PASS: classic lip: a real solid obstruction at the coping rejects an otherwise held approach
+PASS: classic pipe: blocked coping contact never restores an analytic target through the obstacle
+PASS: classic pipe: removing a real obstruction cannot resurrect momentum already removed by its collision
+PASS: classic vert: ordinary roll-up naturally releases upward from the actual quarter without a jump input
+PASS: classic vert: exactly two real air ticks preserve XZ momentum and apply the intended34m/s2 gravity
+CLASSIC VERT released=true launch_tick=4453 elapsed_ticks=2 launch=(0.0, 7.079565, -0.0) expected_up=5.94623123804728 after=(0.0, 5.946231, -0.0)
+PASS: classic halfpipe: a modest actual push climbs its finite east wall and naturally reverses below the coping
+PASS: classic halfpipe: reverse wall exit carries momentum back across the supported flat bottom
+CLASSIC HALFPIPE entered=true reversed=true crossed=true maxheight=2.9845564365387 position=(-20.03692, 2.014028, 61.5) velocity=(-5.762557, 0.0, -0.0)
+FOCUS_END classic_tricks_integration passed=136 failed=0
+FOCUS_BEGIN grind_regression
+PASS: grind regression: ground approach starts with real floor support
+PASS: grind regression: grounded push builds speed without snapping or scoring a rail
+PASS: grind regression: real push and tap ollie leave support and descend into exactly one Exchange rail catch
+GRIND APPROACH peak=1.01437556743622 prior_air_vy=-1.06666612625122 departed=true descending_capture=true captures=["Grind_Rail_Exchange"]
+PASS: grind regression: played approach links ollie and rail without banking early
+PASS: grind regression: scenery blocking an active ride produces exactly one bail
+PASS: grind regression: obstructed ride loses its pending combo and preserves prior bank
+PASS: grind regression: obstructed ride recovers at the supported spawn
+PASS: grind regression: overtime rejects fresh aerial flip and grab entries
+PASS: grind regression: fresh overtime spin cannot increase the landing award
+PASS: grind regression: overtime rejects a fresh otherwise eligible rail attachment
+PASS: grind regression: timeout fixture begins on a valid active rail
+PASS: grind regression: overtime cannot start a new scored rail ollie
+PASS: grind regression: overtime still permits releasing an existing rail
+PASS: grind regression: released overtime rail combo banks once on physical landing
+PASS: grind regression: a spin completed before expiry still resolves in the landing combo
+FOCUS_END grind_regression passed=151 failed=0
+RESULT: 151 passed, 0 failed

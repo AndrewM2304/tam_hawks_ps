@@ -1,0 +1,54 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FOCUS_BEGIN clyde_surface
+PASS: Clyde surface separation: actual quay has its original Y2 paving triangles
+PASS: Clyde surface separation: full original collision faces/layers/audio/backface support remain ClydeWestApproach
+PASS: Clyde surface separation: independent intersection detects the original positive-area coplanar counterexample ClydeWestApproach
+PASS: Clyde surface separation: displayed triangles have no positive-area Y2 road/quay overlap ClydeWestApproach
+PASS: Clyde surface separation: visible road covers its complete original 16m-wide approach up to Z55 without any height offset ClydeWestApproach
+PASS: Clyde surface separation: real collision and terrain queries retain original grade and quay support ClydeWestApproach
+PASS: Clyde surface separation: full original collision faces/layers/audio/backface support remain ClydeEastApproach
+PASS: Clyde surface separation: independent intersection detects the original positive-area coplanar counterexample ClydeEastApproach
+PASS: Clyde surface separation: displayed triangles have no positive-area Y2 road/quay overlap ClydeEastApproach
+PASS: Clyde surface separation: visible road covers its complete original 16m-wide approach up to Z55 without any height offset ClydeEastApproach
+PASS: Clyde surface separation: real collision and terrain queries retain original grade and quay support ClydeEastApproach
+PASS: Station surface separation: both original full-height collision prisms retain all authored corners and complete footprint
+PASS: Station surface separation: actual original prism tops independently expose the 99.8176m2 asphalt/paving counterexample
+PASS: Station surface separation: displayed top stops at the real floor edge, preserving the exterior road at Y2 without offsets
+PASS: Station surface separation: original collision and terrain height support remain across the clipped visual seam
+PHYSICS_INVENTORY bodies=363 shapes=1907 bench_bodies=12 bench_boxes=44 identified=true
+PASS: Surface separation: original 351 bodies/1863 shapes remain after the identified four-bench 12-body/44-box repair
+PASS: Surface separation: 48 unique routes and the original Clyde/Merchant Close points remain unchanged
+FOCUS_END clyde_surface passed=17 failed=0
+FOCUS_BEGIN city_backdrop
+PASS: City backdrop: ordinary startup constructs no rejected candidate geometry
+PASS: City backdrop: explicit preview world installs the actual candidate scenery
+PASS: City backdrop: actual visible arrays fit eight mesh/surface submissions and 6000 triangles
+PASS: City backdrop: explicit preview contains only the two Clyde chunks, exactly 2132 real triangles and two surfaces
+PASS: City backdrop: every actual scenery mesh avoids additional shadow/GI submissions
+PASS: City backdrop: actual node tree contains only static visuals, no physics/light/camera/processing actors
+PASS: City backdrop: exactly one shared opaque unshaded vertex-colour material, no textures/extra passes/specular or received shadows
+PASS: City backdrop: actual visible triangles remain finite and nondegenerate
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: river channel
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: station quay access
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: market quay access
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: station park access
+PASS: City backdrop: actual triangles/vertical segments leave protected geometry open: civic park access
+PASS: City backdrop: repeated build retains the same single geometry tree
+PHYSICS_INVENTORY bodies=363 shapes=1907 bench_bodies=12 bench_boxes=44 identified=true
+PASS: City backdrop: original 351 bodies/1863 shapes plus the identified bench repair and 48 routes remain unchanged
+HELD_BACKDROP names=["ClydeEastContext", "ClydeWestContext", "ExistingBoundaryRetainingSkirts", "ParkNorthHillside", "ParkWestHillside", "StationServiceBacks"] surfaces=6 triangles=4040 per_node={ "ExistingBoundaryRetainingSkirts": { "surfaces": 1, "triangles": 152 }, "StationServiceBacks": { "surfaces": 1, "triangles": 148 }, "ClydeWestContext": { "surfaces": 1, "triangles": 1060 }, "ClydeEastContext": { "surfaces": 1, "triangles": 1072 }, "ParkWestHillside": { "surfaces": 1, "triangles": 822 }, "ParkNorthHillside": { "surfaces": 1, "triangles": 786 } } port_offenders={  }
+PASS: City backdrop: explicit fresh held-context fixture preserves the exact six named geometry chunks
+PASS: City backdrop: explicit fresh held-context fixture preserves exactly six actual surfaces
+ERROR: FAIL: City backdrop: explicit fresh held-context fixture preserves exactly 4036 actual triangles
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/arcade-response/focused-regressions.gd:35)
+       [1] run (res://tests/city_backdrop_tests.gd:138)
+PASS: City backdrop: held-context actual triangles leave protected geometry open: river channel
+PASS: City backdrop: held-context actual triangles leave protected geometry open: station quay access
+PASS: City backdrop: held-context actual triangles leave protected geometry open: market quay access
+PASS: City backdrop: held-context actual triangles leave protected geometry open: station park access
+PASS: City backdrop: held-context actual triangles leave protected geometry open: civic park access
+FOCUS_END city_backdrop passed=39 failed=1
+RESULT: 39 passed, 1 failed

@@ -1,0 +1,18 @@
+# Regression driver corrections
+
+The [first required run](../failed-check-01/receipt.json) is rejected: **1,960 passed / 38 failed**, exit 1, with 346 unchanged inputs. Its complete logs remain intact. The following corrections change tests only; all production game/assets/tools/project files remain byte-identical to the rendered runtime `68781fc`.
+
+- Steering assertions now specify the intended literal 55 ms exponential response, including independent integrated angles at 30/60/120 Hz and analogue strengths. The old assertions specified 100 ms.
+- The short Triangle-buffer test now observes an actual descending approach, presses for one tick, releases before admission, and requires a real catch within 180 ms. It retains one capture/award, latch and fresh-press exit. Its separate Ollie is charged; weighted tap height has its own integration coverage.
+- The vert momentum check requires exactly two actual airborne ticks, unchanged XZ velocity and the expected 34 m/s² gravity decrement. The old bound assumed gravity 22.
+- The actual Exchange tap-catch regression requires floor departure, the prior uncaught descending airborne sample and exactly one expected capture. Its old 1.5 m minimum tap height contradicted the deliberately smaller tap jump. Combo, obstruction and recovery gates remain.
+- The world inventory retains the original 351 bodies/1,863 shapes after subtracting only the independently identified four-bench repair: 12 bodies and 44 enabled boxes at exact anchors. Original routes stay at 48.
+- The disabled held backdrop has 4,040 rather than 4,036 triangles. The sole difference is four retaining triangles at the StationNorthBoundary endpoint: corrected interior ownership selects the service court at Y1 instead of the station maximum-edge fallback at Y2. Exact source metadata, neighbouring support heights, all per-chunk counts, six surfaces, the original 4,040 budget and all protected openings are checked. This does not enable the rejected preview.
+- The bin-cat driver taps closer to A; all actual A→B→C captures, three Ollies/grinds, exactly 1,050 banked points, one win, visible payoff and save isolation remain required. No sampled descending-A approach is claimed: its surrounding-frame diagnostic records zero such samples.
+- The covered delivery driver rides onto the south apron before turning towards its entrance, avoiding accidental commitment through the west gate. Both branches still require three ordered gates, physical arrival, exactly 1,650 points and the existing payoff/camera/save guards.
+
+[Physics focused run](regressions-physics-01.log): **151/0**, exit 0. Actual Triangle request/release/capture ticks are 2520/2521/2525, with the button released at capture. Actual vert launch Y speed 7.079565 falls to 5.946231 over two native ticks. [Encounter focused run](regressions-encounters-01.log): **104/0**, exit 0; cat captures −16/−4/8 X, zero bails, 1,050 points; covered/west delivery each complete three gates and bank 1,650.
+
+[World diagnostic 01](regressions-world-01.log): **39/1**, rejected. It isolates the old 4,036 assertion while reporting 4,040 actual triangles and no protected-port offenders. The subsequent source/metadata witness must pass before accepting the corrected count.
+
+These focused logs are diagnostics on their declared test modules, not a replacement for a final frozen-source required `./tools/check.sh`. The rendered six-area fixture is separate from the older career/challenge drivers, which can directly aim supported-ground yaw. Neither is a human or target-Mac acceptance result.
