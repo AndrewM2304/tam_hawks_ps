@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "timing_pass": true,
+  "results": [
+    {
+      "id": "station-south",
+      "control_a": {
+        "p50": 145.7475,
+        "p95": 165.0744,
+        "p99": 174.182,
+        "frames": 40,
+        "max_ms": 179.915,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 128.0,
+        "primitives": 44454.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "candidate": {
+        "p50": 142.245,
+        "p95": 163.7396,
+        "p99": 169.31481,
+        "frames": 40,
+        "max_ms": 169.908,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 130.0,
+        "primitives": 44732.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "control_b": {
+        "p50": 136.07299999999998,
+        "p95": 158.02884999999998,
+        "p99": 159.77027,
+        "frames": 40,
+        "max_ms": 160.436,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 128.0,
+        "primitives": 44454.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 176.67475625000003,
+          "worse_limit_ms": 173.32812,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 189.73667174999997,
+          "worse_limit_ms": 182.8911,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 2.0,
+      "primitive_delta": 278.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "park-terrace-west",
+      "control_a": {
+        "p50": 316.303,
+        "p95": 340.40455000000003,
+        "p99": 380.02729,
+        "frames": 40,
+        "max_ms": 403.033,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 140.0,
+        "primitives": 254310.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "candidate": {
+        "p50": 325.85450000000003,
+        "p95": 349.77375,
+        "p99": 356.35021,
+        "frames": 40,
+        "max_ms": 357.934,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 140.0,
+        "primitives": 254860.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "control_b": {
+        "p50": 324.505,
+        "p95": 381.34839999999997,
+        "p99": 392.33046,
+        "frames": 40,
+        "max_ms": 395.484,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 140.0,
+        "primitives": 254310.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 419.86414874999997,
+          "worse_limit_ms": 400.41582,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 417.79098875000005,
+          "worse_limit_ms": 411.94698300000005,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 0.0,
+      "primitive_delta": 550.0,
+      "buffer_delta": 0.0
+    },
+    {
+      "id": "barras-reported-gap",
+      "control_a": {
+        "p50": 288.423,
+        "p95": 319.4185499999999,
+        "p99": 357.17892,
+        "frames": 40,
+        "max_ms": 373.236,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 262.0,
+        "primitives": 79222.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "candidate": {
+        "p50": 297.211,
+        "p95": 315.09705,
+        "p99": 318.48482,
+        "frames": 40,
+        "max_ms": 320.225,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 264.0,
+        "primitives": 79500.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "control_b": {
+        "p50": 326.72450000000003,
+        "p95": 359.75600000000003,
+        "p99": 387.09666999999996,
+        "frames": 40,
+        "max_ms": 404.431,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "draws": 262.0,
+        "primitives": 79222.0,
+        "texture_bytes": 48651268.0,
+        "buffer_bytes": 15502532.0,
+        "video_bytes": 64153800.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 396.9040887500001,
+          "worse_limit_ms": 377.7438,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 420.66243474999993,
+          "worse_limit_ms": 406.4515035,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": 2.0,
+      "primitive_delta": 278.0,
+      "buffer_delta": 0.0
+    }
+  ],
+  "native_samples": 400,
+  "candidate_views": 4,
+  "matched_views": 3,
+  "method": "Same-process original/candidate/original at3fixed boundary bearings,40native post-draw intervals/phase,12minimumwarmframes,4candidateviews/10observations/400samples. Readback outsidetimings. Frozenidenticalsource,settings,position/layer,camera/input,lightingintent.",
+  "gate": "Each p95/p99 <= control midpoint + absolute repeat difference +5% midpoint AND <=1.05*worse original control. Unchanged strict gate.",
+  "limits": "Stationary llvmpipe, no Mac FPS/human/flicker certification. Candidate allocations stayresident duringappearance-off controls; actualimportbytes/coldbaseline separate. Reported3Ddraws include shadow work, not isolated main submissions."
+}

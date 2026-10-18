@@ -1,0 +1,49 @@
+{
+  "started_london": "2026-10-18T21:31:37.756011+01:00",
+  "completed_london": "2026-10-18T21:34:09.381715+01:00",
+  "wall_seconds": 151.6257064360002,
+  "source_inputs": 370,
+  "source_stable": true,
+  "exit_code": 0,
+  "clean_log": true,
+  "image_sha256": {
+    "authored-overview.png": "0fb5e48cfa3379784609d5d642eb26f667c35227f60a7004be456ad9c916d142",
+    "barras-reported-gap-candidate.png": "3499413414a3eaccbfc73be36580a2a11ab510acb212e8f7b961546fc4bf9e80",
+    "barras-reported-gap-original-a.png": "9cf19af75bdb7e978b1560c877d47a1df9798d8fff33c125f4f073dcae4db9e5",
+    "barras-reported-gap-original-b.png": "cf6ca4738136b382c009c9c139c90e7c74e6461af8adb89e0a93b3de28cc605c",
+    "park-civic-connector-candidate.png": "22acfa0bdf4dcb7ec54186e9074264cc69f49b9a04d03fd748d6ae7a69f342b1",
+    "park-terrace-west-candidate.png": "0fb6a250b40ac8f756e55b0ca8645af766c418505e053e58509427378e844ec5",
+    "park-terrace-west-original-a.png": "e854af9efafb4b6bbf7a12eb2f4c73239a9b0993d37a3f0ae32dc0e30815fe58",
+    "park-terrace-west-original-b.png": "771c63dd3291a54eb745390174083c68f9ec1e2542b5c77410b2e4819fa15652",
+    "route-map.png": "d016b5581e31578c7875ec5e61f2f95c22ade09bbdcabfd746093aa920cdacd5",
+    "station-south-candidate.png": "082b1ce150b92b74bcb2bff0a0f7feb3791275071a18265d8052a6816947624b",
+    "station-south-original-a.png": "d5e382bd75c5dddafd46957a659081e700cb3a28ad54f8f6c355372f11b194ae",
+    "station-south-original-b.png": "28bf591422b6adb616c08c4c8bfe093996d19f5742fa7a43fdc6b04770376b62"
+  },
+  "valid": true,
+  "cgroup_cpu_stat_before": "usage_usec 199726943\nuser_usec 183021327\nsystem_usec 16705615\nnice_usec 0\nnr_periods 13899\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0\n",
+  "cgroup_cpu_stat_after": "usage_usec 600668490\nuser_usec 580601103\nsystem_usec 20067387\nnice_usec 7763\nnr_periods 15415\nnr_throttled 0\nthrottled_usec 0\nnr_bursts 0\nburst_usec 0\n",
+  "render_environment": {
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "3",
+    "cpu_max": "400000 100000",
+    "cpuset": "0-4"
+  },
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/horizon-background/foundations-preview.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/horizon-background/recovered-preview-01"
+  ],
+  "git_head": "15981c11e71632a8e2bd4ffadefb7dfc87825ca6",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

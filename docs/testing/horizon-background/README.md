@@ -1,6 +1,19 @@
-# Recovery checkpoint
+# Recovered checkpoint and validation
 
-Workspace access recovered18October2026 with pending source intact. `evidence/recovered-focused-01` passes34/0, clean/frozen369inputs (367core +2helpers),3.006s; current editor import succeeds. `minimal-focused-01` is the earlier34/0 source-matching result before the shader UID was generated. `evidence/minimal-preview-01` is an incomplete outage-interrupted run: one original-control PNG, no candidate or valid timing comparison, shutdown static-string errors retained. It is not admitted. Original art regenerates byte-identically (`reproduction-512.json`). Required full regression and strict native performance/composition are pending; existing failed gates remain open.
+Source15981c11e71632a8e2bd4ffadefb7dfc87825ca6 is pushed/remote-verified on bootstrap/m00-m01. All pending source survived the outage. Fresh focused34/0, required **tools/check.sh2,139/0** and limited native **3/3 strict timing preview** pass on exactly the same367core inputs. The full suite takes1,160.579s,21:12:01–21:31:22Europe/London; preview151.626s,21:31:37–21:34:09. All receipts are clean/source-stable and have exit0. [Source/regression audit](audit-recovered.json), [six-image review](recovered-review.md).
+
+- evidence/recovered-focused-01:369inputs,34/0.
+- evidence/ordinary-recovered-01:368inputs,2,139/0; exact import/test logs and source guards retained.
+- evidence/recovered-preview-01:370inputs,34/0functional,4candidate chase views,10observations,400native intervals,12PNGs. All3original/candidate/original bearings pass the unchanged p95/p99 two-limit rule. This is a limited preview, **not full37view/15bearing admission** or Mac performance acceptance.
+- evidence/minimal-focused-01: earlier34/0 before the editor generated the shader UID; all366then-existing core files match recovered source.
+- evidence/minimal-preview-01: incomplete outage run, original-control PNG only, no valid candidate/timing comparison; shutdown static-string errors retained. Not a diagnosed shader failure or passing native run.
+- reproduction-512.json: original artwork regenerates byte-identically. No new external asset/API or spend.
+
+Current minimal footing shader removes the standard material's actual default-white albedo lookup/UV work while preserving native fog/depth/tonemap and standard sRGB vertex convention.32foundation faces/64triangles still join the existing context surface; all8original masses retain original geometry/material/shadow state. Plain plinth finish and distant terrain composition remain unfinished art. Actual native GPU layer readback remains unverified; CPU import-chain proof and captured composition are separate.
+
+Next: full37candidate-view/15bearing source-frozen native run and all-area review. Source did not change after the required suite; do not repeat it for documentation alone. Complete controls/water/ramp/grind tasks remain in [NEXT-PLAY-HARDENING](../../planning/NEXT-PLAY-HARDENING.md). No engine remains active. Historical attempts below retain their own verdicts.
+
+---
 
 # Boundary and horizon repair
 
