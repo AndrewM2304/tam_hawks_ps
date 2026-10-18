@@ -1,0 +1,144 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FOCUS_BEGIN topography
+PASS: topography: actual level and upward support Exchange lower square
+PASS: topography: actual level and upward support Exchange gallery
+PASS: topography: actual level and upward support George square
+PASS: topography: actual level and upward support George civic terrace
+PASS: topography: actual level and upward support Central concourse
+PASS: topography: actual level and upward support Central elevated platform
+PASS: topography: actual level and upward support Barras market
+PASS: topography: actual level and upward support Barras loading terrace
+PASS: topography: authored graded route gallery_civic_ascent
+PASS: topography: physical grade and seam transit gallery_civic_ascent uphill
+TOPOGRAPHY route=gallery_civic_ascent uphill reached=true seconds=10.47 height=0.00..6.11 slope_frames=162 bails=0 stalled=0
+PASS: topography: physical grade and seam transit gallery_civic_ascent downhill
+TOPOGRAPHY route=gallery_civic_ascent downhill reached=true seconds=10.47 height=0.00..6.00 slope_frames=162 bails=0 stalled=0
+PASS: topography: authored graded route central_south_link
+PASS: topography: physical grade and seam transit central_south_link uphill
+TOPOGRAPHY route=central_south_link uphill reached=true seconds=3.90 height=0.00..2.02 slope_frames=61 bails=0 stalled=0
+PASS: topography: physical grade and seam transit central_south_link downhill
+TOPOGRAPHY route=central_south_link downhill reached=true seconds=3.90 height=0.00..2.00 slope_frames=61 bails=0 stalled=0
+PASS: topography: authored graded route market_loading_ascent
+PASS: topography: physical grade and seam transit market_loading_ascent uphill
+TOPOGRAPHY route=market_loading_ascent uphill reached=true seconds=5.05 height=0.00..1.53 slope_frames=49 bails=0 stalled=0
+PASS: topography: physical grade and seam transit market_loading_ascent downhill
+TOPOGRAPHY route=market_loading_ascent downhill reached=true seconds=5.05 height=0.01..1.50 slope_frames=48 bails=0 stalled=0
+PASS: topography: nonlinear branch published station_low_level_close
+PASS: topography: real physical transit through every bend station_low_level_close forward
+TOPOGRAPHY branch=station_low_level_close forward reached=true seconds=6.07 height=2.00..2.00 bails=0 stalled=0 position=(-82.01755, 2.000506, 21.24226)
+PASS: topography: real physical transit through every bend station_low_level_close reverse
+TOPOGRAPHY branch=station_low_level_close reverse reached=true seconds=6.07 height=2.00..2.00 bails=0 stalled=0 position=(-125.9257, 2.000506, -0.782349)
+PASS: topography: nonlinear branch published merchant_close_cutthrough
+PASS: topography: real physical transit through every bend merchant_close_cutthrough forward
+TOPOGRAPHY branch=merchant_close_cutthrough forward reached=true seconds=4.47 height=2.00..4.11 bails=0 stalled=0 position=(-58.98252, 4.014013, -79.421)
+PASS: topography: real physical transit through every bend merchant_close_cutthrough reverse
+TOPOGRAPHY branch=merchant_close_cutthrough reverse reached=true seconds=4.47 height=2.01..4.01 bails=0 stalled=0 position=(-64.15211, 2.012416, -30.55121)
+PASS: topography: nonlinear branch published kelvingrove_cutback_return
+PASS: topography: real physical transit through every bend kelvingrove_cutback_return forward
+TOPOGRAPHY branch=kelvingrove_cutback_return forward reached=true seconds=8.92 height=4.53..11.01 bails=0 stalled=0 position=(-147.6528, 4.532147, -48.22202)
+PASS: topography: real physical transit through every bend kelvingrove_cutback_return reverse
+TOPOGRAPHY branch=kelvingrove_cutback_return reverse reached=true seconds=9.30 height=4.51..11.01 bails=0 stalled=0 position=(-208.5247, 11.01315, -125.6596)
+PASS: topography: nonlinear branch published clyde_print_yard_loop
+PASS: topography: real physical transit through every bend clyde_print_yard_loop forward
+TOPOGRAPHY branch=clyde_print_yard_loop forward reached=true seconds=6.82 height=2.00..2.01 bails=0 stalled=0 position=(35.64821, 2.014242, 123.8824)
+PASS: topography: real physical transit through every bend clyde_print_yard_loop reverse
+TOPOGRAPHY branch=clyde_print_yard_loop reverse reached=true seconds=6.83 height=2.00..2.01 bails=0 stalled=0 position=(35.60489, 2.014243, 124.3581)
+PASS: topography: nonlinear branch published clyde_print_yard_hip
+PASS: topography: real physical transit through every bend clyde_print_yard_hip forward
+TOPOGRAPHY branch=clyde_print_yard_hip forward reached=true seconds=2.05 height=2.00..3.10 bails=0 stalled=0 position=(59.99976, 2.012255, 134.8588)
+PASS: topography: real physical transit through every bend clyde_print_yard_hip reverse
+TOPOGRAPHY branch=clyde_print_yard_hip reverse reached=true seconds=2.03 height=2.00..3.02 bails=0 stalled=0 position=(68.27838, 2.013351, 127.4995)
+PASS: topography: nonlinear branch published merchant_service_east_return
+PASS: topography: real physical transit through every bend merchant_service_east_return forward
+TOPOGRAPHY branch=merchant_service_east_return forward reached=true seconds=2.27 height=1.00..2.04 bails=0 stalled=0 position=(-58.99799, 2.012416, -34.60501)
+PASS: topography: real physical transit through every bend merchant_service_east_return reverse
+TOPOGRAPHY branch=merchant_service_east_return reverse reached=true seconds=2.25 height=1.00..2.00 bails=0 stalled=0 position=(-56.56673, 1.010694, -55.49721)
+PASS: topography: nonlinear branch published merchant_service_west_return
+PASS: topography: real physical transit through every bend merchant_service_west_return forward
+TOPOGRAPHY branch=merchant_service_west_return forward reached=true seconds=1.95 height=1.00..4.00 bails=0 stalled=0 position=(-87.32356, 3.754348, -69.98274)
+PASS: topography: real physical transit through every bend merchant_service_west_return reverse
+TOPOGRAPHY branch=merchant_service_west_return reverse reached=true seconds=1.82 height=1.01..3.75 bails=0 stalled=0 position=(-72.65476, 1.012421, -70.00068)
+PASS: topography: curved bank has multiple actual collision grades within its 35-degree contract
+TOPOGRAPHY hip slope_bins=5 steepest=31.06
+PASS: topography: independent low floor, overhead clearance and upper deck support x=-114.0
+PASS: topography: independent low floor, overhead clearance and upper deck support x=-94.0
+PASS: topography: permanent court approach or bank loop published cat_coping_approach
+PASS: topography: physical court access and grade transit cat_coping_approach forward
+TOPOGRAPHY court=cat_coping_approach forward reached=true seconds=1.33 height=4.00..4.02 slope_frames=0 bails=0 stalled=0 position=(-18.77725, 4.02154, -91.0)
+PASS: topography: physical court access and grade transit cat_coping_approach reverse
+TOPOGRAPHY court=cat_coping_approach reverse reached=true seconds=1.37 height=4.01..4.01 slope_frames=1 bails=0 stalled=0 position=(-27.38215, 4.011235, -90.99997)
+PASS: topography: permanent court approach or bank loop published cat_coping_runout
+PASS: topography: physical court access and grade transit cat_coping_runout forward
+TOPOGRAPHY court=cat_coping_runout forward reached=true seconds=2.18 height=4.01..4.02 slope_frames=1 bails=0 stalled=0 position=(21.97236, 4.010628, -74.63551)
+PASS: topography: physical court access and grade transit cat_coping_runout reverse
+TOPOGRAPHY court=cat_coping_runout reverse reached=true seconds=2.20 height=4.00..4.12 slope_frames=1 bails=0 stalled=0 position=(16.58244, 4.010738, -90.95984)
+PASS: topography: permanent court approach or bank loop published cat_workshop_bypass
+PASS: topography: physical court access and grade transit cat_workshop_bypass forward
+TOPOGRAPHY court=cat_workshop_bypass forward reached=true seconds=5.80 height=4.00..4.00 slope_frames=0 bails=0 stalled=0 position=(21.96647, 4.000506, -90.2449)
+PASS: topography: physical court access and grade transit cat_workshop_bypass reverse
+TOPOGRAPHY court=cat_workshop_bypass reverse reached=true seconds=5.80 height=4.00..4.00 slope_frames=0 bails=0 stalled=0 position=(-21.96647, 4.000506, -90.2449)
+PASS: topography: permanent court approach or bank loop published civic_workshop_bank_loop
+PASS: topography: physical court access and grade transit civic_workshop_bank_loop forward
+TOPOGRAPHY court=civic_workshop_bank_loop forward reached=true seconds=3.70 height=4.00..4.71 slope_frames=43 bails=0 stalled=0 position=(21.20971, 4.013552, -95.48563)
+PASS: topography: physical court access and grade transit civic_workshop_bank_loop reverse
+TOPOGRAPHY court=civic_workshop_bank_loop reverse reached=true seconds=3.70 height=4.00..4.71 slope_frames=43 bails=0 stalled=0 position=(-21.20488, 4.013793, -95.48564)
+PASS: topography: permanent court approach or bank loop published market_hall_bank_loop
+PASS: topography: physical court access and grade transit market_hall_bank_loop forward
+TOPOGRAPHY court=market_hall_bank_loop forward reached=true seconds=3.50 height=-0.00..0.69 slope_frames=43 bails=0 stalled=0 position=(81.73657, 0.007555, 8.51832)
+PASS: topography: physical court access and grade transit market_hall_bank_loop reverse
+TOPOGRAPHY court=market_hall_bank_loop reverse reached=true seconds=3.45 height=-0.00..0.80 slope_frames=31 bails=0 stalled=0 position=(81.3653, 0.010901, 8.001298)
+PASS: topography: print-yard ledge publishes a usable local trick line
+ERROR: FAIL: topography: actual yard ollie capture rail-ollie air tricks and manual stay in one unbanked line
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/arcade-response/focused-regressions.gd:35)
+       [1] _local_combo (res://tests/topography_tests.gd:190)
+       [2] _frames (res://tests/topography_tests.gd:506)
+PASS: topography: new local rail-air-manual route banks its exact repeated-trick combo once
+TOPOGRAPHY localcombo captured=true manual=true connected=false bank=5000 bails=0 charge_frames=15 release_distance=9.616 tricks=["Ollie", "Rail Grind", "Ollie", "Kickflip", "Melon Grab", "Manual"]
+PASS: topography: fountain publishes a full curved coping circuit
+PASS: topography: real ground approach and descending ollie capture fountain coping
+PASS: topography: curved grind follows changing tangent without cutting through the fountain
+PASS: topography: second-tap drop from curved coping lands and banks once without a bail
+TOPOGRAPHY fountain captured=true bails=0 charge_frames=15 release_distance=9.607 position=(-14.09664, 0.01245, 12.85277)
+PASS: topography: authored outdoor connection clyde_north_quay
+PASS: topography: actual supported outdoor travel clyde_north_quay
+TOPOGRAPHY outdoor=clyde_north_quay reached=true seconds=16.00 bails=0 stalled=0
+PASS: topography: authored outdoor connection clyde_safe_crossing
+PASS: topography: actual supported outdoor travel clyde_safe_crossing
+TOPOGRAPHY outdoor=clyde_safe_crossing reached=true seconds=4.58 bails=0 stalled=0
+PASS: topography: park climb and rolling loop published
+PASS: topography: actual park climb, hill circuit and descent return to the Central port
+TOPOGRAPHY park reached=true seconds=29.07 height=2.01..17.58 slopes=884 bails=0 stalled=0
+PASS: topography: broken bridge publishes its run-up and landing
+PASS: topography: broken bridge has a named scored gap
+PASS: topography: actual push run-up and charged crouch reach the bridge launch grade
+PASS: topography: physical eight-metre bridge ollie reaches south bank and banks the named gap once
+TOPOGRAPHY bridge takeoff=true landed=true awards=1 bank=2000 bails=0 charge_frames=17
+PASS: topography: missed bridge drops the real fall combo once and preserves the earned bank
+PASS: topography: water recovery returns to supported quay without changing the run restart spawn
+TOPOGRAPHY water bails=1 pending=true sampled_water=true bank=100 position=(25.0, 2.000026, 124.0)
+FOCUS_END topography passed=74 failed=1
+FOCUS_BEGIN career_route
+SCRIPT ERROR: Parse Error: Cannot infer the type of "trace" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://tests/career_route_tests.gd:133)
+          GDScript backtrace (most recent call first):
+              [0] _run (res://.local/arcade-response/focused-regressions.gd:11)
+              [1] run (res://tests/topography_tests.gd:19)
+              [2] _bridge_and_recovery (res://tests/topography_tests.gd:439)
+              [3] _frames (res://tests/topography_tests.gd:506)
+ERROR: Failed to load script "res://tests/career_route_tests.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://.local/arcade-response/focused-regressions.gd:11)
+       [1] run (res://tests/topography_tests.gd:19)
+       [2] _bridge_and_recovery (res://tests/topography_tests.gd:439)
+       [3] _frames (res://tests/topography_tests.gd:506)
+SCRIPT ERROR: Invalid call. Nonexistent function 'run' in base 'GDScript'.
+          at: _run (res://.local/arcade-response/focused-regressions.gd:22)
+          GDScript backtrace (most recent call first):
+              [0] _run (res://.local/arcade-response/focused-regressions.gd:22)
+              [1] run (res://tests/topography_tests.gd:19)
+              [2] _bridge_and_recovery (res://tests/topography_tests.gd:439)
+              [3] _frames (res://tests/topography_tests.gd:506)

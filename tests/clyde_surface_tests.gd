@@ -48,9 +48,8 @@ static func run(tree: SceneTree, check: Callable) -> void:
 			support = support and absf(world.get_ground_height(at) - expected) < 0.001
 		check.call(support, "Clyde surface separation: real collision and terrain queries retain original grade and quay support " + id)
 	_check_station(world, check)
-	check.call(world.find_children("*", "StaticBody3D", true, false).size() == 351
-		and world.find_children("*", "CollisionShape3D", true, false).size() == 1863,
-		"Surface separation: original 351 static bodies and 1863 collision shapes remain unchanged")
+	check.call(original_physics_inventory(world),
+		"Surface separation: original 351 bodies/1863 shapes remain after the identified four-bench 12-body/44-box repair")
 	var routes: Array = world.get_route_definitions()
 	var published: Dictionary = {}
 	for route: Dictionary in routes: published[route.id] = route
@@ -65,6 +64,42 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		"Surface separation: 48 unique routes and the original Clyde/Merchant Close points remain unchanged")
 	world.free()
 	await tree.process_frame
+
+
+static func original_physics_inventory(world: Node3D) -> bool:
+	# Exclude only the authorized, reachable street furniture. A group tag alone
+	# cannot hide another body: require all twelve unique anchor/part identities,
+	# direct world ownership, normal scenery layers and the actual box counts.
+	var anchors := [Vector3(-127,2,28), Vector3(60,0,36), Vector3(29,6,-116), Vector3(29,0,27)]
+	var part_shapes := {"StreetBenchSeat":4, "StreetBenchBack":3, "StreetBenchFrame":4}
+	var bodies := world.find_children("*", "StaticBody3D", true, false)
+	var shapes := world.find_children("*", "CollisionShape3D", true, false)
+	var identities: Dictionary = {}
+	var bench_shapes: Dictionary = {}
+	var bench_bodies := 0
+	var valid := true
+	for body: StaticBody3D in bodies:
+		if not body.is_in_group("street_bench_solids"): continue
+		bench_bodies += 1
+		var label := str(body.get_meta("art_label", ""))
+		var anchor := anchors.find(body.position)
+		var identity := str(anchor) + ":" + label
+		valid = valid and anchor >= 0 and part_shapes.has(label) and not identities.has(identity)
+		valid = valid and body.get_parent() == world and body.basis.is_equal_approx(Basis.IDENTITY)
+		valid = valid and body.collision_layer == 1 and body.collision_mask == 0
+		identities[identity] = true
+		var count := 0
+		for child: Node in body.get_children():
+			if not child is CollisionShape3D: continue
+			count += 1
+			bench_shapes[child.get_instance_id()] = true
+			valid = valid and child.shape is BoxShape3D and not child.disabled
+			valid = valid and child.transform.basis.is_equal_approx(Basis.IDENTITY) and child.position.is_finite()
+		valid = valid and count == int(part_shapes.get(label, -1))
+	print("PHYSICS_INVENTORY bodies=%d shapes=%d bench_bodies=%d bench_boxes=%d identified=%s" % [
+		bodies.size(), shapes.size(), bench_bodies, bench_shapes.size(), valid])
+	return valid and identities.size() == 12 and bench_bodies == 12 and bench_shapes.size() == 44 \
+		and bodies.size() - bench_bodies == 351 and shapes.size() - bench_shapes.size() == 1863
 
 
 static func _check_station(world: Node3D, check: Callable) -> void:

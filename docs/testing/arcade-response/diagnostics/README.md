@@ -13,6 +13,6 @@ The [first required run](../failed-check-01/receipt.json) is rejected: **1,960 p
 
 [Physics focused run](regressions-physics-01.log): **151/0**, exit 0. Actual Triangle request/release/capture ticks are 2520/2521/2525, with the button released at capture. Actual vert launch Y speed 7.079565 falls to 5.946231 over two native ticks. [Encounter focused run](regressions-encounters-01.log): **104/0**, exit 0; cat captures −16/−4/8 X, zero bails, 1,050 points; covered/west delivery each complete three gates and bank 1,650.
 
-[World diagnostic 01](regressions-world-01.log): **39/1**, rejected. It isolates the old 4,036 assertion while reporting 4,040 actual triangles and no protected-port offenders. The subsequent source/metadata witness must pass before accepting the corrected count.
+[World diagnostic 01](regressions-world-01.log): **39/1**, rejected. It isolates the old 4,036 assertion while reporting 4,040 actual triangles and no protected-port offenders. [World diagnostic 02](regressions-world-02.log) passes **42/0**, exit 0, including the exact three-point metadata witness, actual neighbouring support heights and all protected openings. It admits the corrected test inventory, not the rejected art preview.
 
 These focused logs are diagnostics on their declared test modules, not a replacement for a final frozen-source required `./tools/check.sh`. The rendered six-area fixture is separate from the older career/challenge drivers, which can directly aim supported-ground yaw. Neither is a human or target-Mac acceptance result.
