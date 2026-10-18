@@ -1,0 +1,12 @@
+# Boundary and horizon continuity
+
+18 October 2026. Current owner priority; park migration pauses. This extends existing M03-006/007, M05-001 and M06-004/007 without replacing their complete backlog records. [ADR-019](../architecture/decisions/ADR-019-boundary-horizon-continuity.md) fixes scope and budgets; [design review](../levels/BOUNDARY-HORIZON-REVIEW.md) identifies exact defects and protected entrances. No spending, new playable area or hosted CI.
+
+| ID | Owner | Priority / milestone | Dependencies | Work and acceptance | Test strategy / state |
+|---|---|---|---|---|---|
+| HORIZON-01 | A01/A05 + independent lead-design agent | P0 / M03,M05 | Accepted compact Clyde | Survey all6 areas, distinguish near missing footing from distant horizon; preserve real entrances and actual high layers. |36 actual chase fixtures, map and labelled overview; source/PNG hashes and settled-position audit. Complete baseline/design review; final37-view review pending. |
+| HORIZON-02 | A05/A01 | P0 / M03,M05 |01 | Original static hills/urban panorama; exact bounded vertical backing; scenic bank bends beyond closed river ends; resident-albedo finish on existing tall wall if admitted. Ordinary startup must show a viable repair, within ADR budgets. |Actual images, texture pixel/wrap/size checks, independent geometry/removal negatives and unchanged collision/support/routes. Implemented; focused28/0 passes, final admission pending. |
+| HORIZON-03 | A01/A09 | P0 / M06 |02 | Admit only a measured candidate with all-area composition and no protected-port regression. |Sole-renderer frozen matched baseline/candidate/control distributions, p50/p95/p99/long frames/draws/primitives/memory; required full check. Target Mac remains open. Planned. |
+| HORIZON-04 | A01 | P0 / M06,M07 |03 | Preserve evidence/rejections, source correspondence and concrete resume instructions; commit/push completed task. All75 full task bodies unchanged. |Artifact/source audit, backlog-body SHA, remote branch verification. Planned. |
+
+Resume at the first incomplete row; inspect STATUS and retained evidence before rerunning. Do not treat old failed backdrops as admitted or resume the park migration until this slice has a durable result. Final Mac/DualSense, temporal shimmer and realistic art/UI acceptance remain separate open gates.

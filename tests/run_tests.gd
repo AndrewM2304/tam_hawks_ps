@@ -1,6 +1,7 @@
 extends SceneTree
 ## Dependency-free unit and physics integration checks. Run with tools/check.sh.
 
+const HORIZON_TESTS = preload("res://tests/horizon_background_tests.gd")
 const COMPACT_CLYDE_TESTS = preload("res://tests/test_compact_clyde.gd")
 const COMPACT_CLYDE_LINES = preload("res://tests/compact_clyde_lines_tests.gd")
 const EDGE_GRIND_TESTS = preload("res://tests/edge_grind_integration_tests.gd")
@@ -106,6 +107,7 @@ func _run() -> void:
 	game.persistence_enabled = false
 	root.add_child(game)
 	await _physics_frames(35)
+	await HORIZON_TESTS.run(self, game.world, _check)
 	await COMPACT_CLYDE_TESTS.run(self, game.world, _check)
 	await WORLD_ROUTES_TESTS.run(self, game.world, _check)
 	await SKATE_EDGES_TESTS.run(game.world, _check)

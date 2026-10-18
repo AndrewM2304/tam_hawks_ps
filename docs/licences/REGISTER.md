@@ -41,3 +41,7 @@ Record stable source URL, exact version/download date, author, licence text path
 ## Current transition geometry and trick motion
 
 ADR-015's Clyde quarter/half-pipe meshes, collision samples and finite contact helper are original project code/geometry. The six flips, five grabs, two manuals and four lip poses are original; no franchise animation, model, layout or media is bundled. Ramp faces reuse existing mineral-concrete/normal textures from the registered CC0 set, with shared native materials and generated tangents. The primary manuals and pinned MIT sources in CLASSIC-TRICK-CONTROLS are research references. This slice adds no paid dependency or new external asset.
+
+## Original static horizon and existing-wall finish
+
+ART-001 also covers `game/art/assets/horizon/`: a4096×2048 RGB composite hills/woodland/roofline panorama. Deterministic source `art_source/horizon/generate.py`, original seeds and output/generator hashes in the asset manifest; no photographs, Maps imagery, external inputs, paid service or new licence grant. These are atmospheric composite scenery, not surveyed360° Glasgow, verified shops or copied public murals. Native sky uses the panorama; the existing guard finish reuses registered ART-002 albedo without another imported image; runtime construction/performance/final-art admission is tracked separately in [HORIZON tasks](../planning/BOUNDARY-HORIZON.md).

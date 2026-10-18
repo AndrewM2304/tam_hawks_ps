@@ -5,6 +5,7 @@ const CityVisibility = preload("res://game/levels/city_visibility.gd")
 const GlasgowMurals = preload("res://game/levels/glasgow_murals.gd")
 const SkateEdges = preload("res://game/levels/skate_edges.gd")
 const CityBackdrop = preload("res://game/levels/city_backdrop.gd")
+const HorizonBackground = preload("res://game/levels/horizon_background.gd")
 ## Compressed original Glasgow skating routes. One unit is approximately one metre.
 ## Keep geometry and collision together; skating physics belongs to the player.
 
@@ -84,6 +85,10 @@ func _ready() -> void:
 	# play free of their construction/render cost; explicit fixtures retain them.
 	if bool(get_meta("render_repair_backdrop_preview", false)):
 		CityBackdrop.build(self, _materials, bool(get_meta("render_repair_full_context", false)))
+	# One static painted horizon and exact vertical edge footings. The retained
+	# heavier backdrop experiments above remain disabled in ordinary play.
+	var environment_node := find_children("*", "WorldEnvironment", false, false)[0] as WorldEnvironment
+	HorizonBackground.install(self, environment_node.environment.sky)
 	solid_wall_occluders = CityVisibility.build(self)
 	if not bool(get_meta("render_budget_probe_baseline", false)):
 		# Share exact static primitives once. Spatial splitting stays opt-in: the

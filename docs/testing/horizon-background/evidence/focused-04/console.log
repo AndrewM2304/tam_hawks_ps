@@ -1,0 +1,40 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: horizon: normal production World installs its context
+PASS: horizon: one native environment without an extra scene sky
+PASS: horizon: native static quality panorama replaces the uniform procedural sky
+PASS: horizon: actual imported 4096x2048 mipmapped panorama data stays within6MiB
+PASS: horizon: decoded actual panorama is opaque including its lower hemisphere
+HORIZON PIXELS max_seam=0.06212932616472 range=0.60394704341888 low=(0.3882, 0.4745, 0.4824, 1.0) high=(0.7725, 0.8078, 0.8078, 1.0) imported_bytes=5592424
+ERROR: FAIL: horizon: actual pixels wrap continuously and contain varied distant land/building silhouettes
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/horizon-background/focused.gd:16)
+       [1] _sky (res://tests/horizon_background_tests.gd:61)
+       [2] run (res://tests/horizon_background_tests.gd:19)
+PASS: horizon: established ambient light, ACES and fog remain unchanged rather than concealing gaps
+PASS: horizon: existing sun colour and energy are retained
+PASS: horizon: controlled comparison retains the original procedural material
+PASS: horizon: four actual static regional meshes stay within budget with valid footing/bank triangles and opaque vertex colours
+PASS: horizon: footing surfaces share one opaque double-sided unshaded material without textures or extra passes
+PASS: horizon: context introduces no collision, cameras, lights, scripts or frame callbacks
+PASS: horizon: actual triangles completely cover every raw physical boundary baseline, corners and downward footing samples
+PASS: horizon: actual face area matches the raw boundary envelope without floating extensions or route-mouth caps
+PASS: horizon: separate flat service-back plane matches X129.81/Z-8..2/Y-.1..5.05 and embeds behind the blocked graded boundary
+PASS: horizon: real civic, station, market, park and quay openings contain no footing cap
+HORIZON independent geometry samples=12336 triangles=676 area=78179.6890678406
+PASS: horizon river: actual72 bank triangles match independently fixed shore/back sections behind closed quay ends
+PASS: horizon river: one existing water display retains its ShaderMaterial and one replacement mesh surface
+HORIZON WATER vertices=54 indices=0 normals=54 uvs=54 tangents=216 max_y=0.0 max_uv=0.0 min_normal_dot=1.0 max_normal_error=0.00001525902189 front_area=(-6460.0, -1102.0) missing= combined_triangles=768
+PASS: horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and total768-triangle ceiling
+PASS: horizon river: actual water triangles never overlap each other or project through the new bank tops
+PASS: horizon river: all36 scenic bank-top triangle interiors stay outside actual playable collision support
+PASS: horizon river: controlled comparison swaps only the existing water mesh and retains exactly the same animated material
+PHYSICS_INVENTORY bodies=354 shapes=1296 protected_bodies=271 protected_shapes=720 bench_bodies=12 bench_boxes=44 identified=true
+PASS: horizon: exact354 bodies/1296 shapes and independent protected core/bench identities are retained
+PASS: horizon: all48 unique published routes and the six district checkpoints remain
+PASS: horizon: representative real support/query contacts remain correct across all six areas
+PASS: horizon: scenic backing creates no catch floor in deleted quays or former south landscape
+PASS: horizon: reversible appearance comparison restores both materials while physical routes stay identical
+PASS: horizon: existing high Clyde wall reuses one resident CC0 albedo without another mesh, normal map or pass
+RESULT: 27 passed, 1 failed
