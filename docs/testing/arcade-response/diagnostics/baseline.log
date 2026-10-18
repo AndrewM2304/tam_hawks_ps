@@ -1,0 +1,40 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS arcade jump: mapped 2-tick crouch stays supported until release
+FAIL arcade jump: tap real apex/airtime meet deliberate response envelope
+PASS arcade jump: native consecutive ticks record exactly one pop and a supported landing
+ARCADE_JUMP held=2 apex=1.84553917497396 airtime=0.81666666666667 first_tick=41 last_tick=132
+PASS arcade jump: mapped 24-tick crouch stays supported until release
+FAIL arcade jump: charged real apex/airtime meet deliberate response envelope
+PASS arcade jump: native consecutive ticks record exactly one pop and a supported landing
+ARCADE_JUMP held=24 apex=2.36722346395254 airtime=0.91666666666667 first_tick=173 last_tick=286
+FAIL arcade halfpipe: held push achieves at least four alternating actual wall visits without steering/heading assistance
+PASS arcade halfpipe: repeated automatic returns preserve finite continuous physical travel without bails or invented ollies
+ARCADE_PIPE crouch=false walls=["clyde_half_east"] natural_air=true max_step=0.21982130408287 bails=0 final=(-3.496794, 2.012443, 60.5)
+FAIL arcade halfpipe: held crouch achieves at least four alternating actual wall visits without steering/heading assistance
+PASS arcade halfpipe: repeated automatic returns preserve finite continuous physical travel without bails or invented ollies
+ARCADE_PIPE crouch=true walls=["clyde_half_east"] natural_air=true max_step=0.22348563373089 bails=0 final=(-4.029782, 2.012431, 60.5)
+PASS arcade rail: imperfect actual mapped approach held_early_left expected catch=true
+PASS arcade rail: held_early_left release stays locked with one award
+PASS arcade rail: held_early_left fresh second press exits without automatic recapture
+ARCADE_RAIL id=held_early_left caught=true catches=1 position=(0.0, 0.163889, 2.481019)
+PASS arcade rail: imperfect actual mapped approach held_early_right expected catch=true
+PASS arcade rail: held_early_right release stays locked with one award
+PASS arcade rail: held_early_right fresh second press exits without automatic recapture
+ARCADE_RAIL id=held_early_right caught=true catches=1 position=(0.0, 0.163889, 2.481019)
+FAIL arcade rail: imperfect actual mapped approach tap_approach expected catch=true
+PASS arcade rail: rejected tap_approach cannot score a phantom catch
+ARCADE_RAIL id=tap_approach caught=false catches=0 position=(0.987799, 0.01224, 1.448932)
+FAIL arcade rail: imperfect actual mapped approach tap_later expected catch=true
+PASS arcade rail: rejected tap_later cannot score a phantom catch
+ARCADE_RAIL id=tap_later caught=false catches=0 position=(-0.987799, 0.01224, 1.448932)
+PASS arcade rail: imperfect actual mapped approach outside_lateral expected catch=false
+PASS arcade rail: rejected outside_lateral cannot score a phantom catch
+ARCADE_RAIL id=outside_lateral caught=false catches=0 position=(1.25, 0.004692, 1.423517)
+PASS arcade rail: imperfect actual mapped approach expired_tap expected catch=false
+PASS arcade rail: rejected expired_tap cannot score a phantom catch
+ARCADE_RAIL id=expired_tap caught=false catches=0 position=(0.0, 0.004747, 0.271859)
+PASS arcade rail: imperfect actual mapped approach solid_obstruction expected catch=false
+PASS arcade rail: rejected solid_obstruction cannot score a phantom catch
+ARCADE_RAIL id=solid_obstruction caught=false catches=0 position=(0.627919, 0.013368, 1.439384)
+ARCADE RESPONSE RESULT: 20 passed, 6 failed

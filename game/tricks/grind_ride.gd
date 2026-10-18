@@ -4,10 +4,10 @@ extends RefCounted
 ## The caller owns collision sweeps, input edges, cooldowns, scoring and player transitions.
 
 const GrindLine = preload("res://game/tricks/grind_line.gd")
-const CAPTURE_RADIUS: float = 0.65
-const VERTICAL_REACH: float = 0.45
-const BELOW_ALLOWANCE: float = 0.10
-const APPROACH_COS: float = 0.5735764364 # cos(55 degrees), measured in the horizontal plane.
+const CAPTURE_RADIUS: float = 0.85
+const VERTICAL_REACH: float = 0.60
+const BELOW_ALLOWANCE: float = 0.14
+const APPROACH_COS: float = 0.4226182617 # cos(65 degrees), measured in the horizontal plane.
 const ENTRY_SPEED: float = 2.0
 const MAX_SPEED: float = 18.0
 const RELEASE_SPEED: float = 1.0
@@ -72,9 +72,12 @@ func start(lines: Array, from: Vector3, velocity: Vector3,
 			continue
 		var signed_direction: float = signf(alignment)
 		var projected_speed: float = velocity.dot(tangent) * signed_direction
+		# A deliberate angled catch redirects momentum without discarding most
+		# of its speed. Never convert falling velocity into a horizontal boost.
+		projected_speed = maxf(projected_speed, horizontal.length() * lerpf(0.9, 1.0, absf(alignment)))
 		if not is_finite(projected_speed) or projected_speed < ENTRY_SPEED or projected_speed > MAX_SPEED:
 			continue
-		if (offset <= END_EPSILON and signed_direction < 0.0
+		if not candidate.is_loop and (offset <= END_EPSILON and signed_direction < 0.0
 				or offset >= candidate.length - END_EPSILON and signed_direction > 0.0):
 			continue
 		if clearance.is_valid() and clearance.call(from, at) != true:
@@ -143,11 +146,11 @@ func step(delta: float, balance_input: float) -> String:
 	if not is_finite(next_distance) or not is_finite(next_elapsed) or not is_finite(next_balance):
 		return _release("bail")
 	speed = next_speed
-	distance = clampf(next_distance, 0.0, line.length)
+	distance = fposmod(next_distance, line.length) if line.is_loop else clampf(next_distance, 0.0, line.length)
 	elapsed = next_elapsed
 	balance = next_balance
 	_sample()
-	if next_distance <= 0.0 or next_distance >= line.length:
+	if not line.is_loop and (next_distance <= 0.0 or next_distance >= line.length):
 		return _release("end")
 	if absf(balance) >= 1.0:
 		return _release("bail")

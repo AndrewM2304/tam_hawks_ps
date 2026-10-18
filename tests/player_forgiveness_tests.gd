@@ -17,12 +17,12 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	await _early_manual(tree, check)
 	await _disabled_buffer(tree, check)
 	for entry: Dictionary in [
-		{"offset": -0.22, "yaw": 0.0, "press": 0, "push": 45, "input": "action", "catch": true},
-		{"offset": 0.22, "yaw": 0.0, "press": 28, "push": 60, "input": "pad", "catch": true},
-		{"offset": 0.0, "yaw": 2.0, "press": 34, "push": 45, "input": "remap", "catch": true},
-		{"offset": 0.0, "yaw": -2.0, "press": 34, "push": 60, "input": "action", "catch": true},
-		{"offset": 0.9, "yaw": 0.0, "press": 0, "push": 45, "input": "action", "catch": false},
-		{"offset": 0.0, "yaw": 0.0, "press": 48, "push": 45, "input": "action", "catch": false}]:
+		{"offset": -0.22, "yaw": 0.0, "when": "early", "push": 45, "input": "action", "catch": true},
+		{"offset": 0.22, "yaw": 0.0, "when": "descending", "push": 60, "input": "pad", "catch": true},
+		{"offset": 0.0, "yaw": 2.0, "when": "descending", "push": 45, "input": "remap", "catch": true},
+		{"offset": 0.0, "yaw": -2.0, "when": "descending", "push": 60, "input": "action", "catch": true},
+		{"offset": 0.9, "yaw": 0.0, "when": "early", "push": 45, "input": "action", "catch": false},
+		{"offset": 0.0, "yaw": 0.0, "when": "after_landing", "push": 45, "input": "action", "catch": false}]:
 		await _rail_approach(tree, check, entry)
 	Profile.reset_defaults()
 	_release()
@@ -138,13 +138,24 @@ static func _rail_approach(tree: SceneTree, check: Callable, entry: Dictionary) 
 	await _frames(tree, 1)
 	Input.action_release("ollie")
 	Input.action_release("push")
+	var requested := false
+	var had_air := false
+	var request_tick := -1
 	for frame in 65:
-		if frame == entry.press: _rail_input(entry.input, true)
+		had_air = had_air or rider.airborne
+		var eligible_event: bool = (entry.when == "early" or
+			(entry.when == "descending" and rider.airborne and rider.velocity.y < 0.0 and rider.global_position.y > 0.78) or
+			(entry.when == "after_landing" and had_air and rider.is_on_floor() and not rider.airborne))
+		if not requested and eligible_event:
+			_rail_input(entry.input, true)
+			requested = true
+			request_tick = Engine.get_physics_frames()
 		await _frames(tree, 1)
 	var caught: bool = captures.size() == 1
-	check.call(caught == entry.catch and captures.size() <= 1,
-		"human rail: offset=%.2fm yaw=%.1fdeg press=%df push=%df via=%s capture=%s" % [
-			entry.offset, entry.yaw, entry.press, entry.push, entry.input, caught])
+	check.call(requested and caught == entry.catch and captures.size() <= 1,
+		"human rail: offset=%.2fm yaw=%.1fdeg request=%s push=%df via=%s capture=%s" % [
+			entry.offset, entry.yaw, entry.when, entry.push, entry.input, caught])
+	print("HUMAN_RAIL_EVENT when=",entry.when," requested=",requested," tick=",request_tick," captures=",captures.size())
 	_rail_input(entry.input, false)
 	Profile.reset_defaults()
 	await _dispose(tree, fixture)

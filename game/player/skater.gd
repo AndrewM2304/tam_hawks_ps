@@ -10,6 +10,7 @@ signal bailed()
 signal combo_link_started()
 signal combo_link_ended()
 
+const GrindIndex = preload("res://game/tricks/grind_index.gd")
 const GrindRideSource = preload("res://game/tricks/grind_ride.gd")
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const SkaterVisualSource = preload("res://game/player/skater_visual.gd")
@@ -24,13 +25,16 @@ const MAX_SPEED := 15.0
 const PUSH_ACCELERATION := 10.0
 const BRAKE_DECELERATION := 22.0
 const ROLLING_DRAG := 0.75
-const GRAVITY := 22.0
-const OLLIE_SPEED := 8.8
+const GRAVITY := 34.0 # Short weighted free flight; finite transition contact uses its own gravity.
+const GROUND_GRAVITY := 22.0
+const OLLIE_SPEED := 8.0
+const CHARGED_OLLIE_SPEED := 11.3
+const OLLIE_CHARGE_SECONDS := 0.25
 const COYOTE_TIME := 0.10
 const JUMP_BUFFER_TIME := 0.12
 const TRICK_BUFFER_TIME := 0.12
 const SPIN_SPEED := 7.2
-const FLIP_DURATION := 0.48
+const FLIP_DURATION := 0.32
 const MANUAL_MIN_SPEED := 2.0
 const MANUAL_REENTRY_DELAY := 0.35
 const MANUAL_BALANCE_CONTROL := 1.5
@@ -60,6 +64,10 @@ var _transition = TransitionRide.new()
 var _transition_features: Array = []
 var _transition_cooldown := 0.0
 var _transition_facing := 1.0
+var _vert_return: Dictionary = {}
+var _vert_start_yaw := 0.0
+var _vert_start_up := 0.0
+var _grind_visual_offset := Vector3.ZERO
 var _lip_feature: Dictionary = {}
 var _lip_across := 0.0
 var _lip_elapsed := 0.0
@@ -97,6 +105,7 @@ var _shirt_color := Color("4d6270")
 
 var _grind = GrindRideSource.new()
 var _grind_lines: Array = []
+var _grind_index = GrindIndex.new()
 var _grind_cooldown := 0.0
 var grinding: bool:
 	get:
@@ -157,6 +166,8 @@ func reset_skater() -> void:
 	_camera_follow.reset()
 	_grind.stop()
 	_transition.stop()
+	_vert_return.clear()
+	_grind_visual_offset = Vector3.ZERO
 	transition_normal = Vector3.UP
 	_transition_cooldown = 0.0
 	lip_active = false
@@ -271,6 +282,7 @@ func set_transition_features(features: Array) -> void:
 func set_grind_lines(lines: Array) -> void:
 	# Snapshot the collection; geometry itself is immutable during a run.
 	_grind_lines = lines.duplicate()
+	_grind_index.rebuild(_grind_lines)
 
 
 func set_presentation_settings(camera_sensitivity: float, reduced_motion: bool) -> void:
@@ -329,9 +341,9 @@ func _sample_trick_requests(delta: float) -> void:
 		_ollie_held = true
 		_crouch_charge = 0.0
 	if _ollie_held and Input.is_action_pressed("ollie"):
-		_crouch_charge = minf(0.35, _crouch_charge + delta)
+		_crouch_charge = minf(OLLIE_CHARGE_SECONDS, _crouch_charge + delta)
 	if Input.is_action_just_released("ollie") and _ollie_held:
-		_pop_impulse = OLLIE_SPEED + 1.2 * smoothstep(0.10, 0.35, _crouch_charge)
+		_pop_impulse = lerpf(OLLIE_SPEED, CHARGED_OLLIE_SPEED, smoothstep(0.035, OLLIE_CHARGE_SECONDS, _crouch_charge))
 		_jump_buffer_remaining = JUMP_BUFFER_TIME
 		_ollie_held = false
 		_crouch_charge = 0.0
@@ -346,7 +358,7 @@ func _sample_trick_requests(delta: float) -> void:
 		_selection_remaining = TRICK_BUFFER_TIME
 	if Input.is_action_just_pressed("grind"):
 		_grind_held_armed = true
-		_grind_buffer_remaining = 0.14
+		_grind_buffer_remaining = 0.18
 		_grind_direction = direction
 		_selection_remaining = 0.14
 	if Input.is_action_just_pressed("manual") and not manual_active and _manual_cooldown <= 0.0 \
@@ -395,9 +407,13 @@ func _try_transition() -> bool:
 	if not _transition.try_start(_transition_features, global_position, velocity, _transition_support):
 		return false
 	_end_manual(true)
+	_coyote_remaining = 0.0
 	if airborne: _finish_landing()
 	var toe: Transform3D = _transition.feature.transform
 	_transition_facing = 1.0 if (-global_basis.z).dot(-toe.basis.z) >= 0.0 else -1.0
+	if _transition.along_speed < -0.3:
+		_face_transition_travel()
+	_vert_return.clear()
 	_orient_contact_shape(_transition.normal())
 	velocity = _transition.travel_velocity()
 	speed = velocity.length()
@@ -412,11 +428,15 @@ func _tick_transition(delta: float) -> void:
 	_steering = Input.get_axis("steer_left", "steer_right")
 	if _jump_buffer_remaining > 0.0 and _trick_entries_enabled:
 		_jump_buffer_remaining = 0.0
-		velocity = _transition.travel_velocity() + Vector3.UP * _pop_impulse + _transition.normal() * 1.5
+		# Preserve real ascent without stacking a second full jump onto vert speed.
+		velocity = _transition.travel_velocity()
+		velocity.y = maxf(velocity.y, _pop_impulse)
+		velocity += _transition.normal() * 0.25
+		_arm_vert_return()
 		_transition.stop()
-		_leave_transition(true)
-		combo_link_started.emit()
-		trick_performed.emit("Ollie", 100)
+		if _leave_transition(true):
+			combo_link_started.emit()
+			trick_performed.emit("Ollie", 100)
 		return
 	if _try_begin_lip(): return
 	var steps := maxi(1, ceili(delta * maxf(velocity.length(), 1.0) / 0.075))
@@ -440,27 +460,82 @@ func _tick_transition(delta: float) -> void:
 			_leave_transition(true)
 			return
 		if not _transition.active:
+			if result == "lip": _arm_vert_return()
+			if result == "toe" or result == "side": _align_to_travel()
 			_leave_transition(result != "toe")
 			return
 		if not _transition.reconcile(global_position, velocity):
 			_leave_transition(true)
 			return
 		speed = velocity.length()
+		if _transition.along_speed < -0.3 or absf(_transition.lateral_speed) > 0.3:
+			_face_transition_travel()
 		if _try_begin_lip(): return
 
 
-func _leave_transition(in_air: bool) -> void:
+func _face_transition_travel() -> void:
+	var travel: Vector3 = _transition.travel_velocity()
+	if Vector2(travel.x, travel.z).length_squared() > 0.04:
+		rotation.y = atan2(-travel.x, -travel.z)
+	if absf(_transition.along_speed) > 0.3:
+		_transition_facing = signf(_transition.along_speed)
+	_orient_contact_shape(_transition.normal())
+
+
+func _arm_vert_return() -> void:
+	# Only a real steep, upward departure can arm the automatic arcade turn.
+	# No infinite ramp plane, position snap, added speed or spin points.
+	if _transition.theta < deg_to_rad(65.0) or velocity.y <= 1.0:
+		return
+	_vert_return = _transition.feature.duplicate()
+	_vert_start_yaw = rotation.y
+	_vert_start_up = velocity.y
+
+
+func _tick_vert_return() -> void:
+	if _vert_return.is_empty(): return
+	if not is_instance_valid(_vert_return.get("body")) or not _vert_return.body.is_inside_tree() \
+			or _vert_return.body.is_queued_for_deletion() or _vert_return.body.collision_layer == 0:
+		_vert_return.clear()
+		return
+	var toe: Transform3D = _vert_return.transform
+	var local := toe.affine_inverse() * global_position
+	if absf(local.x) > float(_vert_return.width) * 0.5 + 0.4 \
+			or absf(local.z + float(_vert_return.radius)) > 1.0:
+		_vert_return.clear()
+		return
+	var downhill := toe.basis.z
+	var return_yaw := atan2(-downhill.x, -downhill.z)
+	var progress := clampf(1.0 - velocity.y / maxf(_vert_start_up, 0.1), 0.0, 1.0)
+	rotation.y = lerp_angle(_vert_start_yaw, return_yaw, smoothstep(0.0, 1.0, progress))
+
+
+func _leave_transition(in_air: bool) -> bool:
+	_coyote_remaining = 0.0
 	_transition_cooldown = 0.10
 	var query := PhysicsShapeQueryParameters3D.new()
 	query.shape = _body_collision.shape
 	query.collision_mask = 1
 	query.exclude = [get_rid()]
-	# Allow ordinary skin-depth ground recovery, never a deep wall overlap.
-	query.transform = global_transform * Transform3D(Basis.IDENTITY, Vector3.UP * 0.875)
-	if not get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty():
+	# An upright capsule occupies different space from a wall-aligned capsule.
+	# Sweep away from confirmed contact by at most one capsule radius plus skin;
+	# require the complete upright volume to clear ordinary scenery as well.
+	var detached := false
+	var origin := global_position
+	for clearance: float in [0.0, 0.08, 0.16, 0.24, 0.34]:
+		var target := origin + transition_normal * clearance
+		query.transform = Transform3D(global_basis, target) * Transform3D(Basis.IDENTITY, Vector3.UP * 0.875)
+		if not get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty(): continue
+		if clearance > 0.0:
+			if test_move(global_transform, target - global_position, null, 0.001, false): continue
+			move_and_collide(target - global_position, false, 0.001, false)
+		if global_position.distance_to(target) <= 0.005:
+			detached = true
+			break
+	if not detached:
 		bailed.emit()
 		reset_skater()
-		return
+		return false
 	_restore_contact_shape()
 	transition_normal = Vector3.UP
 	if in_air:
@@ -468,6 +543,7 @@ func _leave_transition(in_air: bool) -> void:
 	else:
 		airborne = false
 	speed = velocity.dot(-global_basis.z) if not in_air else Vector2(velocity.x, velocity.z).length()
+	return true
 
 
 func _try_begin_lip() -> bool:
@@ -543,6 +619,7 @@ func _release_lip(jump: bool) -> void:
 	# A small explicit inward drop clears the coping; ordinary gravity and the
 	# finite collision-confirmed surface handle the return, not a hidden plane.
 	velocity = toe.basis.z * 1.2 + Vector3.UP * (_pop_impulse if jump else -0.8)
+	_align_to_travel()
 	lip_active = false
 	lip_id = ""
 	_grind_buffer_remaining = 0.0
@@ -595,7 +672,7 @@ func _physics_process(delta: float) -> void:
 		if _controls_enabled:
 			var normal := get_floor_normal()
 			var tangent := (-global_basis.z).slide(normal).normalized()
-			speed = _response.apply_slope_gravity(speed, Vector3.DOWN.slide(normal).dot(tangent), delta, GRAVITY)
+			speed = _response.apply_slope_gravity(speed, Vector3.DOWN.slide(normal).dot(tangent), delta, GROUND_GRAVITY)
 		else:
 			speed = 0.0
 		if manual_active:
@@ -621,6 +698,7 @@ func _physics_process(delta: float) -> void:
 		# from surface speed adds energy at lips and restores blocked motion.
 		velocity = velocity.rotated(Vector3.UP, steering_angle)
 		velocity.y -= GRAVITY * delta
+		_tick_vert_return()
 
 	if _jump_buffer_remaining > 0.0 and _coyote_remaining > 0.0:
 		_end_manual(false)
@@ -727,6 +805,7 @@ func _finish_landing() -> void:
 	_spin_angle -= completed_stance
 	_clear_special_visual()
 	airborne = false
+	_vert_return.clear()
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
 	revert_remaining = TrickCatalog.LANDING_LINK_SECONDS if _trick_entries_enabled else 0.0
@@ -801,13 +880,14 @@ func _try_grind(previous_position: Vector3 = Vector3.ZERO, swept: bool = false) 
 		return false
 	var captured: bool
 	if swept:
-		captured = _grind.start_swept(_grind_lines, previous_position, global_position, get_real_velocity(), _rail_path_clear)
+		captured = _grind.start_swept(_grind_index.nearby(global_position), previous_position, global_position, get_real_velocity(), _rail_path_clear)
 	else:
-		captured = _grind.start(_grind_lines, global_position, velocity, _rail_path_clear)
+		captured = _grind.start(_grind_index.nearby(global_position), global_position, velocity, _rail_path_clear)
 	if not captured:
 		return false
 	_grind_buffer_remaining = 0.0
 	_grind_held_armed = false
+	_vert_return.clear()
 	_clear_trick_buffers()
 	_award_air_spin()
 	_clear_special_visual()
@@ -818,6 +898,7 @@ func _try_grind(previous_position: Vector3 = Vector3.ZERO, swept: bool = false) 
 	_jump_buffer_remaining = 0.0
 	_coyote_remaining = 0.0
 	revert_remaining = 0.0
+	_grind_visual_offset += global_position - _grind.position()
 	global_position = _grind.position()
 	velocity = _grind.travel_velocity()
 	speed = _grind.speed
@@ -932,10 +1013,13 @@ func _update_pose(delta: float) -> void:
 		desired_pitch = atan2(local_normal.z, local_normal.y)
 	_surface_pitch = lerpf(_surface_pitch, desired_pitch, 1.0 - exp(-14.0 * delta))
 	_visual.rotation.x = _surface_pitch
-	_visual.position = Vector3.ZERO
+	_grind_visual_offset *= exp(-delta / 0.045)
+	_visual.position = global_basis.inverse() * _grind_visual_offset
 	if transition_active:
 		var toe: Transform3D = _transition.feature.transform
-		var forward: Vector3 = toe.basis * Vector3(0, sin(_transition.theta), -cos(_transition.theta)) * _transition_facing
+		var forward: Vector3 = _transition.travel_velocity().normalized()
+		if forward.length_squared() < 0.5:
+			forward = toe.basis * Vector3(0, sin(_transition.theta), -cos(_transition.theta)) * _transition_facing
 		var right := forward.cross(transition_normal).normalized()
 		var contact_basis := Basis(right, transition_normal, -forward).orthonormalized()
 		_visual.basis = global_basis.inverse() * contact_basis * Basis(Vector3.UP, _spin_angle + _stance_angle)
@@ -955,7 +1039,7 @@ func _update_pose(delta: float) -> void:
 		"special_progress": special_progress, "flip_id": active_flip_id,
 		"flip_progress": progress, "grab_id": active_grab_id, "manual_id": manual_id,
 		"lip_id": lip_id, "lip_progress": _lip_elapsed, "lip_balance": lip_balance,
-		"crouch": maxf(0.35, _crouch_charge / 0.35) if _ollie_held else 0.0})
+		"crouch": maxf(0.35, _crouch_charge / OLLIE_CHARGE_SECONDS) if _ollie_held else 0.0})
 
 
 func _process(delta: float) -> void:

@@ -1,3 +1,9 @@
+# Arcade response work in progress — 18 October 2026
+
+The owner now prioritizes weighted/snappy physics, correct half-pipe returns, reachable-edge grinds, actual all-area play, hovering-text removal and researched Glasgow wall art. Physics checkpoint: independent real-input diagnostics pass **34/0** after reproducing baseline float/return failures. Tap/charged jumps measure **1.0203/1.9829 m**, **0.4833/0.6833 s**; both held-input variants make five alternating wall visits without bails or Ollies. Single and immediate-double wall pops follow the same physical arc and award one Ollie. [ADR-017](architecture/decisions/ADR-017-arcade-response-hardening.md), [research](research/ARCADE-RESPONSE-2026-10.md), [raw intermediate diagnostics](testing/arcade-response/diagnostics/). These are focused development results, not the required final regression or Mac acceptance.
+
+World/edge/text/query fixes, original murals, actual six-area production-camera traversal and full regression are being integrated. Read ACTIVE_WORK and the newest task handoff before resuming. Original backdrop/facade candidates remain disabled. Keep all 75 full backlog records, current map, free toolchain and no-spend constraint. No unattended loop or new area.
+
 # Owner recording repair — 18 October 2026
 
 The latest Mac recording exposes **coplanar surface flicker and unfinished boundary views**. This takes priority over the held fitted-facade experiment. At approximately 50.7–51.5 seconds, asphalt and north-quay paving alternate over the same Y2 plane. Matched full-world controls reproduce it with shadows both enabled and disabled; hiding only the overlapping road visual removes it. The east/west visible roads now end at Z55, with their original full collision strips unchanged. The same confirmed overlap at Merchant Close / Central Station is trimmed only in the displayed top triangles at Z−42; retaining prisms and terrain queries remain unchanged.

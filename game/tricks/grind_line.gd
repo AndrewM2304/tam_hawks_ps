@@ -18,6 +18,7 @@ var curve: Curve3D
 var points: PackedVector3Array
 var length: float = 0.0
 var is_valid: bool = false
+var is_loop: bool = false
 ## Reserved upstream endpoint-link metadata. This project has no rail-link builder yet.
 var links: Dictionary = {}
 
@@ -44,6 +45,7 @@ func _init(p_id: String, p_points: PackedVector3Array, p_kind: String = "") -> v
 	is_valid = is_finite(length) and length > 0.001
 	if not is_valid:
 		length = 0.0
+	is_loop = is_valid and points.size() >= 4 and points[0].distance_to(points[-1]) < 0.001
 
 
 ## Snapshot authored local vertices into world space, including rotation/scale.
@@ -79,6 +81,10 @@ func dir_at(dist: float) -> Vector3:
 	if not is_valid or not is_finite(dist):
 		return Vector3.ZERO
 	var bounded: float = clampf(dist, 0.0, length)
+	if is_loop:
+		var before := curve.sample_baked(fposmod(bounded - TANGENT_STEP, length))
+		var after := curve.sample_baked(fposmod(bounded + TANGENT_STEP, length))
+		return (after - before).normalized()
 	var a: float = clampf(bounded - TANGENT_STEP, 0.0, length)
 	var b: float = clampf(bounded + TANGENT_STEP, 0.0, length)
 	if b - a < 0.001:

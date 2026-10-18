@@ -1,0 +1,89 @@
+# Arcade response review — 18 October 2026
+
+Owner priority: floaty/sluggish response, incorrect half-pipe returns, abrupt grind capture and a meaningful tap-versus-hold ollie. This reviews committed runtime `14dcfe1` / `4cd1f35` and pinned public source. It changes no runtime, engine, asset, map, licence register or performance setting. No commercial game, upstream build or engine test was run. Existing [classic-controls research](CLASSIC-TRICK-CONTROLS.md), [transition research](TRANSITION-SKATING.md) and [grind review](GRIND-FORGIVENESS-REVIEW.md) remain relevant; their older implementation proposals must not be mistaken for missing current features.
+
+## Main findings and bounded changes
+
+1. **Keep release-to-pop, but make a tap substantially smaller.** Current charge is 8.8→10.0 m/s, with no change below 100 ms and full charge at 350 ms. A tap already has 88% of full upward speed and 77% of full height. That explains why the two inputs feel similar. Derive tuning from intended height/time and preserve one release→one pop, early/late release grace, reset/pause flushing and existing gap requirements.
+2. **Stop adding a full flat ollie on top of steep wall ascent.** Current transition pop adds the full upward `_pop_impulse` plus 1.5 m/s away from the face to the existing supported velocity. This can multiply the height of an already energetic vert launch. Use a steepness-dependent, explicitly bounded added pop or an energy/target-speed limit; keep actual upward momentum and ordinary bank behavior intact.
+3. **Retain the departed ramp frame through vert air.** Current finite transition contact is real, but `_leave_transition` discards the feature frame and keeps the old uphill root heading. There is no explicit non-scoring automatic return turn or bounded same-face air-plane contract. Add those as separate presentation/air-assistance state, with an intentional transfer escape. Oblique approaches should turn toward the down-ramp direction, rather than receive an arbitrary flat 180°.
+4. **Separate physical rail lock from visible capture motion.** Current admitted capture directly assigns the body to `_grind.position()` and immediately aligns its yaw. This can be up to the admission envelope away, and completed-move recovery can reach a historical sample. Keep the collision-safe physical lock, but use a short bounded drawn offset/rotation recovery and preserve the camera's stable travel frame. Do not enlarge the whole capture radius to hide snap.
+5. **Audit grindable edge coverage as authored data.** The game uses explicit `GrindLine` tracks, not arbitrary rendered mesh edges. Missing intended coping/ledge tracks are coverage omissions, whereas narrow timing is an admission problem. Catalogue every clearly inviting existing edge with its track, accessible approach, endpoint/release and blocked-side refusal. Do not make window mouldings, invisible backfaces or every imported bevel grindable automatically.
+
+## What the current numbers imply
+
+These are analytical estimates from the inspected source, **not measured trajectories or commercial-game constants**. Flat ideal estimates use `height = impulse² / (2×gravity)` and upward/downward flight time; real launch-frame gravity, contact, slopes, landing height and impulses can change them.
+
+| Flat-ground input / proposed comparison | Impulse, gravity up/down | Ideal rise / air time / range at 15 m/s |
+|---|---|---|
+| Current quick release | 8.8 m/s, 22/22 m/s² | 1.76 m / 0.80 s / 12.00 m |
+| Current fully held release | 10.0, 22/22 | 2.27 m / 0.91 s / 13.64 m |
+| Example smaller tap, snappier flight | 6.5, 26/30 | 0.81 m / 0.48 s / 7.24 m |
+| Example full charge with same candidate gravity | 10.0, 26/30 | 1.92 m / 0.74 s / 11.14 m |
+
+The two candidate rows are an original comparison hypothesis, not installed settings or a prescription to copy. A slightly faster descent can make landing decisive while preserving launch height. Changing gravity alone changes gap reach and every route; compare charge and gravity together on actual current gaps before promotion. Avoid an apex hover multiplier while investigating a floaty complaint.
+
+For the existing 3.2 m-high transition, an ideal unpumped 15 m/s toe entry under 22 m/s² reaches the vertical lip at about **9.18 m/s upward**. Without extra pop that yields about **1.91 m above the lip**. Adding the current full 10 m/s yields 19.18 m/s and about **8.36 m above the lip / 1.74 s lip-to-lip airtime**. This deliberately ignores drag/pumping and is not a new physics result; it shows why unrestricted impulse addition deserves priority over cosmetic speed changes. Any retained pump must have a declared cap and repeated-cycle energy evidence.
+
+The current 0.48 s flip duration also occupies nearly an entire proposed 0.48 s small ollie. If a smaller tap is adopted, either a late flip is clearly refused/recovered or the finite flip clip needs a shorter active/recovery span. Test visual completion and input latency together; accelerating every animation would make named contact poses harder to read. The current 0.12 s family request and 0.14 s grind request buffers already exist and should remain consumable once.
+
+## Directly inspected free implementations
+
+All network reads below used the configured session proxy and ordinary public HTTPS on **18 October 2026**. The managed runtime reported connected, current observations and an enforced unrestricted HTTP policy; `/etc/codex/network-policy.json` agreed. The sandbox initially denied socket access; normal approved network escalation allowed the same proxied reads. No proxy bypass, credentials, paid service or asset download was used. Temporary research files live under `/tmp/tam-hawks-response-oct2026` and can be re-fetched from the pinned URLs.
+
+### Not Pro Skater — closest compatible controller reference
+
+Pinned commit **`d18803ae9f2daecf7f3ae276b2f14c1eb0ed5988`**, [complete MIT licence](https://github.com/TinyBitAdventures/not-pro-skater/blob/d18803ae9f2daecf7f3ae276b2f14c1eb0ed5988/license), ©2026 Austin Ginder, reread. `game/scripts/skater/skater.gd` and `skate_tuning.gd` were retrieved and their relevant implementations inspected directly. Our already adapted rail geometry remains attributed separately; no new code was copied here.
+
+| Inspected source | Concrete decision | Adaptation for the current defects |
+|---|---|---|
+| [`_ollie`, 982–998](https://github.com/TinyBitAdventures/not-pro-skater/blob/d18803ae9f2daecf7f3ae276b2f14c1eb0ed5988/game/scripts/skater/skater.gd#L982-L998), [tuning 50–68](https://github.com/TinyBitAdventures/not-pro-skater/blob/d18803ae9f2daecf7f3ae276b2f14c1eb0ed5988/game/scripts/skater/skate_tuning.gd#L50-L68) | Hold/release range 7.8→10.0 m/s over 0.45 s; gravity 26 up/34 down; fixed flip 0.44 s. Steep upward takeoff scales its pop by `vert_pop_mult`, default 0.55. | A separate steep-lip pop rule avoids stacking the full flat impulse. Its constants are reference values, not proof of desired feel. Its apex gravity multiplier 0.55 and vert gravity scale 0.55 deliberately add float; do not inherit those while correcting floatiness. |
+| [`_maybe_vert`, 1019–1068](https://github.com/TinyBitAdventures/not-pro-skater/blob/d18803ae9f2daecf7f3ae276b2f14c1eb0ed5988/game/scripts/skater/skater.gd#L1019-L1068) | Records face outward vector and departure plane, rejects unsuitable across-coping approaches, removes outward departure velocity, computes a return turn toward the face's downhill direction and estimates turn time from flight. | Preserve a finite valid feature identity and surface frame, not an infinite plane. Apply only to confirmed transition departures; ordinary hips/side exits and deliberate transfers must retain free air. |
+| [`_air`, 1098–1143](https://github.com/TinyBitAdventures/not-pro-skater/blob/d18803ae9f2daecf7f3ae276b2f14c1eb0ed5988/game/scripts/skater/skater.gd#L1098-L1143) | Plane error becomes bounded outward velocity, clamped ±2 m/s; automatic return yaw is separate from `spin_total`. Transfer input cancels the lock. | A down-ramp turn must not earn a free Spin 180 or steer the camera around a cosmetic flip. Bound correction/duration/feature extent, clear on bail/reset/transfer, and retain actual collision clearance on descending re-entry. |
+| [`_magnet`, 1269–1301](https://github.com/TinyBitAdventures/not-pro-skater/blob/d18803ae9f2daecf7f3ae276b2f14c1eb0ed5988/game/scripts/skater/skater.gd#L1269-L1301), [`_try_grind`, 1552–1582](https://github.com/TinyBitAdventures/not-pro-skater/blob/d18803ae9f2daecf7f3ae276b2f14c1eb0ed5988/game/scripts/skater/skater.gd#L1552-L1582) | Predicts short air-path samples, adds bounded lateral correction, then ranks nearby candidates by horizontal gap, height and approach angle. Defaults: 1.2 m prediction reach/0.35 s lookahead; final horizontal reach 0.9 m. | Prediction/intent and final capture are distinct. Our 0.65 m, vertical/approach/clearance gates already protect against implausible grabs; start with better candidate ranking and capture presentation. A future magnet needs collision-aware refusal and explicit signed along-rail momentum, not copying larger radii or adding hidden speed. |
+| [`_snap_to` / render offset, 509–532](https://github.com/TinyBitAdventures/not-pro-skater/blob/d18803ae9f2daecf7f3ae276b2f14c1eb0ed5988/game/scripts/skater/skater.gd#L509-L532) | Body moves to the admitted point immediately; drawn offset decays with a 0.045 s time constant and interpolation displays between physics positions. | Useful small original equivalent: retain a bounded visual correction while physical rail travel and collision stay authoritative. Native interpolation by itself does not eliminate a purposeful positional snap. Test board contact, low rail, fast descending capture and camera framing. |
+
+The NPS whole game assumes different engine/physics settings, uses direct position operations in several states and has broader assistance. It was not launched or tested here. Selectively implementing these ideas needs current collision/performance tests; its tuning is not a known THPS baseline.
+
+### GodotSkate / 3deric — explicit pipe state and release input
+
+Pinned **`4fad39ecfb21e79ca4799b90e77ef6c1edfa7928`**, [MIT licence](https://github.com/3deric/godot-skateboarding-game/blob/4fad39ecfb21e79ca4799b90e77ef6c1edfa7928/LICENSE), ©2024 Eric Schubert, reread. Inspected [input](https://github.com/3deric/godot-skateboarding-game/blob/4fad39ecfb21e79ca4799b90e77ef6c1edfa7928/Skategame/Scripts/Player/character_input.gd), [pipe](https://github.com/3deric/godot-skateboarding-game/blob/4fad39ecfb21e79ca4799b90e77ef6c1edfa7928/Skategame/Scripts/Player/Player_States/player_pipe.gd), [pipe-snap](https://github.com/3deric/godot-skateboarding-game/blob/4fad39ecfb21e79ca4799b90e77ef6c1edfa7928/Skategame/Scripts/Player/Player_States/player_pipesnap.gd), [pipe-snap air](https://github.com/3deric/godot-skateboarding-game/blob/4fad39ecfb21e79ca4799b90e77ef6c1edfa7928/Skategame/Scripts/Player/Player_States/player_pipesnap_air.gd), controller and global settings.
+
+Jump enters its input buffer on release. Pipe snap separates curve progression, gravity, support-relative up and player yaw. Descending contact transitions back into pipe state; open curve ends and directional escape become separate air state. That supports an explicit return/transfer contract rather than changing only floor angle. It directly assigns curve X/Z and has coordinate/tick-rate assumptions already recorded in TRANSITION-SKATING; those portions are not safe drop-ins for our swept body. Its gravity is 15 in its own world scale, so “copy a bigger gravity from an open project” is not a defensible general rule. Its code MIT licence does not clear modified MetaHuman or other bundled assets. No code/assets were imported.
+
+### OpenGOAL — useful state architecture, different game and rights boundary
+
+Pinned **`32c3cf73970f885c0a588623208232db72a74a58`**. Inspected [README](https://github.com/open-goal/jak-project/blob/32c3cf73970f885c0a588623208232db72a74a58/README.md), [root ISC licence](https://github.com/open-goal/jak-project/blob/32c3cf73970f885c0a588623208232db72a74a58/LICENSE) and Jak 2 [`board-states.gc`](https://github.com/open-goal/jak-project/blob/32c3cf73970f885c0a588623208232db72a74a58/goal_src/jak2/engine/target/board/board-states.gc), particularly `target-board-halfpipe` around 977–1130 and `target-board-ride-edge` from 1948. These explicitly separate halfpipe, falling/jump, edge riding and turn-to-travel states; an edge ride exits through a short turn-to-velocity state.
+
+This is **Jak's Jetboard**, not a THPS recreation. Its angles/distances/units and custom GOAL engine are not our constants. The README describes decompiling original games and requires the player's own legally purchased game for use; original assets are absent. The tooling's root ISC notice is not a basis to assume every reconstructed original gameplay expression or game asset is independently cleared for a new commercial game. Retain only architectural observations here; no reconstructed logic/constants/assets were copied or ported. Native Godot MIT examples are the stronger adaptation sources for this task.
+
+### THUG2 research — an actual input patch, not a physics implementation
+
+Pinned **`84908a7e9282ae27614232729efca9224c22451e`**, PARTYMANX [PARTYMOD README](https://github.com/PARTYMANX/partymod-thug2/blob/84908a7e9282ae27614232729efca9224c22451e/README.md), [MIT licence](https://github.com/PARTYMANX/partymod-thug2/blob/84908a7e9282ae27614232729efca9224c22451e/LICENSE), ©2024 PARTYMANX, and [`src/input.c`](https://github.com/PARTYMANX/partymod-thug2/blob/84908a7e9282ae27614232729efca9224c22451e/src/input.c) were inspected. The README identifies SDL2 replacement input, preserved original-game behavior and installation into an existing THUG2 copy. Input lines 1313–1315 explicitly remove L1/R1 spin delay; trigger/controller/menu translation and context-specific patches are separate from skating physics.
+
+This is good evidence that discrete action delay and contextual mapping deserve review before changing gravity. It does not expose a full replacement gravity, charge, grind or halfpipe algorithm to reuse. Machine-code patches and original-game data are not needed by our Godot implementation. Repository search also returned an annotated THUG Pro disassembly without a reuse licence; it was not imported or treated as a free controller. No game executable or asset was downloaded or run, and no patches were applied.
+
+## Articles and primary evidence limits
+
+The previously suggested Mick West URL `https://cowboyprogramming.com/2007/01/05/skating-on-air/` returns **404** in the current environment. The site's public `?s=skating` page was inspected and did not yield readable matching article text. We therefore still do not quote or attribute mechanics to that unverified article. Earlier THPS3/4 instruction manuals in CLASSIC-TRICK-CONTROLS establish hold/release crouch, direction+trick, manuals and coping inputs; they do not publish gravity, return-plane or rail-magnet constants. The conclusions above come from inspected source and our current source/math, not search snippets or assumed proprietary internals.
+
+## Required verification before accepting changes
+
+- **Pop matrix:** physical key/pad press+release, taps shorter than one tick, 50/100/200/350 ms holds, release ±60/120 ms around lips, restart/pause/disable while charging. Record actual height, airtime, horizontal reach, single award and visual recovery. Short tap and full charge should look and feel distinct.
+- **Halfpipe:** real ordinary-input six-cycle traversals, both walls and ±10°/25° diagonal entry, with no per-tick heading/velocity assignment. Include no-push rollback, held pump, lip pop, early pop, transfer, side exit, removed/blocked face, descending return and a quarter on its own. Record surface identity, velocity/energy, contact normal, board orientation, camera and all air/landing/spin events. Automatic return rotation earns zero spin; repeated cycles cannot accumulate unbounded energy or fabricate landings.
+- **Rails:** timing/angle/lateral-offset sweeps on existing straight, curved, sloped, endpoint and competing tracks; log actual physical correction and displayed correction separately. Include early/late tap, held request, wrong elevation, behind-wall candidate, backwards travel, pop/drop, blocked release and cooldown. Do not replace failure samples with route-center evidence.
+- **Performance/acceptance:** keep authoritative 60 Hz collision and current budgets; no mesh rebuilding, new expensive broad scan or per-frame resource allocation to achieve forgiveness. Full ordinary suite and source-stable real images/motion are required for runtime changes. Real Mac keyboard/DualSense and player judgement remain distinct from automated counts and analytical estimates.
+
+## Retrieval identities
+
+| Pinned file | SHA-256 |
+|---|---|
+| NPS `skater.gd` | `0c46737616464b0db2987786e1ddcf0e2b87e87697e94a3c7ad9fcf5010b964d` |
+| NPS `skate_tuning.gd` | `f867ea1c3fc98e77a7284d136e370962564821f202bc95920714b4cc42226f9a` |
+| GodotSkate `player_pipesnap.gd` | `47a11d7d147e43fb88bb72563040d5ed4b076c11540b8b93ccd3563251d8b18a` |
+| GodotSkate `player_pipesnap_air.gd` | `89f322cf7b275267b26d465efa837de9a9f41bca0187a5babd7255d99862dbfa` |
+| OpenGOAL `board-states.gc` | `cce1ee3d8351465eb90e9750ba16fe37c2624138a2c02e80e6a33800b47d1f96` |
+| PARTYMOD `src/input.c` | `d51e809287ae61f7289fff970f92913b0f19d63ec0c1018d640b59e117c2de7f` |
+| PARTYMOD `LICENSE` | `b62e73ecb669f6cc456b3be8eb395aab0c93c0726bd99e4ca11fa7be2b94e0ec` |
+
+Resume by re-fetching the exact raw paths at the commits above. Any later source adaptation must record imported ranges/modifications and retain its complete permitted notice; this research itself adds no reused runtime code or dependency.

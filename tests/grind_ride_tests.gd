@@ -65,10 +65,21 @@ static func run(check: Callable) -> void:
 		and corner.step(0.15, 0.0) == "riding" and corner.position().x > 4.5
 		and absf(corner.position().z - 4.0) < 0.025 and corner.travel_velocity().x > 5.0,
 		"grind ride: distance follows a translated bent rail and the outgoing tangent turns with it")
-	for degrees in [54.0, 56.0]:
+	for degrees in [64.0, 66.0]:
 		var approach := Vector3(sin(deg_to_rad(degrees)), 0, -cos(deg_to_rad(degrees))) * 8.0
-		check.call(Ride.new().start([rail], Vector3(0, 0.1, -5), approach) == (degrees < 55.0),
-			"grind ride: approach angle gate distinguishes either side of 55 degrees")
+		check.call(Ride.new().start([rail], Vector3(0, 0.1, -5), approach) == (degrees < 65.0),
+			"grind ride: approach angle gate distinguishes either side of 65 degrees")
+	for offset: Vector3 in [Vector3(0.78,0.1,-5),Vector3(0,0.58,-5),Vector3(0,-0.13,-5)]:
+		check.call(Ride.new().start([rail],offset,Vector3(0,-2,-8)),
+			"grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach "+str(offset))
+	for direction: float in [-1.0,1.0]:
+		var approach := Vector3(sin(deg_to_rad(64.0))*direction,0,-cos(deg_to_rad(64.0)))*8.0
+		var level := Ride.new()
+		var falling := Ride.new()
+		check.call(level.start([rail],Vector3(0,0.1,-5),approach)
+			and falling.start([rail],Vector3(0,0.1,-5),approach+Vector3.DOWN*40.0)
+			and level.speed >= 7.2 and level.speed <= 8.00001 and is_equal_approx(level.speed,falling.speed),
+			"grind ride: angled catch retains at least 90 percent horizontal speed without converting a fall to flat-rail boost")
 
 	var slope = _rail("slope", Vector3.ZERO, Vector3(0, 8, -20))
 	var uphill = Ride.new()
@@ -93,9 +104,9 @@ static func run(check: Callable) -> void:
 	check.call(fast.speed <= 18.0, "grind ride: downhill acceleration respects the speed ceiling")
 
 	var bad_cases := [
-		[Vector3(0.66, 0, -5), Vector3(0, 0, -6), "full snap distance"],
-		[Vector3(0, 0.46, -5), Vector3(0, 0, -6), "vertical reach"],
-		[Vector3(0, -0.11, -5), Vector3(0, 0, -6), "below the rail"],
+		[Vector3(0.86, 0, -5), Vector3(0, 0, -6), "full snap distance"],
+		[Vector3(0, 0.61, -5), Vector3(0, 0, -6), "vertical reach"],
+		[Vector3(0, -0.15, -5), Vector3(0, 0, -6), "below the rail"],
 		[Vector3(0, 0.1, -5), Vector3(0, 1.01, -6), "rising ascent"],
 		[Vector3(0, 0.1, -5), Vector3(6, 0, -1), "sideways approach"],
 		[Vector3(0, 0.1, -5), Vector3(0, 0, -1.99), "too little speed"],
@@ -160,8 +171,10 @@ static func _human_error_margin(check: Callable, rail: RefCounted) -> void:
 		check.call(Ride.new().start_swept([rail], from, to, velocity),
 			"grind forgiveness: offset/angle/speed admission survives tick phase " + str(entry))
 
-	var from := Vector3(0.35, 0.50, -5.0)
-	var velocity := Vector3(0, -42, -12)
+	# Both endpoints still lie outside the revised .60m above/.14m below
+	# envelope; their actual sub-metre segment crosses valid contact in between.
+	var from := Vector3(0.35, 0.66, -5.0)
+	var velocity := Vector3(0, -54, -12)
 	var to: Vector3 = from + velocity / 60.0
 	check.call(not Ride.new().start([rail], from, velocity)
 		and not Ride.new().start([rail], to, velocity)
@@ -182,7 +195,7 @@ static func _human_error_margin(check: Callable, rail: RefCounted) -> void:
 		"grind forgiveness: clearance always starts at the current body, never a past sample")
 
 	var rejected_approaches := [
-		[Vector3(0.75, 0.1, -5), Vector3(0.75, 0.05, -5.2), Vector3(0, -3, -12), "lateral miss"],
+		[Vector3(0.95, 0.1, -5), Vector3(0.95, 0.05, -5.2), Vector3(0, -3, -12), "lateral miss"],
 		[Vector3(0, 0.9, -5), Vector3(0, 0.7, -5.2), Vector3(0, -12, -12), "wrong upper level"],
 		[Vector3(0, -0.3, -5), Vector3(0, -0.5, -5.2), Vector3(0, -12, -12), "below rail"],
 		[Vector3(0, 0.3, -5), Vector3(0, 0.1, -5), Vector3(8, -12, 0), "perpendicular motion"],

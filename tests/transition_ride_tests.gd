@@ -31,6 +31,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	_admission(check, curve, supported)
 	_energy(check, curve, supported)
 	_control(check, curve, supported)
+	_signed_steering(check, curve, supported)
 	_reconciliation(check, curve, supported)
 	for invalid in [NAN, INF, -0.01, 0.251]:
 		var invalid_ride = Ride.new()
@@ -177,6 +178,48 @@ static func _reconciliation(check: Callable, curve: Dictionary, supported: Calla
 		"transition: the next update cannot reconstruct pre-obstacle contact speed")
 	check.call(not ride.reconcile(Vector3(20, 20, 20), Vector3.ZERO) and not ride.active,
 		"transition: an actual move outside the finite surface releases contact")
+	var lateral = Ride.new()
+	lateral.try_start([curve], _point(curve, 0.5),
+		_tangent(curve, 0.5) * 9.0 + Vector3.RIGHT * 4.0, supported)
+	lateral.step(0.03, 0.0, false, false)
+	var remaining_velocity := _tangent(curve, 0.52) * 2.0 - Vector3.RIGHT * 0.75
+	check.call(lateral.reconcile(_point(curve, 0.52, 0.04), remaining_velocity)
+		and absf(lateral.along_speed - 2.0) < 0.0001
+		and absf(lateral.lateral_speed + 0.75) < 0.0001
+		and lateral.travel_velocity().distance_to(remaining_velocity) < 0.0001,
+		"transition: actual oblique collision replaces both signed arc and lateral momentum")
+	check.call(lateral.reconcile(lateral.position(), Vector3.ZERO)
+		and lateral.travel_velocity() == Vector3.ZERO,
+		"transition: an actual full stop clears both predicted tangent components")
+	lateral.step(1.0 / 60.0, 0.0, false, false)
+	check.call(lateral.active and lateral.along_speed < 0.0
+		and absf(lateral.lateral_speed) < 0.000001 and lateral.travel_velocity().length() < 0.5,
+		"transition: after an impact only downhill gravity resumes, without restored lateral speed")
+
+
+static func _signed_steering(check: Callable, curve: Dictionary, supported: Callable) -> void:
+	# Ground right input rotates heading clockwise around its support normal.
+	# With signed speed, the same right input moves uphill travel toward local +X
+	# and backward/downhill travel toward local -X. A yawed wall must keep that
+	# handedness; global-X-only checks would miss the opposite half-pipe wall.
+	for yaw: float in [-PI * 0.5, 0.0, PI * 0.5]:
+		var feature := curve.duplicate()
+		feature.transform = Transform3D(Basis(Vector3.UP, yaw), Vector3(14.0, 2.0, -9.0))
+		for signed_speed: float in [-8.0, 8.0]:
+			for steer: float in [-1.0, 1.0]:
+				var ride = Ride.new()
+				ride.try_start([feature], _point(feature, 0.5),
+					_tangent(feature, 0.5) * signed_speed, supported)
+				var initial_energy := _energy_of(ride)
+				var result: String = ride.step(0.08, steer, false, false)
+				var world_side: Vector3 = feature.transform.basis.x
+				var lateral_in_surface: float = ride.travel_velocity().dot(world_side)
+				check.call(result == "riding" and ride.active
+					and signf(ride.along_speed) == signf(signed_speed)
+					and lateral_in_surface * signf(signed_speed) * steer > 0.35
+					and _energy_of(ride) <= initial_energy * 1.005,
+					"transition: %d-degree wall %.0f m/s steer %.0f keeps signed ground handedness without extra energy" % [
+						roundi(rad_to_deg(yaw)), signed_speed, steer])
 
 
 static func _actual_support(tree: SceneTree, check: Callable) -> void:

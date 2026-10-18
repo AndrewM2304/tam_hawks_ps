@@ -1,0 +1,50 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS arcade jump: mapped 2-tick crouch stays supported until release
+PASS arcade jump: tap real apex/airtime meet deliberate response envelope
+PASS arcade jump: native consecutive ticks record exactly one pop and a supported landing
+ARCADE_JUMP held=2 apex=1.02027789503336 airtime=0.48333333333333 first_tick=41 last_tick=132
+PASS arcade jump: mapped 24-tick crouch stays supported until release
+PASS arcade jump: charged real apex/airtime meet deliberate response envelope
+PASS arcade jump: native consecutive ticks record exactly one pop and a supported landing
+ARCADE_JUMP held=24 apex=1.98287097364664 airtime=0.68333333333333 first_tick=173 last_tick=286
+PASS arcade wall pop: mapped release leaves real steep support once without stacking a full impulse onto upward ramp speed
+PASS arcade wall pop: single tap reaches real support within a bounded flight with one total ollie
+ARCADE_WALL_POP repeat=false initial_up=9.38125896453857 launch=(0.0, 9.516175, -5.80314) peak=4.83969593048096 flight=0.5 ollies=1
+PASS arcade wall pop: mapped release leaves real steep support once without stacking a full impulse onto upward ramp speed
+PASS arcade wall pop: immediate second mapped tap cannot reuse stale street coyote time or award/boost a second airborne ollie
+PASS arcade wall pop: quick-double-tap reaches real support within a bounded flight with one total ollie
+ARCADE_WALL_POP repeat=true initial_up=9.38125896453857 launch=(0.0, 9.516175, -5.80314) peak=4.83969593048096 flight=0.5 ollies=1
+PASS arcade wall pop: repeated airborne tap preserves the single-pop physical arc and landing time
+PASS arcade halfpipe: held push achieves at least four alternating actual wall visits without steering/heading assistance
+PASS arcade halfpipe: repeated automatic returns preserve finite continuous physical travel without bails or invented ollies
+ARCADE_PIPE crouch=false walls=["clyde_half_east", "clyde_half_west", "clyde_half_east", "clyde_half_west", "clyde_half_east"] natural_air=true max_step=0.25053653120995 bails=0 final=(-15.22959, 4.713472, 60.5)
+PASS arcade halfpipe: held crouch achieves at least four alternating actual wall visits without steering/heading assistance
+PASS arcade halfpipe: repeated automatic returns preserve finite continuous physical travel without bails or invented ollies
+ARCADE_PIPE crouch=true walls=["clyde_half_east", "clyde_half_west", "clyde_half_east", "clyde_half_west", "clyde_half_east"] natural_air=true max_step=0.25047791004181 bails=0 final=(-15.09491, 4.984389, 60.5)
+PASS arcade rail: imperfect actual mapped approach held_early_left expected catch=true
+PASS arcade rail: held_early_left release stays locked with one award
+PASS arcade rail: held_early_left fresh second press exits without automatic recapture
+ARCADE_RAIL id=held_early_left caught=true catches=1 position=(0.0, 0.012417, 5.986889)
+PASS arcade rail: imperfect actual mapped approach held_early_right expected catch=true
+PASS arcade rail: held_early_right release stays locked with one award
+PASS arcade rail: held_early_right fresh second press exits without automatic recapture
+ARCADE_RAIL id=held_early_right caught=true catches=1 position=(0.0, 0.012417, 5.986889)
+PASS arcade rail: imperfect actual mapped approach tap_approach expected catch=true
+PASS arcade rail: tap_approach release stays locked with one award
+PASS arcade rail: tap_approach fresh second press exits without automatic recapture
+ARCADE_RAIL id=tap_approach caught=true catches=1 position=(0.0, 0.012417, 5.980694)
+PASS arcade rail: imperfect actual mapped approach tap_later expected catch=true
+PASS arcade rail: tap_later release stays locked with one award
+PASS arcade rail: tap_later fresh second press exits without automatic recapture
+ARCADE_RAIL id=tap_later caught=true catches=1 position=(0.0, 0.012257, 5.616919)
+PASS arcade rail: imperfect actual mapped approach outside_lateral expected catch=false
+PASS arcade rail: rejected outside_lateral cannot score a phantom catch
+ARCADE_RAIL id=outside_lateral caught=false catches=0 position=(1.25, 0.012421, 1.756769)
+PASS arcade rail: imperfect actual mapped approach expired_tap expected catch=false
+PASS arcade rail: rejected expired_tap cannot score a phantom catch
+ARCADE_RAIL id=expired_tap caught=false catches=0 position=(0.0, 0.012443, 0.565851)
+PASS arcade rail: imperfect actual mapped approach solid_obstruction expected catch=false
+PASS arcade rail: rejected solid_obstruction cannot score a phantom catch
+ARCADE_RAIL id=solid_obstruction caught=false catches=0 position=(0.55, 0.01212, 1.366861)
+ARCADE RESPONSE RESULT: 34 passed, 0 failed

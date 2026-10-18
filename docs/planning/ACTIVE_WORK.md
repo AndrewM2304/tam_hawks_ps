@@ -1,3 +1,7 @@
+# Owner priority: arcade response and whole-map hardening
+
+A01 integrates; A04/A09 own weighted jump/finite pipe return/imperfect rail controls; A05/A09 own semantic reachable-edge coverage, real support audit and existing prop collision; A05/A03 own researched original Glasgow wall art. Current physics focused development trials pass34/0; the full current-source suite and six-area moving render are pending. The supplied 75 complete task records remain the source of scope. Source checkpoints must be committed/pushed before final handoff. Continue autonomously without routine approvals, purchases, paid APIs or map expansion.
+
 # Current work — performance first, 18 October 2026
 
 The owner authorizes continued tasks and pushes without routine approvals. Stay on `bootstrap/m00-m01`, use the existing checkout, preserve all **75 full backlog records**, and do not expand the map. No purchases, paid APIs/services, hosted CI or unattended jobs.
