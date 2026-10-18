@@ -1,4 +1,5 @@
 extends RefCounted
+const ClydeLayout = preload("res://game/levels/clyde_layout.gd")
 ## Independent real-body checks for the classic control/trick pass.
 ## Each trial declares only its initial fixture. Controls drive all subsequent
 ## movement; no tick rewrites heading, position, velocity or animation timers.
@@ -540,7 +541,7 @@ static func _pipe_natural_vert(tree: SceneTree, check: Callable) -> void:
 
 
 static func _halfpipe_rollback(tree: SceneTree, check: Callable) -> void:
-	var fixture: Dictionary = await _pipe_fixture(tree, false, Vector3(-21.5, 2.8, 61.5), -PI * 0.5)
+	var fixture: Dictionary = await _pipe_fixture(tree, false, Vector3(-41.5, 2.8, 61.5), -PI * 0.5, true)
 	var rider: Node3D = fixture.rider
 	Input.action_press("push")
 	await _frames(tree, 42)
@@ -555,7 +556,7 @@ static func _halfpipe_rollback(tree: SceneTree, check: Callable) -> void:
 		if rider.transition_active and rider._transition.feature.id == "clyde_half_east":
 			entered = true
 			reversed = reversed or rider._transition.along_speed < -0.5
-		if entered and reversed and rider.global_position.x < -20.0:
+		if entered and reversed and rider.global_position.x < -40.0:
 			crossed = true
 			break
 	check.call(entered and reversed and max_height > 2.25,
@@ -567,7 +568,7 @@ static func _halfpipe_rollback(tree: SceneTree, check: Callable) -> void:
 	await _dispose(tree, fixture)
 
 
-static func _pipe_fixture(tree: SceneTree, blocked: bool = false, initial: Vector3 = Vector3(17, 2.8, 73), yaw: float = 0.0) -> Dictionary:
+static func _pipe_fixture(tree: SceneTree, blocked: bool = false, initial: Vector3 = Vector3(17, 2.8, 73), yaw: float = 0.0, native_half: bool = false) -> Dictionary:
 	_release()
 	var root := Node3D.new()
 	tree.root.add_child(root)
@@ -579,7 +580,13 @@ static func _pipe_fixture(tree: SceneTree, blocked: bool = false, initial: Vecto
 	floor.add_child(shape)
 	floor.position = Vector3(0, 1.8, 64)
 	root.add_child(floor)
-	var features := TransitionPark.build(root, {})
+	# These isolated response checks keep their canonical quarter orientation.
+	# The real relocated/rotated production frames have separate World tests.
+	var ramp_root := Node3D.new()
+	root.add_child(ramp_root)
+	if not native_half:
+		ramp_root.transform = Transform3D(Basis.IDENTITY,Vector3(17,2,64.5)) * Transform3D(Basis(Vector3.UP,ClydeLayout.QUARTER_YAW),ClydeLayout.QUARTER_TOE).affine_inverse()
+	var features := TransitionPark.build(ramp_root, {})
 	if blocked:
 		var obstruction := StaticBody3D.new()
 		obstruction.name = "ActualCopingObstruction"

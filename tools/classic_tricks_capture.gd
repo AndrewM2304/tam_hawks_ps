@@ -78,8 +78,9 @@ func _run() -> void:
 		{"direction": Vector2.DOWN, "id": "tail_stall"},
 		{"direction": Vector2.RIGHT, "id": "disaster"}]:
 		_release()
-		game.skater.spawn_position = Vector3(17, 2.8, 73)
+		game.skater.spawn_position = Vector3(-3, 2.8, 62)
 		game.restart_run()
+		game.skater.rotation.y = PI*0.5
 		await _frames(45)
 		Input.action_press("push")
 		var reached := false
@@ -97,7 +98,7 @@ func _run() -> void:
 		_direction(Vector2.ZERO)
 		await _frames(8)
 		_check(game.skater.lip_active and game.skater.lip_id == entry.id, "actual current-quay lip " + entry.id)
-		await _shot("lip-" + entry.id, "declared current-quay initial(17,2.8,73), Push until actual curve theta>=72deg, direction=%s + hold Triangle through coping, neutral balance 8f" % entry.direction)
+		await _shot("lip-" + entry.id, "declared current-quay initial(-3,2.8,62), yaw=+90deg, Push until actual curve theta>=72deg, direction=%s + hold Triangle through coping, neutral balance 8f" % entry.direction)
 	_release()
 	var receipt := {"format": 1, "engine": Engine.get_version_info().string,
 		"driver": RenderingServer.get_video_adapter_name(), "viewport": root.size,
@@ -177,8 +178,9 @@ func _curved_motion_poses() -> void:
 	# The only placement/heading assignments in these fixtures are initial.
 	# Subsequent changes come entirely from ordinary Push and real collisions.
 	_release()
-	game.skater.spawn_position = Vector3(17, 2.8, 73)
+	game.skater.spawn_position = Vector3(-3, 2.8, 62)
 	game.restart_run()
+	game.skater.rotation.y = PI*0.5
 	await _frames(45)
 	Input.action_press("push")
 	var reached := false
@@ -189,7 +191,7 @@ func _curved_motion_poses() -> void:
 			break
 	_check(reached and game.skater.transition_normal.y < 0.55 and not game.skater.airborne,
 		"actual quarterpipe mid-wall support and body orientation")
-	await _shot("quarterpipe-mid-wall", "declared current-quay initial(17,2.8,73), ordinary Push until actual supported curve theta>=60deg; no Jump or state correction")
+	await _shot("quarterpipe-mid-wall", "declared current-quay initial(-3,2.8,62), yaw=+90deg, ordinary Push until actual supported curve theta>=60deg; no Jump or state correction")
 	var departed := false
 	for frame in 90:
 		await _frames(1)
@@ -202,7 +204,7 @@ func _curved_motion_poses() -> void:
 		and not game.score.trick_history.has("Ollie"), "actual natural vert release without an Ollie impulse")
 	await _shot("quarterpipe-natural-vert-air", "continue ordinary Push from supported quarterpipe60deg through its physical lip, release Push on actual departure, coast 2f; no Ollie input")
 	_release()
-	game.skater.spawn_position = Vector3(-22, 2.8, 60.5)
+	game.skater.spawn_position = Vector3(-42, 2.8, 60.5)
 	game.restart_run()
 	await _frames(45)
 	game.skater.rotation.y = -PI * 0.5 # Declared initial east-facing heading only.
@@ -216,7 +218,7 @@ func _curved_motion_poses() -> void:
 			break
 	_check(reached and game.skater.transition_normal.x < -0.8 and not game.skater.airborne,
 		"actual halfpipe east-wall contact reached from its flat bottom")
-	await _shot("halfpipe-east-wall", "declared flat-bottom initial(-22,2.8,60.5), initial yaw=-90deg, ordinary Push until actual east-wall curve theta>=60deg; no per-tick heading/velocity correction", true, Vector3(-2.65, 1.65, 2.25))
+	await _shot("halfpipe-east-wall", "declared flat-bottom initial(-42,2.8,60.5), initial yaw=-90deg, ordinary Push until actual east-wall curve theta>=60deg; no per-tick heading/velocity correction", true, Vector3(-2.65, 1.65, 2.25))
 
 
 func _ramp_overview() -> void:

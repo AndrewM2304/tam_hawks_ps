@@ -128,7 +128,7 @@ func _exchange_gallery_views() -> void:
 			"Current-source regression context for the accepted original Barrowland sign/facade; a static image does not repeat the previous delivery proof.")
 	await _chase("16-preserved-barras-interior", Vector3(114, 0, 10), 0.0,
 		"Current-source regression context for the clear market aisle, readable arch and steady delivery markers; no delivery completion is implied.")
-	await _chase("17-preserved-clyde-bridge", Vector3(-98, 2, 72), PI,
+	await _chase("17-preserved-clyde-bridge", Vector3(-25, 2, 72), PI,
 		"Current-source supported safe-bridge approach preserves the original South Portland-inspired treatment and joined southern frontage; no new performance claim.")
 
 
@@ -195,11 +195,11 @@ func _barras_clyde_views() -> void:
 			"Authored venue/sign inspection camera in the production world; original geometry informed by inspected dated references, not a surveyed replica or photo texture.")
 	await _authored_view("07-barras-market-overview", Vector3(146, 37, 42), Vector3(103, 0, -9), 58.0,
 		"Authored market overview shows landmark, central aisle, loading street and returning choices; not the playable camera.")
-	await _chase("08-clyde-safe-bridge", Vector3(-98, 2, 72), PI, "Supported north quay approach along the unchanged safe bridge, with South Portland-inspired authored portals and chains.")
-	await _authored_view("09-clyde-bridge-identity", Vector3(-66, 7, 67), Vector3(-98, 5, 99), 55.0,
+	await _chase("08-clyde-safe-bridge", Vector3(-25, 2, 72), PI, "Supported north quay approach along the unchanged safe bridge, with South Portland-inspired authored portals and chains.")
+	await _authored_view("09-clyde-bridge-identity", Vector3(7, 7, 67), Vector3(-25, 5, 99), 55.0,
 		"Authored oblique quay camera inspects the original safe-bridge treatment and southern frontage; existing water/collision remain production geometry.")
 	await _map_view()
-	await _chase("11-clyde-south-frontage", Vector3(-98, 2, 125), PI, "Supported southern quay facing the joined Carlton Place-inspired frontage; authored geographic compression.")
+	await _chase("11-clyde-south-frontage", Vector3(-25, 2, 125), PI, "Supported southern quay facing the joined Carlton Place-inspired frontage; authored geographic compression.")
 	var river_gap := _gap("clyde_bridge_transfer")
 	if not river_gap.is_empty():
 		var direction: Vector3 = river_gap.end - river_gap.start

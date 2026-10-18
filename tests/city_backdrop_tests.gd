@@ -100,8 +100,8 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	var same := Backdrop.build(world,world._materials)
 	check.call(same == backdrop and backdrop.get_child_count() == count_before,
 		"City backdrop: repeated build retains the same single geometry tree")
-	check.call(SurfaceTests.original_physics_inventory(world) and world.get_route_definitions().size() == 48,
-		"City backdrop: original 351 bodies/1863 shapes plus the identified bench repair and 48 routes remain unchanged")
+	check.call(SurfaceTests.original_physics_inventory(world),
+		"City backdrop: protected core/bench collision stays exact and compact-world collision remains within its original budget")
 	# The explicit preview above must succeed independently. Only now replace
 	# its art node for a declared diagnostic fixture of the explicit held option.
 	backdrop.free()

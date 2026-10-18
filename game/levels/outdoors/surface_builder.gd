@@ -64,6 +64,42 @@ static func strip(parent: Node3D, id: String, points: PackedVector3Array, width:
 	return body
 
 
+## Trim only displayed road triangles out of a shared level quay. The curved
+## approach retains its exact original strip collider and support vertices.
+## Startup-only native polygon subtraction avoids coplanar asphalt/paving.
+static func trim_visual_rect(body: StaticBody3D, bounds: Rect2) -> void:
+	var clip := PackedVector2Array([bounds.position,Vector2(bounds.end.x,bounds.position.y),
+		bounds.end,Vector2(bounds.position.x,bounds.end.y)])
+	for child: Node in body.get_children():
+		if not child is MeshInstance3D: continue
+		var visual := child as MeshInstance3D
+		var faces := visual.mesh.get_faces()
+		var output := SurfaceTool.new()
+		output.begin(Mesh.PRIMITIVE_TRIANGLES)
+		for index: int in range(0,faces.size(),3):
+			var a := faces[index]
+			var b := faces[index+1]
+			var c := faces[index+2]
+			var normal := (b-a).cross(c-a).normalized()
+			if normal.y<0: normal=-normal
+			var triangle := PackedVector2Array([Vector2(a.x,a.z),Vector2(b.x,b.z),Vector2(c.x,c.z)])
+			for polygon: PackedVector2Array in Geometry2D.clip_polygons(triangle,clip):
+				var indices := Geometry2D.triangulate_polygon(polygon)
+				for at: int in range(0,indices.size(),3):
+					var corners := PackedVector3Array()
+					for corner: int in 3:
+						var xz := polygon[indices[at+corner]]
+						var y := a.y-(normal.x*(xz.x-a.x)+normal.z*(xz.y-a.z))/normal.y
+						corners.append(Vector3(xz.x,y,xz.y))
+					if (corners[1]-corners[0]).cross(corners[2]-corners[0]).y>0:
+						var swap := corners[1]; corners[1]=corners[2]; corners[2]=swap
+					for point: Vector3 in corners:
+						output.set_normal(normal)
+						output.set_uv(Vector2(point.x,point.z)*0.2)
+						output.add_vertex(point)
+		visual.mesh=output.commit()
+
+
 ## Exact footprint and triangle-plane height of the paired ribbon vertices.
 ## A nearest-centreline radius invents support beyond inside corners and gives
 ## wrong side heights on a graded bend, even when the mesh itself is sound.

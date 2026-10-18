@@ -1,4 +1,5 @@
 extends RefCounted
+const ClydeLayout = preload("res://game/levels/clyde_layout.gd")
 ## Startup-only semantic edge authoring. No display nodes/collision/process work.
 ## Selected real props supply exact shape transforms; arbitrary decorative mesh
 ## edges, building windows and out-of-bounds fence kilometres are not scanned.
@@ -214,7 +215,9 @@ static func _quay_edges(world: Node3D,sources: Array[Node3D],lines: Array,origin
 		if collision==null: continue
 		var size: Vector3=collision.shape.size
 		var side := 1.0 if label=="NorthEmbankment" else -1.0
-		for span: Vector2 in [Vector2(-148.9,-102.4),Vector2(-93.6,32.1),Vector2(37.9,148.9)]:
+		for span: Vector2 in ClydeLayout.quay_edge_spans(label=="NorthEmbankment"):
+			# Contract spans are world-local; the south wall has a new centre.
+			span-=Vector2.ONE*body.position.x
 			# Leave safe/broken bridge mouths open; these are visible water-facing
 			# curb tops, not virtual grind tracks across a flush bridge entrance.
 			var a:=collision.to_global(Vector3(span.x,size.y/2,side*(size.z/2-0.02)))+Vector3.UP*SKIN

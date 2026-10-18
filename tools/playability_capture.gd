@@ -85,7 +85,7 @@ func _run() -> void:
 	game.hud.hide_menu()
 	await _fixture_view("18-barras-through-market", Vector3(114, 0.8, 10), 0.0,
 		"Initial supported ordinary chase inside the existing Barras lane; current-source landmark regression context, no delivery replay.")
-	await _fixture_view("19-clyde-safe-bridge", Vector3(-98, 2.8, 72), PI,
+	await _fixture_view("19-clyde-safe-bridge", Vector3(-25, 2.8, 72), PI,
 		"Initial supported ordinary chase toward the existing safe Clyde bridge; current-source regression context, no jump or recovery claim.")
 	_write_manifest()
 	Playability._release()

@@ -198,7 +198,7 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 			if evidence.bails > 0: break
 		var landing := _local_combo_state(game, -1)
 		post_manual.append(landing)
-		landed_on_quay = landing.floor and landing.position.x > 62.8 and absf(landing.position.y - 2.0) < 0.05 \
+		landed_on_quay = landing.floor and landing.position.x > 47.8 and absf(landing.position.y - 2.0) < 0.05 \
 			and (landing.support.has("ClydePrintYard") or landing.support.has("ClydeSouthQuay"))
 		connected = game.score.total_score == 0 and game.skater.manual_active
 		for frame in 12:

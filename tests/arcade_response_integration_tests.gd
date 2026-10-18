@@ -1,4 +1,5 @@
 extends RefCounted
+const ClydeLayout = preload("res://game/levels/clyde_layout.gd")
 ## Real fixed-tick input trials. Only initial fixtures assign a transform;
 ## every subsequent change is produced by mapped keys and production physics.
 const Skater = preload("res://game/player/skater.gd")
@@ -126,7 +127,7 @@ static func _flat_jump(tree: SceneTree, check: Callable, held: int) -> void:
 static func _wall_pop_repeat(tree: SceneTree, check: Callable) -> void:
 	var results: Array[Dictionary] = []
 	for repeat: bool in [false,true]:
-		var f: Dictionary = await _fixture(tree,true)
+		var f: Dictionary = await _fixture(tree,true,false,true)
 		var rider: Node3D = f.rider
 		# Initial standalone-quarter approach, then mapped input only.
 		rider.position = Vector3(17,rider.position.y,73)
@@ -266,7 +267,7 @@ static func _natural_returns(samples: Array,lip_heights: Dictionary) -> Dictiona
 
 
 static func _handoff_refusals(tree: SceneTree,check: Callable) -> void:
-	var f: Dictionary=await _fixture(tree,true,true)
+	var f: Dictionary=await _fixture(tree,true,true,true)
 	var rider: HandoffProbe=f.rider
 	var feature: Dictionary={}
 	for entry: Dictionary in f.features:
@@ -454,7 +455,7 @@ static func _rail_approach(tree: SceneTree, check: Callable, trial: Dictionary) 
 	await _dispose(tree, f)
 
 
-static func _fixture(tree: SceneTree, pipe: bool = false,handoff_probe: bool=false) -> Dictionary:
+static func _fixture(tree: SceneTree, pipe: bool = false,handoff_probe: bool=false, quarter_pose: bool=false) -> Dictionary:
 	_release()
 	var root := Node3D.new()
 	tree.root.add_child(root)
@@ -466,9 +467,15 @@ static func _fixture(tree: SceneTree, pipe: bool = false,handoff_probe: bool=fal
 	floor.add_child(collider)
 	floor.position = Vector3(0,1.8,60) if pipe else Vector3(0,-0.2,0)
 	root.add_child(floor)
-	var features: Array = Pipes.build(root,{}) if pipe else []
+	var ramp_root := Node3D.new()
+	root.add_child(ramp_root)
+	if quarter_pose:
+		# Keep the established obstruction experiments in their canonical frame;
+		# the World tests independently exercise the moved production contacts.
+		ramp_root.transform=Transform3D(Basis.IDENTITY,Vector3(17,2,64.5))*Transform3D(Basis(Vector3.UP,ClydeLayout.QUARTER_YAW),ClydeLayout.QUARTER_TOE).affine_inverse()
+	var features: Array = Pipes.build(ramp_root,{}) if pipe else []
 	var rider = HandoffProbe.new() if handoff_probe else Skater.new()
-	rider.spawn_position = Vector3(-22,2.8,60.5) if pipe else Vector3(0,0.8,12)
+	rider.spawn_position = Vector3(-42,2.8,60.5) if pipe else Vector3(0,0.8,12)
 	root.add_child(rider)
 	rider.set_transition_features(features)
 	await _ticks(tree, 40)

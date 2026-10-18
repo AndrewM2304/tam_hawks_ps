@@ -1,3 +1,7 @@
+## Compact Clyde coordinate addendum —18 October
+
+[ADR-018](decisions/ADR-018-compact-clyde-pocket.md) and [COMPACT-CLYDE-CONTRACT](../levels/COMPACT-CLYDE-CONTRACT.md) supersede historical outdoor coordinates below. `clyde_layout.gd` owns north170m/south115m quay, safeX−25/advancedX20, yardΔX−15 and halfΔX−20 placements; quartertoe(−15,2,62)/yaw+90°. Cross-quay travel usesZ69 landward of actual bridge handrails. South landscape support now exists only inside the retained yard/return and visible3m solid walls. World-space query/rail/gap/recovery metadata migrates with geometry; stable career/save/encounter/gap IDs and skating physics stay unchanged. Current acceptance status belongs in newest STATUS, not the previous source's test counts.
+
 ## 18 October arcade hardening addendum
 
 [ADR-017](decisions/ADR-017-arcade-response-hardening.md) is the current skating tuning contract: free-air gravity34, contact gravity22; release-pop8.0→11.3m/s over250ms, flip320ms, ground response55ms; one seek/180ms rail buffer, .85m radius/.60m above/.14m below/65° angle with real clearance. Finite steep departures automatically face their downhill return without scored spin or velocity reconstruction. Uphill rollback and lateral contact pose now follow travel. An upright departure uses a collision-checked <=.34m normal clearance and awards nothing after a failed departure. Initial diagnostics/final receipts are in newest STATUS; old acceptance sections below remain source-bound history.

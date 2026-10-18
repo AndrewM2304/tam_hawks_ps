@@ -72,7 +72,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call((west.basis * Vector3.FORWARD).dot(east.basis * Vector3.FORWARD) < -0.999
 		and absf(west.origin.distance_to(east.origin) - 8.0) < 0.0001,
 		"transition geometry: half-pipe sides oppose across an eight-metre flat bottom")
-	var bottom_at := fixture.to_global(Vector3(-22, 2.0, 61.5))
+	var bottom_at := fixture.to_global(Vector3(-42, 2.0, 61.5))
 	var bottom := _ray(fixture, bottom_at + Vector3.UP, bottom_at - Vector3.UP)
 	check.call(not bottom.is_empty() and bottom.collider.name == "HalfPipeFlatBottom"
 		and bottom.position.distance_to(bottom_at) < 0.001,
@@ -82,8 +82,8 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	for child: Node in flat.get_children():
 		if child is MeshInstance3D: visible_bottom = child
 	var expected_corners := PackedVector3Array([
-		fixture.to_global(Vector3(-26,2.006,55.5)),fixture.to_global(Vector3(-18,2.006,55.5)),
-		fixture.to_global(Vector3(-18,2.006,65.5)),fixture.to_global(Vector3(-26,2.006,65.5))])
+		fixture.to_global(Vector3(-46,2.006,55.5)),fixture.to_global(Vector3(-38,2.006,55.5)),
+		fixture.to_global(Vector3(-38,2.006,65.5)),fixture.to_global(Vector3(-46,2.006,65.5))])
 	var top_matches := visible_bottom != null
 	var seen: Array[int] = []
 	if visible_bottom != null:
@@ -100,14 +100,14 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(top_matches and seen.size() == 4,
 		"transition geometry: two visible flat triangles preserve all four original world top corners at2.006m")
 	var toes_supported := true
-	for x: float in [-25.999,-18.001]:
+	for x: float in [-45.999,-38.001]:
 		var at := fixture.to_global(Vector3(x,2.0,60.5))
 		var hit := _ray(fixture,at+Vector3.UP*.25,at-Vector3.UP*.25)
 		toes_supported = toes_supported and not hit.is_empty() and hit.collider == flat and hit.position.distance_to(at) < .001
 	check.call(toes_supported,
 		"transition geometry: unchanged physical box supports both flat-to-curve toe joins at2.000m")
-	var access_from := fixture.to_global(Vector3(-22, 2.4, 68))
-	var access_to := fixture.to_global(Vector3(-22, 2.4, 60))
+	var access_from := fixture.to_global(Vector3(-42, 2.4, 68))
+	var access_to := fixture.to_global(Vector3(-42, 2.4, 60))
 	check.call(_ray(fixture, access_from, access_to).is_empty(),
 		"transition geometry: quay approach enters the open half-pipe bottom without a side wall")
 	var back_theta := deg_to_rad(44.0)

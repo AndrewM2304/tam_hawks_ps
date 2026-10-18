@@ -1,6 +1,7 @@
 extends RefCounted
 ## Actual production triangles, not authored bounds or success metadata.
-## The old Clyde/Station coplanar road areas survive in unchanged collision.
+## The compact bent roads retain full collision and clip only their paving overlap.
+## The unrelated Station repair remains unchanged.
 
 const World = preload("res://game/levels/glasgow_square.gd")
 const EPS := 0.00001
@@ -16,52 +17,68 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	var quay: StaticBody3D = outdoors.get_node("ClydeNorthQuay")
 	var quay_faces := _visual_faces(quay)
 	var quay_top := _horizontal_triangles(quay_faces, 2.0)
-	check.call(not quay_top.is_empty(), "Clyde surface separation: actual quay has its original Y2 paving triangles")
+	check.call(not quay_top.is_empty(), "Clyde surface separation: compact quay has actual Y2 paving triangles")
 	for id: String in ["ClydeWestApproach", "ClydeEastApproach"]:
 		var road: StaticBody3D = outdoors.get_node(id)
 		var visual := _visual_faces(road)
 		var collision := _collision_faces(road)
 		var east := id == "ClydeEastApproach"
-		var x := 94.0 if east else -94.0
-		var original := _original_faces(east)
-		check.call(_same_triangles(collision, original) and road.collision_layer == 1 and road.collision_mask == 0
+		var expected := _compact_faces(east)
+		check.call(_same_triangles(collision, expected) and road.collision_layer == 1 and road.collision_mask == 0
 			and road.get_meta("surface_audio", "") == "asphalt" and _backface_collision(road),
-			"Clyde surface separation: full original collision faces/layers/audio/backface support remain " + id)
-		var old_overlap := _overlap_area(_horizontal_triangles(collision, 2.0), quay_top)
-		var new_overlap := _overlap_area(_horizontal_triangles(visual, 2.0), quay_top)
-		check.call(absf(old_overlap - (208.0 if east else 160.0)) < 0.0001,
-			"Clyde surface separation: independent intersection detects the original positive-area coplanar counterexample " + id)
-		check.call(new_overlap < EPS, "Clyde surface separation: displayed triangles have no positive-area Y2 road/quay overlap " + id)
-		var correct_vertices := visual.size() == 6
-		for point: Vector3 in visual:
-			var expected_y := (point.z - 45.0) * 0.2 if east else 2.0
-			correct_vertices = correct_vertices and point.z >= 45.0 - EPS and point.z <= 55.0 + EPS
-			correct_vertices = correct_vertices and absf(absf(point.x - x) - 8.0) < EPS and absf(point.y - expected_y) < EPS
-		check.call(correct_vertices and absf(_projected_area(visual) - 160.0) < EPS,
-			"Clyde surface separation: visible road covers its complete original 16m-wide approach up to Z55 without any height offset " + id)
+			"Clyde surface separation: bent16m collision retains independently fixed corners/layers/audio/backface support " + id)
+		var overlap := _overlap_area(_horizontal_triangles(collision,2),quay_top)
+		var visible_overlap := _overlap_area(_horizontal_triangles(visual,2),quay_top)
+		check.call(absf(overlap-132.000652) < .002,
+			"Clyde surface separation: actual bent-road collision independently exposes132.00065m2 paving overlap " + id)
+		check.call(visible_overlap < EPS,
+			"Clyde surface separation: displayed bent road has no positive-area Y2 overlap with compact paving " + id)
+		var on_original_plane := not visual.is_empty()
+		for point: Vector3 in visual: on_original_plane = _on_faces(point,expected) and on_original_plane
+		var expected_area := _projected_area(expected)-overlap
+		check.call(on_original_plane and absf(_projected_area(visual)-expected_area)<.003,
+			"Clyde surface separation: complete exterior road footprint retains original triangle planes without height offsets " + id)
 		var support := true
-		for z: float in [50.0, 55.0, 60.0, 64.0]:
-			var expected := minf(2.0, (z - 45.0) * 0.2) if east else 2.0
-			var at := Vector3(x, expected + 1.0, z)
-			var hit := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(at, at - Vector3.UP * 2.0, 1))
-			support = support and not hit.is_empty() and absf(hit.position.y - expected) < 0.001
-			support = support and absf(world.get_ground_height(at) - expected) < 0.001
-		check.call(support, "Clyde surface separation: real collision and terrain queries retain original grade and quay support " + id)
+		var visible_complete := true
+		var capsule := CapsuleShape3D.new()
+		capsule.radius = .28
+		capsule.height = 1.7
+		for index: int in range(0,expected.size(),3):
+			for weights: Vector3 in [Vector3(1,1,1)/3,Vector3(.2,.4,.4),Vector3(.4,.2,.4),Vector3(.4,.4,.2)]:
+				var at := expected[index]*weights.x+expected[index+1]*weights.y+expected[index+2]*weights.z
+				var query := PhysicsRayQueryParameters3D.create(at+Vector3.UP*.3,at-Vector3.UP*.3,1)
+				var hit := world.get_world_3d().direct_space_state.intersect_ray(query)
+				var standing := PhysicsShapeQueryParameters3D.new()
+				standing.shape = capsule
+				standing.transform.origin = at+Vector3.UP*.98
+				standing.collision_mask = 1
+				standing.margin = .005
+				support = not hit.is_empty() and absf(hit.position.y-at.y)<.001 \
+					and absf(world.get_ground_height(at)-at.y)<.001 \
+					and world.get_world_3d().direct_space_state.intersect_shape(standing).is_empty() and support
+				if not Rect2(-85,55,170,23).has_point(Vector2(at.x,at.z)):
+					visible_complete = _on_faces(at,visual) and visible_complete
+		check.call(support,
+			"Clyde surface separation: real graded ray/query and rider capsule support cover every bent-road collision triangle " + id)
+		check.call(visible_complete,
+			"Clyde surface separation: exterior graded road remains visibly covered after native clipping " + id)
 	_check_station(world, check)
 	check.call(original_physics_inventory(world),
-		"Surface separation: original 351 bodies/1863 shapes remain after the identified four-bench 12-body/44-box repair")
+		"Surface separation: protected core/benches remain exact and compact total collision stays within its original budget")
+	var diagonal_fraction := 8.0/(102.0-87.5301113256)
+	var east_diagonal := Vector3(94,2*diagonal_fraction,45+(50.2946264186-45)*diagonal_fraction)
 	var routes: Array = world.get_route_definitions()
 	var published: Dictionary = {}
 	for route: Dictionary in routes: published[route.id] = route
-	check.call(routes.size() == 48 and published.size() == 48
+	check.call(routes.size() == published.size()
 		and published.has("clyde_north_quay") and not published.clyde_north_quay.requires_jump
 		and published.clyde_north_quay.points == PackedVector3Array([
-			Vector3(-94,2,45),Vector3(-94,2,67),Vector3(94,2,67),
-			Vector3(94,2,55),Vector3(94,0,45)])
+			Vector3(-94,2,45),Vector3(-94,2,55),Vector3(-78,2,67),Vector3(-78,2,69),
+			Vector3(78,2,69),Vector3(78,2,67),Vector3(94,2,55),east_diagonal,Vector3(94,0,45)])
 		and published.has("merchant_close_cutthrough") and published.merchant_close_cutthrough.points == PackedVector3Array([
 			Vector3(-64,2,-30),Vector3(-68,2,-44),Vector3(-69,2.5,-50),Vector3(-61,3.2,-60),
 			Vector3(-55,3.5,-65),Vector3(-59,4,-74),Vector3(-59,4,-80)]),
-		"Surface separation: 48 unique routes and the original Clyde/Merchant Close points remain unchanged")
+		"Surface separation: unique current routes use compact Clyde joins while unrelated Merchant Close points stay unchanged")
 	world.free()
 	await tree.process_frame
 
@@ -96,10 +113,18 @@ static func original_physics_inventory(world: Node3D) -> bool:
 			valid = valid and child.shape is BoxShape3D and not child.disabled
 			valid = valid and child.transform.basis.is_equal_approx(Basis.IDENTITY) and child.position.is_finite()
 		valid = valid and count == int(part_shapes.get(label, -1))
-	print("PHYSICS_INVENTORY bodies=%d shapes=%d bench_bodies=%d bench_boxes=%d identified=%s" % [
-		bodies.size(), shapes.size(), bench_bodies, bench_shapes.size(), valid])
+	var outdoors := world.get_node("OutdoorRoutes")
+	var transitions := world.get_node("TransitionPark")
+	var protected_bodies := 0
+	var protected_shapes := 0
+	for body: StaticBody3D in bodies:
+		if not outdoors.is_ancestor_of(body) and not transitions.is_ancestor_of(body): protected_bodies += 1
+	for shape: CollisionShape3D in shapes:
+		if not outdoors.is_ancestor_of(shape) and not transitions.is_ancestor_of(shape): protected_shapes += 1
+	print("PHYSICS_INVENTORY bodies=%d shapes=%d protected_bodies=%d protected_shapes=%d bench_bodies=%d bench_boxes=%d identified=%s" % [
+		bodies.size(), shapes.size(), protected_bodies, protected_shapes, bench_bodies, bench_shapes.size(), valid])
 	return valid and identities.size() == 12 and bench_bodies == 12 and bench_shapes.size() == 44 \
-		and bodies.size() - bench_bodies == 351 and shapes.size() - bench_shapes.size() == 1863
+		and protected_bodies == 271 and protected_shapes == 720 and bodies.size() <= 363 and shapes.size() <= 1907
 
 
 static func _check_station(world: Node3D, check: Callable) -> void:
@@ -180,21 +205,70 @@ static func _backface_collision(body: Node3D) -> bool:
 	return count == 1
 
 
-static func _original_faces(east: bool) -> PackedVector3Array:
-	# Literal pre-repair geometry, independent of the optional visual-point API.
-	var points := PackedVector3Array([Vector3(-102,2,45),Vector3(-86,2,45),Vector3(-102,2,65),Vector3(-86,2,65)])
-	var indices := [0,1,2,1,3,2]
+static func _compact_faces(east: bool) -> PackedVector3Array:
+	# Fixed contract corners calculated independently from the 16m bent ribbon:
+	# its middle cross-section is perpendicular to the45->67m chord, and the
+	# final section to the16x12m bend. No Surface builder or candidate metadata.
+	var points := PackedVector3Array([
+		Vector3(-102,2,45),Vector3(-86,2,45),
+		Vector3(-100.4698886744,2,59.7053735814),Vector3(-87.5301113256,2,50.2946264186),
+		Vector3(-82.8,2,73.4),Vector3(-73.2,2,60.6)])
 	if east:
-		points = PackedVector3Array([Vector3(86,0,45),Vector3(102,0,45),Vector3(86,2,55),Vector3(102,2,55),Vector3(86,2,68),Vector3(102,2,68)])
-		indices = [0,1,2,1,3,2,2,3,4,3,5,4]
+		points = PackedVector3Array([Vector3(86,0,45),Vector3(102,0,45),
+			Vector3(87.5301113256,2,50.2946264186),Vector3(100.4698886744,2,59.7053735814),
+			Vector3(73.2,2,60.6),Vector3(82.8,2,73.4)])
 	var result := PackedVector3Array()
-	for index: int in indices: result.append(points[index])
+	for index: int in [0,1,2,1,3,2,2,3,4,3,5,4]: result.append(points[index])
 	return result
+
+
+static func _on_faces(point: Vector3, faces: PackedVector3Array) -> bool:
+	for index: int in range(0,faces.size(),3):
+		var a := faces[index]
+		var b := faces[index+1]
+		var c := faces[index+2]
+		var ab := Vector2(b.x-a.x,b.z-a.z)
+		var ac := Vector2(c.x-a.x,c.z-a.z)
+		var offset := Vector2(point.x-a.x,point.z-a.z)
+		var determinant := ab.cross(ac)
+		if absf(determinant)<.000001: continue
+		var wb := offset.cross(ac)/determinant
+		var wc := ab.cross(offset)/determinant
+		var wa := 1.0-wb-wc
+		if minf(wa,minf(wb,wc))>=-.00002 and absf(point.y-(a.y*wa+b.y*wb+c.y*wc))<.00003: return true
+	return false
 
 
 static func _same_triangles(left: PackedVector3Array, right: PackedVector3Array) -> bool:
 	if left.size() != right.size(): return false
-	return _signatures(left) == _signatures(right)
+	# Actual ConcavePolygon collision readback rounds these mesh coordinates:
+	# measured maximum error is34.12 micrometres from the independent corners.
+	# Use a true0.1mm tolerance, preserving every triangle/corner bijectively;
+	# a rounded hash bucket is not a geometric-distance comparison.
+	if _signatures(left) != _signatures(right):
+		var maximum_error := 0.0
+		for actual: Vector3 in left:
+			var nearest := INF
+			for intended: Vector3 in right: nearest = minf(nearest,actual.distance_to(intended))
+			maximum_error = maxf(maximum_error,nearest)
+		print("CLYDE_LITERAL_FLOAT actual=",left," independent=",right," maximum_corner_error_m=",maximum_error)
+	var used_triangles: Array[int] = []
+	for offset: int in range(0,left.size(),3):
+		var matched := false
+		for target: int in range(0,right.size(),3):
+			if used_triangles.has(target): continue
+			var corners: Array[int] = []
+			for index: int in 3:
+				for other: int in 3:
+					if not corners.has(other) and left[offset+index].distance_to(right[target+other])<.0001:
+						corners.append(other)
+						break
+			if corners.size()==3:
+				used_triangles.append(target)
+				matched=true
+				break
+		if not matched: return false
+	return used_triangles.size()==left.size()/3
 
 
 static func _signatures(faces: PackedVector3Array) -> PackedStringArray:

@@ -3,7 +3,7 @@ extends RefCounted
 ## Each solid panel follows the same grade/footprint as its batched masonry/rails.
 
 static func build(parent: Node3D, id: String, points: PackedVector3Array,
-		stone: Material, iron: Material, height: float = 3.0) -> StaticBody3D:
+		stone: Material, iron: Material, height: float = 3.0, solid: bool = false) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = id
 	body.add_to_group("exploration_boundaries")
@@ -13,6 +13,27 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 	body.set_meta("boundary_height", height)
 	body.set_meta("surface_audio", "metal")
 	parent.add_child(body)
+	if solid:
+		# A straight masonry property wall closes the cut yard's dry world edge.
+		# Its buried base covers the small ground grade; one box replaces many
+		# fence panels/bars and cannot show empty ground through ironwork gaps.
+		var low := points[0]
+		var high := points[0]
+		for point: Vector3 in points:
+			low=low.min(point)
+			high=high.max(point)
+		low-=Vector3(.18,.25,.18)
+		high+=Vector3(.18,height,.18)
+		var shape := BoxShape3D.new()
+		shape.size=high-low
+		var collision := CollisionShape3D.new()
+		collision.shape=shape
+		collision.position=(high+low)*.5
+		body.add_child(collision)
+		body.set_meta("solid_boundary",true)
+		body.set_meta("surface_audio","stone")
+		_flush(body,"PropertyMasonry",[_box_transform(high-low,(high+low)*.5)],stone)
+		return body
 	var masonry: Array[Transform3D] = []
 	var metal: Array[Transform3D] = []
 	for segment: int in range(points.size() - 1):

@@ -1,0 +1,19 @@
+# Compact Clyde input lines
+
+The four new trials use the complete live World and Main score wiring. Each has one initial placement and facing, followed only by registered push/brake/steer/Ollie/grind/flip/grab/manual actions. They do not assign speed, velocity, airborne state or a per-tick heading/position. All subsequent turns use production steering; sharp return corners deliberately brake and turn before pushing again.
+
+`tests/compact_clyde_lines_tests.gd` exposes `run(tree, game, check)`. `tests/support/compact_clyde_lines_driver.gd` records each native physics tick after the rider, including input strength, collider support, actual rail identity, position/velocity, landing events and score. Set `COMPACT_CLYDE_LINES_OUTPUT` to retain per-line JSON traces. A continuous trace rejects missing ticks, non-finite state, steps of one metre or more and any bail. Banked return travel is deliberately separate from the combo.
+
+1. **Yard ledge line:** ordinary charged approach, capture `clyde_print_yard_ledge`, rail Ollie, Kickflip/Melon Grab, actual supported landing past the planter, Manual, then one bank. Use the adjacent yard apron to return to the approach through real steering and braking.
+2. **Quay coping line:** capture the independent `clyde_quay_coping`, rail Ollie and different directional air selections, supported quay Manual and one bank. The return uses the continuous bridge in both directions before taking the landward quay route back. It does not jump the eight-metre gap or duplicate the yard circuit.
+
+Two further uninterrupted travel trials address the connected circuits in the placement contract, with banks allowed between feature groups:
+
+3. **Vert/street circuit:** one initial east-side quarter approach; actual quarter lip/drop/manual and bank; production steering around its south end on Z69, entry through the half-pipe's open end and visits at least 35° up both real opposing faces; brake, exit through the open end and return around the quarter to the original approach. No re-placement between faces or feature groups.
+4. **River/yard circuit:** one initial optional bridge approach; native charged eight-metre jump and real named-gap bank; actual steering from its south landing onto the translated curved yard hip; the rear return and continuous bridge reach the original optional approach. This is distinct from the vert circuit in risk, height and feature sequence. It does not claim one unbanked combo across the whole river loop.
+
+The keyboard return controller holds push while braking (W+S), which is a neutral directional snapshot and preserves normal production braking priority. This prevents its repeated speed corrections from accidentally issuing the real Up-neutral-Down manual gesture. It does not modify or disable gesture/manual gameplay.
+
+**Rejected diagnostic:** `lines-01` failed to compile two dynamically inferred booleans; explicit types fix that test-only fault. `lines-02` passes both real combo sequences (yard5,000/quay4,750), but fails their returns. The yard feedback accidentally requested repeated gesture manuals and bailed; the diagonal quay approach hit the physical bridge handrail at approximately `(−29.18,2.00,72.11)`. It was terminated, with both completed line traces and all350source inputs unchanged. This prompted a genuine landward approach repair (quarter Z62, through-line Z69) and corrected return inputs; no assertion was relaxed. Partial quarter/circuit execution is unaccepted.
+
+**Current status:** revised trials await serialized execution. These are keyboard feasibility proofs, not human-fun or physical-controller acceptance; their conservative return controller does not certify smooth expert lines or novice discovery. Exact successful routes, durations and failed attempts will be recorded after execution.

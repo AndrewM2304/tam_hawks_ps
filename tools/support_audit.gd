@@ -30,7 +30,7 @@ func _run() -> void:
   "central_station":Rect2(-145,-42,95,97),
   "barras_market":Rect2(47,-54,84,109),
   "kelvingrove_and_connectors":Rect2(-255,-225,213,245),
-  "clyde_and_southbank":Rect2(-280,55,560,165)}
+  "clyde_and_southbank":Rect2(-103,45,206,98)}
  for name: String in regions:
   var bounds: Rect2=regions[name]
   var before:=int(report.samples)

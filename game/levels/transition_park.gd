@@ -1,4 +1,5 @@
 extends RefCounted
+const Layout = preload("res://game/levels/clyde_layout.gd")
 ## Original poured-concrete transitions on the existing Clyde north quay.
 ## Toe-local +X spans the ramp; -Z climbs it. World collision and the analytic
 ## feature contract share one unit-scale transform and the same radius/angle.
@@ -36,17 +37,17 @@ static func build(parent: Node3D, materials: Dictionary) -> Array[Dictionary]:
 		steel.roughness = 0.4
 		coping = steel
 	var features: Array[Dictionary] = []
-	features.append(_quarter(root, "clyde_quarter", Vector3(17, 2, 64.5), 0.0,
+	features.append(_quarter(root, "clyde_quarter", Layout.QUARTER_TOE, Layout.QUARTER_YAW,
 		concrete, sides, coping))
-	features.append(_quarter(root, "clyde_half_west", Vector3(-26, 2, 60.5), PI * 0.5,
+	features.append(_quarter(root, "clyde_half_west", Vector3(-26, 2, 60.5)+Layout.HALF_SHIFT, PI * 0.5,
 		concrete, sides, coping))
-	features.append(_quarter(root, "clyde_half_east", Vector3(-18, 2, 60.5), -PI * 0.5,
+	features.append(_quarter(root, "clyde_half_east", Vector3(-18, 2, 60.5)+Layout.HALF_SHIFT, -PI * 0.5,
 		concrete, sides, coping))
-	# Open north/south ends admit riders from the existing z=67 quay through-line.
+	# Open north/south ends admit riders from the z=74 quay through-line.
 	# Physical support meets both toes exactly. Keep only the visible concrete
 	# top six millimetres above the quay. Its hidden box sides leave a subpixel
 	# vertical seam beside the unraised toes; the top-only mesh omits those faces.
-	_box(root, "HalfPipeFlatBottom", Vector3(-22, 1.88, 60.5),
+	_box(root, "HalfPipeFlatBottom", Layout.HALF_CENTRE-Vector3.UP*0.12,
 		Vector3(8, 0.24, WIDTH), concrete, Vector3.UP * 0.006, true)
 	return features
 

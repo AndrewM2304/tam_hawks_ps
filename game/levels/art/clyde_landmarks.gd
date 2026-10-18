@@ -1,4 +1,5 @@
 extends RefCounted
+const Layout = preload("res://game/levels/clyde_layout.gd")
 ## Original compressed South Portland / Carlton Place architectural interpretation.
 ## Reference photographs are inspection only. All generated geometry is art-only.
 
@@ -15,7 +16,7 @@ static func build(parent: Node3D, materials: Dictionary) -> void:
 	palette["clyde_pale_wall"] = _tint(materials["sandstone"], Color("c4c0ad"))
 	var batches: Dictionary = {}
 	_suspension_bridge(root, batches, palette)
-	for block: Vector2 in [Vector2(-100, 96), Vector2(-1, 88), Vector2(99, 92)]:
+	for block: Vector2 in Layout.TERRACE_BLOCKS:
 		_terrace(root, batches, block.x, block.y, palette)
 	_flush(root, batches, palette)
 
@@ -29,17 +30,17 @@ static func _suspension_bridge(root: Node3D, batches: Dictionary, palette: Dicti
 		portal.name = "SandstonePortal"
 		portal.mesh = portal_mesh
 		portal.material_override = palette["clyde_sandstone"]
-		portal.position = Vector3(-98, 0, z)
+		portal.position = Vector3(Layout.SAFE_X, 0, z)
 		root.add_child(portal)
 		for side: float in [-1.0, 1.0]:
-			var x := -98.0 + side * 6.2
+			var x := Layout.SAFE_X + side * 6.2
 			_box(batches, "clyde_sandstone", Vector3(x, 5.8, z), Vector3(1.6, 8.8, 1.7))
 			_box(batches, "cut_stone", Vector3(x, 1.7, z), Vector3(2.0, 0.6, 2.1))
 			_box(batches, "clyde_sandstone", Vector3(x, 7.0, z), Vector3(1.85, 0.22, 1.9))
-		_box(batches, "clyde_sandstone", Vector3(-98, 10.6, z), Vector3(14.4, 0.65, 2.0))
-		_box(batches, "cut_stone", Vector3(-98, 10.98, z), Vector3(14.8, 0.16, 2.15))
+		_box(batches, "clyde_sandstone", Vector3(Layout.SAFE_X, 10.6, z), Vector3(14.4, 0.65, 2.0))
+		_box(batches, "cut_stone", Vector3(Layout.SAFE_X, 10.98, z), Vector3(14.8, 0.16, 2.15))
 	for side: float in [-1.0, 1.0]:
-		var chain_x := -98.0 + side * 4.45
+		var chain_x := Layout.SAFE_X + side * 4.45
 		for offset: float in [-0.10, 0.10]:
 			for index: int in range(32):
 				var a := float(index) / 32.0
@@ -52,11 +53,11 @@ static func _suspension_bridge(root: Node3D, batches: Dictionary, palette: Dicti
 		for index: int in range(20):
 			var a := 72.0 + float(index) * 2.5
 			var b := a + 2.5
-			var x := -98.0 + side * 3.88
+			var x := Layout.SAFE_X + side * 3.88
 			_beam(batches, "window_frame", Vector3(x, _deck_height(a) + 0.22, a), Vector3(x, _deck_height(b) + 0.97, b), 0.035)
 			_beam(batches, "window_frame", Vector3(x, _deck_height(a) + 0.97, a), Vector3(x, _deck_height(b) + 0.22, b), 0.035)
 		for z: float in [82.0, 112.0]:
-			var at := Vector3(-98.0 + side * 4.8, _deck_height(z), z)
+			var at := Vector3(Layout.SAFE_X + side * 4.8, _deck_height(z), z)
 			_beam(batches, "iron", at, at + Vector3.UP * 3.2, 0.045)
 			_box(batches, "window_frame", at + Vector3.UP * 3.38, Vector3(0.24, 0.40, 0.24))
 			_box(batches, "iron", at + Vector3.UP * 3.64, Vector3(0.34, 0.12, 0.34))
@@ -133,12 +134,8 @@ static func _terrace(root: Node3D, batches: Dictionary, centre_x: float, width: 
 			_box(batches, "cut_stone", Vector3(x, 17.15, 151.4), Vector3(1.65, 0.18, 1.25))
 			for side: float in [-1.0, 1.0]:
 				_cylinder(batches, "clyde_red", Vector3(x + side * 0.38, 17.48, 151.4), 0.12, 0.55)
-	# A quiet continuous iron property edge explains the separate planted strip;
-	# it sits behind every playable quay/yard path and has no riding collision.
-	for x_index: int in range(ceili(width / 2.0) + 1):
-		var x := centre_x - width * 0.5 + minf(float(x_index) * 2.0, width)
-		_box(batches, "iron", Vector3(x, 3.2, 141.8), Vector3(0.045, 1.1, 0.045))
-	_box(batches, "iron", Vector3(centre_x, 3.72, 141.8), Vector3(width, 0.055, 0.055))
+	# The visible solid property edge is owned by OutdoorRoutes at Z142.8.
+
 
 
 static func _roof_mesh(width: float) -> ArrayMesh:

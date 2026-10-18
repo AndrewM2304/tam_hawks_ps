@@ -2,6 +2,7 @@ extends Node3D
 ## Original, compressed Glasgow-inspired landscapes; not surveyed street geometry.
 ## Published coordinates are world-space board-contact positions except checkpoints.
 
+const Layout = preload("res://game/levels/clyde_layout.gd")
 const Surface = preload("res://game/levels/outdoors/surface_builder.gd")
 const Vegetation = preload("res://game/levels/outdoors/vegetation.gd")
 const ClydeLandmarks = preload("res://game/levels/art/clyde_landmarks.gd")
@@ -64,16 +65,46 @@ func _build_exploration_boundaries() -> void:
 	]: _boundary("ParkRetainedBoundary",edge[0],edge[1])
 	# Bound BOTH sides of the landward void between the city and the quay.
 	# The river-facing edges remain the explicit, recoverable skating hazard.
-	for span: Vector2 in [Vector2(-149.8,-102),Vector2(-86,-15),Vector2(-9,9),Vector2(15,86),Vector2(102,149.8)]:
+	var west_join := _approach_boundaries("ClydeWestApproach", -1.0)
+	var east_join := _approach_boundaries("ClydeEastApproach", 1.0)
+	for span: Vector2 in [Vector2(west_join.x,-15),Vector2(-9,9),Vector2(15,east_join.x)]:
 		_boundary("QuayLandwardBoundary",Vector2(span.x,55.2),Vector2(span.y,55.2))
-	for x: float in [-149.8,149.8]:
-		_boundary("NorthQuayEndBoundary",Vector2(x,55.2),Vector2(x,77.8))
-		_boundary("SouthQuayEndBoundary",Vector2(x,116.2),Vector2(x,130.2))
-	for x: float in [-279.8,279.8]:
-		_boundary("SouthLandscapeEndBoundary",Vector2(x,130.2),Vector2(x,219.8))
-	_boundary("SouthLandscapeRearBoundary",Vector2(-279.8,219.8),Vector2(279.8,219.8))
-	_boundary("SouthLandscapeNorthBoundary",Vector2(-279.8,130.2),Vector2(-150,130.2))
-	_boundary("SouthLandscapeNorthBoundary",Vector2(150,130.2),Vector2(279.8,130.2))
+	_boundary("NorthQuayEndBoundary",Vector2(-84.8,west_join.y),Vector2(-84.8,77.8))
+	_boundary("NorthQuayEndBoundary",Vector2(84.8,east_join.y),Vector2(84.8,77.8))
+	for x: float in [-38.8,75.8]:
+		_boundary("SouthPocketEndBoundary",Vector2(x,116.2),Vector2(x,142.8))
+	_boundary("SouthPocketRearBoundary",Vector2(-38.8,142.8),Vector2(75.8,142.8))
+
+
+# Follow the real bent ribbon outside the quay, leaving its broad join open.
+# Returning inner-X / outer-Z joins avoids a straight fence across the approach.
+func _approach_boundaries(id: String, side: float) -> Vector2:
+	var body: Node3D = get_node(id)
+	var vertices: PackedVector3Array = body.get_meta("support_vertices")
+	var result := Vector2.ZERO
+	for parity: int in 2:
+		var edge := PackedVector3Array()
+		for index: int in range(parity,vertices.size(),2):
+			var point := vertices[index]
+			var centre := (vertices[index-index%2]+vertices[index-index%2+1])*0.5
+			point=point.move_toward(centre,0.18)
+			if edge.is_empty(): point=point.lerp(vertices[index+2].move_toward((vertices[2]+vertices[3])*0.5,0.18),0.02)
+			if Layout.NORTH_QUAY.has_point(Vector2(point.x,point.z)):
+				var previous := edge[-1]
+				var t: float
+				# The west ribbon has opposite winding but paired sides still sort
+				# by world X. Select the actual rectangle entry, not parity.
+				var inner := (parity==0) if side>0 else (parity==1)
+				t=(55.2-previous.z)/(point.z-previous.z) if inner else (side*84.8-previous.x)/(point.x-previous.x)
+				point=previous.lerp(point,clampf(t,0,1))
+				if inner: result.x=point.x
+				else: result.y=point.z
+				edge.append(point)
+				break
+			edge.append(point)
+		ExplorationBoundary.build(self,"QuayApproachBoundary",edge,_material("cut_stone"),_material("iron"))
+	return result
+
 
 
 func _boundary(id: String, start: Vector2, end: Vector2) -> void:
@@ -84,12 +115,12 @@ func _boundary(id: String, start: Vector2, end: Vector2) -> void:
 		var height := _local_ground(at.x,at.y)
 		assert(is_finite(height),"Outdoor boundary requires real supported ground: "+id+" "+str(at))
 		points.append(Vector3(at.x,height,at.y))
-	ExplorationBoundary.build(self,id,points,_material("cut_stone"),_material("iron"))
+	ExplorationBoundary.build(self,id,points,_material("cut_stone"),_material("iron"),3.0,id.begins_with("SouthPocket"))
 
 
 func get_district_id(world_position: Vector3) -> String:
 	var at := to_local(world_position)
-	if at.z >= 54.0 and at.z <= 220.0 and absf(at.x) <= 280.0: return "clyde"
+	if at.z >= 45.0 and at.z <= 143.0 and is_finite(_local_ground(at.x,at.z)): return "clyde"
 	if PARK_LANDSCAPE.has_point(Vector2(at.x, at.z)): return "kelvingrove"
 	# Narrow connector footprints avoid capturing Central/George from broad bounds.
 	if at.x < -145.0 and float(Surface.nearest_segment(_park_connector, Vector2(at.x, at.z)).distance) < 6.5: return "kelvingrove"
@@ -115,9 +146,10 @@ func get_recovery_position(world_position: Vector3) -> Vector3:
 	if not VISIBLE_WATER.has_point(Vector2(at.x, at.z)) or at.y >= WATER_Y + 0.25: return Vector3.INF
 	var safe_z := 71.0 if at.z < RIVER.get_center().y else 124.0
 	# Stay away from deck rails and place the skater directly on a broad quay.
-	var safe_x := clampf(at.x, -140.0, 140.0)
-	if absf(safe_x + 98.0) < 7.0: safe_x = -86.0
-	if absf(safe_x - 35.0) < 5.0: safe_x = 25.0
+	var bounds: Rect2 = Layout.NORTH_QUAY if safe_z < 100 else Layout.SOUTH_QUAY
+	var safe_x := clampf(at.x,bounds.position.x+6.0,bounds.end.x-6.0)
+	if absf(safe_x-Layout.SAFE_X)<7.0: safe_x=Layout.SAFE_X+12.0
+	if absf(safe_x-Layout.TRANSFER_X)<5.0: safe_x=Layout.TRANSFER_X-10.0
 	return to_global(Vector3(safe_x, 2.8, safe_z))
 
 
@@ -126,7 +158,7 @@ func get_grind_lines() -> Array:
 
 
 func get_gap_definitions() -> Array[Dictionary]:
-	return [{"id": "clyde_bridge_transfer", "name": "Clyde Broken Bridge", "start": to_global(Vector3(35, 3.05, 92)), "end": to_global(Vector3(35, 2.69, 104)), "radius": 2.4, "points": 900, "airborne_required": true}]
+	return [{"id": "clyde_bridge_transfer", "name": "Clyde Broken Bridge", "start": to_global(Vector3(Layout.TRANSFER_X, 3.05, 92)), "end": to_global(Vector3(Layout.TRANSFER_X, 2.69, 104)), "radius": 2.4, "points": 900, "airborne_required": true}]
 
 
 func get_route_definitions() -> Array[Dictionary]:
@@ -141,72 +173,70 @@ func get_route_definitions() -> Array[Dictionary]:
 
 
 func _build_clyde() -> void:
-	_patch("ClydeNorthQuay", Rect2(-150, 55, 300, 23), 2.0, _material("paving"))
-	_patch("ClydeSouthQuay", Rect2(-150, 116, 300, 14), 2.0, _material("paving"))
-	var west := PackedVector3Array([Vector3(-94, 2, 45), Vector3(-94, 2, 65)])
-	var east := PackedVector3Array([Vector3(94, 0, 45), Vector3(94, 2, 55), Vector3(94, 2, 68)])
-	# Road visuals meet the quay at Z55. Their original full collision strips
-	# remain for route/support continuity, without coplanar asphalt over paving.
-	_path("ClydeWestApproach", west, 16.0, _material("asphalt"), "asphalt",
-		PackedVector3Array([west[0], Vector3(-94, 2, 55)]))
-	_path("ClydeEastApproach", east, 16.0, _material("asphalt"), "asphalt",
-		PackedVector3Array([east[0], east[1]]))
-	var safe := PackedVector3Array([Vector3(-98, 2, 72), Vector3(-98, 3.4, 89), Vector3(-98, 3.4, 105), Vector3(-98, 2, 122)])
+	_patch("ClydeNorthQuay", Layout.NORTH_QUAY, 2.0, _material("paving"))
+	_patch("ClydeSouthQuay", Layout.SOUTH_QUAY, 2.0, _material("paving"))
+	var west := PackedVector3Array([Vector3(-94, 2, 45), Vector3(-94, 2, 55), Vector3(-78, 2, 67)])
+	var east := PackedVector3Array([Vector3(94, 0, 45), Vector3(94, 2, 55), Vector3(78, 2, 67)])
+	_path("ClydeWestApproach",west,16.0,_material("asphalt"),"asphalt")
+	_path("ClydeEastApproach",east,16.0,_material("asphalt"),"asphalt")
+	Surface.trim_visual_rect(get_node("ClydeWestApproach"),Layout.NORTH_QUAY)
+	Surface.trim_visual_rect(get_node("ClydeEastApproach"),Layout.NORTH_QUAY)
+	var safe := PackedVector3Array([Vector3(Layout.SAFE_X, 2, 72), Vector3(Layout.SAFE_X, 3.4, 89), Vector3(Layout.SAFE_X, 3.4, 105), Vector3(Layout.SAFE_X, 2, 122)])
 	_path("ClydeSafeBridge", safe, 8.0, _material("iron"), "metal")
-	var north := PackedVector3Array([Vector3(35, 2, 74), Vector3(35, 2.6, 86), Vector3(35, 3.2, 94)])
-	var south := PackedVector3Array([Vector3(35, 2.8, 102), Vector3(35, 2, 116), Vector3(35, 2, 124)])
+	var north := PackedVector3Array([Vector3(Layout.TRANSFER_X, 2, 74), Vector3(Layout.TRANSFER_X, 2.6, 86), Vector3(Layout.TRANSFER_X, 3.2, 94)])
+	var south := PackedVector3Array([Vector3(Layout.TRANSFER_X, 2.8, 102), Vector3(Layout.TRANSFER_X, 2, 116), Vector3(Layout.TRANSFER_X, 2, 124)])
 	_path("ClydeBridgeNorthDeck", north, 5.0, _material("iron"), "metal")
 	_path("ClydeBridgeSouthDeck", south, 5.0, _material("iron"), "metal")
 	# Retaining masonry leaves the water visibly below skateable quays.
-	_box("NorthEmbankment", Vector3(0, -0.2, 77.6), Vector3(300, 4.4, 0.8), _material("cut_stone"))
-	_box("SouthEmbankment", Vector3(0, -0.2, 116.4), Vector3(300, 4.4, 0.8), _material("cut_stone"))
-	for piece: Vector2 in [Vector2(-150,39), Vector2(53,62), Vector2(76,150)]:
-		_box("SouthQuayBacking", Vector3((piece.x + piece.y) * 0.5, 1.25, 130), Vector3(piece.y - piece.x, 1.5, 1), _material("cut_stone"))
-	_clyde_yard = PackedVector3Array([Vector3(35,2,124), Vector3(56,2,137), Vector3(78,2,124), Vector3(45,2,122), Vector3(35,2,124)])
+	_box("NorthEmbankment", Vector3(0, -0.2, 77.6), Vector3(170, 4.4, 0.8), _material("cut_stone"))
+	_box("SouthEmbankment", Vector3(18.5, -0.2, 116.4), Vector3(115, 4.4, 0.8), _material("cut_stone"))
+	_clyde_yard = PackedVector3Array([Vector3(Layout.TRANSFER_X,2,124), Vector3(41.0,2,137), Vector3(63.0,2,124), Vector3(30.0,2,122), Vector3(Layout.TRANSFER_X,2,124)])
 	_path("ClydePrintYard", _clyde_yard, 8.0, _material("paving"))
-	_box("PrintYardPlanter", Vector3(58,2.35,127), Vector3(9,0.7,5), _material("cut_stone"))
-	_box("PrintYardSoil", Vector3(56,2.73,127), Vector3(3.0,0.08,4.4), _material("bark"), false)
-	var hip_bounds := Rect2(58, 126, 4.5 + YARD_BANK_RUN, 3.5 + YARD_BANK_RUN)
+	_box("PrintYardPlanter", Vector3(43.0,2.35,127), Vector3(9,0.7,5), _material("cut_stone"))
+	_box("PrintYardSoil", Vector3(41.0,2.73,127), Vector3(3.0,0.08,4.4), _material("bark"), false)
+	var hip_bounds := Rect2(43, 126, 4.5 + YARD_BANK_RUN, 3.5 + YARD_BANK_RUN)
 	var hip_body := Surface.terrain(self, "PrintYardCurvedBankHip", hip_bounds, 0.25, _yard_hip_height, _material("cut_stone"))
 	hip_body.add_to_group("curved_banks")
 	hip_body.set_meta("max_angle_degrees", 35.0)
 	hip_body.set_meta("radius", YARD_BANK_RADIUS)
 	_surfaces.append({"bounds": hip_bounds, "height_at": _yard_hip_height, "spacing":0.25})
-	var hip_route := PackedVector3Array([Vector3(69,2,127.5), Vector3(62.5 + YARD_BANK_RUN,2,127.5)])
+	var hip_route := PackedVector3Array([Vector3(54.0,2,127.5), Vector3(47.5 + YARD_BANK_RUN,2,127.5)])
 	for degrees: float in [5.0,10.0,15.0,20.0,25.0,30.0,35.0]:
 		var angle := deg_to_rad(degrees)
-		hip_route.append(Vector3(62.5 + YARD_BANK_RUN - 4.0 * sin(angle), 2.0 + 4.0 * (1.0 - cos(angle)), 127.5))
-	hip_route.append(Vector3(60,2 + YARD_BANK_RISE,127.5))
-	hip_route.append(Vector3(60,2 + YARD_BANK_RISE,129.5))
+		hip_route.append(Vector3(47.5 + YARD_BANK_RUN - 4.0 * sin(angle), 2.0 + 4.0 * (1.0 - cos(angle)), 127.5))
+	hip_route.append(Vector3(45.0,2 + YARD_BANK_RISE,127.5))
+	hip_route.append(Vector3(45.0,2 + YARD_BANK_RISE,129.5))
 	for degrees: float in [30.0,25.0,20.0,15.0,10.0,5.0,0.0]:
 		var angle := deg_to_rad(degrees)
-		hip_route.append(Vector3(60,2.0 + 4.0 * (1.0 - cos(angle)),129.5 + YARD_BANK_RUN - 4.0 * sin(angle)))
-	hip_route.append(Vector3(60,2,135.5))
+		hip_route.append(Vector3(45.0,2.0 + 4.0 * (1.0 - cos(angle)),129.5 + YARD_BANK_RUN - 4.0 * sin(angle)))
+	hip_route.append(Vector3(45.0,2,135.5))
 	_route("clyde_print_yard_hip", "Print-yard curved bank and hip", hip_route)
-	_rail("clyde_print_yard_ledge", PackedVector3Array([Vector3(53.3,2.77,124.4), Vector3(62.7,2.77,124.4)]), "ledge", 0.16)
+	_rail("clyde_print_yard_ledge", PackedVector3Array([Vector3(38.3,2.77,124.4), Vector3(47.7,2.77,124.4)]), "ledge", 0.16)
 	_water()
-	var bank_material := StandardMaterial3D.new()
-	bank_material.albedo_color = Color(0.23, 0.29, 0.18)
-	bank_material.roughness = 0.95
-	var bank_bounds := Rect2(-280, 130, 560, 90)
-	Surface.terrain(self, "ClydeSouthBankLandscape", bank_bounds, 5.0, _south_bank_height, bank_material)
+	var bank_material := _material("cut_stone")
+	var bank_bounds := Layout.YARD_GROUND
+	Surface.terrain(self, "ClydePrintYardGround", bank_bounds, 5.0, _south_bank_height, bank_material)
 	_surfaces.append({"bounds": bank_bounds, "height_at": _south_bank_height, "spacing":5.0})
 	_bridge_structure(safe, 8.0, true)
 	_bridge_structure(north, 5.0, false)
 	_bridge_structure(south, 5.0, false)
 	# Low coping is readable from the quay and accessible to ordinary ollies.
-	_rail("clyde_quay_coping", PackedVector3Array([Vector3(-68, 2.42, 76.7), Vector3(-22, 2.42, 76.7)]), "coping", 0.22)
-	_rail("clyde_bridge_rail", PackedVector3Array([Vector3(37.2, 3.25, 80), Vector3(37.2, 3.55, 86), Vector3(37.2, 4.0, 92)]), "rail", 0.065)
-	for x: float in [-138.0, -118.0, -74.0, -48.0, -8.0, 15.0, 58.0, 84.0, 116.0, 140.0]:
+	_rail("clyde_quay_coping", PackedVector3Array([Vector3(-69, 2.42, 76.7), Vector3(-38, 2.42, 76.7)]), "coping", 0.22)
+	_rail("clyde_bridge_rail", PackedVector3Array([Vector3(Layout.TRANSFER_X+2.2, 3.25, 80), Vector3(Layout.TRANSFER_X+2.2, 3.55, 86), Vector3(Layout.TRANSFER_X+2.2, 4.0, 92)]), "rail", 0.065)
+	for x: float in [-76.0,-58.0,-8.0,8.0,44.0,66.0,79.0]:
 		_bollard(Vector3(x, 2.0, 75.0))
-	for x: float in [-135.0, -70.0, -10.0, 65.0, 130.0]:
+	for x: float in [-73.0,8.0,70.0]:
 		_bench(Vector3(x, 2.0, 59.0))
-	_route("clyde_north_quay", "Station to Barras via Clyde", PackedVector3Array([Vector3(-94, 2, 45), Vector3(-94, 2, 67), Vector3(94, 2, 67), Vector3(94, 2, 55), Vector3(94, 0, 45)]))
-	var safe_route := PackedVector3Array([Vector3(-98, 2, 67)])
+	_route("clyde_north_quay", "Station to Barras via Clyde", PackedVector3Array([
+		Vector3(-94,2,45),Vector3(-94,2,55),Vector3(-78,2,67),Vector3(-78,2,69),
+		Vector3(78,2,69),Vector3(78,2,67),Vector3(94,2,55),
+		# Real shared triangle diagonal splits the bent grade into its two planes.
+		Vector3(94,1.105744513,47.927252054),Vector3(94,0,45)]))
+	var safe_route := PackedVector3Array([Vector3(Layout.SAFE_X, 2, 67)])
 	safe_route.append_array(safe)
-	safe_route.append(Vector3(-98, 2, 125))
+	safe_route.append(Vector3(Layout.SAFE_X, 2, 125))
 	_route("clyde_safe_crossing", "Clyde continuous crossing", safe_route)
-	var transfer := PackedVector3Array([Vector3(35, 2, 65)])
+	var transfer := PackedVector3Array([Vector3(Layout.TRANSFER_X, 2, 65)])
 	transfer.append_array(north)
 	transfer.append_array(south)
 	_route("clyde_bridge_transfer", "Clyde eight-metre transfer", transfer, true)
@@ -304,7 +334,7 @@ func _build_riverside_edge(_world: Node3D) -> void:
 	ClydeLandmarks.build(self, _materials)
 	# The old generic facades were solid. Keep the new joined houses solid too,
 	# matching their actual footprints instead of retaining hidden old boxes.
-	for block: Vector2 in [Vector2(-100,96), Vector2(-1,88), Vector2(99,92)]:
+	for block: Vector2 in Layout.TERRACE_BLOCKS:
 		var body := StaticBody3D.new()
 		body.name = "CarltonPlaceBoundary"
 		body.position = Vector3(block.x,7.5,151.4)
@@ -317,7 +347,7 @@ func _build_riverside_edge(_world: Node3D) -> void:
 
 
 func _yard_hip_height(x: float, z: float) -> float:
-	var distance := Vector2(maxf(0.0, x - 62.5), maxf(0.0, z - 129.5)).length()
+	var distance := Vector2(maxf(0.0, x - 47.5), maxf(0.0, z - 129.5)).length()
 	var toward_deck := clampf(YARD_BANK_RUN - distance, 0.0, YARD_BANK_RUN)
 	return 2.0 + YARD_BANK_RADIUS - sqrt(maxf(0.0, YARD_BANK_RADIUS * YARD_BANK_RADIUS - toward_deck * toward_deck))
 
@@ -325,7 +355,7 @@ func _yard_hip_height(x: float, z: float) -> float:
 func _south_bank_height(x: float, z: float) -> float:
 	var depth := smoothstep(130.0, 215.0, z)
 	var natural := 2.0 + depth * (5.5 + sin(x * 0.025) * 2.0 + cos(x * 0.011 + z * 0.03))
-	if not _clyde_yard.is_empty() and x > 24 and x < 88 and z < 149:
+	if not _clyde_yard.is_empty() and x > 9 and x < 73 and z < 149:
 		var nearest := Surface.nearest_segment(_clyde_yard, Vector2(x,z))
 		natural = minf(natural, lerpf(1.8, natural, smoothstep(8.0, 14.0, float(nearest.distance))))
 	return natural

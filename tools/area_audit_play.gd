@@ -90,7 +90,7 @@ func _run() -> void:
 		{"id":"george_square","source":"cat_workshop_bypass","points":routes.get("cat_workshop_bypass",PackedVector3Array())},
 		{"id":"central_station","source":"station_low_level_close","points":routes.get("station_low_level_close",PackedVector3Array())},
 		{"id":"barras","source":"barras_market_inner_loop","points":routes.get("barras_market_inner_loop",PackedVector3Array())},
-		{"id":"clyde","source":"declared north-quay weave inside existing route corridor","points":PackedVector3Array([Vector3(-80,2,69),Vector3(-56,2,71),Vector3(-32,2,69),Vector3(-8,2,71),Vector3(16,2,69)])},
+		{"id":"clyde","source":"declared north-quay weave inside existing route corridor","points":PackedVector3Array([Vector3(-78,2,69),Vector3(-56,2,69),Vector3(-34,2,69),Vector3(-8,2,69),Vector3(16,2,69)])},
 		{"id":"kelvingrove","source":"first 65m of kelvingrove_rolling_loop","points":_prefix(routes.get("kelvingrove_rolling_loop",PackedVector3Array()),65.0)}]
 	for specification: Dictionary in specifications: await _segment(specification)
 	await _halfpipe()
@@ -250,7 +250,7 @@ func _halfpipe() -> void:
 	active=false
 	pipe_active=false
 	current_id="halfpipe"
-	game.skater.spawn_position=Vector3(-22,2.8,60.5)
+	game.skater.spawn_position=Vector3(-42,2.8,60.5)
 	game.start_mode(true)
 	game.skater.rotation.y=-PI*0.5
 	game.skater.reset_physics_interpolation()
@@ -296,7 +296,7 @@ func _halfpipe() -> void:
 	var natural:=_pipe_natural_returns(lip_heights)
 	valid=valid and natural.departures>0 and natural.reentries>0 and natural.opposite_after_return
 	if not valid: errors.append("halfpipe: incomplete repeated physical returns")
-	pipe_result={"valid":valid,"fixture":[-22,2.8,60.5],"initial_yaw":-PI*0.5,
+	pipe_result={"valid":valid,"fixture":[-42,2.8,60.5],"initial_yaw":-PI*0.5,
 		"input":"held physical W only","sim_seconds":seconds,"wall_visits":visits,"bails":bails,
 		"discontinuities":discontinuities,"distance_m":distance,"trace_rows":pipe_trace.size(),"natural_returns":natural}
 	_write_trace("halfpipe",pipe_trace)
