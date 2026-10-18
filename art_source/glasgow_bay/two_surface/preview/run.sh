@@ -2,6 +2,18 @@
 # Explicitly released, bounded disposable preview. Never open the live project.
 set -euo pipefail
 [[ "${1:-}" == --render-approved ]] || { echo 'Wait for the root render window; then pass --render-approved.' >&2; exit 2; }
+shift
+TASK_IMPORT_ARGS=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --accent-colour-lossless)
+      [[ ${#TASK_IMPORT_ARGS[@]} -eq 0 ]] || { echo 'Duplicate accent-colour option.' >&2; exit 2; }
+      TASK_IMPORT_ARGS+=(--accent-colour-lossless)
+      ;;
+    *) echo "Unknown preview option: $1" >&2; exit 2 ;;
+  esac
+  shift
+done
 TASK_PREVIEW="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 TASK_GODOT="${GODOT_BIN:-godot}"
 mkdir -p "$TASK_PREVIEW/runs"
@@ -16,7 +28,7 @@ mkdir -p "$XDG_DATA_HOME" "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME"
 TASK_VERSION="$("$TASK_GODOT" --version)"
 [[ "$TASK_VERSION" == 4.6.3.* ]] || { echo 'Godot 4.6.3 required.' >&2; exit 1; }
 printf '%s\n' "$TASK_VERSION" > "$TASK_OUTPUT/engine-version.txt"
-python3 -B "$TASK_PREVIEW/prepare.py" stage "$TASK_OUTPUT"
+python3 -B "$TASK_PREVIEW/prepare.py" stage "$TASK_OUTPUT" "${TASK_IMPORT_ARGS[@]}"
 TASK_DISPLAY_PID=""
 TASK_GAME_PID=""
 cleanup() {

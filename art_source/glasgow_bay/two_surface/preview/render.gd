@@ -64,7 +64,8 @@ func _load_textures() -> bool:
 		var config := ConfigFile.new()
 		if not _check(config.load(path + ".import") == OK, "Texture import exists: " + path): return false
 		_check(config.get_value("params", "mipmaps/generate", null) == bool(item.mipmaps), "Exact texture mip import: " + path)
-		_check(int(config.get_value("params", "compress/mode", -1)) == 2, "VRAM compressed import: " + path)
+		var expected_compression: int = 0 if _manifest.import_policy.accent_colour == "lossless" and path.get_file() == "accent_basecolor.png" else 2
+		_check(int(item.compress_mode) == expected_compression and int(config.get_value("params", "compress/mode", -1)) == expected_compression, "Exact optional colour-only import policy: " + path)
 		var expected_normal: int = 1 if item.role == "normal_opengl_linear" else 2
 		_check(int(config.get_value("params", "compress/normal_map", -1)) == expected_normal, "Normal/data role: " + path)
 		_check(not bool(config.get_value("params", "process/normal_map_invert_y", true)), "Preserve OpenGL normal direction: " + path)
@@ -73,9 +74,11 @@ func _load_textures() -> bool:
 		var image := texture.get_image()
 		if not _check(image != null and not image.is_empty(), "Actual imported texture has data: " + path): return false
 		_check(image.has_mipmaps() == bool(item.mipmaps), "Actual imported mip chain: " + path)
+		_check(image.is_compressed() == (expected_compression == 2), "Actual imported compression matches the policy: " + path)
 		var record := {"path":path, "role":item.role, "source_sha256":item.sha256,
 			"resource_class":texture.get_class(), "resource_id":texture.get_instance_id(), "size":[image.get_width(),image.get_height()],
-			"image_format":image.get_format(), "compressed":image.is_compressed(), "has_mipmaps":image.has_mipmaps(),
+			"image_format":image.get_format(), "image_format_name":_format_name(image.get_format()), "import_compress_mode":expected_compression,
+			"compressed":image.is_compressed(), "has_mipmaps":image.has_mipmaps(),
 			"mipmap_count":image.get_mipmap_count(), "imported_data_bytes":image.get_data().size(),
 			"import_sha256":FileAccess.get_sha256(path + ".import")}
 		_texture_records.append(record)
@@ -100,6 +103,15 @@ func _export_imported_mips(image: Image, label: String) -> void:
 		var filename := "mip-" + label + "-" + str(level).pad_zeros(2) + ".png"
 		_check(decoded.save_png("res://" + filename) == OK, "Decoded actual mip PNG: " + filename)
 		_mip_records.append({"image":filename, "texture":label, "level":level, "size":[width,height]})
+
+
+func _format_name(format: Image.Format) -> String:
+	match format:
+		Image.FORMAT_RGB8: return "RGB8"
+		Image.FORMAT_RGBA8: return "RGBA8"
+		Image.FORMAT_DXT1: return "DXT1"
+		Image.FORMAT_RGTC_RG: return "RGTC_RG"
+	return "Image.Format(" + str(format) + ")"
 
 
 func _load_meshes() -> bool:
@@ -384,6 +396,7 @@ func _finish() -> void:
 		"renderer":RenderingServer.get_current_rendering_method(), "images":_image_records, "errors":_errors,
 		"meshes":_mesh_records, "textures":_texture_records, "materials":_material_records, "native_lod_samples":_native_records,
 		"decoded_imported_mip_images":_mip_records, "performance_measurement":false, "live_integration":false,
+		"import_policy":_manifest.get("import_policy",{}),
 		"environment":_environment_record,
 		"lighting":"Production procedural sky/radiance, ambient, fog, sun, ACES and west-frontage yaw; identical isolated floor/apron/mass-shadow fixture",
 		"limits":"Isolated static visual/import comparison; no full-game FPS, collision, camera, actual mip selection, Mac or human acceptance claim"}

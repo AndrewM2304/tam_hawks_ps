@@ -401,7 +401,213 @@
         "production-sky/staged-imports/textures/sandstone_orm.png.import": "3efd22aad356744f7bd535db90ca8ddb46c8d19f352c464a2bfd730f8fe758e1",
         "production-sky/staged-imports/textures/opaque_glazing_basecolor.png.import": "08a01d7a488addd802bfff78490486c3803e05383b7d87b1d42d4d258c112416",
         "production-sky/staged-imports/textures/accent_basecolor.png.import": "4b7e93ad7f2ddeb7ba009b975a85e750dd5e808feaf0876fe46d0993d216d310",
-        "production-sky/staged-imports/textures/accent_orm.png.import": "3c84b0f83714a30256c89992eae38df3f26d282739904fc04f7b77618524d936"
+        "production-sky/staged-imports/textures/accent_orm.png.import": "3c84b0f83714a30256c89992eae38df3f26d282739904fc04f7b77618524d936",
+        "production-sky/diagnose_paint.py": "8b5b64598ee5688ed1147537268e4d93dd14c17cf1e237ffa55603ffbfd13ffa"
+      },
+      "scene_images": 16,
+      "mip_images": 23,
+      "native_lod_checks": 22,
+      "stable_inputs": 26
+    },
+    "lossless-colour": {
+      "original_run": "comparison-0ZsW35",
+      "disposition": "Import/LOD admitted; base paint bands removed at additional data cost, coarse colour mip mixing and live acceptance remain open",
+      "source_bindings": {
+        "art_source/glasgow_bay/two_surface/preview/run.sh": {
+          "kind": "snapshot",
+          "path": "lossless-colour/source-snapshot/art_source/glasgow_bay/two_surface/preview/run.sh",
+          "sha256": "20422e8cfdbc18e5c2129085db65e99ac3fec38232a32f122e8eb68d8e5cc284"
+        },
+        "art_source/glasgow_bay/two_surface/preview/prepare.py": {
+          "kind": "snapshot",
+          "path": "lossless-colour/source-snapshot/art_source/glasgow_bay/two_surface/preview/prepare.py",
+          "sha256": "89f10371b3fb7a1d4b124bf46cb091801cc4c7c33d0153a622bfbc500edb7a04"
+        },
+        "art_source/glasgow_bay/two_surface/preview/render.gd": {
+          "kind": "snapshot",
+          "path": "lossless-colour/source-snapshot/art_source/glasgow_bay/two_surface/preview/render.gd",
+          "sha256": "b30fa2cdb3561929d774fac66a8239b8b8b262253051a9daa875716833279617"
+        },
+        "art_source/glasgow_bay/two_surface/preview/project.godot": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "dc038f47dffb8a2e2ee9909b28aad7d36e1de9e57ce122fe005b0f547848f82c"
+        },
+        "art_source/glasgow_bay/two_surface/preview/xorg.conf": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "cc68d2903c522469295982c240c57ee31d40898612a825fd2e52f6864deb8c1a"
+        },
+        "game/levels/art/facade_bay.gd": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "5532963556c976e350423b7305b7e32110bcdf4c2042cda445c4844899359ef6"
+        },
+        "game/levels/glasgow_square.gd": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "9c87d405402b2a754cfd599d62b7b4dafc3ad84691b3f9e773a2e47e6b8841d9"
+        },
+        "art_source/glasgow_bay/audit.py": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "93073cee92d5ad34f17badaf1175cc56495aff9eb0492f6b1d68d9fdd3493622"
+        },
+        "art_source/glasgow_bay/two_surface/audit.json": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "e9e488909bf8fa14a4747db2301a70d6502cde485f1e04d2285f139d9526e2f9"
+        },
+        "art_source/glasgow_bay/two_surface/reproducibility.json": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "c29f8a7b295c7f68922e59197c3629a6fb840ca0378c232744e0ac04aa3b65fa"
+        },
+        "game/art/assets/glasgow_bay/manifest.json": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "0ae9641f2702e1ae3869c1de10ad36734334affbed834da90c9d8a341f75f487"
+        },
+        "art_source/glasgow_bay/two_surface/generated/glasgow_bay_far.glb": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "03d32769df29bed22e60c66b35f6bc443c69a083ead0b9a2bd1e2c837a7dabe9"
+        },
+        "art_source/glasgow_bay/two_surface/generated/glasgow_bay_mid.glb": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "0e9479f39886cb1dfd977fc6ae968ea526be0cbdaa7fc6888454883e9be3b473"
+        },
+        "art_source/glasgow_bay/two_surface/generated/glasgow_bay_near.glb": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "90a2803a22819c57c6511515341c5f80538f4ec4f3a10a411ba256edb8456c37"
+        },
+        "game/art/assets/glasgow_bay/glasgow_bay_far.glb": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "d21b45202d29345d6c5ee935fde7b38e5598751a968306fdbb88dc1dbfdcf50a"
+        },
+        "game/art/assets/glasgow_bay/glasgow_bay_mid.glb": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "7015c9bb99f89598cd77955e4024a221ab222fe7e5cd5fff63ccc45a8f4e5160"
+        },
+        "game/art/assets/glasgow_bay/glasgow_bay_near.glb": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "bd472749297e42b21564e24ba93b44212aa0a1790150fba2e27dec79b00d9a6e"
+        },
+        "art_source/glasgow_bay/two_surface/textures/accent_basecolor.png": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "eab44d0de9fe735ee93b820fd06f9b27dd1d8292a9651a35ca57b44c3cfa978d"
+        },
+        "art_source/glasgow_bay/two_surface/textures/accent_orm.png": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "f3eba422951c1a02816c371ded53390974a5a0b8fa4b8c104af8de0f1ad0f027"
+        },
+        "art_source/glasgow_bay/two_surface/textures/sandstone_basecolor.png": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942"
+        },
+        "art_source/glasgow_bay/two_surface/textures/sandstone_normal_opengl.png": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862"
+        },
+        "art_source/glasgow_bay/two_surface/textures/sandstone_orm.png": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9"
+        },
+        "game/art/assets/glasgow_bay/textures/opaque_glazing_basecolor.png": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894"
+        },
+        "game/art/assets/glasgow_bay/textures/sandstone_basecolor.png": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942"
+        },
+        "game/art/assets/glasgow_bay/textures/sandstone_normal_opengl.png": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862"
+        },
+        "game/art/assets/glasgow_bay/textures/sandstone_orm.png": {
+          "kind": "git",
+          "commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+          "sha256": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9"
+        }
+      },
+      "retained_sha256": {
+        "lossless-colour/mip-accent_basecolor-10.png": "92a2ef0b36a752479e8675ae17a2ca5d2a2b522f6804998847ffad9e76a01784",
+        "lossless-colour/fitted-06-distant-near.png": "d6c456b297607f789c8a147630aede442dc6371b74c5752f5b2347d98dff862e",
+        "lossless-colour/mip-opaque_glazing_basecolor-00.png": "ec06c7925703009d5b664179c796116c9607e690be9726e1d24e7c976357c841",
+        "lossless-colour/candidate-02-close.png": "fae9fe0623d2b68140c9357fb128e2aa22794dc57a4835c9f7064b20ed03e304",
+        "lossless-colour/mip-opaque_glazing_basecolor-01.png": "4aa89def86176e2fa6609ad75de62a3e3d3c56a2803071029dd99f8443a4a51c",
+        "lossless-colour/mip-accent_orm-00.png": "944dde9c9454edb1884ad1f1c0f3ea2fae5f543771b48ef9e10fc077ea465f88",
+        "lossless-colour/fitted-05-foreshortened.png": "fa77e0f73da78fa600ced2b0af83139a624b980b15cf198ff98e16b6ed89822d",
+        "lossless-colour/fitted-01-front.png": "ff80710e21b20c4412439dff67772464d9ef3587b6582b2d6deff21bf6908f0e",
+        "lossless-colour/mip-accent_basecolor-05.png": "ddbe9c3939db036ebfc5fcd012e752b7c0d6e87aff0ff1e58d2effb2d9f70c8f",
+        "lossless-colour/mip-opaque_glazing_basecolor-06.png": "13630f0d59f0b0aadad12ad350f915bc54436dfe4db94b725ae231d503903045",
+        "lossless-colour/mip-opaque_glazing_basecolor-08.png": "32d81e7f3ba39163808875813db4c09b6369330038b47cf0ccd309c7bd7c6230",
+        "lossless-colour/candidate-04-oblique.png": "307829c6d00ac4a6d29161c29a24b7c86d69806251791763b869412a1cb1a377",
+        "lossless-colour/fitted-04-oblique.png": "6e927d9e777b716a57b558810d8ce876d5fd6166c315a1f36c0d6fbf5a26cbb2",
+        "lossless-colour/fitted-07-distant-mid.png": "7432c0d1411ce8e8f7c5ebf71f025d39cf125d7fa3625b59ef90c53d8814dc5b",
+        "lossless-colour/mip-accent_basecolor-08.png": "61951a25c470655bc8b6f46f68cfffbbf06ae4bf9d5f40f8997d1139b0fbd485",
+        "lossless-colour/mip-opaque_glazing_basecolor-09.png": "4cf93d40bb14f636aff2fd573666c922ce40932f7d1df4edcb669411a2c5baf4",
+        "lossless-colour/candidate-05-foreshortened.png": "8e24cf0d24b3ffb299964ee725e491f2266e37868e758286d966d89623ebe1d8",
+        "lossless-colour/candidate-06-distant-near.png": "22191a5df8a1f4343f75d5a62480e1dbed14d3bf08f5dee0fb24ab20b4c0d66b",
+        "lossless-colour/candidate-03-threshold.png": "bf234a1cf83da5d37ea29b44d2ead3d373e8387cd2ecb468536d131a231266b0",
+        "lossless-colour/mip-opaque_glazing_basecolor-02.png": "fdc6088c71c5d786d2d280325490cd02cac9d0241d69b5290a660af671e9c4b7",
+        "lossless-colour/fitted-08-distant-far.png": "c835e5f62c34599652427d0e6fbd39734d394a73f68651fb1ed4fc2ebb9a749a",
+        "lossless-colour/mip-accent_basecolor-01.png": "3a9b41bd1f3dec530bc721867bb073d7c4e9a6f3f5878d0310515ed29e539a6e",
+        "lossless-colour/candidate-07-distant-mid.png": "54ec1d77a5a212a276842dcb70c73022e252a1cd1b6cfe68294a66e0afe7be9c",
+        "lossless-colour/candidate-08-distant-far.png": "cebb57cbdd3e3104de1fa65eb6c6d0be5a68897aa0571f59b746b75122107296",
+        "lossless-colour/mip-accent_basecolor-09.png": "1105ad824b06c791db05a144539f3a3b4b75283e648ac4de30b19aecb0529b1f",
+        "lossless-colour/mip-accent_basecolor-03.png": "81c14b49dbfd92f01f7eede493bbdb1bc09f7523661796bc7a7e456d262732f9",
+        "lossless-colour/mip-opaque_glazing_basecolor-03.png": "6f96e9e9a3ac10c55641ad24870fa16795ac74438dac439e83067ea4f61f5ae2",
+        "lossless-colour/fitted-02-close.png": "6b2f0d203e1f0dd880fa8daef87616625c01a7a369b8a8474d1003c8374a9630",
+        "lossless-colour/mip-opaque_glazing_basecolor-10.png": "f7db481cd681a1b7897ed3297a4be796b41003b74a7b4749727bd2a1c9a936f3",
+        "lossless-colour/mip-opaque_glazing_basecolor-05.png": "2ee2f9e69341e0011c049d4ae1ee43e28b914b176ed9c3440b09697208095cdb",
+        "lossless-colour/mip-accent_basecolor-07.png": "54b4f1d899776ed43d01f80713a479b29ac6226cef96ac6a553763fe89146952",
+        "lossless-colour/fitted-03-threshold.png": "e4f1ba0462296e40838b3a0e7ad4be2a03a83354714e26a9f9bfbb832b06e746",
+        "lossless-colour/mip-accent_basecolor-00.png": "40e979f03ca2a97a043119b740de248f5c70ccb53efbfe5f4383b169ffa1a529",
+        "lossless-colour/mip-opaque_glazing_basecolor-04.png": "ce108a6536a06f975687e148b6af3b5b4a3c3150c9dcfc6a736184c6879b3e19",
+        "lossless-colour/mip-accent_basecolor-06.png": "7666d29f5e0b951c66129d9dd7e34d65a08b8b0e3f6d32912c0c19d77ebd5242",
+        "lossless-colour/candidate-01-front.png": "7d834a519358bee1d541f3eccfce9c56dd738801201129422987a84af768a4dd",
+        "lossless-colour/mip-accent_basecolor-04.png": "2e89d7acdc41f858e83b9f92e1a2b5ea25483c7e4cae12554c100e8f7c796bfc",
+        "lossless-colour/mip-accent_basecolor-02.png": "ba6bb02744c66042ba5a3a0774eacf87f24e98d96b58e1481490cd05025da418",
+        "lossless-colour/mip-opaque_glazing_basecolor-07.png": "d920195db93e25191ffb818e3855260f76f73300f8be874a917d211e84f6ed6d",
+        "lossless-colour/receipt.json": "28e38505e1bb8ed20a9f182771bd412809e2983784a4b7e88911e832ef94c153",
+        "lossless-colour/report.json": "a03565fd00c5e3454656c5f605df89345340ebf364b831f2ef790b41de0ba0c6",
+        "lossless-colour/input-manifest.json": "887dc7a752026ce6bb6393ebeecbaa560d8628df2a0a26ec80f61793d38391fe",
+        "lossless-colour/source-asset-audit.json": "e9e488909bf8fa14a4747db2301a70d6502cde485f1e04d2285f139d9526e2f9",
+        "lossless-colour/engine.log": "2536378870e6c7a7da4f9c9c48b2b21e935adf8b00e2ef996aabd0b3ce01521d",
+        "lossless-colour/import-initial.log": "21777ec095a784a680fcbe7dae03ae08762cd119d00f923bf84ae39342a78a4f",
+        "lossless-colour/import-configured.log": "2fe5685289761e606afa7deba55e972e13f78db3098ef2cdde9372977df6244d",
+        "lossless-colour/render.gd": "b30fa2cdb3561929d774fac66a8239b8b8b262253051a9daa875716833279617",
+        "lossless-colour/project.godot": "dc038f47dffb8a2e2ee9909b28aad7d36e1de9e57ce122fe005b0f547848f82c",
+        "lossless-colour/paint-diagnostic.json": "9a10755454efcdbf4ec4727e9529b7712e5392b09025eb808699b3bcc9325962",
+        "lossless-colour/lossless-comparison.json": "9516c77d9a76f2c7f2b625c4522303cca43832a2bd944dfc55b14a74545f3218",
+        "lossless-colour/staged-imports/candidate/glasgow_bay_near.glb.import": "15bd74e57bed7f84eddc23a35d2248c4f2393884095ef58dfebf35535b7f6a8e",
+        "lossless-colour/staged-imports/candidate/glasgow_bay_mid.glb.import": "0507c185d0ed9a213ce63b0c9149c7f8043f0b17e849cbe078e3f3eae77081f7",
+        "lossless-colour/staged-imports/candidate/glasgow_bay_far.glb.import": "1c73bcf045a1c41bb7f588ad9c7e0cd235f9f4d09904e22434231e56a41d78d7",
+        "lossless-colour/staged-imports/fitted/glasgow_bay_near.glb.import": "330cca841bc82d30d7351ba72b43b93ace1a2577040b4bc5b050391989803d3c",
+        "lossless-colour/staged-imports/fitted/glasgow_bay_mid.glb.import": "856b2b2e043bfc43579c380155a4165fcc10baabe9194c718ea7af2444ba0f29",
+        "lossless-colour/staged-imports/fitted/glasgow_bay_far.glb.import": "eceee3a99a9f9535253c8769b74df091b0bf4b28cf455eb8742f29f3a0ea853c",
+        "lossless-colour/staged-imports/textures/sandstone_basecolor.png.import": "2f5034eefcc0078f27efbfebd9d8a0ba63a15444d451c5d52e742ab1d3fbdf46",
+        "lossless-colour/staged-imports/textures/sandstone_normal_opengl.png.import": "c463862da52d1e98828a31a53caf797e7b11d37779981d215ecbbb515782300f",
+        "lossless-colour/staged-imports/textures/sandstone_orm.png.import": "3efd22aad356744f7bd535db90ca8ddb46c8d19f352c464a2bfd730f8fe758e1",
+        "lossless-colour/staged-imports/textures/opaque_glazing_basecolor.png.import": "08a01d7a488addd802bfff78490486c3803e05383b7d87b1d42d4d258c112416",
+        "lossless-colour/staged-imports/textures/accent_basecolor.png.import": "38402671a16a30d99521cadf64daf72b92730aa1d60980a5d106c6b34860002d",
+        "lossless-colour/staged-imports/textures/accent_orm.png.import": "3c84b0f83714a30256c89992eae38df3f26d282739904fc04f7b77618524d936",
+        "lossless-colour/diagnose_paint.py": "168d1da5518e994362f1c2b945de4b61c3f556eb8307fc2ffb608b52c2bd52cf"
       },
       "scene_images": 16,
       "mip_images": 23,
@@ -412,5 +618,6 @@
   "visual_acceptance": false,
   "live_integration": false,
   "performance_claim": false,
-  "paint_diagnostic_recipe_sha256": "8b5b64598ee5688ed1147537268e4d93dd14c17cf1e237ffa55603ffbfd13ffa"
+  "paint_diagnostic_recipe_sha256": "168d1da5518e994362f1c2b945de4b61c3f556eb8307fc2ffb608b52c2bd52cf",
+  "lossless_comparison_recipe_sha256": "d62aa4a1b3eebeb180dfe56dcd7d2bbc69bb352d9f7a5d1b74d7c31dfdff48ba"
 }

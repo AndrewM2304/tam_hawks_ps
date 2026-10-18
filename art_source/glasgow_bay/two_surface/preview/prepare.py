@@ -40,7 +40,7 @@ def inputs():
     return {str(path.relative_to(REPO)): sha(path) for path in paths}
 
 
-def stage(output):
+def stage(output, accent_colour_lossless=False):
     before = inputs()
     assert len(list((CANDIDATE / "generated").glob("*.glb"))) == 3
     for name in STONE:
@@ -65,9 +65,12 @@ def stage(output):
         source = CANDIDATE / "textures" / name if name.startswith("accent_") else FITTED / "textures" / name
         shutil.copyfile(source, output / "textures" / name)
         role = "normal_opengl_linear" if "normal" in name else ("orm_linear" if "orm" in name else "basecolour_srgb")
-        maps.append({"path": "textures/" + name, "role": role, "sha256": sha(source), "mipmaps": name != "accent_orm.png", "size": 128 if name == "accent_orm.png" else 1024})
+        maps.append({"path": "textures/" + name, "role": role, "sha256": sha(source), "mipmaps": name != "accent_orm.png", "size": 128 if name == "accent_orm.png" else 1024,
+            "compress_mode":0 if accent_colour_lossless and name == "accent_basecolor.png" else 2})
     shutil.copyfile(CANDIDATE / "audit.json", output / "source-asset-audit.json")
     write_json(output / "input-manifest.json", {"schema": 1, "sources_sha256": before, "staged_executed_recipes_sha256":staged_recipes, "assets": assets, "textures": maps,
+        "import_policy":{"accent_colour":"lossless" if accent_colour_lossless else "vram_compressed", "optional_diagnostic_only":accent_colour_lossless,
+            "default_is_vram_compressed":True, "other_maps_unchanged":True},
         "limits": "Isolated source-bound comparison; live integration, owner acceptance and Mac/FPS gates remain open."})
     assert before == inputs(), "Source changed while staging"
 
@@ -91,7 +94,7 @@ def configure(output):
             set_parameter(path, key, value)
     for texture in manifest["textures"]:
         path = output / (texture["path"] + ".import")
-        parameters = {"compress/mode": "2", "compress/high_quality": "false", "compress/normal_map": "1" if texture["role"] == "normal_opengl_linear" else "2",
+        parameters = {"compress/mode": str(texture["compress_mode"]), "compress/high_quality": "false", "compress/normal_map": "1" if texture["role"] == "normal_opengl_linear" else "2",
             "mipmaps/generate": "true" if texture["mipmaps"] else "false", "mipmaps/limit": "-1",
             "process/normal_map_invert_y": "false", "process/hdr_as_srgb": "false", "process/size_limit": str(texture["size"]), "detect_3d/compress_to": "0"}
         for key, value in parameters.items():
@@ -144,6 +147,7 @@ def finalize(output):
             "pixels_with_any_channel_changed_fraction": float(np.mean(np.any(delta > 0, axis=2))),
             "note": "Diagnostic difference, not an automatic visual acceptance threshold"})
     final = {"schema": 1, "status": "Actual imports/rendered native LOD/image decode checks passed; human quality and live integration remain open",
+        "import_policy":manifest["import_policy"],
         "unchanged_sources": len(manifest["sources_sha256"]), "sources_sha256": manifest["sources_sha256"],
         "verified_staged_executed_recipes_sha256":manifest["staged_executed_recipes_sha256"],
         "render_report_sha256": sha(output / "report.json"), "images": image_records, "matched_differences": comparisons,
@@ -240,10 +244,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("stage", "configure", "finalize"))
     parser.add_argument("output", type=Path)
+    parser.add_argument("--accent-colour-lossless", action="store_true", help="Optional stage-only colour import diagnostic; changes no other map")
     args = parser.parse_args()
     output = args.output.resolve()
     assert output.is_relative_to(ROOT / "runs") and output.is_dir(), "Disposable output must stay under this preview/runs"
-    {"stage": stage, "configure": configure, "finalize": finalize}[args.action](output)
+    assert not args.accent_colour_lossless or args.action == "stage", "The optional import policy is fixed at fresh staging"
+    if args.action == "stage":
+        stage(output,args.accent_colour_lossless)
+    else:
+        {"configure": configure, "finalize": finalize}[args.action](output)
 
 
 if __name__ == "__main__":

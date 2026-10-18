@@ -1,7 +1,7 @@
 # Disposable two-surface / fitted comparison
 
-**Corrected production-sky comparison completed: import/capture evidence passes;
-paint and coarse colour-mip quality gates remain open.** Future reruns require
+**Corrected production-sky and optional lossless-colour comparisons completed:
+import/capture evidence passes; live art/performance gates remain open.** Future reruns require
 the root's exclusive render window.
 This directory owns the entire disposable fixture. `runs/` is ignored; the
 parent `.gdignore` keeps every source and generated asset outside the live
@@ -14,6 +14,22 @@ After the explicit render-window release:
 bash art_source/glasgow_bay/two_surface/preview/run.sh --render-approved
 ```
 
+The **optional**, separately authorized colour-compression diagnostic is:
+
+```sh
+bash art_source/glasgow_bay/two_surface/preview/run.sh --render-approved --accent-colour-lossless
+```
+
+Default execution still imports every texture through VRAM compression. The
+optional flag changes only `accent_basecolor.png` to Godot lossless import
+(`compress/mode=0`) in a fresh disposable project. The exact same 1024² PNG,
+colour mipmaps, geometry, UVs, materials and production lighting remain; the
+small ORM stays compressed with no mips and all other maps retain their prior
+settings. Imported image format and data bytes are measured, not assumed. This
+is an isolation experiment, not a live setting, free-memory optimization, mip
+bleed fix or performance result. Unknown or repeated CLI options fail before
+staging, and the policy is recorded and independently checked at runtime.
+
 `GODOT_BIN` may select the installed Godot **4.6.3** executable. On Linux the
 runner starts its own 1920×1080 dummy Xorg display even when another DISPLAY
 exists. It uses private XDG directories, bounded processes and exit cleanup.
@@ -24,7 +40,7 @@ The runner copies three current fitted four-slot GLBs, three experimental
 two-slot GLBs and their original maps into a disposable project. Common stone
 map bytes are verified identical and copied once. After initial import, it sets
 `meshes/generate_lods=false` for all six GLBs and performs a second import.
-Every texture uses the current low-quality VRAM-compressed import policy;
+By default every texture uses the current low-quality VRAM-compressed import policy;
 only the OpenGL normal map is marked as a normal map, with no Y inversion.
 **Only `accent_orm.png` has `mipmaps/generate=false`; all colour and stone maps
 retain mips.** Both import metadata and actual loaded texture dimensions/data
@@ -131,7 +147,7 @@ dithers from source G=122 to G=121..125. Broad fascia triangle positions are
 identical; their weighted corner normals change modestly with the bevel policy.
 Thus compression contributes a real repeated texture pattern; smooth normal
 changes can also affect highlights. No out-of-region UV/phase failure was found,
-and no lossless-render control was run to assign every changed pixel to one
+and that compressed trial alone did not assign every changed pixel to one
 cause. `paint-diagnostic.json` separately binds its script, decoded inputs and
 geometry; it leaves the accepted capture receipt unchanged.
 
@@ -145,3 +161,67 @@ colour behaviour before any live integration, then perform controlled runtime
 performance checks. The existing runtime loader still requires **four slots**;
 these two-slot assets are **not drop-in replacements**. No live enablement,
 frame-time improvement, Mac result, or final-art signoff follows from this run.
+
+The optional lossless diagnostic is `runs/comparison-0ZsW35`. It completed on
+the same Godot 4.6.3 Linux llvmpipe fixture with exit 0: all 16 scene PNGs,
+23 mip PNGs, 22 native samples, six meshes/textures and 26 stable source inputs
+passed the unchanged admission checks. Receipt SHA-256:
+`28e38505e1bb8ed20a9f182771bd412809e2983784a4b7e88911e832ef94c153`.
+There were no rejected parse/import/admission trials in this diagnostic.
+The original dark and corrected compressed runs remain untouched.
+
+Only the colour import changed. The actual accent image is **RGB8**, uncompressed,
+with ten mip levels and **4,194,303 imported image-data bytes**, compared with
+699,064 bytes for the original DXT1 chain. The five-map candidate total rises
+from **3,503,512 to 6,998,751 bytes**, a **3,495,239-byte** increase. It is
+3,503,431 bytes above the four-map fitted reference. These are actual imported
+data sizes, not resident GPU-memory or performance measurements. ORM remains
+the same compressed, no-mip DXT1 image, and its decoded PNG and sampled errors
+are unchanged. All other imported formats, sizes, mip policies and source
+texture hashes match the control.
+
+The separately source-bound `compare_lossless.py` verifies the exact geometry,
+material graph, production environment, camera poses and actual selected
+stage counts against `comparison-mIMLuJ`. **All eight fitted control images
+are byte-identical**, as well as decoded-pixel-identical. Its
+`lossless-comparison.json` records image hashes, measured differences, both
+colour-mip analyses and the byte costs; it does not rewrite either receipt.
+Its SHA-256 is
+`9516c77d9a76f2c7f2b625c4522303cca43832a2bd944dfc55b14a74545f3218`.
+The new `paint-diagnostic.json` SHA-256 is
+`9a10755454efcdbf4ec4727e9529b7712e5392b09025eb808699b3bcc9325962`.
+
+Actual near, close, threshold, oblique, foreshortened and distance frames were
+opened for review, including compressed/lossless pairs. The repeated vertical
+paint pattern visible on the compressed fascia and lower door is absent in
+the lossless close/threshold views; smooth edge highlights and readable joins
+remain. The loaded paint rectangle is exactly one RGB [47,82,73], and metal
+is one RGB [91,87,74], matching the original colour pixels. This identifies
+colour compression as a contributor to those bands without attributing every
+fitted-versus-candidate difference to it: chamfer normals and compressed ORM
+still differ from the fitted scalar materials.
+
+Lossless colour **does not fix atlas-region mip mixing**. At actual mip 7
+(8×8), maximum linear-channel differences from base reference remain about
+0.03447 paint / 0.01878 glazing / 0.04803 metal; at mip 10 (1×1), they reach
+0.06562 / 0.01400 / 0.09271. Mid/far frames do not show an obvious broad colour
+breakout at this framing, but do not establish GPU-selected mips or filtering
+quality across hardware. Capture/import evidence is accepted; live filtering,
+frame-time/spike cost, Apple Silicon and full-art acceptance remain open.
+Default imports and live assets are unchanged. Renderer/display jobs exited.
+
+A future experiment could compare a reduced-near-poly **four-slot** export
+(the same 9,864-triangle bevel policy with scalar paint/metal and original
+repeated glazing) against the two-slot atlas route. That would test the lower
+geometry cost without the new colour-atlas banding, region mixing or lossless
+byte increase. The prior +2/+3 reported-draw delta was within the +4 draw gate,
+but failed its separate frame-spike gate; neither surface count nor triangle
+count predicts the winner. This is a suggestion only: no such asset has been
+created or integrated, and either route needs controlled matched timings.
+
+To reproduce only the post-capture diagnostics without launching an engine:
+
+```sh
+python3 -B art_source/glasgow_bay/two_surface/preview/diagnose_paint.py art_source/glasgow_bay/two_surface/preview/runs/comparison-0ZsW35
+python3 -B art_source/glasgow_bay/two_surface/preview/compare_lossless.py art_source/glasgow_bay/two_surface/preview/runs/comparison-mIMLuJ art_source/glasgow_bay/two_surface/preview/runs/comparison-0ZsW35
+```

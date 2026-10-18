@@ -66,10 +66,13 @@ def main():
         faces[variant] = rows
     assert [row["positions"] for row in faces["fitted"]] == [row["positions"] for row in faces["candidate"]]
     assert hashes == {name:sha(run/name) for name in files}, "Diagnostic input changed"
+    imported_pattern = len(rectangles["colour_paint"]["actual_imported_unique_rgb"]) > 1
     report = {"schema":1, "script_sha256":sha(Path(__file__)), "reader_sha256":sha(PROOF/"audit.py"), "input_sha256":hashes,
         "flat_source_vs_actual_imported_rectangles":rectangles, "same_position_fascia_front_triangles":faces,
-        "finding":"Uniform source paint/metal fields become periodic four-colour patterns after the actual DXT1 import. No-mip ORM also gains a repeated quantization pattern. This is a concrete texture-compression contribution, not a region/phase mapping failure.",
-        "limit":"Chamfer changes also alter weighted corner normals and smooth highlights. No lossless-render control was run; this does not attribute every changed pixel solely to compression.",
+        "imported_colour_paint_has_pattern":imported_pattern,
+        "finding":("Uniform source paint becomes a multi-colour imported pattern. Actual imported format and pixel palette identify texture-compression changes; no-mip ORM is checked separately." if imported_pattern else
+                   "The actual imported base-level paint remains a single colour; no colour-compression pattern is present. Compressed no-mip ORM and changed chamfer normals are still separate possible contributors to rendered differences."),
+        "limit":"Chamfer changes also alter weighted corner normals and smooth highlights. This texture readback alone does not attribute every changed rendered pixel solely to colour compression; ORM compression and colour-region mip mixing remain separate effects.",
         "disposition":"Capture/import evidence admitted; paint banding and coarse colour-mip contamination remain quality gates before live use."}
     (run/"paint-diagnostic.json").write_text(json.dumps(report,indent=2)+"\n")
     print("PAINT_DIAGNOSTIC",sha(run/"paint-diagnostic.json"),"source/decoded texture and fascia geometry comparison complete")
