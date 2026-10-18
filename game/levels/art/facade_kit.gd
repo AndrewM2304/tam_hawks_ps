@@ -4,6 +4,7 @@ extends RefCounted
 
 const SHOP_NAMES: Array[String] = ["CLOSE COFFEE", "CLYDE VINYL", "NORTHSIDE BOOKS", "THE WEE PIE CO."]
 const SHOP_PAINT: Array[String] = ["shop_green", "shop_burgundy", "shop_navy", "shop_umber"]
+const FacadeBay = preload("res://game/levels/art/facade_bay.gd")
 
 
 static func decorate(art: Node3D, building: Node3D, width: float, height: float, stone: String, shop: String) -> void:
@@ -17,6 +18,7 @@ static func decorate(art: Node3D, building: Node3D, width: float, height: float,
 	var columns := maxi(3, int(width / bay_spacing))
 	var actual_spacing := (width - 1.6) / float(columns)
 	var floors := maxi(2, int((height - 4.25) / 3.2))
+	var fitted := bool(building.get_meta(FacadeBay.META, false))
 	for row: int in range(floors):
 		var y := 5.25 + row * 3.2
 		if style != "market" or row == 0:
@@ -26,6 +28,13 @@ static func decorate(art: Node3D, building: Node3D, width: float, height: float,
 			var projection := 0.22 if style == "retail" and column % 3 == 1 else 0.0
 			var opening_width := 1.8 if style in ["market", "station"] else 1.45
 			var opening_height := 1.8 if row == floors - 1 else 2.1
+			# Remove complete crossing groups, including their sill/pediment.
+			# Splitting a window around the imported strip would leave fragments.
+			var group_width := maxf(opening_width + 0.6, 2.18)
+			if fitted and FacadeBay.overlaps(x, group_width):
+				var report: Dictionary = building.get_meta(FacadeBay.REPORT)
+				report.omitted_window_groups += 1
+				continue
 			_window(art, batches, x, y, opening_width, opening_height, projection, style, (seed_value + column + row * 3) % 5)
 			if style == "civic" and column % 3 == 0:
 				art._batch_box(batches, "cut_stone", Vector3(0.3, 3.05, 0.27), Vector3(x - actual_spacing * 0.5, y, 6.16))
@@ -42,6 +51,7 @@ static func decorate(art: Node3D, building: Node3D, width: float, height: float,
 		_station_ground(art, building, batches, width)
 	else:
 		_shops(art, building, batches, width, style, shop, seed_value)
+	FacadeBay.filter_front(batches, building)
 	_roof(art, building, batches, width, height, facade_stone, style, seed_value)
 	_return_windows(art, batches, width, floors, style)
 	art._flush_batches(building, batches)
@@ -113,6 +123,13 @@ static func _shops(art: Node3D, building: Node3D, batches: Dictionary, width: fl
 	var bay_width := (width - 0.8) / float(bays)
 	for bay: int in range(bays):
 		var x := (float(bay) - float(bays - 1) / 2.0) * bay_width
+		if bool(building.get_meta(FacadeBay.META, false)) and bay == 1:
+			var report: Dictionary = building.get_meta(FacadeBay.REPORT)
+			report.omitted_shop_bays += 1
+			# Keep the same original composite shop identity once on the new fascia.
+			var fitted_name: String = SHOP_NAMES[(seed_value + bay) % 4]
+			art._label(building, fitted_name, Vector3(FacadeBay.MOUNT.x,3.25,6.40),30,0.014)
+			continue
 		var variant := (seed_value + bay) % 4
 		var paint: String = SHOP_PAINT[variant]
 		var left := x - bay_width / 2.0 + 0.15
@@ -203,10 +220,15 @@ static func _arch(art: Node3D, batches: Dictionary, at: Vector3, radius: float, 
 
 static func _roof(art: Node3D, _building: Node3D, batches: Dictionary, width: float, height: float,
 		stone: String, style: String, seed_value: int) -> void:
+	var front: Dictionary = {}
 	for step: int in range(3):
-		art._batch_box(batches, "cut_stone", Vector3(width + 0.3 + step * 0.16, 0.16, 0.4 + step * 0.15), Vector3(0, height - 0.5 + step * 0.16, 6.1))
+		art._batch_box(front, "cut_stone", Vector3(width + 0.3 + step * 0.16, 0.16, 0.4 + step * 0.15), Vector3(0, height - 0.5 + step * 0.16, 6.1))
 	for bracket: int in range(int(width / 0.8)):
-		art._batch_box(batches, "cut_stone", Vector3(0.18, 0.23, 0.36), Vector3(-width / 2.0 + bracket * 0.8 + 0.4, height - 0.72, 6.2))
+		art._batch_box(front, "cut_stone", Vector3(0.18, 0.23, 0.36), Vector3(-width / 2.0 + bracket * 0.8 + 0.4, height - 0.72, 6.2))
+	FacadeBay.filter_front(front, _building)
+	for key: String in front:
+		if not batches.has(key): batches[key] = front[key]
+		else: batches[key].transforms.append_array(front[key].transforms)
 	if style == "market":
 		art._batch_box(batches, stone, Vector3(width, 0.85, 0.55), Vector3(0, height + 0.3, 5.8))
 		art._batch_box(batches, "cut_stone", Vector3(width + 0.4, 0.18, 0.75), Vector3(0, height + 0.78, 5.8))

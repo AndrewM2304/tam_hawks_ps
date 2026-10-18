@@ -1,5 +1,6 @@
 extends Node3D
 const StaticBatches = preload("res://game/levels/static_batches.gd")
+const FacadeBay = preload("res://game/levels/art/facade_bay.gd")
 const CityVisibility = preload("res://game/levels/city_visibility.gd")
 ## Compressed original Glasgow skating routes. One unit is approximately one metre.
 ## Keep geometry and collision together; skating physics belongs to the player.
@@ -397,7 +398,7 @@ func _build_city() -> void:
 	for z: float in [-33.0, 0.0, 35.0]:
 		var height := 2.0 if z < -18.0 else 0.0
 		var width := 30.0 if z == 0.0 else 10.0
-		_building(Vector3(-41, height, z), width, 16, "stone", "TENEMENT WORKS", PI / 2.0)
+		_building(Vector3(-41, height, z), width, 16, "stone", "TENEMENT WORKS", PI / 2.0, true, z == 0.0)
 		_building(Vector3(41, height, z), width, 18, "sandstone", "CLOSE COFFEE", -PI / 2.0)
 	# South retail edge has two shallow closes, rather than a sealed sandbox wall.
 	for x: float in [-24.0, 0.0, 24.0]:
@@ -725,7 +726,7 @@ func _ground_label(node_name: String, words: String, at: Vector3, yaw: float) ->
 	_label(self, node_name, words, at, 34, "cream", Vector3(-90.0, rad_to_deg(yaw), 0.0), 0.015)
 
 
-func _building(at: Vector3, width: float, height: float, color: String, shop: String, yaw: float, decorate: bool = true) -> Node3D:
+func _building(at: Vector3, width: float, height: float, color: String, shop: String, yaw: float, decorate: bool = true, fitted_bay: bool = false) -> Node3D:
 	var building := Node3D.new()
 	building.name = "TenementFacade"
 	building.position = at
@@ -733,6 +734,8 @@ func _building(at: Vector3, width: float, height: float, color: String, shop: St
 	add_child(building)
 	var closed_wall := _box(building, "Facade", Vector3(0.0, height / 2.0, 0.0), Vector3(width, height, 12.0), color, true)
 	CityVisibility.register_closed_facade(closed_wall)
+	if fitted_bay and FacadeBay.enabled(self):
+		FacadeBay.install(building, closed_wall, bool(get_meta(&"facade_bay_audit", false)))
 	if decorate: _city_art.decorate_building(building, width, height, color, shop)
 	return building
 

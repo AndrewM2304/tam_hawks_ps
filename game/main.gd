@@ -67,6 +67,9 @@ func _ready() -> void:
 	career.begin_run(free_skate_mode)
 	world = GlasgowSquare.new()
 	world.name = "GlasgowSquare"
+	# Read-only visual A/B diagnostics set these before construction; no profile/UI switch.
+	for flag: StringName in [&"facade_bay_enabled", &"facade_bay_audit"]:
+		if has_meta(flag): world.set_meta(flag, get_meta(flag))
 	add_child(world)
 	objectives = ObjectiveTrackerSource.new()
 	objectives.process_mode = Node.PROCESS_MODE_PAUSABLE
