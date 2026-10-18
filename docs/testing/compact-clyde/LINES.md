@@ -27,11 +27,11 @@ The keyboard return controller holds push while braking (W+S), which is a neutra
 | [Vert/street circuit](evidence/lines-04/vert-circuit.json.gz) | 700 | 166.97 m / 38.57 s | Actual quarter Nose Stall drops to flat-quay Manual; both half-pipe faces reached 74.72°/37.19°, then a real open-end and Z69 return. |
 | [River/yard circuit](evidence/lines-04/river-circuit.json.gz) | 2,000 | 303.35 m / 68.85 s | 16-tick charged optional jump, one authoritative named-gap award, real hip rise to Y2.738, rear return and continuous crossing to original optional approach. |
 
-The longer circuits contain deliberate banks and cautious steering/braking. They establish physical access and score/identity continuity where claimed; their elapsed time is not a measured expert commute or a density/fun score. They do not certify human enjoyment, novice discovery, physical DualSense, rendered appearance or target-Mac performance. Full integration/render/performance admission remains the integration owner's next gate; no engine job remains active from this proof.
+The longer circuits contain deliberate banks and cautious steering/braking. They establish physical access and score/identity continuity where claimed; their elapsed time is not a measured expert commute or a density/fun score. They do not certify human enjoyment, novice discovery, physical DualSense, rendered appearance or target-Mac performance. At that focused checkpoint, full integration/render/performance admission remained open; no engine job remains active from this proof.
 
 **Fifth test, raised-deck containment:** [deck-01](evidence/deck-01/receipt.json) passes **4/0**, exit 0, in 13.73 seconds with all **354 source inputs unchanged** and a [clean log](evidence/deck-01/console.log). The earlier west fence topped out at Y5 below the native deck Y5.2; that same span now uses solid masonry reaching Y12. Independent outward roll and 15-tick charged-jump trials start on the real west deck `(−50.2,5.2,60.5)`, with one initial fixture and ordinary production inputs. The native recorder stores actual collider identity, boundary family, contact normal and contact point.
 
-The [roll](evidence/deck-01/lines/deck-roll.json.gz) makes **136 real wall contacts** and stops at minimum Z55.6706 on the supported Y5.2 deck. The [charged jump](evidence/deck-01/lines/deck-charged.json.gz) makes **150 contacts**, reaches a real Y7.1819 apex and stops at minimum Z55.6740 / Y5.19985 with exactly one Ollie and one landing. Both have zero bails, dry-void escapes or discontinuities across 415 consecutive native samples. These four new assertions pass separately; a combined **20/0** result remains pending the full integration suite. The earlier four-trial 16/0 source remains historical.
+The [roll](evidence/deck-01/lines/deck-roll.json.gz) makes **136 real wall contacts** and stops at minimum Z55.6706 on the supported Y5.2 deck. The [charged jump](evidence/deck-01/lines/deck-charged.json.gz) makes **150 contacts**, reaches a real Y7.1819 apex and stops at minimum Z55.6740 / Y5.19985 with exactly one Ollie and one landing. Both have zero bails, dry-void escapes or discontinuities across 415 consecutive native samples. These four new assertions pass separately; the later full replay below supplies the combined **20/0** result. The earlier four-trial 16/0 source remains historical.
 
 **Deliberately imperfect input follow-up:** [margins-02](evidence/margins-02/receipt.json) passes **6/0**, exit 0, in 16.60 seconds with all **356 source inputs unchanged**, including its standalone harness, and a [clean log](evidence/margins-02/console.log). The [executed harness](evidence/margins.gd.final.txt) uses registered actions after each sole initial fixture. These two attempts add 600 consecutive native samples:
 
@@ -40,4 +40,22 @@ The [roll](evidence/deck-01/lines/deck-roll.json.gz) makes **136 real wall conta
 
 [margins-01](evidence/margins-01/receipt.json) is **rejected despite its 6/0 assertions**: the agent tightened the ignored harness's recovery-destination check after declaring it frozen, while that first run was already executing. The before/after source guard correctly failed. It is retained as source-drifted evidence; the unchanged rerun, margins-02, is the accepted result.
 
-These are two specified input mistakes, not a sampled human-error distribution or a claim of novice forgiveness. They do not certify every miss angle, extreme launch, reachable edge, physical controller, human fun, rendering or Mac performance. The margins checks are separate from the pending combined 20-assertion integration replay.
+These are two specified input mistakes, not a sampled human-error distribution or a claim of novice forgiveness. They do not certify every miss angle, extreme launch, reachable edge, physical controller, human fun, rendering or Mac performance. The margins checks are separate from the later combined20-assertion integration replay below.
+
+
+## Final required replay
+
+On committed production/test source `6517d8a`, required `./tools/check.sh` passes 2,105/0, exit 0, 1176.272 s, 16:50:34–17:10:10 Europe/London. All 20 integrated Clyde assertions pass as part of that aggregate; focused results above are not additional totals. The [receipt](evidence/ordinary-final/receipt.json), [full log](evidence/ordinary-final/tests.log), [before](evidence/ordinary-final/source-before.json)/[after](evidence/ordinary-final/source-after.json) inventories and [final audit](audit.json) preserve **354 unchanged game/test/tool/project inputs**, plus the unchanged wrapper (355 inputs in the required receipt). All game code remains identical to the final rendering source; exact later test-only migrations are disclosed in the audit.
+
+The six final traces contain **11,487 consecutive native 1/60 s samples**, zero bails/discontinuities, finite travel and maximum step 0.7321 m. Actual times may differ slightly from focused runs because the driver uses observed physics state; no position/yaw/speed is forced per tick.
+
+| Fresh required trace | Native samples | Travel | Duration | Bails |
+|---|---:|---:|---:|---:|
+| [clyde_print_yard_ledge.json.gz](evidence/ordinary-final/lines/clyde_print_yard_ledge.json.gz) | 1,275 | 107.00 m | 21.25 s | 0 |
+| [clyde_quay_coping.json.gz](evidence/ordinary-final/lines/clyde_quay_coping.json.gz) | 3,362 | 242.02 m | 56.03 s | 0 |
+| [deck-charged.json.gz](evidence/ordinary-final/lines/deck-charged.json.gz) | 215 | 7.37 m | 3.58 s | 0 |
+| [deck-roll.json.gz](evidence/ordinary-final/lines/deck-roll.json.gz) | 200 | 4.84 m | 3.33 s | 0 |
+| [river-circuit.json.gz](evidence/ordinary-final/lines/river-circuit.json.gz) | 4,117 | 302.72 m | 68.62 s | 0 |
+| [vert-circuit.json.gz](evidence/ordinary-final/lines/vert-circuit.json.gz) | 2,318 | 167.00 m | 38.63 s | 0 |
+
+Fresh final-source [margins-04](evidence/margins-04/receipt.json) also passes 6/0 with all 356 inputs stable. Its missed-bridge bail/recovery and late-grind miss remain separate intentional mistakes; the one explained water relocation is not counted as a clean-loop discontinuity. Targeted migrated handrail/preview 49/0 passes independently. Human input distributions, unaided discovery, physical controllers, fun, final art and target hardware remain open.

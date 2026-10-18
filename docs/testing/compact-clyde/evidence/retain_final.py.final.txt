@@ -28,7 +28,7 @@ copy_tree('render-plaster-candidate',images=False,selected=('halfpipe-open-end.p
 copy_tree('render-plaster-details',images=False,selected=('raised-deck-north.png',))
 copy_tree('render-pbr-rejected-partial',images=False,selected=('halfpipe-open-end.png',))
 copy_tree('render-details-layer-rejected',images=False,selected=('raised-deck-north.png',))
-for name in ('capture.gd','capture.sh','detail.gd','detail.sh','phase.py','analyze_render.py','run_checked.py','retain_final.py','audit_final.py','fixtures.gd'):
+for name in ('capture.gd','capture.sh','detail.gd','detail.sh','phase.py','analyze_render.py','run_checked.py','retain_final.py','audit_final.py','fixtures.gd','finish_docs.py','geometry-final.gd','margins.gd'):
     shutil.copyfile(src/name,dst/(name+'.final.txt'))
 for name in ('render-comparison.json','render-comparison.log','render-stone-comparison.json','render-stone-comparison.log','render-plaster-comparison.json','render-plaster-comparison.log','render-initial-comparison.json','render-initial-comparison.log','phase-history.json','before-source.json','candidate-game-manifest.json','stone-wall-failed-outdoor_routes.gd.txt','stone-wall-failed-source.patch','plaster-failed-outdoor_routes.gd.txt','test-migrations.json','test-migrations.patch'):
     if (src/name).is_file():shutil.copyfile(src/name,dst/name)

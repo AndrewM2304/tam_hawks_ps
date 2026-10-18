@@ -1,0 +1,85 @@
+"""Close the admitted slice only from real completed receipts and audit."""
+from pathlib import Path
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import json,gzip,hashlib
+root=Path.cwd();base=root/'docs/testing/compact-clyde';e=base/'evidence'
+read=lambda p:json.loads(p.read_text())
+r=read(e/'ordinary-final/receipt.json');a=read(base/'audit.json')
+assert r['valid'] and r['source_stable'] and a['valid'] and a['decoded_primary_images']==53
+passed,failed=map(int,r['result_counts'][-1]);assert passed>2041 and failed==0
+stamp=datetime.now(ZoneInfo('Europe/London')).strftime('%H:%M')
+samples=a['native_trace_samples'];maximum=max(x['summary']['maximum_step'] for x in a['traces'].values())
+start=r['started_london'][11:19];end=r['completed_london'][11:19];duration=r['wall_seconds']
+run=f'{passed:,}/0, exit 0, {duration:.3f} s, {start}–{end} Europe/London'
+source='**354 unchanged game/test/tool/project inputs**, plus the unchanged wrapper (355 inputs in the required receipt)'
+# Outcome report retains methods, failed trials and actual resource/timing tables.
+p=base/'RESULTS.md';s=p.read_text();paragraph=s.split('\n\n')[1]
+s=s.replace(paragraph,f'''18 October 2026, {stamp} Europe/London. **DENSITY-01 passes bounded automated admission.** Required `./tools/check.sh`: {run}; {source}. [Required receipt](evidence/ordinary-final/receipt.json), [complete tests](evidence/ordinary-final/tests.log) and [source/artifact audit](audit.json) bind the result to the committed source. Human fun, target-Mac performance and final art remain open.''',1)
+s=s.replace('Earlier focused 16/0 and 4/0 results remain separate from the pending aggregate.','All 20 integrated assertions pass in the required suite, recording '+f'{samples:,} consecutive native samples with zero bails/discontinuities and maximum step{maximum:.4f} m. Earlier focused counts are historical and are not added to the aggregate.')
+s=s.replace('targeted49/0 passes, required clean replay pending.','targeted49/0 and the complete required replay pass.')
+i=s.index('## Required integration and continuation')
+s=s[:i]+f'''## Required integration and continuation
+
+The required final replay passes {run}, with {source}; import/runtime scans are clean. The [first required run](evidence/ordinary-rejected-01/receipt.json) remains **rejected2,097/3**, not silently replaced. Its two stale preview snapshots and old safe-rail position migrate only in the two files recorded by [exact hashes/copies](evidence/test-migrations.json) and [patch](evidence/test-migrations.patch). The independent49/0 replay retains all original port/resource/geometry and actual mapped capture/clearance/ride/exit checks.
+
+The [final audit](audit.json) verifies all 354 current inputs against committed source and fresh geometry/support/margins/targeted/full receipts. It decodes and verifies53 primary PNGs (27 candidate/detail plus26 original controls), checks six fresh full-run native traces, the strict11-view timing decision and the unchanged 75 complete task bodies. Rendering retains its actual executed inventories:352 of354 current core inputs match exactly; the only two differences are the disclosed nonexecuted test files. Every game/project/tool input is identical. No receipt is relabelled.
+
+Next is [the compact park draft](../../levels/COMPACT-PARK-DRAFT.md), beginning with a real shared-port survey and exact placement contract. Its distance proof rejects pretending a short loop can connect two fixed mouths nearly160 m apart. It is a proposal, not an implemented park. [Ordered tasks](../../planning/LEVEL-DENSITY-NEXT.md) preserve owners, dependencies, acceptance and resume steps; all 75 full backlog task bodies remain unchanged. Keep current-map/no-spend/performance constraints and push each completed slice. No engine or unattended job remains active at handoff.
+''';p.write_text(s)
+# Fresh trace evidence, separate from earlier focused counts.
+p=base/'LINES.md';s=p.read_text();s=s.replace('Full integration/render/performance admission remains the integration owner\'s next gate;','At that focused checkpoint, full integration/render/performance admission remained open;')
+s=s.replace('a combined **20/0** result remains pending the full integration suite.','the later full replay below supplies the combined **20/0** result.')
+s=s.replace('pending combined 20-assertion integration replay.','later combined20-assertion integration replay below.')
+s+=f'''\n\n## Final required replay
+
+On committed production/test source6517d8a, required `./tools/check.sh` passes {run}. All 20 integrated Clyde assertions pass as part of that aggregate; focused results above are not additional totals. The [receipt](evidence/ordinary-final/receipt.json), [full log](evidence/ordinary-final/tests.log), [before](evidence/ordinary-final/source-before.json)/[after](evidence/ordinary-final/source-after.json) inventories and [final audit](audit.json) preserve {source}. All game code remains identical to the final rendering source; exact later test-only migrations are disclosed in the audit.
+
+The six final traces contain **{samples:,} consecutive native1/60 s samples**, zero bails/discontinuities, finite travel and maximum step{maximum:.4f} m. Actual times may differ slightly from focused runs because the driver uses observed physics state; no position/yaw/speed is forced per tick.
+
+| Fresh required trace | Native samples | Travel | Duration | Bails |
+|---|---:|---:|---:|---:|
+'''
+for name,row in a['traces'].items():
+ q=row['summary'];s+=f"| [{name}](evidence/ordinary-final/lines/{name}) | {q['samples']:,} | {q['metres']:.2f} m | {q['seconds']:.2f} s | {q['bails']} |\n"
+s+='''
+Fresh final-source [margins-04](evidence/margins-04/receipt.json) also passes6/0 with all356 inputs stable. Its missed-bridge bail/recovery and late-grind miss remain separate intentional mistakes; the one explained water relocation is not counted as a clean-loop discontinuity. Targeted migrated handrail/preview49/0 passes independently. Human input distributions, unaided discovery, physical controllers, fun, final art and target hardware remain open.
+''';p.write_text(s)
+# Replace current preambles; preserve all historical status and complete task bodies.
+status=f'''# Project status
+
+18 October 2026, {stamp} Europe/London: **DENSITY-01 compact Clyde passes automated admission and is ready for the next density slice.** Bridges are45 m apart instead of133 m; north quay170 m rather than300 m; south quay/rear yard115 m wide. The560×90 m roaming lawn is removed. Native38 m river,8 m optional opening, pipe dimensions and career/save/encounter identities remain. Quarter(−15,2,62), east-facing, and Z69 through-route preserve clear approaches. The real yard lip, raised-deck escape, duplicate displayed surfaces, opaque dry boundaries and disconnected route-map return are repaired.
+
+Required **`./tools/check.sh`: {run}**; {source}, clean import/runtime scans. Tested source6517d8a is pushed. [Receipt](testing/compact-clyde/evidence/ordinary-final/receipt.json), [tests](testing/compact-clyde/evidence/ordinary-final/tests.log), [final audit](testing/compact-clyde/audit.json) and [results/rejected attempts](testing/compact-clyde/RESULTS.md). First required2,097/3 is retained as rejected: only two diagnostic test files migrate its preview counts and old safe-rail fixture; targeted49/0 passes with all original capture/clearance/port/budget checks.
+
+Fresh independent geometry373/0; support16,125 samples with zero promised-floor/route/boundary faults; deliberate missed-input6/0. All 20 integrated Clyde assertions pass, with {samples:,} consecutive native samples and zero clean-line bails/discontinuities. All 27 final candidate/detail images pass independent composition/design review; the strict matched original/candidate/original rendering comparison passes11/11 views. The audit verifies53 primary PNGs including controls and discloses the exact two nonexecuted test differences; all game/project/tool inputs match the final render. These are bounded keyboard/llvmpipe results, not Mac FPS or human-fun acceptance.
+
+**Next: DENSITY-02A shared park-port survey and coordinate contract**, using the proposal-only [park draft](levels/COMPACT-PARK-DRAFT.md) and [ordered tasks](planning/LEVEL-DENSITY-NEXT.md). Do not blindly force its advisory dimensions: the two fixed mouths are nearly160 m apart. Preserve all 75 full task bodies, rejected artOFF, no-spend/current-map rules, performance gates and existing authorization. Quiet forward views, monolithic wall/terrain art, Mac/DualSense feel, ten-minute target timing, temporal flicker and final UI/art remain open. Native packages are historical after source changes. No engine or unattended job remains active.
+'''
+p=root/'docs/STATUS.md';old=p.read_text();i=old.index('\n\n18 October 2026, 13:45');p.write_text(status+old[i:])
+brief=f'''**Current continuation — compact Clyde admitted,18 October {stamp} Europe/London:** required `./tools/check.sh` passes{passed:,}/0 on pushed source6517d8a with354 unchanged core inputs/355 including wrapper. Final source/artifact audit passes: fresh geometry373/0, zero-fault16,125-sample support, imperfect-input6/0, all 20 Clyde assertions and{samples:,} native samples, all 27 final images and11 strict matched rendering views. Exact two nonexecuted test migrations and rejected2,097/3 remain retained. [STATUS](../STATUS.md), [results/audit](../testing/compact-clyde/RESULTS.md) and [ordered tasks](LEVEL-DENSITY-NEXT.md) own evidence and open limits. NextDENSITY-02A: survey proposed park/station port and record exact shared coordinates from the proposal-only [park draft](../levels/COMPACT-PARK-DRAFT.md), before moving terrain. Preserve all 75 full task bodies, no-spend/current-map scope, performance gates, existing authorization and pushes. Mac/DualSense, final art/temporal stability and human fun remain open; no engine/unattended job remains active.'''
+for name in ('ACTIVE_WORK.md','RESUME.md'):
+ p=root/'docs/planning'/name;s=p.read_text();p.write_text(brief+s[s.index('\n\n'):])
+p=root/'docs/planning/RESUME.md';s=p.read_text().replace('**Latest owner priority:** the recording-driven surface repair','**Historical priority before the density pass:** the recording-driven surface repair',1);p.write_text(s)
+p=root/'docs/planning/BACKLOG.md';s=p.read_text();prefix=f'''**18 October current priority — DENSITY-01 automated admission complete:** required{passed:,}/0 with354 stable core inputs; all 20 Clyde control assertions, geometry/support/margins,27 final images,11 strict rendering views and final source/artifact audit pass. First2,097/3 and exact two diagnostic test migrations are retained. [STATUS](../STATUS.md), [results](../testing/compact-clyde/RESULTS.md) and [ordered tasks](LEVEL-DENSITY-NEXT.md) own exact evidence/limits. NextDENSITY-02A is the shared park-port survey/coordinate contract from the proposal-only [park draft](../levels/COMPACT-PARK-DRAFT.md). All 75 full records,10goals/3sideacts and no-spend/current-map/performance rules remain; final art, target hardware and human feel stay open. This supersedes historical priorities below.''';s=prefix+s[s.index('\n\n'):];body=s[s.index('### M00-001'):];assert hashlib.sha256(body.encode()).hexdigest()=='48604a8ca25d8763f496a6c5ccbd8cf215d67583cc7d78dbc153c20694c14cae';p.write_text(s)
+# Ordered local slice statuses, not a false completion of the75 release tasks.
+p=root/'docs/planning/LEVEL-DENSITY-NEXT.md';s=p.read_text().replace('**Review complete; DENSITY-01 geometry candidate is implemented, with gameplay/render/performance admission in progress.**','**Review complete; DENSITY-01 passes bounded automated admission. DENSITY-02A port survey is ready.**',1)
+lines=s.splitlines()
+for i,line in enumerate(lines):
+ if '**DENSITY-01:' in line:lines[i]=line.replace('· In progress |','· Automated slice admitted; human/final art open |')
+ if '**DENSITY-02:' in line:lines[i]=line.replace('· Not started |','· Ready for shared-port survey |').replace('DENSITY-01 accepted, coordinate/migration contract','DENSITY-01 automated admission and pushed checkpoint; agreed shared-port coordinate contract')
+s='\n'.join(lines)+'\n';i=s.index('## Checkpoint and resume');s=s[:i]+f'''## Checkpoint and resume
+
+DENSITY-01 passes required{passed:,}/0 and final source/artifact audit on354 stable core inputs. Geometry373/0, support16,125 zero-fault samples, imperfect-input6/0, all 20 integrated Clyde assertions,27 final candidate/detail PNGs and strict11/11 matched rendering views pass. The rejected first2,097/3 and exact two test-only migrations remain explicit. All game/project/tool code matches the final renderer; no Mac FPS, final art or human-fun claim follows. [Results](../testing/compact-clyde/RESULTS.md) own all raw evidence. All 75 complete backlog task bodies remain unchanged.
+
+**First next work — DENSITY-02A, A01+A05+A04 with A09 independent review:** read [COMPACT-PARK-DRAFT](../levels/COMPACT-PARK-DRAFT.md), then engine-survey the proposed NorthClimbingLane mouth near(−94,3.625,−68), unchanged civic mouth and summit-facing masses. Record actual triangle heights, full rider/camera widths, boundary openings and exact native feature transforms. Choose and publish one shared station/park port contract before source edits. Fixed mouths159.665 m apart imply a179.331 m lower bound for a closed loop with two35 m approaches; the advisory100–140 m target cannot be forced. The recommended joint DENSITY-02/03 seam and longer fixed-port fallback remain proposals, not admitted geometry.
+
+Then implement one coherent pocket with two distinct ordinary-input returnable lines and a safe uphill/downhill bypass; prune redundant terrain, preserve native hip/S-bend/coping/height and stable IDs. Test both directions, imperfect approaches, high-deck containment, exact support/query/render seams, map and whole career/side acts. Declare non-increasing resource/collision budgets and use frozen original/candidate/original timing plus actual images. Run required suite/audit, retain rejections and push the playable slice before another arena moves.
+
+No new district, purchases, paid APIs/services, hosted CI or unattended jobs. Existing authorization covers routine next work without repeated approvals. Preserve rejected artOFF,220 m skyline/offscreen gameplay and hardware/fun/final-art limits. No engine is left running at this handoff.
+''';p.write_text(s)
+p=root/'docs/levels/COMPACT-PARK-DRAFT.md';s=p.read_text().replace('DENSITY-01 Clyde admission is still pending while this document is prepared.','The Clyde now passes bounded automated admission; this park document remains an unsurveyed proposal.');p.write_text(s)
+p=root/'docs/levels/COMPACT-CLYDE-CONTRACT.md';s=p.read_text().replace('**DENSITY-01 — candidate design, not accepted play evidence.**','**DENSITY-01 — implemented placement; bounded automated admission passes in linked results.**',1).replace('## Final candidate design verdict — required regression pending','## Final candidate design verdict — sampled composition review',1).replace('**the required whole-game regression remains pending**.','the required whole-game regression was pending at review; the later [results/audit](../testing/compact-clyde/RESULTS.md) now supply its clean acceptance.',1).replace('Required regression/source-artifact audit, target hardware, temporal shader stability, human feel/fun and final art remain open where untested.','Required regression/source-artifact admission now passes as linked above; target hardware, temporal shader stability, human feel/fun and final art remain open where untested.',1);p.write_text(s)
+p=root/'docs/architecture/decisions/ADR-018-compact-clyde-pocket.md';s=p.read_text()+f'''\n\nFinal bounded admission: required{passed:,}/0, clean/stable354 core inputs; fresh geometry373/0, support/margins/targeted input pass; all 27 final images and strict11/11 matched rendering comparisons pass. The [audit/results](../../testing/compact-clyde/RESULTS.md) retain the rejected2,097/3, exact two nonexecuted test migrations,53 primary decoded images and{samples:,} current native samples. This admits the implementation slice, not human fun, target-Mac frame rates or final art. Next is the documented shared park-port survey, with no further Clyde production changes implied.\n''';p.write_text(s)
+p=base/'README.md';s=p.read_text().replace('Final logs, source guards, raw traces, images and matched performance results are retained here when their admission runs finish.','Final logs, source guards, raw traces, images and matched performance results are retained here; [the final audit](audit.json) binds them to committed inputs.');p.write_text(s)
+print(f'Updated final handoff from real{passed}/0 receipt and{samples} native samples;75 full task bodies preserved.')

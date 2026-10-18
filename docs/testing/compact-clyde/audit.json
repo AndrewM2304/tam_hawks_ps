@@ -1,0 +1,329 @@
+{
+  "valid": true,
+  "current_head": "e90453d6c1ddc4ae706bbc7a6d315f4e34c46416",
+  "current_inputs": 354,
+  "exact_observer_copies": {
+    ".local/compact-clyde/geometry-final.gd": "5ca8c942597ee5966420278097e5b017fb94f21b9a585d1a9b13fe2afc39bd12",
+    ".local/compact-clyde/run_checked.py": "f4538077352bdc80c599951c4bcc80057143c13937f1fa67c8e171f88243843b",
+    ".local/compact-clyde/margins.gd": "df5f86c9521460795246ab843bdbff1a6346e56bf15d7028c52e11ea6af8e509",
+    ".local/compact-clyde/fixtures.gd": "c7cf86a524147a4da283c3bc0f05ad3c6e4214a4713ab984821bae5160b5ab94",
+    ".local/compact-clyde/capture.gd": "42083a721012a4bef956e4bec2ed5264d3ef8a683eaa8032dc511bf2e55e0035",
+    ".local/compact-clyde/capture.sh": "28476829cc13c974e90a67d2facd60020c481d6491961d9bcedd07c3d5393474",
+    ".local/compact-clyde/detail.gd": "6eb972e7c6d17efe376c6bef94a9c64dae3e37fb7a10c759a31ff7f0727ee932",
+    ".local/compact-clyde/detail.sh": "b61c2bb27d4c7369b661a13e17bf427f9f0ca7fea90c8e5732be86becfdc91f6"
+  },
+  "source_checks": [
+    {
+      "dataset": "geometry-final-10",
+      "stable_inputs": 356,
+      "common_inputs": 354,
+      "source_manifest_sha256": "e64c564d1a206cdbceb7f77747ffa27048c14a976953787fbf6407b3390f39c3"
+    },
+    {
+      "dataset": "support-final-06",
+      "stable_inputs": 355,
+      "common_inputs": 354,
+      "source_manifest_sha256": "8b8fd869f18ea10ba7c5f48e763099a9053e28e21ca1fd2f8e8396207f5b1ebc"
+    },
+    {
+      "dataset": "margins-04",
+      "stable_inputs": 356,
+      "common_inputs": 354,
+      "source_manifest_sha256": "875f747a6712a4c6d66b8c7a1561312a7e02bcad9ab754b983729bb789893b46"
+    },
+    {
+      "dataset": "fixture-migration-01",
+      "stable_inputs": 356,
+      "common_inputs": 354,
+      "source_manifest_sha256": "e54cca7578f97efddeea8cddb98dd52da4f3cb50d40229461891ba014158636b"
+    },
+    {
+      "dataset": "ordinary-final",
+      "stable_inputs": 355,
+      "common_inputs": 354,
+      "source_manifest_sha256": "8b8fd869f18ea10ba7c5f48e763099a9053e28e21ca1fd2f8e8396207f5b1ebc"
+    },
+    {
+      "dataset": "render-candidate-final",
+      "stable_inputs": 356,
+      "common_inputs": 354,
+      "identical_current_inputs": 352,
+      "declared_nonexecuted_test_deltas": [
+        "tests/city_backdrop_tests.gd",
+        "tests/edge_grind_integration_tests.gd"
+      ],
+      "source_manifest_sha256": "4fb849b3fb3d31461c7cdf74f4c7becae96e0052282b711b098411d1ef06bae3"
+    },
+    {
+      "dataset": "render-details-final",
+      "stable_inputs": 356,
+      "common_inputs": 354,
+      "identical_current_inputs": 352,
+      "declared_nonexecuted_test_deltas": [
+        "tests/city_backdrop_tests.gd",
+        "tests/edge_grind_integration_tests.gd"
+      ],
+      "source_manifest_sha256": "b7e0faa2436f2cc7e287139119f893cc5cae4e4a730cae7349c5c358587cad41"
+    }
+  ],
+  "ordinary_counts": [
+    [
+      "2105",
+      "0"
+    ]
+  ],
+  "rejected_ordinary_counts": [
+    [
+      "2097",
+      "3"
+    ]
+  ],
+  "fixture_counts": [
+    49,
+    0
+  ],
+  "declared_render_test_migrations": {
+    "before_head": "d2eda661e67552dca6779c8a83528a3b95ed7fe1",
+    "paths": {
+      "tests/city_backdrop_tests.gd": {
+        "before_sha256": "de560829c0625eb8410fd6f18047ffbd3424a8a394fa514fbc1fd0c0c6fb447f",
+        "after_sha256": "fa05f3e4bb254977003aa29c17d383cb0c2e150c7ad90a3bc89311d73d2f2047",
+        "before_copy": "test-migration-source/tests__city_backdrop_tests.gd.before.txt",
+        "after_copy": "test-migration-source/tests__city_backdrop_tests.gd.after.txt",
+        "reason": "Disabled diagnostic preview snapshots: remove298 old boundary segments/four triangles each; exact940/2848 totals and456/484 Clyde chunks, all original budgets/port/geometry/resource checks retained."
+      },
+      "tests/edge_grind_integration_tests.gd": {
+        "before_sha256": "1f36c8c3921b8551a9d268e87abef6dd0efc17ead3798551f86f74459946a7f9",
+        "after_sha256": "8f1e6929cba04165215ff159633253fd7a3bc8a4e2ee5e90516f82085a5b7400",
+        "before_copy": "test-migration-source/tests__edge_grind_integration_tests.gd.before.txt",
+        "after_copy": "test-migration-source/tests__edge_grind_integration_tests.gd.after.txt",
+        "reason": "Translate sole initial safe-hand-rail probe X\u2212101.85\u2192\u221228.85 by the same+73m as the unchanged native safe crossing; all mapped input/capture/clearance/ride/exit assertions retained."
+      }
+    },
+    "production_changes": [],
+    "rendering_scope": "These two tests are not imported/executed by ordinary Main/capture/detail; all current game/project/tool inputs are identical to the final rendering inventories. Exact old inventories are retained, not relabelled current."
+  },
+  "geometry_counts": [
+    373,
+    0
+  ],
+  "margin_counts": [
+    6,
+    0
+  ],
+  "support_samples": 16125,
+  "support_faults": 0,
+  "timing_views": 11,
+  "timing_pass": true,
+  "decoded_primary_images": 53,
+  "images_sha256": {
+    "evidence/render-before-d/advanced-bridge-mouth.png": "91528d1bae81b0fd19e25eee941fcab7cf5a279aadfc052d676295938da4accc",
+    "evidence/render-before-d/authored-overview.png": "732703d6c171512c1f43dfbabc9266937bc8b4acb338b591a2449dc161e4d0ef",
+    "evidence/render-before-d/east-city-entry.png": "0c73f295c02244a18f4b06ec804416bcc37fa934e7a36b80e52c36872e829d66",
+    "evidence/render-before-d/east-quay-end.png": "4b9a7a2bf9533269e0d69cef488fac3d388a735f114707417b30fab5919725e6",
+    "evidence/render-before-d/halfpipe-open-end.png": "53eb030af901ee2eb539ce0783167d0379a2fc05efd9bd52eed7712debc13b0e",
+    "evidence/render-before-d/print-yard-entry.png": "7323a649967c03cfb9cb800459975a34196228205bf6efc529adc4a6629263b4",
+    "evidence/render-before-d/quarter-entry.png": "a1b990c897a972dcb08a4636e6c80ce62a2576ec53b40730aafb493fa7fafa5e",
+    "evidence/render-before-d/rear-property-boundary.png": "fde6a022c38546ce0717d0564812d6f767a39b65a1352a4eb675c155df06e1d8",
+    "evidence/render-before-d/route-map.png": "859ec669f2737b439212e79372fad8fa50340b11a6a412d8527fa33b6fcc4a8a",
+    "evidence/render-before-d/safe-bridge-mouth.png": "2abc7d242c2ee6892916033b67fbd8d1b1f2d01f2af241dff4316aab23857608",
+    "evidence/render-before-d/shared-city-junction.png": "681f8a85a92274c324b0428e3fbf1bde86124de2fca0ee8e53c22f2b14729c1f",
+    "evidence/render-before-d/west-city-entry.png": "b0364b94ba2b217f7c9b09656a97cd3cb2eb3750d3072d5c3313b2f0818f2bf2",
+    "evidence/render-before-d/west-quay-end.png": "ded593ee7d2d2cd8f203f1c2856c32e1506d4d21cf49b0ee8e50cb56b9890816",
+    "evidence/render-candidate-final/advanced-bridge-mouth.png": "96d924d07a1b927170bb6d9caf6dc7a5a89f10af32b2cd66f193948b75dfc8a0",
+    "evidence/render-candidate-final/authored-overview.png": "101d75713c04e8f3d59a1d2c42556980269e94f5283575e39d7e7fef588b1851",
+    "evidence/render-candidate-final/east-city-entry.png": "67e087755b77e99486b1359316c0a661c00f76064afd47bb4339cca6475f62d3",
+    "evidence/render-candidate-final/east-quay-end.png": "7f10cc2503a3764bdf7eced23b3809de911fb39bd9c08504383cfd828f82f8dc",
+    "evidence/render-candidate-final/halfpipe-open-end.png": "6e84fa7f96968ce79029cb9399158caaae1c40d89f7a19812d2486b4cf10fac0",
+    "evidence/render-candidate-final/print-yard-entry.png": "f2d9deb219a663cbab35c3539bdec0b667573cc05e0c933f70790c7a0cb13166",
+    "evidence/render-candidate-final/quarter-entry.png": "af37107e035bc9e5ae9396907daa2a8b650541e5621470824d4d6cab9b3b1405",
+    "evidence/render-candidate-final/rear-property-boundary.png": "f51b92e3e9c00c552eeb72fab469a8c934e217b38c2984fe11fff60627e1d16c",
+    "evidence/render-candidate-final/route-map.png": "dc4b397201836216c18f3fc930f996db77a2297e92640c70c136ba60d4d2d64c",
+    "evidence/render-candidate-final/safe-bridge-mouth.png": "6bf298da4b740172b7f9826c893fb7f3aef86746bb7333699c05de23412b7475",
+    "evidence/render-candidate-final/shared-city-junction.png": "1a796b444bcc8b00eed15dbb08454bccfab2e6e3cf3137e1fc4f97fe6939f1b7",
+    "evidence/render-candidate-final/west-city-entry.png": "7f38caff5496c7d20800b99ddb45a117218799dfe4a24e7b0fd8d8dbb483dbe9",
+    "evidence/render-candidate-final/west-quay-end.png": "bfcd2dbdb4793eef053e583c5cd1bdc4844817185c379d27b4363fd01341b9d3",
+    "evidence/render-before-e/advanced-bridge-mouth.png": "43aa4c908b2ea80daf8fa6d0587dca12835486598bb0197d51ecf84dd1ceb284",
+    "evidence/render-before-e/authored-overview.png": "3addbff5dfce56dc27680774b408a9c05da83134b7f5d3338901151004735b54",
+    "evidence/render-before-e/east-city-entry.png": "0b123e90effabb6f0d19c4762896a7740bee785328bb043d351caf9875fd6172",
+    "evidence/render-before-e/east-quay-end.png": "c3f623608873d0ab285abd9eb70cce2e0a002e96a8da70915936ee8d5c307d67",
+    "evidence/render-before-e/halfpipe-open-end.png": "da393c929f3e0215dab99c58ba637e151d3cbb2e26d85193e493552a4753937c",
+    "evidence/render-before-e/print-yard-entry.png": "f92e2b4a5ef0f6bc0d099a2315f8c011168568d558b3fb322af22ea589149671",
+    "evidence/render-before-e/quarter-entry.png": "55f0624556f5ac33ec8f89fe454941edfbebaf9ff37ed951b1317403b28d9fae",
+    "evidence/render-before-e/rear-property-boundary.png": "0fdcbdf185d8227ef463be0eaeffe6b7eb7e7201991c72b4f724d7f16aab93bd",
+    "evidence/render-before-e/route-map.png": "bf86333d83bb60029ac71f5bf4660a8a1cb524ccfa7b6fd03589123ab9394caa",
+    "evidence/render-before-e/safe-bridge-mouth.png": "2ed70b1dbc811b469d952a871c164160fd2f821ed8edee5010768808324c1dc5",
+    "evidence/render-before-e/shared-city-junction.png": "96665d3634874f12730f7cd9902929b576408a7406fd5339bf61df7515359727",
+    "evidence/render-before-e/west-city-entry.png": "1cfe77a9b0d6b730c7b9c572d94c2342e34e4fce698d242700f63fb4da8bc306",
+    "evidence/render-before-e/west-quay-end.png": "1ea679c63879d73a9fd28bdb1f712c8d9cf95bc2c9204a9f6b5d00e00729d10e",
+    "evidence/render-details-final/authored-overview.png": "b9bd371e78ac53fe14c27c76f89aaa3b50a3f0ceb7d0890fa28ff03526a0358c",
+    "evidence/render-details-final/broken-opening-north.png": "ed5154d0cdb9f6ea0fbb781216937acf0d76f96ae7982028f0ec1f8713dfa5e8",
+    "evidence/render-details-final/broken-south-landing.png": "a16fa9458358acef1861182f928d9020dff5877db7e2071c1ea996608bde9a46",
+    "evidence/render-details-final/exchange-east-close.png": "71bccd33f0522eb47897e8787d26454403f14cbbb8848c997ec9f012f4c46add",
+    "evidence/render-details-final/exchange-west-close.png": "55bc85f7661f21fd72ca4f21d888753a0efd5075f6759ebded7b3e74f9a94d71",
+    "evidence/render-details-final/halfpipe-north-open-end.png": "be4696abf4f66c1fb1299b1e32cd1c12b44b8532d3e4b6eb3ee70fc21a2c287c",
+    "evidence/render-details-final/quarter-exit.png": "871d38c7a372823f08ea464770d37c0d92d99cf35ea1e9acd5c26eb8de3e6e81",
+    "evidence/render-details-final/raised-deck-north.png": "d74d25ee4978b7ed02b15a6920ed43bb099f7637530805df3f9a62835b2055d3",
+    "evidence/render-details-final/rear-east-corner.png": "c2afb1406b8c84468f00504240c6e560e96cb45502499337804f07505391db04",
+    "evidence/render-details-final/rear-west-corner.png": "fe3b502cbf4e480865d19e8f685154dcf03ce0c5396a83548bd63efb0b92d75f",
+    "evidence/render-details-final/route-map.png": "7a72926bc63d13bb3a660c8115b958d08f237bac6cd3699bc245b8dc5c86fabe",
+    "evidence/render-details-final/safe-south-approach.png": "1ef717e656cfb62282f3126f8c3f327bb2cdad9b8d3e583ddf8597619d30b1e6",
+    "evidence/render-details-final/yard-hip-approach.png": "921d065fd4a680c2e0defecffb828f9a319ad14aef5d8677ff0a54ea6a12488f",
+    "evidence/render-details-final/yard-ledge-exit.png": "2effe5ef25480ed29052f8bb2b6ef7fcada4a4a71fe7d99ccac6efeba1f11b27"
+  },
+  "native_trace_samples": 11487,
+  "traces": {
+    "clyde_print_yard_ledge.json.gz": {
+      "samples": 1275,
+      "sha256_uncompressed": "6c0bbfd941a6b9e449311e90150dd211b3b97b9a6286b1602f4c82789b4bda93",
+      "summary": {
+        "bails": 0,
+        "captured_ids": [
+          "clyde_print_yard_ledge"
+        ],
+        "clean_landings": 1,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.732097446918488,
+        "metres": 107.003147731069,
+        "samples": 1275,
+        "scored_tricks": [
+          "Ollie",
+          "Rail Grind",
+          "Ollie",
+          "Kickflip",
+          "Melon Grab",
+          "Manual"
+        ],
+        "seconds": 21.25,
+        "tricks": [
+          "Ollie",
+          "Rail Grind",
+          "Ollie",
+          "Kickflip",
+          "Melon Grab",
+          "Manual"
+        ]
+      }
+    },
+    "clyde_quay_coping.json.gz": {
+      "samples": 3362,
+      "sha256_uncompressed": "df243bbca37e75bae3a39c90060ba00f2ed4089cdc6c3e87dd2003da1f0efd60",
+      "summary": {
+        "bails": 0,
+        "captured_ids": [
+          "clyde_quay_coping"
+        ],
+        "clean_landings": 3,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.72995263338089,
+        "metres": 242.021815980552,
+        "samples": 3362,
+        "scored_tricks": [
+          "Ollie",
+          "Rail Grind",
+          "Ollie",
+          "Frontside Shuvit",
+          "Nose Grab",
+          "Manual"
+        ],
+        "seconds": 56.0333333333333,
+        "tricks": [
+          "Ollie",
+          "Rail Grind",
+          "Ollie",
+          "Frontside Shuvit",
+          "Nose Grab",
+          "Manual"
+        ]
+      }
+    },
+    "deck-charged.json.gz": {
+      "samples": 215,
+      "sha256_uncompressed": "8849892ca3e9496637f8a3616f6864acf557c41f1c9f6f2103c5e60927783b6d",
+      "summary": {
+        "bails": 0,
+        "captured_ids": [],
+        "clean_landings": 1,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.224180087447166,
+        "metres": 7.37413879483938,
+        "samples": 215,
+        "scored_tricks": [
+          "Ollie"
+        ],
+        "seconds": 3.58333333333333,
+        "tricks": [
+          "Ollie"
+        ]
+      }
+    },
+    "deck-roll.json.gz": {
+      "samples": 200,
+      "sha256_uncompressed": "822ed9712792223bfca3823e5f79be10f892757bcb27de7ea7e7e7d0178c5749",
+      "summary": {
+        "bails": 0,
+        "captured_ids": [],
+        "clean_landings": 0,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.16107177734375,
+        "metres": 4.83900213241577,
+        "samples": 200,
+        "scored_tricks": [],
+        "seconds": 3.33333333333333,
+        "tricks": []
+      }
+    },
+    "river-circuit.json.gz": {
+      "samples": 4117,
+      "sha256_uncompressed": "b71c898da8836ad1c8c0b4ae4850c4be0e917d74b9fd8fee80853844f32601ec",
+      "summary": {
+        "bails": 0,
+        "captured_ids": [],
+        "clean_landings": 8,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.33114966750145,
+        "metres": 302.718572963844,
+        "samples": 4117,
+        "scored_tricks": [
+          "Ollie",
+          "Clyde Broken Bridge"
+        ],
+        "seconds": 68.6166666666667,
+        "tricks": [
+          "Ollie"
+        ]
+      }
+    },
+    "vert-circuit.json.gz": {
+      "samples": 2318,
+      "sha256_uncompressed": "125b8d192ddf275f83518d1f988c47870f4374d2b4db537c78e4b2dda32c94ba",
+      "summary": {
+        "bails": 0,
+        "captured_ids": [],
+        "clean_landings": 3,
+        "contiguous": true,
+        "finite": true,
+        "maximum_step": 0.368176192045212,
+        "metres": 167.00003280642,
+        "samples": 2318,
+        "scored_tricks": [
+          "Nose Stall",
+          "Manual"
+        ],
+        "seconds": 38.6333333333333,
+        "tricks": [
+          "Nose Stall",
+          "Manual"
+        ]
+      }
+    }
+  },
+  "complete_task_records": 75,
+  "task_body_sha256": "48604a8ca25d8763f496a6c5ccbd8cf215d67583cc7d78dbc153c20694c14cae",
+  "limits": "Native stationary llvmpipe diagnostics and scripted keyboard feasibility only; no Mac/DualSense, continuous-video flicker, human enjoyment, final art or refreshed export acceptance."
+}

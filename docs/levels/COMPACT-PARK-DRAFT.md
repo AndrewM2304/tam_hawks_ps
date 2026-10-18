@@ -1,6 +1,6 @@
 # Compact park draft — DENSITY-02
 
-18 October 2026. **Proposal only: not implemented, collision-certified, rendered or admitted.** DENSITY-01 Clyde admission is still pending while this document is prepared. This is the durable next-slice proposal under [LEVEL-DENSITY-NEXT](../planning/LEVEL-DENSITY-NEXT.md) and the [strict density review](STRICT-DENSITY-REVIEW.md); it changes no production source and no full backlog record. Do not begin park implementation until the Clyde checkpoint is tested, captured and pushed.
+18 October 2026. **Proposal only: not implemented, collision-certified, rendered or admitted.** The Clyde now passes bounded automated admission; this park document remains an unsurveyed proposal. This is the durable next-slice proposal under [LEVEL-DENSITY-NEXT](../planning/LEVEL-DENSITY-NEXT.md) and the [strict density review](STRICT-DENSITY-REVIEW.md); it changes no production source and no full backlog record. Do not begin park implementation until the Clyde checkpoint is tested, captured and pushed.
 
 | Field | Contract |
 |---|---|

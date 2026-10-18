@@ -8,9 +8,28 @@ def read(p):return json.loads(p.read_text())
 paths=[root/'project.godot']+[p for folder in ('game','tests','tools') for p in (root/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
 current={str(p.relative_to(root)):sha(p) for p in sorted(paths)}
 checked=[]
+observed_helpers={}
+def verify_helpers(folder,manifest):
+    receipt=read(folder/'receipt.json')
+    if 'source_manifest_sha256' in receipt:
+        assert sha(folder/'source-before.json')==receipt['source_manifest_sha256']
+    else:
+        # Rendering receipts retain separate inventories, not this hash field.
+        # Verify the existing committed artifact rather than inventing metadata.
+        assert folder.name in ('render-before-d','render-before-e','render-candidate-final','render-details-final')
+        relative=str((folder/'source-before.json').relative_to(root))
+        committed=subprocess.check_output(['git','show','HEAD:'+relative])
+        assert hashlib.sha256(committed).hexdigest()==sha(folder/'source-before.json')
+    for name,digest in manifest.items():
+        if not name.startswith('.local/compact-clyde/'):continue
+        copy=e/(Path(name).name+'.final.txt')
+        assert copy.is_file() and sha(copy)==digest,(folder.name,name)
+        observed_helpers[name]=digest
+
 for name in ('geometry-final-10','support-final-06','margins-04','fixture-migration-01','ordinary-final'):
     folder=e/name;r=read(folder/'receipt.json');a=read(folder/'source-before.json');b=read(folder/'source-after.json')
     assert r['valid'] and r['source_stable'] and a==b,name
+    verify_helpers(folder,a)
     common={n:h for n,h in a.items() if n=='project.godot' or n.startswith(('game/','tests/','tools/'))}
     assert common==current,(name,[n for n in set(common)|set(current) if common.get(n)!=current.get(n)])
     checked.append({'dataset':name,'stable_inputs':len(a),'common_inputs':len(common),'source_manifest_sha256':sha(folder/'source-before.json')})
@@ -33,6 +52,7 @@ for n,row in migrations['paths'].items():
 for name in ('render-candidate-final','render-details-final'):
     folder=e/name;r=read(folder/'receipt.json');a=read(folder/'source-before.json')
     assert r['valid'] and r['source_stable'] and a==read(folder/'source-after.json')
+    verify_helpers(folder,a)
     common={n:h for n,h in a.items() if n=='project.godot' or n.startswith(('game/','tests/','tools/'))}
     assert set(common)==set(current)
     differences={n for n in current if common[n]!=current[n]}
@@ -50,6 +70,7 @@ old=read(e/'before-source.json');old={n:h for n,h in old.items() if n.startswith
 for name in ('render-before-d','render-before-e'):
     p=e/name;r=read(p/'receipt.json');a=read(p/'source-before.json');assert r['valid'] and r['source_stable'] and a==read(p/'source-after.json')
     assert all(a.get(n)==h for n,h in old.items()),name
+    verify_helpers(p,a)
 images={}
 for name,count in (('render-before-d',13),('render-candidate-final',13),('render-before-e',13),('render-details-final',14)):
     p=e/name;r=read(p/'receipt.json');assert len(r['image_sha256'])==count
@@ -78,7 +99,7 @@ task_sha=hashlib.sha256(body.encode()).hexdigest();assert task_sha=='48604a8ca25
 assert len(re.findall(r'^### M\d{2}-\d{3}',body,re.M))==75
 head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
 for n,h in current.items():assert hashlib.sha256(subprocess.check_output(['git','show',head+':'+n])).hexdigest()==h,n
-report={'valid':True,'current_head':head,'current_inputs':len(current),'source_checks':checked,
+report={'valid':True,'current_head':head,'current_inputs':len(current),'exact_observer_copies':observed_helpers,'source_checks':checked,
         'ordinary_counts':ordinary['result_counts'],'rejected_ordinary_counts':rejected['result_counts'],'fixture_counts':[49,0],'declared_render_test_migrations':migrations,
         'geometry_counts':[373,0],'margin_counts':[6,0],
         'support_samples':support['samples'],'support_faults':0,'timing_views':11,'timing_pass':True,
