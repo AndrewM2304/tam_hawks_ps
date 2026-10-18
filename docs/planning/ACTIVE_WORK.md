@@ -1,3 +1,11 @@
+# Current fitted frontage candidate — 18 October 2026
+
+A01 integration, A05 original fitted assets/art review and A09 independent QE have completed one existing-frontage candidate: focused37/0 and current real nativeLOD21/0. Corrected joins and cheaper original-mass shadow pass bounded art review. The candidate currently enables one frontage; final matched A/B/A at 1280×800/1920×1080 and required ordinary regression remain pending. Revert the default if gates fail. [Exact evidence, rejected trials and next commands](../testing/facade-bay-live/README.md). Source remains frozen through measurement. All 75 tasks and no-spend/no-expansion rules persist. No unattended job is scheduled.
+
+# Active bounded facade pilot — 18 October 2026
+
+A01 owns startup-only integration and matched exclusive profiles; A05 fitted assets/material review; A09 independent geometry/native-LOD checks. Existing M05-001/M06-004/M06-007 remain In progress with all 75 full task records. Recoverable integration is pushed as `7b4b47b`; normal-play default stays disabled pending acceptance. Headless 32/0 and actual native-LOD 21/0 pass; close-up review caught a colour mismatch and exposed neighbour display edge, now being corrected before acceptance. [Current receipt and next gates](../testing/facade-bay-live/README.md) supersede the next-edit note below. No new area, physics force, goal, purchase, service or unattended job.
+
 # Current work — performance and frame consistency
 
 18 October 2026 (Europe/London). The owner reports severe graphics stuttering and pauses further area work. [PERFORMANCE-NEXT](PERFORMANCE-NEXT.md) and ADR-016 supersede the classic-trick first priority. Code, controls and all 75 full backlog records remain; no purchases, paid services, hosted CI or unattended scheduling.

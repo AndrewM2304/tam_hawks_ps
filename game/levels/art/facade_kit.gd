@@ -121,9 +121,10 @@ static func _shops(art: Node3D, building: Node3D, batches: Dictionary, width: fl
 		shop: String, seed_value: int) -> void:
 	var bays := maxi(1, int(width / 6.0))
 	var bay_width := (width - 0.8) / float(bays)
+	var fitted := bool(building.get_meta(FacadeBay.META, false))
 	for bay: int in range(bays):
 		var x := (float(bay) - float(bays - 1) / 2.0) * bay_width
-		if bool(building.get_meta(FacadeBay.META, false)) and bay == 1:
+		if fitted and bay == 1:
 			var report: Dictionary = building.get_meta(FacadeBay.REPORT)
 			report.omitted_shop_bays += 1
 			# Keep the same original composite shop identity once on the new fascia.
@@ -146,6 +147,10 @@ static func _shops(art: Node3D, building: Node3D, batches: Dictionary, width: fl
 		art._batch_box(batches, paint, Vector3(display_width + 0.14, 0.55, 0.4), Vector3(display_x, 0.6, 6.32))
 		for edge: float in [left - 0.1, left + display_width + 0.11, x + bay_width / 2.0 - 0.03]:
 			art._batch_box(batches, paint, Vector3(0.2, 3.1, 0.55), Vector3(edge, 1.75, 6.3))
+		if fitted and bay == 2:
+			# The 6.5m fitted bay removes this neighbour's old left jamb.
+			# Close the retained glass/shelf edge using its existing paint batch.
+			art._batch_box(batches, paint, Vector3(0.12, 3.1, 0.66), Vector3(FacadeBay.STRIP.y + 0.06, 1.75, 6.31))
 		# Different shop objects make each frontage legible without an interior level.
 		_display(art, batches, display_x, display_width, variant)
 		art._batch_box(batches, "shop_glass", Vector3(display_width - 0.1, 2.1, 0.025), Vector3(display_x, 1.9, 6.58))

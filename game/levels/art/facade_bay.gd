@@ -7,7 +7,7 @@ const REPORT: StringName = &"glasgow_bay_report"
 const AUDIT_RECORDS: StringName = &"glasgow_bay_front_records"
 const STRIP := Vector2(-9.0, -2.5)
 const MOUNT := Vector3(-5.75, 0.0, 6.0)
-const DEFAULT_ENABLED := false # Enable only after matched pilot acceptance.
+const DEFAULT_ENABLED := true # One bounded pilot; retain only after matched acceptance.
 const LEVELS: Array[String] = ["near", "mid", "far"]
 const SLOT_NAMES: Array[String] = ["01_Original_sandstone", "02_Painted_forest_joinery",
 	"03_Opaque_glazing", "04_Aged_dark_metal"]
@@ -41,6 +41,9 @@ static func install(building: Node3D, wall: Node3D, audit: bool = false) -> bool
 		for slot: int in range(_materials.size()):
 			instance.set_surface_override_material(slot, _materials[slot])
 		instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_DISABLED
+		# Architectural mass already casts the original closed building shadow.
+		# Avoid submitting every bevel/window surface to each shadow pass.
+		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		holder.add_child(instance)
 		instances.append(instance)
 	instances[2].visibility_range_begin = 80.0
@@ -49,7 +52,15 @@ static func install(building: Node3D, wall: Node3D, audit: bool = false) -> bool
 	instances[1].visibility_range_begin_margin = 4.0
 	instances[1].visibility_parent = instances[1].get_path_to(instances[2])
 	instances[0].visibility_parent = instances[0].get_path_to(instances[1])
+	var mass_shadow := MeshInstance3D.new()
+	mass_shadow.name = "BuildingMassShadow"
+	mass_shadow.mesh = visual.mesh # Reuse the original closed BoxMesh.
+	mass_shadow.transform = visual.transform
+	mass_shadow.material_override = visual.material_override
+	mass_shadow.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+	wall.add_child(mass_shadow)
 	visual.mesh = open_front_mesh(Vector3(30,16,12), STRIP)
+	visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	building.set_meta(META, true)
 	building.set_meta(&"facade_bay_audit", audit)
 	building.set_meta(REPORT, {"omitted_window_groups":0, "omitted_shop_bays":0,
@@ -110,6 +121,9 @@ static func _make_materials() -> bool:
 	var stone := StandardMaterial3D.new()
 	stone.resource_name = SLOT_NAMES[0]
 	stone.albedo_texture = textures[0]
+	# Neutral weathered stone for this existing gray frontage. Preserve the
+	# authored surface variation without a golden restoration strip.
+	stone.albedo_color = Color(0.32, 0.42, 0.57).linear_to_srgb()
 	stone.normal_enabled = true
 	stone.normal_texture = textures[1]
 	stone.normal_scale = 1.0

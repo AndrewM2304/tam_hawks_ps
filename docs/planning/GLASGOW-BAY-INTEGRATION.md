@@ -1,3 +1,7 @@
+# Implementation/evidence update — 18 October 2026
+
+The proposal below is now implemented as a **single gated candidate** in `FacadeBay` / `FacadeKit`, with original fitted geometry-only GLBs, four shared maps and pre-batch omissions. [Current live receipt](../testing/facade-bay-live/README.md) owns results and acceptance; the source/date below identify the original plan, not a later tested checkpoint. Independent focused geometry/resource checks pass 33/0; actual native LOD selection passes 21/0. Corrected close-up joins pass bounded art review. Matched timing and full required regression are still being evaluated; no rollout beyond this one bay is authorized by these partial results.
+
 # One live Exchange facade proof — proposed integration
 
 Read-only plan against source `b379294f4978431973342ab56f2a8e068516e073`, 18 October 2026. **No live integration or new acceptance result.** Continue existing **M05-001 / M06-004 / M06-007**, preserving all **75 full task records**. The [original bay](../../art_source/glasgow_bay/README.md) and [isolated preview](../testing/facade-bay-proof/README.md) do not establish live placement, performance or final art acceptance. Current-map performance remains first; run implementation/rendering only after the root's exclusive measurement window. This is an original architectural composite, not an exact current Glasgow shop.

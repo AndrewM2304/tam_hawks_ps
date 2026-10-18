@@ -20,6 +20,8 @@ static func build(world: Node3D) -> int:
 		for child: Node in body.get_children():
 			if not child is MeshInstance3D or not child.is_visible_in_tree() or not child.mesh is BoxMesh:
 				continue
+			if child.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY:
+				continue # A shadow approximation is not an actual visible wall.
 			var material := child.material_override as BaseMaterial3D
 			if material == null or material.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED:
 				continue

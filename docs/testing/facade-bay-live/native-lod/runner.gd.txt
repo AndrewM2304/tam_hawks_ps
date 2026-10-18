@@ -1,0 +1,18 @@
+extends SceneTree
+const Tests = preload("res://tests/facade_bay_tests.gd")
+var passed := 0
+var failed := 0
+func _initialize() -> void:
+	call_deferred("_run")
+func _run() -> void:
+	print("NATIVE_LOD_DEVICE display=%s renderer=%s adapter=%s vendor=%s engine=%s" % [DisplayServer.get_name(), RenderingServer.get_current_rendering_method(), RenderingServer.get_video_adapter_name(), RenderingServer.get_video_adapter_vendor(), Engine.get_version_info().string])
+	await Tests.run_rendered(self, _check)
+	print("FACADE BAY RENDERED %d passed %d failed" % [passed, failed])
+	quit(1 if failed else 0)
+func _check(ok: bool, label: String) -> void:
+	if ok:
+		passed += 1
+		print("PASS " + label)
+	else:
+		failed += 1
+		print("FAIL " + label)

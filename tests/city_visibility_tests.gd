@@ -12,9 +12,13 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	var glass := _box(world,"transparent",true)
 	glass.get_child(0).material_override.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
 	var open := _box(world,"open passage",false)
+	var shadow_only := _box(world,"shadow approximation",true)
+	shadow_only.get_child(0).cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 	check.call(Visibility.build(world)==1,"city visibility: only explicitly registered visible opaque walls create occluders")
 	check.call(open.get_child_count()==1 and hidden.get_child_count()==1 and glass.get_child_count()==1,
 		"city visibility: open passages, replaced walls and transparent surfaces stay unobstructed")
+	check.call(shadow_only.get_child_count()==1,
+		"city visibility: an invisible shadow approximation never becomes a wall occluder")
 	var occluder := solid.get_node("ClosedFacadeOccluder") as OccluderInstance3D
 	check.call(occluder!=null and occluder.occluder.size.is_equal_approx(Vector3(19.8,11.8,11.8)),
 		"city visibility: blocker remains inset inside the actual closed box")

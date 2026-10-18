@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+TASK_ROOT=/workspace/tam_hawks_ps
+cd "$TASK_ROOT"
+mkdir -p .local/facade-bay-native
+TASK_DISPLAY_PID=''
+cleanup() {
+  if [[ -n "$TASK_DISPLAY_PID" ]]; then
+    kill -TERM "$TASK_DISPLAY_PID" 2>/dev/null || true
+    wait "$TASK_DISPLAY_PID" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+: > .local/facade-bay-native/display
+/usr/lib/xorg/Xorg -displayfd 3 -config "$TASK_ROOT/tools/xorg-dummy.conf" -logfile "$TASK_ROOT/.local/facade-bay-native/xorg.log" -noreset -nolisten tcp 3>.local/facade-bay-native/display >.local/facade-bay-native/xorg-console.log 2>&1 &
+TASK_DISPLAY_PID=$!
+for attempt in {1..50}; do
+  [[ -s .local/facade-bay-native/display ]] && break
+  kill -0 "$TASK_DISPLAY_PID" || exit 1
+  sleep 0.1
+done
+[[ -s .local/facade-bay-native/display ]] || exit 1
+export DISPLAY=":$(cat .local/facade-bay-native/display)"
+export LIBGL_ALWAYS_SOFTWARE=1
+exec_run=(./tools/run.sh --rendering-method gl_compatibility --windowed --resolution 512x512 --audio-driver Dummy --fixed-fps 60 --script .local/facade-bay-rendered.gd)
+timeout 90 "${exec_run[@]}"
