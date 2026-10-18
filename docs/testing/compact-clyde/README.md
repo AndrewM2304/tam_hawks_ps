@@ -1,6 +1,6 @@
 # Compact Clyde admission
 
-DENSITY-01 moves existing feature groups into one river pocket. The [placement contract](../../levels/COMPACT-CLYDE-CONTRACT.md) and [ADR-018](../../architecture/decisions/ADR-018-compact-clyde-pocket.md) define the geometry; [input trials](LINES.md) and [independent QE](QE-REVIEW.md) explain their bounded evidence. Current acceptance and remaining work belong in [STATUS](../../STATUS.md) and [the density task packet](../../planning/LEVEL-DENSITY-NEXT.md).
+DENSITY-01 moves existing feature groups into one river pocket. The [placement contract](../../levels/COMPACT-CLYDE-CONTRACT.md) and [ADR-018](../../architecture/decisions/ADR-018-compact-clyde-pocket.md) define the geometry; [input trials](LINES.md) and [independent QE](QE-REVIEW.md) explain their bounded evidence. [Results and rejected attempts](RESULTS.md) distinguish final evidence from development. Current acceptance and remaining work belong in [STATUS](../../STATUS.md) and [the density task packet](../../planning/LEVEL-DENSITY-NEXT.md).
 
 The baseline is the production game at `811b629` (identical game inputs to `321501d`). The recovery implementation checkpoint is `889350f`; subsequent source corrections and their exact input manifests are retained with this evidence. A commit name alone does not identify uncommitted executed inputs: compare the actual per-file SHA-256 inventories.
 

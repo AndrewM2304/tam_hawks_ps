@@ -1,0 +1,32 @@
+"""Switch only the six root-owned production files for serialized A/B/A runs."""
+from pathlib import Path
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import hashlib,json,shutil,sys
+root=Path.cwd(); local=root/'.local/compact-clyde'; action=sys.argv[1]
+def digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+baseline=local/'baseline-source'
+names=[str(p.relative_to(baseline)) for p in baseline.rglob('*') if p.is_file()]
+assert len(names)==6, names
+candidate=local/'candidate-source'
+if action=='save':
+ for name in names:
+  p=candidate/name;p.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(root/name,p)
+ manifest={str(p.relative_to(root)):digest(p) for p in (root/'game').rglob('*') if p.is_file()}
+ (local/'candidate-game-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+else:
+ assert action in ('before','candidate')
+ source=baseline if action=='before' else candidate
+ for name in names:shutil.copyfile(source/name,root/name)
+ if action=='before':
+  expected=json.loads((local/'before-source.json').read_text())
+  expected={n:h for n,h in expected.items() if n.startswith('game/')}
+ else:expected=json.loads((local/'candidate-game-manifest.json').read_text())
+ changed=[n for n,h in expected.items() if digest(root/n)!=h]
+ assert not changed, changed
+history_path=local/'phase-history.json'
+history=json.loads(history_path.read_text()) if history_path.exists() else []
+history.append({'action':action,'london':datetime.now(ZoneInfo('Europe/London')).isoformat(),
+                'files':{n:digest(root/n) for n in names}})
+history_path.write_text(json.dumps(history,indent=2)+'\n')
+print('PHASE',action,'six owned production files verified')

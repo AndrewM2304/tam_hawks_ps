@@ -1,0 +1,42 @@
+{
+  "started_london": "2026-10-18T15:12:02.247489+01:00",
+  "completed_london": "2026-10-18T15:15:31.353569+01:00",
+  "wall_seconds": 209.10614141900442,
+  "source_inputs": 356,
+  "source_stable": true,
+  "exit_code": 0,
+  "clean_log": true,
+  "image_sha256": {
+    "advanced-bridge-mouth.png": "2fde4bb75c3d4a7ed0eee720bd95690bf2b414224ddd8250c3cb35722ad6de56",
+    "authored-overview.png": "96ffea20466b1abea2472a66146f3bcc4f9537744b6835028c0f441572f54e32",
+    "east-city-entry.png": "8813061016c8c6c838c8c70d21983a0cc46bcaf91fe392f0098ee1f43b31bf77",
+    "east-quay-end.png": "3cc11e14e266424a43a3d58a8fe5533a7c58665ed76e197866a12103af4f674f",
+    "halfpipe-open-end.png": "d91750a30cdd3f263c6a81065ed976a8b02cefbbfb3fc5a6d29a0cf417ab9fc4",
+    "print-yard-entry.png": "3db71161c4402a8b178286cc8159c7ba9f991f2e0241a5e13d87b09c4dd9a185",
+    "quarter-entry.png": "e78f615390b34171f51f95319a4a8571b75a479fd58e1e6ce982658399a0b37d",
+    "rear-property-boundary.png": "1184f14e60ae1d37d750f55c7a7fe73cebf078dc5a52cdf94f151a6af15f2732",
+    "route-map.png": "c5bd32d6aa27d2ddce8a972881ef7eef86956a1457932fb7af362d2782265d40",
+    "safe-bridge-mouth.png": "ab3bd2d8f966bc60790bde91cab329c140787a8431cb48d27ba3d181a9486ec5",
+    "shared-city-junction.png": "44bee3b1dd81fb72f313cbd2b4e838732ac34e646f0b323c862130809c1487be",
+    "west-city-entry.png": "d5f7aa3b608ec237824b5753506341caf5198d3e53cce4771713e3e154e06b86",
+    "west-quay-end.png": "dec0c621554ea61cc35b2df0125b22988a9a2069c4ac8b03adec5ad22be25ec6"
+  },
+  "valid": true,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/compact-clyde/capture.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/compact-clyde/render-before-a"
+  ],
+  "git_head": "889350f857d9965e63cdae4605fae25daa4a2201",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

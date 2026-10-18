@@ -1,0 +1,53 @@
+"""Apply the unchanged conservative frame-spike gate to native captures."""
+from pathlib import Path
+import hashlib,json,math,statistics,sys
+root=Path.cwd(); local=root/'.local/compact-clyde'
+names=['render-before-d','render-candidate-final','render-before-e']
+if len(sys.argv)>1:
+ assert len(sys.argv)==5
+ names=sys.argv[1:4]
+output=sys.argv[4] if len(sys.argv)>1 else 'render-comparison.json'
+data=[]
+for name in names:
+ p=local/name;receipt=json.loads((p/'receipt.json').read_text())
+ assert receipt['valid'] and receipt['source_stable'] and receipt['clean_log']
+ d=json.loads((p/'capture.json').read_text());assert d['valid']
+ for image,h in receipt['image_sha256'].items():assert hashlib.sha256((p/image).read_bytes()).hexdigest()==h
+ data.append(d)
+for d in data[1:]:
+ for field in ('adapter','engine','quality','resolution','renderer','native_render_loop'):
+  assert data[0][field]==d[field],field
+assert [v['id'] for v in data[0]['views']]==[v['id'] for v in data[1]['views']]==[v['id'] for v in data[2]['views']]
+def percentile(rows,p):
+ values=sorted(r['ms'] for r in rows);i=(len(values)-1)*p
+ return values[math.floor(i)]+(values[math.ceil(i)]-values[math.floor(i)])*(i-math.floor(i))
+def stats(view):
+ rows=view['rows'];assert len(rows)==40 and view['stable']>=3 and view['grounded']
+ return dict({f'p{int(p*100)}':percentile(rows,p) for p in (.5,.95,.99)},
+     max_ms=max(r['ms'] for r in rows),long_33ms=sum(r['ms']>33.333 for r in rows),
+     long_100ms=sum(r['ms']>100 for r in rows),frames=len(rows),
+     **{k:statistics.median(r[k] for r in rows) for k in ('draws','primitives','texture_bytes','buffer_bytes','video_bytes')})
+results=[]
+for index in range(len(data[0]['views'])):
+ views=[d['views'][index] for d in data];s=[stats(v) for v in views]
+ # XZ fixture/yaw must be identical; actual height can follow remapped terrain.
+ assert all(v['fixture']==views[0]['fixture'] and v['initial_yaw']==views[0]['initial_yaw'] for v in views)
+ gates={}
+ for field in ('p95','p99'):
+  a,b,c=[row[field] for row in s];mid=(a+c)/2
+  noise_limit=mid+abs(a-c)+mid*.05
+  worse_limit=max(a,c)*1.05
+  gates[field]={'noise_limit_ms':noise_limit,'worse_limit_ms':worse_limit,'pass':b<=noise_limit and b<=worse_limit}
+ results.append({'id':views[0]['id'],'control_a':s[0],'candidate':s[1],'control_b':s[2],
+    'timing_gates':gates,'timing_pass':all(g['pass'] for g in gates.values()),
+    'draw_delta':s[1]['draws']-s[0]['draws'],'primitive_delta':s[1]['primitives']-s[0]['primitives'],
+    'texture_delta':s[1]['texture_bytes']-s[0]['texture_bytes'],
+    'buffer_delta':s[1]['buffer_bytes']-s[0]['buffer_bytes']})
+report={'schema':1,'method':'Original/candidate/original;40native stationary samples per view; linear percentiles; no screenshot readback in measured rows.',
+ 'datasets':names,
+ 'gate':'Each p95/p99 must be <= midpoint+peak-to-peak repeat noise+5% midpoint AND <=1.05*worse original control. Unchanged strict gate.',
+ 'adapter':data[0]['adapter'],'resolution':data[0]['resolution'],'quality':data[0]['quality'],
+ 'results':results,'timing_pass':all(r['timing_pass'] for r in results),
+ 'limits':'llvmpipe stationary diagnostics; no Mac FPS, moving responsiveness or human acceptance. Geometry/collision/resource inventory is a separate gate.'}
+(local/output).write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps({'timing_pass':report['timing_pass'],'views':[{'id':r['id'],'pass':r['timing_pass'],'p95':[round(r[n]['p95'],3) for n in ('control_a','candidate','control_b')],'p99':[round(r[n]['p99'],3) for n in ('control_a','candidate','control_b')],'draw_delta':r['draw_delta'],'primitive_delta':r['primitive_delta']} for r in results]},indent=2))

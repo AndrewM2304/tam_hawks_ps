@@ -1,0 +1,60 @@
+"""Independently verify retained evidence against current, committed inputs."""
+from pathlib import Path
+from PIL import Image
+import gzip,hashlib,json,math,subprocess
+root=Path.cwd();base=root/'docs/testing/compact-clyde';e=base/'evidence'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def read(p):return json.loads(p.read_text())
+paths=[root/'project.godot']+[p for folder in ('game','tests','tools') for p in (root/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+current={str(p.relative_to(root)):sha(p) for p in sorted(paths)}
+checked=[]
+for name in ('geometry-final-09','support-final-05','margins-03','ordinary-final','render-candidate-final','render-details-final'):
+    folder=e/name;r=read(folder/'receipt.json');a=read(folder/'source-before.json');b=read(folder/'source-after.json')
+    assert r['valid'] and r['source_stable'] and a==b,name
+    common={n:h for n,h in a.items() if n=='project.godot' or n.startswith(('game/','tests/','tools/'))}
+    assert common==current,(name,[n for n in set(common)|set(current) if common.get(n)!=current.get(n)])
+    checked.append({'dataset':name,'stable_inputs':len(a),'common_inputs':len(common),'source_manifest_sha256':sha(folder/'source-before.json')})
+ordinary=read(e/'ordinary-final/receipt.json');assert ordinary['result_counts'][-1][1]=='0' and int(ordinary['result_counts'][-1][0])>2041
+assert read(e/'geometry-final-09/receipt.json')['result_counts']==[['373','0']]
+assert read(e/'margins-03/receipt.json')['result_counts']==[['6','0']]
+support=read(e/'support-final-05/support.json')
+for key in ('support_fault_count','offset_unmapped_count','boundary_fault_count','boundary_crossing_fault_count'):assert support[key]==0
+old=read(e/'before-source.json');old={n:h for n,h in old.items() if n.startswith('game/')}
+for name in ('render-before-d','render-before-e'):
+    p=e/name;r=read(p/'receipt.json');a=read(p/'source-before.json');assert r['valid'] and r['source_stable'] and a==read(p/'source-after.json')
+    assert all(a.get(n)==h for n,h in old.items()),name
+images={}
+for name,count in (('render-before-d',13),('render-candidate-final',13),('render-before-e',13),('render-details-final',14)):
+    p=e/name;r=read(p/'receipt.json');assert len(r['image_sha256'])==count
+    for image,digest in r['image_sha256'].items():
+        path=p/image
+        with Image.open(path) as im:im.load();assert im.size==(1280,800)
+        assert sha(path)==digest
+        images[str(path.relative_to(base))]=digest
+details=read(e/'render-details-final/capture.json')
+for v in details['views']:
+    assert math.dist(v['actual_player'][::2],v['fixture'][::2])<.15
+    if v['id']=='raised-deck-north':assert abs(v['actual_player'][1]-5.2)<.05
+timings=read(e/'render-comparison.json');assert timings['timing_pass'] and len(timings['results'])==11
+traces={};total=0
+for path in sorted((e/'ordinary-final/lines').glob('*.json.gz')):
+    if path.name.startswith('vert-lip-stage'):continue
+    raw=gzip.decompress(path.read_bytes());data=json.loads(raw);rows=data['samples'];s=data['summary']
+    assert len(rows)==s['samples'] and s['finite'] and s['contiguous'] and s['bails']==0 and s['maximum_step']<1
+    assert all(b['tick']==a['tick']+1 for a,b in zip(rows,rows[1:]))
+    assert all(abs(row['dt']-1/60)<1e-6 and all(math.isfinite(x) for x in row['at']) for row in rows)
+    traces[path.name]={'samples':len(rows),'sha256_uncompressed':hashlib.sha256(raw).hexdigest(),'summary':s}
+    total+=len(rows)
+assert len(traces)==6
+backlog=(root/'docs/planning/BACKLOG.md').read_text();body=backlog[backlog.index('### M00-001'):]
+task_sha=hashlib.sha256(body.encode()).hexdigest();assert task_sha=='48604a8ca25d8763f496a6c5ccbd8cf215d67583cc7d78dbc153c20694c14cae'
+head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+for n,h in current.items():assert hashlib.sha256(subprocess.check_output(['git','show',head+':'+n])).hexdigest()==h,n
+report={'valid':True,'current_head':head,'current_inputs':len(current),'source_checks':checked,
+        'ordinary_counts':ordinary['result_counts'],'geometry_counts':[373,0],'margin_counts':[6,0],
+        'support_samples':support['samples'],'support_faults':0,'timing_views':11,'timing_pass':True,
+        'decoded_primary_images':len(images),'images_sha256':images,'native_trace_samples':total,'traces':traces,
+        'complete_task_records':75,'task_body_sha256':task_sha,
+        'limits':'Native stationary llvmpipe diagnostics and scripted keyboard feasibility only; no Mac/DualSense, continuous-video flicker, human enjoyment, final art or refreshed export acceptance.'}
+(base/'audit.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps({k:v for k,v in report.items() if k not in ('images_sha256','traces','source_checks')},indent=2))

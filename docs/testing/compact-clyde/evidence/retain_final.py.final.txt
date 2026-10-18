@@ -1,0 +1,37 @@
+"""Retain native evidence without image editing or generated engine caches."""
+from pathlib import Path
+import gzip,json,shutil
+root=Path.cwd();src=root/'.local/compact-clyde';dst=root/'docs/testing/compact-clyde/evidence'
+def copy_tree(name,images=True,selected=()):
+    folder=src/name
+    if not folder.is_dir():return
+    if name=='ordinary-final' and not (folder/'receipt.json').is_file():return
+    for p in sorted(folder.rglob('*')):
+        if not p.is_file():continue
+        if p.suffix=='.png' and not images and p.name not in selected:continue
+        if p.name.startswith('xorg') or p.name=='display':continue
+        target=dst/p.relative_to(src)
+        if p.suffix=='.json' and 'lines' in p.parts:
+            target=Path(str(target)+'.gz');target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_bytes(gzip.compress(p.read_bytes(),mtime=0))
+        else:
+            target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,target)
+for name in ('geometry-final-07','geometry-final-08','geometry-final-09','support-final','support-final-02','support-final-03','support-final-04','support-final-05','margins-03','ordinary-final'):
+    copy_tree(name)
+for name in ('render-before-d','render-candidate-final','render-before-e','render-details-final'):
+    copy_tree(name)
+for name in ('render-before-a','render-before-b','render-before-c'):
+    copy_tree(name,images=False)
+copy_tree('render-candidate',images=False,selected=('route-map.png','west-quay-end.png','east-quay-end.png','authored-overview.png'))
+copy_tree('render-stone-candidate',images=False,selected=('halfpipe-open-end.png',))
+copy_tree('render-plaster-candidate',images=False,selected=('halfpipe-open-end.png',))
+copy_tree('render-plaster-details',images=False,selected=('raised-deck-north.png',))
+copy_tree('render-pbr-rejected-partial',images=False,selected=('halfpipe-open-end.png',))
+copy_tree('render-details-layer-rejected',images=False,selected=('raised-deck-north.png',))
+for name in ('capture.gd','capture.sh','detail.gd','detail.sh','phase.py','analyze_render.py','run_checked.py','retain_final.py','audit_final.py'):
+    shutil.copyfile(src/name,dst/(name+'.final.txt'))
+for name in ('render-comparison.json','render-comparison.log','render-stone-comparison.json','render-stone-comparison.log','render-plaster-comparison.json','render-plaster-comparison.log','render-initial-comparison.json','render-initial-comparison.log','phase-history.json','before-source.json','candidate-game-manifest.json','stone-wall-failed-outdoor_routes.gd.txt','stone-wall-failed-source.patch','plaster-failed-outdoor_routes.gd.txt'):
+    if (src/name).is_file():shutil.copyfile(src/name,dst/name)
+for p in (dst/'lines-04-source').glob('*.txt.txt'):
+    p.rename(p.with_suffix(''))
+print('Retained exact native source guards/logs, lossless trace gzip and original PNGs.')

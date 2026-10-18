@@ -1,0 +1,43 @@
+{
+  "started_london": "2026-10-18T16:19:18.342235+01:00",
+  "completed_london": "2026-10-18T16:20:42.390532+01:00",
+  "wall_seconds": 84.04833220400178,
+  "source_inputs": 356,
+  "source_stable": true,
+  "exit_code": 0,
+  "clean_log": true,
+  "image_sha256": {
+    "authored-overview.png": "b9bd371e78ac53fe14c27c76f89aaa3b50a3f0ceb7d0890fa28ff03526a0358c",
+    "broken-opening-north.png": "ed5154d0cdb9f6ea0fbb781216937acf0d76f96ae7982028f0ec1f8713dfa5e8",
+    "broken-south-landing.png": "a16fa9458358acef1861182f928d9020dff5877db7e2071c1ea996608bde9a46",
+    "exchange-east-close.png": "71bccd33f0522eb47897e8787d26454403f14cbbb8848c997ec9f012f4c46add",
+    "exchange-west-close.png": "55bc85f7661f21fd72ca4f21d888753a0efd5075f6759ebded7b3e74f9a94d71",
+    "halfpipe-north-open-end.png": "be4696abf4f66c1fb1299b1e32cd1c12b44b8532d3e4b6eb3ee70fc21a2c287c",
+    "quarter-exit.png": "871d38c7a372823f08ea464770d37c0d92d99cf35ea1e9acd5c26eb8de3e6e81",
+    "raised-deck-north.png": "d74d25ee4978b7ed02b15a6920ed43bb099f7637530805df3f9a62835b2055d3",
+    "rear-east-corner.png": "c2afb1406b8c84468f00504240c6e560e96cb45502499337804f07505391db04",
+    "rear-west-corner.png": "fe3b502cbf4e480865d19e8f685154dcf03ce0c5396a83548bd63efb0b92d75f",
+    "route-map.png": "7a72926bc63d13bb3a660c8115b958d08f237bac6cd3699bc245b8dc5c86fabe",
+    "safe-south-approach.png": "1ef717e656cfb62282f3126f8c3f327bb2cdad9b8d3e583ddf8597619d30b1e6",
+    "yard-hip-approach.png": "921d065fd4a680c2e0defecffb828f9a319ad14aef5d8677ff0a54ea6a12488f",
+    "yard-ledge-exit.png": "2effe5ef25480ed29052f8bb2b6ef7fcada4a4a71fe7d99ccac6efeba1f11b27"
+  },
+  "valid": true,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/compact-clyde/detail.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/compact-clyde/render-details-final"
+  ],
+  "git_head": "8447ed3cd892a9301419a66cf287f912a1f66bb1",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

@@ -1,0 +1,57 @@
+diff --git a/game/levels/outdoor_routes.gd b/game/levels/outdoor_routes.gd
+index 2a24337..3d52a26 100644
+--- a/game/levels/outdoor_routes.gd
++++ b/game/levels/outdoor_routes.gd
+@@ -102,7 +102,7 @@ func _approach_boundaries(id: String, side: float) -> Vector2:
+ 				edge.append(point)
+ 				break
+ 			edge.append(point)
+-		ExplorationBoundary.build(self,"QuayApproachBoundary",edge,_material("cut_stone"),_material("iron"),3.0,false,true)
++		ExplorationBoundary.build(self,"QuayApproachBoundary",edge,_material("stone_light"),_material("iron"),3.0,false,true)
+ 	return result
+ 
+ 
+@@ -120,7 +120,10 @@ func _boundary(id: String, start: Vector2, end: Vector2) -> void:
+ 	# Top Y12 also clears the unpumped 18m/s vertical lip's ~Y10 apex.
+ 	var behind_decks := id == "QuayLandwardBoundary" and end.x <= -15.0
+ 	var opaque_edge := id == "NorthQuayEndBoundary" or id == "QuayLandwardBoundary"
+-	ExplorationBoundary.build(self,id,points,_material("cut_stone"),_material("iron"),
++	# Large screen-filling walls share the city's lighter masonry family;
++	# reserve normal-mapped concrete for the existing shaped skating features.
++	var wall_material := _material("cut_stone") if id == "ParkRetainedBoundary" else _material("stone_light")
++	ExplorationBoundary.build(self,id,points,wall_material,_material("iron"),
+ 		10.0 if behind_decks else 3.0,behind_decks or id.begins_with("SouthPocket"),opaque_edge)
+ 
+ 
+@@ -223,7 +226,7 @@ func _build_clyde() -> void:
+ 	_route("clyde_print_yard_hip", "Print-yard curved bank and hip", hip_route)
+ 	_rail("clyde_print_yard_ledge", PackedVector3Array([Vector3(38.3,2.77,124.4), Vector3(47.7,2.77,124.4)]), "ledge", 0.16)
+ 	_water()
+-	var bank_material := _material("cut_stone")
++	var bank_material := _material("paving")
+ 	var bank_bounds := Layout.YARD_GROUND
+ 	var yard_ground := Surface.terrain(self, "ClydePrintYardGround", bank_bounds, 5.0, _yard_ground_height, bank_material)
+ 	# The hip includes flat toe triangles. Its complete display owns that
+diff --git a/tests/test_compact_clyde.gd b/tests/test_compact_clyde.gd
+index fabdf5f..baf43bd 100644
+--- a/tests/test_compact_clyde.gd
++++ b/tests/test_compact_clyde.gd
+@@ -408,7 +408,7 @@ static func _opaque_boundary_faces(world: Node3D, outdoors: Node3D, check: Calla
+ 	var prisms := 0
+ 	var triangles := 0
+ 	var shared_materials: Dictionary = world.get("_materials")
+-	var shared_stone: Material = shared_materials.get("cut_stone")
++	var shared_stone: Material = shared_materials.get("stone_light")
+ 	for body: StaticBody3D in outdoors.find_children("*","StaticBody3D",true,false):
+ 		var family := str(body.get_meta("boundary_family",""))
+ 		var intended := family in ["QuayApproachBoundary","NorthQuayEndBoundary","QuayLandwardBoundary"] \
+@@ -440,7 +440,8 @@ static func _opaque_boundary_faces(world: Node3D, outdoors: Node3D, check: Calla
+ 				continue
+ 			material_and_data = display.material_override==shared_stone \
+ 				and shared_stone is BaseMaterial3D \
+-				and shared_stone.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED and material_and_data
++				and shared_stone.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED \
++				and not shared_stone.normal_enabled and material_and_data
+ 			var data: Array = display.mesh.surface_get_arrays(0)
+ 			if not data[Mesh.ARRAY_VERTEX] is PackedVector3Array or not data[Mesh.ARRAY_NORMAL] is PackedVector3Array \
+ 				or not data[Mesh.ARRAY_TEX_UV] is PackedVector2Array or not data[Mesh.ARRAY_TANGENT] is PackedFloat32Array:

@@ -1,0 +1,96 @@
+extends SceneTree
+## Production chase views plus a labelled authored overview; native scheduling.
+const Main = preload("res://game/main.gd")
+const Quality = preload("res://game/core/graphics_quality.gd")
+const VIEWS := [
+ ["safe-south-approach",Vector3(-25,2,125),0.0],
+ ["broken-opening-north",Vector3(20,3,92),PI],
+ ["broken-south-landing",Vector3(20,3,108),0.0],
+ ["yard-hip-approach",Vector3(56,2,127.5),PI*.5],
+ ["yard-ledge-exit",Vector3(51,2,124.4),-PI*.5],
+ ["rear-west-corner",Vector3(-35,2,139),PI*.75],
+ ["rear-east-corner",Vector3(73,2,139),-PI*.75],
+ ["quarter-exit",Vector3(-3,2,62),-PI*.5],
+ ["halfpipe-north-open-end",Vector3(-42,2,56),PI],
+ ["exchange-east-close",Vector3(12,2,52),PI],
+ ["exchange-west-close",Vector3(-12,2,52),PI],
+ ["raised-deck-north",Vector3(-50.2,5.2,58),0.0]]
+var game: Node
+var output: String
+var views: Array=[]
+var errors: Array=[]
+func _initialize()->void: _run.call_deferred()
+func _run()->void:
+	var args:=OS.get_cmdline_user_args()
+	if DisplayServer.get_name()=="headless" or args.size()!=1: quit(2);return
+	output=args[0]
+	DirAccess.make_dir_recursive_absolute(output)
+	root.size=Vector2i(1280,800)
+	root.content_scale_size=root.size
+	Engine.max_fps=0
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	game=Main.new()
+	game.persistence_enabled=false
+	root.add_child(game)
+	game.apply_settings({"graphics_quality":"balanced"},false)
+	for specification: Array in VIEWS:
+		var at: Vector3=specification[1]
+		var height: float=game.world.get_ground_height(at)
+		if not is_finite(height): errors.append(str(specification[0])+" no support");continue
+		game.skater.spawn_position=Vector3(at.x,height+.8,at.z)
+		game.start_mode(true)
+		game.skater.rotation.y=float(specification[2])
+		game.skater.set_controls_enabled(false)
+		game.skater.reset_physics_interpolation()
+		var camera: Camera3D=root.get_camera_3d()
+		var last:=camera.global_transform
+		var stable:=0
+		for warm: int in 48:
+			await RenderingServer.frame_post_draw
+			var current:=camera.global_transform
+			var angle:=current.basis.get_rotation_quaternion().angle_to(last.basis.get_rotation_quaternion())
+			stable=stable+1 if current.origin.distance_to(last.origin)<.02 and angle<.005 and game.skater.is_on_floor() and game.skater.velocity.length()<.05 else 0
+			last=current
+			if warm>=7 and stable>=3:break
+		if stable<3: errors.append(str(specification[0])+" unsettled chase")
+		var rows:Array=[]
+		var previous:=Time.get_ticks_usec()
+		for frame: int in 4:
+			await RenderingServer.frame_post_draw
+			var now:=Time.get_ticks_usec()
+			rows.append({"ms":float(now-previous)/1000.0,
+				"draws":root.get_render_info(Viewport.RENDER_INFO_TYPE_VISIBLE,Viewport.RENDER_INFO_DRAW_CALLS_IN_FRAME),
+				"primitives":root.get_render_info(Viewport.RENDER_INFO_TYPE_VISIBLE,Viewport.RENDER_INFO_PRIMITIVES_IN_FRAME),
+				"texture_bytes":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),
+				"buffer_bytes":Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED),
+				"video_bytes":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)})
+			previous=now
+		var file_name:=str(specification[0])+".png"
+		if root.get_texture().get_image().save_png(output.path_join(file_name))!=OK:errors.append(file_name+" save failed")
+		views.append({"id":specification[0],"fixture":_v(at),"actual_player":_v(game.skater.global_position),
+			"initial_yaw":specification[2],"grounded":game.skater.is_on_floor(),"camera":str(camera.global_transform),
+			"fov":camera.fov,"far":camera.far,"stable":stable,"rows":rows,"image":file_name})
+		print("COMPACT_CAPTURE ",specification[0]," frames=",rows.size())
+	game.toggle_pause()
+	game.hud.show_map()
+	for frame: int in 5: await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png(output.path_join("route-map.png"))
+	game.hud.visible=false
+	var overview:=Camera3D.new()
+	root.add_child(overview)
+	overview.position=Vector3(-15,65,166)
+	overview.look_at(Vector3(0,2,90))
+	overview.far=220
+	overview.fov=68
+	overview.make_current()
+	for frame: int in 6: await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png(output.path_join("authored-overview.png"))
+	var result={"schema":1,"valid":errors.is_empty() and views.size()==VIEWS.size(),"errors":errors,"views":views,
+		"engine":Engine.get_version_info(),"adapter":RenderingServer.get_video_adapter_name(),"renderer":RenderingServer.get_current_rendering_method(),
+		"resolution":[1280,800],"quality":Quality.profile("balanced"),"native_render_loop":RenderingServer.render_loop_enabled,
+		"limits":"Twelve additional settled production chase detail views, one route-map UI and one authored overview. Four native frames/view for screenshot settling only; no timing claim; readbacks excluded. No moving input, human fun or target-Mac claim."}
+	var file:=FileAccess.open(output.path_join("capture.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify(result,"\t")+"\n")
+	print("COMPACT_CAPTURE_RESULT views=",views.size()," errors=",errors)
+	quit(0 if result.valid else 1)
+func _v(at:Vector3)->Array:return [at.x,at.y,at.z]

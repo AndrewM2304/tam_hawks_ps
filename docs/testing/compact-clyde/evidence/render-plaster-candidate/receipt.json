@@ -1,0 +1,42 @@
+{
+  "started_london": "2026-10-18T16:00:06.241136+01:00",
+  "completed_london": "2026-10-18T16:04:37.106196+01:00",
+  "wall_seconds": 270.8651259149992,
+  "source_inputs": 356,
+  "source_stable": true,
+  "exit_code": 0,
+  "clean_log": true,
+  "image_sha256": {
+    "advanced-bridge-mouth.png": "b51c5c1e6484cb21bb138ec383dfc171ed74c7cb820b70619a95fa919b504798",
+    "authored-overview.png": "79efcb5a97b08b415f9629c9e4f5511e13306eeecb7566ff4abf86af43553ffd",
+    "east-city-entry.png": "2be19003af5400d7d3dd4105321437ddbb0326dc3a058d77483d0f2fb13f44f2",
+    "east-quay-end.png": "587bdb05786735f86ce60948bcc2c20f4612b3112a5b58162d0ef5109e9e312f",
+    "halfpipe-open-end.png": "6cf9e7d7e191cbaf1d2557f46feadee7149346e795cd18127d8ccb9f6e0298d2",
+    "print-yard-entry.png": "923502ed086d36fe06c9b4914db96cc3e7d48e4b5a153108ea8fe32da2bcb26a",
+    "quarter-entry.png": "dea5e27ba751a76b23a49d57db6ac937c6f340bdadaf9af3154db28c22551fe2",
+    "rear-property-boundary.png": "0f4dea547429da8faa5a186837dc7c402230c370bab25be11a389a961428270a",
+    "route-map.png": "4154243c580884dad6f66659e2d7362e6ac8ff4ed4a48ca2bdf49865b097d3e7",
+    "safe-bridge-mouth.png": "9a7b86dbadae4ea18a7564a162a49ada148f448598d787dbf3a842091d558cac",
+    "shared-city-junction.png": "fd45da92c21739dcb69ff8edcd74927221a38bd9b79eb0c76f5fe2f2c4c4d317",
+    "west-city-entry.png": "17259ceed464cd247f6d4f60be0582dfe673b0613d923a81fedda80d4eae2f1d",
+    "west-quay-end.png": "4e9e515c7b951d828a4c090eab68c0d35bf520ff03b0b2e208e2ef405094a712"
+  },
+  "valid": true,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--disable-vsync",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/compact-clyde/capture.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/compact-clyde/render-candidate-final"
+  ],
+  "git_head": "8447ed3cd892a9301419a66cf287f912a1f66bb1",
+  "limits": "Native settled production chase observers; not moving play, human fun or target-Mac timings."
+}

@@ -1,0 +1,707 @@
+{
+  "schema": 1,
+  "method": "Original/candidate/original;40native stationary samples per view; linear percentiles; no screenshot readback in measured rows.",
+  "datasets": [
+    "render-before-a",
+    "render-candidate",
+    "render-before-b"
+  ],
+  "gate": "Each p95/p99 must be <= midpoint+peak-to-peak repeat noise+5% midpoint AND <=1.05*worse original control. Unchanged strict gate.",
+  "adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+  "resolution": [
+    1280,
+    800
+  ],
+  "quality": {
+    "far": 220.0,
+    "msaa": 1,
+    "scale": 1.0,
+    "shadows": 45.0
+  },
+  "results": [
+    {
+      "id": "west-city-entry",
+      "control_a": {
+        "p50": 262.55899999999997,
+        "p95": 562.04175,
+        "p99": 590.07129,
+        "max_ms": 602.079,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 247.0,
+        "primitives": 125210.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 159.652,
+        "p95": 185.09614999999997,
+        "p99": 197.18472,
+        "max_ms": 200.247,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 138.0,
+        "primitives": 45472.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 284.9915,
+        "p95": 399.82054999999974,
+        "p99": 511.39295999999996,
+        "max_ms": 536.328,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 247.0,
+        "primitives": 125210.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 667.1989075,
+          "worse_limit_ms": 590.1438375,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 656.9470612499999,
+          "worse_limit_ms": 619.5748545,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": -109.0,
+      "primitive_delta": -79738.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "east-city-entry",
+      "control_a": {
+        "p50": 236.841,
+        "p95": 344.61474999999984,
+        "p99": 402.41461,
+        "max_ms": 411.736,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 196.0,
+        "primitives": 123788.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 169.293,
+        "p95": 204.54524999999987,
+        "p99": 258.3513,
+        "max_ms": 263.862,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 154.0,
+        "primitives": 44570.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 244.2775,
+        "p95": 333.46395,
+        "p99": 382.76491,
+        "max_ms": 414.055,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 196.0,
+        "primitives": 123788.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 367.1421174999997,
+          "worse_limit_ms": 361.8454874999999,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 431.86894799999993,
+          "worse_limit_ms": 422.5353405,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": -42.0,
+      "primitive_delta": -79218.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "halfpipe-open-end",
+      "control_a": {
+        "p50": 797.124,
+        "p95": 978.6347499999998,
+        "p99": 1055.29225,
+        "max_ms": 1065.13,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 1272.0,
+        "primitives": 676722.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 862.6765,
+        "p95": 1034.6587999999997,
+        "p99": 1266.1338799999999,
+        "max_ms": 1341.134,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 1279.0,
+        "primitives": 664700.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 793.216,
+        "p95": 854.06665,
+        "p99": 968.8486299999998,
+        "max_ms": 1029.799,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 1272.0,
+        "primitives": 676722.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 1086.7363349999998,
+          "worse_limit_ms": 1027.5664874999998,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 1149.1175819999999,
+          "worse_limit_ms": 1108.0568625,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 7.0,
+      "primitive_delta": -12022.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "quarter-entry",
+      "control_a": {
+        "p50": 552.144,
+        "p95": 626.9857999999997,
+        "p99": 866.6347099999998,
+        "max_ms": 962.033,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 592.0,
+        "primitives": 434878.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 505.6345,
+        "p95": 630.9673,
+        "p99": 802.7328099999999,
+        "max_ms": 901.723,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 544.0,
+        "primitives": 350662.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 539.6880000000001,
+        "p95": 586.56815,
+        "p99": 603.28504,
+        "max_ms": 608.614,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 592.0,
+        "primitives": 434878.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 677.5334737499995,
+          "worse_limit_ms": 658.3350899999997,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 1035.0575387499998,
+          "worse_limit_ms": 909.9664454999998,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": -48.0,
+      "primitive_delta": -84216.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "safe-bridge-mouth",
+      "control_a": {
+        "p50": 264.6585,
+        "p95": 303.0088,
+        "p99": 316.27885,
+        "max_ms": 324.073,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 135.0,
+        "primitives": 101950.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 272.03700000000003,
+        "p95": 339.06755,
+        "p99": 431.7376099999999,
+        "max_ms": 490.238,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 258.0,
+        "primitives": 44378.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 265.3505,
+        "p95": 290.9016,
+        "p99": 296.71421,
+        "max_ms": 298.103,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 135.0,
+        "primitives": 101950.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 323.91016,
+          "worse_limit_ms": 318.15924,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 341.38599650000003,
+          "worse_limit_ms": 332.0927925,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 123.0,
+      "primitive_delta": -57572.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "advanced-bridge-mouth",
+      "control_a": {
+        "p50": 281.70000000000005,
+        "p95": 301.3045,
+        "p99": 311.00431,
+        "max_ms": 311.539,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 222.0,
+        "primitives": 103288.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 273.5775,
+        "p95": 303.1579499999999,
+        "p99": 341.72961,
+        "max_ms": 357.681,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 255.0,
+        "primitives": 44130.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 280.277,
+        "p95": 313.32390000000004,
+        "p99": 318.21571,
+        "max_ms": 321.223,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 222.0,
+        "primitives": 103288.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 334.69931,
+          "worse_limit_ms": 328.99009500000005,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 337.5519105,
+          "worse_limit_ms": 334.12649550000003,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 33.0,
+      "primitive_delta": -59158.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "print-yard-entry",
+      "control_a": {
+        "p50": 277.127,
+        "p95": 311.6252999999999,
+        "p99": 387.25139999999993,
+        "max_ms": 419.637,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 253.0,
+        "primitives": 157272.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 263.33500000000004,
+        "p95": 380.17899999999986,
+        "p99": 522.7353599999999,
+        "max_ms": 592.146,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 210.0,
+        "primitives": 76116.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 282.77099999999996,
+        "p95": 357.6326999999997,
+        "p99": 472.42965,
+        "max_ms": 484.155,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 253.0,
+        "primitives": 157272.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 397.3678499999996,
+          "worse_limit_ms": 375.51433499999973,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 536.51080125,
+          "worse_limit_ms": 496.0511325,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": -43.0,
+      "primitive_delta": -81156.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "rear-property-boundary",
+      "control_a": {
+        "p50": 211.1935,
+        "p95": 235.63895,
+        "p99": 239.6507,
+        "max_ms": 240.965,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 106.0,
+        "primitives": 95908.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 279.0745,
+        "p95": 408.8056499999999,
+        "p99": 495.11062999999996,
+        "max_ms": 539.057,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 102.0,
+        "primitives": 37414.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 213.95850000000002,
+        "p95": 245.05059999999997,
+        "p99": 258.074,
+        "max_ms": 260.453,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 106.0,
+        "primitives": 95908.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 261.77366374999997,
+          "worse_limit_ms": 257.30313,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 279.7287675,
+          "worse_limit_ms": 270.9777,
+          "pass": false
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": -4.0,
+      "primitive_delta": -58494.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "west-quay-end",
+      "control_a": {
+        "p50": 343.772,
+        "p95": 373.0055,
+        "p99": 374.49432,
+        "max_ms": 374.772,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 324.0,
+        "primitives": 372726.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 281.74800000000005,
+        "p95": 368.0402,
+        "p99": 391.58234,
+        "max_ms": 405.113,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 215.0,
+        "primitives": 285824.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 350.591,
+        "p95": 402.68604999999997,
+        "p99": 406.52932999999996,
+        "max_ms": 407.018,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 324.0,
+        "primitives": 372726.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 436.91861374999996,
+          "worse_limit_ms": 422.82035249999996,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 442.0724262499999,
+          "worse_limit_ms": 426.8557965,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": -109.0,
+      "primitive_delta": -86902.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "east-quay-end",
+      "control_a": {
+        "p50": 259.517,
+        "p95": 352.8354999999999,
+        "p99": 460.2388399999999,
+        "max_ms": 516.923,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 225.0,
+        "primitives": 140868.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 208.75549999999998,
+        "p95": 306.7411499999998,
+        "p99": 389.60690999999997,
+        "max_ms": 394.104,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 191.0,
+        "primitives": 57512.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 257.1295,
+        "p95": 305.57284999999996,
+        "p99": 324.29457,
+        "max_ms": 324.738,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 225.0,
+        "primitives": 140868.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 392.9270337499999,
+          "worse_limit_ms": 370.4772749999999,
+          "pass": true
+        },
+        "p99": {
+          "noise_limit_ms": 547.8243102499999,
+          "worse_limit_ms": 483.25078199999996,
+          "pass": true
+        }
+      },
+      "timing_pass": true,
+      "draw_delta": -34.0,
+      "primitive_delta": -83356.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    },
+    {
+      "id": "shared-city-junction",
+      "control_a": {
+        "p50": 321.727,
+        "p95": 354.48855,
+        "p99": 407.84898,
+        "max_ms": 431.997,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 259.0,
+        "primitives": 127192.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "candidate": {
+        "p50": 338.303,
+        "p95": 392.1051,
+        "p99": 407.92327,
+        "max_ms": 416.857,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 374.0,
+        "primitives": 63136.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15416084.0,
+        "video_bytes": 57950664.0
+      },
+      "control_b": {
+        "p50": 322.9955,
+        "p95": 351.93344999999994,
+        "p99": 364.87190999999996,
+        "max_ms": 371.28,
+        "long_33ms": 40,
+        "long_100ms": 40,
+        "frames": 40,
+        "draws": 259.0,
+        "primitives": 127192.0,
+        "texture_bytes": 42534580.0,
+        "buffer_bytes": 15918872.0,
+        "video_bytes": 58453452.0
+      },
+      "timing_gates": {
+        "p95": {
+          "noise_limit_ms": 373.42665,
+          "worse_limit_ms": 372.21297749999997,
+          "pass": false
+        },
+        "p99": {
+          "noise_limit_ms": 448.65553725,
+          "worse_limit_ms": 428.241429,
+          "pass": true
+        }
+      },
+      "timing_pass": false,
+      "draw_delta": 115.0,
+      "primitive_delta": -64056.0,
+      "texture_delta": 0.0,
+      "buffer_delta": -502788.0
+    }
+  ],
+  "timing_pass": false,
+  "limits": "llvmpipe stationary diagnostics; no Mac FPS, moving responsiveness or human acceptance. Geometry/collision/resource inventory is a separate gate."
+}
