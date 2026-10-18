@@ -123,7 +123,7 @@ func _boundary(id: String, start: Vector2, end: Vector2) -> void:
 	# Large screen-filling walls share the city's lighter masonry family;
 	# reserve normal-mapped concrete for the existing shaped skating features.
 	var wall_material := _material("cut_stone") if id == "ParkRetainedBoundary" else _material("stone_light")
-	if behind_decks: wall_material = _material("interior_plaster")
+	if behind_decks: wall_material = _material("shop_navy")
 	ExplorationBoundary.build(self,id,points,wall_material,_material("iron"),
 		10.0 if behind_decks else 3.0,behind_decks or id.begins_with("SouthPocket"),opaque_edge)
 
