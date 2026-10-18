@@ -1,3 +1,9 @@
+# Controls and Clyde water implementation in progress
+
+18October2026, Europe/London. Owner requests PLAY-01/04/05 now. Directional D-pad, unchanged facebutton families, genuine Up/Down manual gestures, horizontal manual/lip/rail balance, independent shoulder manual turns and relocated secondary shortcuts are implemented. Clyde has a new original texture-free advected ripple shader within the existing one-surface/18triangle budget. Fresh focused validation passes237/0 (including all41new controller checks); the initial236/1 and isolated legacy-fixture failure are retained. No assertion/production response was relaxed. Matched native water/temporal capture and required full regression are next. No active source-changing agent; root serializes all engines. Implementation checkpoints are being committed/pushed before native validation; they are not a performance-admission claim. [Tasks](planning/NEXT-PLAY-HARDENING.md), [ADR](architecture/decisions/ADR-020-classic-controls-and-water.md), [evidence](testing/water-controls/README.md). All75full task bodies remain unchanged. Pending full-map horizon admission is preserved, not waived by this requested slice.
+
+---
+
 # Workspace recovered; pending source pushed and regression checked
 
 18October2026, Europe/London. All pending material/helper/document edits survived the outage. Recovered source is pushed and remote-verified on **bootstrap/m00-m01 at15981c11e71632a8e2bd4ffadefb7dfc87825ca6**. It replaces the boundary StandardMaterial3D's default-white texture/UV work with one minimal shared opaque vertex-colour shader, preserving geometry, native fog/depth/colour and original buildings. No water/control/physics feature is included in this checkpoint.

@@ -12,16 +12,16 @@ From source, open `project.godot` with free Godot 4.6.3 and press F5, or run `./
 
 | Action | Keyboard | Standard DualSense mapping to verify |
 |---|---|---|
-| Push / brake | W / S, or up / down | Left stick up / down |
-| Steer | A / D, or left / right | Left stick left / right |
+| Push / brake | W / S, or up / down | D-pad or left stick up / down |
+| Steer | A / D, or left / right | D-pad or left stick left / right |
 | Crouch / ollie | Hold Space, release to pop | Hold Cross, release to pop |
 | Flip / grab family | Direction + J / hold K | Direction + Square / hold Circle |
 | Air spin | A/D or Q/E | Left stick or L1/R1 |
 | Rail grind | Tap L; tap again to drop | Tap Triangle; tap again to drop |
-| Manual / nose manual | Hold M; Up + M selects nose | Hold L2; Up + L2 selects nose |
+| Manual / nose manual | Up–Down manual / Down–Up nose; M shortcut | D-pad or stick Up–Down / Down–Up; L2 shortcut |
 | Revert after landing | C | R2 |
-| Special tricks | U / I | D-pad up / right |
-| Interact near an object | X | D-pad down |
+| Special tricks | U / I | Right stick up / down |
+| Interact near an object | X | L3 |
 | Goals | Tab | Create / Back |
 | Restart run | R | Right-stick click (R3) |
 | Pause | Escape | Options |
@@ -29,7 +29,7 @@ From source, open `project.godot` with free Godot 4.6.3 and press F5, or run `./
 
 Gamepad names describe the intended standard mapping. Physical DualSense wired/Bluetooth behavior still needs a Mac playtest.
 
-To change a binding, pause and open **Controls**, select an action, then press the desired key, gamepad button or axis. Escape cancels listening; **Reset defaults** restores the standard layout. Bindings are saved locally, and prompts follow the saved controls. Existing custom layouts are retained; use Reset defaults to adopt Triangle grind, R2 revert and R3 restart. A conflicting old override reports a warning instead of replacing your controls silently.
+To change a binding, pause and open **Controls**, select an action, then press the desired key, gamepad button or axis. Escape cancels listening; **Reset defaults** restores the standard layout. Bindings are saved locally, and prompts follow the saved controls. Existing custom layouts are retained; use Reset defaults to adopt the directional D-pad, right-stick specials, L3 interaction and current face-button layout. A conflicting old override reports a warning instead of replacing your controls silently.
 
 Release Push to coast and slow naturally; hold Brake for a quicker stop. Ground steering now turns more tightly. In the air, left/right visibly spins the skater while preserving flight direction; Q/E or the shoulder buttons are alternate spin inputs. Camera sensitivity changes how quickly the view follows, so it does not change the skater's turning rate. The camera keeps a third-person view and moves to the side when a wall blocks the usual rear view.
 
@@ -51,7 +51,7 @@ Menus and HUD stay at native resolution. Presets keep the same chase framing, fi
 
 Push toward a ramp, ollie, then add a flip, grab or spin. Clean landing leaves a short 0.35-second link window: start another ollie, grind or manual to continue the combo; rolling normally lets it bank. A revert adds a trick without extending that window. A bail drops unbanked points. Repeating one trick reduces its value, while different tricks build the multiplier.
 
-A flip/grab pressed just before takeoff, or a held manual pressed just before landing, has a short 120ms input margin. Tap grind while descending toward an aligned rail, or hold it through the approach for one catch. The rail stays locked after release; a second tap drops off. A released early tap has a short 140ms margin. Balance left/right against the meter's lean; hold/release Ollie to jump off, or tap Grind again to drop with your momentum. Hold manual on suitable ground and correct the fore/aft balance with push/brake (W/S or the stick up/down). Controls, tuning and landing forgiveness are still subject to human feel testing.
+A flip/grab pressed just before takeoff, or a held manual pressed just before landing, has a short 120ms input margin. Tap grind while descending toward an aligned rail, or hold it through the approach for one catch. The rail stays locked after release; a second tap drops off. A released early tap has a short 140ms margin. Balance left/right against the meter's lean; hold/release Ollie to jump off, or tap Grind again to drop with your momentum. Hold manual on suitable ground and correct the meter with Left/Right (A/D, D-pad or left stick). Balance correction does not also turn the board: Q/E or L1/R1 steer during a manual. Controls, tuning and landing forgiveness are still subject to human feel testing.
 
 Choose the direction when pressing the trick button; changing direction afterward does not relabel that trick. Release a grab to let go. A held flip cannot repeat; a fresh press can start another flip after the first animation completes.
 
@@ -65,7 +65,7 @@ Choose the direction when pressing the trick button; changing direction afterwar
 | Up-right | Hardflip | Indy |
 | Up-left | Kickflip | Method |
 
-Manuals also accept Up → neutral → Down, and nose manuals Down → neutral → Up, within 220ms. These gesture manuals stay latched while you balance; press the dedicated manual button to end one. A direct push-to-brake change does not count as that gesture. Nose manuals raise the rear truck and shift weight forward. Nollie/switch modifier combinations are not needed.
+Manuals also accept Up → neutral → Down, and nose manuals Down → neutral → Up, within 220ms. These gesture manuals stay latched while you balance; press the dedicated manual button to end one. A genuine release through neutral is required, including releases between physics ticks; a direct stick reversal or holding Up and Down together does not count. Nose manuals raise the rear truck and shift weight forward. Nollie/switch modifier combinations are not needed.
 
 ## Quarter-pipe, half-pipe and lips
 

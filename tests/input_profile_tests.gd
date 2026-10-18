@@ -9,8 +9,11 @@ static func run(check: Callable) -> void:
 	var initial := Profile.binding_snapshot()
 	check.call(initial.size() == 19 and _row(initial, "grind")["pad_text"] == "Triangle"
 		and _row(initial, "revert")["pad_text"] == "R2" and _row(initial, "restart")["pad_text"] == "R3"
+		and _row(initial, "interact")["pad_text"] == "L3"
+		and _row(initial, "special_one")["pad_text"] == "Right stick up"
+		and _row(initial, "special_two")["pad_text"] == "Right stick down"
 		and _row(initial, "ollie")["key_text"] == "Space",
-		"input profile: face-button grind cannot accidentally restart a run; revert uses R2")
+		"input profile: classic faces/revert/restart remain; specials and interact leave D-pad directions free")
 	check.call(_row(initial, "push")["key_text"].contains("W")
 		and _row(initial, "push")["key_text"].contains("Up"),
 		"input profile: snapshot retains default keyboard alternatives")
@@ -19,11 +22,11 @@ static func run(check: Callable) -> void:
 		and _row(Profile.binding_snapshot(), "flip")["key_text"] == "Z"
 		and _row(Profile.binding_snapshot(), "flip")["pad_text"] == "Square",
 		"input profile: remapping a physical key preserves the controller binding")
-	result = Profile.rebind("flip", _button(JOY_BUTTON_LEFT_STICK))
-	check.call(result["ok"] and result["bindings"]["flip"] == {"key": KEY_Z, "button": JOY_BUTTON_LEFT_STICK}
+	result = Profile.rebind("flip", _button(JOY_BUTTON_MISC1))
+	check.call(result["ok"] and result["bindings"]["flip"] == {"key": KEY_Z, "button": JOY_BUTTON_MISC1}
 		and _row(Profile.binding_snapshot(), "flip")["key_text"] == "Z",
 		"input profile: controller remapping preserves the independently remapped keyboard slot")
-	var alternate_controller := _button(JOY_BUTTON_LEFT_STICK)
+	var alternate_controller := _button(JOY_BUTTON_MISC1)
 	alternate_controller.device = 7
 	check.call(InputMap.event_is_action(alternate_controller, "flip"),
 		"input profile: remapped controller events accept a reconnected device at another index")
@@ -34,7 +37,7 @@ static func run(check: Callable) -> void:
 	check.call(not Profile.rebind("grab", _key(KEY_Z))["ok"]
 		and Profile.binding_snapshot() == stable,
 		"input profile: duplicate live keyboard bindings reject without partial changes")
-	check.call(not Profile.rebind("grab", _button(JOY_BUTTON_LEFT_STICK))["ok"],
+	check.call(not Profile.rebind("grab", _button(JOY_BUTTON_MISC1))["ok"],
 		"input profile: duplicate controller buttons reject")
 	check.call(not Profile.rebind("flip", _key(KEY_UP))["ok"],
 		"input profile: a default secondary keyboard alias also participates in collision checks")
@@ -59,17 +62,19 @@ static func run(check: Callable) -> void:
 		"input profile: resting-stick noise and nonfinite axis values cannot capture a binding")
 	check.call(not Profile.rebind("grind", _axis(JOY_AXIS_TRIGGER_RIGHT, -1.0))["ok"],
 		"input profile: trigger bindings cannot use the unpressed negative direction")
-	check.call(not Profile.rebind("pause", _axis(JOY_AXIS_RIGHT_Y, 0.9))["ok"],
+	var menu_axis := Profile.rebind("pause", _axis(JOY_AXIS_RIGHT_X, 0.9))
+	check.call(not menu_axis["ok"] and String(menu_axis["error"]).contains("held axis"),
 		"input profile: held axes cannot repeatedly toggle a discrete menu action")
-	check.call(Profile.rebind("grind", _button(JOY_BUTTON_LEFT_STICK))["ok"]
-		and _row(Profile.binding_snapshot(), "grind")["pad_text"] == "L3"
+	check.call(Profile.rebind("grind", _button(JOY_BUTTON_MISC1))["ok"]
+		and _row(Profile.binding_snapshot(), "grind")["pad_text"] == "Button %d" % JOY_BUTTON_MISC1
 		and _row(Profile.binding_snapshot(), "grind")["key_text"] == "L",
 		"input profile: switching from axis to button replaces the controller slot without losing keyboard input")
 	check.call(not Profile.rebind("flip", _key(KEY_ESCAPE))["ok"]
 		and not Profile.rebind("flip", _key(KEY_ENTER))["ok"]
 		and not Profile.rebind("pause", _key(KEY_P))["ok"],
 		"input profile: Escape pause recovery and Enter menu confirmation cannot be reassigned")
-	check.call(Profile.rebind("pause", _button(JOY_BUTTON_DPAD_LEFT))["ok"]
+	Profile.reset_defaults()
+	check.call(Profile.rebind("pause", _button(JOY_BUTTON_MISC1))["ok"]
 		and _row(Profile.binding_snapshot(), "pause")["key_text"] == "Escape",
 		"input profile: pause controller remapping still retains Escape recovery")
 	var released := _key(KEY_Z)
@@ -110,11 +115,15 @@ static func _test_serialization(check: Callable) -> void:
 		rejected = rejected and not Profile.validate_saved(value)["ok"]
 	check.call(rejected and Profile.binding_snapshot() == before,
 		"input profile: malformed serialized data rejects without constructing resources or mutating InputMap")
-	var serialized := JSON.stringify({"flip": {"key": KEY_Z}, "grind": {"axis": JOY_AXIS_RIGHT_Y, "axis_value": -1.0}})
+	var serialized := JSON.stringify({"flip": {"key": KEY_Z}, "grind": {"axis": JOY_AXIS_RIGHT_X, "axis_value": -1.0},
+		"special_one": {"axis": JOY_AXIS_RIGHT_Y, "axis_value": -1.0},
+		"special_two": {"axis": JOY_AXIS_RIGHT_Y, "axis_value": 1.0}})
 	var decoded: Dictionary = JSON.parse_string(serialized)
 	check.call(Profile.apply_saved(decoded)
 		and _row(Profile.binding_snapshot(), "flip")["key_text"] == "Z"
-		and _row(Profile.binding_snapshot(), "grind")["pad_text"] == "Right stick up",
+		and _row(Profile.binding_snapshot(), "grind")["pad_text"] == "Right stick left"
+		and _row(Profile.binding_snapshot(), "special_one")["pad_text"] == "Right stick up"
+		and _row(Profile.binding_snapshot(), "special_two")["pad_text"] == "Right stick down",
 		"input profile: simple numeric JSON bindings round-trip through validated actual InputMap events")
 	var button := _button(JOY_BUTTON_X)
 	check.call(InputMap.event_is_action(button, "flip")

@@ -148,6 +148,8 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 				Input.action_release("flip")
 				Input.action_release("grab")
 				Input.action_release("brake")
+				Input.action_release("steer_left")
+				Input.action_release("steer_right")
 				if not jumped:
 					Input.action_press("push")
 					if game.skater.is_on_floor() and game.skater.speed >= 12.0:
@@ -173,8 +175,10 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 					manual_entered = true
 				elif game.skater.manual_active:
 					Input.action_release("push")
-					if game.skater.manual_balance > 0.08: Input.action_press("push")
-					elif game.skater.manual_balance < -0.08: Input.action_press("brake")
+					Input.action_release("steer_left")
+					Input.action_release("steer_right")
+					if game.skater.manual_balance > 0.08: Input.action_press("steer_left")
+					elif game.skater.manual_balance < -0.08: Input.action_press("steer_right")
 				await _frames(tree, 1)
 				var manual_input: bool = Input.is_action_pressed("manual")
 				var manual_buffer: float = game.skater.get("_manual_buffer_remaining")
@@ -232,6 +236,8 @@ static func _drive_to(tree: SceneTree, game: Node, target: Vector3, evidence: Di
 			Input.action_release("flip")
 			Input.action_release("grab")
 			Input.action_release("brake")
+			Input.action_release("steer_left")
+			Input.action_release("steer_right")
 			if not jumped:
 				Input.action_press("push")
 				if game.skater.is_on_floor() and game.skater.speed >= 12.0:
@@ -250,8 +256,10 @@ static func _drive_to(tree: SceneTree, game: Node, target: Vector3, evidence: Di
 				else: Input.action_press("manual")
 			elif game.skater.manual_active:
 				Input.action_release("push")
-				if game.skater.manual_balance > 0.08: Input.action_press("push")
-				elif game.skater.manual_balance < -0.08: Input.action_press("brake")
+				Input.action_release("steer_left")
+				Input.action_release("steer_right")
+				if game.skater.manual_balance > 0.08: Input.action_press("steer_left")
+				elif game.skater.manual_balance < -0.08: Input.action_press("steer_right")
 		await _frames(tree, 1)
 		_record(game, at, evidence)
 	return {"reached": false}

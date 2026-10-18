@@ -11,6 +11,7 @@ const ACTION_LABELS: Dictionary = {
 }
 const AXIS_ACTIONS: Array[String] = [
 	"push", "brake", "steer_left", "steer_right", "grind", "manual", "revert", "spin_left", "spin_right",
+	"special_one", "special_two",
 ]
 const CAPTURE_THRESHOLD: float = 0.5
 const COSMETIC_IDS: Array[String] = ["color_blue", "color_orange", "color_purple"]

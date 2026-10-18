@@ -1,6 +1,6 @@
 # Next test-play hardening
 
-Owner requests,18October2026. Work only on the existing map; no spending, paid APIs, hosted CI or unattended loops. Preserve75full BACKLOG records. These tasks extend the existing M03/M04/M05/M06 work; they are not new remote issues. State: **not implemented**. RootA01 owns integration; specialist labels are logical responsibilities, not scheduled paid runs. Read STATUS and current source before changing an already implemented system. Existing directional tricks, manuals, ramps and grinds must be reviewed rather than rebuilt blindly.
+Owner requests,18October2026. Work only on the existing map; no spending, paid APIs, hosted CI or unattended loops. Preserve75full BACKLOG records. These tasks extend the existing M03/M04/M05/M06 work; they are not new remote issues. State: **PLAY-01/04/05 implementation in progress**, with focused/native/full-regression gates pending; PLAY-02/03/06 remain open. The owner explicitly prioritizes controls and water now, superseding the earlier sequencing dependency on full HORIZON admission; that gate remains open. RootA01 owns integration; specialist labels are logical responsibilities, not scheduled paid runs. Read STATUS and current source before changing an already implemented system. Existing directional tricks, manuals, ramps and grinds must be reviewed rather than rebuilt blindly.
 
 | ID | Owner | Priority / milestone | Dependencies | Work and acceptance | Validation |
 |---|---|---|---|---|---|

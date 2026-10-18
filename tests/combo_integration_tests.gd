@@ -275,15 +275,15 @@ static func _wait_landing(tree: SceneTree, game: Node) -> void:
 
 static func _balance_manual(tree: SceneTree, game: Node, count: int) -> void:
 	for i in range(count):
-		Input.action_release("push")
-		Input.action_release("brake")
+		Input.action_release("steer_left")
+		Input.action_release("steer_right")
 		if game.skater.manual_balance > 0.025:
-			Input.action_press("push", 0.3)
+			Input.action_press("steer_left", 0.3)
 		elif game.skater.manual_balance < -0.025:
-			Input.action_press("brake", 0.3)
+			Input.action_press("steer_right", 0.3)
 		await _frames(tree, 1)
-	Input.action_release("push")
-	Input.action_release("brake")
+	Input.action_release("steer_left")
+	Input.action_release("steer_right")
 
 
 static func _key(key: Key, pressed: bool) -> void:

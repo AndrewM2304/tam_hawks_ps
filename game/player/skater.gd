@@ -325,6 +325,15 @@ func _direction_snapshot() -> Vector2:
 	return Vector2(Input.get_axis("steer_left", "steer_right"), Input.get_axis("push", "brake"))
 
 
+func _input(event: InputEvent) -> void:
+	# A real D-pad release can cross neutral between physics ticks. Preserve
+	# that event; a direct stick reversal or two held directions still refuses.
+	if _controls_enabled and _trick_entries_enabled and _last_vertical != 0 \
+			and (event.is_action("push") or event.is_action("brake")) \
+			and not Input.is_action_pressed("push") and not Input.is_action_pressed("brake"):
+		_vertical_neutral_seen = true
+
+
 func _sample_trick_requests(delta: float) -> void:
 	_jump_buffer_remaining = maxf(0.0, _jump_buffer_remaining - delta)
 	_flip_buffer_remaining = maxf(0.0, _flip_buffer_remaining - delta)
@@ -369,7 +378,9 @@ func _sample_trick_requests(delta: float) -> void:
 		_manual_buffer_remaining = TRICK_BUFFER_TIME
 		_manual_gesture_hold = false
 	var vertical := -1 if direction.y < -0.5 else (1 if direction.y > 0.5 else 0)
-	if vertical == 0 and _last_vertical != 0: _vertical_neutral_seen = true
+	if vertical == 0 and _last_vertical != 0 \
+			and not Input.is_action_pressed("push") and not Input.is_action_pressed("brake"):
+		_vertical_neutral_seen = true
 	if vertical != 0 and vertical != _last_vertical:
 		if _vertical_neutral_seen and _vertical_edge != 0 and vertical == -_vertical_edge and _vertical_edge_age <= 0.22 \
 				and not manual_active and not transition_active and not lip_active \
@@ -728,7 +739,7 @@ func _physics_process(delta: float) -> void:
 			_end_manual(false)
 		elif not _controls_enabled or not (Input.is_action_pressed("manual") or _manual_gesture_hold) or absf(speed) < MANUAL_MIN_SPEED:
 			_end_manual(true)
-		elif not _tick_manual_balance(delta, push_input, brake_input):
+		elif not _tick_manual_balance(delta, _steering):
 			return
 
 	if grounded_before:
@@ -741,7 +752,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			speed = 0.0
 		if manual_active:
-			# Fore/aft input corrects balance while the manual coasts.
+			# Directional input balances while the manual coasts.
 			speed = move_toward(speed, 0.0, ROLLING_DRAG * delta)
 		elif brake_input > 0.05:
 			speed = move_toward(speed, 0.0, BRAKE_DECELERATION * brake_input * delta)
@@ -751,7 +762,10 @@ func _physics_process(delta: float) -> void:
 			speed = _response.coast_speed(speed, delta)
 	# Ground carving turns travel; airborne stick input drives visible spin.
 	# Camera preferences cannot change physical turning or carried momentum.
-	var steering_angle: float = _response.steering_step(_steering, speed, true, delta) if grounded_before else 0.0
+	# Balance correction must not also carve. Shoulders provide an independent
+	# turning input during manuals; ordinary ground/air controls stay the same.
+	var turn_input := Input.get_axis("spin_left", "spin_right") if manual_active else _steering
+	var steering_angle: float = _response.steering_step(turn_input, speed, true, delta) if grounded_before else 0.0
 	rotation.y += steering_angle
 	var forward := -global_basis.z
 	if grounded_before:
@@ -914,11 +928,11 @@ func _try_ground_links() -> void:
 			TrickCatalog.base_points("revert"))
 
 
-func _tick_manual_balance(delta: float, push_input: float, brake_input: float) -> bool:
+func _tick_manual_balance(delta: float, correction: float) -> bool:
 	_manual_elapsed += delta
 	var outward := 1.0 if manual_balance >= 0.0 else -1.0
 	var drift := outward * (0.18 + 0.08 * _manual_elapsed)
-	manual_balance += (drift + (brake_input - push_input) * MANUAL_BALANCE_CONTROL) * delta
+	manual_balance += (drift + correction * MANUAL_BALANCE_CONTROL) * delta
 	if absf(manual_balance) >= 1.0:
 		bailed.emit()
 		reset_skater()
@@ -941,6 +955,10 @@ func _end_manual(grounded_exit: bool) -> void:
 
 func _clear_trick_buffers() -> void:
 	if not manual_active: _manual_gesture_hold = false
+	_vertical_edge = 0
+	_vertical_edge_age = 1.0
+	_last_vertical = 0
+	_vertical_neutral_seen = false
 	_flip_buffer_remaining = 0.0
 	_grab_buffer_remaining = 0.0
 	_manual_buffer_remaining = 0.0

@@ -275,14 +275,14 @@ static func drive_delivery(tree: SceneTree, game: Node, route_id: String, observ
 	evidence.manual_entered = game.skater.manual_active
 	await _observe(observer, "manual", evidence)
 	for frame in 180:
-		Input.action_release("push")
-		Input.action_release("brake")
-		if game.skater.manual_balance > 0.05: Input.action_press("push")
-		elif game.skater.manual_balance < -0.05: Input.action_press("brake")
+		Input.action_release("steer_left")
+		Input.action_release("steer_right")
+		if game.skater.manual_balance > 0.05: Input.action_press("steer_left")
+		elif game.skater.manual_balance < -0.05: Input.action_press("steer_right")
 		if game.skater.global_position.z >= -15.3: break
 		await _step(tree, game, evidence)
-	Input.action_release("push")
-	Input.action_release("brake")
+	Input.action_release("steer_left")
+	Input.action_release("steer_right")
 	Input.action_press("ollie")
 	await _step(tree, game, evidence)
 	Input.action_release("ollie")

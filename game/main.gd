@@ -21,6 +21,7 @@ var score := ScoreSession.new()
 var career = CareerProgressSource.new()
 var gaps = GapTrackerSource.new()
 var special_meter = SpecialMeterSource.new()
+var _special_axis_held: Dictionary = {}
 var objectives: Node3D
 var encounters: Node3D
 var cat_encounter: Node3D
@@ -137,6 +138,18 @@ func _ready() -> void:
 		hud.show_title()
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Stick motion produces repeated events while held. Specials are discrete:
+	# attempt once per excursion, then require a return through the deadzone.
+	if event is InputEventJoypadMotion:
+		var matched := false
+		for action: String in ["special_one", "special_two"]:
+			if not event.is_action(action): continue
+			matched = true
+			var held := event.is_action_pressed(action)
+			if held and not bool(_special_axis_held.get(action, false)):
+				_try_special("special_clyde_carousel" if action == "special_one" else "special_tenement_tumble")
+			_special_axis_held[action] = held
+		if matched: return
 	if event.is_action_pressed("restart"):
 		restart_run()
 	elif event.is_action_pressed("pause"):

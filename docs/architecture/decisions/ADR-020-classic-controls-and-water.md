@@ -1,0 +1,15 @@
+# ADR-020 — Directional controls and readable flowing Clyde water
+
+18 October2026. Owner explicitly requests implementation of controls and water now. This prioritizes PLAY-01/04/05 over the remaining full-map HORIZON admission; that unfinished gate stays open. No new area, paid asset/API, ramp-model rewrite or grind catalogue expansion in this slice.
+
+## Controls
+
+Preserve the already-correct face buttons: Cross hold/release Ollie, Square flip, Circle grab, Triangle rail/lip. All four D-pad directions now share movement/trick selection with the left stick and keyboard. Remove the old D-pad special/interact assignments: specials move to right stick up/down; interaction to L3. L2 remains an optional held-manual shortcut; R2 revert/R3 restart/Touchpad free-skate and keyboard defaults remain. Saved overrides still pass existing atomic validation; conflicting historical overrides must show the existing warning rather than silently overwriting them.
+
+Up–neutral–Down enters a latched Manual; Down–neutral–Up a Nose Manual, retaining the existing220ms gesture and120ms eligibility buffer, speed/support/cooldown/refusal checks. Manual/rail/lip balance uses Left/Right as explicitly requested. Manual horizontal correction cannot also turn the board; shoulders(Q/E) carve during manuals. Ordinary ground/air steering is unchanged. UI help, correction arrows and binding prompts must agree. Test actual controller events and supported movement, not only labels.
+
+## Water budget declared before implementation
+
+Retain the exact existing central/scenic water mesh (18triangles in the current horizon), one shared opaque ShaderMaterial and one water display/submission. Add **zero textures, geometry, collision, lights, transparency/refraction/screen-copy/SSR passes or per-frame scripts**. Use the existing three analytic wave phases (at most3sine+3cosine evaluations), with advection, analytic world-space ripple normals and derivative attenuation at distance. Make flow/near ripples visibly legible while retaining rough broad highlights; do not add high-frequency glitter. Existing water hazard/recovery, authored banks/UVs, fog/camera and global lighting remain identical.
+
+Measure original/candidate/original on frozen identical source/settings at four actual supported Clyde bearings, recording native frame distributions, long frames, draws/primitives/memory;40intervals per phase. Each p95/p99 must pass BOTH control midpoint +absolute control-repeat difference +5%midpoint and1.05×worse control. Do not waive failed views. Record real static/moving-camera temporal frames separately from timing readbacks. Original shader is extracted byte-for-byte from pusheda6150d7 for the controlled comparison; no old full-map result is repurposed as current-water acceptance. Target Mac/M5 performance, physical DualSense comfort and continuous flicker remain human/hardware gates.

@@ -184,7 +184,7 @@ static func _manual_variants(tree: SceneTree, check: Callable) -> void:
 		var name: String = Catalog.definition(id).display_name
 		check.call(rider.manual_active and rider.manual_id == id and seen.count(name) == 1,
 			"classic manual: mapped M selects %s at eligible real ground speed" % id)
-		Input.action_press("brake" if nose else "push")
+		Input.action_press("steer_right" if nose else "steer_left")
 		await _frames(tree, 9)
 		check.call(rider.manual_active and rider.manual_id == id and seen.count(name) == 1,
 			"classic manual: %s balance correction cannot relabel or duplicate the trick" % id)

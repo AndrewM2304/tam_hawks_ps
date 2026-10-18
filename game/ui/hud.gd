@@ -266,9 +266,9 @@ func update_display(state: Dictionary) -> void:
 	_balance_panel.visible = grinding or manual or lip
 	_balance_marker.position = Vector2(138.0 + balance * 130.0, 0)
 	_balance_marker.color = ORANGE if absf(balance) > 0.7 else ACCENT
-	_balance_label.text = ("LIP" if lip else ("RAIL" if grinding else "MANUAL")) + "  /  " + (_prompt_for("steer_left", "A") + "–" + _prompt_for("steer_right", "D") if grinding or lip else _prompt_for("push", "W") + "–" + _prompt_for("brake", "S"))
+	_balance_label.text = ("LIP" if lip else ("RAIL" if grinding else "MANUAL")) + "  /  " + _prompt_for("steer_left", "A") + "–" + _prompt_for("steer_right", "D")
 	if absf(balance) > 0.7:
-		var correction: String = ("steer_left" if balance > 0.0 else "steer_right") if grinding or lip else ("push" if balance > 0.0 else "brake")
+		var correction: String = "steer_left" if balance > 0.0 else "steer_right"
 		_balance_label.text = "CORRECT  ·  " + _prompt_for(correction, "")
 	var combo: int = state.get("combo", 0)
 	_combo.text = "%s × %d" % [_number(int(state.get("combo_base", 0))), int(state.get("multiplier", 0))] if combo > 0 else ""
@@ -280,7 +280,7 @@ func update_display(state: Dictionary) -> void:
 		var link_time := float(state.get("landing_window", 0.0))
 		_combo_status.text = "%s PENDING  ·  KEEP THE LINE ALIVE" % _number(combo)
 		if link_time > 0.0:
-			_combo_status.text = "LINK IT  %.2fs  ·  %s MANUAL / %s REVERT" % [link_time, _prompt_for("manual", "M"), _prompt_for("revert", "C")]
+			_combo_status.text = "LINK IT  %.2fs  ·  %s MANUAL / UP–DOWN  ·  %s REVERT" % [link_time, _prompt_for("manual", "M"), _prompt_for("revert", "C")]
 	if combo != _last_combo and combo > 0 and not bool(_settings.get("reduced_motion", false)):
 		if is_instance_valid(_combo_tween): _combo_tween.kill()
 		_combo.modulate = Color(1.0, 1.0, 0.72)
@@ -300,7 +300,7 @@ func update_display(state: Dictionary) -> void:
 		_modal_notice.text = _feedback.text
 		_modal_notice.visible = not _feedback.text.is_empty() and _page != "title"
 	if previous.is_empty() or device_changed or bindings_changed:
-		_controls_label.text = "Hold %s, release Ollie  ·  Direction + %s / %s tricks  ·  %s rail/lip  ·  %s controls" % [_prompt_for("ollie", "SPACE"), _prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("grind", "L"), _prompt_for("pause", "ESC")]
+		_controls_label.text = "Hold %s, release Ollie  ·  Direction + %s / %s tricks  ·  %s rail/lip  ·  ↑↓ manual  ·  %s controls" % [_prompt_for("ollie", "SPACE"), _prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("grind", "L"), _prompt_for("pause", "ESC")]
 	_layout_feedback_stack()
 	var finished: bool = state.get("finished", false)
 	var paused_now: bool = state.get("paused", false)
@@ -597,7 +597,7 @@ func _build_controls(content: VBoxContainer) -> void:
 	_binding_status = _label(content, "Controller prompts follow your saved bindings.", 15, ACCENT)
 	_binding_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_binding_status.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
-	var trick_help := _label(content, "Hold Ollie to crouch; release to pop. Direction + Flip / Grab selects a trick. Hold grabs.\nTap Grind to lock a rail; tap again to drop. Hold Grind at quarter-pipe coping for a lip trick.\nManual + Up selects Nose Manual. Up–neutral–Down / Down–neutral–Up also starts a manual / nose manual.\nAir left/right spins the skater; shoulders spin too. Quarter-pipe and half-pipe: Clyde quay.", 15, PAPER)
+	var trick_help := _label(content, "Hold Ollie to crouch; release to pop. Direction + Flip / Grab selects a trick. Hold grabs.\nTap Grind to lock a rail; tap again to drop. Hold Grind at quarter-pipe coping for a lip trick.\nManual + Up selects Nose Manual. D-pad or stick Up–neutral–Down starts Manual; Down–neutral–Up starts Nose Manual.\nBalance manuals, rails and lips with Left/Right. Turn manuals with %s / %s.\nAir left/right spins the skater; shoulders spin too. Specials: %s / %s. Interact: %s. Quarter/half-pipe: Clyde quay." % [_prompt_for("spin_left", "Q"), _prompt_for("spin_right", "E"), _prompt_for("special_one", "U"), _prompt_for("special_two", "I"), _prompt_for("interact", "X")], 15, PAPER)
 	trick_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	trick_help.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	if not ResourceLoader.exists("res://game/core/input_profile.gd"):
