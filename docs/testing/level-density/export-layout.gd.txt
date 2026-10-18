@@ -1,0 +1,70 @@
+extends SceneTree
+var world: Node3D
+func _initialize() -> void:
+	call_deferred("_run")
+func _run() -> void:
+	world = load("res://game/levels/glasgow_square.gd").new()
+	root.add_child(world)
+	await physics_frame
+	await process_frame
+	var rails: Array = []
+	for line in world.get_grind_lines():
+		rails.append({"id":line.id,"kind":line.kind,"length":line.length,"points":line.points,"district":world.get_district_id(line.point_at(line.length * 0.5))})
+	var terrain = world.get("_terrain")
+	var outside = world.get("_outdoors")
+	var data := {"schema":1,"purpose":"Read-only live layout inventory; proximity is not proof of fun, linked combos or accessibility.",
+		"engine":Engine.get_version_info(),"routes":world.get_route_definitions(),"rails":rails,
+		"transitions":world.get_transition_features(),"checkpoints":world.get_district_checkpoints(),
+		"goals":world.get_goal_markers(),"encounters":world.get_encounter_definitions(),"gaps":world.get_gap_definitions(),
+		"terrain_patches":terrain.patches,"terrain_polygons":terrain.polygons,"outdoor_surfaces":outside.get("_surfaces"),
+		"grid_spacing_m":4.0,"grid_offset_m":[2.0,0.0],"standing_grid":[],
+		"grid_limits":["Topmost published support only; stacked station lower layer is omitted.","A clear upright capsule and matching downward ray classify a potentially standing point, not spawn connectivity.","No camera, combo, trick or line-of-sight play is simulated.","Inclined terrain is exported separately from grind/transition proximity; grass is not automatically a designed skating feature."]}
+	var space := world.get_world_3d().direct_space_state
+	var capsule := CapsuleShape3D.new()
+	capsule.radius = 0.28
+	capsule.height = 1.7
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = capsule
+	query.collision_mask = 1
+	var cells: Array = []
+	for zi in 112:
+		var z := -224.0 + float(zi) * 4.0
+		for xi in 140:
+			var x := -278.0 + float(xi) * 4.0
+			var height: float = world.get_ground_height(Vector3(x,0,z))
+			if not is_finite(height): continue
+			var at := Vector3(x,height,z)
+			query.transform = Transform3D(Basis.IDENTITY,at + Vector3.UP * 0.91)
+			if not space.intersect_shape(query,1).is_empty(): continue
+			var ray := PhysicsRayQueryParameters3D.create(at + Vector3.UP * 0.25,at - Vector3.UP * 0.25,1)
+			var hit := space.intersect_ray(ray)
+			if hit.is_empty() or absf(float(hit.position.y)-height)>0.1: continue
+			cells.append({"at":at,"normal":hit.normal,"district":world.get_district_id(at),"support":str(hit.collider.name)})
+	data.standing_grid = cells
+	var args := OS.get_cmdline_user_args()
+	var path: String = args[0] if args.size()>0 else "res://.local/level-density/live-layout.json"
+	var file := FileAccess.open(path,FileAccess.WRITE)
+	file.store_string(JSON.stringify(pack(data),"  ")+"\n")
+	file.close()
+	print("DENSITY_INVENTORY rails=",rails.size()," routes=",data.routes.size()," transitions=",data.transitions.size()," standing_grid=",cells.size())
+	world.queue_free()
+	await process_frame
+	quit(0)
+func pack(value: Variant) -> Variant:
+	match typeof(value):
+		TYPE_VECTOR3: return [value.x,value.y,value.z]
+		TYPE_VECTOR2: return [value.x,value.y]
+		TYPE_VECTOR4: return [value.x,value.y,value.z,value.w]
+		TYPE_RECT2: return {"position":pack(value.position),"size":pack(value.size)}
+		TYPE_TRANSFORM3D: return {"origin":pack(value.origin),"basis":[pack(value.basis.x),pack(value.basis.y),pack(value.basis.z)]}
+		TYPE_DICTIONARY:
+			var result: Dictionary = {}
+			for key in value: result[str(key)] = pack(value[key])
+			return result
+		TYPE_ARRAY, TYPE_PACKED_VECTOR3_ARRAY, TYPE_PACKED_VECTOR2_ARRAY, TYPE_PACKED_INT32_ARRAY:
+			var result: Array = []
+			for item in value: result.append(pack(item))
+			return result
+		TYPE_CALLABLE: return {"type":"Callable","method":str(value.get_method())}
+		TYPE_OBJECT: return {"type":value.get_class(),"path":str(value.get_path())} if value is Node else {"type":value.get_class()}
+		_: return value

@@ -1,0 +1,76 @@
+from pathlib import Path
+import gzip, hashlib, json, re, subprocess
+from PIL import Image
+import numpy as np
+
+root=Path.cwd(); out=root/'docs/testing/level-density'
+sha=lambda b:hashlib.sha256(b).hexdigest()
+receipt=json.loads((out/'receipt.json').read_text())
+raw=gzip.decompress((out/'live-layout.json.gz').read_bytes())
+assert sha(raw)==receipt['raw_inventory_sha256']
+data=json.loads(raw); metrics=json.loads((out/'metrics.json').read_text())
+for name,digest in receipt['artifacts_sha256'].items():
+    assert sha((out/name).read_bytes())==digest, name
+before=json.loads((out/'source-before.json').read_text())
+after=json.loads((out/'source-after.json').read_text())
+accepted=json.loads((root/'docs/testing/arcade-response/final-check/source-after.json').read_text())
+assert before==after==accepted
+assert {n:sha((root/n).read_bytes()) for n in before}==before
+assert len(before)==346
+assert len(data['rails'])==196 and len(data['routes'])==48 and len(data['transitions'])==3
+assert len(data['standing_grid'])==6976
+assert data['grid_offset_m']==[2,0]
+for route in data['routes']:
+    p=np.array(route['points']); n=float(np.linalg.norm(np.diff(p,axis=0),axis=1).sum())
+    assert abs(n-metrics['route_polyline_lengths_m'][route['id']])<.000501
+actual_fountain=[r for r in data['rails'] if r['id']=='Grind_Coping_ExchangeFountain']
+assert len(actual_fountain)==1
+assert abs(actual_fountain[0]['length']-38.94)<.01
+# Independent scalar point-to-segment/arc checks, spaced across the exported grid.
+segments=[(np.array(a),np.array(b)) for r in data['rails'] for a,b in zip(r['points'],r['points'][1:])]
+def minimum_distance(p):
+    candidates=[]
+    for a,b in segments:
+        v=b-a; t=max(0,min(1,float(np.dot(p-a,v)/np.dot(v,v))))
+        candidates.append(float(np.linalg.norm(p-a-t*v)))
+    for face in data['transitions']:
+        frame=face['transform']; local=np.dot(p-frame['origin'], np.array(frame['basis']).T)
+        r=face['radius']; theta=max(0,min(face['angle'],float(np.arctan2(-local[2],r-local[1]))))
+        q=np.array([max(-face['width']/2,min(face['width']/2,local[0])),r*(1-np.cos(theta)),-r*np.sin(theta)])
+        candidates.append(float(np.linalg.norm(local-q)))
+        for end in (0, face['angle']):
+            endpoint=np.array([q[0],r*(1-np.cos(end)),-r*np.sin(end)])
+            candidates.append(float(np.linalg.norm(local-endpoint)))
+    return min(candidates)
+sample_distances=[minimum_distance(np.array(data['standing_grid'][i]['at'])) for i in range(0,6976,173)]
+assert len(sample_distances)==41 and all(np.isfinite(sample_distances))
+with Image.open(out/'current-layout.png') as im:
+    im.load(); assert im.size==(2250,1470); assert len(im.getcolors(2250*1470))>1000
+backlog=(root/'docs/planning/BACKLOG.md').read_bytes(); body=backlog[backlog.index(b'### M00-001'):]
+assert sha(body)=='48604a8ca25d8763f496a6c5ccbd8cf215d67583cc7d78dbc153c20694c14cae'
+assert len(re.findall(rb'^### M\d\d-\d\d\d',body,re.M))==75
+paths=['docs/levels/STRICT-DENSITY-REVIEW.md','docs/planning/LEVEL-DENSITY-NEXT.md',
+       'docs/testing/level-density/README.md','docs/STATUS.md','docs/planning/ACTIVE_WORK.md',
+       'docs/planning/RESUME.md','docs/planning/ARCADE-HARDENING.md']
+checked=0
+for name in paths:
+    p=root/name; text=p.read_text()
+    # New documents in full; handoff only its new leading paragraph.
+    if name not in paths[:3]: text=text.split('\n\n',2)[0] if name!='docs/STATUS.md' else text.split('\n\n',2)[1]
+    for link in re.findall(r'\]\(([^)]+)\)',text):
+        if '://' in link or link.startswith('#'): continue
+        target=link.split('#',1)[0]
+        assert (p.parent/target).is_file(), (name,target)
+        checked+=1
+assert not subprocess.check_output(['git','diff','--','game','tests','tools','project.godot'],text=True)
+subprocess.run(['git','diff','--check'],check=True)
+report={'scope':'Documentation and source-bound design evidence only; no runtime acceptance rerun.',
+        'source_inputs_verified':346,'accepted_required_check':'2041 passed / 0 failed, unchanged source, previous run',
+        'raw_inventory_hash_verified':True,'receipt_artifacts_verified':len(receipt['artifacts_sha256']),
+        'route_lengths_independently_recomputed':48,'grind_tracks':196,'transition_faces':3,'standing_samples':6976,
+        'scalar_distance_sanity_samples':41,'png_decoded_dimensions':[2250,1470],
+        'backlog_complete_records':75,'backlog_record_body_sha256':sha(body),
+        'documentation_links_checked':checked,'production_diff_empty':True,
+        'no_performance_or_human_fun_claim':True}
+(out/'audit.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
+print(json.dumps(report,indent=2))

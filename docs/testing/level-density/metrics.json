@@ -1,0 +1,369 @@
+{
+  "all_samples": {
+    "beyond_15m_and_slope_under_2deg_samples": 1364,
+    "beyond_15m_percent": 64.8,
+    "beyond_15m_samples": 4520,
+    "clear_standing_samples": 6976,
+    "nearest_grind_or_transition_median_m": 25.18,
+    "nearest_grind_or_transition_p90_m": 98.36,
+    "within_8m_samples": 1450
+  },
+  "by_district_label": {
+    "barras": {
+      "beyond_15m_and_slope_under_2deg_samples": 182,
+      "beyond_15m_percent": 46.4,
+      "beyond_15m_samples": 221,
+      "clear_standing_samples": 476,
+      "nearest_grind_or_transition_median_m": 14.02,
+      "nearest_grind_or_transition_p90_m": 33.56,
+      "within_8m_samples": 126
+    },
+    "central_station": {
+      "beyond_15m_and_slope_under_2deg_samples": 451,
+      "beyond_15m_percent": 62.7,
+      "beyond_15m_samples": 599,
+      "clear_standing_samples": 956,
+      "nearest_grind_or_transition_median_m": 20.16,
+      "nearest_grind_or_transition_p90_m": 59.45,
+      "within_8m_samples": 180
+    },
+    "clyde": {
+      "beyond_15m_and_slope_under_2deg_samples": 499,
+      "beyond_15m_percent": 79.1,
+      "beyond_15m_samples": 2856,
+      "clear_standing_samples": 3609,
+      "nearest_grind_or_transition_median_m": 63.95,
+      "nearest_grind_or_transition_p90_m": 117.83,
+      "within_8m_samples": 513
+    },
+    "george_square": {
+      "beyond_15m_and_slope_under_2deg_samples": 131,
+      "beyond_15m_percent": 44.2,
+      "beyond_15m_samples": 152,
+      "clear_standing_samples": 344,
+      "nearest_grind_or_transition_median_m": 13.01,
+      "nearest_grind_or_transition_p90_m": 23.95,
+      "within_8m_samples": 102
+    },
+    "kelvingrove": {
+      "beyond_15m_and_slope_under_2deg_samples": 57,
+      "beyond_15m_percent": 52.9,
+      "beyond_15m_samples": 629,
+      "clear_standing_samples": 1188,
+      "nearest_grind_or_transition_median_m": 16.25,
+      "nearest_grind_or_transition_p90_m": 46.9,
+      "within_8m_samples": 339
+    },
+    "royal_exchange": {
+      "beyond_15m_and_slope_under_2deg_samples": 44,
+      "beyond_15m_percent": 15.6,
+      "beyond_15m_samples": 63,
+      "clear_standing_samples": 403,
+      "nearest_grind_or_transition_median_m": 8.16,
+      "nearest_grind_or_transition_p90_m": 16.43,
+      "within_8m_samples": 190
+    }
+  },
+  "counts": {
+    "grind_kinds": {
+      "coping": 9,
+      "curb": 16,
+      "ledge": 146,
+      "rail": 25
+    },
+    "grind_tracks": 196,
+    "route_definitions": 48,
+    "transition_arenas": 2,
+    "transition_faces": 3
+  },
+  "illustrative_travel_seconds": {
+    "barras_back_lane": {
+      "at_constant_15mps": 7.74,
+      "at_constant_8mps": 14.51
+    },
+    "barras_covered_delivery_lane": {
+      "at_constant_15mps": 1.53,
+      "at_constant_8mps": 2.88
+    },
+    "barras_covered_loading_link": {
+      "at_constant_15mps": 2.67,
+      "at_constant_8mps": 5.01
+    },
+    "barras_market_inner_loop": {
+      "at_constant_15mps": 4.85,
+      "at_constant_8mps": 9.09
+    },
+    "barras_market_outer_loop": {
+      "at_constant_15mps": 4.98,
+      "at_constant_8mps": 9.33
+    },
+    "barras_north_link": {
+      "at_constant_15mps": 3.53,
+      "at_constant_8mps": 6.63
+    },
+    "barras_south_link": {
+      "at_constant_15mps": 4.8,
+      "at_constant_8mps": 9.0
+    },
+    "barras_west_delivery_lane": {
+      "at_constant_15mps": 1.72,
+      "at_constant_8mps": 3.23
+    },
+    "cat_coping_approach": {
+      "at_constant_15mps": 0.67,
+      "at_constant_8mps": 1.25
+    },
+    "cat_coping_runout": {
+      "at_constant_15mps": 1.53,
+      "at_constant_8mps": 2.88
+    },
+    "cat_ordered_coping_line": {
+      "at_constant_15mps": 3.35,
+      "at_constant_8mps": 6.28
+    },
+    "cat_workshop_bypass": {
+      "at_constant_15mps": 5.2,
+      "at_constant_8mps": 9.75
+    },
+    "central_back_lane": {
+      "at_constant_15mps": 7.2,
+      "at_constant_8mps": 13.51
+    },
+    "central_high_line": {
+      "at_constant_15mps": 4.83,
+      "at_constant_8mps": 9.06
+    },
+    "central_high_line_bypass": {
+      "at_constant_15mps": 4.53,
+      "at_constant_8mps": 8.5
+    },
+    "central_north_link": {
+      "at_constant_15mps": 2.8,
+      "at_constant_8mps": 5.25
+    },
+    "central_south_link": {
+      "at_constant_15mps": 3.21,
+      "at_constant_8mps": 6.02
+    },
+    "civic_park_port": {
+      "at_constant_15mps": 1.33,
+      "at_constant_8mps": 2.5
+    },
+    "civic_workshop_bank_loop": {
+      "at_constant_15mps": 2.95,
+      "at_constant_8mps": 5.54
+    },
+    "clyde_bridge_transfer": {
+      "at_constant_15mps": 3.94,
+      "at_constant_8mps": 7.38
+    },
+    "clyde_north_quay": {
+      "at_constant_15mps": 15.48,
+      "at_constant_8mps": 29.02
+    },
+    "clyde_print_yard_hip": {
+      "at_constant_15mps": 1.15,
+      "at_constant_8mps": 2.16
+    },
+    "clyde_print_yard_loop": {
+      "at_constant_15mps": 6.23,
+      "at_constant_8mps": 11.69
+    },
+    "clyde_safe_crossing": {
+      "at_constant_15mps": 3.87,
+      "at_constant_8mps": 7.26
+    },
+    "exchange_east_quay_close": {
+      "at_constant_15mps": 1.34,
+      "at_constant_8mps": 2.52
+    },
+    "exchange_fountain_loop": {
+      "at_constant_15mps": 9.87,
+      "at_constant_8mps": 18.5
+    },
+    "exchange_west_bank_loop": {
+      "at_constant_15mps": 2.31,
+      "at_constant_8mps": 4.33
+    },
+    "exchange_west_bypass": {
+      "at_constant_15mps": 1.07,
+      "at_constant_8mps": 2.0
+    },
+    "exchange_west_quay_close": {
+      "at_constant_15mps": 1.34,
+      "at_constant_8mps": 2.52
+    },
+    "gallery_civic_ascent": {
+      "at_constant_15mps": 9.76,
+      "at_constant_8mps": 18.31
+    },
+    "gallery_east_close": {
+      "at_constant_15mps": 1.34,
+      "at_constant_8mps": 2.52
+    },
+    "gallery_entrance_bank_loop": {
+      "at_constant_15mps": 1.88,
+      "at_constant_8mps": 3.52
+    },
+    "gallery_entrance_bypass": {
+      "at_constant_15mps": 5.2,
+      "at_constant_8mps": 9.75
+    },
+    "gallery_entrance_front_return": {
+      "at_constant_15mps": 1.21,
+      "at_constant_8mps": 2.26
+    },
+    "gallery_step_drop": {
+      "at_constant_15mps": 1.15,
+      "at_constant_8mps": 2.15
+    },
+    "gallery_west_close": {
+      "at_constant_15mps": 1.34,
+      "at_constant_8mps": 2.52
+    },
+    "kelvingrove_central_climb": {
+      "at_constant_15mps": 5.62,
+      "at_constant_8mps": 10.55
+    },
+    "kelvingrove_cutback_return": {
+      "at_constant_15mps": 8.56,
+      "at_constant_8mps": 16.05
+    },
+    "kelvingrove_george_promenade": {
+      "at_constant_15mps": 6.87,
+      "at_constant_8mps": 12.88
+    },
+    "kelvingrove_rolling_loop": {
+      "at_constant_15mps": 16.83,
+      "at_constant_8mps": 31.55
+    },
+    "market_hall_bank_loop": {
+      "at_constant_15mps": 2.83,
+      "at_constant_8mps": 5.32
+    },
+    "market_loading_ascent": {
+      "at_constant_15mps": 4.37,
+      "at_constant_8mps": 8.2
+    },
+    "market_step_drop": {
+      "at_constant_15mps": 1.27,
+      "at_constant_8mps": 2.39
+    },
+    "merchant_close_cutthrough": {
+      "at_constant_15mps": 3.81,
+      "at_constant_8mps": 7.15
+    },
+    "merchant_service_east_return": {
+      "at_constant_15mps": 1.58,
+      "at_constant_8mps": 2.96
+    },
+    "merchant_service_west_return": {
+      "at_constant_15mps": 1.1,
+      "at_constant_8mps": 2.06
+    },
+    "station_low_level_close": {
+      "at_constant_15mps": 5.47,
+      "at_constant_8mps": 10.25
+    },
+    "station_park_port": {
+      "at_constant_15mps": 1.27,
+      "at_constant_8mps": 2.38
+    }
+  },
+  "proxy_definition": "Minimum 3D distance to a registered grind polyline or exact cylindrical transition strip. 8m/15m are review thresholds, not capture envelopes. No line-of-sight, connected approach or trick chain is proven. Banks/stairs/manual space/gaps/NPCs and visual interest are not scored.",
+  "route_polyline_lengths_m": {
+    "barras_back_lane": 116.098,
+    "barras_covered_delivery_lane": 23.0,
+    "barras_covered_loading_link": 40.093,
+    "barras_market_inner_loop": 72.71,
+    "barras_market_outer_loop": 74.665,
+    "barras_north_link": 53.008,
+    "barras_south_link": 72.0,
+    "barras_west_delivery_lane": 25.828,
+    "cat_coping_approach": 10.0,
+    "cat_coping_runout": 23.0,
+    "cat_ordered_coping_line": 50.275,
+    "cat_workshop_bypass": 78.0,
+    "central_back_lane": 108.062,
+    "central_high_line": 72.497,
+    "central_high_line_bypass": 68.0,
+    "central_north_link": 42.0,
+    "central_south_link": 48.133,
+    "civic_park_port": 20.0,
+    "civic_workshop_bank_loop": 44.281,
+    "clyde_bridge_transfer": 59.07,
+    "clyde_north_quay": 232.198,
+    "clyde_print_yard_hip": 17.297,
+    "clyde_print_yard_loop": 93.511,
+    "clyde_safe_crossing": 58.115,
+    "exchange_east_quay_close": 20.153,
+    "exchange_fountain_loop": 148.0,
+    "exchange_west_bank_loop": 34.629,
+    "exchange_west_bypass": 16.0,
+    "exchange_west_quay_close": 20.153,
+    "gallery_civic_ascent": 146.45,
+    "gallery_east_close": 20.142,
+    "gallery_entrance_bank_loop": 28.129,
+    "gallery_entrance_bypass": 78.0,
+    "gallery_entrance_front_return": 18.103,
+    "gallery_step_drop": 17.198,
+    "gallery_west_close": 20.142,
+    "kelvingrove_central_climb": 84.363,
+    "kelvingrove_cutback_return": 128.424,
+    "kelvingrove_george_promenade": 103.044,
+    "kelvingrove_rolling_loop": 252.419,
+    "market_hall_bank_loop": 42.525,
+    "market_loading_ascent": 65.579,
+    "market_step_drop": 19.112,
+    "merchant_close_cutthrough": 57.166,
+    "merchant_service_east_return": 23.647,
+    "merchant_service_west_return": 16.459,
+    "station_low_level_close": 82.0,
+    "station_park_port": 19.0
+  },
+  "schema": 1,
+  "scope": "Read-only current World, grid and source measurements; design proxies, not gameplay acceptance.",
+  "source_checkpoint": "321501d",
+  "source_dimensions_m": {
+    "bridge_x_separation": 133,
+    "north_quay": [
+      300,
+      23
+    ],
+    "south_landscape": [
+      560,
+      90
+    ],
+    "south_quay": [
+      300,
+      14
+    ]
+  },
+  "source_inputs_unchanged": 346,
+  "south_landscape_samples": {
+    "beyond_15m_and_slope_under_2deg_samples": 465,
+    "beyond_15m_percent": 98.3,
+    "beyond_15m_samples": 2822,
+    "clear_standing_samples": 2871,
+    "nearest_grind_or_transition_median_m": 75.8,
+    "nearest_grind_or_transition_p90_m": 123.45,
+    "within_8m_samples": 11
+  },
+  "standing_grid": {
+    "capsule_height_m": 1.7,
+    "capsule_radius_m": 0.28,
+    "collision_mask": 1,
+    "limits": [
+      "Topmost published support only; stacked station lower layer is omitted.",
+      "A clear upright capsule and matching downward ray classify a potentially standing point, not spawn connectivity.",
+      "No camera, combo, trick or line-of-sight play is simulated.",
+      "Inclined terrain is exported separately from grind/transition proximity; grass is not automatically a designed skating feature."
+    ],
+    "sole_clearance_m": 0.06,
+    "spacing_m": 4,
+    "topmost_height_ray_tolerance_m": 0.1,
+    "x_centres": "-278 + 4*i, i=0..139",
+    "z_centres": "-224 + 4*j, j=0..111"
+  },
+  "travel_limit": "Distance/speed illustrations only; no acceleration, cornering, grade or real input is simulated. The actual rendered traverse observations are separate in STRICT-DENSITY-REVIEW."
+}

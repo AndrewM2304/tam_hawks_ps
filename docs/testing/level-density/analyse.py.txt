@@ -1,0 +1,177 @@
+"""Source-bound design inventory; no gameplay, connectivity or performance claims."""
+from pathlib import Path
+from collections import Counter
+import gzip
+import hashlib
+import json
+import math
+import shutil
+import subprocess
+import os
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import numpy as np
+os.environ.setdefault('MPLCONFIGDIR', '/tmp/tam-hawks-density-mpl')
+os.environ.setdefault('XDG_CACHE_HOME', '/tmp/tam-hawks-density-cache')
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+from matplotlib.patches import Rectangle
+
+ROOT = Path(__file__).resolve().parents[2]
+LOCAL = ROOT / '.local/level-density'
+OUT = ROOT / 'docs/testing/level-density'
+OUT.mkdir(parents=True, exist_ok=True)
+sha = lambda b: hashlib.sha256(b).hexdigest()
+before = json.loads((LOCAL / 'source-before.json').read_text())
+after = {name: sha((ROOT / name).read_bytes()) for name in before}
+assert before == after, 'Source changed during inventory'
+assert len(before) == 346
+log = (LOCAL / 'export-final.log').read_text()
+assert 'DENSITY_INVENTORY rails=196 routes=48 transitions=3 standing_grid=6976' in log
+assert not any(s in log for s in ['SCRIPT ERROR', 'ERROR:', 'WARNING:'])
+d = json.loads((LOCAL / 'live-layout.json').read_text())
+pts = np.array([c['at'] for c in d['standing_grid']], dtype=float)
+normals = np.array([c['normal'] for c in d['standing_grid']], dtype=float)
+slopes = np.degrees(np.arccos(np.clip(normals[:, 1], -1, 1)))
+segments = np.array([(a, b) for rail in d['rails'] for a, b in zip(rail['points'], rail['points'][1:])], dtype=float)
+a, v = segments[:, 0], segments[:, 1] - segments[:, 0]
+vv = np.sum(v*v, axis=1)
+assert np.all(vv > 0)
+nearest_rail = np.zeros(len(pts))
+for start in range(0, len(pts), 256):
+    p = pts[start:start+256]
+    t = np.clip(np.sum((p[:, None, :] - a) * v, axis=2) / vv, 0, 1)
+    dist2 = np.sum((p[:, None, :] - a - t[:, :, None] * v)**2, axis=2)
+    nearest_rail[start:start+len(p)] = np.sqrt(np.min(dist2, axis=1))
+# Exact closest point to the authored cylindrical arc strip, including its ends.
+nearest_transition = np.full(len(pts), np.inf)
+for face in d['transitions']:
+    frame = face['transform']
+    basis = np.array(frame['basis']).T
+    local = (pts - frame['origin']) @ basis
+    theta = np.clip(np.arctan2(-local[:, 2], face['radius'] - local[:, 1]), 0, face['angle'])
+    q = np.column_stack((np.clip(local[:, 0], -face['width']/2, face['width']/2),
+                         face['radius']*(1-np.cos(theta)), -face['radius']*np.sin(theta)))
+    face_distance = np.linalg.norm(local-q, axis=1)
+    # atan2 wraps below -pi/2 for some points above/behind the toe. The
+    # closest restricted-arc endpoint can then be the lip rather than toe.
+    for end in (0, face['angle']):
+        endpoint = np.column_stack((q[:, 0], np.full(len(pts), face['radius']*(1-np.cos(end))),
+                                    np.full(len(pts), -face['radius']*np.sin(end))))
+        face_distance = np.minimum(face_distance, np.linalg.norm(local-endpoint, axis=1))
+    nearest_transition = np.minimum(nearest_transition, face_distance)
+nearest = np.minimum(nearest_rail, nearest_transition)
+
+def summarize(mask):
+    n = int(np.sum(mask))
+    return {'clear_standing_samples': n,
+            'nearest_grind_or_transition_median_m': round(float(np.median(nearest[mask])), 2),
+            'nearest_grind_or_transition_p90_m': round(float(np.percentile(nearest[mask], 90)), 2),
+            'within_8m_samples': int(np.sum(mask & (nearest <= 8))),
+            'beyond_15m_samples': int(np.sum(mask & (nearest > 15))),
+            'beyond_15m_and_slope_under_2deg_samples': int(np.sum(mask & (nearest > 15) & (slopes < 2))),
+            'beyond_15m_percent': round(100*float(np.sum(mask & (nearest > 15)))/n, 1)}
+
+route_lengths = {r['id']: round(float(np.linalg.norm(np.diff(np.array(r['points']), axis=0), axis=1).sum()), 3) for r in d['routes']}
+districts = sorted(set(c['district'] for c in d['standing_grid']))
+district_summary = {name: summarize(np.array([c['district'] == name for c in d['standing_grid']])) for name in districts}
+south = (pts[:, 0] >= -280) & (pts[:, 0] <= 280) & (pts[:, 2] >= 130) & (pts[:, 2] <= 220)
+metrics = {
+    'schema': 1, 'source_checkpoint': '321501d', 'source_inputs_unchanged': len(before),
+    'scope': 'Read-only current World, grid and source measurements; design proxies, not gameplay acceptance.',
+    'standing_grid': {'spacing_m': 4, 'x_centres': '-278 + 4*i, i=0..139', 'z_centres': '-224 + 4*j, j=0..111',
+                      'capsule_radius_m': .28, 'capsule_height_m': 1.7, 'sole_clearance_m': .06,
+                      'topmost_height_ray_tolerance_m': .1, 'collision_mask': 1,
+                      'limits': d['grid_limits']},
+    'proxy_definition': 'Minimum 3D distance to a registered grind polyline or exact cylindrical transition strip. 8m/15m are review thresholds, not capture envelopes. No line-of-sight, connected approach or trick chain is proven. Banks/stairs/manual space/gaps/NPCs and visual interest are not scored.',
+    'counts': {'grind_tracks': len(d['rails']), 'grind_kinds': dict(Counter(r['kind'] for r in d['rails'])),
+               'route_definitions': len(d['routes']), 'transition_faces': len(d['transitions']), 'transition_arenas': 2},
+    'all_samples': summarize(np.full(len(pts), True)), 'by_district_label': district_summary,
+    'south_landscape_samples': summarize(south),
+    'source_dimensions_m': {'south_landscape': [560, 90], 'north_quay': [300, 23], 'south_quay': [300, 14],
+                          'bridge_x_separation': 133},
+    'route_polyline_lengths_m': route_lengths,
+    'illustrative_travel_seconds': {k: {'at_constant_8mps': round(v/8, 2), 'at_constant_15mps': round(v/15, 2)}
+                                   for k, v in route_lengths.items()},
+    'travel_limit': 'Distance/speed illustrations only; no acceleration, cornering, grade or real input is simulated. The actual rendered traverse observations are separate in STRICT-DENSITY-REVIEW.',
+}
+(OUT / 'metrics.json').write_text(json.dumps(metrics, indent=2, sort_keys=True)+'\n')
+
+fig = plt.figure(figsize=(15, 9.8), facecolor='#f4f3ee')
+gs = fig.add_gridspec(1, 2, width_ratios=[1.8, 1.05], left=.045, right=.98, bottom=.16, top=.88, wspace=.17)
+ax, detail = [fig.add_subplot(gs[0, i]) for i in range(2)]
+colors = np.where(nearest <= 8, '#2e8270', np.where(nearest <= 15, '#c39a4b', '#c76759'))
+for view in [ax, detail]:
+    view.set_facecolor('#e8e7e1')
+    view.scatter(pts[:, 0], pts[:, 2], c=colors, s=5, marker='s', alpha=.57, linewidths=0, zorder=1, rasterized=True)
+    view.add_patch(Rectangle((-150, 78), 300, 38, color='#a4c8d4', alpha=.8, zorder=0))
+    for route in d['routes']:
+        p = np.array(route['points'])
+        view.plot(p[:, 0], p[:, 2], color='#354c69', lw=.75, alpha=.65, zorder=2)
+    for rail in d['rails']:
+        p = np.array(rail['points'])
+        view.plot(p[:, 0], p[:, 2], color='#171e26', lw=.85, zorder=3)
+    for f in d['transitions']:
+        origin = np.array(f['transform']['origin'])
+        view.scatter(origin[0], origin[2], s=50, marker='^', c='#7133a1', zorder=5)
+    view.set_aspect('equal')
+    view.grid(alpha=.15, color='#1b2530')
+    view.set_xlabel('world X (m)')
+    view.set_ylabel('world Z (m; south downward)')
+    view.tick_params(labelsize=8)
+ax.set_xlim(-288, 288)
+ax.set_ylim(228, -232)
+detail.set_xlim(-132, 140)
+detail.set_ylim(91, -147)
+ax.set_title('Current footprint and outer travel', fontsize=12, loc='left', pad=14)
+detail.set_title('Core detail — same measurements', fontsize=12, loc='left', pad=14)
+
+def label(view, name, at, xy):
+    view.annotate(name, xy=at, xytext=xy, fontsize=8.4,
+                  bbox=dict(boxstyle='round,pad=.28', facecolor='#fffdf7', edgecolor='#d2cfc5', alpha=.96),
+                  arrowprops=dict(arrowstyle='-', lw=.7, color='#4b4c50'), zorder=10)
+label(ax, 'South landscape: 560 × 90 m\nPrint Yard occupies a small part', (180, 175), (12, 193))
+label(ax, 'Park loop: 252 m\nGeorge approach: 103 m', (-184, -137), (-263, -211))
+label(ax, '300 m north quay\nbridges 133 m apart', (-110, 70), (-269, 102))
+label(detail, 'Station\nupper + lower routes', (-85, -14), (-124, -63))
+label(detail, 'George / cat court', (0, -108), (13, -138))
+label(detail, 'Barras\nmarket aisles', (103, 8), (67, -60))
+label(detail, 'Exchange / fountain', (1, 14), (-34, -10))
+label(detail, 'Half-pipe + quarter', (-22, 60), (-107, 82))
+label(ax, 'Print Yard', (58, 130), (99, 105))
+fig.suptitle('Tam Hawks — strict density audit of the CURRENT map', x=.045, y=.965, ha='left', fontsize=19, weight='bold', color='#192b32')
+fig.text(.045, .924, 'Source 321501d · 6,976 clear standing samples · 196 grind tracks · 48 route definitions · no geometry changed', fontsize=10, color='#45545a')
+legend = [Line2D([], [], marker='s', linestyle='', color=c, markersize=8, label=l) for c,l in [
+    ('#2e8270', '≤8 m to grind / transition'), ('#c39a4b', '8–15 m'), ('#c76759', '>15 m')]]
+legend += [Line2D([], [], color='#354c69', lw=1.5, label='Authored route'), Line2D([], [], color='#171e26', lw=1.5, label='Grind track'),
+           Line2D([], [], marker='^', linestyle='', color='#7133a1', label='Transition face')]
+fig.legend(handles=legend, loc='lower left', bbox_to_anchor=(.04, .092), frameon=False, ncol=3, fontsize=9)
+fig.text(.045, .055, 'Proximity is an optimistic design proxy: it ignores barriers and usable approaches, and omits banks, gaps and manual space.', fontsize=9, color='#4a4b4e')
+fig.text(.045, .032, 'Topmost ground only; lower station passage omitted. Clear standing ≠ reachable from spawn. Colours are not fun, safety or performance scores.', fontsize=9, color='#4a4b4e')
+fig.savefig(OUT / 'current-layout.png', dpi=150, facecolor=fig.get_facecolor())
+fig.savefig(OUT / 'current-layout.svg', facecolor=fig.get_facecolor())
+plt.close(fig)
+
+raw = (LOCAL / 'live-layout.json').read_bytes()
+(OUT / 'live-layout.json.gz').write_bytes(gzip.compress(raw, mtime=0))
+shutil.copyfile(LOCAL / 'export-layout.gd', OUT / 'export-layout.gd.txt')
+shutil.copyfile(LOCAL / 'export-final.log', OUT / 'inventory.log')
+shutil.copyfile(LOCAL / 'source-before.json', OUT / 'source-before.json')
+(OUT / 'source-after.json').write_text(json.dumps(after, indent=2, sort_keys=True)+'\n')
+shutil.copyfile(Path(__file__), OUT / 'analyse.py.txt')
+receipt = json.loads((LOCAL / 'started.json').read_text())
+receipt.update({'inventory_exit_code': 0, 'clean_log': True,
+    'collected_london': datetime.now(ZoneInfo('Europe/London')).isoformat(),
+    'git_head': subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip(),
+    'source_unchanged': before == after,
+    'raw_inventory_sha256': sha(raw),
+    'artifacts_sha256': {p.name: sha(p.read_bytes()) for p in sorted(OUT.iterdir()) if p.is_file() and p.name not in ('receipt.json','README.md','audit.json')},
+    'analysis_command': 'python3 .local/level-density/analyse.py',
+    'backlog_full_records': 75, 'runtime_modified': False,
+    'scope_limits': ['Read-only World inventory, no continuous human play or performance timing.',
+                     'Standing samples and proximity thresholds do not certify fun, reachability, combo flow or visual quality.',
+                     'No production source, test, tool, project setting, save or asset is modified.']})
+(OUT / 'receipt.json').write_text(json.dumps(receipt, indent=2, sort_keys=True)+'\n')
+print(json.dumps({'all': metrics['all_samples'], 'south': metrics['south_landscape_samples'], 'districts': district_summary}, indent=2))

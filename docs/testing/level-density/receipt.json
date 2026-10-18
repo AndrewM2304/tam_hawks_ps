@@ -1,0 +1,35 @@
+{
+  "analysis_command": "python3 .local/level-density/analyse.py",
+  "artifacts_sha256": {
+    "analyse.py.txt": "48c19f0c923ed5d27cac1f06e9b6e89a524a7480b726321023ff3e4b4a54ba39",
+    "audit.py.txt": "dd2656d84cc5a0d5363e145525163479aa3008933d9e71f85c63fdad211102ed",
+    "current-layout.png": "c9e18a6335697cdbb65c8cbb5d195243b123d3ebaf09cdd3a5f8af133e5f7595",
+    "current-layout.svg": "5c3e904d510ae63c569b41f520788e271c70a4a80885c16acf6e72c37f006cdf",
+    "export-layout.gd.txt": "bf3cdd2dd488aa66f032859e93b9ccb74cd716e94ab018de7a1cdef7a6983716",
+    "inventory.log": "6a22e0134a2093807e467cd96743a9b05560a40f548d1417092bb7eac262cc93",
+    "live-layout.json.gz": "02a7664eb88e9ee78efe26f0db881110b77a46c4dab2aff3a8841ada6db5d21c",
+    "metrics.json": "b6a7ccce99480e2be6c2bf626f5b8fe4164fe1524c427530f74e2244af574be6",
+    "source-after.json": "7ec8774aaa2016b960fb52a62586f6a26b7507a74dce2a88cbeca9d9985796db",
+    "source-before.json": "7ec8774aaa2016b960fb52a62586f6a26b7507a74dce2a88cbeca9d9985796db"
+  },
+  "backlog_full_records": 75,
+  "clean_log": true,
+  "collected_london": "2026-10-18T13:46:40.499941+01:00",
+  "command": "./tools/run.sh --headless --script .local/level-density/export-layout.gd",
+  "git_head": "321501d26b7c16d92541853e28c002faa0269f3a",
+  "inventory_exit_code": 0,
+  "note": "Final rerun corrects the metadata z-grid-offset to0; actual sampled coordinates and algorithm unchanged.",
+  "raw_inventory_sha256": "a7b506cfdaf7d9f5d04e414133c2b7f4ad2a85f5994d9abc92bd1dfc25a0f75f",
+  "runtime_modified": false,
+  "same_as_accepted_2041_check": true,
+  "scope": "read-only level inventory/standing-grid, no gameplay or performance claim",
+  "scope_limits": [
+    "Read-only World inventory, no continuous human play or performance timing.",
+    "Standing samples and proximity thresholds do not certify fun, reachability, combo flow or visual quality.",
+    "No production source, test, tool, project setting, save or asset is modified."
+  ],
+  "source_checkpoint": "321501d",
+  "source_inputs": 346,
+  "source_unchanged": true,
+  "started_london": "2026-10-18T13:41:48.563550+01:00"
+}
