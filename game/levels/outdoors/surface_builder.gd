@@ -51,7 +51,15 @@ static func terrain(parent: Node3D, id: String, bounds: Rect2, spacing: float, h
 	return _body(parent, id, vertices, normals, uvs, indices, material, "stone")
 
 
-static func strip(parent: Node3D, id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "stone") -> StaticBody3D:
+## visual_points may end a road at a shared paving seam. Collision keeps the
+## original authored strip; never stack two different visible surfaces in-plane.
+static func strip(parent: Node3D, id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "stone", visual_points: PackedVector3Array = PackedVector3Array()) -> StaticBody3D:
+	var arrays := _strip_arrays(points, width)
+	var visual_arrays := _strip_arrays(visual_points, width) if visual_points.size() >= 2 else []
+	return _body(parent, id, arrays[Mesh.ARRAY_VERTEX], arrays[Mesh.ARRAY_NORMAL], arrays[Mesh.ARRAY_TEX_UV], arrays[Mesh.ARRAY_INDEX], material, audio, visual_arrays)
+
+
+static func _strip_arrays(points: PackedVector3Array, width: float) -> Array:
 	var vertices := PackedVector3Array()
 	var normals := PackedVector3Array()
 	var uvs := PackedVector2Array()
@@ -70,10 +78,16 @@ static func strip(parent: Node3D, id: String, points: PackedVector3Array, width:
 		if i < points.size() - 1:
 			var a := i * 2
 			indices.append_array(PackedInt32Array([a, a + 1, a + 2, a + 1, a + 3, a + 2]))
-	return _body(parent, id, vertices, normals, uvs, indices, material, audio)
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_INDEX] = indices
+	return arrays
 
 
-static func _body(parent: Node3D, id: String, vertices: PackedVector3Array, normals: PackedVector3Array, uvs: PackedVector2Array, indices: PackedInt32Array, material: Material, audio: String) -> StaticBody3D:
+static func _body(parent: Node3D, id: String, vertices: PackedVector3Array, normals: PackedVector3Array, uvs: PackedVector2Array, indices: PackedInt32Array, material: Material, audio: String, visual_arrays: Array = []) -> StaticBody3D:
 	var arrays := []
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = vertices
@@ -91,6 +105,10 @@ static func _body(parent: Node3D, id: String, vertices: PackedVector3Array, norm
 	parent.add_child(body)
 	var visual := MeshInstance3D.new()
 	visual.mesh = mesh
+	if not visual_arrays.is_empty():
+		var visible_mesh := ArrayMesh.new()
+		visible_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, visual_arrays)
+		visual.mesh = visible_mesh
 	visual.material_override = material
 	body.add_child(visual)
 	var collision := CollisionShape3D.new()

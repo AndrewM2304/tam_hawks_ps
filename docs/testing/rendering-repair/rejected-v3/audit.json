@@ -1,0 +1,254 @@
+{
+  "schema": 1,
+  "formula": "For both p95 and p99: candidate <= midpoint(controls)+abs(control difference)+5%midpoint AND candidate<=1.05*max(controls).",
+  "views": [
+    {
+      "view": "station-edge",
+      "summaries": {
+        "before-a": {
+          "draws": 179,
+          "over_100ms": 24,
+          "p50_ms": 244.077,
+          "p95_ms": 258.669,
+          "p99_ms": 275.259,
+          "primitives": 101170,
+          "static_memory": 74506919.0,
+          "video_memory": 46548383.0
+        },
+        "backdrop": {
+          "draws": 183,
+          "over_100ms": 24,
+          "p50_ms": 287.931,
+          "p95_ms": 414.826,
+          "p99_ms": 499.477,
+          "primitives": 103598,
+          "static_memory": 74567147.0,
+          "video_memory": 46548383.0
+        },
+        "before-b": {
+          "draws": 179,
+          "over_100ms": 24,
+          "p50_ms": 243.754,
+          "p95_ms": 285.14,
+          "p99_ms": 286.477,
+          "primitives": 101170,
+          "static_memory": 74587403.0,
+          "video_memory": 46548383.0
+        }
+      },
+      "frame_gates": {
+        "p95_ms": false,
+        "p99_ms": false
+      },
+      "draw_delta": 4,
+      "primitive_delta": 2428
+    },
+    {
+      "view": "station-canopy",
+      "summaries": {
+        "before-a": {
+          "draws": 498,
+          "over_100ms": 24,
+          "p50_ms": 511.661,
+          "p95_ms": 582.494,
+          "p99_ms": 609.356,
+          "primitives": 173498,
+          "static_memory": 74769391.0,
+          "video_memory": 46548383.0
+        },
+        "backdrop": {
+          "draws": 503,
+          "over_100ms": 24,
+          "p50_ms": 501.387,
+          "p95_ms": 544.754,
+          "p99_ms": 559.179,
+          "primitives": 176748,
+          "static_memory": 74790207.0,
+          "video_memory": 46548383.0
+        },
+        "before-b": {
+          "draws": 498,
+          "over_100ms": 24,
+          "p50_ms": 504.588,
+          "p95_ms": 802.34,
+          "p99_ms": 812.14,
+          "primitives": 173498,
+          "static_memory": 74810643.0,
+          "video_memory": 46548383.0
+        }
+      },
+      "frame_gates": {
+        "p95_ms": true,
+        "p99_ms": true
+      },
+      "draw_delta": 5,
+      "primitive_delta": 3250
+    },
+    {
+      "view": "clyde-approach",
+      "summaries": {
+        "before-a": {
+          "draws": 96,
+          "over_100ms": 24,
+          "p50_ms": 208.506,
+          "p95_ms": 272.621,
+          "p99_ms": 281.048,
+          "primitives": 84842,
+          "static_memory": 74836131.0,
+          "video_memory": 46548383.0
+        },
+        "backdrop": {
+          "draws": 98,
+          "over_100ms": 24,
+          "p50_ms": 204.041,
+          "p95_ms": 223.854,
+          "p99_ms": 227.783,
+          "primitives": 86974,
+          "static_memory": 74856387.0,
+          "video_memory": 46548383.0
+        },
+        "before-b": {
+          "draws": 96,
+          "over_100ms": 24,
+          "p50_ms": 202.676,
+          "p95_ms": 257.885,
+          "p99_ms": 274.967,
+          "primitives": 84842,
+          "static_memory": 74876643.0,
+          "video_memory": 46548383.0
+        }
+      },
+      "frame_gates": {
+        "p95_ms": true,
+        "p99_ms": true
+      },
+      "draw_delta": 2,
+      "primitive_delta": 2132
+    },
+    {
+      "view": "clyde-east-end",
+      "summaries": {
+        "before-a": {
+          "draws": 43,
+          "over_100ms": 24,
+          "p50_ms": 123.553,
+          "p95_ms": 148.053,
+          "p99_ms": 153.268,
+          "primitives": 82382,
+          "static_memory": 74896995.0,
+          "video_memory": 46548383.0
+        },
+        "backdrop": {
+          "draws": 44,
+          "over_100ms": 24,
+          "p50_ms": 127.713,
+          "p95_ms": 149.289,
+          "p99_ms": 163.846,
+          "primitives": 83454,
+          "static_memory": 74917431.0,
+          "video_memory": 46548383.0
+        },
+        "before-b": {
+          "draws": 43,
+          "over_100ms": 24,
+          "p50_ms": 138.044,
+          "p95_ms": 183.149,
+          "p99_ms": 194.143,
+          "primitives": 82382,
+          "static_memory": 74937867.0,
+          "video_memory": 46548383.0
+        }
+      },
+      "frame_gates": {
+        "p95_ms": true,
+        "p99_ms": true
+      },
+      "draw_delta": 1,
+      "primitive_delta": 1072
+    },
+    {
+      "view": "clyde-west-end",
+      "summaries": {
+        "before-a": {
+          "draws": 32,
+          "over_100ms": 24,
+          "p50_ms": 119.998,
+          "p95_ms": 145.836,
+          "p99_ms": 148.56,
+          "primitives": 82382,
+          "static_memory": 74958303.0,
+          "video_memory": 46548383.0
+        },
+        "backdrop": {
+          "draws": 34,
+          "over_100ms": 24,
+          "p50_ms": 126.258,
+          "p95_ms": 149.862,
+          "p99_ms": 154.792,
+          "primitives": 84264,
+          "static_memory": 74978887.0,
+          "video_memory": 46548383.0
+        },
+        "before-b": {
+          "draws": 32,
+          "over_100ms": 24,
+          "p50_ms": 121.112,
+          "p95_ms": 174.124,
+          "p99_ms": 175.028,
+          "primitives": 82382,
+          "static_memory": 74999327.0,
+          "video_memory": 46548383.0
+        }
+      },
+      "frame_gates": {
+        "p95_ms": true,
+        "p99_ms": true
+      },
+      "draw_delta": 2,
+      "primitive_delta": 1882
+    },
+    {
+      "view": "park-north",
+      "summaries": {
+        "before-a": {
+          "draws": 12,
+          "over_100ms": 24,
+          "p50_ms": 158.6,
+          "p95_ms": 225.465,
+          "p99_ms": 284.5,
+          "primitives": 210920,
+          "static_memory": 75032131.0,
+          "video_memory": 46548383.0
+        },
+        "backdrop": {
+          "draws": 14,
+          "over_100ms": 24,
+          "p50_ms": 179.933,
+          "p95_ms": 289.197,
+          "p99_ms": 359.632,
+          "primitives": 212528,
+          "static_memory": 75052691.0,
+          "video_memory": 46548383.0
+        },
+        "before-b": {
+          "draws": 12,
+          "over_100ms": 24,
+          "p50_ms": 161.789,
+          "p95_ms": 177.651,
+          "p99_ms": 178.311,
+          "primitives": 210920,
+          "static_memory": 75072947.0,
+          "video_memory": 46548383.0
+        }
+      },
+      "frame_gates": {
+        "p95_ms": false,
+        "p99_ms": false
+      },
+      "draw_delta": 2,
+      "primitive_delta": 1608
+    }
+  ],
+  "all_frame_gates_pass": false,
+  "capture_valid": true
+}

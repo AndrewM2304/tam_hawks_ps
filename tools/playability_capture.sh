@@ -4,12 +4,14 @@ set -euo pipefail
 TASK_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$TASK_ROOT"
 TASK_PRIVATE_DISPLAY=false
+TASK_PUBLISH_DIR="docs/testing/screenshots/playability-repair"
 while (($#)); do
   case "$1" in
     --private-display) TASK_PRIVATE_DISPLAY=true ;;
-    --help|-h) echo 'Usage: tools/playability_capture.sh [--private-display]'; exit 0 ;;
+    --publish-dir) shift; TASK_PUBLISH_DIR="${1:?Supply a destination under docs/testing}" ;;
+    --help|-h) echo 'Usage: tools/playability_capture.sh [--private-display] [--publish-dir docs/testing/PATH]'; exit 0 ;;
     --headless) echo 'Headless cannot provide rendered playability evidence.' >&2; exit 2 ;;
-    *) echo 'Usage: tools/playability_capture.sh [--private-display]' >&2; exit 2 ;;
+    *) echo 'Usage: tools/playability_capture.sh [--private-display] [--publish-dir docs/testing/PATH]' >&2; exit 2 ;;
   esac
   shift
 done
@@ -84,10 +86,12 @@ elif [[ "$TASK_PRIVATE_DISPLAY" == true && "$(uname -s)" != Linux ]]; then
   echo '--private-display requires the Linux Xorg dummy driver; on macOS use the native desktop.' >&2
   exit 2
 fi
-python3 - "$TASK_ROOT" "$TASK_OUTPUT" <<'PY' &
+python3 - "$TASK_ROOT" "$TASK_OUTPUT" "$TASK_PUBLISH_DIR" <<'PY' &
 import hashlib, json, os, pathlib, re, shutil, signal, struct, subprocess, sys, zlib
-root, output = map(pathlib.Path, sys.argv[1:])
-destination = root / 'docs/testing/screenshots/playability-repair'
+root, output = map(pathlib.Path, sys.argv[1:3])
+destination = (root / sys.argv[3]).resolve()
+if not destination.is_relative_to((root / 'docs/testing').resolve()):
+    raise SystemExit('Capture destination must stay inside docs/testing.')
 expected_files = [
     '01-normal-title', '02-normal-spawn', '03-natural-push', '04-natural-left-turn',
     '05-natural-right-turn', '06-natural-coast', '07-actual-brake-stop', '08-shop-wall-camera',
@@ -166,7 +170,7 @@ if code != 0 or re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:', log_text) 
 report = json.loads(manifest_path.read_text())
 after = fingerprint()
 changed = sorted(path for path in before.keys() | after.keys() if before.get(path) != after.get(path))
-report.update(git_commit=git('rev-parse', 'HEAD'), git_dirty=bool(git('status', '--porcelain')),
+report.update(publication_directory=str(destination.relative_to(root)), git_commit=git('rev-parse', 'HEAD'), git_dirty=bool(git('status', '--porcelain')),
     source_sha256=before, source_changed_during_run=bool(changed), changed_inputs=changed, command=command,
     source_stable_capture_set=bool(report.get('valid_capture_set')) and not changed,
     import_prepared_before_fingerprint=True,

@@ -2,7 +2,13 @@
 
 The owner authorizes continued tasks and pushes without routine approvals. Stay on `bootstrap/m00-m01`, use the existing checkout, preserve all **75 full backlog records**, and do not expand the map. No purchases, paid APIs/services, hosted CI or unattended jobs.
 
-## Latest decision and evidence
+## Current owner recording repair — M06-004/M06-007/M03-007
+
+A01 integrates; A05 owns `city_backdrop.gd`; A09 owns independent surface/backdrop regressions. P0 is the recorded flicker/exposed edges, ahead of FACADE-COST-NEXT. The two Clyde asphalt overlaps and Merchant Close/Station top overlap are removed from visuals while full collision/support/routes remain intact. All backdrop drafts are **disabled in ordinary play** after failed frame-spike gates. Four exact series/source snapshots are retained; do not enable a geographic subset based only on its own views. Focused surface/material/port/default-OFF checks pass 33/0. Full ordinary checks and source capture are pending final source freeze. [Analysis, evidence and next actions](../testing/VIDEO-RENDERING-REPAIR.md).
+
+Next A01/A05/A09: calibrate the noisy local renderer against unchanged controls (the host exposes five CPUs under a four-CPU quota), declare matched settings before collecting more data, and reduce the saved backdrop’s cost before fresh all-view admission. An explicitly limited Mesa-thread experiment is unexecuted, not an FPS result. Continue original distant painted context/near retaining-edge alternatives without fake supported ground, map expansion or spending. Actual Apple M5 ten-minute 1080p timings remain open.
+
+## Preserved prior decision and evidence
 
 A01/A05/A09 evaluated one fitted existing Exchange frontage. **Normal play keeps the candidate disabled**: three of eight conservative frame-spike comparisons fail, although stationary reported 3D submissions rise only +2…3 within the +4 budget. Compatibility's reported 3D counter includes shadow work; its separate shadow counter is unsupported. Ten accepted datasets retain 52 decoded images, raw frame CSVs and 309 stable executed inputs per run at `c2e86ab`. Exactly two later text changes are declared and audited: default disabled after rejection, and a report-only counter clarification. [Decision and measurements](../testing/facade-bay-live/RESULTS.md).
 
@@ -10,10 +16,10 @@ Focused geometry/resource checks pass **37/0**; actual native hard-LOD/hysteresi
 
 The required ordinary suite passes **1,739/0**, exit 0, with all **309 inputs unchanged** on pushed `9549d5c`; clean logs/source receipt are linked from STATUS. Fresh normal-source title/play capture already passes **19/0**, stable manifest `6b933eb0b80c7c9aa347616d26bd574723436f72f02f90fbe794f08581d00ec3`. Do not substitute the earlier 1,701/0 check or old native packages for current acceptance. Current receipts will be under `testing/logs/facade-ordinary-*` and `testing/native-facade/`.
 
-## Assigned continuation
+## Preserved continuation after the recording repair
 
 - **A01/A09, P0, M06-004/M06-005/M07:** ordinary check 1739/0 and clean native `b97dac1` export/audit/Linux startup/title review are complete; retain exact receipts in STATUS/native-facade. Both packages preserve 171 source inputs and all 309 ordinary inputs still match. Native evidence is pushed as `ca43586`; continue the isolated quality diagnostic. Record Mac execution as untested. No graphical/Blender/heavy jobs may overlap the ordinary check or a measured profile.
-- **A05/A09, P1, M05-001/M06-007:** three retained disposable trials now verify 16 scene/23 mip images, 22 native checks and 26 stable inputs each. [Evidence](../testing/facade-bay-two-surface/README.md). Optional lossless colour removes paint bands with +3,495,239 imported bytes; all eight reference frames remain identical, coarse atlas mip mixing remains. No live rollout or FPS claim. **Next edit:** [FACADE-COST-NEXT](FACADE-COST-NEXT.md), a separate reduced-poly four-slot source export using original scalar paint/metal and repeated glazing, ≤9,864 near triangles and original four-map data budget. Preserve all proofs and require actual quality/LOD/resource checks before any new default OFF live A/B/A.
+- **A05/A09, P1, M05-001/M06-007:** three retained disposable trials now verify 16 scene/23 mip images, 22 native checks and 26 stable inputs each. [Evidence](../testing/facade-bay-two-surface/README.md). Optional lossless colour removes paint bands with +3,495,239 imported bytes; all eight reference frames remain identical, coarse atlas mip mixing remains. No live rollout or FPS claim. **Held until the owner recording repair is validated:** [FACADE-COST-NEXT](FACADE-COST-NEXT.md), a separate reduced-poly four-slot source export using original scalar paint/metal and repeated glazing, ≤9,864 near triangles and original four-map data budget. Preserve all proofs and require actual quality/LOD/resource checks before any new default OFF live A/B/A.
 - **A01/A09 + Owner, P0, M06-004/M06-006:** actual Apple M5 ten-minute 1080p p50/p95/p99, first-use/warmed timings and human stutter/keyboard/DualSense evidence remain open. Linux software rendering cannot close those gates.
 - **A05/A04/A09, P1, M05-002:** continue connected clothed-hero topology/UV/PBR/deformation and animation contacts after the current evidence checkpoint, with explicit surface/LOD budgets. Final graphics/UI, physical controller feel, repeated high-speed vert cycles, listening and fun remain open.
 

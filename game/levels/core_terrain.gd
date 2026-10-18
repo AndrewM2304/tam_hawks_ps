@@ -49,9 +49,10 @@ func add_patch(parent: Node3D, label: String, bounds: Rect2, heights: Vector4,
 
 
 ## A simple polygon footprint with a retaining foundation, for angled streets/courts.
-## The top triangles and solid collision use identical authored vertices.
+## Collision and support retain authored vertices; an optional top seam clip
+## removes hidden coplanar paving without changing retaining prisms.
 func add_polygon(parent: Node3D, label: String, corners: PackedVector3Array,
-		material: Material, surface_audio: String = "stone") -> StaticBody3D:
+		material: Material, surface_audio: String = "stone", visible_top_max_z: float = INF) -> StaticBody3D:
 	var footprint := PackedVector2Array()
 	var minimum := INF
 	for at: Vector3 in corners:
@@ -82,8 +83,10 @@ func add_polygon(parent: Node3D, label: String, corners: PackedVector3Array,
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surface.set_smooth_group(-1)
 	for index in range(0, triangles.size(), 3):
-		for corner: int in [triangles[index], triangles[index + 1], triangles[index + 2]]:
-			surface.add_vertex(points[corner])
+		var top := PackedVector3Array([points[triangles[index]], points[triangles[index+1]], points[triangles[index+2]]])
+		if is_finite(visible_top_max_z): top = _clip_top_north(top, visible_top_max_z)
+		for corner: int in range(1, top.size()-1):
+			for at: Vector3 in [top[0], top[corner], top[corner+1]]: surface.add_vertex(at)
 	# Mirrored/clockwise footprints need the opposite side winding. Keep top
 	# triangulation and collision unchanged, and face retaining walls outward.
 	var clockwise := Geometry2D.is_polygon_clockwise(footprint)
@@ -128,3 +131,18 @@ func height_at(x: float, z: float, maximum_height: float = INF) -> float:
 			var height := a.y - (normal.x * (x - a.x) + normal.z * (z - a.z)) / normal.y
 			if height <= maximum_height and (is_nan(found) or height > found): found = height
 	return found
+
+
+## One horizontal half-plane, with edge interpolation and original winding.
+## Used only at the flat Merchant Close / Central Station paving seam.
+static func _clip_top_north(points: PackedVector3Array, maximum_z: float) -> PackedVector3Array:
+	var result := PackedVector3Array()
+	for index: int in points.size():
+		var start := points[index]
+		var end := points[(index+1)%points.size()]
+		var start_inside := start.z <= maximum_z
+		var end_inside := end.z <= maximum_z
+		if start_inside: result.append(start)
+		if start_inside != end_inside:
+			result.append(start.lerp(end,(maximum_z-start.z)/(end.z-start.z)))
+	return result

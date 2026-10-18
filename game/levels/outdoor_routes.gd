@@ -145,8 +145,12 @@ func _build_clyde() -> void:
 	_patch("ClydeSouthQuay", Rect2(-150, 116, 300, 14), 2.0, _material("paving"))
 	var west := PackedVector3Array([Vector3(-94, 2, 45), Vector3(-94, 2, 65)])
 	var east := PackedVector3Array([Vector3(94, 0, 45), Vector3(94, 2, 55), Vector3(94, 2, 68)])
-	_path("ClydeWestApproach", west, 16.0, _material("asphalt"))
-	_path("ClydeEastApproach", east, 16.0, _material("asphalt"))
+	# Road visuals meet the quay at Z55. Their original full collision strips
+	# remain for route/support continuity, without coplanar asphalt over paving.
+	_path("ClydeWestApproach", west, 16.0, _material("asphalt"), "asphalt",
+		PackedVector3Array([west[0], Vector3(-94, 2, 55)]))
+	_path("ClydeEastApproach", east, 16.0, _material("asphalt"), "asphalt",
+		PackedVector3Array([east[0], east[1]]))
 	var safe := PackedVector3Array([Vector3(-98, 2, 72), Vector3(-98, 3.4, 89), Vector3(-98, 3.4, 105), Vector3(-98, 2, 122)])
 	_path("ClydeSafeBridge", safe, 8.0, _material("iron"), "metal")
 	var north := PackedVector3Array([Vector3(35, 2, 74), Vector3(35, 2.6, 86), Vector3(35, 3.2, 94)])
@@ -382,8 +386,8 @@ func _patch(id: String, bounds: Rect2, height: float, material: Material) -> voi
 	_surfaces.append({"bounds": bounds, "height": height})
 
 
-func _path(id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "asphalt") -> void:
-	Surface.strip(self, id, points, width, material, audio)
+func _path(id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "asphalt", visual_points: PackedVector3Array = PackedVector3Array()) -> void:
+	Surface.strip(self, id, points, width, material, audio, visual_points)
 	_surfaces.append({"points": points, "width": width})
 
 

@@ -2,6 +2,7 @@ extends Node3D
 const StaticBatches = preload("res://game/levels/static_batches.gd")
 const FacadeBay = preload("res://game/levels/art/facade_bay.gd")
 const CityVisibility = preload("res://game/levels/city_visibility.gd")
+const CityBackdrop = preload("res://game/levels/city_backdrop.gd")
 ## Compressed original Glasgow skating routes. One unit is approximately one metre.
 ## Keep geometry and collision together; skating physics belongs to the player.
 
@@ -73,6 +74,10 @@ func _ready() -> void:
 	_build_exploration_boundaries()
 	_transition_features = TransitionPark.build(self, _materials)
 	_city_art.dress_world(self)
+	# The backdrop drafts failed their frame-spike admission gate. Keep normal
+	# play free of their construction/render cost; explicit fixtures retain them.
+	if bool(get_meta("render_repair_backdrop_preview", false)):
+		CityBackdrop.build(self, _materials, bool(get_meta("render_repair_full_context", false)))
 	solid_wall_occluders = CityVisibility.build(self)
 	if not bool(get_meta("render_budget_probe_baseline", false)):
 		# Share exact static primitives once. Spatial splitting stays opt-in: the
@@ -528,7 +533,8 @@ func _retained_path(id: String, points: PackedVector3Array, width: float, materi
 		_terrain.add_polygon(self, id + str(index), PackedVector3Array([
 			points[index] - edges[index], points[index] + edges[index],
 			points[index + 1] + edges[index + 1], points[index + 1] - edges[index + 1]]),
-			_materials[material], "asphalt" if material == "asphalt" else "stone")
+			_materials[material], "asphalt" if material == "asphalt" else "stone",
+			-42.0 if id == "MerchantClose" and index == 0 else INF)
 
 
 func _build_george_square() -> void:
