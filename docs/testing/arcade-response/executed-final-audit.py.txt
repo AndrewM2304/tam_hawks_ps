@@ -1,0 +1,53 @@
+from pathlib import Path
+from PIL import Image
+import hashlib,json,re,subprocess,datetime,zoneinfo
+root=Path.cwd()
+out=root/'docs/testing/arcade-response'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def read(p):return json.loads(p.read_text())
+def fingerprint():
+ paths=[root/'project.godot']
+ for folder in ('game','assets','tests','tools'):
+  paths.extend(p for p in (root/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
+ return {str(p.relative_to(root)):sha(p) for p in sorted(paths)}
+check=out/'final-check'
+area=out/'area-current'
+cr=read(check/'receipt.json'); ar=read(area/'receipt.json'); manifest=read(area/'manifest.json')
+current=fingerprint(); cb=read(check/'source-before.json'); ca=read(check/'source-after.json'); ab=read(area/'source-before.json'); aa=read(area/'source-after.json')
+assert cr['accepted'] and cr['exit_code']==0 and cr['source_stable'] and cr['clean_log']
+assert ar['accepted'] and ar['exit_code']==0 and ar['source_stable'] and ar['clean_log'] and ar['manifest_valid']
+assert current==cb==ca==ab==aa, 'Production/tests/tools/project differ across required check, capture or current source'
+assert manifest['valid'] and not manifest['errors'] and manifest['native_render_loop'] and manifest['physics_hz']==60 and manifest['time_scale']==1.0
+assert len(manifest['segments'])==6 and len(manifest['images'])==41
+assert manifest['profile_writes']==0
+image_records={}
+for item in manifest['images']:
+ p=area/item['file']; digest=sha(p)
+ with Image.open(p) as image:
+  image.load(); assert image.size==(960,600)
+ assert digest==ar['png_sha256'][item['file']]
+ image_records[item['file']]={'sha256':digest,'resolution':[960,600]}
+trace_records={}; total_rows=0
+for part in manifest['segments']:
+ assert part['valid'] and part['completed'] and part['bails']==0 and part['discontinuities']==0 and part['stalled_ticks']==0
+ assert part['distance_m']>=20.0 and part['max_corridor_deviation_m']<=5.5
+ p=area/(part['id']+'-trace.json'); rows=read(p)
+ assert len(rows)==part['trace_rows']
+ assert all(b['tick']-a['tick']==1 for a,b in zip(rows,rows[1:]))
+ assert all(abs((b['sim_seconds']-a['sim_seconds'])-1/60)<1e-9 for a,b in zip(rows,rows[1:]))
+ total_rows+=len(rows);trace_records[p.name]={'rows':len(rows),'sha256':sha(p)}
+half=manifest['halfpipe']; rows=read(area/'halfpipe-trace.json')
+assert half['valid'] and half['bails']==0 and half['discontinuities']==0 and len(half['wall_visits'])>=6 and half['natural_returns']['departures']>=5 and half['natural_returns']['reentries']>=5 and half['natural_returns']['opposite_after_return']
+assert len(rows)==half['trace_rows'] and all(b['tick']-a['tick']==1 for a,b in zip(rows,rows[1:]))
+total_rows+=len(rows); trace_records['halfpipe-trace.json']={'rows':len(rows),'sha256':sha(area/'halfpipe-trace.json')}
+old=subprocess.check_output(['git','show','14dcfe1:docs/planning/BACKLOG.md'],text=True)
+new=(root/'docs/planning/BACKLOG.md').read_text()
+oldbody=old[old.index('### M00-001'):]; newbody=new[new.index('### M00-001'):]
+assert oldbody==newbody and len(re.findall(r'^### M\d{2}-\d{3}',newbody,re.M))==75
+world=(root/'game/levels/glasgow_square.gd').read_text()
+assert 'get_meta("arcade_murals_preview", false)' in world and 'get_meta("render_repair_backdrop_preview", false)' in world
+failed=read(out/'failed-check-01/receipt.json');assert not failed['accepted'] and failed['exit_code']==1
+receipt={'accepted':True,'observed_london':datetime.datetime.now(zoneinfo.ZoneInfo('Europe/London')).isoformat(),'head':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'source_inputs':len(current),'source_equal_across_required_capture_current':True,'required_result':cr['result_lines'],'required_receipt_sha256':sha(check/'receipt.json'),'capture_receipt_sha256':sha(area/'receipt.json'),'capture_manifest_sha256':sha(area/'manifest.json'),'six_segments':6,'decoded_pngs':len(image_records),'native_trace_rows':total_rows,'images':image_records,'traces':trace_records,'backlog_full_records_unchanged':75,'backlog_body_sha256':hashlib.sha256(newbody.encode()).hexdigest(),'rejected_first_aggregate_preserved':True,'mural_and_backdrop_defaults_off':True,'limitations':['Linux software renderer, not target Mac performance or physical controller acceptance','Six independent initial placements, not one continuous city tour','Sampled routes/images do not certify every tiny hole, aerial edge or temporal flicker','Final realistic art and identified skyline gaps remain open']}
+(out/'final-audit.json').write_text(json.dumps(receipt,indent=2)+'\n')
+(area/'image-audit.json').write_text(json.dumps({'decoded_pngs':41,'images':image_records},indent=2)+'\n')
+print(json.dumps({k:v for k,v in receipt.items() if k not in ('images','traces')},indent=2))

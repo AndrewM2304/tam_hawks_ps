@@ -1,0 +1,41 @@
+from pathlib import Path
+import datetime,hashlib,json,os,signal,shutil,subprocess,sys,time,zoneinfo
+root=Path.cwd()
+out=root/'docs/testing/arcade-response/final-check'
+out.mkdir(parents=True,exist_ok=True)
+def fingerprint():
+    paths=[root/'project.godot']
+    for folder in ('game','assets','tests','tools'):
+        if (root/folder).exists(): paths.extend(p for p in (root/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
+    return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
+def london():return datetime.datetime.now(zoneinfo.ZoneInfo('Europe/London')).isoformat()
+before=fingerprint()
+(out/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+shutil.copy2(__file__,out/'executed-receipt-wrapper.py.txt')
+receipt={'command':'./tools/check.sh','started_london':london(),'head_at_start':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'input_count':len(before),'scope':'all game/assets/tests/tools/project files','timing':'native default60Hz; existing interpolation subtest deliberately tests10Hz then restores its saved rate; no external fixed-fps/time-scale override; sole active engine job'}
+start=time.monotonic()
+print('Starting required check',receipt['started_london'],len(before),'inputs',flush=True)
+with (out/'console.log').open('w') as log:
+    child=subprocess.Popen(['./tools/check.sh'],stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+    try: code=child.wait(timeout=2100)
+    except subprocess.TimeoutExpired:
+        os.killpg(child.pid,signal.SIGTERM)
+        try: child.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            os.killpg(child.pid,signal.SIGKILL)
+            child.wait(timeout=5)
+        code=124
+receipt.update(completed_london=london(),wall_seconds=time.monotonic()-start,exit_code=code)
+after=fingerprint()
+changed=[p for p in sorted(before.keys()|after.keys()) if before.get(p)!=after.get(p)]
+receipt.update(source_stable=not changed,changed_inputs=changed)
+for local,name in [('.local/import.log','import.log'),('.local/tests.log','tests.log')]:
+    if (root/local).exists():shutil.copy2(root/local,out/name)
+lines=(out/'console.log').read_text(errors='replace').splitlines()
+receipt['result_lines']=[x for x in lines if x.startswith('RESULT:')]
+receipt['clean_log']=not any(x in '\n'.join(lines) for x in ('SCRIPT ERROR:','ERROR:','FAIL:'))
+receipt['accepted']=code==0 and not changed and receipt['clean_log'] and len(receipt['result_lines'])==1 and '0 failed' in receipt['result_lines'][0]
+(out/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps(receipt,indent=2),flush=True)
+sys.exit(0 if receipt['accepted'] else 1)
