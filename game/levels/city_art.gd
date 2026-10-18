@@ -256,7 +256,6 @@ func _station_arches() -> void:
 		var pane := _box(self, Vector3(start.distance_to(end), 0.06, 60), (start + end) / 2.0, materials["roof_glass"])
 		pane.rotation.z = atan2(end.y - start.y, end.x - start.x)
 		_beam(self, start + Vector3(0, 0, -30), start + Vector3(0, 0, 30), 0.1, materials["iron"])
-	_label(self, "CENTRAL", Vector3(-100, 10.5, 30.3), 66, 0.035)
 
 
 func _market_venue() -> void:

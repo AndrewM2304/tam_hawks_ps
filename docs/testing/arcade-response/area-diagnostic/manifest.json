@@ -1,0 +1,2098 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"applied_quality": "performance",
+	"display_server": "X11",
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"errors": [],
+	"halfpipe": {
+		"bails": 0,
+		"discontinuities": 0,
+		"distance_m": 121.710497914581,
+		"fixture": [
+			-22,
+			2.8,
+			60.5
+		],
+		"initial_yaw": -1.5707963267949,
+		"input": "held physical W only",
+		"natural_returns": {
+			"departures": 5,
+			"opposite_after_return": true,
+			"reentries": 5
+		},
+		"sim_seconds": 12.0666666666668,
+		"trace_rows": 724,
+		"valid": true,
+		"wall_visits": [
+			"clyde_half_east",
+			"clyde_half_west",
+			"clyde_half_east",
+			"clyde_half_west",
+			"clyde_half_east",
+			"clyde_half_west"
+		]
+	},
+	"images": [
+		{
+			"body_visible": true,
+			"camera": [
+				-18.0494117736816,
+				2.70002603530884,
+				28.0
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-11.5528888702393,
+				0.0000260472297668457,
+				28.0
+			],
+			"draw_frame": 19,
+			"far": 220.0,
+			"file": "royal_exchange-01.png",
+			"fov": 67.4172668457031,
+			"held_keys": {
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 160,
+			"player": [
+				-11.4725961685181,
+				0.0000260472297668457,
+				28.0
+			],
+			"segment": "royal_exchange",
+			"sim_seconds": 2.13333333333333,
+			"waypoint": 1
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				9.9543571472168,
+				2.70002603530884,
+				28.0
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				16.4423561096191,
+				0.0000260472297668457,
+				28.0
+			],
+			"draw_frame": 56,
+			"far": 220.0,
+			"file": "royal_exchange-02.png",
+			"fov": 67.4232330322266,
+			"held_keys": {
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 456,
+			"player": [
+				16.4793357849121,
+				0.0000260472297668457,
+				28.0
+			],
+			"segment": "royal_exchange",
+			"sim_seconds": 7.06666666666665,
+			"waypoint": 1
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				22.6102981567383,
+				2.70002603530884,
+				13.738091468811
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				22.5191078186035,
+				0.0000260472297668457,
+				7.26516532897949
+			],
+			"draw_frame": 93,
+			"far": 220.0,
+			"file": "royal_exchange-03.png",
+			"fov": 67.4216690063477,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 752,
+			"player": [
+				22.5190048217773,
+				0.0000260472297668457,
+				7.25792169570923
+			],
+			"segment": "royal_exchange",
+			"sim_seconds": 12.0000000000002,
+			"waypoint": 2
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				22.6962299346924,
+				2.70002603530884,
+				4.68822574615479
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				22.0776557922363,
+				0.0000260472297668457,
+				-1.75497138500214
+			],
+			"draw_frame": 105,
+			"far": 220.0,
+			"file": "royal_exchange-end.png",
+			"fov": 67.3920364379883,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 848,
+			"player": [
+				22.0761108398438,
+				0.0000260472297668457,
+				-1.77041530609131
+			],
+			"segment": "royal_exchange",
+			"sim_seconds": 13.4666666666669,
+			"waypoint": 3
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-22.0,
+				6.70050668716431,
+				-87.0219879150391
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-22.0,
+				4.00050640106201,
+				-80.5288848876953
+			],
+			"draw_frame": 125,
+			"far": 220.0,
+			"file": "george_square-01.png",
+			"fov": 67.4175338745117,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 1008,
+			"player": [
+				-22.0,
+				4.00050640106201,
+				-80.4717864990234
+			],
+			"segment": "george_square",
+			"sim_seconds": 2.13333333333333,
+			"waypoint": 1
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-8.5639533996582,
+				6.70050668716431,
+				-73.6195068359375
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-2.06454277038574,
+				4.00050640106201,
+				-73.5531845092773
+			],
+			"draw_frame": 162,
+			"far": 220.0,
+			"file": "george_square-02.png",
+			"fov": 67.4190216064453,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 1304,
+			"player": [
+				-1.97107136249542,
+				4.00050640106201,
+				-73.5522308349609
+			],
+			"segment": "george_square",
+			"sim_seconds": 7.06666666666665,
+			"waypoint": 2
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				22.8513088226318,
+				6.70050668716431,
+				-70.4580917358398
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				22.6406059265137,
+				4.00050640106201,
+				-76.8493041992188
+			],
+			"draw_frame": 200,
+			"far": 220.0,
+			"file": "george_square-03.png",
+			"fov": 67.1469802856445,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 1606,
+			"player": [
+				22.6395645141602,
+				4.00050640106201,
+				-76.8740234375
+			],
+			"segment": "george_square",
+			"sim_seconds": 12.1000000000002,
+			"waypoint": 3
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				22.3138999938965,
+				6.70050668716431,
+				-84.6967391967773
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				22.045129776001,
+				4.00050640106201,
+				-91.1556015014648
+			],
+			"draw_frame": 219,
+			"far": 220.0,
+			"file": "george_square-end.png",
+			"fov": 67.3821716308594,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 1758,
+			"player": [
+				22.0440654754639,
+				4.00050640106201,
+				-91.1811599731445
+			],
+			"segment": "george_square",
+			"sim_seconds": 14.5000000000003,
+			"waypoint": 4
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-130.694473266602,
+				4.70050573348999,
+				-7.12393140792847
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-124.799263000488,
+				2.00050568580627,
+				-8.85879230499268
+			],
+			"draw_frame": 239,
+			"far": 220.0,
+			"file": "central_station-01.png",
+			"fov": 66.8932952880859,
+			"held_keys": {
+				"65": false,
+				"68": true,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 1918,
+			"player": [
+				-124.772651672363,
+				2.00050568580627,
+				-8.860032081604
+			],
+			"segment": "central_station",
+			"sim_seconds": 2.13333333333333,
+			"waypoint": 2
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-103.700241088867,
+				4.6456470489502,
+				-7.99553918838501
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-97.2779006958008,
+				2.00050568580627,
+				-7.89185333251953
+			],
+			"draw_frame": 276,
+			"far": 220.0,
+			"file": "central_station-02.png",
+			"fov": 67.4237518310547,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 2214,
+			"player": [
+				-97.2649688720703,
+				2.00050568580627,
+				-7.89164543151855
+			],
+			"segment": "central_station",
+			"sim_seconds": 7.06666666666665,
+			"waypoint": 4
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-81.2347717285156,
+				4.70050525665283,
+				-3.50789380073547
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-81.4766693115234,
+				2.00050568580627,
+				3.06519103050232
+			],
+			"draw_frame": 317,
+			"far": 220.0,
+			"file": "central_station-03.png",
+			"fov": 67.4130249023438,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 2512,
+			"player": [
+				-81.4799346923828,
+				2.00050568580627,
+				3.15389180183411
+			],
+			"segment": "central_station",
+			"sim_seconds": 12.0333333333335,
+			"waypoint": 5
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-82.2120666503906,
+				4.70050573348999,
+				14.9390077590942
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-82.0541152954102,
+				2.00050568580627,
+				21.5156497955322
+			],
+			"draw_frame": 354,
+			"far": 220.0,
+			"file": "central_station-end.png",
+			"fov": 67.3992767333984,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 2707,
+			"player": [
+				-82.0531845092773,
+				2.00050568580627,
+				21.5372447967529
+			],
+			"segment": "central_station",
+			"sim_seconds": 15.2000000000003,
+			"waypoint": 6
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				103.0,
+				2.71066617965698,
+				17.9581909179688
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				103.0,
+				0.0106662157922983,
+				11.4760417938232
+			],
+			"draw_frame": 374,
+			"far": 220.0,
+			"file": "barras-01.png",
+			"fov": 67.4177703857422,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 2867,
+			"player": [
+				103.0,
+				0.0106662157922983,
+				11.4725961685181
+			],
+			"segment": "barras",
+			"sim_seconds": 2.13333333333333,
+			"waypoint": 1
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				106.022430419922,
+				2.71066617965698,
+				-5.59960460662842
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				112.565376281738,
+				0.0106662157922983,
+				-5.18232250213623
+			],
+			"draw_frame": 415,
+			"far": 220.0,
+			"file": "barras-02.png",
+			"fov": 67.4052352905273,
+			"held_keys": {
+				"65": false,
+				"68": true,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 3161,
+			"player": [
+				112.630584716797,
+				0.0106662157922983,
+				-5.17783403396606
+			],
+			"segment": "barras",
+			"sim_seconds": 7.03333333333331,
+			"waypoint": 2
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				118.164916992188,
+				2.71066617965698,
+				15.9488611221313
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				112.365776062012,
+				0.0106662157922983,
+				18.5389099121094
+			],
+			"draw_frame": 462,
+			"far": 220.0,
+			"file": "barras-03.png",
+			"fov": 67.1581039428711,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 3466,
+			"player": [
+				112.347007751465,
+				0.0106662157922983,
+				18.5466346740723
+			],
+			"segment": "barras",
+			"sim_seconds": 12.1166666666668,
+			"waypoint": 4
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				109.362701416016,
+				2.71066617965698,
+				20.0055541992188
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				103.21753692627,
+				0.0106662157922983,
+				21.9851894378662
+			],
+			"draw_frame": 475,
+			"far": 220.0,
+			"file": "barras-end.png",
+			"fov": 67.3773422241211,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 3570,
+			"player": [
+				103.195182800293,
+				0.0106662157922983,
+				21.9922981262207
+			],
+			"segment": "barras",
+			"sim_seconds": 13.7166666666669,
+			"waypoint": 6
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-75.9756469726562,
+				4.71382999420166,
+				69.3356704711914
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-69.514274597168,
+				2.01383018493652,
+				69.8737182617188
+			],
+			"draw_frame": 495,
+			"far": 220.0,
+			"file": "clyde-01.png",
+			"fov": 67.4093933105469,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 3730,
+			"player": [
+				-69.4935150146484,
+				2.01383018493652,
+				69.8754501342773
+			],
+			"segment": "clyde",
+			"sim_seconds": 2.13333333333333,
+			"waypoint": 1
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-48.114933013916,
+				4.71382999420166,
+				70.0480499267578
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-41.6693496704102,
+				2.01383018493652,
+				69.4756698608398
+			],
+			"draw_frame": 532,
+			"far": 220.0,
+			"file": "clyde-02.png",
+			"fov": 67.4114379882812,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 4026,
+			"player": [
+				-41.6592483520508,
+				2.01383018493652,
+				69.4747772216797
+			],
+			"segment": "clyde",
+			"sim_seconds": 7.06666666666665,
+			"waypoint": 2
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-20.3591251373291,
+				4.71382999420166,
+				70.2905807495117
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-13.8909740447998,
+				2.01383018493652,
+				70.8272705078125
+			],
+			"draw_frame": 569,
+			"far": 220.0,
+			"file": "clyde-03.png",
+			"fov": 67.4095840454102,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 4322,
+			"player": [
+				-13.8233308792114,
+				2.01383018493652,
+				70.832893371582
+			],
+			"segment": "clyde",
+			"sim_seconds": 12.0000000000002,
+			"waypoint": 3
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				8.1711368560791,
+				4.71382999420166,
+				69.119270324707
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				14.6614589691162,
+				2.01383018493652,
+				68.9581756591797
+			],
+			"draw_frame": 607,
+			"far": 220.0,
+			"file": "clyde-04.png",
+			"fov": 67.4187088012695,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 4625,
+			"player": [
+				14.6889200210571,
+				2.01383018493652,
+				68.957878112793
+			],
+			"segment": "clyde",
+			"sim_seconds": 17.0500000000003,
+			"waypoint": 4
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				9.61242198944092,
+				4.71382999420166,
+				68.990852355957
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				16.0754909515381,
+				2.01383018493652,
+				68.951904296875
+			],
+			"draw_frame": 609,
+			"far": 220.0,
+			"file": "clyde-end.png",
+			"fov": 67.3649139404297,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 4641,
+			"player": [
+				16.1345291137695,
+				2.01383018493652,
+				68.9517364501953
+			],
+			"segment": "clyde",
+			"sim_seconds": 17.1833333333336,
+			"waypoint": 5
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-157.994232177734,
+				9.09203624725342,
+				-84.5607147216797
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-162.974517822266,
+				6.41088771820068,
+				-88.7111587524414
+			],
+			"draw_frame": 630,
+			"far": 220.0,
+			"file": "kelvingrove-01.png",
+			"fov": 67.4126434326172,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 4809,
+			"player": [
+				-162.990493774414,
+				6.41169881820679,
+				-88.7242202758789
+			],
+			"segment": "kelvingrove",
+			"sim_seconds": 2.13333333333333,
+			"waypoint": 6
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-181.058746337891,
+				10.8776378631592,
+				-99.5577545166016
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-187.172653198242,
+				8.22327613830566,
+				-101.72762298584
+			],
+			"draw_frame": 667,
+			"far": 220.0,
+			"file": "kelvingrove-02.png",
+			"fov": 67.4097366333008,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5104,
+			"player": [
+				-187.22607421875,
+				8.22862339019775,
+				-101.746566772461
+			],
+			"segment": "kelvingrove",
+			"sim_seconds": 7.04999999999998,
+			"waypoint": 20
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-203.348373413086,
+				13.683069229126,
+				-114.595001220703
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-206.210968017578,
+				11.0082082748413,
+				-120.384284973145
+			],
+			"draw_frame": 704,
+			"far": 220.0,
+			"file": "kelvingrove-end.png",
+			"fov": 67.3621063232422,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5396,
+			"player": [
+				-206.220703125,
+				11.0091886520386,
+				-120.404067993164
+			],
+			"segment": "kelvingrove",
+			"sim_seconds": 11.7833333333335,
+			"waypoint": 34
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-25.4715709686279,
+				4.71332168579102,
+				60.500057220459
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-18.8596668243408,
+				2.01412510871887,
+				60.4995613098145
+			],
+			"draw_frame": 714,
+			"far": 220.0,
+			"file": "halfpipe-01.png",
+			"fov": 67.3893203735352,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5476,
+			"player": [
+				-18.7434749603271,
+				2.01412510871887,
+				60.4995613098145
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 0.800000000000001,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-21.8405075073242,
+				6.13708305358887,
+				60.5000839233398
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-14.9238815307617,
+				4.32919406890869,
+				60.4995613098145
+			],
+			"draw_frame": 720,
+			"far": 220.0,
+			"file": "halfpipe-02.png",
+			"fov": 66.6015243530273,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5524,
+			"player": [
+				-14.9240322113037,
+				4.32866144180298,
+				60.4995613098145
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 1.6,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-17.6023654937744,
+				4.55288505554199,
+				55.5701560974121
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-18.0130882263184,
+				2.00383806228638,
+				60.4995613098145
+			],
+			"draw_frame": 726,
+			"far": 220.0,
+			"file": "halfpipe-03.png",
+			"fov": 67.7117233276367,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5565,
+			"player": [
+				-18.1701126098633,
+				2.01389169692993,
+				60.4995613098145
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 2.28333333333333,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-21.7586402893066,
+				5.44425964355469,
+				59.5133590698242
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-28.8765678405762,
+				3.80803680419922,
+				60.4995613098145
+			],
+			"draw_frame": 733,
+			"far": 220.0,
+			"file": "halfpipe-04.png",
+			"fov": 68.5673446655273,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5616,
+			"player": [
+				-28.9008884429932,
+				3.85625290870667,
+				60.4995613098145
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 3.13333333333333,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-34.9334449768066,
+				8.72536754608154,
+				61.4785690307617
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-29.19700050354,
+				5.79138040542603,
+				60.4995613098145
+			],
+			"draw_frame": 738,
+			"far": 220.0,
+			"file": "halfpipe-05.png",
+			"fov": 66.3568649291992,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5656,
+			"player": [
+				-29.19700050354,
+				5.68773937225342,
+				60.4995613098145
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 3.79999999999999,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-21.7940101623535,
+				4.7400164604187,
+				67.0728530883789
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-20.6490802764893,
+				2.01389527320862,
+				60.4995422363281
+			],
+			"draw_frame": 744,
+			"far": 220.0,
+			"file": "halfpipe-06.png",
+			"fov": 69.2320327758789,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5704,
+			"player": [
+				-20.4938144683838,
+				2.01389527320862,
+				60.4995422363281
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 4.59999999999999,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-20.4867267608643,
+				7.69266986846924,
+				63.541748046875
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-14.8030004501343,
+				6.04675817489624,
+				60.4995422363281
+			],
+			"draw_frame": 749,
+			"far": 220.0,
+			"file": "halfpipe-07.png",
+			"fov": 67.3191070556641,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5744,
+			"player": [
+				-14.8030004501343,
+				6.14441442489624,
+				60.4995422363281
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 5.26666666666665,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-16.9215908050537,
+				5.21399307250977,
+				66.7415313720703
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-17.1307716369629,
+				2.12594389915466,
+				60.499568939209
+			],
+			"draw_frame": 755,
+			"far": 220.0,
+			"file": "halfpipe-08.png",
+			"fov": 67.9687728881836,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5792,
+			"player": [
+				-17.2768154144287,
+				2.08586883544922,
+				60.499568939209
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 6.06666666666665,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-20.9539985656738,
+				5.31243228912354,
+				60.8031730651855
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-28.635066986084,
+				3.39227795600891,
+				60.499568939209
+			],
+			"draw_frame": 761,
+			"far": 220.0,
+			"file": "halfpipe-09.png",
+			"fov": 68.8853759765625,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5840,
+			"player": [
+				-28.6673049926758,
+				3.43753266334534,
+				60.499568939209
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 6.86666666666665,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-34.9177780151367,
+				8.80189323425293,
+				61.6661643981934
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-29.19700050354,
+				5.94957876205444,
+				60.499568939209
+			],
+			"draw_frame": 766,
+			"far": 220.0,
+			"file": "halfpipe-10.png",
+			"fov": 66.4014739990234,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5880,
+			"player": [
+				-29.19700050354,
+				5.94316291809082,
+				60.499568939209
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 7.53333333333331,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-22.2785034179688,
+				4.74825096130371,
+				67.0581970214844
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-21.1148109436035,
+				2.01388788223267,
+				60.4995498657227
+			],
+			"draw_frame": 772,
+			"far": 220.0,
+			"file": "halfpipe-11.png",
+			"fov": 69.1722183227539,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5928,
+			"player": [
+				-20.9938011169434,
+				2.01388788223267,
+				60.4995498657227
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 8.33333333333333,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-20.7066841125488,
+				7.59339141845703,
+				62.9186706542969
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-14.8030004501343,
+				5.89838933944702,
+				60.4995498657227
+			],
+			"draw_frame": 777,
+			"far": 220.0,
+			"file": "halfpipe-12.png",
+			"fov": 67.3974914550781,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 5968,
+			"player": [
+				-14.8030004501343,
+				5.92580270767212,
+				60.4995498657227
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 9.00000000000003,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-16.6149444580078,
+				5.27627086639404,
+				55.3192329406738
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-16.7584266662598,
+				2.25538945198059,
+				60.4995765686035
+			],
+			"draw_frame": 783,
+			"far": 220.0,
+			"file": "halfpipe-13.png",
+			"fov": 67.7769317626953,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 6016,
+			"player": [
+				-16.7959480285645,
+				2.23840093612671,
+				60.4995765686035
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 9.80000000000007,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-21.0792217254639,
+				4.99544143676758,
+				59.5098571777344
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-28.2404689788818,
+				2.92006254196167,
+				60.4995765686035
+			],
+			"draw_frame": 789,
+			"far": 220.0,
+			"file": "halfpipe-14.png",
+			"fov": 69.1062545776367,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 6064,
+			"player": [
+				-28.3917827606201,
+				3.07863664627075,
+				60.4995765686035
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 10.6000000000001,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-34.8331527709961,
+				8.94606971740723,
+				62.0284690856934
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-29.19700050354,
+				6.19386005401611,
+				60.4995765686035
+			],
+			"draw_frame": 794,
+			"far": 220.0,
+			"file": "halfpipe-15.png",
+			"fov": 66.4498138427734,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 6104,
+			"player": [
+				-29.19700050354,
+				6.15899610519409,
+				60.4995765686035
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 11.2666666666668,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-22.6130218505859,
+				4.74825668334961,
+				67.0545043945312
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-21.5082759857178,
+				2.01388788223267,
+				60.4995574951172
+			],
+			"draw_frame": 800,
+			"far": 220.0,
+			"file": "halfpipe-16.png",
+			"fov": 69.1200332641602,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": true
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 6152,
+			"player": [
+				-21.4938011169434,
+				2.01388788223267,
+				60.4995574951172
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 12.0666666666668,
+			"waypoint": 0
+		},
+		{
+			"body_visible": true,
+			"camera": [
+				-20.7258815765381,
+				4.72760009765625,
+				67.0724716186523
+			],
+			"camera_node": "/root/TamHawks/Skater/ChaseCamera",
+			"chest_ray_blocked": false,
+			"displayed_player": [
+				-19.5773506164551,
+				2.01388788223267,
+				60.4995574951172
+			],
+			"draw_frame": 801,
+			"far": 220.0,
+			"file": "halfpipe-end.png",
+			"fov": 69.2822494506836,
+			"held_keys": {
+				"65": false,
+				"68": false,
+				"83": false,
+				"87": false
+			},
+			"hud_visible": true,
+			"menu": "",
+			"near": 0.200000002980232,
+			"physics_tick": 6160,
+			"player": [
+				-19.5334434509277,
+				2.01388788223267,
+				60.4995574951172
+			],
+			"segment": "halfpipe",
+			"sim_seconds": 12.0666666666668,
+			"waypoint": 0
+		}
+	],
+	"kind": "six_area_actual_mapped_input_segments",
+	"limitations": [
+		"Six independent initial fixtures; no claim of a continuous city tour or completion of all 48 routes.",
+		"Feedback submits mapped physical-key events; no per-tick position, heading or speed assignment.",
+		"Normal production chase/HUD/native rendering remains active. PNG readbacks are outside any performance claim.",
+		"Scripted input is independent automated QE, not human fun, physical controller or target-Mac performance acceptance."
+	],
+	"native_render_loop": true,
+	"os": "Linux",
+	"physics_hz": 60,
+	"profile_writes": false,
+	"quality_budget": {
+		"far": 220.0,
+		"msaa": 0,
+		"scale": 0.75,
+		"shadows": 30.0
+	},
+	"renderer": "gl_compatibility",
+	"resolution": [
+		960,
+		600
+	],
+	"schema": 1,
+	"segments": [
+		{
+			"actual_end": [
+				22.0761108398438,
+				0.0000260472297668457,
+				-1.77041530609131
+			],
+			"actual_start": [
+				-22.0,
+				0.0000260472297668457,
+				28.0
+			],
+			"bails": 0,
+			"completed": true,
+			"discontinuities": 0,
+			"distance_m": 73.2706586197019,
+			"district_ticks": 808,
+			"first_tick": 32,
+			"fixture_start": [
+				-22.0,
+				0.800000011920929,
+				28.0
+			],
+			"grounded_ticks": 808,
+			"id": "royal_exchange",
+			"last_tick": 848,
+			"max_corridor_deviation_m": 0.83775520324707,
+			"point_count": 3,
+			"points": [
+				[
+					-22.0,
+					0.0,
+					28.0
+				],
+				[
+					22.0,
+					0.0,
+					28.0
+				],
+				[
+					22.0,
+					0.0,
+					-2.0
+				]
+			],
+			"sim_seconds": 13.4666666666669,
+			"source": "exchange_fountain_loop first two sides",
+			"stalled_ticks": 0,
+			"trace_rows": 808,
+			"turn_radians": 1.85615269094706,
+			"valid": true,
+			"waypoint": 3
+		},
+		{
+			"actual_end": [
+				22.0440654754639,
+				4.00050640106201,
+				-91.1811599731445
+			],
+			"actual_start": [
+				-22.0,
+				4.00050640106201,
+				-91.0
+			],
+			"bails": 0,
+			"completed": true,
+			"discontinuities": 0,
+			"distance_m": 77.5185982696712,
+			"district_ticks": 870,
+			"first_tick": 880,
+			"fixture_start": [
+				-22.0,
+				4.80000019073486,
+				-91.0
+			],
+			"grounded_ticks": 870,
+			"id": "george_square",
+			"last_tick": 1758,
+			"max_corridor_deviation_m": 0.74090576171875,
+			"point_count": 4,
+			"points": [
+				[
+					-22.0,
+					4.0,
+					-91.0
+				],
+				[
+					-22.0,
+					4.0,
+					-74.0
+				],
+				[
+					22.0,
+					4.0,
+					-74.0
+				],
+				[
+					22.0,
+					4.0,
+					-91.0
+				]
+			],
+			"sim_seconds": 14.5000000000003,
+			"source": "cat_workshop_bypass",
+			"stalled_ticks": 0,
+			"trace_rows": 870,
+			"turn_radians": 3.53264774778952,
+			"valid": true,
+			"waypoint": 4
+		},
+		{
+			"actual_end": [
+				-82.0531845092773,
+				2.00050568580627,
+				21.5372447967529
+			],
+			"actual_start": [
+				-126.0,
+				2.00050568580627,
+				0.0
+			],
+			"bails": 0,
+			"completed": true,
+			"discontinuities": 0,
+			"distance_m": 81.6295005939901,
+			"district_ticks": 912,
+			"first_tick": 1790,
+			"fixture_start": [
+				-126.0,
+				2.79999995231628,
+				0.0
+			],
+			"grounded_ticks": 912,
+			"id": "central_station",
+			"last_tick": 2707,
+			"max_corridor_deviation_m": 0.917266845703125,
+			"point_count": 6,
+			"points": [
+				[
+					-126.0,
+					2.0,
+					0.0
+				],
+				[
+					-126.0,
+					2.0,
+					-8.0
+				],
+				[
+					-114.0,
+					2.0,
+					-8.0
+				],
+				[
+					-103.0,
+					2.0,
+					-8.0
+				],
+				[
+					-82.0,
+					2.0,
+					-8.0
+				],
+				[
+					-82.0,
+					2.0,
+					22.0
+				]
+			],
+			"sim_seconds": 15.2000000000003,
+			"source": "station_low_level_close",
+			"stalled_ticks": 0,
+			"trace_rows": 912,
+			"turn_radians": 4.07782567341069,
+			"valid": true,
+			"waypoint": 6
+		},
+		{
+			"actual_end": [
+				103.195182800293,
+				0.0106662157922983,
+				21.9922981262207
+			],
+			"actual_start": [
+				103.0,
+				0.0106662157922983,
+				22.0
+			],
+			"bails": 0,
+			"completed": true,
+			"discontinuities": 0,
+			"distance_m": 71.933400593698,
+			"district_ticks": 823,
+			"first_tick": 2739,
+			"fixture_start": [
+				103.0,
+				0.800000011920929,
+				22.0
+			],
+			"grounded_ticks": 823,
+			"id": "barras",
+			"last_tick": 3570,
+			"max_corridor_deviation_m": 0.755004405975342,
+			"point_count": 6,
+			"points": [
+				[
+					103.0,
+					0.0,
+					22.0
+				],
+				[
+					103.0,
+					0.0,
+					-5.0
+				],
+				[
+					114.0,
+					0.0,
+					-5.0
+				],
+				[
+					114.0,
+					0.0,
+					18.0
+				],
+				[
+					109.0,
+					0.0,
+					20.0
+				],
+				[
+					103.0,
+					0.0,
+					22.0
+				]
+			],
+			"sim_seconds": 13.7166666666669,
+			"source": "barras_market_inner_loop",
+			"stalled_ticks": 0,
+			"trace_rows": 823,
+			"turn_radians": 4.95967860220282,
+			"valid": true,
+			"waypoint": 6
+		},
+		{
+			"actual_end": [
+				16.1345291137695,
+				2.01383018493652,
+				68.9517364501953
+			],
+			"actual_start": [
+				-80.0,
+				2.00050568580627,
+				69.0
+			],
+			"bails": 0,
+			"completed": true,
+			"discontinuities": 0,
+			"distance_m": 95.8118196753785,
+			"district_ticks": 1031,
+			"first_tick": 3602,
+			"fixture_start": [
+				-80.0,
+				2.79999995231628,
+				69.0
+			],
+			"grounded_ticks": 1031,
+			"id": "clyde",
+			"last_tick": 4641,
+			"max_corridor_deviation_m": 0.347299605607986,
+			"point_count": 5,
+			"points": [
+				[
+					-80.0,
+					2.0,
+					69.0
+				],
+				[
+					-56.0,
+					2.0,
+					71.0
+				],
+				[
+					-32.0,
+					2.0,
+					69.0
+				],
+				[
+					-8.0,
+					2.0,
+					71.0
+				],
+				[
+					16.0,
+					2.0,
+					69.0
+				]
+			],
+			"sim_seconds": 17.1833333333336,
+			"source": "declared north-quay weave inside existing route corridor",
+			"stalled_ticks": 0,
+			"trace_rows": 1031,
+			"turn_radians": 0.857016444206238,
+			"valid": true,
+			"waypoint": 5
+		},
+		{
+			"actual_end": [
+				-206.220703125,
+				11.0091886520386,
+				-120.404067993164
+			],
+			"actual_start": [
+				-154.992126464844,
+				6.01408958435059,
+				-81.9936065673828
+			],
+			"bails": 0,
+			"completed": true,
+			"discontinuities": 0,
+			"distance_m": 65.0266471945215,
+			"district_ticks": 707,
+			"first_tick": 4681,
+			"fixture_start": [
+				-155.0,
+				6.80000019073486,
+				-82.0
+			],
+			"grounded_ticks": 681,
+			"id": "kelvingrove",
+			"last_tick": 5396,
+			"max_corridor_deviation_m": 0.0929378792643547,
+			"point_count": 34,
+			"points": [
+				[
+					-155.0,
+					6.0,
+					-82.0
+				],
+				[
+					-156.538650512695,
+					6.07913970947266,
+					-83.254753112793
+				],
+				[
+					-158.057189941406,
+					6.15286111831665,
+					-84.5330963134766
+				],
+				[
+					-159.574554443359,
+					6.22613430023193,
+					-85.8140716552734
+				],
+				[
+					-161.096603393555,
+					6.30061292648315,
+					-87.0899963378906
+				],
+				[
+					-162.626480102539,
+					6.37727737426758,
+					-88.3560791015625
+				],
+				[
+					-164.16716003418,
+					6.45694875717163,
+					-89.6085357666016
+				],
+				[
+					-165.721694946289,
+					6.54047584533691,
+					-90.8434906005859
+				],
+				[
+					-167.293304443359,
+					6.62884569168091,
+					-92.0562362670898
+				],
+				[
+					-168.886169433594,
+					6.72332572937012,
+					-93.2403793334961
+				],
+				[
+					-170.505828857422,
+					6.82569169998169,
+					-94.3868865966797
+				],
+				[
+					-172.160629272461,
+					6.9386420249939,
+					-95.481803894043
+				],
+				[
+					-173.865173339844,
+					7.06564092636108,
+					-96.4930648803711
+				],
+				[
+					-175.639862060547,
+					7.20439624786377,
+					-97.3752136230469
+				],
+				[
+					-177.460708618164,
+					7.3515682220459,
+					-98.1566467285156
+				],
+				[
+					-179.309036254883,
+					7.50526094436646,
+					-98.8698120117188
+				],
+				[
+					-181.172302246094,
+					7.66423177719116,
+					-99.5419616699219
+				],
+				[
+					-183.041275024414,
+					7.82765531539917,
+					-100.196990966797
+				],
+				[
+					-184.908065795898,
+					7.99495077133179,
+					-100.857200622559
+				],
+				[
+					-186.764617919922,
+					8.16564178466797,
+					-101.544700622559
+				],
+				[
+					-188.601226806641,
+					8.3392448425293,
+					-102.282997131348
+				],
+				[
+					-190.404541015625,
+					8.51512622833252,
+					-103.098236083984
+				],
+				[
+					-192.155288696289,
+					8.69229984283447,
+					-104.020645141602
+				],
+				[
+					-193.823684692383,
+					8.86898803710938,
+					-105.084083557129
+				],
+				[
+					-195.36799621582,
+					9.04201316833496,
+					-106.319679260254
+				],
+				[
+					-196.822082519531,
+					9.20781707763672,
+					-107.663963317871
+				],
+				[
+					-198.215774536133,
+					9.36797714233398,
+					-109.071380615234
+				],
+				[
+					-199.552368164062,
+					9.52460479736328,
+					-110.533271789551
+				],
+				[
+					-200.832397460938,
+					9.67928314208984,
+					-112.045104980469
+				],
+				[
+					-202.053771972656,
+					9.83671188354492,
+					-113.604759216309
+				],
+				[
+					-203.211975097656,
+					10.1749134063721,
+					-115.211845397949
+				],
+				[
+					-204.299423217773,
+					10.5954236984253,
+					-116.867408752441
+				],
+				[
+					-205.304901123047,
+					10.9007263183594,
+					-118.574035644531
+				],
+				[
+					-206.211059570312,
+					11.0,
+					-120.334655761719
+				]
+			],
+			"sim_seconds": 11.7833333333335,
+			"source": "first 65m of kelvingrove_rolling_loop",
+			"stalled_ticks": 0,
+			"trace_rows": 707,
+			"turn_radians": 1.63930168747902,
+			"valid": true,
+			"waypoint": 34
+		}
+	],
+	"time_scale": 1.0,
+	"valid": true,
+	"wall_seconds": 139.742269
+}
