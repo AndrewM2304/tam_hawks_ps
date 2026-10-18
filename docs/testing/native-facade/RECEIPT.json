@@ -1,0 +1,34 @@
+{
+  "build_directory": "builds/tam-hawks-20261018T082004Z-b97dac100f29",
+  "export_command": "./tools/export.sh --skip-check",
+  "source_commit": "b97dac100f2993a26aaf50a05cb3b9676ea3d4e2",
+  "ordinary_source_commit": "9549d5c142343e9619ea9cd366307cce9b2c554b",
+  "ordinary_checks": 1739,
+  "source_input_count": 171,
+  "ordinary_current_inputs_match": 309,
+  "normal_capture_overlap": 160,
+  "ordinary_package_overlap": 161,
+  "archive_audit_sha256": "2905da8f111bca304a0d77fe5747937db675c2c8e875d0ff7be778c1b9596f72",
+  "retained_files_sha256": {
+    "BUILD-METADATA.json": "e3902d1d1336676c5a7a2207fdd45b9ec94296118338840efde670d622ad1f9f",
+    "SHA256SUMS.txt": "bea9c646bec92b0f8dec6193b08ed915fd8667b0612df9cd3ade2661c5c4b108",
+    "linux-export.log": "8850704f9a16a7e99389f3edf4bd918b82f4c3149b3da479c267d913b4829ffd",
+    "macos-export.log": "cb5dcd20914ae5ae0e59887c32a6c7f8218b5ceb2c6ab8687c69a9325dfd295c",
+    "SMOKE-RESULTS.json": "55a7e0f2d2a486f011a2e278839778fe04c47bf47aedfd40f260c1e8f0623f52",
+    "headless.log": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+    "rendered.log": "ca6a6076d56c50cdb8141aa8fd840714831fbd8df31d377235fe4ba3b3147c8e",
+    "smoke-summary.log": "24c6a5c511bfce9a4f7b9b51daf456a683b151d75a091acec1da7398f78172b2",
+    "title-live.png": "4a131799d36e6b1adacd1ef5decf675bf3fd308752a205e2ccb0932778452643",
+    "xorg-1080.conf": "cc68d2903c522469295982c240c57ee31d40898612a825fd2e52f6864deb8c1a"
+  },
+  "smoke_capture_recipe": {
+    "path": "docs/testing/native-performance/smoke_capture.py",
+    "sha256": "e954af7559056b010854878567a09c73b83be21b14d6f1028d6eb7bcfa70f027"
+  },
+  "root_title_visual_review": "Real exported1080p title is readable, fully contained and shows correct focus; gameplay art/fun/performance not certified",
+  "normal_linux_headless_exit": 0,
+  "normal_linux_rendered_exit": 0,
+  "macos_launched": false,
+  "unsigned_local_only": true,
+  "hosted_ci_or_publication": false
+}
