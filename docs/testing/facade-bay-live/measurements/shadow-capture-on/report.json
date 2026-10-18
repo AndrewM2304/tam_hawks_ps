@@ -1,0 +1,153 @@
+{
+	"device": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"errors": [],
+	"fixed_fps": false,
+	"limits": [
+		"Linux diagnostic, not Apple Silicon performance or human visual/feel acceptance.",
+		"Stationary inspection cameras are authored; moving trial uses the production chase and ordinary InputMap driver.",
+		"Warmup and screenshot readbacks are outside samples. Counters distinguish visible and shadow work.",
+		"Route admission requires actual movement and steering; partial laps are reported honestly."
+	],
+	"mode": "capture",
+	"moving_trials": [],
+	"normal_render_loop": true,
+	"pilot_enabled": true,
+	"profile_writes": false,
+	"renderer": "gl_compatibility",
+	"schema": 1,
+	"settings": {
+		"ambience_volume": 0.6,
+		"audio": 0.8,
+		"bindings": {
+
+		},
+		"camera_sensitivity": 1.0,
+		"captions": true,
+		"cosmetic_id": "color_blue",
+		"graphics_quality": "balanced",
+		"reduced_motion": false,
+		"sfx_volume": 1.0,
+		"ui_scale": 1.0
+	},
+	"size": [
+		1280,
+		800
+	],
+	"stationary_views": [
+		{
+			"camera_position": [
+				-22.0,
+				2.70039749145508,
+				33.7999992370605
+			],
+			"chase": {
+				"blocked": false,
+				"current": true,
+				"distance": 6.04405784606934,
+				"finite": true,
+				"full_body": true
+			},
+			"file": "01-spawn.png",
+			"fixture": "ordinary production spawn and chase",
+			"id": "01-spawn"
+		},
+		{
+			"camera_position": [
+				-12.0,
+				9.0,
+				22.0
+			],
+			"chase": {
+
+			},
+			"file": "02-frontage-wide.png",
+			"fixture": "authored inspection camera; no traversal claim",
+			"id": "02-frontage-wide"
+		},
+		{
+			"camera_position": [
+				-23.0,
+				7.5,
+				7.0
+			],
+			"chase": {
+
+			},
+			"file": "03-frontage-near.png",
+			"fixture": "authored inspection camera; no traversal claim",
+			"id": "03-frontage-near"
+		},
+		{
+			"camera_position": [
+				-30.0,
+				2.0,
+				3.75
+			],
+			"chase": {
+
+			},
+			"file": "04-threshold.png",
+			"fixture": "authored inspection camera; no traversal claim",
+			"id": "04-threshold"
+		},
+		{
+			"camera_position": [
+				-29.0,
+				4.0,
+				-2.0
+			],
+			"chase": {
+
+			},
+			"file": "05-oblique-join.png",
+			"fixture": "authored inspection camera; no traversal claim",
+			"id": "05-oblique-join"
+		},
+		{
+			"camera_position": [
+				-32.0,
+				3.15039539337158,
+				9.80000019073486
+			],
+			"chase": {
+				"blocked": false,
+				"current": true,
+				"distance": 6.04405832290649,
+				"finite": true,
+				"full_body": true
+			},
+			"file": "06-west-wall-chase.png",
+			"fixture": "one supported fixture; ordinary production chase callbacks",
+			"id": "06-west-wall-chase"
+		},
+		{
+			"camera_position": [
+				-25.2000007629395,
+				3.14961767196655,
+				9.5
+			],
+			"chase": {
+				"blocked": false,
+				"current": true,
+				"distance": 6.04405355453491,
+				"finite": true,
+				"full_body": true
+			},
+			"file": "07-west-join-chase.png",
+			"fixture": "one supported fixture; ordinary production chase callbacks",
+			"id": "07-west-join-chase"
+		}
+	],
+	"valid": true
+}

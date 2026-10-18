@@ -101,7 +101,7 @@ func _run() -> void:
 		"stationary_views":_views, "moving_trials":_trials,
 		"limits":["Linux diagnostic, not Apple Silicon performance or human visual/feel acceptance.",
 			"Stationary inspection cameras are authored; moving trial uses the production chase and ordinary InputMap driver.",
-			"Warmup and screenshot readbacks are outside samples. Counters distinguish visible and shadow work.",
+			"Warmup and screenshot readbacks are outside samples. Reported3D counters include shadow work; Compatibility does not separate shadow submissions.",
 			"Route admission requires actual movement and steering; partial laps are reported honestly."]}
 	var written := _write(report)
 	_release()

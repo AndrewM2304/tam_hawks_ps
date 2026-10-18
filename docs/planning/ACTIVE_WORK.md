@@ -1,3 +1,7 @@
+# Current performance-gated continuation — 18 October 2026
+
+A01/A05/A09 completed a frozen existing-frontage evaluation at `c2e86ab`: ten datasets/52 images,37/0 focused,21/0 actual nativeLOD. Normal default is now OFF because three conservative frame-spike comparisons fail; stationary reported3D cost +2…3 passes. All six moving trials preserve zero bails/recoveries. [Current results](../testing/facade-bay-live/RESULTS.md). Required current ordinary suite and final handoff/push remain next. A05 owns NEW ignored two_surface source only; finish bounded free generation/audit before the exclusive ordinary run, no runtime edits. Reuse the existing75 tasks and no-spend/current-map constraints. Previous candidate-enable notes below are historical.
+
 # Current fitted frontage candidate — 18 October 2026
 
 A01 integration, A05 original fitted assets/art review and A09 independent QE have completed one existing-frontage candidate: focused37/0 and current real nativeLOD21/0. Corrected joins and cheaper original-mass shadow pass bounded art review. The candidate currently enables one frontage; final matched A/B/A at 1280×800/1920×1080 and required ordinary regression remain pending. Revert the default if gates fail. [Exact evidence, rejected trials and next commands](../testing/facade-bay-live/README.md). Source remains frozen through measurement. All 75 tasks and no-spend/no-expansion rules persist. No unattended job is scheduled.

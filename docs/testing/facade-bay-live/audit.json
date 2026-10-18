@@ -1,0 +1,1596 @@
+{
+  "auditor_sha256": "74fda1f69274edb4fbef90af89d30742bfc712c218357534f26577d01d5f13cf",
+  "frozen_source_verified": true,
+  "executed_source_checkpoint": "c2e86ab",
+  "post_measurement_changes": [
+    {
+      "path": "tools/facade_bay_probe.gd",
+      "executed_sha256": "70dcade78bf1dcebd9609a05fb52df698b942058a387d236d495382b72287bd1",
+      "current_sha256": "2c5f59325254c473c11226f027d7e8d4ab726bb0e399193952988eb1ad5a45e3",
+      "reason": "Correct one report-only limitation sentence after the frozen measurements.",
+      "only_exact_text_change_verified": true
+    },
+    {
+      "path": "game/levels/art/facade_bay.gd",
+      "executed_sha256": "fb8031bf7e5168c3835e8ccebfa8eaea56770ff9b315d98f942f6d1919cbac41",
+      "current_sha256": "5532963556c976e350423b7305b7e32110bcdf4c2042cda445c4844899359ef6",
+      "reason": "Disable normal-play default if the candidate fails; explicit probe on/off overrides are unchanged.",
+      "only_exact_text_change_verified": true
+    }
+  ],
+  "dataset_count": 10,
+  "image_count": 52,
+  "local_pilot_budget_pass": false,
+  "gate": "Reject p95/p99 increase exceeding BOTH peak-to-peak baseline repeat noise and 5% of baseline midpoint; also cap at 1.05 * worse baseline. Reported stationary3D draw delta <=4.",
+  "shadow_counter_note": "Compatibility reports zero in separate SHADOW counter despite real shadows; reported3D and total counters are not isolated main-pass counts.",
+  "target_mac_acceptance": false,
+  "fps_improvement_claim": false,
+  "comparisons": [
+    {
+      "resolution": [
+        1280,
+        800
+      ],
+      "view": "spawn",
+      "baseline_a1": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 1183.0,
+        "draw_calls_p50": 1181.0,
+        "draw_calls_p95": 1183.0,
+        "frames_over_ms": {
+          "100.0": 25,
+          "16.666667": 25,
+          "33.333333": 25,
+          "50.0": 25
+        },
+        "id": "spawn",
+        "max_ms": 2016.245,
+        "mean_fps": 1.19310437215006,
+        "mean_ms": 838.14964,
+        "nodes_max": 4278.0,
+        "p50_ms": 754.899,
+        "p95_ms": 1138.24,
+        "p99_ms": 2016.245,
+        "physics_ms_p50": 1.083,
+        "physics_ms_p95": 3.959,
+        "physics_ms_p99": 8.244,
+        "primitives_p95": 819953.0,
+        "process_ms_p50": 750.712,
+        "process_ms_p95": 866.537,
+        "process_ms_p99": 1134.298,
+        "sampled_seconds": 20.953741,
+        "samples": 25,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 45592926.0,
+        "visible_draws_p50": 1159.0
+      },
+      "pilot_b": {
+        "buffer_memory_bytes_p50": 16918880.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 1186.0,
+        "draw_calls_p50": 1184.0,
+        "draw_calls_p95": 1186.0,
+        "frames_over_ms": {
+          "100.0": 24,
+          "16.666667": 24,
+          "33.333333": 24,
+          "50.0": 24
+        },
+        "id": "spawn",
+        "max_ms": 1289.797,
+        "mean_fps": 1.18310817305915,
+        "mean_ms": 845.23125,
+        "nodes_max": 4282.0,
+        "p50_ms": 769.243,
+        "p95_ms": 1129.645,
+        "p99_ms": 1289.797,
+        "physics_ms_p50": 1.078,
+        "physics_ms_p95": 1.601,
+        "physics_ms_p99": 8.409,
+        "primitives_p95": 820619.0,
+        "process_ms_p50": 764.554,
+        "process_ms_p95": 1125.27,
+        "process_ms_p99": 1273.73,
+        "sampled_seconds": 20.28555,
+        "samples": 24,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 49088246.0,
+        "visible_draws_p50": 1162.0
+      },
+      "baseline_a2": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 1183.0,
+        "draw_calls_p50": 1181.0,
+        "draw_calls_p95": 1183.0,
+        "frames_over_ms": {
+          "100.0": 24,
+          "16.666667": 24,
+          "33.333333": 24,
+          "50.0": 24
+        },
+        "id": "spawn",
+        "max_ms": 1304.866,
+        "mean_fps": 1.16666085766781,
+        "mean_ms": 857.147125,
+        "nodes_max": 4278.0,
+        "p50_ms": 780.776,
+        "p95_ms": 1189.521,
+        "p99_ms": 1304.866,
+        "physics_ms_p50": 1.186,
+        "physics_ms_p95": 5.499,
+        "physics_ms_p99": 11.751,
+        "primitives_p95": 819953.0,
+        "process_ms_p50": 774.227,
+        "process_ms_p95": 1174.645,
+        "process_ms_p99": 1300.042,
+        "sampled_seconds": 20.571531,
+        "samples": 24,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 45592926.0,
+        "visible_draws_p50": 1159.0
+      },
+      "reported_3d_draw_delta": 3.0,
+      "draw_gate_pass": true,
+      "timing_gate_pass": {
+        "p95_ms": true,
+        "p99_ms": true
+      },
+      "timing_details": {
+        "p95_ms": {
+          "baseline_midpoint_ms": 1163.8805,
+          "repeat_noise_ms": 51.28099999999995,
+          "increase_ms": -34.2355,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        },
+        "p99_ms": {
+          "baseline_midpoint_ms": 1660.5555,
+          "repeat_noise_ms": 711.3789999999999,
+          "increase_ms": -370.7584999999999,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        }
+      },
+      "accepted": true
+    },
+    {
+      "resolution": [
+        1280,
+        800
+      ],
+      "view": "02-frontage-wide",
+      "baseline_a1": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 628.0,
+        "draw_calls_p50": 628.0,
+        "draw_calls_p95": 628.0,
+        "frames_over_ms": {
+          "100.0": 31,
+          "16.666667": 31,
+          "33.333333": 31,
+          "50.0": 31
+        },
+        "id": "02-frontage-wide",
+        "max_ms": 964.653,
+        "mean_fps": 1.49644984170457,
+        "mean_ms": 668.248258064516,
+        "nodes_max": 4278.0,
+        "p50_ms": 595.457,
+        "p95_ms": 934.803,
+        "p99_ms": 964.653,
+        "physics_ms_p50": 1.11,
+        "physics_ms_p95": 5.348,
+        "physics_ms_p99": 9.75,
+        "primitives_p95": 536523.0,
+        "process_ms_p50": 604.052,
+        "process_ms_p95": 930.514,
+        "process_ms_p99": 959.932,
+        "sampled_seconds": 20.715696,
+        "samples": 31,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 45592926.0,
+        "visible_draws_p50": 606.0
+      },
+      "pilot_b": {
+        "buffer_memory_bytes_p50": 16918880.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 630.0,
+        "draw_calls_p50": 630.0,
+        "draw_calls_p95": 630.0,
+        "frames_over_ms": {
+          "100.0": 33,
+          "16.666667": 33,
+          "33.333333": 33,
+          "50.0": 33
+        },
+        "id": "02-frontage-wide",
+        "max_ms": 925.987,
+        "mean_fps": 1.61510398259681,
+        "mean_ms": 619.155181818182,
+        "nodes_max": 4282.0,
+        "p50_ms": 589.795,
+        "p95_ms": 799.06,
+        "p99_ms": 925.987,
+        "physics_ms_p50": 1.059,
+        "physics_ms_p95": 1.972,
+        "physics_ms_p99": 2.073,
+        "primitives_p95": 537157.0,
+        "process_ms_p50": 586.486,
+        "process_ms_p95": 919.058,
+        "process_ms_p99": 919.058,
+        "sampled_seconds": 20.432121,
+        "samples": 33,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 49088246.0,
+        "visible_draws_p50": 608.0
+      },
+      "baseline_a2": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 628.0,
+        "draw_calls_p50": 628.0,
+        "draw_calls_p95": 628.0,
+        "frames_over_ms": {
+          "100.0": 32,
+          "16.666667": 32,
+          "33.333333": 32,
+          "50.0": 32
+        },
+        "id": "02-frontage-wide",
+        "max_ms": 1235.068,
+        "mean_fps": 1.52753984886043,
+        "mean_ms": 654.64740625,
+        "nodes_max": 4278.0,
+        "p50_ms": 586.664,
+        "p95_ms": 1176.323,
+        "p99_ms": 1235.068,
+        "physics_ms_p50": 1.125,
+        "physics_ms_p95": 1.376,
+        "physics_ms_p99": 1.513,
+        "primitives_p95": 536523.0,
+        "process_ms_p50": 585.135,
+        "process_ms_p95": 1031.685,
+        "process_ms_p99": 1231.147,
+        "sampled_seconds": 20.948717,
+        "samples": 32,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 45592926.0,
+        "visible_draws_p50": 606.0
+      },
+      "reported_3d_draw_delta": 2.0,
+      "draw_gate_pass": true,
+      "timing_gate_pass": {
+        "p95_ms": true,
+        "p99_ms": true
+      },
+      "timing_details": {
+        "p95_ms": {
+          "baseline_midpoint_ms": 1055.563,
+          "repeat_noise_ms": 241.5200000000001,
+          "increase_ms": -256.50300000000016,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        },
+        "p99_ms": {
+          "baseline_midpoint_ms": 1099.8605,
+          "repeat_noise_ms": 270.41499999999996,
+          "increase_ms": -173.87350000000004,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        }
+      },
+      "accepted": true
+    },
+    {
+      "resolution": [
+        1280,
+        800
+      ],
+      "view": "03-frontage-near",
+      "baseline_a1": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 578.0,
+        "draw_calls_p50": 578.0,
+        "draw_calls_p95": 578.0,
+        "frames_over_ms": {
+          "100.0": 30,
+          "16.666667": 30,
+          "33.333333": 30,
+          "50.0": 30
+        },
+        "id": "03-frontage-near",
+        "max_ms": 808.823,
+        "mean_fps": 1.48591913311082,
+        "mean_ms": 672.984133333333,
+        "nodes_max": 4278.0,
+        "p50_ms": 664.296,
+        "p95_ms": 740.96,
+        "p99_ms": 808.823,
+        "physics_ms_p50": 1.069,
+        "physics_ms_p95": 1.361,
+        "physics_ms_p99": 1.498,
+        "primitives_p95": 605417.0,
+        "process_ms_p50": 664.784,
+        "process_ms_p95": 736.408,
+        "process_ms_p99": 804.247,
+        "sampled_seconds": 20.189524,
+        "samples": 30,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 45592926.0,
+        "visible_draws_p50": 556.0
+      },
+      "pilot_b": {
+        "buffer_memory_bytes_p50": 16918880.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 580.0,
+        "draw_calls_p50": 580.0,
+        "draw_calls_p95": 580.0,
+        "frames_over_ms": {
+          "100.0": 25,
+          "16.666667": 25,
+          "33.333333": 25,
+          "50.0": 25
+        },
+        "id": "03-frontage-near",
+        "max_ms": 1622.868,
+        "mean_fps": 1.24123206084539,
+        "mean_ms": 805.65112,
+        "nodes_max": 4282.0,
+        "p50_ms": 700.532,
+        "p95_ms": 1482.65,
+        "p99_ms": 1622.868,
+        "physics_ms_p50": 1.157,
+        "physics_ms_p95": 17.608,
+        "physics_ms_p99": 17.608,
+        "primitives_p95": 620899.0,
+        "process_ms_p50": 706.234,
+        "process_ms_p95": 1264.72,
+        "process_ms_p99": 1609.312,
+        "sampled_seconds": 20.141278,
+        "samples": 25,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 49088246.0,
+        "visible_draws_p50": 558.0
+      },
+      "baseline_a2": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 578.0,
+        "draw_calls_p50": 578.0,
+        "draw_calls_p95": 578.0,
+        "frames_over_ms": {
+          "100.0": 26,
+          "16.666667": 26,
+          "33.333333": 26,
+          "50.0": 26
+        },
+        "id": "03-frontage-near",
+        "max_ms": 1567.651,
+        "mean_fps": 1.27966503488047,
+        "mean_ms": 781.4545,
+        "nodes_max": 4278.0,
+        "p50_ms": 682.343,
+        "p95_ms": 1272.066,
+        "p99_ms": 1567.651,
+        "physics_ms_p50": 1.101,
+        "physics_ms_p95": 5.878,
+        "physics_ms_p99": 17.815,
+        "primitives_p95": 605417.0,
+        "process_ms_p50": 679.194,
+        "process_ms_p95": 1267.738,
+        "process_ms_p99": 1562.824,
+        "sampled_seconds": 20.317817,
+        "samples": 26,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 45592926.0,
+        "visible_draws_p50": 556.0
+      },
+      "reported_3d_draw_delta": 2.0,
+      "draw_gate_pass": true,
+      "timing_gate_pass": {
+        "p95_ms": false,
+        "p99_ms": true
+      },
+      "timing_details": {
+        "p95_ms": {
+          "baseline_midpoint_ms": 1006.513,
+          "repeat_noise_ms": 531.106,
+          "increase_ms": 476.13700000000006,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": false
+        },
+        "p99_ms": {
+          "baseline_midpoint_ms": 1188.237,
+          "repeat_noise_ms": 758.8280000000001,
+          "increase_ms": 434.63099999999986,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        }
+      },
+      "accepted": false
+    },
+    {
+      "resolution": [
+        1280,
+        800
+      ],
+      "view": "exchange_west_bank_loop",
+      "baseline_a1": {
+        "absolute_turn_radians": 6.58925323585142,
+        "bails": 0,
+        "camera_far": 220.0,
+        "camera_fov": 67.3181076049805,
+        "camera_node": "/root/@Node3D@2/Skater/ChaseCamera",
+        "camera_position": [
+          -19.582483291626,
+          2.94684028625488,
+          -0.85270619392395
+        ],
+        "completed_laps": 1,
+        "controller_total_us": 12416,
+        "controller_us_p50": 20.0,
+        "controller_us_p95": 39.0,
+        "controller_us_p99": 49.0,
+        "discontinuous_recoveries": 0,
+        "distance_m": 38.1793616749346,
+        "draw_calls_max": 1286.0,
+        "draw_calls_p50": 711.0,
+        "draw_calls_p95": 1133.0,
+        "errors": [],
+        "final_position": [
+          -26.0322742462158,
+          0.321848154067993,
+          0.151670008897781
+        ],
+        "frames_over_ms": {
+          "100.0": 58,
+          "16.666667": 58,
+          "33.333333": 58,
+          "50.0": 58
+        },
+        "initial_heading": 1.5707963267949,
+        "initial_position": [
+          -22.0,
+          0.00020841509103775,
+          0.300000011920929
+        ],
+        "max_ms": 995.08,
+        "maximum_route_deviation_m": 0.670948028564453,
+        "mean_fps": 1.43305250610493,
+        "mean_ms": 697.811137931035,
+        "moving_tick_fraction": 0.991379310344828,
+        "nodes_max": 4279.0,
+        "p50_ms": 666.142,
+        "p95_ms": 845.033,
+        "p99_ms": 995.08,
+        "physics_ms_p50": 1.242,
+        "physics_ms_p95": 2.094,
+        "physics_ms_p99": 4.177,
+        "physics_ticks": 464,
+        "primitives_p95": 871208.0,
+        "process_ms_p50": 675.97,
+        "process_ms_p95": 839.84,
+        "process_ms_p99": 985.559,
+        "requested_sample_seconds": 40.0,
+        "route": "exchange_west_bank_loop",
+        "route_points": [
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -24.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -27.0,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            7.5
+          ],
+          [
+            -28.5,
+            0.449999988079071,
+            8.5
+          ],
+          [
+            -25.5,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ]
+        ],
+        "route_source": "unchanged authored exchange_west_bank_loop",
+        "sampled_seconds": 40.473046,
+        "samples": 58,
+        "screenshot": "exchange_west_bank_loop.png",
+        "simulated_seconds": 7.73333333333331,
+        "steering_physics_ticks": 239,
+        "valid_trial": true,
+        "warmup_rendered_frames": 5,
+        "warmup_seconds": 3.751814,
+        "waypoint_index": 3
+      },
+      "pilot_b": {
+        "absolute_turn_radians": 5.21730964282622,
+        "bails": 0,
+        "camera_far": 220.0,
+        "camera_fov": 67.3624649047852,
+        "camera_node": "/root/@Node3D@2/Skater/ChaseCamera",
+        "camera_position": [
+          -20.23046875,
+          2.71370124816895,
+          6.96491813659668
+        ],
+        "completed_laps": 1,
+        "controller_total_us": 16025,
+        "controller_us_p50": 21.0,
+        "controller_us_p95": 47.0,
+        "controller_us_p99": 77.0,
+        "discontinuous_recoveries": 0,
+        "distance_m": 33.8685223348439,
+        "draw_calls_max": 1284.0,
+        "draw_calls_p50": 708.0,
+        "draw_calls_p95": 1136.0,
+        "errors": [],
+        "final_position": [
+          -22.1352691650391,
+          0.0137010514736176,
+          0.708039522171021
+        ],
+        "frames_over_ms": {
+          "100.0": 51,
+          "16.666667": 51,
+          "33.333333": 51,
+          "50.0": 51
+        },
+        "initial_heading": 1.5707963267949,
+        "initial_position": [
+          -22.0,
+          0.00020841509103775,
+          0.300000011920929
+        ],
+        "max_ms": 1898.458,
+        "maximum_route_deviation_m": 0.670948028564453,
+        "mean_fps": 1.272329888496,
+        "mean_ms": 785.95968627451,
+        "moving_tick_fraction": 0.990196078431373,
+        "nodes_max": 4283.0,
+        "p50_ms": 690.55,
+        "p95_ms": 1337.336,
+        "p99_ms": 1898.458,
+        "physics_ms_p50": 1.282,
+        "physics_ms_p95": 5.554,
+        "physics_ms_p99": 7.046,
+        "physics_ticks": 408,
+        "primitives_p95": 868384.0,
+        "process_ms_p50": 681.573,
+        "process_ms_p95": 1330.575,
+        "process_ms_p99": 1878.518,
+        "requested_sample_seconds": 40.0,
+        "route": "exchange_west_bank_loop",
+        "route_points": [
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -24.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -27.0,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            7.5
+          ],
+          [
+            -28.5,
+            0.449999988079071,
+            8.5
+          ],
+          [
+            -25.5,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ]
+        ],
+        "route_source": "unchanged authored exchange_west_bank_loop",
+        "sampled_seconds": 40.083944,
+        "samples": 51,
+        "screenshot": "exchange_west_bank_loop.png",
+        "simulated_seconds": 6.79999999999998,
+        "steering_physics_ticks": 193,
+        "valid_trial": true,
+        "warmup_rendered_frames": 5,
+        "warmup_seconds": 4.570438,
+        "waypoint_index": 1
+      },
+      "baseline_a2": {
+        "absolute_turn_radians": 5.53688167432417,
+        "bails": 0,
+        "camera_far": 220.0,
+        "camera_fov": 67.2230072021484,
+        "camera_node": "/root/@Node3D@2/Skater/ChaseCamera",
+        "camera_position": [
+          -19.0399780273438,
+          2.71370124816895,
+          5.65323781967163
+        ],
+        "completed_laps": 1,
+        "controller_total_us": 12001,
+        "controller_us_p50": 16.0,
+        "controller_us_p95": 28.0,
+        "controller_us_p99": 43.0,
+        "discontinuous_recoveries": 0,
+        "distance_m": 34.4760894775391,
+        "draw_calls_max": 1244.0,
+        "draw_calls_p50": 704.0,
+        "draw_calls_p95": 1138.0,
+        "errors": [],
+        "final_position": [
+          -22.458251953125,
+          0.0137010514736176,
+          0.228101804852486
+        ],
+        "frames_over_ms": {
+          "100.0": 52,
+          "16.666667": 52,
+          "33.333333": 52,
+          "50.0": 52
+        },
+        "initial_heading": 1.5707963267949,
+        "initial_position": [
+          -22.0,
+          0.00020841509103775,
+          0.300000011920929
+        ],
+        "max_ms": 1607.74,
+        "maximum_route_deviation_m": 0.670948028564453,
+        "mean_fps": 1.275974359786,
+        "mean_ms": 783.714807692308,
+        "moving_tick_fraction": 0.990384615384615,
+        "nodes_max": 4279.0,
+        "p50_ms": 686.553,
+        "p95_ms": 1360.539,
+        "p99_ms": 1607.74,
+        "physics_ms_p50": 1.39,
+        "physics_ms_p95": 13.998,
+        "physics_ms_p99": 16.388,
+        "physics_ticks": 416,
+        "primitives_p95": 870820.0,
+        "process_ms_p50": 679.179,
+        "process_ms_p95": 1354.895,
+        "process_ms_p99": 1603.224,
+        "requested_sample_seconds": 40.0,
+        "route": "exchange_west_bank_loop",
+        "route_points": [
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -24.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -27.0,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            7.5
+          ],
+          [
+            -28.5,
+            0.449999988079071,
+            8.5
+          ],
+          [
+            -25.5,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ]
+        ],
+        "route_source": "unchanged authored exchange_west_bank_loop",
+        "sampled_seconds": 40.75317,
+        "samples": 52,
+        "screenshot": "exchange_west_bank_loop.png",
+        "simulated_seconds": 6.93333333333331,
+        "steering_physics_ticks": 201,
+        "valid_trial": true,
+        "warmup_rendered_frames": 5,
+        "warmup_seconds": 3.876437,
+        "waypoint_index": 2
+      },
+      "reported_3d_draw_delta": null,
+      "draw_gate_pass": true,
+      "timing_gate_pass": {
+        "p95_ms": true,
+        "p99_ms": false
+      },
+      "timing_details": {
+        "p95_ms": {
+          "baseline_midpoint_ms": 1102.786,
+          "repeat_noise_ms": 515.506,
+          "increase_ms": 234.54999999999995,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        },
+        "p99_ms": {
+          "baseline_midpoint_ms": 1301.41,
+          "repeat_noise_ms": 612.66,
+          "increase_ms": 597.048,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": false
+        }
+      },
+      "accepted": false
+    },
+    {
+      "resolution": [
+        1920,
+        1080
+      ],
+      "view": "spawn",
+      "baseline_a1": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 1213.0,
+        "draw_calls_p50": 1211.0,
+        "draw_calls_p95": 1213.0,
+        "frames_over_ms": {
+          "100.0": 22,
+          "16.666667": 22,
+          "33.333333": 22,
+          "50.0": 22
+        },
+        "id": "spawn",
+        "max_ms": 2144.908,
+        "mean_fps": 0.731479350155075,
+        "mean_ms": 1367.09259090909,
+        "nodes_max": 4278.0,
+        "p50_ms": 1229.759,
+        "p95_ms": 2015.219,
+        "p99_ms": 2144.908,
+        "physics_ms_p50": 1.06,
+        "physics_ms_p95": 1.438,
+        "physics_ms_p99": 1.57,
+        "primitives_p95": 823799.0,
+        "process_ms_p50": 1203.945,
+        "process_ms_p95": 1938.656,
+        "process_ms_p99": 2011.55,
+        "sampled_seconds": 30.076037,
+        "samples": 22,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 70783326.0,
+        "visible_draws_p50": 1189.0
+      },
+      "pilot_b": {
+        "buffer_memory_bytes_p50": 16918880.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 1216.0,
+        "draw_calls_p50": 1214.0,
+        "draw_calls_p95": 1216.0,
+        "frames_over_ms": {
+          "100.0": 21,
+          "16.666667": 21,
+          "33.333333": 21,
+          "50.0": 21
+        },
+        "id": "spawn",
+        "max_ms": 1974.016,
+        "mean_fps": 0.682174795337004,
+        "mean_ms": 1465.89995238095,
+        "nodes_max": 4282.0,
+        "p50_ms": 1309.558,
+        "p95_ms": 1864.482,
+        "p99_ms": 1974.016,
+        "physics_ms_p50": 1.264,
+        "physics_ms_p95": 3.92,
+        "physics_ms_p99": 9.181,
+        "primitives_p95": 824465.0,
+        "process_ms_p50": 1273.799,
+        "process_ms_p95": 1859.84,
+        "process_ms_p99": 1967.782,
+        "sampled_seconds": 30.783899,
+        "samples": 21,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 74278646.0,
+        "visible_draws_p50": 1192.0
+      },
+      "baseline_a2": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 1213.0,
+        "draw_calls_p50": 1211.0,
+        "draw_calls_p95": 1213.0,
+        "frames_over_ms": {
+          "100.0": 22,
+          "16.666667": 22,
+          "33.333333": 22,
+          "50.0": 22
+        },
+        "id": "spawn",
+        "max_ms": 2017.718,
+        "mean_fps": 0.728423057781596,
+        "mean_ms": 1372.82859090909,
+        "nodes_max": 4278.0,
+        "p50_ms": 1203.345,
+        "p95_ms": 1919.907,
+        "p99_ms": 2017.718,
+        "physics_ms_p50": 1.052,
+        "physics_ms_p95": 4.915,
+        "physics_ms_p99": 7.448,
+        "primitives_p95": 823799.0,
+        "process_ms_p50": 1192.777,
+        "process_ms_p95": 1907.657,
+        "process_ms_p99": 2012.95,
+        "sampled_seconds": 30.202229,
+        "samples": 22,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 70783326.0,
+        "visible_draws_p50": 1189.0
+      },
+      "reported_3d_draw_delta": 3.0,
+      "draw_gate_pass": true,
+      "timing_gate_pass": {
+        "p95_ms": true,
+        "p99_ms": true
+      },
+      "timing_details": {
+        "p95_ms": {
+          "baseline_midpoint_ms": 1967.563,
+          "repeat_noise_ms": 95.31200000000013,
+          "increase_ms": -103.08100000000013,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        },
+        "p99_ms": {
+          "baseline_midpoint_ms": 2081.313,
+          "repeat_noise_ms": 127.18999999999983,
+          "increase_ms": -107.29700000000003,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        }
+      },
+      "accepted": true
+    },
+    {
+      "resolution": [
+        1920,
+        1080
+      ],
+      "view": "02-frontage-wide",
+      "baseline_a1": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 649.0,
+        "draw_calls_p50": 649.0,
+        "draw_calls_p95": 649.0,
+        "frames_over_ms": {
+          "100.0": 27,
+          "16.666667": 27,
+          "33.333333": 27,
+          "50.0": 27
+        },
+        "id": "02-frontage-wide",
+        "max_ms": 2114.832,
+        "mean_fps": 0.86546517021969,
+        "mean_ms": 1155.448,
+        "nodes_max": 4278.0,
+        "p50_ms": 907.719,
+        "p95_ms": 1769.93,
+        "p99_ms": 2114.832,
+        "physics_ms_p50": 1.236,
+        "physics_ms_p95": 8.653,
+        "physics_ms_p99": 19.362,
+        "primitives_p95": 548513.0,
+        "process_ms_p50": 895.57,
+        "process_ms_p95": 1763.136,
+        "process_ms_p99": 2078.246,
+        "sampled_seconds": 31.197096,
+        "samples": 27,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 70783326.0,
+        "visible_draws_p50": 627.0
+      },
+      "pilot_b": {
+        "buffer_memory_bytes_p50": 16918880.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 652.0,
+        "draw_calls_p50": 652.0,
+        "draw_calls_p95": 652.0,
+        "frames_over_ms": {
+          "100.0": 27,
+          "16.666667": 27,
+          "33.333333": 27,
+          "50.0": 27
+        },
+        "id": "02-frontage-wide",
+        "max_ms": 1711.163,
+        "mean_fps": 0.875214196518845,
+        "mean_ms": 1142.57744444444,
+        "nodes_max": 4282.0,
+        "p50_ms": 1012.896,
+        "p95_ms": 1686.437,
+        "p99_ms": 1711.163,
+        "physics_ms_p50": 1.107,
+        "physics_ms_p95": 2.19,
+        "physics_ms_p99": 6.953,
+        "primitives_p95": 549179.0,
+        "process_ms_p50": 1008.491,
+        "process_ms_p95": 1628.74,
+        "process_ms_p99": 1680.726,
+        "sampled_seconds": 30.849591,
+        "samples": 27,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 74278646.0,
+        "visible_draws_p50": 630.0
+      },
+      "baseline_a2": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 649.0,
+        "draw_calls_p50": 649.0,
+        "draw_calls_p95": 649.0,
+        "frames_over_ms": {
+          "100.0": 30,
+          "16.666667": 30,
+          "33.333333": 30,
+          "50.0": 30
+        },
+        "id": "02-frontage-wide",
+        "max_ms": 1885.042,
+        "mean_fps": 0.989513825140835,
+        "mean_ms": 1010.5973,
+        "nodes_max": 4278.0,
+        "p50_ms": 908.19,
+        "p95_ms": 1628.518,
+        "p99_ms": 1885.042,
+        "physics_ms_p50": 1.134,
+        "physics_ms_p95": 3.477,
+        "physics_ms_p99": 10.553,
+        "primitives_p95": 548513.0,
+        "process_ms_p50": 904.024,
+        "process_ms_p95": 1618.51,
+        "process_ms_p99": 1880.64,
+        "sampled_seconds": 30.317919,
+        "samples": 30,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 70783326.0,
+        "visible_draws_p50": 627.0
+      },
+      "reported_3d_draw_delta": 3.0,
+      "draw_gate_pass": true,
+      "timing_gate_pass": {
+        "p95_ms": true,
+        "p99_ms": true
+      },
+      "timing_details": {
+        "p95_ms": {
+          "baseline_midpoint_ms": 1699.2240000000002,
+          "repeat_noise_ms": 141.41200000000003,
+          "increase_ms": -12.787000000000262,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        },
+        "p99_ms": {
+          "baseline_midpoint_ms": 1999.937,
+          "repeat_noise_ms": 229.78999999999996,
+          "increase_ms": -288.7739999999999,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        }
+      },
+      "accepted": true
+    },
+    {
+      "resolution": [
+        1920,
+        1080
+      ],
+      "view": "03-frontage-near",
+      "baseline_a1": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 632.0,
+        "draw_calls_p50": 632.0,
+        "draw_calls_p95": 632.0,
+        "frames_over_ms": {
+          "100.0": 20,
+          "16.666667": 20,
+          "33.333333": 20,
+          "50.0": 20
+        },
+        "id": "03-frontage-near",
+        "max_ms": 2658.183,
+        "mean_fps": 0.664122766546834,
+        "mean_ms": 1505.7457,
+        "nodes_max": 4278.0,
+        "p50_ms": 1321.479,
+        "p95_ms": 2176.891,
+        "p99_ms": 2658.183,
+        "physics_ms_p50": 1.345,
+        "physics_ms_p95": 5.122,
+        "physics_ms_p99": 7.775,
+        "primitives_p95": 611891.0,
+        "process_ms_p50": 1316.772,
+        "process_ms_p95": 2152.976,
+        "process_ms_p99": 2652.355,
+        "sampled_seconds": 30.114914,
+        "samples": 20,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 70783326.0,
+        "visible_draws_p50": 610.0
+      },
+      "pilot_b": {
+        "buffer_memory_bytes_p50": 16918880.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 634.0,
+        "draw_calls_p50": 634.0,
+        "draw_calls_p95": 634.0,
+        "frames_over_ms": {
+          "100.0": 22,
+          "16.666667": 22,
+          "33.333333": 22,
+          "50.0": 22
+        },
+        "id": "03-frontage-near",
+        "max_ms": 2209.775,
+        "mean_fps": 0.727438438951498,
+        "mean_ms": 1374.68677272727,
+        "nodes_max": 4282.0,
+        "p50_ms": 1167.696,
+        "p95_ms": 1947.071,
+        "p99_ms": 2209.775,
+        "physics_ms_p50": 1.115,
+        "physics_ms_p95": 3.211,
+        "physics_ms_p99": 6.551,
+        "primitives_p95": 627373.0,
+        "process_ms_p50": 1145.253,
+        "process_ms_p95": 1942.23,
+        "process_ms_p99": 2192.101,
+        "sampled_seconds": 30.243109,
+        "samples": 22,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 74278646.0,
+        "visible_draws_p50": 612.0
+      },
+      "baseline_a2": {
+        "buffer_memory_bytes_p50": 15939240.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 632.0,
+        "draw_calls_p50": 632.0,
+        "draw_calls_p95": 632.0,
+        "frames_over_ms": {
+          "100.0": 25,
+          "16.666667": 25,
+          "33.333333": 25,
+          "50.0": 25
+        },
+        "id": "03-frontage-near",
+        "max_ms": 1650.702,
+        "mean_fps": 0.831235129619149,
+        "mean_ms": 1203.02904,
+        "nodes_max": 4278.0,
+        "p50_ms": 1123.079,
+        "p95_ms": 1612.535,
+        "p99_ms": 1650.702,
+        "physics_ms_p50": 1.142,
+        "physics_ms_p95": 5.11,
+        "physics_ms_p99": 5.221,
+        "primitives_p95": 611891.0,
+        "process_ms_p50": 1118.665,
+        "process_ms_p95": 1608.423,
+        "process_ms_p99": 1646.295,
+        "sampled_seconds": 30.075726,
+        "samples": 25,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 70783326.0,
+        "visible_draws_p50": 610.0
+      },
+      "reported_3d_draw_delta": 2.0,
+      "draw_gate_pass": true,
+      "timing_gate_pass": {
+        "p95_ms": true,
+        "p99_ms": true
+      },
+      "timing_details": {
+        "p95_ms": {
+          "baseline_midpoint_ms": 1894.7130000000002,
+          "repeat_noise_ms": 564.356,
+          "increase_ms": 52.35799999999972,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        },
+        "p99_ms": {
+          "baseline_midpoint_ms": 2154.4425,
+          "repeat_noise_ms": 1007.481,
+          "increase_ms": 55.33249999999998,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": true
+        }
+      },
+      "accepted": true
+    },
+    {
+      "resolution": [
+        1920,
+        1080
+      ],
+      "view": "exchange_west_bank_loop",
+      "baseline_a1": {
+        "absolute_turn_radians": 4.89349960187544,
+        "bails": 0,
+        "camera_far": 220.0,
+        "camera_fov": 67.2861251831055,
+        "camera_node": "/root/@Node3D@2/Skater/ChaseCamera",
+        "camera_position": [
+          -20.8989868164062,
+          2.71370625495911,
+          11.586067199707
+        ],
+        "completed_laps": 0,
+        "controller_total_us": 10223,
+        "controller_us_p50": 18.0,
+        "controller_us_p95": 37.0,
+        "controller_us_p99": 75.0,
+        "discontinuous_recoveries": 0,
+        "distance_m": 29.3727745376527,
+        "draw_calls_max": 1327.0,
+        "draw_calls_p50": 773.0,
+        "draw_calls_p95": 1182.0,
+        "errors": [],
+        "final_position": [
+          -21.4743423461914,
+          0.0137010514736176,
+          5.13414430618286
+        ],
+        "frames_over_ms": {
+          "100.0": 45,
+          "16.666667": 45,
+          "33.333333": 45,
+          "50.0": 45
+        },
+        "initial_heading": 1.5707963267949,
+        "initial_position": [
+          -22.0,
+          0.00020841509103775,
+          0.300000011920929
+        ],
+        "max_ms": 2421.659,
+        "maximum_route_deviation_m": 0.670948028564453,
+        "mean_fps": 0.738446475668197,
+        "mean_ms": 1354.19428888889,
+        "moving_tick_fraction": 0.988888888888889,
+        "nodes_max": 4279.0,
+        "p50_ms": 1334.169,
+        "p95_ms": 2001.285,
+        "p99_ms": 2421.659,
+        "physics_ms_p50": 1.244,
+        "physics_ms_p95": 3.786,
+        "physics_ms_p99": 5.026,
+        "physics_ticks": 360,
+        "primitives_p95": 897690.0,
+        "process_ms_p50": 1320.923,
+        "process_ms_p95": 1797.356,
+        "process_ms_p99": 2007.408,
+        "requested_sample_seconds": 60.0,
+        "route": "exchange_west_bank_loop",
+        "route_points": [
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -24.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -27.0,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            7.5
+          ],
+          [
+            -28.5,
+            0.449999988079071,
+            8.5
+          ],
+          [
+            -25.5,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ]
+        ],
+        "route_source": "unchanged authored exchange_west_bank_loop",
+        "sampled_seconds": 60.938743,
+        "samples": 45,
+        "screenshot": "exchange_west_bank_loop.png",
+        "simulated_seconds": 5.99999999999998,
+        "steering_physics_ticks": 180,
+        "valid_trial": true,
+        "warmup_rendered_frames": 5,
+        "warmup_seconds": 7.916236,
+        "waypoint_index": 8
+      },
+      "pilot_b": {
+        "absolute_turn_radians": 4.53212428489794,
+        "bails": 0,
+        "camera_far": 220.0,
+        "camera_fov": 67.0382080078125,
+        "camera_node": "/root/@Node3D@2/Skater/ChaseCamera",
+        "camera_position": [
+          -23.801778793335,
+          2.71378660202026,
+          12.9727153778076
+        ],
+        "completed_laps": 0,
+        "controller_total_us": 14596,
+        "controller_us_p50": 19.0,
+        "controller_us_p95": 41.0,
+        "controller_us_p99": 514.0,
+        "discontinuous_recoveries": 0,
+        "distance_m": 27.3024658150971,
+        "draw_calls_max": 1324.0,
+        "draw_calls_p50": 764.0,
+        "draw_calls_p95": 1155.0,
+        "errors": [],
+        "final_position": [
+          -21.3675651550293,
+          0.0137010514736176,
+          7.22761297225952
+        ],
+        "frames_over_ms": {
+          "100.0": 42,
+          "16.666667": 42,
+          "33.333333": 42,
+          "50.0": 42
+        },
+        "initial_heading": 1.5707963267949,
+        "initial_position": [
+          -22.0,
+          0.00020841509103775,
+          0.300000011920929
+        ],
+        "max_ms": 2634.743,
+        "maximum_route_deviation_m": 0.621101379394531,
+        "mean_fps": 0.693865099209988,
+        "mean_ms": 1441.20233333333,
+        "moving_tick_fraction": 0.988095238095238,
+        "nodes_max": 4283.0,
+        "p50_ms": 1318.604,
+        "p95_ms": 2237.49,
+        "p99_ms": 2634.743,
+        "physics_ms_p50": 1.538,
+        "physics_ms_p95": 7.056,
+        "physics_ms_p99": 11.119,
+        "physics_ticks": 336,
+        "primitives_p95": 894450.0,
+        "process_ms_p50": 1312.144,
+        "process_ms_p95": 2230.97,
+        "process_ms_p99": 2604.708,
+        "requested_sample_seconds": 60.0,
+        "route": "exchange_west_bank_loop",
+        "route_points": [
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -24.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -27.0,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            7.5
+          ],
+          [
+            -28.5,
+            0.449999988079071,
+            8.5
+          ],
+          [
+            -25.5,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ]
+        ],
+        "route_source": "unchanged authored exchange_west_bank_loop",
+        "sampled_seconds": 60.530498,
+        "samples": 42,
+        "screenshot": "exchange_west_bank_loop.png",
+        "simulated_seconds": 5.59999999999999,
+        "steering_physics_ticks": 166,
+        "valid_trial": true,
+        "warmup_rendered_frames": 5,
+        "warmup_seconds": 8.409721,
+        "waypoint_index": 8
+      },
+      "baseline_a2": {
+        "absolute_turn_radians": 4.92534018704762,
+        "bails": 0,
+        "camera_far": 220.0,
+        "camera_fov": 67.3849945068359,
+        "camera_node": "/root/@Node3D@2/Skater/ChaseCamera",
+        "camera_position": [
+          -21.1399097442627,
+          2.71370124816895,
+          8.60658073425293
+        ],
+        "completed_laps": 0,
+        "controller_total_us": 11559,
+        "controller_us_p50": 17.0,
+        "controller_us_p95": 42.0,
+        "controller_us_p99": 349.0,
+        "discontinuous_recoveries": 0,
+        "distance_m": 32.3943712748587,
+        "draw_calls_max": 1326.0,
+        "draw_calls_p50": 779.0,
+        "draw_calls_p95": 1187.0,
+        "errors": [],
+        "final_position": [
+          -21.8338737487793,
+          0.0137010514736176,
+          2.13628554344177
+        ],
+        "frames_over_ms": {
+          "100.0": 49,
+          "16.666667": 49,
+          "33.333333": 49,
+          "50.0": 49
+        },
+        "initial_heading": 1.5707963267949,
+        "initial_position": [
+          -22.0,
+          0.00020841509103775,
+          0.300000011920929
+        ],
+        "max_ms": 1954.795,
+        "maximum_route_deviation_m": 0.670948028564453,
+        "mean_fps": 0.813780647851106,
+        "mean_ms": 1228.83236734694,
+        "moving_tick_fraction": 0.989795918367347,
+        "nodes_max": 4279.0,
+        "p50_ms": 1125.331,
+        "p95_ms": 1814.077,
+        "p99_ms": 1954.795,
+        "physics_ms_p50": 1.252,
+        "physics_ms_p95": 4.917,
+        "physics_ms_p99": 10.322,
+        "physics_ticks": 392,
+        "primitives_p95": 890290.0,
+        "process_ms_p50": 1105.502,
+        "process_ms_p95": 1807.501,
+        "process_ms_p99": 1950.189,
+        "requested_sample_seconds": 60.0,
+        "route": "exchange_west_bank_loop",
+        "route_points": [
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -24.0,
+            0.0,
+            0.300000011920929
+          ],
+          [
+            -27.0,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            0.300000011920929
+          ],
+          [
+            -31.5,
+            0.449999988079071,
+            7.5
+          ],
+          [
+            -28.5,
+            0.449999988079071,
+            8.5
+          ],
+          [
+            -25.5,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            8.5
+          ],
+          [
+            -22.0,
+            0.0,
+            0.300000011920929
+          ]
+        ],
+        "route_source": "unchanged authored exchange_west_bank_loop",
+        "sampled_seconds": 60.212786,
+        "samples": 49,
+        "screenshot": "exchange_west_bank_loop.png",
+        "simulated_seconds": 6.53333333333332,
+        "steering_physics_ticks": 180,
+        "valid_trial": true,
+        "warmup_rendered_frames": 5,
+        "warmup_seconds": 7.382563,
+        "waypoint_index": 8
+      },
+      "reported_3d_draw_delta": null,
+      "draw_gate_pass": true,
+      "timing_gate_pass": {
+        "p95_ms": false,
+        "p99_ms": false
+      },
+      "timing_details": {
+        "p95_ms": {
+          "baseline_midpoint_ms": 1907.681,
+          "repeat_noise_ms": 187.20800000000008,
+          "increase_ms": 329.80899999999974,
+          "beyond_noise_and_five_percent": true,
+          "worse_baseline_cap_pass": false
+        },
+        "p99_ms": {
+          "baseline_midpoint_ms": 2188.227,
+          "repeat_noise_ms": 466.86400000000003,
+          "increase_ms": 446.5160000000001,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_pass": false
+        }
+      },
+      "accepted": false
+    }
+  ]
+}

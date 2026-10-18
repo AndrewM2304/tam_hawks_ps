@@ -7,7 +7,7 @@ const REPORT: StringName = &"glasgow_bay_report"
 const AUDIT_RECORDS: StringName = &"glasgow_bay_front_records"
 const STRIP := Vector2(-9.0, -2.5)
 const MOUNT := Vector3(-5.75, 0.0, 6.0)
-const DEFAULT_ENABLED := true # One bounded pilot; retain only after matched acceptance.
+const DEFAULT_ENABLED := false # Held back by the matched frame-time gate.
 const LEVELS: Array[String] = ["near", "mid", "far"]
 const SLOT_NAMES: Array[String] = ["01_Original_sandstone", "02_Painted_forest_joinery",
 	"03_Opaque_glazing", "04_Aged_dark_metal"]

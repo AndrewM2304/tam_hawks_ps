@@ -1,0 +1,3 @@
+# Superseded diagnostics
+
+The two initial admitted off/on timing runs retain all raw CSVs, PNGs, reports and source/artifact receipts. They used detailed facade casters and are **not** the final A/B/A retention evidence. The selected four review images show the original golden strip and corrected detailed-shadow joins before the cheap-shadow trial. Their original filenames/hashes are retained. These historical source hashes predate the final frozen c2e86ab candidate; do not claim them as current-source results. The later final measurements and failed budget gate are in ../RESULTS.md. Initial correction parse failure and deliberately interrupted calibration remain rejected, never counted as passing evidence.

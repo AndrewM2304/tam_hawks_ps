@@ -1,0 +1,272 @@
+{
+	"device": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"errors": [],
+	"fixed_fps": false,
+	"limits": [
+		"Linux diagnostic, not Apple Silicon performance or human visual/feel acceptance.",
+		"Stationary inspection cameras are authored; moving trial uses the production chase and ordinary InputMap driver.",
+		"Warmup and screenshot readbacks are outside samples. Counters distinguish visible and shadow work.",
+		"Route admission requires actual movement and steering; partial laps are reported honestly."
+	],
+	"mode": "profile",
+	"moving_trials": [
+		{
+			"absolute_turn_radians": 5.53688167432417,
+			"bails": 0,
+			"camera_far": 220.0,
+			"camera_fov": 67.2230072021484,
+			"camera_node": "/root/@Node3D@2/Skater/ChaseCamera",
+			"camera_position": [
+				-19.0399780273438,
+				2.71370124816895,
+				5.65323781967163
+			],
+			"completed_laps": 1,
+			"controller_total_us": 12001,
+			"controller_us_p50": 16.0,
+			"controller_us_p95": 28.0,
+			"controller_us_p99": 43.0,
+			"discontinuous_recoveries": 0,
+			"distance_m": 34.4760894775391,
+			"draw_calls_max": 1244.0,
+			"draw_calls_p50": 704.0,
+			"draw_calls_p95": 1138.0,
+			"errors": [],
+			"final_position": [
+				-22.458251953125,
+				0.0137010514736176,
+				0.228101804852486
+			],
+			"frames_over_ms": {
+				"100.0": 52,
+				"16.666667": 52,
+				"33.333333": 52,
+				"50.0": 52
+			},
+			"initial_heading": 1.5707963267949,
+			"initial_position": [
+				-22.0,
+				0.00020841509103775,
+				0.300000011920929
+			],
+			"max_ms": 1607.74,
+			"maximum_route_deviation_m": 0.670948028564453,
+			"mean_fps": 1.275974359786,
+			"mean_ms": 783.714807692308,
+			"moving_tick_fraction": 0.990384615384615,
+			"nodes_max": 4279.0,
+			"p50_ms": 686.553,
+			"p95_ms": 1360.539,
+			"p99_ms": 1607.74,
+			"physics_ms_p50": 1.39,
+			"physics_ms_p95": 13.998,
+			"physics_ms_p99": 16.388,
+			"physics_ticks": 416,
+			"primitives_p95": 870820.0,
+			"process_ms_p50": 679.179,
+			"process_ms_p95": 1354.895,
+			"process_ms_p99": 1603.224,
+			"requested_sample_seconds": 40.0,
+			"route": "exchange_west_bank_loop",
+			"route_points": [
+				[
+					-22.0,
+					0.0,
+					0.300000011920929
+				],
+				[
+					-24.0,
+					0.0,
+					0.300000011920929
+				],
+				[
+					-27.0,
+					0.449999988079071,
+					0.300000011920929
+				],
+				[
+					-31.5,
+					0.449999988079071,
+					0.300000011920929
+				],
+				[
+					-31.5,
+					0.449999988079071,
+					7.5
+				],
+				[
+					-28.5,
+					0.449999988079071,
+					8.5
+				],
+				[
+					-25.5,
+					0.0,
+					8.5
+				],
+				[
+					-22.0,
+					0.0,
+					8.5
+				],
+				[
+					-22.0,
+					0.0,
+					0.300000011920929
+				]
+			],
+			"route_source": "unchanged authored exchange_west_bank_loop",
+			"sampled_seconds": 40.75317,
+			"samples": 52,
+			"screenshot": "exchange_west_bank_loop.png",
+			"simulated_seconds": 6.93333333333331,
+			"steering_physics_ticks": 201,
+			"valid_trial": true,
+			"warmup_rendered_frames": 5,
+			"warmup_seconds": 3.876437,
+			"waypoint_index": 2
+		}
+	],
+	"normal_render_loop": true,
+	"pilot_enabled": false,
+	"profile_writes": false,
+	"renderer": "gl_compatibility",
+	"schema": 1,
+	"settings": {
+		"ambience_volume": 0.6,
+		"audio": 0.8,
+		"bindings": {
+
+		},
+		"camera_sensitivity": 1.0,
+		"captions": true,
+		"cosmetic_id": "color_blue",
+		"graphics_quality": "balanced",
+		"reduced_motion": false,
+		"sfx_volume": 1.0,
+		"ui_scale": 1.0
+	},
+	"size": [
+		1280,
+		800
+	],
+	"stationary_views": [
+		{
+			"buffer_memory_bytes_p50": 15939240.0,
+			"controller_us_p50": 0.0,
+			"controller_us_p95": 0.0,
+			"controller_us_p99": 0.0,
+			"draw_calls_max": 1183.0,
+			"draw_calls_p50": 1181.0,
+			"draw_calls_p95": 1183.0,
+			"frames_over_ms": {
+				"100.0": 24,
+				"16.666667": 24,
+				"33.333333": 24,
+				"50.0": 24
+			},
+			"id": "spawn",
+			"max_ms": 1304.866,
+			"mean_fps": 1.16666085766781,
+			"mean_ms": 857.147125,
+			"nodes_max": 4278.0,
+			"p50_ms": 780.776,
+			"p95_ms": 1189.521,
+			"p99_ms": 1304.866,
+			"physics_ms_p50": 1.186,
+			"physics_ms_p95": 5.499,
+			"physics_ms_p99": 11.751,
+			"primitives_p95": 819953.0,
+			"process_ms_p50": 774.227,
+			"process_ms_p95": 1174.645,
+			"process_ms_p99": 1300.042,
+			"sampled_seconds": 20.571531,
+			"samples": 24,
+			"shadow_draws_p50": 0.0,
+			"texture_memory_bytes_p50": 45592926.0,
+			"visible_draws_p50": 1159.0
+		},
+		{
+			"buffer_memory_bytes_p50": 15939240.0,
+			"controller_us_p50": 0.0,
+			"controller_us_p95": 0.0,
+			"controller_us_p99": 0.0,
+			"draw_calls_max": 628.0,
+			"draw_calls_p50": 628.0,
+			"draw_calls_p95": 628.0,
+			"frames_over_ms": {
+				"100.0": 32,
+				"16.666667": 32,
+				"33.333333": 32,
+				"50.0": 32
+			},
+			"id": "02-frontage-wide",
+			"max_ms": 1235.068,
+			"mean_fps": 1.52753984886043,
+			"mean_ms": 654.64740625,
+			"nodes_max": 4278.0,
+			"p50_ms": 586.664,
+			"p95_ms": 1176.323,
+			"p99_ms": 1235.068,
+			"physics_ms_p50": 1.125,
+			"physics_ms_p95": 1.376,
+			"physics_ms_p99": 1.513,
+			"primitives_p95": 536523.0,
+			"process_ms_p50": 585.135,
+			"process_ms_p95": 1031.685,
+			"process_ms_p99": 1231.147,
+			"sampled_seconds": 20.948717,
+			"samples": 32,
+			"shadow_draws_p50": 0.0,
+			"texture_memory_bytes_p50": 45592926.0,
+			"visible_draws_p50": 606.0
+		},
+		{
+			"buffer_memory_bytes_p50": 15939240.0,
+			"controller_us_p50": 0.0,
+			"controller_us_p95": 0.0,
+			"controller_us_p99": 0.0,
+			"draw_calls_max": 578.0,
+			"draw_calls_p50": 578.0,
+			"draw_calls_p95": 578.0,
+			"frames_over_ms": {
+				"100.0": 26,
+				"16.666667": 26,
+				"33.333333": 26,
+				"50.0": 26
+			},
+			"id": "03-frontage-near",
+			"max_ms": 1567.651,
+			"mean_fps": 1.27966503488047,
+			"mean_ms": 781.4545,
+			"nodes_max": 4278.0,
+			"p50_ms": 682.343,
+			"p95_ms": 1272.066,
+			"p99_ms": 1567.651,
+			"physics_ms_p50": 1.101,
+			"physics_ms_p95": 5.878,
+			"physics_ms_p99": 17.815,
+			"primitives_p95": 605417.0,
+			"process_ms_p50": 679.194,
+			"process_ms_p95": 1267.738,
+			"process_ms_p99": 1562.824,
+			"sampled_seconds": 20.317817,
+			"samples": 26,
+			"shadow_draws_p50": 0.0,
+			"texture_memory_bytes_p50": 45592926.0,
+			"visible_draws_p50": 556.0
+		}
+	],
+	"valid": true
+}

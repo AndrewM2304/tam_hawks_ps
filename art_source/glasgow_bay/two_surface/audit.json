@@ -1,0 +1,592 @@
+{
+  "schema": 1,
+  "status": "EXPERIMENTAL; structural audit passed; prospective base-level sampling gate passed",
+  "assets": [
+    {
+      "file": "generated/glasgow_bay_near.glb",
+      "sha256": "90a2803a22819c57c6511515341c5f80538f4ec4f3a10a411ba256edb8456c37",
+      "bytes": 682904,
+      "triangles": 9864,
+      "exported_vertices": 11088,
+      "opaque_surfaces": 2,
+      "bounds_min_m": [
+        -3.25,
+        0.0,
+        -0.5
+      ],
+      "bounds_max_m": [
+        3.25,
+        16.0,
+        0.36000001430511475
+      ],
+      "threshold_top_m": 0.5299997329711914,
+      "max_continuous_uv_mapping_error": 2.963809364597836e-08,
+      "fitted_comparison": {
+        "fitted_triangles": 18392,
+        "shared_exact_position_and_source_uv_triangles": 5640,
+        "macro_support_max_error_m": 0.008805675822433301,
+        "complete_silhouette_preservation": "Not claimed: one-segment chamfers alter small rounded profiles; matched views pending"
+      },
+      "surfaces": [
+        {
+          "slot": 0,
+          "triangles": 6180,
+          "vertices": 6960,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TEXCOORD_1": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4"
+            },
+            "INDICES": {
+              "component_type": 5123
+            }
+          },
+          "decoded_data_sha256": "31f97f1b6f447eaf7a1d097d0455843e67d0dcc6e526f368914eaa447e9e8fb5"
+        },
+        {
+          "slot": 1,
+          "triangles": 3684,
+          "vertices": 4128,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TEXCOORD_1": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4"
+            },
+            "INDICES": {
+              "component_type": 5123
+            }
+          },
+          "decoded_data_sha256": "aa252da51148f980a9cd28e9f904b1b1f60b466aab8eb3c896bf8ef0631459ed"
+        }
+      ]
+    },
+    {
+      "file": "generated/glasgow_bay_mid.glb",
+      "sha256": "0e9479f39886cb1dfd977fc6ae968ea526be0cbdaa7fc6888454883e9be3b473",
+      "bytes": 292628,
+      "triangles": 3544,
+      "exported_vertices": 4796,
+      "opaque_surfaces": 2,
+      "bounds_min_m": [
+        -3.25,
+        0.0,
+        -0.5
+      ],
+      "bounds_max_m": [
+        3.25,
+        16.0,
+        0.36000001430511475
+      ],
+      "threshold_top_m": 0.5299997329711914,
+      "max_continuous_uv_mapping_error": 2.9502968734718138e-08,
+      "fitted_comparison": {
+        "fitted_triangles": 3544,
+        "shared_exact_position_and_source_uv_triangles": 3544,
+        "all_geometry_and_authored_uvs_identical": true
+      },
+      "surfaces": [
+        {
+          "slot": 0,
+          "triangles": 2204,
+          "vertices": 2688,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TEXCOORD_1": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4"
+            },
+            "INDICES": {
+              "component_type": 5123
+            }
+          },
+          "decoded_data_sha256": "92cdcddbc87a80b43250bcb8b36f500115af64b6061bd69a4af99b6aea8fc91a"
+        },
+        {
+          "slot": 1,
+          "triangles": 1340,
+          "vertices": 2108,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TEXCOORD_1": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4"
+            },
+            "INDICES": {
+              "component_type": 5123
+            }
+          },
+          "decoded_data_sha256": "4e845ab7286b1f9c28a02aa96b22b303140266fab4a18622eac01d6e2e6f9154"
+        }
+      ]
+    },
+    {
+      "file": "generated/glasgow_bay_far.glb",
+      "sha256": "03d32769df29bed22e60c66b35f6bc443c69a083ead0b9a2bd1e2c837a7dabe9",
+      "bytes": 79224,
+      "triangles": 648,
+      "exported_vertices": 1296,
+      "opaque_surfaces": 2,
+      "bounds_min_m": [
+        -3.25,
+        0.0,
+        -0.5
+      ],
+      "bounds_max_m": [
+        3.25,
+        16.0,
+        0.36000001430511475
+      ],
+      "threshold_top_m": 0.5299997329711914,
+      "max_continuous_uv_mapping_error": 2.925905084882885e-08,
+      "fitted_comparison": {
+        "fitted_triangles": 648,
+        "shared_exact_position_and_source_uv_triangles": 648,
+        "all_geometry_and_authored_uvs_identical": true
+      },
+      "surfaces": [
+        {
+          "slot": 0,
+          "triangles": 444,
+          "vertices": 888,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TEXCOORD_1": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4"
+            },
+            "INDICES": {
+              "component_type": 5123
+            }
+          },
+          "decoded_data_sha256": "96f55a6003e562c1ed5e0d5c41eb878588dccbb5e90a168a6e33f060d73e3f2e"
+        },
+        {
+          "slot": 1,
+          "triangles": 204,
+          "vertices": 408,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3"
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TEXCOORD_1": {
+              "component_type": 5126,
+              "type": "VEC2"
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4"
+            },
+            "INDICES": {
+              "component_type": 5123
+            }
+          },
+          "decoded_data_sha256": "c1d26450662f397abb0a11c404a8fb297c9c0ed434314d38850262b9e81f0b9f"
+        }
+      ]
+    }
+  ],
+  "texture_sampling": {
+    "triangle_interior_samples": [
+      {
+        "lod": "near",
+        "class": "paint",
+        "base_level_error": {
+          "samples": 13552,
+          "mean_absolute_linear_rgb": 0.0004746297721663651,
+          "p95_max_channel_linear": 0.0006237884558511902,
+          "max_channel_linear": 0.0006237884558511902
+        },
+        "prospective_gate_passed": true,
+        "orm_max_channel_error": 0.0015686274509804088
+      },
+      {
+        "lod": "near",
+        "class": "glazing",
+        "base_level_error": {
+          "samples": 480,
+          "mean_absolute_linear_rgb": 9.751323289020152e-05,
+          "p95_max_channel_linear": 0.0003822555523918915,
+          "max_channel_linear": 0.0038561741257251703
+        },
+        "prospective_gate_passed": true,
+        "orm_max_channel_error": 0.0015686274509804643
+      },
+      {
+        "lod": "near",
+        "class": "metal",
+        "base_level_error": {
+          "samples": 704,
+          "mean_absolute_linear_rgb": 0.0004042708984867782,
+          "p95_max_channel_linear": 0.0005218301555998395,
+          "max_channel_linear": 0.0005218301555998395
+        },
+        "prospective_gate_passed": true,
+        "orm_max_channel_error": 0.0011764705882353899
+      },
+      {
+        "lod": "mid",
+        "class": "paint",
+        "base_level_error": {
+          "samples": 2832,
+          "mean_absolute_linear_rgb": 0.00047462977216636504,
+          "p95_max_channel_linear": 0.0006237884558511902,
+          "max_channel_linear": 0.0006237884558511902
+        },
+        "prospective_gate_passed": true,
+        "orm_max_channel_error": 0.0015686274509804088
+      },
+      {
+        "lod": "mid",
+        "class": "glazing",
+        "base_level_error": {
+          "samples": 480,
+          "mean_absolute_linear_rgb": 9.751323289020152e-05,
+          "p95_max_channel_linear": 0.0003822555523918915,
+          "max_channel_linear": 0.0038561741257251703
+        },
+        "prospective_gate_passed": true,
+        "orm_max_channel_error": 0.0015686274509804643
+      },
+      {
+        "lod": "mid",
+        "class": "metal",
+        "base_level_error": {
+          "samples": 2048,
+          "mean_absolute_linear_rgb": 0.0004042708984867786,
+          "p95_max_channel_linear": 0.0005218301555998395,
+          "max_channel_linear": 0.0005218301555998395
+        },
+        "prospective_gate_passed": true,
+        "orm_max_channel_error": 0.0011764705882353899
+      },
+      {
+        "lod": "far",
+        "class": "paint",
+        "base_level_error": {
+          "samples": 288,
+          "mean_absolute_linear_rgb": 0.00047462977216636515,
+          "p95_max_channel_linear": 0.0006237884558511902,
+          "max_channel_linear": 0.0006237884558511902
+        },
+        "prospective_gate_passed": true,
+        "orm_max_channel_error": 0.0015686274509804088
+      },
+      {
+        "lod": "far",
+        "class": "glazing",
+        "base_level_error": {
+          "samples": 480,
+          "mean_absolute_linear_rgb": 9.751323289020152e-05,
+          "p95_max_channel_linear": 0.0003822555523918915,
+          "max_channel_linear": 0.0038561741257251703
+        },
+        "prospective_gate_passed": true,
+        "orm_max_channel_error": 0.0015686274509804643
+      },
+      {
+        "lod": "far",
+        "class": "metal",
+        "base_level_error": {
+          "samples": 48,
+          "mean_absolute_linear_rgb": 0.0004042708984867778,
+          "p95_max_channel_linear": 0.0005218301555998395,
+          "max_channel_linear": 0.0005218301555998395
+        },
+        "prospective_gate_passed": true,
+        "orm_max_channel_error": 0.0011764705882353899
+      }
+    ],
+    "integer_seam_samples": {
+      "samples": 3157,
+      "mean_absolute_linear_rgb": 0.0012967875081750456,
+      "p95_max_channel_linear": 0.005457359187542496,
+      "max_channel_linear": 0.0074896450633383585
+    },
+    "gutter_pixels_checked": 1058720,
+    "simulated_linear_box_mips": [
+      {
+        "level": 0,
+        "colour_size": 1024,
+        "orm_size": 128,
+        "glazing_seam_reference_error": {
+          "samples": 3157,
+          "mean_absolute_linear_rgb": 0.0012967875081750456,
+          "p95_max_channel_linear": 0.005457359187542496,
+          "max_channel_linear": 0.0074896450633383585
+        },
+        "orm_class_max_errors": {
+          "paint": 0.0015686274509804088,
+          "glazing": 0.0015686274509804643,
+          "metal": 0.0011764705882353899
+        }
+      },
+      {
+        "level": 1,
+        "colour_size": 512,
+        "orm_size": 64,
+        "glazing_seam_reference_error": {
+          "samples": 3157,
+          "mean_absolute_linear_rgb": 0.0012086582443239958,
+          "p95_max_channel_linear": 0.004337664154650243,
+          "max_channel_linear": 0.005919743948176074
+        },
+        "orm_class_max_errors": {
+          "paint": 0.0015686274509804088,
+          "glazing": 0.0015686274509804643,
+          "metal": 0.0011764705882353899
+        }
+      },
+      {
+        "level": 2,
+        "colour_size": 256,
+        "orm_size": 32,
+        "glazing_seam_reference_error": {
+          "samples": 3157,
+          "mean_absolute_linear_rgb": 0.0013700263480631379,
+          "p95_max_channel_linear": 0.004011964172117545,
+          "max_channel_linear": 0.005318221704505077
+        },
+        "orm_class_max_errors": {
+          "paint": 0.0015686274509804088,
+          "glazing": 0.0015686274509804643,
+          "metal": 0.0011764705882353899
+        }
+      },
+      {
+        "level": 3,
+        "colour_size": 128,
+        "orm_size": 16,
+        "glazing_seam_reference_error": {
+          "samples": 3157,
+          "mean_absolute_linear_rgb": 0.001510481358520539,
+          "p95_max_channel_linear": 0.004095816355668752,
+          "max_channel_linear": 0.005254707017971125
+        },
+        "orm_class_max_errors": {
+          "paint": 0.0015686274509804088,
+          "glazing": 0.0015686274509804643,
+          "metal": 0.0011764705882353899
+        }
+      },
+      {
+        "level": 4,
+        "colour_size": 64,
+        "orm_size": 8,
+        "glazing_seam_reference_error": {
+          "samples": 3157,
+          "mean_absolute_linear_rgb": 0.0016506396410785455,
+          "p95_max_channel_linear": 0.004156044138025328,
+          "max_channel_linear": 0.006190380371849411
+        },
+        "orm_class_max_errors": {
+          "paint": 0.05900480382582718,
+          "glazing": 0.14946349966759767,
+          "metal": 0.23724278618307681
+        }
+      },
+      {
+        "level": 5,
+        "colour_size": 32,
+        "orm_size": 4,
+        "glazing_seam_reference_error": {
+          "samples": 3157,
+          "mean_absolute_linear_rgb": 0.0018753082448535769,
+          "p95_max_channel_linear": 0.004511265683538865,
+          "max_channel_linear": 0.007100318719063482
+        },
+        "orm_class_max_errors": {
+          "paint": 0.07156447896789271,
+          "glazing": 0.23415644828011,
+          "metal": 0.2580293345198036
+        }
+      },
+      {
+        "level": 6,
+        "colour_size": 16,
+        "orm_size": 2,
+        "glazing_seam_reference_error": {
+          "samples": 3157,
+          "mean_absolute_linear_rgb": 0.002052010399369856,
+          "p95_max_channel_linear": 0.004895344335996292,
+          "max_channel_linear": 0.007689767300366952
+        },
+        "orm_class_max_errors": {
+          "paint": 0.10198637301723168,
+          "glazing": 0.24162734736414515,
+          "metal": 0.4781260215534884
+        }
+      },
+      {
+        "level": 7,
+        "colour_size": 8,
+        "orm_size": 1,
+        "glazing_seam_reference_error": {
+          "samples": 3157,
+          "mean_absolute_linear_rgb": 0.0024704687780060615,
+          "p95_max_channel_linear": 0.006428105636541265,
+          "max_channel_linear": 0.03155118283728407
+        },
+        "orm_class_max_errors": {
+          "paint": 0.1308578431372549,
+          "glazing": 0.06102941176470589,
+          "metal": 0.5889705882352941
+        }
+      }
+    ],
+    "sampling_gate_failures": [],
+    "limits": "Deep mips can blend classes; max seam loss is reported. No exact shading, GPU mip, visual or timing pass is implied."
+  },
+  "shared_maps": [
+    {
+      "file": "accent_basecolor.png",
+      "sha256": "eab44d0de9fe735ee93b820fd06f9b27dd1d8292a9651a35ca57b44c3cfa978d",
+      "bytes": 38851,
+      "dimensions_px": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "accent_orm.png",
+      "sha256": "f3eba422951c1a02816c371ded53390974a5a0b8fa4b8c104af8de0f1ad0f027",
+      "bytes": 269,
+      "dimensions_px": [
+        128,
+        128
+      ]
+    },
+    {
+      "file": "sandstone_basecolor.png",
+      "sha256": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+      "bytes": 1090174,
+      "dimensions_px": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "sandstone_normal_opengl.png",
+      "sha256": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+      "bytes": 1000855,
+      "dimensions_px": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "file": "sandstone_orm.png",
+      "sha256": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9",
+      "bytes": 800428,
+      "dimensions_px": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "estimated_block_compressed_mip_bytes_not_gpu_measurement": 4915200.0,
+  "estimated_texture_byte_delta_vs_same_format_fitted_not_gpu_measurement": 21845.333333333332,
+  "added_uv1_vertex_bytes_before_import": 137440,
+  "first_simulated_orm_mip_level_with_class_error_over_0_01": 4,
+  "preview_gate": "Open: inspect chamfer silhouette and glazing; verify actual mip selection/material bleed before integration",
+  "inputs_preserved": 9,
+  "source_sha256": {
+    "generator.py": "567738391d96f92f0c5463eb314d7b1c1083a0f81fa1ab47a6fa1a75c1ba1460",
+    "atlas.py": "a42688ed9bc0763d0841fbbceb6d3bedc1ae1538f7b31600e22dabdb144606dc",
+    "audit.py": "721d434f787773d15b93d568ac0d4994fb551e82d27d05aa236408fad33277e0"
+  },
+  "not_tested": [
+    "Blender render",
+    "Godot import",
+    "matched appearance",
+    "runtime compression/mips",
+    "LOD switching",
+    "in-game performance",
+    "Mac performance"
+  ]
+}

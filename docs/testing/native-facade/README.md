@@ -1,0 +1,7 @@
+# Native refresh prepared; not yet accepted
+
+Current package probe/auditor are prepared for the held-facade source. Required ordinary verification and actual exports/audit/smoke remain pending. The normal Main must construct zero fitted pilots; its existing physical/static-batch/graphics/classic-mechanics contracts are retained. The probe separately loads the three held GLBs/four shared maps and verifies their exact counts; packaged availability is not rollout or performance acceptance. The two-surface source prototype remains excluded behind `.gdignore`.
+
+Run after a current unchanged source passes `./tools/check.sh`, from a committed clean checkpoint: `./tools/export.sh --skip-check`; then `python3 docs/testing/native-facade/audit.py <build-directory> --receipt-dir docs/testing/native-facade`, using the facade-ordinary receipt and freshly captured normal-play manifest. The auditor also reuses strict archive/binary/licence/source/PCK exclusion checks. Actual Linux starts and a title capture are still required; Linux reading a Mac pack does not launch its executable. No signing, upload or paid service is requested.
+
+Source construction probe command: `./tools/run.sh --headless --script docs/testing/native-facade/pack_probe.gd -- .local/native-facade-source-report.json`. It passes current normal/held-asset construction. An initial invocation omitted its required output path and was rejected; the new probe now fails cleanly on that misuse. No failed attempt is counted as acceptance.
