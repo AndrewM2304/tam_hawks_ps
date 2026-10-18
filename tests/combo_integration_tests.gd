@@ -174,7 +174,7 @@ static func _manual_release_and_bail(tree: SceneTree, game: Node, check: Callabl
 	var bail_count: Array[int] = [0]
 	var on_bail := func() -> void: bail_count[0] += 1
 	game.skater.bailed.connect(on_bail)
-	Input.action_press("brake")
+	Input.action_press("steer_right")
 	await _frames(tree, 65)
 	check.call(bail_count[0] == 1 and not game.skater.manual_active
 		and game.score.total_score == 100 and game.score.get_combo_value() == 0,
