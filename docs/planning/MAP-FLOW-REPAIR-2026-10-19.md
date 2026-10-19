@@ -1,6 +1,6 @@
 # Map continuity, Kelvingrove skatepark and camera/flow plan
 
-19 October 2026, Europe/London. Owner-requested planning checkpoint on `bootstrap/m00-m01`, source reviewed at `d948a45`. **Plan recorded; implementation not started.** This packet takes priority over unrelated facade experiments, optional encounters and release packaging. Existing performance/stutter gates remain mandatory. All work is within the existing six-area map, Godot 4.6.3, no spend. Logical owner labels below do not launch agents.
+19 October 2026, Europe/London. Owner-requested planning checkpoint on `bootstrap/m00-m01`, source reviewed at `d948a45`. **First connector slice implemented/verified: required2189/0, native9/9 and a captured zero-bail round trip. Remaining MAP work stays open.** This packet takes priority over unrelated facade experiments, optional encounters and release packaging. Existing performance/stutter gates remain mandatory. All work is within the existing six-area map, Godot 4.6.3, no spend. Logical owner labels below do not launch agents.
 
 ## Evidence and diagnosis boundaries
 
@@ -30,7 +30,7 @@ The useful design lessons are a prominent rider in a close rear view; sufficient
 
 ## Ordered implementation tickets
 
-All rows are local tasks, **planned/open**. A01 integrates/shared contracts, A04 movement/camera, A05 world/art, A08 UI, A09 independent QE. Existing full backlog bodies remain authoritative and intact.
+All rows are local tasks. **MAP-01 connector reproduction and the first MAP-02 land slice pass bounded automated admission; broader photograph/all-area reconciliation stays open. MAP-03 has a native baseline; tuning and MAP-04…08 remain open.** [Current evidence](../testing/map-flow/README.md) records passes, rejections and limits. A01 integrates/shared contracts, A04 movement/camera, A05 world/art, A08 UI, A09 independent QE. Existing full backlog bodies remain authoritative and intact.
 
 | ID | Owner | Priority / milestone | Dependencies | Deliverable and acceptance | Test strategy |
 |---|---|---|---|---|---|
@@ -43,7 +43,7 @@ All rows are local tasks, **planned/open**. A01 integrates/shared contracts, A04
 | MAP-07 | A08/A01/A09 | P0 / M06 | MAP-01 UI reproduction; final map data from04–06 | Repair verified HUD clipping/missing elements and complete map/menu consistency. Safe viewport margins for score/timer/free-skate, speed, special, combo, balance, prompts/captions and footer; no overlaps at UI scale 1–1.4. Use responsive reflow/containers and sensible scrolling for menus. Preserve controller focus and settings/remapping. | Native windowed/fullscreen and resize/display-scale transitions; 1280×720, 1440×900, 1920×1080 plus available target Mac aspect/Retina modes. Long trick strings, large scores, simultaneous notices, pause/goals/map/results and changed rider position. Inspect actual frames, not only rectangle assertions; distinguish OS-cropped screenshots. |
 | MAP-08 | A09/A01; Owner hardware/fun | P0 / M06,M07 | MAP-02…07 frozen | Whole-map admission and durable handoff; demonstrate fixed spawn→park route, worthwhile park destination, readable ramps/camera and intact HUD. Preserve 10 goals/3 side acts/saves/controls and rejected evidence. Commit completed slices; packaging follows admitted source. | Required tools/check.sh for production GDScript, six-area imperfect-input tour, career/side acts, map and UI captures, source-bound before/candidate/repeat render distributions. Actual Mac/Apple Silicon performance and DualSense comfort recorded separately; cannot be inferred from Linux historical evidence. |
 
-Implementation order: MAP-01 → MAP-02 → MAP-03 → MAP-04 → MAP-05 → MAP-06 → MAP-08. MAP-07 reproduction/fix can occur after MAP-01 without waiting for new park geometry; its final map-data check follows MAP-06. This session records the plan only, as requested.
+Implementation order: MAP-01 → MAP-02 → MAP-03 → MAP-04 → MAP-05 → MAP-06 → MAP-08. MAP-07 reproduction/fix can occur after MAP-01 without waiting for new park geometry; its final map-data check follows MAP-06. Planning checkpoint5c5d4af recorded this order; current implementation/evidence is linked above.
 
 ## Budgets and non-negotiable gates
 
@@ -71,4 +71,4 @@ Use sole-renderer frozen source and matched resolution/preset/camera/input workl
 | M00-002, M06-004/005/006, M07 | Toolchain, target performance/controller/export, release QA/licences/package/handoff | Continue necessary verification; fresh final export after repairs. Human evidence never invented. |
 | Planned optional prototypes | Wallride/wallie expansion, traffic/skitching, changing route, cone river stunt, park lap encounter | Defer behind this repair packet; none needed to make park worthwhile. |
 
-Next implementation action: MAP-01 ordinary spawn-to-park reproduction and full native viewport capture on current source. No new engine run or gameplay acceptance was performed in this planning session.
+Next implementation action: MAP-03 post-draw/no-readback camera baseline and the targets in [RAMP-CAMERA-BASELINE](../testing/map-flow/RAMP-CAMERA-BASELINE.md), then MAP-04 surveyed placement/port contract. The first connector slice is verified; it does not close the central skatepark, wider screenshot faults, human feel or final art gates.

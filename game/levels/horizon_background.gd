@@ -6,7 +6,8 @@ const SKY_CUBE = preload("res://game/art/assets/horizon/glasgow_horizon_cube.png
 const SKY_SHADER = preload("res://game/art/assets/horizon/horizon_sky.gdshader")
 const FOOTING_SHADER = preload("res://game/art/assets/horizon/footing_colour.gdshader")
 const MASONRY = preload("res://game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg")
-const MAX_TRIANGLES := 832
+const ENCLOSED_GROUND = preload("res://game/levels/outdoor_routes.gd").ENCLOSED_GROUND
+const MAX_TRIANGLES := 838 # Original832 +six MAP-02 enclosed-land triangles.
 const MAX_SURFACES := 4
 const BOTTOM := -35.0
 
@@ -72,6 +73,11 @@ static func install(world: Node3D, sky: Sky) -> Node3D:
 	# far clip. A sky cannot disguise a rectangular water plane ending in air.
 	_river_bends(world, context, chunks.ClydeFootings)
 	_frontage_foundations(world, chunks.CityFootings)
+	for bounds: Rect2 in ENCLOSED_GROUND:
+		_quad(chunks.CityFootings.tool,Vector3(bounds.position.x,.5,bounds.position.y),
+			Vector3(bounds.end.x,.5,bounds.position.y),Vector3(bounds.end.x,.5,bounds.end.y),
+			Vector3(bounds.position.x,.5,bounds.end.y),Color("485b33"))
+		chunks.CityFootings.triangles+=2
 	var triangles := 0
 	var surfaces := 0
 	var parts: Array = []

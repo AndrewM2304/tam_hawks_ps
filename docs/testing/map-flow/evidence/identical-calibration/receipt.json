@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-19T09:09:02.192102+01:00",
+  "completed_london": "2026-10-19T09:09:29.226113+01:00",
+  "wall_seconds": 27.03404545801459,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/map-flow/observers/calibrate.gd",
+    "--",
+    ".local/map-flow/identical-calibration"
+  ],
+  "exit_code": 0,
+  "source_inputs": 374,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "50dcf702e2add69415553bf0e5f9ad14b0bd166834a289884878c17672bd2a88",
+  "git_head": "5c5d4afab9bba0d247f5ea4f6b5e7beda89e1d0b"
+}

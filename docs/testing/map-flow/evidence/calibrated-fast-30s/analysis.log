@@ -1,0 +1,62 @@
+{
+  "results": [
+    {
+      "id": "park-lawn",
+      "control_a": {
+        "p50": 2.244,
+        "p95": 4.021,
+        "p99": 4.985799999999999,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 149,
+        "triangles": 270214,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 1.454,
+        "p95": 3.926,
+        "p99": 4.47917,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 149.0,
+        "triangles": 270214.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 2.977,
+        "p95": 4.75855,
+        "p99": 5.16491,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 149.0,
+        "triangles": 270214.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 5.34681375,
+          "worse_limit": 4.9964775
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 5.50823275,
+          "worse_limit": 5.4231555
+        }
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "samples": 37715,
+  "limits": "Native stationary 1280x800 M5. Same-process appearance controls retain candidate memory. Not ten-minute play/performance or human controller acceptance."
+}

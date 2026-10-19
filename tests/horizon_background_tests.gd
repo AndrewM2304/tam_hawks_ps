@@ -112,6 +112,8 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 	var bank_faces := PackedVector3Array()
 	var service_faces := PackedVector3Array()
 	var foundation_faces := PackedVector3Array()
+	var land_faces := PackedVector3Array()
+	var expected_land := _expected_land()
 	var expected_banks := _expected_banks()
 	var expected_service := _expected_service()
 	for index: int in range(0,all_faces.size(),3):
@@ -127,6 +129,10 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 			continue
 		if _triangle_present(a,b,c,expected_banks):
 			bank_faces.append_array(PackedVector3Array([a,b,c]))
+			continue
+		if _triangle_present(a,b,c,expected_land):
+			land_faces.append_array(PackedVector3Array([a,b,c]))
+			valid=emitted_chunks[index]=="CityFootings" and normal.y<0 and valid
 			continue
 		valid = absf(normal.normalized().y)<.00001 and valid
 		if _foundation_face_index(a,b,c)>=0:
@@ -145,9 +151,10 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 	actual_names.sort()
 	var expected_names: Array = FOOTINGS.duplicate()
 	expected_names.sort()
-	check.call(actual_names == expected_names and surfaces <= 4 and all_faces.size()/3 <= 832
+	check.call(actual_names == expected_names and surfaces <= 4 and (all_faces.size()-land_faces.size())/3 <= 832
+		and land_faces.size()==18
 		and faces.size() > 0 and valid,
-		"horizon: four actual static regional meshes stay within832 combined budget with valid footing/bank/foundation triangles and opaque vertex colours")
+		"horizon: four actual static regional meshes stay within832 combined budget plus exactly six enclosed-land triangles with valid footing/bank/foundation triangles and opaque vertex colours")
 	var shader_valid := false
 	if shared and material != null and material.shader != null:
 		var code: String = ""
@@ -170,7 +177,7 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 			and not node.is_physics_processing() and passive
 	check.call(passive, "horizon: context introduces no collision, cameras, lights, scripts or frame callbacks")
 	return {"faces":faces,"bins":bins,"bank_faces":bank_faces,"service_faces":service_faces,
-		"foundation_faces":foundation_faces,"regional_triangles":all_faces.size()/3}
+		"foundation_faces":foundation_faces,"land_faces":land_faces,"regional_triangles":all_faces.size()/3}
 
 
 static func _cube_pixels(cube: TextureLayered, check: Callable) -> void:
@@ -452,8 +459,8 @@ static func _river(world: Node3D, context: Node3D, geometry: Dictionary, check: 
 		max_front_area = maxf(max_front_area,front_area)
 		valid = front_area<-.0001 and valid
 	print("HORIZON WATER vertices=",vertices.size()," indices=",indices.size()," normals=",normals.size()," uvs=",uvs.size()," tangents=",tangents.size()," max_y=",max_y," max_uv=",max_uv," min_normal_dot=",min_normal_dot," max_normal_error=",max_normal_error," front_area=",Vector2(min_front_area,max_front_area)," missing=",missing," combined_triangles=",int(geometry.regional_triangles)+water_faces.size()/3)
-	check.call(valid and int(geometry.regional_triangles)+water_faces.size()/3<=832,
-		"horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and total832-triangle ceiling")
+	check.call(valid and int(geometry.regional_triangles)-geometry.land_faces.size()/3+water_faces.size()/3<=832,
+		"horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and original832-triangle ceiling excluding the separately verified six land triangles")
 	var water_top := Protected._horizontal_triangles(water_faces,-2)
 	var bank_top := Protected._horizontal_triangles(banks,2)
 	var water_overlap := 0.0
@@ -802,3 +809,15 @@ static func _on_boundary_column(at: Vector3, source_segments: Array) -> bool:
 
 static func _colour_distance(a: Color, b: Color) -> float:
 	return Vector3(a.r-b.r,a.g-b.g,a.b-b.b).length()
+
+
+static func _expected_land()->PackedVector3Array:
+	var faces:=PackedVector3Array()
+	# Independent fixed world corners; do not consume implementation metadata.
+	for bounds:Rect2 in [Rect2(-130,-108,36,66),Rect2(-94,-108,59,22),Rect2(-140,-108,10,16)]:
+		var a:=Vector3(bounds.position.x,.5,bounds.position.y)
+		var b:=Vector3(bounds.end.x,.5,bounds.position.y)
+		var c:=Vector3(bounds.end.x,.5,bounds.end.y)
+		var d:=Vector3(bounds.position.x,.5,bounds.end.y)
+		faces.append_array(PackedVector3Array([a,b,c,a,c,d]))
+	return faces

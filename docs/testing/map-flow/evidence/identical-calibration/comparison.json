@@ -1,0 +1,172 @@
+{
+  "results": [
+    {
+      "id": "spawn",
+      "control_a": {
+        "p50": 4.141,
+        "p95": 5.8187,
+        "p99": 6.32258,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1156.0,
+        "triangles": 628846.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 5.2255,
+        "p95": 10.426,
+        "p99": 10.709890000000001,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1156.0,
+        "triangles": 628846.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 4.1545000000000005,
+        "p95": 5.71765,
+        "p99": 6.12466,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1156.0,
+        "triangles": 628846.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": false,
+          "noise_limit": 6.15763375,
+          "worse_limit": 6.109635
+        },
+        "p99": {
+          "pass_gate": false,
+          "noise_limit": 6.732721000000001,
+          "worse_limit": 6.638709
+        }
+      },
+      "passed": false
+    },
+    {
+      "id": "park-city-return",
+      "control_a": {
+        "p50": 7.111000000000001,
+        "p95": 12.25295,
+        "p99": 12.705359999999999,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1191.0,
+        "triangles": 660556.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 6.066,
+        "p95": 7.6133,
+        "p99": 7.83451,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1191.0,
+        "triangles": 660556.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 6.917,
+        "p95": 12.829199999999998,
+        "p99": 13.02592,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1191.0,
+        "triangles": 660556.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 13.744378749999997,
+          "worse_limit": 13.470659999999999
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 13.829481999999999,
+          "worse_limit": 13.677216
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "park-lawn",
+      "control_a": {
+        "p50": 1.5514999999999999,
+        "p95": 3.94915,
+        "p99": 4.30792,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 149.0,
+        "triangles": 270214.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 1.5225,
+        "p95": 2.86455,
+        "p99": 4.336460000000001,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 149.0,
+        "triangles": 270214.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 1.511,
+        "p95": 2.7882,
+        "p99": 2.84153,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 149.0,
+        "triangles": 270214.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 4.6980587499999995,
+          "worse_limit": 4.1466075
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 5.21985125,
+          "worse_limit": 4.523316
+        }
+      },
+      "passed": true
+    }
+  ],
+  "passed": false,
+  "samples": 1080,
+  "limits": "Native stationary 1280x800 M5. Same-process appearance controls retain candidate memory. Not ten-minute play/performance or human controller acceptance."
+}

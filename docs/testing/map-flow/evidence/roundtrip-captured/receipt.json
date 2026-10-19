@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-19T09:45:26.392811+01:00",
+  "completed_london": "2026-10-19T09:47:27.705604+01:00",
+  "wall_seconds": 121.31324737501564,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/map-flow/observers/approach.gd",
+    "--",
+    ".local/map-flow/roundtrip-captured"
+  ],
+  "exit_code": 0,
+  "source_inputs": 375,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "098f63cf368090a1844fdc3f0478a97f95245ef5c2d36ca06ce1fbc4a657a6b0",
+  "git_head": "5c5d4afab9bba0d247f5ea4f6b5e7beda89e1d0b"
+}

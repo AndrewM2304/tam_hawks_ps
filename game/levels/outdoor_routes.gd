@@ -9,6 +9,7 @@ const ClydeLandmarks = preload("res://game/levels/art/clyde_landmarks.gd")
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
 const ExplorationBoundary = preload("res://game/levels/exploration_boundary.gd")
 const WATER_SHADER = preload("res://game/art/assets/horizon/clyde_water.gdshader")
+const ENCLOSED_GROUND := [Rect2(-130,-108,36,66),Rect2(-94,-108,59,22),Rect2(-140,-108,10,16)]
 const PARK := Rect2(-220, -185, 80, 110)
 const PARK_LANDSCAPE := Rect2(-255, -225, 115, 165)
 const RIVER := Rect2(-150, 78, 300, 38)
@@ -306,7 +307,8 @@ void fragment(){
 	# The approaches are raised park embankments, not unsupported road ribbons.
 	var central_bank := Rect2(-215, -92, 85, 112)
 	var george_bank := Rect2(-145, -142, 103, 34)
-	Surface.terrain(self, "KelvingroveCentralEmbankment", central_bank, 2.5, _central_bank_height, grass)
+	var central_ground := Surface.terrain(self, "KelvingroveCentralEmbankment", central_bank, 2.5, _central_bank_height, grass)
+	_fill_enclosed_ground(central_ground)
 	Surface.terrain(self, "KelvingroveGeorgeEmbankment", george_bank, 3.0, _george_bank_height, grass)
 	_surfaces.append({"bounds": central_bank, "height_at": _central_bank_height, "spacing":2.5})
 	_surfaces.append({"bounds": george_bank, "height_at": _george_bank_height, "spacing":3.0})
@@ -353,6 +355,26 @@ void fragment(){
 	_route("kelvingrove_george_promenade", "George Square park promenade", _george_connector)
 	_route("kelvingrove_rolling_loop", "Kelvingrove hillside loop", _park_path)
 	_route("kelvingrove_cutback_return", "Kelvingrove cutback to Central", _park_cutback)
+
+
+## The retained streets used to surround an unbuilt L-shaped hole. Keep the
+## fences/ports, but give their enclosed planted ground real visible support.
+## Append six collision triangles to the resident trimesh at startup: no new
+## draw, node, material, collision body/shape or per-frame work.
+func _fill_enclosed_ground(body: StaticBody3D) -> void:
+	var collision := body.get_child(1) as CollisionShape3D
+	var shape := collision.shape as ConcavePolygonShape3D
+	var faces := shape.get_faces()
+	for bounds: Rect2 in ENCLOSED_GROUND:
+		var a := Vector3(bounds.position.x,0.5,bounds.position.y)
+		var b := Vector3(bounds.end.x,0.5,bounds.position.y)
+		var c := Vector3(bounds.end.x,0.5,bounds.end.y)
+		var d := Vector3(bounds.position.x,0.5,bounds.end.y)
+		faces.append_array(PackedVector3Array([a,b,c,a,c,d]))
+		_surfaces.append({"bounds":bounds,"height":0.5})
+	# No temporary rendering mesh/upload is needed for these physical faces.
+	# HorizonContext draws the same land with its resident vertex-colour surface.
+	shape.set_faces(faces)
 
 
 func _build_riverside_edge(_world: Node3D) -> void:

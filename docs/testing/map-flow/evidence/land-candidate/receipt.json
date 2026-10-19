@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-19T08:53:34.988594+01:00",
+  "completed_london": "2026-10-19T08:53:48.208239+01:00",
+  "wall_seconds": 13.219312667031772,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/map-flow/observers/survey.gd",
+    "--",
+    ".local/map-flow/land-candidate"
+  ],
+  "exit_code": 0,
+  "source_inputs": 373,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [],
+  "valid": false,
+  "source_manifest_sha256": "80ce854bfb635f288b24d2d506a6e301471889354189b7787069b401495df612",
+  "git_head": "5c5d4afab9bba0d247f5ea4f6b5e7beda89e1d0b"
+}

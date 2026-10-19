@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-19T09:03:45.810445+01:00",
+  "completed_london": "2026-10-19T09:04:55.059885+01:00",
+  "wall_seconds": 69.2497189999558,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/map-flow/observers/compare.gd",
+    "--",
+    ".local/map-flow/land-cheap-matched02"
+  ],
+  "exit_code": 0,
+  "source_inputs": 374,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "e2680467ed693f3da874adf6232bf327748e5a836fa9ffa64b11950945badf75",
+  "git_head": "5c5d4afab9bba0d247f5ea4f6b5e7beda89e1d0b"
+}

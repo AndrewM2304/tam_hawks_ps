@@ -1,0 +1,583 @@
+{
+  "results": [
+    {
+      "id": "spawn",
+      "control_a": {
+        "p50": 6.4704999999999995,
+        "p95": 9.244649999999998,
+        "p99": 9.53078,
+        "frames": 4388,
+        "seconds": 30.004076,
+        "max_ms": 13.751,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1156.0,
+        "triangles": 628840.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 6.369,
+        "p95": 9.2801,
+        "p99": 9.534469999999999,
+        "frames": 4480,
+        "seconds": 30.004926,
+        "max_ms": 13.563,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1156.0,
+        "triangles": 628846.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 6.257,
+        "p95": 9.244299999999999,
+        "p99": 9.52833,
+        "frames": 4568,
+        "seconds": 30.001235,
+        "max_ms": 30.911,
+        "over_16ms": 1,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1156.0,
+        "triangles": 628840.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 9.707048749999997,
+          "worse_limit": 9.706882499999999
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 10.00848275,
+          "worse_limit": 10.007319
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "forward-left",
+      "control_a": {
+        "p50": 5.49,
+        "p95": 6.083,
+        "p99": 6.774979999999997,
+        "frames": 5439,
+        "seconds": 30.000339,
+        "max_ms": 11.088,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 648,
+        "triangles": 416564,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 2.66,
+        "p95": 3.5653500000000005,
+        "p99": 3.730870000000001,
+        "frames": 10814,
+        "seconds": 30.002432000000002,
+        "max_ms": 8.378,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 648.0,
+        "triangles": 416570.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 5.455,
+        "p95": 5.977,
+        "p99": 6.219,
+        "frames": 5486,
+        "seconds": 30.003072,
+        "max_ms": 11.391,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 648.0,
+        "triangles": 416564.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 6.4375,
+          "worse_limit": 6.38715
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 7.377819499999995,
+          "worse_limit": 7.113728999999997
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "climbing-lane",
+      "control_a": {
+        "p50": 3.9095,
+        "p95": 5.68415,
+        "p99": 5.8766300000000005,
+        "frames": 7138,
+        "seconds": 30.002169000000002,
+        "max_ms": 11.57,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 241.0,
+        "triangles": 308154.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 3.855,
+        "p95": 5.4967999999999995,
+        "p99": 5.83,
+        "frames": 7425,
+        "seconds": 30.001216,
+        "max_ms": 14.01,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 241,
+        "triangles": 308160,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 3.685,
+        "p95": 5.1295,
+        "p99": 5.767500000000004,
+        "frames": 9531,
+        "seconds": 30.002264999999998,
+        "max_ms": 66.682,
+        "over_16ms": 2,
+        "over_33ms": 1,
+        "over_100ms": 0,
+        "draws": 241,
+        "triangles": 308154,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 6.23181625,
+          "worse_limit": 5.9683575
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 6.222298249999999,
+          "worse_limit": 6.170461500000001
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "back-street-park-side",
+      "control_a": {
+        "p50": 4.3325,
+        "p95": 5.755,
+        "p99": 5.941,
+        "frames": 6526,
+        "seconds": 30.001793000000003,
+        "max_ms": 11.917,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 331.0,
+        "triangles": 325556.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 4.199,
+        "p95": 5.7218,
+        "p99": 5.913,
+        "frames": 6765,
+        "seconds": 30.002056,
+        "max_ms": 10.311,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 331,
+        "triangles": 325562,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 4.185,
+        "p95": 5.66075,
+        "p99": 5.8858999999999995,
+        "frames": 6806,
+        "seconds": 30.003816999999998,
+        "max_ms": 11.189,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 331.0,
+        "triangles": 325556.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 6.087518749999999,
+          "worse_limit": 6.04275
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 6.2642225,
+          "worse_limit": 6.23805
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "civic-park-mouth",
+      "control_a": {
+        "p50": 4.575,
+        "p95": 4.948799999999999,
+        "p99": 5.281119999999999,
+        "frames": 6645,
+        "seconds": 30.003218,
+        "max_ms": 11.391,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 356,
+        "triangles": 378494,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 3.825,
+        "p95": 4.797,
+        "p99": 5.07348,
+        "frames": 8853,
+        "seconds": 30.003700000000002,
+        "max_ms": 9.966,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 356,
+        "triangles": 378500,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 4.464,
+        "p95": 4.907,
+        "p99": 5.32346,
+        "frames": 6855,
+        "seconds": 30.002418000000002,
+        "max_ms": 11.197,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 356,
+        "triangles": 378494,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 5.216094999999998,
+          "worse_limit": 5.1962399999999995
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 5.609744500000001,
+          "worse_limit": 5.589633
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "park-civic-connector",
+      "control_a": {
+        "p50": 6.943,
+        "p95": 7.334849999999999,
+        "p99": 7.55968,
+        "frames": 4484,
+        "seconds": 30.001357,
+        "max_ms": 14.34,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1037.0,
+        "triangles": 342676.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 6.7995,
+        "p95": 7.256,
+        "p99": 7.475109999999999,
+        "frames": 4590,
+        "seconds": 30.005924,
+        "max_ms": 14.144,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1037.0,
+        "triangles": 342682.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 6.886,
+        "p95": 7.328,
+        "p99": 7.58884,
+        "frames": 4480,
+        "seconds": 30.001509,
+        "max_ms": 14.45,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1037.0,
+        "triangles": 342676.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 7.704846249999998,
+          "worse_limit": 7.701592499999999
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 7.982133000000001,
+          "worse_limit": 7.968282
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "park-city-return",
+      "control_a": {
+        "p50": 6.6685,
+        "p95": 8.873,
+        "p99": 9.18366,
+        "frames": 4318,
+        "seconds": 30.001608,
+        "max_ms": 13.11,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1191.0,
+        "triangles": 660550.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 6.6605,
+        "p95": 8.830150000000001,
+        "p99": 9.139240000000003,
+        "frames": 4320,
+        "seconds": 30.005413,
+        "max_ms": 13.943,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1191.0,
+        "triangles": 660556.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 6.746,
+        "p95": 8.9986,
+        "p99": 9.479639999999998,
+        "frames": 4249,
+        "seconds": 30.006408999999998,
+        "max_ms": 13.135,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 1191,
+        "triangles": 660550,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 9.50819,
+          "worse_limit": 9.44853
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 10.094212499999998,
+          "worse_limit": 9.953621999999998
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "park-lawn",
+      "control_a": {
+        "p50": 2.272,
+        "p95": 4.16265,
+        "p99": 4.867530000000001,
+        "frames": 12148,
+        "seconds": 30.001306,
+        "max_ms": 9.953,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 149.0,
+        "triangles": 270208.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 1.452,
+        "p95": 3.298,
+        "p99": 3.96,
+        "frames": 15989,
+        "seconds": 30.000823,
+        "max_ms": 10.222,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 149,
+        "triangles": 270214,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 3.359,
+        "p95": 4.147949999999999,
+        "p99": 4.6378999999999975,
+        "frames": 8802,
+        "seconds": 30.002055,
+        "max_ms": 11.728,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 149.0,
+        "triangles": 270208.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 4.377765000000001,
+          "worse_limit": 4.370782500000001
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 5.219980750000003,
+          "worse_limit": 5.110906500000001
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "station-west",
+      "control_a": {
+        "p50": 3.175,
+        "p95": 4.6516,
+        "p99": 5.109319999999999,
+        "frames": 9369,
+        "seconds": 30.000774,
+        "max_ms": 10.28,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 167,
+        "triangles": 275774,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "candidate": {
+        "p50": 3.165,
+        "p95": 4.560299999999999,
+        "p99": 5.23706,
+        "frames": 9495,
+        "seconds": 30.002418000000002,
+        "max_ms": 11.349,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 167,
+        "triangles": 275780,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "control_b": {
+        "p50": 3.161,
+        "p95": 4.589,
+        "p99": 5.19465,
+        "frames": 9536,
+        "seconds": 30.000825,
+        "max_ms": 10.787,
+        "over_16ms": 0,
+        "over_33ms": 0,
+        "over_100ms": 0,
+        "draws": 167.0,
+        "triangles": 275774.0,
+        "texture_bytes": 48826030.0,
+        "buffer_bytes": 15514340.0,
+        "video_bytes": 64340370.0
+      },
+      "gates": {
+        "p95": {
+          "pass_gate": true,
+          "noise_limit": 4.913915,
+          "worse_limit": 4.884180000000001
+        },
+        "p99": {
+          "pass_gate": true,
+          "noise_limit": 5.494914250000001,
+          "worse_limit": 5.4543825
+        }
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "samples": 193499,
+  "limits": "Native stationary 1280x800 M5. Same-process appearance controls retain candidate memory. Not ten-minute play/performance or human controller acceptance."
+}

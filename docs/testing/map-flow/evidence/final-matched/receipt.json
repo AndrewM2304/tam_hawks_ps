@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-19T09:21:36.062631+01:00",
+  "completed_london": "2026-10-19T09:36:56.298547+01:00",
+  "wall_seconds": 920.2352025419823,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/map-flow/observers/compare.gd",
+    "--",
+    ".local/map-flow/final-matched"
+  ],
+  "exit_code": 0,
+  "source_inputs": 375,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "627430c5c5cb446ecf6261551d6653d36295cb8761498ac3aa554cb99bc3644d",
+  "git_head": "5c5d4afab9bba0d247f5ea4f6b5e7beda89e1d0b"
+}

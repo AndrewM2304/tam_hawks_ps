@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-19T09:10:12.648256+01:00",
+  "completed_london": "2026-10-19T09:10:39.235231+01:00",
+  "wall_seconds": 26.587021083047148,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/map-flow/observers/calibrate.gd",
+    "--",
+    ".local/map-flow/frozen-identical"
+  ],
+  "exit_code": 0,
+  "source_inputs": 374,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "bf0c4a453a89be08ee5bdf5a7bd2bd29fd8d30bf7e6bcb8bd77012bfaf8fe821",
+  "git_head": "5c5d4afab9bba0d247f5ea4f6b5e7beda89e1d0b"
+}
