@@ -1,0 +1,34 @@
+{
+  "started_london": "2026-10-19T13:06:59.642822+01:00",
+  "completed_london": "2026-10-19T13:07:01.500331+01:00",
+  "wall_seconds": 1.857390374992974,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    "docs/testing/map-flow/observers/audit_pngs.gd",
+    "--",
+    "docs/testing/camera-flow/evidence/approach-forward-fixed",
+    "docs/testing/camera-flow/evidence/capture-01",
+    "docs/testing/camera-flow/evidence/capture-apex",
+    "docs/testing/camera-flow/evidence/capture-final",
+    "docs/testing/camera-flow/evidence/capture-forward-final",
+    "docs/testing/camera-flow/evidence/capture-forward-fixed",
+    "docs/testing/camera-flow/evidence/capture-local-orbit",
+    "docs/testing/camera-flow/evidence/capture-pose-02",
+    "docs/testing/camera-flow/evidence/momentum-capture-01"
+  ],
+  "exit_code": 0,
+  "source_inputs": 375,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "101",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "328387e479ab5ebaaa3ef02a23ba822e68411a59212b16ff35883154d1ccedbf",
+  "git_head": "84f04fabfdc1057f612e18774ac98ad583432dd8"
+}

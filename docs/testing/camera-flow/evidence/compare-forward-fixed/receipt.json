@@ -1,0 +1,34 @@
+{
+  "started_london": "2026-10-19T13:01:06.413337+01:00",
+  "completed_london": "2026-10-19T13:02:52.714454+01:00",
+  "wall_seconds": 106.30130925000412,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-flow/observers/compare.gd",
+    "--",
+    ".local/camera-flow/compare-forward-fixed",
+    "docs/testing/camera-flow/observers/motion.gd",
+    "docs/testing/camera-flow/observers/baseline_camera.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 377,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "3",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "59cf7b2abcbb92e71c9fec9416d923fe03a1652f950f13e7bc2e9b7654308aac",
+  "git_head": "84f04fabfdc1057f612e18774ac98ad583432dd8"
+}

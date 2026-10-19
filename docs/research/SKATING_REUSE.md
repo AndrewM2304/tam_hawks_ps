@@ -1,3 +1,5 @@
+**19 October2026 owner-supplied THPS references:** [source-by-source physics comparison](THPS-PHYSICS-COMPARISON-2026-10-19.md) and [pinned source/matching receipt](THPS-PHYSICS-SOURCES-2026-10-19.json). LANCommander THPS1 reconstruction is research only: no compatible licence found; requested ground/grind/camera functions include near-matches. Underground interview, THPS1 Dreamcast port and later reTHAWed mapping rules do not verify THPS3 constants. No external code/assets imported. Preserve current momentum/spin separation; measure coast/turn/vert-pop/landing hypotheses through PHY-R02/03 before tuning.
+
 # Skating implementation research and reuse
 
 Inspected 17 October 2026 after the owner explicitly encouraged using existing projects and implementation articles. Free public HTTP/Git reads only; no paid services, downloads from asset stores, or engine replacement. This record distinguishes inspected code from untested whole projects and unread article leads.

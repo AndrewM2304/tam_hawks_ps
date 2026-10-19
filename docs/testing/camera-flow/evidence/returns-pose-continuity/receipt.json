@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-19T12:04:07.620251+01:00",
+  "completed_london": "2026-10-19T12:04:33.455861+01:00",
+  "wall_seconds": 25.835570040973835,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-flow/observers/returns.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 375,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "8",
+      "2"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "e68c63b36c84722246f9ce204f27621e3f0a16b717f370ebf187f2b4010f97aa",
+  "git_head": "84f04fabfdc1057f612e18774ac98ad583432dd8"
+}

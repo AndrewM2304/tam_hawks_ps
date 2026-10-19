@@ -2,7 +2,7 @@ extends "res://tools/area_audit_play.gd"
 ## Bounded natural half-pipe trial; one initial fixture, held W, then real cycles.
 var camera_rows:Array=[]
 func _run()->void:
-	if DisplayServer.get_name()=="headless" or OS.get_cmdline_user_args().size()!=1:quit(2);return
+	if DisplayServer.get_name()=="headless" or OS.get_cmdline_user_args().is_empty():quit(2);return
 	output=OS.get_cmdline_user_args()[0]
 	DirAccess.make_dir_recursive_absolute(output)
 	root.size=Vector2i(1280,800)

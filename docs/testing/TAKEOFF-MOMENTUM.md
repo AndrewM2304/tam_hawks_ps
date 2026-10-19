@@ -1,3 +1,5 @@
+**19 October2026 source clarification:** the measurements below remain historical evidence for the momentum fix. The later classic-control pass makes ordinary air stick/shoulder input rotate the visible skater while carrying unchanged horizontal velocity; it no longer applies the helper's optional air-steering rate to the production flight path. See [current source comparison](../research/THPS-PHYSICS-COMPARISON-2026-10-19.md). This is a documentation correction, not another physics change or a THPS3 parity claim.
+
 # M01-008 — takeoff momentum investigation
 
 **17 October 2026.** Actual Godot 4.6.3 physics reproduced the suspected takeoff boost and two related bookkeeping defects. The controller now carries its collision-adjusted horizontal velocity into air, rotates that vector by bounded steering input, and applies gravity to Y. Ground speed uses capped actual travel velocity so descending a slope does not repeatedly lose its vertical component.

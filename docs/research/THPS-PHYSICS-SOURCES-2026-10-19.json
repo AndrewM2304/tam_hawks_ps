@@ -1,0 +1,114 @@
+{
+  "accessed": "2026-10-19",
+  "revision": "fa128f5ba222e0f24a9bff019d59262b79141e48",
+  "commit_date": "2026-10-08T05:50:24Z",
+  "git_tree_entries": 2493,
+  "tree_truncated": false,
+  "licence_named_paths": [],
+  "source_files": [
+    {
+      "path": "decomp/README.md",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/README.md",
+      "bytes": 92419,
+      "sha256": "407178da6bd46f0e3a593bfce108326573703a5f49e506e3509dbdf21c741174"
+    },
+    {
+      "path": "decomp/PROGRESS.md",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/PROGRESS.md",
+      "bytes": 9704,
+      "sha256": "ccc735497a583e401ad738de7dd81242d91d3f42004d23559c4a9297a6591ed9"
+    },
+    {
+      "path": "decomp/matched.tsv",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/matched.tsv",
+      "bytes": 73750,
+      "sha256": "3e8a6fb275c69a23f6f17051e2c4ec044c97ad37ca329710a52d5ec176841c65"
+    },
+    {
+      "path": "decomp/nearmiss.tsv",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/nearmiss.tsv",
+      "bytes": 502,
+      "sha256": "854660169501cce33c14aea7ff03896669cf06598a0805858f9da17ad7f625e2"
+    },
+    {
+      "path": "decomp/src/camera/reacttocollision.cpp",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/camera/reacttocollision.cpp",
+      "bytes": 14338,
+      "sha256": "b0a92c2ebb7457588fa21a700efd469de9b21ec66036632d5ac917d14c4c1fde"
+    },
+    {
+      "path": "decomp/src/physics/doinair.cpp",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/doinair.cpp",
+      "bytes": 13856,
+      "sha256": "bd831b30bde1357fe34bf4328fa19928a3e29f3cdd84e762b735152f416db3c5"
+    },
+    {
+      "path": "decomp/src/physics/doonground.cpp",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/doonground.cpp",
+      "bytes": 20497,
+      "sha256": "2779c6a53286e523dcec49713c89247e822e3af9a41bb928d03fac40b9adb959"
+    },
+    {
+      "path": "decomp/src/physics/dophysics.cpp",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/dophysics.cpp",
+      "bytes": 18682,
+      "sha256": "874482316223f11d73603f51c3172a104df1f86a0fdfced97f2142e915aac631"
+    },
+    {
+      "path": "decomp/src/physics/handlejump.cpp",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/handlejump.cpp",
+      "bytes": 11897,
+      "sha256": "ae19307f48389d3f3b0298a69485168a4938ebd170850c920bbe7bb4642218da"
+    },
+    {
+      "path": "decomp/src/physics/handlespin.cpp",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/handlespin.cpp",
+      "bytes": 11512,
+      "sha256": "fe3af2a6e8c604a034d4a273dda8f4a5e0002cae63d43ae33f4ed00df9a40897"
+    },
+    {
+      "path": "decomp/src/physics/handlesticktorail.cpp",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/handlesticktorail.cpp",
+      "bytes": 12110,
+      "sha256": "29136618e0fe1c401b48ab91827917d13081efd0fa121d54f3c207ba83343888"
+    },
+    {
+      "path": "decomp/src/physics/trickland.cpp",
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/trickland.cpp",
+      "bytes": 3065,
+      "sha256": "ad3bb6ee54928753e27328205dc50445a0c6f4bb1fe5a8d4bacf14648c798ed6"
+    }
+  ],
+  "upstream_matching_records_not_independently_verified": {
+    "matched.tsv": [
+      "src/physics/doinair.cpp\t0x8003609c\t3808\tdiv\tDoInAirPhysics__6CBruce",
+      "src/physics/handlespin.cpp\t0x800323e0\t3368\tdiv\tHandleSpin__6CBruce",
+      "src/physics/dophysics.cpp\t0x8003b424\t8856\tdiv\tDoPhysics__6CBruce",
+      "src/physics/trickland.cpp\t0x8002f478\t764\tsym\tTrick_Land__6CBruce",
+      "src/physics/handlejump.cpp\t0x80038268\t4940\tdiv\tHandleJump__6CBruce"
+    ],
+    "nearmiss.tsv": [
+      "src/camera/reacttocollision.cpp\t0x80078f3c\t5464\tdiv\t1355/1366",
+      "src/physics/doonground.cpp\t0x800347a8\t5664\tdiv\t1413/1416",
+      "src/physics/handlesticktorail.cpp\t0x8003058c\t2940\tsym\t705/735"
+    ]
+  },
+  "limits": "Read-only reference; no external source/assets imported or executed, no retail byte verification, no THPS3 constants certified. Web tool cache misses were recovered via public GitHub API/raw HTTP.",
+  "local_movement_and_existing_test_hashes": {
+    "game/player/skater.gd": "54b06df479cac71ddb3852aa79dcc5345fd4b43e7dfcdf8604e81f72194f2199",
+    "game/player/skate_response.gd": "42ced8a499cca0d30ccaadd2977b56a82884fef88febfb9f3352aca77130d1f7",
+    "game/player/transition_ride.gd": "56d0ca80f088ba5500e6e5a0946d8f6c27683c108d0efa4cc4004c50222f5a26",
+    "game/tricks/grind_ride.gd": "638e29153bc76c0e200fb943293e0db241e31339afaf395a28f37e45577d14ae",
+    "tests/arcade_response_integration_tests.gd": "e3891d38427bc566ff1f6c51bae9399ab482b80eb9380b474fb552984937beb6",
+    "tests/classic_tricks_integration_tests.gd": "77be55f923bdd2237c8a4c4b20eda2f5528eb18bc04d864772ade8560343b670"
+  },
+  "historical_measured_log": {
+    "path": "docs/testing/map-flow/evidence/required/console.log",
+    "sha256": "94096eb496a6cdb6cdba390d526631e759f6e4bb5a93ea6b335bd15f0c94c51a",
+    "same_local_movement_and_existing_test_hashes": true,
+    "limits": "Historical full2189/0; current camera/test extension has a separate required regression. These hashes bind cited movement measurements only."
+  },
+  "local_baseline_git_commit": "84f04fabfdc1057f612e18774ac98ad583432dd8",
+  "local_hashes_are_historical": true,
+  "subsequent_owner_changes": "MAP-03 deliberately adds22m/s\u00b2 ramp-air gravity (flat34 retained), ramp-relative airborne pose and one local180\u00b0 camera arc. The six local hashes remain historical research baseline, not final-controller hashes."
+}

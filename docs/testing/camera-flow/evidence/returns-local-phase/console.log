@@ -1,0 +1,23 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+LOCAL RAMP ORBIT turn_deg=0.0 backwards_deg=0.0 up_y=0.98691445589066 down_y=-1.0 camera_up_dot_ramp_normal=0.96601748466492 good=false
+LOCAL RAMP ORBIT turn_deg=172.219045886761 backwards_deg=0.42075660534043 up_y=0.98929923772812 down_y=-1.0 camera_up_dot_ramp_normal=0.95676869153976 good=true
+LOCAL RAMP ORBIT turn_deg=172.232065291956 backwards_deg=14.1378554142529 up_y=0.98979753255844 down_y=-1.0 camera_up_dot_ramp_normal=0.96525800228119 good=true
+LOCAL RAMP ORBIT turn_deg=187.564620596667 backwards_deg=11.3674105273107 up_y=0.99866473674774 down_y=-1.0 camera_up_dot_ramp_normal=0.96751248836517 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=false)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=false)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=false)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=false)
+FAIL: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=false)
+CAMERA LOCAL RETURNS reduced=false departures=4 returns=4 good_orbits=3 unsafe=0 minimum_axis_fraction=0.16167687310113 max_update_move=0.47553613781929 max_update_angle=9.63663706034283 pose_forward_dot_velocity=1.0
+LOCAL RAMP ORBIT turn_deg=172.314406624139 backwards_deg=9.61246673043274 up_y=0.98974215984344 down_y=-1.0 camera_up_dot_ramp_normal=0.96804970502853 good=true
+LOCAL RAMP ORBIT turn_deg=172.53345118185 backwards_deg=5.76138796530013 up_y=0.9943842291832 down_y=-1.0 camera_up_dot_ramp_normal=0.9646070599556 good=true
+LOCAL RAMP ORBIT turn_deg=172.184304608349 backwards_deg=11.0398698777338 up_y=0.98762166500092 down_y=-1.0 camera_up_dot_ramp_normal=0.96801888942719 good=true
+LOCAL RAMP ORBIT turn_deg=187.710137300102 backwards_deg=9.40800810352471 up_y=0.99890542030334 down_y=-1.0 camera_up_dot_ramp_normal=0.96344155073166 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=true)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=true)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=true)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=true)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=true)
+CAMERA LOCAL RETURNS reduced=true departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.10823081970215 max_update_move=0.45484441518784 max_update_angle=7.90340825656039 pose_forward_dot_velocity=1.0
+RESULT: 9 passed, 1 failed

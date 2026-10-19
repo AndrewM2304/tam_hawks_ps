@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-19T10:29:01.480649+01:00",
+  "completed_london": "2026-10-19T10:29:17.103212+01:00",
+  "wall_seconds": 15.622499166987836,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-flow/observers/motion.gd",
+    "--",
+    ".local/camera-flow/trial-05"
+  ],
+  "exit_code": 0,
+  "source_inputs": 375,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "93ac510e3e0368a27de3c2ed41d38a265d47635c98d9b79d776e842e0389a359",
+  "git_head": "84f04fabfdc1057f612e18774ac98ad583432dd8"
+}

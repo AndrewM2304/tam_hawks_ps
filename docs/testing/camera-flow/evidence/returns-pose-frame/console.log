@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: classic camera: held push makes repeated natural finite-wall aerial returns (reduced=false)
+PASS: classic camera: natural ramp cycles keep body/board clear and steep body axis readable (reduced=false)
+FAIL: classic camera: actual camera updates during natural returns avoid a large view or zoom jump (reduced=false)
+PASS: classic ramp pose: airborne rider/board follows ascent and descent momentum instead of flattening (reduced=false)
+RAMP AIR POSE samples=112 minimum_forward_dot_velocity=0.95949298143387
+FAIL: classic camera: anticipated swing faces the return and looks down by first descending air tick (reduced=false)
+CAMERA APEX turns=4 minimum_camera_return_dot=0.18970538675785 highest_first_descent_pitch_deg=-57.3970346689039 max_update_move_m=7.34878063201904 max_update_angle_deg=129.934786694655
+CAMERA RETURNS reduced=false departures=4 returns=4 unsafe=0 min_axis_fraction=0.0963 max_physics_sample_deg=128.015 max_camera_step_m=7.676
+PASS: classic camera: held push makes repeated natural finite-wall aerial returns (reduced=true)
+PASS: classic camera: natural ramp cycles keep body/board clear and steep body axis readable (reduced=true)
+FAIL: classic camera: actual camera updates during natural returns avoid a large view or zoom jump (reduced=true)
+PASS: classic ramp pose: airborne rider/board follows ascent and descent momentum instead of flattening (reduced=true)
+RAMP AIR POSE samples=112 minimum_forward_dot_velocity=0.95949298143387
+FAIL: classic camera: anticipated swing faces the return and looks down by first descending air tick (reduced=true)
+CAMERA APEX turns=4 minimum_camera_return_dot=0.17873488366604 highest_first_descent_pitch_deg=-55.4758169690939 max_update_move_m=7.33547782897949 max_update_angle_deg=130.406998653113
+CAMERA RETURNS reduced=true departures=4 returns=4 unsafe=0 min_axis_fraction=0.1007 max_physics_sample_deg=129.935 max_camera_step_m=7.665
+RESULT: 6 passed, 4 failed

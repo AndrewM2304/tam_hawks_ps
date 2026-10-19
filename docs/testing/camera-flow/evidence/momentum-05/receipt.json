@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-19T11:33:46.565471+01:00",
+  "completed_london": "2026-10-19T11:34:01.920295+01:00",
+  "wall_seconds": 15.354745166026987,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-flow/observers/motion.gd",
+    "--",
+    ".local/camera-flow/momentum-05"
+  ],
+  "exit_code": 0,
+  "source_inputs": 375,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "fbca8a49a866b5b9f14aa7cbd66a041acddac68511aa78f64e3a2a24bf8308a7",
+  "git_head": "84f04fabfdc1057f612e18774ac98ad583432dd8"
+}

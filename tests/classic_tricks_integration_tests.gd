@@ -530,13 +530,30 @@ static func _pipe_natural_vert(tree: SceneTree, check: Callable) -> void:
 		"classic vert: ordinary roll-up naturally releases upward from the actual quarter without a jump input")
 	await _frames(tree, 2)
 	var elapsed_ticks := Engine.get_physics_frames() - launch_tick
-	var expected_up := launch_velocity.y - 34.0 * float(elapsed_ticks) / Engine.physics_ticks_per_second
+	var expected_up := launch_velocity.y - 22.0 * float(elapsed_ticks) / Engine.physics_ticks_per_second
 	check.call(elapsed_ticks == 2 and rider.airborne and not rider.transition_active
-		and absf(rider.velocity.y - expected_up) < 0.05
+		and rider._ramp_air and absf(rider.velocity.y - expected_up) < 0.05
 		and Vector2(rider.velocity.x, rider.velocity.z).distance_to(Vector2(launch_velocity.x, launch_velocity.z)) < 0.05,
-		"classic vert: exactly two real air ticks preserve XZ momentum and apply the intended34m/s2 gravity")
+		"classic vert: exactly two real air ticks preserve XZ momentum and apply the owner-requested22m/s2 ramp gravity")
 	print("CLASSIC VERT released=", released, " launch_tick=", launch_tick, " elapsed_ticks=", elapsed_ticks,
 		" launch=", launch_velocity, " expected_up=", expected_up, " after=", rider.velocity)
+	var takeoff_height: float = rider.global_position.y
+	var apex: float = takeoff_height
+	var landed := false
+	for tick in 150:
+		await _frames(tree, 1)
+		apex = maxf(apex, rider.global_position.y)
+		if not rider.airborne:
+			landed = true
+			break
+	var rise := apex - takeoff_height
+	var ballistic_rise := expected_up * expected_up / (2.0 * 22.0)
+	check.call(rise > ballistic_rise * .90 and rise < ballistic_rise * 1.05
+		and rise > expected_up * expected_up / (2.0 * 34.0) * 1.3,
+		"classic vert: preserved ramp launch gains real height from gentler air gravity")
+	check.call(landed and not rider._ramp_air,
+		"classic vert: ramp-air gravity ends on real support without leaking into subsequent flat ollies")
+	print("CLASSIC RAMP HEIGHT rise=", rise, " expected=", ballistic_rise, " landed=", landed)
 	await _dispose(tree, fixture)
 
 

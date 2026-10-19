@@ -1,0 +1,15 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: classic camera: held push makes repeated natural finite-wall aerial returns (reduced=false)
+PASS: classic camera: natural ramp cycles keep body/board clear and steep body axis readable (reduced=false)
+PASS: classic camera: physics-cadence natural return avoids a large view jump (reduced=false)
+PASS: classic camera: anticipated swing faces the return by first descending air tick (reduced=false)
+CAMERA APEX turns=4 minimum_camera_return_dot=0.97456532716751
+CAMERA RETURNS reduced=false departures=4 returns=4 unsafe=0 min_axis_fraction=0.1289 max_physics_sample_deg=17.728
+PASS: classic camera: held push makes repeated natural finite-wall aerial returns (reduced=true)
+PASS: classic camera: natural ramp cycles keep body/board clear and steep body axis readable (reduced=true)
+PASS: classic camera: physics-cadence natural return avoids a large view jump (reduced=true)
+PASS: classic camera: anticipated swing faces the return by first descending air tick (reduced=true)
+CAMERA APEX turns=4 minimum_camera_return_dot=0.97456532716751
+CAMERA RETURNS reduced=true departures=4 returns=4 unsafe=0 min_axis_fraction=0.1015 max_physics_sample_deg=26.438
+RESULT: 8 passed, 0 failed

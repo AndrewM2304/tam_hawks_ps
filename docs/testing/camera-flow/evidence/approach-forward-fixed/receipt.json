@@ -1,0 +1,33 @@
+{
+  "started_london": "2026-10-19T13:04:18.474777+01:00",
+  "completed_london": "2026-10-19T13:06:17.808912+01:00",
+  "wall_seconds": 119.33435912500136,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-flow/observers/current_route.gd",
+    "--",
+    ".local/camera-flow/approach-forward-fixed",
+    "docs/testing/map-flow/observers/approach.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 376,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "77bbc5353616889a99961cae953563d36f02e3744fe1348c762676866bc57c9e",
+  "git_head": "84f04fabfdc1057f612e18774ac98ad583432dd8"
+}

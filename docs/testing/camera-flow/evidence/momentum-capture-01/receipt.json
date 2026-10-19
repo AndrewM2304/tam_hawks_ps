@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-19T11:18:52.698893+01:00",
+  "completed_london": "2026-10-19T11:19:09.329369+01:00",
+  "wall_seconds": 16.63039879204007,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/map-flow/observers/ramp_camera.gd",
+    "--",
+    ".local/camera-flow/momentum-capture-01"
+  ],
+  "exit_code": 0,
+  "source_inputs": 375,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "b09cc9e135f440905b1dd42bf45dbb7f477b3426988378301bf9b4f3d35c5a5a",
+  "git_head": "84f04fabfdc1057f612e18774ac98ad583432dd8"
+}

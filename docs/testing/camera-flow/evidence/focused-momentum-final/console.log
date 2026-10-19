@@ -1,0 +1,63 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: classic turns: 8m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.25 angle_deg=26.190 distance=6.763 effective_radius=14.795 unsafe=0
+PASS: classic turns: 8m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.50 angle_deg=55.587 distance=6.763 effective_radius=6.971 unsafe=0
+PASS: classic turns: 8m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=1.00 angle_deg=136.829 distance=6.763 effective_radius=2.832 unsafe=0
+PASS: classic turns: 8m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 12m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.25 angle_deg=24.682 distance=10.382 effective_radius=24.101 unsafe=0
+PASS: classic turns: 12m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.50 angle_deg=52.387 distance=10.382 effective_radius=11.355 unsafe=0
+PASS: classic turns: 12m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=1.00 angle_deg=128.952 distance=10.382 effective_radius=4.613 unsafe=0
+PASS: classic turns: 12m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 15m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.374 input=0.25 angle_deg=23.551 distance=13.097 effective_radius=31.862 unsafe=0
+PASS: classic turns: 15m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=0.50 angle_deg=49.986 distance=13.097 effective_radius=15.012 unsafe=0
+PASS: classic turns: 15m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=1.00 angle_deg=123.042 distance=13.097 effective_radius=6.099 unsafe=0
+PASS: classic turns: 15m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic camera: sustained actual bank rollback moves chase behind travel without hiding rider or board
+CLASSIC REVERSE speed=-2.489 camera_dot_travel=-1.000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: held push makes repeated natural finite-wall aerial returns (reduced=false)
+PASS: classic camera: natural ramp cycles keep body/board clear and steep body axis readable (reduced=false)
+FAIL: classic camera: physics-cadence natural return avoids a large view or zoom jump (reduced=false)
+PASS: classic camera: anticipated swing faces the return and looks down by first descending air tick (reduced=false)
+CAMERA APEX turns=4 minimum_camera_return_dot=0.97901558876038 highest_first_descent_pitch_deg=-57.8351724225101
+CAMERA RETURNS reduced=false departures=4 returns=4 unsafe=0 min_axis_fraction=0.0844 max_physics_sample_deg=19.186 max_camera_step_m=1.820
+PASS: classic camera: held push makes repeated natural finite-wall aerial returns (reduced=true)
+PASS: classic camera: natural ramp cycles keep body/board clear and steep body axis readable (reduced=true)
+FAIL: classic camera: physics-cadence natural return avoids a large view or zoom jump (reduced=true)
+PASS: classic camera: anticipated swing faces the return and looks down by first descending air tick (reduced=true)
+CAMERA APEX turns=4 minimum_camera_return_dot=0.9745659828186 highest_first_descent_pitch_deg=-57.8169646976911
+CAMERA RETURNS reduced=true departures=4 returns=4 unsafe=0 min_axis_fraction=0.0846 max_physics_sample_deg=25.938 max_camera_step_m=1.752
+PASS: classic camera: a brief backwards impulse cannot reverse the chase
+PASS: classic camera: low-speed direction noise clears pending reversal
+PASS: classic vert: ordinary roll-up naturally releases upward from the actual quarter without a jump input
+PASS: classic vert: exactly two real air ticks preserve XZ momentum and apply the owner-requested22m/s2 ramp gravity
+CLASSIC VERT released=true launch_tick=4058 elapsed_ticks=2 launch=(0.0, 7.079565, -0.0) expected_up=6.34623123804728 after=(0.0, 6.346231, -0.0)
+PASS: classic vert: preserved ramp launch gains real height from gentler air gravity
+PASS: classic vert: ramp-air gravity ends on real support without leaking into subsequent flat ollies
+CLASSIC RAMP HEIGHT rise=0.86309862136841 expected=0.91533297560834 landed=true
+RESULT: 38 passed, 2 failed

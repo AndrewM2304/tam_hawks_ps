@@ -26,6 +26,7 @@ const PUSH_ACCELERATION := 10.0
 const BRAKE_DECELERATION := 22.0
 const ROLLING_DRAG := 0.75
 const GRAVITY := 34.0 # Short weighted free flight; finite transition contact uses its own gravity.
+const RAMP_AIR_GRAVITY := 22.0 # Preserve launch momentum; give ramp tricks more rise and airtime.
 const GROUND_GRAVITY := 22.0
 const OLLIE_SPEED := 8.0
 const CHARGED_OLLIE_SPEED := 11.3
@@ -64,6 +65,11 @@ var _transition = TransitionRide.new()
 var _transition_features: Array = []
 var _transition_cooldown := 0.0
 var _transition_facing := 1.0
+var _ramp_air := false
+var _ramp_air_frame := Basis.IDENTITY
+var _previous_ramp_air_frame := Basis.IDENTITY
+var _ramp_air_normal := Vector3.UP
+var _ramp_launch_forward := Vector3.FORWARD
 var _vert_return: Dictionary = {}
 var _vert_start_yaw := 0.0
 var _vert_start_up := 0.0
@@ -156,7 +162,7 @@ func _ready() -> void:
 	_camera.top_level = true
 	_camera.current = true
 	_camera.fov = 68.0
-	_camera.near = 0.20 # More depth precision for layered facades; clear body arm is >=3m.
+	_camera.near = 0.20 # More depth precision; native ramp camera may shorten to a clear1.6m arm.
 	_camera.far = 220.0
 	reset_skater()
 
@@ -203,9 +209,14 @@ func reset_skater() -> void:
 	_surface_pitch = 0.0
 	global_position = spawn_position
 	rotation = Vector3.ZERO
+	_ramp_air_frame = global_basis
+	_previous_ramp_air_frame = _ramp_air_frame
+	_ramp_air_normal = Vector3.UP
+	_ramp_launch_forward = -global_basis.z
 	velocity = Vector3.ZERO
 	speed = 0.0
 	airborne = false
+	_ramp_air = false
 	_coyote_remaining = 0.0
 	_jump_buffer_remaining = 0.0
 	_clear_trick_buffers()
@@ -623,12 +634,15 @@ func _leave_transition(in_air: bool) -> bool:
 		bailed.emit()
 		reset_skater()
 		return false
+	_ramp_air_normal = transition_normal
+	_ramp_launch_forward = velocity.slide(_ramp_air_normal).normalized()
 	_restore_contact_shape()
 	transition_normal = Vector3.UP
 	if in_air:
-		_begin_air()
+		_begin_air(velocity.y > 1.0)
 	else:
 		airborne = false
+		_ramp_air = false
 	speed = velocity.dot(-global_basis.z) if not in_air else Vector2(velocity.x, velocity.z).length()
 	return true
 
@@ -677,6 +691,7 @@ func _try_begin_lip() -> bool:
 	_grind_buffer_remaining = 0.0
 	_grind_held_armed = false
 	airborne = false
+	_ramp_air = false
 	velocity = Vector3.ZERO
 	speed = 0.0
 	_clear_trick_buffers()
@@ -706,12 +721,14 @@ func _release_lip(jump: bool) -> void:
 	# A small explicit inward drop clears the coping; ordinary gravity and the
 	# finite collision-confirmed surface handle the return, not a hidden plane.
 	velocity = toe.basis.z * 1.2 + Vector3.UP * (_pop_impulse if jump else -0.8)
+	_ramp_air_normal = toe.basis*Vector3(0,cos(float(_lip_feature.angle)),sin(float(_lip_feature.angle)))
+	_ramp_launch_forward = velocity.slide(_ramp_air_normal).normalized()
 	_align_to_travel()
 	lip_active = false
 	lip_id = ""
 	_grind_buffer_remaining = 0.0
 	_transition_cooldown = 0.06
-	_begin_air()
+	_begin_air(jump)
 	if jump:
 		combo_link_started.emit()
 		trick_performed.emit("Ollie", 100)
@@ -790,7 +807,7 @@ func _physics_process(delta: float) -> void:
 		# Carry the ramp/contact-adjusted momentum into air. Rebuilding X/Z
 		# from surface speed adds energy at lips and restores blocked motion.
 		velocity = velocity.rotated(Vector3.UP, steering_angle)
-		velocity.y -= GRAVITY * delta
+		velocity.y -= (RAMP_AIR_GRAVITY if _ramp_air else GRAVITY) * delta
 		_tick_vert_return()
 
 	if _jump_buffer_remaining > 0.0 and _coyote_remaining > 0.0:
@@ -852,10 +869,11 @@ func _physics_process(delta: float) -> void:
 	_update_pose(delta)
 
 
-func _begin_air() -> void:
+func _begin_air(from_ramp: bool = false) -> void:
 	if airborne:
 		return
 	airborne = true
+	_ramp_air = from_ramp
 	revert_remaining = 0.0
 	_special_used_this_air = false
 	_clear_special_visual()
@@ -908,6 +926,7 @@ func _finish_landing() -> void:
 	_spin_angle -= completed_stance
 	_clear_special_visual()
 	airborne = false
+	_ramp_air = false
 	_vert_return.clear()
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
@@ -996,6 +1015,7 @@ func _try_grind(previous_position: Vector3 = Vector3.ZERO, swept: bool = false) 
 	_award_air_spin()
 	_clear_special_visual()
 	airborne = false
+	_ramp_air = false
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
 	_spin_angle = 0.0
@@ -1071,7 +1091,19 @@ func _release_grind(jump: bool) -> void:
 		trick_performed.emit("Ollie", TrickCatalog.base_points("ollie"))
 
 
+func get_camera_support_frame() -> Basis:
+	# Base travel frame only: no scored yaw, board flip or body special.
+	if not Engine.is_in_physics_frame() and is_physics_interpolated_and_enabled():
+		return _previous_ramp_air_frame.orthonormalized().slerp(_ramp_air_frame.orthonormalized(),Engine.get_physics_interpolation_fraction())
+	return _ramp_air_frame
+
+
+func get_camera_support_up() -> Vector3:
+	return get_camera_support_frame().y.normalized()
+
+
 func _update_pose(delta: float) -> void:
+	_previous_ramp_air_frame = _ramp_air_frame
 	_flip_remaining = maxf(0.0, _flip_remaining - delta)
 	_grab_remaining = maxf(0.0, _grab_remaining - delta)
 	_revert_pose_remaining = maxf(0.0, _revert_pose_remaining - delta)
@@ -1119,6 +1151,15 @@ func _update_pose(delta: float) -> void:
 	_visual.rotation.x = _surface_pitch
 	_grind_visual_offset *= exp(-delta / 0.045)
 	_visual.position = global_basis.inverse() * _grind_visual_offset
+	_ramp_air_frame = global_basis * Basis(Vector3.RIGHT,_surface_pitch)
+	if airborne and _ramp_air:
+		# Keep the ramp's local up axis through flight. Turn once in that plane
+		# as vertical momentum passes through zero; never flatten to world-up.
+		var air_turn_progress := smoothstep(-2.0,2.0,-velocity.y)
+		var flight_forward := _ramp_launch_forward.rotated(_ramp_air_normal,PI*air_turn_progress).normalized()
+		var right := flight_forward.cross(_ramp_air_normal).normalized()
+		_ramp_air_frame = Basis(right,_ramp_air_normal,-flight_forward).orthonormalized()
+		_visual.basis = global_basis.inverse()*_ramp_air_frame*Basis(Vector3.UP,_spin_angle+_stance_angle)
 	if transition_active:
 		var toe: Transform3D = _transition.feature.transform
 		var forward: Vector3 = _transition.travel_velocity().normalized()
@@ -1126,6 +1167,7 @@ func _update_pose(delta: float) -> void:
 			forward = toe.basis * Vector3(0, sin(_transition.theta), -cos(_transition.theta)) * _transition_facing
 		var right := forward.cross(transition_normal).normalized()
 		var contact_basis := Basis(right, transition_normal, -forward).orthonormalized()
+		_ramp_air_frame = contact_basis
 		_visual.basis = global_basis.inverse() * contact_basis * Basis(Vector3.UP, _spin_angle + _stance_angle)
 	if lip_active:
 		_visual.rotation.z = -lip_balance * 0.20

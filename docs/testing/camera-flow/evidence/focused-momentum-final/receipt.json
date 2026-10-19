@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-19T11:49:46.904765+01:00",
+  "completed_london": "2026-10-19T11:50:55.531382+01:00",
+  "wall_seconds": 68.62670104100835,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-flow/observers/focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 375,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "38",
+      "2"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "c586908af7a7e085af2039abfd72162cce7cf59372e5c8cbe52eee5c32fffd56",
+  "git_head": "84f04fabfdc1057f612e18774ac98ad583432dd8"
+}

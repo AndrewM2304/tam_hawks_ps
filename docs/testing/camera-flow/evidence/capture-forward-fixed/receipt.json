@@ -1,0 +1,34 @@
+{
+  "started_london": "2026-10-19T13:03:48.062569+01:00",
+  "completed_london": "2026-10-19T13:04:04.907934+01:00",
+  "wall_seconds": 16.845297333027702,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-flow/observers/current_preview.gd",
+    "--",
+    ".local/camera-flow/capture-forward-fixed",
+    "docs/testing/camera-flow/observers/capture.gd",
+    "docs/testing/map-flow/observers/ramp_camera.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 377,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "5228bcb58d2bdb916bd6249faf793821d0b70410e5604a26a6c60a24bfeae035",
+  "git_head": "84f04fabfdc1057f612e18774ac98ad583432dd8"
+}
