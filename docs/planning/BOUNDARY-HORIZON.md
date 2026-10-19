@@ -1,3 +1,5 @@
+**19 October priority update:** [MAP-FLOW-REPAIR-2026-10-19](MAP-FLOW-REPAIR-2026-10-19.md) and ADR-021 supersede the sequencing below; retain outstanding acceptance gates and rejected evidence. This packet is preserved for implementation detail.
+
 # Boundary and horizon continuity
 
 18 October 2026. Current owner priority; park migration pauses. This extends existing M03-006/007, M05-001 and M06-004/007 without replacing their complete backlog records. [ADR-019](../architecture/decisions/ADR-019-boundary-horizon-continuity.md) fixes scope and budgets; [design review](../levels/BOUNDARY-HORIZON-REVIEW.md) identifies exact defects and protected entrances. No spending, new playable area or hosted CI.

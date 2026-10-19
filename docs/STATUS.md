@@ -1,3 +1,15 @@
+# Owner map, skatepark and camera repair plan recorded
+
+19 October 2026, Europe/London. Documentation-only checkpoint on feature branch `bootstrap/m00-m01`; inspected runtime/evidence checkpoint `d948a45`. [MAP-01…08 plan](planning/MAP-FLOW-REPAIR-2026-10-19.md) records seven photo observations, owner spawn-to-Kelvingrove missing-map reproduction, tighter camera/ramp acceptance, central half-pipe/bowl/rails, winding-path grinds, HUD clipping investigation, overlap/priority and source/resource/performance gates. [Outstanding review list](planning/OUTSTANDING-2026-10-19.md) snapshots every non-Done full backlog ticket; all 75 original full task bodies remain unchanged. These repairs supersede unrelated facade/prototype/package sequencing; required stutter/performance and final creative/hardware gates remain.
+
+Reference YouTube web fetch failed (cache miss); native Chrome playback succeeded. Sampled actual moving playback with repeated visual inspections, including continuation after the owner's next-15-seconds request; paused afterwards. Exact frame-by-frame ramp motion/FOV/velocity is not established. Plan distinguishes observed camera/curved-rail/bank-lined-flow lessons from hypotheses to reproduce locally. No third-party material imported.
+
+Commands: `git status --short`, `git branch --show-current`, `rg`/source reads and Python backlog extraction; Python integrity check: all 75 full backlog bodies byte-identical; 15 local documentation links resolve. `git diff --check`: exit 0, no whitespace errors. Outstanding snapshot: 64 non-Done (36 QE review, 22 In progress, 5 Planned, 1 Blocked). No production GDScript/assets/project settings changed. No game rendered or new gameplay test run; required `tools/check.sh` intentionally not repeated for documents. Last recorded production suite remains 2,183/0 on its historical frozen source, not certification of the new owner defects. No agent/engine/background job launched.
+
+Next: read newest plan and ADR-021, then MAP-01 ordinary-play native capture plus exact coordinate/support/render/viewport survey. Repair MAP-02 current connector before park relocation. MAP-03 existing ramp/camera, MAP-04 shared-port/park contract, MAP-05/06 park and connected lines; MAP-07 UI can proceed after reproduction; MAP-08 whole-map admission. Keep rejected pilots OFF. Existing macOS host availability is not evidence of successful Mac export, M5 performance or physical DualSense acceptance.
+
+---
+
 # Water and controls completed and verified
 
 18 October 2026, Europe/London. Final game/test/tool/project source is **db2b28e263a5305fe0d8064a967ed645a3c3d3fa**, pushed on `bootstrap/m00-m01`. Evidence checkpoint36b2c2a is also pushed; this evidence-only update adds final full-run/audit records without changing checked source. PLAY-01/04/05 automated admission is complete. Mac/M5/DualSense feel/performance, continuous shimmer and final art remain open.

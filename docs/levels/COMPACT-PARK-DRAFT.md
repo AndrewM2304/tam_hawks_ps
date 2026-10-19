@@ -1,3 +1,5 @@
+**19 October revision required:** the owner requests a central half-pipe/bowl/rail skatepark and downhill grind links. [MAP-04…06](../planning/MAP-FLOW-REPAIR-2026-10-19.md) supersede this path-only placement proposal. Reserve the central skating destination before adopting coordinates below; retain the shared-port survey constraints.
+
 # Compact park draft — DENSITY-02
 
 18 October 2026. **Proposal only: not implemented, collision-certified, rendered or admitted.** The Clyde now passes bounded automated admission; this park document remains an unsurveyed proposal. This is the durable next-slice proposal under [LEVEL-DENSITY-NEXT](../planning/LEVEL-DENSITY-NEXT.md) and the [strict density review](STRICT-DENSITY-REVIEW.md); it changes no production source and no full backlog record. Do not begin park implementation until the Clyde checkpoint is tested, captured and pushed.

@@ -1,3 +1,5 @@
+**19 October priority update:** [MAP-FLOW-REPAIR-2026-10-19](MAP-FLOW-REPAIR-2026-10-19.md) and ADR-021 supersede the sequencing below; retain outstanding acceptance gates and rejected evidence. This packet is preserved for implementation detail.
+
 # Compact the existing level — 18 October 2026
 
 The owner's latest priority is skating density: the map feels spread out and sparse. The [strict lead-design review](../levels/STRICT-DENSITY-REVIEW.md) and [current spatial map](../testing/level-density/current-layout.png) take precedence over adding background decoration to the present footprint. **Review complete; DENSITY-01 passes bounded automated admission. DENSITY-02A port survey is ready.** This packet refines existing tickets, preserving all 75 full backlog records. These are local task records, not published GitHub issues.
