@@ -1,0 +1,116 @@
+{
+  "accessed": "2026-10-22",
+  "revision": "fa128f5ba222e0f24a9bff019d59262b79141e48",
+  "source_files": [
+    {
+      "path": "README.md",
+      "sha256": "49f9894fe6c26c77bde23008438738156f559fc45362bd612ac9338aad822a60",
+      "bytes": 2084,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/README.md"
+    },
+    {
+      "path": "decomp/README.md",
+      "sha256": "407178da6bd46f0e3a593bfce108326573703a5f49e506e3509dbdf21c741174",
+      "bytes": 92419,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/README.md"
+    },
+    {
+      "path": "decomp/matched.tsv",
+      "sha256": "3e8a6fb275c69a23f6f17051e2c4ec044c97ad37ca329710a52d5ec176841c65",
+      "bytes": 73750,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/matched.tsv"
+    },
+    {
+      "path": "decomp/nearmiss.tsv",
+      "sha256": "854660169501cce33c14aea7ff03896669cf06598a0805858f9da17ad7f625e2",
+      "bytes": 502,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/nearmiss.tsv"
+    },
+    {
+      "path": "decomp/src/physics/handlebailperpendicular.cpp",
+      "sha256": "c27837abd4af70a5d8e1a274f4258ecb6e60f9c78a80276bdd5cb328a0eb0b1c",
+      "bytes": 2861,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/handlebailperpendicular.cpp"
+    },
+    {
+      "path": "decomp/src/physics/dophysics.cpp",
+      "sha256": "874482316223f11d73603f51c3172a104df1f86a0fdfced97f2142e915aac631",
+      "bytes": 18682,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/dophysics.cpp"
+    },
+    {
+      "path": "decomp/src/trig/executerestart.cpp",
+      "sha256": "ec270379d8fd38992c4c7bdad9d40803231668922fb32a5541f5a0895e854b71",
+      "bytes": 2407,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/trig/executerestart.cpp"
+    },
+    {
+      "path": "decomp/src/trig/setrestart.c",
+      "sha256": "1671b7fd6738df06712a1dbc1b6ea5ee4ebce7ea0c68da5f6a8b18bb403426ac",
+      "bytes": 565,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/trig/setrestart.c"
+    },
+    {
+      "path": "decomp/src/init/restart.c",
+      "sha256": "4685e03177c429a4739e280bedb245787bed5c4f2d923a6e8c625fd52c600aaa",
+      "bytes": 693,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/init/restart.c"
+    },
+    {
+      "path": "decomp/src/unnamed/8002fe9c.c",
+      "sha256": "fee0e3e966fb966fbadb01e237bbb8d42c5ad154a0fd8ddef484ef6ef1939940",
+      "bytes": 1908,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/unnamed/8002fe9c.c"
+    },
+    {
+      "path": "decomp/src/unnamed/80031108.c",
+      "sha256": "d5525cc1c545b358dce69c143b1b442b43528503a051e173efc4a023e9b138db",
+      "bytes": 797,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/unnamed/80031108.c"
+    },
+    {
+      "path": "decomp/src/unnamed/8002f774.c",
+      "sha256": "5a8788cb6ea61c7f38bf4ef241b723d49a2690e5b92183c9f8e02cb96f62d141",
+      "bytes": 1718,
+      "url": "https://github.com/LANCommander/THPS/blob/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/unnamed/8002f774.c"
+    }
+  ],
+  "tree_entries": 2493,
+  "tree_truncated": false,
+  "licence_named_paths": [],
+  "matching_records_upstream_claims_not_retail_verified": [
+    {
+      "table": "matched.tsv",
+      "record": "src/init/restart.c\t0x80071e88\t180\tsym\tInit_Restart__F13EPackInitTypei"
+    },
+    {
+      "table": "matched.tsv",
+      "record": "src/trig/setrestart.c\t0x80044ae4\t172\tsym\tTrig_SetRestart__FPc"
+    },
+    {
+      "table": "matched.tsv",
+      "record": "src/unnamed/80031108.c\t0x80031108\t284\tsym\tHandleBailOnLanding__6CBrucei"
+    },
+    {
+      "table": "matched.tsv",
+      "record": "src/unnamed/8002fe9c.c\t0x8002fe9c\t344\tsym\tBail__6CBrucei13ELimitBailVel"
+    },
+    {
+      "table": "matched.tsv",
+      "record": "src/unnamed/8002f774.c\t0x8002f774\t380\tsym\tTrick_Bail__6CBruce"
+    },
+    {
+      "table": "matched.tsv",
+      "record": "src/trig/executerestart.cpp\t0x80044c84\t548\tsym\tTrig_ExecuteRestart__Fv"
+    },
+    {
+      "table": "matched.tsv",
+      "record": "src/physics/handlebailperpendicular.cpp\t0x80031224\t732\tdiv\tHandleBailPerpendicular__6CBruceG7SVECTOR"
+    },
+    {
+      "table": "matched.tsv",
+      "record": "src/physics/dophysics.cpp\t0x8003b424\t8856\tdiv\tDoPhysics__6CBruce"
+    }
+  ],
+  "limits": "THPS1 PS1 reconstruction using some THPS2 demo symbol guidance, not THPS3. Research only; no source/assets imported into production or bundled. Unknown fields and unmapped fixed point values are not verified gameplay constants."
+}

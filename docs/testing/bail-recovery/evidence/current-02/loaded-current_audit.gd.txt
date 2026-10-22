@@ -1,0 +1,99 @@
+extends SceneTree
+## Observation only: production Main, real mapped input, no motion/pose forcing.
+## Profile images pause the tree and temporarily place the camera explicitly.
+const MainScene=preload("res://game/main.tscn")
+const Classic=preload("res://tests/classic_tricks_integration_tests.gd")
+var game:Node
+var output:String
+var phase:="settle"
+var rows:Array=[]
+var images:Array=[]
+var bails:Array=[]
+var errors:Array=[]
+var maxima:Dictionary={}
+var sampler:Sample
+class Sample extends Node:
+	var owner_audit:SceneTree
+	func _ready()->void:process_physics_priority=100
+	func _physics_process(_delta:float)->void:owner_audit.sample()
+func _initialize()->void:call_deferred('_run')
+func _run()->void:
+	if OS.get_cmdline_user_args().is_empty():quit(2);return
+	output=OS.get_cmdline_user_args()[0]
+	DirAccess.make_dir_recursive_absolute(output)
+	create_timer(120.0,true).timeout.connect(func():printerr('Audit watchdog');quit(2))
+	root.size=Vector2i(1280,800)
+	root.title='BAIL / HUMAN POSE AUDIT — current production; profile views labelled'
+	if DisplayServer.get_name()!='headless':DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_ALWAYS_ON_TOP,true)
+	game=MainScene.instantiate();game.persistence_enabled=false;root.add_child(game)
+	game.apply_settings({'graphics_quality':'balanced'},false)
+	sampler=Sample.new();sampler.owner_audit=self;root.add_child(sampler)
+	game.skater.bailed.connect(func():bails.append({'tick':Engine.get_physics_frames(),'at':str(game.skater.global_position),'velocity':str(game.skater.velocity),'manual':game.skater.manual_active}))
+	await reset_trial('idle');await capture('idle')
+	phase='push';Classic._key(KEY_W,true);await Classic._frames(self,30);await capture('push');Classic._key(KEY_W,false)
+	phase='brake';Input.action_press('brake');await Classic._frames(self,18);await capture('brake');Input.action_release('brake')
+	await reset_trial('charged');Classic._key(KEY_SPACE,true);await Classic._frames(self,24);await capture('charged-crouch');Classic._key(KEY_SPACE,false)
+	await Classic._frames(self,20);await capture('charged-air');await Classic._frames(self,60)
+	for entry:Dictionary in [{'id':'melon_grab','d':Vector2.ZERO},{'id':'indy_grab','d':Vector2.LEFT},{'id':'nose_grab','d':Vector2.UP},{'id':'tail_grab','d':Vector2.DOWN},{'id':'method_grab','d':Vector2.RIGHT}]:
+		await reset_trial(entry.id)
+		Classic._key(KEY_SPACE,true);await Classic._frames(self,24);Classic._key(KEY_SPACE,false);await Classic._frames(self,3)
+		Classic._direction(entry.d);Classic._key(KEY_K,true);await Classic._frames(self,15)
+		if game.skater.active_grab_id!=entry.id or not game.skater.airborne:errors.append('grab not active '+entry.id)
+		await capture(entry.id);Classic._key(KEY_K,false);Classic._direction(Vector2.ZERO);await Classic._frames(self,75)
+	await reset_trial('manual-bail')
+	Classic._key(KEY_W,true);await Classic._frames(self,45);Classic._key(KEY_W,false);Classic._key(KEY_M,true)
+	var entered:=false;var warned:=false
+	for tick in 450:
+		await Classic._frames(self,1)
+		entered=entered or game.skater.manual_active
+		if not warned and game.skater.manual_active and absf(game.skater.manual_balance)>.85:
+			warned=true;await capture('manual-before-bail')
+		if not bails.is_empty():break
+	if not entered or bails.size()!=1:errors.append('real manual bail not observed once')
+	await capture('after-bail');Classic._key(KEY_M,false);await Classic._frames(self,10)
+	var checks:=0
+	checks+=int(rows.size()>500);checks+=int(bails.size()==1);checks+=int(errors.is_empty())
+	FileAccess.open(output.path_join('observations.json'),FileAccess.WRITE).store_string(JSON.stringify({'errors':errors,'maxima':maxima,'bails':bails,'images':images,'rows':rows,'limits':'Baseline diagnostic only, not a pass for human quality or recovery behaviour. Profile images use an explicitly positioned camera with gameplay paused; chase images use production camera. No production changes, copied source/assets or performance admission.'},'\t'))
+	print('POSE_MAXIMA ',maxima);print('BAIL_OBSERVED ',bails)
+	print('RESULT: ',checks,' passed, ',3-checks,' failed');quit(0 if checks==3 else 1)
+func reset_trial(label:String)->void:
+	Classic._release();game.start_mode(true);phase='settle';await Classic._frames(self,60);phase=label
+func sample()->void:
+	if game==null or phase=='settle':return
+	var rider:Node3D=game.skater
+	var rig:RefCounted=rider._visual_rig
+	var skeleton:Skeleton3D=rig._garments.skeleton
+	var lengths:Dictionary={}
+	for index in 2:
+		var side:String='left' if index==0 else 'right'
+		var hip:=skeleton.get_bone_pose_position(skeleton.find_bone(side+'_thigh'))
+		var knee:=skeleton.get_bone_pose_position(skeleton.find_bone(side+'_calf'))
+		var shoulder:=skeleton.get_bone_pose_position(skeleton.find_bone(side+'_sleeve'))
+		var elbow:=skeleton.get_bone_pose_position(skeleton.find_bone(side+'_forearm'))
+		lengths[side+'_thigh']=hip.distance_to(knee)/.43
+		lengths[side+'_calf']=knee.distance_to(rig._legs[index].foot.position)/.41
+		lengths[side+'_upper_arm']=shoulder.distance_to(elbow)/.30
+		lengths[side+'_forearm']=elbow.distance_to(rig._arms[index].hand.position)/.29
+	if not maxima.has(phase):maxima[phase]={}
+	for key:String in lengths:
+		if not is_finite(lengths[key]):errors.append('nonfinite '+phase+key)
+		maxima[phase][key]=maxf(maxima[phase].get(key,0.0),lengths[key])
+	rows.append({'phase':phase,'tick':Engine.get_physics_frames(),'at':str(rider.global_position),'velocity':str(rider.velocity),'floor':rider.is_on_floor(),'air':rider.airborne,'manual':rider.manual_active,'balance':rider.manual_balance,'length_ratios':lengths})
+func capture(label:String)->void:
+	if DisplayServer.get_name()=='headless':return
+	await RenderingServer.frame_post_draw
+	save_frame(label+'-chase')
+	paused=true
+	var camera:Camera3D=game.skater._camera
+	var original:=camera.global_transform
+	var at:Vector3=game.skater._rider_visual.global_position
+	camera.global_position=at+Vector3(2.7,1.1,1.8)
+	camera.look_at(at+Vector3.UP*.95)
+	await RenderingServer.frame_post_draw
+	save_frame(label+'-profile')
+	camera.global_transform=original
+	paused=false
+func save_frame(label:String)->void:
+	var picture:=root.get_texture().get_image()
+	if picture.save_png(output.path_join(label+'.png'))!=OK:errors.append('image '+label)
+	images.append({'file':label+'.png','tick':Engine.get_physics_frames(),'phase':phase,'diagnostic_camera':label.ends_with('-profile')})

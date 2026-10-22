@@ -217,3 +217,8 @@ Face buttons retain Cross/Square/Circle/Triangle for Ollie/flip/grab/grind-lip. 
 ## Enclosed connector ground — ADR-022
 
 `OutdoorRoutes.ENCLOSED_GROUND` shares three Y0.5 rectangle footprints between native collision/support queries and HorizonContext rendering. `_fill_enclosed_ground` appends exactly six faces to the existing central embankment trimesh; its original grass visual stays unchanged. HorizonContext appends the matching six faces to CityFootings' resident vertex-colour surface, with a separate six-triangle allowance above the original832 combined context/water budget. No new route, rail, checkpoint, body, shape or draw surface is published. Existing fences still distinguish this enclosed planted ground from the skating routes. Current admission status belongs in STATUS and map-flow evidence; the interface does not certify every aerial entry, performance, final finish or human play.
+
+
+## Bail/human-motion research follow-up (22 October2026)
+
+No production interface change at this checkpoint. `bailed`, `reset_skater()` and `recover_to()` retain their current immediate behaviour. [BAIL-R01…04](../research/THPS-BAIL-AND-HUMAN-MOTION-2026-10-22.md) records the measured instant-reset/limb-reach defects and proposed reachable contact poses followed by a separate bail/recovery lifecycle. Do not treat proposed `begin_bail` or phase names as implemented APIs. Score/encounter failure stays one-shot, explicit Restart and hazard/run-spawn contracts remain, and physical/visual/human acceptance must be supplied for the eventual production change.

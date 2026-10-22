@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-22T18:38:48.141064+01:00",
+  "completed_london": "2026-10-22T18:39:19.669571+01:00",
+  "wall_seconds": 31.528520166000817,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/bail-recovery/observers/current_audit.gd",
+    "--",
+    ".local/bail-research/current-02"
+  ],
+  "exit_code": 1,
+  "source_inputs": 377,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "2",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "ce8b8fffc86f4fa698d03ea2c4bd1d7cabd0c26d36cab3ccb93799200cc77f8e",
+  "git_head": "83758c3d0f004659d9a07e748793b0075845fff4"
+}

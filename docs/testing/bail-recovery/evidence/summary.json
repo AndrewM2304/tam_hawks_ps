@@ -1,0 +1,163 @@
+{
+  "baseline_git": "83758c3d0f004659d9a07e748793b0075845fff4",
+  "samples": 1061,
+  "native_images_captured": 24,
+  "retained_images": [
+    "after-bail-chase.png",
+    "after-bail-profile.png",
+    "brake-profile.png",
+    "charged-air-profile.png",
+    "charged-crouch-profile.png",
+    "idle-profile.png",
+    "manual-before-bail-chase.png",
+    "manual-before-bail-profile.png",
+    "melon_grab-profile.png",
+    "method_grab-profile.png",
+    "nose_grab-profile.png",
+    "push-profile.png"
+  ],
+  "one_tick_bail_displacement_m": 23.157314754559195,
+  "bail_before": {
+    "air": false,
+    "at": "(-22.0, 0.000026, 4.856507)",
+    "balance": 0.994466666666666,
+    "floor": true,
+    "length_ratios": {
+      "left_calf": 0.999999991277369,
+      "left_forearm": 1.03500680676822,
+      "left_thigh": 1.00000001663385,
+      "left_upper_arm": 0.999999841054281,
+      "right_calf": 0.999999918588778,
+      "right_forearm": 1.00000007399197,
+      "right_thigh": 1.00000001663385,
+      "right_upper_arm": 0.999999940395355
+    },
+    "manual": true,
+    "phase": "manual-bail",
+    "tick": 1641,
+    "velocity": "(0.0, 0.0, -5.301507)"
+  },
+  "bail_after": {
+    "air": false,
+    "at": "(-22.0, 0.8, 28.0)",
+    "balance": 0.0,
+    "floor": true,
+    "length_ratios": {
+      "left_calf": 0.999999991277369,
+      "left_forearm": 1.03500680676822,
+      "left_thigh": 1.00000001663385,
+      "left_upper_arm": 0.999999841054281,
+      "right_calf": 0.999999918588778,
+      "right_forearm": 1.00000007399197,
+      "right_thigh": 1.00000001663385,
+      "right_upper_arm": 0.999999940395355
+    },
+    "manual": false,
+    "phase": "manual-bail",
+    "tick": 1642,
+    "velocity": "(0.0, 0.0, 0.0)"
+  },
+  "maxima": {
+    "brake": {
+      "left_calf": 1.00000020934314,
+      "left_forearm": 1.0000001767586,
+      "left_thigh": 1.00000015524931,
+      "left_upper_arm": 1.0000001390775,
+      "right_calf": 1.24396245654036,
+      "right_forearm": 1.00000027952523,
+      "right_thigh": 1.00000015524931,
+      "right_upper_arm": 1.00000023841858
+    },
+    "charged": {
+      "left_calf": 1.00000020934314,
+      "left_forearm": 1.00000027952523,
+      "left_thigh": 1.00000022455703,
+      "left_upper_arm": 1.00000033775965,
+      "right_calf": 1.00000020934314,
+      "right_forearm": 1.00000027952523,
+      "right_thigh": 1.00000022455703,
+      "right_upper_arm": 1.00000023841858
+    },
+    "idle": {
+      "left_calf": 1.00000013665455,
+      "left_forearm": 1.0000001767586,
+      "left_thigh": 0.999999878018401,
+      "left_upper_arm": 1.00000023841858,
+      "right_calf": 1.00000006396596,
+      "right_forearm": 1.00000027952523,
+      "right_thigh": 1.00000015524931,
+      "right_upper_arm": 1.0000001390775
+    },
+    "indy_grab": {
+      "left_calf": 1.00000020934314,
+      "left_forearm": 1.0000001767586,
+      "left_thigh": 1.00000029386476,
+      "left_upper_arm": 1.00000033775965,
+      "right_calf": 1.00000020934314,
+      "right_forearm": 1.00000038229186,
+      "right_thigh": 1.00000022455703,
+      "right_upper_arm": 1.0000001390775
+    },
+    "manual-bail": {
+      "left_calf": 1.00000028203173,
+      "left_forearm": 1.03500680676822,
+      "left_thigh": 1.00000029386476,
+      "left_upper_arm": 1.00000033775965,
+      "right_calf": 1.28158287304204,
+      "right_forearm": 1.00000038229186,
+      "right_thigh": 1.00000029386476,
+      "right_upper_arm": 1.00000023841858
+    },
+    "melon_grab": {
+      "left_calf": 1.00000020934314,
+      "left_forearm": 1.18759778039209,
+      "left_thigh": 1.00000022455703,
+      "left_upper_arm": 1.00000033775965,
+      "right_calf": 1.00000028203173,
+      "right_forearm": 1.00000027952523,
+      "right_thigh": 1.00000022455703,
+      "right_upper_arm": 1.00000023841858
+    },
+    "method_grab": {
+      "left_calf": 1.00000028203173,
+      "left_forearm": 1.0000001767586,
+      "left_thigh": 1.00000022455703,
+      "left_upper_arm": 1.00000023841858,
+      "right_calf": 1.00000020934314,
+      "right_forearm": 1.00000027952523,
+      "right_thigh": 1.00000022455703,
+      "right_upper_arm": 1.00000023841858
+    },
+    "nose_grab": {
+      "left_calf": 1.00000020934314,
+      "left_forearm": 1.0779036530133,
+      "left_thigh": 1.00000022455703,
+      "left_upper_arm": 1.00000023841858,
+      "right_calf": 1.00000020934314,
+      "right_forearm": 1.00000038229186,
+      "right_thigh": 1.00000022455703,
+      "right_upper_arm": 1.00000023841858
+    },
+    "push": {
+      "left_calf": 1.00000020934314,
+      "left_forearm": 1.00000027952523,
+      "left_thigh": 1.00000015524931,
+      "left_upper_arm": 1.00000023841858,
+      "right_calf": 1.27579933259545,
+      "right_forearm": 1.00000027952523,
+      "right_thigh": 1.00000015524931,
+      "right_upper_arm": 1.0000001390775
+    },
+    "tail_grab": {
+      "left_calf": 1.00000020934314,
+      "left_forearm": 1.0000001767586,
+      "left_thigh": 1.00000022455703,
+      "left_upper_arm": 1.00000023841858,
+      "right_calf": 1.00000020934314,
+      "right_forearm": 1.01112003984122,
+      "right_thigh": 1.00000022455703,
+      "right_upper_arm": 1.00000023841858
+    }
+  },
+  "limits": "Length ratios are bone/marker distances divided by existing authored segment lengths, not anthropometric or fun acceptance. Real input with reset between trials; separate diagnostic profile camera is explicitly paused/placed. No production changes."
+}
