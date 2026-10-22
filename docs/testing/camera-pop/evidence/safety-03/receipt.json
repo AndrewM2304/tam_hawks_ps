@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-19T14:38:08.530592+01:00",
+  "completed_london": "2026-10-19T14:40:43.573601+01:00",
+  "wall_seconds": 42.12547395803267,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/safety.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 377,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "25",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "584339ad33ca0dc8a472ead66dbff3371f5c106cc264dffd30b780615e8883f4",
+  "git_head": "00fc616dd390344acd78dec0ff72a29e966eb99d"
+}

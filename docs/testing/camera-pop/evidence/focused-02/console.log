@@ -1,0 +1,109 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: classic camera: interpolated ramp support removes root scale drift and preserves direction
+PASS: classic turns: 8m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.25 angle_deg=26.190 distance=6.763 effective_radius=14.795 unsafe=0
+PASS: classic turns: 8m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.50 angle_deg=55.587 distance=6.763 effective_radius=6.971 unsafe=0
+PASS: classic turns: 8m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=1.00 angle_deg=136.829 distance=6.763 effective_radius=2.832 unsafe=0
+PASS: classic turns: 8m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 12m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.25 angle_deg=24.682 distance=10.382 effective_radius=24.101 unsafe=0
+PASS: classic turns: 12m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.50 angle_deg=52.387 distance=10.382 effective_radius=11.355 unsafe=0
+PASS: classic turns: 12m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=1.00 angle_deg=128.952 distance=10.382 effective_radius=4.613 unsafe=0
+PASS: classic turns: 12m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 15m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.374 input=0.25 angle_deg=23.551 distance=13.097 effective_radius=31.862 unsafe=0
+PASS: classic turns: 15m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=0.50 angle_deg=49.986 distance=13.097 effective_radius=15.012 unsafe=0
+PASS: classic turns: 15m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=1.00 angle_deg=123.042 distance=13.097 effective_radius=6.099 unsafe=0
+PASS: classic turns: 15m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic camera: sustained actual bank rollback moves chase behind travel without hiding rider or board
+CLASSIC REVERSE speed=-2.489 camera_dot_travel=-1.000 unsafe=0
+PASS: classic camera: after an actual flat-ground turn, short follow lag settles to a forward chase behind the skater
+GROUND CHASE view_dot_forward=0.99927699565887 rear_dot_back=0.99912923574448
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=false)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=false)
+CAMERA QUIET OLLIE held=2 reduced=false body_rise=1.02027789503336 camera_y_span=0.00992488861084 camera_angle_deg=0.42978346366412 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=false)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=false)
+CAMERA QUIET OLLIE held=24 reduced=false body_rise=2.60483197122812 camera_y_span=0.01652193069458 camera_angle_deg=1.45104348692647 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=true)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=true)
+CAMERA QUIET OLLIE held=2 reduced=true body_rise=1.02027789503336 camera_y_span=0.00988936424255 camera_angle_deg=0.4054181778627 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=true)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=true)
+CAMERA QUIET OLLIE held=24 reduced=true body_rise=2.60483197122812 camera_y_span=0.01745510101318 camera_angle_deg=1.58362653006141 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+LOCAL RAMP ORBIT turn_deg=179.870233206266 max_reverse_excursion_deg=0.02595443304197 up_y=0.99733102321625 down_y=-1.0 camera_up_dot_ramp_normal=0.96272796392441 good=true
+LOCAL RAMP ORBIT turn_deg=179.823623831383 max_reverse_excursion_deg=0.05115105474613 up_y=0.99720680713654 down_y=-1.0 camera_up_dot_ramp_normal=0.9618256688118 good=true
+LOCAL RAMP ORBIT turn_deg=179.824679998755 max_reverse_excursion_deg=0.03615385850745 up_y=0.99711543321609 down_y=-1.0 camera_up_dot_ramp_normal=0.95853662490845 good=true
+LOCAL RAMP ORBIT turn_deg=179.823991833586 max_reverse_excursion_deg=0.05083329242769 up_y=0.9972482919693 down_y=-1.0 camera_up_dot_ramp_normal=0.96263062953949 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=false)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=false)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=false)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=false)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=false)
+FAIL: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=false)
+CAMERA RAMP REAR side_frames=0 minimum_forward_dot=-0.91394680738449
+CAMERA LOCAL RETURNS reduced=false departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.19421417236328 max_update_move=0.51029193401337 max_update_angle=9.45226122634021 pose_forward_dot_velocity=1.0
+LOCAL RAMP ORBIT turn_deg=179.894714877509 max_reverse_excursion_deg=0.02854137629657 up_y=0.99751430749893 down_y=-1.0 camera_up_dot_ramp_normal=0.96552807092667 good=true
+LOCAL RAMP ORBIT turn_deg=180.13380179691 max_reverse_excursion_deg=0.0 up_y=0.99709314107895 down_y=-1.0 camera_up_dot_ramp_normal=0.95746582746506 good=true
+LOCAL RAMP ORBIT turn_deg=179.836295827788 max_reverse_excursion_deg=0.0471059449066 up_y=0.99719542264938 down_y=-1.0 camera_up_dot_ramp_normal=0.96161931753159 good=true
+LOCAL RAMP ORBIT turn_deg=180.133703665839 max_reverse_excursion_deg=0.0 up_y=0.99712890386581 down_y=-1.0 camera_up_dot_ramp_normal=0.95834517478943 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=true)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=true)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=true)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=true)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=true)
+FAIL: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=true)
+CAMERA RAMP REAR side_frames=0 minimum_forward_dot=-0.88031530380249
+CAMERA LOCAL RETURNS reduced=true departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.20759568956163 max_update_move=0.66201627254486 max_update_angle=9.31059200389675 pose_forward_dot_velocity=1.0
+PASS: classic camera: a brief backwards impulse cannot reverse the chase
+PASS: classic camera: low-speed direction noise clears pending reversal
+PASS: ramp pop: actual tap release adds upward impulse and preserves carried horizontal momentum
+PASS: ramp pop: tap flight lands physically and a second airborne release adds no impulse/award
+PASS: ramp pop: tap boost produces real height rather than a visual-only lift
+RAMP_POP { "charged": false, "before": (0.0, 9.165741, -2.8321), "launch": (0.0, 17.23955, -2.593243), "rise": 6.61006450653076, "landed": true, "awards": ["Ollie"] }
+PASS: ramp pop: actual charged release adds upward impulse and preserves carried horizontal momentum
+PASS: ramp pop: charged flight lands physically and a second airborne release adds no impulse/award
+PASS: ramp pop: charged boost produces real height rather than a visual-only lift
+RAMP_POP { "charged": true, "before": (0.0, 9.417649, -4.014699), "launch": (0.0, 22.51569, -3.784723), "rise": 11.3348345756531, "landed": true, "awards": ["Ollie"] }
+PASS: ramp pop: charged release gives materially more launch speed and actual height than tap
+PASS: arcade jump: mapped 2-tick crouch stays supported until release
+PASS: arcade jump: tap real apex/airtime meet deliberate response envelope
+PASS: arcade jump: native consecutive ticks record exactly one pop and a supported landing
+ARCADE_JUMP held=2 apex=1.02027789503336 airtime=0.48333333333333 first_tick=5514 last_tick=5605
+PASS: arcade jump: mapped 24-tick crouch stays supported until release
+PASS: arcade jump: charged real apex/airtime meet deliberate response envelope
+PASS: arcade jump: native consecutive ticks record exactly one pop and a supported landing
+ARCADE_JUMP held=24 apex=2.60483173280954 airtime=0.76666666666667 first_tick=5646 last_tick=5759
+PASS: arcade wall pop: mapped release adds the requested pop once to actual upward ramp speed
+FAIL: arcade wall pop: single tap reaches real support within a bounded flight with one total ollie
+ARCADE_WALL_POP repeat=false initial_up=9.38119983673096 launch=(0.0, 17.51612, -5.803716) peak=10.3904495239258 flight=1.6 ollies=1
+PASS: arcade wall pop: mapped release adds the requested pop once to actual upward ramp speed
+PASS: arcade wall pop: immediate second mapped tap cannot reuse stale street coyote time or award/boost a second airborne ollie
+FAIL: arcade wall pop: quick-double-tap reaches real support within a bounded flight with one total ollie
+ARCADE_WALL_POP repeat=true initial_up=9.38119983673096 launch=(0.0, 17.51612, -5.803716) peak=10.3749713897705 flight=1.66666666666667 ollies=1
+PASS: arcade wall pop: repeated airborne tap preserves the single-pop physical arc and landing time
+RESULT: 65 passed, 4 failed

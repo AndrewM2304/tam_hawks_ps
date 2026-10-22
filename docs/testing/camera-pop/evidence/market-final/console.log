@@ -1,0 +1,62 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: delivery: two authored market choices and a stable encounter definition exist
+PASS: delivery rules: pending combos and out-of-range offers cannot collect a parcel
+PASS: delivery rules: pickup and proximity to the counter alone cannot win
+PASS: delivery rules: reversed gap/manual order cannot qualify and the early bank clears that line
+PASS: delivery rules: a zero-point or missing Manual cannot arm the required gap
+PASS: delivery rules: an unrelated gap and large bank cannot substitute for the market line
+PASS: delivery rules: first gate commits the branch and duplicate gap, other lane or skipped gates cannot advance it
+PASS: delivery rules: the qualified line still needs a positive clean bank
+PASS: delivery rules: a bank without the complete chosen route cannot deliver
+PASS: delivery rules: arrival also checks actual vertical proximity
+PASS: delivery rules: valid arrival completes once and queues an unseen payoff without another reward
+PASS: delivery rules: the gull payoff waits for both audience range and visibility
+PASS: delivery rules: an eligible visible audience starts the already earned response
+PASS: delivery rules: a pending combo cannot overwrite a completed attempt
+PASS: delivery rules: clean replay resets parcel and route while preserving the run-local win
+PASS: delivery rules: a bail returns the parcel and invalidates all line evidence
+PASS: delivery rules: outside on_trick fails before any subsequent poll
+PASS: delivery rules: outside on_gap fails before any subsequent poll
+PASS: delivery rules: outside on_bank fails before any subsequent poll
+PASS: delivery rules: invalid deltas are ignored and the actual sixty-second deadline returns the parcel
+PASS: delivery rules: cancellation and repeated run finish cannot produce another delivery
+PASS: delivery rules: reset clears every session-local attempt and parcel state
+PASS: delivery markers: all six numbered lane markers and arrival match the configured world positions
+PASS: delivery markers: visible route cues add no collision objects to either skating lane
+PASS: delivery navigation: idle and pre-gap states do not invent a premature lane target
+PASS: delivery navigation: the real configured first gates of both choices become visible after the required gap
+PASS: delivery navigation: committing a branch highlights only its next ordered gate
+PASS: delivery navigation: all three gates lead to the physical counter instead of another lane marker
+PASS: delivery markers: ordinary and reduced-motion cues remain steady with identical navigation
+PASS: delivery navigation: failure and reset remove stale target highlights
+DELIVERY NAV covered at=(93.61473, 0.012434, -4.013644) heading=3.14159250259399 COVERED 1: LEFT 21m  /  CALTON 1: LEFT 10m
+DELIVERY GATE WITNESS requested=covered events=[{ "position": (112.0889, 0.012434, -4.461152), "speed": 8.09779167175293, "route_id": "covered", "route_index": 1, "state": "active" }, { "position": (113.9069, 0.012434, 5.047348), "speed": 7.56354427337646, "route_id": "covered", "route_index": 2, "state": "active" }, { "position": (113.9947, 0.012434, 15.96129), "speed": 7.76387023925781, "route_id": "covered", "route_index": 3, "state": "active" }]
+PASS: delivery physics: real pickup attaches the parcel and fresh Manual starts covered
+PASS: delivery physics: actual Manual ollie gap and clean bank earn exactly 1650 covered
+PASS: delivery physics: continuous movement completes all three chosen gates and physical arrival covered
+PASS: delivery camera: actual chase remains finite unobstructed and sees the rider covered
+PASS: delivery navigation: the release-pop landing directs the south-facing rider left towards both north entries covered
+PASS: delivery isolation: free skating preserves career saves and both other side acts covered
+PASS: delivery payoff: real arrival and the actual camera start the earned spare-parcel response
+PASS: delivery payoff: menu pause freezes the visible gull response
+PASS: delivery payoff: the bounded gull takes only the spare with no repeated delivery or score
+PASS: delivery payoff: reduced motion keeps the complete actor and parcels static
+DELIVERY_RETURN true { "requested_route": "covered", "accepted": false, "carried": false, "manual_entered": false, "gap_seen": false, "bank": 0, "line_banked": false, "reached": false, "success": false, "wins": 0, "bails": 0, "tricks": [], "route_id": "", "route_index": 0, "remaining": 0.0, "frames": 245, "camera_samples": 245, "camera_blocked": 0, "camera_hidden": 0, "payoff_started": false, "payoff_visible": false, "gate_events": [{ "position": (105.2093, 0.012434, 19.93924), "speed": 0.16687870025635, "route_id": "covered", "route_index": 3, "state": "success" }], "last_gate": "covered:3" } position=(113.9984, 0.012434, -4.413642) state=success
+PASS: delivery camera: the earned run returns north through the covered aisle without reset or camera blockage
+DELIVERY route=covered reached=true bank=1650 bails=0 gates=3 time=10.90 camera_samples=672 blocked=0 hidden=0
+DELIVERY NAV west at=(93.61473, 0.012426, -4.013634) heading=3.14159250259399 COVERED 1: LEFT 21m  /  CALTON 1: LEFT 10m
+DELIVERY GATE WITNESS requested=west events=[{ "position": (101.0413, 0.012426, -4.691663), "speed": 7.77771949768066, "route_id": "west", "route_index": 1, "state": "active" }, { "position": (102.9014, 0.012426, 4.975633), "speed": 7.94630479812622, "route_id": "west", "route_index": 2, "state": "active" }, { "position": (102.9949, 0.012426, 15.99219), "speed": 7.77994728088379, "route_id": "west", "route_index": 3, "state": "active" }]
+PASS: delivery physics: real pickup attaches the parcel and fresh Manual starts west
+PASS: delivery physics: actual Manual ollie gap and clean bank earn exactly 1650 west
+PASS: delivery physics: continuous movement completes all three chosen gates and physical arrival west
+PASS: delivery camera: actual chase remains finite unobstructed and sees the rider west
+PASS: delivery navigation: the release-pop landing directs the south-facing rider left towards both north entries west
+PASS: delivery isolation: free skating preserves career saves and both other side acts west
+DELIVERY route=west reached=true bank=1650 bails=0 gates=3 time=8.68 camera_samples=540 blocked=0 hidden=0
+PASS: delivery lifecycle: real menu pause freezes the pickup deadline
+PASS: delivery lifecycle: first career expiry returns the parcel during ordinary combo overtime
+PASS: delivery lifecycle: results input cannot revive the expired parcel
+PASS: delivery lifecycle: restart restores the pickup with no stale route or attempt
+PASS: delivery lifecycle: a real unbalanced Manual bails once and visibly returns the carried parcel
+RESULT: 52 passed, 0 failed

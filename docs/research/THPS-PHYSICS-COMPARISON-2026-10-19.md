@@ -1,3 +1,5 @@
+**Subsequent owner playtest tuning:** this remains a historical84f04fa source comparison. [ADR-024](../architecture/decisions/ADR-024-quiet-ollies-and-charged-ramp-pop.md) now adds intentional ramp ollie impulse, raises full charge to13m/s and steadies ordinary-jump camera height after the owner’s actual feedback. Current results are in [MAP-03B](../testing/camera-pop/README.md). These values are local choices, not constants verified by the sources below.
+
 > Owner correction after this research: the source comparison below describes the unchanged84f04fa movement baseline. The subsequent MAP-03 candidate deliberately trials22m/s² ramp-flight gravity (flat flights remain34), preserving launch velocity, and anticipates the camera’s apex turn. These are local owner-requested tuning choices, not constants recovered from THPS3. The local baseline hashes in the receipt remain historical and must not be presented as hashes of the changed controller. See [ADR-023](../architecture/decisions/ADR-023-ramp-camera-heading-and-framing.md) and newest STATUS for validation.
 
 # THPS research compared with the current Godot controller

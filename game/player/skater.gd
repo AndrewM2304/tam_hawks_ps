@@ -29,7 +29,7 @@ const GRAVITY := 34.0 # Short weighted free flight; finite transition contact us
 const RAMP_AIR_GRAVITY := 22.0 # Preserve launch momentum; give ramp tricks more rise and airtime.
 const GROUND_GRAVITY := 22.0
 const OLLIE_SPEED := 8.0
-const CHARGED_OLLIE_SPEED := 11.3
+const CHARGED_OLLIE_SPEED := 13.0
 const OLLIE_CHARGE_SECONDS := 0.25
 const COYOTE_TIME := 0.10
 const JUMP_BUFFER_TIME := 0.12
@@ -486,9 +486,10 @@ func _tick_transition(delta: float) -> void:
 	_steering = Input.get_axis("steer_left", "steer_right")
 	if _jump_buffer_remaining > 0.0 and _trick_entries_enabled:
 		_jump_buffer_remaining = 0.0
-		# Preserve real ascent without stacking a second full jump onto vert speed.
+		# Deliberate ramp pop adds to real ascent; charge must still matter
+		# when the ramp already supplied more upward speed than a flat ollie.
 		velocity = _transition.travel_velocity()
-		velocity.y = maxf(velocity.y, _pop_impulse)
+		velocity.y = maxf(0.0,velocity.y) + _pop_impulse
 		velocity += _transition.normal() * 0.25
 		_arm_vert_return()
 		_transition.stop()

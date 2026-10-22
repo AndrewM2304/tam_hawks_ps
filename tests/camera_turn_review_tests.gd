@@ -28,6 +28,46 @@ class CameraProbe extends RefCounted:
 		calls += 1
 
 
+class TurnSample extends Node:
+	signal finished
+	var rider: CharacterBody3D
+	var framed: Callable
+	var ticks := 0
+	var seconds := 0.0
+	var distance := 0.0
+	var heading := 0.0
+	var unsafe := 0
+	var previous: Vector3
+	var previous_yaw: float
+	var final_speed := 0.0
+	var supported := true
+	var stall := false
+	var stalled := false
+	func _ready() -> void:
+		process_physics_priority = 100
+		process_priority = 100
+		previous = rider.global_position
+		previous_yaw = rider.rotation.y
+	func _physics_process(delta: float) -> void:
+		if ticks >= 60: return
+		ticks += 1
+		seconds += delta
+		distance += previous.distance_to(rider.global_position)
+		heading += angle_difference(previous_yaw, rider.rotation.y)
+		previous = rider.global_position
+		previous_yaw = rider.rotation.y
+		final_speed = rider.speed
+		supported = supported and rider.is_on_floor()
+		if ticks == 60:
+			Input.action_release("steer_left")
+			finished.emit()
+	func _process(_delta: float) -> void:
+		unsafe += int(not framed.call(rider))
+		if stall and not stalled and ticks >= 20:
+			stalled = true
+			OS.delay_msec(120)
+
+
 static func run(tree: SceneTree, check: Callable) -> void:
 	Setup.register_actions()
 	await _support_interpolation(tree,check)
@@ -42,6 +82,8 @@ static func run(tree: SceneTree, check: Callable) -> void:
 			"classic turns: %.0fm/s full input carves while half/quarter input remain progressively finer corrections" % start_speed)
 	await _rollback_camera(tree, check)
 	await _ground_chase(tree,check)
+	for quiet_reduced:bool in [false,true]:
+		for held:int in [2,24]:await _quiet_ollie(tree,check,quiet_reduced,held)
 	for reduced: bool in [false, true]:
 		for sensitivity: float in [0.5, 2.0]:
 			await _air_spin(tree, check, reduced, sensitivity)
@@ -67,28 +109,31 @@ static func _turn(tree: SceneTree, check: Callable, requested_speed: float, stre
 	var initial_speed: float = rider.speed
 	Input.action_release("push")
 	Input.action_press("steer_left", strength)
-	var previous: Vector3 = rider.global_position
-	var previous_yaw := rider.rotation.y
-	var distance := 0.0
-	var heading := 0.0
-	var unsafe := 0
-	for tick in 60:
-		await _frames(tree, 1)
-		distance += previous.distance_to(rider.global_position)
-		heading += angle_difference(previous_yaw, rider.rotation.y)
-		previous = rider.global_position
-		previous_yaw = rider.rotation.y
-		unsafe += int(not _framed(rider))
+	# Rendering may deliver multiple physics ticks per displayed frame. Stop the
+	# input after exactly 60 physics updates, including under a deliberate stall.
+	var sample := TurnSample.new()
+	sample.rider = rider
+	sample.framed = _framed
+	sample.stall = requested_speed == 12.0 and strength == 1.0
+	tree.root.add_child(sample)
+	await sample.finished
+	await tree.process_frame
+	await tree.create_timer(0.0).timeout
+	var distance: float = sample.distance
+	var heading: float = sample.heading
+	var unsafe: int = sample.unsafe
 	var radius := distance / absf(heading)
 	check.call(initial_speed >= requested_speed - 0.05 and initial_speed <= requested_speed + 0.2
-		and rider.is_on_floor() and heading > 0.3 and distance > 4.0 and unsafe == 0,
+		and sample.supported and sample.ticks == 60 and absf(sample.seconds - 1.0) < 0.00001 and heading > 0.3 and distance > 4.0 and unsafe == 0,
 		"classic turns: %.0fm/s input %.2f stays supported, turns left and keeps the whole skater framed" % [requested_speed, strength])
 	check.call((strength == 0.25 and heading < 0.50)
 		or (strength == 0.5 and heading > 0.8 and heading < 1.1)
 		or (strength == 1.0 and heading > 1.9 and heading < 2.5),
 		"classic turns: %.0fm/s input %.2f gives a bounded useful one-second angle" % [requested_speed, strength])
 	print("CLASSIC TURN initial=%.3f final=%.3f input=%.2f angle_deg=%.3f distance=%.3f effective_radius=%.3f unsafe=%d" % [
-		initial_speed, rider.speed, strength, rad_to_deg(heading), distance, radius, unsafe])
+		initial_speed, sample.final_speed, strength, rad_to_deg(heading), distance, radius, unsafe])
+	print("TURN_TIMING ticks=",sample.ticks," seconds=",sample.seconds," injected_stall=",sample.stalled)
+	sample.queue_free()
 	await _dispose(tree, fixture)
 	return {"heading": heading, "radius": radius}
 
@@ -178,6 +223,13 @@ static func _natural_returns(tree: SceneTree, check: Callable, reduced: bool) ->
 	rider.bailed.connect(func():bails.append(1))
 	Input.action_press("push")
 	var camera:Camera3D=rider._camera
+	var side_frames:=0
+	var min_forward_dot:=1.0
+	var rear_samples:=0
+	var bottom_age:=0
+	var bottom_samples:=0
+	var bottom_forward_dot:=1.0
+	var contact_age:=0
 	var previous_contact:=false
 	var entered:=false
 	var departures:=0
@@ -231,6 +283,27 @@ static func _natural_returns(tree: SceneTree, check: Callable, reduced: bool) ->
 			good_orbits+=int(good)
 			print("LOCAL RAMP ORBIT turn_deg=",rad_to_deg(turn)," max_reverse_excursion_deg=",rad_to_deg(backwards)," up_y=",upward," down_y=",downward," camera_up_dot_ramp_normal=",view_up," good=",good)
 		was_air=in_air
+		if rider.transition_active:
+			contact_age+=1
+			side_frames+=int(not is_zero_approx(probe.inner._selected_angle))
+			# Actual moving travel is the heading reference. A near-zero rollback
+			# has no stable direction and its displayed180 interpolation passes
+			# sideways; allow the same short follow settling as a flat turn.
+			if contact_age>12 and rider.velocity.length()>4.0:
+				rear_samples+=1
+				var normal:Vector3=rider.get_camera_support_up()
+				var view_heading:=(-camera.global_basis.z).slide(normal).normalized()
+				var travel_heading:=rider.velocity.slide(normal).normalized()
+				min_forward_dot=minf(min_forward_dot,view_heading.dot(travel_heading))
+		else:contact_age=0
+		if not rider.transition_active and rider.is_on_floor() and not rider.airborne:
+			bottom_age+=1
+			if bottom_age>20 and rider.velocity.length()>4.0:
+				var bottom_view:=Vector3(-camera.global_basis.z.x,0,-camera.global_basis.z.z).normalized()
+				var bottom_travel:=Vector3(rider.velocity.x,0,rider.velocity.z).normalized()
+				bottom_samples+=1
+				bottom_forward_dot=minf(bottom_forward_dot,bottom_view.dot(bottom_travel))
+		else:bottom_age=0
 		var displayed:=rider.get_global_transform_interpolated()
 		var up:=_display_up(rider)
 		var board:=camera.unproject_position(displayed.origin+up*.12)
@@ -247,6 +320,12 @@ static func _natural_returns(tree: SceneTree, check: Callable, reduced: bool) ->
 		"classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=%s)"%reduced)
 	check.call(good_orbits>=3 and good_orbits==returns,
 		"classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=%s)"%reduced)
+	check.call(side_frames==0 and rear_samples>100 and min_forward_dot>.80,
+		"classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=%s)"%reduced)
+	check.call(bottom_samples>10 and bottom_forward_dot>.85,
+		"classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=%s)"%reduced)
+	print("CAMERA BOTTOM REAR samples=",bottom_samples," minimum_forward_dot=",bottom_forward_dot)
+	print("CAMERA RAMP REAR side_frames=",side_frames," samples=",rear_samples," minimum_forward_dot=",min_forward_dot)
 	print("CAMERA LOCAL RETURNS reduced=",reduced," departures=",departures," returns=",returns," good_orbits=",good_orbits," unsafe=",unsafe," minimum_axis_fraction=",min_axis," max_update_move=",probe.max_move," max_update_angle=",probe.max_angle," pose_forward_dot_velocity=",flight_alignment)
 	await _dispose(tree,fixture)
 
@@ -333,4 +412,38 @@ static func _support_interpolation(tree:SceneTree,check:Callable)->void:
 	check.call(is_equal_approx(frame.determinant(),1.0) and frame.y.is_equal_approx(Vector3.UP)
 		and (-frame.z).dot(Vector3.LEFT)>.99,
 		"classic camera: interpolated ramp support removes root scale drift and preserves direction")
+	await _dispose(tree,fixture)
+
+
+static func _quiet_ollie(tree:SceneTree,check:Callable,reduced:bool,held:int)->void:
+	var fixture:=await _fixture(tree)
+	var rider:CharacterBody3D=fixture.rider
+	rider.set_presentation_settings(1.0,reduced)
+	await _frames(tree,45)
+	Input.action_press("ollie")
+	await _frames(tree,held)
+	var camera:Camera3D=rider._camera
+	var initial_y:=camera.global_position.y
+	var initial_rotation:=camera.global_basis.get_rotation_quaternion()
+	var origin_y:=rider.global_position.y
+	var rise:=0.0
+	var camera_rise:=0.0
+	var camera_angle:=0.0
+	var unsafe:=0
+	Input.action_release("ollie")
+	await _frames(tree,2)
+	Input.action_press("flip")
+	await _frames(tree,2)
+	Input.action_release("flip")
+	for tick in 100:
+		await _frames(tree,1)
+		rise=maxf(rise,rider.global_position.y-origin_y)
+		camera_rise=maxf(camera_rise,absf(camera.global_position.y-initial_y))
+		camera_angle=maxf(camera_angle,initial_rotation.angle_to(camera.global_basis.get_rotation_quaternion()))
+		unsafe+=int(not _framed(rider))
+	check.call(rise>(2.3 if held>10 else .8) and rider.is_on_floor(),
+		"classic quiet ollie: mapped release and flip make a real jump and supported landing (%df reduced=%s)"%[held,reduced])
+	check.call(camera_rise<.10 and camera_angle<deg_to_rad(2.0) and unsafe==0,
+		"classic quiet ollie: camera height/aim stay steady while the full rider jumps (%df reduced=%s)"%[held,reduced])
+	print("CAMERA QUIET OLLIE held=",held," reduced=",reduced," body_rise=",rise," camera_y_span=",camera_rise," camera_angle_deg=",rad_to_deg(camera_angle)," unsafe=",unsafe)
 	await _dispose(tree,fixture)

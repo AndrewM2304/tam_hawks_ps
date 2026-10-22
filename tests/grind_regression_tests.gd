@@ -34,6 +34,9 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 	check.call(not game.skater.grinding and game.skater.is_on_floor()
 		and game.skater.speed > 5.0 and game.score.get_combo_value() == 0,
 		"grind regression: grounded push builds speed without snapping or scoring a rail")
+	# Grounded hold already proved no snap. Request the specifically tested
+	# descending catch after the apex; normal admission also allows <=1m/s rise.
+	Input.action_release("grind")
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
@@ -46,9 +49,13 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 	var previous_airborne := false
 	var previous_vertical_velocity := 0.0
 	var descending_capture := false
+	var descending_request := false
 	for i in range(75):
 		await _frames(tree, 1)
 		peak_height = maxf(peak_height, game.skater.global_position.y)
+		if not descending_request and game.skater.airborne and game.skater.velocity.y < 0.0:
+			Input.action_press("grind")
+			descending_request = true
 		if game.skater.grinding:
 			caught = true
 			descending_capture = previous_airborne and previous_vertical_velocity < 0.0
@@ -57,7 +64,7 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 		previous_vertical_velocity = game.skater.velocity.y
 		left_floor = left_floor or (previous_airborne and game.skater.global_position.y > floor_height + 0.25)
 	game.skater.grind_captured.disconnect(on_capture)
-	check.call(caught and left_floor and descending_capture and captures == ["Grind_Rail_Exchange"],
+	check.call(caught and left_floor and descending_request and descending_capture and captures == ["Grind_Rail_Exchange"],
 		"grind regression: real push and tap ollie leave support and descend into exactly one Exchange rail catch")
 	print("GRIND APPROACH peak=", peak_height, " prior_air_vy=", previous_vertical_velocity,
 		" departed=", left_floor, " descending_capture=", descending_capture, " captures=", captures)

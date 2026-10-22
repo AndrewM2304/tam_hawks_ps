@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-21T19:42:15.426248+01:00",
+  "completed_london": "2026-10-21T19:42:18.898879+01:00",
+  "wall_seconds": 3.4724729160079733,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/turn_clock.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 377,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "2f27175e5c42ed1a7c12e3c84c5e728d556e2c40c280ab69798255cc91bb94c9",
+  "git_head": "00fc616dd390344acd78dec0ff72a29e966eb99d"
+}

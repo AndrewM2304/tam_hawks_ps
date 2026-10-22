@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-19T14:03:34.405523+01:00",
+  "completed_london": "2026-10-19T14:03:39.759991+01:00",
+  "wall_seconds": 5.35437874996569,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/flat_capture.gd",
+    "--",
+    ".local/camera-pop/flat-capture-01"
+  ],
+  "exit_code": 0,
+  "source_inputs": 377,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "8d6b88160572cd93dbdd88880d60d1b4898676196fc7f8a5b606ab419c1f00e5",
+  "git_head": "00fc616dd390344acd78dec0ff72a29e966eb99d"
+}

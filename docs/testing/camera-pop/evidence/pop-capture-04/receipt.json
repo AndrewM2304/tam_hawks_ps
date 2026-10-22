@@ -1,0 +1,35 @@
+{
+  "started_london": "2026-10-19T14:24:09.909280+01:00",
+  "completed_london": "2026-10-19T14:24:26.256015+01:00",
+  "wall_seconds": 16.346698875015136,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/pop_capture.gd",
+    "--",
+    ".local/camera-pop/pop-capture-04",
+    "docs/testing/camera-flow/observers/current_preview.gd",
+    "docs/testing/camera-flow/observers/capture.gd",
+    "docs/testing/map-flow/observers/ramp_camera.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 380,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "9acbfc4c2451a42f191770d3eab62413f9c91f4e062be6eb958e13d0c8293c65",
+  "git_head": "00fc616dd390344acd78dec0ff72a29e966eb99d"
+}

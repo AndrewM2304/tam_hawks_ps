@@ -12,6 +12,10 @@ Current ordinary finishes reuse `stone_light`, `paving` and `shop_navy` on the c
 
 World startup registers selected physical edge snapshots after dressing, adds exact collision to four reachable street benches and caches the full physical ribbon vertices for exact support queries. An8m grind index preserves bounded swept capture while excluding distant curves; explicitly closed copings wrap, open tracks end. Hovering encounter state/route captions are hidden; HUD callbacks and physical lettering/rings remain. No career/save ID,48route set or water hazard is replaced. The two original wall paintings use one alpha-one depth-tested/no-depth-write painter material, <=1200triangles,0textures/process/physics; live default depends on the recorded performance admission.
 
+## 19 October owner playtest addendum
+
+[ADR-024](decisions/ADR-024-quiet-ollies-and-charged-ramp-pop.md) supersedes the earlier max-only ramp pop and ordinary-air momentum camera: full charge13m/s, tap8; a deliberate ramp release adds its impulse to upward travel, while no-input ramp departure stays unchanged. Ordinary flight34g/ramp22g remain. Ordinary-jump camera pitch ignores vertical velocity and keeps the supported Y anchor within a2.6m-up/1m-down body window, with fixed non-ramp0.55m aiming headroom. Larger elevation changes track for visibility. Native motion-sweep endpoints receive a full volume check/backoff rather than a false side orbit; radius/margin/body rays stay unchanged. Supported/air follow14/s, ground7/s; scored trick orientation remains independent. Current validation belongs in [MAP-03B evidence](../testing/camera-pop/README.md), not prior2207/0.
+
 # Runtime interfaces
 
 Updated 17 October 2026 against the current implementation. Godot 4.6.3, Compatibility renderer, native GDScript, one attributed MIT rail-geometry component, original world/garment geometry and Blender-exported GLB board, CC0 cropped MakeHuman anatomical meshes, two attributed CC0 material sets, and local audio. Runtime has no network service or paid dependency. This describes enabled behavior, not human acceptance or target-Mac certification.

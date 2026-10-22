@@ -1,3 +1,5 @@
+**Historical trial checkpoint00fc616.** The subsequent owner playtest reports a lingering side-on ramp view, weak charged pop and unwanted camera jumping on ordinary ollies. Current work/evidence is [MAP-03B](../camera-pop/README.md); this trial's passes do not close those acceptance gates. Reproduce this historical audit from00fc616, not a later controller source.
+
 # Forward chase, ramp orbit and airborne pose
 
 19 October 2026, `bootstrap/m00-m01`. [Contract](CONTRACT.md), [ADR-023](../../architecture/decisions/ADR-023-ramp-camera-heading-and-framing.md), [physics source comparison](../../research/THPS-PHYSICS-COMPARISON-2026-10-19.md). Newest STATUS owns complete-suite and audit admission. Older level/side and separate world-yaw/pitch candidates are superseded.

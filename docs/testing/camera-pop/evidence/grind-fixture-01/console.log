@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: grind regression: ground approach starts with real floor support
+PASS: grind regression: grounded push builds speed without snapping or scoring a rail
+PASS: grind regression: real push and tap ollie leave support and descend into exactly one Exchange rail catch
+GRIND APPROACH peak=1.01437556743622 prior_air_vy=-1.06666612625122 departed=true descending_capture=true captures=["Grind_Rail_Exchange"]
+PASS: grind regression: played approach links ollie and rail without banking early
+PASS: grind regression: scenery blocking an active ride produces exactly one bail
+PASS: grind regression: obstructed ride loses its pending combo and preserves prior bank
+PASS: grind regression: obstructed ride recovers at the supported spawn
+PASS: grind regression: overtime rejects fresh aerial flip and grab entries
+PASS: grind regression: fresh overtime spin cannot increase the landing award
+PASS: grind regression: overtime rejects a fresh otherwise eligible rail attachment
+PASS: grind regression: timeout fixture begins on a valid active rail
+PASS: grind regression: overtime cannot start a new scored rail ollie
+PASS: grind regression: overtime still permits releasing an existing rail
+PASS: grind regression: released overtime rail combo banks once on physical landing
+PASS: grind regression: a spin completed before expiry still resolves in the landing combo
+RESULT: 15 passed, 0 failed

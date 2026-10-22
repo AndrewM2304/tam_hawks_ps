@@ -1,0 +1,42 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+LOCAL RAMP ORBIT turn_deg=179.924184642348 max_reverse_excursion_deg=0.013966901852 up_y=0.99772799015045 down_y=-1.0 camera_up_dot_ramp_normal=0.96894371509552 good=true
+LOCAL RAMP ORBIT turn_deg=179.889053904985 max_reverse_excursion_deg=0.0217060185104 up_y=0.99770146608353 down_y=-1.0 camera_up_dot_ramp_normal=0.96990525722504 good=true
+LOCAL RAMP ORBIT turn_deg=179.873545925222 max_reverse_excursion_deg=0.05110763993895 up_y=0.99796366691589 down_y=-1.0 camera_up_dot_ramp_normal=0.97234243154526 good=true
+LOCAL RAMP ORBIT turn_deg=179.894983376015 max_reverse_excursion_deg=0.02043208214107 up_y=0.99803394079208 down_y=-1.0 camera_up_dot_ramp_normal=0.96937888860703 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=false)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=false)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=false)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=false)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=false)
+PASS: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=false)
+CAMERA RAMP REAR side_frames=0 samples=138 minimum_forward_dot=0.96601003408432
+CAMERA LOCAL RETURNS reduced=false departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.19410683525933 max_update_move=0.39935797452927 max_update_angle=9.38154486276848 pose_forward_dot_velocity=1.0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=false)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=false)
+CAMERA QUIET OLLIE held=24 reduced=false body_rise=2.60483197122812 camera_y_span=0.01943778991699 camera_angle_deg=1.65327407574974 unsafe=0
+LOCAL RAMP ORBIT turn_deg=179.936683607302 max_reverse_excursion_deg=0.021790543518 up_y=0.99790072441101 down_y=-1.0 camera_up_dot_ramp_normal=0.97150033712387 good=true
+LOCAL RAMP ORBIT turn_deg=180.090574738014 max_reverse_excursion_deg=0.0 up_y=0.99802678823471 down_y=-1.0 camera_up_dot_ramp_normal=0.974629342556 good=true
+LOCAL RAMP ORBIT turn_deg=179.865179761368 max_reverse_excursion_deg=0.05450750365438 up_y=0.99785095453262 down_y=-1.0 camera_up_dot_ramp_normal=0.97059005498886 good=true
+LOCAL RAMP ORBIT turn_deg=180.088717216708 max_reverse_excursion_deg=0.0 up_y=0.9979345202446 down_y=-1.0 camera_up_dot_ramp_normal=0.97309237718582 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=true)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=true)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=true)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=true)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=true)
+PASS: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=true)
+CAMERA RAMP REAR side_frames=0 samples=138 minimum_forward_dot=0.96383678913116
+CAMERA LOCAL RETURNS reduced=true departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.20737430148655 max_update_move=0.50595963001251 max_update_angle=9.97267297599735 pose_forward_dot_velocity=1.0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=true)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=true)
+CAMERA QUIET OLLIE held=24 reduced=true body_rise=2.60483197122812 camera_y_span=0.01189041137695 camera_angle_deg=0.97958743831052 unsafe=0
+PASS: ramp pop: actual tap release adds upward impulse and preserves carried horizontal momentum
+PASS: ramp pop: tap flight lands physically and a second airborne release adds no impulse/award
+PASS: ramp pop: tap boost produces real height rather than a visual-only lift
+RAMP_POP { "charged": false, "before": (0.0, 9.165741, -2.8321), "launch": (0.0, 17.23955, -2.593243), "rise": 6.61006450653076, "landed": true, "awards": ["Ollie"] }
+PASS: ramp pop: actual charged release adds upward impulse and preserves carried horizontal momentum
+PASS: ramp pop: charged flight lands physically and a second airborne release adds no impulse/award
+PASS: ramp pop: charged boost produces real height rather than a visual-only lift
+RAMP_POP { "charged": true, "before": (0.0, 9.417649, -4.014699), "launch": (0.0, 22.51569, -3.784723), "rise": 11.3348345756531, "landed": true, "awards": ["Ollie"] }
+PASS: ramp pop: charged release gives materially more launch speed and actual height than tap
+RESULT: 23 passed, 0 failed

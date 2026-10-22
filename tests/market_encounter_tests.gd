@@ -54,6 +54,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 			var return_clear := true
 			for target: Vector3 in reverse:
 				return_clear = await _drive_to(tree, game, target, returning) and return_clear
+			print("DELIVERY_RETURN ",return_clear," ",returning," position=",game.skater.global_position," state=",game.market_encounter.status_snapshot().state)
 			check.call(return_clear and returning.camera_blocked == 0 and returning.camera_hidden == 0,
 				"delivery camera: the earned run returns north through the covered aisle without reset or camera blockage")
 		print("DELIVERY route=%s reached=%s bank=%d bails=%d gates=%d time=%.2f camera_samples=%d blocked=%d hidden=%d" % [
@@ -470,6 +471,8 @@ static func _aim(skater: CharacterBody3D, direction: Vector3) -> void:
 
 static func _step(tree: SceneTree, game: Node, evidence: Dictionary) -> void:
 	await _frames(tree, 1)
+	# process_frame fires before camera _process; inspect the completed display.
+	await tree.create_timer(0.0).timeout
 	evidence.frames += 1
 	var snapshot: Dictionary = game.market_encounter.status_snapshot()
 	var gate := "%s:%d" % [snapshot.route_id,snapshot.route_index]
@@ -479,13 +482,15 @@ static func _step(tree: SceneTree, game: Node, evidence: Dictionary) -> void:
 			"route_index": snapshot.route_index, "state": snapshot.state})
 		evidence.last_gate = gate
 	var camera: Camera3D = tree.root.get_camera_3d()
-	var body_point: Vector3 = game.skater.global_position + Vector3.UP * 0.85
+	var body_point: Vector3 = game.skater.get_global_transform_interpolated().origin + Vector3.UP * 0.85
 	evidence.camera_samples += 1
 	if not camera.global_position.is_finite() or not camera.is_position_in_frustum(body_point):
 		evidence.camera_hidden += 1
 	var query := PhysicsRayQueryParameters3D.create(body_point, camera.global_position, 1)
-	if not game.world.get_world_3d().direct_space_state.intersect_ray(query).is_empty():
+	var hit:Dictionary=game.world.get_world_3d().direct_space_state.intersect_ray(query)
+	if not hit.is_empty():
 		evidence.camera_blocked += 1
+		print("DELIVERY_CAMERA_BLOCK tick=",Engine.get_physics_frames()," body=",body_point," camera=",camera.global_position," collider=",hit.get("collider"))
 
 
 static func _poses(parent: Node3D) -> Dictionary:

@@ -1,0 +1,31 @@
+{
+  "started_london": "2026-10-19T17:35:26.969813+01:00",
+  "completed_london": "2026-10-19T17:35:27.818680+01:00",
+  "wall_seconds": 0.8486136249848641,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    "docs/testing/map-flow/observers/audit_pngs.gd",
+    "--",
+    "docs/testing/camera-pop/evidence/flat-capture-02",
+    "docs/testing/camera-pop/evidence/flat-capture-03",
+    "docs/testing/camera-pop/evidence/flat-capture-04",
+    "docs/testing/camera-pop/evidence/pop-capture-01",
+    "docs/testing/camera-pop/evidence/pop-capture-03",
+    "docs/testing/camera-pop/evidence/pop-capture-04"
+  ],
+  "exit_code": 0,
+  "source_inputs": 377,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "41",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "29f64709a9864aab39097b71aa09c418e15d06ecaea8bfdc87d7d960b9e1973c",
+  "git_head": "00fc616dd390344acd78dec0ff72a29e966eb99d"
+}

@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-19T13:44:46.867843+01:00",
+  "completed_london": "2026-10-19T13:44:59.990184+01:00",
+  "wall_seconds": 13.122290874947794,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/rear_heading.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 376,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "ec0e85161aa36b00e58ad985977dcb2fb547f49a67ff67bdd0b29e81947272a8",
+  "git_head": "00fc616dd390344acd78dec0ff72a29e966eb99d"
+}

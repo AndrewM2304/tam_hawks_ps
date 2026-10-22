@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-20T14:57:46.358481+01:00",
+  "completed_london": "2026-10-20T15:11:02.896959+01:00",
+  "wall_seconds": 9.449236541986465,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/grind.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 377,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "15",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "ad7e342ac5d1fabe575e97ff3ef155493c572e8a7fc9d76ade04a233dad8ad52",
+  "git_head": "00fc616dd390344acd78dec0ff72a29e966eb99d"
+}

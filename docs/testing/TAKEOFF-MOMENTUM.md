@@ -1,3 +1,5 @@
+**Later owner playtest tuning —19 October:** the momentum measurements below bind their historical source. [ADR-024](../architecture/decisions/ADR-024-quiet-ollies-and-charged-ramp-pop.md) intentionally increases full charge to13m/s and adds a deliberate ramp ollie to carried upward velocity; tap8, ordinary34g/ramp22g and carried XZ remain explicit. No-input departures do not receive an invented impulse. This does not restore collision-lost horizontal speed or verify THPS3 constants. Current evidence: [MAP-03B](camera-pop/README.md).
+
 **19 October2026 source clarification:** the measurements below remain historical evidence for the momentum fix. The later classic-control pass makes ordinary air stick/shoulder input rotate the visible skater while carrying unchanged horizontal velocity; it no longer applies the helper's optional air-steering rate to the production flight path. See [current source comparison](../research/THPS-PHYSICS-COMPARISON-2026-10-19.md). This is a documentation correction, not another physics change or a THPS3 parity claim.
 
 # M01-008 — takeoff momentum investigation

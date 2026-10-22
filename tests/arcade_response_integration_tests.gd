@@ -115,8 +115,8 @@ static func _flat_jump(tree: SceneTree, check: Callable, held: int) -> void:
 		if previous_tick >= 0: contiguous = contiguous and row.tick == previous_tick+1
 		previous_tick = row.tick
 	var short := held < 10
-	var in_envelope := peak >= (0.8 if short else 1.65) and peak <= (1.1 if short else 2.05)
-	in_envelope = in_envelope and air_seconds >= (0.40 if short else 0.60) and air_seconds <= (0.53 if short else 0.73)
+	var in_envelope := peak >= (0.8 if short else 2.3) and peak <= (1.1 if short else 2.65)
+	in_envelope = in_envelope and air_seconds >= (0.40 if short else 0.72) and air_seconds <= (0.53 if short else 0.83)
 	check.call(in_envelope, "arcade jump: %s real apex/airtime meet deliberate response envelope" % ("tap" if short else "charged"))
 	check.call(contiguous and rider.is_on_floor() and awards.count("Ollie") == 1,
 		"arcade jump: native consecutive ticks record exactly one pop and a supported landing")
@@ -152,8 +152,8 @@ static func _wall_pop_repeat(tree: SceneTree, check: Callable) -> void:
 		var launch: Vector3=rider.velocity
 		var launch_tick := Engine.get_physics_frames()
 		check.call(approach and started_on_wall and rider.airborne and not rider.transition_active
-			and launch.y <= maxf(before.y,8.0)+0.30 and awards.count("Ollie")==1,
-			"arcade wall pop: mapped release leaves real steep support once without stacking a full impulse onto upward ramp speed")
+			and absf(launch.y-(maxf(0.0,before.y)+8.0))<.35 and awards.count("Ollie")==1,
+			"arcade wall pop: mapped release adds the requested pop once to actual upward ramp speed")
 		if repeat:
 			_key(KEY_SPACE,true)
 			await _ticks(tree,1)
@@ -164,14 +164,14 @@ static func _wall_pop_repeat(tree: SceneTree, check: Callable) -> void:
 		var peak: float=rider.global_position.y
 		var resolved := false
 		var elapsed := 0.0
-		for tick: int in range(96):
+		for tick: int in range(150):
 			await _ticks(tree,1)
 			peak=maxf(peak,rider.global_position.y)
 			elapsed=float(Engine.get_physics_frames()-launch_tick)/Engine.physics_ticks_per_second
 			if rider.transition_active or (rider.is_on_floor() and not rider.airborne):
 				resolved=true
 				break
-		check.call(resolved and elapsed<1.30 and awards.count("Ollie")==1,
+		check.call(resolved and elapsed<2.0*launch.y/22.0+.45 and awards.count("Ollie")==1,
 			"arcade wall pop: %s reaches real support within a bounded flight with one total ollie" % ("quick-double-tap" if repeat else "single tap"))
 		results.append({"peak":peak,"elapsed":elapsed,"launch":launch})
 		print("ARCADE_WALL_POP repeat=",repeat," initial_up=",before.y," launch=",launch," peak=",peak," flight=",elapsed," ollies=",awards.count("Ollie"))

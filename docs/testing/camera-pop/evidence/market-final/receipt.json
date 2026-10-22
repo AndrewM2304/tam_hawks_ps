@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-22T18:09:09.867147+01:00",
+  "completed_london": "2026-10-22T18:09:50.009222+01:00",
+  "wall_seconds": 40.14218912500655,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/market.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 377,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "52",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "f81a32156c9aef1f0ac3a57aecc6e483d04bb5e518a0d8044c2918b01bd57272",
+  "git_head": "00fc616dd390344acd78dec0ff72a29e966eb99d"
+}

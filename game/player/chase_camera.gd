@@ -6,7 +6,6 @@ const CHEST_HEIGHT := 1.05
 const CAMERA_RADIUS := 0.25
 const CLEARANCE := 0.045
 const MIN_USEFUL_ARM := 3.0
-const REAR_RETURN_DELAY := 0.40
 const NORMAL_HEIGHT := 2.5
 const LOW_HEIGHT := 1.95
 const REVERSE_MIN_SPEED := 1.2
@@ -26,7 +25,6 @@ var _sphere := SphereShape3D.new()
 var _query := PhysicsShapeQueryParameters3D.new()
 var _ready := false
 var _selected_angle := 0.0
-var _rear_clear_time := 0.0
 var _last_anchor := Vector3.ZERO
 var _body_up := Vector3.UP
 var _travel_sign := 1.0
@@ -43,6 +41,7 @@ var _ramp_lift := 1.0
 var _ramp_turn := 0.0
 var _minimum_arm := MIN_USEFUL_ARM
 var _ground_query := PhysicsRayQueryParameters3D.new()
+var _ground_board_y := 0.0
 
 
 func _init() -> void:
@@ -57,7 +56,6 @@ func _init() -> void:
 func reset() -> void:
 	_ready = false
 	_selected_angle = 0.0
-	_rear_clear_time = 0.0
 	_last_anchor = Vector3.ZERO
 	_body_up = Vector3.UP
 	_travel_sign = 1.0
@@ -73,6 +71,7 @@ func reset() -> void:
 	_ramp_lift = 1.0
 	_ramp_turn = 0.0
 	_minimum_arm = MIN_USEFUL_ARM
+	_ground_board_y = 0.0
 
 
 func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity: float, reduced_motion: bool) -> void:
@@ -86,7 +85,16 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	# Transitions can lay the skater back against a curved wall. Occlusion rays
 	# follow the actual body axis; ramps retain the skater's local up axis.
 	_body_up = _contact_up(rider)
-	var anchor := board + _body_up * CHEST_HEIGHT
+	var ordinary_air := bool(rider.get("airborne")) and not bool(rider.get("_ramp_air"))
+	if not _ready or not bool(rider.get("airborne")):
+		_ground_board_y = board.y
+	elif ordinary_air:
+		# Keep ordinary jumps inside a stable vertical viewing window. Follow
+		# only a larger drop/rise, so a ledge fall cannot leave the body behind.
+		_ground_board_y = clampf(_ground_board_y,board.y-2.6,board.y+1.0)
+	var view_board := board
+	if ordinary_air:view_board.y=_ground_board_y
+	var anchor := view_board + _body_up * CHEST_HEIGHT
 	var space := rider.get_world_3d().direct_space_state
 	var excluded: Array[RID] = [rider.get_rid()]
 	_query.exclude = excluded
@@ -112,7 +120,6 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 		_motion_pitch = atan2(rider.velocity.y,maxf(horizontal.length(),PITCH_RUN))
 	if ramp_mode != _ramp_mode:
 		_selected_angle = 0.0
-		_rear_clear_time = 0.0
 	_ramp_mode = ramp_mode
 	_minimum_arm = 1.6 if _ramp_mode else MIN_USEFUL_ARM
 	_orbit_up = _body_up if _ramp_mode else Vector3.UP
@@ -138,10 +145,9 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	else:
 		rear = _heading(rider,rear,step)
 		var travel := rider.velocity
-		# A stopped landing must release its last falling pitch, especially
-		# under a low ceiling; only airborne near-zero momentum keeps it.
-		var idle_pitch := _motion_pitch if bool(rider.get("airborne")) else 0.0
-		var pitch := atan2(travel.y,maxf(Vector2(travel.x,travel.z).length(),PITCH_RUN)) if travel.length()>.5 else idle_pitch
+		# Ordinary ollies do not pitch the chase along their vertical velocity.
+		# Ground grades still follow actual travel, and ramps have their own frame.
+		var pitch := atan2(travel.y,maxf(Vector2(travel.x,travel.z).length(),PITCH_RUN)) if travel.length()>.5 and not ordinary_air else 0.0
 		_motion_pitch = move_toward(_motion_pitch,clampf(pitch,-MAX_MOTION_PITCH,MAX_MOTION_PITCH),PITCH_RATE*step)
 		_horizontal_scale = maxf(.6 if _motion_pitch>0.0 else 0.0,cos(_motion_pitch))
 		_motion_direction = -rear*cos(_motion_pitch)+Vector3.UP*sin(_motion_pitch)
@@ -178,6 +184,9 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	var lookahead := clampf((actual_arm - 3.0) / 3.0, 0.0, 1.0) \
 		* (0.35 if reduced_motion else 0.35 + speed * 0.055)
 	var target := anchor + _motion_direction * lookahead
+	# Stable headroom for exaggerated charged flat ollies, without lifting the
+	# camera along with the skater. Ramp views retain their local aiming frame.
+	if not _ramp_mode:target += Vector3.UP*.55
 	if resolved.distance_squared_to(target) > 0.01:
 		var forward := (target-resolved).normalized()
 		var desired_up := _orbit_up.slide(forward)
@@ -269,17 +278,15 @@ func _heading(rider: CharacterBody3D, facing_rear: Vector3, delta: float) -> Vec
 
 func _choose(space: PhysicsDirectSpaceState3D, anchor: Vector3, board: Vector3, rear: Vector3, distance: float, excluded: Array[RID], delta: float) -> Dictionary:
 	var ordinary := _best_height(space, anchor, board, rear, distance, 0.0, excluded)
-	var rear_open: bool = ordinary.usable and (_ramp_mode or ordinary.reach >= distance * _horizontal_scale * 0.93)
-	_rear_clear_time = _rear_clear_time + delta if rear_open else 0.0
-	if is_zero_approx(_selected_angle) and rear_open:
+	# A shortened but fully usable rear arm beats a wider side view, including
+	# the half-pipe's flat bottom (ordinary ground). Orbit interpolation already
+	# smooths the return; a separate side-hold timer keeps it sideways too long.
+	if ordinary.usable:
+		_selected_angle=0.0
 		return ordinary
 	if not is_zero_approx(_selected_angle):
 		var current := _best_height(space, anchor, board, rear, distance, _selected_angle, excluded)
-		if rear_open and (_ramp_mode or _rear_clear_time >= REAR_RETURN_DELAY):
-			_selected_angle = 0.0
-			return ordinary
-		if current.usable:
-			return current
+		if current.usable:return current
 	# Search only while the current view is obstructed. Retaining a useful
 	# chosen side avoids alternating left/right against the same wall.
 	var best := ordinary
@@ -327,8 +334,17 @@ func _sweep(space: PhysicsDirectSpaceState3D, from: Vector3, to: Vector3) -> Vec
 	var fractions := space.cast_motion(_query)
 	if fractions.size() < 2: return from
 	var fraction := clampf(fractions[0], 0.0, 1.0)
-	if fraction >= 0.9999: return to
-	return from + motion.normalized() * maxf(0.0, length * fraction - CLEARANCE)
+	# Unclipped endpoints already receive the caller's full usable-volume check.
+	if fraction>=.9999:return to
+	var reach := maxf(0.0,length*fraction-CLEARANCE)
+	# Native motion and overlap queries disagree slightly at a grazing floor.
+	# Keep the full volume margin, backing off the same rear path until its
+	# endpoint is actually clear; do not orbit sideways around that tiny error.
+	for attempt in 6:
+		var position := from+motion.normalized()*reach
+		if _clear_volume(space,position):return position
+		reach=maxf(0.0,reach-CLEARANCE*pow(2.0,float(attempt)))
+	return from
 
 
 func _clear_volume(space: PhysicsDirectSpaceState3D, position: Vector3) -> bool:
