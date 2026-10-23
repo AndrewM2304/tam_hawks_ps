@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-23T13:54:04.254155+01:00",
+  "completed_london": "2026-10-23T13:54:05.236718+01:00",
+  "wall_seconds": 0.98240379197523,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/map-flow/observers/audit_pngs.gd",
+    "--",
+    "docs/testing/flat-ollie/evidence/capture-01",
+    "docs/testing/flat-ollie/evidence/capture-02",
+    "docs/testing/flat-ollie/evidence/capture-03",
+    "docs/testing/flat-ollie/evidence/ramp-capture-01",
+    "docs/testing/flat-ollie/evidence/ramp-capture-02"
+  ],
+  "exit_code": 0,
+  "source_inputs": 383,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "46",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "d45d8dead37ff4de11a7ecdf0bd483881a312d3ac17471e5a8e1e1a7a3a77f19",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

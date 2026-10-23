@@ -406,7 +406,9 @@ static func _bridge_and_recovery(tree: SceneTree, game: Node, check: Callable) -
 			charging = true
 		if charging: charge_frames += 1
 		await _frames(tree, 1)
-		if game.skater.global_position.z >= 91.8 and game.skater.is_on_floor():
+		# Later supported launch, inside the unchanged start trigger and
+		# before the actual deck ends at94m, for the calmer charged arc.
+		if game.skater.global_position.z >= 93.0 and game.skater.is_on_floor():
 			reached_takeoff = true
 			break
 		if state.bails > 0: break

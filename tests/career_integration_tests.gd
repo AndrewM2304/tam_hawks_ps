@@ -141,6 +141,10 @@ static func _physical_gap_and_reset(tree: SceneTree, game: Node, check: Callable
 	var reached_takeoff: bool = false
 	for i in range(240):
 		await _frames(tree, 1)
+		# Charge on the real approach, retaining the existing takeoff point.
+		# The calmer tap no longer carries this six-metre career gap.
+		if game.skater.global_position.z <= 10.0 and game.skater.is_on_floor():
+			Input.action_press("ollie")
 		if game.skater.global_position.z <= 4.5 and game.skater.is_on_floor():
 			reached_takeoff = true
 			break

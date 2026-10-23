@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-23T12:25:23.270068+01:00",
+  "completed_london": "2026-10-23T12:34:42.964407+01:00",
+  "wall_seconds": 104.9455139170168,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/focused.gd",
+    "--",
+    "docs/testing/camera-flow/observers/focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 384,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "72",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "61c937b165a10f32e30970d24a7b123f42e92de6f96e52190f8ad4d5de1159d9",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

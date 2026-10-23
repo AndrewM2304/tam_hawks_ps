@@ -1,0 +1,23 @@
+import os,subprocess,sys,json,time,threading
+from pathlib import Path
+os.environ['GODOT_BIN']='/Applications/Godot.app/Contents/MacOS/Godot'
+base=[sys.executable,'docs/testing/horizon-background/observers/run_checked.py']
+native=['--rendering-method','gl_compatibility','--windowed','--resolution','1280x800','--audio-driver','Dummy','--script']
+for name in ['compare-04','compare-05']:
+ out=Path('.local/ollie-audit')/name;out.mkdir(exist_ok=True)
+ stop=threading.Event()
+ def monitor():
+  with (out/'system-load.jsonl').open('w') as f:
+   while not stop.is_set():
+    p=subprocess.run(['ps','-axo','pid,ppid,pcpu,time,comm'],capture_output=True,text=True)
+    f.write(json.dumps({'monotonic':time.monotonic(),'processes':p.stdout})+'\n');f.flush();stop.wait(1)
+ thread=threading.Thread(target=monitor);thread.start()
+ try:
+  print('START '+name,flush=True)
+  subprocess.run(base+[str(out),'./tools/run.sh']+native+['docs/testing/flat-ollie/observers/compare.gd','--',str(out)]+['docs/testing/flat-ollie/observers/baseline_'+part+'.gd'for part in ['main','skater','visual','clips']],check=True)
+ finally:stop.set();thread.join()
+ subprocess.run([sys.executable,'docs/testing/flat-ollie/observers/analyze_compare.py',str(out)],check=True)
+print('BOTH STRICT COMPARISONS PASS',flush=True)
+# Continue already-defined captures, full required suite and PNG audit.
+s=Path('/private/tmp/ollie_verified_pipeline.py').read_text();a=s.index('# Two predeclared');b=s.index("run('capture-03'",a)
+s=s[:a]+s[b:];s=s.replace("'compare-03','compare-04'","'compare-04','compare-05'");exec(compile(s,'final-captures-required','exec'))

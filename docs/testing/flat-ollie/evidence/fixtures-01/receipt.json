@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-23T11:35:17.856040+01:00",
+  "completed_london": "2026-10-23T12:12:29.793469+01:00",
+  "wall_seconds": 239.50962133397115,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/flat-ollie/observers/fixtures.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 383,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "239",
+      "8"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "49f1bbbacf85a6ad04c889ca518753cbcce099900ad23efb1d5f7025be8318f7",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

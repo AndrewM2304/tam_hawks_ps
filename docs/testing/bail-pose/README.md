@@ -1,3 +1,5 @@
+**Historical source checkpoint `de6505d`:** subsequent owner-directed flat-ollie/trick-audit work changes production. The source audit/result below stays bound to that commit and archived snapshots; do not rerun it against the changed checkout or call its2,295/0 a new-source pass. Latest [STATUS](../../STATUS.md) owns current verification.
+
 # Bail, human pose, ramp return and classic HUD refinement
 
 23 October 2026 verification of the22 October implementation. Local feature branch `bootstrap/m00-m01`, source changes over4eb9c03. [Owner task plan](../../planning/BAIL-HUD-REFINEMENT-2026-10-22.md), [reachable-pose decision](../../architecture/decisions/ADR-025-reachable-contact-poses.md), [bail/board decision](../../architecture/decisions/ADR-026-local-bail-and-board-recovery.md), [ramp/HUD decision](../../architecture/decisions/ADR-027-ramp-pitch-and-classic-hud.md), [source comparison](../../research/THPS-RAMP-SPIN-2026-10-22.md).

@@ -125,10 +125,14 @@ static func drive_ledge_combo(tree: SceneTree, game: Node, observer: Callable = 
 			if not evidence.bank_ascent and evidence.grounded_ascent > 0.18:
 				evidence.bank_ascent = true
 				await _observe(observer,"bank_ascent",evidence)
-		if not jumped and game.skater.global_position.x >= -8.7:
+		# Charge on approach and release at the existing takeoff point.
+		# Preserve the real bent ledge, clearance and exact 5000-point line.
+		if not jumped and game.skater.global_position.x >= -11.5:
 			Input.action_press("ollie")
+		if not jumped and game.skater.global_position.x >= -8.7:
+			Input.action_release("ollie")
 			jumped = true
-		else: Input.action_release("ollie")
+		elif jumped: Input.action_release("ollie")
 		await _step(tree,game,evidence)
 		if game.skater.grinding:
 			evidence.captured = true

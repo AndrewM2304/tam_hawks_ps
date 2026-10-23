@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-23T10:58:55.953422+01:00",
+  "completed_london": "2026-10-23T10:59:05.431708+01:00",
+  "wall_seconds": 9.478260041971225,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/flat-ollie/observers/capture.gd",
+    "--",
+    ".local/ollie-audit/capture-02"
+  ],
+  "exit_code": 0,
+  "source_inputs": 383,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "2",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "1ad93592aa3491291b71b0dde522f71c3e9301bc4e98b3e65d9c993927606761",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

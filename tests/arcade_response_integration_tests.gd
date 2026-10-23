@@ -115,8 +115,8 @@ static func _flat_jump(tree: SceneTree, check: Callable, held: int) -> void:
 		if previous_tick >= 0: contiguous = contiguous and row.tick == previous_tick+1
 		previous_tick = row.tick
 	var short := held < 10
-	var in_envelope := peak >= (0.8 if short else 2.3) and peak <= (1.1 if short else 2.65)
-	in_envelope = in_envelope and air_seconds >= (0.40 if short else 0.72) and air_seconds <= (0.53 if short else 0.83)
+	var in_envelope := peak >= (0.75 if short else 1.15) and peak <= (0.95 if short else 1.45)
+	in_envelope = in_envelope and air_seconds >= (0.36 if short else 0.48) and air_seconds <= (0.48 if short else 0.60)
 	check.call(in_envelope, "arcade jump: %s real apex/airtime meet deliberate response envelope" % ("tap" if short else "charged"))
 	check.call(contiguous and rider.is_on_floor() and awards.count("Ollie") == 1,
 		"arcade jump: native consecutive ticks record exactly one pop and a supported landing")

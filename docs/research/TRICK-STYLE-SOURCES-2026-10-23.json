@@ -1,0 +1,69 @@
+{
+  "accessed": "2026-10-23",
+  "baseline_commit": "de6505d8ddb9a447aec68a885eb7834ae2c12158",
+  "catalog_ids": [
+    "ollie",
+    "kickflip",
+    "heelflip",
+    "pop_shuvit",
+    "frontside_shuvit",
+    "varial_flip",
+    "hardflip",
+    "melon_grab",
+    "indy_grab",
+    "nose_grab",
+    "tail_grab",
+    "method_grab",
+    "spin_180",
+    "rail_grind",
+    "manual",
+    "nose_manual",
+    "axle_stall",
+    "nose_stall",
+    "tail_stall",
+    "disaster",
+    "revert",
+    "special_clyde_carousel",
+    "special_tenement_tumble",
+    "named_gap"
+  ],
+  "primary_manual": {
+    "scan_url": "https://impzone.club/pdf/thps3.pdf",
+    "bytes": 9850619,
+    "sha256": "710fb1288720be33260774d14290d556db338836d4e549ac3e446a507d62c5ad",
+    "text_read": "https://manualzz.com/doc/7113809/-user-manual-",
+    "inspection": "Primary manual transcription sections125-197 and465-480 read through web; scan downloaded/hash only. PDF text extraction tool unavailable; no local decoded-page claim."
+  },
+  "reconstruction": {
+    "revision": "fa128f5ba222e0f24a9bff019d59262b79141e48",
+    "path": "decomp/src/physics/handlejump.cpp",
+    "sha256": "ae19307f48389d3f3b0298a69485168a4938ebd170850c920bbe7bb4642218da",
+    "bytes": 11897,
+    "limits": "THPS1 reconstruction; unknown unit conversion/THPS3 skeletal timing. Read-only, no import/execution."
+  },
+  "baseline_source_sha256": {
+    "game/tricks/trick_catalog.gd": "9ee9ccfb51d86bd77f2afd92d88821ffba1c5569c9d34e2a72c476c556df6060",
+    "game/tricks/directional_tricks.gd": "181b7147015fe8cfdb230f8467e69472672aa8136a623f1a0305f3a316103300",
+    "game/player/skater.gd": "5d785c59ef8b2a31914a43f469af60567c516f9cdc6585f46b8f0d42c421022a",
+    "game/player/skater_visual.gd": "7a330cd1886d10fd55560705040412f623803de00e8ae63d6e7ce9abf4c6ef52",
+    "game/player/trick_animation.gd": "27280840dc23d409d931fa61d2943f5c0c9b51bf3a1fd4aa370576855e50fcef",
+    "game/tricks/grind_ride.gd": "638e29153bc76c0e200fb943293e0db241e31339afaf395a28f37e45577d14ae",
+    "game/player/transition_ride.gd": "56d0ca80f088ba5500e6e5a0946d8f6c27683c108d0efa4cc4004c50222f5a26",
+    "game/scoring/score_session.gd": "fb022641d33660e8a5604478df224a362f04141b7eb91f96e5ff7614d2e45af5",
+    "game/tricks/special_meter.gd": "5bc141b702ca444300e9bf2789565e11f1e0b2c574383b722f043e42e5248e77",
+    "game/main.gd": "a78e84f70b774730c880735bf34cc488d90a1f4216e918895e85674e5afd3ce8"
+  },
+  "candidate_source_sha256_at_inventory": {
+    "game/tricks/trick_catalog.gd": "9ee9ccfb51d86bd77f2afd92d88821ffba1c5569c9d34e2a72c476c556df6060",
+    "game/tricks/directional_tricks.gd": "181b7147015fe8cfdb230f8467e69472672aa8136a623f1a0305f3a316103300",
+    "game/player/skater.gd": "f196765dc7290d6f392101025f996d4cba939686a9d17471f7850eeeddfbe66b",
+    "game/player/skater_visual.gd": "7a330cd1886d10fd55560705040412f623803de00e8ae63d6e7ce9abf4c6ef52",
+    "game/player/trick_animation.gd": "8f278a63a0b45fe1607891ede415b712074c12db14ac58fbca0ea05e6589b4d2",
+    "game/tricks/grind_ride.gd": "638e29153bc76c0e200fb943293e0db241e31339afaf395a28f37e45577d14ae",
+    "game/player/transition_ride.gd": "56d0ca80f088ba5500e6e5a0946d8f6c27683c108d0efa4cc4004c50222f5a26",
+    "game/scoring/score_session.gd": "fb022641d33660e8a5604478df224a362f04141b7eb91f96e5ff7614d2e45af5",
+    "game/tricks/special_meter.gd": "5bc141b702ca444300e9bf2789565e11f1e0b2c574383b722f043e42e5248e77",
+    "game/main.gd": "a78e84f70b774730c880735bf34cc488d90a1f4216e918895e85674e5afd3ce8"
+  },
+  "limits": "Source inventory and recorded baseline tests do not certify owner feel or unimplemented styles. No external code/assets/manual pages included."
+}

@@ -35,12 +35,16 @@ static func _line(tree: SceneTree, game: Node, check: Callable, rail_id: String,
 	var caught := false
 	for tick: int in 300:
 		Driver.action("push",1.0)
-		Driver.action("grind",1.0)
+		# Request the yard endpoint from closer range; retain<1m correction
+		# rather than hiding the old radius-plus-travel overshoot.
+		Driver.action("grind",1.0 if not yard or game.skater.global_position.x>=rail.point_at(0).x-0.5 else 0.0)
 		if not charged and (target-game.skater.global_position).dot(tangent)<13.0:
 			Driver.action("ollie",1.0)
 			charged=true
 		if charged and not released:
-			if charge_ticks>=15:
+			# Two more supported ticks place the shorter yard arc inside
+			# the closer endpoint request; full-charge impulse is unchanged.
+			if charge_ticks>=(17 if yard else 15):
 				Driver.action("ollie",0.0)
 				released=true
 			else: charge_ticks+=1
@@ -225,7 +229,7 @@ static func _river_circuit(tree: SceneTree, game: Node, check: Callable) -> void
 			charging=true
 		if charging: charge_ticks+=1
 		await Driver.ticks(tree,1)
-		if game.skater.global_position.z>=91.8 and game.skater.is_on_floor():
+		if game.skater.global_position.z>=93.0 and game.skater.is_on_floor():
 			launch=charge_ticks>=15 and game.skater.speed>=12.0
 			break
 	Driver.action("ollie",0.0)
@@ -312,7 +316,7 @@ static func _deck_containment(tree: SceneTree, game: Node, check: Callable) -> v
 			"compact Clyde deck: "+label+" meets the actual raised landward wall and physically stops on deck")
 		check.call(minimum_z>=55.35 and minimum_y>=5.15 and result.bails==0
 			and result.contiguous and result.finite and result.maximum_step<1.0
-			and result.tricks.count("Ollie")==int(charged) and (not charged or peak>=6.8),
+			and result.tricks.count("Ollie")==int(charged) and (not charged or (peak>=6.35 and peak<=6.65)),
 			"compact Clyde deck: "+label+" cannot reach the dry void or manufacture recovery/extra jumps")
 		var data: Dictionary={"charged":charged,"fixture":start,"minimum_z":minimum_z,"minimum_y":minimum_y,
 			"peak":peak,"wall_contacts":wall_contacts,"elevated_wall_contact":elevated_wall_contact,

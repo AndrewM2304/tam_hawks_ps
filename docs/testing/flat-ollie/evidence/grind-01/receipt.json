@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-23T10:59:54.201731+01:00",
+  "completed_london": "2026-10-23T11:00:03.363458+01:00",
+  "wall_seconds": 9.161716791975778,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/grind.gd",
+    "--",
+    "docs/testing/camera-flow/observers/playability.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 384,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "10",
+      "2"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "15751bae861d2ccf719f7c73a3818911aa8868fd0a1bd414dc761015549797b2",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

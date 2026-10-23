@@ -1,0 +1,34 @@
+{
+  "started_london": "2026-10-23T12:51:37.208342+01:00",
+  "completed_london": "2026-10-23T12:51:54.020073+01:00",
+  "wall_seconds": 16.811722375045065,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/pop_capture.gd",
+    "--",
+    ".local/ollie-audit/ramp-capture-02",
+    "docs/testing/camera-flow/observers/current_preview.gd",
+    "docs/testing/camera-flow/observers/capture.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 385,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "1a68c44509e440fe5d228b1076782a2376620ccaf82b1d5107ebdb27cb5dfd25",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

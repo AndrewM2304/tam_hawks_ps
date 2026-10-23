@@ -28,6 +28,33 @@ class CameraProbe extends RefCounted:
 		calls += 1
 
 
+class RampBodySample extends Node:
+	# Per-tick motion must be sampled after native physics, never across
+	# coroutine polls which may span multiple physics ticks in a slow frame.
+	var rider: CharacterBody3D
+	var samples := 0
+	var contiguous := true
+	var previous_tick := -1
+	var previous_air := false
+	var previous_body := Basis.IDENTITY
+	var minimum_up_dot := 1.0
+	var maximum_step := 0.0
+	func _ready() -> void: process_physics_priority = 100
+	func _physics_process(_delta: float) -> void:
+		var tick := Engine.get_physics_frames()
+		if previous_tick >= 0: contiguous = contiguous and tick == previous_tick + 1
+		previous_tick = tick
+		var in_air: bool = rider.airborne and rider._ramp_air
+		if in_air:
+			var body: Basis = rider.get_node("SkaterVisual").global_basis
+			minimum_up_dot = minf(minimum_up_dot, body.y.dot(rider._ramp_air_normal))
+			if previous_air:
+				maximum_step = maxf(maximum_step, rad_to_deg(previous_body.get_rotation_quaternion().angle_to(body.get_rotation_quaternion())))
+			previous_body = body
+			samples += 1
+		previous_air = in_air
+
+
 class TurnSample extends Node:
 	signal finished
 	var rider: CharacterBody3D
@@ -238,10 +265,9 @@ static func _natural_returns(tree: SceneTree, check: Callable, reduced: bool) ->
 	var min_axis:=INF
 	var flight_alignment:=1.0
 	var flight_samples:=0
-	var minimum_body_up_dot:=1.0
-	var maximum_body_step:=0.0
-	var previous_body:=Basis.IDENTITY
-	var previous_body_air:=false
+	var body_probe := RampBodySample.new()
+	body_probe.rider = rider
+	fixture.root.add_child(body_probe)
 	var was_air:=false
 	var last_angle:=0.0
 	var turn:=0.0
@@ -279,10 +305,6 @@ static func _natural_returns(tree: SceneTree, check: Callable, reduced: bool) ->
 			upward=maxf(upward,forward.y)
 			downward=minf(downward,forward.y)
 			view_up=minf(view_up,camera.global_basis.y.dot(normal))
-			var body:Basis=rider.get_node("SkaterVisual").global_basis
-			minimum_body_up_dot=minf(minimum_body_up_dot,body.y.dot(normal))
-			if previous_body_air:maximum_body_step=maxf(maximum_body_step,rad_to_deg(previous_body.get_rotation_quaternion().angle_to(body.get_rotation_quaternion())))
-			previous_body=body;previous_body_air=true
 			if absf(rider.velocity.y)>5.0:
 				flight_samples+=1
 				flight_alignment=minf(flight_alignment,(-rider.get_node("SkaterVisual").global_basis.z).dot(rider.velocity.normalized()))
@@ -290,7 +312,6 @@ static func _natural_returns(tree: SceneTree, check: Callable, reduced: bool) ->
 			var good:=orbit_started and turn>deg_to_rad(150.0) and turn<deg_to_rad(210.0) and backwards<deg_to_rad(15.0) and upward>.97 and downward<-.97 and view_up>.90
 			good_orbits+=int(good)
 			print("LOCAL RAMP ORBIT turn_deg=",rad_to_deg(turn)," max_reverse_excursion_deg=",rad_to_deg(backwards)," up_y=",upward," down_y=",downward," camera_up_dot_ramp_normal=",view_up," good=",good)
-		if not in_air:previous_body_air=false
 		was_air=in_air
 		if rider.transition_active:
 			contact_age+=1
@@ -327,7 +348,7 @@ static func _natural_returns(tree: SceneTree, check: Callable, reduced: bool) ->
 		"classic camera: actual ramp updates avoid large view or zoom jumps (reduced=%s)"%reduced)
 	check.call(flight_samples>30 and flight_alignment>.95,
 		"classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=%s)"%reduced)
-	check.call(minimum_body_up_dot>.99 and maximum_body_step<12.0,
+	check.call(body_probe.contiguous and body_probe.samples>60 and body_probe.minimum_up_dot>.99 and body_probe.maximum_step<12.0,
 		"classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=%s)"%reduced)
 	check.call(good_orbits>=3 and good_orbits==returns,
 		"classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=%s)"%reduced)
@@ -337,7 +358,7 @@ static func _natural_returns(tree: SceneTree, check: Callable, reduced: bool) ->
 		"classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=%s)"%reduced)
 	print("CAMERA BOTTOM REAR samples=",bottom_samples," minimum_forward_dot=",bottom_forward_dot)
 	print("CAMERA RAMP REAR side_frames=",side_frames," samples=",rear_samples," minimum_forward_dot=",min_forward_dot)
-	print("CAMERA LOCAL RETURNS reduced=",reduced," departures=",departures," returns=",returns," good_orbits=",good_orbits," unsafe=",unsafe," minimum_axis_fraction=",min_axis," max_update_move=",probe.max_move," max_update_angle=",probe.max_angle," pose_forward_dot_velocity=",flight_alignment," body_step_deg=",maximum_body_step)
+	print("CAMERA LOCAL RETURNS reduced=",reduced," departures=",departures," returns=",returns," good_orbits=",good_orbits," unsafe=",unsafe," minimum_axis_fraction=",min_axis," max_update_move=",probe.max_move," max_update_angle=",probe.max_angle," pose_forward_dot_velocity=",flight_alignment," body_step_deg=",body_probe.maximum_step," native_body_samples=",body_probe.samples," native_contiguous=",body_probe.contiguous)
 	await _dispose(tree,fixture)
 
 
@@ -452,7 +473,7 @@ static func _quiet_ollie(tree:SceneTree,check:Callable,reduced:bool,held:int)->v
 		camera_rise=maxf(camera_rise,absf(camera.global_position.y-initial_y))
 		camera_angle=maxf(camera_angle,initial_rotation.angle_to(camera.global_basis.get_rotation_quaternion()))
 		unsafe+=int(not _framed(rider))
-	check.call(rise>(2.3 if held>10 else .8) and rider.is_on_floor(),
+	check.call(rise>(1.15 if held>10 else .75) and rise<(1.45 if held>10 else .95) and rider.is_on_floor(),
 		"classic quiet ollie: mapped release and flip make a real jump and supported landing (%df reduced=%s)"%[held,reduced])
 	check.call(camera_rise<.10 and camera_angle<deg_to_rad(2.0) and unsafe==0,
 		"classic quiet ollie: camera height/aim stay steady while the full rider jumps (%df reduced=%s)"%[held,reduced])

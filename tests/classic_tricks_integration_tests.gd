@@ -70,7 +70,8 @@ static func _release_ollies(tree: SceneTree, check: Callable) -> void:
 			"classic input: held ollie visibly lowers the rider before release (%df)" % held)
 		_key(KEY_SPACE, false)
 		await _frames(tree, 2)
-		check.call(rider.airborne and rider.velocity.y > 7.0 and seen.count("Ollie") == 1,
+		check.call(rider.airborne and rider.velocity.y > (7.8 if held > 2 else 6.0) \
+			and rider.velocity.y < (9.1 if held > 2 else 7.3) and seen.count("Ollie") == 1,
 			"classic input: releasing mapped Space pops exactly once (%df)" % held)
 		var apex: float = rider.global_position.y
 		for frame in 85:
@@ -156,7 +157,11 @@ static func _repeat_flip(tree: SceneTree, check: Callable) -> void:
 	check.call(seen.count("Kickflip") == 1,
 		"classic flip: a fresh press during the unfinished clip cannot overlap or score twice")
 	Input.action_release("flip")
-	await _frames(tree, 27)
+	# The shorter charged flight needs the fresh press after the actual clip
+	# ends, rather than the old fixed 34-frame jump schedule.
+	for frame in 30:
+		if rider._flip_remaining <= 0.0: break
+		await _frames(tree, 1)
 	Input.action_press("steer_right")
 	Input.action_press("flip")
 	await _frames(tree, 2)
@@ -324,12 +329,15 @@ static func _latched_rail(tree: SceneTree, check: Callable) -> void:
 	# the old 34-frame airborne schedule here.
 	await _frames(tree, 24)
 	Input.action_release("ollie")
-	var descending_window := false
+	# At the new 1.27m apex this same 0.92m rail is already in vertical
+	# reach. Request while rising too fast to capture; release before the
+	# unchanged <=1m/s admission gate, then witness its buffered catch.
+	var admission_window := false
 	for frame in 90:
 		await _frames(tree, 1)
-		if rider.airborne and rider.velocity.y < 0.0 and rider.global_position.y > 1.72 \
-				and rider.global_position.y < 1.87:
-			descending_window = true
+		if rider.airborne and rider.velocity.y > 2.0 and rider.velocity.y < 3.5 \
+				and rider.global_position.y > 1.10:
+			admission_window = true
 			break
 	var request_tick := Engine.get_physics_frames()
 	var request_position: Vector3 = rider.global_position
@@ -343,9 +351,9 @@ static func _latched_rail(tree: SceneTree, check: Callable) -> void:
 	var released_catch := capture_ticks.size() == 1 and capture_buttons.size() == 1 \
 		and not capture_buttons[0] and capture_ticks[0] > released_tick \
 		and float(capture_ticks[0] - request_tick) / Engine.physics_ticks_per_second <= 0.18
-	check.call(descending_window and released_tick - request_tick == 1 and uncaptured_while_pressed
+	check.call(admission_window and released_tick - request_tick == 1 and uncaptured_while_pressed
 		and released_catch and rider.grinding and captures == ["ClassicTapRail"] and seen.count("Rail Grind") == 1,
-		"classic rail: a released one-tick mapped Triangle tap buffers a witnessed descending catch within180ms")
+		"classic rail: a released one-tick mapped Triangle tap buffers a witnessed apex catch within180ms")
 	print("CLASSIC RAIL request_tick=", request_tick, " release_tick=", released_tick,
 		" capture_ticks=", capture_ticks, " request_at=", request_position, " request_velocity=", request_velocity,
 		" uncaptured_while_pressed=", uncaptured_while_pressed, " buttons_at_capture=", capture_buttons)

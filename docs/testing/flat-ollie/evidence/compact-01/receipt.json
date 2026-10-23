@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-23T12:19:57.125905+01:00",
+  "completed_london": "2026-10-23T12:21:24.628459+01:00",
+  "wall_seconds": 87.50286808400415,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/flat-ollie/observers/compact.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 383,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "9",
+      "3"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "f278fb2c870f62fc770e185a346ce07de2028368080927054b61a2c980fda85a",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

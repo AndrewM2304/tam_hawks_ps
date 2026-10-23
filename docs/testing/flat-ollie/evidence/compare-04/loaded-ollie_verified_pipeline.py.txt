@@ -1,0 +1,24 @@
+import os,subprocess,sys
+from pathlib import Path
+os.environ['GODOT_BIN']='/Applications/Godot.app/Contents/MacOS/Godot'
+base=[sys.executable,'docs/testing/horizon-background/observers/run_checked.py']
+def run(name,args):
+ print('START '+name,flush=True)
+ subprocess.run(base+['.local/ollie-audit/'+name,'./tools/run.sh']+args,check=True)
+head=['--headless','--audio-driver','Dummy','--script']
+native=['--rendering-method','gl_compatibility','--windowed','--resolution','1280x800','--audio-driver','Dummy','--script']
+# Two predeclared consecutive fresh strict comparisons; either failure stops.
+for name in ['compare-03','compare-04']:
+ run(name,native+['docs/testing/flat-ollie/observers/compare.gd','--','.local/ollie-audit/'+name]+['docs/testing/flat-ollie/observers/baseline_'+part+'.gd'for part in ['main','skater','visual','clips']])
+ subprocess.run([sys.executable,'docs/testing/flat-ollie/observers/analyze_compare.py','.local/ollie-audit/'+name],check=True)
+run('capture-03',native+['docs/testing/flat-ollie/observers/capture.gd','--','.local/ollie-audit/capture-03'])
+run('ramp-capture-02',native+['docs/testing/camera-pop/observers/pop_capture.gd','--','.local/ollie-audit/ramp-capture-02','docs/testing/camera-flow/observers/current_preview.gd','docs/testing/camera-flow/observers/capture.gd'])
+print('START required-02',flush=True)
+subprocess.run(base+['.local/ollie-audit/required-02','./tools/check.sh'],check=True)
+print('FINAL REQUIRED COMPLETE',flush=True)
+names=['cat-probe-02','compact-02','focused-03','controls-03','compare-03','compare-04','capture-03','ramp-capture-02','required-02']
+subprocess.run([sys.executable,'docs/testing/flat-ollie/observers/archive.py']+names,check=True)
+folders=sorted({str(p.parent)for p in Path('docs/testing/flat-ollie/evidence').rglob('*.png')})
+run('png-audit',head+['docs/testing/map-flow/observers/audit_pngs.gd','--']+folders)
+subprocess.run([sys.executable,'docs/testing/flat-ollie/observers/archive.py','png-audit'],check=True)
+print('ALL CHECKS FINISHED',flush=True)

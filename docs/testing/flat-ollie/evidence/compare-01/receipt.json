@@ -1,0 +1,36 @@
+{
+  "started_london": "2026-10-23T10:52:37.535971+01:00",
+  "completed_london": "2026-10-23T10:54:23.546423+01:00",
+  "wall_seconds": 106.01096645800862,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/flat-ollie/observers/compare.gd",
+    "--",
+    ".local/ollie-audit/compare-01",
+    "docs/testing/flat-ollie/observers/baseline_main.gd",
+    "docs/testing/flat-ollie/observers/baseline_skater.gd",
+    "docs/testing/flat-ollie/observers/baseline_visual.gd",
+    "docs/testing/flat-ollie/observers/baseline_clips.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 387,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "3",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "356f5f9b85c8ce13e3c9ac03f18a75d92e476357a01bd034151c4a1ad4a4c00e",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

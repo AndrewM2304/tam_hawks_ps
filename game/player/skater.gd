@@ -29,8 +29,11 @@ const ROLLING_DRAG := 0.75
 const GRAVITY := 34.0 # Short weighted free flight; finite transition contact uses its own gravity.
 const RAMP_AIR_GRAVITY := 22.0 # Preserve launch momentum; give ramp tricks more rise and airtime.
 const GROUND_GRAVITY := 22.0
-const OLLIE_SPEED := 8.0
-const CHARGED_OLLIE_SPEED := 13.0
+const OLLIE_SPEED := 7.2
+const CHARGED_OLLIE_SPEED := 9.0
+const RAMP_OLLIE_SPEED := 8.0
+const CHARGED_RAMP_OLLIE_SPEED := 13.0
+const OLLIE_POSE_SECONDS := 0.20
 const OLLIE_CHARGE_SECONDS := 0.25
 const COYOTE_TIME := 0.10
 const JUMP_BUFFER_TIME := 0.12
@@ -96,6 +99,8 @@ var _body_collision: CollisionShape3D
 var _ollie_held := false
 var _crouch_charge := 0.0
 var _pop_impulse := OLLIE_SPEED
+var _ramp_pop_impulse := RAMP_OLLIE_SPEED
+var _ollie_pose_remaining := 0.0
 var _flip_request: Dictionary = {}
 var _grab_request: Dictionary = {}
 var _manual_request: Dictionary = {}
@@ -251,6 +256,7 @@ func reset_skater() -> void:
 	_grab_used = false
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
+	_ollie_pose_remaining = 0.0
 	_spin_angle = 0.0
 	_air_spin = 0.0
 	_steering = 0.0
@@ -303,6 +309,7 @@ func begin_bail(reason: String, safe_position: Vector3 = Vector3.INF) -> void:
 	_clear_special_visual()
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
+	_ollie_pose_remaining = 0.0
 	_air_spin = 0.0
 	_steering = 0.0
 	_selection_remaining = 0.0
@@ -531,7 +538,9 @@ func _sample_trick_requests(delta: float) -> void:
 	if _ollie_held and Input.is_action_pressed("ollie"):
 		_crouch_charge = minf(OLLIE_CHARGE_SECONDS, _crouch_charge + delta)
 	if Input.is_action_just_released("ollie") and _ollie_held:
-		_pop_impulse = lerpf(OLLIE_SPEED, CHARGED_OLLIE_SPEED, smoothstep(0.035, OLLIE_CHARGE_SECONDS, _crouch_charge))
+		var charge := smoothstep(0.035, OLLIE_CHARGE_SECONDS, _crouch_charge)
+		_pop_impulse = lerpf(OLLIE_SPEED, CHARGED_OLLIE_SPEED, charge)
+		_ramp_pop_impulse = lerpf(RAMP_OLLIE_SPEED, CHARGED_RAMP_OLLIE_SPEED, charge)
 		_jump_buffer_remaining = JUMP_BUFFER_TIME
 		_ollie_held = false
 		_crouch_charge = 0.0
@@ -643,7 +652,7 @@ func _tick_transition(delta: float) -> void:
 		# Deliberate ramp pop adds to real ascent; charge must still matter
 		# when the ramp already supplied more upward speed than a flat ollie.
 		velocity = _transition.travel_velocity()
-		velocity.y = maxf(0.0,velocity.y) + _pop_impulse
+		velocity.y = maxf(0.0,velocity.y) + _ramp_pop_impulse
 		velocity += _transition.normal() * 0.25
 		_arm_vert_return()
 		_transition.stop()
@@ -873,7 +882,7 @@ func _release_lip(jump: bool) -> void:
 	var toe: Transform3D = _lip_feature.transform
 	# A small explicit inward drop clears the coping; ordinary gravity and the
 	# finite collision-confirmed surface handle the return, not a hidden plane.
-	velocity = toe.basis.z * 1.2 + Vector3.UP * (_pop_impulse if jump else -0.8)
+	velocity = toe.basis.z * 1.2 + Vector3.UP * (_ramp_pop_impulse if jump else -0.8)
 	_ramp_air_normal = toe.basis*Vector3(0,cos(float(_lip_feature.angle)),sin(float(_lip_feature.angle)))
 	_ramp_launch_forward = velocity.slide(_ramp_air_normal).normalized()
 	_align_to_travel()
@@ -970,6 +979,7 @@ func _physics_process(delta: float) -> void:
 		_end_manual(false)
 		_begin_air()
 		velocity.y = maxf(0.0, velocity.y) + _pop_impulse
+		_ollie_pose_remaining = OLLIE_POSE_SECONDS
 		_jump_buffer_remaining = 0.0
 		_coyote_remaining = 0.0
 		combo_link_started.emit()
@@ -1086,6 +1096,7 @@ func _finish_landing() -> void:
 	_vert_return.clear()
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
+	_ollie_pose_remaining = 0.0
 	revert_remaining = TrickCatalog.LANDING_LINK_SECONDS if _trick_entries_enabled else 0.0
 	_revert_used = false
 	landed.emit(true)
@@ -1173,6 +1184,7 @@ func _try_grind(previous_position: Vector3 = Vector3.ZERO, swept: bool = false) 
 	_ramp_air = false
 	_flip_remaining = 0.0
 	_grab_remaining = 0.0
+	_ollie_pose_remaining = 0.0
 	_spin_angle = 0.0
 	_jump_buffer_remaining = 0.0
 	_coyote_remaining = 0.0
@@ -1241,6 +1253,7 @@ func _release_grind(jump: bool) -> void:
 	speed = Vector2(velocity.x, velocity.z).length()
 	if jump:
 		velocity.y = maxf(0.0, velocity.y) + _pop_impulse
+		_ollie_pose_remaining = OLLIE_POSE_SECONDS
 		combo_link_started.emit()
 		trick_performed.emit("Ollie", TrickCatalog.base_points("ollie"))
 
@@ -1258,6 +1271,7 @@ func get_camera_support_up() -> Vector3:
 
 func _update_pose(delta: float) -> void:
 	_previous_ramp_air_frame = _ramp_air_frame
+	_ollie_pose_remaining = maxf(0.0, _ollie_pose_remaining - delta)
 	_flip_remaining = maxf(0.0, _flip_remaining - delta)
 	_grab_remaining = maxf(0.0, _grab_remaining - delta)
 	_revert_pose_remaining = maxf(0.0, _revert_pose_remaining - delta)
@@ -1270,6 +1284,8 @@ func _update_pose(delta: float) -> void:
 	_visual.rotation.z = lerpf(_visual.rotation.z, -_steering * 0.11 * (speed / MAX_SPEED), 1.0 - exp(-10.0 * delta))
 	var progress := 1.0 - _flip_remaining / FLIP_DURATION
 	var board_angles := TrickAnimation.board_angles(active_flip_id, progress) if _flip_remaining > 0.0 else Vector3.ZERO
+	if airborne and not _ramp_air and _ollie_pose_remaining > 0.0 and _flip_remaining <= 0.0 and _grab_remaining <= 0.0:
+		board_angles.x += TrickAnimation.ollie_pitch(OLLIE_POSE_SECONDS - _ollie_pose_remaining)
 	var manual_pitch := (deg_to_rad(-16.0) if manual_id == "nose_manual" else deg_to_rad(16.0)) + manual_balance * 0.12 if manual_active else 0.0
 	var grab_definition := TrickAnimation.grab_pose(active_grab_id)
 	var grab_weight := 1.0 if _grab_remaining > 0.0 else 0.0

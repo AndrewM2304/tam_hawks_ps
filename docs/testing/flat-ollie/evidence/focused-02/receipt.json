@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-23T12:24:10.350247+01:00",
+  "completed_london": "2026-10-23T12:25:23.209354+01:00",
+  "wall_seconds": 72.85935891699046,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/flat-ollie/observers/focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 383,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "71",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "79d633156337b3819492c02e2b61337b9d9def59284a0467adfeb5eeceebe163",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

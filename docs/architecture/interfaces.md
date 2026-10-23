@@ -1,3 +1,7 @@
+## Flat ollie contract — 23 October 2026 automated checkpoint
+
+`Skater` caches ordinary flat/rail pop7.2→9m/s separately from ramp/lip8→13 at charge release. Existing34m/s² ordinary and22m/s² ramp gravity, horizontal momentum, scoring and quiet ordinary-air camera are preserved. `TrickAnimation.ollie_pitch(elapsed)` is an original0.20s front-foot-lead/level-off curve, superseded by active flip/grab poses and cancelled on support/capture/bail/reset. No new resource, collision query or camera interface. Local values are owner-directed tuning, not verified THPS3 constants. [ADR-028](decisions/ADR-028-flat-ollie-and-foot-sequence.md) and newest STATUS own admission. The earlier tuning records below remain historical.
+
 ## Bail and presentation additions — 22 October 2026 candidate
 
 `Skater.begin_bail(reason, safe_position=Vector3.INF)` coalesces repeated requests and emits `bailed` once at impact. Public read-only recovery presentation: `bailing`, `bail_phase` (fall/slide/get_up/ready/blocked), `bail_reason`, `bail_elapsed`; `recovered` emits once on completion. `recover_to(finite_position)` enters the same sequence, validates actual support/clearance and preserves the career restart spawn. Explicit `reset_skater` cancels immediately. Main suppresses new pickups/gaps/interaction while bailing, keeps active-play clocks, mutes rolling audio and preserves banked score. Pauses freeze native board and body motion.

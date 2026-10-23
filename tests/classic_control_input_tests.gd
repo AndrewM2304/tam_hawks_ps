@@ -398,7 +398,7 @@ static func _face_tricks(tree: SceneTree, rider: Node3D, check: Callable) -> voi
 	var descending := false
 	for frame: int in 60:
 		await _frames(tree,1)
-		if rider.airborne and rider.velocity.y<0 and rider.global_position.y>1.6 and rider.global_position.y<1.85:
+		if rider.airborne and rider.velocity.y<0 and rider.global_position.y>1.05 and rider.global_position.y<1.20:
 			descending = true
 			break
 	_pad(JOY_BUTTON_Y,true)

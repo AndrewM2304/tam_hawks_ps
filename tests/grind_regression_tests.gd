@@ -51,7 +51,9 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 	# descending catch after the apex; normal admission also allows <=1m/s rise.
 	Input.action_release("grind")
 	Input.action_press("ollie")
-	await _frames(tree, 2)
+	# The calmer flat profile requires a deliberate charge for this early
+	# run-up over the0.92m rail; do not widen physical capture tolerances.
+	await _frames(tree, 24)
 	Input.action_release("ollie")
 	Input.action_release("push")
 	var peak_height: float = game.skater.global_position.y
@@ -78,7 +80,7 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 		left_floor = left_floor or (previous_airborne and game.skater.global_position.y > floor_height + 0.25)
 	game.skater.grind_captured.disconnect(on_capture)
 	check.call(caught and left_floor and descending_request and descending_capture and captures == ["Grind_Rail_Exchange"],
-		"grind regression: real push and tap ollie leave support and descend into exactly one Exchange rail catch")
+		"grind regression: real push and charged ollie leave support and descend into exactly one Exchange rail catch")
 	print("GRIND APPROACH peak=", peak_height, " prior_air_vy=", previous_vertical_velocity,
 		" departed=", left_floor, " descending_capture=", descending_capture, " captures=", captures)
 	check.call(game.score.trick_history.has("Ollie")

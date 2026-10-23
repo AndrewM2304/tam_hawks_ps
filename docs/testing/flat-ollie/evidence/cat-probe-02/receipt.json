@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-23T12:19:20.380310+01:00",
+  "completed_london": "2026-10-23T12:19:38.421760+01:00",
+  "wall_seconds": 18.041456207982264,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/flat-ollie/observers/cat_probe.gd",
+    "--",
+    ".local/ollie-audit/cat-probe-02"
+  ],
+  "exit_code": 0,
+  "source_inputs": 383,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "15",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "f6fc9d53d1b845637a44eeab1db81d28a48ea27af66412c4aa4cd168a9cca41e",
+  "git_head": "de6505d8ddb9a447aec68a885eb7834ae2c12158"
+}

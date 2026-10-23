@@ -2,6 +2,11 @@ extends RefCounted
 ## Original analytic trick motion, not captured franchise animation.
 ## Coordinates: +Y up, -Z nose/forward. Physics and scoring live in Skater.
 
+static func ollie_pitch(elapsed: float) -> float:
+	# Original front-foot lead, then rear-foot tuck/level-off. No physical boost.
+	var time := maxf(elapsed, 0.0)
+	return .38 * smoothstep(0.0, .045, time) * (1.0 - smoothstep(.065, .18, time))
+
 static func board_angles(flip_id: String, progress: float) -> Vector3:
 	var phase := clampf(progress, 0.0, 1.0)
 	match flip_id:

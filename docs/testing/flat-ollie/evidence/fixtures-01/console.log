@@ -1,0 +1,295 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: classic pad: repeated held right-stick events attempt a special only once
+PASS: classic pad: opposite right-stick excursion reaches the distinct special once
+PASS: classic pad: sampled neutral resets each special latch without held-event spam
+PASS: classic pad: production Skater settles on real supported floor
+PASS: classic pad: all four actual D-pad events drive movement without specials or interaction
+PASS: classic pad: signed right-stick Y reaches two distinct specials without movement
+PASS: classic pad: L3 interaction, R3 restart, Touchpad free skate and R2 revert retain distinct inputs
+PASS: classic pad: D-pad pushes, physically carves and brakes without creating a manual
+PASS: classic pad: dpad sampled-neutral gesture enters manual exactly once
+PASS: classic pad: dpad Left corrects positive manual balance
+CLASSIC PAD MANUAL device=dpad nose=false same_tick=false balance=[0.05913333333333, 0.01533333333333, -0.1508, -0.06408888888889] yaw_delta=0.0 speed=6.45687055587769 active=true awards=["Manual"]
+PASS: classic pad: dpad Right corrects negative manual balance without carving, relabel or duplicate award
+PASS: classic pad: R1 can deliberately carve during a latched manual while directions balance
+PASS: classic pad: dpad sampled-neutral gesture enters nose_manual exactly once
+PASS: classic pad: dpad Left corrects positive nose_manual balance
+CLASSIC PAD MANUAL device=dpad nose=true same_tick=false balance=[0.05913333333333, 0.01533333333333, -0.1508, -0.06408888888889] yaw_delta=0.0 speed=5.93067121505737 active=true awards=["Nose Manual"]
+PASS: classic pad: dpad Right corrects negative nose_manual balance without carving, relabel or duplicate award
+PASS: classic pad: stick sampled-neutral gesture enters manual exactly once
+PASS: classic pad: stick Left corrects positive manual balance
+CLASSIC PAD MANUAL device=stick nose=false same_tick=false balance=[0.05913333333333, 0.02158333333333, -0.11948888888889, -0.04527777777778] yaw_delta=0.0 speed=6.45687055587769 active=true awards=["Manual"]
+PASS: classic pad: stick Right corrects negative manual balance without carving, relabel or duplicate award
+PASS: classic pad: stick sampled-neutral gesture enters nose_manual exactly once
+PASS: classic pad: stick Left corrects positive nose_manual balance
+CLASSIC PAD MANUAL device=stick nose=true same_tick=false balance=[0.05913333333333, 0.02158333333333, -0.11948888888889, -0.04527777777778] yaw_delta=0.0 speed=5.93067121505737 active=true awards=["Nose Manual"]
+PASS: classic pad: stick Right corrects negative nose_manual balance without carving, relabel or duplicate award
+PASS: classic pad: dpad release/opposite within one tick gesture enters manual exactly once
+PASS: classic pad: dpad Left corrects positive manual balance
+CLASSIC PAD MANUAL device=dpad nose=false same_tick=true balance=[0.05913333333333, 0.01533333333333, -0.1508, -0.06408888888889] yaw_delta=0.0 speed=6.53732252120972 active=true awards=["Manual"]
+PASS: classic pad: dpad Right corrects negative manual balance without carving, relabel or duplicate award
+PASS: classic pad: optional held L2 manual still enters on real ground and ends when released
+CLASSIC PAD REFUSAL scenario=direct speed=6.294593334198 active=false awards=[]
+PASS: classic pad: direct input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=opposite_hold speed=5.56629133224487 active=false awards=[]
+PASS: classic pad: opposite_hold input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=expired speed=5.67031812667847 active=false awards=[]
+PASS: classic pad: expired input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=noise speed=6.38454389572144 active=false awards=[]
+PASS: classic pad: noise input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=releases speed=6.53720808029175 active=false awards=[]
+PASS: classic pad: releases input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=slow speed=0.0 active=false awards=[]
+PASS: classic pad: slow input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=disabled speed=6.21482801437378 active=false awards=[]
+PASS: classic pad: disabled input cannot fabricate a fresh manual
+CLASSIC PAD REFUSAL scenario=entry_reset speed=6.25476789474487 active=false awards=[]
+PASS: classic pad: entry_reset input cannot fabricate a fresh manual
+PASS: classic pad: early post-exit gesture is refused and cannot revive when cooldown later expires
+PASS: classic pause: real tree pause discards the pending Up-neutral edge before menu Down/resume
+PASS: classic pause: latched manual motion, balance, identity and visible pose stay exactly frozen during menu input
+CLASSIC PAD PAUSE ghost_eligible=true ghost_frozen=true manual_admitted=true manual_unchanged=true resumed_distance=0.32970428466797 active=true awards=["Manual"]
+PASS: classic pause: existing manual latch resumes actual travel without a new gesture or duplicate award
+CLASSIC PAD AIR released=false eligible=true request=(0.0, 0.296897, 22.65335) velocity=(0.0, 8.433333, -9.222227) final=(0.0, -0.01844, 17.88853) floor=true awards=["Ollie"]
+PASS: classic pad: expired early-air held L2 request cannot create a manual at actual landing
+CLASSIC PAD AIR released=true eligible=true request=(0.0, 0.999675, 19.27187) velocity=(0.0, -4.033333, -9.222227) final=(0.0, -0.01844, 17.88853) floor=true awards=["Ollie"]
+PASS: classic pad: released near-landing L2 request cannot create a manual at actual landing
+PASS: classic pad: holding then releasing Cross produces a real supported Ollie
+PASS: classic pad: D-pad Right plus Square selects and performs the airborne heelflip
+PASS: classic pad: D-pad Up plus Circle selects and performs the airborne nose grab
+CLASSIC PAD FACES descending=true captures=["ControllerRail"] awards=["Ollie", "Heelflip", "Nose Grab", "Rail Grind"] at=(0.0, 0.92, 19.73298)
+PASS: classic pad: Triangle reaches actual rail capture and awards exactly one grind
+PASS: classic pad: every physical input, saved profile and supported fixture is cleaned up
+PASS: classic input: holding mapped Space for 2 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (2f)
+PASS: classic input: releasing mapped Space pops exactly once (2f)
+PASS: classic input: one held/released request lands without automatic hopping (2f)
+PASS: classic input: holding mapped Space for 36 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (36f)
+PASS: classic input: releasing mapped Space pops exactly once (36f)
+PASS: classic input: one held/released request lands without automatic hopping (36f)
+PASS: classic input: a deliberate crouch charges a measurably higher real ollie
+CLASSIC OLLIE short_apex=0.836 charged_apex=1.275
+PASS: classic flip: mapped J snapshots kickflip across a direction change before release
+PASS: classic flip: held kickflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots heelflip across a direction change before release
+PASS: classic flip: held heelflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots frontside_shuvit across a direction change before release
+PASS: classic flip: held frontside_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots pop_shuvit across a direction change before release
+PASS: classic flip: held pop_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots varial_flip across a direction change before release
+PASS: classic flip: held varial_flip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots hardflip across a direction change before release
+PASS: classic flip: held hardflip finishes with one family award and a real landing
+PASS: classic grab: direction plus mapped K selects melon_grab in real airtime
+PASS: classic grab: held melon_grab stays selected while the stick changes direction
+PASS: classic grab: release ends melon_grab without a second award
+PASS: classic grab: direction plus mapped K selects indy_grab in real airtime
+PASS: classic grab: held indy_grab stays selected while the stick changes direction
+PASS: classic grab: release ends indy_grab without a second award
+PASS: classic grab: direction plus mapped K selects nose_grab in real airtime
+PASS: classic grab: held nose_grab stays selected while the stick changes direction
+PASS: classic grab: release ends nose_grab without a second award
+PASS: classic grab: direction plus mapped K selects tail_grab in real airtime
+PASS: classic grab: held tail_grab stays selected while the stick changes direction
+PASS: classic grab: release ends tail_grab without a second award
+PASS: classic grab: direction plus mapped K selects method_grab in real airtime
+PASS: classic grab: held method_grab stays selected while the stick changes direction
+PASS: classic grab: release ends method_grab without a second award
+PASS: classic flip: a fresh press during the unfinished clip cannot overlap or score twice
+PASS: classic flip: a fresh directional press after clip completion starts a second distinct flip
+PASS: classic manual: mapped M selects manual at eligible real ground speed
+PASS: classic manual: manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends manual
+PASS: classic manual: mapped M selects nose_manual at eligible real ground speed
+PASS: classic manual: nose_manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends nose_manual
+PASS: classic manual: tail and nose variants tilt the visible board in opposite directions
+PASS: classic gesture: mapped Left-Y Up-neutral-Down admits manual once within 220ms
+PASS: classic gesture: releasing the completed manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: mapped Left-Y Down-neutral-Up admits nose_manual once within 220ms
+PASS: classic gesture: releasing the completed nose_manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched nose_manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: a direct push-to-brake reversal with no sampled neutral cannot turn ordinary braking into an automatic manual
+PASS: classic gesture: an expired >220ms stick sequence cannot turn ordinary braking into an automatic manual
+PASS: classic air: partial stick spin preserves physical flight heading and horizontal momentum
+PASS: classic air: the same partial stick visibly spins rider and deck
+PASS: classic rail: a released one-tick mapped Triangle tap buffers a witnessed apex catch within180ms
+CLASSIC RAIL request_tick=4682 release_tick=4683 capture_ticks=[4687] request_at=(0.0, 1.134582, -0.478067) request_velocity=(0.0, 3.333334, -13.9374) uncaptured_while_pressed=true buttons_at_capture=[false]
+PASS: classic rail: a released capture button neither drops nor repeatedly awards the locked rail
+PASS: classic rail: a second fresh mapped Triangle press drops without an immediate recapture
+PASS: classic gates: disabling controls clears a crouch so its stale release cannot pop
+PASS: classic gates: overtime allows existing airtime but rejects new flip and grab entries
+PASS: classic gates: reset clears every selected/active trick family
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before axle_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits axle_stall at actual coping
+PASS: classic lip: held axle_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops axle_stall inward toward its own ramp
+PASS: classic lip: axle_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE axle_stall max_pitch=72.8294995042202 position=(17.0, 2.011549, 82.36981) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before nose_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits nose_stall at actual coping
+PASS: classic lip: held nose_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: holding Ollie crouches in the stall until release
+CLASSIC LIP POP air=true lip=false velocity=(0.0, 8.728017, 1.2) seen=["Nose Stall", "Ollie"]
+PASS: classic lip: release-pop exits the real coping once into upward airtime
+PASS: classic lip: nose_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE nose_stall max_pitch=72.8294995042202 position=(17.0, 2.011544, 76.37852) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before tail_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits tail_stall at actual coping
+PASS: classic lip: held tail_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: overtime preserves an existing stall but rejects new tricks and pop
+PASS: classic lip: existing overtime stall still permits an ordinary release/drop
+PASS: classic lip: tail_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE tail_stall max_pitch=72.8294995042202 position=(17.0, 2.011549, 82.36981) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before disaster
+PASS: classic lip: a fresh mapped Triangle plus direction admits disaster at actual coping
+PASS: classic lip: held disaster balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops disaster inward toward its own ramp
+PASS: classic lip: disaster exits and returns to supported current fixture without falling through
+CLASSIC PIPE disaster max_pitch=72.8294995042202 position=(17.04967, 2.011549, 82.36981) bails=0
+PASS: classic lip: Triangle on ordinary flat approach cannot create a stall
+PASS: classic lip: a released expired Triangle from flat ground cannot acquire a later coping
+PASS: classic lip: a real solid obstruction at the coping rejects an otherwise held approach
+PASS: classic pipe: blocked coping contact never restores an analytic target through the obstacle
+PASS: classic pipe: removing a real obstruction cannot resurrect momentum already removed by its collision
+PASS: classic vert: ordinary roll-up naturally releases upward from the actual quarter without a jump input
+PASS: classic vert: exactly two real air ticks preserve XZ momentum and apply the owner-requested22m/s2 ramp gravity
+CLASSIC VERT released=true launch_tick=6615 elapsed_ticks=2 launch=(0.0, 7.079565, -0.0) expected_up=6.34623123804728 after=(0.0, 6.346231, -0.0)
+PASS: classic vert: preserved ramp launch gains real height from gentler air gravity
+PASS: classic vert: ramp-air gravity ends on real support without leaking into subsequent flat ollies
+CLASSIC RAMP HEIGHT rise=0.86309862136841 expected=0.91533297560834 landed=true
+PASS: classic halfpipe: a modest actual push climbs its finite east wall and naturally reverses below the coping
+PASS: classic halfpipe: reverse wall exit carries momentum back across the supported flat bottom
+CLASSIC HALFPIPE entered=true reversed=true crossed=true maxheight=2.98458480834961 position=(-40.03687, 2.014028, 61.5) velocity=(-5.762101, 0.0, -0.0)
+PASS: career integration: level publishes the H objective marker
+PASS: career integration: actual skating through the world marker collects one letter
+PASS: career integration: remaining near a collected marker cannot duplicate progress
+PASS: career integration: passing near the cone requires an explicit interaction
+PASS: career integration: mapped X input completes the nearby cone interaction
+PASS: career integration: restart clears run collections and retains completed career goals
+PASS: career integration: free-skate collection and banking do not grant career progress or records
+PASS: career integration: automated scene checks keep profile persistence disabled
+PASS: career integration: locked special input cannot consume a full meter or award points
+PASS: career integration: unlocked special still requires a full meter
+PASS: career integration: a grounded special request cannot spend its charge
+PASS: career integration: mapped U input performs one unlocked aerial special and spends one charge
+PASS: career integration: a second request in the same airtime neither spends nor awards again
+PASS: career integration: the earned special joins the ollie and banks through real landing
+PASS: career integration: restart clears run score and meter while keeping career unlocks
+PASS: career integration: central platform gap has authored trigger geometry
+PASS: career integration: actual push-driven approach climbs onto the Central platform
+PASS: career integration: a physical platform ollie crosses both gap triggers and awards once
+PASS: career integration: the real Central gap event completes its career goal
+PASS: career integration: physical gap points and ollie resolve through the landing bank
+PASS: career integration: continued travel after the gap cannot award or bank it twice
+PASS: career integration: main bail wiring resets an armed gap and drops only pending score
+PASS: career integration: restart retains the completed gap goal and resets run scoring
+PASS: cat rules: duplicate authored segment IDs cannot create an impossible accepted offer
+PASS: cat rules: pending combos and horizontal or vertical distance reject fresh attempts
+PASS: cat rules: a deliberate eligible offer starts at the first marked segment
+PASS: cat rules: unmarked or wrong first captures and an unrelated bank cannot advance the sequence
+PASS: cat rules: duplicate latest capture is ignored while an intermediate clean bank preserves progress
+PASS: cat rules: skipping the middle marked rail clears the ordered sequence
+PASS: cat rules: the first marked rail restarts a wrong-order sequence at one
+PASS: cat rules: all three captures still require a subsequent positive clean bank
+PASS: cat rules: a positive final bank wins once without a hidden score threshold
+PASS: cat rules: the earned payoff waits for both close audience and visibility without repeating rewards
+PASS: cat rules: eligible visibility starts the queued payoff once without restarting its clock
+PASS: cat rules: reduced motion stops an already started payoff without replaying it when disabled
+PASS: cat rules: a pending combo cannot replace a completed attempt
+PASS: cat rules: immediate clean replay starts fresh and preserves the run-local win count
+PASS: cat rules: an outside capture fails even before the next polling tick
+PASS: cat rules: an outside final bank cannot complete the attempt
+PASS: cat rules: leaving and returning cannot resume an invalidated attempt
+PASS: cat rules: invalid deltas are ignored and the actual sixty-second deadline expires
+PASS: cat rules: bail invalidates an incomplete sequence without adding a win
+PASS: cat rules: repeated run-finish notification is idempotent
+PASS: cat rules: restart removes all run-local attempt progress
+PASS: cat integration: three distinct authored tracks expose real player capture identity
+PASS: Techno Bin presentation: two separate visible cat props use soft nonmetal materials
+PASS: Techno Bin presentation: the active street drummer has a visible improvised bin kit
+PASS: Techno Bin presentation: hidden logical state identifies the corrected act without hovering text
+PASS: cat integration: a real free-skate interaction starts a fresh ordered attempt
+CAT initial_flight launches=[{ "position": (-19.72526, 4.013714, -91.30115), "speed": 13.3866516749064, "velocity": (13.38665, 7.2, -0.000638) }] first_landing={  } descending_samples=4 closest_A={ "position": (-16.82463, 4.837152, -91.30125), "rail_point": (-16.0, 4.6, -91.0), "gap": 0.90940070152283, "height_above_rail": 0.23715209960938, "speed": 13.3866519927979, "velocity": (13.38665, 0.4, -0.000638), "alignment": 1.0, "grounded": false, "grind_held": true } end_position=(-16.0, 4.6, -91.0) end_speed=13.387
+FAIL: cat integration: real push ollie and rail transfers capture A B C once before any success
+FAIL: cat integration: actual final release and landing bank complete the sequence with only earned trick points
+FAIL: cat integration: success cannot repeat or add free-skate career progress, goals or profile writes
+FAIL: cat presentation: the real offscreen final bank queues its earned payoff for the returning player
+FAIL: cat presentation: actual input return and the production camera frustum start one visible payoff
+FAIL: Techno Bin presentation: the earned visible payoff actually moves both soft cats and the drummer
+PASS: cat presentation: menu pause freezes the accepted payoff
+FAIL: cat presentation: the visible payoff completes its full bound without another completion
+PASS: cat presentation: reduced motion holds both cats and drummer still while the underlying drum clock continues
+FAIL: cat presentation: lingering and toggling motion cannot replay the completed payoff or reward
+CAT audience returned_frames=240 trigger_distance=inf frustum=false celebration=none elapsed=3.20
+CAT physical approach=true captures=["Grind_Cat_A", "Grind_Cat_A"] positions=[(-16.0, 4.6, -91.0), (-11.31469, 4.6, -91.0)] sequence=[1, 1] tricks=["Ollie", "Rail Grind", "Ollie", "Rail Grind"] bank=900 bails=0 state=active remaining=42.60
+CAT flight_witness launches=[{ "position": (-19.72526, 4.013714, -91.30115), "speed": 13.3866516749064, "velocity": (13.38665, 7.2, -0.000638) }, { "position": (-16.0, 4.6, -91.0), "speed": 13.3866109848022, "velocity": (13.38661, 7.2, 0.0) }] first_landing={ "position": (-7.556791, 4.022431, -91.0), "speed": 13.3266153335571, "velocity": (13.32661, 0.0, 0.0), "clean": true, "captures": ["Grind_Cat_A", "Grind_Cat_A"] }
+PASS: cat integration: mapped nearby interaction starts the production attempt
+PASS: cat integration: pause freezes the challenge deadline
+PASS: cat integration: career expiry ends the side attempt while the real airborne combo still resolves
+PASS: cat integration: final banking or results-screen interaction cannot revive an expired attempt
+PASS: cat integration: restart clears the challenge while retaining career identity
+PASS: cat integration: actual manual imbalance bails once and clears the live attempt and pending score
+CAT bail entered=true bails=1 state=failed reason=No bother. Come back and we'll strike up another beat. position=(12.08546, 4.650027, -95.0) speed=5.10 manual=false
+PASS: Techno Bin audio: the performer owns exactly one spatial percussion source
+PASS: Techno Bin audio: original percussion is a bounded spatial mono PCM loop
+PASS: Techno Bin audio: generated drum samples carry energy without clipping or a loud loop seam
+PASS: Techno Bin audio: nonfinite gains mute safely and excessive direct gains clamp to full mix
+PASS: Techno Bin audio: the public master and ambience controls both scale the drum mix
+PASS: Techno Bin audio: either mute control stops the percussion source
+PASS: Techno Bin audio: a real menu pause suspends the source and visible drum rhythm
+PASS: Techno Bin audio: resuming restores performer processing and rhythm
+PASS: Techno Bin audio: run end stops the beat and changing settings cannot restart a finished act
+PASS: Techno Bin audio: the next run restores the local street performance
+PASS: Exchange place: both attachments publish their supported bank joins and permanent bypasses
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bank_loop forward
+EXCHANGE ROUTE gallery_entrance_bank_loop forward reached=true seconds=4.67 height=2.009..2.674 slope_frames=69 bails=0 stalls=0 camera=280/0/0 final=(13.45216, 2.008655, -37.0)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bank_loop reverse
+EXCHANGE ROUTE gallery_entrance_bank_loop reverse reached=true seconds=4.43 height=2.012..2.677 slope_frames=66 bails=0 stalls=0 camera=266/0/0 final=(-13.45054, 2.012553, -37.0)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_front_return forward
+EXCHANGE ROUTE gallery_entrance_front_return forward reached=true seconds=2.90 height=2.012..2.664 slope_frames=24 bails=0 stalls=0 camera=174/0/0 final=(0.278237, 2.012395, -20.41637)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_front_return reverse
+EXCHANGE ROUTE gallery_entrance_front_return reverse reached=true seconds=3.10 height=2.001..2.673 slope_frames=24 bails=0 stalls=0 camera=186/0/0 final=(2.999564, 2.662902, -36.46836)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bypass forward
+EXCHANGE ROUTE gallery_entrance_bypass forward reached=true seconds=7.27 height=2.001..2.001 slope_frames=0 bails=0 stalls=0 camera=436/0/0 final=(21.9844, 2.000506, -38.47997)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bypass reverse
+EXCHANGE ROUTE gallery_entrance_bypass reverse reached=true seconds=7.38 height=2.001..2.001 slope_frames=0 bails=0 stalls=0 camera=443/0/0 final=(-21.9844, 2.000506, -38.47997)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bank_loop forward
+EXCHANGE ROUTE exchange_west_bank_loop forward reached=true seconds=5.47 height=0.001..0.467 slope_frames=62 bails=0 stalls=0 camera=328/0/0 final=(-22.03225, 0.013737, 0.823664)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bank_loop reverse
+EXCHANGE ROUTE exchange_west_bank_loop reverse reached=true seconds=5.57 height=0.001..0.477 slope_frames=64 bails=0 stalls=0 camera=334/0/0 final=(-22.49419, 0.005432, 0.301697)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bypass forward
+EXCHANGE ROUTE exchange_west_bypass forward reached=true seconds=2.03 height=0.001..0.001 slope_frames=0 bails=0 stalls=0 camera=122/0/0 final=(-22.0, 0.000506, -1.474203)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bypass reverse
+EXCHANGE ROUTE exchange_west_bypass reverse reached=true seconds=2.03 height=0.001..0.001 slope_frames=0 bails=0 stalls=0 camera=122/0/0 final=(-22.0, 0.000506, 13.47278)
+PASS: Exchange portico: each exposed column has actual blocking collision above its base
+PASS: Exchange portico: the front terrace crossing remains clear of the real columns
+PASS: Exchange place: preserved physical port and chase station south port forward
+PASS: Exchange place: preserved physical port and chase station south port reverse
+PASS: Exchange place: preserved physical port and chase cone and east spine forward
+PASS: Exchange place: preserved physical port and chase cone and east spine reverse
+PASS: Exchange combo: actual push rides the new entrance bank before the ollie
+PASS: Exchange combo: one real capture follows the bent seating ledge into its south-facing exit
+PASS: Exchange combo: rail ollie air tricks and a fresh Manual remain one physical line
+PASS: Exchange combo: exact repeat-degraded line banks 5000 once without event injection
+PASS: Exchange combo: actual bank ledge and landing chase remains finite clear and visible
+EXCHANGE COMBO captured=true south_exit=true manual=true connected=true bank=5000 bails=0 grounded_ascent=0.273 camera=300/0/0 tricks=["Ollie", "Rail Grind", "Ollie", "Kickflip", "Melon Grab", "Manual"]
+PASS: topography: broken bridge publishes its run-up and landing
+PASS: topography: broken bridge has a named scored gap
+PASS: topography: actual push run-up and charged crouch reach the bridge launch grade
+PASS: topography: physical eight-metre bridge ollie reaches south bank and banks the named gap once
+TOPOGRAPHY bridge takeoff=true landed=true awards=1 bank=2000 bails=0 charge_frames=22
+PASS: topography: missed bridge drops the real fall combo once and preserves the earned bank
+PASS: topography: water recovery returns to supported quay without changing the run restart spawn
+TOPOGRAPHY water bails=1 pending=true sampled_water=true bank=100 position=(10.0, 2.000026, 124.0)
+RESULT: 239 passed, 8 failed

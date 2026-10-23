@@ -208,6 +208,9 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 		if evidence.bails > 0 or game.cat_encounter.status_snapshot().state != "active": break
 	Input.action_release("push")
 	Input.action_release("ollie")
+	# Sample the release before charging again: simultaneous synthetic
+	# release/press edges otherwise request an immediate uncharged hop.
+	await _frames(tree,1)
 	print("CAT initial_flight launches=%s first_landing=%s descending_samples=%d closest_A=%s end_position=%s end_speed=%.3f" % [
 		evidence.launches, evidence.first_landing, evidence.descending_samples,
 		evidence.closest_a, game.skater.global_position, game.skater.speed])
@@ -217,7 +220,11 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 		var exit_point: Vector3 = prior.point_at(prior.length - 1.0)
 		for frame in range(90):
 			_balance(game.skater)
-			if (exit_point - game.skater.global_position).dot(tangent) <= 0.0: break
+			# Charge before the existing takeoff point: short rail taps no
+			# longer provide the rejected oversized transfer airtime.
+			var distance_to_exit: float = (exit_point - game.skater.global_position).dot(tangent)
+			if distance_to_exit <= 5.5: Input.action_press("ollie")
+			if distance_to_exit <= 0.0: break
 			await _frames(tree, 1)
 			if not game.skater.grinding: break
 		Input.action_release("steer_left")
