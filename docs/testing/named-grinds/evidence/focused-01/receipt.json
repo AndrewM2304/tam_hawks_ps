@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-23T21:22:38.003196+01:00",
+  "completed_london": "2026-10-23T21:23:09.099163+01:00",
+  "wall_seconds": 31.09605474997079,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/named-grinds/observers/focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 395,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "276",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "c956e816fafb4bcb4c22e8778af4c672264c036641cdb7b5e669bb4636649866",
+  "git_head": "ef0eb9f4d0eaefa6fa2d54ef30792fa3820390e4"
+}

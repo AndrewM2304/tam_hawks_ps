@@ -1,3 +1,31 @@
+# Named grind contacts — verified local checkpoint
+
+23 October 2026, `bootstrap/m00-m01`, changes over `ef0eb9f`. Continued entirely in this local checkout while cloud is unavailable. [Implementation tasks](planning/NAMED-GRINDS-2026-10-23.md), [ADR-029](architecture/decisions/ADR-029-named-grind-contact-contract.md), [evidence and retained failures](testing/named-grinds/README.md), [source/artifact audit](testing/named-grinds/audit.json), [all outstanding work](planning/OUTSTANDING-2026-10-23.md).
+
+**Required `tools/check.sh`: 2,561 passed / 0 failed**, exit 0, clean logs and 394 frozen receipt inputs. London start `2026-10-23T22:18:03.218135+01:00`, end `2026-10-23T22:40:53.688459+01:00`; 1,370.473096 monotonic seconds. Focused checks pass 333/0, index/bounds 38/0, native comparison 3/0, rising-air capture 2/0 and PNG decode 16/0. These overlap the aggregate rather than adding independent totals. Final audit verifies all 393 current core inputs, 26 catalog IDs, 16 original native PNGs, pinned controls and all 75 unchanged complete backlog bodies.
+
+The first TRICK-G01 slice implements 50-50 and signed boardslide on explicitly supported authored rails/coping. It separates travel/camera from rigid truck/deck contacts, keeps soles planted, bounds swept capture correction, checks continuous board clearance during the ride, preserves exit heading without a fake spin award, and routes new names through scoring/audio/encounters. Native tests retain the real Exchange 5,000-point line, bridge gap, cat/delivery and career routes. No new visible geometry, materials, textures, bodies or assets; one persistent board query/shape per rider. Semantic world-solid edges remain byte-identical to the original source and generic; conforming ledge/component support is G01-06. Entry remains a bounded snap with capsule-path and destination board checks; continuous visible acquisition has not been certified. G01-07 records a mapped interpolation-obstacle investigation, not a reproduced visual defect.
+
+Native A/B/A passes both unchanged strict p95/p99 gates. Frame p50/p95/p99 ms: 5.105/7.683/10.199 → 4.250/6.218/9.275 → 4.261/6.345/9.950; frames over 33.333 ms: 2/0/0. Five actual catches, ten ollies and five supported post-pop returns occur per phase at matching capture ticks, with no input reassertions or bails. Grind-update p95/p99 µs rises 31/33 → 41/47 → 30/31; render buffer/texture/video counters stay 15,446,036/52,233,902/67,679,938 bytes. Constructor static delta is 985.6 bytes/rider, not total native allocation. Recorded other-app CPU bursts mean fully isolated rendering, long-play stutter and general performance acceptance remain open; no optimization claim.
+
+Root and a separate source/artifact reviewer inspected all sixteen original 1280×800 contact/release PNGs. Capture03 shows both styles rising at body Y=1.22333348 m, vertical velocity +5.50000429 m/s and scored air-spin 0; boardslide retains its separate sideways heading. Capture02's early launch images remain historical. Static paused readbacks do not certify continuous motion, owner feel or final art. The reviewer previously authored native tests; this is not blind human QE. Physical DualSense, standalone exports, realistic motion/UI/art and isolated performance remain open.
+
+Required01 remains rejected at 2,556/1, with its exact frozen source/log retained. Its sole old index fixture required a preceding-sample correction over 1 m despite the new 0.99 m bound. Preserve that refusal and add a bounded missed-window positive; only the test fixture changed, with no production threshold relaxation. Earlier admitted native/focused receipts differ solely in that unloaded test; conservative dependency closures verify the exception. Rejected semantic-route and observer workloads are also retained, never promoted to passes.
+
+Staged source/docs whitespace check passes excluding raw evidence. The unfiltered check reports only fifteen intentional `"50-50 "` lookalike messages in original logs; their spaces and hashes are preserved. Process inspection confirms only the pre-existing idle Godot front end remains; no task-owned engine is running.
+
+Exact final commands (exit 0):
+
+```sh
+GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot python3 docs/testing/horizon-background/observers/run_checked.py .local/named-grinds/required-02 ./tools/check.sh
+GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot python3 docs/testing/horizon-background/observers/run_checked.py .local/named-grinds/png-audit ./tools/run.sh --headless --script docs/testing/map-flow/observers/audit_pngs.gd -- docs/testing/named-grinds/evidence/capture-02 docs/testing/named-grinds/evidence/capture-03
+python3 docs/testing/named-grinds/observers/audit.py focused-03 index-01 compare-03 capture-03 required-02 png-audit
+```
+
+Next: reproduce G01-07 acquisition interpolation, implement G01-06 conforming ledge/component support, then additional variants/style changes, wallride/wallie, straight-on plants and landing assistance. Preserve the wider missing-world/Kelvingrove/downhill/UI queue and all 64 non-Done original records. Continue on this feature branch; no need to repeat the unchanged full suite for documentation alone. No task-owned engine or agent loop remains running. No push, hosted CI, purchases or external code/assets.
+
+---
+
 # Calmer flat ollie and complete trick audit — verified local checkpoint
 
 23 October 2026, branch `bootstrap/m00-m01`, source changes over `de6505d`. Required **2314 passed / 0 failed**, clean/frozen 382 receipt inputs / 381 current core inputs, 1338.721 monotonic seconds. Recorded London start `2026-10-23T12:51:54.075151+01:00` / end `2026-10-23T13:54:03.354054+01:00`. Exact reproducible command: `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot python3 docs/testing/horizon-background/observers/run_checked.py .local/ollie-audit/required-02 ./tools/check.sh`. [Receipt](testing/flat-ollie/evidence/required-02/receipt.json), [evidence and negatives](testing/flat-ollie/README.md), [source/artifact audit](testing/flat-ollie/audit.json), [complete trick inventory](research/TRICK-STYLE-AUDIT-2026-10-23.md), [ordered tasks](planning/TRICK-FIDELITY-2026-10-23.md), [ADR-028](architecture/decisions/ADR-028-flat-ollie-and-foot-sequence.md).

@@ -48,6 +48,10 @@ const DEFINITIONS: Array = [
 		"allowed_states": ["air"], "activation": "landing"},
 	{"id": "rail_grind", "display_name": "Rail Grind", "base_points": 200,
 		"allowed_states": ["grind"], "activation": "entry"},
+	{"id": "grind_50_50", "display_name": "50-50", "base_points": 200,
+		"allowed_states": ["grind"], "activation": "entry"},
+	{"id": "boardslide", "display_name": "Boardslide", "base_points": 200,
+		"allowed_states": ["grind"], "activation": "entry"},
 	{"id": "manual", "display_name": "Manual", "base_points": 100,
 		"allowed_states": ["manual"], "activation": "entry"},
 	{"id": "nose_manual", "display_name": "Nose Manual", "base_points": 100,
@@ -81,6 +85,15 @@ static func definition(trick_id: String) -> Dictionary:
 		if entry["id"] == trick_id:
 			return entry.duplicate(true)
 	return {}
+
+
+## Entry consumers must recognize catalogued contact styles without relying on
+## an English name containing "grind" (50-50 and Boardslide do not).
+static func is_grind_name(display_name: String) -> bool:
+	for entry: Dictionary in DEFINITIONS:
+		if entry.display_name == display_name and entry.allowed_states == ["grind"]:
+			return true
+	return false
 
 static func is_known(trick_id: String) -> bool:
 	return not definition(trick_id).is_empty()

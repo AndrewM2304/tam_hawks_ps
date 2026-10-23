@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-23T22:41:17.515420+01:00",
+  "completed_london": "2026-10-23T22:41:18.046472+01:00",
+  "wall_seconds": 0.5307889999821782,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    "docs/testing/map-flow/observers/audit_pngs.gd",
+    "--",
+    "docs/testing/named-grinds/evidence/capture-02",
+    "docs/testing/named-grinds/evidence/capture-03"
+  ],
+  "exit_code": 0,
+  "source_inputs": 395,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "16",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "b2c787760fbb59e100e0ff5512951f375806eddb4930a8d296265474459df68e",
+  "git_head": "ef0eb9f4d0eaefa6fa2d54ef30792fa3820390e4"
+}

@@ -52,7 +52,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	check.call(combo.captured and combo.capture_ids == [GALLERY_LEDGE] and combo.south_exit,
 		"Exchange combo: one real capture follows the bent seating ledge into its south-facing exit")
 	check.call(combo.manual_entered and combo.connected and combo.bails == 0
-		and combo.tricks == ["Ollie", "Rail Grind", "Ollie", "Kickflip", "Melon Grab", "Manual"],
+		and combo.tricks == ["Ollie", "50-50", "Ollie", "Kickflip", "Melon Grab", "Manual"],
 		"Exchange combo: rail ollie air tricks and a fresh Manual remain one physical line")
 	check.call(combo.bank == 5000 and combo.banked_once and game.score.get_combo_value() == 0,
 		"Exchange combo: exact repeat-degraded line banks 5000 once without event injection")

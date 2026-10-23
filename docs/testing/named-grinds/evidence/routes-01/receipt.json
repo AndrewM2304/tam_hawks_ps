@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-23T21:29:03.871585+01:00",
+  "completed_london": "2026-10-23T21:38:29.093509+01:00",
+  "wall_seconds": 565.2250943749677,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/named-grinds/observers/routes.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 395,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "220",
+      "9"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "24cb19117e4138db7d9d490917edda610b5fe0af600332a7047ddba4bfa50d5d",
+  "git_head": "ef0eb9f4d0eaefa6fa2d54ef30792fa3820390e4"
+}

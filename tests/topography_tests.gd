@@ -2,6 +2,7 @@ extends RefCounted
 ## Real terrain motion, curved coping and river recovery. Initial fixtures may
 ## relocate the spawn; after restart, only production physics moves the rider.
 ## Grounded heading is aimed directly: this is idealized feasibility, not feel.
+const Catalog = preload("res://game/tricks/trick_catalog.gd")
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	var original_spawn: Vector3 = game.skater.spawn_position
@@ -207,7 +208,7 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 			connected = connected and game.score.total_score == 0 and game.skater.manual_active
 	check.call(captured and captured_id == ledge.id and evidence.captured_ids == [ledge.id]
 		and manual_entered and landed_on_quay and connected and evidence.bails == 0
-		and evidence.names.count("Ollie") == 2 and evidence.names.count("Rail Grind") == 1
+		and evidence.names.count("Ollie") == 2 and _grind_award_count(evidence.names) == 1
 		and evidence.names.has("Kickflip") and evidence.names.has("Melon Grab") and evidence.names.count("Manual") == 1,
 		"topography: actual yard ollie capture rail-ollie air tricks and manual stay in one unbanked line")
 	_release()
@@ -312,7 +313,7 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_release("steer_left")
 	Input.action_release("steer_right")
 	check.call(captured and jumped and game.score.trick_history.has("Ollie")
-		and game.score.trick_history.count("Rail Grind") == 1,
+		and _grind_award_count(game.score.trick_history) == 1,
 		"topography: real ground approach and descending ollie capture fountain coping")
 	if captured:
 		var initial_heading: float = game.skater.rotation.y
@@ -541,3 +542,10 @@ static func _frames(tree: SceneTree, count: int) -> void:
 	for i in count:
 		await tree.physics_frame
 		await tree.process_frame
+
+
+static func _grind_award_count(names: Array) -> int:
+	var count := 0
+	for name: String in names:
+		if Catalog.is_grind_name(name): count += 1
+	return count

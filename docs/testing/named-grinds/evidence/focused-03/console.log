@@ -1,0 +1,350 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: grind ride: an airborne approach within capture bounds attaches
+PASS: grind ride: entry preserves projected speed and samples the rail
+PASS: grind ride: forward travel advances distance and loses speed to friction
+PASS: grind ride: stop retains finite release position and momentum
+PASS: grind ride: inactive updates do not keep moving the released skater
+PASS: grind ride: selects nearest eligible rail regardless of list order
+PASS: grind ride: blocked nearest rail falls back to a clear eligible rail
+PASS: grind ride: obstructed snap is rejected
+PASS: grind ride: reverse entry keeps its signed travel direction
+PASS: grind ride: reverse motion decreases distance and keeps momentum
+PASS: grind ride: crossing an open endpoint releases in direction -1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: crossing an open endpoint releases in direction 1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: outward approaches beyond either endpoint do not attach
+PASS: grind ride: an inward approach near an endpoint can attach
+PASS: grind ride: distance follows a translated bent rail and the outgoing tangent turns with it
+PASS: grind ride: approach angle gate distinguishes either side of 65 degrees
+PASS: grind ride: approach angle gate distinguishes either side of 65 degrees
+PASS: grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.78, 0.1, -5.0)
+PASS: grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.0, 0.58, -5.0)
+PASS: grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.0, -0.13, -5.0)
+PASS: grind ride: angled catch retains at least 90 percent horizontal speed without converting a fall to flat-rail boost
+PASS: grind ride: angled catch retains at least 90 percent horizontal speed without converting a fall to flat-rail boost
+PASS: grind ride: sloped rails capture both travel directions
+PASS: grind ride: slope gravity changes speed and outgoing velocity retains the vertical tangent
+PASS: grind ride: insufficient uphill momentum releases without silently reversing
+PASS: grind ride: downhill acceleration respects the speed ceiling
+PASS: grind ride: rejects full snap distance
+PASS: grind ride: rejects vertical reach
+PASS: grind ride: rejects below the rail
+PASS: grind ride: rejects rising ascent
+PASS: grind ride: rejects sideways approach
+PASS: grind ride: rejects too little speed
+PASS: grind ride: rejects excessive speed
+PASS: grind ride: rejects nonfinite position
+PASS: grind ride: rejects nonfinite velocity
+PASS: grind ride: malformed rail lists cannot attach
+PASS: grind ride: vertical lines have no usable horizontal approach
+PASS: grind ride: unattended deterministic balance eventually bails
+PASS: grind ride: countersteering controls the balance instead of an unavoidable timeout
+PASS: grind ride: analog correction is bounded to the normal input range
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [30.0, -0.4, -35.0, 8.0, 22.0, 0.5]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [60.0, 0.4, 35.0, 12.0, 42.0, 0.5]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [120.0, -0.5, -25.0, 17.0, 60.0, 0.46]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [60.0, 0.55, 0.0, 4.0, 28.0, 0.46]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [120.0, -0.3, 45.0, 10.0, 18.0, 0.46]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [30.0, 0.0, 0.0, 17.0, 18.0, 0.46]
+PASS: grind forgiveness: actual descending travel recovers a window missed at both frame endpoints
+PASS: grind forgiveness: a blocked actual-body sweep rejects every historical sample
+PASS: grind forgiveness: clearance always starts at the current body, never a past sample
+PASS: grind forgiveness: no larger admission envelope for lateral miss
+PASS: grind forgiveness: no larger admission envelope for wrong upper level
+PASS: grind forgiveness: no larger admission envelope for below rail
+PASS: grind forgiveness: no larger admission envelope for perpendicular motion
+PASS: grind forgiveness: no larger admission envelope for rail behind travel
+PASS: grind forgiveness: no larger admission envelope for rising toward rail
+PASS: grind forgiveness: no larger admission envelope for insufficient forward speed
+PASS: grind forgiveness: no larger admission envelope for excessive forward speed
+PASS: grind forgiveness: no larger admission envelope for teleport-sized sweep
+PASS: grind forgiveness: no larger admission envelope for nonfinite history
+PASS: grind forgiveness: a second sweep cannot restart an active rail or duplicate its admission
+PASS: capture bounds: recorded yard current position is inside the unchanged point envelope
+PASS: capture bounds: recorded1.085m previous-sample correction is refused without activating
+PASS: capture bounds: next real step catches the same endpoint within both independent budgets
+PASS: capture bounds: sub-metre descending missed-window recovery is retained
+PASS: capture bounds: unsupported nearest contact continues to a clear eligible candidate
+PASS: capture bounds: swept entry applies the same contact policy without a phantom capture
+PASS: grind contact: legacy guides remain explicitly unverified without an invented offset
+PASS: grind contact: inspected top datum configures chainably with a retained source
+PASS: grind contact: metadata cannot rewrite authored travel points, length or tangent
+PASS: grind contact: flat normal and existing open-guide distance clamping remain explicit
+PASS: grind contact: translated unit-yaw beam keeps world-space support and original guide coordinates
+PASS: grind contact: grade support normal is unit projected world-up perpendicular to actual tangent
+PASS: grind contact: centre-authored graded beam uses normal radius rather than a vertical-only height
+PASS: grind contact: support side does not invert with authored or ridden travel direction
+PASS: grind contact: lowered graded cylinder combines its world-vertical lowering and radial support
+PASS: grind contact: lowered flat cylinder guide already describes its top, not its centre
+PASS: grind contact: semantic admission skin is removed in world up without changing its guide
+PASS: grind contact: closed-guide seam retains matching finite support at existing wrapped endpoints
+PASS: grind contact: same-direction collinear grades retain an exact constant beam normal through a subdivision
+PASS: grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (0.0, 3.0, -8.0)] (0.0, 0.065)
+PASS: grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (0.0, 3.0, -8.0)] (-0.07, 0.07)
+PASS: grind contact: zero-normal source-top metadata retains its real polyline without inventing radial joint support
+PASS: grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (4.0, 4.0, -4.0)] (0.0, 0.065)
+PASS: grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (4.0, 4.0, -4.0)] (-0.07, 0.07)
+PASS: grind contact: zero-normal source-top metadata retains its real polyline without inventing radial joint support
+PASS: grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (0.0, 2.0, 0.0)] (0.0, 0.065)
+PASS: grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (0.0, 2.0, 0.0)] (-0.07, 0.07)
+PASS: grind contact: zero-normal source-top metadata retains its real polyline without inventing radial joint support
+PASS: grind contact: malformed replacement clears stale authority and finite offsets [nan, 0.0, "bad vertical"]
+PASS: grind contact: malformed replacement clears stale authority and finite offsets [0.0, inf, "bad normal"]
+PASS: grind contact: malformed replacement clears stale authority and finite offsets [0.5001, 0.0, "too far vertical"]
+PASS: grind contact: malformed replacement clears stale authority and finite offsets [0.0, -0.5001, "too far normal"]
+PASS: grind contact: malformed replacement clears stale authority and finite offsets [0.0, 0.0, " \t "]
+PASS: grind contact: missing and vertical geometry cannot acquire a manufactured support side
+PASS: grind contact: nonfinite query distances cannot contaminate a physical transform
+PASS: grind contact: direct malformed metadata mutation cannot return a nonfinite contact position
+PASS: grind contact: original semantic box guide preserves exact translated/yawed top corners plus world-up admission skin
+PASS: grind styles: neutral/up/down snapshot selects parallel 50-50 (0.0, 0.0)
+PASS: grind styles: neutral/up/down snapshot selects parallel 50-50 (0.0, -1.0)
+PASS: grind styles: neutral/up/down snapshot selects parallel 50-50 (0.0, 1.0)
+PASS: grind styles: a reversed parallel board preserves fakie heading
+PASS: grind styles: horizontal snapshot selects a signed deck-crossing quarter-turn -1.0
+PASS: grind styles: already-perpendicular captured board selects deck contact independently of travel -1.0
+PASS: grind styles: authored +/-0.35 direction boundary follows shared input precision semantics -1.0
+PASS: grind styles: direction just below the shared threshold retains neutral truck contact -1.0
+PASS: grind styles: horizontal snapshot selects a signed deck-crossing quarter-turn 1.0
+PASS: grind styles: already-perpendicular captured board selects deck contact independently of travel 1.0
+PASS: grind styles: authored +/-0.35 direction boundary follows shared input precision semantics 1.0
+PASS: grind styles: direction just below the shared threshold retains neutral truck contact 1.0
+PASS: grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 44.0
+PASS: grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 46.0
+PASS: grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 134.0
+PASS: grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 136.0
+PASS: grind styles: selection retains the passed capture snapshot when later direction changes
+PASS: grind styles: separate selections own their result without shared mutable style state
+PASS: grind styles: nonfinite and missing horizontal board/travel headings cannot select a style
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=0.0 balance=-0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=0.0 balance=-0.8
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=0.0 balance=0.0
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=0.0 balance=0.0
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=0.0 balance=0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=0.0 balance=0.8
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=3.14159265358979 balance=-0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=3.14159265358979 balance=-0.8
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=3.14159265358979 balance=0.0
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=3.14159265358979 balance=0.0
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=3.14159265358979 balance=0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=3.14159265358979 balance=0.8
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=0.0 balance=-0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=0.0 balance=-0.8
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=0.0 balance=0.0
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=0.0 balance=0.0
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=0.0 balance=0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=0.0 balance=0.8
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=3.14159265358979 balance=-0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=3.14159265358979 balance=-0.8
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=3.14159265358979 balance=0.0
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=3.14159265358979 balance=0.0
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=3.14159265358979 balance=0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=3.14159265358979 balance=0.8
+PASS: grind styles: 50-50 uses asset hanger undersides, not wheel/deck or guessed root height
+PASS: grind styles: open endpoint clamps both support contacts inside the finite guide 0.0
+PASS: grind styles: open endpoint clamps both support contacts inside the finite guide 0.05
+PASS: grind styles: open endpoint clamps both support contacts inside the finite guide 9.94999809265137
+PASS: grind styles: open endpoint clamps both support contacts inside the finite guide 9.99999809265137
+PASS: grind styles: finite start supports span exactly .51m without extrapolating the rail
+PASS: grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie -1.0/0.0
+PASS: grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie -1.0/3.14159265358979
+PASS: grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie 1.0/0.0
+PASS: grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie 1.0/3.14159265358979
+PASS: grind styles: right-angle bend solves an actual .51m support chord without stretching or tangent-only fake contact
+PASS: grind styles: bent-guide contacts straddle the corner beyond the .255m straight arc offset
+PASS: grind styles: loop seam wraps actual truck supports for signed fakie travel
+PASS: grind styles: a loop whose entire diameter is below the fixed hanger span is rejected
+PASS: grind styles: sufficient arc length alone cannot fake a rigid contact chord on a short right-angle guide
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/-1.5707963267949/-0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/-1.5707963267949/0.0
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/-1.5707963267949/0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/1.5707963267949/-0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/1.5707963267949/0.0
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/1.5707963267949/0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/-1.5707963267949/-0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/-1.5707963267949/0.0
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/-1.5707963267949/0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/1.5707963267949/-0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/1.5707963267949/0.0
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/1.5707963267949/0.8
+PASS: grind styles: sloped boardslide crosses the rail in its support plane while holding the deck centre
+PASS: grind styles: authored beam support offset, rather than its centreline, receives the deck
+PASS: grind styles: short finite support rejects two trucks but can support one deck contact
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [inf, 1.0, 0.0, "grind_50_50", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 0.0, 0.0, "grind_50_50", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, nan, "grind_50_50", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.2, "grind_50_50", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "boardslide", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "unimplemented_lipslide", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "grind_50_50", nan]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "grind_50_50", 1.01]
+PASS: grind styles: missing/unverified/vertical/empty support cannot claim named contact <null>
+PASS: grind styles: missing/unverified/vertical/empty support cannot claim named contact <RefCounted#-9223371974628080083>
+PASS: grind styles: missing/unverified/vertical/empty support cannot claim named contact <RefCounted#-9223371974594525687>
+PASS: grind styles: missing/unverified/vertical/empty support cannot claim named contact <RefCounted#-9223371974560971242>
+PASS: grind styles: one reused result replaces contact count/data while retaining its two fixed array slots
+PASS: named grind: approach begins on actual supported floor side=0 reversed=false slope=false
+PASS: named grind: charged real approach captures exact style and one authored rail ID side=0 reversed=false slope=false
+PASS: named grind: named entry awards once without a legacy compatibility duplicate side=0 reversed=false slope=false
+PASS: named grind: actual mounted board follows contact frame and native rail top side=0 reversed=false slope=false
+PASS: named grind: truck pair is parallel or deck contact is sideways independently of travel side=0 reversed=false slope=false
+PASS: named grind: soles stay planted while root and chase remain behind signed travel side=0 reversed=false slope=false
+PASS: named grind: continued held Triangle cannot reaward the locked ride side=0 reversed=false slope=false
+PASS: named grind: actual release-pop preserves signed XZ momentum and chosen board heading side=0 reversed=false slope=false
+PASS: named grind: release-pop preserves board origin before bounded offset decay side=0 reversed=false slope=false
+PASS: named grind: release-pop clears the reusable contact and style side=0 reversed=false slope=false
+PASS: named grind: sideways base heading earns no fake spin and two real pops land cleanly side=0 reversed=false slope=false
+NAMED_GRIND side=0 reversed=false slope=false styles=["grind_50_50"] captures=["IndependentVerifiedRail"] awards=["Ollie", "50-50", "Ollie"] native_ticks=23 contact_error=0.00000381516293 plane_error=0.00000011920929 foot_error=0.00676186801866 rear=1.0 first_exit={ "velocity": (0.0, 7.225062, -11.22229), "airborne": true, "position": (0.0, 0.92, 14.93682), "board_forward": (0.002066, 0.0, -0.999998), "bailing": false, "board_relative_step": 0.00527496775612 }
+PASS: named grind: approach begins on actual supported floor side=1 reversed=false slope=false
+PASS: named grind: charged real approach captures exact style and one authored rail ID side=1 reversed=false slope=false
+PASS: named grind: named entry awards once without a legacy compatibility duplicate side=1 reversed=false slope=false
+PASS: named grind: actual mounted board follows contact frame and native rail top side=1 reversed=false slope=false
+PASS: named grind: truck pair is parallel or deck contact is sideways independently of travel side=1 reversed=false slope=false
+PASS: named grind: soles stay planted while root and chase remain behind signed travel side=1 reversed=false slope=false
+PASS: named grind: continued held Triangle cannot reaward the locked ride side=1 reversed=false slope=false
+PASS: named grind: actual release-pop preserves signed XZ momentum and chosen board heading side=1 reversed=false slope=false
+PASS: named grind: release-pop preserves board origin before bounded offset decay side=1 reversed=false slope=false
+PASS: named grind: release-pop clears the reusable contact and style side=1 reversed=false slope=false
+PASS: named grind: sideways base heading earns no fake spin and two real pops land cleanly side=1 reversed=false slope=false
+NAMED_GRIND side=1 reversed=false slope=false styles=["boardslide"] captures=["IndependentVerifiedRail"] awards=["Ollie", "Boardslide", "Ollie"] native_ticks=23 contact_error=0.00000005960464 plane_error=0.00000005960464 foot_error=0.00676115043461 rear=1.0 first_exit={ "velocity": (0.0, 7.225062, -11.22229), "airborne": true, "position": (0.0, 0.92, 14.93682), "board_forward": (0.999998, 0.0, 0.002066), "bailing": false, "board_relative_step": 0.03281090781093 }
+PASS: named grind: approach begins on actual supported floor side=-1 reversed=true slope=true
+PASS: named grind: charged real approach captures exact style and one authored rail ID side=-1 reversed=true slope=true
+PASS: named grind: named entry awards once without a legacy compatibility duplicate side=-1 reversed=true slope=true
+PASS: named grind: actual mounted board follows contact frame and native rail top side=-1 reversed=true slope=true
+PASS: named grind: truck pair is parallel or deck contact is sideways independently of travel side=-1 reversed=true slope=true
+PASS: named grind: soles stay planted while root and chase remain behind signed travel side=-1 reversed=true slope=true
+PASS: named grind: continued held Triangle cannot reaward the locked ride side=-1 reversed=true slope=true
+PASS: named grind: actual release-pop preserves signed XZ momentum and chosen board heading side=-1 reversed=true slope=true
+PASS: named grind: release-pop preserves board origin before bounded offset decay side=-1 reversed=true slope=true
+PASS: named grind: release-pop clears the reusable contact and style side=-1 reversed=true slope=true
+PASS: named grind: sideways base heading earns no fake spin and two real pops land cleanly side=-1 reversed=true slope=true
+NAMED_GRIND side=-1 reversed=true slope=true styles=["boardslide"] captures=["IndependentVerifiedRail"] awards=["Ollie", "Boardslide", "Ollie"] native_ticks=23 contact_error=0.00000005960464 plane_error=0.00000007450581 foot_error=0.00676130969077 rear=1.0 first_exit={ "velocity": (0.0, 7.225062, -11.23875), "airborne": true, "position": (0.0, 0.955619, 14.93316), "board_forward": (-0.999998, 0.0, -0.002209), "bailing": false, "board_relative_step": 0.03281103074551 }
+PASS: named grind: pause/drop fixture reaches an actual sideways locked contact
+PASS: named grind: real pause freezes motion, contact, feet and style without reaward
+PASS: named grind: releasing held Triangle during pause resumes the same locked contact
+PASS: named grind: second fresh Triangle exits without a jump, recapture or extra award
+PASS: named grind: fresh drop preserves the deck origin instead of snapping .106m upward
+PASS: named grind: explicit restart clears contact, sideways heading and stale held capture
+PASS: named grind: actual bail clears contact and releases the board with exactly one failure
+PASS: named grind: an unverified legacy guide stays explicitly generic even after directional input
+PASS: named grind: blocker outside the native capsule leaves a parallel truck catch reachable
+NAMED_GRIND_BLOCKER side=0 captures=["IndependentVerifiedRail"] awards=["Ollie", "50-50"] body=(0.0, 0.92, 17.00432) requests=true
+PASS: named grind: real wall inside sideways nose envelope refuses contact and award without generic fallback
+NAMED_GRIND_BLOCKER side=1 captures=[] awards=["Ollie"] body=(0.025777, 0.01422, 14.51053) requests=true
+PASS: named grind: parallel blocker fixture independently clears the actual capsule at the capture target
+PASS: named grind: supported truck geometry blocked below the capsule rejects capture without generic fallback
+NAMED_GRIND_PARALLEL_BLOCKER capsule_clear=true requested_at=(0.0, 1.171745, 19.2827) captures=[] awards=["Ollie"]
+PASS: named clearance unit: exact start/end boxes are genuinely clear thin_translation_wall
+PASS: named clearance unit: native midpoint obstacle rejects the continuous envelope thin_translation_wall
+PASS: named clearance unit: translated unobstructed motion stays admitted thin_translation_wall
+PASS: named clearance unit: reusable query box size restores after rejected and clear paths thin_translation_wall
+NAMED_GRIND_CLEARANCE_UNIT { "id": "thin_translation_wall", "from_clear": true, "to_clear": true, "middle_clear": false, "path_clear": false, "control_clear": true, "restored_rejected": true, "restored_control": true }
+PASS: named clearance unit: exact start/end boxes are genuinely clear rotation_only_nose_arc
+PASS: named clearance unit: native midpoint obstacle rejects the continuous envelope rotation_only_nose_arc
+PASS: named clearance unit: translated unobstructed motion stays admitted rotation_only_nose_arc
+PASS: named clearance unit: reusable query box size restores after rejected and clear paths rotation_only_nose_arc
+NAMED_GRIND_CLEARANCE_UNIT { "id": "rotation_only_nose_arc", "from_clear": true, "to_clear": true, "middle_clear": false, "path_clear": false, "control_clear": true, "restored_rejected": true, "restored_control": true }
+PASS: named grind: natural finite endpoint releases actual contact once at the authored end
+PASS: named grind: natural endpoint preserves signed carry without inventing an Ollie
+PASS: named grind: natural endpoint lands once without fake spin or held-input recapture
+NAMED_GRIND_ENDPOINT exit={ "velocity": (0.0, 0.0, -11.27229), "airborne": true, "position": (0.0, 0.92, 16.0), "board_forward": (1.0, 0.0, 0.0), "bailing": false, "board_relative_step": 0.032810036093 } awards=["Ollie", "Boardslide"] captures=["IndependentVerifiedRail"]
+PASS: named grind: saved input profile is restored after mapped native trials
+PASS: named grind consumers: catalog state and actual Mo classifier recognize exact new/legacy name 50-50
+PASS: named grind consumers: catalog state and actual Mo classifier recognize exact new/legacy name Boardslide
+PASS: named grind consumers: catalog state and actual Mo classifier recognize exact new/legacy name Rail Grind
+PASS: named grind consumers: catalog refuses non-grind or non-exact display-name lookalike Boardslide Fake
+PASS: named grind consumers: catalog refuses non-grind or non-exact display-name lookalike 50-50ish
+PASS: named grind consumers: catalog refuses non-grind or non-exact display-name lookalike boardslide
+PASS: named grind consumers: catalog refuses non-grind or non-exact display-name lookalike 50-50 
+PASS: named grind consumers: catalog refuses non-grind or non-exact display-name lookalike Rail Grind Fake
+PASS: named grind consumers: catalog refuses non-grind or non-exact display-name lookalike Ollie
+PASS: named grind consumers: catalog refuses non-grind or non-exact display-name lookalike Manual
+PASS: named grind consumers: catalog refuses non-grind or non-exact display-name lookalike Axle Stall
+PASS: named grind consumers: catalog refuses non-grind or non-exact display-name lookalike Named Gap
+PASS: named grind consumers: Mo cannot invent a named contact family from a lookalike Boardslide Fake
+PASS: named grind consumers: Mo cannot invent a named contact family from a lookalike 50-50ish
+PASS: named grind consumers: Mo cannot invent a named contact family from a lookalike boardslide
+PASS: named grind consumers: Mo cannot invent a named contact family from a lookalike 50-50 
+PASS: named grind consumers: Mo retains its existing legacy family fallback independently of exact catalog audio identity
+PASS: named grind consumers: 50-50 enters real score exactly once without a duplicate legacy award or premature bank
+PASS: named grind consumers: 50-50 dispatches one grind entry sound without flip/grab counter pollution
+PASS: named grind consumers: 50-50 forwards one unchanged event and actual rider position to each encounter
+PASS: named grind consumers: 50-50 reaches the actual Mo callback as exactly the grind family
+PASS: named grind consumers: Boardslide enters real score exactly once without a duplicate legacy award or premature bank
+PASS: named grind consumers: Boardslide dispatches one grind entry sound without flip/grab counter pollution
+PASS: named grind consumers: Boardslide forwards one unchanged event and actual rider position to each encounter
+PASS: named grind consumers: Boardslide reaches the actual Mo callback as exactly the grind family
+PASS: named grind consumers: Rail Grind enters real score exactly once without a duplicate legacy award or premature bank
+PASS: named grind consumers: Rail Grind dispatches one grind entry sound without flip/grab counter pollution
+PASS: named grind consumers: Rail Grind forwards one unchanged event and actual rider position to each encounter
+PASS: named grind consumers: Rail Grind reaches the actual Mo callback as exactly the grind family
+PASS: named grind consumers: distinct contact styles retain separate score identities but one encounter family
+PASS: named grind consumers: two explicit style entries produce two total sounds/callbacks without extra consumer events
+PASS: named grind consumers: separate repeated entries retain existing repeat devaluation and cannot manufacture family variety
+PASS: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing Boardslide Fake
+PASS: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing 50-50ish
+PASS: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing boardslide
+PASS: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing 50-50 
+PASS: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing Rail Grind Fake
+PASS: named grind consumers: real flip/grab positive controls still exercise their counters and distinct families
+PASS: named grind consumers: named contact adds only grind after existing flip/grab events
+PASS: named grind consumers: completed run rejects legacy and named entries before any score/audio/encounter dispatch
+PASS: named grind consumers: isolated callback fixtures free all nodes without constructing a live gameplay scene
+PASS: world edge: actual selected Planter_ line exists at its authored physical prop
+PASS: world edge: Planter_ declared outside approach has actual authored ground
+PASS: world edge: Planter_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+PASS: world edge: mapped approach descends into exactly the selected real Planter_ edge once
+PASS: world edge: Planter_ carries the actual clear capsule over 0.30m along the selected edge
+PASS: world edge: fresh mapped L tap exits Planter_ with one total catch/award and no bail
+WORLD_EDGE family=Planter_ selected=Grind_Edge_Planter_x-2900y40z1300_0_0 fixture=(-31.28, 0.8, 11.15) captured=["Grind_Edge_Planter_x-2900y40z1300_0_0"] ride_m=0.43530464172363 clear=true bails=0 final=(-29.27144, 0.812399, 11.5)
+PASS: world edge: actual selected MarketCounter_ line exists at its authored physical prop
+PASS: world edge: MarketCounter_ declared outside approach has actual authored ground
+PASS: world edge: MarketCounter_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+PASS: world edge: mapped approach descends into exactly the selected real MarketCounter_ edge once
+PASS: world edge: MarketCounter_ carries the actual clear capsule over 0.30m along the selected edge
+PASS: world edge: fresh mapped L tap exits MarketCounter_ with one total catch/award and no bail
+WORLD_EDGE family=MarketCounter_ selected=Grind_Edge_MarketCounter_x10800y60z200_2_0 fixture=(109.85, 0.8, 8.38) captured=["Grind_Edge_MarketCounter_x10800y60z200_2_0"] ride_m=0.49486827850342 clear=true bails=0 final=(109.5, 1.212405, 3.946259)
+PASS: world edge: actual selected StreetBenchSeat_ line exists at its authored physical prop
+PASS: world edge: StreetBenchSeat_ declared outside approach has actual authored ground
+PASS: world edge: StreetBenchSeat_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+PASS: world edge: mapped approach descends into exactly the selected real StreetBenchSeat_ edge once
+PASS: world edge: StreetBenchSeat_ carries the actual clear capsule over 0.30m along the selected edge
+PASS: world edge: fresh mapped L tap exits StreetBenchSeat_ with one total catch/award and no bail
+WORLD_EDGE family=StreetBenchSeat_ selected=Grind_Edge_StreetBenchSeat_x2900y0z2700_2_0 fixture=(31.13, 0.8, 27.61) captured=["Grind_Edge_StreetBenchSeat_x2900y0z2700_2_0"] ride_m=0.43530464172363 clear=true bails=0 final=(29.12144, 0.557423, 27.26)
+PASS: world edge: actual selected BridgeRail_ line exists at its authored physical prop
+PASS: world edge: BridgeRail_ declared outside approach has actual authored ground
+PASS: world edge: BridgeRail_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+PASS: world edge: mapped approach descends into exactly the selected real BridgeRail_ edge once
+PASS: world edge: BridgeRail_ carries the actual clear capsule over 0.30m along the selected edge
+PASS: world edge: fresh mapped L tap exits BridgeRail_ with one total catch/award and no bail
+WORLD_EDGE family=BridgeRail_ selected=Grind_Edge_BridgeRail_x-2885y375z8050_0 fixture=(-28.5, 2.8, 69.12603) captured=["Grind_Edge_BridgeRail_x-2885y375z8050_0"] ride_m=0.48847211897373 clear=true bails=0 final=(-28.84999, 3.235509, 73.54218)
+PASS: grind contact world: authored rail metadata accepts unit upright translation/yaw and refuses tilted author frames
+PASS: grind contact world: unsupported scale, reflection, roll or shear retains unverified rail source [X: (2.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0)]
+PASS: grind contact world: unsupported scale, reflection, roll or shear retains unverified rail source [X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0)]
+PASS: grind contact world: unsupported scale, reflection, roll or shear retains unverified rail source [X: (0.980067, -0.198669, 0.0), Y: (0.198669, 0.980067, 0.0), Z: (0.0, 0.0, 1.0)]
+PASS: grind contact world: unsupported scale, reflection, roll or shear retains unverified rail source [X: (1.0, 0.0, 0.0), Y: (0.1, 1.0, 0.0), Z: (0.0, 0.0, 1.0)]
+PASS: grind contact world: inspected authored support source and offsets Grind_Rail_Exchange
+PASS: grind contact world: inspected authored support source and offsets Grind_Ledge_MerchantClose
+PASS: grind contact world: inspected authored support source and offsets Grind_Coping_ExchangeFountain
+PASS: grind contact world: inspected authored support source and offsets clyde_quay_coping
+PASS: grind contact world: inspected authored support source and offsets kelvingrove_cutback_ledge
+PASS: grind contact world: inspected authored support source and offsets clyde_quarter_coping
+PASS: grind contact world: original flat rail contact matches the real visible bar collider top
+PASS: grind contact world: straight graded Merchant Close datum matches lowered endpoints and actual cylinder radius
+PASS: grind contact world: changing-grade author keeps unchanged guide and actual generic player classification Grind_Rail_GallerySteps
+PASS: grind contact world: changing-grade author keeps unchanged guide and actual generic player classification Grind_Rail_George
+PASS: grind contact world: changing-grade author keeps unchanged guide and actual generic player classification Grind_Rail_MarketSteps
+PASS: grind contact world: changing-grade author keeps unchanged guide and actual generic player classification clyde_bridge_rail
+PASS: grind contact world: every semantic source keeps original generic classification and unchanged guide until conforming solid-edge contact is supported
+PASS: grind contact world: established real semantic route retains its original authored identity and top-guide location Planter_
+PASS: grind contact world: established real semantic route retains its original authored identity and top-guide location MarketCounter_
+PASS: grind contact world: established real semantic route retains its original authored identity and top-guide location StreetBenchSeat_
+PASS: grind contact world: established real semantic route retains its original authored identity and top-guide location BridgeRail_
+GRIND_CONTACT_METADATA generic_semantic_edges=159 unverified_slatted_edges=24
+RESULT: 333 passed, 0 failed

@@ -1,0 +1,538 @@
+{
+  "pass": true,
+  "workload_pass": true,
+  "strict_render_gates": {
+    "0.95": {
+      "control_ms": [
+        7.683,
+        6.345
+      ],
+      "candidate_ms": 6.218,
+      "envelope_ms": 8.7027,
+      "worst_control_ceiling_ms": 8.06715,
+      "pass": true
+    },
+    "0.99": {
+      "control_ms": [
+        10.199,
+        9.95
+      ],
+      "candidate_ms": 9.275,
+      "envelope_ms": 10.827225,
+      "worst_control_ceiling_ms": 10.70895,
+      "pass": true
+    }
+  },
+  "startup_constructor_static_bytes_per_skater": {
+    "candidate": 26411.92,
+    "original": 25426.32,
+    "candidate_delta_bytes": 985.5999999999985
+  },
+  "summaries": {
+    "original-before": {
+      "rows": 5775,
+      "seconds": 30.217199,
+      "frame_ms": {
+        "0": 3.351,
+        "0.5": 5.105,
+        "0.95": 7.683,
+        "0.99": 10.199,
+        "1": 48.274
+      },
+      "long_frames_33ms": 2,
+      "grind_usec": {
+        "0": 17,
+        "0.5": 20,
+        "0.95": 31,
+        "0.99": 33,
+        "1": 33
+      },
+      "entry_attempt_usec": {
+        "0": 0,
+        "0.5": 1,
+        "0.95": 2,
+        "0.99": 2,
+        "1": 89
+      },
+      "successful_capture_usec": {
+        "0": 68,
+        "0.5": 70,
+        "0.95": 89,
+        "0.99": 89,
+        "1": 89
+      },
+      "rig_animate_usec": {
+        "0": 33,
+        "0.5": 43,
+        "0.95": 51,
+        "0.99": 59,
+        "1": 124
+      },
+      "physics_usec": {
+        "0": 332.0,
+        "0.5": 453.0,
+        "0.95": 2676.0,
+        "0.99": 5286.0,
+        "1": 5286.0
+      },
+      "draws": {
+        "0": 1038.0,
+        "0.5": 1113.0,
+        "0.95": 1148.0,
+        "0.99": 1161.0,
+        "1": 1204.0
+      },
+      "triangles": {
+        "0": 766492.0,
+        "0.5": 801804.0,
+        "0.95": 819321.0,
+        "0.99": 834138.0,
+        "1": 835957.0
+      },
+      "static_bytes": {
+        "0": 104328964.0,
+        "0.5": 104425496.0,
+        "0.95": 104803560.0,
+        "0.99": 104812944.0,
+        "1": 104815552.0
+      },
+      "render_memory": {
+        "buffer": 15446036,
+        "texture": 52233902,
+        "video": 67679938
+      },
+      "captures": [
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 152
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 572
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 992
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 1412
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 1832
+        }
+      ],
+      "awards": [
+        {
+          "name": "Ollie",
+          "tick": 130
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 152
+        },
+        {
+          "name": "Ollie",
+          "tick": 168
+        },
+        {
+          "name": "Ollie",
+          "tick": 550
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 572
+        },
+        {
+          "name": "Ollie",
+          "tick": 588
+        },
+        {
+          "name": "Ollie",
+          "tick": 970
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 992
+        },
+        {
+          "name": "Ollie",
+          "tick": 1008
+        },
+        {
+          "name": "Ollie",
+          "tick": 1390
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 1412
+        },
+        {
+          "name": "Ollie",
+          "tick": 1428
+        },
+        {
+          "name": "Ollie",
+          "tick": 1810
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 1832
+        },
+        {
+          "name": "Ollie",
+          "tick": 1848
+        }
+      ],
+      "bails": 0,
+      "landings": 10,
+      "supported_returns": 5,
+      "input_reassertions": 0,
+      "final_supported": true,
+      "unsafe": 0
+    },
+    "candidate": {
+      "rows": 6437,
+      "seconds": 30.216637,
+      "frame_ms": {
+        "0": 3.372,
+        "0.5": 4.25,
+        "0.95": 6.218,
+        "0.99": 9.275,
+        "1": 13.096
+      },
+      "long_frames_33ms": 0,
+      "grind_usec": {
+        "0": 32,
+        "0.5": 36,
+        "0.95": 41,
+        "0.99": 47,
+        "1": 47
+      },
+      "entry_attempt_usec": {
+        "0": 0,
+        "0.5": 1,
+        "0.95": 2,
+        "0.99": 3,
+        "1": 129
+      },
+      "successful_capture_usec": {
+        "0": 100,
+        "0.5": 105,
+        "0.95": 129,
+        "0.99": 129,
+        "1": 129
+      },
+      "rig_animate_usec": {
+        "0": 38,
+        "0.5": 42,
+        "0.95": 46,
+        "0.99": 49,
+        "1": 62
+      },
+      "physics_usec": {
+        "0": 351.0,
+        "0.5": 377.0,
+        "0.95": 637.0,
+        "0.99": 680.0,
+        "1": 680.0
+      },
+      "draws": {
+        "0": 1038.0,
+        "0.5": 1111.0,
+        "0.95": 1148.0,
+        "0.99": 1160.0,
+        "1": 1204.0
+      },
+      "triangles": {
+        "0": 766492.0,
+        "0.5": 801690.0,
+        "0.95": 817293.0,
+        "0.99": 834138.0,
+        "1": 835957.0
+      },
+      "static_bytes": {
+        "0": 103738384.0,
+        "0.5": 104795344.0,
+        "0.95": 104812580.0,
+        "0.99": 104821228.0,
+        "1": 104823836.0
+      },
+      "render_memory": {
+        "buffer": 15446036,
+        "texture": 52233902,
+        "video": 67679938
+      },
+      "captures": [
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": "grind_50_50",
+          "tick": 152
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": "boardslide",
+          "tick": 572
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": "grind_50_50",
+          "tick": 992
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": "boardslide",
+          "tick": 1412
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": "grind_50_50",
+          "tick": 1832
+        }
+      ],
+      "awards": [
+        {
+          "name": "Ollie",
+          "tick": 130
+        },
+        {
+          "name": "50-50",
+          "tick": 152
+        },
+        {
+          "name": "Ollie",
+          "tick": 168
+        },
+        {
+          "name": "Ollie",
+          "tick": 550
+        },
+        {
+          "name": "Boardslide",
+          "tick": 572
+        },
+        {
+          "name": "Ollie",
+          "tick": 588
+        },
+        {
+          "name": "Ollie",
+          "tick": 970
+        },
+        {
+          "name": "50-50",
+          "tick": 992
+        },
+        {
+          "name": "Ollie",
+          "tick": 1008
+        },
+        {
+          "name": "Ollie",
+          "tick": 1390
+        },
+        {
+          "name": "Boardslide",
+          "tick": 1412
+        },
+        {
+          "name": "Ollie",
+          "tick": 1428
+        },
+        {
+          "name": "Ollie",
+          "tick": 1810
+        },
+        {
+          "name": "50-50",
+          "tick": 1832
+        },
+        {
+          "name": "Ollie",
+          "tick": 1848
+        }
+      ],
+      "bails": 0,
+      "landings": 10,
+      "supported_returns": 5,
+      "input_reassertions": 0,
+      "final_supported": true,
+      "unsafe": 0
+    },
+    "original-after": {
+      "rows": 6391,
+      "seconds": 30.214598,
+      "frame_ms": {
+        "0": 3.424,
+        "0.5": 4.261,
+        "0.95": 6.345,
+        "0.99": 9.95,
+        "1": 13.419
+      },
+      "long_frames_33ms": 0,
+      "grind_usec": {
+        "0": 15,
+        "0.5": 19,
+        "0.95": 30,
+        "0.99": 31,
+        "1": 31
+      },
+      "entry_attempt_usec": {
+        "0": 0,
+        "0.5": 1,
+        "0.95": 2,
+        "0.99": 2,
+        "1": 75
+      },
+      "successful_capture_usec": {
+        "0": 70,
+        "0.5": 72,
+        "0.95": 75,
+        "0.99": 75,
+        "1": 75
+      },
+      "rig_animate_usec": {
+        "0": 37,
+        "0.5": 42,
+        "0.95": 46,
+        "0.99": 50,
+        "1": 58
+      },
+      "physics_usec": {
+        "0": 334.0,
+        "0.5": 387.0,
+        "0.95": 659.0,
+        "0.99": 675.0,
+        "1": 675.0
+      },
+      "draws": {
+        "0": 1038.0,
+        "0.5": 1111.0,
+        "0.95": 1149.0,
+        "0.99": 1160.0,
+        "1": 1204.0
+      },
+      "triangles": {
+        "0": 766492.0,
+        "0.5": 801700.0,
+        "0.95": 820233.0,
+        "0.99": 834138.0,
+        "1": 835957.0
+      },
+      "static_bytes": {
+        "0": 103736536.0,
+        "0.5": 104792192.0,
+        "0.95": 104808772.0,
+        "0.99": 104818688.0,
+        "1": 104821296.0
+      },
+      "render_memory": {
+        "buffer": 15446036,
+        "texture": 52233902,
+        "video": 67679938
+      },
+      "captures": [
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 152
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 572
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 992
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 1412
+        },
+        {
+          "id": "Grind_Rail_Exchange",
+          "style": null,
+          "tick": 1832
+        }
+      ],
+      "awards": [
+        {
+          "name": "Ollie",
+          "tick": 130
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 152
+        },
+        {
+          "name": "Ollie",
+          "tick": 168
+        },
+        {
+          "name": "Ollie",
+          "tick": 550
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 572
+        },
+        {
+          "name": "Ollie",
+          "tick": 588
+        },
+        {
+          "name": "Ollie",
+          "tick": 970
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 992
+        },
+        {
+          "name": "Ollie",
+          "tick": 1008
+        },
+        {
+          "name": "Ollie",
+          "tick": 1390
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 1412
+        },
+        {
+          "name": "Ollie",
+          "tick": 1428
+        },
+        {
+          "name": "Ollie",
+          "tick": 1810
+        },
+        {
+          "name": "Rail Grind",
+          "tick": 1832
+        },
+        {
+          "name": "Ollie",
+          "tick": 1848
+        }
+      ],
+      "bails": 0,
+      "landings": 10,
+      "supported_returns": 5,
+      "input_reassertions": 0,
+      "final_supported": true,
+      "unsafe": 0
+    }
+  },
+  "limits": "Same current map/metadata, exact ef0eb9f old gameplay control paths. Named orientation/contact intentionally changes views. Static constructor delta includes all new per-skater resources/buffers; not isolated engine/native allocations. Frame counters are distributions, no equal-frustum/cold-memory, hardware-controller, long-play or owner acceptance claim."
+}

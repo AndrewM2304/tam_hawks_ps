@@ -360,6 +360,7 @@ func _rail(rail_id: String, at: Vector3, length: float) -> void:
 	rail.position = at
 	rail.add_to_group("grind_rails")
 	rail.set_meta("grind_id", rail_id)
+	rail.set_meta("grind_contact_source", "glasgow.box_bar_top")
 	# First point is the south approach; increasing distance travels north (-Z).
 	rail.set_meta("grind_points", PackedVector3Array([
 		Vector3(0.0, RAIL_TOP_HEIGHT, length / 2.0),
@@ -934,6 +935,10 @@ func _grind_path(id: String, points: PackedVector3Array, kind: String = "rail") 
 	author.set_meta("grind_id", id)
 	author.set_meta("grind_kind", kind)
 	author.set_meta("grind_points", points)
+	# The visual cylinder is lowered by this world-up radius below the guide.
+	# Flat guides are its top, not its centre. Grades need both offsets below.
+	author.set_meta("grind_contact_source", "glasgow.lowered_cylinder_envelope")
+	author.set_meta("grind_contact_radius", 0.23 if kind == "coping" else 0.07)
 	add_child(author)
 	_rail_authors.append(author)
 	var radius := 0.23 if kind == "coping" else 0.07
@@ -1023,11 +1028,39 @@ func get_grind_lines() -> Array:
 	var lines: Array = []
 	for rail: Node3D in _rail_authors:
 		var local_points: PackedVector3Array = rail.get_meta("grind_points")
-		lines.append(GrindLineSource.from_local_points(String(rail.get_meta("grind_id")),
-			local_points, rail.global_transform, String(rail.get_meta("grind_kind", "rail"))))
+		var line := GrindLineSource.from_local_points(String(rail.get_meta("grind_id")),
+			local_points, rail.global_transform, String(rail.get_meta("grind_kind", "rail")))
+		if _grind_contact_frame_supported(rail.global_transform):
+			var source := String(rail.get_meta("grind_contact_source", ""))
+			if source == "glasgow.box_bar_top":
+				line.configure_contact(0.0, 0.0, source)
+			elif source == "glasgow.lowered_cylinder_envelope":
+				var radius: float = rail.get_meta("grind_contact_radius", 0.0)
+				if radius > 0.0:
+					# The shared configurator refuses changing-grade/bent radial
+					# normals. Those unchanged legacy paths remain generic.
+					line.configure_contact(-radius, radius, source)
+		lines.append(line)
 	if is_instance_valid(_outdoors):
 		lines.append_array(_outdoors.get_grind_lines())
 	for feature: Dictionary in _transition_features:
-		lines.append(GrindLineSource.new(str(feature.id) + "_coping", feature.coping_points, "coping"))
+		var line := GrindLineSource.new(str(feature.id) + "_coping", feature.coping_points, "coping")
+		# TransitionPark publishes centreY + COPING_RADIUS, matching the top of
+		# its real horizontal CylinderShape3D under the original upright frame.
+		var frame: Transform3D = feature.get("transform", Transform3D.IDENTITY)
+		if feature.has("transform") and _grind_contact_frame_supported(frame):
+			line.configure_contact(0.0, 0.0, "transition.cylinder_top")
+		lines.append(line)
 	lines.append_array(_extra_grind_lines)
 	return lines
+
+
+func _grind_contact_frame_supported(frame: Transform3D) -> bool:
+	# No scalar radius is assumed valid after scale, shear, reflection or tilt.
+	# Translation and unit yaw preserve this world-up support convention.
+	var basis := frame.basis
+	return frame.origin.is_finite() and basis.x.is_finite() and basis.y.is_finite() and basis.z.is_finite() \
+		and basis.y.distance_to(Vector3.UP) < 0.00001 \
+		and absf(basis.x.length_squared() - 1.0) < 0.00001 \
+		and absf(basis.z.length_squared() - 1.0) < 0.00001 \
+		and absf(basis.x.dot(basis.z)) < 0.00001 and absf(basis.determinant() - 1.0) < 0.00001

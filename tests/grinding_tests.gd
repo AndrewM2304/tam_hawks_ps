@@ -1,5 +1,6 @@
 extends RefCounted
 ## Actual input/physics/scoring integration on the production scene.
+const Catalog = preload("res://game/tricks/trick_catalog.gd")
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	var captures: Array[String] = []
@@ -14,7 +15,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _frames(tree, 3)
 	check.call(game.skater.grinding and not game.skater.airborne,
 		"descending aligned skater catches the real east rail while grind is held")
-	check.call(game.score.trick_history.has("Rail Grind") and game.score.total_score == 0,
+	check.call(game.score.trick_history.has("50-50") and game.score.total_score == 0,
 		"rail catch adds one trick and preserves the unbanked aerial combo")
 	var value: int = game.score.get_combo_value()
 	var z: float = game.skater.global_position.z
@@ -73,7 +74,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _start(tree, game, Vector3(12, 1.1, 10), Vector3(6, -1, 0))
 	Input.action_press("grind")
 	await _frames(tree, 2)
-	check.call(not game.skater.grinding and not game.score.trick_history.has("Rail Grind") and captures.size() == captures_before,
+	check.call(not game.skater.grinding and _grind_award_count(game.score.trick_history) == 0 and captures.size() == captures_before,
 		"perpendicular travel cannot snap, score or emit an authored rail capture")
 	Input.action_release("grind")
 
@@ -153,3 +154,10 @@ static func _frames(tree: SceneTree, count: int) -> void:
 	for i in count:
 		await tree.physics_frame
 		await tree.process_frame
+
+
+static func _grind_award_count(names: Array) -> int:
+	var count := 0
+	for name: String in names:
+		if Catalog.is_grind_name(name): count += 1
+	return count

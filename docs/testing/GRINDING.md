@@ -1,3 +1,5 @@
+Current local named-contact slice: [50-50/boardslide admission](named-grinds/README.md), [tasks and remaining ledge support](../planning/NAMED-GRINDS-2026-10-23.md). Earlier generic travel notes below remain historical; newest STATUS owns frozen-source verification.
+
 # Rail and continuous-combo verification
 
 Updated 17 October 2026. Authored rails support acquisition, signed travel, balance, release/ollie/end exits and connected air→rail→ground/manual combos. Manuals, reverts, special charge and named gaps are enabled. Human controller line trials and M02 acceptance remain open; holding a ride still awards no duration points.

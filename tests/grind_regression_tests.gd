@@ -1,5 +1,6 @@
 extends RefCounted
 ## Independent regressions for capture reached by play, blocked rides and timeout.
+const Catalog = preload("res://game/tricks/trick_catalog.gd")
 
 
 class RecoveryProbe extends Node:
@@ -84,7 +85,7 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 	print("GRIND APPROACH peak=", peak_height, " prior_air_vy=", previous_vertical_velocity,
 		" departed=", left_floor, " descending_capture=", descending_capture, " captures=", captures)
 	check.call(game.score.trick_history.has("Ollie")
-		and game.score.trick_history.has("Rail Grind") and game.score.total_score == 500,
+		and game.score.trick_history.has("50-50") and game.score.total_score == 500,
 		"grind regression: played approach links ollie and rail without banking early")
 	if caught:
 		var bail_count: Array[int] = [0]
@@ -151,7 +152,7 @@ static func _overtime_admission(tree: SceneTree, game: Node, check: Callable) ->
 	await _frames(tree, 3)
 	Input.action_press("grind")
 	await _frames(tree, 2)
-	check.call(not game.skater.grinding and not game.score.trick_history.has("Rail Grind")
+	check.call(not game.skater.grinding and _grind_award_count(game.score.trick_history) == 0
 		and game.score.combo_base == 100,
 		"grind regression: overtime rejects a fresh otherwise eligible rail attachment")
 	_release_actions()
@@ -215,3 +216,10 @@ static func _frames(tree: SceneTree, count: int) -> void:
 static func _release_actions() -> void:
 	for action in InputMap.get_actions():
 		Input.action_release(action)
+
+
+static func _grind_award_count(names: Array) -> int:
+	var count := 0
+	for name: String in names:
+		if Catalog.is_grind_name(name): count += 1
+	return count

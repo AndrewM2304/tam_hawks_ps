@@ -11,6 +11,7 @@ const CareerProgressSource = preload("res://game/progression/career_progress.gd"
 const ObjectiveTrackerSource = preload("res://game/progression/objective_tracker.gd")
 const GapTrackerSource = preload("res://game/tricks/gap_tracker.gd")
 const SpecialMeterSource = preload("res://game/tricks/special_meter.gd")
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const SkateAudioSource = preload("res://game/audio/skate_audio.gd")
 const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounters.gd")
 const CatEncounterSource = preload("res://game/characters/cat_encounter.gd")
@@ -264,7 +265,7 @@ func _on_trick(trick_name: String, points: int) -> void:
 	encounters.on_trick(trick_name, points, skater.global_position)
 	market_encounter.on_trick(trick_name, points, skater.global_position)
 	if trick_name == "Ollie": audio.play_event("ollie")
-	elif trick_name == "Rail Grind": audio.play_event("grind")
+	elif TrickCatalog.is_grind_name(trick_name): audio.play_event("grind")
 	if "flip" in trick_name.to_lower() or "shuvit" in trick_name.to_lower():
 		_flips += 1
 	if "grab" in trick_name.to_lower() or "indy" in trick_name.to_lower():

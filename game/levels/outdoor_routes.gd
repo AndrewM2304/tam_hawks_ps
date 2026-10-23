@@ -507,8 +507,29 @@ func _beam(id: String, a: Vector3, b: Vector3, radius: float, material: Material
 
 
 func _rail(id: String, points: PackedVector3Array, kind: String, radius: float) -> void:
-	_rails.append(GrindLineSource.from_local_points(id, points, global_transform, kind))
+	var line := GrindLineSource.from_local_points(id, points, global_transform, kind)
+	# _beam keeps these points at the square beam centre. Its look_at uses
+	# world up on ordinary grades, so the top is one radius along projected up.
+	# Do not certify its different near-vertical fallback or transformed scales.
+	var supported := _grind_contact_frame_supported(global_transform)
+	for index: int in range(line.points.size() - 1):
+		var tangent := (line.points[index + 1] - line.points[index]).normalized()
+		supported = supported and tangent.is_finite() and absf(tangent.y) < 0.98
+	if supported and radius > 0.0:
+		# A changing-grade polyline has no single verified normal at its joints;
+		# configure_contact keeps it unverified rather than averaging a new top.
+		line.configure_contact(0.0, radius, "outdoors.square_beam_normal_top")
+	_rails.append(line)
 	for i in range(points.size() - 1): _beam(id + "Visual", points[i], points[i + 1], radius, _material("cut_stone" if kind == "coping" else "iron"))
+
+
+func _grind_contact_frame_supported(frame: Transform3D) -> bool:
+	var basis := frame.basis
+	return frame.origin.is_finite() and basis.x.is_finite() and basis.y.is_finite() and basis.z.is_finite() \
+		and basis.y.distance_to(Vector3.UP) < 0.00001 \
+		and absf(basis.x.length_squared() - 1.0) < 0.00001 \
+		and absf(basis.z.length_squared() - 1.0) < 0.00001 \
+		and absf(basis.x.dot(basis.z)) < 0.00001 and absf(basis.determinant() - 1.0) < 0.00001
 
 
 func _bridge_structure(points: PackedVector3Array, width: float, safe: bool) -> void:

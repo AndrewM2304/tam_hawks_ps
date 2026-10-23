@@ -4,6 +4,7 @@ extends RefCounted
 ## velocity, capture, trick, score or bank is injected into the physical route.
 const CatSource = preload("res://game/characters/cat_encounter.gd")
 const CareerSource = preload("res://game/progression/career_progress.gd")
+const Catalog = preload("res://game/tricks/trick_catalog.gd")
 const RAIL_IDS := ["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"]
 
 
@@ -259,7 +260,7 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 	var banked: int = game.score.total_score
 	check.call(captured and evidence.bails == 0 and game.cat_encounter.status_snapshot().state == "success"
 		and game.cat_encounter.status_snapshot().wins == 1 and banked == 1050
-		and evidence.tricks.count("Ollie") == 3 and evidence.tricks.count("Rail Grind") == 3,
+		and evidence.tricks.count("Ollie") == 3 and _grind_award_count(evidence.tricks) == 3,
 		"cat integration: actual final release and landing bank complete the sequence with only earned trick points")
 	await _frames(tree, 30)
 	check.call(game.cat_encounter.status_snapshot().wins == 1 and game.score.total_score == banked
@@ -630,3 +631,10 @@ static func _frames(tree: SceneTree, count: int) -> void:
 	for i in count:
 		await tree.physics_frame
 		await tree.process_frame
+
+
+static func _grind_award_count(names: Array) -> int:
+	var count := 0
+	for name: String in names:
+		if Catalog.is_grind_name(name): count += 1
+	return count

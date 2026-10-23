@@ -3,6 +3,7 @@ extends Node3D
 ## this node never awards score, changes career saves or manufactures trick events.
 
 const BuskerActor = preload("res://game/characters/busker_actor.gd")
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const ENCOUNTER_ID := "busker_big_finish"
 const ATTEMPT_SECONDS := 35.0
 const INTERACT_RADIUS := 4.2
@@ -186,7 +187,7 @@ func _trick_family(trick_name: String) -> String:
 	if lower == "ollie": return "ollie"
 	if "flip" in lower or "shuvit" in lower: return "flip"
 	if "grab" in lower or "indy" in lower: return "grab"
-	if "grind" in lower: return "grind"
+	if TrickCatalog.is_grind_name(trick_name) or "grind" in lower: return "grind"
 	if "manual" in lower: return "manual"
 	if "stall" in lower or lower == "disaster": return "lip"
 	if "revert" in lower: return "revert"

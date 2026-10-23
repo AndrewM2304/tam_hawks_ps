@@ -11,6 +11,7 @@ extends RefCounted
 
 const BAKE: float = 0.05
 const TANGENT_STEP: float = 0.08
+const MAX_CONTACT_OFFSET: float = 0.5
 
 var id: String
 var kind: String = "rail"
@@ -21,6 +22,12 @@ var is_valid: bool = false
 var is_loop: bool = false
 ## Reserved upstream endpoint-link metadata. This project has no rail-link builder yet.
 var links: Dictionary = {}
+## Optional support datum, independent from the unchanged travel guide. Unknown
+## legacy geometry must not silently become a certified truck/deck contact.
+var contact_verified: bool = false
+var contact_source: String = ""
+var contact_vertical_offset: float = 0.0
+var contact_normal_offset: float = 0.0
 
 
 func _init(p_id: String, p_points: PackedVector3Array, p_kind: String = "") -> void:
@@ -68,6 +75,78 @@ static func kind_from_id(gid: String) -> String:
 		"curb":
 			return "curb"
 	return "rail"
+
+
+## Configure inspected support geometry only. A rejected reconfiguration clears
+## earlier metadata so an uncertain replacement cannot retain stale authority.
+func configure_contact(vertical_offset: float, normal_offset: float, source: String) -> GrindLine:
+	contact_verified = false
+	contact_source = ""
+	contact_vertical_offset = 0.0
+	contact_normal_offset = 0.0
+	if not is_valid or not is_finite(vertical_offset) or not is_finite(normal_offset) \
+			or absf(vertical_offset) > MAX_CONTACT_OFFSET or absf(normal_offset) > MAX_CONTACT_OFFSET \
+			or source.strip_edges().is_empty():
+		return self
+	# A vertical guide has no defined upward side in this contact model. Do not
+	# certify an otherwise valid Curve3D merely because its endpoints are finite.
+	for index: int in range(points.size() - 1):
+		var segment := points[index + 1] - points[index]
+		if not segment.is_finite() or Vector2(segment.x, segment.z).length_squared() < 0.000001:
+			return self
+	# dir_at averages the adjoining directions near a joint. Its radial offset
+	# is a real beam/cylinder top only when that normal is constant: a flat path
+	# or one straight grade. Do not certify a new surface across changing grades.
+	if normal_offset != 0.0 and not _normal_contact_path_supported():
+		return self
+	contact_vertical_offset = vertical_offset
+	contact_normal_offset = normal_offset
+	contact_source = source.strip_edges()
+	contact_verified = true
+	return self
+
+
+func _normal_contact_path_supported() -> bool:
+	var flat := true
+	var straight := true
+	var reference := (points[1] - points[0]).normalized()
+	for index: int in range(points.size() - 1):
+		var direction := (points[index + 1] - points[index]).normalized()
+		flat = flat and absf(points[index + 1].y - points[0].y) <= 0.000001
+		straight = straight and reference.dot(direction) > 0.0 \
+			and reference.cross(direction).length_squared() <= 0.0000000001
+	return flat or straight
+
+
+## The upward radial side of a usable guide, independent of travel direction.
+## This follows the same finite-difference tangent as travel; it does not invent
+## smooth physical support across a sharp polyline corner.
+func contact_up(dist: float) -> Vector3:
+	if not is_valid or not is_finite(dist):
+		return Vector3.ZERO
+	var tangent := dir_at(dist)
+	if not tangent.is_finite() or tangent.length_squared() < 0.5:
+		return Vector3.ZERO
+	var up := Vector3.UP.slide(tangent)
+	return up.normalized() if up.is_finite() and up.length_squared() > 0.000001 else Vector3.ZERO
+
+
+## Existing point_at clamping is retained; loop callers wrap their own distance.
+## Unverified guides retain their original travel point without fabricated skin.
+func contact_at(dist: float) -> Vector3:
+	if not is_valid or not is_finite(dist):
+		return Vector3.ZERO
+	var at := point_at(dist)
+	if not contact_verified or contact_source.is_empty() \
+			or not is_finite(contact_vertical_offset) or not is_finite(contact_normal_offset) \
+			or absf(contact_vertical_offset) > MAX_CONTACT_OFFSET or absf(contact_normal_offset) > MAX_CONTACT_OFFSET:
+		return at
+	if contact_normal_offset == 0.0:
+		return at + Vector3.UP * contact_vertical_offset
+	var up := contact_up(dist)
+	if up.length_squared() < 0.5:
+		return at
+	return at + Vector3.UP * contact_vertical_offset + up * contact_normal_offset
 
 
 func point_at(dist: float) -> Vector3:

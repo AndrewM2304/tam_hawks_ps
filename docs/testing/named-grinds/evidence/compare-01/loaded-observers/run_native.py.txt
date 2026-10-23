@@ -1,0 +1,26 @@
+"""Bind all local observer controls as well as run_checked's full core closure."""
+from pathlib import Path
+import hashlib,json,subprocess,sys,os,threading,time
+base=Path('docs/testing/named-grinds/observers');out=Path(sys.argv[1]);out.mkdir(parents=True,exist_ok=True)
+def sources():return {str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(base.rglob('*')) if p.is_file() and p.suffix in ('.gd','.py','.sh')}
+a=sources();(out/'observers-before.json').write_text(json.dumps(a,indent=2)+'\n')
+done=threading.Event()
+def monitor():
+ with (out/'system-load.jsonl').open('w') as log:
+  while not done.is_set():
+   row={'monotonic':time.monotonic(),'load_average':os.getloadavg()}
+   try:
+    output=subprocess.check_output(['ps','-axo','pid=,pcpu=,comm='],text=True,timeout=3)
+    processes=[]
+    for line in output.splitlines():
+     fields=line.strip().split(None,2)
+     if len(fields)==3:processes.append({'pid':int(fields[0]),'cpu':float(fields[1]),'executable':fields[2]})
+    row['top_processes']=sorted(processes,key=lambda p:p['cpu'],reverse=True)[:15]
+   except Exception as error:row['telemetry_error']=str(error)
+   log.write(json.dumps(row)+'\n');log.flush();done.wait(1)
+thread=threading.Thread(target=monitor);thread.start()
+try:code=subprocess.call([sys.executable,'docs/testing/horizon-background/observers/run_checked.py',*sys.argv[1:]])
+finally:done.set();thread.join()
+b=sources();(out/'observers-after.json').write_text(json.dumps(b,indent=2)+'\n');valid=a==b
+(out/'observer-receipt.json').write_text(json.dumps({'inputs':len(a),'stable':valid,'child_exit':code},indent=2)+'\n')
+raise SystemExit(code if code else (0 if valid else 1))

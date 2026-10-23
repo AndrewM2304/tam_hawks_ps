@@ -1,0 +1,50 @@
+extends "res://docs/testing/named-grinds/observers/compare.gd"
+## Unmeasured actual-map evidence; pause only for original image readback.
+var images:Array=[]
+var trials:Array=[]
+func _run()->void:
+	if DisplayServer.get_name()=='headless' or OS.get_cmdline_user_args().is_empty():quit(2);return
+	output=OS.get_cmdline_user_args()[0];DirAccess.make_dir_recursive_absolute(output)
+	root.size=Vector2i(1280,800);root.content_scale_size=root.size
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_ALWAYS_ON_TOP,true)
+	var driver:=Driver.new();driver.audit=self;root.add_child(driver)
+	var sampler:=Sampler.new();sampler.audit=self;root.add_child(sampler)
+	for side:int in 2:
+		release();active=false
+		if is_instance_valid(game):game.queue_free();await process_frame
+		game=Current.new();game.persistence_enabled=false;root.add_child(game)
+		game.skater.audit=self;game.apply_settings({'graphics_quality':'balanced'},false)
+		game.skater.spawn_position=Vector3(12,.8,23);game.start_mode(true)
+		for tick:int in 60:await physics_frame;await process_frame
+		ticks=420*side;bails=0;unsafe=0;captures.clear();awards.clear();active=true
+		game.skater.grind_captured.connect(func(id:String):captures.append(id))
+		game.skater.trick_performed.connect(func(title:String,_points:int):awards.append(title))
+		game.skater.bailed.connect(func():bails+=1)
+		var saved_contact:=false;var saved_air:=false
+		var deadline:=ticks+310
+		while ticks<deadline:
+			await process_frame
+			if game.skater.grinding and grind_ticks>=8 and not saved_contact:
+				saved_contact=true;await snapshot(('boardslide' if side else '50-50')+'-contact')
+			if saved_contact and popped and game.skater.airborne and not saved_air \
+					and game.skater.global_position.y>1.20 and game.skater.velocity.y>0.0:
+				saved_air=true;await snapshot(('boardslide' if side else '50-50')+'-release')
+		active=false;release()
+		var valid:bool=saved_contact and saved_air and captures==['Grind_Rail_Exchange'] and bails==0 and unsafe==0 and game.skater.is_on_floor() and awards==['Ollie','Boardslide' if side else '50-50','Ollie']
+		if not valid:errors.append('actual-map capture side'+str(side))
+		trials.append({'side':side,'captures':captures.duplicate(),'awards':awards.duplicate(),'bails':bails,'unsafe':unsafe,'contact_image':saved_contact,'air_image':saved_air,'landed':game.skater.is_on_floor(),'valid':valid})
+	FileAccess.open(output.path_join('capture.json'),FileAccess.WRITE).store_string(JSON.stringify({'trials':trials,'images':images,'errors':errors,'limits':'Actual production inherited gameplay, original native PNGs. Fixed mapped run-up and fresh descending Triangle, no runtime pose/motion assignment. Scene paused for readback; production chase then explicitly placed/restored diagnostic profile. Not timing or owner acceptance.'},'\t'))
+	print('NAMED_CAPTURE ',trials);print('RESULT: ',2 if errors.is_empty() else 0,' passed, ',0 if errors.is_empty() else 1,' failed');quit(0 if errors.is_empty() else 1)
+func snapshot(tag:String)->void:
+	var was:=game.is_physics_processing();game.set_physics_process(false);paused=true
+	var camera:Camera3D=game.skater._camera;var original:=camera.global_transform
+	await RenderingServer.frame_post_draw;save(tag+'-chase',false)
+	camera.global_position=game.skater.global_position+Vector3(2.2,.85,1.7);camera.look_at(game.skater.global_position+Vector3.UP*.6)
+	await RenderingServer.frame_post_draw;save(tag+'-profile',true)
+	camera.global_transform=original;paused=false;game.set_physics_process(was)
+func save(tag:String,profile:bool)->void:
+	var file:=tag+'.png';var picture:=root.get_texture().get_image()
+	if picture.get_size()!=Vector2i(1280,800) or picture.save_png(output.path_join(file))!=OK:errors.append('PNG '+file)
+	var position:Vector3=game.skater.global_position;var velocity:Vector3=game.skater.velocity
+	if tag.contains('-release') and not (game.skater.airborne and not game.skater.grinding and position.y>1.20 and velocity.y>0):errors.append('not rising air '+file)
+	images.append({'file':file,'diagnostic_camera':profile,'tick':ticks,'at':str(position),'body_position':[position.x,position.y,position.z],'velocity':[velocity.x,velocity.y,velocity.z],'airborne':game.skater.airborne,'grinding':game.skater.grinding,'air_spin':game.skater._air_spin,'unscored_grind_yaw':game.skater._air_grind_yaw,'board_transform':str(game.skater._board_visual.global_transform),'style':game.skater.grind_style_id,'contact_valid':game.skater._grind_contact.valid,'contact_error_m':game.skater._grind_contact.max_error})

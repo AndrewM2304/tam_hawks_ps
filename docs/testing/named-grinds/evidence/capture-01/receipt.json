@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-23T21:48:38.103741+01:00",
+  "completed_london": "2026-10-23T21:48:38.578828+01:00",
+  "wall_seconds": 0.4747695000260137,
+  "command": [
+    "./tools/run.sh",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/named-grinds/observers/capture.gd",
+    "--",
+    ".local/named-grinds/capture-01"
+  ],
+  "exit_code": 1,
+  "source_inputs": 395,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [],
+  "valid": false,
+  "source_manifest_sha256": "6819b3bf0718b9fa99af36aeaf0ac3502363a4c61e7b5a2c00cceb77c7fa0f06",
+  "git_head": "ef0eb9f4d0eaefa6fa2d54ef30792fa3820390e4"
+}

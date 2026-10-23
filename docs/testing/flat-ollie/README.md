@@ -1,3 +1,5 @@
+**Historical ef0eb9f checkpoint:** these results certify the recorded flat-ollie source. The subsequent local named-grind candidate changes the source; newest [STATUS](../../STATUS.md) owns its fresh admission.
+
 # Flat ollie correction and complete trick audit
 
 23 October 2026. Control: `de6505d`. This packet follows the owner's rejection of excessive flat pop and request for front-foot-first motion and a complete trick-family audit. [Audit](../../research/TRICK-STYLE-AUDIT-2026-10-23.md), [tracked implementation order](../../planning/TRICK-FIDELITY-2026-10-23.md), [ADR-028](../../architecture/decisions/ADR-028-flat-ollie-and-foot-sequence.md). Final required regression passes **2314/0**, clean/frozen; source/artifact audit verifies the recorded source and original frames. Fully isolated rendering, independent QE and owner/hardware/feel acceptance remain open. [STATUS](../../STATUS.md) owns the current checkpoint.

@@ -3,6 +3,7 @@ extends RefCounted
 ## mapped keys alone then accelerate, crouch, pop, seek, ride and drop.
 const MainScene = preload("res://game/main.tscn")
 const Setup = preload("res://game/core/input_setup.gd")
+const Catalog = preload("res://game/tricks/trick_catalog.gd")
 
 
 static func probe_idle_support(tree: SceneTree) -> void:
@@ -137,7 +138,7 @@ static func _approach(tree: SceneTree,game: Node,lines: Array,check: Callable,sp
 			caught=true
 			break
 		if bails[0]>0: break
-	check.call(descending and caught and captures==[str(selected.id)] and tricks.count("Rail Grind")==1 and bails[0]==0,
+	check.call(descending and caught and captures==[str(selected.id)] and _grind_award_count(tricks)==1 and bails[0]==0,
 		"world edge: mapped approach descends into exactly the selected real %s edge once" % specification.family)
 	var travelled := 0.0
 	var clear := caught
@@ -158,7 +159,7 @@ static func _approach(tree: SceneTree,game: Node,lines: Array,check: Callable,sp
 	await _ticks(tree,1)
 	_key(KEY_L,false)
 	await _ticks(tree,3)
-	check.call(caught and not game.skater.grinding and captures.size()==1 and tricks.count("Rail Grind")==1 and bails[0]==0,
+	check.call(caught and not game.skater.grinding and captures.size()==1 and _grind_award_count(tricks)==1 and bails[0]==0,
 		"world edge: fresh mapped L tap exits %s with one total catch/award and no bail" % specification.family)
 	print("WORLD_EDGE family=",specification.family," selected=",selected.id," fixture=",start,
 		" captured=",captures," ride_m=",travelled," clear=",clear," bails=",bails[0]," final=",game.skater.global_position)
@@ -218,3 +219,10 @@ static func _key(code: Key,down: bool) -> void:
 static func _release() -> void:
 	for code: Key in [KEY_W,KEY_SPACE,KEY_L]: _key(code,false)
 	for action: StringName in InputMap.get_actions(): Input.action_release(action)
+
+
+static func _grind_award_count(names: Array) -> int:
+	var count := 0
+	for name: String in names:
+		if Catalog.is_grind_name(name): count += 1
+	return count

@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-23T21:43:41.534107+01:00",
+  "completed_london": "2026-10-23T21:45:27.633353+01:00",
+  "wall_seconds": 106.0978893749998,
+  "command": [
+    "./tools/run.sh",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/named-grinds/observers/compare.gd",
+    "--",
+    ".local/named-grinds/compare-02"
+  ],
+  "exit_code": 1,
+  "source_inputs": 395,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "0",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "d76a44ae4feeab08845820b88d5e00d3e35699194e72f2969052689e220ce17f",
+  "git_head": "ef0eb9f4d0eaefa6fa2d54ef30792fa3820390e4"
+}

@@ -1,0 +1,23 @@
+"""Strict predeclared A/B/A native named-grind admission; retain failures."""
+from pathlib import Path
+import json,sys
+p=Path(sys.argv[1]);labels=['original-before','candidate','original-after']
+def quantile(v):
+ v=sorted(v);return {str(q):v[min(len(v)-1,int(q*len(v)))] for q in [0,.5,.95,.99,1]} if v else {}
+raw={k:json.loads((p/(k+'.json')).read_text()) for k in labels};summaries={}
+for k,r in raw.items():
+ w=len(r['columns']);rows=[r['data'][n:n+w] for n in range(0,len(r['data']),w)];frames=[(b[0]-a[0])/1000 for a,b in zip(rows,rows[1:])]
+ summaries[k]={'rows':len(rows),'seconds':(rows[-1][0]-rows[0][0])/1e6,'frame_ms':quantile(frames),'long_frames_33ms':sum(n>100/3 for n in frames),'grind_usec':quantile(r['grind_usec']),'entry_attempt_usec':quantile(r['entry_attempt_usec']),'successful_capture_usec':quantile(r['successful_capture_usec']),'rig_animate_usec':quantile(r['rig_animate_usec']),'physics_usec':quantile([n[11] for n in rows]),'draws':quantile([n[8] for n in rows]),'triangles':quantile([n[9] for n in rows]),'static_bytes':quantile([n[10] for n in rows]),'render_memory':r['memory'],'captures':r['captures'],'awards':r['awards'],'bails':r['bails'],'landings':r['landings'],'final_supported':r['final_supported'],'unsafe':r['unsafe']}
+gates={}
+for q in ['0.95','0.99']:
+ a,b,c=[summaries[k]['frame_ms'][q] for k in labels];mid=(a+c)/2;envelope=mid+abs(a-c)+mid*.05;ceiling=max(a,c)*1.05
+ gates[q]={'control_ms':[a,c],'candidate_ms':b,'envelope_ms':envelope,'worst_control_ceiling_ms':ceiling,'pass':b<=envelope and b<=ceiling}
+startup=json.loads((p/'startup-memory.json').read_text());startup['candidate_delta_bytes']=startup['candidate']-startup['original']
+workload=all(s['seconds']>=30 and len(s['captures'])==5 and s['bails']==0 and s['unsafe']==0 and s['draws']['0']>0 for s in summaries.values()) and all(not r['errors'] for r in raw.values())
+for k,s in summaries.items():
+ names=[a['name'] for a in s['awards']];expected=['50-50','Boardslide','50-50','Boardslide','50-50'] if k=='candidate' else ['Rail Grind']*5
+ actual=[n for n in names if n in ['Rail Grind','50-50','Boardslide']]
+ workload=workload and all(c['id']=='Grind_Rail_Exchange' for c in s['captures']) and names.count('Ollie')==10 and actual==expected and s['landings']==5 and s['final_supported']
+styles=[r['style'] for r in summaries['candidate']['captures']];workload=workload and styles==['grind_50_50','boardslide','grind_50_50','boardslide','grind_50_50']
+result={'pass':workload and all(g['pass'] for g in gates.values()) and startup['candidate_delta_bytes']<=65536,'workload_pass':workload,'strict_render_gates':gates,'startup_constructor_static_bytes_per_skater':startup,'summaries':summaries,'limits':'Same current map/metadata, exact ef0eb9f old gameplay control paths. Named orientation/contact intentionally changes views. Static constructor delta includes all new per-skater resources/buffers; not isolated engine/native allocations. Frame counters are distributions, no equal-frustum/cold-memory, hardware-controller, long-play or owner acceptance claim.'}
+(p/'comparison.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2));raise SystemExit(0 if result['pass'] else 1)

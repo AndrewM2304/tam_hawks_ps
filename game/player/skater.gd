@@ -13,6 +13,11 @@ signal combo_link_ended()
 
 const GrindIndex = preload("res://game/tricks/grind_index.gd")
 const GrindRideSource = preload("res://game/tricks/grind_ride.gd")
+const GrindStyle = preload("res://game/tricks/grind_style.gd")
+const GRIND_BOARD_SIZE := Vector3(.28,.166864,.835)
+const GRIND_BOARD_CENTER := Vector3(0,-.036568,0)
+# Farthest declared model-box corner from its model origin: <.457m.
+const GRIND_BOARD_CORNER_RADIUS := .457
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const SkaterVisualSource = preload("res://game/player/skater_visual.gd")
 const SkateResponse = preload("res://game/player/skate_response.gd")
@@ -132,6 +137,15 @@ var _grind = GrindRideSource.new()
 var _grind_lines: Array = []
 var _grind_index = GrindIndex.new()
 var _grind_cooldown := 0.0
+var grind_style_id := ""
+var _grind_style_yaw := 0.0
+var _air_grind_yaw := 0.0
+var _grind_contact := GrindStyle.ContactPose.new()
+var _grind_candidate_contact := GrindStyle.ContactPose.new()
+var _grind_board_forward := Vector3.FORWARD
+var _grind_choices: Dictionary = {}
+var _grind_board_box := BoxShape3D.new()
+var _grind_board_query := PhysicsShapeQueryParameters3D.new()
 var grinding: bool:
 	get:
 		return _grind.active
@@ -174,6 +188,12 @@ func _ready() -> void:
 	collision_layer = 2
 	collision_mask = 1
 	_build_skater()
+	# Original board's declared model bounds, reused for native world clearance.
+	_grind_board_box.size = GRIND_BOARD_SIZE
+	_grind_board_query.shape = _grind_board_box
+	_grind_board_query.collision_mask = 1
+	_grind_board_query.margin = .001
+	_grind_board_query.exclude = [get_rid()]
 	_recovery_shape_query.shape = _body_collision.shape
 	_recovery_shape_query.collision_mask = 1
 	_recovery_shape_query.margin = .001
@@ -203,6 +223,8 @@ func reset_skater() -> void:
 	_response.reset()
 	_camera_follow.reset()
 	_grind.stop()
+	_clear_grind_style()
+	_air_grind_yaw = 0.0
 	_transition.stop()
 	_vert_return.clear()
 	_grind_visual_offset = Vector3.ZERO
@@ -292,6 +314,8 @@ func begin_bail(reason: String, safe_position: Vector3 = Vector3.INF) -> void:
 	_bail_phase_elapsed = 0.0
 	_bail_fallback_used = false
 	_grind.stop()
+	_clear_grind_style()
+	_air_grind_yaw = 0.0
 	_transition.stop()
 	_vert_return.clear()
 	manual_active = false
@@ -1047,6 +1071,7 @@ func _begin_air(from_ramp: bool = false) -> void:
 	_grab_used = false
 	_air_spin = 0.0
 	_spin_angle = 0.0
+	_air_grind_yaw = 0.0
 
 
 func _apply_air_tricks(delta: float) -> void:
@@ -1086,10 +1111,12 @@ func _award_air_spin() -> void:
 func _finish_landing() -> void:
 	_flip_buffer_remaining = 0.0
 	_grab_buffer_remaining = 0.0
-	var completed_stance := roundf(_air_spin / PI) * PI
+	var drawn_spin := _air_spin + _air_grind_yaw
+	var completed_stance := roundf(drawn_spin / PI) * PI
 	_award_air_spin()
 	_stance_angle = wrapf(_stance_angle + completed_stance, -PI, PI)
-	_spin_angle -= completed_stance
+	_spin_angle = drawn_spin - completed_stance
+	_air_grind_yaw = 0.0
 	_clear_special_visual()
 	airborne = false
 	_ramp_air = false
@@ -1167,13 +1194,21 @@ func _grind_request_available() -> bool:
 func _try_grind(previous_position: Vector3 = Vector3.ZERO, swept: bool = false) -> bool:
 	if _grind_cooldown > 0.0 or not _grind_request_available():
 		return false
+	# Read the drawn board before travel alignment, spin scoring or stance reset.
+	_grind_board_forward = -_board_visual.global_basis.z
+	_grind_choices.clear()
 	var captured: bool
 	if swept:
-		captured = _grind.start_swept(_grind_index.nearby(global_position), previous_position, global_position, get_real_velocity(), _rail_path_clear)
+		captured = _grind.start_swept(_grind_index.nearby(global_position), previous_position, global_position, get_real_velocity(), _rail_path_clear, _grind_candidate_supported)
 	else:
-		captured = _grind.start(_grind_index.nearby(global_position), global_position, velocity, _rail_path_clear)
+		captured = _grind.start(_grind_index.nearby(global_position), global_position, velocity, _rail_path_clear, _grind_candidate_supported)
 	if not captured:
 		return false
+	var selected: Dictionary = _grind_choices[_grind.line.get_instance_id()]
+	grind_style_id = str(selected.id)
+	_grind_style_yaw = float(selected.yaw)
+	if grind_style_id != "rail_grind":
+		GrindStyle.solve_into(_grind_contact,_grind.line,_grind.distance,_grind.direction,_grind_style_yaw,grind_style_id,0.0)
 	_grind_buffer_remaining = 0.0
 	_grind_held_armed = false
 	_vert_return.clear()
@@ -1186,6 +1221,7 @@ func _try_grind(previous_position: Vector3 = Vector3.ZERO, swept: bool = false) 
 	_grab_remaining = 0.0
 	_ollie_pose_remaining = 0.0
 	_spin_angle = 0.0
+	_air_grind_yaw = 0.0
 	_jump_buffer_remaining = 0.0
 	_coyote_remaining = 0.0
 	revert_remaining = 0.0
@@ -1196,9 +1232,61 @@ func _try_grind(previous_position: Vector3 = Vector3.ZERO, swept: bool = false) 
 	_align_to_travel()
 	combo_link_started.emit()
 	grind_captured.emit(_grind.line.id)
-	trick_performed.emit(TrickCatalog.definition("rail_grind")["display_name"],
-		TrickCatalog.base_points("rail_grind"))
+	trick_performed.emit(TrickCatalog.definition(grind_style_id)["display_name"],
+		TrickCatalog.base_points(grind_style_id))
 	return true
+
+
+func _grind_candidate_supported(line, distance: float, direction: float) -> bool:
+	var key: int = line.get_instance_id()
+	# Legacy guides retain their explicit generic path; metadata is not inferred.
+	if not line.contact_verified:
+		_grind_choices[key] = {"id":"rail_grind","yaw":0.0}
+		return true
+	var selected: Dictionary = GrindStyle.select(_grind_direction,_grind_board_forward,line.dir_at(distance)*direction)
+	if selected.is_empty(): return false
+	var supported := GrindStyle.solve_into(_grind_candidate_contact,line,distance,direction,float(selected.yaw),str(selected.id),0.0)
+	if supported:
+		var model_origin := _grind_candidate_contact.board_transform.origin - _grind_candidate_contact.board_transform.basis * Vector3(0,.12,0)
+		# A known board obstruction or oversized visual correction must not gain
+		# admission through the legacy path, which has no named-board envelope.
+		if model_origin.distance_to(_visual.global_position) > GrindRideSource.MAX_CAPTURE_TICK_DISPLACEMENT \
+				or not _grind_board_clear(_grind_candidate_contact.board_transform):
+			return false
+		_grind_choices[key] = selected
+		return true
+	# A neutral legacy route may lack a supported two-truck chord/board envelope.
+	# Do not award a named style for it; explicit sideways selection must refuse.
+	if selected.id == "grind_50_50":
+		_grind_choices[key] = {"id":"rail_grind","yaw":0.0}
+		return true
+	return false
+
+
+func _grind_board_clear(board_transform: Transform3D) -> bool:
+	# Bounds centre Y=(-.12+.046864)/2; only ordinary world blocks the board.
+	_grind_board_query.transform = board_transform * Transform3D(Basis.IDENTITY,GRIND_BOARD_CENTER)
+	return get_world_3d().direct_space_state.intersect_shape(_grind_board_query,1).is_empty()
+
+
+func _grind_board_path_clear(from: Transform3D, to: Transform3D) -> bool:
+	# Native shape casts do not sweep rotation. One conservative box encloses
+	# all intermediate board corners under linear origin/shortest-arc rotation.
+	var motion := from.basis.inverse() * (to.origin-from.origin)
+	var angle := from.basis.get_rotation_quaternion().angle_to(to.basis.get_rotation_quaternion())
+	var angular_size := 4.0*GRIND_BOARD_CORNER_RADIUS*sin(angle*.5)
+	_grind_board_box.size = GRIND_BOARD_SIZE + motion.abs() + Vector3.ONE*angular_size
+	_grind_board_query.transform = Transform3D(from.basis,(from.origin+to.origin)*.5+from.basis*GRIND_BOARD_CENTER)
+	var clear := get_world_3d().direct_space_state.intersect_shape(_grind_board_query,1).is_empty()
+	_grind_board_box.size = GRIND_BOARD_SIZE
+	return clear
+
+
+func _clear_grind_style() -> void:
+	grind_style_id = ""
+	_grind_style_yaw = 0.0
+	_grind_contact.valid = false
+	_grind_contact.anchor_count = 0
 
 
 func _rail_path_clear(from: Vector3, to: Vector3) -> bool:
@@ -1236,6 +1324,13 @@ func _tick_grind(delta: float) -> void:
 			begin_bail("rail_balance_or_obstruction")
 			_grind_cooldown = GRIND_RECAPTURE_DELAY
 			return
+		if grind_style_id != "rail_grind":
+			var previous_board: Transform3D = _grind_contact.board_transform
+			if not GrindStyle.solve_into(_grind_contact,_grind.line,_grind.distance,_grind.direction,_grind_style_yaw,grind_style_id,_grind.balance) \
+					or not _grind_board_path_clear(previous_board,_grind_contact.board_transform):
+				begin_bail("grind_board_obstruction")
+				_grind_cooldown = GRIND_RECAPTURE_DELAY
+				return
 		global_position = target
 		velocity = _grind.travel_velocity()
 		speed = _grind.speed
@@ -1246,10 +1341,26 @@ func _tick_grind(delta: float) -> void:
 
 
 func _release_grind(jump: bool) -> void:
+	var named := grind_style_id != "" and grind_style_id != "rail_grind"
+	var exit_yaw := _stance_angle
+	if named:
+		# Preserve the actually drawn rigid chord at bends, not just the input
+		# quarter-turn. Reuse the existing short visual offset decay on release.
+		var contact_frame: Basis = global_basis.inverse() * _grind_contact.board_transform.basis
+		var local_forward := -contact_frame.z
+		local_forward.y = 0.0
+		if local_forward.length_squared() > .000001:
+			exit_yaw = Vector3.FORWARD.signed_angle_to(local_forward.normalized(),Vector3.UP)
+		_grind_visual_offset = _grind_contact.board_transform.origin - _grind_contact.board_transform.basis * Vector3(0,.12,0) - global_position
+		_surface_pitch = contact_frame.get_euler().x
+		_visual.rotation.z = contact_frame.get_euler().z
 	velocity = _grind.travel_velocity()
 	_grind.stop()
+	_clear_grind_style()
 	_grind_cooldown = GRIND_RECAPTURE_DELAY
 	_begin_air()
+	if named:
+		_air_grind_yaw = angle_difference(_stance_angle,exit_yaw)
 	speed = Vector2(velocity.x, velocity.z).length()
 	if jump:
 		velocity.y = maxf(0.0, velocity.y) + _pop_impulse
@@ -1280,7 +1391,7 @@ func _update_pose(delta: float) -> void:
 		_clear_special_visual()
 	if not airborne:
 		_spin_angle = lerp_angle(_spin_angle, 0.0, 1.0 - exp(-18.0 * delta))
-	_visual.rotation.y = _spin_angle + _stance_angle - PI * (_revert_pose_remaining / REVERT_DURATION)
+	_visual.rotation.y = _spin_angle + _stance_angle + _air_grind_yaw - PI * (_revert_pose_remaining / REVERT_DURATION)
 	_visual.rotation.z = lerpf(_visual.rotation.z, -_steering * 0.11 * (speed / MAX_SPEED), 1.0 - exp(-10.0 * delta))
 	var progress := 1.0 - _flip_remaining / FLIP_DURATION
 	var board_angles := TrickAnimation.board_angles(active_flip_id, progress) if _flip_remaining > 0.0 else Vector3.ZERO
@@ -1359,6 +1470,14 @@ func _update_pose(delta: float) -> void:
 		_rider_visual.rotation.z = (.20 if _reduced_motion else .65) * sin(PI * fall)
 	else:
 		_rider_visual.rotation.z = 0.0
+	if grinding and _grind_contact.valid:
+		# Exact declared contacts take precedence over entry mesh smoothing and
+		# independent slope/balance rotations. Both soles still follow this deck.
+		_board_visual.rotation = Vector3.ZERO
+		_board_visual.position.y = .12
+		_visual.basis = global_basis.inverse() * _grind_contact.board_transform.basis
+		_visual.position = to_local(_grind_contact.board_transform.origin - _grind_contact.board_transform.basis * Vector3(0,.12,0))
+		_grind_visual_offset = Vector3.ZERO
 	_visual_rig.animate(delta, {"airborne": airborne, "grab": _grab_remaining > 0.0,
 		"flip": _flip_remaining > 0.0, "speed": absf(speed), "manual": manual_active,
 		"grind": grinding, "push": not bailing and _controls_enabled and Input.is_action_pressed("push"),

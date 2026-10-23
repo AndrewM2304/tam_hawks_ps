@@ -2,6 +2,7 @@ extends RefCounted
 ## Two different ordinary-input lines on the actual compact Clyde world.
 ## These exercise feasibility; human enjoyment/controller margins stay open.
 const Driver = preload("res://tests/support/compact_clyde_lines_driver.gd")
+const Catalog = preload("res://game/tricks/trick_catalog.gd")
 
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
@@ -118,7 +119,7 @@ static func _line(tree: SceneTree, game: Node, check: Callable, rail_id: String,
 		and game.score.total_score==banked and result.bails==0,
 		"compact Clyde: "+rail_id+" banks then uses real steering/braking to return safely")
 	check.call(result.contiguous and result.finite and result.maximum_step<1.0 and result.clean_landings>=1
-		and result.captured_ids==[rail_id] and result.tricks.count("Rail Grind")==1
+		and result.captured_ids==[rail_id] and _grind_award_count(result.tricks)==1
 		and result.tricks.count("Ollie")==2 and result.tricks.count("Manual")==1
 		and result.tricks.has("Kickflip" if yard else "Frontside Shuvit")
 		and result.tricks.has("Melon Grab" if yard else "Nose Grab"),
@@ -337,3 +338,10 @@ static func _save(id: String, data: Dictionary) -> void:
 	DirAccess.make_dir_recursive_absolute(output)
 	var file:=FileAccess.open(output.path_join(id+".json"),FileAccess.WRITE)
 	if file: file.store_string(JSON.stringify(Driver.serializable(data),"\t"))
+
+
+static func _grind_award_count(names: Array) -> int:
+	var count := 0
+	for name: String in names:
+		if Catalog.is_grind_name(name): count += 1
+	return count

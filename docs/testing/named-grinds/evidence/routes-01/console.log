@@ -1,0 +1,301 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: world edge: actual selected Planter_ line exists at its authored physical prop
+PASS: world edge: Planter_ declared outside approach has actual authored ground
+PASS: world edge: Planter_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+FAIL: world edge: mapped approach descends into exactly the selected real Planter_ edge once
+FAIL: world edge: Planter_ carries the actual clear capsule over 0.30m along the selected edge
+FAIL: world edge: fresh mapped L tap exits Planter_ with one total catch/award and no bail
+WORLD_EDGE family=Planter_ selected=Grind_Edge_Planter_x-2900y40z1300_0_0 fixture=(-31.28, 0.8, 11.15) captured=[] ride_m=0.0 clear=false bails=0 final=(-26.46407, 0.012456, 11.15)
+PASS: world edge: actual selected MarketCounter_ line exists at its authored physical prop
+PASS: world edge: MarketCounter_ declared outside approach has actual authored ground
+PASS: world edge: MarketCounter_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+FAIL: world edge: mapped approach descends into exactly the selected real MarketCounter_ edge once
+FAIL: world edge: MarketCounter_ carries the actual clear capsule over 0.30m along the selected edge
+FAIL: world edge: fresh mapped L tap exits MarketCounter_ with one total catch/award and no bail
+WORLD_EDGE family=MarketCounter_ selected=Grind_Edge_MarketCounter_x10800y60z200_2_0 fixture=(109.85, 0.8, 8.38) captured=[] ride_m=0.0 clear=false bails=0 final=(109.85, 0.01243, -1.609307)
+PASS: world edge: actual selected StreetBenchSeat_ line exists at its authored physical prop
+PASS: world edge: StreetBenchSeat_ declared outside approach has actual authored ground
+PASS: world edge: StreetBenchSeat_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+PASS: world edge: mapped approach descends into exactly the selected real StreetBenchSeat_ edge once
+PASS: world edge: StreetBenchSeat_ carries the actual clear capsule over 0.30m along the selected edge
+PASS: world edge: fresh mapped L tap exits StreetBenchSeat_ with one total catch/award and no bail
+WORLD_EDGE family=StreetBenchSeat_ selected=Grind_Edge_StreetBenchSeat_x2900y0z2700_2_0 fixture=(31.13, 0.8, 27.61) captured=["Grind_Edge_StreetBenchSeat_x2900y0z2700_2_0"] ride_m=0.43530464172363 clear=true bails=0 final=(29.12144, 0.557423, 27.26)
+PASS: world edge: actual selected BridgeRail_ line exists at its authored physical prop
+PASS: world edge: BridgeRail_ declared outside approach has actual authored ground
+PASS: world edge: BridgeRail_ initial body retains real floor/height and scenery clearance for ten consecutive idle ticks
+FAIL: world edge: mapped approach descends into exactly the selected real BridgeRail_ edge once
+FAIL: world edge: BridgeRail_ carries the actual clear capsule over 0.30m along the selected edge
+FAIL: world edge: fresh mapped L tap exits BridgeRail_ with one total catch/award and no bail
+WORLD_EDGE family=BridgeRail_ selected=Grind_Edge_BridgeRail_x-2885y375z8050_0 fixture=(-28.5, 2.8, 69.12603) captured=[] ride_m=0.0 clear=false bails=0 final=(-28.5, 2.532054, 78.29797)
+PASS: world retains original rail tracks and adds valid district rails
+PASS: descending aligned skater catches the real east rail while grind is held
+PASS: rail catch adds one trick and preserves the unbanked aerial combo
+PASS: held grind advances along the visible rail
+PASS: holding a rail does not award entry points every physics tick
+PASS: a real capture emits its authored ID once, without per-tick repeats
+PASS: pause freezes rail travel and balance
+PASS: ollie releases a held rail upward and cooldown prevents immediate recapture
+PASS: rail-to-ollie-to-ground combo banks exactly once on real landing
+PASS: resting after rail combo cannot bank it again
+PASS: the production rail can be ridden in the reverse direction
+PASS: a second fresh grind tap drops off without teleporting to spawn
+PASS: open rail endpoint releases into forward airborne travel without wrapping
+PASS: perpendicular travel cannot snap, score or emit an authored rail capture
+PASS: grind input away from authored rails cannot generate points or capture events
+PASS: solid scenery prevents through-wall capture and emits no rail-ID event
+PASS: excessive rail lean bails and loses only the pending combo
+PASS: a pending rail combo receives the same bounded run overtime as air
+PASS: rail overtime still resolves within its three-second bound
+PASS: restart clears the rail state, balance and pending score
+PASS: grind regression: ground approach starts with real floor support
+PASS: grind regression: grounded push builds speed without snapping or scoring a rail
+PASS: grind regression: real push and charged ollie leave support and descend into exactly one Exchange rail catch
+GRIND APPROACH peak=1.27135562896729 prior_air_vy=-0.06666601449251 departed=true descending_capture=true captures=["Grind_Rail_Exchange"]
+PASS: grind regression: played approach links ollie and rail without banking early
+PASS: grind regression: scenery blocking an active ride produces exactly one bail
+PASS: grind regression: obstructed ride loses its pending combo and preserves prior bank
+PASS: grind regression: obstructed ride recovers locally on support and preserves the run restart spawn
+PASS: grind regression: the complete rail fall/get-up stays collision-safe without teleport or another failure
+GRIND LOCAL RECOVERY step=0.20448112487793 impact=[(12.0, 0.92, 7.891182)] ready=(12.0, 0.000127, 7.754046) spawn=(12.0, 0.8, 20.0)
+PASS: grind regression: overtime rejects fresh aerial flip and grab entries
+PASS: grind regression: fresh overtime spin cannot increase the landing award
+PASS: grind regression: overtime rejects a fresh otherwise eligible rail attachment
+PASS: grind regression: timeout fixture begins on a valid active rail
+PASS: grind regression: overtime cannot start a new scored rail ollie
+PASS: grind regression: overtime still permits releasing an existing rail
+PASS: grind regression: released overtime rail combo banks once on physical landing
+PASS: grind regression: a spin completed before expiry still resolves in the landing combo
+PASS: cat rules: duplicate authored segment IDs cannot create an impossible accepted offer
+PASS: cat rules: pending combos and horizontal or vertical distance reject fresh attempts
+PASS: cat rules: a deliberate eligible offer starts at the first marked segment
+PASS: cat rules: unmarked or wrong first captures and an unrelated bank cannot advance the sequence
+PASS: cat rules: duplicate latest capture is ignored while an intermediate clean bank preserves progress
+PASS: cat rules: skipping the middle marked rail clears the ordered sequence
+PASS: cat rules: the first marked rail restarts a wrong-order sequence at one
+PASS: cat rules: all three captures still require a subsequent positive clean bank
+PASS: cat rules: a positive final bank wins once without a hidden score threshold
+PASS: cat rules: the earned payoff waits for both close audience and visibility without repeating rewards
+PASS: cat rules: eligible visibility starts the queued payoff once without restarting its clock
+PASS: cat rules: reduced motion stops an already started payoff without replaying it when disabled
+PASS: cat rules: a pending combo cannot replace a completed attempt
+PASS: cat rules: immediate clean replay starts fresh and preserves the run-local win count
+PASS: cat rules: an outside capture fails even before the next polling tick
+PASS: cat rules: an outside final bank cannot complete the attempt
+PASS: cat rules: leaving and returning cannot resume an invalidated attempt
+PASS: cat rules: invalid deltas are ignored and the actual sixty-second deadline expires
+PASS: cat rules: bail invalidates an incomplete sequence without adding a win
+PASS: cat rules: repeated run-finish notification is idempotent
+PASS: cat rules: restart removes all run-local attempt progress
+PASS: cat integration: three distinct authored tracks expose real player capture identity
+PASS: Techno Bin presentation: two separate visible cat props use soft nonmetal materials
+PASS: Techno Bin presentation: the active street drummer has a visible improvised bin kit
+PASS: Techno Bin presentation: hidden logical state identifies the corrected act without hovering text
+PASS: cat integration: a real free-skate interaction starts a fresh ordered attempt
+CAT initial_flight launches=[{ "position": (-19.72486, 4.012912, -91.30079), "speed": 13.3876816431681, "velocity": (13.38768, 7.2, -0.000638) }] first_landing={  } descending_samples=4 closest_A={ "position": (-16.82372, 4.836507, -91.30089), "rail_point": (-16.0, 4.6, -91.0), "gap": 0.9082818031311, "height_above_rail": 0.23650693893433, "speed": 13.3876819610596, "velocity": (13.38768, 0.4, -0.000638), "alignment": 1.0, "grounded": false, "grind_held": true } end_position=(-15.77696, 4.6, -90.99999) end_speed=13.378
+PASS: cat integration: real push ollie and rail transfers capture A B C once before any success
+PASS: cat integration: actual final release and landing bank complete the sequence with only earned trick points
+PASS: cat integration: success cannot repeat or add free-skate career progress, goals or profile writes
+PASS: cat presentation: the real offscreen final bank queues its earned payoff for the returning player
+PASS: cat presentation: actual input return and the production camera frustum start one visible payoff
+PASS: Techno Bin presentation: the earned visible payoff actually moves both soft cats and the drummer
+PASS: cat presentation: menu pause freezes the accepted payoff
+PASS: cat presentation: the visible payoff completes its full bound without another completion
+PASS: cat presentation: reduced motion holds both cats and drummer still while the underlying drum clock continues
+PASS: cat presentation: lingering and toggling motion cannot replay the completed payoff or reward
+CAT audience returned_frames=63 trigger_distance=9.72 frustum=true celebration=finished elapsed=3.20
+CAT physical approach=true captures=["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"] positions=[(-16.0, 4.6, -91.0), (-4.0, 4.6, -91.0), (8.0, 4.6, -91.0)] sequence=[1, 2, 3] tricks=["Ollie", "50-50", "Ollie", "50-50", "Ollie", "50-50"] bank=1050 bails=0 state=success remaining=53.22
+CAT flight_witness launches=[{ "position": (-19.72486, 4.012912, -91.30079), "speed": 13.3876816431681, "velocity": (13.38768, 7.2, -0.000638) }, { "position": (-10.69294, 4.6, -91.0), "speed": 13.1476402282715, "velocity": (13.14764, 9.0, -0.000627) }, { "position": (1.426095, 4.6, -91.0), "speed": 12.8976287841797, "velocity": (12.89763, 9.000038, 0.0) }] first_landing={ "position": (9.503642, 4.462381, -91.00004), "speed": 12.8876485824585, "velocity": (12.88763, 0.0, -0.000615), "clean": true, "captures": ["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"] }
+PASS: cat integration: mapped nearby interaction starts the production attempt
+PASS: cat integration: pause freezes the challenge deadline
+PASS: cat integration: career expiry ends the side attempt while the real airborne combo still resolves
+PASS: cat integration: final banking or results-screen interaction cannot revive an expired attempt
+PASS: cat integration: restart clears the challenge while retaining career identity
+PASS: cat integration: actual manual imbalance bails once and clears the live attempt and pending score
+CAT bail entered=true bails=1 state=failed reason=No bother. Come back and we'll strike up another beat. position=(12.08546, 4.649067, -95.0) speed=5.10 manual=false
+PASS: Techno Bin audio: the performer owns exactly one spatial percussion source
+PASS: Techno Bin audio: original percussion is a bounded spatial mono PCM loop
+PASS: Techno Bin audio: generated drum samples carry energy without clipping or a loud loop seam
+PASS: Techno Bin audio: nonfinite gains mute safely and excessive direct gains clamp to full mix
+PASS: Techno Bin audio: the public master and ambience controls both scale the drum mix
+PASS: Techno Bin audio: either mute control stops the percussion source
+PASS: Techno Bin audio: a real menu pause suspends the source and visible drum rhythm
+PASS: Techno Bin audio: resuming restores performer processing and rhythm
+PASS: Techno Bin audio: run end stops the beat and changing settings cannot restart a finished act
+PASS: Techno Bin audio: the next run restores the local street performance
+PASS: Exchange place: both attachments publish their supported bank joins and permanent bypasses
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bank_loop forward
+EXCHANGE ROUTE gallery_entrance_bank_loop forward reached=true seconds=4.63 height=2.010..2.664 slope_frames=69 bails=0 stalls=0 camera=278/0/0 final=(13.47637, 2.013703, -37.0)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bank_loop reverse
+EXCHANGE ROUTE gallery_entrance_bank_loop reverse reached=true seconds=4.67 height=1.994..2.674 slope_frames=69 bails=0 stalls=0 camera=280/0/0 final=(-13.48017, 2.012409, -37.00002)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_front_return forward
+EXCHANGE ROUTE gallery_entrance_front_return forward reached=true seconds=3.02 height=2.012..2.664 slope_frames=24 bails=0 stalls=0 camera=181/0/0 final=(0.288334, 2.012402, -20.43262)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_front_return reverse
+EXCHANGE ROUTE gallery_entrance_front_return reverse reached=true seconds=3.10 height=2.001..2.673 slope_frames=24 bails=0 stalls=0 camera=186/0/0 final=(2.999564, 2.662902, -36.4685)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bypass forward
+EXCHANGE ROUTE gallery_entrance_bypass forward reached=true seconds=7.38 height=2.001..2.001 slope_frames=0 bails=0 stalls=0 camera=443/0/0 final=(21.9844, 2.000506, -38.47997)
+PASS: Exchange place: real grade join and unobstructed chase gallery_entrance_bypass reverse
+EXCHANGE ROUTE gallery_entrance_bypass reverse reached=true seconds=7.38 height=2.001..2.001 slope_frames=0 bails=0 stalls=0 camera=443/0/0 final=(-21.9844, 2.000506, -38.47997)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bank_loop forward
+EXCHANGE ROUTE exchange_west_bank_loop forward reached=true seconds=5.50 height=0.001..0.464 slope_frames=64 bails=0 stalls=0 camera=330/0/0 final=(-22.03276, 0.012263, 0.797167)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bank_loop reverse
+EXCHANGE ROUTE exchange_west_bank_loop reverse reached=true seconds=5.55 height=0.001..0.477 slope_frames=64 bails=0 stalls=0 camera=333/0/0 final=(-22.54725, 0.012337, 0.301883)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bypass forward
+EXCHANGE ROUTE exchange_west_bypass forward reached=true seconds=2.03 height=0.001..0.001 slope_frames=0 bails=0 stalls=0 camera=122/0/0 final=(-22.0, 0.000506, -1.474203)
+PASS: Exchange place: real grade join and unobstructed chase exchange_west_bypass reverse
+EXCHANGE ROUTE exchange_west_bypass reverse reached=true seconds=2.03 height=0.001..0.001 slope_frames=0 bails=0 stalls=0 camera=122/0/0 final=(-22.0, 0.000506, 13.47278)
+PASS: Exchange portico: each exposed column has actual blocking collision above its base
+PASS: Exchange portico: the front terrace crossing remains clear of the real columns
+PASS: Exchange place: preserved physical port and chase station south port forward
+PASS: Exchange place: preserved physical port and chase station south port reverse
+PASS: Exchange place: preserved physical port and chase cone and east spine forward
+PASS: Exchange place: preserved physical port and chase cone and east spine reverse
+PASS: Exchange combo: actual push rides the new entrance bank before the ollie
+PASS: Exchange combo: one real capture follows the bent seating ledge into its south-facing exit
+PASS: Exchange combo: rail ollie air tricks and a fresh Manual remain one physical line
+PASS: Exchange combo: exact repeat-degraded line banks 5000 once without event injection
+PASS: Exchange combo: actual bank ledge and landing chase remains finite clear and visible
+EXCHANGE COMBO captured=true south_exit=true manual=true connected=true bank=5000 bails=0 grounded_ascent=0.275 camera=302/0/0 tricks=["Ollie", "50-50", "Ollie", "Kickflip", "Melon Grab", "Manual"]
+PASS: topography: actual level and upward support Exchange lower square
+PASS: topography: actual level and upward support Exchange gallery
+PASS: topography: actual level and upward support George square
+PASS: topography: actual level and upward support George civic terrace
+PASS: topography: actual level and upward support Central concourse
+PASS: topography: actual level and upward support Central elevated platform
+PASS: topography: actual level and upward support Barras market
+PASS: topography: actual level and upward support Barras loading terrace
+PASS: topography: authored graded route gallery_civic_ascent
+PASS: topography: physical grade and seam transit gallery_civic_ascent uphill
+TOPOGRAPHY route=gallery_civic_ascent uphill reached=true seconds=10.47 height=0.00..6.10 slope_frames=162 bails=0 stalled=0
+PASS: topography: physical grade and seam transit gallery_civic_ascent downhill
+TOPOGRAPHY route=gallery_civic_ascent downhill reached=true seconds=10.47 height=0.00..6.00 slope_frames=162 bails=0 stalled=0
+PASS: topography: authored graded route central_south_link
+PASS: topography: physical grade and seam transit central_south_link uphill
+TOPOGRAPHY route=central_south_link uphill reached=true seconds=3.90 height=0.00..2.02 slope_frames=61 bails=0 stalled=0
+PASS: topography: physical grade and seam transit central_south_link downhill
+TOPOGRAPHY route=central_south_link downhill reached=true seconds=3.90 height=0.00..2.01 slope_frames=61 bails=0 stalled=0
+PASS: topography: authored graded route market_loading_ascent
+PASS: topography: physical grade and seam transit market_loading_ascent uphill
+TOPOGRAPHY route=market_loading_ascent uphill reached=true seconds=5.05 height=0.00..1.53 slope_frames=49 bails=0 stalled=0
+PASS: topography: physical grade and seam transit market_loading_ascent downhill
+TOPOGRAPHY route=market_loading_ascent downhill reached=true seconds=5.05 height=0.01..1.50 slope_frames=48 bails=0 stalled=0
+PASS: topography: nonlinear branch published station_low_level_close
+PASS: topography: real physical transit through every bend station_low_level_close forward
+TOPOGRAPHY branch=station_low_level_close forward reached=true seconds=6.05 height=2.00..2.00 bails=0 stalled=0 position=(-82.01755, 2.000506, 21.24225)
+PASS: topography: real physical transit through every bend station_low_level_close reverse
+TOPOGRAPHY branch=station_low_level_close reverse reached=true seconds=6.07 height=2.00..2.00 bails=0 stalled=0 position=(-125.9257, 2.000506, -0.782349)
+PASS: topography: nonlinear branch published merchant_close_cutthrough
+PASS: topography: real physical transit through every bend merchant_close_cutthrough forward
+TOPOGRAPHY branch=merchant_close_cutthrough forward reached=true seconds=4.47 height=2.00..4.12 bails=0 stalled=0 position=(-58.98228, 4.010267, -79.41381)
+PASS: topography: real physical transit through every bend merchant_close_cutthrough reverse
+TOPOGRAPHY branch=merchant_close_cutthrough reverse reached=true seconds=4.47 height=2.01..4.01 bails=0 stalled=0 position=(-64.15211, 2.012416, -30.55121)
+PASS: topography: nonlinear branch published kelvingrove_cutback_return
+PASS: topography: real physical transit through every bend kelvingrove_cutback_return forward
+TOPOGRAPHY branch=kelvingrove_cutback_return forward reached=true seconds=9.25 height=4.53..11.01 bails=0 stalled=0 position=(-147.7328, 4.534287, -48.2486)
+PASS: topography: real physical transit through every bend kelvingrove_cutback_return reverse
+TOPOGRAPHY branch=kelvingrove_cutback_return reverse reached=true seconds=9.30 height=4.51..11.01 bails=0 stalled=0 position=(-208.5248, 11.01315, -125.6596)
+PASS: topography: nonlinear branch published clyde_print_yard_loop
+PASS: topography: real physical transit through every bend clyde_print_yard_loop forward
+TOPOGRAPHY branch=clyde_print_yard_loop forward reached=true seconds=12.87 height=2.00..2.01 bails=0 stalled=0 position=(-24.59393, 2.01404, 124.41)
+PASS: topography: real physical transit through every bend clyde_print_yard_loop reverse
+TOPOGRAPHY branch=clyde_print_yard_loop reverse reached=true seconds=12.85 height=2.00..2.01 bails=0 stalled=0 position=(-24.62891, 2.01404, 124.4253)
+PASS: topography: nonlinear branch published clyde_print_yard_hip
+PASS: topography: real physical transit through every bend clyde_print_yard_hip forward
+TOPOGRAPHY branch=clyde_print_yard_hip forward reached=true seconds=2.05 height=2.00..3.09 bails=0 stalled=0 position=(44.99961, 2.014028, 134.7891)
+PASS: topography: real physical transit through every bend clyde_print_yard_hip reverse
+TOPOGRAPHY branch=clyde_print_yard_hip reverse reached=true seconds=2.07 height=2.00..2.96 bails=0 stalled=0 position=(53.37444, 2.013216, 127.5002)
+PASS: topography: nonlinear branch published merchant_service_east_return
+PASS: topography: real physical transit through every bend merchant_service_east_return forward
+TOPOGRAPHY branch=merchant_service_east_return forward reached=true seconds=2.27 height=1.00..2.04 bails=0 stalled=0 position=(-58.99807, 2.000647, -34.59364)
+PASS: topography: real physical transit through every bend merchant_service_east_return reverse
+TOPOGRAPHY branch=merchant_service_east_return reverse reached=true seconds=2.25 height=1.00..2.00 bails=0 stalled=0 position=(-56.56703, 1.010653, -55.49682)
+PASS: topography: nonlinear branch published merchant_service_west_return
+PASS: topography: real physical transit through every bend merchant_service_west_return forward
+TOPOGRAPHY branch=merchant_service_west_return forward reached=true seconds=1.95 height=1.00..4.00 bails=0 stalled=0 position=(-87.32395, 3.754357, -69.98275)
+PASS: topography: real physical transit through every bend merchant_service_west_return reverse
+TOPOGRAPHY branch=merchant_service_west_return reverse reached=true seconds=1.82 height=1.01..3.75 bails=0 stalled=0 position=(-72.6506, 1.012427, -70.00067)
+PASS: topography: curved bank has multiple actual collision grades within its 35-degree contract
+TOPOGRAPHY hip slope_bins=5 steepest=31.06
+PASS: topography: independent low floor, overhead clearance and upper deck support x=-114.0
+PASS: topography: independent low floor, overhead clearance and upper deck support x=-94.0
+PASS: topography: permanent court approach or bank loop published cat_coping_approach
+PASS: topography: physical court access and grade transit cat_coping_approach forward
+TOPOGRAPHY court=cat_coping_approach forward reached=true seconds=1.35 height=4.00..4.02 slope_frames=0 bails=0 stalled=0 position=(-18.77725, 4.02154, -91.0)
+PASS: topography: physical court access and grade transit cat_coping_approach reverse
+TOPOGRAPHY court=cat_coping_approach reverse reached=true seconds=1.37 height=4.01..4.01 slope_frames=1 bails=0 stalled=0 position=(-27.38206, 4.011234, -90.99997)
+PASS: topography: permanent court approach or bank loop published cat_coping_runout
+PASS: topography: physical court access and grade transit cat_coping_runout forward
+TOPOGRAPHY court=cat_coping_runout forward reached=true seconds=2.18 height=4.01..4.02 slope_frames=1 bails=0 stalled=0 position=(21.97236, 4.010628, -74.63551)
+PASS: topography: physical court access and grade transit cat_coping_runout reverse
+TOPOGRAPHY court=cat_coping_runout reverse reached=true seconds=2.20 height=4.01..4.13 slope_frames=1 bails=0 stalled=0 position=(16.5819, 4.019502, -90.95969)
+PASS: topography: permanent court approach or bank loop published cat_workshop_bypass
+PASS: topography: physical court access and grade transit cat_workshop_bypass forward
+TOPOGRAPHY court=cat_workshop_bypass forward reached=true seconds=5.80 height=4.00..4.00 slope_frames=0 bails=0 stalled=0 position=(21.96647, 4.000506, -90.2449)
+PASS: topography: physical court access and grade transit cat_workshop_bypass reverse
+TOPOGRAPHY court=cat_workshop_bypass reverse reached=true seconds=5.80 height=4.00..4.00 slope_frames=0 bails=0 stalled=0 position=(-21.96647, 4.000506, -90.2449)
+PASS: topography: permanent court approach or bank loop published civic_workshop_bank_loop
+PASS: topography: physical court access and grade transit civic_workshop_bank_loop forward
+TOPOGRAPHY court=civic_workshop_bank_loop forward reached=true seconds=3.70 height=4.00..4.71 slope_frames=43 bails=0 stalled=0 position=(21.21012, 4.008809, -95.48564)
+PASS: topography: physical court access and grade transit civic_workshop_bank_loop reverse
+TOPOGRAPHY court=civic_workshop_bank_loop reverse reached=true seconds=3.70 height=4.00..4.71 slope_frames=43 bails=0 stalled=0 position=(-21.20426, 4.01368, -95.48547)
+PASS: topography: permanent court approach or bank loop published market_hall_bank_loop
+PASS: topography: physical court access and grade transit market_hall_bank_loop forward
+TOPOGRAPHY court=market_hall_bank_loop forward reached=true seconds=3.50 height=-0.00..0.72 slope_frames=44 bails=0 stalled=0 position=(81.68415, 0.007924, 8.592398)
+PASS: topography: physical court access and grade transit market_hall_bank_loop reverse
+TOPOGRAPHY court=market_hall_bank_loop reverse reached=true seconds=3.45 height=-0.00..0.80 slope_frames=31 bails=0 stalled=0 position=(81.36531, 0.011003, 8.001298)
+PASS: topography: print-yard ledge publishes a usable local trick line
+PASS: topography: actual yard ollie capture rail-ollie air tricks and manual stay in one unbanked line
+PASS: topography: new local rail-air-manual route banks its exact repeated-trick combo once
+TOPOGRAPHY localcombo captured=true manual=true quay_landing=true connected=true bank=5000 bails=0 charge_frames=15 rail_pop_charge_frames=15 release_distance=9.601 tricks=["Ollie", "50-50", "Ollie", "Kickflip", "Melon Grab", "Manual"]
+TOPOGRAPHY LOCAL WITNESS capture_id=clyde_print_yard_ledge signal_ids=["clyde_print_yard_ledge"] capture_at=(38.3, 2.77, 124.4) post_manual=[{ "frame": -1, "position": (52.39111, 2.014013, 124.4), "velocity": (14.218, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 0, "position": (52.62786, 2.014013, 124.4), "velocity": (14.20541, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 1, "position": (52.86441, 2.014013, 124.4), "velocity": (14.19282, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 2, "position": (53.10074, 2.014013, 124.4), "velocity": (14.18023, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 3, "position": (53.33687, 2.014013, 124.4), "velocity": (14.16764, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 4, "position": (53.57278, 2.014013, 124.4), "velocity": (14.15506, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 5, "position": (53.80849, 2.014013, 124.4), "velocity": (14.14247, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 6, "position": (54.04399, 2.014013, 124.4), "velocity": (14.12988, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 7, "position": (54.27927, 2.014013, 124.4), "velocity": (14.11729, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 8, "position": (54.51435, 2.014013, 124.4), "velocity": (14.1047, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 9, "position": (54.74922, 2.014013, 124.4), "velocity": (14.09211, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 10, "position": (54.98388, 2.014013, 124.4), "velocity": (14.07952, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }, { "frame": 11, "position": (55.21832, 2.014013, 124.4), "velocity": (14.06694, 0.0, 0.000001), "floor": true, "airborne": false, "manual": true, "manual_cooldown": 0.0, "pending_landing": false, "landing_remaining": 0.0, "bank": 0, "support": ["ClydePrintYard"] }]
+PASS: topography: fountain publishes a full curved coping circuit
+PASS: topography: real ground approach and descending ollie capture fountain coping
+PASS: topography: curved grind follows changing tangent without cutting through the fountain
+PASS: topography: second-tap drop from curved coping lands and banks once without a bail
+TOPOGRAPHY fountain captured=true bails=0 charge_frames=15 release_distance=9.607 position=(-14.10107, 0.01229, 14.1687)
+PASS: topography: authored outdoor connection clyde_north_quay
+PASS: topography: actual supported outdoor travel clyde_north_quay
+TOPOGRAPHY outdoor=clyde_north_quay reached=true seconds=15.25 bails=0 stalled=0
+PASS: topography: authored outdoor connection clyde_safe_crossing
+PASS: topography: actual supported outdoor travel clyde_safe_crossing
+TOPOGRAPHY outdoor=clyde_safe_crossing reached=true seconds=4.57 bails=0 stalled=0
+PASS: topography: park climb and rolling loop published
+PASS: topography: actual park climb, hill circuit and descent return to the Central port
+TOPOGRAPHY park reached=true seconds=29.05 height=2.01..17.74 slopes=891 bails=0 stalled=0
+PASS: topography: broken bridge publishes its run-up and landing
+PASS: topography: broken bridge has a named scored gap
+PASS: topography: actual push run-up and charged crouch reach the bridge launch grade
+PASS: topography: physical eight-metre bridge ollie reaches south bank and banks the named gap once
+TOPOGRAPHY bridge takeoff=true landed=true awards=1 bank=2000 bails=0 charge_frames=22
+PASS: topography: missed bridge drops the real fall combo once and preserves the earned bank
+PASS: topography: water recovery returns to supported quay without changing the run restart spawn
+TOPOGRAPHY water bails=1 pending=true sampled_water=true bank=100 position=(10.0, 2.000026, 124.0)
+PASS: compact Clyde: real authored feature clyde_print_yard_ledge
+PASS: compact Clyde: clyde_print_yard_ledge real capture, rail pop, air tricks and supported manual link
+PASS: compact Clyde: clyde_print_yard_ledge complete combo banks once
+PASS: compact Clyde: clyde_print_yard_ledge banks then uses real steering/braking to return safely
+PASS: compact Clyde: clyde_print_yard_ledge native consecutive samples preserve real identity/landings without forced motion
+COMPACT_CLYDE_LINE rail=clyde_print_yard_ledge capture=(38.3, 2.77, 124.4) landing={ "tick": 22115, "dt": 0.01666666666667, "at": (52.7195, 2.014022, 124.4002), "velocity": (14.56384, 0.0, 0.000001), "yaw": -1.57079637050629, "floor": true, "air": false, "manual": true, "grind": "", "transition": "", "bank": 0, "combo": 5000, "support": ["ClydeSouthQuay"], "contacts": [{ "id": "ClydeSouthQuay", "boundary_family": "", "normal": (0.0, 1.0, 0.0), "at": (52.7195, 2.0, 124.4002) }], "input": { "manual": 1.0 } } bank=5000 return={ "reached": true, "ticks": 1002, "targets": [{ "at": (61.35561, 2.014022, 124.1639), "tick": 22249 }, { "at": (61.92703, 2.014022, 136.3383), "tick": 22467 }, { "at": (22.69002, 2.014022, 136.924), "tick": 23006 }, { "at": (20.65356, 2.014022, 125.0485), "tick": 23217 }], "stall_ticks": 0 } summary={ "captured_ids": ["clyde_print_yard_ledge"], "tricks": ["Ollie", "50-50", "Ollie", "Kickflip", "Melon Grab", "Manual"], "scored_tricks": ["Ollie", "50-50", "Ollie", "Kickflip", "Melon Grab", "Manual"], "bails": 0, "clean_landings": 1, "contiguous": true, "finite": true, "maximum_step": 0.49084234237671, "metres": 105.823301475029, "samples": 1309, "seconds": 21.8166666666667 }
+PASS: compact Clyde: real authored feature clyde_quay_coping
+PASS: compact Clyde: clyde_quay_coping real capture, rail pop, air tricks and supported manual link
+PASS: compact Clyde: clyde_quay_coping complete combo banks once
+PASS: compact Clyde: clyde_quay_coping banks then uses real steering/braking to return safely
+PASS: compact Clyde: clyde_quay_coping native consecutive samples preserve real identity/landings without forced motion
+COMPACT_CLYDE_LINE rail=clyde_quay_coping capture=(-68.76711, 2.42, 76.69999) landing={ "tick": 23449, "dt": 0.01666666666667, "at": (-56.85503, 2.01245, 76.7), "velocity": (12.4318, 0.0, 0.000001), "yaw": -1.57079637050629, "floor": true, "air": false, "manual": true, "grind": "", "transition": "", "bank": 0, "combo": 4750, "support": ["ClydeNorthQuay"], "contacts": [{ "id": "ClydeNorthQuay", "boundary_family": "", "normal": (0.0, 1.0, 0.0), "at": (-56.85503, 2.0, 76.7) }], "input": { "manual": 1.0 } } bank=4750 return={ "reached": true, "ticks": 3087, "targets": [{ "at": (-35.65023, 2.014017, 69.25637), "tick": 23791 }, { "at": (-25.66207, 2.014017, 69.04042), "tick": 23942 }, { "at": (-25.06945, 3.359404, 88.34081), "tick": 24242 }, { "at": (-24.95399, 3.413704, 104.3273), "tick": 24461 }, { "at": (-25.0523, 2.012805, 124.3257), "tick": 24727 }, { "at": (-30.34075, 2.012805, 124.9051), "tick": 24857 }, { "at": (-25.68109, 2.012805, 124.9601), "tick": 25012 }, { "at": (-25.06957, 3.360667, 105.6582), "tick": 25312 }, { "at": (-24.95316, 3.41411, 89.68902), "tick": 25530 }, { "at": (-25.05431, 2.012532, 69.69685), "tick": 25795 }, { "at": (-75.31548, 2.014027, 69.0775), "tick": 26465 }, { "at": (-81.34767, 2.014027, 76.22195), "tick": 26630 }], "stall_ticks": 0 } summary={ "captured_ids": ["clyde_quay_coping"], "tricks": ["Ollie", "50-50", "Ollie", "Frontside Shuvit", "Nose Grab", "Manual"], "scored_tricks": ["Ollie", "50-50", "Ollie", "Frontside Shuvit", "Nose Grab", "Manual"], "bails": 0, "clean_landings": 3, "contiguous": true, "finite": true, "maximum_step": 0.68743753433228, "metres": 240.657772684004, "samples": 3370, "seconds": 56.1666666666667 }
+COMPACT_CLYDE_VERT_LIP lip=true id=nose_stall manual=true bank=700 at=(-9.083994, 2.011549, 62.0) summary={ "captured_ids": [], "tricks": ["Nose Stall", "Manual"], "scored_tricks": ["Nose Stall", "Manual"], "bails": 0, "clean_landings": 2, "contiguous": true, "finite": true, "maximum_step": 0.36817619204521, "metres": 28.0801104977727, "samples": 235, "seconds": 3.91666666666667 }
+PASS: compact Clyde circuit: live east-facing quarter lip drops through real contact to a supported manual and bank
+PASS: compact Clyde circuit: actual quay steering reaches open pipe and visits both real opposing faces
+PASS: compact Clyde circuit: quarter/half-pipe use different features and return around south ends without forced headings
+COMPACT_CLYDE_VERT { "summary": { "captured_ids": [], "tricks": ["Nose Stall", "Manual"], "scored_tricks": ["Nose Stall", "Manual"], "bails": 0, "clean_landings": 3, "contiguous": true, "finite": true, "maximum_step": 0.36817619204521, "metres": 167.599321413902, "samples": 2331, "seconds": 38.85 }, "lip_feature": "clyde_quarter", "lip_id": "nose_stall", "bank": 700, "pipe_visits": ["clyde_half_west", "clyde_half_east"], "face_angles": { "clyde_half_west": 74.7090198295017, "clyde_half_east": 37.1799871602183 }, "approach": { "reached": true, "ticks": 857, "targets": [{ "at": [-3.46283054351807, 2.0139000415802, 68.5282363891602], "tick": 27098 }, { "at": [-41.3481750488281, 2.0139000415802, 68.9307403564453], "tick": 27637 }, { "at": [-41.9219779968262, 2.0139000415802, 61.1586074829102], "tick": 27799 }], "stall_ticks": 0 }, "return": { "reached": true, "ticks": 821, "targets": [{ "at": [-41.7163391113281, 2.01382255554199, 68.3979339599609], "tick": 28332 }, { "at": [-3.65615391731262, 2.01382255554199, 68.928337097168], "tick": 28864 }, { "at": [-3.08491349220276, 2.01382255554199, 62.6744499206543], "tick": 29006 }], "stall_ticks": 0 }, "events": [{ "tick": 26821, "event": "trick", "id": "Nose Stall", "points": 250 }, { "tick": 26821, "event": "score-trick", "id": "Nose Stall" }, { "tick": 26833, "event": "land", "clean": true, "at": [-18.155029296875, 5.19713640213013, 62.0] }, { "tick": 26854, "event": "land", "clean": true, "at": [-17.5379867553711, 3.5621075630188, 62.0] }, { "tick": 26873, "event": "trick", "id": "Manual", "points": 100 }, { "tick": 26873, "event": "score-trick", "id": "Manual" }, { "tick": 28099, "event": "land", "clean": true, "at": [-34.8029975891113, 5.20456409454346, 61.5939483642578] }] }
+COMPACT_CLYDE_RIVER_GAP launch=true landed=true charge_ticks=22 bank=2000 at=(20.00007, 2.013724, 120.0604)
+PASS: compact Clyde river circuit: actual charged optional bridge jump lands on south deck and banks the named gap
+PASS: compact Clyde river circuit: real steering leaves landing for the translated curved yard hip and its actual rise
+PASS: compact Clyde river circuit: yard returns through continuous bridge to optional approach without teleport or another gap award
+COMPACT_CLYDE_RIVER { "summary": { "captured_ids": [], "tricks": ["Ollie"], "scored_tricks": ["Ollie", "Clyde Broken Bridge"], "bails": 0, "clean_landings": 8, "contiguous": true, "finite": true, "maximum_step": 0.30792698264122, "metres": 302.229527076473, "samples": 4117, "seconds": 68.6166666666667 }, "launch": true, "charge_ticks": 22, "landed": true, "bank": 2000, "hip_high": 2.7393491268158, "yard": { "reached": true, "ticks": 1007, "targets": [{ "at": [24.379638671875, 2.01372361183167, 121.727798461914], "tick": 29508 }, { "at": [53.3317527770996, 2.01372361183167, 121.946800231934], "tick": 29885 }, { "at": [53.9047470092773, 2.01372361183167, 126.813049316406], "tick": 30007 }, { "at": [53.9047470092773, 2.01372361183167, 126.813049316406], "tick": 30007 }, { "at": [49.7608375549316, 2.01372361183167, 127.39379119873], "tick": 30124 }, { "at": [48.7905082702637, 2.15470814704895, 127.479919433594], "tick": 30147 }, { "at": [45.6627311706543, 2.73719310760498, 127.526420593262], "tick": 30219 }, { "at": [45.1536636352539, 2.71725106239319, 129.442459106445], "tick": 30297 }, { "at": [45.0177345275879, 2.28488969802856, 130.407531738281], "tick": 30321 }, { "at": [44.9706687927246, 2.01333427429199, 134.819046020508], "tick": 30399 }, { "at": [44.9706687927246, 2.01333427429199, 134.819046020508], "tick": 30399 }], "stall_ticks": 0 }, "return": { "reached": true, "ticks": 2765, "targets": [{ "at": [52.3774757385254, 2.01333427429199, 137.721649169922], "tick": 30552 }, { "at": [20.6785259246826, 2.0142343044281, 137.933380126953], "tick": 31026 }, { "at": [0.68366092443466, 2.0142343044281, 138.050445556641], "tick": 31291 }, { "at": [-24.3797931671143, 2.0142343044281, 124.277732849121], "tick": 31670 }, { "at": [-24.9312152862549, 3.35918521881104, 105.662872314453], "tick": 31952 }, { "at": [-25.0465869903564, 3.41411089897156, 89.6664733886719], "tick": 32172 }, { "at": [-24.9484272003174, 2.0088951587677, 69.6595764160156], "tick": 32439 }, { "at": [-0.67894816398621, 2.01357817649841, 69.0719909667969], "tick": 32797 }, { "at": [19.3026351928711, 2.01357817649841, 68.949333190918], "tick": 33061 }, { "at": [19.8818359375, 2.01357817649841, 65.642936706543], "tick": 33167 }], "stall_ticks": 0 }, "events": [{ "tick": 29240, "event": "trick", "id": "Ollie", "points": 100 }, { "tick": 29240, "event": "score-trick", "id": "Ollie" }, { "tick": 29275, "event": "score-trick", "id": "Clyde Broken Bridge" }, { "tick": 29278, "event": "land", "clean": true, "at": [20.0000667572021, 2.76456713676453, 102.845626831055] }, { "tick": 30169, "event": "land", "clean": true, "at": [47.676513671875, 2.65578889846802, 127.513763427734] }, { "tick": 30172, "event": "land", "clean": true, "at": [47.5850143432617, 2.70034074783325, 127.515495300293] }, { "tick": 30174, "event": "land", "clean": true, "at": [47.5200462341309, 2.71059823036194, 127.516532897949] }, { "tick": 30176, "event": "land", "clean": true, "at": [47.4547805786133, 2.72065258026123, 127.518890380859] }, { "tick": 30178, "event": "land", "clean": true, "at": [47.3912582397461, 2.7365927696228, 127.519912719727] }, { "tick": 30181, "event": "land", "clean": true, "at": [47.2879104614258, 2.73412537574768, 127.522262573242] }, { "tick": 31966, "event": "land", "clean": true, "at": [-24.9727001190186, 3.41214966773987, 104.840805053711] }] }
+PASS: compact Clyde deck: ordinary outward roll meets the actual raised landward wall and physically stops on deck
+PASS: compact Clyde deck: ordinary outward roll cannot reach the dry void or manufacture recovery/extra jumps
+COMPACT_CLYDE_DECK { "charged": false, "fixture": [-50.2000007629395, 5.19999980926514, 60.5], "minimum_z": 55.6706237792969, "minimum_y": 5.19999980926514, "peak": 5.19999980926514, "wall_contacts": 136, "elevated_wall_contact": true, "summary": { "captured_ids": [], "tricks": [], "scored_tricks": [], "bails": 0, "clean_landings": 0, "contiguous": true, "finite": true, "maximum_step": 0.16107177734375, "metres": 4.82659912109375, "samples": 200, "seconds": 3.33333333333333 }, "events": [] }
+PASS: compact Clyde deck: charged outward ollie meets the actual raised landward wall and physically stops on deck
+PASS: compact Clyde deck: charged outward ollie cannot reach the dry void or manufacture recovery/extra jumps
+COMPACT_CLYDE_DECK { "charged": true, "fixture": [-50.2000007629395, 5.19999980926514, 60.5], "minimum_z": 55.6739616394043, "minimum_y": 5.19999980926514, "peak": 6.47525453567505, "wall_contacts": 150, "elevated_wall_contact": true, "summary": { "captured_ids": [], "tricks": ["Ollie"], "scored_tricks": ["Ollie"], "bails": 0, "clean_landings": 1, "contiguous": true, "finite": true, "maximum_step": 0.19058574736118, "metres": 6.00487869232893, "samples": 215, "seconds": 3.58333333333333 }, "events": [{ "tick": 33520, "event": "trick", "id": "Ollie", "points": 100 }, { "tick": 33520, "event": "score-trick", "id": "Ollie" }, { "tick": 33552, "event": "land", "clean": true, "at": [-50.2000007629395, 5.20016574859619, 55.6739616394043] }] }
+RESULT: 220 passed, 9 failed

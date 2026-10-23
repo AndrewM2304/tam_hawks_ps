@@ -16,6 +16,8 @@ const FRICTION: float = 0.6 # Linear speed loss in metres/second squared.
 const END_EPSILON: float = 0.001
 const CAPTURE_SWEEP_STEP: float = 0.10
 const MAX_CAPTURE_SWEEP: float = 1.0
+const MAX_CAPTURE_CORRECTION: float = 0.85
+const MAX_CAPTURE_TICK_DISPLACEMENT: float = 0.99
 
 var active: bool = false
 var line: GrindLine = null
@@ -32,7 +34,7 @@ var _result: String = "slow"
 ## Capture the nearest eligible line. Optional clearance receives world-space from/to.
 ## A failed attempt leaves no active ride. A request during an active ride is ignored.
 func start(lines: Array, from: Vector3, velocity: Vector3,
-		clearance: Callable = Callable()) -> bool:
+		clearance: Callable = Callable(), candidate_filter: Callable = Callable()) -> bool:
 	if active:
 		return false
 	if not from.is_finite() or not velocity.is_finite() or velocity.y > 1.0:
@@ -82,6 +84,8 @@ func start(lines: Array, from: Vector3, velocity: Vector3,
 			continue
 		if clearance.is_valid() and clearance.call(from, at) != true:
 			continue
+		if candidate_filter.is_valid() and candidate_filter.call(candidate, offset, signed_direction) != true:
+			continue
 		best = candidate
 		best_distance = offset
 		best_direction = signed_direction
@@ -106,7 +110,7 @@ func start(lines: Array, from: Vector3, velocity: Vector3,
 ## admission envelope as point capture; do not widen it with speed or frame time.
 ## Clearance always starts at that actual origin, including for earlier samples.
 func start_swept(lines: Array, from: Vector3, to: Vector3, velocity: Vector3,
-		clearance: Callable = Callable()) -> bool:
+		clearance: Callable = Callable(), candidate_filter: Callable = Callable()) -> bool:
 	if active or not from.is_finite() or not to.is_finite() or not velocity.is_finite():
 		return false
 	var travel: float = from.distance_to(to)
@@ -114,10 +118,14 @@ func start_swept(lines: Array, from: Vector3, to: Vector3, velocity: Vector3,
 		return false
 	var sample_count: int = maxi(1, ceili(travel / CAPTURE_SWEEP_STEP))
 	var actual_origin_clearance := func(_sample_origin: Vector3, at: Vector3) -> bool:
+		# Historical eligibility never authorizes an oversized present-body
+		# correction or a >1m step from the preceding native sample.
+		if to.distance_to(at) > MAX_CAPTURE_CORRECTION or from.distance_to(at) > MAX_CAPTURE_TICK_DISPLACEMENT:
+			return false
 		return not clearance.is_valid() or clearance.call(to, at) == true
 	for i in range(sample_count + 1):
 		var sample_origin: Vector3 = from.lerp(to, float(i) / sample_count)
-		if start(lines, sample_origin, velocity, actual_origin_clearance):
+		if start(lines, sample_origin, velocity, actual_origin_clearance, candidate_filter):
 			return true
 	return false
 

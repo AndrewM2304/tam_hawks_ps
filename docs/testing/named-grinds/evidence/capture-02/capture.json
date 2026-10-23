@@ -1,0 +1,122 @@
+{
+	"errors": [],
+	"images": [
+		{
+			"at": "(12.0, 0.92, 10.29426)",
+			"board_transform": "[X: (0.999977, -0.00683, 0.0), Y: (0.00683, 0.999977, 0.0), Z: (0.0, 0.0, 1.0), O: (12.0007, 1.022998, 10.29426)]",
+			"contact_error_m": 0.00000095367431640625,
+			"contact_valid": true,
+			"diagnostic_camera": false,
+			"file": "50-50-contact-chase.png",
+			"style": "grind_50_50",
+			"tick": 161
+		},
+		{
+			"at": "(12.0, 0.92, 10.29426)",
+			"board_transform": "[X: (0.999977, -0.00683, 0.0), Y: (0.00683, 0.999977, 0.0), Z: (0.0, 0.0, 1.0), O: (12.0007, 1.022998, 10.29426)]",
+			"contact_error_m": 0.00000095367431640625,
+			"contact_valid": true,
+			"diagnostic_camera": true,
+			"file": "50-50-contact-profile.png",
+			"style": "grind_50_50",
+			"tick": 161
+		},
+		{
+			"at": "(12.0, 0.92, 8.953371)",
+			"board_transform": "[X: (0.999936, -0.011352, 0.0), Y: (0.011273, 0.993009, 0.117495), Z: (-0.001334, -0.117487, 0.993074), O: (12.0012, 1.028255, 8.953371)]",
+			"contact_error_m": 0.000000955535142566077,
+			"contact_valid": false,
+			"diagnostic_camera": false,
+			"file": "50-50-release-chase.png",
+			"style": "",
+			"tick": 169
+		},
+		{
+			"at": "(12.0, 0.92, 8.953371)",
+			"board_transform": "[X: (0.999936, -0.011352, 0.0), Y: (0.011273, 0.993009, 0.117495), Z: (-0.001334, -0.117487, 0.993074), O: (12.0012, 1.028255, 8.953371)]",
+			"contact_error_m": 0.000000955535142566077,
+			"contact_valid": false,
+			"diagnostic_camera": true,
+			"file": "50-50-release-profile.png",
+			"style": "",
+			"tick": 169
+		},
+		{
+			"at": "(12.0, 0.92, 10.29426)",
+			"board_transform": "[X: (-0.0, -0.00683, 0.999977), Y: (-0.0, 0.999977, 0.00683), Z: (-1.0, 0.0, -0.0), O: (12.0, 0.934, 10.29436)]",
+			"contact_error_m": 0.0,
+			"contact_valid": true,
+			"diagnostic_camera": false,
+			"file": "boardslide-contact-chase.png",
+			"style": "boardslide",
+			"tick": 581
+		},
+		{
+			"at": "(12.0, 0.92, 10.29426)",
+			"board_transform": "[X: (-0.0, -0.00683, 0.999977), Y: (-0.0, 0.999977, 0.00683), Z: (-1.0, 0.0, -0.0), O: (12.0, 0.934, 10.29436)]",
+			"contact_error_m": 0.0,
+			"contact_valid": true,
+			"diagnostic_camera": true,
+			"file": "boardslide-contact-profile.png",
+			"style": "boardslide",
+			"tick": 581
+		},
+		{
+			"at": "(12.0, 0.92, 8.953371)",
+			"board_transform": "[X: (-0.0, -0.011352, 0.999936), Y: (-0.117495, 0.993009, 0.011273), Z: (-0.993074, -0.117487, -0.001334), O: (12.0, 0.966808, 8.953752)]",
+			"contact_error_m": 0.0,
+			"contact_valid": false,
+			"diagnostic_camera": false,
+			"file": "boardslide-release-chase.png",
+			"style": "",
+			"tick": 589
+		},
+		{
+			"at": "(12.0, 0.92, 8.953371)",
+			"board_transform": "[X: (-0.0, -0.011352, 0.999936), Y: (-0.117495, 0.993009, 0.011273), Z: (-0.993074, -0.117487, -0.001334), O: (12.0, 0.966808, 8.953752)]",
+			"contact_error_m": 0.0,
+			"contact_valid": false,
+			"diagnostic_camera": true,
+			"file": "boardslide-release-profile.png",
+			"style": "",
+			"tick": 589
+		}
+	],
+	"limits": "Actual production inherited gameplay, original native PNGs. Fixed mapped run-up and fresh descending Triangle, no runtime pose/motion assignment. Scene paused for readback; production chase then explicitly placed/restored diagnostic profile. Not timing or owner acceptance.",
+	"trials": [
+		{
+			"air_image": true,
+			"awards": [
+				"Ollie",
+				"50-50",
+				"Ollie"
+			],
+			"bails": 0,
+			"captures": [
+				"Grind_Rail_Exchange"
+			],
+			"contact_image": true,
+			"landed": true,
+			"side": 0,
+			"unsafe": 0,
+			"valid": true
+		},
+		{
+			"air_image": true,
+			"awards": [
+				"Ollie",
+				"Boardslide",
+				"Ollie"
+			],
+			"bails": 0,
+			"captures": [
+				"Grind_Rail_Exchange"
+			],
+			"contact_image": true,
+			"landed": true,
+			"side": 1,
+			"unsafe": 0,
+			"valid": true
+		}
+	]
+}
