@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-22T22:16:18.836174+01:00",
+  "completed_london": "2026-10-22T22:17:10.408327+01:00",
+  "wall_seconds": 51.572287458053324,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/bail-pose/observers/focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 381,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "45",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "edb3f46f7b1a5a88a586df10b99d4be8ed93ee8385d50f87d7e3a6c720f3c613",
+  "git_head": "4eb9c03ad1f61d03dba029a86b85c3a9e4485cd9"
+}

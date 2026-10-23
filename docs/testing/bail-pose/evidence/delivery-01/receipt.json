@@ -1,0 +1,29 @@
+{
+  "started_london": "2026-10-22T22:17:10.464071+01:00",
+  "completed_london": "2026-10-22T22:17:50.653328+01:00",
+  "wall_seconds": 40.189348292013165,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/camera-pop/observers/market.gd",
+    "--",
+    ".local/bail-pose/delivery-01",
+    "docs/testing/camera-flow/observers/playability.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 382,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "52",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "60195504241fd48021012c3f788dec4a44d334b2ac7fc79eb64108392c5f929b",
+  "git_head": "4eb9c03ad1f61d03dba029a86b85c3a9e4485cd9"
+}

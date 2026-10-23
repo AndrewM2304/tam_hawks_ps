@@ -1,3 +1,13 @@
+## Bail and presentation additions — 22 October 2026 candidate
+
+`Skater.begin_bail(reason, safe_position=Vector3.INF)` coalesces repeated requests and emits `bailed` once at impact. Public read-only recovery presentation: `bailing`, `bail_phase` (fall/slide/get_up/ready/blocked), `bail_reason`, `bail_elapsed`; `recovered` emits once on completion. `recover_to(finite_position)` enters the same sequence, validates actual support/clearance and preserves the career restart spawn. Explicit `reset_skater` cancels immediately. Main suppresses new pickups/gaps/interaction while bailing, keeps active-play clocks, mutes rolling audio and preserves banked score. Pauses freeze native board and body motion.
+
+One startup native rigid board reuses the existing mesh, collides only with world layer1 and is frozen/remounted at completion/reset. Its stable mounted marker still supplies pose coordinates; limbs never chase the loose mesh. The skater's physics body remains the existing upright capsule, with authored reachable fall/get-up poses rather than a full ragdoll. `SkaterVisual.animate` accepts a bounded `bail` blend and optional `ramp_turn` progress; fixed limb lengths and planted normal contacts are retained.
+
+`get_camera_support_frame` remains the unspun camera frame. Ramp assisted body return uses its own slower curve and anticipatory pose; explicit spin is separate. HUD no longer has a speed widget; score/clock/SPECIAL retain Main's existing data snapshot. [Decisions](decisions/ADR-027-ramp-pitch-and-classic-hud.md), [validation](../testing/bail-pose/README.md). Historical contracts below remain except where explicitly superseded here.
+
+---
+
 ## Compact Clyde coordinate addendum —18 October
 
 [ADR-018](decisions/ADR-018-compact-clyde-pocket.md) and [COMPACT-CLYDE-CONTRACT](../levels/COMPACT-CLYDE-CONTRACT.md) supersede historical outdoor coordinates below. `clyde_layout.gd` owns north170m/south115m quay, safeX−25/advancedX20, yardΔX−15 and halfΔX−20 placements; quartertoe(−15,2,62)/yaw+90°. Cross-quay travel usesZ69 landward of actual bridge handrails. South landscape support now exists only inside the retained yard/return and visible3m solid walls. World-space query/rail/gap/recovery metadata migrates with geometry; stable career/save/encounter/gap IDs and skating physics stay unchanged. Current acceptance status belongs in newest STATUS, not the previous source's test counts.
@@ -221,4 +231,4 @@ Face buttons retain Cross/Square/Circle/Triangle for Ollie/flip/grab/grind-lip. 
 
 ## Bail/human-motion research follow-up (22 October2026)
 
-No production interface change at this checkpoint. `bailed`, `reset_skater()` and `recover_to()` retain their current immediate behaviour. [BAIL-R01…04](../research/THPS-BAIL-AND-HUMAN-MOTION-2026-10-22.md) records the measured instant-reset/limb-reach defects and proposed reachable contact poses followed by a separate bail/recovery lifecycle. Do not treat proposed `begin_bail` or phase names as implemented APIs. Score/encounter failure stays one-shot, explicit Restart and hazard/run-spawn contracts remain, and physical/visual/human acceptance must be supplied for the eventual production change.
+Historical4eb9c03 research checkpoint, superseded by the bail contract above: no production interface change at that checkpoint. `bailed`, `reset_skater()` and `recover_to()` retain their current immediate behaviour. [BAIL-R01…04](../research/THPS-BAIL-AND-HUMAN-MOTION-2026-10-22.md) records the measured instant-reset/limb-reach defects and proposed reachable contact poses followed by a separate bail/recovery lifecycle. Do not treat proposed `begin_bail` or phase names as implemented APIs. Score/encounter failure stays one-shot, explicit Restart and hazard/run-spawn contracts remain, and physical/visual/human acceptance must be supplied for the eventual production change.

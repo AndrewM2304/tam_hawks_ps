@@ -1,0 +1,25 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: recovery: actual uncorrected manual enters one local fall without a spawn snap
+PASS: recovery: real failure detaches the existing board into native translation and tumble
+PASS: recovery: special admission is refused during a fall
+PASS: recovery: repeated recovery requests coalesce without relocation or another failure
+PASS: recovery: scene pause freezes native motion and recovery clocks
+PASS: recovery: supported fall/slide/get-up/board-ready completes once in order
+PASS: recovery: actual slide remains supported and cannot cross solid scenery
+PASS: recovery: one failure loses only pending points and held tricks cannot score or postpone recovery
+PASS: recovery: loose board moves against world collision, then is reclaimed once with native motion frozen
+PASS: recovery: fall and get-up keep finite authored limb lengths
+BAIL_RECOVERY phases=["fall", "slide", "get_up", "ready"] max_step_m=0.12496948242188 elapsed=1.21666666666667 length_error=0.00000043248021 bails=1 ready=1
+PASS: recovery: releasing held ollie after recovery cannot launch and run spawn is preserved
+PASS: recovery: a fresh charged release works after board-ready
+PASS: recovery: explicit Restart immediately cancels the sequence and restores the original run
+PASS: recovery: a validated hazard return uses its destination once without replacing run spawn
+PASS: recovery: hazard relocation physically lands and completes recovery
+PASS: recovery: invalid hazard destinations do not start or relocate a bail
+PASS: recovery: get-up waits when actual upright headroom is obstructed
+PASS: recovery: unavailable fallback stays finite, refuses invalid relocation and exposes Restart
+PASS: recovery: cleared headroom allows the same failure to finish
+PASS: recovery: career expiry cannot gain overtime from a failed combo
+PASS: recovery: Restart also cancels a frozen results-screen fall
+RESULT: 21 passed, 0 failed

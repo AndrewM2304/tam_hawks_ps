@@ -1,0 +1,11 @@
+23October automated admission: required2,295/0, strict native comparisons and source/PNG audit pass; owner feel and independent QE remain open. Latest flat-ollie/trick-audit steering is subsequent work.
+
+# ADR-025: Coordinate body reach before solving limbs
+
+22 October2026. Status: implementation candidate; admission is recorded in STATUS and the bail-pose evidence packet. Owner request: improve the skater's human movement alongside bail recovery.
+
+The current joint solver calculates a middle joint using clamped reach but leaves an unreachable extremity target in place; skin bones are then scaled to the resulting overlong segment. Actual native input exposes calf/forearm stretch. Keep the current native skin and original model. Prepare existing board/ground foot targets first, then project a shared pelvis offset into both leg reach envelopes. This transfers weight and lowers/leans the body without moving the physical skater or floating a planted sole. Fit the upper body to the active grab target before the final wrist/elbow solve. Free hands can be bounded to natural reach; a planted contact must be preserved by moving its body origin first. Use stable joint poles and a finite fallback at degenerate direction/pole inputs.
+
+Keep authored upper/lower lengths, separate board/trick transforms, real camera/support/movement and scoring. Changes are presentation-only and must not affect travel. No new rendering resources or per-frame mesh construction; report bounded extra pose CPU against exact old-source controls on fresh identical input scenes. Preserve negative evidence and required regression. The current stutter/hardware/visual gates remain. This does not implement a bail lifecycle or certify human-quality animation.
+
+Long-route follow-up: the first full check exposed a real quaternion precondition error when the composed local shoe basis accumulated small parent drift. Normalize that composed orientation before bail interpolation; do not alter physical movement or suppress the engine error. A small uniform parent-drift turning fixture and actual longer delivery route exercise the correction. The interrupted full log remains rejected; final targeted, native and complete checks must bind the corrected source.

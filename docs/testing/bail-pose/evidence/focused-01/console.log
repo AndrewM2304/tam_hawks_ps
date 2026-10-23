@@ -1,0 +1,32 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: limbs: push preserves authored segment lengths through entry/action/exit
+PASS: limbs: push retains planted front sole and active grab palm contacts
+LIMB_POSE push samples=115 max_length_error=0.00000035762787 sole_error_m=0.00000109828204 palm_error_m=0.0 palms=0
+PASS: limbs: brake preserves authored segment lengths through entry/action/exit
+PASS: limbs: brake retains planted front sole and active grab palm contacts
+LIMB_POSE brake samples=115 max_length_error=0.00000038229186 sole_error_m=0.00000109308269 palm_error_m=0.0 palms=0
+PASS: limbs: manual preserves authored segment lengths through entry/action/exit
+PASS: limbs: manual retains planted front sole and active grab palm contacts
+LIMB_POSE manual samples=115 max_length_error=0.00000038229186 sole_error_m=0.00000208574193 palm_error_m=0.0 palms=0
+PASS: limbs: actual melon_grab input and support landing observed
+PASS: limbs: melon_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: melon_grab retains planted front sole and active grab palm contacts
+LIMB_POSE melon_grab samples=111 max_length_error=0.00000033707454 sole_error_m=0.00000120244135 palm_error_m=0.01286466605961 palms=14
+PASS: limbs: actual indy_grab input and support landing observed
+PASS: limbs: indy_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: indy_grab retains planted front sole and active grab palm contacts
+LIMB_POSE indy_grab samples=111 max_length_error=0.00000038229186 sole_error_m=0.00000203617037 palm_error_m=0.00681940466166 palms=14
+PASS: limbs: actual nose_grab input and support landing observed
+PASS: limbs: nose_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: nose_grab retains planted front sole and active grab palm contacts
+LIMB_POSE nose_grab samples=111 max_length_error=0.00000038229186 sole_error_m=0.00000120426637 palm_error_m=0.00813518557698 palms=14
+PASS: limbs: actual tail_grab input and support landing observed
+PASS: limbs: tail_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: tail_grab retains planted front sole and active grab palm contacts
+LIMB_POSE tail_grab samples=111 max_length_error=0.00000033775965 sole_error_m=0.0000018429613 palm_error_m=0.00256684212945 palms=14
+PASS: limbs: actual method_grab input and support landing observed
+PASS: limbs: method_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: method_grab retains planted front sole and active grab palm contacts
+LIMB_POSE method_grab samples=111 max_length_error=0.00000033707454 sole_error_m=0.0000020684256 palm_error_m=0.01137448940426 palms=14
+RESULT: 21 passed, 0 failed

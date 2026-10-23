@@ -1,0 +1,34 @@
+{
+  "started_london": "2026-10-22T21:12:56.371001+01:00",
+  "completed_london": "2026-10-22T21:14:42.812637+01:00",
+  "wall_seconds": 106.44201574998442,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/bail-pose/observers/compare.gd",
+    "--",
+    ".local/bail-pose/compare-01",
+    "docs/testing/camera-flow/observers/motion.gd",
+    "docs/testing/bail-pose/observers/baseline_visual.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 380,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "3",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "f474cf67c0af72c772a5fba45a2ae92cdafc624644bfbf0a77359c28b4f81831",
+  "git_head": "4eb9c03ad1f61d03dba029a86b85c3a9e4485cd9"
+}

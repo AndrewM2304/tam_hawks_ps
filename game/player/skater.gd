@@ -7,6 +7,7 @@ signal trick_performed(trick_name: String, points: int)
 signal grind_captured(rail_id: String)
 signal landed(clean: bool)
 signal bailed()
+signal recovered()
 signal combo_link_started()
 signal combo_link_ended()
 
@@ -44,6 +45,16 @@ const REVERT_SPEED_RETAINED := 0.85
 const SPECIAL_DURATION := 0.65
 const WORLD_LIMIT := 400.0
 
+# Recovery uses real native collision; only explicit hazards/blocked support relocate.
+var bailing := false
+var bail_phase := ""
+var bail_reason := ""
+var bail_elapsed := 0.0
+var _bail_phase_elapsed := 0.0
+var _bail_fallback_used := false
+var _last_supported_position := Vector3.ZERO
+var _recovery_shape_query := PhysicsShapeQueryParameters3D.new()
+var _recovery_floor_query := PhysicsRayQueryParameters3D.new()
 var speed: float = 0.0
 var airborne: bool = false
 var spawn_position: Vector3 = Vector3(0.0, 0.8, 12.0)
@@ -68,6 +79,9 @@ var _transition_facing := 1.0
 var _ramp_air := false
 var _ramp_air_frame := Basis.IDENTITY
 var _previous_ramp_air_frame := Basis.IDENTITY
+var _loose_board: RigidBody3D
+var _board_model: Node3D
+
 var _ramp_air_normal := Vector3.UP
 var _ramp_launch_forward := Vector3.FORWARD
 var _vert_return: Dictionary = {}
@@ -155,6 +169,12 @@ func _ready() -> void:
 	collision_layer = 2
 	collision_mask = 1
 	_build_skater()
+	_recovery_shape_query.shape = _body_collision.shape
+	_recovery_shape_query.collision_mask = 1
+	_recovery_shape_query.margin = .001
+	_recovery_shape_query.exclude = [get_rid()]
+	_recovery_floor_query.collision_mask = 1
+	_recovery_floor_query.exclude = [get_rid()]
 	_camera = Camera3D.new()
 	_camera.name = "ChaseCamera"
 	_camera.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
@@ -168,6 +188,13 @@ func _ready() -> void:
 
 
 func reset_skater() -> void:
+	bailing = false
+	bail_phase = ""
+	bail_reason = ""
+	bail_elapsed = 0.0
+	_bail_phase_elapsed = 0.0
+	_bail_fallback_used = false
+	_last_supported_position = spawn_position
 	_response.reset()
 	_camera_follow.reset()
 	_grind.stop()
@@ -228,6 +255,7 @@ func reset_skater() -> void:
 	_air_spin = 0.0
 	_steering = 0.0
 	if is_instance_valid(_visual):
+		_mount_board()
 		_visual_rig.reset()
 		_visual.position = Vector3.ZERO
 		_visual.rotation = Vector3.ZERO
@@ -245,14 +273,140 @@ func reset_skater() -> void:
 
 
 func recover_to(safe_position: Vector3) -> void:
-	# A local hazard return preserves the career's original restart location.
-	if not safe_position.is_finite():
-		return
+	# Repeated hazard polls coalesce into one failure and preserve run restart.
+	if safe_position.is_finite():begin_bail("hazard", safe_position)
+
+
+func begin_bail(reason: String, safe_position: Vector3 = Vector3.INF) -> void:
+	if bailing:return
+	bailing = true
+	bail_phase = "fall"
+	bail_reason = reason
+	bail_elapsed = 0.0
+	_bail_phase_elapsed = 0.0
+	_bail_fallback_used = false
+	_grind.stop()
+	_transition.stop()
+	_vert_return.clear()
+	manual_active = false
+	lip_active = false
+	lip_id = ""
+	_lip_feature.clear()
+	_ramp_air = false
+	transition_normal = Vector3.UP
+	_ollie_held = false
+	_crouch_charge = 0.0
+	_jump_buffer_remaining = 0.0
+	_grind_buffer_remaining = 0.0
+	_grind_held_armed = false
+	_clear_trick_buffers()
+	_clear_special_visual()
+	_flip_remaining = 0.0
+	_grab_remaining = 0.0
+	_air_spin = 0.0
+	_steering = 0.0
+	_selection_remaining = 0.0
+	revert_remaining = 0.0
+	_revert_pose_remaining = 0.0
+	_flip_request.clear();_grab_request.clear();_manual_request.clear()
+	if not velocity.is_finite():velocity = Vector3.ZERO
+	# Score/encounters fail once, at the real impact location, before relocation.
 	bailed.emit()
-	var run_spawn := spawn_position
-	spawn_position = safe_position
-	reset_skater()
-	spawn_position = run_spawn
+	if safe_position.is_finite() or not _recovery_volume_clear(global_position):
+		_relocate_recovery(safe_position)
+	_restore_contact_shape()
+	_drop_board()
+
+
+func _recovery_volume_clear(at: Vector3) -> bool:
+	if not at.is_finite() or absf(at.x)>WORLD_LIMIT or absf(at.z)>WORLD_LIMIT or at.y< -8.0:return false
+	# Conservative upward skin clears floor contact without accepting a ceiling.
+	_recovery_shape_query.transform = Transform3D(global_basis, at + Vector3.UP * .875)
+	return get_world_3d().direct_space_state.intersect_shape(_recovery_shape_query, 1).is_empty()
+
+
+func _relocate_recovery(preferred: Vector3) -> bool:
+	for at: Vector3 in [preferred, _last_supported_position, spawn_position]:
+		if not _recovery_volume_clear(at):continue
+		_recovery_floor_query.from = at + Vector3.UP * .2
+		_recovery_floor_query.to = at + Vector3.DOWN * 1.2
+		var floor_hit := get_world_3d().direct_space_state.intersect_ray(_recovery_floor_query)
+		if floor_hit.is_empty() or floor_hit.normal.y < cos(floor_max_angle):continue
+		global_position = at
+		velocity = Vector3.ZERO
+		speed = 0.0
+		_bail_fallback_used = true
+		reset_physics_interpolation()
+		_camera_follow.reset()
+		return true
+	return false
+
+
+func _tick_bail(delta: float) -> void:
+	bail_elapsed += delta
+	_bail_phase_elapsed += delta
+	velocity.y -= GRAVITY * delta
+	var drag := exp(-(6.0 if is_on_floor() else .4) * delta)
+	velocity.x *= drag
+	velocity.z *= drag
+	move_and_slide()
+	airborne = not is_on_floor()
+	speed = Vector2(velocity.x, velocity.z).length()
+	if (bail_elapsed > 4.0 or global_position.y < -8.0 or absf(global_position.x) > WORLD_LIMIT or absf(global_position.z) > WORLD_LIMIT) and not _bail_fallback_used:
+		_bail_fallback_used = true
+		if _relocate_recovery(Vector3.INF):
+			bail_phase = "fall";_bail_phase_elapsed = 0.0
+		else:
+			bail_phase = "blocked"
+	if bail_phase == "fall" and _bail_phase_elapsed >= .28 and is_on_floor():
+		bail_phase = "slide";_bail_phase_elapsed = 0.0
+	elif bail_phase in ["slide", "blocked"] and _bail_phase_elapsed >= .15 and is_on_floor() and speed < .65 and _recovery_volume_clear(global_position):
+		bail_phase = "get_up";_bail_phase_elapsed = 0.0
+	elif bail_phase in ["get_up", "ready"]:
+		if not is_on_floor() or not _recovery_volume_clear(global_position):
+			bail_phase = "slide";_bail_phase_elapsed = 0.0
+		elif bail_phase == "get_up" and _bail_phase_elapsed >= .65:
+			bail_phase = "ready";_bail_phase_elapsed = 0.0
+		elif bail_phase == "ready" and _bail_phase_elapsed >= .12:
+			_mount_board()
+			bailing = false
+			bail_phase = ""
+			_clear_trick_buffers()
+			_manual_cooldown = MANUAL_REENTRY_DELAY
+			_grind_cooldown = GRIND_RECAPTURE_DELAY
+			_transition_cooldown = .1
+			recovered.emit()
+	_update_pose(delta)
+
+
+func _drop_board() -> void:
+	# Only geometry detaches; the mounted marker remains the stable pose reference.
+	_loose_board.global_transform = _board_visual.global_transform
+	_board_model.reparent(_loose_board, false)
+	_board_model.transform = Transform3D.IDENTITY
+	_loose_board.freeze = false
+	_loose_board.sleeping = false
+	_loose_board.linear_velocity = velocity + global_basis * Vector3(1.8, 2.2, -1.0)
+	_loose_board.angular_velocity = global_basis * Vector3(4.0, 2.0, 3.0)
+	_loose_board.reset_physics_interpolation()
+
+
+func _mount_board() -> void:
+	if not is_instance_valid(_loose_board):return
+	_loose_board.freeze = true
+	_loose_board.linear_velocity = Vector3.ZERO
+	_loose_board.angular_velocity = Vector3.ZERO
+	if _board_model.get_parent() != _board_visual:
+		_board_model.reparent(_board_visual, false)
+		_board_model.transform = Transform3D.IDENTITY
+		_board_model.reset_physics_interpolation()
+
+
+func _bail_pose_weight() -> float:
+	if not bailing:return 0.0
+	if bail_phase == "get_up":return 1.0 - smoothstep(0.0, .65, _bail_phase_elapsed)
+	if bail_phase == "ready":return 0.0
+	return smoothstep(0.0, .28, bail_elapsed)
 
 
 func set_controls_enabled(enabled: bool) -> void:
@@ -311,7 +465,7 @@ func set_skater_color(color: Color) -> void:
 
 func try_special(trick_id: String) -> bool:
 	# Main owns unlocks and meter spending; only a true result consumes a charge.
-	if not is_inside_tree() or get_tree().paused or not airborne or grinding or manual_active or not _controls_enabled \
+	if bailing or not is_inside_tree() or get_tree().paused or not airborne or grinding or manual_active or not _controls_enabled \
 			or not _trick_entries_enabled or _special_used_this_air:
 		return false
 	if trick_id not in ["special_clyde_carousel", "special_tenement_tumble"]:
@@ -632,8 +786,7 @@ func _leave_transition(in_air: bool) -> bool:
 			detached = true
 			break
 	if not detached:
-		bailed.emit()
-		reset_skater()
+		begin_bail("blocked_detachment", spawn_position)
 		return false
 	_ramp_air_normal = transition_normal
 	_ramp_launch_forward = velocity.slide(_ramp_air_normal).normalized()
@@ -707,8 +860,7 @@ func _tick_lip(delta: float) -> void:
 	_steering = Input.get_axis("steer_left", "steer_right")
 	lip_balance += (signf(lip_balance) * (0.15 + _lip_elapsed * 0.06) + _steering * 1.4) * delta
 	if absf(lip_balance) >= 1.0 or not is_instance_valid(_lip_feature.get("body")):
-		bailed.emit()
-		reset_skater()
+		begin_bail("lip_balance")
 		return
 	if _jump_buffer_remaining > 0.0 and _trick_entries_enabled:
 		_jump_buffer_remaining = 0.0
@@ -736,6 +888,9 @@ func _release_lip(jump: bool) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if bailing:
+		_tick_bail(delta)
+		return
 	_grind_cooldown = maxf(0.0, _grind_cooldown - delta)
 	_transition_cooldown = maxf(0.0, _transition_cooldown - delta)
 	_manual_cooldown = maxf(0.0, _manual_cooldown - delta)
@@ -857,6 +1012,7 @@ func _physics_process(delta: float) -> void:
 		if manual_active and absf(speed) < MANUAL_MIN_SPEED:
 			_end_manual(true)
 		_try_ground_links()
+		if not manual_active:_last_supported_position = global_position
 	else:
 		_end_manual(false)
 		speed = Vector2(velocity.x, velocity.z).length()
@@ -864,8 +1020,7 @@ func _physics_process(delta: float) -> void:
 			_begin_air()
 
 	if global_position.y < -8.0 or absf(global_position.x) > WORLD_LIMIT or absf(global_position.z) > WORLD_LIMIT:
-		bailed.emit()
-		reset_skater()
+		begin_bail("out_of_world", spawn_position)
 
 	_update_pose(delta)
 
@@ -968,8 +1123,7 @@ func _tick_manual_balance(delta: float, correction: float) -> bool:
 	var drift := outward * (0.18 + 0.08 * _manual_elapsed)
 	manual_balance += (drift + correction * MANUAL_BALANCE_CONTROL) * delta
 	if absf(manual_balance) >= 1.0:
-		bailed.emit()
-		reset_skater()
+		begin_bail("manual_balance")
 		_manual_cooldown = MANUAL_REENTRY_DELAY
 		return false
 	return true
@@ -1067,8 +1221,7 @@ func _tick_grind(delta: float) -> void:
 		var result: String = _grind.step(delta / steps, _steering)
 		var target: Vector3 = _grind.position()
 		if result == "bail" or not _rail_path_clear(global_position, target):
-			bailed.emit()
-			reset_skater()
+			begin_bail("rail_balance_or_obstruction")
 			_grind_cooldown = GRIND_RECAPTURE_DELAY
 			return
 		global_position = target
@@ -1135,6 +1288,7 @@ func _update_pose(delta: float) -> void:
 	var special_tuck := 0.25 * sin(PI * special_progress) if _special_id == "special_tenement_tumble" else 0.0
 	_rider_visual.position.y = lerpf(_rider_visual.position.y, -0.17 * grab_pose - special_tuck, 1.0 - exp(-16.0 * delta))
 	_rider_visual.rotation.x = lerpf(_rider_visual.rotation.x, -0.1 - grab_pose * 0.2, 1.0 - exp(-10.0 * delta))
+	_rider_visual.rotation.x = lerpf(_rider_visual.rotation.x, 0.0, _bail_pose_weight())
 	if grinding:
 		_visual.rotation.z = -grind_balance * 0.35
 		_rider_visual.position.y = -0.12
@@ -1154,13 +1308,19 @@ func _update_pose(delta: float) -> void:
 	_visual.position = global_basis.inverse() * _grind_visual_offset
 	_ramp_air_frame = global_basis * Basis(Vector3.RIGHT,_surface_pitch)
 	if airborne and _ramp_air:
-		# Keep the ramp's local up axis through flight. Turn once in that plane
-		# as vertical momentum passes through zero; never flatten to world-up.
+		# Camera orbit and rider orientation are independent. The camera keeps its
+		# agreed apex arc; the assisted body return has its own slower curve.
 		var air_turn_progress := smoothstep(-2.0,2.0,-velocity.y)
 		var flight_forward := _ramp_launch_forward.rotated(_ramp_air_normal,PI*air_turn_progress).normalized()
 		var right := flight_forward.cross(_ramp_air_normal).normalized()
 		_ramp_air_frame = Basis(right,_ramp_air_normal,-flight_forward).orthonormalized()
-		_visual.basis = global_basis.inverse()*_ramp_air_frame*Basis(Vector3.UP,_spin_angle+_stance_angle)
+		# Spread the assisted return over ~0.55s at current gravity instead
+		# of the old ~0.18s pivot. Keep the body outside the departed wall.
+		var body_progress := smoothstep(-6.0, 6.0, -velocity.y)
+		var body_forward := _ramp_launch_forward.rotated(_ramp_air_normal, PI * body_progress)
+		var body_right := body_forward.cross(_ramp_air_normal).normalized()
+		var body_frame := Basis(body_right, _ramp_air_normal, -body_forward).orthonormalized()
+		_visual.basis = global_basis.inverse()*body_frame*Basis(Vector3.UP,_spin_angle+_stance_angle)
 	if transition_active:
 		var toe: Transform3D = _transition.feature.transform
 		var forward: Vector3 = _transition.travel_velocity().normalized()
@@ -1177,15 +1337,23 @@ func _update_pose(delta: float) -> void:
 		# Rotate the visible rider/board around the body, preserving the collision origin.
 		var tumble_pivot := Vector3.UP * 0.8
 		_visual.position = tumble_pivot - _visual.basis * tumble_pivot
+	if bailing:
+		var fall := clampf(bail_elapsed / .28, 0.0, 1.0)
+		_rider_visual.position.y = .22 * sin(PI * fall)
+		_rider_visual.rotation.z = (.20 if _reduced_motion else .65) * sin(PI * fall)
+	else:
+		_rider_visual.rotation.z = 0.0
 	_visual_rig.animate(delta, {"airborne": airborne, "grab": _grab_remaining > 0.0,
 		"flip": _flip_remaining > 0.0, "speed": absf(speed), "manual": manual_active,
-		"grind": grinding, "push": _controls_enabled and Input.is_action_pressed("push"),
-		"brake": _controls_enabled and Input.is_action_pressed("brake"),
+		"grind": grinding, "push": not bailing and _controls_enabled and Input.is_action_pressed("push"),
+		"brake": not bailing and _controls_enabled and Input.is_action_pressed("brake"),
 		"steering": _steering, "manual_balance": manual_balance, "grind_balance": grind_balance,
 		"revert_remaining": _revert_pose_remaining, "special_id": _special_id,
 		"special_progress": special_progress, "flip_id": active_flip_id,
 		"flip_progress": progress, "grab_id": active_grab_id, "manual_id": manual_id,
 		"lip_id": lip_id, "lip_progress": _lip_elapsed, "lip_balance": lip_balance,
+		"bail": _bail_pose_weight(),
+		"ramp_turn": smoothstep(-6.0, 6.0, -velocity.y) if airborne and _ramp_air else -1.0,
 		"crouch": maxf(0.35, _crouch_charge / OLLIE_CHARGE_SECONDS) if _ollie_held else 0.0})
 
 
@@ -1224,3 +1392,29 @@ func _build_skater() -> void:
 	_shirt_material = _material(_shirt_color, 0.94)
 	_visual_rig = SkaterVisualSource.new()
 	_visual_rig.build(_board_visual, _rider_visual, _shirt_material)
+	_build_loose_board()
+
+
+func _build_loose_board() -> void:
+	# One shared mesh, one native world-only collider; no per-frame construction.
+	_board_model = _board_visual.get_node("DetailedSkateboard")
+	_loose_board = RigidBody3D.new()
+	_loose_board.name = "LooseBoard"
+	_loose_board.top_level = true
+	_loose_board.freeze = true
+	_loose_board.mass = 2.5
+	_loose_board.collision_layer = 0
+	_loose_board.collision_mask = 1
+	_loose_board.continuous_cd = true
+	_loose_board.linear_damp = .6
+	_loose_board.angular_damp = .8
+	var material := PhysicsMaterial.new()
+	material.friction = .65
+	material.bounce = .18
+	_loose_board.physics_material_override = material
+	var collider := CollisionShape3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(.24, .12, .82)
+	collider.shape = shape
+	_loose_board.add_child(collider)
+	add_child(_loose_board)

@@ -1,0 +1,196 @@
+{
+  "pass": true,
+  "strict_render_gates": {
+    "0.95": {
+      "candidate_ms": 7.597,
+      "control_ms": [
+        5.811,
+        8.918
+      ],
+      "envelope_ms": 10.839725,
+      "worst_control_ceiling_ms": 9.3639,
+      "pass": true
+    },
+    "0.99": {
+      "candidate_ms": 10.379,
+      "control_ms": [
+        8.929,
+        10.83
+      ],
+      "envelope_ms": 12.274475,
+      "worst_control_ceiling_ms": 11.371500000000001,
+      "pass": true
+    }
+  },
+  "summaries": {
+    "original-before": {
+      "rows": 6308,
+      "frame_ms": {
+        "0": 3.632,
+        "0.5": 4.296,
+        "0.95": 5.811,
+        "0.99": 8.929,
+        "1": 12.281
+      },
+      "pose_update_usec": {
+        "0": 32,
+        "0.5": 35,
+        "0.95": 38,
+        "0.99": 40,
+        "1": 49
+      },
+      "physics_process_usec": {
+        "0": 293.0,
+        "0.5": 335.0,
+        "0.95": 561.0,
+        "0.99": 844.0,
+        "1": 844.0
+      },
+      "draws": {
+        "0": 1058.0,
+        "0.5": 1168.0,
+        "0.95": 1171.0,
+        "0.99": 1178.0,
+        "1": 1179.0
+      },
+      "triangles": {
+        "0": 773884.0,
+        "0.5": 818865.0,
+        "0.95": 820828.0,
+        "0.99": 820840.0,
+        "1": 820842.0
+      },
+      "static_bytes": {
+        "0": 102189114.0,
+        "0.5": 103210986.0,
+        "0.95": 104138886.0,
+        "0.99": 104212914.0,
+        "1": 104232206.0
+      },
+      "memory": {
+        "buffer": 15521924,
+        "texture": 50529966,
+        "video": 66051890
+      },
+      "long_frames_33ms": 0,
+      "seconds": 30.214059,
+      "bails": 4,
+      "restarts": 5,
+      "maximum_bail_tick_step_m": 22.5076866149902,
+      "input_reassertions": 0
+    },
+    "candidate": {
+      "rows": 6076,
+      "frame_ms": {
+        "0": 3.621,
+        "0.5": 4.338,
+        "0.95": 7.597,
+        "0.99": 10.379,
+        "1": 23.807
+      },
+      "pose_update_usec": {
+        "0": 37,
+        "0.5": 40,
+        "0.95": 47,
+        "0.99": 53,
+        "1": 152
+      },
+      "physics_process_usec": {
+        "0": 305.0,
+        "0.5": 337.0,
+        "0.95": 531.0,
+        "0.99": 814.0,
+        "1": 814.0
+      },
+      "draws": {
+        "0": 1037.0,
+        "0.5": 1119.0,
+        "0.95": 1170.0,
+        "0.99": 1178.0,
+        "1": 1179.0
+      },
+      "triangles": {
+        "0": 757812.0,
+        "0.5": 789558.0,
+        "0.95": 820828.0,
+        "0.99": 820840.0,
+        "1": 820842.0
+      },
+      "static_bytes": {
+        "0": 102208158.0,
+        "0.5": 103126350.0,
+        "0.95": 104041630.0,
+        "0.99": 104123450.0,
+        "1": 104158510.0
+      },
+      "memory": {
+        "buffer": 15521924,
+        "texture": 50529966,
+        "video": 66051890
+      },
+      "long_frames_33ms": 0,
+      "seconds": 30.227095,
+      "bails": 4,
+      "restarts": 5,
+      "maximum_bail_tick_step_m": 0.0,
+      "input_reassertions": 0
+    },
+    "original-after": {
+      "rows": 5691,
+      "frame_ms": {
+        "0": 3.823,
+        "0.5": 4.838,
+        "0.95": 8.918,
+        "0.99": 10.83,
+        "1": 16.221
+      },
+      "pose_update_usec": {
+        "0": 33,
+        "0.5": 36,
+        "0.95": 42,
+        "0.99": 47,
+        "1": 57
+      },
+      "physics_process_usec": {
+        "0": 308.0,
+        "0.5": 400.0,
+        "0.95": 603.0,
+        "0.99": 624.0,
+        "1": 624.0
+      },
+      "draws": {
+        "0": 1058.0,
+        "0.5": 1168.0,
+        "0.95": 1170.0,
+        "0.99": 1177.0,
+        "1": 1179.0
+      },
+      "triangles": {
+        "0": 773884.0,
+        "0.5": 819374.0,
+        "0.95": 820830.0,
+        "0.99": 820840.0,
+        "1": 820842.0
+      },
+      "static_bytes": {
+        "0": 102214794.0,
+        "0.5": 103319958.0,
+        "0.95": 104170838.0,
+        "0.99": 104239386.0,
+        "1": 104256486.0
+      },
+      "memory": {
+        "buffer": 15521924,
+        "texture": 50529966,
+        "video": 66051890
+      },
+      "long_frames_33ms": 0,
+      "seconds": 30.216928,
+      "bails": 4,
+      "restarts": 5,
+      "maximum_bail_tick_step_m": 22.5076866149902,
+      "input_reassertions": 0
+    }
+  },
+  "limits": "Matched fixed input/timing/settings and fresh Main scenes against pinned83758c3 project controls, warmup excluded. Bail movement and camera view intentionally change; no identical-physics/view claim, no PNG readbacks, cold-memory or whole-map/stutter/human claim."
+}

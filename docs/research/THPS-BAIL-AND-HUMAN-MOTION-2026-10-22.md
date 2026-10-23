@@ -1,3 +1,5 @@
+**Implementation follow-up,22October:** R02/R03 now have a candidate in the working branch; [current evidence](../testing/bail-pose/README.md) and newest STATUS own admission. The investigation below remains bound to83758c3; its measured defects/proposed design are historical evidence, not a claim that the final source is unchanged. No source-game code/assets imported.
+
 # Bail recovery and believable skater movement
 
 22 October 2026. Owner-requested investigation, based on production `83758c3`. Research and a reproducible native diagnosis are complete. Recovery and character changes described below are **proposals, not implemented fixes**. This becomes the next implementation focus ahead of park construction; the existing map/performance requirements remain.

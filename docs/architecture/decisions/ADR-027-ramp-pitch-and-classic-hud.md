@@ -1,0 +1,13 @@
+23October automated admission: required2,295/0, strict native comparisons and source/PNG audit pass; owner feel and independent QE remain open. Latest flat-ollie/trick-audit steering is subsequent work.
+
+# ADR-027: Separate ramp body return from camera orbit; simplify skating HUD
+
+22 October 2026. Owner-requested implementation candidate. A04/A08 implementation, A01 integration; independent QE and owner motion/UI acceptance remain open. References: [source comparison](../../research/THPS-RAMP-SPIN-2026-10-22.md) and [verification](../../testing/bail-pose/README.md).
+
+The previous ramp visual forced a 180° about the ramp normal over the velocity band +2…−2m/s (~0.18s at current22m/s² gravity), coupled to the camera support frame. Keep the existing camera orbit contract, but give the assisted body return its own +6…−6m/s band (~0.55s), with knee compression and shoulder anticipation. This reduces the abrupt rigid pirouette while keeping the body outside the wall. Explicit scored spin remains independent. Momentum, charged pop, gravity and contact physics are unchanged. The assisted half-turn, curve and pose are original local choices, not verified THPS3 behaviour. Human vert/fakie motion acceptance remains open.
+
+Rejected alternative: a fixed-axle pitch-over passed momentum/axle criteria but pointed the upper body into the ramp on descent; the unchanged framing gate caught106/104 unsafe samples. Reject that candidate rather than loosening the gate. The accepted candidate must pass the original framing, momentum and camera tests plus a bounded body-step and outward-facing-axis regression.
+
+Remove the entire street-speed widget and its update work. Gameplay uses outlined score at upper left, a centred clock, SPECIAL below score and existing lower combo/trick feedback. Remove the large gameplay brand block and opaque score/timer/SPECIAL cards; retain the original game title in menus and original assets/theme. Do not reproduce franchise logos, textures, fonts or menu artwork. Keep adaptive UI scale, ten-digit scores, persistent save warnings, controller prompts and accessible menu navigation. Wider HUD clipping/photo repairs remain on the map/UI roadmap.
+
+Budget: no new rendering surfaces, meshes, primitives, textures, lights or materials for these changes; reduced HUD controls. The companion ADR-026 declares one native loose-board body/shape with the existing mesh. Verify actual native frames and strict matched A/B/A p95/p99, p50, long frames, draw/primitive/memory and CPU counters before admission. Test bounded body rotation/outward-facing axis and existing momentum/camera arc criteria on actual pipe flights; do not weaken framing or angle gates to obtain a pass.

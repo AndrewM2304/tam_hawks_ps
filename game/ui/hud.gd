@@ -26,13 +26,12 @@ var _map_routes: Array = []
 
 var _root: Control
 var _hud: Control
-var _top: HBoxContainer
-var _brand: Label
+var _top: Control
+var _timer_card: PanelContainer
+var _score_card: PanelContainer
 var _timer: Label
 var _score: Label
 var _mode: Label
-var _speed: Label
-var _speed_bar: ProgressBar
 var _combo: Label
 var _tricks: Label
 var _feedback: Label
@@ -45,7 +44,6 @@ var _goals: Label
 var _challenge: Label
 var _caption: Label
 var _prompt: Label
-var _controls_label: Label
 var _special_label: Label
 var _special_hint: Label
 var _special_bar: ProgressBar
@@ -53,9 +51,7 @@ var _balance_panel: PanelContainer
 var _balance_marker: ColorRect
 var _balance_label: Label
 var _balance_track: Control
-var _speed_panel: PanelContainer
 var _special_panel: PanelContainer
-var _footer: PanelContainer
 var _modal: ColorRect
 var _dialog: PanelContainer
 var _modal_title: Label
@@ -109,32 +105,22 @@ func _ready() -> void:
 
 
 func _build_hud() -> void:
-	_top = HBoxContainer.new()
-	_top.add_theme_constant_override("separation", 20)
+	_top = Control.new()
+	_top.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_hud.add_child(_top)
-	var brand_column := VBoxContainer.new()
-	brand_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	brand_column.add_theme_constant_override("separation", 1)
-	_top.add_child(brand_column)
-	_brand = _label(brand_column, "TAM HAWKS", 31, PAPER)
-	_brand.add_theme_constant_override("outline_size", 5)
-	_brand.add_theme_color_override("font_outline_color", INK)
-	var sub := _label(brand_column, "PRO SKATER  /  GLASGOW", 13, ACCENT)
-	sub.add_theme_constant_override("outline_size", 4)
-	sub.add_theme_color_override("font_outline_color", INK)
-	var timer_card := _card()
-	timer_card.custom_minimum_size = Vector2(148, 96)
-	_top.add_child(timer_card)
-	var timer_box := _vbox(timer_card, 2)
-	_mode = _label(timer_box, "CAREER RUN", 15, MUTED)
+	_timer_card = _card()
+	_timer_card.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	_top.add_child(_timer_card)
+	var timer_box := _vbox(_timer_card, 0)
+	_mode = _label(timer_box, "CAREER RUN", 13, MUTED)
 	_mode.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_timer = _label(timer_box, "2:00", 36, PAPER)
+	_timer = _label(timer_box, "2:00", 42, PAPER)
 	_timer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var score_card := _card()
-	score_card.custom_minimum_size = Vector2(248, 96)
-	_top.add_child(score_card)
-	var score_box := _vbox(score_card, 2)
-	_label(score_box, "RUN SCORE", 15, MUTED)
+	_score_card = _card()
+	_score_card.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	_top.add_child(_score_card)
+	var score_box := _vbox(_score_card, 0)
+	_label(score_box, "SCORE", 14, PAPER)
 	_score = _label(score_box, "0", 36, PAPER)
 	_goals = _floating_label("0 / 10 GOALS", 16, ACCENT)
 	_goals.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -165,13 +151,8 @@ func _build_hud() -> void:
 	_balance_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_balance_track.add_child(_balance_marker)
 	_balance_panel.visible = false
-	_speed_panel = _card()
-	_hud.add_child(_speed_panel)
-	var speed_box := _vbox(_speed_panel, 5)
-	_label(speed_box, "STREET SPEED", 15, MUTED)
-	_speed = _label(speed_box, "0 km/h", 27, PAPER)
-	_speed_bar = _progress(speed_box, ACCENT)
 	_special_panel = _card()
+	_special_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	_hud.add_child(_special_panel)
 	var special_box := _vbox(_special_panel, 7)
 	_special_label = _label(special_box, "SPECIAL  /  BUILD A COMBO", 15, MUTED)
@@ -206,11 +187,7 @@ func _build_hud() -> void:
 	_prompt = _floating_label("", 17, ACCENT)
 	_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_footer = _card()
-	_hud.add_child(_footer)
-	_controls_label = _label(_footer, "", 16, MUTED)
-	_controls_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_controls_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+
 
 
 func update_display(state: Dictionary) -> void:
@@ -250,14 +227,11 @@ func update_display(state: Dictionary) -> void:
 		for goal: Dictionary in state.get("goals", []):
 			if goal.get("done", false): completed += 1
 		_goals.text = "FREE SKATE  ·  NO TIMER" if free else "%d / 10 GOALS  ·  %s" % [completed, _prompt_for("goals", "TAB")]
-	var kmh := roundi(absf(float(state.get("speed", 0.0))) * 3.6)
-	_speed.text = "%d km/h" % kmh
-	_speed_bar.value = clampf(float(kmh) / 60.0, 0.0, 1.0)
 	var meter := clampf(float(state.get("special_meter", 0.0)), 0.0, 100.0)
 	_special_bar.value = meter / 100.0
-	_special_label.text = "SPECIAL READY" if meter >= 100.0 else "SPECIAL  /  %d%%" % roundi(meter)
+	_special_label.text = "SPECIAL READY" if meter >= 100.0 else "SPECIAL"
 	_special_label.modulate = ORANGE if meter >= 100.0 else Color.WHITE
-	_special_hint.text = "%s / %s  ·  SPECIALS" % [_prompt_for("special_one", "U"), _prompt_for("special_two", "I")] if meter >= 100.0 else "BANK POINTS TO FILL"
+	_special_hint.text = "%s / %s  ·  SPECIALS" % [_prompt_for("special_one", "U"), _prompt_for("special_two", "I")] if meter >= 100.0 else ""
 	var grinding: bool = state.get("grinding", false)
 	var manual: bool = state.get("manual", false)
 	var lip: bool = state.get("lip", false)
@@ -299,8 +273,7 @@ func update_display(state: Dictionary) -> void:
 	if is_instance_valid(_modal_notice):
 		_modal_notice.text = _feedback.text
 		_modal_notice.visible = not _feedback.text.is_empty() and _page != "title"
-	if previous.is_empty() or device_changed or bindings_changed:
-		_controls_label.text = "Hold %s, release Ollie  ·  Direction + %s / %s tricks  ·  %s rail/lip  ·  ↑↓ manual  ·  %s controls" % [_prompt_for("ollie", "SPACE"), _prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("grind", "L"), _prompt_for("pause", "ESC")]
+
 	_layout_feedback_stack()
 	var finished: bool = state.get("finished", false)
 	var paused_now: bool = state.get("paused", false)
@@ -760,6 +733,10 @@ func _relayout(force: bool = false) -> void:
 	_hud.size = extent
 	_top.position = Vector2(28, 24)
 	_top.size = Vector2(extent.x - 56, 96)
+	_score_card.position = Vector2.ZERO
+	_score_card.size = Vector2(248, 76)
+	_timer_card.position = Vector2((extent.x - 56) * .5 - 74, 0)
+	_timer_card.size = Vector2(148, 82)
 	var side_width := minf(345.0, (extent.x - 412.0) * 0.5)
 	_goals.position = Vector2(extent.x - side_width - 28, 126)
 	_goals.size = Vector2(side_width, 28)
@@ -767,10 +744,8 @@ func _relayout(force: bool = false) -> void:
 	_balance_panel.size = Vector2(316, 76)
 	_save_warning.position = Vector2(28, extent.y - 288)
 	_save_warning.size = Vector2(180, 84)
-	_speed_panel.position = Vector2(28, extent.y - 195)
-	_speed_panel.size = Vector2(180, 102)
-	_special_panel.position = Vector2(extent.x - 240, extent.y - 195)
-	_special_panel.size = Vector2(212, 102)
+	_special_panel.position = Vector2(28, 106)
+	_special_panel.size = Vector2(248, 76)
 	for label in [_combo, _tricks, _combo_status, _caption, _prompt, _challenge]:
 		label.position.x = 224
 		label.size.x = extent.x - 480
@@ -786,10 +761,8 @@ func _relayout(force: bool = false) -> void:
 	_prompt.size.y = 36
 	# Event notices have their own space, so a live combo cannot replace them.
 	var notice_width := minf(440.0, extent.x - 56)
-	_feedback_panel.position = Vector2(28, 166)
+	_feedback_panel.position = Vector2(28, 192)
 	_feedback_panel.size = Vector2(notice_width, 52)
-	_footer.position = Vector2(28, extent.y - 76)
-	_footer.size = Vector2(extent.x - 56, 56)
 	if is_instance_valid(_modal): _modal.size = extent
 	if is_instance_valid(_dialog):
 		var dialog_width := minf(850, extent.x - 96)
@@ -852,7 +825,7 @@ func _layout_feedback_stack(force: bool = false) -> void:
 	for label: Label in labels: texts.append(label.text)
 	if not force and texts == _feedback_layout_texts: return
 	_feedback_layout_texts = texts
-	var bottom := _footer.position.y - 8.0
+	var bottom := _root.size.y - 36.0
 	for label: Label in labels:
 		label.visible = not label.text.is_empty()
 		if not label.visible: continue
@@ -906,6 +879,8 @@ func _label(parent: Node, text: String, font_size: int, color: Color) -> Label:
 	label.custom_minimum_size.y = ceilf(font_size * 1.3)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	label.add_theme_color_override("font_outline_color", INK)
+	label.add_theme_constant_override("outline_size", 4)
 	parent.add_child(label)
 	return label
 

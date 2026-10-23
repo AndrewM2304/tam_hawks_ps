@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-22T21:47:56.581712+01:00",
+  "completed_london": "2026-10-22T21:48:19.131968+01:00",
+  "wall_seconds": 22.55033254099544,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/bail-pose/observers/recovery.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 381,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "21",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "286b78ca788379028af4e95db098a16296a349f9ff40ca6fb06916cf149fe102",
+  "git_head": "4eb9c03ad1f61d03dba029a86b85c3a9e4485cd9"
+}

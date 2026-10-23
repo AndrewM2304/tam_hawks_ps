@@ -1,0 +1,219 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: limbs: push preserves authored segment lengths through entry/action/exit
+PASS: limbs: push retains planted front sole and active grab palm contacts
+LIMB_POSE push samples=115 max_length_error=0.00000038229186 sole_error_m=0.00000109690393 palm_error_m=0.0 palms=0
+PASS: limbs: brake preserves authored segment lengths through entry/action/exit
+PASS: limbs: brake retains planted front sole and active grab palm contacts
+LIMB_POSE brake samples=115 max_length_error=0.00000038229186 sole_error_m=0.00000109308269 palm_error_m=0.0 palms=0
+PASS: limbs: manual preserves authored segment lengths through entry/action/exit
+PASS: limbs: manual retains planted front sole and active grab palm contacts
+LIMB_POSE manual samples=115 max_length_error=0.00000038229186 sole_error_m=0.00000208574193 palm_error_m=0.0 palms=0
+PASS: limbs: actual melon_grab input and support landing observed
+PASS: limbs: melon_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: melon_grab retains planted front sole and active grab palm contacts
+LIMB_POSE melon_grab samples=111 max_length_error=0.00000033707454 sole_error_m=0.00000120244135 palm_error_m=0.01286466605961 palms=14
+PASS: limbs: actual indy_grab input and support landing observed
+PASS: limbs: indy_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: indy_grab retains planted front sole and active grab palm contacts
+LIMB_POSE indy_grab samples=111 max_length_error=0.00000038229186 sole_error_m=0.00000203617037 palm_error_m=0.00681940466166 palms=14
+PASS: limbs: actual nose_grab input and support landing observed
+PASS: limbs: nose_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: nose_grab retains planted front sole and active grab palm contacts
+LIMB_POSE nose_grab samples=111 max_length_error=0.00000038229186 sole_error_m=0.00000144071987 palm_error_m=0.00813532713801 palms=14
+PASS: limbs: actual tail_grab input and support landing observed
+PASS: limbs: tail_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: tail_grab retains planted front sole and active grab palm contacts
+LIMB_POSE tail_grab samples=111 max_length_error=0.00000033775965 sole_error_m=0.0000018429613 palm_error_m=0.00256684212945 palms=14
+PASS: limbs: actual method_grab input and support landing observed
+PASS: limbs: method_grab preserves authored segment lengths through entry/action/exit
+PASS: limbs: method_grab retains planted front sole and active grab palm contacts
+LIMB_POSE method_grab samples=111 max_length_error=0.00000033707454 sole_error_m=0.0000020684256 palm_error_m=0.01137448940426 palms=14
+PASS: limbs: actual kickflip and landing observed
+PASS: limbs: kickflip preserves authored segment lengths through entry/action/exit
+PASS: limbs: kickflip retains planted front sole and active grab palm contacts
+LIMB_POSE kickflip samples=110 max_length_error=0.00000036317249 sole_error_m=0.0001459086634 palm_error_m=0.0 palms=0
+PASS: limbs: actual heelflip and landing observed
+PASS: limbs: heelflip preserves authored segment lengths through entry/action/exit
+PASS: limbs: heelflip retains planted front sole and active grab palm contacts
+LIMB_POSE heelflip samples=110 max_length_error=0.00000033707454 sole_error_m=0.00014602400188 palm_error_m=0.0 palms=0
+PASS: limbs: actual frontside_shuvit and landing observed
+PASS: limbs: frontside_shuvit preserves authored segment lengths through entry/action/exit
+PASS: limbs: frontside_shuvit retains planted front sole and active grab palm contacts
+LIMB_POSE frontside_shuvit samples=110 max_length_error=0.00000036317249 sole_error_m=0.0001459086634 palm_error_m=0.0 palms=0
+PASS: limbs: actual pop_shuvit and landing observed
+PASS: limbs: pop_shuvit preserves authored segment lengths through entry/action/exit
+PASS: limbs: pop_shuvit retains planted front sole and active grab palm contacts
+LIMB_POSE pop_shuvit samples=110 max_length_error=0.00000036317249 sole_error_m=0.0001459086634 palm_error_m=0.0 palms=0
+PASS: limbs: actual varial_flip and landing observed
+PASS: limbs: varial_flip preserves authored segment lengths through entry/action/exit
+PASS: limbs: varial_flip retains planted front sole and active grab palm contacts
+LIMB_POSE varial_flip samples=110 max_length_error=0.00000033707454 sole_error_m=0.0001459086634 palm_error_m=0.0 palms=0
+PASS: limbs: actual hardflip and landing observed
+PASS: limbs: hardflip preserves authored segment lengths through entry/action/exit
+PASS: limbs: hardflip retains planted front sole and active grab palm contacts
+LIMB_POSE hardflip samples=110 max_length_error=0.00000033707454 sole_error_m=0.00014602400188 palm_error_m=0.0 palms=0
+PASS: limbs: natural half-pipe cycles preserves authored segment lengths through entry/action/exit
+PASS: limbs: natural half-pipe cycles retains planted front sole and active grab palm contacts
+LIMB_POSE natural half-pipe cycles samples=720 max_length_error=0.00000048505849 sole_error_m=0.00001261406032 palm_error_m=0.0 palms=0
+PASS: limbs: coincident/parallel/out-of-reach input retains finite authored lengths (0.0, 0.0, 0.0)
+PASS: limbs: coincident/parallel/out-of-reach input retains finite authored lengths (2.0, 0.0, 0.0)
+PASS: limbs: coincident/parallel/out-of-reach input retains finite authored lengths (0.0, -0.4, 0.0)
+PASS: classic camera: interpolated ramp support removes root scale drift and preserves direction
+PASS: classic turns: 8m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.25 angle_deg=26.190 distance=6.763 effective_radius=14.795 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 8m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.50 angle_deg=55.587 distance=6.763 effective_radius=6.971 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 8m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=1.00 angle_deg=136.829 distance=6.763 effective_radius=2.832 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 8m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 12m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.25 angle_deg=24.682 distance=10.382 effective_radius=24.101 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 12m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.50 angle_deg=52.387 distance=10.382 effective_radius=11.355 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 12m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=1.00 angle_deg=128.952 distance=10.382 effective_radius=4.613 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=true
+PASS: classic turns: 12m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 15m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.374 input=0.25 angle_deg=23.551 distance=13.097 effective_radius=31.862 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 15m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=0.50 angle_deg=49.986 distance=13.097 effective_radius=15.012 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 15m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=1.00 angle_deg=123.042 distance=13.097 effective_radius=6.099 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 15m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic camera: sustained actual bank rollback moves chase behind travel without hiding rider or board
+CLASSIC REVERSE speed=-2.489 camera_dot_travel=-1.000 unsafe=0
+PASS: classic camera: after an actual flat-ground turn, short follow lag settles to a forward chase behind the skater
+GROUND CHASE view_dot_forward=0.99926149845123 rear_dot_back=0.99911290407181
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=false)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=false)
+CAMERA QUIET OLLIE held=2 reduced=false body_rise=1.02027789503336 camera_y_span=0.00992608070374 camera_angle_deg=0.45110795458313 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=false)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=false)
+CAMERA QUIET OLLIE held=24 reduced=false body_rise=2.60483197122812 camera_y_span=0.01894283294678 camera_angle_deg=1.61737353425509 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=true)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=true)
+CAMERA QUIET OLLIE held=2 reduced=true body_rise=1.02027789503336 camera_y_span=0.00990343093872 camera_angle_deg=0.40348299317176 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=true)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=true)
+CAMERA QUIET OLLIE held=24 reduced=true body_rise=2.60483197122812 camera_y_span=0.01911306381226 camera_angle_deg=1.70318322851037 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+LOCAL RAMP ORBIT turn_deg=179.985062901746 max_reverse_excursion_deg=0.00001630938678 up_y=0.99846345186234 down_y=-1.0 camera_up_dot_ramp_normal=0.98240512609482 good=true
+LOCAL RAMP ORBIT turn_deg=179.985804989484 max_reverse_excursion_deg=0.00001283262888 up_y=0.99817341566086 down_y=-1.0 camera_up_dot_ramp_normal=0.97559744119644 good=true
+LOCAL RAMP ORBIT turn_deg=179.985184097229 max_reverse_excursion_deg=0.00000851458348 up_y=0.99783712625504 down_y=-1.0 camera_up_dot_ramp_normal=0.97173488140106 good=true
+LOCAL RAMP ORBIT turn_deg=179.98602762569 max_reverse_excursion_deg=0.00001960619304 up_y=0.99808204174042 down_y=-1.0 camera_up_dot_ramp_normal=0.97407126426697 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=false)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=false)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=false)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=false)
+PASS: classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=false)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=false)
+PASS: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=false)
+PASS: classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=false)
+CAMERA BOTTOM REAR samples=90 minimum_forward_dot=0.98996353149414
+CAMERA RAMP REAR side_frames=0 samples=138 minimum_forward_dot=0.96376579999924
+CAMERA LOCAL RETURNS reduced=false departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.17573994954427 max_update_move=0.33100986480713 max_update_angle=9.32071861311494 pose_forward_dot_velocity=0.9987781047821 body_step_deg=8.24169130445184
+LOCAL RAMP ORBIT turn_deg=179.985385747253 max_reverse_excursion_deg=0.0000109393059 up_y=0.99845153093338 down_y=-1.0 camera_up_dot_ramp_normal=0.97811615467072 good=true
+LOCAL RAMP ORBIT turn_deg=179.985288232705 max_reverse_excursion_deg=0.0 up_y=0.99778044223785 down_y=-1.0 camera_up_dot_ramp_normal=0.96911716461182 good=true
+LOCAL RAMP ORBIT turn_deg=179.985550791893 max_reverse_excursion_deg=0.00000890371664 up_y=0.99783819913864 down_y=-1.0 camera_up_dot_ramp_normal=0.96978265047073 good=true
+LOCAL RAMP ORBIT turn_deg=179.985427032768 max_reverse_excursion_deg=0.00000030418605 up_y=0.99822527170181 down_y=-1.0 camera_up_dot_ramp_normal=0.97816300392151 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=true)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=true)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=true)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=true)
+PASS: classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=true)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=true)
+PASS: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=true)
+PASS: classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=true)
+CAMERA BOTTOM REAR samples=90 minimum_forward_dot=0.98928391933441
+CAMERA RAMP REAR side_frames=0 samples=138 minimum_forward_dot=0.96329432725906
+CAMERA LOCAL RETURNS reduced=true departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.18786275227865 max_update_move=0.44668811559677 max_update_angle=10.3958945488598 pose_forward_dot_velocity=0.9987781047821 body_step_deg=8.24169130445184
+PASS: classic camera: a brief backwards impulse cannot reverse the chase
+PASS: classic camera: low-speed direction noise clears pending reversal
+PASS: UI feedback: a newly built menu reports its pending layout instead of false readiness
+PASS: UI feedback: title becomes opaque, bounded and focused after actual process frames
+PASS: UI feedback: title → settings → controls → goals preserves paused title session
+PASS: UI feedback: nested goals returns to controls
+PASS: UI feedback: controls returns to settings and the button that opened it
+PASS: UI feedback: settings returns to title with original focus instead of looping
+PASS: UI feedback: nested controls/settings return to goals without prematurely resuming
+PASS: UI feedback: the live goals origin resumes exactly once after nested menus
+PASS: UI feedback: three nested results pages return to results with focus and finished state
+PASS: UI feedback: controller-disconnect explanation is readable above the pause menu
+PASS: UI feedback: modified key rejection leaves binding capture and preferences intact
+PASS: UI feedback: cancelling binding capture keeps the selected action focused
+PASS: UI feedback: successful rebinding preserves action focus and scroll position
+PASS: UI feedback: restoring defaults leaves its visible button focused after rebuilding
+PASS: UI feedback: event notice, active combo and timed link cue remain visible together
+PASS: UI feedback: event and combo text occupy separate screen regions
+PASS: UI feedback: long-key prompt fixture applies valid live bindings
+PASS: UI feedback: externally changed bindings refresh both interaction and combo link prompts
+PASS: UI feedback: controller prompts use mapped buttons and compact stick directions
+PASS: UI feedback: persistent save failure stays visible during a live combo
+PASS: UI feedback: all active HUD regions fit (1920, 1080) at 1.4× UI
+PASS: UI feedback: balance, goals and save warning have clear space at (1920, 1080)
+PASS: UI feedback: full ten-digit score fits without ellipsis at (1920, 1080)
+PASS: UI feedback: title and persistent warning fit (1920, 1080) at 1.4× UI
+PASS: UI feedback: large title has enough height to render its complete line at (1920, 1080)
+PASS: UI feedback: nested controls retain a usable scroll region at (1920, 1080)
+PASS: UI feedback: all active HUD regions fit (960, 600) at 1.4× UI
+PASS: UI feedback: balance, goals and save warning have clear space at (960, 600)
+PASS: UI feedback: full ten-digit score fits without ellipsis at (960, 600)
+PASS: UI feedback: title and persistent warning fit (960, 600) at 1.4× UI
+PASS: UI feedback: large title has enough height to render its complete line at (960, 600)
+PASS: UI feedback: nested controls retain a usable scroll region at (960, 600)
+PASS: UI feedback: all active HUD regions fit (640, 480) at 1.4× UI
+PASS: UI feedback: balance, goals and save warning have clear space at (640, 480)
+PASS: UI feedback: full ten-digit score fits without ellipsis at (640, 480)
+PASS: UI feedback: title and persistent warning fit (640, 480) at 1.4× UI
+PASS: UI feedback: large title has enough height to render its complete line at (640, 480)
+PASS: UI feedback: nested controls retain a usable scroll region at (640, 480)
+PASS: UI feedback: successful save recovery removes the warning from live and modal layouts
+PASS: recovery: actual uncorrected manual enters one local fall without a spawn snap
+PASS: recovery: real failure detaches the existing board into native translation and tumble
+PASS: recovery: special admission is refused during a fall
+PASS: recovery: repeated recovery requests coalesce without relocation or another failure
+PASS: recovery: scene pause freezes native motion and recovery clocks
+PASS: recovery: supported fall/slide/get-up/board-ready completes once in order
+PASS: recovery: actual slide remains supported and cannot cross solid scenery
+PASS: recovery: one failure loses only pending points and held tricks cannot score or postpone recovery
+PASS: recovery: loose board moves against world collision, then is reclaimed once with native motion frozen
+PASS: recovery: fall and get-up keep finite authored limb lengths
+BAIL_RECOVERY phases=["fall", "slide", "get_up", "ready"] max_step_m=0.12496948242188 elapsed=1.21666666666667 length_error=0.00000043248021 bails=1 ready=1
+PASS: recovery: releasing held ollie after recovery cannot launch and run spawn is preserved
+PASS: recovery: a fresh charged release works after board-ready
+PASS: recovery: explicit Restart immediately cancels the sequence and restores the original run
+PASS: recovery: a validated hazard return uses its destination once without replacing run spawn
+PASS: recovery: hazard relocation physically lands and completes recovery
+PASS: recovery: invalid hazard destinations do not start or relocate a bail
+PASS: recovery: get-up waits when actual upright headroom is obstructed
+PASS: recovery: unavailable fallback stays finite, refuses invalid relocation and exposes Restart
+PASS: recovery: cleared headroom allows the same failure to finish
+PASS: recovery: career expiry cannot gain overtime from a failed combo
+PASS: recovery: Restart also cancels a frozen results-screen fall
+RESULT: 158 passed, 0 failed

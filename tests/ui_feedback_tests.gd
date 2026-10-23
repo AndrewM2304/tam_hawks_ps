@@ -149,14 +149,15 @@ static func _notices_and_geometry(tree: SceneTree, game: Node, check: Callable) 
 		await UIActions._frames(tree, 3)
 		var bounds := Rect2(Vector2.ZERO, Vector2(size))
 		var all_inside := true
-		for control in [hud._top, hud._goals, hud._balance_panel, hud._speed_panel,
+		for control in [hud._top, hud._goals, hud._balance_panel,
 			hud._special_panel, hud._combo, hud._tricks, hud._combo_status,
 			hud._feedback_panel, hud._feedback,
-			hud._caption, hud._prompt, hud._footer, hud._save_warning]:
+			hud._caption, hud._prompt, hud._save_warning]:
 			all_inside = all_inside and bounds.encloses(control.get_global_rect())
 		check.call(all_inside, "UI feedback: all active HUD regions fit %s at 1.4× UI" % size)
 		check.call(not hud._balance_panel.get_global_rect().intersects(hud._goals.get_global_rect())
-			and not hud._save_warning.get_global_rect().intersects(hud._speed_panel.get_global_rect()),
+			and not hud._save_warning.get_global_rect().intersects(hud._special_panel.get_global_rect())
+			and not hud._feedback_panel.get_global_rect().intersects(hud._special_panel.get_global_rect()),
 			"UI feedback: balance, goals and save warning have clear space at %s" % size)
 		var score_font: Font = hud._score.get_theme_font("font")
 		check.call(score_font.get_string_size(hud._score.text, HORIZONTAL_ALIGNMENT_LEFT, -1,

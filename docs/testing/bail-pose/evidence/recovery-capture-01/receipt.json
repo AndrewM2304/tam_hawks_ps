@@ -1,0 +1,33 @@
+{
+  "started_london": "2026-10-22T21:32:27.784326+01:00",
+  "completed_london": "2026-10-22T21:32:45.246289+01:00",
+  "wall_seconds": 17.461830332991667,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/bail-pose/observers/capture_recovery.gd",
+    "--",
+    ".local/bail-pose/recovery-capture-01",
+    "docs/testing/bail-recovery/observers/current_audit.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 381,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "0",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "792cb49a257caf21c1128cc1facf40f5aa5858d8eb748504940b12777acc644a",
+  "git_head": "4eb9c03ad1f61d03dba029a86b85c3a9e4485cd9"
+}

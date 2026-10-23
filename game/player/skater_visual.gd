@@ -34,6 +34,8 @@ var _crouch_blend := 0.0
 var _air_time := 0.0
 var _motion_time := 0.0
 var _torso_turn := 0.0
+var _bail_blend := 0.0
+var _ramp_anticipation := 0.0
 
 func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 	_board = board
@@ -100,9 +102,13 @@ func reset() -> void:
 	_air_time = 0.0
 	_motion_time = 0.0
 	_torso_turn = 0.0
+	_bail_blend = 0.0
 	_was_airborne = false
 
 func animate(delta: float, state: Dictionary) -> void:
+	_bail_blend = clampf(state.get("bail", 0.0), 0.0, 1.0)
+	var ramp_turn: float = state.get("ramp_turn", -1.0)
+	_ramp_anticipation = sin(TAU * ramp_turn) if ramp_turn >= 0.0 else 0.0
 	var air: bool = state["airborne"]
 	var grab: bool = state["grab"]
 	var flip: bool = state["flip"]
@@ -177,27 +183,10 @@ func animate(delta: float, state: Dictionary) -> void:
 	elif lip_id == "disaster":
 		hips_y -= 0.08 * _lip_blend
 	var lip_sway := sin(TAU * lip_progress) * 0.025 * _lip_blend
+	hips_y = lerpf(hips_y, .23, _bail_blend)
+	weight_z = lerpf(weight_z, .08, _bail_blend)
+	hips_y -= .08 * absf(_ramp_anticipation)
 	var breathing := sin(_motion_time * 2.1) * 0.004 * (1.0 - _air_blend)
-	_upper.position = Vector3(0.025 * _push_blend - 0.018 * _brake_blend + lip_sway, hips_y + breathing, weight_z)
-	_upper.rotation.x = -0.07 - _grab_blend * 0.23 - _push_blend * 0.13 + _brake_blend * 0.09 - compression * 0.4
-	_upper.rotation.x -= 0.20 * _crouch_blend + (0.16 if nose_manual else -0.05) * _manual_blend
-	_upper.rotation.x += grab_reach_z * 2.0 * _grab_blend
-	if grab_id == "method_grab":
-		_upper.rotation.x += 0.18 * _grab_blend
-	_torso_turn = _blend(_torso_turn, 0.08 + steer * 0.10 + sin(TAU * _push_phase) * _push_blend * 0.08, delta, 9.0)
-	_upper.rotation.y = _torso_turn + (0.35 * _lip_blend if lip_id == "disaster" else 0.0)
-	_upper.rotation.z = -steer * 0.045 - manual_balance * _manual_blend * 0.07 + lip_sway
-	if grab_id == "method_grab":
-		_upper.rotation.z += 0.16 * _grab_blend
-	# Look along accepted travel after a revert, within a comfortable neck turn.
-	var travel_basis: Basis = _board.get_parent().get_parent().global_basis
-	var look_direction := _rider.global_basis.inverse() * -travel_basis.z
-	var look_yaw := clampf(atan2(-look_direction.x, -look_direction.z) - _torso_turn, -1.10, 1.10)
-	_head.rotation.y = lerp_angle(_head.rotation.y, look_yaw + steer * 0.06, 1.0 - exp(-8.0 * delta))
-	_head.rotation.x = -0.04 + _grab_blend * 0.20 + compression * 0.6
-	# Turn about the base of the anatomical neck, keeping its crop inside the collar.
-	_head.position = Vector3(0, 0.51, 0.010) - _head.basis * Vector3(0, -0.13, 0.036)
-	_garments.pose_body(Transform3D(Basis.IDENTITY, Vector3(lip_sway, hips_y, weight_z)), _upper.transform)
 	for leg: Dictionary in _legs:
 		var side: float = leg["side"]
 		var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, 0.079, side * 0.255)
@@ -230,40 +219,107 @@ func animate(delta: float, state: Dictionary) -> void:
 		# Parent rotations can accumulate harmless floating-point drift; slerp needs unit bases.
 		var detached_basis: Basis = _board.get_parent().global_basis.orthonormalized()
 		var foot_basis := _board.global_basis.orthonormalized().slerp(detached_basis, _flip_blend)
-		var hip := Vector3(side * 0.105 + lip_sway, hips_y + 0.025, weight_z)
-		var knee_bend: Vector3 = _rider.global_basis.inverse() * _board.get_parent().global_basis * Vector3.UP + Vector3(side * 0.25, 0, -0.65)
-		var knee := _joint(hip, target, 0.43, 0.41, knee_bend)
+		target = target.lerp(Vector3(side * .30, .14, .72), _bail_blend)
+		leg["target"] = target
+		leg["basis"] = _rider.global_basis.inverse() * foot_basis * Basis(Vector3.UP, shoe_yaw)
+		leg["basis"] = (leg["basis"] as Basis).orthonormalized().slerp(Basis(Vector3.UP, side * .08), _bail_blend)
+	# Fit a shared pelvis to both real contact targets. Moving the body rather
+	# than clamping a planted foot preserves sole/deck contact during weight transfer.
+	var pelvis_offset := Vector3.ZERO
+	for iteration in 8:
+		var previous := pelvis_offset
+		for leg: Dictionary in _legs:
+			var hip := Vector3(float(leg.side) * .105 + lip_sway, hips_y + .025, weight_z) + pelvis_offset
+			var offset: Vector3 = hip - leg.target
+			var excess := offset.length() - .832
+			if excess > 0.0:pelvis_offset -= offset.normalized() * excess
+		if previous.distance_squared_to(pelvis_offset) < .0000000001:break
+	hips_y += pelvis_offset.y
+	weight_z += pelvis_offset.z
+	var hips := Vector3(lip_sway + pelvis_offset.x, hips_y, weight_z)
+	_upper.position = Vector3(0.025 * _push_blend - 0.018 * _brake_blend + hips.x, hips_y + breathing, weight_z)
+	_upper.rotation.x = -0.07 - _grab_blend * 0.23 - _push_blend * 0.13 + _brake_blend * 0.09 - compression * 0.4
+	_upper.rotation.x -= 0.20 * _crouch_blend + (0.16 if nose_manual else -0.05) * _manual_blend
+	_upper.rotation.x += grab_reach_z * 2.0 * _grab_blend
+	if grab_id == "method_grab":
+		_upper.rotation.x += 0.18 * _grab_blend
+	_torso_turn = _blend(_torso_turn, 0.08 + steer * 0.10 + sin(TAU * _push_phase) * _push_blend * 0.08, delta, 9.0)
+	_upper.rotation.y = _torso_turn - .25 * _ramp_anticipation + (0.35 * _lip_blend if lip_id == "disaster" else 0.0)
+	_upper.rotation.z = -steer * 0.045 - manual_balance * _manual_blend * 0.07 + lip_sway
+	if grab_id == "method_grab":
+		_upper.rotation.z += 0.16 * _grab_blend
+	_upper.rotation.x = lerpf(_upper.rotation.x, -1.50, _bail_blend)
+	_upper.rotation.z = lerpf(_upper.rotation.z, .30, _bail_blend)
+	var revert_remaining: float = state.get("revert_remaining", 0.0)
+	if _grab_blend > .001:
+		var neutral := _balance_hand(grab_side, hips, grind_balance, manual_balance, lip_sway, revert_remaining, tumble)
+		var grab_target := _rider.to_local(_board.to_global(grab_pose.deck_target))
+		for iteration in 6:
+			var shoulder := _upper.transform * Vector3(grab_side * .195, .425, 0)
+			var wrist := _grab_wrist(shoulder, grab_target, grab_side, palm_local)
+			var offset := neutral.lerp(wrist, _grab_blend) - shoulder
+			var excess := offset.length() - .584
+			if excess <= 0.0:break
+			_upper.position += offset.normalized() * excess
+	# Look along accepted travel after a revert, within a comfortable neck turn.
+	var travel_basis: Basis = _board.get_parent().get_parent().global_basis
+	var look_direction := _rider.global_basis.inverse() * -travel_basis.z
+	var look_yaw := clampf(atan2(-look_direction.x, -look_direction.z) - _torso_turn, -1.10, 1.10)
+	_head.rotation.y = lerp_angle(_head.rotation.y, look_yaw + steer * 0.06, 1.0 - exp(-8.0 * delta))
+	_head.rotation.x = -0.04 + _grab_blend * 0.20 + compression * 0.6
+	# Turn about the base of the anatomical neck, keeping its crop inside the collar.
+	_head.position = Vector3(0, 0.51, 0.010) - _head.basis * Vector3(0, -0.13, 0.036)
+	_garments.pose_body(Transform3D(Basis.IDENTITY, hips), _upper.transform)
+	for leg: Dictionary in _legs:
+		var side: float = leg.side
+		var target: Vector3 = leg.target
+		var hip := hips + Vector3(side * .105, .025, 0)
+		var knee_bend: Vector3 = _rider.global_basis.inverse() * _board.get_parent().global_basis * Vector3.UP + Vector3(side * .25, 0, -.65)
+		var knee := _joint(hip, target, .43, .41, knee_bend)
 		_garments.pose_leg(side, hip, knee, target)
-		leg["foot"].position = target
-		leg["foot"].basis = _rider.global_basis.inverse() * foot_basis * Basis(Vector3.UP, shoe_yaw)
+		leg.foot.position = target
+		leg.foot.basis = leg.basis
 	for arm: Dictionary in _arms:
 		var side: float = arm["side"]
 		var shoulder: Vector3 = _rider.to_local(_upper.to_global(Vector3(side * 0.195, 0.425, 0)))
-		var spread := 0.33 + 0.12 * _air_blend + 0.13 * _grind_blend + 0.07 * _manual_blend + 0.15 * _lip_blend
-		var hand := Vector3(side * spread, hips_y + 0.015 + 0.12 * _air_blend + 0.10 * _grind_blend, -0.14 + side * 0.09)
-		hand.z += weight_z - 0.04 * _crouch_blend
-		hand.z += side * 0.17 * sin(TAU * _push_phase) * _push_blend
-		hand.y += side * (grind_balance * _grind_blend * 0.13 + manual_balance * _manual_blend * 0.08 + lip_sway * 3.0)
-		var revert_remaining: float = state.get("revert_remaining", 0.0)
-		hand.z += side * 0.16 * sin(PI * clampf(revert_remaining / 0.18, 0.0, 1.0))
-		if tumble > 0.0:
-			hand = hand.lerp(Vector3(side * 0.16, hips_y + 0.12, -0.18), tumble * 0.8)
+		var hand := _balance_hand(side, hips, grind_balance, manual_balance, lip_sway, revert_remaining, tumble)
 		if side == grab_side:
 			var grab_target := _rider.to_local(_board.to_global(grab_pose["deck_target"]))
 			# The anatomical hand's origin is its wrist, not its palm. Solve that
 			# offset so the distal palm meets the deck edge instead of passing through it.
-			var grab_wrist := grab_target + (shoulder - grab_target).normalized() * 0.075
-			for iteration in 4:
-				var grab_elbow := _joint(shoulder, grab_wrist, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
-				var grab_basis := _hand_basis(side, grab_elbow - grab_wrist, 1.0, palm_local)
-				grab_wrist = grab_target - grab_basis * Vector3(0, -0.075, -0.015)
-			hand = hand.lerp(grab_wrist, _grab_blend)
+			var wrist := _grab_wrist(shoulder, grab_target, side, palm_local)
+			hand = hand.lerp(wrist, _grab_blend)
+		# Free targets and submillimetre grab-iteration residue remain bounded.
+		hand = _reachable(shoulder, hand, .30, .29)
 		var elbow := _joint(shoulder, hand, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
 		_garments.pose_arm(side, shoulder, elbow, hand)
 		arm["hand"].position = hand
 		var hand_grab := _grab_blend if side == grab_side else 0.0
 		arm["hand"].basis = _hand_basis(side, elbow - hand, hand_grab, palm_local)
-		_anatomy.pose_hand(arm["hand"], hand_grab)
+		_anatomy.pose_hand(arm["hand"], maxf(hand_grab, .20 * (1.0 - _bail_blend)))
+
+func _balance_hand(side: float, hips: Vector3, grind_balance: float, manual_balance: float, lip_sway: float, revert_remaining: float, tumble: float) -> Vector3:
+	var spread := .33 + .12 * _air_blend + .13 * _grind_blend + .07 * _manual_blend + .15 * _lip_blend
+	var hand := hips + Vector3(side * spread, .015 + .12 * _air_blend + .10 * _grind_blend, -.14 + side * .09)
+	hand.z -= .04 * _crouch_blend
+	hand.z += side * .17 * sin(TAU * _push_phase) * _push_blend
+	hand.y += side * (grind_balance * _grind_blend * .13 + manual_balance * _manual_blend * .08 + lip_sway * 3.0)
+	hand.z += side * .16 * sin(PI * clampf(revert_remaining / .18, 0.0, 1.0))
+	if tumble > 0.0:hand = hand.lerp(hips + Vector3(side * .16, .12, -.18), tumble * .8)
+	return hand.lerp(Vector3(side * .48, .12, -.48), _bail_blend)
+
+func _grab_wrist(shoulder: Vector3, target: Vector3, side: float, palm_local: Vector3) -> Vector3:
+	var wrist := target + (shoulder - target).normalized() * .075
+	for iteration in 4:
+		var elbow := _joint(shoulder, wrist, .30, .29, Vector3(side * .65, -.10, .55))
+		var hand_basis := _hand_basis(side, elbow - wrist, 1.0, palm_local)
+		wrist = target - hand_basis * Vector3(0, -.075, -.015)
+	return wrist
+
+func _reachable(start: Vector3, target: Vector3, upper: float, lower: float) -> Vector3:
+	var offset := target - start
+	var direction := offset.normalized() if offset.length_squared() > .000001 else Vector3.DOWN
+	return start + direction * clampf(offset.length(), absf(upper - lower) + .001, upper + lower - .001)
 
 func _hand_basis(side: float, forearm: Vector3, grabbing: float, palm_local: Vector3 = Vector3.RIGHT) -> Basis:
 	var y := forearm.normalized()
@@ -282,13 +338,13 @@ func _blend(current: float, target: float, delta: float, rate: float) -> float:
 func _joint(start: Vector3, end: Vector3, upper_length: float, lower_length: float, bend: Vector3) -> Vector3:
 	var offset := end - start
 	var distance := maxf(offset.length(), 0.001)
-	var direction := offset / distance
+	var direction := offset / distance if offset.length_squared() > .000001 else Vector3.DOWN
 	var reach := clampf(distance, absf(upper_length - lower_length) + 0.001, upper_length + lower_length - 0.001)
 	var along := (upper_length * upper_length - lower_length * lower_length + reach * reach) / (2.0 * reach)
 	var height := sqrt(maxf(0.0, upper_length * upper_length - along * along))
 	var pole := bend.slide(direction).normalized()
 	if pole.length_squared() < 0.01:
-		pole = Vector3.RIGHT.slide(direction).normalized()
+		pole = (Vector3.UP if absf(direction.dot(Vector3.RIGHT)) > .9 else Vector3.RIGHT).slide(direction).normalized()
 	return start + direction * along + pole * height
 
 func _build_board() -> void:

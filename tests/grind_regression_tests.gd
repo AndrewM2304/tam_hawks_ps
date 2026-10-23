@@ -2,6 +2,19 @@ extends RefCounted
 ## Independent regressions for capture reached by play, blocked rides and timeout.
 
 
+class RecoveryProbe extends Node:
+	var rider:CharacterBody3D
+	var previous:Vector3
+	var maximum_step:=0.0
+	var minimum_z:=INF
+	func _ready()->void:
+		process_physics_priority=100;previous=rider.global_position
+	func _physics_process(_delta:float)->void:
+		maximum_step=maxf(maximum_step,previous.distance_to(rider.global_position))
+		minimum_z=minf(minimum_z,rider.global_position.z)
+		previous=rider.global_position
+
+
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	var original_spawn: Vector3 = game.skater.spawn_position
 	_release_actions()
@@ -73,7 +86,14 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 		"grind regression: played approach links ollie and rail without banking early")
 	if caught:
 		var bail_count: Array[int] = [0]
-		var on_bail := func() -> void: bail_count[0] += 1
+		var impact:Array[Vector3]=[]
+		var recovered:Array[int]=[]
+		var saved_spawn:Vector3=game.skater.spawn_position
+		var probe:=RecoveryProbe.new();probe.rider=game.skater;tree.root.add_child(probe)
+		var on_bail := func() -> void:
+			bail_count[0] += 1;impact.append(game.skater.global_position)
+		var on_recovered := func() -> void:recovered.append(Engine.get_physics_frames())
+		game.skater.recovered.connect(on_recovered)
 		game.skater.bailed.connect(on_bail)
 		var wall := StaticBody3D.new()
 		var collider := CollisionShape3D.new()
@@ -88,8 +108,17 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 			"grind regression: scenery blocking an active ride produces exactly one bail")
 		check.call(game.score.total_score == 500 and game.score.get_combo_value() == 0,
 			"grind regression: obstructed ride loses its pending combo and preserves prior bank")
-		check.call(game.skater.global_position.distance_to(game.skater.spawn_position) < 1.0,
-			"grind regression: obstructed ride recovers at the supported spawn")
+		for tick in 240:
+			if not game.skater.bailing and game.skater.is_on_floor():break
+			await _frames(tree,1)
+		check.call(impact.size()==1 and recovered.size()==1 and not game.skater.bailing and game.skater.is_on_floor()
+			and game.skater.spawn_position==saved_spawn and game.skater.global_position.distance_to(impact[0])<2.0
+			and game.skater.global_position.distance_to(saved_spawn)>2.0,
+			"grind regression: obstructed ride recovers locally on support and preserves the run restart spawn")
+		check.call(probe.maximum_step<.3 and probe.minimum_z>=wall.position.z+.15+.28-.05 and bail_count[0]==1,
+			"grind regression: the complete rail fall/get-up stays collision-safe without teleport or another failure")
+		print("GRIND LOCAL RECOVERY step=",probe.maximum_step," impact=",impact," ready=",game.skater.global_position," spawn=",saved_spawn)
+		game.skater.recovered.disconnect(on_recovered);probe.queue_free()
 		game.skater.bailed.disconnect(on_bail)
 		wall.queue_free()
 		await _frames(tree, 2)

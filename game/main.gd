@@ -112,6 +112,7 @@ func _ready() -> void:
 	skater.grind_captured.connect(_on_grind_captured)
 	skater.landed.connect(_on_landed)
 	skater.bailed.connect(_on_bailed)
+	skater.recovered.connect(_on_recovered)
 	skater.combo_link_started.connect(score.continue_combo)
 	skater.combo_link_ended.connect(score.begin_landing)
 	hud = Hud.new()
@@ -177,13 +178,16 @@ func _physics_process(delta: float) -> void:
 			skater.recover_to(recovery)
 			_feedback = "BACK ON THE QUAY. FIND YOUR NEXT LINE."
 			_feedback_timer = 3.0
+	if skater.bailing and skater.bail_phase == "blocked":
+		_feedback = "CAN'T GET UP HERE. OPEN PAUSE TO RESTART."
+		_feedback_timer = 1.0
 	var district: String = world.get_district_id(skater.global_position)
 	_update_contact_audio()
-	audio.set_motion(skater.speed, skater.is_on_floor() or skater.transition_active, skater.grinding, district)
+	audio.set_motion(skater.speed, (skater.is_on_floor() or skater.transition_active) and not skater.bailing, skater.grinding, district)
 	if free_skate_mode or time_remaining > 0.0:
 		var objective_has_prompt: bool = not objectives.nearby_prompt(skater.global_position).is_empty()
-		_update_objectives(delta, district)
-		_update_encounters(delta, Input.is_action_just_pressed("interact") and not objective_has_prompt)
+		if not skater.bailing:_update_objectives(delta, district)
+		_update_encounters(delta, Input.is_action_just_pressed("interact") and not skater.bailing and not objective_has_prompt)
 	if skater.airborne or skater.grinding or skater.manual_active or skater.lip_active:
 		score.continue_combo()
 	var banked: int = score.tick(delta)
@@ -299,11 +303,16 @@ func _on_bailed() -> void:
 	score.drop_combo()
 	gaps.reset()
 	audio.play_event("bail")
-	_feedback = "BACK ON THE BOARD."
+	_feedback = "BAIL. GETTING BACK UP."
 	_feedback_timer = 2.0
 	encounters.on_bail()
 	cat_encounter.on_bail()
 	market_encounter.on_bail()
+
+func _on_recovered() -> void:
+	_feedback = "BACK ON THE BOARD."
+	_feedback_timer = 1.5
+
 
 func _finish_run() -> void:
 	if run_finished:

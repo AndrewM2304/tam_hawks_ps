@@ -1,0 +1,57 @@
+{
+  "strict_render_gates": {
+    "0.95": {
+      "candidate_ms": 6.723,
+      "control_ms": [
+        6.454,
+        6.029
+      ],
+      "envelope_ms": 6.978575,
+      "worst_control_ceiling_ms": 6.7767,
+      "pass": true
+    },
+    "0.99": {
+      "candidate_ms": 8.216,
+      "control_ms": [
+        8.445,
+        7.398
+      ],
+      "envelope_ms": 9.364575,
+      "worst_control_ceiling_ms": 8.86725,
+      "pass": true
+    }
+  },
+  "memory": {
+    "original-before": {
+      "buffer": 15507692,
+      "texture": 50049370,
+      "video": 65557062
+    },
+    "candidate": {
+      "buffer": 15507692,
+      "texture": 50049370,
+      "video": 65557062
+    },
+    "original-after": {
+      "buffer": 15507692,
+      "texture": 50049370,
+      "video": 65557062
+    }
+  },
+  "rows_compared": 1933,
+  "max_position_error_m": 0,
+  "any_velocity_mismatch": false,
+  "duration_seconds": {
+    "original-before": 30.213273,
+    "candidate": 30.215522,
+    "original-after": 30.210003
+  },
+  "limits": "Native moving camera A/B/A with intended framing differences; no claim of identical view transforms or cold memory. Physics compared over common prefix; trailing tick count can differ at wall-clock bound.",
+  "camera_quality": {
+    "minimum_axis_px": 139.6683352854878,
+    "maximum_view_step_deg": 7.71687008891049,
+    "maximum_short_interval_move_m": 0.5111300956336013,
+    "pass": true
+  },
+  "pass": true
+}

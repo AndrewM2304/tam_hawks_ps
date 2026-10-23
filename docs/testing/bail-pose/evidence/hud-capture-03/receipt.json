@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-22T22:18:09.081916+01:00",
+  "completed_london": "2026-10-22T22:18:13.824163+01:00",
+  "wall_seconds": 4.7421906249946915,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    "docs/testing/bail-pose/observers/capture_hud.gd",
+    "--",
+    ".local/bail-pose/hud-capture-03"
+  ],
+  "exit_code": 0,
+  "source_inputs": 381,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "3",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "113292175d19c09360af77df0717b5e3c0876f14bcb922e6dc7c79eeb07c9789",
+  "git_head": "4eb9c03ad1f61d03dba029a86b85c3a9e4485cd9"
+}
