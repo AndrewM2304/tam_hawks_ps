@@ -1,4 +1,44 @@
-# Integrated QE report — playability repair
+# Integrated QE report — trick fidelity
+
+23 October 2026. Final `./tools/check.sh`: **1,489 passed / 0 failed**, exit 0,
+clean import/test error scans. [Source receipt](logs/trick-fidelity-source.json)
+and [full log](logs/trick-fidelity-final.log) bind the final implementation.
+[TRICK-FIDELITY](TRICK-FIDELITY.md) records scope, exact input/execution contracts,
+discovered defects, test adaptations and reproduction.
+
+The final [render receipt](screenshots/trick-fidelity/README.md) has **36 actual
+1280×800 frames, 63 checks / 0 failures, 190 unchanged inputs** and validated PNG
+integrity. Review covers real flat repeated flips, shove catch, bilateral/end
+grabs, supported grind/slide, nose manual, queued air actions, buffered landing,
+bank receipts and fully wrapped/scrolled guide. Close cameras are authored
+inspection views; chase/HUD views use production framing. The
+[cold source receipt](source-launch-trick-fidelity/README.md) passes all four
+phases, including ordinary title **44/0**, with 186 stable inputs.
+
+Independent review found and corrected: remembered opposing directions, a 0.492 m
+shove-catch shoe discontinuity (measured repaired endpoint 0.0038 m), stale
+side-challenge trick-name classification, unsupported grind contact and truncated
+guide instructions. Exact long-rail earnings now include catalog entry/hold
+events; their capture/connection/zero-bail/single-bank assertions remain. A real
+delayed-capture reproduction hit the C plinth's east face, so the test driver now
+physically clears the north corridor before returning; all payoff assertions remain.
+
+The aggregate uses fixed 60 Hz simulated stepping. A bounded independent cadence
+probe reproduces catch-up physics between ordinary process observations under
+load and exactly one step per observation with `--fixed-fps 60`. This prevents
+the scripted driver from missing button edges, with production timing unchanged.
+Actual variable-render-rate input comfort and performance remain separate gates.
+
+The original exact 3,200 linked line and all six district combo boundaries pass.
+Final career: ten goals by 75.98s, complete circuit at 89.03s, 19,900 score,
+3,200 best combo, zero bails and nine short stall samples. Cat payoff returns in
+64 frames at 9.80m with the production frustum visible and finishes 3.20s once.
+Mac/DualSense, final art, listening, enjoyment and Apple Silicon performance are
+not certified. Existing exports and the report below predate this implementation.
+
+---
+
+# Historical integrated QE report — playability repair
 
 17 October 2026. **Latest ordinary suite passes 1,264/0; normal-play capture passes 19/0.** The owner’s latest Mac play launches without errors but reports excessive coasting, messy shaders and buggy UI. This slice pauses new areas and hardens the current rendering, HUD and hill response. Earlier no-skater/floor/wall findings and their repairs are preserved below. The previous Exchange 1,155/0 suite and guided 22-frame capture remain historical evidence for their declared fixtures; they do not override the original normal-play failures.
 

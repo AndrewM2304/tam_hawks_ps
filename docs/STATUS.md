@@ -1,4 +1,98 @@
-# Current handoff — 17 October 2026
+# Current handoff — trick fidelity, 23 October 2026
+
+**Tam Hawks Pro Skater**, Godot 4.6.3 Compatibility, local feature branch `work`.
+The owner's current request is polished trick sets and combinations inspired by
+classic arcade skating. The implementation now has **27 selectable variants**:
+eight flips, eight grabs, nine grinds/slides and two manuals, alongside the two
+original specials, spins, reverts and named gaps. The existing map, street
+handling, ten career goals, save identities and three side challenges are retained.
+No purchase, dependency, native export or remote publication was made.
+
+## Completed implementation
+
+- Directional/cardinal/diagonal input uses existing remapped actions, bounded
+  flick memory, immediate opposite-axis cancellation and takeoff-safe cue clearing.
+  Neutral defaults remain Kickflip, Melon Grab and Rail Grind.
+- Fresh repeated flips fit ordinary flat ollie airtime; simultaneous flip/grab
+  input executes in order. Grabs hold/release, flips catch before another entry,
+  late incomplete flips bail once, and completed spins/reverts change stance.
+- Rail styles have actual distinct deck/truck support and rider counter-rotation.
+  Nose Manual has opposite pitch/balance posture. A deliberate held press in the
+  last 0.18 seconds of airtime can buffer a manual into actual supported landing.
+- Stable trick IDs own repetition, bounded grab/grind holds add base points
+  without new entries/multipliers/deadline extension, and HUD receipts show
+  entries, repeats, holds, stance, banked tricks and lost pending value.
+- The remapping-aware Trick Guide exposes every direction. Actual rendered review
+  found/fixed truncated instructions; wrapped-line/height/scroll checks now cover
+  small resolution and large interface size. Grabs use authored palm contacts;
+  shove/varial catches preserve feet through persistent deck yaw and later actions.
+- Mo recognizes shove/slide families; Mairi accepts Nose Manual. Long-rail tests
+  reconstruct entry/repeat/hold earnings independently. The cat-return fixture
+  now clears a reproduced physical plinth obstruction before the visible payoff;
+  its original distance/frustum/animation and bounded return assertions remain.
+
+Contracts: [ADR-014](architecture/decisions/ADR-014-trick-fidelity.md),
+[interfaces](architecture/interfaces.md), [plan/ownership](planning/TRICK-FIDELITY.md),
+[verification](testing/TRICK-FIDELITY.md) and [player guide](PLAYER-GUIDE.md).
+Existing M01/M02/M04/M05/M06 task records are updated in BACKLOG; all 75 IDs remain.
+
+## Final source-bound verification
+
+`./tools/check.sh` exits **0**, **1,489 passed / 0 failed**, with clean import and
+test error scans. The scripted aggregate now uses `--fixed-fps 60`, matching the
+project's 60 Hz collision physics while preventing skipped input-driver
+observations under real-time CPU catch-up. No production timing or assertion was
+weakened. The [cadence probe](testing/logs/trick-cadence-probe.gd.txt) reproduces
+the scheduling mechanism; this test mode is not a performance measurement.
+
+- [Full suite](testing/logs/trick-fidelity-final.log), SHA-256
+  `a35736dd429884a77af1236c5f0a92804d27897eed1a40bb137ff91cdfa19d14`.
+- [Import](testing/logs/trick-fidelity-import.log), SHA-256
+  `9572934ad4d57fbab2c09b2c82f3821584fba7ba71d7e1dec5055bc7fa531f3f`.
+- [Source/check receipt](testing/logs/trick-fidelity-source.json) binds commands,
+  harness hash, logs and all 190 capture inputs to the unchanged checkout.
+- `python3 tools/source_launch_smoke.py --output .local/trick-fidelity-cold-verified`
+  passes cold source, normal title branch **44/0**, warm launch and broken-copy
+  refusal/restoration with **186 unchanged inputs**. [Receipt](testing/source-launch-trick-fidelity/README.md),
+  SHA-256 `113dabd42ec413522810f3c3706ba83cba2a3ff83142dbe9d9504ac9813e1eec`.
+- `./tools/trick_fidelity_capture.sh --private-display` passes **36 actual PNGs,
+  63 checks / 0 failures**, **190 unchanged inputs**, PNG CRC/row integrity and
+  independent source rehash. [Reviewed images](testing/screenshots/trick-fidelity/README.md),
+  manifest `d0e683b95d75de51b4ff79365c4d36376291b793f7d14804da10cd398b25361f`.
+
+Actual captured flat Ollie→Heelflip→Kickflip banks **2,100**; ordered
+flip→grab→buffered Manual banks **3,000**. The final aggregate preserves the
+original exact **3,200** air/manual/air line and all six district-crossing combo
+assertions; reverse Barras banks 3,200 connected with zero bails. The career
+circuit reaches all ten goals at 75.98 simulated seconds and finishes at 89.03s,
+19,900 banked, 3,200 best combo, zero bails and nine short stall samples. These
+are scripted feasibility results, not human feel/performance acceptance.
+
+## Resume and remaining gates
+
+Play current source with `GODOT_BIN="/Applications/Godot.app/Contents/MacOS/Godot" ./tools/run.sh`
+on Mac, or open `project.godot` in Godot 4.6.3. Old downloaded native/source
+archives predate this implementation. Use the committed source; refresh unsigned
+exports and their provenance separately when required.
+
+1. Replay the new Trick Guide and actual flat/rail/manual/revert/special lines on
+   Mac keyboard and physical wired/Bluetooth DualSense. Human response, continuous
+   animation, final realistic art, listening and Apple Silicon frame times remain
+   open M01-007/M02-008/M05/M06 acceptance gates. No final commercial-game parity
+   or hardware certification is claimed.
+2. Continue authorized polish/fixes from specific play feedback without routine
+   approvals. Preserve the current input/score/hold/catch contracts, exact route
+   assertions and source-bound evidence; rerun affected checks after changes.
+3. Full transition/vert/lip (M02-011), wallride (M02-012), skitch/traffic assessment
+   (M02-013) and a charge-release ollie input follow-up under M01-003 remain
+   separate unimplemented work. No new area is added by this trick pass. Keep
+   their existing research/acceptance criteria explicit.
+
+The previous hardening handoff and packages below are historical evidence only.
+
+---
+
+# Historical handoff — 17 October 2026
 
 **Tam Hawks Pro Skater**, Godot 4.6.3 Compatibility development alpha, feature branch `bootstrap/m00-m01`. The owner’s latest Mac play launches without errors but reports excessive coasting, messy shaders and buggy UI. Per that direction, this slice pauses map expansion and hardens the existing hills, rendering and HUD. The previous no-skater/cold-import, wall-camera and floor-support defects now have bounded repairs. Latest `./tools/check.sh` passes **1,264/0**; the normal-scene capture has **19 frames / 0 failures**, bound to the Compatibility renderer. The reverse Exchange→Barras combo regression now passes after signed slope gravity/rollback was added. Exact logs and image manifest are below. Human Mac/controller feel, target-hardware performance and final realistic-art/UI acceptance remain open. The previous **1,155/0** and `00da63a` packages certify older source only.
 

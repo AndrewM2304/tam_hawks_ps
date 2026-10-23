@@ -37,7 +37,25 @@ Back returns to the menu you came from. Interaction prompts use your current key
 
 Push toward a ramp, ollie, then add a flip, grab or spin. Clean landing leaves a short 0.35-second link window: start another ollie, grind or manual to continue the combo; rolling normally lets it bank. A revert adds a trick without extending that window. A bail drops unbanked points. Repeating one trick reduces its value, while different tricks build the multiplier.
 
-Hold grind while descending toward an aligned rail. Balance left/right against the meter's lean; ollie or leave the rail to carry your momentum onward. Hold manual on suitable ground and correct the fore/aft balance with push/brake (W/S or the stick up/down). Controls, tuning and landing forgiveness are still subject to human feel testing.
+Open **Trick Guide** from Pause or Controls for the complete directional set and
+your current bindings. Hold or flick a direction with Flip, Grab or Grind to
+choose a trick: right + Flip is Heelflip, down + Flip is Pop Shove-it, up + Grab
+is Nose Grab, and right + Grind is Boardslide. Diagonals select more advanced
+variants. Neutral keeps Kickflip, Melon Grab and Rail Grind.
+
+Release Flip, let the board finish its catch, then press again to add another
+flip in the same jump. Two basic flips fit an ordinary flat ollie with quick
+timing. Press Flip and Grab together to queue the grab after the flip. Hold Grab
+to keep the pose and release it to let go; sustained grabs and grinds earn bounded
+extra base points. Starting a flip too close to the ground can bail before the
+catch. Completed half-turns and reverts show **Switch stance** on the HUD.
+
+For an easier landing link, press and hold Manual just before touching down
+(within 0.18 seconds). Holding it from the start of a jump will not enter a manual.
+A deliberate fresh up direction plus Manual selects Nose Manual; ordinary held
+pushing alone keeps the usual manual. The balance card names the current ride.
+
+Hold grind while descending toward an aligned rail. Balance left/right against the meter's lean; ollie or leave the rail to carry your momentum onward. Press and hold manual on suitable ground and correct the fore/aft balance with push/brake (W/S or the stick up/down). Controls, tuning and landing forgiveness are still subject to human feel testing.
 
 Banking points fills the special meter. A full meter powers one successful airborne special. Career goals unlock Clyde Carousel (bank 1,000 in a run) and Tenement Tumble (bank a 3,000-point combo). Free skate makes both available for practice but still requires charge; it does not complete career goals.
 

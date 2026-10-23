@@ -2,6 +2,21 @@
 
 Title: **Tam Hawks Pro Skater**. Baseline date: 17 October 2026. This is the durable local source of task truth; these entries are not claims that GitHub issues have been published. Latest implementation and command evidence is in [STATUS](../STATUS.md). Product scope maps through [requirements](../product/requirements.md).
 
+**Current owner direction — 23 October 2026:** continue polished trick sets and
+combos on the existing map. [TRICK-FIDELITY](TRICK-FIDELITY.md) assigns the work
+to existing IDs/owners with dependencies and explicit verification. The expanded
+catalog/input, sequential aerial actions, held grabs, nine grind styles, nose
+manuals, landing buffer, stable-ID scoring, articulation and Trick Guide are
+implemented under [ADR-014](../architecture/decisions/ADR-014-trick-fidelity.md).
+M02-001's engineering definition extension is complete; M01-004, M02-002–008,
+M05-002 and M06-003/007 remain in review/in progress for their human/hardware/art
+criteria. Side-challenge family integration is updated without changing career
+or save IDs. Exact aggregate/render/source-launch results are in STATUS and
+[verification](../testing/TRICK-FIDELITY.md); no native export is implied.
+
+The 17 October priorities/evidence below are preserved history where superseded
+by this direction. No new area, dependency, purchase or ticket ID was introduced.
+
 There are **75 tickets** across eight dependency-based milestones: the original 54 task records, eight terrain/character redesign groups, five nonlinear-layout/local-encounter groups, four classic-mechanics continuation tasks and four later local-encounter prototypes added on 17 October 2026. M00–M03 initially follow the supplied document. Its text stops after M03; **M04–M07 are a proposed continuation derived from the document's complete Release 1 scope**, not supplied missing text. The later work is recorded in [ADR-007](../architecture/decisions/ADR-007-authored-glasgow-terrain-redesign.md) and [ADR-008](../architecture/decisions/ADR-008-nonlinear-glasgow-playground-and-local-encounters.md). The owner has authorized implementation of all remaining work within the no-spend constraint. “Proposed continuation” identifies the roadmap text’s source, not a requirement to seek routine permission before those tasks. Nothing below implies unattended development or paid work.
 
 ## How to use this backlog

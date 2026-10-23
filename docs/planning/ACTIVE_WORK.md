@@ -1,4 +1,23 @@
-# P0 ordinary-play repair — 17 October 2026
+# Active work — trick fidelity, 23 October 2026
+
+The owner's current priority is polished trick sets and combinations inspired by
+classic arcade skating. Read [TRICK-FIDELITY](TRICK-FIDELITY.md),
+[ADR-014](../architecture/decisions/ADR-014-trick-fidelity.md) and STATUS first.
+The existing map and ordinary movement repairs remain; no area expansion occurs.
+
+Catalog/input, player execution, scoring/HUD, articulation and independent QE have
+separate ownership. Implemented: directional flips/grabs/grinds, repeated flat
+flips, ordered flip/grab, bounded holds, nose manuals and landing buffer, stance,
+catch/bail rules, actual rail support and a remapping-aware Trick Guide. Side
+challenges recognize all new families. Existing exact route/continuation tests
+remain; long rail routes reconstruct entry/repeat/hold earnings independently.
+
+Current source-bound validation and remaining issues belong in STATUS. Human Mac
+and physical DualSense feel, final art and performance remain open. Future
+transition/vert, wallride and charge-release work retains its own tickets; an
+animation or catalog name is not a physical implementation of those systems.
+
+## Historical ordinary-play repair — 17 October 2026
 
 ## Latest owner direction — gameplay hardening before area expansion
 

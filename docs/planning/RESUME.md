@@ -1,5 +1,20 @@
 # Resuming development
 
+**Latest work — 23 October 2026:** the owner requested polished trick sets and
+combos. Start with STATUS, [TRICK-FIDELITY](TRICK-FIDELITY.md) and
+[ADR-014](../architecture/decisions/ADR-014-trick-fidelity.md). Preserve the current
+directional catalog, sequential flips/grabs, catch and hold rules, nose manuals,
+landing buffer, stable scoring identities, new poses/contacts and Trick Guide.
+M01/M02/M05/M06 human/hardware/art acceptance remains open; continue authorized
+implementation without routine approval requests. Existing movement/map repairs
+remain the baseline. The older repair-first instructions below are historical
+where the new trick-fidelity priority supersedes them.
+
+Run the source launcher for play; old native archives predate this work. Final
+verification uses `./tools/check.sh`, `python3 tools/source_launch_smoke.py` and
+`./tools/trick_fidelity_capture.sh --private-display`. Do not reuse an earlier
+hash/receipt after source changes. Exact source/commands/results are in STATUS.
+
 A new session should be able to work from this repository alone. Treat source, tests and the recorded handoff as evidence; a chat promise is not an implementation result. The owner has authorized continuing the remaining work without routine task-by-task approval, subject to the no-spend constraint. Do not restart from the earlier M01-only state or ask whether to proceed with an already authorized next ticket.
 
 **Current first priority: harden the current gameplay; pause new areas.** The latest owner play on Mac launches without errors but rolls too fast for the intended arcade skate feel; shader output and UI also need work. Keep work on existing movement, ground response, rendering and HUD. The previously reported invisible rider, shop-wall framing and four floor departures have bounded repairs and current Linux render/regression evidence; owner Mac replay and human feel remain open. Read [ACTIVE_WORK](ACTIVE_WORK.md) and STATUS for the exact current source and test receipt. The `6ff294a` source handoff and `00da63a` native packages remain historical before evidence. Preserve the ten goals, existing career/challenges and no-spend rule; do not expand the map during this slice.

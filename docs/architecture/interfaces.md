@@ -1,6 +1,6 @@
 # Runtime interfaces
 
-Updated 17 October 2026 against the current implementation. Godot 4.6.3, Compatibility renderer, native GDScript, one attributed MIT rail-geometry component, original world/garment geometry, CC0 cropped MakeHuman anatomical meshes, two attributed CC0 material sets, and local audio. Runtime has no network service or paid dependency. This describes enabled behavior, not human acceptance or target-Mac certification.
+Updated 23 October 2026 against the trick-fidelity implementation in [ADR-014](decisions/ADR-014-trick-fidelity.md). Godot 4.6.3, Compatibility renderer, native GDScript, one attributed MIT rail-geometry component, original world/garment geometry, CC0 cropped MakeHuman anatomical meshes, two attributed CC0 material sets, and local audio. Runtime has no network service or paid dependency. This describes enabled behavior, not human acceptance or target-Mac certification.
 
 Coordinates use +Y up and local -Z forward. The board-contact origin starts at `(-22, 0.8, 28)` and settles onto Y=0. Six connected, originally authored places comprise the map: Royal Exchange, George Square, Central Station, the Barras, Clyde Quays and Kelvingrove Park. Exchange gallery is 2 m above the lower fountain court; George is 4 m with a 6 m civic terrace; Central concourse 2 m with 5 m platforms; Barras loading terrace 1.5 m. The river lies south, the hilly park northwest. These are compressed game coordinates, not surveyed Glasgow street geometry. Generic player recovery catches Y below -8 or absolute X/Z above 400; the world also supplies a local safe-quay return for river falls.
 
@@ -28,10 +28,27 @@ Coordinates use +Y up and local -Z forward. The board-contact origin starts at `
 
 `reset_skater()` restores motion and all transient trick/visual state. `recover_to(safe_position)` emits one bail and resets at the supplied finite world position, then restores the original run spawn so Restart still starts in the city. Main invokes it when `world.get_recovery_position` returns a finite water recovery point; banked score survives and pending tricks/gap tracking clear. `set_controls_enabled(false)` stops horizontal movement and an active manual; `set_trick_entries_enabled(false)` rejects new launches/tricks/captures/manuals/reverts/specials while allowing an existing rail/manual to resolve during overtime. Pausable node processing freezes physics and visual timers. Actual landings emit once; cosmetic spins remain independent of travel heading and ordinary heading-only landings are forgiving.
 
+The expanded player exposes `last_trick_id`, `flip_trick_id`, `grab_trick_id`,
+`grind_trick_id`, `manual_trick_id`, `stance`, `active_trick` and `hold_points`.
+`last_trick_id` is set before the existing two-argument `trick_performed` signal.
+`hold_points_awarded(points)` is separate and cannot add entry/multiplier events.
+Flip execution uses catalog duration plus a 0.06-second catch cooldown; fresh
+presses can repeat in one actual air segment. Simultaneous grabs queue until
+catch; held grabs sustain and share one 300-point duration budget per airtime.
+Late flips below 80% completion bail once; eligible rail capture waits for a catch.
+Specials reject conflicting active flips/grabs before Main spends the meter.
+
+`TrickCatalog.resolve(family,direction)` returns a deep copy for neutral/cardinal/
+diagonal selection; `family_ids` enumerates authored entries. `TrickInput.sample`
+reads current remapped movement actions, with 0.5 axis threshold, immediate
+opposing-axis cancellation and 0.18-second flick memory. `direction_age` distinguishes
+a deliberate gesture from sustained pushing. `clear_recent` removes approach
+memory on takeoff without manufacturing another physical direction edge.
+
 Ground motion projects onto the current floor. Air carries collision-adjusted horizontal velocity and rotates it by bounded steering, preserving the measured takeoff fix. Ground speed uses capped actual travel velocity to avoid artificial downhill braking. The 56° floor classification supports ordinary banks; near-vertical quarter-pipe support is not implemented.
 
-- `set_grind_lines(lines)` snapshots world-space authored tracks. Held eligible air capture uses `GrindRide`; capsule sweeps reject scenery obstruction. Entry awards 200 once and resolves prior spin without a landing. Release preserves signed tangent momentum, and recapture waits 0.35 seconds.
-- Manual requires a fresh supported press, speed at least 2 m/s and a 0.35-second exit cooldown. It coasts while push/brake correct fore/aft balance and left/right still steer. Entry awards 100 once and emits link-start before scoring. Release/insufficient speed emits link-end once; an actual ollie emits link-start and continues airtime. Losing support clears manual without a false ground-end. Absolute balance 1 bails.
+- `set_grind_lines(lines)` snapshots world-space authored tracks. Held eligible air capture uses `GrindRide`; capsule sweeps reject scenery obstruction. Direction selects one of nine grind/slide definitions and its entry value. Capture resolves prior spin without a landing. Release preserves signed tangent momentum, and recapture waits 0.35 seconds. Duration adds capped base points through `hold_points_awarded(points)` without new entries.
+- Manual requires a fresh supported press or a still-held fresh press buffered at most 0.18 seconds before landing, speed at least 2 m/s and a 0.35-second exit cooldown. Deliberate recent north input selects Nose Manual; sustained pushing alone keeps Manual. Both coast while push/brake correct fore/aft balance and left/right still steer. Entry awards the catalog value once and emits link-start before scoring. Release/insufficient speed emits link-end once; an actual ollie emits link-start and continues airtime. Losing support clears manual without a false ground-end. Absolute balance 1 bails.
 - Revert requires fresh grounded input within `revert_remaining` after actual air landing, cannot occur during a manual/rail, and is once per landing. It costs 15% speed, awards 150 and animates a cosmetic 180° stance change over 0.18 seconds. It emits no continuation event and never resets the score deadline. `revert_remaining` is input eligibility; it is not the authoritative banking timer.
 - `try_special(id) -> bool` accepts only the two catalog specials during eligible unpaused airtime, once per actual air segment. It emits the catalog award only on success. Main checks career unlock and meter first, and consumes the meter only after `true`. Original 0.65-second board-spin/body-tuck animations do not rotate the collision shape or change travel velocity.
 
@@ -41,9 +58,9 @@ Ground motion projects onto the current floor. Air carries collision-adjusted ho
 
 `game/scoring/score_session.gd` is the authoritative `RefCounted` score/deadline model. It exposes `total_score`, `combo_base`, `combo_multiplier`, `best_combo`, `last_trick`, `last_banked`, `trick_history`, `pending_landing` and `landing_remaining`.
 
-`add_trick(name,points)` adds repeat-degraded points; identity deliberately remains the display name, including distinct spin labels. `get_combo_value()` previews the capped multiplier. `begin_landing()` opens a single **0.35-second** pending bank only for a nonempty combo; duplicates cannot extend it. `continue_combo()` clears pending banking for a valid movement link. `tick(delta)` consumes active-play time and returns a bank exactly once on expiry. Adding a trick, including Revert, does not refresh or cancel the timer. `bank_combo()`, `drop_combo()` and `reset()` clear all pending deadline and repetition state.
+`add_trick(name,points,identity="")` adds repeat-degraded points. Main passes the player's stable catalog ID; legacy callers default to display-name identity. All rotation labels share `spin_180`, preventing presentation changes from farming variety. `add_hold_points(points)` adds positive bounded event points to an existing combo without entries, repetition, multiplier or timer changes. `get_combo_value()` previews the capped multiplier. `begin_landing()` opens a single **0.35-second** pending bank only for a nonempty combo; duplicates cannot extend it. `continue_combo()` clears pending banking for a valid movement link. `tick(delta)` consumes active-play time and returns a bank exactly once on expiry. Adding a trick, including Revert, does not refresh or cancel the timer. `bank_combo()`, `drop_combo()` and `reset()` clear all pending deadline and repetition state. `combo_trick_count`, `last_award`, `last_repeat`, `last_banked_tricks` and `last_dropped_value` expose truthful combo receipts.
 
-Per-event values are capped at 1,000,000; base, multiplied combo and total records saturate at 2,147,483,647. Repeats halve to a sixteenth and distinct names multiply up to 8. Career records separately clamp to their save-model bound of 2,000,000,000.
+Per-event values are capped at 1,000,000; base, multiplied combo and total records saturate at 2,147,483,647. Repeats halve to a sixteenth and distinct identities multiply up to 8. Career records separately clamp to their save-model bound of 2,000,000,000.
 
 Main connects player link-start to `continue_combo`, link-end/clean landing to `begin_landing`, and bail to `drop_combo`. While physical air, rail or manual remains active it calls `continue_combo`; ordinary loss of support therefore sustains an existing combo without inventing an Ollie award. Clean ground travel banks after the remaining window. The full ordering and overtime rules are in [ADR-006](decisions/ADR-006-trick-state-and-input.md).
 

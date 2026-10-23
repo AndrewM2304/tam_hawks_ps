@@ -10,6 +10,7 @@ signal start_requested(free_skate: bool)
 signal ui_feedback
 
 const RouteMap = preload("res://game/ui/route_map.gd")
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 
 const INK := Color("101d22")
 const PANEL := Color("14272c")
@@ -31,6 +32,7 @@ var _score: Label
 var _mode: Label
 var _location: Label
 var _speed: Label
+var _stance_label: Label
 var _speed_bar: ProgressBar
 var _combo: Label
 var _tricks: Label
@@ -161,7 +163,7 @@ func _build_hud() -> void:
 	_speed_panel = _card()
 	_hud.add_child(_speed_panel)
 	var speed_box := _vbox(_speed_panel, 5)
-	_label(speed_box, "STREET SPEED", 15, MUTED)
+	_stance_label = _label(speed_box, "STREET SPEED", 15, MUTED)
 	_speed = _label(speed_box, "0 km/h", 27, PAPER)
 	_speed_bar = _progress(speed_box, ACCENT)
 	_special_panel = _card()
@@ -230,6 +232,8 @@ func update_display(state: Dictionary) -> void:
 	_goals.text = "%d / 10 GOALS  ·  %s" % [completed, _prompt_for("goals", "TAB")]
 	if free: _goals.text = "FREE SKATE  ·  NO TIMER"
 	var kmh := roundi(absf(float(state.get("speed", 0.0))) * 3.6)
+	_stance_label.text = "SWITCH STANCE" if str(state.get("stance", "REGULAR")) == "SWITCH" else "STREET SPEED"
+	_stance_label.modulate = ACCENT if str(state.get("stance", "REGULAR")) == "SWITCH" else Color.WHITE
 	_speed.text = "%d km/h" % kmh
 	_speed_bar.value = clampf(float(kmh) / 60.0, 0.0, 1.0)
 	var meter := clampf(float(state.get("special_meter", 0.0)), 0.0, 100.0)
@@ -243,7 +247,10 @@ func update_display(state: Dictionary) -> void:
 	_balance_panel.visible = grinding or manual
 	_balance_marker.position = Vector2(138.0 + balance * 130.0, 0)
 	_balance_marker.color = ORANGE if absf(balance) > 0.7 else ACCENT
-	_balance_label.text = ("RAIL" if grinding else "MANUAL") + "  /  " + (_prompt_for("steer_left", "A") + "–" + _prompt_for("steer_right", "D") if grinding else _prompt_for("push", "W") + "–" + _prompt_for("brake", "S"))
+	var ride_name := str(state.get("grind_name", "RAIL")) if grinding else str(state.get("manual_name", "MANUAL"))
+	if ride_name.is_empty(): ride_name = "RAIL" if grinding else "MANUAL"
+	_balance_label.text = ride_name.to_upper() + "  /  " + (_prompt_for("steer_left", "A") + "–" + _prompt_for("steer_right", "D") if grinding else _prompt_for("push", "W") + "–" + _prompt_for("brake", "S"))
+	_fit_line(_balance_label, 14, 12)
 	if absf(balance) > 0.7:
 		var correction: String = ("steer_left" if balance > 0.0 else "steer_right") if grinding else ("push" if balance > 0.0 else "brake")
 		_balance_label.text = "CORRECT  ·  " + _prompt_for(correction, "")
@@ -256,8 +263,22 @@ func update_display(state: Dictionary) -> void:
 	if combo > 0:
 		var link_time := float(state.get("landing_window", 0.0))
 		_combo_status.text = "%s PENDING  ·  KEEP THE LINE ALIVE" % _number(combo)
+		var count := maxi(0, int(state.get("trick_count", 0)))
+		if count > 0:
+			_combo_status.text = "%s PENDING  ·  %d TRICK%s" % [_number(combo), count, "" if count == 1 else "S"]
+		var active_trick := str(state.get("active_trick", ""))
+		var hold_points := maxi(0, int(state.get("hold_points", 0)))
+		if not active_trick.is_empty() and hold_points > 0:
+			_combo_status.text += "  ·  HOLD +%s" % _number(hold_points)
+		elif bool(state.get("last_repeat", false)):
+			_combo_status.text += "  ·  REPEAT +%s" % _number(int(state.get("last_award", 0)))
 		if link_time > 0.0:
 			_combo_status.text = "LINK IT  %.2fs  ·  %s MANUAL / %s REVERT" % [link_time, _prompt_for("manual", "M"), _prompt_for("revert", "C")]
+	elif _feedback.text.begins_with("LANDED"):
+		var banked_tricks: Array = state.get("last_banked_tricks", [])
+		if not banked_tricks.is_empty():
+			_tricks.text = "  +  ".join(banked_tricks)
+			_combo_status.text = "COMBO BANKED"
 	if combo != _last_combo and combo > 0 and not bool(_settings.get("reduced_motion", false)):
 		if is_instance_valid(_combo_tween): _combo_tween.kill()
 		_combo.modulate = Color(1.0, 1.0, 0.72)
@@ -298,6 +319,10 @@ func show_settings() -> void:
 
 func show_controls() -> void:
 	_open_subpage("controls")
+
+
+func show_trick_guide() -> void:
+	_open_subpage("tricks")
 
 
 func is_menu_ready() -> bool:
@@ -416,6 +441,10 @@ func _show_page(page: String, focus_token: String = "", scroll_position: int = 0
 		"map": _build_map(content)
 		"settings": _build_settings(content)
 		"controls": _build_controls(content)
+		"tricks":
+			_modal_title.text = "Make the next trick yours."
+			_modal_details.text = "Choose a direction, mix your set, then link the landing. These prompts follow your controls."
+			_build_trick_guide(content)
 	if page not in ["title", "pause", "results"]:
 		_button(box, "BACK", _back)
 	_relayout(true)
@@ -468,8 +497,18 @@ func _build_pause(content: VBoxContainer, finished: bool) -> void:
 	_button(content, "CITY MAP & ROUTES", show_map)
 	_button(content, "GOALS & UNLOCKS", toggle_goals)
 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
+	_button(content, "TRICK GUIDE", show_trick_guide)
 	_button(content, "CONTROLS", func(): _open_subpage("controls"))
 	_free = _button(content, "START CAREER RUN" if _state.get("free_skate", false) else "SWITCH TO FREE SKATE", _switch_mode)
+	var banked_tricks: Array = _state.get("last_banked_tricks", [])
+	if not banked_tricks.is_empty():
+		var receipt := _card()
+		content.add_child(receipt)
+		var receipt_rows := _vbox(receipt, 6)
+		_label(receipt_rows, "LAST LANDED COMBO  /  %s" % _number(int(_state.get("banked_combo", 0))), 14, ACCENT)
+		var history := _label(receipt_rows, "  +  ".join(banked_tricks), 17, PAPER)
+		history.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		history.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 
 
 func _build_goals(content: VBoxContainer) -> void:
@@ -564,6 +603,50 @@ func _build_controls(content: VBoxContainer) -> void:
 	_button(content, "RESTORE DEFAULT CONTROLS", func():
 		_change_setting("bindings", _input_profile.reset_defaults())
 		_show_page("controls"))
+	_button(content, "TRICK GUIDE", show_trick_guide)
+
+
+func _build_trick_guide(content: VBoxContainer) -> void:
+	var card := _card()
+	content.add_child(card)
+	var rows := _vbox(card, 9)
+	_label(rows, "BUILD YOUR TRICK SET", 16, ACCENT)
+	var directions := "%s forward · %s back · %s left · %s right" % [
+		_prompt_for("push", "W"), _prompt_for("brake", "S"),
+		_prompt_for("steer_left", "A"), _prompt_for("steer_right", "D")]
+	var guide_lines: Array[String] = [
+		directions,
+		"In the air, choose a direction and tap %s for a flip or hold %s for a grab. Diagonals select more tricks. Release a grab before the next flip." % [_prompt_for("flip", "J"), _prompt_for("grab", "K")],
+		"Complete a flip, then tap again to build your line. Holding the button never repeats it. Repeating a trick earns fewer points; mix your set.",
+		"Choose a direction as you catch a rail with %s to select a grind or slide. Balance with %s / %s; release or %s to jump off." % [_prompt_for("grind", "L"), _prompt_for("steer_left", "A"), _prompt_for("steer_right", "D"), _prompt_for("ollie", "SPACE")],
+		"Press %s just before landing and hold to link a manual; forward selects a nose manual. Balance with %s / %s and ollie into your next trick." % [_prompt_for("manual", "M"), _prompt_for("push", "W"), _prompt_for("brake", "S")],
+		"After landing, use %s for a revert, then manual or ollie before the link timer ends. A revert alone does not keep the combo open." % _prompt_for("revert", "C"),
+		"Hold %s / %s for frontside / backside spins. Bank a varied combo to charge your original specials." % [_prompt_for("spin_left", "Q"), _prompt_for("spin_right", "E")],
+	]
+	for text: String in guide_lines:
+		var line := _label(rows, text, 17, PAPER)
+		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		line.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	var directory := _card()
+	content.add_child(directory)
+	var directory_rows := _vbox(directory, 10)
+	_label(directory_rows, "DIRECTION  /  FLIP · GRAB · RAIL", 15, ACCENT)
+	var direction_actions := {
+		"neutral": [], "north": ["push"], "south": ["brake"],
+		"west": ["steer_left"], "east": ["steer_right"],
+		"north_west": ["push", "steer_left"], "north_east": ["push", "steer_right"],
+		"south_west": ["brake", "steer_left"], "south_east": ["brake", "steer_right"],
+	}
+	for direction: String in direction_actions:
+		var prompts: Array[String] = []
+		for action: String in direction_actions[direction]: prompts.append(_prompt_for(action, action))
+		var selection := "No direction" if prompts.is_empty() else " + ".join(prompts)
+		var names: Array[String] = []
+		for family: String in ["flip", "grab", "grind"]:
+			names.append(str(TrickCatalog.resolve(family, direction).get("display_name", "")))
+		var row := _label(directory_rows, "%s  /  %s" % [selection, "  ·  ".join(names)], 17, PAPER)
+		row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		row.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 
 
 func _slider(parent: Node, title: String, key: String, minimum: float, maximum: float, step: float, fallback: float) -> void:

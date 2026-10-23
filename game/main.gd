@@ -97,6 +97,7 @@ func _ready() -> void:
 	skater.set_grind_lines(world.get_grind_lines())
 	market_encounter.set_carrier(skater.get_node("SkaterVisual/Rider"))
 	skater.trick_performed.connect(_on_trick)
+	skater.hold_points_awarded.connect(_on_hold_points)
 	skater.grind_captured.connect(_on_grind_captured)
 	skater.landed.connect(_on_landed)
 	skater.bailed.connect(_on_bailed)
@@ -232,15 +233,20 @@ func toggle_free_skate() -> void:
 func _on_trick(trick_name: String, points: int) -> void:
 	if run_finished:
 		return
-	score.add_trick(trick_name, points)
+	score.add_trick(trick_name, points, skater.last_trick_id)
 	encounters.on_trick(trick_name, points, skater.global_position)
 	market_encounter.on_trick(trick_name, points, skater.global_position)
 	if trick_name == "Ollie": audio.play_event("ollie")
-	elif trick_name == "Rail Grind": audio.play_event("grind")
-	if "flip" in trick_name.to_lower():
+	elif Skater.TrickCatalog.definition(skater.last_trick_id).get("family", "") == "grind": audio.play_event("grind")
+	if Skater.TrickCatalog.definition(skater.last_trick_id).get("family", "") == "flip":
 		_flips += 1
-	if "grab" in trick_name.to_lower() or "indy" in trick_name.to_lower():
+	if Skater.TrickCatalog.definition(skater.last_trick_id).get("family", "") == "grab":
 		_grabs += 1
+
+
+func _on_hold_points(points: int) -> void:
+	if not paused and not run_finished:
+		score.add_hold_points(points)
 
 func _on_grind_captured(rail_id: String) -> void:
 	if paused or run_finished or (not free_skate_mode and time_remaining <= 0.0):
@@ -275,7 +281,7 @@ func _on_bailed() -> void:
 	score.drop_combo()
 	gaps.reset()
 	audio.play_event("bail")
-	_feedback = "BACK ON THE BOARD."
+	_feedback = "BAILED  /  %s LOST" % score.last_dropped_value if score.last_dropped_value > 0 else "BACK ON THE BOARD."
 	_feedback_timer = 2.0
 	encounters.on_bail()
 	cat_encounter.on_bail()
@@ -292,7 +298,8 @@ func _finish_run() -> void:
 	_save_profile()
 	audio.set_motion(0, false, false, "")
 	if _near_npc(): audio.play_bark("again")
-	score.drop_combo()
+	if score.get_combo_value() > 0:
+		score.drop_combo()
 	skater.set_controls_enabled(false)
 	skater.set_physics_process(false)
 
@@ -530,6 +537,12 @@ func _refresh_hud() -> void:
 		"time": time_remaining, "score": score.total_score,
 		"combo": score.get_combo_value(), "multiplier": score.combo_multiplier,
 		"combo_base": score.combo_base,
+		"trick_count": score.combo_trick_count, "last_award": score.last_award,
+		"last_repeat": score.last_repeat, "last_banked_tricks": score.last_banked_tricks,
+		"banked_combo": score.last_banked, "stance": skater.stance,
+		"active_trick": skater.active_trick, "hold_points": skater.hold_points,
+		"grind_name": Skater.TrickCatalog.definition(skater.grind_trick_id).get("display_name", ""),
+		"manual_name": Skater.TrickCatalog.definition(skater.manual_trick_id).get("display_name", "Manual"),
 		"tricks": "  +  ".join(score.trick_history), "best": score.best_combo,
 		"speed": skater.speed, "airborne": skater.airborne,
 		"grinding": skater.grinding, "balance": skater.grind_balance,

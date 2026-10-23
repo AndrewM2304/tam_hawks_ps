@@ -2,6 +2,7 @@ extends RefCounted
 ## Real terrain motion, curved coping and river recovery. Initial fixtures may
 ## relocate the spawn; after restart, only production physics moves the rider.
 ## Grounded heading is aimed directly: this is idealized feasibility, not feel.
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	var original_spawn: Vector3 = game.skater.spawn_position
@@ -130,11 +131,20 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 	var start: Vector3 = target - tangent * 20.0
 	start.y = 2.8
 	await _reset_at(tree, game, start)
-	var evidence := {"bails": 0, "names": []}
+	var evidence := {"bails": 0, "names": [], "entries": [], "capture_ids": [],
+		"hold_points": 0, "hold_valid": true}
 	var on_bail := func(): evidence.bails += 1
-	var on_trick := func(title: String, _points: int): evidence.names.append(title)
+	var on_trick := func(title: String, points: int):
+		evidence.names.append(title)
+		evidence.entries.append({"id": game.skater.last_trick_id, "title": title, "points": points})
+	var on_hold := func(points: int):
+		evidence.hold_points += points
+		evidence.hold_valid = evidence.hold_valid and points > 0 and points % 25 == 0 and game.skater.grinding
+	var on_capture := func(id: String): evidence.capture_ids.append(id)
 	game.skater.bailed.connect(on_bail)
 	game.skater.trick_performed.connect(on_trick)
+	game.skater.hold_points_awarded.connect(on_hold)
+	game.skater.grind_captured.connect(on_capture)
 	var launched := false
 	var captured := false
 	for frame in range(240):
@@ -177,20 +187,47 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 		await _frames(tree, 12)
 		connected = game.score.total_score == 0 and game.skater.manual_active
 	check.call(captured and manual_entered and connected and evidence.bails == 0
-		and evidence.names.count("Ollie") == 2 and evidence.names.count("Rail Grind") == 1
-		and evidence.names.has("Kickflip") and evidence.names.has("Melon Grab") and evidence.names.count("Manual") == 1,
+		and evidence.capture_ids == [ledge.id] and evidence.entries.size() == 6
+		and evidence.names == ["Ollie", TrickCatalog.resolve("grind", "north").display_name,
+			"Ollie", "Kickflip", "Melon Grab", "Manual"],
 		"topography: actual yard ollie capture rail-ollie air tricks and manual stay in one unbanked line")
 	_release()
 	await _frames(tree, 30)
 	var banked: int = game.score.total_score
 	await _frames(tree, 30)
-	check.call(evidence.bails == 0 and banked == 5000 and game.score.total_score == banked
+	var earned := _earned_combo(evidence)
+	check.call(evidence.bails == 0 and earned.valid and evidence.hold_valid
+		and evidence.hold_points >= 0 and evidence.hold_points <= 300
+		and earned.multiplier == 5 and banked == earned.value and game.score.total_score == banked
 		and game.score.get_combo_value() == 0,
-		"topography: new local rail-air-manual route banks its exact repeated-trick combo once")
-	print("TOPOGRAPHY localcombo captured=%s manual=%s connected=%s bank=%d bails=%d tricks=%s" % [
-		captured, manual_entered, connected, banked, evidence.bails, evidence.names])
+		"topography: local rail-air-manual route banks its independently calculated entries and bounded holds once")
+	print("TOPOGRAPHY localcombo captured=%s manual=%s connected=%s bank=%d entry_base=%d hold_points=%d multiplier=%d earned=%d bails=%d tricks=%s" % [
+		captured, manual_entered, connected, banked, earned.entry_base, evidence.hold_points,
+		earned.multiplier, earned.value, evidence.bails, evidence.names])
 	game.skater.bailed.disconnect(on_bail)
 	game.skater.trick_performed.disconnect(on_trick)
+	game.skater.hold_points_awarded.disconnect(on_hold)
+	game.skater.grind_captured.disconnect(on_capture)
+
+
+## Calculate the receipt from raw production events and catalog rules, without
+## consulting ScoreSession's accumulated base, repetitions or multiplier.
+static func _earned_combo(evidence: Dictionary) -> Dictionary:
+	var repetitions: Dictionary = {}
+	var entry_base := 0
+	var valid := true
+	for entry: Dictionary in evidence.entries:
+		var definition := TrickCatalog.definition(str(entry.id))
+		if definition.is_empty():
+			valid = false
+			continue
+		valid = valid and entry.title == definition.display_name and entry.points == definition.base_points
+		var count := int(repetitions.get(entry.id, 0))
+		entry_base += maxi(1, int(float(definition.base_points) / pow(2.0, mini(count, 4))))
+		repetitions[entry.id] = count + 1
+	var multiplier := mini(repetitions.size(), 8)
+	return {"valid": valid, "entry_base": entry_base, "multiplier": multiplier,
+		"value": (entry_base + int(evidence.hold_points)) * multiplier}
 
 
 static func _court_routes(tree: SceneTree, game: Node, check: Callable) -> void:
@@ -234,9 +271,13 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 	var start: Vector3 = contact - tangent * 20.0
 	start.y = game.world.get_ground_height(start) + 0.8
 	await _reset_at(tree, game, start)
-	var state := {"bails": 0}
+	var state := {"bails": 0, "capture_ids": [], "tricks": []}
 	var on_bail := func(): state.bails += 1
+	var on_capture := func(id: String): state.capture_ids.append(id)
+	var on_trick := func(title: String, _points: int): state.tricks.append(title)
 	game.skater.bailed.connect(on_bail)
+	game.skater.grind_captured.connect(on_capture)
+	game.skater.trick_performed.connect(on_trick)
 	var jumped := false
 	var captured := false
 	for frame in range(240):
@@ -258,7 +299,8 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_release("steer_left")
 	Input.action_release("steer_right")
 	check.call(captured and jumped and game.score.trick_history.has("Ollie")
-		and game.score.trick_history.count("Rail Grind") == 1,
+		and state.capture_ids == [coping.id]
+		and state.tricks == ["Ollie", TrickCatalog.resolve("grind", "north").display_name],
 		"topography: real ground approach and descending ollie capture fountain coping")
 	if captured:
 		var initial_heading: float = game.skater.rotation.y
@@ -284,8 +326,11 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 	else:
 		check.call(false, "topography: curved grind follows changing tangent without cutting through the fountain")
 		check.call(false, "topography: released curved coping lands and banks once without a bail")
-	print("TOPOGRAPHY fountain captured=%s bails=%d position=%s" % [captured, state.bails, game.skater.global_position])
+	print("TOPOGRAPHY fountain captured=%s bails=%d position=%s captures=%s tricks=%s" % [
+		captured, state.bails, game.skater.global_position, state.capture_ids, state.tricks])
 	game.skater.bailed.disconnect(on_bail)
+	game.skater.grind_captured.disconnect(on_capture)
+	game.skater.trick_performed.disconnect(on_trick)
 	_release()
 
 

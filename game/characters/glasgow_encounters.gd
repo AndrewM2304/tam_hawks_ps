@@ -3,6 +3,7 @@ extends Node3D
 ## this node never awards score, changes career saves or manufactures trick events.
 
 const BuskerActor = preload("res://game/characters/busker_actor.gd")
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const ENCOUNTER_ID := "busker_big_finish"
 const ATTEMPT_SECONDS := 35.0
 const INTERACT_RADIUS := 4.2
@@ -183,6 +184,14 @@ func _sync_actor() -> void:
 
 func _trick_family(trick_name: String) -> String:
 	var lower := trick_name.strip_edges().to_lower()
+	# Display callbacks are kept compatible with existing encounter callers, but
+	# authored family metadata also covers tricks such as Pop Shove-it and slides
+	# whose names do not contain "flip" or "grind".
+	for entry: Dictionary in TrickCatalog.DEFINITIONS:
+		if str(entry.display_name).to_lower() == lower:
+			var family := str(entry.family)
+			if family == "launch": return "ollie"
+			return family if family in ["flip", "grab", "grind", "manual", "revert", "spin", "special"] else ""
 	if lower == "ollie": return "ollie"
 	if "flip" in lower: return "flip"
 	if "grab" in lower or "indy" in lower: return "grab"

@@ -4,6 +4,7 @@ extends RefCounted
 ## velocity, capture, trick, score or bank is injected into the physical route.
 const CatSource = preload("res://game/characters/cat_encounter.gd")
 const CareerSource = preload("res://game/progression/career_progress.gd")
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const RAIL_IDS := ["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"]
 
 
@@ -157,15 +158,23 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 	_actor_structure(game.cat_encounter.get_node("RaeBinBusker"), check)
 	var completed: Array = game.career.completed_ids.duplicate()
 	var record: int = game.career.best_score
-	var evidence := {"ids": [], "positions": [], "tricks": [], "bails": 0, "states": []}
+	var evidence := {"ids": [], "positions": [], "tricks": [], "trick_ids": [],
+		"entry_points": [], "hold_points": 0, "hold_awards": [], "bails": 0, "states": []}
 	var on_capture := func(id: String):
 		evidence.ids.append(id)
 		evidence.positions.append(game.skater.global_position)
 		evidence.states.append(game.cat_encounter.status_snapshot().sequence_index)
-	var on_trick := func(title: String, _points: int): evidence.tricks.append(title)
+	var on_trick := func(title: String, points: int):
+		evidence.tricks.append(title)
+		evidence.trick_ids.append(game.skater.last_trick_id)
+		evidence.entry_points.append(points)
+	var on_hold := func(points: int):
+		evidence.hold_points += points
+		evidence.hold_awards.append(points)
 	var on_bail := func(): evidence.bails += 1
 	game.skater.grind_captured.connect(on_capture)
 	game.skater.trick_performed.connect(on_trick)
+	game.skater.hold_points_awarded.connect(on_hold)
 	game.skater.bailed.connect(on_bail)
 	await _interact(tree)
 	check.call(game.cat_encounter.status_snapshot().state == "active"
@@ -225,9 +234,10 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 		await _frames(tree, 1)
 	_release()
 	var banked: int = game.score.total_score
+	var earned := _earned_score(evidence)
 	check.call(captured and evidence.bails == 0 and game.cat_encounter.status_snapshot().state == "success"
-		and game.cat_encounter.status_snapshot().wins == 1 and banked == 1050
-		and evidence.tricks.count("Ollie") == 3 and evidence.tricks.count("Rail Grind") == 3,
+		and game.cat_encounter.status_snapshot().wins == 1 and earned.valid and banked == earned.points
+		and evidence.trick_ids.count("ollie") == 3 and earned.grinds == 3,
 		"cat integration: actual final release and landing bank complete the sequence with only earned trick points")
 	await _frames(tree, 30)
 	check.call(game.cat_encounter.status_snapshot().wins == 1 and game.score.total_score == banked
@@ -240,7 +250,34 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 		evidence.bails, game.cat_encounter.status_snapshot().state, game.cat_encounter.status_snapshot().remaining])
 	game.skater.grind_captured.disconnect(on_capture)
 	game.skater.trick_performed.disconnect(on_trick)
+	game.skater.hold_points_awarded.disconnect(on_hold)
 	game.skater.bailed.disconnect(on_bail)
+
+
+static func _earned_score(evidence: Dictionary) -> Dictionary:
+	# Reconstruct the exact bank from real entry/hold signals rather than reading
+	# ScoreSession's intermediate state or assuming every capture is neutral.
+	# Forward input now legitimately selects a nosegrind, and time spent riding
+	# earns capped duration points without creating another entry or multiplier.
+	var repetitions: Dictionary = {}
+	var base: int = evidence.hold_points
+	var valid: bool = evidence.trick_ids.size() == 6 and evidence.entry_points.size() == 6
+	var grinds := 0
+	for index in evidence.trick_ids.size():
+		var id: String = evidence.trick_ids[index]
+		var definition := TrickCatalog.definition(id)
+		var points: int = evidence.entry_points[index]
+		var family: String = definition.get("family", "")
+		valid = valid and not definition.is_empty() and points > 0 \
+			and points == int(definition.get("base_points", 0)) and family in ["launch", "grind"]
+		if family == "grind": grinds += 1
+		var previous: int = repetitions.get(id, 0)
+		base += maxi(1, int(float(points) / pow(2.0, mini(previous, 4))))
+		repetitions[id] = previous + 1
+	for points: int in evidence.hold_awards:
+		valid = valid and points > 0 and points % 25 == 0 and points <= 300
+	valid = valid and evidence.hold_points >= 0 and evidence.hold_points <= grinds * 300
+	return {"valid": valid, "points": base * mini(repetitions.size(), 8), "grinds": grinds}
 
 
 static func _payoff(tree: SceneTree, game: Node, check: Callable) -> void:
@@ -261,21 +298,38 @@ static func _payoff(tree: SceneTree, game: Node, check: Callable) -> void:
 	var trigger_visible := false
 	var trigger_distance := INF
 	var return_frames := 0
-	# Return through the real gap between B and C. No camera transform or
-	# visibility flag is assigned: production main queries its chase camera.
+	var return_path: Array[Dictionary] = []
+	var cleared_coping := false
+	# A late C capture can carry the release beyond the plinth's east end.
+	# First reach the clear north corridor; a direct diagonal from that apron
+	# would correctly hit the coping's vertical face. Then return through the
+	# B/C gap. Production input and the chase camera own all movement/visibility.
 	for frame in range(240):
-		var offset := Vector3(4.0 - game.skater.global_position.x, 0.0,
-			-93.0 - game.skater.global_position.z)
+		if game.skater.is_on_floor() and game.skater.global_position.z <= -92.8:
+			cleared_coping = true
+		var offset := Vector3(4.0 - game.skater.global_position.x if cleared_coping else 0.0,
+			0.0, -93.0 - game.skater.global_position.z)
 		_aim(game.skater, offset)
 		Input.action_press("push")
 		await _frames(tree, 1)
 		return_frames += 1
+		if frame % 30 == 0:
+			var obstacles: Array[String] = []
+			for index in game.skater.get_slide_collision_count():
+				var hit = game.skater.get_slide_collision(index)
+				obstacles.append(str(hit.get_collider().get_path()))
+			return_path.append({"frame": frame, "position": game.skater.global_position,
+				"speed": game.skater.speed, "grounded": game.skater.is_on_floor(),
+				"visible": camera.is_position_in_frustum(stage_point), "obstacles": obstacles})
 		if game.cat_encounter.status_snapshot().celebration_started:
 			trigger_visible = camera.is_position_in_frustum(stage_point)
 			var relative: Vector3 = game.skater.global_position - anchor
 			trigger_distance = Vector2(relative.x, relative.z).length()
 			break
 	_release()
+	if not game.cat_encounter.status_snapshot().celebration_started:
+		print("CAT return failure path=%s camera=%s viewport=%s" % [return_path,
+			camera.global_position, camera.get_viewport().get_visible_rect().size])
 	check.call(game.cat_encounter.status_snapshot().celebration_started and actor.animation_snapshot().dance_active
 		and trigger_visible and trigger_distance <= 10.0 and game.cat_encounter.status_snapshot().wins == 1
 		and game.score.total_score == banked,
