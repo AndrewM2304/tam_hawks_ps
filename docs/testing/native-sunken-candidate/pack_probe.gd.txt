@@ -1,0 +1,109 @@
+extends SceneTree
+## Read-only source/PCK construction comparison. This never launches a Mac app
+## and does not substitute for actual gameplay, capture or hardware acceptance.
+const REQUIRED_MODULES: Array[String] = [
+	"res://game/features/feature_hub.gd", "res://game/features/service_gate.gd",
+	"res://game/features/cone_stunt.gd", "res://game/features/lap_challenge.gd",
+	"res://game/features/skate_vehicle.gd", "res://game/player/skitch_ride.gd",
+	"res://game/levels/bowl_feature.gd", "res://game/levels/spine_feature.gd",
+	"res://game/levels/sunken_bowl_feature.gd", "res://game/levels/kelvingrove_skatepark.gd",
+]
+func _initialize() -> void:
+	call_deferred("_run")
+func _run() -> void:
+	for path: String in REQUIRED_MODULES:
+		if not load(path) is GDScript:
+			_fail("Missing packaged module: " + path)
+			return
+	var scene := load("res://game/main.tscn") as PackedScene
+	if scene == null:
+		_fail("Missing main scene")
+		return
+	var game := scene.instantiate()
+	root.add_child(game)
+	for frame in 2:
+		await physics_frame
+		await process_frame
+	if game.persistence_enabled:
+		game.free()
+		_fail("Package probe must not write a player profile")
+		return
+	var goals: Array[String] = []
+	for goal: Dictionary in game.career.goals_snapshot(): goals.append(str(goal.id))
+	goals.sort()
+	if goals.size() != 10:
+		game.free()
+		_fail("Expected the preserved ten career goals")
+		return
+	var ids: Array[String] = game.skater.TrickCatalog.ids()
+	ids.sort()
+	for id: String in ["nollie","boneless","no_comply","wallride","wallie","skitch"]:
+		if not ids.has(id):
+			game.free()
+			_fail("Missing current trick definition: " + id)
+			return
+	var hub: Node3D = game.feature_hub
+	var features: Dictionary = hub.definitions_snapshot()
+	if features.service_route.id != "service_gate_shortcut" or features.service_route.enabled \
+		or features.cone.id != "cone_on_a_cruise" or features.cone.state != "idle" \
+		or features.lap.id != "one_more_lap" or features.lap.branches.size() != 2 \
+		or not hub.cone_stunt.cone is RigidBody3D or not hub.cone_stunt.cone.freeze \
+		or not hub.vehicle.is_in_group("skate_vehicles"):
+		game.free()
+		_fail("Packaged Main did not construct the current activities in their ordinary initial state")
+		return
+	var routes: Array[String] = []
+	for route: Dictionary in game.world.get_route_definitions(): routes.append(str(route.id))
+	routes.sort()
+	var grinds: Array[String] = []
+	for line in game.world.get_grind_lines(): grinds.append(str(line.id))
+	grinds.sort()
+	var checkpoints: Array = game.world.get_district_checkpoints().keys()
+	checkpoints.sort()
+	if not game.world.has_method("get_park_skatepark_definition"):
+		game.free()
+		_fail("Packaged World lacks the current sunken skatepark integration")
+		return
+	var facility: Dictionary = game.world.get_park_skatepark_definition()
+	if facility.get("id","") != "kelvingrove_sunken_skatepark" \
+			or facility.get("bounds") != Rect2(-227.5,-202.5,40,30) \
+			or not routes.has("kelvingrove_summit_skatepark"):
+		game.free()
+		_fail("Packaged World lacks the agreed facility bounds or summit approach")
+		return
+	var native_bowl_floors: Array = []
+	for center: Vector3 in [Vector3(-197,11,-194),Vector3(-219,13,-195)]:
+		var height: float = game.world.get_support_height(center,0.1)
+		var ray := PhysicsRayQueryParameters3D.create(center+Vector3.UP*8.0,center-Vector3.UP,1)
+		var hit: Dictionary = game.world.get_world_3d().direct_space_state.intersect_ray(ray)
+		if not is_finite(height) or absf(height-center.y)>0.02 or hit.is_empty() \
+				or absf(float(hit.position.y)-center.y)>0.02:
+			game.free()
+			_fail("Packaged bowl is filled by old hill/deck collision or lacks its actual floor")
+			return
+		native_bowl_floors.append({"center":[center.x,center.y,center.z],
+			"query_y":snappedf(height,0.00001),"native_y":snappedf(hit.position.y,0.00001)})
+	var branches: Array[String] = []
+	for branch: Dictionary in features.lap.branches: branches.append(str(branch.id))
+	branches.sort()
+	var report := {"main_scene_loaded":true,"loaded_modules":REQUIRED_MODULES,
+		"career_goal_ids":goals,"catalog_ids":ids,"checkpoint_ids":checkpoints,
+		"authored_route_ids":routes,"grind_ids":grinds,
+		"sunken_skatepark":{"id":str(facility.id),"bounds":[-227.5,-202.5,40,30],
+			"rim_y":float(facility.rim_y),"native_bowl_floors":native_bowl_floors},
+		"activities":{"service_route":str(features.service_route.id),"gate_closed":not features.service_route.enabled,
+			"cone_id":str(features.cone.id),"native_cone":true,"lap_id":str(features.lap.id),
+			"lap_branches":branches,"native_vehicle":true},
+		"construction_only":true,"macos_launch_tested":false,"target_hardware_acceptance":false}
+	game.free()
+	var output := FileAccess.open(OS.get_cmdline_user_args()[0],FileAccess.WRITE)
+	if output == null:
+		_fail("Cannot write package construction report")
+		return
+	output.store_string(JSON.stringify(report,"\t")+"\n")
+	output.close()
+	print("CURRENT PACK CONSTRUCTION PASS: current modules, Main activities, catalog, career and authored routes")
+	quit(0)
+func _fail(message: String) -> void:
+	push_error(message)
+	quit(1)

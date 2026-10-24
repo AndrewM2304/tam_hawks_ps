@@ -1,5 +1,10 @@
 # Active full-fidelity continuation — 24 October 2026
 
+**Delivery correction:** default has72 newer commits absent from work. Pause;
+read[DEFAULT-BRANCH-RECONCILIATION](DEFAULT-BRANCH-RECONCILIATION.md). Existing work
+receipts do not verify a combined game. No default merge/update was authorized by
+the earlier no-merge instruction. Owner's25% testing reserve still applies.
+
 ## Candidate checkpoint —24October2026
 
 Final ordinary suite:3,081/0,542.31s,327 unchanged inputs and clean logs.

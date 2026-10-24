@@ -1,0 +1,1 @@
+First native smoke: headless normal boot exited0; rendered1920x1080/30-frame launch exceeded its unchanged90-second cap on local software GL with no script/resource errors. Retry uses LP_NUM_THREADS=4, matching proven source-render environment; no game or script edits, no resolution/frame-count reduction. This is not a target performance result.

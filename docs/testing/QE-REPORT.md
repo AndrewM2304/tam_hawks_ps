@@ -1,5 +1,10 @@
 # Integrated QE report — trick fidelity
 
+**Delivery hold:** this candidate is from stale`work`, missing72 commits on
+current default. Existing passes do not apply to the combined game. See
+[reconciliation](../planning/DEFAULT-BRANCH-RECONCILIATION.md) and the
+[work-only native audit/failed rendered smoke](native-sunken-candidate/README.md).
+
 23 October 2026. Final `./tools/check.sh`: **1,489 passed / 0 failed**, exit 0,
 clean import/test error scans. [Source receipt](logs/trick-fidelity-source.json)
 and [full log](logs/trick-fidelity-final.log) bind the final implementation.

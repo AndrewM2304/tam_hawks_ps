@@ -1,5 +1,10 @@
 # Sunken-park manual-test candidate
 
+**Delivery hold:** this candidate is from stale`work`, missing72 commits on
+current default. Existing passes do not apply to the combined game. See
+[reconciliation](../planning/DEFAULT-BRANCH-RECONCILIATION.md) and the
+[work-only native audit/failed rendered smoke](native-sunken-candidate/README.md).
+
 24 October 2026. The owner reports34% weekly usage remaining and reserves25%
 for bugs found in manual testing. This delivery is a tested candidate, not
 FULL_FIDELITY_ACCEPTED. Hourly autonomous continuation is paused. The complete

@@ -1,5 +1,10 @@
 # Local native exports
 
+**Delivery hold:** this candidate is from stale`work`, missing72 commits on
+current default. Existing passes do not apply to the combined game. See
+[reconciliation](../planning/DEFAULT-BRANCH-RECONCILIATION.md) and the
+[work-only native audit/failed rendered smoke](native-sunken-candidate/README.md).
+
 **Latest checkpoint:** the Exchange/gallery entrance and west seating pass is packaged from clean runtime `00da63a29990c0839cf15d4c9a34edc2fc167122`; see the final section and [native-exchange-gallery receipts](native-exchange-gallery/README.md). Earlier native checkpoints remain historical.
 
 `tools/export.sh` prepares repeatable, unsigned local packages for Linux x86_64 and macOS universal (arm64 + x86_64). It uses free official Godot 4.6.3 templates and never signs, notarizes, uploads, publishes or calls a paid service. A successful cross-export does not establish that the game launches or performs acceptably on a Mac.

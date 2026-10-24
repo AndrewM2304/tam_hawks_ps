@@ -1,3 +1,20 @@
+# Delivery correction — stale branch requires reconciliation
+
+The owner correctly identified that`work` is6 commits ahead and72 behind default
+`bootstrap/m00-m01`. Root failed to fetch/compare before implementation/push.
+The pushed3081/0 source is not an integrated up-to-date game. Default is intact.
+[Exact branches, conflicts and safe resumption](planning/DEFAULT-BRANCH-RECONCILIATION.md).
+No default update or history merge has been performed. Pause for explicit direction
+on updating default, respecting the owner's earlier no-merge instruction and25%
+manual-test reserve. Do not resume automatic work or claim completion.
+
+The work-only Mac/Linux archive audit passes, but the Linux rendered native smoke
+has two90-second timeouts; headless startup passes. [Exact evidence](testing/native-sunken-candidate/README.md).
+Prior source/still/cold passes remain valid only for their named work source.
+Everything below predates this delivery correction.
+
+---
+
 # Current delivery — sunken park manual-test candidate
 
 24October2026. Latest owner instruction authorizes pushing the tested source
