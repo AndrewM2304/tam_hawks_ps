@@ -1,3 +1,51 @@
+# Clyde bowl sunk into the quay —24October2026
+
+Owner-requested BOWL-01 is implemented on `review/owner-playtest-20261024`:
+ClydeEastBowl bottomY−0.4/rimY2, real excavation of both quay/yard surfaces,
+external ramp/landing removed and existing quay paving on its deck. Stable
+bowl/coping IDs, dimensions and skating impulses are preserved. Other owner
+recording defects remain open. [Task](planning/CLYDE-BOWL-2026-10-24.md),
+[ADR-030](architecture/decisions/ADR-030-clyde-bowl-excavation.md),
+[exact evidence and images](testing/clyde-sunken-bowl-2026-10-24/README.md).
+
+Focused **50/0**, clean/frozen:330 native pit samples agree with support to
+0.0000079m;53 exterior/through-lane contacts retainY2; actual outside approach and
+30.231m supported bowl lap pass. Two removed bodies give557/1653 total native
+bodies/shapes, protected271/720 unchanged. Startup paving addition136triangles
+within1024 budget, no added texture/material/draw surface/body or per-frame mesh.
+Actual1152×720 before/after PNGs inspected. Static p50/p95/p99 ms:6.730/11.517/11.645
+before,5.892/11.468/11.900 after; zero >33.333ms frames in120 samples each.
+Draws119→115, primitives82014→82210, texture bytes47623163 unchanged, video bytes
+74388043→74396803. These are limited static Mac diagnostics; moving stutter,
+uncontended performance, physical controller, export and owner feel stay open.
+
+Required check **4521 passed/20 failed**, exit1, clean import,514 frozen inputs.
+It is REJECTED as a full-game pass. Independent unchanged `d00965a` archive:
+**4517/20**, exit1,514 frozen inputs; all513 repository inputs independently match
+HEAD. Exact20 failure labels match: ramp camera, repeated flip, named grind sole
+contact, Kelvingrove lip clearance, rail pivot and two compact Clyde return routes.
+First candidate4519/22 is retained/rejected; two stale inventory assertions were
+corrected for actual removal of the raised access bodies. No production behavior
+was changed to hide failures. Both complete functional runs used fixed60Hz and
+ran concurrently; they supply no performance evidence. Baseline is a temporary
+source archive, not a worktree. No claim that these existing defects are fixed.
+
+Commands, with `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot`:
+`python3 docs/testing/horizon-background/observers/run_checked.py .local/clyde-sunken-bowl/required-02 ./tools/check.sh`;
+focused recipe via `./tools/run.sh --headless --fixed-fps 60 --script .local/clyde-sunken-bowl/focused.gd`;
+native before/after via `BOWL_CAPTURE_OUTPUT=<output> ./tools/run.sh --rendering-method gl_compatibility --windowed --resolution 1280x720 --audio-driver Dummy --script .local/clyde-sunken-bowl/capture.gd`, each under the same receipt wrapper.
+All loaded recipes, exact commands, retained failure logs, source receipts,
+comparison and artifact hashes are linked above. All75 original backlog bodies
+remain unchanged. No downloaded assets, purchase, push, hosted CI, export or
+background agent loop. All diagnostics finished.
+
+Resume with owner playtest of this flush bowl. Preserve this bounded change;
+continue the explicit recording defects PLAYTEST-01…06 when requested and retain
+the20 baseline failures as open regression work. Do not resume unrelated broad
+polish/audits or hourly continuation; preserve the owner's manual-test reserve.
+
+---
+
 # Owner recording review — 24 October 2026
 
 New owner manual-test footage reports leg/body glitches, a blocking Kelvingrove path join, unfinished skatepark surfaces, unintended bowl exits and opening floor lighting shimmer. This authorizes a bounded observed-bug review; broad feature work/automatic continuation remain paused under the testing reserve. [Prioritized PLAYTEST-01…06 repairs](planning/OWNER-PLAYTEST-2026-10-24.md), [timestamped findings/native evidence](testing/owner-playtest-2026-10-24/README.md), [video/source/artifact manifest](testing/owner-playtest-2026-10-24/review-manifest.json).

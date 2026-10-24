@@ -1,0 +1,42 @@
+"""Bound a diagnostic and bind its log to all game/test/tool inputs."""
+from pathlib import Path
+from datetime import datetime
+from zoneinfo import ZoneInfo
+import hashlib, json, os, re, signal, subprocess, sys, time
+root=Path.cwd(); out=Path(sys.argv[1]).resolve(); out.mkdir(parents=True,exist_ok=True)
+command=sys.argv[2:]
+command_inputs=[Path(arg).resolve() for arg in command if Path(arg).suffix in ('.py','.sh','.gd') and Path(arg).is_file() and Path(arg).resolve().is_relative_to(root)]
+def fingerprint():
+    paths=[root/'project.godot']
+    paths += [p for name in ('game','tests','tools') for p in (root/name).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+    paths += [Path(__file__).resolve()]
+    paths += command_inputs
+    paths=list(set(paths))
+    return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
+def write(name,data): (out/name).write_text(json.dumps(data,indent=2)+'\n')
+before=fingerprint();write('source-before.json',before)
+start=datetime.now(ZoneInfo('Europe/London')).isoformat();wall=time.monotonic()
+env=dict(os.environ,COMPACT_CLYDE_LINES_OUTPUT=str(out/'lines'))
+with (out/'console.log').open('w') as log:
+    child=subprocess.Popen(command,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+    def stop(*_):
+        if child.poll() is None:
+            os.killpg(child.pid,signal.SIGTERM)
+            try: child.wait(timeout=10)
+            except subprocess.TimeoutExpired: os.killpg(child.pid,signal.SIGKILL);child.wait(timeout=5)
+        raise SystemExit('Bounded diagnostic stopped')
+    signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
+    try: code=child.wait(timeout=2400)
+    except subprocess.TimeoutExpired: stop()
+after=fingerprint();write('source-after.json',after)
+log=(out/'console.log').read_text()
+counts=re.findall(r'RESULT: (\d+) passed, (\d+) failed',log)
+clean=not any(word in log for word in ('SCRIPT ERROR','ERROR:','FAIL:','Parse Error'))
+receipt={'started_london':start,'completed_london':datetime.now(ZoneInfo('Europe/London')).isoformat(),
+         'wall_seconds':time.monotonic()-wall,'command':command,'exit_code':code,
+         'source_inputs':len(before),'source_stable':before==after,'clean_log':clean,
+         'result_counts':counts,'valid':code==0 and before==after and clean,
+         'source_manifest_sha256':hashlib.sha256((out/'source-before.json').read_bytes()).hexdigest(),
+         'git_head':'d00965a4ee1e0be6f0d5202c284edd1bb70ebf34'}
+write('receipt.json',receipt);print(json.dumps(receipt,indent=2),flush=True)
+raise SystemExit(0 if receipt['valid'] else 1)

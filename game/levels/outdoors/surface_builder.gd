@@ -113,6 +113,48 @@ static func trim_visual_rect(body: StaticBody3D, bounds: Rect2) -> void:
 		visual.mesh=output.commit()
 
 
+## Startup-only excavation of flat, identity-transform terrain. The convex cut
+## crosses the small source triangles; it must not fit wholly inside one face.
+## Display and collision are independent so earlier display-only trims survive.
+static func excavate_flat(body: StaticBody3D, mouth: PackedVector2Array, deck: PackedVector2Array) -> void:
+	assert(body.transform.is_equal_approx(Transform3D.IDENTITY))
+	for child: Node in body.get_children():
+		if child is CollisionShape3D and child.shape is ConcavePolygonShape3D:
+			child.shape.set_faces(_subtract_flat_faces(child.shape.get_faces(),mouth))
+		elif child is MeshInstance3D:
+			var before: int = child.mesh.get_faces().size()/3
+			var output := SurfaceTool.new()
+			output.begin(Mesh.PRIMITIVE_TRIANGLES)
+			for point: Vector3 in _subtract_flat_faces(child.mesh.get_faces(),deck):
+				output.set_normal(Vector3.UP)
+				output.set_uv(Vector2(point.x,point.z)*0.2)
+				output.add_vertex(point)
+			output.generate_tangents()
+			child.mesh = output.commit()
+			body.set_meta("excavation_added_visual_triangles",child.mesh.get_faces().size()/3-before)
+
+
+static func _subtract_flat_faces(faces: PackedVector3Array, clip: PackedVector2Array) -> PackedVector3Array:
+	var result := PackedVector3Array()
+	for index in range(0,faces.size(),3):
+		var a := faces[index]
+		var b := faces[index+1]
+		var c := faces[index+2]
+		assert(absf(a.y-b.y)<0.00001 and absf(a.y-c.y)<0.00001)
+		var triangle := PackedVector2Array([Vector2(a.x,a.z),Vector2(b.x,b.z),Vector2(c.x,c.z)])
+		for polygon: PackedVector2Array in Geometry2D.clip_polygons(triangle,clip):
+			var indices := Geometry2D.triangulate_polygon(polygon)
+			for at in range(0,indices.size(),3):
+				var corners := PackedVector3Array()
+				for corner in 3:
+					var p := polygon[indices[at+corner]]
+					corners.append(Vector3(p.x,a.y,p.y))
+				if (corners[1]-corners[0]).cross(corners[2]-corners[0]).y>0:
+					var swap := corners[1]; corners[1]=corners[2]; corners[2]=swap
+				result.append_array(corners)
+	return result
+
+
 ## Exact footprint and triangle-plane height of the paired ribbon vertices.
 ## A nearest-centreline radius invents support beyond inside corners and gives
 ## wrong side heights on a graded bend, even when the mesh itself is sound.

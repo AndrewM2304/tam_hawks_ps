@@ -4,6 +4,7 @@ extends Node3D
 
 const Layout = preload("res://game/levels/clyde_layout.gd")
 const Surface = preload("res://game/levels/outdoors/surface_builder.gd")
+var _sunken_bowls: Array[Node3D] = []
 const Vegetation = preload("res://game/levels/outdoors/vegetation.gd")
 const ClydeLandmarks = preload("res://game/levels/art/clyde_landmarks.gd")
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
@@ -197,9 +198,18 @@ func get_location_name(world_position: Vector3) -> String:
 
 
 func get_ground_height(world_x: float, world_z: float) -> float:
+	for bowl: Node3D in _sunken_bowls:
+		var point := Vector3(world_x,bowl.global_position.y,world_z)
+		var at := bowl.to_local(point)
+		if Vector2(at.x,at.z).length()<=bowl.floor_radius+bowl.radius:
+			return bowl.get_surface_height(point)
 	var local := to_local(Vector3(world_x, global_position.y, world_z))
 	var height := _local_ground(local.x, local.z)
 	return NAN if is_nan(height) else to_global(Vector3(local.x, height, local.z)).y
+
+
+func register_sunken_bowl(bowl: Node3D) -> void:
+	_sunken_bowls.append(bowl)
 
 
 func get_support_height(world_point: Vector3,max_step_up: float = 1.0) -> float:

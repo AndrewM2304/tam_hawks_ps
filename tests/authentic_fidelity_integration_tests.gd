@@ -877,7 +877,7 @@ static func _connected_world(tree: SceneTree, game: Node, check: Callable) -> vo
 			break
 		if game.skater.bail_active: break
 	check.call(entered and not game.skater.bail_active and approach_bowl.to_local(game.skater.global_position).z < float(approach_bowl.floor_radius)+float(approach_bowl.radius),
-		"authentic Main: an ordinary outside approach rides the real world roll-in and enters the bowl without fixture motion")
+		"authentic Main: an ordinary outside approach crosses the flush quay rim and enters the bowl without fixture motion")
 	# The circular carve uses one explicit initial contact/momentum fixture, as
 	# a native bowl has no controller pumping assist. There are no later snaps.
 	await _reset(tree, game, SAFE)

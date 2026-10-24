@@ -1,3 +1,21 @@
+## Clyde bowl excavation —24 October2026
+
+[ADR-030](decisions/ADR-030-clyde-bowl-excavation.md): ClydeEastBowl retains its
+identity, dimensions and coping, with bottomY−0.4 and rimY2. `Bowl.build_access`
+now controls its external ramp/landing; default callers retain them. Unported,
+unit-scale yaw-only Bowl exposes `get_surface_height(world_point)` for its exact
+128×90 faceted wall/bottom/deck. OutdoorRoutes registers this one sunken bowl and
+uses that query inside its mouth instead of the old flat quay support. Ordinary
+support step-up filtering remains. The separate ported Kelvingrove bowls keep
+their existing indexed support implementation.
+
+`Surface.excavate_flat(body,mouth,deck)` cuts native and displayed terrain
+independently at startup. Contract: identity local body transform, flat source
+triangles, convex clipping polygons crossing source triangle edges; no enclosed
+polygon hole within one face. Current callers are the two Y2 Clyde grid patches.
+Earlier unrelated display trims survive. No collision layers, skating impulses,
+input actions, career IDs or per-frame mesh construction change.
+
 ## Named grind contact contract — 23 October 2026 automated checkpoint
 
 [ADR-029](decisions/ADR-029-named-grind-contact-contract.md) extends the rail interfaces below. Newest STATUS owns verification and acceptance; this contract does not certify the full grind roster, controller feel or rendering performance.

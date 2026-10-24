@@ -39,7 +39,8 @@ func build(world: Node3D) -> void:
 	bowl.radius = 2.4
 	bowl.floor_radius = 3.5
 	bowl.deck_length = 1.8
-	_transition(bowl,"ClydeEastBowl",Vector3(-7,2,134.5),PI*0.5,"clyde")
+	bowl.build_access = false
+	_transition(bowl,"ClydeEastBowl",Vector3(-7,2-bowl.radius,134.5),PI*0.5,"clyde")
 	var halfpipe := Halfpipe.new()
 	halfpipe.radius = 2.2
 	halfpipe.width = 8.0
@@ -141,14 +142,20 @@ func _transition(feature: Node3D,id: String,at: Vector3,yaw: float,district: Str
 	_world.add_child(feature)
 	_transitions.append(feature)
 	if feature is Bowl:
-		# The raised bowl supplies its real flat bottom at the same quay datum.
-		# Remove only the duplicated paving display beneath that floor; native
-		# ground and every original yard route remain intact.
-		var ground := _world._outdoors.get_node_or_null("ClydePrintYardGround") as StaticBody3D
-		if ground != null:
-			var centre: Vector3 = _world._outdoors.to_local(feature.global_position)
-			var half: float = feature.floor_radius+0.01
-			Surface.trim_visual_rect(ground,Rect2(centre.x-half,centre.z-half,half*2,half*2))
+		var mouth := PackedVector2Array()
+		var deck := PackedVector2Array()
+		for i in feature.AROUND_SEGMENTS:
+			var radial := Vector3(sin(float(i)/feature.AROUND_SEGMENTS*TAU),0,-cos(float(i)/feature.AROUND_SEGMENTS*TAU))
+			var inner: float = feature.floor_radius+feature.radius
+			var p: Vector3 = _world._outdoors.to_local(feature.to_global(radial*inner))
+			mouth.append(Vector2(p.x,p.z))
+			p = _world._outdoors.to_local(feature.to_global(radial*(inner+feature.deck_length)))
+			deck.append(Vector2(p.x,p.z))
+		for ground_id: String in ["ClydePrintYardGround","ClydeSouthQuay"]:
+			Surface.excavate_flat(_world._outdoors.get_node(ground_id),mouth,deck)
+		_world._outdoors.register_sunken_bowl(feature)
+		var deck_visual: MeshInstance3D = feature.get_node("AnnularDeck").get_child(1)
+		deck_visual.material_override = _world._materials["paving"]
 
 
 func _bank_line(id: String,district: String,at: Vector3,pad_width: float,run: float,depth: float,rise: float) -> void:

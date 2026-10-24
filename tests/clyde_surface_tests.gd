@@ -63,6 +63,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		check.call(visible_complete,
 			"Clyde surface separation: exterior graded road remains visibly covered after native clipping " + id)
 	_check_station(world, check)
+	_check_sunken_bowl(world, check)
 	check.call(original_physics_inventory(world),
 		"Surface separation: protected core/benches remain exact and compact total collision stays within its original budget")
 	var diagonal_fraction := 8.0/(102.0-87.5301113256)
@@ -147,14 +148,63 @@ static func original_physics_inventory(world: Node3D) -> bool:
 		if not outdoors.is_ancestor_of(body) and not transitions.is_ancestor_of(body) and not added_body_ids.has(body.get_instance_id()): protected_bodies+=1
 	for shape: CollisionShape3D in shapes:
 		if not outdoors.is_ancestor_of(shape) and not transitions.is_ancestor_of(shape) and not added_shape_ids.has(shape.get_instance_id()): protected_shapes+=1
-	var expected := {"new_bins":{"bodies":4,"shapes":8},"new_composites":{"bodies":33,"shapes":33},
+	var expected := {"new_bins":{"bodies":4,"shapes":8},"new_composites":{"bodies":31,"shapes":31},
 		"new_infill_rail":{"bodies":3,"shapes":3},"new_infill_solids":{"bodies":38,"shapes":38},
 		"new_native_factory":{"bodies":47,"shapes":195}}
 	print("PHYSICS_INVENTORY bodies=%d shapes=%d protected_bodies=%d protected_shapes=%d bench_bodies=%d bench_boxes=%d identified=%s additions=%s court_caps=%d" % [
 		bodies.size(),shapes.size(),protected_bodies,protected_shapes,bench_bodies,bench_shapes.size(),valid,additions,cap_shapes])
 	return valid and identities.size()==12 and bench_bodies==12 and bench_shapes.size()==44 \
 		and protected_bodies==271 and protected_shapes==720 and additions==expected and cap_shapes==2 \
-		and bodies.size()==559 and shapes.size()==1655 # +one actual outdoor Hubba steel body/shape.
+		and bodies.size()==557 and shapes.size()==1653 # Owner removed two raised Clyde bowl access bodies.
+
+
+static func _check_sunken_bowl(world: Node3D, check: Callable) -> void:
+	var bowl: Node3D = world.get_node("ClydeEastBowl")
+	var definition: Dictionary = bowl.get_feature_definitions()[0]
+	check.call(absf(definition.floor_y+0.4)<0.00001 and absf(definition.rim_y-2)<0.00001
+		and not bowl.has_node("BowlAccessRollIn") and not bowl.has_node("BowlAccessTopLanding")
+		and definition.id=="ClydeEastBowl",
+		"Clyde sunken bowl: unchanged identity, Y2 flush rim,2.4m excavation and no raised access bodies")
+	var matched := true
+	var no_cap := true
+	var samples := 0
+	var max_error := 0.0
+	# Off-spoke/near-lip points detect the analytic-circle vs faceted-mesh error.
+	for spoke in 33:
+		var phi := (float(spoke)*3.87+0.37)*TAU/128
+		for rho: float in [0.0,2.7,3.49,3.6,4.1,4.9,5.5,5.78,5.86,5.895]:
+			var point: Vector3 = bowl.to_global(Vector3(sin(phi)*rho,0,-cos(phi)*rho))
+			var query := PhysicsRayQueryParameters3D.create(Vector3(point.x,3,point.z),Vector3(point.x,-1,point.z),1)
+			var hit := world.get_world_3d().direct_space_state.intersect_ray(query)
+			if hit.is_empty():
+				matched = false
+				continue
+			var error := absf(world.get_ground_height(point)-hit.position.y)
+			max_error = maxf(max_error,error)
+			matched = matched and error<0.001 and absf(world.get_support_height(point+Vector3.UP*3,0)-hit.position.y)<0.001
+			no_cap = no_cap and hit.position.y<1.95
+			samples+=1
+	check.call(matched and no_cap and samples==330,
+		"Clyde sunken bowl:330 independent native pit rays agree with ground/support queries; no invisible quay cap")
+	var exterior := true
+	for spoke in 32:
+		var phi := float(spoke)/32*TAU
+		var point: Vector3 = bowl.to_global(Vector3(sin(phi)*7.8,0,-cos(phi)*7.8))
+		var hit := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(point.x,3,point.z),Vector3(point.x,1,point.z),1))
+		exterior = exterior and not hit.is_empty() and absf(hit.position.y-2)<0.001
+	for x in range(-17,4):
+		var hit := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+			Vector3(x,3,124),Vector3(x,1,124),1))
+		exterior = exterior and not hit.is_empty() and absf(hit.position.y-2)<0.001
+	check.call(exterior,"Clyde sunken bowl:53 native exterior/through-lane rays retain Y2 support")
+	var added := 0
+	for id: String in ["ClydePrintYardGround","ClydeSouthQuay"]:
+		added+=int(world._outdoors.get_node(id).get_meta("excavation_added_visual_triangles"))
+	var deck_visual: MeshInstance3D = bowl.get_node("AnnularDeck").get_child(1)
+	check.call(added<=1024 and deck_visual.material_override==world._materials["paving"],
+		"Clyde sunken bowl: existing quay paving reused and startup triangle addition within1024 budget")
+	print("CLYDE_SUNKEN_BOWL native_samples=%d max_height_error_m=%.7f added_visual_triangles=%d" % [samples,max_error,added])
 
 
 static func _combined_addition(world: Node3D,body: StaticBody3D) -> String:

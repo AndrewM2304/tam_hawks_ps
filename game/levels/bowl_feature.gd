@@ -1,6 +1,6 @@
 extends "res://game/levels/transition_feature.gd"
 ## Original circular bowl: one finite shared mesh/collision wall, real flat
-## bottom, annular deck and an external roll-in. Lateral coordinates wrap.
+## bottom, annular deck and optional external roll-in. Lateral coordinates wrap.
 
 var floor_radius := 3.5
 const AROUND_SEGMENTS := 128
@@ -90,14 +90,15 @@ func build() -> void:
 	bottom.add_child(bottom_mesh)
 	# Finish above the outer retaining wall before joining the annular deck.
 	# Ending the slope inside the ring would send its approach under that wall.
-	var run := 7.7
-	var angle := atan2(radius,run)
-	var start := Vector3(0,0,outer+8)
-	var finish := Vector3(0,radius,outer+0.3)
-	var ramp := _box("BowlAccessRollIn",Vector3(4,0.24,sqrt(run*run+radius*radius)),
-		(start+finish)*0.5-Vector3(0,cos(angle),sin(angle))*0.12,concrete)
-	ramp.rotation.x = angle
-	_box("BowlAccessTopLanding",Vector3(4,0.24,1.0),Vector3(0,radius-0.12,outer-0.15),concrete)
+	if build_access:
+		var run := 7.7
+		var angle := atan2(radius,run)
+		var start := Vector3(0,0,outer+8)
+		var finish := Vector3(0,radius,outer+0.3)
+		var ramp := _box("BowlAccessRollIn",Vector3(4,0.24,sqrt(run*run+radius*radius)),
+			(start+finish)*0.5-Vector3(0,cos(angle),sin(angle))*0.12,concrete)
+		ramp.rotation.x = angle
+		_box("BowlAccessTopLanding",Vector3(4,0.24,1.0),Vector3(0,radius-0.12,outer-0.15),concrete)
 	var coping := MeshInstance3D.new()
 	coping.name = "ContinuousBowlCoping"
 	var torus := TorusMesh.new()
@@ -177,7 +178,28 @@ func get_grind_lines() -> Array:
 
 func get_feature_definitions() -> Array:
 	var outer := floor_radius+radius+deck_length
+	var approach_y := 0.0 if build_access else radius
 	return [{"id":feature_id,"kind":"bowl","floor_y":global_position.y,
-		"outer_radius":outer,"roll_in_end":to_global(Vector3(0,0,outer+8)),
-		"approach":PackedVector3Array([to_global(Vector3(0,0,outer+10)),to_global(Vector3(0,radius,outer-0.8))]),
+		"rim_y":to_global(Vector3.UP*radius).y,
+		"outer_radius":outer,"roll_in_end":to_global(Vector3(0,approach_y,outer+8)),
+		"approach":PackedVector3Array([to_global(Vector3(0,approach_y,outer+10)),to_global(Vector3(0,radius,outer-0.8))]),
 		"bottom":global_position,"lip":lip_frame(0.0).point}]
+
+## Exact height of the unported, yaw-only bowl's sampled collision, including
+## between angular spokes. Ring trapezoids are planar along the sector bisector.
+func get_surface_height(world_point: Vector3) -> float:
+	var local := to_local(world_point)
+	var phi := wrapf(atan2(local.x,-local.z),0.0,TAU)
+	var sector := TAU/AROUND_SEGMENTS
+	var middle := (floorf(phi/sector)+0.5)*sector
+	var rho := Vector2(local.x,local.z).length()*cos(phi-middle)/cos(sector*0.5)
+	var height := radius
+	if rho<=floor_radius:
+		height = 0.0
+	elif rho<floor_radius+radius:
+		var step := PI*0.5/VERTICAL_SEGMENTS
+		var theta := asin(clampf((rho-floor_radius)/radius,0.0,1.0))
+		var lower := minf(floorf(theta/step),VERTICAL_SEGMENTS-1)*step
+		var fraction := (rho-floor_radius-radius*sin(lower))/(radius*(sin(lower+step)-sin(lower)))
+		height = lerpf(radius*(1-cos(lower)),radius*(1-cos(lower+step)),fraction)
+	return to_global(Vector3(local.x,height,local.z)).y

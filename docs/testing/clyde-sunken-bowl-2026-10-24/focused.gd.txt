@@ -1,0 +1,26 @@
+extends SceneTree
+const SurfaceTests = preload("res://tests/clyde_surface_tests.gd")
+const Authentic = preload("res://tests/authentic_fidelity_integration_tests.gd")
+const Curved = preload("res://tests/curved_visual_contact_tests.gd")
+const Main = preload("res://game/main.gd")
+var passed := 0
+var failed := 0
+func _initialize() -> void:
+	call_deferred("run")
+func check(ok: bool, label: String) -> void:
+	if ok: passed+=1; print("PASS: ",label)
+	else: failed+=1; print("FAIL: ",label)
+func run() -> void:
+	await SurfaceTests.run(self,check)
+	var game := Main.new()
+	game.persistence_enabled = false
+	root.add_child(game)
+	game.start_mode(true)
+	for i in 10:
+		await physics_frame
+		await process_frame
+	await Authentic._connected_world(self,game,check)
+	await Curved.run(self,game,check)
+	game.free()
+	print("RESULT: %d passed, %d failed" % [passed,failed])
+	quit(1 if failed else 0)

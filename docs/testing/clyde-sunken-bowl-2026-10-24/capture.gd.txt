@@ -1,0 +1,43 @@
+extends SceneTree
+const Main = preload("res://game/main.gd")
+func _initialize() -> void:
+	call_deferred("run")
+func run() -> void:
+	var output := OS.get_environment("BOWL_CAPTURE_OUTPUT")
+	DirAccess.make_dir_recursive_absolute(output)
+	root.size = Vector2i(1280,720)
+	var game := Main.new()
+	game.persistence_enabled = false
+	root.add_child(game)
+	game.start_mode(true)
+	for i in 45:
+		await physics_frame
+		await process_frame
+	game.skater.set_physics_process(false)
+	game.skater.set_process(false)
+	game.set_physics_process(false)
+	var camera: Camera3D = game.skater._camera
+	camera.global_position = Vector3(-7,22,131)
+	camera.look_at(Vector3(-7,1,134.5))
+	var times: Array[float] = []
+	for i in 150:
+		var start := Time.get_ticks_usec()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		if i>=30: times.append((Time.get_ticks_usec()-start)/1000.0)
+	var img := root.get_texture().get_image()
+	img.save_png(output.path_join("overview.png"))
+	times.sort()
+	var long_frames := 0
+	for ms in times:
+		if ms>33.333: long_frames+=1
+	var result := {"p50_ms":times[59],"p95_ms":times[113],"p99_ms":times[118],"over_33ms":long_frames,
+		"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),
+		"primitives":Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME),
+		"video_memory":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED),
+		"texture_memory":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),
+		"size":str(img.get_size()),"frame_ms":times,"bowl_position":str(game.world.get_node("ClydeEastBowl").global_position),
+		"limits":"Static 120-frame native diagnostic; render contention not certified, not a gameplay/performance admission."}
+	FileAccess.open(output.path_join("metrics.json"),FileAccess.WRITE).store_string(JSON.stringify(result,"\t"))
+	print("BOWL_CAPTURE: ",JSON.stringify(result))
+	quit()
