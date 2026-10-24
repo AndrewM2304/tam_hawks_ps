@@ -1,7 +1,8 @@
 # City Chambers right-side gap repaired —24 October2026
 
-SURFACE-01 implemented on `fix/spawn-civic-surfaces-20261024`; integration target
-is canonical `main`. SHADOW-01 remains **OPEN**, with no production lighting
+SURFACE-01 source/evidence commit `0e86ecb` was fast-forwarded and pushed to
+canonical `main`; remote HEAD confirms main. Feature history is contained.
+SHADOW-01 remains **OPEN**, with no production lighting
 setting changed. [Tasks](planning/SPAWN-CIVIC-REPAIRS-2026-10-24.md),
 [evidence/commands/frames](testing/spawn-civic-2026-10-24/README.md).
 
