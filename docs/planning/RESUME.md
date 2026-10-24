@@ -1,3 +1,5 @@
+**24 October manual-play footage:** read newest [STATUS](../STATUS.md), [six bug tasks](OWNER-PLAYTEST-2026-10-24.md) and [timestamped review](../testing/owner-playtest-2026-10-24/README.md). Review is complete; no gameplay fixes yet. Native rays confirm up to73.288mm spur/loop mismatch in the sampled summit join. Leg folding/material appearance are visible; exact rig, bowl-exit and temporal-lighting causes still need played diagnostics. Continue only owner-observed bug repairs within the reserved included usage; no broad feature expansion/automatic continuation. Existing integrated full-suite receipt is unavailable locally; do not infer a pass. Preserve all75 full task bodies.
+
 OWNER STOP/CHECKPOINT: only6% usage remains by owner report. Push current merged
 source to default now and stop autonomous work. Preserve remaining usage for
 manual-test bugs. Read STATUS's immediate-push checkpoint; do not infer all-green

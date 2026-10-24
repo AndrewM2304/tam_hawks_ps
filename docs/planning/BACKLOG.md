@@ -1,3 +1,5 @@
+**24 October owner recording defects:** [PLAYTEST-01…06](OWNER-PLAYTEST-2026-10-24.md) prioritize leg/body continuity, the native summit join, bowl air/exit intent, new-park camera transitions, material coverage and lighting shimmer. Review/source inspection and one corrected read-only native probe are complete; repairs and broader gameplay acceptance remain open. No production behavior changed. Preserve the manual-test reserve, all75 full task bodies and existing remaining work.
+
 Latest owner direction24October2026: reconcile work onto current default, test
 and push`bootstrap/m00-m01`; authorized merge overrides earlier prohibition for
 this task. Integration in progress, no completion claim. Read[STATUS](../STATUS.md).

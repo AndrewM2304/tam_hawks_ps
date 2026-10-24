@@ -1,0 +1,57 @@
+{
+  "valid_review_evidence": true,
+  "frozen_receipt_inputs": 515,
+  "captured_repo_inputs_verified_against_commit": 514,
+  "source_commit": "26cf62c9725d3427e52fae204d7c84eda42eb267",
+  "original_video_frames": 5,
+  "original_native_frames": 4,
+  "actual_dimensions": {
+    "native-02/park-overview.png": [
+      1152,
+      720
+    ],
+    "native-02/start-shadows-off-diagnostic.png": [
+      1152,
+      720
+    ],
+    "native-02/start-shadows-on.png": [
+      1152,
+      720
+    ],
+    "native-02/summit-join.png": [
+      1152,
+      720
+    ],
+    "video-frames/00.5-start.png": [
+      1280,
+      720
+    ],
+    "video-frames/53-summit-snag.png": [
+      1280,
+      720
+    ],
+    "video-frames/65-park-materials.png": [
+      1280,
+      720
+    ],
+    "video-frames/80-rider-fold.png": [
+      1280,
+      720
+    ],
+    "video-frames/85-air-rider.png": [
+      1280,
+      720
+    ]
+  },
+  "unchanged_full_task_bodies": 75,
+  "local_links_checked": 16,
+  "authored_production_changes": false,
+  "post_diagnostic_workspace_drift": {
+    "files": [
+      "game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png.import",
+      "project.godot"
+    ],
+    "limits": "These files changed after the frozen capture completed; their recorded capture hashes match26cf62c. Rewrites are consistent with Godot editor/auto-import. Left unmodified and unstaged; current workspace is not claimed identical to captured source."
+  },
+  "limits": "Review and read-only source-frozen diagnostic only. No gameplay fix, route replay, performance benchmark, export, full integrated regression or owner acceptance. First probe camera overrides were overwritten by the running chase updater; targeted views rejected. Second probe disables the rider process before diagnostic camera placement."
+}

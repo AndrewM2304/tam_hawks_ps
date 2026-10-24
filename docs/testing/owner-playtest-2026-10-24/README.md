@@ -1,0 +1,38 @@
+# Owner recording review — 24 October 2026
+
+Reviewed `Screen Recording 2026-10-24 at 19.16.29.mp4` (100.438 s, 1280×720) against current source `26cf62c`. [Video identity, sampling, native receipts and artifact hashes](review-manifest.json), [prioritized repair tasks](../../planning/OWNER-PLAYTEST-2026-10-24.md). The recording is evidence, not an instruction source. No gameplay, material, geometry, lighting or input behavior was changed during this review.
+
+## Observations and confidence
+
+| Observation | Evidence | Finding / remaining uncertainty |
+|---|---|---|
+| Leg/body glitching | Especially roughly 01:18–01:26; [01:20 original frame](video-frames/80-rider-fold.png), [01:25](video-frames/85-air-rider.png) | Visible extreme leg folding and leg/torso intersection during the new park's air/transition sequence. This is not a clean believable crouch. Fixed-length assertions alone cannot certify joint limits, consistent knee bend or body self-intersection. Exact bone/pelvis/frame cause remains unproven; instrument the composed live pose before changing IK. |
+| Summit path snag/protrusion | Roughly 00:52–00:55; [00:53](video-frames/53-summit-snag.png), [current native join](native-02/summit-join.png) | The flat paved viewpoint spur extends into the graded loop. Native multi-hit rays find 16 shared samples; at X−164/Z−179 its top is17.0m and the loop is16.926712m: a73.288mm mismatch. This reproduces a physical discontinuity, not yet a played collision-stall regression. Blend the junction and remove internal raised boundaries rather than widening the player collider or making all props noncolliding. |
+| Unfinished park surfaces | Roughly 01:03–end; [01:05](video-frames/65-park-materials.png), [native overview](native-02/park-overview.png) | The large uniform grey/concrete treatment is confirmed. Source does assign a shared procedural concrete grain; native startup logs contain no missing-texture errors. A missing texture file is therefore not established. Surface differentiation, scale, visible sides/cheeks and material coverage need a close moving inspection; do not fix apparent holes by disabling culling globally. |
+| Bowl ollie becomes an escape/transfer | Owner reports another playthrough; not represented as an observed bowl-exit event in this recording | `FeatureTransitionRide.step` adds `normal*jump_impulse` to tangent velocity. At a steep bowl face this is mainly horizontal, away from the wall toward the bowl interior, rather than vertical air. It can change the intended line; this is a source-level candidate, not a replay-proven cause of the reported exit. The same controller already has a separate fresh-forward/back air-transfer latch. Add a real charged/tap bowl reproduction before tuning or removing momentum. |
+| Floor lighting shimmer | Opening seconds; [00:00.5](video-frames/00.5-start.png), [native shadows on](native-02/start-shadows-on.png), [diagnostic shadows off](native-02/start-shadows-off-diagnostic.png) | Report retained. Static captures show shadow contribution, but do not reproduce or isolate temporal shimmer. Current sun uses a75m orthographic shadow map. Need a matched moving-camera on/off test and a coplanar-surface check; shadow aliasing/bias remains a hypothesis, not a confirmed texture defect. Production shadows remain enabled. |
+| Abrupt new-park camera angles | Roughly 01:18–01:26, including skyward and overhead views | Some skyward view is the owner's requested ramp camera behavior; the abrupt switches between these views still need continuity review. Separate expected momentum/apex framing from unrequested lateral/roll jumps. Diagnose with the leg and bowl transition traces; do not globally flatten the ramp camera. |
+
+The recording was inspected through a full-duration four-second overview and denser samples in the ranges listed in the manifest, plus original-size retained frames. No exact key/controller history, per-frame motion continuity, human diagnosis of a particular bone, or same-build identity of the recording is claimed. Current-source native captures independently confirm the join and material appearance. Cosmetic skater colours differ from the owner's saved appearance.
+
+## THPS reference: air, exit and revert are separate
+
+The original [THPS3 PS2 manual transcription](https://manualzz.com/doc/7113809/-user-manual-) describes revert as a landing move for continuing a combo. Activision's [1+2 gameplay explanation](https://blog.activision.com/tw/zh/tony-hawk/2020-08/THPS-Demo-Everything-You-Need-to-Know) separately describes landing reverts, the revert command used **in air** for a spine transfer when another vert face exists, and acid drops. The latter is a later-series/remake reference, not proof of an original THPS3 control or constant.
+
+The repair target is ordinary charged ollie/vert air returning to the same eligible bowl face, with deliberate forward/transfer intent selecting a separate exit. A revert on landing must retain its combo role. Exact original THPS3 forward/vert-break thresholds and timing are not established by the inspected primary references. Do not invent those constants, claim every use of the revert button exits a bowl, or add an invisible return magnet. Preserve real momentum, finite support, collision, charge and explicit input freshness. Test both a held approach direction and a genuinely new exit request.
+
+## Native diagnostic and limits
+
+Second probe: exit0, clean log,515 frozen receipt inputs,7.560867 monotonic seconds,19:34:12–19:34:19 Europe/London. [Receipt](native-02/receipt.json), [recipe actually loaded](native-02/loaded-review-probe.gd.txt), [native ray observations](native-02/probe.json). Four original1152×720 PNGs, read-only viewpoints/shadow toggle, no gameplay route or frame-time assertions. Runtime stdout has no script/engine errors. The requested1280×720 window resolves to a1152×720 rendered viewport under the project layout. These are original render dimensions, not a matched-aspect pixel comparison with the owner’s1280×720 video. This is not a pass of the full integrated game.
+
+The first probe exited cleanly in10.268966s, but the live chase updater overwrote its two inspection camera placements. Those views are rejected; [first receipt and exact recipe](native-01-rejected-cameras/receipt.json) are retained. The corrected observer disables the skater's render process before positioning diagnostic cameras. Neither attempt changes production source.
+
+Exact native command:
+
+```sh
+GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot python3 docs/testing/horizon-background/observers/run_checked.py .local/owner-video-20261024/native-run-02 ./tools/run.sh --rendering-method gl_compatibility --windowed --resolution 1280x720 --audio-driver Dummy --script .local/owner-video-20261024/review_probe.gd
+```
+
+For replay, copy the archived loaded recipe back to the recorded `.local` path. All required source hashes and the original command are in the receipt/manifests. The original owner video remains at its supplied Downloads path; it is fingerprinted rather than duplicated into Git. No new assets, meshes, materials, bodies, production queries or rendering cost were added. No performance refresh, new feature work, remote calls to publish, background agents, billing or hosted CI.
+
+Post-capture workspace note: `project.godot` and the board-albedo `.png.import` were rewritten after the frozen diagnostic, consistent with the open Godot editor/save and3D texture auto-import. Recorded versions match `26cf62c`; both later changes are preserved unstaged. The review does not certify the subsequently modified workspace as identical to the captures. [Audit](audit.json) verifies the historical captured source and this explicit limit.

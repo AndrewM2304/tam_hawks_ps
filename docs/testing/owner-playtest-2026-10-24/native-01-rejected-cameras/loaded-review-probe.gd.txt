@@ -1,0 +1,54 @@
+extends SceneTree
+const Main = preload("res://game/main.gd")
+var game: Node
+var output := "res://.local/owner-video-20261024/native"
+func _initialize() -> void:
+	call_deferred("run")
+func run() -> void:
+	DirAccess.make_dir_recursive_absolute(output)
+	root.size = Vector2i(1280,720)
+	game = Main.new()
+	game.persistence_enabled = false
+	root.add_child(game)
+	game.start_mode(true)
+	for i in 45:
+		await physics_frame
+		await process_frame
+	game.skater.set_physics_process(false)
+	game.set_physics_process(false)
+	var light: DirectionalLight3D = game.world.find_child("LateAfternoonSun",true,false)
+	await save_frame("start-shadows-on")
+	light.shadow_enabled = false
+	await save_frame("start-shadows-off-diagnostic")
+	light.shadow_enabled = true
+	var rows: Array = []
+	var world: World3D = game.skater.get_world_3d()
+	for x in range(-164,-157):
+		for z in range(-182,-174):
+			var excluded: Array[RID] = [game.skater.get_rid()]
+			var hits: Array = []
+			for layer in 6:
+				var q := PhysicsRayQueryParameters3D.create(Vector3(x,19,z),Vector3(x,14,z),1,excluded)
+				var hit := world.direct_space_state.intersect_ray(q)
+				if hit.is_empty(): break
+				hits.append({"name":str(hit.collider.name),"height":hit.position.y,"normal":str(hit.normal)})
+				excluded.append(hit.rid)
+			rows.append({"x":x,"z":z,"hits":hits})
+	var camera: Camera3D = game.skater._camera
+	camera.global_position = Vector3(-158,22,-172)
+	camera.look_at(Vector3(-164,17,-180))
+	await save_frame("summit-join")
+	camera.global_position = Vector3(-181,25,-165)
+	camera.look_at(Vector3(-207,13,-187))
+	await save_frame("park-overview")
+	FileAccess.open(output.path_join("probe.json"),FileAccess.WRITE).store_string(JSON.stringify({"summit_native_hits":rows,"limits":"Read-only diagnostic cameras and shadow toggle. No played route, performance or fixed-source gameplay assertion."},"\t"))
+	print("OWNER_VIDEO_REVIEW: four native PNGs and summit multi-hit survey saved")
+	quit()
+func save_frame(label: String) -> void:
+	for i in 3:
+		await process_frame
+	await RenderingServer.frame_post_draw
+	var result := root.get_texture().get_image().save_png(output.path_join(label+".png"))
+	if result != OK:
+		push_error("Review PNG failed: "+label)
+		quit(1)
