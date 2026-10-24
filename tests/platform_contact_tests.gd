@@ -6,16 +6,28 @@ const Footwear = preload("res://game/player/skater_footwear.gd")
 const Anatomy = preload("res://game/player/skater_anatomy.gd")
 const Catalog = preload("res://game/tricks/trick_catalog.gd")
 const Quarter = preload("res://game/levels/transition_feature.gd")
+static var _observer := Callable()
+static var _game: Node
+static var _phase := ""
+static var _step := 0
 
-static func run(tree: SceneTree, game: Node, check: Callable) -> void:
+static func run(tree: SceneTree, game: Node, check: Callable, observer: Callable=Callable()) -> void:
 	var original_spawn: Vector3 = game.skater.spawn_position
+	_observer = observer
+	_game = game
+	_phase = ""
+	_step = 0
 	await _passive_carry(tree,game,check)
+	await _endpoint_wait(tree,game,check)
 	await _relative_controls(tree,game,check)
 	await _platform_ollie(tree,game,check)
 	await _moving_boneless(tree,game,check)
 	await _cart_transition_camera(tree,game,check)
 	await _restart_detaches_support(tree,game,check)
 	_release()
+	_phase = ""
+	_observer = Callable()
+	_game = null
 	game.skater.spawn_position = original_spawn
 	game.restart_run()
 
@@ -24,6 +36,7 @@ static func _passive_carry(tree: SceneTree, game: Node, check: Callable) -> void
 	var cart = fixture.cart
 	check.call(fixture.ready,"platform contact: real layer-eight cart roof accepts the native supported player pose")
 	if not fixture.ready: return
+	_phase = "platform_roof_carry"
 	var initial: Vector3 = cart.to_local(game.skater.global_position)
 	var cart_start: Vector3 = cart.global_position
 	var largest_relative_speed := 0.0
@@ -50,6 +63,59 @@ static func _passive_carry(tree: SceneTree, game: Node, check: Callable) -> void
 	check.call(game.skater.global_position==player_at and cart.global_position==cart_at,
 		"platform contact: pausing freezes both the rider and its native moving support")
 	game.toggle_pause()
+
+static func _endpoint_wait(tree: SceneTree, game: Node, check: Callable) -> void:
+	var fixture := await _roof_fixture(tree,game)
+	var cart = fixture.cart
+	if not fixture.ready:
+		check.call(false,"platform contact: endpoint waiting requires an actual native moving-roof fixture")
+		return
+	_phase = "platform_endpoint_stop"
+	var initial: Vector3 = cart.to_local(game.skater.global_position)
+	var path: PackedVector3Array = cart.status_snapshot().path
+	var reached := false
+	# Remain genuinely passive through the complete trip. Native motion, rather
+	# than a timer/state assignment, must bring the visible cart to its endpoint.
+	for frame in 800:
+		await _frames(tree,1)
+		if cart.stopped and _planar(cart.get_real_velocity()).length()<0.01 \
+			and _planar(cart.global_position-path[1]).length()<0.35:
+			reached = true
+			break
+	var at: Vector3 = cart.global_position
+	var parked_heading: float = cart.rotation.y
+	var player_y: float = game.skater.global_position.y
+	var y_min := player_y
+	var y_max := player_y
+	var stationary := true
+	var supported := true
+	var camera_clear := true
+	var drift := 0.0
+	var relative_speed := 0.0
+	for frame in 180:
+		await _frames(tree,1)
+		stationary = stationary and cart.stopped and cart.global_position.distance_to(at)<0.001 \
+			and absf(angle_difference(parked_heading,cart.rotation.y))<0.001
+		drift = maxf(drift,_planar(cart.to_local(game.skater.global_position)-initial).length())
+		relative_speed = maxf(relative_speed,absf(game.skater.speed))
+		y_min = minf(y_min,game.skater.global_position.y)
+		y_max = maxf(y_max,game.skater.global_position.y)
+		var ray := PhysicsRayQueryParameters3D.create(game.skater.global_position+Vector3.UP*0.15,
+			game.skater.global_position-Vector3.UP*0.25,8)
+		ray.exclude = [game.skater.get_rid()]
+		var hit: Dictionary = game.skater.get_world_3d().direct_space_state.intersect_ray(ray)
+		supported = supported and game.skater.is_on_floor() and not game.skater.airborne \
+			and not hit.is_empty() and hit.collider==cart and hit.normal.y>0.99
+		camera_clear = camera_clear and _camera_clear(game)
+	var status: Dictionary = cart.status_snapshot()
+	check.call(reached and stationary and status.phase=="waiting_rider" and status.turn_blocked=="rider",
+		"platform contact: actual occupied-roof endpoint stop holds its turn for one hundred eighty genuine waiting frames")
+	check.call(supported and drift<0.10 and relative_speed<0.15,
+		"platform contact: a passive rider retains real cab-roof support without a false reverse speed when the cart stops")
+	check.call(camera_clear and y_max-y_min<0.003,
+		"platform contact: native endpoint waiting preserves a clear chase view and stable supported rider height")
+	print("PLATFORM ENDPOINT reached=%s stationary=%s supported=%s waiting_frames=180 phase=%s relative_speed=%.6f drift=%.6f height_span=%.6f"%[
+		reached,stationary,supported,status.phase,relative_speed,drift,y_max-y_min])
 
 static func _relative_controls(tree: SceneTree, game: Node, check: Callable) -> void:
 	var fixture := await _roof_fixture(tree,game)
@@ -80,6 +146,7 @@ static func _platform_ollie(tree: SceneTree, game: Node, check: Callable) -> voi
 	var cart = fixture.cart
 	check.call(fixture.ready,"platform contact: ollie fixture starts on real native moving support")
 	if not fixture.ready: return
+	_phase = "platform_roof_ollie"
 	var evidence := {"bails":0,"landings":[]}
 	var on_bail := func(): evidence.bails+=1
 	var on_land := func(clean: bool): evidence.landings.append(clean)
@@ -120,6 +187,7 @@ static func _platform_ollie(tree: SceneTree, game: Node, check: Callable) -> voi
 	game.skater.landed.disconnect(on_land)
 
 static func _roof_fixture(tree: SceneTree, game: Node) -> Dictionary:
+	_phase = ""
 	_release()
 	if game.paused: game.toggle_pause()
 	game.skater.spawn_position = Vector3(-22,0.8,28)
@@ -165,6 +233,7 @@ static func _moving_boneless(tree: SceneTree, game: Node, check: Callable) -> vo
 	if not fixture.ready:
 		check.call(false,"platform contact: moving Boneless requires actual native roof support")
 		return
+	_phase = "platform_roof_boneless"
 	Input.action_press("brake")
 	Input.action_press("ollie")
 	await _frames(tree,2)
@@ -230,16 +299,19 @@ static func _cart_transition_camera(tree: SceneTree, game: Node, check: Callable
 		var actual: Vector3 = _planar(game.skater.velocity)
 		var retained: Vector3 = _planar(game.skater.get_real_velocity())
 		if actual.length()>0.8 and retained.length()>0.8 and actual.normalized().dot(retained.normalized())< -0.9:
-			stale_cache_observed = game.skater.is_on_floor() and game.skater.get_platform_velocity().length_squared()>0.01
+			# Native get_real_velocity still describes the previous slide while
+			# curved move_and_collide owns this rollback. The corrected handoff
+			# invalidates floor inheritance instead of retaining a live platform.
+			stale_cache_observed = not game.skater._native_floor_valid
 			# process_frame is emitted before node _process callbacks. Let the
 			# real chase update finish before inspecting this threshold frame.
 			await tree.create_timer(0.0).timeout
 			var rear: Vector3 = game.skater._camera_follow._travel_rear
 			camera_opposes_travel = rear.dot(actual.normalized())< -0.99 and _camera_clear(game)
-			print("PLATFORM CAMERA actual=%s retained=%s native_platform=%s rear=%s"%[actual,retained,game.skater.get_platform_velocity(),rear])
+			print("PLATFORM CAMERA actual=%s retained=%s native_platform=%s native_floor_valid=%s rear=%s"%[actual,retained,game.skater.get_platform_velocity(),game.skater._native_floor_valid,rear])
 			break
 	check.call(stale_cache_observed,
-		"platform camera: native cart-to-quarter rollback reproduces retained floor and platform cache")
+		"platform camera: native cart-to-quarter rollback retains opposed native travel while invalidating old floor support")
 	check.call(stale_cache_observed and camera_opposes_travel,
 		"platform camera: curved rollback follows actual travel despite opposite stale platform velocity")
 	game.restart_run()
@@ -265,3 +337,5 @@ static func _frames(tree: SceneTree, count: int) -> void:
 	for i in count:
 		await tree.physics_frame
 		await tree.process_frame
+		_step += 1
+		if _observer.is_valid() and not _phase.is_empty(): await _observer.call(_phase,_game,_step)

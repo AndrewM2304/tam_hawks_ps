@@ -8,6 +8,10 @@ const SkitchRide = preload("res://game/player/skitch_ride.gd")
 const LapChallenge = preload("res://game/features/lap_challenge.gd")
 const ConeStunt = preload("res://game/features/cone_stunt.gd")
 const Score = preload("res://game/scoring/score_session.gd")
+static var _main_observer := Callable()
+static var _main_game: Node
+static var _main_phase := ""
+static var _main_step := 0
 
 class ActivityDriver extends CharacterBody3D:
 	var desired := Vector3.ZERO
@@ -60,6 +64,8 @@ class Driver extends CharacterBody3D:
 	var launches := 0
 	var bails := 0
 	var last_result: Dictionary = {}
+	var walk := Vector3.INF
+	var releases := 0
 
 	func _physics_process(delta: float) -> void:
 		if not running: return
@@ -70,10 +76,14 @@ class Driver extends CharacterBody3D:
 		if ride.active:
 			var correction := -clampf(ride.balance * 5.0, -1.0, 1.0) if correct_balance else steer
 			last_result = ride.step(self, delta, correction, jump, held, jump_impulse)
+			if not ride.active: releases += 1
 			jump = false
 			if last_result.get("launched", false): launches += 1
 			if last_result.get("bailed", false): bails += 1
 		else:
+			if walk.is_finite():
+				velocity.x = walk.x
+				velocity.z = walk.z
 			velocity.y -= 22.0 * delta
 			move_and_slide()
 
@@ -88,7 +98,12 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	await _gate_safety(tree, check)
 	await _vehicle_collision(tree, check)
 	await _vehicle_geometry(tree, check)
+	await _vehicle_vertical_stability(tree, check)
 	await _vehicle_people(tree, check)
+	await _vehicle_endpoint_turn(tree, check)
+	await _vehicle_turn_blockers(tree, check)
+	await _vehicle_roof_wait(tree, check)
+	await _vehicle_endpoint_tow(tree, check)
 	await _skitch_motion(tree, check)
 	await _skitch_guards(tree, check)
 	await _skitch_exits(tree, check)
@@ -100,6 +115,83 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	await _cone_guards(tree, check)
 	await _cone_miss_recovery(tree, check)
 	await _cone_rim_recovery(tree, check)
+
+static func run_main(tree: SceneTree, game: Node, check: Callable, observer: Callable = Callable()) -> void:
+	# No player/vehicle pose or motion injection: a normal Main restart starts
+	# the complete authored trip. Its idle avatar remains at the existing spawn.
+	var original_free: bool = game.free_skate_mode
+	for action: String in ["push","brake","steer_left","steer_right","ollie","flip","grab","grind",
+		"manual","revert","spin_left","spin_right","interact","special_one","special_two"]:
+		Input.action_release(action)
+	_main_observer = observer
+	_main_game = game
+	_main_phase = ""
+	_main_step = 0
+	game.start_mode(true)
+	var cart: CharacterBody3D = game.feature_hub.vehicle
+	var path: PackedVector3Array = cart.status_snapshot().path
+	var initial_heading: float = cart.rotation.y
+	var arrived := false
+	var began_turn := false
+	for frame in 1000:
+		await _main_frames(tree,1)
+		if not arrived and cart.status_snapshot().phase=="rest":
+			arrived = cart.stopped and cart.global_position.distance_to(path[1])<0.35
+			_main_phase = "cart_parked_turn"
+			_main_step = 0
+		if cart.status_snapshot().phase=="turning":
+			began_turn = true
+			break
+	check.call(arrived and began_turn and game.score.total_score==0 and game.score.get_combo_value()==0,
+		"remaining Main: an empty cart completes its native trip and begins a clear parked turn without player or vehicle pose injection")
+	var parked: Vector3 = cart.global_position
+	var heading: float = cart.rotation.y
+	game.toggle_pause()
+	await _main_frames(tree,8)
+	check.call(cart.rotation.y==heading and cart.global_position==parked,
+		"remaining Main: pausing freezes the actual endpoint turn and native cart position")
+	game.toggle_pause()
+	var bounded := arrived and began_turn
+	var largest_step := 0.0
+	var largest_rate := 0.0
+	for frame in 250:
+		var before_yaw: float = cart.rotation.y
+		var before_at: Vector3 = cart.global_position
+		var tick := Engine.get_physics_frames()
+		await _main_frames(tree,1)
+		var step := absf(angle_difference(before_yaw,cart.rotation.y))
+		var elapsed := float(maxi(1,Engine.get_physics_frames()-tick))/float(Engine.physics_ticks_per_second)
+		largest_step = maxf(largest_step,step)
+		largest_rate = maxf(largest_rate,step/elapsed)
+		bounded = bounded and step<=SkateVehicle.TURN_RATE*elapsed+0.0001
+		if cart.status_snapshot().phase=="cruise": break
+		bounded = bounded and cart.stopped and cart.global_position.distance_to(before_at)<0.001
+	await _main_frames(tree,35)
+	var return_direction := (path[0]-path[1]).normalized()
+	print("MAIN CART TURN peak_sample_deg=%.6f peak_rate_deg=%.6f phase=%s travel=%s"%[
+		rad_to_deg(largest_step),rad_to_deg(largest_rate),cart.status_snapshot().phase,cart.travel_velocity])
+	check.call(bounded and not cart.stopped and cart.travel_velocity.dot(return_direction)>1.5
+		and absf(angle_difference(initial_heading,cart.rotation.y))>PI-0.001,
+		"remaining Main: the native parked turn stays within its angular rate and resumes the existing return lane")
+	# Restart is outside the observed clip; its authored reset is separately
+	# checked and restores the caller's mode without changing its spawn.
+	_main_phase = ""
+	game.start_mode(original_free)
+	await _main_frames(tree,1)
+	var status: Dictionary = cart.status_snapshot()
+	check.call(not status.turning and status.turn_blocked.is_empty() and status.wait==0.0
+		and status.phase=="cruise" and cart.global_position.distance_to(path[0])<0.08,
+		"remaining Main: restart clears the old endpoint rotation and native safety holds")
+	_main_observer = Callable()
+	_main_game = null
+
+static func _main_frames(tree: SceneTree, count: int) -> void:
+	for frame in count:
+		await tree.physics_frame
+		await tree.process_frame
+		_main_step += 1
+		if _main_observer.is_valid() and not _main_phase.is_empty():
+			await _main_observer.call(_main_phase,_main_game,_main_step)
 
 
 static func _gate_collision(tree: SceneTree, check: Callable) -> void:
@@ -381,9 +473,201 @@ static func _vehicle_geometry(tree: SceneTree, check: Callable) -> void:
 		"service vehicle: actual wheel contact supplies ground support with only the native collision skin")
 	await _dispose(tree,fixture.root)
 
+static func _turn_fixture(tree: SceneTree) -> Dictionary:
+	var root := _base(tree)
+	var cart := SkateVehicle.new()
+	root.add_child(cart)
+	cart.configure(PackedVector3Array([root.global_position+Vector3(0,0.025,10),root.global_position+Vector3(0,0.025,-10)]))
+	return {"root":root,"vehicle":cart}
+
+static func _wait_cart_phase(tree: SceneTree, cart: CharacterBody3D, phase: String, limit := 900) -> bool:
+	for frame in limit:
+		if cart.status_snapshot().phase == phase: return true
+		await _frames(tree,1)
+	return false
+
+static func _vehicle_endpoint_turn(tree: SceneTree, check: Callable) -> void:
+	var fixture := await _turn_fixture(tree)
+	var cart: CharacterBody3D = fixture.vehicle
+	var start: Vector3 = cart.global_position
+	var initial_heading: float = cart.rotation.y
+	var arrived := await _wait_cart_phase(tree,cart,"turning")
+	var parked: Vector3 = cart.global_position
+	var bounded := arrived
+	for frame in 35:
+		var yaw: float = cart.rotation.y
+		await _frames(tree,1)
+		bounded = bounded and cart.stopped and cart.travel_velocity==Vector3.ZERO \
+			and cart.global_position.distance_to(parked)<0.001 \
+			and absf(angle_difference(yaw,cart.rotation.y))<=SkateVehicle.TURN_RATE/60.0+0.0001
+	check.call(bounded and absf(angle_difference(initial_heading,cart.rotation.y))>0.3,
+		"service vehicle: an empty endpoint turns smoothly while parked instead of rotating its cab in one frame")
+	var frozen_yaw: float = cart.rotation.y
+	var frozen_wait: float = cart.status_snapshot().wait
+	tree.paused = true
+	await _frames(tree,8)
+	check.call(cart.rotation.y==frozen_yaw and cart.global_position==parked and cart.status_snapshot().wait==frozen_wait,
+		"service vehicle: native endpoint turn and wait remain still while the world is paused")
+	tree.paused = false
+	await _frames(tree,3)
+	check.call(absf(angle_difference(frozen_yaw,cart.rotation.y))>0.01,
+		"service vehicle: resuming the world continues the bounded parked turn")
+	cart.reset_run()
+	check.call(cart.global_position==start and is_equal_approx(cart.rotation.y,initial_heading)
+		and not cart.status_snapshot().turning and cart.status_snapshot().turn_blocked.is_empty()
+		and cart.status_snapshot().wait==0.0 and cart.speed==0.0,
+		"service vehicle: reset during a turn clears its pending rotation, safety hold and endpoint wait")
+	await _wait_cart_phase(tree,cart,"turning")
+	await _wait_cart_phase(tree,cart,"cruise")
+	await _frames(tree,40)
+	print("CART TURN RETURN stopped=%s speed=%.6f z=%.6f endpoint=%.6f yaw=%.8f initial=%.8f phase=%s"%[cart.stopped,cart.speed,cart.global_position.z,parked.z,cart.rotation.y,initial_heading,cart.status_snapshot().phase])
+	check.call(not cart.stopped and cart.speed>1.5 and cart.global_position.z>parked.z+0.4
+		and absf(angle_difference(initial_heading,cart.rotation.y))>PI-0.001,
+		"service vehicle: the complete clear native turn resumes the original return lane and acceleration")
+	await _dispose(tree,fixture.root)
+
+static func _native_cart_overlap(cart: CharacterBody3D, other: CollisionObject3D) -> bool:
+	for child: Node in cart.get_children():
+		if not child is CollisionShape3D: continue
+		var query := PhysicsShapeQueryParameters3D.new()
+		query.shape = child.shape
+		query.transform = child.global_transform
+		query.collision_mask = other.collision_layer
+		query.exclude = [cart.get_rid()]
+		for hit: Dictionary in cart.get_world_3d().direct_space_state.intersect_shape(query,16):
+			if hit.collider == other: return true
+	return false
+
+static func _vehicle_turn_blockers(tree: SceneTree, check: Callable) -> void:
+	for person: bool in [false,true]:
+		var fixture := await _turn_fixture(tree)
+		var cart: CharacterBody3D = fixture.vehicle
+		await _wait_cart_phase(tree,cart,"rest")
+		var obstacle: CollisionObject3D
+		if person:
+			var pedestrian := _rider(cart.position+Vector3(1.65,0.025,0))
+			pedestrian.walk = Vector3.ZERO
+			obstacle = pedestrian
+		else:
+			obstacle = _box("EndpointTurnWall",Vector3(0.20,2.0,0.20),cart.position+Vector3(1.45,1.0,0))
+		fixture.root.add_child(obstacle)
+		var clear := not _native_cart_overlap(cart,obstacle)
+		var blocked := false
+		for frame in 360:
+			await _frames(tree,1)
+			clear = clear and not _native_cart_overlap(cart,obstacle)
+			if cart.status_snapshot().phase=="waiting_space":
+				blocked = true
+				break
+		var stopped_yaw: float = cart.rotation.y
+		await _frames(tree,30)
+		check.call(clear and blocked and cart.stopped and is_equal_approx(stopped_yaw,cart.rotation.y)
+			and cart.get_node("ActivitySign").text.contains("WAITING FOR SPACE"),
+			"service vehicle: the actual six-shape turn sweep waits outside a native %s with a visible status"%["person" if person else "wall"])
+		obstacle.queue_free()
+		await _frames(tree,2)
+		await _wait_cart_phase(tree,cart,"cruise")
+		await _frames(tree,35)
+		check.call(not cart.stopped and cart.speed>1.5 and absf(angle_difference(0.0,cart.rotation.y))>PI-0.001,
+			"service vehicle: removing the native %s safely resumes the interrupted turn and original route"%["person" if person else "wall"])
+		await _dispose(tree,fixture.root)
+
+static func _vehicle_roof_wait(tree: SceneTree, check: Callable) -> void:
+	var fixture := await _turn_fixture(tree)
+	var cart: CharacterBody3D = fixture.vehicle
+	await _frames(tree,135)
+	var hit := _cart_ray(cart,Vector3(0,0,-0.55))
+	var passenger := _rider(Vector3(hit.position)-fixture.root.global_position+Vector3.UP*0.025)
+	passenger.walk = Vector3.ZERO
+	fixture.root.add_child(passenger)
+	await _wait_cart_phase(tree,cart,"rest")
+	var parked: Vector3 = cart.global_position
+	var yaw: float = cart.rotation.y
+	var supported := true
+	var low := INF
+	var high := -INF
+	for frame in 330:
+		await _frames(tree,1)
+		var feet := cart.to_local(passenger.global_position)
+		low = minf(low,feet.y)
+		high = maxf(high,feet.y)
+		supported = supported and passenger.is_on_floor() and absf(feet.x)<0.64 and absf(feet.z+0.55)<0.30
+	check.call(supported and high-low<0.002 and cart.stopped and cart.global_position==parked
+		and is_equal_approx(cart.rotation.y,yaw) and cart.status_snapshot().phase=="waiting_rider"
+		and cart.get_node("ActivitySign").text.contains("PLEASE STEP OFF"),
+		"service vehicle: an actual supported roof passenger keeps both roofs parked after the endpoint wait")
+	passenger.walk = Vector3.RIGHT*3.0
+	await _frames(tree,15)
+	check.call(passenger.global_position.x>parked.x+0.6,
+		"service vehicle: the roof passenger leaves through native walking without any rider position snap")
+	await _wait_cart_phase(tree,cart,"cruise")
+	await _frames(tree,35)
+	check.call(not cart.stopped and cart.speed>1.5 and cart.global_position.z>parked.z+0.25,
+		"service vehicle: stepping clear releases the roof safety hold and allows the parked turn to finish")
+	await _dispose(tree,fixture.root)
+
+static func _vehicle_endpoint_tow(tree: SceneTree, check: Callable) -> void:
+	var fixture := await _turn_fixture(tree)
+	var cart: CharacterBody3D = fixture.vehicle
+	await _frames(tree,135)
+	var rider := _rider(cart.get_skitch_anchor()-fixture.root.global_position+Vector3(0,0.025,0.20))
+	rider.vehicle = cart
+	rider.velocity = Vector3.FORWARD*6.0
+	rider.correct_balance = true
+	fixture.root.add_child(rider)
+	await _frames(tree,6)
+	rider.request = true
+	await _frames(tree,1)
+	await _wait_caught(tree,rider)
+	var caught: bool = rider.ride.caught
+	await _wait_cart_phase(tree,cart,"rest")
+	await _frames(tree,2)
+	print("CART ENDPOINT TOW caught=%s entries=%d releases=%d active=%s result=%s bails=%d launches=%d phase=%s"%[caught,rider.entries,rider.releases,rider.ride.active,rider.last_result,rider.bails,rider.launches,cart.status_snapshot().phase])
+	check.call(caught and rider.entries==1 and rider.releases==1 and not rider.ride.active
+		and rider.last_result.get("reason")=="vehicle_stopped" and rider.bails==0 and rider.launches==0,
+		"skitch: native endpoint parking releases one real tow once without a false bail or launch")
+	await _frames(tree,330)
+	check.call(rider.entries==1 and rider.releases==1 and not rider.ride.active and rider.bails==0 and rider.launches==0,
+		"skitch: waiting and turning cannot duplicate its released tow or invent another accepted trick")
+	await _dispose(tree,fixture.root)
+
 static func _cart_ray(vehicle: CharacterBody3D, local: Vector3) -> Dictionary:
 	var at := vehicle.to_global(local)
 	return vehicle.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(at+Vector3.UP*4.0,at-Vector3.UP*2.0,8))
+
+static func _vehicle_vertical_stability(tree: SceneTree, check: Callable) -> void:
+	for occupied: bool in [false,true]:
+		var fixture := await _vehicle_fixture(tree,false)
+		var cart: CharacterBody3D = fixture.vehicle
+		await _frames(tree,135)
+		var rider: Driver
+		if occupied:
+			var hit := _cart_ray(cart,Vector3(0,0,-0.55))
+			rider = _rider(Vector3(hit.position)-fixture.root.global_position+Vector3.UP*0.035)
+			fixture.root.add_child(rider)
+			await _frames(tree,12)
+		var lowest := INF
+		var highest := -INF
+		var lowest_passenger := INF
+		var highest_passenger := -INF
+		var supported := true
+		var largest_vertical_velocity := 0.0
+		for frame in 120:
+			await _frames(tree,1)
+			lowest = minf(lowest,cart.global_position.y)
+			highest = maxf(highest,cart.global_position.y)
+			largest_vertical_velocity = maxf(largest_vertical_velocity,absf(cart.get_real_velocity().y))
+			supported = supported and cart.is_on_floor() and not cart.stopped
+			if is_instance_valid(rider):
+				supported = supported and rider.is_on_floor()
+				var relative: float = rider.global_position.y-cart.global_position.y
+				lowest_passenger = minf(lowest_passenger,relative)
+				highest_passenger = maxf(highest_passenger,relative)
+		var passenger_range := highest_passenger-lowest_passenger if occupied else 0.0
+		print("CART VERTICAL occupied=%s amplitude=%.8f velocity=%.8f passenger=%.8f"%[occupied,highest-lowest,largest_vertical_velocity,passenger_range])
+		check.call(supported and highest-lowest<0.001 and largest_vertical_velocity<0.06 and passenger_range<0.002,
+			"service vehicle:120 actual cruise frames keep flat-lane wheel support stable without30Hz jitter, occupied=%s"%occupied)
+		await _dispose(tree,fixture.root)
 
 static func _wait_caught(tree: SceneTree, rider: Driver) -> void:
 	for frame in 60:

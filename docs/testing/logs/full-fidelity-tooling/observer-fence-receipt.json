@@ -1,0 +1,12 @@
+{
+  "command": "./tools/run.sh --headless --fixed-fps 60 --script res://.local/observer_process_fence_probe.gd",
+  "checks": 24,
+  "failures": 0,
+  "ordinary_frames": 8,
+  "paused_frames": 4,
+  "evidence_scope": "Native SceneTree scheduler only; all process/timer counters measured. This is not gameplay/render/hardware acceptance.",
+  "files": {
+    "observer-fence.log": "07b6ed9f218ff5f0d28f16f8612e13656e3c845a161d1815c18a6967b488e9df",
+    "observer-fence-recipe.gd.txt": "a6afeb6245b811496266ee2bba5c93d83397c227346d810b0730cc3b662a5214"
+  }
+}

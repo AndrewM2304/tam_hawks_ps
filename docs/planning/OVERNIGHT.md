@@ -24,6 +24,7 @@ becomes unavailable, record the blocker once and pause without seeking purchases
 All tasks retain the existing 75 roadmap IDs and disjoint file ownership.
 
 | Work / tickets | Owner, priority | Acceptance |
+| New owner-photo Kelvingrove skatepark — M03-012/014, M02-011, M05-001 | World/transition/Root/QE, P0 | Actual sunken northwest facility, connected uphill access, multiple bowl/street levels, native terrain cut, grindable coping/rails/ledges, real approach/transfer/return/camera evidence; preserve existing park laps/save IDs |
 |---|---|---|
 | Authentic setup/catch/stance/bail — M01-004, M02-008, M05-002/006 | Root/rig/QE, P0 | Native sole anchor and palm contact, delayed pop/catch, moving support, interrupted-pose fall/getup, once-only loss, pause/reset and actual motion |
 | Full repertoire — M02-001/002/003/006/008 | Catalog/Root/QE, P0 | All 78 definitions activate through input, score/catch/reset; 24 flip stages, eight tweaked grabs, ten grind actions, eleven manuals, nine lips, six specials and core actions |
@@ -37,13 +38,24 @@ All tasks retain the existing 75 roadmap IDs and disjoint file ownership.
 
 ## Current candidate
 
+New owner scope: [sunken Kelvingrove skatepark](KELVINGROVE-SKATEPARK.md), based on
+two supplied actual park photos. Complete it before final capture/packages.
+Current2,874/0 is a tested core checkpoint, not acceptance of that unbuilt facility.
+Confirmed visual-only marker/furniture repairs are also active; the first partial
+film was rejected for stale first frames and excessive software-render time.
+
+
 All crosswalk systems are implemented in the dirty candidate, with focused receipts
 in STATUS. Final native floor-seam regression, full aggregate, source-bound whole-map motion,
 cold launch/profile and new packages remain. Manual-pose and adult-actor checks
 now pass with actual geometry and smooth-entry evidence. Both park branches, Main cone/tow and floor/
 camera regressions pass. Ground review found and closed a70 m south-quay gap;
 current surface/density checks are261/0 and56/0 with436 bodies/139 tracks.
-Historical `8f5058b` (1,817/0) and `9824d31` do not certify these edits.
+Tested functional checkpoint `c1f098a` passes2,781/0 and cold-launch258 stable
+inputs, with the measured visual support defect explicitly open. Post-checkpoint
+full-normal/floor placement, sloped getup, curved deck/shoe contacts, cart jitter/
+stop-cache and native bowl catch fixes are now active. Final receipts must cover
+those actual edits. Historical `8f5058b` and `9824d31` do not certify them.
 
 ## Checkpoint and resumption
 

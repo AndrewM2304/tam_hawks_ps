@@ -53,6 +53,7 @@ const PLATFORM_CONTACT_TESTS = preload("res://tests/platform_contact_tests.gd")
 const ACTIVITY_ACTOR_TESTS = preload("res://tests/activity_actor_tests.gd")
 const ROUTE_AVAILABILITY_TESTS = preload("res://tests/route_availability_tests.gd")
 const AMBIENT_ADULT_TESTS = preload("res://tests/ambient_adult_tests.gd")
+const CURVED_VISUAL_CONTACT_TESTS = preload("res://tests/curved_visual_contact_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
@@ -126,9 +127,11 @@ func _run() -> void:
 	await TRANSITION_PLAYER_TESTS.run(self, game, _check)
 	await PROCESS_GUARD_TESTS.run(self, game, _check)
 	await AUTHENTIC_FIDELITY_TESTS.run(self, game, _check)
+	await CURVED_VISUAL_CONTACT_TESTS.run(self, game, _check)
 	await FULL_REPERTOIRE_TESTS.run_playable(self, game, _check)
 	await FULL_LEVEL_DENSITY_TESTS.run(self, game, _check)
 	await PLATFORM_CONTACT_TESTS.run(self, game, _check)
+	await REMAINING_FEATURE_TESTS.run_main(self, game, _check)
 	await ACTIVITY_ACTOR_TESTS.run_world(self, game, _check)
 	await AMBIENT_ADULT_TESTS.run(self, game, _check)
 	await TRICK_ENCOUNTER_TESTS.run(self, game, _check)

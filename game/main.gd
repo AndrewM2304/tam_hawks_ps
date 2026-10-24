@@ -605,7 +605,7 @@ func _refresh_hud() -> void:
 		"grind_name": Skater.TrickCatalog.definition(skater.grind_trick_id).get("display_name", ""),
 		"manual_name": Skater.TrickCatalog.definition(skater.manual_trick_id).get("display_name", "Manual"),
 		"tricks": "  +  ".join(score.trick_history), "best": score.best_combo,
-		"speed": skater.velocity.length() if skater.transition_active else (skater.get_real_velocity().length() if not skater.grinding and skater.is_on_floor() and skater.get_platform_velocity().length_squared() > 0.01 else skater.speed), "airborne": skater.airborne,
+		"speed": skater.velocity.length() if skater.transition_active else (skater.get_real_velocity().length() if skater._native_floor_valid and not skater.grinding and skater.is_on_floor() and skater.get_platform_velocity().length_squared() > 0.01 else skater.speed), "airborne": skater.airborne,
 		"grinding": skater.grinding, "balance": skater.grind_balance,
 		"manual": skater.manual_active, "manual_balance": skater.manual_balance,
 		"wallriding": skater.wallriding, "transition_active": skater.transition_active,

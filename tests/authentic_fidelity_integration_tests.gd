@@ -3,6 +3,7 @@ extends RefCounted
 ## position/motion; all preparation, contacts, tricks and recovery then run native.
 ## An optional observer records these same physics steps as continuous evidence.
 const Catalog = preload("res://game/tricks/trick_catalog.gd")
+const ContactGeometry = preload("res://tests/full_repertoire_tests.gd")
 const SOLE := Vector3(0, -0.0605, 0)
 const PALM := Vector3(0, -0.075, -0.015)
 const SAFE := Vector3(-22, 0.8, 28)
@@ -72,9 +73,7 @@ static func _native_setups(tree: SceneTree, game: Node, check: Callable) -> void
 				sole_error = maxf(sole_error, foot.to_global(SOLE).distance_to(anchor))
 				sole_error = maxf(sole_error, _sole_plane_error(foot, anchor, normal))
 				var rear: Node3D = rig._legs[1].foot
-				var rear_target: Vector3 = game.skater._board_visual.to_global(
-					Basis(Vector3.UP, -game.skater._deck_yaw) * Vector3(0.015, 0.079, 0.255))
-				rear_error = maxf(rear_error, rear.global_position.distance_to(rear_target))
+				rear_error = maxf(rear_error, _griptape_distance(rear.to_global(SOLE), game.skater._board_visual))
 				if id == "boneless" and game.skater.setup_phase >= 0.60:
 					var hand: Node3D = rig._arms[1].hand
 					var edge: Vector3 = game.skater._board_visual.to_global(
@@ -295,6 +294,91 @@ static func _native_recovery(tree: SceneTree, game: Node, check: Callable) -> vo
 	await _results_recovery(tree, game, check)
 	await _recovery_clearance(tree, game, check)
 	await _recovery_floor_seam(tree, game, check)
+	await _sloped_recovery_first_frame(tree, game, check)
+
+static func _sloped_recovery_first_frame(tree: SceneTree, game: Node, check: Callable) -> void:
+	for degrees: float in [20.0, 35.0, 45.0]:
+		var slope := tan(deg_to_rad(degrees))
+		var origin := Vector3(-22, 12, 28)
+		var support := StaticBody3D.new()
+		support.name = "DeclaredSlopedRecoveryBank" + str(int(degrees))
+		support.position = origin
+		var a := Vector3(-4, -4 * slope, -10)
+		var b := Vector3(-4, -4 * slope, 10)
+		var c := Vector3(4, 4 * slope, 10)
+		var d := Vector3(4, 4 * slope, -10)
+		var faces := PackedVector3Array([a, c, b, a, d, c])
+		var shape := ConcavePolygonShape3D.new()
+		shape.set_faces(faces)
+		var collision := CollisionShape3D.new()
+		collision.shape = shape
+		support.add_child(collision)
+		var surface := SurfaceTool.new()
+		surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+		for vertex: Vector3 in faces: surface.add_vertex(vertex)
+		surface.generate_normals()
+		var mesh := MeshInstance3D.new()
+		mesh.mesh = surface.commit()
+		support.add_child(mesh)
+		game.world.add_child(support)
+		await _reset(tree, game, origin + Vector3.UP * 0.8)
+		_phase = "bail_native_bank_" + str(int(degrees))
+		Input.action_press("push")
+		await _frames(tree, 35)
+		Input.action_release("push")
+		await _frames(tree, 13)
+		var evidence := {"bails": 0, "entries": []}
+		var on_bail := func(): evidence.bails += 1
+		var on_entry := func(_label: String, _points: int): evidence.entries.append(game.skater.last_trick_id)
+		game.skater.bailed.connect(on_bail)
+		game.skater.trick_performed.connect(on_entry)
+		Input.action_press("manual")
+		await _frames(tree, 1)
+		check.call(game.skater.manual_active and game.skater.is_on_floor() and game.score.get_combo_value() == 100
+			and game.skater.get_floor_normal().dot(Vector3.UP) > 0.70,
+			"authentic Main: genuine push and Manual earn one supported entry on the %.0f-degree native bank" % degrees)
+		Input.action_press("brake")
+		var previous: Array[Vector3] = _markers(game)
+		var active_max := 0.0
+		var recovered_max := -1.0
+		var seen := false
+		var finite := true
+		for frame in 220:
+			var was_bail: bool = game.skater.bail_active
+			await _frames(tree, 1)
+			var current: Array[Vector3] = _markers(game)
+			var step := _marker_distance(previous, current)
+			finite = finite and current.all(func(point: Vector3): return point.is_finite())
+			if game.skater.bail_active:
+				active_max = maxf(active_max, step)
+				if not seen:
+					Input.action_release("brake")
+					Input.action_release("manual")
+				seen = true
+			if was_bail and not game.skater.bail_active:
+				recovered_max = step
+				previous = current
+				for after in 5:
+					await _frames(tree, 1)
+					current = _markers(game)
+					recovered_max = maxf(recovered_max, _marker_distance(previous, current))
+					finite = finite and current.all(func(point: Vector3): return point.is_finite())
+					previous = current
+				break
+			previous = current
+		check.call(seen and evidence.bails == 1 and not game.skater.bail_active and game.skater.is_on_floor()
+			and game.score.get_combo_value() == 0 and game.score.total_score == 0 and evidence.entries == ["manual"],
+			"authentic Main: actual %.0f-degree manual imbalance drops its real combo once and gets up on native support" % degrees)
+		check.call(finite and active_max < 0.24 and recovered_max >= 0.0 and recovered_max < 0.24,
+			"authentic Main: %.0f-degree recovery stays continuous through the first ordinary frame and five following frames" % degrees)
+		print("AUTHENTIC SLOPED RECOVERY degrees=%.0f active_step=%.5f first_recovered_step=%.5f bails=%d" % [
+			degrees, active_max, recovered_max, evidence.bails])
+		game.skater.bailed.disconnect(on_bail)
+		game.skater.trick_performed.disconnect(on_entry)
+		_release()
+		_phase = ""
+		support.queue_free()
+		await tree.process_frame
 
 static func _recovery_floor_seam(tree: SceneTree, game: Node, check: Callable) -> void:
 	# Two real twenty-degree native floors meet in a valley. The production
@@ -776,14 +860,16 @@ static func _all_grabs_and_grinds(tree: SceneTree, game: Node, check: Callable) 
 		Input.action_press("grab")
 		await _frames(tree, 2)
 		_set_direction("neutral")
-		await _frames(tree, 12)
+		await _frames(tree, 16)
 		var hand_index := 0 if float(entry.grab_side) < 0.0 else 1
 		var hand: Node3D = game.skater._visual_rig._arms[hand_index].hand
 		var board: Node3D = game.skater._board_visual
 		var target: Vector3 = board.to_global(Basis(Vector3.UP, -board.rotation.y) * Vector3(entry.grab_target))
 		var palm_error := hand.to_global(PALM).distance_to(target)
+		var surface_error := _griptape_distance(hand.to_global(PALM), board)
+		var surface_limit := 0.004 if entry.id in ["nose_grab", "tail_grab"] else 0.025
 		check.call(game.skater.grab_trick_id == entry.id and evidence.ids == ["ollie", entry.id]
-			and game.score.combo_trick_count == 2 and palm_error < 0.025,
+			and game.score.combo_trick_count == 2 and palm_error < 0.025 and surface_error < surface_limit,
 			"authentic Main: actual %s input selects %s and its real palm reaches the visible board" % [direction, entry.id])
 		Input.action_release("grab")
 		await _land(tree, game, 110)
@@ -791,7 +877,7 @@ static func _all_grabs_and_grinds(tree: SceneTree, game: Node, check: Callable) 
 		var expected: int = (Catalog.base_points("ollie") + int(entry.base_points) + int(evidence.holds)) * 2
 		check.call(evidence.bails == 0 and game.score.total_score == expected and evidence.ids == ["ollie", entry.id],
 			"authentic Main: native %s takeoff, grip, catch and landing bank only their two earned entries" % entry.id)
-		print("AUTHENTIC GRAB %s palm=%.6f bank=%d" % [entry.id, palm_error, game.score.total_score])
+		print("AUTHENTIC GRAB %s palm=%.6f actual_griptape=%.6f bank=%d" % [entry.id, palm_error, surface_error, game.score.total_score])
 		game.skater.trick_performed.disconnect(on_entry)
 		game.skater.hold_points_awarded.disconnect(on_hold)
 		game.skater.bailed.disconnect(on_bail)
@@ -1179,6 +1265,12 @@ static func _sole_plane_error(foot: Node3D, point: Vector3, normal: Vector3) -> 
 		if is_equal_approx(vertex.y, SOLE.y):
 			error = maxf(error, absf((mesh.to_global(vertex) - point).dot(normal)))
 	return error
+
+static func _griptape_distance(point: Vector3, board: Node3D) -> float:
+	# Measure the rendered curved deck, rather than a fixed nominal ankle
+	# height that can agree with an embedded sole on the raised nose/tail fan.
+	var tape: MeshInstance3D = board.get_node("Griptape")
+	return ContactGeometry._surface_distance(point, [tape])
 
 static func _release() -> void:
 	for action in InputMap.get_actions(): Input.action_release(action)

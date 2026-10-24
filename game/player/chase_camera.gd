@@ -59,6 +59,7 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	# Curved/rail movement does not refresh CharacterBody's floor/platform cache.
 	# After leaving a cart that cache can point opposite to a true rollback.
 	var native_platform := rider.is_on_floor() and rider.get_platform_velocity().length_squared() > 0.01 \
+		and bool(rider.get("_native_floor_valid")) \
 		and not bool(rider.get("transition_active")) and not bool(rider.get("grinding"))
 	var motion := rider.get_real_velocity() if native_platform else rider.velocity
 	var planar := Vector3(motion.x, 0.0, motion.z)

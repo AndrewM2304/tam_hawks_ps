@@ -127,8 +127,13 @@ ground speed>4 m/s activate a powerslide with additional turn and controlled dra
 
 Moving-ground carrying remains Godot `CharacterBody3D` platform motion. Signed
 `speed` measures skater travel relative to support: after a move, the controller
-subtracts the appropriate pre-move platform velocity, or the newly contacted
-platform velocity on an air landing. Jump/leave inherits support momentum once;
+tracks the actual native floor collider RID and whether inheritance is enabled
+for the next move. Continued support subtracts the current completed move's
+platform velocity, including a stop at zero; fresh reset contacts cannot subtract
+carry that was never applied. Air landings convert world momentum into the newly
+contacted platform frame. Helper movement discards stale inherited support until
+the next real native slide; a first-snap zero normal uses an actual native floor
+ray. Jump/leave inherits support momentum once;
 it does not become next frame's relative push speed. The service cart's bed/cab
 are current moving surfaces. Ordinary scenery collision remains authoritative.
 
@@ -139,6 +144,37 @@ are current moving surfaces. Ordinary scenery collision remains authoritative.
 
 `set_presentation_settings(sensitivity,reduced_motion)` clamps camera sensitivity to 0.5–2 and removes speed-dependent camera distance/FOV when reduced motion is enabled. `chase_camera.gd` follows actual planar travel rather than board-facing alone, retains its bearing through near-zero horizontal vert motion, and uses `get_support_normal()` for chest/head framing with a world-up horizon. Collision-volume sweeps, full-body sightlines and retained side-orbit smoothing remain active. `set_skater_color(Color)` changes the shared shirt material.
 
+`get_support_normal()` returns the active curved helper's normal, or the native
+floor normal during ordinary supported travel. The ordinary branch rejects
+airtime, the forced-air departure tick, rail/wall support and bail recovery;
+it also requires floor data from an actual native move, invalidated during
+rail/transition helper frames. Without valid support it returns world UP.
+On native floors and curved `surface` support,
+the presentation composes its heading/spin yaw inside the full support plane:
+pitch and cross-slope roll match the current normal without smoothing lag.
+Torso action lean remains separate. The ordinary upright collision capsule
+retains its native transform, which can place its origin above a steep plane.
+Before solving rig contacts, an excluding-self ray against the player's floor
+mask (`1 | 8`, world and cart) places the visual origin 8 mm above a real hit
+whose normal agrees with the native floor normal (dot greater than 0.98).
+This correction changes presentation only; curved support retains its own
+physical placement. A natively supported bail uses the same full floor frame and
+origin correction throughout getting up, so its final visible recovery target
+matches the first ordinary supported frame. Its presentation reads the native
+normal directly; the public camera getter keeps its bail guard. Setup soles/palms
+still use their supplied world contacts, air catches continue over their bounded
+blend, and bail begins from the visible world transforms captured before support
+and trick state are cleared.
+
+Airborne presentation reads a finite native floor ray below the flight and keeps
+a continuous support frame across associated/ordinary air handoff. Its rotation
+is capped at 4.5 radians/second; only ordinary near-floor presentation anticipates
+the upright capsule's foot offset. Physics support, velocity, trick eligibility
+and scoring remain unchanged. This prepares descending bowl catches rather than
+rotating the entire visible figure only after contact. Actual all-wheel rays,
+head motion relative to body travel, real griptape/sole distances, leg reach and
+once-only bank regressions cover takeoff, handoff, catch and toe exit.
+
 The presentation helpers `skater_visual.gd`/`skater_garments.gd` build an original
 ten-bone `Skeleton3D` with continuous skinned jacket/trousers, structured shoes,
 detailed board and analytic action poses. The CC0 cropped adult head, scalp and
@@ -146,6 +182,12 @@ five-finger hands retain their attribution; no complete MakeHuman body/program
 or new asset licence is implied. `Footwear.SOLE_CONTACT=(0,-0.0605,0)` and
 `TOE_CONTACT=(0,0.001,-0.115)` are actual mesh contacts (toe is local −Z).
 `Anatomy.PALM_CONTACT=(0,-0.075,-0.015)` remains fixed as distal fingers curl.
+The original deck's wood top/bottom and griptape use 24 concentric rings to
+retain a flat stance area and curved kicks; the exposed wood border is closed.
+Bolt caps finish at the actual grip triangles. Ordinary planted feet sit at
+deck Z±0.220, inside the trucks at Z±0.255; world-space setup anchors retain their
+existing offsets. Nose/Tail Grab targets use Y=0.039 at Z∓0.38 so their palms
+contact the raised kicks instead of entering the wood.
 
 `animate(delta,state)` consumes ordinary action/balance state, signed
 `travel_sign`, setup/launch/catch parameters, full manual/grab/lip/special
@@ -157,8 +199,21 @@ Committed rest-deck yaw is compensated when selecting the same physical foot or
 grab end. The front sole plants on the supplied ray point, the Boneless right
 palm meets the actual edge, and separation catches back over 0.28 seconds.
 
-Manual foot shift, crossfoot, Pogo and Casper transitions blend at rate 16 and
-reset explicitly. Pogo pitches the deck by 1.22 radians; its horizontal soles
+Crossfoot, Pogo and Casper transitions blend at rate 16 and reset explicitly.
+The Hang Ten shift uses rate 12 with a smooth endpoint curve so its forward
+torso/hand turn also releases continuously. One-foot Manual leaves the rear foot
+loaded and raises the front; One-foot Nose Manual leaves the front loaded and
+raises the rear. Independent lift blends plant the former free foot before the
+opposite leg rises when the weighted role changes.
+
+Hang Ten places both forward-facing shoes side by side near functional deck
+Z−0.24 rather than applying a uniform offset to the ordinary stance. Its rigid
+cupsoles bridge the curved kick on real heel and forefoot contacts; those
+contacts may lie on the exposed wood beside the narrower griptape cap. The sole
+centre can therefore sit above the concavity. A fitted support pose is cached
+at loading, and a grid of actual top triangles bounds moving sole compression
+to 1 mm during one-foot/Hang Ten transitions. Native balance, score and inputs
+do not change. Pogo pitches the deck by 1.22 radians; its horizontal soles
 meet the real functional rear-wheel crowns returned by
 `pogo_foot_contact(side,rest_yaw)`, and both palms meet the authored griptape
 vertices returned by `pogo_hand_target(side)` after inverse rest-yaw compensation.

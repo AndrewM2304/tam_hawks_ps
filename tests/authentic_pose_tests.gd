@@ -12,11 +12,13 @@ const BONELESS_EDGE := Vector3(0.128, 0.022, 0.02)
 
 static func run(tree: SceneTree, check: Callable) -> void:
 	await _setup_contacts(tree, check)
+	await _board_mesh_contacts(tree, check)
 	await _catch_and_landing(tree, check)
 	await _recovery(tree, check)
 	await _lip_contacts(tree, check)
 	await _manual_styles(tree, check)
 	await _manual_motion(tree, check)
+	await _weighted_manual_contacts(tree, check)
 	await _bearing_lips(tree, check)
 	await _specials_and_stance(tree, check)
 	await _interrupted_recovery(tree, check)
@@ -44,13 +46,11 @@ static func _setup_contacts(tree: SceneTree, check: Callable) -> void:
 			var rear: Node3D = fixture.rig._legs[1].foot
 			var planted: Vector3 = front.to_global(SOLE)
 			var normal: Vector3 = fixture.contact.normal
-			var expected_rear: Vector3 = fixture.board.to_global(
-				Basis(Vector3.UP, -request[1]) * Vector3(0.015, 0.079, 0.255))
 			var sole_error := _sole_plane_error(front, fixture.contact.position, normal)
 			check.call(planted.distance_to(fixture.contact.position) < 0.004
 				and front.global_basis.y.normalized().dot(normal) > 0.998 and sole_error < 0.004,
 				"authentic pose: actual front shoe sole plants on ray point and plane " + id + " " + label)
-			check.call(rear.global_position.distance_to(expected_rear) < 0.004,
+			check.call(_grip_distance(fixture, rear.to_global(SOLE)) < 0.004,
 				"authentic pose: supporting rear shoe stays on the visible deck " + id + " " + label)
 			check.call(_finite(fixture.rig) and _max_stretch(fixture.rig) <= 1.12,
 				"authentic pose: setup limbs remain finite and within human reach " + id + " " + label)
@@ -64,6 +64,94 @@ static func _setup_contacts(tree: SceneTree, check: Callable) -> void:
 				check.call(_nearest_vertex(fingers, edge) < 0.025,
 					"authentic pose: visible anatomical palm geometry reaches the Boneless contact " + label)
 		await _dispose(tree, fixture.root)
+
+
+static func _board_mesh_contacts(tree: SceneTree, check: Callable) -> void:
+	for rest: float in [0.0, PI]:
+		var fixture := await _fixture(tree, 0.6, rest)
+		fixture.board.rotation = Vector3(0.30, rest, -0.15)
+		var state := _neutral()
+		state.merge({"deck_yaw": rest, "rest_deck_yaw": rest}, true)
+		_settle(fixture.rig, state)
+		var grip: MeshInstance3D = fixture.board.get_node("Griptape")
+		var faces: PackedVector3Array = grip.mesh.get_faces()
+		var sole_min := INF
+		var complete_min := INF
+		for leg: Dictionary in fixture.rig._legs:
+			var contact: Vector3 = fixture.board.to_local(leg.foot.to_global(SOLE))
+			var height := _triangle_height(faces, contact)
+			sole_min = minf(sole_min, contact.y - height)
+			for mesh: MeshInstance3D in [leg.foot.get_node("Cupsole"), leg.foot.get_node("CanvasUpper")]:
+				var unique: Dictionary = {}
+				for point: Vector3 in mesh.mesh.get_faces(): unique[point] = true
+				for point: Vector3 in unique:
+					var local: Vector3 = fixture.board.to_local(mesh.to_global(point))
+					var surface := _triangle_height(faces, local)
+					if is_finite(surface): complete_min = minf(complete_min, local.y - surface)
+		check.call(sole_min >= -0.001 and sole_min < 0.001 and _feet_error(fixture) < 0.001,
+			"authentic board: both caught sole markers rest on actual griptape triangles rest=%.2f" % rest)
+		check.call(complete_min >= -0.0015,
+			"authentic board: complete cupsole and shoe upper vertices stay outside the deck rest=%.2f" % rest)
+		var bolt_count := 0
+		var bolt_gap := 0.0
+		for child: Node in fixture.board.get_children():
+			if not child is MeshInstance3D or not child.mesh is SphereMesh: continue
+			if not child.scale.is_equal_approx(Vector3(0.006, 0.002, 0.006)): continue
+			bolt_count += 1
+			var cap: Vector3 = child.position + Vector3.UP * 0.002
+			bolt_gap = maxf(bolt_gap, absf(cap.y - _triangle_height(faces, cap)))
+		check.call(bolt_count == 8 and bolt_gap < 0.0002,
+			"authentic board: all eight countersunk bolt caps finish flush with the real grip rest=%.2f" % rest)
+		var wood: MeshInstance3D = fixture.board.get_node("CurvedMapleDeck")
+		var wood_faces: PackedVector3Array = wood.mesh.get_faces()
+		check.call(_triangle_height(faces, Vector3(0, 0, 0.255)) < 0.018
+			and _triangle_height(faces, Vector3(0, 0, 0.38)) > 0.036
+			and is_finite(_triangle_height(wood_faces, Vector3(0.115, 0, 0))),
+			"authentic board: flat stance, curved kicks and closed exposed wood border are actual triangles rest=%.2f" % rest)
+		for id: String in Catalog.family_ids("grab"):
+			var definition: Dictionary = Catalog.definition(id)
+			fixture.board.rotation = Vector3(cos(rest) * float(definition.get("board_pitch", 0)), rest,
+				cos(rest) * float(definition.get("board_roll", 0)))
+			fixture.rider.position.y = -0.17
+			fixture.rider.rotation.x = -0.30
+			state.merge({"airborne": true, "grab": true, "grab_side": definition.grab_side,
+				"grab_target": definition.grab_target, "grab_definition": definition}, true)
+			_settle(fixture.rig, state)
+			var hand: Node3D = fixture.rig._arms[0 if definition.grab_side < 0 else 1].hand
+			var palm: Vector3 = fixture.board.to_local(hand.to_global(PALM))
+			var height := _triangle_height(faces, palm)
+			var inside_wood := is_finite(height) and palm.y < height - 0.001
+			var distance := preload("res://tests/full_repertoire_tests.gd")._surface_distance(
+				hand.to_global(PALM), [grip, wood])
+			check.call(not inside_wood and distance < 0.025 and _feet_error(fixture) < 0.001
+				and _max_stretch(fixture.rig) <= 1.12,
+				"authentic board: grab palm wraps the rendered surface while caught soles stay clear %s rest=%.2f" % [id, rest])
+		print("AUTHENTIC_BOARD rest=%.2f caught_sole=%.6f complete_shoe=%.6f bolt_gap=%.6f" % [rest, sole_min, complete_min, bolt_gap])
+		await _dispose(tree, fixture.root)
+
+
+static func _triangle_height(faces: PackedVector3Array, point: Vector3) -> float:
+	var height := -INF
+	var p := Vector2(point.x, point.z)
+	for index in range(0, faces.size(), 3):
+		var a := Vector2(faces[index].x, faces[index].z)
+		var b := Vector2(faces[index + 1].x, faces[index + 1].z)
+		var c := Vector2(faces[index + 2].x, faces[index + 2].z)
+		var ab := b - a
+		var ac := c - a
+		var determinant := ab.cross(ac)
+		if absf(determinant) < 0.0000000001: continue
+		var u := (p - a).cross(ac) / determinant
+		var v := ab.cross(p - a) / determinant
+		if u >= -0.00001 and v >= -0.00001 and u + v <= 1.00001:
+			height = maxf(height, faces[index].y * (1.0 - u - v) + faces[index + 1].y * u + faces[index + 2].y * v)
+	return height
+
+
+static func _grip_distance(fixture: Dictionary, contact: Vector3) -> float:
+	var grip: MeshInstance3D = fixture.board.get_node("Griptape")
+	var local := grip.to_local(contact)
+	return absf(local.y - _triangle_height(grip.mesh.get_faces(), local))
 
 
 static func _catch_and_landing(tree: SceneTree, check: Callable) -> void:
@@ -335,6 +423,8 @@ static func _manual_motion(tree: SceneTree, check: Callable) -> void:
 static func _manual_frame(fixture: Dictionary, state: Dictionary) -> void:
 	var definition: Dictionary = state.manual_definition
 	var sign_value := float(definition.get("manual_sign", 1.0))
+	state.manual_sign = sign_value
+	state.manual_foot_lift = float(definition.get("manual_foot_lift", 0.0))
 	var pitch := sign_value * deg_to_rad(16.0) if state.manual else 0.0
 	var roll := 0.0
 	if state.manual and definition.get("manual_pogo", false): pitch = 1.22
@@ -346,6 +436,59 @@ static func _manual_frame(fixture: Dictionary, state: Dictionary) -> void:
 	fixture.rider.rotation.x = lerpf(fixture.rider.rotation.x, sign_value * -0.18 if state.manual else -0.10, 1.0 - exp(-16.0 / 60.0))
 	fixture.rider.position.y = -0.10 if state.manual else lerpf(fixture.rider.position.y, 0, 1.0 - exp(-16.0 / 60.0))
 	fixture.rig.animate(1.0 / 60.0, state)
+
+
+static func _weighted_manual_contacts(tree: SceneTree, check: Callable) -> void:
+	for rest: float in [0.0, PI]:
+		var fixture := await _fixture(tree, 0.5, rest)
+		var state := _neutral()
+		state.merge({"manual": true, "manual_definition": Catalog.definition("manual"),
+			"deck_yaw": rest, "rest_deck_yaw": rest}, true)
+		for id: String in ["one_foot_manual", "one_foot_nose_manual"]:
+			state.manual_definition = Catalog.definition(id)
+			for frame in 90: _manual_frame(fixture, state)
+			var planted := 1 if id == "one_foot_manual" else 0
+			var raised := 1 - planted
+			var free: Vector3 = fixture.board.to_local(fixture.rig._legs[raised].foot.to_global(SOLE))
+			var grip_faces: PackedVector3Array = fixture.board.get_node("Griptape").mesh.get_faces()
+			var lift := free.y - _triangle_height(grip_faces, free)
+			check.call(_grip_distance(fixture, fixture.rig._legs[planted].foot.to_global(SOLE)) < 0.001
+				and lift > 0.15 and _max_stretch(fixture.rig) <= 1.12,
+				"authentic manual: %s loads the %s foot and raises its partner rest=%.2f" % [id, "rear" if planted == 1 else "front", rest])
+		state.manual_definition = Catalog.definition("hang_ten")
+		for frame in 90: _manual_frame(fixture, state)
+		var tape_faces: PackedVector3Array = fixture.board.get_node("Griptape").mesh.get_faces()
+		var wood_faces: PackedVector3Array = fixture.board.get_node("CurvedMapleDeck").mesh.get_faces()
+		for leg: Dictionary in fixture.rig._legs:
+			var foot: Node3D = leg.foot
+			var functional: Vector3 = Basis(Vector3.UP, rest) * fixture.board.to_local(foot.to_global(SOLE))
+			var forward: Vector3 = fixture.board.global_basis * Basis(Vector3.UP, -rest) * Vector3.FORWARD
+			check.call(functional.z < -0.22 and functional.z > -0.28
+				and functional.x * float(leg.side) > 0.055 and foot.global_basis.z.dot(-forward) > 0.99,
+				"authentic manual: Hang Ten clusters a forward-facing shoe over the functional nose rest=%.2f side=%.0f" % [rest, leg.side])
+			var front_bearing := INF
+			var heel_bearing := INF
+			var complete := INF
+			for mesh: MeshInstance3D in [foot.get_node("Cupsole"), foot.get_node("CanvasUpper")]:
+				var unique: Dictionary = {}
+				for point: Vector3 in mesh.mesh.get_faces(): unique[point] = true
+				for point: Vector3 in unique:
+					var local: Vector3 = fixture.board.to_local(mesh.to_global(point))
+					var height := maxf(_triangle_height(tape_faces, local), _triangle_height(wood_faces, local))
+					if not is_finite(height): continue
+					var gap: float = local.y - height
+					complete = minf(complete, gap)
+					if mesh.name == "Cupsole" and point.y < -0.0604:
+						if point.z < -0.025: front_bearing = minf(front_bearing, absf(gap))
+						elif point.z > 0.025: heel_bearing = minf(heel_bearing, absf(gap))
+			check.call(front_bearing < 0.001 and heel_bearing < 0.001 and complete > -0.0015
+				and _max_stretch(fixture.rig) <= 1.12,
+				"authentic manual: Hang Ten real heel and forefoot bear on curved grip or wood without embedding rest=%.2f side=%.0f" % [rest, leg.side])
+			print("AUTHENTIC_HANG rest=%.2f side=%.0f sole=%s forefoot=%.6f heel=%.6f whole=%.6f" % [rest, leg.side, functional, front_bearing, heel_bearing, complete])
+		fixture.rig.reset()
+		check.call(fixture.rig._front_foot_lift == 0.0 and fixture.rig._rear_foot_lift == 0.0,
+			"authentic manual: reset clears both weighted-foot role blends rest=%.2f" % rest)
+		await _dispose(tree, fixture.root)
 
 
 static func _bearing_lips(tree: SceneTree, check: Callable) -> void:
@@ -531,9 +674,7 @@ static func _settle(rig: RefCounted, state: Dictionary) -> void:
 static func _feet_error(fixture: Dictionary) -> float:
 	var error := 0.0
 	for leg: Dictionary in fixture.rig._legs:
-		var at := Vector3(-0.015 if leg.side < 0 else 0.015, 0.079, leg.side * 0.255)
-		var target: Vector3 = fixture.board.to_global(Basis(Vector3.UP, -fixture.rest_yaw) * at)
-		error = maxf(error, target.distance_to(leg.foot.global_position))
+		error = maxf(error, _grip_distance(fixture, leg.foot.to_global(SOLE)))
 	return error
 
 

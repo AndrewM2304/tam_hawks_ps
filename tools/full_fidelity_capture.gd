@@ -5,6 +5,9 @@ const Main = preload("res://game/main.gd")
 const Authentic = preload("res://tests/authentic_fidelity_integration_tests.gd")
 const Repertoire = preload("res://tests/full_repertoire_tests.gd")
 const Density = preload("res://tests/full_level_density_tests.gd")
+const CurvedVisual = preload("res://tests/curved_visual_contact_tests.gd")
+const Platform = preload("res://tests/platform_contact_tests.gd")
+const Remaining = preload("res://tests/remaining_feature_tests.gd")
 const Catalog = preload("res://game/tricks/trick_catalog.gd")
 var game: Node
 var output := "res://.local/full-fidelity-motion"
@@ -40,6 +43,9 @@ func _run() -> void:
 	game.add_child(_inspection)
 	await _overviews()
 	await Authentic.run(self, game, _check, _observe)
+	await CurvedVisual.run(self, game, _check, _observe)
+	await Platform.run(self, game, _check, _observe)
+	await Remaining.run_main(self, game, _check, _observe)
 	await Repertoire.run_playable(self, game, _check, _observe)
 	await Density.run_player(self, game, _check, _observe)
 	var clips: Array = _clips.values()
@@ -53,7 +59,7 @@ func _run() -> void:
 		"checks": checks, "failures": failures, "physics_hz": 60, "motion_sample_hz": 15,
 		"clips": clips, "overviews": _overview_frames, "native_timeline": _timeline, "catalog_families": catalog_families,
 		"fixture_policy": "Only declared restart/initial-contact fixtures from the linked integration tests; real input/native motion thereafter. Repertoire uses explicitly declared elevated air fixtures and special unlock/meter eligibility seeds.",
-		"camera_policy": "Native chase for world lines, connected surfaces and activities; authored marker-bounded inspection camera for anatomical trick/setup/recovery review.",
+		"camera_policy": "Native chase for world lines, connected surfaces and activities; authored marker-bounded contact inspection for tricks/setup/recovery; explicit cart-centred inspection for the empty parked turn.",
 		"raw_frame_policy": "Lossless input PNGs remain in the ignored staging directory; published movies are fully decoded and source-frame hashes/timeline plus selected lossless review frames are retained.",
 		"human_or_target_hardware_certification": false}
 	var file := FileAccess.open(output.path_join("manifest.json"), FileAccess.WRITE)
@@ -67,20 +73,37 @@ func _run() -> void:
 
 func _observe(phase: String, observed_game: Node, _phase_step: int) -> void:
 	if phase.is_empty() or phase == "fixture" or _phase_step < 0: return
+	# process_frame is emitted before the production Camera/HUD _process calls.
+	# An always-running zero timer fences those nodes in this same logical frame,
+	# including intentional pause clips, without advancing another physics step.
+	var native_tick := Engine.get_physics_frames()
+	var process_tick := Engine.get_process_frames()
+	await create_timer(0.0, true).timeout
+	_check(Engine.get_physics_frames() == native_tick and Engine.get_process_frames() == process_tick,
+		"full motion observer fences production processing without advancing a logical frame")
 	_global_step += 1
 	var state := _snapshot(observed_game)
 	_timeline.append({"phase": phase, "step": _global_step, "state": state})
 	if not _clips.has(phase):
 		var inspection := _uses_inspection(phase)
-		_clips[phase] = {"id": phase, "camera": "authored contact inspection" if inspection else "production chase",
+		var camera_label := "authored vehicle inspection" if phase == "cart_parked_turn" else ("authored contact inspection" if inspection else "production chase")
+		_clips[phase] = {"id": phase, "camera": camera_label,
 			"native_steps": 0, "sample_stride": 4, "frames": []}
 		DirAccess.make_dir_recursive_absolute(output.path_join("frames/" + phase))
 	var clip: Dictionary = _clips[phase]
 	clip.native_steps += 1
 	if (int(clip.native_steps) - 1) % 4 != 0: return
 	var inspection: bool = _uses_inspection(phase)
-	game.hud.visible = not inspection
-	if inspection:
+	var vehicle_inspection := phase == "cart_parked_turn"
+	game.hud.visible = not (inspection or vehicle_inspection)
+	_inspection.fov = 48.0 if vehicle_inspection else 40.0
+	if vehicle_inspection:
+		var vehicle: Node3D = game.feature_hub.vehicle
+		var focus: Vector3 = vehicle.global_position + Vector3.UP * 0.75
+		_inspection.global_position = focus + Vector3(5, 3.2, 6).normalized() * 7.0
+		_inspection.look_at(focus)
+		_inspection.current = true
+	elif inspection:
 		var points := _markers(game)
 		var minimum: Vector3 = points[0]
 		var maximum: Vector3 = points[0]
@@ -105,6 +128,8 @@ func _observe(phase: String, observed_game: Node, _phase_step: int) -> void:
 
 func _snapshot(observed: Node) -> Dictionary:
 	var skater: CharacterBody3D = observed.skater
+	var vehicle: Node3D = observed.feature_hub.vehicle
+	var vehicle_status: Dictionary = vehicle.status_snapshot()
 	var actions: Dictionary = {}
 	for action in InputMap.get_actions():
 		var strength := Input.get_action_strength(action)
@@ -114,7 +139,12 @@ func _snapshot(observed: Node) -> Dictionary:
 		"full motion native/body coordinates remain finite")
 	var encoded: Array = []
 	for point: Vector3 in points: encoded.append(_v(point))
-	return {"position": _v(skater.global_position), "velocity": _v(skater.velocity),
+	return {"physics_frame": Engine.get_physics_frames(), "process_frame": Engine.get_process_frames(),
+		"paused": observed.get_tree().paused, "run_finished": observed.run_finished,
+		"vehicle_position": _v(vehicle.global_position), "vehicle_yaw": vehicle.rotation.y,
+		"vehicle_velocity": _v(vehicle.travel_velocity), "vehicle_phase": vehicle_status.get("phase", ""),
+		"vehicle_turn_blocked": vehicle_status.get("turn_blocked", ""),
+		"position": _v(skater.global_position), "velocity": _v(skater.velocity),
 		"speed": skater.speed, "airborne": skater.airborne, "on_floor": skater.is_on_floor(),
 		"stance": skater.stance, "active_trick": skater.active_trick, "last_trick_id": skater.last_trick_id,
 		"flip_id": skater.flip_trick_id, "grab_id": skater.grab_trick_id, "grind_id": skater.grind_trick_id,
@@ -139,6 +169,7 @@ func _markers(observed: Node) -> Array[Vector3]:
 func _uses_inspection(phase: String) -> bool:
 	return phase.begins_with("setup_") or phase.begins_with("bail_") or phase.begins_with("interrupted_") \
 		or phase.begins_with("unsupported_plant_") or phase == "high_wall_bail" \
+		or phase == "platform_roof_boneless" \
 		or phase.begins_with("flip_") or phase.begins_with("grab_") or phase.begins_with("manual_") \
 		or phase.begins_with("special_") or phase.begins_with("lip_") or phase.begins_with("grind_") \
 		or phase == "triple_flip_one_entry"
@@ -161,6 +192,7 @@ func _overviews() -> void:
 		_inspection.fov = 62.0
 		_inspection.current = true
 		await process_frame
+		await create_timer(0.0, true).timeout
 		RenderingServer.force_draw(true, 1.0 / 60.0)
 		var relative: String = view[0] + ".png"
 		_check(root.get_texture().get_image().save_png(output.path_join(relative)) == OK, relative + " saved")

@@ -1,0 +1,34 @@
+extends SceneTree
+class ProcessProbe extends Node:
+ var last_tick: int = -1
+ func _process(_delta: float) -> void: last_tick=Engine.get_process_frames()
+func _initialize() -> void:_run.call_deferred()
+func _run() -> void:
+ var always=ProcessProbe.new()
+ always.process_mode=Node.PROCESS_MODE_ALWAYS
+ root.add_child(always)
+ var pausable=ProcessProbe.new()
+ pausable.process_mode=Node.PROCESS_MODE_PAUSABLE
+ root.add_child(pausable)
+ var passed=0
+ var failed=0
+ for frame in 12:
+  paused=frame>=8
+  await physics_frame
+  await process_frame
+  var native_tick=Engine.get_physics_frames()
+  var process_tick=Engine.get_process_frames()
+  var old_pause_tick=pausable.last_tick
+  await create_timer(0.0,true).timeout
+  var same=Engine.get_physics_frames()==native_tick and Engine.get_process_frames()==process_tick
+  var complete=always.last_tick==process_tick and ((paused and pausable.last_tick==old_pause_tick) or (not paused and pausable.last_tick==process_tick))
+  if same:passed+=1
+  else:failed+=1
+  if complete:passed+=1
+  else:failed+=1
+ paused=false
+ always.queue_free()
+ pausable.queue_free()
+ await process_frame
+ print('PROCESS FENCE: %d passed, %d failed (8 ordinary +4 paused frames)'%[passed,failed])
+ quit(1 if failed else 0)

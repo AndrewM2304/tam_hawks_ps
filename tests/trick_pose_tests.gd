@@ -2,6 +2,7 @@ extends RefCounted
 ## Native visual-rig contact checks, independent of gameplay admission/scoring.
 const Visual = preload("res://game/player/skater_visual.gd")
 const Catalog = preload("res://game/tricks/trick_catalog.gd")
+const ContactGeometry = preload("res://tests/full_repertoire_tests.gd")
 
 static func run(tree: SceneTree, check: Callable) -> void:
 	var fixture := Node3D.new()
@@ -201,13 +202,12 @@ static func _settle(rig: RefCounted, state: Dictionary) -> void:
 	for i in 60:
 		rig.animate(1.0 / 60.0, state)
 
-static func _feet_error(rig: RefCounted, board: Node3D, deck_yaw: float = 0.0) -> float:
+static func _feet_error(rig: RefCounted, board: Node3D, _deck_yaw: float = 0.0) -> float:
 	var error := 0.0
+	var tape: MeshInstance3D = board.get_node("Griptape")
 	for leg: Dictionary in rig._legs:
-		var side: float = leg.side
-		var deck_point := Vector3(-0.015 if side < 0 else 0.015, 0.079, side * 0.255)
-		var target := board.to_global(Basis(Vector3.UP, -deck_yaw) * deck_point)
-		error = maxf(error, leg.foot.global_position.distance_to(target))
+		var sole: Vector3 = leg.foot.to_global(Vector3(0, -0.0605, 0))
+		error = maxf(error, ContactGeometry._surface_distance(sole, [tape]))
 	return error
 
 static func _limbs_finite(rig: RefCounted) -> bool:

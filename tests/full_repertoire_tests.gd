@@ -824,7 +824,7 @@ static func _physics(tree: SceneTree, count: int) -> void:
 		await tree.process_frame
 		_playback_step += 1
 		if _playback_observer.is_valid() and is_instance_valid(_playback_game):
-			_playback_observer.call(_playback_phase,_playback_game,_playback_step)
+			await _playback_observer.call(_playback_phase,_playback_game,_playback_step)
 
 
 static func _axis(direction: String) -> Vector2:

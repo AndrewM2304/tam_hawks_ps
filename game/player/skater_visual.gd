@@ -5,6 +5,9 @@ extends RefCounted
 const Garments = preload("res://game/player/skater_garments.gd")
 const Footwear = preload("res://game/player/skater_footwear.gd")
 const Anatomy = preload("res://game/player/skater_anatomy.gd")
+const PLANTED_FOOT_Z := 0.220
+const PLANTED_FOOT_Y := 0.0784
+static var _hang_ten_support: Dictionary = {}
 
 var _board: Node3D
 var _board_rest_height := 0.12
@@ -41,6 +44,8 @@ var _transition_blend := 0.0
 var _walk_blend := 0.0
 var _walk_phase := 0.0
 var _foot_lift := 0.0
+var _front_foot_lift := 0.0
+var _rear_foot_lift := 0.0
 var _manual_shift := 0.0
 var _cross_blend := 0.0
 var _pogo_blend := 0.0
@@ -48,6 +53,10 @@ var _casper_blend := 0.0
 var _board_support_points := PackedVector3Array()
 var _wheel_surfaces: Array[Dictionary] = []
 var _sole_points := PackedVector3Array()
+var _grip_faces := PackedVector3Array()
+var _wood_faces := PackedVector3Array()
+var _deck_top_faces := PackedVector3Array()
+var _deck_surface_grid: Dictionary = {}
 var _slide_direction := 1.0
 var _setup_catch_offset := Vector3.ZERO
 var _setup_catch_basis := Basis.IDENTITY
@@ -114,6 +123,8 @@ func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 		var hand: Node3D = _anatomy.build_hand(_rider, side)
 		_arms.append({"side": side, "hand": hand})
 	_cache_support_geometry()
+	_cache_deck_surface_grid()
+	_cache_hang_ten_support()
 	reset()
 
 func reset() -> void:
@@ -142,6 +153,8 @@ func reset() -> void:
 	_walk_blend = 0.0
 	_walk_phase = 0.0
 	_foot_lift = 0.0
+	_front_foot_lift = 0.0
+	_rear_foot_lift = 0.0
 	_manual_shift = 0.0
 	_cross_blend = 0.0
 	_pogo_blend = 0.0
@@ -319,7 +332,15 @@ func animate(delta: float, state: Dictionary) -> void:
 	_transition_blend = _blend(_transition_blend, 1.0 if bool(state.get("transition_active", false)) else 0.0, delta, 10.0)
 	_walk_blend = _blend(_walk_blend, 1.0 if walking else 0.0, delta, 12.0)
 	_foot_lift = _blend(_foot_lift, foot_lift, delta, 13.0)
-	_manual_shift = _blend(_manual_shift, foot_shift, delta, 16.0)
+	# Tail manuals load the rear foot; nose manuals load the front. When the
+	# weighted role changes, plant the formerly raised shoe before lifting its
+	# partner rather than leaving both feet suspended during the handover.
+	var front_lift := foot_lift if manual_sign > 0.0 and _rear_foot_lift < 0.0005 else 0.0
+	var rear_lift := foot_lift if manual_sign < 0.0 and _front_foot_lift < 0.0005 else 0.0
+	_front_foot_lift = _blend(_front_foot_lift, front_lift, delta, 13.0)
+	_rear_foot_lift = _blend(_rear_foot_lift, rear_lift, delta, 13.0)
+	_manual_shift = _blend(_manual_shift, foot_shift, delta, 12.0)
+	var hang_ten := smoothstep(0.0, 1.0, clampf(-_manual_shift / 0.20, 0.0, 1.0))
 	_cross_blend = _blend(_cross_blend, 1.0 if crossfoot else 0.0, delta, 16.0)
 	_pogo_blend = _blend(_pogo_blend, 1.0 if pogo else 0.0, delta, 16.0)
 	_casper_blend = _blend(_casper_blend, 1.0 if casper else 0.0, delta, 16.0)
@@ -382,12 +403,15 @@ func animate(delta: float, state: Dictionary) -> void:
 	hips_y += extension * 0.10 * _grab_blend
 	hips_y = lerpf(hips_y, 0.74, _skitch_blend)
 	hips_y = lerpf(hips_y, 0.84, _pogo_blend)
+	hips_y -= 0.06 * hang_ten
 	var breathing := sin(_motion_time * 2.1) * 0.004 * (1.0 - _air_blend)
 	var grab_local: Vector3 = _rider.to_local(_board.to_global(grab_target))
 	var grab_lean := Vector3(grab_local.x, 0, grab_local.z).limit_length(0.11) * _grab_blend
 	var wall_lean := Vector3(wall_local.x, 0, wall_local.z) * 0.09 * _wall_blend
 	var walk_sway := sin(_walk_phase) * clampf(absf(manual_roll), 0.0, 0.2) * _walk_blend
 	var support_lean := wall_lean + Vector3(walk_sway * 0.35 + _slide_direction * 0.025 * _slide_blend, 0, -0.025 * _crouch_blend - 0.045 * nose_pop)
+	var nose_forward := _rider.global_basis.inverse() * (_board.global_basis * grab_stance * Vector3.FORWARD)
+	support_lean += Vector3(nose_forward.x, 0, nose_forward.z).normalized() * 0.10 * hang_ten
 	support_lean.z += extension * 0.35 * _grab_blend
 	var hips_origin := Vector3(0, hips_y, 0) + grab_lean * 0.7 + support_lean
 	_upper.position = Vector3(0.025 * _push_blend - 0.018 * _brake_blend, hips_y + breathing, 0) + grab_lean + support_lean
@@ -399,7 +423,10 @@ func animate(delta: float, state: Dictionary) -> void:
 	var support_turn := float(lip_definition.get("lip_yaw", 0.0)) * _lip_blend if lip and not handplant else grind_yaw * _grind_blend
 	_pelvis_turn = _blend(_pelvis_turn, support_turn * 0.45 - _slide_direction * 0.12 * _slide_blend + walk_sway * 0.25, delta, 12.0)
 	_torso_turn = _blend(_torso_turn, 0.08 + steer * 0.10 + sin(TAU * _push_phase) * _push_blend * 0.08 + support_turn * 0.25 - _slide_direction * 0.30 * _slide_blend - walk_sway * 0.45, delta, 9.0)
+	var nose_turn := atan2(-nose_forward.x, -nose_forward.z)
+	var pelvis_turn := lerp_angle(_pelvis_turn, nose_turn, hang_ten)
 	_upper.rotation.y = _torso_turn
+	_upper.rotation.y = lerp_angle(_upper.rotation.y, nose_turn, hang_ten)
 	if _pogo_blend > 0.0001:
 		var nose := _rider.to_local(_board.to_global(grab_stance * pogo_hand_target(0.0))) - hips_origin
 		_upper.rotation.y = lerp_angle(_upper.rotation.y, atan2(-nose.x, -nose.z), _pogo_blend)
@@ -459,18 +486,15 @@ func animate(delta: float, state: Dictionary) -> void:
 	_head.rotation.x = -0.04 + _grab_blend * 0.20 + compression * 0.6
 	# Turn about the base of the anatomical neck, keeping its crop inside the collar.
 	_head.position = Vector3(0, 0.51, 0.010) - _head.basis * Vector3(0, -0.13, 0.036)
-	var pelvis_basis := Basis(Vector3.UP, _pelvis_turn)
+	var pelvis_basis := Basis(Vector3.UP, pelvis_turn)
 	var deck_stance := Basis(Vector3.UP, -deck_yaw)
 	_garments.pose_body(Transform3D(pelvis_basis, hips_origin), _upper.transform)
 	for leg: Dictionary in _legs:
 		var side: float = leg["side"]
-		var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, 0.079, side * 0.255)
+		var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, PLANTED_FOOT_Y, side * PLANTED_FOOT_Z)
 		var shoe_yaw := -PI * 0.5 + side * 0.13
-		deck_foot.z += _manual_shift
-		deck_foot = deck_foot.lerp(Vector3(side * 0.045, 0.079, -side * 0.15), _cross_blend)
+		deck_foot = deck_foot.lerp(Vector3(side * 0.045, PLANTED_FOOT_Y, -side * 0.15), _cross_blend)
 		shoe_yaw += side * 0.45 * _cross_blend
-		if not is_zero_approx(_manual_shift):
-			deck_foot.y += 0.65 * pow(maxf(0.0, absf(deck_foot.z) - 0.28), 1.5)
 		if side > 0.0:
 			# Push: planted rearward stroke, then lifted return. Brake: sole drags beside the deck.
 			var stroke := minf(_push_phase / 0.60, 1.0)
@@ -484,15 +508,15 @@ func animate(delta: float, state: Dictionary) -> void:
 			shoe_yaw = lerp_angle(shoe_yaw, -0.08 if travel_sign > 0.0 else PI - 0.08, maxf(_push_blend, _brake_blend))
 		else:
 			shoe_yaw += 0.20 * _push_blend
-		# A spacewalk shuffles one foot while the other stays loaded. A one-foot
-		# manual lifts the rear shoe clear using the catalog's authored metres.
+		# A spacewalk shuffles one foot while the other stays loaded. The
+		# unweighted one-foot leg lifts outward and slightly toward the centre.
 		var walk_step := sin(_walk_phase + (0.0 if side < 0.0 else PI))
 		deck_foot.z += walk_step * 0.045 * _walk_blend
 		deck_foot.y += maxf(0.0, walk_step) * 0.025 * _walk_blend
-		if side > 0.0:
-			deck_foot.y += _foot_lift
-			deck_foot.x += _foot_lift * 0.35
-			deck_foot.z -= _foot_lift * 0.25
+		var leg_lift := _front_foot_lift if side < 0.0 else _rear_foot_lift
+		deck_foot.y += leg_lift
+		deck_foot.x += side * leg_lift * 0.35
+		deck_foot.z -= side * leg_lift * 0.25
 		var attached: Vector3 = _rider.to_local(_board.to_global(deck_stance * deck_foot))
 		# Shoes follow the planted board except during a deliberately separated board spin/flip.
 		var flick_side := -1.0 if flip_id in ["heelflip", "inward_heelflip", "varial_heelflip"] else 1.0
@@ -504,6 +528,11 @@ func animate(delta: float, state: Dictionary) -> void:
 		var planted_basis := (_board.global_basis * deck_stance).orthonormalized()
 		var foot_basis := planted_basis.slerp(detached_basis, _flip_blend)
 		var shoe_basis := foot_basis * Basis(Vector3.UP, shoe_yaw)
+		if hang_ten > 0.0001:
+			var hang: Dictionary = _hang_ten_support[Vector2(side, 1.0 if cos(rest_deck_yaw) < 0.0 else 0.0)]
+			var hang_basis: Basis = _board.global_basis * grab_stance * hang.basis
+			target = target.lerp(_rider.to_local(_board.to_global(grab_stance * Vector3(hang.position))), hang_ten)
+			shoe_basis = shoe_basis.slerp(hang_basis.orthonormalized(), hang_ten)
 		var horizontal_shoe := _surface_basis(Vector3.UP, _board.get_parent().global_basis * Vector3.BACK)
 		if _pogo_blend > 0.0001:
 			var crown := pogo_foot_contact(side, rest_deck_yaw)
@@ -529,6 +558,19 @@ func animate(delta: float, state: Dictionary) -> void:
 			for point: Vector3 in _sole_points:
 				lowest = minf(lowest, (ankle + shoe_basis * point - floor_at).dot(floor_up))
 			if lowest < 0.001: target = _rider.to_local(ankle + floor_up * (0.001 - lowest))
+		if hang_ten > 0.0001 or maxf(_front_foot_lift, _rear_foot_lift) > 0.0001:
+			# A rotating/moving sole sweeps across the kick before reaching its
+			# settled bearing. Bound real rubber compression through that sweep.
+			var ankle := _board.to_local(_rider.to_global(target))
+			var local_shoe := _board.global_basis.inverse() * shoe_basis
+			var lowest := INF
+			for point: Vector3 in _sole_points:
+				var sample := ankle + local_shoe * point
+				var height := _deck_top_height_at(sample)
+				if is_finite(height): lowest = minf(lowest, sample.y - height)
+			if lowest < -0.001:
+				ankle.y += -0.001 - lowest
+				target = _rider.to_local(_board.to_global(ankle))
 		if side < 0.0:
 			if setup and setup_plant > 0.0:
 				var ground_basis := _surface_basis(setup_normal, shoe_basis.z)
@@ -559,6 +601,10 @@ func animate(delta: float, state: Dictionary) -> void:
 		hand.z -= 0.10 * _crouch_blend
 		hand.y += side * walk_sway * 0.65 + 0.07 * _lip_blend
 		hand.z += side * _slide_direction * 0.12 * _slide_blend
+		if hang_ten > 0.0:
+			# Both arms turn with the forward-facing Hang Ten torso rather than
+			# retaining the ordinary sideways stance's far wrist positions.
+			hand = hand.lerp(_rider.to_local(_upper.to_global(Vector3(side * 0.34, 0.10, -0.10))), hang_ten)
 		if side * wall_local.x < 0.0:
 			var wall_hand := Vector3(side * 0.32, hips_y + 0.38, -0.10) - wall_local * 0.045
 			hand = hand.lerp(wall_hand, _wall_blend)
@@ -631,7 +677,85 @@ func _cache_support_geometry() -> void:
 	hull.points = points
 	_board_support_points = hull.get_debug_mesh().get_faces()
 	var sole: MeshInstance3D = _legs[0].foot.get_node("Cupsole")
-	_sole_points = sole.mesh.get_faces()
+	var sole_unique: Dictionary = {}
+	for point: Vector3 in sole.mesh.get_faces(): sole_unique[point] = true
+	_sole_points.clear()
+	for point: Vector3 in sole_unique: _sole_points.append(point)
+
+
+func _cache_deck_surface_grid() -> void:
+	# Native mesh triangles remain the contact authority; a small fixed spatial
+	# index avoids scanning the whole tessellated deck for each moving sole.
+	_deck_top_faces.clear()
+	_deck_surface_grid.clear()
+	for faces: PackedVector3Array in [_grip_faces, _wood_faces]:
+		for index in range(0, faces.size(), 3):
+			var a := faces[index]
+			var b := faces[index + 1]
+			var c := faces[index + 2]
+			# Godot's front faces use clockwise winding: the rendered top's
+			# geometric cross product points down, while its visible normal is up.
+			if (b - a).cross(c - a).y > -0.0000000001: continue
+			var triangle := _deck_top_faces.size()
+			_deck_top_faces.append_array(PackedVector3Array([a, b, c]))
+			var from := Vector2i(floori(minf(a.x, minf(b.x, c.x)) / 0.025), floori(minf(a.z, minf(b.z, c.z)) / 0.025))
+			var to := Vector2i(floori(maxf(a.x, maxf(b.x, c.x)) / 0.025), floori(maxf(a.z, maxf(b.z, c.z)) / 0.025))
+			for x in range(from.x, to.x + 1):
+				for z in range(from.y, to.y + 1):
+					var cell := Vector2i(x, z)
+					if not _deck_surface_grid.has(cell): _deck_surface_grid[cell] = []
+					_deck_surface_grid[cell].append(triangle)
+
+
+func _deck_top_height_at(point: Vector3) -> float:
+	var height := -INF
+	var p := Vector2(point.x, point.z)
+	var cell := Vector2i(floori(point.x / 0.025), floori(point.z / 0.025))
+	for index: int in _deck_surface_grid.get(cell, []):
+		var a := Vector2(_deck_top_faces[index].x, _deck_top_faces[index].z)
+		var ab := Vector2(_deck_top_faces[index + 1].x, _deck_top_faces[index + 1].z) - a
+		var ac := Vector2(_deck_top_faces[index + 2].x, _deck_top_faces[index + 2].z) - a
+		var determinant := ab.cross(ac)
+		var u := (p - a).cross(ac) / determinant
+		var v := ab.cross(p - a) / determinant
+		if u >= -0.00001 and v >= -0.00001 and u + v <= 1.00001:
+			height = maxf(height, _deck_top_faces[index].y * (1.0 - u - v)
+				+ _deck_top_faces[index + 1].y * u + _deck_top_faces[index + 2].y * v)
+	return height
+
+
+func _cache_hang_ten_support() -> void:
+	if not _hang_ten_support.is_empty(): return
+	# A rigid shoe bridges the curved kick on its actual heel/forefoot edges.
+	# Fit those rendered sole vertices once during loading, rather than sliding
+	# a nominal ankle point beyond the nose or deforming the deck underneath it.
+	for rest: float in [0.0, PI]:
+		for side: float in [-1.0, 1.0]:
+			var at := Vector3(side * 0.066, 0, -0.240)
+			var pitch := 0.08
+			for iteration in 4:
+				var limits := _hang_ten_limits(at, Basis(Vector3.RIGHT, pitch), rest)
+				pitch = clampf(pitch + (limits.x - limits.y) / 0.265, 0.0, 0.22)
+			var basis := Basis(Vector3.RIGHT, pitch)
+			var limits := _hang_ten_limits(at, basis, rest)
+			at.y = maxf(limits.x, maxf(limits.y, limits.z)) + 0.00015
+			_hang_ten_support[Vector2(side, 1.0 if rest > 0.0 else 0.0)] = {"position": at, "basis": basis}
+
+
+func _hang_ten_limits(at: Vector3, basis: Basis, rest: float) -> Vector3:
+	var result := Vector3(-INF, -INF, -INF)
+	var stance := Basis(Vector3.UP, -rest)
+	for point: Vector3 in _sole_points:
+		if point.y > -0.0604: continue
+		var rotated := basis * point
+		var sample := stance * (at + rotated)
+		var height := _deck_top_height_at(sample)
+		if not is_finite(height): continue
+		var required := height - rotated.y
+		if point.z < -0.025: result.x = maxf(result.x, required)
+		elif point.z > 0.025: result.y = maxf(result.y, required)
+		else: result.z = maxf(result.z, required)
+	return result
 
 
 func pogo_foot_contact(side: float, rest_yaw: float) -> Vector3:
@@ -719,7 +843,7 @@ func _animate_bail(_delta: float, state: Dictionary) -> void:
 	for index in _legs.size():
 		var leg: Dictionary = _legs[index]
 		var side: float = leg.side
-		var deck_point := Vector3(-0.015 if side < 0 else 0.015, 0.079, side * 0.255)
+		var deck_point := Vector3(-0.015 if side < 0 else 0.015, PLANTED_FOOT_Y, side * PLANTED_FOOT_Z)
 		var planted := _rider.to_local(_board.to_global(deck_stance * deck_point))
 		var shoe_yaw := -PI * 0.5 + side * 0.13
 		var ordinary := (_rider.global_basis.inverse() * _board.global_basis * deck_stance * Basis(Vector3.UP, shoe_yaw)).orthonormalized()
@@ -821,14 +945,14 @@ func _apply_handplant(weight: float, rest_yaw: float) -> void:
 	for iteration in 4:
 		var excess := 0.0
 		for side: float in [-1.0, 1.0]:
-			var ankle := _board.to_global(deck_stance * Vector3(-0.015 if side < 0 else 0.015, 0.079, side * 0.255))
+			var ankle := _board.to_global(deck_stance * Vector3(-0.015 if side < 0 else 0.015, PLANTED_FOOT_Y, side * PLANTED_FOOT_Z))
 			var hip := hips_world + world_body_basis * Vector3(side * 0.105, 0.025, 0)
 			excess = maxf(excess, ankle.distance_to(hip) - 0.825)
 		if excess <= 0.0001: break
 		_board.global_position -= normal * excess * 1.2
 	for leg: Dictionary in _legs:
 		var side: float = leg.side
-		var target := _rider.to_local(_board.to_global(deck_stance * Vector3(-0.015 if side < 0 else 0.015, 0.079, side * 0.255)))
+		var target := _rider.to_local(_board.to_global(deck_stance * Vector3(-0.015 if side < 0 else 0.015, PLANTED_FOOT_Y, side * PLANTED_FOOT_Z)))
 		var hip := hips + body_basis * Vector3(side * 0.105, 0.025, 0)
 		var knee := _joint(hip, target, 0.43, 0.41, body_basis * Vector3(side * 0.7, 0.3, -0.4))
 		_garments.pose_leg(side, hip, knee, target)
@@ -937,16 +1061,23 @@ func _build_board() -> void:
 		var d := _deck_point(outline[next], 0.014)
 		_triangle(surface, a, c, b)
 		_triangle(surface, b, c, d)
-		_triangle(surface, Vector3(0, -0.014, 0), a, b)
+	# A single centre-to-kick fan raises the entire stance area. Concentric
+	# rings follow the authored concavity and leave the middle genuinely flat.
+	_deck_rings(surface, outline, -0.014, false)
+	_deck_rings(surface, outline, 0.014, true)
 	surface.generate_normals()
-	_instance(_board, "CurvedMapleDeck", surface.commit(), maple)
+	var wood_mesh := surface.commit()
+	_wood_faces = wood_mesh.get_faces()
+	_instance(_board, "CurvedMapleDeck", wood_mesh, maple)
 	var top := SurfaceTool.new()
 	top.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for i in outline.size():
-		var next := (i + 1) % outline.size()
-		_triangle(top, Vector3(0, 0.017, 0), _deck_point(outline[next] * 0.94, 0.017), _deck_point(outline[i] * 0.94, 0.017))
+	var grip_outline := PackedVector3Array()
+	for point: Vector3 in outline: grip_outline.append(point * 0.94)
+	_deck_rings(top, grip_outline, 0.017, true)
 	top.generate_normals()
-	_instance(_board, "Griptape", top.commit(), grip)
+	var grip_mesh := top.commit()
+	_grip_faces = grip_mesh.get_faces()
+	_instance(_board, "Griptape", grip_mesh, grip)
 	_ellipsoid(_board, "DeckUndersideGraphic", Vector3(0, -0.017, 0), Vector3(0.17, 0.006, 0.50), art)
 	for end: float in [-1.0, 1.0]:
 		var z := end * 0.255
@@ -964,7 +1095,50 @@ func _build_board() -> void:
 			wheel_node.rotation.z = PI / 2.0
 			_ellipsoid(_board, "Bearing", Vector3(side * 0.133, -0.088, z), Vector3(0.006, 0.019, 0.019), bearing)
 			for bolt_z: float in [-0.035, 0.035]:
-				_ellipsoid(_board, "DeckBolt", Vector3(side * 0.045, 0.021, z + bolt_z), Vector3(0.012, 0.004, 0.012), silver)
+				var bolt := _deck_point(Vector3(side * 0.045, 0, z + bolt_z), 0.017)
+				# Countersunk caps finish at the grip, including its shallow dish.
+				bolt.y = _grip_height_at(bolt) - 0.002
+				_ellipsoid(_board, "DeckBolt", bolt, Vector3(0.012, 0.004, 0.012), silver)
+
+
+func _deck_rings(surface: SurfaceTool, outline: PackedVector3Array, offset_y: float, top: bool) -> void:
+	const RINGS := 24
+	for ring in RINGS:
+		var inner := float(ring) / RINGS
+		var outer := float(ring + 1) / RINGS
+		for index in outline.size():
+			var next := (index + 1) % outline.size()
+			var a := _deck_point(outline[index] * inner, offset_y)
+			var b := _deck_point(outline[next] * inner, offset_y)
+			var c := _deck_point(outline[index] * outer, offset_y)
+			var d := _deck_point(outline[next] * outer, offset_y)
+			if top:
+				if ring > 0: _triangle(surface, a, b, c)
+				_triangle(surface, b, d, c)
+			else:
+				if ring > 0: _triangle(surface, a, c, b)
+				_triangle(surface, b, c, d)
+
+
+func _grip_height_at(point: Vector3) -> float:
+	return _surface_height_at(_grip_faces, point)
+
+
+func _surface_height_at(faces: PackedVector3Array, point: Vector3) -> float:
+	var height := -INF
+	var p := Vector2(point.x, point.z)
+	for index in range(0, faces.size(), 3):
+		var a := Vector2(faces[index].x, faces[index].z)
+		var ab := Vector2(faces[index + 1].x, faces[index + 1].z) - a
+		var ac := Vector2(faces[index + 2].x, faces[index + 2].z) - a
+		var determinant := ab.cross(ac)
+		if absf(determinant) < 0.0000000001: continue
+		var u := (p - a).cross(ac) / determinant
+		var v := ab.cross(p - a) / determinant
+		if u >= -0.00001 and v >= -0.00001 and u + v <= 1.00001:
+			height = maxf(height, faces[index].y * (1.0 - u - v)
+				+ faces[index + 1].y * u + faces[index + 2].y * v)
+	return height
 
 func _deck_point(point: Vector3, offset_y: float) -> Vector3:
 	# Rounded concave deck with lifted nose/tail and a shallow cross-section dish.

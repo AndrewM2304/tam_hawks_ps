@@ -63,6 +63,11 @@ Camera and fixture boundaries are deliberate:
   continuous local recovery with distinct support normals. Real paused standing-
   clearance probes add/remove native diagnostic sidewall and ceiling shapes. The results-fade case explicitly sets
   the run timer near expiry; it does not seed a bail or score.
+- Native 20°/35°/45° diagnostic banks also test actual push, Manual imbalance,
+  score loss and every body marker through the first recovered frame and five
+  following frames. Separate neutral 20°/45° bank clips measure all four real
+  wheel meshes against native planes. These temporary banks are declared test
+  geometry, rather than additional published level features.
 - Gate opening, full-hull cone/ring/raft contact, moving-cart catch/tow/release,
   both park laps and district manual routes use genuine native input/movement
   after their documented restart placement. Park drivers steer and throttle

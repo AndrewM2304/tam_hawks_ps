@@ -105,6 +105,10 @@ var _special_definition: Dictionary = {}
 var _special_duration := SPECIAL_DURATION
 var _transition_backwards := false
 var _native_platform_flush := false
+var _native_floor_valid := false
+var _native_platform_floor := RID()
+var _native_platform_layer := 0
+var _native_platform_ready := false
 var _platform_layers_after_flush := 0xFFFFFFFF
 var _platform_leave_after_flush := CharacterBody3D.PLATFORM_ON_LEAVE_ADD_VELOCITY
 var _skitch_scored := false
@@ -174,6 +178,7 @@ var _revert_pose_remaining := 0.0
 var _special_id := ""
 var _special_remaining := 0.0
 var _surface_pitch := 0.0
+var _air_support_basis := Basis.IDENTITY
 var _camera_sensitivity := 1.0
 var _reduced_motion := false
 var _shirt_material: StandardMaterial3D
@@ -228,13 +233,9 @@ func _ready() -> void:
 
 
 func reset_skater(preserve_camera: bool = false, preserve_support: bool = false) -> void:
+	_native_floor_valid = preserve_support and is_on_floor()
 	if not preserve_support:
-		if not _native_platform_flush:
-			_platform_layers_after_flush = platform_floor_layers
-			_platform_leave_after_flush = platform_on_leave
-		platform_floor_layers = 0
-		platform_on_leave = CharacterBody3D.PLATFORM_ON_LEAVE_DO_NOTHING
-		_native_platform_flush = true
+		_discard_cached_support()
 	_setup.reset()
 	_bail.reset()
 	_skitch.reset()
@@ -304,6 +305,7 @@ func reset_skater(preserve_camera: bool = false, preserve_support: bool = false)
 	_revert_pose_remaining = 0.0
 	_clear_special_visual()
 	_surface_pitch = 0.0
+	_air_support_basis = Basis.IDENTITY
 	global_position = spawn_position
 	rotation = Vector3.ZERO
 	velocity = Vector3.ZERO
@@ -374,10 +376,37 @@ func _tick_bail(delta: float) -> void:
 
 
 func _restore_platform_after_move() -> void:
-	if not _native_platform_flush: return
-	platform_floor_layers = _platform_layers_after_flush
-	platform_on_leave = _platform_leave_after_flush
-	_native_platform_flush = false
+	_native_floor_valid = true
+	if is_on_floor():
+		var hit := _native_floor_hit(_native_floor_normal())
+		if not hit.is_empty():
+			_native_platform_floor = hit.rid
+			var collider := hit.collider as CollisionObject3D
+			_native_platform_layer = collider.collision_layer if collider != null else 0
+	else:
+		_native_platform_floor = RID()
+		_native_platform_layer = 0
+		_native_platform_ready = false
+	if _native_platform_flush:
+		platform_floor_layers = _platform_layers_after_flush
+		platform_on_leave = _platform_leave_after_flush
+		_native_platform_flush = false
+	# This contact supplies inheritance for the next native move, after any
+	# teleport/helper cache flush has restored the player's normal layer mask.
+	_native_platform_ready = is_on_floor() and _native_platform_floor.is_valid() and (_native_platform_layer & platform_floor_layers) != 0
+
+
+func _discard_cached_support() -> void:
+	_native_floor_valid = false
+	_native_platform_floor = RID()
+	_native_platform_layer = 0
+	_native_platform_ready = false
+	if not _native_platform_flush:
+		_platform_layers_after_flush = platform_floor_layers
+		_platform_leave_after_flush = platform_on_leave
+	platform_floor_layers = 0
+	platform_on_leave = CharacterBody3D.PLATFORM_ON_LEAVE_DO_NOTHING
+	_native_platform_flush = true
 
 
 func _tick_setup(delta: float) -> void:
@@ -472,7 +501,28 @@ func set_grind_lines(lines: Array) -> void:
 
 
 func get_support_normal() -> Vector3:
-	return _transition.normal if transition_active else Vector3.UP
+	if transition_active: return _transition.normal
+	if _native_floor_valid and is_on_floor() and not airborne and not _force_air_tick and not grinding and not wallriding and not bail_active:
+		return _native_floor_normal()
+	return Vector3.UP
+
+
+func _native_floor_normal() -> Vector3:
+	var normal := get_floor_normal()
+	if _native_floor_valid and normal.length_squared() > 0.5: return normal.normalized()
+	# A first floor-snap onto a stationary platform can report a floor flag
+	# before supplying a normal. Use the actual native floor rather than slide
+	# or normalize a zero vector.
+	var hit := _native_floor_hit(Vector3.UP)
+	if not hit.is_empty() and Vector3(hit.normal).y > 0.5: return hit.normal
+	return Vector3.UP
+
+
+func _native_floor_hit(normal: Vector3) -> Dictionary:
+	var query := PhysicsRayQueryParameters3D.create(global_position + normal * 0.35,
+		global_position - normal * 0.6, collision_mask)
+	query.exclude = [get_rid()]
+	return get_world_3d().direct_space_state.intersect_ray(query)
 
 
 func set_presentation_settings(camera_sensitivity: float, reduced_motion: bool) -> void:
@@ -662,7 +712,7 @@ func _physics_process(delta: float) -> void:
 	rotation.y += steering_angle
 	var forward := -global_basis.z
 	if grounded_before:
-		var floor_normal := get_floor_normal()
+		var floor_normal := _native_floor_normal()
 		var ground_direction := forward.slide(floor_normal).normalized()
 		var downhill_alignment := Vector3.DOWN.slide(floor_normal).dot(ground_direction)
 		speed = _response.apply_slope_gravity(speed, downhill_alignment, delta, GRAVITY)
@@ -715,13 +765,18 @@ func _physics_process(delta: float) -> void:
 			_tick_wall(delta)
 			_update_pose(delta)
 			return
-	var carried_velocity := get_platform_velocity() if grounded_before else Vector3.ZERO
+	var previous_platform := _native_platform_floor
+	var previous_carry_ready := _native_platform_ready
 	var arriving_from_air := airborne
 	move_and_slide()
 	_restore_platform_after_move()
 	if is_on_floor():
-		var contact_direction := (-global_basis.z).slide(get_floor_normal()).normalized()
-		speed = clampf((get_real_velocity() - (get_platform_velocity() if arriving_from_air else carried_velocity)).dot(contact_direction), -MAX_SPEED, MAX_SPEED)
+		var contact_direction := (-global_basis.z).slide(_native_floor_normal()).normalized()
+		# Both values belong to this completed native move. A cached pre-move
+		# platform velocity falsely injected reverse speed when the cart stopped.
+		var continuing_platform := previous_carry_ready and previous_platform == _native_platform_floor
+		var carry := get_platform_velocity() if arriving_from_air or continuing_platform else Vector3.ZERO
+		speed = clampf((get_real_velocity() - carry).dot(contact_direction), -MAX_SPEED, MAX_SPEED)
 		if airborne and not _finish_landing():
 			_update_pose(delta)
 			return
@@ -740,6 +795,7 @@ func _physics_process(delta: float) -> void:
 
 func _tick_transition(delta: float, push: float, brake: float) -> void:
 	if not _controls_enabled: return
+	_discard_cached_support()
 	_coyote_remaining = 0.0
 	# A released pop cannot skip the landing catch/alignment check on first contact.
 	if airborne and _transition.state in ["surface", "lip"]:
@@ -1149,6 +1205,7 @@ func _align_to_travel() -> void:
 func _tick_grind(delta: float) -> void:
 	if not _controls_enabled:
 		return
+	_discard_cached_support()
 	_steering = Input.get_axis("steer_left", "steer_right")
 	if _trick_entries_enabled and _ollie_released:
 		_release_grind(true)
@@ -1291,14 +1348,66 @@ func _update_pose(delta: float) -> void:
 	elif transition_active:
 		var support: Vector3 = global_basis.inverse() * _transition.normal
 		desired_pitch = atan2(support.z, support.y)
-	elif is_on_floor():
-		var local_normal := global_basis.inverse() * get_floor_normal()
+	elif _native_floor_valid and is_on_floor():
+		var local_normal := global_basis.inverse() * _native_floor_normal()
 		desired_pitch = atan2(local_normal.z, local_normal.y)
-	_surface_pitch = lerpf(_surface_pitch, desired_pitch, 1.0 - exp(-14.0 * delta))
-	_visual.rotation.x = _surface_pitch
+	var curved_support: bool = transition_active and _transition.state == "surface"
+	var native_support := _native_floor_valid and not transition_active and is_on_floor() and not grinding and not wallriding \
+		and (bail_active or (not airborne and not _force_air_tick))
+	if curved_support or native_support:
+		# Keep the visible wheels in the real support frame. Pitch-only lag made
+		# neutral bowl carving and ordinary cross-slopes penetrate on one side
+		# and float on the other despite correct native capsule contact.
+		var contact_normal: Vector3 = (global_basis.inverse() * (_native_floor_normal() if native_support else _transition.normal)).normalized()
+		if Vector2(contact_normal.y, contact_normal.z).length_squared() > 0.00000001:
+			_surface_pitch = atan2(contact_normal.z, contact_normal.y)
+		var contact_roll := -asin(clampf(contact_normal.x, -1.0, 1.0))
+		var support_basis := Basis.from_euler(Vector3(_surface_pitch, 0.0, contact_roll))
+		_air_support_basis = support_basis
+		_visual.basis = support_basis * Basis(Vector3.UP, _spin_angle - PI * (_revert_pose_remaining / REVERT_DURATION))
+	else:
+		_surface_pitch = lerpf(_surface_pitch, desired_pitch, 1.0 - exp(-14.0 * delta))
+		_visual.rotation.x = _surface_pitch
+	var air_visual_offset := Vector3.ZERO
+	if airborne and not grinding and not wallriding and not bail_active:
+		# Read the finite native surface below the flight. Anticipating that
+		# frame preserves a continuous catch; rotating the entire figure only
+		# after contact caused metre-long head jumps on bowl returns.
+		var prediction := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP * 0.2,
+			global_position - Vector3.UP * 3.0, collision_mask)
+		prediction.exclude = [get_rid()]
+		var upcoming := get_world_3d().direct_space_state.intersect_ray(prediction)
+		var upcoming_normal: Vector3 = _transition.normal if transition_active else Vector3.UP
+		var has_upcoming := not upcoming.is_empty() and Vector3(upcoming.normal).y > 0.05
+		if has_upcoming: upcoming_normal = upcoming.normal
+		var local_up := global_basis.inverse() * upcoming_normal
+		var pitch := atan2(local_up.z, local_up.y)
+		var target_basis := Basis.from_euler(Vector3(pitch, 0, -asin(clampf(local_up.x, -1, 1))))
+		if has_upcoming and not transition_active:
+			var distance_to_plane := (global_position - Vector3(upcoming.position)).dot(upcoming_normal)
+			var anticipation := 1.0 - smoothstep(0.22, 1.2, distance_to_plane)
+			var capsule := (get_node("BodyCollision") as CollisionShape3D).shape as CapsuleShape3D
+			var foot_offset := maxf(0, capsule.radius * (1.0 - upcoming_normal.y) - 0.008)
+			air_visual_offset = -upcoming_normal * foot_offset * anticipation
+		var angle := _air_support_basis.get_rotation_quaternion().angle_to(target_basis.get_rotation_quaternion())
+		_air_support_basis = _air_support_basis.slerp(target_basis, minf(1, 4.5 * delta / maxf(angle, 0.000001))).orthonormalized()
+		_visual.basis = _air_support_basis * Basis(Vector3.UP, _spin_angle - PI * (_revert_pose_remaining / REVERT_DURATION))
 	if wallriding:
 		_visual.rotation.z = clampf(-(global_basis.inverse() * _wall.normal).x * 0.65, -0.65, 0.65)
-	_visual.position = Vector3.ZERO
+	if not (curved_support or native_support) and (not airborne or wallriding) and not bail_active:
+		_air_support_basis = (_visual.basis * Basis(Vector3.UP, -_spin_angle + PI * (_revert_pose_remaining / REVERT_DURATION))).orthonormalized()
+	_visual.position = global_basis.inverse() * air_visual_offset
+	if native_support:
+		# An upright capsule's rounded end lifts its origin on steep floors.
+		# Place only the presentation at the actual native support plane before
+		# solving planted feet and palms; never move the physical player for it.
+		var support_normal := _native_floor_normal()
+		var support_query := PhysicsRayQueryParameters3D.create(global_position + support_normal * 0.35,
+			global_position - support_normal * 0.6, collision_mask)
+		support_query.exclude = [get_rid()]
+		var floor_hit := get_world_3d().direct_space_state.intersect_ray(support_query)
+		if not floor_hit.is_empty() and Vector3(floor_hit.normal).dot(support_normal) > 0.98:
+			_visual.position = global_basis.inverse() * (Vector3(floor_hit.position) + support_normal * 0.008 - global_position)
 	if _special_remaining > 0.0:
 		_visual.rotation.x += _special_axis(float(_special_definition.get("special_body_pitch", 0.0)), special_progress)
 		_visual.rotation.y += _special_axis(float(_special_definition.get("special_body_yaw", 0.0)), special_progress)
