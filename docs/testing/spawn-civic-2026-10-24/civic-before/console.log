@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Static function "get_closest_point_to_triangle()" not found in base "GDScriptNativeClass".
+          at: GDScript::reload (res://tests/civic_edge_tests.gd:22)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://.local/spawn-civic-20261024/focused.gd:0)
+ERROR: Failed to load script "res://.local/spawn-civic-20261024/focused.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+SCRIPT ERROR: Invalid call. Nonexistent function 'run' in base 'GDScript'.
+          at: run (res://.local/spawn-civic-20261024/focused.gd:13)
+          GDScript backtrace (most recent call first):
+              [0] run (res://.local/spawn-civic-20261024/focused.gd:13)

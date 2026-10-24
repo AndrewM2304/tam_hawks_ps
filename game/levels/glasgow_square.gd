@@ -519,7 +519,7 @@ func _build_exploration_boundaries() -> void:
 		var x := side*34.8
 		var spans: Array = [Vector2(-116,-86),Vector2(-74,-56)] if side<0 else [Vector2(-128,-86),Vector2(-74,-56)]
 		for span: Vector2 in spans: _boundary("CivicSideBoundary",Vector2(x,span.x),Vector2(x,span.y))
-		_boundary("CivicRearCornerBoundary",Vector2(side*31,-127.8),Vector2(side*35,-127.8))
+		_boundary("CivicRearCornerBoundary",Vector2(side*31,-127.8),Vector2(36 if side>0 else -35,-127.8))
 		_boundary("ClimbingStreetOuterBoundary",Vector2(side*93.8,-85.8),Vector2(side*93.8,-41.8))
 		_boundary("BackStreetNorthBoundary",Vector2(side*35,-85.8),Vector2(side*94,-85.8))
 		# The short frontage gaps do not promise unsupported side alleys.
@@ -576,10 +576,11 @@ func _retained_path(id: String, points: PackedVector3Array, width: float, materi
 
 
 func _build_george_square() -> void:
-	_flat("GeorgeSquareFloor", Rect2(-35, -128, 70, 72), 4, "path")
-	_flat("CivicForecourt", Rect2(-35, -128, 70, 20), 6, "path")
+	_flat("GeorgeSquareFloor", Rect2(-35, -128, 71, 72), 4, "path")
+	# Meet the east frontage at x36; x35 left a reachable unsupported crack.
+	_flat("CivicForecourt", Rect2(-35, -128, 71, 20), 6, "path")
 	_slope("CivicWestBank", Rect2(-35, -108, 18, 12), Vector4(6, 6, 4, 4), "paving")
-	_slope("CivicEastBank", Rect2(17, -108, 18, 12), Vector4(6, 6, 4, 4), "paving")
+	_slope("CivicEastBank", Rect2(17, -108, 19, 12), Vector4(6, 6, 4, 4), "paving")
 	_steps("CivicStairs", -13, 13, -102, -108, 4, 6, 10)
 	_build_civic_workshop()
 	for side: float in [-1.0, 1.0]:

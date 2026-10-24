@@ -1,3 +1,11 @@
+**24 October — SURFACE-01 repaired, SHADOW-01 OPEN:** right-side civic paving
+and guard now meet the neighbouring frontage; focused5/0, required4560/0,
+clean/frozen, inspected native frames and limited render-cost gate pass.
+[Task/acceptance](SPAWN-CIVIC-REPAIRS-2026-10-24.md) and newest STATUS own scope.
+The opening shadow-flicker investigation has no admitted repair; diagnostic
+settings are not shipped. Owner visual/hardware/export/stutter gates remain.
+This overlay preserves all75 original full ticket bodies/statuses.
+
 **24 October — REPO-01 complete:** `main` is the canonical GitHub default and
 contains all existing work and the tested e62c32b playtest fixes. The former
 bootstrap default was fast-forwarded and renamed; review/work histories remain

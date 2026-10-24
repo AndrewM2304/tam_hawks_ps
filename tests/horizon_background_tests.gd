@@ -8,7 +8,7 @@ const EPS := .00035
 const BOTTOM := -35.0
 # Explicit approved facility/infill deltas; old physical identities are checked separately.
 const WORLD_BODIES := 354 + 204 + 1 - 2 # Hubba coping; owner removed two raised Clyde bowl access bodies.
-const WORLD_SHAPES := 1296 + 358 + 1 - 2
+const WORLD_SHAPES := 1296 + 358 + 1 - 2 + 1 # East civic rear guard gains one graded panel.
 const WORLD_ROUTES := 48 + 8
 const CELL := 8.0
 const CUBE_SIZE := 512
@@ -567,7 +567,7 @@ static func _preservation(world: Node3D, context: Node3D, check: Callable) -> vo
 	var bodies := world.find_children("*","StaticBody3D",true,false)
 	var shapes := world.find_children("*","CollisionShape3D",true,false)
 	check.call(bodies.size()==WORLD_BODIES and shapes.size()==WORLD_SHAPES and Protected.original_physics_inventory(world),
-		"horizon: exact557 bodies/1653 shapes after Clyde access removal; independent protected core/bench identities retained")
+		"horizon: exact557 bodies/1654 shapes after Clyde removal and civic guard extension; protected identities retained")
 	var routes: Array = world.get_route_definitions()
 	var identities: Dictionary = {}
 	for route: Dictionary in routes: identities[route.id] = true

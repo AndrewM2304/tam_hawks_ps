@@ -1,3 +1,15 @@
+## Civic east setback repair —24 October2026
+
+GeorgeSquareFloor and CivicForecourt retain westx−35 and now reach eastx36;
+CivicEastBank spansx17…36 with unchanged northY6/southY4. The east rear guard
+runsx31…36 atz−127.8, using three existing-style convex graded panels. Native
+support, displayed paving and height queries share these bounds. This closes
+an unsupported1m frontage crack; it does not introduce a new district or alter
+skating/camera physics. Exact world inventory is557 bodies/1654 shapes,
+protected271/721; all bench identities and addition categories remain.
+[Task/evidence](../planning/SPAWN-CIVIC-REPAIRS-2026-10-24.md). Opening shadow
+flicker remains open; diagnostic lighting settings are not production changes.
+
 ## Owner recording repair contract —24 October2026
 
 [ADR-031](decisions/ADR-031-owner-playtest-repairs.md) and newest STATUS own

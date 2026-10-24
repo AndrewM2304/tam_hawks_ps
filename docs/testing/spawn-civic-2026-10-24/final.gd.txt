@@ -1,0 +1,30 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+func _initialize()->void:call_deferred("run")
+func freeze(n:Node)->void:
+ n.process_mode=Node.PROCESS_MODE_DISABLED
+ for child:Node in n.get_children():freeze(child)
+func run()->void:
+ var g:=Main.new();g.persistence_enabled=false;root.add_child(g);g.start_mode(true)
+ for i in 40:await physics_frame;await process_frame
+ freeze(g)
+ var c:Camera3D=g.skater._camera
+ var output:="res://.local/spawn-civic-20261024/final"
+ DirAccess.make_dir_recursive_absolute(output)
+ for view:Dictionary in [{"id":"opening","at":Vector3(-22,4.7,-42),"target":Vector3(-22,3.7,-61),"rider":Vector3(-22,3,-49)},
+ {"id":"civic-strip","at":Vector3(35.5,7,-114),"target":Vector3(35.5,6,-132),"rider":Vector3(35.5,6.03,-121)},
+ {"id":"rear-guard","at":Vector3(33,9,-121),"target":Vector3(35.5,6,-127.8),"rider":Vector3(35.55,6.03,-126)}]:
+  g.skater.global_position=view.rider;g.skater.reset_physics_interpolation()
+  c.global_position=view.at;c.look_at(view.target)
+  for i in 12:await process_frame;await RenderingServer.frame_post_draw
+  root.get_texture().get_image().save_png(output.path_join(view.id+".png"))
+ g.skater.global_position=Vector3(-22,2.03,-42);g.skater.reset_physics_interpolation()
+ var times:Array=[]
+ for f in 150:
+  c.global_position=Vector3(-22,4.5+(f%60)*.014,-40-(f%60)*.10);c.look_at(c.global_position+Vector3(0,-1,-17))
+  var start:=Time.get_ticks_usec();await process_frame;await RenderingServer.frame_post_draw
+  if f>=30:times.append((Time.get_ticks_usec()-start)/1000.)
+ var counters:={"times":times,"draws":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"primitives":Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME),"texture":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),"video":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)}
+ FileAccess.open(output.path_join("counters.json"),FileAccess.WRITE).store_string(JSON.stringify(counters))
+ print("NATIVE_CAPTURE_COMPLETE:3PNG/120frame intervals")
+ quit()

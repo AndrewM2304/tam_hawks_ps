@@ -103,7 +103,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(same == backdrop and backdrop.get_child_count() == count_before,
 		"City backdrop: repeated build retains the same single geometry tree")
 	check.call(SurfaceTests.original_physics_inventory(world),
-		"City backdrop: protected core/bench collision stays exact and compact-world collision remains within its original budget")
+		"City backdrop: core/bench collision retains the approved civic guard panel delta and compact totals stay exact")
 	# The explicit preview above must succeed independently. Only now replace
 	# its art node for a declared diagnostic fixture of the explicit held option.
 	backdrop.free()

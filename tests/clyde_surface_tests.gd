@@ -65,7 +65,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	_check_station(world, check)
 	_check_sunken_bowl(world, check)
 	check.call(original_physics_inventory(world),
-		"Surface separation: protected core/benches remain exact and compact total collision stays within its original budget")
+		"Surface separation: core/benches retain the approved civic guard panel delta and compact totals stay exact")
 	var diagonal_fraction := 8.0/(102.0-87.5301113256)
 	var east_diagonal := Vector3(94,2*diagonal_fraction,45+(50.2946264186-45)*diagonal_fraction)
 	var routes: Array = world.get_route_definitions()
@@ -154,8 +154,8 @@ static func original_physics_inventory(world: Node3D) -> bool:
 	print("PHYSICS_INVENTORY bodies=%d shapes=%d protected_bodies=%d protected_shapes=%d bench_bodies=%d bench_boxes=%d identified=%s additions=%s court_caps=%d" % [
 		bodies.size(),shapes.size(),protected_bodies,protected_shapes,bench_bodies,bench_shapes.size(),valid,additions,cap_shapes])
 	return valid and identities.size()==12 and bench_bodies==12 and bench_shapes.size()==44 \
-		and protected_bodies==271 and protected_shapes==720 and additions==expected and cap_shapes==2 \
-		and bodies.size()==557 and shapes.size()==1653 # Owner removed two raised Clyde bowl access bodies.
+		and protected_bodies==271 and protected_shapes==721 and additions==expected and cap_shapes==2 \
+		and bodies.size()==557 and shapes.size()==1654 # Clyde access removal; east civic guard gains one graded panel.
 
 
 static func _check_sunken_bowl(world: Node3D, check: Callable) -> void:

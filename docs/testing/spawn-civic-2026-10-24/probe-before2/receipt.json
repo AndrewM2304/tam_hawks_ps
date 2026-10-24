@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-24T22:29:59.593209+01:00",
+  "completed_london": "2026-10-24T22:29:59.795951+01:00",
+  "wall_seconds": 0.20269370800815523,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--fixed-fps",
+    "60",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/spawn-civic-20261024/probe.gd"
+  ],
+  "exit_code": -6,
+  "source_inputs": 517,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": false,
+  "source_manifest_sha256": "f29250b33f8f8fcbb6053b12acfed7a3964f289c6b4c4e9b6ab47dda9ae8d264",
+  "git_head": "76e43f130eb884d21b110eb2ee97748b21c2f264"
+}

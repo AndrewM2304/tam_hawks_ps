@@ -1,0 +1,57 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+func _initialize()->void:call_deferred("run")
+func freeze(n:Node)->void:
+ n.process_mode=Node.PROCESS_MODE_DISABLED
+ for child:Node in n.get_children():freeze(child)
+func run()->void:
+ var g:=Main.new();g.persistence_enabled=false;root.add_child(g);g.start_mode(true)
+ for i in 40:await physics_frame;await process_frame
+ freeze(g)
+ g.skater.global_position=Vector3(-22,2.03,-42)
+ var c:Camera3D=g.skater._camera
+ var sun:DirectionalLight3D=g.world.get_node("LateAfternoonSun")
+ print("ATLAS ",ProjectSettings.get_setting("rendering/lights_and_shadows/directional_shadow/size"))
+ var original:Dictionary={}
+ for m:Node in g.world.find_children("*","GeometryInstance3D",true,false):original[m]=m.cast_shadow
+ var samples:Dictionary={};var counters:Dictionary={}
+ for mode:String in ["baseline","terrainoff","bodyonly","reverse","normal3","off"]:
+  var output:="res://.local/spawn-civic-20261024/shadows-casters/"+mode
+  DirAccess.make_dir_recursive_absolute(output)
+  sun.shadow_enabled=mode!="off"
+  sun.shadow_reverse_cull_face=mode=="reverse"
+  sun.shadow_normal_bias=3. if mode=="normal3" else 2.
+  for m:GeometryInstance3D in original:
+   m.cast_shadow=original[m]
+   if mode=="terrainoff" and m.get_parent().get_meta("terrain_surface",false):m.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+   if mode=="bodyonly" and not m.get_parent() is StaticBody3D:m.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+  sun.directional_shadow_mode=DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS if mode=="split2" else (DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS if mode=="split4" else DirectionalLight3D.SHADOW_ORTHOGONAL)
+  sun.directional_shadow_blend_splits=mode.begins_with("split")
+  for i in 12:await process_frame;await RenderingServer.frame_post_draw
+  samples[mode]=[]
+  for f in 60:
+   c.global_position=Vector3(-22,4.5+f*.014,-40-f*.10);c.look_at(c.global_position+Vector3(0,-1,-17))
+   await process_frame;await RenderingServer.frame_post_draw
+   var pixels:=root.get_texture().get_image();var row:Array=[]
+   for x in range(-27,-14):
+    for z in range(-61,-44):
+     var y:=2.+(-float(z)-42.)/7. if z>=-56 else 4.
+     var at:=Vector3(x,y+.005,z);var uv:=Vector2i(c.unproject_position(at));var value:=-1.
+     if not c.is_position_behind(at) and uv.x>1 and uv.y>1 and uv.x<pixels.get_width()-2 and uv.y<pixels.get_height()-2:
+      value=0.
+      for a in range(-1,2):
+       for b in range(-1,2):
+        var rgb:=pixels.get_pixelv(uv+Vector2i(a,b));value+=(rgb.r+rgb.g+rgb.b)/27.
+     row.append(value)
+   samples[mode].append(row)
+   if f in [0,30,59]:pixels.save_png(output.path_join("%02d.png"%f))
+  var times:Array=[]
+  for f in 150:
+   c.global_position=Vector3(-22,4.5+(f%60)*.014,-40-(f%60)*.10);c.look_at(c.global_position+Vector3(0,-1,-17))
+   var start:=Time.get_ticks_usec();await process_frame;await RenderingServer.frame_post_draw
+   if f>=30:times.append((Time.get_ticks_usec()-start)/1000.)
+  counters[mode]={"times":times,"draws":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"primitives":Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME),"texture":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),"video":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)}
+ FileAccess.open("res://.local/spawn-civic-20261024/shadows-casters/samples.json",FileAccess.WRITE).store_string(JSON.stringify(samples))
+ FileAccess.open("res://.local/spawn-civic-20261024/shadows-casters/counters.json",FileAccess.WRITE).store_string(JSON.stringify(counters))
+ print("SHADOW_COMPLETE")
+ quit()

@@ -1,3 +1,16 @@
+# Latest checkpoint —24 October2026 civic edge
+
+Canonical default/integration branch is main. SURFACE-01 civic right-side crack
+is implemented: focused5/0, required4560/0, native captures/cost gate pass.
+[Exact current status](../STATUS.md) and [task/evidence](SPAWN-CIVIC-REPAIRS-2026-10-24.md).
+SHADOW-01 opening flicker remains OPEN. Resume its real-input/chase reproduction
+and caster/receiver isolation, using the retained rejected controls; no production
+lighting settings changed. Preserve manual-test reserve and all75 task bodies.
+Work on a feature branch, then integrate tested repairs to main. No unrelated
+polish, new agents, spend, hosted CI or unattended continuation.
+
+---
+
 **Current branch handoff,24October2026:** use **main**, the GitHub default,
 containing the combined existing work and latest e62c32b playtest fixes. The old
 bootstrap/m00-m01 default was renamed; all older branch directions below are

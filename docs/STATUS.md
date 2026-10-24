@@ -1,3 +1,42 @@
+# City Chambers right-side gap repaired —24 October2026
+
+SURFACE-01 implemented on `fix/spawn-civic-surfaces-20261024`; integration target
+is canonical `main`. SHADOW-01 remains **OPEN**, with no production lighting
+setting changed. [Tasks](planning/SPAWN-CIVIC-REPAIRS-2026-10-24.md),
+[evidence/commands/frames](testing/spawn-civic-2026-10-24/README.md).
+
+East civic floor/forecourt/bank now meet the frontage atx36 instead ofx35.
+The rear guard reachesx36 with one additional native graded panel. Same557
+bodies,1654 shapes (protected271/721), unchanged bench identities/addition
+categories.27 native support rays/queries,27 actual paving samples, native
+capsule clearance/guard sweep and real90-frame Push traversal pass focused5/0.
+Native PNGs inspected. No new material/texture/body/draw surface/per-frame work;
+84 added submitted primitives fit the128 budget. Limited matched120-frame Mac
+AppleM5/Compatibility p50/p95/p99:8.2885/9.937/10.179ms before,
+8.2385/10.559/11.029ms after;0>33.333ms both. Draws992 unchanged,
+texture47623163B unchanged; video74395991→74396327B. Local gate passes;
+broader stutter/uncontended/hardware/export/final-art acceptance stays open.
+
+Required **4560 passed/0 failed**, exit0, clean import/log,518 frozen inputs,
+233.137s. Manifest `6eaeca38e749cc51a2ca75a6a54457bc63a48ef6bc5292867d2ebec9d4877a73`.
+Command: `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot python3 docs/testing/horizon-background/observers/run_checked.py .local/spawn-civic-20261024/full-final ./tools/check.sh`.
+First4556/4 retained/rejected: two old exact shape totals affected four checks;
+updated for the independently verified3-panel guard, without production changes.
+A failed diagnostic triangle API and a source-changing pancake comparison are
+also retained/rejected. Final native production hashes match the passing check.
+
+The owner localized opening shadow flicker toward the graded Chambers road.
+Shadow-off control and bounded setting/caster comparisons did not establish a
+reliable fix. Lower bias introduces self-shadow stripes; range/culling/split
+changes do not justify their cost or prove elimination. All were diagnostic.
+Do not claim the previous13-tap change or this checkpoint fixed this report.
+Next: SHADOW-01 real chase/input reproduction, large-caster/receiver isolation.
+Keep manual-test reserve; no unrelated polish/features or automatic continuation.
+All75 original full backlog bodies/statuses remain unchanged. No new asset/code
+import, spend, hosted CI, export, force push or background agent loop.
+
+---
+
 # Canonical default is main —24 October2026
 
 REPO-01 complete: all existing work is consolidated in **main**, now GitHub's
