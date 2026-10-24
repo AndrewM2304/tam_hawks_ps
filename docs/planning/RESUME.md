@@ -1,3 +1,13 @@
+**Current branch handoff,24October2026:** use **main**, the GitHub default,
+containing the combined existing work and latest e62c32b playtest fixes. The old
+bootstrap/m00-m01 default was renamed; all older branch directions below are
+historical. Required4555/0 and final native evidence are recorded in newest
+[STATUS](../STATUS.md); the branch migration changed no gameplay. Resume owner
+manual playtesting, preserving the remaining usage reserve. Future implementation
+belongs on a feature branch. [Migration record](BRANCH-CONSOLIDATION-2026-10-24.md).
+
+---
+
 **24 October manual-play footage:** read newest [STATUS](../STATUS.md), [six bug tasks](OWNER-PLAYTEST-2026-10-24.md) and [timestamped review](../testing/owner-playtest-2026-10-24/README.md). Review is complete; no gameplay fixes yet. Native rays confirm up to73.288mm spur/loop mismatch in the sampled summit join. Leg folding/material appearance are visible; exact rig, bowl-exit and temporal-lighting causes still need played diagnostics. Continue only owner-observed bug repairs within the reserved included usage; no broad feature expansion/automatic continuation. Existing integrated full-suite receipt is unavailable locally; do not infer a pass. Preserve all75 full task bodies.
 
 OWNER STOP/CHECKPOINT: only6% usage remains by owner report. Push current merged

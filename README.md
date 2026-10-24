@@ -6,6 +6,8 @@ An original arcade skateboarding game in a fictionalised Glasgow, built with God
 
 ## Play and develop
 
+**Use `main`:** it is the GitHub default and contains the combined work and latest playtest fixes. The former `bootstrap/m00-m01` default was renamed; `work` is retained history. Develop changes on feature branches.
+
 - From source, open `project.godot` with the free Godot 4.6.3 editor and press F5, or run `./tools/run.sh` on a graphical desktop. The launcher prepares imported assets and script classes before play, including on a fresh download; preparation errors stop launch and remain in `.local/source-import.log`.
 - Run `./tools/setup.sh` to verify the installed engine and check the project. Run `./tools/check.sh` after gameplay changes.
 - Verify a fresh source launch with `python3 tools/source_launch_smoke.py`. Reproduce ordinary title-to-play, moving controls, chase framing and repaired level edges with `./tools/playability_capture.sh --private-display`. The earlier Exchange/gallery recipe is `./tools/level_design_capture.sh`; earlier images and motion clips retain their historical source provenance.

@@ -1,3 +1,10 @@
+**24 October — REPO-01 complete:** `main` is the canonical GitHub default and
+contains all existing work and the tested e62c32b playtest fixes. The former
+bootstrap default was fast-forwarded and renamed; review/work histories remain
+contained, with no divergent commits omitted. [Migration task](BRANCH-CONSOLIDATION-2026-10-24.md)
+and newest STATUS own verification. Documentation-only follow-up; all75 original
+ticket bodies/statuses and existing human acceptance gates are unchanged.
+
 **24 October — owner recording repairs implemented, QE review:** PLAYTEST-01…06
 and the20 prior regression failures are repaired. Required **4555/0**, clean/frozen;
 7 limited native view/gameplay frame gates pass, with current captures and retained

@@ -1,3 +1,25 @@
+# Canonical default is main —24 October2026
+
+REPO-01 complete: all existing work is consolidated in **main**, now GitHub's
+default. Fast-forwarded the former default bootstrap/m00-m01 to tested e62c32b,
+then renamed it to main. GitHub API and remote HEAD confirm the change. Review
+and work remain for traceability; both histories are contained in main. This
+checkpoint adds only branch/handoff documentation on top of the tested source.
+[Task, exact operations and verification](planning/BRANCH-CONSOLIDATION-2026-10-24.md).
+
+All515 project/game/test/tool inputs still match the4555/0 frozen repair check;
+no gameplay or dependency changed, so no engine check was repeated. Zero GitHub
+Actions workflows are configured; no hosted CI, force push, release, spend or
+background loop. Main and review receive the same documentation checkpoint;
+local main tracks origin/main. All75 full backlog bodies remain unchanged.
+
+Resume owner manual playtesting from main; make future code changes on feature
+branches. Older bootstrap/work continuation directions below are historical.
+Preserve the manual-test reserve and existing human/hardware/visual/export and
+broader stutter gates; no unrelated implementation is started by this migration.
+
+---
+
 # Owner playtest repairs —24 October2026
 
 Implemented PLAYTEST-01…06 and repaired the20 retained full-suite failures on
