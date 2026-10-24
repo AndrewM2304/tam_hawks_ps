@@ -58,7 +58,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		"Exchange combo: rail ollie air tricks and a fresh Manual remain one physical line")
 	var earned := _earned_combo(combo)
 	check.call(earned.valid and combo.hold_valid and combo.hold_points >= 0 and combo.hold_points <= 300
-		and earned.multiplier == 5 and combo.bank == earned.value
+		and earned.multiplier == 6 and combo.bank == earned.value
 		and combo.banked_once and game.score.get_combo_value() == 0,
 		"Exchange combo: exact catalog entries, repeat decay and bounded holds bank their independently calculated value once")
 	check.call(combo.camera_samples > 30 and combo.camera_blocked == 0 and combo.camera_hidden == 0,
@@ -126,12 +126,7 @@ static func drive_ledge_combo(tree: SceneTree, game: Node, observer: Callable = 
 		_aim(game.skater, Vector3.RIGHT)
 		# The short ledge rewards a controlled approach. Real braking keeps the
 		# existing bank-assisted ollie from sailing beyond it before descent.
-		if game.skater.speed > 6.5:
-			Input.action_release("push")
-			Input.action_press("brake")
-		else:
-			Input.action_release("brake")
-			Input.action_press("push")
+		_navigation_input(game.skater.speed < -0.05 or game.skater.speed > 6.5)
 		Input.action_press("grind")
 		if not jumped and game.skater.is_on_floor():
 			evidence.grounded_ascent = maxf(evidence.grounded_ascent,game.skater.global_position.y-initial_y)
@@ -141,7 +136,14 @@ static func drive_ledge_combo(tree: SceneTree, game: Node, observer: Callable = 
 		if not jumped and game.skater.global_position.x >= -8.7:
 			Input.action_press("ollie")
 			jumped = true
-		else: Input.action_release("ollie")
+		else:
+			if Input.is_action_pressed("ollie"):
+				# This line intentionally uses the neutral Ollie. Cancel the
+				# throttle cue on the pop frame instead of requesting a Nollie
+				# from the approach controller's recent north-direction edge.
+				Input.action_press("push")
+				Input.action_press("brake")
+			Input.action_release("ollie")
 		await _step(tree,game,evidence)
 		if game.skater.grinding:
 			evidence.captured = true
@@ -210,7 +212,7 @@ static func _earned_combo(evidence: Dictionary) -> Dictionary:
 		var count := int(repetitions.get(entry.id, 0))
 		entry_base += maxi(1, int(float(definition.base_points) / pow(2.0, mini(count, 4))))
 		repetitions[entry.id] = count + 1
-	var multiplier := mini(repetitions.size(), 8)
+	var multiplier := mini(evidence.entries.size(), 100)
 	return {"valid": valid, "entry_base": entry_base, "multiplier": multiplier,
 		"value": (entry_base + int(evidence.hold_points)) * multiplier}
 
@@ -229,12 +231,7 @@ static func _drive_route(tree: SceneTree, game: Node, points: PackedVector3Array
 				break
 			if evidence.bails > 0: break
 			_aim(game.skater,offset)
-			if game.skater.speed > sqrt(30.0 * offset.length()):
-				Input.action_release("push")
-				Input.action_press("brake")
-			else:
-				Input.action_release("brake")
-				Input.action_press("push")
+			_navigation_input(game.skater.speed < -0.05 or game.skater.speed > sqrt(30.0 * offset.length()))
 			await _step(tree,game,evidence)
 			if game.skater.global_position.distance_to(before) < 0.01 and frame > 90:
 				evidence.stalled_frames += 1
@@ -243,6 +240,13 @@ static func _drive_route(tree: SceneTree, game: Node, points: PackedVector3Array
 	_release()
 	game.skater.bailed.disconnect(on_bail)
 	return evidence
+
+
+static func _navigation_input(braking: bool) -> void:
+	var crossing := Input.is_action_pressed("push" if braking else "brake") \
+		and not Input.is_action_pressed("brake" if braking else "push")
+	Input.action_press("brake" if braking else "push")
+	if not crossing: Input.action_release("push" if braking else "brake")
 
 
 static func _evidence() -> Dictionary:
@@ -290,7 +294,9 @@ static func _reset(tree: SceneTree, game: Node, at: Vector3) -> void:
 	_release()
 	game.skater.spawn_position = at
 	game.start_mode(true)
+	Input.action_press("brake")
 	await _frames(tree,45)
+	Input.action_release("brake")
 
 
 static func _aim(skater: CharacterBody3D, direction: Vector3) -> void:

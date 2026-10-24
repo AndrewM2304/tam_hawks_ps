@@ -169,6 +169,7 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 		Input.action_press("ollie")
 		await _frames(tree, 1)
 		Input.action_release("ollie")
+		await _frames(tree, 1)
 		Input.action_release("grind")
 		await _frames(tree, 2)
 		Input.action_press("flip")
@@ -198,7 +199,7 @@ static func _local_combo(tree: SceneTree, game: Node, check: Callable) -> void:
 	var earned := _earned_combo(evidence)
 	check.call(evidence.bails == 0 and earned.valid and evidence.hold_valid
 		and evidence.hold_points >= 0 and evidence.hold_points <= 300
-		and earned.multiplier == 5 and banked == earned.value and game.score.total_score == banked
+		and earned.multiplier == 6 and banked == earned.value and game.score.total_score == banked
 		and game.score.get_combo_value() == 0,
 		"topography: local rail-air-manual route banks its independently calculated entries and bounded holds once")
 	print("TOPOGRAPHY localcombo captured=%s manual=%s connected=%s bank=%d entry_base=%d hold_points=%d multiplier=%d earned=%d bails=%d tricks=%s" % [
@@ -225,7 +226,7 @@ static func _earned_combo(evidence: Dictionary) -> Dictionary:
 		var count := int(repetitions.get(entry.id, 0))
 		entry_base += maxi(1, int(float(definition.base_points) / pow(2.0, mini(count, 4))))
 		repetitions[entry.id] = count + 1
-	var multiplier := mini(repetitions.size(), 8)
+	var multiplier := mini(evidence.entries.size(), 100)
 	return {"valid": valid, "entry_base": entry_base, "multiplier": multiplier,
 		"value": (entry_base + int(evidence.hold_points)) * multiplier}
 
@@ -395,6 +396,7 @@ static func _bridge_and_recovery(tree: SceneTree, game: Node, check: Callable) -
 	Input.action_press("ollie")
 	await _frames(tree, 1)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	var landed_south := false
 	for frame in range(240):
 		await _frames(tree, 1)
@@ -498,7 +500,9 @@ static func _reset_at(tree: SceneTree, game: Node, at: Vector3) -> void:
 	_release()
 	game.skater.spawn_position = at
 	game.start_mode(true)
+	Input.action_press("brake")
 	await _frames(tree, 45)
+	Input.action_release("brake")
 
 
 static func _aim(skater: CharacterBody3D, direction: Vector3) -> void:

@@ -171,8 +171,10 @@ func _build_hud() -> void:
 	var special_box := _vbox(_special_panel, 7)
 	_special_label = _label(special_box, "SPECIAL  /  BUILD A COMBO", 15, MUTED)
 	_special_bar = _progress(special_box, ORANGE)
-	_special_hint = _label(special_box, "BANK POINTS TO FILL", 13, MUTED)
+	_special_hint = _label(special_box, "TRICKS FILL THE METER", 13, MUTED)
 	_special_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_special_hint.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	_special_hint.max_lines_visible = 2
 	_combo = _floating_label("", 34, ACCENT)
 	_combo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_tricks = _floating_label("", 19, PAPER)
@@ -206,6 +208,7 @@ func _build_hud() -> void:
 	_controls_label = _label(_footer, "", 16, MUTED)
 	_controls_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_controls_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_controls_label.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 
 
 func update_display(state: Dictionary) -> void:
@@ -232,27 +235,43 @@ func update_display(state: Dictionary) -> void:
 	_goals.text = "%d / 10 GOALS  ·  %s" % [completed, _prompt_for("goals", "TAB")]
 	if free: _goals.text = "FREE SKATE  ·  NO TIMER"
 	var kmh := roundi(absf(float(state.get("speed", 0.0))) * 3.6)
-	_stance_label.text = "SWITCH STANCE" if str(state.get("stance", "REGULAR")) == "SWITCH" else "STREET SPEED"
-	_stance_label.modulate = ACCENT if str(state.get("stance", "REGULAR")) == "SWITCH" else Color.WHITE
+	var crouching: bool = state.get("crouching", false)
+	var charge := clampf(float(state.get("ollie_charge", 0.0)), 0.0, 1.0)
+	var takeoff_name := str(state.get("takeoff_mode", "Regular")).replace("_", " ").to_upper()
+	var motion_status := "SWITCH STANCE" if str(state.get("stance", "REGULAR")) == "SWITCH" else ("FAKIE STANCE" if str(state.get("stance", "REGULAR")) == "FAKIE" else "STREET SPEED")
+	if bool(state.get("wallriding", false)): motion_status = "WALLRIDE"
+	elif bool(state.get("lip_active", false)): motion_status = "LIP STALL"
+	elif bool(state.get("transition_active", false)): motion_status = "TRANSITION"
+	elif bool(state.get("powersliding", false)): motion_status = "POWERSLIDE"
+	elif bool(state.get("airborne", false)) and not takeoff_name.is_empty(): motion_status = "AIR  /  " + takeoff_name
+	if crouching: motion_status = "OLLIE CHARGE  %d%%" % roundi(charge * 100.0)
+	_stance_label.text = motion_status
+	_stance_label.modulate = ACCENT if motion_status != "STREET SPEED" else Color.WHITE
+	_fit_line(_stance_label, 15, 12)
 	_speed.text = "%d km/h" % kmh
-	_speed_bar.value = clampf(float(kmh) / 60.0, 0.0, 1.0)
+	_speed_bar.value = charge if crouching else clampf(float(kmh) / 60.0, 0.0, 1.0)
+	(_speed_bar.get_theme_stylebox("fill") as StyleBoxFlat).bg_color = ORANGE if crouching else ACCENT
 	var meter := clampf(float(state.get("special_meter", 0.0)), 0.0, 100.0)
+	var special_ready: bool = state.get("special_ready", meter >= 100.0)
+	var special_active: bool = state.get("special_active", special_ready)
 	_special_bar.value = meter / 100.0
-	_special_label.text = "SPECIAL READY" if meter >= 100.0 else "SPECIAL  /  %d%%" % roundi(meter)
-	_special_label.modulate = ORANGE if meter >= 100.0 else Color.WHITE
-	_special_hint.text = "%s / %s  ·  SPECIALS" % [_prompt_for("special_one", "U"), _prompt_for("special_two", "I")] if meter >= 100.0 else "BANK POINTS TO FILL"
+	_special_label.text = "SPECIAL ACTIVE" if special_active else ("SPECIAL READY" if special_ready else "SPECIAL  /  %d%%" % roundi(meter))
+	_special_label.modulate = ORANGE if special_ready or special_active else Color.WHITE
+	_special_hint.text = "← → + %s  /  ↑ ↓ + %s" % [_prompt_for("flip", "J"), _prompt_for("grab", "K")] if special_ready or special_active else "TRICKS FILL THE METER"
 	var grinding: bool = state.get("grinding", false)
 	var manual: bool = state.get("manual", false)
-	var balance := clampf(float(state.get("balance" if grinding else "manual_balance", 0.0)), -1.0, 1.0)
-	_balance_panel.visible = grinding or manual
+	var lip: bool = state.get("lip_active", false)
+	var balance_key := "balance" if grinding else ("lip_balance" if lip else "manual_balance")
+	var balance := clampf(float(state.get(balance_key, 0.0)), -1.0, 1.0)
+	_balance_panel.visible = grinding or manual or lip
 	_balance_marker.position = Vector2(138.0 + balance * 130.0, 0)
 	_balance_marker.color = ORANGE if absf(balance) > 0.7 else ACCENT
-	var ride_name := str(state.get("grind_name", "RAIL")) if grinding else str(state.get("manual_name", "MANUAL"))
+	var ride_name := str(state.get("grind_name", "RAIL")) if grinding else ("LIP STALL" if lip else str(state.get("manual_name", "MANUAL")))
 	if ride_name.is_empty(): ride_name = "RAIL" if grinding else "MANUAL"
-	_balance_label.text = ride_name.to_upper() + "  /  " + (_prompt_for("steer_left", "A") + "–" + _prompt_for("steer_right", "D") if grinding else _prompt_for("push", "W") + "–" + _prompt_for("brake", "S"))
+	_balance_label.text = ride_name.to_upper() + "  /  " + (_prompt_for("steer_left", "A") + "–" + _prompt_for("steer_right", "D") if grinding or lip else _prompt_for("push", "W") + "–" + _prompt_for("brake", "S"))
 	_fit_line(_balance_label, 14, 12)
 	if absf(balance) > 0.7:
-		var correction: String = ("steer_left" if balance > 0.0 else "steer_right") if grinding else ("push" if balance > 0.0 else "brake")
+		var correction: String = ("steer_left" if balance > 0.0 else "steer_right") if grinding or lip else ("push" if balance > 0.0 else "brake")
 		_balance_label.text = "CORRECT  ·  " + _prompt_for(correction, "")
 	var combo: int = state.get("combo", 0)
 	_combo.text = "%s × %d" % [_number(int(state.get("combo_base", 0))), int(state.get("multiplier", 0))] if combo > 0 else ""
@@ -297,7 +316,7 @@ func update_display(state: Dictionary) -> void:
 	if is_instance_valid(_modal_notice):
 		_modal_notice.text = _feedback.text
 		_modal_notice.visible = not _feedback.text.is_empty() and _page != "title"
-	_controls_label.text = "%s  Ollie     %s  Grind     %s  Manual     %s  Pause / controls" % [_prompt_for("ollie", "SPACE"), _prompt_for("grind", "L"), _prompt_for("manual", "M"), _prompt_for("pause", "ESC")]
+	_controls_label.text = _skating_controls(state)
 	_layout_feedback_stack()
 	var finished: bool = state.get("finished", false)
 	var paused_now: bool = state.get("paused", false)
@@ -607,30 +626,46 @@ func _build_controls(content: VBoxContainer) -> void:
 
 
 func _build_trick_guide(content: VBoxContainer) -> void:
-	var card := _card()
-	content.add_child(card)
-	var rows := _vbox(card, 9)
-	_label(rows, "BUILD YOUR TRICK SET", 16, ACCENT)
 	var directions := "%s forward · %s back · %s left · %s right" % [
 		_prompt_for("push", "W"), _prompt_for("brake", "S"),
 		_prompt_for("steer_left", "A"), _prompt_for("steer_right", "D")]
-	var guide_lines: Array[String] = [
+	_guide_card(content, "BUILD YOUR TRICK SET", [
 		directions,
+		"Hold %s to crouch and charge your ollie. Release to pop; a longer charge gives more height. Watch the charge bar beside your speed." % _prompt_for("ollie", "SPACE"),
+		"While setting up, tap forward for Nollie or back for Boneless. Back + %s selects No Comply. Use a fresh direction tap to choose a setup." % _prompt_for("manual", "M"),
+		"Brake + a hard left or right turn powerslides to scrub speed. Hold %s / %s in the air for frontside / backside spins." % [_prompt_for("spin_left", "Q"), _prompt_for("spin_right", "E")],
+	])
+	_guide_card(content, "AIR TRICKS & THE CATCH", [
 		"In the air, choose a direction and tap %s for a flip or hold %s for a grab. Diagonals select more tricks. Release a grab before the next flip." % [_prompt_for("flip", "J"), _prompt_for("grab", "K")],
-		"Complete a flip, then tap again to build your line. Holding the button never repeats it. Repeating a trick earns fewer points; mix your set.",
-		"Choose a direction as you catch a rail with %s to select a grind or slide. Balance with %s / %s; release or %s to jump off." % [_prompt_for("grind", "L"), _prompt_for("steer_left", "A"), _prompt_for("steer_right", "D"), _prompt_for("ollie", "SPACE")],
-		"Press %s just before landing and hold to link a manual; forward selects a nose manual. Balance with %s / %s and ollie into your next trick." % [_prompt_for("manual", "M"), _prompt_for("push", "W"), _prompt_for("brake", "S")],
-		"After landing, use %s for a revert, then manual or ollie before the link timer ends. A revert alone does not keep the combo open." % _prompt_for("revert", "C"),
-		"Hold %s / %s for frontside / backside spins. Bank a varied combo to charge your original specials." % [_prompt_for("spin_left", "Q"), _prompt_for("spin_right", "E")],
-	]
-	for text: String in guide_lines:
-		var line := _label(rows, text, 17, PAPER)
-		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		line.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+		"Tap %s twice quickly for a Double Kickflip or Double Heelflip. These take longer to catch, so leave room before landing." % _prompt_for("flip", "J"),
+		"Let the board catch, then make a fresh press for the next trick. A press just before the catch can queue your next move; holding the button never repeats it.",
+	])
+	_guide_card(content, "RAILS, WALLS & TRANSITIONS", [
+		"Choose a direction as you catch a rail with %s to select a grind or slide. Balance with %s / %s. Tap %s / %s to change your grind style." % [_prompt_for("grind", "L"), _prompt_for("steer_left", "A"), _prompt_for("steer_right", "D"), _prompt_for("flip", "J"), _prompt_for("grab", "K")],
+		"Release %s to leave a rail, or hold and release %s to ollie into your next trick." % [_prompt_for("grind", "L"), _prompt_for("ollie", "SPACE")],
+		"In the air beside a wall, hold %s to wallride. Hold and release %s for a Wallie away from the wall, or release %s to drop off." % [_prompt_for("grind", "L"), _prompt_for("ollie", "SPACE"), _prompt_for("grind", "L")],
+		"Carry speed up curved transitions. Hold %s near the lip to stall, then release it to drop back in. Keep your balance with left / right." % _prompt_for("grind", "L"),
+		"In vert air, release your approach input, then tap forward to transfer over the deck or back to move outward. Left / right adjusts your line. Holding forward through the ramp keeps the normal vertical return.",
+	])
+	_guide_card(content, "MANUALS & LANDING LINKS", [
+		"Flick forward then back for Manual, or back then forward for Nose Manual. Make the pair quickly, including just before a landing, to keep your line going.",
+		"You can also press and hold %s just before landing; a fresh forward tap selects Nose Manual. Balance with %s / %s, steer normally and ollie into your next trick." % [_prompt_for("manual", "M"), _prompt_for("push", "W"), _prompt_for("brake", "S")],
+		"During a manual, tap %s for One-foot Manual, %s for Spacewalk or %s for a Manual Pivot." % [_prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("revert", "C")],
+		"After landing, press %s for Revert, then manual or ollie before the link timer ends. Revert changes stance; it does not restart that timer." % _prompt_for("revert", "C"),
+	])
+	_guide_card(content, "SPECIALS & YOUR COMBO", [
+		"Accepted tricks charge Special as you skate. When active, it drains over time; keeping a combo going slows the drain. A special does not spend the whole meter.",
+		"In the air with Special ready, tap left, right, then %s for Clyde Carousel. Forward, back, then %s selects Tenement Tumble. The directions must be a quick sequence." % [_prompt_for("flip", "J"), _prompt_for("grab", "K")],
+		"Unlocked specials also use %s / %s. Finish your current flip or grab before starting a special." % [_prompt_for("special_one", "U"), _prompt_for("special_two", "I")],
+		"Each accepted trick adds a multiplier step up to ×100. Holds add base points. Repeating a trick lowers its value; mix your set. Land and finish the link window to bank it. A bail drops the combo and Special.",
+	])
 	var directory := _card()
 	content.add_child(directory)
+	_guide_focus(directory, "direction directory")
 	var directory_rows := _vbox(directory, 10)
-	_label(directory_rows, "DIRECTION  /  FLIP · GRAB · RAIL", 15, ACCENT)
+	var directory_heading := _label(directory_rows, "DIRECTION  /  FLIP · GRAB · RAIL", 15, ACCENT)
+	directory_heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	directory_heading.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	var direction_actions := {
 		"neutral": [], "north": ["push"], "south": ["brake"],
 		"west": ["steer_left"], "east": ["steer_right"],
@@ -647,6 +682,52 @@ func _build_trick_guide(content: VBoxContainer) -> void:
 		var row := _label(directory_rows, "%s  /  %s" % [selection, "  ·  ".join(names)], 17, PAPER)
 		row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		row.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+
+
+func _guide_card(content: VBoxContainer, title: String, lines: Array) -> void:
+	var card := _card()
+	content.add_child(card)
+	_guide_focus(card, title)
+	var rows := _vbox(card, 9)
+	var heading := _label(rows, title, 16, ACCENT)
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	heading.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	for text: String in lines:
+		var line := _label(rows, text, 17, PAPER)
+		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		line.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+
+
+func _guide_focus(card: PanelContainer, title: String) -> void:
+	card.focus_mode = Control.FOCUS_ALL
+	card.set_meta("focus_token", "guide:" + title)
+	var style := card.get_theme_stylebox("panel") as StyleBoxFlat
+	card.focus_entered.connect(func(): style.border_color = ACCENT; style.set_border_width_all(2))
+	card.focus_exited.connect(func(): style.border_color = Color("294247"); style.set_border_width_all(1))
+	if _focus_first == null: _focus_first = card
+
+
+func _skating_controls(state: Dictionary) -> String:
+	var ollie := _prompt_for("ollie", "SPACE")
+	var grind := _prompt_for("grind", "L")
+	var flip := _prompt_for("flip", "J")
+	var grab := _prompt_for("grab", "K")
+	var pause_hint := "     %s  Pause / guide" % _prompt_for("pause", "ESC")
+	if bool(state.get("wallriding", false)):
+		return "%s  Hold / release Wallie     %s  Release to drop" % [ollie, grind] + pause_hint
+	if bool(state.get("lip_active", false)):
+		return "%s / %s  Balance     %s  Release to drop in" % [_prompt_for("steer_left", "A"), _prompt_for("steer_right", "D"), grind] + pause_hint
+	if bool(state.get("grinding", false)):
+		return "%s / %s  Change grind     %s  Release     %s  Hold / release Ollie" % [flip, grab, grind, ollie] + pause_hint
+	if bool(state.get("manual", false)):
+		return "%s  One-foot     %s  Spacewalk     %s  Pivot     %s  Ollie" % [flip, grab, _prompt_for("revert", "C"), ollie] + pause_hint
+	if bool(state.get("crouching", false)):
+		return "%s  Release to pop     %s / %s  Nollie / Boneless     %s + %s  No Comply" % [ollie, _prompt_for("push", "W"), _prompt_for("brake", "S"), _prompt_for("brake", "S"), _prompt_for("manual", "M")] + pause_hint
+	if bool(state.get("transition_active", false)):
+		if bool(state.get("airborne", false)):
+			return "%s / %s  Fresh tap transfer     %s / %s  Adjust line" % [_prompt_for("push", "W"), _prompt_for("brake", "S"), _prompt_for("steer_left", "A"), _prompt_for("steer_right", "D")] + pause_hint
+		return "%s  Hold / release air     %s  Hold at lip" % [ollie, grind] + pause_hint
+	return "%s  Hold / release Ollie     %s  Grind / wallride     %s  Manual" % [ollie, grind, _prompt_for("manual", "M")] + pause_hint
 
 
 func _slider(parent: Node, title: String, key: String, minimum: float, maximum: float, step: float, fallback: float) -> void:

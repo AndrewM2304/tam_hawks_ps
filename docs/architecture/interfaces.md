@@ -1,6 +1,6 @@
 # Runtime interfaces
 
-Updated 23 October 2026 against the trick-fidelity implementation in [ADR-014](decisions/ADR-014-trick-fidelity.md). Godot 4.6.3, Compatibility renderer, native GDScript, one attributed MIT rail-geometry component, original world/garment geometry, CC0 cropped MakeHuman anatomical meshes, two attributed CC0 material sets, and local audio. Runtime has no network service or paid dependency. This describes enabled behavior, not human acceptance or target-Mac certification.
+Updated for the complete skating process in [ADR-015](decisions/ADR-015-complete-skate-process.md), which supersedes conflicting behavior in [ADR-014](decisions/ADR-014-trick-fidelity.md). Godot 4.6.3, Compatibility renderer, native GDScript, one attributed MIT rail-geometry component, original world/garment geometry, CC0 cropped MakeHuman anatomical meshes, two attributed CC0 material sets, and local audio. Runtime has no network service or paid dependency. This describes enabled prototype behavior, not human acceptance, complete commercial-game parity or target-Mac certification.
 
 Coordinates use +Y up and local -Z forward. The board-contact origin starts at `(-22, 0.8, 28)` and settles onto Y=0. Six connected, originally authored places comprise the map: Royal Exchange, George Square, Central Station, the Barras, Clyde Quays and Kelvingrove Park. Exchange gallery is 2 m above the lower fountain court; George is 4 m with a 6 m civic terrace; Central concourse 2 m with 5 m platforms; Barras loading terrace 1.5 m. The river lies south, the hilly park northwest. These are compressed game coordinates, not surveyed Glasgow street geometry. Generic player recovery catches Y below -8 or absolute X/Z above 400; the world also supplies a local safe-quay return for river falls.
 
@@ -20,49 +20,122 @@ Coordinates use +Y up and local -Z forward. The board-contact origin starts at `
 | `interact`, `goals` | X, Tab | D-pad down, Create |
 | `restart`, `pause`, `free_skate` | R, Escape, F | Triangle, Options, touchpad |
 
+Ollie is held to crouch/charge and released to pop. The first 0.12 seconds retain
+the normal tap impulse; charge then rises over 0.45 seconds, reaching full at a
+0.57-second hold. At release, a direction edge at most 0.18 seconds old selects
+north=Nollie, south=Boneless or south+held Manual=No Comply. Sustained approach
+pushing does not select a setup. These reuse the existing actions and remapping.
+
 `game/core/input_profile.gd` owns validated overrides. `binding_snapshot()` supplies readable live bindings; `rebind(action,event)` returns `{ok,error,bindings}`; `apply_saved(bindings)` validates the complete candidate before changing InputMap; `reset_defaults()` restores defaults. Overrides contain only permitted physical key/button/axis fields. Duplicate bindings, unknown actions, unsupported axes, modifier/echo keys and weak axis capture are rejected. Analog capture requires magnitude 0.5. Keyboard and controller overrides are separate; Godot `ui_*` actions are preserved. Career settings persist accepted binding dictionaries. A controller disconnect pauses active gameplay; keyboard fallback remains available.
 
 ## Skater and presentation
 
-`game/player/skater.gd` extends `CharacterBody3D`. Public state includes `speed`, `airborne`, `spawn_position`, `grinding`, `grind_balance`, `manual_active`, `manual_balance`, `revert_remaining` and `special_name`. Signals are `grind_captured(rail_id)`, `trick_performed(name,points)`, `landed(clean)`, `bailed()`, `combo_link_started()` and `combo_link_ended()`.
+`game/player/skater.gd` extends `CharacterBody3D`. Public state includes `speed`,
+`airborne`, `spawn_position`, `grinding`, `grind_balance`, `manual_active`,
+`manual_balance`, `revert_remaining`, `special_name`, `wallriding`,
+`transition_active`, `lip_active`, `lip_balance`, `ollie_charge`, `crouching`,
+`powersliding` and `takeoff_mode`. `stance` reports REGULAR, SWITCH or FAKIE from
+the functional facing/signed travel state. Signals are `grind_captured(rail_id)`,
+`trick_performed(name,points)`, `trick_upgraded(name,total_points,id)`,
+`hold_points_awarded(points)`, `special_requested(id)`, `landed(clean)`, `bailed()`,
+`combo_link_started()` and `combo_link_ended()`.
 
-`reset_skater()` restores motion and all transient trick/visual state. `recover_to(safe_position)` emits one bail and resets at the supplied finite world position, then restores the original run spawn so Restart still starts in the city. Main invokes it when `world.get_recovery_position` returns a finite water recovery point; banked score survives and pending tricks/gap tracking clear. `set_controls_enabled(false)` stops horizontal movement and an active manual; `set_trick_entries_enabled(false)` rejects new launches/tricks/captures/manuals/reverts/specials while allowing an existing rail/manual to resolve during overtime. Pausable node processing freezes physics and visual timers. Actual landings emit once; cosmetic spins remain independent of travel heading and ordinary heading-only landings are forgiving.
+`reset_skater()` restores motion, input queues, charge, stance, support helpers and
+transient trick/visual state, including the cached ordinary collision transform.
+`recover_to(safe_position)` emits one bail and resets at the supplied finite world
+position, then restores the original run spawn. Main invokes it for finite water
+recovery points; banked score survives and pending score/gap/special state clears.
+`set_controls_enabled(false)` stops movement and an active manual;
+`set_trick_entries_enabled(false)` clears pending input/charge and rejects new
+entries while an existing physical link resolves during bounded overtime.
+Pausable node processing freezes physics and visual timers. Actual landings emit
+once. Player spin must finish within 45 degrees of a half-turn multiple; otherwise
+landing bails. A completed half-turn commits physical heading, toggles switch
+stance and recomputes signed speed while preserving travel momentum. Automatic
+transition return alignment does not manufacture a player spin award.
 
 The expanded player exposes `last_trick_id`, `flip_trick_id`, `grab_trick_id`,
 `grind_trick_id`, `manual_trick_id`, `stance`, `active_trick` and `hold_points`.
 `last_trick_id` is set before the existing two-argument `trick_performed` signal.
 `hold_points_awarded(points)` is separate and cannot add entry/multiplier events.
 Flip execution uses catalog duration plus a 0.06-second catch cooldown; fresh
-presses can repeat in one actual air segment. Simultaneous grabs queue until
-catch; held grabs sustain and share one 300-point duration budget per airtime.
-Late flips below 80% completion bail once; eligible rail capture waits for a catch.
-Specials reject conflicting active flips/grabs before Main spends the meter.
+presses can repeat in one actual air segment. A second Flip tap within 0.22 seconds
+upgrades an unfinished Kickflip/Heelflip to its double version and emits
+`trick_upgraded` with the final definition's full base points. Main replaces one
+provisional score entry rather than adding another. Simultaneous grabs queue
+until catch; held grabs sustain and share one 300-point duration budget per air.
+Late flips below 80% completion and specials with over 0.15 seconds remaining bail
+on landing. Rail capture also checks flip/spin eligibility. Air receipts can add
+Switch/Fakie/Nollie styling; Main forwards canonical catalog names to encounter
+lookups so styling does not break family recognition.
 
 `TrickCatalog.resolve(family,direction)` returns a deep copy for neutral/cardinal/
 diagonal selection; `family_ids` enumerates authored entries. `TrickInput.sample`
 reads current remapped movement actions, with 0.5 axis threshold, immediate
-opposing-axis cancellation and 0.18-second flick memory. `direction_age` distinguishes
-a deliberate gesture from sustained pushing. `clear_recent` removes approach
-memory on takeoff without manufacturing another physical direction edge.
+opposing-axis cancellation and 0.18-second flick memory. `direction_age`
+distinguishes a deliberate gesture from sustained pushing. Button history holds
+at most 16 fresh edges; `pop_action(action,max_age=0.18)` consumes one eligible
+edge and queued history expires after 0.45 seconds. `consume_double_tap` consumes
+the second tap once, with a 0.025–0.22-second interval. `consume_manual_gesture`
+recognizes north→south=Manual or south→north=Nose Manual within 0.30 seconds.
+`consume_special` recognizes west→east+Flip=Clyde Carousel and north→south+Grab=
+Tenement Tumble within 0.45 seconds, consuming that action before normal trick
+processing. `clear_actions` clears intent without inventing a fresh held press;
+`clear_recent` clears takeoff approach memory without a false direction edge.
+`sample_frame(axes,pressed_actions,delta)` is the deterministic input seam and
+uses the same edge recognition as runtime sampling.
 
-Ground motion projects onto the current floor. Air carries collision-adjusted horizontal velocity and rotates it by bounded steering, preserving the measured takeoff fix. Ground speed uses capped actual travel velocity to avoid artificial downhill braking. The 56° floor classification supports ordinary banks; near-vertical quarter-pipe support is not implemented.
+Ground motion projects onto the current floor. Air carries collision-adjusted
+horizontal velocity and rotates it by bounded steering. Ground speed uses capped
+actual travel velocity to avoid artificial downhill braking. The 56° native floor
+classification handles ordinary banks; the separate transition helper handles
+tagged curved surfaces through 90 degrees. Brake>0.5, steering magnitude>0.6 and
+ground speed>4 m/s activate a powerslide with additional turn and controlled drag.
 
-- `set_grind_lines(lines)` snapshots world-space authored tracks. Held eligible air capture uses `GrindRide`; capsule sweeps reject scenery obstruction. Direction selects one of nine grind/slide definitions and its entry value. Capture resolves prior spin without a landing. Release preserves signed tangent momentum, and recapture waits 0.35 seconds. Duration adds capped base points through `hold_points_awarded(points)` without new entries.
-- Manual requires a fresh supported press or a still-held fresh press buffered at most 0.18 seconds before landing, speed at least 2 m/s and a 0.35-second exit cooldown. Deliberate recent north input selects Nose Manual; sustained pushing alone keeps Manual. Both coast while push/brake correct fore/aft balance and left/right still steer. Entry awards the catalog value once and emits link-start before scoring. Release/insufficient speed emits link-end once; an actual ollie emits link-start and continues airtime. Losing support clears manual without a false ground-end. Absolute balance 1 bails.
-- Revert requires fresh grounded input within `revert_remaining` after actual air landing, cannot occur during a manual/rail, and is once per landing. It costs 15% speed, awards 150 and animates a cosmetic 180° stance change over 0.18 seconds. It emits no continuation event and never resets the score deadline. `revert_remaining` is input eligibility; it is not the authoritative banking timer.
-- `try_special(id) -> bool` accepts only the two catalog specials during eligible unpaused airtime, once per actual air segment. It emits the catalog award only on success. Main checks career unlock and meter first, and consumes the meter only after `true`. Original 0.65-second board-spin/body-tuck animations do not rotate the collision shape or change travel velocity.
+- `set_grind_lines(lines)` snapshots world-space authored/generated tracks. Held eligible air capture uses `GrindRide`; capsule sweeps reject scenery obstruction. Direction selects one of nine styles. Capture resolves prior spin without a landing, retains backwards rail orientation and emits the actual rail ID once. Fresh Flip/Grab direction selects a different style after a 0.25-second cooldown, awarding one new entry. Release preserves signed tangent momentum; recapture waits 0.35 seconds. Released charged Ollie adds launch impulse and up to 4 m/s lateral pop from steering. Duration adds bounded hold points without new entries; style changes do not reset the ride's 300-point hold budget.
+- Manual requires a fresh supported press, a still-held press buffered at most 0.18 seconds before landing, or a fresh recognized gesture; speed must be at least 2 m/s and exit cooldown is 0.35 seconds. Recent north selects Nose Manual; sustained pushing keeps Manual. Gesture entry latches until another Manual press, launch, loss of support or insufficient speed. Push/brake correct fore/aft balance and left/right steer. Flip selects One-foot Manual, Grab selects Spacewalk and Revert selects Manual Pivot after a 0.35-second style cooldown; a changed style awards one entry without resetting balance. Pivot performs the physical revert. Entry emits link-start before scoring; supported exit emits link-end once. Losing support clears the manual without a false ground-end. Absolute balance 1 bails.
+- Revert requires fresh grounded input within `revert_remaining` after actual air landing and is once per landing; a manual uses its separate pivot action. It awards 150, commits a physical 180° heading/stance change, retains 85% of motion and recomputes signed speed. Its visual turn lasts 0.18 seconds. It emits no continuation event and never resets the score deadline. `revert_remaining` is input eligibility, not the authoritative banking timer.
+- `try_special(id) -> bool` accepts the two catalog specials during eligible unpaused airtime, rejecting an active special, flip, grab, wallride or lip stall. After the 0.65-second special finishes another may be accepted in the same air if time/charge permit. It emits points only on success. Main checks career unlock and `special_meter.ready()` first and calls `consume()` only after `true`; this gate no longer empties the sustained meter. The original special animations do not change collision orientation or travel velocity.
 
-`set_presentation_settings(sensitivity,reduced_motion)` clamps steering sensitivity to 0.5–2 and removes speed-dependent camera distance/FOV when reduced motion is enabled. `set_skater_color(Color)` changes the shared shirt material. The presentation helpers `game/player/skater_visual.gd` and `skater_garments.gd` build an original ten-bone Skeleton3D with continuous skinned jacket/trousers, structured shoes, detailed board and analytic action poses. A verified CC0 MakeHuman-derived adult head, scalp and five-finger hands replace the original geometric face/hands; no full body model, MakeHuman program or skin texture is shipped. The pose snapshot includes speed, airborne/grab/flip/manual/grind/push/brake, steering and balance, revert time, special ID/progress. Feet follow the deck and grabs target its edge. Tenement Tumble rotates the visible rider/board around a body-height pivot, without moving the collision origin. Keep `SkaterVisual`, `Board`, `Rider`, and upright `BodyCollision` intact. Final character quality and human animation acceptance remain open.
+`set_presentation_settings(sensitivity,reduced_motion)` clamps steering sensitivity to 0.5–2 and removes speed-dependent camera distance/FOV when reduced motion is enabled. `set_skater_color(Color)` changes the shared shirt material. The presentation helpers `game/player/skater_visual.gd` and `skater_garments.gd` build an original ten-bone Skeleton3D with continuous skinned jacket/trousers, structured shoes, detailed board and analytic action poses. A verified CC0 MakeHuman-derived adult head, scalp and five-finger hands replace the original geometric face/hands; no full body model, MakeHuman program or skin texture is shipped. The pose snapshot includes motion/trick/balance state plus charge/crouch, launch ID/age, takeoff mode, powerslide, wall normal, transition/lip support and manual-extension parameters. Feet follow the deck and grabs target its edge. Tenement Tumble rotates the visible rider/board around a body-height pivot without moving the collision origin. Preserve `SkaterVisual`, `Board`, `Rider` and `BodyCollision`; the transition helper temporarily orients the capsule relative to real support and restores its cached transform on exit/reset. Final character quality and human animation acceptance remain open.
 
 ## Score and combo resolution
 
 `game/scoring/score_session.gd` is the authoritative `RefCounted` score/deadline model. It exposes `total_score`, `combo_base`, `combo_multiplier`, `best_combo`, `last_trick`, `last_banked`, `trick_history`, `pending_landing` and `landing_remaining`.
 
-`add_trick(name,points,identity="")` adds repeat-degraded points. Main passes the player's stable catalog ID; legacy callers default to display-name identity. All rotation labels share `spin_180`, preventing presentation changes from farming variety. `add_hold_points(points)` adds positive bounded event points to an existing combo without entries, repetition, multiplier or timer changes. `get_combo_value()` previews the capped multiplier. `begin_landing()` opens a single **0.35-second** pending bank only for a nonempty combo; duplicates cannot extend it. `continue_combo()` clears pending banking for a valid movement link. `tick(delta)` consumes active-play time and returns a bank exactly once on expiry. Adding a trick, including Revert, does not refresh or cancel the timer. `bank_combo()`, `drop_combo()` and `reset()` clear all pending deadline and repetition state. `combo_trick_count`, `last_award`, `last_repeat`, `last_banked_tricks` and `last_dropped_value` expose truthful combo receipts.
+`add_trick(name,points,identity="") -> int` adds repeat-degraded points and returns
+the actual base addition after saturation. Main passes stable catalog IDs (or
+`gap:<id>`); legacy callers default to name identity. Every accepted entry,
+including repeats, increases the multiplier up to `MULTIPLIER_LIMIT=100`.
+`add_hold_points(points)` and `add_spin_bonus(points,label="")` return actual
+bonus additions to an existing combo without entries, repetition or timer changes.
+Rotation text decorates the last receipt. `upgrade_last_trick(name,total_points,
+identity="")` replaces only the current provisional entry, restores its old
+identity's pre-entry repeat count and applies the final identity's repeat count.
+It preserves holds, rotation labels, count, multiplier and deadline, returning
+the signed actual base adjustment. A stale upgraded move can reduce its value;
+Main earns live charge only from positive new points. `last_award` describes the
+final entry value and `last_bonus` describes the latest bonus award.
 
-Per-event values are capped at 1,000,000; base, multiplied combo and total records saturate at 2,147,483,647. Repeats halve to a sixteenth and distinct identities multiply up to 8. Career records separately clamp to their save-model bound of 2,000,000,000.
+`begin_landing()` opens one **0.35-second** pending bank for a nonempty combo;
+duplicates cannot extend it. `continue_combo()` clears pending banking for a
+valid physical link. `tick(delta)` consumes active-play time and returns a bank
+exactly once. Adding a trick, including Revert, does not refresh/cancel the timer.
+Bank/drop clear active entry state and the deadline, retain the appropriate
+outcome receipt and keep run-long repetition;
+`reset()` alone restores fresh repetition. `combo_trick_count`, `last_award`,
+`last_repeat`, `last_bonus`, `last_banked_tricks` and `last_dropped_value` expose
+live and outcome receipts.
 
-Main connects player link-start to `continue_combo`, link-end/clean landing to `begin_landing`, and bail to `drop_combo`. While physical air, rail or manual remains active it calls `continue_combo`; ordinary loss of support therefore sustains an existing combo without inventing an Ollie award. Clean ground travel banks after the remaining window. The full ordering and overtime rules are in [ADR-006](decisions/ADR-006-trick-state-and-input.md).
+Per-event values are capped at 1,000,000; base, multiplied combo and total records saturate at 2,147,483,647. Repeats halve to a sixteenth across banks and bails for the run. Entry count drives the multiplier, including repeated entries. Career records separately clamp to their save-model bound of 2,000,000,000.
+
+Main connects link-start to `continue_combo`, link-end/clean landing to
+`begin_landing`, and bail to score drop plus special reset. Physical air, rail,
+manual, wallride or lip stall continues an existing combo. Supported transition
+carving alone is ground travel and must bank. Ordinary loss of support sustains
+air without inventing an Ollie award. Main routes `spin_180` to the bonus API,
+not another entry. Current ordering follows [ADR-015](decisions/ADR-015-complete-skate-process.md)
+and retains the bounded landing/overtime rules from [ADR-006](decisions/ADR-006-trick-state-and-input.md).
 
 ## Rail helpers and catalog
 
@@ -70,13 +143,98 @@ The adapted MIT `game/tricks/grind_line.gd` owns a world-space `Curve3D`. Constr
 
 Original `game/tricks/grind_ride.gd` owns signed progress, speed and balance. `start(lines,from,velocity,clearance)` selects an eligible clear candidate; `step(delta,balance_input)` returns `riding`, `end`, `bail` or `slow`. `position()` and `travel_velocity()` retain the release sample; `stop()` deactivates the ride. The player supplies collision sweeps, input gating and scoring. See [GRINDING](../testing/GRINDING.md) for tuning and actual authored tracks.
 
-`game/tricks/trick_catalog.gd` provides copy-returning definitions, stable IDs, known-state/transition guards and repeat arithmetic. Structural permission alone never proves physical eligibility, unlocks, charge or input freshness. Manual, revert, both specials and authored gaps are now wired to runtime systems; catalog presence remains insufficient to enable any later addition.
+`game/tricks/trick_catalog.gd` provides copy-returning definitions, stable IDs,
+known-state/transition guards and repeat arithmetic. Its 44 definitions comprise
+10 flips, 8 grabs, 9 grinds/slides, 5 manuals, 5 launches (including Wallie), one
+Wallride, one Lip Stall, one rotation-bonus definition, Revert, two specials and
+one shared named-gap definition. Structural permission does not prove physical
+eligibility, unlocks, charge or input freshness.
+
+## Wall and curved-transition support
+
+`game/player/wall_ride.gd` is an original `RefCounted` native-contact helper.
+`try_start(body,motion)` requires real two-height vertical side contact, a capsule
+entry sweep, at least 3 m/s tangent motion and a glancing approach. Skater owns
+held Grind and competing-state eligibility. `is_surface_eligible(collider)`
+respects inherited `no_wallride`, explicit `wallrideable` and water/glass/fabric
+exclusions, falling back to substantial solid collision dimensions when untagged.
+`tick(delta)` advances inactive recapture cooldown. `step(body,delta,steer=0,
+jump=false,held=true)` owns one native `move_and_slide` and returns `{active,
+velocity,normal,launched,bailed,reason,wall_id}`. It rechecks the retained real
+wall, limits support to 1.25 seconds, loses momentum, releases at edges/slowdown
+or input release, and bails on obstructing impact. Jump exits with outward/upward
+Wallie velocity. `stop()` starts the 0.35-second recapture cooldown; `reset()`
+clears the helper. Skater must not integrate this motion again.
+
+`game/levels/transition_feature.gd` builds one finite 90-degree quarter-pipe from
+shared visible/collision vertices, with steel coping, deck, closed sides and a
+side roll-in. It registers `skate_transitions`; `surface_body` carries the
+`transition_feature` reference. Author `feature_id`, `radius`, `width` and
+`deck_length` before `build()`/ready; yaw and translation are supported, scale must
+remain one. `local_sample(theta,lateral)` and `sample(theta,lateral)` return
+`{point,normal,tangent,lateral,theta,x}` in local/world space respectively.
+`surface_sample(world_point)` adds finite `in_bounds` and contact `distance`;
+`get_grind_lines()` returns its world-space coping path.
+
+`game/player/transition_ride.gd` owns support states `idle`, `surface`, `lip` and
+associated `air`. Public `active` stays true through surface/lip/associated air;
+Skater's `airborne` distinguishes actual air for scoring. `try_enter(body,velocity)`
+searches tagged features and requires a real face probe within 0.10 m and native
+oriented-capsule clearance. `step(body,delta,push,brake,steer,jump=false,
+lip_held=false,jump_impulse=8.8)` owns all support/air motion with full 22 m/s²
+gravity; Skater must not apply gravity or integrate motion a second time.
+Its result exposes `event` for launch, landed, lip, exit, exit_air or bail.
+Surface travel uses tangent gravity, low-speed rollback and bounded collision
+substeps (at most 0.055 m/2 degrees); analytic samples cannot attach a rider to
+missing geometry. Descending re-entry requires the finite tagged face and native
+clearance. Holding Grind while physically crossing the coping enters a balanced
+lip stall; release drops in, Ollie release launches upward/away, and absolute lip
+balance 1 bails. Held lip rechecks real support each frame.
+
+`reset(body=null)` restores the cached `BodyCollision` transform even when
+inactive and restores `up_direction=UP` when a body is supplied. `get_support_normal()`
+on Skater exposes the transition normal or world up. These helpers implement the
+authored quarter-pipes and substantial walls; they do not imply generic bowls,
+spines, arbitrary vertical-wall transitions or obstruction-free side exits.
 
 ## World, gaps and objective markers
 
 `game/levels/glasgow_square.gd` owns core city collision, terraced courts, graded streets, stairs, fountain coping, authored rails, goal/gap definitions, cone interaction and NPC locations. `core_terrain.gd` builds matching mesh/collision patches. `outdoor_routes.gd` adds Clyde quays, an eight-metre bridge opening with a continuous alternative, and rolling park terrain with paved climbs. `city_art.gd` dresses that layout with original materials/facades/landmark silhouettes and NPC figures. `get_spawn_position()`, `get_location_name(position)`, `get_district_id(position)` and `get_district_checkpoints()` expose navigation data for six areas. `get_ground_height(world_position)` returns highest authored terrain height or NAN outside authored terrain; props/roofs are not terrain. `get_support_height(world_position,max_step_up=1.0)` returns the highest authored terrain support at or below the supplied height plus the step tolerance, allowing a lower station passage beneath an upper deck. Actual ray/capsule checks remain the collision evidence. `support_probe` metadata on core graded bodies supplies a world-space surface-center point for local collision checks without confusing legitimate stacked routes. `get_route_definitions()` returns `{id,label,points,requires_jump}` with ordered world-space ground points. `get_recovery_position(position)` returns a safe local quay spawn or `Vector3.INF` when no hazard applies. `get_grind_lines()` returns fresh transformed track snapshots; ordinary scenery is layer 1 and rail props layer 2/mask 0, so unacquired rails do not obstruct normal travel or award tricks. `activate_cone()`/`reset_interactions()` manage the local visual interaction; `get_npc_positions()` supports nearby audio barks.
 
 `get_gap_definitions()` returns `{id,name,start,end,radius,points,airborne_required}` in world space. Core routes are Gallery Steps (300), Mind The Gap (600) and Market Loading Steps (350), retaining their existing IDs; outdoor gap definitions extend the set. The Clyde transfer awards a real swept, airborne crossing of the bridge opening. `game/tricks/gap_tracker.gd` validates/snapshots definitions and `update(position,airborne,delta)` returns `{id,name,points}` for ordered swept crossings within 4 seconds. Reverse travel, invalid data, overlapping triggers, teleport steps over 20 m and missing required airtime reject. A completed/failed route locks until the rider leaves both triggers. First update only establishes position. Main resets the tracker after bail/restart, awards named points into the combo and records the career event; a grounded gap opens ordinary pending banking.
+
+After city dressing, `SurfaceAudit.build(world,authored_lines)` walks actual
+`StaticBody3D` collision and annotates wall eligibility/exclusion plus grind IDs.
+It recognizes substantial opaque vertical box faces and exposed retaining
+masonry; transparent/open/thin props, rail-only layers, perimeter containment and
+curved transition support have explicit exclusions. Selected seating/planter/
+plinth/practice-box top edges produce world-space ledge paths at least 1.2 m long,
+deduplicated against existing authored paths. Native capsule sweeps still decide
+live capture; a generated line does not create an invisible support plane.
+
+`world.get_surface_audit()` returns a defensive version-1 snapshot with
+`collider_count`, `wallrideable_count`, `ledge_body_count`, `generated_grind_count`,
+`authored_grind_count`, `grind_track_count`, `wall_exclusions`, `surfaces`,
+`visual_exclusions` and `limits`. Per-surface records
+include audit `id`, scene `path`, `label`, position, shape count/type/box
+size, collision layer, `wallrideable`, `wall_reason`, `grind_ids`,
+`generated_ledge`, `capture_check_ids` and `grind_reason`. Collider metadata
+includes `surface_audit_id`, `wallrideable`, `no_wallride`,
+`wallride_exclusion_reason` and `grind_surface_ids`. This is an eligibility
+inventory, not certification that every approach is reachable or human-tested.
+Scenic furniture beyond the retained boundary, glass/canopies/foliage/iron detail
+and flush 25 mm park edging are recorded as visual exclusions; stocked counters
+and overhead shelters are not low ledges.
+The [level surface audit](../levels/OVERNIGHT-SURFACE-AUDIT.md) records the current
+inventory, sampled native clearance evidence and practical reachability limits.
+
+`world.get_skate_feature_definitions()` returns defensive practice-pocket
+definitions with `{id,district,bounds,floor_y,features,approach,landing}`. The
+Clyde west quay pocket contains a quarter-pipe, manual pad, ledge and flatbar;
+the Kelvingrove promenade pocket contains a quarter-pipe, manual pad and ledge.
+Approach/landing corridors, the existing through routes and safety boundaries
+remain part of the level's collision/navigation checks. `get_grind_lines()`
+includes authored rails, transition coping and audit-generated ledges.
 
 `get_goal_markers()` supplies `{id,kind,position,radius}` definitions. `game/progression/objective_tracker.gd` renders markers, `poll(position,interact)` returns each nearby event once per run, `nearby_prompt()` exposes content for the HUD's live binding prompt, `collected_count(kind)` reports the actual collected count, and `reset_run()` restores markers. District visits use world regions and do not create collectible orbs. The cone needs deliberate interaction; letters/market items/recording collect by proximity. `reduced_motion` disables marker bob/rotation. Location thresholds and marker radii are gameplay authoring, not verified real-world frontage geometry.
 
@@ -86,13 +244,40 @@ Original `game/tricks/grind_ride.gd` owns signed progress, speed and balance. `s
 
 `load_profile(path)`/`save_profile(path)` default to `user://career.json`, schema version 1, with validated settings and a verified backup/temp replacement path. A known version-0 schema migrates; unreadable/newer data is preserved and automatic overwrite is blocked. `recover_profile(path)` is an explicit local reset API that archives existing files first; main does not invoke it automatically. Failures leave session play available with save status. Script runners disable persistence by default, and integration tests set it off explicitly.
 
-`game/tricks/special_meter.gd` earns charge only from resolved bank events: points/25, at most 50 units per bank, capped at 100. `consume()` succeeds only at full charge and resets to zero; restarting resets it. Free skate bypasses career-special unlock gating but still needs charge and player eligibility. Rejected requests spend nothing.
+`game/tricks/special_meter.gd` gains live charge through `earn_trick(points)`:
+accepted effective base points/10, at most 50 units per event, capacity 100. Main
+credits entry, hold, spin, gap and positive upgrade additions; banking gives no
+second charge. The deprecated `earn_bank` alias exists only for older tooling.
+Reaching capacity activates a sustained state; public `active` persists below
+full while value remains positive, and `ready()` is its usable-state gate.
+`consume()` returns readiness without emptying charge. `tick(delta,
+combo_active=false)` drains an active meter over six seconds, or twelve while
+continuing a real combo without new awards. Accepted awards refresh charge.
+Inactive partial charge has a two-second idle grace then drains 4 units/second.
+Main ticks once during active unpaused play; nonfinite/nonpositive deltas cannot
+advance it. `on_bail()` and `reset()` clear value, active state and idle time.
+Free skate bypasses career-special unlock gating but still requires charge and
+player eligibility. Rejected requests earn no points or special charge.
 
 ## Main, HUD, audio and settings
 
-`game/main.gd` owns component creation, event wiring, 120-second career runs, free skate, pause/results, objective polling and saves. At expiry it rejects new trick links and allows an existing air/rail/manual/pending-ground combo at most 3 seconds to resolve; the deadline cannot be extended. Clean banking routes through `_on_combo_banked` for goals, special charge, feedback and saving. Hard expiry/bail drops unbanked points. Restart clears per-run state and preserves career data.
+`game/main.gd` owns component creation, event wiring, 120-second career runs,
+free skate, pause/results, objective polling and saves. At expiry it rejects new
+entries and allows an existing air/rail/manual/wall/lip/pending-ground combo at
+most 3 seconds to resolve; the deadline cannot be extended. Clean banking routes
+through `_on_combo_banked` for goals, feedback and saving. Hard expiry/bail drops
+unbanked points. Restart clears score repetition, meter and transient gameplay
+while preserving career data. `special_requested` gestures and existing direct
+special buttons route to the same Main unlock/readiness/eligibility gate.
 
 `game/ui/hud.gd` is a CanvasLayer receiving `update_display(snapshot)`: score/combo/history, timers, speed, manual/rail balance, landing/revert windows, location, mode/results, goals/unlocks/records, special charge, settings, captions and save/interaction status. `save_warning` is persistent failure information, separate from ordinary `save_status`; timed objective notifications have their own area alongside live combo feedback. Signals include restart, pause, free skate, `start_requested(free_skate)`, `settings_changed(values)`, `cosmetic_selected(id)` and UI feedback. Title/settings/controls/goals/pause/results and City map & routes pages are enabled, with nested return navigation and focus restoration. Live binding snapshots drive device-specific remap and interaction prompts. `set_map_data(checkpoints,routes)` supplies the route diagram from actual world coordinates. `show_map()` opens it through the existing paused subpage stack; the arrow shows snapshot position/heading, brighter route segments indicate greater height and dashed orange paths indicate jumps. Pause and Goals expose the map without adding another input action.
+
+The skating snapshot also supplies `last_bonus`, `stance`, `takeoff_mode`,
+`ollie_charge`, `crouching`, `powersliding`, `wallriding`, `transition_active`,
+`lip_active`, `lip_balance`, `special_ready` and `special_active`. The HUD shows
+current movement state/charge, the relevant rail/manual/lip balance, sustained
+special readiness and contextual bindings. The Trick Guide uses catalog
+directions and live remapped controls.
 
 `apply_settings(settings,persist)` validates/clamps bindings, master/SFX/ambience volumes, captions, reduced motion, UI scale 1–1.4, sensitivity 0.5–2 and earned cosmetics. `select_cosmetic(id,persist)` rejects locked choices. `game/audio/skate_audio.gd` exposes `set_motion`, `set_mix`, `set_surface`, `play_event`, `play_bark`, `set_paused` and a caption signal. Original local synthesis supplies rolling/grinding/events/district beds; generated bark files have separate recorded provenance. No runtime voice/network service is used. Main reads upward floor contacts and their `surface_audio` metadata: asphalt connectors, metal ramps, stone fallback. Air and grinds do not change the last floor selection; audio motion gates their wheel loop. Run completion can trigger the nearby NPC's cooldown-protected “again” line.
 
@@ -145,3 +330,17 @@ The optional ledge lines use ordinary admitted grind capture, release/ollie, Man
 ADR-012 records the owner's reproduced cold-source failure and playability repairs. Ordinary `tools/run.sh` play prepares asset imports/global script classes before launching and refuses preparation errors. Editor/test/export invocations retain explicit preparation. Generated `.godot/` state is local, never a distributable dependency.
 
 Skater retains collision, push/brake, takeoff, manual/grind and scoring admission. The original `skate_response.gd` helper owns ordinary coast and bounded ground/air steering through `coast_speed`, `steering_step` and `reset`; manuals keep their existing balance coast. Reset/disabled controls clear steering response. Presentation sensitivity affects camera follow only. Camera/world repair contracts and current normal-frame/cold-launch evidence belong in PLAYABILITY-REPAIR-BRIEF, STATUS and QE.
+
+Fresh directional vert transfers use a released/repressed Push or Brake during
+associated air. Inherited approach Push does not transfer. Native air movement
+adds at most3.5 m/s horizontal speed at6 m/s², with deckward steering waiting
+until0.30m above the lip for clearance; no vertical boost is added. The helper's
+`grind_path_clear(from,to,body)` uses an upright capsule query without mutating
+the current support frame. Root resets the transition only after a successful
+rail acquisition, preserving safe associated air after a refused capture.
+
+HUD speed is the actual three-dimensional velocity magnitude while transition
+movement owns the rider, so a vertical ascent cannot display0 km/h. This is only
+presentation: `Skater.speed` retains its signed board-forward semantics. Runtime
+reset synchronizes held buttons without manufacturing edges, and a held Ollie
+must release before another deliberate charge can begin after reset/entry gates.

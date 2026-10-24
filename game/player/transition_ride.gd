@@ -1,0 +1,371 @@
+extends RefCounted
+## Original finite transition state around real tagged collision, native capsule
+## movement and full tangent gravity. No upstream implementation is copied.
+
+const GRAVITY := 22.0
+const CONTACT_OFFSET := 0.022
+const CONTACT_REACH := 0.10
+const MAX_STEP_METRES := 0.055
+const MAX_STEP_ANGLE := PI / 90.0
+const MAX_SPEED := 19.0
+
+var active := false
+var state := "idle"
+var feature: Node3D = null
+var air_feature: Node3D = null
+var normal := Vector3.UP
+var forward := Vector3.FORWARD
+var lip := false
+var lip_balance := 0.0
+var max_support_error := 0.0
+var _theta := 0.0
+var _x := 0.0
+var _speed := 0.0
+var _lateral_speed := 0.0
+var _air_velocity := Vector3.ZERO
+var _air_age := 0.0
+var _lip_age := 0.0
+var _pending_event := ""
+var _last_push := 0.0
+var _last_brake := 0.0
+var _air_push_armed := false
+var _air_brake_armed := false
+var _transfer_direction := 0.0
+var _collision: CollisionShape3D
+var _collision_rest := Transform3D.IDENTITY
+var _has_rest := false
+var _half_height := 0.85
+
+func reset(body: CharacterBody3D = null) -> void:
+	if is_instance_valid(_collision) and _has_rest:
+		_collision.transform = _collision_rest
+	if is_instance_valid(body):
+		body.up_direction = Vector3.UP
+	active = false
+	state = "idle"
+	feature = null
+	air_feature = null
+	normal = Vector3.UP
+	forward = Vector3.FORWARD
+	lip = false
+	lip_balance = 0.0
+	_theta = 0.0
+	_x = 0.0
+	_speed = 0.0
+	_lateral_speed = 0.0
+	_air_velocity = Vector3.ZERO
+	_air_age = 0.0
+	_lip_age = 0.0
+	_pending_event = ""
+	_last_push = 0.0
+	_last_brake = 0.0
+	_air_push_armed = false
+	_air_brake_armed = false
+	_transfer_direction = 0.0
+	max_support_error = 0.0
+
+func try_enter(body: CharacterBody3D, velocity: Vector3) -> bool:
+	if active or not is_instance_valid(body) or not body.is_inside_tree() or not velocity.is_finite():
+		return false
+	for candidate: Node in body.get_tree().get_nodes_in_group("skate_transitions"):
+		if candidate is Node3D and _acquire(body, candidate, velocity):
+			return true
+	return false
+
+func _acquire(body: CharacterBody3D, candidate: Node3D, velocity: Vector3) -> bool:
+	if not is_instance_valid(candidate) or not candidate.has_method("surface_sample"):
+		return false
+	var contact: Dictionary = candidate.surface_sample(body.global_position)
+	if contact.is_empty() or not contact.in_bounds or contact.distance > CONTACT_REACH:
+		return false
+	if (body.global_position - Vector3(contact.point)).dot(contact.normal) < -0.008:
+		return false
+	if velocity.dot(contact.normal) > 1.1:
+		return false
+	# A returning rider leaves the finite toe with ordinary ground physics.
+	# Recapturing outward motion here would repeatedly exit without moving.
+	if float(contact.theta) < 0.06 and velocity.dot(contact.tangent) <= 0.1:
+		return false
+	if not _real_face_contact(body, candidate, contact):
+		return false
+	_cache_collision(body)
+	if not _can_occupy(body, contact.point + contact.normal * CONTACT_OFFSET, contact.normal):
+		return false
+	feature = candidate
+	air_feature = null
+	_theta = float(contact.theta)
+	_x = float(contact.x)
+	_speed = velocity.dot(contact.tangent)
+	_lateral_speed = velocity.dot(contact.lateral)
+	var was_air := state == "air" or (not body.is_on_floor() and velocity.y < -0.5)
+	active = true
+	state = "surface"
+	lip = false
+	normal = contact.normal
+	forward = _travel_direction(contact)
+	_orient_collision(body, normal)
+	if was_air:
+		_pending_event = "landed"
+	return true
+
+func step(body: CharacterBody3D, delta: float, push: float, brake: float,
+		steer: float, jump: bool = false, lip_held: bool = false,
+		jump_impulse: float = 8.8) -> Dictionary:
+	if not active:
+		return _result(body, "")
+	if not is_instance_valid(feature) or not is_finite(delta) or delta <= 0.0 \
+			or not is_finite(push) or not is_finite(brake) or not is_finite(steer):
+		return _end(body, "bail")
+	push = clampf(push, 0.0, 1.0)
+	brake = clampf(brake, 0.0, 1.0)
+	steer = clampf(steer, -1.0, 1.0)
+	_last_push = push
+	_last_brake = brake
+	jump_impulse = clampf(jump_impulse, 3.0, 11.5) if is_finite(jump_impulse) else 8.8
+	var event := _pending_event
+	_pending_event = ""
+	if state == "air":
+		return _tick_air(body, delta, steer, push, brake)
+	if state == "lip":
+		var support: Dictionary = feature.sample(PI * 0.5, _x)
+		if not _real_face_contact(body, feature, support) \
+				or not _can_occupy(body, body.global_position, normal):
+			return _end(body, "bail")
+		_lip_age += delta
+		lip_balance += ((0.16 + _lip_age * 0.06) * (1.0 if lip_balance >= 0.0 else -1.0) + steer * 1.2) * delta
+		if absf(lip_balance) >= 1.0:
+			return _end(body, "bail")
+		if jump:
+			return _launch(body, normal * jump_impulse * 0.6 + Vector3.UP * jump_impulse, "launch")
+		if not lip_held:
+			state = "surface"
+			lip = false
+			_speed = -0.6
+			_theta = PI * 0.5 - 0.006
+		else:
+			body.velocity = Vector3.ZERO
+			return _result(body, event)
+	if jump:
+		var sample: Dictionary = feature.sample(_theta, _x)
+		return _launch(body, sample.tangent * _speed + sample.lateral * _lateral_speed + normal * jump_impulse, "launch")
+	var travel := maxf(absf(_speed), 1.0) * delta
+	var steps := maxi(1, ceili(travel / minf(MAX_STEP_METRES, float(feature.radius) * MAX_STEP_ANGLE)))
+	var h := delta / float(steps)
+	for index in steps:
+		var sample: Dictionary = feature.sample(_theta, _x)
+		# Full tangent gravity: no hidden pumping or energy gain without push.
+		_speed += (-GRAVITY * sin(_theta) + push * 6.0) * h
+		if brake > 0.0:
+			_speed = move_toward(_speed, 0.0, brake * 20.0 * h)
+		elif absf(_speed) > 0.05:
+			_speed = move_toward(_speed, 0.0, 0.10 * h)
+		_speed = clampf(_speed, -MAX_SPEED, MAX_SPEED)
+		_lateral_speed = move_toward(_lateral_speed, steer * absf(_speed) * 0.45, 5.0 * h)
+		var next_theta := _theta + _speed / float(feature.radius) * h
+		var next_x := _x + _lateral_speed * h
+		if absf(next_x) > float(feature.width) * 0.5 - 0.005:
+			return _launch(body, sample.tangent * _speed + sample.lateral * _lateral_speed, "launch")
+		if next_theta < 0.0:
+			var toe: Dictionary = feature.sample(0.0, next_x)
+			if not _move_supported(body, toe, true):
+				return _end(body, "bail")
+			body.velocity = toe.tangent * _speed + toe.lateral * _lateral_speed
+			return _end(body, "exit")
+		if next_theta >= PI * 0.5:
+			var lip_sample: Dictionary = feature.sample(PI * 0.5, next_x)
+			if not _move_supported(body, lip_sample):
+				return _end(body, "bail")
+			_theta = PI * 0.5
+			_x = next_x
+			if lip_held:
+				state = "lip"
+				lip = true
+				lip_balance = 0.03
+				_lip_age = 0.0
+				body.velocity = Vector3.ZERO
+				return _result(body, "lip")
+			return _launch(body, lip_sample.tangent * _speed + lip_sample.lateral * _lateral_speed, "launch")
+		var target: Dictionary = feature.sample(next_theta, next_x)
+		if not _move_supported(body, target):
+			return _end(body, "bail")
+		_theta = next_theta
+		_x = next_x
+		body.velocity = target.tangent * _speed + target.lateral * _lateral_speed
+	return _result(body, event)
+
+func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, brake: float) -> Dictionary:
+	_air_age += delta
+	var local: Vector3 = feature.to_local(body.global_position)
+	# A fresh directional press after launch selects a deliberate transfer.
+	# Holding push through the approach retains the ordinary vertical return.
+	if push < 0.2: _air_push_armed = true
+	elif _air_push_armed:
+		_transfer_direction = -1.0
+		_air_push_armed = false
+	if brake < 0.2: _air_brake_armed = true
+	elif _air_brake_armed:
+		_transfer_direction = 1.0
+		_air_brake_armed = false
+	var transfer := _transfer_direction
+	if transfer < 0.0 and (push < 0.2 or local.y < float(feature.radius) + 0.30): transfer = 0.0
+	if transfer > 0.0 and brake < 0.2: transfer = 0.0
+	var horizontal := Vector3(_air_velocity.x, 0, _air_velocity.z)
+	var limit := maxf(3.5, horizontal.length())
+	var outward: Vector3 = (feature.global_basis * Vector3.BACK).normalized()
+	var lateral: Vector3 = (feature.global_basis * Vector3.RIGHT).normalized()
+	horizontal += (outward * transfer * 6.0 + lateral * steer * 4.0) * delta
+	horizontal = horizontal.limit_length(limit)
+	_air_velocity.x = horizontal.x
+	_air_velocity.z = horizontal.z
+	if _air_velocity.y <= 0.0 and _acquire(body, feature, _air_velocity):
+		body.velocity = _air_velocity
+		var result := step(body, delta, 0.0, 0.0, steer)
+		result.event = "landed"
+		return result
+	var contact: Dictionary = feature.surface_sample(body.global_position)
+	# Above the actual vertical lip, retain its contact frame through the apex.
+	# Euclidean distance from the finite arc grows with height; it must not detach
+	# an otherwise vertical return and put an upright capsule into the wall.
+	var over_lip := local.y >= float(feature.radius) - 0.12 \
+		and absf(local.z + float(feature.radius)) < 0.55 \
+		and absf(local.x) < float(feature.width) * 0.5 - 0.10
+	if _air_age > 0.08 and not over_lip and (contact.is_empty() or contact.distance > 0.55):
+		if _can_occupy(body, body.global_position, Vector3.UP):
+			body.velocity = _air_velocity
+			return _end(body, "exit_air")
+	_air_velocity = _air_velocity.rotated(Vector3.UP, -steer * 0.50 * delta)
+	_air_velocity.y -= GRAVITY * delta
+	var hit := body.move_and_collide(_air_velocity * delta, false, 0.001)
+	body.velocity = _air_velocity
+	if hit:
+		var obstacle: Object = hit.get_collider()
+		if obstacle == feature.surface_body and _air_velocity.y <= 0.0 and _acquire(body, feature, _air_velocity):
+			return _result(body, "landed")
+		if hit.get_normal().y > 0.65 and _can_occupy(body, body.global_position, Vector3.UP):
+			# An oriented end-cap can touch a deck while the restored upright
+			# board is still above it. Ordinary air confirms that final landing.
+			body.velocity = _air_velocity
+			return _end(body, "landed" if normal.dot(Vector3.UP) > 0.999 else "exit_air")
+		return _end(body, "bail")
+	if _air_age > 4.0 or body.global_position.y < -8.0:
+		body.velocity = _air_velocity
+		return _end(body, "exit_air")
+	return _result(body, "")
+
+func _launch(body: CharacterBody3D, velocity: Vector3, event: String) -> Dictionary:
+	state = "air"
+	lip = false
+	air_feature = feature
+	_air_velocity = velocity
+	_air_age = 0.0
+	_air_push_armed = _last_push < 0.2
+	_air_brake_armed = _last_brake < 0.2
+	_transfer_direction = 0.0
+	body.velocity = velocity
+	return _result(body, event)
+
+## Read-only upright-capsule clearance for a prospective air-to-grind capture.
+## Only reset after GrindRide.start and the player's spin checks both succeed.
+## Failed rail admission must leave this associated contact frame untouched.
+func grind_path_clear(from: Vector3, to: Vector3, body: CharacterBody3D) -> bool:
+	if not active or state != "air" or not from.is_finite() or not to.is_finite():
+		return false
+	if not _can_occupy(body, from, Vector3.UP) or not _can_occupy(body, to, Vector3.UP):
+		return false
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = _collision.shape
+	query.transform = Transform3D(Basis.IDENTITY, from + Vector3.UP * _half_height)
+	query.motion = to - from
+	query.collision_mask = body.collision_mask
+	query.exclude = [body.get_rid()]
+	query.margin = 0.001
+	var fractions := body.get_world_3d().direct_space_state.cast_motion(query)
+	return fractions.size() == 2 and fractions[0] >= 0.9999
+
+func _end(body: CharacterBody3D, event: String) -> Dictionary:
+	var velocity := body.velocity
+	reset(body)
+	body.velocity = velocity
+	return _result(body, event)
+
+func _move_supported(body: CharacterBody3D, sample: Dictionary, allow_ground: bool = false) -> bool:
+	var target: Vector3 = sample.point + sample.normal * CONTACT_OFFSET
+	var physical_contact := _real_face_contact(body, feature, sample)
+	if allow_ground:
+		physical_contact = physical_contact or _real_ground_contact(body, sample.point)
+	if not physical_contact or not _can_occupy(body, target, sample.normal):
+		return false
+	_orient_collision(body, sample.normal)
+	var hit := body.move_and_collide(target - body.global_position, false, 0.001)
+	if hit and hit.get_collider() != feature.surface_body:
+		return false
+	var error := body.global_position.distance_to(target)
+	max_support_error = maxf(max_support_error, error)
+	if error > 0.045:
+		return false
+	normal = sample.normal
+	forward = _travel_direction(sample)
+	body.up_direction = normal
+	return true
+
+func _travel_direction(sample: Dictionary) -> Vector3:
+	var direction: Vector3 = sample.tangent * _speed + sample.lateral * _lateral_speed
+	return direction.normalized() if direction.length_squared() > 0.001 else sample.tangent
+
+func _real_face_contact(body: CharacterBody3D, candidate: Node3D, sample: Dictionary) -> bool:
+	if not is_instance_valid(candidate.surface_body):
+		return false
+	var physical_sample: Dictionary = sample
+	# Coincident floor/toe and deck/lip edges can win the same native ray.
+	# Probe 0.01rad inside the real finite face (at most5cm from either
+	# endpoint); collider identity must never depend on broad-phase order.
+	var probe_theta := clampf(float(sample.theta), 0.01, PI * 0.5 - 0.01)
+	if probe_theta != float(sample.theta):
+		physical_sample = candidate.sample(probe_theta, float(sample.x))
+	var point: Vector3 = physical_sample.point
+	var axis: Vector3 = physical_sample.normal
+	var query := PhysicsRayQueryParameters3D.create(point + axis * 0.10, point - axis * 0.08, body.collision_mask)
+	query.exclude = [body.get_rid()]
+	var hit := body.get_world_3d().direct_space_state.intersect_ray(query)
+	return not hit.is_empty() and hit.get("collider") == candidate.surface_body \
+		and Vector3(hit.normal).dot(axis) > 0.93
+
+func _real_ground_contact(body: CharacterBody3D, point: Vector3) -> bool:
+	var query := PhysicsRayQueryParameters3D.create(point + Vector3.UP * 0.10, point - Vector3.UP * 0.08, body.collision_mask)
+	query.exclude = [body.get_rid()]
+	var hit := body.get_world_3d().direct_space_state.intersect_ray(query)
+	return not hit.is_empty() and Vector3(hit.normal).dot(Vector3.UP) > 0.93 \
+		and Vector3(hit.position).distance_to(point) < 0.04
+
+func _cache_collision(body: CharacterBody3D) -> void:
+	var collision := body.get_node_or_null("BodyCollision") as CollisionShape3D
+	if collision != _collision:
+		_collision = collision
+		_has_rest = false
+	if is_instance_valid(_collision) and not _has_rest:
+		_collision_rest = _collision.transform
+		_has_rest = true
+		_half_height = float(_collision.shape.height) * 0.5 if _collision.shape is CapsuleShape3D else 0.85
+
+func _orient_collision(body: CharacterBody3D, axis: Vector3) -> void:
+	if not is_instance_valid(_collision):
+		return
+	var transform := Transform3D(Basis(Quaternion(Vector3.UP, axis.normalized())), body.global_position + axis * _half_height)
+	_collision.transform = body.global_transform.affine_inverse() * transform
+
+func _can_occupy(body: CharacterBody3D, origin: Vector3, axis: Vector3) -> bool:
+	_cache_collision(body)
+	if not is_instance_valid(_collision):
+		return false
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = _collision.shape
+	query.transform = Transform3D(Basis(Quaternion(Vector3.UP, axis.normalized())), origin + axis * _half_height)
+	query.collision_mask = body.collision_mask
+	query.exclude = [body.get_rid()]
+	query.margin = 0.001
+	return body.get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty()
+
+func _result(body: CharacterBody3D, event: String) -> Dictionary:
+	return {"active": active, "state": state, "event": event, "velocity": body.velocity,
+		"normal": normal, "forward": forward, "surface_pitch": asin(clampf(forward.y, -1.0, 1.0)),
+		"lip": lip, "lip_balance": lip_balance}

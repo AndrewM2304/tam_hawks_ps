@@ -130,6 +130,9 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	check.call(bails["count"] == 1 and game.score.get_combo_value() == 0
 		and game.score.total_score == 500,
 		"trick fidelity: an unfinished late board flip bails once and preserves previously banked score")
+	print("FIDELITY LATE FLIP bails=%d total=%d pending=%d pos=%s airborne=%s" % [
+		bails["count"], game.score.total_score, game.score.get_combo_value(),
+		game.skater.global_position, game.skater.airborne])
 	game.skater.bailed.disconnect(record_bail)
 	_release()
 
@@ -200,8 +203,8 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_release("spin_left")
 	await _land(tree, game, check)
 	check.call(events.count("Frontside 180") == 1 and game.skater.stance == "SWITCH"
-		and is_equal_approx(game.skater.rotation.y, heading),
-		"trick fidelity: a real half-turn changes visible stance once while preserving travel heading")
+		and absf(absf(angle_difference(heading, game.skater.rotation.y)) - PI) < deg_to_rad(8.0),
+		"trick fidelity: a real half-turn changes functional stance and physical board heading")
 	_release()
 
 	await _rail_start(tree, game)
@@ -311,6 +314,7 @@ static func _launch(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(game.skater.airborne, "trick fidelity: fixture launches through actual ollie input")
 
 static func _high_drop(tree: SceneTree, game: Node, height: float) -> void:

@@ -35,6 +35,7 @@ static func _eligibility(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_press("manual")
 	await _frames(tree, 2)
 	check.call(game.skater.airborne and not game.skater.manual_active
@@ -52,6 +53,7 @@ static func _continuous_manual_line(tree: SceneTree, game: Node, check: Callable
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_press("flip")
 	await _frames(tree, 2)
 	Input.action_release("flip")
@@ -82,6 +84,7 @@ static func _continuous_manual_line(tree: SceneTree, game: Node, check: Callable
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	_key(KEY_M, false)
 	check.call(game.skater.airborne and not game.skater.manual_active
 		and not game.score.pending_landing and game.score.total_score == 0,
@@ -90,18 +93,18 @@ static func _continuous_manual_line(tree: SceneTree, game: Node, check: Callable
 	await _frames(tree, 2)
 	Input.action_release("grab")
 	await _wait_landing(tree, game)
-	check.call(game.score.combo_base == 800 and game.score.combo_multiplier == 4
+	check.call(game.score.combo_base == 800 and game.score.combo_multiplier == 5
 		and game.score.pending_landing,
 		"combo integration: air-manual-air sequence retains repeat degradation across links")
 	await _frames(tree, 15)
 	check.call(game.score.pending_landing and game.score.total_score == 0,
 		"combo integration: 0.25 seconds of clean ground time is still inside the bank window")
 	await _frames(tree, 10)
-	check.call(game.score.total_score == 3200 and game.score.best_combo == 3200
+	check.call(game.score.total_score == 4000 and game.score.best_combo == 4000
 		and game.score.get_combo_value() == 0 and not game.score.pending_landing,
-		"combo integration: the complete played line banks exactly 3200 after the deadline")
+		"combo integration: the complete five-entry line banks exactly 4000 after the deadline")
 	await _frames(tree, 20)
-	check.call(game.score.total_score == 3200,
+	check.call(game.score.total_score == 4000,
 		"combo integration: continued ground travel cannot bank the linked line twice")
 
 
@@ -110,6 +113,7 @@ static func _revert_windows(tree: SceneTree, game: Node, check: Callable) -> voi
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_press("revert")
 	await _frames(tree, 2)
 	check.call(not game.score.trick_history.has("Revert"),
@@ -126,7 +130,8 @@ static func _revert_windows(tree: SceneTree, game: Node, check: Callable) -> voi
 	await _frames(tree, 1)
 	Input.action_release("revert")
 	check.call(game.score.trick_history.count("Revert") == 1
-		and game.skater.speed < speed_before * 0.87 and game.skater.speed > speed_before * 0.82,
+		and game.skater.speed < 0.0 and absf(game.skater.speed) < speed_before * 0.87
+		and absf(game.skater.speed) > speed_before * 0.82,
 		"combo integration: a valid fresh landing revert scores once and costs 15 percent speed")
 	check.call(game.score.pending_landing and game.score.landing_remaining < window_before,
 		"combo integration: revert consumes the original bank window without refreshing it")
@@ -165,8 +170,8 @@ static func _manual_release_and_bail(tree: SceneTree, game: Node, check: Callabl
 	await _frames(tree, 1)
 	Input.action_press("manual")
 	await _frames(tree, 2)
-	check.call(game.skater.manual_active and game.score.combo_base == 100,
-		"combo integration: a fresh eligible manual after cooldown starts a new full-value combo")
+	check.call(game.skater.manual_active and game.score.combo_base == 50,
+		"combo integration: fresh eligible manual after a bank retains run-level repeat degradation")
 	var bail_count: Array[int] = [0]
 	var on_bail := func() -> void: bail_count[0] += 1
 	game.skater.bailed.connect(on_bail)
@@ -185,15 +190,15 @@ static func _link_boundary(tree: SceneTree, game: Node, check: Callable) -> void
 	await _frames(tree, 15)
 	await _ollie_and_land(tree, game)
 	await _frames(tree, 25)
-	check.call(game.score.total_score == 150,
-		"combo integration: an ollie inside the landing window continues with repeat degradation")
+	check.call(game.score.total_score == 300,
+		"combo integration: an ollie inside the window links two entries with repeat degradation")
 	await _moving_ground(tree, game)
 	await _ollie_and_land(tree, game)
 	await _frames(tree, 25)
 	await _ollie_and_land(tree, game)
 	await _frames(tree, 25)
-	check.call(game.score.total_score == 200,
-		"combo integration: an ollie after the landing window starts a separate full-value combo")
+	check.call(game.score.total_score == 150,
+		"combo integration: an ollie after the bank starts a new combo while retaining run-level staleness")
 
 
 static func _manual_overtime(tree: SceneTree, game: Node, check: Callable) -> void:
@@ -207,6 +212,7 @@ static func _manual_overtime(tree: SceneTree, game: Node, check: Callable) -> vo
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(game.skater.manual_active and not game.skater.airborne
 		and game.score.combo_base == 100,
 		"combo integration: overtime blocks starting an ollie link from a manual")
@@ -227,6 +233,7 @@ static func _manual_overtime(tree: SceneTree, game: Node, check: Callable) -> vo
 	Input.action_press("ollie")
 	await _frames(tree, 3)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	game.time_remaining = 0.01
 	await _wait_landing(tree, game)
 	Input.action_press("manual")
@@ -256,6 +263,7 @@ static func _ollie_and_land(tree: SceneTree, game: Node) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	await _wait_landing(tree, game)
 
 

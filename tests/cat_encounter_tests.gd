@@ -216,6 +216,7 @@ static func _physical_sequence(tree: SceneTree, game: Node, check: Callable) -> 
 		Input.action_press("ollie")
 		await _frames(tree, 1)
 		Input.action_release("ollie")
+		await _frames(tree, 1)
 		captured = false
 		for frame in range(120):
 			_aim(game.skater, tangent)
@@ -277,7 +278,7 @@ static func _earned_score(evidence: Dictionary) -> Dictionary:
 	for points: int in evidence.hold_awards:
 		valid = valid and points > 0 and points % 25 == 0 and points <= 300
 	valid = valid and evidence.hold_points >= 0 and evidence.hold_points <= grinds * 300
-	return {"valid": valid, "points": base * mini(repetitions.size(), 8), "grinds": grinds}
+	return {"valid": valid, "points": base * mini(evidence.trick_ids.size(), 100), "grinds": grinds}
 
 
 static func _payoff(tree: SceneTree, game: Node, check: Callable) -> void:
@@ -396,6 +397,7 @@ static func _lifecycle(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	game.time_remaining = 0.03 # Explicit clock boundary fixture, no score/movement injection.
 	await _frames(tree, 4)
 	check.call(game.time_remaining == 0.0 and game.score.get_combo_value() > 0
@@ -567,7 +569,11 @@ static func _reset(tree: SceneTree, game: Node, at: Vector3, free: bool) -> void
 	_release()
 	game.skater.spawn_position = at
 	game.start_mode(free)
+	# Settle on the real grade with the brake held; unbraked slope gravity may
+	# legitimately establish fakie travel before the route's first push.
+	Input.action_press("brake")
 	await _frames(tree, 45)
+	Input.action_release("brake")
 
 
 static func _drive_to(tree: SceneTree, game: Node, target: Vector3) -> bool:
@@ -578,16 +584,20 @@ static func _drive_to(tree: SceneTree, game: Node, target: Vector3) -> bool:
 			_release()
 			return true
 		_aim(game.skater, offset)
-		if game.skater.speed > sqrt(30.0 * offset.length()):
-			Input.action_release("push")
-			Input.action_press("brake")
-		else:
-			Input.action_release("brake")
-			Input.action_press("push")
+		_navigation_input(game.skater.speed < -0.05 or game.skater.speed > sqrt(30.0 * offset.length()))
 		await _frames(tree, 1)
 		if game.cat_encounter.status_snapshot().state != "active": break
 	_release()
 	return false
+
+
+static func _navigation_input(braking: bool) -> void:
+	# A one-frame overlap cancels the directional trick cue before changing
+	# throttle. Ordinary route braking must not also request a quick manual.
+	var crossing := Input.is_action_pressed("push" if braking else "brake") \
+		and not Input.is_action_pressed("brake" if braking else "push")
+	Input.action_press("brake" if braking else "push")
+	if not crossing: Input.action_release("push" if braking else "brake")
 
 
 static func _aim(skater: CharacterBody3D, direction: Vector3) -> void:

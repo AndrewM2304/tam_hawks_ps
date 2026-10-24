@@ -17,6 +17,9 @@ var _ready := false
 var _selected_angle := 0.0
 var _rear_clear_time := 0.0
 var _last_anchor := Vector3.ZERO
+var _travel_rear := Vector3.BACK
+var _has_travel_heading := false
+var _support_up := Vector3.UP
 
 
 func _init() -> void:
@@ -33,23 +36,42 @@ func reset() -> void:
 	_selected_angle = 0.0
 	_rear_clear_time = 0.0
 	_last_anchor = Vector3.ZERO
+	_travel_rear = Vector3.BACK
+	_has_travel_heading = false
+	_support_up = Vector3.UP
 
 
 func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity: float, reduced_motion: bool) -> void:
 	if not is_instance_valid(rider) or not is_instance_valid(camera) or not rider.is_inside_tree(): return
 	var board := rider.global_position
 	if not board.is_finite(): return
-	var anchor := board + Vector3.UP * CHEST_HEIGHT
+	var support_up := Vector3.UP
+	if rider.has_method("get_support_normal"):
+		var supplied: Variant = rider.call("get_support_normal")
+		if supplied is Vector3 and supplied.is_finite() and supplied.length_squared() > 0.01:
+			support_up = supplied.normalized()
+	var anchor := board + support_up * CHEST_HEIGHT
 	var space := rider.get_world_3d().direct_space_state
 	var excluded: Array[RID] = [rider.get_rid()]
 	_query.exclude = excluded
 	var step := clampf(delta, 0.0, 0.15) if is_finite(delta) else 0.0
 	var response := clampf(sensitivity, 0.5, 2.0) if is_finite(sensitivity) else 1.0
-	var speed := clampf(Vector2(rider.velocity.x, rider.velocity.z).length(), 0.0, 15.0)
+	var planar := Vector3(rider.velocity.x, 0.0, rider.velocity.z)
+	if not planar.is_finite(): planar = Vector3.ZERO
+	var speed := clampf(planar.length(), 0.0, 15.0)
 	var distance := 6.0 if reduced_motion else 6.0 + speed * 0.04
-	var rear := Vector3(rider.global_basis.z.x, 0, rider.global_basis.z.z).normalized()
-	if rear.length_squared() < 0.1: rear = Vector3.BACK
 	if _ready and anchor.distance_to(_last_anchor) > 12.0: reset()
+	_support_up = support_up
+	# A landed 180/revert can reverse board facing while preserving momentum.
+	# Follow the actual line of travel, and retain it through a vert apex where
+	# horizontal velocity approaches zero instead of orbiting with a board spin.
+	if speed >= 0.8:
+		_travel_rear = -planar.normalized()
+		_has_travel_heading = true
+	elif not _has_travel_heading:
+		_travel_rear = Vector3(rider.global_basis.z.x, 0, rider.global_basis.z.z).normalized()
+		if _travel_rear.length_squared() < 0.1: _travel_rear = Vector3.BACK
+	var rear := _travel_rear
 	var selected := _choose(space, anchor, board, rear, distance, excluded, step)
 	var desired: Vector3 = selected.position
 	var resolved := desired
@@ -154,6 +176,6 @@ func _usable(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Vector3, 
 	if anchor.distance_to(position) < MIN_USEFUL_ARM or not _clear_volume(space, position): return false
 	# Chest alone can be clear while a lip or column hides the board or head.
 	for height: float in [0.12, CHEST_HEIGHT, 1.8]:
-		var query := PhysicsRayQueryParameters3D.create(position, board + Vector3.UP * height, 1, excluded)
+		var query := PhysicsRayQueryParameters3D.create(position, board + _support_up * height, 1, excluded)
 		if not space.intersect_ray(query).is_empty(): return false
 	return true

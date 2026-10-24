@@ -84,6 +84,7 @@ static func _body(parent: Node3D, id: String, vertices: PackedVector3Array, norm
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	var body := StaticBody3D.new()
 	body.name = id
+	body.set_meta("art_label", id)
 	body.collision_layer = 1
 	body.collision_mask = 0
 	body.set_meta("surface_audio", audio)

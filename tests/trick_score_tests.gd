@@ -11,43 +11,43 @@ static func run(check: Callable) -> void:
 	check.call(score.combo_trick_count == 1 and score.last_award == 300 and not score.last_repeat,
 		"trick score: a fresh trick exposes its accepted award and entry count")
 	score.add_trick("Switch Kickflip", 300, "kickflip")
-	check.call(score.combo_base == 450 and score.combo_multiplier == 1
+	check.call(score.combo_base == 450 and score.combo_multiplier == 2
 		and score.combo_trick_count == 2 and score.last_repeat and score.last_award == 150,
-		"trick score: a styled label cannot farm variety or bypass stable-ID repetition")
+		"trick score: a styled entry adds a multiplier but retains stable-ID repetition")
 	score.add_trick("Heelflip", 300, "heelflip")
-	check.call(score.combo_base == 750 and score.combo_multiplier == 2
+	check.call(score.combo_base == 750 and score.combo_multiplier == 3
 		and score.combo_trick_count == 3 and not score.last_repeat,
-		"trick score: a different physical trick increases variety and clears repeat feedback")
+		"trick score: a fresh physical trick adds the third entry and clears repeat feedback")
 	score.begin_landing()
 	score.tick(0.1)
 	var deadline: float = score.landing_remaining
 	score.add_hold_points(120)
-	check.call(score.combo_base == 870 and score.get_combo_value() == 1740,
+	check.call(score.combo_base == 870 and score.get_combo_value() == 2610,
 		"trick score: a hold extends the existing combo base before multiplication")
-	check.call(score.combo_multiplier == 2 and score.combo_trick_count == 3
+	check.call(score.combo_multiplier == 3 and score.combo_trick_count == 3
 		and score.trick_history == ["Kickflip", "Switch Kickflip", "Heelflip"],
 		"trick score: hold samples cannot create trick entries, history or variety")
 	check.call(score.pending_landing and score.landing_remaining == deadline,
 		"trick score: hold points cannot refresh or suspend the landing deadline")
 	score.add_hold_points(0)
 	score.add_hold_points(-100)
-	check.call(score.get_combo_value() == 1740, "trick score: nonpositive hold awards are ignored")
-	check.call(score.tick(deadline) == 1740 and score.last_banked == 1740
+	check.call(score.get_combo_value() == 2610, "trick score: nonpositive hold awards are ignored")
+	check.call(score.tick(deadline) == 2610 and score.last_banked == 2610
 		and score.last_banked_tricks == ["Kickflip", "Switch Kickflip", "Heelflip"],
 		"trick score: banking snapshots the actual accepted trick list before clearing")
 	check.call(score.combo_trick_count == 0 and score.last_award == 0 and not score.last_repeat,
 		"trick score: banking clears live entry and repeat feedback")
 	score.add_hold_points(300)
-	check.call(score.get_combo_value() == 0 and score.total_score == 1740,
+	check.call(score.get_combo_value() == 0 and score.total_score == 2610,
 		"trick score: a late hold cannot resurrect a banked combo")
 	score.add_trick("Kickflip", 300, "kickflip")
-	check.call(score.last_award == 300 and not score.last_repeat,
-		"trick score: stable repetition resets after a bank")
+	check.call(score.last_award == 75 and score.last_repeat,
+		"trick score: stable repetition persists after a bank within the run")
 	check.call(score.last_banked_tricks == ["Kickflip", "Switch Kickflip", "Heelflip"],
 		"trick score: a new live line retains the previous bank receipt")
 	score.drop_combo()
-	check.call(score.last_dropped_value == 300 and score.last_banked == 0
-		and score.last_banked_tricks.is_empty() and score.total_score == 1740,
+	check.call(score.last_dropped_value == 75 and score.last_banked == 0
+		and score.last_banked_tricks.is_empty() and score.total_score == 2610,
 		"trick score: bail records only lost pending value and preserves already banked points")
 	score.add_hold_points(300)
 	check.call(score.get_combo_value() == 0, "trick score: holds cannot score after a bail")
@@ -63,7 +63,7 @@ static func run(check: Callable) -> void:
 	legacy.add_trick("Backside 180", 200)
 	legacy.add_trick("Backside 360", 400)
 	legacy.add_trick("Backside 180", 200, "  ")
-	check.call(legacy.combo_base == 700 and legacy.combo_multiplier == 2,
+	check.call(legacy.combo_base == 700 and legacy.combo_multiplier == 3,
 		"trick score: callers without stable IDs retain legacy display-name identity")
 	var invalid = Score.new()
 	invalid.add_trick(" ", 300, "kickflip")
@@ -83,8 +83,8 @@ static func run(check: Callable) -> void:
 	var many = Score.new()
 	for index in 12:
 		many.add_trick("Trick %d" % index, 100, "trick_%d" % index)
-	check.call(many.combo_trick_count == 12 and many.combo_multiplier == 8
-		and many.trick_history.size() == 8, "trick score: entry count, variety cap and readable history remain independent")
+	check.call(many.combo_trick_count == 12 and many.combo_multiplier == 12
+		and many.trick_history.size() == 8, "trick score: multiplier and readable history limits remain independent")
 	many.bank_combo()
 	many.add_trick("New trick", 100, "new")
 	check.call(many.last_banked_tricks.size() == 8 and not many.last_banked_tricks.has("New trick"),
@@ -145,7 +145,7 @@ static func run_ui(tree: SceneTree, check: Callable) -> void:
 	check.call(bounds.encloses(hud._dialog.get_global_rect()) and hud._scroll.size.y >= 80,
 		"trick HUD: trick guide retains usable scrolling at 960×600 and large UI")
 	var instructions := _find_label(hud._dialog, "Release a grab before the next flip.")
-	var manual_instructions := _find_label(hud._dialog, "before landing and hold to link a manual")
+	var manual_instructions := _find_label(hud._dialog, "just before landing; a fresh forward tap")
 	check.call(_all_wrapped_lines_fit(instructions) and instructions.get_line_count() >= 2
 		and _all_wrapped_lines_fit(manual_instructions) and manual_instructions.get_line_count() >= 2,
 		"trick HUD: complete flip and manual instructions wrap into fully allocated lines at large UI")

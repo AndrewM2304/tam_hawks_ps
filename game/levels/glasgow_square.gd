@@ -9,6 +9,7 @@ const CityArtSource = preload("res://game/levels/city_art.gd")
 const TerrainSource = preload("res://game/levels/core_terrain.gd")
 const ExchangeGallery = preload("res://game/levels/art/exchange_gallery.gd")
 const ExplorationBoundary = preload("res://game/levels/exploration_boundary.gd")
+const SurfaceAudit = preload("res://game/levels/surface_audit.gd")
 const RAIL_COLLISION_LAYER := 2
 const RAIL_TOP_HEIGHT := 0.92
 const PALETTE := {
@@ -35,6 +36,7 @@ var _cone_tween: Tween
 var cone_activated := false
 var _terrain = TerrainSource.new()
 var _outdoors: Node3D
+var _surface_audit = SurfaceAudit.new()
 
 
 func _ready() -> void:
@@ -63,6 +65,7 @@ func _ready() -> void:
 		_outdoors.build(self, _materials)
 	_build_exploration_boundaries()
 	_city_art.dress_world(self)
+	_surface_audit.build(self, get_grind_lines())
 
 
 func get_spawn_position() -> Vector3:
@@ -222,7 +225,16 @@ func _build_floor() -> void:
 	_flat("GalleryStepLanding", Rect2(-11, -18, 22, 6), 2.0, "path")
 	# The low retaining cheeks are architecture beside, never across, the banks.
 	for x: float in [-10.0, 10.0]:
-		_box(self, "GalleryStairCheek", Vector3(x, 0.9, -9), Vector3(1.0, 1.8, 10), "stone", true)
+		var cheek := _box(self, "GalleryStairCheek", Vector3(x, 0.9, -9), Vector3(1.0, 1.8, 10), "stone", true)
+		var cheek_ids: Array[String] = []
+		for side: float in [-1.0,1.0]:
+			var id := "Grind_Ledge_GalleryCheek_" + ("West" if x < 0 else "East") + ("_Inner" if x * side < 0 else "_Outer")
+			# The north end is buried beneath the upper landing. Only the visible
+			# top south of the final stair risers is a real exposed ledge.
+			_grind_path(id,PackedVector3Array([Vector3(x+side*0.5,1.82,-10.5),Vector3(x+side*0.5,1.82,-4)]),"ledge")
+			cheek_ids.append(id)
+		cheek.set_meta("authored_grind_ids",cheek_ids)
+		cheek.set_meta("audit_capture_ids",cheek_ids)
 	# Furniture and normal urban edges define the court; no runway markings.
 	_fountain(Vector3(0, 0, 10), 6.2)
 	_build_exchange_attachments()
@@ -294,6 +306,7 @@ func _build_seating_ledge(id: String, points: PackedVector3Array, floor_y: float
 		var yaw:=atan2(end.x-start.x,end.z-start.z)
 		var body:=_box(self,id+"Masonry",Vector3(centre.x,floor_y+body_height/2,centre.z),Vector3(0.56,body_height,start.distance_to(end)+0.04),"stone",true)
 		body.rotation.y=yaw
+		body.set_meta("authored_grind_ids", [id])
 		var cap:=_box(self,id+"SeatCap",Vector3(centre.x,floor_y+body_height+0.04,centre.z),Vector3(0.62,0.08,start.distance_to(end)+0.06),"cut_stone")
 		cap.rotation.y=yaw
 	_grind_path(id,points,"ledge")
@@ -522,7 +535,17 @@ func _build_george_square() -> void:
 		var wing := PackedVector3Array()
 		for at: Vector2 in [Vector2(18,-87),Vector2(11,-88.5),Vector2(7,-84.5),Vector2(10,-80),Vector2(17,-81)]:
 			wing.append(Vector3(at.x * side,4.55,at.y))
-		_terrain.add_polygon(self, "ChamferedCivicGarden", wing, _materials["stone"])
+		var garden := _terrain.add_polygon(self, "ChamferedCivicGarden", wing, _materials["stone"])
+		var garden_id := "Grind_Ledge_Civic_Return_Left" if side < 0 else "Grind_Ledge_Civic_Right"
+		var edges := PackedVector3Array()
+		if side < 0:
+			for index: int in [1,2,3,4]: edges.append(wing[index] + Vector3.UP * 0.10)
+			garden.set_meta("authored_grind_ids", ["Grind_Ledge_Civic",garden_id])
+		else:
+			for at: Vector3 in wing: edges.append(at + Vector3.UP * 0.10)
+			edges.append(wing[0] + Vector3.UP * 0.10)
+			garden.set_meta("authored_grind_ids", [garden_id])
+		_grind_path(garden_id, edges, "ledge")
 		_box(self, "CivicGardenSoil", Vector3(side * 13,4.59,-84), Vector3(4.8,0.08,3.5), "bark")
 	_grind_path("Grind_Rail_George", PackedVector3Array([
 		Vector3(14, 4.92, -100), Vector3(14, 6.92, -109), Vector3(14, 6.92, -117)]), "rail")
@@ -532,9 +555,10 @@ func _build_george_square() -> void:
 func _build_civic_workshop() -> void:
 	# The original civic garden/busking backdrop is a real chamfered terrace. The
 	# ordered coping course in front stays on the ordinary Y4 civic floor.
-	_terrain.add_polygon(self, "CivicWorkshopBackdrop", PackedVector3Array([
+	var backdrop := _terrain.add_polygon(self, "CivicWorkshopBackdrop", PackedVector3Array([
 		Vector3(-16,4.65,-95),Vector3(-13,4.65,-99),Vector3(13,4.65,-99),
 		Vector3(16,4.65,-95),Vector3(12,4.65,-94),Vector3(-12,4.65,-94)]), _materials["cut_stone"])
+	_perimeter_grind(backdrop,"Grind_Ledge_WorkshopTerrace")
 	# Toe heights match the existing civic banks beyond Z=-96 exactly.
 	for side: float in [-1.0,1.0]:
 		_terrain.add_polygon(self, "CivicWorkshopFrontBank", PackedVector3Array([
@@ -551,7 +575,8 @@ func _build_civic_workshop() -> void:
 		{"id":"Grind_Cat_B", "from":-4.0, "to":2.0, "label":"B", "accent":"coral"},
 		{"id":"Grind_Cat_C", "from":8.0, "to":14.0, "label":"C", "accent":"cream"}]:
 		var middle := (float(entry.from) + float(entry.to)) * 0.5
-		_box(self, entry.id + "Plinth", Vector3(middle,4.225,-91), Vector3(6,0.45,1.5), "stone", true)
+		var plinth := _box(self, entry.id + "Plinth", Vector3(middle,4.225,-91), Vector3(6,0.45,1.5), "stone", true)
+		plinth.set_meta("authored_grind_ids", [entry.id])
 		_grind_path(entry.id, PackedVector3Array([Vector3(entry.from,4.60,-91),Vector3(entry.to,4.60,-91)]), "coping")
 		_box(self, entry.id + "Accent",Vector3(entry.from + 0.22,4.46,-91),Vector3(0.32,0.02,1.54),entry.accent)
 		var marker := _label(self, entry.id + "Marker", entry.label, Vector3(middle,5.35,-92.25), 28, "cream", Vector3.ZERO, 0.012)
@@ -566,8 +591,10 @@ func _build_civic_workshop() -> void:
 func _build_central_station() -> void:
 	_flat("CentralStationFloor", Rect2(-130, -42, 80, 87), 2, "paving")
 	_slope("CentralPlatformApproach", Rect2(-101, 14, 14, 18), Vector4(5, 5, 2, 2), "stone")
-	_terrain.add_patch(self, "CentralPlatformSouth", Rect2(-101, -1, 14, 15), Vector4.ONE * 5, _materials["path"], "stone", 0.4)
-	_terrain.add_patch(self, "CentralPlatformNorth", Rect2(-101, -20, 14, 15), Vector4.ONE * 5, _materials["path"], "stone", 0.4)
+	var south_platform := _terrain.add_patch(self, "CentralPlatformSouth", Rect2(-101, -1, 14, 15), Vector4.ONE * 5, _materials["path"], "stone", 0.4)
+	var north_platform := _terrain.add_patch(self, "CentralPlatformNorth", Rect2(-101, -20, 14, 15), Vector4.ONE * 5, _materials["path"], "stone", 0.4)
+	_perimeter_grind(south_platform,"Grind_Ledge_CentralPlatformSouth")
+	_perimeter_grind(north_platform,"Grind_Ledge_CentralPlatformNorth")
 	_slope("CentralPlatformExit", Rect2(-101, -38, 14, 18), Vector4(2, 2, 5, 5), "stone")
 	_rail("Grind_Rail_CentralPlatform", Vector3(-99, 5, 6), 11)
 	_rail("Grind_Rail_CentralGround", Vector3(-64, 2, -5), 17)
@@ -575,7 +602,8 @@ func _build_central_station() -> void:
 	_steps("StationEntranceSteps", -117, -105, 16, 4, 2, 5, 12)
 	# A real suspended service walk creates overlapping high/low routes.
 	# The deck underside is Y4.6, leaving 2.6m above the lower concourse.
-	_terrain.add_patch(self, "StationUpperWalk", Rect2(-122, -20, 17, 24), Vector4.ONE * 5.0, _materials["path"], "stone", 0.4)
+	var upper_walk := _terrain.add_patch(self, "StationUpperWalk", Rect2(-122, -20, 17, 24), Vector4.ONE * 5.0, _materials["path"], "stone", 0.4)
+	_perimeter_grind(upper_walk,"Grind_Ledge_StationUpperWalk")
 	for x: float in [-121.0, -106.0]:
 		for z: float in [-18.5, 2.5]:
 			_box(self, "ServiceWalkPier", Vector3(x, 3.25, z), Vector3(0.65, 2.5, 0.65), "stone", true)
@@ -589,7 +617,14 @@ func _build_central_station() -> void:
 
 func _build_barras() -> void:
 	_flat("BarrasFloor", Rect2(50, -42, 80, 87), 0, "paving")
-	_flat("MarketLoadingTerrace", Rect2(50, -42, 80, 24), 1.5, "stone")
+	var loading := _flat("MarketLoadingTerrace", Rect2(50, -42, 80, 24), 1.5, "stone")
+	var loading_ids: Array[String] = []
+	for span: Vector2 in [Vector2(76.1,86.5),Vector2(99.5,107.8)]:
+		var id := "Grind_Ledge_LoadingLip_" + str(loading_ids.size())
+		_grind_path(id,PackedVector3Array([Vector3(span.x,1.52,-18),Vector3(span.y,1.52,-18)]),"ledge")
+		loading_ids.append(id)
+	loading.set_meta("authored_grind_ids", loading_ids)
+	loading.set_meta("audit_capture_ids", loading_ids)
 	_slope("MarketWestLoadingBank", Rect2(54, -18, 22, 12), Vector4(1.5, 1.5, 0, 0), "stone")
 	_slope("MarketEastLoadingBank", Rect2(108, -18, 22, 12), Vector4(1.5, 1.5, 0, 0), "stone")
 	_steps("MarketLoadingSteps", 87, 99, -8, -14, 0, 1.5, 6)
@@ -888,6 +923,17 @@ func _steps(label: String, x_min: float, x_max: float, z_start: float, z_end: fl
 		_flat(label + str(index + 1), Rect2(x_min, z - depth, x_max - x_min, depth), height, "cut_stone")
 
 
+func _perimeter_grind(body: StaticBody3D, id: String) -> void:
+	var local: PackedVector3Array = body.get_meta("top_polygon_local", PackedVector3Array())
+	if local.size() < 3: return
+	var points := PackedVector3Array()
+	for at: Vector3 in local: points.append(to_local(body.to_global(at)) + Vector3.UP * 0.02)
+	points.append(points[0])
+	_grind_path(id, points, "ledge")
+	body.set_meta("authored_grind_ids", [id])
+	body.set_meta("audit_capture_ids", [id])
+
+
 func _grind_path(id: String, points: PackedVector3Array, kind: String = "rail") -> void:
 	var author := Node3D.new()
 	author.name = id
@@ -930,6 +976,7 @@ func _grind_path(id: String, points: PackedVector3Array, kind: String = "rail") 
 func _fountain(at: Vector3, radius: float) -> void:
 	var body := StaticBody3D.new()
 	body.name = "ExchangeFountain"
+	body.set_meta("authored_grind_ids", ["Grind_Coping_ExchangeFountain"])
 	body.position = at
 	body.set_meta("surface_audio", "stone")
 	add_child(body)
@@ -988,4 +1035,16 @@ func get_grind_lines() -> Array:
 			local_points, rail.global_transform, String(rail.get_meta("grind_kind", "rail"))))
 	if is_instance_valid(_outdoors):
 		lines.append_array(_outdoors.get_grind_lines())
+	lines.append_array(_surface_audit.lines)
 	return lines
+
+
+## A defensive semantic inventory; live capture still checks actual collision.
+func get_surface_audit() -> Dictionary:
+	return _surface_audit.snapshot()
+
+
+func get_skate_feature_definitions() -> Array[Dictionary]:
+	var features: Array[Dictionary] = []
+	if is_instance_valid(_outdoors): features.append_array(_outdoors.get_skate_feature_definitions())
+	return features

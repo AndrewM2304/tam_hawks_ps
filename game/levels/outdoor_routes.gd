@@ -7,6 +7,8 @@ const Vegetation = preload("res://game/levels/outdoors/vegetation.gd")
 const ClydeLandmarks = preload("res://game/levels/art/clyde_landmarks.gd")
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
 const ExplorationBoundary = preload("res://game/levels/exploration_boundary.gd")
+const TransitionFeature = preload("res://game/levels/transition_feature.gd")
+const PRACTICE_APRON := Rect2(-118, -139.5, 42, 13.5)
 const PARK := Rect2(-220, -185, 80, 110)
 const PARK_LANDSCAPE := Rect2(-255, -225, 115, 165)
 const RIVER := Rect2(-150, 78, 300, 38)
@@ -27,6 +29,8 @@ var _clyde_yard := PackedVector3Array()
 var _park_connector := PackedVector3Array()
 var _george_connector := PackedVector3Array()
 var _built := false
+var _transitions: Array[Node3D] = []
+var _practice_features: Array[Dictionary] = []
 
 
 func build(world: Node3D, materials: Dictionary) -> void:
@@ -36,6 +40,7 @@ func build(world: Node3D, materials: Dictionary) -> void:
 	_build_clyde()
 	_build_riverside_edge(world)
 	_build_park()
+	_build_practice_pockets()
 	_build_exploration_boundaries()
 
 
@@ -61,7 +66,11 @@ func _build_exploration_boundaries() -> void:
 		[Vector2(-214.8,19.8),Vector2(-130.2,19.8)],
 		[Vector2(-214.8,-60),Vector2(-214.8,19.8)],
 		[Vector2(-254.8,-60.2),Vector2(-215,-60.2)]
-	]: _boundary("ParkRetainedBoundary",edge[0],edge[1])
+	]:
+		# The practice terrace and its raised roll-in need a visible fence high
+		# enough to contain a deck ollie as well as a rider on the lower path.
+		var height := 5.0 if edge[0] == Vector2(-140,-141.8) else 3.0
+		_boundary("ParkRetainedBoundary",edge[0],edge[1],height)
 	# Bound BOTH sides of the landward void between the city and the quay.
 	# The river-facing edges remain the explicit, recoverable skating hazard.
 	for span: Vector2 in [Vector2(-149.8,-102),Vector2(-86,-15),Vector2(-9,9),Vector2(15,86),Vector2(102,149.8)]:
@@ -76,7 +85,7 @@ func _build_exploration_boundaries() -> void:
 	_boundary("SouthLandscapeNorthBoundary",Vector2(150,130.2),Vector2(279.8,130.2))
 
 
-func _boundary(id: String, start: Vector2, end: Vector2) -> void:
+func _boundary(id: String, start: Vector2, end: Vector2, fence_height: float = 3.0) -> void:
 	var points := PackedVector3Array()
 	var count := maxi(1,ceili(start.distance_to(end)/2.0))
 	for index: int in range(count+1):
@@ -84,7 +93,7 @@ func _boundary(id: String, start: Vector2, end: Vector2) -> void:
 		var height := _local_ground(at.x,at.y)
 		assert(is_finite(height),"Outdoor boundary requires real supported ground: "+id+" "+str(at))
 		points.append(Vector3(at.x,height,at.y))
-	ExplorationBoundary.build(self,id,points,_material("cut_stone"),_material("iron"))
+	ExplorationBoundary.build(self,id,points,_material("cut_stone"),_material("iron"),fence_height)
 
 
 func get_district_id(world_position: Vector3) -> String:
@@ -122,7 +131,14 @@ func get_recovery_position(world_position: Vector3) -> Vector3:
 
 
 func get_grind_lines() -> Array:
-	return _rails.duplicate()
+	var lines := _rails.duplicate()
+	for feature: Node3D in _transitions:
+		lines.append_array(feature.get_grind_lines())
+	return lines
+
+
+func get_skate_feature_definitions() -> Array[Dictionary]:
+	return _practice_features.duplicate(true)
 
 
 func get_gap_definitions() -> Array[Dictionary]:
@@ -303,6 +319,7 @@ func _build_riverside_edge(_world: Node3D) -> void:
 	for block: Vector2 in [Vector2(-100,96), Vector2(-1,88), Vector2(99,92)]:
 		var body := StaticBody3D.new()
 		body.name = "CarltonPlaceBoundary"
+		body.set_meta("art_label", "CarltonPlaceFacade")
 		body.position = Vector3(block.x,7.5,151.4)
 		var shape := BoxShape3D.new()
 		shape.size = Vector3(block.y,13.0,12.0)
@@ -336,7 +353,12 @@ func _central_bank_height(x: float, z: float) -> float:
 
 func _george_bank_height(x: float, z: float) -> float:
 	var nearest := Surface.nearest_segment(_george_connector, Vector2(x, z))
-	return lerpf(5.75, 0.5, smoothstep(6.0, 15.5, float(nearest.distance)))
+	var height := lerpf(5.75, 0.5, smoothstep(6.0, 15.5, float(nearest.distance)))
+	# Extend the existing promenade into a supported skate apron. Its grass
+	# shoulders blend back into the old embankment instead of hiding a slab void.
+	var nearest_apron := Vector2(clampf(x, PRACTICE_APRON.position.x, PRACTICE_APRON.end.x), clampf(z, PRACTICE_APRON.position.y, PRACTICE_APRON.end.y))
+	var distance := Vector2(x, z).distance_to(nearest_apron)
+	return maxf(height, lerpf(5.98, height, smoothstep(3.0, 6.0, distance)))
 
 
 func _park_height(x: float, z: float) -> float:
@@ -402,6 +424,7 @@ func _material(id: String) -> Material:
 func _box(id: String, at: Vector3, size: Vector3, material: Material, colliding: bool = true) -> Node3D:
 	var root: Node3D = StaticBody3D.new() if colliding else Node3D.new()
 	root.name = id
+	root.set_meta("art_label", id)
 	root.position = at
 	add_child(root)
 	var mesh := BoxMesh.new()
@@ -420,10 +443,11 @@ func _box(id: String, at: Vector3, size: Vector3, material: Material, colliding:
 	return root
 
 
-func _beam(id: String, a: Vector3, b: Vector3, radius: float, material: Material, colliding: bool = false) -> void:
+func _beam(id: String, a: Vector3, b: Vector3, radius: float, material: Material, colliding: bool = false) -> Node3D:
 	var delta := b - a
 	var piece := _box(id, (a + b) * 0.5, Vector3(radius * 2.0, radius * 2.0, delta.length()), material, colliding)
 	piece.look_at(to_global(b), Vector3.UP if absf(delta.normalized().y) < 0.98 else Vector3.FORWARD)
+	return piece
 
 
 func _rail(id: String, points: PackedVector3Array, kind: String, radius: float) -> void:
@@ -433,11 +457,20 @@ func _rail(id: String, points: PackedVector3Array, kind: String, radius: float) 
 
 func _bridge_structure(points: PackedVector3Array, width: float, safe: bool) -> void:
 	for side: float in [-1.0, 1.0]:
+		var handrail := PackedVector3Array()
+		for at: Vector3 in points:
+			handrail.append(at + Vector3(side * (width * 0.5 - 0.15), 1.10, 0))
+		# Each intact bridge piece has its own finite track. The broken bridge's
+		# eight-metre water gap remains a real transfer, never an invisible rail.
+		var bridge_id := "safe" if safe else ("north" if points[0].z < 90 else "south")
+		var grind_id := "clyde_" + bridge_id + "_handrail_" + ("west" if side < 0 else "east")
+		_rails.append(GrindLineSource.from_local_points(grind_id, handrail, global_transform, "rail"))
 		for i in range(points.size() - 1):
 			var a := points[i] + Vector3(side * (width * 0.5 - 0.15), 0, 0)
 			var b := points[i + 1] + Vector3(side * (width * 0.5 - 0.15), 0, 0)
 			_beam("BridgeEdgeGirder", a - Vector3.UP * 0.25, b - Vector3.UP * 0.25, 0.18, _material("iron"))
-			_beam("BridgeHandrail", a + Vector3.UP * 1.05, b + Vector3.UP * 1.05, 0.045, _material("iron"), safe)
+			var handrail_body := _beam("BridgeHandrail", a + Vector3.UP * 1.05, b + Vector3.UP * 1.05, 0.045, _material("iron"), safe)
+			handrail_body.set_meta("authored_grind_ids", [grind_id])
 			if safe: _beam("BridgeLowerRail", a + Vector3.UP * 0.5, b + Vector3.UP * 0.5, 0.025, _material("iron"))
 			var steps := maxi(1, ceili(a.distance_to(b) / 4.0))
 			for j in steps:
@@ -446,6 +479,63 @@ func _bridge_structure(points: PackedVector3Array, width: float, safe: bool) -> 
 	for i in [0, points.size() - 1]:
 		var at := points[i]
 		_box("BridgePier", Vector3(at.x, -0.6, at.z), Vector3(width - 1.0, 4.0, 1.0), _material("cut_stone"), false)
+
+
+func _build_practice_pockets() -> void:
+	# The long west quay previously offered only a bench. Keep the Station /
+	# Barras route (x >= -94, z=67) and river landing lanes completely clear.
+	_transition("ClydeQuayQuarter", Vector3(-124, 2, 65), PI * 0.5, 2.0, 8.0)
+	_practice_box("PracticeManualPad", Vector3(-139, 2.24, 64), Vector3(5, 0.48, 4))
+	_practice_box("PracticeLedge", Vector3(-111, 2.275, 72), Vector3(8, 0.55, 0.7))
+	_rail("clyde_practice_flatbar", PackedVector3Array([Vector3(-117,2.68,60),Vector3(-108,2.68,60)]), "rail", 0.045)
+	# Feet end at the real quay floor and underside of the visible bar. These
+	# are visual-only, like the other rail supports, so capture cannot snag them.
+	for x: float in [-116.5,-112.5,-108.5]:
+		_box("PracticeFlatbarLeg",Vector3(x,2.3175,60),Vector3(0.075,0.635,0.075),_material("iron"),false)
+		_box("PracticeFlatbarFoot",Vector3(x,2.0225,60),Vector3(0.34,0.045,0.30),_material("iron"),false)
+	_practice_features.append({"id":"clyde_quay_practice", "district":"clyde", "bounds":Rect2(-145,56,40,19), "floor_y":2.0,
+		"features":["quarter_pipe", "manual_pad", "low_ledge", "flatbar"],
+		"approach":PackedVector3Array([Vector3(-108,2,65),Vector3(-124,2,65)]),
+		"landing":PackedVector3Array([Vector3(-124,2,65),Vector3(-108,2,65)])})
+	# A low, widened part of the existing George-to-park promenade offers a
+	# second practice stop. The original through route stays on its north side.
+	_patch("KelvingrovePromenadeSkateApron", PRACTICE_APRON, 6.0, _material("paving"))
+	_transition("KelvingrovePromenadeQuarter", Vector3(-96,6,-130), PI * 0.5, 2.4, 8.0)
+	_practice_box("PracticeLedge", Vector3(-111,6.275,-130), Vector3(6,0.55,0.7))
+	_practice_box("PracticeManualPad", Vector3(-82,6.20,-135), Vector3(5,0.4,3))
+	_practice_features.append({"id":"kelvingrove_promenade_practice", "district":"kelvingrove", "bounds":PRACTICE_APRON, "floor_y":6.0,
+		"features":["quarter_pipe", "manual_pad", "low_ledge"],
+		"approach":PackedVector3Array([Vector3(-78,6,-130),Vector3(-96,6,-130)]),
+		"landing":PackedVector3Array([Vector3(-96,6,-130),Vector3(-78,6,-130)])})
+	# Broad, restrained inlaid lines identify approaches without adding props
+	# to the landing space. Small seams make the concrete read at board height.
+	for x: float in [-115, -107, -99, -91, -83]:
+		_box("ApronPavingJoint",Vector3(x,6.006,-132.75),Vector3(0.025,0.008,13.3),_material("slate"),false)
+	for at: Vector3 in [Vector3(-119,2.009,65),Vector3(-91,6.009,-130)]:
+		for offset: float in [-0.9,0.9]:
+			_box("PracticeApproachInlay",at+Vector3(0,0,offset),Vector3(5,0.012,0.06),_material("cream"),false)
+
+
+func _transition(id: String, at: Vector3, yaw: float, radius: float, width: float) -> void:
+	var feature := TransitionFeature.new()
+	feature.name = id
+	feature.feature_id = id
+	feature.position = at
+	feature.rotation.y = yaw
+	feature.radius = radius
+	feature.width = width
+	feature.deck_length = 3.0
+	add_child(feature)
+	_transitions.append(feature)
+
+
+func _practice_box(label: String, at: Vector3, size: Vector3) -> void:
+	var body := _box(label, at, size, _material("cut_stone"))
+	body.set_meta("practice_feature", true)
+	# A flush steel strip marks the usable top edge. Geometry-derived grind
+	# tracks are built later from this same body's collision bounds.
+	for side: float in [-1.0,1.0]:
+		_box("PracticeSteelEdge", at + Vector3(0,size.y*0.5+0.006,side*size.z*0.5),Vector3(size.x,0.012,0.045),_material("iron"),false)
 
 
 func _water() -> void:

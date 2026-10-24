@@ -1,3 +1,92 @@
+# Current handoff — complete skating process, 24 October 2026
+
+**Tam Hawks Pro Skater**, Godot 4.6.3 Compatibility, local feature branch `work`.
+The requested navigation/trick implementation and current-level polish are
+implemented and source-bound Linux verification is complete. Use only the owner's
+remaining included weekly usage. **No spending budget, token purchase, upgrade,
+billing change, paid API, hosted CI, native export or remote publication occurred.**
+
+## Implemented
+
+- Charge/release Ollie with bounded extra height and approach acceleration; fresh
+  Nollie/Boneless/No Comply setups; expiring action buffers, double-flip upgrades
+  and directional specials. Held inputs cannot manufacture tricks after a bail.
+- Physical aligned 180/360 landings and reverts preserve actual travel with signed
+  stance; sideways/incomplete landings bail once. Powerslides, rail changes and
+  lateral hops, manual gestures, one-foot/Spacewalk/pivot extensions are connected.
+- Real bounded wallrides/wallies on substantial architecture. Rendered review
+  repaired wall lean/head penetration; actual wheel geometry now meets the probed
+  wall plane with 15 mm presentation clearance while native movement owns collision.
+- Two full 90-degree quarter-pipes support rollback, vert launch/return, lip
+  balance/release, deliberate deck transfers and upright-clearance coping capture.
+  Associated-air gravity, first-contact catch checks, native floor-state handoff,
+  camera framing and vertical speed display have explicit regressions.
+- 44 catalog definitions:10 flips,8 grabs,9 grind styles,5 manual styles, setup/
+  wall/lip actions,2 specials and core spin/revert/gap definitions. Each accepted
+  entry builds multiplier up to 100; staleness lasts the run, spin/hold are bonuses,
+  double taps upgrade one entry, and live earned points maintain Special mode.
+- 357 static level bodies audited:55 eligible wall bodies,45 bodies associated
+  with grind paths,111 paths. Existing benches/planters/platforms/terraces/bridge
+  pieces gained finite coverage. Quay and park practice pockets add useful linked
+  features; runouts stay clear. Glass, fences, obstructed counters and scenery have
+  explicit exclusions. Concrete grain, flatbar feet and retaining foundations
+  close visible defects. Career/save/challenge identities remain intact.
+
+Contracts and instructions: [ADR-015](architecture/decisions/ADR-015-complete-skate-process.md),
+[interfaces](architecture/interfaces.md), [player guide](PLAYER-GUIDE.md),
+[plan](planning/OVERNIGHT.md), [surface audit](levels/OVERNIGHT-SURFACE-AUDIT.md) and
+[verification/limits](testing/OVERNIGHT-SKATE-PROCESS.md).
+
+## Final verified source
+
+`./tools/check.sh` exits 0: **1,817 passed / 0 failed**, with clean import and
+script/error scans. All 213 recorded inputs stayed unchanged through verification.
+The test driver uses fixed 60 Hz observations; production timing is unchanged.
+
+- [Full log](testing/logs/overnight-final.log), SHA-256
+  `66fbc621aff42ec8c6d8b3878fa3f2076866a17049a8f5a00299db82044c8a08`.
+- [Source/log receipt](testing/logs/overnight-source.json), SHA-256
+  `df279c11e6b77a58af85808a5cf743d38cb5b7019abe22f83e364f1f3797fd2d`.
+- `python3 tools/source_launch_smoke.py --output .local/overnight-cold-complete`
+  passes cold import, actual normal Main/title branch **44/0**, warm launch,
+  deliberate broken-copy refusal and restoration:210 unchanged inputs.
+  [Receipt](testing/source-launch-overnight/README.md), JSON SHA-256
+  `58f92b52e282d10208e0fa8437f1f5f1cb0d45cc80ca5e2ff1cc041400a0d8e8`.
+- `./tools/overnight_capture.sh --private-display` passes **28 PNGs,44 checks,
+  0 failures** with unchanged source and independently rehashed PNGs. Root/QE
+  reviewed all six places and actual action/chase/inspection pairs. [Images and
+  fixture boundaries](testing/screenshots/overnight/README.md), manifest SHA-256
+  `f6bd5993ce5e1afd24cdbb0f85b3744a31b16845448ba00f90e126fc4899c167`.
+
+The timed career circuit completes 40 waypoints in 88.90 simulated seconds,
+achieves all 10 goals at 75.85 s, scores22,883 (best 4,048), records 9 manuals and
+zero bails. All six district-crossing lines stay connected and bank exactly once.
+Both delivery lanes retain their exact1,650-point gap/manual line and earned
+payoff/return with clear cameras. Headless counts/captures are not performance data.
+
+## Completion and resumption
+
+`OVERNIGHT_COMPLETE` covers this requested engine/level implementation and its
+independent Linux checks. The bounded overnight continuation was **successfully
+paused after completion**, preserving remaining included usage; no future run is
+scheduled while paused. The workspace lease is closed. No requested engineering
+defect remains known from these checks; no further code change is needed merely
+to renew the already passing evidence.
+
+Run `./tools/run.sh` to play current source. Native Mac packages were not rebuilt;
+older export receipts/packages do not contain these changes. Physical Mac/
+DualSense feel, Apple Silicon performance, listening and final release art/human
+acceptance remain open. Bowls/arbitrary spine structures and skitching remain
+separate backlog work; this is original arcade tuning, not a claim of complete
+commercial-franchise parity. All 75 roadmap IDs remain, with human-dependent
+criteria honestly open. Future work should begin from this tested checkpoint,
+read AGENTS/BACKLOG, and preserve the owner's remaining-weekly-usage-only rule.
+
+---
+
+The handoff below is preserved historical evidence from the previous checkpoint.
+Its27-variant scope, scoring and captures are superseded where this handoff differs.
+
 # Current handoff — trick fidelity, 23 October 2026
 
 **Tam Hawks Pro Skater**, Godot 4.6.3 Compatibility, local feature branch `work`.

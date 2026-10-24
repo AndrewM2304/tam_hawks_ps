@@ -35,6 +35,14 @@ const EXCHANGE_PLACE_TESTS = preload("res://tests/exchange_place_tests.gd")
 const PLAYABILITY_TESTS = preload("res://tests/playability_regression_tests.gd")
 const TOPOGRAPHY_TESTS = preload("res://tests/topography_tests.gd")
 const CAREER_ROUTE_TESTS = preload("res://tests/career_route_tests.gd")
+const ARCADE_ECONOMY_TESTS = preload("res://tests/arcade_economy_tests.gd")
+const TRICK_LANGUAGE_TESTS = preload("res://tests/trick_language_tests.gd")
+const WALL_RIDE_TESTS = preload("res://tests/wall_ride_tests.gd")
+const OVERNIGHT_INTEGRATION_TESTS = preload("res://tests/overnight_integration_tests.gd")
+const TRANSITION_RIDE_TESTS = preload("res://tests/transition_ride_tests.gd")
+const SURFACE_COVERAGE_TESTS = preload("res://tests/surface_coverage_tests.gd")
+const TRANSITION_PLAYER_TESTS = preload("res://tests/transition_player_tests.gd")
+const PROCESS_GUARD_TESTS = preload("res://tests/process_guard_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
@@ -66,9 +74,13 @@ func _run() -> void:
 	PROGRESSION_TESTS.run(_check)
 	INPUT_PROFILE_TESTS.run(_check)
 	SPECIAL_GAP_TESTS.run(_check)
+	ARCADE_ECONOMY_TESTS.run(_check)
+	TRICK_LANGUAGE_TESTS.run(_check)
 	AUDIO_TESTS.run(self, _check)
 	await MANUAL_REVERT_TESTS.run(self, _check)
 	await TAKEOFF_TESTS.run(self, _check)
+	await WALL_RIDE_TESTS.run(self, _check)
+	await TRANSITION_RIDE_TESTS.run(self, _check)
 	await TRICK_POSE_TESTS.run(self, _check)
 	await TRICK_SCORE_TESTS.run_ui(self, _check)
 	game = MAIN_SCRIPT.new()
@@ -76,6 +88,7 @@ func _run() -> void:
 	root.add_child(game)
 	await _physics_frames(35)
 	await WORLD_ROUTES_TESTS.run(self, game.world, _check)
+	await SURFACE_COVERAGE_TESTS.run(self, game.world, _check)
 	_test_structure()
 	_test_world_floor()
 	_test_ramp_collision_and_boundaries()
@@ -92,6 +105,9 @@ func _run() -> void:
 	await GRIND_REGRESSION_TESTS.run(self, game, _check)
 	await COMBO_INTEGRATION_TESTS.run(self, game, _check)
 	await TRICK_FIDELITY_TESTS.run(self, game, _check)
+	await OVERNIGHT_INTEGRATION_TESTS.run(self, game, _check)
+	await TRANSITION_PLAYER_TESTS.run(self, game, _check)
+	await PROCESS_GUARD_TESTS.run(self, game, _check)
 	await TRICK_ENCOUNTER_TESTS.run(self, game, _check)
 	await CAREER_INTEGRATION_TESTS.run(self, game, _check)
 	await UI_INTEGRATION_TESTS.run(self, game, _check)
@@ -130,28 +146,28 @@ func _test_score_session() -> void:
 		"first trick contributes its base points and one multiplier")
 	session.add_trick("Kickflip", 100)
 	session.add_trick("Kickflip", 100)
-	_check(session.combo_base == 175 and session.combo_multiplier == 1,
-		"repeating a trick degrades to half then quarter without farming multiplier")
+	_check(session.combo_base == 175 and session.combo_multiplier == 3,
+		"each accepted repeat adds a multiplier while its base degrades to half then quarter")
 	session.add_trick("Melon Grab", 100)
-	_check(session.combo_base == 275 and session.combo_multiplier == 2,
-		"distinct tricks increase combo multiplier")
-	_check(session.get_combo_value() == 550 and session.total_score == 0,
+	_check(session.combo_base == 275 and session.combo_multiplier == 4,
+		"a fourth accepted entry contributes the fourth multiplier")
+	_check(session.get_combo_value() == 1100 and session.total_score == 0,
 		"active combo previews multiplied value without awarding unlanded points")
 	var awarded: int = session.bank_combo()
-	_check(awarded == 550 and session.total_score == 550 and session.best_combo == 550,
+	_check(awarded == 1100 and session.total_score == 1100 and session.best_combo == 1100,
 		"landing bank awards combo and records best combo")
 	_check(session.get_combo_value() == 0 and session.combo_base == 0,
 		"banking clears active combo")
-	_check(session.bank_combo() == 0 and session.total_score == 550,
+	_check(session.bank_combo() == 0 and session.total_score == 1100,
 		"banking twice cannot award the same combo again")
 	session.add_trick("Kickflip", 100)
-	_check(session.combo_base == 100, "repeat degradation resets for a new combo")
+	_check(session.combo_base == 12, "repeat degradation persists through a bank within the run")
 	session.drop_combo()
-	_check(session.get_combo_value() == 0 and session.total_score == 550,
+	_check(session.get_combo_value() == 0 and session.total_score == 1100,
 		"bailing drops the active combo and preserves previously banked score")
 	for i in range(12):
 		session.add_trick("Unique trick %d" % i, 100)
-	_check(session.combo_multiplier <= 8, "unique trick multiplier obeys its cap")
+	_check(session.combo_multiplier == 12, "accepted entries grow the multiplier beyond the former eight-entry cap")
 	session.reset()
 	_check(session.total_score == 0 and session.best_combo == 0
 		and session.get_combo_value() == 0 and session.last_banked == 0,
@@ -285,16 +301,20 @@ func _test_jump_tricks_and_landing() -> void:
 	var resting_y: float = game.skater.global_position.y
 	Input.action_press("ollie")
 	await _physics_frames(3)
+	_check(not game.skater.airborne and game.skater.global_position.y < resting_y + 0.1,
+		"holding ollie charges on the floor before release")
+	Input.action_release("ollie")
+	await _physics_frames(2)
 	_check(game.skater.airborne and game.skater.global_position.y > resting_y + 0.1,
-		"ollie launches from the floor")
+		"releasing ollie launches from the floor")
+	Input.action_press("ollie")
 	Input.action_press("flip")
 	Input.action_press("grab")
 	await _physics_frames(8)
 	_check(game.score.get_combo_value() > 0 and game.score.total_score == 0,
 		"aerial tricks create a pending combo before landing")
 	# Keep trick inputs held until after touchdown: one press must not farm points.
-	await _physics_frames(60)
-	_release_actions()
+	await _physics_frames(90)
 	_check(observed_tricks.count("Ollie") == 1, "holding ollie does not auto-jump after landing")
 	_check(observed_tricks.count("Kickflip") == 1, "held flip registers once during the jump")
 	_check(observed_tricks.count("Melon Grab") == 1, "held grab registers once during the jump")
@@ -310,6 +330,10 @@ func _test_jump_tricks_and_landing() -> void:
 		"remaining grounded does not emit duplicate landings or awards")
 	game.skater.trick_performed.disconnect(_record_trick)
 	game.skater.landed.disconnect(_record_landing)
+	# Releasing a charged ollie on the floor is a new deliberate pop. Reset the
+	# fixture before clearing its held inputs, after proving no held auto-jump.
+	game.restart_run()
+	_release_actions()
 
 
 func _test_controls_disabled() -> void:
@@ -336,20 +360,22 @@ func _test_spin_scoring() -> void:
 	Input.action_press("ollie")
 	await _physics_frames(3)
 	Input.action_release("ollie")
+	await _physics_frames(1)
 	Input.action_press("spin_right")
-	await _physics_frames(35)
+	await _physics_frames(26)
 	Input.action_release("spin_right")
-	await _physics_frames(40)
+	await _physics_frames(55)
 	_check(observed_tricks.count("Backside 180") == 1,
 		"sustained aerial spin registers one completed 180 on landing")
-	_check(game.score.total_score == 600,
-		"spin points join the ollie combo before clean landing banks it")
+	_check(game.score.total_score == 300,
+		"spin bonus raises the ollie base without creating a separate multiplier")
 	game.restart_run()
 	await _physics_frames(30)
 	observed_tricks.clear()
 	Input.action_press("ollie")
 	await _physics_frames(3)
 	Input.action_release("ollie")
+	await _physics_frames(1)
 	Input.action_press("spin_left")
 	await _physics_frames(14)
 	Input.action_release("spin_left")
@@ -429,6 +455,7 @@ func _test_overtime() -> void:
 	Input.action_press("ollie")
 	await _physics_frames(3)
 	Input.action_release("ollie")
+	await _physics_frames(1)
 	game.time_remaining = 0.01
 	await _physics_frames(6)
 	_check(game.time_remaining <= 0.0 and not game.run_finished

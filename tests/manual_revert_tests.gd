@@ -75,6 +75,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(skater.airborne and not skater.manual_active and events["starts"] == starts + 1
 		and events["ends"] == ends, "manual: eligible ollie continues link without a ground-end event")
 	await _land(tree, skater)
@@ -115,6 +116,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_press("revert")
 	await _frames(tree, 2)
 	check.call(events["Revert"] == 0, "revert: a fresh airborne press is ineligible")
@@ -126,15 +128,18 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	var speed_before: float = skater.speed
 	var window_before: float = skater.revert_remaining
 	var heading_before: float = skater.rotation.y
+	var travel_before: Vector3 = skater.velocity
 	starts = events["starts"]
 	Input.action_press("revert")
 	await _frames(tree, 1)
 	check.call(events["Revert"] == 1 and events["starts"] == starts,
 		"revert: eligible fresh entry scores once without starting a new landing link")
-	check.call(absf(skater.speed - (speed_before - 0.75 / 60.0) * 0.85) < 0.03,
-		"revert: accepted entry applies the documented 15 percent speed cost")
-	check.call(skater.revert_remaining < window_before and skater.rotation.y == heading_before,
-		"revert: entry neither refreshes eligibility nor changes travel heading")
+	check.call(skater.speed < 0.0 and absf(absf(skater.speed) - (speed_before - 0.75 / 60.0) * 0.85) < 0.03,
+		"revert: accepted physical turn retains 85 percent speed with a backwards signed velocity")
+	check.call(skater.revert_remaining < window_before
+		and absf(absf(angle_difference(heading_before, skater.rotation.y)) - PI) < 0.01
+		and skater.velocity.normalized().dot(travel_before.normalized()) > 0.98,
+		"revert: physical heading turns 180 without refreshing eligibility or reversing travel")
 	Input.action_release("revert")
 	await _frames(tree, 1)
 	Input.action_press("revert")
@@ -142,11 +147,13 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(events["Revert"] == 1, "revert: another fresh press on the same landing cannot score twice")
 	Input.action_release("revert")
 	await _frames(tree, 12)
-	check.call(absf(absf(skater.get_node("SkaterVisual").rotation.y) - PI) < 0.05,
-		"revert: completed visual turn visibly changes stance by 180 degrees")
+	check.call(skater.stance == "SWITCH" and absf(skater.get_node("SkaterVisual").rotation.y) < 0.05
+		and absf(absf(angle_difference(heading_before, skater.rotation.y)) - PI) < 0.01,
+		"revert: completed animation settles onto the physically reversed switch heading")
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	await _land(tree, skater)
 	await _frames(tree, 23)
 	Input.action_press("revert")
@@ -163,6 +170,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(not skater.try_special("unknown_special"), "special: unknown ID cannot score or use an air slot")
 	tree.paused = true
 	check.call(not skater.try_special("special_clyde_carousel"), "special: direct requests reject while gameplay is paused")
@@ -179,17 +187,18 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(skater.velocity == original_velocity,
 		"special: accepting a cosmetic move preserves the physical velocity")
 	check.call(not skater.try_special("special_clyde_carousel") and not skater.try_special("special_tenement_tumble"),
-		"special: neither repeating nor switching IDs bypasses one execution per airtime")
+		"special: neither repeating nor switching IDs can interrupt an active special")
 	await _frames(tree, 5)
 	check.call(skater.get_node("SkaterVisual/Board").rotation.y > 0.2,
 		"special: Clyde Carousel actually rotates the visible board horizontally")
 	await _frames(tree, 35)
-	check.call(skater.special_name.is_empty() and not skater.try_special("special_clyde_carousel"),
-		"special: finished animation clears its label without reopening the air slot")
+	check.call(skater.special_name.is_empty(),
+		"special: completed animation clears its visible label before touchdown")
 	await _land(tree, skater)
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(skater.try_special("special_tenement_tumble"),
 		"special: a new actual airtime permits the other catalog special")
 	await _frames(tree, 6)

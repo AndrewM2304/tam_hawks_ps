@@ -5,20 +5,24 @@ extends RefCounted
 const LANDING_LINK_SECONDS: float = 0.35
 const RUN_OVERTIME_SECONDS: float = 3.0
 const REPEAT_HALVING_LIMIT: int = 4
+# Legacy public constant retained for old tooling; ScoreSession.MULTIPLIER_LIMIT owns live entry scoring.
 const UNIQUE_MULTIPLIER_LIMIT: int = 8
 const MAX_BASE_POINTS: int = 1000000
 
-const STATES: Array[String] = ["ground", "air", "grind", "manual", "revert", "bail"]
+const STATES: Array[String] = ["ground", "air", "grind", "manual", "revert", "transition", "wall", "lip", "bail"]
 const ACTIVATIONS: Array[String] = ["launch", "press", "landing", "entry", "crossing"]
 const TRANSITIONS: Dictionary = {
-	"ground": ["air", "manual", "revert", "bail"],
-	"air": ["ground", "grind", "bail"],
+	"ground": ["air", "manual", "revert", "transition", "bail"],
+	"air": ["ground", "grind", "transition", "wall", "lip", "bail"],
 	"grind": ["air", "ground", "bail"],
 	"manual": ["ground", "air", "bail"],
 	"revert": ["ground", "manual", "air", "bail"],
+	"transition": ["ground", "air", "lip", "bail"],
+	"wall": ["air", "ground", "grind", "bail"],
+	"lip": ["transition", "air", "bail"],
 	"bail": ["ground"],
 }
-const FAMILIES: Array[String] = ["launch", "flip", "grab", "spin", "grind", "manual", "revert", "special", "gap"]
+const FAMILIES: Array[String] = ["launch", "flip", "grab", "spin", "grind", "manual", "revert", "special", "gap", "wall", "lip"]
 const DIRECTIONS: Array[String] = ["neutral", "north", "south", "east", "west",
 	"north_east", "north_west", "south_east", "south_west"]
 const DIRECTIONAL_SETS: Dictionary = {
@@ -37,11 +41,21 @@ const DIRECTIONAL_SETS: Dictionary = {
 }
 const DEFINITIONS: Array = [
 	{"id": "ollie", "display_name": "Ollie", "base_points": 100, "family": "launch",
-		"allowed_states": ["ground", "manual", "grind"], "activation": "launch"},
+		"allowed_states": ["ground", "manual", "grind", "transition", "lip"], "activation": "launch"},
+	{"id": "nollie", "display_name": "Nollie", "base_points": 150, "family": "launch",
+		"allowed_states": ["ground", "manual", "grind", "transition", "lip"], "activation": "launch", "launch_speed_scale": 1.0},
+	{"id": "boneless", "display_name": "Boneless", "base_points": 250, "family": "launch",
+		"allowed_states": ["ground"], "activation": "launch", "launch_speed_scale": 1.14},
+	{"id": "no_comply", "display_name": "No Comply", "base_points": 200, "family": "launch",
+		"allowed_states": ["ground"], "activation": "launch", "launch_speed_scale": 1.10},
 	{"id": "kickflip", "display_name": "Kickflip", "base_points": 300, "family": "flip",
 		"allowed_states": ["air"], "activation": "press", "duration": 0.32, "board_roll": TAU, "board_yaw": 0.0, "board_pitch": 0.0},
 	{"id": "heelflip", "display_name": "Heelflip", "base_points": 300, "family": "flip",
 		"allowed_states": ["air"], "activation": "press", "duration": 0.32, "board_roll": -TAU, "board_yaw": 0.0, "board_pitch": 0.0},
+	{"id": "double_kickflip", "display_name": "Double Kickflip", "base_points": 600, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.44, "board_roll": TAU * 2.0, "board_yaw": 0.0, "board_pitch": 0.0},
+	{"id": "double_heelflip", "display_name": "Double Heelflip", "base_points": 600, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.44, "board_roll": -TAU * 2.0, "board_yaw": 0.0, "board_pitch": 0.0},
 	{"id": "pop_shove_it", "display_name": "Pop Shove-it", "base_points": 250, "family": "flip",
 		"allowed_states": ["air"], "activation": "press", "duration": 0.30, "board_roll": 0.0, "board_yaw": PI, "board_pitch": 0.0},
 	{"id": "hardflip", "display_name": "Hardflip", "base_points": 500, "family": "flip",
@@ -102,6 +116,21 @@ const DEFINITIONS: Array = [
 		"allowed_states": ["manual"], "activation": "entry", "manual_sign": 1.0},
 	{"id": "nose_manual", "display_name": "Nose Manual", "base_points": 150, "family": "manual",
 		"allowed_states": ["manual"], "activation": "entry", "manual_sign": -1.0},
+	{"id": "spacewalk", "display_name": "Spacewalk", "base_points": 250, "family": "manual",
+		"allowed_states": ["manual"], "activation": "press", "manual_sign": 1.0, "manual_walk": true,
+		"manual_yaw": 0.0, "manual_roll": 0.10, "manual_foot_lift": 0.0},
+	{"id": "one_foot_manual", "display_name": "One-foot Manual", "base_points": 300, "family": "manual",
+		"allowed_states": ["manual"], "activation": "press", "manual_sign": 1.0, "manual_walk": false,
+		"manual_yaw": 0.0, "manual_roll": 0.0, "manual_foot_lift": 0.16},
+	{"id": "manual_pivot", "display_name": "Manual Pivot", "base_points": 200, "family": "manual",
+		"allowed_states": ["manual"], "activation": "press", "manual_sign": 1.0, "manual_walk": false,
+		"manual_yaw": PI, "manual_roll": 0.0, "manual_foot_lift": 0.0},
+	{"id": "wallride", "display_name": "Wallride", "base_points": 300, "family": "wall",
+		"allowed_states": ["wall"], "activation": "entry"},
+	{"id": "wallie", "display_name": "Wallie", "base_points": 250, "family": "launch",
+		"allowed_states": ["wall"], "activation": "launch"},
+	{"id": "lip_stall", "display_name": "Lip Stall", "base_points": 250, "family": "lip",
+		"allowed_states": ["lip"], "activation": "entry"},
 	{"id": "revert", "display_name": "Revert", "base_points": 150, "family": "revert",
 		"allowed_states": ["revert"], "activation": "entry"},
 	{"id": "special_clyde_carousel", "display_name": "Clyde Carousel", "base_points": 1000, "family": "special",
@@ -231,3 +260,17 @@ static func _validate_pose(entry: Dictionary, family: String, prefix: String, er
 			errors.append(prefix + "grab_target must be a board-local Vector3.")
 		elif not (target as Vector3).is_finite() or (target as Vector3).length() > 0.60:
 			errors.append(prefix + "grab_target must be finite and within the board.")
+	for field: String in ["manual_yaw", "manual_roll", "manual_foot_lift", "launch_speed_scale"]:
+		if not entry.has(field):
+			continue
+		var value: Variant = entry[field]
+		if not (value is float or value is int) or not is_finite(float(value)):
+			errors.append(prefix + field + " must be a finite number.")
+		elif field == "launch_speed_scale" and (float(value) < 0.5 or float(value) > 1.5):
+			errors.append(prefix + "launch_speed_scale must be between 0.5 and 1.5.")
+		elif field == "manual_foot_lift" and (float(value) < 0.0 or float(value) > 0.3):
+			errors.append(prefix + "manual_foot_lift must stay between 0 and 0.3 metres.")
+		elif field in ["manual_yaw", "manual_roll"] and absf(float(value)) > TAU:
+			errors.append(prefix + field + " exceeds one rotation.")
+	if entry.has("manual_walk") and not entry["manual_walk"] is bool:
+		errors.append(prefix + "manual_walk must be a bool.")

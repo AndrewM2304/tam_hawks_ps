@@ -117,6 +117,7 @@ static func _physical_performance(tree: SceneTree, game: Node, check: Callable) 
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	await _interact(tree)
 	check.call(game.score.get_combo_value() > 0 and game.encounters.status_snapshot().attempts == 1
 		and game.encounters.status_snapshot().state == "success",
@@ -125,9 +126,9 @@ static func _physical_performance(tree: SceneTree, game: Node, check: Callable) 
 	await _interact(tree)
 	var before: int = game.score.total_score
 	await _performance(tree, true)
-	check.call(game.score.total_score - before == 1800 and game.encounters.status_snapshot().state == "success"
+	check.call(game.score.total_score - before == 1050 and game.encounters.status_snapshot().state == "success"
 		and game.encounters.status_snapshot().wins == 2 and game.encounters.status_snapshot().family_count == 3,
-		"encounter integration: actual frontside spin input counts as variety in a successful replay")
+		"encounter integration: fresh heelflip and aligned frontside spin bonus satisfy variety in a stale-ollie replay")
 	print("ENCOUNTER physical wins=%d score=%d attempts=%d" % [game.encounters.status_snapshot().wins,
 		game.score.total_score, game.encounters.status_snapshot().attempts])
 
@@ -232,13 +233,16 @@ static func _performance(tree: SceneTree, spin: bool) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
+	if spin: Input.action_press("steer_right")
 	Input.action_press("flip")
 	Input.action_press("spin_left" if spin else "grab")
 	await _frames(tree, 1)
 	Input.action_release("flip")
 	Input.action_release("grab")
+	Input.action_release("steer_right")
 	if spin:
-		await _frames(tree, 33)
+		await _frames(tree, 26)
 		Input.action_release("spin_left")
 	await _frames(tree, 85)
 

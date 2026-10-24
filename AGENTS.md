@@ -3,6 +3,7 @@
 Read `docs/STATUS.md`, `docs/planning/BACKLOG.md`, and `docs/architecture/interfaces.md` before implementation. The supplied plan is preserved in `docs/product/original-plan.md`.
 
 ## Budget and scope
+- Use only the owner's remaining included weekly usage. Never buy more tokens, enable pay-as-you-go usage, upgrade a plan or change billing. No monetary overnight budget exists.
 - Do not purchase anything, enable billing, use paid APIs, trigger hosted CI, provision infrastructure, or launch background agent loops. Use installed tools and original or compatible free licensed assets. Ordinary work stays within the current user-authorized session; stop with a durable handoff when it ends.
 - Godot 4.6.3, GDScript, single-player, macOS/Apple Silicon target, DualSense first and keyboard fallback. The Linux development machine cannot certify macOS, physical controllers, or Apple Silicon performance.
 - Build original content. No copied franchise branding, music, voices, layouts, models, or animations. Record third-party assets and dependencies before use.

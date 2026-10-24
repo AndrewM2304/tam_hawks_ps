@@ -12,10 +12,10 @@ From source, open `project.godot` with free Godot 4.6.3 and press F5, or run `./
 |---|---|---|
 | Push / brake | W / S, or up / down | Left stick up / down |
 | Steer | A / D, or left / right | Left stick left / right |
-| Ollie | Space | Cross |
+| Crouch / pop | Hold / release Space | Hold / release Cross |
 | Kickflip / grab | J / K | Square / Circle |
 | Spin | Q / E | L1 / R1 |
-| Grind | Hold L near a rail | Hold R2 |
+| Grind / wallride / lip stall | Hold L near a suitable surface | Hold R2 |
 | Manual | Hold M | Hold L2 |
 | Revert after landing | C | Right-stick click |
 | Special tricks | U / I | D-pad up / right |
@@ -31,33 +31,108 @@ To change a binding, pause and open **Controls**, select an action, then press t
 
 Release Push to coast and slow naturally; hold Brake for a quicker stop. Steering carves on the ground and makes smaller corrections in the air. Camera sensitivity changes how quickly the view follows, so it does not change the skater's turning rate. The camera keeps a third-person view and moves to the side when a wall blocks the usual rear view.
 
+At speed, hold Brake and steer firmly to powerslide into a quicker turn. The HUD
+shows the current movement state, stance and charge or balance when relevant.
+
 Back returns to the menu you came from. Interaction prompts use your current keyboard or controller binding. Goal updates remain visible alongside an active combo.
 
 ## Build a line
 
-Push toward a ramp, ollie, then add a flip, grab or spin. Clean landing leaves a short 0.35-second link window: start another ollie, grind or manual to continue the combo; rolling normally lets it bank. A revert adds a trick without extending that window. A bail drops unbanked points. Repeating one trick reduces its value, while different tricks build the multiplier.
+Hold Ollie to crouch and release it to pop. A short tap gives the normal jump;
+holding longer adds height. Charge starts after the first 0.12 seconds and fills
+over another 0.45 seconds, so a hold of about 0.57 seconds gives full charge.
+Watch the charge bar. While preparing, make a fresh forward direction tap just
+before release for **Nollie**, back for **Boneless**, or back while holding Manual
+for **No Comply**. That direction must be fresh within 0.18 seconds of release;
+holding Push throughout the approach keeps an ordinary Ollie.
 
-Open **Trick Guide** from Pause or Controls for the complete directional set and
+Push toward a ramp, pop, then add a flip, grab or spin. Clean landing leaves a
+short 0.35-second link window: release another prepared Ollie, catch a grind or
+start a manual to continue the combo. Wallrides and lip stalls also keep an
+existing line alive. Rolling normally, including carving a supported transition,
+lets it bank. A revert adds a trick without extending that window. A bail drops
+unbanked points and special charge; banked score survives. At the end of a timed
+run an existing combo gets at most three seconds to resolve.
+
+Every accepted trick entry raises the multiplier, including repeats, up to 100.
+Repeating a move halves its base value down to a sixteenth. That staleness lasts
+through banks and bails for the whole run; Restart restores fresh values. Held
+grabs/grinds and rotation add points without adding multiplier entries.
+
+Open **Trick Guide** from Pause or Controls for the directional set and
 your current bindings. Hold or flick a direction with Flip, Grab or Grind to
 choose a trick: right + Flip is Heelflip, down + Flip is Pop Shove-it, up + Grab
 is Nose Grab, and right + Grind is Boardslide. Diagonals select more advanced
 variants. Neutral keeps Kickflip, Melon Grab and Rail Grind.
 
-Release Flip, let the board finish its catch, then press again to add another
-flip in the same jump. Two basic flips fit an ordinary flat ollie with quick
-timing. Press Flip and Grab together to queue the grab after the flip. Hold Grab
-to keep the pose and release it to let go; sustained grabs and grinds earn bounded
-extra base points. Starting a flip too close to the ground can bail before the
-catch. Completed half-turns and reverts show **Switch stance** on the HUD.
+| Direction | Flip | Grab | Grind / slide |
+|---|---|---|---|
+| Neutral | Kickflip | Melon Grab | Rail Grind |
+| Forward | Hardflip | Nose Grab | Nosegrind |
+| Back | Pop Shove-it | Tail Grab | 5-0 Grind |
+| Left | Kickflip | Melon Grab | Lipslide |
+| Right | Heelflip | Indy Grab | Boardslide |
+| Forward + left | Varial Kickflip | Mute Grab | Crooked Grind |
+| Forward + right | Inward Heelflip | Japan Grab | Overcrook Grind |
+| Back + left | 360 Flip | Method Grab | Smith Grind |
+| Back + right | Varial Heelflip | Stalefish Grab | Feeble Grind |
+
+Release Flip, let the board catch, then press again to add another flip in the
+same jump. A quick second tap within 0.22 seconds upgrades an unfinished
+Kickflip or Heelflip to its **Double** version. This refines one entry rather than
+scoring two flips, and needs more airtime to catch. A press shortly before the
+current catch can queue the next action for up to 0.18 seconds. Press Flip and
+Grab together to queue the grab after the flip. Hold Grab to keep the pose and
+release it to let go; sustained grabs and grinds each have a 300-point hold cap.
+Late unfinished flips and specials can bail on landing.
+
+Use Spin to complete half or full turns. A half-turn changes the board's facing
+and functional stance while momentum carries on; a sideways landing more than
+45 degrees from a completed half-turn bails. The HUD distinguishes **Regular**,
+**Switch** and **Fakie**, and air-trick receipts can show Switch, Fakie or Nollie
+takeoff. Rotation appears beside the air trick and adds points without another
+multiplier entry. A revert also changes facing and costs some speed.
 
 For an easier landing link, press and hold Manual just before touching down
 (within 0.18 seconds). Holding it from the start of a jump will not enter a manual.
 A deliberate fresh up direction plus Manual selects Nose Manual; ordinary held
-pushing alone keeps the usual manual. The balance card names the current ride.
+pushing alone keeps the usual manual. A quick forward → back gesture also starts
+Manual, while back → forward starts Nose Manual; make the two direction changes
+within 0.30 seconds. Gesture manuals stay latched until you press Manual again,
+pop, lose support or run out of speed. During a manual, Flip selects **One-foot
+Manual**, Grab selects **Spacewalk**, and Revert selects **Manual Pivot**. These
+are new scored entries with a short change cooldown, while balance continues.
+The balance card names the current ride.
 
-Hold grind while descending toward an aligned rail. Balance left/right against the meter's lean; ollie or leave the rail to carry your momentum onward. Press and hold manual on suitable ground and correct the fore/aft balance with push/brake (W/S or the stick up/down). Controls, tuning and landing forgiveness are still subject to human feel testing.
+Hold Grind while descending toward an aligned rail or exposed ledge. Balance
+left/right against the meter's lean. While grinding, choose a direction and tap
+Flip or Grab to change style. Hold and release Ollie to pop off; steering during
+release adds an outward pop while keeping the rail's momentum. Release Grind to
+leave the rail. Manuals need suitable ground and some rolling speed; correct
+fore/aft balance with Push/Brake. Controls and landing forgiveness still need
+human feel testing.
 
-Banking points fills the special meter. A full meter powers one successful airborne special. Career goals unlock Clyde Carousel (bank 1,000 in a run) and Tenement Tumble (bank a 3,000-point combo). Free skate makes both available for practice but still requires charge; it does not complete career goals.
+Accepted trick, rotation and hold points fill the special meter while you skate.
+Full charge activates **Special**. Its charge drains over six seconds, or twelve
+while a combo continues without further awards; more tricks refresh it. A special
+does not empty the meter, so another can follow when its animation finishes and
+airtime permits. Partial charge fades after a short idle grace. Pause freezes
+charge, and a bail or Restart clears it.
+
+Use U/I, or enter the original direction sequences in the air: **left → right +
+Flip** for **Clyde Carousel**, **forward → back + Grab** for **Tenement Tumble**.
+Complete each sequence within 0.45 seconds. Finish the current flip or grab first
+and leave room to land the special. Career goals unlock Clyde Carousel (bank
+1,000 in a run) and Tenement Tumble (bank a 3,000-point combo). Free skate makes
+both available for practice but still requires charge; it does not complete
+career goals.
+
+The catalog currently contains 44 definitions: ten flips, eight grabs, nine
+grinds/slides, five manual variants, five launches including Wallie, Wallride,
+Lip Stall, a rotation-bonus definition, Revert, two specials and the shared named
+gap definition. These are the prototype's implemented set, with original content
+and arcade tuning; matching the full commercial-game catalog or feel remains a
+human review goal.
 
 Open Goals to see the ten career tasks: scores, a long combo, H A W K S letters, cone duty, the Central gap, market items, four districts and a hidden recording. Goal completions, records, bindings and presentation settings use a local save; there is no account or online service. Pause/settings include sound mix, captions, reduced motion, interface size and camera sensitivity.
 
@@ -72,6 +147,28 @@ Your start faces a clear uphill line beside the fountain. Climb the gallery bank
 Head south to the Clyde quays for embankment lines and a broken-footbridge transfer. Build speed and ollie the opening; a continuous bridge provides another way across. Falling into the river returns you to a safe quay and loses your pending combo. Restart still returns you to the original city start.
 
 Northwest, follow the park connections to a winding paved climb and downhill run through rolling grass. The map compresses Glasgow into connected skating places; it is an original game layout rather than a street navigation map.
+
+The west Clyde quay and Kelvingrove promenade now have practice pockets with
+curved quarter-pipes, low ledges and manual pads; the quay also has a flatbar.
+Carry speed up a quarter-pipe for vertical air and descend back onto its curved
+face. Too little speed rolls back down. Hold Grind as you reach the coping for
+**Lip Stall**, balance left/right, then release Grind to drop in or release a
+prepared Ollie to launch away. Each quarter-pipe has a side roll-in and deck. For a transfer in vert air,
+release the approach direction and tap Push again to cross the deck, or tap Brake
+to move back out over the ramp. A held approach Push keeps the normal vertical
+return. Left/right adjusts lateral travel; the transfer adds no upward boost.
+Use clear approaches and leave room around the finite sides.
+
+Beside a substantial solid vertical wall, approach at a glancing angle in the
+air and hold Grind to **Wallride**. Hold and release Ollie for a **Wallie** away
+from it, or release Grind to drop off. Rides lose momentum and have a short time
+limit. Glass, water, open fences, thin furniture and the map's safety boundary
+are excluded. Exposed collision-backed seating, planter edges, coping and practice
+ledges have grind paths; stocked counters, overhead shelters and scenery beyond
+the boundary remain scenery. Surface eligibility still depends on your approach,
+clearance and speed, so the inventory does not promise every angle is capturable.
+The [surface audit](levels/OVERNIGHT-SURFACE-AUDIT.md) records the current wall,
+ledge and clearance evidence and the deliberate exclusions.
 
 The ten career goals remain in the four city districts. River and park routes are open in both modes; **Free skate** gives you unlimited time to learn them.
 

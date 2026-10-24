@@ -6,6 +6,9 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 		stone: Material, iron: Material, height: float = 3.0) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = id
+	body.set_meta("art_label", id)
+	body.set_meta("no_wallride", true)
+	body.set_meta("wallride_exclusion_reason", "retained perimeter iron fence; safety boundary")
 	body.add_to_group("exploration_boundaries")
 	body.set_meta("exploration_boundary", true)
 	body.set_meta("boundary_family", id)
@@ -47,7 +50,42 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 			masonry.append(plinth)
 	_flush(body,"RetainedMasonry",masonry,stone)
 	_flush(body,"Ironwork",metal,iron)
+	_foundation(body,points,stone)
 	return body
+
+
+static func _foundation(parent: Node3D, points: PackedVector3Array, material: Material) -> void:
+	# Close exposed map edges with a vertical retaining foundation. All vertices
+	# stay below the existing boundary baseline. There is no horizontal catch
+	# floor, collision, route extension or new playable ground behind the fence.
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	surface.set_smooth_group(-1)
+	var distance := 0.0
+	for segment in range(points.size()-1):
+		var start := points[segment] - Vector3.UP * 0.2
+		var end := points[segment+1] - Vector3.UP * 0.2
+		var length := start.distance_to(end)
+		if length < 0.01: continue
+		var vertices := [start,end,end-Vector3.UP*8.0,start-Vector3.UP*8.0]
+		var uv := [Vector2(distance/2.0,0),Vector2((distance+length)/2.0,0),
+			Vector2((distance+length)/2.0,4),Vector2(distance/2.0,4)]
+		# Separate reversed faces preserve correct lighting on both sides without
+		# mutating a shared stone material's cull mode or shader.
+		for index: int in [0,1,2,0,2,3,2,1,0,3,2,0]:
+			surface.set_uv(uv[index])
+			surface.add_vertex(vertices[index])
+		distance += length
+	if distance <= 0.0: return
+	surface.generate_normals()
+	var display := MeshInstance3D.new()
+	display.name = "ScenicRetainingFoundation"
+	display.mesh = surface.commit()
+	display.material_override = material
+	display.set_meta("scenic_only",true)
+	display.set_meta("no_wallride",true)
+	display.add_to_group("scenic_foundations")
+	parent.add_child(display)
 
 
 static func _box_transform(size: Vector3, center: Vector3) -> Transform3D:
