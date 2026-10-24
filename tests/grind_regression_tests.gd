@@ -50,7 +50,10 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 		"grind regression: played approach links ollie and rail without banking early")
 	if caught:
 		var bail_count: Array[int] = [0]
-		var on_bail := func() -> void: bail_count[0] += 1
+		var impact: Array[Vector3] = [Vector3.INF]
+		var on_bail := func() -> void:
+			bail_count[0] += 1
+			impact[0] = game.skater.global_position
 		game.skater.bailed.connect(on_bail)
 		var wall := StaticBody3D.new()
 		var collider := CollisionShape3D.new()
@@ -65,8 +68,36 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 			"grind regression: scenery blocking an active ride produces exactly one bail")
 		check.call(game.score.total_score == 500 and game.score.get_combo_value() == 0,
 			"grind regression: obstructed ride loses its pending combo and preserves prior bank")
-		check.call(game.skater.global_position.distance_to(game.skater.spawn_position) < 1.0,
-			"grind regression: obstructed ride recovers at the supported spawn")
+		check.call(game.skater.bail_active and game.skater.global_position.distance_to(impact[0]) < 3.0,
+			"grind regression: obstructed ride visibly recovers near its actual native impact")
+		var blocked_stand := false
+		var blocking_bodies: Array[String] = []
+		for frame in 85:
+			if game.skater.bail_active and game.skater.bail_phase > 0.90 and game.skater.is_on_floor():
+				var native_contact := KinematicCollision3D.new()
+				var native_hit: bool = game.skater.test_move(game.skater.global_transform, Vector3.ZERO, native_contact, game.skater.safe_margin, true, 16)
+				var native_normals: Array[Vector3] = []
+				for index in native_contact.get_collision_count(): native_normals.append(native_contact.get_normal(index))
+				print("GRIND GETUP CONTACT at=%s floor=%s margin=%.7f hit=%s depth=%.7f normals=%s can_get_up=%s" % [
+					game.skater.global_position, game.skater.get_floor_normal(), game.skater.safe_margin, native_hit,
+					native_contact.get_depth(), native_normals, game.skater._bail._can_get_up(game.skater)])
+				var body_shape: CollisionShape3D = game.skater.get_node("BodyCollision")
+				var query := PhysicsShapeQueryParameters3D.new()
+				query.shape = body_shape.shape
+				query.transform = body_shape.global_transform
+				query.collision_mask = game.skater.collision_mask
+				query.exclude = [game.skater.get_rid()]
+				query.margin = 0.001
+				for hit: Dictionary in game.skater.get_world_3d().direct_space_state.intersect_shape(query, 8):
+					blocked_stand = true
+					if not blocking_bodies.has(str(hit.collider.name)): blocking_bodies.append(str(hit.collider.name))
+			await _frames(tree, 1)
+		print("GRIND RECOVERY impact=%s at=%s floor=%s bail=%s blocked_stand=%s bodies=%s" % [impact[0], game.skater.global_position,
+			game.skater.is_on_floor(), game.skater.bail_active, blocked_stand, blocking_bodies])
+		check.call(not game.skater.bail_active and game.skater.is_on_floor()
+			and game.skater.global_position.distance_to(impact[0]) < 3.0
+			and bail_count[0] == 1 and game.score.total_score == 500,
+			"grind regression: native get-up finishes on local support with one bail and preserved prior bank")
 		game.skater.bailed.disconnect(on_bail)
 		wall.queue_free()
 		await _frames(tree, 2)

@@ -1,6 +1,7 @@
 extends RefCounted
 ## Directional trick selection reuses live remapped movement actions.
 ## A direction released just before a trick remains available for 0.18 seconds.
+const Catalog = preload("res://game/tricks/trick_catalog.gd")
 
 const DIRECTION_MEMORY := 0.18
 const AXIS_THRESHOLD := 0.5
@@ -23,6 +24,7 @@ var _clock := 0.0
 var _actions: Array[Dictionary] = []
 var _button_held: Dictionary = {}
 var _last_press: Dictionary = {}
+var _tap_counts: Dictionary = {}
 var _direction_edges: Array[Dictionary] = []
 var _manual_gesture := ""
 var _manual_gesture_at := -1.0
@@ -51,6 +53,7 @@ func clear_actions() -> void:
 	# another fresh press. Release and press again is required after a clear.
 	_actions.clear()
 	_last_press.clear()
+	_tap_counts.clear()
 	_direction_edges.clear()
 	_manual_gesture = ""
 	_manual_gesture_at = -1.0
@@ -169,6 +172,10 @@ func pop_action(action: String, max_age: float = ACTION_MEMORY) -> Dictionary:
 	return {}
 
 func consume_double_tap(action: String) -> bool:
+	return not consume_tap_upgrade(action).is_empty()
+
+func consume_tap_upgrade(action: String) -> Dictionary:
+	if not TRICK_ACTIONS.has(action): return {}
 	_expire()
 	for index: int in _actions.size():
 		var entry: Dictionary = _actions[index]
@@ -176,8 +183,10 @@ func consume_double_tap(action: String) -> bool:
 				and _clock - float(entry.at) <= ACTION_MEMORY + 0.0000001:
 			# One second press upgrades one move; it cannot also queue another.
 			_actions.remove_at(index)
-			return true
-	return false
+			var result := entry.duplicate(true)
+			result["age"] = maxf(0.0, _clock - float(entry.at))
+			return result
+	return {}
 
 func consume_manual_gesture() -> String:
 	_expire()
@@ -210,10 +219,12 @@ func _sample_buttons(pressed_actions: Array) -> void:
 		if down and not bool(_button_held.get(action, false)):
 			var gap := _clock - float(_last_press.get(action, -100.0))
 			var double_tap := gap >= MIN_TAP_GAP and gap <= DOUBLE_TAP_SECONDS + 0.0000001
+			var taps := mini(3, int(_tap_counts.get(action, 1)) + 1) if double_tap else 1
 			_last_press[action] = _clock
+			_tap_counts[action] = taps
 			var special := _special_for(action)
 			_actions.append({"action": action, "direction": direction(), "double_tap": double_tap,
-				"special_id": special, "at": _clock})
+				"tap_count": taps, "special_id": special, "at": _clock})
 			if _actions.size() > MAX_ACTIONS:
 				_actions.pop_front()
 			if not special.is_empty():
@@ -246,10 +257,9 @@ func _special_for(action: String) -> String:
 	var second: Dictionary = _direction_edges[-1]
 	if _clock - float(first.at) > SPECIAL_SEQUENCE_SECONDS + 0.0000001:
 		return ""
-	if first.direction == "west" and second.direction == "east" and action == "flip":
-		return "special_clyde_carousel"
-	if first.direction == "north" and second.direction == "south" and action == "grab":
-		return "special_tenement_tumble"
+	for command: Dictionary in Catalog.SPECIAL_COMMANDS:
+		if command.action == action and command.directions == [first.direction, second.direction]:
+			return str(command.id)
 	return ""
 
 func _expire() -> void:

@@ -20,6 +20,9 @@ const SkateResponse = preload("res://game/player/skate_response.gd")
 const ChaseCamera = preload("res://game/player/chase_camera.gd")
 const WallRideSource = preload("res://game/player/wall_ride.gd")
 const TransitionRideSource = preload("res://game/player/transition_ride.gd")
+const LaunchSetupSource = preload("res://game/player/launch_setup.gd")
+const BailRecoverySource = preload("res://game/player/bail_recovery.gd")
+const SkitchRideSource = preload("res://game/player/skitch_ride.gd")
 const GRIND_RECAPTURE_DELAY := 0.35
 
 const MAX_SPEED := 15.0
@@ -69,6 +72,7 @@ var _ollie_was_held := false
 var _ollie_blocked_until_release := false
 var _ollie_released := false
 var _launch_impulse := OLLIE_SPEED
+var _launch_base_impulse := OLLIE_SPEED
 var _launch_id := "ollie"
 var _launch_age := 0.0
 var _switch_stance := false
@@ -88,12 +92,52 @@ var lip_balance: float:
 	get: return _transition.lip_balance if lip_active else 0.0
 var lip_active: bool:
 	get: return _transition.active and _transition.lip
+var _setup = LaunchSetupSource.new()
+var _bail = BailRecoverySource.new()
+var _skitch = SkitchRideSource.new()
+var _setup_impulse := OLLIE_SPEED
+var _recovery_fade_remaining := 0.0
+var _flip_motion_origin := Vector3.ZERO
+var _grab_tweaked := false
+var lip_trick_id := "lip_stall"
+var _lip_definition: Dictionary = {}
+var _special_definition: Dictionary = {}
+var _special_duration := SPECIAL_DURATION
+var _transition_backwards := false
+var _native_platform_flush := false
+var _platform_layers_after_flush := 0xFFFFFFFF
+var _platform_leave_after_flush := CharacterBody3D.PLATFORM_ON_LEAVE_ADD_VELOCITY
+var _skitch_scored := false
+var setup_active: bool:
+	get: return _setup.active
+var setup_id: String:
+	get: return _setup.id
+var setup_phase: float:
+	get: return _setup.phase
+var bail_active: bool:
+	get: return _bail.active
+var bail_phase: float:
+	get: return _bail.phase
+var recovery_fade: float:
+	get: return _bail.fade() if bail_active else clampf(_recovery_fade_remaining / 0.18, 0.0, 1.0)
+var lip_name: String:
+	get: return str(_lip_definition.get("display_name", "Lip Stall"))
+var skitching: bool:
+	get: return _skitch.active
+var skitch_caught: bool:
+	get: return skitching and bool(_skitch.get("caught"))
+var skitch_balance: float:
+	get: return _skitch.balance if skitching else 0.0
 var stance: String:
 	get:
 		if _switch_stance: return "SWITCH"
 		return "FAKIE" if speed < -0.5 else "REGULAR"
 var active_trick: String:
 	get:
+		if bail_active: return "Getting back up" if bail_phase > 0.55 else "Bail"
+		if setup_active: return str(TrickCatalog.definition(setup_id).get("display_name", "Setup"))
+		if lip_active: return lip_name
+		if skitching: return "Skitch"
 		if not special_name.is_empty(): return special_name
 		if grinding: return str(TrickCatalog.definition(grind_trick_id).get("display_name", "Rail Grind"))
 		if manual_active: return str(TrickCatalog.definition(manual_trick_id).get("display_name", "Manual"))
@@ -170,7 +214,7 @@ func _ready() -> void:
 	floor_stop_on_slope = true
 	safe_margin = 0.015
 	collision_layer = 2
-	collision_mask = 1
+	collision_mask = 1 | 8
 	_build_skater()
 	_camera = Camera3D.new()
 	_camera.name = "ChaseCamera"
@@ -183,7 +227,25 @@ func _ready() -> void:
 	reset_skater()
 
 
-func reset_skater() -> void:
+func reset_skater(preserve_camera: bool = false, preserve_support: bool = false) -> void:
+	if not preserve_support:
+		if not _native_platform_flush:
+			_platform_layers_after_flush = platform_floor_layers
+			_platform_leave_after_flush = platform_on_leave
+		platform_floor_layers = 0
+		platform_on_leave = CharacterBody3D.PLATFORM_ON_LEAVE_DO_NOTHING
+		_native_platform_flush = true
+	_setup.reset()
+	_bail.reset()
+	_skitch.reset()
+	_recovery_fade_remaining = 0.0
+	_flip_motion_origin = Vector3.ZERO
+	_grab_tweaked = false
+	_lip_definition.clear()
+	lip_trick_id = "lip_stall"
+	_special_definition.clear()
+	_special_duration = SPECIAL_DURATION
+	_transition_backwards = false
 	_transition.reset(self)
 	_wall.reset()
 	ollie_charge = 0.0
@@ -194,6 +256,7 @@ func reset_skater() -> void:
 	_ollie_was_held = false
 	_ollie_released = false
 	_launch_impulse = OLLIE_SPEED
+	_launch_base_impulse = OLLIE_SPEED
 	_launch_id = "ollie"
 	_launch_age = 0.0
 	_switch_stance = false
@@ -201,7 +264,8 @@ func reset_skater() -> void:
 	_style_cooldown = 0.0
 	_manual_latched = false
 	_manual_gesture_pending = ""
-	_force_air_tick = false
+	_force_air_tick = not preserve_support
+	_skitch_scored = false
 	_manual_base_sign = 1.0
 	_trick_input.reset()
 	_trick_input.synchronize_held()
@@ -228,7 +292,7 @@ func reset_skater() -> void:
 	_manual_buffer_remaining = 0.0
 	_buffered_manual_id = "manual"
 	_response.reset()
-	_camera_follow.reset()
+	if not preserve_camera: _camera_follow.reset()
 	_grind.stop()
 	_grind_cooldown = 0.0
 	manual_active = false
@@ -259,20 +323,109 @@ func reset_skater() -> void:
 		_board_visual.rotation = Vector3.ZERO
 		_rider_visual.position = Vector3.ZERO
 		_rider_visual.rotation = Vector3(0.0, -PI / 2.0 + 0.28, 0.0)
-	if is_instance_valid(_camera):
+	if is_instance_valid(_camera) and not preserve_camera:
 		_camera.global_position = global_position + Vector3(0.0, 3.4, 6.0)
 		_camera.look_at(global_position + Vector3(0.0, 1.0, -1.5))
 
 
 func recover_to(safe_position: Vector3) -> void:
-	# A local hazard return preserves the career's original restart location.
-	if not safe_position.is_finite():
-		return
+	if safe_position.is_finite(): _start_bail(safe_position)
+
+
+func _start_bail(target: Vector3 = Vector3.INF) -> void:
+	if bail_active: return
+	if is_instance_valid(_visual_rig) and _visual_rig.has_method("begin_bail"): _visual_rig.begin_bail()
+	var outward: Vector3 = _transition.normal if transition_active else (_wall.normal if wallriding else Vector3.ZERO)
+	_setup.reset()
+	_transition.reset(self)
+	_wall.stop()
+	_skitch.stop()
+	_grind.stop()
+	_end_manual(false)
+	_clear_charge()
+	_trick_input.clear_actions()
+	_flip_remaining = 0.0
+	_grab_remaining = 0.0
+	_pending_grab.clear()
+	_clear_special_visual()
+	_jump_buffer_remaining = 0.0
+	_coyote_remaining = 0.0
+	airborne = false
+	powersliding = false
+	_bail.start(self, spawn_position, target, outward)
 	bailed.emit()
-	var run_spawn := spawn_position
-	spawn_position = safe_position
-	reset_skater()
-	spawn_position = run_spawn
+
+
+func _tick_bail(delta: float) -> void:
+	var result: Dictionary = _bail.step(self, delta)
+	_restore_platform_after_move()
+	speed = Vector3(velocity.x, 0, velocity.z).dot(-global_basis.z)
+	if result.event == "recovered":
+		var run_spawn := spawn_position
+		var heading := rotation.y
+		var near: bool = global_position.distance_to(result.target) < 3.0
+		var in_place: bool = global_position.distance_to(result.target) < 0.001 and is_on_floor()
+		spawn_position = result.target
+		reset_skater(true, in_place)
+		spawn_position = run_spawn
+		rotation.y = heading if near else 0.0
+		_recovery_fade_remaining = 0.18
+		if not _controls_enabled: set_physics_process(false)
+
+
+func _restore_platform_after_move() -> void:
+	if not _native_platform_flush: return
+	platform_floor_layers = _platform_layers_after_flush
+	platform_on_leave = _platform_leave_after_flush
+	_native_platform_flush = false
+
+
+func _tick_setup(delta: float) -> void:
+	var result: Dictionary = _setup.step(self, delta)
+	if bool(result.get("moved", false)): _restore_platform_after_move()
+	speed = Vector3(velocity.x, 0, velocity.z).dot(-global_basis.z)
+	if result.event == "launch":
+		_launch_id = str(result.id)
+		_launch_impulse = _setup_impulse
+		_begin_air()
+		_set_launch_mode()
+		velocity.y = maxf(0.0, velocity.y) + _launch_impulse
+		_jump_buffer_remaining = 0.0
+		_coyote_remaining = 0.0
+		combo_link_started.emit()
+		_emit_trick(_launch_id)
+		move_and_slide()
+		_restore_platform_after_move()
+	elif result.event == "unsupported":
+		_launch_id = "ollie"
+		if is_on_floor():
+			combo_link_ended.emit()
+		else:
+			_begin_air()
+			_force_air_tick = true
+
+
+func _tick_skitch(delta: float) -> void:
+	var result: Dictionary = _skitch.step(self, delta, _steering,
+		_ollie_released and _trick_entries_enabled, Input.is_action_pressed("grind") and _controls_enabled, _launch_impulse)
+	_restore_platform_after_move()
+	if skitch_caught and not _skitch_scored:
+		_skitch_scored = true
+		combo_link_started.emit()
+		_emit_trick("skitch")
+	speed = Vector3(velocity.x, 0, velocity.z).dot(-global_basis.z)
+	if result.bailed:
+		_start_bail()
+	elif result.launched:
+		_launch_id = "ollie"
+		_begin_air()
+		_set_launch_mode()
+		_jump_buffer_remaining = 0.0
+		combo_link_started.emit()
+		_emit_trick("ollie")
+	elif not skitching:
+		if is_on_floor(): combo_link_ended.emit()
+		else: _begin_air()
 
 
 func set_controls_enabled(enabled: bool) -> void:
@@ -281,6 +434,8 @@ func set_controls_enabled(enabled: bool) -> void:
 		_ollie_blocked_until_release = Input.is_action_pressed("ollie")
 	_controls_enabled = enabled
 	if not enabled:
+		_setup.reset()
+		_skitch.stop()
 		_response.reset()
 		_trick_input.reset()
 		_pending_grab.clear()
@@ -302,6 +457,7 @@ func set_trick_entries_enabled(enabled: bool) -> void:
 	# Run overtime permits an existing combo to land, without starting links.
 	_trick_entries_enabled = enabled
 	if not enabled:
+		_setup.reset()
 		_jump_buffer_remaining = 0.0
 		_clear_charge()
 		_trick_input.clear_actions()
@@ -335,14 +491,16 @@ func set_skater_color(color: Color) -> void:
 func try_special(trick_id: String) -> bool:
 	# Main owns unlocks and maintained special mode; only an accepted request executes.
 	if not is_inside_tree() or get_tree().paused or not airborne or grinding or manual_active or not _controls_enabled \
-			or not _trick_entries_enabled or _special_remaining > 0.0 or wallriding or lip_active:
+			or not _trick_entries_enabled or _special_remaining > 0.0 or wallriding or lip_active or bail_active or setup_active or skitching:
 		return false
-	if trick_id not in ["special_clyde_carousel", "special_tenement_tumble"]:
-		return false
+	var definition := TrickCatalog.definition(trick_id)
+	if definition.get("family", "") != "special": return false
 	if _flip_remaining > 0.0 or _grab_remaining > 0.0 or not _pending_grab.is_empty():
 		return false
 	_special_id = trick_id
-	_special_remaining = SPECIAL_DURATION
+	_special_definition = definition
+	_special_duration = clampf(float(definition.get("duration", SPECIAL_DURATION)), 0.4, 1.3)
+	_special_remaining = _special_duration
 	special_name = TrickCatalog.definition(trick_id)["display_name"]
 	_emit_trick(trick_id)
 	return true
@@ -351,6 +509,7 @@ func try_special(trick_id: String) -> bool:
 func _clear_special_visual() -> void:
 	_special_remaining = 0.0
 	_special_id = ""
+	_special_definition.clear()
 	special_name = ""
 	if is_instance_valid(_board_visual):
 		_board_visual.rotation.y = 0.0
@@ -366,6 +525,10 @@ func _clear_charge() -> void:
 
 func _sample_ollie(delta: float) -> void:
 	_ollie_released = false
+	if setup_active:
+		if Input.is_action_pressed("ollie"): _ollie_blocked_until_release = true
+		_clear_charge()
+		return
 	if not _controls_enabled or not _trick_entries_enabled:
 		_clear_charge()
 		return
@@ -374,18 +537,19 @@ func _sample_ollie(delta: float) -> void:
 		if not held: _ollie_blocked_until_release = false
 		_clear_charge()
 		return
-	var supported: bool = (_transition.state != "air") if transition_active else (grinding or wallriding or (is_on_floor() and not airborne and not _force_air_tick))
+	var supported: bool = (_transition.state != "air") if transition_active else (grinding or wallriding or skitching or (is_on_floor() and not airborne and not _force_air_tick))
 	if held:
 		_ollie_held += delta
 		ollie_charge = clampf((_ollie_held - 0.12) / 0.45, 0.0, 1.0)
 		crouching = supported
 	elif _ollie_was_held:
 		_ollie_released = true
-		_launch_impulse = OLLIE_SPEED + 2.2 * ollie_charge
+		_launch_base_impulse = OLLIE_SPEED + 2.2 * ollie_charge
+		_launch_impulse = _launch_base_impulse
 		_launch_id = "ollie"
 		var direction: String = _trick_input.direction() if _trick_input.direction_age() <= 0.18 else "neutral"
 		if direction == "north": _launch_id = "nollie"
-		elif direction == "south" and is_on_floor() and not grinding and not transition_active and not wallriding:
+		elif direction == "south" and is_on_floor() and not grinding and not transition_active and not wallriding and not skitching:
 			_launch_id = "no_comply" if Input.is_action_pressed("manual") else "boneless"
 		_launch_impulse *= float(TrickCatalog.definition(_launch_id).get("launch_speed_scale", 1.0))
 		_launch_impulse = minf(12.0, _launch_impulse)
@@ -397,6 +561,10 @@ func _sample_ollie(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if bail_active:
+		_tick_bail(delta)
+		_update_pose(delta)
+		return
 	if _controls_enabled:
 		_trick_input.sample(delta)
 		if not _trick_entries_enabled: _trick_input.clear_actions()
@@ -408,6 +576,7 @@ func _physics_process(delta: float) -> void:
 	_launch_age += delta
 	_sample_ollie(delta)
 	_wall.tick(delta)
+	_skitch.tick(delta)
 	_style_cooldown = maxf(0.0, _style_cooldown - delta)
 	_flip_catch_remaining = maxf(0.0, _flip_catch_remaining - delta)
 	_grab_cooldown = maxf(0.0, _grab_cooldown - delta)
@@ -424,13 +593,34 @@ func _physics_process(delta: float) -> void:
 	var brake_input := Input.get_action_strength("brake") if _controls_enabled else 0.0
 	_steering = Input.get_axis("steer_left", "steer_right") if _controls_enabled else 0.0
 	if crouching and not manual_active: push_input = maxf(push_input, 1.0)
+	if setup_active:
+		_tick_setup(delta)
+		_update_pose(delta)
+		return
+	if skitching:
+		_tick_skitch(delta)
+		_update_pose(delta)
+		return
+	if _controls_enabled and _trick_entries_enabled and not (grinding or wallriding or transition_active or manual_active) 		and Input.is_action_pressed("grind") and Input.is_action_just_pressed("interact"):
+		for vehicle: Node in get_tree().get_nodes_in_group("skate_vehicles"):
+			if _skitch.try_start(self, vehicle):
+				_jump_buffer_remaining = 0.0
+				_coyote_remaining = 0.0
+				airborne = false
+				_skitch_scored = false
+				var tow: Vector3 = _skitch.travel_velocity
+				rotation.y = atan2(-tow.x, -tow.z)
+				_tick_skitch(delta)
+				_update_pose(delta)
+				return
 	if grinding:
 		powersliding = false
 		_tick_grind(delta)
 		_update_pose(delta)
 		return
 	if _controls_enabled and not wallriding and not transition_active and not manual_active:
-		_transition.try_enter(self, velocity)
+		if _transition.try_enter(self, velocity):
+			_transition_backwards = velocity.dot(-global_basis.z) < 0.0
 	if transition_active:
 		powersliding = false
 		_tick_transition(delta, push_input, brake_input)
@@ -481,6 +671,18 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.rotated(Vector3.UP, steering_angle)
 		velocity.y -= GRAVITY * delta
 	if _jump_buffer_remaining > 0.0 and _coyote_remaining > 0.0:
+		if _launch_id in ["boneless", "no_comply"] and _setup.try_start(self, _launch_id, SkaterVisualSource.setup_foot_offset()):
+			_setup_impulse = _launch_impulse
+			_jump_buffer_remaining = 0.0
+			_coyote_remaining = 0.0
+			_end_manual(false)
+			_tick_setup(delta)
+			_update_pose(delta)
+			return
+		if _launch_id in ["boneless", "no_comply"]:
+			# A missing real sole plant cannot award a planted-foot trick or boost.
+			_launch_id = "ollie"
+			_launch_impulse = _launch_base_impulse
 		_end_manual(false)
 		_begin_air()
 		_launch_age = 0.0
@@ -492,6 +694,9 @@ func _physics_process(delta: float) -> void:
 		_emit_trick(_launch_id)
 	if airborne and _controls_enabled:
 		_apply_air_tricks(delta)
+		if bail_active:
+			_update_pose(delta)
+			return
 		if _trick_entries_enabled and _try_grind():
 			_update_pose(delta)
 			return
@@ -510,10 +715,13 @@ func _physics_process(delta: float) -> void:
 			_tick_wall(delta)
 			_update_pose(delta)
 			return
+	var carried_velocity := get_platform_velocity() if grounded_before else Vector3.ZERO
+	var arriving_from_air := airborne
 	move_and_slide()
+	_restore_platform_after_move()
 	if is_on_floor():
 		var contact_direction := (-global_basis.z).slide(get_floor_normal()).normalized()
-		speed = clampf(get_real_velocity().dot(contact_direction), -MAX_SPEED, MAX_SPEED)
+		speed = clampf((get_real_velocity() - (get_platform_velocity() if arriving_from_air else carried_velocity)).dot(contact_direction), -MAX_SPEED, MAX_SPEED)
 		if airborne and not _finish_landing():
 			_update_pose(delta)
 			return
@@ -526,8 +734,7 @@ func _physics_process(delta: float) -> void:
 			_launch_id = "ollie"
 			_begin_air()
 	if global_position.y < -8.0 or absf(global_position.x) > WORLD_LIMIT or absf(global_position.z) > WORLD_LIMIT:
-		bailed.emit()
-		reset_skater()
+		_start_bail()
 	_update_pose(delta)
 
 
@@ -539,6 +746,7 @@ func _tick_transition(delta: float, push: float, brake: float) -> void:
 		if not _finish_landing(): return
 	var was_lip: bool = _transition.state == "lip"
 	var was_air: bool = _transition.state == "air"
+	if was_lip and _trick_entries_enabled: _try_lip_extension()
 	if was_air:
 		_apply_air_tricks(delta)
 		if _trick_entries_enabled and _try_grind(true): return
@@ -559,11 +767,13 @@ func _tick_transition(delta: float, push: float, brake: float) -> void:
 			if airborne: _finish_landing()
 		"lip":
 			if airborne and not _finish_landing(): return
-			_emit_trick("lip_stall")
+			var direction: String = _trick_input.direction() if _trick_input.direction_age() <= 0.18 else "neutral"
+			_lip_definition = TrickCatalog.resolve("lip", direction)
+			lip_trick_id = str(_lip_definition.id)
+			_emit_trick(lip_trick_id)
 			combo_link_started.emit()
 		"bail":
-			bailed.emit()
-			reset_skater()
+			_start_bail()
 		"exit":
 			if airborne: _finish_landing()
 			combo_link_ended.emit()
@@ -573,6 +783,30 @@ func _tick_transition(delta: float, push: float, brake: float) -> void:
 			if not airborne: _begin_air()
 	if _transition.active and _transition.state == "surface" and airborne:
 		_finish_landing()
+	if _transition.active and _transition.state == "surface" and _transition.feature.get("wrap_lateral") == true:
+		var travel: Vector3 = Vector3(_transition.forward.x, 0, _transition.forward.z)
+		if travel.length_squared() > 0.001:
+			rotation.y = atan2(-travel.x, -travel.z) + (PI if _transition_backwards else 0.0)
+			speed = Vector3(velocity.x, 0, velocity.z).dot(-global_basis.z)
+	if transition_active: _transition.refresh_frame(self)
+
+
+func _try_lip_extension() -> void:
+	if _style_cooldown > 0.0: return
+	var action: Dictionary = _trick_input.pop_action("flip")
+	if action.is_empty(): action = _trick_input.pop_action("grab")
+	if action.is_empty(): action = _trick_input.pop_action("revert")
+	if action.is_empty(): return
+	var choice := TrickCatalog.resolve_extension("lip", str(action.action), str(action.direction), lip_trick_id)
+	if choice.is_empty() or str(choice.id) == lip_trick_id: return
+	_lip_definition = choice
+	lip_trick_id = str(choice.id)
+	_style_cooldown = 0.35
+	if str(choice.id) == "rock_and_roll":
+		rotation.y += PI
+		_switch_stance = not _switch_stance
+		_transition_backwards = not _transition_backwards
+	_emit_trick(lip_trick_id)
 
 
 func _tick_wall(delta: float) -> void:
@@ -581,8 +815,7 @@ func _tick_wall(delta: float) -> void:
 		_ollie_released and _trick_entries_enabled, Input.is_action_pressed("grind") and _trick_entries_enabled)
 	speed = Vector3(velocity.x, 0.0, velocity.z).dot(-global_basis.z)
 	if result.bailed:
-		bailed.emit()
-		reset_skater()
+		_start_bail()
 		return
 	if result.launched:
 		_launch_id = "wallie"
@@ -636,15 +869,16 @@ func _apply_air_tricks(delta: float) -> void:
 			special = "special_tenement_tumble"
 		if not special.is_empty(): special_requested.emit(special)
 	if _trick_entries_enabled and _special_remaining <= 0.0:
-		if _flip_remaining > 0.0 and flip_trick_id in ["kickflip", "heelflip"] and _trick_input.consume_double_tap("flip"):
-			var double_id := "double_" + flip_trick_id
-			var progress := clampf(1.0 - _flip_remaining / _flip_duration, 0.0, 1.0)
-			_flip_definition = TrickCatalog.definition(double_id)
-			flip_trick_id = double_id
-			_flip_duration = float(_flip_definition.duration)
-			_flip_remaining = _flip_duration * (1.0 - progress * 0.5)
-			last_trick_id = double_id
-			trick_upgraded.emit(_styled_trick_name(_flip_definition), int(_flip_definition.base_points), double_id)
+		if _flip_remaining > 0.0 and _trick_input.consume_double_tap("flip"):
+			var upgraded := TrickCatalog.resolve_upgrade(flip_trick_id)
+			if not upgraded.is_empty():
+				_flip_motion_origin = _flip_pose_angles()
+				_flip_definition = upgraded
+				flip_trick_id = str(upgraded.id)
+				_flip_duration = float(upgraded.duration)
+				_flip_remaining = _flip_duration
+				last_trick_id = flip_trick_id
+				trick_upgraded.emit(_styled_trick_name(upgraded), int(upgraded.base_points), flip_trick_id)
 		var flip_action: Dictionary = _trick_input.pop_action("flip") if _flip_remaining <= 0.0 and _flip_catch_remaining <= 0.0 else {}
 		if not flip_action.is_empty():
 			_flip_definition = TrickCatalog.resolve("flip", str(flip_action.direction))
@@ -652,6 +886,7 @@ func _apply_air_tricks(delta: float) -> void:
 			_flip_duration = float(_flip_definition.get("duration", FLIP_DURATION))
 			_flip_remaining = _flip_duration
 			_flip_yaw_committed = false
+			_flip_motion_origin = Vector3.ZERO
 			_grab_remaining = 0.0
 			_grab_cooldown = 0.10
 			_pending_grab.clear()
@@ -666,6 +901,13 @@ func _apply_air_tricks(delta: float) -> void:
 		if not _pending_grab.is_empty() and _flip_remaining <= 0.0 and _flip_catch_remaining <= 0.0:
 			_start_grab(_pending_grab.duplicate(true))
 			_pending_grab.clear()
+	if _trick_entries_enabled and _grab_remaining > 0.0:
+		var tweak_action: Dictionary = _trick_input.consume_tap_upgrade("grab")
+		if not _grab_tweaked and not tweak_action.is_empty():
+			_grab_definition = TrickCatalog.grab_tweak(grab_trick_id, str(tweak_action.direction))
+			_grab_tweaked = true
+			last_trick_id = grab_trick_id
+			trick_upgraded.emit(_styled_trick_name(_grab_definition), int(_grab_definition.base_points), grab_trick_id)
 	if _grab_remaining > 0.0 and Input.is_action_pressed("grab"):
 		_grab_remaining = maxf(_grab_remaining, delta + 0.05)
 		_grab_elapsed += delta
@@ -686,7 +928,28 @@ func _start_grab(choice: Dictionary) -> void:
 	_grab_remaining = GRAB_MINIMUM_SECONDS
 	_grab_elapsed = 0.0
 	_grab_hold_tick = 0
+	_grab_tweaked = false
 	_emit_trick(grab_trick_id)
+
+
+func _flip_pose_angles() -> Vector3:
+	var progress := clampf(1.0 - _flip_remaining / maxf(_flip_duration, 0.001), 0.0, 1.0)
+	var curve := smoothstep(0.04, 0.88, progress)
+	return Vector3(lerpf(_flip_motion_origin.x, float(_flip_definition.get("board_roll", TAU)), curve),
+		lerpf(_flip_motion_origin.y, float(_flip_definition.get("board_yaw", 0.0)), curve),
+		lerpf(_flip_motion_origin.z, 0.0, curve) + float(_flip_definition.get("board_pitch", 0.0)) * sin(PI * curve))
+
+
+func _complete_special() -> void:
+	if not _special_definition.is_empty():
+		_air_spin += float(_special_definition.get("special_body_yaw", 0.0))
+		_spin_angle = _air_spin
+		_deck_yaw = wrapf(_deck_yaw + float(_special_definition.get("special_board_yaw", 0.0)), -PI, PI)
+	_clear_special_visual()
+
+
+func _special_axis(angle: float, progress: float) -> float:
+	return angle * progress if absf(angle) >= PI - 0.001 else angle * sin(PI * progress)
 
 
 func _complete_flip() -> void:
@@ -731,9 +994,9 @@ func _spin_landing_clean() -> bool:
 
 
 func _finish_landing() -> bool:
+	if _special_remaining > 0.0 and _special_remaining <= 0.15: _complete_special()
 	if _special_remaining > 0.15 or not _spin_landing_clean() or (_flip_remaining > 0.0 and 1.0 - _flip_remaining / _flip_duration < FLIP_LANDING_TOLERANCE):
-		bailed.emit()
-		reset_skater()
+		_start_bail()
 		return false
 	_complete_flip()
 	_award_air_spin()
@@ -762,7 +1025,9 @@ func _try_ground_links() -> void:
 		_end_manual(true)
 		return
 	var buffered_manual := _manual_buffer_remaining > 0.0 and (Input.is_action_pressed("manual") or not _manual_gesture_pending.is_empty())
-	if not manual_active and _manual_cooldown <= 0.0 and absf(speed) >= MANUAL_MIN_SPEED \
+	# Manual also modifies a prepared No Comply. While crouching it must not
+	# manufacture a separate manual entry before that planted-foot takeoff.
+	if not manual_active and not crouching and _manual_cooldown <= 0.0 and absf(speed) >= MANUAL_MIN_SPEED \
 			and (fresh_manual or buffered_manual):
 		manual_active = true
 		manual_trick_id = _buffered_manual_id if buffered_manual else _manual_choice()
@@ -775,18 +1040,21 @@ func _try_ground_links() -> void:
 		combo_link_started.emit()
 		_emit_trick(manual_trick_id)
 	if manual_active and _style_cooldown <= 0.0:
-		var next_style := ""
-		if not _trick_input.pop_action("flip").is_empty(): next_style = "one_foot_manual"
-		elif not _trick_input.pop_action("grab").is_empty(): next_style = "spacewalk"
-		elif Input.is_action_just_pressed("revert"): next_style = "manual_pivot"
-		if not next_style.is_empty() and next_style != manual_trick_id:
-			manual_trick_id = next_style
-			_style_cooldown = 0.35
-			if next_style == "manual_pivot": _physical_revert()
-			_emit_trick(next_style)
+		var action: Dictionary = _trick_input.pop_action("flip")
+		if action.is_empty(): action = _trick_input.pop_action("grab")
+		if action.is_empty(): action = _trick_input.pop_action("revert")
+		if not action.is_empty():
+			var choice := TrickCatalog.resolve_extension("manual", str(action.action), str(action.direction), manual_trick_id)
+			if not choice.is_empty() and str(choice.id) != manual_trick_id:
+				manual_trick_id = str(choice.id)
+				_manual_base_sign = float(choice.get("manual_sign", _manual_base_sign))
+				_style_cooldown = 0.35
+				if float(choice.get("manual_yaw", 0.0)) != 0.0: _physical_revert()
+				_emit_trick(manual_trick_id)
 	if not manual_active and not _revert_used and revert_remaining > 0.0 \
 			and Input.is_action_just_pressed("revert"):
 		_revert_used = true
+		_trick_input.pop_action("revert")
 		_physical_revert()
 		# A revert spends the existing landing window; it never opens a new one.
 		_emit_trick("revert")
@@ -807,8 +1075,7 @@ func _tick_manual_balance(delta: float, push_input: float, brake_input: float) -
 	var drift := outward * (0.18 + 0.08 * _manual_elapsed)
 	manual_balance += (drift + (brake_input - push_input) * MANUAL_BALANCE_CONTROL) * delta
 	if absf(manual_balance) >= 1.0:
-		bailed.emit()
-		reset_skater()
+		_start_bail()
 		_manual_cooldown = MANUAL_REENTRY_DELAY
 		return false
 	return true
@@ -832,6 +1099,7 @@ func _try_grind(from_transition: bool = false) -> bool:
 		return false
 	if _flip_remaining > 0.0 and 1.0 - _flip_remaining / _flip_duration < FLIP_LANDING_TOLERANCE:
 		return false
+	if _special_remaining > 0.0 and _special_remaining <= 0.15: _complete_special()
 	if not _spin_landing_clean() or _special_remaining > 0.15:
 		return false
 	var clearance: Callable = _transition.grind_path_clear.bind(self) if from_transition else _rail_path_clear
@@ -889,6 +1157,13 @@ func _tick_grind(delta: float) -> void:
 		_release_grind(false)
 		return
 	if _trick_entries_enabled and _style_cooldown <= 0.0:
+		var pivot_action: Dictionary = _trick_input.pop_action("revert")
+		if not pivot_action.is_empty():
+			_physical_revert()
+			_rail_backwards = not _rail_backwards
+			_grind.speed *= REVERT_SPEED_RETAINED
+			_style_cooldown = 0.35
+			_emit_trick("grind_pivot")
 		var action: Dictionary = _trick_input.pop_action("flip")
 		if action.is_empty(): action = _trick_input.pop_action("grab")
 		if not action.is_empty():
@@ -904,8 +1179,7 @@ func _tick_grind(delta: float) -> void:
 		var result: String = _grind.step(delta / steps, _steering)
 		var target: Vector3 = _grind.position()
 		if result == "bail" or not _rail_path_clear(global_position, target):
-			bailed.emit()
-			reset_skater()
+			_start_bail()
 			_grind_cooldown = GRIND_RECAPTURE_DELAY
 			return
 		global_position = target
@@ -950,50 +1224,70 @@ func _update_pose(delta: float) -> void:
 	if was_grabbing and _grab_remaining <= 0.0:
 		_grab_cooldown = 0.10
 	_revert_pose_remaining = maxf(0.0, _revert_pose_remaining - delta)
+	var was_special := _special_remaining > 0.0
 	_special_remaining = maxf(0.0, _special_remaining - delta)
-	if _special_remaining <= 0.0:
-		_clear_special_visual()
+	if was_special and _special_remaining <= 0.0:
+		_complete_special()
 	if not airborne:
 		_spin_angle = lerp_angle(_spin_angle, 0.0, 1.0 - exp(-18.0 * delta))
 	_visual.rotation.y = _spin_angle - PI * (_revert_pose_remaining / REVERT_DURATION)
 	_visual.rotation.z = lerpf(_visual.rotation.z, -_steering * 0.11 * (speed / MAX_SPEED), 1.0 - exp(-10.0 * delta))
 	var flip_progress := clampf(1.0 - _flip_remaining / _flip_duration, 0.0, 1.0)
 	var flip_curve := smoothstep(0.04, 0.88, flip_progress)
+	var flip_angles := _flip_pose_angles()
 	var manual_sign := _manual_base_sign
 	var deck_direction := cos(_deck_yaw)
 	var board_pitch := deck_direction * manual_sign * (deg_to_rad(16.0) + manual_balance * 0.12) if manual_active else 0.0
+	var manual_definition := TrickCatalog.definition(manual_trick_id)
+	if manual_active and bool(manual_definition.get("manual_pogo", false)):
+		board_pitch = deck_direction * (1.22 + manual_balance * 0.035)
+	elif manual_active and bool(manual_definition.get("manual_casper", false)):
+		board_pitch = deck_direction * (0.35 + manual_balance * 0.035)
 	if airborne and _launch_age < 0.18 and _launch_id == "nollie" and _flip_remaining <= 0.0:
 		board_pitch = -deck_direction * 0.22 * sin(PI * _launch_age / 0.18)
-	var board_roll := float(TrickCatalog.definition(manual_trick_id).get("manual_roll", 0.0)) * sin(_manual_elapsed * 6.0) if manual_active else 0.0
+	var board_roll := float(manual_definition.get("manual_roll", 0.0)) * sin(_manual_elapsed * 6.0) if manual_active else 0.0
+	if manual_active and bool(manual_definition.get("manual_casper", false)):
+		board_roll = deck_direction * PI
 	var board_yaw := _deck_yaw
-	if grinding:
+	if lip_active:
+		board_yaw = float(_lip_definition.get("lip_yaw", 0.0))
+		board_pitch = float(_lip_definition.get("lip_pitch", 0.0))
+		board_roll = float(_lip_definition.get("lip_roll", 0.0))
+	elif grinding:
 		board_yaw = float(_grind_definition.get("grind_yaw", 0.0))
 		board_pitch = float(_grind_definition.get("grind_pitch", 0.0))
 	elif _flip_remaining > 0.0:
-		board_roll = deck_direction * float(_flip_definition.get("board_roll", TAU)) * flip_curve
-		board_yaw += float(_flip_definition.get("board_yaw", 0.0)) * flip_curve
-		board_pitch = deck_direction * float(_flip_definition.get("board_pitch", 0.0)) * sin(PI * flip_curve)
+		board_roll = deck_direction * flip_angles.x
+		board_yaw += flip_angles.y
+		board_pitch = deck_direction * flip_angles.z
 	elif _grab_remaining > 0.0:
 		board_roll = deck_direction * float(_grab_definition.get("board_roll", 0.0))
 		board_pitch = deck_direction * float(_grab_definition.get("board_pitch", 0.0))
-	_board_visual.rotation.z = board_roll
+		board_yaw += float(_grab_definition.get("board_yaw", 0.0))
+	_board_visual.rotation.z = board_roll if _flip_remaining > 0.0 or lip_active else lerpf(_board_visual.rotation.z, board_roll, 1.0 - exp(-16.0 * delta))
 	_board_visual.rotation.x = board_pitch if _flip_remaining > 0.0 else lerpf(_board_visual.rotation.x, board_pitch, 1.0 - exp(-16.0 * delta))
-	var special_progress := 1.0 - _special_remaining / SPECIAL_DURATION
-	_board_visual.rotation.y = _deck_yaw + TAU * special_progress if _special_id == "special_clyde_carousel" else board_yaw
+	var special_progress := 1.0 - _special_remaining / maxf(_special_duration, 0.001)
+	_board_visual.rotation.y = board_yaw
+	if _special_remaining > 0.0:
+		_board_visual.rotation.x += _special_axis(float(_special_definition.get("special_board_pitch", 0.0)), special_progress)
+		_board_visual.rotation.y += _special_axis(float(_special_definition.get("special_board_yaw", 0.0)), special_progress)
+		_board_visual.rotation.z += _special_axis(float(_special_definition.get("special_board_roll", 0.0)), special_progress)
 	var grab_pose := 1.0 if _grab_remaining > 0.0 else 0.0
-	var special_tuck := 0.25 * sin(PI * special_progress) if _special_id == "special_tenement_tumble" else 0.0
+	var special_tuck := float(_special_definition.get("special_tuck", 0.0)) * sin(PI * special_progress)
 	_rider_visual.position.y = lerpf(_rider_visual.position.y, -0.17 * grab_pose - special_tuck, 1.0 - exp(-16.0 * delta))
-	_rider_visual.rotation.x = lerpf(_rider_visual.rotation.x, -0.1 - grab_pose * 0.2, 1.0 - exp(-10.0 * delta))
+	var rider_pitch := manual_sign * (-0.18 - manual_balance * 0.12) if manual_active else -0.1 - grab_pose * 0.2
+	_rider_visual.rotation.x = lerpf(_rider_visual.rotation.x, rider_pitch, 1.0 - exp(-16.0 * delta))
 	if grinding:
 		_visual.rotation.z = -grind_balance * 0.35
 		_rider_visual.position.y = -0.12
 	elif manual_active:
 		_rider_visual.position.y = -0.10
-		_rider_visual.rotation.x = manual_sign * (-0.18 - manual_balance * 0.12)
 	# Lean the visible board into slopes without pitching the upright collision.
 	var desired_pitch := 0.0
 	if grinding:
 		desired_pitch = atan2(velocity.y, Vector2(velocity.x, velocity.z).length())
+	elif lip_active:
+		desired_pitch = 0.0
 	elif transition_active:
 		var support: Vector3 = global_basis.inverse() * _transition.normal
 		desired_pitch = atan2(support.z, support.y)
@@ -1005,13 +1299,15 @@ func _update_pose(delta: float) -> void:
 	if wallriding:
 		_visual.rotation.z = clampf(-(global_basis.inverse() * _wall.normal).x * 0.65, -0.65, 0.65)
 	_visual.position = Vector3.ZERO
-	if _special_id == "special_tenement_tumble":
-		_visual.rotation.x += TAU * special_progress
+	if _special_remaining > 0.0:
+		_visual.rotation.x += _special_axis(float(_special_definition.get("special_body_pitch", 0.0)), special_progress)
+		_visual.rotation.y += _special_axis(float(_special_definition.get("special_body_yaw", 0.0)), special_progress)
+		_visual.rotation.z += _special_axis(float(_special_definition.get("special_body_roll", 0.0)), special_progress)
 		# Rotate the visible rider/board around the body, preserving the collision origin.
 		var tumble_pivot := Vector3.UP * 0.8
 		_visual.position = tumble_pivot - _visual.basis * tumble_pivot
 	_visual_rig.animate(delta, {"airborne": airborne, "grab": _grab_remaining > 0.0,
-		"flip": _flip_remaining > 0.0, "speed": absf(speed), "manual": manual_active,
+		"flip": _flip_remaining > 0.0, "speed": absf(speed), "travel_sign": signf(speed), "manual": manual_active,
 		"grind": grinding, "push": _controls_enabled and Input.is_action_pressed("push"),
 		"brake": _controls_enabled and Input.is_action_pressed("brake"),
 		"steering": _steering, "manual_balance": manual_balance, "grind_balance": grind_balance,
@@ -1027,7 +1323,18 @@ func _update_pose(delta: float) -> void:
 		"transition_active": transition_active, "lip_active": lip_active,
 		"manual_walk": TrickCatalog.definition(manual_trick_id).get("manual_walk", false),
 		"manual_roll": TrickCatalog.definition(manual_trick_id).get("manual_roll", 0.0),
-		"manual_foot_lift": TrickCatalog.definition(manual_trick_id).get("manual_foot_lift", 0.0)})
+		"manual_foot_lift": TrickCatalog.definition(manual_trick_id).get("manual_foot_lift", 0.0),
+		"manual_definition": TrickCatalog.definition(manual_trick_id), "grab_definition": _grab_definition,
+		"special_definition": _special_definition, "lip_definition": _lip_definition,
+		"lip_ground_point": _transition.lip_frame().get("point", global_position) if lip_active else global_position,
+		"lip_normal": Vector3.UP, "setup_active": setup_active, "setup_id": setup_id,
+		"setup_phase": setup_phase, "setup_ground_point": _setup.ground_point, "setup_normal": _setup.normal,
+		"bail_active": bail_active, "bail_phase": bail_phase, "bail_ground_point": _bail.ground_point,
+		"skitching": skitch_caught, "skitch_caught": skitch_caught,
+		"skitch_grips": _skitch.hand_targets() if skitching and _skitch.has_method("hand_targets") else [],
+		"skitch_normal": _skitch.hand_normal() if skitching and _skitch.has_method("hand_normal") else Vector3.ZERO,
+		"bail_normal": _bail.normal,
+		"bail_recovery_transform": Transform3D(Basis(Vector3.UP, -PI / 2.0 + 0.28), Vector3.ZERO)})
 
 	if wallriding: _place_wall_wheels()
 
@@ -1051,6 +1358,7 @@ func _place_wall_wheels() -> void:
 
 
 func _process(delta: float) -> void:
+	_recovery_fade_remaining = maxf(0.0, _recovery_fade_remaining - delta)
 	_camera_follow.update(self, _camera, delta, _camera_sensitivity, _reduced_motion)
 
 

@@ -41,7 +41,30 @@ var _transition_blend := 0.0
 var _walk_blend := 0.0
 var _walk_phase := 0.0
 var _foot_lift := 0.0
+var _manual_shift := 0.0
+var _cross_blend := 0.0
+var _pogo_blend := 0.0
+var _casper_blend := 0.0
+var _board_support_points := PackedVector3Array()
+var _wheel_surfaces: Array[Dictionary] = []
+var _sole_points := PackedVector3Array()
 var _slide_direction := 1.0
+var _setup_catch_offset := Vector3.ZERO
+var _setup_catch_basis := Basis.IDENTITY
+var _setup_last_id := ""
+var _bail_was_active := false
+var _bail_rider_rest := Transform3D.IDENTITY
+var _bail_from: Dictionary = {}
+var _bail_pending: Dictionary = {}
+var _bail_rider_world_start := Transform3D.IDENTITY
+var _bail_board_world_start := Transform3D.IDENTITY
+var _bail_body_start := Vector3.ZERO
+var _handplant_blend := 0.0
+var _lip_point := Vector3.ZERO
+var _lip_normal := Vector3.UP
+var _lip_definition: Dictionary = {}
+var _skitch_blend := 0.0
+var _skitch_local_grips: Array[Vector3] = []
 
 func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 	_board = board
@@ -90,6 +113,7 @@ func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 		_legs.append({"side": side, "foot": foot})
 		var hand: Node3D = _anatomy.build_hand(_rider, side)
 		_arms.append({"side": side, "hand": hand})
+	_cache_support_geometry()
 	reset()
 
 func reset() -> void:
@@ -118,25 +142,120 @@ func reset() -> void:
 	_walk_blend = 0.0
 	_walk_phase = 0.0
 	_foot_lift = 0.0
+	_manual_shift = 0.0
+	_cross_blend = 0.0
+	_pogo_blend = 0.0
+	_casper_blend = 0.0
 	_slide_direction = 1.0
+	_setup_catch_offset = Vector3.ZERO
+	_setup_catch_basis = Basis.IDENTITY
+	_setup_last_id = ""
+	_bail_was_active = false
+	_bail_from.clear()
+	_bail_pending.clear()
+	_handplant_blend = 0.0
+	_lip_definition.clear()
+	_skitch_blend = 0.0
+	_skitch_local_grips.clear()
+
+
+static func setup_foot_offset() -> Vector3:
+	return Vector3(-0.34, 0, -0.255)
+
+
+static func boneless_grab_target() -> Vector3:
+	return Vector3(0.128, 0.022, 0.02)
+
+
+static func pogo_hand_target(side: float) -> Vector3:
+	# Authored griptape perimeter vertices at the two 45-degree nose shoulders.
+	var point := Vector3(side * 0.118 * sqrt(0.5), 0, -0.30 - 0.118 * sqrt(0.5)) * 0.94
+	point.y = 0.017 + 0.65 * pow(maxf(0.0, absf(point.z) - 0.28), 1.5) + point.x * point.x * 0.14
+	return point
+
+
+func begin_bail() -> void:
+	# The controller calls this before clearing trick state or changing the
+	# parent presentation frame. Capture the actual interrupted visible pose.
+	_bail_pending = _snapshot_pose()
+	_bail_pending["rider_world"] = _rider.global_transform
+	_bail_pending["board_world"] = _board.global_transform
+	_bail_pending["body_world"] = _board.get_parent().get_parent().global_position
 
 func animate(delta: float, state: Dictionary) -> void:
+	if bool(state.get("bail_active", false)):
+		_animate_bail(delta, state)
+		return
+	if _bail_was_active:
+		_rider.transform = _bail_rider_rest
+		_bail_was_active = false
 	var air: bool = state["airborne"]
 	var grab: bool = state["grab"]
 	var flip: bool = state["flip"]
 	var manual: bool = state["manual"]
 	var grind: bool = state["grind"]
 	var ride_speed := absf(float(state["speed"]))
+	var travel_sign := -1.0 if float(state.get("travel_sign", 1.0)) < 0.0 else 1.0
 	var wall: bool = state.get("wallriding", false)
+	var skitch: bool = state.get("skitching", false)
+	var skitch_grips: Array = state.get("skitch_grips", [])
+	if skitch_grips.size() != 2: skitch = false
+	for point: Variant in skitch_grips:
+		if not point is Vector3 or not point.is_finite(): skitch = false
+	var travel_node: Node3D = _board.get_parent().get_parent()
+	if skitch:
+		_skitch_local_grips.assign([travel_node.to_local(skitch_grips[0]), travel_node.to_local(skitch_grips[1])])
+	_skitch_blend = _blend(_skitch_blend, 1.0 if skitch else 0.0, delta, 14.0)
+	if not skitch and _skitch_local_grips.size() == 2 and _skitch_blend > 0.0001:
+		skitch_grips = [travel_node.to_global(_skitch_local_grips[0]), travel_node.to_global(_skitch_local_grips[1])]
+	var skitch_pose := skitch_grips.size() == 2 and _skitch_blend > 0.0001
+	var skitch_axis := Vector3.FORWARD
+	if state.get("skitch_normal") is Vector3:
+		var normal: Vector3 = state.skitch_normal
+		if normal.is_finite() and normal.length_squared() > 0.01:
+			skitch_axis = _board.global_basis.inverse() * -normal.normalized()
 	var lip: bool = state.get("lip_active", false)
+	var lip_definition: Dictionary = state.get("lip_definition", {})
+	var handplant := lip and str(lip_definition.get("lip_support", "deck")) == "palms"
+	_handplant_blend = _blend(_handplant_blend, 1.0 if handplant else 0.0, delta, 12.0)
+	if handplant:
+		_lip_point = state.get("lip_ground_point", _board.get_parent().global_position)
+		_lip_normal = state.get("lip_normal", Vector3.UP)
+		_lip_definition = lip_definition.duplicate(true)
+		_board.rotation = Vector3(float(lip_definition.get("lip_pitch", 0.0)),
+			float(lip_definition.get("lip_yaw", 0.0)) + float(state.get("rest_deck_yaw", 0.0)),
+			float(lip_definition.get("lip_roll", 0.0)))
+	elif _handplant_blend > 0.0001 and not flip and not grab and str(state.get("special_id", "")).is_empty():
+		_board.rotation = Vector3(0, float(state.get("rest_deck_yaw", 0.0)), 0)
 	var sliding: bool = state.get("powersliding", false) and not air and not manual and not grind
 	var crouching: bool = state.get("crouching", false) and not air and not manual and not grind and not lip
 	var charge := clampf(float(state.get("ollie_charge", 0.0)), 0.0, 1.0)
 	var walking: bool = manual and bool(state.get("manual_walk", false))
 	var manual_roll := float(state.get("manual_roll", 0.0))
 	var foot_lift := clampf(float(state.get("manual_foot_lift", 0.0)), 0.0, 0.3) if manual else 0.0
+	var manual_definition: Dictionary = state.get("manual_definition", {})
+	var foot_shift := float(manual_definition.get("manual_foot_shift", 0.0)) if manual else 0.0
+	var crossfoot: bool = manual and bool(manual_definition.get("manual_cross", false))
+	var pogo: bool = manual and bool(manual_definition.get("manual_pogo", false))
+	var casper: bool = manual and bool(manual_definition.get("manual_casper", false))
+	var grab_definition: Dictionary = state.get("grab_definition", {})
+	var extension := clampf(float(state.get("tweak_leg_extension", grab_definition.get("tweak_leg_extension", 0.0))), -0.2, 0.3) if grab else 0.0
+	var setup: bool = state.get("setup_active", false)
+	var setup_id := str(state.get("setup_id", ""))
+	var setup_phase := clampf(float(state.get("setup_phase", 0.0)), 0.0, 1.0)
+	var setup_plant := smoothstep(0.02, 0.30, setup_phase) if setup else 0.0
+	var setup_point: Vector3 = state.get("setup_ground_point", Vector3.ZERO)
+	var setup_normal: Vector3 = state.get("setup_normal", Vector3.UP)
+	if not setup_point.is_finite() or not setup_normal.is_finite() or setup_normal.length_squared() < 0.01:
+		setup_plant = 0.0
+		setup_normal = Vector3.UP
+	setup_normal = setup_normal.normalized()
 	var braking: bool = state.get("brake", false) and not air and not manual and not grind and not sliding and ride_speed > 0.2
 	var pushing: bool = state["push"] and not braking and not air and not manual and not grind and not crouching and not sliding and not lip and ride_speed < 14.5
+	pushing = pushing and not setup
+	braking = braking and not setup
+	pushing = pushing and not skitch
+	braking = braking and not skitch
 	var steer: float = state.get("steering", 0.0)
 	var manual_balance: float = state.get("manual_balance", 0.0)
 	var grind_balance: float = state.get("grind_balance", 0.0)
@@ -152,17 +271,27 @@ func animate(delta: float, state: Dictionary) -> void:
 	var grind_yaw: float = state.get("grind_yaw", 0.0)
 	var grind_id: String = state.get("grind_id", "rail_grind")
 	var deck_yaw: float = state.get("deck_yaw", 0.0) if not grind else 0.0
+	if lip: deck_yaw = rest_deck_yaw
 	var manual_sign: float = state.get("manual_sign", 1.0)
 	var takeoff_mode := str(state.get("takeoff_mode", "Regular")).to_lower()
 	var launch_id := str(state.get("launch_id", "nollie" if takeoff_mode == "nollie" else "ollie"))
 	var launch_age := maxf(0.0, float(state.get("launch_age", 1.0)))
 	var launch_curve := sin(PI * clampf(launch_age / 0.22, 0.0, 1.0)) if air and not flip else 0.0
 	var nose_pop := launch_curve if launch_id == "nollie" else 0.0
+	var boneless_grip := smoothstep(0.0, 0.55, setup_phase) if setup and setup_id == "boneless" else 0.0
+	if air and launch_id == "boneless" and not flip and not grab:
+		boneless_grip = 1.0 - smoothstep(0.12, 0.32, launch_age)
+	var setup_catch := 1.0 - smoothstep(0.0, 0.28, launch_age) if air and launch_id == _setup_last_id else 0.0
 	var wall_normal: Vector3 = state.get("wall_normal", Vector3.ZERO)
 	var wall_local := Vector3.ZERO
 	if wall_normal.is_finite() and wall_normal.length_squared() > 0.01:
 		wall_local = _rider.global_basis.inverse() * wall_normal.normalized()
 	var board_spin := special_id == "special_clyde_carousel"
+	var special_definition: Dictionary = state.get("special_definition", {})
+	var salute: bool = bool(special_definition.get("special_grab", false)) and not special_id.is_empty()
+	if salute: boneless_grip = maxf(boneless_grip, sin(PI * clampf(special_progress, 0.0, 1.0)))
+	var separated_special := board_spin or absf(float(special_definition.get("special_board_roll", 0.0))) > PI \
+		or absf(float(special_definition.get("special_board_yaw", 0.0))) > PI
 	var tumble := sin(PI * special_progress) if special_id == "special_tenement_tumble" else 0.0
 	if _was_airborne and not air:
 		_landing = 0.30
@@ -179,7 +308,7 @@ func animate(delta: float, state: Dictionary) -> void:
 	# The flick separates the soles from a rotating deck, then brings both feet
 	# back to their planted contact targets before the animation finishes.
 	var flick := smoothstep(0.0, 0.16, flip_progress) * (1.0 - smoothstep(0.72, 0.98, flip_progress))
-	var separation := flick if flip else (1.0 if board_spin else 0.0)
+	var separation := flick if flip else (smoothstep(0.0, 0.12, special_progress) * (1.0 - smoothstep(0.78, 1.0, special_progress)) if separated_special else 0.0)
 	_flip_blend = _blend(_flip_blend, separation, delta, 36.0)
 	_manual_blend = _blend(_manual_blend, 1.0 if manual else 0.0, delta, 12.0)
 	_grind_blend = _blend(_grind_blend, 1.0 if grind else 0.0, delta, 12.0)
@@ -190,6 +319,10 @@ func animate(delta: float, state: Dictionary) -> void:
 	_transition_blend = _blend(_transition_blend, 1.0 if bool(state.get("transition_active", false)) else 0.0, delta, 10.0)
 	_walk_blend = _blend(_walk_blend, 1.0 if walking else 0.0, delta, 12.0)
 	_foot_lift = _blend(_foot_lift, foot_lift, delta, 13.0)
+	_manual_shift = _blend(_manual_shift, foot_shift, delta, 16.0)
+	_cross_blend = _blend(_cross_blend, 1.0 if crossfoot else 0.0, delta, 16.0)
+	_pogo_blend = _blend(_pogo_blend, 1.0 if pogo else 0.0, delta, 16.0)
+	_casper_blend = _blend(_casper_blend, 1.0 if casper else 0.0, delta, 16.0)
 	if walking: _walk_phase = fmod(_walk_phase + delta * TAU * 1.1, TAU)
 	if sliding and absf(steer) > 0.1: _slide_direction = signf(steer)
 	# The rear axle stays above the supporting plane as the manual lifts the nose.
@@ -214,6 +347,22 @@ func animate(delta: float, state: Dictionary) -> void:
 		_board.position += _grind_release_offset
 		_board.position.y += maxf(0.0,
 			0.255 * absf(sin(deck_pitch)) + 0.088 * (cos(deck_pitch) - 1.0))
+		if maxf(_pogo_blend, _casper_blend) > 0.0001:
+			# Project the actual rendered convex support hull, including curved deck,
+			# trucks and wheels. The lowest point changes during a Casper roll;
+			# selecting only its tail would bury the opposite edge at half-roll.
+			var lowest := INF
+			for point: Vector3 in _board_support_points:
+				lowest = minf(lowest, (_board.basis * point).y)
+			_board.position.y = -lowest + 0.003
+	if lip and not handplant:
+		var bearing := Vector3(0, -0.020, 0)
+		match str(lip_definition.get("lip_support", "deck")):
+			"front_truck": bearing = Vector3(0, -0.104, -0.255)
+			"rear_truck": bearing = Vector3(0, -0.104, 0.255)
+			"both_trucks": bearing = Vector3(0, -0.104, 0)
+		var support_point: Vector3 = state.get("lip_ground_point", _board.get_parent().global_position)
+		if support_point.is_finite(): _board.global_position = support_point - _board.global_basis * bearing
 	if pushing:
 		_push_phase = fmod(_push_phase + delta * (1.25 + ride_speed * 0.025), 1.0)
 	var landing_curve := sin(PI * clampf(_landing / 0.30, 0.0, 1.0))
@@ -223,27 +372,80 @@ func animate(delta: float, state: Dictionary) -> void:
 	# toward the chosen contact. The arm solver therefore keeps human reach.
 	var end_grab := clampf(absf(grab_target.z) / 0.38, 0.0, 1.0)
 	var hips_y := 0.955 - 0.055 * _air_blend - (0.38 + 0.035 * end_grab) * _grab_blend - compression - 0.08 * launch_tuck - 0.05 * tumble
-	hips_y += (_board.position.y - _board_rest_height) * _grind_blend
+	var bearing_blend := maxf(_grind_blend, _lip_blend if lip and not handplant else 0.0)
+	hips_y += (_board.position.y - _board_rest_height) * bearing_blend
 	hips_y -= 0.025 * _push_blend + 0.035 * _brake_blend
 	hips_y -= 0.20 * _crouch_blend + 0.10 * _wall_blend + 0.10 * _slide_blend + 0.08 * _lip_blend + 0.035 * _transition_blend
+	var no_comply_pose := setup_plant if setup and setup_id == "no_comply" else (setup_catch if launch_id == "no_comply" else 0.0)
+	hips_y = lerpf(hips_y, 0.70, no_comply_pose)
+	hips_y = lerpf(hips_y, 0.34, boneless_grip)
+	hips_y += extension * 0.10 * _grab_blend
+	hips_y = lerpf(hips_y, 0.74, _skitch_blend)
+	hips_y = lerpf(hips_y, 0.84, _pogo_blend)
 	var breathing := sin(_motion_time * 2.1) * 0.004 * (1.0 - _air_blend)
 	var grab_local: Vector3 = _rider.to_local(_board.to_global(grab_target))
 	var grab_lean := Vector3(grab_local.x, 0, grab_local.z).limit_length(0.11) * _grab_blend
 	var wall_lean := Vector3(wall_local.x, 0, wall_local.z) * 0.09 * _wall_blend
 	var walk_sway := sin(_walk_phase) * clampf(absf(manual_roll), 0.0, 0.2) * _walk_blend
 	var support_lean := wall_lean + Vector3(walk_sway * 0.35 + _slide_direction * 0.025 * _slide_blend, 0, -0.025 * _crouch_blend - 0.045 * nose_pop)
+	support_lean.z += extension * 0.35 * _grab_blend
 	var hips_origin := Vector3(0, hips_y, 0) + grab_lean * 0.7 + support_lean
 	_upper.position = Vector3(0.025 * _push_blend - 0.018 * _brake_blend, hips_y + breathing, 0) + grab_lean + support_lean
 	_upper.rotation.x = -0.07 - _grab_blend * 0.23 - _push_blend * 0.13 + _brake_blend * 0.09 - compression * 0.4
 	_upper.rotation.x -= 0.19 * _crouch_blend + 0.08 * _slide_blend + 0.06 * _lip_blend + 0.04 * _transition_blend
 	_upper.rotation.x += wall_local.z * 0.18 * _wall_blend
 	_upper.rotation.x -= 0.10 * nose_pop
-	_pelvis_turn = _blend(_pelvis_turn, grind_yaw * 0.45 * _grind_blend - _slide_direction * 0.12 * _slide_blend + walk_sway * 0.25, delta, 12.0)
-	_torso_turn = _blend(_torso_turn, 0.08 + steer * 0.10 + sin(TAU * _push_phase) * _push_blend * 0.08 + grind_yaw * 0.25 * _grind_blend - _slide_direction * 0.30 * _slide_blend - walk_sway * 0.45, delta, 9.0)
+	_upper.rotation.x = lerpf(_upper.rotation.x, -0.65, boneless_grip)
+	var support_turn := float(lip_definition.get("lip_yaw", 0.0)) * _lip_blend if lip and not handplant else grind_yaw * _grind_blend
+	_pelvis_turn = _blend(_pelvis_turn, support_turn * 0.45 - _slide_direction * 0.12 * _slide_blend + walk_sway * 0.25, delta, 12.0)
+	_torso_turn = _blend(_torso_turn, 0.08 + steer * 0.10 + sin(TAU * _push_phase) * _push_blend * 0.08 + support_turn * 0.25 - _slide_direction * 0.30 * _slide_blend - walk_sway * 0.45, delta, 9.0)
 	_upper.rotation.y = _torso_turn
+	if _pogo_blend > 0.0001:
+		var nose := _rider.to_local(_board.to_global(grab_stance * pogo_hand_target(0.0))) - hips_origin
+		_upper.rotation.y = lerp_angle(_upper.rotation.y, atan2(-nose.x, -nose.z), _pogo_blend)
+	if skitch_pose:
+		var center: Vector3 = (Vector3(skitch_grips[0]) + Vector3(skitch_grips[1])) * 0.5
+		var toward := (_rider.to_local(center) - hips_origin)
+		var yaw := atan2(-toward.x, -toward.z)
+		_upper.rotation.y = lerp_angle(_upper.rotation.y, yaw, _skitch_blend)
+		_upper.position += Vector3(toward.x, 0, toward.z).limit_length(0.12) * _skitch_blend
 	_upper.rotation.z = -steer * 0.045 - manual_balance * _manual_blend * 0.07 * manual_sign
 	_upper.rotation.z -= grab_lean.x * 0.7
 	_upper.rotation.z += -wall_local.x * 0.18 * _wall_blend - _slide_direction * 0.09 * _slide_blend - walk_sway * 0.6
+	if _grab_blend > 0.0 and not is_zero_approx(extension):
+		var contact := _rider.to_local(_board.to_global(grab_target))
+		for iteration in 4:
+			var shoulder := _rider.to_local(_upper.to_global(Vector3(grab_side * 0.195, 0.425, 0)))
+			var wrist := _grip_wrist(grab_side, shoulder, contact, grab_stance.x)
+			var reach := wrist - shoulder
+			if reach.length() <= 0.575: break
+			# A boned leg straightens below the pelvis while the torso folds
+			# toward its hand contact; the arm does not lengthen to bridge it.
+			_upper.position += reach.normalized() * (reach.length() - 0.575)
+	if skitch_pose:
+		for iteration in 5:
+			var correction := Vector3.ZERO
+			var count := 0
+			for index in 2:
+				var side := -1.0 if index == 0 else 1.0
+				var shoulder := _rider.to_local(_upper.to_global(Vector3(side * 0.195, 0.425, 0)))
+				var contact := _rider.to_local(Vector3(skitch_grips[index]))
+				var reach := _grip_wrist(side, shoulder, contact, skitch_axis) - shoulder
+				if reach.length() > 0.575:
+					correction += reach.normalized() * (reach.length() - 0.575)
+					count += 1
+			if count == 0: break
+			_upper.position += correction / count * _skitch_blend
+	if _pogo_blend > 0.0001:
+		for iteration in 5:
+			var correction := Vector3.ZERO
+			for side: float in [-1.0, 1.0]:
+				var shoulder := _rider.to_local(_upper.to_global(Vector3(side * 0.195, 0.425, 0)))
+				var contact := _rider.to_local(_board.to_global(grab_stance * pogo_hand_target(side)))
+				var reach := _grip_wrist(side, shoulder, contact, grab_stance.x) - shoulder
+				if reach.length() > 0.565: correction += reach.normalized() * (reach.length() - 0.565)
+			if correction.length_squared() < 0.000001: break
+			_upper.position += correction * 0.5 * _pogo_blend
 	# Look along accepted travel after a revert, within a comfortable neck turn.
 	var travel_body: Node3D = _board.get_parent().get_parent()
 	var travel_direction := -travel_body.global_basis.z
@@ -264,17 +466,22 @@ func animate(delta: float, state: Dictionary) -> void:
 		var side: float = leg["side"]
 		var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, 0.079, side * 0.255)
 		var shoe_yaw := -PI * 0.5 + side * 0.13
+		deck_foot.z += _manual_shift
+		deck_foot = deck_foot.lerp(Vector3(side * 0.045, 0.079, -side * 0.15), _cross_blend)
+		shoe_yaw += side * 0.45 * _cross_blend
+		if not is_zero_approx(_manual_shift):
+			deck_foot.y += 0.65 * pow(maxf(0.0, absf(deck_foot.z) - 0.28), 1.5)
 		if side > 0.0:
 			# Push: planted rearward stroke, then lifted return. Brake: sole drags beside the deck.
 			var stroke := minf(_push_phase / 0.60, 1.0)
 			var recovery := maxf(0.0, (_push_phase - 0.60) / 0.40)
-			var push_z := lerpf(-0.25, 0.40, stroke) if _push_phase < 0.60 else lerpf(0.40, -0.25, recovery)
+			var push_z := (lerpf(-0.25, 0.40, stroke) if _push_phase < 0.60 else lerpf(0.40, -0.25, recovery)) * travel_sign
 			var push_y := -0.139 + (0.26 * sin(PI * recovery) if recovery > 0.0 else 0.008 * sin(PI * stroke))
 			deck_foot.x += 0.25 * _push_blend + 0.24 * _brake_blend
 			deck_foot.z = lerpf(deck_foot.z, push_z, _push_blend)
-			deck_foot.z = lerpf(deck_foot.z, 0.40, _brake_blend)
+			deck_foot.z = lerpf(deck_foot.z, 0.40 * travel_sign, _brake_blend)
 			deck_foot.y += push_y * _push_blend - 0.139 * _brake_blend
-			shoe_yaw = lerpf(shoe_yaw, -0.08, maxf(_push_blend, _brake_blend))
+			shoe_yaw = lerp_angle(shoe_yaw, -0.08 if travel_sign > 0.0 else PI - 0.08, maxf(_push_blend, _brake_blend))
 		else:
 			shoe_yaw += 0.20 * _push_blend
 		# A spacewalk shuffles one foot while the other stays loaded. A one-foot
@@ -286,10 +493,6 @@ func animate(delta: float, state: Dictionary) -> void:
 			deck_foot.y += _foot_lift
 			deck_foot.x += _foot_lift * 0.35
 			deck_foot.z -= _foot_lift * 0.25
-		elif launch_id == "boneless":
-			deck_foot += Vector3(-0.15, 0.14, -0.035) * launch_curve
-		elif launch_id == "no_comply":
-			deck_foot += Vector3(-0.19, -0.11, 0.13) * launch_curve
 		var attached: Vector3 = _rider.to_local(_board.to_global(deck_stance * deck_foot))
 		# Shoes follow the planted board except during a deliberately separated board spin/flip.
 		var flick_side := -1.0 if flip_id in ["heelflip", "inward_heelflip", "varial_heelflip"] else 1.0
@@ -300,12 +503,50 @@ func animate(delta: float, state: Dictionary) -> void:
 		var detached_basis: Basis = _board.get_parent().global_basis.orthonormalized()
 		var planted_basis := (_board.global_basis * deck_stance).orthonormalized()
 		var foot_basis := planted_basis.slerp(detached_basis, _flip_blend)
+		var shoe_basis := foot_basis * Basis(Vector3.UP, shoe_yaw)
+		var horizontal_shoe := _surface_basis(Vector3.UP, _board.get_parent().global_basis * Vector3.BACK)
+		if _pogo_blend > 0.0001:
+			var crown := pogo_foot_contact(side, rest_deck_yaw)
+			target = target.lerp(_rider.to_local(crown - horizontal_shoe * Footwear.SOLE_CONTACT), _pogo_blend)
+			shoe_basis = shoe_basis.slerp(horizontal_shoe, _pogo_blend)
+		if _casper_blend > 0.0001:
+			var casper_contact := _board.to_global(grab_stance * Vector3(0, 0.022, -0.29))
+			var casper_target: Vector3
+			if side < 0:
+				casper_target = _rider.to_local(casper_contact - horizontal_shoe * Footwear.TOE_CONTACT)
+			else:
+				var tail := _board.to_global(grab_stance * Vector3(0, -0.025, 0.255))
+				casper_target = _rider.to_local(tail - horizontal_shoe * Footwear.SOLE_CONTACT)
+			target = target.lerp(casper_target, _casper_blend)
+			shoe_basis = shoe_basis.slerp(horizontal_shoe, _casper_blend)
+		if maxf(_pogo_blend, _casper_blend) > 0.0001:
+			# A changing shoe orientation sweeps a wider sole than its ankle target.
+			# Keep every actual cupsole vertex above the native support plane.
+			var floor_up: Vector3 = _board.get_parent().global_basis.y.normalized()
+			var floor_at: Vector3 = _board.get_parent().global_position
+			var ankle := _rider.to_global(target)
+			var lowest := INF
+			for point: Vector3 in _sole_points:
+				lowest = minf(lowest, (ankle + shoe_basis * point - floor_at).dot(floor_up))
+			if lowest < 0.001: target = _rider.to_local(ankle + floor_up * (0.001 - lowest))
+		if side < 0.0:
+			if setup and setup_plant > 0.0:
+				var ground_basis := _surface_basis(setup_normal, shoe_basis.z)
+				var ground_ankle := _rider.to_local(setup_point - ground_basis * Footwear.SOLE_CONTACT)
+				target = target.lerp(ground_ankle, setup_plant)
+				shoe_basis = shoe_basis.slerp(ground_basis, setup_plant)
+				_setup_catch_offset = target - attached
+				_setup_catch_basis = shoe_basis
+				_setup_last_id = setup_id
+			elif setup_catch > 0.0:
+				target += _setup_catch_offset * setup_catch
+				shoe_basis = shoe_basis.slerp(_setup_catch_basis, setup_catch)
 		var hip := pelvis_basis * Vector3(side * 0.105, 0.025, 0) + hips_origin
 		var knee_bend: Vector3 = _rider.global_basis.inverse() * _board.get_parent().global_basis * Vector3.UP + Vector3(side * 0.25, 0, -0.65)
 		var knee := _joint(hip, target, 0.43, 0.41, knee_bend)
 		_garments.pose_leg(side, hip, knee, target)
 		leg["foot"].position = target
-		leg["foot"].basis = _rider.global_basis.inverse() * foot_basis * Basis(Vector3.UP, shoe_yaw)
+		leg["foot"].basis = _rider.global_basis.inverse() * shoe_basis
 	for arm: Dictionary in _arms:
 		var side: float = arm["side"]
 		var shoulder: Vector3 = _rider.to_local(_upper.to_global(Vector3(side * 0.195, 0.425, 0)))
@@ -325,7 +566,11 @@ func animate(delta: float, state: Dictionary) -> void:
 		hand.z += side * 0.16 * sin(PI * clampf(revert_remaining / 0.18, 0.0, 1.0))
 		if tumble > 0.0:
 			hand = hand.lerp(Vector3(side * 0.16, hips_y + 0.12, -0.18), tumble * 0.8)
-		if side == grab_side:
+		if salute and side < 0.0:
+			hand = hand.lerp(Vector3(-0.30, hips_y + 0.68, -0.03), sin(PI * special_progress))
+		var palm_grip := _grab_blend if side == grab_side else 0.0
+		var palm_axis := grab_stance.x
+		if side == grab_side and _grab_blend > 0.0:
 			var contact_target := _rider.to_local(_board.to_global(grab_target))
 			# The anatomical hand's origin is its wrist, not its palm. Solve that
 			# offset so the distal palm meets the rail edge instead of passing through it.
@@ -335,12 +580,302 @@ func animate(delta: float, state: Dictionary) -> void:
 				var grab_basis := _hand_basis(side, grab_elbow - grab_wrist, 1.0, grab_stance.x)
 				grab_wrist = contact_target - grab_basis * Vector3(0, -0.075, -0.015)
 			hand = hand.lerp(grab_wrist, _grab_blend)
+		if side > 0.0 and boneless_grip > 0.0:
+			var boneless_target := _rider.to_local(_board.to_global(grab_stance * boneless_grab_target()))
+			hand = hand.lerp(_grip_wrist(side, shoulder, boneless_target, grab_stance.x), boneless_grip)
+			palm_grip = maxf(palm_grip, boneless_grip)
+		if _pogo_blend > 0.0001:
+			var nose_contact := _rider.to_local(_board.to_global(grab_stance * pogo_hand_target(side)))
+			hand = hand.lerp(_grip_wrist(side, shoulder, nose_contact, grab_stance.x), _pogo_blend)
+			palm_grip = maxf(palm_grip, _pogo_blend)
+		if skitch_pose:
+			var grip: Vector3 = skitch_grips[0 if side < 0 else 1]
+			var tow_weight := _skitch_blend * (1.0 - maxf(_grab_blend, boneless_grip)) * (1.0 - _flip_blend)
+			hand = hand.lerp(_grip_wrist(side, shoulder, _rider.to_local(grip), skitch_axis), tow_weight)
+			palm_grip = maxf(palm_grip, tow_weight)
+			palm_axis = palm_axis.slerp(skitch_axis, tow_weight).normalized()
 		var elbow := _joint(shoulder, hand, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
 		_garments.pose_arm(side, shoulder, elbow, hand)
 		arm["hand"].position = hand
-		var palm_grip := _grab_blend if side == grab_side else 0.0
-		arm["hand"].basis = _hand_basis(side, elbow - hand, palm_grip, grab_stance.x)
+		arm["hand"].basis = _hand_basis(side, elbow - hand, palm_grip, palm_axis)
 		_anatomy.pose_hand(arm["hand"], palm_grip)
+	if _handplant_blend > 0.0001:
+		_apply_handplant(_handplant_blend, rest_deck_yaw)
+
+
+func _surface_basis(up: Vector3, facing: Vector3) -> Basis:
+	var z := facing.slide(up).normalized()
+	if z.length_squared() < 0.01: z = Vector3.FORWARD.slide(up).normalized()
+	if z.length_squared() < 0.01: z = Vector3.RIGHT.slide(up).normalized()
+	var x := up.cross(z).normalized()
+	return Basis(x, up, x.cross(up).normalized())
+
+
+func _cache_support_geometry() -> void:
+	var points := PackedVector3Array()
+	_wheel_surfaces.clear()
+	for child: Node in _board.get_children():
+		if not child is MeshInstance3D: continue
+		var mesh: MeshInstance3D = child
+		var wheel_points := PackedVector3Array()
+		for surface in mesh.mesh.get_surface_count():
+			var arrays := mesh.mesh.surface_get_arrays(surface)
+			for point: Vector3 in arrays[Mesh.ARRAY_VERTEX]:
+				points.append(mesh.transform * point)
+				wheel_points.append(mesh.transform * point)
+		if mesh.mesh is CylinderMesh and is_equal_approx(mesh.mesh.top_radius, 0.032):
+			_wheel_surfaces.append({"center": mesh.position, "points": wheel_points})
+	# A native convex hull keeps the exact extreme points of the detailed
+	# rendered meshes; its smaller immutable vertex set is cheap per frame.
+	var hull := ConvexPolygonShape3D.new()
+	hull.points = points
+	_board_support_points = hull.get_debug_mesh().get_faces()
+	var sole: MeshInstance3D = _legs[0].foot.get_node("Cupsole")
+	_sole_points = sole.mesh.get_faces()
+
+
+func pogo_foot_contact(side: float, rest_yaw: float) -> Vector3:
+	# Select the functional rear wheel after a committed deck half-turn, then
+	# use its real rendered crown. Averaging equal-height cap vertices gives
+	# the centre of that same top edge, rather than an invented contact offset.
+	var center := Basis(Vector3.UP, -rest_yaw) * Vector3(side * 0.115, -0.088, 0.255)
+	var selected: Dictionary = {}
+	var distance := INF
+	for wheel: Dictionary in _wheel_surfaces:
+		var gap := center.distance_squared_to(wheel.center)
+		if gap < distance:
+			distance = gap
+			selected = wheel
+	var crown := Vector3.ZERO
+	var height := -INF
+	var count := 0
+	for point: Vector3 in selected.get("points", PackedVector3Array()):
+		var world := _board.to_global(point)
+		if world.y > height + 0.00001:
+			height = world.y
+			crown = world
+			count = 1
+		elif absf(world.y - height) < 0.00001:
+			crown += world
+			count += 1
+	return crown / maxf(1.0, count)
+
+
+func _grip_wrist(side: float, shoulder: Vector3, contact: Vector3, palm_axis: Vector3) -> Vector3:
+	var wrist := contact + (shoulder - contact).normalized() * 0.075
+	for iteration in 8:
+		var elbow := _joint(shoulder, wrist, 0.30, 0.29, Vector3(side * 0.65, -0.10, 0.55))
+		var basis := _hand_basis(side, elbow - wrist, 1.0, palm_axis)
+		wrist = contact - basis * Anatomy.PALM_CONTACT
+	return wrist
+
+
+func _animate_bail(_delta: float, state: Dictionary) -> void:
+	var phase := clampf(float(state.get("bail_phase", 0.0)), 0.0, 1.0)
+	if not _bail_was_active:
+		_bail_was_active = true
+		_bail_rider_rest = state.get("bail_recovery_transform", _rider.transform)
+		_bail_from = _snapshot_pose() if _bail_pending.is_empty() else _bail_pending.duplicate(true)
+		_bail_rider_world_start = _bail_from.get("rider_world", _rider.global_transform)
+		_bail_board_world_start = _bail_from.get("board_world", _board.global_transform)
+		_bail_body_start = _bail_from.get("body_world", _board.get_parent().get_parent().global_position)
+		_bail_pending.clear()
+	var body_world: Vector3 = _board.get_parent().get_parent().global_position
+	var body_shift := body_world - _bail_body_start
+	var entry_world := _bail_rider_world_start
+	entry_world.origin += body_shift
+	var recovery_world: Transform3D = _rider.get_parent().global_transform * _bail_rider_rest
+	_rider.global_transform = entry_world.interpolate_with(recovery_world, smoothstep(0.55, 1.0, phase))
+	var ground: Vector3 = state.get("bail_ground_point", _board.get_parent().global_position)
+	var normal: Vector3 = state.get("bail_normal", Vector3.UP)
+	if not ground.is_finite(): ground = _board.get_parent().global_position
+	if not normal.is_finite() or normal.length_squared() < 0.01: normal = Vector3.UP
+	normal = normal.normalized()
+	# A bail can start metres above the floor. The figure follows the native
+	# falling capsule until it actually reaches support; a ray far below does
+	# not teleport the visual body onto the ground before that collision.
+	var unsupported_height := (body_world - ground).dot(normal)
+	if unsupported_height > 0.16:
+		ground += normal * unsupported_height
+	var local_ground := _rider.to_local(ground)
+	var local_up := (_rider.global_basis.inverse() * normal).normalized()
+	var frame := _surface_basis(local_up, Vector3.BACK)
+	var fall := smoothstep(0.0, 0.22, phase) * (1.0 - smoothstep(0.56, 1.0, phase))
+	var roll := sin(PI * smoothstep(0.20, 0.56, phase)) * 0.15 * fall
+	var hips := Vector3(0, 0.955, 0).lerp(local_ground + frame * Vector3(0.13, 0.24, -0.04), fall)
+	var pelvis_basis := Basis.IDENTITY.slerp(frame * Basis.from_euler(Vector3(-0.12, -0.10, 1.05 + roll)), fall)
+	_upper.position = hips + frame * Vector3(0, 0.015, 0) * fall
+	_upper.basis = Basis.from_euler(Vector3(-0.07, 0.08, 0)).slerp(
+		frame * Basis.from_euler(Vector3(-0.22, 0.10 * sin(phase * TAU), 1.40 + roll)), fall)
+	_garments.pose_body(Transform3D(pelvis_basis, hips), _upper.transform)
+	_head.rotation = Vector3(0.10 * fall - 0.04, float((_bail_from.head as Transform3D).basis.get_euler().y), -0.08 * fall)
+	_head.position = Vector3(0, 0.51, 0.010) - _head.basis * Vector3(0, -0.13, 0.036)
+	var rest_yaw := float(state.get("rest_deck_yaw", 0.0))
+	var world_surface := _surface_basis(normal, _board.get_parent().get_parent().global_basis.z)
+	_board.global_transform = Transform3D(world_surface * Basis.from_euler(Vector3(
+		-0.12 * sin(PI * clampf(phase / 0.28, 0.0, 1.0)), rest_yaw, 0.16 * fall)),
+		ground + normal * _board_rest_height + world_surface * Vector3(0.52, 0.025, -0.24) * fall)
+	var deck_stance := Basis(Vector3.UP, -rest_yaw)
+	for index in _legs.size():
+		var leg: Dictionary = _legs[index]
+		var side: float = leg.side
+		var deck_point := Vector3(-0.015 if side < 0 else 0.015, 0.079, side * 0.255)
+		var planted := _rider.to_local(_board.to_global(deck_stance * deck_point))
+		var shoe_yaw := -PI * 0.5 + side * 0.13
+		var ordinary := (_rider.global_basis.inverse() * _board.global_basis * deck_stance * Basis(Vector3.UP, shoe_yaw)).orthonormalized()
+		var prone_basis := frame * Basis(Vector3.UP, side * 0.5)
+		var contact := local_ground + frame * Vector3(side * 0.31, 0.001, 0.18 + side * 0.13)
+		var ankle := contact - prone_basis * Footwear.SOLE_CONTACT
+		var target := planted.lerp(ankle, fall)
+		var hip := hips + pelvis_basis * Vector3(side * 0.105, 0.025, 0)
+		target = hip + (target - hip).limit_length(0.825)
+		var knee := _joint(hip, target, 0.43, 0.41, local_up + frame * Vector3(side * 0.8, 0, -0.25))
+		_garments.pose_leg(side, hip, knee, target)
+		leg.foot.transform = Transform3D(ordinary.slerp(prone_basis, fall), target)
+	for index in _arms.size():
+		var arm: Dictionary = _arms[index]
+		var side: float = arm.side
+		var shoulder := _rider.to_local(_upper.to_global(Vector3(side * 0.195, 0.425, 0)))
+		var ordinary := Vector3(side * 0.33, hips.y + 0.015, -0.14 + side * 0.09)
+		var contact := local_ground + frame * Vector3(-0.16 + side * 0.23, 0.014, -0.14 + side * 0.04)
+		var palm_basis := _palm_surface_basis(local_up, frame.z)
+		var grounded := contact - palm_basis * Anatomy.PALM_CONTACT
+		var wrist := ordinary.lerp(grounded, fall)
+		wrist = shoulder + (wrist - shoulder).limit_length(0.575)
+		var elbow := _joint(shoulder, wrist, 0.30, 0.29, local_up + frame * Vector3(side, 0, -0.2))
+		_garments.pose_arm(side, shoulder, elbow, wrist)
+		var ordinary_basis := _hand_basis(side, elbow - wrist, 0.0)
+		arm.hand.transform = Transform3D(ordinary_basis.slerp(palm_basis, fall), wrist)
+		_anatomy.pose_hand(arm.hand, 0.0)
+	# The first falling frames continue the actual interrupted pose, including
+	# its skinning transforms. No stand/reset frame is inserted before impact.
+	var entry := smoothstep(0.0, 0.12, phase)
+	var deck_entry := _bail_board_world_start
+	deck_entry.origin += body_shift
+	_board.global_transform = deck_entry.interpolate_with(_board.global_transform, entry)
+	_upper.transform = (_bail_from.upper as Transform3D).interpolate_with(_upper.transform, entry)
+	_head.transform = (_bail_from.head as Transform3D).interpolate_with(_head.transform, entry)
+	for index in _legs.size():
+		_legs[index].foot.transform = (_bail_from.feet[index] as Transform3D).interpolate_with(_legs[index].foot.transform, entry)
+	for index in _arms.size():
+		_arms[index].hand.transform = (_bail_from.hands[index] as Transform3D).interpolate_with(_arms[index].hand.transform, entry)
+	for index in _garments.skeleton.get_bone_count():
+		var desired: Transform3D = _garments.skeleton.get_bone_pose(index)
+		var blended: Transform3D = (_bail_from.bones[index] as Transform3D).interpolate_with(desired, entry)
+		_garments.skeleton.set_bone_pose_position(index, blended.origin)
+		_garments.skeleton.set_bone_pose_rotation(index, blended.basis.orthonormalized().get_rotation_quaternion())
+		_garments.skeleton.set_bone_pose_scale(index, blended.basis.get_scale())
+	_was_airborne = false
+	_landing = 0.0
+
+
+func _palm_surface_basis(up: Vector3, finger_heading: Vector3) -> Basis:
+	var y := -finger_heading.slide(up).normalized()
+	if y.length_squared() < 0.01: y = Vector3.RIGHT.slide(up).normalized()
+	var x := y.cross(up).normalized()
+	return Basis(x, up.cross(x).normalized(), up)
+
+
+func _apply_handplant(weight: float, rest_yaw: float) -> void:
+	if not _lip_point.is_finite() or not _lip_normal.is_finite() or _lip_normal.length_squared() < 0.01:
+		return
+	var ordinary := _snapshot_pose()
+	var normal := _lip_normal.normalized()
+	var world_forward: Vector3 = _board.get_parent().global_basis.z.slide(normal).normalized()
+	var world_frame := _surface_basis(normal, world_forward)
+	var inverted := _surface_basis(-normal, world_forward)
+	var hand_side := float(_lip_definition.get("lip_hand_side", 1.0))
+	var body_roll := float(_lip_definition.get("lip_body_roll", 0.0))
+	var hips_world := _lip_point + normal * 0.92 + world_frame.x * hand_side * 0.08
+	var world_body_basis := inverted * Basis(Vector3.BACK, body_roll)
+	var original_hips := hips_world
+	var world_palm_basis := _palm_surface_basis(normal, world_frame.z)
+	# Fit the pelvis to the planted arm span, rather than stretching a sleeve
+	# to disguise an unreachable two-palm invert. The board follows the legs.
+	for iteration in 6:
+		var correction := Vector3.ZERO
+		var count := 0
+		for side: float in [-1.0, 1.0]:
+			if not is_zero_approx(hand_side) and side != hand_side: continue
+			var palm := _lip_point + (world_frame.x * side * 0.14 if is_zero_approx(hand_side) else Vector3.ZERO)
+			var shoulder := hips_world + world_body_basis * Vector3(side * 0.195, 0.425, 0)
+			var wrist := palm - world_palm_basis * Anatomy.PALM_CONTACT
+			var reach := wrist - shoulder
+			if reach.length() > 0.575:
+				correction += reach.normalized() * (reach.length() - 0.575)
+				count += 1
+		if count == 0: break
+		hips_world += correction / count
+	var hips := _rider.to_local(hips_world)
+	var body_basis := (_rider.global_basis.inverse() * world_body_basis).orthonormalized()
+	_upper.transform = Transform3D(body_basis, hips)
+	_garments.pose_body(Transform3D(body_basis, hips), _upper.transform)
+	_head.rotation = Vector3(0.08, 0, 0)
+	_head.position = Vector3(0, 0.51, 0.010) - _head.basis * Vector3(0, -0.13, 0.036)
+	# When the palms carry the rider, the deck follows the soles above the
+	# inverted body. The actual root-provided steel contact remains the support.
+	_board.global_basis = inverted * Basis.from_euler(Vector3(float(_lip_definition.get("lip_pitch", 0.0)),
+		float(_lip_definition.get("lip_yaw", 0.0)), float(_lip_definition.get("lip_roll", 0.0)))) * Basis(Vector3.UP, rest_yaw)
+	_board.global_position = _lip_point + normal * 1.60 + world_frame.x * hand_side * 0.08 + hips_world - original_hips
+	var deck_stance := Basis(Vector3.UP, -rest_yaw)
+	for iteration in 4:
+		var excess := 0.0
+		for side: float in [-1.0, 1.0]:
+			var ankle := _board.to_global(deck_stance * Vector3(-0.015 if side < 0 else 0.015, 0.079, side * 0.255))
+			var hip := hips_world + world_body_basis * Vector3(side * 0.105, 0.025, 0)
+			excess = maxf(excess, ankle.distance_to(hip) - 0.825)
+		if excess <= 0.0001: break
+		_board.global_position -= normal * excess * 1.2
+	for leg: Dictionary in _legs:
+		var side: float = leg.side
+		var target := _rider.to_local(_board.to_global(deck_stance * Vector3(-0.015 if side < 0 else 0.015, 0.079, side * 0.255)))
+		var hip := hips + body_basis * Vector3(side * 0.105, 0.025, 0)
+		var knee := _joint(hip, target, 0.43, 0.41, body_basis * Vector3(side * 0.7, 0.3, -0.4))
+		_garments.pose_leg(side, hip, knee, target)
+		var shoe_basis := (_rider.global_basis.inverse() * _board.global_basis * deck_stance * Basis(Vector3.UP, -PI * 0.5 + side * 0.13)).orthonormalized()
+		leg.foot.transform = Transform3D(shoe_basis, target)
+	for arm: Dictionary in _arms:
+		var side: float = arm.side
+		var shoulder := _rider.to_local(_upper.to_global(Vector3(side * 0.195, 0.425, 0)))
+		var contact := _lip_point
+		if is_zero_approx(hand_side): contact += world_frame.x * side * 0.14
+		var planted := is_zero_approx(hand_side) or side == hand_side
+		var palm_basis := (_rider.global_basis.inverse() * _palm_surface_basis(normal, world_frame.z)).orthonormalized()
+		var wrist := _rider.to_local(contact) - palm_basis * Anatomy.PALM_CONTACT
+		if not planted:
+			wrist = _rider.to_local(_lip_point + normal * 0.86 + world_frame.x * side * 0.40)
+			wrist = shoulder + (wrist - shoulder).limit_length(0.575)
+		var elbow := _joint(shoulder, wrist, 0.30, 0.29, body_basis * Vector3(side * 0.8, 0.1, -0.6))
+		_garments.pose_arm(side, shoulder, elbow, wrist)
+		arm.hand.transform = Transform3D(palm_basis if planted else _hand_basis(side, elbow - wrist, 0.0), wrist)
+		_anatomy.pose_hand(arm.hand, 0.0)
+	_blend_pose_snapshot(ordinary, weight)
+
+
+func _snapshot_pose() -> Dictionary:
+	var result := {"board": _board.transform, "upper": _upper.transform,
+		"head": _head.transform, "feet": [], "hands": [], "bones": []}
+	for leg: Dictionary in _legs: result.feet.append(leg.foot.transform)
+	for arm: Dictionary in _arms: result.hands.append(arm.hand.transform)
+	for index in _garments.skeleton.get_bone_count():
+		result.bones.append(_garments.skeleton.get_bone_pose(index))
+	return result
+
+
+func _blend_pose_snapshot(from: Dictionary, weight: float) -> void:
+	_board.transform = (from.board as Transform3D).interpolate_with(_board.transform, weight)
+	_upper.transform = (from.upper as Transform3D).interpolate_with(_upper.transform, weight)
+	_head.transform = (from.head as Transform3D).interpolate_with(_head.transform, weight)
+	for index in _legs.size():
+		_legs[index].foot.transform = (from.feet[index] as Transform3D).interpolate_with(_legs[index].foot.transform, weight)
+	for index in _arms.size():
+		_arms[index].hand.transform = (from.hands[index] as Transform3D).interpolate_with(_arms[index].hand.transform, weight)
+	for index in _garments.skeleton.get_bone_count():
+		var desired: Transform3D = _garments.skeleton.get_bone_pose(index)
+		var result: Transform3D = (from.bones[index] as Transform3D).interpolate_with(desired, weight)
+		_garments.skeleton.set_bone_pose_position(index, result.origin)
+		_garments.skeleton.set_bone_pose_rotation(index, result.basis.orthonormalized().get_rotation_quaternion())
+		_garments.skeleton.set_bone_pose_scale(index, result.basis.get_scale())
 
 func _grind_support(grind_id: String, grind_yaw: float) -> Vector3:
 	# The underside graphic extends 3mm below its -17mm center. Axles have

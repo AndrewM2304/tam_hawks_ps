@@ -45,9 +45,10 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 			for fraction: float in [0.2,0.5,0.8]:
 				var at: Vector3 = line.point_at(line.length * fraction)
 				var tangent: Vector3 = line.dir_at(line.length * fraction)
+				var approach := Vector3(tangent.x,0,tangent.z).normalized()*6.0-Vector3.UP
 				var ride = Ride.new()
 				usable = usable and ride.start([line], at + Vector3.UP * 0.15,
-					tangent * 6.0 - Vector3.UP, func(from: Vector3, to: Vector3) -> bool: return _clear_capture(world, from, to))
+					approach, func(from: Vector3, to: Vector3) -> bool: return _clear_capture(world, from, to))
 			if usable:
 				if generated: generated_capture_count += 1
 				else: authored_capture_count += 1
@@ -73,7 +74,9 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 				var bounded := true
 				for at: Vector3 in rail.points: bounded = bounded and (at.z <= 94.001 if family == "north" else at.z >= 101.999)
 				check.call(bounded, "surface audit: broken bridge rail cannot bridge the water gap " + family + " " + side)
-	var pockets: Array = world.get_skate_feature_definitions()
+	var pockets: Array = []
+	for definition: Dictionary in world.get_skate_feature_definitions():
+		if definition.id in ["clyde_quay_practice","kelvingrove_promenade_practice"]: pockets.append(definition)
 	check.call(pockets.size() == 2 and tree.get_nodes_in_group("skate_transitions").size() >= 2,
 		"surface audit: existing quay and park connector each have a real transition practice pocket")
 	for pocket: Dictionary in pockets:

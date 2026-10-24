@@ -10,6 +10,7 @@ const TerrainSource = preload("res://game/levels/core_terrain.gd")
 const ExchangeGallery = preload("res://game/levels/art/exchange_gallery.gd")
 const ExplorationBoundary = preload("res://game/levels/exploration_boundary.gd")
 const SurfaceAudit = preload("res://game/levels/surface_audit.gd")
+const FidelityInfill = preload("res://game/levels/fidelity_infill.gd")
 const RAIL_COLLISION_LAYER := 2
 const RAIL_TOP_HEIGHT := 0.92
 const PALETTE := {
@@ -37,6 +38,7 @@ var cone_activated := false
 var _terrain = TerrainSource.new()
 var _outdoors: Node3D
 var _surface_audit = SurfaceAudit.new()
+var _fidelity_infill = FidelityInfill.new()
 
 
 func _ready() -> void:
@@ -63,6 +65,7 @@ func _ready() -> void:
 		_outdoors.name = "OutdoorRoutes"
 		add_child(_outdoors)
 		_outdoors.build(self, _materials)
+	_fidelity_infill.build(self)
 	_build_exploration_boundaries()
 	_city_art.dress_world(self)
 	_surface_audit.build(self, get_grind_lines())
@@ -888,6 +891,7 @@ func get_route_definitions() -> Array[Dictionary]:
 	]
 	if is_instance_valid(_outdoors):
 		routes.append_array(_outdoors.get_route_definitions())
+	routes.append_array(_fidelity_infill.routes)
 	return routes
 
 
@@ -1035,6 +1039,7 @@ func get_grind_lines() -> Array:
 			local_points, rail.global_transform, String(rail.get_meta("grind_kind", "rail"))))
 	if is_instance_valid(_outdoors):
 		lines.append_array(_outdoors.get_grind_lines())
+	lines.append_array(_fidelity_infill.get_grind_lines())
 	lines.append_array(_surface_audit.lines)
 	return lines
 
@@ -1047,4 +1052,9 @@ func get_surface_audit() -> Dictionary:
 func get_skate_feature_definitions() -> Array[Dictionary]:
 	var features: Array[Dictionary] = []
 	if is_instance_valid(_outdoors): features.append_array(_outdoors.get_skate_feature_definitions())
+	features.append_array(_fidelity_infill.get_features())
 	return features
+
+
+func get_level_density_audit() -> Dictionary:
+	return _fidelity_infill.density_snapshot()

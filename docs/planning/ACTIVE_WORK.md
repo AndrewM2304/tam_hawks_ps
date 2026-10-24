@@ -1,3 +1,19 @@
+# Active full-fidelity continuation — 24 October 2026
+
+The owner rejected the earlier checkpoint stop. [OVERNIGHT](OVERNIGHT.md) is the
+current disjoint ownership, existing-ticket crosswalk and continuation protocol;
+[STATUS](../STATUS.md) contains current implementation, focused results, real
+remaining defects and exact next actions. [ADR-016](../architecture/decisions/ADR-016-full-fidelity-integration.md)
+records native setup/bail, connected repertoire/terrain and activity integration.
+Earlier sections below are preserved history where superseded. In particular,
+transition/wall/skitch/gate/cone/lap are no longer unimplemented proposals. They
+are integrated candidate systems undergoing final native/aggregate/render/package
+acceptance. Human hardware/feel gates cannot stop independent work. Use only
+remaining included weekly usage; no purchases/overages or publication. Check the
+shared lease before edits and preserve current source and career/save IDs.
+
+---
+
 # Active work — trick fidelity, 23 October 2026
 
 The owner's current priority is polished trick sets and combinations inspired by

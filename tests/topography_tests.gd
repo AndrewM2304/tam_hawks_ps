@@ -445,7 +445,13 @@ static func _bridge_and_recovery(tree: SceneTree, game: Node, check: Callable) -
 		entered_water = entered_water or game.skater.global_position.y < -1.5
 		if failure.bails > 0: break
 	_release()
-	await _frames(tree, 50)
+	for frame in 90:
+		if not game.skater.bail_active: break
+		await _frames(tree, 1)
+	await _frames(tree, 15)
+	for frame in 60:
+		if game.skater.is_on_floor() and not game.skater.bail_active: break
+		await _frames(tree, 1)
 	check.call(bank_before == 100 and pending_before_water and failure.bails == 1
 		and failure.water and game.score.total_score == bank_before and game.score.get_combo_value() == 0,
 		"topography: missed bridge drops the real fall combo once and preserves the earned bank")

@@ -15,10 +15,10 @@ From source, open `project.godot` with free Godot 4.6.3 and press F5, or run `./
 | Crouch / pop | Hold / release Space | Hold / release Cross |
 | Kickflip / grab | J / K | Square / Circle |
 | Spin | Q / E | L1 / R1 |
-| Grind / wallride / lip stall | Hold L near a suitable surface | Hold R2 |
+| Grind / wallride / lip support | Hold L near a suitable surface | Hold R2 |
 | Manual | Hold M | Hold L2 |
-| Revert after landing | C | Right-stick click |
-| Special tricks | U / I | D-pad up / right |
+| Revert / manual, grind or lip pivot | C | Right-stick click |
+| Clyde Carousel / Tenement Tumble shortcuts | U / I | D-pad up / right |
 | Interact near an object | X | D-pad down |
 | Goals | Tab | Create / Back |
 | Restart run | R | Triangle |
@@ -29,7 +29,7 @@ Gamepad names describe the intended standard mapping. Physical DualSense wired/B
 
 To change a binding, pause and open **Controls**, select an action, then press the desired key, gamepad button or axis. Escape cancels listening; **Reset defaults** restores the standard layout. Bindings are saved locally, and prompts follow the saved controls.
 
-Release Push to coast and slow naturally; hold Brake for a quicker stop. Steering carves on the ground and makes smaller corrections in the air. Camera sensitivity changes how quickly the view follows, so it does not change the skater's turning rate. The camera keeps a third-person view and moves to the side when a wall blocks the usual rear view.
+Release Push to coast and slow naturally; hold Brake for a quicker stop. Steering carves on the ground and makes smaller corrections in the air. Pushing while rolling backwards keeps that direction; brake to stop before pushing forwards again. Camera sensitivity changes how quickly the view follows, so it does not change the skater's turning rate. The camera follows actual travel after turns and reverts, keeps its horizon upright in vert, and moves to the side when a wall blocks the usual rear view.
 
 At speed, hold Brake and steer firmly to powerslide into a quicker turn. The HUD
 shows the current movement state, stance and charge or balance when relevant.
@@ -46,12 +46,22 @@ before release for **Nollie**, back for **Boneless**, or back while holding Manu
 for **No Comply**. That direction must be fresh within 0.18 seconds of release;
 holding Push throughout the approach keeps an ordinary Ollie.
 
+Boneless and No Comply need real ground beside the board. Boneless plants a
+foot and grips the deck during a 0.22-second preparation; No Comply uses a
+0.16-second footplant before its pop. Preparation slows the approach, so leave
+room for it. Missing or interrupted foot support cannot award either move.
+These grounded setups are not selected from a rail, wallride or curved-transition
+state. Both feet return to the board during the airborne catch.
+
 Push toward a ramp, pop, then add a flip, grab or spin. Clean landing leaves a
 short 0.35-second link window: release another prepared Ollie, catch a grind or
 start a manual to continue the combo. Wallrides and lip stalls also keep an
 existing line alive. Rolling normally, including carving a supported transition,
 lets it bank. A revert adds a trick without extending that window. A bail drops
-unbanked points and special charge; banked score survives. At the end of a timed
+unbanked points and special charge; banked score survives. The rider falls,
+slides or rolls, then gets up on supported ground. Unsafe falls use a faded safe
+return; holding a button through recovery does not create another fresh pop.
+Pause freezes recovery too. At the end of a timed
 run an existing combo gets at most three seconds to resolve.
 
 Every accepted trick entry raises the multiplier, including repeats, up to 100.
@@ -78,13 +88,21 @@ variants. Neutral keeps Kickflip, Melon Grab and Rail Grind.
 | Back + right | Varial Heelflip | Stalefish Grab | Feeble Grind |
 
 Release Flip, let the board catch, then press again to add another flip in the
-same jump. A quick second tap within 0.22 seconds upgrades an unfinished
-Kickflip or Heelflip to its **Double** version. This refines one entry rather than
-scoring two flips, and needs more airtime to catch. A press shortly before the
+same jump. Every directional flip has a quick second- and third-tap upgrade:
+double/triple kickflips, heelflips, hardflips, varial flips, inward heelflips and
+360 Flips; Pop Shove-it upgrades to **360 Shove-it**, then **540 Shove-it**.
+Each next tap must be within 0.22 seconds while the current move is unfinished.
+The upgrade keeps one multiplier entry and continues the board's rotation;
+leave extra airtime to finish the catch. A press shortly before the
 current catch can queue the next action for up to 0.18 seconds. Press Flip and
 Grab together to queue the grab after the flip. Hold Grab to keep the pose and
 release it to let go; sustained grabs and grinds each have a 300-point hold cap.
 Late unfinished flips and specials can bail on landing.
+
+Double-tap Grab during an active grab to tweak it once: forward or neutral gives
+**Boned**, back **Tucked**, right **Twisted**, and left **Extended**. The hand keeps
+its deck contact while the body and legs change pose. The tweak adds 150 base
+points before repetition adjustment and upgrades the same entry.
 
 Use Spin to complete half or full turns. A half-turn changes the board's facing
 and functional stance while momentum carries on; a sideways landing more than
@@ -99,16 +117,26 @@ A deliberate fresh up direction plus Manual selects Nose Manual; ordinary held
 pushing alone keeps the usual manual. A quick forward → back gesture also starts
 Manual, while back → forward starts Nose Manual; make the two direction changes
 within 0.30 seconds. Gesture manuals stay latched until you press Manual again,
-pop, lose support or run out of speed. During a manual, Flip selects **One-foot
-Manual**, Grab selects **Spacewalk**, and Revert selects **Manual Pivot**. These
-are new scored entries with a short change cooldown, while balance continues.
-The balance card names the current ride.
+pop, lose support or run out of speed. While balancing, use these style changes:
+
+| Direction with the button | Flip | Grab | Revert |
+|---|---|---|---|
+| Neutral | One-foot Manual | Spacewalk | Manual Pivot |
+| Forward | One-foot Nose Manual | Hang Ten | Nose Manual Pivot |
+| Back | Casper Manual | Pogo | Manual Pivot |
+| Left or right | Crossfoot Manual | Crossfoot Manual | Manual Pivot |
+
+Diagonals use their forward/back component for these extensions. A changed style
+adds one entry after a 0.35-second cooldown while the existing balance continues.
+Pivots turn the physical facing and cost speed. The balance card names the ride.
 
 Hold Grind while descending toward an aligned rail or exposed ledge. Balance
 left/right against the meter's lean. While grinding, choose a direction and tap
 Flip or Grab to change style. Hold and release Ollie to pop off; steering during
 release adds an outward pop while keeping the rail's momentum. Release Grind to
-leave the rail. Manuals need suitable ground and some rolling speed; correct
+leave the rail. Press Revert while grinding for **Grind Pivot**: turn the facing
+180 degrees, retain travel along the rail and spend 15 percent of its speed.
+Manuals need suitable ground and some rolling speed; correct
 fore/aft balance with Push/Brake. Controls and landing forgiveness still need
 human feel testing.
 
@@ -119,20 +147,28 @@ does not empty the meter, so another can follow when its animation finishes and
 airtime permits. Partial charge fades after a short idle grace. Pause freezes
 charge, and a bail or Restart clears it.
 
-Use U/I, or enter the original direction sequences in the air: **left → right +
-Flip** for **Clyde Carousel**, **forward → back + Grab** for **Tenement Tumble**.
-Complete each sequence within 0.45 seconds. Finish the current flip or grab first
-and leave room to land the special. Career goals unlock Clyde Carousel (bank
-1,000 in a run) and Tenement Tumble (bank a 3,000-point combo). Free skate makes
-both available for practice but still requires charge; it does not complete
-career goals.
+With Special active and enough airtime, enter either direction sequence and its
+final face button within 0.45 seconds. Finish the current flip or grab first.
 
-The catalog currently contains 44 definitions: ten flips, eight grabs, nine
-grinds/slides, five manual variants, five launches including Wallie, Wallride,
-Lip Stall, a rotation-bonus definition, Revert, two specials and the shared named
-gap definition. These are the prototype's implemented set, with original content
-and arcade tuning; matching the full commercial-game catalog or feel remains a
-human review goal.
+| Original special | Direction sequence + button | Default keyboard |
+|---|---|---|
+| Clyde Carousel | Left → right + Flip | A → D + J; U also works |
+| Tenement Tumble | Forward → back + Grab | W → S + K; I also works |
+| Kelvin Corkscrew | Right → left + Flip | D → A + J |
+| Barras Butterflip | Back → forward + Grab | S → W + K |
+| Bridge Blender | Forward → right + Flip | W → D + J |
+| Sandstone Salute | Back → left + Grab | S → A + K |
+
+Banking 1,000 in a career run unlocks the Carousel family: Clyde Carousel, Barras
+Butterflip and Bridge Blender. A 3,000-point combo unlocks Tenement Tumble,
+Kelvin Corkscrew and Sandstone Salute. Free skate makes all six available for
+practice but still requires charge; it does not complete career goals.
+
+The catalog currently contains **78 definitions**, including 24 flips, eight
+grabs, ten grind entries, eleven manuals, nine lip tricks and six original
+specials, plus launches, Wallride, Skitch, rotation, Revert and named gaps.
+This is an implemented prototype repertoire; controller feel, animation quality
+and commercial-game fidelity still need human review.
 
 Open Goals to see the ten career tasks: scores, a long combo, H A W K S letters, cone duty, the Central gap, market items, four districts and a hidden recording. Goal completions, records, bindings and presentation settings use a local save; there is no account or online service. Pause/settings include sound mix, captions, reduced motion, interface size and camera sensitivity.
 
@@ -159,6 +195,29 @@ to move back out over the ramp. A held approach Push keeps the normal vertical
 return. Left/right adjusts lateral travel; the transfer adds no upward boost.
 Use clear approaches and leave room around the finite sides.
 
+Central now also has a connected halfpipe by the concourse and a narrow spine
+farther west. Carry speed across the halfpipe's flat bottom to reach its opposite
+wall; use a deliberate deckward transfer to cross the spine. On the east Clyde
+quay, the bowl has a flat bottom, continuous curved wall, coping and a roll-in.
+Steer around its wall to carve a continuing line. These authored surfaces share
+the transition controls above; momentum and actual contact determine the return.
+
+At a coping, make a fresh direction tap as you hold Grind to select the lip
+style. Balance left/right while holding it:
+
+| Direction | Lip trick |
+|---|---|
+| Neutral | Lip Stall |
+| Forward / back | Nose Stall / Tail Stall |
+| Right / left | Axle Stall / Rock and Roll |
+| Forward + right / forward + left | Handplant / Invert |
+| Back + right / back + left | Eggplant / Disaster Stall |
+
+While stalled, direction + Flip or Grab changes to the corresponding style.
+Without a direction, Flip selects Handplant, Grab selects Invert and Revert
+pivots into Rock and Roll. The palm-supported poses place the hand or hands on
+the coping. Release Grind to drop in, or release a prepared Ollie to pop away.
+
 Beside a substantial solid vertical wall, approach at a glancing angle in the
 air and hold Grind to **Wallride**. Hold and release Ollie for a **Wallie** away
 from it, or release Grind to drop off. Rides lose momentum and have a short time
@@ -167,38 +226,84 @@ are excluded. Exposed collision-backed seating, planter edges, coping and practi
 ledges have grind paths; stocked counters, overhead shelters and scenery beyond
 the boundary remain scenery. Surface eligibility still depends on your approach,
 clearance and speed, so the inventory does not promise every angle is capturable.
-The [surface audit](levels/OVERNIGHT-SURFACE-AUDIT.md) records the current wall,
+The [surface audit](levels/FULL-FIDELITY-LEVEL-AUDIT.md) records the current wall,
 ledge and clearance evidence and the deliberate exclusions.
 
 The ten career goals remain in the four city districts. River and park routes are open in both modes; **Free skate** gives you unlimited time to learn them.
 
-## Glasgow side challenges
+The **Quay Crew** electric service cart runs along the west Clyde quay, stopping
+before obstacles and waiting at each end. Roll behind it in the same direction,
+hold Grind and press Interact to catch its rear bar. The hands only grip once the
+native catch reaches the handle. Balance left/right during the tow; release
+Grind to let go or hold/release Ollie to jump off with its momentum. A tow lasts
+at most six seconds and ends if the cart stops or support is lost. Its bed and
+cab roof also act as moving ground: land on them to ride, then ollie off. This is
+one optional service cart, not a city traffic simulation.
+
+## Glasgow side challenges and local features
+
+Only one side challenge is active at a time: accepting another offer ends the previous attempt. This includes the river cone stunt and park lap below. Career time reaching zero ends side attempts even if an ordinary combo still has overtime to land. Side completion adds no extra career goal, points or unlock; normal skating scores as usual. Free skate gives unlimited run time for practising these activities.
+
+### Mo's Big Finish
 
 Find Mo, the guitarist at the east edge of the Exchange fountain court, and use the displayed interaction key to accept **Mo's Big Finish**. Start with a settled combo, then bank at least 1,000 points using three different trick types in one clean line within 35 seconds. An ollie, flip and grab is a good first attempt; spins, grinds and manuals offer other approaches. Stay in the court. The timer and type count remain visible while you skate.
 
 A bail or timeout ends the attempt. Return to Mo to replay. The challenge is available in career and free skate and keeps its own session result alongside the ten career goals. Music follows the master and ambience sliders.
 
+### Cat's Got the Beat
+
 Find Rae’s **bin drums and two soft dancing cats** at **George Square’s garden busking pitch** for **Cat’s Got the Beat**. Accept the offer with a settled combo, then grind the three marked coping segments **A → B → C** within 60 seconds. The approach runs east along the garden’s south edge; use the wide square to return and line up again. Each segment must be a real grind capture. You can bank separate lines between segments. After the third, land and bank cleanly, then return to Rae and look toward the drums to see the cats’ little dance.
 
 Repeating the most recent segment adds no progress. A wrong marked segment resets the sequence; starting again on A begins a fresh sequence. A bail, timeout or leaving the busking area ends the attempt. The steady world indicators and HUD show the next segment. Reduced motion uses static raised paws. Return to Rae to replay. The original spatial techno-percussion loop follows Master and Ambience volume, pauses with the game and stops at run end.
 
-Only one side challenge is active at a time: accepting another offer ends the previous attempt. Career time reaching zero ends side attempts even if an ordinary combo still has overtime to land. Side completion adds no extra career goal, points or unlock; normal skating scores as usual. Free skate gives unlimited run time for practising either encounter.
-
 New route choices include the low station undercroft beneath the high platform route, Merchant Close's angled passage, a second park descent back toward Central, and the Clyde print-yard loop with a low curved bank and hip. Use the map to find the branches and try both directions.
-
-## Useful playtest notes
-
-Record your computer/OS, keyboard or wired/Bluetooth controller, then note any sticking input, difficult rail capture, unclear balance direction, camera discomfort, unreadable text, missing sound, save failure or route that feels unrewarding. Include the package's `BUILD-METADATA.json` when reporting a defect. Automated Linux checks do not replace this controller and feel review.
 
 
 ### Gull-Proof Delivery — through the Barras
 
 Find Mairi's breakfast-parcel stall on the loading terrace below the Barrowland sign. Settle your current combo, then interact to collect the courier bag and start the 60-second delivery. Manual toward the loading steps, ollie the marked **Market Loading Steps** gap and land a clean bank in the same line. Banking too early lets you retry while the clock keeps running.
 
-After the jump, choose the **Covered market** or **Calton lane** entrance, pass its three numbered markers in order and reach the **south delivery counter**. The first marker commits your lane. Steady world markers highlight the next target; the HUD gives its direction and distance. The first entrance is behind the fast stair landing, so follow the turn-back cue to hook into the market. A bail, leaving the market or timeout returns the parcel to Mairi. On success, your breakfast is safe and the gull raids a spare wrapper. Look toward the counter for the short response; reduced motion uses a static pose. Return to Mairi to replay. This optional challenge works in either mode and does not add a saved career goal.
+After the jump, choose the **Covered market** or **Calton lane** entrance, pass its three numbered markers in order and reach the **south delivery counter**. The first marker commits your lane. Steady world markers highlight the next target; the HUD gives its direction and distance. Follow its live left/right/turn-back cue from your actual landing position to hook into the market. A bail, leaving the market or timeout returns the parcel to Mairi. On success, your breakfast is safe and the gull raids a spare wrapper. Look toward the counter for the short response; reduced motion uses a static pose. Return to Mairi to replay. This optional challenge works in either mode and does not add a saved career goal.
 
 ### Exchange/gallery skating edges
 
 The gallery entrance has low side banks leading to a raised stone terrace and an angled seating ledge. Use a controlled approach: full speed carries the bank's extra lift past this short ledge. Ollie onto it with Grind held, then ollie off and start a Manual after landing to continue the line. The open apron leads back toward the existing gallery stairs and fountain. These are ordinary skating opportunities; there is no extra challenge offer or saved goal.
 
 The west shopfronts have a separate low seating edge and bank. Ride up and back down, or try its coping, while the broad street beside it remains available for an easier pass. The city map shows the authored local routes. Both attachments are original game layouts informed by Glasgow architecture.
+
+### Service cut-through
+
+Find the signed shutter in the station's service passage. Interact at its switch
+to open or close the shortcut; wait until it has lifted before riding through.
+The city map updates the route's open/closed state. A doorway sensor refuses or
+pauses closing while the skater occupies it. The shutter can be reopened, and
+Restart restores it closed. It changes the route without creating a career goal.
+
+### Cone on a Cruise — Clyde quay
+
+Find the steward and foam cone on the north Clyde quay, near the river stunt
+ring. Bank your current line, then Interact to begin the **25-second** attempt.
+Build a southbound approach, pop just before the painted launch mark and press
+Interact again while airborne near it. Your forward speed launches the foam
+cone; the cone must pass completely through the ring without clipping its rim
+and land on its recovery raft. Keep the skater on the quay, land cleanly and
+bank the trick. All of those events are required. An ineligible launch input can
+be retried while the clock runs; clipping the rim, missing the ring, bailing,
+timing out or leaving the stunt area ends the attempt. The cone returns for another try.
+This foam-prop stunt adds no points beyond your ordinary skating line.
+It is separate from the career cone interaction.
+
+### One More Lap — Kelvingrove
+
+Find the park regular on the lower promenade near the park's Central connection.
+Bank your line and Interact for a **75-second** lap. Your first numbered gate
+chooses either the **Full park loop** with six gates, climbing through the upper
+park, or the **Grass-bank cut** with five gates. Follow that branch's numbers in
+order, land at least one real pop during the attempt, then return to the regular
+before time runs out. Skipping a gate, bailing or leaving the park fails the lap.
+Return to the start for another attempt. Both branches are available in career
+and free skate; their session results do not add saved goals or unlocks.
+
+## Useful playtest notes
+
+Record your computer/OS, keyboard or wired/Bluetooth controller, then note any sticking input, difficult rail capture, unclear balance direction, camera discomfort, unreadable text, missing sound, save failure or route that feels unrewarding. Include the package's `BUILD-METADATA.json` when reporting a defect. Automated Linux checks do not replace this controller and feel review.

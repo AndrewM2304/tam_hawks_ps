@@ -1,0 +1,111 @@
+{
+  "purpose": "Supporting inspection of the three passive adult bystander replacements; not the final global runtime receipt.",
+  "production_main": true,
+  "profile_writes_enabled": false,
+  "engine": "4.6.3-stable (official)",
+  "renderer": "gl_compatibility",
+  "captures": [
+    {
+      "body": "Vector3(-27, 6.000001, -116)",
+      "camera": "Vector3(-23.377405, 7.700001, -117.39886)",
+      "contacts": "Array[Dictionary]([{\n\"normal\": Vector3(0, 1, 0),\n\"point\": Vector3(-27.107077, 6.000001, -116.09143),\n\"side\": -1.0\n}, {\n\"normal\": Vector3(0, 1, 0),\n\"point\": Vector3(-26.875984, 6.000001, -115.93333),\n\"side\": 1.0\n}])",
+      "file": "01-civic-adult.png",
+      "grounded": true,
+      "resolution": [
+        1280,
+        800
+      ],
+      "root": "Vector3(-27, 6, -116)",
+      "yaw": -0.600000023841858,
+      "sha256": "91808e72ca43f4169bbd0c7d43688aabe0288b0b74bbd4d622cd8fb09bf5fce3",
+      "bytes": 1226406,
+      "png_crc_and_rows_valid": true
+    },
+    {
+      "body": "Vector3(-120, 2, 28)",
+      "camera": "Vector3(-122.18534, 3.7, 24.789968)",
+      "contacts": "Array[Dictionary]([{\n\"normal\": Vector3(0, 1, 0),\n\"point\": Vector3(-120.06471, 2, 28.12505),\n\"side\": -1.0\n}, {\n\"normal\": Vector3(0, 1, 0),\n\"point\": Vector3(-119.96325, 2, 27.864079),\n\"side\": 1.0\n}])",
+      "file": "02-station-adult.png",
+      "grounded": true,
+      "resolution": [
+        1280,
+        800
+      ],
+      "root": "Vector3(-120, 2, 28)",
+      "yaw": 1.20000004768372,
+      "sha256": "d898a2e0ea806d9f53f59dfd9582c81452bf9cf95df0bd12349eb8df0ebf30e5",
+      "bytes": 1178579,
+      "png_crc_and_rows_valid": true
+    },
+    {
+      "body": "Vector3(123, 0, 29)",
+      "camera": "Vector3(126.0474, 1.7, 26.593067)",
+      "contacts": "Array[Dictionary]([{\n\"normal\": Vector3(0, 1, 0),\n\"point\": Vector3(122.87069, 0, 28.944298),\n\"side\": -1.0\n}, {\n\"normal\": Vector3(0, 1, 0),\n\"point\": Vector3(123.13818, 0, 29.027042),\n\"side\": 1.0\n}])",
+      "file": "03-barras-adult.png",
+      "grounded": true,
+      "resolution": [
+        1280,
+        800
+      ],
+      "root": "Vector3(123, 0, 29)",
+      "yaw": -0.300000011920929,
+      "sha256": "f480341852b8ee6cff3f29a9bb5481e59e32a5d97d4b655488fb700b35c1cb9b",
+      "bytes": 1114202,
+      "png_crc_and_rows_valid": true
+    }
+  ],
+  "failures": 0,
+  "actor_source_stable": true,
+  "global_source_changed": true,
+  "source_changed_during_capture": true,
+  "global_changed_inputs": [
+    "game/player/skater.gd"
+  ],
+  "global_context": "The broad guard began before a failed restricted-socket Xorg attempt; game/player/skater.gd changed before/during the separate successful capture window. Actor inputs remained unchanged. Do not claim a global source freeze from these frames.",
+  "actor_source_sha256": {
+    "game/levels/city_art.gd": "09359ccd3e873ca9c0d045ebaa6191791a982a8022fd34ba455a9e21be732fbc",
+    "game/features/activity_actor.gd": "a721423e46d31ccd81b6c0a69e9c32a49f35dd403fa4c671843f61b3d1762cff",
+    "game/player/skater_anatomy.gd": "1524ac9766bb13da327597bd7e4c7d2845ac728b2caef8e59c0f915d3f5057fd",
+    "game/player/skater_garments.gd": "e4c5c5f3481780073807bcce928ff6aa0c9dfa4e81a7641e28d02bd78f66b95d",
+    "game/player/skater_footwear.gd": "d99201a0398ad1cc678727dd469873f3ea8e45755140116e9d2e6decccb0b6a8",
+    "tests/ambient_adult_tests.gd": "92d3d566750b81b3ffa5e310eb0ebbbdeb1973736ef0dfd6420721ffa924cab3",
+    "game/art/assets/makehuman_hm08/generate.py": "b469b177bef392c1941de816be5fe75213bd7d14626fc34d8d64eab1625ad319",
+    "game/art/assets/makehuman_hm08/hair.obj": "906b29d0238e7c527ce8115d80ddc134d4be5f143f2b16e6ab0cbb359060ba1e",
+    "game/art/assets/makehuman_hm08/hair.obj.import": "b5c624d8decad3e41f5184896fdcce319e90b6966cd0f07aca455c2eb899dfef",
+    "game/art/assets/makehuman_hm08/head.obj": "e6baabf4dcdc7e38d316fb967769ed0b51a9bd7ba544058431734c3e2d917ff0",
+    "game/art/assets/makehuman_hm08/head.obj.import": "73747d61284e366ff38685deab8fecccccf3f9e5481415e19c2d96dd72a646b1",
+    "game/art/assets/makehuman_hm08/left_hand.obj": "a63152ba3ce3e54868ea9985f259c0bec047b9329797314e8dde9d7f3348dac3",
+    "game/art/assets/makehuman_hm08/left_hand.obj.import": "96e54609df80819110041e2c5be6ccbe255b9f9f9f51f12a5a783fe80867c96b",
+    "game/art/assets/makehuman_hm08/manifest.json": "cd8792d529f509d8defb55b65ea6fced02c754678f7846af65dba20ed8218f0b",
+    "game/art/assets/makehuman_hm08/right_hand.obj": "be68d644bb4b9a558937d7a1f6dd5ec9f0c2a33195a5bdc17c0cc97f9413d126",
+    "game/art/assets/makehuman_hm08/right_hand.obj.import": "0476cb12805608174d678211d51aa141017a494d98fc5a1c7ed34a40822e7e55"
+  },
+  "actor_source_after_sha256": {
+    "game/levels/city_art.gd": "09359ccd3e873ca9c0d045ebaa6191791a982a8022fd34ba455a9e21be732fbc",
+    "game/features/activity_actor.gd": "a721423e46d31ccd81b6c0a69e9c32a49f35dd403fa4c671843f61b3d1762cff",
+    "game/player/skater_anatomy.gd": "1524ac9766bb13da327597bd7e4c7d2845ac728b2caef8e59c0f915d3f5057fd",
+    "game/player/skater_garments.gd": "e4c5c5f3481780073807bcce928ff6aa0c9dfa4e81a7641e28d02bd78f66b95d",
+    "game/player/skater_footwear.gd": "d99201a0398ad1cc678727dd469873f3ea8e45755140116e9d2e6decccb0b6a8",
+    "tests/ambient_adult_tests.gd": "92d3d566750b81b3ffa5e310eb0ebbbdeb1973736ef0dfd6420721ffa924cab3",
+    "game/art/assets/makehuman_hm08/generate.py": "b469b177bef392c1941de816be5fe75213bd7d14626fc34d8d64eab1625ad319",
+    "game/art/assets/makehuman_hm08/hair.obj": "906b29d0238e7c527ce8115d80ddc134d4be5f143f2b16e6ab0cbb359060ba1e",
+    "game/art/assets/makehuman_hm08/hair.obj.import": "b5c624d8decad3e41f5184896fdcce319e90b6966cd0f07aca455c2eb899dfef",
+    "game/art/assets/makehuman_hm08/head.obj": "e6baabf4dcdc7e38d316fb967769ed0b51a9bd7ba544058431734c3e2d917ff0",
+    "game/art/assets/makehuman_hm08/head.obj.import": "73747d61284e366ff38685deab8fecccccf3f9e5481415e19c2d96dd72a646b1",
+    "game/art/assets/makehuman_hm08/left_hand.obj": "a63152ba3ce3e54868ea9985f259c0bec047b9329797314e8dde9d7f3348dac3",
+    "game/art/assets/makehuman_hm08/left_hand.obj.import": "96e54609df80819110041e2c5be6ccbe255b9f9f9f51f12a5a783fe80867c96b",
+    "game/art/assets/makehuman_hm08/manifest.json": "cd8792d529f509d8defb55b65ea6fced02c754678f7846af65dba20ed8218f0b",
+    "game/art/assets/makehuman_hm08/right_hand.obj": "be68d644bb4b9a558937d7a1f6dd5ec9f0c2a33195a5bdc17c0cc97f9413d126",
+    "game/art/assets/makehuman_hm08/right_hand.obj.import": "0476cb12805608174d678211d51aa141017a494d98fc5a1c7ed34a40822e7e55"
+  },
+  "global_skater_before_sha256": "941ca33dba4eefb8c007b7f04b0e51438e466727cc48e70d3e3ecdfb4c941846",
+  "global_skater_after_sha256": "7ecd0001a00bac84d8d83ff01285531b946c27ded565017a81332e2ea8c29c03",
+  "engine_log_sha256": "f071042c66425e3fde07a5eed55eba0823c8ee3fc737d030201a8fa6f52541ad",
+  "native_tests_log_sha256": "c473a99ab976907adfa247cf5bf88f7616dc41e3f121b71add8ac08a4681f2cf",
+  "capture_recipe_sha256": "a779f34194dbb28ac3ffca03c5497ae4e0beed655be44d449d6c684ce6e3736f",
+  "native_tests": {
+    "passed": 22,
+    "failed": 0
+  },
+  "review": "All three actual Main frames inspected: full grounded adults, original coat colors, readable relaxed posture, no actor/body clipping or missing garments observed."
+}

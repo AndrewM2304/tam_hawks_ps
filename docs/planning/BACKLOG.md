@@ -2,19 +2,18 @@
 
 Title: **Tam Hawks Pro Skater**. Baseline date: 17 October 2026. This is the durable local source of task truth; these entries are not claims that GitHub issues have been published. Latest implementation and command evidence is in [STATUS](../STATUS.md). Product scope maps through [requirements](../product/requirements.md).
 
-**Expanded owner direction — overnight 24 October 2026:** implement the identified
-navigation/trick gaps and audit/revise underused parts of the current map. Work is
-tracked in [OVERNIGHT](OVERNIGHT.md) under
-[ADR-015](../architecture/decisions/ADR-015-complete-skate-process.md), with explicit
-owners, dependencies, acceptance and collision/render test strategy. M01-003/004/005,
-M02-001–012, M03-013/014 and M05/M06 presentation records have implemented engine changes and independent QE evidence. Final current-source
-verification passes1817/0, cold Main/title44/0 and28 real rendered frames/44 checks;
-exact receipts and remaining human gates are in STATUS. The earlier
-single-shot/unique-entry scoring and deferred wall/vert descriptions below are
-historical where superseded. Use only remaining included weekly usage: no token
-purchase, additional billing or paid resources. The explicitly requested overnight
-continuation is bounded to the morning window and honors a shared-workspace lease;
-this is the only exception to the ordinary unattended-work rule.
+**Active owner direction — full fidelity, 24 October 2026:** continue the complete
+skating-fidelity and all-six-place polish request without stopping at an isolated
+checkpoint. [OVERNIGHT](OVERNIGHT.md) is the live ownership/acceptance crosswalk;
+[STATUS](../STATUS.md) records actual current results, defects and next actions.
+ADR-015's old `OVERNIGHT_COMPLETE` and 1,817/0 result are historical. The current
+candidate implements authentic native setup/catch/bail, 78 connected trick records,
+bowl/halfpipe/spine, all-map useful features, gate/cone/lap/cart/skitch and new adult
+activity actors. Final aggregate/capture/package acceptance is in progress. Existing
+75 IDs and career/save schema remain. Only included weekly usage is authorized:
+no purchases, overages, billing changes, paid APIs/resources, publication or merge.
+Human hardware/feel/final-art gates remain honestly open and do not stop available
+independent work. A shared lease prevents duplicate continuations.
 
 **Current owner direction — 23 October 2026:** continue polished trick sets and
 combos on the existing map. [TRICK-FIDELITY](TRICK-FIDELITY.md) assigns the work
@@ -246,6 +245,7 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 - **Dependencies:** M00-003, M01-004, M02-009
 - **Acceptance criteria:** Use the inspected upstream state/input and scoring references to decide adaptation boundaries; document states and permitted transitions for air, grind, manual, revert and bail; define trick IDs, base values and repetition rules; agree final input combinations and timeout handling in an ADR.
 - **Test strategy / evidence:** Review a transition/edge-case table with A08/A09; test trick data validation, unknown IDs and illegal transitions. Implemented ADR-006 and game/tricks/trick_catalog.gd; 27 focused assertions cover records, unknown IDs, transition guards, defensive copies and scoring compatibility. The 0.35-second landing window is now implemented under M02-004/005; this ticket records the original contract and catalog validation. Controls remain provisional pending physical QA.
+- **Current implementation / remaining:** ADR-016 and the live interfaces extend ADR-006/014/015: 78 defensive catalog records, bounded triple upgrades, directional grab tweaks, eleven manual and nine lip styles, six original specials, setup/skitch and existing core actions. Each new repertoire record is exercised by actual Main activation/catch/score checks. Current exact receipts are in STATUS; physical controls remain provisional.
 
 ### M02-002 — Implement rail acquisition, travel, release and balance
 
@@ -254,7 +254,7 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 - **Dependencies:** M02-001, M01-003, M02-010
 - **Acceptance criteria:** Integrate the adopted GrindLine geometry helper with capture/travel/balance; authored rail metadata supports forgiving but bounded snap; speed/direction persist along rails; jump release and end release are reliable; balance risk can bail; unrelated ledges do not award rail points.
 - **Test strategy / evidence:** Simulate approach angle/speed bounds, adjacent rails, reverse travel, ends, jumps, balance extremes and no-rail cases; human DualSense line trial. Implemented game/tricks/grind_ride.gd plus skater/world/main/input/HUD integration; initially two actual rails, now expanded to six by M03, held L/R2 capture, bidirectional travel, balance, swept obstacle rejection, release/ollie/end, cooldown, one entry award and pending-combo continuity. Pure helper and production-scene tests plus a real rendered ground-approach capture verify the local slice; see docs/testing/GRINDING.md. Human DualSense line trial remains open; no complete M02 acceptance is claimed.
-- **Current implementation / remaining:** The collision-audited world supplies111 total grind paths, including exposed ledges and finite coping. Captures retain actual sweeps/balance; fresh directional Flip/Grab changes style, charged release supports lateral hops, and transition air can hand off to real coping using upright capsule clearance. Original career/challenge IDs remain. Human R2/balance ergonomics and line enjoyment remain open.
+- **Current implementation / remaining:** The current audited world supplies136 finite tracks. Native capture/sweeps/balance remain; actual style changes, charged lateral hops and fresh physical180-degree rail pivot preserve real travel. The pivot is a separate once-only entry with cooldown. Full aggregate/render and human ergonomics remain in STATUS.
 
 ### M02-003 — Implement manuals as combo links
 
@@ -263,7 +263,7 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 - **Dependencies:** M02-001
 - **Acceptance criteria:** Deliberate input enters an eligible ground manual, balance feedback is visible, travel sustains an active combo, and release/failure resolve consistently; cannot start while in an incompatible state.
 - **Test strategy / evidence:** Test entry windows, hold duration, balance drift, clean exit, bail and state conflict; play repeated landing-to-manual links.
-- **Current implementation / remaining:** Manual/Nose Manual support deliberate directional gestures or the existing held action, bounded prelanding buffers, latch exit, fore/aft balance and failure. One-foot Manual, Spacewalk and physical Manual Pivot extend a supported line with cooldown; expired gesture state cannot latch a later press. Actual connected51/0 tests include an exact3400-point manual-extension line. Human feel remains open.
+- **Current implementation / remaining:** Eleven selectable manual styles are connected to held/gesture entry and fresh Flip/Grab/Revert extensions with real balance/cooldown. Footwork includes one-foot/nose, Spacewalk, Casper, Hang Ten, Pogo, cross-foot and physical pivots. Actual native lines bank once; complete repertoire/input evidence is in STATUS. Human feel remains open.
 
 ### M02-004 — Implement reverts and landing continuity windows
 
@@ -290,7 +290,7 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 - **Dependencies:** M02-001, M02-005
 - **Acceptance criteria:** Completed rotation is scored consistently; meter gain/use and special eligibility are communicated; at least two original special tricks have distinct input/animation/value; meter cannot be farmed while inactive.
 - **Test strategy / evidence:** Test rotation thresholds/direction, meter bounds/reset, unavailable special input and consumption once; controller execution test with HUD feedback.
-- **Current implementation / remaining:** Clyde Carousel and Tenement Tumble keep distinct poses/values/career unlocks. Accepted effective live points fill maintained Special mode; it drains over6seconds (12 while a combo continues), permits successive completed specials in one airtime and clears on bail. Busy/late unfinished execution remains physically gated; direct and directional inputs work. Focused connected tests prove sequential completion and one-bail late-animation loss. Human execution/readability remains open.
+- **Current implementation / remaining:** Six original specials have actual directional commands, distinct motion/catch/value and existing two unlock IDs. Body/board rotations commit stance and exact bonuses at catch. Maintained live Special mode, repeated completed execution and late-animation bail are native tested. No save migration; current aggregate/motion and human execution review are tracked in STATUS.
 
 ### M02-007 — Implement reusable named-gap detection and rewards
 
@@ -308,7 +308,7 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 - **Dependencies:** M02-002–M02-007, M01-007
 - **Acceptance criteria:** Trick history, multiplier, balance and bail cues remain readable; A09 completes exploit/regression checks; owner can deliberately link air, rail, revert and manual in a repeatable line and accepts feel.
 - **Test strategy / evidence:** Run full scoring/state tests, five-minute controller combo playtest, screenshot/video review and fresh-player readability notes; unresolved feel defects block M02 exit.
-- **Current implementation / remaining:** Trick/multiplier/balance/landing-window feedback and local exploit regressions are implemented; A09’s 28 focused UI checks cover real mapped navigation/settings/rebinding flows. The owner now reports unsatisfactory ordinary skating/camera behavior; repair and replay precede the still-open controller combo-flow/readability acceptance.
+- **Current implementation / remaining:** Authentic native Boneless/No Comply support/preparation, palm/sole contact, delayed catch, signed stance and interrupted-pose animated bail/getup are integrated. HUD guide/large-text/recovery states and full repertoire are checked. Native Main/camera/once-only score evidence and remaining full aggregate/capture are in STATUS; owner feel/readability acceptance remains open.
 - **P0 feel repair:** The owner’s adverse movement feedback makes natural-input street/control/camera repair an active prerequisite to combo-feel acceptance. Verify ordinary push/turn/brake/ollie first, then reachable air/rail/manual links without a driver that assigns heading every tick. Keep human flow/readability acceptance open and preserve score eligibility/banking regressions.
 
 ### M02-009 — Inspect reusable skating foundations and record source decisions
@@ -335,7 +335,7 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 - **Requirements:** Assess a central missing classic-skating capability through one bounded, original bowl/quarter-pipe prototype. The older low curved bank remains ordinary terrain; the new full90-degree features are a separate original implementation.
 - **Acceptance criteria:** Inspect compatible free approaches before choosing native/adapted code; record licences and a bounded isolated test scene. Match visible mesh and collision. Specify grounded approach→transition→vert/air→re-entry/landing, intended low-speed rollback, camera behavior, revert compatibility and bail/recovery. Demonstrate a playable repeatable transition both ways without phantom launches or invisible support, and preserve a beginner bank bypass. Any unimplemented lip/bowl/spine variant remains explicitly open; integration must preserve the existing ten-goal career and save contracts.
 - **Test strategy / evidence:** Actual slow/normal/fast/diagonal approaches, apex, exit, re-entry, landing/revert, rollback, obstruction and bail tests; contact/normal/velocity traces and real chase/side motion evidence. Human controller/camera/flow playtest plus full regressions before promoting the prototype into required routes.
-- **Current implementation / remaining:** Original production TransitionFeature/TransitionRide and two optional practice pockets are implemented under ADR-015. Shared visible/native collision reaches90degrees; tangent gravity, low-speed rollback, lip balance/release, associatedair, clean descending re-entry, bounded fresh-direction transfers and upright-clearance coping handoff are wired to Skater/Main/camera. Focused native62/0 and actualMain20/0 pass. Existing routes retain a bypass; final aggregate/render and human controller acceptance remain in STATUS. Bowls and arbitrary spine structures are not claimed.
+- **Current implementation / remaining:** Full native bowl, connected halfpipe and spine now extend the two quarters under ADR-016. Visible mesh/collision, bowl metric/parallel transport, both faces, real descending cross-feature catch, steel-top lip/handplant support and original bypasses are implemented. Connected29/0, quarter62/0 and Main23/0 focused checks pass. Current aggregate/motion and human flow remain in STATUS. This does not claim arbitrary commercial terrain parity.
 
 ### M02-012 — Prototype bounded wallride and wallie states
 
@@ -345,17 +345,17 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 - **Requirements:** Build a bounded isolated wallride/wallie experiment before authoring a required wall-based shortcut. Define why it adds a useful line to this city.
 - **Acceptance criteria:** Document eligible wall surface, approach angle/speed, contact entry, bounded travel, intentional ollie/exit, momentum, landing/bail and camera behavior. Awards occur through the ordinary score pipeline once per valid entry; repeated wall contact cannot farm points or create permanent attachment. Demonstrate an original optional close-wall line beside a supported bypass; preserve existing career/save/input contracts.
 - **Test strategy / evidence:** Actual approach at angle/speed boundaries, held/repeated input, wall corners/ends, release/ollie, interruption/pause/restart, obstacle clearance, bad landing and recovery. Capture continuous motion and perform controller feel review; run score/takeoff/route regressions before integration.
-- **Current implementation / remaining:** Original WallRide is integrated with real architectural contact, side-height/angle/speed gates, held support, native obstruction motion, finite1.25-second travel, release/wallie and recapture cooldown. The surface audit marks55 eligible wall bodies and explicit exclusions; native helper44/0 and actualMain wallride-to-wallie checks pass. Final aggregate/render and human controller feel remain in STATUS.
+- **Current implementation / remaining:** Native finite WallRide/Wallie remains integrated; current surface audit marks56 eligible wall bodies with explicit exclusions. Actual Main Wallride→Wallie→Kickflip→Melon banks6000 with five entries and zero bails on the focused fixture. Final source-bound aggregate/capture and physical feel remain in STATUS.
 
 ### M02-013 — Assess skitching and moving traffic through a bounded prototype
 
 - **Owner:** A02 design / A04 gameplay / A05 world, with A09
-- **Priority:** P3 · **Milestone:** M02 · **Status:** Planned
+- **Priority:** P3 · **Milestone:** M02 · **Status:** QE review
 - **Dependencies:** M07-007, M03-013; current collision/camera/performance evidence
 - **Requirements:** Decide whether a moving-vehicle interaction improves this compact level before adding traffic complexity. Do not buy vehicle assets or add traffic solely to resemble a reference title.
 - **Acceptance criteria:** Record route benefit, conflicts with existing skating/side challenges, resource cost and an explicit implement/defer decision. If worthwhile, build one original vehicle/path in an isolated scene with attachment/balance/release, bounded momentum, obstruction, safe recovery and reset rules. Demonstrate a readable optional interaction with a permanent pedestrian/skating alternative. Only verified implementation may be advertised; a negative feasibility result is documented as such, not as working skitching.
 - **Test strategy / evidence:** Actual catch/release at speed/angle limits, balance/bail, moving obstacles, corner/camera clearance, stuck-vehicle and pause/restart cases; physics traces, continuous rendered motion and representative frame-cost measurements. Human fun review and integration regressions follow any decision to ship it.
-- **Current implementation / remaining:** Assessment not started. No moving traffic, skitch input, vehicle attachment or related reward exists in the current candidate.
+- **Current implementation / remaining:** Implement decision: one optional original low-speed quay crew cart on X−78…−28/Z70.5 provides a bounded speed-link without traffic simulation or blocking mandatory routes. Real rear-bar admission/catch, two-palmed tow, balance/release/charged pop, obstruction/pedestrian sensing and matched compound cart support/collision are integrated. Score begins only at actual catch; pause/reset/run end are bounded. Native helper/platform and Main contact/exact1500-bank focused checks pass; full capture/profile and human flow remain in STATUS. No assets purchased or career/save rewards added.
 
 ## M03 — Glasgow grey-box
 
@@ -500,12 +500,12 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 ### M03-015 — Prototype one original reversible changing-route event
 
 - **Owner:** A05 world / A06 events / A07 narrative, with A04/A08/A09
-- **Priority:** P2 · **Milestone:** M03 · **Status:** Planned
+- **Priority:** P2 · **Milestone:** M03 · **Status:** QE review
 - **Dependencies:** M07-007, M03-014, M04-007; stable route-map/hazard contracts
 - **Requirements:** Give one Glasgow-inspired place an original setup/payoff that changes a skating choice, such as a fictional service gate or bridge mechanism. Do not copy a commercial game's scripted disaster, dialogue or layout.
 - **Acceptance criteria:** Define activation, visible/physical route changes, cooldown/repeat, reset and career/free-skate/save behavior before coding. Keep an always-available safe exit and prevent trapping the player during collision changes. Implement one bounded reversible test scene; the route map and ground/hazard queries follow the actual active geometry. State whether the event is run-local or persisted; preserve schema and canonical career IDs unless a separately recorded migration is designed.
 - **Test strategy / evidence:** Real activation before/on/after the moving boundary, both route directions, repeated activation, pause/bail/restart, trapped-player prevention, map updates and save reload if applicable. Capture the actual before/transition/after states and a playable optional line; run all career/route/persistence regressions before integration.
-- **Current implementation / remaining:** Not implemented. The existing statue/cone interaction changes a local visual and does not constitute a changing traversable route.
+- **Current implementation / remaining:** A real sensor-protected AnimatableBody service gate at (−48.5,2,−2) reversibly opens an optional cut-through. Actual collider movement, blocked close refusal, live CLOSED/OPEN map, cooldown/pause/reset and permanent bypass are integrated. Native Main traversal and real map pixel/fit evidence pass; final aggregate/motion and human navigation review remain in STATUS. Run-local only; no schema change.
 
 ## M04 — Missions and progression
 
@@ -579,12 +579,12 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 ### M04-008 — Prototype Cone on a Cruise as a recoverable river stunt
 
 - **Owner:** A06 encounters / A05 props/physics / A07 narrative, with A09
-- **Priority:** P2 · **Milestone:** M04 · **Status:** Planned
+- **Priority:** P2 · **Milestone:** M04 · **Status:** QE review
 - **Dependencies:** M07-007, M04-007, M03-011; existing water recovery and interaction contracts
 - **Requirements:** Create an original Clyde festival-steward encounter using a fictional floating foam-cone mascot and a marked river target. A skating approach and visible prop trajectory provide the joke and challenge.
 - **Acceptance criteria:** In a bounded prototype, accept the offer, build actual speed, launch the cone from a marked stunt point, physically cross the target ring and land a valid trick on the quay. Completion depends on both trajectory and real landing/bank evidence, not a button or timer alone. Show the cone recover onto its own raft; misses, water entry, leaving, pause and repeat attempts recover promptly. No person/animal is used as the projectile. Keep rules/reward run-local unless a separately designed save contract is recorded; no canonical goal or paid asset/service is added.
 - **Test strategy / evidence:** Real approach/launch/target/landing success plus low-speed, off-angle, missed ring, failed landing, bail, water recovery, double activation and restart cases. Inspect continuous rendered prop motion and readable target/return; human control feel and comic timing remain required.
-- **Current implementation / remaining:** Design only in GLASGOW-FUN. No cone projectile, target physics, steward actor or enabled challenge exists yet.
+- **Current implementation / remaining:** Enabled original steward/physical foam cone/target torus/raft feature at west Clyde offer(−5,ground,66), launch Z74. Actual eligible skating pop launches it; all64 swept hull vertices must clear the real aperture, native rim contact vetoes, real raft contact plus clean player landing and positive bank wins once. Misses recover; pause/bail/timeout/reset tested. Native Main win and exact100 ordinary bank pass. Adult actor/render checks pass; final aggregate/motion and human comic timing remain in STATUS. No canonical goals or bonus points added.
 
 ### M04-009 — Prototype Cat's Got the Beat with ordered coping captures
 
@@ -609,12 +609,12 @@ No successful physical DualSense, target-Mac launch/performance, human listening
 ### M04-011 — Prototype One More Lap, Hen across park route choices
 
 - **Owner:** A06 encounters / A05 park route / A07 narrative, with A04/A09
-- **Priority:** P2 · **Milestone:** M04 · **Status:** Planned
+- **Priority:** P2 · **Milestone:** M04 · **Status:** In progress
 - **Dependencies:** M07-007, M04-007, M03-012, M03-014
 - **Requirements:** An original park regular times a community skating circuit that links coping, downhill path and a supported grass-bank transfer, with a safe return and harder shortcut.
 - **Acceptance criteria:** Specify a coherent route wholly supported by implemented geometry, physical start/finish gates, required trick/transfer events and readable landmarks. Both route choices reach a safe finish and allow uphill return; missed gates/bails cannot finish silently. Original dialogue reacts to real attempts/replay, with bounded cooldowns and an explicit local reward/reset contract. Preserve career/save IDs and avoid requiring unimplemented vert/wallride mechanics.
 - **Test strategy / evidence:** Actual complete circuits through each branch, ordered gate/trick checks, missed transfer, out-of-order finish, bail, timeout if used, pause/restart and safe return. Render branch/finish feedback and record human navigation, hill feel and comic timing separately from deterministic feasibility.
-- **Current implementation / remaining:** Design only in GLASGOW-FUN. No additional park challenge, timer/gates or speaking regular is enabled.
+- **Current implementation / remaining:** Enabled original adult park regular at (−155,ground,−82),75 active seconds, two published ordered branches, real launch/clean landing and physical return. Both native Main routes now pass with ordinary steering/pop/landing/return and clear cameras: full loop226.56m (55.73s remaining), bank cut147.81m (60.38s remaining). A reproduced steep grass facet was graded while preserving road collision and all gate XZ/order/radii/timer; terrain-derived heights shifted less than9cm at two gates. Timer, wrong order, missing trick, bail, retry, pause and reset are tested. Final aggregate/motion and human navigation/timing remain in STATUS. Run-local results only; no score or save changes.
 
 ## M05 — Art, audio and ambient characters
 

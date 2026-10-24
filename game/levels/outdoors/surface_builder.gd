@@ -70,7 +70,10 @@ static func strip(parent: Node3D, id: String, points: PackedVector3Array, width:
 		if i < points.size() - 1:
 			var a := i * 2
 			indices.append_array(PackedInt32Array([a, a + 1, a + 2, a + 1, a + 3, a + 2]))
-	return _body(parent, id, vertices, normals, uvs, indices, material, audio)
+	var body := _body(parent, id, vertices, normals, uvs, indices, material, audio)
+	body.set_meta("strip_vertices", vertices)
+	body.set_meta("strip_indices", indices)
+	return body
 
 
 static func _body(parent: Node3D, id: String, vertices: PackedVector3Array, normals: PackedVector3Array, uvs: PackedVector2Array, indices: PackedInt32Array, material: Material, audio: String) -> StaticBody3D:

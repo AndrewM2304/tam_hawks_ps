@@ -229,6 +229,7 @@ static func _manual_process(tree: SceneTree, game: Node, check: Callable) -> voi
 	check.call(game.skater.manual_active and game.skater.manual_trick_id == "manual"
 		and not Input.is_action_pressed("manual") and game.score.combo_trick_count == 1,
 		"overnight process: deliberate up-down movement gesture enters a latched manual without the shortcut")
+	await _neutral_direction(tree)
 	Input.action_press("flip")
 	await _frames(tree, 1)
 	Input.action_release("flip")
@@ -236,6 +237,7 @@ static func _manual_process(tree: SceneTree, game: Node, check: Callable) -> voi
 		and game.score.combo_trick_count == 2,
 		"overnight process: fresh flip extends a real manual to a one-foot manual")
 	await _balance(tree, game, 23)
+	await _neutral_direction(tree)
 	Input.action_press("grab")
 	await _frames(tree, 1)
 	Input.action_release("grab")
@@ -243,6 +245,7 @@ static func _manual_process(tree: SceneTree, game: Node, check: Callable) -> voi
 		and game.score.combo_trick_count == 3,
 		"overnight process: recovered fresh grab changes the supported manual into a spacewalk")
 	await _balance(tree, game, 23)
+	await _neutral_direction(tree)
 	var heading: float = game.skater.rotation.y
 	var motion: Vector3 = game.skater.velocity
 	Input.action_press("revert")
@@ -353,6 +356,9 @@ static func _launch_setups(tree: SceneTree, game: Node, check: Callable) -> void
 		Input.action_release("ollie")
 		await _frames(tree, 1)
 		Input.action_release(str(setup.direction))
+		for frame in 20:
+			if not game.skater.setup_active: break
+			await _frames(tree, 1)
 		check.call(game.skater.airborne and game.skater.last_trick_id == setup.id
 			and game.score.combo_base == setup.points,
 			"overnight process: deliberate %s setup selects its actual launch and independent base award" % setup.id)
@@ -478,6 +484,15 @@ static func _moving(tree: SceneTree, game: Node) -> void:
 	await _frames(tree, 45)
 	Input.action_release("push")
 	await _frames(tree, 1)
+
+static func _neutral_direction(tree: SceneTree) -> void:
+	# Expanded manual selectors use fresh directions. Real opposed inputs make
+	# the intended neutral extension explicit without changing recognizer state.
+	Input.action_press("push")
+	Input.action_press("brake")
+	await _frames(tree, 1)
+	Input.action_release("push")
+	Input.action_release("brake")
 
 static func _balance(tree: SceneTree, game: Node, frames: int) -> void:
 	for frame in frames:

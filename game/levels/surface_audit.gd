@@ -40,7 +40,7 @@ func snapshot() -> Dictionary:
 			{"family":"behind-boundary retaining foundations", "reason":"Scenic vertical stone faces extend eight metres below the retained fence baseline; no collision, horizontal floor, grind path or playable terrain."},
 			{"family":"behind-boundary street dressing", "reason":"Benches and bins beyond the retained perimeter are scenery; no playable collision or hidden grind path."},
 			{"family":"glass, canopy, foliage and ironwork detail", "reason":"Decorative panes, canvas, leaves and open iron bars are not opaque supporting walls."},
-			{"family":"25mm park path edging", "reason":"Flush roll-over path trim shares terrain collision; it is not a raised ledge."}],
+			{"family":"terrain-conforming park path edging", "reason":"The shallow stone shoulder shares actual graded collision and supports roll-over access; it is not a raised ledge."}],
 		"limits": "An eligibility inventory, not proof every approach is reachable or human-tested. Native collision, capsule sweeps and trick-state gates still control captures."}
 
 
@@ -77,6 +77,14 @@ func _record(body: StaticBody3D) -> void:
 	var authored_ids: Array[String] = []
 	if body.has_meta("authored_grind_ids"):
 		for id: String in body.get_meta("authored_grind_ids"): authored_ids.append(id)
+	# Native transition coping has its own rail-only collider. Associate that
+	# actual steel body with the feature's published track rather than leaving
+	# a visibly grindable collider classified as an unassigned prop.
+	var coping_feature: Node3D
+	if body.has_meta("coping_feature"): coping_feature = body.get_meta("coping_feature")
+	if is_instance_valid(coping_feature) and coping_feature.has_method("get_grind_lines"):
+		for track in coping_feature.get_grind_lines():
+			if not authored_ids.has(track.id): authored_ids.append(track.id)
 	grind_ids.append_array(authored_ids)
 	body.set_meta("grind_surface_ids", grind_ids.duplicate())
 	_records.append({"id": key, "path": String(_world.get_path_to(body)), "label": label,
@@ -85,7 +93,7 @@ func _record(body: StaticBody3D) -> void:
 		"collision_layer": body.collision_layer, "wallrideable": wall_ok,
 		"wall_reason": "opaque substantial vertical masonry" if wall_ok else wall_reason,
 		"grind_ids": grind_ids, "generated_ledge": LEDGE_LABELS.has(label),
-		"capture_check_ids": body.get_meta("audit_capture_ids", []).duplicate(),
+		"capture_check_ids": authored_ids.duplicate() if coping_feature != null else body.get_meta("audit_capture_ids", []).duplicate(),
 		"grind_reason": "collision-backed exposed top edges" if not grind_ids.is_empty() else _ledge_exclusion(label, body)})
 
 

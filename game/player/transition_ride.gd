@@ -128,7 +128,7 @@ func step(body: CharacterBody3D, delta: float, push: float, brake: float,
 		return _tick_air(body, delta, steer, push, brake)
 	if state == "lip":
 		var support: Dictionary = feature.sample(PI * 0.5, _x)
-		if not _real_face_contact(body, feature, support) \
+		if not _real_face_contact(body, feature, support) or not _real_lip_contact(body,feature.lip_frame(_x)) \
 				or not _can_occupy(body, body.global_position, normal):
 			return _end(body, "bail")
 		_lip_age += delta
@@ -136,34 +136,56 @@ func step(body: CharacterBody3D, delta: float, push: float, brake: float,
 		if absf(lip_balance) >= 1.0:
 			return _end(body, "bail")
 		if jump:
-			return _launch(body, normal * jump_impulse * 0.6 + Vector3.UP * jump_impulse, "launch")
+			var frame: Dictionary = feature.lip_frame(_x)
+			return _launch(body, frame.face_normal * jump_impulse * 0.6 + Vector3.UP * jump_impulse, "launch")
 		if not lip_held:
 			state = "surface"
 			lip = false
 			_speed = -0.6
 			_theta = PI * 0.5 - 0.006
+			normal = support.normal
 		else:
 			body.velocity = Vector3.ZERO
 			return _result(body, event)
 	if jump:
 		var sample: Dictionary = feature.sample(_theta, _x)
 		return _launch(body, sample.tangent * _speed + sample.lateral * _lateral_speed + normal * jump_impulse, "launch")
-	var travel := maxf(absf(_speed), 1.0) * delta
+	var travel_speed := Vector2(_speed,_lateral_speed).length() if feature.wrap_lateral else absf(_speed)
+	var travel := maxf(travel_speed, 1.0) * delta
 	var steps := maxi(1, ceili(travel / minf(MAX_STEP_METRES, float(feature.radius) * MAX_STEP_ANGLE)))
 	var h := delta / float(steps)
 	for index in steps:
 		var sample: Dictionary = feature.sample(_theta, _x)
-		# Full tangent gravity: no hidden pumping or energy gain without push.
-		_speed += (-GRAVITY * sin(_theta) + push * 6.0) * h
-		if brake > 0.0:
-			_speed = move_toward(_speed, 0.0, brake * 20.0 * h)
-		elif absf(_speed) > 0.05:
-			_speed = move_toward(_speed, 0.0, 0.10 * h)
-		_speed = clampf(_speed, -MAX_SPEED, MAX_SPEED)
-		_lateral_speed = move_toward(_lateral_speed, steer * absf(_speed) * 0.45, 5.0 * h)
+		if feature.wrap_lateral:
+			# Parallel-transport the two tangent components around the bowl.
+			# This rotates existing kinetic energy; it is not a lateral boost.
+			var curve: Vector2 = feature.lateral_acceleration(_theta, _x, _speed, _lateral_speed)
+			var tangent_velocity := Vector2(_speed, _lateral_speed)
+			var squared_speed := tangent_velocity.length_squared()
+			var transport := (curve.y * _speed - curve.x * _lateral_speed) / squared_speed if squared_speed > 0.001 else 0.0
+			tangent_velocity = tangent_velocity.rotated((transport + steer * 1.4) * h)
+			tangent_velocity.x -= GRAVITY * sin(_theta) * h
+			var magnitude := tangent_velocity.length()
+			if push > 0.0:
+				tangent_velocity = (tangent_velocity.normalized() if magnitude > 0.1 else Vector2.RIGHT) * minf(MAX_SPEED,magnitude+push*6.0*h)
+			magnitude = tangent_velocity.length()
+			if magnitude > 0.001:
+				tangent_velocity *= move_toward(magnitude,0.0,(brake*20.0 if brake>0.0 else 0.10)*h)/magnitude
+			tangent_velocity = tangent_velocity.limit_length(MAX_SPEED)
+			_speed = tangent_velocity.x
+			_lateral_speed = tangent_velocity.y
+		else:
+			# Existing straight quarter-pipe control remains unchanged.
+			_speed += (-GRAVITY * sin(_theta) + push * 6.0) * h
+			if brake > 0.0:
+				_speed = move_toward(_speed, 0.0, brake * 20.0 * h)
+			elif absf(_speed) > 0.05:
+				_speed = move_toward(_speed, 0.0, 0.10 * h)
+			_speed = clampf(_speed, -MAX_SPEED, MAX_SPEED)
+			_lateral_speed = move_toward(_lateral_speed, steer * absf(_speed) * 0.45, 5.0 * h)
 		var next_theta := _theta + _speed / float(feature.radius) * h
-		var next_x := _x + _lateral_speed * h
-		if absf(next_x) > float(feature.width) * 0.5 - 0.005:
+		var next_x: float = feature.advance_lateral(_theta,_x,_lateral_speed*h)
+		if not feature.wrap_lateral and absf(next_x) > float(feature.width) * 0.5 - 0.005:
 			return _launch(body, sample.tangent * _speed + sample.lateral * _lateral_speed, "launch")
 		if next_theta < 0.0:
 			var toe: Dictionary = feature.sample(0.0, next_x)
@@ -178,6 +200,7 @@ func step(body: CharacterBody3D, delta: float, push: float, brake: float,
 			_theta = PI * 0.5
 			_x = next_x
 			if lip_held:
+				if not _move_to_lip(body): return _end(body,"bail")
 				state = "lip"
 				lip = true
 				lip_balance = 0.03
@@ -195,7 +218,7 @@ func step(body: CharacterBody3D, delta: float, push: float, brake: float,
 
 func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, brake: float) -> Dictionary:
 	_air_age += delta
-	var local: Vector3 = feature.to_local(body.global_position)
+	var air_frame: Dictionary = feature.air_return_frame(body.global_position,_x)
 	# A fresh directional press after launch selects a deliberate transfer.
 	# Holding push through the approach retains the ordinary vertical return.
 	if push < 0.2: _air_push_armed = true
@@ -207,17 +230,17 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 		_transfer_direction = 1.0
 		_air_brake_armed = false
 	var transfer := _transfer_direction
-	if transfer < 0.0 and (push < 0.2 or local.y < float(feature.radius) + 0.30): transfer = 0.0
+	if transfer < 0.0 and (push < 0.2 or body.global_position.y < float(air_frame.lip_height) + 0.30): transfer = 0.0
 	if transfer > 0.0 and brake < 0.2: transfer = 0.0
 	var horizontal := Vector3(_air_velocity.x, 0, _air_velocity.z)
 	var limit := maxf(3.5, horizontal.length())
-	var outward: Vector3 = (feature.global_basis * Vector3.BACK).normalized()
-	var lateral: Vector3 = (feature.global_basis * Vector3.RIGHT).normalized()
+	var outward: Vector3 = air_frame.normal
+	var lateral: Vector3 = air_frame.lateral
 	horizontal += (outward * transfer * 6.0 + lateral * steer * 4.0) * delta
 	horizontal = horizontal.limit_length(limit)
 	_air_velocity.x = horizontal.x
 	_air_velocity.z = horizontal.z
-	if _air_velocity.y <= 0.0 and _acquire(body, feature, _air_velocity):
+	if _air_velocity.y <= 0.0 and _find_return(body, _air_velocity):
 		body.velocity = _air_velocity
 		var result := step(body, delta, 0.0, 0.0, steer)
 		result.event = "landed"
@@ -226,9 +249,7 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 	# Above the actual vertical lip, retain its contact frame through the apex.
 	# Euclidean distance from the finite arc grows with height; it must not detach
 	# an otherwise vertical return and put an upright capsule into the wall.
-	var over_lip := local.y >= float(feature.radius) - 0.12 \
-		and absf(local.z + float(feature.radius)) < 0.55 \
-		and absf(local.x) < float(feature.width) * 0.5 - 0.10
+	var over_lip: bool = air_frame.over_lip
 	if _air_age > 0.08 and not over_lip and (contact.is_empty() or contact.distance > 0.55):
 		if _can_occupy(body, body.global_position, Vector3.UP):
 			body.velocity = _air_velocity
@@ -239,7 +260,8 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 	body.velocity = _air_velocity
 	if hit:
 		var obstacle: Object = hit.get_collider()
-		if obstacle == feature.surface_body and _air_velocity.y <= 0.0 and _acquire(body, feature, _air_velocity):
+		if _air_velocity.y <= 0.0 and obstacle is Node and obstacle.has_meta("transition_feature") \
+				and _acquire(body,obstacle.get_meta("transition_feature"),_air_velocity):
 			return _result(body, "landed")
 		if hit.get_normal().y > 0.65 and _can_occupy(body, body.global_position, Vector3.UP):
 			# An oriented end-cap can touch a deck while the restored upright
@@ -251,6 +273,42 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 		body.velocity = _air_velocity
 		return _end(body, "exit_air")
 	return _result(body, "")
+
+func _find_return(body: CharacterBody3D, velocity: Vector3) -> bool:
+	if _acquire(body,feature,velocity): return true
+	for candidate: Node in body.get_tree().get_nodes_in_group("skate_transitions"):
+		if candidate is Node3D and candidate != feature and _acquire(body,candidate,velocity): return true
+	return false
+
+func lip_frame() -> Dictionary:
+	return feature.lip_frame(_x) if is_instance_valid(feature) else {}
+
+## Root yaw may follow a curved line or commit a scored half-turn. Reapply the
+## existing global contact axis immediately after that cosmetic/root change.
+func refresh_frame(body: CharacterBody3D) -> void:
+	if active:
+		_orient_collision(body,normal)
+		body.up_direction = normal
+
+func _move_to_lip(body: CharacterBody3D) -> bool:
+	var frame: Dictionary = feature.lip_frame(_x)
+	var target: Vector3 = frame.point+Vector3.UP*0.002
+	if not _real_lip_contact(body,frame) or not _can_occupy(body,target,Vector3.UP): return false
+	_orient_collision(body,Vector3.UP)
+	var hit := body.move_and_collide(target-body.global_position,false,0.001)
+	if hit or body.global_position.distance_to(target)>0.01: return false
+	normal = Vector3.UP
+	forward = -Vector3(frame.face_normal)
+	body.up_direction = Vector3.UP
+	return true
+
+func _real_lip_contact(body: CharacterBody3D, frame: Dictionary) -> bool:
+	var point: Vector3 = frame.point
+	var query := PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.03,point-Vector3.UP*0.03,2)
+	query.exclude = [body.get_rid()]
+	var hit := body.get_world_3d().direct_space_state.intersect_ray(query)
+	return not hit.is_empty() and hit.collider is Node and hit.collider.get_meta("coping_feature",null)==feature \
+		and hit.normal.y>0.95 and hit.position.distance_to(point)<0.008
 
 func _launch(body: CharacterBody3D, velocity: Vector3, event: String) -> Dictionary:
 	state = "air"

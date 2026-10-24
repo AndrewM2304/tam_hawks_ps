@@ -273,20 +273,22 @@ func _tree(at: Vector3) -> void:
 
 func _npc(at: Vector3, coat_color: Color, yaw: float) -> void:
 	npc_positions.append(at)
-	var person := Node3D.new()
+	var person = preload("res://game/features/activity_actor.gd").new()
 	person.name = "LocalBystander"
 	person.position = at
 	person.rotation.y = yaw
+	person.reduced_motion = true
 	add_child(person)
-	var coat := _plain(coat_color, 0.95)
-	var skin := _plain(Color("ac8770"), 0.95)
-	_capsule(person, Vector3(0, 1.12, 0), 0.23, 0.67, coat)
-	for side: float in [-1.0, 1.0]:
-		_capsule(person, Vector3(side * 0.12, 0.47, 0), 0.095, 0.8, materials["iron"])
-		_capsule(person, Vector3(side * 0.31, 1.04, 0), 0.085, 0.65, coat)
-		_box(person, Vector3(0.18, 0.12, 0.29), Vector3(side * 0.12, 0.06, 0.06), materials["slate"])
-	_capsule(person, Vector3(0, 1.6, 0), 0.145, 0.32, skin)
-	_capsule(person, Vector3(0, 1.74, 0), 0.15, 0.15, materials["iron"])
+	# Passive adults keep a deliberate relaxed pose. Ground refresh remains
+	# native; activity gestures/head tracking belong only to interactive hosts.
+	person.process_mode = Node.PROCESS_MODE_PAUSABLE
+	person.set_process(false)
+	person.add_to_group("ambient_adults")
+	var jacket: MeshInstance3D = person.get_node("AdultActivityBody/SkinnedJacket")
+	var coat := jacket.material_override.duplicate() as StandardMaterial3D
+	coat.albedo_color = coat_color
+	jacket.material_override = coat
+	person.get_node("AdultActivityBody/CoatDetails/FoldedCoatCollar").material_override = coat
 
 
 func _capsule(parent: Node3D, at: Vector3, radius: float, height: float, material: Material) -> void:

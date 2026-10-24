@@ -1,0 +1,28 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: ambient adults: all three passive adults preserve the four existing NPC proximity anchors
+PASS: ambient adults: authored bystander root remains at (-27.0, 6.0, -116.0)
+PASS: ambient adults: exact facing, pausable static posture and noncolliding passive behavior are preserved
+PASS: ambient adults: actual adult face, fingers and finite skinned limbs replace the capsule mannequin
+PASS: ambient adults: both visible soles meet the actual nearby district floor without a floating root or roof snap
+PASS: ambient adults: each original coat color has a matching instance-local tailored collar
+PASS: ambient adults: intentional relaxed posture stays still during ordinary play
+AMBIENT_ADULT root=(-27.0, 6.0, -116.0) yaw=-0.600 body=(-27.0, 6.000001, -116.0) contacts=[{ "point": (-27.10708, 6.000001, -116.0914), "normal": (0.0, 1.0, 0.0), "side": -1.0 }, { "point": (-26.87598, 6.000001, -115.9333), "normal": (0.0, 1.0, 0.0), "side": 1.0 }] coat=(0.4627, 0.3882, 0.3294, 1.0)
+PASS: ambient adults: authored bystander root remains at (-120.0, 2.0, 28.0)
+PASS: ambient adults: exact facing, pausable static posture and noncolliding passive behavior are preserved
+PASS: ambient adults: actual adult face, fingers and finite skinned limbs replace the capsule mannequin
+PASS: ambient adults: both visible soles meet the actual nearby district floor without a floating root or roof snap
+PASS: ambient adults: each original coat color has a matching instance-local tailored collar
+PASS: ambient adults: intentional relaxed posture stays still during ordinary play
+AMBIENT_ADULT root=(-120.0, 2.0, 28.0) yaw=1.200 body=(-120.0, 2.0, 28.0) contacts=[{ "point": (-120.0647, 2.0, 28.12505), "normal": (0.0, 1.0, 0.0), "side": -1.0 }, { "point": (-119.9632, 2.0, 27.86408), "normal": (0.0, 1.0, 0.0), "side": 1.0 }] coat=(0.4196, 0.3451, 0.4, 1.0)
+PASS: ambient adults: authored bystander root remains at (123.0, 0.0, 29.0)
+PASS: ambient adults: exact facing, pausable static posture and noncolliding passive behavior are preserved
+PASS: ambient adults: actual adult face, fingers and finite skinned limbs replace the capsule mannequin
+PASS: ambient adults: both visible soles meet the actual nearby district floor without a floating root or roof snap
+PASS: ambient adults: each original coat color has a matching instance-local tailored collar
+PASS: ambient adults: intentional relaxed posture stays still during ordinary play
+AMBIENT_ADULT root=(123.0, 0.0, 29.0) yaw=-0.300 body=(123.0, 0.0, 29.0) contacts=[{ "point": (122.8707, 0.0, 28.9443), "normal": (0.0, 1.0, 0.0), "side": -1.0 }, { "point": (123.1382, 0.0, 29.02704), "normal": (0.0, 1.0, 0.0), "side": 1.0 }] coat=(0.5176, 0.4863, 0.4039, 1.0)
+PASS: ambient adults: coat overrides do not recolor other bystanders or activity hosts
+PASS: ambient adults: all three adults remain frozen under the actual Main pause flow
+PASS: ambient adults: resume retains native grounded soles without starting an idle or interaction
+RESULT: 22 passed, 0 failed

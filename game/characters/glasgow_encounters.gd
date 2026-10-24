@@ -191,7 +191,7 @@ func _trick_family(trick_name: String) -> String:
 		if str(entry.display_name).to_lower() == lower:
 			var family := str(entry.family)
 			if family == "launch": return "ollie"
-			return family if family in ["flip", "grab", "grind", "manual", "revert", "spin", "special"] else ""
+			return family if family in ["flip", "grab", "grind", "manual", "revert", "spin", "special", "lip", "wall", "skitch"] else ""
 	if lower == "ollie": return "ollie"
 	if "flip" in lower: return "flip"
 	if "grab" in lower or "indy" in lower: return "grab"

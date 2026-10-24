@@ -9,10 +9,10 @@ const REPEAT_HALVING_LIMIT: int = 4
 const UNIQUE_MULTIPLIER_LIMIT: int = 8
 const MAX_BASE_POINTS: int = 1000000
 
-const STATES: Array[String] = ["ground", "air", "grind", "manual", "revert", "transition", "wall", "lip", "bail"]
+const STATES: Array[String] = ["ground", "air", "grind", "manual", "revert", "transition", "wall", "lip", "skitch", "bail"]
 const ACTIVATIONS: Array[String] = ["launch", "press", "landing", "entry", "crossing"]
 const TRANSITIONS: Dictionary = {
-	"ground": ["air", "manual", "revert", "transition", "bail"],
+	"ground": ["air", "manual", "revert", "transition", "skitch", "bail"],
 	"air": ["ground", "grind", "transition", "wall", "lip", "bail"],
 	"grind": ["air", "ground", "bail"],
 	"manual": ["ground", "air", "bail"],
@@ -20,9 +20,10 @@ const TRANSITIONS: Dictionary = {
 	"transition": ["ground", "air", "lip", "bail"],
 	"wall": ["air", "ground", "grind", "bail"],
 	"lip": ["transition", "air", "bail"],
+	"skitch": ["ground", "air", "bail"],
 	"bail": ["ground"],
 }
-const FAMILIES: Array[String] = ["launch", "flip", "grab", "spin", "grind", "manual", "revert", "special", "gap", "wall", "lip"]
+const FAMILIES: Array[String] = ["launch", "flip", "grab", "spin", "grind", "manual", "revert", "special", "gap", "wall", "lip", "skitch"]
 const DIRECTIONS: Array[String] = ["neutral", "north", "south", "east", "west",
 	"north_east", "north_west", "south_east", "south_west"]
 const DIRECTIONAL_SETS: Dictionary = {
@@ -35,10 +36,26 @@ const DIRECTIONAL_SETS: Dictionary = {
 	"grind": {"neutral": "rail_grind", "north": "nosegrind", "south": "five_o_grind",
 		"east": "boardslide", "west": "lipslide", "north_west": "crooked_grind",
 		"north_east": "overcrook_grind", "south_west": "smith_grind", "south_east": "feeble_grind"},
+	"lip": {"neutral": "lip_stall", "north": "nose_stall", "south": "tail_stall",
+		"east": "axle_stall", "west": "rock_and_roll", "north_east": "handplant",
+		"north_west": "invert", "south_east": "eggplant", "south_west": "disaster_stall"},
 	"manual": {"neutral": "manual", "north": "nose_manual", "south": "manual",
 		"east": "manual", "west": "manual", "north_west": "nose_manual",
 		"north_east": "nose_manual", "south_west": "manual", "south_east": "manual"},
 }
+## These are movement directions followed by a fresh face-button press.
+## Input recognition and the guide use the same records as runtime eligibility.
+const SPECIAL_COMMANDS: Array[Dictionary] = [
+	{"id": "special_clyde_carousel", "directions": ["west", "east"], "action": "flip"},
+	{"id": "special_tenement_tumble", "directions": ["north", "south"], "action": "grab"},
+	{"id": "special_kelvin_corkscrew", "directions": ["east", "west"], "action": "flip"},
+	{"id": "special_barras_butterflip", "directions": ["south", "north"], "action": "grab"},
+	{"id": "special_bridge_blender", "directions": ["north", "east"], "action": "flip"},
+	{"id": "special_sandstone_salute", "directions": ["south", "west"], "action": "grab"},
+]
+const LIP_SUPPORTS: Array[String] = ["deck", "both_trucks", "front_truck", "rear_truck", "palms"]
+const SPECIAL_POSES: Array[String] = ["carousel", "tumble", "corkscrew", "butterflip", "blender", "salute"]
+const EXISTING_SPECIAL_UNLOCKS: Array[String] = ["special_clyde_carousel", "special_tenement_tumble"]
 const DEFINITIONS: Array = [
 	{"id": "ollie", "display_name": "Ollie", "base_points": 100, "family": "launch",
 		"allowed_states": ["ground", "manual", "grind", "transition", "lip"], "activation": "launch"},
@@ -49,25 +66,25 @@ const DEFINITIONS: Array = [
 	{"id": "no_comply", "display_name": "No Comply", "base_points": 200, "family": "launch",
 		"allowed_states": ["ground"], "activation": "launch", "launch_speed_scale": 1.10},
 	{"id": "kickflip", "display_name": "Kickflip", "base_points": 300, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.32, "board_roll": TAU, "board_yaw": 0.0, "board_pitch": 0.0},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.32, "board_roll": TAU, "board_yaw": 0.0, "board_pitch": 0.0, "base_flip": "kickflip", "tap_count": 1, "upgrade_to": "double_kickflip"},
 	{"id": "heelflip", "display_name": "Heelflip", "base_points": 300, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.32, "board_roll": -TAU, "board_yaw": 0.0, "board_pitch": 0.0},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.32, "board_roll": -TAU, "board_yaw": 0.0, "board_pitch": 0.0, "base_flip": "heelflip", "tap_count": 1, "upgrade_to": "double_heelflip"},
 	{"id": "double_kickflip", "display_name": "Double Kickflip", "base_points": 600, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.44, "board_roll": TAU * 2.0, "board_yaw": 0.0, "board_pitch": 0.0},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.44, "board_roll": TAU * 2.0, "board_yaw": 0.0, "board_pitch": 0.0, "base_flip": "kickflip", "tap_count": 2, "upgrade_to": "triple_kickflip"},
 	{"id": "double_heelflip", "display_name": "Double Heelflip", "base_points": 600, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.44, "board_roll": -TAU * 2.0, "board_yaw": 0.0, "board_pitch": 0.0},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.44, "board_roll": -TAU * 2.0, "board_yaw": 0.0, "board_pitch": 0.0, "base_flip": "heelflip", "tap_count": 2, "upgrade_to": "triple_heelflip"},
 	{"id": "pop_shove_it", "display_name": "Pop Shove-it", "base_points": 250, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.30, "board_roll": 0.0, "board_yaw": PI, "board_pitch": 0.0},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.30, "board_roll": 0.0, "board_yaw": PI, "board_pitch": 0.0, "base_flip": "pop_shove_it", "tap_count": 1, "upgrade_to": "shove_it_360"},
 	{"id": "hardflip", "display_name": "Hardflip", "base_points": 500, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.36, "board_roll": TAU, "board_yaw": -PI, "board_pitch": 0.40},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.36, "board_roll": TAU, "board_yaw": -PI, "board_pitch": 0.40, "base_flip": "hardflip", "tap_count": 1, "upgrade_to": "double_hardflip"},
 	{"id": "varial_kickflip", "display_name": "Varial Kickflip", "base_points": 450, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.34, "board_roll": TAU, "board_yaw": PI, "board_pitch": 0.0},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.34, "board_roll": TAU, "board_yaw": PI, "board_pitch": 0.0, "base_flip": "varial_kickflip", "tap_count": 1, "upgrade_to": "double_varial_kickflip"},
 	{"id": "inward_heelflip", "display_name": "Inward Heelflip", "base_points": 550, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.38, "board_roll": -TAU, "board_yaw": PI, "board_pitch": 0.25},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.38, "board_roll": -TAU, "board_yaw": PI, "board_pitch": 0.25, "base_flip": "inward_heelflip", "tap_count": 1, "upgrade_to": "double_inward_heelflip"},
 	{"id": "tre_flip", "display_name": "360 Flip", "base_points": 600, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.40, "board_roll": TAU, "board_yaw": TAU, "board_pitch": 0.0},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.40, "board_roll": TAU, "board_yaw": TAU, "board_pitch": 0.0, "base_flip": "tre_flip", "tap_count": 1, "upgrade_to": "double_tre_flip"},
 	{"id": "varial_heelflip", "display_name": "Varial Heelflip", "base_points": 450, "family": "flip",
-		"allowed_states": ["air"], "activation": "press", "duration": 0.34, "board_roll": -TAU, "board_yaw": -PI, "board_pitch": 0.0},
+		"allowed_states": ["air"], "activation": "press", "duration": 0.34, "board_roll": -TAU, "board_yaw": -PI, "board_pitch": 0.0, "base_flip": "varial_heelflip", "tap_count": 1, "upgrade_to": "double_varial_heelflip"},
 	{"id": "melon_grab", "display_name": "Melon Grab", "base_points": 250, "family": "grab",
 		"allowed_states": ["air"], "activation": "press", "grab_side": -1.0,
 		"grab_target": Vector3(-0.128, 0.022, -0.035), "board_pitch": -0.08, "board_roll": 0.0},
@@ -112,6 +129,8 @@ const DEFINITIONS: Array = [
 		"allowed_states": ["grind"], "activation": "entry", "grind_yaw": -0.55, "grind_pitch": -0.12},
 	{"id": "feeble_grind", "display_name": "Feeble Grind", "base_points": 350, "family": "grind",
 		"allowed_states": ["grind"], "activation": "entry", "grind_yaw": 0.55, "grind_pitch": -0.12},
+	{"id": "grind_pivot", "display_name": "Grind Pivot", "base_points": 150, "family": "grind",
+		"allowed_states": ["grind"], "activation": "press", "grind_yaw": 0.0, "grind_pitch": 0.0},
 	{"id": "manual", "display_name": "Manual", "base_points": 100, "family": "manual",
 		"allowed_states": ["manual"], "activation": "entry", "manual_sign": 1.0},
 	{"id": "nose_manual", "display_name": "Nose Manual", "base_points": 150, "family": "manual",
@@ -127,16 +146,116 @@ const DEFINITIONS: Array = [
 		"manual_yaw": PI, "manual_roll": 0.0, "manual_foot_lift": 0.0},
 	{"id": "wallride", "display_name": "Wallride", "base_points": 300, "family": "wall",
 		"allowed_states": ["wall"], "activation": "entry"},
+	{"id": "skitch", "display_name": "Skitch", "base_points": 150, "family": "skitch",
+		"allowed_states": ["skitch"], "activation": "entry"},
 	{"id": "wallie", "display_name": "Wallie", "base_points": 250, "family": "launch",
 		"allowed_states": ["wall"], "activation": "launch"},
 	{"id": "lip_stall", "display_name": "Lip Stall", "base_points": 250, "family": "lip",
-		"allowed_states": ["lip"], "activation": "entry"},
+		"allowed_states": ["lip"], "activation": "entry", "lip_pitch": 0.0, "lip_roll": 0.0, "lip_yaw": 0.0, "lip_support": "deck", "lip_invert": false, "lip_hand_side": 0.0, "lip_body_pitch": 0.0, "lip_body_roll": 0.0},
 	{"id": "revert", "display_name": "Revert", "base_points": 150, "family": "revert",
 		"allowed_states": ["revert"], "activation": "entry"},
 	{"id": "special_clyde_carousel", "display_name": "Clyde Carousel", "base_points": 1000, "family": "special",
-		"allowed_states": ["air"], "activation": "press"},
+		"allowed_states": ["air"], "activation": "press", "required_unlock": "special_clyde_carousel", "special_pose": "carousel", "duration": 0.65,
+		"special_board_roll": 0.0, "special_board_yaw": TAU, "special_board_pitch": 0.0,
+		"special_body_pitch": 0.0, "special_body_yaw": 0.0, "special_body_roll": 0.0, "special_tuck": 0.05, "special_grab": false},
 	{"id": "special_tenement_tumble", "display_name": "Tenement Tumble", "base_points": 1200, "family": "special",
-		"allowed_states": ["air"], "activation": "press"},
+		"allowed_states": ["air"], "activation": "press", "required_unlock": "special_tenement_tumble", "special_pose": "tumble", "duration": 0.65,
+		"special_board_roll": 0.0, "special_board_yaw": 0.0, "special_board_pitch": 0.0,
+		"special_body_pitch": TAU, "special_body_yaw": 0.0, "special_body_roll": 0.0, "special_tuck": 0.25, "special_grab": false},
+	{"id": "triple_kickflip", "display_name": "Triple Kickflip", "base_points": 900, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.58,
+		"board_roll": (TAU) * 3.0, "board_yaw": 0.0, "board_pitch": 0.0, "base_flip": "kickflip", "tap_count": 3},
+	{"id": "triple_heelflip", "display_name": "Triple Heelflip", "base_points": 900, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.58,
+		"board_roll": (-TAU) * 3.0, "board_yaw": 0.0, "board_pitch": 0.0, "base_flip": "heelflip", "tap_count": 3},
+	{"id": "shove_it_360", "display_name": "360 Shove-it", "base_points": 500, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.42,
+		"board_roll": 0.0, "board_yaw": PI * 2.0, "board_pitch": 0.0, "base_flip": "pop_shove_it", "tap_count": 2, "upgrade_to": "shove_it_540"},
+	{"id": "shove_it_540", "display_name": "540 Shove-it", "base_points": 750, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.54,
+		"board_roll": 0.0, "board_yaw": PI * 3.0, "board_pitch": 0.0, "base_flip": "pop_shove_it", "tap_count": 3},
+	{"id": "double_hardflip", "display_name": "Double Hardflip", "base_points": 1000, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.50,
+		"board_roll": (TAU) * 2.0, "board_yaw": -PI, "board_pitch": 0.40, "base_flip": "hardflip", "tap_count": 2, "upgrade_to": "triple_hardflip"},
+	{"id": "triple_hardflip", "display_name": "Triple Hardflip", "base_points": 1500, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.66,
+		"board_roll": (TAU) * 3.0, "board_yaw": -PI, "board_pitch": 0.40, "base_flip": "hardflip", "tap_count": 3},
+	{"id": "double_varial_kickflip", "display_name": "Double Varial Kickflip", "base_points": 900, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.48,
+		"board_roll": (TAU) * 2.0, "board_yaw": PI, "board_pitch": 0.0, "base_flip": "varial_kickflip", "tap_count": 2, "upgrade_to": "triple_varial_kickflip"},
+	{"id": "triple_varial_kickflip", "display_name": "Triple Varial Kickflip", "base_points": 1350, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.62,
+		"board_roll": (TAU) * 3.0, "board_yaw": PI, "board_pitch": 0.0, "base_flip": "varial_kickflip", "tap_count": 3},
+	{"id": "double_inward_heelflip", "display_name": "Double Inward Heelflip", "base_points": 1100, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.52,
+		"board_roll": (-TAU) * 2.0, "board_yaw": PI, "board_pitch": 0.25, "base_flip": "inward_heelflip", "tap_count": 2, "upgrade_to": "triple_inward_heelflip"},
+	{"id": "triple_inward_heelflip", "display_name": "Triple Inward Heelflip", "base_points": 1650, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.68,
+		"board_roll": (-TAU) * 3.0, "board_yaw": PI, "board_pitch": 0.25, "base_flip": "inward_heelflip", "tap_count": 3},
+	{"id": "double_tre_flip", "display_name": "Double 360 Flip", "base_points": 1200, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.54,
+		"board_roll": (TAU) * 2.0, "board_yaw": TAU, "board_pitch": 0.0, "base_flip": "tre_flip", "tap_count": 2, "upgrade_to": "triple_tre_flip"},
+	{"id": "triple_tre_flip", "display_name": "Triple 360 Flip", "base_points": 1800, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.70,
+		"board_roll": (TAU) * 3.0, "board_yaw": TAU, "board_pitch": 0.0, "base_flip": "tre_flip", "tap_count": 3},
+	{"id": "double_varial_heelflip", "display_name": "Double Varial Heelflip", "base_points": 900, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.48,
+		"board_roll": (-TAU) * 2.0, "board_yaw": -PI, "board_pitch": 0.0, "base_flip": "varial_heelflip", "tap_count": 2, "upgrade_to": "triple_varial_heelflip"},
+	{"id": "triple_varial_heelflip", "display_name": "Triple Varial Heelflip", "base_points": 1350, "family": "flip",
+		"allowed_states": ["air"], "activation": "press", "duration": 0.62,
+		"board_roll": (-TAU) * 3.0, "board_yaw": -PI, "board_pitch": 0.0, "base_flip": "varial_heelflip", "tap_count": 3},
+	{"id": "axle_stall", "display_name": "Axle Stall", "base_points": 350, "family": "lip",
+		"allowed_states": ["lip"], "activation": "entry", "lip_pitch": 0.00, "lip_roll": 0.00, "lip_yaw": PI / 2.0,
+		"lip_support": "both_trucks", "lip_invert": false, "lip_hand_side": 0.0, "lip_body_pitch": 0.0, "lip_body_roll": 0.0},
+	{"id": "nose_stall", "display_name": "Nose Stall", "base_points": 400, "family": "lip",
+		"allowed_states": ["lip"], "activation": "entry", "lip_pitch": -0.36, "lip_roll": 0.00, "lip_yaw": 0.0,
+		"lip_support": "front_truck", "lip_invert": false, "lip_hand_side": 0.0, "lip_body_pitch": 0.0, "lip_body_roll": 0.0},
+	{"id": "tail_stall", "display_name": "Tail Stall", "base_points": 400, "family": "lip",
+		"allowed_states": ["lip"], "activation": "entry", "lip_pitch": 0.36, "lip_roll": 0.00, "lip_yaw": 0.0,
+		"lip_support": "rear_truck", "lip_invert": false, "lip_hand_side": 0.0, "lip_body_pitch": 0.0, "lip_body_roll": 0.0},
+	{"id": "rock_and_roll", "display_name": "Rock and Roll", "base_points": 450, "family": "lip",
+		"allowed_states": ["lip"], "activation": "entry", "lip_pitch": 0.50, "lip_roll": 0.00, "lip_yaw": PI,
+		"lip_support": "deck", "lip_invert": false, "lip_hand_side": 0.0, "lip_body_pitch": 0.0, "lip_body_roll": 0.0},
+	{"id": "disaster_stall", "display_name": "Disaster Stall", "base_points": 500, "family": "lip",
+		"allowed_states": ["lip"], "activation": "entry", "lip_pitch": 0.12, "lip_roll": 0.00, "lip_yaw": PI,
+		"lip_support": "deck", "lip_invert": false, "lip_hand_side": 0.0, "lip_body_pitch": 0.0, "lip_body_roll": 0.0},
+	{"id": "handplant", "display_name": "Handplant", "base_points": 600, "family": "lip",
+		"allowed_states": ["lip"], "activation": "entry", "lip_pitch": 0.45, "lip_roll": 0.20, "lip_yaw": PI / 2.0,
+		"lip_support": "palms", "lip_invert": true, "lip_hand_side": -1.0, "lip_body_pitch": PI, "lip_body_roll": 0.0},
+	{"id": "invert", "display_name": "Invert", "base_points": 650, "family": "lip",
+		"allowed_states": ["lip"], "activation": "entry", "lip_pitch": -0.70, "lip_roll": -0.25, "lip_yaw": 0.0,
+		"lip_support": "palms", "lip_invert": true, "lip_hand_side": 0.0, "lip_body_pitch": PI, "lip_body_roll": -0.35},
+	{"id": "eggplant", "display_name": "Eggplant", "base_points": 700, "family": "lip",
+		"allowed_states": ["lip"], "activation": "entry", "lip_pitch": -0.30, "lip_roll": 0.40, "lip_yaw": -PI / 2.0,
+		"lip_support": "palms", "lip_invert": true, "lip_hand_side": 1.0, "lip_body_pitch": PI, "lip_body_roll": 0.35},
+	{"id": "one_foot_nose_manual", "display_name": "One-foot Nose Manual", "base_points": 350, "family": "manual",
+		"allowed_states": ["manual"], "activation": "press", "manual_sign": -1.0, "manual_foot_lift": 0.16},
+	{"id": "hang_ten", "display_name": "Hang Ten", "base_points": 350, "family": "manual",
+		"allowed_states": ["manual"], "activation": "press", "manual_sign": -1.0, "manual_foot_shift": -0.20},
+	{"id": "crossfoot_manual", "display_name": "Crossfoot Manual", "base_points": 350, "family": "manual",
+		"allowed_states": ["manual"], "activation": "press", "manual_sign": 1.0, "manual_cross": true},
+	{"id": "pogo", "display_name": "Pogo", "base_points": 450, "family": "manual",
+		"allowed_states": ["manual"], "activation": "press", "manual_sign": 1.0, "manual_pogo": true},
+	{"id": "casper_manual", "display_name": "Casper Manual", "base_points": 500, "family": "manual",
+		"allowed_states": ["manual"], "activation": "press", "manual_sign": 1.0, "manual_casper": true},
+	{"id": "nose_manual_pivot", "display_name": "Nose Manual Pivot", "base_points": 250, "family": "manual",
+		"allowed_states": ["manual"], "activation": "press", "manual_sign": -1.0, "manual_yaw": PI},
+	{"id": "special_kelvin_corkscrew", "display_name": "Kelvin Corkscrew", "base_points": 1600, "family": "special",
+		"allowed_states": ["air"], "activation": "press", "required_unlock": "special_tenement_tumble", "special_pose": "corkscrew", "duration": 0.85,
+		"special_board_roll": 0.0, "special_board_yaw": 0.0, "special_board_pitch": 0.0,
+		"special_body_pitch": 0.0, "special_body_yaw": PI, "special_body_roll": TAU, "special_tuck": 0.20, "special_grab": false},
+	{"id": "special_barras_butterflip", "display_name": "Barras Butterflip", "base_points": 1500, "family": "special",
+		"allowed_states": ["air"], "activation": "press", "required_unlock": "special_clyde_carousel", "special_pose": "butterflip", "duration": 0.75,
+		"special_board_roll": TAU * 2.0, "special_board_yaw": PI, "special_board_pitch": 0.0,
+		"special_body_pitch": 0.0, "special_body_yaw": 0.0, "special_body_roll": 0.0, "special_tuck": 0.18, "special_grab": false},
+	{"id": "special_bridge_blender", "display_name": "Bridge Blender", "base_points": 1800, "family": "special",
+		"allowed_states": ["air"], "activation": "press", "required_unlock": "special_clyde_carousel", "special_pose": "blender", "duration": 0.90,
+		"special_board_roll": -TAU, "special_board_yaw": TAU * 2.0, "special_board_pitch": 0.0,
+		"special_body_pitch": 0.0, "special_body_yaw": TAU, "special_body_roll": 0.0, "special_tuck": 0.30, "special_grab": false},
+	{"id": "special_sandstone_salute", "display_name": "Sandstone Salute", "base_points": 1400, "family": "special",
+		"allowed_states": ["air"], "activation": "press", "required_unlock": "special_tenement_tumble", "special_pose": "salute", "duration": 0.75,
+		"special_board_roll": 0.0, "special_board_yaw": 0.0, "special_board_pitch": 0.35,
+		"special_body_pitch": 0.0, "special_body_yaw": PI, "special_body_roll": 0.0, "special_tuck": 0.12, "special_grab": true},
 	{"id": "named_gap", "display_name": "Named Gap", "base_points": 500, "family": "gap",
 		"allowed_states": ["air", "ground", "grind", "manual"], "activation": "crossing"},
 ]
@@ -165,6 +284,80 @@ static func resolve(family: String, direction: String = "neutral") -> Dictionary
 	if not DIRECTIONAL_SETS.has(family) or not DIRECTIONS.has(direction):
 		return {}
 	return definition(DIRECTIONAL_SETS[family][direction])
+
+static func resolve_upgrade(trick_id: String, tap_count: int = 0) -> Dictionary:
+	# Zero asks for the next incomplete move; an explicit 2/3 selects that stage.
+	# Never turn a finished triple into an unrelated move or grant another entry.
+	var current := definition(trick_id)
+	if current.get("family", "") != "flip" or tap_count < 0 or tap_count > 3 or tap_count == 1:
+		return {}
+	if tap_count == 0:
+		return definition(str(current.get("upgrade_to", "")))
+	if int(current.get("tap_count", 1)) > tap_count:
+		return {}
+	while int(current.get("tap_count", 1)) < tap_count:
+		current = definition(str(current.get("upgrade_to", "")))
+		if current.is_empty(): return {}
+	return current
+
+
+static func resolve_extension(family: String, action: String, direction: String = "neutral", _current_id: String = "") -> Dictionary:
+	if not DIRECTIONS.has(direction) or action not in ["flip", "grab", "revert"]:
+		return {}
+	if family == "lip":
+		if direction != "neutral": return resolve("lip", direction)
+		return definition("handplant" if action == "flip" else ("invert" if action == "grab" else "rock_and_roll"))
+	if family != "manual": return {}
+	if action == "revert":
+		return definition("nose_manual_pivot" if direction.contains("north") else "manual_pivot")
+	if action == "flip":
+		if direction.contains("north"): return definition("one_foot_nose_manual")
+		if direction.contains("south"): return definition("casper_manual")
+		return definition("one_foot_manual" if direction == "neutral" else "crossfoot_manual")
+	if direction.contains("north"): return definition("hang_ten")
+	if direction.contains("south"): return definition("pogo")
+	return definition("spacewalk" if direction == "neutral" else "crossfoot_manual")
+
+
+static func grab_tweak(trick_id: String, direction: String = "neutral") -> Dictionary:
+	var entry := definition(trick_id)
+	if entry.get("family", "") != "grab" or not DIRECTIONS.has(direction): return {}
+	# Keep the original hand contact and identity; root upgrades this one entry.
+	var modifier := "boned"
+	var pitch := -0.32
+	var roll := 0.0
+	var yaw := 0.0
+	var extension := 0.20
+	if direction.contains("south"):
+		modifier = "tucked"
+		pitch = 0.38
+		extension = -0.14
+	elif direction.contains("east"):
+		modifier = "twisted"
+		pitch = 0.12
+		roll = 0.28
+		yaw = 0.35
+		extension = 0.12
+	elif direction.contains("west"):
+		modifier = "extended"
+		pitch = -0.15
+		roll = -0.30
+		extension = 0.24
+	entry["display_name"] = str(entry.display_name) + " " + modifier.capitalize()
+	entry["base_points"] = int(entry.base_points) + 150
+	entry["tweak_points"] = 150
+	entry["tweak_id"] = modifier
+	entry["grab_tweak"] = modifier
+	entry["tweak_leg_extension"] = extension
+	entry["board_pitch"] = float(entry.get("board_pitch", 0.0)) + pitch
+	entry["board_roll"] = float(entry.get("board_roll", 0.0)) + roll
+	entry["board_yaw"] = float(entry.get("board_yaw", 0.0)) + yaw
+	return entry
+
+
+static func special_commands() -> Array[Dictionary]:
+	return SPECIAL_COMMANDS.duplicate(true)
+
 
 static func is_known(trick_id: String) -> bool:
 	return not definition(trick_id).is_empty()
@@ -244,23 +437,56 @@ static func _validate_pose(entry: Dictionary, family: String, prefix: String, er
 		"grab": required = ["grab_side", "board_pitch", "board_roll"]
 		"grind": required = ["grind_yaw", "grind_pitch"]
 		"manual": required = ["manual_sign"]
+		"lip": required = ["lip_pitch", "lip_roll", "lip_yaw", "lip_hand_side", "lip_body_pitch", "lip_body_roll"]
+		"special": required = ["duration", "special_board_roll", "special_board_yaw", "special_board_pitch",
+			"special_body_pitch", "special_body_yaw", "special_body_roll", "special_tuck"]
 	for field: String in required:
 		var value: Variant = entry.get(field)
 		if not (value is float or value is int) or not is_finite(float(value)):
 			errors.append(prefix + field + " must be a finite number.")
-		elif field == "duration" and (float(value) < 0.30 or float(value) > 0.55):
-			errors.append(prefix + "duration must be between 0.30 and 0.55 seconds.")
+		elif field == "duration" and (float(value) < 0.30 or float(value) > (1.2 if family == "special" else 0.75)):
+			errors.append(prefix + "duration must stay within its bounded execution window.")
 		elif field in ["grab_side", "manual_sign"] and absf(float(value)) != 1.0:
 			errors.append(prefix + field + " must be -1 or 1.")
-		elif field != "duration" and absf(float(value)) > TAU * 2.0:
-			errors.append(prefix + field + " exceeds two rotations.")
+		elif field == "lip_hand_side" and float(value) not in [-1.0, 0.0, 1.0]:
+			errors.append(prefix + "lip_hand_side must be -1, 0 or 1.")
+		elif field == "special_tuck" and (float(value) < 0.0 or float(value) > 0.6):
+			errors.append(prefix + "special_tuck must stay between 0 and 0.6 metres.")
+		elif field != "duration" and absf(float(value)) > TAU * 3.0:
+			errors.append(prefix + field + " exceeds three rotations.")
+	if family == "flip":
+		var taps: Variant = entry.get("tap_count")
+		if not taps is int or int(taps) < 1 or int(taps) > 3:
+			errors.append(prefix + "tap_count must be an integer from 1 to 3.")
+		var base: Variant = entry.get("base_flip")
+		if not base is String or definition(base).get("family", "") != "flip":
+			errors.append(prefix + "base_flip must name an authored flip.")
+		if entry.has("upgrade_to"):
+			var next: Dictionary = definition(str(entry.upgrade_to))
+			if next.get("family", "") != "flip" or next.get("base_flip", "") != base \
+					or int(next.get("tap_count", 0)) != int(taps if taps is int else 0) + 1:
+				errors.append(prefix + "upgrade_to must advance the same flip by one tap.")
+	if family == "lip":
+		if not entry.get("lip_support") is String or not LIP_SUPPORTS.has(entry.get("lip_support")):
+			errors.append(prefix + "lip_support must name deck, both_trucks, front_truck, rear_truck or palms.")
+		if not entry.get("lip_invert") is bool:
+			errors.append(prefix + "lip_invert must be a bool.")
+		if entry.get("lip_invert") is bool and entry.lip_invert and entry.get("lip_support") != "palms":
+			errors.append(prefix + "an inverted lip requires actual palm support.")
+	if family == "special":
+		if not EXISTING_SPECIAL_UNLOCKS.has(entry.get("required_unlock")):
+			errors.append(prefix + "required_unlock must reuse an existing career special unlock.")
+		if not SPECIAL_POSES.has(entry.get("special_pose")):
+			errors.append(prefix + "special_pose must select an authored animation.")
+		if not entry.get("special_grab") is bool:
+			errors.append(prefix + "special_grab must be a bool.")
 	if family == "grab":
 		var target: Variant = entry.get("grab_target")
 		if not target is Vector3:
 			errors.append(prefix + "grab_target must be a board-local Vector3.")
 		elif not (target as Vector3).is_finite() or (target as Vector3).length() > 0.60:
 			errors.append(prefix + "grab_target must be finite and within the board.")
-	for field: String in ["manual_yaw", "manual_roll", "manual_foot_lift", "launch_speed_scale"]:
+	for field: String in ["manual_yaw", "manual_roll", "manual_foot_lift", "manual_foot_shift", "launch_speed_scale"]:
 		if not entry.has(field):
 			continue
 		var value: Variant = entry[field]
@@ -270,7 +496,10 @@ static func _validate_pose(entry: Dictionary, family: String, prefix: String, er
 			errors.append(prefix + "launch_speed_scale must be between 0.5 and 1.5.")
 		elif field == "manual_foot_lift" and (float(value) < 0.0 or float(value) > 0.3):
 			errors.append(prefix + "manual_foot_lift must stay between 0 and 0.3 metres.")
+		elif field == "manual_foot_shift" and absf(float(value)) > 0.25:
+			errors.append(prefix + "manual_foot_shift must stay within 0.25 metres.")
 		elif field in ["manual_yaw", "manual_roll"] and absf(float(value)) > TAU:
 			errors.append(prefix + field + " exceeds one rotation.")
-	if entry.has("manual_walk") and not entry["manual_walk"] is bool:
-		errors.append(prefix + "manual_walk must be a bool.")
+	for field: String in ["manual_walk", "manual_pogo", "manual_casper", "manual_cross"]:
+		if entry.has(field) and not entry[field] is bool:
+			errors.append(prefix + field + " must be a bool.")

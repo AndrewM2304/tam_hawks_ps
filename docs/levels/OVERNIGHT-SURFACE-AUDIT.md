@@ -1,5 +1,7 @@
 # Existing-level surface and skating audit
 
+This first-pass snapshot is superseded by the broader [six-district fidelity audit](FULL-FIDELITY-LEVEL-AUDIT.md). Its counts and focused evidence below describe the earlier candidate.
+
 23 October 2026. Original compressed Glasgow map, Godot 4.6.3. This records the overnight implementation and native collision evidence; it does not certify human feel, final art, Mac performance or every possible approach.
 
 The six existing places remain connected. All ten career goal identities, side encounter identities, published navigation routes, bridge gap and route mouths are retained. The level changes concentrate skating opportunities in two underused spaces and make existing raised architecture usable without filling landing lanes with decoration.

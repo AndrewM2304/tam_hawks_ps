@@ -31,6 +31,12 @@ var _george_connector := PackedVector3Array()
 var _built := false
 var _transitions: Array[Node3D] = []
 var _practice_features: Array[Dictionary] = []
+# Existing activity gate positions/heights, sampled before this grading repair.
+# Keep the route itself fixed; smooth only its supporting grassy bank.
+var _bank_cut_grade := PackedVector3Array([
+	Vector3(-148,6,-92),Vector3(-156,9.2044153213501,-112),
+	Vector3(-179,10.8526992797852,-136),Vector3(-195,9.0058708190918,-106),
+	Vector3(-164,6.41034936904907,-88),Vector3(-155,5.73371362686157,-82)])
 
 
 func build(world: Node3D, materials: Dictionary) -> void:
@@ -100,6 +106,8 @@ func get_district_id(world_position: Vector3) -> String:
 	var at := to_local(world_position)
 	if at.z >= 54.0 and at.z <= 220.0 and absf(at.x) <= 280.0: return "clyde"
 	if PARK_LANDSCAPE.has_point(Vector2(at.x, at.z)): return "kelvingrove"
+	for extension: Rect2 in [Rect2(-161,-34,3.2,15),Rect2(-139,-63,3.2,13),Rect2(-70,-132,16,6)]:
+		if extension.has_point(Vector2(at.x,at.z)): return "kelvingrove"
 	# Narrow connector footprints avoid capturing Central/George from broad bounds.
 	if at.x < -145.0 and float(Surface.nearest_segment(_park_connector, Vector2(at.x, at.z)).distance) < 6.5: return "kelvingrove"
 	if at.x < -46.0 and float(Surface.nearest_segment(_george_connector, Vector2(at.x, at.z)).distance) < 5.0: return "kelvingrove"
@@ -297,6 +305,11 @@ void fragment(){
 		for col in 8:
 			var x := -247.0 + col * 13.5 + sin(row * 5.13 + col) * 2.7
 			var z := -217.0 + row * 14.5 + cos(col * 4.1 + row) * 2.5
+			# Preserve the two small graded ledge clearings beside the existing
+			# loop; tree silhouettes still frame their outer edge, not the line.
+			if Rect2(-190,-93,16,7.2).has_point(Vector2(x,z)) or Rect2(-197,-175,17,7.2).has_point(Vector2(x,z)) or Rect2(-162,-158,13,7.2).has_point(Vector2(x,z)): continue
+			if Rect2(-158,-143,7.2,14).has_point(Vector2(x,z)): continue
+			if Rect2(-157,-119,7.2,14).has_point(Vector2(x,z)): continue
 			var nearest := Surface.nearest_segment(_park_path, Vector2(x, z))
 			var central := Surface.nearest_segment(_park_connector, Vector2(x, z))
 			var george := Surface.nearest_segment(_george_connector, Vector2(x, z))
@@ -362,6 +375,26 @@ func _george_bank_height(x: float, z: float) -> float:
 
 
 func _park_height(x: float, z: float) -> float:
+	var original := _park_natural_height(x,z)
+	var nearest := Surface.nearest_segment(_bank_cut_grade,Vector2(x,z))
+	if not nearest.get("within",true) or float(nearest.distance)>=10.0: return original
+	# The grass cut formerly climbed irregular noise/nearest-path facets that
+	# could pin an ordinary pushing capsule. A broad graded core follows the
+	# same gates; smooth shoulders retain the surrounding rolling landscape.
+	var height := lerpf(float(nearest.height),original,smoothstep(4.5,10.0,float(nearest.distance)))
+	# Existing asphalt remains the authoritative riding surface. Keep this
+	# grading below each road and limit the bank rising beside its edge.
+	for route: Dictionary in [
+		{"points":_park_path,"half":4.0},{"points":_park_cutback,"half":4.0},
+		{"points":_park_connector,"half":5.0},{"points":_george_connector,"half":5.0}]:
+		var road := Surface.nearest_segment(route.points,Vector2(x,z))
+		if not road.get("within",true): continue
+		if float(road.distance)<float(route.half)+10.0:
+			height = minf(height,float(road.height)-0.04+maxf(0,float(road.distance)-float(route.half)-0.4)*0.5)
+	return height
+
+
+func _park_natural_height(x: float, z: float) -> float:
 	var rise := clampf((-z - 80.0) / 100.0, 0.0, 1.0)
 	var natural := 6.0 + rise * 10.0 + sin(x * 0.09 + z * 0.03) * 1.15 + sin(z * 0.12) * 0.65
 	var nearest := Surface.nearest_segment(_park_path, Vector2(x, z))
@@ -389,7 +422,29 @@ func _local_ground(x: float, z: float) -> float:
 	var highest := Surface.grid_height(PARK_LANDSCAPE,2.5,_park_height,x,z) if PARK_LANDSCAPE.has_point(at) else NAN
 	for surface: Dictionary in _surfaces:
 		var height := NAN
-		if surface.has("bounds"):
+		if surface.has("edge_triangles"):
+			if not surface.bounds.has_point(at): continue
+			for triangle: PackedVector3Array in surface.edge_triangles:
+				var a := triangle[0]
+				var b := triangle[1]
+				var c := triangle[2]
+				if not Geometry2D.point_is_inside_triangle(at,Vector2(a.x,a.z),Vector2(b.x,b.z),Vector2(c.x,c.z)): continue
+				var normal := (b-a).cross(c-a)
+				height = a.y-(normal.x*(x-a.x)+normal.z*(z-a.z))/normal.y
+				break
+		elif surface.has("strip_sections"):
+			if not surface.bounds.has_point(at): continue
+			for section: Dictionary in surface.strip_sections:
+				if not section.bounds.has_point(at): continue
+				for triangle: PackedVector3Array in section.triangles:
+					var a := triangle[0]
+					var b := triangle[1]
+					var c := triangle[2]
+					if not Geometry2D.point_is_inside_triangle(at,Vector2(a.x,a.z),Vector2(b.x,b.z),Vector2(c.x,c.z)): continue
+					var normal := (b-a).cross(c-a)
+					var found := a.y-(normal.x*(x-a.x)+normal.z*(z-a.z))/normal.y
+					if is_nan(height) or found>height: height = found
+		elif surface.has("bounds"):
 			if surface.bounds.has_point(at): height = Surface.grid_height(surface.bounds,surface.spacing,surface.height_at,x,z) if surface.has("height_at") else surface.height
 		else:
 			var nearest := Surface.nearest_segment(surface.points, at)
@@ -405,8 +460,26 @@ func _patch(id: String, bounds: Rect2, height: float, material: Material) -> voi
 
 
 func _path(id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "asphalt") -> void:
-	Surface.strip(self, id, points, width, material, audio)
-	_surfaces.append({"points": points, "width": width})
+	var body := Surface.strip(self, id, points, width, material, audio)
+	# A curved ribbon's outer vertices do not share the nearest centre-line
+	# projection. Use its actual triangles for support and shoulder construction.
+	var vertices: PackedVector3Array = body.get_meta("strip_vertices")
+	var indices: PackedInt32Array = body.get_meta("strip_indices")
+	var sections: Array[Dictionary] = []
+	var full_bounds := Rect2(Vector2(vertices[0].x,vertices[0].z),Vector2.ZERO)
+	for i in range(0,indices.size(),6):
+		var bounds := Rect2(Vector2(vertices[indices[i]].x,vertices[indices[i]].z),Vector2.ZERO)
+		var triangles: Array[PackedVector3Array] = []
+		for face: int in [0,3]:
+			var triangle := PackedVector3Array()
+			for j in 3:
+				var at := vertices[indices[i+face+j]]
+				triangle.append(at)
+				bounds = bounds.expand(Vector2(at.x,at.z))
+				full_bounds = full_bounds.expand(Vector2(at.x,at.z))
+			triangles.append(triangle)
+		sections.append({"bounds":bounds.grow(0.001),"triangles":triangles})
+	_surfaces.append({"bounds":full_bounds.grow(0.001),"strip_sections":sections})
 
 
 func _route(id: String, label: String, points: PackedVector3Array, jump: bool = false) -> void:
@@ -602,11 +675,59 @@ func _path_border(points: PackedVector3Array) -> void:
 			var at := points[i] + offset + Vector3.UP * 0.025
 			var branch := Surface.nearest_segment(_park_cutback, Vector2(at.x, at.z))
 			if float(branch.distance) <= 6.0:
-				if edge.size() >= 2: Surface.strip(self, "ParkGranitePathEdge", edge, 0.30, _material("cut_stone"))
+				if edge.size() >= 2: _conforming_path_edge(edge)
 				edge = PackedVector3Array()
 			else:
 				edge.append(at)
-		if edge.size() >= 2: Surface.strip(self, "ParkGranitePathEdge", edge, 0.30, _material("cut_stone"))
+		if edge.size() >= 2: _conforming_path_edge(edge)
+
+
+func _conforming_path_edge(points: PackedVector3Array) -> void:
+	# The old narrow ribbon copied centre-road Y across lower grass. This
+	# shallow shoulder samples actual support on both sides, removing its
+	# floating collision seam. Query records share the exact visible triangles.
+	var vertices := PackedVector3Array()
+	var normals := PackedVector3Array()
+	var uv := PackedVector2Array()
+	var indices := PackedInt32Array()
+	var records: Array[Dictionary] = []
+	var distance := 0.0
+	for i in points.size():
+		var direction := points[mini(i+1,points.size()-1)]-points[maxi(0,i-1)]
+		var across := Vector3(direction.z,0,-direction.x).normalized()*0.4
+		if i>0: distance += points[i].distance_to(points[i-1])
+		for side: float in [-1.0,0.0,1.0]:
+			var at := points[i]+across*side
+			at.y = _local_ground(at.x,at.z)+0.008
+			# The centre is the actual asphalt edge. A single outer-to-inner
+			# chord would sit below the asphalt halfway across, leaving a lip.
+			if side==0.0: at.y = maxf(at.y,points[i].y+0.008)
+			vertices.append(at)
+			normals.append(Vector3.ZERO)
+			uv.append(Vector2((side+1.0)*0.2,distance*0.5))
+	for i in range(points.size()-1):
+		var a := i*3
+		var local_indices := [a,a+1,a+3,a+1,a+4,a+3,a+1,a+2,a+4,a+2,a+5,a+4]
+		indices.append_array(PackedInt32Array(local_indices))
+		var triangles: Array[PackedVector3Array] = []
+		var north_west := Vector2(INF,INF)
+		var south_east := Vector2(-INF,-INF)
+		for start: int in [0,3,6,9]:
+			var triangle := PackedVector3Array()
+			var face_normal := (vertices[local_indices[start+1]]-vertices[local_indices[start]]).cross(vertices[local_indices[start+2]]-vertices[local_indices[start]])
+			if face_normal.y<0: face_normal = -face_normal
+			for offset in 3:
+				var index: int = local_indices[start+offset]
+				var at := vertices[index]
+				normals[index] += face_normal
+				triangle.append(at)
+				north_west = north_west.min(Vector2(at.x,at.z))
+				south_east = south_east.max(Vector2(at.x,at.z))
+			triangles.append(triangle)
+		records.append({"bounds":Rect2(north_west,south_east-north_west).grow(0.001),"edge_triangles":triangles})
+	for i in normals.size(): normals[i] = normals[i].normalized()
+	Surface._body(self,"ParkGranitePathEdge",vertices,normals,uv,indices,_material("cut_stone"),"stone")
+	_surfaces.append_array(records)
 
 
 func _park_pavilion() -> void:

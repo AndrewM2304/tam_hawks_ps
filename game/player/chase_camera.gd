@@ -25,7 +25,7 @@ var _support_up := Vector3.UP
 func _init() -> void:
 	_sphere.radius = CAMERA_RADIUS
 	_query.shape = _sphere
-	_query.collision_mask = 1
+	_query.collision_mask = 1 | 8
 	_query.collide_with_bodies = true
 	_query.collide_with_areas = false
 	_query.margin = 0.015
@@ -56,7 +56,12 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	_query.exclude = excluded
 	var step := clampf(delta, 0.0, 0.15) if is_finite(delta) else 0.0
 	var response := clampf(sensitivity, 0.5, 2.0) if is_finite(sensitivity) else 1.0
-	var planar := Vector3(rider.velocity.x, 0.0, rider.velocity.z)
+	# Curved/rail movement does not refresh CharacterBody's floor/platform cache.
+	# After leaving a cart that cache can point opposite to a true rollback.
+	var native_platform := rider.is_on_floor() and rider.get_platform_velocity().length_squared() > 0.01 \
+		and not bool(rider.get("transition_active")) and not bool(rider.get("grinding"))
+	var motion := rider.get_real_velocity() if native_platform else rider.velocity
+	var planar := Vector3(motion.x, 0.0, motion.z)
 	if not planar.is_finite(): planar = Vector3.ZERO
 	var speed := clampf(planar.length(), 0.0, 15.0)
 	var distance := 6.0 if reduced_motion else 6.0 + speed * 0.04
@@ -162,8 +167,20 @@ func _sweep(space: PhysicsDirectSpaceState3D, from: Vector3, to: Vector3) -> Vec
 	var fractions := space.cast_motion(_query)
 	if fractions.size() < 2: return from
 	var fraction := clampf(fractions[0], 0.0, 1.0)
-	if fraction >= 0.9999: return to
-	return from + motion.normalized() * maxf(0.0, length * fraction - CLEARANCE)
+	var endpoint := to if fraction >= 0.9999 else from + motion.normalized() * maxf(0.0, length * fraction - CLEARANCE)
+	# A native sweep can leave a small endpoint overlap at a shallow ceiling
+	# angle. Verify the actual sphere with the same margin; retract to a tested
+	# clear point instead of selecting that invalid endpoint again as fallback.
+	if _clear_volume(space, endpoint) or not _clear_volume(space, from): return endpoint
+	var clear_fraction := 0.0
+	var blocked_fraction := 1.0
+	for iteration in 12:
+		var middle := (clear_fraction + blocked_fraction) * 0.5
+		if _clear_volume(space, from.lerp(endpoint, middle)):
+			clear_fraction = middle
+		else:
+			blocked_fraction = middle
+	return from.lerp(endpoint, clear_fraction)
 
 
 func _clear_volume(space: PhysicsDirectSpaceState3D, position: Vector3) -> bool:
@@ -176,6 +193,6 @@ func _usable(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Vector3, 
 	if anchor.distance_to(position) < MIN_USEFUL_ARM or not _clear_volume(space, position): return false
 	# Chest alone can be clear while a lip or column hides the board or head.
 	for height: float in [0.12, CHEST_HEIGHT, 1.8]:
-		var query := PhysicsRayQueryParameters3D.create(position, board + _support_up * height, 1, excluded)
+		var query := PhysicsRayQueryParameters3D.create(position, board + _support_up * height, 1 | 8, excluded)
 		if not space.intersect_ray(query).is_empty(): return false
 	return true

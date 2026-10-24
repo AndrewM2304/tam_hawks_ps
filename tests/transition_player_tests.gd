@@ -89,7 +89,7 @@ static func _lip_process(tree: SceneTree, game: Node, check: Callable) -> void:
 		if game.skater.lip_active:
 			caught = true
 			break
-	check.call(caught and absf(game.skater.global_position.y - 4.0) < 0.01
+	check.call(caught and absf(game.skater.global_position.y - 4.072) < 0.01
 		and game.score.trick_history.count("Lip Stall") == 1,
 		"transition player: held grind catches and names the actual coping once")
 	if not caught: return

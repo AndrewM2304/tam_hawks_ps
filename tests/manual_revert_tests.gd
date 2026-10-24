@@ -102,6 +102,9 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		"manual: actual balance input exceeding the limit bails once and clears state")
 	_release_actions()
 	await _frames(tree, 45)
+	for frame in 90:
+		if not skater.bail_active: break
+		await _frames(tree, 1)
 	skater.speed = 8.0
 	skater.set_trick_entries_enabled(false)
 	Input.action_press("manual")
@@ -215,7 +218,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 
 static func _land(tree: SceneTree, skater: CharacterBody3D) -> void:
 	for i in range(100):
-		if skater.is_on_floor() and not skater.airborne:
+		if skater.is_on_floor() and not skater.airborne and not skater.bail_active:
 			return
 		await _frames(tree, 1)
 

@@ -144,10 +144,15 @@ static func _physical_failure_and_reset(tree: SceneTree, game: Node, check: Call
 	Input.action_press("manual")
 	await _frames(tree, 2)
 	var entered: bool = game.skater.manual_active
+	# Deliberately push balance towards its limit before ordinary rolling drag
+	# ends this short court approach cleanly. This remains native control input.
+	Input.action_press("brake")
 	for frame in range(280):
 		await _frames(tree, 1)
 		if game.encounters.status_snapshot().state == "failed": break
 	_release()
+	print("ENCOUNTER MANUAL entered=%s state=%s bail=%s combo=%d position=%s" % [entered,
+		game.encounters.status_snapshot(), game.skater.bail_active, game.score.get_combo_value(), game.skater.global_position])
 	check.call(entered and game.encounters.status_snapshot().state == "failed"
 		and game.encounters.status_snapshot().wins == 0 and game.score.get_combo_value() == 0,
 		"encounter integration: a real unbalanced manual bail fails the attempt and drops pending score")

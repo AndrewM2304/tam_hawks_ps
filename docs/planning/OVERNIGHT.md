@@ -1,72 +1,61 @@
-# Overnight skating completion — 24 October 2026, Europe/London
+# Active full-fidelity continuation — 24 October 2026
 
-Owner request: keep implementing every identified navigation/trick gap and audit/
-revise the current level, without routine feedback stops. Completion means actual
-working mechanics, supported/usable surfaces, purposeful lines, captured review
-and honest regression evidence. [ADR-015](../architecture/decisions/ADR-015-complete-skate-process.md)
-defines the integration contracts. Keep all current career/save identities.
+The owner rejected the premature ADR-015 checkpoint stop. Continue the entire
+request using **only remaining included weekly usage**. Never purchase tokens,
+enable overages, change billing, use paid APIs/resources, hosted CI, publish, merge
+or send third-party messages. The old morning window and `OVERNIGHT_COMPLETE`
+marker are historical, not stop conditions. [STATUS](../STATUS.md) has live results.
 
-| Work | Owner | Priority / milestone | Dependencies | Acceptance |
-|---|---|---|---|---|
-| Charge/release, setup tricks, stance/landing, powerslide | Root | P0 / M01-003/004, M02 | Existing collision/takeoff | Actual tap/hold launches, charge bounds, directional setups, clean/bad rotation landings, signed stance and quick-turn tests |
-| True transition/vert/re-entry/lip | transition_vert | P0 / M02-011 | Native feature geometry + root hooks | Actual full 90° approach, rollback, departure, re-entry, lip/exit, collision/reset/camera traces |
-| Wallride/wallie | wallride | P0 / M02-012 | Solidwall classification + root hooks | Actual eligible/invalid approaches, finite ride, wallie/release, obstruction, cooldown/bail |
-| Input language and trick extensions | trick_language + Root | P0 / M02-001/002/003/006 | Catalog/input | Double taps, queued tricks, manual gestures/extensions, special sequences and direction-based setup with bounded timing |
-| Combo/special economy | combo_economy + Root | P0 / M02-005/006 | Effective trick signals | Entry multiplier, persistent repetition, rotation bonus, live maintained meter, pause/bail/reset |
-| Surface coverage and purposeful density | level_polish | P0 / M03-013/014, M05 | Eligiblewalls/ledgepaths + transition feature | Inventory and explicit exclusions; collision-backed ledges; useful linked park/quay features and preserved route clearance |
-| Independent integration/capture | overnight_qe | P0 / M02-008, M06 | Integrated source freeze | Meaningful new/legacy checks, real physics/camera/surface audits, actual rendered actions/places; exact receipts |
+Read AGENTS, STATUS, current task records and git status first. Check
+`.local/overnight-lease.json`: stay quiet and do not edit for an active unexpired
+other-run lease; reclaim stale ownership and maintain a bounded live lease.
+Root and coordinated agents share one run. Preserve source, career/save IDs,
+licensed assets and actual collision/camera/once-only score tests.
 
-Current baseline: local commit `bf7af80`, 1,489/0 at the previous trick-vocabulary
-checkpoint. Those results are historical after overnight edits. Do not claim
-they validate unfinished new work. All ordinary no-spend/provenance rules remain.
+An isolated passing suite, saved commit or narrower checklist is not completion.
+Save exact checkpoints and continue. Human hardware/feel/art acceptance remains
+honestly open; complete every independent task anyway. Use `FULL_FIDELITY_ACCEPTED`
+only after the entire engineering/level crosswalk has current-source evidence;
+never invent owner acceptance. If included quota or workspace access genuinely
+becomes unavailable, record the blocker once and pause without seeking purchases.
 
-## Continuation protocol
+## Crosswalk
 
-Read AGENTS, STATUS, this plan, ADR-015 and `git status` first. Stay on feature
-branch `work`, in this checkout. Check `.local/overnight-lease.json`: a recent
-unexpired active lease means another run is working; leave it alone. A stale
-lease can be reclaimed. Save a fresh bounded lease during active implementation.
+All tasks retain the existing 75 roadmap IDs and disjoint file ownership.
 
-Resume existing edits; never reset them. Use multi-agents with disjoint ownership,
-continue independently until the assigned acceptance criteria are genuinely met,
-and fix failures before broadening tests again. Update STATUS and this file with
-actual outcomes, defects, exact next steps and automation state at checkpoints.
-Commit clean tested source when appropriate. Do not purchase, provision, publish,
-merge, send third-party messages or invent human acceptance. Stop overnight
-continuation by the morning window or when `OVERNIGHT_COMPLETE` is recorded.
+| Work / tickets | Owner, priority | Acceptance |
+|---|---|---|
+| Authentic setup/catch/stance/bail — M01-004, M02-008, M05-002/006 | Root/rig/QE, P0 | Native sole anchor and palm contact, delayed pop/catch, moving support, interrupted-pose fall/getup, once-only loss, pause/reset and actual motion |
+| Full repertoire — M02-001/002/003/006/008 | Catalog/Root/QE, P0 | All 78 definitions activate through input, score/catch/reset; 24 flip stages, eight tweaked grabs, ten grind actions, eleven manuals, nine lips, six specials and core actions |
+| Bowl/halfpipe/spine — M02-011, M03-014 | Transition/world/Root/QE, P0 | Matching native mesh/support, bowl carve, both halfpipe faces, real spine transfer, steel-top lips, clearance/energy/camera and bypass |
+| Whole-map density/affordances — M03-013/014, M05-001, M06-007 | World/QE, P0 | Useful links in all six places, finite ledges/eligible walls with exclusions, preserved career routes, natural-input ground/chase review and actual density bounds |
+| Reversible service route — M03-015 | Feature/Main/HUD/QE, P1 | Native moving gate, anti-trap sensor, both traversal directions, live map, cooldown/pause/reset and permanent alternative |
+| Cone on a Cruise — M04-008 | Feature/actor/Main/QE, P1 | Real approach/pop, entire physical cone hull through native ring, raft recovery, clean player landing/bank, misses/rim/retry/pause/reset |
+| One More Lap — M04-011 | Feature/world/actor/QE, P1 | Both ordered native park routes, real pop/landing/return, timer/misses/bail/reset and clear camera |
+| Optional cart/skitch — M02-013 | Feature/Root/rig/QE, P1 | Actual catch before score/palms, native tow/balance/release/charged pop, pedestrian safety, true cart geometry/support/reset/camera |
+| Verification/delivery — M06-004/005/006, M07-001/002/003/004 | QE/Root, P0 | Full regression/cold launch, decoded actual motion and six-place review, local profile, tested commits, fresh Linux/Mac packages and independent audit/Linux smoke |
 
-## Verified core checkpoint — full fidelity still in progress
+## Current candidate
 
-The bounded core work in the table is implemented. This does not complete the
-owner's broader full-fidelity/polish request; the prior completion wording was too
-broad. `OVERNIGHT_COMPLETE` refers only to that engineering checkpoint. Final source passes
-`./tools/check.sh`:1817/0, exit 0,213 unchanged inputs. Cold-source Main/title 44/0
-and cold/warm/refusal/restoration pass with 210 unchanged inputs. Final28 PNG/44-check
-capture passes source stability, PNG CRC/row checks and independent source/image
-rehashes; all images are reviewed. Exact receipts and commands are in
-[STATUS](../STATUS.md) and [verification](../testing/OVERNIGHT-SKATE-PROCESS.md).
+All crosswalk systems are implemented in the dirty candidate, with focused receipts
+in STATUS. Final native floor-seam regression, full aggregate, source-bound whole-map motion,
+cold launch/profile and new packages remain. Manual-pose and adult-actor checks
+now pass with actual geometry and smooth-entry evidence. Both park branches, Main cone/tow and floor/
+camera regressions pass. Ground review found and closed a70 m south-quay gap;
+current surface/density checks are261/0 and56/0 with436 bodies/139 tracks.
+Historical `8f5058b` (1,817/0) and `9824d31` do not certify these edits.
 
-The wall visual penetration/contact and vert speed issues found during actual
-review are fixed and verified. Level inventory is357/55/45/111 (bodies/eligible
-walls/tracked ledge bodies/grind paths), with explicit exclusions and useful
-practice pockets. Existing ten-goal career and all side challenge routes pass.
+## Checkpoint and resumption
 
-The bounded overnight continuation was successfully paused after completion.
-It will not consume further included allowance while paused. No spending budget,
-token purchase, upgrade or billing change exists. The lease is complete/closed.
-No new native export is claimed. Human Mac/controller/feel, target performance,
-listening and final-art acceptance remain separate; bowls/spine structures and
-skitching remain their separate backlog scope. Unfinished fidelity and polish work remains authorized under the owner's
-standing request. The continuation is currently paused; no automation was changed
-during the24 October status audit. Preserve the tested source and no-spend rule.
-
-## Remaining build priorities
-
-| Work | Owner / priority | Existing tickets | Acceptance / validation |
-|---|---|---|---|
-| Authentic Boneless/No Comply, stance/catch/landing and bail/recovery motion | A04/A05/A09, P0 | M01-004, M02-008, M05-002/006 | Real hand/foot contact and complete animation states; actual motion captures and physics regressions |
-| Broader lip and trick repertoire | A04/A05/A09, P1 | M02-001/002/003/006/008 | Distinct handplants/inverts/lip and other variants with valid support, input and score behavior |
-| Bowls/connected curved terrain/spine structures | A04/A05/A09, P1 | M02-011, M03-014 | Native approach/transfer/re-entry and camera tests across connected surfaces |
-| Full-map density, art and reachable-line finishing | A05/A08/A09, P0 | M03-014, M05-001/002, M06-007 | Ground-level natural-input review of usable surfaces and purposeful spaces, plus actual captures |
-| Planned route event, river stunt, park lap and skitch feasibility | A04/A05/A06/A09, existing priorities | M02-013, M03-015, M04-008/011 | Implement or document the existing scoped feasibility decisions and verify each real playable loop |
-| Current Mac package and hardware/feel/performance | A01/A04/A09 + Owner, P0 | M06-004/005/006, M07-003 | Fresh source-bound package; physical Mac/DualSense and moving-route evidence |
+1. Coordinate live owners and preserve edits. Do not replace connected behavior
+   with unused definitions.
+2. Fix actual native/input/render failures without weakening collision, contact,
+   full-body camera or once-only scoring. Adapt fixtures only to real changed
+   documented process or geometry.
+3. Freeze runtime/tests/tools, run `./tools/check.sh`, capture real Main and all
+   six places with before/after hashes. Separate authored inspection from ordinary
+   mapped-input gameplay and performance evidence.
+4. Save tested source, export using verified free templates, independently audit
+   both packages and smoke Linux. A Linux export does not prove actual Mac launch.
+5. Update STATUS, backlog, guide/interfaces and exact resumption state. Continue
+   all available work after checkpoints; do not manufacture an early stop gate.

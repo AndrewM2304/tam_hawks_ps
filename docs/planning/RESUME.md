@@ -1,75 +1,44 @@
-# Resuming development
+# Resume full-fidelity implementation
 
-**Latest work — 23 October 2026:** the owner requested polished trick sets and
-combos. Start with STATUS, [TRICK-FIDELITY](TRICK-FIDELITY.md) and
-[ADR-014](../architecture/decisions/ADR-014-trick-fidelity.md). Preserve the current
-directional catalog, sequential flips/grabs, catch and hold rules, nose manuals,
-landing buffer, stable scoring identities, new poses/contacts and Trick Guide.
-M01/M02/M05/M06 human/hardware/art acceptance remains open; continue authorized
-implementation without routine approval requests. Existing movement/map repairs
-remain the baseline. The older repair-first instructions below are historical
-where the new trick-fidelity priority supersedes them.
+Read AGENTS.md, docs/STATUS.md, docs/planning/OVERNIGHT.md, the affected BACKLOG
+records and ADR-016 before editing. Stay on branch work in the existing checkout.
+Inspect git status and preserve every current change. Do not reset source or create
+another controller/worktree. Coordinate existing agents with disjoint files.
 
-Run the source launcher for play; old native archives predate this work. Final
-verification uses `./tools/check.sh`, `python3 tools/source_launch_smoke.py` and
-`./tools/trick_fidelity_capture.sh --private-display`. Do not reuse an earlier
-hash/receipt after source changes. Exact source/commands/results are in STATUS.
+Check .local/overnight-lease.json first. Another active unexpired run owns the
+workspace: stay quiet and do not duplicate work. Reclaim only stale ownership;
+keep a bounded lease while implementing. The owner's explicit continuation is
+authorized, using ONLY remaining included weekly usage. Never purchase tokens,
+enable overages, change billing, use paid APIs/resources, hosted CI, publish,
+merge or send third-party messages. No monetary overnight budget exists.
 
-A new session should be able to work from this repository alone. Treat source, tests and the recorded handoff as evidence; a chat promise is not an implementation result. The owner has authorized continuing the remaining work without routine task-by-task approval, subject to the no-spend constraint. Do not restart from the earlier M01-only state or ask whether to proceed with an already authorized next ticket.
+STATUS lists current focused results and actual defects. The latest candidate
+contains native supported Boneless/No Comply, catch/stance/animated bail,78 trick
+definitions with real activation, bowl/connected halfpipe/spine, all-six-place
+useful features/affordance audit and gate/cone/lap/cart/skitch. Preserve actual
+collision/camera/contact/once-only scoring, all career/save IDs and asset licences.
+Do not re-add these systems as unused definitions because an old document called
+them Planned. Older checkpoint counts, packages and OVERNIGHT_COMPLETE are history.
 
-**Current first priority: harden the current gameplay; pause new areas.** The latest owner play on Mac launches without errors but rolls too fast for the intended arcade skate feel; shader output and UI also need work. Keep work on existing movement, ground response, rendering and HUD. The previously reported invisible rider, shop-wall framing and four floor departures have bounded repairs and current Linux render/regression evidence; owner Mac replay and human feel remain open. Read [ACTIVE_WORK](ACTIVE_WORK.md) and STATUS for the exact current source and test receipt. The `6ff294a` source handoff and `00da63a` native packages remain historical before evidence. Preserve the ten goals, existing career/challenges and no-spend rule; do not expand the map during this slice.
+Continue the exact failing native case in STATUS first, then remaining independent
+aggregate/capture/cold-launch/profile/packaging tasks. Update fixtures only for a
+real documented process/geometry change; never weaken a production assertion to
+hide a defect. Source freezes must coordinate all runtime/tests/tools owners.
+Run tools/check.sh for production changes and save exact logs/source hashes.
+Graphical changes require actual captured review and decoded continuous motion;
+a posed frame or helper test is not natural gameplay evidence.
 
-1. Read `AGENTS.md`, `docs/STATUS.md`, the relevant backlog tickets, `docs/architecture/interfaces.md`, `docs/research/SKATING_REUSE.md`, and `docs/product/ART_DIRECTION.md`. Glasgow reference work starts from `docs/research/GLASGOW_REFERENCES.md`; M06-007 remains a mandatory final cleanup gate. Check `git status --short` and the current branch before editing. Preserve existing changes.
-2. Inspect the most recent recorded command results and defects. During the active playability repair, first resume the focused reproduction/check assigned by root; run `tools/check.sh` only after the final coordinated source freeze. If the environment was replaced, use `tools/setup.sh` for environment verification once root has accounted for its import/check work. If the engine is missing, obtain free Godot 4.6.3 from the official archive with normal artifact verification, then set `GODOT_BIN` if needed; the setup script does not download it.
-3. Compare the current implementation map below with STATUS/backlog, then address recorded failures or the earliest unblocked acceptance slice. Human playtest gates cannot be passed by synthetic tests, but their pending status does not halt independent implementation, art cleanup, fixes, research, tooling or local verification. Record the evidence dependency and proceed with the useful work that does not require it.
-4. Use the existing isolated checkout and a feature branch. Do not create a worktree unless the user explicitly asks. Assign disjoint files before parallel edits; the orchestrator owns shared interfaces.
-5. Complete the selected acceptance slice and continue to the next authorized step. Record changed gameplay contracts in an ADR before dependent agents implement against them. Avoid repeated approval pauses for routine implementation decisions or reversible local fixes.
-6. Run appropriate local automated checks. For visible changes, capture an actual rendered frame or record the exact rendering blocker. Document manual steps and platform limitations separately.
-7. Update `docs/STATUS.md` and the ticket: files changed, command and result, unresolved defects, next action, and dependency state. Mark Done only with acceptance evidence.
-8. Leave source, decisions and tests reviewable. Do not purchase anything, enable hosted services, trigger hosted CI or start unattended agents. Publishing issues, pushing changes and release distribution must follow the owner's current instructions; this initial session's ticket templates are local.
+Save tested commits and exact checkpoint results/defects/resumption state; then
+continue authorized work. Export current source only after a tested clean runtime
+commit. Official verified free Godot templates are cached. Audit actual Linux/Mac
+packages independently and smoke the Linux executable. Actual Mac launch,
+DualSense wired/Bluetooth, Apple Silicon performance, human feel/listening and
+final visual acceptance remain open until genuine evidence; complete all other
+work anyway. Do not stop merely because a subset passes or a hardware gate exists.
 
-## Current implementation map
-
-The game has progressed beyond the original movement square. The first camera/movement/fall-through report triggered the repair now in progress. Existing local coverage proves only its declared scenarios; the current aggregate result and latest owner direction belong in STATUS/QE, not a frozen count in this resume guide.
-
-| Area | Existing implementation to preserve | Next acceptance evidence |
-| --- | --- | --- |
-| Skating/combo | Ollies, flips/grabs/spins, authored straight, sloped, ledge and curved coping grinds, manual balance, landing reverts, 0.35-second links, bounded overtime, two meter-gated specials and gap tracking | P0 natural-input push/coast/brake/left-right turn/ollie repair, preserving takeoff and score rules; then human combo feel and physical DualSense review |
-| World | Six connected city/river/park areas, 0–17 m terrain, fountain coping, station high/low overlap, Merchant Close/service court, park cutback, Clyde bridge/yard/curved hip, chamfered civic garden/busking pitch, market-hall island, original reference-informed Barrowland sign, a covered Barras aisle with open return, South Portland-inspired safe bridge, joined Clyde frontage, the attached Exchange/gallery entrance terrace and west shopfront bank/ledge with clear bypasses, markers and cone interaction | P0 off-route support and honest boundaries at visible close mouths, lateral departures and missed lines; actual single-bail safe recovery. Route-centre career success does not establish map-wide collision |
-| Local encounters | Three implemented side acts: Mo’s three-family busker line; Rae’s A/B/C coping line with the corrected bin drummer/two fabric cats; Mairi’s Manual→market_hop→bank delivery through three covered or west gates. Each observes real events, has pausable actors and keeps results session-local | Human discovery, cultural tone, listening and fun review; two further local encounters (foam-cone river stunt and park circuit) remain Planned in BACKLOG; current delivery capture/aggregate/export status belongs in STATUS |
-| Career | Ten goals, per-run collections, records, earned cosmetics/specials, versioned local saves, backup and corruption handling | Full career completion/pacing and target-Mac persistence/relaunch |
-| Presentation | Varied original architecture, two CC0 texture sets, anatomical CC0 head/hands with native skinned clothing, irregular foliage, route map and revised HUD/menu navigation | Mandatory M06-007 cleanup, final realistic/fun visual direction and owner acceptance |
-| Audio | Original procedural skating SFX/district ambience, spatial original busker plucks and bin percussion, three licensed locally generated Flite WAV barks, captions and cooldowns | Actual listening/mix/intelligibility review and target-device playback |
-| Settings/controls | Saved mix levels, captions, UI scale, sensitivity, reduced motion, keyboard/controller remapping, conflict guards and current-binding prompts | P0 normal-main camera/rider visibility with fresh and retained settings; then physical controller navigation/remapping/reconnect and display/comfort review |
-| Packaging | Local unsigned export tooling and player/export guides | Check STATUS for actual artifact results; Mac launch, offline play and hardware performance remain distinct |
-
-For the current repair, first read [PLAYABILITY-REPAIR-BRIEF](../levels/PLAYABILITY-REPAIR-BRIEF.md) and ACTIVE_WORK. Historical design context remains in ADR-007/008/009/010/011, `docs/levels/LEAD-DESIGN-REVIEW.md`, the current core/outdoor route contracts, `docs/research/CLASSIC-LEVEL-DESIGN.md`, `docs/research/GLASGOW-CHARACTERS.md`, `docs/levels/BARRAS-CLYDE-BRIEF.md`, `docs/research/BARRAS-CLYDE-REFERENCES.md` and `docs/product/GLASGOW-FUN.md`. Keep full vert/wallride/traffic, the reversible route set piece and the two future encounters explicitly Planned until their dedicated prototypes pass. [TRANSITION-SKATING](../research/TRANSITION-SKATING.md) is completed source/licence research for M02-011, with its exact isolated-fixture first edit; no transition implementation or playtest is claimed. The verified Barrowland/Barras/Clyde checkpoint is preserved. The Exchange/gallery entrance terrace, west seating/bank edge and scripted earned line retain their prior bounded evidence under M05-001/M06-007. The current repair takes priority: start the actual main scene through its menu, preserve before traces, use only mapped push/steer/brake/ollie inputs for new playability evidence, and audit apparent ground away from authored centre lines. STATUS records the latest ordinary/native checkpoint outcome. The owner has now supplied concrete defects; older captures/packages are historical reference, not closure. Capture tools are not editable by planning until root assigns a coordinated render window. The new capture scope must show ordinary moving play and repaired camera/collision cases; an unchanged Exchange static refresh is insufficient. Read [EXCHANGE-GALLERY-BRIEF](../levels/EXCHANGE-GALLERY-BRIEF.md), [EXCHANGE-GALLERY-REFERENCES](../research/EXCHANGE-GALLERY-REFERENCES.md) and ACTIVE_WORK for exact current releases and remaining proof; do not treat older screenshots/packages as new-source evidence. The gallery side-strip candidates at X−15…−9 and X9…15 / Z−56…−42, rear X−9…9 / Z−56…−54 and south retail gaps at the lateral X ranges / Z42…54 now have four implemented supported closes (48 runtime routes), with broader boundary coverage and independent physical replay still pending. Protect X±22, H/cone, the new ledge and all career/encounter IDs. Further decorative edge work and the isolated original quarter-pipe/bank-bypass baseline follow the ordinary-play repair; the transition experiment must not silently replace the production controller or become a required career route.
-
-Read [SKATE-RESPONSE](../testing/SKATE-RESPONSE.md) for measured old movement versus the new helper’s analytical targets; integrated after measurements and human feel are separate. Read `docs/testing/GRINDING.md`, `PROGRESSION.md`, `CAREER-ROUTES.md`, `AUDIO.md`, `PERFORMANCE.md`, `EXPORT.md` and the visual checklist as relevant. Read `docs/PLAYER-GUIDE.md` for the playable controls and screens. Preserve tested behavior while improving it; do not replace implemented manual/revert/career/voice features with fresh placeholders because an older document called them planned.
-
-## Work that can continue while human gates are open
-
-- **Repair the owner-reported failures first.** Root reproduces normal-main rider/camera visibility and natural controls; world/QE probe apparent ground beyond route centres and replay misses/recovery. Record actual before/after evidence without per-tick heading, position, speed or score assignment. Keep untested symptoms/locations as hypotheses; the bounded cold-start, wall-camera and four floor-departure cases already reproduced in ACTIVE_WORK now require fixes and replay. Do not fill every gap with an invisible catch slab or call automatic recovery a replacement for visible supported ground.
-- Fix reproduced gameplay/UI/export defects and strengthen focused regressions where the failure warrants them. Keep save tests isolated from any player's profile; preserve unreadable/newer profiles and backup-recovery behavior.
-- Continue the mandatory graphics/UI cleanup after the functional gameplay baseline. The current architectural/material pass is an improvement, not final realistic acceptance. Track remaining repetition, facade variation, animations, route readability, menu polish and performance against M05/M06 and `VISUAL_ACCEPTANCE.md`.
-- Verify actual Glasgow frontage/street references when network access permits, then use dated evidence for boundary art. Current compressed geography and generic shop identities are not a verified map. Read `GLASGOW_REFERENCES.md` before retrying its known blocked sources; do not use paid APIs or import StreetView photographs as textures. The bounded Barras/Clyde pass now has inspected venue pages, market plans, dated photographs and official architecture references; that does not complete the full-city/current-tenancy survey. A reference-site blocker does not block unrelated local development.
-- Finish repeatable packaging, source/provenance audits and local launch/offline checks within the existing free toolchain. Do not claim a packaged Mac app works merely because export succeeded on Linux.
-- Prepare exact human test routes for Mac/DualSense, visual review and listening. Keep those acceptance items open until real evidence arrives, while completing their independent preparation and implementation work.
-
-The no-spend rule persists across resumed sessions: no purchases, paid maps/voice services, billing, hosted CI or scheduled autonomous runs. Free compatible reuse remains encouraged after source/licence inspection. M06-007 cannot be dropped because credits or a session end.
-
-## Minimum end-of-session record
-
-- Branch and commit if one exists; dirty/untracked files intentionally left for review.
-- Completed ticket IDs with exact command outcomes and evidence paths.
-- In-progress ticket ID, implementation state, failing cases and the next concrete edit.
-- Outstanding human/hardware tests; name the device and scenario required.
-- Missing credentials or dependencies, without secret values.
-- New assets/dependencies and their provenance.
-- Known product omissions and any scope decisions awaiting the owner.
-
-A low-credit stop should prioritise recording these facts over starting another feature. Do not mark work complete merely because the current session has ended. Do not turn the backlog into a schedule of paid model runs.
-
-## Roles
-
-A01 orchestrates and owns integration; A02 owns requirements; A03 investigates tools and licences; A04 owns skating; A05 owns world/art; A06 owns goals/progression; A07 owns audio/narrative; A08 owns UI; A09 independently verifies. These are nine logical responsibilities (the supplied plan's heading says eight, but enumerates A01–A09), not nine permanent paid workers.
+Stop only when the full engineering/level crosswalk genuinely satisfies
+FULL_FIDELITY_ACCEPTED or included quota/workspace access is actually unavailable.
+On real unavailability record the blocker once, pause this continuation and do not
+seek purchases. Record branch/commit, dirty ownership, exact commands/results,
+remaining defects, package identities and the next concrete action. A checkpoint
+or session boundary must never be described as completion of unfinished work.

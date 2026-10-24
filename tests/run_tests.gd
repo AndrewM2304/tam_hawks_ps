@@ -43,6 +43,16 @@ const TRANSITION_RIDE_TESTS = preload("res://tests/transition_ride_tests.gd")
 const SURFACE_COVERAGE_TESTS = preload("res://tests/surface_coverage_tests.gd")
 const TRANSITION_PLAYER_TESTS = preload("res://tests/transition_player_tests.gd")
 const PROCESS_GUARD_TESTS = preload("res://tests/process_guard_tests.gd")
+const FULL_REPERTOIRE_TESTS = preload("res://tests/full_repertoire_tests.gd")
+const AUTHENTIC_POSE_TESTS = preload("res://tests/authentic_pose_tests.gd")
+const CONNECTED_TRANSITION_TESTS = preload("res://tests/connected_transition_tests.gd")
+const REMAINING_FEATURE_TESTS = preload("res://tests/remaining_feature_tests.gd")
+const AUTHENTIC_FIDELITY_TESTS = preload("res://tests/authentic_fidelity_integration_tests.gd")
+const FULL_LEVEL_DENSITY_TESTS = preload("res://tests/full_level_density_tests.gd")
+const PLATFORM_CONTACT_TESTS = preload("res://tests/platform_contact_tests.gd")
+const ACTIVITY_ACTOR_TESTS = preload("res://tests/activity_actor_tests.gd")
+const ROUTE_AVAILABILITY_TESTS = preload("res://tests/route_availability_tests.gd")
+const AMBIENT_ADULT_TESTS = preload("res://tests/ambient_adult_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
@@ -76,13 +86,20 @@ func _run() -> void:
 	SPECIAL_GAP_TESTS.run(_check)
 	ARCADE_ECONOMY_TESTS.run(_check)
 	TRICK_LANGUAGE_TESTS.run(_check)
+	FULL_REPERTOIRE_TESTS.run(_check)
 	AUDIO_TESTS.run(self, _check)
 	await MANUAL_REVERT_TESTS.run(self, _check)
 	await TAKEOFF_TESTS.run(self, _check)
 	await WALL_RIDE_TESTS.run(self, _check)
 	await TRANSITION_RIDE_TESTS.run(self, _check)
+	await CONNECTED_TRANSITION_TESTS.run(self, _check)
+	await REMAINING_FEATURE_TESTS.run(self, _check)
 	await TRICK_POSE_TESTS.run(self, _check)
+	await AUTHENTIC_POSE_TESTS.run(self, _check)
+	await ACTIVITY_ACTOR_TESTS.run(self, _check)
 	await TRICK_SCORE_TESTS.run_ui(self, _check)
+	await FULL_REPERTOIRE_TESTS.run_ui(self, _check)
+	await ROUTE_AVAILABILITY_TESTS.run_ui(self, _check)
 	game = MAIN_SCRIPT.new()
 	game.persistence_enabled = false
 	root.add_child(game)
@@ -108,6 +125,12 @@ func _run() -> void:
 	await OVERNIGHT_INTEGRATION_TESTS.run(self, game, _check)
 	await TRANSITION_PLAYER_TESTS.run(self, game, _check)
 	await PROCESS_GUARD_TESTS.run(self, game, _check)
+	await AUTHENTIC_FIDELITY_TESTS.run(self, game, _check)
+	await FULL_REPERTOIRE_TESTS.run_playable(self, game, _check)
+	await FULL_LEVEL_DENSITY_TESTS.run(self, game, _check)
+	await PLATFORM_CONTACT_TESTS.run(self, game, _check)
+	await ACTIVITY_ACTOR_TESTS.run_world(self, game, _check)
+	await AMBIENT_ADULT_TESTS.run(self, game, _check)
 	await TRICK_ENCOUNTER_TESTS.run(self, game, _check)
 	await CAREER_INTEGRATION_TESTS.run(self, game, _check)
 	await UI_INTEGRATION_TESTS.run(self, game, _check)
@@ -397,10 +420,13 @@ func _test_bail_recovery() -> void:
 	game.score.add_trick("Pending trick", 500)
 	game.skater.global_position.y = -10.0
 	await _physics_frames(3)
-	_check(game.skater.global_position.distance_to(game.skater.spawn_position) < 1.0,
-		"out-of-world fall recovers to the spawn area")
+	_check(game.skater.bail_active and game.skater.global_position.distance_to(game.skater.spawn_position) > 1.0,
+		"out-of-world fall starts visible native recovery before returning to safety")
 	_check(game.score.total_score == 100 and game.score.get_combo_value() == 0,
 		"bail signal drops the pending combo without erasing banked points")
+	await _physics_frames(85)
+	_check(not game.skater.bail_active and game.skater.global_position.distance_to(game.skater.spawn_position) < 1.0,
+		"completed out-of-world recovery returns to a supported spawn after its actual animation")
 
 
 func _test_run_flow() -> void:

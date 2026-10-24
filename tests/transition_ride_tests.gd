@@ -110,7 +110,7 @@ static func _lip_release(tree: SceneTree, check: Callable) -> void:
 	rider.running = true
 	await _frames(tree, 50)
 	check.call(rider.lips == 1 and rider.ride.state == "lip" and rider.ride.lip
-		and rider.global_position.distance_to(fixture.feature.sample(PI * 0.5, 0.0).point) < 0.04,
+		and rider.global_position.distance_to(fixture.feature.lip_frame(0.0).point) < 0.01,
 		"transition: held grind catches the real coping with one finite lip state")
 	var at: Vector3 = rider.position
 	var balance: float = rider.ride.lip_balance

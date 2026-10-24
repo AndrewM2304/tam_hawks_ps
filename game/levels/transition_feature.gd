@@ -8,6 +8,8 @@ var radius := 2.4
 var width := 10.0
 var deck_length := 3.0
 var feature_id := "transition"
+var build_access := true
+var wrap_lateral := false
 var _built := false
 var surface_body: StaticBody3D
 
@@ -20,7 +22,7 @@ func build() -> void:
 	_built = true
 	radius = clampf(radius, 1.5, 5.0)
 	width = clampf(width, 6.0, 24.0)
-	deck_length = clampf(deck_length, 2.0, 6.0)
+	deck_length = clampf(deck_length, 0.0, 6.0)
 	add_to_group("skate_transitions")
 	set_meta("skate_feature", "quarter_pipe")
 	var concrete := _concrete_material()
@@ -61,20 +63,22 @@ func build() -> void:
 	mesh.mesh = surface.commit()
 	mesh.material_override = concrete
 	surface_body.add_child(mesh)
-	_box("RearDeck", Vector3(width, 0.24, deck_length),
-		Vector3(0, radius - 0.12, -radius - deck_length * 0.5), concrete)
-	_box("RearRetainingWall", Vector3(width, radius, 0.20),
-		Vector3(0, radius * 0.5, -radius - deck_length), concrete)
+	if deck_length > 0.0:
+		_box("RearDeck", Vector3(width, 0.24, deck_length),
+			Vector3(0, radius - 0.12, -radius - deck_length * 0.5), concrete)
+		_box("RearRetainingWall", Vector3(width, radius, 0.20),
+			Vector3(0, radius * 0.5, -radius - deck_length), concrete)
 	# A supported, low-angle side roll-in joins the deck to the approach.
-	var bypass_start := Vector3(width * 0.5 + 2.0, 0, 4.0)
-	var bypass_end := Vector3(width * 0.5 + 2.0, radius, -radius - deck_length + 2.0)
-	var bypass_length := (bypass_end - bypass_start).length()
-	var bypass_angle := atan2(radius, 2.0 + radius + deck_length)
-	var bypass := _box("SideRollIn", Vector3(4.0, 0.24, bypass_length),
-		(bypass_start + bypass_end) * 0.5 - Vector3(0, cos(bypass_angle), sin(bypass_angle)) * 0.12, concrete)
-	bypass.rotation.x = bypass_angle
-	_box("SideRollInLanding", Vector3(4.0, 0.24, 2.0),
-		Vector3(width * 0.5 + 2.0, radius - 0.12, -radius - deck_length + 1.0), concrete)
+	if build_access and deck_length >= 2.0:
+		var bypass_start := Vector3(width * 0.5 + 2.0, 0, 4.0)
+		var bypass_end := Vector3(width * 0.5 + 2.0, radius, -radius - deck_length + 2.0)
+		var bypass_length := (bypass_end - bypass_start).length()
+		var bypass_angle := atan2(radius, 2.0 + radius + deck_length)
+		var bypass := _box("SideRollIn", Vector3(4.0, 0.24, bypass_length),
+			(bypass_start + bypass_end) * 0.5 - Vector3(0, cos(bypass_angle), sin(bypass_angle)) * 0.12, concrete)
+		bypass.rotation.x = bypass_angle
+		_box("SideRollInLanding", Vector3(4.0, 0.24, 2.0),
+			Vector3(width * 0.5 + 2.0, radius - 0.12, -radius - deck_length + 1.0), concrete)
 	# Close the sides below the curved face. The matching polygon remains below
 	# skate contact and makes the feature read as poured concrete, not a sheet.
 	for side: float in [-1.0, 1.0]:
@@ -100,6 +104,19 @@ func build() -> void:
 	coping.position = Vector3(0, radius + 0.025, -radius)
 	coping.rotation.z = PI * 0.5
 	add_child(coping)
+	var coping_body := StaticBody3D.new()
+	coping_body.name = "NativeSteelCoping"
+	coping_body.collision_layer = 2
+	coping_body.transform = coping.transform
+	coping_body.set_meta("coping_feature",self)
+	coping_body.set_meta("surface_audio","metal")
+	add_child(coping_body)
+	var coping_shape := CylinderShape3D.new()
+	coping_shape.radius = 0.045
+	coping_shape.height = width
+	var coping_collision := CollisionShape3D.new()
+	coping_collision.shape = coping_shape
+	coping_body.add_child(coping_collision)
 	# Distinct trim makes the finite sides and approach legible at skating speed.
 	for side: float in [-1.0, 1.0]:
 		for i in 18:
@@ -170,6 +187,31 @@ func surface_sample(world_point: Vector3) -> Dictionary:
 		and local.z <= 0.10 and theta >= -0.03 and theta <= PI * 0.5 + 0.04
 	value.distance = world_point.distance_to(value.point)
 	return value
+
+func advance_lateral(_theta: float, lateral: float, metres: float) -> float:
+	return lateral + metres
+
+func lip_frame(lateral: float) -> Dictionary:
+	var frame := sample(PI * 0.5, lateral)
+	frame.face_normal = frame.normal
+	frame.point += Vector3.UP * 0.070
+	frame.normal = Vector3.UP
+	frame.coping_tangent = frame.lateral
+	return frame
+
+func air_return_frame(world_point: Vector3, lateral: float) -> Dictionary:
+	var frame := lip_frame(lateral)
+	frame.normal = frame.face_normal
+	var local := to_local(world_point)
+	frame.over_lip = local.y >= radius - 0.12 and absf(local.z + radius) < 0.55 \
+		and absf(local.x) < width * 0.5 - 0.10
+	frame.lip_height = frame.point.y
+	return frame
+
+func get_feature_definitions() -> Array:
+	return [{"id":feature_id, "kind":"quarter_pipe", "floor_y":global_position.y,
+		"approach":PackedVector3Array([to_global(Vector3(0,0,10)),to_global(Vector3.ZERO)]),
+		"lip":lip_frame(0.0).point}]
 
 func get_grind_lines() -> Array:
 	var points := PackedVector3Array([

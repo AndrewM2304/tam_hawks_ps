@@ -158,7 +158,15 @@ static func _unsafe_transition_contact(tree: SceneTree, game: Node, check: Calla
 	var evidence := {"bails": 0, "entries": [], "transition_bail": false}
 	var on_bail := func():
 		evidence.bails += 1
-		evidence.transition_bail = game.skater.transition_active and game.skater._transition.state == "surface"
+		# Recovery clears active movement helpers before emitting the single loss
+		# signal. Prove the actual finite native face rather than its cleared flag.
+		var sample: Dictionary = feature.surface_sample(game.skater.global_position)
+		var query := PhysicsRayQueryParameters3D.create(sample.point + sample.normal * 0.10,
+			sample.point - sample.normal * 0.10, 1)
+		query.exclude = [game.skater.get_rid()]
+		var native: Dictionary = game.world.get_world_3d().direct_space_state.intersect_ray(query)
+		evidence.transition_bail = game.skater.bail_active and float(sample.distance) <= 0.10 \
+			and not native.is_empty() and native.collider == feature.surface_body
 	var on_trick := func(label: String, _points: int): evidence.entries.append(label)
 	game.skater.bailed.connect(on_bail)
 	game.skater.trick_performed.connect(on_trick)

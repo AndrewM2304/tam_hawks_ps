@@ -14,6 +14,7 @@ const SkateAudioSource = preload("res://game/audio/skate_audio.gd")
 const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounters.gd")
 const CatEncounterSource = preload("res://game/characters/cat_encounter.gd")
 const MarketEncounterSource = preload("res://game/characters/market_encounter.gd")
+const FeatureHubSource = preload("res://game/features/feature_hub.gd")
 const RUN_SECONDS := 120.0
 
 var score := ScoreSession.new()
@@ -24,6 +25,7 @@ var objectives: Node3D
 var encounters: Node3D
 var cat_encounter: Node3D
 var market_encounter: Node3D
+var feature_hub: Node3D
 var _focused_encounter := "busker_big_finish"
 var audio: Node
 # Developer/script runners never write the player's profile by default.
@@ -105,10 +107,17 @@ func _ready() -> void:
 	skater.bailed.connect(_on_bailed)
 	skater.combo_link_started.connect(score.continue_combo)
 	skater.combo_link_ended.connect(score.begin_landing)
+	feature_hub = FeatureHubSource.new()
+	feature_hub.name = "GlasgowActivities"
+	feature_hub.process_mode = Node.PROCESS_MODE_PAUSABLE
+	add_child(feature_hub)
+	feature_hub.configure(world, skater)
+	feature_hub.feedback.connect(_on_encounter_feedback)
+	feature_hub.routes_changed.connect(_refresh_map_routes)
 	hud = Hud.new()
 	hud.name = "HUD"
 	add_child(hud)
-	hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions())
+	hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions() + feature_hub.get_route_definitions())
 	hud.restart_requested.connect(restart_run)
 	hud.pause_requested.connect(toggle_pause)
 	hud.free_skate_requested.connect(toggle_free_skate)
@@ -152,17 +161,17 @@ func _physics_process(delta: float) -> void:
 	_caption_time = maxf(0.0, _caption_time - delta)
 	if world.has_method("get_recovery_position"):
 		var recovery: Vector3 = world.get_recovery_position(skater.global_position)
-		if recovery.is_finite():
+		if recovery.is_finite() and not skater.bail_active:
 			skater.recover_to(recovery)
-			_feedback = "BACK ON THE QUAY. FIND YOUR NEXT LINE."
+			_feedback = "MISSED THE QUAY. RECOVERING YOUR BOARD."
 			_feedback_timer = 3.0
 	var district: String = world.get_district_id(skater.global_position)
 	_update_contact_audio()
 	audio.set_motion(skater.speed, skater.is_on_floor(), skater.grinding, district)
 	if free_skate_mode or time_remaining > 0.0:
 		var objective_has_prompt: bool = not objectives.nearby_prompt(skater.global_position).is_empty()
-		_update_objectives(delta, district)
-		_update_encounters(delta, Input.is_action_just_pressed("interact") and not objective_has_prompt)
+		if not skater.bail_active: _update_objectives(delta, district)
+		_update_encounters(delta, Input.is_action_just_pressed("interact") and not objective_has_prompt and not skater.bail_active and not skater.setup_active)
 	if _combo_link_active():
 		score.continue_combo()
 	var banked: int = score.tick(delta)
@@ -177,6 +186,7 @@ func _physics_process(delta: float) -> void:
 			encounters.finish_run()
 			cat_encounter.finish_run()
 			market_encounter.finish_run()
+			feature_hub.finish_run()
 		if time_remaining <= 0.0:
 			var resolving: bool = score.get_combo_value() > 0 \
 				and (_combo_link_active() or score.pending_landing)
@@ -200,6 +210,7 @@ func restart_run() -> void:
 	encounters.reset_run()
 	cat_encounter.reset_run()
 	market_encounter.reset_run()
+	if is_instance_valid(feature_hub): feature_hub.reset_run()
 	_focused_encounter = "busker_big_finish"
 	if world.has_method("reset_interactions"): world.reset_interactions()
 	audio.set_paused(false)
@@ -250,6 +261,7 @@ func _on_trick(trick_name: String, points: int) -> void:
 	var canonical_name: String = str(definition.get("display_name", trick_name))
 	encounters.on_trick(canonical_name, awarded, skater.global_position)
 	market_encounter.on_trick(canonical_name, awarded, skater.global_position)
+	feature_hub.on_trick(canonical_name, awarded, skater.global_position, skater.last_trick_id)
 	var family: String = str(definition.get("family", ""))
 	if family == "launch": audio.play_event("ollie")
 	elif family == "grind": audio.play_event("grind")
@@ -275,8 +287,8 @@ func _on_trick_upgraded(trick_name: String, points: int, identity: String) -> vo
 ## Carving a supported transition is ordinary ground travel. Only physical air,
 ## balance links, wallrides and lip support keep an existing combo alive.
 func _combo_link_active() -> bool:
-	return skater.airborne or skater.grinding or skater.manual_active \
-		or skater.wallriding or skater.lip_active
+	return not skater.bail_active and (skater.airborne or skater.grinding or skater.manual_active \
+		or skater.wallriding or skater.lip_active or skater.skitch_caught or skater.setup_active)
 
 func _on_grind_captured(rail_id: String) -> void:
 	if paused or run_finished or (not free_skate_mode and time_remaining <= 0.0):
@@ -285,6 +297,7 @@ func _on_grind_captured(rail_id: String) -> void:
 
 
 func _on_landed(clean: bool) -> void:
+	feature_hub.on_landed(clean)
 	if run_finished:
 		return
 	if clean:
@@ -303,12 +316,14 @@ func _on_combo_banked(banked: int) -> void:
 	encounters.on_bank(banked, skater.global_position)
 	cat_encounter.on_bank(banked, skater.global_position)
 	market_encounter.on_bank(banked, skater.global_position)
+	feature_hub.on_bank(banked, skater.global_position)
 	if banked >= 1000 and _near_npc() and audio.has_method("play_bark"):
 		audio.play_bark("landing")
 
 func _on_bailed() -> void:
 	score.drop_combo()
 	special_meter.on_bail()
+	if is_instance_valid(feature_hub): feature_hub.on_bail()
 	gaps.reset()
 	audio.play_event("bail")
 	_feedback = "BAILED  /  %s LOST" % score.last_dropped_value if score.last_dropped_value > 0 else "BACK ON THE BOARD."
@@ -324,6 +339,7 @@ func _finish_run() -> void:
 	encounters.finish_run()
 	cat_encounter.finish_run()
 	market_encounter.finish_run()
+	if is_instance_valid(feature_hub): feature_hub.finish_run()
 	_notify_goals(career.finish_run(score.total_score, score.best_combo))
 	_save_profile()
 	audio.set_motion(0, false, false, "")
@@ -331,12 +347,15 @@ func _finish_run() -> void:
 	if score.get_combo_value() > 0:
 		score.drop_combo()
 	skater.set_controls_enabled(false)
-	skater.set_physics_process(false)
+	skater.set_physics_process(skater.bail_active)
 
 func _try_special(trick_id: String) -> void:
 	if paused or run_finished or (not free_skate_mode and time_remaining <= 0.0):
 		return
-	if not free_skate_mode and not career.unlocks().has(trick_id):
+	var definition := Skater.TrickCatalog.definition(trick_id)
+	if definition.get("family", "") != "special": return
+	var required: String = str(definition.get("required_unlock", trick_id))
+	if not free_skate_mode and not career.unlocks().has(required):
 		_feedback = "COMPLETE CAREER GOALS TO UNLOCK THIS SPECIAL"
 		_feedback_timer = 2.0
 		return
@@ -443,6 +462,7 @@ func apply_settings(settings: Dictionary, persist: bool = true) -> void:
 	encounters.reduced_motion = career.settings.reduced_motion
 	cat_encounter.reduced_motion = career.settings.reduced_motion
 	market_encounter.reduced_motion = career.settings.reduced_motion
+	if is_instance_valid(feature_hub): feature_hub.reduced_motion = career.settings.reduced_motion
 	select_cosmetic(str(settings.get("cosmetic_id", career.settings.get("cosmetic_id", "color_blue"))), false)
 	if persist: _save_profile()
 
@@ -478,7 +498,14 @@ func _on_encounter_feedback(text: String) -> void:
 ## Objectives retain interaction priority. The nearest eligible side offer wins;
 ## accepting it cancels other active attempts without changing ordinary scoring.
 func _side_encounters() -> Array[Node3D]:
-	return [encounters, cat_encounter, market_encounter]
+	var result: Array[Node3D] = [encounters, cat_encounter, market_encounter]
+	if is_instance_valid(feature_hub): result.append_array(feature_hub.challenges())
+	return result
+
+
+func _refresh_map_routes() -> void:
+	if is_instance_valid(hud) and is_instance_valid(feature_hub):
+		hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions() + feature_hub.get_route_definitions())
 
 
 func _nearby_encounter_id() -> String:
@@ -514,6 +541,9 @@ func _update_encounters(delta: float, interact: bool) -> void:
 	var delivery_visible := is_instance_valid(camera) and delivery_position.is_finite() \
 		and camera.is_position_in_frustum(delivery_position + Vector3(0, 0.8, 0))
 	market_encounter.poll(skater.global_position, chosen == "gull_proof_delivery", delta, combo_value, delivery_visible)
+	var hub_choice := chosen
+	if interact and hub_choice.is_empty() and not feature_hub.gate_prompt(skater.global_position).is_empty(): hub_choice = "service_gate"
+	feature_hub.poll(skater.global_position, interact, delta, combo_value, false, hub_choice)
 
 
 func _challenge_text() -> String:
@@ -553,7 +583,7 @@ func _interaction_prompt() -> String:
 	for component: Node3D in _side_encounters():
 		if str(component.status_snapshot().id) == chosen:
 			return component.nearby_prompt(skater.global_position)
-	return ""
+	return feature_hub.gate_prompt(skater.global_position) if is_instance_valid(feature_hub) else ""
 
 
 func _on_caption(text: String) -> void:
@@ -575,14 +605,17 @@ func _refresh_hud() -> void:
 		"grind_name": Skater.TrickCatalog.definition(skater.grind_trick_id).get("display_name", ""),
 		"manual_name": Skater.TrickCatalog.definition(skater.manual_trick_id).get("display_name", "Manual"),
 		"tricks": "  +  ".join(score.trick_history), "best": score.best_combo,
-		"speed": skater.velocity.length() if skater.transition_active else skater.speed, "airborne": skater.airborne,
+		"speed": skater.velocity.length() if skater.transition_active else (skater.get_real_velocity().length() if not skater.grinding and skater.is_on_floor() and skater.get_platform_velocity().length_squared() > 0.01 else skater.speed), "airborne": skater.airborne,
 		"grinding": skater.grinding, "balance": skater.grind_balance,
 		"manual": skater.manual_active, "manual_balance": skater.manual_balance,
 		"wallriding": skater.wallriding, "transition_active": skater.transition_active,
 		"lip_active": skater.lip_active, "lip_balance": skater.lip_balance,
 		"ollie_charge": skater.ollie_charge,
 		"crouching": skater.crouching, "powersliding": skater.powersliding,
-		"takeoff_mode": skater.takeoff_mode,
+		"takeoff_mode": skater.takeoff_mode, "bail_active": skater.bail_active,
+		"bail_phase": skater.bail_phase, "recovery_fade": skater.recovery_fade,
+		"setup_active": skater.setup_active, "setup_id": skater.setup_id, "setup_phase": skater.setup_phase,
+		"lip_name": skater.lip_name, "skitching": skater.skitching, "skitch_caught": skater.skitch_caught, "skitch_balance": skater.skitch_balance,
 		"landing_window": score.landing_remaining, "revert_window": skater.revert_remaining,
 		"location": world.get_location_name(skater.global_position),
 		"player_position": skater.global_position, "player_heading": skater.rotation.y,
