@@ -1,0 +1,63 @@
+{
+	"images": [
+		{
+			"actual_captured_balance": 0.107222222222222,
+			"actual_native_id": "one_foot_nose_manual",
+			"aim": "Vector3(0, 0.2, 0)",
+			"id": "one_foot_nose_manual-profile",
+			"inspection_hold_render_frames": 2,
+			"native_floor": true,
+			"offset": "Vector3(1.06, 0.44, 0.12)",
+			"path": "res://.local/manual-semantics-capture/one_foot_nose_manual-profile.png",
+			"sha256": "ead71d0918b9626ece75cddc4c2343aed0df5779120f8a54820fc30ef353c3e3",
+			"sole_pixels": [
+				{
+					"actual_griptape_distance": 0.000899210630450398,
+					"side": -1.0,
+					"signed_grip_gap": 0.000899514183402061,
+					"sole_board_local": "Vector3(-0.01499939, 0.017899513, -0.22000122)",
+					"sole_pixel": "Vector2(919.9624, 667.2166)",
+					"sole_world": "Vector3(-22.015, 0.15148684, 21.09185)"
+				},
+				{
+					"actual_griptape_distance": 0.159387141466141,
+					"side": 1.0,
+					"signed_grip_gap": 0.159424838828791,
+					"sole_board_local": "Vector3(0.07112694, 0.17716455, 0.17962074)",
+					"sole_pixel": "Vector2(595.37506, 447.63025)",
+					"sole_world": "Vector3(-21.928873, 0.4184786, 21.429161)"
+				}
+			]
+		}
+	],
+	"inputs_after": {
+		".local/manual_semantics_native_probe.gd": "9746329e1fe5e3d00a4c7adb572c496559cad751eabd63591d94f9948674f62f",
+		"game/main.gd": "e65a2275a0ee8ede413abb89f2bca6414f25b598b8c48ae1f53583aa383334b4",
+		"game/player/skater.gd": "8f89eb836869e012a6036eaec77c1d52821c82f0cde2eddcb12775634a847e37",
+		"game/player/skater_anatomy.gd": "1524ac9766bb13da327597bd7e4c7d2845ac728b2caef8e59c0f915d3f5057fd",
+		"game/player/skater_footwear.gd": "d99201a0398ad1cc678727dd469873f3ea8e45755140116e9d2e6decccb0b6a8",
+		"game/player/skater_garments.gd": "e4c5c5f3481780073807bcce928ff6aa0c9dfa4e81a7641e28d02bd78f66b95d",
+		"game/player/skater_visual.gd": "4f37b671e31554367467742fcf124404f040d72e4c249694865a0ae62dab7993",
+		"game/tricks/trick_catalog.gd": "e534d8277b75ff6f044ef9e52926244aea15203487bda3678864e6d5277376dd",
+		"project.godot": "b8a3975474ea3826e5f7527f2892510c0fdfdfabb7de8b1ebd3498239bafd5f0"
+	},
+	"inputs_before": {
+		".local/manual_semantics_native_probe.gd": "9746329e1fe5e3d00a4c7adb572c496559cad751eabd63591d94f9948674f62f",
+		"game/main.gd": "e65a2275a0ee8ede413abb89f2bca6414f25b598b8c48ae1f53583aa383334b4",
+		"game/player/skater.gd": "8f89eb836869e012a6036eaec77c1d52821c82f0cde2eddcb12775634a847e37",
+		"game/player/skater_anatomy.gd": "1524ac9766bb13da327597bd7e4c7d2845ac728b2caef8e59c0f915d3f5057fd",
+		"game/player/skater_footwear.gd": "d99201a0398ad1cc678727dd469873f3ea8e45755140116e9d2e6decccb0b6a8",
+		"game/player/skater_garments.gd": "e4c5c5f3481780073807bcce928ff6aa0c9dfa4e81a7641e28d02bd78f66b95d",
+		"game/player/skater_visual.gd": "4f37b671e31554367467742fcf124404f040d72e4c249694865a0ae62dab7993",
+		"game/tricks/trick_catalog.gd": "e534d8277b75ff6f044ef9e52926244aea15203487bda3678864e6d5277376dd",
+		"project.godot": "b8a3975474ea3826e5f7527f2892510c0fdfdfabb7de8b1ebd3498239bafd5f0"
+	},
+	"inputs_unchanged": true,
+	"native_checks": 6,
+	"native_failures": 0,
+	"scope": "Genuine Main push, Manual and existing extension inputs; actual supported manual inspection pose(s), held for two render frames; profile mode captures only the genuine Nose Manual case. No authored pose injection, native gameplay camera or target-Mac acceptance is claimed.",
+	"size": [
+		1280,
+		800
+	]
+}

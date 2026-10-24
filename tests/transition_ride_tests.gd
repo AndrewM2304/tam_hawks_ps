@@ -360,7 +360,8 @@ static func _grind_handoff_clearance(tree: SceneTree, check: Callable) -> void:
 	var collision: CollisionShape3D = rider.get_node("BodyCollision")
 	var before: Transform3D = collision.transform
 	var velocity: Vector3 = rider.velocity
-	var coping: Vector3 = fixture.feature.sample(PI * 0.5, 0.0).point + Vector3.UP * 0.025
+	var line = fixture.feature.get_grind_lines()[0]
+	var coping: Vector3 = line.point_at(line.length * 0.5)
 	check.call(rider.ride.grind_path_clear(rider.global_position, coping, rider),
 		"transition grind: prospective upright capture clears the actual coping and rear deck")
 	check.call(rider.ride.active and rider.ride.state == "air" and collision.transform == before

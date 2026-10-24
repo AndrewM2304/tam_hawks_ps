@@ -41,11 +41,13 @@ save identities. Add a clear connected uphill approach and map/navigation cues.
   support/lip/air returns, actual grind/transfer, safe exit, camera, score/reset,
   render/motion, full regression and current-source package proof. M06/M07.
 
-Read-only native siting recommends grid-alignedRect2(-227.5,-202.5,40,30), with
-upper rimY14.5; local ground is approximately13–17.8m. This is provisional until
-world/geometry owners agree exact bounds and access. The existing summit terrace
-is roughly8.5m east and offers a gentle connected approach. Lower western sites
-would create a raised fort and do not match the requested sunken facility.
+World and geometry owners agreed the grid-aligned footprint
+`Rect2(-227.5,-202.5,40,30)`, origin`(-207.5,14.5,-187.5)` and upper rimY14.5.
+Local ground is approximately13–17.8m. The six-metre-wide east entrance is centred
+at`(-187.5,14.5,-182.5)`, connected to the existing summit terrace roughly8.5m
+east. Lower western sites would create a raised fort rather than a sunken park.
+The [integration contract](../architecture/decisions/ADR-017-sunken-kelvingrove-skatepark.md)
+records the exact support, finite opening and registration interfaces.
 
 ## Acceptance
 

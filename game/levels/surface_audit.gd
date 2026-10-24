@@ -38,7 +38,7 @@ func snapshot() -> Dictionary:
 		"wall_exclusions": exclusions, "surfaces": _records.duplicate(true),
 		"visual_exclusions": [
 			{"family":"behind-boundary retaining foundations", "reason":"Scenic vertical stone faces extend eight metres below the retained fence baseline; no collision, horizontal floor, grind path or playable terrain."},
-			{"family":"behind-boundary street dressing", "reason":"Benches and bins beyond the retained perimeter are scenery; no playable collision or hidden grind path."},
+			{"family":"small upright street containers", "reason":"Accessible bins have matching circular native collision; their narrow round lids do not present a useful finite grind ledge."},
 			{"family":"glass, canopy, foliage and ironwork detail", "reason":"Decorative panes, canvas, leaves and open iron bars are not opaque supporting walls."},
 			{"family":"terrain-conforming park path edging", "reason":"The shallow stone shoulder shares actual graded collision and supports roll-over access; it is not a raised ledge."}],
 		"limits": "An eligibility inventory, not proof every approach is reachable or human-tested. Native collision, capsule sweeps and trick-state gates still control captures."}
@@ -145,7 +145,10 @@ func _box_ledges(key: String, label: String, shape_node: CollisionShape3D, size:
 	var ids: Array[String] = []
 	if absf(shape_node.global_basis.y.normalized().dot(Vector3.UP)) < 0.995: return ids
 	# The court's solid seat has a visible 60mm cap projecting 50mm each side.
-	var cap := 0.06 if label == "CourtPlanterSeat" else 0.02
+	var cap := 0.08 if label == "CourtPlanterSeat" else 0.02
+	# Court's visible60mm cap is already represented once above the base.
+	# Its bearing path then needs the ordinary20mm ledge skin for the actual
+	# upright rider capsule and15mm native safe margin, as other ledges do.
 	var half := size * 0.5
 	if label == "CourtPlanterSeat":
 		half.x += 0.05
@@ -177,6 +180,7 @@ func _covering_authored(start: Vector3, end: Vector3) -> String:
 
 
 func _ledge_exclusion(label: String, body: StaticBody3D) -> String:
+	if body.has_meta("grind_exclusion_reason"): return str(body.get_meta("grind_exclusion_reason"))
 	if body.get_meta("exploration_boundary", false): return "retained perimeter, not a playable ledge"
 	if label.contains("StallCounter"): return "stocked working counter; merchandise and hanging canopy valances obstruct a standing grind"
 	if label.contains("Canopy") or label.contains("Awning") or label.contains("Roof"): return "overhead shelter, not a low ledge"

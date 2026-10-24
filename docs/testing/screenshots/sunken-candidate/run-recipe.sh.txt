@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd /workspace/tam_hawks_ps
+TASK_CANDIDATE_OUTPUT="$(mktemp -d "$PWD/.local/sunken-candidate-XXXXXXXX")"
+/usr/lib/xorg/Xorg -displayfd 3 -config "$PWD/tools/xorg-dummy.conf" -logfile "$TASK_CANDIDATE_OUTPUT/xorg.log" -noreset -nolisten tcp 3>"$TASK_CANDIDATE_OUTPUT/display" >"$TASK_CANDIDATE_OUTPUT/xorg-console.log" 2>&1 &
+TASK_XPID=$!
+trap 'kill -TERM "$TASK_XPID" 2>/dev/null || true; wait "$TASK_XPID" 2>/dev/null || true' EXIT
+for n in {1..50}; do [[ -s "$TASK_CANDIDATE_OUTPUT/display" ]] && break; sleep .1; done
+export DISPLAY=":$(cat "$TASK_CANDIDATE_OUTPUT/display")" LIBGL_ALWAYS_SOFTWARE=1 LP_NUM_THREADS=4
+python3 - "$TASK_CANDIDATE_OUTPUT" <<'PY'
+import pathlib,subprocess,os,sys,signal,hashlib,json,re,shutil,time
+root=pathlib.Path.cwd();output=pathlib.Path(sys.argv[1]);sys.path.insert(0,str(root/'tools'))
+from full_fidelity_capture_png import PixelSpoolEncoder,decode_proven_rgba8
+receipt=json.loads((root/'.local/sunken-fidelity-final/aggregate-receipt.json').read_text())
+def fingerprint():
+ files=[root/name for name in ('project.godot','export_presets.cfg','docs/PLAYER-GUIDE.md')]
+ for folder in ('game','tests','tools','docs/licences'):
+  files += [p for p in (root/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc']
+ return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(files))}
+assert receipt['clean'] and receipt['unchanged_source'] and fingerprint()==receipt['source_sha256'],'Candidate source does not match final verified suite'
+before=fingerprint();recipe=root/'.local/sunken_candidate_capture.gd';recipe_bytes=recipe.read_bytes();worker=PixelSpoolEncoder(output);worker.start()
+command=['./tools/run.sh','--rendering-method','gl_compatibility','--audio-driver','Dummy','--windowed','--resolution','1280x800','--disable-render-loop','--fixed-fps','60','--script','.local/sunken_candidate_capture.gd','--',str(output)]
+started=time.monotonic();process=None
+try:
+ with (output/'engine.log').open('w') as log:
+  process=subprocess.Popen(command,env=dict(os.environ,FULL_FIDELITY_RAW_SPOOL='1'),stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+  try:code=process.wait(timeout=300)
+  except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGTERM);process.wait(timeout=5);raise
+finally:
+ if process is not None and process.poll() is None:os.killpg(process.pid,signal.SIGTERM);process.wait(timeout=5)
+ worker.finish()
+log=(output/'engine.log').read_text();print(log,flush=True)
+assert code==0 and not re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:',log),'Candidate render failed'
+report=json.loads((output/'manifest.json').read_text());assert report['failures']==0 and len(report['images'])==8 and worker.frames==8
+assert before==fingerprint() and recipe.read_bytes()==recipe_bytes,'Source or recipe changed during candidate render'
+for frame in report['images']:
+ png=(output/frame['file']).read_bytes();native=decode_proven_rgba8(png)
+ assert hashlib.sha256(native).hexdigest()==frame['pixels']['rgba8_sha256']
+ frame.update(sha256=hashlib.sha256(png).hexdigest(),native_rgba8_identical=True,png_crc_rows_decoded=True,resolution=[1280,800])
+report.update(source_sha256=before,source_changed=False,all_sources_match_final_suite=True,suite_result=receipt['result'],command=command,wall_seconds=time.monotonic()-started,capture_bound_seconds=300,recipe_sha256=hashlib.sha256(recipe_bytes).hexdigest(),engine_log_sha256=hashlib.sha256((output/'engine.log').read_bytes()).hexdigest(),lossless_worker_max_backlog=worker.max_backlog)
+(output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
+dest=root/'docs/testing/screenshots/sunken-candidate';dest.mkdir(parents=True,exist_ok=True)
+for name in [f['file'] for f in report['images']]+['manifest.json','engine.log']:shutil.copyfile(output/name,dest/name)
+(dest/'capture-recipe.gd.txt').write_bytes(recipe_bytes);shutil.copyfile(root/'.local/run_sunken_candidate_capture.sh',dest/'run-recipe.sh.txt')
+print('SUNKEN_CANDIDATE_CAPTURE_OK',dest,'source_count',len(before),'images',len(report['images']))
+PY

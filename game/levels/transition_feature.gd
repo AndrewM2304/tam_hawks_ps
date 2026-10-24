@@ -106,6 +106,8 @@ func build() -> void:
 	add_child(coping)
 	var coping_body := StaticBody3D.new()
 	coping_body.name = "NativeSteelCoping"
+	coping_body.set_meta("authored_grind_ids",["Grind_"+feature_id+"_Coping"])
+	coping_body.set_meta("audit_capture_ids",["Grind_"+feature_id+"_Coping"])
 	coping_body.collision_layer = 2
 	coping_body.transform = coping.transform
 	coping_body.set_meta("coping_feature",self)
@@ -215,8 +217,8 @@ func get_feature_definitions() -> Array:
 
 func get_grind_lines() -> Array:
 	var points := PackedVector3Array([
-		to_global(Vector3(-width * 0.5, radius + 0.025, -radius)),
-		to_global(Vector3(width * 0.5, radius + 0.025, -radius))])
+		to_global(Vector3(-width * 0.5, radius + 0.070, -radius)),
+		to_global(Vector3(width * 0.5, radius + 0.070, -radius))])
 	return [GrindLineSource.new("Grind_" + feature_id + "_Coping", points)]
 
 func _panel(label: String, faces: PackedVector3Array, material: Material) -> void:

@@ -1,0 +1,109 @@
+{
+  "scope": "Archive of two navigation UI stills, unchanged original logs/recipes, plus an explicitly post-capture source context snapshot. Entry is a standalone HUD fixture populated from actual World entry data; no natural journey, final film, global current-source, target hardware or human acceptance claim.",
+  "recorded_utc": "2026-10-24T11:20:48.921612+00:00",
+  "engine": "Godot 4.6.3 Compatibility",
+  "renderer": "Mesa llvmpipe",
+  "profile_writes_enabled": false,
+  "capture_source_hash_guard_recorded": false,
+  "global_current_source_claim": false,
+  "source_binding_limit": "The original short capture did not record before/after source hashes. These post-capture hashes identify archive-time source context only; they do not retroactively certify an unchanged source set during capture. World/facility work can continue independently.",
+  "postcapture_scoped_source_sha256": {
+    "project.godot": "b8a3975474ea3826e5f7527f2892510c0fdfdfabb7de8b1ebd3498239bafd5f0",
+    "game/ui/hud.gd": "6c1008cea0cdea374d6d73e9716db3f4064c8b4b88b53a49f52770ab5168262b",
+    "game/ui/route_map.gd": "00bb7fb9bfdf8f32d7430f0f7e89dfb7073141a35852ad3939e9b6e7520f53d2",
+    "tests/skatepark_navigation_tests.gd": "9a1cfdd1fa49819f69c65c08b3b6d5de79ae422e6e71ecbff6ad7635a9813a76",
+    "game/core/input_profile.gd": "67e24932bdb10866b3d0c9a6836ce161f5d13b0fbb35f93e00f2906dd2102f3a",
+    "game/core/input_setup.gd": "f72af97ff5d7c8c8125ed1471a07cf544484bfa00c5fd64a4c390a7340ef6a14",
+    "game/levels/glasgow_square.gd": "3e6c094f38f59fb13b573dfb95ab8b062b49002c262b8ad03ab7547459383555",
+    "game/levels/outdoor_routes.gd": "db39ce2b723c90cb8e6544a62175182ad42c0c27bcea4e100b3eeb7fdafcdd5d",
+    "game/levels/kelvingrove_skatepark.gd": "80c3cf2581434650053823990cfb7e3b8e59f9dd360d93ad1c7f6a3baf43a529"
+  },
+  "images": {
+    "sunken-skatepark-map.png": {
+      "resolution": [
+        960,
+        600
+      ],
+      "sha256": "773f9f549c63f8d6d44d9bda243ca78e6773153e23cc39419116679e69a05e5c",
+      "bytes": 72597,
+      "all_png_chunk_crc_and_complete_rows_valid": true
+    },
+    "sunken-skatepark-entry-cue.png": {
+      "resolution": [
+        960,
+        600
+      ],
+      "sha256": "2d6c0b8f2aa34058f9076838b69337a40f3180707db9e7b43710f23ac7152800",
+      "bytes": 76121,
+      "all_png_chunk_crc_and_complete_rows_valid": true
+    }
+  },
+  "files": [
+    {
+      "original_path": ".local/skatepark-navigation/sunken-skatepark-map.png",
+      "archived_path": "sunken-skatepark-map.png",
+      "sha256": "773f9f549c63f8d6d44d9bda243ca78e6773153e23cc39419116679e69a05e5c",
+      "bytes": 72597
+    },
+    {
+      "original_path": ".local/skatepark-navigation/sunken-skatepark-entry-cue.png",
+      "archived_path": "sunken-skatepark-entry-cue.png",
+      "sha256": "2d6c0b8f2aa34058f9076838b69337a40f3180707db9e7b43710f23ac7152800",
+      "bytes": 76121
+    },
+    {
+      "original_path": ".local/skatepark-navigation-render.log",
+      "archived_path": "navigation-render.log",
+      "sha256": "a9c8794ff0f4aa580ef3f8b36525817413ea33cc2cc5bd7a14e6365c53b7ec1b",
+      "bytes": 1204
+    },
+    {
+      "original_path": ".local/skatepark-navigation-ui.log",
+      "archived_path": "navigation-ui.log",
+      "sha256": "19a9c39e2890c7ae3721108e93ec57fbc4b48815e3a00b511d3dcf2131c34945",
+      "bytes": 2865
+    },
+    {
+      "original_path": ".local/skatepark-navigation-world.log",
+      "archived_path": "original-world-checks.log",
+      "sha256": "814e44cb58ecb5bd6574fd1462f215add81bc58c672b7e9a64774d31125424ad",
+      "bytes": 527
+    },
+    {
+      "original_path": ".local/skatepark-navigation-hud-regression.log",
+      "archived_path": "hud-regression.log",
+      "sha256": "16c33afd46ea036bebb87d20f2130fa1fc4feb4cd90ac86ab3e1c864e511fe48",
+      "bytes": 113
+    },
+    {
+      "original_path": ".local/skatepark-navigation-route-regression.log",
+      "archived_path": "route-availability-regression.log",
+      "sha256": "bd91bcf930aa0d85819b50d934c7b688b02caa9139abb0dbefa5cf4373dd4302",
+      "bytes": 119
+    },
+    {
+      "original_path": ".local/skatepark_navigation_capture.gd",
+      "archived_path": "capture-recipe.gd.txt",
+      "sha256": "953a65a06cc115d443f46d30820127f9c770500a64cc566b3231c43e2889a759",
+      "bytes": 786
+    },
+    {
+      "original_path": ".local/skatepark_navigation_capture.sh",
+      "archived_path": "display-wrapper.sh.txt",
+      "sha256": "ae5e68644f4800c887b8254b81a2787ec57b2355288fc766b4653b7cd9e7822b",
+      "bytes": 1042
+    },
+    {
+      "original_path": ".local/skatepark_navigation_probe.gd",
+      "archived_path": "ui-check-recipe.gd.txt",
+      "sha256": "0fffffa7e5a224b15ce5f29a92ccde7607d44a04ca2cdba799ba5efeb9ec6c88",
+      "bytes": 485
+    },
+    {
+      "original_path": ".local/skatepark_navigation_world_probe.gd",
+      "archived_path": "world-check-recipe.gd.txt",
+      "sha256": "a873920fb09da7bc7caed73d412d47aa89f083bf3bd1134e5223febd304dcee8",
+      "bytes": 720
+    }
+  ]
+}

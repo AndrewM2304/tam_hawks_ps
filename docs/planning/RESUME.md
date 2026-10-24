@@ -1,5 +1,28 @@
 # Resume full-fidelity implementation
 
+## Candidate checkpoint —24October2026
+
+Final ordinary suite:3,081/0,542.31s,327 unchanged inputs and clean logs.
+Cold launch:272 unchanged inputs, all matching that suite, including normal
+main/title44/0 and invalid copied-source refusal/restoration. The sunken park is
+integrated; no implementation owner remains active. Source is frozen for scoped
+stills and fresh audited Linux/Mac packaging. Save the tested commit and push
+`work` to existing `origin`, as the owner explicitly requested. No hosted workflows
+exist in this repository. Do not merge or publish build/release assets.
+
+After delivery pause for owner testing with the requested25% weekly reserve.
+Do not resume hourly work or new polish. Preserve the two known presentation
+issues and deferred movie/profile in[the candidate report](../testing/SUNKEN-CANDIDATE.md).
+The report does not claim FULL_FIDELITY_ACCEPTED or actual Mac/controller success.
+
+**Latest budget override:** owner reported34% weekly usage remaining and reserves
+25% for manual-test fixes. Hourly continuation is paused. Finish active P0s and
+ordinary full regression/cold/current-Mac packaging, then pause; do not resume the
+long movie/profile/additional audits without renewed direction. Keep exact known
+defects and source/package identities. This supersedes the older stop-only-on-
+exhaustion wording below. No direct usage meter is available; never invent balance
+or purchase more usage.
+
 Read AGENTS.md, docs/STATUS.md, docs/planning/OVERNIGHT.md, the affected BACKLOG
 records and ADR-016 before editing. Stay on branch work in the existing checkout.
 Inspect git status and preserve every current change. Do not reset source or create
@@ -19,6 +42,15 @@ useful features/affordance audit and gate/cone/lap/cart/skitch. Preserve actual
 collision/camera/contact/once-only scoring, all career/save IDs and asset licences.
 Do not re-add these systems as unused definitions because an old document called
 them Planned. Older checkpoint counts, packages and OVERNIGHT_COMPLETE are history.
+
+The owner also supplied real Kelvingrove skatepark photographs and requested a
+sunken multi-level destination at the park's northwest. Read ADR-017 and
+KELVINGROVE-SKATEPARK.md: exact footprintRect2(-227.5,-202.5,40,30), rim14.5,
+six-metre east entrance linked to the summit, actual terrain excavation, two bowls,
+street basin/stairs/rails/ledges and map/access cues. Runtime is open for this scope
+and the bounded marker/path/furniture visual repairs. Core checkpoint`6610502`
+passes2,874/0; the rejected partial film has no final manifest or acceptance claim.
+Complete and test these edits before the refreshed capture/cold/profile/packages.
 
 Continue the exact failing native case in STATUS first, then remaining independent
 aggregate/capture/cold-launch/profile/packaging tasks. Update fixtures only for a

@@ -7,7 +7,10 @@ tracks the full request, including open human and hardware acceptance.
 
 Run `./tools/full_fidelity_capture.sh --private-display` with installed Godot
 4.6.3, FFmpeg and a rendering display. This is bounded local work; it downloads
-nothing, writes no player profile and uses no hosted service. The wrapper refuses
+nothing, writes no player profile and uses no hosted service. The local
+render is explicitly bounded at three hours; this is a work limit, not a user
+budget or a performance claim. All children and the private display are cleaned
+up on failure/interruption. The wrapper refuses
 publication after a failed assertion, runtime error, missing catalog clip, changed
 source input, corrupt PNG or video that fails full decoding.
 
@@ -22,7 +25,10 @@ these movies are silent and do not certify sound or listening quality.
 
 Each clip has a fully decoded MP4 and lossless first/middle/last review frames.
 Setup clips also retain a contact frame near phase 0.65. Every original lossless
-source PNG has a manifest hash; those raw PNGs remain in the ignored staging
+source PNG has a manifest hash and a decoded-pixel SHA256 matching the original
+native RGBA8 bytes. A bounded local Python standard-library worker losslessly
+encodes atomic raw buffers and rejects corruption/backlogs; it changes no pixel,
+sample, scene, simulation or camera visibility setting. Those PNGs remain in the ignored staging
 directory printed by the wrapper. The distributed H.264 movies are lossy and
 cannot reconstruct those PNGs byte for byte. The manifest records hashes of all
 game/test/tool inputs and verifies them unchanged through capture and encoding.
@@ -36,7 +42,8 @@ The complete reel is also decoded and checked against every source frame count.
 
 Camera and fixture boundaries are deliberate:
 
-- Six aerial views are authored district inspection cameras. Native ground,
+- Six aerial views are authored district inspection cameras, with a seventh
+  authored view of the new sunken Kelvingrove facility. Native ground,
   bowl/halfpipe/spine, wall, gate, cone, cart and park routes use the production
   chase camera. Contact/trick/recovery close views use a declared camera bounded
   around the actual head, board, feet and hands. Neither camera substitutes for
@@ -54,6 +61,10 @@ Camera and fixture boundaries are deliberate:
 - Directional grind clips and the rail pivot declare their initial descending
   rail position/motion. Production collision admits the actual capture; held
   input, style, exit, native landing and once-only score are subsequently real.
+- Real ground Nollie and both physical180spin directions have explicit accepted
+  receipts; rotation adds base to the existing launch rather than creating an
+  extra multiplier. A genuine Central platform crossing awards its named gap.
+  The final guard requires actual accepted identities for all78catalog records.
 - The bowl includes both an actual outside roll-in and a separately declared
   curved-contact/tangent initial fixture for the full lap. Halfpipe return and
   spine transfer use actual ground approaches and fresh input.
@@ -72,6 +83,12 @@ Camera and fixture boundaries are deliberate:
   both park laps and district manual routes use genuine native input/movement
   after their documented restart placement. Park drivers steer and throttle
   through input; they do not assign heading, speed or position during a route.
+- The new sunken skatepark journey starts One More Lap with actual Interact,
+  climbs the existing hillside, follows the supported summit link and visits
+  the real new footprint while the timer remains active. A separate inactive
+  approach checks the actual location cue; the beginner circuit descends,
+  circulates and returns uphill without a mandatory jump. Facility checks are
+  still pending the final repaired geometry and source-bound film.
 
 Automated execution and selected-frame review do not certify physical DualSense,
 macOS/Apple Silicon performance, listening, human difficulty/fun or final art

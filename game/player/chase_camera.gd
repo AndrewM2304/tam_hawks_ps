@@ -2,6 +2,8 @@ extends RefCounted
 ## Original volume-aware chase camera using Godot's native physics queries.
 ## The rider's movement and travel heading are never modified here.
 
+const Footwear = preload("res://game/player/skater_footwear.gd")
+
 const CHEST_HEIGHT := 1.05
 const CAMERA_RADIUS := 0.25
 const CLEARANCE := 0.045
@@ -9,6 +11,7 @@ const MIN_USEFUL_ARM := 3.0
 const REAR_RETURN_DELAY := 0.40
 const NORMAL_HEIGHT := 3.4
 const LOW_HEIGHT := 2.4
+const HIGH_HEIGHT := 7.2
 const ORBIT_ANGLES := [0.7853981634, -0.7853981634, 1.5707963268, -1.5707963268, 2.3561944902, -2.3561944902, PI]
 
 var _sphere := SphereShape3D.new()
@@ -20,6 +23,7 @@ var _last_anchor := Vector3.ZERO
 var _travel_rear := Vector3.BACK
 var _has_travel_heading := false
 var _support_up := Vector3.UP
+var _foot_targets := PackedVector3Array()
 
 
 func _init() -> void:
@@ -39,12 +43,19 @@ func reset() -> void:
 	_travel_rear = Vector3.BACK
 	_has_travel_heading = false
 	_support_up = Vector3.UP
+	_foot_targets.clear()
 
 
 func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity: float, reduced_motion: bool) -> void:
 	if not is_instance_valid(rider) or not is_instance_valid(camera) or not rider.is_inside_tree(): return
 	var board := rider.global_position
 	if not board.is_finite(): return
+	_foot_targets.clear()
+	var rig: Variant = rider.get("_visual_rig")
+	if is_instance_valid(rig):
+		for leg: Dictionary in rig._legs:
+			_foot_targets.append(leg.foot.to_global(Footwear.SOLE_CONTACT))
+			_foot_targets.append(leg.foot.to_global(Footwear.TOE_CONTACT))
 	var support_up := Vector3.UP
 	if rider.has_method("get_support_normal"):
 		var supplied: Variant = rider.call("get_support_normal")
@@ -137,6 +148,12 @@ func _choose(space: PhysicsDirectSpaceState3D, anchor: Vector3, board: Vector3, 
 	for angle: float in ORBIT_ANGLES:
 		var candidate := _best_height(space, anchor, board, rear, distance, angle, excluded)
 		if float(candidate.score) > float(best.score): best = candidate
+	if not best.usable:
+		# Search every ordinary-height side first. Only a bank hiding the real
+		# feet from all of them warrants the higher, still swept finite arm.
+		for angle: float in [0.0]+ORBIT_ANGLES:
+			var candidate := _candidate(space,anchor,board,rear,distance,angle,HIGH_HEIGHT,excluded)
+			if float(candidate.score)>float(best.score): best=candidate
 	_selected_angle = best.angle
 	return best
 
@@ -196,4 +213,16 @@ func _usable(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Vector3, 
 	for height: float in [0.12, CHEST_HEIGHT, 1.8]:
 		var query := PhysicsRayQueryParameters3D.create(position, board + _support_up * height, 1 | 8, excluded)
 		if not space.intersect_ray(query).is_empty(): return false
+	for point: Vector3 in _foot_targets:
+		var sight := PhysicsRayQueryParameters3D.create(position,point,1|8,excluded)
+		var hit := space.intersect_ray(sight)
+		if hit.is_empty(): continue
+		# Grounded rubber already has a strict4mm contact band. Only that same
+		# actual endpoint support may be touched; an intervening bank/wall fails.
+		var under := PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.03,point-Vector3.UP*0.03,1|8,excluded)
+		var support := space.intersect_ray(under)
+		if support.is_empty() or support.collider!=hit.collider or Vector3(hit.normal).y<0.65 \
+				or Vector3(support.normal).dot(hit.normal)<0.99 \
+				or absf((point-Vector3(support.position)).dot(support.normal))>0.004 \
+				or absf((point-Vector3(hit.position)).dot(hit.normal))>0.004: return false
 	return true

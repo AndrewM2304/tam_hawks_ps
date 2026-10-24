@@ -184,6 +184,16 @@ Head south to the Clyde quays for embankment lines and a broken-footbridge trans
 
 Northwest, follow the park connections to a winding paved climb and downhill run through rolling grass. The map compresses Glasgow into connected skating places; it is an original game layout rather than a street navigation map.
 
+At the top of the climb, follow the signed summit link west to **Kelvingrove
+Sunken Skatepark**. Its diamond on **City map & routes** marks the east entrance,
+within the existing park district. The gentle east bank rolls down into the lower
+street basin; use it to enter and leave without a required jump. Start with the
+shallow bowl and open runouts, then build speed for the deeper bowl and hip.
+The stair set, hubba, flatbar and low ledge offer linked street lines around the
+bowls. Coping uses the same Grind, lip, balance and transfer controls as other
+transitions. The original park paths and lap routes remain available; Restart
+still returns you to the city start.
+
 The west Clyde quay and Kelvingrove promenade now have practice pockets with
 curved quarter-pipes, low ledges and manual pads; the quay also has a flatbar.
 Carry speed up a quarter-pipe for vertical air and descend back onto its curved

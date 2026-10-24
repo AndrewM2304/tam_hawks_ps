@@ -3,6 +3,7 @@ extends RefCounted
 
 const Ride = preload("res://game/tricks/grind_ride.gd")
 const WallRide = preload("res://game/player/wall_ride.gd")
+const SkaterProbe = preload("res://game/player/skater.gd")
 
 
 static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
@@ -27,6 +28,17 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	var generated_capture_count := 0
 	var authored_capture_count := 0
 	var blocked: Array[String] = []
+	# Use the real CharacterBody/profile and production admission policy, not
+	# the separate ground-route volume with its floor-clearance allowance.
+	if not InputMap.has_action("ollie"): preload("res://game/core/input_setup.gd").register_actions()
+	var previous_camera := world.get_viewport().get_camera_3d()
+	var rider := SkaterProbe.new()
+	world.add_child(rider)
+	rider.set_physics_process(false)
+	rider.set_process(false)
+	if is_instance_valid(previous_camera): previous_camera.current = true
+	await tree.physics_frame
+	await tree.process_frame
 	for record: Dictionary in audit.surfaces:
 		var body := world.get_node(NodePath(record.path)) as StaticBody3D
 		classified = classified and body != null and body.has_meta("surface_audit_id") and not record.wall_reason.is_empty()
@@ -48,7 +60,7 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 				var approach := Vector3(tangent.x,0,tangent.z).normalized()*6.0-Vector3.UP
 				var ride = Ride.new()
 				usable = usable and ride.start([line], at + Vector3.UP * 0.15,
-					approach, func(from: Vector3, to: Vector3) -> bool: return _clear_capture(world, from, to))
+					approach, func(from: Vector3, to: Vector3) -> bool: return rider._rail_path_clear(from,to))
 			if usable:
 				if generated: generated_capture_count += 1
 				else: authored_capture_count += 1
@@ -61,6 +73,22 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	if not blocked.is_empty(): print("SURFACE BLOCKED GENERATED TRACKS ", blocked)
 	check.call(blocked.is_empty() and generated_capture_count == audit.generated_grind_count and authored_capture_count >= 10,
 		"surface audit: new generated and raised-terrain ledges capture at three interior points with the production capsule and native collision sweep")
+	var dense_samples := 0
+	var dense_blocked: Array[String] = []
+	for line in lines.values():
+		var count := maxi(4,ceili(line.length/0.35))
+		for i in range(1,count):
+			var distance: float = line.length*i/count
+			var point: Vector3 = line.point_at(distance)
+			var next: Vector3 = line.point_at(minf(line.length,distance+0.20))
+			dense_samples += 1
+			if not rider._rail_path_clear(point+Vector3.UP*0.12,point) or not rider._rail_path_clear(point,next):
+				if not dense_blocked.has(line.id): dense_blocked.append(line.id)
+	if not dense_blocked.is_empty(): print("PRODUCTION DENSE ADMISSION BLOCKED ",dense_blocked)
+	print("PRODUCTION DENSE ADMISSION samples=",dense_samples)
+	check.call(dense_samples>=5000 and dense_blocked.is_empty(),
+		"surface audit: over5000 actual-profile production entry and short held-ride sweeps clear across all published tracks")
+	rider.queue_free()
 	var snapshot: Dictionary = world.get_surface_audit()
 	snapshot.surfaces.clear()
 	check.call(not world.get_surface_audit().surfaces.is_empty(), "surface audit: callers cannot mutate the level inventory")
@@ -108,6 +136,187 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	for height: float in [6.0,10.0]:
 		check.call(not _clear_capture(world,Vector3(-100,height,-139.8),Vector3(-100,height,-145)),
 			"surface audit: visible park perimeter contains the new terrace at rider height " + str(height))
+	# Previously decorative furniture was on accessible floors. Test the actual
+	# support and track-to-rendered-face relationship, not its former scenery claim.
+	var benches: Array[Node] = tree.get_nodes_in_group("physical_street_benches")
+	var bins: Array[Node] = tree.get_nodes_in_group("physical_street_bins")
+	check.call(benches.size()==4 and bins.size()==4,
+		"surface audit: all four accessible street furniture groups have physical seats and containers")
+	var space := world.get_world_3d().direct_space_state
+	for bench: StaticBody3D in benches:
+		var supported := true
+		for x: float in [-1.1,1.1]:
+			for z: float in [-0.2,0.2]:
+				var foot := bench.to_global(Vector3(x,0,z))
+				var query := PhysicsRayQueryParameters3D.create(foot+Vector3.UP*0.1,foot-Vector3.UP*0.2,1)
+				query.exclude = [bench.get_rid()]
+				var hit := space.intersect_ray(query)
+				supported = supported and not hit.is_empty() and absf(hit.position.y-foot.y)<0.015
+		var matching_faces := true
+		for id: String in bench.get_meta("authored_grind_ids"):
+			var track = lines[id]
+			var point: Vector3 = track.point_at(track.length*0.5)
+			# Probe just inside the front top face: an infinitesimal ray exactly
+			# on a box border can miss while the production capsule is supported.
+			if id.ends_with("_Seat"): point.z -= 0.02
+			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.12,point-Vector3.UP*0.12,1))
+			matching_faces = matching_faces and hit.get("collider")==bench and absf(point.y-hit.get("position",Vector3.INF).y-0.02)<0.005
+		check.call(supported and matching_faces,
+			"surface audit: accessible bench feet rest on native ground and both grind tracks meet real wood support "+str(bench.get_meta("street_furniture_id")))
+	for container: StaticBody3D in bins:
+		var at := container.global_position
+		var query := PhysicsRayQueryParameters3D.create(at+Vector3.UP*0.1,at-Vector3.UP*0.2,1)
+		query.exclude = [container.get_rid()]
+		var ground := space.intersect_ray(query)
+		var lid := space.intersect_ray(PhysicsRayQueryParameters3D.create(at+Vector3.UP*1.4,at+Vector3.UP*0.9,1))
+		check.call(not ground.is_empty() and absf(ground.position.y-at.y)<0.015 and lid.get("collider")==container \
+			and absf(lid.get("position",Vector3.INF).y-at.y-1.17)<0.005 and container.has_meta("grind_exclusion_reason"),
+			"surface audit: upright litter container has actual floor and visible-lid collision with an explicit finite-ledge exclusion "+str(container.get_meta("street_furniture_id")))
+	check.call(_clear_capture(world,Vector3(57,0,39),Vector3(67,0,39)) \
+		and _clear_capture(world,Vector3(67,0,39),Vector3(57,0,39)),
+		"surface audit: relocated Barras furniture leaves a clear native corridor around the entire manual bank")
+	for record: Dictionary in audit.surfaces:
+		if record.label!="CourtPlanterSeat": continue
+		var body := world.get_node(NodePath(record.path)) as StaticBody3D
+		var cap_ok: bool = record.shape_count==2
+		for x: float in [-0.61,0.0,0.61]:
+			for z: float in [-4.03,0.0,4.03]:
+				var top := body.to_global(Vector3(x,0.30,z))
+				var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(top+Vector3.UP*0.1,top-Vector3.UP*0.1,1))
+				cap_ok = cap_ok and hit.get("collider")==body and absf(hit.get("position",Vector3.INF).y-top.y)<0.004
+		for outside: Vector3 in [Vector3(-0.65,0.3,0),Vector3(0.65,0.3,0),Vector3(0,0.3,-4.08),Vector3(0,0.3,4.08)]:
+			var top := body.to_global(outside)
+			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(top+Vector3.UP*0.1,top-Vector3.UP*0.05,1))
+			cap_ok = cap_ok and hit.get("collider")!=body
+		check.call(cap_ok,"surface audit: visible60mm court seat cap has native top/50mm overhang and exact finite outer bounds "+str(record.id))
+	await _sunken_excavation(tree,world,check)
+	_native_rail_tops(world,lines,check)
+	_visible_park_materials(tree,world,check)
+
+
+static func _native_rail_tops(world: Node3D,lines: Dictionary,check: Callable) -> void:
+	for id: String in ["clyde_print_yard_ledge","clyde_quay_coping","clyde_bridge_rail","kelvingrove_cutback_ledge",
+		"kelvingrove_terrace_coping","kelvingrove_s_bend_0","kelvingrove_s_bend_1","clyde_practice_flatbar",
+		"clyde_north_handrail_west","clyde_north_handrail_east","clyde_south_handrail_west","clyde_south_handrail_east"]:
+		var line = lines.get(id)
+		var matches: bool = line!=null and line.is_valid
+		if matches:
+			for fraction: float in [0.2,0.5,0.8]:
+				var point: Vector3 = line.point_at(line.length*fraction)
+				var tangent: Vector3 = line.dir_at(line.length*fraction)
+				var normal := (Vector3.UP-tangent*tangent.dot(Vector3.UP)).normalized()
+				var hit := world.get_world_3d().direct_space_state.intersect_ray(
+					PhysicsRayQueryParameters3D.create(point+normal*0.12,point-normal*0.12,2))
+				matches = matches and not hit.is_empty() and absf((hit.position-point).dot(normal))<0.007 \
+					and hit.collider.get_meta("authored_grind_ids",[]).has(id)
+		check.call(matches,"surface audit: finite Outdoor bearing path has matching real native beam crown "+id)
+
+
+static func _visible_park_materials(tree: SceneTree,world: Node3D,check: Callable) -> void:
+	var entries: Array[Dictionary] = []
+	var collision_unchanged := true
+	for visual: MeshInstance3D in tree.get_nodes_in_group("park_native_visual_skins"):
+		entries.append({"node":visual,"triangles":visual.mesh.generate_triangle_mesh(),"bounds":visual.global_transform*visual.get_aabb()})
+		for child: Node in visual.get_parent().get_children():
+			if child is CollisionShape3D and child.shape is ConcavePolygonShape3D:
+				collision_unchanged = collision_unchanged and visual.get_meta("native_collision_sha256")==child.shape.get_faces().to_byte_array().hex_encode().sha256_text()
+	check.call(entries.size()==5 and collision_unchanged,
+		"park material: visual-only repair preserves the complete native shoulder/asphalt collision face snapshots")
+	var count := 0
+	var good := true
+	var low := INF
+	var high := -INF
+	var bad: Array = []
+	# These are the actual reviewed riding strips. The deliberately concealed
+	# three-metre terrain separation farther east is not part of this repair.
+	for region: Rect2 in [Rect2(-151.2,-123.7,8.7,26.4),Rect2(-193.7,-105.7,33.4,21.4)]:
+		for x in ceili(region.size.x/0.4):
+			for z in ceili(region.size.y/0.4):
+				var from := Vector3(region.position.x+(x+0.5)*0.4,30,region.position.y+(z+0.5)*0.4)
+				var to := from-Vector3.UP*40
+				var native := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(from,to,1))
+				if native.is_empty(): continue
+				var top := -INF
+				for entry: Dictionary in entries:
+					var bounds: AABB = entry.bounds
+					if from.x<bounds.position.x or from.x>bounds.end.x or from.z<bounds.position.z or from.z>bounds.end.z: continue
+					var hit: Dictionary = entry.triangles.intersect_segment(entry.node.to_local(from),entry.node.to_local(to))
+					if not hit.is_empty(): top = maxf(top,entry.node.to_global(hit.position).y)
+				if not is_finite(top): continue
+				var separation: float = top-native.position.y
+				count += 1
+				low = minf(low,separation)
+				high = maxf(high,separation)
+				var matches: bool = separation>=0.0005 and separation<=0.009
+				good = good and matches
+				if not matches and bad.size()<5: bad.append({"point":Vector3(from.x,top,from.z),"gap":separation})
+	if not bad.is_empty(): print("PARK MATERIAL MISMATCHES ",bad)
+	print("PARK VISIBLE MATERIAL samples=",count," native_separation=",low,"..",high)
+	check.call(good and count>=3000,
+		"park material: actual visible mesh BVHs at over3000 reviewed road/stone sites stay above real support within nine millimetres")
+
+
+static func _sunken_excavation(_tree: SceneTree,world: Node3D,check: Callable) -> void:
+	var definition: Dictionary = world.get_park_skatepark_definition()
+	check.call(not definition.is_empty() and world.get_node_or_null(definition.get("node_path",NodePath()))!=null,
+		"sunken park: real facility, resolvable World node path and supported summit access are registered in the existing park")
+	if definition.is_empty(): return
+	var bounds: Rect2 = definition.bounds
+	var landscape: StaticBody3D = world._outdoors.get_node("KelvingroveRollingGround")
+	var faces := PackedVector3Array()
+	for child: Node in landscape.get_children():
+		if child is CollisionShape3D and child.shape is ConcavePolygonShape3D:
+			faces = child.shape.get_faces()
+	var surviving_old_hill := 0
+	for i in range(0,faces.size(),3):
+		var center := landscape.to_global((faces[i]+faces[i+1]+faces[i+2])/3.0)
+		if bounds.has_point(Vector2(center.x,center.z)): surviving_old_hill += 1
+	check.call(faces.size()/3==5688 and surviving_old_hill==0,
+		"sunken park: all192 original hill cells and384 native triangles are truly excavated, with no hidden hill through the bowls")
+	var space := world.get_world_3d().direct_space_state
+	var grid_ok := true
+	var grid_samples := 0
+	var failures: Array = []
+	for x in 40:
+		for z in 30:
+			var point := Vector3(bounds.position.x+x+0.5,0,bounds.position.y+z+0.5)
+			var height: float = world.get_ground_height(point)
+			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*30,point-Vector3.UP*2,1))
+			var matches: bool = is_finite(height) and not hit.is_empty() and absf(hit.position.y-height)<0.006 and hit.collider!=landscape
+			grid_ok = grid_ok and matches
+			grid_samples += 1
+			if not matches and failures.size()<6: failures.append({"point":point,"query":height,"native":hit.get("position",Vector3.INF)})
+	if not failures.is_empty(): print("SUNKEN HEIGHT MISMATCHES ",failures)
+	check.call(grid_ok and grid_samples==1200,
+		"sunken park:1200 independent native rays agree with the actual deck, basin, bowl and stair height query")
+	for bottom: Vector3 in [Vector3(-197,11,-194),Vector3(-219,13,-195)]:
+		var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(bottom+Vector3.UP*6,bottom-Vector3.UP*0.3,1))
+		check.call(not hit.is_empty() and absf(hit.position.y-bottom.y)<0.006 and hit.collider!=landscape \
+			and absf(world.get_ground_height(bottom)-bottom.y)<0.006,
+			"sunken park: visibly different bowl depth has real exposed native floor "+str(bottom))
+	var entry_ok := true
+	var access: PackedVector3Array = definition.access_route
+	for segment in range(access.size()-1):
+		for sample in 33:
+			var point := access[segment].lerp(access[segment+1],float(sample)/32.0)
+			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.3,point-Vector3.UP*0.3,1))
+			entry_ok = entry_ok and not hit.is_empty() and absf(hit.position.y-point.y)<0.006 \
+				and absf(world.get_ground_height(point)-point.y)<0.006 and absf(world.get_support_height(point,0.1)-point.y)<0.006
+	check.call(entry_ok,"sunken park: every shared summit/ramp/entry seam has native support and inclusive exact height queries in both directions")
+	var perimeter_ok := true
+	for side in 4:
+		for sample in 41:
+			var fraction := float(sample)/40.0
+			var point := Vector3.ZERO
+			match side:
+				0: point = Vector3(lerpf(bounds.position.x,bounds.end.x,fraction),0,bounds.position.y-0.04)
+				1: point = Vector3(lerpf(bounds.position.x,bounds.end.x,fraction),0,bounds.end.y+0.04)
+				2: point = Vector3(bounds.position.x-0.04,0,lerpf(bounds.position.y,bounds.end.y,fraction))
+				3: point = Vector3(bounds.end.x+0.04,0,lerpf(bounds.position.y,bounds.end.y,fraction))
+			var height: float = world.get_ground_height(point)
+			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*30,point-Vector3.UP*2,1))
+			perimeter_ok = perimeter_ok and is_finite(height) and not hit.is_empty() and absf(hit.position.y-height)<0.006
+	check.call(perimeter_ok,"sunken park: actual grass collar remains continuously supported around all four excavated edges")
 
 
 static func _clear_capture(world: Node3D, from: Vector3, to: Vector3) -> bool:

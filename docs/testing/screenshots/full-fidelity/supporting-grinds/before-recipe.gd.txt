@@ -1,0 +1,133 @@
+extends SceneTree
+const Main=preload('res://game/main.gd')
+var game:Node
+var checks:=0
+var failed:=0
+var reports=[]
+func _hashes()->Dictionary:
+ var h={}
+ for p:String in ['game/player/skater.gd','game/player/skater_visual.gd','game/tricks/grind_ride.gd','game/tricks/grind_line.gd','game/levels/outdoor_routes.gd','game/levels/glasgow_square.gd','game/main.gd','project.godot','.local/grind_mesh_contact_review.gd']:h[p]=FileAccess.get_sha256('res://'+p)
+ return h
+func _initialize()->void:_run.call_deferred()
+func _frame()->void:
+ await physics_frame
+ await process_frame
+func _check(ok:bool,label:String)->void:
+ checks+=1
+ if not ok:failed+=1
+ print(('PASS ' if ok else 'FAIL ')+label)
+func _release()->void:
+ for action in InputMap.get_actions():Input.action_release(action)
+func _part_inside(part:MeshInstance3D,body:StaticBody3D)->Dictionary:
+ var unique={}
+ for point:Vector3 in part.mesh.get_faces():unique[point]=true
+ var inside:=0
+ var deepest:=0.0
+ var example=Vector3.ZERO
+ var finite_footprint:=0
+ for point:Vector3 in unique:
+  var world:Vector3=part.to_global(point)
+  for child:Node in body.get_children():
+   if not child is CollisionShape3D:continue
+   var local:Vector3=child.to_local(world)
+   var penetration:=0.0
+   if child.shape is BoxShape3D:
+    var half:Vector3=child.shape.size*.5
+    if absf(local.x)<half.x-.00005 and absf(local.z)<half.z-.00005:
+     finite_footprint+=1
+     if local.y<half.y-.0005 and local.y> -half.y+.00005:penetration=half.y-local.y
+   elif child.shape is CylinderShape3D:
+    var radial=Vector2(local.x,local.z).length()
+    var half_height:float=child.shape.height*.5
+    var radius:float=child.shape.radius
+    if absf(local.y)<half_height-.00005:
+     var up:Vector3=(child.global_basis.inverse()*Vector3.UP).slide(Vector3.UP).normalized()
+     var across:Vector3=Vector3.UP.cross(up).normalized()
+     if absf(local.dot(across))<radius-.00005:finite_footprint+=1
+     if radial<radius-.0005:penetration=minf(radius-radial,half_height-absf(local.y))
+   if penetration>0:
+    inside+=1
+    if penetration>deepest:deepest=penetration;example=world
+ var wheel:bool=part.mesh is CylinderMesh and is_equal_approx(part.mesh.top_radius,.032) and is_equal_approx(part.mesh.height,.032)
+ return {'wheel':wheel,'part':str(part.name),'vertices':unique.size(),'inside':inside,'depth':deepest,'example':var_to_str(example),'finite_footprint':finite_footprint}
+func _run()->void:
+ var source_before=_hashes()
+ game=Main.new();game.persistence_enabled=false;root.add_child(game)
+ await process_frame
+ game.start_mode(true)
+ for f in 12:await _frame()
+ var cases=['Grind_Rail_Exchange','Grind_Ledge_Court','Grind_Ledge_GalleryEntrance','clyde_quay_coping'] if DisplayServer.get_name()=='headless' else ['clyde_quay_coping']
+ for id:String in cases:
+  _release()
+  var line:RefCounted=null
+  for candidate:RefCounted in game.world.get_grind_lines():
+   if str(candidate.id)==id:line=candidate;break
+  if line==null:_check(false,'authored actual track exists '+id);continue
+  var r=game.skater
+  var at:Vector3=line.point_at(line.length*.35)
+  var tangent:Vector3=line.dir_at(line.length*.35)
+  r.spawn_position=at+Vector3.UP*.35
+  game.start_mode(true)
+  # Declared descending fixture isolates one actual authored line. Admission
+  # still runs production input, native clearance and actual capture callbacks.
+  r.set_physics_process(false)
+  r.global_position=at+Vector3.UP*.35
+  r.velocity=Vector3.ZERO;r.move_and_slide()
+  r.velocity=tangent*6.0-Vector3.UP
+  r.speed=6.0;r.airborne=true
+  r.rotation.y=atan2(-tangent.x,-tangent.z)
+  r.set_grind_lines([line])
+  var clear=r._rail_path_clear(r.global_position,at)
+  var obstruction=KinematicCollision3D.new()
+  r.test_move(r.global_transform,at-r.global_position,obstruction,r.safe_margin,true,16)
+  var obstruction_names=[]
+  for oi in obstruction.get_collision_count():obstruction_names.append({'body':str(obstruction.get_collider(oi).name),'normal':var_to_str(obstruction.get_normal(oi)),'depth':obstruction.get_depth()})
+  print('GRIND_ADMISSION_CLEARANCE ',id,' clear=',clear,' margin=',r.safe_margin,' target=',at,' contacts=',obstruction_names)
+  var captures=[]
+  var callback=func(value:String):captures.append(value)
+  r.grind_captured.connect(callback)
+  r.set_physics_process(true)
+  Input.action_press('grind')
+  for f in 18:await _frame()
+  var captured:bool=r.grinding and captures==[id]
+  _check(captured,'actual mapped native grind admission '+id)
+  if not captured:print('GRIND_ADMISSION_RESULT ',id,' at=',r.global_position,' velocity=',r.velocity,' airborne=',r.airborne,' floor=',r.is_on_floor(),' bail=',r.bail_active,' captures=',captures)
+  if captured:
+   var query=PhysicsRayQueryParameters3D.create(r.global_position+Vector3.UP*.25,r.global_position-Vector3.UP*.35,3)
+   query.exclude=[r.get_rid()]
+   var hit:Dictionary=r.get_world_3d().direct_space_state.intersect_ray(query)
+   var body:StaticBody3D=hit.get('collider') as StaticBody3D
+   if body==null:_check(false,'actual native solid under bearing '+id)
+   else:
+    var parts=[]
+    var wheels=[]
+    var total:=0
+    var depth:=0.0
+    for child:Node in r._board_visual.get_children():
+     if not child is MeshInstance3D:continue
+     var result=_part_inside(child,body)
+     if result.wheel:wheels.append(result)
+     if result.inside>0:parts.append(result)
+     total+=int(result.inside);depth=maxf(depth,float(result.depth))
+    var report={'id':id,'kind':line.kind,'fixture':'declared descending initial contact, then actual held-Grind native admission; not a played ground approach','captures':captures.duplicate(),'native_body':str(body.name),'native_surface_point':var_to_str(hit.position),'path_above_native_top':r.global_position.y-float(hit.position.y),'path':var_to_str(r.global_position),'grind_style':r.grind_trick_id,'wheel_parts':wheels,'intersecting_parts':parts,'inside_vertices':total,'max_depth':depth,'board_rotation':var_to_str(r._board_visual.rotation),'visual_rotation':var_to_str(r._visual.rotation),'score_entries':game.score.combo_trick_count,'bail':r.bail_active}
+    reports.append(report)
+    if DisplayServer.get_name()!='headless':
+     r.set_physics_process(false);r.set_process(false);game.hud.visible=false
+     var camera=Camera3D.new();camera.near=.025;camera.fov=42;root.add_child(camera);camera.current=true
+     var center:Vector3=r._board_visual.global_position
+     camera.global_position=center+r.global_basis.x*.58+Vector3.UP*.18+r.global_basis.z*.65
+     camera.look_at(center+Vector3.UP*.035)
+     await process_frame;RenderingServer.force_draw(true,1.0/60.0)
+     DirAccess.make_dir_recursive_absolute('res://.local/grind-mesh-inspection')
+     root.get_texture().get_image().save_png('res://.local/grind-mesh-inspection/'+id+'.png')
+     camera.queue_free();r._camera.current=true;r.set_process(true);r.set_physics_process(true)
+    print('GRIND_MESH_CONTACT ',JSON.stringify(report))
+    _check(total==0,'complete visible board avoids true finite native solid interiors '+id)
+  r.grind_captured.disconnect(callback)
+  _release()
+ var source_after=_hashes()
+ var manifest={'scope':'Actual Main whole-board mesh vs actual finite native Box/Cylinder volume, using declared descending fixture and production held-Grind admission. Inspection camera only; not a played ground approach or final full movie.','source_before':source_before,'source_after':source_after,'inputs_unchanged':source_before==source_after,'reports':reports}
+ var file=FileAccess.open('res://.local/grind-mesh-contact-review.json',FileAccess.WRITE);file.store_string(JSON.stringify(manifest,'\t'));file.close()
+ game.queue_free();await process_frame
+ print('GRIND_MESH_CHECKS ',checks-failed,' passed ',failed,' failed')
+ quit(0 if failed==0 else 1)

@@ -24,6 +24,9 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	await _interrupted_recovery(tree, check)
 	await _grab_extension(tree, check)
 	await _skitch_contacts(tree, check)
+	await _ordinary_foot_support(tree, check)
+	await _recorded_drag_reach(tree, check)
+	await _helper_keeps_deck_contact(tree, check)
 
 
 static func _setup_contacts(tree: SceneTree, check: Callable) -> void:
@@ -249,7 +252,7 @@ static func _recovery(tree: SceneTree, check: Callable) -> void:
 
 
 static func _fixture(tree: SceneTree, yaw: float = 0.0, rest_yaw: float = 0.0,
-		normal: Vector3 = Vector3.UP) -> Dictionary:
+		normal: Vector3 = Vector3.UP, native_body: bool = false) -> Dictionary:
 	var root := Node3D.new()
 	root.position = Vector3(6, 3, -8)
 	tree.root.add_child(root)
@@ -262,7 +265,7 @@ static func _fixture(tree: SceneTree, yaw: float = 0.0, rest_yaw: float = 0.0,
 	collision.position.y = -0.05
 	floor.add_child(collision)
 	root.add_child(floor)
-	var body := Node3D.new()
+	var body: Node3D = CharacterBody3D.new() if native_body else Node3D.new()
 	body.rotation.y = yaw
 	root.add_child(body)
 	var visual := Node3D.new()
@@ -660,6 +663,112 @@ static func _skitch_contacts(tree: SceneTree, check: Callable) -> void:
 			"authentic pose: fresh airborne Melon overrides released tow wrist and palm orientation yaw=" + str(yaw))
 		print("AUTHENTIC_POSE skitch yaw=%.2f palm_error=%.4f release_step=%.3f" % [yaw, error, max_step])
 		await _dispose(tree, fixture.root)
+
+
+static func _ordinary_foot_support(tree: SceneTree, check: Callable) -> void:
+	# Native finite-floor presentation fixtures. They do not admit or score a
+	# trick; independent Main input tests exercise the same real route.
+	for drag: bool in [false, true]:
+		var fixture := await _fixture(tree, 0.0, 0.0, Vector3.UP, true)
+		var bank := StaticBody3D.new()
+		var shape := ConcavePolygonShape3D.new()
+		shape.backface_collision = true
+		shape.set_faces(PackedVector3Array([Vector3(-4, 1, -4), Vector3(4, 1, -4), Vector3(-4, 0, 0),
+			Vector3(4, 1, -4), Vector3(4, 0, 0), Vector3(-4, 0, 0)]))
+		var collision := CollisionShape3D.new()
+		collision.shape = shape
+		bank.add_child(collision)
+		fixture.root.add_child(bank)
+		fixture.body.position = Vector3(0, 0.030, -0.10)
+		fixture.visual.basis = Basis(Quaternion(Vector3.UP, Vector3(0, 1, 0.25).normalized()))
+		# Ordinary controller presentation leans the rider forward by 0.10 rad.
+		fixture.rider.rotation.x = -0.10
+		await tree.physics_frame
+		await tree.process_frame
+		var state := _neutral()
+		state.speed = 6.0
+		state.push = not drag
+		state.brake = drag
+		var minimum := INF
+		var recovery := 0.0
+		for frame in 65:
+			fixture.rig.animate(1.0 / 60.0, state)
+			var foot: Node3D = fixture.rig._legs[1].foot
+			for mesh: MeshInstance3D in [foot.get_node("Cupsole"), foot.get_node("CanvasUpper")]:
+				var unique: Dictionary = {}
+				for point: Vector3 in mesh.mesh.get_faces(): unique[point] = true
+				for point: Vector3 in unique:
+					var at := mesh.to_global(point)
+					var query := PhysicsRayQueryParameters3D.create(at + Vector3.UP * 0.4, at - Vector3.UP * 0.8, 9)
+					query.exclude = [fixture.body.get_rid()]
+					var hit: Dictionary = fixture.root.get_world_3d().direct_space_state.intersect_ray(query)
+					if not hit.is_empty(): minimum = minf(minimum, at.y - float(hit.position.y))
+			var sole: Vector3 = foot.to_global(SOLE)
+			if fixture.rig._push_phase > 0.65:
+				recovery = maxf(recovery, sole.y - fixture.root.global_position.y)
+		var sole: Vector3 = fixture.rig._legs[1].foot.to_global(SOLE)
+		check.call(minimum > -0.0015 and _max_stretch(fixture.rig) <= 1.12,
+			"authentic push: complete shoe clears actual finite bank toe and adjoining flat floor drag=%s" % drag)
+		check.call((absf(sole.y - fixture.root.global_position.y) < 0.001 if drag else recovery > 0.10),
+			"authentic push: native drag plants within 1mm while push return retains its lifted arc drag=%s" % drag)
+		print("AUTHENTIC_PUSH drag=%s whole=%.6f recovery=%.4f stretch=%.6f" % [drag, minimum, recovery, _max_stretch(fixture.rig)])
+		await _dispose(tree, fixture.root)
+	# Steel-only and absent support must not become an imaginary broad floor.
+	for layer: int in [0, 2]:
+		var fixture := await _fixture(tree, 0.0, 0.0, Vector3.UP, true)
+		var floor: StaticBody3D = fixture.root.get_child(0)
+		floor.collision_layer = layer
+		await tree.physics_frame
+		await tree.process_frame
+		check.call(fixture.rig._native_foot_ground(fixture.body.global_position).is_empty(),
+			"authentic push: absent ground or layer2 steel cannot create a foot plant layer=%d" % layer)
+		await _dispose(tree, fixture.root)
+
+
+static func _recorded_drag_reach(tree: SceneTree, check: Callable) -> void:
+	# Actual Main brake-frame data from the independent beginner-circuit trace:
+	# right calf previously scaled 1.266663 for a 0.948m hip-to-ankle distance.
+	var fixture := await _fixture(tree, atan2(-0.205270, -0.978702), 0.0, Vector3.UP, true)
+	fixture.root.position = Vector3(-200.0731, 13.0, -176.2168)
+	fixture.body.position.y = 0.01305
+	fixture.visual.position.y = -0.00505
+	fixture.rider.rotation.x = -0.10
+	fixture.rig._push_blend = 0.181164142798062
+	fixture.rig._brake_blend = 0.862733098363659
+	fixture.rig._push_phase = 0.454624990001322
+	await tree.physics_frame
+	await tree.process_frame
+	var state := _neutral()
+	state.speed = 5.162
+	state.brake = true
+	fixture.rig.animate(0.0, state)
+	var rear: Vector3 = fixture.rig._legs[1].foot.to_global(SOLE)
+	check.call(_max_stretch(fixture.rig) <= 1.12 and absf(rear.y - 13.0) < 0.001
+		and _grip_distance(fixture, fixture.rig._legs[0].foot.to_global(SOLE)) < 0.001
+		and fixture.rig._drag_crouch > 0.10 and fixture.rig._drag_crouch < 0.18,
+		"authentic push: recorded genuine long-calf brake frame fits both actual contacts by lowering the common pelvis")
+	var previous := _markers(fixture.rig)
+	var movement := 0.0
+	state.brake = false
+	for frame in 65:
+		fixture.rig.animate(1.0 / 60.0, state)
+		var current := _markers(fixture.rig)
+		movement = maxf(movement, _marker_delta(previous, current))
+		previous = current
+	check.call(movement < 0.22 and fixture.rig._drag_crouch == 0.0 and _feet_error(fixture) < 0.001,
+		"authentic push: recorded native brake crouch returns smoothly to the unchanged neutral stance")
+	await _dispose(tree, fixture.root)
+
+
+static func _helper_keeps_deck_contact(tree: SceneTree, check: Callable) -> void:
+	var fixture := await _fixture(tree, 0.0, 0.0, Vector3.UP, true)
+	var state := _neutral()
+	state.merge({"transition_active": true, "push": true, "brake": true, "speed": 6.0}, true)
+	_settle(fixture.rig, state)
+	check.call(_feet_error(fixture) < 0.001 and fixture.rig._push_blend == 0.0
+		and fixture.rig._brake_blend == 0.0 and fixture.rig._drag_crouch == 0.0,
+		"authentic pump: actual helper state keeps both soles on the deck and rejects ordinary kick/drag ground solving")
+	await _dispose(tree, fixture.root)
 
 
 static func _neutral() -> Dictionary:

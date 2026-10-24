@@ -185,6 +185,13 @@ func step(body: CharacterBody3D, delta: float, push: float, brake: float,
 			_lateral_speed = move_toward(_lateral_speed, steer * absf(_speed) * 0.45, 5.0 * h)
 		var next_theta := _theta + _speed / float(feature.radius) * h
 		var next_x: float = feature.advance_lateral(_theta,_x,_lateral_speed*h)
+		# Some authored bowls have an actual opening in their finite concrete
+		# face. Leave the last verified contact with its tangent momentum rather
+		# than trying to occupy missing collision or inventing a pop impulse.
+		# The optional predicate describes openings only; the ordinary toe,
+		# width and lip bounds below remain authoritative for every feature.
+		if feature.has_method("contact_is_valid") and not feature.contact_is_valid(next_theta,next_x):
+			return _launch(body, sample.tangent * _speed + sample.lateral * _lateral_speed, "launch")
 		if not feature.wrap_lateral and absf(next_x) > float(feature.width) * 0.5 - 0.005:
 			return _launch(body, sample.tangent * _speed + sample.lateral * _lateral_speed, "launch")
 		if next_theta < 0.0:
@@ -217,6 +224,7 @@ func step(body: CharacterBody3D, delta: float, push: float, brake: float,
 	return _result(body, event)
 
 func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, brake: float) -> Dictionary:
+	var had_air_move := _air_age > 0.0
 	_air_age += delta
 	var air_frame: Dictionary = feature.air_return_frame(body.global_position,_x)
 	# A fresh directional press after launch selects a deliberate transfer.
@@ -240,7 +248,11 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 	horizontal = horizontal.limit_length(limit)
 	_air_velocity.x = horizontal.x
 	_air_velocity.z = horizontal.z
-	if _air_velocity.y <= 0.0 and _find_return(body, _air_velocity):
+	# A finite opening launches from the last verified face sample. Advance
+	# native air once before testing proximity to that same sample, otherwise
+	# a tangent departure can repeatedly land/relaunch without travelling.
+	# Actual collision on the first air move still admits a real landing below.
+	if had_air_move and _air_velocity.y <= 0.0 and _find_return(body, _air_velocity):
 		body.velocity = _air_velocity
 		var result := step(body, delta, 0.0, 0.0, steer)
 		result.event = "landed"
@@ -263,7 +275,8 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 		if _air_velocity.y <= 0.0 and obstacle is Node and obstacle.has_meta("transition_feature") \
 				and _acquire(body,obstacle.get_meta("transition_feature"),_air_velocity):
 			return _result(body, "landed")
-		if hit.get_normal().y > 0.65 and _can_occupy(body, body.global_position, Vector3.UP):
+		if hit.get_normal().y > 0.65 and (_can_occupy(body, body.global_position, Vector3.UP) \
+				or _recover_upright_floor(body)):
 			# An oriented end-cap can touch a deck while the restored upright
 			# board is still above it. Ordinary air confirms that final landing.
 			body.velocity = _air_velocity
@@ -273,6 +286,42 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 		body.velocity = _air_velocity
 		return _end(body, "exit_air")
 	return _result(body, "")
+
+func _recover_upright_floor(body: CharacterBody3D) -> bool:
+	# An oriented foot can touch a bank below the legal upright capsule origin.
+	# Ask native collision for its bounded recovery; never author an upward
+	# teleport or ignore a wall/ceiling in order to restore ordinary air.
+	var previous := _collision.transform
+	_orient_collision(body,Vector3.UP)
+	var proof := KinematicCollision3D.new()
+	var contact := body.test_move(body.global_transform,Vector3.ZERO,proof,0.001,true,16)
+	if contact and not _legal_floor_recovery(proof):
+		_collision.transform = previous
+		return false
+	var before := body.global_position
+	var recovered := body.move_and_collide(Vector3.ZERO,false,0.001,true,16)
+	var movement := body.global_position-before
+	if not movement.is_finite() or movement.length()>CONTACT_REACH or movement.y< -0.001 \
+			or (recovered!=null and not _legal_floor_recovery(recovered)):
+		_collision.transform = previous
+		return false
+	# A resting native floor may remain within the same1mm contact margin.
+	# Shape-query emptiness incorrectly treats that legitimate contact as a wall.
+	var resting := KinematicCollision3D.new()
+	if body.test_move(body.global_transform,Vector3.ZERO,resting,0.001,true,16) \
+			and not _legal_floor_recovery(resting):
+		_collision.transform = previous
+		return false
+	return true
+
+func _legal_floor_recovery(contact: KinematicCollision3D) -> bool:
+	var motion := contact.get_travel()
+	if not motion.is_finite() or motion.length()>CONTACT_REACH or motion.y< -0.001 \
+			or not is_finite(contact.get_depth()) or contact.get_depth()>0.001: return false
+	for index in contact.get_collision_count():
+		var face := contact.get_normal(index)
+		if not face.is_finite() or face.y<=0.65: return false
+	return contact.get_collision_count()>0
 
 func _find_return(body: CharacterBody3D, velocity: Vector3) -> bool:
 	if _acquire(body,feature,velocity): return true

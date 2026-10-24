@@ -7,10 +7,12 @@ signal feedback(text: String)
 const ATTEMPT_SECONDS := 75.0
 const GATE_RADIUS := 3.0
 const MAX_SWEEP := 6.0
+const ATTEMPT_BODY_MARGIN := 0.4
 var reduced_motion := false
 var _anchor := Vector3.INF
 var _branches: Array[Dictionary] = []
 var _bounds := Rect2()
+var _attempt_regions: Array[Rect2] = []
 var _state := "idle"
 var _remaining := 0.0
 var _choice := -1
@@ -29,6 +31,7 @@ func configure(anchor: Vector3, branches: Array, bounds: Rect2) -> void:
 	if not anchor.is_finite() or not bounds.position.is_finite() or bounds.size.x <= 0.0 or bounds.size.y <= 0.0: return
 	_anchor = anchor
 	_bounds = bounds
+	_attempt_regions.clear()
 	_branches.clear()
 	for raw: Variant in branches:
 		if not raw is Dictionary: continue
@@ -54,11 +57,38 @@ func configure(anchor: Vector3, branches: Array, bounds: Rect2) -> void:
 			var mark := Node3D.new()
 			mark.position = to_local(at)
 			add_child(mark)
-			Art.cylinder(mark, "PaintedGate", Vector3(0, 0.015, 0), GATE_RADIUS, 0.025, Color("9b955a"))
+			var paint := MeshInstance3D.new()
+			paint.name = "PaintedGate"
+			mark.add_child(paint)
 			Art.sign(mark, Vector3(0, 1.3, 0), cue, Color("e1d69d"))
 			placed[key] = mark
 			_markers.append(mark)
 	reset_run()
+	_settle_paint.call_deferred()
+
+func _settle_paint() -> void:
+	if not is_inside_tree(): return
+	await get_tree().physics_frame
+	if not is_inside_tree(): return
+	for mark: Node3D in _markers:
+		Art.fit_terrain_gate(mark.get_node("PaintedGate"), GATE_RADIUS)
+
+## Additional declared park areas affect only attempt admission. Keep their
+## union rather than admitting the unrelated corners of a larger rectangle.
+func set_attempt_regions(regions: Array) -> void:
+	_attempt_regions.clear()
+	for region: Variant in regions:
+		if region is Rect2 and region.position.is_finite() and region.size.is_finite() \
+			and region.size.x>0.0 and region.size.y>0.0:
+			_attempt_regions.append(region.grow(ATTEMPT_BODY_MARGIN))
+
+func is_in_attempt_area(at: Vector3) -> bool:
+	if not at.is_finite(): return false
+	var point := Vector2(at.x,at.z)
+	if _bounds.has_point(point): return true
+	for region: Rect2 in _attempt_regions:
+		if region.has_point(point): return true
+	return false
 
 func nearby_prompt(at: Vector3) -> String:
 	if _anchor.is_finite() and _state != "active" and _near(at, _anchor, 4.0): return "TRY ONE MORE LAP"
@@ -85,7 +115,7 @@ func poll(at: Vector3, interact: bool, delta: float, combo_value: int = 0) -> vo
 				_reason = ""
 				feedback.emit("PARK REGULAR: Follow the numbered gates. Pick the full loop or bank cut, land a pop, and come back. 75 seconds!")
 		return
-	if not _bounds.has_point(Vector2(at.x, at.z)):
+	if not is_in_attempt_area(at):
 		_fail("Keep this lap in the park. Come back for another go.")
 		return
 	if not is_finite(delta) or delta <= 0.0: return
@@ -125,7 +155,7 @@ func poll(at: Vector3, interact: bool, delta: float, combo_value: int = 0) -> vo
 	_previous = at
 
 func on_launch(at: Vector3) -> void:
-	if _state == "active" and _bounds.has_point(Vector2(at.x, at.z)):
+	if _state == "active" and is_in_attempt_area(at):
 		_air_qualified = true
 
 func on_landed(clean: bool) -> void:
@@ -186,7 +216,8 @@ func status_snapshot() -> Dictionary:
 	return {"id": "one_more_lap", "state": _state, "remaining": _remaining, "attempts": _attempts,
 		"wins": _wins, "position": _anchor, "payoff_position": _anchor, "branch": _choice,
 		"gate_index": _index, "landed_pop": _landed, "hud_text": text, "reason": _reason,
-		"next_gate": next,"navigation_targets":navigation,"branches": _branches.duplicate(true)}
+		"next_gate": next,"navigation_targets":navigation,"branches": _branches.duplicate(true),
+		"attempt_regions": [_bounds]+_attempt_regions}
 
 static func _near(a: Vector3, b: Vector3, radius: float) -> bool:
 	return a.is_finite() and b.is_finite() and absf(a.y - b.y) <= 1.6 and Vector2(a.x-b.x, a.z-b.z).length() <= radius

@@ -1,14 +1,148 @@
-# New owner scope — sunken Kelvingrove skatepark
+# Current delivery — sunken park manual-test candidate
+
+24October2026. Latest owner instruction authorizes pushing the tested source
+branch after this piece of work. Keep at least25% weekly usage reserved for bugs
+found in manual testing, from the owner's reported34% remaining. The agent has no
+usage meter. Hourly continuation is disabled; pause after capture/current-source
+Mac packaging and the source push. No purchase, paid service, hosted CI, release,
+merge or third-party message is authorized.
+
+**Current full regression:3,081 passed,0 failed**,542.31s, exit0,327 unchanged
+source inputs and clean import/engine logs. Receipts:
+[final aggregate](testing/logs/sunken-fidelity-final/aggregate-receipt.json).
+[Cold-source launch](testing/source-launch-sunken-candidate/README.md) passes
+272 unchanged inputs, all matching the aggregate, including normal title/main44/0,
+fresh import, warm launch and deliberate invalid copied-source refusal/restoration.
+Earlier full3052/8 and3080/1 attempts are preserved as diagnostics; see the
+[candidate report](testing/SUNKEN-CANDIDATE.md) for genuine repairs and the bounded
+20-micrometre float-coordinate comparison correction.
+
+The implemented northwest skatepark is a real40×30m excavation with two bowl
+depths, lower street basin, stairs/hubba/rail/ledges, compact hip, beginner bank,
+supported summit link and actual map/sign cues. Facility floor/collider queries,
+ports, real skating/landing/camera and once-only score checks pass. Final level
+inventory:561 static colliders,57 eligible walls,178 grind-associated bodies,
+164 tracks,57 routes and32 useful features. Existing career/save IDs are preserved.
+The78-trick repertoire, authentic setup/catch/stance/bail and gate/cone/lap/skitch
+systems from the integrated core remain present and tested.
+
+Known deferred presentation defects: abrupt lip-stall→drop frame switch with a
+recorded1.188m palm step, and up to4.217mm tyre/adjacent-trim overlap at the tight
+Gallery Entrance ledge bend. Do not claim FULL_FIDELITY_ACCEPTED. The complete
+motion movie and six-place performance refresh are deferred to protect the manual
+testing reserve. Real Mac/Gatekeeper, physical DualSense, Apple Silicon1080p/60,
+human feel/listening and final visual acceptance still require genuine testing.
+
+The [eight-view native render](testing/screenshots/sunken-candidate/manifest.json)
+passes58/0 in51.04s with327 unchanged inputs matching the suite and exact decoded
+native pixels for all eight PNGs. Seven views use production chase and one is a
+declared facility overview. Exact commit/package identity and source-push receipts follow
+in the delivery checkpoint. Older notes below are chronological history, not the
+current stop rule or an assertion that these now-repaired defects remain active.
+
+---
+
+# Current owner priority — tested candidate and usage reserve
+
+The owner reports34% weekly usage remaining and wants25% reserved for manual-test
+bug fixes. Finish only active blocking repairs, full regression/cold launch and
+the current-source Mac candidate, then pause autonomous continuation. The hourly
+task is paused. Long complete motion capture, performance refresh and extra polish
+are deferred under this later instruction; no FULL_FIDELITY_ACCEPTED claim follows.
+Existing scoped evidence remains labelled. Known small cosmetic issue deferred:
+one tyre can intersect an adjacent factory cylinder by4.2mm at the tight Gallery
+entrance ledge bend; actual straight bearing/contact and other reviewed tracks are
+healthy. No blanket offset or weakened collision check was used to hide it.
+Also deferred for manual-test prioritization: the lip-stall drop switches its
+presentation frame abruptly, producing a recorded1.188m palm step. Native lip
+support/return and score checks pass, but that motion is not polished/accepted.
+
+## Sunken Kelvingrove skatepark
 
 The owner supplied two real skatepark reference photos and requested an actual
 sunken, multi-level skatepark in the park's northwest/top-left, making the uphill
 paths lead to a substantial destination. This is now authorized implementation,
 not a feedback gate. [Active design and ownership](planning/KELVINGROVE-SKATEPARK.md).
-The tested2,874/0 candidate below is being saved as a checkpoint before this added
-scope. It does not complete the new facility. Current independent render review
-also confirmed floating/buried park gate disks and decorative furniture overlapping
-a new bank; those bounded repairs precede refreshed full capture and packaging.
-The invalid partial film has no final/publication claim.
+The tested2,874/0 core is saved in`6610502`; it does not complete the new facility.
+The agreed site is`Rect2(-227.5,-202.5,40,30)`, rimY14.5, with a six-metre east
+entrance linked to the summit. [ADR-017](architecture/decisions/ADR-017-sunken-kelvingrove-skatepark.md)
+records the actual hill cut, two bowl depths, lower street section and finite port
+contract now being implemented. Runtime source is open for this new scope.
+
+Independent render review found floating/buried park gate disks, visible grass
+wedges across path overlays and decorative furniture overlapping a new bank.
+The gate repair now passes107/0 helpers plus23/0 Main checks and seven matched
+before/after views: thin paint follows actual native terrain at roughly9mm.
+The furniture repair has271/0 surface/route checks and a clear matched bank view;
+all eight new finite bench tracks capture at three native contacts. Current
+pre-facility inventory is444 static bodies/56 eligible walls/88 grind-linked
+bodies/147 tracks. Bounded visual path-skin validation is active; it adds no collider.
+The rejected partial film has no final/publication claim. QE is correcting stale
+first-frame readback and measuring local software-render cost before a complete
+capture with the new facility.
+
+Live integration checks now prove all192 hill cells/384 old triangles removed,
+1,200 native facility floor rays matching actual support queries, exposed11m/13m
+bowl bottoms,99 summit/access seam samples and164 grass-perimeter samples. The
+new beginner circuit is being corrected to follow actual banks rather than cross
+an open bowl port or a raised bypass at the wrong height. Existing routes remain
+green. The provisional inventory is493 bodies/57 walls/105 grind-linked bodies/
+164 tracks; pending rail-contact corrections can change body counts.
+
+Independent review caught and repaired reversed visible-floor winding and wrong
+primitive-underside indexing in the new geometry before acceptance. Remaining
+actual findings: overlapping fitted path layers need distinct2mm/6mm spacing;
+steel coping tracks at the cylinder/torus centre must meet the true45mm-higher
+crown; older outdoor beam tracks need a whole-map visible/native top audit; and
+backwards sloped grind presentation must follow the signed rail tangent. Root
+and the assigned world/transition/rig/QE owners are fixing and retesting these,
+alongside fuller original tree crowns. None is hidden by a weakened collision,
+camera/contact or score check.
+
+Capture synchronization preflight passes52/0: actual projected head/board pixels
+and Canvas markers agree on camera switches; readback cannot advance physics or
+process clocks. Lossless worker PNGs decode to the exact native RGBA8 byte hash.
+All existing3,919 samples are retained at1280×800/15fps, with an honest three-hour
+local bound, plus newly required Nollie/player-controlled180/named-gap and park
+journeys. These are tooling/preflight results, not a completed final movie.
+
+Latest independent integration, still before the final global freeze:
+
+- The active-lap uphill journey really reaches the new upper corridor beyond the
+  old attempt bounds with time remaining; the beginner circuit and uphill exit
+  run on ordinary input without points or bails. New Main skating passes14/0:
+  deep/shallow ground approach→lip→250 bank each,213-sample deep carve with real
+  wheel gaps14.75–16.19mm, actual street flatbar→600 bank, and native hip transfer
+  with a supported4m braking runout. Actual mesh/feet/sphere camera checks pass
+  after a verified trailing-shoe occlusion drove the new foot-envelope checks.
+- Sloped50-50/fakie/physical Rail Pivot checks pass12/0. The actual board follows
+  the signed rail from its first caught frame, and visible pivot yaw stays in that
+  support plane. Native facing, velocity, score entry and bank behavior remain.
+- A real6cm spur/path seam exposed rounded-capsule contact unsuitable for the
+  visible wheelbase. Four actual finite wheel rays now fit only ambiguous ordinary
+  support; the exact old bad frame retains its native trajectory within0.1mm but
+  clears all7,488 real deck vertices (previously1,278 blocked), with actual wheel
+  gaps7.87–8.34mm and head-relative motion0.169m. Capsule motion is unchanged.
+- All164 visible grind tracks/492 audited sites now match their visible crowns.
+  Missing native factory/bridge/cap support is being completed, and actual-player
+  admission—not only synthetic raised capsule probes—found the Gallery stair rail
+  obstructed. Its bounded30cm relocation now permits a real push/pop/capture/
+  release/landing650 bank once. Court cap admission and four broad square coping
+  tyre intersections are the remaining audited rail fixes; original IDs survive.
+- Native-triangle-clipped path skins now clear3,135 material probes and both
+  actual ground views, removing the cracks without changing collision. Fuller
+  original tree crowns have matched before/after images and raw local costs.
+- Two genuine motion defects remain active: ordinary push/brake pelvis reach on
+  the real route must respect the original1.12 limb-scale ceiling, and a true open
+  bowl-port departure must finish upright native bank contact. Fresh-air admission
+  no longer manufactures20 landings at a frozen point; actual travel is now real.
+  Bounded native floor-only capsule recovery is under test. Ordinary kick-push
+  selection on a curved pumping face is also being replaced by planted-board
+  pumping presentation, preserving physical W/S behavior.
+
+Global aggregate/cold/movie/profile/current-source packages still follow these
+repairs. `.local/current_full_verification.py` prepares source-set guards for the
+whole game/tests/tools/guide/licences; it has not supplied a new aggregate result.
 
 ---
 
@@ -27,7 +161,8 @@ active run alone. Follow the [complete crosswalk](planning/OVERNIGHT.md).
 **265 unchanged source inputs**. Aggregate SHA-256:
 `bc10c08c8d8e84a8a36646cabc61044fc257e7962b5005c27a09c8456f0cad04`.
 [Final receipts](testing/logs/full-fidelity-final/) identify the actual candidate.
-The source is frozen for complete motion capture; only documentation may change.
+Those receipts certify the saved core source; later facility and visual-repair
+edits require refreshed complete checks before delivery.
 
 Cold-source launch also passes: **260 unchanged inputs**, actual Main/title44/0,
 warm launch, deliberate broken-copy refusal and byte restoration. No player profile
@@ -84,8 +219,10 @@ physics/motion bands were retained when fixing the defects.
 Measured improvements include bowl head-relative return steps from1.355 m to
 at most0.266 m; sloped first-getup steps from up to1.142 m to at most0.095 m;
 normal shoe contact around0.9 mm; and actual wheel contact around8–19 mm.
-Current all-family/whole-map motion capture is running with complete-frame camera/
-HUD fences, native timelines, source hashes, PNG validation and full video decode.
+The previous all-family/whole-map capture was rejected for stale first frames and
+an insufficient software-render time bound. The next complete capture must retain
+complete-frame camera/HUD fences, native timelines, source hashes, PNG validation
+and full video decode, and cover the new skatepark.
 [Capture matrix and fixture boundaries](testing/screenshots/full-fidelity/COMPLETENESS.md).
 Supporting actor/map/board/manual inspections remain explicitly scoped evidence.
 

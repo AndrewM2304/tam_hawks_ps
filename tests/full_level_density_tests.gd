@@ -22,19 +22,20 @@ static func run(tree: SceneTree,game: Node,check: Callable) -> void:
 					var tangent: Vector3 = track.dir_at(track.length*fraction)
 					var velocity := Vector3(tangent.x,0,tangent.z).normalized()*6.0-Vector3.UP
 					clear = clear and Ride.new().start([track],at+Vector3.UP*0.15,velocity,
-						func(from: Vector3,to: Vector3) -> bool: return SurfaceChecks._clear_capture(world,from,to))
+						func(from: Vector3,to: Vector3) -> bool: return game.skater._rail_path_clear(from,to))
 			check.call(clear,"full map: new visible ledge/rail has three actual capsule-clear contacts "+id)
 		if feature.get("kind","") == "spine":
 			for key: String in ["approach","landing"]:
 				var points: PackedVector3Array = feature[key]
-				var supported := points[0].distance_to(points[1]) >= 9.99
+				var declared_minimum: float = feature.get("minimum_run_lengths",{}).get(key,10.0)
+				var supported := points[0].distance_to(points[1]) >= declared_minimum-0.01
 				for step in 11:
 					var at := points[0].lerp(points[1],float(step)/10.0)
 					var hit := world.get_world_3d().direct_space_state.intersect_ray(
 						PhysicsRayQueryParameters3D.create(at+Vector3.UP*0.2,at-Vector3.UP*0.4,1))
 					supported = supported and not hit.is_empty() and absf(hit.position.y-at.y)<0.06 \
 						and SurfaceChecks._clear_capture(world,at,at)
-				check.call(supported,"full map: complete declared ten-metre spine "+key+" is supported and clear in the actual map")
+				check.call(supported,"full map: complete declared spine "+key+" is supported and clear in the actual map "+str(feature.id)+" minimum="+str(declared_minimum))
 	for district: String in ["royal_exchange","george_square","central_station","barras","clyde","kelvingrove"]:
 		check.call(int(districts.get(district,0)) >= 2,"full map: district has multiple published connected skating features "+district)
 	check.call(SurfaceChecks._clear_capture(world,Vector3(-62,2,22),Vector3(-82,2,34)) \
@@ -80,6 +81,8 @@ static func run_player(tree: SceneTree,game: Node,check: Callable,observer: Call
 			await _manual_crossing(tree,game,feature,check,observer)
 	await _quay_through_crossing(tree,game,check,observer)
 	await _quay_relay_capture(tree,game,check,observer)
+	await _gallery_steps_capture(tree,game,check,observer)
+	await _actual_ledge_admission(tree,game,check,observer)
 	_release()
 	game.skater.spawn_position = original_spawn
 	game.start_mode(original_free)
@@ -210,9 +213,14 @@ static func _quay_relay_capture(tree: SceneTree,game: Node,check: Callable,obser
 		frame += 1
 		if game.skater.global_position.x>=14.0: break
 	Input.action_press("ollie")
-	await _frames(tree,2)
+	for i in 2:
+		await _frames(tree,1)
+		if observer.is_valid(): await observer.call("clyde_south_link_capture",game,frame)
+		frame += 1
 	Input.action_release("ollie")
 	await _frames(tree,1)
+	if observer.is_valid(): await observer.call("clyde_south_link_capture",game,frame)
+	frame += 1
 	Input.action_release("push")
 	Input.action_press("grind")
 	for i in 150:
@@ -225,13 +233,161 @@ static func _quay_relay_capture(tree: SceneTree,game: Node,check: Callable,obser
 		frame += 1
 		if held>=18: break
 	Input.action_release("grind")
-	await _frames(tree,90)
+	for i in 90:
+		await _frames(tree,1)
+		if observer.is_valid(): await observer.call("clyde_south_link_capture",game,frame)
+		frame += 1
 	_release()
 	game.skater.bailed.disconnect(on_bail)
 	game.skater.grind_captured.disconnect(on_capture)
 	print("SOUTH QUAY RELAY captures=",captures," held=",held," score=",game.score.total_score," bails=",bails[0]," camera=",camera_clear," at=",game.skater.global_position)
 	check.call(captures==["Grind_Rail_ClydeSouthRelay"] and held>=18 and game.score.total_score>100 and bails[0]==0 and camera_clear,
 		"full map: native seat approach, real Ollie and descending flatbar capture form an earned south-quay relay")
+
+
+static func _gallery_steps_capture(tree: SceneTree,game: Node,check: Callable,observer: Callable) -> void:
+	_release()
+	game.skater.spawn_position = Vector3(9.1,0.08,6)
+	game.start_mode(true)
+	game.skater.rotation.y = 0.0
+	await _frames(tree,30)
+	var captures: Array[String] = []
+	var bails := [0]
+	var on_capture := func(id: String): captures.append(id)
+	var on_bail := func(): bails[0] += 1
+	game.skater.grind_captured.connect(on_capture)
+	game.skater.bailed.connect(on_bail)
+	var frame := 0
+	var camera_clear := true
+	if observer.is_valid(): await observer.call("gallery_steps_rail",game,-1)
+	Input.action_press("push")
+	for i in 150:
+		await _frames(tree,1)
+		if frame%6==0: camera_clear = camera_clear and _camera_clear(game)
+		if observer.is_valid(): await observer.call("gallery_steps_rail",game,frame)
+		frame += 1
+		if game.skater.global_position.z<=-2.0: break
+	Input.action_press("ollie")
+	for i in 2:
+		await _frames(tree,1)
+		if observer.is_valid(): await observer.call("gallery_steps_rail",game,frame)
+		frame += 1
+	Input.action_release("ollie")
+	await _frames(tree,1)
+	if observer.is_valid(): await observer.call("gallery_steps_rail",game,frame)
+	frame += 1
+	Input.action_release("push")
+	Input.action_press("grind")
+	var held := 0
+	var capture_frame := -1
+	for i in 240:
+		await _frames(tree,1)
+		if game.skater.grinding:
+			if capture_frame<0: capture_frame = Engine.get_physics_frames()
+			held = Engine.get_physics_frames()-capture_frame+1
+		if frame%6==0: camera_clear = camera_clear and _camera_clear(game)
+		if observer.is_valid(): await observer.call("gallery_steps_rail",game,frame)
+		frame += 1
+		if (held>=18 and game.skater.global_position.z<=-14.2) or bails[0]>0: break
+	Input.action_release("grind")
+	for i in 100:
+		await _frames(tree,1)
+		if frame%6==0: camera_clear = camera_clear and _camera_clear(game)
+		if observer.is_valid(): await observer.call("gallery_steps_rail",game,frame)
+		frame += 1
+	_release()
+	var banked: int = game.score.total_score
+	for i in 12:
+		await _frames(tree,1)
+		if observer.is_valid(): await observer.call("gallery_steps_rail",game,frame)
+		frame += 1
+	game.skater.grind_captured.disconnect(on_capture)
+	game.skater.bailed.disconnect(on_bail)
+	print("GALLERY STEPS captures=",captures," held=",held," bails=",bails[0]," camera=",camera_clear," bank=",banked," at=",game.skater.global_position)
+	check.call(captures==["Grind_Rail_GallerySteps"] and held>=18 and bails[0]==0 and camera_clear \
+		and banked>0 and game.score.total_score==banked,
+		"full map: actual push/pop captures the repaired Gallery stair rail, clears its cheek and banks once with full-body chase")
+
+
+static func _actual_ledge_admission(tree: SceneTree,game: Node,check: Callable,observer: Callable) -> void:
+	var original_snap: float = game.skater.floor_snap_length
+	var tracks: Array = []
+	for line in game.world.get_grind_lines():
+		if line.id=="Grind_Ledge_Court" or line.id.begins_with("Grind_Ledge_CourtPlanterSeat_") \
+				or line.id in ["clyde_safe_handrail_west","clyde_safe_handrail_east","Grind_Park_FiveStepHubba","kelvingrove_terrace_coping"]:
+			tracks.append(line)
+	for line in tracks:
+		_release()
+		game.start_mode(true)
+		await _frames(tree,3)
+		var whole_line: bool = line.id=="kelvingrove_terrace_coping"
+		var fraction := 0.02 if whole_line else 0.2
+		var point: Vector3 = line.point_at(line.length*fraction)
+		var tangent: Vector3 = line.dir_at(line.length*fraction)
+		var speed := 6.0 if whole_line else 2.5
+		# Declared initial descending-contact fixture, followed only by native
+		# held-Grind/balance/brake inputs. No capture, trick or score is seeded.
+		game.skater.set_physics_process(false)
+		game.skater.global_position = point+Vector3.UP*0.12
+		game.skater.rotation.y = atan2(-tangent.x,-tangent.z)
+		game.skater.floor_snap_length = 0.0
+		game.skater.velocity = Vector3.ZERO
+		game.skater.move_and_slide()
+		# Only clear the declared airborne fixture's old contact. The genuine
+		# ride and every later suite retain the authored production snap length.
+		game.skater.floor_snap_length = original_snap
+		game.skater.velocity = tangent*speed-Vector3.UP
+		game.skater.speed = speed
+		game.skater.airborne = true
+		game.skater._camera_follow.reset()
+		game.skater.set_physics_process(true)
+		var captures: Array[String] = []
+		var bails := [0]
+		var on_capture := func(id: String): captures.append(id)
+		var on_bail := func(): bails[0] += 1
+		game.skater.grind_captured.connect(on_capture)
+		game.skater.bailed.connect(on_bail)
+		var held := 0
+		var camera_clear := true
+		var phase: String = "native_ledge_"+line.id.to_lower()
+		if observer.is_valid(): await observer.call(phase,game,-1)
+		Input.action_press("grind")
+		var frame := 0
+		for i in (240 if whole_line else 18):
+			await _frames(tree,1)
+			if game.skater.grinding:
+				held += 1
+				var correction: float = clampf(-0.14-game.skater.grind_balance*0.85,-0.6,0.6)
+				if correction<0:
+					Input.action_press("steer_left",-correction)
+					Input.action_release("steer_right")
+				else:
+					Input.action_press("steer_right",correction)
+					Input.action_release("steer_left")
+			if frame>2: camera_clear = camera_clear and _camera_clear(game)
+			if observer.is_valid(): await observer.call(phase,game,frame)
+			frame += 1
+			if whole_line and held>0 and not game.skater.grinding: break
+		_release()
+		Input.action_press("brake")
+		for i in 75:
+			await _frames(tree,1)
+			if observer.is_valid(): await observer.call(phase,game,frame)
+			frame += 1
+		var banked: int = game.score.total_score
+		for i in 12:
+			await _frames(tree,1)
+			if observer.is_valid(): await observer.call(phase,game,frame)
+			frame += 1
+		game.skater.grind_captured.disconnect(on_capture)
+		game.skater.bailed.disconnect(on_bail)
+		_release()
+		print("ACTUAL LEDGE ",line.id," held=",held," captures=",captures," bails=",bails[0]," camera=",camera_clear," bank=",banked)
+		check.call(captures==[line.id] and held>=(60 if whole_line else 12) and bails[0]==0 and camera_clear \
+			and banked>0 and game.score.total_score==banked,
+			"full map: actual capsule holds repaired ledge and banks once with clear chase "+str(line.id))
+	check.call(is_equal_approx(game.skater.floor_snap_length,original_snap),
+		"full map: declared ledge fixtures preserve the production floor-snap setting for real rides and subsequent suites")
 
 
 static func _camera_clear(game: Node) -> bool:

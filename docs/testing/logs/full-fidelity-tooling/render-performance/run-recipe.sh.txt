@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd /workspace/tam_hawks_ps
+mkdir -p .local/capture-performance-proof
+/usr/lib/xorg/Xorg :97 -config /workspace/tam_hawks_ps/tools/xorg-dummy.conf -logfile /workspace/tam_hawks_ps/.local/capture-performance-proof/xorg.log -noreset -nolisten tcp > .local/capture-performance-proof/xorg-console.log 2>&1 &
+TASK_XPID=$!
+trap 'kill -TERM "$TASK_XPID" 2>/dev/null || true; wait "$TASK_XPID" 2>/dev/null || true' EXIT
+for n in {1..50}; do [[ -S /tmp/.X11-unix/X97 ]] && break; sleep .1; done
+export DISPLAY=:97 LIBGL_ALWAYS_SOFTWARE=1 LP_NUM_THREADS=4
+python3 - <<'PY'
+import pathlib,subprocess,os,sys,signal,time,hashlib,json
+sys.path.insert(0,'tools')
+from full_fidelity_capture_png import PixelSpoolEncoder,decode_proven_rgba8
+output=pathlib.Path('.local/capture-performance-proof');worker=PixelSpoolEncoder(output);worker.start()
+p=subprocess.Popen(['./tools/run.sh','--rendering-method','gl_compatibility','--audio-driver','Dummy','--windowed','--resolution','1280x800','--disable-render-loop','--fixed-fps','60','--script','.local/capture_performance_probe.gd'],env=dict(os.environ,FULL_FIDELITY_RAW_SPOOL='1'),stdout=(output/'engine.log').open('w'),stderr=subprocess.STDOUT,start_new_session=True)
+try:code=p.wait(timeout=180)
+except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGTERM);p.wait(timeout=5);raise
+finally:worker.finish()
+print((output/'engine.log').read_text())
+print('WORKER',worker.frames,worker.max_backlog,worker.total_seconds,'code',code)
+if code:raise SystemExit(code)
+
+print('PERFORMANCE_PROOF',json.loads((output/'proof.json').read_text()))
+PY

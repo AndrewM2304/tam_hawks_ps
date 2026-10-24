@@ -48,12 +48,16 @@ if [[ "$(uname -s)" == Linux && ( -z "${DISPLAY:-}" || "$TASK_PRIVATE_DISPLAY" =
   [[ -s "$TASK_OUTPUT/display" ]] || { echo 'Private display startup timed out.' >&2; exit 1; }
   export DISPLAY=":$(cat "$TASK_OUTPUT/display")"
   export LIBGL_ALWAYS_SOFTWARE=1
+  # The installed container has four CPU cores; avoid llvmpipe oversubscription.
+  export LP_NUM_THREADS=4
 fi
 
 python3 - "$TASK_ROOT" "$TASK_OUTPUT" <<'PY'
-import hashlib, json, os, pathlib, re, shutil, signal, struct, subprocess, sys, zlib
+import hashlib, json, math, os, pathlib, re, shutil, signal, struct, subprocess, sys, time, zlib
 root, output = map(pathlib.Path, sys.argv[1:])
 destination = root / 'docs/testing/screenshots/full-fidelity'
+sys.path.insert(0,str(root/'tools'))
+from full_fidelity_capture_png import PixelSpoolEncoder, decode_proven_rgba8
 
 def fingerprint():
     inputs = [root/'project.godot', root/'tools/run.sh', root/'tools/xorg-dummy.conf']
@@ -62,7 +66,7 @@ def fingerprint():
         inputs += sorted(p for p in (root/directory).rglob('*') if p.is_file())
     return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(inputs))}
 
-def png_details(path):
+def png_details(path, pixels=None):
     data=path.read_bytes()
     if data[:8]!=b'\x89PNG\r\n\x1a\n': raise ValueError('Invalid PNG: '+str(path))
     offset, compressed, dimensions, ended=8,bytearray(),None,False
@@ -80,7 +84,13 @@ def png_details(path):
     channels={2:3,6:4}.get(colour)
     if depth!=8 or channels is None or interlace or len(zlib.decompress(compressed))!=height*(1+width*channels):
         raise ValueError('PNG complete rows: '+str(path))
-    return {'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'resolution':[width,height],'png_crc_and_rows_valid':True}
+    details={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'resolution':[width,height],'png_crc_and_rows_valid':True}
+    if pixels is not None:
+        decoded=decode_proven_rgba8(data)
+        digest=hashlib.sha256(decoded).hexdigest()
+        if digest!=pixels['rgba8_sha256'] or len(decoded)!=pixels['bytes']: raise ValueError('PNG changed native pixels: '+str(path))
+        details.update(decoded_rgba8_sha256=digest,native_pixels_equal=True)
+    return details
 
 for executable in ('ffmpeg','ffprobe'):
     if shutil.which(executable) is None: raise SystemExit('Installed '+executable+' is required; nothing was downloaded.')
@@ -89,6 +99,9 @@ command=[str(root/'tools/run.sh'),'--rendering-method','gl_compatibility','--aud
     '--windowed','--resolution','1280x800','--disable-render-loop','--fixed-fps','60',
     '--script','tools/full_fidelity_capture.gd','--',str(output)]
 process=None
+encoder=PixelSpoolEncoder(output)
+encoder.start()
+capture_started=time.monotonic()
 def stop(*_):
     if process is not None and process.poll() is None:
         os.killpg(process.pid,signal.SIGTERM)
@@ -100,11 +113,20 @@ signal.signal(signal.SIGINT,lambda *_:(stop(),sys.exit(130)))
 print('Capturing full-fidelity motion in '+str(output),flush=True)
 try:
     with (output/'engine.log').open('w') as log:
-        process=subprocess.Popen(command,cwd=root,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
-        try: code=process.wait(timeout=1800)
-        except subprocess.TimeoutExpired:
-            stop(); raise SystemExit('Motion capture exceeded its 1800-second bound.')
-finally: stop()
+        environment=dict(os.environ,FULL_FIDELITY_RAW_SPOOL='1')
+        process=subprocess.Popen(command,cwd=root,env=environment,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+        deadline=time.monotonic()+10800
+        while process.poll() is None:
+            if encoder.error is not None:
+                stop(); raise SystemExit('Lossless pixel worker failed: '+str(encoder.error))
+            if time.monotonic()>deadline:
+                stop(); raise SystemExit('Motion capture exceeded its declared 10800-second local bound.')
+            try: process.wait(timeout=1)
+            except subprocess.TimeoutExpired: pass
+        code=process.returncode
+finally:
+    stop()
+    encoder.finish()
 log=(output/'engine.log').read_text()
 print(log,end='',flush=True)
 if code or re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:',log):
@@ -115,7 +137,7 @@ changed=sorted(p for p in before.keys()|after.keys() if before.get(p)!=after.get
 if changed or report.get('failures')!=0 or not report.get('production_main') or report.get('profile_writes_enabled'):
     raise SystemExit('Invalid/source-changed motion capture; no publication: '+str(changed))
 clips=report.get('clips',[])
-required={'setup_boneless','setup_no_comply','setup_moving_no_comply','bail_getup','interrupted_tumble_recovery',
+required={'nollie_native_launch','rotation_native_spin_left','rotation_native_spin_right','named_gap_native_central','setup_boneless','setup_no_comply','setup_moving_no_comply','bail_getup','interrupted_tumble_recovery',
     'unsupported_plant_boneless','unsupported_plant_no_comply','accepted_revert_manual_link',
     'high_wall_bail','results_recovery_fade','bail_floor_seam',
     'bail_native_bank_20','bail_native_bank_35','bail_native_bank_45',
@@ -123,14 +145,35 @@ required={'setup_boneless','setup_no_comply','setup_moving_no_comply','bail_getu
     'manual_after_shove_to_pogo','manual_after_shove_to_casper_manual',
     'bowl_world_approach','bowl_native_lap','halfpipe_connected_return','spine_native_transfer',
     'curved_visual_bowl_lap','curved_visual_halfpipe_faces','curved_visual_native_bank','curved_visual_native_bank_45',
-    'curved_visual_bowl_flip_return',
+    'curved_visual_bowl_flip_return','grind_grade_forward','grind_grade_backwards','grind_grade_rail_pivot',
     'platform_roof_carry','platform_roof_ollie','platform_roof_boneless','platform_endpoint_stop',
     'cart_parked_turn',
     'service_gate_route','cone_cruise_native','skitch_native_cart','wallride_wallie_combo',
     'park_lap_park_full_loop','park_lap_park_bank_cut',
+    'sunken_park_active_lap_climb','sunken_park_active_lap_entry','sunken_park_active_lap_visit',
+    'sunken_park_native_entry_hint','sunken_park_beginner_circuit','sunken_park_safe_exit',
+    'sunken_park_deep_bowl_native_lip','sunken_park_shallow_bowl_native_lip',
+    'sunken_park_deep_native_carve','sunken_park_street_native_grind','sunken_park_hip_native_transfer',
+    'sunken_park_native_port_departure','sunken_park_geometry_beginner','sunken_park_geometry_compact_hip',
     'exchange_south_line','civic_lower_island','station_low_manual','barras_forecourt_line','clyde_south_link',
     'clyde_south_middle','clyde_south_east_west','clyde_south_link_capture'}
 names={c['id'] for c in clips}
+actual_catalog=set(report.get('catalog_ids',[]))
+observed_catalog=set()
+previous_native={}
+for sample in report.get('native_timeline',[]):
+    phase=sample['phase']; tick=sample['state']['physics_frame']
+    if phase in previous_native and tick-previous_native[phase]!=1:
+        raise SystemExit('Missing native physics observations in '+phase+': '+str(tick-previous_native[phase]))
+    previous_native[phase]=tick
+    state=sample['state']
+    if state.get('last_trick_id') in actual_catalog: observed_catalog.add(state['last_trick_id'])
+    for identity in state.get('accepted_score_identities',[]):
+        if identity in actual_catalog: observed_catalog.add(identity)
+        elif identity.startswith('gap:'): observed_catalog.add('named_gap')
+if len(actual_catalog)!=78 or actual_catalog-observed_catalog:
+    raise SystemExit('Missing real accepted catalog identities: '+str(sorted(actual_catalog-observed_catalog)))
+report['accepted_catalog_identity_coverage']={'total':len(actual_catalog),'observed':sorted(observed_catalog),'complete':True}
 families=report.get('catalog_families',{})
 for family,count,prefix in [('flip',24,'flip_'),('grab',8,'grab_native_'),('lip',9,'lip_'),('special',6,'special_')]:
     ids=families.get(family,[])
@@ -146,16 +189,41 @@ if len(names)!=len(clips) or required-names or len(clips)<50:
     raise SystemExit('Incomplete actual motion coverage: '+str(sorted(required-names)))
 total_frames=0
 public_files=[]
-if len(report.get('overviews',[]))!=6: raise SystemExit('Expected all six current-source district overviews.')
+proofs=report.get('synchronization_proofs',[])
+if len(proofs)!=3 or [p['id'] for p in proofs]!=['overview_before_contact','first_contact_inspection','return_to_production_chase']:
+    raise SystemExit('Missing actual camera/Canvas synchronization boundary proofs.')
+for proof in proofs:
+    proof.update(png_details(output/proof['file'],proof['pixels']))
+    pixels=decode_proven_rgba8((output/proof['file']).read_bytes())
+    x,y=proof['canvas_pixel']; offset=(y*1280+x)*4
+    if list(pixels[offset:offset+4])!=proof['canvas_expected'] or not proof['same_native_frame']:
+        raise SystemExit('Stale current-Canvas/native-frame boundary: '+proof['id'])
+    if proof['id']!='overview_before_contact' and len(proof['markers'])!=2:
+        raise SystemExit('Missing actual head/board projected pixel evidence.')
+    for marker in proof['markers']:
+        px,py=marker['projected_pixel']; matches=[]
+        for y in range(max(0,int(py)-12),min(800,int(py)+13)):
+            for x in range(max(0,int(px)-12),min(1280,int(px)+13)):
+                r,g,b,_=pixels[(y*1280+x)*4:(y*1280+x+1)*4]
+                if (r>191 and r-g>51 and r-b>51) if marker['color_channel']=='red' else (g>191 and g-r>51 and g-b>51):
+                    matches.append((x+.5,y+.5))
+        if len(matches)<4: raise SystemExit('Current projected 3D marker absent: '+proof['id'])
+        error=math.hypot(sum(x for x,y in matches)/len(matches)-px,sum(y for x,y in matches)/len(matches)-py)
+        if error>2.5: raise SystemExit('Current actual head/board projection disagrees with decoded PNG: '+proof['id'])
+        marker.update(independent_png_pixel_count=len(matches),independent_png_centroid_error=error)
+    proof['independent_png_projection_and_canvas_valid']=True
+    public_files.append(proof['file'])
+if len(report.get('overviews',[]))!=7 or {o['file'] for o in report['overviews']}!={'overview_'+name+'.png' for name in ['exchange','george','central','barras','clyde','park','sunken_kelvingrove']}:
+    raise SystemExit('Expected all six district overviews and the new sunken facility overview.')
 for overview in report['overviews']:
-    overview.update(png_details(output/overview['file']))
+    overview.update(png_details(output/overview['file'],overview['pixels']))
     public_files.append(overview['file'])
 for clip in clips:
     name=clip['id']
     if not re.fullmatch('[a-z0-9_]+',name): raise SystemExit('Unsafe clip identifier')
     frames=clip.get('frames',[])
     if len(frames)<4: raise SystemExit('Insufficient motion samples: '+name)
-    for frame in frames: frame.update(png_details(output/frame['file']))
+    for frame in frames: frame.update(png_details(output/frame['file'],frame['pixels']))
     total_frames+=len(frames)
     movie=output/(name+'.mp4')
     subprocess.run(['ffmpeg','-v','error','-nostdin','-y','-framerate','15','-i',
@@ -190,6 +258,8 @@ for clip in clips:
         public_files.append(poster)
     clip['review_frames']=posters
     print('MOTION_CLIP_OK: '+name+' '+str(len(frames))+' frames',flush=True)
+if encoder.frames!=total_frames+len(report['overviews'])+len(proofs) or list(output.rglob('*.rgba')) or list(output.rglob('*.rgba.tmp')):
+    raise SystemExit('Encoded native frame inventory does not match the complete manifest.')
 concat=output/'phase-reel.ffconcat'
 concat.write_text('ffconcat version 1.0\n'+''.join("file '"+str(output/c['video']['file']).replace("'","'\\''")+"'\n" for c in clips))
 metadata=[';FFMETADATA1','title=Tam Hawks Pro Skater - native phase review']
@@ -214,6 +284,9 @@ report['phase_reel']={'file':reel.name,'sha256':hashlib.sha256(reel.read_bytes()
 public_files.append(reel.name)
 report.update(source_sha256=before,source_changed_during_run=False,source_stable_capture_set=True,
     command=command,total_video_frames=total_frames,
+    capture_bound_seconds=10800,capture_elapsed_seconds=time.monotonic()-capture_started,
+    lossless_png_worker={'encoded_frames':encoder.frames,'max_native_buffers_pending':encoder.max_backlog,
+        'total_worker_seconds':encoder.total_seconds,'all_decoded_native_pixel_hashes_equal':True},
     git_commit=subprocess.run(['git','rev-parse','HEAD'],cwd=root,check=True,capture_output=True,text=True).stdout.strip(),
     git_dirty=bool(subprocess.run(['git','status','--porcelain'],cwd=root,check=True,capture_output=True,text=True).stdout.strip()),
     engine_log_sha256=hashlib.sha256((output/'engine.log').read_bytes()).hexdigest(),
@@ -222,6 +295,7 @@ if fingerprint()!=before: raise SystemExit('Source changed during encoding; no p
 (output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
 destination.mkdir(parents=True,exist_ok=True)
 for filename in public_files+['manifest.json','engine.log','import.log']:
+    (destination/filename).parent.mkdir(parents=True,exist_ok=True)
     shutil.copyfile(output/filename,destination/filename)
 print('FULL_FIDELITY_CAPTURE_OK: %d source-stable clips, %d real frames, %d checks, zero failures in %s'%
     (len(clips),total_frames,report['checks'],destination))

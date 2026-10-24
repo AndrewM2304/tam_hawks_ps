@@ -1,4 +1,32 @@
-# Active full-fidelity continuation — 24 October 2026
+# Owner budget reserve — 24 October 2026
+
+## Candidate checkpoint —24October2026
+
+Final ordinary suite:3,081/0,542.31s,327 unchanged inputs and clean logs.
+Cold launch:272 unchanged inputs, all matching that suite, including normal
+main/title44/0 and invalid copied-source refusal/restoration. The sunken park is
+integrated; no implementation owner remains active. Source is frozen for scoped
+stills and fresh audited Linux/Mac packaging. Save the tested commit and push
+`work` to existing `origin`, as the owner explicitly requested. No hosted workflows
+exist in this repository. Do not merge or publish build/release assets.
+
+After delivery pause for owner testing with the requested25% weekly reserve.
+Do not resume hourly work or new polish. Preserve the two known presentation
+issues and deferred movie/profile in[the candidate report](../testing/SUNKEN-CANDIDATE.md).
+The report does not claim FULL_FIDELITY_ACCEPTED or actual Mac/controller success.
+
+The owner reports34% weekly usage remaining and asks to reserve25% for bugs found
+in manual testing. This latest direction overrides the earlier quota-exhaustion
+stop rule below. Finish the currently identified blocking fixes, complete ordinary
+regression/cold-source launch and package a tested current-source Mac candidate;
+then pause. Hourly autonomous continuation is disabled to protect that reserve.
+Do not add audits/features, launch new agents or start the long motion reel/profile
+refresh. Preserve completed scoped evidence and exact known/deferred defects.
+The usage meter is not directly available to this agent; no measured remaining
+percentage or completion gate is invented. All no-spend/publication restrictions
+remain. Await manual-test feedback before using the reserved usage.
+
+## Preserved full-fidelity crosswalk
 
 The owner rejected the premature ADR-015 checkpoint stop. Continue the entire
 request using **only remaining included weekly usage**. Never purchase tokens,
@@ -24,8 +52,8 @@ becomes unavailable, record the blocker once and pause without seeking purchases
 All tasks retain the existing 75 roadmap IDs and disjoint file ownership.
 
 | Work / tickets | Owner, priority | Acceptance |
-| New owner-photo Kelvingrove skatepark — M03-012/014, M02-011, M05-001 | World/transition/Root/QE, P0 | Actual sunken northwest facility, connected uphill access, multiple bowl/street levels, native terrain cut, grindable coping/rails/ledges, real approach/transfer/return/camera evidence; preserve existing park laps/save IDs |
 |---|---|---|
+| New owner-photo Kelvingrove skatepark — M03-012/014, M02-011, M05-001 | World/transition/Root/QE, P0 | Actual sunken northwest facility, connected uphill access, multiple bowl/street levels, native terrain cut, grindable coping/rails/ledges, real approach/transfer/return/camera evidence; preserve existing park laps/save IDs |
 | Authentic setup/catch/stance/bail — M01-004, M02-008, M05-002/006 | Root/rig/QE, P0 | Native sole anchor and palm contact, delayed pop/catch, moving support, interrupted-pose fall/getup, once-only loss, pause/reset and actual motion |
 | Full repertoire — M02-001/002/003/006/008 | Catalog/Root/QE, P0 | All 78 definitions activate through input, score/catch/reset; 24 flip stages, eight tweaked grabs, ten grind actions, eleven manuals, nine lips, six specials and core actions |
 | Bowl/halfpipe/spine — M02-011, M03-014 | Transition/world/Root/QE, P0 | Matching native mesh/support, bowl carve, both halfpipe faces, real spine transfer, steel-top lips, clearance/energy/camera and bypass |

@@ -54,6 +54,9 @@ const ACTIVITY_ACTOR_TESTS = preload("res://tests/activity_actor_tests.gd")
 const ROUTE_AVAILABILITY_TESTS = preload("res://tests/route_availability_tests.gd")
 const AMBIENT_ADULT_TESTS = preload("res://tests/ambient_adult_tests.gd")
 const CURVED_VISUAL_CONTACT_TESTS = preload("res://tests/curved_visual_contact_tests.gd")
+const SKATEPARK_NAVIGATION_TESTS = preload("res://tests/skatepark_navigation_tests.gd")
+const GRIND_SURFACE_CONTACT_TESTS = preload("res://tests/grind_surface_contact_tests.gd")
+const KELVINGROVE_SKATEPARK_TESTS = preload("res://tests/kelvingrove_skatepark_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
@@ -101,6 +104,7 @@ func _run() -> void:
 	await TRICK_SCORE_TESTS.run_ui(self, _check)
 	await FULL_REPERTOIRE_TESTS.run_ui(self, _check)
 	await ROUTE_AVAILABILITY_TESTS.run_ui(self, _check)
+	await SKATEPARK_NAVIGATION_TESTS.run_ui(self, _check)
 	game = MAIN_SCRIPT.new()
 	game.persistence_enabled = false
 	root.add_child(game)
@@ -128,10 +132,14 @@ func _run() -> void:
 	await PROCESS_GUARD_TESTS.run(self, game, _check)
 	await AUTHENTIC_FIDELITY_TESTS.run(self, game, _check)
 	await CURVED_VISUAL_CONTACT_TESTS.run(self, game, _check)
+	await GRIND_SURFACE_CONTACT_TESTS.run(self, game, _check)
+	await KELVINGROVE_SKATEPARK_TESTS.run(self, game, _check)
 	await FULL_REPERTOIRE_TESTS.run_playable(self, game, _check)
 	await FULL_LEVEL_DENSITY_TESTS.run(self, game, _check)
 	await PLATFORM_CONTACT_TESTS.run(self, game, _check)
 	await REMAINING_FEATURE_TESTS.run_main(self, game, _check)
+	await REMAINING_FEATURE_TESTS.run_park_regions_main(self, game, _check)
+	await SKATEPARK_NAVIGATION_TESTS.run_world(self, game, _check)
 	await ACTIVITY_ACTOR_TESTS.run_world(self, game, _check)
 	await AMBIENT_ADULT_TESTS.run(self, game, _check)
 	await TRICK_ENCOUNTER_TESTS.run(self, game, _check)

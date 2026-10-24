@@ -1,0 +1,27 @@
+extends "res://tools/full_fidelity_capture.gd"
+func _run() -> void:
+ output="res://.local/capture-sync-proof"
+ _raw_spool=OS.get_environment("FULL_FIDELITY_RAW_SPOOL")=="1"
+ RenderingServer.set_render_loop_enabled(false)
+ DirAccess.make_dir_recursive_absolute(output)
+ game=Main.new();game.persistence_enabled=false;root.add_child(game);game.start_mode(true)
+ for frame in 40:await physics_frame;await process_frame
+ _inspection=Camera3D.new();game.add_child(_inspection)
+ await _overviews()
+ await _synchronization_probe()
+ var sync_file=FileAccess.open(output.path_join("sync-intermediate.json"),FileAccess.WRITE);sync_file.store_string(JSON.stringify(_sync_proofs,"\t"));sync_file.close()
+ var body_before:Vector3=game.skater.global_position
+ var clock_before:float=game.time_remaining
+ paused=true
+ var pause_start=Time.get_ticks_msec()
+ for frame in 2:
+  await process_frame
+  await create_timer(0,true).timeout
+  var image:Image=await _render_current_frame()
+  _store_frame(image,"paused-%d.png"%frame)
+ _check(game.skater.global_position.distance_to(body_before)<0.000001 and game.time_remaining==clock_before,"paused native render retains actual body and run clock")
+ paused=false
+ var report={"checks":checks,"failures":failures,"synchronization_proofs":_sync_proofs,"paused_render_milliseconds":Time.get_ticks_msec()-pause_start,"paused_body_unchanged":game.skater.global_position.distance_to(body_before)<0.000001,"paused_clock_unchanged":game.time_remaining==clock_before}
+ var file=FileAccess.open(output.path_join("proof.json"),FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
+ print("CAPTURE_SYNC_PROOF ",checks,"/",failures," ",JSON.stringify(report))
+ game.queue_free();await process_frame;quit(1 if failures else 0)

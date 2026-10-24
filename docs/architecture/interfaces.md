@@ -137,7 +137,32 @@ ray. Jump/leave inherits support momentum once;
 it does not become next frame's relative push speed. The service cart's bed/cab
 are current moving surfaces. Ordinary scenery collision remains authoritative.
 
+The visible board verifies its four native wheel locations across short steps,
+which a wheel can reach before the rounded capsule. It retains the established
+pose on a common plane and fits the wheelbase across an uneven join. This is
+presentation only: all four actual wheel mesh locations must hit finite native eligible floors;
+the fit stays above every sampled solid and re-probes after pitch changes their
+locations. Missing/steep support retains the original frame; no broad floor or
+physical position correction is created. Ordinary pushing and brake-drag soles separately sample their actual
+native floor, so a bank's tangent plane cannot bury a trailing shoe in an adjoining
+flat surface. These finite mask-9 rays exclude the player and reject steep or
+absent ground; layer-2 steel cannot create a foot plant. The actual cupsole
+outline bounds clearance, while a loaded drag foot aligns to the hit normal.
+After solving both shoe targets, the rig lowers the shared pelvis and torso only
+enough for both existing leg chains to reach; the feet keep their actual contacts
+and the body releases that crouch smoothly. Setup anchors, air, manual, grind,
+lip, wall, tow and bail poses retain their existing contact owners.
+
 - `set_grind_lines(lines)` snapshots world-space authored/generated tracks. Held eligible air capture uses `GrindRide`; capsule sweeps reject scenery obstruction. Direction selects one of nine ride styles. Capture resolves prior spin without a landing, retains backwards rail orientation and emits the actual rail ID once. Fresh Flip/Grab direction selects a different style after a 0.25-second cooldown, awarding one new entry. Fresh Revert produces `grind_pivot`, physically turning facing 180°, toggling backwards rail facing and retaining 85% of rail speed; it has a 0.35-second cooldown. These ten catalog grind actions share the same finite ride/hold budget. Release preserves signed tangent momentum; recapture waits 0.35 seconds. Released charged Ollie adds launch impulse and up to 4 m/s lateral pop from steering. Duration adds bounded hold points without new entries; style changes do not reset the ride's 300-point hold budget.
+
+A grind path describes the exposed bearing surface, not the centre axis of a
+visible bar. The rig places the actual deck belly or loaded truck at that path;
+centred beam authoring would otherwise bury it inside the material. Steel coping
+uses the native crown, while finite ledge paths retain their small documented
+contact skin. Mesh, native shape and path must agree at interior samples and
+endpoints. A backward rider or actual Rail Pivot uses the signed rail tangent for
+visual pitch as well as physical facing. These are contact contracts; metadata or
+a successful capsule capture alone does not prove visible board contact.
 - Manual requires a fresh supported press, a still-held press buffered at most 0.18 seconds before landing, or a fresh recognized gesture; speed must be at least 2 m/s and exit cooldown is 0.35 seconds. Recent north selects Nose Manual; sustained pushing keeps Manual. Gesture entry latches until another Manual press, launch, loss of support or insufficient speed. Push/brake correct fore/aft balance and left/right steer. A changed extension awards one entry after a 0.35-second cooldown without resetting balance. Neutral Flip/Grab/Revert select One-foot Manual/Spacewalk/Manual Pivot; north+Flip selects One-foot Nose Manual, south+Flip Casper, horizontal+Flip/Grab Crossfoot, north+Grab Hang Ten, south+Grab Pogo, north+Revert Nose Manual Pivot. Diagonals use their north/south component. Pivots perform the physical revert. Entry emits link-start before scoring; supported exit emits link-end once. Losing support clears the manual without a false ground-end. Absolute balance 1 bails.
 - Revert requires fresh grounded input within `revert_remaining` after actual air landing and is once per landing; a manual uses its separate pivot action. It awards 150, commits a physical 180° heading/stance change, retains 85% of motion and recomputes signed speed. Its visual turn lasts 0.18 seconds. It emits no continuation event and never resets the score deadline. `revert_remaining` is input eligibility, not the authoritative banking timer.
 - `try_special(id) -> bool` accepts any of the six catalog specials during eligible unpaused airtime, rejecting active special/flip/grab/pending-grab, rail/manual/wall/lip/setup/tow/bail states. Catalog durations are 0.65–0.90 seconds. Main checks the definition's `required_unlock` and `special_meter.ready()` and calls `consume()` only after `true`; this does not empty the sustained meter. Completed authored body/board half-turns commit physical facing/rest-deck yaw once through the catch path. The animated collider never tumbles with the visual special.
@@ -198,6 +223,12 @@ original specials. `setup_foot_offset()` returns physical-board-space
 Committed rest-deck yaw is compensated when selecting the same physical foot or
 grab end. The front sole plants on the supplied ray point, the Boneless right
 palm meets the actual edge, and separation catches back over 0.28 seconds.
+
+On a curved helper, `transition_active` suppresses ordinary kick-push and
+brake-drag animation while physical Push/Brake continue to pump or brake tangent
+motion. A residual ordinary push catches back at rate 22 with a lifted return
+arc and real cupsole-to-deck clearance; both shoes then remain on the board.
+The ordinary native-floor foot solver does not run on helper support.
 
 Crossfoot, Pogo and Casper transitions blend at rate 16 and reset explicitly.
 The Hang Ten shift uses rate 12 with a smooth endpoint curve so its forward
@@ -376,6 +407,17 @@ solid cap. Both publish child coping paths and feature definitions. Current
 infill places the bowl at `(122,2,66)`, the halfpipe at `(-60,2,35)` and the spine
 at `(-110,2,30)`, within the existing Clyde/Central layout.
 
+`sunken_bowl_feature.gd` extends the same bowl metric with a genuine finite
+south entry. `contact_is_valid(theta,lateral)` rejects the removed port sector;
+`surface_sample().in_bounds` reports that absence too. The deep bowl retains its
+lower circular wall below 40 degrees, while the shallow bowl's opening reaches
+the flat bottom. Matching visible/native wall, deck and steel sectors are removed.
+A tangent-matched bank and flat channel replace the standalone external roll-in;
+the solid edge cheeks follow the original circular face rather than filling the
+opening with a full-height wall. `get_deck_voids()` returns world-XZ polygons for
+the surrounding upper deck. Coping paths and `lip_frame()` bear on the real steel
+crown, 0.070 m above the circular wall's rim point.
+
 `game/player/transition_ride.gd` owns support states `idle`, `surface`, `lip` and
 associated `air`. Public `active` stays true through surface/lip/associated air;
 Skater's `airborne` distinguishes actual air for scoring. `try_enter(body,velocity)`
@@ -392,6 +434,11 @@ clearance. Associated descending air can acquire another eligible face through
 restricted to the departure face. Bowl motion transports its two tangent
 components around the curved metric; root heading follows accepted travel
 without manufacturing a spin award.
+An optional feature `contact_is_valid(next_theta,next_lateral)` is checked before
+advancing supported contact. Leaving a sunken port releases actual tangent
+momentum. At an ordinary bank return, restoring the upright capsule may use a
+bounded native zero-motion floor recovery; actual wall/ceiling contacts still
+reject recovery. This creates no authored position lift or substitute floor.
 
 Holding Grind while crossing the real coping enters `lip` only after a short
 native move to its steel top, a coping ray and upright-capsule clearance. Lip
@@ -410,12 +457,27 @@ contacts do not create substitute physics planes.
 
 `reset(body=null)` restores the cached `BodyCollision` transform even when
 inactive and restores `up_direction=UP` when a body is supplied. `get_support_normal()`
-on Skater exposes the transition normal or world up. The registered quarter,
+on Skater exposes the active transition normal, valid ordinary native floor
+normal, or world up when unsupported. The registered quarter,
 bowl, halfpipe and spine geometry is supported; arbitrary imported curved meshes
 or vertical walls do not become transition features without this contract and
 native collision. Side exits still require real clearance.
 
 ## World, gaps and objective markers
+
+`kelvingrove_skatepark.gd` builds a 40×30 m excavated facility at
+`(-207.5,14.5,-187.5)`, within Kelvingrove's existing district. The upper rim is
+14.5 m and the lower street basin is 13 m; the deep bowl's bottom is 11 m and the
+shallow bowl's bottom is 13 m. World removes the 192 overlapping old terrain
+cells. `get_surface_height(world_point,max_step_up=INF)` indexes the same actual
+upward shared mesh triangles in one-metre cells, returns the highest eligible
+height at or below the supplied height plus tolerance, and returns NAN outside
+finite support. It never fills a bowl opening from its rectangular bounds.
+`get_grind_lines()`, `get_feature_definitions()` and `get_safety_routes()` publish
+the real street features, curved children and supported beginner circuit. Only
+the bowl and quarter children register transition support; stairs and banks keep
+ordinary native collision. The compact hip publishes its own 8 m approach,
+4.5 m landing and braking policy rather than inheriting another spine's runout.
 
 `game/levels/glasgow_square.gd` owns core city collision, terraced courts, graded streets, stairs, fountain coping, authored rails, goal/gap definitions, cone interaction and NPC locations. `core_terrain.gd` builds matching mesh/collision patches. `outdoor_routes.gd` adds Clyde quays, an eight-metre bridge opening with a continuous alternative, and rolling park terrain with paved climbs. `city_art.gd` dresses that layout with original materials/facades/landmark silhouettes and NPC figures. `get_spawn_position()`, `get_location_name(position)`, `get_district_id(position)` and `get_district_checkpoints()` expose navigation data for six areas. `get_ground_height(world_position)` returns highest authored terrain height or NAN outside authored terrain; props/roofs are not terrain. `get_support_height(world_position,max_step_up=1.0)` returns the highest authored terrain support at or below the supplied height plus the step tolerance, allowing a lower station passage beneath an upper deck. Actual ray/capsule checks remain the collision evidence. `support_probe` metadata on core graded bodies supplies a world-space surface-center point for local collision checks without confusing legitimate stacked routes. `get_route_definitions()` returns `{id,label,points,requires_jump}` with ordered world-space ground points. `get_recovery_position(position)` returns a safe local quay spawn or `Vector3.INF` when no hazard applies. `get_grind_lines()` returns fresh transformed track snapshots; ordinary scenery is layer 1 and rail props layer 2/mask 0, so unacquired rails do not obstruct normal travel or award tricks. `activate_cone()`/`reset_interactions()` manage the local visual interaction; `get_npc_positions()` supports nearby audio barks.
 

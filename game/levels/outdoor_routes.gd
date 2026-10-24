@@ -11,6 +11,12 @@ const TransitionFeature = preload("res://game/levels/transition_feature.gd")
 const PRACTICE_APRON := Rect2(-118, -139.5, 42, 13.5)
 const PARK := Rect2(-220, -185, 80, 110)
 const PARK_LANDSCAPE := Rect2(-255, -225, 115, 165)
+const ParkVisualSkin = preload("res://game/levels/park_visual_skin.gd")
+const SKATEPARK_SOURCE := "res://game/levels/kelvingrove_skatepark.gd"
+const SKATEPARK_BOUNDS := Rect2(-227.5,-202.5,40,30)
+const SKATEPARK_ORIGIN := Vector3(-207.5,14.5,-187.5)
+const SKATEPARK_ENTRY := Vector3(-187.5,14.5,-182.5)
+const SKATEPARK_ACCESS_BOUNDS := Rect2(-187.5,-185.5,8.5,6)
 const RIVER := Rect2(-150, 78, 300, 38)
 const VISIBLE_WATER := Rect2(-450, 78, 900, 38)
 const WATER_Y := -2.0
@@ -28,6 +34,10 @@ var _park_cutback := PackedVector3Array()
 var _clyde_yard := PackedVector3Array()
 var _park_connector := PackedVector3Array()
 var _george_connector := PackedVector3Array()
+var _park_height_cache: Dictionary = {}
+var _skatepark_source: Script
+var _skatepark: Node3D
+var _legacy_edge_construction := false
 var _built := false
 var _transitions: Array[Node3D] = []
 var _practice_features: Array[Dictionary] = []
@@ -43,11 +53,36 @@ func build(world: Node3D, materials: Dictionary) -> void:
 	if _built: return
 	_built = true
 	_materials = materials
+	if ResourceLoader.exists(SKATEPARK_SOURCE): _skatepark_source = load(SKATEPARK_SOURCE)
 	_build_clyde()
 	_build_riverside_edge(world)
 	_build_park()
 	_build_practice_pockets()
+	_fit_park_visual_surfaces.call_deferred()
 	_build_exploration_boundaries()
+
+
+func _fit_park_visual_surfaces() -> void:
+	# Only the two observed burial areas receive a dense material skin over
+	# their existing exact support. Original collision/query triangles stay put.
+	# Wait for native bodies to enter the physics space, then fit against that
+	# space itself, including intersecting terrain patches and path shoulders.
+	await get_tree().physics_frame
+	var fitter := ParkVisualSkin.new()
+	fitter.prepare(self)
+	for child: Node in get_children():
+		if not child is StaticBody3D: continue
+		if str(child.get_meta("art_label","")) not in ["ParkGranitePathEdge","KelvingroveRollingLoop"]: continue
+		# Asphalt keeps the inner half of the 40cm material overlap. Distinct
+		# two/six-millimetre skins avoid coplanar stone/asphalt z-fighting.
+		var skin := 0.002 if str(child.get_meta("art_label",""))=="ParkGranitePathEdge" else 0.006
+		fitter.fit(child,_native_visual_height,skin)
+
+
+func _native_visual_height(x: float,z: float) -> float:
+	var query := PhysicsRayQueryParameters3D.create(to_global(Vector3(x,30,z)),to_global(Vector3(x,-10,z)),1)
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	return NAN if hit.is_empty() else to_local(hit.position).y
 
 
 func get_checkpoints() -> Dictionary:
@@ -124,6 +159,14 @@ func get_ground_height(world_x: float, world_z: float) -> float:
 	return NAN if is_nan(height) else to_global(Vector3(local.x, height, local.z)).y
 
 
+func get_support_height(world_point: Vector3,max_step_up: float = 1.0) -> float:
+	var local := to_local(world_point)
+	if is_instance_valid(_skatepark) and SKATEPARK_BOUNDS.has_point(Vector2(local.x,local.z)):
+		return _skatepark.get_surface_height(world_point,maxf(0.0,max_step_up))
+	var height := get_ground_height(world_point.x,world_point.z)
+	return height if height<=world_point.y+maxf(0.0,max_step_up) else NAN
+
+
 func get_recovery_position(world_position: Vector3) -> Vector3:
 	var at := to_local(world_position)
 	# Every visible part of the river is the same readable water hazard. The
@@ -142,11 +185,26 @@ func get_grind_lines() -> Array:
 	var lines := _rails.duplicate()
 	for feature: Node3D in _transitions:
 		lines.append_array(feature.get_grind_lines())
+	if is_instance_valid(_skatepark): lines.append_array(_skatepark.get_grind_lines())
 	return lines
 
 
 func get_skate_feature_definitions() -> Array[Dictionary]:
-	return _practice_features.duplicate(true)
+	var result: Array[Dictionary] = _practice_features.duplicate(true)
+	if is_instance_valid(_skatepark):
+		for raw: Dictionary in _skatepark.get_feature_definitions():
+			var definition := raw.duplicate(true)
+			definition.district = "kelvingrove"
+			result.append(definition)
+	return result
+
+
+func get_park_skatepark_definition() -> Dictionary:
+	if not is_instance_valid(_skatepark): return {}
+	return {"id":"kelvingrove_sunken_skatepark", "label":"Kelvingrove Sunken Skatepark",
+		"bounds":SKATEPARK_BOUNDS, "rim_y":14.5, "entry":to_global(SKATEPARK_ENTRY),
+		"position":to_global(SKATEPARK_ORIGIN), "access_bounds":SKATEPARK_ACCESS_BOUNDS,
+		"access_route":_skatepark_access_points(), "node_path":get_path_to(_skatepark)}
 
 
 func get_gap_definitions() -> Array[Dictionary]:
@@ -160,8 +218,62 @@ func get_route_definitions() -> Array[Dictionary]:
 		var points := PackedVector3Array()
 		for at: Vector3 in source.points: points.append(to_global(at))
 		route.points = points
+		if source.has("map_marker"): route.map_marker = to_global(source.map_marker)
 		routes.append(route)
 	return routes
+
+
+func _skatepark_access_points() -> PackedVector3Array:
+	var points := PackedVector3Array([Vector3(-173,17,-182.5),Vector3(-179,17,-182.5),
+		Vector3(-183.25,15.75,-182.5),SKATEPARK_ENTRY])
+	for i in points.size(): points[i] = to_global(points[i])
+	return points
+
+
+func _build_sunken_skatepark() -> void:
+	if _skatepark_source == null: return
+	_skatepark = _skatepark_source.new()
+	_skatepark.name = "KelvingroveSunkenSkatepark"
+	_skatepark.position = SKATEPARK_ORIGIN
+	add_child(_skatepark)
+	var points := _skatepark_access_points()
+	for i in points.size(): points[i] = to_local(points[i])
+	# The approach fits inside the existing five-metre summit apron and widens
+	# into the facility's six-metre entry. No mandatory pop or stair is needed.
+	_path("KelvingroveSkateparkSummitAccess",points,4.5,_material("cut_stone"),"stone")
+	_route("kelvingrove_summit_skatepark","Summit to sunken skatepark",points)
+	_routes[-1].map_marker = SKATEPARK_ENTRY
+	_routes[-1].map_label = "SUNKEN SKATEPARK"
+	_routes[-1].map_kind = "skatepark"
+	for raw: Dictionary in _skatepark.get_safety_routes():
+		var route := raw.duplicate(true)
+		var local_points := PackedVector3Array()
+		for at: Vector3 in raw.points: local_points.append(to_local(at))
+		route.points = local_points
+		_routes.append(route)
+	_skatepark_entrance_sign()
+
+
+func _skatepark_entrance_sign() -> void:
+	var center := Vector3(-175,18.6,-180.6)
+	var direction := Vector3(1,0,-1).normalized()
+	for side: float in [-1.0,1.0]:
+		var top := center+direction*side*1.3+Vector3.UP*0.3
+		var ground := _local_ground(top.x,top.z)
+		if is_finite(ground):
+			_beam("SkateparkWayfindingPost",Vector3(top.x,ground,top.z),top,0.045,_material("iron"),true)
+	var board := _box("SkateparkWayfindingBoard",center,Vector3(3.4,0.9,0.12),_material("teal"),true)
+	board.rotation.y = PI*0.25
+	var label := Label3D.new()
+	label.name = "SkateparkEntranceDirections"
+	label.text = "SUNKEN SKATEPARK  →\nBOWLS · STREET · ROLL-IN"
+	label.position = center+Vector3(1,0,1).normalized()*0.071
+	label.rotation.y = PI*0.25
+	label.font_size = 36
+	label.pixel_size = 0.0055
+	label.modulate = Color("e1d9bd")
+	label.outline_size = 0
+	add_child(label)
 
 
 func _build_clyde() -> void:
@@ -265,7 +377,9 @@ void fragment(){
 }
 """
 	grass.shader = shader
-	Surface.terrain(self, "KelvingroveRollingGround", PARK_LANDSCAPE, 2.5, _park_height, grass)
+	var excavations: Array[Rect2] = []
+	if _skatepark_source != null: excavations.append(SKATEPARK_BOUNDS)
+	Surface.terrain(self, "KelvingroveRollingGround", PARK_LANDSCAPE, 2.5, _park_height, grass, excavations)
 	# The approaches are raised park embankments, not unsupported road ribbons.
 	var central_bank := Rect2(-215, -92, 85, 112)
 	var george_bank := Rect2(-145, -142, 103, 34)
@@ -281,7 +395,9 @@ void fragment(){
 	var hip := PackedVector3Array([Vector3(-224,8.0,-91), Vector3(-226,9.1,-84), Vector3(-220,8.4,-78)])
 	_path("KelvingroveCutbackHip", hip, 4.5, _material("paving"))
 	_rail("kelvingrove_cutback_ledge", PackedVector3Array([Vector3(-227.2,9.5,-84), Vector3(-221.2,8.8,-78)]), "ledge", 0.18)
+	_legacy_edge_construction = true
 	_path_border(_park_path)
+	_legacy_edge_construction = false
 	# Upper viewpoint sits off the riding line and is reached at the summit.
 	_patch("KelvingroveViewTerrace", Rect2(-179, -185, 18, 5), 17.0, _material("paving"))
 	_path("KelvingroveViewpointSpur", PackedVector3Array([Vector3(-161, 17, -178), Vector3(-165, 17, -182), Vector3(-173, 17, -182)]), 4.0, _material("paving"))
@@ -300,11 +416,13 @@ void fragment(){
 			bend = PackedVector3Array()
 	if bend.size() >= 2: _rail("kelvingrove_s_bend_" + str(bend_piece), bend, "rail", 0.065)
 	_park_pavilion()
+	_build_sunken_skatepark()
 	var trees: Array[Dictionary] = []
 	for row in 11:
 		for col in 8:
 			var x := -247.0 + col * 13.5 + sin(row * 5.13 + col) * 2.7
 			var z := -217.0 + row * 14.5 + cos(col * 4.1 + row) * 2.5
+			if _skatepark_source != null and (SKATEPARK_BOUNDS.grow(4.0).has_point(Vector2(x,z)) or SKATEPARK_ACCESS_BOUNDS.grow(2.0).has_point(Vector2(x,z))): continue
 			# Preserve the two small graded ledge clearings beside the existing
 			# loop; tree silhouettes still frame their outer edge, not the line.
 			if Rect2(-190,-93,16,7.2).has_point(Vector2(x,z)) or Rect2(-197,-175,17,7.2).has_point(Vector2(x,z)) or Rect2(-162,-158,13,7.2).has_point(Vector2(x,z)): continue
@@ -375,6 +493,31 @@ func _george_bank_height(x: float, z: float) -> float:
 
 
 func _park_height(x: float, z: float) -> float:
+	# Static grid vertices are shared by terrain, support queries and visual
+	# fitting. Reuse their exact result rather than repeatedly evaluating every
+	# nearest-path segment during level construction.
+	var key := Vector2(x,z)
+	if _park_height_cache.has(key): return _park_height_cache[key]
+	var height := _park_facility_collar(x,z,_park_route_height(x,z))
+	_park_height_cache[key] = height
+	return height
+
+
+func _park_facility_collar(x: float,z: float,existing: float) -> float:
+	if _skatepark_source == null: return existing
+	var at := Vector2(x,z)
+	var nearest := Vector2(clampf(x,SKATEPARK_BOUNDS.position.x,SKATEPARK_BOUNDS.end.x),
+		clampf(z,SKATEPARK_BOUNDS.position.y,SKATEPARK_BOUNDS.end.y))
+	var distance := at.distance_to(nearest)
+	if distance>=8.0: return existing
+	# Existing lap asphalt and its three-metre gates are outside the cut. Do
+	# not regrade the preserved riding corridor to make a new facility fit.
+	for route: PackedVector3Array in [_park_path,_park_cutback,_park_connector,_george_connector]:
+		if float(Surface.nearest_segment(route,at).distance)<6.0: return existing
+	return lerpf(SKATEPARK_ORIGIN.y,existing,smoothstep(0.0,8.0,distance))
+
+
+func _park_route_height(x: float, z: float) -> float:
 	var original := _park_natural_height(x,z)
 	var nearest := Surface.nearest_segment(_bank_cut_grade,Vector2(x,z))
 	if not nearest.get("within",true) or float(nearest.distance)>=10.0: return original
@@ -419,30 +562,26 @@ func _park_natural_height(x: float, z: float) -> float:
 
 func _local_ground(x: float, z: float) -> float:
 	var at := Vector2(x, z)
-	var highest := Surface.grid_height(PARK_LANDSCAPE,2.5,_park_height,x,z) if PARK_LANDSCAPE.has_point(at) else NAN
+	var excavated := _skatepark_source != null and SKATEPARK_BOUNDS.has_point(at)
+	var highest := Surface.grid_height(PARK_LANDSCAPE,2.5,_park_height,x,z) if PARK_LANDSCAPE.has_point(at) and not excavated else NAN
+	if is_instance_valid(_skatepark):
+		var feature_height: float = _skatepark.get_surface_height(to_global(Vector3(x,0,z)))
+		if is_finite(feature_height): highest = feature_height-global_position.y if is_nan(highest) else maxf(highest,feature_height-global_position.y)
 	for surface: Dictionary in _surfaces:
 		var height := NAN
 		if surface.has("edge_triangles"):
 			if not surface.bounds.has_point(at): continue
 			for triangle: PackedVector3Array in surface.edge_triangles:
-				var a := triangle[0]
-				var b := triangle[1]
-				var c := triangle[2]
-				if not Geometry2D.point_is_inside_triangle(at,Vector2(a.x,a.z),Vector2(b.x,b.z),Vector2(c.x,c.z)): continue
-				var normal := (b-a).cross(c-a)
-				height = a.y-(normal.x*(x-a.x)+normal.z*(z-a.z))/normal.y
+				height = _triangle_support_height(triangle,at)
+				if is_nan(height): continue
 				break
 		elif surface.has("strip_sections"):
 			if not surface.bounds.has_point(at): continue
 			for section: Dictionary in surface.strip_sections:
 				if not section.bounds.has_point(at): continue
 				for triangle: PackedVector3Array in section.triangles:
-					var a := triangle[0]
-					var b := triangle[1]
-					var c := triangle[2]
-					if not Geometry2D.point_is_inside_triangle(at,Vector2(a.x,a.z),Vector2(b.x,b.z),Vector2(c.x,c.z)): continue
-					var normal := (b-a).cross(c-a)
-					var found := a.y-(normal.x*(x-a.x)+normal.z*(z-a.z))/normal.y
+					var found := _triangle_support_height(triangle,at)
+					if is_nan(found): continue
 					if is_nan(height) or found>height: height = found
 		elif surface.has("bounds"):
 			if surface.bounds.has_point(at): height = Surface.grid_height(surface.bounds,surface.spacing,surface.height_at,x,z) if surface.has("height_at") else surface.height
@@ -452,6 +591,26 @@ func _local_ground(x: float, z: float) -> float:
 		if is_finite(height) and (is_nan(highest) or height > highest): highest = height
 	if not is_nan(highest): return highest
 	return NAN
+
+
+func _triangle_support_height(triangle: PackedVector3Array,at: Vector2) -> float:
+	# Include shared edges. Geometry2D's strict interior predicate can reject
+	# both adjacent faces at an exact waypoint/diagonal and return lower grass.
+	var a := Vector2(triangle[0].x,triangle[0].z)
+	# Keep the already verified shoulder collision construction identical.
+	# Inclusive shared-edge support is a query fix, not permission to rebuild
+	# the old trim into new collision while addressing its visual material.
+	if _legacy_edge_construction and not Geometry2D.point_is_inside_triangle(at,a,
+		Vector2(triangle[1].x,triangle[1].z),Vector2(triangle[2].x,triangle[2].z)): return NAN
+	var ab := Vector2(triangle[1].x,triangle[1].z)-a
+	var ac := Vector2(triangle[2].x,triangle[2].z)-a
+	var determinant := ab.cross(ac)
+	if absf(determinant)<0.000000001: return NAN
+	var relative := at-a
+	var u := relative.cross(ac)/determinant
+	var v := ab.cross(relative)/determinant
+	if u < -0.00001 or v < -0.00001 or u+v > 1.00001: return NAN
+	return triangle[0].y*(1-u-v)+triangle[1].y*u+triangle[2].y*v
 
 
 func _patch(id: String, bounds: Rect2, height: float, material: Material) -> void:
@@ -525,7 +684,51 @@ func _beam(id: String, a: Vector3, b: Vector3, radius: float, material: Material
 
 func _rail(id: String, points: PackedVector3Array, kind: String, radius: float) -> void:
 	_rails.append(GrindLineSource.from_local_points(id, points, global_transform, kind))
-	for i in range(points.size() - 1): _beam(id + "Visual", points[i], points[i + 1], radius, _material("cut_stone" if kind == "coping" else "iron"))
+	for i in range(points.size() - 1):
+		var direction := (points[i+1]-points[i]).normalized()
+		var normal := (Vector3.UP-direction*direction.dot(Vector3.UP)).normalized()
+		# Authored points are the board/truck bearing path. The square beam's
+		# oriented top face meets that line, rather than burying it at its centre.
+		var body: StaticBody3D
+		if radius>0.10 and kind in ["ledge","coping"]:
+			# A broad stone crown must fall away beside the axle bearing, as
+			# real coping does. A square slab at this same height embeds tyres.
+			body = _rounded_stone_crown(id,points[i],points[i+1],normal,radius)
+		else:
+			body = _beam(id+"NativeBeam",points[i]-normal*radius,points[i+1]-normal*radius,
+				radius,_material("cut_stone" if kind == "coping" else "iron"),true) as StaticBody3D
+		body.collision_layer = 2
+		body.collision_mask = 0
+		body.set_meta("surface_audio","stone" if kind=="coping" or (kind=="ledge" and radius>0.10) else "metal")
+		body.set_meta("authored_grind_ids",[id])
+		body.set_meta("audit_capture_ids",[id])
+		body.set_meta("grind_bearing_points",PackedVector3Array([points[i],points[i+1]]))
+
+
+func _rounded_stone_crown(id: String,start: Vector3,finish: Vector3,normal: Vector3,radius: float) -> StaticBody3D:
+	var direction := finish-start
+	var body := StaticBody3D.new()
+	body.name = id+"NativeBeam"
+	body.set_meta("art_label",id+"NativeBeam")
+	body.position = (start+finish)*0.5-normal*radius
+	body.basis = Basis(Quaternion(Vector3.UP,direction.normalized()))
+	add_child(body)
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = radius
+	mesh.bottom_radius = radius
+	mesh.height = direction.length()
+	mesh.radial_segments = 32
+	var visual := MeshInstance3D.new()
+	visual.mesh = mesh
+	visual.material_override = _material("cut_stone")
+	body.add_child(visual)
+	var shape := CylinderShape3D.new()
+	shape.radius = radius
+	shape.height = direction.length()
+	var collision := CollisionShape3D.new()
+	collision.shape = shape
+	body.add_child(collision)
+	return body
 
 
 func _bridge_structure(points: PackedVector3Array, width: float, safe: bool) -> void:
@@ -542,8 +745,12 @@ func _bridge_structure(points: PackedVector3Array, width: float, safe: bool) -> 
 			var a := points[i] + Vector3(side * (width * 0.5 - 0.15), 0, 0)
 			var b := points[i + 1] + Vector3(side * (width * 0.5 - 0.15), 0, 0)
 			_beam("BridgeEdgeGirder", a - Vector3.UP * 0.25, b - Vector3.UP * 0.25, 0.18, _material("iron"))
-			var handrail_body := _beam("BridgeHandrail", a + Vector3.UP * 1.05, b + Vector3.UP * 1.05, 0.045, _material("iron"), safe)
+			var handrail_body := _beam("BridgeHandrail", a + Vector3.UP * 1.05, b + Vector3.UP * 1.05, 0.045, _material("iron"), true) as StaticBody3D
+			if not safe:
+				handrail_body.collision_layer = 2
+				handrail_body.collision_mask = 0
 			handrail_body.set_meta("authored_grind_ids", [grind_id])
+			handrail_body.set_meta("audit_capture_ids", [grind_id])
 			if safe: _beam("BridgeLowerRail", a + Vector3.UP * 0.5, b + Vector3.UP * 0.5, 0.025, _material("iron"))
 			var steps := maxi(1, ceili(a.distance_to(b) / 4.0))
 			for j in steps:
@@ -675,14 +882,14 @@ func _path_border(points: PackedVector3Array) -> void:
 			var at := points[i] + offset + Vector3.UP * 0.025
 			var branch := Surface.nearest_segment(_park_cutback, Vector2(at.x, at.z))
 			if float(branch.distance) <= 6.0:
-				if edge.size() >= 2: _conforming_path_edge(edge)
+				if edge.size() >= 2: _conforming_path_edge(edge,side)
 				edge = PackedVector3Array()
 			else:
 				edge.append(at)
-		if edge.size() >= 2: _conforming_path_edge(edge)
+		if edge.size() >= 2: _conforming_path_edge(edge,side)
 
 
-func _conforming_path_edge(points: PackedVector3Array) -> void:
+func _conforming_path_edge(points: PackedVector3Array,outer_side: float) -> void:
 	# The old narrow ribbon copied centre-road Y across lower grass. This
 	# shallow shoulder samples actual support on both sides, removing its
 	# floating collision seam. Query records share the exact visible triangles.
@@ -726,7 +933,8 @@ func _conforming_path_edge(points: PackedVector3Array) -> void:
 			triangles.append(triangle)
 		records.append({"bounds":Rect2(north_west,south_east-north_west).grow(0.001),"edge_triangles":triangles})
 	for i in normals.size(): normals[i] = normals[i].normalized()
-	Surface._body(self,"ParkGranitePathEdge",vertices,normals,uv,indices,_material("cut_stone"),"stone")
+	var body := Surface._body(self,"ParkGranitePathEdge",vertices,normals,uv,indices,_material("cut_stone"),"stone")
+	body.set_meta("visual_trim_outer_side",outer_side)
 	_surfaces.append_array(records)
 
 
@@ -734,7 +942,9 @@ func _park_pavilion() -> void:
 	# Small original Victorian-inspired viewing shelter, outside the main ride line.
 	var center := Vector3(-174, 17, -182.5)
 	for x: float in [-2.0, 2.0]:
-		for z: float in [-1.5, 1.5]: _beam("PavilionColumn", center + Vector3(x, 0, z), center + Vector3(x, 3.1, z), 0.08, _material("iron"), true)
+		# The rear row stays under the same roof,50cm clear of the coping
+		# centreline rather than occupying its native standing volume.
+		for z: float in [-1.0, 1.5]: _beam("PavilionColumn", center + Vector3(x, 0, z), center + Vector3(x, 3.1, z), 0.08, _material("iron"), true)
 	for side: float in [-1.0, 1.0]:
 		var roof := _box("PavilionSlateRoof", center + Vector3(side * 1.25, 3.1, 0), Vector3(2.8, 0.14, 4.2), _material("slate"), true)
 		roof.add_to_group("pavilion_roofs")

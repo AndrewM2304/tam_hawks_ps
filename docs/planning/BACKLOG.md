@@ -1,5 +1,27 @@
 # Full Release 1 task backlog
 
+## Candidate checkpoint —24October2026
+
+Final ordinary suite:3,081/0,542.31s,327 unchanged inputs and clean logs.
+Cold launch:272 unchanged inputs, all matching that suite, including normal
+main/title44/0 and invalid copied-source refusal/restoration. The sunken park is
+integrated; no implementation owner remains active. Source is frozen for scoped
+stills and fresh audited Linux/Mac packaging. Save the tested commit and push
+`work` to existing `origin`, as the owner explicitly requested. No hosted workflows
+exist in this repository. Do not merge or publish build/release assets.
+
+After delivery pause for owner testing with the requested25% weekly reserve.
+Do not resume hourly work or new polish. Preserve the two known presentation
+issues and deferred movie/profile in[the candidate report](../testing/SUNKEN-CANDIDATE.md).
+The report does not claim FULL_FIDELITY_ACCEPTED or actual Mac/controller success.
+
+**Latest owner budget override,24October2026:** preserve25% of weekly usage from
+the reported34% remaining for manual-test fixes. Finish current P0s and the tested
+Mac candidate, then pause; hourly continuation is disabled. Full motion/profile
+refresh and additional polish are deferred. See[STATUS](../STATUS.md) and the
+[candidate's known defects](../testing/SUNKEN-CANDIDATE.md). Older quota-exhaustion
+instructions below no longer authorize spending the testing reserve.
+
 Title: **Tam Hawks Pro Skater**. Baseline date: 17 October 2026. This is the durable local source of task truth; these entries are not claims that GitHub issues have been published. Latest implementation and command evidence is in [STATUS](../STATUS.md). Product scope maps through [requirements](../product/requirements.md).
 
 **Active owner direction — full fidelity, 24 October 2026:** continue the complete
@@ -14,6 +36,15 @@ activity actors. Final aggregate/capture/package acceptance is in progress. Exis
 no purchases, overages, billing changes, paid APIs/resources, publication or merge.
 Human hardware/feel/final-art gates remain honestly open and do not stop available
 independent work. A shared lease prevents duplicate continuations.
+
+**Additional owner direction — sunken park facility,24October2026:** two supplied
+reference photos authorize a multi-level northwest Kelvingrove skatepark within
+the existing park. M03-012/014, M02-011 and M05-001 now include the real hill cut,
+two bowl depths, lower street basin, connected uphill access, finite coping/rails/
+ledges and navigation cues described in[ADR-017](../architecture/decisions/ADR-017-sunken-kelvingrove-skatepark.md).
+The2,874/0 core saved in`6610502` is a checkpoint before this added scope. Existing
+lap branches and all career/save IDs stay intact; full current-source verification,
+motion and local packages must include the new facility.
 
 **Current owner direction — 23 October 2026:** continue polished trick sets and
 combos on the existing map. [TRICK-FIDELITY](TRICK-FIDELITY.md) assigns the work

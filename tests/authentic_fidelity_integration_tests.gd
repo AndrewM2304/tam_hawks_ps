@@ -4,6 +4,8 @@ extends RefCounted
 ## An optional observer records these same physics steps as continuous evidence.
 const Catalog = preload("res://game/tricks/trick_catalog.gd")
 const ContactGeometry = preload("res://tests/full_repertoire_tests.gd")
+const Footwear = preload("res://game/player/skater_footwear.gd")
+const WheelContact = preload("res://tests/curved_visual_contact_tests.gd")
 const SOLE := Vector3(0, -0.0605, 0)
 const PALM := Vector3(0, -0.075, -0.015)
 const SAFE := Vector3(-22, 0.8, 28)
@@ -12,6 +14,9 @@ static var _phase := ""
 static var _step := 0
 static var _game: Node
 static var _navigation_action := ""
+static var _camera_hulls: Dictionary = {}
+static var _shoe_floor_stats: Dictionary = {}
+static var _climb_visual_stats: Dictionary = {}
 
 static func run(tree: SceneTree, game: Node, check: Callable,
 		observer: Callable = Callable(), cases: Array = []) -> void:
@@ -20,7 +25,9 @@ static func run(tree: SceneTree, game: Node, check: Callable,
 	_observer = observer
 	_game = game
 	_step = 0
+	_camera_hulls.clear()
 	game.start_mode(true)
+	if cases.is_empty() or cases.has("core"): await _core_navigation(tree, game, check)
 	if cases.is_empty() or cases.has("setup"): await _native_setups(tree, game, check)
 	if cases.is_empty() or cases.has("bail"): await _native_recovery(tree, game, check)
 	if cases.is_empty() or cases.has("connected"): await _connected_world(tree, game, check)
@@ -31,12 +38,116 @@ static func run(tree: SceneTree, game: Node, check: Callable,
 	if cases.is_empty() or cases.has("cone"): await _cone_cruise(tree, game, check)
 	if cases.is_empty() or cases.has("skitch"): await _cart_skitch(tree, game, check)
 	if cases.is_empty() or cases.has("laps"): await _park_laps(tree, game, check)
+	if cases.is_empty() or cases.has("facility"): await _sunken_facility_journey(tree, game, check)
+	if cases.is_empty() or cases.has("facility_skating"): await _sunken_facility_skating(tree, game, check)
 	_release()
 	_phase = ""
 	_observer = Callable()
 	_game = null
 	game.skater.spawn_position = original_spawn
 	game.start_mode(original_free)
+
+static func _core_navigation(tree: SceneTree, game: Node, check: Callable) -> void:
+	# Real ground launches, not the elevated repertoire eligibility fixtures.
+	await _reset(tree, game, SAFE)
+	_phase = "nollie_native_launch"
+	var events: Array[String] = []
+	var record := func(_label: String, _points: int): events.append(game.skater.last_trick_id)
+	game.skater.trick_performed.connect(record)
+	Input.action_press("ollie")
+	await _frames(tree,28)
+	Input.action_press("push")
+	await _frames(tree,2)
+	Input.action_release("ollie")
+	await _frames(tree,1)
+	check.call(game.skater.airborne and game.skater.takeoff_mode == "Nollie"
+		and events == ["nollie"] and game.score.combo_trick_count == 1
+		and game.score.combo_base == Catalog.base_points("nollie"),
+		"authentic Main: a fresh north cue on charged ground release physically launches one Nollie")
+	_release()
+	await _land(tree,game,120)
+	await _frames(tree,25)
+	check.call(not game.skater.bail_active and game.skater.is_on_floor() and events == ["nollie"]
+		and game.score.total_score == Catalog.base_points("nollie")
+		and game.score.last_banked_tricks == ["Nollie"],
+		"authentic Main: the native Nollie catches and lands with exactly its accepted once-only receipt")
+	game.skater.trick_performed.disconnect(record)
+	for action: String in ["spin_left","spin_right"]:
+		await _reset(tree,game,SAFE)
+		_phase = "rotation_native_" + action
+		var evidence := {"ids":[],"labels":[],"landings":[],"bails":0,"speed_on_land":0.0}
+		var on_entry := func(label: String,_points: int):
+			evidence.ids.append(game.skater.last_trick_id)
+			evidence.labels.append(label)
+		var on_land := func(clean: bool):
+			evidence.landings.append(clean)
+			evidence.speed_on_land = game.skater.speed
+		var on_bail := func(): evidence.bails += 1
+		game.skater.trick_performed.connect(on_entry)
+		game.skater.landed.connect(on_land)
+		game.skater.bailed.connect(on_bail)
+		Input.action_press("push")
+		await _frames(tree,25)
+		Input.action_release("push")
+		Input.action_press("ollie")
+		await _frames(tree,28)
+		Input.action_release("ollie")
+		await _frames(tree,1)
+		var takeoff_heading: float = game.skater.rotation.y
+		Input.action_press(action)
+		await _frames(tree,26)
+		Input.action_release(action)
+		await _land(tree,game,120)
+		await _frames(tree,25)
+		var expected := "Frontside 180" if action == "spin_left" else "Backside 180"
+		check.call(evidence.bails == 0 and evidence.landings == [true]
+			and evidence.ids == ["ollie","spin_180"] and evidence.labels == ["Ollie",expected]
+			and game.skater.stance == "SWITCH" and evidence.speed_on_land < -1.0
+			and absf(absf(angle_difference(takeoff_heading,game.skater.rotation.y))-PI) < deg_to_rad(12),
+			"authentic Main: actual %s input completes a clean physical 180 and preserves backwards travel"%action)
+		check.call(game.score.total_score == Catalog.base_points("ollie") + Catalog.base_points("spin_180")
+			and game.score.last_banked_tricks.size() == 1 and game.score.last_banked_tricks[0].contains(expected),
+			"authentic Main: the completed %s adds rotation base to one launch entry and banks exactly once"%action)
+		print("AUTHENTIC CORE SPIN %s ids=%s labels=%s stance=%s landed_speed=%.3f bank=%d"%[
+			action,evidence.ids,evidence.labels,game.skater.stance,evidence.speed_on_land,game.score.total_score])
+		game.skater.trick_performed.disconnect(on_entry)
+		game.skater.landed.disconnect(on_land)
+		game.skater.bailed.disconnect(on_bail)
+	# Named gaps are production Main swept-world awards, not Skater trick
+	# signals. Observe the actual published Central gap and its score identity.
+	var gap: Dictionary = {}
+	for definition: Dictionary in game.world.get_gap_definitions():
+		if definition.id == "central_gap": gap = definition
+	check.call(not gap.is_empty(),"authentic Main: the real Central platform gap is published for native crossing")
+	if gap.is_empty(): return
+	await _reset(tree,game,Vector3(-94,5.8,12))
+	_phase = "named_gap_native_central"
+	Input.action_press("push")
+	for frame in 150:
+		if game.skater.global_position.z <= 4.5: break
+		await _frames(tree,1)
+	check.call(game.skater.is_on_floor() and game.skater.speed > 6.0 and game.skater.global_position.z > 3.5,
+		"authentic Main: real pushes reach the actual Central gap takeoff without a motion injection")
+	Input.action_press("ollie")
+	await _frames(tree,1)
+	Input.action_release("ollie")
+	await _frames(tree,1)
+	Input.action_release("push")
+	var air_crossing := false
+	for frame in 150:
+		air_crossing = air_crossing or (game.skater.airborne and game.score._repetitions.has("gap:"+str(gap.id)))
+		await _frames(tree,1)
+		if game.skater.is_on_floor() and not game.skater.airborne and game.skater.global_position.z < -6.0: break
+	await _frames(tree,25)
+	check.call(air_crossing and not game.skater.bail_active and game.skater.is_on_floor()
+		and game.skater.global_position.z < -6.0 and game.score._repetitions.get("gap:"+str(gap.id),0) == 1
+		and game.score.last_banked_tricks == ["Ollie",str(gap.name)]
+		and game.score.total_score == (Catalog.base_points("ollie")+int(gap.points))*2,
+		"authentic Main: a real airborne platform crossing earns the named gap and banks exactly two accepted entries")
+	print("AUTHENTIC CORE GAP air=%s at=%s receipts=%s bank=%d"%[
+		air_crossing,game.skater.global_position,game.score.last_banked_tricks,game.score.total_score])
+	_release()
+	_phase = ""
 
 static func _native_setups(tree: SceneTree, game: Node, check: Callable) -> void:
 	for id: String in ["boneless", "no_comply"]:
@@ -1160,6 +1271,605 @@ static func _park_laps(tree: SceneTree, game: Node, check: Callable) -> void:
 		print("AUTHENTIC PARK %s reached=%s distance=%.2f camera=%s state=%s position=%s" % [
 			branch.id, reached, travelled, camera_clear, state, game.skater.global_position])
 	_phase = ""
+
+static func _sunken_facility_journey(tree: SceneTree, game: Node, check: Callable) -> void:
+	_climb_visual_stats={"samples":0,"ray_misses":0,"wheel_min":INF,"wheel_max":-INF,"head_relative":0.0,"previous_body":Vector3.INF,"previous_head":Vector3.INF}
+	_shoe_floor_stats={"bank":{"samples":0,"vertices":0,"minimum":INF,"leg_scale":0.0},"flat":{"samples":0,"vertices":0,"minimum":INF,"leg_scale":0.0}}
+	var definition: Dictionary = game.world.get_park_skatepark_definition()
+	var rolling := PackedVector3Array()
+	var access := PackedVector3Array()
+	var beginner := PackedVector3Array()
+	for route: Dictionary in game.world.get_route_definitions():
+		if route.id == "kelvingrove_rolling_loop": rolling = route.points
+		if route.id == "kelvingrove_summit_skatepark": access = route.points
+		if route.id == "kelvingrove_facility_beginner": beginner = route.points
+	check.call(definition.has_all(["entry","bounds","rim_y"]) and rolling.size()>6
+		and access.size()>=4 and beginner.size()>=8,
+		"sunken park Main: the actual installed facility publishes its full climb, summit link and beginner return")
+	if definition.is_empty() or rolling.is_empty() or access.is_empty() or beginner.is_empty(): return
+	var lap: Node3D = game.feature_hub.park_lap
+	var at: Vector3 = lap.status_snapshot().position
+	var first_direction := rolling[1]-at
+	await _reset(tree,game,at+Vector3.UP*0.8,atan2(-first_direction.x,-first_direction.z))
+	_phase = "sunken_park_active_lap_climb"
+	await _interact(tree)
+	check.call(lap.status_snapshot().state=="active" and lap.status_snapshot().attempts==1,
+		"sunken park Main: actual Interact starts One More Lap before the independent uphill destination journey")
+	var summit_index := 0
+	var nearest := INF
+	for index in rolling.size():
+		var distance := rolling[index].distance_to(Vector3(-161,17,-178))
+		if distance<nearest: nearest=distance;summit_index=index
+	var reached := true
+	var camera_clear := true
+	var travelled := 0.0
+	for index in summit_index+1:
+		var result: Dictionary = await _drive_facility_to(tree,game,rolling[index],true)
+		reached = reached and result.reached
+		camera_clear = camera_clear and result.camera_clear
+		travelled += result.distance
+		if not reached: break
+	if reached:
+		for target: Vector3 in [Vector3(-165,17,-182),access[0]]:
+			var result: Dictionary = await _drive_facility_to(tree,game,target,true)
+			reached = reached and result.reached
+			camera_clear = camera_clear and result.camera_clear
+			travelled += result.distance
+			if not reached: break
+	check.call(reached and game.skater.global_position.y>16.0 and travelled>110.0
+		and camera_clear and not game.skater.bail_active and lap.status_snapshot().state=="active",
+		"sunken park Main: genuine steering and pushes climb the existing hillside to the real summit with a clear full-body chase")
+	check.call(_climb_visual_stats.samples>=10 and _climb_visual_stats.ray_misses==0
+		and _climb_visual_stats.wheel_min>=-0.003 and _climb_visual_stats.head_relative<=0.30,
+		"sunken park Main: every actual wheel clears the finite summit-junction surfaces and the complete head motion stays continuous through the uneven crest")
+	print("SUNKEN PARK CREST VISUAL "+JSON.stringify(_climb_visual_stats))
+	_climb_visual_stats.clear()
+	_phase = "sunken_park_active_lap_entry"
+	if reached:
+		for target: Vector3 in access:
+			var result: Dictionary = await _drive_facility_to(tree,game,target,true)
+			reached = reached and result.reached
+			camera_clear = camera_clear and result.camera_clear
+			travelled += result.distance
+			if not reached: break
+	if reached:
+		var inside: Vector3 = definition.entry + Vector3.LEFT*0.8
+		var result: Dictionary = await _drive_facility_to(tree,game,inside,true,0.35)
+		reached = reached and result.reached
+		camera_clear = camera_clear and result.camera_clear
+		travelled += result.distance
+	check.call(reached and lap.status_snapshot().state=="active" and lap.status_snapshot().remaining>0.0
+		and Vector2(game.skater.global_position.x-definition.entry.x,game.skater.global_position.z-definition.entry.z).length()<1.2
+		and absf(game.skater.global_position.y-float(definition.rim_y))<0.25
+		and game.score.total_score==0 and game.score.get_combo_value()==0 and not game.skater.bail_active,
+		"sunken park Main: the live timed lap admits a real supported summit-to-facility entry without a teleport or free points")
+	print("SUNKEN PARK CLIMB reached=%s distance=%.2f remaining=%.2f camera=%s at=%s"%[
+		reached,travelled,lap.status_snapshot().remaining,camera_clear,game.skater.global_position])
+	_phase = "sunken_park_active_lap_visit"
+	var visited := reached
+	var visit_camera := true
+	var visit_path := PackedVector3Array()
+	for index in range(1,mini(4,beginner.size())): visit_path.append(beginner[index])
+	visit_path.append_array(PackedVector3Array([Vector3(-200,13,-177),Vector3(-204,13,-177),
+		Vector3(-204,13,-178),Vector3(-204,14.5,-184),Vector3(-204,14.5,-185),
+		Vector3(-209,14.5,-185),Vector3(-209,14.5,-194)]))
+	if visited:
+		for target: Vector3 in visit_path:
+			var result: Dictionary = await _drive_facility_to(tree,game,target,true)
+			visited = visited and result.reached
+			visit_camera = visit_camera and result.camera_clear
+			if not visited: break
+	var original_lap_area := Rect2(-225,-190,90,125)
+	check.call(visited and visit_camera and game.skater.global_position.z < -191.0
+		and not original_lap_area.has_point(Vector2(game.skater.global_position.x,game.skater.global_position.z))
+		and lap.is_in_attempt_area(game.skater.global_position) and lap.status_snapshot().state=="active"
+		and lap.status_snapshot().remaining>0.0 and not game.skater.bail_active and game.score.total_score==0,
+		"sunken park Main: an actual active-lap journey enters the lower basin and supported upper corridor beyond the original area without cancelling or earning free points")
+	print("SUNKEN PARK ACTIVE VISIT reached=%s remaining=%.2f camera=%s at=%s"%[
+		visited,lap.status_snapshot().remaining,visit_camera,game.skater.global_position])
+	# A separate ordinary approach checks the real HUD location prompt. Active
+	# lap guidance correctly takes priority and must not be suppressed for it.
+	var direction := access[1]-access[0]
+	await _reset(tree,game,access[0]+Vector3.UP*0.8,atan2(-direction.x,-direction.z))
+	await _frames(tree,150)
+	if not _observer.is_valid(): await tree.create_timer(0.0,true).timeout
+	_phase = "sunken_park_native_entry_hint"
+	check.call(game.skater.is_on_floor() and game.hud._prompt.visible
+		and game.hud._prompt.text.contains("SUNKEN SKATEPARK")
+		and not game.hud._prompt.text.contains("Interact"),
+		"sunken park Main: the actual supported summit approach shows its complete non-interaction navigation cue")
+	for target: Vector3 in access:
+		var result: Dictionary = await _drive_facility_to(tree,game,target,false)
+		if not result.reached: reached=false;break
+	_phase = "sunken_park_beginner_circuit"
+	var circuit := true
+	var circuit_camera := true
+	var min_height := INF
+	var max_height := -INF
+	var circuit_distance := 0.0
+	for target: Vector3 in beginner:
+		var result: Dictionary = await _drive_facility_to(tree,game,target,false)
+		circuit = circuit and result.reached
+		circuit_camera = circuit_camera and result.camera_clear
+		circuit_distance += result.distance
+		min_height=minf(min_height,result.min_height)
+		max_height=maxf(max_height,result.max_height)
+		if not circuit: break
+	check.call(circuit and circuit_camera and not game.skater.bail_active and game.skater.is_on_floor()
+		and max_height-min_height>1.25 and circuit_distance>35.0 and game.score.total_score==0,
+		"sunken park Main: real ordinary inputs descend to the lower street basin, circulate and climb its supported return with a clear chase")
+	_phase = "sunken_park_safe_exit"
+	var reversed := access.duplicate()
+	reversed.reverse()
+	var escaped := circuit
+	if escaped:
+		for target: Vector3 in reversed:
+			var result: Dictionary = await _drive_facility_to(tree,game,target,false)
+			escaped = escaped and result.reached and result.camera_clear
+			if not escaped: break
+	check.call(escaped and game.skater.is_on_floor() and not game.skater.bail_active
+		and game.skater.global_position.y>16.5 and game.score.total_score==0,
+		"sunken park Main: the genuine beginner circuit leaves through the same real entrance and returns safely uphill without a mandatory jump")
+	print("SUNKEN PARK BEGINNER circuit=%s exit=%s distance=%.2f heights=%.3f..%.3f camera=%s at=%s"%[
+		circuit,escaped,circuit_distance,min_height,max_height,circuit_camera,game.skater.global_position])
+	var shoe_healthy := true
+	for location: String in ["bank","flat"]:
+		var stats: Dictionary = _shoe_floor_stats[location]
+		shoe_healthy = shoe_healthy and stats.samples>=2 and stats.vertices>=100 and stats.minimum>=-0.0015 and stats.leg_scale<=1.12
+		print("SUNKEN PARK ACTUAL SHOE %s samples=%d native_vertices=%d minimum=%.7f leg_scale=%.6f"%[
+			location,stats.samples,stats.vertices,stats.minimum,stats.leg_scale])
+		print("SUNKEN PARK LIMB WORST "+location+" "+JSON.stringify(stats.get("worst",{})))
+	check.call(shoe_healthy,
+		"sunken park Main: complete pushing/brake-drag Cupsole and CanvasUpper meshes stay above finite native bank-to-flat and basin floors within the existing1.5mm compression bound")
+	_shoe_floor_stats.clear()
+	_release()
+	_phase = ""
+
+static func _sunken_facility_skating(tree: SceneTree, game: Node, check: Callable) -> void:
+	var park: Node3D = game.world.find_child("KelvingroveSunkenSkatepark",true,false)
+	check.call(park!=null,"sunken park skating: the production world contains the actual excavated facility")
+	if park==null: return
+	for item: Array in [["DeepBowl",Vector3(-197,13.8,-182.0),11.5],
+		["ShallowBowl",Vector3(-219,13.8,-182.5),13.1]]:
+		var bowl: Node3D = park.get_node(item[0])
+		await _reset(tree,game,item[1],0.0)
+		_phase = "sunken_park_" + str(item[0]).to_snake_case() + "_native_lip"
+		var events: Array[String] = []
+		var on_entry := func(_label: String,_points: int): events.append(game.skater.last_trick_id)
+		game.skater.trick_performed.connect(on_entry)
+		var min_height: float = game.skater.global_position.y
+		var real_face := false
+		var clear := true
+		Input.action_press("push")
+		Input.action_press("grind")
+		for frame in 260:
+			await _frames(tree,1)
+			if not _observer.is_valid(): await tree.create_timer(0.0,true).timeout
+			min_height=minf(min_height,game.skater.global_position.y)
+			real_face = real_face or (game.skater.transition_active and game.skater._transition.feature==bowl)
+			if frame%6==0: clear = clear and _facility_camera_clear(game)
+			if game.skater.lip_active or game.skater.bail_active: break
+		check.call(real_face and game.skater.lip_active and game.skater._transition.feature==bowl
+			and min_height<float(item[2]) and not game.skater.bail_active and events==["lip_stall"]
+			and game.skater.get_support_normal().dot(Vector3.UP)>0.999,
+			"sunken park skating: real ground input enters %s through its open port, reaches its actual bottom and bears on native coping"%item[0])
+		Input.action_release("push")
+		await _frames(tree,12)
+		var accepted: int = game.score.get_combo_value()
+		check.call(clear and accepted>=Catalog.base_points("lip_stall") and game.score.total_score==0
+			and game.score.combo_trick_count==1 and events==["lip_stall"],
+			"sunken park skating: held %s lip remains one earned entry with clear actual head/deck/sole/toe and camera volume"%item[0])
+		Input.action_release("grind")
+		Input.action_press("brake")
+		await _frames(tree,75)
+		var bank: int = game.score.total_score
+		await _frames(tree,25)
+		check.call(not game.skater.bail_active and bank==accepted and game.score.total_score==bank
+			and events==["lip_stall"] and game.score.last_banked_tricks==["Lip Stall"],
+			"sunken park skating: %s releases its real lip, returns without collision and banks exactly its held receipt once"%item[0])
+		print("SUNKEN PARK MAIN LIP %s minimum=%.4f face=%s camera=%s entries=%s accepted=%d bank=%d at=%s"%[
+			item[0],min_height,real_face,clear,events,accepted,bank,game.skater.global_position])
+		game.skater.trick_performed.disconnect(on_entry)
+		_release()
+	# Explicit one-time curved-contact/tangent fixture, independently matched
+	# to the real native wall. The complete lower carve thereafter is unforced.
+	await _reset(tree,game,SAFE)
+	var deep: Node3D = park.get_node("DeepBowl")
+	var sample: Dictionary = deep.sample(0.6,0.0)
+	var speed := sqrt(22.0*(deep.floor_radius+deep.radius*sin(0.6))*tan(0.6))
+	game.skater.set_physics_process(false)
+	game.skater.spawn_position=sample.point+sample.normal*0.022
+	game.skater.reset_skater()
+	game.skater.velocity=sample.lateral*speed
+	game.skater.speed=speed
+	game.skater.airborne=false
+	game.skater.rotation.y=atan2(-game.skater.velocity.x,-game.skater.velocity.z)
+	game.skater.set_physics_process(true)
+	_phase="sunken_park_deep_native_carve"
+	var stats: Dictionary = WheelContact._stats()
+	var sweep := 0.0
+	var previous := 0.0
+	var supported := true
+	var camera_clear := true
+	for frame in 300:
+		await _frames(tree,1)
+		if not _observer.is_valid(): await tree.create_timer(0.0,true).timeout
+		var local: Vector3 = deep.to_local(game.skater.global_position)
+		var phi := atan2(local.x,-local.z)
+		sweep += angle_difference(previous,phi)
+		previous=phi
+		supported = supported and game.skater.transition_active and game.skater._transition.feature==deep 			and not game.skater.airborne and not game.skater.bail_active
+		if frame>=12: WheelContact._measure(game.skater,deep,stats)
+		if frame%6==0: camera_clear = camera_clear and _facility_camera_clear(game)
+		if sweep>=TAU: break
+	check.call(supported and sweep>=TAU and stats.samples>=180 and camera_clear and game.score.total_score==0,
+		"sunken park skating: production Main circles the actual lower deep bowl through its whole open-port azimuth with clear native chase")
+	check.call(stats.ray_misses==0 and stats.complete_frames==stats.samples and stats.board_dot_min>=0.999
+		and stats.capsule_dot_min>=0.9999 and WheelContact._healthy(stats),
+		"sunken park skating: all four actual wheels maintain the unchanged strict native-face contact bands throughout the full deep carve")
+	WheelContact._print("sunken_deep",stats)
+	# A complete real ground Ollie captures the lower street rail; this is not
+	# the descending initial rail-contact fixture used by the catalog matrix.
+	await _reset(tree,game,Vector3(-215,13.8,-174.9),-PI*0.5)
+	_phase="sunken_park_street_native_grind"
+	var captures: Array[String] = []
+	var events: Array[String] = []
+	var on_capture := func(id: String): captures.append(id)
+	var on_entry := func(_label: String,_points: int): events.append(game.skater.last_trick_id)
+	game.skater.grind_captured.connect(on_capture)
+	game.skater.trick_performed.connect(on_entry)
+	Input.action_press("push")
+	await _frames(tree,42)
+	Input.action_press("ollie")
+	await _frames(tree,2)
+	Input.action_release("ollie")
+	await _frames(tree,1)
+	Input.action_release("push")
+	Input.action_press("grind")
+	var held := 0
+	var clear := true
+	for frame in 150:
+		await _frames(tree,1)
+		if not _observer.is_valid(): await tree.create_timer(0.0,true).timeout
+		if game.skater.grinding: held+=1
+		if frame%6==0: clear = clear and _facility_camera_clear(game)
+		if held>=18 or game.skater.bail_active: break
+	var accepted: int = game.score.get_combo_value()
+	check.call(captures==["Grind_Park_StreetFlatbar"] and held>=18 and events==["ollie","rail_grind"]
+		and not game.skater.bail_active and game.skater.global_position.x> -209.5 and clear
+		and game.score.total_score==0 and game.score.combo_trick_count==2,
+		"sunken park skating: a real pushed approach and ground Ollie capture and hold the actual street flatbar with two connected entries")
+	Input.action_release("grind")
+	await _land(tree,game,100)
+	await _frames(tree,30)
+	var bank: int = game.score.total_score
+	await _frames(tree,25)
+	check.call(not game.skater.bail_active and game.skater.is_on_floor() and bank==accepted
+		and game.score.total_score==bank and captures==["Grind_Park_StreetFlatbar"],
+		"sunken park skating: the native street grind releases, lands and banks exactly its accepted combo once")
+	print("SUNKEN PARK MAIN RAIL held=%d captures=%s entries=%s accepted=%d bank=%d at=%s"%[
+		held,captures,events,accepted,bank,game.skater.global_position])
+	game.skater.grind_captured.disconnect(on_capture)
+	game.skater.trick_performed.disconnect(on_entry)
+	_release()
+	await _sunken_hip_transfer(tree,game,park,check)
+	await _sunken_port_departure(tree,game,park,check)
+	_phase=""
+
+static func _sunken_hip_transfer(tree: SceneTree, game: Node, park: Node3D, check: Callable) -> void:
+	var hip: Node3D = park.get_node("ForegroundHip")
+	var front: Node3D = hip.get_node("FrontTransition")
+	var back: Node3D = hip.get_node("BackTransition")
+	await _reset(tree,game,Vector3(-210.7,13.8,-176.5),PI*0.5)
+	_phase="sunken_park_hip_native_transfer"
+	Input.action_press("push")
+	var front_seen := false
+	var upward_air := false
+	var clear := true
+	for frame in 220:
+		await _frames(tree,1)
+		if not _observer.is_valid(): await tree.create_timer(0.0,true).timeout
+		if game.skater.transition_active and game.skater._transition.feature==front:
+			front_seen=true
+			Input.action_release("push")
+		if frame%6==0: clear = clear and _facility_camera_clear(game)
+		if game.skater.airborne and game.skater.transition_active and game.skater._transition.state=="air":
+			upward_air=game.skater.velocity.y>1.0
+			break
+		if game.skater.bail_active: break
+	check.call(front_seen and upward_air and not game.skater.bail_active,
+		"sunken park skating: a genuine eight-metre pushed approach and coast ride the compact hip face into real vert air")
+	await _frames(tree,4)
+	Input.action_press("push")
+	await _frames(tree,9)
+	Input.action_release("push")
+	var back_seen := false
+	var exited := false
+	var minimum_x: float = game.skater.global_position.x
+	for frame in 250:
+		await _frames(tree,1)
+		if not _observer.is_valid(): await tree.create_timer(0.0,true).timeout
+		minimum_x=minf(minimum_x,game.skater.global_position.x)
+		back_seen = back_seen or (game.skater.transition_active and game.skater._transition.feature==back
+			and game.skater._transition.state=="surface")
+		if back_seen and not game.skater.transition_active and game.skater.is_on_floor():
+			exited=true
+			Input.action_press("brake")
+		if frame%6==0: clear = clear and _facility_camera_clear(game)
+		if game.skater.bail_active or (exited and absf(game.skater.speed)<0.3): break
+	check.call(back_seen and exited and not game.skater.bail_active and game.skater.is_on_floor()
+		and game.skater.global_position.x< -222.3 and minimum_x> -227.2 and clear,
+		"sunken park skating: a fresh in-air transfer reaches the true back hip face, rides out and brakes within the visible finite west runout")
+	check.call(game.score.total_score==0 and game.score.get_combo_value()==0,
+		"sunken park skating: pumping and transferring the compact hip cannot manufacture trick entries or bank points")
+	print("SUNKEN PARK MAIN HIP front=%s air=%s back=%s exit=%s camera=%s min_x=%.5f speed=%.4f at=%s"%[
+		front_seen,upward_air,back_seen,exited,clear,minimum_x,game.skater.speed,game.skater.global_position])
+	_release()
+
+static func _sunken_port_departure(tree: SceneTree, game: Node, park: Node3D, check: Callable) -> void:
+	await _reset(tree,game,SAFE)
+	var bowl: Node3D = park.get_node("DeepBowl")
+	var phi: float = PI-bowl.port_half_angle()-0.08
+	var sample: Dictionary = bowl.sample(0.95,phi*bowl.floor_radius)
+	# Same declared one-time native curved contact used by the independent
+	# optional-port helper regression; production Main owns everything after it.
+	game.skater.set_physics_process(false)
+	game.skater.spawn_position=sample.point+sample.normal*0.022
+	game.skater.reset_skater()
+	game.skater.velocity=sample.lateral*8.0
+	game.skater.speed=8.0
+	game.skater.airborne=false
+	game.skater.rotation.y=atan2(-game.skater.velocity.x,-game.skater.velocity.z)
+	game.skater.set_physics_process(true)
+	_phase="sunken_park_native_port_departure"
+	var evidence := {"bails":0,"landings":[],"tricks":[],"landing_frames":[]}
+	var on_bail := func(): evidence.bails+=1
+	var on_land := func(clean: bool):
+		evidence.landings.append(clean)
+		evidence.landing_frames.append({"tick":Engine.get_physics_frames(),"body":game.skater.global_position,
+			"transition":game.skater.transition_active,"state":game.skater._transition.state,
+			"native_floor_valid":game.skater._native_floor_valid,"is_on_floor":game.skater.is_on_floor(),
+			"airborne":game.skater.airborne,"force_air_tick":game.skater._force_air_tick})
+	var on_trick := func(_label: String,_points: int): evidence.tricks.append(game.skater.last_trick_id)
+	game.skater.bailed.connect(on_bail)
+	game.skater.landed.connect(on_land)
+	game.skater.trick_performed.connect(on_trick)
+	var entered := false
+	var departed := false
+	var ordinary := false
+	var after_departure := Vector3.INF
+	var travel := 0.0
+	var clear := true
+	var maximum_step := 0.0
+	var previous: Vector3 = game.skater.global_position
+	for frame in 180:
+		await _frames(tree,1)
+		if not _observer.is_valid(): await tree.create_timer(0.0,true).timeout
+		var at: Vector3 = game.skater.global_position
+		maximum_step=maxf(maximum_step,previous.distance_to(at))
+		previous=at
+		entered = entered or (game.skater.transition_active and game.skater._transition.feature==bowl
+			and game.skater._transition.state=="surface")
+		if entered and not departed and game.skater.airborne:
+			departed=true
+			after_departure=at
+		if departed: travel=maxf(travel,at.distance_to(after_departure))
+		ordinary = ordinary or (departed and not game.skater.transition_active and game.skater.is_on_floor()
+			and not game.skater.airborne and game.skater.up_direction.dot(Vector3.UP)>0.999)
+		if frame%6==0: clear=clear and _facility_camera_clear(game)
+		if game.skater.bail_active or (ordinary and travel>2.4): break
+	check.call(entered and departed and ordinary and travel>2.4 and maximum_step<0.20
+		and not game.skater.transition_active and not game.skater.bail_active,
+		"sunken park Main: the genuine finite upper-port departure moves through air and returns to the actual ordinary bank without a capture loop or teleport")
+	check.call(evidence.bails==0 and evidence.landings==[true] and evidence.tricks.is_empty()
+		and game.score.total_score==0 and game.score.get_combo_value()==0,
+		"sunken park Main: actual open-port flight emits one clean landing and no phantom tricks, repeated bank or score")
+	var collision: CollisionShape3D = game.skater.get_node("BodyCollision")
+	check.call(clear and game.skater._native_floor_valid and game.skater.is_on_floor()
+		and not game.skater._force_air_tick and collision.global_basis.y.normalized().dot(Vector3.UP)>0.999,
+		"sunken park Main: the optional-port return restores the real upright native capsule/floor cache and clear actual body/feet/camera")
+	print("SUNKEN PARK MAIN PORT entered=%s air=%s ordinary=%s travel=%.6f max_step=%.6f camera=%s landings=%s tricks=%s at=%s"%[
+		entered,departed,ordinary,travel,maximum_step,clear,evidence.landings,evidence.tricks,game.skater.global_position])
+	print("SUNKEN PARK PORT EVENT TRACE "+JSON.stringify({"events":evidence.landing_frames,
+		"final_floor":game.skater.is_on_floor(),"final_native":game.skater._native_floor_valid,
+		"final_airborne":game.skater.airborne,"final_force_air":game.skater._force_air_tick,
+		"final_capsule_up":collision.global_basis.y,"final_helper":game.skater._transition.state}))
+	game.skater.bailed.disconnect(on_bail)
+	game.skater.landed.disconnect(on_land)
+	game.skater.trick_performed.disconnect(on_trick)
+	_release()
+
+static func _drive_facility_to(tree: SceneTree, game: Node, target: Vector3, require_lap: bool, arrival_radius: float=0.95) -> Dictionary:
+	var distance := 0.0
+	var camera_clear := true
+	var camera_diagnosed := false
+	var min_height: float = game.skater.global_position.y
+	var max_height := min_height
+	for frame in 1200:
+		var at: Vector3 = game.skater.global_position
+		var offset := Vector3(target.x-at.x,0,target.z-at.z)
+		if offset.length()<arrival_radius and absf(at.y-target.y)<0.30:
+			return {"reached":true,"camera_clear":camera_clear,"distance":distance,"min_height":min_height,"max_height":max_height}
+		if game.skater.bail_active or (require_lap and game.feature_hub.park_lap.status_snapshot().state!="active"): break
+		var desired := atan2(-offset.x,-offset.z)
+		var angle := angle_difference(game.skater.rotation.y,desired)
+		Input.action_release("steer_left")
+		Input.action_release("steer_right")
+		if absf(angle)>0.025:
+			Input.action_press("steer_left" if angle>0.0 else "steer_right",minf(1.0,absf(angle)*2.0))
+		var stop: bool = game.skater.speed < -0.4 or (absf(angle)>0.9 and absf(game.skater.speed)>1.0) 			or (absf(angle)>0.35 and absf(game.skater.speed)>4.0) or (offset.length()<4.0 and game.skater.speed>4.0)
+		_navigation_throttle("brake" if stop else "push")
+		await _frames(tree,1)
+		if not _observer.is_valid(): await tree.create_timer(0.0,true).timeout
+		distance += at.distance_to(game.skater.global_position)
+		min_height=minf(min_height,game.skater.global_position.y)
+		max_height=maxf(max_height,game.skater.global_position.y)
+		_sample_climb_visuals(game)
+		if frame%6==0:
+			_sample_facility_shoe(game)
+			var actual_clear := _facility_camera_clear(game)
+			if not actual_clear and not camera_diagnosed:
+				_diagnose_facility_mesh(game)
+				camera_diagnosed=true
+			camera_clear = camera_clear and actual_clear
+	var contacts := []
+	for index in game.skater.get_slide_collision_count():
+		var hit: KinematicCollision3D = game.skater.get_slide_collision(index)
+		contacts.append({"body":str(hit.get_collider().name),"normal":hit.get_normal(),"point":hit.get_position()})
+	print("SUNKEN PARK NAV STOP target=%s at=%s speed=%.3f heading=%.3f normal=%s contacts=%s"%[
+		target,game.skater.global_position,game.skater.speed,game.skater.rotation.y,game.skater.get_floor_normal(),contacts])
+	return {"reached":false,"camera_clear":camera_clear,"distance":distance,"min_height":min_height,"max_height":max_height}
+
+static func _sample_climb_visuals(game: Node) -> void:
+	if _climb_visual_stats.is_empty() or _phase!="sunken_park_active_lap_climb": return
+	var stats: Dictionary = _climb_visual_stats
+	var body: Vector3 = game.skater.global_position
+	var head: Vector3 = game.skater._visual_rig._head.global_position
+	if Vector3(stats.previous_body).is_finite():
+		var relative := (head-Vector3(stats.previous_head)-(body-Vector3(stats.previous_body))).length()
+		stats.head_relative=maxf(stats.head_relative,relative)
+	stats.previous_body=body
+	stats.previous_head=head
+	if body.x< -165.2 or body.x> -162.0 or body.z> -175.0 or body.z< -180.0: return
+	stats.samples += 1
+	for child: Node in game.skater._board_visual.get_children():
+		if not child is MeshInstance3D or not child.mesh is CylinderMesh: continue
+		var cylinder: CylinderMesh = child.mesh
+		if not is_equal_approx(cylinder.top_radius,0.032) or not is_equal_approx(cylinder.height,0.032): continue
+		var ray := PhysicsRayQueryParameters3D.create(child.global_position+Vector3.UP*0.35,child.global_position-Vector3.UP*0.50,1|8)
+		ray.exclude=[game.skater.get_rid()]
+		var hit: Dictionary = game.skater.get_world_3d().direct_space_state.intersect_ray(ray)
+		if hit.is_empty(): stats.ray_misses+=1;continue
+		var minimum := INF
+		for surface in child.mesh.get_surface_count():
+			for point: Vector3 in child.mesh.surface_get_arrays(surface)[Mesh.ARRAY_VERTEX]:
+				minimum=minf(minimum,(child.to_global(point)-Vector3(hit.position)).dot(Vector3(hit.normal)))
+		if minimum<stats.wheel_min:
+			stats.worst={"step":_step,"tick":Engine.get_physics_frames(),"body":body,"velocity":game.skater.velocity,
+				"normal":game.skater.get_floor_normal(),"airborne":game.skater.airborne,"on_floor":game.skater.is_on_floor(),
+				"native":game.skater._native_floor_valid,"force_air":game.skater._force_air_tick,
+				"wheel":str(child.name),"point":child.global_position,"floor":hit.position,"floor_normal":hit.normal,
+				"collider":str(hit.collider.name),"board_up":game.skater._board_visual.global_basis.y,
+				"chosen_plane":game.skater._native_board_floor()}
+		stats.wheel_min=minf(stats.wheel_min,minimum)
+		stats.wheel_max=maxf(stats.wheel_max,minimum)
+
+static func _sample_facility_shoe(game: Node) -> void:
+	if _shoe_floor_stats.is_empty() or game.skater.airborne or not game.skater.is_on_floor(): return
+	var at: Vector3 = game.skater.global_position
+	var location := "bank" if absf(at.x+204)<1.5 and at.z< -177 and at.z> -183 else 		("flat" if at.x> -201 and at.x< -192 and at.z< -173 and at.z> -177.5 else "")
+	if location.is_empty(): return
+	var rig = game.skater._visual_rig
+	if maxf(rig._push_blend,rig._brake_blend)<0.1: return
+	var foot: Node3D = rig._legs[1].foot
+	var stats: Dictionary = _shoe_floor_stats[location]
+	stats.samples += 1
+	var skeleton: Skeleton3D = rig._garments.skeleton
+	for bone in skeleton.get_bone_count():
+		if skeleton.get_bone_name(bone).ends_with("_thigh") or skeleton.get_bone_name(bone).ends_with("_calf"):
+			var scale_y := skeleton.get_bone_pose_scale(bone).y
+			if scale_y>stats.leg_scale:
+				stats.leg_scale=scale_y
+				var right := skeleton.get_bone_name(bone).begins_with("right_")
+				var prefix := "right" if right else "left"
+				var hip: Vector3 = skeleton.to_global(skeleton.get_bone_global_pose(skeleton.find_bone(prefix+"_thigh")).origin)
+				var ankle: Vector3 = rig._legs[1 if right else 0].foot.global_position
+				stats.worst={"phase":_phase,"step":_step,"physics_frame":Engine.get_physics_frames(),
+					"bone":skeleton.get_bone_name(bone),"scale":scale_y,"hip":hip,"ankle":ankle,
+					"front_ankle":rig._legs[0].foot.global_position,"rear_ankle":rig._legs[1].foot.global_position,
+					"push_phase":rig._push_phase,"push_blend":rig._push_blend,"brake_blend":rig._brake_blend,
+					"rider_transform":rig._rider.global_transform,"visual_transform":game.skater._visual.global_transform,
+					"body":game.skater.global_position,"normal":game.skater.get_floor_normal(),
+					"actions":[Input.get_action_strength("push"),Input.get_action_strength("brake")]}
+	for label: String in ["Cupsole","CanvasUpper"]:
+		var mesh: MeshInstance3D = foot.get_node(label)
+		for surface in mesh.mesh.get_surface_count():
+			for vertex: Vector3 in mesh.mesh.surface_get_arrays(surface)[Mesh.ARRAY_VERTEX]:
+				var point := mesh.to_global(vertex)
+				var ray := PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.35,point-Vector3.UP*0.45,1|8)
+				ray.exclude=[game.skater.get_rid()]
+				var hit: Dictionary = game.skater.get_world_3d().direct_space_state.intersect_ray(ray)
+				if hit.is_empty() or Vector3(hit.normal).dot(Vector3.UP)<0.65: continue
+				stats.vertices += 1
+				stats.minimum=minf(stats.minimum,(point-Vector3(hit.position)).dot(Vector3(hit.normal)))
+
+static func _facility_camera_clear(game: Node) -> bool:
+	var camera: Camera3D = game.skater._camera
+	if not camera.global_position.is_finite(): return false
+	var rig = game.skater._visual_rig
+	var points := PackedVector3Array([rig._head.global_position,rig._board.global_position])
+	# A box corner can combine the lowest mid-deck height with a raised kick's
+	# maximum X/Z where no actual board geometry exists. Native clean convex
+	# points preserve every real extremity without inventing those corners.
+	for mesh: MeshInstance3D in [rig._head.get_node("AnatomicalHead"),rig._board.get_node("CurvedMapleDeck")]:
+		var key := mesh.mesh.get_instance_id()
+		if not _camera_hulls.has(key):
+			var hull: ConvexPolygonShape3D = mesh.mesh.create_convex_shape(true,false)
+			_camera_hulls[key] = hull.points
+		for point: Vector3 in _camera_hulls[key]: points.append(mesh.to_global(point))
+	for leg: Dictionary in rig._legs:
+		points.append(leg.foot.to_global(Footwear.SOLE_CONTACT))
+		points.append(leg.foot.to_global(Footwear.TOE_CONTACT))
+	var space: PhysicsDirectSpaceState3D = game.skater.get_world_3d().direct_space_state
+	for point_index in points.size():
+		var point: Vector3 = points[point_index]
+		if not point.is_finite() or not camera.is_position_in_frustum(point):
+			print("SUNKEN PARK CAMERA FRUSTUM rider=%s camera=%s actual_point=%s"%[game.skater.global_position,camera.global_position,point])
+			return false
+		var kind: String = ["front_sole","front_toe","rear_sole","rear_toe"][point_index-(points.size()-4)] if point_index>=points.size()-4 else "actual_head_or_deck_hull"
+		var ray := PhysicsRayQueryParameters3D.create(camera.global_position,point,1|8)
+		ray.exclude=[game.skater.get_rid()]
+		var hit := space.intersect_ray(ray)
+		if not hit.is_empty():
+			if kind.ends_with("_sole") and _verified_sole_endpoint(game,point,hit): continue
+			print("SUNKEN PARK CAMERA ACTUAL OCCLUSION rider=%s camera=%s point=%s hit=%s normal=%s kind=%s collider=%s"%[
+				game.skater.global_position,camera.global_position,point,hit.position,hit.normal,kind,hit.collider.name])
+			return false
+	var sphere := SphereShape3D.new()
+	sphere.radius=0.25
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape=sphere
+	query.transform=Transform3D(Basis.IDENTITY,camera.global_position)
+	query.collision_mask=1|8
+	query.exclude=[game.skater.get_rid()]
+	query.margin=0.015
+	return space.intersect_shape(query,1).is_empty()
+
+static func _verified_sole_endpoint(game: Node, point: Vector3, sight_hit: Dictionary) -> bool:
+	# The real outsole deliberately contacts native support. Preserve the
+	# existing 4mm sole-plane band, never a generic camera ray-distance escape.
+	# A wall, another collider, non-support face or deep penetration still fails.
+	var ray := PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.15,point-Vector3.UP*0.15,1|8)
+	ray.exclude=[game.skater.get_rid()]
+	var support: Dictionary = game.skater.get_world_3d().direct_space_state.intersect_ray(ray)
+	if support.is_empty() or support.collider != sight_hit.collider: return false
+	var normal: Vector3 = support.normal
+	var floor_cos := cos(float(game.skater.floor_max_angle))
+	return (normal.dot(Vector3.UP)>=floor_cos and Vector3(sight_hit.normal).dot(normal)>=0.98
+		and absf((point-Vector3(support.position)).dot(normal))<=0.004
+		and absf((Vector3(sight_hit.position)-Vector3(support.position)).dot(normal))<=0.001)
+
+static func _diagnose_facility_mesh(game: Node) -> void:
+	var camera: Camera3D = game.skater._camera
+	var rig = game.skater._visual_rig
+	var reports := []
+	for mesh: MeshInstance3D in [rig._head.get_node("AnatomicalHead"),rig._board.get_node("CurvedMapleDeck")]:
+		var vertices := 0
+		var blocked := 0
+		var first := {}
+		for surface in mesh.mesh.get_surface_count():
+			for point: Vector3 in mesh.mesh.surface_get_arrays(surface)[Mesh.ARRAY_VERTEX]:
+				vertices += 1
+				var world := mesh.to_global(point)
+				var ray := PhysicsRayQueryParameters3D.create(camera.global_position,world,1|8)
+				ray.exclude = [game.skater.get_rid()]
+				var hit: Dictionary = game.skater.get_world_3d().direct_space_state.intersect_ray(ray)
+				if not hit.is_empty():
+					blocked += 1
+					if first.is_empty(): first={"vertex":world,"hit":hit.position,"collider":str(hit.collider.name),"distance_to_vertex":Vector3(hit.position).distance_to(world)}
+			reports.append({"mesh":str(mesh.name),"vertices":vertices,"blocked":blocked,"first":first})
+	print("SUNKEN PARK ACTUAL MESH rider=%s camera=%s normal=%s board_up=%s reports=%s"%[
+		game.skater.global_position,camera.global_position,game.skater.get_floor_normal(),rig._board.global_basis.y,reports])
 
 static func _drive_native_to(tree: SceneTree, game: Node, target: Vector3, request_pop: bool) -> Dictionary:
 	var distance := 0.0

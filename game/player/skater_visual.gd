@@ -46,6 +46,7 @@ var _walk_phase := 0.0
 var _foot_lift := 0.0
 var _front_foot_lift := 0.0
 var _rear_foot_lift := 0.0
+var _drag_crouch := 0.0
 var _manual_shift := 0.0
 var _cross_blend := 0.0
 var _pogo_blend := 0.0
@@ -155,6 +156,7 @@ func reset() -> void:
 	_foot_lift = 0.0
 	_front_foot_lift = 0.0
 	_rear_foot_lift = 0.0
+	_drag_crouch = 0.0
 	_manual_shift = 0.0
 	_cross_blend = 0.0
 	_pogo_blend = 0.0
@@ -210,6 +212,7 @@ func animate(delta: float, state: Dictionary) -> void:
 	var ride_speed := absf(float(state["speed"]))
 	var travel_sign := -1.0 if float(state.get("travel_sign", 1.0)) < 0.0 else 1.0
 	var wall: bool = state.get("wallriding", false)
+	var transition: bool = state.get("transition_active", false)
 	var skitch: bool = state.get("skitching", false)
 	var skitch_grips: Array = state.get("skitch_grips", [])
 	if skitch_grips.size() != 2: skitch = false
@@ -263,8 +266,8 @@ func animate(delta: float, state: Dictionary) -> void:
 		setup_plant = 0.0
 		setup_normal = Vector3.UP
 	setup_normal = setup_normal.normalized()
-	var braking: bool = state.get("brake", false) and not air and not manual and not grind and not sliding and ride_speed > 0.2
-	var pushing: bool = state["push"] and not braking and not air and not manual and not grind and not crouching and not sliding and not lip and ride_speed < 14.5
+	var braking: bool = state.get("brake", false) and not transition and not air and not manual and not grind and not sliding and ride_speed > 0.2
+	var pushing: bool = state["push"] and not transition and not braking and not air and not manual and not grind and not crouching and not sliding and not lip and ride_speed < 14.5
 	pushing = pushing and not setup
 	braking = braking and not setup
 	pushing = pushing and not skitch
@@ -314,8 +317,11 @@ func animate(delta: float, state: Dictionary) -> void:
 	_air_time += delta if air else 0.0
 	_motion_time += delta
 	_landing = maxf(0.0, _landing - delta)
-	_push_blend = _blend(_push_blend, 1.0 if pushing else 0.0, delta, 10.0)
-	_brake_blend = _blend(_brake_blend, 1.0 if braking else 0.0, delta, 12.0)
+	_push_blend = _blend(_push_blend, 1.0 if pushing else 0.0, delta, 22.0 if transition else 10.0)
+	_brake_blend = _blend(_brake_blend, 1.0 if braking else 0.0, delta, 22.0 if transition else 12.0)
+	if transition:
+		if _push_blend < 0.002: _push_blend = 0.0
+		if _brake_blend < 0.002: _brake_blend = 0.0
 	_air_blend = _blend(_air_blend, 1.0 if air else 0.0, delta, 14.0)
 	_grab_blend = _blend(_grab_blend, 1.0 if grab else 0.0, delta, 22.0)
 	# The flick separates the soles from a rotating deck, then brings both feet
@@ -329,7 +335,7 @@ func animate(delta: float, state: Dictionary) -> void:
 	_wall_blend = _blend(_wall_blend, 1.0 if wall else 0.0, delta, 14.0)
 	_slide_blend = _blend(_slide_blend, 1.0 if sliding else 0.0, delta, 14.0)
 	_lip_blend = _blend(_lip_blend, 1.0 if lip else 0.0, delta, 14.0)
-	_transition_blend = _blend(_transition_blend, 1.0 if bool(state.get("transition_active", false)) else 0.0, delta, 10.0)
+	_transition_blend = _blend(_transition_blend, 1.0 if transition else 0.0, delta, 10.0)
 	_walk_blend = _blend(_walk_blend, 1.0 if walking else 0.0, delta, 12.0)
 	_foot_lift = _blend(_foot_lift, foot_lift, delta, 13.0)
 	# Tail manuals load the rear foot; nose manuals load the front. When the
@@ -488,7 +494,8 @@ func animate(delta: float, state: Dictionary) -> void:
 	_head.position = Vector3(0, 0.51, 0.010) - _head.basis * Vector3(0, -0.13, 0.036)
 	var pelvis_basis := Basis(Vector3.UP, pelvis_turn)
 	var deck_stance := Basis(Vector3.UP, -deck_yaw)
-	_garments.pose_body(Transform3D(pelvis_basis, hips_origin), _upper.transform)
+	var foot_poses: Array[Dictionary] = []
+	var grounded_drag := false
 	for leg: Dictionary in _legs:
 		var side: float = leg["side"]
 		var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, PLANTED_FOOT_Y, side * PLANTED_FOOT_Z)
@@ -517,6 +524,9 @@ func animate(delta: float, state: Dictionary) -> void:
 		deck_foot.y += leg_lift
 		deck_foot.x += side * leg_lift * 0.35
 		deck_foot.z -= side * leg_lift * 0.25
+		var helper_catch := transition and side > 0.0 and maxf(_push_blend, _brake_blend) > 0.0
+		if helper_catch:
+			deck_foot.y += 0.12 * sin(PI * clampf(maxf(_push_blend, _brake_blend), 0.0, 1.0))
 		var attached: Vector3 = _rider.to_local(_board.to_global(deck_stance * deck_foot))
 		# Shoes follow the planted board except during a deliberately separated board spin/flip.
 		var flick_side := -1.0 if flip_id in ["heelflip", "inward_heelflip", "varial_heelflip"] else 1.0
@@ -558,7 +568,7 @@ func animate(delta: float, state: Dictionary) -> void:
 			for point: Vector3 in _sole_points:
 				lowest = minf(lowest, (ankle + shoe_basis * point - floor_at).dot(floor_up))
 			if lowest < 0.001: target = _rider.to_local(ankle + floor_up * (0.001 - lowest))
-		if hang_ten > 0.0001 or maxf(_front_foot_lift, _rear_foot_lift) > 0.0001:
+		if hang_ten > 0.0001 or maxf(_front_foot_lift, _rear_foot_lift) > 0.0001 or helper_catch:
 			# A rotating/moving sole sweeps across the kick before reaching its
 			# settled bearing. Bound real rubber compression through that sweep.
 			var ankle := _board.to_local(_rider.to_global(target))
@@ -583,6 +593,37 @@ func animate(delta: float, state: Dictionary) -> void:
 			elif setup_catch > 0.0:
 				target += _setup_catch_offset * setup_catch
 				shoe_basis = shoe_basis.slerp(_setup_catch_basis, setup_catch)
+		if side > 0.0 and not air and not manual and not grind and not lip and not wall and not setup and not skitch \
+				and not transition \
+				and maxf(_push_blend, _brake_blend) > 0.0001:
+			var loaded := maxf(_brake_blend, _push_blend if _push_phase < 0.60 else 0.0)
+			var contact := _drag_foot_contact(target, shoe_basis, loaded)
+			target = contact.target
+			shoe_basis = contact.basis
+			grounded_drag = bool(contact.supported)
+		foot_poses.append({"leg": leg, "target": target, "basis": shoe_basis})
+	var crouch_needed := 0.0
+	if grounded_drag:
+		# Keep both actual shoe contacts. Lower the common pelvis/torso only
+		# enough for the two real leg chains to reach them, instead of stretching
+		# a calf or lifting a supposedly planted shoe away from its native floor.
+		for pose: Dictionary in foot_poses:
+			var hip := pelvis_basis * Vector3(float(pose.leg.side) * 0.105, 0.025, 0) + hips_origin
+			var target: Vector3 = pose.target
+			var across := Vector2(hip.x - target.x, hip.z - target.z).length_squared()
+			var vertical := sqrt(maxf(0.0001, 0.825 * 0.825 - across))
+			crouch_needed = maxf(crouch_needed, hip.y - target.y - vertical)
+	_drag_crouch = maxf(crouch_needed, _blend(_drag_crouch, 0.0, delta, 14.0))
+	if _drag_crouch < 0.00001: _drag_crouch = 0.0
+	hips_origin.y -= _drag_crouch
+	hips_y -= _drag_crouch
+	_upper.position.y -= _drag_crouch
+	_garments.pose_body(Transform3D(pelvis_basis, hips_origin), _upper.transform)
+	for pose: Dictionary in foot_poses:
+		var leg: Dictionary = pose.leg
+		var side: float = leg.side
+		var target: Vector3 = pose.target
+		var shoe_basis: Basis = pose.basis
 		var hip := pelvis_basis * Vector3(side * 0.105, 0.025, 0) + hips_origin
 		var knee_bend: Vector3 = _rider.global_basis.inverse() * _board.get_parent().global_basis * Vector3.UP + Vector3(side * 0.25, 0, -0.65)
 		var knee := _joint(hip, target, 0.43, 0.41, knee_bend)
@@ -655,6 +696,48 @@ func _surface_basis(up: Vector3, facing: Vector3) -> Basis:
 	if z.length_squared() < 0.01: z = Vector3.RIGHT.slide(up).normalized()
 	var x := up.cross(z).normalized()
 	return Basis(x, up, x.cross(up).normalized())
+
+
+func _native_foot_ground(at: Vector3) -> Dictionary:
+	var body: Node3D = _board.get_parent().get_parent()
+	if not body is CharacterBody3D: return {}
+	# World/cart solids only. Grind steel and triggers cannot become invented
+	# foot support, and an absent finite floor produces no fallback plane.
+	var query := PhysicsRayQueryParameters3D.create(at + Vector3.UP * 0.35,
+		at - Vector3.UP * 0.45, body.collision_mask & 9)
+	query.exclude = [body.get_rid()]
+	var hit := body.get_world_3d().direct_space_state.intersect_ray(query)
+	if hit.is_empty() or Vector3(hit.normal).dot(Vector3.UP) < 0.65: return {}
+	return hit
+
+
+func _drag_foot_contact(target: Vector3, shoe_basis: Basis, loaded: float) -> Dictionary:
+	var ankle := _rider.to_global(target)
+	var ground := _native_foot_ground(ankle + shoe_basis * Footwear.SOLE_CONTACT)
+	var supported := not ground.is_empty()
+	if not ground.is_empty() and loaded > 0.0001:
+		var normal: Vector3 = ground.normal
+		var planted := _surface_basis(normal, shoe_basis.z)
+		shoe_basis = shoe_basis.slerp(planted, loaded).orthonormalized()
+		var contact: Vector3 = ground.position + normal * 0.0007
+		ankle = ankle.lerp(contact - shoe_basis * Footwear.SOLE_CONTACT, loaded)
+	# The trailing shoe can straddle a bank toe and its adjoining flat floor.
+	# Check its actual outline against each finite native surface, rather than
+	# extending the board's tangent plane underneath the entire stroke.
+	var correction := 0.0
+	for point: Vector3 in _sole_points:
+		if point.y > -0.0604: continue
+		var sole := ankle + shoe_basis * point
+		var support := _native_foot_ground(sole)
+		if not support.is_empty():
+			supported = true
+			correction = maxf(correction, float(support.position.y) + 0.0007 - sole.y)
+	var toe := ankle + shoe_basis * Footwear.TOE_CONTACT
+	var support := _native_foot_ground(toe)
+	if not support.is_empty():
+		supported = true
+		correction = maxf(correction, float(support.position.y) + 0.0007 - toe.y)
+	return {"target": _rider.to_local(ankle + Vector3.UP * correction), "basis": shoe_basis, "supported": supported}
 
 
 func _cache_support_geometry() -> void:

@@ -1,0 +1,123 @@
+{
+	"inputs_unchanged": true,
+	"reports": [
+		{
+			"bail": false,
+			"board_rotation": "Vector3(0, 0, 0)",
+			"captures": [
+				"clyde_quay_coping"
+			],
+			"fixture": "declared descending initial contact, then actual held-Grind native admission; not a played ground approach",
+			"grind_style": "rail_grind",
+			"id": "clyde_quay_coping",
+			"inside_vertices": 168,
+			"intersecting_parts": [
+				{
+					"depth": 0.0144734084606171,
+					"example": "Vector3(-49.969078, 2.4055266, 76.60077)",
+					"finite_footprint": 122,
+					"inside": 42,
+					"part": "Wheel",
+					"vertices": 122,
+					"wheel": true
+				},
+				{
+					"depth": 0.0180165469646454,
+					"example": "Vector3(-49.969078, 2.4019835, 76.83074)",
+					"finite_footprint": 122,
+					"inside": 42,
+					"part": "@MeshInstance3D@4630",
+					"vertices": 122,
+					"wheel": true
+				},
+				{
+					"depth": 0.0144726932048798,
+					"example": "Vector3(-50.47908, 2.4055274, 76.60077)",
+					"finite_footprint": 122,
+					"inside": 42,
+					"part": "@MeshInstance3D@4637",
+					"vertices": 122,
+					"wheel": true
+				},
+				{
+					"depth": 0.0180158317089081,
+					"example": "Vector3(-50.47908, 2.4019842, 76.83074)",
+					"finite_footprint": 122,
+					"inside": 42,
+					"part": "@MeshInstance3D@4641",
+					"vertices": 122,
+					"wheel": true
+				}
+			],
+			"kind": "coping",
+			"max_depth": 0.0180165469646454,
+			"native_body": "clyde_quay_copingNativeBeam",
+			"native_surface_point": "Vector3(-50.22408, 2.42, 76.700005)",
+			"path": "Vector3(-50.22408, 2.42, 76.700005)",
+			"path_above_native_top": 0.0,
+			"score_entries": 1,
+			"visual_rotation": "Vector3(-1.4901532e-06, 0, -0.015405343)",
+			"wheel_parts": [
+				{
+					"depth": 0.0144734084606171,
+					"example": "Vector3(-49.969078, 2.4055266, 76.60077)",
+					"finite_footprint": 122,
+					"inside": 42,
+					"part": "Wheel",
+					"vertices": 122,
+					"wheel": true
+				},
+				{
+					"depth": 0.0180165469646454,
+					"example": "Vector3(-49.969078, 2.4019835, 76.83074)",
+					"finite_footprint": 122,
+					"inside": 42,
+					"part": "@MeshInstance3D@4630",
+					"vertices": 122,
+					"wheel": true
+				},
+				{
+					"depth": 0.0144726932048798,
+					"example": "Vector3(-50.47908, 2.4055274, 76.60077)",
+					"finite_footprint": 122,
+					"inside": 42,
+					"part": "@MeshInstance3D@4637",
+					"vertices": 122,
+					"wheel": true
+				},
+				{
+					"depth": 0.0180158317089081,
+					"example": "Vector3(-50.47908, 2.4019842, 76.83074)",
+					"finite_footprint": 122,
+					"inside": 42,
+					"part": "@MeshInstance3D@4641",
+					"vertices": 122,
+					"wheel": true
+				}
+			]
+		}
+	],
+	"scope": "Actual Main whole-board mesh vs actual finite native Box/Cylinder volume, using declared descending fixture and production held-Grind admission. Inspection camera only; not a played ground approach or final full movie.",
+	"source_after": {
+		".local/grind_mesh_contact_review.gd": "bd74aaec645dd07b8c620b6c30c764328fcd51aedc6dafe69874b8858e22f936",
+		"game/levels/glasgow_square.gd": "5843283fe5799a498a6932c994bc90389faab8fcb9f3189ccb3c203e02d233ba",
+		"game/levels/outdoor_routes.gd": "2a761fdf995ff9e9a85b6758be617fd0297d8007bd01e9892a0721899794f4fd",
+		"game/main.gd": "e65a2275a0ee8ede413abb89f2bca6414f25b598b8c48ae1f53583aa383334b4",
+		"game/player/skater.gd": "6d2bcb67e68ed8e4867169a3d7e0bfa6b67a6662c4285e5fcfb6a3e9ea4169ee",
+		"game/player/skater_visual.gd": "70e72e9d86bc5eab92944d1872e157727b00b7e7b0dfc91251561662b5d385f4",
+		"game/tricks/grind_line.gd": "3f6debac281cdc162895a2fedef1eb1f77a06075527484bcea1ff2a5544bab79",
+		"game/tricks/grind_ride.gd": "39ca4738a9c06dbd43c71a7cb0725d4dee2ee0e7967b230b0f1bb68e74f9c92c",
+		"project.godot": "b8a3975474ea3826e5f7527f2892510c0fdfdfabb7de8b1ebd3498239bafd5f0"
+	},
+	"source_before": {
+		".local/grind_mesh_contact_review.gd": "bd74aaec645dd07b8c620b6c30c764328fcd51aedc6dafe69874b8858e22f936",
+		"game/levels/glasgow_square.gd": "5843283fe5799a498a6932c994bc90389faab8fcb9f3189ccb3c203e02d233ba",
+		"game/levels/outdoor_routes.gd": "2a761fdf995ff9e9a85b6758be617fd0297d8007bd01e9892a0721899794f4fd",
+		"game/main.gd": "e65a2275a0ee8ede413abb89f2bca6414f25b598b8c48ae1f53583aa383334b4",
+		"game/player/skater.gd": "6d2bcb67e68ed8e4867169a3d7e0bfa6b67a6662c4285e5fcfb6a3e9ea4169ee",
+		"game/player/skater_visual.gd": "70e72e9d86bc5eab92944d1872e157727b00b7e7b0dfc91251561662b5d385f4",
+		"game/tricks/grind_line.gd": "3f6debac281cdc162895a2fedef1eb1f77a06075527484bcea1ff2a5544bab79",
+		"game/tricks/grind_ride.gd": "39ca4738a9c06dbd43c71a7cb0725d4dee2ee0e7967b230b0f1bb68e74f9c92c",
+		"project.godot": "b8a3975474ea3826e5f7527f2892510c0fdfdfabb7de8b1ebd3498239bafd5f0"
+	}
+}

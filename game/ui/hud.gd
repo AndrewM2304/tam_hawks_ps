@@ -223,6 +223,7 @@ func _build_hud() -> void:
 	_prompt = _floating_label("", 17, ACCENT)
 	_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_prompt.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	_footer = _card()
 	_hud.add_child(_footer)
 	_controls_label = _label(_footer, "", 16, MUTED)
@@ -336,6 +337,8 @@ func update_display(state: Dictionary) -> void:
 	var feature_status := str(state.get("sidefeature_status", ""))
 	if interaction.is_empty() and _challenge.text.is_empty() and not feature_status.is_empty():
 		_prompt.text = feature_status
+	if _prompt.text.is_empty() and _challenge.text.is_empty() and _caption.text.is_empty():
+		_prompt.text = _route_location_hint(state)
 	_save_warning.text = str(state.get("save_warning", ""))
 	_save_warning.visible = not _save_warning.text.is_empty()
 	if is_instance_valid(_modal_warning):
@@ -616,12 +619,37 @@ func _build_map(content: VBoxContainer) -> void:
 	for row: Array in [
 		["PALE SOLID  /  OPEN ROUTES     DIM DASHES  /  CLOSED     ORANGE  /  JUMP LINE", 13, MUTED],
 		["Gallery steps & fountain → station platforms → hilly park paths. Follow the south quay to the Clyde bridge transfer.", 16, PAPER],
+		["SUNKEN SKATEPARK  /  Follow the park climb to the summit link. The diamond marks its east entrance: roll down to the street basin, then choose the shallow or deep bowl.", 16, PAPER],
 		["Career goals are in the four city districts. Meet Mo by the Exchange fountain, or Rae’s bin drums and dancing cats in George Square, or Mairi’s parcel challenge through the Barras. Free skate gives you time to explore.", 14, MUTED],
 	]:
 		var description := _label(content, row[0], row[1], row[2])
 		description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		description.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 
+
+
+func _route_location_hint(state: Dictionary) -> String:
+	# A location cue never asks for Interact or displaces an active skating cue.
+	for key: String in ["airborne","grinding","manual","manual_active","wallriding","transition_active",
+		"lip_active","skitching","crouching","setup_active","bail_active","powersliding"]:
+		if bool(state.get(key,false)): return ""
+	if int(state.get("combo",0)) > 0: return ""
+	var at: Vector3 = state.get("player_position",Vector3.INF)
+	if not at.is_finite(): return ""
+	for route: Dictionary in _map_routes:
+		if str(route.get("map_kind","")) != "skatepark" or not route.get("enabled",true): continue
+		if not route.get("map_marker") is Vector3: continue
+		var entry: Vector3 = route.map_marker
+		var points := PackedVector3Array(route.get("points",[]))
+		var distance := INF
+		for index in range(1,points.size()):
+			if points[index-1].is_finite() and points[index].is_finite():
+				distance = minf(distance,at.distance_to(Geometry3D.get_closest_point_to_segment(at,points[index-1],points[index])))
+		if distance > 7.0 or not entry.is_finite(): continue
+		var label := str(route.get("map_label","")).strip_edges()
+		if label.is_empty(): continue
+		return label + ("  /  East roll-in to street & bowls" if at.distance_to(entry) < 6.0 else "  /  Follow the summit link")
+	return ""
 
 
 func _refresh_route_map() -> void:

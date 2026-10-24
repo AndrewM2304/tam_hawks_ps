@@ -52,6 +52,9 @@ func configure(world: Node3D, skater: CharacterBody3D) -> void:
 	park_lap.configure(_ground(Vector3(-155,6,-82)), [
 		{"id":"park_full_loop", "label":"Full park loop", "points":scenic},
 		{"id":"park_bank_cut", "label":"Grass-bank cut", "points":bank_cut}], Rect2(-225,-190,90,125))
+	if _world.has_method("get_park_skatepark_definition"):
+		var facility: Dictionary = _world.get_park_skatepark_definition()
+		park_lap.set_attempt_regions([facility.get("bounds"),facility.get("access_bounds")])
 	park_lap.feedback.connect(func(text: String): feedback.emit(text))
 	vehicle = Vehicle.new()
 	vehicle.name = "QuayCrewElectricCart"

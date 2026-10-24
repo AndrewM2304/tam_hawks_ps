@@ -1,5 +1,26 @@
 # Active full-fidelity continuation — 24 October 2026
 
+## Candidate checkpoint —24October2026
+
+Final ordinary suite:3,081/0,542.31s,327 unchanged inputs and clean logs.
+Cold launch:272 unchanged inputs, all matching that suite, including normal
+main/title44/0 and invalid copied-source refusal/restoration. The sunken park is
+integrated; no implementation owner remains active. Source is frozen for scoped
+stills and fresh audited Linux/Mac packaging. Save the tested commit and push
+`work` to existing `origin`, as the owner explicitly requested. No hosted workflows
+exist in this repository. Do not merge or publish build/release assets.
+
+After delivery pause for owner testing with the requested25% weekly reserve.
+Do not resume hourly work or new polish. Preserve the two known presentation
+issues and deferred movie/profile in[the candidate report](../testing/SUNKEN-CANDIDATE.md).
+The report does not claim FULL_FIDELITY_ACCEPTED or actual Mac/controller success.
+
+Latest owner direction reserves25% weekly usage from the reported34% remaining.
+Finish current blocking repairs/full regression/cold/current-source Mac candidate,
+then pause; no new audits/features or long motion/profile run. Hourly continuation
+is paused. The[manual-test candidate](../testing/SUNKEN-CANDIDATE.md) retains exact
+known/deferred presentation issues. This overrides the older exhaustion stop rule.
+
 The owner rejected the earlier checkpoint stop. [OVERNIGHT](OVERNIGHT.md) is the
 current disjoint ownership, existing-ticket crosswalk and continuation protocol;
 [STATUS](../STATUS.md) contains current implementation, focused results, real
@@ -11,6 +32,15 @@ are integrated candidate systems undergoing final native/aggregate/render/packag
 acceptance. Human hardware/feel gates cannot stop independent work. Use only
 remaining included weekly usage; no purchases/overages or publication. Check the
 shared lease before edits and preserve current source and career/save IDs.
+
+New active owner scope:[sunken Kelvingrove skatepark](KELVINGROVE-SKATEPARK.md),
+with the agreed native site/support/open-port contract in[ADR-017](../architecture/decisions/ADR-017-sunken-kelvingrove-skatepark.md).
+World owns real excavation/access/furniture/path-skin repair; transition owns
+facility geometry/native tests; Root owns the optional finite-port helper hook;
+feature owns terrain-following lap paint and exact permitted-area union; HUD owns
+metadata-driven facility discovery; QE owns independent motion/regression. The
+saved2,874/0 core is historical evidence for`6610502`, not a completion gate or
+source freeze for these changes. No competing world/player implementation.
 
 ---
 

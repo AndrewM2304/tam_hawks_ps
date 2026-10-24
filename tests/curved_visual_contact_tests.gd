@@ -124,7 +124,8 @@ static func _bowl_flip_return(tree: SceneTree, game: Node, check: Callable) -> v
 		await _frames(tree,1)
 		# The process-frame signal precedes camera processing; measure the actual
 		# completed player/chase update before examining native visibility.
-		await tree.create_timer(0.0).timeout
+		if not (_observer.is_valid() and not _phase.is_empty()):
+			await tree.create_timer(0.0).timeout
 		var body: Vector3 = rider.global_position
 		var head: Vector3 = rider._visual_rig._head.global_position
 		var body_step := body-previous_body

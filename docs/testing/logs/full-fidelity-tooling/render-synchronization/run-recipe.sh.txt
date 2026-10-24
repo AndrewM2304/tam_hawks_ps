@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd /workspace/tam_hawks_ps
+mkdir -p .local/capture-sync-proof
+/usr/lib/xorg/Xorg :96 -config /workspace/tam_hawks_ps/tools/xorg-dummy.conf -logfile /workspace/tam_hawks_ps/.local/capture-sync-proof/xorg.log -noreset -nolisten tcp > .local/capture-sync-proof/xorg-console.log 2>&1 &
+TASK_XPID=$!
+trap 'kill -TERM "$TASK_XPID" 2>/dev/null || true; wait "$TASK_XPID" 2>/dev/null || true' EXIT
+for n in {1..50}; do [[ -S /tmp/.X11-unix/X96 ]] && break; sleep .1; done
+export DISPLAY=:96 LIBGL_ALWAYS_SOFTWARE=1 LP_NUM_THREADS=4
+python3 - <<'PY'
+import pathlib,subprocess,os,sys,signal,time,hashlib,json
+sys.path.insert(0,'tools')
+from full_fidelity_capture_png import PixelSpoolEncoder,decode_proven_rgba8
+output=pathlib.Path('.local/capture-sync-proof');worker=PixelSpoolEncoder(output);worker.start()
+p=subprocess.Popen(['./tools/run.sh','--rendering-method','gl_compatibility','--audio-driver','Dummy','--windowed','--resolution','1280x800','--disable-render-loop','--fixed-fps','60','--script','.local/capture_sync_probe.gd'],env=dict(os.environ,FULL_FIDELITY_RAW_SPOOL='1'),stdout=(output/'engine.log').open('w'),stderr=subprocess.STDOUT,start_new_session=True)
+try:code=p.wait(timeout=180)
+except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGTERM);p.wait(timeout=5);raise
+finally:worker.finish()
+print((output/'engine.log').read_text())
+print('WORKER',worker.frames,worker.max_backlog,worker.total_seconds,'code',code)
+if code:raise SystemExit(code)
+proof=json.loads((output/'proof.json').read_text());checks=[]
+for record in proof['synchronization_proofs']:
+ raw=decode_proven_rgba8((output/record['file']).read_bytes());assert hashlib.sha256(raw).hexdigest()==record['pixels']['rgba8_sha256'];x,y=record['canvas_pixel'];assert list(raw[(y*1280+x)*4:(y*1280+x+1)*4])==record['canvas_expected']
+ for marker in record['markers']:
+  import math
+  px,py=marker['projected_pixel'];hits=[]
+  for y in range(max(0,int(py)-12),min(800,int(py)+13)):
+   for x in range(max(0,int(px)-12),min(1280,int(px)+13)):
+    r,g,b,a=raw[(y*1280+x)*4:(y*1280+x+1)*4]
+    if (r>191 and r-g>51 and r-b>51) if marker['color_channel']=='red' else (g>191 and g-r>51 and g-b>51):hits.append((x+.5,y+.5))
+  error=math.hypot(sum(x for x,y in hits)/len(hits)-px,sum(y for x,y in hits)/len(hits)-py)
+  assert len(hits)>=4 and error<=2.5,(marker,error)
+  checks.append({'id':record['id'],'part':marker['kind'],'actual_pixel_count':len(hits),'centroid_error':error})
+for image in output.rglob('*.png'):decode_proven_rgba8(image.read_bytes())
+(output/'independent-pixel-proof.json').write_text(json.dumps({'all_png_decoded':True,'projected_current_pixels':checks,'worker_frames':worker.frames,'max_backlog':worker.max_backlog,'worker_seconds':worker.total_seconds},indent=2))
+print('INDEPENDENT_PIXEL_PROOF_OK',checks)
+PY

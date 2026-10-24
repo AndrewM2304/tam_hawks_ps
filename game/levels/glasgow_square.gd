@@ -320,11 +320,19 @@ func _build_skating_lines() -> void:
 	_rail("Grind_Rail_Exchange", Vector3(12, 0, 9), 7.5)
 	_rail("Grind_Rail_Tenement", Vector3(-29, 2, -27), 10)
 	_grind_path("Grind_Rail_GallerySteps", PackedVector3Array([
-		Vector3(9.4, 0.92, -3), Vector3(9.4, 2.92, -13), Vector3(9.4, 2.92, -17)]), "rail")
+		Vector3(9.1, 0.92, -3), Vector3(9.1, 2.92, -13), Vector3(9.1, 2.92, -17)]), "rail")
 	for at: Vector3 in [Vector3(-15, 0, 13), Vector3(17, 0, 13)]:
-		_box(self, "CourtPlanterSeat", at + Vector3(0, 0.24, 0), Vector3(1.15, 0.48, 8), "stone", true)
+		var seat := _box(self, "CourtPlanterSeat", at + Vector3(0, 0.24, 0), Vector3(1.15, 0.48, 8), "stone", true) as StaticBody3D
+		# The visible cap overhangs the base50mm and raises its top60mm. It is
+		# real support on this same body, not a second generated ledge identity.
+		var cap_collision := CollisionShape3D.new()
+		var cap_shape := BoxShape3D.new()
+		cap_shape.size = Vector3(1.25,0.06,8.1)
+		cap_collision.shape = cap_shape
+		cap_collision.position.y = 0.27
+		seat.add_child(cap_collision)
 		_box(self, "CourtPlanterCap", at + Vector3(0, 0.51, 0), Vector3(1.25, 0.06, 8.1), "cut_stone")
-	_grind_path("Grind_Ledge_Court", PackedVector3Array([Vector3(-15.6, 0.55, 17), Vector3(-15.6, 0.55, 9)]), "ledge")
+	_grind_path("Grind_Ledge_Court", PackedVector3Array([Vector3(-15.6, 0.56, 17), Vector3(-15.6, 0.56, 9)]), "ledge")
 
 
 func _ramp(ramp_name: String, at: Vector3, width: float, run: float, rise: float, yaw: float) -> void:
@@ -350,6 +358,8 @@ func _rail(rail_id: String, at: Vector3, length: float) -> void:
 	var bar := _box(rail, "RailProp", Vector3(0.0, RAIL_TOP_HEIGHT - 0.07, 0.0), Vector3(0.14, 0.14, length), "coral", true) as StaticBody3D
 	bar.collision_layer = RAIL_COLLISION_LAYER
 	bar.collision_mask = 0
+	bar.set_meta("authored_grind_ids",[rail_id])
+	bar.set_meta("audit_capture_ids",[rail_id])
 	for z: float in [-length / 2.0 + 0.4, length / 2.0 - 0.4]:
 		var post := _box(rail, "RailPost", Vector3(0.0, 0.42, z), Vector3(0.12, 0.84, 0.12), "slate", true) as StaticBody3D
 		# Thin supports cannot catch a rider entering/leaving the authored line.
@@ -836,8 +846,7 @@ func get_support_height(world_position: Vector3, max_step_up: float = 1.0) -> fl
 	var height: float = _terrain.height_at(at.x, at.z, at.y + maxf(0.0, max_step_up))
 	if not is_nan(height): return to_global(Vector3(at.x, height, at.z)).y
 	if is_instance_valid(_outdoors):
-		var outdoor_height: float = _outdoors.get_ground_height(world_position.x, world_position.z)
-		if outdoor_height <= world_position.y + maxf(0.0, max_step_up): return outdoor_height
+		return _outdoors.get_support_height(world_position,max_step_up)
 	return NAN
 
 
@@ -957,12 +966,31 @@ func _grind_path(id: String, points: PackedVector3Array, kind: String = "rail") 
 	batches.transform_format = MultiMesh.TRANSFORM_3D
 	batches.mesh = cylinder
 	batches.instance_count = points.size() - 1
+	var native := StaticBody3D.new()
+	native.name = "NativeGrindBearing"
+	native.collision_layer = RAIL_COLLISION_LAYER
+	native.collision_mask = 0
+	native.set_meta("art_label","NativeGrindBearing")
+	native.set_meta("surface_audio","metal" if kind=="rail" else "stone")
+	native.set_meta("authored_grind_ids",[id])
+	native.set_meta("audit_capture_ids",[id])
+	author.add_child(native)
 	for index: int in range(points.size() - 1):
 		var start := points[index] - Vector3.UP * radius
 		var end := points[index + 1] - Vector3.UP * radius
 		var direction := end - start
-		var basis := Basis(Quaternion(Vector3.UP, direction.normalized())) * Basis.from_scale(Vector3(1, direction.length(), 1))
+		var orientation := Basis(Quaternion(Vector3.UP,direction.normalized()))
+		var basis := orientation * Basis.from_scale(Vector3(1, direction.length(), 1))
 		batches.set_instance_transform(index, Transform3D(basis, (start + end) / 2.0))
+		# Match the existing visible cylinder exactly without nonuniformly
+		# scaling a CollisionShape. Ordinary rider/world collision stays on1|8.
+		var shape := CylinderShape3D.new()
+		shape.radius = radius
+		shape.height = direction.length()
+		var collision := CollisionShape3D.new()
+		collision.shape = shape
+		collision.transform = Transform3D(orientation,(start+end)*0.5)
+		native.add_child(collision)
 	var visual := MultiMeshInstance3D.new()
 	visual.multimesh = batches
 	visual.material_override = _materials["cut_stone" if kind != "rail" else "iron"]
@@ -1047,6 +1075,14 @@ func get_grind_lines() -> Array:
 ## A defensive semantic inventory; live capture still checks actual collision.
 func get_surface_audit() -> Dictionary:
 	return _surface_audit.snapshot()
+
+
+func get_park_skatepark_definition() -> Dictionary:
+	if not is_instance_valid(_outdoors): return {}
+	var definition: Dictionary = _outdoors.get_park_skatepark_definition()
+	if not definition.is_empty():
+		definition.node_path = get_path_to(_outdoors.get_node(definition.node_path))
+	return definition
 
 
 func get_skate_feature_definitions() -> Array[Dictionary]:

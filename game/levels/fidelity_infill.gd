@@ -79,8 +79,15 @@ func density_snapshot() -> Dictionary:
 	var tracks: Array = _world.get_grind_lines()
 	var anchors := get_features()
 	for feature: Dictionary in _world._outdoors.get_skate_feature_definitions():
-		var center: Vector2 = feature.bounds.get_center()
-		anchors.append({"position":Vector3(center.x,feature.floor_y,center.y)})
+		if feature.has("position"):
+			anchors.append({"position":feature.position})
+		elif feature.has("bounds"):
+			var center: Vector2 = feature.bounds.get_center()
+			anchors.append({"position":Vector3(center.x,feature.floor_y,center.y)})
+		elif feature.has("entry"):
+			anchors.append({"position":feature.entry})
+		elif feature.has("approach") and not feature.approach.is_empty():
+			anchors.append({"position":feature.approach[-1]})
 	for route: Dictionary in _world.get_route_definitions():
 		if route.get("requires_jump",false): continue
 		var points: PackedVector3Array = route.points

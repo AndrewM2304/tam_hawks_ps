@@ -1,0 +1,13 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS captured actual native manual one_foot_nose_manual
+PASS native entry/once bank one_foot_nose_manual
+PASS correct weighted and lifted foot one_foot_nose_manual
+PASS complete shoes/reach/continuous first ordinary frame one_foot_nose_manual
+MANUAL_SEMANTICS {"actual_bank":900,"balance":0.107222222222222,"base":450,"correct_entry":true,"entries":2,"expected":"one_foot_nose_manual","expected_bank":900,"feet":[{"actual_grip_distance":0.000899210630450398,"complete_shoe_min":-0.000888705253601074,"functional_sole":"Vector3(-0.01499939, 0.017899513, -0.22000122)","nose_toe_dot":-0.129336282610893,"side":-1.0,"signed_grip":0.000899514183402061,"sole_bearing":0.00020146369934082,"toe_direction":"Vector3(0.9916008, 1.1175871e-08, 0.12933628)"},{"actual_grip_distance":0.159387141466141,"complete_shoe_min":0.158672571182251,"functional_sole":"Vector3(0.07112694, 0.17716455, 0.17962074)","nose_toe_dot":0.131660640239716,"side":1.0,"signed_grip":0.159424838828791,"sole_bearing":0.158672571182251,"toe_direction":"Vector3(0.99129486, -1.8626451e-08, -0.13166064)"}],"final_bails":0,"first_ordinary_marker":0.168800458312035,"floor":true,"full_motion_clearance":-0.00089041143655777,"full_motion_stretch":1.00000047683716,"id":"one_foot_nose_manual","max_all_marker":0.168800458312035,"max_all_relative":0.114281259477139,"max_enter_marker":0.134515419602394,"max_enter_relative":0.114281259477139,"motion_evidence":{"absolute":0.168800458312035,"clearance":-0.00089041143655777,"clearance_peak":{"actual_surface_y":0.0187901258468628,"board_vertex":"Vector3(-0.08728409, 0.017899714, -0.2842121)","foot":"FrontFoot","frame":14,"phase":"exit","shoe_vertex":"Vector3(-0.05430031, -0.060500026, 0.07999992)"},"frame":39,"phase":"exit","relative":0.114281259477139,"relative_peak":{"delta":"Vector3(-0.10931778, 0.014061689, 0.030200958)","frame":0,"marker_index":0,"phase":"entry"},"stretch":1.00000047683716},"native_bails":0,"pending":0,"rest":0.0,"reversed":false,"shoe_min":-0.000888705253601074,"stretch":1.00000011920929}
+PASS Rig source unchanged during native probe
+PASS all nine scoped native capture inputs unchanged
+MANUAL_SEMANTICS_CHECKS 6 passed 0 failed

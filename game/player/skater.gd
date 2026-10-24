@@ -525,6 +525,87 @@ func _native_floor_hit(normal: Vector3) -> Dictionary:
 	return get_world_3d().direct_space_state.intersect_ray(query)
 
 
+func _native_board_floor() -> Dictionary:
+	# Rounded capsule contact at a short step can report a much steeper normal
+	# than the actual wheelbase. Fit the presentation to four finite native
+	# supports only in that ambiguous case. Physics keeps its original normal.
+	var center := _native_floor_hit(Vector3.UP)
+	if center.is_empty() or Vector3(center.normal).y < cos(floor_max_angle): return {}
+	var axis: Vector3 = center.normal
+	var point := global_position-axis*(global_position-Vector3(center.position)).dot(axis)
+	var space := get_world_3d().direct_space_state
+	# Re-probe after fitting: pitching the board changes the projected wheel
+	# locations slightly at a bank or a six-centimetre path/apron join.
+	for pass_index in 3:
+		var local_axis: Vector3 = global_basis.inverse()*axis
+		var frame := global_basis*Basis.from_euler(Vector3(atan2(local_axis.z,local_axis.y),0,
+			-asin(clampf(local_axis.x,-1,1))))
+		var samples := PackedVector3Array()
+		var same_plane := pass_index==0 and axis.dot(_native_floor_normal())>0.999
+		var front := Vector3.ZERO
+		var rear := Vector3.ZERO
+		var left := Vector3.ZERO
+		var right := Vector3.ZERO
+		for child: Node in _board_visual.get_children():
+			if not child is MeshInstance3D or not child.mesh is CylinderMesh: continue
+			var wheel: CylinderMesh = child.mesh
+			if not is_equal_approx(wheel.top_radius,0.032) or not is_equal_approx(wheel.height,0.032): continue
+			# Probe the real centre, including board height, axle height and the
+			# presentation skin. Flattening its localY shifts XZ on a bank and
+			# can select the wrong side of a short step by a few millimetres.
+			var bearing: Vector3 = point+axis*0.008+frame*(_visual_rig._board_rest_position+child.position)
+			var query := PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50,collision_mask)
+			query.exclude = [get_rid()]
+			var hit := space.intersect_ray(query)
+			if hit.is_empty() or Vector3(hit.normal).y<cos(floor_max_angle): return {}
+			var support: Vector3 = hit.position
+			same_plane = same_plane and Vector3(hit.normal).dot(axis)>0.999 \
+				and absf((support-Vector3(center.position)).dot(axis))<=0.001
+			samples.append(support)
+			if child.position.z<0: front+=support
+			else: rear+=support
+			if child.position.x<0: left+=support
+			else: right+=support
+		if samples.size()!=4: return {}
+		# Preserve the established planar-floor pose exactly. A wheel can reach
+		# a short step before the rounded capsule does, even if their centre
+		# normals still agree, so verify all four locations before this shortcut.
+		if same_plane: return {}
+		axis = (rear-front).cross(right-left).normalized()
+		if axis.y<cos(floor_max_angle): return {}
+		var average := (front+rear)*0.25
+		var clearance := 0.0
+		for sample: Vector3 in samples:
+			clearance = maxf(clearance,(sample-average).dot(axis))
+		# A slightly twisted four-point patch cannot touch every rigid wheel at
+		# once. Keep the fitted bearing above every sampled solid, never inside.
+		point = global_position-axis*((global_position-average).dot(axis)-clearance)
+	# Verify the resulting actual tyre volumes against their finite native
+	# supports. A final vertical correction cannot change which side of the
+	# step each wheel occupies, unlike another normal-offset iteration.
+	var final_axis: Vector3 = global_basis.inverse()*axis
+	var final_frame := global_basis*Basis.from_euler(Vector3(atan2(final_axis.z,final_axis.y),0,
+		-asin(clampf(final_axis.x,-1,1))))
+	var lift := 0.0
+	for child: Node in _board_visual.get_children():
+		if not child is MeshInstance3D or not child.mesh is CylinderMesh: continue
+		var wheel: CylinderMesh = child.mesh
+		if not is_equal_approx(wheel.top_radius,0.032) or not is_equal_approx(wheel.height,0.032): continue
+		var bearing: Vector3 = point+axis*0.008+final_frame*(_visual_rig._board_rest_position+child.position)
+		var query := PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50,collision_mask)
+		query.exclude = [get_rid()]
+		var hit := space.intersect_ray(query)
+		if hit.is_empty() or Vector3(hit.normal).y<cos(floor_max_angle): return {}
+		var wheel_axis: Vector3 = (final_frame*child.basis.y).normalized()
+		var along := clampf(absf(wheel_axis.dot(hit.normal)),0,1)
+		var extent := wheel.height*0.5*along+wheel.top_radius*sqrt(1-along*along)
+		var gap := (bearing-Vector3(hit.position)).dot(hit.normal)-extent
+		lift = maxf(lift,(0.008-gap)/Vector3(hit.normal).y)
+	if lift>0.10: return {}
+	point.y += lift
+	return {"position":point,"normal":axis}
+
+
 func set_presentation_settings(camera_sensitivity: float, reduced_motion: bool) -> void:
 	_camera_sensitivity = clampf(camera_sensitivity, 0.5, 2.0) if is_finite(camera_sensitivity) else 1.0
 	_reduced_motion = reduced_motion
@@ -769,6 +850,11 @@ func _physics_process(delta: float) -> void:
 	var previous_carry_ready := _native_platform_ready
 	var arriving_from_air := airborne
 	move_and_slide()
+	# Uphill tangent velocity suppresses Godot's automatic snap at convex
+	# triangle joins. Keep an existing non-jumping ground ride on the actual
+	# finite floor; otherwise tiny facet lifts manufacture fresh landings.
+	if grounded_before and not airborne and not is_on_floor():
+		apply_floor_snap()
 	_restore_platform_after_move()
 	if is_on_floor():
 		var contact_direction := (-global_basis.z).slide(_native_floor_normal()).normalized()
@@ -1194,7 +1280,39 @@ func _rail_path_clear(from: Vector3, to: Vector3) -> bool:
 	start.origin = from
 	# Sweep the real rider capsule against ordinary scenery, including overlap
 	# recovery. Rail-only props are layer 2; world obstacles remain layer 1.
-	return not test_move(start, to - from, null, safe_margin, true)
+	var contact := KinematicCollision3D.new()
+	if not test_move(start,to-from,contact,safe_margin,true,16): return true
+	# A real supporting top can be inside the15mm safety shell without
+	# intersecting the capsule itself. That floor proximity is legal on a low
+	# bridge rail or sloped hubba; walls and ceilings keep the original margin.
+	if not _rail_floor_contacts_only(contact): return false
+	var collision := get_node("BodyCollision") as CollisionShape3D
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = collision.shape
+	query.transform = start*collision.transform
+	query.motion = to-from
+	query.collision_mask = collision_mask
+	query.exclude = [get_rid()]
+	query.margin = 0.0
+	var sweep := get_world_3d().direct_space_state.cast_motion(query)
+	if sweep.size()!=2 or sweep[0]<0.9999: return false
+	# cast_motion ignores initial overlap. Independently prove both endpoint
+	# volumes have only resting floor contact within the native1mm margin.
+	for endpoint: Vector3 in [from,to]:
+		var transform := start
+		transform.origin = endpoint
+		var resting := KinematicCollision3D.new()
+		if test_move(transform,Vector3.ZERO,resting,0.001,true,16):
+			if not _rail_floor_contacts_only(resting) or not is_finite(resting.get_depth()) \
+					or resting.get_depth()>0.001 or resting.get_travel().length()>0.002: return false
+	return true
+
+
+func _rail_floor_contacts_only(contact: KinematicCollision3D) -> bool:
+	for index in contact.get_collision_count():
+		var normal := contact.get_normal(index)
+		if not normal.is_finite() or normal.y<cos(floor_max_angle): return false
+	return contact.get_collision_count()>0
 
 
 func _align_to_travel() -> void:
@@ -1342,7 +1460,7 @@ func _update_pose(delta: float) -> void:
 	# Lean the visible board into slopes without pitching the upright collision.
 	var desired_pitch := 0.0
 	if grinding:
-		desired_pitch = atan2(velocity.y, Vector2(velocity.x, velocity.z).length())
+		desired_pitch = atan2(velocity.y * (-1.0 if _rail_backwards else 1.0), Vector2(velocity.x, velocity.z).length())
 	elif lip_active:
 		desired_pitch = 0.0
 	elif transition_active:
@@ -1354,11 +1472,15 @@ func _update_pose(delta: float) -> void:
 	var curved_support: bool = transition_active and _transition.state == "surface"
 	var native_support := _native_floor_valid and not transition_active and is_on_floor() and not grinding and not wallriding \
 		and (bail_active or (not airborne and not _force_air_tick))
+	var board_floor := _native_board_floor() if native_support and not bail_active and not setup_active \
+		and not manual_active and not skitching else {}
 	if curved_support or native_support:
 		# Keep the visible wheels in the real support frame. Pitch-only lag made
 		# neutral bowl carving and ordinary cross-slopes penetrate on one side
 		# and float on the other despite correct native capsule contact.
-		var contact_normal: Vector3 = (global_basis.inverse() * (_native_floor_normal() if native_support else _transition.normal)).normalized()
+		var ground_normal: Vector3 = _transition.normal if curved_support \
+			else (board_floor.normal if not board_floor.is_empty() else _native_floor_normal())
+		var contact_normal: Vector3 = (global_basis.inverse() * ground_normal).normalized()
 		if Vector2(contact_normal.y, contact_normal.z).length_squared() > 0.00000001:
 			_surface_pitch = atan2(contact_normal.z, contact_normal.y)
 		var contact_roll := -asin(clampf(contact_normal.x, -1.0, 1.0))
@@ -1366,8 +1488,19 @@ func _update_pose(delta: float) -> void:
 		_air_support_basis = support_basis
 		_visual.basis = support_basis * Basis(Vector3.UP, _spin_angle - PI * (_revert_pose_remaining / REVERT_DURATION))
 	else:
-		_surface_pitch = lerpf(_surface_pitch, desired_pitch, 1.0 - exp(-14.0 * delta))
-		_visual.rotation.x = _surface_pitch
+		# The board's bearing is already on the finite rail. Its longitudinal
+		# frame must agree on the first caught frame and an actual 180 pivot;
+		# delaying pitch would drive a truck through the slope while it turns.
+		if grinding:
+			_surface_pitch = desired_pitch
+			# Turn the visible pivot within the rail plane. World-up yaw before
+			# tilt would rotate the board out of a sloped bearing surface.
+			_visual.basis = Basis(Vector3.RIGHT,_surface_pitch) \
+				* Basis(Vector3.UP,_spin_angle-PI*(_revert_pose_remaining/REVERT_DURATION)) \
+				* Basis(Vector3.BACK,-grind_balance*0.35)
+		else:
+			_surface_pitch = lerpf(_surface_pitch, desired_pitch, 1.0 - exp(-14.0 * delta))
+			_visual.rotation.x = _surface_pitch
 	var air_visual_offset := Vector3.ZERO
 	if airborne and not grinding and not wallriding and not bail_active:
 		# Read the finite native surface below the flight. Anticipating that
@@ -1401,11 +1534,8 @@ func _update_pose(delta: float) -> void:
 		# An upright capsule's rounded end lifts its origin on steep floors.
 		# Place only the presentation at the actual native support plane before
 		# solving planted feet and palms; never move the physical player for it.
-		var support_normal := _native_floor_normal()
-		var support_query := PhysicsRayQueryParameters3D.create(global_position + support_normal * 0.35,
-			global_position - support_normal * 0.6, collision_mask)
-		support_query.exclude = [get_rid()]
-		var floor_hit := get_world_3d().direct_space_state.intersect_ray(support_query)
+		var support_normal: Vector3 = board_floor.normal if not board_floor.is_empty() else _native_floor_normal()
+		var floor_hit := board_floor if not board_floor.is_empty() else _native_floor_hit(support_normal)
 		if not floor_hit.is_empty() and Vector3(floor_hit.normal).dot(support_normal) > 0.98:
 			_visual.position = global_basis.inverse() * (Vector3(floor_hit.position) + support_normal * 0.008 - global_position)
 	if _special_remaining > 0.0:

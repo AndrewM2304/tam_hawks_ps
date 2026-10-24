@@ -111,6 +111,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	await _lap_routes(tree, check)
 	await _lap_lifecycle(tree, check)
 	await _lap_late_pop(tree, check)
+	await _lap_facility_regions(tree, check)
 	await _cone_flight(tree, check)
 	await _cone_guards(tree, check)
 	await _cone_miss_recovery(tree, check)
@@ -182,8 +183,104 @@ static func run_main(tree: SceneTree, game: Node, check: Callable, observer: Cal
 	check.call(not status.turning and status.turn_blocked.is_empty() and status.wait==0.0
 		and status.phase=="cruise" and cart.global_position.distance_to(path[0])<0.08,
 		"remaining Main: restart clears the old endpoint rotation and native safety holds")
+	await _lap_native_paint(tree,game,check)
 	_main_observer = Callable()
 	_main_game = null
+
+static func _lap_native_paint(tree: SceneTree, game: Node, check: Callable) -> void:
+	await _frames(tree,2)
+	var lap: Node3D = game.feature_hub.park_lap
+	var space := lap.get_world_3d().direct_space_state
+	var checked := 0
+	for mark: Node3D in lap._markers:
+		var paint: MeshInstance3D = mark.get_node("PaintedGate")
+		var ready := paint.mesh is ArrayMesh and paint.mesh.get_surface_count()==1
+		if not ready:
+			check.call(false,"park paint: every actual gate has a native-fitted paint mesh at %s"%mark.global_position)
+			continue
+		var arrays: Array = paint.mesh.surface_get_arrays(0)
+		var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+		var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
+		var finite := vertices.size()>1000 and indices.size()>3000
+		var vertex_low := INF
+		var vertex_high := -INF
+		var interior_low := INF
+		var interior_high := -INF
+		var outer := 0.0
+		var inner := INF
+		var longest := 0.0
+		for vertex: Vector3 in vertices:
+			var at := paint.to_global(vertex)
+			var height := _paint_ground(space,at)
+			finite = finite and vertex.is_finite() and is_finite(height)
+			var gap := at.y-height
+			vertex_low = minf(vertex_low,gap)
+			vertex_high = maxf(vertex_high,gap)
+			var radius := Vector2(vertex.x,vertex.z).length()
+			outer = maxf(outer,radius)
+			inner = minf(inner,radius)
+		for index in range(0,indices.size(),3):
+			var a := paint.to_global(vertices[indices[index]])
+			var b := paint.to_global(vertices[indices[index+1]])
+			var c := paint.to_global(vertices[indices[index+2]])
+			longest = maxf(longest,maxf(a.distance_to(b),maxf(b.distance_to(c),c.distance_to(a))))
+			# Independent interior samples also catch a triangle chord that floats
+			# or cuts into a terrain seam despite correct endpoint heights.
+			for weights: Vector3 in [Vector3(1.0/3.0,1.0/3.0,1.0/3.0),Vector3(0.6,0.2,0.2),Vector3(0.2,0.6,0.2),Vector3(0.2,0.2,0.6)]:
+				var at := a*weights.x+b*weights.y+c*weights.z
+				var height := _paint_ground(space,at)
+				finite = finite and is_finite(height)
+				interior_low = minf(interior_low,at.y-height)
+				interior_high = maxf(interior_high,at.y-height)
+		print("PARK PAINT at=%s vertices=%d triangles=%d vertex_mm=[%.3f,%.3f] interior_mm=[%.3f,%.3f] edge=%.5f skipped=%d"%[
+			mark.global_position,vertices.size(),indices.size()/3,vertex_low*1000.0,vertex_high*1000.0,
+			interior_low*1000.0,interior_high*1000.0,longest,paint.get_meta("paint_skipped_triangles",-1)])
+		check.call(finite and vertex_low>0.0085 and vertex_high<0.0095 and interior_low>0.006 and interior_high<0.012,
+			"park paint: actual gate %s vertices and triangle interiors stay on native ground with a thin paint skin"%mark.global_position)
+		check.call(absf(outer-LapChallenge.GATE_RADIUS)<0.001 and inner>1.1 and longest<0.14
+			and mark.find_children("*","CollisionObject3D",true,false).is_empty(),
+			"park paint: actual gate %s is a fine hollow ring with chevrons and no added collision"%mark.global_position)
+		checked += 1
+	check.call(checked==9,"park paint: all nine distinct gates across both unchanged real park routes are audited")
+
+static func _paint_ground(space: PhysicsDirectSpaceState3D, at: Vector3) -> float:
+	var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(at+Vector3.UP*0.20,at-Vector3.UP*0.20,1))
+	return Vector3(hit.position).y if not hit.is_empty() else NAN
+
+## Actual-world binding checks complement the continuous native-driver visit
+## fixtures and the independent production-skater facility journey.
+static func run_park_regions_main(tree: SceneTree, game: Node, check: Callable) -> void:
+	await _frames(tree,2)
+	var facility: Dictionary = {}
+	if game.world.has_method("get_park_skatepark_definition"):
+		facility = game.world.get_park_skatepark_definition()
+	var available := facility.get("bounds") is Rect2 and facility.get("access_bounds") is Rect2 \
+		and is_finite(float(facility.get("rim_y",NAN)))
+	check.call(available,"park lap Main: the real installed facility publishes its exact bounds, access and rim datum")
+	if not available: return
+	var lap: Node3D = game.feature_hub.park_lap
+	var bounds: Rect2 = facility.bounds
+	var access: Rect2 = facility.access_bounds
+	var regions: Array = lap.status_snapshot().attempt_regions
+	var original := Rect2(-225,-190,90,125)
+	check.call(regions.size()==3 and regions[0]==original
+		and regions.has(bounds.grow(LapChallenge.ATTEMPT_BODY_MARGIN))
+		and regions.has(access.grow(LapChallenge.ATTEMPT_BODY_MARGIN)),
+		"park lap Main: FeatureHub retains the original attempt area and binds only the declared facility/access regions")
+	var outside_original := 0
+	for x_fraction: float in [0.025,0.50,0.90]:
+		for z_fraction: float in [0.10,0.50,0.90]:
+			var at := Vector3(lerpf(bounds.position.x,bounds.end.x,x_fraction),float(facility.rim_y),
+				lerpf(bounds.position.y,bounds.end.y,z_fraction))
+			var ray := PhysicsRayQueryParameters3D.create(at+Vector3.UP*6.0,at-Vector3.UP*20.0,1)
+			var hit: Dictionary = game.world.get_world_3d().direct_space_state.intersect_ray(ray)
+			var supported: bool = not hit.is_empty() and Vector3(hit.position).is_finite()
+			if not original.has_point(Vector2(at.x,at.z)): outside_original += 1
+			check.call(supported and lap.is_in_attempt_area(Vector3(hit.position) if supported else Vector3.INF),
+				"park lap Main: actual native facility support at %s stays inside the permitted lap area"%at)
+	var unrelated := Vector3(bounds.position.x+0.10,0,original.end.y-1.0)
+	check.call(outside_original>=3 and not lap.is_in_attempt_area(unrelated),
+		"park lap Main: the real extension covers new park ground without admitting unrelated bounding-box corners")
 
 static func _main_frames(tree: SceneTree, count: int) -> void:
 	for frame in count:
@@ -793,6 +890,65 @@ static func _lap_late_pop(tree: SceneTree, check: Callable) -> void:
 		and lap.status_snapshot().hud_text=="ONE MORE LAP · CLEAN FINISH"
 		and lap.status_snapshot().navigation_targets.is_empty(),
 		"park lap: a real late pop, clean landing and return replace the stale instruction with one successful finish")
+	await _dispose(tree,fixture.root)
+
+static func _lap_facility_regions(tree: SceneTree, check: Callable) -> void:
+	for branch_index in 2:
+		var fixture := await _lap_fixture(tree)
+		var rider: ActivityDriver = fixture.rider
+		var lap: Node3D = fixture.lap
+		var before: Array = lap.status_snapshot().branches.duplicate(true)
+		var site := Rect2(Vector2(fixture.root.global_position.x-29,fixture.root.global_position.z-35),Vector2(12,12))
+		var access := Rect2(Vector2(fixture.root.global_position.x-21,fixture.root.global_position.z-26),Vector2(6,9))
+		lap.set_attempt_regions([site,access])
+		rider.interact = true
+		await _frames(tree,1)
+		# A declared physical extension of the same native floor is reached by
+		# actual continuous capsule travel, without skipping a numbered gate.
+		for at: Vector3 in [Vector3(-16,0,10),Vector3(-16,0,-18),Vector3(-18,0,-24),Vector3(-23,0,-29)]:
+			await _drive_activity(tree,rider,fixture.root.global_position+at)
+		rider.desired = Vector3.ZERO
+		check.call(rider.is_on_floor() and lap.status_snapshot().state=="active"
+			and lap.status_snapshot().branch==-1 and lap.status_snapshot().remaining>0.0,
+			"park lap: branch %d keeps its active attempt through native traversal of the added facility and access"%branch_index)
+		rider.pop = true
+		await _frames(tree,2)
+		for frame in 90:
+			await _frames(tree,1)
+			if not rider.airborne: break
+		await _frames(tree,24)
+		check.call(rider.pops==1 and rider.is_on_floor() and lap.status_snapshot().landed_pop
+			and lap.status_snapshot().state=="active" and rider.score.total_score==100,
+			"park lap: a real pop and clean landing in the permitted facility qualify normally without failing the attempt")
+		for at: Vector3 in [Vector3(-18,0,-24),Vector3(-16,0,-18),Vector3(-16,0,10),Vector3(0,0,10)]:
+			await _drive_activity(tree,rider,fixture.root.global_position+at)
+		for target: Vector3 in lap.status_snapshot().branches[branch_index].points:
+			await _drive_activity(tree,rider,target)
+		await _drive_activity(tree,rider,fixture.anchor)
+		rider.desired = Vector3.ZERO
+		await _frames(tree,2)
+		check.call(lap.status_snapshot().state=="success" and lap.status_snapshot().wins==1
+			and lap.status_snapshot().branch==branch_index and lap.status_snapshot().branches==before
+			and rider.score.total_score==100,
+			"park lap: visiting the native facility preserves original branch %d order, clean finish and once-only score"%branch_index)
+		await _dispose(tree,fixture.root)
+	var fixture := await _lap_fixture(tree)
+	var lap: Node3D = fixture.lap
+	var rider: ActivityDriver = fixture.rider
+	var site := Rect2(Vector2(fixture.root.global_position.x-29,fixture.root.global_position.z-35),Vector2(12,12))
+	var access := Rect2(Vector2(fixture.root.global_position.x-21,fixture.root.global_position.z-26),Vector2(6,9))
+	lap.set_attempt_regions([site,access])
+	rider.interact = true
+	await _frames(tree,1)
+	await _drive_activity(tree,rider,fixture.root.global_position+Vector3(-25,0,10))
+	rider.desired = Vector3.ZERO
+	check.call(lap.status_snapshot().state=="failed" and lap.status_snapshot().wins==0 and rider.score.total_score==0,
+		"park lap: an unrelated corner of the facility bounding rectangle remains outside the allowed park union")
+	lap.reset_run()
+	check.call(lap.is_in_attempt_area(fixture.root.global_position+Vector3(-29.3,0,-29))
+		and not lap.is_in_attempt_area(fixture.root.global_position+Vector3(-29.5,0,-29))
+		and lap.status_snapshot().attempt_regions.size()==3,
+		"park lap: restart preserves only declared extra park areas with a bounded body margin")
 	await _dispose(tree,fixture.root)
 
 static func _cone_flight(tree: SceneTree, check: Callable) -> void:

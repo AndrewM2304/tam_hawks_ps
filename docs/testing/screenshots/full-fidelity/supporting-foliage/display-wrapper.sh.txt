@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+TASK_ROOT="/workspace/tam_hawks_ps"
+TASK_DISPLAY_PID=""
+cleanup() {
+  if [[ -n "$TASK_DISPLAY_PID" ]]; then
+    kill -TERM "$TASK_DISPLAY_PID" 2>/dev/null || true
+    for attempt in {1..10}; do
+      kill -0 "$TASK_DISPLAY_PID" 2>/dev/null || break
+      sleep 0.1
+    done
+    kill -KILL "$TASK_DISPLAY_PID" 2>/dev/null || true
+    wait "$TASK_DISPLAY_PID" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+: > "$TASK_ROOT/.local/pose-polish-display"
+/usr/lib/xorg/Xorg -displayfd 3 -config "$TASK_ROOT/tools/xorg-dummy.conf" \
+  -logfile "$TASK_ROOT/.local/pose-polish-xorg.log" -noreset -nolisten tcp \
+  3>"$TASK_ROOT/.local/pose-polish-display" >"$TASK_ROOT/.local/pose-polish-xorg-console.log" 2>&1 &
+TASK_DISPLAY_PID=$!
+for attempt in {1..50}; do
+  [[ -s "$TASK_ROOT/.local/pose-polish-display" ]] && break
+  sleep 0.1
+done
+[[ -s "$TASK_ROOT/.local/pose-polish-display" ]]
+export DISPLAY=":$(cat "$TASK_ROOT/.local/pose-polish-display")"
+export LIBGL_ALWAYS_SOFTWARE=1
+cd "$TASK_ROOT"
+./tools/run.sh --audio-driver Dummy --disable-render-loop --fixed-fps 60 --script "${1:-.local/pose_polish_capture.gd}"

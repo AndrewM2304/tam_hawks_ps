@@ -1,0 +1,241 @@
+extends SceneTree
+const Catalog=preload('res://game/tricks/trick_catalog.gd')
+const Main=preload('res://game/main.gd')
+const Native=preload('res://tests/authentic_fidelity_integration_tests.gd')
+const Contact=preload('res://tests/full_repertoire_tests.gd')
+const Pose=preload('res://tests/authentic_pose_tests.gd')
+const SOLE=Vector3(0,-.0605,0)
+var game:Node
+var rows:Array=[]
+var prefix:='after'
+var grid:Dictionary={}
+var indexed_faces:=PackedVector3Array()
+var shoe_points:Array=[]
+var checks:=0
+var failures:=0
+var source_before:=''
+var capture_inputs:Dictionary={}
+var captured:Array=[]
+var inspection_camera:Camera3D
+func _initialize()->void:_run.call_deferred()
+func _frames(count:int)->void:
+ for i in count:
+  await physics_frame
+  await process_frame
+func _release()->void:
+ for action in InputMap.get_actions():Input.action_release(action)
+func _snapshot()->Dictionary:
+ var rig=game.skater._visual_rig
+ var board:Node3D=game.skater._board_visual
+ var forward=Basis(Vector3.UP,float(game.skater._deck_yaw))
+ var grip:MeshInstance3D=board.get_node('Griptape')
+ var faces:PackedVector3Array=grip.mesh.get_faces()
+ var feet=[]
+ var clearance=INF
+ for leg:Dictionary in rig._legs:
+  var sole:Vector3=leg.foot.to_global(SOLE)
+  var local:Vector3=board.to_local(sole)
+  var y=Pose._triangle_height(faces,local)
+  var toe_dir:Vector3=(forward*board.global_basis.inverse()*-leg.foot.global_basis.z).normalized()
+  var complete=INF
+  var bearing=INF
+  for point:Dictionary in shoe_points:
+   if point.foot!=leg.foot:continue
+   var p:Vector3=board.to_local(leg.foot.to_global(point.local))
+   var h=_surface_height(p)
+   if is_finite(h):
+    complete=minf(complete,p.y-h)
+    if point.bottom:bearing=minf(bearing,absf(p.y-h))
+  clearance=minf(clearance,complete)
+  feet.append({'side':leg.side,'functional_sole':var_to_str(forward*local),'signed_grip':local.y-y if is_finite(y) else 999.0,'actual_grip_distance':Contact._surface_distance(sole,[grip]),'toe_direction':var_to_str(toe_dir),'nose_toe_dot':toe_dir.dot(Vector3.FORWARD),'complete_shoe_min':complete,'sole_bearing':bearing})
+ return {'id':game.skater.manual_trick_id,'rest':game.skater._deck_yaw,'feet':feet,'shoe_min':clearance,'stretch':Pose._max_stretch(rig),'floor':game.skater.is_on_floor(),'entries':game.score.combo_trick_count,'base':game.score.combo_base,'balance':game.skater.manual_balance}
+func _check(ok:bool,label:String)->void:
+ checks+=1
+ if not ok:failures+=1
+ print(('PASS ' if ok else 'FAIL ')+label)
+func _prepare_geometry()->void:
+ grid.clear();indexed_faces.clear();shoe_points.clear()
+ var board:Node3D=game.skater._board_visual
+ for name:String in ['Griptape','CurvedMapleDeck']:
+  var mesh:MeshInstance3D=board.get_node(name)
+  for v:Vector3 in mesh.mesh.get_faces():indexed_faces.append(board.to_local(mesh.to_global(v)))
+ for i in range(0,indexed_faces.size(),3):
+  var lo=Vector2(INF,INF);var hi=Vector2(-INF,-INF)
+  for j in 3:
+   var p=indexed_faces[i+j];lo=lo.min(Vector2(p.x,p.z));hi=hi.max(Vector2(p.x,p.z))
+  for x in range(floori(lo.x/.02),floori(hi.x/.02)+1):
+   for z in range(floori(lo.y/.02),floori(hi.y/.02)+1):
+    var key=Vector2i(x,z)
+    if not grid.has(key):grid[key]=[]
+    grid[key].append(i)
+ for leg:Dictionary in game.skater._visual_rig._legs:
+  var unique={}
+  for name:String in ['Cupsole','CanvasUpper']:
+   var mesh:MeshInstance3D=leg.foot.get_node(name)
+   for v:Vector3 in mesh.mesh.get_faces():
+    var p:Vector3=leg.foot.to_local(mesh.to_global(v))
+    unique[p]=is_equal_approx(p.y,-.0605)
+  for p:Vector3 in unique:shoe_points.append({'foot':leg.foot,'local':p,'bottom':unique[p]})
+func _surface_height(p:Vector3)->float:
+ var height=-INF
+ for i:int in grid.get(Vector2i(floori(p.x/.02),floori(p.z/.02)),[]):
+  var hit=Geometry3D.ray_intersects_triangle(Vector3(p.x,2,p.z),Vector3.DOWN,indexed_faces[i],indexed_faces[i+1],indexed_faces[i+2])
+  if hit is Vector3:height=maxf(height,hit.y)
+ return height
+func _motion_sample(previous:Array[Vector3],previous_body:Vector3,metrics:Dictionary)->Array:
+ var markers:Array[Vector3]=Native._markers(game)
+ var shift:Vector3=game.skater.global_position-previous_body
+ metrics.absolute=maxf(metrics.absolute,Native._marker_distance(previous,markers))
+ for i in markers.size():
+  var relative=(markers[i]-previous[i]-shift).length()
+  if relative>metrics.relative:
+   metrics.relative=relative
+   metrics.relative_peak={'phase':metrics.phase,'frame':metrics.frame,'marker_index':i,'delta':var_to_str(markers[i]-previous[i]-shift)}
+ var board:Node3D=game.skater._board_visual
+ for point:Dictionary in shoe_points:
+  var p:Vector3=board.to_local(point.foot.to_global(point.local))
+  var h=_surface_height(p)
+  if is_finite(h) and p.y-h<metrics.clearance:
+   metrics.clearance=p.y-h
+   metrics.clearance_peak={'phase':metrics.phase,'frame':metrics.frame,'foot':str(point.foot.name),'shoe_vertex':var_to_str(point.local),'board_vertex':var_to_str(p),'actual_surface_y':h}
+ metrics.stretch=maxf(metrics.stretch,Pose._max_stretch(game.skater._visual_rig))
+ return markers
+func _capture_hashes()->Dictionary:
+ var result={}
+ for path:String in ['game/player/skater_visual.gd','game/player/skater.gd','game/player/skater_footwear.gd','game/player/skater_anatomy.gd','game/player/skater_garments.gd','game/tricks/trick_catalog.gd','game/main.gd','project.godot','.local/manual_semantics_native_probe.gd']:
+  result[path]=FileAccess.get_sha256('res://'+path)
+ return result
+func _capture_pose(id:String)->void:
+ if not is_instance_valid(inspection_camera):
+  inspection_camera=Camera3D.new();inspection_camera.fov=44;inspection_camera.near=.03;root.add_child(inspection_camera)
+ var board:Node3D=game.skater._board_visual
+ var center:Vector3=board.global_position
+ var offset=Vector3(1.06,.44,.12)
+ var aim=Vector3(0,.20,0)
+ if id=='hang_ten':offset=Vector3(.76,.56,-.90);aim=Vector3(0,.14,-.13)
+ var physics_was_enabled:bool=game.skater.is_physics_processing()
+ var process_was_enabled:bool=game.skater.is_processing()
+ game.skater.set_physics_process(false);game.skater.set_process(false)
+ inspection_camera.global_position=center+game.skater.global_basis*offset
+ inspection_camera.look_at(center+game.skater.global_basis*aim)
+ inspection_camera.current=true
+ game.hud.visible=false
+ await process_frame
+ await process_frame
+ RenderingServer.force_draw(true,1.0/60.0)
+ var capture_id=id+'-profile' if prefix=='profile' else id
+ var path='res://.local/manual-semantics-capture/'+capture_id+'.png'
+ _check(root.get_texture().get_image().save_png(path)==OK,'captured actual native manual '+id)
+ var pixels=[]
+ for leg:Dictionary in game.skater._visual_rig._legs:
+  var sole:Vector3=leg.foot.to_global(SOLE)
+  var local:Vector3=board.to_local(sole)
+  var grip:MeshInstance3D=board.get_node('Griptape')
+  var y=Pose._triangle_height(grip.mesh.get_faces(),local)
+  pixels.append({'side':leg.side,'sole_pixel':var_to_str(inspection_camera.unproject_position(sole)),'sole_world':var_to_str(sole),'sole_board_local':var_to_str(local),'actual_griptape_distance':Contact._surface_distance(sole,[grip]),'signed_grip_gap':local.y-y})
+ captured.append({'id':capture_id,'path':path,'sha256':FileAccess.get_sha256(path),'offset':var_to_str(offset),'aim':var_to_str(aim),'actual_native_id':game.skater.manual_trick_id,'sole_pixels':pixels,'inspection_hold_render_frames':2,'native_floor':game.skater.is_on_floor(),'actual_captured_balance':game.skater.manual_balance})
+ inspection_camera.current=false;game.skater._camera.current=true
+ game.skater.set_physics_process(physics_was_enabled);game.skater.set_process(process_was_enabled)
+func _run()->void:
+ source_before=FileAccess.get_sha256('res://game/player/skater_visual.gd')
+ var args=OS.get_cmdline_user_args()
+ if args.size()>0:prefix=args[0]
+ elif DisplayServer.get_name()!='headless':prefix='profile'
+ if prefix in ['capture','profile']:
+  root.size=Vector2i(1280,800);DirAccess.make_dir_recursive_absolute('res://.local/manual-semantics-capture');capture_inputs=_capture_hashes()
+ game=Main.new();game.persistence_enabled=false;root.add_child(game)
+ await process_frame
+ game.start_mode(true)
+ var selections=[['one_foot_manual','flip',false,false],['one_foot_nose_manual','flip',true,false],['hang_ten','grab',true,false],['one_foot_manual','flip',false,true],['one_foot_nose_manual','flip',true,true],['hang_ten','grab',true,true]]
+ if prefix=='profile':selections=[['one_foot_nose_manual','flip',true,false]]
+ for selection:Array in selections:
+  _release();game.restart_run();await _frames(30)
+  var evidence={'bails':0,'banks':0}
+  var cb=func():evidence.bails+=1
+  game.skater.bailed.connect(cb)
+  Input.action_press('push');await _frames(42)
+  Input.action_release('push');await _frames(13)
+  if selection[3]:
+   Input.action_press('ollie');await _frames(2);Input.action_release('ollie');await _frames(1)
+   Input.action_press('brake');Input.action_press('flip');await _frames(1)
+   Input.action_release('flip');Input.action_release('brake')
+   for frame in 90:
+    await _frames(1)
+    if game.skater.airborne and game.skater.velocity.y < -1.0 and game.skater.global_position.y < .70:
+     Input.action_press('push');Input.action_press('manual');break
+   for frame in 40:
+    await _frames(1)
+    if game.skater.manual_active or game.skater.bail_active:break
+   Input.action_release('push')
+   _check(game.skater.manual_active and absf(absf(game.skater._deck_yaw)-PI)<.01 and game.score.combo_trick_count==3 and game.score.combo_base==500,'genuine Pop Shove-it and buffered Nose Manual rest PI '+selection[0])
+  else:
+   Input.action_press('manual');await _frames(1)
+  if selection[3]:await _frames(13)
+  _prepare_geometry()
+  var metrics={'absolute':0.0,'relative':0.0,'clearance':INF,'stretch':0.0,'phase':'entry','frame':0}
+  var previous:Array[Vector3]=Native._markers(game)
+  var previous_body:Vector3=game.skater.global_position
+  var max_absolute=0.0
+  var max_relative=0.0
+  var first_after=0.0
+  if selection[2]:Input.action_press('push')
+  Input.action_press(selection[1]);await _frames(1)
+  Input.action_release(selection[1]);Input.action_release('push')
+  for frame in 25:
+   if frame>0:await _frames(1)
+   metrics.phase='entry';metrics.frame=frame
+   previous=_motion_sample(previous,previous_body,metrics)
+   previous_body=game.skater.global_position
+  var row=_snapshot()
+  row.expected=selection[0]
+  row.reversed=selection[3]
+  row.correct_entry=game.skater.manual_active and game.skater.manual_trick_id==selection[0]
+  row.native_bails=evidence.bails
+  row.expected_bank=(500+Catalog.base_points(selection[0]))*4 if selection[3] else (100+Catalog.base_points(selection[0]))*2
+  row.max_enter_marker=metrics.absolute
+  row.max_enter_relative=metrics.relative
+  if prefix in ['capture','profile'] and not selection[3]:
+   await _capture_pose(selection[0])
+   previous=Native._markers(game);previous_body=game.skater.global_position
+  Input.action_release('manual')
+  for frame in 40:
+   await _frames(1)
+   if frame==0:first_after=Native._marker_distance(previous,Native._markers(game))
+   metrics.phase='exit';metrics.frame=frame
+   previous=_motion_sample(previous,previous_body,metrics)
+   previous_body=game.skater.global_position
+  row.max_all_marker=metrics.absolute
+  row.max_all_relative=metrics.relative
+  row.full_motion_clearance=metrics.clearance
+  row.full_motion_stretch=metrics.stretch
+  row.motion_evidence=metrics
+  row.first_ordinary_marker=first_after
+  row.actual_bank=game.score.total_score
+  row.pending=game.score.get_combo_value()
+  row.final_bails=evidence.bails
+  _check(row.correct_entry and row.actual_bank==row.expected_bank and row.entries==(4 if selection[3] else 2) and row.pending==0 and row.final_bails==0,'native entry/once bank '+selection[0])
+  if selection[0]!='hang_ten':
+   var planted=1 if selection[0]=='one_foot_manual' else 0
+   _check(row.feet[planted].actual_grip_distance<.001 and row.feet[1-planted].actual_grip_distance>.14,'correct weighted and lifted foot '+selection[0])
+  else:
+   var left=str_to_var(row.feet[0].functional_sole)
+   var right=str_to_var(row.feet[1].functional_sole)
+   _check(left.z<-.20 and right.z<-.20 and absf(left.z-right.z)<.04 and absf(left.x-right.x)>.09 and row.feet[0].nose_toe_dot>.97 and row.feet[1].nose_toe_dot>.97,'both parallel shoes cluster toward real nose Hang Ten')
+   _check(row.feet[0].sole_bearing<.001 and row.feet[1].sole_bearing<.001,'both Hang Ten shoes bear on actual nose triangles')
+  _check(metrics.clearance>=-.0015 and metrics.stretch<=1.12 and metrics.relative<.24 and first_after<.24,'complete shoes/reach/continuous first ordinary frame '+selection[0])
+  rows.append(row)
+  print('MANUAL_SEMANTICS ',JSON.stringify(row))
+  game.skater.bailed.disconnect(cb)
+ _release()
+ var file=FileAccess.open('res://.local/manual-semantics-'+prefix+'.json',FileAccess.WRITE)
+ file.store_string(JSON.stringify({'rig_sha256_before':source_before,'rig_sha256_after':FileAccess.get_sha256('res://game/player/skater_visual.gd'),'rows':rows},'\t'));file.close()
+ game.queue_free();await process_frame
+ _check(source_before==FileAccess.get_sha256('res://game/player/skater_visual.gd'),'Rig source unchanged during native probe')
+ if prefix in ['capture','profile']:
+  var after=_capture_hashes()
+  _check(capture_inputs==after,'all nine scoped native capture inputs unchanged')
+  var manifest={'scope':'Genuine Main push, Manual and existing extension inputs; actual supported manual inspection pose(s), held for two render frames; profile mode captures only the genuine Nose Manual case. No authored pose injection, native gameplay camera or target-Mac acceptance is claimed.','size':[1280,800],'images':captured,'inputs_before':capture_inputs,'inputs_after':after,'inputs_unchanged':capture_inputs==after,'native_checks':checks-failures,'native_failures':failures}
+  var receipt_path='res://.local/manual-semantics-capture/profile-manifest.json' if prefix=='profile' else 'res://.local/manual-semantics-capture/manifest.json'
+  var receipt=FileAccess.open(receipt_path,FileAccess.WRITE);receipt.store_string(JSON.stringify(manifest,'\t'));receipt.close()
+ print('MANUAL_SEMANTICS_CHECKS ',checks-failures,' passed ',failures,' failed')
+ quit(0 if failures==0 else 1)
