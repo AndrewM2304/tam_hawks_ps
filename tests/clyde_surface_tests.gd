@@ -87,7 +87,7 @@ static func original_physics_inventory(world: Node3D) -> bool:
 	# Exclude only the authorized, reachable street furniture. A group tag alone
 	# cannot hide another body: require all twelve unique anchor/part identities,
 	# direct world ownership, normal scenery layers and the actual box counts.
-	var anchors := [Vector3(-127,2,28), Vector3(60,0,36), Vector3(29,6,-116), Vector3(29,0,27)]
+	var anchors := [Vector3(-127,2,28), Vector3(60,0,41.5), Vector3(29,6,-116), Vector3(29,0,27)]
 	var part_shapes := {"StreetBenchSeat":4, "StreetBenchBack":3, "StreetBenchFrame":4}
 	var bodies := world.find_children("*", "StaticBody3D", true, false)
 	var shapes := world.find_children("*", "CollisionShape3D", true, false)
@@ -115,16 +115,71 @@ static func original_physics_inventory(world: Node3D) -> bool:
 		valid = valid and count == int(part_shapes.get(label, -1))
 	var outdoors := world.get_node("OutdoorRoutes")
 	var transitions := world.get_node("TransitionPark")
+	var additions: Dictionary = {}
+	var added_shape_ids: Dictionary = {}
+	var added_body_ids: Dictionary = {}
+	var cap_shapes := 0
+	for body: StaticBody3D in bodies:
+		if outdoors.is_ancestor_of(body) or transitions.is_ancestor_of(body): continue
+		var category := _combined_addition(world,body)
+		if category.is_empty():
+			# Exactly two approved60mm Court lids are compound additions; the
+			# old seat body/base remains protected and cannot be excluded.
+			if str(body.get_meta("art_label",""))=="CourtPlanterSeat":
+				for child: Node in body.get_children():
+					if child is CollisionShape3D and child.shape is BoxShape3D \
+							and child.shape.size.is_equal_approx(Vector3(1.25,0.06,8.1)) \
+							and child.position.is_equal_approx(Vector3(0,0.27,0)) and not child.disabled:
+						cap_shapes+=1
+						added_shape_ids[child.get_instance_id()]=true
+			continue
+		added_body_ids[body.get_instance_id()]=true
+		if not additions.has(category): additions[category]={"bodies":0,"shapes":0}
+		additions[category].bodies+=1
+		for child: Node in body.get_children():
+			if not child is CollisionShape3D: continue
+			valid=valid and child.shape!=null and not child.disabled and child.position.is_finite()
+			added_shape_ids[child.get_instance_id()]=true
+			additions[category].shapes+=1
 	var protected_bodies := 0
 	var protected_shapes := 0
 	for body: StaticBody3D in bodies:
-		if not outdoors.is_ancestor_of(body) and not transitions.is_ancestor_of(body): protected_bodies += 1
+		if not outdoors.is_ancestor_of(body) and not transitions.is_ancestor_of(body) and not added_body_ids.has(body.get_instance_id()): protected_bodies+=1
 	for shape: CollisionShape3D in shapes:
-		if not outdoors.is_ancestor_of(shape) and not transitions.is_ancestor_of(shape): protected_shapes += 1
-	print("PHYSICS_INVENTORY bodies=%d shapes=%d protected_bodies=%d protected_shapes=%d bench_bodies=%d bench_boxes=%d identified=%s" % [
-		bodies.size(), shapes.size(), protected_bodies, protected_shapes, bench_bodies, bench_shapes.size(), valid])
-	return valid and identities.size() == 12 and bench_bodies == 12 and bench_shapes.size() == 44 \
-		and protected_bodies == 271 and protected_shapes == 720 and bodies.size() <= 363 and shapes.size() <= 1907
+		if not outdoors.is_ancestor_of(shape) and not transitions.is_ancestor_of(shape) and not added_shape_ids.has(shape.get_instance_id()): protected_shapes+=1
+	var expected := {"new_bins":{"bodies":4,"shapes":8},"new_composites":{"bodies":33,"shapes":33},
+		"new_infill_rail":{"bodies":3,"shapes":3},"new_infill_solids":{"bodies":38,"shapes":38},
+		"new_native_factory":{"bodies":47,"shapes":195}}
+	print("PHYSICS_INVENTORY bodies=%d shapes=%d protected_bodies=%d protected_shapes=%d bench_bodies=%d bench_boxes=%d identified=%s additions=%s court_caps=%d" % [
+		bodies.size(),shapes.size(),protected_bodies,protected_shapes,bench_bodies,bench_shapes.size(),valid,additions,cap_shapes])
+	return valid and identities.size()==12 and bench_bodies==12 and bench_shapes.size()==44 \
+		and protected_bodies==271 and protected_shapes==720 and additions==expected and cap_shapes==2 \
+		and bodies.size()==559 and shapes.size()==1655 # +one actual outdoor Hubba steel body/shape.
+
+
+static func _combined_addition(world: Node3D,body: StaticBody3D) -> String:
+	var label := str(body.get_meta("art_label",body.name))
+	if body.is_in_group("physical_street_bins") and label=="StreetLitterBin": return "new_bins"
+	if label=="NativeGrindBearing" and body.collision_layer==2 and body.collision_mask==0 \
+			and body.get_parent().is_in_group("grind_rails"): return "new_native_factory"
+	var new_ids: Array = []
+	var labels: Array[String] = []
+	for feature: Dictionary in world._fidelity_infill.get_features():
+		new_ids.append_array(feature.get("grind_ids",[]))
+		if feature.get("kind","")=="bank_manual_ledge_line":
+			for suffix: String in ["ManualDeck","WestBank","EastBank"]: labels.append(str(feature.id)+suffix)
+		if feature.get("kind","")=="graded_park_ledge": labels.append(str(feature.id))
+		for id: String in feature.get("grind_ids",[]): labels.append(id+"Masonry")
+	if label in labels and body.get_parent()==world and body.collision_layer==1: return "new_infill_solids"
+	var owner_node: Node = body
+	while owner_node!=world and owner_node!=null:
+		var source: Script = owner_node.get_script()
+		if source!=null and source.resource_path in ["res://game/levels/bowl_feature.gd",
+				"res://game/levels/halfpipe_feature.gd","res://game/levels/spine_feature.gd"]: return "new_composites"
+		if str(owner_node.get_meta("grind_id","")) in new_ids and body.collision_layer==2: return "new_infill_rail"
+		owner_node=owner_node.get_parent()
+	return ""
+
 
 
 static func _check_station(world: Node3D, check: Callable) -> void:

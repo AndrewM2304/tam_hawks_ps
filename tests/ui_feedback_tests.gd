@@ -155,6 +155,7 @@ static func _notices_and_geometry(tree: SceneTree, game: Node, check: Callable) 
 			hud._caption, hud._prompt, hud._save_warning]:
 			all_inside = all_inside and bounds.encloses(control.get_global_rect())
 		check.call(all_inside, "UI feedback: all active HUD regions fit %s at 1.4× UI" % size)
+		print("HUD NONOVERLAP rects size=",size," balance=",hud._balance_panel.get_global_rect()," goals=",hud._goals.get_global_rect()," warning=",hud._save_warning.get_global_rect()," special=",hud._special_panel.get_global_rect()," feedback=",hud._feedback_panel.get_global_rect())
 		check.call(not hud._balance_panel.get_global_rect().intersects(hud._goals.get_global_rect())
 			and not hud._save_warning.get_global_rect().intersects(hud._special_panel.get_global_rect())
 			and not hud._feedback_panel.get_global_rect().intersects(hud._special_panel.get_global_rect()),

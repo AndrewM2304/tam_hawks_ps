@@ -1,7 +1,8 @@
 extends RefCounted
 ## Original opaque deciduous crown. One cached mesh/material serves all trees.
 ## Unit envelope is centred near zero; scale/rotate instances, not the mesh.
-## 660 folded leaf shapes and 44 tapered branch segments: 3,080 triangles.
+## 792 folded leaves, 99 irregular leaf sprays and 44 tapered branch segments:
+## 4,796 triangles, including opaque interior cover instead of empty twig tips.
 
 static var _canopy: ArrayMesh
 static var _material: StandardMaterial3D
@@ -25,8 +26,25 @@ static func canopy_mesh() -> ArrayMesh:
 			var spread := angle + (float(twig) - 1.0) * 0.95
 			var tip := fork + Vector3(cos(spread) * 0.18, random.randf_range(0.07, 0.26), sin(spread) * 0.18)
 			_branch(surface, fork, tip, 0.009, 0.0025)
-			var cluster_scale := random.randf_range(0.14, 0.23)
-			for leaf: int in range(20):
+			var cluster_scale := random.randf_range(0.21, 0.29)
+			# Overlapping, folded leaf sprays make a coherent crown from ordinary
+			# chase distances. Their lobed outlines stay irregular in silhouette;
+			# these are original opaque polygons, not spheres or alpha billboards.
+			for spray: int in range(3):
+				var facing := spread + float(spray) * 2.399963 + random.randf_range(-0.4, 0.4)
+				var normal := Vector3(cos(facing) * random.randf_range(0.4, 0.85),
+					random.randf_range(0.45, 1.0), sin(facing) * random.randf_range(0.4, 0.85)).normalized()
+				var center := tip.lerp(fork, 0.18 + float(spray) * 0.22)
+				# Fill inward from the outer twigs as well as around their tips.
+				# The overlapping middle layers hide the empty branch cage while
+				# retaining separate, uneven outer lobes and individual leaf edges.
+				var inward := 1.0 - float(spray) * 0.30
+				center.x *= inward
+				center.z *= inward
+				center += Vector3(cos(facing), random.randf_range(-0.1, 0.4), sin(facing)) * 0.055
+				var colour := Color(0.115, 0.205, 0.080).lerp(Color(0.240, 0.335, 0.135), random.randf())
+				_leaf_spray(surface, center, normal, facing, cluster_scale * random.randf_range(0.88, 1.12), colour, random)
+			for leaf: int in range(24):
 				# Golden-angle spacing fills each lobe without a visible sphere shell.
 				var azimuth := float(leaf) * 2.399963 + random.randf_range(-0.4, 0.4)
 				var elevation := random.randf_range(-0.85, 0.85)
@@ -54,6 +72,23 @@ static func canopy_material() -> StandardMaterial3D:
 		_material.roughness = 0.94
 		_material.metallic_specular = 0.12
 	return _material
+
+
+static func _leaf_spray(surface: SurfaceTool, at: Vector3, normal: Vector3, angle: float,
+		radius: float, colour: Color, random: RandomNumberGenerator) -> void:
+	var reference := Vector3.RIGHT if absf(normal.dot(Vector3.RIGHT)) < 0.9 else Vector3.FORWARD
+	var right := normal.cross(reference).normalized().rotated(normal, angle)
+	var forward := right.cross(normal).normalized()
+	var edge := PackedVector3Array()
+	for index in 12:
+		var azimuth := TAU * float(index) / 12.0
+		var reach := radius * (1.0 if index % 2 == 0 else 0.69) * random.randf_range(0.89, 1.10)
+		var fold := normal * radius * 0.08 * sin(azimuth * 3.0 + angle)
+		edge.append(at + (right * cos(azimuth) + forward * sin(azimuth)) * reach + fold)
+	var ridge := at + normal * radius * 0.14
+	for index in 12:
+		var shade := colour.lightened(0.018) if index % 3 == 0 else colour.darkened(0.012 * float(index % 3))
+		_triangle(surface, ridge, edge[index], edge[(index + 1) % 12], normal, shade)
 
 
 static func _leaf(surface: SurfaceTool, at: Vector3, normal: Vector3, angle: float, length: float, colour: Color) -> void:

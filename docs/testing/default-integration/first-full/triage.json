@@ -1,0 +1,222 @@
+{
+  "receipt": {
+    "clean": false,
+    "result": [
+      "4368",
+      "127"
+    ],
+    "exit_code": 1,
+    "wall_seconds": 737.2,
+    "source_sha256_count": 523,
+    "source_changed": [],
+    "unchanged_source": true
+  },
+  "failure_groups": {
+    "clyde_surface_tests.gd": [
+      "ERROR: FAIL: Surface separation: protected core/benches remain exact and compact total collision stays within its original budget"
+    ],
+    "city_backdrop_tests.gd": [
+      "ERROR: FAIL: City backdrop: protected core/bench collision stays exact and compact-world collision remains within its original budget",
+      "ERROR: FAIL: City backdrop: held-context preserves exact per-chunk counts and 2848 actual triangles within its original 4040 budget"
+    ],
+    "trick_animation_tests.gd": [
+      "ERROR: FAIL: trick animation: melon_grab retains both shoe contacts on the tilted board",
+      "ERROR: FAIL: trick animation: indy_grab retains both shoe contacts on the tilted board",
+      "ERROR: FAIL: trick animation: nose_grab retains both shoe contacts on the tilted board",
+      "ERROR: FAIL: trick animation: tail_grab retains both shoe contacts on the tilted board",
+      "ERROR: FAIL: trick animation: method_grab retains both shoe contacts on the tilted board",
+      "ERROR: FAIL: trick animation: nose, tail and method shift weight/tuck rather than changing only a label",
+      "ERROR: FAIL: trick animation: nose manual moves visible body weight toward the front truck",
+      "ERROR: FAIL: trick animation: lip variants visibly weight opposite ends or compress for disaster"
+    ],
+    "player_forgiveness_tests.gd": [
+      "ERROR: FAIL: human input: 9-frame early flip/grab request expires before takeoff and held buttons cannot repeat"
+    ],
+    "camera_turn_review_tests.gd": [
+      "ERROR: FAIL: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=false)",
+      "ERROR: FAIL: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=true)"
+    ],
+    "classic_tricks_integration_tests.gd": [
+      "ERROR: FAIL: classic flip: mapped J snapshots frontside_shuvit across a direction change before release",
+      "ERROR: FAIL: classic flip: held frontside_shuvit finishes with one family award and a real landing",
+      "ERROR: FAIL: classic flip: mapped J snapshots pop_shuvit across a direction change before release",
+      "ERROR: FAIL: classic flip: held pop_shuvit finishes with one family award and a real landing",
+      "ERROR: FAIL: classic flip: a fresh directional press after clip completion starts a second distinct flip"
+    ],
+    "limb_pose_tests.gd": [
+      "ERROR: FAIL: limbs: push retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: brake retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: manual retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: melon_grab retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: indy_grab retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: nose_grab retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: tail_grab retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: method_grab retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: kickflip retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: heelflip retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: frontside_shuvit retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: pop_shuvit retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: varial_flip retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: hardflip retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: natural half-pipe cycles retains planted front sole and active grab palm contacts",
+      "ERROR: FAIL: limbs: actual turning under small parent drift keeps finite unit shoe orientation"
+    ],
+    "edge_grind_integration_tests.gd": [
+      "ERROR: FAIL: world edge: actual selected BridgeRail_ line exists at its authored physical prop"
+    ],
+    "named_grind_integration_tests.gd": [
+      "ERROR: FAIL: named grind: soles stay planted while root and chase remain behind signed travel side=0 reversed=false slope=false",
+      "ERROR: FAIL: named grind: soles stay planted while root and chase remain behind signed travel side=1 reversed=false slope=false",
+      "ERROR: FAIL: named grind: soles stay planted while root and chase remain behind signed travel side=-1 reversed=true slope=true",
+      "ERROR: FAIL: named grind: releasing held Triangle during pause resumes the same locked contact"
+    ],
+    "named_grind_consumers_tests.gd": [
+      "ERROR: FAIL: named grind consumers: Mo cannot invent a named contact family from a lookalike boardslide",
+      "ERROR: FAIL: named grind consumers: 50-50 dispatches one grind entry sound without flip/grab counter pollution",
+      "ERROR: FAIL: named grind consumers: Boardslide dispatches one grind entry sound without flip/grab counter pollution",
+      "ERROR: FAIL: named grind consumers: Rail Grind dispatches one grind entry sound without flip/grab counter pollution",
+      "ERROR: FAIL: named grind consumers: two explicit style entries produce two total sounds/callbacks without extra consumer events",
+      "ERROR: FAIL: named grind consumers: separate repeated entries retain existing repeat devaluation and cannot manufacture family variety",
+      "ERROR: FAIL: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing Boardslide Fake",
+      "ERROR: FAIL: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing 50-50ish",
+      "ERROR: FAIL: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing boardslide",
+      "ERROR: FAIL: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing 50-50 ",
+      "ERROR: FAIL: named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing Rail Grind Fake",
+      "ERROR: FAIL: named grind consumers: real flip/grab positive controls still exercise their counters and distinct families",
+      "ERROR: FAIL: named grind consumers: named contact adds only grind after existing flip/grab events"
+    ],
+    "trick_score_tests.gd": [
+      "ERROR: FAIL: trick HUD: live feedback distinguishes entry count and reduced repeat award"
+    ],
+    "horizon_background_tests.gd": [
+      "ERROR: FAIL: horizon: exact354 bodies/1296 shapes and independent protected core/bench identities are retained",
+      "ERROR: FAIL: horizon: all48 unique published routes and the six district checkpoints remain",
+      "ERROR: FAIL: horizon: reversible appearance comparison restores both materials while physical routes stay identical"
+    ],
+    "test_compact_clyde.gd": [
+      "ERROR: FAIL: compact Clyde: genuine hip-to-floor coplanar counterexample is removed while the whole physical hip footprint stays visibly covered"
+    ],
+    "grind_contact_metadata_tests.gd": [
+      "ERROR: FAIL: grind contact world: established real semantic route retains its original authored identity and top-guide location BridgeRail_"
+    ],
+    "skate_edges_tests.gd": [
+      "ERROR: FAIL: skate edges: all48existing navigation routes remain intact",
+      "ERROR: FAIL: skate edges: registered visible feature family CivicGarden_",
+      "ERROR: FAIL: skate edges: registered visible feature family PlatformNorthGap_",
+      "ERROR: FAIL: skate edges: registered visible feature family ServiceWalkFront_",
+      "ERROR: FAIL: skate edges: registered visible feature family BridgeRail_",
+      "ERROR: FAIL: skate edges: registered visible feature family ParkGranite_",
+      "ERROR: FAIL: skate edges: real upright rider skin and short sweep clear representative CivicGarden_",
+      "ERROR: FAIL: skate edges: real upright rider skin and short sweep clear representative PlatformNorthGap_",
+      "ERROR: FAIL: skate edges: real upright rider skin and short sweep clear representative ServiceWalkFront_",
+      "ERROR: FAIL: skate edges: real upright rider skin and short sweep clear representative BridgeRail_",
+      "ERROR: FAIL: skate edges: real upright rider skin and short sweep clear representative ParkGranite_"
+    ],
+    "transition_player_tests.gd": [
+      "ERROR: FAIL: transition player: actual push approach launches from the true Clyde vertical lip",
+      "ERROR: FAIL: transition player: held grind catches and names the actual coping once",
+      "ERROR: FAIL: transition player: coping-grind approach must first reach real vert air",
+      "ERROR: FAIL: transition player: deck-transfer approach must first reach real vert air"
+    ],
+    "authentic_fidelity_integration_tests.gd": [
+      "ERROR: FAIL: authentic Main: a real airborne platform crossing earns the named gap and banks exactly two accepted entries",
+      "ERROR: FAIL: authentic Main: bail keeps native local motion and continuous body markers instead of instantly teleporting",
+      "ERROR: FAIL: authentic Main: a real high-wall obstruction starts one airborne native bail",
+      "ERROR: FAIL: authentic Main: long native fall holds its falling pose until real ground contact before completing get-up",
+      "ERROR: FAIL: authentic Main: actual 20-degree manual imbalance drops its real combo once and gets up on native support",
+      "ERROR: FAIL: authentic Main: 20-degree recovery stays continuous through the first ordinary frame and five following frames",
+      "ERROR: FAIL: authentic Main: actual 35-degree manual imbalance drops its real combo once and gets up on native support",
+      "ERROR: FAIL: authentic Main: 35-degree recovery stays continuous through the first ordinary frame and five following frames",
+      "ERROR: FAIL: authentic Main: actual 45-degree manual imbalance drops its real combo once and gets up on native support",
+      "ERROR: FAIL: authentic Main: 45-degree recovery stays continuous through the first ordinary frame and five following frames",
+      "ERROR: FAIL: authentic Main: an ordinary outside approach rides the real world roll-in and enters the bowl without fixture motion",
+      "ERROR: FAIL: authentic Main: the genuine charged triple catches, lands and banks its exact single-upgrade receipt",
+      "ERROR: FAIL: authentic Main: actual north_east input selects japan_grab and its real palm reaches the visible board",
+      "ERROR: FAIL: authentic Main: native japan_grab takeoff, grip, catch and landing bank only their two earned entries",
+      "ERROR: FAIL: authentic Main: actual north_west input selects mute_grab and its real palm reaches the visible board",
+      "ERROR: FAIL: authentic Main: native mute_grab takeoff, grip, catch and landing bank only their two earned entries",
+      "ERROR: FAIL: authentic Main: actual south_east input selects stalefish_grab and its real palm reaches the visible board",
+      "ERROR: FAIL: authentic Main: native stalefish_grab takeoff, grip, catch and landing bank only their two earned entries",
+      "ERROR: FAIL: authentic Main: actual south_west input selects method_grab and its real palm reaches the visible board",
+      "ERROR: FAIL: authentic Main: native method_grab takeoff, grip, catch and landing bank only their two earned entries",
+      "ERROR: FAIL: authentic Main: native rail contact with neutral selects exactly one real rail_grind capture",
+      "ERROR: FAIL: authentic Main: actual rail_grind releases, lands and banks its single native capture once",
+      "ERROR: FAIL: authentic Main: native rail contact with north selects exactly one real nosegrind capture",
+      "ERROR: FAIL: authentic Main: actual nosegrind releases, lands and banks its single native capture once",
+      "ERROR: FAIL: authentic Main: native rail contact with south selects exactly one real five_o_grind capture",
+      "ERROR: FAIL: authentic Main: actual five_o_grind releases, lands and banks its single native capture once",
+      "ERROR: FAIL: authentic Main: native rail contact with west selects exactly one real lipslide capture",
+      "ERROR: FAIL: authentic Main: actual lipslide releases, lands and banks its single native capture once",
+      "ERROR: FAIL: authentic Main: native rail contact with north_east selects exactly one real overcrook_grind capture",
+      "ERROR: FAIL: authentic Main: actual overcrook_grind releases, lands and banks its single native capture once",
+      "ERROR: FAIL: authentic Main: native rail contact with north_west selects exactly one real crooked_grind capture",
+      "ERROR: FAIL: authentic Main: actual crooked_grind releases, lands and banks its single native capture once",
+      "ERROR: FAIL: authentic Main: native rail contact with south_east selects exactly one real feeble_grind capture",
+      "ERROR: FAIL: authentic Main: actual feeble_grind releases, lands and banks its single native capture once",
+      "ERROR: FAIL: authentic Main: native rail contact with south_west selects exactly one real smith_grind capture",
+      "ERROR: FAIL: authentic Main: actual smith_grind releases, lands and banks its single native capture once",
+      "ERROR: FAIL: authentic Main: actual release-pop exits the cart with native upward momentum and an ordinary Ollie entry",
+      "ERROR: FAIL: sunken park skating: held DeepBowl lip remains one earned entry with clear actual head/deck/sole/toe and camera volume",
+      "ERROR: FAIL: sunken park skating: held ShallowBowl lip remains one earned entry with clear actual head/deck/sole/toe and camera volume",
+      "ERROR: FAIL: sunken park skating: a real pushed approach and ground Ollie capture and hold the actual street flatbar with two connected entries",
+      "ERROR: FAIL: sunken park skating: a fresh in-air transfer reaches the true back hip face, rides out and brakes within the visible finite west runout"
+    ],
+    "full_repertoire_tests.gd": [
+      "ERROR: FAIL: full repertoire playable: fresh rail Revert physically pivots facing and functional stance 180 degrees",
+      "ERROR: FAIL: full repertoire playable: pivot preserves real rail tangent travel with the documented 15 percent speed cost",
+      "ERROR: FAIL: full repertoire playable: pivot adds one 150-point trick without fabricating another rail capture",
+      "ERROR: FAIL: full repertoire playable: a held pivot and a fresh cooldown press cannot repeat its award",
+      "ERROR: FAIL: full repertoire playable: backwards-facing pivot links through a real release-pop hop without an early bank",
+      "ERROR: FAIL: full repertoire playable: native Rail Grind to Pivot to Ollie banks its exact three entries and earned holds once"
+    ],
+    "full_level_density_tests.gd": [
+      "ERROR: FAIL: full map: actual push/pop captures the repaired Gallery stair rail, clears its cheek and banks once with full-body chase",
+      "ERROR: FAIL: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Park_FiveStepHubba"
+    ],
+    "ui_feedback_tests.gd": [
+      "ERROR: FAIL: UI feedback: balance, goals and save warning have clear space at (1920, 1080)"
+    ],
+    "compact_clyde_lines_tests.gd": [
+      "ERROR: FAIL: compact Clyde: clyde_print_yard_ledge banks then uses real steering/braking to return safely",
+      "ERROR: FAIL: compact Clyde: clyde_quay_coping banks then uses real steering/braking to return safely",
+      "ERROR: FAIL: compact Clyde river circuit: yard returns through continuous bridge to optional approach without teleport or another gap award"
+    ]
+  },
+  "script_error_groups": {
+    "named_grind_consumers_tests.gd": [
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'.",
+      "SCRIPT ERROR: Invalid access to property or key 'last_trick_id' on a base object of type 'CharacterBody3D'.",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'on_trick' in base 'Nil'."
+    ],
+    "trick_score_tests.gd": [
+      "SCRIPT ERROR: Invalid access to property or key '_stance_label' on a base object of type 'CanvasLayer (hud.gd)'."
+    ],
+    "authentic_fidelity_integration_tests.gd": [
+      "SCRIPT ERROR: Trying to assign value of type 'String' to a variable of type 'float'."
+    ]
+  },
+  "script_error_count": 27,
+  "resumption": "Runner continued after ScriptErrors and reached final compact deck cases; affected subfunctions may abort early, so no complete-case or clean-pass claim."
+}

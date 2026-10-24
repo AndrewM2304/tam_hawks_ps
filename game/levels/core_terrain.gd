@@ -21,10 +21,15 @@ func add_patch(parent: Node3D, label: String, bounds: Rect2, heights: Vector4,
 		points.append(Vector3(corner.x, bottom, corner.z))
 	var body := StaticBody3D.new()
 	body.name = label
+	body.set_meta("art_label", label)
 	body.position = Vector3(bounds.get_center().x, minimum, bounds.get_center().y)
 	for index: int in range(points.size()):
 		points[index] -= body.position
 	body.set_meta("terrain_surface", true)
+	var local_top := PackedVector3Array()
+	for corner: Vector3 in corners: local_top.append(corner - body.position)
+	body.set_meta("top_polygon_local", local_top)
+	body.set_meta("retaining_bottom_local", bottom - body.position.y)
 	body.set_meta("surface_audio", surface_audio)
 	parent.add_child(body)
 	var shape := ConvexPolygonShape3D.new()
@@ -64,7 +69,10 @@ func add_polygon(parent: Node3D, label: String, corners: PackedVector3Array,
 		points.append(Vector3(at.x, minf(-3.0, minimum - 0.8), at.z))
 	var body := StaticBody3D.new()
 	body.name = label
+	body.set_meta("art_label", label)
 	body.set_meta("terrain_surface", true)
+	body.set_meta("top_polygon_local", corners.duplicate())
+	body.set_meta("retaining_bottom_local", minf(-3.0, minimum - 0.8))
 	body.set_meta("surface_audio", surface_audio)
 	parent.add_child(body)
 	# Each triangle has its own convex retaining prism. This keeps collision

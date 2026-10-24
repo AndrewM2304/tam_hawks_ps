@@ -1,3 +1,8 @@
+Latest owner direction24October2026: reconcile work onto current default, test
+and push`bootstrap/m00-m01`; authorized merge overrides earlier prohibition for
+this task. Integration in progress, no completion claim. Read[STATUS](../STATUS.md).
+Preserve the manual-test usage reserve; no hourly continuation/new polish/spend.
+
 **23 October local named-grind checkpoint:** [G01-01…07](NAMED-GRINDS-2026-10-23.md) records the first 50-50/boardslide slice, bounded capture, continuous board clearance during travel and consumer integration. Required **2,561/0**, focused 333/0, strict native comparison and 16-PNG/source audit pass; [STATUS](../STATUS.md) owns exact commands and limits. Semantic world-solid edges/changing-grade joints remain generic pending conforming/component support; acquisition interpolation has a separate investigation. [All outstanding work](OUTSTANDING-2026-10-23.md) remains available. This overlay preserves all 75 full bodies and 64 non-Done original statuses; owner/hardware/isolated-performance acceptance remains open.
 
 **23 October new priority:** [complete 24-ID/family trick audit](../research/TRICK-STYLE-AUDIT-2026-10-23.md) and [ordered implementation tasks](TRICK-FIDELITY-2026-10-23.md) are recorded. Calmer flat/rail ollie and staged foot sequence pass required2314/0 and native motion/source checks; strong ramp pop remains. Fully isolated timing/owner feel remain open. [STATUS](../STATUS.md) owns exact checks and retained failures. Generic angled rail entry exists; named grind styles, wallrides/plants and predictive landing assist remain explicit gaps. All 75 full task bodies remain intact.

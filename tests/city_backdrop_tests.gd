@@ -138,16 +138,17 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(held_surfaces == 6,
 		"City backdrop: explicit fresh held-context fixture preserves exactly six actual surfaces")
 	# Compact Clyde removes 298 old skirt segments/four triangles each, reducing
-	# 4040 to 2848. Other chunks and the original 4040 budget stay unchanged;
+	# 4040 to2848. Four actual new park-contour segments add16 double-sided
+	# triangles to ParkWest only; the original4040 ceiling stays unchanged;
 	# the Station endpoint's four query-owned triangles remain checked below.
-	check.call(held_triangles == 2848 and held_counts == {
+	check.call(held_triangles == 2864 and held_triangles<=Backdrop.MAX_TRIANGLES and held_counts == {
 		"ExistingBoundaryRetainingSkirts":{"surfaces":1,"triangles":152},
 		"StationServiceBacks":{"surfaces":1,"triangles":148},
 		"ClydeWestContext":{"surfaces":1,"triangles":456},
 		"ClydeEastContext":{"surfaces":1,"triangles":484},
-		"ParkWestHillside":{"surfaces":1,"triangles":822},
+		"ParkWestHillside":{"surfaces":1,"triangles":838},
 		"ParkNorthHillside":{"surfaces":1,"triangles":786}},
-		"City backdrop: held-context preserves exact per-chunk counts and 2848 actual triangles within its original 4040 budget")
+		"City backdrop: held-context preserves exact per-chunk counts plus16 actual park-contour triangles (2864 total) within its original4040 budget")
 	_check_query_owned_skirt(world, held, check)
 	for id: String in PORTS:
 		var clear := true

@@ -1,0 +1,9 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS platform contact: Boneless preparation keeps its planted ground anchor on the real moving cart
+MOVING_BONELESS_RIG {"board":"Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -69.312584, 3.7022405, 70.5)","body":"Vector3(-69.312584, 3.5758424, 70.5)","contact":"Vector3(-69.33258, 3.7242405, 70.628)","hand":"Transform3D(-0.84809226, -0.5142304, -0.12769705, -0.5298485, 0.8230935, 0.20439607, -7.4505806e-08, 0.2410068, -0.9705234, -69.37306, 3.7890394, 70.631516)","id":"boneless","phase":0.606060606060606,"reach":0.567396640777588,"restyaw":0.0,"rider":"Transform3D(-0.9610554, 0.027511645, -0.27498284, 0, 0.9950324, 0.099551596, 0.27635565, 0.0956746, -0.9562813, -69.312584, 3.5822406, 70.5)","rig_blends":[0.0,0.0,0.0,0.0],"shoulder":"Vector3(-69.386894, 4.2329073, 70.87345)","upper":"Transform3D(0.9970332, -0.046583094, 0.061277065, 0, 0.7960838, 0.6051864, -0.07697313, -0.60339093, 0.793722, 0, 0.34278455, -0.00046594)"}
+PLATFORM SETUP CONTACT sole=0.00000763311891 palm=0.00000095367432
+PASS platform contact: supported Boneless sole and gripping palm meet their actual roof and deck targets
+PLATFORM BONELESS airborne=true setup=false velocity=(5.999908, 8.208, 0.0) platform_before=(5.999908, 0.0, 0.0) history=["Boneless"] delta=(0.099998, 0.147809, 0.0) expected=(0.099998, 0.1368, 0.0)
+PASS platform contact: completed moving Boneless produces one pop with one retained cart velocity
+MOVING_BONELESS_CHECKS fails=0

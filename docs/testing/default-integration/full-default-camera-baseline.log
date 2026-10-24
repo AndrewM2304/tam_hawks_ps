@@ -1,0 +1,18 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+LOCAL RAMP ORBIT turn_deg=179.987088867675 max_reverse_excursion_deg=0.00000701175329 up_y=0.99723392724991 down_y=-1.0 camera_up_dot_ramp_normal=0.97169649600983 good=true
+LOCAL RAMP ORBIT turn_deg=179.987082967968 max_reverse_excursion_deg=0.00000725258369 up_y=0.99714452028275 down_y=-1.0 camera_up_dot_ramp_normal=0.96967208385468 good=true
+LOCAL RAMP ORBIT turn_deg=179.987083936525 max_reverse_excursion_deg=0.00000699408576 up_y=0.9971444606781 down_y=-1.0 camera_up_dot_ramp_normal=0.96967172622681 good=true
+LOCAL RAMP ORBIT turn_deg=179.987043563838 max_reverse_excursion_deg=0.00001081414868 up_y=0.99714440107346 down_y=-1.0 camera_up_dot_ramp_normal=0.96967172622681 good=true
+PASS classic camera: held push makes repeated natural finite-wall returns (reduced=false)
+FAIL classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=false)
+PASS classic camera: actual ramp updates avoid large view or zoom jumps (reduced=false)
+PASS classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=false)
+PASS classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=false)
+PASS classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=false)
+PASS classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=false)
+PASS classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=false)
+CAMERA BOTTOM REAR samples=90 minimum_forward_dot=0.99099397659302
+CAMERA RAMP REAR side_frames=0 samples=138 minimum_forward_dot=0.99999988079071
+CAMERA LOCAL RETURNS reduced=false departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.05315148247613 max_update_move=0.8000014424324 max_update_angle=19.8734052770142 pose_forward_dot_velocity=0.9987781047821 body_step_deg=8.24169130445184 native_body_samples=220 native_contiguous=true
+FULL_DEFAULT_CAMERA_BASELINE 7 passed 1 failed

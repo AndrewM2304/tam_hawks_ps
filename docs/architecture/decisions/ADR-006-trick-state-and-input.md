@@ -1,5 +1,12 @@
 # ADR-006: Trick states, input and combo continuation
 
+**23 October 2026 amendment:** [ADR-014](ADR-014-trick-fidelity.md) supersedes the
+one-flip/one-grab limit, display-name repetition identity, entry-only grind scores
+and fresh-ground-only manual rule below. It adds directional vocabulary, sequential
+execution, stable IDs, bounded held scoring and a short deliberate landing buffer.
+The authoritative bank deadline, physical state ownership and overtime remain.
+The remainder preserves the original 17 October contract for its historical tests.
+
 Status: Accepted engineering contract, implemented for ground/air/grind/manual/revert, the landing-link timer, two specials and three named gaps. Updated 17 October 2026. Owners: A01/A04 with independent QE. Physical controller feel, target-Mac performance and M01/M02 human acceptance remain open; they do not stop separately authorized implementation work.
 
 ## Decision and source boundary

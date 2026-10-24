@@ -7,6 +7,9 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 		opaque: bool = false) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = id
+	body.set_meta("art_label", id)
+	body.set_meta("no_wallride", true)
+	body.set_meta("wallride_exclusion_reason", "retained perimeter iron fence; safety boundary")
 	body.add_to_group("exploration_boundaries")
 	body.set_meta("exploration_boundary", true)
 	body.set_meta("boundary_family", id)

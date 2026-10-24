@@ -1,0 +1,616 @@
+{
+  "runner": "tests/run_tests.gd",
+  "default_preloads": [
+    {
+      "name": "MAP_CONNECTOR_TESTS",
+      "path": "res://tests/map_connector_tests.gd",
+      "present": true
+    },
+    {
+      "name": "HORIZON_TESTS",
+      "path": "res://tests/horizon_background_tests.gd",
+      "present": true
+    },
+    {
+      "name": "COMPACT_CLYDE_TESTS",
+      "path": "res://tests/test_compact_clyde.gd",
+      "present": true
+    },
+    {
+      "name": "COMPACT_CLYDE_LINES",
+      "path": "res://tests/compact_clyde_lines_tests.gd",
+      "present": true
+    },
+    {
+      "name": "EDGE_GRIND_TESTS",
+      "path": "res://tests/edge_grind_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "SUPPORT_QUERY_TESTS",
+      "path": "res://tests/support_query_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GLASGOW_MURALS_TESTS",
+      "path": "res://tests/glasgow_murals_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRIND_INDEX_TESTS",
+      "path": "res://tests/grind_index_tests.gd",
+      "present": true
+    },
+    {
+      "name": "SKATE_EDGES_TESTS",
+      "path": "res://tests/skate_edges_tests.gd",
+      "present": true
+    },
+    {
+      "name": "BAIL_RECOVERY_TESTS",
+      "path": "res://tests/bail_recovery_tests.gd",
+      "present": true
+    },
+    {
+      "name": "FLAT_OLLIE_TESTS",
+      "path": "res://tests/flat_ollie_tests.gd",
+      "present": true
+    },
+    {
+      "name": "LIMB_POSE_TESTS",
+      "path": "res://tests/limb_pose_tests.gd",
+      "present": true
+    },
+    {
+      "name": "RAMP_POP_TESTS",
+      "path": "res://tests/ramp_pop_tests.gd",
+      "present": true
+    },
+    {
+      "name": "ARCADE_RESPONSE_TESTS",
+      "path": "res://tests/arcade_response_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "ENVIRONMENT_TEXT_TESTS",
+      "path": "res://tests/environment_text_tests.gd",
+      "present": true
+    },
+    {
+      "name": "STATIC_BATCHES_TESTS",
+      "path": "res://tests/static_batches_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PHYSICS_INTERPOLATION_TESTS",
+      "path": "res://tests/physics_interpolation_tests.gd",
+      "present": true
+    },
+    {
+      "name": "HUD_EFFICIENCY_TESTS",
+      "path": "res://tests/hud_efficiency_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRAPHICS_QUALITY_TESTS",
+      "path": "res://tests/graphics_quality_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CITY_VISIBILITY_TESTS",
+      "path": "res://tests/city_visibility_tests.gd",
+      "present": true
+    },
+    {
+      "name": "FACADE_BAY_TESTS",
+      "path": "res://tests/facade_bay_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CLYDE_SURFACE_TESTS",
+      "path": "res://tests/clyde_surface_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CITY_BACKDROP_TESTS",
+      "path": "res://tests/city_backdrop_tests.gd",
+      "present": true
+    },
+    {
+      "name": "SCORE_SCRIPT",
+      "path": "res://game/scoring/score_session.gd",
+      "present": true
+    },
+    {
+      "name": "MAIN_SCRIPT",
+      "path": "res://game/main.gd",
+      "present": true
+    },
+    {
+      "name": "RAIL_GEOMETRY_TESTS",
+      "path": "res://tests/rail_geometry_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TAKEOFF_TESTS",
+      "path": "res://tests/takeoff_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PLAYER_FORGIVENESS_TESTS",
+      "path": "res://tests/player_forgiveness_tests.gd",
+      "present": true
+    },
+    {
+      "name": "RENDER_BUDGET_TESTS",
+      "path": "res://tests/render_budget_tests.gd",
+      "present": true
+    },
+    {
+      "name": "SKATE_RESPONSE_TESTS",
+      "path": "res://tests/skate_response_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRINDING_TESTS",
+      "path": "res://tests/grinding_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRIND_REGRESSION_TESTS",
+      "path": "res://tests/grind_regression_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRIND_RIDE_TESTS",
+      "path": "res://tests/grind_ride_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRIND_CAPTURE_BOUNDS_TESTS",
+      "path": "res://tests/grind_capture_bounds_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRIND_CONTACT_METADATA_TESTS",
+      "path": "res://tests/grind_contact_metadata_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRIND_STYLE_TESTS",
+      "path": "res://tests/grind_style_tests.gd",
+      "present": true
+    },
+    {
+      "name": "NAMED_GRIND_TESTS",
+      "path": "res://tests/named_grind_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "NAMED_GRIND_CONSUMERS_TESTS",
+      "path": "res://tests/named_grind_consumers_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CATALOG_TESTS",
+      "path": "res://tests/trick_catalog_tests.gd",
+      "present": true
+    },
+    {
+      "name": "COMBO_RESOLUTION_TESTS",
+      "path": "res://tests/combo_resolution_tests.gd",
+      "present": true
+    },
+    {
+      "name": "MANUAL_REVERT_TESTS",
+      "path": "res://tests/manual_revert_tests.gd",
+      "present": true
+    },
+    {
+      "name": "COMBO_INTEGRATION_TESTS",
+      "path": "res://tests/combo_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PROGRESSION_TESTS",
+      "path": "res://tests/progression_tests.gd",
+      "present": true
+    },
+    {
+      "name": "SPECIAL_GAP_TESTS",
+      "path": "res://tests/special_gap_tests.gd",
+      "present": true
+    },
+    {
+      "name": "WORLD_ROUTES_TESTS",
+      "path": "res://tests/world_routes_tests.gd",
+      "present": true
+    },
+    {
+      "name": "AUDIO_TESTS",
+      "path": "res://tests/audio_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CAREER_INTEGRATION_TESTS",
+      "path": "res://tests/career_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "INPUT_PROFILE_TESTS",
+      "path": "res://tests/input_profile_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CLASSIC_CONTROL_TESTS",
+      "path": "res://tests/classic_control_input_tests.gd",
+      "present": true
+    },
+    {
+      "name": "UI_INTEGRATION_TESTS",
+      "path": "res://tests/ui_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "UI_FEEDBACK_TESTS",
+      "path": "res://tests/ui_feedback_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PRESENTATION_INTEGRATION_TESTS",
+      "path": "res://tests/presentation_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "ENCOUNTERS_TESTS",
+      "path": "res://tests/glasgow_encounters_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CAT_ENCOUNTER_TESTS",
+      "path": "res://tests/cat_encounter_tests.gd",
+      "present": true
+    },
+    {
+      "name": "MARKET_ENCOUNTER_TESTS",
+      "path": "res://tests/market_encounter_tests.gd",
+      "present": true
+    },
+    {
+      "name": "EXCHANGE_PLACE_TESTS",
+      "path": "res://tests/exchange_place_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PLAYABILITY_TESTS",
+      "path": "res://tests/playability_regression_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TOPOGRAPHY_TESTS",
+      "path": "res://tests/topography_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CAREER_ROUTE_TESTS",
+      "path": "res://tests/career_route_tests.gd",
+      "present": true
+    },
+    {
+      "name": "DIRECTIONAL_TRICKS_TESTS",
+      "path": "res://tests/directional_tricks_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRICK_ANIMATION_TESTS",
+      "path": "res://tests/trick_animation_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRANSITION_RIDE_TESTS",
+      "path": "res://tests/transition_ride_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRANSITION_GEOMETRY_TESTS",
+      "path": "res://tests/transition_geometry_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CLASSIC_TRICKS_TESTS",
+      "path": "res://tests/classic_tricks_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CAMERA_TURN_REVIEW_TESTS",
+      "path": "res://tests/camera_turn_review_tests.gd",
+      "present": true
+    }
+  ],
+  "work_preloads": [
+    {
+      "name": "SCORE_SCRIPT",
+      "path": "res://game/scoring/score_session.gd",
+      "present": true
+    },
+    {
+      "name": "MAIN_SCRIPT",
+      "path": "res://game/main.gd",
+      "present": true
+    },
+    {
+      "name": "INPUT_SETUP",
+      "path": "res://game/core/input_setup.gd",
+      "present": true
+    },
+    {
+      "name": "RAIL_GEOMETRY_TESTS",
+      "path": "res://tests/rail_geometry_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TAKEOFF_TESTS",
+      "path": "res://tests/takeoff_tests.gd",
+      "present": true
+    },
+    {
+      "name": "SKATE_RESPONSE_TESTS",
+      "path": "res://tests/skate_response_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRINDING_TESTS",
+      "path": "res://tests/grinding_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRIND_REGRESSION_TESTS",
+      "path": "res://tests/grind_regression_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRIND_RIDE_TESTS",
+      "path": "res://tests/grind_ride_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CATALOG_TESTS",
+      "path": "res://tests/trick_catalog_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRICK_INPUT_TESTS",
+      "path": "res://tests/trick_input_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRICK_SCORE_TESTS",
+      "path": "res://tests/trick_score_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRICK_POSE_TESTS",
+      "path": "res://tests/trick_pose_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRICK_FIDELITY_TESTS",
+      "path": "res://tests/trick_fidelity_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRICK_ENCOUNTER_TESTS",
+      "path": "res://tests/trick_encounter_tests.gd",
+      "present": true
+    },
+    {
+      "name": "COMBO_RESOLUTION_TESTS",
+      "path": "res://tests/combo_resolution_tests.gd",
+      "present": true
+    },
+    {
+      "name": "MANUAL_REVERT_TESTS",
+      "path": "res://tests/manual_revert_tests.gd",
+      "present": true
+    },
+    {
+      "name": "COMBO_INTEGRATION_TESTS",
+      "path": "res://tests/combo_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PROGRESSION_TESTS",
+      "path": "res://tests/progression_tests.gd",
+      "present": true
+    },
+    {
+      "name": "SPECIAL_GAP_TESTS",
+      "path": "res://tests/special_gap_tests.gd",
+      "present": true
+    },
+    {
+      "name": "WORLD_ROUTES_TESTS",
+      "path": "res://tests/world_routes_tests.gd",
+      "present": true
+    },
+    {
+      "name": "AUDIO_TESTS",
+      "path": "res://tests/audio_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CAREER_INTEGRATION_TESTS",
+      "path": "res://tests/career_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "INPUT_PROFILE_TESTS",
+      "path": "res://tests/input_profile_tests.gd",
+      "present": true
+    },
+    {
+      "name": "UI_INTEGRATION_TESTS",
+      "path": "res://tests/ui_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "UI_FEEDBACK_TESTS",
+      "path": "res://tests/ui_feedback_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PRESENTATION_INTEGRATION_TESTS",
+      "path": "res://tests/presentation_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "ENCOUNTERS_TESTS",
+      "path": "res://tests/glasgow_encounters_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CAT_ENCOUNTER_TESTS",
+      "path": "res://tests/cat_encounter_tests.gd",
+      "present": true
+    },
+    {
+      "name": "MARKET_ENCOUNTER_TESTS",
+      "path": "res://tests/market_encounter_tests.gd",
+      "present": true
+    },
+    {
+      "name": "EXCHANGE_PLACE_TESTS",
+      "path": "res://tests/exchange_place_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PLAYABILITY_TESTS",
+      "path": "res://tests/playability_regression_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TOPOGRAPHY_TESTS",
+      "path": "res://tests/topography_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CAREER_ROUTE_TESTS",
+      "path": "res://tests/career_route_tests.gd",
+      "present": true
+    },
+    {
+      "name": "ARCADE_ECONOMY_TESTS",
+      "path": "res://tests/arcade_economy_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRICK_LANGUAGE_TESTS",
+      "path": "res://tests/trick_language_tests.gd",
+      "present": true
+    },
+    {
+      "name": "WALL_RIDE_TESTS",
+      "path": "res://tests/wall_ride_tests.gd",
+      "present": true
+    },
+    {
+      "name": "OVERNIGHT_INTEGRATION_TESTS",
+      "path": "res://tests/overnight_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "FEATURE_TRANSITION_RIDE_TESTS",
+      "path": "res://tests/feature_transition_ride_tests.gd",
+      "present": true
+    },
+    {
+      "name": "SURFACE_COVERAGE_TESTS",
+      "path": "res://tests/surface_coverage_tests.gd",
+      "present": true
+    },
+    {
+      "name": "TRANSITION_PLAYER_TESTS",
+      "path": "res://tests/transition_player_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PROCESS_GUARD_TESTS",
+      "path": "res://tests/process_guard_tests.gd",
+      "present": true
+    },
+    {
+      "name": "FULL_REPERTOIRE_TESTS",
+      "path": "res://tests/full_repertoire_tests.gd",
+      "present": true
+    },
+    {
+      "name": "AUTHENTIC_POSE_TESTS",
+      "path": "res://tests/authentic_pose_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CONNECTED_TRANSITION_TESTS",
+      "path": "res://tests/connected_transition_tests.gd",
+      "present": true
+    },
+    {
+      "name": "REMAINING_FEATURE_TESTS",
+      "path": "res://tests/remaining_feature_tests.gd",
+      "present": true
+    },
+    {
+      "name": "AUTHENTIC_FIDELITY_TESTS",
+      "path": "res://tests/authentic_fidelity_integration_tests.gd",
+      "present": true
+    },
+    {
+      "name": "FULL_LEVEL_DENSITY_TESTS",
+      "path": "res://tests/full_level_density_tests.gd",
+      "present": true
+    },
+    {
+      "name": "PLATFORM_CONTACT_TESTS",
+      "path": "res://tests/platform_contact_tests.gd",
+      "present": true
+    },
+    {
+      "name": "ACTIVITY_ACTOR_TESTS",
+      "path": "res://tests/activity_actor_tests.gd",
+      "present": true
+    },
+    {
+      "name": "ROUTE_AVAILABILITY_TESTS",
+      "path": "res://tests/route_availability_tests.gd",
+      "present": true
+    },
+    {
+      "name": "AMBIENT_ADULT_TESTS",
+      "path": "res://tests/ambient_adult_tests.gd",
+      "present": true
+    },
+    {
+      "name": "CURVED_VISUAL_CONTACT_TESTS",
+      "path": "res://tests/curved_visual_contact_tests.gd",
+      "present": true
+    },
+    {
+      "name": "SKATEPARK_NAVIGATION_TESTS",
+      "path": "res://tests/skatepark_navigation_tests.gd",
+      "present": true
+    },
+    {
+      "name": "GRIND_SURFACE_CONTACT_TESTS",
+      "path": "res://tests/grind_surface_contact_tests.gd",
+      "present": true
+    },
+    {
+      "name": "KELVINGROVE_SKATEPARK_TESTS",
+      "path": "res://tests/kelvingrove_skatepark_tests.gd",
+      "present": true
+    }
+  ],
+  "missing": [],
+  "default_transition_script_exact": true,
+  "default_transition_uid_exact": true,
+  "feature_transition_uid_exact": true
+}

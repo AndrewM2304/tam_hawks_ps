@@ -90,14 +90,14 @@ static func run(tree: SceneTree,check: Callable) -> void:
 	main._on_trick("Boardslide",200)
 	main._on_trick("Boardslide",200)
 	check.call(main.score.trick_history==["Boardslide","Boardslide"]
-		and main.score.combo_base==300 and main.score.combo_multiplier==1
+		and main.score.combo_base==300 and main.score.combo_multiplier==2
 		and mo.status_snapshot().family_count==1 and audio.events.size()==2
 		and mo.calls.size()==2 and market.calls.size()==2,
-		"named grind consumers: separate repeated entries retain existing repeat devaluation and cannot manufacture family variety")
+		"named grind consumers: two accepted entries retain repeat devaluation and the entry multiplier without inventing family variety")
 
-	# Unknown display names are not producer events. Zero-point callbacks let
-	# routing refuse lookalike audio/families without changing Main's existing
-	# contract that valid producers, rather than this dispatcher, admit scoring.
+	# Unknown display names are not admitted producer events. Keep their legacy
+	# zero-point notifications while refusing lookalike score/audio/families,
+	# including when a malformed callback supplies positive points.
 	for title: String in ["Boardslide Fake","50-50ish","boardslide","50-50 ","Rail Grind Fake"]:
 		_clear(main,audio,mo,market)
 		main._on_trick(title,0)
@@ -107,6 +107,14 @@ static func run(tree: SceneTree,check: Callable) -> void:
 			and _one_call(mo.calls,title,0,rider.global_position)
 			and _one_call(market.calls,title,0,rider.global_position),
 			"named grind consumers: unscored lookalike cannot acquire grind audio, score or family through routing "+title)
+		_clear(main,audio,mo,market)
+		main._on_trick(title,200)
+		check.call(audio.events.is_empty() and main.score.trick_history.is_empty()
+			and main.score.get_combo_value()==0 and main._flips==0 and main._grabs==0
+			and mo.status_snapshot().family_count==0
+			and _one_call(mo.calls,title,0,rider.global_position)
+			and _one_call(market.calls,title,0,rider.global_position),
+			"named grind consumers: positive lookalike points cannot bypass exact display-name admission "+title)
 
 	_clear(main,audio,mo,market)
 	main._on_trick("Kickflip",300)

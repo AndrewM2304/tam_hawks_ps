@@ -1,0 +1,99 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS classic camera: interpolated ramp support removes root scale drift and preserves direction
+PASS classic turns: 8m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS classic turns: 8m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.25 angle_deg=26.190 distance=6.763 effective_radius=14.795 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS classic turns: 8m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS classic turns: 8m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.643 input=0.50 angle_deg=55.587 distance=6.763 effective_radius=6.971 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS classic turns: 8m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS classic turns: 8m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=1.00 angle_deg=136.829 distance=6.763 effective_radius=2.832 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS classic turns: 8m/s full input carves while half/quarter input remain progressively finer corrections
+PASS classic turns: 12m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS classic turns: 12m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.25 angle_deg=24.682 distance=10.382 effective_radius=24.100 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS classic turns: 12m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS classic turns: 12m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.50 angle_deg=52.387 distance=10.382 effective_radius=11.355 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS classic turns: 12m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS classic turns: 12m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=1.00 angle_deg=128.952 distance=10.382 effective_radius=4.613 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=true
+PASS classic turns: 12m/s full input carves while half/quarter input remain progressively finer corrections
+PASS classic turns: 15m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS classic turns: 15m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.374 input=0.25 angle_deg=23.551 distance=13.097 effective_radius=31.862 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS classic turns: 15m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS classic turns: 15m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=0.50 angle_deg=49.986 distance=13.097 effective_radius=15.012 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS classic turns: 15m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS classic turns: 15m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=1.00 angle_deg=123.042 distance=13.097 effective_radius=6.099 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS classic turns: 15m/s full input carves while half/quarter input remain progressively finer corrections
+PASS classic camera: sustained actual bank rollback moves chase behind travel without hiding rider or board
+CLASSIC REVERSE speed=-2.489 camera_dot_travel=-1.000 unsafe=0
+PASS classic camera: after an actual flat-ground turn, short follow lag settles to a forward chase behind the skater
+GROUND CHASE view_dot_forward=0.99930638074875 rear_dot_back=0.99916690587997
+PASS classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=false)
+PASS classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=false)
+CAMERA QUIET OLLIE held=2 reduced=false body_rise=0.83527360111475 camera_y_span=0.01117944717407 camera_angle_deg=0.65132038258922 unsafe=0
+PASS classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=false)
+PASS classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=false)
+CAMERA QUIET OLLIE held=24 reduced=false body_rise=1.27668134123087 camera_y_span=0.01957845687866 camera_angle_deg=0.99465312807228 unsafe=0
+PASS classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=true)
+PASS classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=true)
+CAMERA QUIET OLLIE held=2 reduced=true body_rise=0.83527360111475 camera_y_span=0.01108431816101 camera_angle_deg=0.64528382938425 unsafe=0
+PASS classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=true)
+PASS classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=true)
+CAMERA QUIET OLLIE held=24 reduced=true body_rise=1.27668134123087 camera_y_span=0.01905870437622 camera_angle_deg=1.00638792667489 unsafe=0
+PASS classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+LOCAL RAMP ORBIT turn_deg=179.987088988272 max_reverse_excursion_deg=0.00000700131086 up_y=0.99722754955292 down_y=-1.0 camera_up_dot_ramp_normal=0.97162336111069 good=true
+LOCAL RAMP ORBIT turn_deg=179.987082964894 max_reverse_excursion_deg=0.0000072525017 up_y=0.9971444606781 down_y=-1.0 camera_up_dot_ramp_normal=0.96967172622681 good=true
+LOCAL RAMP ORBIT turn_deg=179.987083936525 max_reverse_excursion_deg=0.00000699408576 up_y=0.9971444606781 down_y=-1.0 camera_up_dot_ramp_normal=0.96967172622681 good=true
+LOCAL RAMP ORBIT turn_deg=179.987043563838 max_reverse_excursion_deg=0.00001081414868 up_y=0.99714440107346 down_y=-1.0 camera_up_dot_ramp_normal=0.96967172622681 good=true
+PASS classic camera: held push makes repeated natural finite-wall returns (reduced=false)
+FAIL classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=false)
+PASS classic camera: actual ramp updates avoid large view or zoom jumps (reduced=false)
+PASS classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=false)
+PASS classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=false)
+PASS classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=false)
+PASS classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=false)
+PASS classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=false)
+CAMERA BOTTOM REAR samples=90 minimum_forward_dot=0.99099385738373
+CAMERA RAMP REAR side_frames=0 samples=138 minimum_forward_dot=0.99999988079071
+CAMERA LOCAL RETURNS reduced=false departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.05315175374349 max_update_move=0.80000132322311 max_update_angle=19.873444550602 pose_forward_dot_velocity=0.9987781047821 body_step_deg=8.24169130445184 native_body_samples=220 native_contiguous=true
+LOCAL RAMP ORBIT turn_deg=179.987080172687 max_reverse_excursion_deg=0.00000894424419 up_y=0.99782311916351 down_y=-1.0 camera_up_dot_ramp_normal=0.9803974032402 good=true
+LOCAL RAMP ORBIT turn_deg=179.987447554012 max_reverse_excursion_deg=0.0 up_y=0.99712771177292 down_y=-1.0 camera_up_dot_ramp_normal=0.9693894982338 good=true
+LOCAL RAMP ORBIT turn_deg=179.987084011644 max_reverse_excursion_deg=0.00000697955375 up_y=0.99712759256363 down_y=-1.0 camera_up_dot_ramp_normal=0.9693894982338 good=true
+LOCAL RAMP ORBIT turn_deg=179.987408189392 max_reverse_excursion_deg=0.0 up_y=0.99712765216827 down_y=-1.0 camera_up_dot_ramp_normal=0.9693894982338 good=true
+PASS classic camera: held push makes repeated natural finite-wall returns (reduced=true)
+FAIL classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=true)
+PASS classic camera: actual ramp updates avoid large view or zoom jumps (reduced=true)
+PASS classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=true)
+PASS classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=true)
+PASS classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=true)
+PASS classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=true)
+PASS classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=true)
+CAMERA BOTTOM REAR samples=90 minimum_forward_dot=0.99036228656769
+CAMERA RAMP REAR side_frames=0 samples=138 minimum_forward_dot=0.99999988079071
+CAMERA LOCAL RETURNS reduced=true departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.05367848714193 max_update_move=0.80000180006027 max_update_angle=19.8748310790035 pose_forward_dot_velocity=0.9987781047821 body_step_deg=8.24169130445184 native_body_samples=220 native_contiguous=true
+PASS classic camera: a brief backwards impulse cannot reverse the chase
+PASS classic camera: low-speed direction noise clears pending reversal
+CAMERA_DEFAULT_INTEGRATION 52 passed 2 failed

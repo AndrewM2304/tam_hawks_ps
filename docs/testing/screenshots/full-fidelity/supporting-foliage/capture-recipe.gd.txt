@@ -1,0 +1,72 @@
+extends SceneTree
+const Foliage=preload('res://game/levels/art/foliage_mesh.gd')
+var failures:=0
+var checks:=0
+func _initialize()->void:_capture.call_deferred()
+func _check(ok:bool,label:String)->void:
+ checks+=1
+ if not ok:failures+=1
+ print(('PASS ' if ok else 'FAIL ')+label)
+func _sources_at(folder:String,paths:Array[String])->void:
+ for file:String in DirAccess.get_files_at(folder):
+  if file.ends_with('.gd') or file.ends_with('.tscn') or file.ends_with('.tres') or file.ends_with('.gdshader'):paths.append(folder.path_join(file))
+ for directory:String in DirAccess.get_directories_at(folder):_sources_at(folder.path_join(directory),paths)
+func _hashes()->Dictionary:
+ var paths:Array[String]=['res://project.godot','res://.local/foliage_density_capture.gd']
+ _sources_at('res://game',paths)
+ paths.sort()
+ var result={}
+ for path:String in paths:result[path]=FileAccess.get_sha256(path)
+ return result
+func _median(values:Array[float])->float:
+ var sorted:Array[float]=values.duplicate();sorted.sort();return sorted[sorted.size()/2]
+func _capture()->void:
+ if DisplayServer.get_name()=='headless':push_error('Native rendered capture required');quit(1);return
+ var stage=FileAccess.get_file_as_string('res://.local/foliage_capture_stage').strip_edges()
+ var output='res://.local/foliage-'+stage
+ DirAccess.make_dir_recursive_absolute(output)
+ root.size=Vector2i(1280,800)
+ var before=_hashes()
+ var started=Time.get_ticks_usec()
+ var crown=Foliage.canopy_mesh()
+ var build_ms=float(Time.get_ticks_usec()-started)/1000.0
+ var cache_started=Time.get_ticks_usec()
+ var repeated=Foliage.canopy_mesh()
+ var cache_us=Time.get_ticks_usec()-cache_started
+ var arrays=crown.surface_get_arrays(0)
+ var indices:PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+ var vertices:PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+ var triangles=(indices.size() if not indices.is_empty() else vertices.size())/3
+ _check(crown==repeated and crown.get_surface_count()==1,'one cached canopy mesh and surface')
+ _check(Foliage.canopy_material().transparency==BaseMaterial3D.TRANSPARENCY_DISABLED and Foliage.canopy_material().cull_mode==BaseMaterial3D.CULL_DISABLED,'opaque double-sided original material')
+ var game=preload('res://game/main.gd').new()
+ game.persistence_enabled=false
+ root.add_child(game)
+ game.start_mode(true)
+ for f in 6:await physics_frame;await process_frame
+ game.process_mode=Node.PROCESS_MODE_DISABLED
+ game.hud.visible=false
+ var camera=Camera3D.new();camera.near=.05;root.add_child(camera);camera.current=true
+ var views=[{'id':'overview-park','camera':Vector3(-115,47,-62),'target':Vector3(-174,10,-128),'fov':62.0},{'id':'steep-gate-ground','camera':Vector3(-140,11.060081,-141),'target':Vector3(-145,11.026689,-146),'fov':60.0}]
+ var reports=[]
+ for view:Dictionary in views:
+  camera.global_position=view.camera;camera.look_at(view.target);camera.fov=view.fov
+  for warm in 3:await process_frame;RenderingServer.force_draw(true,1.0/60.0)
+  var times:Array[float]=[]
+  var pixels:Image
+  for measure in 5:
+   await process_frame
+   var tick=Time.get_ticks_usec()
+   RenderingServer.force_draw(true,1.0/60.0)
+   pixels=root.get_texture().get_image()
+   times.append(float(Time.get_ticks_usec()-tick)/1000.0)
+  var path=output.path_join(view.id+'.png')
+  _check(not pixels.is_empty() and pixels.get_width()==1280 and pixels.get_height()==800 and pixels.save_png(path)==OK,'actual Main '+stage+' '+view.id)
+  reports.append({'id':view.id,'camera':var_to_str(view.camera),'target':var_to_str(view.target),'fov':view.fov,'resolution':[1280,800],'path':path,'sha256':FileAccess.get_sha256(path),'draw_and_readback_ms':times,'median_draw_and_readback_ms':_median(times),'rendered_primitives':RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME),'draw_calls':RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME)})
+ var after=_hashes()
+ _check(before==after,'all listed production and capture inputs stable within '+stage+' run')
+ var report={'stage':stage,'scope':'Actual production Main park, fixed inspection cameras and paused native scene for matched foliage appearance. Timings are local Mesa software draw+readback samples, excluding PNG encode; not game FPS or target-Mac acceptance.','renderer':RenderingServer.get_video_adapter_name(),'engine':Engine.get_version_info().string,'profile_writes':false,'canopy_triangles':triangles,'canopy_vertices':vertices.size(),'canopy_aabb':var_to_str(crown.get_aabb()),'mesh_build_ms':build_ms,'cached_lookup_us':cache_us,'views':reports,'source_before':before,'source_after':after,'inputs_unchanged':before==after,'checks':checks,'failures':failures}
+ var file=FileAccess.open(output.path_join('manifest.json'),FileAccess.WRITE);file.store_string(JSON.stringify(report,'\t'));file.close()
+ game.queue_free();await process_frame
+ print('FOLIAGE_CAPTURE ',stage,' triangles=',triangles,' build_ms=',build_ms,' checks=',checks,' failures=',failures)
+ quit(0 if failures==0 else 1)

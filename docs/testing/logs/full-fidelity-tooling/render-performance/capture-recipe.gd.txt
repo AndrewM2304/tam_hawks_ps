@@ -1,0 +1,29 @@
+extends "res://tools/full_fidelity_capture.gd"
+func _run() -> void:
+ output="res://.local/capture-performance-proof"
+ _raw_spool=true;RenderingServer.set_render_loop_enabled(false)
+ DirAccess.make_dir_recursive_absolute(output)
+ game=Main.new();game.persistence_enabled=false;root.add_child(game);game.start_mode(true)
+ for frame in 40:await physics_frame;await process_frame
+ _inspection=Camera3D.new();game.add_child(_inspection);_inspection.fov=40
+ var records=[]
+ for label:String in ["contact_full_0","contact_full_1","contact_near25_0","contact_near25_1","contact_full_2","contact_near25_2","native_chase_0","native_chase_1","native_chase_2"]:
+  await physics_frame;await process_frame;await create_timer(0,true).timeout
+  var points=_markers(game);var center=(points[0]+points[1])*.5
+  _inspection.global_position=center+Vector3(2.4,1.4,2.8).normalized()*3.8;_inspection.look_at(center)
+  var is_chase=label.begins_with("native")
+  var near25=label.contains("near25")
+  _inspection.far=25 if near25 else 4000
+  game.hud.visible=is_chase
+  if is_chase:game.skater._camera.current=true
+  else:_inspection.current=true
+  var before=_snapshot(game)
+  var image:Image=await _render_current_frame()
+  var after=_snapshot(game)
+  _check(before==after,"render-only camera far changes preserve exact native state")
+  var draws=RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME)
+  records.append({"label":label,"microseconds":image.get_meta("draw_and_read_microseconds"),"draw_calls":draws,"native_state_unchanged":before==after,"camera_far":root.get_camera_3d().far})
+  if label.ends_with("_1"):_store_frame(image,label+".png")
+ var file=FileAccess.open(output.path_join("proof.json"),FileAccess.WRITE);file.store_string(JSON.stringify({"checks":checks,"failures":failures,"records":records},"\t"));file.close()
+ print("CAPTURE_PERFORMANCE ",JSON.stringify(records)," checks=",checks," failures=",failures)
+ game.queue_free();await process_frame;quit(1 if failures else 0)

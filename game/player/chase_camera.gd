@@ -2,6 +2,8 @@ extends RefCounted
 ## Original volume-aware chase camera using Godot's native physics queries.
 ## The rider's movement and travel heading are never modified here.
 
+const Footwear = preload("res://game/player/skater_footwear.gd")
+
 const CHEST_HEIGHT := 1.05
 const CAMERA_RADIUS := 0.25
 const CLEARANCE := 0.045
@@ -42,6 +44,9 @@ var _ramp_turn := 0.0
 var _minimum_arm := MIN_USEFUL_ARM
 var _ground_query := PhysicsRayQueryParameters3D.new()
 var _ground_board_y := 0.0
+var _wheel_landmarks:PackedVector3Array=PackedVector3Array()
+var _foot_targets := PackedVector3Array()
+var _travel_velocity := Vector3.ZERO
 
 
 func _init() -> void:
@@ -72,6 +77,8 @@ func reset() -> void:
 	_ramp_turn = 0.0
 	_minimum_arm = MIN_USEFUL_ARM
 	_ground_board_y = 0.0
+	_foot_targets.clear()
+	_travel_velocity = Vector3.ZERO
 
 
 func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity: float, reduced_motion: bool) -> void:
@@ -82,10 +89,46 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	var frame := _follow_transform(rider)
 	var board := frame.origin
 	if not board.is_finite(): return
+	_foot_targets.clear()
+	var rig: Variant = rider.get("_visual_rig")
+	if is_instance_valid(rig):
+		for leg: Dictionary in rig._legs:
+			var foot := _follow_transform(leg.foot)
+			_foot_targets.append(foot * Footwear.SOLE_CONTACT)
+			_foot_targets.append(foot * Footwear.TOE_CONTACT)
+		# The real wheel bearings sit below the nominal board landmark and
+		# planted soles. A shallow arrival bank can hide them independently.
+		if _wheel_landmarks.is_empty() and rig.has_method("board_contact_geometry"):
+			var unique:Dictionary={}
+			# Actual lower-rim support extrema include inner/outer, leading and
+			# trailing rubber. One minimum-Y vertex misses a bank at the rim.
+			for wheel:Dictionary in rig.board_contact_geometry().wheels:
+				for depth:float in [0.0,1.0,3.0]:
+					for side:float in [-1.0,1.0]:
+						for end:float in [-1.0,1.0]:
+							var direction:=Vector3(side,-depth,end)
+							var best:Vector3=Vector3.ZERO
+							var score:float=-INF
+							for point:Vector3 in wheel.points:
+								if point.dot(direction)>score:score=point.dot(direction);best=point
+							if is_finite(score):unique[best]=true
+			for point:Vector3 in unique:_wheel_landmarks.append(point)
+		if not _wheel_landmarks.is_empty() and not bool(rider.get("bail_active")):
+			var deck:Variant=rider.get("_board_visual")
+			if is_instance_valid(deck):
+				var deck_frame:=_follow_transform(deck)
+				for point:Vector3 in _wheel_landmarks:_foot_targets.append(deck_frame*point)
+	# Retain default heading confirmation/smoothing, but use completed native
+	# platform travel where appropriate. Helper cache cannot reverse the view.
+	var native_platform := rider.is_on_floor() and rider.get_platform_velocity().length_squared() > 0.01 \
+		and bool(rider.get("_native_floor_valid")) \
+		and not bool(rider.get("transition_active")) and not bool(rider.get("grinding"))
+	_travel_velocity = rider.get_real_velocity() if native_platform else rider.velocity
+	if not _travel_velocity.is_finite(): _travel_velocity = Vector3.ZERO
 	# Transitions can lay the skater back against a curved wall. Occlusion rays
 	# follow the actual body axis; ramps retain the skater's local up axis.
 	_body_up = _contact_up(rider)
-	var ordinary_air := bool(rider.get("airborne")) and not bool(rider.get("_ramp_air"))
+	var ordinary_air := bool(rider.get("airborne")) and not bool(rider.get("_ramp_air")) and not bool(rider.get("transition_active"))
 	if not _ready or not bool(rider.get("airborne")):
 		_ground_board_y = board.y
 	elif ordinary_air:
@@ -104,7 +147,7 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	# stall cannot spend its entire elapsed time on an apex camera turn.
 	var step := clampf(delta, 0.0, 1.0 / 60.0) if is_finite(delta) else 0.0
 	var response := clampf(sensitivity, 0.5, 2.0) if is_finite(sensitivity) else 1.0
-	var speed := clampf(Vector2(rider.velocity.x, rider.velocity.z).length(), 0.0, 15.0)
+	var speed := clampf(Vector2(_travel_velocity.x, _travel_velocity.z).length(), 0.0, 15.0)
 	var distance := 4.9 if reduced_motion else 4.9 + speed * 0.02
 	var rear := Vector3(frame.basis.z.x, 0, frame.basis.z.z).normalized()
 	if rear.length_squared() < 0.1: rear = Vector3.BACK
@@ -115,7 +158,7 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	if _ramp_mode and not ramp_mode:
 		# Continue behind the completed return; do not restart a second world
 		# heading/pitch turn from stale pre-ramp camera state.
-		var horizontal := Vector3(rider.velocity.x,0,rider.velocity.z)
+		var horizontal := Vector3(_travel_velocity.x,0,_travel_velocity.z)
 		_world_rear = -horizontal.normalized() if horizontal.length()>.1 else rear
 		_motion_pitch = atan2(rider.velocity.y,maxf(horizontal.length(),PITCH_RUN))
 	if ramp_mode != _ramp_mode:
@@ -144,7 +187,7 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 		_motion_pitch = asin(clampf(_motion_direction.y,-1.0,1.0))
 	else:
 		rear = _heading(rider,rear,step)
-		var travel := rider.velocity
+		var travel := _travel_velocity
 		# Ordinary ollies do not pitch the chase along their vertical velocity.
 		# Ground grades still follow actual travel, and ramps have their own frame.
 		var pitch := atan2(travel.y,maxf(Vector2(travel.x,travel.z).length(),PITCH_RUN)) if travel.length()>.5 and not ordinary_air else 0.0
@@ -234,6 +277,10 @@ func _contact_up(rider: CharacterBody3D) -> Vector3:
 		var value := _follow_transform(collision).basis.y
 		if value.is_finite() and value.length_squared() > 0.1:
 			return value.normalized()
+	if rider.has_method("get_support_normal"):
+		var value: Variant = rider.call("get_support_normal")
+		if value is Vector3 and value.is_finite() and value.length_squared() > 0.1:
+			return value.normalized()
 	return Vector3.UP
 
 
@@ -265,9 +312,9 @@ func _direction_sign(velocity: Vector3, facing_rear: Vector3, delta: float) -> f
 
 
 func _heading(rider: CharacterBody3D, facing_rear: Vector3, delta: float) -> Vector3:
-	var requested := facing_rear * _direction_sign(rider.velocity,facing_rear,delta)
+	var requested := facing_rear * _direction_sign(_travel_velocity,facing_rear,delta)
 	if bool(rider.get("airborne")):
-		var travel := Vector3(rider.velocity.x,0,rider.velocity.z)
+		var travel := Vector3(_travel_velocity.x,0,_travel_velocity.z)
 		requested = -travel.normalized() if travel.length()>=REVERSE_MIN_SPEED else _world_rear
 	if requested.length_squared()<.1:requested=facing_rear
 	if _world_rear.length_squared()<.1:_world_rear=requested
@@ -293,6 +340,12 @@ func _choose(space: PhysicsDirectSpaceState3D, anchor: Vector3, board: Vector3, 
 	for angle: float in ORBIT_ANGLES:
 		var candidate := _best_height(space, anchor, board, rear, distance, angle, excluded)
 		if float(candidate.score) > float(best.score): best = candidate
+	if not best.usable:
+		# Retain the work branch's last-resort swept high arm only after all
+		# ordinary rear/side heights fail the full body and real-foot checks.
+		for angle:float in [0.0]+ORBIT_ANGLES:
+			var candidate:=_candidate(space,anchor,board,rear,distance,angle,7.2,excluded)
+			if float(candidate.score)>float(best.score):best=candidate
 	_selected_angle = best.angle
 	return best
 
@@ -357,6 +410,18 @@ func _usable(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Vector3, 
 	if anchor.distance_to(position) < _minimum_arm or not _clear_volume(space, position): return false
 	# Chest alone can be clear while a lip or column hides the board or head.
 	for height: float in [0.12, CHEST_HEIGHT, 1.8]:
-		var query := PhysicsRayQueryParameters3D.create(position, board + _body_up * height, 1, excluded)
+		var query := PhysicsRayQueryParameters3D.create(position, board + _body_up * height, 1 | 8, excluded)
 		if not space.intersect_ray(query).is_empty(): return false
+	for point: Vector3 in _foot_targets:
+		var sight := PhysicsRayQueryParameters3D.create(position,point,1|8,excluded)
+		var hit := space.intersect_ray(sight)
+		if hit.is_empty(): continue
+		# Grounded rubber already has a strict4mm contact band. Only that same
+		# actual endpoint support may be touched; an intervening bank/wall fails.
+		var under := PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.03,point-Vector3.UP*0.03,1|8,excluded)
+		var support := space.intersect_ray(under)
+		if support.is_empty() or support.collider!=hit.collider or Vector3(hit.normal).y<0.65 \
+				or Vector3(support.normal).dot(hit.normal)<0.99 \
+				or absf((point-Vector3(support.position)).dot(support.normal))>0.004 \
+				or absf((point-Vector3(hit.position)).dot(hit.normal))>0.004: return false
 	return true

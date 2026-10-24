@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+"""Independent current-source native archive audit; run after the final export.
+
+Archive/provenance logic follows the repository's retained native audit receipts.
+Current Main construction is compared from source, Linux PCK and Mac PCK using
+Linux Godot. This is not Mac launch, gameplay, rendered or performance acceptance.
+"""
+import argparse
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path, PurePosixPath
+import plistlib
+import posixpath
+import shutil
+import stat
+import struct
+import subprocess
+import zipfile
+
+def digest(path):
+    result = hashlib.sha256()
+    with path.open('rb') as stream:
+        while block := stream.read(2 * 1024 * 1024):
+            result.update(block)
+    return result.hexdigest()
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+def require(condition, message):
+    if not condition:
+        raise RuntimeError(message)
+
+def safe(value):
+    path = PurePosixPath(value)
+    return bool(value) and bool(path.parts) and not path.is_absolute() and '..' not in path.parts and '\\' not in value and '\0' not in value and ':' not in path.parts[0]
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('build', type=Path)
+    parser.add_argument('--root', type=Path, default=Path('/workspace/tam_hawks_ps'))
+    args = parser.parse_args()
+    root, build = args.root.resolve(), args.build.resolve()
+    metadata_bytes = (build / 'BUILD-METADATA.json').read_bytes()
+    metadata = json.loads(metadata_bytes)
+    entries = metadata['source_files_sha256']
+    require(not metadata['working_tree_dirty'], 'Export records a dirty checkout')
+    require(metadata['git_commit'] == subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(), 'Export is not the final current commit')
+    require(not any(metadata[name] for name in ('macos_signed','macos_notarized','macos_launch_tested')), 'Unsupported Mac acceptance claim')
+    require(metadata['runtime_source_sha256'] == sha(json.dumps(entries,sort_keys=True).encode()), 'Runtime fingerprint mismatch')
+    current = [root/name for name in ('project.godot','export_presets.cfg','tools/export.sh','docs/PLAYER-GUIDE.md')]
+    current += [path for folder in ('game','docs/licences') for path in (root/folder).rglob('*') if path.is_file()]
+    require({str(path.relative_to(root)) for path in current} == set(entries), 'Package input set changed')
+    for name, expected in entries.items():
+        require(safe(name) and digest(root/name) == expected, 'Source differs: '+name)
+        require(sha(subprocess.check_output(['git','show',metadata['git_commit']+':'+name],cwd=root)) == expected, 'Git object differs: '+name)
+    verification = metadata['template_verification']
+    require(verification['version'] == '4.6.3-stable' and verification['sha512'] == 'da606b61c10157844f8300172df374472665f95015495cb1a7cd132c40ede404faa96cc1016a4b9662db9909ddea69632c4948b2cd11163438dad4808881fb68', 'Official template pin differs')
+    expected_notices = {path.name:path.read_bytes() for path in (root/'docs/licences/third-party').glob('*.txt')}
+    for name, expected in {'GODOT-LICENSE.txt':'b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80','GODOT-COPYRIGHT.txt':'b3330849267d56ddd3d62a513817506606c2195034411fe05859f0140bff9d8a'}.items():
+        data = (root/'.local/export-notices'/name).read_bytes()
+        require(sha(data) == expected, 'Official notice differs: '+name)
+        expected_notices[name] = data
+    for name, source in {'VOICE-PROVENANCE.json':'game/audio/generated/manifest.json','TEXTURE-PROVENANCE.json':'game/art/assets/zc_textures/manifest.json','HUMAN-MESH-PROVENANCE.json':'game/art/assets/makehuman_hm08/manifest.json','PROVENANCE.md':'docs/licences/REGISTER.md'}.items():
+        expected_notices[name] = (root/source).read_bytes()
+    report = {'runtime_commit':metadata['git_commit'],'runtime_source_sha256':metadata['runtime_source_sha256'],
+              'metadata_sha256':sha(metadata_bytes),'source_input_count':len(entries),'clean_build':True,
+              'source_matches_git_and_checkout':True,'archives':{},'macos_launch_tested':False,
+              'hardware_or_subjective_acceptance':False,'rendered_acceptance':False}
+    packs = {}
+    for platform in ('linux','macos'):
+        package = build/platform
+        archive = build/f'TamHawksProSkater-{platform}.zip'
+        resources = json.loads((package/'PACKAGED-RESOURCES.json').read_text())
+        require(resources['main_scene_loaded'] and len(resources['voice_streams']) == 3 and len(resources['textures']) == 4 and len(resources['human_meshes']) == 4, 'Incomplete packaged resources')
+        require(safe(resources['pack_path']), 'Unsafe PCK path')
+        packs[platform] = package/resources['pack_path']
+        require(digest(packs[platform]) == resources['pack_sha256'], 'PCK hash mismatch')
+        with zipfile.ZipFile(archive) as z:
+            names = z.namelist()
+            require(len(names) == len(set(names)) and all(safe(name) for name in names), 'Unsafe or duplicate ZIP paths')
+            require(z.testzip() is None, 'ZIP CRC failed')
+            require(set(names) == {str(path.relative_to(package)) for path in package.rglob('*') if path.is_file() or path.is_symlink()}, 'ZIP file list differs')
+            for member in z.infolist():
+                target = package/member.filename
+                mode = member.external_attr >> 16
+                require(stat.S_ISREG(mode) or stat.S_ISLNK(mode), 'Unexpected ZIP member type')
+                require(not mode & (stat.S_ISUID|stat.S_ISGID), 'Privileged ZIP mode')
+                require(stat.S_IMODE(mode) == stat.S_IMODE(target.lstat().st_mode), 'ZIP mode differs')
+                data = z.read(member)
+                if stat.S_ISLNK(mode):
+                    link = data.decode()
+                    require(not link.startswith('/') and safe(posixpath.normpath(posixpath.join(posixpath.dirname(member.filename),link))), 'Unsafe ZIP symlink')
+                    require(target.is_symlink() and os.readlink(target) == link, 'Symlink differs')
+                else:
+                    require(not target.is_symlink() and sha(data) == digest(target), 'ZIP member differs')
+            require(z.read('BUILD-METADATA.json') == metadata_bytes, 'Embedded metadata differs')
+            require(z.read('PLAYER-GUIDE.md') == (root/'docs/PLAYER-GUIDE.md').read_bytes(), 'Player guide differs')
+            for name, expected in expected_notices.items():
+                require(z.read('NOTICES/'+name) == expected, 'Notice/provenance differs: '+name)
+            require(sha(z.read(resources['pack_path'])) == resources['pack_sha256'], 'ZIP PCK differs from inspected PCK')
+            if platform == 'linux':
+                executable = 'TamHawksProSkater.x86_64'
+                data = z.read(executable)
+                require(data[:6] == b'\x7fELF\x02\x01' and struct.unpack_from('<H',data,18)[0] == 62, 'Linux architecture mismatch')
+                require(sha(data) == verification['extracted_sha256']['linux_release.x86_64'], 'Linux template differs')
+                architecture = 'ELF64 x86_64'
+            else:
+                info = plistlib.loads(z.read('Tam Hawks Pro Skater.app/Contents/Info.plist'))
+                executable = 'Tam Hawks Pro Skater.app/Contents/MacOS/'+info['CFBundleExecutable']
+                data = z.read(executable)
+                magic, count = struct.unpack_from('>II',data)
+                require(magic == 0xcafebabe and count == 2, 'Mac universal header mismatch')
+                cpus = set()
+                for index in range(count):
+                    cpu, subtype, offset, size, align = struct.unpack_from('>IIIII',data,8+20*index)
+                    require(offset+size <= len(data) and data[offset:offset+4] == b'\xcf\xfa\xed\xfe', 'Mac slice invalid')
+                    require(struct.unpack_from('<I',data,offset+4)[0] == cpu, 'Mac slice CPU mismatch')
+                    cpus.add(cpu)
+                require(cpus == {0x01000007,0x0100000c}, 'Mac arm64/x86_64 mismatch')
+                require(sha(data) == '5a65c5e1fc81bb7816b03e1be1f902de58c1ff4b71b9a83973665f35d4f4e737', 'Mac template differs')
+                architecture = 'Universal Mach-O arm64+x86_64'
+            require(stat.S_IMODE(z.getinfo(executable).external_attr >> 16) == 0o755, 'Executable permission mismatch')
+        report['archives'][platform] = {'bytes':archive.stat().st_size,'sha256':digest(archive),'architecture':architecture,
+            'safe_paths':True,'crc_pass':True,'all_member_bytes_and_modes_match':True,'notices_match':len(expected_notices),'pack_sha256':resources['pack_sha256']}
+    for log in build.glob('*.log'):
+        require(not any(marker in log.read_text() for marker in ('ERROR:','SCRIPT ERROR:','Parse Error:','FAIL:')), 'Export error log: '+str(log))
+    work = build/'independent-current-audit'
+    empty = work/'empty-project'
+    empty.mkdir(parents=True,exist_ok=True)
+    probe = Path(__file__).with_name('pack_probe.gd').resolve()
+    godot = os.environ.get('GODOT_BIN',shutil.which('godot'))
+    require(godot, 'Godot missing')
+    probes = {}
+    for platform in ('source','linux','macos'):
+        output = work/f'{platform}-construction.json'
+        command = [godot,'--headless','--audio-driver','Dummy','--path',str(root if platform == 'source' else empty)]
+        if platform != 'source': command += ['--main-pack',str(packs[platform])]
+        command += ['--script',str(probe),'--',str(output)]
+        env = os.environ.copy()
+        for key, folder in [('XDG_DATA_HOME','data'),('XDG_CONFIG_HOME','config'),('XDG_CACHE_HOME','cache')]:
+            directory = work/platform/folder
+            directory.mkdir(parents=True,exist_ok=True)
+            env[key] = str(directory)
+        process = subprocess.run(command,cwd=empty,env=env,text=True,capture_output=True,timeout=60)
+        log = process.stdout+process.stderr
+        (work/f'{platform}-construction.log').write_text(log)
+        require(process.returncode == 0 and not any(marker in log for marker in ('ERROR:','SCRIPT ERROR:','Parse Error:','FAIL:')), 'Construction probe failed: '+platform)
+        probes[platform] = json.loads(output.read_text())
+    require(probes['source'] == probes['linux'] == probes['macos'], 'Source/PCK current construction differs')
+    for name, expected in entries.items():
+        require(digest(root/name) == expected, 'Source changed during audit: '+name)
+    report['source_stable_during_audit'] = True
+    report['identical_source_linux_macos_construction'] = probes['source']
+    report['audit_helper_sha256'] = digest(Path(__file__))
+    report['pack_probe_sha256'] = digest(probe)
+    report['recorded_at_utc'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    (work/'ARCHIVE-AUDIT.json').write_text(json.dumps(report,indent=2)+'\n')
+    print('CURRENT NATIVE AUDIT PASS:',metadata['git_commit'],len(entries),'source inputs; both archives and isolated current Main construction')
+    print(json.dumps(report['archives'],indent=2))
+
+if __name__ == '__main__':
+    main()

@@ -390,11 +390,26 @@ static func _face_tricks(tree: SceneTree, rider: Node3D, check: Callable) -> voi
 	_pad(JOY_BUTTON_DPAD_UP,true)
 	_pad(JOY_BUTTON_B,true)
 	await _frames(tree,2)
-	check.call(rider.airborne and rider.active_grab_id=="nose_grab" \
+	# Keep the original face input held: the integrated flip/catch guard queues
+	# this Nose Grab and must execute it without requiring another press.
+	var pending_nose: bool = rider._pending_grab.get("id", "") == "nose_grab"
+	for catch_tick in 24:
+		if rider.active_grab_id == "nose_grab": break
+		await _frames(tree, 1)
+	check.call(pending_nose and rider.airborne and rider.active_grab_id=="nose_grab" \
 		and seen.count(Catalog.definition("nose_grab").display_name)==1,
 		"classic pad: D-pad Up plus Circle selects and performs the airborne nose grab")
 	_pad(JOY_BUTTON_B,false)
 	_pad(JOY_BUTTON_DPAD_UP,false)
+	# The queued catch consumes the first flat-ground airtime. Complete that
+	# native landing, then perform a fresh full-charge pop for the rail test.
+	for landing_tick in 60:
+		if rider.is_on_floor() and not rider.airborne: break
+		await _frames(tree,1)
+	_pad(JOY_BUTTON_A,true)
+	await _frames(tree,24)
+	_pad(JOY_BUTTON_A,false)
+	await _frames(tree,2)
 	var descending := false
 	for frame: int in 60:
 		await _frames(tree,1)

@@ -184,6 +184,14 @@ func _sync_actor() -> void:
 
 func _trick_family(trick_name: String) -> String:
 	var lower := trick_name.strip_edges().to_lower()
+	# Display callbacks are kept compatible with existing encounter callers, but
+	# authored family metadata also covers tricks such as Pop Shove-it and slides
+	# whose names do not contain "flip" or "grind".
+	for entry: Dictionary in TrickCatalog.DEFINITIONS:
+		if str(entry.display_name) == trick_name:
+			var family := str(entry.family)
+			if family == "launch": return "ollie"
+			return family if family in ["flip", "grab", "grind", "manual", "revert", "spin", "special", "lip", "wall", "skitch"] else ""
 	if lower == "ollie": return "ollie"
 	if "flip" in lower or "shuvit" in lower: return "flip"
 	if "grab" in lower or "indy" in lower: return "grab"

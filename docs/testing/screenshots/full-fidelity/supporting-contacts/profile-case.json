@@ -1,0 +1,75 @@
+{
+	"rig_sha256_after": "4f37b671e31554367467742fcf124404f040d72e4c249694865a0ae62dab7993",
+	"rig_sha256_before": "4f37b671e31554367467742fcf124404f040d72e4c249694865a0ae62dab7993",
+	"rows": [
+		{
+			"actual_bank": 900,
+			"balance": 0.107222222222222,
+			"base": 450,
+			"correct_entry": true,
+			"entries": 2,
+			"expected": "one_foot_nose_manual",
+			"expected_bank": 900,
+			"feet": [
+				{
+					"actual_grip_distance": 0.000899210630450398,
+					"complete_shoe_min": -0.000888705253601074,
+					"functional_sole": "Vector3(-0.01499939, 0.017899513, -0.22000122)",
+					"nose_toe_dot": -0.129336282610893,
+					"side": -1.0,
+					"signed_grip": 0.000899514183402061,
+					"sole_bearing": 0.00020146369934082,
+					"toe_direction": "Vector3(0.9916008, 1.1175871e-08, 0.12933628)"
+				},
+				{
+					"actual_grip_distance": 0.159387141466141,
+					"complete_shoe_min": 0.158672571182251,
+					"functional_sole": "Vector3(0.07112694, 0.17716455, 0.17962074)",
+					"nose_toe_dot": 0.131660640239716,
+					"side": 1.0,
+					"signed_grip": 0.159424838828791,
+					"sole_bearing": 0.158672571182251,
+					"toe_direction": "Vector3(0.99129486, -1.8626451e-08, -0.13166064)"
+				}
+			],
+			"final_bails": 0,
+			"first_ordinary_marker": 0.168800458312035,
+			"floor": true,
+			"full_motion_clearance": -0.00089041143655777,
+			"full_motion_stretch": 1.00000047683716,
+			"id": "one_foot_nose_manual",
+			"max_all_marker": 0.168800458312035,
+			"max_all_relative": 0.114281259477139,
+			"max_enter_marker": 0.134515419602394,
+			"max_enter_relative": 0.114281259477139,
+			"motion_evidence": {
+				"absolute": 0.168800458312035,
+				"clearance": -0.00089041143655777,
+				"clearance_peak": {
+					"actual_surface_y": 0.0187901258468628,
+					"board_vertex": "Vector3(-0.08728409, 0.017899714, -0.2842121)",
+					"foot": "FrontFoot",
+					"frame": 14,
+					"phase": "exit",
+					"shoe_vertex": "Vector3(-0.05430031, -0.060500026, 0.07999992)"
+				},
+				"frame": 39,
+				"phase": "exit",
+				"relative": 0.114281259477139,
+				"relative_peak": {
+					"delta": "Vector3(-0.10931778, 0.014061689, 0.030200958)",
+					"frame": 0,
+					"marker_index": 0,
+					"phase": "entry"
+				},
+				"stretch": 1.00000047683716
+			},
+			"native_bails": 0,
+			"pending": 0,
+			"rest": 0.0,
+			"reversed": false,
+			"shoe_min": -0.000888705253601074,
+			"stretch": 1.00000011920929
+		}
+	]
+}

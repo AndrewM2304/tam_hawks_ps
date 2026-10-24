@@ -24,7 +24,8 @@ static func grid_height(bounds: Rect2, spacing: float, height_at: Callable, x: f
 	return a+u*(b-a)+v*(c-a) if u+v<=1.0 else d+(1-u)*(c-d)+(1-v)*(b-d)
 
 
-static func terrain(parent: Node3D, id: String, bounds: Rect2, spacing: float, height_at: Callable, material: Material) -> StaticBody3D:
+static func terrain(parent: Node3D, id: String, bounds: Rect2, spacing: float, height_at: Callable, material: Material,
+		cutouts: Array[Rect2] = []) -> StaticBody3D:
 	var nx := ceili(bounds.size.x / spacing)
 	var nz := ceili(bounds.size.y / spacing)
 	var dx := bounds.size.x / nx
@@ -47,9 +48,18 @@ static func terrain(parent: Node3D, id: String, bounds: Rect2, spacing: float, h
 			var south := vertices[mini(nz, z + 1) * (nx + 1) + x].y
 			normals.append(Vector3((left - right) / dx, 2.0, (north - south) / dz).normalized())
 			if x < nx and z < nz:
+				var cell_center := Vector2(bounds.position.x+(x+0.5)*dx,bounds.position.y+(z+0.5)*dz)
+				var excavated := false
+				for cutout: Rect2 in cutouts:
+					if cutout.has_point(cell_center):
+						excavated = true
+						break
+				if excavated: continue
 				var a := z * (nx + 1) + x
 				indices.append_array(PackedInt32Array([a, a + 1, a + nx + 1, a + 1, a + nx + 2, a + nx + 1]))
-	return _body(parent, id, vertices, normals, uvs, indices, material, "stone")
+	var result := _body(parent, id, vertices, normals, uvs, indices, material, "stone")
+	result.set_meta("terrain_cutouts",cutouts.duplicate())
+	return result
 
 
 ## visual_points may end a road at a shared paving seam. Collision keeps the
@@ -61,6 +71,8 @@ static func strip(parent: Node3D, id: String, points: PackedVector3Array, width:
 	# The full collision strip stays authoritative when only the displayed road
 	# is trimmed at a paving seam. Cache its exact paired vertices once.
 	body.set_meta("support_vertices",arrays[Mesh.ARRAY_VERTEX])
+	body.set_meta("strip_vertices",arrays[Mesh.ARRAY_VERTEX])
+	body.set_meta("strip_indices",arrays[Mesh.ARRAY_INDEX])
 	return body
 
 
@@ -181,6 +193,7 @@ static func _body(parent: Node3D, id: String, vertices: PackedVector3Array, norm
 	var body := StaticBody3D.new()
 	body.name = id
 	body.set_meta("geometry_id", id)
+	body.set_meta("art_label", id)
 	body.collision_layer = 1
 	body.collision_mask = 0
 	body.set_meta("surface_audio", audio)

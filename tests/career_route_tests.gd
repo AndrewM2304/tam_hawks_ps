@@ -43,7 +43,7 @@ static func _collection_circuit(tree: SceneTree, game: Node, check: Callable) ->
 	await _frames(tree, 45)
 	var evidence := {"bails": 0, "frames": 45, "distance": 0.0, "stalled_frames": 0,
 		"checkpoints": {}, "letters_at": -1.0, "market_at": -1.0, "secret_at": -1.0,
-		"all_goals_at": -1.0, "tricks": {}, "central_upper_landing": false}
+		"all_goals_at": -1.0, "tricks": {}, "scoring_legs": 0, "central_upper_landing": false}
 	var on_bail := func(): evidence.bails += 1
 	var on_trick := func(name: String, _points: int): evidence.tricks[name] = evidence.tricks.get(name, 0) + 1
 	game.skater.bailed.connect(on_bail)
@@ -204,7 +204,7 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 			await _frames(tree, 25)
 			game.skater.bailed.disconnect(on_bail)
 			game.skater.trick_performed.disconnect(on_trick)
-			var expected_bank: int = {1: 3000, 2: 3200, 3: 3300}.get(evidence.entries, -1)
+			var expected_bank: int = {1: 3000, 2: 4000, 3: 4950}.get(evidence.entries, -1)
 			var bank_before: int = game.score.total_score
 			await _frames(tree, 25)
 			var label: String = route[0] + (" reverse" if reverse else " forward")
@@ -221,6 +221,13 @@ static func _boundary_combos(tree: SceneTree, game: Node, check: Callable) -> vo
 static func _drive_to(tree: SceneTree, game: Node, target: Vector3, evidence: Dictionary, scoring: bool = false) -> Dictionary:
 	var jumped := false
 	var air_tricks := false
+	# A timed career now rewards repertoire across separate banks: choose real
+	# directional inputs instead of repeatedly earning fresh default-trick values.
+	var scoring_direction := "neutral"
+	if scoring:
+		var directions: Array[String] = ["neutral", "east", "north", "north_west", "north_east", "south_west"]
+		scoring_direction = directions[int(evidence.scoring_legs) % directions.size()]
+		evidence.scoring_legs += 1
 	for frame in range(900):
 		var at: Vector3 = game.skater.global_position
 		var offset := Vector3(target.x - at.x, 0, target.z - at.z)
@@ -247,6 +254,10 @@ static func _drive_to(tree: SceneTree, game: Node, target: Vector3, evidence: Di
 				Input.action_release("manual")
 				Input.action_release("push")
 				if not air_tricks:
+					if "north" in scoring_direction: Input.action_press("push")
+					if "south" in scoring_direction: Input.action_press("brake")
+					if "west" in scoring_direction: Input.action_press("steer_left")
+					if "east" in scoring_direction: Input.action_press("steer_right")
 					Input.action_press("flip")
 					Input.action_press("grab")
 					air_tricks = true

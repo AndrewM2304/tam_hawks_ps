@@ -1,0 +1,60 @@
+{
+  "scope": "Matched actual Main inspection cameras; only foliage source changed across pair. Local software draw+readback cost has warm-up/load variability and is not game FPS or target-Mac acceptance.",
+  "all_68_inputs_stable_within_each_run": true,
+  "only_changed_input": [
+    "res://game/levels/art/foliage_mesh.gd"
+  ],
+  "exact_camera_matches": true,
+  "before_canopy_triangles": 3080,
+  "after_canopy_triangles": 4796,
+  "triangle_increase_percent": 55.714285714285715,
+  "before_mesh_build_ms": 12.668,
+  "after_mesh_build_ms": 21.155,
+  "views": [
+    {
+      "view": "overview-park",
+      "before_primitives": 777081,
+      "after_primitives": 928089,
+      "draw_calls_unchanged": true,
+      "before_ms": 1289.73,
+      "after_ms": 1422.712,
+      "before_samples_ms": [
+        2159.334,
+        1362.93,
+        1289.73,
+        909.689,
+        720.984
+      ],
+      "after_samples_ms": [
+        1253.944,
+        1381.684,
+        1638.365,
+        1445.567,
+        1422.712
+      ]
+    },
+    {
+      "view": "steep-gate-ground",
+      "before_primitives": 649261,
+      "after_primitives": 800269,
+      "draw_calls_unchanged": true,
+      "before_ms": 585.251,
+      "after_ms": 919.23,
+      "before_samples_ms": [
+        534.847,
+        585.251,
+        605.69,
+        628.843,
+        564.963
+      ],
+      "after_samples_ms": [
+        919.23,
+        963.111,
+        876.938,
+        806.376,
+        5101.389
+      ]
+    }
+  ],
+  "final_foliage_sha256": "c51cd15867eb6754a1fbdc1333cd90e5fbc11ea7029027a5f05547d2bdd628c1"
+}

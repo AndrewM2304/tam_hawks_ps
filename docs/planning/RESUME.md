@@ -1,3 +1,13 @@
+OWNER STOP/CHECKPOINT: only6% usage remains by owner report. Push current merged
+source to default now and stop autonomous work. Preserve remaining usage for
+manual-test bugs. Read STATUS's immediate-push checkpoint; do not infer all-green
+verification or FULL_FIDELITY_ACCEPTED. No automatic continuation/purchases.
+
+Latest owner direction24October2026: reconcile work onto current default, test
+and push`bootstrap/m00-m01`; authorized merge overrides earlier prohibition for
+this task. Integration in progress, no completion claim. Read[STATUS](../STATUS.md).
+Preserve the manual-test usage reserve; no hourly continuation/new polish/spend.
+
 **Local named-grind checkpoint, 23 October:** cloud unavailable; continue this checkout on `bootstrap/m00-m01`. Required **2,561/0**, focused 333/0, index/bounds 38/0, strict native comparison, rising-air captures and 16-PNG/source audit pass. No task-owned engine or agent loop remains. Read newest [STATUS](../STATUS.md), [evidence](../testing/named-grinds/README.md) and [G01 tasks](NAMED-GRINDS-2026-10-23.md). Next reproduce G01-07 acquisition interpolation, then G01-06 conforming ledge/component support before extending named eligibility. More variants/style changes, wallride/wallie, straight-on plants and landing assistance follow. Preserve park/world/UI work, all 75 original task bodies and all 64 non-Done original statuses. Human/controller/export/isolated-performance gates stay open; do not repeat the unchanged full suite for docs alone.
 
 **23 October new priority:** [complete 24-ID/family trick audit](../research/TRICK-STYLE-AUDIT-2026-10-23.md) and [ordered implementation tasks](TRICK-FIDELITY-2026-10-23.md) are recorded. Calmer flat/rail ollie and staged foot sequence pass required2314/0 and native motion/source checks; strong ramp pop remains. Fully isolated timing/owner feel remain open. [STATUS](../STATUS.md) owns exact checks and retained failures. Generic angled rail entry exists; named grind styles, wallrides/plants and predictive landing assist remain explicit gaps. All 75 full task bodies remain intact.

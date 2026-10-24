@@ -1,0 +1,16 @@
+extends SceneTree
+class Probe:
+ extends Node
+ var prior_physics: int = -1
+ var physics_steps: Array[int] = []
+ func _process(_delta: float) -> void:
+  var current: int = Engine.get_physics_frames()
+  if prior_physics >= 0:
+   physics_steps.append(current - prior_physics)
+  prior_physics = current
+  OS.delay_msec(40)
+  if physics_steps.size() == 30:
+   print("SCHEDULE_PHYSICS_STEPS_PER_PROCESS=", physics_steps)
+   get_tree().quit()
+func _initialize() -> void:
+ root.add_child.call_deferred(Probe.new())

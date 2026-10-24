@@ -2,6 +2,8 @@ extends RefCounted
 ## Animation contracts: axes/endpoints and actual rig contact under authored board tilts.
 const TrickMotion = preload("res://game/player/trick_animation.gd")
 const Visual = preload("res://game/player/skater_visual.gd")
+const BoardGeometry = preload("res://tests/board_geometry_tests_support.gd")
+const Footwear = preload("res://game/player/skater_footwear.gd")
 
 static func run(tree: SceneTree, check: Callable) -> void:
 	var kick := TrickMotion.board_angles("kickflip", 0.25)
@@ -60,9 +62,8 @@ static func run(tree: SceneTree, check: Callable) -> void:
 			"trick animation: %s selected hand meets the tilted deck within 12mm" % id)
 		var feet_attached := true
 		for leg: Dictionary in rig._legs:
-			var side: float = leg.side
-			var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, 0.079, side * 0.255)
-			feet_attached = feet_attached and leg.foot.global_position.distance_to(board.to_global(deck_foot)) < 0.001
+			feet_attached = feet_attached and BoardGeometry.grip_distance(rig,
+				leg.foot.to_global(Footwear.SOLE_CONTACT)) < 0.001
 		check.call(feet_attached, "trick animation: %s retains both shoe contacts on the tilted board" % id)
 		grab_silhouettes.append(rig._upper.position)
 		grab_rotations.append(rig._upper.rotation)

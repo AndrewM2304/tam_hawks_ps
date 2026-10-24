@@ -123,6 +123,70 @@ static func run(check: Callable) -> void:
 		and _has_error(Catalog.validate_definitions(_with_field("activation", 123)), "activation"),
 		"trick catalog: unrecognized scoring-event authoring rejects")
 
+	_test_directional_sets(check)
+
+static func _test_directional_sets(check: Callable) -> void:
+	check.call(Catalog.family_ids("flip").size() >= 8
+		and Catalog.family_ids("grab").size() >= 6
+		and Catalog.family_ids("grind").size() >= 6,
+		"trick catalog: selectable flip, grab and grind repertoires cover distinct authored variants")
+	var defaults := true
+	for item: Array in [["flip", "kickflip"], ["grab", "melon_grab"], ["grind", "rail_grind"], ["manual", "manual"]]:
+		defaults = defaults and Catalog.resolve(item[0])["id"] == item[1]
+	check.call(defaults, "trick catalog: neutral selection preserves familiar default tricks")
+	var every_direction := true
+	for family: String in ["flip", "grab", "grind", "manual"]:
+		for direction: String in Catalog.DIRECTIONS:
+			var entry: Dictionary = Catalog.resolve(family, direction)
+			every_direction = every_direction and not entry.is_empty() and entry.get("family") == family
+	check.call(every_direction, "trick catalog: every cardinal and diagonal direction resolves within its requested family")
+	check.call(Catalog.resolve("flip", "east")["id"] == "heelflip"
+		and Catalog.resolve("flip", "south")["id"] == "pop_shove_it"
+		and Catalog.resolve("grab", "north")["id"] == "nose_grab"
+		and Catalog.resolve("grind", "east")["id"] == "boardslide",
+		"trick catalog: directional choices provide heel, shove, nose and slide inputs")
+	check.call(Catalog.resolve("manual", "north")["manual_sign"] == -1.0
+		and Catalog.resolve("manual", "north_east")["id"] == "nose_manual"
+		and Catalog.resolve("manual", "south")["manual_sign"] == 1.0,
+		"trick catalog: nose manuals have an opposite physical pose from tail manuals")
+	check.call(Catalog.resolve("unknown").is_empty() and Catalog.resolve("flip", "upsideways").is_empty()
+		and Catalog.family_ids("unknown").is_empty(),
+		"trick catalog: unsupported family or direction cannot silently execute another trick")
+	var selected: Dictionary = Catalog.resolve("grab", "south")
+	selected["grab_target"] = Vector3.INF
+	selected["allowed_states"].append("bail")
+	check.call(Catalog.resolve("grab", "south")["grab_target"].is_finite()
+		and not Catalog.can_perform("tail_grab", "bail"),
+		"trick catalog: directional lookup returns independent pose and state data")
+	var pose_signatures: Dictionary = {}
+	for trick_id: String in Catalog.family_ids("flip"):
+		var entry: Dictionary = Catalog.definition(trick_id)
+		var signature := str([entry["board_roll"], entry["board_yaw"], entry["board_pitch"]])
+		pose_signatures[signature] = true
+	check.call(pose_signatures.size() == Catalog.family_ids("flip").size(),
+		"trick catalog: all flip variants have distinct board trajectories")
+	check.call(_has_error(Catalog.validate_definitions(_with_field("family", "unknown")), "family"),
+		"trick catalog: unknown family metadata rejects authoring")
+	var malformed_pose_rejected := true
+	for field: String in ["duration", "board_roll", "board_yaw", "board_pitch"]:
+		for value: Variant in [null, "0.5", INF, NAN]:
+			malformed_pose_rejected = malformed_pose_rejected and _has_error(
+				Catalog.validate_definitions(_with_field(field, value)), field)
+	check.call(malformed_pose_rejected,
+		"trick catalog: missing, text and nonfinite flip pose data reject before animation")
+	check.call(_has_error(Catalog.validate_definitions(_with_field("duration", 0.0)), "duration")
+		and _has_error(Catalog.validate_definitions(_with_field("duration", 2.0)), "duration"),
+		"trick catalog: flip duration cannot be instantaneous or exceed its bounded window")
+	for field: String in ["grab_side", "grab_target"]:
+		var grab: Dictionary = Catalog.definition("melon_grab")
+		grab[field] = Vector3.INF if field == "grab_target" else 0.0
+		check.call(_has_error(Catalog.validate_definitions([grab]), field),
+			"trick catalog: malformed %s rejects authored grab pose" % field)
+	var far_grab: Dictionary = Catalog.definition("nose_grab")
+	far_grab["grab_target"] = Vector3(0, 0, -4)
+	check.call(_has_error(Catalog.validate_definitions([far_grab]), "grab_target"),
+		"trick catalog: grab targets cannot escape the physical board")
+
 static func _with_field(key: String, value: Variant) -> Array:
 	var entry: Dictionary = Catalog.definition("kickflip")
 	entry[key] = value

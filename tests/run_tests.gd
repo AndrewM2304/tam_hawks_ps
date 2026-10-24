@@ -26,6 +26,7 @@ const CLYDE_SURFACE_TESTS = preload("res://tests/clyde_surface_tests.gd")
 const CITY_BACKDROP_TESTS = preload("res://tests/city_backdrop_tests.gd")
 const SCORE_SCRIPT = preload("res://game/scoring/score_session.gd")
 const MAIN_SCRIPT = preload("res://game/main.gd")
+const INPUT_SETUP = preload("res://game/core/input_setup.gd")
 const RAIL_GEOMETRY_TESTS = preload("res://tests/rail_geometry_tests.gd")
 const TAKEOFF_TESTS = preload("res://tests/takeoff_tests.gd")
 const PLAYER_FORGIVENESS_TESTS = preload("res://tests/player_forgiveness_tests.gd")
@@ -37,9 +38,15 @@ const GRIND_RIDE_TESTS = preload("res://tests/grind_ride_tests.gd")
 const GRIND_CAPTURE_BOUNDS_TESTS = preload("res://tests/grind_capture_bounds_tests.gd")
 const GRIND_CONTACT_METADATA_TESTS = preload("res://tests/grind_contact_metadata_tests.gd")
 const GRIND_STYLE_TESTS = preload("res://tests/grind_style_tests.gd")
+const GRIND_VARIANT_TESTS = preload("res://tests/grind_variant_contact_tests.gd")
 const NAMED_GRIND_TESTS = preload("res://tests/named_grind_integration_tests.gd")
 const NAMED_GRIND_CONSUMERS_TESTS = preload("res://tests/named_grind_consumers_tests.gd")
 const CATALOG_TESTS = preload("res://tests/trick_catalog_tests.gd")
+const TRICK_INPUT_TESTS = preload("res://tests/trick_input_tests.gd")
+const TRICK_SCORE_TESTS = preload("res://tests/trick_score_tests.gd")
+const TRICK_POSE_TESTS = preload("res://tests/trick_pose_tests.gd")
+const TRICK_FIDELITY_TESTS = preload("res://tests/trick_fidelity_tests.gd")
+const TRICK_ENCOUNTER_TESTS = preload("res://tests/trick_encounter_tests.gd")
 const COMBO_RESOLUTION_TESTS = preload("res://tests/combo_resolution_tests.gd")
 const MANUAL_REVERT_TESTS = preload("res://tests/manual_revert_tests.gd")
 const COMBO_INTEGRATION_TESTS = preload("res://tests/combo_integration_tests.gd")
@@ -66,6 +73,30 @@ const TRANSITION_RIDE_TESTS = preload("res://tests/transition_ride_tests.gd")
 const TRANSITION_GEOMETRY_TESTS = preload("res://tests/transition_geometry_tests.gd")
 const CLASSIC_TRICKS_TESTS = preload("res://tests/classic_tricks_integration_tests.gd")
 const CAMERA_TURN_REVIEW_TESTS = preload("res://tests/camera_turn_review_tests.gd")
+const ARCADE_ECONOMY_TESTS = preload("res://tests/arcade_economy_tests.gd")
+const TRICK_LANGUAGE_TESTS = preload("res://tests/trick_language_tests.gd")
+const REPETITION_ALIAS_TESTS = preload("res://tests/repetition_alias_tests.gd")
+const WALL_RIDE_TESTS = preload("res://tests/wall_ride_tests.gd")
+const OVERNIGHT_INTEGRATION_TESTS = preload("res://tests/overnight_integration_tests.gd")
+const FEATURE_TRANSITION_RIDE_TESTS = preload("res://tests/feature_transition_ride_tests.gd")
+const SURFACE_COVERAGE_TESTS = preload("res://tests/surface_coverage_tests.gd")
+const TRANSITION_PLAYER_TESTS = preload("res://tests/transition_player_tests.gd")
+const PROCESS_GUARD_TESTS = preload("res://tests/process_guard_tests.gd")
+const FULL_REPERTOIRE_TESTS = preload("res://tests/full_repertoire_tests.gd")
+const AUTHENTIC_POSE_TESTS = preload("res://tests/authentic_pose_tests.gd")
+const NATIVE_GRIND_TRANSFER_TESTS = preload("res://tests/native_grind_transfer_tests.gd")
+const CONNECTED_TRANSITION_TESTS = preload("res://tests/connected_transition_tests.gd")
+const REMAINING_FEATURE_TESTS = preload("res://tests/remaining_feature_tests.gd")
+const AUTHENTIC_FIDELITY_TESTS = preload("res://tests/authentic_fidelity_integration_tests.gd")
+const FULL_LEVEL_DENSITY_TESTS = preload("res://tests/full_level_density_tests.gd")
+const PLATFORM_CONTACT_TESTS = preload("res://tests/platform_contact_tests.gd")
+const ACTIVITY_ACTOR_TESTS = preload("res://tests/activity_actor_tests.gd")
+const ROUTE_AVAILABILITY_TESTS = preload("res://tests/route_availability_tests.gd")
+const AMBIENT_ADULT_TESTS = preload("res://tests/ambient_adult_tests.gd")
+const CURVED_VISUAL_CONTACT_TESTS = preload("res://tests/curved_visual_contact_tests.gd")
+const SKATEPARK_NAVIGATION_TESTS = preload("res://tests/skatepark_navigation_tests.gd")
+const GRIND_SURFACE_CONTACT_TESTS = preload("res://tests/grind_surface_contact_tests.gd")
+const KELVINGROVE_SKATEPARK_TESTS = preload("res://tests/kelvingrove_skatepark_tests.gd")
 const ACTIONS = [
 	"push", "brake", "steer_left", "steer_right", "ollie", "flip", "grab", "grind",
 	"spin_left", "spin_right", "restart", "pause", "free_skate",
@@ -85,6 +116,7 @@ func _initialize() -> void:
 
 func _run() -> void:
 	print("Tam Hawks Pro Skater — independent QE checks")
+	INPUT_SETUP.register_actions()
 	_test_score_session()
 	SKATE_RESPONSE_TESTS.run(_check)
 	RENDER_BUDGET_TESTS.run(_check)
@@ -99,15 +131,22 @@ func _run() -> void:
 	GRIND_CAPTURE_BOUNDS_TESTS.run(_check)
 	GRIND_CONTACT_METADATA_TESTS.run(_check)
 	GRIND_STYLE_TESTS.run(_check)
+	await GRIND_VARIANT_TESTS.run(self, _check)
 	GRIND_INDEX_TESTS.run(_check)
 	CATALOG_TESTS.run(_check)
 	DIRECTIONAL_TRICKS_TESTS.run(_check)
 	TRICK_ANIMATION_TESTS.run(self, _check)
+	TRICK_INPUT_TESTS.run(_check)
+	TRICK_SCORE_TESTS.run(_check)
 	COMBO_RESOLUTION_TESTS.run(_check)
 	PROGRESSION_TESTS.run(_check)
 	INPUT_PROFILE_TESTS.run(_check)
 	await CLASSIC_CONTROL_TESTS.run(self, _check)
 	SPECIAL_GAP_TESTS.run(_check)
+	ARCADE_ECONOMY_TESTS.run(_check)
+	TRICK_LANGUAGE_TESTS.run(_check)
+	await REPETITION_ALIAS_TESTS.run(self, _check)
+	FULL_REPERTOIRE_TESTS.run(_check)
 	AUDIO_TESTS.run(self, _check)
 	await MANUAL_REVERT_TESTS.run(self, _check)
 	await TAKEOFF_TESTS.run(self, _check)
@@ -124,6 +163,18 @@ func _run() -> void:
 	await BAIL_RECOVERY_TESTS.run(self, _check)
 	await NAMED_GRIND_TESTS.run(self,_check)
 	await NAMED_GRIND_CONSUMERS_TESTS.run(self,_check)
+	await WALL_RIDE_TESTS.run(self, _check)
+	await FEATURE_TRANSITION_RIDE_TESTS.run(self, _check)
+	await CONNECTED_TRANSITION_TESTS.run(self, _check)
+	await REMAINING_FEATURE_TESTS.run(self, _check)
+	await TRICK_POSE_TESTS.run(self, _check)
+	await AUTHENTIC_POSE_TESTS.run(self, _check)
+	await NATIVE_GRIND_TRANSFER_TESTS.run(self, _check)
+	await ACTIVITY_ACTOR_TESTS.run(self, _check)
+	await TRICK_SCORE_TESTS.run_ui(self, _check)
+	await FULL_REPERTOIRE_TESTS.run_ui(self, _check)
+	await ROUTE_AVAILABILITY_TESTS.run_ui(self, _check)
+	await SKATEPARK_NAVIGATION_TESTS.run_ui(self, _check)
 	game = MAIN_SCRIPT.new()
 	game.persistence_enabled = false
 	root.add_child(game)
@@ -137,6 +188,7 @@ func _run() -> void:
 	await SUPPORT_QUERY_TESTS.run(game.world, _check)
 	ENVIRONMENT_TEXT_TESTS.run(self, game, _check)
 	GLASGOW_MURALS_TESTS.run(game.world, _check)
+	await SURFACE_COVERAGE_TESTS.run(self, game.world, _check)
 	_test_structure()
 	_test_world_floor()
 	_test_ramp_collision_and_boundaries()
@@ -152,6 +204,23 @@ func _run() -> void:
 	await GRINDING_TESTS.run(self, game, _check)
 	await GRIND_REGRESSION_TESTS.run(self, game, _check)
 	await COMBO_INTEGRATION_TESTS.run(self, game, _check)
+	await TRICK_FIDELITY_TESTS.run(self, game, _check)
+	await OVERNIGHT_INTEGRATION_TESTS.run(self, game, _check)
+	await TRANSITION_PLAYER_TESTS.run(self, game, _check)
+	await PROCESS_GUARD_TESTS.run(self, game, _check)
+	await AUTHENTIC_FIDELITY_TESTS.run(self, game, _check)
+	await CURVED_VISUAL_CONTACT_TESTS.run(self, game, _check)
+	await GRIND_SURFACE_CONTACT_TESTS.run(self, game, _check)
+	await KELVINGROVE_SKATEPARK_TESTS.run(self, game, _check)
+	await FULL_REPERTOIRE_TESTS.run_playable(self, game, _check)
+	await FULL_LEVEL_DENSITY_TESTS.run(self, game, _check)
+	await PLATFORM_CONTACT_TESTS.run(self, game, _check)
+	await REMAINING_FEATURE_TESTS.run_main(self, game, _check)
+	await REMAINING_FEATURE_TESTS.run_park_regions_main(self, game, _check)
+	await SKATEPARK_NAVIGATION_TESTS.run_world(self, game, _check)
+	await ACTIVITY_ACTOR_TESTS.run_world(self, game, _check)
+	await AMBIENT_ADULT_TESTS.run(self, game, _check)
+	await TRICK_ENCOUNTER_TESTS.run(self, game, _check)
 	await CAREER_INTEGRATION_TESTS.run(self, game, _check)
 	await UI_INTEGRATION_TESTS.run(self, game, _check)
 	await UI_FEEDBACK_TESTS.run(self, game, _check)
@@ -192,28 +261,28 @@ func _test_score_session() -> void:
 		"first trick contributes its base points and one multiplier")
 	session.add_trick("Kickflip", 100)
 	session.add_trick("Kickflip", 100)
-	_check(session.combo_base == 175 and session.combo_multiplier == 1,
-		"repeating a trick degrades to half then quarter without farming multiplier")
+	_check(session.combo_base == 175 and session.combo_multiplier == 3,
+		"each accepted repeat adds a multiplier while its base degrades to half then quarter")
 	session.add_trick("Melon Grab", 100)
-	_check(session.combo_base == 275 and session.combo_multiplier == 2,
-		"distinct tricks increase combo multiplier")
-	_check(session.get_combo_value() == 550 and session.total_score == 0,
+	_check(session.combo_base == 275 and session.combo_multiplier == 4,
+		"a fourth accepted entry contributes the fourth multiplier")
+	_check(session.get_combo_value() == 1100 and session.total_score == 0,
 		"active combo previews multiplied value without awarding unlanded points")
 	var awarded: int = session.bank_combo()
-	_check(awarded == 550 and session.total_score == 550 and session.best_combo == 550,
+	_check(awarded == 1100 and session.total_score == 1100 and session.best_combo == 1100,
 		"landing bank awards combo and records best combo")
 	_check(session.get_combo_value() == 0 and session.combo_base == 0,
 		"banking clears active combo")
-	_check(session.bank_combo() == 0 and session.total_score == 550,
+	_check(session.bank_combo() == 0 and session.total_score == 1100,
 		"banking twice cannot award the same combo again")
 	session.add_trick("Kickflip", 100)
-	_check(session.combo_base == 100, "repeat degradation resets for a new combo")
+	_check(session.combo_base == 12, "repeat degradation persists through a bank within the run")
 	session.drop_combo()
-	_check(session.get_combo_value() == 0 and session.total_score == 550,
+	_check(session.get_combo_value() == 0 and session.total_score == 1100,
 		"bailing drops the active combo and preserves previously banked score")
 	for i in range(12):
 		session.add_trick("Unique trick %d" % i, 100)
-	_check(session.combo_multiplier <= 8, "unique trick multiplier obeys its cap")
+	_check(session.combo_multiplier == 12, "accepted entries grow the multiplier beyond the former eight-entry cap")
 	session.reset()
 	_check(session.total_score == 0 and session.best_combo == 0
 		and session.get_combo_value() == 0 and session.last_banked == 0,
@@ -347,20 +416,21 @@ func _test_jump_tricks_and_landing() -> void:
 	var resting_y: float = game.skater.global_position.y
 	Input.action_press("ollie")
 	await _physics_frames(3)
-	_check(not game.skater.airborne, "held ollie crouches before a release pop")
+	_check(not game.skater.airborne and game.skater.global_position.y < resting_y + 0.1,
+		"holding ollie charges on the floor before release")
 	Input.action_release("ollie")
 	await _physics_frames(3)
 	_check(game.skater.airborne and game.skater.global_position.y > resting_y + 0.1,
-		"ollie launches from the floor")
+		"releasing ollie launches from the floor")
+	Input.action_press("ollie")
 	Input.action_press("flip")
 	Input.action_press("grab")
 	await _physics_frames(8)
 	_check(game.score.get_combo_value() > 0 and game.score.total_score == 0,
 		"aerial tricks create a pending combo before landing")
 	# Keep trick inputs held until after touchdown: one press must not farm points.
-	await _physics_frames(60)
-	_release_actions()
-	_check(observed_tricks.count("Ollie") == 1, "one released ollie does not auto-jump after landing")
+	await _physics_frames(90)
+	_check(observed_tricks.count("Ollie") == 1, "holding ollie does not auto-jump after landing")
 	_check(observed_tricks.count("Kickflip") == 1, "held flip registers once during the jump")
 	_check(observed_tricks.count("Melon Grab") == 1, "held grab registers once during the jump")
 	_check(observed_landings.size() == 1 and observed_landings[0],
@@ -375,6 +445,10 @@ func _test_jump_tricks_and_landing() -> void:
 		"remaining grounded does not emit duplicate landings or awards")
 	game.skater.trick_performed.disconnect(_record_trick)
 	game.skater.landed.disconnect(_record_landing)
+	# Releasing a charged ollie on the floor is a new deliberate pop. Reset the
+	# fixture before clearing its held inputs, after proving no held auto-jump.
+	game.restart_run()
+	_release_actions()
 
 
 func _test_controls_disabled() -> void:
@@ -401,20 +475,22 @@ func _test_spin_scoring() -> void:
 	Input.action_press("ollie")
 	await _physics_frames(3)
 	Input.action_release("ollie")
+	await _physics_frames(1)
 	Input.action_press("spin_right")
-	await _physics_frames(35)
+	await _physics_frames(26)
 	Input.action_release("spin_right")
-	await _physics_frames(40)
+	await _physics_frames(55)
 	_check(observed_tricks.count("Backside 180") == 1,
 		"sustained aerial spin registers one completed 180 on landing")
-	_check(game.score.total_score == 600,
-		"spin points join the ollie combo before clean landing banks it")
+	_check(game.score.total_score == 300,
+		"spin bonus raises the ollie base without creating a separate multiplier")
 	game.restart_run()
 	await _physics_frames(30)
 	observed_tricks.clear()
 	Input.action_press("ollie")
 	await _physics_frames(3)
 	Input.action_release("ollie")
+	await _physics_frames(1)
 	Input.action_press("spin_left")
 	await _physics_frames(14)
 	Input.action_release("spin_left")
@@ -436,10 +512,13 @@ func _test_bail_recovery() -> void:
 	game.score.add_trick("Pending trick", 500)
 	game.skater.global_position.y = -10.0
 	await _physics_frames(3)
-	_check(game.skater.global_position.distance_to(game.skater.spawn_position) < 1.0,
-		"out-of-world fall recovers to the spawn area")
+	_check(game.skater.bail_active and game.skater.global_position.distance_to(game.skater.spawn_position) < 1.0,
+		"out-of-world fall relocates to its supported safety point and begins visible native recovery")
 	_check(game.score.total_score == 100 and game.score.get_combo_value() == 0,
 		"bail signal drops the pending combo without erasing banked points")
+	await _physics_frames(85)
+	_check(not game.skater.bail_active and game.skater.global_position.distance_to(game.skater.spawn_position) < 1.0,
+		"completed out-of-world recovery returns to a supported spawn after its actual animation")
 
 
 func _test_run_flow() -> void:

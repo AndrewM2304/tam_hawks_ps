@@ -10,6 +10,7 @@ signal start_requested(free_skate: bool)
 signal ui_feedback
 
 const GraphicsQuality = preload("res://game/core/graphics_quality.gd")
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const RouteMap = preload("res://game/ui/route_map.gd")
 
 const INK := Color("101d22")
@@ -23,6 +24,11 @@ const FOCUS_REVEAL_PADDING := 4.0
 
 var _map_checkpoints: Dictionary = {}
 var _map_routes: Array = []
+var _active_route_map: Control
+var _map_availability: Label
+var _recovery_layer: Control
+var _recovery_overlay: ColorRect
+var _recovery_caption: Label
 
 var _root: Control
 var _hud: Control
@@ -96,6 +102,7 @@ func _ready() -> void:
 	_hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(_hud)
 	_build_hud()
+	_build_recovery_overlay()
 	_modal = ColorRect.new()
 	_modal.color = Color(0.025, 0.055, 0.065, 0.96)
 	_modal.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -154,11 +161,15 @@ func _build_hud() -> void:
 	_special_panel = _card()
 	_special_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	_hud.add_child(_special_panel)
+	# Reclaim height once wrapped text has settled at the panel's real width.
+	_special_panel.minimum_size_changed.connect(func() -> void:
+		_special_panel.size.y = maxf(76, _special_panel.get_combined_minimum_size().y))
 	var special_box := _vbox(_special_panel, 7)
 	_special_label = _label(special_box, "SPECIAL  /  BUILD A COMBO", 15, MUTED)
 	_special_bar = _progress(special_box, ORANGE)
 	_special_hint = _label(special_box, "BANK POINTS TO FILL", 13, MUTED)
 	_special_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_special_hint.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	_combo = _floating_label("", 34, ACCENT)
 	_combo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_tricks = _floating_label("", 19, PAPER)
@@ -187,6 +198,7 @@ func _build_hud() -> void:
 	_prompt = _floating_label("", 17, ACCENT)
 	_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_prompt.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 
 
 
@@ -227,23 +239,26 @@ func update_display(state: Dictionary) -> void:
 		for goal: Dictionary in state.get("goals", []):
 			if goal.get("done", false): completed += 1
 		_goals.text = "FREE SKATE  ·  NO TIMER" if free else "%d / 10 GOALS  ·  %s" % [completed, _prompt_for("goals", "TAB")]
-	var meter := clampf(float(state.get("special_meter", 0.0)), 0.0, 100.0)
-	_special_bar.value = meter / 100.0
-	_special_label.text = "SPECIAL READY" if meter >= 100.0 else "SPECIAL"
-	_special_label.modulate = ORANGE if meter >= 100.0 else Color.WHITE
-	_special_hint.text = "%s / %s  ·  SPECIALS" % [_prompt_for("special_one", "U"), _prompt_for("special_two", "I")] if meter >= 100.0 else ""
-	var grinding: bool = state.get("grinding", false)
-	var manual: bool = state.get("manual", false)
-	var lip: bool = state.get("lip", false)
-	var balance_key := "lip_balance" if lip else ("balance" if grinding else "manual_balance")
-	var balance := clampf(float(state.get(balance_key, 0.0)), -1.0, 1.0)
-	_balance_panel.visible = grinding or manual or lip
-	_balance_marker.position = Vector2(138.0 + balance * 130.0, 0)
-	_balance_marker.color = ORANGE if absf(balance) > 0.7 else ACCENT
-	_balance_label.text = ("LIP" if lip else ("RAIL" if grinding else "MANUAL")) + "  /  " + _prompt_for("steer_left", "A") + "–" + _prompt_for("steer_right", "D")
-	if absf(balance) > 0.7:
-		var correction: String = "steer_left" if balance > 0.0 else "steer_right"
-		_balance_label.text = "CORRECT  ·  " + _prompt_for(correction, "")
+	var meter := clampf(float(state.get("special_meter",0.0)),0.0,100.0)
+	var ready := bool(state.get("special_ready",meter >= 100.0))
+	var active := bool(state.get("special_active",false))
+	_special_bar.value = meter/100.0
+	_special_label.text = "SPECIAL ACTIVE" if active else ("SPECIAL READY" if ready else "SPECIAL")
+	_special_label.modulate = ORANGE if ready or active else Color.WHITE
+	_special_hint.text = "%s / %s  ·  SPECIALS" % [_prompt_for("special_one","U"),_prompt_for("special_two","I")] if ready or active else ""
+	var grinding := bool(state.get("grinding",false))
+	var manual := bool(state.get("manual",false))
+	var lip := bool(state.get("lip_active",state.get("lip",false)))
+	var skitch := bool(state.get("skitching",false)) and bool(state.get("skitch_caught",true))
+	var balance_key := "lip_balance" if lip else ("skitch_balance" if skitch else ("balance" if grinding else "manual_balance"))
+	var balance := clampf(float(state.get(balance_key,0.0)),-1.0,1.0)
+	_balance_panel.visible = grinding or manual or lip or skitch
+	_balance_marker.position = Vector2(138.0+balance*130.0,0)
+	_balance_marker.color = ORANGE if absf(balance)>0.7 else ACCENT
+	var ride_name := str(state.get("grind_name","RAIL")) if grinding else (str(state.get("lip_name","LIP")) if lip else ("SKITCH" if skitch else str(state.get("manual_name","MANUAL"))))
+	_balance_label.text = ride_name.to_upper()+"  /  "+_prompt_for("steer_left","A").replace("D-pad ","")+"–"+_prompt_for("steer_right","D").replace("D-pad ","")
+	if absf(balance)>0.7:
+		_balance_label.text = "CORRECT  ·  "+_prompt_for("steer_left" if balance>0.0 else "steer_right","")
 	var combo: int = state.get("combo", 0)
 	_combo.text = "%s × %d" % [_number(int(state.get("combo_base", 0))), int(state.get("multiplier", 0))] if combo > 0 else ""
 	_tricks.text = str(state.get("tricks", "")) if combo > 0 else ""
@@ -265,6 +280,11 @@ func update_display(state: Dictionary) -> void:
 	_caption.text = str(state.get("caption", "")) if bool(_settings.get("captions", true)) else ""
 	var interaction := str(state.get("interaction_prompt", ""))
 	_prompt.text = "%s  ·  %s" % [_prompt_for("interact", "X"), interaction] if not interaction.is_empty() else ""
+	if _prompt.text.is_empty() and _challenge.text.is_empty() and _caption.text.is_empty():
+		_prompt.text = _activity_hint(state)
+		if _prompt.text.is_empty(): _prompt.text = str(state.get("sidefeature_status",""))
+		if _prompt.text.is_empty(): _prompt.text = _route_location_hint(state)
+	_update_recovery(state)
 	_save_warning.text = str(state.get("save_warning", ""))
 	_save_warning.visible = not _save_warning.text.is_empty()
 	if is_instance_valid(_modal_warning):
@@ -325,6 +345,8 @@ func hide_menu() -> void:
 func set_map_data(checkpoints: Dictionary, routes: Array) -> void:
 	_map_checkpoints = checkpoints.duplicate(true)
 	_map_routes = routes.duplicate(true)
+	if _page == "map" and is_instance_valid(_active_route_map) and _active_route_map.is_inside_tree():
+		_refresh_route_map()
 
 
 func show_map() -> void:
@@ -424,6 +446,7 @@ func _show_page(page: String, focus_token: String = "", scroll_position: int = 0
 		"map": _build_map(content)
 		"settings": _build_settings(content)
 		"controls": _build_controls(content)
+		"tricks": _build_trick_guide(content)
 	if page not in ["title", "pause", "results"]:
 		_button(box, "BACK", _back)
 	_relayout(true)
@@ -478,6 +501,7 @@ func _build_pause(content: VBoxContainer, finished: bool) -> void:
 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
 	_button(content, "CONTROLS", func(): _open_subpage("controls"))
 	_free = _button(content, "START CAREER RUN" if _state.get("free_skate", false) else "SWITCH TO FREE SKATE", _switch_mode)
+	_button(content,"TRICK GUIDE",show_trick_guide)
 
 
 func _build_goals(content: VBoxContainer) -> void:
@@ -526,12 +550,16 @@ func _build_map(content: VBoxContainer) -> void:
 	var map := RouteMap.new()
 	map.custom_minimum_size = Vector2(0, 360)
 	map.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	map.configure(_map_checkpoints, _map_routes,
-		_state.get("player_position", Vector3.ZERO), float(_state.get("player_heading", 0.0)))
+	_map_availability = _label(content,"",16,ACCENT)
+	_map_availability.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_map_availability.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	content.add_child(map)
+	_active_route_map = map
+	_refresh_route_map()
 	for row: Array in [
-		["PALE LINES  /  CONNECTED ROUTES     ORANGE  /  JUMP LINE", 13, MUTED],
+		["PALE SOLID  /  OPEN ROUTES     DIM DASHES  /  CLOSED     ORANGE  /  JUMP LINE", 13, MUTED],
 		["Gallery steps & fountain → station platforms → hilly park paths. Follow the south quay to the Clyde bridge transfer.", 16, PAPER],
+		["SUNKEN SKATEPARK  /  Follow the park climb to the summit link. The diamond marks its east entrance: roll down to the street basin, then choose the shallow or deep bowl.", 16, PAPER],
 		["Career goals are in the four city districts. Meet Mo by the Exchange fountain, or Rae’s bin drums and dancing cats in George Square, or Mairi’s parcel challenge through the Barras. Free skate gives you time to explore.", 14, MUTED],
 	]:
 		var description := _label(content, row[0], row[1], row[2])
@@ -586,6 +614,7 @@ func _build_controls(content: VBoxContainer) -> void:
 	_button(content, "RESTORE DEFAULT CONTROLS", func():
 		_change_setting("bindings", _input_profile.reset_defaults())
 		_show_page("controls"))
+	_button(content,"TRICK GUIDE",show_trick_guide)
 
 
 func _slider(parent: Node, title: String, key: String, minimum: float, maximum: float, step: float, fallback: float) -> void:
@@ -731,6 +760,10 @@ func _relayout(force: bool = false) -> void:
 	_root.size = viewport_size / scale_factor
 	var extent := _root.size
 	_hud.size = extent
+	if is_instance_valid(_recovery_layer):
+		_recovery_layer.size = extent
+		_recovery_caption.position = Vector2(28,extent.y*0.43)
+		_recovery_caption.size = Vector2(extent.x-56,64)
 	_top.position = Vector2(28, 24)
 	_top.size = Vector2(extent.x - 56, 96)
 	_score_card.position = Vector2.ZERO
@@ -969,7 +1002,15 @@ func _prompt_for(action: String, fallback: String) -> String:
 	if _binding_rows.has(action):
 		var text := str(_binding_rows[action].get("pad_text" if _pad() else "key_text", fallback))
 		# In play, one primary binding is enough. Controls keeps every full name.
-		text = text.split(" / ")[0]
+		var choices := text.split(" / ")
+		text = choices[0]
+		# The default directional profile makes D-pad the primary control while
+		# retaining the stick. A custom single-axis binding still names itself.
+		if _pad() and action in ["push","brake","steer_left","steer_right"]:
+			for choice: String in choices:
+				if choice.begins_with("D-pad "):
+					text = choice
+					break
 		for pair in [["Left stick", "LS"], ["Right stick", "RS"], [" left", " ←"], [" right", " →"], [" up", " ↑"], [" down", " ↓"]]:
 			text = text.replace(pair[0], pair[1])
 		_prompt_texts[cache_key] = text if not text.is_empty() else fallback
@@ -984,3 +1025,306 @@ func _number(value: int) -> String:
 		if i > 0 and (raw.length() - i) % 3 == 0: result += ","
 		result += raw[i]
 	return result
+
+
+func show_trick_guide() -> void:
+	_open_subpage("tricks")
+
+
+
+
+func _route_location_hint(state: Dictionary) -> String:
+	# A location cue never asks for Interact or displaces an active skating cue.
+	for key: String in ["airborne","grinding","manual","manual_active","wallriding","transition_active",
+		"lip_active","skitching","crouching","setup_active","bail_active","powersliding"]:
+		if bool(state.get(key,false)): return ""
+	if int(state.get("combo",0)) > 0: return ""
+	var at: Vector3 = state.get("player_position",Vector3.INF)
+	if not at.is_finite(): return ""
+	for route: Dictionary in _map_routes:
+		if str(route.get("map_kind","")) != "skatepark" or not route.get("enabled",true): continue
+		if not route.get("map_marker") is Vector3: continue
+		var entry: Vector3 = route.map_marker
+		var points := PackedVector3Array(route.get("points",[]))
+		var distance := INF
+		for index in range(1,points.size()):
+			if points[index-1].is_finite() and points[index].is_finite():
+				distance = minf(distance,at.distance_to(Geometry3D.get_closest_point_to_segment(at,points[index-1],points[index])))
+		if distance > 7.0 or not entry.is_finite(): continue
+		var label := str(route.get("map_label","")).strip_edges()
+		if label.is_empty(): continue
+		return label + ("  /  East roll-in to street & bowls" if at.distance_to(entry) < 6.0 else "  /  Follow the summit link")
+	return ""
+
+
+
+
+func _refresh_route_map() -> void:
+	# Keep stable bounds while availability changes. Closed paths get explicit
+	# dashed geometry instead of being painted as ordinary bright connections.
+	_active_route_map.configure(_map_checkpoints,_map_routes,
+		_state.get("player_position",Vector3.ZERO),float(_state.get("player_heading",0.0)))
+	var open: Array = []
+	var closed: Array = []
+	var labels: Array[String] = []
+	for route: Dictionary in _map_routes:
+		var enabled: bool = route.get("enabled",true)
+		if enabled: open.append(route.duplicate(true))
+		else: closed.append(route.duplicate(true))
+		if route.has("enabled"):
+			var title := str(route.get("label",route.get("id","Shortcut"))).to_upper()
+			if not title.ends_with("OPEN") and not title.ends_with("CLOSED"):
+				title += "  /  " + ("OPEN" if enabled else "CLOSED")
+			labels.append(title)
+	_active_route_map.routes = open
+	_active_route_map.queue_redraw()
+	var layer := _active_route_map.get_node_or_null("ClosedRoutes") as Control
+	if layer == null:
+		layer = Control.new()
+		layer.name = "ClosedRoutes"
+		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_active_route_map.add_child(layer)
+		layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		layer.resized.connect(layer.queue_redraw)
+		layer.draw.connect(_draw_closed_routes.bind(_active_route_map,layer))
+	layer.set_meta("routes",closed)
+	layer.queue_redraw()
+	_map_availability.text = "   ·   ".join(labels)
+	_map_availability.visible = not labels.is_empty()
+	_map_availability.add_theme_color_override("font_color",ORANGE if not closed.is_empty() else ACCENT)
+
+
+
+
+func _draw_closed_routes(map: Control, layer: Control) -> void:
+	var font := ThemeDB.fallback_font
+	for route: Dictionary in layer.get_meta("routes",[]):
+		var points := PackedVector3Array(route.get("points",[]))
+		for index in range(1,points.size()):
+			var from: Vector2 = map.call("_map",points[index-1])
+			var to: Vector2 = map.call("_map",points[index])
+			layer.draw_dashed_line(from,to,Color("6b7f7c"),2.0,6.0)
+		if points.size() > 1:
+			var at: Vector2 = map.call("_map",points[points.size()/2])
+			layer.draw_circle(at,5.0,Color("6b7f7c"))
+			layer.draw_line(at-Vector2(3,3),at+Vector2(3,3),INK,1.5)
+			layer.draw_line(at+Vector2(-3,3),at+Vector2(3,-3),INK,1.5)
+			layer.draw_string(font,at+Vector2(9,-7),"CLOSED",HORIZONTAL_ALIGNMENT_LEFT,-1,12,MUTED)
+
+
+
+
+func _build_trick_guide(content: VBoxContainer) -> void:
+	_modal_title.text = "Your next trick."
+	_modal_details.text = "Normal controls and advanced tap sequences, using your saved bindings."
+	var directions := "%s forward · %s back · %s left · %s right" % [
+		_prompt_for("push", "W"), _prompt_for("brake", "S"),
+		_prompt_for("steer_left", "A"), _prompt_for("steer_right", "D")]
+	_guide_card(content, "BUILD YOUR TRICK SET", [
+		directions,
+		"%d flips · %d grabs · %d grinds · %d manuals · %d lip tricks · %d specials" % [TrickCatalog.family_ids("flip").size(), TrickCatalog.family_ids("grab").size(), TrickCatalog.family_ids("grind").size(), TrickCatalog.family_ids("manual").size(), TrickCatalog.family_ids("lip").size(), TrickCatalog.family_ids("special").size()],
+		"Hold %s to crouch and charge your ollie. Release to pop; a longer charge gives more height. Watch the charge percentage while crouching." % _prompt_for("ollie", "SPACE"),
+		"While setting up, tap forward for Nollie or back for Boneless. Back + %s selects No Comply. Use a fresh direction tap to choose a setup." % _prompt_for("manual", "M"),
+		"Brake + a hard left or right turn powerslides to scrub speed. Hold %s / %s in the air for frontside / backside spins." % [_prompt_for("spin_left", "Q"), _prompt_for("spin_right", "E")],
+	])
+	_guide_card(content, "AIR TRICKS & THE CATCH", [
+		"For the advanced air set below, tap the same direction twice with a neutral release, then press Flip / Grab on the second tap within 0.30 seconds. Ordinary one-direction controls keep their normal tricks.",
+		"Normal flips: neutral / left Kickflip, right Heelflip, up Frontside Shuvit, down Pop Shuvit, down-left Varial Flip, up-right Hardflip. Normal grabs include up-left Method.",
+		"In the air, choose a direction and tap %s for a flip or hold %s for a grab. Your normal directional set stays available. Release a grab before the next flip." % [_prompt_for("flip", "J"), _prompt_for("grab", "K")],
+		"Tap %s twice or three times quickly to upgrade any flip to its double or triple. Shove-its become 360 / 540 Shove-its. More rotations take longer to catch: leave room before landing." % _prompt_for("flip", "J"),
+		"Double-tap %s during a grab to tweak it once. Forward bones it, back tucks it, right twists it and left extends it. The extra style increases that trick's points; it keeps the same multiplier entry." % _prompt_for("grab", "K"),
+		"Let the board catch, then make a fresh press for the next trick. A press just before the catch can queue your next move; holding the button never repeats it.",
+	])
+	_guide_card(content, "RAILS, WALLS & TRANSITIONS", [
+		"Catch a rail with %s: neutral / up / down requests 50-50, left / right requests a signed Boardslide. Balance with %s / %s; directions with %s / %s change to the expanded styles." % [_prompt_for("grind", "L"), _prompt_for("steer_left", "A"), _prompt_for("steer_right", "D"), _prompt_for("flip", "J"), _prompt_for("grab", "K")],
+		"During a grind, press %s to pivot your facing 180° while keeping travel along the rail. It changes stance, costs some speed and adds one trick. Make a fresh press after the cooldown for another pivot." % _prompt_for("revert", "C"),
+		"Tap %s again to leave a locked rail, or hold and release %s to ollie into your next trick." % [_prompt_for("grind", "L"), _prompt_for("ollie", "SPACE")],
+		"In the air beside a wall, hold %s to wallride. Hold and release %s for a Wallie away from the wall, or release %s to drop off." % [_prompt_for("grind", "L"), _prompt_for("ollie", "SPACE"), _prompt_for("grind", "L")],
+		"Carry speed up curved transitions. Hold %s near the lip to stall, then release it to drop back in. Keep your balance with left / right." % _prompt_for("grind", "L"),
+		"In vert air, release your approach input, then tap forward to transfer over the deck or back to move outward. Left / right adjusts your line. Holding forward through the ramp keeps the normal vertical return.",
+	])
+	_guide_card(content, "LIP TRICKS & HANDPLANTS", [
+		"On the original Clyde transitions, hold %s at the lip: neutral Axle Stall, up Nose Stall, down Tail Stall, left / right Disaster. Other authored transitions can enter Lip Stall; direction plus Flip / Grab changes the supported style." % _prompt_for("grind", "L"),
+		"For lip style changes, forward + right selects Handplant; forward + left Invert; back + right Eggplant; back + left Disaster Stall. Palms support inverted poses on actual coping.",
+		"While stalled, choose a direction and tap %s / %s to change style. With no direction these select Handplant / Invert; %s pivots to Rock and Roll. Balance left / right, release %s to drop in or release a charged ollie to pop out." % [_prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("revert", "C"), _prompt_for("grind", "L")],
+	])
+	_guide_card(content, "MANUALS & LANDING LINKS", [
+		"Tap up, release to neutral, then down for Manual; down, neutral, then up gives Nose Manual. Complete the pair within 220 ms. A held opposition or direct reversal does not count.",
+		"You can also hold %s just before landing; forward selects Nose Manual. Balance with %s / %s; %s / %s steer separately during a manual." % [_prompt_for("manual", "M"), _prompt_for("steer_left", "A"), _prompt_for("steer_right", "D"), _prompt_for("spin_left","Q"), _prompt_for("spin_right","E")],
+		"During a manual, tap %s for One-foot Manual, %s for Spacewalk or %s for a Manual Pivot." % [_prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("revert", "C")],
+		"Add forward + %s for One-foot Nose Manual, back + %s for Casper Manual, or left / right + %s for Crossfoot Manual. Forward + %s gives Hang Ten; back + %s gives Pogo; forward + %s gives Nose Manual Pivot." % [_prompt_for("flip", "J"), _prompt_for("flip", "J"), _prompt_for("flip", "J"), _prompt_for("grab", "K"), _prompt_for("grab", "K"), _prompt_for("revert", "C")],
+		"After landing, press %s for Revert, then manual or ollie before the link timer ends. Revert changes stance; it does not restart that timer." % _prompt_for("revert", "C"),
+	])
+	var special_lines: Array[String] = []
+	for command: Dictionary in TrickCatalog.special_commands():
+		var prompts: Array[String] = []
+		for direction: String in command.directions: prompts.append(_direction_prompt(direction))
+		prompts.append(_prompt_for(str(command.action), str(command.action)))
+		var entry: Dictionary = TrickCatalog.definition(command.id)
+		var unlocked: bool = _state.get("unlocks", []).has(entry.required_unlock)
+		special_lines.append("%s  /  %s%s" % [" → ".join(prompts), entry.display_name, "" if unlocked else "  ·  LOCKED"])
+	_guide_card(content, "SPECIAL COMMANDS", special_lines)
+	_guide_card(content, "SPECIALS & YOUR COMBO", [
+		"Accepted tricks charge Special as you skate. When active, it drains over time; keeping a combo going slows the drain. A special does not spend the whole meter.",
+		"In the air with Special ready, tap left, right, then %s for Clyde Carousel. Forward, back, then %s selects Tenement Tumble. The directions must be a quick sequence." % [_prompt_for("flip", "J"), _prompt_for("grab", "K")],
+		"Unlocked specials also use %s / %s. Finish your current flip or grab before starting a special." % [_prompt_for("special_one", "U"), _prompt_for("special_two", "I")],
+		"Each accepted trick adds a multiplier step up to ×100. Holds add base points. Repeating a trick lowers its value; mix your set. Land and finish the link window to bank it. A bail drops the combo and Special.",
+	])
+	_guide_card(content, "FIND A DIFFERENT LINE", [
+		"Behind the moving service cart, match its direction, hold %s and make a fresh %s press to skitch. Balance left / right; release %s to let go or hold and release %s to jump clear." % [_prompt_for("grind", "L"), _prompt_for("interact", "X"), _prompt_for("grind", "L"), _prompt_for("ollie", "SPACE")],
+		"Look for nearby activity prompts around the city. Open the city map from Pause to find routes and practice features; keep your approach and landing space in mind.",
+	])
+	var directory := _card()
+	content.add_child(directory)
+	var directory_rows := _vbox(directory, 10)
+	var directory_heading := _label(directory_rows, "ADVANCED AIR SET  /  RAIL STYLE CHANGES", 15, ACCENT)
+	directory_heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	directory_heading.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	_guide_focus(directory, "direction directory", directory_heading)
+	var direction_actions := {
+		"neutral": [], "north": ["push"], "south": ["brake"],
+		"west": ["steer_left"], "east": ["steer_right"],
+		"north_west": ["push", "steer_left"], "north_east": ["push", "steer_right"],
+		"south_west": ["brake", "steer_left"], "south_east": ["brake", "steer_right"],
+	}
+	for direction: String in direction_actions:
+		var prompts: Array[String] = []
+		for action: String in direction_actions[direction]: prompts.append(_prompt_for(action, action))
+		var selection := "No direction" if prompts.is_empty() else " + ".join(prompts)
+		var names: Array[String] = []
+		for family: String in ["flip", "grab", "grind"]:
+			names.append(str(TrickCatalog.resolve(family, direction).get("display_name", "")))
+		var row := _label(directory_rows, "%s  /  %s" % [selection, "  ·  ".join(names)], 17, PAPER)
+		row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		row.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+		_guide_focus(directory, "direction:" + direction, row)
+
+
+
+
+func _guide_card(content: VBoxContainer, title: String, lines: Array) -> void:
+	var card := _card()
+	content.add_child(card)
+	var rows := _vbox(card, 9)
+	var heading := _label(rows, title, 16, ACCENT)
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	heading.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	_guide_focus(card, title, heading)
+	for text: String in lines:
+		var line := _label(rows, text, 17, PAPER)
+		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		line.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+		_guide_focus(card, title + ":" + text, line)
+
+
+
+
+func _guide_focus(card: PanelContainer, title: String, target: Control) -> void:
+	# Focus paragraphs instead of whole tall cards so every instruction remains
+	# reachable with the stick, including at large UI with persistent notices.
+	target.focus_mode = Control.FOCUS_ALL
+	target.set_meta("focus_token", "guide:" + title)
+	var style := card.get_theme_stylebox("panel") as StyleBoxFlat
+	target.focus_entered.connect(func(): style.border_color = ACCENT; style.set_border_width_all(2))
+	target.focus_exited.connect(func(): style.border_color = Color("294247"); style.set_border_width_all(1))
+	if _focus_first == null: _focus_first = target
+
+
+
+
+func _skating_controls(state: Dictionary) -> String:
+	var ollie := _prompt_for("ollie", "SPACE")
+	var grind := _prompt_for("grind", "L")
+	var flip := _prompt_for("flip", "J")
+	var grab := _prompt_for("grab", "K")
+	var pause_hint := "     %s  Pause / guide" % _prompt_for("pause", "ESC")
+	if bool(state.get("bail_active", false)):
+		return "Getting back on the board" + pause_hint
+	if bool(state.get("skitching", false)):
+		if not bool(state.get("skitch_caught", true)):
+			return "Match the cart · Reach for the bar     %s  Cancel reach" % grind + pause_hint
+		return "%s / %s  Balance     %s  Release tow     %s  Hold / release Ollie" % [_prompt_for("steer_left", "A"), _prompt_for("steer_right", "D"), grind, ollie] + pause_hint
+	if bool(state.get("wallriding", false)):
+		return "%s  Hold / release Wallie     %s  Release to drop" % [ollie, grind] + pause_hint
+	if bool(state.get("lip_active", false)):
+		return "%s / %s  Change lip trick     %s  Pivot     %s  Release to drop in" % [flip, grab, _prompt_for("revert", "C"), grind] + pause_hint
+	if bool(state.get("grinding", false)):
+		return "%s / %s  Change grind     %s  Pivot     %s  Release     %s  Ollie" % [flip, grab, _prompt_for("revert", "C"), grind, ollie] + pause_hint
+	if bool(state.get("manual", false)):
+		return "%s  One-foot     %s  Spacewalk     %s  Pivot     %s  Ollie" % [flip, grab, _prompt_for("revert", "C"), ollie] + pause_hint
+	if bool(state.get("crouching", false)):
+		return "%s  Release to pop     %s / %s  Nollie / Boneless     %s + %s  No Comply" % [ollie, _prompt_for("push", "W"), _prompt_for("brake", "S"), _prompt_for("brake", "S"), _prompt_for("manual", "M")] + pause_hint
+	if bool(state.get("transition_active", false)):
+		if bool(state.get("airborne", false)):
+			return "%s / %s  Fresh tap transfer     %s / %s  Adjust line" % [_prompt_for("push", "W"), _prompt_for("brake", "S"), _prompt_for("steer_left", "A"), _prompt_for("steer_right", "D")] + pause_hint
+		return "%s  Hold / release air     %s  Hold at lip" % [ollie, grind] + pause_hint
+	return "%s  Hold / release Ollie     %s  Grind / wallride     %s  Manual" % [ollie, grind, _prompt_for("manual", "M")] + pause_hint
+
+
+
+
+func _direction_prompt(direction: String) -> String:
+	var prompts: Array[String] = []
+	if direction.contains("north"): prompts.append(_prompt_for("push", "W"))
+	elif direction.contains("south"): prompts.append(_prompt_for("brake", "S"))
+	if direction.contains("west"): prompts.append(_prompt_for("steer_left", "A"))
+	elif direction.contains("east"): prompts.append(_prompt_for("steer_right", "D"))
+	return " + ".join(prompts) if not prompts.is_empty() else "No direction"
+
+
+
+
+func _update_recovery(state: Dictionary) -> void:
+	var recovering: bool = state.get("bail_active", false)
+	var fade_value: float = state.get("recovery_fade", 0.0)
+	var fade := clampf(fade_value, 0.0, 1.0) if is_finite(fade_value) else 0.0
+	_recovery_layer.visible = recovering or fade > 0.0
+	_recovery_overlay.color = Color(0, 0, 0, fade)
+	_recovery_caption.visible = recovering
+	var phase: Variant = state.get("bail_progress",state.get("bail_phase",0.0))
+	var getting_up := float(phase) > 0.55 if phase is float or phase is int else str(phase).to_lower() in ["getup", "get_up", "recover", "recovery", "fade"]
+	_recovery_caption.text = "GETTING BACK UP" if getting_up else "BAIL"
+	_recovery_caption.modulate = PAPER if getting_up else ORANGE
+
+
+
+
+func _build_recovery_overlay() -> void:
+	_recovery_layer = Control.new()
+	_recovery_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.add_child(_recovery_layer)
+	_recovery_overlay = ColorRect.new()
+	_recovery_overlay.color = Color(0,0,0,0)
+	_recovery_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_recovery_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_recovery_layer.add_child(_recovery_overlay)
+	_recovery_caption = _label(_recovery_layer,"",32,PAPER)
+	_recovery_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_recovery_caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_recovery_caption.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	_recovery_caption.add_theme_constant_override("outline_size",5)
+	_recovery_caption.add_theme_color_override("font_outline_color",INK)
+	_recovery_layer.visible = false
+
+
+
+
+func _activity_hint(state: Dictionary) -> String:
+	if bool(state.get("bail_active",false)): return ""
+	if bool(state.get("setup_active",false)):
+		return str(state.get("setup_id","Setup")).replace("_"," ").to_upper()+"  /  Plant and pop"
+	if bool(state.get("crouching",false)):
+		return "OLLIE CHARGE %d%%  /  Release %s to pop" % [roundi(clampf(float(state.get("ollie_charge",0.0)),0.0,1.0)*100.0),_prompt_for("ollie","SPACE")]
+	if bool(state.get("skitching",false)):
+		return ("SKITCH" if bool(state.get("skitch_caught",true)) else "REACH FOR BAR")+"  /  "+_prompt_for("grind","L")+" release · "+_prompt_for("ollie","SPACE")+" ollie"
+	if bool(state.get("wallriding",false)):
+		return "WALLRIDE  /  "+_prompt_for("ollie","SPACE")+" hold / release Wallie"
+	if bool(state.get("lip_active",state.get("lip",false))):
+		return str(state.get("lip_name","Lip"))+"  /  "+_prompt_for("grind","L")+" release to drop in"
+	if bool(state.get("grinding",false)):
+		return _prompt_for("flip","J")+" / "+_prompt_for("grab","K")+" style · "+_prompt_for("revert","C")+" pivot · "+_prompt_for("grind","L")+" tap to drop"
+	if bool(state.get("manual",false)):
+		return _prompt_for("steer_left","A")+" / "+_prompt_for("steer_right","D")+" balance · "+_prompt_for("spin_left","Q")+" / "+_prompt_for("spin_right","E")+" steer"
+	return ""
+
+

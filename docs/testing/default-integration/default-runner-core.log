@@ -1,0 +1,228 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: new scoring session has no score or active combo
+PASS: first trick contributes its base points and one multiplier
+PASS: each accepted repeat adds a multiplier while its base degrades to half then quarter
+PASS: a fourth accepted entry contributes the fourth multiplier
+PASS: active combo previews multiplied value without awarding unlanded points
+PASS: landing bank awards combo and records best combo
+PASS: banking clears active combo
+PASS: banking twice cannot award the same combo again
+PASS: repeat degradation persists through a bank within the run
+PASS: bailing drops the active combo and preserves previously banked score
+PASS: accepted entries grow the multiplier beyond the former eight-entry cap
+PASS: run reset clears totals, best combo, bank feedback and active combo
+PASS: main instantiates the procedural world
+PASS: main instantiates the skating physics body
+PASS: skater includes a gameplay camera
+PASS: square contains original procedural visible geometry
+PASS: floor, obstacles and boundaries include static collision
+PASS: input action is registered: push
+PASS: input action is registered: brake
+PASS: input action is registered: steer_left
+PASS: input action is registered: steer_right
+PASS: input action is registered: ollie
+PASS: input action is registered: flip
+PASS: input action is registered: grab
+PASS: input action is registered: grind
+PASS: input action is registered: spin_left
+PASS: input action is registered: spin_right
+PASS: input action is registered: restart
+PASS: input action is registered: pause
+PASS: input action is registered: free_skate
+PASS: input action is registered: manual
+PASS: input action is registered: revert
+PASS: input action is registered: special_one
+PASS: input action is registered: special_two
+PASS: input action is registered: interact
+PASS: input action is registered: goals
+PASS: every gameplay action has a keyboard binding
+PASS: every gameplay action has a gamepad binding
+PASS: world spawn matches the shared coordinate contract
+PASS: world provides a readable location label
+PASS: spawn has a supporting collision surface
+PASS: spawn support is a level floor at the documented ground height
+PASS: spawn settles onto the floor without falling or becoming stuck airborne
+PASS: city and outdoor routes include at least nine authored graded surfaces
+PASS: graded surface owns its supporting collision: GalleryWestApproach
+PASS: graded surface is within the skating floor angle: GalleryWestApproach
+PASS: graded collision has visible geometry: GalleryWestApproach
+PASS: graded surface owns its supporting collision: GalleryEastApproach
+PASS: graded surface is within the skating floor angle: GalleryEastApproach
+PASS: graded collision has visible geometry: GalleryEastApproach
+PASS: graded surface owns its supporting collision: GalleryEntranceWestBank
+PASS: graded surface is within the skating floor angle: GalleryEntranceWestBank
+PASS: graded collision has visible geometry: GalleryEntranceWestBank
+PASS: graded surface owns its supporting collision: GalleryEntranceEastBank
+PASS: graded surface is within the skating floor angle: GalleryEntranceEastBank
+PASS: graded collision has visible geometry: GalleryEntranceEastBank
+PASS: graded surface owns its supporting collision: GalleryEntranceFrontBank
+PASS: graded surface is within the skating floor angle: GalleryEntranceFrontBank
+PASS: graded collision has visible geometry: GalleryEntranceFrontBank
+PASS: graded surface owns its supporting collision: ExchangeWestShopBank
+PASS: graded surface is within the skating floor angle: ExchangeWestShopBank
+PASS: graded collision has visible geometry: ExchangeWestShopBank
+PASS: graded surface owns its supporting collision: GeorgeGradedStreet
+PASS: graded surface is within the skating floor angle: GeorgeGradedStreet
+PASS: graded collision has visible geometry: GeorgeGradedStreet
+PASS: graded surface owns its supporting collision: @StaticBody3D@242
+PASS: graded surface is within the skating floor angle: @StaticBody3D@242
+PASS: graded collision has visible geometry: @StaticBody3D@242
+PASS: graded surface owns its supporting collision: CentralSouthStreet
+PASS: graded surface is within the skating floor angle: CentralSouthStreet
+PASS: graded collision has visible geometry: CentralSouthStreet
+PASS: graded surface owns its supporting collision: BarrasNorthStreet
+PASS: graded surface is within the skating floor angle: BarrasNorthStreet
+PASS: graded collision has visible geometry: BarrasNorthStreet
+PASS: graded surface owns its supporting collision: NorthClimbingLane
+PASS: graded surface is within the skating floor angle: NorthClimbingLane
+PASS: graded collision has visible geometry: NorthClimbingLane
+PASS: graded surface owns its supporting collision: @StaticBody3D@259
+PASS: graded surface is within the skating floor angle: @StaticBody3D@259
+PASS: graded collision has visible geometry: @StaticBody3D@259
+PASS: graded surface owns its supporting collision: GalleryWestClose
+PASS: graded surface is within the skating floor angle: GalleryWestClose
+PASS: graded collision has visible geometry: GalleryWestClose
+PASS: graded surface owns its supporting collision: ExchangeWestQuayClose
+PASS: graded surface is within the skating floor angle: ExchangeWestQuayClose
+PASS: graded collision has visible geometry: ExchangeWestQuayClose
+PASS: graded surface owns its supporting collision: GalleryEastClose
+PASS: graded surface is within the skating floor angle: GalleryEastClose
+PASS: graded collision has visible geometry: GalleryEastClose
+PASS: graded surface owns its supporting collision: ExchangeEastQuayClose
+PASS: graded surface is within the skating floor angle: ExchangeEastQuayClose
+PASS: graded collision has visible geometry: ExchangeEastQuayClose
+PASS: graded surface owns its supporting collision: GalleryRearFoundationJoin
+PASS: graded surface is within the skating floor angle: GalleryRearFoundationJoin
+PASS: graded collision has visible geometry: GalleryRearFoundationJoin
+PASS: graded surface owns its supporting collision: MerchantCourtStreetShoulder
+PASS: graded surface is within the skating floor angle: MerchantCourtStreetShoulder
+PASS: graded collision has visible geometry: MerchantCourtStreetShoulder
+PASS: graded surface owns its supporting collision: ExchangeSouthStreetSeam
+PASS: graded surface is within the skating floor angle: ExchangeSouthStreetSeam
+PASS: graded collision has visible geometry: ExchangeSouthStreetSeam
+PASS: graded surface owns its supporting collision: MerchantCourtEastReturn
+PASS: graded surface is within the skating floor angle: MerchantCourtEastReturn
+PASS: graded collision has visible geometry: MerchantCourtEastReturn
+PASS: graded surface owns its supporting collision: MerchantCourtWestReturn
+PASS: graded surface is within the skating floor angle: MerchantCourtWestReturn
+PASS: graded collision has visible geometry: MerchantCourtWestReturn
+PASS: graded surface owns its supporting collision: CivicWestBank
+PASS: graded surface is within the skating floor angle: CivicWestBank
+PASS: graded collision has visible geometry: CivicWestBank
+PASS: graded surface owns its supporting collision: CivicEastBank
+PASS: graded surface is within the skating floor angle: CivicEastBank
+PASS: graded collision has visible geometry: CivicEastBank
+PASS: graded surface owns its supporting collision: CentralPlatformApproach
+PASS: graded surface is within the skating floor angle: CentralPlatformApproach
+PASS: graded collision has visible geometry: CentralPlatformApproach
+PASS: graded surface owns its supporting collision: CentralPlatformExit
+PASS: graded surface is within the skating floor angle: CentralPlatformExit
+PASS: graded collision has visible geometry: CentralPlatformExit
+PASS: graded surface owns its supporting collision: StationUpperReturn
+PASS: graded surface is within the skating floor angle: StationUpperReturn
+PASS: graded collision has visible geometry: StationUpperReturn
+PASS: graded surface owns its supporting collision: MarketWestLoadingBank
+PASS: graded surface is within the skating floor angle: MarketWestLoadingBank
+PASS: graded collision has visible geometry: MarketWestLoadingBank
+PASS: graded surface owns its supporting collision: MarketEastLoadingBank
+PASS: graded surface is within the skating floor angle: MarketEastLoadingBank
+PASS: graded collision has visible geometry: MarketEastLoadingBank
+PASS: graded surface owns its supporting collision: exchange_south_lineWestBank
+PASS: graded surface is within the skating floor angle: exchange_south_lineWestBank
+PASS: graded collision has visible geometry: exchange_south_lineWestBank
+PASS: graded surface owns its supporting collision: exchange_south_lineEastBank
+PASS: graded surface is within the skating floor angle: exchange_south_lineEastBank
+PASS: graded collision has visible geometry: exchange_south_lineEastBank
+PASS: graded surface owns its supporting collision: civic_lower_islandWestBank
+PASS: graded surface is within the skating floor angle: civic_lower_islandWestBank
+PASS: graded collision has visible geometry: civic_lower_islandWestBank
+PASS: graded surface owns its supporting collision: civic_lower_islandEastBank
+PASS: graded surface is within the skating floor angle: civic_lower_islandEastBank
+PASS: graded collision has visible geometry: civic_lower_islandEastBank
+PASS: graded surface owns its supporting collision: station_low_manualWestBank
+PASS: graded surface is within the skating floor angle: station_low_manualWestBank
+PASS: graded collision has visible geometry: station_low_manualWestBank
+PASS: graded surface owns its supporting collision: station_low_manualEastBank
+PASS: graded surface is within the skating floor angle: station_low_manualEastBank
+PASS: graded collision has visible geometry: station_low_manualEastBank
+PASS: graded surface owns its supporting collision: barras_forecourt_lineWestBank
+PASS: graded surface is within the skating floor angle: barras_forecourt_lineWestBank
+PASS: graded collision has visible geometry: barras_forecourt_lineWestBank
+PASS: graded surface owns its supporting collision: barras_forecourt_lineEastBank
+PASS: graded surface is within the skating floor angle: barras_forecourt_lineEastBank
+PASS: graded collision has visible geometry: barras_forecourt_lineEastBank
+PASS: graded surface owns its supporting collision: clyde_south_linkWestBank
+PASS: graded surface is within the skating floor angle: clyde_south_linkWestBank
+PASS: graded collision has visible geometry: clyde_south_linkWestBank
+PASS: graded surface owns its supporting collision: clyde_south_linkEastBank
+PASS: graded surface is within the skating floor angle: clyde_south_linkEastBank
+PASS: graded collision has visible geometry: clyde_south_linkEastBank
+PASS: graded surface owns its supporting collision: park_lower_carve
+PASS: graded surface is within the skating floor angle: park_lower_carve
+PASS: graded collision has visible geometry: park_lower_carve
+PASS: graded surface owns its supporting collision: park_upper_return
+PASS: graded surface is within the skating floor angle: park_upper_return
+PASS: graded collision has visible geometry: park_upper_return
+PASS: graded surface owns its supporting collision: park_east_carve
+PASS: graded surface is within the skating floor angle: park_east_carve
+PASS: graded collision has visible geometry: park_east_carve
+PASS: graded surface owns its supporting collision: park_station_lower
+PASS: graded surface is within the skating floor angle: park_station_lower
+PASS: graded collision has visible geometry: park_station_lower
+PASS: graded surface owns its supporting collision: park_station_upper
+PASS: graded surface is within the skating floor angle: park_station_upper
+PASS: graded collision has visible geometry: park_station_upper
+PASS: graded surface owns its supporting collision: park_east_lower
+PASS: graded surface is within the skating floor angle: park_east_lower
+PASS: graded collision has visible geometry: park_east_lower
+PASS: graded surface owns its supporting collision: park_east_gateway
+PASS: graded surface is within the skating floor angle: park_east_gateway
+PASS: graded collision has visible geometry: park_east_gateway
+PASS: graded surface owns its supporting collision: park_civic_gateway
+PASS: graded surface is within the skating floor angle: park_civic_gateway
+PASS: graded collision has visible geometry: park_civic_gateway
+PASS: the level exposes six connected places instead of sealing the original square
+PASS: pushing accelerates and travels forward through the central route
+PASS: unsteered flat-ground travel stays on its heading
+PASS: braking reduces forward speed
+PASS: steering changes heading while skating
+PASS: default approach climbs the gallery and George Square terraces
+PASS: default forward route connects the lower square to the upper city without jumping
+PASS: uphill city route finishes on supporting collision
+PASS: reverse route descends through both terrace transitions to the lower square
+PASS: downhill city route finishes on the lower square floor
+PASS: holding ollie charges on the floor before release
+PASS: releasing ollie launches from the floor
+PASS: aerial tricks create a pending combo before landing
+PASS: holding ollie does not auto-jump after landing
+PASS: held flip registers once during the jump
+PASS: held grab registers once during the jump
+PASS: flat-ground airtime ends in exactly one clean landing signal
+PASS: clean landing banks the observed tricks through the main-to-score wiring
+PASS: skater returns to grounded physics state after landing
+PASS: remaining grounded does not emit duplicate landings or awards
+PASS: sustained aerial spin registers one completed 180 on landing
+PASS: spin bonus raises the ollie base without creating a separate multiplier
+PASS: opposing spins cancel net rotation instead of farming rotation awards
+PASS: disabled controls prevent movement, jumps and scoring inputs
+PASS: out-of-world fall relocates to its supported safety point and begins visible native recovery
+PASS: bail signal drops the pending combo without erasing banked points
+PASS: completed out-of-world recovery returns to a supported spawn after its actual animation
+PASS: run timer decreases during active play
+PASS: pausing freezes the run timer
+PASS: pausing freezes skater physics
+PASS: unpausing resumes the run timer
+PASS: free skate disables countdown expiry
+PASS: grounded run ends when countdown reaches zero
+PASS: finished run gates player movement
+PASS: restart restores a fresh 120-second run and clears score
+PASS: restart restores the world spawn position
+PASS: timer expiry gives an active aerial combo time to land
+PASS: overtime clean landing banks its combo before finishing the run
+PASS: overtime cannot preserve an unlanded combo indefinitely
+PASS: injected Escape key event reaches pause flow
+PASS: injected Escape key event resumes paused play
+PASS: injected standard gamepad Options event reaches pause flow
+PASS: injected R key restarts directly from a paused run
+RESULT: 225 passed, 0 failed

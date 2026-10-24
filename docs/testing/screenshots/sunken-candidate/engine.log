@@ -1,0 +1,21 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+CANDIDATE_STILL 01-normal-start.png
+CANDIDATE_STILL 02-sunken-facility-overview.png
+CANDIDATE_STILL 03-deep-entry-production-chase.png
+CANDIDATE_STILL 04-deep-lip-production-chase.png
+SUNKEN PARK MAIN LIP DeepBowl minimum=11.0057 face=true camera=true entries=["lip_stall"] accepted=250 bank=250 at=(-196.9843, 12.15068, -199.7646)
+SUNKEN PARK MAIN LIP ShallowBowl minimum=13.0002 face=true camera=true entries=["lip_stall"] accepted=250 bank=250 at=(-219.0, 13.46377, -199.0539)
+CANDIDATE_STILL 05-deep-carve-production-chase.png
+CURVED_VISUAL_CONTACT sunken_deep {"board_dot_min":0.99999988079071,"capsule_dot_min":0.999999940395355,"capsule_samples":213,"complete_frames":213,"first_native_normals":["Vector3(-0.24109375, 0.8037712, 0.54389864)","Vector3(-0.21778508, 0.84331495, 0.49131414)","Vector3(-0.18662226, 0.80376947, 0.5649131)","Vector3(-0.16857827, 0.8433161, 0.51029336)"],"first_wheel_gaps":[0.0147855598479509,0.0151608921587467,0.014782939106226,0.0151747316122055],"last_wheel_gaps":[0.0150106865912676,0.0153181850910187,0.0149887856096029,0.0153301740065217],"max_steer":0.0,"ray_misses":0,"samples":213,"spread_max":0.000649372115731239,"support_normal_first":"Vector3(-0.20348768, 0.8254459, 0.5265281)","support_normal_last":"Vector3(-0.014307633, 0.8422993, 0.53882027)","wheel_max":0.0161932688206434,"wheel_min":0.0147510012611747}
+CANDIDATE_STILL 06-street-grind-production-chase.png
+SUNKEN PARK MAIN RAIL held=18 captures=["Grind_Park_StreetFlatbar"] entries=["ollie", "rail_grind"] accepted=600 bank=600 at=(-197.5854, 13.01242, -174.901)
+CANDIDATE_STILL 07-hip-transfer-production-chase.png
+SUNKEN PARK MAIN HIP front=true air=true back=true exit=true camera=true min_x=-226.30321 speed=0.2939 at=(-226.3032, 13.00564, -176.5)
+CANDIDATE_STILL 08-open-port-native-return.png
+SUNKEN PARK MAIN PORT entered=true air=true ordinary=true travel=2.424054 max_step=0.139565 camera=true landings=[true] tricks=[] at=(-196.6663, 12.46995, -187.7377)
+SUNKEN PARK PORT EVENT TRACE {"events":[{"airborne":false,"body":"(-195.2531, 12.31506, -188.25)","force_air_tick":false,"is_on_floor":true,"native_floor_valid":true,"state":"idle","tick":1378,"transition":false}],"final_airborne":false,"final_capsule_up":"(0.0, 1.0, 0.0)","final_floor":true,"final_force_air":false,"final_helper":"idle","final_native":true}
+SUNKEN_CANDIDATE_RESULT checks=58 failures=0 images=8

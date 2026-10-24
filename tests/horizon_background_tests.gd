@@ -6,6 +6,10 @@ const Horizon = preload("res://game/levels/horizon_background.gd")
 const Protected = preload("res://tests/clyde_surface_tests.gd")
 const EPS := .00035
 const BOTTOM := -35.0
+# Explicit approved facility/infill deltas; old physical identities are checked separately.
+const WORLD_BODIES := 354 + 204 + 1 # New Hubba's visible native steel coping.
+const WORLD_SHAPES := 1296 + 358 + 1
+const WORLD_ROUTES := 48 + 8
 const CELL := 8.0
 const CUBE_SIZE := 512
 const CUBE_MIPS := 9
@@ -151,10 +155,10 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 	actual_names.sort()
 	var expected_names: Array = FOOTINGS.duplicate()
 	expected_names.sort()
-	check.call(actual_names == expected_names and surfaces <= 4 and (all_faces.size()-land_faces.size())/3 <= 832
+	check.call(actual_names == expected_names and surfaces <= 4 and (all_faces.size()-land_faces.size())/3 <= 832 + 8
 		and land_faces.size()==18
 		and faces.size() > 0 and valid,
-		"horizon: four actual static regional meshes stay within832 combined budget plus exactly six enclosed-land triangles with valid footing/bank/foundation triangles and opaque vertex colours")
+		"horizon: four actual static regional meshes stay within832 original combined budget plus8 native park contour triangles and exactly six enclosed-land triangles with valid footing/bank/foundation triangles and opaque vertex colours")
 	var shader_valid := false
 	if shared and material != null and material.shader != null:
 		var code: String = ""
@@ -459,8 +463,8 @@ static func _river(world: Node3D, context: Node3D, geometry: Dictionary, check: 
 		max_front_area = maxf(max_front_area,front_area)
 		valid = front_area<-.0001 and valid
 	print("HORIZON WATER vertices=",vertices.size()," indices=",indices.size()," normals=",normals.size()," uvs=",uvs.size()," tangents=",tangents.size()," max_y=",max_y," max_uv=",max_uv," min_normal_dot=",min_normal_dot," max_normal_error=",max_normal_error," front_area=",Vector2(min_front_area,max_front_area)," missing=",missing," combined_triangles=",int(geometry.regional_triangles)+water_faces.size()/3)
-	check.call(valid and int(geometry.regional_triangles)-geometry.land_faces.size()/3+water_faces.size()/3<=832,
-		"horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and original832-triangle ceiling excluding the separately verified six land triangles")
+	check.call(valid and int(geometry.regional_triangles)-geometry.land_faces.size()/3+water_faces.size()/3<=832+8,
+		"horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and original832-triangle ceiling plus exactly8 native park contour triangles, excluding the separately verified six land triangles")
 	var water_top := Protected._horizontal_triangles(water_faces,-2)
 	var bank_top := Protected._horizontal_triangles(banks,2)
 	var water_overlap := 0.0
@@ -562,17 +566,17 @@ static func _triangle_present(a: Vector3, b: Vector3, c: Vector3, faces: PackedV
 static func _preservation(world: Node3D, context: Node3D, check: Callable) -> void:
 	var bodies := world.find_children("*","StaticBody3D",true,false)
 	var shapes := world.find_children("*","CollisionShape3D",true,false)
-	check.call(bodies.size()==354 and shapes.size()==1296 and Protected.original_physics_inventory(world),
-		"horizon: exact354 bodies/1296 shapes and independent protected core/bench identities are retained")
+	check.call(bodies.size()==WORLD_BODIES and shapes.size()==WORLD_SHAPES and Protected.original_physics_inventory(world),
+		"horizon: exact558 bodies/1654 shapes (original354/1296 plus approved204/358) and independent protected core/bench identities are retained")
 	var routes: Array = world.get_route_definitions()
 	var identities: Dictionary = {}
 	for route: Dictionary in routes: identities[route.id] = true
 	var checkpoints: Dictionary = world.get_district_checkpoints()
 	var checkpoint_ids: Array = checkpoints.keys()
 	checkpoint_ids.sort()
-	check.call(routes.size()==48 and identities.size()==48
+	check.call(routes.size()==WORLD_ROUTES and identities.size()==WORLD_ROUTES
 		and checkpoint_ids==["barras","central_station","clyde","george_square","kelvingrove","royal_exchange"],
-		"horizon: all48 unique published routes and the six district checkpoints remain")
+		"horizon: all48 original plus8 unique published feature routes and the six district checkpoints remain")
 	var space := world.get_world_3d().direct_space_state
 	var supports := true
 	for at: Vector3 in [Vector3(-2,1,-8),Vector3(-6,4,-102),Vector3(-99,2,-5),
@@ -592,8 +596,8 @@ static func _preservation(world: Node3D, context: Node3D, check: Callable) -> vo
 	var original_restored: bool = not context.visible and environment.sky.sky_material == context.get_meta("original_sky_material")
 	Horizon.set_enabled(world,true)
 	check.call(original_restored and context.visible and environment.sky.sky_material==candidate
-		and world.find_children("*","StaticBody3D",true,false).size()==354
-		and world.find_children("*","CollisionShape3D",true,false).size()==1296
+		and world.find_children("*","StaticBody3D",true,false).size()==WORLD_BODIES
+		and world.find_children("*","CollisionShape3D",true,false).size()==WORLD_SHAPES
 		and world.get_route_definitions()==routes,
 		"horizon: reversible appearance comparison restores both materials while physical routes stay identical")
 

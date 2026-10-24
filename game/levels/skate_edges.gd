@@ -152,6 +152,7 @@ static func _commit(lines: Array,original: Array,id: String,points: PackedVector
 	if total<MIN_LENGTH: return
 	# Keep older authored/challenge IDs wherever a new selected edge coincides.
 	for line in original:
+		if _new_optional_guide(id,String(line.id)): continue
 		var coincident := true
 		for at: Vector3 in [points[0],points[floori(points.size()*0.5)],points[-1]]:
 			var closest: Dictionary=line.closest(at)
@@ -161,6 +162,16 @@ static func _commit(lines: Array,original: Array,id: String,points: PackedVector
 		if coincident: return
 	var candidate=GrindLineSource.new(PREFIX+id,points,kind)
 	if candidate.is_valid: lines.append(candidate)
+
+
+static func _new_optional_guide(semantic_id: String, authored_id: String) -> bool:
+	# The default semantic identity predates these optional work guides. Keep
+	# its exact original top coordinates; original challenge rails still win.
+	if semantic_id.begins_with("CivicGarden_"):
+		return authored_id in ["Grind_Ledge_Civic_Return_Left","Grind_Ledge_Civic_Right"]
+	if semantic_id.begins_with("Platform") or semantic_id.begins_with("ServiceWalk"):
+		return authored_id in ["Grind_Ledge_CentralPlatformNorth","Grind_Ledge_CentralPlatformSouth","Grind_Ledge_StationUpperWalk"]
+	return semantic_id.begins_with("BridgeRail_") and authored_id.begins_with("clyde_") and authored_id.contains("_handrail_")
 
 
 static func _civic_gardens(world: Node3D,lines: Array,original: Array) -> void:
@@ -196,6 +207,10 @@ static func _station_edges(world: Node3D,lines: Array,original: Array) -> void:
 
 
 static func _ribbon_edges(world: Node3D,body: Node3D,lines: Array,original: Array) -> void:
+	# Regraded three-row shoulders are shallow roll-over support, not the old
+	# paired-vertex raised curb. Never interpret triangle-expanded skin vertices
+	# as a new zigzag grind path. The native shoulder keeps its real collision.
+	if body.has_meta("visual_trim_outer_side"): return
 	for child: Node in body.get_children():
 		if not child is MeshInstance3D or not child.mesh is ArrayMesh: continue
 		var arrays: Array=child.mesh.surface_get_arrays(0)

@@ -6,6 +6,8 @@ const HEAD: Mesh = preload("res://game/art/assets/makehuman_hm08/head.obj")
 const HAIR: Mesh = preload("res://game/art/assets/makehuman_hm08/hair.obj")
 const LEFT_HAND: Mesh = preload("res://game/art/assets/makehuman_hm08/left_hand.obj")
 const RIGHT_HAND: Mesh = preload("res://game/art/assets/makehuman_hm08/right_hand.obj")
+## Physical marker on the retained palm mesh, unchanged by distal finger curl.
+const PALM_CONTACT := Vector3(0, -0.075, -0.015)
 # Baked from manifest head_markers_m; no runtime JSON/file-service dependency.
 const EYE_CENTERS: Array[Vector3] = [Vector3(0.0294083333, 0.04127, -0.0787933333),
 	Vector3(-0.0294083333, 0.04127, -0.0787933333)]

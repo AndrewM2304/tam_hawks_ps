@@ -2,6 +2,12 @@ extends RefCounted
 ## Original edge detail. Reachable bench solids match the existing visible slats
 ## and frames; the decorative batches, triggers and route layout stay unchanged.
 
+const BENCH_GROUPS := [
+	{"id":"station_west", "position":Vector3(-127,2,28)},
+	{"id":"barras_south", "position":Vector3(60,0,41.5)},
+	{"id":"civic_east", "position":Vector3(29,6,-116)},
+	{"id":"exchange_east", "position":Vector3(29,0,27)}]
+
 
 static func build(art: Node3D, world: Node3D) -> void:
 	var batches: Dictionary = {}
@@ -23,17 +29,20 @@ static func build(art: Node3D, world: Node3D) -> void:
 			_drain(art, batches, Vector3(at.x, height + 0.035, at.z))
 	# These benches sit inside supported playable floors. Their former art-only
 	# construction let the rider pass through apparently solid street furniture.
-	for at: Vector3 in [Vector3(-127,2,28), Vector3(60,0,36), Vector3(29,6,-116), Vector3(29,0,27)]:
+	for group: Dictionary in BENCH_GROUPS:
+		var at: Vector3 = group.position
 		_bench(art, batches, at)
 		_bench_collision(world,at)
 		art._cylinder(art, at + Vector3(2.5, 0.56, 0), 0.34, 1.12, art.materials["iron"])
 		art._cylinder(art, at + Vector3(2.5, 1.13, 0), 0.39, 0.08, art.materials["slate"])
 		art._batch_box(batches, "brass", Vector3(0.27, 0.11, 0.06), at + Vector3(2.5, 0.82, 0.34))
+		_bin_collision(world, at + Vector3(2.5,0,0), group.id)
 	art._flush_batches(art, batches)
 
 
 static func _bench_collision(world: Node3D,at: Vector3) -> void:
 	var seat := _bench_body(world,"StreetBenchSeat",at)
+	seat.add_to_group("physical_street_benches")
 	# Metadata describes the outer slat envelope for optional ledge authoring;
 	# physical contact still uses the four actual narrow planks, including gaps.
 	seat.set_meta("skate_edge_box_size",Vector3(2.7,0.07,0.54))
@@ -89,3 +98,24 @@ static func _bench(art: Node3D, batches: Dictionary, at: Vector3) -> void:
 		art._batch_box(batches, "wood", Vector3(2.7, 0.07, 0.12), at + Vector3(0, 0.51, -0.22 + slat * 0.14))
 	for slat: int in range(3):
 		art._batch_box(batches, "wood", Vector3(2.7, 0.1, 0.075), at + Vector3(0, 0.72 + slat * 0.14, -0.3))
+
+
+static func _bin_collision(world: Node3D, at: Vector3, id: String) -> void:
+	var body := StaticBody3D.new()
+	body.name = "StreetLitterBin_" + id
+	body.position = at
+	body.set_meta("art_label", "StreetLitterBin")
+	body.set_meta("street_furniture_id", id)
+	body.set_meta("surface_audio", "metal")
+	body.set_meta("grind_exclusion_reason", "upright circular litter container; lid diameter 0.78m, below a useful finite ledge run")
+	world.add_child(body)
+	for dimensions: Vector3 in [Vector3(0.34,1.12,0.56), Vector3(0.39,0.08,1.13)]:
+		var shape := CylinderShape3D.new()
+		shape.radius = dimensions.x
+		shape.height = dimensions.y
+		var collision := CollisionShape3D.new()
+		collision.shape = shape
+		collision.position.y = dimensions.z
+		body.add_child(collision)
+	body.add_to_group("physical_street_bins")
+

@@ -3,6 +3,7 @@ extends RefCounted
 ## choose an initial supported fixture; subsequent movement uses real inputs.
 ## Ground heading is aimed directly. This is feasibility, not natural steering.
 const GALLERY_LEDGE := "Grind_Ledge_GalleryEntrance"
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const ROUTE_IDS: Array[String] = ["gallery_entrance_bank_loop", "gallery_entrance_front_return",
 	"gallery_entrance_bypass", "exchange_west_bank_loop", "exchange_west_bypass"]
 
@@ -52,14 +53,20 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	check.call(combo.captured and combo.capture_ids == [GALLERY_LEDGE] and combo.south_exit,
 		"Exchange combo: one real capture follows the bent seating ledge into its south-facing exit")
 	check.call(combo.manual_entered and combo.connected and combo.bails == 0
-		and combo.tricks == ["Ollie", "50-50", "Ollie", "Kickflip", "Melon Grab", "Manual"],
+		and combo.entries.size() == 6 and combo.entries[0].id == "nollie" and combo.tricks[0] == "Nollie"
+		and TrickCatalog.definition(str(combo.entries[1].id)).get("family", "") == "grind"
+		and combo.tricks.slice(2) == ["Ollie", "Kickflip", "Melon Grab", "Manual"],
 		"Exchange combo: rail ollie air tricks and a fresh Manual remain one physical line")
-	check.call(combo.bank == 5000 and combo.banked_once and game.score.get_combo_value() == 0,
-		"Exchange combo: exact repeat-degraded line banks 5000 once without event injection")
+	var earned := _earned_combo(combo)
+	check.call(earned.valid and combo.hold_valid and combo.hold_points >= 0 and combo.hold_points <= 300
+		and earned.multiplier == 6 and combo.bank == earned.value
+		and combo.banked_once and game.score.get_combo_value() == 0,
+		"Exchange combo: exact catalog entries, repeat decay and bounded holds bank their independently calculated value once")
 	check.call(combo.camera_samples > 30 and combo.camera_blocked == 0 and combo.camera_hidden == 0,
 		"Exchange combo: actual bank ledge and landing chase remains finite clear and visible")
-	print("EXCHANGE COMBO captured=%s south_exit=%s manual=%s connected=%s bank=%d bails=%d grounded_ascent=%.3f camera=%d/%d/%d tricks=%s" % [
-		combo.captured,combo.south_exit,combo.manual_entered,combo.connected,combo.bank,combo.bails,
+	print("EXCHANGE COMBO captured=%s south_exit=%s manual=%s connected=%s bank=%d entry_base=%d hold_points=%d multiplier=%d earned=%d bails=%d grounded_ascent=%.3f camera=%d/%d/%d tricks=%s" % [
+		combo.captured,combo.south_exit,combo.manual_entered,combo.connected,combo.bank,
+		earned.entry_base,combo.hold_points,earned.multiplier,earned.value,combo.bails,
 		combo.grounded_ascent,combo.camera_samples,combo.camera_blocked,combo.camera_hidden,combo.tricks])
 	_release()
 	game.skater.spawn_position = original_spawn
@@ -100,25 +107,27 @@ static func drive_ledge_combo(tree: SceneTree, game: Node, observer: Callable = 
 	var evidence := _evidence()
 	evidence.merge({"bank_ascent": false, "grounded_ascent": 0.0, "captured": false,
 		"capture_ids": [], "south_exit": false, "manual_entered": false, "connected": false,
-		"tricks": [], "bank": 0, "banked_once": false})
+		"tricks": [], "entries": [], "hold_points": 0, "hold_valid": true,
+		"bank": 0, "banked_once": false})
 	var initial_y: float = game.skater.global_position.y
 	var on_bail := func(): evidence.bails += 1
-	var on_trick := func(title: String, _points: int): evidence.tricks.append(title)
+	var on_trick := func(title: String, points: int):
+		evidence.tricks.append(title)
+		evidence.entries.append({"id": game.skater.last_trick_id, "title": title, "points": points})
+	var on_hold := func(points: int):
+		evidence.hold_points += points
+		evidence.hold_valid = evidence.hold_valid and points > 0 and points % 25 == 0 and game.skater.grinding
 	var on_capture := func(id: String): evidence.capture_ids.append(id)
 	game.skater.bailed.connect(on_bail)
 	game.skater.trick_performed.connect(on_trick)
+	game.skater.hold_points_awarded.connect(on_hold)
 	game.skater.grind_captured.connect(on_capture)
 	var jumped := false
 	for frame in 240:
 		_aim(game.skater, Vector3.RIGHT)
 		# The short ledge rewards a controlled approach. Real braking keeps the
 		# existing bank-assisted ollie from sailing beyond it before descent.
-		if game.skater.speed > 6.5:
-			Input.action_release("push")
-			Input.action_press("brake")
-		else:
-			Input.action_release("brake")
-			Input.action_press("push")
+		_navigation_input(game.skater.speed < -0.05 or game.skater.speed > 6.5)
 		Input.action_press("grind")
 		if not jumped and game.skater.is_on_floor():
 			evidence.grounded_ascent = maxf(evidence.grounded_ascent,game.skater.global_position.y-initial_y)
@@ -126,7 +135,7 @@ static func drive_ledge_combo(tree: SceneTree, game: Node, observer: Callable = 
 				evidence.bank_ascent = true
 				await _observe(observer,"bank_ascent",evidence)
 		# Charge on approach and release at the existing takeoff point.
-		# Preserve the real bent ledge, clearance and exact 5000-point line.
+		# Preserve the real bent ledge, clearance and independent exact receipt.
 		if not jumped and game.skater.global_position.x >= -11.5:
 			Input.action_press("ollie")
 		if not jumped and game.skater.global_position.x >= -8.7:
@@ -180,8 +189,30 @@ static func drive_ledge_combo(tree: SceneTree, game: Node, observer: Callable = 
 	evidence.banked_once = evidence.bank > 0 and game.score.total_score == evidence.bank
 	game.skater.bailed.disconnect(on_bail)
 	game.skater.trick_performed.disconnect(on_trick)
+	game.skater.hold_points_awarded.disconnect(on_hold)
 	game.skater.grind_captured.disconnect(on_capture)
 	return evidence
+
+
+## Independent receipt calculation: no ScoreSession values or methods are used.
+## This line has exactly one rail attachment; only that hold may contribute its
+## bounded duration points. Every raw entry must match its actual catalog ID.
+static func _earned_combo(evidence: Dictionary) -> Dictionary:
+	var repetitions: Dictionary = {}
+	var entry_base := 0
+	var valid := true
+	for entry: Dictionary in evidence.entries:
+		var definition := TrickCatalog.definition(str(entry.id))
+		if definition.is_empty():
+			valid = false
+			continue
+		valid = valid and entry.title == definition.display_name and entry.points == definition.base_points
+		var count := int(repetitions.get(entry.id, 0))
+		entry_base += maxi(1, int(float(definition.base_points) / pow(2.0, mini(count, 4))))
+		repetitions[entry.id] = count + 1
+	var multiplier := mini(evidence.entries.size(), 100)
+	return {"valid": valid, "entry_base": entry_base, "multiplier": multiplier,
+		"value": (entry_base + int(evidence.hold_points)) * multiplier}
 
 
 static func _drive_route(tree: SceneTree, game: Node, points: PackedVector3Array) -> Dictionary:
@@ -198,12 +229,7 @@ static func _drive_route(tree: SceneTree, game: Node, points: PackedVector3Array
 				break
 			if evidence.bails > 0: break
 			_aim(game.skater,offset)
-			if game.skater.speed > sqrt(30.0 * offset.length()):
-				Input.action_release("push")
-				Input.action_press("brake")
-			else:
-				Input.action_release("brake")
-				Input.action_press("push")
+			_navigation_input(game.skater.speed < -0.05 or game.skater.speed > sqrt(30.0 * offset.length()))
 			await _step(tree,game,evidence)
 			if game.skater.global_position.distance_to(before) < 0.01 and frame > 90:
 				evidence.stalled_frames += 1
@@ -212,6 +238,13 @@ static func _drive_route(tree: SceneTree, game: Node, points: PackedVector3Array
 	_release()
 	game.skater.bailed.disconnect(on_bail)
 	return evidence
+
+
+static func _navigation_input(braking: bool) -> void:
+	var crossing := Input.is_action_pressed("push" if braking else "brake") \
+		and not Input.is_action_pressed("brake" if braking else "push")
+	Input.action_press("brake" if braking else "push")
+	if not crossing: Input.action_release("push" if braking else "brake")
 
 
 static func _evidence() -> Dictionary:
@@ -259,7 +292,9 @@ static func _reset(tree: SceneTree, game: Node, at: Vector3) -> void:
 	_release()
 	game.skater.spawn_position = at
 	game.start_mode(true)
+	Input.action_press("brake")
 	await _frames(tree,45)
+	Input.action_release("brake")
 
 
 static func _aim(skater: CharacterBody3D, direction: Vector3) -> void:

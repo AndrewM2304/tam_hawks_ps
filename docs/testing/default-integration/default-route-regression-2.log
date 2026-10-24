@@ -1,0 +1,66 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CAT initial_flight launches=[{ "position": (-19.69855, 4.009572, -91.33192), "speed": 13.3611313501994, "velocity": (13.36113, 7.2, -0.000637) }] first_landing={  } descending_samples=4 closest_A={ "position": (-16.80195, 4.833821, -91.33202), "rail_point": (-16.0, 4.6, -91.0), "gap": 0.8989040851593, "height_above_rail": 0.23382139205933, "speed": 13.3611316680908, "velocity": (13.36113, 0.4, -0.000637), "alignment": 1.0, "grounded": false, "grind_held": true } end_position=(-15.7774, 4.6, -90.99999) end_speed=13.351
+CAT audience returned_frames=76 trigger_distance=9.83 frustum=true celebration=finished elapsed=3.20
+CAT physical approach=true captures=["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"] positions=[(-16.0, 4.6, -91.0), (-4.0, 4.6, -91.0), (8.0, 4.6, -91.0)] sequence=[1, 2, 3] tricks=["Ollie", "50-50", "Ollie", "50-50", "Ollie", "50-50"] bank=3450 bails=0 state=success remaining=53.22
+CAT flight_witness launches=[{ "position": (-19.69855, 4.009572, -91.33192), "speed": 13.3611313501994, "velocity": (13.36113, 7.2, -0.000637) }, { "position": (-10.70356, 4.6, -91.0), "speed": 13.1210908889771, "velocity": (13.12109, 9.0, 0.0) }, { "position": (1.415032, 4.6, -91.00001), "speed": 12.8710775375366, "velocity": (12.87108, 9.000038, 0.0) }] first_landing={ "position": (9.500545, 4.462426, -91.00004), "speed": 12.8610982894897, "velocity": (12.86108, 0.0, -0.000613), "clean": true, "captures": ["Grind_Cat_A", "Grind_Cat_B", "Grind_Cat_C"] }
+CAT bail entered=true bails=1 state=failed reason=No bother. Come back and we'll strike up another beat. position=(12.11217, 4.649067, -95.0) speed=5.10 manual=false
+DELIVERY NAV covered at=(93.2122, 0.012408, -5.308346) heading=3.14159250259399 COVERED 1: LEFT 21m  /  CALTON 1: LEFT 10m
+DELIVERY GATE WITNESS requested=covered events=[{ "position": (112.0134, 0.012408, -4.435398), "speed": 7.93313455581665, "route_id": "covered", "route_index": 1, "state": "active" }, { "position": (113.9177, 0.012408, 5.060869), "speed": 7.8663969039917, "route_id": "covered", "route_index": 2, "state": "active" }, { "position": (113.9961, 0.012408, 15.94432), "speed": 8.03342342376709, "route_id": "covered", "route_index": 3, "state": "active" }]
+DELIVERY_RETURN true { "requested_route": "covered", "accepted": false, "carried": false, "manual_entered": false, "gap_seen": false, "bank": 0, "line_banked": false, "reached": false, "success": false, "wins": 0, "bails": 0, "tricks": [], "route_id": "", "route_index": 0, "remaining": 0.0, "frames": 254, "camera_samples": 254, "camera_blocked": 0, "camera_hidden": 0, "payoff_started": false, "payoff_visible": false, "gate_events": [{ "position": (105.1778, 0.012408, 19.94926), "speed": 0.16687868535519, "route_id": "covered", "route_index": 3, "state": "success" }], "last_gate": "covered:3" } position=(113.9989, 0.012408, -4.430462) state=success
+DELIVERY route=covered reached=true bank=1650 bails=0 gates=3 time=12.03 camera_samples=741 blocked=0 hidden=0
+DELIVERY NAV west at=(93.2122, 0.012402, -5.306267) heading=3.14159250259399 COVERED 1: LEFT 21m  /  CALTON 1: LEFT 10m
+DELIVERY GATE WITNESS requested=west events=[{ "position": (100.9454, 0.012402, -5.043012), "speed": 7.96271181106567, "route_id": "west", "route_index": 1, "state": "active" }, { "position": (102.9065, 0.012402, 5.04907), "speed": 7.56178140640259, "route_id": "west", "route_index": 2, "state": "active" }, { "position": (102.9956, 0.012402, 16.00924), "speed": 7.52897167205811, "route_id": "west", "route_index": 3, "state": "active" }]
+DELIVERY route=west reached=true bank=1650 bails=0 gates=3 time=9.52 camera_samples=592 blocked=0 hidden=0
+ROUTE waypoint 0 (-22.0, 2.0, -26.0) reached=true t=6.35 pos=(-22.0, 2.00068, -25.12503) speed=7.93
+ROUTE waypoint 1 (-22.0, 2.0, -22.0) reached=true t=7.60 pos=(-22.0, 2.00068, -22.94716) speed=8.33
+ROUTE waypoint 2 (18.0, 2.0, -22.0) reached=true t=10.35 pos=(17.07116, 2.00068, -22.02199) speed=15.00
+ROUTE waypoint 3 (22.0, 2.0, -22.0) reached=true t=10.62 pos=(21.07106, 2.00068, -22.00319) speed=15.00
+ROUTE waypoint 4 (22.0, 4.0, -74.0) reached=true t=14.50 pos=(21.98322, 4.000283, -73.04955) speed=11.16
+ROUTE waypoint 5 (-22.0, 4.0, -74.0) reached=true t=18.35 pos=(-21.07919, 4.000283, -74.03578) speed=15.00
+ROUTE waypoint 6 (22.0, 4.0, -74.0) reached=true t=21.17 pos=(21.17081, 4.000283, -74.00069) speed=15.00
+ROUTE waypoint 7 (22.0, 6.0, -116.0) reached=true t=23.92 pos=(21.98216, 6.012453, -115.0723) speed=15.00
+ROUTE waypoint 8 (20.0, 6.0, -116.0) reached=true t=24.00 pos=(20.85001, 6.012453, -115.6022) speed=15.00
+ROUTE waypoint 9 (22.0, 4.0, -74.0) reached=true t=26.73 pos=(21.97857, 4.012417, -74.78481) speed=15.00
+ROUTE waypoint 10 (-60.0, 4.0, -80.0) reached=true t=33.03 pos=(-59.17221, 4.012431, -79.94734) speed=10.56
+ROUTE waypoint 11 (-88.0, 4.0, -80.0) reached=true t=35.77 pos=(-87.18133, 4.012431, -80.00311) speed=15.00
+ROUTE waypoint 12 (-88.0, 2.0, -40.0) reached=true t=38.38 pos=(-87.98334, 2.01115, -40.82368) speed=15.00
+ROUTE waypoint 13 (-82.0, 2.0, -40.0) reached=true t=38.73 pos=(-82.78236, 2.01115, -40.1077) speed=15.00
+ROUTE waypoint 14 (-62.0, 2.0, 22.0) reached=true t=43.03 pos=(-62.31498, 2.01115, 21.05872) speed=15.00
+ROUTE waypoint 15 (-82.0, 2.0, 34.0) reached=true t=44.55 pos=(-81.32492, 2.01115, 33.55619) speed=15.00
+ROUTE waypoint 16 (-94.0, 2.0, 34.0) reached=true t=45.33 pos=(-93.06775, 2.01115, 33.96735) speed=15.00
+ROUTE waypoint 17 (-94.0, 5.0, 4.5) reached=true t=47.25 pos=(-93.96988, 5.01367, 5.481221) speed=15.00
+ROUTE waypoint 18 (-94.0, 5.0, -12.0) reached=true t=48.35 pos=(-94.00607, 5.012413, -11.01699) speed=15.00
+ROUTE waypoint 19 (-94.0, 2.0, -38.0) reached=true t=50.10 pos=(-94.00021, 2.16539, -37.03476) speed=15.00
+ROUTE waypoint 20 (-62.0, 2.0, -38.0) reached=true t=52.18 pos=(-62.76449, 2.012518, -37.97684) speed=15.00
+ROUTE waypoint 21 (-62.0, 2.0, 22.0) reached=true t=56.48 pos=(-62.01241, 2.012398, 21.02645) speed=12.14
+ROUTE waypoint 22 (-22.0, 0.0, 22.0) reached=true t=60.00 pos=(-22.79754, 0.012417, 22.04126) speed=15.00
+ROUTE waypoint 23 (22.0, 0.0, 22.0) reached=true t=62.93 pos=(21.20245, 0.012417, 22.00073) speed=15.00
+ROUTE waypoint 24 (60.0, 0.0, 22.0) reached=true t=65.47 pos=(59.20245, 0.012417, 22.00002) speed=15.00
+ROUTE waypoint 25 (70.0, 0.0, 22.0) reached=true t=66.13 pos=(69.20245, 0.012417, 22.0) speed=15.00
+ROUTE waypoint 26 (94.0, 0.0, 20.0) reached=true t=67.73 pos=(93.12482, 0.012417, 20.07059) speed=15.00
+ROUTE waypoint 27 (106.0, 0.0, 26.0) reached=true t=68.62 pos=(105.1598, 0.012417, 25.61305) speed=15.00
+ROUTE waypoint 28 (126.0, 0.0, 26.0) reached=true t=69.95 pos=(125.1561, 0.012417, 25.98433) speed=15.00
+ROUTE waypoint 29 (126.0, 1.5, -18.0) reached=true t=73.02 pos=(125.982, 1.389618, -17.0248) speed=12.30
+ROUTE waypoint 30 (120.0, 1.5, -22.0) reached=true t=74.22 pos=(120.829, 1.500252, -21.73928) speed=10.80
+ROUTE waypoint 31 (120.0, 1.5, -33.0) reached=true t=74.97 pos=(120.0652, 1.500252, -32.11481) speed=15.00
+ROUTE waypoint 32 (120.0, 1.5, -22.0) reached=true t=75.58 pos=(120.0056, 1.500252, -22.86502) speed=15.00
+ROUTE waypoint 33 (106.0, 1.5, -22.0) reached=true t=76.47 pos=(106.7807, 1.500252, -22.04822) speed=15.00
+ROUTE waypoint 34 (106.0, 1.5, -26.0) reached=true t=76.68 pos=(106.1508, 1.500252, -25.2366) speed=15.00
+ROUTE waypoint 35 (75.0, 1.5, -26.0) reached=true t=78.70 pos=(75.91004, 1.500252, -25.9777) speed=15.00
+ROUTE waypoint 36 (75.0, 1.5, -22.0) reached=true t=78.92 pos=(75.18522, 1.500252, -22.80955) speed=15.00
+ROUTE waypoint 37 (22.0, 2.0, -22.0) reached=true t=82.70 pos=(22.94475, 2.007416, -22.01437) speed=12.27
+ROUTE waypoint 38 (-22.0, 2.0, -22.0) reached=true t=86.32 pos=(-21.19819, 2.007416, -21.99937) speed=15.00
+ROUTE waypoint 39 (-22.0, 0.0, 28.0) reached=true t=89.60 pos=(-21.98574, 0.01055, 27.10446) speed=15.00
+ROUTE SUMMARY circuit=true seconds=89.60 distance=1195.68 bails=0 stalled_frames=9 letters_at=67.70 market_at=76.63 secret_at=74.93
+ROUTE CAREER all_goals_at=83.07 score=16692 best_combo=3000 trick_inputs={ "Ollie": 7, "Kickflip": 2, "Melon Grab": 2, "Manual": 6, "Heelflip": 1, "Indy Grab": 2, "Frontside Shuvit": 1, "Nose Grab": 1, "Method Grab": 1, "Hardflip": 1, "Varial Flip": 1 }
+ROUTE COMBO Exchange to George east grade forward seconds=6.65 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+ROUTE COMBO Exchange to George east grade reverse seconds=6.13 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+ROUTE COMBO Exchange to Central south grade forward seconds=6.32 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+ROUTE COMBO Exchange to Central south grade reverse seconds=5.85 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+ROUTE COMBO Exchange to Barras north grade forward seconds=5.78 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+ROUTE COMBO WITNESS Exchange to Barras north grade reverse [{ "frame": 73, "position": (57.28816, 1.623174, -22.0), "velocity": (-12.33036, 7.2, 0.000001), "airborne": true, "manual": false, "manual_cooldown": 0.0, "manual_input": false, "manual_buffer": 0.0, "landing_remaining": 0.0, "bank": 0 }, { "frame": 99, "position": (51.94502, 1.512446, -22.0), "velocity": (-12.33036, 0.0, 0.000001), "airborne": false, "manual": false, "manual_cooldown": 0.0, "manual_input": false, "manual_buffer": 0.0, "landing_remaining": 0.35, "bank": 0 }, { "frame": 100, "position": (51.74047, 1.512446, -22.0), "velocity": (-12.27265, 0.0, 0.000001), "airborne": false, "manual": true, "manual_cooldown": 0.0, "manual_input": true, "manual_buffer": 0.0, "landing_remaining": 0.0, "bank": 0 }]
+ROUTE COMBO Exchange to Barras north grade reverse seconds=5.87 bank=3000 crossed=true connected=true manual=true entries=1 bails=0
+ENCOUNTER physical wins=2 score=3050 attempts=2
+ENCOUNTER MANUAL entered=true state={ "id": "busker_big_finish", "title": "Mo\'s Big Finish", "state": "failed", "remaining": 33.7166666666667, "family_count": 0, "required_families": 3, "target_points": 1000, "attempts": 1, "wins": 0, "reason": "No bother. Back to Mo for another go.", "detail": "MO\'S BIG FINISH | Return to Mo for another go", "hud_text": "MO\'S BIG FINISH | Return to Mo for another go", "position": (28.0, 0.0, 31.0), "combo_valid": true } bail=true combo=0 position=(21.98117, 0.000506, 34.0)
+RESULT: 150 passed, 0 failed

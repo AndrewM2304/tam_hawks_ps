@@ -7,24 +7,27 @@ const Tracker = preload("res://game/tricks/gap_tracker.gd")
 static func run(check: Callable) -> void:
 	var meter = Meter.new()
 	check.call(meter.value == 0.0 and not meter.consume(), "special meter: empty meter cannot spend a special")
-	meter.earn_bank(250)
-	check.call(is_equal_approx(meter.value, 10.0), "special meter: a bank earns one unit per 25 points")
-	meter.earn_bank(0)
-	meter.earn_bank(-100)
-	check.call(meter.value == 10.0, "special meter: zero or negative bank values earn nothing")
-	meter.earn_bank(9223372036854775807)
-	check.call(meter.value == 60.0 and not meter.consume(), "special meter: one bank earns at most 50 and cannot spend a partial meter")
-	meter.earn_bank(1250)
-	check.call(meter.value == 100.0 and meter.consume() and meter.value == 0.0
-		and not meter.consume(), "special meter: a full charge spends exactly once and resets")
-	meter.earn_bank(1250)
+	meter.earn_trick(250)
+	check.call(is_equal_approx(meter.value, 25.0), "special meter: earned live trick points charge one unit per ten points")
+	meter.earn_trick(0)
+	meter.earn_trick(-100)
+	check.call(meter.value == 25.0, "special meter: zero or negative awards earn nothing")
+	meter.earn_trick(9223372036854775807)
+	check.call(meter.value == 75.0 and not meter.consume(), "special meter: an event earns at most 50 and cannot authorize a partial charge")
+	meter.earn_trick(1250)
+	check.call(meter.value == 100.0 and meter.consume() and meter.value == 100.0
+		and meter.consume(), "special meter: full charge activates sustained special admission without consuming the mode")
+	meter.tick(1.0, false)
+	check.call(is_equal_approx(meter.value, 100.0 - 100.0 / 6.0) and meter.ready(),
+		"special meter: active mode drains over time while retaining special admission")
+	meter.earn_trick(1250)
 	meter.reset()
 	check.call(meter.value == 0.0, "special meter: run reset clears charge")
 	meter.value = NAN
 	check.call(not meter.consume() and meter.value == 0.0, "special meter: nonfinite state cannot unlock a special")
 	meter.value = -20.0
-	meter.earn_bank(25)
-	check.call(meter.value == 1.0, "special meter: public meter state is bounded before earning")
+	meter.earn_trick(25)
+	check.call(meter.value == 2.5, "special meter: public meter state is bounded before earning")
 
 	var ordered = _tracker()
 	check.call(ordered.update(Vector3(-2, 0, 0), false, 0.0).is_empty(),

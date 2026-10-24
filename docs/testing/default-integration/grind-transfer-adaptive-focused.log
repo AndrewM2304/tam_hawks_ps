@@ -1,0 +1,203 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: grind styles: neutral/up/down snapshot selects parallel 50-50 (0.0, 0.0)
+PASS: grind styles: neutral/up/down snapshot selects parallel 50-50 (0.0, -1.0)
+PASS: grind styles: neutral/up/down snapshot selects parallel 50-50 (0.0, 1.0)
+PASS: grind styles: a reversed parallel board preserves fakie heading
+PASS: grind styles: horizontal snapshot selects a signed deck-crossing quarter-turn -1.0
+PASS: grind styles: already-perpendicular captured board selects deck contact independently of travel -1.0
+PASS: grind styles: authored +/-0.35 direction boundary follows shared input precision semantics -1.0
+PASS: grind styles: direction just below the shared threshold retains neutral truck contact -1.0
+PASS: grind styles: horizontal snapshot selects a signed deck-crossing quarter-turn 1.0
+PASS: grind styles: already-perpendicular captured board selects deck contact independently of travel 1.0
+PASS: grind styles: authored +/-0.35 direction boundary follows shared input precision semantics 1.0
+PASS: grind styles: direction just below the shared threshold retains neutral truck contact 1.0
+PASS: grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 44.0
+PASS: grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 46.0
+PASS: grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 134.0
+PASS: grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 136.0
+PASS: grind styles: selection retains the passed capture snapshot when later direction changes
+PASS: grind styles: separate selections own their result without shared mutable style state
+PASS: grind styles: nonfinite and missing horizontal board/travel headings cannot select a style
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=0.0 balance=-0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=0.0 balance=-0.8
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=0.0 balance=0.0
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=0.0 balance=0.0
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=0.0 balance=0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=0.0 balance=0.8
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=3.14159265358979 balance=-0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=3.14159265358979 balance=-0.8
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=3.14159265358979 balance=0.0
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=3.14159265358979 balance=0.0
+PASS: grind styles: both original hanger undersides stay on support travel=-1.0 yaw=3.14159265358979 balance=0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=3.14159265358979 balance=0.8
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=0.0 balance=-0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=0.0 balance=-0.8
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=0.0 balance=0.0
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=0.0 balance=0.0
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=0.0 balance=0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=0.0 balance=0.8
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=3.14159265358979 balance=-0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=3.14159265358979 balance=-0.8
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=3.14159265358979 balance=0.0
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=3.14159265358979 balance=0.0
+PASS: grind styles: both original hanger undersides stay on support travel=1.0 yaw=3.14159265358979 balance=0.8
+PASS: grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=3.14159265358979 balance=0.8
+PASS: grind styles: 50-50 uses asset hanger undersides, not wheel/deck or guessed root height
+PASS: grind styles: open endpoint clamps both support contacts inside the finite guide 0.0
+PASS: grind styles: open endpoint clamps both support contacts inside the finite guide 0.05
+PASS: grind styles: open endpoint clamps both support contacts inside the finite guide 9.94999809265137
+PASS: grind styles: open endpoint clamps both support contacts inside the finite guide 9.99999809265137
+PASS: grind styles: finite start supports span exactly .51m without extrapolating the rail
+PASS: grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie -1.0/0.0
+PASS: grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie -1.0/3.14159265358979
+PASS: grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie 1.0/0.0
+PASS: grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie 1.0/3.14159265358979
+PASS: grind styles: right-angle bend solves an actual .51m support chord without stretching or tangent-only fake contact
+PASS: grind styles: bent-guide contacts straddle the corner beyond the .255m straight arc offset
+PASS: grind styles: loop seam wraps actual truck supports for signed fakie travel
+PASS: grind styles: a loop whose entire diameter is below the fixed hanger span is rejected
+PASS: grind styles: sufficient arc length alone cannot fake a rigid contact chord on a short right-angle guide
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/-1.5707963267949/-0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/-1.5707963267949/0.0
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/-1.5707963267949/0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/1.5707963267949/-0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/1.5707963267949/0.0
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/1.5707963267949/0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/-1.5707963267949/-0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/-1.5707963267949/0.0
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/-1.5707963267949/0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/1.5707963267949/-0.8
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/1.5707963267949/0.0
+PASS: grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/1.5707963267949/0.8
+PASS: grind styles: sloped boardslide crosses the rail in its support plane while holding the deck centre
+PASS: grind styles: authored beam support offset, rather than its centreline, receives the deck
+PASS: grind styles: short finite support rejects two trucks but can support one deck contact
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [inf, 1.0, 0.0, "grind_50_50", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 0.0, 0.0, "grind_50_50", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, nan, "grind_50_50", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.2, "grind_50_50", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "boardslide", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "unimplemented_lipslide", 0.0]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "grind_50_50", nan]
+PASS: grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "grind_50_50", 1.01]
+PASS: grind styles: missing/unverified/vertical/empty support cannot claim named contact <null>
+PASS: grind styles: missing/unverified/vertical/empty support cannot claim named contact <RefCounted#-9223372007159102016>
+PASS: grind styles: missing/unverified/vertical/empty support cannot claim named contact <RefCounted#-9223372007125547582>
+PASS: grind styles: missing/unverified/vertical/empty support cannot claim named contact <RefCounted#-9223372007091993148>
+PASS: grind styles: one reused result replaces contact count/data while retaining its two fixed array slots
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: rail_grind compatibility uses the identical existing two-truck solve
+PASS: grind variants: signed Lipslide has the actual GLB deck bearing without claiming crossing history
+PASS: grind variants: signed Lipslide has the actual GLB deck bearing without claiming crossing history
+PASS: grind variants: one truck may use a finite endpoint while two trucks still require the original rigid chord
+PASS: grind variants: an event or unknown ID cannot manufacture another physical pose grind_pivot
+PASS: grind variants: an event or unknown ID cannot manufacture another physical pose unimplemented_tailslide
+PASS: grind variants: a mismatched yaw cannot borrow another named hanger contact
+PASS: grind variants: unverified support never gains a named physical contact
+PASS: grind variants native: the actual combined GLB caches32 welded solid components instead of one false hull
+PASS: grind variants native: loaded hanger/deck anchors are on actual retained GLB triangles
+PASS: grind variants native: nosegrind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: five_o_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: crooked_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: overcrook_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: smith_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: feeble_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: lipslide sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids nosegrind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids five_o_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids crooked_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids overcrook_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids smith_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids feeble_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids lipslide
+PASS: grind variants native: two clear deck poses cannot rotate their actual trucks through steel between frames
+PASS: grind variants native: a direct loaded50-50 to deck slide requires real unweighting rather than a hidden steel crossing
+PASS: grind transfer native: boardslide queues only a proved bounded lift/rotate/reseat and starts at the actual board frame
+PASS: grind transfer native: a zero-time tick cannot advance the unweight phase or complete its award
+PASS: grind transfer native: actual boardslide moves with its target and reseats at the bounded adaptive turn rate
+PASS: grind transfer native: a completed reseat can be committed once only
+PASS: grind transfer native: lipslide queues only a proved bounded lift/rotate/reseat and starts at the actual board frame
+PASS: grind transfer native: a zero-time tick cannot advance the unweight phase or complete its award
+PASS: grind transfer native: actual lipslide moves with its target and reseats at the bounded adaptive turn rate
+PASS: grind transfer native: a completed reseat can be committed once only
+PASS: grind transfer native: a real180-degree deck change receives its longer unweighted rotation phase
+PASS: grind transfer native: actual180-degree steel clearance keeps every displayed angular step below15rad/s
+PASS: grind transfer native: an actual starting wheel overlap cannot be laundered through a later clear lift
+PASS: grind transfer native: removing the genuine start obstruction permits the same proved transfer
+PASS: grind transfer native: dropping an incomplete transfer retains its last safe air frame without a completion
+PASS: grind transfer native: restart clears old path, pose and pending completion
+PASS: grind variants native: exact endpoint solids stay clear while the cached continuous model sweep catches an intervening world blocker
+PASS: grind variants native: a failed geometry rebuild clears prior clearance authority
+RESULT: 200 passed, 0 failed

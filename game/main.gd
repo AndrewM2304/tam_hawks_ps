@@ -16,6 +16,7 @@ const SkateAudioSource = preload("res://game/audio/skate_audio.gd")
 const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounters.gd")
 const CatEncounterSource = preload("res://game/characters/cat_encounter.gd")
 const MarketEncounterSource = preload("res://game/characters/market_encounter.gd")
+const FeatureHubSource = preload("res://game/features/feature_hub.gd")
 const RUN_SECONDS := 120.0
 
 var score := ScoreSession.new()
@@ -27,6 +28,7 @@ var objectives: Node3D
 var encounters: Node3D
 var cat_encounter: Node3D
 var market_encounter: Node3D
+var feature_hub: Node3D
 var _focused_encounter := "busker_big_finish"
 var audio: Node
 # Developer/script runners never write the player's profile by default.
@@ -110,16 +112,26 @@ func _ready() -> void:
 	skater.set_transition_features(world.get_transition_features())
 	market_encounter.set_carrier(skater.get_node("SkaterVisual/Rider"))
 	skater.trick_performed.connect(_on_trick)
+	skater.trick_upgraded.connect(_on_trick_upgraded)
+	skater.special_requested.connect(_try_special)
+	skater.hold_points_awarded.connect(_on_hold_points)
 	skater.grind_captured.connect(_on_grind_captured)
 	skater.landed.connect(_on_landed)
 	skater.bailed.connect(_on_bailed)
 	skater.recovered.connect(_on_recovered)
 	skater.combo_link_started.connect(score.continue_combo)
 	skater.combo_link_ended.connect(score.begin_landing)
+	feature_hub = FeatureHubSource.new()
+	feature_hub.name = "GlasgowActivities"
+	feature_hub.process_mode = Node.PROCESS_MODE_PAUSABLE
+	add_child(feature_hub)
+	feature_hub.configure(world, skater)
+	feature_hub.feedback.connect(_on_encounter_feedback)
+	feature_hub.routes_changed.connect(_refresh_map_routes)
 	hud = Hud.new()
 	hud.name = "HUD"
 	add_child(hud)
-	hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions())
+	hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions() + feature_hub.get_route_definitions())
 	hud.restart_requested.connect(restart_run)
 	hud.pause_requested.connect(toggle_pause)
 	hud.free_skate_requested.connect(toggle_free_skate)
@@ -175,25 +187,29 @@ func _physics_process(delta: float) -> void:
 	_caption_time = maxf(0.0, _caption_time - delta)
 	if world.has_method("get_recovery_position"):
 		var recovery: Vector3 = world.get_recovery_position(skater.global_position)
-		if recovery.is_finite():
+		if recovery.is_finite() and not skater.bail_active:
 			skater.recover_to(recovery)
-			_feedback = "BACK ON THE QUAY. FIND YOUR NEXT LINE."
+			_feedback = "MISSED THE QUAY. RECOVERING YOUR BOARD."
 			_feedback_timer = 3.0
 	if skater.bailing and skater.bail_phase == "blocked":
 		_feedback = "CAN'T GET UP HERE. OPEN PAUSE TO RESTART."
 		_feedback_timer = 1.0
 	var district: String = world.get_district_id(skater.global_position)
 	_update_contact_audio()
-	audio.set_motion(skater.speed, (skater.is_on_floor() or skater.transition_active) and not skater.bailing, skater.grinding, district)
+	var rolling_contact: bool = not skater.bailing and not skater.airborne \
+		and (skater.is_on_floor() or skater.transition_active)
+	audio.set_motion(skater.speed, rolling_contact, skater.grinding, district)
 	if free_skate_mode or time_remaining > 0.0:
 		var objective_has_prompt: bool = not objectives.nearby_prompt(skater.global_position).is_empty()
-		if not skater.bailing:_update_objectives(delta, district)
-		_update_encounters(delta, Input.is_action_just_pressed("interact") and not skater.bailing and not objective_has_prompt)
-	if skater.airborne or skater.grinding or skater.manual_active or skater.lip_active:
+		if not skater.bail_active: _update_objectives(delta, district)
+		_update_encounters(delta, Input.is_action_just_pressed("interact") and not objective_has_prompt and not skater.bail_active and not skater.setup_active)
+	if _combo_link_active():
 		score.continue_combo()
 	var banked: int = score.tick(delta)
 	if banked > 0:
 		_on_combo_banked(banked)
+	special_meter.tick(delta, score.get_combo_value() > 0
+		and (_combo_link_active() or score.pending_landing))
 	if not free_skate_mode:
 		var had_career_time := time_remaining > 0.0
 		time_remaining = maxf(0.0, time_remaining - delta)
@@ -201,9 +217,10 @@ func _physics_process(delta: float) -> void:
 			encounters.finish_run()
 			cat_encounter.finish_run()
 			market_encounter.finish_run()
+			feature_hub.finish_run()
 		if time_remaining <= 0.0:
-			var resolving: bool = score.get_combo_value() > 0 and (skater.airborne
-				or skater.grinding or skater.manual_active or skater.lip_active or score.pending_landing)
+			var resolving: bool = score.get_combo_value() > 0 \
+				and (_combo_link_active() or score.pending_landing)
 			if resolving and _overtime < 3.0:
 				_overtime += delta
 			else:
@@ -224,6 +241,7 @@ func restart_run() -> void:
 	encounters.reset_run()
 	cat_encounter.reset_run()
 	market_encounter.reset_run()
+	if is_instance_valid(feature_hub): feature_hub.reset_run()
 	_focused_encounter = "busker_big_finish"
 	if world.has_method("reset_interactions"): world.reset_interactions()
 	audio.set_paused(false)
@@ -259,17 +277,78 @@ func toggle_free_skate() -> void:
 	restart_run()
 
 func _on_trick(trick_name: String, points: int) -> void:
-	if run_finished:
+	if paused or run_finished:
 		return
-	score.add_trick(trick_name, points)
-	encounters.on_trick(trick_name, points, skater.global_position)
-	market_encounter.on_trick(trick_name, points, skater.global_position)
-	if trick_name == "Ollie": audio.play_event("ollie")
-	elif TrickCatalog.is_grind_name(trick_name): audio.play_event("grind")
-	if "flip" in trick_name.to_lower() or "shuvit" in trick_name.to_lower():
+	var definition := _trick_definition(trick_name)
+	var identity: String = str(definition.get("id", ""))
+	var awarded := 0
+	if not definition.is_empty():
+		if str(definition.get("family", "")) == "spin":
+			awarded = score.add_spin_bonus(points, trick_name)
+		else:
+			awarded = score.add_trick(trick_name, points, TrickCatalog.repetition_id(identity))
+	# Styling belongs to score receipts; encounter family lookup uses the catalog.
+	# Legacy zero-point notifications still reach their classifiers unchanged;
+	# an unknown display name never becomes an admitted score/audio event.
+	var canonical_name: String = str(definition.get("display_name", trick_name))
+	encounters.on_trick(canonical_name, awarded, skater.global_position)
+	market_encounter.on_trick(canonical_name, awarded, skater.global_position)
+	if awarded <= 0: return
+	special_meter.earn_trick(awarded)
+	if is_instance_valid(feature_hub):
+		feature_hub.on_trick(canonical_name, awarded, skater.global_position, identity)
+	var family: String = str(definition.get("family", ""))
+	if family == "launch": audio.play_event("ollie")
+	elif family == "grind": audio.play_event("grind")
+	if family == "flip":
 		_flips += 1
-	if "grab" in trick_name.to_lower() or "indy" in trick_name.to_lower():
+	if family == "grab":
 		_grabs += 1
+
+
+## Retained native paths also emit their real display names. Resolve those names
+## before trusting an ID left by an earlier trick; stance styling is presentation.
+func _trick_definition(trick_name: String) -> Dictionary:
+	var name := trick_name
+	if name != name.strip_edges(): return {}
+	for prefix: String in ["Switch ", "Fakie ", "Nollie "]:
+		if name.begins_with(prefix):
+			name = name.trim_prefix(prefix)
+			break
+	var hinted_id: Variant = skater.get("last_trick_id") if is_instance_valid(skater) else null
+	var definition: Dictionary = TrickCatalog.definition(hinted_id) if hinted_id is String else {}
+	if not definition.is_empty() and str(definition.get("display_name", "")) == name:
+		return definition
+	for prefix: String in ["FS ", "BS ", "Frontside ", "Backside "]:
+		if name.begins_with(prefix):
+			var degrees := name.trim_prefix(prefix)
+			if degrees.is_valid_int() and int(degrees) > 0 and int(degrees) % 180 == 0:
+				return TrickCatalog.definition("spin_180")
+	for identity: String in TrickCatalog.ids() + TrickCatalog.compatibility_ids():
+		definition = TrickCatalog.definition(identity)
+		if str(definition.get("display_name", "")) == name:
+			return definition
+	return {}
+
+
+func _on_hold_points(points: int) -> void:
+	if not paused and not run_finished:
+		special_meter.earn_trick(score.add_hold_points(points))
+
+
+func _on_trick_upgraded(trick_name: String, points: int, identity: String) -> void:
+	if paused or run_finished:
+		return
+	# The original flip already counts once for encounters and run statistics.
+	# A stale upgrade may reduce score; only positive new points earn live charge.
+	special_meter.earn_trick(score.upgrade_last_trick(trick_name, points, TrickCatalog.repetition_id(identity)))
+
+
+## Carving a supported transition is ordinary ground travel. Only physical air,
+## balance links, wallrides and lip support keep an existing combo alive.
+func _combo_link_active() -> bool:
+	return not skater.bail_active and (skater.airborne or skater.grinding or skater.manual_active \
+		or skater.wallriding or skater.lip_active or skater.skitch_caught or skater.setup_active)
 
 func _on_grind_captured(rail_id: String) -> void:
 	if paused or run_finished or (not free_skate_mode and time_remaining <= 0.0):
@@ -278,6 +357,7 @@ func _on_grind_captured(rail_id: String) -> void:
 
 
 func _on_landed(clean: bool) -> void:
+	feature_hub.on_landed(clean)
 	if run_finished:
 		return
 	if clean:
@@ -290,21 +370,23 @@ func _on_combo_banked(banked: int) -> void:
 	_landings += 1
 	_feedback = "LANDED  +%s" % banked
 	_feedback_timer = 2.0
-	special_meter.earn_bank(banked)
 	_notify_goals(career.record_score(score.total_score, score.best_combo))
 	_save_profile()
 	audio.play_event("bank")
 	encounters.on_bank(banked, skater.global_position)
 	cat_encounter.on_bank(banked, skater.global_position)
 	market_encounter.on_bank(banked, skater.global_position)
+	feature_hub.on_bank(banked, skater.global_position)
 	if banked >= 1000 and _near_npc() and audio.has_method("play_bark"):
 		audio.play_bark("landing")
 
 func _on_bailed() -> void:
 	score.drop_combo()
+	special_meter.on_bail()
+	if is_instance_valid(feature_hub): feature_hub.on_bail()
 	gaps.reset()
 	audio.play_event("bail")
-	_feedback = "BAIL. GETTING BACK UP."
+	_feedback = "BAILED  /  %s LOST" % score.last_dropped_value if score.last_dropped_value > 0 else "BACK ON THE BOARD."
 	_feedback_timer = 2.0
 	encounters.on_bail()
 	cat_encounter.on_bail()
@@ -322,23 +404,28 @@ func _finish_run() -> void:
 	encounters.finish_run()
 	cat_encounter.finish_run()
 	market_encounter.finish_run()
+	if is_instance_valid(feature_hub): feature_hub.finish_run()
 	_notify_goals(career.finish_run(score.total_score, score.best_combo))
 	_save_profile()
 	audio.set_motion(0, false, false, "")
 	if _near_npc(): audio.play_bark("again")
-	score.drop_combo()
+	if score.get_combo_value() > 0:
+		score.drop_combo()
 	skater.set_controls_enabled(false)
-	skater.set_physics_process(false)
+	skater.set_physics_process(skater.bail_active)
 
 func _try_special(trick_id: String) -> void:
 	if paused or run_finished or (not free_skate_mode and time_remaining <= 0.0):
 		return
-	if not free_skate_mode and not career.unlocks().has(trick_id):
+	var definition := Skater.TrickCatalog.definition(trick_id)
+	if definition.get("family", "") != "special": return
+	var required: String = str(definition.get("required_unlock", trick_id))
+	if not free_skate_mode and not career.unlocks().has(required):
 		_feedback = "COMPLETE CAREER GOALS TO UNLOCK THIS SPECIAL"
 		_feedback_timer = 2.0
 		return
-	if special_meter.value < 100.0:
-		_feedback = "BANK COMBOS TO FILL YOUR SPECIAL METER"
+	if not special_meter.ready():
+		_feedback = "BUILD A COMBO TO FILL YOUR SPECIAL METER"
 		_feedback_timer = 2.0
 		return
 	if skater.try_special(trick_id):
@@ -362,10 +449,10 @@ func _update_objectives(delta: float, district: String) -> void:
 			audio.play_bark("cone")
 		_save_profile()
 	for gap: Dictionary in gaps.update(skater.global_position, skater.airborne, delta):
-		score.add_trick(gap.name, gap.points)
+		special_meter.earn_trick(score.add_trick(gap.name, gap.points, "gap:" + str(gap.id)))
 		market_encounter.on_gap(gap.id, skater.global_position)
 		completed.append_array(career.record_event("gap", gap.id))
-		if not skater.airborne and not skater.grinding and not skater.manual_active and not skater.lip_active:
+		if not _combo_link_active():
 			score.begin_landing()
 		_feedback = "GAP  /  " + str(gap.name).to_upper()
 		_feedback_timer = 2.0
@@ -441,6 +528,7 @@ func apply_settings(settings: Dictionary, persist: bool = true) -> void:
 	encounters.reduced_motion = career.settings.reduced_motion
 	cat_encounter.reduced_motion = career.settings.reduced_motion
 	market_encounter.reduced_motion = career.settings.reduced_motion
+	if is_instance_valid(feature_hub): feature_hub.reduced_motion = career.settings.reduced_motion
 	select_cosmetic(str(settings.get("cosmetic_id", career.settings.get("cosmetic_id", "color_blue"))), false)
 	if persist: _save_profile()
 
@@ -476,7 +564,14 @@ func _on_encounter_feedback(text: String) -> void:
 ## Objectives retain interaction priority. The nearest eligible side offer wins;
 ## accepting it cancels other active attempts without changing ordinary scoring.
 func _side_encounters() -> Array[Node3D]:
-	return [encounters, cat_encounter, market_encounter]
+	var result: Array[Node3D] = [encounters, cat_encounter, market_encounter]
+	if is_instance_valid(feature_hub): result.append_array(feature_hub.challenges())
+	return result
+
+
+func _refresh_map_routes() -> void:
+	if is_instance_valid(hud) and is_instance_valid(feature_hub):
+		hud.set_map_data(world.get_district_checkpoints(), world.get_route_definitions() + feature_hub.get_route_definitions())
 
 
 func _nearby_encounter_id(statuses: Array[Dictionary] = []) -> String:
@@ -488,7 +583,7 @@ func _nearby_encounter_id(statuses: Array[Dictionary] = []) -> String:
 		var component: Node3D = components[index]
 		if component.nearby_prompt(at).is_empty(): continue
 		var status: Dictionary = statuses[index] if statuses.size() == components.size() else component.status_snapshot()
-		var offer_position: Vector3 = status.position
+		var offer_position: Vector3 = status.launch if str(status.id) == "cone_on_a_cruise" and status.state == "active" else status.position
 		var distance := at.distance_squared_to(offer_position)
 		if distance < closest:
 			closest = distance
@@ -514,6 +609,9 @@ func _update_encounters(delta: float, interact: bool) -> void:
 	var delivery_visible := is_instance_valid(camera) and delivery_position.is_finite() \
 		and camera.is_position_in_frustum(delivery_position + Vector3(0, 0.8, 0))
 	market_encounter.poll(skater.global_position, chosen == "gull_proof_delivery", delta, combo_value, delivery_visible)
+	var hub_choice := chosen
+	if interact and hub_choice.is_empty() and not feature_hub.gate_prompt(skater.global_position).is_empty(): hub_choice = "service_gate"
+	feature_hub.poll(skater.global_position, interact, delta, combo_value, false, hub_choice)
 
 
 func _challenge_text(statuses: Array[Dictionary] = []) -> String:
@@ -555,11 +653,14 @@ func _interaction_prompt(statuses: Array[Dictionary] = []) -> String:
 		var component: Node3D = components[index]
 		if str(statuses[index].id) == chosen:
 			return component.nearby_prompt(skater.global_position)
-	return ""
+	return feature_hub.gate_prompt(skater.global_position) if is_instance_valid(feature_hub) else ""
 
 
 func _encounter_snapshots() -> Array[Dictionary]:
-	return [encounters.status_snapshot(), cat_encounter.status_snapshot(), market_encounter.status_snapshot()]
+	var snapshots: Array[Dictionary] = []
+	for component: Node3D in _side_encounters():
+		snapshots.append(component.status_snapshot())
+	return snapshots
 
 
 func _on_caption(text: String) -> void:
@@ -580,11 +681,25 @@ func _refresh_hud() -> void:
 		"time": time_remaining, "score": score.total_score,
 		"combo": score.get_combo_value(), "multiplier": score.combo_multiplier,
 		"combo_base": score.combo_base,
+		"trick_count": score.combo_trick_count, "last_award": score.last_award,
+		"last_repeat": score.last_repeat, "last_banked_tricks": score.last_banked_tricks,
+		"banked_combo": score.last_banked, "stance": skater.stance,
+		"last_bonus": score.last_bonus,
+		"active_trick": skater.active_trick, "hold_points": skater.hold_points,
+		"grind_name": Skater.TrickCatalog.definition(skater.grind_trick_id).get("display_name", ""),
+		"manual_name": Skater.TrickCatalog.definition(skater.manual_trick_id).get("display_name", "Manual"),
 		"tricks": "  +  ".join(score.trick_history), "best": score.best_combo,
-		"speed": skater.speed, "airborne": skater.airborne,
+		"speed": skater.velocity.length() if skater.transition_active else (skater.get_real_velocity().length() if skater._native_floor_valid and not skater.grinding and skater.is_on_floor() and skater.get_platform_velocity().length_squared() > 0.01 else skater.speed), "airborne": skater.airborne,
 		"grinding": skater.grinding, "balance": skater.grind_balance,
 		"manual": skater.manual_active, "manual_balance": skater.manual_balance,
-		"lip": skater.lip_active, "lip_balance": skater.lip_balance,
+		"wallriding": skater.wallriding, "transition_active": skater.transition_active,
+		"lip": skater.lip_active, "lip_active": skater.lip_active, "lip_balance": skater.lip_balance,
+		"ollie_charge": skater.ollie_charge,
+		"crouching": skater.crouching, "powersliding": skater.powersliding,
+		"takeoff_mode": skater.takeoff_mode, "bail_active": skater.bail_active,
+		"bail_phase": skater.bail_phase, "bail_progress": skater.bail_progress, "recovery_fade": skater.recovery_fade,
+		"setup_active": skater.setup_active, "setup_id": skater.setup_id, "setup_phase": skater.setup_phase,
+		"lip_name": skater.lip_name, "skitching": skater.skitching, "skitch_caught": skater.skitch_caught, "skitch_balance": skater.skitch_balance,
 		"landing_window": score.landing_remaining, "revert_window": skater.revert_remaining,
 		"location": world.get_location_name(skater.global_position),
 		"player_position": skater.global_position, "player_heading": skater.rotation.y,
@@ -595,6 +710,7 @@ func _refresh_hud() -> void:
 		"goals": _hud_goals, "unlocks": _hud_unlocks,
 		"record_score": career.best_score, "record_combo": career.best_combo,
 		"special_meter": special_meter.value, "settings": career.settings,
+		"special_ready": special_meter.ready(), "special_active": special_meter.active,
 		"caption": _caption if _caption_time > 0 and career.settings.captions else "",
 		"save_status": save_status, "save_warning": save_warning,
 		"interaction_prompt": _interaction_prompt(statuses),

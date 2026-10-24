@@ -85,11 +85,11 @@ static func run(check: Callable) -> void:
 	var repeated = Score.new()
 	for index in range(7):
 		repeated.add_trick("Kickflip", 100)
-	check.call(repeated.combo_base == 205 and repeated.combo_multiplier == 1,
+	check.call(repeated.combo_base == 205 and repeated.combo_multiplier == 7,
 		"combo resolution: repeat reduction stays at one sixteenth after four halvings")
 	repeated.add_trick("Spin 180", 200)
 	repeated.add_trick("Spin 360", 400)
-	check.call(repeated.combo_base == 805 and repeated.combo_multiplier == 3,
+	check.call(repeated.combo_base == 805 and repeated.combo_multiplier == 9,
 		"combo resolution: existing dynamic spin names retain distinct repeat identities")
 	var bounded = Score.new()
 	bounded.add_trick("Oversized caller", 9223372036854775807)

@@ -577,7 +577,11 @@ static func _compact_surface_separation(outdoors: Node3D, check: Callable) -> vo
 		current_overlap+=FaceProbe._overlap_area(FaceProbe._horizontal_triangles(visible,2),hip_flat)
 		var expected_region: Rect2=SOUTH if id=="ClydeSouthQuay" else YARD
 		var expected_removed: float=expected_region.intersection(footprint).get_area()
-		coverage=absf(FaceProbe._projected_area(original)-FaceProbe._projected_area(visible)-expected_removed)<.01 and coverage
+		# Other approved features also cut the floor skin. Measure only this
+		# protected hip footprint, retaining its original exact local removal.
+		var region: Array[PackedVector2Array] = [PackedVector2Array([footprint.position,Vector2(footprint.end.x,footprint.position.y),footprint.end,Vector2(footprint.position.x,footprint.end.y)])]
+		var removed_here: float = FaceProbe._overlap_area(FaceProbe._horizontal_triangles(original,2),region) 			-FaceProbe._overlap_area(FaceProbe._horizontal_triangles(visible,2),region)
+		coverage=absf(removed_here-expected_removed)<.01 and coverage
 		for vertex: Vector3 in visible: coverage=FaceProbe._on_faces(vertex,original) and coverage
 	check.call(previous_overlap>.001 and current_overlap<.00001 and coverage,
 		"compact Clyde: genuine hip-to-floor coplanar counterexample is removed while the whole physical hip footprint stays visibly covered")

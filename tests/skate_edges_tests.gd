@@ -10,7 +10,7 @@ static func run(world: Node3D,check: Callable) -> void:
 	var existing: Array=world.get_grind_lines()
 	var lines: Array=Edges.build(world)
 	check.call(_node_count(world)==before_nodes,"skate edges: startup authoring adds no render nodes or colliders")
-	check.call(world.get_route_definitions().size()==routes.size() and routes.size()==48,"skate edges: all48existing navigation routes remain intact")
+	check.call(world.get_route_definitions().size()==routes.size() and routes.size()==48+8,"skate edges: all48 original plus8 feature navigation routes remain intact")
 	var ids: Array[String]=[]
 	var unique := true
 	var valid := true
@@ -25,8 +25,22 @@ static func run(world: Node3D,check: Callable) -> void:
 		for index: int in range(lines.size()):
 			stable=stable and second[index].id==lines[index].id and second[index].points==lines[index].points
 	check.call(stable,"skate edges: rebuilding snapshots is deterministic without registering duplicate nodes")
-	for family: String in ["Planter_","CourtSeat_","WorkshopSeat_","MarketCounter_","Bench_","StreetBenchSeat_","StreetBenchBack_","CivicGarden_","PlatformNorthGap_","ServiceWalkFront_","BridgeRail_","NorthEmbankment_","SouthEmbankment_","ParkGranite_"]:
+	for family: String in ["Planter_","CourtSeat_","WorkshopSeat_","MarketCounter_","Bench_","StreetBenchSeat_","StreetBenchBack_","CivicGarden_","PlatformNorthGap_","ServiceWalkFront_","BridgeRail_","NorthEmbankment_","SouthEmbankment_"]:
 		check.call(ids.any(func(id: String) -> bool: return id.begins_with(Edges.PREFIX+family)),"skate edges: registered visible feature family "+family)
+	var shoulders := 0
+	var shoulder_collision := true
+	for body: StaticBody3D in world.find_children("*","StaticBody3D",true,false):
+		if body.get_meta("geometry_id",body.get_meta("art_label",""))!="ParkGranitePathEdge": continue
+		for child: Node in body.get_children():
+			if not child is CollisionShape3D or not child.shape is ConcavePolygonShape3D: continue
+			shoulders+=1
+			var faces: PackedVector3Array = child.shape.get_faces()
+			# These terrain shoulders can lie beneath the overlapping asphalt;
+			# they are real collision, rather than independently raised ledges.
+			# Native route/capsule support is checked by the world route suites.
+			shoulder_collision = shoulder_collision and faces.size()>=6 and body.collision_layer&1!=0 and not child.disabled
+	check.call(shoulders>0 and shoulder_collision and not ids.any(func(id: String)->bool:return id.begins_with(Edges.PREFIX+"ParkGranite_")),
+		"skate edges: repaired conforming shoulders retain native rollover collision without falsely registering raised granite ledges")
 	var counter_edges := 0
 	var planter_edges := 0
 	for id: String in ids:
@@ -81,7 +95,7 @@ static func _physical_contacts(world: Node3D,lines: Array,check: Callable) -> vo
 			if ground.is_empty() and not rail_only: outside_bad.append(line.id+" "+str(at))
 	check.call(support_bad.is_empty(),"skate edges: actual short top rays support registered physical edges: "+str(support_bad.slice(0,8)))
 	check.call(outside_bad.is_empty(),"skate edges: physical registrations stay above existing world support: "+str(outside_bad.slice(0,8)))
-	for family: String in ["Planter_","CourtSeat_","WorkshopSeat_","ClosePocket_","PrintYard_","MarketCounter_","Bench_","StreetBenchSeat_","StreetBenchBack_","StairCheek_","BuskingPlinth_","CivicGarden_","PlatformNorthGap_","ServiceWalkFront_","BridgeRail_","NorthEmbankment_","SouthEmbankment_","ParkGranite_"]:
+	for family: String in ["Planter_","CourtSeat_","WorkshopSeat_","ClosePocket_","PrintYard_","MarketCounter_","Bench_","StreetBenchSeat_","StreetBenchBack_","StairCheek_","BuskingPlinth_","CivicGarden_","PlatformNorthGap_","ServiceWalkFront_","BridgeRail_","NorthEmbankment_","SouthEmbankment_"]:
 		var tested := false
 		var clear := false
 		for line in lines:

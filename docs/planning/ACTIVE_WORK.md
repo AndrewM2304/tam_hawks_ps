@@ -1,3 +1,8 @@
+Latest owner direction24October2026: reconcile work onto current default, test
+and push`bootstrap/m00-m01`; authorized merge overrides earlier prohibition for
+this task. Integration in progress, no completion claim. Read[STATUS](../STATUS.md).
+Preserve the manual-test usage reserve; no hourly continuation/new polish/spend.
+
 **Current continuation — compact Clyde admitted, 18 October 17:11 Europe/London:** required `./tools/check.sh` passes 2,105/0 on pushed source `6517d8a` with 354 unchanged core inputs/355 including wrapper. Final source/artifact audit passes: fresh geometry 373/0, zero-fault16,125-sample support, imperfect-input 6/0, all 20 Clyde assertions and 11,487 native samples, all 27 final images and11 strict matched rendering views. Exact two nonexecuted test migrations and rejected 2,097/3 remain retained. [STATUS](../STATUS.md), [results/audit](../testing/compact-clyde/RESULTS.md) and [ordered tasks](LEVEL-DENSITY-NEXT.md) own evidence and open limits. Next DENSITY-02A: survey proposed park/station port and record exact shared coordinates from the proposal-only [park draft](../levels/COMPACT-PARK-DRAFT.md), before moving terrain. Preserve all 75 full task bodies, no-spend/current-map scope, performance gates, existing authorization and pushes. Mac/DualSense, final art/temporal stability and human fun remain open; no engine/unattended job remains active.
 
 # Owner priority: arcade response and whole-map hardening

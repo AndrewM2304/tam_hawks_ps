@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+TASK_ROOT="/workspace/tam_hawks_ps"
+cd "$TASK_ROOT"
+TASK_DISPLAY_PID=""
+cleanup() {
+  if [[ -n "$TASK_DISPLAY_PID" ]]; then
+    kill "$TASK_DISPLAY_PID" 2>/dev/null || true
+    wait "$TASK_DISPLAY_PID" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+: > .local/skatepark-navigation-display
+/usr/lib/xorg/Xorg -displayfd 3 -config "$TASK_ROOT/tools/xorg-dummy.conf" \
+  -logfile "$TASK_ROOT/.local/xorg-skatepark-navigation.log" -noreset -nolisten tcp \
+  3>.local/skatepark-navigation-display >.local/xorg-skatepark-navigation-console.log 2>&1 &
+TASK_DISPLAY_PID=$!
+for attempt in {1..50}; do
+  [[ -s .local/skatepark-navigation-display ]] && break
+  kill -0 "$TASK_DISPLAY_PID" 2>/dev/null || exit 1
+  sleep 0.1
+done
+[[ -s .local/skatepark-navigation-display ]] || exit 1
+export DISPLAY=":$(cat .local/skatepark-navigation-display)"
+export LIBGL_ALWAYS_SOFTWARE=1
+./tools/run.sh --audio-driver Dummy --disable-render-loop --resolution 960x600 --fixed-fps 60 --script .local/skatepark_navigation_capture.gd

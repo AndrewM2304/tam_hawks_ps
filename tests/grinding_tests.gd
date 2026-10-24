@@ -100,8 +100,11 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _start(tree, game, Vector3(12.6, 1.1, 10), Vector3(0, -1, -6))
 	Input.action_press("grind")
 	await _frames(tree, 2)
-	check.call(not game.skater.grinding and game.score.get_combo_value() == 0 and captures.size() == captures_before,
-		"solid scenery prevents through-wall capture and emits no rail-ID event")
+	check.call(not game.skater.grinding and not game.score.trick_history.has("Rail Grind")
+		and captures.size() == captures_before,
+		"solid scenery prevents through-wall rail capture and emits no rail-ID event")
+	check.call(game.score.get_combo_value() == (300 if game.skater.wallriding else 0),
+		"solid scenery permits only an actual wallride award while blocking the rail behind it")
 	Input.action_release("grind")
 	wall.queue_free()
 	await _frames(tree, 2)

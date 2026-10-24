@@ -95,6 +95,16 @@ static func solve_into(result: ContactPose, line: LineSource, distance: float,
 		result.supports[0] = line.contact_at(bounded)
 		result.anchor_count = 1
 		result.board_transform.origin = result.supports[0] - result.board_transform.basis * result.anchors[0]
+	elif style_id == "rail_grind":
+		# Compatibility naming does not change the certified two-truck solve.
+		return solve_into(result, line, distance, direction, yaw, "grind_50_50", balance)
+	elif style_id == "lipslide":
+		# Crossing history belongs to admission. Its settled physical support is
+		# the same deck belly; a signed quarter-turn alone proves no new name.
+		# New constrained variants lean the rider, not solid wheels through steel.
+		return solve_into(result, line, distance, direction, yaw, "boardslide", 0.0)
+	elif _single_truck_into(result, line, bounded, direction, normalized_yaw, style_id, balance):
+		pass
 	else:
 		return false
 	if not result.board_transform.is_finite():
@@ -108,6 +118,60 @@ static func solve_into(result: ContactPose, line: LineSource, distance: float,
 		result.max_error = maxf(result.max_error, error)
 	result.valid = result.max_error <= CONTACT_TOLERANCE
 	return result.valid
+
+
+## The actual original GLB hanger is the only loaded contact. The other truck
+## is intentionally free. This constructs rigid geometry, not permission to
+## overlap a wide beam: the caller must still check the actual board solids
+## against world AND rail-only collision before accepting/changing this style.
+static func _single_truck_into(result: ContactPose, line: LineSource, distance: float,
+		direction: float, yaw: float, style_id: String, balance: float) -> bool:
+	var selected_yaw: float
+	var pitch: float
+	var anchor_z: float
+	match style_id:
+		"nosegrind":
+			selected_yaw = 0.0
+			pitch = -0.18
+			anchor_z = -TRUCK_HALF_SPAN
+		"five_o_grind":
+			selected_yaw = 0.0
+			pitch = 0.20
+			anchor_z = TRUCK_HALF_SPAN
+		"crooked_grind":
+			selected_yaw = -0.35
+			pitch = -0.18
+			anchor_z = -TRUCK_HALF_SPAN
+		"overcrook_grind":
+			selected_yaw = 0.35
+			pitch = -0.18
+			anchor_z = -TRUCK_HALF_SPAN
+		"smith_grind":
+			selected_yaw = -0.55
+			pitch = -0.12
+			anchor_z = TRUCK_HALF_SPAN
+		"feeble_grind":
+			selected_yaw = 0.55
+			pitch = -0.12
+			anchor_z = TRUCK_HALF_SPAN
+		_:
+			return false
+	# A fakie heading adds PI. Arbitrary yaw must not receive a named pose.
+	if absf(sin(yaw - selected_yaw)) > 0.00001:
+		return false
+	var up: Vector3 = line.contact_up(distance)
+	var tangent: Vector3 = line.dir_at(distance) * direction
+	var support: Vector3 = line.contact_at(distance)
+	if not support.is_finite() or not _install_frame(result, tangent.rotated(up, yaw), up, 0.0):
+		return false
+	# Balance still controls the rider and gameplay drift. Independently rolling
+	# this loaded truck drives the actual hanger/tyre through the rail crown.
+	result.board_transform.basis *= Basis(Vector3.RIGHT, pitch)
+	result.anchors[0] = Vector3(0.0, TRUCK_UNDERSIDE, anchor_z)
+	result.supports[0] = support
+	result.anchor_count = 1
+	result.board_transform.origin = support - result.board_transform.basis * result.anchors[0]
+	return true
 
 
 ## Allocating convenience view for diagnostics; production uses solve_into above.

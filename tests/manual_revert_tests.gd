@@ -191,6 +191,9 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		"manual: actual balance input exceeding the limit bails once and clears state")
 	_release_actions()
 	await _frames(tree, 45)
+	for frame in 90:
+		if not skater.bail_active: break
+		await _frames(tree, 1)
 	skater.speed = 8.0
 	skater.set_trick_entries_enabled(false)
 	Input.action_press("manual")
@@ -223,16 +226,18 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	var speed_before: float = skater.speed
 	var window_before: float = skater.revert_remaining
 	var heading_before: float = skater.rotation.y
+	var travel_before: Vector3 = skater.velocity
 	starts = events["starts"]
 	Input.action_press("revert")
 	await _frames(tree, 1)
 	check.call(events["Revert"] == 1 and events["starts"] == starts,
 		"revert: eligible fresh entry scores once without starting a new landing link")
-	check.call(absf(skater.speed - (speed_before - 0.75 / 60.0) * 0.85) < 0.03,
-		"revert: accepted entry applies the documented 15 percent speed cost")
-	print("MANUAL REVERT heading_before=",heading_before," after=",skater.rotation.y," delta=",skater.rotation.y-heading_before," window_before=",window_before," after=",skater.revert_remaining)
-	check.call(skater.revert_remaining < window_before and skater.rotation.y == heading_before,
-		"revert: entry neither refreshes eligibility nor changes travel heading")
+	check.call(skater.speed < 0.0 and absf(absf(skater.speed) - (speed_before - 0.75 / 60.0) * 0.85) < 0.03,
+		"revert: accepted physical turn retains 85 percent speed with a backwards signed velocity")
+	check.call(skater.revert_remaining < window_before
+		and absf(absf(angle_difference(heading_before, skater.rotation.y)) - PI) < 0.01
+		and skater.velocity.normalized().dot(travel_before.normalized()) > 0.98,
+		"revert: physical heading turns 180 without refreshing eligibility or reversing travel")
 	Input.action_release("revert")
 	await _frames(tree, 1)
 	Input.action_press("revert")
@@ -240,8 +245,9 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(events["Revert"] == 1, "revert: another fresh press on the same landing cannot score twice")
 	Input.action_release("revert")
 	await _frames(tree, 12)
-	check.call(absf(absf(skater.get_node("SkaterVisual").rotation.y) - PI) < 0.05,
-		"revert: completed visual turn visibly changes stance by 180 degrees")
+	check.call(skater.stance == "SWITCH" and absf(skater.get_node("SkaterVisual").rotation.y) < 0.05
+		and absf(absf(angle_difference(heading_before, skater.rotation.y)) - PI) < 0.01,
+		"revert: completed animation settles onto the physically reversed switch heading")
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
@@ -279,13 +285,13 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(skater.velocity == original_velocity,
 		"special: accepting a cosmetic move preserves the physical velocity")
 	check.call(not skater.try_special("special_clyde_carousel") and not skater.try_special("special_tenement_tumble"),
-		"special: neither repeating nor switching IDs bypasses one execution per airtime")
+		"special: neither repeating nor switching IDs can interrupt an active special")
 	await _frames(tree, 5)
 	check.call(skater.get_node("SkaterVisual/Board").rotation.y > 0.2,
 		"special: Clyde Carousel actually rotates the visible board horizontally")
 	await _frames(tree, 35)
-	check.call(skater.special_name.is_empty() and not skater.try_special("special_clyde_carousel"),
-		"special: finished animation clears its label without reopening the air slot")
+	check.call(skater.special_name.is_empty(),
+		"special: completed animation clears its visible label before touchdown")
 	await _land(tree, skater)
 	Input.action_press("ollie")
 	await _frames(tree, 2)
@@ -343,7 +349,8 @@ static func _manual_request_buffer(tree: SceneTree, check: Callable) -> void:
 			check.call(float(requested.get("buffer", 0.0)) > 0.0
 				and not bool(requested.get("active", true))
 				and fixture.entries.size() == 2 and fixture.entries[1] - fixture.exit_tick == 21
-				and rider.manual_active and fixture.score.get_combo_value() == 100,
+				# Run staleness survives the first bank: the second Manual is50.
+				and rider.manual_active and fixture.score.get_combo_value() == 50,
 				prefix + "one fresh near-expiry request waits, then enters exactly once on eligible floor")
 			if scenario == "gesture":
 				check.call(not Input.is_action_pressed("manual") and rider.manual_id == "manual",
@@ -380,7 +387,7 @@ static func _manual_request_buffer(tree: SceneTree, check: Callable) -> void:
 
 static func _land(tree: SceneTree, skater: CharacterBody3D) -> void:
 	for i in range(100):
-		if skater.is_on_floor() and not skater.airborne:
+		if skater.is_on_floor() and not skater.airborne and not skater.bail_active:
 			return
 		await _frames(tree, 1)
 

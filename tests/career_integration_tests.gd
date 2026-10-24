@@ -81,15 +81,16 @@ static func _special_admission(tree: SceneTree, game: Node, check: Callable) -> 
 	await _frames(tree, 2)
 	Input.action_release("ollie")
 	await _frames(tree, 1)
+	var locked_charge: float = game.special_meter.value
 	_key(KEY_U, true)
 	_key(KEY_U, false)
 	await _frames(tree, 2)
-	check.call(game.special_meter.value == 100.0
+	check.call(game.special_meter.ready() and game.special_meter.value >= locked_charge - 1.0
 		and not game.score.trick_history.has("Clyde Carousel"),
-		"career integration: locked special input cannot consume a full meter or award points")
+		"career integration: locked special input retains active charge and cannot award points")
 	game.career.completed_ids.append("first_shift")
 	game.special_meter.reset()
-	game.special_meter.earn_bank(1250)
+	game.special_meter.earn_trick(500)
 	_key(KEY_U, true)
 	_key(KEY_U, false)
 	await _frames(tree, 2)
@@ -101,26 +102,26 @@ static func _special_admission(tree: SceneTree, game: Node, check: Callable) -> 
 	_key(KEY_U, true)
 	_key(KEY_U, false)
 	await _frames(tree, 2)
-	check.call(game.skater.is_on_floor() and game.special_meter.value == 100.0
+	check.call(game.skater.is_on_floor() and game.special_meter.ready() and game.special_meter.value > 99.0
 		and game.score.get_combo_value() == 0,
 		"career integration: a grounded special request cannot spend its charge")
 	Input.action_press("ollie")
-	await _frames(tree, 2)
+	await _frames(tree, 24)
 	Input.action_release("ollie")
 	await _frames(tree, 1)
 	_key(KEY_U, true)
 	_key(KEY_U, false)
 	await _frames(tree, 2)
-	check.call(game.skater.airborne and game.special_meter.value == 0.0
+	check.call(game.skater.airborne and game.special_meter.ready() and game.special_meter.value > 90.0
 		and game.score.trick_history.count("Clyde Carousel") == 1,
-		"career integration: mapped U input performs one unlocked aerial special and spends one charge")
+		"career integration: mapped U input performs an unlocked aerial special while special mode remains active")
 	_fill_meter(game)
 	_key(KEY_U, true)
 	_key(KEY_U, false)
 	await _frames(tree, 2)
-	check.call(game.special_meter.value == 100.0
+	check.call(game.special_meter.ready() and game.special_meter.value > 99.0
 		and game.score.trick_history.count("Clyde Carousel") == 1,
-		"career integration: a second request in the same airtime neither spends nor awards again")
+		"career integration: an immediate request during the special animation cannot award again")
 	await _frames(tree, 80)
 	check.call(game.score.total_score == 2200,
 		"career integration: the earned special joins the ollie and banks through real landing")
@@ -137,6 +138,11 @@ static func _physical_gap_and_reset(tree: SceneTree, game: Node, check: Callable
 		if entry.id == "central_gap":
 			definition = entry
 	check.call(not definition.is_empty(), "career integration: central platform gap has authored trigger geometry")
+	# This initial fixture rests on the grade. Stop its genuine downhill roll
+	# before pushing uphill; backwards travel now remains functional fakie.
+	Input.action_press("brake")
+	await _frames(tree, 6)
+	Input.action_release("brake")
 	Input.action_press("push")
 	var reached_takeoff: bool = false
 	for i in range(240):
@@ -206,8 +212,8 @@ static func _progress(game: Node, id: String) -> int:
 
 static func _fill_meter(game: Node) -> void:
 	game.special_meter.reset()
-	game.special_meter.earn_bank(1250)
-	game.special_meter.earn_bank(1250)
+	game.special_meter.earn_trick(500)
+	game.special_meter.earn_trick(500)
 
 
 static func _reset_at(tree: SceneTree, game: Node, at: Vector3) -> void:

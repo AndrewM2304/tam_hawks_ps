@@ -56,6 +56,7 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 	# run-up over the0.92m rail; do not widen physical capture tolerances.
 	await _frames(tree, 24)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	Input.action_release("push")
 	var peak_height: float = game.skater.global_position.y
 	var caught: bool = false
@@ -167,6 +168,7 @@ static func _overtime_admission(tree: SceneTree, game: Node, check: Callable) ->
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	check.call(game.skater.grinding and game.score.get_combo_value() == rail_combo
 		and game.skater.velocity.y < 0.1,
 		"grind regression: overtime cannot start a new scored rail ollie")
@@ -189,8 +191,9 @@ static func _overtime_admission(tree: SceneTree, game: Node, check: Callable) ->
 	Input.action_release("spin_right")
 	game.time_remaining = 0.01
 	await _frames(tree, 60)
-	check.call(game.run_finished and game.score.total_score == 600,
-		"grind regression: a spin completed before expiry still resolves in the landing combo")
+	check.call(game.run_finished and game.score.total_score == 300
+		and game.score.last_banked_tricks == ["Existing combo · Backside 180"],
+		"grind regression: a spin completed before expiry adds its bonus to the original landing entry")
 
 
 static func _air_fixture(tree: SceneTree, game: Node, at: Vector3, motion: Vector3) -> void:

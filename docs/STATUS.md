@@ -1,3 +1,68 @@
+# Owner-requested immediate default-branch push
+
+24October2026. Owner reports only6% usage remaining and explicitly requests
+pushing all current changes now. Stop autonomous implementation/new audits;
+reserve remaining usage for owner testing. No purchase/overage/paid service.
+
+Current integration preserves latest default`d28c8f4` and merges work`b001fd3`.
+All source conflicts are resolved. The complete first frozen combined check was
+**4368 passed/127 failed**, clean import,27 runtime errors in legacy test adapters,
+523 unchanged source inputs. Its exact rejected evidence is retained under
+[default-integration/first-full](testing/default-integration/first-full/).
+A bounded repair batch fixed legacy animation/observer contracts, callback
+compatibility, strict names/repetition aliases, initial HUD layout, preserved
+semantic rail IDs/budgets, the blocked compact return, real Hubba coping, native
+bail continuity and ramp-camera interfaces. Focused checks are recorded below.
+
+The second complete check is running in local session48586; its last results
+are in`.local/default-reconcile/final-check/`. Do not claim a complete passing
+suite until its exact receipt is available. Current code is pushed at the owner's
+request before that final result. No source changes are permitted during the run.
+
+Known remaining diagnostics: DeepBowl port-bank camera occlusion; two projected
+body-size assertions also reproduce on the raw default camera baseline. Some
+standalone carve/street sampling failures may be resolved by the full suite's
+fixed60Hz cadence; they are not accepted as passes. Actual Mac/controller/feel,
+full motion review and performance acceptance remain open. FULL_FIDELITY_ACCEPTED
+is NOT established. No fresh integrated Mac export was delivered in this budget.
+
+Next: fetch the DEFAULT branch, inspect the completed final receipt if available,
+then manually test. Use remaining included usage for observed bugs only; hourly
+continuation remains disabled. Do not resume broad implementation automatically.
+The local integration branch is`integrate/default-fidelity`; default is updated
+only by ordinary non-force push. No release/PR/hosted CI or paid action.
+
+---
+
+# Default-branch reconciliation in progress
+
+Latest budget correction: owner reports16% weekly usage remaining. Aim to leave
+10% for manual testing; complete only critical reconciliation/combined verification
+and the authorized default push. No more feature/polish work, long movie, broad
+new audits, camera retuning or hourly continuation. No direct usage meter exists.
+The earlier34%/25% figures below are historical, not current measured balance.
+
+24October2026. The owner explicitly authorizes resolving the divergent work onto
+current default`bootstrap/m00-m01`, testing the combined game and pushing default.
+This overrides the earlier no-merge restriction for this integration. No billing,
+paid APIs, hosted CI, release publishing or third-party messages are authorized.
+Focus only on reconciliation; preserve the owner's manual-test reserve and keep
+automatic continuation disabled.
+
+Base:default`d28c8f4`, merged work`b001fd3`, integration branch
+`integrate/default-fidelity`. Preserve all72 default commits and both lines' save/
+career/asset identities. Resolve35 conflicts semantically, retaining native named
+grind contracts, current controls/pop/camera/bail, compact Clyde/ground/water/
+horizon and rendering budgets alongside actual new features. Prior work-only
+3081/0 and default-only2561/0 do not verify the combined game. New combined checks
+and real rendering are required before a non-force fast-forward of default.
+
+The work branch's previous status is retained in
+[history](planning/history/divergent-work-STATUS.md). Below is the authoritative
+latest-default checkpoint being preserved. Current integration results follow.
+
+---
+
 # Named grind contacts — verified local checkpoint
 
 23 October 2026, `bootstrap/m00-m01`, changes over `ef0eb9f`. Continued entirely in this local checkout while cloud is unavailable. [Implementation tasks](planning/NAMED-GRINDS-2026-10-23.md), [ADR-029](architecture/decisions/ADR-029-named-grind-contact-contract.md), [evidence and retained failures](testing/named-grinds/README.md), [source/artifact audit](testing/named-grinds/audit.json), [all outstanding work](planning/OUTSTANDING-2026-10-23.md).

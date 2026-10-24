@@ -3,6 +3,7 @@ extends Node3D
 ## physical gate polling supplies route/arrival evidence, never points or saves.
 
 const MarketActor = preload("res://game/characters/market_actor.gd")
+const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const ENCOUNTER_ID := "gull_proof_delivery"
 const ATTEMPT_SECONDS := 60.0
 const INTERACT_RADIUS := 4.2
@@ -130,10 +131,18 @@ func poll(position: Vector3, interact: bool, delta: float, combo_value: int = 0,
 
 func on_trick(trick: String, points: int, position: Vector3) -> void:
 	if not _check_callback(position): return
-	if not _line_banked and points > 0 and trick in ["Manual", "Nose Manual"]:
+	if not _line_banked and points > 0 and _is_manual_trick(trick):
 		if not _manual_seen: feedback.emit("MAIRI: Steady! Now ollie the marked loading steps in this line.")
 		_manual_seen = true
 	_sync_actor()
+
+func _is_manual_trick(trick: String) -> bool:
+	# Both supported manual variants satisfy the requested balance line. Exact
+	# catalog names prevent an unrelated display label from arming the gap.
+	for trick_id: String in TrickCatalog.family_ids("manual"):
+		if TrickCatalog.definition(trick_id).display_name == trick:
+			return true
+	return false
 
 func on_gap(gap_id: String, position: Vector3) -> void:
 	if not _check_callback(position): return

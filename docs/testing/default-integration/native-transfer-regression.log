@@ -1,0 +1,14 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS overnight process: actual descending contact captures one authored rail entry
+PASS overnight process: fresh directional flip changes a live rail ride into boardslide
+PASS overnight process: holding a rail style beyond its cooldown cannot score it repeatedly
+PASS overnight process: fresh opposite-direction grab selects lipslide without breaking the rail combo
+PASS overnight process: releasing a directional rail ollie adds real lateral momentum and keeps the line live
+PASS native grind transfer: both live style changes display their natively tested board frames exactly
+PASS native grind transfer: both FIRST completed frames retain exact native target poses
+PASS native grind transfer: actual soles, anatomical reach and unweight/turn/reseat continuity retain their strict bands
+PASS native grind transfer: presentation unweighting keeps the native body on its actual rail helper
+PASS native grind transfer: actual displayed head, soles and toes stay visible in the unchanged camera
+NATIVE_GRIND_TRANSFER {"camera_blocked":0,"camera_frames":53,"camera_outside":0,"completion_frames":2,"marker_worst":{"after":"Vector3(-64.369965, 3.7924304, -5.5019956)","before":"Vector3(-64.42499, 3.8138862, -5.6064286)","board_angle_degrees":0.0395646811852521,"body_step":0.0869174003601074,"elapsed":0.0,"leg":3,"marker_index":4,"phase":"idle","physics_frame":103,"style":"lipslide"},"maximum_axis_error":0.0,"maximum_body_from_native_rail":0.0,"maximum_limb_scale":1.00000035762787,"maximum_marker_step":0.200257077813148,"maximum_position_error":0.0,"maximum_sole_error":0.000854501209687442,"styles":["grind_50_50","boardslide","lipslide"],"transfer_frames":51}
+NATIVE_GRIND_TRANSFER_CHECKS 10 passed 0 failed

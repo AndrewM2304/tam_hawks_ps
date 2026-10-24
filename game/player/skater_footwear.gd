@@ -1,6 +1,9 @@
 extends RefCounted
 ## Original cupsole skate shoes, authored in metres around the ankle/contact target.
 ## The sole bottom stays at -0.0605: the foot targets already account for this height.
+const SOLE_CONTACT := Vector3(0, -0.0605, 0)
+## Exact upper vertex on the low, tapered toe (-Z); the tall heel is +Z.
+const TOE_CONTACT := Vector3(0, 0.001, -0.115)
 
 const PROFILE: Array[Vector3] = [
 	Vector3(0.125, 0.025, 0.058), Vector3(0.115, 0.048, 0.073),

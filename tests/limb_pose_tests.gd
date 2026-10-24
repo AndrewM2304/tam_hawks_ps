@@ -2,6 +2,8 @@ extends RefCounted
 ## Real-input pose regressions: every native physics tick is observed after Skater.
 const Classic=preload("res://tests/classic_tricks_integration_tests.gd")
 const MotionClips=preload("res://game/player/trick_animation.gd")
+const BoardGeometry=preload("res://tests/board_geometry_tests_support.gd")
+const Footwear=preload("res://game/player/skater_footwear.gd")
 class Probe extends Node:
 	var rider:CharacterBody3D
 	var samples:=0
@@ -27,12 +29,14 @@ class Probe extends Node:
 				maximum_length_error=maxf(maximum_length_error,absf(ratio-1.0))
 			# The front foot stays mounted on the deck except during a flip.
 			if index==0 and rig._flip_blend<.001 and not rider.bailing:
-				maximum_sole_error=maxf(maximum_sole_error,rig._board.to_local(foot.global_position).distance_to(Vector3(-.015,.079,-.255)))
+				maximum_sole_error=maxf(maximum_sole_error,BoardGeometry.grip_distance(rig,foot.to_global(Footwear.SOLE_CONTACT)))
 			if rider.airborne and rig._grab_blend>.98:
-				var definition:Dictionary=MotionClips.grab_pose(rider.active_grab_id)
-				if definition.hand_side==rig._arms[index].side:
+				var fallback:Dictionary=MotionClips.grab_pose(rider.active_grab_id)
+				var definition:Dictionary=rider._grab_definition
+				if float(definition.get("grab_side",fallback.hand_side))==rig._arms[index].side:
 					var palm:Vector3=hand.to_global(Vector3(0,-.075,-.015))
-					maximum_palm_error=maxf(maximum_palm_error,palm.distance_to(rig._board.to_global(definition.deck_target)))
+					var target:Vector3=Basis(Vector3.UP,-rider._deck_yaw)*Vector3(definition.get("grab_target",fallback.deck_target))
+					maximum_palm_error=maxf(maximum_palm_error,palm.distance_to(rig._board.to_global(target)))
 					palm_samples+=1
 		samples+=1
 static func run(tree:SceneTree,check:Callable)->void:

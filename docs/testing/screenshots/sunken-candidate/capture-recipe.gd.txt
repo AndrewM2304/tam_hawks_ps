@@ -1,0 +1,60 @@
+extends "res://tools/full_fidelity_capture.gd"
+## Eight scoped current-source stills. This is deliberately not the full movie.
+var selected: Array[Dictionary] = []
+var seen: Dictionary = {}
+var counts: Dictionary = {}
+var rail_held := 0
+var port_air := false
+func _run() -> void:
+ var args=OS.get_cmdline_user_args()
+ if args.is_empty() or DisplayServer.get_name()=="headless":quit(1);return
+ output=args[0];_raw_spool=true
+ DirAccess.make_dir_recursive_absolute(output)
+ RenderingServer.set_render_loop_enabled(false)
+ game=Main.new();game.persistence_enabled=false;root.add_child(game);game.start_mode(true)
+ for frame in 40:await physics_frame;await process_frame
+ await create_timer(0,true).timeout
+ _inspection=Camera3D.new();game.add_child(_inspection)
+ await _save_still("01-normal-start","production chase")
+ var facility:Dictionary=game.world.get_park_skatepark_definition()
+ _inspection.global_position=Vector3(facility.position)+Vector3(28,15,24)
+ _inspection.look_at(facility.position);_inspection.fov=62;_inspection.current=true;game.hud.visible=false
+ await process_frame
+ await create_timer(0,true).timeout
+ await _save_still("02-sunken-facility-overview","authored facility inspection")
+ game.skater._camera.current=true;game.hud.visible=true
+ await Authentic.run(self,game,_check,_candidate_observe,["facility_skating"])
+ _check(selected.size()==8,"candidate captures exactly the eight declared current-source views")
+ var report={"scope":"Eight scoped current-source candidate stills from actual Main/native inputs and declared one-time contact fixtures; not the deferred full movie, profile or FULL_FIDELITY_ACCEPTED.","checks":checks,"failures":failures,"engine":Engine.get_version_info().string,"renderer":RenderingServer.get_current_rendering_method(),"production_main":true,"profile_writes_enabled":game.persistence_enabled,"images":selected,"known_deferred":"Abrupt lip-drop palm handoff and small Gallery corner; human Mac/controller/art acceptance remain open.","fixture_policy":"Normal free-skate initialization; declared authored overview; genuine bowl port approaches/lips and street Ollie/grind; one initial curved-contact/tangent fixture for deep carve and upper-port departure; real compact-hip approach and in-air transfer. No pose or score injection after initial fixtures.","camera_policy":"Full unchanged production chase for seven images; one declared authored facility overview. No scene culling, resolution or simulation reduction."}
+ var file=FileAccess.open(output.path_join("manifest.json"),FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
+ print("SUNKEN_CANDIDATE_RESULT checks=",checks," failures=",failures," images=",selected.size())
+ game.queue_free();await process_frame;quit(1 if failures else 0)
+func _candidate_observe(phase:String,observed:Node,step:int)->void:
+ if phase.is_empty() or phase=="fixture" or step<0:return
+ await create_timer(0,true).timeout
+ counts[phase]=int(counts.get(phase,0))+1
+ var skater=observed.skater
+ var label=""
+ if phase=="sunken_park_deep_bowl_native_lip":
+  if skater.global_position.z< -187.8 and skater.global_position.z> -188.3:label="03-deep-entry-production-chase"
+  if skater.lip_active and skater._transition._lip_age>.12:label="04-deep-lip-production-chase"
+ elif phase=="sunken_park_deep_native_carve" and int(counts[phase])>=110:label="05-deep-carve-production-chase"
+ elif phase=="sunken_park_street_native_grind":
+  if skater.grinding:rail_held+=1
+  if rail_held>=12:label="06-street-grind-production-chase"
+ elif phase=="sunken_park_hip_native_transfer" and skater.airborne and skater.global_position.x< -220.5:label="07-hip-transfer-production-chase"
+ elif phase=="sunken_park_native_port_departure":
+  port_air=port_air or skater.airborne
+  if port_air and not skater.transition_active and skater.is_on_floor() and skater._native_floor_valid and not skater.airborne:label="08-open-port-native-return"
+ if label.is_empty() or seen.has(label):return
+ seen[label]=true
+ game.skater._camera.current=true;game.hud.visible=true
+ await _save_still(label,"production chase",phase)
+func _save_still(label:String,camera_label:String,phase:String="initialization")->void:
+ var state=_snapshot(game)
+ var image:Image=await _render_current_frame()
+ var file=label+".png"
+ var storage=_store_frame(image,file)
+ var camera:Camera3D=root.get_camera_3d()
+ selected.append({"file":file,"phase":phase,"camera":camera_label,"state":state,"pixels":storage,"camera_position":_v(camera.global_position),"camera_forward":_v(-camera.global_basis.z),"camera_fov":camera.fov,"camera_far":camera.far})
+ print("CANDIDATE_STILL ",file)

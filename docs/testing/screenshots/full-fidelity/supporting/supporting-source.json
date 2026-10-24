@@ -1,0 +1,118 @@
+{
+  "scope": "Supporting actor construction/ground contact and HUD route drawing only; surrounding Main/world content is not source-certified by this receipt.",
+  "recorded_utc": "2026-10-24T08:45:56.024483+00:00",
+  "engine": "Godot4.6.3",
+  "renderer": "Compatibility/OpenGL Mesa llvmpipe software",
+  "profiles_written": false,
+  "source_sha256_before": {
+    "project.godot": "b8a3975474ea3826e5f7527f2892510c0fdfdfabb7de8b1ebd3498239bafd5f0",
+    "game/features/feature_visuals.gd": "8233260259c041558acd941e3965254f44768e61fcf20105a3477b33d9b9824d",
+    "game/features/activity_actor.gd": "a721423e46d31ccd81b6c0a69e9c32a49f35dd403fa4c671843f61b3d1762cff",
+    "game/features/feature_hub.gd": "10f78e4beb9c4ec9579463cc6d6227e1a0c60953841ad12b8b7f3e6314a5d1e0",
+    "game/features/lap_challenge.gd": "f3b2983608947d501f0cf2d1e157315c9fe72caab100f837b9a787baa411dfe4",
+    "game/features/cone_stunt.gd": "81adede91e2eb8c61ff6256a36fad80328b2e081b013264c61cec4e3d65814d0",
+    "game/player/skater_anatomy.gd": "1524ac9766bb13da327597bd7e4c7d2845ac728b2caef8e59c0f915d3f5057fd",
+    "game/player/skater_garments.gd": "e4c5c5f3481780073807bcce928ff6aa0c9dfa4e81a7641e28d02bd78f66b95d",
+    "game/player/skater_footwear.gd": "d99201a0398ad1cc678727dd469873f3ea8e45755140116e9d2e6decccb0b6a8",
+    "game/ui/hud.gd": "7729dd1a245add1037e533f63fdbb85636fac32f86be6ccb675bad2a3e838f40",
+    "game/ui/route_map.gd": "2658acac796d7f74749ceb444417a121d89f2ad93685b3c8abd591153b8e719d",
+    "game/core/input_profile.gd": "67e24932bdb10866b3d0c9a6836ce161f5d13b0fbb35f93e00f2906dd2102f3a",
+    "game/core/input_setup.gd": "f72af97ff5d7c8c8125ed1471a07cf544484bfa00c5fd64a4c390a7340ef6a14",
+    "tests/activity_actor_tests.gd": "dd2fda44fcae5aa0083d1b49eefd5767b4218b5131b654dd370b929bef978b65",
+    "tests/route_availability_tests.gd": "05d67c6c1484274e0177301cf68ced9eb61a6060044e12a8396a375daeeb097d",
+    "game/art/assets/makehuman_hm08/head.obj": "e6baabf4dcdc7e38d316fb967769ed0b51a9bd7ba544058431734c3e2d917ff0",
+    "game/art/assets/makehuman_hm08/head.obj.import": "73747d61284e366ff38685deab8fecccccf3f9e5481415e19c2d96dd72a646b1",
+    "game/art/assets/makehuman_hm08/hair.obj": "906b29d0238e7c527ce8115d80ddc134d4be5f143f2b16e6ab0cbb359060ba1e",
+    "game/art/assets/makehuman_hm08/hair.obj.import": "b5c624d8decad3e41f5184896fdcce319e90b6966cd0f07aca455c2eb899dfef",
+    "game/art/assets/makehuman_hm08/left_hand.obj": "a63152ba3ce3e54868ea9985f259c0bec047b9329797314e8dde9d7f3348dac3",
+    "game/art/assets/makehuman_hm08/left_hand.obj.import": "96e54609df80819110041e2c5be6ccbe255b9f9f9f51f12a5a783fe80867c96b",
+    "game/art/assets/makehuman_hm08/right_hand.obj": "be68d644bb4b9a558937d7a1f6dd5ec9f0c2a33195a5bdc17c0cc97f9413d126",
+    "game/art/assets/makehuman_hm08/right_hand.obj.import": "0476cb12805608174d678211d51aa141017a494d98fc5a1c7ed34a40822e7e55"
+  },
+  "source_sha256_after": {
+    "project.godot": "b8a3975474ea3826e5f7527f2892510c0fdfdfabb7de8b1ebd3498239bafd5f0",
+    "game/features/feature_visuals.gd": "8233260259c041558acd941e3965254f44768e61fcf20105a3477b33d9b9824d",
+    "game/features/activity_actor.gd": "a721423e46d31ccd81b6c0a69e9c32a49f35dd403fa4c671843f61b3d1762cff",
+    "game/features/feature_hub.gd": "10f78e4beb9c4ec9579463cc6d6227e1a0c60953841ad12b8b7f3e6314a5d1e0",
+    "game/features/lap_challenge.gd": "f3b2983608947d501f0cf2d1e157315c9fe72caab100f837b9a787baa411dfe4",
+    "game/features/cone_stunt.gd": "81adede91e2eb8c61ff6256a36fad80328b2e081b013264c61cec4e3d65814d0",
+    "game/player/skater_anatomy.gd": "1524ac9766bb13da327597bd7e4c7d2845ac728b2caef8e59c0f915d3f5057fd",
+    "game/player/skater_garments.gd": "e4c5c5f3481780073807bcce928ff6aa0c9dfa4e81a7641e28d02bd78f66b95d",
+    "game/player/skater_footwear.gd": "d99201a0398ad1cc678727dd469873f3ea8e45755140116e9d2e6decccb0b6a8",
+    "game/ui/hud.gd": "7729dd1a245add1037e533f63fdbb85636fac32f86be6ccb675bad2a3e838f40",
+    "game/ui/route_map.gd": "2658acac796d7f74749ceb444417a121d89f2ad93685b3c8abd591153b8e719d",
+    "game/core/input_profile.gd": "67e24932bdb10866b3d0c9a6836ce161f5d13b0fbb35f93e00f2906dd2102f3a",
+    "game/core/input_setup.gd": "f72af97ff5d7c8c8125ed1471a07cf544484bfa00c5fd64a4c390a7340ef6a14",
+    "tests/activity_actor_tests.gd": "dd2fda44fcae5aa0083d1b49eefd5767b4218b5131b654dd370b929bef978b65",
+    "tests/route_availability_tests.gd": "05d67c6c1484274e0177301cf68ced9eb61a6060044e12a8396a375daeeb097d",
+    "game/art/assets/makehuman_hm08/head.obj": "e6baabf4dcdc7e38d316fb967769ed0b51a9bd7ba544058431734c3e2d917ff0",
+    "game/art/assets/makehuman_hm08/head.obj.import": "73747d61284e366ff38685deab8fecccccf3f9e5481415e19c2d96dd72a646b1",
+    "game/art/assets/makehuman_hm08/hair.obj": "906b29d0238e7c527ce8115d80ddc134d4be5f143f2b16e6ab0cbb359060ba1e",
+    "game/art/assets/makehuman_hm08/hair.obj.import": "b5c624d8decad3e41f5184896fdcce319e90b6966cd0f07aca455c2eb899dfef",
+    "game/art/assets/makehuman_hm08/left_hand.obj": "a63152ba3ce3e54868ea9985f259c0bec047b9329797314e8dde9d7f3348dac3",
+    "game/art/assets/makehuman_hm08/left_hand.obj.import": "96e54609df80819110041e2c5be6ccbe255b9f9f9f51f12a5a783fe80867c96b",
+    "game/art/assets/makehuman_hm08/right_hand.obj": "be68d644bb4b9a558937d7a1f6dd5ec9f0c2a33195a5bdc17c0cc97f9413d126",
+    "game/art/assets/makehuman_hm08/right_hand.obj.import": "0476cb12805608174d678211d51aa141017a494d98fc5a1c7ed34a40822e7e55"
+  },
+  "relevant_inputs_unchanged": true,
+  "global_current_source_claim": false,
+  "actor_camera": "Authored inspection camera over production Main actors: body+(2.2,1.35,-3.8), look_at body+(0,.90,0), FOV35;1280x960.",
+  "map_camera": "960x600 SubViewport HUD fixture at1.4UI; same exact synthetic shortcut points with enabled false/true. No native gate traversal is claimed.",
+  "images": [
+    {
+      "file": "festival-steward-inspection.png",
+      "sha256": "efa53eee4832b618cebf1984e36042523c4be1203c8346926f46ffec7fbb4ed7",
+      "bytes": 1159716,
+      "resolution": [
+        1280,
+        960
+      ],
+      "png_crc_and_complete_rows": true
+    },
+    {
+      "file": "park-regular-inspection.png",
+      "sha256": "e55b4e3993ccfee716a585cb7a588353ebe49586c125bd5297e6383f4e521906",
+      "bytes": 907516,
+      "resolution": [
+        1280,
+        960
+      ],
+      "png_crc_and_complete_rows": true
+    },
+    {
+      "file": "service-shortcut-closed.png",
+      "sha256": "7fb50d4873566ace66e6cbfc36ee7b910d6888b6064ea69831191c08cacafcdb",
+      "bytes": 50785,
+      "resolution": [
+        960,
+        600
+      ],
+      "png_crc_and_complete_rows": true
+    },
+    {
+      "file": "service-shortcut-open.png",
+      "sha256": "a1f209d93fb4c99bc0f4aacfde03334ce16d1f204959fdf74d946d87acaeb2e4",
+      "bytes": 49092,
+      "resolution": [
+        960,
+        600
+      ],
+      "png_crc_and_complete_rows": true
+    }
+  ],
+  "recipes": [
+    {
+      "file": "actor-inspection-recipe.gd.txt",
+      "sha256": "9a11697848890292f750c7b99f8d0ea2950a980818ded1da06113d4f07fa4232"
+    },
+    {
+      "file": "map-fixture-recipe.gd.txt",
+      "sha256": "4858ccf4d927bbeb55684638e31bbcd8543e07af658e832fa58d16ae259b03e4"
+    }
+  ],
+  "logs": {
+    "actor-native-tests.log": "e540a38a01b9547e126668a703dcb289940af6989c858c717a0726e68efdda9d",
+    "activity-actor-render.log": "4a5972be6467af0cb41066d5b0e168e244fbc089482c9fcb4e568360b5f28398",
+    "route-availability-render.log": "64f6f5f2232435d1564965756c7e85c8b70339ecb74f72ec908fa9f38e09f1c9"
+  }
+}

@@ -27,6 +27,16 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 				observed_navigation.targets = game.market_encounter.status_snapshot().navigation_targets
 				observed_navigation.text = game._market_navigation_text(observed_navigation.targets)
 				print("DELIVERY NAV ",route.id," at=",game.skater.global_position," heading=",game.skater.rotation.y," ",observed_navigation.text)
+				observed_navigation.east_entries = true
+				observed_navigation.left_sectors = true
+				for target: Dictionary in observed_navigation.targets:
+					observed_navigation.east_entries = observed_navigation.east_entries \
+						and target.position.x > game.skater.global_position.x
+					var facing := Vector2(-game.skater.global_basis.z.x, -game.skater.global_basis.z.z)
+					var offset: Vector3 = target.position - game.skater.global_position
+					var bearing := rad_to_deg(facing.angle_to(Vector2(offset.x, offset.z)))
+					observed_navigation.left_sectors = observed_navigation.left_sectors \
+						and bearing > -120.0 and bearing < -30.0
 		var result: Dictionary = await drive_delivery(tree, game, route.id, observe_bank)
 		check.call(result.accepted and result.carried and result.manual_entered,
 			"delivery physics: real pickup attaches the parcel and fresh Manual starts " + route.id)
@@ -39,9 +49,11 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		check.call(result.camera_samples > 20 and result.camera_blocked == 0 and result.camera_hidden == 0,
 			"delivery camera: actual chase remains finite unobstructed and sees the rider " + route.id)
 		check.call(observed_navigation.get("targets", []).size() == 2
+			and observed_navigation.get("east_entries", false)
+			and observed_navigation.get("left_sectors", false)
 			and str(observed_navigation.get("text", "")).contains("COVERED 1: LEFT")
 			and str(observed_navigation.get("text", "")).contains("CALTON 1: LEFT"),
-			"delivery navigation: the release-pop landing directs the south-facing rider left towards both north entries " + route.id)
+			"delivery navigation: the release-pop landing directs the south-facing rider left towards both eastern lane entries " + route.id)
 		check.call(game.career.completed_ids == completed and game.career.best_score == record
 			and game.career.goals_snapshot().size() == 10 and not game.persistence_enabled
 			and game.encounters.status_snapshot().attempts == 0 and game.cat_encounter.status_snapshot().attempts == 0,
@@ -265,6 +277,16 @@ static func drive_delivery(tree: SceneTree, game: Node, route_id: String, observ
 	evidence.carried = bags.size() == 1 and bags[0].is_visible_in_tree()
 	await _observe(observer, "pickup", evidence)
 	var reached: bool = await _drive_to(tree, game, Vector3(93, 1.5, -30), evidence)
+	# Stop the navigation approach before beginning the deliberate manual line.
+	# Both directions held for one real frame cancel its previous trick cue;
+	# a full gesture interval on the brake prevents the next push being parsed
+	# as the second half of a quick brake/push nose-manual command.
+	Input.action_press("push")
+	Input.action_press("brake")
+	await _step(tree, game, evidence)
+	Input.action_release("push")
+	for frame in 20: await _step(tree, game, evidence)
+	Input.action_release("brake")
 	_aim(game.skater, Vector3.BACK)
 	Input.action_press("push")
 	for frame in 180:
@@ -288,6 +310,14 @@ static func drive_delivery(tree: SceneTree, game: Node, route_id: String, observ
 	await _step(tree, game, evidence)
 	Input.action_release("ollie")
 	Input.action_release("manual")
+	# The delivery line calls for the ordinary Ollie. Cancel the balancing
+	# direction on its release frame so a recent brake correction does not
+	# deliberately select the new Boneless/No Comply takeoff instead.
+	Input.action_press("push")
+	Input.action_press("brake")
+	await _step(tree, game, evidence)
+	Input.action_release("push")
+	Input.action_release("brake")
 	var bank_reported := false
 	for frame in 180:
 		if game.skater.is_on_floor(): Input.action_press("brake")
@@ -374,6 +404,7 @@ static func _lifecycle(tree: SceneTree, game: Node, definition: Dictionary, chec
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
+	await _frames(tree, 1)
 	game.time_remaining = 0.03 # Explicit career-clock boundary, never a score/movement fixture.
 	await _frames(tree, 4)
 	check.call(game.time_remaining == 0.0 and game.score.get_combo_value() > 0
@@ -442,19 +473,28 @@ static func _drive_to(tree: SceneTree, game: Node, target: Vector3, evidence: Di
 		var offset: Vector3 = target - game.skater.global_position
 		offset.y = 0.0
 		if offset.length() < 0.65:
+			# End each navigation leg with a real cancelling input frame. The
+			# next leg's acceleration is travel, not a brake/push trick gesture.
+			Input.action_press("push")
+			Input.action_press("brake")
+			await _step(tree, game, evidence)
 			_release()
 			return true
 		_aim(game.skater, offset)
-		if game.skater.speed > sqrt(30.0 * offset.length()):
-			Input.action_release("push")
-			Input.action_press("brake")
-		else:
-			Input.action_release("brake")
-			Input.action_press("push")
+		_navigation_input(game.skater.speed < -0.05 or game.skater.speed > sqrt(30.0 * offset.length()))
 		await _step(tree, game, evidence)
 		if game.market_encounter.status_snapshot().state == "failed": break
 	_release()
 	return false
+
+
+static func _navigation_input(braking: bool) -> void:
+	# Overlap once to cancel the trick direction before ordinary throttle
+	# changes, rather than accidentally asking for a push/brake manual gesture.
+	var crossing := Input.is_action_pressed("push" if braking else "brake") \
+		and not Input.is_action_pressed("brake" if braking else "push")
+	Input.action_press("brake" if braking else "push")
+	if not crossing: Input.action_release("push" if braking else "brake")
 
 
 static func _aim(skater: CharacterBody3D, direction: Vector3) -> void:
@@ -511,7 +551,9 @@ static func _reset(tree: SceneTree, game: Node, at: Vector3, free: bool) -> void
 	_release()
 	game.skater.spawn_position = at
 	game.start_mode(free)
+	Input.action_press("brake")
 	await _frames(tree, 45)
+	Input.action_release("brake")
 
 
 static func _interact(tree: SceneTree) -> void:
