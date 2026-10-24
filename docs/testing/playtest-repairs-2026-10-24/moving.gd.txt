@@ -1,0 +1,41 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+func _initialize() -> void:call_deferred("run")
+func run() -> void:
+ var output:=OS.get_environment("REPAIR_CAPTURE_OUTPUT")
+ DirAccess.make_dir_recursive_absolute(output)
+ root.size=Vector2i(1280,720)
+ var game:=Main.new();game.persistence_enabled=false;root.add_child(game);game.start_mode(true)
+ var result:Dictionary={}
+ for scenario:String in ["opening_push","bowl_carve","bowl_charged"]:
+  for action in InputMap.get_actions():Input.action_release(action)
+  game.skater.spawn_position=Vector3(-22,.8,28);game.start_mode(true)
+  for i in 40:await physics_frame;await process_frame
+  var r:CharacterBody3D=game.skater
+  if scenario!="opening_push":
+   var bowl:Node3D=game.world.get_node("ClydeEastBowl")
+   var theta:=.6 if scenario=="bowl_carve" else 1.1
+   var sample:Dictionary=bowl.sample(theta,0.)
+   r.spawn_position=sample.point+sample.normal*.022;r.reset_skater()
+   r.velocity=sample.lateral*sqrt(22.*(bowl.floor_radius+bowl.radius*sin(theta))*tan(theta)) if scenario=="bowl_carve" else sample.tangent*5.
+   r.speed=r.velocity.length();r.rotation.y=atan2(-r.velocity.x,-r.velocity.z)
+  for i in 2:await physics_frame;await process_frame
+  if scenario in ["opening_push","bowl_charged"]:Input.action_press("push")
+  if scenario=="bowl_charged":Input.action_press("ollie")
+  var times:Array[float]=[];var draws:Array=[];var primitives:Array=[];var trace:Array=[]
+  for i in 360:
+   if scenario=="bowl_charged" and i==24:Input.action_release("ollie")
+   var start:=Time.get_ticks_usec()
+   await process_frame;await RenderingServer.frame_post_draw
+   var ms:float=(Time.get_ticks_usec()-start)/1000.
+   if i>=30:
+    times.append(ms);draws.append(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME));primitives.append(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
+   trace.append({"frame":i,"position":str(r.global_position),"camera":str(r._camera.global_position),"air":r.airborne,"bail":r.bail_active,"transition":r.transition_active})
+  var sorted:=times.duplicate();sorted.sort();var long_frames:=0
+  for ms:float in times:
+   if ms>33.333:long_frames+=1
+  result[scenario]={"p50_ms":sorted[164],"p95_ms":sorted[313],"p99_ms":sorted[326],"over_33ms":long_frames,"frame_ms":times,"draw_max":draws.max(),"primitives_max":primitives.max(),"trace":trace,
+   "texture_memory":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),"video_memory":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)}
+ FileAccess.open(output.path_join("metrics.json"),FileAccess.WRITE).store_string(JSON.stringify(result))
+ print("NATIVE_MOVING_REPAIRS three actual Main input workloads;330 timing samples each")
+ quit()

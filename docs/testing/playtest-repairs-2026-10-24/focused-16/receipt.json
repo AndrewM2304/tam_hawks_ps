@@ -1,0 +1,29 @@
+{
+  "started_london": "2026-10-24T21:45:52.590551+01:00",
+  "completed_london": "2026-10-24T21:46:00.397381+01:00",
+  "wall_seconds": 7.806774708093144,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/playtest-fixes-20261024/focused.gd",
+    "--",
+    "camera",
+    "park"
+  ],
+  "exit_code": 1,
+  "source_inputs": 517,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "69",
+      "2"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "b6fb86d1fb2e72cea31c7b1f09be8f9339247822a2c66c557f8002f59180d5d9",
+  "git_head": "ad0f95ff175d3e4f37b2b5c8e3f8194471bd830f"
+}

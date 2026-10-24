@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-24T21:51:04.439129+01:00",
+  "completed_london": "2026-10-24T21:51:08.330236+01:00",
+  "wall_seconds": 3.8910434590652585,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/playtest-fixes-20261024/focused.gd",
+    "--",
+    "repairs"
+  ],
+  "exit_code": 0,
+  "source_inputs": 517,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "11",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "7ba75b9727451925ddfb1a35f0a24277136b54d405f43af6ad0675e423a6505b",
+  "git_head": "ad0f95ff175d3e4f37b2b5c8e3f8194471bd830f"
+}

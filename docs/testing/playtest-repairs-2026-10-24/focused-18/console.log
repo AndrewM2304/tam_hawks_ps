@@ -1,0 +1,27 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: owner path:25 summit overlap rays share the17m spur/loop datum and support query
+PASS: owner path: no-jump native junction traversal speed=3 reverse=false
+PASS: owner path: no-jump native junction traversal speed=3 reverse=true
+PASS: owner path: no-jump native junction traversal speed=12 reverse=false
+PASS: owner path: no-jump native junction traversal speed=12 reverse=true
+OWNER_BOWL_RELEASE held=2 position=(-12.73296, 1.182217, 134.5) velocity=(-1.324853, 3.61752, 0.0) state=surface charge=0.13333333333333 impulse=8.0 enabled=true held=true control=true
+PASS: owner bowl: charged2f held approach returns follows native air with useful height and explicit intent
+PASS: owner pose: real bowl air/return retains anatomical leg lengths and keeps knees outside the chest core
+OWNER_LIMBS { "held": 2, "transfer": false, "samples": 126, "length_error_m": 0.00000008583069, "knee_core_contacts": 0 }
+OWNER_BOWL held=2 transfer=false air=true returned=true exited=false intact=true peak=4.153 radius=5.757
+OWNER_BOWL_RELEASE held=24 position=(-12.7964, 1.382393, 134.5) velocity=(0.889583, -3.307661, -0.0) state=surface charge=1.0 impulse=8.0 enabled=true held=true control=true
+PASS: owner bowl: charged24f held approach returns follows native air with useful height and explicit intent
+PASS: owner pose: real bowl air/return retains anatomical leg lengths and keeps knees outside the chest core
+OWNER_LIMBS { "held": 24, "transfer": false, "samples": 124, "length_error_m": 0.00000008583069, "knee_core_contacts": 0 }
+OWNER_BOWL held=24 transfer=false air=true returned=true exited=false intact=true peak=4.293 radius=5.829
+OWNER_BOWL_RELEASE held=24 position=(-12.7964, 1.382393, 134.5) velocity=(0.889583, -3.307661, -0.0) state=surface charge=1.0 impulse=13.0 enabled=true held=true control=true
+OWNER_BOWL_INTENT tick=7 state=air armed=false transfer=0.0 push=1.0 velocity=(0.0, 8.933332, 0.0)
+OWNER_BOWL_INTENT tick=9 state=air armed=true transfer=0.0 push=0.0 velocity=(0.0, 8.199999, 0.0)
+OWNER_BOWL_INTENT tick=11 state=air armed=false transfer=-1.0 push=1.0 velocity=(-0.2, 7.466665, 0.0)
+OWNER_BOWL_INTENT tick=20 state=air armed=false transfer=-1.0 push=1.0 velocity=(-1.1, 4.166664, 0.0)
+PASS: owner bowl: charged24f fresh transfer exits follows native air with useful height and explicit intent
+PASS: owner pose: real bowl air/return retains anatomical leg lengths and keeps knees outside the chest core
+OWNER_LIMBS { "held": 24, "transfer": true, "samples": 78, "length_error_m": 0.00000008225441, "knee_core_contacts": 0 }
+OWNER_BOWL held=24 transfer=true air=true returned=false exited=true intact=true peak=4.293 radius=6.473
+RESULT: 11 passed, 0 failed

@@ -26,6 +26,8 @@ static func build(parent: Node3D, materials: Dictionary) -> Array[Dictionary]:
 	concrete.roughness = 0.92
 	concrete.uv1_scale = Vector3.ONE
 	concrete.vertex_color_use_as_albedo = true
+	# Reuse this already allocated finish on other installed park surfaces.
+	materials["skate_concrete"] = concrete
 	var sides := StandardMaterial3D.new()
 	sides.albedo_color = Color("777d7a")
 	sides.roughness = 0.94

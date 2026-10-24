@@ -99,6 +99,9 @@ static func drive(tree: SceneTree, game: Node, points: PackedVector3Array) -> Di
 			if before.distance_to(rider.global_position)<0.001 and absf(error)<0.15 and tick>90:
 				result.stall_ticks += 1
 			if result.stall_ticks>60 or rider.global_position.y < 1.0:
+				for collision_index in rider.get_slide_collision_count():
+					var collision: KinematicCollision3D = rider.get_slide_collision(collision_index)
+					print("COMPACT DRIVER NATIVE BLOCKER ",collision.get_collider().get_path()," normal=",collision.get_normal()," point=",collision.get_position())
 				print("COMPACT DRIVER STALL ",{"target":target,"at":rider.global_position,"error":error,"turn":turn,"braking":braking,"speed":rider.speed,"manual":rider.manual_active,"latched":rider._manual_latched,"gesture":rider._manual_gesture_hold,"air":rider.airborne,"floor":rider.is_on_floor(),"force_air":rider._force_air_tick,"controls":rider._controls_enabled,"steering":rider._steering,"left":Input.get_action_strength("steer_left"),"right":Input.get_action_strength("steer_right"),"push":Input.get_action_strength("push"),"brake":Input.get_action_strength("brake"),"setup":rider.setup_active,"bail":rider.bail_active})
 				break
 		result.reached = result.reached and reached

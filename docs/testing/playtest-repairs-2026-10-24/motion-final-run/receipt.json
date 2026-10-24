@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-24T22:05:17.206007+01:00",
+  "completed_london": "2026-10-24T22:05:29.442731+01:00",
+  "wall_seconds": 12.23667904199101,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--fixed-fps",
+    "60",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/playtest-fixes-20261024/motion-capture.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 517,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "874aa0d73f0ceaf487e52b317cafc5b206102b0e28bdd143f2381a04b82e660b",
+  "git_head": "ad0f95ff175d3e4f37b2b5c8e3f8194471bd830f"
+}

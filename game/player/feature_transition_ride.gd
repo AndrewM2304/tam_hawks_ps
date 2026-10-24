@@ -137,7 +137,9 @@ func step(body: CharacterBody3D, delta: float, push: float, brake: float,
 			return _end(body, "bail")
 		if jump:
 			var frame: Dictionary = feature.lip_frame(_x)
-			return _launch(body, frame.face_normal * jump_impulse * 0.6 + Vector3.UP * jump_impulse, "launch")
+			var lift := Vector3.UP*jump_impulse
+			if not feature.wrap_lateral:lift+=frame.face_normal*jump_impulse*0.6
+			return _launch(body, lift, "launch")
 		if not lip_held:
 			state = "surface"
 			lip = false
@@ -149,6 +151,12 @@ func step(body: CharacterBody3D, delta: float, push: float, brake: float,
 			return _result(body, event)
 	if jump:
 		var sample: Dictionary = feature.sample(_theta, _x)
+		if feature.wrap_lateral and _theta>=PI*0.25:
+			# A steep bowl ollie is a vert air, not an inward normal blast
+			# across the whole bowl. Retain upward carry and lateral momentum;
+			# a fresh in-air direction remains the explicit break-out control.
+			return _launch(body,Vector3.UP*(maxf(0.0,Vector3(sample.tangent).y*_speed)+jump_impulse)
+				+sample.lateral*_lateral_speed,"launch")
 		return _launch(body, sample.tangent * _speed + sample.lateral * _lateral_speed + normal * jump_impulse, "launch")
 	var travel_speed := Vector2(_speed,_lateral_speed).length() if feature.wrap_lateral else absf(_speed)
 	var travel := maxf(travel_speed, 1.0) * delta
@@ -262,7 +270,11 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 	# Euclidean distance from the finite arc grows with height; it must not detach
 	# an otherwise vertical return and put an upright capsule into the wall.
 	var over_lip: bool = air_frame.over_lip
-	if _air_age > 0.08 and not over_lip and (contact.is_empty() or contact.distance > 0.55):
+	var inside_bowl := false
+	if feature.wrap_lateral:
+		var local: Vector3 = feature.to_local(body.global_position)
+		inside_bowl = Vector2(local.x,local.z).length()<float(feature.floor_radius)+float(feature.radius)
+	if _air_age > 0.08 and not over_lip and not inside_bowl and (contact.is_empty() or contact.distance > 0.55):
 		if _can_occupy(body, body.global_position, Vector3.UP):
 			body.velocity = _air_velocity
 			return _end(body, "exit_air")

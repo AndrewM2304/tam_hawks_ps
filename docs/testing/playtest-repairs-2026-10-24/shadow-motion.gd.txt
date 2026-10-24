@@ -1,0 +1,49 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+func _initialize() -> void:call_deferred("run")
+func run() -> void:
+ var game:=Main.new();game.persistence_enabled=false;root.add_child(game);game.start_mode(true)
+ for i in 45:
+  await physics_frame
+  await process_frame
+ game.skater.set_physics_process(false);game.skater.set_process(false);game.set_physics_process(false)
+ var camera:Camera3D=game.skater._camera
+ var start:=camera.global_position
+ var target:=game.skater.global_position+Vector3.UP
+ var sun:DirectionalLight3D=game.world.find_child("LateAfternoonSun",true,false)
+ var samples:Dictionary={}
+ for mode:String in ["original","pcf13","bias","split","off"]:
+  var output:="res://.local/playtest-fixes-20261024/shadow-motion/"+mode
+  DirAccess.make_dir_recursive_absolute(output)
+  root.screen_space_aa=Viewport.SCREEN_SPACE_AA_FXAA if mode=="fxaa" else Viewport.SCREEN_SPACE_AA_DISABLED
+  sun.shadow_enabled=mode!="off"
+  sun.directional_shadow_mode=DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS if mode=="split" else DirectionalLight3D.SHADOW_ORTHOGONAL
+  sun.directional_shadow_blend_splits=mode=="split"
+  sun.shadow_bias=0.2 if mode=="bias" else 0.1
+  sun.shadow_normal_bias=2.0 if mode=="bias" else 1.0
+  RenderingServer.directional_soft_shadow_filter_set_quality(RenderingServer.SHADOW_QUALITY_SOFT_HIGH if mode=="pcf13" else RenderingServer.SHADOW_QUALITY_SOFT_LOW)
+  print("SHADOW_VARIANT ",mode," bias=",sun.shadow_bias," normalbias=",sun.shadow_normal_bias," mode=",sun.directional_shadow_mode," distance=",sun.directional_shadow_max_distance)
+  samples[mode]=[]
+  for frame in 60:
+   camera.global_position=start+Vector3(0.03*frame,0,0.06*frame)
+   camera.look_at(target+Vector3(0.03*frame,0,0.06*frame))
+   await process_frame
+   await RenderingServer.frame_post_draw
+   var pixels:=root.get_texture().get_image()
+   var row:Array=[]
+   for x in range(-32,-11,1):
+    for z in range(14,43,1):
+     var uv:=camera.unproject_position(Vector3(x,0.002,z))
+     var value:=0.0
+     for a in range(-1,2):
+      for b in range(-1,2):
+       var at:=Vector2i(uv)+Vector2i(a,b)
+       if at.x>=0 and at.y>=0 and at.x<pixels.get_width() and at.y<pixels.get_height():
+        var c:=pixels.get_pixelv(at)
+        value+=(c.r+c.g+c.b)/27.0
+     row.append(value)
+   samples[mode].append(row)
+   if frame%10==0:root.get_texture().get_image().save_png(output.path_join("%02d.png"%frame))
+ FileAccess.open("res://.local/playtest-fixes-20261024/shadow-motion/samples.json",FileAccess.WRITE).store_string(JSON.stringify(samples))
+ print("SHADOW_MOTION: five matched60-frame dolly variants;30PNG")
+ quit()

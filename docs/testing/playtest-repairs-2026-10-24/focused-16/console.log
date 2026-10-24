@@ -1,0 +1,127 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: classic camera: interpolated ramp support removes root scale drift and preserves direction
+PASS: classic turns: 8m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.25 angle_deg=26.190 distance=6.763 effective_radius=14.795 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 8m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.50 angle_deg=55.587 distance=6.763 effective_radius=6.971 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 8m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=1.00 angle_deg=136.829 distance=6.763 effective_radius=2.832 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 8m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 12m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.25 angle_deg=24.682 distance=10.382 effective_radius=24.101 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 12m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.50 angle_deg=52.387 distance=10.382 effective_radius=11.355 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 12m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=1.00 angle_deg=128.952 distance=10.382 effective_radius=4.613 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=true
+PASS: classic turns: 12m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 15m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.374 input=0.25 angle_deg=23.551 distance=13.097 effective_radius=31.862 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 15m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=0.50 angle_deg=49.986 distance=13.097 effective_radius=15.012 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 15m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=1.00 angle_deg=123.042 distance=13.097 effective_radius=6.099 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 15m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic camera: sustained actual bank rollback moves chase behind travel without hiding rider or board
+CLASSIC REVERSE speed=-2.489 camera_dot_travel=-1.000 unsafe=0
+PASS: classic camera: after an actual flat-ground turn, short follow lag settles to a forward chase behind the skater
+GROUND CHASE view_dot_forward=0.99930626153946 rear_dot_back=0.99916684627533
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=false)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=false)
+CAMERA QUIET OLLIE held=2 reduced=false body_rise=0.83527360111475 camera_y_span=0.01117944717407 camera_angle_deg=0.65132038258922 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=false)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=false)
+CAMERA QUIET OLLIE held=24 reduced=false body_rise=1.27668134123087 camera_y_span=0.01957845687866 camera_angle_deg=0.99465312807228 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=true)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=true)
+CAMERA QUIET OLLIE held=2 reduced=true body_rise=0.83527360111475 camera_y_span=0.01108431816101 camera_angle_deg=0.64528382938425 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=true)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=true)
+CAMERA QUIET OLLIE held=24 reduced=true body_rise=1.27668134123087 camera_y_span=0.01905870437622 camera_angle_deg=1.00638792667489 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+LOCAL RAMP ORBIT turn_deg=179.990474509215 max_reverse_excursion_deg=0.0 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.95129746198654 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474732664 max_reverse_excursion_deg=0.0 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.9453027844429 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474732664 max_reverse_excursion_deg=0.0 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.9453027844429 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474732664 max_reverse_excursion_deg=0.0 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.9453027844429 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=false)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=false)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=false)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=false)
+PASS: classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=false)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=false)
+PASS: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=false)
+PASS: classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=false)
+CAMERA BOTTOM REAR samples=90 minimum_forward_dot=0.99099391698837
+CAMERA RAMP REAR side_frames=0 samples=138 minimum_forward_dot=0.99999988079071
+CAMERA LOCAL RETURNS reduced=false departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.07128424750434 max_update_move=0.98069804906845 max_update_angle=25.0011595511176 pose_forward_dot_velocity=0.9987781047821 body_step_deg=8.24169130445184 native_body_samples=220 native_contiguous=true
+LOCAL RAMP ORBIT turn_deg=179.990474584254 max_reverse_excursion_deg=0.0 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.95127248764038 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474732664 max_reverse_excursion_deg=0.0 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.94534134864807 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474732664 max_reverse_excursion_deg=0.0 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.94534134864807 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474732664 max_reverse_excursion_deg=0.0 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.94534134864807 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=true)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=true)
+PASS: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=true)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=true)
+PASS: classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=true)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=true)
+PASS: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=true)
+PASS: classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=true)
+CAMERA BOTTOM REAR samples=90 minimum_forward_dot=0.99036228656769
+CAMERA RAMP REAR side_frames=0 samples=138 minimum_forward_dot=0.99999988079071
+CAMERA LOCAL RETURNS reduced=true departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.07163645426432 max_update_move=0.97270691394806 max_update_angle=25.0046344098578 pose_forward_dot_velocity=0.9987781047821 body_step_deg=8.24169130445184 native_body_samples=220 native_contiguous=true
+PASS: classic camera: a brief backwards impulse cannot reverse the chase
+PASS: classic camera: low-speed direction noise clears pending reversal
+PASS: sunken park skating: the production world contains the actual excavated facility
+PASS: sunken park skating: real ground input enters DeepBowl through its open port, reaches its actual bottom and bears on native coping
+PASS: sunken park skating: held DeepBowl lip remains one earned entry with clear actual head/deck/sole/toe and camera volume
+PASS: sunken park skating: DeepBowl releases its real lip, returns without collision and banks exactly its held receipt once
+SUNKEN PARK MAIN LIP DeepBowl minimum=11.0057 face=true camera=true entries=["lip_stall"] accepted=250 bank=250 at=(-196.9843, 12.15068, -199.7646)
+PASS: sunken park skating: real ground input enters ShallowBowl through its open port, reaches its actual bottom and bears on native coping
+PASS: sunken park skating: held ShallowBowl lip remains one earned entry with clear actual head/deck/sole/toe and camera volume
+PASS: sunken park skating: ShallowBowl releases its real lip, returns without collision and banks exactly its held receipt once
+SUNKEN PARK MAIN LIP ShallowBowl minimum=13.0005 face=true camera=true entries=["lip_stall"] accepted=250 bank=250 at=(-219.0, 13.46377, -199.0539)
+SUNKEN PARK CAMERA ACTUAL OCCLUSION rider=(-196.8533, 11.62949, -199.1617) camera=(-197.0, 18.82948, -194.0874) point=(-197.2738, 11.63559, -199.2878) hit=(-197.2723, 11.67529, -199.2591) normal=(0.043767, 0.803769, 0.59333) kind=actual_head_or_deck_hull collider=ContinuousBowlWall
+SUNKEN PARK CAMERA WITNESS phase=sunken_park_deep_native_carve point_name=/root/@Node3D@627/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard/hull_vertex_41 distance_to_target=0.0489964 feature_state=surface native_floor=false airborne=false
+FAIL: sunken park skating: production Main circles the actual lower deep bowl through its whole open-port azimuth with clear native chase
+PASS: sunken park skating: all four actual wheels maintain the unchanged strict native-face contact bands throughout the full deep carve
+CURVED_VISUAL_CONTACT sunken_deep {"board_dot_min":0.99999988079071,"capsule_dot_min":0.999999940395355,"capsule_samples":213,"complete_frames":213,"first_native_normals":["Vector3(-0.24109375, 0.8037712, 0.54389864)","Vector3(-0.21778508, 0.84331495, 0.49131414)","Vector3(-0.18662226, 0.80376947, 0.5649131)","Vector3(-0.16857827, 0.8433161, 0.51029336)"],"first_wheel_gaps":[0.0150434263050556,0.0153953582048416,0.0150429820641875,0.0154004953801632],"last_wheel_gaps":[0.0152457198128104,0.0155821088701487,0.0152211356908083,0.0155876874923706],"max_steer":0.0,"ray_misses":0,"samples":213,"spread_max":0.000588673166930676,"support_normal_first":"Vector3(-0.20348768, 0.8254459, 0.5265281)","support_normal_last":"Vector3(-0.014307621, 0.8422993, 0.5388202)","wheel_max":0.0163492355495691,"wheel_min":0.0150238126516342}
+PASS: sunken park skating: a real pushed approach and ground Ollie capture and hold the actual street flatbar with two connected entries
+PASS: sunken park skating: the native street grind releases, lands and banks exactly its accepted combo once
+SUNKEN PARK MAIN RAIL held=18 captures=["Grind_Park_StreetFlatbar"] entries=["ollie", "grind_50_50"] accepted=650 bank=650 at=(-200.3309, 13.00897, -174.901)
+PASS: sunken park skating: a genuine eight-metre pushed approach and coast ride the compact hip face into real vert air
+PASS: sunken park skating: a fresh in-air transfer reaches the true back hip face, rides out and brakes within the visible finite west runout
+PASS: sunken park skating: pumping and transferring the compact hip cannot manufacture trick entries or bank points
+SUNKEN PARK MAIN HIP front=true air=true back=true exit=true camera=true min_x=-223.67563 speed=0.2682 at=(-223.6756, 13.00345, -176.5)
+SUNKEN PARK CAMERA ACTUAL OCCLUSION rider=(-194.1115, 12.47514, -188.7094) camera=(-193.9949, 19.67691, -186.7732) point=(-193.6958, 12.48302, -188.8022) hit=(-193.7055, 12.71671, -188.7363) normal=(-0.461005, 0.507424, -0.728007) kind=actual_head_or_deck_hull collider=ContinuousBowlWall
+SUNKEN PARK CAMERA WITNESS phase=sunken_park_native_port_departure point_name=/root/@Node3D@627/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard/hull_vertex_41 distance_to_target=0.2429968 feature_state=surface native_floor=false airborne=false
+PASS: sunken park Main: the genuine finite upper-port departure moves through air and returns to the actual ordinary bank without a capture loop or teleport
+PASS: sunken park Main: actual open-port flight emits one clean landing and no phantom tricks, repeated bank or score
+FAIL: sunken park Main: the optional-port return restores the real upright native capsule/floor cache and clear actual body/feet/camera
+SUNKEN PARK MAIN PORT entered=true air=true ordinary=true travel=2.427233 max_step=0.139565 camera=false landings=[true] tricks=[] at=(-196.6694, 12.47062, -187.7369)
+SUNKEN PARK PORT EVENT TRACE {"events":[{"airborne":false,"body":"(-195.2531, 12.3151, -188.25)","force_air_tick":false,"is_on_floor":true,"native_floor_valid":true,"state":"idle","tick":6262,"transition":false}],"final_airborne":false,"final_capsule_up":"(0.0, 1.0, 0.0)","final_floor":true,"final_force_air":false,"final_helper":"idle","final_native":true}
+RESULT: 69 passed, 2 failed

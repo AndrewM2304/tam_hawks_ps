@@ -1,3 +1,68 @@
+# Owner playtest repairs —24 October2026
+
+Implemented PLAYTEST-01…06 and repaired the20 retained full-suite failures on
+`review/owner-playtest-20261024`. **Required4555 passed/0 failed**, exit0, clean
+import/log,516 frozen inputs; final source manifest
+`dbba868443bea80bdcfa00084db682d0e4ffc62865be7115a39c35472fd3b5ee`.
+[Exact evidence/frames](testing/playtest-repairs-2026-10-24/README.md),
+[tasks and acceptance](planning/PLAYTEST-REPAIRS-2026-10-24.md),
+[ADR-031](architecture/decisions/ADR-031-owner-playtest-repairs.md).
+
+Knees use a rider-relative pole; rigid frames no longer accumulate scale and
+block rail pivots. Descending bowl pose anticipates the landed heading, removing
+the0.359m head snap (now0.136m). Summit spur/loop/crossing kerb shareY17;25 native
+rays and4 no-jump traversals pass. Steep bowl ollies give air and return with held
+approach input; fresh in-air Push selects a transfer. Three actual cases retain
+328 measured anatomical leg samples with no knees in the chest core. Ordinary
+flat pop/gravity stay unchanged. Both legacy camera modes complete4 proper apex
+arcs with zero supported side/unsafe frames; max view moves0.995/0.986m. Finite
+park lip/hip/port views and quiet ordinary ollies pass. Real pivot, contact,
+combo/bank and return-route checks pass.
+
+Park decks/curves/banks/walls/steps reuse the existing grey concrete, paving and
+masonry with retained steel; no new texture/material resource/draw surface or
+geometry topology. The Clyde bowl remains sunk/flush. Balanced/High use built-in
+13-tap PCF to reduce moving shadow-edge variation; Performance retains5 taps.
+The owner clarified shadows flicker. Same shadow atlas/light/bias/opacity/ranges
+and contact shadows; targeted on/off-control comparison improves7.7%, without
+claiming every shadow artifact eliminated.
+
+Final native Mac AppleM5/Compatibility:4 matched moving views,360 samples each,
+and3 actual mapped gameplay workloads,330 samples each, pass the recorded limited
+frame gates. All0 frames>33.333ms. Matched view draw/primitive maxima are identical;
+texture bytes47623163 unchanged, video bytes74396803→74395991. Opening moving
+Push p50/p95/p99:8.087/9.996/10.238ms before→8.224/10.013/10.964ms after.
+Full arrays/counters, native PNGs, source receipts and rejected runs are linked
+above. They are limited frame-latency observations, not uncontended performance,
+physical DualSense, export, fun or final visual acceptance. Broader stutter and
+required art cleanup remain release gates.
+
+Rejected full candidates4488/61,4537/12,4540/9,4538/11,4548/1 and two invalid
+render comparisons are retained. Stale board foot targets, an overlapping double
+flip fixture, cart/bowl-crossing return drivers and flat-reset curved-placement
+render initialization were corrected without relaxing native contact, visibility,
+scoring or continuity thresholds. A new acquisition assertion precedes the
+one-time fixture interpolation prime. Details and original negative witnesses
+are in the evidence. No production behavior was changed to hide a failing test.
+
+Commands use `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot`:
+`python3 docs/testing/horizon-background/observers/run_checked.py .local/playtest-fixes-20261024/full-06 ./tools/check.sh`;
+focused17/18 use `./tools/run.sh --headless --fixed-fps 60 --script .local/playtest-fixes-20261024/focused.gd -- park` / `-- repairs`;
+native captures use `REPAIR_CAPTURE_OUTPUT=<output> ./tools/run.sh --rendering-method gl_compatibility --windowed --resolution 1280x720 --fixed-fps 60 --audio-driver Dummy --script <recorded recipe>` under the same receipt wrapper.
+All recipes, argv, baseline archive audit, source/artifact hashes and exact
+results are durable. All75 original backlog bodies/statuses remain unchanged.
+No spend, new asset/code import, push, hosted CI, export, new agent or background
+loop. Diagnostics finished; source/task/evidence are committed on the feature
+branch. No publication is part of this checkpoint.
+
+Resume with owner manual review of limb/landing behavior, both summit directions,
+tap/charged bowl returns and a deliberate fresh transfer, ramp camera and opening
+shadows. Keep those human gates open honestly; do not resume unrelated broad
+polish/audits or automated continuation from this checkpoint. Required checks
+need not be repeated for documentation-only changes.
+
+---
+
 # Clyde bowl sunk into the quay —24October2026
 
 Owner-requested BOWL-01 is implemented on `review/owner-playtest-20261024`:

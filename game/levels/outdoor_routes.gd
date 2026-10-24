@@ -290,6 +290,7 @@ func _build_sunken_skatepark() -> void:
 	_skatepark.name = "KelvingroveSunkenSkatepark"
 	_skatepark.position = SKATEPARK_ORIGIN
 	add_child(_skatepark)
+	_skatepark.apply_finishes(_materials)
 	var points := _skatepark_access_points()
 	for i in points.size(): points[i] = to_local(points[i])
 	# The approach fits inside the existing five-metre summit apron and widens
@@ -423,6 +424,16 @@ func _build_park() -> void:
 	_park_cutback = Surface.smooth_points(PackedVector3Array([Vector3(-208,11,-126), Vector3(-226,10,-111), Vector3(-210,8,-86), Vector3(-185,6.5,-70), Vector3(-162,5,-54), Vector3(-147,4.5,-48)]))
 	_park_path = Surface.smooth_points(PackedVector3Array([
 		Vector3(-155, 6, -82), Vector3(-173, 7, -96), Vector3(-195, 9, -106), Vector3(-208, 11, -126), Vector3(-200, 13, -147), Vector3(-181, 15, -164), Vector3(-161, 17, -178), Vector3(-146, 15, -165), Vector3(-145, 11, -146), Vector3(-145, 6, -125), Vector3(-145, 6, -104), Vector3(-155, 6, -82)]))
+	# The viewpoint spur and terrace share this summit datum. Flatten the
+	# overlapping loop footprint too; a flat spur over a descending ribbon
+	# otherwise leaves a real 73mm step across the riding line.
+	var summit := Rect2(-181,-187,24,11)
+	for index in _park_path.size():
+		var point := _park_path[index]
+		var closest := Vector2(clampf(point.x,summit.position.x,summit.end.x),clampf(point.z,summit.position.y,summit.end.y))
+		var blend := 1.0-smoothstep(0.0,5.0,Vector2(point.x,point.z).distance_to(closest))
+		point.y = lerpf(point.y,17.0,blend)
+		_park_path[index] = point
 	# A level fork apron joins the two graded branches without overlapping lips.
 	for path: PackedVector3Array in [_park_path, _park_cutback]:
 		for index in path.size():
@@ -589,6 +600,13 @@ func _park_height(x: float, z: float) -> float:
 	var key := Vector2(x,z)
 	if _park_height_cache.has(key): return _park_height_cache[key]
 	var height := _park_facility_collar(x,z,_park_route_height(x,z))
+	# Keep every coarse terrain triangle under the shared summit paving, not
+	# just height-function samples at its centre. A five-metre shoulder covers
+	# the complete native grid cell across the spur/loop intersection.
+	var summit := Rect2(-181,-187,24,11)
+	var nearest := Vector2(clampf(x,summit.position.x,summit.end.x),clampf(z,summit.position.y,summit.end.y))
+	var distance := Vector2(x,z).distance_to(nearest)
+	if distance<8.0:height=minf(height,16.75+maxf(0.0,distance-5.0)*0.6)
 	_park_height_cache[key] = height
 	return height
 
@@ -959,6 +977,10 @@ func _conforming_path_edge(points: PackedVector3Array,outer_side: float) -> void
 			# The centre is the actual asphalt edge. A single outer-to-inner
 			# chord would sit below the asphalt halfway across, leaving a lip.
 			if side==0.0: at.y = maxf(at.y,points[i].y+0.008)
+			# A kerb must become flush through the summit's crossing path.
+			# Retain this ribbon/record and its exterior grade, but remove the
+			# crowned shoulder across the actual paved junction.
+			if Rect2(-170,-187,14,13).has_point(Vector2(at.x,at.z)):at.y=17.0
 			vertices.append(at)
 			normals.append(Vector3.ZERO)
 			uv.append(Vector2((side+1.0)*0.2,distance*0.5))

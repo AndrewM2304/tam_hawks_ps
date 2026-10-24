@@ -465,7 +465,7 @@ func reset_skater(preserve_camera:bool=false,preserve_support:bool=false) -> voi
 	_clear_special_visual()
 	_surface_pitch = 0.0
 	global_position = spawn_position
-	rotation = Vector3.ZERO
+	basis = Basis.IDENTITY
 	_ramp_air_frame = global_basis
 	_previous_ramp_air_frame = _ramp_air_frame
 	_ramp_air_normal = Vector3.UP
@@ -489,10 +489,10 @@ func reset_skater(preserve_camera:bool=false,preserve_support:bool=false) -> voi
 		_mount_board()
 		_visual_rig.reset()
 		_visual.position = Vector3.ZERO
-		_visual.rotation = Vector3.ZERO
-		_board_visual.rotation = Vector3.ZERO
+		_visual.basis = Basis.IDENTITY
+		_board_visual.basis = Basis.IDENTITY
 		_rider_visual.position = Vector3.ZERO
-		_rider_visual.rotation = Vector3(0.0, -PI / 2.0 + 0.28, 0.0)
+		_rider_visual.basis = Basis(Vector3.UP,-PI / 2.0 + 0.28)
 	if is_instance_valid(_camera) and not preserve_camera:
 		_camera.global_position = global_position + Vector3(0.0, 3.4, 6.0)
 		_camera.look_at(global_position + Vector3(0.0, 1.0, -1.5))
@@ -1881,6 +1881,12 @@ func get_camera_support_up() -> Vector3:
 
 
 func _update_pose(delta: float) -> void:
+	# These are rigid presentation frames. Repeated Euler/basis edits otherwise
+	# retain tiny scale errors across long runs and eventually reject real rail
+	# transfers or feed a nonrotation into landing-frame interpolation.
+	_visual.basis = _visual.basis.orthonormalized()
+	_board_visual.basis = _board_visual.basis.orthonormalized()
+	_rider_visual.basis = _rider_visual.basis.orthonormalized()
 	var was_flipping := _flip_remaining > 0.0
 	var was_grabbing := _grab_remaining > 0.0
 	_previous_ramp_air_frame=_ramp_air_frame
@@ -2016,6 +2022,15 @@ func _update_pose(delta: float) -> void:
 		var local_up := global_basis.inverse() * upcoming_normal
 		var pitch := atan2(local_up.z, local_up.y)
 		var target_basis := Basis.from_euler(Vector3(pitch, 0, -asin(clampf(local_up.x, -1, 1))))
+		if has_upcoming and _feature_transition.active and _feature_transition.feature.wrap_lateral and velocity.y<0.0:
+			# A carving bowl catch also changes heading to the landed tangent.
+			# Anticipate that whole frame, rather than snapping the torso's yaw
+			# on contact after having anticipated only the floor tilt.
+			var landing_forward := velocity.slide(upcoming_normal).normalized()
+			if landing_forward.length_squared()>0.5:
+				var landing_right := landing_forward.cross(upcoming_normal).normalized()
+				var landing_frame := Basis(landing_right,upcoming_normal,-landing_forward).orthonormalized()
+				target_basis = (global_basis.inverse()*landing_frame).orthonormalized()
 		if has_upcoming and not transition_active:
 			var distance_to_plane := (global_position - Vector3(upcoming.position)).dot(upcoming_normal)
 			var anticipation := 1.0 - smoothstep(0.22, 1.2, distance_to_plane)
@@ -2130,6 +2145,27 @@ func _update_pose(delta: float) -> void:
 		"bail_recovery_transform": Transform3D(Basis(Vector3.UP, -PI / 2.0 + 0.28), Vector3.ZERO)})
 
 	if wallriding: _place_wall_wheels()
+	if transition_active and not airborne and not lip_active and not grinding:
+		_place_transition_wheels()
+
+
+func _place_transition_wheels() -> void:
+	# An arc's chord can put the tyre edges below concrete even when its
+	# wheel-centre plane is clear. Fit the whole rigid presentation to the
+	# four native bearing planes; physical contact/momentum remain untouched.
+	var axis: Vector3 = transition_normal.normalized()
+	var lift := 0.0
+	for wheel: Dictionary in _visual_rig.board_contact_geometry().wheels:
+		var center: Vector3 = _board_visual.to_global(wheel.center)
+		var query := PhysicsRayQueryParameters3D.create(center+axis*0.18,center-axis*0.30,1)
+		query.exclude = [get_rid()]
+		var hit := get_world_3d().direct_space_state.intersect_ray(query)
+		if hit.is_empty() or Vector3(hit.normal).dot(axis)<0.7:continue
+		var normal: Vector3 = hit.normal
+		for vertex: Vector3 in wheel.points:
+			var gap := (_board_visual.to_global(vertex)-Vector3(hit.position)).dot(normal)
+			lift = maxf(lift,(0.002-gap)/maxf(0.7,normal.dot(axis)))
+	_visual.position += global_basis.inverse()*axis*minf(lift,0.025)
 
 
 func _process(delta: float) -> void:
@@ -2517,6 +2553,10 @@ func _tick_feature_transition(delta: float, push: float, brake: float) -> void:
 		"launch":
 			if not _ollie_released: _launch_id = "ollie"
 			_begin_air()
+			if _ollie_released and _feature_transition.feature.wrap_lateral and _feature_transition._theta>=PI*0.25 and velocity.y>1.0:
+				_ramp_air = true
+				_ramp_air_normal = Vector3(transition_normal.x,0,transition_normal.z).normalized()
+				_ramp_launch_forward = velocity.slide(_ramp_air_normal).normalized()
 			if _ollie_released: _set_launch_mode()
 			_jump_buffer_remaining = 0.0
 			combo_link_started.emit()
@@ -2536,6 +2576,7 @@ func _tick_feature_transition(delta: float, push: float, brake: float) -> void:
 			if airborne: _finish_landing()
 			combo_link_ended.emit()
 		"exit_air":
+			_ramp_air = false
 			_force_air_tick = true
 			_coyote_remaining = 0.0
 			if not airborne: _begin_air()

@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-24T21:53:45.281734+01:00",
+  "completed_london": "2026-10-24T21:54:01.873493+01:00",
+  "wall_seconds": 16.59173483296763,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--fixed-fps",
+    "60",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/playtest-fixes-20261024/moving.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 515,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "0adcb8bb6aa00bcb190465379458ccfa0d2031e29105f682149fe47e004728d4",
+  "git_head": "ad0f95ff175d3e4f37b2b5c8e3f8194471bd830f (verified source archive)"
+}

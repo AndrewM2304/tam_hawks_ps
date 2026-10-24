@@ -74,6 +74,8 @@ func _ready() -> void:
 	_build_barras()
 	_build_city()
 	_build_street_furniture()
+	# Publish the existing poured-concrete finish before the hilltop facility.
+	_transition_features = TransitionPark.build(self, _materials)
 	if ResourceLoader.exists("res://game/levels/outdoor_routes.gd"):
 		_outdoors = load("res://game/levels/outdoor_routes.gd").new()
 		_outdoors.name = "OutdoorRoutes"
@@ -81,7 +83,6 @@ func _ready() -> void:
 		_outdoors.build(self, _materials)
 	_fidelity_infill.build(self)
 	_build_exploration_boundaries()
-	_transition_features = TransitionPark.build(self, _materials)
 	_city_art.dress_world(self)
 	_extra_grind_lines = SkateEdges.build(self)
 	_surface_audit.build(self, get_grind_lines())

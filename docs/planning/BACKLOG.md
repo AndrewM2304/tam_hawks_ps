@@ -1,3 +1,15 @@
+**24 October — owner recording repairs implemented, QE review:** PLAYTEST-01…06
+and the20 prior regression failures are repaired. Required **4555/0**, clean/frozen;
+7 limited native view/gameplay frame gates pass, with current captures and retained
+negative evidence. [Repair tasks](PLAYTEST-REPAIRS-2026-10-24.md),
+[ADR-031](../architecture/decisions/ADR-031-owner-playtest-repairs.md),
+[evidence](../testing/playtest-repairs-2026-10-24/README.md) and newest STATUS own
+exact scope/results. Limb frames, summit seam, bowl intent/return, ramp camera,
+park finishes, shadow filtering, rail pivots and obsolete test fixtures are
+addressed. Owner feel/visual, full stutter, physical-controller and export gates
+remain open. All75 original ticket bodies/statuses remain unchanged. No unrelated
+work, release or background continuation is authorized by this checkpoint.
+
 **24 October standalone bowl repair:** [BOWL-01](CLYDE-BOWL-2026-10-24.md) lowers ClydeEastBowl into the quay, removes its raised access ramp, excavates native ground and reuses surrounding paving. Focused50/0 and matched native frames are recorded; the required suite reports4521/20 with the same20 failures reproduced on unchanged baseline4517/20. Broader regression acceptance remains open. This bounded owner repair preserves all75 full task bodies and the separate recording defects.
 
 **24 October owner recording defects:** [PLAYTEST-01…06](OWNER-PLAYTEST-2026-10-24.md) prioritize leg/body continuity, the native summit join, bowl air/exit intent, new-park camera transitions, material coverage and lighting shimmer. Review/source inspection and one corrected read-only native probe are complete; repairs and broader gameplay acceptance remain open. No production behavior changed. Preserve the manual-test reserve, all75 full task bodies and existing remaining work.

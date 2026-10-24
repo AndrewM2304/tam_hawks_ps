@@ -1613,6 +1613,7 @@ static func _sunken_facility_skating(tree: SceneTree, game: Node, check: Callabl
 	game.skater.airborne=false
 	game.skater.rotation.y=atan2(-game.skater.velocity.x,-game.skater.velocity.z)
 	game.skater.set_physics_process(true)
+	await _prime_curved_fixture(tree,game,deep,check)
 	_phase="sunken_park_deep_native_carve"
 	var stats: Dictionary = WheelContact._stats()
 	var sweep := 0.0
@@ -1749,6 +1750,7 @@ static func _sunken_port_departure(tree: SceneTree, game: Node, park: Node3D, ch
 	game.skater.airborne=false
 	game.skater.rotation.y=atan2(-game.skater.velocity.x,-game.skater.velocity.z)
 	game.skater.set_physics_process(true)
+	await _prime_curved_fixture(tree,game,bowl,check)
 	_phase="sunken_park_native_port_departure"
 	var evidence := {"bails":0,"landings":[],"tricks":[],"landing_frames":[]}
 	var on_bail := func(): evidence.bails+=1
@@ -1770,7 +1772,7 @@ static func _sunken_port_departure(tree: SceneTree, game: Node, park: Node3D, ch
 	native_steps.process_physics_priority=100
 	native_steps.process_mode=Node.PROCESS_MODE_PAUSABLE
 	game.world.add_child(native_steps)
-	var entered := false
+	var entered: bool = game.skater.transition_active and game.skater._feature_transition.feature==bowl
 	var departed := false
 	var ordinary := false
 	var after_departure := Vector3.INF
@@ -2187,3 +2189,19 @@ static func _frames(tree: SceneTree, count: int) -> void:
 		await tree.process_frame
 		_step += 1
 		if _observer.is_valid() and not _phase.is_empty(): await _observer.call(_phase, _game, _step)
+
+
+static func _prime_curved_fixture(tree: SceneTree, game: Node, feature: Node3D, check: Callable) -> void:
+	# Initial placement is complete only after native acquisition has supplied
+	# the slope pose. Otherwise the first drawn frame interpolates a flat reset
+	# board through the bowl, even though this fixture declares curved support.
+	# Prime once from that measured frame; all later motion/visibility is live.
+	await _frames(tree,1)
+	var rider: Node3D = game.skater
+	check.call(rider.transition_active and rider._feature_transition.feature==feature
+		and rider._feature_transition.state=="surface" and not rider.airborne
+		and rider._board_visual.global_basis.y.normalized().dot(rider.get_support_normal())>0.999,
+		"sunken park fixture: native acquisition establishes the declared curved board frame before render sampling")
+	rider._previous_ramp_air_frame=rider._ramp_air_frame
+	rider.reset_physics_interpolation()
+	rider._camera_follow.reset()

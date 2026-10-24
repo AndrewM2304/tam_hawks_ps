@@ -1,0 +1,25 @@
+{
+  "started_london": "2026-10-24T21:55:44.286960+01:00",
+  "completed_london": "2026-10-24T21:56:03.770278+01:00",
+  "wall_seconds": 19.48329837503843,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/playtest-fixes-20261024/capture.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 517,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "b87a97dd8a9b3a64e178c406b1a8d244da62c0ad2c4652a8ecff1a1d698055f0",
+  "git_head": "ad0f95ff175d3e4f37b2b5c8e3f8194471bd830f"
+}

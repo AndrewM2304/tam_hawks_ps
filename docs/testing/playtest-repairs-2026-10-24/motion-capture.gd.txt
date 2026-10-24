@@ -1,0 +1,51 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+const Tests=preload("res://tests/curved_visual_contact_tests.gd")
+var output:String
+var saved:=0
+var traces:Array=[]
+func _initialize() -> void:call_deferred("run")
+func check(ok:bool,label:String) -> void:
+ if not ok:push_error("FAIL: "+label)
+func frame() -> void:
+ await physics_frame;await process_frame;await RenderingServer.frame_post_draw
+func capture(game:Node,id:String) -> void:
+ root.get_texture().get_image().save_png(output.path_join(id+"-chase.png"))
+ var r:Node3D=game.skater
+ var rig:RefCounted=r._visual_rig
+ var mode:int=game.process_mode
+ var smode:int=r.process_mode
+ game.process_mode=Node.PROCESS_MODE_DISABLED;r.process_mode=Node.PROCESS_MODE_DISABLED
+ var review:=Camera3D.new();root.add_child(review);review.projection=Camera3D.PROJECTION_ORTHOGONAL;review.size=3.4;review.near=.05;review.far=220.
+ var up:Vector3=r._rider_visual.global_basis.y.normalized()
+ var target:Vector3=rig._head.global_position.lerp(rig._board.global_position,.55)
+ review.global_position=target+r._rider_visual.global_basis.x.normalized()*5.+up*.5
+ review.look_at(target,up);review.current=true
+ await process_frame;await RenderingServer.frame_post_draw
+ root.get_texture().get_image().save_png(output.path_join(id+"-profile.png"))
+ review.queue_free();r._camera.current=true;game.process_mode=mode;r.process_mode=smode
+ saved+=2
+func trace(phase:String,g:Node,step:int) -> void:
+ await RenderingServer.frame_post_draw
+ if phase=="curved_visual_bowl_flip_return" and step in [73,79,85,91,97,103,109,115]:await capture(g,"flip-%03d"%step)
+func run() -> void:
+ output=OS.get_environment("REPAIR_CAPTURE_OUTPUT");DirAccess.make_dir_recursive_absolute(output)
+ root.size=Vector2i(1280,720)
+ var game:=Main.new();game.persistence_enabled=false;root.add_child(game);game.start_mode(true)
+ Tests._observer=trace;Tests._game=game
+ await Tests._bowl_flip_return(self,game,check)
+ Tests._observer=Callable()
+ var r:CharacterBody3D=game.skater
+ for action in InputMap.get_actions():Input.action_release(action)
+ var bowl:Node3D=game.world.get_node("ClydeEastBowl");var sample:Dictionary=bowl.sample(1.1,0.)
+ game.start_mode(true);r.spawn_position=sample.point+sample.normal*.022;r.reset_skater();r.velocity=sample.tangent*5.;r.speed=5.;r.rotation.y=atan2(-r.velocity.x,-r.velocity.z)
+ await frame();await frame();Input.action_press("push");Input.action_press("ollie")
+ for i in 24:await frame()
+ Input.action_release("ollie")
+ for i in 130:
+  await frame()
+  traces.append({"frame":i,"body":str(r.global_position),"head":str(r._visual_rig._head.global_position),"air":r.airborne,"bail":r.bail_active,"ramp":r._ramp_air})
+  if i in [1,7,15,23,31,39,47,55]:await capture(game,"charged-%03d"%i)
+ FileAccess.open(output.path_join("trace.json"),FileAccess.WRITE).store_string(JSON.stringify(traces))
+ print("NATIVE_MOTION_CAPTURE images=",saved)
+ quit()

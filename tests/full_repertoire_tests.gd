@@ -807,6 +807,8 @@ static func _playable_rail_pivot(tree: SceneTree, game: Node, check: Callable) -
 	check.call(game.skater.grinding and captures == ["Grind_Rail_CentralGround"]
 		and game.score.combo_trick_count == 1 and game.score.combo_base == 200,
 		"full repertoire playable: pivot fixture acquires one actual authored rail through native contact")
+	check.call(game.skater._grind_clearance._rigid(game.skater._board_visual.global_basis),
+		"full repertoire playable: the actual board remains rigid after the preceding complete trick/landing sequence")
 	var heading: float = game.skater.rotation.y
 	var motion: Vector3 = game.skater.velocity
 	var before_speed: float = absf(game.skater.speed)
@@ -825,6 +827,14 @@ static func _playable_rail_pivot(tree: SceneTree, game: Node, check: Callable) -
 		before_speed = absf(game.skater._grind.speed)
 		await _physics(tree,1)
 		if game.skater.last_trick_id == "grind_pivot" or not game.skater.grinding: break
+	print("NATIVE_PIVOT_RESULT ",{"active":game.skater._grind_transfer.active,"phase":game.skater._grind_transfer.phase,
+		"rejected":game.skater._grind_transfer.last_rejection,"clearance":game.skater._grind_clearance.last_rejection,"pending":game.skater._grind_pending,
+		"style":game.skater.grind_style_id,"last":game.skater.last_trick_id,"bail":game.skater.bail_reason,
+		"controls":game.skater._controls_enabled,"entries":game.skater._trick_entries_enabled,"heading":game.skater.rotation.y,
+		"initial_heading":heading,"stance":game.skater.stance,"speed":game.skater.speed})
+	if not game.skater._grind_clearance.last_obstruction.is_empty():
+		var obstruction: Dictionary = game.skater._grind_clearance.last_obstruction
+		print("NATIVE_PIVOT_OBSTRUCTION ",obstruction," path=",obstruction.collider.get_path() if is_instance_valid(obstruction.collider) else "freed")
 	check.call(game.skater.grinding and absf(absf(angle_difference(heading,game.skater.rotation.y)) - PI) < 0.02
 		and game.skater.stance == "SWITCH" and game.skater.speed < 0.0,
 		"full repertoire playable: fresh rail Revert physically pivots facing and functional stance 180 degrees")

@@ -149,18 +149,32 @@ static func _repeat_flip(tree: SceneTree, check: Callable) -> void:
 	Input.action_release("ollie")
 	await _frames(tree, 1)
 	Input.action_press("flip")
-	await _frames(tree, 2)
+	await _frames(tree, 1)
 	Input.action_release("flip")
-	await _frames(tree, 2)
+	await _frames(tree, 1)
 	Input.action_press("flip")
 	await _frames(tree, 2)
 	check.call(seen.count("Kickflip") == 1,
 		"classic flip: a fresh press during the unfinished clip cannot overlap or score twice")
 	Input.action_release("flip")
-	# The shorter charged flight needs the fresh press after the actual clip
-	# ends, rather than the old fixed 34-frame jump schedule.
+	# That double tap legitimately upgrades the existing flip. A flat ollie
+	# cannot fit an upgraded double plus another flip. Test fresh sequencing in
+	# a separate real single-flip flight, without changing production pop.
+	await _dispose(tree,fixture)
+	fixture = await _fixture(tree)
+	rider = fixture.rider
+	seen.clear()
+	rider.trick_performed.connect(func(name: String, _points: int):seen.append(name))
+	Input.action_press("ollie")
+	await _frames(tree,36)
+	Input.action_release("ollie")
+	await _frames(tree,1)
+	Input.action_press("flip")
+	await _frames(tree,1)
+	Input.action_release("flip")
+	# Wait for both the actual single clip and physical catch phase.
 	for frame in 30:
-		if rider._flip_remaining <= 0.0: break
+		if rider._flip_remaining <= 0.0 and rider._flip_catch_remaining <= 0.0: break
 		await _frames(tree, 1)
 	Input.action_press("steer_right")
 	Input.action_press("flip")

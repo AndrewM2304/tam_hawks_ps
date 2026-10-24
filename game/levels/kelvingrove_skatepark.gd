@@ -132,6 +132,18 @@ func _flat(label: String, bounds: Rect2, height: float) -> void:
 		Vector3(bounds.position.x,height,bounds.end.y),Vector3(bounds.end.x,height,bounds.end.y),
 		Vector3(bounds.end.x,height,bounds.position.y)]))
 
+
+func apply_finishes(materials: Dictionary) -> void:
+	# Existing world-space mineral concrete, paving and masonry resources.
+	# No new textures/surfaces or doubled faces; steel retains its own finish.
+	for mesh: Node in find_children("*","MeshInstance3D",true,false):
+		if mesh.material_override!=_concrete:continue
+		var label := str(mesh.get_parent().name)
+		var key := "skate_concrete"
+		if label in ["ExcavatedUpperDeck","AnnularDeck"] or "Step" in label:key="paving"
+		elif "Retaining" in label or "OuterWall" in label:key="stone"
+		mesh.material_override=materials[key]
+
 func _ramp(label: String, corners: PackedVector3Array) -> void:
 	var faces := PackedVector3Array([corners[0],corners[1],corners[2],corners[0],corners[2],corners[3]])
 	if (faces[1]-faces[0]).cross(faces[2]-faces[0]).y>0:

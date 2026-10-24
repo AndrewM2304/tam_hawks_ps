@@ -109,7 +109,8 @@ static func _line(tree: SceneTree, game: Node, check: Callable, rail_id: String,
 		return_points=PackedVector3Array([Vector3(-35,2,69),Vector3(-25,2,69),Vector3(-25,3.4,89),
 			Vector3(-25,3.4,105),Vector3(-25,2,125),Vector3(-31,2,125),
 			Vector3(-25,2,125),Vector3(-25,3.4,105),Vector3(-25,3.4,89),
-			Vector3(-25,2,69),Vector3(-76,2,69),Vector3(start.x,2,start.z)])
+			# Leave room around the electric cart's landward patrol/end turn.
+			Vector3(-25,2,69),Vector3(-82,2,69),Vector3(-82,2,74),Vector3(start.x,2,start.z)])
 	var returned: Dictionary={"reached":false,"ticks":0}
 	if stable_bank and supported: returned=await Driver.drive(tree,game,return_points)
 	await Driver.stop(tree,game)
@@ -259,7 +260,9 @@ static func _river_circuit(tree: SceneTree, game: Node, check: Callable) -> void
 		points.append(hip.points[-1])
 		yard=await Driver.drive(tree,game,points)
 	var returned: Dictionary=await Driver.drive(tree,game,PackedVector3Array([
-		Vector3(53,2,138),Vector3(20,2,138),Vector3(0,2,138),Vector3(-25,2,124),
+		# The sunken Clyde bowl occupies(-7,134.5); take the clear through lane
+		# rather than asking the return driver to cross the bowl interior.
+		Vector3(53,2,138),Vector3(20,2,138),Vector3(14,2,124),Vector3(-25,2,124),
 		Vector3(-25,3.4,105),Vector3(-25,3.4,89),Vector3(-25,2,69),
 		Vector3(0,2,69),Vector3(20,2,69),Vector3(20,2,65)]))
 	await Driver.stop(tree,game)

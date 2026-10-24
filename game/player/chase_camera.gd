@@ -18,7 +18,8 @@ const MAX_MOTION_PITCH := 1.1344640138 # Generic flight only; ramp frame can poi
 const PITCH_RATE := 6.0
 const PITCH_RUN := 0.1
 const APEX_ORBIT_SECONDS := 0.36
-const AIR_RAMP_ARM := 3.6
+const AIR_RAMP_ARM := 1.8
+const FEATURE_RAMP_ARM := 2.0
 const ROLL_RATE := 6.0
 const MAX_CAMERA_SPEED := 48.0
 const ORBIT_ANGLES := [0.7853981634, -0.7853981634, 1.5707963268, -1.5707963268, 2.3561944902, -2.3561944902, PI]
@@ -41,6 +42,8 @@ var _orbit_up := Vector3.UP
 var _ramp_mode := false
 var _ramp_lift := 1.0
 var _ramp_turn := 0.0
+var _ramp_exit_remaining := 0.0
+var _return_arm := AIR_RAMP_ARM
 var _minimum_arm := MIN_USEFUL_ARM
 var _ground_query := PhysicsRayQueryParameters3D.new()
 var _ground_board_y := 0.0
@@ -75,6 +78,8 @@ func reset() -> void:
 	_ramp_mode = false
 	_ramp_lift = 1.0
 	_ramp_turn = 0.0
+	_ramp_exit_remaining = 0.0
+	_return_arm = AIR_RAMP_ARM
 	_minimum_arm = MIN_USEFUL_ARM
 	_ground_board_y = 0.0
 	_foot_targets.clear()
@@ -99,20 +104,21 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 		# The real wheel bearings sit below the nominal board landmark and
 		# planted soles. A shallow arrival bank can hide them independently.
 		if _wheel_landmarks.is_empty() and rig.has_method("board_contact_geometry"):
-			var unique:Dictionary={}
-			# Actual lower-rim support extrema include inner/outer, leading and
-			# trailing rubber. One minimum-Y vertex misses a bank at the rim.
-			for wheel:Dictionary in rig.board_contact_geometry().wheels:
-				for depth:float in [0.0,1.0,3.0]:
-					for side:float in [-1.0,1.0]:
-						for end:float in [-1.0,1.0]:
-							var direction:=Vector3(side,-depth,end)
-							var best:Vector3=Vector3.ZERO
-							var score:float=-INF
-							for point:Vector3 in wheel.points:
-								if point.dot(direction)>score:score=point.dot(direction);best=point
-							if is_finite(score):unique[best]=true
-			for point:Vector3 in unique:_wheel_landmarks.append(point)
+			var board_inverse: Transform3D = rig._board.global_transform.affine_inverse()
+			var unique: Dictionary = {}
+			for mesh: MeshInstance3D in rig.board_contact_geometry().meshes:
+				var hull: ConvexPolygonShape3D = mesh.mesh.create_convex_shape(true,false)
+				var vertices := PackedVector3Array()
+				for surface in mesh.mesh.get_surface_count():
+					vertices.append_array(mesh.mesh.surface_get_arrays(surface)[Mesh.ARRAY_VERTEX])
+				for extremity: Vector3 in hull.points:
+					var nearest := Vector3.ZERO
+					var distance := INF
+					for vertex: Vector3 in vertices:
+						var gap := vertex.distance_squared_to(extremity)
+						if gap<distance:distance=gap;nearest=vertex
+					unique[board_inverse*mesh.to_global(nearest)]=true
+			for point: Vector3 in unique:_wheel_landmarks.append(point)
 		if not _wheel_landmarks.is_empty() and not bool(rider.get("bail_active")):
 			var deck:Variant=rider.get("_board_visual")
 			if is_instance_valid(deck):
@@ -156,6 +162,7 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 		_body_up = _contact_up(rider)
 	var ramp_mode := bool(rider.get("transition_active")) or (bool(rider.get("airborne")) and bool(rider.get("_ramp_air")))
 	if _ramp_mode and not ramp_mode:
+		_ramp_exit_remaining = 0.55
 		# Continue behind the completed return; do not restart a second world
 		# heading/pitch turn from stale pre-ramp camera state.
 		var horizontal := Vector3(_travel_velocity.x,0,_travel_velocity.z)
@@ -164,15 +171,18 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	if ramp_mode != _ramp_mode:
 		_selected_angle = 0.0
 	_ramp_mode = ramp_mode
-	_minimum_arm = 1.6 if _ramp_mode else MIN_USEFUL_ARM
+	_minimum_arm = 1.6 if _ramp_mode or _ramp_exit_remaining>0.0 else MIN_USEFUL_ARM
 	_orbit_up = _body_up if _ramp_mode else Vector3.UP
 	if _ramp_mode:
-		if bool(rider.get("transition_active")):
+		var curved: Variant = rider.get("_feature_transition")
+		_return_arm = FEATURE_RAMP_ARM if curved!=null and curved.active else AIR_RAMP_ARM
+		if bool(rider.get("transition_active")) and (not bool(rider.get("airborne")) or not bool(rider.get("_ramp_air"))):
 			var support: Basis = rider.get_camera_support_frame()
 			_motion_direction = -support.z
 			_ramp_lift = clampf(_orbit_up.dot(Vector3.UP),0.0,1.0)
 			_ramp_turn = 0.0
-			distance = lerpf(AIR_RAMP_ARM,distance,_ramp_lift)
+			distance = lerpf(_return_arm,distance,pow(_ramp_lift,4.0))
+			if _travel_velocity.y< -0.1:distance=_return_arm
 		else:
 			# One half-circle in the skater's ramp plane, with one fixed side.
 			# The local up axis is the ramp normal, never world-up or trick yaw.
@@ -181,11 +191,14 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 			_ramp_turn = maxf(_ramp_turn,PI*smoothstep(0.0,1.0,progress))
 			_motion_direction = rider._ramp_launch_forward.rotated(_orbit_up,_ramp_turn).normalized()
 			_ramp_lift = 0.0
-			distance = AIR_RAMP_ARM
+			distance = _return_arm
 		rear = -_motion_direction
 		_horizontal_scale = 1.0
 		_motion_pitch = asin(clampf(_motion_direction.y,-1.0,1.0))
 	else:
+		_ramp_exit_remaining = maxf(0.0,_ramp_exit_remaining-step)
+		if _ramp_exit_remaining>0.0:
+			distance = lerpf(_return_arm,distance,smoothstep(0.0,0.30,0.30-_ramp_exit_remaining))
 		rear = _heading(rider,rear,step)
 		var travel := _travel_velocity
 		# Ordinary ollies do not pitch the chase along their vertical velocity.
@@ -263,6 +276,16 @@ func _advance_clear(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Ve
 			var candidate := _sweep(space, previous, previous.lerp(limited, float(index)/8.0))
 			if _usable(space, board, anchor, candidate, excluded): return candidate
 		if _usable(space, board, anchor, previous, excluded): return previous
+	# A grazing lip may close the straight chord before the next frame. Search
+	# the bounded neighbourhood for a clear continuation instead of jumping
+	# straight to a distant fallback endpoint. Every trial keeps the same volume
+	# and anatomical visibility checks.
+	var toward := (desired-previous).normalized()
+	for axis: Vector3 in [Vector3.UP,_body_up,Vector3.RIGHT,Vector3.LEFT,Vector3.BACK,Vector3.FORWARD]:
+		for weight: float in [0.5,1.0,2.0]:
+			var trial := previous+(toward+axis*weight).normalized()*max_move
+			if _clear_volume(space,previous):trial=_sweep(space,previous,trial)
+			if _usable(space,board,anchor,trial,excluded):return trial
 	return desired
 
 
@@ -418,9 +441,9 @@ func _usable(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Vector3, 
 		if hit.is_empty(): continue
 		# Grounded rubber already has a strict4mm contact band. Only that same
 		# actual endpoint support may be touched; an intervening bank/wall fails.
-		var under := PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.03,point-Vector3.UP*0.03,1|8,excluded)
+		var under := PhysicsRayQueryParameters3D.create(point+_body_up*0.03,point-_body_up*0.03,1|8,excluded)
 		var support := space.intersect_ray(under)
-		if support.is_empty() or support.collider!=hit.collider or Vector3(hit.normal).y<0.65 \
+		if support.is_empty() or support.collider!=hit.collider or Vector3(hit.normal).dot(_body_up)<0.65 \
 				or Vector3(support.normal).dot(hit.normal)<0.99 \
 				or absf((point-Vector3(support.position)).dot(support.normal))>0.004 \
 				or absf((point-Vector3(hit.position)).dot(hit.normal))>0.004: return false

@@ -1,0 +1,25 @@
+{
+  "started_london": "2026-10-24T21:41:04.042521+01:00",
+  "completed_london": "2026-10-24T21:41:19.354086+01:00",
+  "wall_seconds": 15.311528917052783,
+  "command": [
+    "./tools/run.sh",
+    "--rendering-method",
+    "gl_compatibility",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/playtest-fixes-20261024/shadow-motion.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 517,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "05f5557d83fef2e26a15444cdd0cc5690436b432cd3922c460e059da7bbb9811",
+  "git_head": "ad0f95ff175d3e4f37b2b5c8e3f8194471bd830f"
+}

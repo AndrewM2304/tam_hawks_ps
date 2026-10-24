@@ -10,6 +10,7 @@ var ready := false
 var component_count: int:
 	get: return _parts.size()
 var last_rejection := "unconfigured"
+var last_obstruction: Dictionary = {}
 var _parts: Array[Dictionary] = []
 var _space: PhysicsDirectSpaceState3D
 var _query := PhysicsShapeQueryParameters3D.new()
@@ -114,6 +115,7 @@ func allows_path(from: Transform3D, to: Style.ContactPose, support_up: Vector3) 
 
 ## Unweighted transfers have a real model frame without claiming rail contact.
 func allows_frame_path(from: Transform3D, to: Transform3D, support_up: Vector3) -> bool:
+	last_obstruction.clear()
 	if not ready or not _rigid(from.basis) or not from.origin.is_finite() \
 			or not _rigid(to.basis) or not to.origin.is_finite() \
 			or not support_up.is_finite() or support_up.length_squared()<0.5:
@@ -143,7 +145,10 @@ func allows_frame_path(from: Transform3D, to: Transform3D, support_up: Vector3) 
 			part.sweep = sweep
 			_sweep_shape.points = sweep
 			_query.shape = _sweep_shape
-			if not _space.intersect_shape(_query,1).is_empty():
+			var hits := _space.intersect_shape(_query,1)
+			if not hits.is_empty():
+				last_obstruction=hits[0].duplicate()
+				last_obstruction["frame"]=first
 				_query.margin = 0.0
 				last_rejection = "model_path_obstruction"
 				return false

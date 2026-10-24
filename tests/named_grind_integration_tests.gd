@@ -127,7 +127,9 @@ class Sampler extends Node:
 					max_rail_side_error = maxf(max_rail_side_error, absf(actual.x))
 				for leg: Dictionary in rider._visual_rig._legs:
 					var actual_foot := board.to_local(leg.foot.global_position)
-					var expected := Vector3(-.015 if leg.side < 0.0 else .015, .079, float(leg.side) * .255)
+					# Current original GLB stance sits inside the kicks,35mm inboard
+					# of the previous procedural board's axle-centred foot targets.
+					var expected := Vector3(-.015 if leg.side < 0.0 else .015, .0784, float(leg.side) * .220)
 					max_foot_deck_error = maxf(max_foot_deck_error, actual_foot.distance_to(expected))
 			last_grind_velocity = rider.velocity
 			last_grind_board_forward = forward

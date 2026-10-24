@@ -670,7 +670,9 @@ func animate(delta: float, state: Dictionary) -> void:
 		var target: Vector3 = pose.target
 		var shoe_basis: Basis = pose.basis
 		var hip := pelvis_basis * Vector3(side * 0.105, 0.025, 0) + hips_origin
-		var knee_bend: Vector3 = _rider.global_basis.inverse() * _board.get_parent().global_basis * Vector3.UP + Vector3(side * 0.25, 0, -0.65)
+		# Knees bend in the rider's sagittal plane, independently of a spinning
+		# deck or a wall normal. An upward pole can reverse through the pelvis.
+		var knee_bend := pelvis_basis * Vector3(side*0.35,0,-1.0)
 		var knee := _joint(hip, target, 0.43, 0.41, knee_bend)
 		_garments.pose_leg(side, hip, knee, target)
 		leg["foot"].position = target

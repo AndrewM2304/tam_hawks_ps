@@ -27,6 +27,11 @@ static func apply(viewport: Viewport, skater: Node3D, world: Node3D, value: Vari
 	var budget := profile(id)
 	viewport.scaling_3d_scale = budget.scale
 	viewport.msaa_3d = budget.msaa
+	# Compatibility uses five versus thirteen fixed PCF taps. Keep the same
+	# atlas, light, range and contact shadow; smooth moving edges on normal
+	# presets without the extra scene passes of split directional shadows.
+	RenderingServer.directional_soft_shadow_filter_set_quality(
+		RenderingServer.SHADOW_QUALITY_SOFT_LOW if id=="performance" else RenderingServer.SHADOW_QUALITY_SOFT_HIGH)
 	viewport.use_occlusion_culling = SOLID_WALL_OCCLUSION
 	var camera := skater.get_node_or_null("ChaseCamera") as Camera3D
 	if camera != null: camera.far = budget.far

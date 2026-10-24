@@ -1,0 +1,50 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+func _initialize() -> void:call_deferred("run")
+func run() -> void:
+ var output:=OS.get_environment("REPAIR_CAPTURE_OUTPUT")
+ DirAccess.make_dir_recursive_absolute(output)
+ root.size=Vector2i(1280,720)
+ var game:=Main.new();game.persistence_enabled=false;root.add_child(game);game.start_mode(true)
+ for i in 45:await physics_frame;await process_frame
+ var camera:Camera3D=game.skater._camera
+ var opening:=camera.global_position
+ freeze(game)
+ var views:Array=[
+  {"id":"opening","eye":opening,"target":game.skater.global_position+Vector3.UP},
+  {"id":"park","eye":Vector3(-182,40,-162),"target":Vector3(-207.5,14,-185)},
+  {"id":"summit","eye":Vector3(-155,23,-168),"target":Vector3(-165,17,-180)},
+  {"id":"clyde","eye":Vector3(-7,22,131),"target":Vector3(-7,1,134.5)}]
+ var result:Dictionary={}
+ for view:Dictionary in views:
+  var times:Array[float]=[]
+  var draws:Array=[];var primitives:Array=[]
+  for i in 390:
+   camera.global_position=view.eye+Vector3(sin(i*.02)*.6,0,cos(i*.02)*.6)
+   camera.look_at(view.target)
+   var start:=Time.get_ticks_usec()
+   var expected:=camera.global_position
+   await process_frame;await RenderingServer.frame_post_draw
+   if camera.global_position.distance_to(expected)>0.001:
+    push_error("FAIL: review camera was overwritten");quit(1);return
+   if i>=30:
+    times.append((Time.get_ticks_usec()-start)/1000.0)
+    draws.append(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
+    primitives.append(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
+  var img:=root.get_texture().get_image()
+  img.save_png(output.path_join(view.id+".png"))
+  var sorted:=times.duplicate();sorted.sort()
+  var long_frames:=0
+  for ms:float in times:
+   if ms>33.333:long_frames+=1
+  result[view.id]={"p50_ms":sorted[179],"p95_ms":sorted[341],"p99_ms":sorted[356],"over_33ms":long_frames,
+   "draw_max":draws.max(),"primitives_max":primitives.max(),"frame_ms":times,
+   "texture_memory":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),
+   "video_memory":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED),"size":str(img.get_size())}
+ FileAccess.open(output.path_join("metrics.json"),FileAccess.WRITE).store_string(JSON.stringify(result))
+ print("NATIVE_REPAIR_CAPTURE four matched moving views;360 timing samples each; shadows retained")
+ quit()
+
+func freeze(node:Node) -> void:
+ node.process_mode=Node.PROCESS_MODE_DISABLED
+ for child:Node in node.get_children():freeze(child)

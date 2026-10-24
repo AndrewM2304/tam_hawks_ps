@@ -1,3 +1,27 @@
+## Owner recording repair contract —24 October2026
+
+[ADR-031](decisions/ADR-031-owner-playtest-repairs.md) and newest STATUS own
+verification. TransitionPark.build publishes its already allocated grey concrete
+as shared materials.skate_concrete before OutdoorRoutes builds the hilltop park.
+KelvingroveSkatepark.apply_finishes(materials) assigns existing concrete, paving,
+masonry and steel resources at startup; no new surfaces or per-tick construction.
+
+Bowl steep-wall/lip ollies give vertical air with released charge and carried
+upward/lateral momentum. While inside the actual bowl mouth, feature association
+survives distance from the finite wall; native contact owns the return. A held
+approach is not exit intent; a fresh in-air Push selects the existing transfer.
+Revert remains a landing/combo action. Ordinary flat pop/gravity are unchanged.
+Only an explicit steep bowl pop uses the ramp-air presentation flag; leaving
+feature air clears it before ordinary gravity resumes.
+
+Skater reset/pose frames remain rigid. Descending bowl presentation anticipates
+the native landing tangent as well as its normal. A displayed-wheel fit uses four
+native planes and at most25mm presentation offset, without changing physical
+motion. Chase caches actual board mesh extrema once, uses short ramp arms and a
+0.55s toe handoff, and preserves its clear-volume/landmark/sweep checks, single
+apex arc and quiet ordinary-air behavior. GraphicsQuality applies built-in13-tap
+PCF for Balanced/High and5-tap for Performance with unchanged shadow atlas/ranges.
+
 ## Clyde bowl excavation —24 October2026
 
 [ADR-030](decisions/ADR-030-clyde-bowl-excavation.md): ClydeEastBowl retains its
