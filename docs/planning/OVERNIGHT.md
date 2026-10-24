@@ -35,9 +35,11 @@ Commit clean tested source when appropriate. Do not purchase, provision, publish
 merge, send third-party messages or invent human acceptance. Stop overnight
 continuation by the morning window or when `OVERNIGHT_COMPLETE` is recorded.
 
-## Current checkpoint — OVERNIGHT_COMPLETE
+## Verified core checkpoint — full fidelity still in progress
 
-All requested engine/level work in the table is implemented. Final source passes
+The bounded core work in the table is implemented. This does not complete the
+owner's broader full-fidelity/polish request; the prior completion wording was too
+broad. `OVERNIGHT_COMPLETE` refers only to that engineering checkpoint. Final source passes
 `./tools/check.sh`:1817/0, exit 0,213 unchanged inputs. Cold-source Main/title 44/0
 and cold/warm/refusal/restoration pass with 210 unchanged inputs. Final28 PNG/44-check
 capture passes source stability, PNG CRC/row checks and independent source/image
@@ -54,5 +56,17 @@ It will not consume further included allowance while paused. No spending budget,
 token purchase, upgrade or billing change exists. The lease is complete/closed.
 No new native export is claimed. Human Mac/controller/feel, target performance,
 listening and final-art acceptance remain separate; bowls/spine structures and
-skitching remain their separate backlog scope. Resume only for actual new work
-or a reproduced issue, preserving the completed source and no-spend rule.
+skitching remain their separate backlog scope. Unfinished fidelity and polish work remains authorized under the owner's
+standing request. The continuation is currently paused; no automation was changed
+during the24 October status audit. Preserve the tested source and no-spend rule.
+
+## Remaining build priorities
+
+| Work | Owner / priority | Existing tickets | Acceptance / validation |
+|---|---|---|---|
+| Authentic Boneless/No Comply, stance/catch/landing and bail/recovery motion | A04/A05/A09, P0 | M01-004, M02-008, M05-002/006 | Real hand/foot contact and complete animation states; actual motion captures and physics regressions |
+| Broader lip and trick repertoire | A04/A05/A09, P1 | M02-001/002/003/006/008 | Distinct handplants/inverts/lip and other variants with valid support, input and score behavior |
+| Bowls/connected curved terrain/spine structures | A04/A05/A09, P1 | M02-011, M03-014 | Native approach/transfer/re-entry and camera tests across connected surfaces |
+| Full-map density, art and reachable-line finishing | A05/A08/A09, P0 | M03-014, M05-001/002, M06-007 | Ground-level natural-input review of usable surfaces and purposeful spaces, plus actual captures |
+| Planned route event, river stunt, park lap and skitch feasibility | A04/A05/A06/A09, existing priorities | M02-013, M03-015, M04-008/011 | Implement or document the existing scoped feasibility decisions and verify each real playable loop |
+| Current Mac package and hardware/feel/performance | A01/A04/A09 + Owner, P0 | M06-004/005/006, M07-003 | Fresh source-bound package; physical Mac/DualSense and moving-route evidence |

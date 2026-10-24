@@ -1,8 +1,10 @@
 # Current handoff — complete skating process, 24 October 2026
 
 **Tam Hawks Pro Skater**, Godot 4.6.3 Compatibility, local feature branch `work`.
-The requested navigation/trick implementation and current-level polish are
-implemented and source-bound Linux verification is complete. Use only the owner's
+The core navigation/trick checkpoint is implemented and source-bound Linux
+verification is complete. The owner's broader request for full trick fidelity
+and a thoroughly polished level remains IN PROGRESS. Earlier completion wording
+was too broad; the concrete remaining build work is recorded below. Use only the owner's
 remaining included weekly usage. **No spending budget, token purchase, upgrade,
 billing change, paid API, hosted CI, native export or remote publication occurred.**
 
@@ -64,14 +66,36 @@ zero bails. All six district-crossing lines stay connected and bank exactly once
 Both delivery lanes retain their exact1,650-point gap/manual line and earned
 payoff/return with clear cameras. Headless counts/captures are not performance data.
 
-## Completion and resumption
+## Verified checkpoint and remaining work
 
-`OVERNIGHT_COMPLETE` covers this requested engine/level implementation and its
-independent Linux checks. The bounded overnight continuation was **successfully
-paused after completion**, preserving remaining included usage; no future run is
-scheduled while paused. The workspace lease is closed. No requested engineering
-defect remains known from these checks; no further code change is needed merely
-to renew the already passing evidence.
+`OVERNIGHT_COMPLETE` records the bounded ADR-015 engineering checkpoint only.
+It must not be read as completion of the owner's entire request or Tony Hawk
+fidelity. The continuation was paused at that checkpoint; it is still paused.
+The user's24 October status question prompted this correction without changing
+game source or rerunning already passing checks.
+
+Concrete unfinished work:
+
+- Authentic trick motion: Boneless needs hand-to-board contact and No Comply needs
+  a grounded footplant sequence. Takeoff/catch/landing blends, stance-specific
+  motion and animated bail/recovery remain unfinished; current bails reset.
+- Trick breadth: one Lip Stall, only Double Kickflip/Heelflip and two original
+  specials do not constitute a full repertoire. Handplants/inverts, additional
+  lip/manual/flip variations and grab tweaks need implementation for that breadth.
+- Freer transition skating: the two authored quarter-pipes and deck transfers do
+  not implement bowls, arbitrary connected curved terrain or spine structures.
+- Level finishing: two practice pockets and audited ledges improve the map, but
+  full-map detail/density, convincing animation/art and natural reachable-line
+  review remain open. The55 eligible wall bodies/111 tracks include documented
+  exclusions; they do not prove universal use of every visible surface.
+- Planned broader gameplay remains unbuilt: skitching/traffic assessment, one
+  reversible route-changing event, the river stunt and park lap challenge.
+- Current-source Mac packaging, real DualSense/Apple Silicon performance, human
+  combo/score tuning, listening and final art acceptance remain outstanding.
+
+The next build priority is authentic trick/contact/recovery animation and a fuller
+lip repertoire, then wider transition terrain and remaining level polish.
+Preserve the verified core and no-spend/remaining-weekly-usage-only rule.
 
 Run `./tools/run.sh` to play current source. Native Mac packages were not rebuilt;
 older export receipts/packages do not contain these changes. Physical Mac/
