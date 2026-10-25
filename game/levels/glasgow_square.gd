@@ -795,7 +795,10 @@ func _building(at: Vector3, width: float, height: float, color: String, shop: St
 	building.position = at
 	building.rotation.y = yaw
 	add_child(building)
-	var closed_wall := _box(building, "Facade", Vector3(0.0, height / 2.0, 0.0), Vector3(width, height, 12.0), color, true)
+	# Closed scenery must remain solid below its raised frontage. The park's
+	# lower service ground can reach these bases from outside the square.
+	var foundation := at.y + 3.0 if shop in ["CIVIC CLOSE","CIVIC CHAMBERS","STATION APPROACH"] else 0.0
+	var closed_wall := _box(building, "Facade", Vector3(0.0, (height-foundation)/2.0, 0.0), Vector3(width, height+foundation, 12.0), color, true)
 	if shop == "CIVIC CHAMBERS":
 		# The raised park connector sees below this existing civic mass.
 		# Ground its visual only; retain the original solid/support contract.

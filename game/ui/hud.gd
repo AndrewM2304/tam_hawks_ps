@@ -2,6 +2,8 @@ extends CanvasLayer
 ## Controller-first presentation. Main owns all gameplay, persistence and audio state.
 
 signal restart_requested
+signal debug_requested
+var debug_input_blocked := false
 signal pause_requested
 signal free_skate_requested
 signal settings_changed(values: Dictionary)
@@ -361,6 +363,7 @@ func toggle_goals() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if debug_input_blocked:return
 	if event is InputEventKey and event.pressed: _controller_active = false
 	elif event is InputEventJoypadButton and event.pressed: _controller_active = true
 	elif event is InputEventJoypadMotion and absf(event.axis_value) > 0.5: _controller_active = true
@@ -480,6 +483,7 @@ func _build_title(content: VBoxContainer) -> void:
 	_button(content, "FREE SKATE", func(): _start_mode(true))
 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
 	_button(content, "CONTROLS", func(): _open_subpage("controls"))
+	_button(content, "PLAYTEST RECORDER  ·  2", func(): debug_requested.emit())
 	_label(content, "Play with a controller or keyboard. Your city is ready.", 14, MUTED).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 

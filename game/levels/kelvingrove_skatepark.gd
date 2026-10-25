@@ -66,7 +66,7 @@ func build() -> void:
 			holes.append(polygon)
 	_upper_deck(holes)
 	_flat("LowerStreetBasin",Rect2(-20,3.5,40,11.5),STREET_Y)
-	_flat("EastArrivalDeck",Rect2(17.5,3.5,2.5,11.5),0.0)
+	_box("EastArrivalDeck",Vector3(18.75,-0.75,9.25),Vector3(2.5,1.5,11.5),true)
 	# A ten-metre bank makes the destination usable before the first drop-in.
 	_ramp("BeginnerArrivalBank",PackedVector3Array([
 		Vector3(17.5,0,6.5),Vector3(7.5,STREET_Y,6.5),
@@ -86,6 +86,18 @@ func build() -> void:
 	_ramp("StepBypassBank",PackedVector3Array([
 		Vector3(2.0,0,3.5),Vector3(2.0,STREET_Y,9.5),
 		Vector3(5.0,STREET_Y,9.5),Vector3(5.0,0,3.5)]))
+	# Close the under-deck openings while preserving both bowl ports, stairs
+	# and the bypass bank. These spans meet their real entrance cheeks.
+	var openings:Array[Vector2]=[Vector2(-3.5,-.5),Vector2(2,5)]
+	for bowl:Node3D in [shallow,deep]:
+		var half:float=(bowl.floor_radius+bowl.radius+bowl.deck_length)*sin(bowl.port_half_angle())
+		openings.append(Vector2(bowl.position.x-half,bowl.position.x+half))
+	openings.sort_custom(func(a:Vector2,b:Vector2)->bool:return a.x<b.x)
+	var cursor:float=-20.
+	for opening:Vector2 in openings:
+		_box("NorthStreetRetaining",Vector3((cursor+opening.x)*.5,-.75,3.425),Vector3(opening.x-cursor,1.5,.15),true)
+		cursor=opening.y
+	_box("NorthStreetRetaining",Vector3((cursor+20.)*.5,-.75,3.425),Vector3(20.-cursor,1.5,.15),true)
 	var south_wall := _box("SouthRetainingFace",Vector3(0,-0.75,14.925),Vector3(40,1.5,0.15),true)
 	var west_wall := _box("WestRetainingFace",Vector3(-19.925,-0.75,9.25),Vector3(0.15,1.5,11.5),true)
 	_tag_grinds(south_wall,["Grind_Park_SouthRim"])
@@ -141,7 +153,7 @@ func apply_finishes(materials: Dictionary) -> void:
 		var label := str(mesh.get_parent().name)
 		var key := "skate_concrete"
 		if label in ["ExcavatedUpperDeck","AnnularDeck"] or "Step" in label:key="paving"
-		elif "Retaining" in label or "OuterWall" in label:key="stone"
+		elif "Retaining" in label or "OuterWall" in label or label=="NativePortCheeks":key="stone"
 		mesh.material_override=materials[key]
 
 func _ramp(label: String, corners: PackedVector3Array) -> void:

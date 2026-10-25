@@ -17,8 +17,10 @@ const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounter
 const CatEncounterSource = preload("res://game/characters/cat_encounter.gd")
 const MarketEncounterSource = preload("res://game/characters/market_encounter.gd")
 const FeatureHubSource = preload("res://game/features/feature_hub.gd")
+const PlaytestRecorder = preload("res://game/core/playtest_recorder.gd")
 const RUN_SECONDS := 120.0
 
+var playtest_recorder: CanvasLayer
 var score := ScoreSession.new()
 var career = CareerProgressSource.new()
 var gaps = GapTrackerSource.new()
@@ -144,6 +146,11 @@ func _ready() -> void:
 	if hud.has_signal("cosmetic_selected"):
 		hud.connect("cosmetic_selected", select_cosmetic)
 	apply_settings(career.settings, false)
+	playtest_recorder=PlaytestRecorder.new()
+	playtest_recorder.name="PlaytestRecorder"
+	add_child(playtest_recorder)
+	playtest_recorder.configure(self)
+	hud.debug_requested.connect(playtest_recorder.show_menu)
 	_refresh_hud()
 	if not OS.get_cmdline_args().has("--script") and hud.has_method("show_title"):
 		paused = true
@@ -152,6 +159,7 @@ func _ready() -> void:
 		hud.show_title()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_instance_valid(playtest_recorder) and (playtest_recorder.editing or playtest_recorder.busy):return
 	# Stick motion produces repeated events while held. Specials are discrete:
 	# attempt once per excursion, then require a return through the deadzone.
 	if event is InputEventJoypadMotion:
@@ -178,6 +186,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		hud.toggle_goals()
 
 func _process(_delta: float) -> void:
+	if is_instance_valid(playtest_recorder) and (playtest_recorder.editing or playtest_recorder.busy):return
 	_refresh_hud()
 
 func _physics_process(delta: float) -> void:

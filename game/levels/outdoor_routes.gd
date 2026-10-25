@@ -116,6 +116,10 @@ func _build_exploration_boundaries() -> void:
 		# enough to contain a deck ollie as well as a rider on the lower path.
 		var height := 5.0 if edge[0] == Vector2(-140,-141.8) else 3.0
 		_boundary("ParkRetainedBoundary",edge[0],edge[1],height)
+	# The station arrival turns north. Mark its closed west/south end instead
+	# of letting a straight-ahead run leave the asphalt through an open gap.
+	_boundary("StationParkArrivalGuard",Vector2(-130.2,7.8),Vector2(-150,7.8),4.5)
+	_boundary("StationParkArrivalGuard",Vector2(-150,7.8),Vector2(-150,-1),4.5)
 	# Bound BOTH sides of the landward void between the city and the quay.
 	# The river-facing edges remain the explicit, recoverable skating hazard.
 	var west_join := _approach_boundaries("ClydeWestApproach", -1.0)
@@ -427,6 +431,15 @@ func _build_park() -> void:
 	# The viewpoint spur and terrace share this summit datum. Flatten the
 	# overlapping loop footprint too; a flat spur over a descending ribbon
 	# otherwise leaves a real 73mm step across the riding line.
+	# Shared branch mouths use one grade; independently smoothed ribbons
+	# otherwise intersect as small ramps/ledges across the riding direction.
+	for path: PackedVector3Array in [_park_connector,_park_path,_park_cutback]:
+		for i in path.size():
+			for junction: Vector3 in [Vector3(-147,4.5,-48),Vector3(-155,6,-82)]:
+				var distance := Vector2(path[i].x-junction.x,path[i].z-junction.z).length()
+				var point := path[i]
+				point.y=lerpf(junction.y,point.y,smoothstep(7.0,14.0,distance))
+				path[i]=point
 	var summit := Rect2(-181,-187,24,11)
 	for index in _park_path.size():
 		var point := _park_path[index]
@@ -464,12 +477,23 @@ void fragment(){
 	if _skatepark_source != null: excavations.append(SKATEPARK_BOUNDS)
 	Surface.terrain(self, "KelvingroveRollingGround", PARK_LANDSCAPE, 2.5, _park_height, grass, excavations)
 	# The approaches are raised park embankments, not unsupported road ribbons.
-	var central_bank := Rect2(-215, -92, 85, 112)
+	var central_bank := Rect2(-215, -60, 85, 80)
+	var east_bank := Rect2(-140,-92.5,10,32.5)
 	var george_bank := Rect2(-145, -142, 103, 34)
 	var central_ground := Surface.terrain(self, "KelvingroveCentralEmbankment", central_bank, 2.5, _central_bank_height, grass)
+	# The old central grid overlapped the rolling grid across32m of hillside.
+	# Keep a disjoint L footprint, merged into the same resident body/surface.
+	var eastern := Surface.terrain(self,"ParkEastBankConstruction",east_bank,2.5,_central_bank_height,grass)
+	var joined := SurfaceTool.new();joined.begin(Mesh.PRIMITIVE_TRIANGLES)
+	joined.append_from(central_ground.get_child(0).mesh,0,Transform3D.IDENTITY)
+	joined.append_from(eastern.get_child(0).mesh,0,Transform3D.IDENTITY)
+	central_ground.get_child(0).mesh=joined.commit()
+	central_ground.get_child(1).shape.set_faces(central_ground.get_child(0).mesh.get_faces())
+	eastern.free()
 	_fill_enclosed_ground(central_ground)
 	Surface.terrain(self, "KelvingroveGeorgeEmbankment", george_bank, 3.0, _george_bank_height, grass)
 	_surfaces.append({"bounds": central_bank, "height_at": _central_bank_height, "spacing":2.5})
+	_surfaces.append({"bounds": east_bank, "height_at": _central_bank_height, "spacing":2.5})
 	_surfaces.append({"bounds": george_bank, "height_at": _george_bank_height, "spacing":3.0})
 	# Broad smooth asphalt ribbons share exact sampled physics/query coordinates.
 	_path("KelvingroveCentralApproach", _park_connector, 10.0, _material("asphalt"))
@@ -478,7 +502,7 @@ void fragment(){
 	_path("KelvingroveCutbackReturn", _park_cutback, 8.0, _material("asphalt"))
 	var hip := PackedVector3Array([Vector3(-224,8.0,-91), Vector3(-226,9.1,-84), Vector3(-220,8.4,-78)])
 	_path("KelvingroveCutbackHip", hip, 4.5, _material("paving"))
-	_rail("kelvingrove_cutback_ledge", PackedVector3Array([Vector3(-227.2,9.5,-84), Vector3(-221.2,8.8,-78)]), "ledge", 0.18)
+	_rail("kelvingrove_cutback_ledge", PackedVector3Array([Vector3(-227.2,9.28,-84), Vector3(-221.2,8.58,-78)]), "ledge", 0.18)
 	_legacy_edge_construction = true
 	_path_border(_park_path)
 	_legacy_edge_construction = false
@@ -580,7 +604,12 @@ func _central_bank_height(x: float, z: float) -> float:
 	var nearest := Surface.nearest_segment(_park_connector, Vector2(x, z))
 	var cutback := Surface.nearest_segment(_park_cutback, Vector2(x, z))
 	if float(cutback.distance) < float(nearest.distance): nearest = cutback
-	return lerpf(float(nearest.height) - 0.35, 0.5, smoothstep(7.0, 15.0, float(nearest.distance)))
+	var original := lerpf(float(nearest.height) - 0.35, 0.5, smoothstep(7.0, 15.0, float(nearest.distance)))
+	var at:=Vector2(x,z)
+	var seam:=Vector2(clampf(x,PARK_LANDSCAPE.position.x,PARK_LANDSCAPE.end.x),clampf(z,PARK_LANDSCAPE.position.y,PARK_LANDSCAPE.end.y))
+	var distance:=at.distance_to(seam)
+	if distance<8.0:return lerpf(_park_height(seam.x,seam.y),original,smoothstep(0.0,8.0,distance))
+	return original
 
 
 func _george_bank_height(x: float, z: float) -> float:
@@ -727,6 +756,12 @@ func _patch(id: String, bounds: Rect2, height: float, material: Material) -> voi
 
 func _path(id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "asphalt", visual_points: PackedVector3Array = PackedVector3Array()) -> void:
 	var body := Surface.strip(self, id, points, width, material, audio, visual_points)
+	if id=="KelvingroveCutbackHip":Surface.solidify_strip(body,_local_ground,_material("stone"))
+	if id in ["KelvingroveRollingLoop","KelvingroveCutbackReturn"]:
+		var approach:StaticBody3D=get_node("KelvingroveCentralApproach")
+		var vertices:PackedVector3Array=approach.get_meta("support_vertices")
+		for i in range(0,vertices.size()-2,2):
+			Surface.trim_visual_polygon(body,PackedVector2Array([Vector2(vertices[i].x,vertices[i].z),Vector2(vertices[i+1].x,vertices[i+1].z),Vector2(vertices[i+3].x,vertices[i+3].z),Vector2(vertices[i+2].x,vertices[i+2].z)]))
 	_surfaces.append({"points": points, "width": width, "support_vertices":body.get_meta("support_vertices")})
 
 

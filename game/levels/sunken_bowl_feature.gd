@@ -113,6 +113,20 @@ func _build_access() -> void:
 				cheeks.append_array(PackedVector3Array([a,c,b,b,c,d]))
 			else:
 				cheeks.append_array(PackedVector3Array([a,b,c,b,d,c]))
+	# The original cheeks stopped at the circular mouth. Continue both along
+	# the flat channel, closing the visible/collidable gap under the upper deck.
+	for side:float in [-1.,1.]:
+		var phi:=PI+side*port_half_angle()
+		var a:=Vector3(sin(phi)*outer,access_height,-cos(phi)*outer)
+		var b:=Vector3(a.x,access_height,channel_end_z)
+		var outward:=Vector3(signf(a.x)*.12,0,0)
+		var points:=PackedVector3Array([a,b,a+outward,b+outward])
+		for at:Vector3 in [a,b,a+outward,b+outward]:points.append(Vector3(at.x,radius,at.z))
+		for face:Array in [[0,4,1],[1,4,5],[2,3,6],[3,7,6],[4,6,5],[5,6,7],[0,2,4],[2,6,4],[1,5,3],[3,5,7]]:
+			var triangle:=PackedVector3Array([points[face[0]],points[face[1]],points[face[2]]])
+			if side>0:
+				var swap:=triangle[1];triangle[1]=triangle[2];triangle[2]=swap
+			cheeks.append_array(triangle)
 	_panel("NativePortCheeks",cheeks,_concrete_material())
 	# All access floor triangles must follow Godot's clockwise front-face
 	# convention. Native backface collision must not hide invisible concrete.

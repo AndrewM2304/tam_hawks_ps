@@ -7,7 +7,7 @@ const SKY_SHADER = preload("res://game/art/assets/horizon/horizon_sky.gdshader")
 const FOOTING_SHADER = preload("res://game/art/assets/horizon/footing_colour.gdshader")
 const MASONRY = preload("res://game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg")
 const ENCLOSED_GROUND = preload("res://game/levels/outdoor_routes.gd").ENCLOSED_GROUND
-const MAX_TRIANGLES := 846 # Original832 +six MAP-02 land +eight new park-contour triangles.
+const MAX_TRIANGLES := 910 # Original846 +64 measured station/junction contour footing triangles.
 const MAX_SURFACES := 4
 const BOTTOM := -35.0
 

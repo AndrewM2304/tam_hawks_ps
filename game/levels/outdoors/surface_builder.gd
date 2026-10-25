@@ -82,6 +82,10 @@ static func strip(parent: Node3D, id: String, points: PackedVector3Array, width:
 static func trim_visual_rect(body: StaticBody3D, bounds: Rect2) -> void:
 	var clip := PackedVector2Array([bounds.position,Vector2(bounds.end.x,bounds.position.y),
 		bounds.end,Vector2(bounds.position.x,bounds.end.y)])
+	trim_visual_polygon(body,clip)
+
+
+static func trim_visual_polygon(body: StaticBody3D, clip: PackedVector2Array) -> void:
 	for child: Node in body.get_children():
 		if not child is MeshInstance3D: continue
 		var visual := child as MeshInstance3D
@@ -109,6 +113,7 @@ static func trim_visual_rect(body: StaticBody3D, bounds: Rect2) -> void:
 						output.set_normal(normal)
 						output.set_uv(Vector2(point.x,point.z)*0.2)
 						output.add_vertex(point)
+		output.index()
 		output.generate_tangents()
 		visual.mesh=output.commit()
 
@@ -291,3 +296,29 @@ static func nearest_segment(points: PackedVector3Array, at: Vector2) -> Dictiona
 			best = distance
 			result = {"distance": sqrt(distance), "height": lerpf(points[i].y, points[i + 1].y, weight), "within": not ((i == 0 and raw_weight < 0.0) or (i == points.size() - 2 and raw_weight > 1.0))}
 	return result
+
+
+## Close a raised ribbon down to its actual resident ground. Reuse its body,
+## native shape and top surface; the masonry skirt is one startup-only surface.
+static func solidify_strip(body: StaticBody3D, ground: Callable, masonry: Material) -> void:
+	var vertices:PackedVector3Array=body.get_meta("support_vertices")
+	var perimeter:=PackedVector3Array([vertices[0]])
+	for i in range(1,vertices.size(),2):perimeter.append(vertices[i])
+	for i in range(vertices.size()-2,-1,-2):perimeter.append(vertices[i])
+	var tool:=SurfaceTool.new();tool.begin(Mesh.PRIMITIVE_TRIANGLES);tool.set_material(masonry)
+	for i in range(perimeter.size()-1):
+		var start:=perimeter[i];var finish:=perimeter[i+1]
+		var count:=maxi(1,ceili(start.distance_to(finish)/.5))
+		for j in count:
+			var a:=start.lerp(finish,float(j)/count);var b:=start.lerp(finish,float(j+1)/count)
+			var c:=Vector3(a.x,minf(a.y-.04,float(ground.call(a.x,a.z))-.08),a.z)
+			var d:=Vector3(b.x,minf(b.y-.04,float(ground.call(b.x,b.z))-.08),b.z)
+			var normal:=-(c-a).cross(b-a).normalized()
+			for at:Vector3 in [a,c,b,b,c,d]:
+				tool.set_normal(normal);tool.set_uv(Vector2(at.x+at.z,at.y)*.5);tool.add_vertex(at)
+	var mesh:MeshInstance3D=body.get_child(0)
+	var original:ArrayMesh=mesh.mesh
+	original.surface_set_material(0,mesh.material_override)
+	mesh.material_override=null
+	mesh.mesh=tool.commit(original)
+	body.get_child(1).shape.set_faces(mesh.mesh.get_faces())
