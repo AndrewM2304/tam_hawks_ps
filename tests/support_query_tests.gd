@@ -15,8 +15,10 @@ static func run(world: Node3D,check: Callable) -> void:
   {"name":"platform maximum Z with lower concourse","xz":Vector2(-99,-5),"height":2.0},
   {"name":"yard flush floor beyond the retained route ribbon","xz":Vector2(49,135),"height":2.0},
   {"name":"park hip actual sloping triangle","xz":Vector2(-227,-85),"height":8.852535},
-  {"name":"park port beside actual ribbon end","xz":Vector2(-147.856979,.915257),"height":1.669037},
-  {"name":"civic park port exact start cap","xz":Vector2(-42.087341,-119.001274),"height":5.75},
+  # PT24-07 removes the old35cm/25cm depressed shoulders. Independent
+  # native rays establish these new grass supports at the same fixed XZ.
+  {"name":"park port beside actual ribbon end","xz":Vector2(-147.856979,.915257),"height":2.0003},
+  {"name":"civic park port exact start cap","xz":Vector2(-42.087341,-119.001274),"height":5.98},
   {"name":"Clyde approach shared triangle diagonal","xz":Vector2(94.7650556628,47.6473132093),"height":1.0}
  ]:
   var at:=Vector3(fixture.xz.x,fixture.height,fixture.xz.y)

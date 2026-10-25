@@ -93,6 +93,9 @@ var _transition_features: Array = []
 var _transition_cooldown := 0.0
 var _transition_facing := 1.0
 var _ramp_air := false
+var _ramp_air_sequence := 0
+var last_physics_frame := -1
+var last_presentation_process_frame := -1
 var _ramp_air_frame := Basis.IDENTITY
 var _previous_ramp_air_frame := Basis.IDENTITY
 var _loose_board: RigidBody3D
@@ -302,6 +305,10 @@ var _grind_hold_points := 0
 var _buffered_manual_id := "manual"
 
 var _air_support_basis := Basis.IDENTITY
+const PLANAR_RIM_MAX_LIFT := 0.025
+const GROUND_PRESENTATION_SKIN := 0.008
+var _floor_wheel_shapes: Array[ConvexPolygonShape3D] = []
+var _floor_wheel_query := PhysicsShapeQueryParameters3D.new()
 const FeatureTransitionRide = preload("res://game/player/feature_transition_ride.gd")
 var _feature_transition = FeatureTransitionRide.new()
 var bail_progress: float:
@@ -326,6 +333,16 @@ func _ready() -> void:
 	collision_mask = 1 | 8
 	_build_skater()
 	_grind_clearance.rebuild(_board_visual,_visual_rig.board_contact_geometry(),get_rid())
+	# Startup-only exact tyre hulls; native finite-volume checks must not scan
+	# thousands of GLB vertices during ordinary skating.
+	for wheel: Dictionary in _visual_rig.board_contact_geometry().wheels:
+		var shape := ConvexPolygonShape3D.new()
+		shape.margin = 0.0
+		shape.points = wheel.points
+		_floor_wheel_shapes.append(shape)
+	_floor_wheel_query.collision_mask = collision_mask
+	_floor_wheel_query.collide_with_areas = false
+	_floor_wheel_query.exclude = [get_rid()]
 	# Original board's declared model bounds, reused for native world clearance.
 	_grind_board_box.size = GRIND_BOARD_SIZE
 	_grind_board_query.shape = _grind_board_box
@@ -487,12 +504,12 @@ func reset_skater(preserve_camera:bool=false,preserve_support:bool=false) -> voi
 	_steering = 0.0
 	if is_instance_valid(_visual):
 		_mount_board()
-		_visual_rig.reset()
 		_visual.position = Vector3.ZERO
 		_visual.basis = Basis.IDENTITY
 		_board_visual.basis = Basis.IDENTITY
 		_rider_visual.position = Vector3.ZERO
 		_rider_visual.basis = Basis(Vector3.UP,-PI / 2.0 + 0.28)
+		_visual_rig.reset()
 	if is_instance_valid(_camera) and not preserve_camera:
 		_camera.global_position = global_position + Vector3(0.0, 3.4, 6.0)
 		_camera.look_at(global_position + Vector3(0.0, 1.0, -1.5))
@@ -1159,6 +1176,7 @@ func _release_lip(jump: bool) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	last_physics_frame = Engine.get_physics_frames()
 	if bailing:
 		_tick_bail(delta)
 		return
@@ -1383,6 +1401,7 @@ func _begin_air(from_ramp: bool = false) -> void:
 	if airborne:
 		return
 	airborne = true
+	_ramp_air_sequence += 1
 	takeoff_mode = stance.capitalize()
 	_launch_age = 0.0
 	_trick_input.clear_recent()
@@ -2169,6 +2188,7 @@ func _place_transition_wheels() -> void:
 
 
 func _process(delta: float) -> void:
+	last_presentation_process_frame = Engine.get_process_frames()
 	_camera_follow.update(self, _camera, delta, _camera_sensitivity, _reduced_motion)
 
 
@@ -2553,9 +2573,15 @@ func _tick_feature_transition(delta: float, push: float, brake: float) -> void:
 		"launch":
 			if not _ollie_released: _launch_id = "ollie"
 			_begin_air()
-			if _ollie_released and _feature_transition.feature.wrap_lateral and _feature_transition._theta>=PI*0.25 and velocity.y>1.0:
+			# Natural vertical bowl departures need the same finite apex handoff
+			# as explicit steep pops. Otherwise the camera treats associated air
+			# as supported travel and keeps looking up through the return.
+			if _feature_transition.feature.wrap_lateral and _feature_transition._theta >= PI * 0.25 and velocity.y > 1.0:
 				_ramp_air = true
-				_ramp_air_normal = Vector3(transition_normal.x,0,transition_normal.z).normalized()
+				# Coping support is upright, unlike the departed curved face.
+				# Keep that real face normal for a lip jump's flight plane too.
+				var departure: Dictionary = _feature_transition.feature.lip_frame(_feature_transition._x)
+				_ramp_air_normal = Vector3(departure.face_normal).normalized()
 				_ramp_launch_forward = velocity.slide(_ramp_air_normal).normalized()
 			if _ollie_released: _set_launch_mode()
 			_jump_buffer_remaining = 0.0
@@ -2636,7 +2662,7 @@ func _native_board_floor() -> Dictionary:
 		# Preserve the established planar-floor pose exactly. A wheel can reach
 		# a short step before the rounded capsule does, even if their centre
 		# normals still agree, so verify all four locations before this shortcut.
-		if same_plane: return {}
+		if same_plane: return _native_planar_rim_fit(point,axis,frame)
 		axis = (rear-front).cross(right-left).normalized()
 		if axis.y<cos(floor_max_angle): return {}
 		var average := (front+rear)*0.25
@@ -2670,6 +2696,34 @@ func _native_board_floor() -> Dictionary:
 	if lift>0.10: return {}
 	point.y += lift
 	return {"position":point,"normal":axis}
+
+
+func _native_planar_rim_fit(point: Vector3, axis: Vector3, frame: Basis) -> Dictionary:
+	# Four centre rays can all see a flat floor while a lower diagonal tyre
+	# contour reaches a finite bank side. Keep the unchanged planar pose unless
+	# an actual tyre volume overlaps native scenery. Only presentation may lift.
+	var space := get_world_3d().direct_space_state
+	var pose := Transform3D(frame,point+axis*GROUND_PRESENTATION_SKIN+frame*_visual_rig._board_rest_position)
+	var lift := 0.0
+	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
+		_floor_wheel_query.shape = shape
+		_floor_wheel_query.transform = pose
+		_floor_wheel_query.motion = Vector3.ZERO
+		_floor_wheel_query.margin = 0.0
+		if space.intersect_shape(_floor_wheel_query,1).is_empty(): continue
+		var raised := pose
+		raised.origin.y += PLANAR_RIM_MAX_LIFT
+		_floor_wheel_query.transform = raised
+		_floor_wheel_query.margin = GROUND_PRESENTATION_SKIN
+		# A tall wall/ceiling is not a small support join and cannot be crossed
+		# by moving the drawn rider through it.
+		if not space.intersect_shape(_floor_wheel_query,1).is_empty(): return {}
+		_floor_wheel_query.motion = Vector3.DOWN*PLANAR_RIM_MAX_LIFT
+		var fractions := space.cast_motion(_floor_wheel_query)
+		if fractions.size()!=2: return {}
+		lift = maxf(lift,PLANAR_RIM_MAX_LIFT*(1.0-clampf(fractions[0],0.0,1.0)))
+	if lift<=0.000001: return {}
+	return {"position":point+Vector3.UP*lift,"normal":axis}
 
 
 

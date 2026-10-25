@@ -47,10 +47,27 @@ static func _geometry(tree: SceneTree, game: Node, check: Callable) -> void:
 	for label: String in ["ExcavatedUpperDeck","LowerStreetBasin","BeginnerArrivalBank","StepBypassBank"]:
 		for child: Node in park.get_node(label).get_children():
 			if not child is MeshInstance3D: continue
-			var normals: PackedVector3Array = child.mesh.surface_get_arrays(0)[Mesh.ARRAY_NORMAL]
+			var arrays: Array = child.mesh.surface_get_arrays(0)
+			var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+			var indices := PackedInt32Array()
+			if arrays[Mesh.ARRAY_INDEX]!=null:indices = arrays[Mesh.ARRAY_INDEX]
+			var faces: PackedVector3Array = child.mesh.get_faces()
 			upwards = upwards and child.material_override.cull_mode==BaseMaterial3D.CULL_BACK
-			for normal: Vector3 in normals: upwards = upwards and normal.y>0.90
-	check.call(upwards,"sunken park: actual floor mesh normals face upward with normal backface culling")
+			for i in range(0,faces.size(),3):
+				var normal := -(faces[i+1]-faces[i]).cross(faces[i+2]-faces[i]).normalized()
+				# Floor triangles point up, while the new retaining side triangles
+				# point out. Every stored normal must agree with its actual face;
+				# averaging a top/side seam into a false bevel is a rendering bug.
+				if absf(normal.y)<0.00001:
+					var center := Vector3(12.5,-0.75,8.5) if label=="BeginnerArrivalBank" else Vector3(3.5,-0.75,6.5)
+					var outside := ((faces[i]+faces[i+1]+faces[i+2])/3.0-center)*Vector3(1,0,1)
+					upwards = upwards and label in ["BeginnerArrivalBank","StepBypassBank"] and normal.dot(outside)>0
+				else:
+					upwards = upwards and normal.y>0.90
+				for offset: int in 3:
+					var vertex: int = indices[i+offset] if not indices.is_empty() else i+offset
+					upwards = upwards and normals[vertex].dot(normal)>0.999
+	check.call(upwards,"sunken park: floor normals point up and hard retaining-side normals point out with normal backface culling")
 	var compared := 0
 	var max_error := 0.0
 	var missing := 0

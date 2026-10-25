@@ -31,6 +31,7 @@ var _last_brake := 0.0
 var _air_push_armed := false
 var _air_brake_armed := false
 var _transfer_direction := 0.0
+var _applied_transfer_direction := 0.0
 var _collision: CollisionShape3D
 var _collision_rest := Transform3D.IDENTITY
 var _has_rest := false
@@ -39,6 +40,10 @@ var _half_height := 0.85
 func reset(body: CharacterBody3D = null) -> void:
 	if is_instance_valid(_collision) and _has_rest:
 		_collision.transform = _collision_rest
+		# The visible figure returns upright on release. Do not let the
+		# camera keep the invisible capsule's previous wall axis for one
+		# interpolated frame after that physical support has already ended.
+		_collision.reset_physics_interpolation()
 	if is_instance_valid(body):
 		body.up_direction = Vector3.UP
 	active = false
@@ -62,6 +67,7 @@ func reset(body: CharacterBody3D = null) -> void:
 	_air_push_armed = false
 	_air_brake_armed = false
 	_transfer_direction = 0.0
+	_applied_transfer_direction = 0.0
 	max_support_error = 0.0
 
 func try_enter(body: CharacterBody3D, velocity: Vector3) -> bool:
@@ -235,19 +241,11 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 	var had_air_move := _air_age > 0.0
 	_air_age += delta
 	var air_frame: Dictionary = feature.air_return_frame(body.global_position,_x)
-	# A fresh directional press after launch selects a deliberate transfer.
-	# Holding push through the approach retains the ordinary vertical return.
-	if push < 0.2: _air_push_armed = true
-	elif _air_push_armed:
-		_transfer_direction = -1.0
-		_air_push_armed = false
-	if brake < 0.2: _air_brake_armed = true
-	elif _air_brake_armed:
-		_transfer_direction = 1.0
-		_air_brake_armed = false
+	_update_transfer_intent(push, brake)
 	var transfer := _transfer_direction
 	if transfer < 0.0 and (push < 0.2 or body.global_position.y < float(air_frame.lip_height) + 0.30): transfer = 0.0
 	if transfer > 0.0 and brake < 0.2: transfer = 0.0
+	_applied_transfer_direction = transfer
 	var horizontal := Vector3(_air_velocity.x, 0, _air_velocity.z)
 	var limit := maxf(3.5, horizontal.length())
 	var outward: Vector3 = air_frame.normal
@@ -298,6 +296,27 @@ func _tick_air(body: CharacterBody3D, delta: float, steer: float, push: float, b
 		body.velocity = _air_velocity
 		return _end(body, "exit_air")
 	return _result(body, "")
+
+## Recognize the input edge independently of clearance. The recorder must be
+## able to distinguish a held approach from a recognized request below the lip.
+func _update_transfer_intent(push: float, brake: float) -> void:
+	if push < 0.2: _air_push_armed = true
+	elif _air_push_armed:
+		_transfer_direction = -1.0
+		_air_push_armed = false
+	if brake < 0.2: _air_brake_armed = true
+	elif _air_brake_armed:
+		_transfer_direction = 1.0
+		_air_brake_armed = false
+
+func transfer_intent_snapshot() -> Dictionary:
+	var in_air := active and state == "air"
+	return {"active": in_air, "requested_direction": _transfer_direction if in_air else 0.0,
+		"recognized": in_air and not is_zero_approx(_transfer_direction),
+		"applied_direction": _applied_transfer_direction if in_air else 0.0,
+		"push_armed": in_air and _air_push_armed, "brake_armed": in_air and _air_brake_armed,
+		"air_age": _air_age if in_air else 0.0,
+		"last_push": _last_push, "last_brake": _last_brake}
 
 func _recover_upright_floor(body: CharacterBody3D) -> bool:
 	# An oriented foot can touch a bank below the legal upright capsule origin.
@@ -380,6 +399,7 @@ func _launch(body: CharacterBody3D, velocity: Vector3, event: String) -> Diction
 	_air_push_armed = _last_push < 0.2
 	_air_brake_armed = _last_brake < 0.2
 	_transfer_direction = 0.0
+	_applied_transfer_direction = 0.0
 	body.velocity = velocity
 	return _result(body, event)
 

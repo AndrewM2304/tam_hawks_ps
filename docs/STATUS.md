@@ -1,3 +1,53 @@
+# PT24 source repair batch — 25 October 2026
+
+Work is directly on **main**, based on `0b8b30e`. Six agents divided world/park,
+skating/camera, recorder/pose, station/gate and independent geometry; integration
+reconciled the source and preserved the owner's exact screenshot witnesses.
+[Repair record, results and remaining tickets](testing/pt24-repairs-2026-10-25/README.md)
+are the current handoff; older sections below are historical.
+
+The batch closes reported civic/quay boundary spans, adds missing park/shelter
+sides, smooths supported approaches, provides a usable lower-court return,
+removes proven duplicate paving/caps, repairs natural bowl camera recovery and
+backed-wall eligibility, initializes the rider pose and improves recorder frame/
+state evidence. It also reorients the existing station spine, clarifies the service
+shortcut and fits the fountain water. No district, train, pond, new asset or paid
+service is added. Fixed expected boundary spans, visible winding, native collision,
+protected openings and finite tyre volumes are checked deterministically.
+
+**Required suite: 4,657 passed / 0 failed**, exit 0, clean log, 538 unchanged inputs,
+344.941s. Command: `python3 docs/testing/horizon-background/observers/run_checked.py .local/pt24-admitted ./tools/check.sh`.
+[Receipt](testing/pt24-repairs-2026-10-25/validation/receipt.json) and source manifests
+bind the exact tested source; manifest SHA-256
+`b9360478a14b11cbe4d04ab6d4c2a285bfa739e19cdd670134b5f9b711421c70`.
+The two rejected repair runs (4,632/17 and 4,654/1) remain in the evidence folder.
+
+**Cold source: accepted four phases / 451 unchanged inputs.** Command:
+`python3 tools/source_launch_smoke.py --output .local/pt24-cold-final`.
+Cold/warm launch and normal title-to-play (44/0) pass; deliberate broken source
+in the disposable copy is correctly refused. No player profile is overwritten.
+
+**Rendered evidence:** fourteen supplied-camera views plus a normal startup
+frame, source-bound to the repaired code, are saved in the repair record. A forced
+pre-process draw is retained separately as rejected fixture evidence. Linux
+Compatibility/llvmpipe is not target Mac visual/performance acceptance.
+
+**Still open:** temporal flicker PT24-01/09/10/12/21; small grass/asphalt material
+intrusions in view11 under PT24-04/07; older contracted-body evidence; human
+Mac/DualSense, stutter and exports. PT24-15/16/17/18/19/20/25 remain Planned under
+the existing stutter/rendering admission. PT24-30 remains In progress; this is not
+closure of all thirty tickets. [Ticket overlay](planning/DEBUG-SESSION-2026-10-24.md).
+All 75 original backlog bodies/statuses remain intact.
+
+Resume on main from this committed source. Do not reapply the archival candidate
+patch or recreate feature branches. Inspect the current repair record before
+running more probes. Next independent work is the remaining material ownership
+and matched temporal shadow diagnosis; admit station/pond/design expansion only
+after its required performance gate. No hosted CI, release or background loop
+was started. The existing Mac source launcher remains unchanged.
+
+---
+
 # All existing work consolidated on main —25 October 2026
 
 Owner explicitly requests **everything on main and main-only future work**.

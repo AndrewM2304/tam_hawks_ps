@@ -1,3 +1,15 @@
+# PT24 implementation overlay — 25 October 2026
+
+The main-branch repair batch passes **4,657/0**, clean and source-stable, plus
+four cold-launch phases and bounded native frames. [Exact implementation,
+receipts and remaining scope](../testing/pt24-repairs-2026-10-25/README.md).
+PT24 source repairs and integration remain In progress for their moving/native
+acceptance; design tickets15/16/17/18/19/20/25 remain Planned. Temporal flicker,
+view11 grass/asphalt finish, prior contraction and target-hardware gates remain
+open. The following 75 original ticket bodies/statuses are preserved unchanged.
+
+---
+
 **25 October — main-only consolidation:** owner directs all work on **main**,
 with no new feature branches. All existing candidate code, recorder, tickets and
 evidence are now contained. Required frozen check4552/8 is rejected; geometry/

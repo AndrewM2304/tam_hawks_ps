@@ -42,6 +42,7 @@ var _orbit_up := Vector3.UP
 var _ramp_mode := false
 var _ramp_lift := 1.0
 var _ramp_turn := 0.0
+var _ramp_air_sequence := -1
 var _ramp_exit_remaining := 0.0
 var _return_arm := AIR_RAMP_ARM
 var _minimum_arm := MIN_USEFUL_ARM
@@ -78,6 +79,7 @@ func reset() -> void:
 	_ramp_mode = false
 	_ramp_lift = 1.0
 	_ramp_turn = 0.0
+	_ramp_air_sequence = -1
 	_ramp_exit_remaining = 0.0
 	_return_arm = AIR_RAMP_ARM
 	_minimum_arm = MIN_USEFUL_ARM
@@ -186,9 +188,9 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 		else:
 			# One half-circle in the skater's ramp plane, with one fixed side.
 			# The local up axis is the ramp normal, never world-up or trick yaw.
-			var time_to_apex: float = rider.velocity.y / rider.RAMP_AIR_GRAVITY
-			var progress := clampf(1.0-(time_to_apex-1.0/14.0)/APEX_ORBIT_SECONDS,0.0,1.0)
-			_ramp_turn = maxf(_ramp_turn,PI*smoothstep(0.0,1.0,progress))
+			# A render may skip the brief supported frame between two returns.
+			# Reset from the physics launch identity, not that missing frame.
+			_advance_ramp_turn(int(rider.get("_ramp_air_sequence")),rider.velocity.y,rider.RAMP_AIR_GRAVITY)
 			_motion_direction = rider._ramp_launch_forward.rotated(_orbit_up,_ramp_turn).normalized()
 			_ramp_lift = 0.0
 			distance = _return_arm
@@ -262,6 +264,15 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	camera.fov = lerpf(camera.fov, desired_fov, 1.0 - exp(-3.0 * step))
 	_ready = true
 	_last_anchor = anchor
+
+
+func _advance_ramp_turn(sequence: int, vertical_speed: float, gravity: float) -> void:
+	if sequence != _ramp_air_sequence:
+		_ramp_air_sequence = sequence
+		_ramp_turn = 0.0
+	var time_to_apex := vertical_speed / gravity
+	var progress := clampf(1.0-(time_to_apex-1.0/14.0)/APEX_ORBIT_SECONDS,0.0,1.0)
+	_ramp_turn = maxf(_ramp_turn,PI*smoothstep(0.0,1.0,progress))
 
 
 func _advance_clear(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Vector3, previous: Vector3, desired: Vector3, excluded: Array[RID], max_move: float) -> Vector3:

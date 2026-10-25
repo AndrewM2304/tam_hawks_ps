@@ -1,0 +1,16 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PHYSICS_INVENTORY bodies=564 shapes=1681 protected_bodies=271 protected_shapes=728 bench_bodies=12 bench_boxes=44 identified=true additions={ "new_native_factory": { "bodies": 47, "shapes": 195 }, "new_infill_solids": { "bodies": 38, "shapes": 38 }, "new_infill_rail": { "bodies": 3, "shapes": 3 }, "new_composites": { "bodies": 31, "shapes": 31 }, "new_bins": { "bodies": 4, "shapes": 8 } } court_caps=2
+HELD_BACKDROP names=["ClydeEastContext", "ClydeWestContext", "ExistingBoundaryRetainingSkirts", "ParkNorthHillside", "ParkWestHillside", "StationServiceBacks"] surfaces=6 triangles=2948 per_node={ "ExistingBoundaryRetainingSkirts": { "surfaces": 1, "triangles": 156 }, "StationServiceBacks": { "surfaces": 1, "triangles": 148 }, "ClydeWestContext": { "surfaces": 1, "triangles": 456 }, "ClydeEastContext": { "surfaces": 1, "triangles": 484 }, "ParkWestHillside": { "surfaces": 1, "triangles": 918 }, "ParkNorthHillside": { "surfaces": 1, "triangles": 786 } } port_offenders={  }
+HELD_SKIRT_NATIVE_COVERAGE samples=16614 complete=true
+HELD_SKIRT_QUERY_WITNESS source=@StaticBody3D@6697 rendered=[(-56.5, 2.0, -41.8), (-51.625, 2.0, -41.8), (-50.0, 1.0, -41.8)] endpoint_height=1.0
+HORIZON CUBE SOURCE blocks=230 worst=0.00117583433166 where=(0, 128, 0)
+HORIZON CUBE IMPORT FILE path=res://.godot/imported/glasgow_horizon_cube.png-d445cc4a6292254f28162bd04b6f0dc5.ccube bytes=6291582 payload=6291450 sha256=e93517bd807f9ee70a1d473721b722dfc1abca10b61927313368f0b58e0a9ccd
+HORIZON CUBE IMPORT imported_bytes=6291450 sampled_mips=3 block_checks=690 worst_mean_error=0.00248133926652 where=face4 mip2 x8 y0
+HORIZON_NATIVE_PIXELS_DEFERRED: actual RGB8 import chains were checked; Dummy cannot verify GPU upload/readback. No GPU assertion is counted; native focused replay is required.
+HORIZON independent geometry samples=12600 triangles=760 area=80005.7109394073
+HORIZON WATER vertices=54 indices=0 normals=54 uvs=54 tangents=216 max_y=0.0 max_uv=0.0 min_normal_dot=1.0 max_normal_error=0.00001525902189 front_area=(-6460.0, -1102.0) missing= combined_triangles=922
+PHYSICS_INVENTORY bodies=564 shapes=1681 protected_bodies=271 protected_shapes=728 bench_bodies=12 bench_boxes=44 identified=true additions={ "new_native_factory": { "bodies": 47, "shapes": 195 }, "new_infill_solids": { "bodies": 38, "shapes": 38 }, "new_infill_rail": { "bodies": 3, "shapes": 3 }, "new_composites": { "bodies": 31, "shapes": 31 }, "new_bins": { "bodies": 4, "shapes": 8 } } court_caps=2
+HORIZON FOUNDATION triangles=64 faces=32 independent_samples=800 complete=true originals_valid=true
+PT24_FIXED_BOUNDARY_SAMPLES 1209
+RESULT: 66 passed, 0 failed

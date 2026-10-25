@@ -1,13 +1,22 @@
 # Playtest repair tickets — reviewed 25 October 2026
 
+**25 October implementation:** a coordinated code-repair batch is implemented on
+main; required check **4,657 passed / 0 failed**, clean and source-stable. [Changes, deterministic checks and exact remaining scope](../testing/pt24-repairs-2026-10-25/README.md)
+supersede the original all-Planned summary below. PT24-02/03/04/05/06/07/08/09/11/
+13/14/22/23/24/26/27/28/29 are In progress with source repairs; moving/native
+acceptance is separate. PT24-01 has a confirmed duplicate-paving repair but retains
+temporal shadow diagnosis. PT24-10/12/21 remain open rendering defects.
+PT24-15/16/17/18/19/20/25 remain Planned under the existing rendering/stutter
+admission. PT24-30 remains In progress; this batch does not close every witness.
+
 **25 October update: all captured candidate code and planning are on main. Work
 directly on main; do not create feature branches or reapply the evidence patch.
-Older recovery/branch directions below are historical. Required current check
-is4552 passed/8 failed; see newest STATUS and main-consolidation evidence.**
+Older recovery/branch directions below are historical. The consolidation baseline
+was4552 passed/8 failed; the newer implementation receipt above supersedes it.**
 
-Planning only. The owner will start implementation in a separate cloud session;
-this review does not launch agents, change gameplay, or certify any fix.
-These are **30 local tickets**, not published GitHub issues. All are **Planned**.
+The original review below was planning only; implementation is recorded above.
+These are **30 local tickets**, not published GitHub issues. Original review
+statuses were all **Planned**; the current overlay supersedes that summary.
 They refine the existing roadmap; the 75 full backlog records remain intact.
 
 Evidence: [portable review packet](../testing/debug-session-2026-10-24/README.md),

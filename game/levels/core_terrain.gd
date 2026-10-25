@@ -7,7 +7,8 @@ var polygons: Array[Dictionary] = []
 
 
 func add_patch(parent: Node3D, label: String, bounds: Rect2, heights: Vector4,
-		material: Material, surface_audio: String = "stone", deck_thickness: float = -1.0) -> StaticBody3D:
+		material: Material, surface_audio: String = "stone", deck_thickness: float = -1.0,
+		visible_top_exclusions: Array[Rect2] = []) -> StaticBody3D:
 	var corners: Array[Vector3] = [
 		Vector3(bounds.position.x, heights.x, bounds.position.y),
 		Vector3(bounds.end.x, heights.y, bounds.position.y),
@@ -40,8 +41,13 @@ func add_patch(parent: Node3D, label: String, bounds: Rect2, heights: Vector4,
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surface.set_smooth_group(-1)
-	for face: Array in [[0,1,2], [0,2,3], [4,6,5], [4,7,6], [0,4,5], [0,5,1],
-		[1,5,6], [1,6,2], [2,6,7], [2,7,3], [3,7,4], [3,4,0]]:
+	var faces: Array = [[0,1,2], [0,2,3], [4,6,5], [4,7,6], [0,4,5], [0,5,1],
+		[1,5,6], [1,6,2], [2,6,7], [2,7,3], [3,7,4], [3,4,0]]
+	for face_index: int in faces.size():
+		var face: Array = faces[face_index]
+		if face_index<2 and not visible_top_exclusions.is_empty():
+			_emit_patch_top(surface,body,PackedVector3Array([points[face[0]],points[face[1]],points[face[2]]]),visible_top_exclusions)
+			continue
 		for index: int in face:
 			surface.add_vertex(points[index])
 	surface.generate_normals()
@@ -51,6 +57,45 @@ func add_patch(parent: Node3D, label: String, bounds: Rect2, heights: Vector4,
 	body.add_child(mesh)
 	patches.append({"bounds": bounds, "heights": heights, "id": label})
 	return body
+
+
+## Cut shared top-face seams only. Exclusions use world XZ and must reach a
+## triangle edge; these material-ownership cuts do not excavate enclosed holes.
+## Collision, retaining faces, support data and the original planes stay intact.
+func _emit_patch_top(surface: SurfaceTool,body: StaticBody3D,local: PackedVector3Array,
+		exclusions: Array[Rect2]) -> void:
+	var source := PackedVector3Array()
+	var footprint := PackedVector2Array()
+	for point: Vector3 in local:
+		var world := body.to_global(point)
+		source.append(world)
+		footprint.append(Vector2(world.x,world.z))
+	var pieces: Array[PackedVector2Array] = [footprint]
+	for exclusion: Rect2 in exclusions:
+		var rectangle := PackedVector2Array([exclusion.position,
+			Vector2(exclusion.end.x,exclusion.position.y),exclusion.end,
+			Vector2(exclusion.position.x,exclusion.end.y)])
+		var remaining: Array[PackedVector2Array] = []
+		for piece: PackedVector2Array in pieces:
+			remaining.append_array(Geometry2D.clip_polygons(piece,rectangle))
+		pieces = remaining
+	var ab := footprint[1]-footprint[0]
+	var ac := footprint[2]-footprint[0]
+	var determinant := ab.cross(ac)
+	for piece: PackedVector2Array in pieces:
+		var indices := Geometry2D.triangulate_polygon(piece)
+		for index in range(0,indices.size(),3):
+			var triangle := PackedVector3Array()
+			for corner: int in [indices[index],indices[index+1],indices[index+2]]:
+				var relative := piece[corner]-footprint[0]
+				var u := relative.cross(ac)/determinant
+				var v := ab.cross(relative)/determinant
+				triangle.append(body.to_local(source[0]*(1-u-v)+source[1]*u+source[2]*v))
+			if (triangle[1]-triangle[0]).cross(triangle[2]-triangle[0]).dot((local[1]-local[0]).cross(local[2]-local[0]))<0:
+				var swap := triangle[1]
+				triangle[1] = triangle[2]
+				triangle[2] = swap
+			for point: Vector3 in triangle:surface.add_vertex(point)
 
 
 ## A simple polygon footprint with a retaining foundation, for angled streets/courts.
@@ -136,14 +181,23 @@ func height_at(x: float, z: float, maximum_height: float = INF) -> float:
 			# builders. This fallback cannot override an adjacent interior floor.
 			outer_edge = height
 	for polygon: Dictionary in polygons:
-		if not Geometry2D.is_point_in_polygon(Vector2(x, z), polygon.footprint): continue
 		var triangles: PackedInt32Array = polygon.triangles
 		var corners: PackedVector3Array = polygon.points
 		for index in range(0, triangles.size(), 3):
 			var a := corners[triangles[index]]
 			var b := corners[triangles[index + 1]]
 			var c := corners[triangles[index + 2]]
-			if not Geometry2D.point_is_inside_triangle(Vector2(x, z), Vector2(a.x, a.z), Vector2(b.x, b.z), Vector2(c.x, c.z)): continue
+			# Native retaining prisms include their shared diagonals and outer
+			# edges. Strict polygon/triangle predicates excluded those exact
+			# contacts and incorrectly selected the lower service-court floor.
+			var ab := Vector2(b.x-a.x,b.z-a.z)
+			var ac := Vector2(c.x-a.x,c.z-a.z)
+			var relative := Vector2(x-a.x,z-a.z)
+			var determinant := ab.cross(ac)
+			if absf(determinant)<0.000000001:continue
+			var u := relative.cross(ac)/determinant
+			var v := ab.cross(relative)/determinant
+			if u< -0.000001 or v< -0.000001 or u+v>1.000001:continue
 			var normal := (b - a).cross(c - a)
 			var height := a.y - (normal.x * (x - a.x) + normal.z * (z - a.z)) / normal.y
 			if height <= maximum_height and (is_nan(found) or height > found): found = height

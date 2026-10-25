@@ -40,7 +40,12 @@ func configure(at: Vector3, route: PackedVector3Array, width: float = 2.3) -> vo
 		Art.box(_panel, "ShutterRib", Vector3(0, height, -0.11), Vector3(width, 0.045, 0.06), Color("a6b1ac"))
 	_sensor = BoxShape3D.new()
 	_sensor.size = Vector3(width + 0.72, 3.4, 1.5)
-	Art.sign(self, Vector3(0, 3.2, -0.3), "SERVICE CUT-THROUGH\nOPEN / CLOSE")
+	# One compact, depth-tested sign reads from either approach without covering
+	# the passage. Live mapped interaction wording belongs to the ordinary HUD.
+	var sign := Art.sign(self, Vector3(0, 3.05, -0.3), "NORTH STREET ↔ SOUTH STREET\nSERVICE SHORTCUT")
+	sign.font_size = 32
+	sign.pixel_size = 0.004
+	sign.outline_size = 6
 	Art.box(self, "SwitchBox", Vector3(-1.18, 1.0, -0.45), Vector3(0.16, 0.24, 0.12), Color("c5944e"))
 
 func request_toggle() -> bool:
@@ -88,4 +93,8 @@ func status_snapshot() -> Dictionary:
 
 func route_definition() -> Dictionary:
 	return {"id": "service_gate_shortcut", "label": "Service cut-through · " + ("OPEN" if progress >= 0.99 else "CLOSED"),
-		"points": _route.duplicate(), "requires_jump": false, "enabled": progress >= 0.99}
+		"points": _route.duplicate(), "requires_jump": false, "enabled": progress >= 0.99,
+		"destinations": PackedStringArray(["North station street", "South station street"])}
+
+func action_prompt() -> String:
+	return ("CLOSE" if requested_open else "OPEN") + " SHORTCUT · NORTH ↔ SOUTH STATION"

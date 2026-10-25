@@ -1,3 +1,15 @@
+# Current active work — 25 October 2026
+
+PT24 repairs are implemented directly on main. Required check **4,657/0**, clean,
+538 stable inputs; cold launch four phases pass, normal title-to-play44/0.
+[Current repair record](../testing/pt24-repairs-2026-10-25/README.md) and newest
+STATUS supersede historical directions below. Remaining work: temporal flicker,
+view11 material intrusions, prior contraction/hardware evidence and gated design
+tickets; PT24-30 stays In progress. Do not reapply the archived patch or create a
+feature branch. No further unrequested background continuation is running.
+
+---
+
 Latest owner direction24October2026: reconcile work onto current default, test
 and push`bootstrap/m00-m01`; authorized merge overrides earlier prohibition for
 this task. Integration in progress, no completion claim. Read[STATUS](../STATUS.md).

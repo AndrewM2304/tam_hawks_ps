@@ -1,4 +1,28 @@
-## Current candidate and branch policy —25 October2026
+## PT24 repair contracts —25 October2026
+
+Work remains directly on main. [The repair record](../testing/pt24-repairs-2026-10-25/README.md)
+distinguishes implemented code from moving/native acceptance and still-Planned
+design work. World ground queries select the highest finite core/outdoor terrain;
+support queries first filter both sources by the permitted step height, preserving
+the lower station route. `CoreTerrain.add_patch` accepts optional world-XZ
+`visible_top_exclusions`; these remove duplicate display triangles only, retaining
+the original collision, support planes and foundation faces.
+
+Natural steep upward bowl departures receive the same ramp-air presentation as
+explicit bowl pops. Fresh in-air Push remains the transfer command; held approach
+Push does not request an exit. Each physical launch identifies one camera apex
+handoff. Non-bowl hips retain their existing camera path, and restoring upright
+collision clears that invisible shape's stale interpolated wall orientation.
+Only explicitly opted-in, substantial backed perimeter masonry may pass the
+wallride audit; safety ironwork and other void guards remain excluded.
+
+Visual construction/reset applies a complete neutral pose before the first
+physics tick. Recorder reports separate configured IDs, active states, actual
+player physics ticks, completed rendered/interpolated transforms, input edges and
+historical bail cause. This does not equate native last-contact state with gameplay
+airborne state or establish the cause of earlier unrecorded body contraction.
+
+## Prior consolidation candidate and branch policy —25 October2026
 
 Owner requires direct main work, with no feature branches. Main now contains
 all work through5a2cba2, including the recorder and Kelvingrove world candidates.
@@ -33,7 +57,7 @@ upward/lateral momentum. While inside the actual bowl mouth, feature association
 survives distance from the finite wall; native contact owns the return. A held
 approach is not exit intent; a fresh in-air Push selects the existing transfer.
 Revert remains a landing/combo action. Ordinary flat pop/gravity are unchanged.
-Only an explicit steep bowl pop uses the ramp-air presentation flag; leaving
+Steep upward bowl departures use the ramp-air presentation flag; leaving
 feature air clears it before ordinary gravity resumes.
 
 Skater reset/pose frames remain rigid. Descending bowl presentation anticipates

@@ -294,31 +294,82 @@ static func nearest_segment(points: PackedVector3Array, at: Vector2) -> Dictiona
 		var distance := at.distance_squared_to(a + delta * weight)
 		if distance < best:
 			best = distance
-			result = {"distance": sqrt(distance), "height": lerpf(points[i].y, points[i + 1].y, weight), "within": not ((i == 0 and raw_weight < 0.0) or (i == points.size() - 2 and raw_weight > 1.0))}
+			var closest := a+delta*weight
+			var endpoint_distance := minf(closest.distance_to(Vector2(points[0].x,points[0].z)),
+				closest.distance_to(Vector2(points[-1].x,points[-1].z)))
+			result = {"distance": sqrt(distance), "height": lerpf(points[i].y, points[i + 1].y, weight),
+				"endpoint_distance":endpoint_distance,
+				"within": not ((i == 0 and raw_weight < 0.0) or (i == points.size() - 2 and raw_weight > 1.0))}
 	return result
 
 
 ## Close a raised ribbon down to its actual resident ground. Reuse its body,
 ## native shape and top surface; the masonry skirt is one startup-only surface.
-static func solidify_strip(body: StaticBody3D, ground: Callable, masonry: Material) -> void:
+static func solidify_strip(body: StaticBody3D, ground: Callable, masonry: Material,
+		covered: Array[Rect2] = []) -> void:
 	var vertices:PackedVector3Array=body.get_meta("support_vertices")
 	var perimeter:=PackedVector3Array([vertices[0]])
 	for i in range(1,vertices.size(),2):perimeter.append(vertices[i])
 	for i in range(vertices.size()-2,-1,-2):perimeter.append(vertices[i])
+	solidify_perimeter(body,perimeter,ground,masonry,covered)
+
+
+## The closed perimeter is independent of the terrain's triangulation. Face
+## winding follows its signed area, so skirts render from the accessible
+## exterior instead of only from inside the raised road.
+static func solidify_perimeter(body: StaticBody3D, perimeter: PackedVector3Array,
+		ground: Callable, masonry: Material, covered: Array[Rect2] = []) -> void:
+	assert(perimeter.size() >= 4 and perimeter[0].is_equal_approx(perimeter[-1]))
+	var signed_area := 0.0
+	for i in range(perimeter.size()-1):
+		signed_area += perimeter[i].x*perimeter[i+1].z-perimeter[i+1].x*perimeter[i].z
+	assert(absf(signed_area)>0.0001)
 	var tool:=SurfaceTool.new();tool.begin(Mesh.PRIMITIVE_TRIANGLES);tool.set_material(masonry)
+	var triangles := 0
+	var side_faces := PackedVector3Array()
 	for i in range(perimeter.size()-1):
 		var start:=perimeter[i];var finish:=perimeter[i+1]
-		var count:=maxi(1,ceili(start.distance_to(finish)/.5))
-		for j in count:
-			var a:=start.lerp(finish,float(j)/count);var b:=start.lerp(finish,float(j+1)/count)
-			var c:=Vector3(a.x,minf(a.y-.04,float(ground.call(a.x,a.z))-.08),a.z)
-			var d:=Vector3(b.x,minf(b.y-.04,float(ground.call(b.x,b.z))-.08),b.z)
-			var normal:=-(c-a).cross(b-a).normalized()
-			for at:Vector3 in [a,c,b,b,c,d]:
-				tool.set_normal(normal);tool.set_uv(Vector2(at.x+at.z,at.y)*.5);tool.add_vertex(at)
+		var intervals: Array[Vector2] = [Vector2(0,1)]
+		# Cut shared terrace edges exactly before subdivision. Two masonry skins
+		# on the same rim would recreate the reported coplanar wall shimmer.
+		for bounds: Rect2 in covered:
+			var pieces: Array[Vector2] = []
+			for interval: Vector2 in intervals:
+				var first := start.lerp(finish,interval.x)
+				var last := start.lerp(finish,interval.y)
+				var line := PackedVector2Array([Vector2(first.x,first.z),Vector2(last.x,last.z)])
+				var polygon := PackedVector2Array([bounds.position,Vector2(bounds.end.x,bounds.position.y),bounds.end,Vector2(bounds.position.x,bounds.end.y)])
+				for piece: PackedVector2Array in Geometry2D.clip_polyline_with_polygon(line,polygon):
+					var delta := Vector2(finish.x-start.x,finish.z-start.z)
+					pieces.append(Vector2((piece[0]-Vector2(start.x,start.z)).dot(delta)/delta.length_squared(),
+						(piece[-1]-Vector2(start.x,start.z)).dot(delta)/delta.length_squared()))
+			intervals=pieces
+		for interval: Vector2 in intervals:
+			var count:=maxi(1,ceili(start.distance_to(finish)*absf(interval.y-interval.x)/.5))
+			for j in count:
+				var a:=start.lerp(finish,lerpf(interval.x,interval.y,float(j)/count))
+				var b:=start.lerp(finish,lerpf(interval.x,interval.y,float(j+1)/count))
+				var base_a := float(ground.call(a.x,a.z))
+				var base_b := float(ground.call(b.x,b.z))
+				assert(is_finite(base_a) and is_finite(base_b),"Raised paving needs resident ground: "+str(body.name))
+				var c:=Vector3(a.x,minf(a.y-.04,base_a-.08),a.z)
+				var d:=Vector3(b.x,minf(b.y-.04,base_b-.08),b.z)
+				var faces := PackedVector3Array([a,b,c,b,d,c] if signed_area<0 else [a,c,b,b,c,d])
+				var normal:=-(faces[1]-faces[0]).cross(faces[2]-faces[0]).normalized()
+				for at:Vector3 in faces:
+					tool.set_normal(normal);tool.set_uv(Vector2(at.x+at.z,at.y)*.5);tool.add_vertex(at)
+				side_faces.append_array(faces)
+				triangles += 2
 	var mesh:MeshInstance3D=body.get_child(0)
 	var original:ArrayMesh=mesh.mesh
 	original.surface_set_material(0,mesh.material_override)
 	mesh.material_override=null
 	mesh.mesh=tool.commit(original)
-	body.get_child(1).shape.set_faces(mesh.mesh.get_faces())
+	# Display-only seam clipping must not remove the original supported top.
+	# Append precisely the new masonry faces to the resident native shape.
+	var shape: ConcavePolygonShape3D=body.get_child(1).shape
+	var collision_faces:=shape.get_faces()
+	collision_faces.append_array(side_faces)
+	shape.set_faces(collision_faces)
+	body.set_meta("retaining_perimeter",perimeter)
+	body.set_meta("retaining_triangles",triangles)

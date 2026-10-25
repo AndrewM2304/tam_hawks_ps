@@ -1,0 +1,10 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: terrain top ownership: two14x2m street bands remove exactly56 of140 visible square metres
+PASS: terrain top ownership: every clipped paving vertex retains the original graded plane
+PASS: terrain top ownership: independent street/interior samples have exactly the intended visible foundation ownership
+PASS: terrain top ownership: all ten original side and bottom triangles remain byte-identical
+PASS: terrain top ownership: native slab vertices, one shape and one mesh remain unchanged
+PASS: terrain top ownership: display exclusions preserve native terrain support queries inside street-owned bands
+PASS: terrain support: polygon outer edges and shared diagonal match actual higher native contacts above a lower floor
+RESULT: 7 passed, 0 failed

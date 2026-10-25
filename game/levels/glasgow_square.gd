@@ -446,7 +446,14 @@ func _build_city() -> void:
 		_building(Vector3(41, height, z), width, 18, "sandstone", "CLOSE COFFEE", -PI / 2.0)
 	# South retail edge has two shallow closes, rather than a sealed sandbox wall.
 	for x: float in [-24.0, 0.0, 24.0]:
-		_building(Vector3(x, 0, 48), 18, 15, "stone_light", "EXCHANGE ARCADE", PI)
+		var arcade := _building(Vector3(x, 0, 48), 18, 15, "stone_light", "EXCHANGE ARCADE", PI)
+		# Keep the shopfront at Z42; its rear meets the actual quay wall at
+		# Z55.2 instead of leaving a skatable slit behind the closed building.
+		var facade: StaticBody3D = arcade.get_node("Facade")
+		facade.position.z = -0.6
+		for child: Node in facade.get_children():
+			if child is CollisionShape3D: child.shape.size.z = 13.2
+			elif child is MeshInstance3D: child.mesh.size.z = 13.2
 	_building(Vector3(0, 6, -134), 62, 19, "stone_light", "CIVIC CHAMBERS", 0)
 	for side: float in [-1.0, 1.0]:
 		# Two frontage blocks frame the Z=-80 cross street instead of sealing it.
@@ -470,7 +477,10 @@ func _build_district_connections() -> void:
 	_street("BarrasNorthStreet", Vector3(35, 2, -22), Vector3(50, 1.5, -22), 14)
 	for x: float in [-88.0, 88.0]:
 		var start_height := 2.0 if x < 0 else 1.5
-		_street("NorthClimbingLane", Vector3(x, start_height, -42), Vector3(x, 4, -74), 12)
+		# The western frontage begins at X-81.7. Carry this road's east
+		# shoulder to X-81.5 rather than leaving a 30cm fall into the low court.
+		_slope("NorthClimbingLane", Rect2(x-6,-74,12.5 if x<0 else 12.0,32),
+			Vector4(4,4,start_height,start_height), "asphalt")
 		_street("CivicBackStreet", Vector3(x, 4, -80), Vector3(signf(x) * 35, 4, -80), 12)
 		_flat("BackStreetCorner", Rect2(x - 6, -86, 12, 12), 4, "asphalt")
 	_street("KelvingroveWestPort", Vector3(-130, 2, 0), Vector3(-145, 2, 0), 16)
@@ -485,7 +495,11 @@ func _build_exploration_joins() -> void:
 		var side := "West" if x < 0.0 else "East"
 		_slope("Gallery" + side + "Close", Rect2(x,-56,6,14), Vector4(4,4,2,2), "path")
 		_slope("Exchange" + side + "QuayClose", Rect2(x,42,6,13), Vector4(0,0,2,2), "paving")
-	_slope("GalleryRearFoundationJoin", Rect2(-35,-56,70,2), Vector4(4,4,26.0/7.0,26.0/7.0), "path")
+	# The two asphalt grades already own these strips of this exact plane.
+	# Retain this join's solid support/foundation, subtract only duplicate tops.
+	_slope("GalleryRearFoundationJoin",Rect2(-35,-56,70,2),
+		Vector4(4,4,26.0/7.0,26.0/7.0),"path",
+		[Rect2(-29,-56,14,2),Rect2(15,-56,14,2)])
 	for span: Vector2 in [Vector2(-35,-15),Vector2(-9,9),Vector2(15,35)]:
 		_flat("ExchangeQuayRearJoin", Rect2(span.x,54,span.y-span.x,1), 2.0, "paving")
 	# Three-metre service shoulders close the cracks between the station/market
@@ -518,8 +532,14 @@ func _build_exploration_boundaries() -> void:
 	for side: float in [-1.0,1.0]:
 		var x := side*34.8
 		var spans: Array = [Vector2(-116,-86),Vector2(-74,-56)] if side<0 else [Vector2(-128,-86),Vector2(-74,-56)]
-		for span: Vector2 in spans: _boundary("CivicSideBoundary",Vector2(x,span.x),Vector2(x,span.y))
-		_boundary("CivicRearCornerBoundary",Vector2(side*31,-127.8),Vector2(36 if side>0 else -35,-127.8))
+		for span: Vector2 in spans:
+			_boundary("CivicSideBoundary",Vector2(x,span.x),Vector2(x,span.y),
+				Vector2(36,-56) if side>0 and span.y == -56 else Vector2.INF)
+		# Continue the west return across the connector's north edge, then
+		# meet the park guard. Westbound skating still follows the open Z-122
+		# route; pressing north at the recorded mouth cannot leave the map.
+		_boundary("CivicRearCornerBoundary",Vector2(side*31,-127.8),Vector2(36 if side>0 else -42.2,-127.8),
+			Vector2(-42.2,-128.1) if side<0 else Vector2.INF)
 		_boundary("ClimbingStreetOuterBoundary",Vector2(side*93.8,-85.8),Vector2(side*93.8,-41.8))
 		_boundary("BackStreetNorthBoundary",Vector2(side*35,-85.8),Vector2(side*94,-85.8))
 		# The short frontage gaps do not promise unsupported side alleys.
@@ -531,7 +551,7 @@ func _build_exploration_boundaries() -> void:
 	_boundary("MerchantCourtEastBoundary",Vector2(-34.2,-74),Vector2(-34.2,-56))
 
 
-func _boundary(id: String, start: Vector2, end: Vector2) -> void:
+func _boundary(id: String, start: Vector2, end: Vector2, return_to: Vector2 = Vector2.INF) -> void:
 	var points := PackedVector3Array()
 	var count := maxi(1,ceili(start.distance_to(end)/2.0))
 	for index: int in range(count+1):
@@ -539,7 +559,14 @@ func _boundary(id: String, start: Vector2, end: Vector2) -> void:
 		var height := get_ground_height(to_global(Vector3(at.x,0,at.y)))
 		assert(is_finite(height),"Boundary requires real supported ground: "+id+" "+str(at))
 		points.append(Vector3(at.x,height-global_position.y,at.y))
-	ExplorationBoundary.build(self,id,points,_materials["cut_stone"],_materials["slate"])
+	if return_to.is_finite():
+		var height := get_ground_height(to_global(Vector3(return_to.x,0,return_to.y)))
+		assert(is_finite(height), "Boundary return requires supported ground: " + id)
+		points.append(Vector3(return_to.x,height-global_position.y,return_to.y))
+	# A fence cannot hide the unsupported space behind the station frontage.
+	# Reuse its exact graded native panels for opaque, grounded masonry.
+	ExplorationBoundary.build(self,id,points,_materials["cut_stone"],_materials["slate"],
+		3.0,false,id == "StationSouthBoundary")
 
 
 func _build_merchant_close() -> void:
@@ -547,7 +574,13 @@ func _build_merchant_close() -> void:
 	# than a road ribbon suspended over the sky. Both sides have supported exits.
 	_flat("MerchantServiceCourt", Rect2(-94,-86,60,56), 1.0, "paving")
 	_slope("MerchantCourtEastReturn", Rect2(-61,-54,4,12), Vector4(1,1,2,2), "paving")
-	_slope("MerchantCourtWestReturn", Rect2(-82,-72,8,4), Vector4(3.875,1,1,3.625), "paving")
+	# The low court gets a broad exit directly from its north end. Both high
+	# corners meet the back street and the full south toe meets lower paving.
+	# Its west side retains the higher climbing lane rather than pitching the
+	# toe up into a step across most of this accessible eight-metre opening.
+	_terrain.add_polygon(self,"MerchantCourtWestReturn",PackedVector3Array([
+		Vector3(-82,4,-74),Vector3(-74,4,-74),Vector3(-74,1,-66),Vector3(-82,1,-66)]),
+		_materials["paving"])
 	# Original dogleg through a close between the station and civic district.
 	# Its angled footprint occupies previously unsupported negative space.
 	var points := PackedVector3Array([Vector3(-64,2,-30), Vector3(-68,2,-44), Vector3(-69,2.5,-50), Vector3(-61,3.2,-60), Vector3(-55,3.5,-65), Vector3(-59,4,-74), Vector3(-59,4,-80)])
@@ -843,7 +876,7 @@ func _box(parent: Node3D, node_name: String, at: Vector3, size: Vector3, color: 
 	return root
 
 
-func _cylinder(parent: Node3D, node_name: String, at: Vector3, top_radius: float, bottom_radius: float, height: float, color: String) -> void:
+func _cylinder(parent: Node3D, node_name: String, at: Vector3, top_radius: float, bottom_radius: float, height: float, color: String, radial_segments: int = 10, rings: int = 4) -> void:
 	var geometry := MeshInstance3D.new()
 	geometry.name = node_name
 	geometry.set_meta("art_label", node_name)
@@ -852,7 +885,8 @@ func _cylinder(parent: Node3D, node_name: String, at: Vector3, top_radius: float
 	mesh.top_radius = top_radius
 	mesh.bottom_radius = bottom_radius
 	mesh.height = height
-	mesh.radial_segments = 10
+	mesh.radial_segments = radial_segments
+	mesh.rings = rings
 	geometry.mesh = mesh
 	geometry.material_override = _materials[color]
 	parent.add_child(geometry)
@@ -877,11 +911,11 @@ func _label(parent: Node3D, node_name: String, words: String, at: Vector3, font_
 func get_ground_height(world_position: Vector3) -> float:
 	var at := to_local(world_position)
 	var height: float = _terrain.height_at(at.x, at.z)
-	if not is_nan(height):
-		return to_global(Vector3(at.x, height, at.z)).y
+	if is_finite(height): height = to_global(Vector3(at.x, height, at.z)).y
 	if is_instance_valid(_outdoors):
-		return _outdoors.get_ground_height(world_position.x, world_position.z)
-	return NAN
+		var outdoor_height: float = _outdoors.get_ground_height(world_position.x, world_position.z)
+		if is_finite(outdoor_height) and (not is_finite(height) or outdoor_height > height): height = outdoor_height
+	return height
 
 
 ## Highest terrain support near/below the supplied height, including low routes
@@ -889,10 +923,11 @@ func get_ground_height(world_position: Vector3) -> float:
 func get_support_height(world_position: Vector3, max_step_up: float = 1.0) -> float:
 	var at := to_local(world_position)
 	var height: float = _terrain.height_at(at.x, at.z, at.y + maxf(0.0, max_step_up))
-	if not is_nan(height): return to_global(Vector3(at.x, height, at.z)).y
+	if is_finite(height): height = to_global(Vector3(at.x, height, at.z)).y
 	if is_instance_valid(_outdoors):
-		return _outdoors.get_support_height(world_position,max_step_up)
-	return NAN
+		var outdoor_height: float = _outdoors.get_support_height(world_position,max_step_up)
+		if is_finite(outdoor_height) and (not is_finite(height) or outdoor_height > height): height = outdoor_height
+	return height
 
 
 func get_recovery_position(world_position: Vector3) -> Vector3:
@@ -937,7 +972,7 @@ func get_route_definitions() -> Array[Dictionary]:
 		_route("gallery_step_drop", "Gallery stair drop", [Vector3(0,2,-20), Vector3(0,2,-13), Vector3(0,0,-3)], true),
 		_route("market_step_drop", "Market stair drop", [Vector3(93,1.5,-24), Vector3(93,1.5,-15), Vector3(93,0,-5)], true),
 		_route("merchant_service_east_return", "Service court to station concourse", [Vector3(-56,1,-56), Vector3(-59,1,-54), Vector3(-59,2,-42), Vector3(-59,2,-34)]),
-		_route("merchant_service_west_return", "Service court to outer climbing lane", [Vector3(-72,1,-70), Vector3(-74,1,-70), Vector3(-82,3.75,-70), Vector3(-88,3.75,-70)]),
+		_route("merchant_service_west_return", "Service court to outer climbing lane", [Vector3(-78,1,-65.6), Vector3(-78,1,-66), Vector3(-78,4,-74), Vector3(-78,4,-78), Vector3(-88,4,-78)]),
 		_route("merchant_close_cutthrough", "Merchant Close dogleg", [Vector3(-64,2,-30), Vector3(-68,2,-44), Vector3(-69,2.5,-50), Vector3(-61,3.2,-60), Vector3(-55,3.5,-65), Vector3(-59,4,-74), Vector3(-59,4,-80)]),
 		_route("station_low_level_close", "Station service-walk underpass", [Vector3(-126,2,0), Vector3(-126,2,-8), Vector3(-114,2,-8), Vector3(-103,2,-8), Vector3(-82,2,-8), Vector3(-82,2,22)]),
 		_route("station_park_port", "Station to Kelvingrove", [Vector3(-126,2,0), Vector3(-145,2,0)]),
@@ -960,8 +995,8 @@ func _flat(label: String, bounds: Rect2, height: float, material: String) -> Sta
 	return _terrain.add_patch(self, label, bounds, Vector4.ONE * height, _materials[material], "asphalt" if material == "asphalt" else "stone")
 
 
-func _slope(label: String, bounds: Rect2, heights: Vector4, material: String) -> StaticBody3D:
-	var body: StaticBody3D = _terrain.add_patch(self, label, bounds, heights, _materials[material], "asphalt" if material == "asphalt" else "stone")
+func _slope(label: String, bounds: Rect2, heights: Vector4, material: String, visible_top_exclusions: Array[Rect2] = []) -> StaticBody3D:
+	var body: StaticBody3D = _terrain.add_patch(self, label, bounds, heights, _materials[material], "asphalt" if material == "asphalt" else "stone", -1.0, visible_top_exclusions)
 	var lowest := minf(minf(heights.x, heights.y), minf(heights.z, heights.w))
 	var highest := maxf(maxf(heights.x, heights.y), maxf(heights.z, heights.w))
 	if highest - lowest > 0.01:
@@ -1068,7 +1103,7 @@ func _fountain(at: Vector3, radius: float) -> void:
 	collision.shape = shape
 	collision.position.y = 0.275
 	body.add_child(collision)
-	_cylinder(body, "FountainBasin", Vector3(0, 0.275, 0), radius, radius, 0.55, "stone")
+	_cylinder(body, "FountainBasin", Vector3(0, 0.275, 0), radius, radius, 0.55, "stone", 64, 0)
 	var pedestal_collision := CollisionShape3D.new()
 	var pedestal_shape := CylinderShape3D.new()
 	pedestal_shape.radius = 0.7
@@ -1076,7 +1111,9 @@ func _fountain(at: Vector3, radius: float) -> void:
 	pedestal_collision.shape = pedestal_shape
 	pedestal_collision.position.y = 1.35
 	body.add_child(pedestal_collision)
-	_cylinder(body, "FountainWater", Vector3(0, 0.57, 0), radius - 0.85, radius - 0.85, 0.04, "glass")
+	# Water and basin share their angular tessellation. Leave a deliberate
+	# 24cm coping rim rather than two coarse, differently sized decagons.
+	_cylinder(body, "FountainWater", Vector3(0, 0.55, 0), radius - 0.24, radius - 0.24, 0.01, "glass", 64, 0)
 	_cylinder(body, "FountainPedestal", Vector3(0, 1.2, 0), 0.65, 1.0, 2.0, "stone_light")
 	_cylinder(body, "FountainBowl", Vector3(0, 2.1, 0), 1.65, 0.65, 0.5, "stone_light")
 	_cylinder(body, "FountainCrown", Vector3(0, 2.7, 0), 0.22, 0.42, 0.85, "bronze")

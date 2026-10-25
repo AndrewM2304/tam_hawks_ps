@@ -67,7 +67,12 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 		var body := world.get_node(NodePath(record.path)) as StaticBody3D
 		classified = classified and body != null and body.has_meta("surface_audit_id") and not record.wall_reason.is_empty()
 		if body.get_meta("exploration_boundary", false):
-			boundary_excluded = boundary_excluded and not record.wallrideable and body.get_meta("no_wallride", false)
+			if body.get_meta("boundary_family","")=="SouthPocketRearBoundary":
+				boundary_excluded = boundary_excluded and record.wallrideable \
+					and body.get_meta("solid_boundary",false) and not body.get_meta("no_wallride",true) \
+					and _printyard_wall_backed(world,body)
+			else:
+				boundary_excluded = boundary_excluded and not record.wallrideable and body.get_meta("no_wallride", false)
 		if record.wallrideable:
 			eligible_helpers_agree = eligible_helpers_agree and WallRide.is_surface_eligible(body)
 		if record.generated_ledge:
@@ -90,7 +95,7 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 				else: authored_capture_count += 1
 			else: blocked.append(id)
 	check.call(classified and boundary_excluded,
-		"surface audit: every physical surface has a reason and retained fences are explicitly excluded")
+		"surface audit: every physical surface has a reason; fences stay excluded and only the independently backed print-yard masonry boundary admits wallrides")
 	check.call(eligible_helpers_agree, "surface audit: architecture wall tags agree with production wallride eligibility")
 	check.call(candidate_covered and referenced_tracks_exist,
 		"surface audit: each selected visible ledge candidate references actual published grind tracks")
@@ -399,3 +404,26 @@ static func _associated_grinds(body: Node) -> Array:
 		for id: String in body.get_meta(key,[]):
 			if not ids.has(id): ids.append(id)
 	return ids
+
+
+static func _printyard_wall_backed(world: Node3D, body: StaticBody3D) -> bool:
+	# Fixed physical envelope, independent of opt-in tags or surface-audit data.
+	# The original safe perimeter remains solid beyond this authored wall line.
+	var shapes := body.find_children("*","CollisionShape3D",false,false)
+	if shapes.size()!=1: return false
+	var shape: CollisionShape3D = shapes[0]
+	if not shape.shape is BoxShape3D or shape.disabled: return false
+	var bounds := shape.global_transform*AABB(-shape.shape.size*.5,shape.shape.size)
+	if bounds.position.distance_to(Vector3(-38.98,1.75,142.62))>.001 \
+		or bounds.end.distance_to(Vector3(75.98,5.,142.98))>.001: return false
+	var display := body.get_node_or_null("PropertyMasonry") as MultiMeshInstance3D
+	if display==null or not display.is_visible_in_tree() or display.multimesh.instance_count!=1 \
+		or not display.multimesh.mesh is BoxMesh or display.material_override==null: return false
+	for x: float in [-38.7,0.,75.7]:
+		for y: float in [2.,3.,4.8]:
+			for side: float in [-1.,1.]:
+				var a := Vector3(x,y,142.8-side*.5)
+				var b := Vector3(x,y,142.8+side*.5)
+				var hit := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(a,b,1))
+				if hit.get("collider")!=body: return false
+	return true

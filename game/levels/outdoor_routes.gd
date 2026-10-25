@@ -181,8 +181,14 @@ func _boundary(id: String, start: Vector2, end: Vector2, fence_height: float = 3
 	# reserve normal-mapped concrete for the existing shaped skating features.
 	var wall_material := _material("cut_stone") if id == "ParkRetainedBoundary" else _material("stone_light")
 	if behind_decks: wall_material = _material("shop_navy")
-	ExplorationBoundary.build(self,id,points,wall_material,_material("iron"),
-		10.0 if behind_decks else 3.0,behind_decks or id.begins_with("SouthPocket"),opaque_edge)
+	var boundary := ExplorationBoundary.build(self,id,points,wall_material,_material("iron"),
+		10.0 if behind_decks else fence_height,behind_decks or id.begins_with("SouthPocket"),opaque_edge)
+	# This is a continuous, solid print-yard masonry wall, rather than exposed
+	# perimeter ironwork. Its native backing remains the hard level boundary.
+	if id == "SouthPocketRearBoundary":
+		boundary.set_meta("no_wallride",false)
+		boundary.set_meta("wallrideable",true)
+		boundary.remove_meta("wallride_exclusion_reason")
 
 
 func get_district_id(world_position: Vector3) -> String:
@@ -509,6 +515,11 @@ void fragment(){
 	# Upper viewpoint sits off the riding line and is reached at the summit.
 	_patch("KelvingroveViewTerrace", Rect2(-179, -185, 18, 5), 17.0, _material("paving"))
 	_path("KelvingroveViewpointSpur", PackedVector3Array([Vector3(-161, 17, -178), Vector3(-165, 17, -182), Vector3(-173, 17, -182)]), 4.0, _material("paving"))
+	_separate_summit_finishes()
+	Surface.solidify_perimeter(get_node("KelvingroveViewTerrace"),PackedVector3Array([
+		Vector3(-179,17,-185),Vector3(-161,17,-185),Vector3(-161,17,-180),
+		Vector3(-179,17,-180),Vector3(-179,17,-185)]),_park_resident_ground,_material("cut_stone"))
+	Surface.solidify_strip(get_node("KelvingroveViewpointSpur"),_park_resident_ground,_material("cut_stone"),[Rect2(-179,-185,18,5)])
 	_rail("kelvingrove_terrace_coping", PackedVector3Array([Vector3(-177, 17.4, -184), Vector3(-164, 17.4, -184)]), "coping", 0.2)
 	var bend := PackedVector3Array()
 	var bend_piece := 0
@@ -547,6 +558,35 @@ void fragment(){
 	_route("kelvingrove_george_promenade", "George Square park promenade", _george_connector)
 	_route("kelvingrove_rolling_loop", "Kelvingrove hillside loop", _park_path)
 	_route("kelvingrove_cutback_return", "Kelvingrove cutback to Central", _park_cutback)
+
+
+## One displayed owner per summit face: terrace, then connecting spur, then
+## granite shoulder, then asphalt. Keep every native top triangle unchanged.
+func _separate_summit_finishes() -> void:
+	var terrace := Rect2(-179,-185,18,5)
+	var spur: StaticBody3D=get_node("KelvingroveViewpointSpur")
+	var loop: StaticBody3D=get_node("KelvingroveRollingLoop")
+	var vertices: PackedVector3Array=spur.get_meta("support_vertices")
+	Surface.trim_visual_rect(spur,terrace)
+	Surface.trim_visual_rect(loop,terrace)
+	for i in range(0,vertices.size()-2,2):
+		Surface.trim_visual_polygon(loop,PackedVector2Array([
+			Vector2(vertices[i].x,vertices[i].z),Vector2(vertices[i+1].x,vertices[i+1].z),
+			Vector2(vertices[i+3].x,vertices[i+3].z),Vector2(vertices[i+2].x,vertices[i+2].z)]))
+	for body: Node in get_children():
+		if not body is StaticBody3D or str(body.get_meta("art_label",""))!="ParkGranitePathEdge":continue
+		# Only the independently levelled summit facets are coplanar. Retain
+		# all existing grades and material coverage elsewhere on the hillside.
+		var original: PackedVector3Array=body.get_child(0).mesh.get_faces()
+		for i in range(0,original.size(),3):
+			if absf(original[i].y-17)>.0001 or absf(original[i+1].y-17)>.0001 or absf(original[i+2].y-17)>.0001:continue
+			Surface.trim_visual_polygon(loop,PackedVector2Array([
+				Vector2(original[i].x,original[i].z),Vector2(original[i+1].x,original[i+1].z),Vector2(original[i+2].x,original[i+2].z)]))
+		Surface.trim_visual_rect(body,terrace)
+		for i in range(0,vertices.size()-2,2):
+			Surface.trim_visual_polygon(body,PackedVector2Array([
+				Vector2(vertices[i].x,vertices[i].z),Vector2(vertices[i+1].x,vertices[i+1].z),
+				Vector2(vertices[i+3].x,vertices[i+3].z),Vector2(vertices[i+2].x,vertices[i+2].z)]))
 
 
 ## The retained streets used to surround an unbuilt L-shaped hole. Keep the
@@ -604,7 +644,10 @@ func _central_bank_height(x: float, z: float) -> float:
 	var nearest := Surface.nearest_segment(_park_connector, Vector2(x, z))
 	var cutback := Surface.nearest_segment(_park_cutback, Vector2(x, z))
 	if float(cutback.distance) < float(nearest.distance): nearest = cutback
-	var original := lerpf(float(nearest.height) - 0.35, 0.5, smoothstep(7.0, 15.0, float(nearest.distance)))
+	# Grass meets the asphalt shoulder within wheel clearance. The previous
+	# constant35cm depression created a kerb on both sides of every approach.
+	var clearance := _park_shoulder_clearance(nearest,0.35)
+	var original := lerpf(float(nearest.height) - clearance, 0.5, smoothstep(7.0, 15.0, float(nearest.distance)))
 	var at:=Vector2(x,z)
 	var seam:=Vector2(clampf(x,PARK_LANDSCAPE.position.x,PARK_LANDSCAPE.end.x),clampf(z,PARK_LANDSCAPE.position.y,PARK_LANDSCAPE.end.y))
 	var distance:=at.distance_to(seam)
@@ -614,12 +657,18 @@ func _central_bank_height(x: float, z: float) -> float:
 
 func _george_bank_height(x: float, z: float) -> float:
 	var nearest := Surface.nearest_segment(_george_connector, Vector2(x, z))
-	var height := lerpf(5.75, 0.5, smoothstep(6.0, 15.5, float(nearest.distance)))
+	var height := lerpf(5.98, 0.5, smoothstep(6.0, 15.5, float(nearest.distance)))
 	# Extend the existing promenade into a supported skate apron. Its grass
 	# shoulders blend back into the old embankment instead of hiding a slab void.
 	var nearest_apron := Vector2(clampf(x, PRACTICE_APRON.position.x, PRACTICE_APRON.end.x), clampf(z, PRACTICE_APRON.position.y, PRACTICE_APRON.end.y))
 	var distance := Vector2(x, z).distance_to(nearest_apron)
-	return maxf(height, lerpf(5.98, height, smoothstep(3.0, 6.0, distance)))
+	height = maxf(height, lerpf(5.98, height, smoothstep(3.0, 6.0, distance)))
+	# The western embankment joins the rolling hillside, not a second low
+	# plate underneath it. Sample the actual neighbouring native triangles.
+	if x < -132.0:
+		var seam := Surface.grid_height(PARK_LANDSCAPE,2.5,_park_height,-140.0,z)
+		height = lerpf(seam,height,smoothstep(-140.0,-132.0,x))
+	return height
 
 
 func _park_height(x: float, z: float) -> float:
@@ -683,7 +732,7 @@ func _park_natural_height(x: float, z: float) -> float:
 		if float(candidate.distance) < float(nearest.distance): nearest = candidate
 	var distance: float = nearest.distance
 	var weight := smoothstep(6.0, 13.0, distance)
-	var height := lerpf(float(nearest.height) - 0.25, natural, weight)
+	var height := lerpf(float(nearest.height) - _park_shoulder_clearance(nearest,0.25), natural, weight)
 	# Flatten the summit apron into the hillside, not a floating slab.
 	if x >= -181 and x <= -159 and z <= -178:
 		var apron := Rect2(-179, -185, 18, 5)
@@ -695,6 +744,18 @@ func _park_natural_height(x: float, z: float) -> float:
 	var woodland := minf(smoothstep(-255.0,-225.0,x),smoothstep(-225.0,-195.0,z))
 	height = lerpf(1.0 + sin(x * 0.025 + z * 0.014),height,woodland)
 	return height
+
+
+func _park_shoulder_clearance(nearest: Dictionary, interior_clearance: float) -> float:
+	# Preserve the flush lateral shoulder and exterior end caps. Under the
+	# road's interior, retain enough clearance for a coarse terrain triangle
+	# spanning a changing road grade; otherwise its chord can rise through the
+	# asphalt even though each nearest-height vertex looked safe in isolation.
+	if not nearest.get("within",true): return 0.02
+	var clearance := lerpf(interior_clearance,0.02,smoothstep(2.0,3.0,float(nearest.distance)))
+	# A cap's adjacent coarse cell also needs the shared entry datum, even
+	# when its individual vertices project a little inside the first segment.
+	return lerpf(0.02,clearance,smoothstep(4.0,8.0,float(nearest.get("endpoint_distance",INF))))
 
 
 func _local_ground(x: float, z: float) -> float:
@@ -754,9 +815,27 @@ func _patch(id: String, bounds: Rect2, height: float, material: Material) -> voi
 	_surfaces.append({"bounds": bounds, "height": height})
 
 
+## Terrain below the raised paving, excluding roads and terraces themselves.
+## Using _local_ground here would sample the very deck whose sides need filling.
+func _park_resident_ground(x: float,z: float) -> float:
+	var at := Vector2(x,z)
+	var highest := Surface.grid_height(PARK_LANDSCAPE,2.5,_park_height,x,z) if PARK_LANDSCAPE.has_point(at) else NAN
+	for surface: Dictionary in _surfaces:
+		if not surface.has("height_at") or not surface.bounds.has_point(at): continue
+		var height := Surface.grid_height(surface.bounds,surface.spacing,surface.height_at,x,z)
+		if is_nan(highest) or height>highest: highest=height
+	# The angled ten-metre promenade mouth extends15cm beyond its grass
+	# rectangle into the existing civic terrace; that seam is the same Y6 datum.
+	if is_nan(highest) and Rect2(-145,-142,103,34).grow(0.2).has_point(at):
+		highest = _george_bank_height(clampf(x,-145,-42),clampf(z,-142,-108))
+	return highest
+
+
 func _path(id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "asphalt", visual_points: PackedVector3Array = PackedVector3Array()) -> void:
 	var body := Surface.strip(self, id, points, width, material, audio, visual_points)
 	if id=="KelvingroveCutbackHip":Surface.solidify_strip(body,_local_ground,_material("stone"))
+	if id == "KelvingroveGeorgePromenade":
+		Surface.solidify_strip(body,_park_resident_ground,_material("cut_stone"))
 	if id in ["KelvingroveRollingLoop","KelvingroveCutbackReturn"]:
 		var approach:StaticBody3D=get_node("KelvingroveCentralApproach")
 		var vertices:PackedVector3Array=approach.get_meta("support_vertices")

@@ -1,0 +1,24 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Assertion failed: Horizon context budget exceeded
+          at: install (res://game/levels/horizon_background.gd:97)
+          GDScript backtrace (most recent call first):
+              [0] install (res://game/levels/horizon_background.gd:97)
+              [1] _ready (res://game/levels/glasgow_square.gd:98)
+              [2] run (res://tests/outdoor_repair_tests.gd:12)
+              [3] _run (res://.local/outdoor_repair_runner.gd:7)
+PASS: PT24 outdoor: complete central climb keeps actual capsule clearance in both directions below grass shoulders
+PASS: PT24 outdoor:65 native lateral supports cross the recorded lower park shoulder without a kerb (-141.119, 2.103, -3.586)
+PASS: PT24 outdoor:65 public height samples agree with the actual highest core/outdoor support (-141.119, 2.103, -3.586)
+PASS: PT24 outdoor:65 native lateral supports cross the recorded lower park shoulder without a kerb (-152.933, 4.161, -44.939)
+PASS: PT24 outdoor:65 public height samples agree with the actual highest core/outdoor support (-152.933, 4.161, -44.939)
+PASS: PT24 outdoor: raised paving has matching native/displayed masonry sides on its resident shape KelvingroveGeorgePromenade
+PASS: PT24 outdoor: raised paving has matching native/displayed masonry sides on its resident shape KelvingroveViewTerrace
+PASS: PT24 outdoor: raised paving has matching native/displayed masonry sides on its resident shape KelvingroveViewpointSpur
+PASS: PT24 outdoor: all33 independently fixed shelter-edge points have outward visible masonry faces
+PASS: PT24 outdoor: native side rays hit all33 shelter-edge points from both sides
+PASS: PT24 outdoor: three resident skirts stay within3 surfaces/1800 triangles without new physics bodies
+PASS: PT24 outdoor: both authored4.5m station arrival guards retain their requested height
+PASS: PT24 outdoor: summit terrace/spur/granite/asphalt displayed tops have no positive-area coplanar overlap
+PT24_OUTDOOR shoulder_samples=130 shelter_side_samples=66 added_surfaces=3 retaining_triangles=1138
+RESULT: 13 passed, 0 failed

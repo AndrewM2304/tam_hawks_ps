@@ -25,6 +25,8 @@ var _reveal: Button
 var _resume: Button
 var _pending := -1
 var _badge: Label
+var _badge_extent := Vector2.ZERO
+var _badge_scale := -1.0
 const ACTIONS := ["push","brake","steer_left","steer_right","ollie","flip","grab","grind","manual","revert","spin_left","spin_right"]
 const SOURCES := ["res://project.godot","res://game/main.gd","res://game/core/playtest_recorder.gd","res://game/levels/outdoors/surface_builder.gd","res://game/player/skater.gd","res://game/player/skater_visual.gd","res://game/player/skater_garments.gd","res://game/levels/outdoor_routes.gd","res://game/levels/kelvingrove_skatepark.gd","res://game/levels/sunken_bowl_feature.gd"]
 
@@ -46,12 +48,27 @@ func _ready() -> void:
 	_reveal=_button(rows,"SHOW FILES",reveal_files)
 	_resume=_button(rows,"BACK TO THE BOARD",close_panel)
 	_panel.hide()
-	_badge=Label.new();add_child(_badge);_badge.position=Vector2(20,100)
+	_badge=Label.new();add_child(_badge)
+	_badge.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	_badge.add_theme_font_size_override("font_size",14)
 	_badge.add_theme_color_override("font_color",Color("d8ef96"));_badge.hide()
 
 func _update_badge()->void:
 	_badge.visible=active
-	_badge.text="DEBUG REC  ·  %d issues  ·  1 capture  ·  2 menu  ·  3 finish"%reports.size()
+	_badge.text="DEBUG REC  ·  %d issues  ·  2 menu"%reports.size()
+	_badge_extent=Vector2.ZERO
+	_layout_badge()
+
+func _layout_badge()->void:
+	var extent:=get_viewport().get_visible_rect().size
+	var ui_scale:float=game.hud._root.scale.x if game!=null else 1.0
+	if extent==_badge_extent and is_equal_approx(ui_scale,_badge_scale):return
+	_badge_extent=extent;_badge_scale=ui_scale
+	_badge.scale=Vector2.ONE*ui_scale
+	_badge.size=_badge.get_combined_minimum_size()
+	# The upper-right HUD corner is reserved above the goals count. Match the
+	# HUD scale and margins; the special meter occupies the upper-left corner.
+	_badge.position=Vector2(maxf(0.0,extent.x-28.0*ui_scale-_badge.size.x*ui_scale),24.0*ui_scale)
 
 func _button(parent:Node,title:String,callback:Callable)->Button:
 	var button:=Button.new();button.text=title;button.custom_minimum_size.y=38
@@ -60,6 +77,7 @@ func _button(parent:Node,title:String,callback:Callable)->Button:
 func configure(owner_game:Node)->void:game=owner_game
 
 func _process(delta:float)->void:
+	if active:_layout_badge()
 	if not active or busy or editing or game==null or game.paused:return
 	_clock+=delta
 	if _clock<.25:return
@@ -81,7 +99,11 @@ func _input(event:InputEvent)->void:
 	if not active or editing or busy:return
 	for action:String in ACTIONS:
 		if event.is_action(action):
-			inputs.append({"milliseconds":Time.get_ticks_msec(),"action":action,"strength":Input.get_action_strength(action)})
+			inputs.append({"milliseconds":Time.get_ticks_msec(),"physics_frame":Engine.get_physics_frames(),
+				"process_frame":Engine.get_process_frames(),"action":action,
+				"pressed":event.is_action_pressed(action),"released":event.is_action_released(action),
+				"event_strength":event.get_action_strength(action),"strength":Input.get_action_strength(action),
+				"event_type":event.get_class(),"echo":event.is_echo()})
 			if inputs.size()>128:inputs.pop_front()
 
 func begin_session()->Error:
@@ -92,7 +114,7 @@ func begin_session()->Error:
 	if error!=OK:return error
 	reports.clear();history.clear();inputs.clear();archive_path="";_clock=0.
 	active=true
-	_write_text("README.txt","Tam Hawks Pro Skater playtest session\nShare the ZIP after ending the session. Each issue has a PNG, JSON state and your note.\n1 capture; 2 session menu; 3 finish.\nPlayer axes: forward is -Z; camera forward is separate. Raw local evidence is retained if ZIP export fails.\n")
+	_write_text("README.txt","Tam Hawks Pro Skater playtest session\nShare the ZIP after ending the session. Each issue has a PNG, JSON state and your note.\n1 capture; 2 session menu; 3 finish. Numbers type normally while entering a note.\nPlayer axes: forward is -Z; camera forward is separate. Raw transforms/state describe the frozen physics tick. Presentation transforms and capture frame/timestamps identify the PNG drawn after freezing.\nNative on_floor is the last move_and_slide result; native_floor_valid and gameplay airborne/feature flags distinguish startup and authored support. Configured trick IDs are not active-state evidence. bail_reason is historical; bail.active_reason applies only during a bail.\nRaw local evidence is retained if ZIP export fails.\n")
 	var written:=_write_manifest()
 	if written!=OK:active=false;return written
 	_update_badge()
@@ -122,15 +144,25 @@ func capture_issue()->void:
 	if error!=OK:show_menu();_status.text="Could not create capture folder: "+error_string(error);return
 	busy=true
 	var report:=snapshot(true)
+	report["capture"]={"requested_milliseconds":Time.get_ticks_msec(),
+		"physics_frame":Engine.get_physics_frames(),"requested_process_frame":Engine.get_process_frames()}
 	report["history"]=history.duplicate(true);report["inputs"]=inputs.duplicate(true)
 	_pause_for_panel();_panel.hide();game.hud._modal.hide()
 	# Freeze first, then draw the same camera without note/pause overlays.
 	await get_tree().process_frame
 	if DisplayServer.get_name()!="headless":await RenderingServer.frame_post_draw
+	# Native physics is frozen; describe the interpolated transforms used by
+	# this completed draw separately from the raw physics snapshot above.
+	report["presentation"]=_presentation_snapshot()
+	report.capture["completed_process_frame"]=Engine.get_process_frames()
+	report.capture["rendered_frame"]=Engine.get_frames_drawn()
+	report.capture["sampled_milliseconds"]=Time.get_ticks_msec()
+	report.capture["physics_frame_after_draw"]=Engine.get_physics_frames()
 	var id:="issue-%04d"%(reports.size()+1)
 	report["id"]=id;report["note"]="";report["screenshot"]=""
 	if DisplayServer.get_name()!="headless":
 		var pixels:=get_viewport().get_texture().get_image()
+		report.capture["image_read_milliseconds"]=Time.get_ticks_msec()
 		error=pixels.save_png(session_dir.path_join(id+".png"))
 		if error==OK:report.screenshot=id+".png"
 		report["screenshot_error"]=error_string(error)
@@ -144,7 +176,9 @@ func capture_issue()->void:
 			_write_text(id+"-engine.log",log.get_buffer(mini(65536,log.get_length())).get_string_from_utf8())
 	reports.append(report);_pending=reports.size()-1
 	var written:=_write_report(_pending)
-	_write_manifest();_update_badge()
+	var manifest_error:=_write_manifest()
+	if written==OK:written=manifest_error
+	_update_badge()
 	busy=false
 	_heading.text="ISSUE %d CAPTURED"%reports.size()
 	_status.text="Location, direction and pose state saved. Add a note, then return to skating. 2 opens session controls."
@@ -157,7 +191,8 @@ func save_note(text:String)->Error:
 	if _pending<0:return ERR_INVALID_PARAMETER
 	reports[_pending].note=text.left(8000)
 	var error:=_write_report(_pending)
-	_write_manifest()
+	var manifest_error:=_write_manifest()
+	if error==OK:error=manifest_error
 	if error==OK:_pending=-1
 	return error
 
@@ -183,7 +218,11 @@ func finish_session()->Error:
 		var saved:=save_note(_note.text)
 		if saved!=OK:return saved
 	active=false
-	_write_manifest()
+	var manifest_error:=_write_manifest()
+	if manifest_error!=OK:
+		active=true
+		show_menu();_status.text="Could not save the session manifest: "+error_string(manifest_error)+". Reports remain in memory and on disk; retry End Session."
+		return manifest_error
 	archive_path=session_dir+".zip"
 	var pack:=ZIPPacker.new()
 	var error:=pack.open(archive_path)
@@ -214,12 +253,23 @@ func snapshot(detailed:bool)->Dictionary:
 	var camera:Camera3D=rider._camera
 	var ground:float=game.world.get_ground_height(rider.global_position)
 	var state:={"utc":Time.get_datetime_string_from_system(true),"milliseconds":Time.get_ticks_msec(),
+		"physics_frame":Engine.get_physics_frames(),"process_frame":Engine.get_process_frames(),
+		"last_player_physics_frame":rider.last_physics_frame,
 		"position":vec(rider.global_position),"velocity":vec(rider.velocity),"forward":vec(-rider.global_basis.z),"basis":frame(rider.global_transform),
 		"camera":{"position":vec(camera.global_position),"forward":vec(-camera.global_basis.z),"up":vec(camera.global_basis.y),"fov":camera.fov},
 		"ground_height":ground if is_finite(ground) else null,"on_floor":rider.is_on_floor(),"airborne":rider.airborne,
 		"bailing":rider.bail_active,"bail_phase":rider.bail_phase,"bail_reason":rider.bail_reason,"speed":rider.speed,
 		"charge":rider.ollie_charge,"crouching":rider.crouching,"grind":rider.grind_style_id,"lip":rider.lip_id,"manual":rider.manual_trick_id,
 		"flip":rider.flip_trick_id,"grab":rider.grab_trick_id,"paused":game.paused}
+	state["active_states"]={"manual":rider.manual_active,"grind":rider.grinding,"lip":rider.lip_active,
+		"transition":rider.transition_active,"feature":rider._feature_transition.active,
+		"wallride":rider.wallriding,"ramp_air":rider._ramp_air,"setup":rider.setup_active,
+		"flip":rider._flip_remaining>0.0,"grab":rider._grab_remaining>0.0}
+	state["native_floor_valid"]=rider._native_floor_valid
+	state["bail"]={"active":rider.bail_active,"phase":rider.bail_phase,
+		"active_reason":rider.bail_reason if rider.bail_active else "","last_reason":rider.bail_reason}
+	state["feature_state"]=rider._feature_transition.state
+	state["bowl_transfer"]=rider._feature_transition.transfer_intent_snapshot()
 	if not detailed:return state
 	state["engine"]=Engine.get_version_info();state["renderer"]=RenderingServer.get_current_rendering_method()
 	state["viewport"]=vec(Vector3(get_viewport().get_visible_rect().size.x,get_viewport().get_visible_rect().size.y,0))
@@ -229,7 +279,9 @@ func snapshot(detailed:bool)->Dictionary:
 	state["inputs_held"]={}
 	for action:String in ACTIONS:state.inputs_held[action]=Input.get_action_strength(action)
 	var rig:RefCounted=rider._visual_rig
-	state["rig"]={"visual":frame(rider._visual.global_transform),"rider":frame(rider._rider_visual.global_transform),"board":frame(rig._board.global_transform),"upper":frame(rig._upper.transform),"drag_crouch":rig._drag_crouch,"handplant_blend":rig._handplant_blend,"bones":{}}
+	state["rig"]={"visual":frame(rider._visual.global_transform),"rider":frame(rider._rider_visual.global_transform),"board":frame(rig._board.global_transform),"upper":frame(rig._upper.transform),"head":frame(rig._head.global_transform),"feet":[],"hands":[],"drag_crouch":rig._drag_crouch,"handplant_blend":rig._handplant_blend,"bones":{}}
+	for leg:Dictionary in rig._legs:state.rig.feet.append(frame(leg.foot.global_transform))
+	for arm:Dictionary in rig._arms:state.rig.hands.append(frame(arm.hand.global_transform))
 	for i in rig._garments.skeleton.get_bone_count():state.rig.bones[rig._garments.skeleton.get_bone_name(i)]=frame(rig._garments.skeleton.get_bone_pose(i))
 	state["contacts"]=[]
 	for i in rider.get_slide_collision_count():
@@ -237,6 +289,22 @@ func snapshot(detailed:bool)->Dictionary:
 		var collider:=collision.get_collider()
 		state.contacts.append({"position":vec(collision.get_position()),"normal":vec(collision.get_normal()),"collider":str(collider.get_path()) if collider is Node else str(collider)})
 	return state
+
+func _presentation_snapshot()->Dictionary:
+	var rider:CharacterBody3D=game.skater
+	var camera:Camera3D=rider._camera
+	var rig:RefCounted=rider._visual_rig
+	var presentation:={"interpolation_fraction":Engine.get_physics_interpolation_fraction(),
+		"last_player_presentation_process_frame":rider.last_presentation_process_frame,
+		"player":frame(rider.get_global_transform_interpolated()),
+		"visual":frame(rider._visual.get_global_transform_interpolated()),
+		"rider":frame(rider._rider_visual.get_global_transform_interpolated()),
+		"board":frame(rig._board.get_global_transform_interpolated()),
+		"head":frame(rig._head.get_global_transform_interpolated()),"feet":[],"hands":[],
+		"camera":frame(camera.get_global_transform_interpolated())}
+	for leg:Dictionary in rig._legs:presentation.feet.append(frame(leg.foot.get_global_transform_interpolated()))
+	for arm:Dictionary in rig._arms:presentation.hands.append(frame(arm.hand.get_global_transform_interpolated()))
+	return presentation
 
 static func vec(value:Vector3)->Array:return [value.x,value.y,value.z]
 static func frame(value:Transform3D)->Dictionary:return {"origin":vec(value.origin),"x":vec(value.basis.x),"y":vec(value.basis.y),"z":vec(value.basis.z)}
@@ -248,4 +316,4 @@ func _write_text(name:String,text:String)->Error:
 func _write_report(index:int)->Error:
 	return _write_text(str(reports[index].id)+".json",JSON.stringify(reports[index],"\t"))
 func _write_manifest()->Error:
-	return _write_text("session.json",JSON.stringify({"format":1,"engine":Engine.get_version_info(),"active":active,"reports":reports},"\t"))
+	return _write_text("session.json",JSON.stringify({"format":2,"engine":Engine.get_version_info(),"active":active,"reports":reports},"\t"))

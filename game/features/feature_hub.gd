@@ -105,14 +105,14 @@ func nearby_id(at: Vector3) -> String:
 
 func nearby_prompt(at: Vector3) -> String:
 	match nearby_id(at):
-		"service_gate": return "CLOSE SERVICE CUT-THROUGH" if gate.requested_open else "OPEN SERVICE CUT-THROUGH"
+		"service_gate": return gate.action_prompt()
 		"cone_on_a_cruise": return cone_stunt.nearby_prompt(at)
 		"one_more_lap": return park_lap.nearby_prompt(at)
 	return ""
 
 func gate_prompt(at: Vector3) -> String:
 	if not _near_gate(at): return ""
-	return "CLOSE SERVICE CUT-THROUGH" if gate.requested_open else "OPEN SERVICE CUT-THROUGH"
+	return gate.action_prompt()
 
 func _near_gate(at: Vector3) -> bool:
 	return is_instance_valid(gate) and at.is_finite() and absf(at.y-gate.global_position.y)<1.6 \

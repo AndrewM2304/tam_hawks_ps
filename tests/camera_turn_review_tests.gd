@@ -97,6 +97,7 @@ class TurnSample extends Node:
 
 static func run(tree: SceneTree, check: Callable) -> void:
 	Setup.register_actions()
+	_apex_launch_identity(check)
 	await _support_interpolation(tree,check)
 	for start_speed: float in [8.0, 12.0, 15.0]:
 		var measures: Array[Dictionary] = []
@@ -124,6 +125,20 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(chase._travel_sign == 1.0 and chase._direction_confirm == 0.0,
 		"classic camera: low-speed direction noise clears pending reversal")
 	_release()
+
+
+static func _apex_launch_identity(check: Callable) -> void:
+	var chase = Chase.new()
+	chase._advance_ramp_turn(1,-4.0,22.0)
+	check.call(is_equal_approx(chase._ramp_turn,PI),
+		"classic camera: descending ramp flight finishes its single apex handoff")
+	chase._advance_ramp_turn(2,12.0,22.0)
+	check.call(is_zero_approx(chase._ramp_turn),
+		"classic camera: a new physics launch resets the handoff when rendering skipped supported travel")
+	chase._advance_ramp_turn(2,-4.0,22.0)
+	chase._advance_ramp_turn(2,2.0,22.0)
+	check.call(is_equal_approx(chase._ramp_turn,PI),
+		"classic camera: the same flight cannot reverse or repeat an already completed apex turn")
 
 
 static func _turn(tree: SceneTree, check: Callable, requested_speed: float, strength: float) -> Dictionary:

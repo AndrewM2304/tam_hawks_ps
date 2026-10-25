@@ -153,9 +153,61 @@ static func original_physics_inventory(world: Node3D) -> bool:
 		"new_native_factory":{"bodies":47,"shapes":195}}
 	print("PHYSICS_INVENTORY bodies=%d shapes=%d protected_bodies=%d protected_shapes=%d bench_bodies=%d bench_boxes=%d identified=%s additions=%s court_caps=%d" % [
 		bodies.size(),shapes.size(),protected_bodies,protected_shapes,bench_bodies,bench_shapes.size(),valid,additions,cap_shapes])
+	# The captured main candidate adds five named north skatepark retaining
+	# pieces and two arrival guards (15 convex panels). Independent PT24 native
+	# side/port checks establish their coverage before updating these totals.
+	# This repair also adds one east civic return panel and one triangulated
+	# Merchant west return panel, then five panels on the extended west civic
+	# north guard. Independent fixed-span PT24 rays verify those new closures.
+	var retaining_bodies := 0
+	var retaining_shapes := 0
+	var arrival_bodies := 0
+	var arrival_shapes := 0
+	var civic_north_shapes := 0
+	var retaining_ids: Dictionary = {}
+	var retaining_valid := true
+	for body: StaticBody3D in bodies:
+		if body.get_parent()==world and str(body.get_meta("boundary_family",""))=="CivicRearCornerBoundary":
+			var points: PackedVector3Array=body.get_meta("boundary_points",PackedVector3Array())
+			if not points.is_empty() and points[0].x<0:
+				for child: Node in body.get_children():
+					if child is CollisionShape3D and child.shape is ConvexPolygonShape3D and not child.disabled: civic_north_shapes+=1
+		var retaining_id := _north_retaining_span(body) if body.get_parent() == outdoors.get_node("KelvingroveSunkenSkatepark") else -1
+		if retaining_id >= 0:
+			retaining_bodies+=1
+			retaining_valid = not retaining_ids.has(retaining_id) and retaining_valid
+			retaining_ids[retaining_id] = true
+			for child: Node in body.get_children():
+				if child is CollisionShape3D and child.shape is BoxShape3D and not child.disabled: retaining_shapes+=1
+		if body.get_parent() == outdoors and str(body.get_meta("boundary_family","")) == "StationParkArrivalGuard":
+			arrival_bodies+=1
+			for child: Node in body.get_children():
+				if child is CollisionShape3D and child.shape is ConvexPolygonShape3D and not child.disabled: arrival_shapes+=1
 	return valid and identities.size()==12 and bench_bodies==12 and bench_shapes.size()==44 \
-		and protected_bodies==271 and protected_shapes==721 and additions==expected and cap_shapes==2 \
-		and bodies.size()==557 and shapes.size()==1654 # Clyde access removal; east civic guard gains one graded panel.
+		and protected_bodies==271 and protected_shapes==728 and additions==expected and cap_shapes==2 \
+		and retaining_valid and retaining_ids.size()==5 and retaining_bodies==5 and retaining_shapes==5 and arrival_bodies==2 and arrival_shapes==15 \
+		and civic_north_shapes==7 and bodies.size()==564 and shapes.size()==1681
+
+
+static func _north_retaining_span(body: StaticBody3D) -> int:
+	# Five independently fixed native footprints close the gaps between two
+	# bowl mouths, stairs and the bypass. _box does not publish an art_label;
+	# repeated node names are also replaced by Godot's generated identifiers.
+	# Verify real dimensions/poses instead of introducing a test-only tag.
+	var shallow_half := 6.*sin(10.*TAU/128.)
+	var deep_half := 8.2*sin(9.*TAU/128.)
+	var spans: Array[Vector2] = [Vector2(-20.,-11.5-shallow_half),
+		Vector2(-11.5+shallow_half,-3.5),Vector2(-.5,2.),
+		Vector2(5.,10.5-deep_half),Vector2(10.5+deep_half,20.)]
+	var shapes := body.find_children("*","CollisionShape3D",false,false)
+	if shapes.size()!=1 or not body.basis.is_equal_approx(Basis.IDENTITY) or body.collision_layer!=1: return -1
+	var collision := shapes[0] as CollisionShape3D
+	if collision.disabled or not collision.shape is BoxShape3D or not collision.transform.is_equal_approx(Transform3D.IDENTITY): return -1
+	for index: int in spans.size():
+		var span := spans[index]
+		if body.position.distance_to(Vector3((span.x+span.y)*.5,-.75,3.425))<.0001 \
+			and collision.shape.size.distance_to(Vector3(span.y-span.x,1.5,.15))<.0001: return index
+	return -1
 
 
 static func _check_sunken_bowl(world: Node3D, check: Callable) -> void:

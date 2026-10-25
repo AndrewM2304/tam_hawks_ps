@@ -957,7 +957,7 @@ static func _connected_world(tree: SceneTree, game: Node, check: Callable) -> vo
 			arrived = true
 			break
 		if game.skater.bail_active: break
-	check.call(departed and arrived and not game.skater.bail_active and game.skater.global_position.z < spine.global_position.z,
+	check.call(departed and arrived and not game.skater.bail_active and spine.to_local(game.skater.global_position).z < 0.0,
 		"authentic Main: a fresh airborne transfer crosses the real spine and lands on its opposite connected face")
 	print("AUTHENTIC SPINE departed=%s arrived=%s position=%s states=%s" % [departed, arrived, game.skater.global_position, spine_states])
 	_release()

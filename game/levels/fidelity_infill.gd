@@ -20,7 +20,8 @@ func build(world: Node3D) -> void:
 	_seat("civic_island_return", "george_square",Vector3(13,4,-68),Vector3(13,4,-60),0.46)
 	_climbing_rail("east_climbing_handrail",90.5)
 	_climbing_rail("west_climbing_handrail",-91.5)
-	_seat("merchant_low_return","central_station",Vector3(-81,1,-66.5),Vector3(-76,1,-66.5),0.45)
+	# Keep this low ledge below the new north exit, beside the Print Works return.
+	_seat("merchant_low_return","central_station",Vector3(-81,1,-64.6),Vector3(-76,1,-64.6),0.45)
 	_bank_line("station_low_manual", "central_station",Vector3(-114,2,-13.5),6,2.2,2.2,0.36)
 	_bank_line("barras_forecourt_line", "barras",Vector3(65,0,35),6,4,4,0.55)
 	_seat("barras_forecourt_return", "barras",Vector3(74,0,36),Vector3(84,0,36),0.48)
@@ -46,12 +47,17 @@ func build(world: Node3D) -> void:
 	halfpipe.width = 8.0
 	halfpipe.flat_length = 6.0
 	halfpipe.deck_length = 2.5
+	# CentralStationFloor owns the flush visible flat. Two coincident top faces
+	# caused the recorded bottom seam to flash; native support remains unchanged.
+	halfpipe.build_flat_visual = false
 	_transition(halfpipe,"StationConcourseHalfpipe",Vector3(-60,2,35),PI*0.5,"central_station")
 	var spine := Spine.new()
 	spine.radius = 2.2
 	spine.width = 8.0
 	spine.cap_width = 0.6
-	_transition(spine,"StationWestSpine",Vector3(-110,2,30),0,"central_station")
+	# Transfer across the open concourse, rather than aiming the landing at the
+	# upper-walk retaining wall. Both ten-metre runouts stay on the Y2 floor.
+	_transition(spine,"StationWestSpine",Vector3(-110,2,35),PI*0.5,"central_station")
 
 
 func get_grind_lines() -> Array:

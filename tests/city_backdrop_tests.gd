@@ -138,17 +138,20 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	check.call(held_surfaces == 6,
 		"City backdrop: explicit fresh held-context fixture preserves exactly six actual surfaces")
 	# Compact Clyde removes 298 old skirt segments/four triangles each, reducing
-	# 4040 to2848. Four actual new park-contour segments add16 double-sided
-	# triangles to ParkWest only; the original4040 ceiling stays unchanged;
+	# 4040 to2848. The repaired park/junction heights retain24 additional
+	# contour segments (96 double-sided triangles) in ParkWest, including
+	# the prior four. The Civic frontage return adds four city-skirt triangles;
+	# the original4040 ceiling stays unchanged;
 	# the Station endpoint's four query-owned triangles remain checked below.
-	check.call(held_triangles == 2864 and held_triangles<=Backdrop.MAX_TRIANGLES and held_counts == {
-		"ExistingBoundaryRetainingSkirts":{"surfaces":1,"triangles":152},
+	check.call(held_triangles == 2948 and held_triangles<=Backdrop.MAX_TRIANGLES and held_counts == {
+		"ExistingBoundaryRetainingSkirts":{"surfaces":1,"triangles":156},
 		"StationServiceBacks":{"surfaces":1,"triangles":148},
 		"ClydeWestContext":{"surfaces":1,"triangles":456},
 		"ClydeEastContext":{"surfaces":1,"triangles":484},
-		"ParkWestHillside":{"surfaces":1,"triangles":838},
+		"ParkWestHillside":{"surfaces":1,"triangles":918},
 		"ParkNorthHillside":{"surfaces":1,"triangles":786}},
-		"City backdrop: held-context preserves exact per-chunk counts plus16 actual park-contour triangles (2864 total) within its original4040 budget")
+		"City backdrop: held-context preserves exact per-chunk counts plus96 actual park-contour and4 Civic-return triangles (2948 total) within its original4040 budget")
+	_check_held_skirt_coverage(world, held, check)
 	_check_query_owned_skirt(world, held, check)
 	for id: String in PORTS:
 		var clear := true
@@ -157,6 +160,44 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		check.call(clear, "City backdrop: held-context actual triangles leave protected geometry open: " + id)
 	world.free()
 	await tree.process_frame
+
+
+static func _check_held_skirt_coverage(world: Node3D, held: Node3D, check: Callable) -> void:
+	# Coverage/area decides whether extra contour triangles are justified. A
+	# changed count alone is insufficient: each raw native edge must still be
+	# faced on both sides, down to its original foundation depth.
+	var meshes: Dictionary = {}
+	for display: MeshInstance3D in held.find_children("*","MeshInstance3D",true,false):
+		meshes[str(display.name)] = {"node":display,"triangles":display.mesh.generate_triangle_mesh()}
+	var supported := true
+	var samples := 0
+	var first_missing := ""
+	for body: Node3D in world.find_children("*","StaticBody3D",true,false):
+		var family := str(body.get_meta("boundary_family",""))
+		if family not in Backdrop.RETAINED_FAMILIES: continue
+		var raw: PackedVector3Array = body.get_meta("boundary_points",PackedVector3Array())
+		for index: int in range(raw.size()-1):
+			var a := world.to_local(body.to_global(raw[index]))-Vector3.UP*.12
+			var b := world.to_local(body.to_global(raw[index+1]))-Vector3.UP*.12
+			if a.distance_to(b)<.000001: continue
+			var normal := Vector3(b.z-a.z,0,a.x-b.x).normalized()
+			for fraction: float in [.1,.5,.9]:
+				var top := a.lerp(b,fraction)
+				var bottom := minf(-6.,minf(a.y,b.y)-4.)
+				for depth: float in [.1,.5,.9]:
+					var at := Vector3(top.x,lerpf(top.y,bottom,depth),top.z)
+					for side: float in [-1.,1.]:
+						var covered := false
+						for entry: Dictionary in meshes.values():
+							var hit: Dictionary = entry.triangles.intersect_segment(entry.node.to_local(world.to_global(at+normal*side*.05)),entry.node.to_local(world.to_global(at-normal*side*.05)))
+							covered = not hit.is_empty() or covered
+						if not covered and first_missing.is_empty(): first_missing = str(body.name)+" at"+str(at)
+						supported = covered and supported
+						samples += 1
+	if not supported: print("HELD_SKIRT_MISSING ",first_missing)
+	print("HELD_SKIRT_NATIVE_COVERAGE samples=",samples," complete=",supported)
+	check.call(supported and samples>1000,
+		"City backdrop: independently sampled raw native boundary columns have visible retaining faces from both sides through their foundation depth")
 
 
 static func _check_query_owned_skirt(world: Node3D, held: Node3D, check: Callable) -> void:

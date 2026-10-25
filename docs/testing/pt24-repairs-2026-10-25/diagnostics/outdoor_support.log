@@ -1,0 +1,25 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Assertion failed: Horizon context budget exceeded
+          at: install (res://game/levels/horizon_background.gd:97)
+          GDScript backtrace (most recent call first):
+              [0] install (res://game/levels/horizon_background.gd:97)
+              [1] _ready (res://game/levels/glasgow_square.gd:98)
+              [2] _run (res://.local/outdoor_support_runner.gd:10)
+PASS: support query: matches real collision at gallery riser seam
+PASS: support query: matches real collision at gallery first step end
+PASS: support query: matches real collision at civic first step end
+PASS: support query: matches real collision at market street maximum X shoulder
+PASS: support query: matches real collision at platform maximum Z with lower concourse
+PASS: support query: matches real collision at yard flush floor beyond the retained route ribbon
+PASS: support query: matches real collision at park hip actual sloping triangle
+PASS: support query: matches real collision at park port beside actual ribbon end
+PASS: support query: matches real collision at civic park port exact start cap
+PASS: support query: matches real collision at Clyde approach shared triangle diagonal
+PASS: support query: height-aware station lower and upper levels remain distinct
+PASS: support query: isolated exposed outside corners remain available to retained boundaries
+PASS: support query: a centreline-radius false positive stays outside the actual bent ribbon
+PASS: support query: graded triangle interior interpolates its actual plane
+PASS: support query: shared ribbon triangle diagonal has no artificial NAN seam
+PASS: support query: exterior cap ownership preserves millimetre inside and outside distinction
+RESULT: 16 passed, 0 failed

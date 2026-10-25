@@ -12,6 +12,7 @@ const BONELESS_EDGE := Vector3(0.128, 0.022, 0.02)
 
 
 static func run(tree: SceneTree, check: Callable) -> void:
+	await _startup_pose(tree, check)
 	await _setup_contacts(tree, check)
 	await _board_mesh_contacts(tree, check)
 	await _catch_and_landing(tree, check)
@@ -28,6 +29,27 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	await _ordinary_foot_support(tree, check)
 	await _recorded_drag_reach(tree, check)
 	await _helper_keeps_deck_contact(tree, check)
+
+
+static func _startup_pose(tree: SceneTree, check: Callable) -> void:
+	# The fixture never ticks the rig. These are its construction/reset poses,
+	# including when Main is still at the title or a report freezes the first frame.
+	var fixture := await _fixture(tree)
+	var initial := _markers(fixture.rig)
+	check.call(fixture.rig._upper.position.y > 0.75
+		and fixture.rig._head.global_position.y-fixture.rider.global_position.y > 1.35,
+		"startup pose: complete torso and head are placed before the first animation tick")
+	check.call(_feet_error(fixture) < 0.001 and _finite(fixture.rig)
+		and _max_stretch(fixture.rig) <= 1.12,
+		"startup pose: both visible shoes contact the board with finite anatomical limbs immediately after construction")
+	var state := _neutral()
+	state["bail"] = 1.0
+	_settle(fixture.rig, state)
+	fixture.rig.reset()
+	check.call(_marker_delta(initial, _markers(fixture.rig)) < 0.001
+		and _feet_error(fixture) < 0.001 and fixture.rig._bail_blend == 0.0,
+		"startup pose: reset immediately restores the complete neutral rig after an interrupted bail")
+	await _dispose(tree, fixture.root)
 
 
 static func _setup_contacts(tree: SceneTree, check: Callable) -> void:

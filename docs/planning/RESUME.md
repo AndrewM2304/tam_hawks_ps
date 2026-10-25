@@ -1,3 +1,16 @@
+# Current resumption — 25 October 2026
+
+Use main directly. The PT24 source-repair batch passes **4,657/0** with a clean
+source-stable receipt; four cold-launch phases and bounded rendered evidence are
+saved in [the current repair record](../testing/pt24-repairs-2026-10-25/README.md).
+Read that record, newest STATUS and the PT24 ticket overlay before continuing.
+Keep temporal flicker, view11 material intrusions, older body contraction and
+Mac/DualSense/stutter/export acceptance open. The planned station, pond and other
+design additions still require their rendering/performance admission. No archival
+patch recovery or feature branch is needed. Historical handoffs follow.
+
+---
+
 # Current instruction —25 October 2026: main only
 
 Use **main directly** for all local/cloud work. Owner explicitly rejects multiple

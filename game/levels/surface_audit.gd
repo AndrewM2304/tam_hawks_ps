@@ -106,7 +106,13 @@ func _record(body: StaticBody3D) -> void:
 
 
 func _wall_reason(body: StaticBody3D, label: String, shape_node: CollisionShape3D, size: Vector3) -> String:
-	if body.get_meta("exploration_boundary", false): return "retained perimeter iron fence; safety boundary"
+	# Backed masonry may be an authored wallride line while remaining a solid
+	# map edge. Only that explicit opt-in proceeds to the ordinary geometry
+	# checks; perimeter ironwork and void guards retain their exclusion.
+	if body.get_meta("exploration_boundary", false) and not (
+			body.get_meta("solid_boundary",false) and body.get_meta("wallrideable",false)
+			and not body.get_meta("no_wallride",true)):
+		return "retained perimeter iron fence; safety boundary"
 	var parent := body.get_parent()
 	while parent != _world and parent != null:
 		if parent.is_in_group("skate_transitions"): return "quarter-pipe support uses its curved transition state"

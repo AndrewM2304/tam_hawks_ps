@@ -174,6 +174,13 @@ func reset() -> void:
 	_lip_definition.clear()
 	_skitch_blend = 0.0
 	_skitch_local_grips.clear()
+	# Title/pause and an immediate report can render before the first physics
+	# tick. Apply the complete contact pose now; clearing blend weights alone
+	# leaves the head, shoes and hands at their construction origins.
+	_head.rotation = Vector3.ZERO
+	animate(0.0, {"airborne": false, "grab": false, "flip": false,
+		"manual": false, "grind": false, "speed": 0.0, "push": false,
+		"brake": false})
 
 
 static func setup_foot_offset() -> Vector3:

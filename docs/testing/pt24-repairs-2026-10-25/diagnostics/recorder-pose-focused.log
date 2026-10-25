@@ -1,0 +1,39 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+AUTHENTIC_BOARD rest=0.00 caught_sole=0.000853 complete_shoe=-0.000839 retained_native_model=true
+AUTHENTIC_BOARD rest=3.14 caught_sole=0.000853 complete_shoe=-0.000838 retained_native_model=true
+AUTHENTIC_POSE setup=boneless max_step=0.185
+AUTHENTIC_POSE setup=no_comply max_step=0.181
+AUTHENTIC_POSE recovery head_drop=1.333 head_clearance=0.175 sole_clearance=0.080 max_step=0.056 max_stretch=1.000
+AUTHENTIC_POSE lip=handplant palm_error=0.0000 stretch=1.000
+AUTHENTIC_POSE lip=invert palm_error=0.0000 stretch=1.000
+AUTHENTIC_POSE lip=eggplant palm_error=0.0000 stretch=1.000
+AUTHENTIC_MANUAL id=hang_ten rest=0.00 step=0.1780 stretch=1.0000 board=0.0000 sole=0.1164
+AUTHENTIC_MANUAL id=crossfoot_manual rest=0.00 step=0.0869 stretch=1.0000 board=0.0000 sole=0.1257
+AUTHENTIC_MANUAL pogo rest=0.00 sole=0.0000 palm=0.0000 grip_surface=0.0008
+AUTHENTIC_MANUAL id=pogo rest=0.00 step=0.2174 stretch=1.0000 board=0.0000 sole=0.0642
+AUTHENTIC_MANUAL id=casper_manual rest=0.00 step=0.0563 stretch=1.0000 board=-0.0000 sole=0.0440
+AUTHENTIC_MANUAL id=hang_ten rest=3.14 step=0.1780 stretch=1.0000 board=0.0000 sole=0.1164
+AUTHENTIC_MANUAL id=crossfoot_manual rest=3.14 step=0.0869 stretch=1.0000 board=0.0000 sole=0.1257
+AUTHENTIC_MANUAL pogo rest=3.14 sole=0.0000 palm=0.0000 grip_surface=0.0008
+AUTHENTIC_MANUAL id=pogo rest=3.14 step=0.2174 stretch=1.0000 board=0.0000 sole=0.0643
+AUTHENTIC_MANUAL id=casper_manual rest=3.14 step=0.0564 stretch=1.0000 board=-0.0000 sole=0.0440
+AUTHENTIC_HANG rest=0.00 side=-1 sole=(-0.066, 0.027709, -0.244507) forefoot=0.000151 heel=0.000151 whole=0.000151
+AUTHENTIC_HANG rest=0.00 side=1 sole=(0.066, 0.027724, -0.244514) forefoot=0.000150 heel=0.000151 whole=0.000150
+AUTHENTIC_HANG rest=3.14 side=-1 sole=(-0.066, 0.027709, -0.244506) forefoot=0.000150 heel=0.000151 whole=0.000150
+AUTHENTIC_HANG rest=3.14 side=1 sole=(0.066, 0.027724, -0.244513) forefoot=0.000150 heel=0.000150 whole=0.000150
+AUTHENTIC_POSE skitch yaw=0.00 palm_error=0.0000 release_step=0.162
+AUTHENTIC_POSE skitch yaw=0.80 palm_error=0.0000 release_step=0.162
+AUTHENTIC_PUSH drag=false whole=0.000700 recovery=0.2669 stretch=1.000000
+AUTHENTIC_PUSH drag=true whole=0.000700 recovery=0.0000 stretch=1.000000
+SCRIPT ERROR: Assertion failed: Horizon context budget exceeded
+          at: install (res://game/levels/horizon_background.gd:97)
+          GDScript backtrace (most recent call first):
+              [0] install (res://game/levels/horizon_background.gd:97)
+              [1] _ready (res://game/levels/glasgow_square.gd:98)
+              [2] _ready (res://game/main.gd:79)
+              [3] _run (res://.local/recorder_pose_checks.gd:13)
+              [4] run (res://tests/authentic_pose_tests.gd:31)
+              [5] _helper_keeps_deck_contact (res://tests/authentic_pose_tests.gd:778)
+              [6] _dispose (res://tests/authentic_pose_tests.gd:858)
+RESULT: 192 passed, 0 failed

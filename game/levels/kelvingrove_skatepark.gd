@@ -70,7 +70,7 @@ func build() -> void:
 	# A ten-metre bank makes the destination usable before the first drop-in.
 	_ramp("BeginnerArrivalBank",PackedVector3Array([
 		Vector3(17.5,0,6.5),Vector3(7.5,STREET_Y,6.5),
-		Vector3(7.5,STREET_Y,10.5),Vector3(17.5,0,10.5)]))
+		Vector3(7.5,STREET_Y,10.5),Vector3(17.5,0,10.5)]),STREET_Y)
 	var hip := Spine.new()
 	hip.name = "ForegroundHip"
 	hip.feature_id = "kelvingrove_foreground_hip"
@@ -85,7 +85,7 @@ func build() -> void:
 	# The ramp beside the stairs is a genuine supported return to the rim.
 	_ramp("StepBypassBank",PackedVector3Array([
 		Vector3(2.0,0,3.5),Vector3(2.0,STREET_Y,9.5),
-		Vector3(5.0,STREET_Y,9.5),Vector3(5.0,0,3.5)]))
+		Vector3(5.0,STREET_Y,9.5),Vector3(5.0,0,3.5)]),STREET_Y)
 	# Close the under-deck openings while preserving both bowl ports, stairs
 	# and the bypass bank. These spans meet their real entrance cheeks.
 	var openings:Array[Vector2]=[Vector2(-3.5,-.5),Vector2(2,5)]
@@ -156,10 +156,29 @@ func apply_finishes(materials: Dictionary) -> void:
 		elif "Retaining" in label or "OuterWall" in label or label=="NativePortCheeks":key="stone"
 		mesh.material_override=materials[key]
 
-func _ramp(label: String, corners: PackedVector3Array) -> void:
+func _ramp(label: String, corners: PackedVector3Array, retaining_floor: float=NAN) -> void:
 	var faces := PackedVector3Array([corners[0],corners[1],corners[2],corners[0],corners[2],corners[3]])
 	if (faces[1]-faces[0]).cross(faces[2]-faces[0]).y>0:
 		faces = PackedVector3Array([corners[0],corners[2],corners[1],corners[0],corners[3],corners[2]])
+	if is_finite(retaining_floor):
+		# Both banks meet the street at their toes and an existing solid deck
+		# at their heads. Only the two exposed sloping sides need retaining
+		# faces; sharing the original body/mesh avoids doubled abutting caps.
+		var center := (corners[0]+corners[1]+corners[2]+corners[3])*0.25
+		for edge: int in [0,2]:
+			var a := corners[edge]
+			var b := corners[(edge+1)%4]
+			var low_a := Vector3(a.x,retaining_floor,a.z)
+			var low_b := Vector3(b.x,retaining_floor,b.z)
+			var outside := ((a+b)*0.5-center)*Vector3(1,0,1)
+			for triangle: PackedVector3Array in [PackedVector3Array([a,b,low_a]),PackedVector3Array([b,low_b,low_a])]:
+				var cross := (triangle[1]-triangle[0]).cross(triangle[2]-triangle[0])
+				if cross.length_squared()<0.00000001: continue
+				if -cross.dot(outside)<0:
+					var swap := triangle[1]
+					triangle[1] = triangle[2]
+					triangle[2] = swap
+				faces.append_array(triangle)
 	_panel(label,faces)
 
 func _panel(label: String, faces: PackedVector3Array) -> StaticBody3D:
@@ -177,6 +196,9 @@ func _panel(label: String, faces: PackedVector3Array) -> StaticBody3D:
 	body.add_child(collision)
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	# Floor/retaining joins are hard construction edges. Shared positions must
+	# not average their normals into a diagonal bevel that the mesh lacks.
+	surface.set_smooth_group(-1)
 	for p: Vector3 in faces: surface.add_vertex(p)
 	surface.generate_normals()
 	var mesh := MeshInstance3D.new()

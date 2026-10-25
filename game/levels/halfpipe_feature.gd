@@ -6,6 +6,9 @@ var width := 8.0
 var flat_length := 6.0
 var deck_length := 2.5
 var feature_id := "halfpipe"
+## An installed concourse may own the flush flat's visible paving. Keep native
+## support, but do not draw a second coplanar floor over that existing surface.
+var build_flat_visual := true
 var _quarters: Array[Node3D] = []
 
 func _ready() -> void:
@@ -21,8 +24,11 @@ func _ready() -> void:
 		add_child(quarter)
 		_quarters.append(quarter)
 	var builder = _quarters[0]
-	builder._box("ConnectedFlatBottom",Vector3(width,0.24,flat_length),
+	var flat: StaticBody3D = builder._box("ConnectedFlatBottom",Vector3(width,0.24,flat_length),
 		Vector3(0,-0.12,flat_length*0.5),Quarter._concrete_material())
+	if not build_flat_visual:
+		for visual: MeshInstance3D in flat.find_children("*", "MeshInstance3D", true, false):
+			visual.free()
 
 func get_grind_lines() -> Array:
 	var lines: Array = []

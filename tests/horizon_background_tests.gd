@@ -7,8 +7,9 @@ const Protected = preload("res://tests/clyde_surface_tests.gd")
 const EPS := .00035
 const BOTTOM := -35.0
 # Explicit approved facility/infill deltas; old physical identities are checked separately.
-const WORLD_BODIES := 354 + 204 + 1 - 2 # Hubba coping; owner removed two raised Clyde bowl access bodies.
-const WORLD_SHAPES := 1296 + 358 + 1 - 2 + 1 # East civic rear guard gains one graded panel.
+# The independent physical identity contract is owned by clyde_surface_tests;
+# appearance toggles additionally compare the actual before/after inventories.
+const MAX_COMBINED_TRIANGLES := 846 + 64 + 2 + 4 + 4 + 2 # Prior contours, Civic return, shoulders, Civic corner and preserved port cap.
 const WORLD_ROUTES := 48 + 8
 const CELL := 8.0
 const CUBE_SIZE := 512
@@ -155,10 +156,10 @@ static func _geometry(world: Node3D, context: Node3D, check: Callable) -> Dictio
 	actual_names.sort()
 	var expected_names: Array = FOOTINGS.duplicate()
 	expected_names.sort()
-	check.call(actual_names == expected_names and surfaces <= 4 and (all_faces.size()-land_faces.size())/3 <= 832 + 8
+	check.call(actual_names == expected_names and surfaces <= 4 and all_faces.size()/3 + 18 <= MAX_COMBINED_TRIANGLES
 		and land_faces.size()==18
 		and faces.size() > 0 and valid,
-		"horizon: four actual static regional meshes stay within832 original combined budget plus8 native park contour triangles and exactly six enclosed-land triangles with valid footing/bank/foundation triangles and opaque vertex colours")
+		"horizon: four actual static regional meshes plus18 water triangles stay within the independently reconciled922-triangle budget, including six enclosed-land triangles and valid footing/bank/foundation faces")
 	var shader_valid := false
 	if shared and material != null and material.shader != null:
 		var code: String = ""
@@ -463,8 +464,8 @@ static func _river(world: Node3D, context: Node3D, geometry: Dictionary, check: 
 		max_front_area = maxf(max_front_area,front_area)
 		valid = front_area<-.0001 and valid
 	print("HORIZON WATER vertices=",vertices.size()," indices=",indices.size()," normals=",normals.size()," uvs=",uvs.size()," tangents=",tangents.size()," max_y=",max_y," max_uv=",max_uv," min_normal_dot=",min_normal_dot," max_normal_error=",max_normal_error," front_area=",Vector2(min_front_area,max_front_area)," missing=",missing," combined_triangles=",int(geometry.regional_triangles)+water_faces.size()/3)
-	check.call(valid and int(geometry.regional_triangles)-geometry.land_faces.size()/3+water_faces.size()/3<=832+8,
-		"horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and original832-triangle ceiling plus exactly8 native park contour triangles, excluding the separately verified six land triangles")
+	check.call(valid and int(geometry.regional_triangles)+water_faces.size()/3<=MAX_COMBINED_TRIANGLES,
+		"horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and fit the independently reconciled922 combined triangles")
 	var water_top := Protected._horizontal_triangles(water_faces,-2)
 	var bank_top := Protected._horizontal_triangles(banks,2)
 	var water_overlap := 0.0
@@ -566,8 +567,8 @@ static func _triangle_present(a: Vector3, b: Vector3, c: Vector3, faces: PackedV
 static func _preservation(world: Node3D, context: Node3D, check: Callable) -> void:
 	var bodies := world.find_children("*","StaticBody3D",true,false)
 	var shapes := world.find_children("*","CollisionShape3D",true,false)
-	check.call(bodies.size()==WORLD_BODIES and shapes.size()==WORLD_SHAPES and Protected.original_physics_inventory(world),
-		"horizon: exact557 bodies/1654 shapes after Clyde removal and civic guard extension; protected identities retained")
+	check.call(Protected.original_physics_inventory(world),
+		"horizon: every independently identified core, bench and repair collider retains its approved geometry and exact inventory")
 	var routes: Array = world.get_route_definitions()
 	var identities: Dictionary = {}
 	for route: Dictionary in routes: identities[route.id] = true
@@ -596,8 +597,8 @@ static func _preservation(world: Node3D, context: Node3D, check: Callable) -> vo
 	var original_restored: bool = not context.visible and environment.sky.sky_material == context.get_meta("original_sky_material")
 	Horizon.set_enabled(world,true)
 	check.call(original_restored and context.visible and environment.sky.sky_material==candidate
-		and world.find_children("*","StaticBody3D",true,false).size()==WORLD_BODIES
-		and world.find_children("*","CollisionShape3D",true,false).size()==WORLD_SHAPES
+		and world.find_children("*","StaticBody3D",true,false)==bodies
+		and world.find_children("*","CollisionShape3D",true,false)==shapes
 		and world.get_route_definitions()==routes,
 		"horizon: reversible appearance comparison restores both materials while physical routes stay identical")
 
@@ -707,7 +708,7 @@ static func _frontages(world: Node3D, context: Node3D, geometry: Dictionary, che
 				samples += 1
 	print("HORIZON FOUNDATION triangles=",foundations.size()/3," faces=",groups.size()," independent_samples=",samples," complete=",complete," originals_valid=",valid)
 	check.call(valid and identities.size()==8 and displays.size()==8 and complete,
-		"horizon frontage:64 actual unshaded triangles cover all32 fixed vertical foundations while eight original lit/shadowed masses retain their bases, roofs and footprints")
+		"horizon frontage:64 actual unshaded triangles cover all32 fixed vertical foundations while eight lit/shadowed masses retain their approved footprints/roofs and the Chambers foundation reachesY-3")
 	var unchanged := true
 	for enabled: bool in [false,true]:
 		Horizon.set_enabled(world,enabled)
@@ -719,12 +720,14 @@ static func _frontages(world: Node3D, context: Node3D, geometry: Dictionary, che
 
 
 static func _frontage_specs() -> Array[AABB]:
-	# Fixed original World bounds, independent of candidate part metadata,
-	# transformed corners or whichever meshes the implementation selected.
+	# Fixed World bounds, independent of candidate metadata/transformed corners.
+	# The Chambers base now reachesY-3 beneath its raisedY6 frontage; its
+	# original footprint and roofY25 remain unchanged. Seven skyline masses
+	# retain their original bases and roofs.
 	return [AABB(Vector3(-121,6,-155),Vector3(32,15,12)),AABB(Vector3(-86,6,-155),Vector3(32,15,12)),
 		AABB(Vector3(54,6,-155),Vector3(32,15,12)),AABB(Vector3(89,6,-155),Vector3(32,15,12)),
 		AABB(Vector3(136,0,-41),Vector3(12,16,34)),AABB(Vector3(136,0,1),Vector3(12,16,34)),
-		AABB(Vector3(36,6,-128),Vector3(12,18,20)),AABB(Vector3(-31,6,-140),Vector3(62,19,12))]
+		AABB(Vector3(36,6,-128),Vector3(12,18,20)),AABB(Vector3(-31,-3,-140),Vector3(62,28,12))]
 
 
 static func _foundation_edges() -> Array[PackedVector3Array]:

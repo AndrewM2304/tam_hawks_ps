@@ -122,7 +122,11 @@ func _build_access() -> void:
 		var outward:=Vector3(signf(a.x)*.12,0,0)
 		var points:=PackedVector3Array([a,b,a+outward,b+outward])
 		for at:Vector3 in [a,b,a+outward,b+outward]:points.append(Vector3(at.x,radius,at.z))
-		for face:Array in [[0,4,1],[1,4,5],[2,3,6],[3,7,6],[4,6,5],[5,6,7],[0,2,4],[2,6,4],[1,5,3],[3,5,7]]:
+		# ExcavatedUpperDeck owns the rim top and NorthStreetRetaining owns
+		# the flat street end. Their coplanar cheek caps formerly drew the
+		# same surfaces twice. Keep both vertical side faces and the curved
+		# mouth end, with native collision following that same face ownership.
+		for face:Array in [[0,4,1],[1,4,5],[2,3,6],[3,7,6],[0,2,4],[2,6,4]]:
 			var triangle:=PackedVector3Array([points[face[0]],points[face[1]],points[face[2]]])
 			if side>0:
 				var swap:=triangle[1];triangle[1]=triangle[2];triangle[2]=swap

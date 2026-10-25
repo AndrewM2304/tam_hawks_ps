@@ -22,6 +22,11 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	for held: int in [2,24]:
 		await _bowl_air(tree,game,check,held,false)
 	await _bowl_air(tree,game,check,24,true)
+	for lateral: float in [0.0, PI]:
+		await _natural_bowl_air(tree,game,check,lateral)
+	await _natural_bowl_air(tree,game,check,0.0,true)
+	await _print_yard_wall(tree,game,check)
+	await _recorded_rim_join(tree,game,check)
 	_release()
 	game.skater.spawn_position=spawn
 	game.start_mode(free)
@@ -76,10 +81,15 @@ static func _bowl_air(tree: SceneTree,game: Node,check: Callable,held: int,trans
 	var limb_error := 0.0
 	var knee_core_contacts := 0
 	var limb_samples := 0
+	var recognized := false
+	var applied := false
 	for tick in 240:
 		if transfer and tick==8:Input.action_release("push")
 		if transfer and tick==10:Input.action_press("push")
 		await _frames(tree,1)
+		var intent: Dictionary = rider._feature_transition.transfer_intent_snapshot()
+		recognized = recognized or bool(intent.recognized)
+		applied = applied or float(intent.applied_direction) < 0.0
 		if transfer and tick in [7,9,11,20]:print("OWNER_BOWL_INTENT tick=",tick," state=",rider._feature_transition.state," armed=",rider._feature_transition._air_push_armed," transfer=",rider._feature_transition._transfer_direction," push=",Input.get_action_strength("push")," velocity=",rider.velocity)
 		air = air or rider.airborne
 		peak=maxf(peak,rider.position.y)
@@ -106,10 +116,151 @@ static func _bowl_air(tree: SceneTree,game: Node,check: Callable,held: int,trans
 	var success := exited if transfer else returned and not exited
 	check.call(air and intact and success and peak>float(frame.point.y)+0.5,
 		"owner bowl: charged%df %s follows native air with useful height and explicit intent"%[held,"fresh transfer exits" if transfer else "held approach returns"])
+	check.call(recognized == transfer and applied == transfer,
+		"owner bowl: held approach and fresh airborne Push report distinct recognized/applied transfer intent")
 	check.call(limb_samples>30 and limb_error<0.001 and knee_core_contacts==0,
 		"owner pose: real bowl air/return retains anatomical leg lengths and keeps knees outside the chest core")
 	print("OWNER_LIMBS ",{"held":held,"transfer":transfer,"samples":limb_samples,"length_error_m":limb_error,"knee_core_contacts":knee_core_contacts})
 	print("OWNER_BOWL held=%d transfer=%s air=%s returned=%s exited=%s intact=%s peak=%.3f radius=%.3f"%[held,transfer,air,returned,exited,intact,peak,radius_max])
+
+
+static func _natural_bowl_air(tree: SceneTree,game: Node,check: Callable,lateral_angle: float,lip_jump: bool=false) -> void:
+	_release()
+	game.start_mode(true)
+	var rider: CharacterBody3D = game.skater
+	var bowl: Node3D = game.world.get_node("ClydeEastBowl")
+	var frame: Dictionary = bowl.sample(1.1,lateral_angle * float(bowl.floor_radius))
+	rider.spawn_position = frame.point + frame.normal * 0.022
+	rider.reset_skater()
+	rider.velocity = frame.tangent * 12.0
+	rider.speed = 12.0
+	rider.rotation.y = atan2(-rider.velocity.x,-rider.velocity.z)
+	if lip_jump: Input.action_press("grind")
+	var popped := false
+	var launched := false
+	var returned := false
+	var ramp_tag := true
+	var monotone := true
+	var previous_turn := 0.0
+	var maximum_turn := 0.0
+	var downward_view := false
+	for tick in 180:
+		if lip_jump and rider.lip_active and not popped:
+			Input.action_press("ollie")
+			await _frames(tree,2)
+			Input.action_release("ollie")
+			popped = true
+		await _frames(tree,1)
+		await tree.create_timer(0.0).timeout
+		if rider.airborne and rider._feature_transition.state == "air":
+			launched = true
+			ramp_tag = ramp_tag and rider._ramp_air and rider._ramp_air_normal.is_normalized() \
+				and absf(rider._ramp_air_normal.dot(Vector3.UP)) < 0.001
+			var turn: float = rider._camera_follow._ramp_turn
+			monotone = monotone and turn >= previous_turn - 0.001
+			previous_turn = turn
+			maximum_turn = maxf(maximum_turn,turn)
+			downward_view = downward_view or (rider.velocity.y < -1.0 and (-rider._camera.global_basis.z).y < -0.85)
+		elif launched and not rider.airborne:
+			returned = true
+			break
+		if rider.bail_active: break
+	check.call(launched and returned and ramp_tag and not rider.bail_active,
+		"owner bowl: wall %.0f lip jump=%s receives a finite ramp flight frame and returns" % [lateral_angle,lip_jump])
+	check.call(monotone and maximum_turn > PI - 0.01 and downward_view,
+		"owner bowl: natural wall %.0f air completes one apex handoff and looks down before landing" % lateral_angle)
+	print("PT24_NATURAL_BOWL ",{"wall":lateral_angle,"lip_jump":lip_jump,"launched":launched,"returned":returned,
+		"ramp_tag":ramp_tag,"monotone":monotone,"max_turn":maximum_turn,"downward_view":downward_view})
+
+
+static func _print_yard_wall(tree: SceneTree,game: Node,check: Callable) -> void:
+	_release()
+	game.start_mode(true)
+	var rider: CharacterBody3D = game.skater
+	var wall: Node3D = game.world.get_node("OutdoorRoutes/SouthPocketRearBoundary")
+	check.call(bool(wall.get_meta("wallrideable",false)) and not bool(wall.get_meta("no_wallride",false)),
+		"owner print yard: visible backed masonry explicitly admits wallrides without opening void guards")
+	rider.spawn_position = Vector3(61,2.8,141.85)
+	rider.reset_skater()
+	await _frames(tree,35)
+	var seen: Array[String] = []
+	var record := func(name: String,_points: int): seen.append(name)
+	rider.trick_performed.connect(record)
+	var approach := Vector3(8,0,3)
+	rider.rotation.y = atan2(-approach.x,-approach.z)
+	rider.speed = approach.length()
+	rider.velocity = approach
+	Input.action_press("ollie")
+	await _frames(tree,2)
+	Input.action_release("ollie")
+	Input.action_press("grind")
+	for tick in 20:
+		await _frames(tree,1)
+		if rider.wallriding: break
+	var admitted: bool = rider.wallriding and rider._wall.wall_id.ends_with("SouthPocketRearBoundary")
+	Input.action_press("ollie")
+	await _frames(tree,3)
+	Input.action_release("ollie")
+	await _frames(tree,2)
+	check.call(admitted and not rider.wallriding and rider.velocity.z < -1.0 and rider.velocity.y > 4.0
+		and seen.count("Wallride") == 1 and seen.count("Wallie") == 1 and not rider.bail_active,
+		"owner print yard: actual jump/glancing capture/wall jump leaves masonry once with outward momentum and one award")
+	_release()
+	rider.spawn_position = Vector3(61,2.8,141.85)
+	rider.reset_skater()
+	await _frames(tree,35)
+	seen.clear()
+	rider.rotation.y = PI
+	rider.speed = 8.0
+	rider.velocity = Vector3.BACK * 8.0
+	Input.action_press("ollie")
+	await _frames(tree,2)
+	Input.action_release("ollie")
+	Input.action_press("grind")
+	await _frames(tree,15)
+	check.call(not rider.wallriding and seen.count("Wallride") == 0 and seen.count("Wallie") == 0,
+		"owner print yard: a head-on jump into the same masonry does not award a wallride or wall jump")
+	rider.trick_performed.disconnect(record)
+	_release()
+
+
+static func _recorded_rim_join(tree: SceneTree,game: Node,check: Callable) -> void:
+	_release()
+	game.start_mode(true)
+	var rider: CharacterBody3D = game.skater
+	# Exact rejected lower-rim witness beside the newly closed arrival-bank
+	# side. All four wheel centres still lie on the lower flat at this pose.
+	rider.spawn_position = Vector3(-199.9817,13.01387,-176.7265)
+	rider.reset_skater()
+	rider.rotation.y = 0.032637
+	await _frames(tree,4)
+	await tree.create_timer(0.0).timeout
+	var fit: Dictionary = rider._native_board_floor()
+	var buried := 0
+	var lowest := INF
+	var highest := -INF
+	var space := rider.get_world_3d().direct_space_state
+	for wheel: Dictionary in rider._visual_rig.board_contact_geometry().wheels:
+		var center: Vector3 = rider._board_visual.to_global(wheel.center)
+		var support := space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			center+Vector3.UP*0.1,center-Vector3.UP*0.2,1|8,[rider.get_rid()]))
+		var gap := INF
+		for vertex: Vector3 in wheel.points:
+			var actual: Vector3 = rider._board_visual.to_global(vertex)
+			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(
+				actual+Vector3.UP*0.05,actual,1|8,[rider.get_rid()]))
+			buried += int(not hit.is_empty() and Vector3(hit.position).y > actual.y+0.0001)
+			if not support.is_empty(): gap=minf(gap,(actual-Vector3(support.position)).dot(support.normal))
+		lowest=minf(lowest,gap)
+		highest=maxf(highest,gap)
+	check.call(not fit.is_empty() and float(fit.position.y)-13.0>0.0
+		and float(fit.position.y)-13.0<=0.025 and buried==0 and lowest>=-0.003 and highest<=0.030,
+		"owner arrival bank: exact finite toe witness clears every actual lower tyre vertex within unchanged wheel/presentation bounds")
+	check.call(preload("res://tests/authentic_fidelity_integration_tests.gd")._facility_camera_clear(game)
+		and not rider.airborne and not rider.bail_active and game.score.total_score==0,
+		"owner arrival bank: exact finite rim fit preserves native support, full-model chase and zero manufactured score")
+	print("PT24_RECORDED_RIM ",{"fit":fit,"buried":buried,"wheel_min":lowest,"wheel_max":highest,
+		"body":rider.global_position,"presentation":rider._visual.global_position})
 
 
 static func _release() -> void:
