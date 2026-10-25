@@ -7,8 +7,8 @@ Four [cold-source phases](validation/cold/SOURCE-LAUNCH.json) pass with503 stabl
 inputs; actual normal title-to-play44/0 and broken-source refusal are retained.
 All [44 refreshed native frames](captures/README.md) pass their current-source
 image/camera/log audit. Rejected5,021/2 and intermediate causal runs below remain
-historical; they are not admission receipts. Current packages follow the clean
-source commit; see [package record](packages/README.md).
+historical; they are not admission receipts. Current-source unsigned Linux/universal-Mac packages export from clean source
+`d2b4ae28ac43`; [archive audits and Linux title/preview startup](packages/README.md) pass. Actual Mac execution remains open.
 
 The final code includes the native manual/bowl/last-air corrections and actual
 head/current-board/current-foot camera coverage. Actual Gallery8,000, Station600,

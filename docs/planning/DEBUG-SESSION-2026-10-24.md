@@ -14,7 +14,7 @@ review and all thirty ticket bodies remain intact. **Frozen combined admission p
 | Connected runs · C04-L01/L02/L03/L05/L06 | Source-specific inputs bank Gallery8,000, Station600, Civic400, Clyde1,900 and local Park2,000, each once with zero bails in its declared representative. Existing banks/seats are reused or refitted; no per-tick actor/score overrides establish these results. | Gallery entrance-ledge/full continuation and full summit/cutback→city or promenade→facility park chains remain unproved. Do not claim all six flagship recommendations complete. |
 | 15/16/17/18 · C05/C06/C04 | Concrete railway/train, pond/ducks/perimeter, planted-green and civic-return implementations remain available in design preview. | Existing performance/rendering admission before ordinary enablement, plus their actual visual/human witnesses. |
 | 28/29 · C03/C09 | Prior startup/recorder fixes remain; this batch adds finite manual/bowl presentation support and camera head-extent coverage. | Older contraction cause, human silhouette/controls and capture/recorder acceptance are not automatically closed. |
-| 30 · C11 | Next-batch focused evidence and rejected diagnostics are retained. Merged Music behavior is preserved and actual short/long script-launch isolation is guarded without controlling a personal account. | Current frozen required suite, captures/cold launch/artifacts, Mac/DualSense, actual Music playback, temporal/stutter, export and human acceptance. Earlier receipts certify only their recorded source. |
+| 30 · C11 | Next-batch focused evidence and rejected diagnostics are retained. Merged Music behavior is preserved and actual short/long script-launch isolation is guarded without controlling a personal account. | Current required suite, captures/cold launch and unsigned artifact audits pass; Mac/DualSense, actual Music playback, temporal/stutter, Mac execution and human acceptance remain. Earlier receipts certify only their recorded source. |
 
 Other repaired boundary, support, escape, cable and fountain tickets retain their
 existing evidence and remaining acceptance. Preview launch remains
@@ -26,7 +26,8 @@ and original stable IDs. These are local records, not newly closed GitHub issues
 The final causal fix also removes actual last-air tyre penetration with zero
 lift, and checks current as well as displayed board/foot landmarks. Clyde
 return415 completed frames pass after its declared fixture warmup. Current
-package receipts follow the clean source commit; Mac execution stays open.
+unsigned packages and Linux title/preview startup pass; source`d2b4ae28ac43`
+and exact artifact hashes are bound in the package record. Mac execution stays open.
 
 ---
 

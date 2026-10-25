@@ -27,8 +27,8 @@ The rejected5,021/2 full and intermediate contact/camera controls remain retaine
 
 Apple Music default/autoplay, transport and cached UI are preserved; shared
 `-s`/`--script` isolation closes personal-account access in scripted runs.
-Current-source unsigned package rebuilding follows the clean source commit;
-[package record](testing/pt24-next-2026-10-25/packages/README.md) owns its result.
+Current-source unsigned Linux/universal-Mac packages export from clean source
+`d2b4ae28ac43`. [Package audit and Linux title/preview startup](testing/pt24-next-2026-10-25/packages/README.md) pass; actual Mac execution remains open.
 No hosted CI, release, publishing, signing, notarization or spending is performed.
 
 Station/tunnel/train, pond, green and civic-return construction remain explicit

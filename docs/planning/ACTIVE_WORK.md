@@ -4,8 +4,9 @@ Work directly on main. The next batch passes **5,037/0** plus actual script guar
 **2/0**, clean with597 stable inputs; four cold-source phases and44 source-bound
 native frames pass. [Newest STATUS](../STATUS.md), [evidence](../testing/pt24-next-2026-10-25/README.md)
 and [remaining queue](PT24-CONSOLIDATED-2026-10-25.md) supersede older checkpoints.
-Apple Music is preserved. Package rebuilding follows the clean source commit;
-the package record owns current artifacts. Keep temporal/Mac/Music/controller/
+Apple Music is preserved. Current-source unsigned packages, archive audits and Linux title/preview startup
+pass; [package receipts](../testing/pt24-next-2026-10-25/packages/README.md) bind
+source`d2b4ae28ac43`. Actual Mac execution remains open. Keep temporal/Mac/Music/controller/
 performance/art/fun acceptance and unproved flagship extensions open. Preview
 rendering stays opt-in. Preserve implemented systems, all original task bodies,
 main-only/non-force policy and no-spend/no-hosted-CI/no-release limits. No
