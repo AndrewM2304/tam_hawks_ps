@@ -1,5 +1,9 @@
 # P0 ordinary-play repair — 17 October 2026
 
+## Personal soundtrack addition — 25 October 2026
+
+The owner requests a local Apple Music playlist soundtrack for personal Mac play. **M05-008** adds opt-in Music.app control, shuffle/autoplay and live pause-menu metadata/artwork/skip. [ADR-014](../architecture/decisions/ADR-014-personal-mac-soundtrack.md) defines this isolated audio/UI addition. It does not reopen map expansion or replace the existing physics/art/hardware acceptance gates. Root owns main/export/docs integration; audio and UI specialists own the bridge and presentation. Current results and remaining target-Mac steps are in STATUS.
+
 ## Latest owner direction — gameplay hardening before area expansion
 
 The owner now says the latest Mac build launches without errors, but the rider physics still keep rolling too quickly, shaders look messy and the UI feels buggy. Pause new districts/areas. Current work stays on this map: stable Compatibility-renderer grass/water shaders, legible HUD feedback, signed street speed and gravity response on the existing hills. Preserve the ten career goals, challenge IDs and working encounters. The first repaired-source render set is [playability-repair](../testing/screenshots/playability-repair/README.md); it is Linux/llvmpipe evidence, so final Mac feel and visual review remain open. The bounded changes and exact regression outcome are recorded in STATUS/QE. No spending or new dependencies.

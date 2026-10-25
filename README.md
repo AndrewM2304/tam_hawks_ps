@@ -16,6 +16,10 @@ The [player guide](docs/PLAYER-GUIDE.md) explains controls, combo links, special
 
 On macOS, source play uses the official editor; terminal scripts accept `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot`. Standalone macOS packages are unsigned universal test builds, with launch and Apple Silicon performance still unverified. No paid signing is required for development.
 
+## Personal Mac soundtrack
+
+**Soundtrack** connects to the Mac's Music app using its existing signed-in account. Your default is [Tony Hawk Pro Skater by Alex Troyan](https://music.apple.com/gb/playlist/tony-hawk-pro-skater/pl.u-jV89Dq9t27eY8): add it to Music's library once and it shuffles automatically when you start skating. Pause shows song/artist/album/available artwork with play/pause and skip. You can disable autoplay or choose another playlist. Music controls its own volume and keeps playing while the game is paused. No API keys or additional developer account are needed. [Setup and Mac testing limits](docs/PLAYER-GUIDE.md#your-apple-music-soundtrack-mac).
+
 ## Visual direction and Glasgow
 
 The owner requires polished UI and believable, detailed, realistic-but-fun graphics. The cleanup pass adds verified CC0 brick/concrete textures, varied facade modules, terraced streets, fountain coping, Clyde bridge transfers, hilly park paths, a CC0 anatomical head/hands, skinned clothing and a route map. Final cleanup remains tracked in **M06-007**. See [art direction](docs/product/ART_DIRECTION.md), [visual acceptance](docs/testing/VISUAL_ACCEPTANCE.md) and [level design](docs/levels/DESIGN-BRIEF.md).
@@ -26,7 +30,7 @@ The six areas interpret Royal Exchange Square, George Square, Central Station, t
 
 ## Continuity and reuse
 
-[75 full task records](docs/planning/BACKLOG.md) retain ownership, dependencies, acceptance criteria, validation and remaining work. Read [the handoff](docs/STATUS.md), [resume guide](docs/planning/RESUME.md) and [agent instructions](AGENTS.md) before continuing. The owner authorizes autonomous progress through ready tasks without recurring routine approvals. Human/hardware acceptance remains an evidence requirement.
+[76 full task records](docs/planning/BACKLOG.md) retain ownership, dependencies, acceptance criteria, validation and remaining work. Read [the handoff](docs/STATUS.md), [resume guide](docs/planning/RESUME.md) and [agent instructions](AGENTS.md) before continuing. The owner authorizes autonomous progress through ready tasks without recurring routine approvals. Human/hardware acceptance remains an evidence requirement.
 
 Godot supplies the engine facilities. An inspected MIT rail-geometry helper was adapted from Not Pro Skater, with full attribution and regression tests; the [reuse research](docs/research/SKATING_REUSE.md) records what was inspected and reused. Original project code integrates the mechanics and progression. The [provenance register](docs/licences/REGISTER.md) records original geometry/audio, locally generated Flite voice lines, two CC0 photo-based material sets, cropped CC0 MakeHuman anatomy and third-party notices.
 

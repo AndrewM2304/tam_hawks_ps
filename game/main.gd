@@ -11,6 +11,7 @@ const ObjectiveTrackerSource = preload("res://game/progression/objective_tracker
 const GapTrackerSource = preload("res://game/tricks/gap_tracker.gd")
 const SpecialMeterSource = preload("res://game/tricks/special_meter.gd")
 const SkateAudioSource = preload("res://game/audio/skate_audio.gd")
+const AppleMusicSource = preload("res://game/audio/apple_music.gd")
 const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounters.gd")
 const CatEncounterSource = preload("res://game/characters/cat_encounter.gd")
 const MarketEncounterSource = preload("res://game/characters/market_encounter.gd")
@@ -26,6 +27,7 @@ var cat_encounter: Node3D
 var market_encounter: Node3D
 var _focused_encounter := "busker_big_finish"
 var audio: Node
+var music: Node
 # Developer/script runners never write the player's profile by default.
 var persistence_enabled: bool = not OS.get_cmdline_args().has("--script")
 var profile_path := "user://career.json"
@@ -86,6 +88,10 @@ func _ready() -> void:
 	market_encounter.feedback.connect(_on_encounter_feedback)
 	audio = SkateAudioSource.new()
 	add_child(audio)
+	music = AppleMusicSource.new()
+	music.name = "AppleMusic"
+	music.configure(persistence_enabled)
+	add_child(music)
 	if audio.has_signal("caption"):
 		audio.connect("caption", _on_caption)
 	skater = Skater.new()
@@ -109,6 +115,7 @@ func _ready() -> void:
 	hud.restart_requested.connect(restart_run)
 	hud.pause_requested.connect(toggle_pause)
 	hud.free_skate_requested.connect(toggle_free_skate)
+	hud.music_requested.connect(_on_music_requested)
 	if hud.has_signal("settings_changed"):
 		hud.connect("settings_changed", apply_settings)
 	if hud.has_signal("start_requested"):
@@ -224,10 +231,17 @@ func toggle_pause() -> void:
 func start_mode(free: bool) -> void:
 	free_skate_mode = free
 	restart_run()
+	music.begin_session()
 
 func toggle_free_skate() -> void:
 	free_skate_mode = not free_skate_mode
 	restart_run()
+	music.begin_session()
+
+
+func _on_music_requested(action: String, value: String) -> void:
+	music.request(action, value)
+	_refresh_hud()
 
 func _on_trick(trick_name: String, points: int) -> void:
 	if run_finished:
@@ -547,4 +561,5 @@ func _refresh_hud() -> void:
 		"caption": _caption if _caption_time > 0 and career.settings.captions else "",
 		"save_status": save_status, "save_warning": save_warning,
 		"interaction_prompt": _interaction_prompt(),
+		"music": music.snapshot(),
 	})

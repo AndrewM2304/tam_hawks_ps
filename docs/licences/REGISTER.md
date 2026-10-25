@@ -19,6 +19,10 @@ Update this before introducing any third-party material. “Free to download” 
 
 `docs/research/GLASGOW_REFERENCES.md` records inspected historical address leads from a pinned community dataset. That dataset has no established redistribution licence and has not been imported or redistributed. Official/map/Street View pages were blocked and their contents remain uninspected. Individual factual observations can inform original facade designs once verified; source photographs, map tiles, panoramas and logos need separate permissions before inclusion as assets.
 
+## Personal Music.app integration
+
+The owner's personal Apple Music soundtrack request (25 October 2026, M05-008 / [ADR-014](../architecture/decisions/ADR-014-personal-mac-soundtrack.md)) authorizes controlling the user's installed Music app. The bridge and fallback artwork are original project code. Songs and catalog artwork are not bundled or distributed as project assets; the bridge displays current-track artwork supplied locally by Music. This introduces an optional operating-system integration, not a redistributed music library or a licence grant for publication.
+
 ## Prohibited imports
 
 No commercial game models, animation, level layouts, textures, logos, character names, UI copies or recordings. No licensed music without an explicit licence and approval. No performer voice cloning or imitation. No asset pack is approved merely by a URL or a marketplace “free” label.
