@@ -1,0 +1,17 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS C04-L03:297 fixed-width bank/court/close/entrance sites have native support and two-way rider clearance
+PASS C04-L03: both actual Merchant lower-court escapes and the civic cross-street remain clear
+CIVIC_FLAGSHIP_GEOMETRY samples=297 support=true clear=true lower_return=true added_bodies=0 added_triangles=0 added_draws=0
+DENSITY CAMERA OCCLUSION rider=(-12.00201, 1.999328, -41.88755) camera=(-11.96237, 4.653471, -47.87803) marker=(-12.1306, 2.017051, -42.12531) hit=(-12.13053, 2.018146, -42.1277) collider=GalleryWestClose
+DENSITY CAMERA OCCLUSION rider=(-9.898241, 2.03735, -37.07586) camera=(-13.73179, 4.147583, -40.41158) marker=(-10.16565, 1.990563, -37.12523) hit=(-10.18126, 2.0, -37.13961) collider=GalleryTerrace
+PASS C04-L03: actual Push descends the civic bank and earns a lower-court Ollie before landing
+PASS C04-L03: actual balanced Manual carves through the lower civic court and graded close onto the raised gallery entrance
+PASS C04-L03: the complete civic/gallery Ollie-Manual route banks its exact earned value once
+FAIL C04-L03: complete rider, board, soles and native chase volume stay clear along the full linked run
+CIVIC_FLAGSHIP_RESULT {"at":"Vector3(-3.6979122, 2.6625443, -36.95125)","bails":0,"bank_slope_ticks":70,"banked":400,"banks":1,"camera_clear":false,"camera_samples":137,"close_slope_ticks":134,"descended":true,"distance":88.1511786109768,"entrance_slope_ticks":41,"landed":true,"manual":true,"manual_begin":"Vector3(-22, 4.012421, -90.0652)","manual_end":"Vector3(-4.011864, 2.6625443, -36.929337)","manual_ticks":556,"pending":400,"reached":true,"stages":[{"at":"Vector3(-22, 5.99987, -113.998055)","speed":0.116729728877544,"stage":"civic_bank_descent"},{"at":"Vector3(-22, 4.003694, -94.82182)","speed":10.1985158920288,"stage":"lower_court_pop"},{"at":"Vector3(-22, 4.126901, -94.48665)","speed":9.83207702636719,"stage":"lower_court_air"},{"at":"Vector3(-22, 4.012421, -90.0652)","speed":9.64874172210693,"stage":"manual_court_close_entrance"},{"at":"Vector3(-3.9530358, 2.6625443, -36.93344)","speed":3.53828239440918,"stage":"single_bank_on_entrance"},{"at":"Vector3(-3.6979122, 2.6625443, -36.95125)","speed":0.0,"stage":"stable_bank_observation"}],"target_index":7,"ticks":823,"tricks":["Ollie","Manual"]}
+PASS C04-L03: ordinary no-jump civic-to-gallery bypass follows the entire supported line
+CIVIC_FLAGSHIP_TRANSIT reverse=false reached=true target=12 grounded=true bails=0 at=(-3.905849, 2.662466, -37.00699)
+PASS C04-L03: ordinary no-jump gallery-to-civic return follows the entire supported line
+CIVIC_FLAGSHIP_TRANSIT reverse=true reached=true target=12 grounded=true bails=0 at=(-22.0, 6.012466, -113.1037)
+CIVIC_FOCUSED_RESULT 7 passed / 1 failed

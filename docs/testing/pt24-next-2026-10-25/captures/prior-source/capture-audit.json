@@ -1,0 +1,22 @@
+{
+  "valid": true,
+  "design_frames": 18,
+  "matched_world_frames": 24,
+  "dimensions": [
+    1280,
+    800
+  ],
+  "current_source_bindings_verified": true,
+  "paired_camera_positions_and_settings_verified": true,
+  "clean_logs": true,
+  "log_sha256": {
+    "pt24-next-design.log": "a25ebaacf80273a58d79da16013102329fd5712664f21b75242e73742a460142",
+    "pt24-next-temporal-before.log": "e84b6a592101caa49f215fd5fca98e72bc057144c3abd7a189772f1c2eb058dd",
+    "pt24-next-temporal-after.log": "487b3dad9c812709f20f0f3bb5bad73eb5b5d114334354b073d517f6f218f690"
+  },
+  "limits": [
+    "Static authored/contact diagnostics and world-only analytic readbacks; no actual-input motion acceptance.",
+    "Baseline skips the entire display repair helper, including older repairs.",
+    "No target-Mac temporal, frame-time, art or fun acceptance."
+  ]
+}

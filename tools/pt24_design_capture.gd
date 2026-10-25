@@ -1,8 +1,9 @@
 extends SceneTree
-## Twelve bounded native frames of the actual Main, ordinary and opt-in design
-## construction. Authored static inspection, not motion/input/performance proof.
+## Twelve bounded native frames (twenty with --run-layout) of actual Main.
+## Authored static inspection, not motion/input/performance proof.
 
 const Main = preload("res://game/main.gd")
+const BowlContact = preload("res://tests/pt24_bowl_contact_tests.gd")
 const SIZE := Vector2i(1280, 800)
 const EVIDENCE := "res://docs/testing/debug-session-2026-10-24/reports/"
 const EXPECTED_FRAMES := 12
@@ -13,6 +14,7 @@ var records: Array[Dictionary] = []
 var failures := 0
 var before: Dictionary = {}
 var _preview := false
+var _run_layout := false
 
 
 func _initialize() -> void:
@@ -47,6 +49,8 @@ func _run() -> void:
 		"Normal completed play frame after ordinary startup/physics; no pose or camera fixture before this draw.")
 	for number: int in [11, 27, 28, 38]:
 		await _owner_view(number)
+	if _run_layout:
+		await _run_layout_views()
 	await _free_game()
 	await _new_game(true)
 	_check(is_instance_valid(game.world._station_railway) and is_instance_valid(game.world._park_pond),
@@ -69,7 +73,7 @@ func _run() -> void:
 		"Static train phase6.5s while paused: train is explicitly advanced into the clerestory. No actual-time train-loop acceptance.")
 	await _inspection_view("preview-bridge-cable-detail", Vector3(-34, 11, 86), Vector3(-25, 6.5, 97), 52.0,
 		"Authored static safe-bridge/cable inspection near X-25/Z97; no rail-to-cable transfer is claimed by a still.")
-	_check(records.size() == EXPECTED_FRAMES, "all twelve declared frames were captured")
+	_check(records.size() == EXPECTED_FRAMES + (8 if _run_layout else 0), "all declared frames were captured")
 	var after := _sources()
 	_check(before == after, "complete game and capture sources stayed unchanged")
 	_write_manifest(after, false)
@@ -85,6 +89,8 @@ func _new_game(preview: bool) -> void:
 	game.persistence_enabled = false
 	game.set_meta("pt24_design_preview", preview)
 	root.add_child(game)
+	_check(not game.music._can_control and not game.music._persist,
+		"capture cannot read soundtrack preferences or control a personal Music session")
 	game.start_mode(true)
 	game.set_process_unhandled_input(false)
 	for step: int in range(8):
@@ -148,6 +154,90 @@ func _inspection_view(label: String, at: Vector3, target: Vector3, fov: float, n
 	await _capture(label, inspection, note)
 
 
+func _run_layout_views() -> void:
+	await _inspection_view("default-park-seat-approach",Vector3(-130,18,-151),Vector3(-147.94,8.61,-136.01),56.0,
+		"Paused authored overview of park_east_lower, its downhill approach and centre/east bypass; no input, catch or motion proof.")
+	await _inspection_view("default-park-seat-runout",Vector3(-130,13,-124),Vector3(-147.30,6.46,-111.94),54.0,
+		"Paused authored overview of park_east_gateway and the lower straight/runout after the upper seat; no connected-combo or motion proof.")
+	await _inspection_view("default-clyde-cleared-arrival",Vector3(-43,11,115),Vector3(-27,2,129),56.0,
+		"Paused authored overview of safe-bridge landfall, cleared Z124 apron and existing west ledge; no bridge-to-ledge input proof.")
+	await _inspection_view("default-clyde-bank-bowl-return",Vector3(-13,9,128),Vector3(-22,2.4,139.5),55.0,
+		"Paused authored overview of clyde_south_link at X[-28.5,-15.5]/Z[138,141], its west run-up and existing bowl-deck endpoint; no moving return proof.")
+	await _contact_view(true)
+	await _contact_view(false)
+	await _air_contact_views()
+
+
+func _air_contact_views() -> void:
+	# Reconstruct the classified actual last-air frame, then invoke only the
+	# production finite fit. This is a declared static control, not flight input.
+	var rider: CharacterBody3D=game.skater
+	rider.reset_skater()
+	rider.global_transform=Transform3D(Basis(Vector3(.80915,0,.5876),Vector3.UP,Vector3(-.5876,0,.80915)).orthonormalized(),
+		Vector3(-9.289708,2.102755,127.4841))
+	rider.airborne=true
+	rider.velocity=Vector3(4.7677145,-6.4583817,-7.5835876)
+	rider._visual_rig.reset()
+	rider._visual_rig.animate(1.0,{"airborne":true,"grab":false,"flip":false,"manual":false,"grind":false,"speed":9.0,"push":false})
+	rider._visual.global_transform=Transform3D(Basis(Vector3(.767991,-.592711,.242660),
+		Vector3(.438894,.762984,.474582),Vector3(-.466435,-.257972,.846102)).orthonormalized(),rider.global_position)
+	rider.visible=true
+	game.hud.visible=false
+	inspection.global_position=rider.global_position+Vector3(-1.6,.45,1.4)
+	inspection.look_at(rider.global_position+Vector3.UP*.20,Vector3.UP)
+	inspection.fov=58.0
+	inspection.make_current()
+	rider.reset_physics_interpolation()
+	await _capture("default-last-air-control",inspection,
+		"Paused assigned actual last-air witness before finite fitting; source diagnostic recorded a rear tyre38.428mm and axle22.736mm inside this native flat quay. Rig animation is a neutral static fixture, not the recorded input sequence.")
+	var physical:=rider.global_transform
+	var board_local: Transform3D=rider._board_visual.transform
+	var hit:=rider.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+		rider.global_position+Vector3.UP*.2,rider.global_position-Vector3.UP*.5,1|8,[rider.get_rid()]))
+	_check(not hit.is_empty() and Vector3(hit.normal).y>.999,"last-air diagnostic has actual finite flat native support")
+	if hit.is_empty(): return
+	rider._place_air_landing_wheels(hit)
+	_check(rider.global_transform==physical and rider._board_visual.transform==board_local,
+		"last-air diagnostic preserves physical actor and local board frame")
+	rider.reset_physics_interpolation()
+	await _capture("default-last-air-fitted",inspection,
+		"Same paused assigned last-air witness after production _place_air_landing_wheels(actual native hit). Only rigid presentation orientation changes; no translation, lift, physical/input/score correction or motion proof.")
+
+
+func _contact_view(manual: bool) -> void:
+	var rider: CharacterBody3D=game.skater
+	rider.reset_skater()
+	rider.global_position=Vector3(-9.898241,2.03735,-37.07586) if manual else Vector3(-4.377836,0.793868,139.2057)
+	rider.rotation.y=atan2(-0.785988,-0.618235) if manual else -PI*0.5
+	rider.airborne=false
+	rider.visible=true
+	game.hud.visible=false
+	rider._visual_rig.reset()
+	if manual:
+		rider.manual_active=true
+		rider.manual_trick_id="manual"
+		rider.manual_id="manual"
+		rider.manual_balance=0.0507407405
+		for step: int in 24: rider._update_pose(1.0/60.0)
+		rider._place_manual_wheels()
+	else:
+		var fit: Dictionary=rider._native_board_floor()
+		_check(not fit.is_empty(),"fixed Clyde bowl diagnostic has an actual native presentation fit")
+		if fit.is_empty(): return
+		var pose: Transform3D=BowlContact._presentation_pose(rider,fit)
+		rider._visual.global_transform=Transform3D(pose.basis,pose.origin-pose.basis*rider._visual_rig._board_rest_position)
+		rider._visual_rig.animate(1.0,{"airborne":false,"grab":false,"flip":false,"manual":false,"grind":false,"speed":0.0,"push":false})
+	rider.reset_physics_interpolation()
+	inspection.global_position=rider.global_position+(Vector3(-1.4,0.9,1.5) if manual else Vector3(-1.5,1.3,-1.2))
+	inspection.look_at(rider.global_position+Vector3.UP*0.25,Vector3.UP)
+	inspection.fov=58.0
+	inspection.reset_physics_interpolation()
+	inspection.make_current()
+	await _capture("default-civic-manual-contact" if manual else "default-clyde-bowl-contact",inspection,
+		"Paused fixed contact closeview on actual Main native terrain: initial actor position/heading and Manual state are assigned;24 production pose calls and explicit loaded-axle fit." if manual else
+		"Paused fixed contact closeview on actual Main native bowl: initial actor position/heading assigned; production native fit and existing test presentation frame applied, then rig.animate. No earned input, motion, landing or camera-follow proof.")
+
+
 func _capture(label: String, camera: Camera3D, note: String, extra: Dictionary = {}) -> void:
 	# No forced pre-process draw: both scene changes and ordinary processing must
 	# reach a completed native frame before viewport readback.
@@ -191,10 +281,10 @@ func _write_manifest(after: Dictionary, timed_out: bool) -> void:
 	var manifest := {"schema": 1, "recorded_at_utc": Time.get_datetime_string_from_system(true),
 		"engine": Engine.get_version_info().string, "renderer": RenderingServer.get_current_rendering_method(),
 		"driver": RenderingServer.get_current_rendering_driver_name(), "adapter": RenderingServer.get_video_adapter_name(),
-		"resolution": [SIZE.x, SIZE.y], "expected_frames": EXPECTED_FRAMES, "failures": failures,
+		"resolution": [SIZE.x, SIZE.y], "expected_frames": EXPECTED_FRAMES + (8 if _run_layout else 0), "run_layout":_run_layout, "failures": failures,
 		"timed_out": timed_out, "source_stable": before == after, "source_before": before,
 		"source_after": after, "records": records, "profile_writes_enabled": false,
-		"method": "Actual Main built once with preview=false and once with preview=true; no persistence. Completed normal process and frame_post_draw synchronization before every PNG. Static owner/authored camera placements; physics and Main frozen after ordinary startup. Train phases explicitly reset/ticked while paused.",
+		"method": "Actual Main built once with preview=false and once with preview=true; no persistence. Completed normal process and frame_post_draw synchronization before every PNG. Static owner/authored camera placements; physics and Main frozen after ordinary startup. Train phases explicitly reset/ticked while paused. Optional --run-layout adds four default-world layout overviews, two assigned contact-pose diagnostics and two last-air orientation controls; no input or motion proof.",
 		"limits": ["Static placement and scene-construction evidence only; no new ordinary-camera gameplay, combo, temporal flicker or motion acceptance.",
 			"Native counters are snapshots, not an uncontended matched frame-time benchmark or target-Mac performance result.",
 			"Preview content retains the existing performance admission gate in ordinary play."]}
@@ -231,7 +321,7 @@ func _has_detail(frame: Image) -> bool:
 
 
 func _sources() -> Dictionary:
-	var paths := PackedStringArray(["res://project.godot", "res://tools/pt24_design_capture.gd"])
+	var paths := PackedStringArray(["res://project.godot", "res://tools/pt24_design_capture.gd", "res://tests/pt24_bowl_contact_tests.gd"])
 	_collect("res://game", paths)
 	paths.sort()
 	var result: Dictionary = {}
@@ -261,6 +351,8 @@ func _arguments() -> bool:
 			output = arguments[index]
 		elif argument.begins_with("--output="):
 			output = argument.trim_prefix("--output=")
+		elif argument == "--run-layout":
+			_run_layout = true
 		else:
 			push_error("Unknown design capture argument (the script owns both preview states): " + argument)
 			return false

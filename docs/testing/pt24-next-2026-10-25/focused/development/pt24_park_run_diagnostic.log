@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "point_ok" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://tests/pt24_park_run_tests.gd:46)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://.local/pt24_park_run_focused.gd:0)
+ERROR: Failed to load script "res://.local/pt24_park_run_focused.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+SCRIPT ERROR: Invalid call. Nonexistent function 'run' in base 'GDScript'.
+          at: _run (res://.local/pt24_park_run_focused.gd:16)
+          GDScript backtrace (most recent call first):
+              [0] _run (res://.local/pt24_park_run_focused.gd:16)

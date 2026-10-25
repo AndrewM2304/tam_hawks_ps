@@ -53,6 +53,10 @@ var _head_landmarks := PackedVector3Array()
 var _head_mesh: MeshInstance3D
 var _framing_targets := PackedVector3Array()
 var _foot_targets := PackedVector3Array()
+var _head_targets := PackedVector3Array()
+var _head_bounds := PackedVector3Array()
+var _head_sight := ConvexPolygonShape3D.new()
+var _head_query := PhysicsShapeQueryParameters3D.new()
 var _travel_velocity := Vector3.ZERO
 ## Exact same-update answers only. No state survives into another render frame.
 var debug_query_cache_enabled := true
@@ -77,6 +81,12 @@ func _init() -> void:
 	_query.collide_with_bodies = true
 	_query.collide_with_areas = false
 	_query.margin = 0.015
+	_head_sight.margin = 0.0
+	_head_query.shape = _head_sight
+	_head_query.collision_mask = 1 | 8
+	_head_query.collide_with_bodies = true
+	_head_query.collide_with_areas = false
+	_head_query.margin = 0.0
 
 
 func reset() -> void:
@@ -103,6 +113,8 @@ func reset() -> void:
 	_minimum_arm = MIN_USEFUL_ARM
 	_ground_board_y = 0.0
 	_foot_targets.clear()
+	_head_targets.clear()
+	_head_bounds.clear()
 	_travel_velocity = Vector3.ZERO
 
 
@@ -136,6 +148,8 @@ func prepare_board_landmarks(rig: Object) -> void:
 
 func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity: float, reduced_motion: bool) -> void:
 	_end_query_cache()
+	_head_targets.clear()
+	_head_bounds.clear()
 	if not is_instance_valid(rider) or not is_instance_valid(camera) or not rider.is_inside_tree(): return
 	# _process follows the same frame the renderer displays. Reading the newest
 	# physics transform here makes an otherwise smoothed camera judder at 60 Hz.
@@ -146,18 +160,37 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	_foot_targets.clear()
 	var rig: Variant = rider.get("_visual_rig")
 	if is_instance_valid(rig):
+		if _wheel_landmarks.is_empty(): prepare_board_landmarks(rig)
+		# A crouched head can be hidden by a thin overhead deck even when
+		# the fixed1.8m proxy passes above it and foot rays pass below it.
+		# Keep both ends of interpolation; all targets are fixed before caching.
+		_head_targets.append(_follow_transform(rig._head).origin)
+		var actual_head: Vector3 = rig._head.global_position
+		if actual_head != _head_targets[0]: _head_targets.append(actual_head)
+		if is_instance_valid(_head_mesh):
+			var head_frame := _follow_transform(_head_mesh)
+			var actual_frame := _head_mesh.global_transform
+			for corner: Vector3 in _head_landmarks:
+				_head_bounds.append(head_frame * corner)
+				if actual_frame != head_frame: _head_bounds.append(actual_frame * corner)
 		for leg: Dictionary in rig._legs:
 			var foot := _follow_transform(leg.foot)
 			_foot_targets.append(foot * Footwear.SOLE_CONTACT)
 			_foot_targets.append(foot * Footwear.TOE_CONTACT)
+			var actual_foot: Transform3D = leg.foot.global_transform
+			if actual_foot != foot:
+				_foot_targets.append(actual_foot * Footwear.SOLE_CONTACT)
+				_foot_targets.append(actual_foot * Footwear.TOE_CONTACT)
 		# The real wheel bearings sit below the nominal board landmark and
 		# planted soles. A shallow arrival bank can hide them independently.
-		if _wheel_landmarks.is_empty(): prepare_board_landmarks(rig)
 		if not _wheel_landmarks.is_empty() and not bool(rider.get("bail_active")):
 			var deck:Variant=rider.get("_board_visual")
 			if is_instance_valid(deck):
 				var deck_frame:=_follow_transform(deck)
 				for point:Vector3 in _wheel_landmarks:_foot_targets.append(deck_frame*point)
+				var actual_deck: Transform3D=deck.global_transform
+				if actual_deck != deck_frame:
+					for point: Vector3 in _wheel_landmarks:_foot_targets.append(actual_deck*point)
 	# Retain default heading confirmation/smoothing, but use completed native
 	# platform travel where appropriate. Helper cache cannot reverse the view.
 	var native_platform := rider.is_on_floor() and rider.get_platform_velocity().length_squared() > 0.01 \
@@ -182,6 +215,7 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	var excluded: Array[RID] = [rider.get_rid()]
 	_query.exclude = excluded
 	_ground_query.exclude = excluded
+	_head_query.exclude = excluded
 	_ground_query.collision_mask = 1
 	# Bound a delayed render update to one simulation step so a scheduling
 	# stall cannot spend its entire elapsed time on an apex camera turn.
@@ -566,6 +600,24 @@ func _usable_uncached(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: 
 		var query := PhysicsRayQueryParameters3D.create(position, board + _body_up * height, 1 | 8, excluded)
 		_visibility_rays += 1
 		if not space.intersect_ray(query).is_empty(): return false
+	for point: Vector3 in _head_targets:
+		var head_ray := PhysicsRayQueryParameters3D.create(position,point,1|8,excluded)
+		_visibility_rays += 1
+		if not space.intersect_ray(head_ray).is_empty(): return false
+	if not _head_bounds.is_empty():
+		# Centers and corner rays can all miss a thin slab crossing the visible
+		# head between them. One convex visibility volume contains both current
+		# and displayed head bounds, plus the endpoint; no geometry scan per ray.
+		# Landmarks stay fixed throughout this update, so _usable caches this
+		# single native overlap together with the existing body/foot visibility.
+		var sight := PackedVector3Array([Vector3.ZERO])
+		for corner: Vector3 in _head_bounds: sight.append(corner-position)
+		_head_sight.points = sight
+		_head_query.transform = Transform3D(Basis.IDENTITY,position)
+		_head_query.motion = Vector3.ZERO
+		_head_query.exclude = excluded
+		_shape_queries += 1
+		if not space.intersect_shape(_head_query,1).is_empty(): return false
 	for point: Vector3 in _foot_targets:
 		var sight := PhysicsRayQueryParameters3D.create(position,point,1|8,excluded)
 		_visibility_rays += 1

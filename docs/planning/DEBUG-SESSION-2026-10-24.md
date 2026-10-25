@@ -1,3 +1,35 @@
+# Next-batch ticket overlay — 25 October 2026
+
+Following the owner's instruction to continue after the Music merge, a further
+implementation batch is on the working main source from `258fec4`.
+[Current next-batch evidence and remaining gates](../testing/pt24-next-2026-10-25/README.md)
+supersede the checkpoint summaries below for these changes. The full original
+review and all thirty ticket bodies remain intact. **Frozen combined admission passes5,037/0 plus script guard2/0, clean/stable597 inputs; four cold phases and44 native frames pass. No blanket ticket closure is claimed.**
+
+| Tickets / current workpackage | New source/input result | Still required |
+| --- | --- | --- |
+| 01/09/10 · C02 | Additional proven civic/Exchange/park duplicate display faces removed with native preservation; changed displays108→98 triangles, focused17/0. | Exact remaining moving/temporal witnesses, especially civic captures2/3; no shadow disabling or global-bias closure. |
+| 11/19/20/27 · C04 | Existing feature handoffs, low market loading edge and useful gate alley remain. The longer Station representative reaches Exchange and banks600 once; the Civic representative travels through the lower court/graded gallery close and banks400 once. | Protected routes, ordinary misses/returns, current combined camera admission and human payoff/readability. The earlier market proof is not enlarged into an untested whole-market run. |
+| 23 / shared rider presentation · C03 | Manual/Nose Manual loaded-axle fitting resolves actual grade-break tyre penetration while preserving physical state and local board pitch/pivot. Same-wrapped-surface bowl fitting addresses independently reproduced tyre/axle penetration. True head extents strengthen native thin-platform camera visibility. | Frozen combined regression and rendered motion. Keep bowl return/transfer intent, limits, strict visibility and older contracted-body investigation distinct. |
+| Connected runs · C04-L01/L02/L03/L05/L06 | Source-specific inputs bank Gallery8,000, Station600, Civic400, Clyde1,900 and local Park2,000, each once with zero bails in its declared representative. Existing banks/seats are reused or refitted; no per-tick actor/score overrides establish these results. | Gallery entrance-ledge/full continuation and full summit/cutback→city or promenade→facility park chains remain unproved. Do not claim all six flagship recommendations complete. |
+| 15/16/17/18 · C05/C06/C04 | Concrete railway/train, pond/ducks/perimeter, planted-green and civic-return implementations remain available in design preview. | Existing performance/rendering admission before ordinary enablement, plus their actual visual/human witnesses. |
+| 28/29 · C03/C09 | Prior startup/recorder fixes remain; this batch adds finite manual/bowl presentation support and camera head-extent coverage. | Older contraction cause, human silhouette/controls and capture/recorder acceptance are not automatically closed. |
+| 30 · C11 | Next-batch focused evidence and rejected diagnostics are retained. Merged Music behavior is preserved and actual short/long script-launch isolation is guarded without controlling a personal account. | Current frozen required suite, captures/cold launch/artifacts, Mac/DualSense, actual Music playback, temporal/stutter, export and human acceptance. Earlier receipts certify only their recorded source. |
+
+Other repaired boundary, support, escape, cable and fountain tickets retain their
+existing evidence and remaining acceptance. Preview launch remains
+`./tools/run.sh -- --pt24-design-preview`; this batch does not admit those
+rendering expansions into ordinary launch. Keep all indexed screenshot witnesses
+and original stable IDs. These are local records, not newly closed GitHub issues.
+
+
+The final causal fix also removes actual last-air tyre penetration with zero
+lift, and checks current as well as displayed board/foot landmarks. Clyde
+return415 completed frames pass after its declared fixture warmup. Current
+package receipts follow the clean source commit; Mac execution stays open.
+
+---
+
 # Playtest repair tickets — reviewed 25 October 2026
 
 **Approved continuation, 25 October:** the owner approved the

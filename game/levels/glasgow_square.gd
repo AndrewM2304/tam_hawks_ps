@@ -109,6 +109,7 @@ func _ready() -> void:
 	_clyde_cable_line.build(self)
 	_city_art.dress_world(self)
 	_connected_runs.build(self)
+	if is_instance_valid(_outdoors): _outdoors.compose_park_runs(self)
 	_extra_grind_lines = SkateEdges.build(self)
 	_surface_audit.build(self, get_grind_lines())
 	if bool(get_meta("arcade_murals_preview", false)):

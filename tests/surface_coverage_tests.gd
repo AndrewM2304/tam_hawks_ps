@@ -66,13 +66,18 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	for record: Dictionary in audit.surfaces:
 		var body := world.get_node(NodePath(record.path)) as StaticBody3D
 		classified = classified and body != null and body.has_meta("surface_audit_id") and not record.wall_reason.is_empty()
+		if body==null or not body.has_meta("surface_audit_id") or record.wall_reason.is_empty():
+			print("SURFACE_CLASSIFICATION_FAILURE record=",record," body=",body)
 		if body.get_meta("exploration_boundary", false):
+			var boundary_matches := true
 			if body.get_meta("boundary_family","")=="SouthPocketRearBoundary":
-				boundary_excluded = boundary_excluded and record.wallrideable \
+				boundary_matches = record.wallrideable \
 					and body.get_meta("solid_boundary",false) and not body.get_meta("no_wallride",true) \
 					and _printyard_wall_backed(world,body)
 			else:
-				boundary_excluded = boundary_excluded and not record.wallrideable and body.get_meta("no_wallride", false)
+				boundary_matches = not record.wallrideable and body.get_meta("no_wallride", false)
+			if not boundary_matches: print("SURFACE_BOUNDARY_FAILURE record=",record," solid=",body.get_meta("solid_boundary",false)," excluded=",body.get_meta("no_wallride",false))
+			boundary_excluded=boundary_excluded and boundary_matches
 		if record.wallrideable:
 			eligible_helpers_agree = eligible_helpers_agree and WallRide.is_surface_eligible(body)
 		if record.generated_ledge:
@@ -177,6 +182,8 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 		PhysicsRayQueryParameters3D.create(Vector3(61,3.4,141.9),Vector3(61,3.4,143.4),1))
 	check.call(wall.get_meta("wallrideable",false) and side_hit.get("collider") == wall and absf(side_hit.normal.z) > 0.99,
 		"surface audit: representative wallride masonry has the expected real vertical side face")
+	check.call(_printyard_corner_controls(world,wall),
+		"surface audit: both coplanar yard corners retain independent rear-wall backing and refuse an absent rear/end pair")
 	var retaining := world.get_node("CivicForecourt") as StaticBody3D
 	var retaining_hit := world.get_world_3d().direct_space_state.intersect_ray(
 		PhysicsRayQueryParameters3D.create(Vector3(15,5.35,-106.8),Vector3(15,5.35,-108.5),1))
@@ -289,6 +296,22 @@ static func _visible_park_materials(tree: SceneTree,world: Node3D,check: Callabl
 	var low := INF
 	var high := -INF
 	var bad: Array = []
+	# The L06 seats now legitimately occupy the reviewed floor footprint.
+	# Prove their actual visible/native top first, then cast through ONLY these
+	# two named props to keep reviewing every original floor coordinate.
+	var seat_rids: Array[RID] = []
+	var seat_meshes: Dictionary = {}
+	for id: String in ["park_east_lower","park_east_gateway"]:
+		var body: StaticBody3D = world.get_node(id)
+		seat_rids.append(body.get_rid())
+		var meshes: Array[Dictionary] = []
+		for child: Node in body.get_children():
+			if child is MeshInstance3D and child.is_visible_in_tree() and child.mesh!=null:
+				meshes.append({"node":child,"triangles":child.mesh.generate_triangle_mesh()})
+		seat_meshes[body]=meshes
+	var seat_covered := 0
+	var seat_matches := true
+	var seat_max_error := 0.0
 	# These are the actual reviewed riding strips. The deliberately concealed
 	# three-metre terrain separation farther east is not part of this repair.
 	for region: Rect2 in [Rect2(-151.2,-123.7,8.7,26.4),Rect2(-193.7,-105.7,33.4,21.4)]:
@@ -298,6 +321,22 @@ static func _visible_park_materials(tree: SceneTree,world: Node3D,check: Callabl
 				var to := from-Vector3.UP*40
 				var native := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(from,to,1))
 				if native.is_empty(): continue
+				if seat_meshes.has(native.collider):
+					var seat_top := -INF
+					for entry: Dictionary in seat_meshes[native.collider]:
+						var hit: Dictionary = entry.triangles.intersect_segment(entry.node.to_local(from),entry.node.to_local(to))
+						if not hit.is_empty(): seat_top=maxf(seat_top,entry.node.to_global(hit.position).y)
+					var error := absf(seat_top-native.position.y)
+					seat_max_error=maxf(seat_max_error,error)
+					seat_matches=seat_matches and is_finite(seat_top) and error<0.001
+					seat_covered+=1
+					var floor_ray := PhysicsRayQueryParameters3D.create(from,to,1)
+					floor_ray.exclude=seat_rids
+					native=world.get_world_3d().direct_space_state.intersect_ray(floor_ray)
+					if native.is_empty():
+						good=false
+						print("PARK FLOOR_MISSING_UNDER_SEAT at=",from)
+						continue
 				var top := -INF
 				for entry: Dictionary in entries:
 					var bounds: AABB = entry.bounds
@@ -313,6 +352,8 @@ static func _visible_park_materials(tree: SceneTree,world: Node3D,check: Callabl
 				good = good and matches
 				if not matches and bad.size()<5: bad.append({"point":Vector3(from.x,top,from.z),"gap":separation})
 	if not bad.is_empty(): print("PARK MATERIAL MISMATCHES ",bad)
+	print("PARK SEAT VISIBLE/NATIVE samples=",seat_covered," maximum_error_m=",seat_max_error)
+	check.call(seat_covered>0 and seat_matches,"park material: actual relocated seat mesh BVHs match their native tops before reviewing every underlying floor coordinate")
 	print("PARK VISIBLE MATERIAL samples=",count," native_separation=",low,"..",high)
 	check.call(good and count>=3000,
 		"park material: actual visible mesh BVHs at over3000 reviewed road/stone sites stay above real support within nine millimetres")
@@ -412,20 +453,80 @@ static func _printyard_wall_backed(world: Node3D, body: StaticBody3D) -> bool:
 	# Fixed physical envelope, independent of opt-in tags or surface-audit data.
 	# The original safe perimeter remains solid beyond this authored wall line.
 	var shapes := body.find_children("*","CollisionShape3D",false,false)
-	if shapes.size()!=1: return false
+	if shapes.size()!=1:
+		print("PRINTYARD_WALL_SHAPES count=",shapes.size())
+		return false
 	var shape: CollisionShape3D = shapes[0]
-	if not shape.shape is BoxShape3D or shape.disabled: return false
+	if not shape.shape is BoxShape3D or shape.disabled:
+		print("PRINTYARD_WALL_SHAPE class=",shape.shape.get_class()," disabled=",shape.disabled)
+		return false
 	var bounds := shape.global_transform*AABB(-shape.shape.size*.5,shape.shape.size)
 	if bounds.position.distance_to(Vector3(-38.98,1.75,142.62))>.001 \
-		or bounds.end.distance_to(Vector3(75.98,5.,142.98))>.001: return false
+		or bounds.end.distance_to(Vector3(75.98,5.,142.98))>.001:
+		print("PRINTYARD_WALL_BOUNDS actual=",bounds," end=",bounds.end)
+		return false
 	var display := body.get_node_or_null("PropertyMasonry") as MultiMeshInstance3D
 	if display==null or not display.is_visible_in_tree() or display.multimesh.instance_count!=1 \
-		or not display.multimesh.mesh is BoxMesh or display.material_override==null: return false
+		or not display.multimesh.mesh is BoxMesh or display.material_override==null:
+		print("PRINTYARD_WALL_DISPLAY actual=",display)
+		return false
 	for x: float in [-38.7,0.,75.7]:
 		for y: float in [2.,3.,4.8]:
 			for side: float in [-1.,1.]:
 				var a := Vector3(x,y,142.8-side*.5)
 				var b := Vector3(x,y,142.8+side*.5)
 				var hit := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(a,b,1))
-				if hit.get("collider")!=body: return false
+				if hit.get("collider")!=body:
+					# The two original solid end walls share the rear wall's exact
+					# corner plane. Broadphase order may choose either at equal depth.
+					# Keep the full-world closure, then independently require the
+					# real rear wall behind ONLY that verified adjacent end body.
+					var adjacent := hit.get("collider") as StaticBody3D
+					if adjacent==null or adjacent.get_parent()!=body.get_parent() \
+						or adjacent.get_meta("boundary_family","")!="SouthPocketEndBoundary" \
+						or adjacent.get_meta("art_label","")!="SouthPocketEndBoundary" \
+						or not adjacent.get_meta("solid_boundary",false) or not adjacent.get_meta("exploration_boundary",false) \
+						or not adjacent.get_meta("no_wallride",false) or adjacent.get_meta("wallrideable",false):
+						print("PRINTYARD_WALL_UNEXPECTED from=",a," to=",b," actual=",hit)
+						return false
+					var caps := adjacent.find_children("*","CollisionShape3D",false,false)
+					if caps.size()!=1 or not caps[0].shape is BoxShape3D or caps[0].disabled: return false
+					var cap: CollisionShape3D = caps[0]
+					var cap_bounds := cap.global_transform*AABB(-cap.shape.size*.5,cap.shape.size)
+					var expected_x := -38.8 if x<0 else 75.8
+					var expected := Vector3(x,y,142.8-side*0.18)
+					if cap_bounds.position.distance_to(Vector3(expected_x-.18,1.75,116.02))>.001 \
+						or cap_bounds.end.distance_to(Vector3(expected_x+.18,5.,142.98))>.001 \
+						or hit.position.distance_to(expected)>.001 or Vector3(hit.normal).dot(Vector3(0,0,-side))<.99:
+						print("PRINTYARD_WALL_CORNER_BOUNDS actual=",cap_bounds," ray=",hit," expected=",expected)
+						return false
+					var query := PhysicsRayQueryParameters3D.create(a,b,1)
+					query.exclude=[adjacent.get_rid()]
+					var rear := world.get_world_3d().direct_space_state.intersect_ray(query)
+					if rear.get("collider")!=body or rear.position.distance_to(expected)>.001 \
+						or Vector3(rear.normal).dot(Vector3(0,0,-side))<.99:
+						print("PRINTYARD_WALL_CORNER_BACKING from=",a," to=",b," actual=",rear)
+						return false
 	return true
+
+
+static func _printyard_corner_controls(world: Node3D,rear: StaticBody3D) -> bool:
+	var positives := 0
+	var negatives := 0
+	for x: float in [-38.7,75.7]:
+		var adjacent: StaticBody3D
+		for candidate: Node in rear.get_parent().get_children():
+			if not candidate is StaticBody3D or candidate.get_meta("boundary_family","")!="SouthPocketEndBoundary": continue
+			var shape: CollisionShape3D = candidate.get_child(0)
+			if not shape.shape is BoxShape3D: continue
+			var bounds := shape.global_transform*AABB(-shape.shape.size*.5,shape.shape.size)
+			if x>=bounds.position.x and x<=bounds.end.x: adjacent=candidate
+		if adjacent==null: return false
+		var query := PhysicsRayQueryParameters3D.create(Vector3(x,3,143.3),Vector3(x,3,142.3),1)
+		query.exclude=[adjacent.get_rid()]
+		var hit := world.get_world_3d().direct_space_state.intersect_ray(query)
+		if hit.get("collider")==rear and hit.position.distance_to(Vector3(x,3,142.98))<.001: positives+=1
+		query.exclude=[adjacent.get_rid(),rear.get_rid()]
+		if world.get_world_3d().direct_space_state.intersect_ray(query).is_empty(): negatives+=1
+	print("PRINTYARD_CORNER_CONTROLS rear_present=",positives," rear_and_end_absent=",negatives)
+	return positives==2 and negatives==2

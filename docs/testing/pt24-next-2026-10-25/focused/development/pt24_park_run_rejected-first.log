@@ -1,0 +1,43 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: FAIL: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_lower
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] run (res://tests/pt24_park_run_tests.gd:44)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:218)
+ERROR: FAIL: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_gateway
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] run (res://tests/pt24_park_run_tests.gd:44)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:218)
+ERROR: FAIL: L06 park: native downhill Push/Ollie captures and rides the reused path-side seat without a bail
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] _descent (res://tests/pt24_park_run_tests.gd:142)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:218)
+ERROR: FAIL: L06 park: real landing/manual carries the same descent across the flattening into the next-feature choice
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] _descent (res://tests/pt24_park_run_tests.gd:144)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:218)
+ERROR: FAIL: L06 park: the earned grind/manual combo banks its exact pending value once and remains unchanged
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] _descent (res://tests/pt24_park_run_tests.gd:147)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:218)
+ERROR: FAIL: L06 park: ordinary chase shows both the catch and the next seat/clear through-lane choice before commitment
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] _descent (res://tests/pt24_park_run_tests.gd:151)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:218)
+PT24_PARK_DESCENT captures=[] grind_frames=0 manual_frames=0 manual_begin=(inf, inf, inf) manual_end=(inf, inf, inf) banks=1 pending=0 banked=100 bails=0 camera=true catch_visible=true choice_visible=false at=(-147.603, 8.261288, -134.7322) tricks=["Ollie"]
+PT24_PARK_TRANSIT direction=-1 reached=true supported=true bails=0 at=(-144.5965, 11.05614, -146.2214)
+PT24_PARK_TRANSIT direction=1 reached=true supported=true bails=0 at=(-144.603, 6.014096, -106.9837)
+PT24_PARK_RUN_GEOMETRY fixed_bypass=36 reused_seats=2 added_triangles=0 added_draws=0
+RESULT: 11 passed, 6 failed

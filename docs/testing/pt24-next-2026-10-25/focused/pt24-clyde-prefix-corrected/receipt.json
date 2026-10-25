@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-25T16:37:04.520052+00:00",
+  "completed_london": "2026-10-25T16:37:48.624353+00:00",
+  "wall_seconds": 44.10430083200117,
+  "command": [
+    "timeout",
+    "180",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_clyde_landing_focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 598,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "719",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "87bede2962a851ee0cf6ed1c0ce20b90133bff3385bfc7b93f163343d2319536",
+  "git_head": "258fec474e7d79c3a3c387a80e8d49cff1a675da"
+}

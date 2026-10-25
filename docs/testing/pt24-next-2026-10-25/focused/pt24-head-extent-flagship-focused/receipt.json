@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-25T15:53:51.424745+00:00",
+  "completed_london": "2026-10-25T15:55:02.396164+00:00",
+  "wall_seconds": 70.97142178600188,
+  "command": [
+    "env",
+    "XDG_DATA_HOME=/workspace/tam_hawks_ps/.local/data",
+    "XDG_CONFIG_HOME=/workspace/tam_hawks_ps/.local/config",
+    "XDG_CACHE_HOME=/workspace/tam_hawks_ps/.local/cache",
+    "godot",
+    "--headless",
+    "--path",
+    ".",
+    "--script",
+    ".local/pt24_head_extent_flagship_focused.gd",
+    "--log-file",
+    ".local/pt24-head-extent-flagship-focused-godot.log"
+  ],
+  "exit_code": 0,
+  "source_inputs": 590,
+  "source_stable": false,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "66",
+      "0"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "cf6be29e3d9e58e6b2114b8a5eae51dd640f147210942cb6af2401ff264c7da5",
+  "git_head": "258fec474e7d79c3a3c387a80e8d49cff1a675da"
+}

@@ -82,7 +82,7 @@ func _run() -> void:
 		"baseline_display":_baseline,"source_stable":before==after,"source_sha256":after,
 		"records":_records,"failures":_failures,"size":[1280,800],"quality":"Balanced-equivalent PCF/MSAA/far",
 		"repairs":world.get_meta("pt24_render_repairs",{}),
-		"method":"World-only analytic owner-camera approach, paused simulation, actual completed native readbacks. No rider/HUD/input fixture. Shadow settings identical in both modes; baseline restores only prior coping/plinth display. Images/readbacks are not frame-time or target-Mac acceptance."}
+		"method":"World-only analytic owner-camera approach, paused simulation, actual completed native readbacks. No rider/HUD/input fixture. Global renderer/shadow quality settings are identical in both modes; baseline skips the complete PT24 render-repair helper, including all of its display repairs. Images/readbacks are not frame-time or target-Mac acceptance."}
 	var output := FileAccess.open(_output.path_join("manifest.json"),FileAccess.WRITE)
 	output.store_string(JSON.stringify(report,"\t")+"\n")
 	print("PT24_TEMPORAL frames=%d failures=%d baseline=%s source_stable=%s"%[_records.size(),_failures,_baseline,before==after])

@@ -1,0 +1,41 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PT24_PARK_SEAT park_east_lower north=(-147.9186, 9.777272, -140.0145) south=(-147.9583, 7.441023, -132.0146)
+PT24_PARK_GUIDE park_east_lower verified=false points=[(-148.5186, 9.797273, -140.0175), (-147.3186, 9.797273, -140.0116), (-147.3583, 7.461024, -132.0117), (-148.5583, 7.461024, -132.0176), (-148.5186, 9.797273, -140.0175)]
+PT24_PARK_SEAT_FAIL park_east_lower at=(-148.3386, 9.777272, -140.0166) query=9.7772741317749 drawn=false native={ "position": (-148.3386, 9.777254, -140.0166), "normal": (-0.001282, 0.959891, 0.280371), "face_index": -1, "collider_id": 188173262576, "collider": park_east_lower:<StaticBody3D#188173262576>, "shape": 0, "rid": RID(21650930139618) }
+PT24_PARK_SEAT_FAIL park_east_lower at=(-148.3783, 7.441023, -132.0167) query=7.44102573394775 drawn=true native={  }
+PT24_PARK_SEAT_FAIL park_east_lower at=(-147.9583, 7.441023, -132.0146) query=7.44102334976196 drawn=false native={  }
+PT24_PARK_SEAT_FAIL park_east_lower at=(-147.5383, 7.441023, -132.0125) query=7.44102096557617 drawn=false native={  }
+ERROR: FAIL: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_lower
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] run (res://tests/pt24_park_run_tests.gd:50)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:235)
+PT24_PARK_SEAT park_east_gateway north=(-147.4165, 6.46, -115.9338) south=(-147.1921, 6.46, -107.9369)
+PT24_PARK_GUIDE park_east_gateway verified=true points=[(-148.0163, 6.48, -115.9169), (-146.8167, 6.48, -115.9506), (-146.5924, 6.48, -107.9538), (-147.7919, 6.48, -107.9201), (-148.0163, 6.48, -115.9169)]
+PT24_PARK_SEAT_FAIL park_east_gateway at=(-147.8363, 6.46, -115.922) query=6.46000003814697 drawn=false native={ "position": (-147.8363, 6.46, -115.922), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 188492029698, "collider": park_east_gateway:<StaticBody3D#188492029698>, "shape": 0, "rid": RID(21702469747172) }
+PT24_PARK_SEAT_FAIL park_east_gateway at=(-147.4165, 6.46, -115.9338) query=6.46000003814697 drawn=false native={ "position": (-147.4165, 6.46, -115.9338), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 188492029698, "collider": park_east_gateway:<StaticBody3D#188492029698>, "shape": 0, "rid": RID(21702469747172) }
+PT24_PARK_SEAT_FAIL park_east_gateway at=(-146.9967, 6.46, -115.9456) query=6.46000003814697 drawn=false native={ "position": (-146.9967, 6.46, -115.9456), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 188492029698, "collider": park_east_gateway:<StaticBody3D#188492029698>, "shape": 0, "rid": RID(21702469747172) }
+PT24_PARK_SEAT_FAIL park_east_gateway at=(-147.612, 6.46, -107.9251) query=6.46000003814697 drawn=false native={  }
+PT24_PARK_SEAT_FAIL park_east_gateway at=(-147.1921, 6.46, -107.9369) query=6.46000003814697 drawn=false native={  }
+PT24_PARK_SEAT_FAIL park_east_gateway at=(-146.7723, 6.46, -107.9487) query=6.46000003814697 drawn=false native={  }
+ERROR: FAIL: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_gateway
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] run (res://tests/pt24_park_run_tests.gd:50)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:235)
+DENSITY CAMERA OCCLUSION rider=(-147.3594, 7.327957, -131.7864) camera=(-147.3331, 9.952035, -137.0931) marker=(-147.5004, 7.148088, -131.5893) hit=(-147.4768, 7.543672, -132.3658) collider=park_east_lower
+ERROR: FAIL: L06 park: complete rider/board and chase-camera volume remain clear throughout the actual descent
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] _descent (res://tests/pt24_park_run_tests.gd:166)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:235)
+PT24_PARK_DESCENT captures=["Grind_Ledge_park_east_lower"] grind_frames=55 manual_frames=69 manual_begin=(-147.3594, 7.327957, -131.7864) manual_end=(-147.4183, 6.014113, -119.8581) banks=1 pending=1425 banked=1425 bails=0 camera=false catch_visible=true choice_visible=true at=(-147.4299, 6.014113, -117.5128) tricks=["Ollie", "Rail Grind", "Manual"]
+PT24_PARK_CLOSEST descending={ "rider": (-147.3576, 7.503474, -132.157), "guide": (-147.3576, 7.503472, -132.157), "velocity": (-0.055445, -3.259352, 11.16102), "gap": 0.00000143051147, "held": false }
+PT24_PARK_TRANSIT direction=-1 reached=true supported=true bails=0 at=(-144.5964, 11.05734, -146.2215)
+PT24_PARK_TRANSIT direction=1 reached=true supported=true bails=0 at=(-144.603, 6.014096, -106.9837)
+PT24_PARK_RUN_GEOMETRY fixed_bypass=36 reused_seats=2 added_triangles=0 added_draws=0
+RESULT: 14 passed, 3 failed

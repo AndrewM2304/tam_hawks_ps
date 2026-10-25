@@ -1,3 +1,48 @@
+# Next-batch implementation overlay — 25 October 2026
+
+The owner approved continuing after the Apple Music merge. Work is directly on
+main from `258fec4`. The [next-batch record](../testing/pt24-next-2026-10-25/README.md)
+owns current changes, exact source-bound focused receipts, retained rejections
+and the verified integration result. This overlay supersedes the earlier
+checkpoint below; its complete history and original ticket bodies are retained.
+**Frozen combined admission passes5,037/0 plus script guard2/0, clean/stable597 inputs; four cold phases and44 native frames pass.** The baseline
+4,910/0 and earlier 4,852/0 receipts certify their own source, not these changes.
+
+| Workpackage | New implementation / bounded evidence | Remaining scope |
+| --- | --- | --- |
+| C02 · PT24-01/09/10 | Exact display ownership removes12m² civic paving,9.600002m² Exchange wall overlap and15.199680m² covered park faces. The changed displays reduce108→98 triangles; native geometry/material ownership is preserved. Focused17/0. | Captures2/3 and remaining temporal witnesses need actual matched moving evidence; source overlap removal does not certify shadow stability. |
+| C03 · manual support | Loaded-axle presentation fits actual Manual/Nose Manual support at grade breaks, preserving physics and local board pitch/pivot. Focused34/0 includes the unchanged Civic line:88.151m,556 Manual ticks,400 banked once, zero bails and137 strict camera samples. | Combined regression, normal rendered motion and target-Mac feel remain; the older unexplained contracted-body case is not resolved by these tyre fixes. |
+| C03 · bowl support/camera | Native floor-following fitting now retains valid same-wrapped-surface wheel contacts instead of discarding a fit using the capsule floor-angle limit. Actual head extents join the same-update camera visibility cache for thin-platform clearance. | Keep independent native negative controls, finite tyre limits and strict camera assertions. Clean combined admission must include both shared corrections and the ordinary route/escape witnesses. |
+| C04-L01 · Gallery | Actual stair-rail grind→Manual→fountain coping→outward pop→dry Manual banks8,000 once with zero bails. This uses the existing stair apron and fountain, not a recreated district. | The entrance-bank/angled-ledge-to-stair sequence and every later south-court continuation are not proved by this representative. Human readability/fun remains. |
+| C04-L02/L03 · Station/Civic | Station spine→manual bank→city reaches Exchange and banks600 once. Civic bank→Ollie→lower-court Manual→gallery close→raised entrance banks400 once. Existing protected paths and no-jump returns are retained. | Source-specific native/camera results require final combined admission. These inputs do not accept station railway rendering or every upper/lower station line. |
+| C04-L05 · Clyde | Safe crossing→controlled landfall Manual→existing west ledge→dry runout banks1,900 once. The existing south manual bank is relocated atomically to free that landfall and give the bowl-side area a supported continuation. | Preserve the safe Z124 bypass, actual bank/return/bowl contacts and separate cable directions; broader human river-line acceptance remains. |
+| C04-L06 · Park | Two existing seats are refitted to the real east-descent tangent with matching native/query/display/guide data and unchanged resource counts. The local grind/Manual run banks2,000 once; ordinary two-way transit remains. | This is a local descent. Summit/cutback→city and promenade→facility flagship continuity remain unproved. |
+| M05-008 / C09 · Music | Merged Apple Music default/autoplay and UI/backend behavior are preserved. One shared script-launch guard now covers real `-s` and `--script` fixtures before Main enters the tree; isolation tests cannot control a personal account. | Actual Mac Automation, playback/transport, listening, pause/settings behavior and physical controls require real target evidence. Script isolation is not Music playback acceptance. |
+| C11 · integration | Focused source/input evidence and rejected attempts are retained in the next-batch record; no per-tick player transform, velocity, heading or score injection establishes these flagship results. | Freeze current source, run required combined checks, bind native frames/cold launch/current artifacts to that source, audit and hand off. Root owns admission. |
+
+These source changes reuse existing banks, seats, terrain, meshes and contact
+resources. No additional scattered props are introduced to inflate opportunity
+density. C04-L04's existing market loading-edge proof remains bounded evidence;
+this batch does not silently promote it or the local park line into all-six
+flagship completion.
+
+The station enclosure/tunnel/train, pond/ducks/perimeter, central-green groves
+and civic-return quarter remain **explicit design previews** under
+`--pt24-design-preview`. Existing stutter/rendering admission is required before
+default enablement. Target-Mac temporal rendering, performance, physical
+DualSense, actual Music playback, human fun/place/art and current-source export
+acceptance remain open. **No PT24 ticket is newly closed by this overlay.**
+Keep every original capture witness and the accepted deferrals; no new optional
+traffic/cone/lap development, hosted CI, release, spend or unattended loop follows.
+
+
+The final causal fix also removes actual last-air tyre penetration with zero
+lift, and checks current as well as displayed board/foot landmarks. Clyde
+return415 completed frames pass after its declared fixture warmup. Current
+package receipts follow the clean source commit; Mac execution stays open.
+
+---
+
 # Consolidated remaining work — 25 October 2026
 
 The owner approved the consolidated remaining-work list and asked to proceed.

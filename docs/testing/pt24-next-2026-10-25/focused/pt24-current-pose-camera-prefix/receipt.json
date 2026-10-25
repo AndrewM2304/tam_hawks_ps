@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-25T16:43:03.104919+00:00",
+  "completed_london": "2026-10-25T16:43:53.073006+00:00",
+  "wall_seconds": 49.968086837001465,
+  "command": [
+    "timeout",
+    "180",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_current_pose_camera_prefix.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 598,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "780",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "d68a4859d7dea562984a5b5c097684f49324e2977bbbc6e35d85555937cfb407",
+  "git_head": "258fec474e7d79c3a3c387a80e8d49cff1a675da"
+}

@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PT24_PARK_SEAT park_east_lower north=(-147.9186, 9.777272, -140.0145) south=(-147.9583, 7.441023, -132.0146)
+PT24_PARK_GUIDE park_east_lower verified=false points=[(-148.5186, 9.797273, -140.0175), (-147.3186, 9.797273, -140.0116), (-147.3583, 7.461024, -132.0117), (-148.5583, 7.461024, -132.0176), (-148.5186, 9.797273, -140.0175)]
+PT24_PARK_SEAT_FAIL park_east_lower at=(-148.3783, 7.441096, -132.017) query=7.44109678268433 drawn=true native={  }
+ERROR: FAIL: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_lower
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_run_focused.gd:9)
+       [1] run (res://tests/pt24_park_run_tests.gd:56)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:264)
+PT24_PARK_SEAT park_east_gateway north=(-147.4165, 6.46, -115.9338) south=(-147.1921, 6.46, -107.9369)
+PT24_PARK_GUIDE park_east_gateway verified=true points=[(-148.0163, 6.48, -115.9169), (-146.8167, 6.48, -115.9506), (-146.5924, 6.48, -107.9538), (-147.7919, 6.48, -107.9201), (-148.0163, 6.48, -115.9169)]
+PT24_PARK_DESCENT captures=["Grind_Ledge_park_east_lower"] grind_frames=38 manual_frames=52 manual_begin=(-145.9319, 6.398921, -129.1122) manual_end=(-145.9776, 6.012517, -119.9043) banks=1 pending=2000 banked=2000 bails=0 camera=true catch_visible=true choice_visible=true at=(-145.9896, 6.014025, -117.481) tricks=["Ollie", "Rail Grind", "Ollie", "Manual"]
+PT24_PARK_CLOSEST descending={ "rider": (-147.3446, 10.42209, -140.3934), "guide": (-147.3466, 9.797273, -140.0117), "velocity": (-0.009292, -6.966666, 7.08132), "gap": 0.73220270872116, "held": true }
+PT24_PARK_TRANSIT direction=-1 reached=true supported=true bails=0 at=(-144.5964, 11.05734, -146.2215)
+PT24_PARK_TRANSIT direction=1 reached=true supported=true bails=0 at=(-144.603, 6.014096, -106.9837)
+PT24_PARK_RUN_GEOMETRY fixed_bypass=36 reused_seats=2 added_triangles=0 added_draws=0
+RESULT: 18 passed, 1 failed

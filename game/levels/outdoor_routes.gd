@@ -45,6 +45,7 @@ var _legacy_edge_construction := false
 var _built := false
 var _transitions: Array[Node3D] = []
 var _practice_features: Array[Dictionary] = []
+var _park_runs_composed := false
 # Existing activity gate positions/heights, sampled before this grading repair.
 # Keep the route itself fixed; smooth only its supporting grassy bank.
 var _bank_cut_grade := PackedVector3Array([
@@ -608,6 +609,127 @@ func get_skate_feature_definitions() -> Array[Dictionary]:
 			definition.district = "kelvingrove"
 			result.append(definition)
 	return result
+
+
+## Called once after the existing infill is built, before guide snapshots and
+## batching. Reuse the two seats, their four bearings and their materials: no
+## new obstacle, draw, shape or per-frame placement work.
+func compose_park_runs(world: Node3D) -> void:
+	if _park_runs_composed: return
+	_park_runs_composed = true
+	for definition: Dictionary in [
+		{"id":"park_east_lower","z":-136.0,"old":Rect2(-155,-140,1.2,8)},
+		{"id":"park_east_gateway","z":-112.0,"old":Rect2(-154,-116,1.2,8)}]:
+		var station := _park_run_station(float(definition.z))
+		var direction: Vector3 = station.direction
+		var side := Vector3(-direction.z,0,direction.x)
+		var center: Vector3 = station.point + side*3.0
+		var start := center-direction*4.0
+		var finish := center+direction*4.0
+		# The exact native road owns the riding plane. A single graded seat
+		# bridges the small changes in path tangent; its runout stays on asphalt.
+		start.y = _local_ground(start.x,start.z)+0.46
+		finish.y = _local_ground(finish.x,finish.z)+0.46
+		_refit_park_seat(world,String(definition.id),definition.old,start,finish,side)
+	world.set_meta("pt24_park_runs_composed",true)
+
+
+func _park_run_station(z: float) -> Dictionary:
+	var at := Vector2(-145,z)
+	var distance := INF
+	var result: Dictionary = {}
+	for index: int in _park_path.size()-1:
+		var a := _park_path[index]
+		var b := _park_path[index+1]
+		var delta := Vector2(b.x-a.x,b.z-a.z)
+		var weight := clampf((at-Vector2(a.x,a.z)).dot(delta)/delta.length_squared(),0,1)
+		var point := a.lerp(b,weight)
+		var squared := at.distance_squared_to(Vector2(point.x,point.z))
+		if squared>=distance: continue
+		distance=squared
+		var direction := Vector3(delta.x,0,delta.y).normalized()
+		if direction.z<0: direction=-direction
+		result={"point":point,"direction":direction}
+	return result
+
+
+func _refit_park_seat(world: Node3D,id: String,old: Rect2,start: Vector3,finish: Vector3,side: Vector3) -> void:
+	var body: StaticBody3D = world.get_node(id)
+	var old_top: PackedVector3Array = body.get_meta("top_polygon_local")
+	var old_north := to_local(body.to_global(old_top[0])).y
+	var old_south := to_local(body.to_global(old_top[3])).y
+	var remap := func(global_point: Vector3) -> Vector3:
+		var point := to_local(global_point)
+		var along := (point.z-old.position.y)/old.size.y
+		var across := (point.x-old.get_center().x)/old.size.x
+		var top := start.lerp(finish,along)
+		return to_global(top-side*(across*old.size.x)+Vector3.UP*(point.y-lerpf(old_north,old_south,along)))
+	var new_top := PackedVector3Array()
+	for point: Vector3 in old_top:
+		new_top.append(body.to_local(remap.call(body.to_global(point))))
+	body.set_meta("top_polygon_local",new_top)
+	for child: Node in body.get_children():
+		if child is CollisionShape3D:
+			var points: PackedVector3Array = child.shape.points
+			for index: int in points.size(): points[index]=child.to_local(remap.call(child.to_global(points[index])))
+			child.shape.points=points
+		elif child is MeshInstance3D:
+			var tool := SurfaceTool.new()
+			tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+			tool.set_smooth_group(-1)
+			for point: Vector3 in child.mesh.get_faces(): tool.add_vertex(child.to_local(remap.call(child.to_global(point))))
+			tool.generate_normals()
+			child.mesh=tool.commit()
+	var guide_id := "Grind_Ledge_"+id
+	var author: Node3D = world.get_node(guide_id)
+	var points: PackedVector3Array = author.get_meta("grind_points").duplicate()
+	for index: int in points.size(): points[index]=world.to_local(remap.call(world.to_global(points[index])))
+	author.set_meta("grind_points",points)
+	# Keep unit world-up authoring frames, which the contact snapshot requires.
+	# Refit the existing cylinder instances and existing native cylinder shapes.
+	var native: StaticBody3D = author.get_node("NativeGrindBearing")
+	var visual: MultiMeshInstance3D = author.get_child(1)
+	var radius := float(author.get_meta("grind_contact_radius"))
+	for index: int in points.size()-1:
+		var first := points[index]-Vector3.UP*radius
+		var last := points[index+1]-Vector3.UP*radius
+		var delta := last-first
+		var orientation := Basis(Quaternion(Vector3.UP,delta.normalized()))
+		visual.multimesh.set_instance_transform(index,Transform3D(orientation*Basis.from_scale(Vector3(1,delta.length(),1)),(first+last)*0.5))
+		var collision: CollisionShape3D = native.get_child(index)
+		collision.shape.height=delta.length()
+		collision.transform=Transform3D(orientation,(first+last)*0.5)
+	# Replace the old rectangular query by the exact same two graded triangles.
+	# No support is left behind at the previous freestanding lawn seat.
+	for index: int in range(world._terrain.patches.size()-1,-1,-1):
+		if String(world._terrain.patches[index].id)==id: world._terrain.patches.remove_at(index)
+	for index: int in range(world._terrain.polygons.size()-1,-1,-1):
+		if String(world._terrain.polygons[index].get("id",""))==id: world._terrain.polygons.remove_at(index)
+	var corners := PackedVector3Array()
+	var footprint := PackedVector2Array()
+	for point: Vector3 in new_top:
+		var at := world.to_local(body.to_global(point))
+		corners.append(at)
+		footprint.append(Vector2(at.x,at.z))
+	world._terrain.polygons.append({"id":id,"footprint":footprint,"points":corners,"triangles":PackedInt32Array([0,1,2,0,2,3])})
+	var bounds := Rect2(footprint[0],Vector2.ZERO)
+	for point: Vector2 in footprint: bounds=bounds.expand(point)
+	var center := (start+finish)*0.5
+	body.set_meta("support_probe",to_global(center))
+	body.set_meta("rise",absf(finish.y-start.y))
+	body.set_meta("run",Vector2(finish.x-start.x,finish.z-start.z).length())
+	body.set_meta("width",old.size.x)
+	body.set_meta("park_run_refit",{"start":start,"finish":finish,"width":old.size.x,"added_triangles":0,"added_shapes":0,"added_draws":0})
+	for feature: Dictionary in world._fidelity_infill.features:
+		if String(feature.id)!=id: continue
+		feature.position=world.to_global(center-Vector3.UP*0.46)
+		feature.floor_y=minf(start.y,finish.y)-0.46
+		feature.bounds=bounds
+		feature.line=points.duplicate()
+		feature.approach=PackedVector3Array([world.to_global(start-(finish-start).normalized()*7-Vector3.UP*0.46),world.to_global(start-Vector3.UP*0.46)])
+		feature.landing=PackedVector3Array([world.to_global(finish-Vector3.UP*0.46),world.to_global(finish+(finish-start).normalized()*7-Vector3.UP*0.46)])
+		feature.review_from=world.to_global(start-(finish-start).normalized()*7+Vector3.UP*2.5)
+		feature.review_target=world.to_global(center)
 
 
 func get_park_skatepark_definition() -> Dictionary:

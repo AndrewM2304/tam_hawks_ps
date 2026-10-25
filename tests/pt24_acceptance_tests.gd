@@ -5,13 +5,24 @@ extends RefCounted
 const Chase = preload("res://game/player/chase_camera.gd")
 const Skater = preload("res://game/player/skater.gd")
 const Setup = preload("res://game/core/input_setup.gd")
+const BoardGeometry = preload("res://tests/board_geometry_tests_support.gd")
+const Footwear = preload("res://game/player/skater_footwear.gd")
+
+class FrozenPresentation extends "res://game/player/chase_camera.gd":
+	# Exact frozen displayed endpoint, independent of interpolation scheduling.
+	# The actual visual nodes and native blocker remain in the private World3D.
+	var frames: Dictionary = {}
+	func _follow_transform(node: Node3D) -> Transform3D:
+		if frames.has(node.get_instance_id()): return frames[node.get_instance_id()]
+		return super._follow_transform(node)
+
 const STATE_KEYS := [
 	"_ready", "_selected_angle", "_last_anchor", "_body_up", "_travel_sign",
 	"_direction_confirm", "_world_rear", "_heading_confirm", "_apex_rear",
 	"_motion_pitch", "_horizontal_scale", "_motion_direction", "_orbit_up",
 	"_ramp_mode", "_ramp_lift", "_ramp_turn", "_ramp_air_sequence",
 	"_ramp_exit_remaining", "_return_arm", "_minimum_arm", "_ground_board_y",
-	"_travel_velocity", "_foot_targets", "_wheel_landmarks",
+	"_travel_velocity", "_foot_targets", "_wheel_landmarks", "_head_targets", "_head_bounds",
 ]
 
 
@@ -91,8 +102,165 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	cached.reset()
 	check.call(not cached._query_cache_active and cached._clear_results.is_empty() and cached._usable_results.is_empty(),
 		"PT24 camera cache: reset retains no native-query answers")
+	await _actual_head_visibility(tree,fixture,check)
+	await _head_extent_visibility(tree,fixture,check)
+	await _current_pose_visibility(tree,fixture,check)
 	fixture.viewport.queue_free()
 	await tree.process_frame
+
+
+static func _actual_head_visibility(tree: SceneTree,fixture: Dictionary,check: Callable) -> void:
+	_arrange(fixture,"open")
+	await _frames(tree,2)
+	var rider: CharacterBody3D=fixture.rider
+	var space:=rider.get_world_3d().direct_space_state
+	var chase:=Chase.new()
+	var camera:=Camera3D.new()
+	fixture.root.add_child(camera)
+	var from: Vector3=rider.global_position+Vector3(0,2.5,5)
+	camera.global_position=from
+	chase.update(rider,camera,1.0/60.0,1.0,false)
+	var head: Vector3=rider._visual_rig._head.global_position
+	var saved:=chase._head_targets.duplicate()
+	var saved_bounds:=chase._head_bounds.duplicate()
+	var excluded: Array[RID]=[rider.get_rid()]
+	var platform:=_box(Vector3(.7,.025,.6),from.lerp(head,.55))
+	fixture.root.add_child(platform)
+	await _frames(tree,2)
+	var proxies_clear:=true
+	for height: float in [.12,Chase.CHEST_HEIGHT,1.8]:
+		proxies_clear=proxies_clear and space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			from,rider.global_position+Vector3.UP*height,1|8,excluded)).is_empty()
+	var head_hit:=space.intersect_ray(PhysicsRayQueryParameters3D.create(from,head,1|8,excluded))
+	check.call(proxies_clear and not head_hit.is_empty() and head_hit.collider==platform
+		and _native_clear(space,from,excluded),
+		"PT24 camera head: thin native deck blocks the actual head while all three old proxies and camera volume stay clear")
+	chase._head_targets.clear()
+	chase._head_bounds.clear()
+	var old_usable: bool=chase._usable(space,rider.global_position,chase._last_anchor,from,excluded)
+	chase._head_targets=saved
+	chase._head_bounds=saved_bounds
+	check.call(old_usable and not chase._usable(space,rider.global_position,chase._last_anchor,from,excluded)
+		and saved.size()>=1 and saved.size()<=2 and saved.has(head),
+		"PT24 camera head: removing only real head targets reproduces the old false-clear endpoint; the complete query rejects it")
+	chase.reset()
+	camera.global_position=from
+	for frame in 8: chase.update(rider,camera,1.0/60.0,1.0,false)
+	check.call(space.intersect_ray(PhysicsRayQueryParameters3D.create(
+		camera.global_position,head,1|8,excluded)).is_empty() and _native_clear(space,camera.global_position,excluded),
+		"PT24 camera head: ordinary solver recovers a native-clear endpoint with the real head visible")
+	chase.reset()
+	check.call(chase._head_targets.is_empty() and chase._head_bounds.is_empty(),
+		"PT24 camera head: reset clears rendered/current head centers and bounds")
+	platform.queue_free()
+	await _frames(tree,2)
+
+
+static func _head_extent_visibility(tree: SceneTree,fixture: Dictionary,check: Callable) -> void:
+	_arrange(fixture,"open")
+	await _frames(tree,2)
+	var rider: CharacterBody3D=fixture.rider
+	var space:=rider.get_world_3d().direct_space_state
+	var chase:=Chase.new()
+	var camera:=Camera3D.new()
+	fixture.root.add_child(camera)
+	var from: Vector3=rider.global_position+Vector3(0,2.5,5)
+	camera.global_position=from
+	chase.update(rider,camera,1.0/60.0,1.0,false)
+	var mesh: MeshInstance3D=rider._visual_rig._head.get_node("AnatomicalHead")
+	var hull: ConvexPolygonShape3D=mesh.mesh.create_convex_shape(true,false)
+	var extremity:=mesh.to_global(hull.points[0])
+	for vertex: Vector3 in hull.points:
+		var point:=mesh.to_global(vertex)
+		if point.x>extremity.x: extremity=point
+	var platform:=_box(Vector3.ONE*.006,from.lerp(extremity,.55))
+	fixture.root.add_child(platform)
+	await _frames(tree,2)
+	var excluded: Array[RID]=[rider.get_rid()]
+	var centers_clear:=true
+	for point: Vector3 in chase._head_targets:
+		centers_clear=centers_clear and space.intersect_ray(PhysicsRayQueryParameters3D.create(from,point,1|8,excluded)).is_empty()
+	var hit:=space.intersect_ray(PhysicsRayQueryParameters3D.create(from,extremity,1|8,excluded))
+	check.call(centers_clear and not hit.is_empty() and hit.collider==platform and _native_clear(space,from,excluded),
+		"PT24 camera head extent: a native thin edge hides an actual anatomical hull vertex while both head centers and camera volume stay clear")
+	var bounds:=chase._head_bounds.duplicate()
+	chase._head_bounds.clear()
+	var old_before: Dictionary=chase.last_update_queries
+	var old_usable: bool=chase._usable(space,rider.global_position,chase._last_anchor,from,excluded)
+	var old_after: Dictionary=chase.last_update_queries
+	chase._head_bounds=bounds
+	var before: Dictionary=chase.last_update_queries
+	var usable: bool=chase._usable(space,rider.global_position,chase._last_anchor,from,excluded)
+	var after: Dictionary=chase.last_update_queries
+	check.call(old_usable and not usable,
+		"PT24 camera head extent: removing only the bounds volume reproduces the center-only false clear; complete visibility rejects it")
+	check.call(int(after.shape)-int(before.shape)==int(old_after.shape)-int(old_before.shape)+1
+		and bounds.size()>=8 and bounds.size()<=16,
+		"PT24 camera head extent: one native shape query covers at most sixteen current/rendered corners per unique endpoint")
+	chase.reset()
+	camera.global_position=from
+	for frame in 8: chase.update(rider,camera,1.0/60.0,1.0,false)
+	var hull_clear:=true
+	for vertex: Vector3 in hull.points:
+		hull_clear=hull_clear and space.intersect_ray(PhysicsRayQueryParameters3D.create(
+			camera.global_position,mesh.to_global(vertex),1|8,excluded)).is_empty()
+	check.call(hull_clear and _native_clear(space,camera.global_position,excluded),
+		"PT24 camera head extent: bounded ordinary solver recovery leaves every actual head hull vertex visible")
+	platform.queue_free()
+	await _frames(tree,2)
+
+
+static func _current_pose_visibility(tree: SceneTree,fixture: Dictionary,check: Callable) -> void:
+	_arrange(fixture,"open")
+	await _frames(tree,2)
+	var rider: CharacterBody3D=fixture.rider
+	var rig: RefCounted=rider._visual_rig
+	var space:=rider.get_world_3d().direct_space_state
+	var excluded: Array[RID]=[rider.get_rid()]
+	var from: Vector3=rider.global_position+Vector3(0,2.5,5)
+	var physics:=_physics_snapshot(rider)
+	for kind: String in ["board","foot"]:
+		var node: Node3D=rider._board_visual if kind=="board" else rig._legs[0].foot
+		var original:=node.global_transform
+		var chase:=FrozenPresentation.new()
+		chase.frames[node.get_instance_id()]=original
+		node.global_position+=Vector3.RIGHT*.8
+		var camera:=Camera3D.new()
+		fixture.root.add_child(camera)
+		camera.global_position=from
+		chase.update(rider,camera,1.0/60.0,1.0,false)
+		var actual: Vector3=node.to_global(Footwear.TOE_CONTACT)
+		if kind=="board":
+			actual=Vector3(-INF,0,0)
+			for mesh: MeshInstance3D in BoardGeometry.visible_meshes(rig,false):
+				var hull: ConvexPolygonShape3D=mesh.mesh.create_convex_shape(true,false)
+				for vertex: Vector3 in hull.points:
+					var point:=mesh.to_global(vertex)
+					if point.x>actual.x: actual=point
+		var blocker:=_box(Vector3.ONE*.02,from.lerp(actual,.55))
+		fixture.root.add_child(blocker)
+		await _frames(tree,2)
+		var hit:=space.intersect_ray(PhysicsRayQueryParameters3D.create(from,actual,1|8,excluded))
+		var complete:=chase._foot_targets.duplicate()
+		var displayed:=PackedVector3Array()
+		for leg: Dictionary in rig._legs:
+			var foot: Transform3D=chase._follow_transform(leg.foot)
+			displayed.append(foot*Footwear.SOLE_CONTACT)
+			displayed.append(foot*Footwear.TOE_CONTACT)
+		var deck: Transform3D=chase._follow_transform(rider._board_visual)
+		for point: Vector3 in chase._wheel_landmarks: displayed.append(deck*point)
+		chase._foot_targets=displayed
+		var old_usable: bool=chase._usable(space,rider.global_position,chase._last_anchor,from,excluded)
+		chase._foot_targets=complete
+		check.call(not hit.is_empty() and hit.collider==blocker and _native_clear(space,from,excluded)
+			and old_usable,"PT24 camera current pose: a real "+kind+" extremity is hidden while every displayed-only target and the camera volume stay clear")
+		check.call(complete.size()>displayed.size() and not chase._usable(space,rider.global_position,chase._last_anchor,from,excluded),
+			"PT24 camera current pose: restoring only current "+kind+" targets rejects the old false clear without changing the4mm endpoint allowance")
+		check.call(_physics_snapshot(rider)==physics,"PT24 camera current pose: collecting both "+kind+" transforms changes no rider physics")
+		node.global_transform=original
+		blocker.queue_free()
+		camera.queue_free()
+		await _frames(tree,2)
 
 
 static func _invalidation(tree: SceneTree, fixture: Dictionary, cached: RefCounted, plain: RefCounted,

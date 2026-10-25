@@ -2029,6 +2029,7 @@ func _update_pose(delta: float) -> void:
 			_surface_pitch = lerpf(_surface_pitch, desired_pitch, 1.0 - exp(-14.0 * delta))
 			_visual.rotation.x = _surface_pitch
 	var air_visual_offset := Vector3.ZERO
+	var air_landing_support: Dictionary = {}
 	if airborne and not _ramp_air and not grinding and not wallriding and not bail_active:
 		# Read the finite native surface below the flight. Anticipating that
 		# frame preserves a continuous catch; rotating the entire figure only
@@ -2040,6 +2041,12 @@ func _update_pose(delta: float) -> void:
 		var upcoming_normal: Vector3 = _feature_transition.normal if transition_active else Vector3.UP
 		var has_upcoming := not upcoming.is_empty() and Vector3(upcoming.normal).y > 0.05
 		if has_upcoming: upcoming_normal = upcoming.normal
+		if has_upcoming and not transition_active and velocity.y<0.0 \
+				and upcoming_normal.y>0.999 and _flip_remaining<=0.0 and _grab_remaining<=0.0 \
+				and _special_remaining<=0.0 and _ollie_pose_remaining<=0.0 \
+				and not manual_active and not setup_active and not skitching and not lip_active:
+			var gap_to_landing: float=(global_position-Vector3(upcoming.position)).dot(upcoming_normal)
+			if gap_to_landing>=0.0 and gap_to_landing<=0.35: air_landing_support=upcoming
 		var local_up := global_basis.inverse() * upcoming_normal
 		var pitch := atan2(local_up.z, local_up.y)
 		var target_basis := Basis.from_euler(Vector3(pitch, 0, -asin(clampf(local_up.x, -1, 1))))
@@ -2168,6 +2175,173 @@ func _update_pose(delta: float) -> void:
 	if wallriding: _place_wall_wheels()
 	if transition_active and not airborne and not lip_active and not grinding:
 		_place_transition_wheels()
+	elif native_support and manual_active and not bail_active and not setup_active and not skitching:
+		_place_manual_wheels()
+	if not air_landing_support.is_empty(): _place_air_landing_wheels(air_landing_support)
+
+
+func _place_air_landing_wheels(support: Dictionary) -> void:
+	# A last descending bowl-air pose can retain enough roll to bury a tyre
+	# before the upright capsule lands. Correct only proven finite flat-floor
+	# overlap, after the rig has planted its feet; never move the physical body
+	# or flatten ordinary clear flight, active tricks or a curved ramp return.
+	var wheels: Array=_visual_rig.board_contact_geometry().wheels
+	if wheels.size()!=4: return
+	var axis: Vector3=support.normal
+	if axis.y<=0.999: return
+	var point: Vector3=support.position
+	var original: Transform3D=_visual.global_transform
+	var board_local: Transform3D=original.affine_inverse()*_board_visual.global_transform
+	if _air_landing_wheel_gap(original*board_local,wheels,point,axis)>=0.0: return
+	var space:=get_world_3d().direct_space_state
+	# Every real bearing must have the same finite native landing plane. A
+	# centre ray's infinite plane cannot establish support at an edge/wall.
+	for wheel: Dictionary in wheels:
+		var bearing: Vector3=_board_visual.to_global(wheel.center)
+		var query:=PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*.35,bearing-Vector3.UP*.50,collision_mask)
+		query.exclude=[get_rid()]
+		var hit:=space.intersect_ray(query)
+		if hit.is_empty() or Vector3(hit.normal).dot(axis)<0.999 \
+				or absf((Vector3(hit.position)-point).dot(axis))>0.001: return
+	var overlaps:=false
+	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
+		_floor_wheel_query.shape=shape
+		_floor_wheel_query.transform=original*board_local
+		_floor_wheel_query.motion=Vector3.ZERO
+		_floor_wheel_query.margin=0.0
+		overlaps=not space.intersect_shape(_floor_wheel_query,1).is_empty() or overlaps
+	if not overlaps: return
+	var local_axis: Vector3=global_basis.inverse()*axis
+	var landing_basis:=Basis.from_euler(Vector3(atan2(local_axis.z,local_axis.y),0,-asin(clampf(local_axis.x,-1,1))))
+	var yaw:=_spin_angle+_stance_angle+_air_grind_yaw-PI*(_revert_pose_remaining/REVERT_DURATION)
+	var target:=Transform3D(global_basis*landing_basis*Basis(Vector3.UP,yaw),original.origin)
+	if _air_landing_wheel_gap(target*board_local,wheels,point,axis)<GROUND_PRESENTATION_SKIN: return
+	var low:=0.0
+	var high:=1.0
+	# Fixed eight math-only passes find the smallest safe orientation change.
+	# There is no translation/lift and no native query inside this search.
+	for pass_index: int in 8:
+		var middle: float=(low+high)*0.5
+		var candidate:=original.interpolate_with(target,middle)
+		if _air_landing_wheel_gap(candidate*board_local,wheels,point,axis)>=GROUND_PRESENTATION_SKIN: high=middle
+		else: low=middle
+	var fitted:=original.interpolate_with(target,high)
+	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
+		_floor_wheel_query.shape=shape
+		_floor_wheel_query.transform=fitted*board_local
+		if not space.intersect_shape(_floor_wheel_query,1).is_empty(): return
+	_visual.global_transform=fitted
+	_air_support_basis=(_visual.basis*Basis(Vector3.UP,-yaw)).orthonormalized()
+
+
+func _air_landing_wheel_gap(pose: Transform3D,wheels: Array,point: Vector3,axis: Vector3) -> float:
+	var minimum:=INF
+	for wheel: Dictionary in wheels:
+		for vertex: Vector3 in wheel.points:
+			minimum=minf(minimum,(pose*vertex-point).dot(axis))
+	return minimum
+
+
+func _place_manual_wheels() -> void:
+	# The capsule can leave a grade before the loaded axle, or enter a bank
+	# while that axle is still on flat paving. Fit that real pair AFTER the rig
+	# has applied its manual pivot and planted the shoes. The board's local
+	# manual pitch/position and every articulated contact stay unchanged.
+	var definition := TrickCatalog.definition(manual_trick_id)
+	if bool(definition.get("manual_pogo",false)) or bool(definition.get("manual_casper",false)) \
+			or absf(float(definition.get("manual_roll",0.0)))>0.00001: return
+	var wheels: Array = _visual_rig.board_contact_geometry().wheels
+	if wheels.size()!=4 or absf(_board_visual.rotation.x)<0.00001: return
+	var loaded: Array[int] = []
+	for index: int in wheels.size():
+		if Vector3(wheels[index].center).z*_board_visual.rotation.x>0.0: loaded.append(index)
+	if loaded.size()!=2: return
+	var original := _visual.transform
+	var original_pitch := _surface_pitch
+	var original_air_basis := _air_support_basis
+	var minimum_normal := cos(floor_max_angle)
+	var space := get_world_3d().direct_space_state
+	var axis := _visual.global_basis.y.normalized()
+	var fitted := false
+	for pass_index: int in 3:
+		var hits: Array[Dictionary] = []
+		var aligned := true
+		for index: int in loaded:
+			var bearing: Vector3 = _board_visual.to_global(wheels[index].center)
+			var query := PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50,collision_mask)
+			query.exclude = [get_rid()]
+			var hit := space.intersect_ray(query)
+			if hit.is_empty() or Vector3(hit.normal).y<minimum_normal:
+				_visual.transform=original;_surface_pitch=original_pitch;_air_support_basis=original_air_basis
+				return
+			hits.append(hit)
+			aligned = aligned and Vector3(hit.normal).dot(axis)>0.999
+		var lowest := INF
+		var highest := -INF
+		for side: int in loaded.size():
+			var wheel_gap := INF
+			for point: Vector3 in wheels[loaded[side]].points:
+				wheel_gap = minf(wheel_gap,(_board_visual.to_global(point)-Vector3(hits[side].position)).dot(hits[side].normal))
+			lowest=minf(lowest,wheel_gap)
+			highest=maxf(highest,wheel_gap)
+		# Leave established same-plane manuals exactly alone. This also avoids
+		# adding a neutral four-wheel fit which would erase the manual pivot.
+		if pass_index==0 and aligned and lowest>=0.004 and highest-lowest<=0.001: return
+		var axle: Vector3 = Vector3(hits[1].position)-Vector3(hits[0].position)
+		if axle.length_squared()<0.01:
+			_visual.transform=original;_surface_pitch=original_pitch;_air_support_basis=original_air_basis
+			return
+		# Native rear planes supply longitudinal grade; their actual finite hit
+		# positions determine axle roll across a join. A capsule normal or a
+		# simple averaged normal cannot support wheels on two different planes.
+		axis = (Vector3(hits[0].normal)+Vector3(hits[1].normal)).slide(axle.normalized()).normalized()
+		if axis.y<minimum_normal:
+			_visual.transform=original;_surface_pitch=original_pitch;_air_support_basis=original_air_basis
+			return
+		var local_axis := global_basis.inverse()*axis
+		var pitch := atan2(local_axis.z,local_axis.y)
+		var support := Basis.from_euler(Vector3(pitch,0,-asin(clampf(local_axis.x,-1,1))))
+		var visual_yaw := _spin_angle+_stance_angle+_air_grind_yaw-PI*(_revert_pose_remaining/REVERT_DURATION)
+		_visual.basis=support*Basis(Vector3.UP,visual_yaw)
+		var lift := -INF
+		for side: int in loaded.size():
+			var normal: Vector3 = hits[side].normal
+			var gap := INF
+			for point: Vector3 in wheels[loaded[side]].points:
+				gap=minf(gap,(_board_visual.to_global(point)-Vector3(hits[side].position)).dot(normal))
+			lift=maxf(lift,(GROUND_PRESENTATION_SKIN-gap)/normal.y)
+		if not is_finite(lift) or absf(lift)>0.10:
+			_visual.transform=original;_surface_pitch=original_pitch;_air_support_basis=original_air_basis
+			return
+		_visual.position += global_basis.inverse()*Vector3.UP*lift
+		_surface_pitch=pitch
+		_air_support_basis=support
+		fitted=true
+	if not fitted: return
+	# A centre ray's infinite plane does not prove a finite tyre rim clear at
+	# an edge. Reuse the immutable real tyre hulls, with the actual manual pose.
+	var pose: Transform3D = _board_visual.global_transform
+	var rim_lift := 0.0
+	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
+		_floor_wheel_query.shape=shape
+		_floor_wheel_query.transform=pose
+		_floor_wheel_query.motion=Vector3.ZERO
+		_floor_wheel_query.margin=0.0
+		if space.intersect_shape(_floor_wheel_query,1).is_empty(): continue
+		var raised := pose
+		raised.origin.y += PLANAR_RIM_MAX_LIFT
+		_floor_wheel_query.transform=raised
+		_floor_wheel_query.margin=GROUND_PRESENTATION_SKIN
+		if not space.intersect_shape(_floor_wheel_query,1).is_empty():
+			_visual.transform=original;_surface_pitch=original_pitch;_air_support_basis=original_air_basis
+			return
+		_floor_wheel_query.motion=Vector3.DOWN*PLANAR_RIM_MAX_LIFT
+		var fractions := space.cast_motion(_floor_wheel_query)
+		if fractions.size()!=2:
+			_visual.transform=original;_surface_pitch=original_pitch;_air_support_basis=original_air_basis
+			return
+		rim_lift=maxf(rim_lift,PLANAR_RIM_MAX_LIFT*(1.0-clampf(fractions[0],0,1)))
+	_visual.position += global_basis.inverse()*Vector3.UP*rim_lift
 
 
 func _place_transition_wheels() -> void:
@@ -2626,7 +2800,18 @@ func _native_board_floor() -> Dictionary:
 	var wheels: Array = _visual_rig.board_contact_geometry().wheels
 	if wheels.size() != 4: return {}
 	var center := _native_floor_hit(Vector3.UP)
-	if center.is_empty() or Vector3(center.normal).y < cos(floor_max_angle): return {}
+	if center.is_empty(): return {}
+	var bowl: Node3D
+	var contacted: Object = center.get("collider")
+	if contacted is Node and contacted.has_meta("transition_feature"):
+		var feature: Variant = contacted.get_meta("transition_feature")
+		if is_instance_valid(feature) and feature is Node3D and bool(feature.get("wrap_lateral")) \
+				and feature.get("surface_body")==contacted:
+			bowl=feature
+	# Locomotion's capsule floor limit cannot classify the finite surface
+	# beneath every wheel on a concave bowl. This exception is presentation
+	# only, tied to the actual native wrapped wall beneath the board centre.
+	if not _native_board_support_allowed(center,bowl): return {}
 	var axis: Vector3 = center.normal
 	var point := global_position-axis*(global_position-Vector3(center.position)).dot(axis)
 	var space := get_world_3d().direct_space_state
@@ -2651,7 +2836,7 @@ func _native_board_floor() -> Dictionary:
 			var query := PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50,collision_mask)
 			query.exclude = [get_rid()]
 			var hit := space.intersect_ray(query)
-			if hit.is_empty() or Vector3(hit.normal).y<cos(floor_max_angle): return {}
+			if not _native_board_support_allowed(hit,bowl): return {}
 			var support: Vector3 = hit.position
 			same_plane = same_plane and Vector3(hit.normal).dot(axis)>0.999 \
 				and absf((support-Vector3(center.position)).dot(axis))<=0.001
@@ -2666,7 +2851,7 @@ func _native_board_floor() -> Dictionary:
 		# normals still agree, so verify all four locations before this shortcut.
 		if same_plane: return _native_planar_rim_fit(point,axis,frame)
 		axis = (rear-front).cross(right-left).normalized()
-		if axis.y<cos(floor_max_angle): return {}
+		if axis.y<(0.05 if is_instance_valid(bowl) else cos(floor_max_angle)): return {}
 		var average := (front+rear)*0.25
 		var clearance := 0.0
 		for sample: Vector3 in samples:
@@ -2687,7 +2872,7 @@ func _native_board_floor() -> Dictionary:
 		var query := PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50,collision_mask)
 		query.exclude = [get_rid()]
 		var hit := space.intersect_ray(query)
-		if hit.is_empty() or Vector3(hit.normal).y<cos(floor_max_angle): return {}
+		if not _native_board_support_allowed(hit,bowl): return {}
 		# Use the real rounded GLB tyre vertices, not a primitive cylinder
 		# extent or the urethane bushings in the joined material surface.
 		var gap := INF
@@ -2697,7 +2882,26 @@ func _native_board_floor() -> Dictionary:
 		lift = maxf(lift,(0.008-gap)/Vector3(hit.normal).y)
 	if lift>0.10: return {}
 	point.y += lift
+	if is_instance_valid(bowl):
+		# Plane samples alone cannot establish that each finite tyre volume is
+		# clear. Keep the existing skin/lift ceilings and reject an unfittable
+		# pose, rather than moving the physical capsule or hiding an obstacle.
+		var pose := Transform3D(final_frame,point+axis*GROUND_PRESENTATION_SKIN+final_frame*_visual_rig._board_rest_position)
+		for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
+			_floor_wheel_query.shape=shape
+			_floor_wheel_query.transform=pose
+			_floor_wheel_query.motion=Vector3.ZERO
+			_floor_wheel_query.margin=0.0
+			if not space.intersect_shape(_floor_wheel_query,1).is_empty(): return {}
 	return {"position":point,"normal":axis}
+
+
+func _native_board_support_allowed(hit: Dictionary,bowl: Node3D) -> bool:
+	if hit.is_empty(): return false
+	var normal: Vector3 = hit.normal
+	if not normal.is_finite(): return false
+	if normal.y>=cos(floor_max_angle): return true
+	return is_instance_valid(bowl) and normal.y>0.05 and hit.get("collider")==bowl.get("surface_body")
 
 
 func _native_planar_rim_fit(point: Vector3, axis: Vector3, frame: Basis) -> Dictionary:

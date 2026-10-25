@@ -1,3 +1,18 @@
+# Verified next-batch source — 25 October 2026
+
+Work directly on main. The next batch passes **5,037/0** plus actual script guard
+**2/0**, clean with597 stable inputs; four cold-source phases and44 source-bound
+native frames pass. [Newest STATUS](../STATUS.md), [evidence](../testing/pt24-next-2026-10-25/README.md)
+and [remaining queue](PT24-CONSOLIDATED-2026-10-25.md) supersede older checkpoints.
+Apple Music is preserved. Package rebuilding follows the clean source commit;
+the package record owns current artifacts. Keep temporal/Mac/Music/controller/
+performance/art/fun acceptance and unproved flagship extensions open. Preview
+rendering stays opt-in. Preserve implemented systems, all original task bodies,
+main-only/non-force policy and no-spend/no-hosted-CI/no-release limits. No
+unattended continuation runs; do not repeat unchanged validation without cause.
+
+---
+
 # Verified soundtrack merge — 25 October 2026
 
 Soundtrack `02065ae` is integrated with main `c046497`, preserving the PT24

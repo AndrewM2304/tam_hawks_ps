@@ -17,8 +17,17 @@ default playback first lists the library and chooses only a unique title match.
 `open_default` targets Music with `/usr/bin/open -a Music` and the exact supplied
 URL; opening a URL alone is not assumed to establish a playback queue.
 
-External Music control is disabled for scripted/non-persistent runs. Dedicated
-`user://soundtrack.cfg` preferences do not change career/save schemas or game
+`AppleMusic.is_scripted_launch(PackedStringArray)` is the shared engine-argument
+predicate for Main's default persistence/title branch and Music configuration.
+It recognizes `--script`, `-s` and `--script=…` only before the `--` user-argument
+boundary. `configure(false)` remains inert even in a normal scene launch;
+automated Main fixtures set persistence false **before** adding Main to the
+tree. Assigning it later does not reconfigure an existing Music node. Scripted
+or non-persistent games neither load/save real soundtrack preferences nor issue
+Music/open-default commands. Normal owner-authorized autoplay and saved manual/
+off choices retain their existing behavior.
+
+Dedicated `user://soundtrack.cfg` preferences do not change career/save schemas or game
 sound-bus gain. One worker serializes bounded Apple Events and metadata polling;
 live menu controls update without page rebuild or focus loss. Missing stream
 metadata does not disable skip while playback remains active. Mac execution is
@@ -29,6 +38,112 @@ HUD reuses unchanged nested data and updates transports only on changed metadata
 or page construction. Artwork is bounded to512px and is drawn in menus only;
 no world draw, geometry, shader or physics-body cost is added. Existing target-Mac
 and stutter admission remains open.
+
+## Connected-run composition and finite presentation contact —25 October2026
+
+Current implementation/evidence is in the
+[next-batch record](../testing/pt24-next-2026-10-25/README.md). These interfaces
+separate native physical movement, presentation support and input-driven route
+acceptance. They do not certify human fun, Mac performance, real Music playback
+or ordinary enablement of the existing rendering previews.
+
+### Startup placement and terrain ownership
+
+World startup orders `CityArt.dress_world` → `PT24ConnectedRuns.build` →
+`OutdoorRoutes.compose_park_runs(world)` → semantic edge generation/surface
+audit → static batching. Each placement pass is idempotent. Moving/refitting a
+feature must update its real collision/display/guide and support records before
+any downstream consumer snapshots them; route metadata alone cannot move it.
+
+`compose_park_runs` refits only `park_east_lower` and `park_east_gateway`, using
+the local road tangent near Z−136/−112, a3m west shoulder offset, an8m axis and
+native endpoint heights plus0.46m. The existing unit/world-up author frames
+remain. One remap updates top metadata, convex seat vertices,12-triangle visible
+meshes, authored grind points, four existing native bearing cylinders and their
+four visible MultiMesh instances. Native cylinder height/orientation and the
+matching visible instance length/orientation change together; contact radius,
+resource counts and materials remain. The old rectangular terrain patch and
+any old same-ID polygon are replaced by the same four-corner polygon with
+triangles `[0,1,2,0,2,3]`, so height queries cannot retain the old lawn seat.
+Feature bounds, floor, approach/landing and review positions follow the refit.
+Grind contact classification remains authoritative; a refit does not promote an
+unsupported graded guide into verified named contact.
+
+The existing `clyde_south_link` bank moves from`(−27.5,2,128)` to
+`(−22,2,139.5)` without rotation or new resources. Its body/display, matching
+terrain patch bounds, feature and route records translate together. This clears
+the safe bridge's diagonal arrival toward the retained west ledge while Z124
+stays a two-way bypass. Its east endpoint`(−11.5,2,139.5)` meets actual bowl
+annular deck, not a long dry runout. The original bank crossing/coast, subsequent
+native bowl-side return and earned bank remain acceptance requirements. The
+railway/pond/green/civic previews keep their separate admission gate.
+
+### Grounded Manual/Nose Manual loaded-axle fit
+
+`Skater._place_manual_wheels()` runs after rig animation only for eligible native
+grounded manuals. It reuses immutable real wheel vertices/hulls from
+`board_contact_geometry()`. The actual pitched board selects its loaded pair;
+each wheel's own finite native hit supplies support. The pair's hit positions
+constrain axle roll across different planes, with longitudinal grade from the
+native planes. The capsule normal does not replace those contacts.
+
+Only the whole presentation is fitted. The local approximately16° manual pitch,
+rig axle compensation, shoes-on-deck and limb lengths remain; physical transform,
+velocity, capsule, balance/input and score policy are unchanged. Pogo, Casper and
+rolling manual variants retain their separate poses. Already agreeing planar
+contacts return unchanged when normals align, both loaded gaps are at least4mm
+and their difference is at most1mm. This shortcut threshold is not a relaxation
+of camera or native penetration assertions.
+
+The existing8mm presentation skin remains. At most three passes use two support
+rays each; each correction refuses an absolute vertical displacement above100mm.
+Four cached tyre overlaps plus at most four raised overlaps/four motion casts
+validate finite rims using the existing25mm rim bound. The ceiling is18 local
+native queries; the agreeing planar case uses two rays. No mesh/hull construction
+or world rendering/physics resource is added per frame. Unsupported/obstructed
+fits restore the original presentation. [Diagnosis/controls](../testing/pt24-next-2026-10-25/manual-grade.md).
+
+### Ordinary native floor following inside a wrapped bowl
+
+`_native_board_floor()` keeps locomotion's floor-angle policy separate from
+individual-wheel geometry. An actual centre ray may establish a wrapped-bowl
+presentation context only when its collider is that valid feature's own
+`surface_body`; optional `transition_feature` metadata is guarded with
+`has_meta` before reading. Steeper wheel faces are admitted only on that same
+native wall, with finite upward normalY above0.05. Other surfaces keep the
+existing `cos(floor_max_angle)` condition; the physical floor limit, transition
+acquisition/state and forces do not change.
+
+Four actual finite supports determine the frame in the existing three passes.
+The contextual fitted axis must retain upward Y≥0.05; the8mm skin,100mm final
+vertical-fit refusal and25mm planar-rim bound remain. Four cached real tyre hulls
+verify the final contextual candidate against native geometry; an intersecting
+candidate is rejected. Maximum work is17 fit rays, at most one existing normal
+fallback ray, and four overlaps:22 local native queries, without added world
+resources. This also clears real axle extrema; no material or vertex is exempted.
+[Recorded native witnesses and negative controls](../testing/pt24-next-2026-10-25/bowl-contact.md).
+
+### Complete head visibility and camera cache cost
+
+Camera startup caches immutable board extrema and eight conservative
+`AnatomicalHead` AABB corners. Before same-update caching starts, it freezes the
+actual/displayed head centers and both transformed sets of corners (at most16),
+plus existing body/foot/board targets. `_usable` retains those center rays and
+performs one native convex visibility-volume overlap containing the endpoint
+and head bounds. This catches a thin slab intersecting the head between rays.
+It reuses one shape/query resource per camera, adds at most two head-center rays
+and one overlap per unique usable candidate, and performs no anatomical mesh
+scan in the query loop. Same-update endpoint caching includes the complete
+result; direct helpers, reset, invalid returns and subsequent updates are fresh.
+
+`last_update_queries` reports `shape`, `ray`, `cast`, `clear_hits`, `usable_hits`.
+Shape includes both clear-camera and head-volume overlaps; ray counts include
+visibility/support checks but exclude the unchanged candidate-ground rays.
+These are work counters, not engine-wide timing or target-Mac FPS evidence.
+Every native sweep remains. Position, ramp orbit, FOV, speed bounds, clearance
+and current/displayed landmark coverage remain independent requirements.
+Frustum/occlusion witnesses observe completed node processing, rather than the
+earlier `process_frame` signal. [Camera causal witness and cost limits](../testing/pt24-next-2026-10-25/gallery-station.md).
 
 ## Approved PT24 continuation contracts —25 October2026
 
@@ -422,3 +537,32 @@ Face buttons retain Cross/Square/Circle/Triangle for Ollie/flip/grab/grind-lip. 
 ## Bail/human-motion research follow-up (22 October2026)
 
 Historical4eb9c03 research checkpoint, superseded by the bail contract above: no production interface change at that checkpoint. `bailed`, `reset_skater()` and `recover_to()` retain their current immediate behaviour. [BAIL-R01…04](../research/THPS-BAIL-AND-HUMAN-MOTION-2026-10-22.md) records the measured instant-reset/limb-reach defects and proposed reachable contact poses followed by a separate bail/recovery lifecycle. Do not treat proposed `begin_bail` or phase names as implemented APIs. Score/encounter failure stays one-shot, explicit Restart and hazard/run-spawn contracts remain, and physical/visual/human acceptance must be supplied for the eventual production change.
+
+The added head visibility envelope assigns9–17 convex points for each unique
+attempted endpoint, causing a native hull update/cook as well as the recorded
+overlap query. Resource reuse is not zero allocation/cooking; query-count parity
+does not measure that cost. Existing bounded candidate search and same-update
+memoization bound it; target-Mac timing/stutter acceptance remains open.
+
+### Finite last-air landing presentation
+
+Neutral ordinary descending air may fit presentation near a real flat landing
+(UP normalY>0.999, body0…0.35m above the existing air-support ray). Active ramp
+returns, tricks, manuals, setup/skitch/lip and other excluded states keep their
+existing behavior. `_place_air_landing_wheels(native_hit)` changes only the rigid
+visual orientation and presentation `_air_support_basis`, after rig animation.
+A negative actual tyre-plane gap must also produce real native hull overlap;
+four finite bearing rays must agree on the native plane. Eight math-only
+bisections choose the minimum safe rotation, followed by all-four-hull validation.
+There is **zero translation/lift** and no physical transform, velocity, floor,
+local board, planted-foot, input or score change. Cached tyre geometry/query
+resources are reused. At most12 additional native queries occur in this proven
+penetrating near-landing context; clear/far air and non-flat controls are unchanged.
+This geometric contact correction is not a target timing or human motion result.
+
+Camera foot/board visibility now includes the actual current transforms as well
+as the displayed interpolation pose, only when different. It reuses existing
+cached real mesh landmarks and sole/toe endpoints before the same-update cache
+starts. This adds only a second existing target set (and two endpoints per leg),
+with no new hull/resource/cast or endpoint-tolerance change. All415 completed
+frames of the unchanged Clyde return pass in the780/0 causal prefix.

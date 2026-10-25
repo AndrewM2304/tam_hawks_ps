@@ -26,6 +26,10 @@ func build(world: Node3D) -> void:
 	# The safe bridge's west return gets an edge aligned with its arrival heading;
 	# it does not send the through lane across the bowl mouth or technical relay.
 	_move_feature(world,"clyde_south_return",Vector3(-18.5,2,140),Vector3(-32.2,2,134.5),-PI*0.5)
+	# The former quay-bank position blocked the safe bridge's diagonal landing
+	# into that west ledge. Reuse the same bank along the supported rear return;
+	# its east runout meets the bowl's existing flat annular deck, not its void.
+	_move_feature(world,"clyde_south_link",Vector3(-27.5,2,128),Vector3(-22,2,139.5),0.0)
 	_recording_court(world)
 	_gate_alley_frame(world)
 	if bool(world.get_meta("pt24_design_preview",false)):

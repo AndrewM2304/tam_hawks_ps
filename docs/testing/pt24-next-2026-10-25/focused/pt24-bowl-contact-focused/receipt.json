@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-25T15:56:38.485886+00:00",
+  "completed_london": "2026-10-25T15:56:50.869865+00:00",
+  "wall_seconds": 12.383978998001112,
+  "command": [
+    "timeout",
+    "180",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_bowl_contact_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 591,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "48",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "c10767d48b05c32205cf753d5fe4d600e262a518cbad000c9156cddab0c3ead5",
+  "git_head": "258fec474e7d79c3a3c387a80e8d49cff1a675da"
+}

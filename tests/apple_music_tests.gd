@@ -5,8 +5,20 @@ extends RefCounted
 const Music = preload("res://game/audio/apple_music.gd")
 const PLAYLIST_ID := "ABCDEF0123456789"
 
+class PreferenceSpy extends Music:
+	var preference_reads := 0
+	func _load_preferences() -> void: preference_reads+=1
+
 
 static func run(tree: SceneTree, check: Callable) -> void:
+	check.call(Music.is_scripted_launch(PackedStringArray(["--script", "res://fixture.gd"]))
+		and Music.is_scripted_launch(PackedStringArray(["-s", "res://fixture.gd"]))
+		and Music.is_scripted_launch(PackedStringArray(["--script=res://fixture.gd"])),
+		"soundtrack: every script option spelling blocks profile access and external Music control")
+	check.call(not Music.is_scripted_launch(PackedStringArray(["--path", "/tmp/game", "--", "--script", "a song"]))
+		and not Music.is_scripted_launch(PackedStringArray(["--scripted-playlist", "res://a-script.gd"]))
+		and not Music.is_scripted_launch(PackedStringArray()),
+		"soundtrack: ordinary launches and user metadata preserve the owner's normal playback choice")
 	var music = Music.new()
 	music.configure(false)
 	tree.root.add_child(music)
@@ -87,10 +99,14 @@ static func run(tree: SceneTree, check: Callable) -> void:
 
 
 static func _test_default_playlist(check: Callable) -> void:
-	var music = Music.new()
+	var music = PreferenceSpy.new()
 	music.configure(true) # Script runners must stay inert even with persistence requested.
-	check.call(not music._can_control and not music._persist and not music.snapshot().enabled,
+	var isolated: bool = not music._can_control and not music._persist and not music.snapshot().enabled and music.preference_reads==0
+	check.call(isolated,
 		"soundtrack: requesting persistence cannot enable Music in an automated script")
+	if not isolated:
+		music.free()
+		return
 	check.call(music.snapshot().default_playlist_url == "https://music.apple.com/gb/playlist/tony-hawk-pro-skater/pl.u-jV89Dq9t27eY8"
 		and music.snapshot().default_playlist_name == "Tony Hawk Pro Skater"
 		and not Music._valid_playlist_id("pl.u-jV89Dq9t27eY8"),

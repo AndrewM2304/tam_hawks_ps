@@ -36,7 +36,7 @@ var _focused_encounter := "busker_big_finish"
 var audio: Node
 var music: Node
 # Developer/script runners never write the player's profile by default.
-var persistence_enabled: bool = not OS.get_cmdline_args().has("--script")
+var persistence_enabled: bool = not AppleMusicSource.is_scripted_launch(OS.get_cmdline_args())
 var profile_path := "user://career.json"
 var save_status := ""
 var save_warning := ""
@@ -166,7 +166,7 @@ func _ready() -> void:
 	playtest_recorder.configure(self)
 	hud.debug_requested.connect(playtest_recorder.show_menu)
 	_refresh_hud()
-	if not OS.get_cmdline_args().has("--script") and hud.has_method("show_title"):
+	if not AppleMusicSource.is_scripted_launch(OS.get_cmdline_args()) and hud.has_method("show_title"):
 		paused = true
 		get_tree().paused = true
 		audio.set_paused(true)

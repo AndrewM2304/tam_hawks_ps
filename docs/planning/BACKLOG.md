@@ -1,3 +1,15 @@
+# Verified next-batch implementation — 25 October 2026
+
+The owner-approved batch after Music passes **5,037/0**, actual script guard2/0,
+clean/stable597 inputs, four cold-source phases and44 refreshed native frames.
+[Exact implementation and remaining gates](../testing/pt24-next-2026-10-25/README.md)
+advance C02/C03/C04 and M05-008 isolation on main from `258fec4`. All76 full
+records below, including soundtrack, remain byte-for-byte historical evidence.
+Source fixes/input witnesses do not close untested temporal, Mac, human or full
+flagship acceptance. Current execution uses the consolidated remaining queue.
+
+---
+
 # Soundtrack integration overlay — 25 October 2026
 
 M05-008 adds the owner-requested personal Mac soundtrack to the original75 records,

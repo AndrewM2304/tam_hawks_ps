@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-25T15:48:27.648166+00:00",
+  "completed_london": "2026-10-25T15:48:49.551008+00:00",
+  "wall_seconds": 21.902841647999594,
+  "command": [
+    "env",
+    "XDG_DATA_HOME=/workspace/tam_hawks_ps/.local/data",
+    "XDG_CONFIG_HOME=/workspace/tam_hawks_ps/.local/config",
+    "XDG_CACHE_HOME=/workspace/tam_hawks_ps/.local/cache",
+    "godot",
+    "--headless",
+    "--path",
+    ".",
+    "--script",
+    ".local/pt24_station_camera_diagnostic.gd",
+    "--log-file",
+    ".local/pt24-station-camera-diagnostic-godot.log"
+  ],
+  "exit_code": 1,
+  "source_inputs": 590,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "1",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "4e4cf1b0a665015c10479de6d3722cf4fcc58629aad3150c19ce5b6943b35dfd",
+  "git_head": "258fec474e7d79c3a3c387a80e8d49cff1a675da"
+}

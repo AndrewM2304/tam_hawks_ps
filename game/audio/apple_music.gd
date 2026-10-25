@@ -187,9 +187,19 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 
+static func is_scripted_launch(arguments: PackedStringArray) -> bool:
+	# Godot accepts both spellings. Only engine arguments can select a script;
+	# a playlist or other user argument after -- must not change launch mode.
+	for argument: String in arguments:
+		if argument == "--": break
+		if argument in ["--script", "-s"] or argument.begins_with("--script="):
+			return true
+	return false
+
+
 func configure(persistence_enabled: bool) -> void:
 	_state.supported = OS.get_name() == "macOS"
-	_persist = persistence_enabled and not OS.get_cmdline_args().has("--script")
+	_persist = persistence_enabled and not is_scripted_launch(OS.get_cmdline_args())
 	_can_control = _state.supported and _persist
 	if not _state.supported:
 		_state.status = "Apple Music control is available on macOS."

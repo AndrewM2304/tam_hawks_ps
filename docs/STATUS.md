@@ -1,3 +1,45 @@
+# Verified next ticket batch — 25 October 2026
+
+Work continued directly on main after the Apple Music merge `258fec4`, divided
+between six specialists. [Changes, exact evidence and retained failures](testing/pt24-next-2026-10-25/README.md)
+and [remaining work](planning/PT24-CONSOLIDATED-2026-10-25.md) own this checkpoint.
+Older receipts below certify their own recorded sources only.
+
+This batch removes36.799682m² of proven civic/park/Exchange display overlaps
+(108→98 changed triangles), reuses two park seats along the downhill tangent,
+and moves the existing Clyde bank out of the bridge-to-ledge landfall. Actual
+mapped-input representatives bank Gallery8,000, Station600, Civic400, Clyde1,900
+and local Park2,000 once each with zero bails; protected two-way routes remain.
+Manual-grade, native bowl and final-air tyre fitting preserve physical movement,
+local board/feet and existing lift limits. Camera checks include actual head
+extents and both displayed/current board/feet. All415 completed Clyde return
+frames after the declared fixture warmup pass, preserving its100-point bank.
+
+**Required checks:5,037 passed /0 failed**, plus actual short-script Music guard
+**2/0**; exit0, clean log, **597 unchanged inputs**,428.148s. Manifest SHA256
+`6f226d096c1f9db641ff7d98018f10858dc0042a4ddafe8e390f08d01c32dab5`.
+Command: `python3 docs/testing/horizon-background/observers/run_checked.py .local/pt24-next-admitted-final ./tools/check.sh`.
+**Cold source:4 accepted phases /503 stable inputs**, normal title-to-play44/0,
+and deliberate invalid source correctly refused. **Rendered:44 refreshed native
+frames**, clean, unchanged-source-bound;20 construction/contact frames and24
+matched world-only controls. These are not moving Mac shadow/performance proof.
+The rejected5,021/2 full and intermediate contact/camera controls remain retained.
+
+Apple Music default/autoplay, transport and cached UI are preserved; shared
+`-s`/`--script` isolation closes personal-account access in scripted runs.
+Current-source unsigned package rebuilding follows the clean source commit;
+[package record](testing/pt24-next-2026-10-25/packages/README.md) owns its result.
+No hosted CI, release, publishing, signing, notarization or spending is performed.
+
+Station/tunnel/train, pond, green and civic-return construction remain explicit
+`--pt24-design-preview` candidates pending existing rendering admission. C02
+remaining temporal witnesses, full Gallery entrance/park flagship extensions,
+older contraction, actual Mac/Music/DualSense, target stutter/performance and
+human art/fun acceptance remain open. All76 full backlog records and historical
+PT24 ticket bodies are preserved; no blanket closure or recreated systems.
+
+---
+
 # Soundtrack merged with current main — 25 October 2026
 
 The owner requests merging the personal Mac soundtrack commit `02065ae` from

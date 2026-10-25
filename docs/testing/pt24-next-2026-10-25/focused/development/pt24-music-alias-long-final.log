@@ -1,0 +1,37 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ACTUAL_ENGINE_ARGUMENTS ["--script", "tests/support/music_launch_guard.gd"]
+PASS: actual script alias: Main defaults to isolated profile before entering tree
+PASS: actual script alias: Music stays inert even if persistence is requested
+PASS: soundtrack: every script option spelling blocks profile access and external Music control
+PASS: soundtrack: ordinary launches and user metadata preserve the owner's normal playback choice
+PASS: soundtrack: automated runs stay disconnected with default autoplay disabled
+PASS: soundtrack: scripted/no-persistence runs cannot launch Music, control playback or save opt-in
+PASS: soundtrack: platform capability is separate from automated-run permission
+PASS: soundtrack: callers cannot mutate internal playlist data through a snapshot
+PASS: soundtrack: saved playlist identity accepts Music persistent IDs only
+PASS: soundtrack: Unicode, quotes and newlines survive playlist and now-playing metadata
+PASS: soundtrack: missing catalog artwork keeps playback metadata and exposes a clear fallback
+PASS: soundtrack: selection uses persistent ID while retaining the full display name
+PASS: soundtrack: autoplay replaces an unrelated playing playlist with the selected playlist
+PASS: soundtrack: entering a mode preserves a song already playing from the selected playlist
+PASS: soundtrack: clicks during polling are retained in a bounded command queue
+PASS: soundtrack: denied Automation stops polling/queued controls and explains how to reconnect
+PASS: soundtrack: stopped/unknown tracks cannot leave stale song text or artwork
+PASS: soundtrack: disconnect disables future autoplay without sending pause to Music
+PASS: soundtrack: a bounded Apple Event timeout gives a recoverable sign-in/consent message
+PASS: soundtrack: unavailable/unrecognized artwork uses the UI fallback
+PASS: soundtrack: real PNG artwork decodes and bounds its texture to 512 pixels
+PASS: soundtrack: requesting persistence cannot enable Music in an automated script
+PASS: soundtrack: exact owner-supplied playlist link stays separate from native library IDs
+PASS: soundtrack: missing default playlist explains adding it to Music then refreshing
+PASS: soundtrack: duplicate default playlist titles require selection instead of guessing
+PASS: soundtrack: one exact default title resolves to its native persistent ID
+PASS: soundtrack: default discovery cannot override a saved or manually selected playlist
+PASS: soundtrack: saved autoplay off survives an unresolved or empty playlist ID
+PASS: soundtrack: invalid saved autoplay types and web tokens cannot authorize playback
+PASS: soundtrack: entering play with a saved off preference never connects to Music
+PASS: soundtrack: unresolved default autoplay connects and enumerates before selecting a queue
+PASS: soundtrack: default autoplay queues playback only after a unique native playlist match
+PASS: soundtrack: default discovery preserves an already playing song from the matching playlist
+SCRIPT LAUNCH: 33 passed, 0 failed

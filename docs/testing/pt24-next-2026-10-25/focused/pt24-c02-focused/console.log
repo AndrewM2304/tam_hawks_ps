@@ -1,0 +1,22 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: PT24-21: north quay keeps its full inland paving while stone owns exactly136 square metres of coplanar edge
+PASS: PT24-21: fixed samples on both quays have one paving/stone owner on each side of their exact seam
+PASS: PT24-21: exact reported quay/bridge locations and coping strips retain their declared native/public support heights
+PASS: PT24-21: the display repair removes228 square metres of duplicate faces without increasing triangles
+PASS: PT24-12: station north plinth construction removes its overlapping box skins without adding instances
+PASS: PT24-12: all24 real plinth segments meet exact fixed endpoints with no overlap/gap and unchanged native panel
+PASS: PT24-21: both original native terrain grids and resident shape/mesh counts remain byte-identical
+PASS: PT24-21: south cut removes exactly92 square metres, preserves earlier holes and shares the original materials
+PASS: PT24-21: repeated installation is idempotent and does not re-triangulate an already-owned seam
+PASS: PT24-01: fixed east civic seam removes exactly12 square metres of tile/asphalt overlap with real asphalt ownership and adjacent paving retained
+PASS: PT24-10: exact9.6 square metre road-wall wedge belongs to the actual tenement while the exposed below-ground street foundation remains
+PASS: PT24-09: five retained north walls keep exposed fronts while actual paving/arrival deck singly own all covered caps and two duplicated west faces
+PASS: C02 ownership: civic cross-street and Exchange graded road retain their exact native/public top supports
+PASS: C02 ownership: fixed duplicate areas and eighteen removed park triangles fit the zero-extra-draw/triangle budget
+PT24_C02_OWNERSHIP { "civic": { "before_triangles": 12, "after_triangles": 16, "removed_area_m2": 12.0 }, "exchange": { "before_triangles": 12, "after_triangles": 16, "removed_area_m2": 9.60000228881836 }, "park_removed_triangles": 18, "park_removed_area_m2": 15.1996797323227, "before_triangles": 108, "after_triangles": 98 }
+PASS: C02 ownership: independent original civic/Exchange fixture exhibits the exact5112 and60 square metre pre-repair planes
+PASS: C02 ownership: every original fixture body/shape/transform and convex vertex byte remains identical
+PASS: C02 ownership: unrelated side/bottom/top triangles and original material resources remain byte-identical
+PT24_C02_RESOURCE_REPORT { "duplicate_top_area_m2": 228.0, "north_display_triangles": 2, "before_triangles": 528, "after_triangles": 213, "new_bodies": 0, "new_shapes": 0, "new_surfaces": 0, "new_materials": 0, "new_textures": 0, "station_plinth_instances": 54, "covered_faces": { "civic": { "before_triangles": 12, "after_triangles": 16, "removed_area_m2": 12.0 }, "exchange": { "before_triangles": 12, "after_triangles": 16, "removed_area_m2": 9.60000228881836 }, "park_removed_triangles": 18, "park_removed_area_m2": 15.1996797323227, "before_triangles": 108, "after_triangles": 98 }, "method": "Existing Y2 stone coping owns its footprint; display-only paving trim, original native support retained." }
+RESULT: 17 passed, 0 failed

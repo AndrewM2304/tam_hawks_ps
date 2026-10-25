@@ -19,3 +19,12 @@ if grep -Eq 'SCRIPT ERROR:|ERROR:|FAIL:' .local/tests.log; then
   exit 1
 fi
 grep -Eq 'RESULT: [1-9][0-9]* passed, 0 failed' .local/tests.log
+# Exercise the actual short script option too. This fixture checks Main before
+# it enters the tree, so an isolation regression is detected before profile or
+# personal Music access. Backend behavior remains in the main suite above.
+./tools/run.sh --headless --fixed-fps 60 -s tests/support/music_launch_guard.gd -- --guard-only 2>&1 | tee .local/script-launch.log
+if grep -Eq 'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:' .local/script-launch.log; then
+  echo 'Script-launch isolation failed; inspect .local/script-launch.log.' >&2
+  exit 1
+fi
+grep -Eq 'SCRIPT LAUNCH: [1-9][0-9]* passed, 0 failed' .local/script-launch.log

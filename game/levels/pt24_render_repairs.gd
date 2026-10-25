@@ -36,6 +36,7 @@ static func install(world: Node3D) -> Dictionary:
 	# independent cuts and remove only the duplicate northern coping strip.
 	Surface.trim_visual_rect(south, SOUTH_COPING)
 	var plinths := _station_plinths(world)
+	var covered_faces := _additional_repairs(world)
 	var after := north_visual.mesh.get_faces().size() / 3 + south_visual.mesh.get_faces().size() / 3
 	assert(after <= before)
 	var report := {"duplicate_top_area_m2": 228.0, "north_display_triangles": 2,
@@ -43,9 +44,135 @@ static func install(world: Node3D) -> Dictionary:
 		"new_bodies": 0, "new_shapes": 0, "new_surfaces": 0,
 		"new_materials": 0, "new_textures": 0,
 		"station_plinth_instances": plinths,
+		"covered_faces":covered_faces,
 		"method": "Existing Y2 stone coping owns its footprint; display-only paving trim, original native support retained."}
 	world.set_meta("pt24_render_repairs", report)
 	return report
+
+
+static func _additional_repairs(world: Node3D) -> Dictionary:
+	var result := {"civic":{},"exchange":{},"park_removed_triangles":0,"park_removed_area_m2":0.0,
+		"before_triangles":0,"after_triangles":0}
+	var civic := world.get_node_or_null("GeorgeSquareFloor") as StaticBody3D
+	if civic != null:
+		# The repaired civic paving reaches X36; the existing east asphalt
+		# cross street already begins at X35, leaving a12m² duplicate top.
+		result.civic = _clip_display_plane(world,civic,1,4.0,Vector2i(0,2),Rect2(35,-86,1,12))
+		result.before_triangles += result.civic.before_triangles
+		result.after_triangles += result.civic.after_triangles
+	var exchange := world.get_node_or_null("CentralSouthStreet") as StaticBody3D
+	if exchange != null:
+		# The closed tenement at(-41,0,0) owns this Z15 wall. Remove only the
+		# road's internal9.6m² wedge; its below-Y0 foundation remains visible.
+		result.exchange = _clip_display_plane(world,exchange,2,15.0,Vector2i(0,1),Rect2(-47,0,12,16))
+		result.before_triangles += result.exchange.before_triangles
+		result.after_triangles += result.exchange.after_triangles
+	var park := world.get_node_or_null("OutdoorRoutes/KelvingroveSunkenSkatepark") as Node3D
+	if park != null:
+		for body: Node in park.get_children():
+			if not body is StaticBody3D:continue
+			var native: BoxShape3D
+			for child: Node in body.get_children():
+				if child is CollisionShape3D and child.shape is BoxShape3D:native = child.shape
+			if native == null:continue
+			var planes: Array[Vector2] = []
+			if absf(body.position.z-3.425)<0.0001 and absf(body.position.y+0.75)<0.0001 \
+				and absf(native.size.y-1.5)<0.0001 and absf(native.size.z-0.15)<0.0001:
+				# Upper paving covers the full top of each closed north span.
+				planes = [Vector2(1,0.75)]
+			elif absf(body.position.x-17.55)<0.0001 and absf(body.position.y+0.75)<0.0001 \
+				and absf(native.size.x-0.1)<0.0001 and absf(native.size.y-1.5)<0.0001:
+				# EastArrivalDeck supplies both its complete western wall and top.
+				planes = [Vector2(1,0.75),Vector2(0,-0.05)]
+			if planes.is_empty():continue
+			var removed := _remove_box_planes(body,planes)
+			result.before_triangles += removed.before_triangles
+			result.after_triangles += removed.after_triangles
+			result.park_removed_triangles += removed.before_triangles-removed.after_triangles
+			result.park_removed_area_m2 += removed.removed_area_m2
+	# Paving triangulation is offset by deleted covered box faces. Never add
+	# a new resident surface, material, native shape or per-frame operation.
+	assert(result.after_triangles <= result.before_triangles)
+	return result
+
+
+static func _clip_display_plane(reference: Node3D,body: StaticBody3D,axis: int,plane: float,
+		project: Vector2i,cut: Rect2) -> Dictionary:
+	var display := _first_display(body)
+	var original := display.mesh.get_faces()
+	var output := PackedVector3Array()
+	var removed_area := 0.0
+	var clip := PackedVector2Array([cut.position,Vector2(cut.end.x,cut.position.y),cut.end,Vector2(cut.position.x,cut.end.y)])
+	for index: int in range(0,original.size(),3):
+		var local := PackedVector3Array([original[index],original[index+1],original[index+2]])
+		var level := PackedVector3Array()
+		var selected := true
+		var polygon := PackedVector2Array()
+		for point: Vector3 in local:
+			var at := reference.to_local(display.to_global(point))
+			level.append(at)
+			selected = selected and absf(at[axis]-plane)<0.00005
+			polygon.append(Vector2(at[project.x],at[project.y]))
+		if not selected:
+			output.append_array(local)
+			continue
+		var before_area := (level[1]-level[0]).cross(level[2]-level[0]).length()*0.5
+		var kept_area := 0.0
+		for piece: PackedVector2Array in Geometry2D.clip_polygons(polygon,clip):
+			var indices := Geometry2D.triangulate_polygon(piece)
+			for offset: int in range(0,indices.size(),3):
+				var triangle := PackedVector3Array()
+				var relative := PackedVector3Array()
+				for corner: int in 3:
+					var uv := piece[indices[offset+corner]]
+					var point := Vector3.ZERO
+					point[axis] = plane
+					point[project.x] = uv.x
+					point[project.y] = uv.y
+					relative.append(point)
+					triangle.append(display.to_local(reference.to_global(point)))
+				kept_area += (relative[1]-relative[0]).cross(relative[2]-relative[0]).length()*0.5
+				if (triangle[1]-triangle[0]).cross(triangle[2]-triangle[0]).dot((local[1]-local[0]).cross(local[2]-local[0]))<0:
+					var swap := triangle[1];triangle[1]=triangle[2];triangle[2]=swap
+				output.append_array(triangle)
+		removed_area += before_area-kept_area
+	display.mesh = _hard_faces(output)
+	return {"before_triangles":original.size()/3,"after_triangles":output.size()/3,"removed_area_m2":removed_area}
+
+
+static func _remove_box_planes(body: StaticBody3D,planes: Array[Vector2]) -> Dictionary:
+	var display := _first_display(body)
+	var original := display.mesh.get_faces()
+	var kept := PackedVector3Array()
+	var area := 0.0
+	for index: int in range(0,original.size(),3):
+		var a := original[index]
+		var b := original[index+1]
+		var c := original[index+2]
+		var remove := false
+		for plane: Vector2 in planes:
+			var axis := int(plane.x)
+			if absf(a[axis]-plane.y)<0.00005 and absf(b[axis]-plane.y)<0.00005 and absf(c[axis]-plane.y)<0.00005:remove=true
+		if remove:area += (b-a).cross(c-a).length()*0.5
+		else:kept.append_array(PackedVector3Array([a,b,c]))
+	display.mesh = _hard_faces(kept)
+	return {"before_triangles":original.size()/3,"after_triangles":kept.size()/3,"removed_area_m2":area}
+
+
+static func _first_display(body: Node3D) -> MeshInstance3D:
+	for child: Node in body.get_children():
+		if child is MeshInstance3D:return child
+	assert(false,"Required display missing: "+str(body.name))
+	return null
+
+
+static func _hard_faces(faces: PackedVector3Array) -> ArrayMesh:
+	var tool := SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	tool.set_smooth_group(-1)
+	for point: Vector3 in faces:tool.add_vertex(point)
+	tool.generate_normals()
+	return tool.commit()
 
 
 static func _station_plinths(world: Node3D) -> int:

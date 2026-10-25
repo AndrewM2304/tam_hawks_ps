@@ -1,0 +1,46 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: PT24 manual grade: native active-axle fixture traverses the actual finite support manual downhill_to_flat
+PASS: PT24 manual grade: both loaded real tyre rims remain supported without penetration or floating manual downhill_to_flat
+PASS: PT24 manual grade: physics, local 16-degree pitch/axle pivot and planted shoe contacts are preserved manual downhill_to_flat
+PT24_MANUAL_GRADE { "id": "manual", "grade": "downhill_to_flat", "samples": 22, "minimum_native_gap": 0.00799996126443, "maximum_loaded_gap": 0.00828091241419, "legacy_gap": -0.01344579737633, "legacy_maximum": 0.00828091241419, "minimum_pitch": 0.28348815441132, "sole_error": 0.00085357541684, "physics_equal": true, "pivot_equal": true, "crossed": true }
+PASS: PT24 manual grade: native active-axle fixture traverses the actual finite support manual flat_to_bank
+PASS: PT24 manual grade: both loaded real tyre rims remain supported without penetration or floating manual flat_to_bank
+PASS: PT24 manual grade: physics, local 16-degree pitch/axle pivot and planted shoe contacts are preserved manual flat_to_bank
+PT24_MANUAL_GRADE { "id": "manual", "grade": "flat_to_bank", "samples": 26, "minimum_native_gap": 0.0080000013113, "maximum_loaded_gap": 0.00801461935043, "legacy_gap": -0.03127780556679, "legacy_maximum": 0.00801461935043, "minimum_pitch": 0.28391066193581, "sole_error": 0.00085358641809, "physics_equal": true, "pivot_equal": true, "crossed": true }
+PASS: PT24 manual grade: native active-axle fixture traverses the actual finite support manual split_rear_planes
+PASS: PT24 manual grade: both loaded real tyre rims remain supported without penetration or floating manual split_rear_planes
+PASS: PT24 manual grade: physics, local 16-degree pitch/axle pivot and planted shoe contacts are preserved manual split_rear_planes
+PASS: PT24 manual grade: actual two-height axle supports both wheels instead of floating the lower-side tyre manual
+PT24_MANUAL_GRADE { "id": "manual", "grade": "split_rear_planes", "samples": 25, "minimum_native_gap": 0.00799999758601, "maximum_loaded_gap": 0.00800263881683, "legacy_gap": 0.00017823651433, "legacy_maximum": 0.05801458656788, "minimum_pitch": 0.28391066193581, "sole_error": 0.00085351866437, "physics_equal": true, "pivot_equal": true, "crossed": true }
+PASS: PT24 manual grade: native active-axle fixture traverses the actual finite support manual flat_control
+PASS: PT24 manual grade: both loaded real tyre rims remain supported without penetration or floating manual flat_control
+PASS: PT24 manual grade: physics, local 16-degree pitch/axle pivot and planted shoe contacts are preserved manual flat_control
+PASS: PT24 manual grade: already correct planar presentation is exactly unchanged manual
+PT24_MANUAL_GRADE { "id": "manual", "grade": "flat_control", "samples": 25, "minimum_native_gap": 0.00801326334476, "maximum_loaded_gap": 0.00801458954811, "legacy_gap": 0.00801326334476, "legacy_maximum": 0.00801458954811, "minimum_pitch": 0.28391066193581, "sole_error": 0.0008535166271, "physics_equal": true, "pivot_equal": true, "crossed": true }
+PASS: PT24 manual grade: native active-axle fixture traverses the actual finite support nose_manual downhill_to_flat
+PASS: PT24 manual grade: both loaded real tyre rims remain supported without penetration or floating nose_manual downhill_to_flat
+PASS: PT24 manual grade: physics, local 16-degree pitch/axle pivot and planted shoe contacts are preserved nose_manual downhill_to_flat
+PT24_MANUAL_GRADE { "id": "nose_manual", "grade": "downhill_to_flat", "samples": 22, "minimum_native_gap": 0.00799998641014, "maximum_loaded_gap": 0.00801502075046, "legacy_gap": -0.02330382913351, "legacy_maximum": 0.00801502075046, "minimum_pitch": 0.28348815441132, "sole_error": 0.00085355417104, "physics_equal": true, "pivot_equal": true, "crossed": true }
+PASS: PT24 manual grade: native active-axle fixture traverses the actual finite support nose_manual flat_to_bank
+PASS: PT24 manual grade: both loaded real tyre rims remain supported without penetration or floating nose_manual flat_to_bank
+PASS: PT24 manual grade: physics, local 16-degree pitch/axle pivot and planted shoe contacts are preserved nose_manual flat_to_bank
+PT24_MANUAL_GRADE { "id": "nose_manual", "grade": "flat_to_bank", "samples": 26, "minimum_native_gap": 0.0069025605917, "maximum_loaded_gap": 0.00801461935043, "legacy_gap": -0.02809391543269, "legacy_maximum": 0.00801461935043, "minimum_pitch": 0.28391066193581, "sole_error": 0.00085355900228, "physics_equal": true, "pivot_equal": true, "crossed": true }
+PASS: PT24 manual grade: native active-axle fixture traverses the actual finite support nose_manual split_rear_planes
+PASS: PT24 manual grade: both loaded real tyre rims remain supported without penetration or floating nose_manual split_rear_planes
+PASS: PT24 manual grade: physics, local 16-degree pitch/axle pivot and planted shoe contacts are preserved nose_manual split_rear_planes
+PASS: PT24 manual grade: actual two-height axle supports both wheels instead of floating the lower-side tyre nose_manual
+PT24_MANUAL_GRADE { "id": "nose_manual", "grade": "split_rear_planes", "samples": 25, "minimum_native_gap": 0.00799999758601, "maximum_loaded_gap": 0.00800262391567, "legacy_gap": 0.00017823651433, "legacy_maximum": 0.05801458656788, "minimum_pitch": 0.28391066193581, "sole_error": 0.00085356284399, "physics_equal": true, "pivot_equal": true, "crossed": true }
+PASS: PT24 manual grade: native active-axle fixture traverses the actual finite support nose_manual flat_control
+PASS: PT24 manual grade: both loaded real tyre rims remain supported without penetration or floating nose_manual flat_control
+PASS: PT24 manual grade: physics, local 16-degree pitch/axle pivot and planted shoe contacts are preserved nose_manual flat_control
+PASS: PT24 manual grade: already correct planar presentation is exactly unchanged nose_manual
+PT24_MANUAL_GRADE { "id": "nose_manual", "grade": "flat_control", "samples": 25, "minimum_native_gap": 0.00801326334476, "maximum_loaded_gap": 0.00801458954811, "legacy_gap": 0.00801326334476, "legacy_maximum": 0.00801458954811, "minimum_pitch": 0.28391066193581, "sole_error": 0.00085351162124, "physics_equal": true, "pivot_equal": true, "crossed": true }
+PASS: PT24 manual grade: unchanged capsule-normal controls reproduce real tyre penetration for both Manual and Nose Manual
+PASS: manual focused does not access Music or preferences
+PASS: C04-L03: actual Push descends the civic bank and earns a lower-court Ollie before landing
+PASS: C04-L03: actual balanced Manual carves through the lower civic court and graded close onto the raised gallery entrance
+PASS: C04-L03: the complete civic/gallery Ollie-Manual route banks its exact earned value once
+PASS: C04-L03: complete rider, board, soles and native chase volume stay clear along the full linked run
+CIVIC_FLAGSHIP_RESULT {"at":"Vector3(-3.6979122, 2.6625443, -36.95125)","bails":0,"bank_slope_ticks":70,"banked":400,"banks":1,"camera_clear":true,"camera_samples":137,"close_slope_ticks":134,"descended":true,"distance":88.1511786109768,"entrance_slope_ticks":41,"landed":true,"manual":true,"manual_begin":"Vector3(-22, 4.012421, -90.0652)","manual_end":"Vector3(-4.011864, 2.6625443, -36.929337)","manual_ticks":556,"pending":400,"reached":true,"stages":[{"at":"Vector3(-22, 5.99987, -113.998055)","speed":0.116729728877544,"stage":"civic_bank_descent"},{"at":"Vector3(-22, 4.003694, -94.82182)","speed":10.1985158920288,"stage":"lower_court_pop"},{"at":"Vector3(-22, 4.126901, -94.48665)","speed":9.83207702636719,"stage":"lower_court_air"},{"at":"Vector3(-22, 4.012421, -90.0652)","speed":9.64874172210693,"stage":"manual_court_close_entrance"},{"at":"Vector3(-3.9530358, 2.6625443, -36.93344)","speed":3.53828239440918,"stage":"single_bank_on_entrance"},{"at":"Vector3(-3.6979122, 2.6625443, -36.95125)","speed":0.0,"stage":"stable_bank_observation"}],"target_index":7,"ticks":823,"tricks":["Ollie","Manual"]}
+RESULT: 34 passed, 0 failed

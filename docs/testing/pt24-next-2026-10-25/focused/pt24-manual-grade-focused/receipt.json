@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-25T15:14:02.525927+00:00",
+  "completed_london": "2026-10-25T15:14:14.104316+00:00",
+  "wall_seconds": 11.57838927299963,
+  "command": [
+    "timeout",
+    "180",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_manual_grade_focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 590,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "20",
+      "6"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "c3b7340a03df55a096b7d5dbca6ae45e25838343b44f6aa2f45b9dbaec692779",
+  "git_head": "258fec474e7d79c3a3c387a80e8d49cff1a675da"
+}

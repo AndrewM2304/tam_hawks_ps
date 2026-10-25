@@ -1,0 +1,26 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: C04-L05: bridge-arrival continuation uses the real relocated west quay bearing
+PASS: C04-L05: fixed bridge/landing/manual envelopes and the safe cross-quay bypass retain clear native support
+DENSITY CAMERA OCCLUSION rider=(-29.24925, 2.014223, 126.1948) camera=(-26.01013, 4.542212, 121.2071) marker=(-29.47593, 2.106369, 126.5367) hit=(-29.45207, 2.123138, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.28852, 2.01424, 126.2058) camera=(-26.65757, 4.51424, 122.0692) marker=(-29.55729, 2.161609, 126.5069) hit=(-29.55277, 2.165282, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.29594, 2.01424, 126.2058) camera=(-26.7019, 4.51424, 122.0462) marker=(-29.56145, 2.167139, 126.5084) hit=(-29.5561, 2.171533, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30323, 2.01424, 126.2058) camera=(-26.74177, 4.51424, 122.0261) marker=(-29.56645, 2.168234, 126.51) hit=(-29.56017, 2.173447, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.31141, 2.13424, 126.2054) camera=(-26.7715, 4.51424, 122.0121) marker=(-29.56943, 2.341074, 126.5042) hit=(-29.5668, 2.343115, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30574, 2.180907, 126.1959) camera=(-26.77083, 4.51424, 122.003) marker=(-29.56763, 2.341417, 126.5011) hit=(-29.56693, 2.341962, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.77603, 4.500547, 121.9986) marker=(-29.56705, 2.168509, 126.5007) hit=(-29.5666, 2.168885, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.77807, 4.500547, 121.9973) marker=(-29.56696, 2.168509, 126.5008) hit=(-29.56647, 2.16892, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.7784, 4.500547, 121.9971) marker=(-29.56695, 2.168509, 126.5008) hit=(-29.56645, 2.168928, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.77845, 4.500547, 121.9971) marker=(-29.56695, 2.168509, 126.5008) hit=(-29.56645, 2.168928, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.77846, 4.500547, 121.9971) marker=(-29.56695, 2.168509, 126.5008) hit=(-29.56645, 2.168928, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.77846, 4.500547, 121.9971) marker=(-29.56695, 2.168509, 126.5008) hit=(-29.56645, 2.168928, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.77846, 4.500547, 121.9971) marker=(-29.56695, 2.168509, 126.5008) hit=(-29.56645, 2.168928, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.77846, 4.500547, 121.9971) marker=(-29.56695, 2.168509, 126.5008) hit=(-29.56645, 2.168928, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.77846, 4.500547, 121.9971) marker=(-29.56695, 2.168509, 126.5008) hit=(-29.56645, 2.168928, 126.5) collider=clyde_south_linkManualDeck
+DENSITY CAMERA OCCLUSION rider=(-29.30538, 2.000547, 126.1953) camera=(-26.77846, 4.500547, 121.9971) marker=(-29.56695, 2.168509, 126.5008) hit=(-29.56645, 2.168928, 126.5) collider=clyde_south_linkManualDeck
+PASS: C04-L05: actual ordinary Push crosses the safe bridge from its north quay onto the south landing
+FAIL: C04-L05: controlled bridge turn feeds a real Manual across the landfall and Ollie onto the quay ledge
+FAIL: C04-L05: the complete bridge/manual/ledge continuation exits onto dry support and earns exactly one bank
+FAIL: C04-L05: ordinary chase preserves real head, board, soles, hull extremities and native camera volume along the full run
+CLYDE_FLAGSHIP_RESULT {"aligned":true,"at":"Vector3(-29.305378, 2.0005472, 126.19528)","bails":0,"bank":200,"banks":2,"bridge_supported":true,"camera_clear":false,"camera_samples":119,"captures":[],"caught":false,"crossed":true,"ledge_ticks":0,"manual":true,"manual_start":"Vector3(-25.775642, 2.1106994, 120.83786)","manual_ticks":62,"stages":[{"at":"Vector3(-25, 2.0017772, 67.00139)","balance":0.0,"speed":0.0833129808306694,"stage":"safe_bridge_crossing"},{"at":"Vector3(-25.000343, 2.2923007, 118.63268)","balance":0.0,"speed":6.40799045562744,"stage":"bridge_landing_turn"},{"at":"Vector3(-25.775642, 2.1106994, 120.83786)","balance":0.05,"speed":6.57223320007324,"stage":"manual_over_landfall"},{"at":"Vector3(-29.30853, 2.0142403, 126.20854)","balance":0.0,"speed":0.195264801383018,"stage":"manual_to_ledge_pop"},{"at":"Vector3(-29.311413, 2.1342404, 126.2054)","balance":0.0,"speed":0.0275593865662813,"stage":"quay_ledge_air_catch"}],"ticks":755}
+CLYDE_FLAGSHIP_RESULT passed=3 failed=3
