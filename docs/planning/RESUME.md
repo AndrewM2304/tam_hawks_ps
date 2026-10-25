@@ -1,3 +1,15 @@
+# Resume from the verified soundtrack merge on main — 25 October 2026
+
+Read newest [STATUS](../STATUS.md). Soundtrack `02065ae` is integrated with newer
+main `c046497`; **4910/0** combined checks and five refreshed HUD fixtures pass,
+with583 unchanged inputs. [Receipts and exact commands](../testing/apple-music-main-merge/README.md)
+certify this combined source; prior1319/0 and4852/0 certify their older inputs.
+Preserve the current PT24 continuation and main-only policy below. Actual Mac
+Music/Automation/shuffle/artwork/controller acceptance remains open. Do not recreate
+systems, create branches or expand the merge into new feature work.
+
+---
+
 # Resume the verified continuation — 25 October 2026
 
 Use main directly and read newest [STATUS](../STATUS.md), [source/evidence](../testing/pt24-continuation-2026-10-25/README.md)
@@ -134,6 +146,8 @@ Preserve the manual-test usage reserve; no hourly continuation/new polish/spend.
 **Current priority — HORIZON repair:** use newest [STATUS](../STATUS.md), [tasks](BOUNDARY-HORIZON.md) and ADR-019. Pushed41cd63a is a durable but performance-rejected RGB+lit-extrusion checkpoint(5/15 strict timing passes). Current source replaces lit extrusions with64 unshaded foundations merged into existing footings and an explicit base-level cubemap lookup; focused34/0 passes. Native preview/final37-view15-bearing admission, required `./tools/check.sh`, final audit/evidence and push are pending. Preserve all75 full task bodies,48 routes, original physics, rejected pilotsOFF and no-spend/current-map scope. Do not restart park migration before this slice is durable. Native packages are historical; Mac/controller/flicker/final-art acceptance remains open.
 
 # Resuming development
+
+**25 October 2026 soundtrack addition:** read [ADR-014](../architecture/decisions/ADR-014-personal-mac-soundtrack.md) and M05-008. The owner requests personal Apple Music playlist playback with live pause metadata/artwork and skip. The optional Music.app bridge uses the existing Mac account, separate opt-in preferences and no paid API. Continue from STATUS's latest validation; actual macOS Automation permission, shuffle, streaming/artwork and physical-controller checks remain pending. Preserve the existing gameplay-hardening priorities below.
 
 A new session should be able to work from this repository alone. Treat source, tests and the recorded handoff as evidence; a chat promise is not an implementation result. The owner has authorized continuing the remaining work without routine task-by-task approval, subject to the no-spend constraint. Do not restart from the earlier M01-only state or ask whether to proceed with an already authorized next ticket.
 

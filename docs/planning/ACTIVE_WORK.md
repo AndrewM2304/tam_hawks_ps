@@ -1,3 +1,20 @@
+# Verified soundtrack merge — 25 October 2026
+
+Soundtrack `02065ae` is integrated with main `c046497`, preserving the PT24
+continuation below. Preserve the current main-only branch policy and all newer
+source/acceptance records. This is integration of the already requested feature,
+not permission for further map/polish work. [Newest STATUS](../STATUS.md) owns
+merge progress, the full combined check and the final push result.
+
+Combined validation passes **4910/0**, clean with583 unchanged inputs, including58
+soundtrack checks. Five refreshed merged-HUD render fixtures pass with zero failures.
+[Exact receipts/source manifests](../testing/apple-music-main-merge/README.md) retain
+commands and limits. Prior4852/0 and1319/0 certify their separate older sources only.
+No further unchanged suite/audit is needed. Keep Mac Music/Automation/shuffle/
+artwork/controller and existing stutter/temporal acceptance open.
+
+---
+
 # Current verified continuation — 25 October 2026
 
 Work directly on main. The approved implementation passes **4852/0**, clean

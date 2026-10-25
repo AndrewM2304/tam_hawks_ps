@@ -1,3 +1,53 @@
+# Soundtrack merged with current main — 25 October 2026
+
+The owner requests merging the personal Mac soundtrack commit `02065ae` from
+`work` into current main `c046497`. Reconciliation is **complete on main**;
+all newer PT24 source, recorder, graphics/HUD efficiency, controls, geometry,
+planning and evidence below are preserved. No branch rewrite, hosted CI,
+release, new map work or spending is authorized by this merge.
+
+The soundtrack uses the existing Music account and the owner's exact default:
+[Tony Hawk Pro Skater by Alex Troyan](https://music.apple.com/gb/playlist/tony-hawk-pro-skater/pl.u-jV89Dq9t27eY8).
+Open **Soundtrack → Open default playlist in Music**, add it to the library once,
+connect and allow Automation. Its unique saved-library title resolves to Music's
+native playlist ID; missing/duplicate names require setup/selection. Fresh normal
+Mac configurations enable this explicitly requested autoplay on gameplay entry;
+saved off/manual choices win. Pause/results display current metadata and available
+artwork with transport controls; game pause/restart preserves the Music queue.
+
+The bridge uses off-thread Apple Events, two-second polls, a bounded four-command
+queue and event/process deadlines. Scripted games cannot access real soundtrack
+preferences or control Music. No credentials, API keys, songs or catalog artwork
+are bundled. Mac export metadata declares Automation usage/entitlement while
+signing and notarization remain disabled. [Setup](PLAYER-GUIDE.md#your-apple-music-soundtrack-mac),
+[design](architecture/decisions/ADR-014-personal-mac-soundtrack.md) and
+[prior branch evidence](testing/APPLE-MUSIC.md) retain the exact behavior and limits.
+
+**Combined validation: 4,910 passed / 0 failed**, exit0, clean log, **583 unchanged
+inputs**, 546.339s. This includes58 soundtrack assertions (29 backend,22 UI,7 Main
+integration). Command: `python3 docs/testing/horizon-background/observers/run_checked.py .local/soundtrack-main-merge ./tools/check.sh`.
+[Merge receipts, source manifests and full log](testing/apple-music-main-merge/README.md)
+bind the exact merged source; manifest SHA256
+`a86b0151434b4f69992ef6758adf0416180709350840c29f8b39b0ef11ca4538`.
+The newer Main caches Music snapshots on events rather than copying playlists
+per frame; HUD keeps its detached-state/change-only behavior. Tests cover both
+cached paused frames and immediate metadata-change presentation.
+
+**Merged native UI fixture: five frames / zero failures**,1920×1080 and960×600,
+1.4× UI, same583 stable inputs. Command: `python3 docs/testing/horizon-background/observers/run_checked.py .local/soundtrack-main-ui ./tools/music_ui_capture.sh`.
+[Images/manifest](testing/screenshots/apple-music/README.md) are real merged-menu
+renders with fictional tracks/artwork; no Music account was connected. Older
+4,852/0 main and1,319/0 soundtrack receipts below certify their prior sources only.
+Mac playback, consent, natural shuffle, streamed artwork and controller acceptance
+remain open. Native packages were not rebuilt. Work remains on main, with a normal
+non-force origin update and no hosted CI or release.
+
+There are now 76 full original-backlog-plus-soundtrack records; M05-008 remains
+In progress for actual Mac acceptance. Continue on main and retain the newer PT24
+rendering/performance and hardware admission below; do not recreate old systems.
+
+---
+
 # PT24 continuation implemented and verified — 25 October 2026
 
 The owner approved the consolidated queue and implementation continued directly

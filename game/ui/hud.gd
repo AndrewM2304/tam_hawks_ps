@@ -10,6 +10,7 @@ signal settings_changed(values: Dictionary)
 signal cosmetic_selected(id: String)
 signal start_requested(free_skate: bool)
 signal ui_feedback
+signal music_requested(action: String, value: String)
 
 const GraphicsQuality = preload("res://game/core/graphics_quality.gd")
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
@@ -91,6 +92,8 @@ var _score_fit_width := -1.0
 var _feedback_layout_texts: Array[String] = []
 var _layout_visibility_revision := 0
 var _layout_visibility_pending := false
+var _music_controls: Dictionary = {}
+var _music_playlist_rows: Array = []
 
 
 func _ready() -> void:
@@ -304,6 +307,11 @@ func update_display(state: Dictionary) -> void:
 	elif _page not in ["", "title"] and not finished and not paused_now:
 		_hide_modal()
 	_hud.visible = _page != "title"
+	# Main keeps the soundtrack snapshot stable between asynchronous Music
+	# responses. Gameplay ticks must not rebuild playlist rows or touch labels.
+	# Detached state still notices metadata-only updates while gameplay is paused.
+	if state.get("music", {}) != previous.get("music", {}):
+		_update_music_controls()
 
 
 func _detached_display_state(incoming: Dictionary) -> Dictionary:
@@ -328,6 +336,10 @@ func show_settings() -> void:
 
 func show_controls() -> void:
 	_open_subpage("controls")
+
+
+func show_soundtrack() -> void:
+	_open_subpage("soundtrack")
 
 
 func is_menu_ready() -> bool:
@@ -409,6 +421,8 @@ func _show_page(page: String, focus_token: String = "", scroll_position: int = 0
 	_binding_action = ""
 	_modal.visible = true
 	_focus_first = null
+	_music_controls.clear()
+	_music_playlist_rows.clear()
 	for child in _modal.get_children():
 		_modal.remove_child(child)
 		child.queue_free()
@@ -450,6 +464,8 @@ func _show_page(page: String, focus_token: String = "", scroll_position: int = 0
 		"settings": _build_settings(content)
 		"controls": _build_controls(content)
 		"tricks": _build_trick_guide(content)
+		"soundtrack": _build_soundtrack(content)
+	_update_music_controls()
 	if page not in ["title", "pause", "results"]:
 		_button(box, "BACK", _back)
 	_relayout(true)
@@ -481,6 +497,7 @@ func _build_title(content: VBoxContainer) -> void:
 	_label(intro, "Link tricks, explore the city and work through ten career goals.", 17, PAPER).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_button(content, "START CAREER RUN", func(): _start_mode(false))
 	_button(content, "FREE SKATE", func(): _start_mode(true))
+	_button(content, "SOUNDTRACK", show_soundtrack)
 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
 	_button(content, "CONTROLS", func(): _open_subpage("controls"))
 	_button(content, "PLAYTEST RECORDER  ·  2", func(): debug_requested.emit())
@@ -499,7 +516,10 @@ func _build_pause(content: VBoxContainer, finished: bool) -> void:
 		_label(rows, str(_state.get("save_status", "")), 14, MUTED)
 	else:
 		_resume = _button(content, "BACK TO THE BOARD", _resume_run)
+	_build_music_card(content)
+	_button(content, "SOUNDTRACK", show_soundtrack)
 	_restart = _button(content, "ONE MORE RUN" if finished else "RESTART RUN", _restart_run)
+	if finished: _focus_first = _restart
 	_button(content, "CITY MAP & ROUTES", show_map)
 	_button(content, "GOALS & UNLOCKS", toggle_goals)
 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
@@ -575,6 +595,7 @@ func _build_map(content: VBoxContainer) -> void:
 func _build_settings(content: VBoxContainer) -> void:
 	_modal_title.text = "Your kind of session."
 	_modal_details.text = "Sound, readability and camera comfort. Changes take effect immediately."
+	_button(content, "SOUNDTRACK", show_soundtrack)
 	_slider(content, "Master volume", "audio", 0.0, 1.0, 0.05, 0.8)
 	_slider(content, "Skating & voice", "sfx_volume", 0.0, 1.0, 0.05, 1.0)
 	_slider(content, "City ambience", "ambience_volume", 0.0, 1.0, 0.05, 0.6)
@@ -594,6 +615,178 @@ func _build_settings(content: VBoxContainer) -> void:
 	quality_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	quality_help.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 	_button(content, "CONTROLS", show_controls)
+
+
+func _build_music_card(parent: Node) -> void:
+	var card := _card()
+	parent.add_child(card)
+	var box := _vbox(card, 8)
+	_music_controls["badge"] = _label(box, "APPLE MUSIC", 12, ACCENT)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 16)
+	box.add_child(row)
+	var sleeve := PanelContainer.new()
+	sleeve.custom_minimum_size = Vector2(94, 94)
+	sleeve.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	sleeve.add_theme_stylebox_override("panel", _style(TRACK, 7))
+	row.add_child(sleeve)
+	var artwork := TextureRect.new()
+	artwork.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	artwork.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	sleeve.add_child(artwork)
+	_music_controls["artwork"] = artwork
+	var fallback := _label(sleeve, "♪", 42, ACCENT)
+	fallback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	fallback.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_music_controls["fallback"] = fallback
+	var info := _vbox(row, 2)
+	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for field: String in ["title", "artist", "album"]:
+		var label := _label(info, "", 22 if field == "title" else (16 if field == "artist" else 14), PAPER if field == "title" else MUTED)
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.max_lines_visible = 2
+		_music_controls[field] = label
+	var transport := HBoxContainer.new()
+	transport.add_theme_constant_override("separation", 10)
+	box.add_child(transport)
+	for item: Array in [["toggle", "PLAY"], ["next", "SKIP TRACK  →"]]:
+		var action := str(item[0])
+		var button := _button(transport, str(item[1]), func(): music_requested.emit(action, ""))
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.set_meta("focus_token", "music:" + action)
+		_music_controls[action] = button
+
+
+func _build_soundtrack(content: VBoxContainer) -> void:
+	_modal_title.text = "Set the session soundtrack."
+	_modal_details.text = "Shuffle a playlist from the Music app on your Mac."
+	var music: Dictionary = _state.get("music", {})
+	var has_default := not str(music.get("default_playlist_name", "")).is_empty() and not str(music.get("default_playlist_url", "")).is_empty()
+	if has_default:
+		var default_name := str(music.default_playlist_name)
+		var curator := str(music.get("default_playlist_curator", ""))
+		var default_label := _label(content, "Default: " + default_name + (" · " + curator if not curator.is_empty() else ""), 17, ACCENT)
+		default_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		default_label.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+		_music_controls["default_label"] = default_label
+		_music_controls["open_default"] = _button(content, "OPEN DEFAULT PLAYLIST IN MUSIC", func(): music_requested.emit("open_default", ""))
+		_music_controls.open_default.set_meta("focus_token", "music:open_default")
+	_build_music_card(content)
+	_music_controls["status"] = _label(content, "", 15, ACCENT)
+	_music_controls.status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_music_controls.status.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	var setup_text := "Open the default playlist in Music and add it to your library once. Connect or refresh playlists here, allow Automation access, then start skating to autoplay. You can choose another library playlist below. Streaming uses your Apple Music subscription." if has_default else "Sign into Music and add your playlist to its library. Connect here, then allow macOS to control Music. Streaming uses your Apple Music subscription."
+	var instructions := _label(content, setup_text, 15, MUTED)
+	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	instructions.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	_music_controls["connect"] = _button(content, "CONNECT TO MUSIC", func(): music_requested.emit("connect", ""))
+	_music_controls.connect.set_meta("focus_token", "music:connect")
+	var caption := _label(content, "YOUR LIBRARY PLAYLIST", 13, ACCENT)
+	caption.custom_minimum_size.y = 21
+	var playlist := OptionButton.new()
+	playlist.custom_minimum_size.y = 48
+	playlist.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	playlist.fit_to_longest_item = false
+	playlist.allow_reselect = true
+	playlist.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	playlist.set_meta("focus_token", "music:playlist")
+	content.add_child(playlist)
+	playlist.item_selected.connect(func(index: int):
+		music_requested.emit("select", str(playlist.get_item_metadata(index)))
+		ui_feedback.emit())
+	_music_controls["playlist"] = playlist
+	_music_controls["play"] = _button(content, "SHUFFLE & PLAY PLAYLIST", func(): music_requested.emit("play", ""))
+	_music_controls.play.set_meta("focus_token", "music:play")
+	var autoplay := CheckButton.new()
+	autoplay.text = "Play automatically when I start skating"
+	autoplay.custom_minimum_size.y = 48
+	autoplay.set_meta("focus_token", "music:autoplay")
+	content.add_child(autoplay)
+	autoplay.toggled.connect(func(value: bool):
+		music_requested.emit("enable", "true" if value else "false")
+		ui_feedback.emit())
+	_music_controls["autoplay"] = autoplay
+	var detail := _label(content, "Music keeps playing while the game is paused. Adjust its volume in Music; the game’s audio sliders control skating and city sounds.", 14, MUTED)
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
+	_music_controls["refresh"] = _button(content, "REFRESH PLAYLISTS", func(): music_requested.emit("refresh", ""))
+	_music_controls.refresh.set_meta("focus_token", "music:refresh")
+	_music_controls["disconnect"] = _button(content, "DISCONNECT MUSIC", func(): music_requested.emit("disconnect", ""))
+	_music_controls.disconnect.set_meta("focus_token", "music:disconnect")
+	# Opening setup starts on its connection control rather than a disabled
+	# transport button. Polls update controls in place and retain this focus.
+	_focus_first = null
+	if bool(music.get("supported", false)) and not bool(music.get("busy", false)):
+		if not bool(music.get("connected", false)):
+			_focus_first = _music_controls.open_default if has_default else _music_controls.connect
+		elif not music.get("playlists", []).is_empty():
+			_focus_first = playlist
+		else:
+			_focus_first = _music_controls.refresh
+
+
+func _update_music_controls() -> void:
+	if _music_controls.is_empty(): return
+	var music: Dictionary = _state.get("music", {})
+	var supported := bool(music.get("supported", false))
+	var connected := supported and bool(music.get("connected", false))
+	var playing := connected and bool(music.get("playing", false))
+	var title := str(music.get("title", ""))
+	var has_track := connected and not title.is_empty()
+	_music_controls.badge.text = ("NOW PLAYING" if playing else "PAUSED") + "  /  APPLE MUSIC" if playing or has_track else "YOUR SOUNDTRACK  /  APPLE MUSIC"
+	if has_track:
+		_music_controls.title.text = title
+		_music_controls.artist.text = str(music.get("artist", ""))
+	elif playing:
+		_music_controls.title.text = "Music is playing."
+		_music_controls.artist.text = "Track details unavailable. Add these songs to your Music library."
+	else:
+		_music_controls.title.text = "Choose your skate playlist." if connected else ("Music is not connected." if supported else "Apple Music on your Mac.")
+		_music_controls.artist.text = "Select a playlist, then shuffle & play." if connected else str(music.get("status", "Connect in Soundtrack to get started."))
+	# A selected playlist is a preference, not evidence of the actual current
+	# playback source. Do not substitute it for missing track metadata.
+	_music_controls.album.text = str(music.get("album", "")) if has_track else ""
+	var texture: Texture2D = music.get("artwork") as Texture2D if connected else null
+	_music_controls.artwork.texture = texture
+	_music_controls.fallback.visible = texture == null
+	_music_controls.toggle.text = "PAUSE MUSIC" if playing else "PLAY MUSIC"
+	_music_controls.toggle.disabled = not connected or not (playing or has_track)
+	_music_controls.next.disabled = not connected or not (playing or has_track)
+	if not _music_controls.has("playlist"): return
+	if _music_controls.has("open_default"):
+		_music_controls.open_default.disabled = not supported
+	_music_controls.status.text = str(music.get("status", "Connect to the Music app to choose a playlist.")) if supported else "Apple Music playback is available when you run this game on macOS."
+	_music_controls.connect.disabled = not supported or connected or bool(music.get("busy", false))
+	_music_controls.connect.text = "MUSIC CONNECTED" if connected else ("CONNECTING…" if bool(music.get("busy", false)) else "CONNECT TO MUSIC")
+	_music_controls.refresh.disabled = not connected or bool(music.get("busy", false))
+	_music_controls.disconnect.disabled = not connected
+	_music_controls.play.disabled = not connected or str(music.get("playlist_id", "")).is_empty()
+	_music_controls.autoplay.disabled = not supported
+	_music_controls.autoplay.set_pressed_no_signal(bool(music.get("enabled", false)))
+	var rows: Array = music.get("playlists", [])
+	var picker: OptionButton = _music_controls.playlist
+	if rows != _music_playlist_rows or picker.item_count == 0:
+		_music_playlist_rows = rows.duplicate(true)
+		picker.clear()
+		if rows.is_empty():
+			picker.add_item("Connect to load your playlists" if not connected else "No playlists found in Music")
+		else:
+			for entry: Dictionary in rows:
+				picker.add_item(str(entry.get("name", "Playlist")))
+				picker.set_item_metadata(picker.item_count - 1, str(entry.get("id", "")))
+	picker.disabled = not connected or rows.is_empty()
+	var selected_id := str(music.get("playlist_id", ""))
+	var found_selection := false
+	for index: int in range(picker.item_count):
+		if str(picker.get_item_metadata(index)) == selected_id:
+			picker.select(index)
+			found_selection = true
+			break
+	if not rows.is_empty() and not found_selection:
+		# Adding the first item selects it visually without emitting a user
+		# selection. Keep the picker honest until a playlist is actually chosen.
+		picker.select(-1)
+		picker.text = "Choose playlist…"
 
 
 func _build_controls(content: VBoxContainer) -> void:

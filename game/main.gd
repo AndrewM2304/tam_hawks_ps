@@ -13,6 +13,7 @@ const GapTrackerSource = preload("res://game/tricks/gap_tracker.gd")
 const SpecialMeterSource = preload("res://game/tricks/special_meter.gd")
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const SkateAudioSource = preload("res://game/audio/skate_audio.gd")
+const AppleMusicSource = preload("res://game/audio/apple_music.gd")
 const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounters.gd")
 const CatEncounterSource = preload("res://game/characters/cat_encounter.gd")
 const MarketEncounterSource = preload("res://game/characters/market_encounter.gd")
@@ -33,6 +34,7 @@ var market_encounter: Node3D
 var feature_hub: Node3D
 var _focused_encounter := "busker_big_finish"
 var audio: Node
+var music: Node
 # Developer/script runners never write the player's profile by default.
 var persistence_enabled: bool = not OS.get_cmdline_args().has("--script")
 var profile_path := "user://career.json"
@@ -58,6 +60,8 @@ var _hud_career_source: RefCounted
 var _hud_career_revision := -1
 var _hud_goals: Array[Dictionary] = []
 var _hud_unlocks: Array[String] = []
+var _hud_music_source: Node
+var _hud_music_state: Dictionary = {}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -106,6 +110,11 @@ func _ready() -> void:
 	market_encounter.feedback.connect(_on_encounter_feedback)
 	audio = SkateAudioSource.new()
 	add_child(audio)
+	music = AppleMusicSource.new()
+	music.name = "AppleMusic"
+	music.configure(persistence_enabled)
+	add_child(music)
+	music.changed.connect(_on_music_changed)
 	if audio.has_signal("caption"):
 		audio.connect("caption", _on_caption)
 	skater = Skater.new()
@@ -141,6 +150,7 @@ func _ready() -> void:
 	hud.restart_requested.connect(restart_run)
 	hud.pause_requested.connect(toggle_pause)
 	hud.free_skate_requested.connect(toggle_free_skate)
+	hud.music_requested.connect(_on_music_requested)
 	if hud.has_signal("settings_changed"):
 		hud.connect("settings_changed", apply_settings)
 	if hud.has_signal("start_requested"):
@@ -284,10 +294,17 @@ func toggle_pause() -> void:
 func start_mode(free: bool) -> void:
 	free_skate_mode = free
 	restart_run()
+	music.begin_session()
 
 func toggle_free_skate() -> void:
 	free_skate_mode = not free_skate_mode
 	restart_run()
+	music.begin_session()
+
+
+func _on_music_requested(action: String, value: String) -> void:
+	music.request(action, value)
+	_refresh_hud()
 
 func _on_trick(trick_name: String, points: int) -> void:
 	if paused or run_finished:
@@ -680,9 +697,19 @@ func _on_caption(text: String) -> void:
 	_caption = text
 	_caption_time = 3.0
 
+
+func _on_music_changed() -> void:
+	_hud_music_source = null
+	_refresh_hud()
+
 func _refresh_hud() -> void:
 	if not is_instance_valid(hud):
 		return
+	# Playlist data changes on Music events, not on each rendered frame. Keep
+	# the current-main HUD allocation policy while retaining the copy boundary.
+	if music != _hud_music_source:
+		_hud_music_source = music
+		_hud_music_state = music.snapshot()
 	var revision: int = career.presentation_revision()
 	if career != _hud_career_source or revision != _hud_career_revision:
 		_hud_career_source = career
@@ -727,4 +754,5 @@ func _refresh_hud() -> void:
 		"caption": _caption if _caption_time > 0 and career.settings.captions else "",
 		"save_status": save_status, "save_warning": save_warning,
 		"interaction_prompt": _interaction_prompt(statuses),
+		"music": _hud_music_state,
 	})

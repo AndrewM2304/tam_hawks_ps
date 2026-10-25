@@ -201,6 +201,16 @@ Open Goals to see the ten career tasks: scores, a long combo, H A W K S letters,
 
 If a save cannot be loaded or written, a persistent warning explains that progress is staying in the current session. You can keep playing; existing unreadable or newer saves are protected.
 
+## Your Apple Music soundtrack (Mac)
+
+The default soundtrack is your supplied [Tony Hawk Pro Skater playlist by Alex Troyan](https://music.apple.com/gb/playlist/tony-hawk-pro-skater/pl.u-jV89Dq9t27eY8). Open **Soundtrack** from the title, Settings or Pause, then **Open default playlist in Music**. Sign into Music and add this playlist to its library once. Subscription songs require an active Apple Music subscription; adding the songs to the library too gives the best track-information/artwork support.
+
+Choose **Connect to Music** and allow macOS to control Music. The game selects the saved **Tony Hawk Pro Skater** playlist automatically when its name is unique. If you have several with that name, choose the correct one in the picker. Refresh after adding it. Automatic shuffled playback is enabled by default for this personal soundtrack and starts when you enter a skating session; you can turn it off or select another playlist. **Shuffle & play** also starts it immediately. Music continues through Pause and Restart. Pause shows the current song, artist, album and available artwork, with play/pause and skip controls.
+
+This controls your existing Music session. Set soundtrack volume in Music; the game sound sliders control skating effects and ambience. Disconnect turns off the integration/autoplay without stopping Music. If access is denied, allow it under **System Settings → Privacy & Security → Automation** for the app hosting the game, then reconnect. Source play may identify Godot or Terminal as that app.
+
+Artwork or track information may be unavailable for some streams; the menu then uses fallback artwork. The feature is Mac-only and optional. Playback, shuffle and the permission prompt still need target-Mac testing; the Linux development checks use fixtures.
+
 ## Explore Glasgow
 
 Open **City map & routes** from Pause or Goals. The arrow shows your position and heading; brighter routes climb higher and orange lines mark jump routes. Looking at the map pauses your run.

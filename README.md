@@ -6,7 +6,7 @@ An original arcade skateboarding game in a fictionalised Glasgow, built with God
 
 ## Play and develop
 
-**Use `main`:** it is the GitHub default and contains the combined work and latest playtest fixes. The former `bootstrap/m00-m01` default was renamed; `work` is retained history. Develop changes on feature branches.
+**Use `main`:** it is the GitHub default and contains the combined work and latest playtest fixes. The former `bootstrap/m00-m01` default was renamed; `work` is retained history. Work directly on `main`; do not create feature branches or worktrees.
 
 - From source, open `project.godot` with the free Godot 4.6.3 editor and press F5, or run `./tools/run.sh` on a graphical desktop. The launcher prepares imported assets and script classes before play, including on a fresh download; preparation errors stop launch and remain in `.local/source-import.log`.
 - Run `./tools/setup.sh` to verify the installed engine and check the project. Run `./tools/check.sh` after gameplay changes.
@@ -22,6 +22,10 @@ On macOS, source play uses the official editor; terminal scripts accept `GODOT_B
 
 Settings includes a saved **Graphics** choice: **Performance** uses 75% 3D resolution, 220m view distance, 30m shadows and no MSAA; **Balanced** defaults to native 3D resolution, 220m view distance, 45m shadows and 2× MSAA; **High** extends shadows to 75m at the same native resolution, view distance and anti-aliasing. HUD and menus stay native. These choices change rendering budgets while retaining the same chase framing and active connected-map gameplay. The [performance guide](docs/testing/PERFORMANCE.md) explains measurement; target-Mac frame-rate acceptance remains open.
 
+## Personal Mac soundtrack
+
+**Soundtrack** uses the account already signed into your Mac's Music app. The default is [Tony Hawk Pro Skater by Alex Troyan](https://music.apple.com/gb/playlist/tony-hawk-pro-skater/pl.u-jV89Dq9t27eY8): add it to Music's library once and it shuffles when you start skating. Pause shows current song, artist, album and available artwork with play/pause and skip. Autoplay can be turned off or another library playlist selected; game pause/restart preserves the song. [Setup and Mac verification limits](docs/PLAYER-GUIDE.md#your-apple-music-soundtrack-mac). Actual Mac playback and Automation consent remain unverified; current combined-source validation belongs in STATUS.
+
 ## Visual direction and Glasgow
 
 The owner requires polished UI and believable, detailed, realistic-but-fun graphics. The cleanup pass adds verified CC0 brick/concrete textures, varied facade modules, terraced streets, fountain coping, Clyde bridge transfers, hilly park paths, a CC0 anatomical head/hands, skinned clothing and a route map. Final cleanup remains tracked in **M06-007**. See [art direction](docs/product/ART_DIRECTION.md), [visual acceptance](docs/testing/VISUAL_ACCEPTANCE.md) and [level design](docs/levels/DESIGN-BRIEF.md).
@@ -32,7 +36,7 @@ The six areas interpret Royal Exchange Square, George Square, Central Station, t
 
 ## Continuity and reuse
 
-[75 full task records](docs/planning/BACKLOG.md) retain ownership, dependencies, acceptance criteria, validation and remaining work. Read [the handoff](docs/STATUS.md), [resume guide](docs/planning/RESUME.md) and [agent instructions](AGENTS.md) before continuing. The owner authorizes autonomous progress through ready tasks without recurring routine approvals. Human/hardware acceptance remains an evidence requirement.
+[76 full task records](docs/planning/BACKLOG.md) retain ownership, dependencies, acceptance criteria, validation and remaining work. Read [the handoff](docs/STATUS.md), [resume guide](docs/planning/RESUME.md) and [agent instructions](AGENTS.md) before continuing. The owner authorizes autonomous progress through ready tasks without recurring routine approvals. Human/hardware acceptance remains an evidence requirement.
 
 Godot supplies the engine facilities. An inspected MIT rail-geometry helper was adapted from Not Pro Skater, with full attribution and regression tests; the [reuse research](docs/research/SKATING_REUSE.md) records what was inspected and reused. Original project code integrates the mechanics and progression. The [provenance register](docs/licences/REGISTER.md) records original geometry/audio, locally generated Flite voice lines, two CC0 photo-based material sets, cropped CC0 MakeHuman anatomy and third-party notices.
 

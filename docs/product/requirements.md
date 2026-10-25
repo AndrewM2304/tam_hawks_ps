@@ -32,6 +32,7 @@ The supplied plan is the source of product requirements; [vision](vision.md) sta
 | R24 | Full local tickets, durable decisions and continuation after credits end | M00-001, M00-006, M07-004 | Backlog, source preservation and actionable STATUS/resume records; update at each checkpoint | Maintained throughout |
 | R25 | Zero additional spend: no purchases, paid APIs, billing, hosted compute or unattended loops | M00-005; applies to every ticket | Tool/dependency/workflow review; no paid service provisioned | Required throughout |
 | R26 | Independent QE and evidence-based milestone/release decisions | M01-007, M02-008, M03-005, M04-006, M06-006, M07-001, M07-005 | Recorded automated results, real screenshots and human/hardware gates | Required throughout |
+| R27 | Personal Mac playlist soundtrack, requested 25 October 2026 | M05-008 | Opt-in Music.app shuffle/autoplay; pause-menu song/artist/album/available artwork and skip; actual Mac playback/consent remain unverified | Implemented / Mac gate |
 
 The owner also explicitly authorizes free compatible reuse. Inspect existing implementations before writing substantial new generic systems; follow ADR-004 and the source/asset provenance register.
 

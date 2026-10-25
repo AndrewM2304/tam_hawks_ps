@@ -1,3 +1,35 @@
+## Personal Mac soundtrack integration — 25 October 2026
+
+`game/audio/apple_music.gd` owns `configure(persistence_enabled)`, `snapshot()`,
+`request(action,value="")` and `begin_session()`. Main supplies music state to HUD,
+forwards `music_requested(action,value)` and calls `begin_session()` on gameplay
+mode entry. Game pause/restart does not pause or reset Music. Preserve the newer
+Main/HUD revision caches, detached-copy boundaries, recorder blocking, trick-guide,
+graphics settings and recovery presentation when integrating this addition.
+
+Snapshots contain supported/enabled/connected/busy/status, library playlists
+(`{id,name}`), selected/native current-playlist IDs, song/artist/album/playing,
+available artwork and the owner's default playlist name/curator/exact URL.
+Requests are connect, refresh, select (native persistent ID), enable
+(`"true"`/`"false"`), play, toggle, next, open_default and disconnect. The fresh
+normal Mac default is owner-authorized; saved off/manual choices win. Unresolved
+default playback first lists the library and chooses only a unique title match.
+`open_default` targets Music with `/usr/bin/open -a Music` and the exact supplied
+URL; opening a URL alone is not assumed to establish a playback queue.
+
+External Music control is disabled for scripted/non-persistent runs. Dedicated
+`user://soundtrack.cfg` preferences do not change career/save schemas or game
+sound-bus gain. One worker serializes bounded Apple Events and metadata polling;
+live menu controls update without page rebuild or focus loss. Missing stream
+metadata does not disable skip while playback remains active. Mac execution is
+an explicit remaining gate, not established by Linux fixtures.
+[Design and permission/export limits](decisions/ADR-014-personal-mac-soundtrack.md).
+Main caches the detached Music snapshot on `changed` events/player replacement;
+HUD reuses unchanged nested data and updates transports only on changed metadata
+or page construction. Artwork is bounded to512px and is drawn in menus only;
+no world draw, geometry, shader or physics-body cost is added. Existing target-Mac
+and stutter admission remains open.
+
 ## Approved PT24 continuation contracts —25 October2026
 
 `pt24_connected_runs.build(world)` runs after dressing and before semantic edge
