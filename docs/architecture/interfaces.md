@@ -1,3 +1,13 @@
+## Current candidate and branch policy —25 October2026
+
+Owner requires direct main work, with no feature branches. Main now contains
+all work through5a2cba2, including the recorder and Kelvingrove world candidates.
+Older inventory values below describe earlier admitted source. Current candidate
+measured564 bodies/1674 shapes and910 combined horizon triangles; required full
+check4552/8 fails old geometry/inventory/foundation expectations and is not admitted.
+[Current evidence](../testing/main-consolidation-2026-10-25/README.md) and newest
+STATUS own exact results. Do not reapply the archived captured-candidate patch.
+
 ## Civic east setback repair —24 October2026
 
 GeorgeSquareFloor and CivicForecourt retain westx−35 and now reach eastx36;

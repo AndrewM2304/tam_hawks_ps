@@ -1,5 +1,10 @@
 # Owner debug session — portable cloud evidence
 
+**25 October update: all captured candidate code and planning are on main. Work
+directly on main; do not create feature branches or reapply the evidence patch.
+Older recovery/branch directions below are historical. Required current check
+is4552 passed/8 failed; see newest STATUS and main-consolidation evidence.**
+
 Reviewed 25 October 2026, planning only. Session ID
 `2026-10-24T22-29-11-9325535`; recorded UTC 22:29–22:43 on 24 October
 (local British Summer Time 23:29–23:43). Original source is the owner's Godot
@@ -35,27 +40,14 @@ world fixes and recorder UI plus a clean native after capture; full regression,
 new world tests and final recorder integration remain outstanding. This session
 demonstrates that owner-visible defects remain despite the narrow candidate checks.
 
-## Cloud source recovery
+## Current cloud entry
 
-Use pushed branch `fix/kelvingrove-owner-defects-20261024` (planning/evidence
-commit `da8250f` and handoff follow-up). Main remains the canonical default and
-has not received this unfinished gameplay candidate.
-
-Start from a feature branch containing the pinned base, using the existing cloud
-checkout. Preserve any newer work; do not reset it or recreate a worktree. Compare
-HEAD and local changes before applying the patch. On the exact base, after a
-clean application check:
-
-```sh
-git apply --check docs/testing/debug-session-2026-10-24/captured-candidate.patch
-git apply docs/testing/debug-session-2026-10-24/captured-candidate.patch
-```
-
-If current source already has these changes, do not reapply. If main has moved,
-reconcile the patch deliberately and record the new base. Verify each SHA-256 in
-manifest.json against its res:// project-relative file before reproducing. The
-patch also preserves modified Glasgow, horizon and HUD source not fingerprinted
-by recorder format 1. No Git commit identity can be inferred from ten hashes alone.
+Use main directly. All source from captured-candidate.patch is now present in
+main through5a2cba2; do not apply it again or create a feature branch/worktree.
+The patch preserves provenance of the earlier dirty capture, and is archival.
+Compare current source with manifest.json before reproduction and account for
+later main changes. Current combined regression is4552/8; see
+[consolidation evidence](../main-consolidation-2026-10-25/README.md).
 
 The recorded positions/heading/camera initialize diagnosis; history/input is a
 bounded observation, **not** a deterministic replay or complete session movie.

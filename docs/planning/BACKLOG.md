@@ -1,3 +1,10 @@
+**25 October — main-only consolidation:** owner directs all work on **main**,
+with no new feature branches. All existing candidate code, recorder, tickets and
+evidence are now contained. Required frozen check4552/8 is rejected; geometry/
+inventory/foundation failures and recorder-test integration remain under PT24-30.
+[Current results](../testing/main-consolidation-2026-10-25/README.md). No repairs
+or ticket completion claimed by merging. All75 full backlog bodies stay unchanged.
+
 **25 October — debug session planned for cloud implementation:** all 38 owner
 captures are reviewed and mapped to [30 local Planned tickets](DEBUG-SESSION-2026-10-24.md)
 with role owners, priorities, milestones, dependencies, acceptance and tests.

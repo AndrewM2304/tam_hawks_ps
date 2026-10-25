@@ -1,5 +1,10 @@
 # Playtest repair tickets — reviewed 25 October 2026
 
+**25 October update: all captured candidate code and planning are on main. Work
+directly on main; do not create feature branches or reapply the evidence patch.
+Older recovery/branch directions below are historical. Required current check
+is4552 passed/8 failed; see newest STATUS and main-consolidation evidence.**
+
 Planning only. The owner will start implementation in a separate cloud session;
 this review does not launch agents, change gameplay, or certify any fix.
 These are **30 local tickets**, not published GitHub issues. All are **Planned**.
@@ -424,12 +429,10 @@ long frames and draw/primitive/texture/video counters; maintain existing gates.
 No new rendering expansion is admitted until the existing stutter requirement
 is met. An animation being scenic does not exempt it from performance checks.
 
-Cloud start: read newest STATUS/RESUME, evidence README and ADR-032. Recover the
-captured candidate on a feature branch over 7e4d263 using the supplied patch,
-or explicitly reconcile it with later main. Verify all ten source fingerprints.
-The candidate is **not fully admitted**: prior native after capture was clean,
-but full regression, recorder integration and world regression fixtures remain
-unfinished; earlier diagnostics include rejected horizon-limit/indexing runs.
-Do not discard those changes or pretend 4560/0 on main certifies this candidate.
-Do not apply the patch twice or run workers against mismatched source unnoticed.
-No cloud session or background worker was started during this planning task.
+Cloud start: read newest STATUS/RESUME, evidence README and ADR-032. Use main
+directly; all captured candidate code is now committed through5a2cba2. Verify
+source fingerprints and reconcile later main changes; do not create a feature
+branch or reapply the archival patch. Current full check4552/8 is rejected;
+required geometry/inventory/foundation reconciliation and recorder-test integration
+remain. Preserve rejected diagnostics and do not infer the old main4560/0
+certifies this combined candidate. No cloud/background worker was started here.

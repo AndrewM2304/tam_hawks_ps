@@ -1,3 +1,37 @@
+# All existing work consolidated on main —25 October 2026
+
+Owner explicitly requests **everything on main and main-only future work**.
+Main was fast-forwarded from7e4d263 through da8250f/e2ce596 to5a2cba2, including
+all planning/evidence, recorder/tests and world-repair candidates. All existing
+local branch tips are ancestors of main; no feature work is left divergent.
+AGENTS.md now requires direct main work and no new feature branches/worktrees.
+This supersedes older branch/candidate-patch directions below. Cloud should use
+main directly; **do not reapply captured-candidate.patch**, whose code is present.
+
+Required local check on frozen5a2cba2: **4552 passed /8 failed**, exit1,
+522 stable inputs,149.340s; import clean, test receipt rejected. Source manifest
+591e2025c5f8a9b380ac82615988cdc024a762848ccc0cda14d52496ea33dba0.
+[Full logs, receipt and source binding](testing/main-consolidation-2026-10-25/README.md).
+Command: `GODOT_BIN=/Applications/Godot.app/Contents/MacOS/Godot python3 docs/testing/horizon-background/observers/run_checked.py .local/main-consolidation-20261025/full ./tools/check.sh`.
+Failures are3 surface/backdrop inventory/context geometry checks and5 horizon
+budget/inventory/toggle/foundation checks. Their causes require independent
+reconciliation with the changed guards/terrain/building foundations; do not relax
+fixtures blindly. No production/test fix was made during this consolidation.
+Recorder tests are present but not yet registered in tests/run_tests.gd; this
+count does not certify them. PT24-30 retains regression admission; all30 playtest
+repair tickets remain Planned, with visible/pose/bowl defects still open.
+
+Exact integration commands: git fetch origin; git switch main;
+git merge --ff-only origin/main; git merge --ff-only
+fix/kelvingrove-owner-defects-20261024. No branch created or history rewritten.
+Main receives this durable failure/handoff record before non-force push. No
+hosted workflow is configured or triggered; no release/background session/spend.
+All75 original backlog bodies/statuses remain intact. Resume cloud repair from
+main, beginning with the indexed P0 witnesses and required regression failures;
+human/Mac/controller/export/art/stutter gates remain open.
+
+---
+
 # Debug-session review and cloud planning handoff —25 October 2026
 
 Planning/evidence commit `da8250f` is pushed to

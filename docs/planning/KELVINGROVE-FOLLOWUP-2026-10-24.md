@@ -1,5 +1,10 @@
 # Owner screenshot defects —24 October2026 follow-up
 
+**25 October update: all captured candidate code and planning are on main. Work
+directly on main; do not create feature branches or reapply the evidence patch.
+Older recovery/branch directions below are historical. Required current check
+is4552 passed/8 failed; see newest STATUS and main-consolidation evidence.**
+
 25 October planning handoff: owner tested this unfinished local candidate and
 supplied 38 debug captures. [PT24-01…30](DEBUG-SESSION-2026-10-24.md) now owns
 the next cloud queue and exact witness mapping. Existing changes are candidates,

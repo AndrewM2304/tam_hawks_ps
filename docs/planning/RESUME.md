@@ -1,3 +1,20 @@
+# Current instruction —25 October 2026: main only
+
+Use **main directly** for all local/cloud work. Owner explicitly rejects multiple
+feature branches. All existing work through5a2cba2, including recorder, world
+candidates, tickets and evidence, is consolidated on main. Older feature-branch
+and patch-recovery instructions below are historical. Do not create a branch,
+worktree or reapply captured-candidate.patch. AGENTS.md records this preference.
+
+Current required check:4552 passed/8 failed,522 stable inputs,exit1. Read newest
+STATUS and [durable failure evidence](../testing/main-consolidation-2026-10-25/README.md).
+No all-green claim. Repair the geometry/budget/inventory/foundation checks with
+independent evidence; recorder tests still need registration. PT24-01…30 remain
+the owner's planned repair queue. This consolidation does not start bug fixing or
+a background session. Keep all human/hardware/render/visual acceptance open.
+
+---
+
 # Latest handoff —25 October 2026 debug-session planning
 
 Cloud entry branch: `fix/kelvingrove-owner-defects-20261024`, pushed planning
