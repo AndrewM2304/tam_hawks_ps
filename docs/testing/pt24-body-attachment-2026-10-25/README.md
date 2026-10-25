@@ -36,7 +36,8 @@ exit0, clean log,601 unchanged inputs,445.051s. [Receipt/log/source maps](valida
 Manifest SHA256`302ac737841520240c270bc84d254ab6fd8ebc176e84c7a974a3d9feaf1f7daa`.
 Four [cold-source phases](cold/SOURCE-LAUNCH.json) pass with507 stable inputs,
 normal no-script title-to-play50/0 and deliberate broken-source refusal.
-Current unsigned packages follow the clean source commit. Gallery
+Current unsigned Linux/universal-Mac packages export from clean source
+`7a1a4a1ae10c`; [archive audits and normal Linux startup](packages/README.md) pass. Gallery
 entrance→angled ledge→Manual→stair rail→Manual→fountain coping→dry Manual now
 passes8/0 focused checks on ordinary Main, earning12,888 once with393 Manual
 ticks, zero bails/recoveries and strict camera/support. The ordinary no-jump

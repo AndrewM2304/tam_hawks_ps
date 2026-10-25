@@ -13,7 +13,8 @@ Normal main trial content remains on, and Music is preserved.
 
 **Verified5,062/0** required checks plus Music guard **2/0**, clean/stable601
 inputs; four cold phases with normal title-to-play50/0 and eight native
-before/after garment frames pass. Current unsigned packages follow the clean source checkpoint.
+before/after garment frames pass. Current unsigned packages and normal Linux startup pass, bound to source
+`7a1a4a1ae10c`; see the current repair record for artifact receipts.
 The Gallery entrance→stair→fountain representative also passes on normal Main,
 banking12,888 once with zero bails. All merged trial features stay on.
 
