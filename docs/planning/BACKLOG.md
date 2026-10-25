@@ -1,3 +1,18 @@
+# Owner trial availability overlay — 25 October 2026
+
+The owner directs that features merged to main are for ordinary trial: normal
+Main enables station/train, pond/ducks, central-green groves and civic return.
+No launch flag is required; `--pt24-design-preview` remains a compatible alias.
+This supersedes older preview-only/default-enablement gates in the queue.
+
+Performance/Mac/controller/Music/human acceptance remains open evidence work,
+without hiding merged features. Verified default change: **5,038/0** required checks plus Music guard **2/0**,
+597 stable inputs; four cold phases with ordinary title-to-play **50/0**, and
+eight ordinary-default native frames pass. [Receipts](../testing/pt24-default-trial-2026-10-25/README.md). No blanket ticket closure is claimed. All 76 historical full ticket
+bodies, recorded statuses and earlier receipts below are preserved unchanged.
+
+---
+
 # Verified next-batch implementation — 25 October 2026
 
 The owner-approved batch after Music passes **5,037/0**, actual script guard2/0,

@@ -8,6 +8,12 @@ Skate a Glasgow-inspired prototype, link tricks, and complete career goals durin
 
 From source, open `project.godot` with free Godot 4.6.3 and press F5, or run `./tools/run.sh`. On Mac, use `GODOT_BIN="/Applications/Godot.app/Contents/MacOS/Godot" ./tools/run.sh`. The launcher prepares local assets before opening the game, including on a fresh download. A Linux standalone package contains `TamHawksProSkater.x86_64` and its adjacent `.pck`; extract both and run the executable. A macOS package contains `Tam Hawks Pro Skater.app`; it is an unsigned local test build, and actual Mac app launch remains to be verified. If the OS refuses it, source play in the official editor remains available without buying signing or disabling security settings.
 
+The current main includes the enclosed station and passing scenic train, the
+Kelvingrove pond and ducks, central-green planting and civic return ramp in
+normal play. Launch with F5, `./tools/run.sh`, or the current exported app; no
+preview argument is required. Older exported apps need replacing to include
+this default change.
+
 ## Controls
 
 | Action | Keyboard | Standard DualSense mapping to verify |

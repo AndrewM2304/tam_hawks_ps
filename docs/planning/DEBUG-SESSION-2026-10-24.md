@@ -1,3 +1,19 @@
+# Owner trial availability — 25 October 2026
+
+The latest owner instruction makes merged features available in normal Main:
+PT24-15 station/tunnel/train, PT24-16 pond/ducks/perimeter and PT24-17/18 green
+groves/civic return default **on**, without a launch flag.
+`--pt24-design-preview` remains a compatible explicit alias. This supersedes
+every older preview-only/default-enablement gate below.
+
+Performance, Mac moving visuals, physical controls, actual Music and human
+acceptance remain open evidence work; they do not hide these trial features.
+Verified default change: **5,038/0** required checks plus Music guard **2/0**,
+597 stable inputs; four cold phases with ordinary title-to-play **50/0**, and
+eight ordinary-default native frames pass. [Receipts](../testing/pt24-default-trial-2026-10-25/README.md). No blanket ticket closure is claimed, and all thirty original ticket bodies/witnesses remain intact.
+
+---
+
 # Next-batch ticket overlay — 25 October 2026
 
 Following the owner's instruction to continue after the Music merge, a further

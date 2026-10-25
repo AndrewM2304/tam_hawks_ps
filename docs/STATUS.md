@@ -1,3 +1,21 @@
+# Owner trial defaults — 25 October 2026
+
+The owner explicitly requires features merged to main to be available for trial.
+Normal Main now defaults the enclosed station/train, pond/ducks, central-green
+groves and civic return **on**. Launch normally; no flag is needed.
+`--pt24-design-preview` remains a compatible explicit alias. This supersedes the
+historical opt-in instructions below and in planning/interface records.
+
+Performance, moving Mac visuals, physical controls, actual Music and human
+acceptance remain open evidence work; they do not hide these trial features.
+Verified default change: **5,038/0** required checks plus Music guard **2/0**,
+597 stable inputs; four cold phases with ordinary title-to-play **50/0**, and
+eight ordinary-default native frames pass. [Current receipts](testing/pt24-default-trial-2026-10-25/README.md). Prior
+receipts and packages below certify their recorded source only; no blanket
+ticket closure is claimed here.
+
+---
+
 # Verified next ticket batch — 25 October 2026
 
 Work continued directly on main after the Apple Music merge `258fec4`, divided

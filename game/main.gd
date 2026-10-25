@@ -77,8 +77,12 @@ func _ready() -> void:
 	career.begin_run(free_skate_mode)
 	world = GlasgowSquare.new()
 	world.name = "GlasgowSquare"
-	# An explicit source-launch candidate lets the owner inspect pending design
-	# work on target hardware without changing its ordinary-play admission.
+	# Main is the owner's playable trial: completed design additions are on by
+	# default. An explicit false remains available to historical geometry tests.
+	if not has_meta("pt24_design_preview"):
+		set_meta("pt24_design_preview",true)
+	# Retain the older command as a compatible explicit opt-in; ordinary play
+	# and exported builds no longer require it.
 	if OS.get_cmdline_user_args().has("--pt24-design-preview"):
 		set_meta("pt24_design_preview",true)
 	# Read-only visual A/B diagnostics set these before construction; no profile/UI switch.

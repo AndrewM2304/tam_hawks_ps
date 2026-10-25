@@ -1,3 +1,19 @@
+## Normal Main trial defaults — 25 October 2026
+
+The latest owner instruction enables merged level features in ordinary Main:
+enclosed station/tunnel/train, pond/ducks/perimeter, central-green groves and
+civic return. No launch flag is required. `--pt24-design-preview` remains a
+compatible explicit alias, rather than an opt-in requirement. This contract
+supersedes historical preview-only/default-enablement gates in these interfaces.
+
+Performance/Mac/controller/temporal/Music/human acceptance remains open evidence
+work and does not hide merged trial features. Verified default change: **5,038/0** required checks plus Music guard **2/0**,
+597 stable inputs; four cold phases with ordinary title-to-play **50/0**, and
+eight ordinary-default native frames pass. [Receipts](../testing/pt24-default-trial-2026-10-25/README.md). Older results remain source-specific. Existing skating/save identities
+and scripted Music/personal-account isolation remain intact.
+
+---
+
 ## Personal Mac soundtrack integration — 25 October 2026
 
 `game/audio/apple_music.gd` owns `configure(persistence_enabled)`, `snapshot()`,

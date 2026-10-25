@@ -214,6 +214,10 @@ func _run() -> void:
 	await SKATEPARK_NAVIGATION_TESTS.run_ui(self, _check)
 	game = MAIN_SCRIPT.new()
 	game.persistence_enabled = false
+	# Historical inventory/A-B control, not the owner's normal launch. Keep
+	# exact established counts; design integration and the no-script boot scene
+	# independently prove the now-default railway, pond, green and civic return.
+	game.set_meta("pt24_design_preview",false)
 	root.add_child(game)
 	await _physics_frames(35)
 	await HORIZON_TESTS.run(self, game.world, _check)

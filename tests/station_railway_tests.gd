@@ -1,13 +1,13 @@
 extends RefCounted
-## The railway candidate is built in a separate native world position. Normal
-## world inventories and default performance admission remain unchanged.
+## Isolated railway geometry plus the explicit historical inventory control.
+## Ordinary Main construction is covered by the default integration/boot tests.
 
 const Railway = preload("res://game/levels/station_railway.gd")
 
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	check.call(game.world.find_child("StationRailway", true, false) == null,
-		"PT24-15: ordinary world does not bypass the railway's pending rendering admission")
+		"PT24-15: explicit historical baseline fixture omits the added railway")
 	var preview := Node3D.new()
 	preview.name = "IsolatedStationRailwayWitness"
 	preview.position = Vector3(1500, 0, 1500)

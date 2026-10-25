@@ -1,5 +1,5 @@
 extends SceneTree
-## Twelve bounded native frames (twenty with --run-layout) of actual Main.
+## Twelve frames (twenty with --run-layout; eight with --ordinary-trial).
 ## Authored static inspection, not motion/input/performance proof.
 
 const Main = preload("res://game/main.gd")
@@ -15,6 +15,7 @@ var failures := 0
 var before: Dictionary = {}
 var _preview := false
 var _run_layout := false
+var _ordinary_trial := false
 
 
 func _initialize() -> void:
@@ -44,36 +45,41 @@ func _run() -> void:
 	inspection = Camera3D.new()
 	inspection.name = "AuthoredPT24InspectionCamera"
 	root.add_child(inspection)
-	await _new_game(false)
-	await _capture("default-normal-startup", game.skater._camera,
-		"Normal completed play frame after ordinary startup/physics; no pose or camera fixture before this draw.")
-	for number: int in [11, 27, 28, 38]:
-		await _owner_view(number)
-	if _run_layout:
-		await _run_layout_views()
-	await _free_game()
+	if not _ordinary_trial:
+		await _new_game(false)
+		await _capture("default-normal-startup", game.skater._camera,
+			"Normal completed play frame after ordinary startup/physics; no pose or camera fixture before this draw.")
+		for number: int in [11, 27, 28, 38]:
+			await _owner_view(number)
+		if _run_layout:
+			await _run_layout_views()
+		await _free_game()
 	await _new_game(true)
+	if _ordinary_trial:
+		await _capture("normal-startup",game.skater._camera,
+			"Normal Main default with no preview CLI flag or pt24_design_preview override; completed ordinary startup/physics before any pose or authored camera fixture.")
 	_check(is_instance_valid(game.world._station_railway) and is_instance_valid(game.world._park_pond),
-		"explicit preview contains the station and pond candidates")
+		"ordinary Main defaults contain station and pond" if _ordinary_trial else "explicit preview contains the station and pond candidates")
+	var prefix := "normal" if _ordinary_trial else "preview"
 	await _owner_view(25)
 	await _owner_view(26)
-	await _inspection_view("preview-pond-overview", Vector3(-165, 12, -4), Vector3(-184, 0.4, -21), 58.0,
+	await _inspection_view(prefix+"-pond-overview", Vector3(-165, 12, -4), Vector3(-184, 0.4, -21), 58.0,
 		"Authored static pond/lawn/rail overview; no pond grind, water entry or recovery is driven by this image.")
 	var railway: Node3D = game.world._station_railway
 	if is_instance_valid(railway):
 		railway.reset_run()
 		railway.tick(6.5)
-	await _inspection_view("preview-station-overview", Vector3(-110, 14, 36), Vector3(-136, 9, 0), 58.0,
+	await _inspection_view(prefix+"-station-overview", Vector3(-110, 14, 36), Vector3(-136, 9, 0), 58.0,
 		"Authored static station/park-passage overview. Train phase is explicitly set to 6.5s; this is not motion evidence.")
 	if is_instance_valid(railway): railway.reset_run()
-	await _inspection_view("preview-train-concealed", Vector3(-125, 11, 16), Vector3(-136, 9, 0), 60.0,
+	await _inspection_view(prefix+"-train-concealed", Vector3(-125, 11, 16), Vector3(-136, 9, 0), 60.0,
 		"Static train reset phase0 while paused: complete train should be inside the opaque north tunnel.")
 	if is_instance_valid(railway): railway.tick(6.5)
-	await _inspection_view("preview-train-visible", Vector3(-125, 11, 16), Vector3(-136, 9, 0), 60.0,
+	await _inspection_view(prefix+"-train-visible", Vector3(-125, 11, 16), Vector3(-136, 9, 0), 60.0,
 		"Static train phase6.5s while paused: train is explicitly advanced into the clerestory. No actual-time train-loop acceptance.")
-	await _inspection_view("preview-bridge-cable-detail", Vector3(-34, 11, 86), Vector3(-25, 6.5, 97), 52.0,
+	await _inspection_view(prefix+"-bridge-cable-detail", Vector3(-34, 11, 86), Vector3(-25, 6.5, 97), 52.0,
 		"Authored static safe-bridge/cable inspection near X-25/Z97; no rail-to-cable transfer is claimed by a still.")
-	_check(records.size() == EXPECTED_FRAMES + (8 if _run_layout else 0), "all declared frames were captured")
+	_check(records.size() == _expected_frames(), "all declared frames were captured")
 	var after := _sources()
 	_check(before == after, "complete game and capture sources stayed unchanged")
 	_write_manifest(after, false)
@@ -87,7 +93,8 @@ func _new_game(preview: bool) -> void:
 	_preview = preview
 	game = Main.new()
 	game.persistence_enabled = false
-	game.set_meta("pt24_design_preview", preview)
+	if not _ordinary_trial: game.set_meta("pt24_design_preview", preview)
+	else: _check(not game.has_meta("pt24_design_preview"),"ordinary Main has no assigned design override")
 	root.add_child(game)
 	_check(not game.music._can_control and not game.music._persist,
 		"capture cannot read soundtrack preferences or control a personal Music session")
@@ -97,7 +104,7 @@ func _new_game(preview: bool) -> void:
 		await physics_frame
 		await process_frame
 	_check(bool(game.world.get_meta("pt24_design_preview", false)) == preview,
-		"world construction matches the declared preview state")
+		"world construction matches ordinary Main defaults" if _ordinary_trial else "world construction matches the declared preview state")
 	# Freeze after ordinary startup, retaining a valid actor presentation. Main
 	# is ALWAYS-processing in production; freeze it explicitly as well as physics.
 	game.set_process(false)
@@ -138,7 +145,7 @@ func _owner_view(number: int) -> void:
 	camera.reset_physics_interpolation()
 	camera.make_current()
 	game._refresh_hud()
-	await _capture(("preview" if _preview else "default") + "-issue-%04d" % number, camera,
+	await _capture(("normal" if _ordinary_trial else ("preview" if _preview else "default")) + "-issue-%04d" % number, camera,
 		"Exact original owner player/camera placement from issue-%04d.json; static paused fixture, not a completed route or temporal flicker check." % number,
 		{"owner_record": path, "owner_record_sha256": FileAccess.get_sha256(path)})
 
@@ -262,7 +269,9 @@ func _capture(label: String, camera: Camera3D, note: String, extra: Dictionary =
 		"nodes": int(Performance.get_monitor(Performance.OBJECT_NODE_COUNT))}
 	_check(counters.draw_calls > 0 and counters.primitives > 0, label + " has native rendering counters")
 	var record := {"file": label + ".png", "sha256": FileAccess.get_sha256(path) if saved else "",
-		"width": frame.get_width(), "height": frame.get_height(), "preview": _preview,
+		"width": frame.get_width(), "height": frame.get_height(), "preview": _preview and not _ordinary_trial,
+		"ordinary_trial":_ordinary_trial,"main_has_design_override":game.has_meta("pt24_design_preview"),
+		"world_content_enabled":bool(game.world.get_meta("pt24_design_preview",false)),
 		"physics_frame": Engine.get_physics_frames(), "process_frame": Engine.get_process_frames(),
 		"camera_position": _array(camera.global_position), "camera_forward": _array(-camera.global_basis.z),
 		"camera_up": _array(camera.global_basis.y), "camera_fov": camera.fov,
@@ -277,17 +286,23 @@ func _capture(label: String, camera: Camera3D, note: String, extra: Dictionary =
 	print("PT24_DESIGN_FRAME ", label, " draws=", counters.draw_calls, " primitives=", counters.primitives)
 
 
+func _expected_frames() -> int:
+	return 8 if _ordinary_trial else EXPECTED_FRAMES + (8 if _run_layout else 0)
+
+
 func _write_manifest(after: Dictionary, timed_out: bool) -> void:
 	var manifest := {"schema": 1, "recorded_at_utc": Time.get_datetime_string_from_system(true),
 		"engine": Engine.get_version_info().string, "renderer": RenderingServer.get_current_rendering_method(),
 		"driver": RenderingServer.get_current_rendering_driver_name(), "adapter": RenderingServer.get_video_adapter_name(),
-		"resolution": [SIZE.x, SIZE.y], "expected_frames": EXPECTED_FRAMES + (8 if _run_layout else 0), "run_layout":_run_layout, "failures": failures,
+		"resolution": [SIZE.x, SIZE.y], "expected_frames":_expected_frames(), "run_layout":_run_layout, "failures": failures,
+		"mode":"ordinary-trial" if _ordinary_trial else "legacy-preview-pair",
+		"ordinary_trial":_ordinary_trial,"main_design_override_assigned":not _ordinary_trial,
 		"timed_out": timed_out, "source_stable": before == after, "source_before": before,
 		"source_after": after, "records": records, "profile_writes_enabled": false,
-		"method": "Actual Main built once with preview=false and once with preview=true; no persistence. Completed normal process and frame_post_draw synchronization before every PNG. Static owner/authored camera placements; physics and Main frozen after ordinary startup. Train phases explicitly reset/ticked while paused. Optional --run-layout adds four default-world layout overviews, two assigned contact-pose diagnostics and two last-air orientation controls; no input or motion proof.",
+		"method": ("Actual normal Main default built once without preview CLI flag or pt24_design_preview metadata assignment; no persistence. " if _ordinary_trial else "Actual Main built once with preview=false and once with preview=true; no persistence. ") + "Completed normal process and frame_post_draw synchronization before every PNG. Static owner/authored camera placements; physics and Main frozen after ordinary startup. Train phases explicitly reset/ticked while paused. Optional legacy --run-layout adds four layout overviews, two assigned contact-pose diagnostics and two last-air orientation controls; no input or motion proof.",
 		"limits": ["Static placement and scene-construction evidence only; no new ordinary-camera gameplay, combo, temporal flicker or motion acceptance.",
 			"Native counters are snapshots, not an uncontended matched frame-time benchmark or target-Mac performance result.",
-			"Preview content retains the existing performance admission gate in ordinary play."]}
+			"Ordinary trial uses actual Main defaults; legacy mode explicitly compares false/true internal construction overrides."]}
 	var file := FileAccess.open(output.path_join("manifest.json"), FileAccess.WRITE)
 	if file == null:
 		_check(false, "manifest opens for writing")
@@ -353,10 +368,15 @@ func _arguments() -> bool:
 			output = argument.trim_prefix("--output=")
 		elif argument == "--run-layout":
 			_run_layout = true
+		elif argument == "--ordinary-trial":
+			_ordinary_trial = true
 		else:
-			push_error("Unknown design capture argument (the script owns both preview states): " + argument)
+			push_error("Unknown design capture argument: " + argument)
 			return false
 		index += 1
+	if _ordinary_trial and _run_layout:
+		push_error("--ordinary-trial and --run-layout are separate capture modes")
+		return false
 	return not output.is_empty()
 
 

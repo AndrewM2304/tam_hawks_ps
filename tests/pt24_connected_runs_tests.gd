@@ -132,7 +132,7 @@ static func _civic_port(tree: SceneTree,game: Node,check: Callable) -> void:
 	var world: Node3D=game.world
 	var quarter: Node3D=world.get_node_or_null("CivicPortReturn")
 	var preview: bool=world.get_meta("pt24_design_preview",false)
-	check.call(is_instance_valid(quarter)==preview,"PT24-18: added civic return geometry obeys the explicit design admission gate")
+	check.call(is_instance_valid(quarter)==preview,"PT24-18: civic return geometry matches the fixture's explicit construction setting")
 	if not preview or not is_instance_valid(quarter): return
 	check.call(quarter.position.is_equal_approx(Vector3(-38.5,6,-116)) and quarter.radius==2.4
 		and quarter.width==4.5 and quarter.deck_length==2.0 and not quarter.build_access

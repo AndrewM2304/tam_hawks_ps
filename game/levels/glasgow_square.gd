@@ -83,8 +83,8 @@ func _ready() -> void:
 	_build_central_station()
 	_build_barras()
 	_build_city()
-	# The requested railway is a complete candidate; its default rendering
-	# admission remains separate from repairs to the existing playable map.
+	# Main enables the owner's trial content by default. Direct-world baseline
+	# fixtures may still omit it explicitly for historical inventory comparisons.
 	if bool(get_meta("pt24_design_preview",false)):
 		_station_railway = StationRailway.new().build(self)
 	_build_street_furniture()

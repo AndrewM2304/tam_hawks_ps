@@ -1,3 +1,20 @@
+# Latest direction: merged features available for trial — 25 October 2026
+
+The owner explicitly supersedes hidden preview/default-enablement gates. Normal
+Main enables the implemented C05 station/tunnel/train, C06 pond/ducks/perimeter
+and C04 green groves/civic return. No launch flag is required;
+`--pt24-design-preview` remains a compatible explicit alias. Older opt-in scope
+below is historical, including the former C10 prerequisite for showing features.
+
+C10 performance, Mac/controller/temporal/Music and human acceptance remain
+required evidence work, not reasons to hide merged trial features. Verified default change: **5,038/0** required checks plus Music guard **2/0**,
+597 stable inputs; four cold phases with ordinary title-to-play **50/0**, and
+eight ordinary-default native frames pass. [Receipts](../testing/pt24-default-trial-2026-10-25/README.md). Prior receipts certify only their recorded
+source; this overlay claims no blanket ticket closure and preserves all earlier
+workpackage/ticket bodies.
+
+---
+
 # Next-batch implementation overlay — 25 October 2026
 
 The owner approved continuing after the Apple Music merge. Work is directly on

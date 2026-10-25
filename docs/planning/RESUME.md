@@ -1,3 +1,19 @@
+# Resume with normal trial features — 25 October 2026
+
+The owner rejects hidden preview gating for features merged to main. Normal
+Main defaults station/train, pond/ducks, green groves and civic return on; launch
+normally without a flag. `--pt24-design-preview` remains a compatible alias.
+This direction supersedes older opt-in/default-admission instructions below.
+
+Verified default change: **5,038/0** required checks plus Music guard **2/0**,
+597 stable inputs; four cold phases with ordinary title-to-play **50/0**, and
+eight ordinary-default native frames pass. Read newest [STATUS](../STATUS.md) and [receipts](../testing/pt24-default-trial-2026-10-25/README.md). Performance, actual Mac
+Music/controller/visual and human acceptance stay open as evidence, not reasons
+to hide trial features. Preserve main-only work, prior source-bound receipts,
+all original ticket bodies and no-spend/no-release limits.
+
+---
+
 # Verified next-batch source — 25 October 2026
 
 Work directly on main. The next batch passes **5,037/0** plus actual script guard

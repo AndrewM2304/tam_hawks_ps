@@ -1,3 +1,19 @@
+# Latest owner instruction: features on main are for trial — 25 October 2026
+
+- Features merged to `main` must be available for the owner's ordinary trial.
+  Normal Main enables the enclosed station/train, pond/ducks, central-green
+  groves and civic return by default. No launch flag is required;
+  `--pt24-design-preview` remains a compatible explicit alias.
+- This instruction supersedes every older preview-only/default-enablement gate
+  in this file and historical records. Performance, Mac, controller, visual and
+  human acceptance remain honest evidence work; they must never be used to hide
+  merged trial features. Availability does not claim those checks have passed.
+- Root owns the default-enabled source checks and their receipts; do not relabel
+  an older result as verification of this change. Preserve main-only work,
+  personal Music isolation, no spending/hosted CI/release and no unattended jobs.
+
+---
+
 # Tam Hawks Pro Skater — agent operating rules
 
 Read `docs/STATUS.md`, `docs/planning/BACKLOG.md`, and `docs/architecture/interfaces.md` before implementation. The supplied plan is preserved in `docs/product/original-plan.md`.
