@@ -6,6 +6,7 @@ const Green = preload("res://tests/pt24_central_green_tests.gd")
 const Pond = preload("res://tests/park_pond_tests.gd")
 const Layout = preload("res://tests/pt24_connected_runs_tests.gd")
 const Routes = preload("res://tests/world_routes_tests.gd")
+const GalleryEntrance = preload("res://tests/pt24_gallery_entrance_run_tests.gd")
 
 static func run(tree: SceneTree,check: Callable) -> void:
 	for action: String in InputMap.get_actions(): Input.action_release(action)
@@ -31,6 +32,7 @@ static func run(tree: SceneTree,check: Callable) -> void:
 	await Pond.run_installed(tree,game,check)
 	await Pond.run_player(tree,game,check)
 	await Layout._civic_port(tree,game,check)
+	await GalleryEntrance.run(tree,game,check)
 	for action: String in InputMap.get_actions(): Input.action_release(action)
 	game.queue_free()
 	await tree.process_frame

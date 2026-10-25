@@ -1,3 +1,21 @@
+# Priority body-attachment repair —25 October2026
+
+The owner prioritises torso/leg detachment during tricks and after bails, then
+continuation of accepted work. The actual residual-grab/full torso displacement
+is reproduced and repaired using a shared, influence-weighted torso/pelvis fit.
+Focused290/0 plus eight real native garment-control frames pass. [Current evidence](../testing/pt24-body-attachment-2026-10-25/README.md) owns exact metrics, retained failures and verified final combined admission.
+Normal trial features remain enabled and Music is preserved. Gallery entrance
+run work continues separately; no unperformed Mac/human acceptance is claimed.
+
+
+**Verified5,062/0** required checks plus Music guard **2/0**, clean/stable601
+inputs; four cold phases with normal title-to-play50/0 and eight native
+before/after garment frames pass. Current unsigned packages follow the clean source checkpoint.
+The Gallery entrance→stair→fountain representative also passes on normal Main,
+banking12,888 once with zero bails. All merged trial features stay on.
+
+---
+
 # Resume with normal trial features — 25 October 2026
 
 The owner rejects hidden preview gating for features merged to main. Normal

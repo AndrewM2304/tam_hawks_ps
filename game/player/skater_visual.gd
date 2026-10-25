@@ -481,15 +481,22 @@ func animate(delta: float, state: Dictionary) -> void:
 	_upper.rotation.x = lerpf(_upper.rotation.x, -1.50, _bail_blend)
 	_upper.rotation.z = lerpf(_upper.rotation.z, 0.30, _bail_blend)
 	if _grab_blend > 0.0:
+		var unconstrained_torso := _upper.position
 		var contact := _rider.to_local(_board.to_global(grab_target))
 		for iteration in 4:
 			var shoulder := _rider.to_local(_upper.to_global(Vector3(grab_side * 0.195, 0.425, 0)))
 			var wrist := _grip_wrist(grab_side, shoulder, contact, grab_stance.x)
 			var reach := wrist - shoulder
 			if reach.length() <= 0.575: break
-			# A boned leg straightens below the pelvis while the torso folds
-			# toward its hand contact; the arm does not lengthen to bridge it.
+			# Solve actual palm reach without lengthening the arm.
 			_upper.position += reach.normalized() * (reach.length() - 0.575)
+		# Reach belongs to the connected pelvis/torso. Moving only the jacket
+		# detached it from the hips; applying a full correction for an arbitrarily
+		# small decaying grab influence also kept it at the deck after release.
+		var grab_shift := (_upper.position-unconstrained_torso)*_grab_blend
+		_upper.position = unconstrained_torso+grab_shift
+		hips_origin += grab_shift
+		hips_y = hips_origin.y
 	if skitch_pose:
 		for iteration in 5:
 			var correction := Vector3.ZERO

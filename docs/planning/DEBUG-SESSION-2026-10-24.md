@@ -1,3 +1,24 @@
+# Current PT24-28 priority repair —25 October2026
+
+The owner's renewed torso/leg detachment report has a reproducible current-source
+cause: unweighted residual grab reach shifts torso independently of pelvis.
+The coherent, influence-weighted torso/pelvis repair passes290 targeted checks,
+including actual deformed clothes through active/released grabs, bail/get-up,
+repeated failures, Kickflip and restart. Native static before/after frames show
+the same repaired attachment. [Evidence and final-admission results](../testing/pt24-body-attachment-2026-10-25/README.md).
+Older photos are not assumed to share a cause without a matching reproduction.
+Remaining accepted work continues with the Gallery entrance/stair/fountain link.
+Normal main trial content remains on, and Music is preserved.
+
+
+**Verified5,062/0** required checks plus Music guard **2/0**, clean/stable601
+inputs; four cold phases with normal title-to-play50/0 and eight native
+before/after garment frames pass. Current unsigned packages follow the clean source checkpoint.
+The Gallery entrance→stair→fountain representative also passes on normal Main,
+banking12,888 once with zero bails. All merged trial features stay on.
+
+---
+
 # Owner trial availability — 25 October 2026
 
 The latest owner instruction makes merged features available in normal Main:

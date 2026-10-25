@@ -1,3 +1,27 @@
+# Current C03 priority and C04-L01 completion —25 October2026
+
+The current torso/leg failure is reproduced and repaired: real Skin-bound
+clothes expose an unweighted residual grab translation, corrected by coherent
+influence-weighted torso/pelvis reach. Focused290/0 and eight native before/after
+frames pass. [Current receipts and final admission](../testing/pt24-body-attachment-2026-10-25/README.md).
+
+C04-L01 now includes the previously unproved entrance bank/angled ledge before
+the stair/fountain run: actual mapped input captures all three guides, banks
+12,888 once, and passes strict camera/support with zero bails/recoveries. The
+ordinary miss bypass also passes. No new geometry or production trick/score rule
+was needed. Focused8/0 is source-bound; final combined admission passes5,062/0.
+Full summit/cutback park extensions, temporal/Mac/performance/human evidence and
+other remaining scopes below stay distinct. All merged trial content stays on.
+
+
+**Verified5,062/0** required checks plus Music guard **2/0**, clean/stable601
+inputs; four cold phases with normal title-to-play50/0 and eight native
+before/after garment frames pass. Current unsigned packages follow the clean source checkpoint.
+The Gallery entrance→stair→fountain representative also passes on normal Main,
+banking12,888 once with zero bails. All merged trial features stay on.
+
+---
+
 # Latest direction: merged features available for trial — 25 October 2026
 
 The owner explicitly supersedes hidden preview/default-enablement gates. Normal

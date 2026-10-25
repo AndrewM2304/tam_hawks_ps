@@ -1,0 +1,23 @@
+{
+  "started_london": "2026-10-25T18:52:35.417857+00:00",
+  "completed_london": "2026-10-25T18:53:07.597719+00:00",
+  "wall_seconds": 32.179864619996806,
+  "command": [
+    "timeout",
+    "180s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_gallery_entrance_focused.gd"
+  ],
+  "exit_code": -15,
+  "source_inputs": 600,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [],
+  "valid": false,
+  "source_manifest_sha256": "a88c44a7b011070aae388272e166fd5d3c714e5c18c59fed56d08765ce1ac669",
+  "git_head": "b7d9aa60b8951b114466d7acd2a98796d2995e41"
+}

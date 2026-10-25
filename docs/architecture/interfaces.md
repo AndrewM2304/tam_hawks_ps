@@ -1,3 +1,19 @@
+## Connected grab reach and body attachment —25 October2026
+
+Grab reach first solves the existing finite palm target with the original arm
+length. The solved translation is multiplied by the actual `_grab_blend`, then
+applied to BOTH torso and common pelvis before the existing fixed-length leg/
+planted-foot solve. Tiny fading grab values therefore cannot apply a full torso
+translation after landing or bail recovery. Full influence retains native palm
+reach, while the connected pelvis supplies the legs' actual hip origins.
+No bind, mesh, limb length, physics/input/score/camera or world-default change
+is introduced. There is no blanket pose reset, hard snap, new query or resource.
+Attachment witnesses deform real vertex/bone/weight arrays with actual Skin
+binds and Skeleton global poses; node lengths alone cannot detect this defect.
+[Priority repair evidence](../testing/pt24-body-attachment-2026-10-25/README.md).
+
+---
+
 ## Normal Main trial defaults — 25 October 2026
 
 The latest owner instruction enables merged level features in ordinary Main:

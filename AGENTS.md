@@ -1,3 +1,13 @@
+# Latest owner priority: torso/leg attachment —25 October2026
+
+Fix the reported body detachment during/after tricks and bail recovery first,
+then continue the accepted remaining items. Preserve normal default-on trial
+content and Apple Music. Verify actual deformed clothes and body-joint attachment
+across transitions, not only limb-node lengths. Main-only/non-force and no-spend,
+no-hosted-CI/no-release constraints remain.
+
+---
+
 # Latest owner instruction: features on main are for trial — 25 October 2026
 
 - Features merged to `main` must be available for the owner's ordinary trial.
