@@ -1,3 +1,27 @@
+# Level layout recommendations — 25 October 2026
+
+The owner requested a level-design review and Markdown recommendations only.
+Three agents reviewed current source, existing owner screenshots, route/feature
+contracts and ticket status on `cb8b9a0`; no game code, geometry, ticket status or
+acceptance result was changed. [Layout recommendations](levels/LAYOUT-RECOMMENDATIONS-2026-10-25.md)
+cover cross-district combo handoffs, existing obstacle placement, candidate runs,
+station scope and the remaining ticket queue. Physical route connectivity is
+stronger than the evidence for continuous, readable combos between districts;
+prioritize aligning and composing existing features before adding more objects.
+
+The playable station blockout exists; the enclosed station, railway tunnel and
+passing scenic train in PT24-15 remain Planned. None of the 30 PT24 tickets is
+fully closed: 19 In progress, seven Planned, and four retain open/partial
+rendering work. Original 75 backlog records retain their existing statuses.
+
+Validation for this documentation-only review: source references, local links,
+ticket counts and docs-only diff. No game launch or test-suite rerun; the source
+repair receipt below remains the latest engineering result. Recommendations are
+proposed work, not implementation or newly verified combo routes. Resume on main
+with the existing stutter/rendering and human acceptance gates intact.
+
+---
+
 # PT24 source repair batch — 25 October 2026
 
 Work is directly on **main**, based on `0b8b30e`. Six agents divided world/park,
