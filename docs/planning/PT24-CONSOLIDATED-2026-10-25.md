@@ -58,8 +58,8 @@ The current record retains the rejected first combined 4,809/13 run and the
 legacy fixture assumptions it exposed. Approved migrations preserve actual
 input/contact/score requirements at current geometry. Final combined **4,852/0**,
 four cold-source phases and thirty source-bound native frames are now retained
-in the continuation record. Package preparation is completing; actual Mac
-execution remains open. Documentation changes alone do not constitute new results.
+in the continuation record. Current-source Linux/macOS unsigned packages are audited and the Linux title/preview
+startup checks pass; actual Mac execution remains open. Documentation changes alone do not constitute new results.
 
 Work directly on main. Use disjoint file ownership and freeze shared geometry
 before independent checks. Prefer existing screenshot coordinates, source,
@@ -244,7 +244,7 @@ and bounded optimization. Linux llvmpipe diagnostics cannot certify Apple Silico
 
 ### C11 — Integrate, package, audit and hand over the final candidate
 
-**P0 / P1 instructions · M00/M06/M07 · Owners A01/A03/A08/A09 · State: source regression/cold launch verified; package preparation and Mac/owner acceptance remain.**
+**P0 / P1 instructions · M00/M06/M07 · Owners A01/A03/A08/A09 · State: source/cold/package engineering verified; Mac/owner release acceptance remains.**
 Dependencies: accepted active C01–C10 slices and explicitly recorded deferrals.
 M00-002's engineering setup/cold-source slice is complete against the existing
 receipts; real Mac source/standalone play remains in C09/C11. Merge M06-005's

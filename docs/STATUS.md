@@ -29,7 +29,7 @@ before/after readbacks, zero failures and source-bound. These are not moving Mac
 shadow acceptance or frame-time measurements. Earlier 4,809/13 and intermediate
 4,843/0 / 4,845/0 remain separately retained and do not certify later source.
 
-Current-source unsigned Linux/macOS packages are being prepared; their source and archive receipts will follow. Actual Mac execution remains open.
+Current-source unsigned Linux/macOS packages and the Linux standalone title/preview startup checks pass; see [package receipts](testing/pt24-continuation-2026-10-25/packages/README.md). Actual Mac execution remains open.
 
 Remaining work is explicit: C02 temporal PT24-01/09/10 and Mac moving acceptance
 of 12/21; C04 complete flagship-run/human acceptance; older unexplained contracted

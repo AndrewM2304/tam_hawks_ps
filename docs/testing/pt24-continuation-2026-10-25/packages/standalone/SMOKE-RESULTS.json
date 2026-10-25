@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/workspace/tam_hawks_ps/tools/native_smoke.sh",
+    "/workspace/tam_hawks_ps/builds/tam-hawks-20261025T131553Z-08046020d80e"
+  ],
+  "empty_working_directory": "/workspace/tam_hawks_ps/builds/tam-hawks-20261025T131553Z-08046020d80e/standalone-smoke/empty-working-directory",
+  "exit_code": 0,
+  "wall_seconds": 53.8913049929979,
+  "title_capture": {
+    "path": "title-live.png",
+    "bytes": 414605,
+    "sha256": "8a9dc4971c62fe78e3319d6bf8611fcb543f3a10c2f1e21ee1e4198336f7f84d",
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "capture_method": "X11 root while exported native main window is visible",
+    "window_tree": "\nxwininfo: Window id: 0x266 (the root window) (has no name)\n\n  Root window id: 0x266 (the root window) (has no name)\n  Parent window id: 0x0 (none)\n     1 child:\n     0x200003 \"Tam Hawks Pro Skater\": (\"Godot_Engine\" \"Tam Hawks Pro Skater\")  1920x1080+0+0  +0+0\n        1 child:\n        0x200004 (has no name): ()  1x1+0+0  +0+0\n\n",
+    "wall_seconds_since_smoke_start": 34.34962330599956,
+    "fixed_clock": false,
+    "script_override": false,
+    "performance_measurement": false,
+    "title_menu_words_verified": [
+      "career",
+      "free skate",
+      "settings",
+      "controls"
+    ],
+    "ocr_text": "TAM HAWKS PRO SKATER / GLASGOW\n\nYour city. Your line.\n\nCity terraces. Riverside transfers. Park descents. Find your line.\n\nTWO MINUTES. MAKE THEM COUNT.\n\nLink tricks, explore the city and work through ten career goals.\n\nFREE SKATE\n\nSETTINGS\n\nCONTROLS\n\nPLAYTEST RECORDER - 2\n\nPlay with a controller or keyboard. Your city is ready.\n"
+  },
+  "macos_launch_tested": false,
+  "target_performance_acceptance": false
+}

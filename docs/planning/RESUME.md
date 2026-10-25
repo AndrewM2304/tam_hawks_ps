@@ -3,7 +3,7 @@
 Use main directly and read newest [STATUS](../STATUS.md), [source/evidence](../testing/pt24-continuation-2026-10-25/README.md)
 and [remaining queue](PT24-CONSOLIDATED-2026-10-25.md). Current required check is
 **4852/0**, clean/stable; four cold-source phases and thirty bounded native
-frames pass. Current-source unsigned Linux/macOS packages are being prepared; their source and archive receipts will follow. Actual Mac execution remains open.
+frames pass. Current-source unsigned Linux/macOS packages and the Linux standalone title/preview startup checks pass; see [package receipts](../testing/pt24-continuation-2026-10-25/packages/README.md). Actual Mac execution remains open.
 Do not reapply an old patch or recreate implemented station/pond/cable systems.
 Preview command: `./tools/run.sh -- --pt24-design-preview`; default rendering
 admission remains open. Continue the explicit C02/C04 and hardware/art acceptance

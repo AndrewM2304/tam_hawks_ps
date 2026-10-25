@@ -1,0 +1,23 @@
+{
+  "platform": "Linux x86_64 native exported executable",
+  "working_directory": "/tmp",
+  "arguments": [
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--quit-after",
+    "120",
+    "--",
+    "--pt24-design-preview"
+  ],
+  "exit_code": 0,
+  "clean_log": true,
+  "profile_directories": "isolated build preview-smoke/{data,config,cache}",
+  "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+  "script_override": false,
+  "macos_execution": false,
+  "limits": [
+    "Headless candidate startup only; no displayed preview motion, playing, listening or target timing acceptance."
+  ],
+  "setup_correction": "First shell output redirection was refused before engine launch; absolute isolated directories were created before the successful invocation."
+}

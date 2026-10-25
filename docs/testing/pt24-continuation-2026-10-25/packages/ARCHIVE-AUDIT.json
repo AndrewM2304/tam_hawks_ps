@@ -1,0 +1,51 @@
+{
+  "valid": true,
+  "build_directory": "builds/tam-hawks-20261025T131553Z-08046020d80e",
+  "git_commit": "08046020d80e84c458840a1117da4dd1c37e4382",
+  "working_tree_clean_at_export": true,
+  "required_suite_receipt_sha256": "a53e9ff9adf9e3f03e528ecbaa71ff3217861a9ec171a457e55aa5cad1e04fc6",
+  "required_input_count": 572,
+  "all_required_inputs_still_identical": true,
+  "package_input_count": 258,
+  "package_test_overlap": 248,
+  "all_package_inputs_match_checkout_and_git_objects": true,
+  "runtime_source_sha256": "faeaf4fba92bb7ad5a4b2bc9c7d254455a2ec5d6fbf1854852e5c60e27ec542d",
+  "archives": [
+    {
+      "platform": "linux",
+      "file": "TamHawksProSkater-linux.zip",
+      "bytes": 36327950,
+      "sha256": "611a24895f9a0b64e39a72da4774244217f4abea0edf41583129080cdf49b68e",
+      "pack_sha256": "db46521df1062b944ccae8f9860d2adcd3e9e5f9ba0b45e8ebf81b0b2773d792",
+      "architectures": [
+        "x86_64"
+      ],
+      "crc_valid": true,
+      "notice_records": 13,
+      "main_scene_and_imported_resources_verified": true
+    },
+    {
+      "platform": "macos",
+      "file": "TamHawksProSkater-macos.zip",
+      "bytes": 70887485,
+      "sha256": "b5e73be97cf5ed32bdcf7a1a8881c324aeedafbc9614c592e24bd85259876123",
+      "pack_sha256": "db46521df1062b944ccae8f9860d2adcd3e9e5f9ba0b45e8ebf81b0b2773d792",
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "crc_valid": true,
+      "notice_records": 13,
+      "main_scene_and_imported_resources_verified": true
+    }
+  ],
+  "cross_platform_pack_bytes_identical": true,
+  "macos_signed": false,
+  "macos_notarized": false,
+  "macos_executable_launched": false,
+  "target_performance_accepted": false,
+  "limits": [
+    "Linux-loaded Mac resource pack is not execution of the Mac binary.",
+    "Source and archive validation do not establish target performance, controller, audio, visual or human acceptance."
+  ]
+}

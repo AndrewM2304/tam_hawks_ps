@@ -165,8 +165,7 @@ completed normal render-loop frames and unchanged runtime sources.
 **9+9 world-only readbacks / 0 failures**, identical source/cameras/settings.
 The PNG hashes and current runtime bindings are checked. Static paused placement,
 analytic camera advances and backend counters do not certify played motion,
-temporal stability or target performance. Current-source unsigned Linux/macOS packages are being prepared; their source and archive receipts will follow. Actual Mac execution remains open.
-
+temporal stability or target performance. Current-source unsigned Linux/macOS packages and the Linux standalone title/preview startup checks pass; see [package receipts](packages/README.md). Actual Mac execution remains open.
 
 ## Still distinct
 
