@@ -406,7 +406,10 @@ static func _powerslide(tree: SceneTree, game: Node, check: Callable) -> void:
 		"overnight process: brake-steer powerslide turns sharply with retained speed and earns no invented trick points")
 
 static func _world_wall_and_transition(tree: SceneTree, game: Node, check: Callable) -> void:
-	game.skater.spawn_position = Vector3(117, 2.3, -38.2)
+	# PT24-20 replaces the old recording walls with a low loading edge. Mirror
+	# that fixture onto the solid PT24-24 print-yard wall: the same 0.55m face
+	# gap and 0.8m initial height above its supported floor, with no speed seed.
+	game.skater.spawn_position = Vector3(61, 2.8, 142.07)
 	await _reset(tree, game)
 	game.skater.rotation.y = -PI / 2.0
 	Input.action_press("push")
@@ -418,8 +421,9 @@ static func _world_wall_and_transition(tree: SceneTree, game: Node, check: Calla
 	await _frames(tree, 1)
 	Input.action_press("grind")
 	await _frames(tree, 4)
-	check.call(game.skater.wallriding and game.score.trick_history.count("Wallride") == 1,
-		"overnight process: actual recording-court wall contact enters the Main wallride state and scores once")
+	check.call(game.skater.wallriding and game.skater._wall.wall_id.ends_with("SouthPocketRearBoundary")
+		and game.score.trick_history.count("Wallride") == 1,
+		"overnight process: actual backed print-yard wall contact enters the Main wallride state and scores once")
 	var head_clear := false
 	var wheel_contact := false
 	if game.skater.wallriding:
@@ -453,7 +457,7 @@ static func _world_wall_and_transition(tree: SceneTree, game: Node, check: Calla
 	Input.action_release("ollie")
 	await _frames(tree, 1)
 	check.call(not game.skater.wallriding and game.skater.airborne
-		and game.skater.velocity.y > 7.0 and game.skater.velocity.z > 3.0
+		and game.skater.velocity.y > 7.0 and game.skater.velocity.z < -3.0
 		and game.score.trick_history.count("Wallie") == 1,
 		"overnight process: release-pop wallie leaves real architecture with upward and outward momentum")
 

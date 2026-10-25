@@ -1,0 +1,1 @@
+Intermediate required pass:4,845/0 on source including the civic gutter closure but before extending park road shoulder caps beyond the core-port footprint. The remaining white slot was found in rendered evidence despite these passing tests. Final source receipt is separate.

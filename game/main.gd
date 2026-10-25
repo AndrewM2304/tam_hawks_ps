@@ -73,8 +73,12 @@ func _ready() -> void:
 	career.begin_run(free_skate_mode)
 	world = GlasgowSquare.new()
 	world.name = "GlasgowSquare"
+	# An explicit source-launch candidate lets the owner inspect pending design
+	# work on target hardware without changing its ordinary-play admission.
+	if OS.get_cmdline_user_args().has("--pt24-design-preview"):
+		set_meta("pt24_design_preview",true)
 	# Read-only visual A/B diagnostics set these before construction; no profile/UI switch.
-	for flag: StringName in [&"facade_bay_enabled", &"facade_bay_audit"]:
+	for flag: StringName in [&"facade_bay_enabled", &"facade_bay_audit", &"pt24_design_preview", &"pt24_render_repairs_baseline"]:
 		if has_meta(flag): world.set_meta(flag, get_meta(flag))
 	add_child(world)
 	objectives = ObjectiveTrackerSource.new()
@@ -197,8 +201,8 @@ func _physics_process(delta: float) -> void:
 	if world.has_method("get_recovery_position"):
 		var recovery: Vector3 = world.get_recovery_position(skater.global_position)
 		if recovery.is_finite() and not skater.bail_active:
+			_feedback = world.get_recovery_message(skater.global_position)
 			skater.recover_to(recovery)
-			_feedback = "MISSED THE QUAY. RECOVERING YOUR BOARD."
 			_feedback_timer = 3.0
 	if skater.bailing and skater.bail_phase == "blocked":
 		_feedback = "CAN'T GET UP HERE. OPEN PAUSE TO RESTART."

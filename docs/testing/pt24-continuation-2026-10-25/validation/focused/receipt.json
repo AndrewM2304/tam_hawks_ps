@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-25T11:22:36.025711+00:00",
+  "completed_london": "2026-10-25T11:22:59.687031+00:00",
+  "wall_seconds": 23.661321539999335,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_continue_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 573,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "265",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "8417965ab83b5f10b8d45215dc0dda9ae6db0dd3689ef92c7c54ecefaeda9d24",
+  "git_head": "6b18f30d30bf3ef54a963f1ef5e8929f419462d3"
+}

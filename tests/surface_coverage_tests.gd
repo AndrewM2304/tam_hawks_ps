@@ -170,9 +170,11 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 			"surface audit: ten-metre-plus transition approach and landing are truly supported and clear " + pocket.id)
 	# Native side probes prove representative tagged masonry is real, finite
 	# architecture, rather than a visual-only plane or an infinite metadata wall.
-	var wall := world.get_node("RecordingAlcoveBack") as StaticBody3D
+	# PT24-20 deliberately replaces the recording wall with a low kerb/bearing;
+	# the substantial PT24-24 print-yard boundary remains real backed masonry.
+	var wall := world.get_node("OutdoorRoutes/SouthPocketRearBoundary") as StaticBody3D
 	var side_hit := world.get_world_3d().direct_space_state.intersect_ray(
-		PhysicsRayQueryParameters3D.create(Vector3(119,2.85,-37.5),Vector3(119,2.85,-39.5),1))
+		PhysicsRayQueryParameters3D.create(Vector3(61,3.4,141.9),Vector3(61,3.4,143.4),1))
 	check.call(wall.get_meta("wallrideable",false) and side_hit.get("collider") == wall and absf(side_hit.normal.z) > 0.99,
 		"surface audit: representative wallride masonry has the expected real vertical side face")
 	var retaining := world.get_node("CivicForecourt") as StaticBody3D

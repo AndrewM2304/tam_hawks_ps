@@ -120,10 +120,19 @@ static func original_physics_inventory(world: Node3D) -> bool:
 	var added_shape_ids: Dictionary = {}
 	var added_body_ids: Dictionary = {}
 	var cap_shapes := 0
+	var gate_shapes := 0
 	for body: StaticBody3D in bodies:
 		if outdoors.is_ancestor_of(body) or transitions.is_ancestor_of(body): continue
 		var category := _combined_addition(world,body)
 		if category.is_empty():
+			if body == world.get_node("CentralStationFloor"):
+				for child: Node in body.get_children():
+					if child is CollisionShape3D and child.shape is BoxShape3D and not child.disabled \
+							and child.shape.size.is_equal_approx(Vector3(0.3,3,25)) \
+							and world.to_local(child.global_position).is_equal_approx(Vector3(-50.1,3.5,-2.5)) \
+							and child.global_basis.is_equal_approx(world.global_basis):
+						gate_shapes += 1
+						added_shape_ids[child.get_instance_id()] = true
 			# Exactly two approved60mm Court lids are compound additions; the
 			# old seat body/base remains protected and cannot be excluded.
 			if str(body.get_meta("art_label",""))=="CourtPlanterSeat":
@@ -150,7 +159,8 @@ static func original_physics_inventory(world: Node3D) -> bool:
 		if not outdoors.is_ancestor_of(shape) and not transitions.is_ancestor_of(shape) and not added_shape_ids.has(shape.get_instance_id()): protected_shapes+=1
 	var expected := {"new_bins":{"bodies":4,"shapes":8},"new_composites":{"bodies":31,"shapes":31},
 		"new_infill_rail":{"bodies":3,"shapes":3},"new_infill_solids":{"bodies":38,"shapes":38},
-		"new_native_factory":{"bodies":47,"shapes":195}}
+		"new_native_factory":{"bodies":47,"shapes":195},
+		"new_cable_contacts":{"bodies":1,"shapes":16}}
 	print("PHYSICS_INVENTORY bodies=%d shapes=%d protected_bodies=%d protected_shapes=%d bench_bodies=%d bench_boxes=%d identified=%s additions=%s court_caps=%d" % [
 		bodies.size(),shapes.size(),protected_bodies,protected_shapes,bench_bodies,bench_shapes.size(),valid,additions,cap_shapes])
 	# The captured main candidate adds five named north skatepark retaining
@@ -183,10 +193,13 @@ static func original_physics_inventory(world: Node3D) -> bool:
 			arrival_bodies+=1
 			for child: Node in body.get_children():
 				if child is CollisionShape3D and child.shape is ConvexPolygonShape3D and not child.disabled: arrival_shapes+=1
+	# The cable's sixteen exact existing-art facets have independent native
+	# crown/truck and two-way input evidence. The service wall adds one exact
+	# compound shape; its displayed/native faces and both gate states are probed.
 	return valid and identities.size()==12 and bench_bodies==12 and bench_shapes.size()==44 \
 		and protected_bodies==271 and protected_shapes==728 and additions==expected and cap_shapes==2 \
 		and retaining_valid and retaining_ids.size()==5 and retaining_bodies==5 and retaining_shapes==5 and arrival_bodies==2 and arrival_shapes==15 \
-		and civic_north_shapes==7 and bodies.size()==564 and shapes.size()==1681
+		and gate_shapes==1 and civic_north_shapes==7 and bodies.size()==565 and shapes.size()==1698
 
 
 static func _north_retaining_span(body: StaticBody3D) -> int:
@@ -261,6 +274,20 @@ static func _check_sunken_bowl(world: Node3D, check: Callable) -> void:
 
 static func _combined_addition(world: Node3D,body: StaticBody3D) -> String:
 	var label := str(body.get_meta("art_label",body.name))
+	if world.get_path_to(body) == NodePath("ClydeCableContacts/ExistingCableNativeCrowns") \
+			and body.collision_layer == 2 and body.collision_mask == 0:
+		var facets := 0
+		for child: Node in body.get_children():
+			if not child is CollisionShape3D: continue
+			if not child.shape is BoxShape3D or child.disabled: return ""
+			var at := world.to_local(child.global_position)
+			var size: Vector3 = child.shape.size
+			if minf(absf(at.x+29.35),absf(at.x+20.65)) > 0.001 \
+					or at.z < 91.5 or at.z > 102.5 or at.y < 4.8 or at.y > 5.1 \
+					or absf(size.x-0.15)>0.001 or absf(size.z-0.15)>0.001 \
+					or size.y < 1.56 or size.y > 1.7: return ""
+			facets += 1
+		if facets == 16: return "new_cable_contacts"
 	if body.is_in_group("physical_street_bins") and label=="StreetLitterBin": return "new_bins"
 	if label=="NativeGrindBearing" and body.collision_layer==2 and body.collision_mask==0 \
 			and body.get_parent().is_in_group("grind_rails"): return "new_native_factory"

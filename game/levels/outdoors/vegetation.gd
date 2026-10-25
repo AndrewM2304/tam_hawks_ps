@@ -35,13 +35,17 @@ static func _batch(parent: Node3D, id: String, mesh: Mesh, material: Material, p
 	batch.use_colors = true
 	batch.mesh = mesh
 	batch.instance_count = placements.size()
+	var authored_transforms: Array[Transform3D] = []
 	for i in placements.size():
 		var placement: Dictionary = placements[i]
 		var size: float = placement.get("scale", 1.0)
-		batch.set_instance_transform(i, Transform3D(Basis(Vector3.UP, float(placement.get("yaw", 0.0))).scaled(Vector3(size, size, size)), placement.position))
+		var frame := Transform3D(Basis(Vector3.UP, float(placement.get("yaw", 0.0))).scaled(Vector3(size, size, size)), placement.position)
+		authored_transforms.append(frame)
+		batch.set_instance_transform(i, frame)
 		batch.set_instance_color(i, Color(0.85 + fmod(i * 0.137, 0.2), 0.9 + fmod(i * 0.17, 0.1), 0.85 + fmod(i * 0.11, 0.15)) if varied else Color.WHITE)
 	var instance := MultiMeshInstance3D.new()
 	instance.name = id
 	instance.multimesh = batch
 	instance.material_override = material
+	instance.set_meta("authored_tree_transforms",authored_transforms)
 	parent.add_child(instance)

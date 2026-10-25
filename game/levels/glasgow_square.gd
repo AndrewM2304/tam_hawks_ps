@@ -20,6 +20,12 @@ const TransitionPark = preload("res://game/levels/transition_park.gd")
 const RenderBudget = preload("res://game/levels/render_budget.gd")
 const SurfaceAudit = preload("res://game/levels/surface_audit.gd")
 const FidelityInfill = preload("res://game/levels/fidelity_infill.gd")
+const ConnectedRuns = preload("res://game/levels/pt24_connected_runs.gd")
+const RenderRepairs = preload("res://game/levels/pt24_render_repairs.gd")
+const StationRailway = preload("res://game/levels/station_railway.gd")
+const ParkPond = preload("res://game/levels/park_pond.gd")
+const ClydeCableLine = preload("res://game/levels/clyde_cable_line.gd")
+const CentralGreen = preload("res://game/levels/pt24_central_green.gd")
 const RAIL_COLLISION_LAYER := 2
 const RAIL_TOP_HEIGHT := 0.92
 const PALETTE := {
@@ -53,6 +59,10 @@ var static_batch_report: Dictionary = {}
 var solid_wall_occluders := 0
 var _surface_audit = SurfaceAudit.new()
 var _fidelity_infill = FidelityInfill.new()
+var _connected_runs = ConnectedRuns.new()
+var _station_railway: Node3D
+var _park_pond: Node3D
+var _clyde_cable_line: Node3D
 
 
 func _ready() -> void:
@@ -73,6 +83,10 @@ func _ready() -> void:
 	_build_central_station()
 	_build_barras()
 	_build_city()
+	# The requested railway is a complete candidate; its default rendering
+	# admission remains separate from repairs to the existing playable map.
+	if bool(get_meta("pt24_design_preview",false)):
+		_station_railway = StationRailway.new().build(self)
 	_build_street_furniture()
 	# Publish the existing poured-concrete finish before the hilltop facility.
 	_transition_features = TransitionPark.build(self, _materials)
@@ -83,7 +97,18 @@ func _ready() -> void:
 		_outdoors.build(self, _materials)
 	_fidelity_infill.build(self)
 	_build_exploration_boundaries()
+	if not bool(get_meta("pt24_render_repairs_baseline",false)):
+		RenderRepairs.install(self)
+	if bool(get_meta("pt24_design_preview",false)):
+		CentralGreen.build(self)
+		_park_pond = ParkPond.new()
+		_park_pond.build(self)
+	# These contacts back existing visible cable facets: no rendering expansion.
+	# Their two-way native input chain is independently verified before admission.
+	_clyde_cable_line = ClydeCableLine.new()
+	_clyde_cable_line.build(self)
 	_city_art.dress_world(self)
+	_connected_runs.build(self)
 	_extra_grind_lines = SkateEdges.build(self)
 	_surface_audit.build(self, get_grind_lines())
 	if bool(get_meta("arcade_murals_preview", false)):
@@ -147,6 +172,8 @@ func activate_cone() -> void:
 
 
 func reset_interactions() -> void:
+	if is_instance_valid(_station_railway): _station_railway.reset_run()
+	if is_instance_valid(_park_pond): _park_pond.reset_run()
 	if _cone_tween and _cone_tween.is_valid():
 		_cone_tween.kill()
 	cone_activated = false
@@ -193,6 +220,7 @@ func get_gap_definitions() -> Array[Dictionary]:
 		gap.end = to_global(gap.end)
 	if is_instance_valid(_outdoors):
 		gaps.append_array(_outdoors.get_gap_definitions())
+	if is_instance_valid(_clyde_cable_line): gaps.append_array(_clyde_cable_line.get_gap_definitions())
 	return gaps
 
 
@@ -909,6 +937,9 @@ func _label(parent: Node3D, node_name: String, words: String, at: Vector3, font_
 ## Highest authored terrain support, excluding rail caps and decorative props.
 ## Unsupported positions return NAN rather than inventing a flat world floor.
 func get_ground_height(world_position: Vector3) -> float:
+	if is_instance_valid(_park_pond):
+		var pond_height: float = _park_pond.get_ground_height(world_position)
+		if is_finite(pond_height): return pond_height
 	var at := to_local(world_position)
 	var height: float = _terrain.height_at(at.x, at.z)
 	if is_finite(height): height = to_global(Vector3(at.x, height, at.z)).y
@@ -921,6 +952,10 @@ func get_ground_height(world_position: Vector3) -> float:
 ## Highest terrain support near/below the supplied height, including low routes
 ## underneath suspended decks. This is a query, not a collision/clearance proof.
 func get_support_height(world_position: Vector3, max_step_up: float = 1.0) -> float:
+	if is_instance_valid(_park_pond):
+		var pond_height: float = _park_pond.get_ground_height(world_position)
+		if is_finite(pond_height):
+			return pond_height if pond_height <= world_position.y + maxf(0.0,max_step_up) else NAN
 	var at := to_local(world_position)
 	var height: float = _terrain.height_at(at.x, at.z, at.y + maxf(0.0, max_step_up))
 	if is_finite(height): height = to_global(Vector3(at.x, height, at.z)).y
@@ -931,9 +966,18 @@ func get_support_height(world_position: Vector3, max_step_up: float = 1.0) -> fl
 
 
 func get_recovery_position(world_position: Vector3) -> Vector3:
+	if is_instance_valid(_park_pond):
+		var pond_recovery: Vector3 = _park_pond.get_recovery_position(world_position)
+		if pond_recovery.is_finite(): return pond_recovery
 	if is_instance_valid(_outdoors):
 		return _outdoors.get_recovery_position(world_position)
 	return Vector3.INF
+
+
+func get_recovery_message(world_position: Vector3) -> String:
+	if is_instance_valid(_park_pond) and _park_pond.get_recovery_position(world_position).is_finite():
+		return "IN THE POND. RECOVERING YOUR BOARD."
+	return "MISSED THE QUAY. RECOVERING YOUR BOARD."
 
 
 func get_route_definitions() -> Array[Dictionary]:
@@ -981,6 +1025,9 @@ func get_route_definitions() -> Array[Dictionary]:
 	if is_instance_valid(_outdoors):
 		routes.append_array(_outdoors.get_route_definitions())
 	routes.append_array(_fidelity_infill.routes)
+	routes.append_array(_connected_runs.routes)
+	if is_instance_valid(_park_pond): routes.append_array(_park_pond.get_route_definitions())
+	if is_instance_valid(_clyde_cable_line): routes.append_array(_clyde_cable_line.get_route_definitions())
 	return routes
 
 
@@ -1174,6 +1221,9 @@ func get_grind_lines() -> Array:
 		lines.append(line)
 	lines.append_array(_extra_grind_lines)
 	lines.append_array(_fidelity_infill.get_grind_lines())
+	lines.append_array(_connected_runs.get_grind_lines())
+	if is_instance_valid(_park_pond): lines.append_array(_park_pond.get_grind_lines())
+	if is_instance_valid(_clyde_cable_line): lines.append_array(_clyde_cable_line.get_grind_lines())
 	lines.append_array(_surface_audit.lines)
 	return lines
 
@@ -1206,6 +1256,7 @@ func get_skate_feature_definitions() -> Array[Dictionary]:
 	var features: Array[Dictionary] = []
 	if is_instance_valid(_outdoors): features.append_array(_outdoors.get_skate_feature_definitions())
 	features.append_array(_fidelity_infill.get_features())
+	features.append_array(_connected_runs.get_features())
 	return features
 
 

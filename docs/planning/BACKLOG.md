@@ -1,3 +1,65 @@
+# Approved continuation implemented — 25 October 2026
+
+The approved continuation now has concrete source changes on main from `6b18f30`.
+[Current implementation and evidence](../testing/pt24-continuation-2026-10-25/README.md)
+and the [updated workpackage plan](PT24-CONSOLIDATED-2026-10-25.md) supersede the
+initial planning-only descriptions below. The final combined suite passes **4852/0**, clean and source-stable; four cold-source phases and thirty native frames are retained. The earlier 4,657/0 baseline and focused
+checks must not be relabelled as final-source admission.
+
+Ordinary play includes lower-park surface/shoulder closure, proven station/quay
+overlap removal, relocated Exchange/civic/station/Clyde handoffs, the market's
+low loading kerb and steel bearing, a useful framed service-gate alley, and real
+bridge-cable contacts. Focused mapped inputs prove the market manual→ollie→grind
+line and bridge handrail→cable→handrail links in both directions. Camera query
+reuse preserves native sweeps and clearance, and ramp framing retains its orbit.
+
+The enclosed station/tunnel/passing train, pond/ducks/grind perimeter, landscaped
+central green and finite civic return ramp are **implemented design previews**,
+enabled only by `--pt24-design-preview`. Pond input witnesses cover both grind
+directions and existing water-bail/recovery. Preview construction is not default
+rendering admission: target-Mac stutter/performance and visual gates stay open.
+The six layout recommendations have partial implementations and specific input
+witnesses; all six complete flagship runs are **not** claimed accepted.
+
+Remaining temporal rendering, older contracted-body evidence, actual Mac/
+DualSense, standalone export, listening, final art and human fun acceptance
+remain explicit. No PT24 ticket is closed by this documentation update. Obsolete
+creation scopes remain merged; optional traffic/skitching, cone and extra-lap
+**further development** remains deferred while their working runtime is retained.
+All 75 original full backlog bodies/statuses below are unchanged historical
+records; the 64 historical non-Done entries are not 64 missing implementations.
+
+---
+
+# Current approved work consolidation — 25 October 2026
+
+The owner approved consolidating the remaining list and asked to proceed.
+The [current eleven-workpackage plan](PT24-CONSOLIDATED-2026-10-25.md) maps all
+30 PT24 tickets, all 64 original non-Done records and the six accepted layout
+recommendations, with owners, dependencies and acceptance. It supersedes older
+creation instructions and duplicate queues; the complete 75 original records
+below remain unchanged historical evidence.
+
+M01-001/M02-012/M03-008/M03-013/M03-015 creation scopes are superseded or merged
+into remaining acceptance; working input, wallride/wallie, six-area interfaces
+and service-gate systems must not be recreated. M00-002's engineering
+setup/cold-source slice is complete against existing receipts, with actual Mac
+launch still open. M06-005's prototype packaging is merged into M07-003's final
+current-source artifact. **Further development/polish** of M02-013
+traffic/skitching, M04-008 cone stunt and M04-011 extra park challenge is
+**deferred by the approved scope consolidation**. Their existing cart/skitch,
+cone-stunt and park-lap runtime remains enabled and covered by normal regressions;
+the old Planned/“not implemented” notes are stale. Nothing is deleted or claimed
+complete. All remaining acceptance is mapped in the current plan.
+
+The prior 4,657/0 source receipt remains evidence for its recorded baseline;
+this documentation consolidation has not rerun the game/tests, repaired a new
+defect, closed a PT24 ticket or certified human/Mac/controller/performance/export
+acceptance. The historical 64 non-Done count must not be read as 64 missing
+implementations. Current execution uses the consolidated workpackages.
+
+---
+
 # PT24 implementation overlay — 25 October 2026
 
 The main-branch repair batch passes **4,657/0**, clean and source-stable, plus

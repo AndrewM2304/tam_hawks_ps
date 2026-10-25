@@ -18,8 +18,8 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	await tree.physics_frame
 	await tree.process_frame
 	var outdoors: Node3D = world.get_node("OutdoorRoutes")
-	_patch_bounds(outdoors, "ClydeNorthQuay", NORTH, check)
-	_patch_bounds(outdoors, "ClydeSouthQuay", SOUTH, check)
+	_patch_bounds(world,outdoors, "ClydeNorthQuay", NORTH, check)
+	_patch_bounds(world,outdoors, "ClydeSouthQuay", SOUTH, check)
 	check.call(not outdoors.has_node("ClydeSouthBankLandscape"),
 		"compact Clyde: obsolete 560x90m landscape body is removed")
 	_retained_support(world, outdoors, check)
@@ -38,14 +38,96 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	_landmark_group(outdoors, check)
 
 
-static func _patch_bounds(outdoors: Node3D, id: String, expected: Rect2, check: Callable) -> void:
+static func _patch_bounds(world: Node3D,outdoors: Node3D, id: String, expected: Rect2, check: Callable) -> void:
 	var body: Node3D = outdoors.get_node_or_null(id)
-	var extent := _visible_extent(outdoors, body)
-	check.call(body is StaticBody3D and not extent.is_empty()
-		and Vector2(extent.low.x, extent.low.z).distance_to(expected.position) < 0.001
-		and Vector2(extent.high.x, extent.high.z).distance_to(expected.end) < 0.001
-		and absf(extent.low.y - 2.0) < 0.001 and absf(extent.high.y - 2.0) < 0.001,
-		"compact Clyde: actual visible supported footprint matches the retained " + id)
+	if not body is StaticBody3D:
+		check.call(false,"compact Clyde: original native and complete visible quay footprint retained with stone-edge ownership " + id)
+		return
+	var native := FaceProbe._collision_faces(body)
+	var paving := FaceProbe._visual_faces(body)
+	var native_extent := _face_extent(outdoors,native)
+	var paving_extent := _face_extent(outdoors,paving)
+	# The native rectangle remains unchanged. Coplanar paving under the actual
+	# Y2 embankment top is intentionally removed:136m² north and92m² south.
+	var north := id == "ClydeNorthQuay"
+	var paving_bounds := Rect2(-85,55,170,22.2) if north else Rect2(-39,116.8,115,13.2)
+	var stone := outdoors.get_node("NorthEmbankment" if north else "SouthEmbankment")
+	var stone_top := _local_level_faces(outdoors,FaceProbe._visual_faces(stone),2.0)
+	var visible_union := paving.duplicate()
+	visible_union.append_array(stone_top)
+	var union_extent := _face_extent(outdoors,visible_union)
+	var exact := _matches_patch_extent(native_extent,expected) \
+		and _matches_patch_extent(paving_extent,paving_bounds) \
+		and _matches_patch_extent(union_extent,expected)
+	# Do not replace an omitted wall with an accepted rectangle in the test:
+	# inspect actual mesh coverage over every resident native triangle.
+	var complete := true
+	var substitute := PackedVector3Array()
+	if not north:
+		substitute.append_array(FaceProbe._visual_faces(outdoors.get_node("PrintYardCurvedBankHip")))
+		substitute.append_array(FaceProbe._visual_faces(world.get_node("ClydeEastBowl/AnnularDeck")))
+	for index: int in range(0,native.size(),3):
+		for weights: Vector3 in [Vector3.ONE/3.0,Vector3(.2,.4,.4),Vector3(.4,.2,.4),Vector3(.4,.4,.2)]:
+			var at := native[index]*weights.x+native[index+1]*weights.y+native[index+2]*weights.z
+			var covered := FaceProbe._on_faces(at,visible_union) or _raised_display_at(at,substitute)
+			if not covered and complete:print("COMPACT_CLYDE_DISPLAY_MISSING ",id," at=",at)
+			complete = covered and complete
+	if not north:
+		# The original bowl excavation remains a hole in the quay, rather than
+		# being silently filled when its surviving display rectangle is checked.
+		var mouth := outdoors.to_global(Vector3(-7,2,129.5))
+		complete = complete and not FaceProbe._on_faces(mouth,native) \
+			and not FaceProbe._on_faces(mouth,visible_union)
+	check.call(exact and complete,
+		"compact Clyde: original native and complete visible quay footprint retained with stone-edge ownership " + id)
+
+
+static func _face_extent(outdoors: Node3D,faces: PackedVector3Array) -> Dictionary:
+	if faces.is_empty():return {}
+	var low := Vector3(INF,INF,INF)
+	var high := Vector3(-INF,-INF,-INF)
+	for global_point: Vector3 in faces:
+		var local := outdoors.to_local(global_point)
+		low = low.min(local)
+		high = high.max(local)
+	return {"low":low,"high":high}
+
+
+static func _matches_patch_extent(extent: Dictionary,bounds: Rect2) -> bool:
+	return not extent.is_empty() \
+		and Vector2(extent.low.x,extent.low.z).distance_to(bounds.position)<0.001 \
+		and Vector2(extent.high.x,extent.high.z).distance_to(bounds.end)<0.001 \
+		and absf(extent.low.y-2)<0.001 and absf(extent.high.y-2)<0.001
+
+
+static func _local_level_faces(outdoors: Node3D,faces: PackedVector3Array,height: float) -> PackedVector3Array:
+	var result := PackedVector3Array()
+	for index: int in range(0,faces.size(),3):
+		if absf(outdoors.to_local(faces[index]).y-height)<0.0001 \
+			and absf(outdoors.to_local(faces[index+1]).y-height)<0.0001 \
+			and absf(outdoors.to_local(faces[index+2]).y-height)<0.0001:
+			result.append_array(PackedVector3Array([faces[index],faces[index+1],faces[index+2]]))
+	return result
+
+
+static func _raised_display_at(at: Vector3,faces: PackedVector3Array) -> bool:
+	# The existing hip and annular bowl deck legitimately replace paving below
+	# their own real meshes. Require an upward face at/above the native plane,
+	# rather than accepting an authored bounding rectangle as visible support.
+	for index: int in range(0,faces.size(),3):
+		var a := faces[index]
+		var b := faces[index+1]
+		var c := faces[index+2]
+		var ab := Vector2(b.x-a.x,b.z-a.z)
+		var ac := Vector2(c.x-a.x,c.z-a.z)
+		var relative := Vector2(at.x-a.x,at.z-a.z)
+		var determinant := ab.cross(ac)
+		if determinant<=0.000001:continue
+		var wb := relative.cross(ac)/determinant
+		var wc := ab.cross(relative)/determinant
+		var wa := 1.0-wb-wc
+		if minf(wa,minf(wb,wc))>=-0.00001 and a.y*wa+b.y*wb+c.y*wc>=at.y-0.0001:return true
+	return false
 
 
 static func _retained_support(world: Node3D, outdoors: Node3D, check: Callable) -> void:

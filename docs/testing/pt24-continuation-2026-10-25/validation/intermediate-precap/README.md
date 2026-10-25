@@ -1,0 +1,1 @@
+Intermediate pass before the independently discovered civic-preview east-gutter closure. 4,843/0 certifies the bound pre-cap source only. The final continuation receipt includes the later closure and its added regression.

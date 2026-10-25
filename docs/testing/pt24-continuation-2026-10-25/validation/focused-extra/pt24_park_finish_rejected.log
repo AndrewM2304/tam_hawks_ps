@@ -1,0 +1,10 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: FAIL: PT24 park finish: lower-entry grass has no positive-area displayed triangle inside the asphalt footprint
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_finish_focused.gd:9)
+       [1] run (res://tests/pt24_park_finish_tests.gd:40)
+PT24_PARK_FINISH native_overlap_m2=593.747593 displayed_overlap_m2=0.00107313 grass_triangles=8808->12497 samples=36
+PT24_OUTDOOR shoulder_samples=130 shelter_side_samples=66 added_surfaces=3 retaining_triangles=1138
+RESULT: 18 passed, 1 failed

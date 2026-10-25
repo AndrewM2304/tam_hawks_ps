@@ -995,7 +995,10 @@ static func _live_repertoire(tree: SceneTree, game: Node, check: Callable) -> vo
 	_phase = ""
 
 static func _wall_line(tree: SceneTree, game: Node, check: Callable) -> void:
-	await _reset(tree, game, Vector3(117, 2.3, -38.2), -PI / 2.0)
+	# The recording enclosure is now PT24-20's low kerb/bearing. Preserve this
+	# input-driven line at the backed print-yard wall with the same face gap
+	# and floor-relative spawn height; its outward normal is now negative Z.
+	await _reset(tree, game, Vector3(61, 2.8, 142.07), -PI / 2.0)
 	_phase = "wallride_wallie_combo"
 	var evidence := {"entries": [], "points": [], "holds": 0, "bails": 0}
 	var on_trick := func(_label: String, points: int):
@@ -1016,7 +1019,8 @@ static func _wall_line(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _frames(tree, 1)
 	Input.action_press("grind")
 	await _frames(tree, 5)
-	check.call(game.skater.wallriding and evidence.entries == ["ollie", "wallride"],
+	check.call(game.skater.wallriding and game.skater._wall.wall_id.ends_with("SouthPocketRearBoundary")
+		and evidence.entries == ["ollie", "wallride"],
 		"authentic Main: actual architectural contact admits one genuine wallride in the live combo")
 	await _frames(tree, 3)
 	Input.action_press("ollie")
@@ -1024,7 +1028,7 @@ static func _wall_line(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_release("ollie")
 	await _frames(tree, 1)
 	Input.action_release("grind")
-	check.call(game.skater.airborne and not game.skater.wallriding and game.skater.velocity.z > 3.0
+	check.call(game.skater.airborne and not game.skater.wallriding and game.skater.velocity.z < -3.0
 		and evidence.entries == ["ollie", "wallride", "wallie"],
 		"authentic Main: release-pop wallie creates outward native momentum without banking its wall line")
 	Input.action_press("flip")

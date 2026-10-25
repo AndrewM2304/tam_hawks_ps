@@ -1,3 +1,53 @@
+## Approved PT24 continuation contracts —25 October2026
+
+`pt24_connected_runs.build(world)` runs after dressing and before semantic edge
+snapshots/audit/batching. Moved native bodies, visuals, guide authors and feature/
+route records share the same transform; packed metadata arrays are duplicated
+before editing so shared guide points cannot be transformed twice. Original
+route IDs remain; seven unique world routes are added, for63. The twelve bench
+identities and original protected271-body/728-shape inventory remain explicit.
+The full ordinary world is565 bodies/1,698 shapes: sixteen cable facets in one
+new layer2 body and one compound service-frame shape account for the additions.
+
+`ClydeCableLine` copies authored CPU transforms of the existing red bridge art,
+not headless MultiMesh readback. Only sixteen reachable central facets receive
+native backing; finite crown guides publish exact top-plane contacts, plus
+optional handrail/cable gaps. Both travel directions have actual mapped-input
+handrail→cable→handrail→dry-bank evidence without velocity or pose injection.
+
+`Main` forwards explicit `pt24_design_preview` metadata; source launch may set
+it with `-- --pt24-design-preview`. Ordinary launch keeps additional railway,
+pond, green and civic-return rendering unconstructed pending admission. Railway
+tick is pausable and world reset restores its concealed loop phase. Inside the
+pond's actual excavation, its finite height overrides former lawn queries;
+step-up filtering remains. Pond recovery precedes Clyde recovery and uses the
+existing skater bail/recovery lifecycle with contextual feedback. No new score,
+career/save owner or separate recovery timer is introduced.
+
+Lower-park grass relinquishes only its displayed road/core-port footprints.
+Original native grass, road top triangles, grades and height-query data remain;
+port asphalt follows the exact native support planes. The complete central
+approach's side/end closures share its existing displayed surface and native
+shape. Their conservative lower edges stay buried in actual resident ground.
+`approach_edge_closures` records the 88 authored intervals; 166 vertical triangles
+fit the declared 192-face ceiling without another body, shape, material or draw.
+
+`TransitionFeature.minimum_width` defaults6m. A specifically authored finite
+return can lower it to4.5m; build clamps the permitted minimum to4.5…6m and
+keeps unit transforms. The civic candidate uses this to retain1.25m supported
+no-jump escape shoulders, with foundation reaching the actual frontage.
+Vegetation retains paired `authored_tree_transforms` CPU records; candidate
+relocation checks complete tree/architecture envelopes before mutating either
+batch. Expanded batch visibility still requires rendering admission.
+
+Camera native-answer caches exist only inside one synchronous update after all
+query inputs are fixed. Direct helper calls and subsequent updates are fresh;
+every sweep remains native. Immutable board landmarks are prepared at startup.
+Short ramp views minimally fit actual head/board/foot bounds at both ends of
+interpolation after final roll/FOV, preserving camera position, orbit and lens.
+Frustum acceptance observes completed node processing; process_frame alone fires
+before camera callbacks and is not a completed-presentation barrier.
+
 ## PT24 repair contracts —25 October2026
 
 Work remains directly on main. [The repair record](../testing/pt24-repairs-2026-10-25/README.md)

@@ -3,6 +3,7 @@
 Read `docs/STATUS.md`, `docs/planning/BACKLOG.md`, and `docs/architecture/interfaces.md` before implementation. The supplied plan is preserved in `docs/product/original-plan.md`.
 
 ## Budget and scope
+- Latest owner direction 25 October 2026: the owner approved the consolidated remaining-ticket list and explicitly said **proceed**. Continue its implementation on main with multiple agents. Supersede the older documentation-only checkpoint and session-specific no-new-work pause below. Merge obsolete creation tasks into remaining acceptance; defer further development of traffic/skitching, Cone on a Cruise and the extra park-lap challenge while preserving their existing implementations. Preserve remaining included-usage/no-spend limits, existing rendering/stutter admission, honest hardware acceptance and no unattended jobs. Do not infer a current quota balance from historical percentages.
 - Latest owner correction:16% weekly usage remains by their report. Aim to leave10% for manual-test bug fixes; complete only current reconciliation, combined verification and authorized default push. No new features/polish/audits, long movie, broad performance work or automatic continuations. Earlier34%/25% values below are historical. No direct quota meter is available; never invent measured balance or buy usage.
 - Latest owner direction24October2026:34% weekly usage was reported remaining;
   reserve at least25% for bugs found during manual testing. This supersedes the

@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-25T11:20:26.692695+00:00",
+  "completed_london": "2026-10-25T11:20:35.864140+00:00",
+  "wall_seconds": 9.171448500999759,
+  "command": [
+    "timeout",
+    "180",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_wall_fixture_migration.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 573,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "88",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "5901c09d80544abc2a88d02f0f88a9b3ca1c1f27f2835e1906b735ac365d1833",
+  "git_head": "6b18f30d30bf3ef54a963f1ef5e8929f419462d3"
+}

@@ -1,0 +1,43 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Trying to assign value of type 'Nil' to a variable of type 'PackedInt32Array'.
+          at: _conform_station_port_finish (res://game/levels/outdoor_routes.gd:215)
+          GDScript backtrace (most recent call first):
+              [0] _conform_station_port_finish (res://game/levels/outdoor_routes.gd:215)
+              [1] _separate_park_grass_finishes (res://game/levels/outdoor_routes.gd:164)
+              [2] build (res://game/levels/outdoor_routes.gd:65)
+              [3] _ready (res://game/levels/glasgow_square.gd:97)
+              [4] run (res://tests/pt24_park_finish_tests.gd:22)
+              [5] _run (res://.local/pt24_park_finish_focused.gd:11)
+ERROR: FAIL: PT24 park finish: exact native-plane port conformance stays within64 added resident triangles
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_finish_focused.gd:9)
+       [1] run (res://tests/pt24_park_finish_tests.gd:106)
+PT24_PORT_HEIGHT at=(-141.119, -3.586) native=2.090091 collider=KelvingroveCentralApproach displayed_paving=2.090090 gap=0.000001
+PT24_PORT_HEIGHT at=(-141.0, -7.5) native=2.214260 collider=KelvingroveCentralEmbankment displayed_paving=2.000000 gap=0.214260
+PT24_PORT_HEIGHT at=(-141.0, -4.0) native=2.083059 collider=KelvingroveCentralEmbankment displayed_paving=2.000000 gap=0.083059
+ERROR: FAIL: PT24 park finish: highest displayed paving agrees with native support across all26 station-port witnesses
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_finish_focused.gd:9)
+       [1] run (res://tests/pt24_park_finish_tests.gd:136)
+ERROR: FAIL: PT24 park finish: actual core-port and approach asphalt have no duplicate interior top faces
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/pt24_park_finish_focused.gd:9)
+       [1] run (res://tests/pt24_park_finish_tests.gd:138)
+PT24_PARK_FINISH native_overlap_m2=705.142043 displayed_interior_overlap_m2=0.00000000 edge_roundoff_m2=0.00110668 grass_triangles=8808->8780 samples=36
+PT24_PARK_CORE_PORT native_overlap_m2=240.000000 displayed_interior_overlap_m2=0.00000000 edge_roundoff_m2=0.00000000 native_display_difference_m=0.214260 port_triangles=0->12 samples=26
+SCRIPT ERROR: Trying to assign value of type 'Nil' to a variable of type 'PackedInt32Array'.
+          at: _conform_station_port_finish (res://game/levels/outdoor_routes.gd:215)
+          GDScript backtrace (most recent call first):
+              [0] _conform_station_port_finish (res://game/levels/outdoor_routes.gd:215)
+              [1] _separate_park_grass_finishes (res://game/levels/outdoor_routes.gd:164)
+              [2] build (res://game/levels/outdoor_routes.gd:65)
+              [3] _ready (res://game/levels/glasgow_square.gd:97)
+              [4] run (res://tests/outdoor_repair_tests.gd:12)
+              [5] _run (res://.local/pt24_park_finish_focused.gd:12)
+              [6] run (res://tests/pt24_park_finish_tests.gd:144)
+PT24_OUTDOOR shoulder_samples=130 shelter_side_samples=66 added_surfaces=3 retaining_triangles=1138
+RESULT: 26 passed, 3 failed

@@ -62,8 +62,355 @@ func build(world: Node3D, materials: Dictionary) -> void:
 	_build_riverside_edge(world)
 	_build_park()
 	_build_practice_pockets()
+	_separate_park_grass_finishes(world)
 	_fit_park_visual_surfaces.call_deferred()
 	_build_exploration_boundaries()
+
+
+## The road owns its whole footprint, including its lower-entry shoulders.
+## The native grass grid may cross a road's piecewise plane between samples;
+## burying it further changes skating support without establishing ownership.
+## Subtract only its display at startup; native/query triangles remain exact.
+func _separate_park_grass_finishes(world: Node3D) -> void:
+	var clips: Array[Dictionary] = []
+	var road_footprints: Array[PackedVector2Array] = []
+	# Keep the already admitted summit/terrace finishes untouched. These are
+	# the two existing ribbons meeting at the reported lower-park arrivals.
+	for id: String in ["KelvingroveCentralApproach","KelvingroveCutbackReturn"]:
+		var body := get_node_or_null(id)
+		if body == null: continue
+		var strip: PackedVector3Array = body.get_meta("support_vertices")
+		for i in range(0,strip.size()-2,2):
+			var polygon := PackedVector2Array([Vector2(strip[i].x,strip[i].z),
+				Vector2(strip[i+1].x,strip[i+1].z),Vector2(strip[i+3].x,strip[i+3].z),
+				Vector2(strip[i+2].x,strip[i+2].z)])
+			clips.append({"polygon":polygon,"bounds":_finish_bounds(polygon)})
+			road_footprints.append(polygon)
+	# The station mouth and civic mouth belong to core terrain, not this
+	# outdoor ribbon list. Include their actual transformed top footprints;
+	# otherwise grass remains visible in the wider arms of each junction.
+	for id: String in ["KelvingroveWestPort","KelvingroveCivicPort"]:
+		var body := world.get_node_or_null(id)
+		if not body is Node3D: continue
+		var top: PackedVector3Array = body.get_meta("top_polygon_local",PackedVector3Array())
+		var polygon := PackedVector2Array()
+		for point: Vector3 in top:
+			var local := to_local(body.to_global(point))
+			polygon.append(Vector2(local.x,local.z))
+		if polygon.size()>=3: clips.append({"polygon":polygon,"bounds":_finish_bounds(polygon)})
+	# Union the touching ribbon sections before cutting the terrain. Otherwise
+	# every internal road cross-section unnecessarily splits a grass triangle.
+	var footprints: Array[PackedVector2Array] = []
+	for clip: Dictionary in clips:
+		var footprint: PackedVector2Array = clip.polygon
+		var index := 0
+		while index<footprints.size():
+			var joined := Geometry2D.merge_polygons(footprint,footprints[index])
+			if joined.size()==1:
+				footprint=joined[0]
+				footprints.remove_at(index)
+				index=0
+			else: index+=1
+		footprints.append(footprint)
+	clips.clear()
+	for polygon: PackedVector2Array in footprints:
+		clips.append({"polygon":polygon,"bounds":_finish_bounds(polygon)})
+	for id: String in ["KelvingroveRollingGround","KelvingroveCentralEmbankment","KelvingroveGeorgeEmbankment"]:
+		var body: StaticBody3D = get_node(id)
+		var visual: MeshInstance3D = body.get_child(0)
+		var arrays := visual.mesh.surface_get_arrays(0)
+		var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+		var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+		var uv: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
+		var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
+		var tool := SurfaceTool.new()
+		tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+		for i in range(0,indices.size(),3):
+			var a := vertices[indices[i]]
+			var ab := vertices[indices[i+1]]-a
+			var ac := vertices[indices[i+2]]-a
+			var first := Vector2(a.x,a.z)
+			var edge_b := Vector2(ab.x,ab.z)
+			var edge_c := Vector2(ac.x,ac.z)
+			var determinant := edge_b.cross(edge_c)
+			if absf(determinant)<0.00000001: continue
+			var triangle := PackedVector2Array([first,first+edge_b,first+edge_c])
+			var bounds := _finish_bounds(triangle)
+			var pieces: Array[PackedVector2Array] = [triangle]
+			for clip: Dictionary in clips:
+				if not bounds.intersects(clip.bounds): continue
+				var remaining: Array[PackedVector2Array] = []
+				for piece: PackedVector2Array in pieces:
+					remaining.append_array(_subtract_finish_polygon(piece,clip.polygon))
+				pieces = remaining
+				if pieces.is_empty(): break
+			for piece: PackedVector2Array in pieces:
+				var triangles := Geometry2D.triangulate_polygon(piece)
+				for index: int in triangles:
+					var relative := piece[index]-first
+					var wb := relative.cross(edge_c)/determinant
+					var wc := edge_b.cross(relative)/determinant
+					var wa := 1.0-wb-wc
+					tool.set_normal((normals[indices[i]]*wa+normals[indices[i+1]]*wb+normals[indices[i+2]]*wc).normalized())
+					tool.set_uv(uv[indices[i]]*wa+uv[indices[i+1]]*wb+uv[indices[i+2]]*wc)
+					# Keep clipped XZ coordinates verbatim. Reconstructing them
+					# through barycentrics rounds a shared road edge twice.
+					tool.add_vertex(Vector3(piece[index].x,a.y+ab.y*wb+ac.y*wc,piece[index].y))
+		tool.index()
+		visual.mesh = tool.commit()
+		visual.set_meta("paved_footprint_ownership",true)
+		visual.set_meta("grass_triangles_before",indices.size()/3)
+		visual.set_meta("grass_triangles_after",visual.mesh.get_faces().size()/3)
+	_conform_station_port_finish(world.get_node("KelvingroveWestPort"),road_footprints)
+
+
+## The wider station mouth contains continuous grassy support above its old
+## flat Y2 slab. Fit its asphalt to those exact native planes, retaining that
+## good grade. The approach already owns its overlapping asphalt footprint.
+## Only the core body's top is replaced; bottom/retaining faces stay untouched.
+func _conform_station_port_finish(body: StaticBody3D,roads: Array[PackedVector2Array]) -> void:
+	var top: PackedVector3Array = body.get_meta("top_polygon_local")
+	var plane := PackedVector3Array()
+	var outline := PackedVector2Array()
+	for point: Vector3 in top:
+		var local := to_local(body.to_global(point))
+		plane.append(local)
+		outline.append(Vector2(local.x,local.z))
+	var bounds := _finish_bounds(outline)
+	var flat: Array[PackedVector2Array] = [outline]
+	for road: PackedVector2Array in roads:
+		if not bounds.intersects(_finish_bounds(road)): continue
+		var pieces: Array[PackedVector2Array] = []
+		for piece: PackedVector2Array in flat: pieces.append_array(_subtract_finish_polygon(piece,road))
+		flat=pieces
+	var raised: Array[Dictionary] = []
+	var ground: StaticBody3D = get_node("KelvingroveCentralEmbankment")
+	var native: PackedVector3Array = ground.get_child(1).shape.get_faces()
+	for i in range(0,native.size(),3):
+		var triangle := PackedVector3Array()
+		var footprint := PackedVector2Array()
+		for offset: int in 3:
+			var local := to_local(ground.to_global(native[i+offset]))
+			triangle.append(local)
+			footprint.append(Vector2(local.x,local.z))
+		if not bounds.intersects(_finish_bounds(footprint)): continue
+		for clipped: PackedVector2Array in Geometry2D.intersect_polygons(footprint,outline):
+			var above := _finish_above_plane(clipped,triangle,plane)
+			if above.size()<3: continue
+			var remaining: Array[PackedVector2Array] = []
+			for piece: PackedVector2Array in flat: remaining.append_array(_subtract_finish_polygon(piece,above))
+			flat=remaining
+			var displayed: Array[PackedVector2Array] = [above]
+			for road: PackedVector2Array in roads:
+				if not _finish_bounds(above).intersects(_finish_bounds(road)): continue
+				var pieces: Array[PackedVector2Array] = []
+				for piece: PackedVector2Array in displayed: pieces.append_array(_subtract_finish_polygon(piece,road))
+				displayed=pieces
+			for piece: PackedVector2Array in displayed: raised.append({"polygon":piece,"plane":triangle})
+	var visual: MeshInstance3D
+	for child: Node in body.get_children():
+		if child is MeshInstance3D: visual=child;break
+	var original: PackedVector3Array = visual.mesh.get_faces()
+	var arrays := visual.mesh.surface_get_arrays(0)
+	var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX] if arrays[Mesh.ARRAY_INDEX]!=null else PackedInt32Array()
+	var normals: PackedVector3Array = arrays[Mesh.ARRAY_NORMAL]
+	var tool := SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for i in range(0,original.size(),3):
+		var is_top := true
+		for offset: int in 3:
+			var local := to_local(body.to_global(original[i+offset]))
+			is_top=is_top and absf(local.y-_finish_plane_height(plane,Vector2(local.x,local.z)))<.00001
+		if is_top: continue
+		for offset: int in 3:
+			var index: int = indices[i+offset] if not indices.is_empty() else i+offset
+			tool.set_normal(normals[index])
+			tool.add_vertex(original[i+offset])
+	for piece: PackedVector2Array in flat: _emit_port_finish(tool,piece,plane,body)
+	for piece: Dictionary in raised: _emit_port_finish(tool,piece.polygon,piece.plane,body)
+	tool.index()
+	visual.mesh=tool.commit()
+	visual.set_meta("native_port_finish",true)
+	visual.set_meta("port_triangles_before",original.size()/3)
+	visual.set_meta("port_triangles_after",visual.mesh.get_faces().size()/3)
+	visual.set_meta("port_edge_cap_triangles",0)
+	_close_park_approach_edges(plane,outline)
+
+
+## Close the complete approach perimeter, rather than stopping at the core
+## port boundary. Native grass planes give an exact lower height bound for
+## each original strip edge. Its constant lower edge remains buried beneath
+## the piecewise ground, while the unchanged upper edge is the riding grade.
+func _close_park_approach_edges(base: PackedVector3Array,port_outline: PackedVector2Array) -> void:
+	var road: StaticBody3D = get_node("KelvingroveCentralApproach")
+	var strip: PackedVector3Array = road.get_meta("support_vertices")
+	var footprint := PackedVector2Array()
+	for point: Vector3 in strip: footprint.append(Vector2(point.x,point.z))
+	var road_bounds := _finish_bounds(footprint).grow(.001)
+	var grounds: Array[Dictionary] = []
+	for id: String in ["KelvingroveRollingGround","KelvingroveCentralEmbankment","KelvingroveGeorgeEmbankment"]:
+		var ground: StaticBody3D = get_node(id)
+		var native: PackedVector3Array = ground.get_child(1).shape.get_faces()
+		for i in range(0,native.size(),3):
+			var triangle := PackedVector3Array()
+			var polygon := PackedVector2Array()
+			for offset: int in 3:
+				var point := to_local(ground.to_global(native[i+offset]))
+				triangle.append(point)
+				polygon.append(Vector2(point.x,point.z))
+			if absf((polygon[1]-polygon[0]).cross(polygon[2]-polygon[0]))<.00000001: continue
+			var bounds := _finish_bounds(polygon)
+			if bounds.intersects(road_bounds,true): grounds.append({"plane":triangle,"polygon":polygon,"bounds":bounds})
+	var edges: Array[Dictionary] = []
+	for i in range(0,strip.size()-2,2):
+		var center := Vector3.ZERO
+		for offset: int in 4: center+=to_local(road.to_global(strip[i+offset]))*.25
+		for side: int in [0,1]:
+			edges.append({"start":to_local(road.to_global(strip[i+side])),
+				"finish":to_local(road.to_global(strip[i+2+side])),"center":center})
+	for pair: Array in [[0,1,2,3],[strip.size()-2,strip.size()-1,strip.size()-4,strip.size()-3]]:
+		var center := Vector3.ZERO
+		for index: int in pair: center+=to_local(road.to_global(strip[index]))*.25
+		edges.append({"start":to_local(road.to_global(strip[pair[0]])),
+			"finish":to_local(road.to_global(strip[pair[1]])),"center":center})
+	var visual: MeshInstance3D = road.get_child(0)
+	var tool := SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	tool.append_from(visual.mesh,0,Transform3D.IDENTITY)
+	# append_from imports the old index list. New cap vertices must join the
+	# unindexed stream before the final index pass, rather than remain unused.
+	tool.deindex()
+	var native_caps := PackedVector3Array()
+	var records: Array[Dictionary] = []
+	for edge: Dictionary in edges:
+		var start: Vector3 = edge.start
+		var finish: Vector3 = edge.finish
+		var line := PackedVector2Array([Vector2(start.x,start.z),Vector2(finish.x,finish.z)])
+		var bounds := _finish_bounds(line)
+		var lower := INF
+		for ground: Dictionary in grounds:
+			if not bounds.intersects(ground.bounds,true): continue
+			for piece: PackedVector2Array in Geometry2D.intersect_polyline_with_polygon(line,ground.polygon):
+				for point: Vector2 in piece: lower=minf(lower,_finish_plane_height(ground.plane,point))
+		# The core slab provides real Y2 support through the complete mouth.
+		# Elsewhere the lower bound comes only from the actual grass planes.
+		if Geometry2D.is_point_in_polygon(line[0],port_outline) and Geometry2D.is_point_in_polygon(line[1],port_outline):
+			lower=maxf(lower,minf(_finish_plane_height(base,line[0]),_finish_plane_height(base,line[1])))
+		assert(is_finite(lower),"Approach edge has no native resident ground")
+		lower=minf(lower,minf(start.y,finish.y))
+		var delta := line[1]-line[0]
+		var outward := Vector3(delta.y,0,-delta.x).normalized()
+		if outward.dot((start+finish)*.5-edge.center)<0: outward=-outward
+		var bottom_start := Vector3(start.x,lower,start.z)
+		var bottom_finish := Vector3(finish.x,lower,finish.z)
+		var before := native_caps.size()
+		for face: Array in [[start,finish,bottom_start],[finish,bottom_finish,bottom_start]]:
+			var cross: Vector3 = (face[1]-face[0]).cross(face[2]-face[0])
+			if cross.length_squared()<.0000000001: continue
+			if cross.dot(outward)>0:
+				var swap: Vector3=face[1];face[1]=face[2];face[2]=swap
+			for point: Vector3 in face:
+				var local := road.to_local(to_global(point))
+				tool.set_normal((road.global_basis.inverse()*global_basis*outward).normalized())
+				tool.set_uv(Vector2(point.x,point.z)*.2)
+				tool.add_vertex(local)
+				native_caps.append(local)
+		records.append({"start":start,"finish":finish,"lower":lower,"outward":outward,
+			"triangles":(native_caps.size()-before)/3})
+	tool.index()
+	visual.mesh=tool.commit()
+	var collision: CollisionShape3D = road.get_child(1)
+	var original: PackedVector3Array = collision.shape.get_faces()
+	original.append_array(native_caps)
+	collision.shape.set_faces(original)
+	road.set_meta("port_edge_cap_faces",native_caps)
+	road.set_meta("approach_edge_closures",records)
+	visual.set_meta("approach_edge_cap_triangles",native_caps.size()/3)
+
+
+func _finish_above_plane(polygon: PackedVector2Array,upper: PackedVector3Array,lower: PackedVector3Array) -> PackedVector2Array:
+	var result := PackedVector2Array()
+	for i in polygon.size():
+		var start := polygon[i]
+		var finish := polygon[(i+1)%polygon.size()]
+		var first := _finish_plane_height(upper,start)-_finish_plane_height(lower,start)
+		var last := _finish_plane_height(upper,finish)-_finish_plane_height(lower,finish)
+		if first>=0.0: result.append(start)
+		if (first<0.0 and last>0.0) or (first>0.0 and last<0.0):
+			result.append(start.lerp(finish,first/(first-last)))
+	return result
+
+
+func _finish_plane_height(plane: PackedVector3Array,point: Vector2) -> float:
+	var first := Vector2(plane[0].x,plane[0].z)
+	var ab := Vector2(plane[1].x,plane[1].z)-first
+	var ac := Vector2(plane[2].x,plane[2].z)-first
+	var relative := point-first
+	var wb := relative.cross(ac)/ab.cross(ac)
+	var wc := ab.cross(relative)/ab.cross(ac)
+	return plane[0].y*(1-wb-wc)+plane[1].y*wb+plane[2].y*wc
+
+
+func _emit_port_finish(tool: SurfaceTool,polygon: PackedVector2Array,plane: PackedVector3Array,body: StaticBody3D) -> void:
+	var normal := (plane[1]-plane[0]).cross(plane[2]-plane[0]).normalized()
+	if normal.y<0.0: normal=-normal
+	normal=(body.global_basis.inverse()*global_basis*normal).normalized()
+	for index: int in Geometry2D.triangulate_polygon(polygon):
+		var point := polygon[index]
+		tool.set_normal(normal)
+		tool.add_vertex(body.to_local(to_global(Vector3(point.x,_finish_plane_height(plane,point),point.y))))
+
+
+## Convex half-plane partitioning also handles a clip wholly inside one
+## triangle: Geometry2D's hole contours cannot be triangulated independently.
+## Each emitted piece is outside one clip edge and is therefore hole-free.
+func _subtract_finish_polygon(subject: PackedVector2Array,clip: PackedVector2Array) -> Array[PackedVector2Array]:
+	var clipped: Array[PackedVector2Array] = Geometry2D.clip_polygons(subject,clip)
+	var winding_sign := 0.0
+	var has_hole := false
+	for polygon: PackedVector2Array in clipped:
+		var signed := 0.0
+		for i in polygon.size(): signed+=(polygon[i]-polygon[0]).cross(polygon[(i+1)%polygon.size()]-polygon[0])
+		if is_zero_approx(signed): continue
+		if winding_sign==0.0: winding_sign=signf(signed)
+		has_hole=has_hole or signed*winding_sign<0.0
+	# Native subtraction keeps untouched triangles intact. Only enclosed holes
+	# require the convex partition below; their contours cannot be filled alone.
+	if not has_hole: return clipped
+	var result: Array[PackedVector2Array] = []
+	var remaining := subject
+	var winding := 0.0
+	for i in clip.size(): winding+=(clip[i]-clip[0]).cross(clip[(i+1)%clip.size()]-clip[0])
+	var sign := 1.0 if winding>0.0 else -1.0
+	for i in clip.size():
+		if remaining.size()<3: break
+		var inside := PackedVector2Array()
+		var outside := PackedVector2Array()
+		var origin := clip[i]
+		var edge := clip[(i+1)%clip.size()]-origin
+		for j in remaining.size():
+			var start := remaining[j]
+			var finish := remaining[(j+1)%remaining.size()]
+			var first := edge.cross(start-origin)*sign
+			var last := edge.cross(finish-origin)*sign
+			if first>=0.0: inside.append(start)
+			if first<=0.0: outside.append(start)
+			if (first<0.0 and last>0.0) or (first>0.0 and last<0.0):
+				var crossing := start.lerp(finish,first/(first-last))
+				inside.append(crossing)
+				outside.append(crossing)
+		if outside.size()>=3: result.append(outside)
+		remaining = inside
+	return result
+
+
+func _finish_bounds(polygon: PackedVector2Array) -> Rect2:
+	var minimum := polygon[0]
+	var maximum := polygon[0]
+	for point: Vector2 in polygon:
+		minimum = minimum.min(point)
+		maximum = maximum.max(point)
+	return Rect2(minimum,maximum-minimum)
 
 
 func _fit_park_visual_surfaces() -> void:

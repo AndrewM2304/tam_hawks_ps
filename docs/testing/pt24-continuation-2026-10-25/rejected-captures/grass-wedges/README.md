@@ -1,0 +1,1 @@
+Retained rejected witness subset: issue11 PNG and the complete original capture manifest. Other frames listed by the manifest are not bundled in this subset. See the parent evidence README for the correction.

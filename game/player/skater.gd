@@ -332,6 +332,8 @@ func _ready() -> void:
 	collision_layer = 2
 	collision_mask = 1 | 8
 	_build_skater()
+	# Prepare exact displayed-wheel landmarks at construction, before first play.
+	_camera_follow.prepare_board_landmarks(_visual_rig)
 	_grind_clearance.rebuild(_board_visual,_visual_rig.board_contact_geometry(),get_rid())
 	# Startup-only exact tyre hulls; native finite-volume checks must not scan
 	# thousands of GLB vertices during ordinary skating.

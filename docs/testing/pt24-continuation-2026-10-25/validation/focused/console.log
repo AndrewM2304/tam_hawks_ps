@@ -1,0 +1,290 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity open { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: rider physics is untouched open { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared open { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity open { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: rider physics is untouched open { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared open { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity open { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: rider physics is untouched open { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared open { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity rear_wall { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: rider physics is untouched rear_wall { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared rear_wall { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity rear_wall { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: rider physics is untouched rear_wall { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared rear_wall { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity rear_wall { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: rider physics is untouched rear_wall { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared rear_wall { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity corner { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: rider physics is untouched corner { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared corner { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity corner { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: rider physics is untouched corner { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared corner { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity corner { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: rider physics is untouched corner { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared corner { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity low_roof { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: rider physics is untouched low_roof { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared low_roof { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity low_roof { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: rider physics is untouched low_roof { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared low_roof { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity low_roof { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: rider physics is untouched low_roof { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared low_roof { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: repeated blocked-view checks demonstrably reduce actual native shape/visibility-ray queries
+PT24_CAMERA_QUERY_PARITY samples=96 cached={ "shape": 168, "ray": 29400, "cast": 336 } uncached={ "shape": 564, "ray": 44100, "cast": 336 } clear_hits=312 usable_hits=84
+PASS: PT24 camera cache: native control confirms the previously selected endpoint is clear
+PASS: PT24 camera cache: direct helpers observe a newly moved native obstacle at the exact old cache key
+PASS: PT24 camera cache: direct helper calls outside update always perform fresh native queries
+PASS: PT24 camera cache: the next update rejects stale visibility and exactly matches uncached obstacle recovery
+PASS: PT24 camera cache: removing the obstacle is likewise visible to an uncached direct helper
+PASS: PT24 camera cache: obstacle removal preserves exact continuation parity across updates
+PASS: PT24 camera cache: an invalid-rider early return cannot retain a query scope
+PASS: PT24 camera cache: obstacle invalidation also leaves every frozen rider physics field unchanged
+PASS: PT24 camera cache: reset retains no native-query answers
+PASS: PT24 park finish: wholly enclosed paving removes exactly one square metre without filling a polygon hole
+PASS: PT24 park finish: fixed lower-entry witness retains the original native grass support beneath the existing asphalt
+PASS: PT24 park finish: lower-entry grass stays outside the asphalt interior beyond the0.25mm native-float edge envelope
+PASS: PT24 park finish: summed grass/asphalt edge roundoff stays below0.002 square metres across the whole lower-entry witness
+PASS: PT24 park finish: ownership changes retain the three original bodies, shapes, resident surfaces and grass material
+PASS: PT24 park finish: lower-road ownership stays within the declared64-triangle component budget
+PASS: PT24 park finish:36 fixed entry-road native supports still agree with the public height query
+PASS: PT24 park finish:36 fixed entry-road points retain displayed asphalt after grass subtraction
+PT24_PARK_FINISH native_overlap_m2=593.747593 displayed_interior_overlap_m2=0.00000000 edge_roundoff_m2=0.00107778 grass_triangles=8808->8846 samples=36
+PASS: PT24-16: independent centre ray reaches recessed native basin; old lawn is physically excavated
+PASS: PT24-16: 128 radial native support probes agree with the exact basin query
+PASS: PT24-16: all 32 shoreline corners meet the visible water plane without an underwater dry gap
+PASS: PT24-16: every sampled water bank returns to supported clear dry lawn
+PASS: PT24-16: high air and dry bypass do not trigger water recovery or replace unrelated ground queries
+PASS: PT24-16: the independent 28m dry bypass keeps its original native lawn support
+PASS: PT24-16: the closed pond rail supplies actual steel and rigid two-truck contact around its complete loop
+PASS: PT24-16: upward visible water reuses the resident shader and two original ducks use shared static batches
+PASS: PT24-16: candidate stays within its two-body / 41-shape construction budget
+PASS: PT24-25: native backing copies sixteen existing cable facets without a new draw or changing red bridge art
+PASS: PT24-25: cable backing cannot add a world-layer obstacle to ordinary bridge travel
+PASS: PT24-25: finite actual crown stays on the reachable central existing strand clyde_cable_west
+PASS: PT24-25: finite actual crown stays on the reachable central existing strand clyde_cable_east
+PASS: PT24-25: 126 independent crown rays hit real cable backing; max gap=0.00011110305786
+PASS: PT24-25: both directions keep rigid native two-truck supports through the changing cable grade
+PASS: PT24-25: optional handrail/cable air entries and returns have bounded real offsets without physics boosts
+PASS: PT24-25: all nine fixed ordinary bridge-corridor columns remain clear of the cable extension
+PASS: PT24-21: north quay keeps its full inland paving while stone owns exactly136 square metres of coplanar edge
+PASS: PT24-21: fixed samples on both quays have one paving/stone owner on each side of their exact seam
+PASS: PT24-21: exact reported quay/bridge locations and coping strips retain their declared native/public support heights
+PASS: PT24-21: the display repair removes228 square metres of duplicate faces without increasing triangles
+PASS: PT24-12: station north plinth construction removes its overlapping box skins without adding instances
+PASS: PT24-12: all24 real plinth segments meet exact fixed endpoints with no overlap/gap and unchanged native panel
+PASS: PT24-21: both original native terrain grids and resident shape/mesh counts remain byte-identical
+PASS: PT24-21: south cut removes exactly92 square metres, preserves earlier holes and shares the original materials
+PASS: PT24-21: repeated installation is idempotent and does not re-triangulate an already-owned seam
+PASS: compact Clyde: original native and complete visible quay footprint retained with stone-edge ownership ClydeNorthQuay
+PASS: compact Clyde: original native and complete visible quay footprint retained with stone-edge ownership ClydeSouthQuay
+PASS: compact Clyde: obsolete 560x90m landscape body is removed
+PASS: compact Clyde: retained quay approaches and useful return have real clear rider support
+PASS: compact Clyde: bounded rear strip is real support rather than a hidden catch plane
+PASS: compact Clyde: old outer quays and 33 former landscape samples contain no obsolete floor or query support
+PASS: compact Clyde: removed south roaming space is not advertised as the Clyde district
+PASS: compact Clyde: complete cross-quay route is landward atZ69 rather than behind solid bridge handrails
+PASS: compact Clyde: full city-to-city quay route retains actual rider support and plus/minus0.7m lateral clearance
+PASS: compact Clyde: full3-track quay route clears real capsule motion in both directions through every join
+PASS: compact Clyde: true safe bridge supports centre and both novice lateral margins for the full crossing
+PASS: compact Clyde: rider-size sweeps clear safe bridge joins and both travel directions without jumping
+PASS: compact Clyde: safe navigation route follows the moved continuous crossing rather than the removed bridge
+PASS: compact Clyde: native eight-metre optional opening has no collision filler across its usable deck width
+PASS: compact Clyde: actual launch and landing decks retain native heights and recoverable lateral margins
+PASS: compact Clyde: stable scored gap moves with the physical bridge without wider scoring gates
+PASS: compact Clyde: distinct optional and safe bridge routes are 45m apart with the real opening retained
+PASS: compact Clyde: both half-pipe faces and east-facing quarter move physical contact frames and decks intact at native dimensions
+PASS: compact Clyde: half-pipe open end and rotated quarter entry remain clear rider-size approaches
+PASS: compact Clyde: moved native flat box retains its8m footprint and actual Y2 support across both opposing toes
+PASS: compact Clyde: stable yard ledge moves its complete native 9.4m profile with the planter
+PASS: compact Clyde: moved planter has matching real top support rather than only a moved grind track
+PASS: compact Clyde: ledge runout beyond the planter remains supported with a useful recovery margin
+COMPACT_CLYDE_HIP_RANGE min=2.0 max=2.72339177131653 steepest=31.0640595585423 support=true
+PASS: compact Clyde: translated yard hip retains actual curved support and its original 35-degree rise
+PASS: compact Clyde: published yard circuit joins the safe crossing at both ends through the actual south-return lane
+PASS: compact Clyde: complete south return has real centre/plus-minus0.7m rider support and capsule motion in both directions
+PASS: compact Clyde: no low coping or selected embankment grind crosses either flush bridge mouth
+PASS: compact Clyde: retained dry ends have real collision with visible matching boundary geometry
+PASS: compact Clyde: existing west landward span is visible solid masonry with actual topY12 behind the raised ramps
+PASS: compact Clyde: both half-pipe decks and quarter deck retain actual supported clear Y5.2 starts
+PASS: compact Clyde: real rider capsules cannot roll north from any raised deck above the oldY5 guard
+PASS: compact Clyde: physical west closure blocks northward capsules at charged deck-jump heightY7.4
+PASS: compact Clyde: physical west closure blocks northward capsules above the conservative native lip-apex heightY10.2
+PASS: compact Clyde: taller west closure meets the road edge and preserves all3 clear Exchange-close tracks in both directions
+PASS: compact Clyde: opaque treatment is limited to all8 existing dry approach/end/ordinary-landward boundary bodies
+PASS: compact Clyde: each graded closure uses one opaque shared-stone surface with finite outward normals and valid texture tangents
+PASS: compact Clyde: displayed closed prism faces match every actual graded convex collision face without a bounding-box shortcut
+COMPACT_CLYDE_OPAQUE panels=8 preserved_prisms=59 triangles=708 surfaces=8
+PASS: compact Clyde: genuine hip-to-floor coplanar counterexample is removed while the whole physical hip footprint stays visibly covered
+PASS: compact Clyde: flat metal landing loses its actual40m2 paving overlap while its complete graded approach remains visible
+COMPACT_CLYDE_SURFACE hip_old_overlap=0.849365234375 hip_current_overlap=0.0 hip_projected_area=39.3681872338057 bridge_old_overlap=40.0 bridge_current_overlap=0.0
+PASS: compact Clyde: both banks and scenic-water extremes recover onto retained clear quay rather than deleted grass
+PASS: compact Clyde: moved-layout district checkpoint remains a real supported clear retry point
+PASS: compact Clyde: both visible suspension portals follow the physical safe crossing
+PASS: horizon: normal production World installs its context
+PASS: horizon: one native environment without an extra scene sky
+PASS: horizon: native static quality cubemap replaces the uniform procedural sky
+PASS: horizon cube: actual bound native resource has six512-square RGB8 mipmapped faces
+PASS: horizon cube: bound static sky performs one explicit base-level colour-correct linear lookup without derivatives or a half-resolution pass
+PASS: horizon cube: opaque source atlas and retained offline panorama have the agreed dimensions
+HORIZON CUBE SOURCE blocks=230 worst=0.00117583433166 where=(0, 128, 0)
+PASS: horizon cube: independent world-direction oracle matches axes, all12 joins, eight corners and both polar caps
+HORIZON CUBE IMPORT FILE path=res://.godot/imported/glasgow_horizon_cube.png-d445cc4a6292254f28162bd04b6f0dc5.ccube bytes=6291582 payload=6291450 sha256=e93517bd807f9ee70a1d473721b722dfc1abca10b61927313368f0b58e0a9ccd
+PASS: horizon cube: actual validated six-face RGB8 import chains including mipmaps stay within6MiB
+PASS: horizon cube: actual imported base and two lower mip levels decode as opaque images
+HORIZON CUBE IMPORT imported_bytes=6291450 sampled_mips=3 block_checks=690 worst_mean_error=0.00248133926652 where=face4 mip2 x8 y0
+PASS: horizon cube: actual imported face means preserve directions, all joins, corners and poles through three mip levels
+HORIZON_NATIVE_PIXELS_DEFERRED: actual RGB8 import chains were checked; Dummy cannot verify GPU upload/readback. No GPU assertion is counted; native focused replay is required.
+PASS: horizon: established ambient light, ACES and fog remain unchanged rather than concealing gaps
+PASS: horizon: existing sun colour and energy are retained
+PASS: horizon: controlled comparison retains the original procedural material
+PASS: horizon: four actual static regional meshes plus18 water triangles stay within the independently reconciled922-triangle budget, including six enclosed-land triangles and valid footing/bank/foundation faces
+PASS: horizon: four footing surfaces share one opaque double-sided texture-free shader with standard sRGB vertex conversion, native fog and no extra pass
+PASS: horizon: context introduces no collision, cameras, lights, scripts or frame callbacks
+PASS: horizon: actual triangles completely cover every raw physical boundary baseline, corners and downward footing samples
+PASS: horizon: actual face area matches the raw boundary envelope without floating extensions or route-mouth caps
+PASS: horizon: separate flat service-back plane matches X129.81/Z-8..2/Y-.1..5.05 and embeds behind the blocked graded boundary
+PASS: horizon: real civic, station, market, park and quay openings contain no footing cap
+HORIZON independent geometry samples=12600 triangles=760 area=80005.7109394073
+PASS: horizon river: actual72 bank triangles match independently fixed shore/back sections behind closed quay ends
+PASS: horizon river: one existing water display retains its ShaderMaterial and one replacement mesh surface
+HORIZON WATER vertices=54 indices=0 normals=54 uvs=54 tangents=216 max_y=0.0 max_uv=0.0 min_normal_dot=1.0 max_normal_error=0.00001525902189 front_area=(-6460.0, -1102.0) missing= combined_triangles=922
+PASS: horizon river: exactY-2 central channel and both bent38m water strips have upward front faces, world UV/tangents and fit the independently reconciled922 combined triangles
+PASS: horizon river: actual water triangles never overlap each other or project through the new bank tops
+PASS: horizon river: all36 scenic bank-top triangle interiors stay outside actual playable collision support
+PASS: horizon river: controlled comparison swaps only the existing water mesh and retains exactly the same animated material
+PHYSICS_INVENTORY bodies=565 shapes=1698 protected_bodies=271 protected_shapes=728 bench_bodies=12 bench_boxes=44 identified=true additions={ "new_native_factory": { "bodies": 47, "shapes": 195 }, "new_infill_solids": { "bodies": 38, "shapes": 38 }, "new_infill_rail": { "bodies": 3, "shapes": 3 }, "new_composites": { "bodies": 31, "shapes": 31 }, "new_cable_contacts": { "bodies": 1, "shapes": 16 }, "new_bins": { "bodies": 4, "shapes": 8 } } court_caps=2
+PASS: horizon: every independently identified core, bench and repair collider retains its approved geometry and exact inventory
+PASS: horizon: all56 fixed prior routes plus five connected-run and two cable routes stay unique with the same six district checkpoints
+PASS: horizon: representative real support/query contacts remain correct across all six areas
+PASS: horizon: scenic backing creates no catch floor in deleted quays or former south landscape
+PASS: horizon: reversible appearance comparison restores both materials while physical routes stay identical
+PASS: horizon: existing high Clyde wall reuses one resident CC0 albedo without another mesh, normal map or pass
+HORIZON FOUNDATION triangles=64 faces=32 independent_samples=800 complete=true originals_valid=true
+PASS: horizon frontage:64 actual unshaded triangles cover all32 fixed vertical foundations while eight lit/shadowed masses retain their approved footprints/roofs and the Chambers foundation reachesY-3
+PASS: horizon frontage: appearance toggle changes only context foundations and never original meshes, poses, bounds, materials or shadow properties
+PASS: skate edges: startup authoring adds no render nodes or colliders
+PASS: skate edges: all56 fixed prior routes plus exactly five connected-run and two cable routes remain unique and unchanged by edge registration
+PASS: skate edges: finite unique usable lines cover selected existing skate architecture
+PASS: skate edges: rebuilding snapshots is deterministic without registering duplicate nodes
+PASS: skate edges: registered visible feature family Planter_
+PASS: skate edges: registered visible feature family CourtSeat_
+PASS: skate edges: registered visible feature family WorkshopSeat_
+PASS: skate edges: registered visible feature family MarketCounter_
+PASS: skate edges: registered visible feature family Bench_
+PASS: skate edges: registered visible feature family StreetBenchSeat_
+PASS: skate edges: registered visible feature family StreetBenchBack_
+PASS: skate edges: registered visible feature family CivicGarden_
+PASS: skate edges: registered visible feature family PlatformNorthGap_
+PASS: skate edges: registered visible feature family ServiceWalkFront_
+PASS: skate edges: registered visible feature family BridgeRail_
+PASS: skate edges: registered visible feature family NorthEmbankment_
+PASS: skate edges: registered visible feature family SouthEmbankment_
+PASS: skate edges: repaired conforming shoulders retain native rollover collision without falsely registering raised granite ledges
+PASS: skate edges: all four counters and four small planters expose each physical top edge
+PASS: skate edges: physical box transform preserves orientation scale and world-up contact skin
+PASS: skate edges: previous authored tracks and challenge IDs are unchanged
+PASS: skate edges: actual short top rays support registered physical edges: []
+PASS: skate edges: physical registrations stay above existing world support: []
+PASS: skate edges: real upright rider skin and short sweep clear representative Planter_
+PASS: skate edges: real upright rider skin and short sweep clear representative CourtSeat_
+PASS: skate edges: real upright rider skin and short sweep clear representative WorkshopSeat_
+PASS: skate edges: real upright rider skin and short sweep clear representative ClosePocket_
+PASS: skate edges: real upright rider skin and short sweep clear representative PrintYard_
+PASS: skate edges: real upright rider skin and short sweep clear representative MarketCounter_
+PASS: skate edges: real upright rider skin and short sweep clear representative Bench_
+PASS: skate edges: real upright rider skin and short sweep clear representative StreetBenchSeat_
+PASS: skate edges: real upright rider skin and short sweep clear representative StreetBenchBack_
+PASS: skate edges: real upright rider skin and short sweep clear representative StairCheek_
+PASS: skate edges: real upright rider skin and short sweep clear representative BuskingPlinth_
+PASS: skate edges: real upright rider skin and short sweep clear representative CivicGarden_
+PASS: skate edges: real upright rider skin and short sweep clear representative PlatformNorthGap_
+PASS: skate edges: real upright rider skin and short sweep clear representative ServiceWalkFront_
+PASS: skate edges: real upright rider skin and short sweep clear representative BridgeRail_
+PASS: skate edges: real upright rider skin and short sweep clear representative NorthEmbankment_
+PASS: skate edges: real upright rider skin and short sweep clear representative SouthEmbankment_
+SKATE EDGE CONTACTS rays=690 rail_only=50 top_failures=0 outside_failures=0
+PASS: PT24-15: ordinary world does not bypass the railway's pending rendering admission
+PASS: PT24-15: enclosed station replaces two old facade groups within its predeclared candidate budget
+PASS: PT24-15: complete bounded two-coach geometry is scenic and has no moving collision or false grind tracks
+PASS: PT24-15: repeated complete train loops wrap only fully inside opaque tunnels without constructing per-frame nodes
+PASS: PT24-15: reset restores the same concealed railway phase
+PASS: PT24-15: invalid tick deltas cannot corrupt train transforms
+PASS: PT24-15: fifteen real capsule volumes preserve the complete lower park passage
+PASS: PT24-15: seven native boundaries keep the scenic tracks safely separate from playable station routes
+PASS: PT24-15: grounded wing and bridge deck support the entire elevated railway through the park opening
+PASS: PT24-15: ordinary pause freezes the train without a background timer
+PASS: PT24 runs: placement precedes ordinary world snapshots
+PASS: PT24 runs: Exchange seat physically follows the north-south east quay close
+PASS: PT24-19: existing civic seat becomes the corridor's east-west technical line
+PASS: PT24 runs: safe bridge return ledge follows the landing's north-south heading
+PASS: PT24 runs: fixed moved-seat contacts have real native bearings under their transformed guides
+PASS: PT24 runs: original Exchange teaching rail keeps both native guide endpoints
+PASS: PT24-20: existing wall resources become a low loading kerb and real steel bearing with tyre clearance
+PASS: PT24-20: all four new guide contacts sit on the reused steel bearing's real native top
+PASS: PT24 runs: original station bank route is translated once alongside its physical terrain and feature record
+PASS: PT24 runs: full-width native support and clear return recording_court_return
+PASS: PT24 runs: full-width native support and clear return exchange_east_quay_handoff
+PASS: PT24 runs: full-width native support and clear return civic_backstreet_ledge_return
+PASS: PT24 runs: full-width native support and clear return station_transition_handoff
+PASS: PT24 runs: full-width native support and clear return clyde_west_landing_return
+PASS: PT24 runs: all five actual placement continuations are published
+PASS: PT24 runs: fixed protected two-way passage stays open [(-82.0, 2.0, 34.0), (-82.0, 2.0, -34.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(57.0, 4.0, -80.0), (82.0, 4.0, -80.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-25.0, 2.329412, 118.0), (-25.0, 2.0, 122.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-25.0, 2.0, 122.0), (-25.0, 2.0, 125.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-22.0, 0.0, 28.0), (22.0, 0.0, 28.0)]
+PASS: PT24-20: unchanged secret recording has native support and a clear standing capsule
+PASS: PT24-27: eighteen fixed service-wall sites have real collision and matching displayed masonry
+PASS: PT24-27: opened native alley saves seven metres against a supported closed-gate detour while both street mouths stay clear
+PASS: PT24-18: added civic return geometry obeys the explicit design admission gate
+PASS: PT24-20: actual Manual to Ollie to loading-edge grind earns one combo bank with clear chase
+PT24_CONNECTED_INPUT phase=4 manuals=1 frames=10 held=24 captures=["Grind_Ledge_RecordingCourt"] banks=1 score=1275 bails=0 camera=true at=(113.0, 2.110582, -28.09225)
+PASS: PT24-25 input: cable acceptance uses the explicitly installed Main candidate
+CABLE_INPUT_RESULT {"bails":0,"bank":8696,"banks":1,"cable":true,"cable_ticks":17,"captures":["Grind_Edge_BridgeRail_x-2885y445z9700_0","clyde_cable_west","Grind_Edge_BridgeRail_x-2885y445z9700_0"],"direction":1.0,"first":true,"max_cable_gap":0.0,"position":"Vector3(-26.6453, 2.8795264, 111.48388)","returned":true,"stages":[{"at":"Vector3(-28.1, 3.0715828, 85.00291)","speed":0.27742674946785,"stage":"push_on_bridge","y_velocity":0.0227775033563375},{"at":"Vector3(-28.1, 3.1837585, 86.3651)","speed":5.03131628036499,"stage":"charge_to_handrail","y_velocity":0.412927448749542},{"at":"Vector3(-28.100264, 3.4873362, 88.05768)","speed":7.52953100204468,"stage":"first_handrail","y_velocity":9.62007904052734},{"at":"Vector3(-28.850002, 4.535, 90.06546)","speed":7.51953100204468,"stage":"handrail_run","y_velocity":0.0},{"at":"Vector3(-28.85, 4.535, 91.06273)","speed":7.43953100204468,"stage":"charge_to_cable","y_velocity":0.0},{"at":"Vector3(-28.85, 4.535, 92.90386)","speed":7.28952980041504,"stage":"leave_handrail","y_velocity":9.0},{"at":"Vector3(-28.886665, 4.675555, 93.02535)","speed":7.61427927017212,"stage":"fresh_cable_request","y_velocity":8.43333339691162},{"at":"Vector3(-28.92333, 4.8066664, 93.14684)","speed":7.61427927017212,"stage":"cable_air_catch","y_velocity":7.86666679382324},{"at":"Vector3(-29.35, 4.9419675, 95.57484)","speed":7.57992664734695,"stage":"charge_from_cable","y_velocity":-0.0902469605207443},{"at":"Vector3(-29.350002, 4.9304605, 97.45834)","speed":7.46656131744385,"stage":"leave_cable","y_velocity":9.08883666992188},{"at":"Vector3(-29.313337, 5.0724964, 97.58279)","speed":7.78392839431763,"stage":"fresh_return_request","y_velocity":8.5221700668335},{"at":"Vector3(-29.276672, 5.205088, 97.70723)","speed":7.78392839431763,"stage":"return_handrail","y_velocity":7.95550346374512},{"at":"Vector3(-28.85, 4.5349994, 101.320755)","speed":7.74218347556539,"stage":"short_dry_exit_charge","y_velocity":0.0},{"at":"Vector3(-28.85, 4.535, 101.44971)","speed":7.7321834564209,"stage":"exit_to_deck","y_velocity":7.20002317428589},{"at":"Vector3(-28.783333, 4.645556, 101.578575)","speed":8.70555400848389,"stage":"dry_landing_and_bank","y_velocity":6.63335657119751},{"at":"Vector3(-26.645344, 3.1107686, 108.67593)","speed":7.74448299407959,"stage":"single_bank_observation","y_velocity":0.0}],"ticks":243}
+PASS: PT24-25 input: native bridge→handrail→air→cable→air→handrail→dry deck earns one clean combo, direction=1.0
+CABLE_INPUT_RESULT {"bails":0,"bank":4109,"banks":1,"cable":true,"cable_ticks":17,"captures":["Grind_Edge_BridgeRail_x-2885y445z9700_0","clyde_cable_west","Grind_Edge_BridgeRail_x-2885y445z9700_0"],"direction":-1.0,"first":true,"max_cable_gap":0.0,"position":"Vector3(-26.647324, 2.8105206, 81.678925)","returned":true,"stages":[{"at":"Vector3(-28.1, 3.071101, 109.01536)","speed":0.523157179355621,"stage":"push_on_bridge","y_velocity":0.0429459474980831},{"at":"Vector3(-28.1, 3.193077, 107.53426)","speed":5.26327085494995,"stage":"charge_to_handrail","y_velocity":0.432002902030945},{"at":"Vector3(-28.1, 3.4942572, 105.77322)","speed":7.76528072357178,"stage":"first_handrail","y_velocity":9.63949394226074},{"at":"Vector3(-28.85, 4.535, 103.7025)","speed":7.75528072357178,"stage":"handrail_run","y_velocity":0.0000462262214568909},{"at":"Vector3(-28.850002, 4.535, 102.6738)","speed":7.67527963074076,"stage":"charge_to_cable","y_velocity":0.0000228735916607548},{"at":"Vector3(-28.85, 4.535, 100.77373)","speed":7.52527761459351,"stage":"leave_handrail","y_velocity":9.0},{"at":"Vector3(-28.88667, 4.675555, 100.64831)","speed":7.8402681350708,"stage":"fresh_cable_request","y_velocity":8.43333339691162},{"at":"Vector3(-28.923338, 4.8066664, 100.52289)","speed":7.8402681350708,"stage":"cable_air_catch","y_velocity":7.86666679382324},{"at":"Vector3(-29.35, 4.937104, 98.01655)","speed":7.80312831790683,"stage":"charge_from_cable","y_velocity":-0.0928579121828079},{"at":"Vector3(-29.349998, 4.935959, 96.07968)","speed":7.66017580032349,"stage":"leave_cable","y_velocity":9.09116363525391},{"at":"Vector3(-29.313334, 5.078034, 95.95201)","speed":7.96983671188354,"stage":"fresh_return_request","y_velocity":8.52449703216553},{"at":"Vector3(-29.276669, 5.2106643, 95.82434)","speed":7.96983671188354,"stage":"return_handrail","y_velocity":7.95783042907715},{"at":"Vector3(-28.850002, 4.535, 92.11737)","speed":7.92888457586013,"stage":"short_dry_exit_charge","y_velocity":0.0},{"at":"Vector3(-28.850002, 4.535, 91.985306)","speed":7.91888475418091,"stage":"exit_to_deck","y_velocity":7.19999980926514},{"at":"Vector3(-28.783335, 4.6455555, 91.853325)","speed":8.87179470062256,"stage":"dry_landing_and_bank","y_velocity":6.63333320617676},{"at":"Vector3(-26.647324, 3.0488374, 84.572784)","speed":7.97689390182495,"stage":"single_bank_observation","y_velocity":0.0}],"ticks":243}
+PASS: PT24-25 input: native bridge→handrail→air→cable→air→handrail→dry deck earns one clean combo, direction=-1.0
+PHYSICS_INVENTORY bodies=565 shapes=1698 protected_bodies=271 protected_shapes=728 bench_bodies=12 bench_boxes=44 identified=true additions={ "new_native_factory": { "bodies": 47, "shapes": 195 }, "new_infill_solids": { "bodies": 38, "shapes": 38 }, "new_infill_rail": { "bodies": 3, "shapes": 3 }, "new_composites": { "bodies": 31, "shapes": 31 }, "new_cable_contacts": { "bodies": 1, "shapes": 16 }, "new_bins": { "bodies": 4, "shapes": 8 } } court_caps=2
+PASS: PT24 final: independently reconciled full native inventory
+PT24_RENDER_RESOURCE_REPORT { "duplicate_top_area_m2": 228.0, "north_display_triangles": 2, "before_triangles": 528, "after_triangles": 213, "new_bodies": 0, "new_shapes": 0, "new_surfaces": 0, "new_materials": 0, "new_textures": 0, "station_plinth_instances": 54, "method": "Existing Y2 stone coping owns its footprint; display-only paving trim, original native support retained." }
+PASS: PT24 candidate integration: real Main constructs the complete bounded railway
+PASS: PT24 candidate integration: actual railway and civic return preserve two-way route [(-126.0, 2.0, 0.0), (-145.0, 2.0, 0.0)]
+PASS: PT24 candidate integration: actual railway and civic return preserve two-way route [(-82.0, 2.0, 34.0), (-82.0, 2.0, -34.0)]
+PASS: PT24 candidate integration: actual railway and civic return preserve two-way route [(-42.0, 6.0, -122.0), (-34.0, 6.0, -122.0)]
+PASS: PT24-17: one paired tree is grounded in the actual enclosed low lawn (-120.0, 0.5, -101.0)
+PASS: PT24-17: one paired tree is grounded in the actual enclosed low lawn (-111.0, 0.5, -96.0)
+PASS: PT24-17: one paired tree is grounded in the actual enclosed low lawn (-103.0, 0.5, -102.0)
+PASS: PT24-17: one paired tree is grounded in the actual enclosed low lawn (-65.0, 0.5, -101.0)
+PASS: PT24-17: one paired tree is grounded in the actual enclosed low lawn (-60.0, 0.5, -94.0)
+PASS: PT24-17: one paired tree is grounded in the actual enclosed low lawn (-57.0, 0.5, -102.0)
+PASS: PT24-17: six outer park trees retain their paired crown/trunk transforms, original scale and yaw
+PASS: PT24-17: two actual groves keep the central view slot, civic edge and lower service court clear
+PASS: PT24-17: twelve complete trunk/crown native volume probes exclude only authored terrain and enter no architecture
+PASS: PT24-17: protected promenade, station port or lower-court route stays clear [(-42.0, 6.0, -122.0), (-145.0, 6.0, -125.0)]
+PASS: PT24-17: protected promenade, station port or lower-court route stays clear [(-126.0, 2.0, 0.0), (-145.0, 2.0, 0.0)]
+PASS: PT24-17: protected promenade, station port or lower-court route stays clear [(-78.0, 1.0, -66.0), (-78.0, 4.0, -74.0)]
+PASS: PT24-17: protected promenade, station port or lower-court route stays clear [(-88.0, 4.0, -80.0), (-35.0, 4.0, -80.0)]
+PASS: PT24-17: startup relocation is idempotent and retains the resident meshes, instances and native geometry
+PASS: PT24-16 installed: the explicitly admitted candidate has its real pond
+PASS: PT24-16 installed: ordinary Push enters the pond, triggers one existing dramatic bail, and recovers on dry land
+PASS: PT24-18: added civic return geometry obeys the explicit design admission gate
+PASS: PT24-18: return transition faces the exact southbound witness with a4.5m mouth and two1.25m escape shoulders
+PASS: PT24-18: eighteen independent curved return samples match the real finite native face
+PASS: PT24-18: grounded visible/native return sides preserve the original west-going park port
+PASS: PT24-18: twenty independent rear-miss sites have real displayed/nativeY6 floor through to the frontage
+PASS: PT24-18: fixed full-length shoulder is supported and capsule-clear in both directionsX-35.6
+PASS: PT24-18: fixed full-length shoulder is supported and capsule-clear in both directionsX-41.4
+PASS: PT24-18: ordinary no-jump Push/Brake leaves the rear miss pocket along shoulderX-35.6
+PT24_CIVIC_MISS_RECOVERY x=-35.6 reached=true supported=true bails=0 ollies=0 at=(-35.6, 6.013829, -121.8278)
+PASS: PT24-18: ordinary no-jump Push/Brake leaves the rear miss pocket along shoulderX-41.4
+PT24_CIVIC_MISS_RECOVERY x=-41.4 reached=true supported=true bails=0 ollies=0 at=(-41.4, 6.013829, -121.8278)
+PASS: PT24-18: ordinary native push earns civic ramp air and returns to the supported port without a forced wall impact
+PT24_CIVIC_RETURN climbed=true air=true returned=true bails=0 camera=true at=(-38.5, 6.000467, -116.4804)
+RESULT: 265 passed, 0 failed

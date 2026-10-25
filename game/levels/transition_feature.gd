@@ -6,6 +6,7 @@ const GrindLineSource = preload("res://game/tricks/grind_line.gd")
 static var _shared_concrete: StandardMaterial3D
 var radius := 2.4
 var width := 10.0
+var minimum_width := 6.0
 var deck_length := 3.0
 var feature_id := "transition"
 var build_access := true
@@ -21,7 +22,7 @@ func build() -> void:
 		return
 	_built = true
 	radius = clampf(radius, 1.5, 5.0)
-	width = clampf(width, 6.0, 24.0)
+	width = clampf(width, clampf(minimum_width,4.5,6.0), 24.0)
 	deck_length = clampf(deck_length, 0.0, 6.0)
 	add_to_group("skate_transitions")
 	set_meta("skate_feature", "quarter_pipe")

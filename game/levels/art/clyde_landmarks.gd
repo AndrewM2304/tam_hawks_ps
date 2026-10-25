@@ -1,5 +1,6 @@
 extends RefCounted
 const Layout = preload("res://game/levels/clyde_layout.gd")
+const StaticBatches = preload("res://game/levels/static_batches.gd")
 ## Original compressed South Portland / Carlton Place architectural interpretation.
 ## Reference photographs are inspection only. All generated geometry is art-only.
 
@@ -209,6 +210,9 @@ static func _flush(root: Node3D, batches: Dictionary, palette: Dictionary) -> vo
 		instance.multimesh = multimesh
 		instance.material_override = palette[batch.key]
 		root.add_child(instance)
+		# Native cable contacts must use authored CPU transforms. Headless
+		# rendering buffers cannot provide an authoritative transform readback.
+		StaticBatches.register(instance,batch.transforms)
 
 
 static func _quad(surface: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, d: Vector3, normal: Vector3) -> void:

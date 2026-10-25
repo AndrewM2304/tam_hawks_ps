@@ -1,3 +1,46 @@
+# PT24 continuation implemented and verified — 25 October 2026
+
+The owner approved the consolidated queue and implementation continued directly
+on main from `6b18f30`, divided between specialist agents and independent review.
+[Implementation, native captures, retained failures and exact receipts](testing/pt24-continuation-2026-10-25/README.md)
+and [remaining work](planning/PT24-CONSOLIDATED-2026-10-25.md) own this checkpoint.
+Older sections below are historical; implemented systems must not be recreated.
+
+Ordinary play includes the completed lower-park surface/shoulder repair,
+station/quay overlap removal, four relocated feature handoffs, the loading-court
+kerb/steel grind, useful framed service alley, existing-cable native contacts,
+exact same-update camera query reuse and bounded ramp framing. Actual market
+and both-direction cable inputs earn one correct bank each without bails.
+
+Station/tunnel/passing train, pond/ducks/perimeter, central-green groves and civic
+return quarter are implemented explicit previews: `./tools/run.sh -- --pt24-design-preview`.
+They retain the existing rendering/performance admission before ordinary enablement.
+Pond input banks 1,900 once in both directions; subsequent water recovery preserves
+that bank. Civic air/return, both escape shoulders and the continued-miss closure pass.
+
+**Required check: 4852 passed / 0 failed**, exit zero, clean log,
+572 unchanged inputs, 371.399s.
+Command: `python3 docs/testing/horizon-background/observers/run_checked.py .local/pt24-continuation-admitted ./tools/check.sh`.
+Manifest SHA-256 `716ce55284c029f59d3bc07a477022ec8d689372ab7732d94019e17e4e053dcb`.
+**Cold source: four accepted phases / 481 unchanged inputs**,
+normal title-to-play 44/0 and deliberate broken-copy source correctly refused.
+**Rendered:** twelve normal-loop placement frames plus eighteen matched world-only
+before/after readbacks, zero failures and source-bound. These are not moving Mac
+shadow acceptance or frame-time measurements. Earlier 4,809/13 and intermediate
+4,843/0 / 4,845/0 remain separately retained and do not certify later source.
+
+Current-source unsigned Linux/macOS packages are being prepared; their source and archive receipts will follow. Actual Mac execution remains open.
+
+Remaining work is explicit: C02 temporal PT24-01/09/10 and Mac moving acceptance
+of 12/21; C04 complete flagship-run/human acceptance; older unexplained contracted
+pose; actual Mac/DualSense/save/audio/stutter, final realistic art and fun.
+Original 75 backlog records remain historical and unchanged. Optional cart/skitch,
+cone and park-lap runtime is preserved; further development is deferred.
+Continue from current source/evidence on main, without new branches, spending,
+hosted CI, publishing or unattended jobs. No blanket closure of all thirty PT24 tickets.
+
+---
+
 # Level layout recommendations — 25 October 2026
 
 The owner requested a level-design review and Markdown recommendations only.

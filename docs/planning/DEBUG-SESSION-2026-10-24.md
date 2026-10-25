@@ -1,5 +1,30 @@
 # Playtest repair tickets — reviewed 25 October 2026
 
+**Approved continuation, 25 October:** the owner approved the
+[consolidated queue](PT24-CONSOLIDATED-2026-10-25.md) and implementation continued
+on main. [Current source, evidence and remaining gates](../testing/pt24-continuation-2026-10-25/README.md)
+supersede the earlier repair checkpoint below. Current implementation status:
+
+| Tickets | Current result / remaining work |
+| --- | --- |
+| 02/03/05/06/08/13/14/22 | Prior supported-boundary, seam and escape repairs retained; regression and owner-route acceptance remain separate. |
+| 04/07 | Full lower-park/core-port grass ownership, native-grade paving and matching closure of the complete approach perimeter implemented; corrected owner-camera frame retained. |
+| 01/09/10 | Temporal rendering diagnosis remains open; no global shadow/bias workaround is admitted. |
+| 12/21 | Proven plinth overlap and duplicate quay paving removed; matched before/after camera readbacks retained. Moving Mac temporal acceptance remains open. |
+| 11/19/20/27 | Existing feature handoffs aligned, recording walls replaced with a low loading edge/steel grind, and shutter given a real framed alley with a shorter open route. Actual market combo and gate traversal checked. |
+| 15 | Enclosed station/tunnel and looping scenic train implemented as an explicit design preview; ordinary-play rendering admission remains open. |
+| 16 | Excavated pond, ducks, closed native grind perimeter and existing water recovery implemented in preview. Two actual-input directions bank correctly; water entry preserves the prior earned bank. Rendering admission remains open. |
+| 17/18 | Existing trees composed into grounded groves, and civic return quarter with two supported escape shoulders implemented in preview. Actual quarter return, escape and camera-frustum checks retained; rendering/human acceptance remains open. |
+| 23/24 | Existing physical bowl-exit and backed-wall fixes retained. Migrated wallride/wallie fixtures still require native contact and once-only correct banks. Human controls/comfort remain open. |
+| 25 | Native contacts match existing visible bridge cables in ordinary play; actual handrail→air→cable→air→handrail→dry landing passes both directions with one correct bank each. |
+| 26 | Prior fitted fountain water retained; final appearance acceptance remains open. |
+| 28/29 | Startup/recorder repairs retained; same-update camera query reuse and bounded ramp framing added. Older contraction cause, physical controls and human silhouette acceptance remain distinct. |
+| 30 | Current combined regression, source-launch, capture and package results belong to the linked continuation receipt. Owner-route/Mac acceptance remains open; no blanket closure of all thirty tickets. |
+
+Preview source launch: `./tools/run.sh -- --pt24-design-preview`. Ordinary
+launches preserve the existing rendering admission gate. Optional cart/skitch,
+cone and park-lap implementations remain; further development is deferred.
+
 **25 October implementation:** a coordinated code-repair batch is implemented on
 main; required check **4,657 passed / 0 failed**, clean and source-stable. [Changes, deterministic checks and exact remaining scope](../testing/pt24-repairs-2026-10-25/README.md)
 supersede the original all-Planned summary below. PT24-02/03/04/05/06/07/08/09/11/

@@ -1,0 +1,8 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: PT24-16 input: actual Main explicitly installs the pond candidate
+POND_INPUT_RESULT {"accepted":false,"bails":0,"bank":100,"banks":1,"captures":[],"direction":1.0,"manual_ticks":0,"position":"Vector3(-173.35, 0.5140117, -4.3880777)","rail_ticks":0,"stages":[{"at":"Vector3(-173.35, 0.50177735, -25.997223)","speed":0.166625961661339,"stage":"dry_tangent_push","y_velocity":0.0},{"at":"Vector3(-173.35, 0.51315725, -24.619307)","speed":5.20442914962769,"stage":"charge_to_perimeter","y_velocity":0.0},{"at":"Vector3(-173.35, 0.66369617, -22.853275)","speed":7.87071418762207,"stage":"perimeter_air_catch","y_velocity":9.0}],"ticks":151}
+FAIL: PT24-16 input: dry lawn→Ollie→perimeter rail→outward Ollie→dry Manual earns one clean bank, direction=1.0
+POND_INPUT_RESULT {"accepted":false,"bails":0,"bank":100,"banks":1,"captures":[],"direction":-1.0,"manual_ticks":0,"position":"Vector3(-173.34995, 0.51401097, -37.54151)","rail_ticks":0,"stages":[{"at":"Vector3(-173.35, 0.50177735, -16.002777)","speed":0.166625961661339,"stage":"dry_tangent_push","y_velocity":0.0},{"at":"Vector3(-173.34995, 0.51400006, -17.376665)","speed":5.1611704826355,"stage":"charge_to_perimeter","y_velocity":0.0},{"at":"Vector3(-173.34995, 0.6641239, -19.130772)","speed":7.82722663879395,"stage":"perimeter_air_catch","y_velocity":9.0}],"ticks":151}
+FAIL: PT24-16 input: dry lawn→Ollie→perimeter rail→outward Ollie→dry Manual earns one clean bank, direction=-1.0
+POND_INPUT_RESULT passed=1 failed=2

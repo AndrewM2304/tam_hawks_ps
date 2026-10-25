@@ -49,8 +49,25 @@ var _minimum_arm := MIN_USEFUL_ARM
 var _ground_query := PhysicsRayQueryParameters3D.new()
 var _ground_board_y := 0.0
 var _wheel_landmarks:PackedVector3Array=PackedVector3Array()
+var _head_landmarks := PackedVector3Array()
+var _head_mesh: MeshInstance3D
+var _framing_targets := PackedVector3Array()
 var _foot_targets := PackedVector3Array()
 var _travel_velocity := Vector3.ZERO
+## Exact same-update answers only. No state survives into another render frame.
+var debug_query_cache_enabled := true
+var _query_cache_active := false
+var _clear_results: Dictionary = {}
+var _usable_results: Dictionary = {}
+var _shape_queries := 0
+var _visibility_rays := 0
+var _motion_casts := 0
+var _clear_hits := 0
+var _usable_hits := 0
+var last_update_queries: Dictionary:
+	get:
+		return {"shape":_shape_queries,"ray":_visibility_rays,"cast":_motion_casts,
+			"clear_hits":_clear_hits,"usable_hits":_usable_hits}
 
 
 func _init() -> void:
@@ -63,6 +80,7 @@ func _init() -> void:
 
 
 func reset() -> void:
+	_end_query_cache()
 	_ready = false
 	_selected_angle = 0.0
 	_last_anchor = Vector3.ZERO
@@ -88,7 +106,36 @@ func reset() -> void:
 	_travel_velocity = Vector3.ZERO
 
 
+func prepare_board_landmarks(rig: Object) -> void:
+	if not _wheel_landmarks.is_empty() or not is_instance_valid(rig) or not rig.has_method("board_contact_geometry"): return
+	_head_mesh = rig._head.get_node_or_null("AnatomicalHead") as MeshInstance3D
+	if is_instance_valid(_head_mesh) and _head_mesh.mesh != null:
+		# Eight conservative head bounds contain its complete visible mesh.
+		# Framing needs no per-frame scan of hundreds of anatomical hull vertices.
+		var bounds := _head_mesh.mesh.get_aabb()
+		for x: float in [bounds.position.x,bounds.end.x]:
+			for y: float in [bounds.position.y,bounds.end.y]:
+				for z: float in [bounds.position.z,bounds.end.z]:
+					_head_landmarks.append(Vector3(x,y,z))
+	var board_inverse: Transform3D = rig._board.global_transform.affine_inverse()
+	var unique: Dictionary = {}
+	for mesh: MeshInstance3D in rig.board_contact_geometry().meshes:
+		var hull: ConvexPolygonShape3D = mesh.mesh.create_convex_shape(true,false)
+		var vertices := PackedVector3Array()
+		for surface in mesh.mesh.get_surface_count():
+			vertices.append_array(mesh.mesh.surface_get_arrays(surface)[Mesh.ARRAY_VERTEX])
+		for extremity: Vector3 in hull.points:
+			var nearest := Vector3.ZERO
+			var distance := INF
+			for vertex: Vector3 in vertices:
+				var gap := vertex.distance_squared_to(extremity)
+				if gap<distance:distance=gap;nearest=vertex
+			unique[board_inverse*mesh.to_global(nearest)]=true
+	for point: Vector3 in unique:_wheel_landmarks.append(point)
+
+
 func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity: float, reduced_motion: bool) -> void:
+	_end_query_cache()
 	if not is_instance_valid(rider) or not is_instance_valid(camera) or not rider.is_inside_tree(): return
 	# _process follows the same frame the renderer displays. Reading the newest
 	# physics transform here makes an otherwise smoothed camera judder at 60 Hz.
@@ -105,22 +152,7 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 			_foot_targets.append(foot * Footwear.TOE_CONTACT)
 		# The real wheel bearings sit below the nominal board landmark and
 		# planted soles. A shallow arrival bank can hide them independently.
-		if _wheel_landmarks.is_empty() and rig.has_method("board_contact_geometry"):
-			var board_inverse: Transform3D = rig._board.global_transform.affine_inverse()
-			var unique: Dictionary = {}
-			for mesh: MeshInstance3D in rig.board_contact_geometry().meshes:
-				var hull: ConvexPolygonShape3D = mesh.mesh.create_convex_shape(true,false)
-				var vertices := PackedVector3Array()
-				for surface in mesh.mesh.get_surface_count():
-					vertices.append_array(mesh.mesh.surface_get_arrays(surface)[Mesh.ARRAY_VERTEX])
-				for extremity: Vector3 in hull.points:
-					var nearest := Vector3.ZERO
-					var distance := INF
-					for vertex: Vector3 in vertices:
-						var gap := vertex.distance_squared_to(extremity)
-						if gap<distance:distance=gap;nearest=vertex
-					unique[board_inverse*mesh.to_global(nearest)]=true
-			for point: Vector3 in unique:_wheel_landmarks.append(point)
+		if _wheel_landmarks.is_empty(): prepare_board_landmarks(rig)
 		if not _wheel_landmarks.is_empty() and not bool(rider.get("bail_active")):
 			var deck:Variant=rider.get("_board_visual")
 			if is_instance_valid(deck):
@@ -209,6 +241,9 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 		_motion_pitch = move_toward(_motion_pitch,clampf(pitch,-MAX_MOTION_PITCH,MAX_MOTION_PITCH),PITCH_RATE*step)
 		_horizontal_scale = maxf(.6 if _motion_pitch>0.0 else 0.0,cos(_motion_pitch))
 		_motion_direction = -rear*cos(_motion_pitch)+Vector3.UP*sin(_motion_pitch)
+	# From here until return, physics, exclusions and all anatomical landmarks
+	# are fixed. Repeated exact candidates can reuse their complete native result.
+	_begin_query_cache()
 	var selected := _choose(space, anchor, board, rear, distance, excluded, step)
 	var desired: Vector3 = selected.position
 	var resolved := desired
@@ -262,8 +297,76 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 		camera.global_basis=Basis.looking_at(forward,up)
 	var desired_fov := 64.0 if reduced_motion else 64.0 + speed * 0.13
 	camera.fov = lerpf(camera.fov, desired_fov, 1.0 - exp(-3.0 * step))
+	if (_ramp_mode or _ramp_exit_remaining > 0.0) and is_instance_valid(rig):
+		# A clear short ramp arm can still crop the actual board at the edge
+		# of the lens. Correct only the clipped aim; retain orbit, roll and FOV.
+		_fit_ramp_framing(camera,_follow_transform(rig._head).origin,rig)
 	_ready = true
 	_last_anchor = anchor
+	_end_query_cache()
+
+
+func _fit_ramp_framing(camera: Camera3D, head: Vector3, rig: Object) -> void:
+	if not head.is_finite() or _foot_targets.is_empty(): return
+	var head_frame := _follow_transform(_head_mesh) if is_instance_valid(_head_mesh) else Transform3D.IDENTITY
+	_framing_targets.clear()
+	_framing_targets.append_array(_foot_targets)
+	_framing_targets.append(head)
+	# Include both ends of native interpolation. Otherwise a camera correct for
+	# the displayed pose can crop the next physical pose during a fast return.
+	var board_frame: Transform3D = rig._board.global_transform
+	for point: Vector3 in _wheel_landmarks: _framing_targets.append(board_frame*point)
+	for leg: Dictionary in rig._legs:
+		_framing_targets.append(leg.foot.to_global(Footwear.SOLE_CONTACT))
+		_framing_targets.append(leg.foot.to_global(Footwear.TOE_CONTACT))
+	for point: Vector3 in _head_landmarks:
+		_framing_targets.append(head_frame*point)
+		_framing_targets.append(_head_mesh.global_transform*point)
+	for attempt in 3:
+		var projection := camera.get_camera_projection()
+		var half_x := atan(1.0 / absf(projection.x.x)) * 0.97
+		var half_y := atan(1.0 / absf(projection.y.y)) * 0.97
+		var inverse := camera.global_transform.affine_inverse()
+		var min_x := INF
+		var max_x := -INF
+		var min_y := INF
+		var max_y := -INF
+		for marker: Vector3 in _framing_targets:
+			var local: Vector3 = inverse * marker
+			var x := atan2(local.x,-local.z)
+			var y := atan2(local.y,-local.z)
+			min_x = minf(min_x,x)
+			max_x = maxf(max_x,x)
+			min_y = minf(min_y,y)
+			max_y = maxf(max_y,y)
+		var yaw_low := max_x-half_x
+		var yaw_high := min_x+half_x
+		var pitch_low := max_y-half_y
+		var pitch_high := min_y+half_y
+		var yaw := clampf(0.0,yaw_low,yaw_high) if yaw_low <= yaw_high else (min_x+max_x)*0.5
+		var pitch := clampf(0.0,pitch_low,pitch_high) if pitch_low <= pitch_high else (min_y+max_y)*0.5
+		if absf(yaw) < 0.00001 and absf(pitch) < 0.00001: return
+		var direction := (camera.global_basis * Vector3(tan(yaw),tan(pitch),-1.0)).normalized()
+		var up := camera.global_basis.y.slide(direction).normalized()
+		if up.length_squared() < 0.1: return
+		camera.global_basis = Basis.looking_at(direction,up)
+
+
+func _begin_query_cache() -> void:
+	_clear_results.clear()
+	_usable_results.clear()
+	_shape_queries = 0
+	_visibility_rays = 0
+	_motion_casts = 0
+	_clear_hits = 0
+	_usable_hits = 0
+	_query_cache_active = debug_query_cache_enabled
+
+
+func _end_query_cache() -> void:
+	_query_cache_active = false
+	_clear_results.clear()
+	_usable_results.clear()
 
 
 func _advance_ramp_turn(sequence: int, vertical_speed: float, gravity: float) -> void:
@@ -418,6 +521,7 @@ func _sweep(space: PhysicsDirectSpaceState3D, from: Vector3, to: Vector3) -> Vec
 	if length < 0.0001: return from
 	_query.transform = Transform3D(Basis.IDENTITY, from)
 	_query.motion = motion
+	_motion_casts += 1
 	var fractions := space.cast_motion(_query)
 	if fractions.size() < 2: return from
 	var fraction := clampf(fractions[0], 0.0, 1.0)
@@ -435,24 +539,42 @@ func _sweep(space: PhysicsDirectSpaceState3D, from: Vector3, to: Vector3) -> Vec
 
 
 func _clear_volume(space: PhysicsDirectSpaceState3D, position: Vector3) -> bool:
+	if _query_cache_active and _clear_results.has(position):
+		_clear_hits += 1
+		return _clear_results[position]
 	_query.transform = Transform3D(Basis.IDENTITY, position)
 	_query.motion = Vector3.ZERO
-	return space.intersect_shape(_query, 1).is_empty()
+	_shape_queries += 1
+	var clear := space.intersect_shape(_query, 1).is_empty()
+	if _query_cache_active: _clear_results[position] = clear
+	return clear
 
 
 func _usable(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Vector3, position: Vector3, excluded: Array[RID]) -> bool:
+	if _query_cache_active and _usable_results.has(position):
+		_usable_hits += 1
+		return _usable_results[position]
+	var usable := _usable_uncached(space,board,anchor,position,excluded)
+	if _query_cache_active: _usable_results[position] = usable
+	return usable
+
+
+func _usable_uncached(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: Vector3, position: Vector3, excluded: Array[RID]) -> bool:
 	if anchor.distance_to(position) < _minimum_arm or not _clear_volume(space, position): return false
 	# Chest alone can be clear while a lip or column hides the board or head.
 	for height: float in [0.12, CHEST_HEIGHT, 1.8]:
 		var query := PhysicsRayQueryParameters3D.create(position, board + _body_up * height, 1 | 8, excluded)
+		_visibility_rays += 1
 		if not space.intersect_ray(query).is_empty(): return false
 	for point: Vector3 in _foot_targets:
 		var sight := PhysicsRayQueryParameters3D.create(position,point,1|8,excluded)
+		_visibility_rays += 1
 		var hit := space.intersect_ray(sight)
 		if hit.is_empty(): continue
 		# Grounded rubber already has a strict4mm contact band. Only that same
 		# actual endpoint support may be touched; an intervening bank/wall fails.
 		var under := PhysicsRayQueryParameters3D.create(point+_body_up*0.03,point-_body_up*0.03,1|8,excluded)
+		_visibility_rays += 1
 		var support := space.intersect_ray(under)
 		if support.is_empty() or support.collider!=hit.collider or Vector3(hit.normal).dot(_body_up)<0.65 \
 				or Vector3(support.normal).dot(hit.normal)<0.99 \

@@ -1,3 +1,17 @@
+# Resume the verified continuation — 25 October 2026
+
+Use main directly and read newest [STATUS](../STATUS.md), [source/evidence](../testing/pt24-continuation-2026-10-25/README.md)
+and [remaining queue](PT24-CONSOLIDATED-2026-10-25.md). Current required check is
+**4852/0**, clean/stable; four cold-source phases and thirty bounded native
+frames pass. Current-source unsigned Linux/macOS packages are being prepared; their source and archive receipts will follow. Actual Mac execution remains open.
+Do not reapply an old patch or recreate implemented station/pond/cable systems.
+Preview command: `./tools/run.sh -- --pt24-design-preview`; default rendering
+admission remains open. Continue the explicit C02/C04 and hardware/art acceptance
+queue from existing witnesses, preserve negative evidence and original backlog.
+No new branch, spending, hosted CI, release or background loop is authorized.
+
+---
+
 # Current resumption — 25 October 2026
 
 Use main directly. The PT24 source-repair batch passes **4,657/0** with a clean

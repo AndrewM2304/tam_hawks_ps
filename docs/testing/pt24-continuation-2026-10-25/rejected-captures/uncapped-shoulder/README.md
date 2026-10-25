@@ -1,0 +1,1 @@
+Rejected view11 subset: main junction is closed, but319unchanged bright pixels at the far-right shoulder show the uncapped continuation north ofZ-8. Complete original12-frame manifest retained; only the rejectedPNG is bundled in this subset.

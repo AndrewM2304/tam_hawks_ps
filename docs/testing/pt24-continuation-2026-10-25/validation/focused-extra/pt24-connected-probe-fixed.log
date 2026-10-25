@@ -1,0 +1,33 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ENDPOINTS Grind_Ledge_exchange_south_return [(12.0, 0.6, 32.0), (12.0, 0.6, 38.0)] contact=(12.0, 0.6, 32.0)
+ENDPOINTS Grind_Ledge_civic_island_return [(62.0, 4.58, -84.7), (70.0, 4.58, -84.7)] contact=(62.0, 4.58, -84.7)
+ENDPOINTS Grind_Ledge_clyde_south_return [(-32.2, 2.6, 131.0), (-32.2, 2.6, 138.0)] contact=(-32.2, 2.6, 131.0)
+ENDPOINTS Grind_Ledge_RecordingCourt [(113.0, 2.24, -24.2), (113.0, 2.24, -39.8)] contact=(113.0, 2.24, -24.2)
+SAFE_SWEEP [1.0, 1.0]
+SAFE_INITIAL [{ "rid": RID(12206297055505), "collider_id": 127607509756, "collider": ClydeSafeBridge:<StaticBody3D#127607509756>, "shape": 0 }]
+PASS: PT24 runs: placement precedes ordinary world snapshots
+PASS: PT24 runs: Exchange seat physically follows the north-south east quay close
+PASS: PT24-19: existing civic seat becomes the corridor's east-west technical line
+PASS: PT24 runs: safe bridge return ledge follows the landing's north-south heading
+PASS: PT24 runs: original Exchange teaching rail keeps both native guide endpoints
+PASS: PT24-20: existing wall resources become a low loading kerb and real steel bearing with tyre clearance
+PASS: PT24-20: all four new guide contacts sit on the reused steel bearing's real native top
+PASS: PT24 runs: full-width native support and clear return recording_court_return
+PASS: PT24 runs: full-width native support and clear return exchange_east_quay_handoff
+PASS: PT24 runs: full-width native support and clear return civic_backstreet_ledge_return
+PASS: PT24 runs: full-width native support and clear return station_transition_handoff
+PASS: PT24 runs: full-width native support and clear return clyde_west_landing_return
+PASS: PT24 runs: all five actual placement continuations are published
+PASS: PT24 runs: fixed protected two-way passage stays open [(-82.0, 2.0, 34.0), (-82.0, 2.0, -34.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(57.0, 4.0, -80.0), (82.0, 4.0, -80.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-25.0, 2.329412, 118.0), (-25.0, 2.0, 122.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-25.0, 2.0, 122.0), (-25.0, 2.0, 125.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-22.0, 0.0, 28.0), (22.0, 0.0, 28.0)]
+PASS: PT24-20: unchanged secret recording has native support and a clear standing capsule
+PASS: PT24-27: eighteen fixed service-wall sites have real collision and matching displayed masonry
+PASS: PT24-27: opened native alley saves seven metres against a supported closed-gate detour while both street mouths stay clear
+PASS: PT24-18: added civic return geometry obeys the explicit design admission gate
+PASS: PT24-20: actual Manual to Ollie to loading-edge grind earns one combo bank with clear chase
+PT24_CONNECTED_INPUT phase=4 manuals=1 frames=10 held=24 captures=["Grind_Ledge_RecordingCourt"] banks=1 score=1275 bails=0 camera=true at=(113.0, 2.110582, -28.09225)
+RESULT: 23 passed, 0 failed

@@ -1,3 +1,17 @@
+# Current verified continuation — 25 October 2026
+
+Work directly on main. The approved implementation passes **4852/0**, clean
+and source-stable; four cold-source phases pass and thirty bounded native images
+are retained. [Current STATUS](../STATUS.md), [implementation/evidence](../testing/pt24-continuation-2026-10-25/README.md)
+and [remaining scope](PT24-CONSOLIDATED-2026-10-25.md) supersede older checkpoints.
+Current-source unsigned Linux/macOS packages are being prepared; their source and archive receipts will follow. Actual Mac execution remains open.
+Keep C02 temporal diagnosis, C04 complete flagship acceptance, older contraction,
+Mac/DualSense/performance and final art/listening/fun open. Design previews remain
+explicit, optional prototype expansion deferred. No unchanged suite or broad audit
+is needed without a new change/failure. No unattended continuation is running.
+
+---
+
 # Current active work — 25 October 2026
 
 PT24 repairs are implemented directly on main. Required check **4,657/0**, clean,

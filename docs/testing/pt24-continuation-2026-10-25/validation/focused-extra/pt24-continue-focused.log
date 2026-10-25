@@ -1,0 +1,164 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity open { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: rider physics is untouched open { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared open { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity open { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: rider physics is untouched open { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared open { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity open { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: rider physics is untouched open { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared open { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity rear_wall { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: rider physics is untouched rear_wall { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared rear_wall { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity rear_wall { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: rider physics is untouched rear_wall { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared rear_wall { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity rear_wall { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: rider physics is untouched rear_wall { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared rear_wall { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity corner { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: rider physics is untouched corner { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared corner { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity corner { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: rider physics is untouched corner { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared corner { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity corner { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: rider physics is untouched corner { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared corner { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity low_roof { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: rider physics is untouched low_roof { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared low_roof { "sensitivity": 0.5, "reduced": false, "delta": 0.01666666666667 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity low_roof { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: rider physics is untouched low_roof { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared low_roof { "sensitivity": 2.0, "reduced": false, "delta": 0.2 }
+PASS: PT24 camera cache: exact transform/FOV/semantic-state parity low_roof { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: rider physics is untouched low_roof { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: native queries never increase, sweeps are unchanged and scope is cleared low_roof { "sensitivity": 1.0, "reduced": true, "delta": 0.0 }
+PASS: PT24 camera cache: repeated blocked-view checks demonstrably reduce actual native shape/visibility-ray queries
+PT24_CAMERA_QUERY_PARITY samples=96 cached={ "shape": 168, "ray": 29400, "cast": 336 } uncached={ "shape": 564, "ray": 44100, "cast": 336 } clear_hits=312 usable_hits=84
+PASS: PT24 camera cache: native control confirms the previously selected endpoint is clear
+PASS: PT24 camera cache: direct helpers observe a newly moved native obstacle at the exact old cache key
+PASS: PT24 camera cache: direct helper calls outside update always perform fresh native queries
+PASS: PT24 camera cache: the next update rejects stale visibility and exactly matches uncached obstacle recovery
+PASS: PT24 camera cache: removing the obstacle is likewise visible to an uncached direct helper
+PASS: PT24 camera cache: obstacle removal preserves exact continuation parity across updates
+PASS: PT24 camera cache: an invalid-rider early return cannot retain a query scope
+PASS: PT24 camera cache: obstacle invalidation also leaves every frozen rider physics field unchanged
+PASS: PT24 camera cache: reset retains no native-query answers
+PASS: PT24 park finish: wholly enclosed paving removes exactly one square metre without filling a polygon hole
+PASS: PT24 park finish: fixed lower-entry witness retains the original native grass support beneath the existing asphalt
+PASS: PT24 park finish: lower-entry grass stays outside the asphalt interior beyond the0.25mm native-float edge envelope
+PASS: PT24 park finish: summed grass/asphalt edge roundoff stays below0.002 square metres across the whole lower-entry witness
+PASS: PT24 park finish: ownership changes retain the three original bodies, shapes, resident surfaces and grass material
+FAIL: PT24 park finish: exact lower-road ownership adds no submitted grass triangles
+PASS: PT24 park finish:36 fixed entry-road native supports still agree with the public height query
+PASS: PT24 park finish:36 fixed entry-road points retain displayed asphalt after grass subtraction
+PT24_PARK_FINISH native_overlap_m2=593.747593 displayed_interior_overlap_m2=0.00000000 edge_roundoff_m2=0.00107778 grass_triangles=8808->8846 samples=36
+PASS: PT24-16: independent centre ray reaches recessed native basin; old lawn is physically excavated
+PASS: PT24-16: 128 radial native support probes agree with the exact basin query
+PASS: PT24-16: all 32 shoreline corners meet the visible water plane without an underwater dry gap
+PASS: PT24-16: every sampled water bank returns to supported clear dry lawn
+PASS: PT24-16: high air and dry bypass do not trigger water recovery or replace unrelated ground queries
+PASS: PT24-16: the independent 28m dry bypass keeps its original native lawn support
+PASS: PT24-16: the closed pond rail supplies actual steel and rigid two-truck contact around its complete loop
+PASS: PT24-16: upward visible water reuses the resident shader and two original ducks use shared static batches
+PASS: PT24-16: candidate stays within its two-body / 41-shape construction budget
+SCRIPT ERROR: Invalid access to property or key 'window_shadow' on a base object of type 'Dictionary'.
+          at: _flush (res://game/levels/art/clyde_landmarks.gd:211)
+          GDScript backtrace (most recent call first):
+              [0] _flush (res://game/levels/art/clyde_landmarks.gd:211)
+              [1] build (res://game/levels/art/clyde_landmarks.gd:22)
+              [2] run (res://tests/clyde_cable_line_tests.gd:23)
+              [3] _run (res://.local/pt24_continue_focused.gd:25)
+              [4] run (res://tests/park_pond_tests.gd:109)
+PASS: PT24-25: native backing copies sixteen existing cable facets without a new draw or changing red bridge art
+PASS: PT24-25: cable backing cannot add a world-layer obstacle to ordinary bridge travel
+PASS: PT24-25: finite actual crown stays on the reachable central existing strand clyde_cable_west
+PASS: PT24-25: finite actual crown stays on the reachable central existing strand clyde_cable_east
+PASS: PT24-25: 126 independent crown rays hit real cable backing; max gap=0.00011110305786
+PASS: PT24-25: both directions keep rigid native two-truck supports through the changing cable grade
+PASS: PT24-25: optional handrail/cable air entries and returns have bounded real offsets without physics boosts
+PASS: PT24-25: all nine fixed ordinary bridge-corridor columns remain clear of the cable extension
+PASS: PT24-21: north quay keeps its full inland paving while stone owns exactly136 square metres of coplanar edge
+PASS: PT24-21: fixed samples on both quays have one paving/stone owner on each side of their exact seam
+FAIL: PT24-21: exact reported quay/bridge locations and both coping strips retain native Y2 support
+PASS: PT24-21: the display repair removes228 square metres of duplicate faces without increasing triangles
+PASS: PT24-12: station north plinth construction removes its overlapping box skins without adding instances
+PASS: PT24-12: all24 real plinth segments meet exact fixed endpoints with no overlap/gap and unchanged native panel
+PASS: PT24-21: both original native terrain grids and resident shape/mesh counts remain byte-identical
+PASS: PT24-21: south cut removes exactly92 square metres, preserves earlier holes and shares the original materials
+PASS: PT24-21: repeated installation is idempotent and does not re-triangulate an already-owned seam
+PASS: PT24-15: ordinary world does not bypass the railway's pending rendering admission
+PASS: PT24-15: enclosed station replaces two old facade groups within its predeclared candidate budget
+PASS: PT24-15: complete bounded two-coach geometry is scenic and has no moving collision or false grind tracks
+PASS: PT24-15: repeated complete train loops wrap only fully inside opaque tunnels without constructing per-frame nodes
+PASS: PT24-15: reset restores the same concealed railway phase
+PASS: PT24-15: invalid tick deltas cannot corrupt train transforms
+PASS: PT24-15: fifteen real capsule volumes preserve the complete lower park passage
+PASS: PT24-15: seven native boundaries keep the scenic tracks safely separate from playable station routes
+PASS: PT24-15: grounded wing and bridge deck support the entire elevated railway through the park opening
+PASS: PT24-15: ordinary pause freezes the train without a background timer
+PASS: PT24 runs: placement precedes ordinary world snapshots
+FAIL: PT24 runs: Exchange seat physically follows the north-south east quay close
+FAIL: PT24-19: existing civic seat becomes the corridor's east-west technical line
+FAIL: PT24 runs: safe bridge return ledge follows the landing's north-south heading
+PASS: PT24 runs: original Exchange teaching rail keeps both native guide endpoints
+PASS: PT24-20: existing visual/native loading kerb joins the venue-attached rear wall
+PASS: PT24-20: all four new guide contacts sit on the existing low wall's real native top
+PASS: PT24 runs: full-width native support and clear return recording_court_return
+PASS: PT24 runs: full-width native support and clear return exchange_east_quay_handoff
+PASS: PT24 runs: full-width native support and clear return civic_backstreet_ledge_return
+PASS: PT24 runs: full-width native support and clear return station_transition_handoff
+PASS: PT24 runs: full-width native support and clear return clyde_west_landing_return
+PASS: PT24 runs: all five actual placement continuations are published
+PASS: PT24 runs: fixed protected two-way passage stays open [(-82.0, 2.0, 34.0), (-82.0, 2.0, -34.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(57.0, 4.0, -80.0), (82.0, 4.0, -80.0)]
+FAIL: PT24 runs: fixed protected two-way passage stays open [(-25.0, 2.0, 118.0), (-25.0, 2.0, 125.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-22.0, 0.0, 28.0), (22.0, 0.0, 28.0)]
+PASS: PT24-20: unchanged secret recording has native support and a clear standing capsule
+PASS: PT24-27: eighteen fixed service-wall sites have real collision and matching displayed masonry
+PASS: PT24-27: opened native alley saves seven metres against a supported closed-gate detour while both street mouths stay clear
+PASS: PT24-18: added civic return geometry obeys the explicit design admission gate
+FAIL: PT24-20: actual Manual to Ollie to loading-edge grind earns one combo bank with clear chase
+PT24_CONNECTED_INPUT phase=3 manuals=1 frames=10 held=0 captures=[] banks=1 score=400 bails=0 camera=true at=(113.0, 2.112227, -36.64512)
+PASS: PT24-16 installed: the explicitly admitted candidate has its real pond
+PASS: PT24-16 installed: ordinary Push enters the pond, triggers one existing dramatic bail, and recovers on dry land
+PASS: PT24 runs: placement precedes ordinary world snapshots
+FAIL: PT24 runs: Exchange seat physically follows the north-south east quay close
+FAIL: PT24-19: existing civic seat becomes the corridor's east-west technical line
+FAIL: PT24 runs: safe bridge return ledge follows the landing's north-south heading
+PASS: PT24 runs: original Exchange teaching rail keeps both native guide endpoints
+PASS: PT24-20: existing visual/native loading kerb joins the venue-attached rear wall
+PASS: PT24-20: all four new guide contacts sit on the existing low wall's real native top
+PASS: PT24 runs: full-width native support and clear return recording_court_return
+PASS: PT24 runs: full-width native support and clear return exchange_east_quay_handoff
+PASS: PT24 runs: full-width native support and clear return civic_backstreet_ledge_return
+PASS: PT24 runs: full-width native support and clear return station_transition_handoff
+PASS: PT24 runs: full-width native support and clear return clyde_west_landing_return
+PASS: PT24 runs: all five actual placement continuations are published
+PASS: PT24 runs: fixed protected two-way passage stays open [(-82.0, 2.0, 34.0), (-82.0, 2.0, -34.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(57.0, 4.0, -80.0), (82.0, 4.0, -80.0)]
+FAIL: PT24 runs: fixed protected two-way passage stays open [(-25.0, 2.0, 118.0), (-25.0, 2.0, 125.0)]
+PASS: PT24 runs: fixed protected two-way passage stays open [(-22.0, 0.0, 28.0), (22.0, 0.0, 28.0)]
+PASS: PT24-20: unchanged secret recording has native support and a clear standing capsule
+PASS: PT24-27: eighteen fixed service-wall sites have real collision and matching displayed masonry
+PASS: PT24-27: opened native alley saves seven metres against a supported closed-gate detour while both street mouths stay clear
+PASS: PT24-18: added civic return geometry obeys the explicit design admission gate
+PASS: PT24-18: return transition faces the exact southbound owner witness with a finite six-metre mouth
+PASS: PT24-18: eighteen independent curved return samples match the real finite native face
+PASS: PT24-18: grounded visible/native return sides preserve the original west-going park port
+DENSITY CAMERA FRUSTUM rider=(-38.5, 10.52886, -113.622) camera=(-38.50001, 8.923931, -115.1128) marker=(-38.64, 10.27583, -113.6876)
+FAIL: PT24-18: ordinary native push earns civic ramp air and returns to the supported port without a forced wall impact
+PT24_CIVIC_RETURN climbed=true air=true returned=true bails=0 camera=false at=(-38.5, 6.000467, -116.4804)
+FAIL: PT24-20: actual Manual to Ollie to loading-edge grind earns one combo bank with clear chase
+PT24_CONNECTED_INPUT phase=3 manuals=1 frames=10 held=0 captures=[] banks=1 score=400 bails=0 camera=true at=(113.0, 2.111986, -36.64611)
+RESULT: 127 passed, 13 failed
+ERROR: Pages in use exist at exit in PagedAllocator: N20RasterizerSceneDummy21GeometryInstanceDummyE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:169)
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+ERROR: 1 RID allocations of type 'N13RendererDummy11MeshStorage14DummyMultiMeshE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N13RendererDummy9DummyMeshE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
