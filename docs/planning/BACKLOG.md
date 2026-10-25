@@ -11,6 +11,8 @@ without hiding merged features. Verified default change: **5,038/0** required ch
 eight ordinary-default native frames pass. [Receipts](../testing/pt24-default-trial-2026-10-25/README.md). No blanket ticket closure is claimed. All 76 historical full ticket
 bodies, recorded statuses and earlier receipts below are preserved unchanged.
 
+Current unsigned packages and normal Linux startup pass; [artifact receipts](../testing/pt24-default-trial-2026-10-25/packages/README.md) bind source`330ed86b168f`. Fully quit/relaunch after pulling, or replace the old app.
+
 ---
 
 # Verified next-batch implementation — 25 October 2026

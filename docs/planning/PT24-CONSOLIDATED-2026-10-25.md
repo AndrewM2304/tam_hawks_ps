@@ -13,6 +13,8 @@ eight ordinary-default native frames pass. [Receipts](../testing/pt24-default-tr
 source; this overlay claims no blanket ticket closure and preserves all earlier
 workpackage/ticket bodies.
 
+Current unsigned packages and normal Linux startup pass; [artifact receipts](../testing/pt24-default-trial-2026-10-25/packages/README.md) bind source`330ed86b168f`. Fully quit/relaunch after pulling, or replace the old app.
+
 ---
 
 # Next-batch implementation overlay — 25 October 2026

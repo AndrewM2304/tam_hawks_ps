@@ -12,6 +12,8 @@ Music/controller/visual and human acceptance stay open as evidence, not reasons
 to hide trial features. Preserve main-only work, prior source-bound receipts,
 all original ticket bodies and no-spend/no-release limits.
 
+Current unsigned packages and normal Linux startup pass; [artifact receipts](../testing/pt24-default-trial-2026-10-25/packages/README.md) bind source`330ed86b168f`. Fully quit/relaunch after pulling, or replace the old app.
+
 ---
 
 # Verified next-batch source — 25 October 2026

@@ -12,6 +12,8 @@ Verified default change: **5,038/0** required checks plus Music guard **2/0**,
 597 stable inputs; four cold phases with ordinary title-to-play **50/0**, and
 eight ordinary-default native frames pass. [Receipts](../testing/pt24-default-trial-2026-10-25/README.md). No blanket ticket closure is claimed, and all thirty original ticket bodies/witnesses remain intact.
 
+Current unsigned packages and normal Linux startup pass; [artifact receipts](../testing/pt24-default-trial-2026-10-25/packages/README.md) bind source`330ed86b168f`. Fully quit/relaunch after pulling, or replace the old app.
+
 ---
 
 # Next-batch ticket overlay — 25 October 2026

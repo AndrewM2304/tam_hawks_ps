@@ -12,6 +12,8 @@ Keep performance/Mac/controller/Music/human acceptance open as evidence, without
 hiding trial features or claiming ticket closure. Preserve historical receipts,
 original ticket bodies and the main-only/no-spend/no-release rules.
 
+Current unsigned packages and normal Linux startup pass; [artifact receipts](../testing/pt24-default-trial-2026-10-25/packages/README.md) bind source`330ed86b168f`. Fully quit/relaunch after pulling, or replace the old app.
+
 ---
 
 # Verified next-batch source — 25 October 2026

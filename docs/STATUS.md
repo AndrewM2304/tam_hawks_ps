@@ -14,6 +14,8 @@ eight ordinary-default native frames pass. [Current receipts](testing/pt24-defau
 receipts and packages below certify their recorded source only; no blanket
 ticket closure is claimed here.
 
+Current unsigned packages and normal Linux startup pass; [artifact receipts](testing/pt24-default-trial-2026-10-25/packages/README.md) bind source`330ed86b168f`. Fully quit/relaunch after pulling, or replace the old app.
+
 ---
 
 # Verified next ticket batch — 25 October 2026

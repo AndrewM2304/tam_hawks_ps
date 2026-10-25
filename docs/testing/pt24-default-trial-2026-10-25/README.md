@@ -31,7 +31,8 @@ metadata assignment or preview CLI flag. [Manifest](captures/manifest.json),
 startup; these authored placement views are not played motion or timing proof.
 Train phases are explicitly reset/ticked for the two train views.
 
-Current unsigned packages follow the clean source commit. Performance/Mac/
+Current unsigned Linux/universal-Mac packages export from clean source
+`330ed86b168f`; [audits and normal Linux startup](packages/README.md) pass. Performance/Mac/
 controller/Music/moving-visual/human acceptance remains open evidence work; it
 no longer hides merged trial content. [Decision](../../architecture/decisions/ADR-033-normal-main-trial-content.md).
 Earlier5,037/0 and preview-only packages certify their own older source.
