@@ -1,0 +1,658 @@
+diff --git a/game/levels/glasgow_square.gd b/game/levels/glasgow_square.gd
+index f1dbf5e..dba0d94 100644
+--- a/game/levels/glasgow_square.gd
++++ b/game/levels/glasgow_square.gd
+@@ -795,7 +795,10 @@ func _building(at: Vector3, width: float, height: float, color: String, shop: St
+ 	building.position = at
+ 	building.rotation.y = yaw
+ 	add_child(building)
+-	var closed_wall := _box(building, "Facade", Vector3(0.0, height / 2.0, 0.0), Vector3(width, height, 12.0), color, true)
++	# Closed scenery must remain solid below its raised frontage. The park's
++	# lower service ground can reach these bases from outside the square.
++	var foundation := at.y + 3.0 if shop in ["CIVIC CLOSE","CIVIC CHAMBERS","STATION APPROACH"] else 0.0
++	var closed_wall := _box(building, "Facade", Vector3(0.0, (height-foundation)/2.0, 0.0), Vector3(width, height+foundation, 12.0), color, true)
+ 	if shop == "CIVIC CHAMBERS":
+ 		# The raised park connector sees below this existing civic mass.
+ 		# Ground its visual only; retain the original solid/support contract.
+diff --git a/game/levels/horizon_background.gd b/game/levels/horizon_background.gd
+index 440d0cc..5f9d78a 100644
+--- a/game/levels/horizon_background.gd
++++ b/game/levels/horizon_background.gd
+@@ -7,7 +7,7 @@ const SKY_SHADER = preload("res://game/art/assets/horizon/horizon_sky.gdshader")
+ const FOOTING_SHADER = preload("res://game/art/assets/horizon/footing_colour.gdshader")
+ const MASONRY = preload("res://game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg")
+ const ENCLOSED_GROUND = preload("res://game/levels/outdoor_routes.gd").ENCLOSED_GROUND
+-const MAX_TRIANGLES := 846 # Original832 +six MAP-02 land +eight new park-contour triangles.
++const MAX_TRIANGLES := 910 # Original846 +64 measured station/junction contour footing triangles.
+ const MAX_SURFACES := 4
+ const BOTTOM := -35.0
+ 
+diff --git a/game/levels/kelvingrove_skatepark.gd b/game/levels/kelvingrove_skatepark.gd
+index 6f5b87b..2ad7457 100644
+--- a/game/levels/kelvingrove_skatepark.gd
++++ b/game/levels/kelvingrove_skatepark.gd
+@@ -66,7 +66,7 @@ func build() -> void:
+ 			holes.append(polygon)
+ 	_upper_deck(holes)
+ 	_flat("LowerStreetBasin",Rect2(-20,3.5,40,11.5),STREET_Y)
+-	_flat("EastArrivalDeck",Rect2(17.5,3.5,2.5,11.5),0.0)
++	_box("EastArrivalDeck",Vector3(18.75,-0.75,9.25),Vector3(2.5,1.5,11.5),true)
+ 	# A ten-metre bank makes the destination usable before the first drop-in.
+ 	_ramp("BeginnerArrivalBank",PackedVector3Array([
+ 		Vector3(17.5,0,6.5),Vector3(7.5,STREET_Y,6.5),
+@@ -86,6 +86,18 @@ func build() -> void:
+ 	_ramp("StepBypassBank",PackedVector3Array([
+ 		Vector3(2.0,0,3.5),Vector3(2.0,STREET_Y,9.5),
+ 		Vector3(5.0,STREET_Y,9.5),Vector3(5.0,0,3.5)]))
++	# Close the under-deck openings while preserving both bowl ports, stairs
++	# and the bypass bank. These spans meet their real entrance cheeks.
++	var openings:Array[Vector2]=[Vector2(-3.5,-.5),Vector2(2,5)]
++	for bowl:Node3D in [shallow,deep]:
++		var half:float=(bowl.floor_radius+bowl.radius+bowl.deck_length)*sin(bowl.port_half_angle())
++		openings.append(Vector2(bowl.position.x-half,bowl.position.x+half))
++	openings.sort_custom(func(a:Vector2,b:Vector2)->bool:return a.x<b.x)
++	var cursor:float=-20.
++	for opening:Vector2 in openings:
++		_box("NorthStreetRetaining",Vector3((cursor+opening.x)*.5,-.75,3.425),Vector3(opening.x-cursor,1.5,.15),true)
++		cursor=opening.y
++	_box("NorthStreetRetaining",Vector3((cursor+20.)*.5,-.75,3.425),Vector3(20.-cursor,1.5,.15),true)
+ 	var south_wall := _box("SouthRetainingFace",Vector3(0,-0.75,14.925),Vector3(40,1.5,0.15),true)
+ 	var west_wall := _box("WestRetainingFace",Vector3(-19.925,-0.75,9.25),Vector3(0.15,1.5,11.5),true)
+ 	_tag_grinds(south_wall,["Grind_Park_SouthRim"])
+@@ -141,7 +153,7 @@ func apply_finishes(materials: Dictionary) -> void:
+ 		var label := str(mesh.get_parent().name)
+ 		var key := "skate_concrete"
+ 		if label in ["ExcavatedUpperDeck","AnnularDeck"] or "Step" in label:key="paving"
+-		elif "Retaining" in label or "OuterWall" in label:key="stone"
++		elif "Retaining" in label or "OuterWall" in label or label=="NativePortCheeks":key="stone"
+ 		mesh.material_override=materials[key]
+ 
+ func _ramp(label: String, corners: PackedVector3Array) -> void:
+diff --git a/game/levels/outdoor_routes.gd b/game/levels/outdoor_routes.gd
+index d060244..75dc86f 100644
+--- a/game/levels/outdoor_routes.gd
++++ b/game/levels/outdoor_routes.gd
+@@ -116,6 +116,10 @@ func _build_exploration_boundaries() -> void:
+ 		# enough to contain a deck ollie as well as a rider on the lower path.
+ 		var height := 5.0 if edge[0] == Vector2(-140,-141.8) else 3.0
+ 		_boundary("ParkRetainedBoundary",edge[0],edge[1],height)
++	# The station arrival turns north. Mark its closed west/south end instead
++	# of letting a straight-ahead run leave the asphalt through an open gap.
++	_boundary("StationParkArrivalGuard",Vector2(-130.2,7.8),Vector2(-150,7.8),4.5)
++	_boundary("StationParkArrivalGuard",Vector2(-150,7.8),Vector2(-150,-1),4.5)
+ 	# Bound BOTH sides of the landward void between the city and the quay.
+ 	# The river-facing edges remain the explicit, recoverable skating hazard.
+ 	var west_join := _approach_boundaries("ClydeWestApproach", -1.0)
+@@ -427,6 +431,15 @@ func _build_park() -> void:
+ 	# The viewpoint spur and terrace share this summit datum. Flatten the
+ 	# overlapping loop footprint too; a flat spur over a descending ribbon
+ 	# otherwise leaves a real 73mm step across the riding line.
++	# Shared branch mouths use one grade; independently smoothed ribbons
++	# otherwise intersect as small ramps/ledges across the riding direction.
++	for path: PackedVector3Array in [_park_connector,_park_path,_park_cutback]:
++		for i in path.size():
++			for junction: Vector3 in [Vector3(-147,4.5,-48),Vector3(-155,6,-82)]:
++				var distance := Vector2(path[i].x-junction.x,path[i].z-junction.z).length()
++				var point := path[i]
++				point.y=lerpf(junction.y,point.y,smoothstep(7.0,14.0,distance))
++				path[i]=point
+ 	var summit := Rect2(-181,-187,24,11)
+ 	for index in _park_path.size():
+ 		var point := _park_path[index]
+@@ -464,12 +477,23 @@ void fragment(){
+ 	if _skatepark_source != null: excavations.append(SKATEPARK_BOUNDS)
+ 	Surface.terrain(self, "KelvingroveRollingGround", PARK_LANDSCAPE, 2.5, _park_height, grass, excavations)
+ 	# The approaches are raised park embankments, not unsupported road ribbons.
+-	var central_bank := Rect2(-215, -92, 85, 112)
++	var central_bank := Rect2(-215, -60, 85, 80)
++	var east_bank := Rect2(-140,-92.5,10,32.5)
+ 	var george_bank := Rect2(-145, -142, 103, 34)
+ 	var central_ground := Surface.terrain(self, "KelvingroveCentralEmbankment", central_bank, 2.5, _central_bank_height, grass)
++	# The old central grid overlapped the rolling grid across32m of hillside.
++	# Keep a disjoint L footprint, merged into the same resident body/surface.
++	var eastern := Surface.terrain(self,"ParkEastBankConstruction",east_bank,2.5,_central_bank_height,grass)
++	var joined := SurfaceTool.new();joined.begin(Mesh.PRIMITIVE_TRIANGLES)
++	joined.append_from(central_ground.get_child(0).mesh,0,Transform3D.IDENTITY)
++	joined.append_from(eastern.get_child(0).mesh,0,Transform3D.IDENTITY)
++	central_ground.get_child(0).mesh=joined.commit()
++	central_ground.get_child(1).shape.set_faces(central_ground.get_child(0).mesh.get_faces())
++	eastern.free()
+ 	_fill_enclosed_ground(central_ground)
+ 	Surface.terrain(self, "KelvingroveGeorgeEmbankment", george_bank, 3.0, _george_bank_height, grass)
+ 	_surfaces.append({"bounds": central_bank, "height_at": _central_bank_height, "spacing":2.5})
++	_surfaces.append({"bounds": east_bank, "height_at": _central_bank_height, "spacing":2.5})
+ 	_surfaces.append({"bounds": george_bank, "height_at": _george_bank_height, "spacing":3.0})
+ 	# Broad smooth asphalt ribbons share exact sampled physics/query coordinates.
+ 	_path("KelvingroveCentralApproach", _park_connector, 10.0, _material("asphalt"))
+@@ -478,7 +502,7 @@ void fragment(){
+ 	_path("KelvingroveCutbackReturn", _park_cutback, 8.0, _material("asphalt"))
+ 	var hip := PackedVector3Array([Vector3(-224,8.0,-91), Vector3(-226,9.1,-84), Vector3(-220,8.4,-78)])
+ 	_path("KelvingroveCutbackHip", hip, 4.5, _material("paving"))
+-	_rail("kelvingrove_cutback_ledge", PackedVector3Array([Vector3(-227.2,9.5,-84), Vector3(-221.2,8.8,-78)]), "ledge", 0.18)
++	_rail("kelvingrove_cutback_ledge", PackedVector3Array([Vector3(-227.2,9.28,-84), Vector3(-221.2,8.58,-78)]), "ledge", 0.18)
+ 	_legacy_edge_construction = true
+ 	_path_border(_park_path)
+ 	_legacy_edge_construction = false
+@@ -580,7 +604,12 @@ func _central_bank_height(x: float, z: float) -> float:
+ 	var nearest := Surface.nearest_segment(_park_connector, Vector2(x, z))
+ 	var cutback := Surface.nearest_segment(_park_cutback, Vector2(x, z))
+ 	if float(cutback.distance) < float(nearest.distance): nearest = cutback
+-	return lerpf(float(nearest.height) - 0.35, 0.5, smoothstep(7.0, 15.0, float(nearest.distance)))
++	var original := lerpf(float(nearest.height) - 0.35, 0.5, smoothstep(7.0, 15.0, float(nearest.distance)))
++	var at:=Vector2(x,z)
++	var seam:=Vector2(clampf(x,PARK_LANDSCAPE.position.x,PARK_LANDSCAPE.end.x),clampf(z,PARK_LANDSCAPE.position.y,PARK_LANDSCAPE.end.y))
++	var distance:=at.distance_to(seam)
++	if distance<8.0:return lerpf(_park_height(seam.x,seam.y),original,smoothstep(0.0,8.0,distance))
++	return original
+ 
+ 
+ func _george_bank_height(x: float, z: float) -> float:
+@@ -727,6 +756,12 @@ func _patch(id: String, bounds: Rect2, height: float, material: Material) -> voi
+ 
+ func _path(id: String, points: PackedVector3Array, width: float, material: Material, audio: String = "asphalt", visual_points: PackedVector3Array = PackedVector3Array()) -> void:
+ 	var body := Surface.strip(self, id, points, width, material, audio, visual_points)
++	if id=="KelvingroveCutbackHip":Surface.solidify_strip(body,_local_ground,_material("stone"))
++	if id in ["KelvingroveRollingLoop","KelvingroveCutbackReturn"]:
++		var approach:StaticBody3D=get_node("KelvingroveCentralApproach")
++		var vertices:PackedVector3Array=approach.get_meta("support_vertices")
++		for i in range(0,vertices.size()-2,2):
++			Surface.trim_visual_polygon(body,PackedVector2Array([Vector2(vertices[i].x,vertices[i].z),Vector2(vertices[i+1].x,vertices[i+1].z),Vector2(vertices[i+3].x,vertices[i+3].z),Vector2(vertices[i+2].x,vertices[i+2].z)]))
+ 	_surfaces.append({"points": points, "width": width, "support_vertices":body.get_meta("support_vertices")})
+ 
+ 
+diff --git a/game/levels/outdoors/surface_builder.gd b/game/levels/outdoors/surface_builder.gd
+index 258a544..56517fe 100644
+--- a/game/levels/outdoors/surface_builder.gd
++++ b/game/levels/outdoors/surface_builder.gd
+@@ -82,6 +82,10 @@ static func strip(parent: Node3D, id: String, points: PackedVector3Array, width:
+ static func trim_visual_rect(body: StaticBody3D, bounds: Rect2) -> void:
+ 	var clip := PackedVector2Array([bounds.position,Vector2(bounds.end.x,bounds.position.y),
+ 		bounds.end,Vector2(bounds.position.x,bounds.end.y)])
++	trim_visual_polygon(body,clip)
++
++
++static func trim_visual_polygon(body: StaticBody3D, clip: PackedVector2Array) -> void:
+ 	for child: Node in body.get_children():
+ 		if not child is MeshInstance3D: continue
+ 		var visual := child as MeshInstance3D
+@@ -109,6 +113,7 @@ static func trim_visual_rect(body: StaticBody3D, bounds: Rect2) -> void:
+ 						output.set_normal(normal)
+ 						output.set_uv(Vector2(point.x,point.z)*0.2)
+ 						output.add_vertex(point)
++		output.index()
+ 		output.generate_tangents()
+ 		visual.mesh=output.commit()
+ 
+@@ -291,3 +296,29 @@ static func nearest_segment(points: PackedVector3Array, at: Vector2) -> Dictiona
+ 			best = distance
+ 			result = {"distance": sqrt(distance), "height": lerpf(points[i].y, points[i + 1].y, weight), "within": not ((i == 0 and raw_weight < 0.0) or (i == points.size() - 2 and raw_weight > 1.0))}
+ 	return result
++
++
++## Close a raised ribbon down to its actual resident ground. Reuse its body,
++## native shape and top surface; the masonry skirt is one startup-only surface.
++static func solidify_strip(body: StaticBody3D, ground: Callable, masonry: Material) -> void:
++	var vertices:PackedVector3Array=body.get_meta("support_vertices")
++	var perimeter:=PackedVector3Array([vertices[0]])
++	for i in range(1,vertices.size(),2):perimeter.append(vertices[i])
++	for i in range(vertices.size()-2,-1,-2):perimeter.append(vertices[i])
++	var tool:=SurfaceTool.new();tool.begin(Mesh.PRIMITIVE_TRIANGLES);tool.set_material(masonry)
++	for i in range(perimeter.size()-1):
++		var start:=perimeter[i];var finish:=perimeter[i+1]
++		var count:=maxi(1,ceili(start.distance_to(finish)/.5))
++		for j in count:
++			var a:=start.lerp(finish,float(j)/count);var b:=start.lerp(finish,float(j+1)/count)
++			var c:=Vector3(a.x,minf(a.y-.04,float(ground.call(a.x,a.z))-.08),a.z)
++			var d:=Vector3(b.x,minf(b.y-.04,float(ground.call(b.x,b.z))-.08),b.z)
++			var normal:=-(c-a).cross(b-a).normalized()
++			for at:Vector3 in [a,c,b,b,c,d]:
++				tool.set_normal(normal);tool.set_uv(Vector2(at.x+at.z,at.y)*.5);tool.add_vertex(at)
++	var mesh:MeshInstance3D=body.get_child(0)
++	var original:ArrayMesh=mesh.mesh
++	original.surface_set_material(0,mesh.material_override)
++	mesh.material_override=null
++	mesh.mesh=tool.commit(original)
++	body.get_child(1).shape.set_faces(mesh.mesh.get_faces())
+diff --git a/game/levels/sunken_bowl_feature.gd b/game/levels/sunken_bowl_feature.gd
+index 95a9cbe..a0ef8fd 100644
+--- a/game/levels/sunken_bowl_feature.gd
++++ b/game/levels/sunken_bowl_feature.gd
+@@ -113,6 +113,20 @@ func _build_access() -> void:
+ 				cheeks.append_array(PackedVector3Array([a,c,b,b,c,d]))
+ 			else:
+ 				cheeks.append_array(PackedVector3Array([a,b,c,b,d,c]))
++	# The original cheeks stopped at the circular mouth. Continue both along
++	# the flat channel, closing the visible/collidable gap under the upper deck.
++	for side:float in [-1.,1.]:
++		var phi:=PI+side*port_half_angle()
++		var a:=Vector3(sin(phi)*outer,access_height,-cos(phi)*outer)
++		var b:=Vector3(a.x,access_height,channel_end_z)
++		var outward:=Vector3(signf(a.x)*.12,0,0)
++		var points:=PackedVector3Array([a,b,a+outward,b+outward])
++		for at:Vector3 in [a,b,a+outward,b+outward]:points.append(Vector3(at.x,radius,at.z))
++		for face:Array in [[0,4,1],[1,4,5],[2,3,6],[3,7,6],[4,6,5],[5,6,7],[0,2,4],[2,6,4],[1,5,3],[3,5,7]]:
++			var triangle:=PackedVector3Array([points[face[0]],points[face[1]],points[face[2]]])
++			if side>0:
++				var swap:=triangle[1];triangle[1]=triangle[2];triangle[2]=swap
++			cheeks.append_array(triangle)
+ 	_panel("NativePortCheeks",cheeks,_concrete_material())
+ 	# All access floor triangles must follow Godot's clockwise front-face
+ 	# convention. Native backface collision must not hide invisible concrete.
+diff --git a/game/main.gd b/game/main.gd
+index 5a4a056..dd55039 100644
+--- a/game/main.gd
++++ b/game/main.gd
+@@ -17,8 +17,10 @@ const GlasgowEncountersSource = preload("res://game/characters/glasgow_encounter
+ const CatEncounterSource = preload("res://game/characters/cat_encounter.gd")
+ const MarketEncounterSource = preload("res://game/characters/market_encounter.gd")
+ const FeatureHubSource = preload("res://game/features/feature_hub.gd")
++const PlaytestRecorder = preload("res://game/core/playtest_recorder.gd")
+ const RUN_SECONDS := 120.0
+ 
++var playtest_recorder: CanvasLayer
+ var score := ScoreSession.new()
+ var career = CareerProgressSource.new()
+ var gaps = GapTrackerSource.new()
+@@ -144,6 +146,11 @@ func _ready() -> void:
+ 	if hud.has_signal("cosmetic_selected"):
+ 		hud.connect("cosmetic_selected", select_cosmetic)
+ 	apply_settings(career.settings, false)
++	playtest_recorder=PlaytestRecorder.new()
++	playtest_recorder.name="PlaytestRecorder"
++	add_child(playtest_recorder)
++	playtest_recorder.configure(self)
++	hud.debug_requested.connect(playtest_recorder.show_menu)
+ 	_refresh_hud()
+ 	if not OS.get_cmdline_args().has("--script") and hud.has_method("show_title"):
+ 		paused = true
+@@ -152,6 +159,7 @@ func _ready() -> void:
+ 		hud.show_title()
+ 
+ func _unhandled_input(event: InputEvent) -> void:
++	if is_instance_valid(playtest_recorder) and (playtest_recorder.editing or playtest_recorder.busy):return
+ 	# Stick motion produces repeated events while held. Specials are discrete:
+ 	# attempt once per excursion, then require a return through the deadzone.
+ 	if event is InputEventJoypadMotion:
+@@ -178,6 +186,7 @@ func _unhandled_input(event: InputEvent) -> void:
+ 		hud.toggle_goals()
+ 
+ func _process(_delta: float) -> void:
++	if is_instance_valid(playtest_recorder) and (playtest_recorder.editing or playtest_recorder.busy):return
+ 	_refresh_hud()
+ 
+ func _physics_process(delta: float) -> void:
+diff --git a/game/ui/hud.gd b/game/ui/hud.gd
+index e1a5cd3..c3471d4 100644
+--- a/game/ui/hud.gd
++++ b/game/ui/hud.gd
+@@ -2,6 +2,8 @@ extends CanvasLayer
+ ## Controller-first presentation. Main owns all gameplay, persistence and audio state.
+ 
+ signal restart_requested
++signal debug_requested
++var debug_input_blocked := false
+ signal pause_requested
+ signal free_skate_requested
+ signal settings_changed(values: Dictionary)
+@@ -361,6 +363,7 @@ func toggle_goals() -> void:
+ 
+ 
+ func _input(event: InputEvent) -> void:
++	if debug_input_blocked:return
+ 	if event is InputEventKey and event.pressed: _controller_active = false
+ 	elif event is InputEventJoypadButton and event.pressed: _controller_active = true
+ 	elif event is InputEventJoypadMotion and absf(event.axis_value) > 0.5: _controller_active = true
+@@ -480,6 +483,7 @@ func _build_title(content: VBoxContainer) -> void:
+ 	_button(content, "FREE SKATE", func(): _start_mode(true))
+ 	_button(content, "SETTINGS", func(): _open_subpage("settings"))
+ 	_button(content, "CONTROLS", func(): _open_subpage("controls"))
++	_button(content, "PLAYTEST RECORDER  ·  2", func(): debug_requested.emit())
+ 	_label(content, "Play with a controller or keyboard. Your city is ready.", 14, MUTED).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+ 
+ 
+diff --git a/project.godot b/project.godot
+index 3099b71..14b445a 100644
+--- a/project.godot
++++ b/project.godot
+@@ -28,3 +28,7 @@ environment/defaults/default_clear_color=Color(0.55, 0.66, 0.69, 1)
+ common/physics_ticks_per_second=60
+ common/physics_interpolation=true
+ 3d/default_gravity=24.0
++
++[debug]
++file_logging/enable_file_logging=true
++file_logging/log_path="user://logs/godot.log"
+diff --git a/game/core/playtest_recorder.gd b/game/core/playtest_recorder.gd
+new file mode 100644
+index 0000000..464899f
+--- /dev/null
++++ b/game/core/playtest_recorder.gd
+@@ -0,0 +1,251 @@
++extends CanvasLayer
++## Explicit local bug reports. No upload, mesh rebuild or sampling while inactive.
++signal session_changed(active: bool)
++var game: Node
++var active := false
++var session_dir := ""
++var archive_path := ""
++var base_directory := "user://debug_sessions"
++var reports: Array[Dictionary] = []
++var history: Array[Dictionary] = []
++var inputs: Array[Dictionary] = []
++var busy := false
++var editing := false
++var _clock := 0.0
++var _was_paused := false
++var _modal_was_visible := false
++var _panel: PanelContainer
++var _note: TextEdit
++var _heading: Label
++var _status: Label
++var _save: Button
++var _capture: Button
++var _finish: Button
++var _reveal: Button
++var _resume: Button
++var _pending := -1
++var _badge: Label
++const ACTIONS := ["push","brake","steer_left","steer_right","ollie","flip","grab","grind","manual","revert","spin_left","spin_right"]
++const SOURCES := ["res://project.godot","res://game/main.gd","res://game/core/playtest_recorder.gd","res://game/levels/outdoors/surface_builder.gd","res://game/player/skater.gd","res://game/player/skater_visual.gd","res://game/player/skater_garments.gd","res://game/levels/outdoor_routes.gd","res://game/levels/kelvingrove_skatepark.gd","res://game/levels/sunken_bowl_feature.gd"]
++
++func _ready() -> void:
++	layer=100
++	process_mode=Node.PROCESS_MODE_ALWAYS
++	_panel=PanelContainer.new();add_child(_panel)
++	_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
++	_panel.offset_left=-300;_panel.offset_right=300;_panel.offset_top=-245;_panel.offset_bottom=245
++	var margin:=MarginContainer.new();_panel.add_child(margin)
++	for edge:String in ["left","right","top","bottom"]:margin.add_theme_constant_override("margin_"+edge,20)
++	var rows:=VBoxContainer.new();rows.add_theme_constant_override("separation",12);margin.add_child(rows)
++	_heading=Label.new();_heading.add_theme_font_size_override("font_size",26);rows.add_child(_heading)
++	_status=Label.new();_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;rows.add_child(_status)
++	_note=TextEdit.new();_note.custom_minimum_size=Vector2(0,150);_note.placeholder_text="What went wrong? What were you doing just before it happened?";rows.add_child(_note)
++	_save=_button(rows,"SAVE NOTE & RETURN",_save_and_close)
++	_capture=_button(rows,"CAPTURE ISSUE  ·  1",capture_issue)
++	_finish=_button(rows,"END SESSION & CREATE ZIP  ·  3",finish_session)
++	_reveal=_button(rows,"SHOW FILES",reveal_files)
++	_resume=_button(rows,"BACK TO THE BOARD",close_panel)
++	_panel.hide()
++	_badge=Label.new();add_child(_badge);_badge.position=Vector2(20,100)
++	_badge.add_theme_color_override("font_color",Color("d8ef96"));_badge.hide()
++
++func _update_badge()->void:
++	_badge.visible=active
++	_badge.text="DEBUG REC  ·  %d issues  ·  1 capture  ·  2 menu  ·  3 finish"%reports.size()
++
++func _button(parent:Node,title:String,callback:Callable)->Button:
++	var button:=Button.new();button.text=title;button.custom_minimum_size.y=38
++	parent.add_child(button);button.pressed.connect(callback);return button
++
++func configure(owner_game:Node)->void:game=owner_game
++
++func _process(delta:float)->void:
++	if not active or busy or editing or game==null or game.paused:return
++	_clock+=delta
++	if _clock<.25:return
++	_clock=0.
++	history.append(snapshot(false))
++	if history.size()>40:history.pop_front()
++
++func _input(event:InputEvent)->void:
++	if game==null:return
++	if event is InputEventKey and event.pressed and not event.echo:
++		if event.physical_keycode==KEY_ESCAPE and editing and not busy:
++			get_viewport().set_input_as_handled();close_panel();return
++		if event.physical_keycode==KEY_1 and not editing:
++			get_viewport().set_input_as_handled();capture_issue.call_deferred();return
++		if event.physical_keycode==KEY_2 and not editing:
++			get_viewport().set_input_as_handled();show_menu();return
++		if event.physical_keycode==KEY_3 and not editing:
++			get_viewport().set_input_as_handled();finish_session();return
++	if not active or editing or busy:return
++	for action:String in ACTIONS:
++		if event.is_action(action):
++			inputs.append({"milliseconds":Time.get_ticks_msec(),"action":action,"strength":Input.get_action_strength(action)})
++			if inputs.size()>128:inputs.pop_front()
++
++func begin_session()->Error:
++	if active:return OK
++	var stamp:=Time.get_datetime_string_from_system(true).replace(":","-")
++	session_dir=base_directory.path_join(stamp+"-"+str(Time.get_ticks_usec()))
++	var error:=DirAccess.make_dir_recursive_absolute(session_dir)
++	if error!=OK:return error
++	reports.clear();history.clear();inputs.clear();archive_path="";_clock=0.
++	active=true
++	_write_text("README.txt","Tam Hawks Pro Skater playtest session\nShare the ZIP after ending the session. Each issue has a PNG, JSON state and your note.\n1 capture; 2 session menu; 3 finish.\nPlayer axes: forward is -Z; camera forward is separate. Raw local evidence is retained if ZIP export fails.\n")
++	var written:=_write_manifest()
++	if written!=OK:active=false;return written
++	_update_badge()
++	session_changed.emit(true)
++	return OK
++
++func _pause_for_panel()->void:
++	if editing:return
++	_was_paused=game.paused
++	_modal_was_visible=game.hud._modal.visible
++	editing=true
++	game.hud.debug_input_blocked=true
++	game.paused=true;get_tree().paused=true;game.audio.set_paused(true)
++	for action:String in ACTIONS:Input.action_release(action)
++
++func show_menu()->void:
++	if busy:return
++	_pause_for_panel()
++	_heading.text="PLAYTEST RECORDER"
++	_status.text=("Recording · %d issues captured. 1 marks a new issue."%reports.size()) if active else "1 starts a session and captures your current view. Finish here to create one ZIP to share."
++	_note.hide();_save.hide();_capture.show();_finish.visible=active;_reveal.visible=not session_dir.is_empty();_resume.show()
++	_panel.show();_capture.grab_focus()
++
++func capture_issue()->void:
++	if busy or (_pending>=0):return
++	var error:=begin_session()
++	if error!=OK:show_menu();_status.text="Could not create capture folder: "+error_string(error);return
++	busy=true
++	var report:=snapshot(true)
++	report["history"]=history.duplicate(true);report["inputs"]=inputs.duplicate(true)
++	_pause_for_panel();_panel.hide();game.hud._modal.hide()
++	# Freeze first, then draw the same camera without note/pause overlays.
++	await get_tree().process_frame
++	if DisplayServer.get_name()!="headless":await RenderingServer.frame_post_draw
++	var id:="issue-%04d"%(reports.size()+1)
++	report["id"]=id;report["note"]="";report["screenshot"]=""
++	if DisplayServer.get_name()!="headless":
++		var pixels:=get_viewport().get_texture().get_image()
++		error=pixels.save_png(session_dir.path_join(id+".png"))
++		if error==OK:report.screenshot=id+".png"
++		report["screenshot_error"]=error_string(error)
++	else:report["screenshot_error"]="Headless renderer: screenshot unavailable"
++	var log_path:=str(ProjectSettings.get_setting("debug/file_logging/log_path","user://logs/godot.log"))
++	report["engine_log_available"]=FileAccess.file_exists(log_path)
++	if FileAccess.file_exists(log_path):
++		var log:=FileAccess.open(log_path,FileAccess.READ)
++		if log!=null:
++			log.seek(maxi(0,log.get_length()-65536))
++			_write_text(id+"-engine.log",log.get_buffer(mini(65536,log.get_length())).get_string_from_utf8())
++	reports.append(report);_pending=reports.size()-1
++	var written:=_write_report(_pending)
++	_write_manifest();_update_badge()
++	busy=false
++	_heading.text="ISSUE %d CAPTURED"%reports.size()
++	_status.text="Location, direction and pose state saved. Add a note, then return to skating. 2 opens session controls."
++	if written!=OK:_status.text="Report could not be written: "+error_string(written)+". Retry Save Note; the capture remains in memory. "
++	if report.screenshot.is_empty():_status.text+=" Screenshot unavailable: "+str(report.screenshot_error)
++	_note.text="";_note.show();_save.show();_capture.hide();_finish.hide();_reveal.hide();_resume.hide()
++	_panel.show();_note.grab_focus()
++
++func save_note(text:String)->Error:
++	if _pending<0:return ERR_INVALID_PARAMETER
++	reports[_pending].note=text.left(8000)
++	var error:=_write_report(_pending)
++	_write_manifest()
++	if error==OK:_pending=-1
++	return error
++
++func _save_and_close()->void:
++	var error:=save_note(_note.text)
++	if error==OK:close_panel()
++	else:_status.text="Could not save note: "+error_string(error)+". Keep this window open and retry."
++
++func close_panel()->void:
++	if busy:return
++	if _pending>=0 and save_note(_note.text)!=OK:return
++	_panel.hide()
++	for action:String in ACTIONS:Input.action_release(action)
++	game.hud._modal.visible=_modal_was_visible
++	game.hud.debug_input_blocked=false
++	game.paused=_was_paused;get_tree().paused=_was_paused;game.audio.set_paused(_was_paused)
++	editing=false
++
++func finish_session()->Error:
++	if busy:return ERR_BUSY
++	if not active:show_menu();_status.text="Capture an issue with 1 to start a session.";return ERR_UNCONFIGURED
++	if _pending>=0:
++		var saved:=save_note(_note.text)
++		if saved!=OK:return saved
++	active=false
++	_write_manifest()
++	archive_path=session_dir+".zip"
++	var pack:=ZIPPacker.new()
++	var error:=pack.open(archive_path)
++	if error==OK:
++		for name:String in DirAccess.get_files_at(session_dir):
++			var bytes:=FileAccess.get_file_as_bytes(session_dir.path_join(name))
++			error=pack.start_file(name)
++			if error==OK:error=pack.write_file(bytes)
++			if error==OK:error=pack.close_file()
++			if error!=OK:break
++		var closed:=pack.close()
++		if error==OK:error=closed
++	if error==OK:session_changed.emit(false)
++	else:active=true;_write_manifest()
++	_update_badge()
++	show_menu()
++	_heading.text="SESSION READY TO SHARE" if error==OK else "EXPORT NEEDS ATTENTION"
++	_status.text=("Share this ZIP:\n"+ProjectSettings.globalize_path(archive_path)) if error==OK else ("ZIP could not be completed: "+error_string(error)+". Your reports remain in "+ProjectSettings.globalize_path(session_dir)+". Retry End Session.")
++	_capture.visible=error==OK;_finish.visible=error!=OK;_reveal.show();_resume.show();_reveal.grab_focus()
++	return error
++
++func reveal_files()->void:
++	var path:=archive_path if not active and FileAccess.file_exists(archive_path) else session_dir
++	if not path.is_empty():OS.shell_show_in_file_manager(ProjectSettings.globalize_path(path))
++
++func snapshot(detailed:bool)->Dictionary:
++	var rider:CharacterBody3D=game.skater
++	var camera:Camera3D=rider._camera
++	var ground:float=game.world.get_ground_height(rider.global_position)
++	var state:={"utc":Time.get_datetime_string_from_system(true),"milliseconds":Time.get_ticks_msec(),
++		"position":vec(rider.global_position),"velocity":vec(rider.velocity),"forward":vec(-rider.global_basis.z),"basis":frame(rider.global_transform),
++		"camera":{"position":vec(camera.global_position),"forward":vec(-camera.global_basis.z),"up":vec(camera.global_basis.y),"fov":camera.fov},
++		"ground_height":ground if is_finite(ground) else null,"on_floor":rider.is_on_floor(),"airborne":rider.airborne,
++		"bailing":rider.bail_active,"bail_phase":rider.bail_phase,"bail_reason":rider.bail_reason,"speed":rider.speed,
++		"charge":rider.ollie_charge,"crouching":rider.crouching,"grind":rider.grind_style_id,"lip":rider.lip_id,"manual":rider.manual_trick_id,
++		"flip":rider.flip_trick_id,"grab":rider.grab_trick_id,"paused":game.paused}
++	if not detailed:return state
++	state["engine"]=Engine.get_version_info();state["renderer"]=RenderingServer.get_current_rendering_method()
++	state["viewport"]=vec(Vector3(get_viewport().get_visible_rect().size.x,get_viewport().get_visible_rect().size.y,0))
++	state["graphics"]=game.career.settings.graphics_quality
++	state["source_sha256"]={}
++	for path:String in SOURCES:state.source_sha256[path]=FileAccess.get_sha256(path) if FileAccess.file_exists(path) else "unavailable in this build"
++	state["inputs_held"]={}
++	for action:String in ACTIONS:state.inputs_held[action]=Input.get_action_strength(action)
++	var rig:RefCounted=rider._visual_rig
++	state["rig"]={"visual":frame(rider._visual.global_transform),"rider":frame(rider._rider_visual.global_transform),"board":frame(rig._board.global_transform),"upper":frame(rig._upper.transform),"drag_crouch":rig._drag_crouch,"handplant_blend":rig._handplant_blend,"bones":{}}
++	for i in rig._garments.skeleton.get_bone_count():state.rig.bones[rig._garments.skeleton.get_bone_name(i)]=frame(rig._garments.skeleton.get_bone_pose(i))
++	state["contacts"]=[]
++	for i in rider.get_slide_collision_count():
++		var collision:=rider.get_slide_collision(i)
++		var collider:=collision.get_collider()
++		state.contacts.append({"position":vec(collision.get_position()),"normal":vec(collision.get_normal()),"collider":str(collider.get_path()) if collider is Node else str(collider)})
++	return state
++
++static func vec(value:Vector3)->Array:return [value.x,value.y,value.z]
++static func frame(value:Transform3D)->Dictionary:return {"origin":vec(value.origin),"x":vec(value.basis.x),"y":vec(value.basis.y),"z":vec(value.basis.z)}
++
++func _write_text(name:String,text:String)->Error:
++	var file:=FileAccess.open(session_dir.path_join(name),FileAccess.WRITE)
++	if file==null:return FileAccess.get_open_error()
++	file.store_string(text);file.flush();return file.get_error()
++func _write_report(index:int)->Error:
++	return _write_text(str(reports[index].id)+".json",JSON.stringify(reports[index],"\t"))
++func _write_manifest()->Error:
++	return _write_text("session.json",JSON.stringify({"format":1,"engine":Engine.get_version_info(),"active":active,"reports":reports},"\t"))
+diff --git a/game/core/playtest_recorder.gd.uid b/game/core/playtest_recorder.gd.uid
+new file mode 100644
+index 0000000..f223964
+--- /dev/null
++++ b/game/core/playtest_recorder.gd.uid
+@@ -0,0 +1 @@
++uid://7p1g35r2qw3k
+diff --git a/tests/playtest_recorder_tests.gd b/tests/playtest_recorder_tests.gd
+new file mode 100644
+index 0000000..e5fd98a
+--- /dev/null
++++ b/tests/playtest_recorder_tests.gd
+@@ -0,0 +1,57 @@
++extends RefCounted
++
++static func run(tree:SceneTree,game:Node,check:Callable)->void:
++	var recorder:CanvasLayer=game.playtest_recorder
++	var old_base:String=recorder.base_directory
++	recorder.base_directory="res://.local/recorder-tests-"+str(Time.get_ticks_usec())
++	game.start_mode(true)
++	for i in 3:await tree.physics_frame;await tree.process_frame
++	check.call(not recorder.active and recorder.history.is_empty(),"debug recorder: ordinary play has no active sampling or report files")
++	check.call(recorder.begin_session()==OK,"debug recorder: explicit start creates a local session")
++	var first:String=recorder.session_dir
++	for i in 55:recorder._process(.26)
++	check.call(recorder.history.size()==40,"debug recorder: long recording retains only ten seconds of bounded state history")
++	var position:Vector3=game.skater.global_position
++	var camera:Vector3=game.skater._camera.global_position
++	await recorder.capture_issue()
++	check.call(recorder.editing and game.paused and tree.paused and recorder.reports.size()==1,
++		"debug recorder: capture freezes the live game before opening note entry")
++	var report:Dictionary=recorder.reports[0]
++	check.call(report.position==[position.x,position.y,position.z] and report.camera.position==[camera.x,camera.y,camera.z]
++		and report.rig.bones.has("left_thigh") and report.source_sha256["res://game/player/skater.gd"]==FileAccess.get_sha256("res://game/player/skater.gd"),
++		"debug recorder: report round-trips exact player/camera coordinates, anatomical bones and source fingerprint")
++	var event:=InputEventKey.new();event.physical_keycode=KEY_R;event.pressed=true
++	Input.parse_input_event(event)
++	for i in 3:await tree.process_frame
++	check.call(game.paused and game.skater.global_position==position,
++		"debug recorder: typing a gameplay restart key cannot restart or move the paused skater")
++	event.pressed=false;Input.parse_input_event(event)
++	var note:="Legs folded after a fall.\nKelvingrove → right entrance."
++	check.call(recorder.save_note(note)==OK,"debug recorder: Unicode multiline comment saves alongside the capture")
++	recorder.close_panel()
++	check.call(not recorder.editing and not game.paused and not tree.paused and not game.hud.debug_input_blocked,
++		"debug recorder: saving restores the original live play state and input")
++	var paused_before:bool=game.paused
++	game.toggle_pause()
++	await recorder.capture_issue()
++	recorder.save_note("Second issue from pause menu")
++	recorder.close_panel()
++	check.call(game.paused and tree.paused and game.hud._modal.visible,
++		"debug recorder: a report opened from the pause menu restores that paused menu")
++	game.toggle_pause()
++	check.call(game.paused==paused_before,"debug recorder: existing pause state is not inverted by note entry")
++	var result:Error=recorder.finish_session()
++	var reader:=ZIPReader.new()
++	var opened:Error=reader.open(recorder.archive_path)
++	var manifest:Dictionary=JSON.parse_string(reader.read_file("session.json").get_string_from_utf8()) if opened==OK else {}
++	var saved:Dictionary=JSON.parse_string(reader.read_file("issue-0001.json").get_string_from_utf8()) if opened==OK else {}
++	check.call(result==OK and opened==OK and not recorder.active and manifest.get("active",true)==false
++		and saved.get("note","")==note and manifest.get("reports",[]).size()==2,
++		"debug recorder: one independently readable ZIP includes completed manifest and both persisted issue comments")
++	if opened==OK:reader.close()
++	recorder.close_panel()
++	check.call(recorder.begin_session()==OK and recorder.session_dir!=first and recorder.reports.is_empty()
++		and FileAccess.file_exists(first.path_join("issue-0001.json")),
++		"debug recorder: starting again preserves the prior session and uses a fresh directory")
++	recorder.finish_session();recorder.close_panel();recorder.base_directory=old_base
++	game.start_mode(true)
+diff --git a/tests/playtest_recorder_tests.gd.uid b/tests/playtest_recorder_tests.gd.uid
+new file mode 100644
+index 0000000..06735d5
+--- /dev/null
++++ b/tests/playtest_recorder_tests.gd.uid
+@@ -0,0 +1 @@
++uid://di8wfd5hyt264

@@ -1,3 +1,15 @@
+**25 October — debug session planned for cloud implementation:** all 38 owner
+captures are reviewed and mapped to [30 local Planned tickets](DEBUG-SESSION-2026-10-24.md)
+with role owners, priorities, milestones, dependencies, acceptance and tests.
+[Portable evidence/source recovery](../testing/debug-session-2026-10-24/README.md)
+includes the unfinished candidate patch; older main's 4560/0 does not certify it.
+P0 dry-edge holes, joins/walls, traps, bowl exit/camera, rider deformation and civic
+flicker precede design improvements. Station direction: enclosed building/tunnel
+edge with passing trains; pond/grind/water-bail and connected lines are planned
+under [ADR-032](../architecture/decisions/ADR-032-playtest-station-and-park-direction.md).
+Planning only: no gameplay changes or background session started, no remote issues.
+All 75 full backlog bodies/statuses below are preserved.
+
 **24 October — SURFACE-01 repaired, SHADOW-01 OPEN:** right-side civic paving
 and guard now meet the neighbouring frontage; focused5/0, required4560/0,
 clean/frozen, inspected native frames and limited render-cost gate pass.

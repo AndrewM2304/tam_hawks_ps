@@ -1,3 +1,29 @@
+# Latest handoff —25 October 2026 debug-session planning
+
+The owner will start cloud implementation separately. This turn only reviewed
+38 captures and created [PT24-01…30 local Planned tickets](DEBUG-SESSION-2026-10-24.md).
+Start there and at [portable evidence/source recovery](../testing/debug-session-2026-10-24/README.md).
+Every comment/position/heading/image maps through the 38-row index. Station
+clarification means enclosed building at level edge, trains through a tunnel;
+capture 33 means wallride/wall jump. ADR-032 records this direction.
+
+Main stays the canonical default. The actual tested play session matches the
+unfinished local candidate over 7e4d263, not clean main. A portable patch retains
+existing modified production files and untracked recorder/tests. Reconcile it
+on a feature branch, check ten source hashes and preserve newer work; do not
+blindly apply twice or discard uncommitted changes. Full candidate admission is
+still owed. Old 4560/0 certifies main only. Follow-up native fixes do not certify
+all owner-visible defects; safety gaps, park walls, bowl exit, shadows and pose
+remain open at the captured locations. Do not mark them Done from old test counts.
+
+Planning checks pass: 38 triplets/hash/decode/mapping, 30 unique tickets, 10/10
+source matches, links and temporary patch apply/recovery; original backlog bodies
+unchanged. No gameplay edit/test rerun, remote issue publishing or background
+worker started. Future implementation follows P0 queue and native/performance/
+controller/export/visual evidence gates; retain manual-testing usage reserve.
+
+---
+
 # Latest checkpoint —24 October2026 civic edge
 
 Canonical default/integration branch is main. SURFACE-01 civic right-side crack

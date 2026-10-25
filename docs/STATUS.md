@@ -1,3 +1,51 @@
+# Debug-session review and cloud planning handoff —25 October 2026
+
+Owner requested planning only; implementation will start in a separate cloud
+session. Reviewed all 38 captures/comments, JSON history/input/pose/contact records
+and 38 engine logs from session 2026-10-24T22-29-11-9325535. Recorded **30 local
+Planned tickets**, not remote issues: [queue/acceptance/dependencies](planning/DEBUG-SESSION-2026-10-24.md),
+[38-location evidence index](testing/debug-session-2026-10-24/INDEX.md),
+[portable evidence and source recovery](testing/debug-session-2026-10-24/README.md).
+Station direction is now an enclosed building/railway edge with passing trains
+through a tunnel; pond/ducks/grind-loop/water-bail and purposeful lines are planned
+within the existing map. [ADR-032](architecture/decisions/ADR-032-playtest-station-and-park-direction.md).
+Owner confirmed capture 33 means wallride/wall jump, not an invisible wall.
+
+P0: unguarded dry edges/floor cracks, park/civic joins and missing walls, trapped
+lower streets, bowl exit/camera, malformed startup rider/earlier contraction,
+and civic shadow flicker. PT24-01 reuses SHADOW-01; PT24-28 retains POSE-02;
+other overlap is explicit. Gate opens in capture 38: investigate usefulness and
+passage, not an assumed animation failure. Still images cannot certify temporal
+flicker. Logs contain only startup headers; no causal error trace was recorded.
+
+The captured source is the unfinished dirty candidate over 7e4d263 on feature
+fix/kelvingrove-owner-defects-20261024. All ten recorded source hashes match.
+Do not call the older 4560/0 a candidate pass. Preserve existing production/test
+edits; this review made no further gameplay changes. The portable candidate patch
+includes the new recorder/tests and modified game/project files so cloud workers
+can reconcile/reproduce them. Remaining candidate tests/integration are described
+in [follow-up](planning/KELVINGROVE-FOLLOWUP-2026-10-24.md).
+
+Validation: Python stdlib session/manifest/hash/link/ticket/backlog checks and
+ffmpeg derivative decode; 38/38 triplets, original manifest equals all reports,
+10/10 source matches, 30 unique ticket sections, 38/38 primary assignments;
+all copied hashes/local links and clean temporary patch application pass. Patch
+recovery reproduces all ten captured fingerprints. Command sequence used
+python3 heredoc validation (hashlib/json/re/subprocess/tempfile), ffmpeg decode
+`-pattern_type glob -i images/*.jpg -f null -`, git apply --check then git apply
+in a disposable directory populated from git show 7e4d263:path. No engine suite
+rerun for this documentation-only review; no new rendering/performance pass.
+All 75 original backlog bodies/statuses are byte-identical after their marker.
+No cloud/background work, hosted CI, release, purchase or dependency import.
+
+Resume: read PT24 queue and evidence README; reconcile the captured candidate on
+a feature branch before reproduction. Work P0 safety/pose/bowl first, retaining
+old failed diagnostics and human/Mac/controller/export/art/stutter gates. Main
+remains canonical default. This planning checkpoint does not merge the unfinished
+candidate or launch the future cloud session.
+
+---
+
 # City Chambers right-side gap repaired —24 October2026
 
 SURFACE-01 source/evidence commit `0e86ecb` was fast-forwarded and pushed to
