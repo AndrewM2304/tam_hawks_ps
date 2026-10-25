@@ -1,5 +1,9 @@
 # Latest handoff —25 October 2026 debug-session planning
 
+Cloud entry branch: `fix/kelvingrove-owner-defects-20261024`, pushed planning
+commit `da8250f` plus this handoff. Main remains the default; the planning branch
+contains portable candidate source as a patch, not applied production commits.
+
 The owner will start cloud implementation separately. This turn only reviewed
 38 captures and created [PT24-01…30 local Planned tickets](DEBUG-SESSION-2026-10-24.md).
 Start there and at [portable evidence/source recovery](../testing/debug-session-2026-10-24/README.md).

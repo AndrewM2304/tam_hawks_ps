@@ -1,5 +1,13 @@
 # Debug-session review and cloud planning handoff —25 October 2026
 
+Planning/evidence commit `da8250f` is pushed to
+`origin/fix/kelvingrove-owner-defects-20261024`; `git ls-remote --heads origin
+fix/kelvingrove-owner-defects-20261024` confirms
+`da8250f2e2a0cc1e6be7c4b1c5d505be76beb1b6`. Commit audit:124 paths, all under
+docs/. Command `git push -u origin fix/kelvingrove-owner-defects-20261024`
+completed without force; no configured Actions workflows. Main was not changed.
+Production edits remain unstaged locally and are preserved in the evidence patch.
+
 Owner requested planning only; implementation will start in a separate cloud
 session. Reviewed all 38 captures/comments, JSON history/input/pose/contact records
 and 38 engine logs from session 2026-10-24T22-29-11-9325535. Recorded **30 local

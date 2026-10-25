@@ -37,6 +37,10 @@ demonstrates that owner-visible defects remain despite the narrow candidate chec
 
 ## Cloud source recovery
 
+Use pushed branch `fix/kelvingrove-owner-defects-20261024` (planning/evidence
+commit `da8250f` and handoff follow-up). Main remains the canonical default and
+has not received this unfinished gameplay candidate.
+
 Start from a feature branch containing the pinned base, using the existing cloud
 checkout. Preserve any newer work; do not reset it or recreate a worktree. Compare
 HEAD and local changes before applying the patch. On the exact base, after a
