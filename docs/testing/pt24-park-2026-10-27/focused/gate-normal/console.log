@@ -1,0 +1,17 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Gate fixture: Music is inert before start_mode and no content override was applied
+PASS: Gate fixture: actual Main defaults merged trial content on
+PASS: PT24-27 input: safe north-street approach exposes mapped Open while the real closed route remains blocked
+PASS: PT24-27 input: a fresh mapped Interact raises the real panel and enables its route
+PASS: PT24-27 input: ordinary supported Push traverses the opened alley to the south street mouth
+PASS: PT24-27 input: the same rider turns using mapped steering and traverses the actual opening northward
+PASS: PT24-27 input: the returned rider clears the sensor and mapped Interact closes real collision and route together
+PASS: PT24-27 input: complete north→south→north street return stays natively supported without a bail or relocation
+PASS: PT24-27 input: complete rider, board and ordinary chase volume remain clear through both alley directions
+PASS: PT24-27 input: gate interaction and ordinary transit manufacture no trick or score
+DENSITY CAMERA OCCLUSION rider=(-48.50099, 2.000583, -2.373201) camera=(-48.5019, 4.513915, -7.43061) marker=(-48.61818, 2.146867, -2.059975) hit=(-48.61753, 2.160101, -2.09) collider=SlidingServiceGate
+PASS: PT24-27 adverse input: actual closed-panel collision stops native movement and remains stationary without a bail
+PT24_GATE_ADVERSE impactAt=(-48.50099, 2.000583, -2.373201) stoppedAt=(-48.50099, 2.01402, -2.388814) actualContacts=1 camera=false knownC03=finite front shoe/board extends beyond capsule at closed-wall impact; normal-route camera is separate
+PT24_GATE_INPUT ticks=2029 closedContacts=1 south=true north=true mouth=true closeAt=(-48.49901, 2.013915, -4.337906) closePrompt=CLOSE SHORTCUT · NORTH ↔ SOUTH STATION closed=true supported=true camera=true bails=0 recoveries=0 tricks=0 stages=[{ "phase": "north_prompt_approach", "at": (-48.5, 2.011667, -17.99722), "speed": 0.16662596166134 }, { "phase": "north_prompt_stop", "at": (-48.5, 2.013915, -4.601675), "speed": 2.89950346946716 }, { "phase": "mapped_open", "at": (-48.5, 2.013915, -4.434511), "speed": 0.0 }, { "phase": "mapped_open_release", "at": (-48.5, 2.013915, -4.434511), "speed": 0.0 }, { "phase": "opening", "at": (-48.5, 2.013915, -4.434511), "speed": 0.0 }, { "phase": "south_traverse", "at": (-48.5, 2.013915, -4.431734), "speed": 0.16665457189083 }, { "phase": "south_stop", "at": (-48.5, 2.013915, 12.06374), "speed": 3.50000357627869 }, { "phase": "south_turnaround", "at": (-48.5, 2.013915, 12.31374), "speed": 0.0 }, { "phase": "north_traverse", "at": (-48.49997, 2.013915, 12.31096), "speed": 0.166638687253 }, { "phase": "north_clear_sensor", "at": (-48.499, 2.013915, -4.246215), "speed": 2.20029830932617 }, { "phase": "mapped_close", "at": (-48.49901, 2.013915, -4.337906), "speed": 0.0 }, { "phase": "closing", "at": (-48.49901, 2.013915, -4.337906), "speed": 0.0 }, { "phase": "north_street_return", "at": (-48.49901, 2.013915, -4.340684), "speed": 0.16665457189083 }, { "phase": "impact_control_stop", "at": (-48.49988, 2.013915, -18.10825), "speed": 3.26648688316345 }, { "phase": "impact_control_turn", "at": (-48.49988, 2.013915, -18.32378), "speed": 0.0 }, { "phase": "closed_impact_control", "at": (-48.49992, 2.013915, -18.32101), "speed": 0.166638687253 }, { "phase": "closed_impact_stopped", "at": (-48.50099, 2.000583, -2.373201), "speed": 0.0 }, { "phase": "closed_impact_stationary", "at": (-48.50099, 2.01402, -2.388814), "speed": 0.0 }]
+RESULT: 11 passed, 0 failed

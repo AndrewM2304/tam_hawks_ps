@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T08:42:24.256753+00:00",
+  "completed_london": "2026-10-27T08:42:39.746043+00:00",
+  "wall_seconds": 15.48929053500001,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_gate_route_focused.gd",
+    "--",
+    ".local/pt24_gate_route_candidate.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 605,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "11",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "3a8997b3dd691de830316601de40810bf9d2331dfc4559cd4a625d528d835c6e",
+  "git_head": "c82ffac26265de4a379d5079ad61ece08075fa0e"
+}

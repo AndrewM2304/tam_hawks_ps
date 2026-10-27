@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-27T09:04:25.324921+00:00",
+  "completed_london": "2026-10-27T09:04:41.262735+00:00",
+  "wall_seconds": 15.937811548999889,
+  "command": [
+    "timeout",
+    "120s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_park_guide_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 609,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "27",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "d8ff258af17279247902ce6ae12642c7398142b9e1bb0fdc12cc5db1881fe046",
+  "git_head": "c82ffac26265de4a379d5079ad61ece08075fa0e"
+}

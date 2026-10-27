@@ -7,6 +7,13 @@ const Pond = preload("res://tests/park_pond_tests.gd")
 const Layout = preload("res://tests/pt24_connected_runs_tests.gd")
 const Routes = preload("res://tests/world_routes_tests.gd")
 const GalleryEntrance = preload("res://tests/pt24_gallery_entrance_run_tests.gd")
+const CivicRun = preload("res://tests/pt24_civic_flagship_tests.gd")
+const FlagshipRuns = preload("res://tests/pt24_flagship_runs_tests.gd")
+const ClydeRun = preload("res://tests/pt24_clyde_flagship_tests.gd")
+const ParkRun = preload("res://tests/pt24_park_run_tests.gd")
+const GateRoute = preload("res://tests/pt24_gate_route_tests.gd")
+const ParkTransit = preload("res://tests/pt24_park_flagship_tests.gd")
+const ParkCombo = preload("res://tests/pt24_park_full_combo_tests.gd")
 
 static func run(tree: SceneTree,check: Callable) -> void:
 	for action: String in InputMap.get_actions(): Input.action_release(action)
@@ -31,8 +38,17 @@ static func run(tree: SceneTree,check: Callable) -> void:
 	await Green.run(tree,game.world,check)
 	await Pond.run_installed(tree,game,check)
 	await Pond.run_player(tree,game,check)
-	await Layout._civic_port(tree,game,check)
+	# Route acceptance uses the same enabled content as ordinary play. The
+	# separate historical Main retains exact inventory/coverage controls only.
+	await Layout.run(tree,game,check)
+	await CivicRun.run(tree,game,check)
+	await FlagshipRuns.run(tree,game,check)
+	await ClydeRun.run(tree,game,check)
+	await ParkRun.run(tree,game,check)
 	await GalleryEntrance.run(tree,game,check)
+	await GateRoute.run(tree,game,check)
+	await ParkTransit.run(tree,game,check)
+	await ParkCombo.run(tree,game,check)
 	for action: String in InputMap.get_actions(): Input.action_release(action)
 	game.queue_free()
 	await tree.process_frame

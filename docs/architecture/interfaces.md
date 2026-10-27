@@ -1,3 +1,36 @@
+## Ordinary finite wall presentation and downhill guide — 27 October 2026
+
+`Skater._place_obstacle_wheels(delta)` runs after the existing rig/contact fits.
+Only ordinary neutral grounded skating on native flat support is eligible;
+active air/manual/trick/transition/wallride/bail/setup/skitch/lip/crouch/slide
+states keep their existing policies. Actual near-vertical slide-contact planes
+constrain cached real board/shoe vertices. A horizontal translation of the whole
+connected visual retains8mm skin and a strict18cm ceiling, without moving the
+physical actor or changing local rider/board pose.
+
+`_obstacle_offset_supported` rechecks every current contact plane, four finite
+wheel supports on the original plane within1mm, and the existing board box query.
+The separate offset decays over45ms; if decay is obstructed, only a revalidated
+previous safe offset may remain. Restart/begin-bail clear stale offset state.
+Ordinary clear skating adds no candidate queries; a nonzero fit has at most two
+proposals, each at most four support rays and one reused box query. No new shape,
+hull, mesh, material or texture is constructed. Actual timing remains unmeasured.
+
+`OutdoorRoutes._refit_park_seat` retains the lower seat's original five-point
+perimeter while refitting all four native/display bearings. Only the published
+`Grind_Ledge_park_east_lower` guide and feature line select points1–2: the actual
+inboard downhill long edge. IDs, physical/display geometry and resource counts
+remain. This intentionally narrows guide authoring from the whole perimeter;
+global nearest-point/tangent/capture policy remains unchanged. Its straight
+native radial datum now legitimately supports the existing named-contact guard,
+so do not claim zero additional query work from unchanged render resources.
+
+Existing C04 route suites now run in ordinary-default Main, alongside actual
+gate and full summit/civic input acceptance. The separate explicit-false Main
+retains historical inventory controls. [Current evidence and limits](../testing/pt24-park-2026-10-27/README.md).
+
+---
+
 ## Connected grab reach and body attachment —25 October2026
 
 Grab reach first solves the existing finite palm target with the original arm

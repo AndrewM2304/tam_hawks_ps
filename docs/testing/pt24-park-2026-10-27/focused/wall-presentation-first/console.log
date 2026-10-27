@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "previous" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://tests/skater_wall_presentation_tests.gd:76)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://.local/wall_presentation_focused.gd:0)
+ERROR: Failed to load script "res://.local/wall_presentation_focused.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+SCRIPT ERROR: Invalid call. Nonexistent function 'run' in base 'GDScript'.
+          at: _run (res://.local/wall_presentation_focused.gd:11)
+          GDScript backtrace (most recent call first):
+              [0] _run (res://.local/wall_presentation_focused.gd:11)

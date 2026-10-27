@@ -1,0 +1,31 @@
+{
+  "started_london": "2026-10-27T08:45:46.260183+00:00",
+  "completed_london": "2026-10-27T08:45:55.481939+00:00",
+  "wall_seconds": 9.221753463999903,
+  "command": [
+    "timeout",
+    "60s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_park_combo_focused.gd",
+    "--",
+    "--candidate-source",
+    ".local/pt24_park_combo_candidate.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 607,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "2",
+      "2"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "4e6060a5cecfb420d81da7816b0c3b1b2f5d91fd4848a9292f528b2a5241517e",
+  "git_head": "c82ffac26265de4a379d5079ad61ece08075fa0e"
+}

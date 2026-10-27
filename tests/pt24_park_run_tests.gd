@@ -59,6 +59,24 @@ static func run(tree: SceneTree,game: Node,check: Callable) -> void:
 		physical=physical and guide!=null
 		if guide!=null:
 			print("PT24_PARK_GUIDE ",id," verified=",guide.contact_verified," points=",guide.points)
+			if id=="park_east_lower":
+				check.call(guide.points.size()==2 and not guide.is_loop
+					and guide.points[0].distance_to(Vector3(-147.3186,9.797273,-140.0116))<.001
+					and guide.points[1].distance_to(Vector3(-147.3583,7.461024,-132.0117))<.001,
+					"L06 park: same-ID finite downhill guide publishes the real inboard long edge without a transverse masking cap")
+				var true_contact: bool= guide.contact_verified and guide.contact_source=="glasgow.lowered_cylinder_envelope"
+				var contact_error := 0.0
+				for sample: int in 9:
+					var distance: float=guide.length*(float(sample)+.5)/9.0
+					var point: Vector3=guide.contact_at(distance)
+					var up: Vector3=guide.contact_up(distance)
+					var native: Dictionary=world.get_world_3d().direct_space_state.intersect_ray(
+						PhysicsRayQueryParameters3D.create(point+up*.08,point-up*.08,2))
+					var error: float=INF if native.is_empty() else native.position.distance_to(point)
+					contact_error=maxf(contact_error,error)
+					true_contact=true_contact and error<.001 and native.get("collider")==world.get_node("Grind_Ledge_"+id+"/NativeGrindBearing")
+				check.call(true_contact,"L06 park: nine independent normal rays verify the straight-grade radial datum against the retained native bearing")
+				print("PT24_PARK_LONG_EDGE_NATIVE max_error_m=",contact_error)
 			for segment: int in guide.points.size()-1:
 				var at: Vector3 = guide.points[segment].lerp(guide.points[segment+1],0.5)
 				var contact := world.get_world_3d().direct_space_state.intersect_ray(
@@ -196,7 +214,7 @@ static func _descent(tree: SceneTree,game: Node,check: Callable) -> void:
 			if manual_frames==0: manual_begin=at
 			manual_frames+=1
 			_balance(game.skater.manual_balance)
-			if at.z>= -120:
+			if at.z>= -118:
 				choice_visible=_visible_choice(game,game.world.get_node("park_east_gateway"),Vector3(-144.5,0,-112))
 				manual_end=at
 				last_value=game.score.get_combo_value()

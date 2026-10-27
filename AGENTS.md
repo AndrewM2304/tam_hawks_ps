@@ -1,3 +1,16 @@
+# Current continuation — 27 October 2026
+
+Continue the accepted remaining tickets directly on main. Preserve the connected
+grab/torso repair, current finite wall-presentation fit and the park's authored
+inboard downhill guide. Ordinary Main keeps all merged trial content enabled;
+route acceptance now uses that same default content. [Current batch and exact
+evidence](docs/testing/pt24-park-2026-10-27/README.md) and its remaining queue
+supersede historical descriptions of these specific slices below. Main-only,
+non-force push, personal Music isolation and all no-spend/no-hosted-CI/no-release
+constraints remain. Hardware/human acceptance does not hide merged features.
+
+---
+
 # Latest owner priority: torso/leg attachment —25 October2026
 
 Fix the reported body detachment during/after tricks and bail recovery first,

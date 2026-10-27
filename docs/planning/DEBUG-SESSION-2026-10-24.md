@@ -1,3 +1,20 @@
+# Current continuation — 27 October 2026
+
+The ordinary gate input exposed actual board/shoe intrusion beyond the stopped
+capsule; C03 now fits the connected presentation with native support/obstruction
+checks and validates immediate impact→Brake→idle. Focused21/0 and four matched
+native frames pass. C04-L06 now has a real summit→downhill50-50→flatland cadence→
+civic-return combo, focused27/0, plus both supported no-jump directions. Existing
+route suites run against normal Main's enabled content.
+
+[Current exact results and retained rejections](../testing/pt24-park-2026-10-27/README.md)
+and [remaining software/hardware scope](../testing/pt24-park-2026-10-27/next-queue.md)
+supersede older descriptions of these slices. Original capture/ticket bodies
+remain evidence. Fountain and named wall-overlap repairs already exist; their
+moving/Mac visual acceptance is still open. No blanket closure or feature gate.
+
+---
+
 # Current PT24-28 priority repair —25 October2026
 
 The owner's renewed torso/leg detachment report has a reproducible current-source

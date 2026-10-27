@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Gate fixture: Music is inert before start_mode and no content override was applied
+PASS: Gate fixture: actual Main defaults merged trial content on
+DENSITY CAMERA OCCLUSION rider=(-48.5, 2.000583, -2.370615) camera=(-48.5, 4.500584, -7.270616) marker=(-48.61725, 2.146867, -2.057409) hit=(-48.61652, 2.161582, -2.09) collider=SlidingServiceGate
+FAIL: PT24-27 input: actual Push reaches and is stopped by the installed closed shutter
+PASS: PT24-27 input: a fresh mapped Interact raises the real panel and enables its route
+PASS: PT24-27 input: ordinary supported Push traverses the opened alley to the south street mouth
+PASS: PT24-27 input: the same rider turns using mapped steering and traverses the actual opening northward
+PASS: PT24-27 input: the returned rider clears the sensor and mapped Interact closes real collision and route together
+PASS: PT24-27 input: complete north→south→north street return stays natively supported without a bail or relocation
+FAIL: PT24-27 input: complete rider, board and ordinary chase volume remain clear through both alley directions
+PASS: PT24-27 input: gate interaction and ordinary transit manufacture no trick or score
+PT24_GATE_INPUT ticks=1611 closedContacts=2 south=true north=true mouth=true closeAt=(-48.49901, 2.01402, -4.348865) closePrompt=CLOSE SHORTCUT · NORTH ↔ SOUTH STATION closed=true supported=true camera=false bails=0 recoveries=0 tricks=0 stages=[{ "phase": "closed_approach", "at": (-48.5, 2.011667, -17.99847), "speed": 0.09166716784239 }, { "phase": "mapped_open", "at": (-48.5, 2.012479, -2.384021), "speed": -0.80434793233871 }, { "phase": "mapped_open_release", "at": (-48.5, 2.01402, -2.391316), "speed": -0.43767926096916 }, { "phase": "opening", "at": (-48.5, 2.01402, -2.392499), "speed": -0.07101058959961 }, { "phase": "south_traverse", "at": (-48.5, 2.01402, -2.389721), "speed": 0.16666887700558 }, { "phase": "south_stop", "at": (-48.5, 2.01402, 12.1056), "speed": 3.13356375694275 }, { "phase": "south_turnaround", "at": (-48.5, 2.01402, 12.30341), "speed": 0.0 }, { "phase": "north_traverse", "at": (-48.49997, 2.01402, 12.30063), "speed": 0.166638687253 }, { "phase": "north_clear_sensor", "at": (-48.499, 2.01402, -4.257162), "speed": 2.20044136047363 }, { "phase": "mapped_close", "at": (-48.49901, 2.01402, -4.348865), "speed": 0.0 }, { "phase": "closing", "at": (-48.49901, 2.01402, -4.348865), "speed": 0.0 }, { "phase": "north_street_return", "at": (-48.49901, 2.01402, -4.351643), "speed": 0.16665457189083 }]
+RESULT: 8 passed, 2 failed
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)

@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-27T08:33:40.628765+00:00",
+  "completed_london": "2026-10-27T08:33:57.215871+00:00",
+  "wall_seconds": 16.587107039999978,
+  "command": [
+    "timeout",
+    "120s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_park_flagship_focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 603,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "3",
+      "2"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "1daef2bf00d47501757406e7dd6f71b683f0122b5728e3b2c2971fe0eb2f6171",
+  "git_head": "c82ffac26265de4a379d5079ad61ece08075fa0e"
+}

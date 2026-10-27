@@ -1,0 +1,47 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Park flagship fixture: Music is inert before any start_mode and no content override was applied
+PASS: Park flagship fixture: actual Main defaults merged trial content on
+PASS: L06 park: existing seats are composed before world snapshots
+PASS: L06 park: fixed west-shoulder eight-metre footprint park_east_lower
+PT24_PARK_SEAT park_east_lower north=(-147.9186, 9.777272, -140.0145) south=(-147.9583, 7.441023, -132.0146)
+PASS: L06 park: catch and release follow the real downhill/flat road heading park_east_lower
+PASS: L06 park: all four top vertices agree within1mm between existing convex hull, display and height query park_east_lower
+PT24_PARK_VERTEX_ERROR park_east_lower native_m=0.0 display_m=0.00005420654998 query_m=0.0
+PT24_PARK_GUIDE park_east_lower verified=true points=[(-147.3186, 9.797273, -140.0116), (-147.3583, 7.461024, -132.0117)]
+PASS: L06 park: same-ID finite downhill guide publishes the real inboard long edge without a transverse masking cap
+PASS: L06 park: nine independent normal rays verify the straight-grade radial datum against the retained native bearing
+PT24_PARK_LONG_EDGE_NATIVE max_error_m=0.00001705984505
+PASS: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_lower
+PASS: L06 park: six independent transverse native/visible endcap rays close both reused seat ends park_east_lower
+PT24_PARK_ENDCAP park_east_lower native_plane_max_error_m=0.00039672851562
+PASS: L06 park: existing12-triangle seat and four native bearings retain their resource counts park_east_lower
+PASS: L06 park: fixed west-shoulder eight-metre footprint park_east_gateway
+PT24_PARK_SEAT park_east_gateway north=(-147.4165, 6.46, -115.9338) south=(-147.1921, 6.46, -107.9369)
+PASS: L06 park: catch and release follow the real downhill/flat road heading park_east_gateway
+PASS: L06 park: all four top vertices agree within1mm between existing convex hull, display and height query park_east_gateway
+PT24_PARK_VERTEX_ERROR park_east_gateway native_m=0.0 display_m=0.00007074607129 query_m=0.0
+PT24_PARK_GUIDE park_east_gateway verified=true points=[(-148.0163, 6.48, -115.9169), (-146.8167, 6.48, -115.9506), (-146.5924, 6.48, -107.9538), (-147.7919, 6.48, -107.9201), (-148.0163, 6.48, -115.9169)]
+PASS: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_gateway
+PASS: L06 park: six independent transverse native/visible endcap rays close both reused seat ends park_east_gateway
+PT24_PARK_ENDCAP park_east_gateway native_plane_max_error_m=0.00054952828214
+PASS: L06 park: existing12-triangle seat and four native bearings retain their resource counts park_east_gateway
+PASS: L06 park:36 independently fixed centre/east bypass supports remain capsule-clear
+PASS: L06 park: native downhill Push/Ollie captures and rides the reused path-side seat without a bail
+FAIL: L06 park: real landing/manual carries the same descent across the flattening into the next-feature choice
+PASS: L06 park: the earned grind/manual combo banks its exact pending value once and remains unchanged
+PASS: L06 park: complete rider/board and chase-camera volume remain clear throughout the actual descent
+PASS: L06 park: ordinary chase shows both the catch and the next seat/clear through-lane choice before commitment
+PT24_PARK_DESCENT captures=["Grind_Ledge_park_east_lower"] grind_frames=31 manual_frames=40 manual_begin=(-145.8955, 6.227377, -127.9099) manual_end=(-145.9355, 6.013912, -119.8663) banks=1 pending=2000 banked=2000 bails=0 camera=true catch_visible=true choice_visible=true at=(-145.9516, 6.013912, -116.6091) tricks=["Ollie", "50-50", "Ollie", "Manual"]
+PT24_PARK_CLOSEST descending={ "rider": (-147.3446, 10.42209, -140.3934), "guide": (-147.3186, 9.797273, -140.0116), "velocity": (-0.009292, -6.966666, 7.08132), "gap": 0.73273146152496, "held": true }
+PASS: L06 park: ordinary no-jump uphill bypass travels past both seats
+PT24_PARK_TRANSIT direction=-1 reached=true supported=true bails=0 at=(-144.5965, 11.05614, -146.2214)
+PASS: L06 park: ordinary no-jump downhill bypass travels past both seats
+PT24_PARK_TRANSIT direction=1 reached=true supported=true bails=0 at=(-144.603, 6.014096, -106.9837)
+PT24_PARK_RUN_GEOMETRY fixed_bypass=36 reused_seats=2 added_triangles=0 added_draws=0
+DENSITY CAMERA OCCLUSION rider=(-147.3921, 9.44859, -140.3541) camera=(-147.406, 11.93054, -145.2757) marker=(-147.5037, 9.470085, -139.9968) hit=(-147.5034, 9.477566, -140.0129) collider=park_east_lower
+FAIL: C04-L06 flagship: summit Ollie/Manual feeds the existing downhill grind and civic-return flatland in one actual input line
+FAIL: C04-L06 summit: independently calculated catalog/repetition/hold receipt banks once without bail or hidden rider
+PARK_FLAGSHIP summit_manual=true lower_ticks=0 city_return=false distance_m=41.3371629877947 final_manual_elapsed=0.0
+C04_FLAGSHIP park_summit_to_civic captures=[] entries=[{ "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "manual", "label": "Manual", "points": 100 }, { "id": "ollie", "label": "Ollie", "points": 100 }] holds=0 banks=1 total=750 bails=0 recoveries=0 manual=177 bankManual=0 faces=[] transfer=false crossed=false farFloor=false farAt=(inf, inf, inf) camera=false supported=true at=(-147.392, 9.431581, -140.3001) stages=[{ "phase": "summit_roll", "at": (-156.9814, 16.9423, -173.985), "speed": 0.2461489289999 }, { "phase": "summit_ollie_charge", "at": (-153.7997, 16.32691, -171.4136), "speed": 9.52460289001465 }, { "phase": "summit_takeoff", "at": (-153.5494, 16.4283, -171.212), "speed": 9.59692764282227 }, { "phase": "summit_manual_landing", "at": (-153.4249, 16.53886, -171.1117), "speed": 9.59692764282227 }, { "phase": "summit_downhill_manual", "at": (-149.5331, 15.66651, -167.9765), "speed": 10.616189956665 }, { "phase": "downhill_catch_approach", "at": (-147.1954, 11.69168, -149.0595), "speed": 7.3092565536499 }, { "phase": "downhill_pop_charge", "at": (-147.3962, 10.69073, -144.5914), "speed": 4.12214851379395 }, { "phase": "lower_seat_catch", "at": (-147.3967, 10.5672, -143.5359), "speed": 4.30557584762573 }, { "phase": "clean_bank", "at": (-147.392, 9.431581, -140.3001), "speed": 0.0 }, { "phase": "single_bank_observation", "at": (-147.392, 9.431581, -140.3001), "speed": 0.0 }] gates=[] fountainCharge=(inf, inf, inf) fountainRelease=(inf, inf, inf) fountainReleaseSpeed=0.0
+RESULT: 24 passed, 3 failed

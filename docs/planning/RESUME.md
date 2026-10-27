@@ -1,3 +1,24 @@
+# Current resumption — 27 October 2026
+
+Use main and the [current park/wall batch record](../testing/pt24-park-2026-10-27/README.md),
+which owns exact source-bound checks, retained failures, native images and the
+current artifact handoff. The wall fit keeps physical movement unchanged and
+handles immediate impact→brake→idle; the park run now reaches the civic return
+using earned flatland cadence. Do not restore a whole-perimeter lower-seat guide
+or remove the release fallback without the corresponding native regressions.
+All merged content remains on in normal Main; the historical explicit-false
+world is only an inventory/coverage control.
+
+Next independent software work is the full market loading chain, literal
+civic→park combo and promenade→facility link; see the
+[bounded queue and acceptance](../testing/pt24-park-2026-10-27/next-queue.md).
+Preserve the torso repair and Apple Music. Actual Mac/controller/Music/save,
+moving shadows, stutter/performance and human art/fun remain honest open gates,
+without hiding features. Keep main-only/non-force and no-spend/no-hosted-CI/
+no-release/no-unattended-job constraints.
+
+---
+
 # Priority body-attachment repair —25 October2026
 
 The owner prioritises torso/leg detachment during tricks and after bails, then

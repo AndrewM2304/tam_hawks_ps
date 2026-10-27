@@ -1,2 +1,4 @@
 # Preserve engine diagnostics exactly, including their original whitespace.
 *.log -whitespace
+# Immutable diagnostic source snapshots retain their exact admitted bytes.
+docs/testing/pt24-park-2026-10-27/focused/**/*.gd -whitespace

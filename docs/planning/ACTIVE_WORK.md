@@ -1,3 +1,16 @@
+# Current continuation — 27 October 2026
+
+Main gains the bounded connected wall-presentation repair and finite downhill
+park guide. Focused21/0 and27/0 plus four matched native frames pass; ordinary
+Main now owns the route regression context, including actual gate and full
+summit/city journeys. [Current batch](../testing/pt24-park-2026-10-27/README.md)
+owns exact combined verification and artifacts. Continue from the
+[remaining software queue](../testing/pt24-park-2026-10-27/next-queue.md), preserving
+all normal enabled features, Music isolation, native contact/score/camera rules
+and the earlier torso repair. Main-only, no-spend/no-hosted-CI/no-release remain.
+
+---
+
 # Priority body-attachment repair —25 October2026
 
 The owner prioritises torso/leg detachment during tricks and after bails, then

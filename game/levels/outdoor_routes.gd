@@ -684,7 +684,11 @@ func _refit_park_seat(world: Node3D,id: String,old: Rect2,start: Vector3,finish:
 	var author: Node3D = world.get_node(guide_id)
 	var points: PackedVector3Array = author.get_meta("grind_points").duplicate()
 	for index: int in points.size(): points[index]=world.to_local(remap.call(world.to_global(points[index])))
-	author.set_meta("grind_points",points)
+	# Publish the intended inboard downhill catch, not the perpendicular
+	# perimeter cap that masks it under nearest-point tangent admission.
+	# The original perimeter still owns ALL four native/display bearings below.
+	var guide_points := PackedVector3Array([points[1],points[2]]) if id=="park_east_lower" else points
+	author.set_meta("grind_points",guide_points)
 	# Keep unit world-up authoring frames, which the contact snapshot requires.
 	# Refit the existing cylinder instances and existing native cylinder shapes.
 	var native: StaticBody3D = author.get_node("NativeGrindBearing")
@@ -725,7 +729,7 @@ func _refit_park_seat(world: Node3D,id: String,old: Rect2,start: Vector3,finish:
 		feature.position=world.to_global(center-Vector3.UP*0.46)
 		feature.floor_y=minf(start.y,finish.y)-0.46
 		feature.bounds=bounds
-		feature.line=points.duplicate()
+		feature.line=guide_points.duplicate()
 		feature.approach=PackedVector3Array([world.to_global(start-(finish-start).normalized()*7-Vector3.UP*0.46),world.to_global(start-Vector3.UP*0.46)])
 		feature.landing=PackedVector3Array([world.to_global(finish-Vector3.UP*0.46),world.to_global(finish+(finish-start).normalized()*7-Vector3.UP*0.46)])
 		feature.review_from=world.to_global(start-(finish-start).normalized()*7+Vector3.UP*2.5)

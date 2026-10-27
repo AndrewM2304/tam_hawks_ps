@@ -1,0 +1,46 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Park flagship fixture: Music is inert before any start_mode and no content override was applied
+PASS: Park flagship fixture: actual Main defaults merged trial content on
+PASS: L06 park: existing seats are composed before world snapshots
+PASS: L06 park: fixed west-shoulder eight-metre footprint park_east_lower
+PT24_PARK_SEAT park_east_lower north=(-147.9186, 9.777272, -140.0145) south=(-147.9583, 7.441023, -132.0146)
+PASS: L06 park: catch and release follow the real downhill/flat road heading park_east_lower
+PASS: L06 park: all four top vertices agree within1mm between existing convex hull, display and height query park_east_lower
+PT24_PARK_VERTEX_ERROR park_east_lower native_m=0.0 display_m=0.00005420654998 query_m=0.0
+PT24_PARK_GUIDE park_east_lower verified=true points=[(-147.3186, 9.797273, -140.0116), (-147.3583, 7.461024, -132.0117)]
+PASS: L06 park: same-ID finite downhill guide publishes the real inboard long edge without a transverse masking cap
+PASS: L06 park: nine independent normal rays verify the straight-grade radial datum against the retained native bearing
+PT24_PARK_LONG_EDGE_NATIVE max_error_m=0.00001705984505
+PASS: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_lower
+PASS: L06 park: six independent transverse native/visible endcap rays close both reused seat ends park_east_lower
+PT24_PARK_ENDCAP park_east_lower native_plane_max_error_m=0.00039672851562
+PASS: L06 park: existing12-triangle seat and four native bearings retain their resource counts park_east_lower
+PASS: L06 park: fixed west-shoulder eight-metre footprint park_east_gateway
+PT24_PARK_SEAT park_east_gateway north=(-147.4165, 6.46, -115.9338) south=(-147.1921, 6.46, -107.9369)
+PASS: L06 park: catch and release follow the real downhill/flat road heading park_east_gateway
+PASS: L06 park: all four top vertices agree within1mm between existing convex hull, display and height query park_east_gateway
+PT24_PARK_VERTEX_ERROR park_east_gateway native_m=0.0 display_m=0.00007074607129 query_m=0.0
+PT24_PARK_GUIDE park_east_gateway verified=true points=[(-148.0163, 6.48, -115.9169), (-146.8167, 6.48, -115.9506), (-146.5924, 6.48, -107.9538), (-147.7919, 6.48, -107.9201), (-148.0163, 6.48, -115.9169)]
+PASS: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_gateway
+PASS: L06 park: six independent transverse native/visible endcap rays close both reused seat ends park_east_gateway
+PT24_PARK_ENDCAP park_east_gateway native_plane_max_error_m=0.00054952828214
+PASS: L06 park: existing12-triangle seat and four native bearings retain their resource counts park_east_gateway
+PASS: L06 park:36 independently fixed centre/east bypass supports remain capsule-clear
+PASS: L06 park: native downhill Push/Ollie captures and rides the reused path-side seat without a bail
+PASS: L06 park: real landing/manual carries the same descent across the flattening into the next-feature choice
+PASS: L06 park: the earned grind/manual combo banks its exact pending value once and remains unchanged
+PASS: L06 park: complete rider/board and chase-camera volume remain clear throughout the actual descent
+PASS: L06 park: ordinary chase shows both the catch and the next seat/clear through-lane choice before commitment
+PT24_PARK_DESCENT captures=["Grind_Ledge_park_east_lower"] grind_frames=31 manual_frames=50 manual_begin=(-145.8955, 6.227377, -127.9099) manual_end=(-145.9455, 6.013912, -117.8517) banks=1 pending=2000 banked=2000 bails=0 camera=true catch_visible=true choice_visible=true at=(-145.9613, 6.013912, -114.6614) tricks=["Ollie", "50-50", "Ollie", "Manual"]
+PT24_PARK_CLOSEST descending={ "rider": (-147.3446, 10.42209, -140.3934), "guide": (-147.3186, 9.797273, -140.0116), "velocity": (-0.009292, -6.966666, 7.08132), "gap": 0.73273146152496, "held": true }
+PASS: L06 park: ordinary no-jump uphill bypass travels past both seats
+PT24_PARK_TRANSIT direction=-1 reached=true supported=true bails=0 at=(-144.5964, 11.06879, -146.219)
+PASS: L06 park: ordinary no-jump downhill bypass travels past both seats
+PT24_PARK_TRANSIT direction=1 reached=true supported=true bails=0 at=(-144.603, 6.014096, -106.9837)
+PT24_PARK_RUN_GEOMETRY fixed_bypass=36 reused_seats=2 added_triangles=0 added_draws=0
+PASS: C04-L06 flagship: summit Ollie/Manual feeds the existing downhill grind and civic-return flatland in one actual input line
+PASS: C04-L06 summit: independently calculated catalog/repetition/hold receipt banks once without bail or hidden rider
+PARK_FLAGSHIP summit_manual=true lower_ticks=33 city_return=true distance_m=212.451130207162 final_manual_elapsed=0.0
+C04_FLAGSHIP park_summit_to_civic captures=["Grind_Ledge_park_east_lower"] entries=[{ "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "manual", "label": "Manual", "points": 100 }, { "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "grind_50_50", "label": "50-50", "points": 200 }, { "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "manual", "label": "Manual", "points": 100 }, { "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "manual", "label": "Manual", "points": 100 }, { "id": "nollie", "label": "Nollie", "points": 150 }, { "id": "manual", "label": "Manual", "points": 100 }, { "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "manual", "label": "Manual", "points": 100 }] holds=50 banks=1 total=9432 bails=0 recoveries=0 manual=1181 bankManual=0 faces=[] transfer=false crossed=false farFloor=false farAt=(inf, inf, inf) camera=true supported=true at=(-44.61715, 6.01231, -122.0358) stages=[{ "phase": "summit_roll", "at": (-156.9814, 16.9423, -173.985), "speed": 0.2461489289999 }, { "phase": "summit_ollie_charge", "at": (-153.7997, 16.32691, -171.4136), "speed": 9.52460289001465 }, { "phase": "summit_takeoff", "at": (-153.5494, 16.4283, -171.212), "speed": 9.59692764282227 }, { "phase": "summit_manual_landing", "at": (-153.4249, 16.53886, -171.1117), "speed": 9.59692764282227 }, { "phase": "summit_downhill_manual", "at": (-149.5331, 15.66651, -167.9765), "speed": 10.616189956665 }, { "phase": "downhill_catch_approach", "at": (-147.1954, 11.69168, -149.0595), "speed": 7.3092565536499 }, { "phase": "downhill_push_setup", "at": (-147.3939, 10.83185, -145.1804), "speed": 4.27176523208618 }, { "phase": "downhill_pop_charge", "at": (-147.3977, 10.51038, -143.9476), "speed": 6.27528476715088 }, { "phase": "lower_seat_catch", "at": (-147.3979, 10.60245, -143.7391), "speed": 6.22086238861084 }, { "phase": "lower_seat_payoff", "at": (-147.3193, 9.756325, -139.8714), "speed": 8.81102085848649 }, { "phase": "lower_seat_exit_charge", "at": (-147.3436, 8.326288, -134.9745), "speed": 11.59459189713 }, { "phase": "lower_seat_outward_pop", "at": (-147.3445, 8.271899, -134.7883), "speed": 11.2187309265137 }, { "phase": "lower_seat_manual_landing", "at": (-147.3862, 8.38429, -134.5984), "speed": 11.4726333618164 }, { "phase": "civic_promenade_manual_return", "at": (-148.8657, 6.180863, -127.4264), "speed": 12.9105491638184 }, { "phase": "promenade_push_ollie_charge", "at": (-135.035, 6.011308, -124.8311), "speed": 6.03092622756958 }, { "phase": "promenade_earned_takeoff", "at": (-133.2066, 6.162688, -125.0214), "speed": 8.32047843933105 }, { "phase": "promenade_fresh_manual", "at": (-133.0682, 6.303244, -125.0306), "speed": 8.32047843933105 }, { "phase": "civic_promenade_manual_return", "at": (-128.5037, 6.012423, -125.3321), "speed": 8.26378631591797 }, { "phase": "promenade_push_ollie_charge", "at": (-111.0519, 6.012423, -125.0306), "speed": 6.6825065612793 }, { "phase": "promenade_earned_takeoff", "at": (-109.087, 6.16327, -124.9709), "speed": 8.43844413757324 }, { "phase": "promenade_fresh_manual", "at": (-108.9464, 6.303825, -124.9665), "speed": 8.43844413757324 }, { "phase": "civic_promenade_manual_return", "at": (-104.3092, 6.012391, -124.8208), "speed": 8.38125324249268 }, { "phase": "promenade_push_ollie_charge", "at": (-81.0173, 6.012391, -124.0346), "speed": 6.1495099067688 }, { "phase": "promenade_earned_takeoff", "at": (-79.15098, 6.163252, -123.9584), "speed": 8.4371223449707 }, { "phase": "promenade_fresh_manual", "at": (-79.01051, 6.303808, -123.9519), "speed": 8.4371223449707 }, { "phase": "civic_promenade_manual_return", "at": (-74.37663, 6.01231, -123.7378), "speed": 8.37991809844971 }, { "phase": "clean_bank", "at": (-45.09233, 6.01231, -122.0633), "speed": 4.76276969909668 }, { "phase": "single_bank_observation", "at": (-44.61715, 6.01231, -122.0358), "speed": 0.0 }] gates=[{ "point": (-145.1551, 6.059027, -126.0305), "target": (-144.0, 6.0, -126.0), "speed": 7.28497505187988, "ticks": 682 }, { "point": (-135.1344, 6.011308, -124.8161), "target": (-134.0, 6.0, -125.0), "speed": 5.86392879486084, "ticks": 781 }, { "point": (-111.1632, 6.012423, -125.0338), "target": (-110.0, 6.0, -125.0), "speed": 6.51580429077148, "ticks": 972 }, { "point": (-81.11974, 6.012391, -124.038), "target": (-80.0, 6.0, -124.0), "speed": 5.98276233673096, "ticks": 1216 }, { "point": (-45.17158, 6.01231, -122.0679), "target": (-44.0, 6.0, -122.0), "speed": 5.12938404083252, "ticks": 1526 }] fountainCharge=(inf, inf, inf) fountainRelease=(inf, inf, inf) fountainReleaseSpeed=0.0
+RESULT: 27 passed, 0 failed

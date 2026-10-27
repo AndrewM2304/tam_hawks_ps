@@ -1,3 +1,19 @@
+# Current continuation — 27 October 2026
+
+| Slice | Current implementation / bounded evidence | Still open |
+| --- | --- | --- |
+| C03 ordinary wall contact | Connected board/shoe/body presentation clears actual vertical-wall contact and immediate braking/idle;21/0 native focused checks and four matched native frames, unchanged physical movement. | Active trick/manual/air wall poses and target-Mac motion/feel are separate. |
+| C04-L06 summit representative | Same-ID finite inboard downhill guide retains all four physical/display bearings. Actual summit→50-50→earned flatland cadence→civic return passes27/0 focused checks; both no-jump directions and540 fixed support samples pass. | Promenade→facility continuity and optional cutback/hip branches. |
+| C04 / PT24-27 normal integration | Gallery, station, civic, market, Clyde and local park acceptance now uses ordinary default-on Main. Actual mapped gate open→cross→turn→return→close also checks finite board/shoe clearance. | Full market loading chain, literal civic→park combo, physical controller/human acceptance. |
+
+[Current exact results and artifact handoff](../testing/pt24-park-2026-10-27/README.md)
+own this source. [Next bounded software queue](../testing/pt24-park-2026-10-27/next-queue.md)
+keeps remaining engineering separate from Mac, temporal, performance, Music and
+human evidence. All merged trial features stay available. Historical scopes and
+ticket bodies below remain preserved; older preview-only gates are superseded.
+
+---
+
 # Current C03 priority and C04-L01 completion —25 October2026
 
 The current torso/leg failure is reproduced and repaired: real Skin-bound

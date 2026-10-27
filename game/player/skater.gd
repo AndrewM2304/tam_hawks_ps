@@ -107,6 +107,7 @@ var _vert_return: Dictionary = {}
 var _vert_start_yaw := 0.0
 var _vert_start_up := 0.0
 var _grind_visual_offset := Vector3.ZERO
+var _obstacle_visual_offset := Vector3.ZERO
 var _lip_feature: Dictionary = {}
 var _lip_across := 0.0
 var _lip_elapsed := 0.0
@@ -450,6 +451,7 @@ func reset_skater(preserve_camera:bool=false,preserve_support:bool=false) -> voi
 	_transition.stop()
 	_vert_return.clear()
 	_grind_visual_offset = Vector3.ZERO
+	_obstacle_visual_offset = Vector3.ZERO
 	transition_normal = Vector3.UP
 	_transition_cooldown = 0.0
 	lip_active = false
@@ -540,6 +542,7 @@ func begin_bail(reason: String, safe_position: Vector3 = Vector3.INF) -> void:
 	_trick_input.clear_actions()
 	_discard_cached_support()
 	if _visual_rig.has_method("begin_bail"): _visual_rig.begin_bail()
+	_obstacle_visual_offset = Vector3.ZERO
 	# Retain only body-local interrupted presentation; native motion stays authoritative.
 	_bail_visual_basis=_visual.basis.orthonormalized()
 	_bail_visual_offset=_visual.position
@@ -2178,6 +2181,88 @@ func _update_pose(delta: float) -> void:
 	elif native_support and manual_active and not bail_active and not setup_active and not skitching:
 		_place_manual_wheels()
 	if not air_landing_support.is_empty(): _place_air_landing_wheels(air_landing_support)
+	_place_obstacle_wheels(delta)
+
+
+func _place_obstacle_wheels(delta: float) -> void:
+	# The upright locomotion capsule is narrower than the actual deck/shoes.
+	# Reuse its real vertical-wall contacts to fit only the connected figure;
+	# an obstacle must never move the physical actor or split feet from board.
+	if not _native_floor_valid or not is_on_floor() or airborne or _force_air_tick \
+			or manual_active or transition_active or grinding or wallriding or bail_active \
+			or setup_active or skitching or lip_active or crouching or powersliding \
+			or _flip_remaining>0.0 or _grab_remaining>0.0 or _special_remaining>0.0 \
+			or _ollie_pose_remaining>0.0 or _native_floor_normal().y<0.999:
+		_obstacle_visual_offset=Vector3.ZERO
+		return
+	var offset := _obstacle_visual_offset*exp(-maxf(0.0,delta)/0.045)
+	if offset.length_squared()<0.0000000001:offset=Vector3.ZERO
+	if offset==Vector3.ZERO and not is_on_wall():
+		_obstacle_visual_offset=Vector3.ZERO
+		return
+	var geometry: Dictionary=_visual_rig.board_contact_geometry()
+	var planes: Array[Vector4]=[]
+	for slide_index: int in get_slide_collision_count():
+		var contact := get_slide_collision(slide_index)
+		for index: int in contact.get_collision_count():
+			var normal := contact.get_normal(index)
+			if not normal.is_finite() or absf(normal.y)>0.001:continue
+			normal=Vector3(normal.x,0,normal.z).normalized()
+			if normal.length_squared()<0.99:continue
+			var point := contact.get_position(index)
+			planes.append(Vector4(normal.x,normal.y,normal.z,point.dot(normal)))
+			var gap := INF
+			for vertex: Vector3 in geometry.support_points:
+				gap=minf(gap,(_board_visual.to_global(vertex)+offset-point).dot(normal))
+			# Cupsole XZ encloses the upper's XZ for these authored shoes. A
+			# horizontal plane therefore needs no new hull or per-frame mesh scan.
+			for leg: Dictionary in _visual_rig._legs:
+				for vertex: Vector3 in _visual_rig._sole_points:
+					gap=minf(gap,(leg.foot.to_global(vertex)+offset-point).dot(normal))
+			if is_finite(gap) and gap<GROUND_PRESENTATION_SKIN:
+				offset+=normal*(GROUND_PRESENTATION_SKIN-gap)
+	if offset.length_squared()<0.0000000001:
+		_obstacle_visual_offset=Vector3.ZERO
+		return
+	if not offset.is_finite() or offset.length()>0.18:
+		_obstacle_visual_offset=Vector3.ZERO
+		return
+	var floor_y := _visual.global_position.y-GROUND_PRESENTATION_SKIN
+	# A collision rebound can release the capsule while the longer deck still
+	# needs clearance. If decay is obstructed, retain the previous safe offset
+	# only after validating it again; resetting it would snap through the wall.
+	for attempt: int in 2:
+		var candidate := offset if attempt==0 else _obstacle_visual_offset
+		if candidate==Vector3.ZERO or (attempt==1 and candidate==offset):continue
+		if not _obstacle_offset_supported(geometry,candidate,planes,floor_y):continue
+		_visual.position+=global_basis.inverse()*candidate
+		_obstacle_visual_offset=candidate
+		return
+	_obstacle_visual_offset=Vector3.ZERO
+
+
+func _obstacle_offset_supported(geometry: Dictionary,offset: Vector3,planes: Array[Vector4],floor_y: float) -> bool:
+	# Sequential corner corrections must still satisfy every earlier actual
+	# contact plane; refusing an impossible fit is preferable to oscillation.
+	for plane: Vector4 in planes:
+		var normal:=Vector3(plane.x,plane.y,plane.z)
+		for vertex: Vector3 in geometry.support_points:
+			if (_board_visual.to_global(vertex)+offset).dot(normal)-plane.w<GROUND_PRESENTATION_SKIN-0.00001:return false
+		for leg: Dictionary in _visual_rig._legs:
+			for vertex: Vector3 in _visual_rig._sole_points:
+				if (leg.foot.to_global(vertex)+offset).dot(normal)-plane.w<GROUND_PRESENTATION_SKIN-0.00001:return false
+	var candidate: Transform3D=_board_visual.global_transform
+	candidate.origin+=offset
+	var space := get_world_3d().direct_space_state
+	# At most two proposals, each with four finite support rays and the reused
+	# board query. Ordinary clear skating performs none of these queries.
+	for wheel: Dictionary in geometry.wheels:
+		var at: Vector3=candidate*Vector3(wheel.center)
+		var query := PhysicsRayQueryParameters3D.create(at+Vector3.UP*0.16,at-Vector3.UP*0.20,collision_mask)
+		query.exclude=[get_rid()]
+		var hit := space.intersect_ray(query)
+		if hit.is_empty() or Vector3(hit.normal).y<0.999 or absf(Vector3(hit.position).y-floor_y)>0.001:return false
+	return _grind_board_clear(candidate)
 
 
 func _place_air_landing_wheels(support: Dictionary) -> void:

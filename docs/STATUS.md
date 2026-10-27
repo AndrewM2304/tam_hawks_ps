@@ -1,3 +1,28 @@
+# Current park and wall-contact continuation — 27 October 2026
+
+The next batch fixes actual board/shoe intrusion at ordinary vertical-wall
+contact, including immediate impact followed by braking/idle. Native focused
+checks pass21/0 and four matched rendered controls retain8mm board clearance
+with unchanged physical movement. The existing lower park seat now publishes its
+real finite downhill edge; the full summit→grind→flatland→civic-return input
+passes27/0 focused checks. Existing route suites move to ordinary-default Main,
+with actual two-way gate and summit/city transit checks added.
+
+**Required5,100/0**, actual Music launch guard2/0, clean/stable609 inputs;
+four cold-source phases pass with515 stable inputs and normal title→play50/0.
+The combined full park route banks7,704 once; the focused9,432 receipt contains
+a different observed Ollie/Nollie entry. Each exact bank is independently derived
+from actual catalog/repetition/hold events. No physical movement or score rule
+is changed by the wall repair.
+
+[Current results, retained failures and artifact handoff](testing/pt24-park-2026-10-27/README.md)
+own this source. [Next bounded software work](testing/pt24-park-2026-10-27/next-queue.md)
+remains separate from Mac, temporal, performance and human acceptance. All
+merged trial features stay on and Music is preserved. Historical receipts below
+certify only their recorded source; no blanket ticket closure is claimed.
+
+---
+
 # Priority body-attachment repair —25 October2026
 
 The owner prioritises torso/leg detachment during tricks and after bails, then

@@ -1,3 +1,18 @@
+# Current continuation — 27 October 2026
+
+C03 gains a finite connected wall-contact presentation repair and21/0 native
+focused checks; C04-L06 gains the actual summit→downhill50-50→flatland cadence→
+civic-return representative, focused27/0. Existing route acceptance moves to
+normal default-on Main, and actual gate/two-way summit transit is integrated.
+[Current evidence](../testing/pt24-park-2026-10-27/README.md) owns combined
+verification and packages. The full market chain, civic→park combo and
+promenade→facility link remain in the [next software queue](../testing/pt24-park-2026-10-27/next-queue.md).
+Mac/temporal/performance/human acceptance remains open without hiding features.
+All76 historical full records below are preserved; do not recreate their
+implemented systems or read old statuses as the current implementation queue.
+
+---
+
 # Priority body-attachment repair —25 October2026
 
 The owner prioritises torso/leg detachment during tricks and after bails, then
