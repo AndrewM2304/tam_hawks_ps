@@ -1,0 +1,25 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: gait direction: actual Push/Manual/impact/Brake preserves the real Nose Manual and once-only100-point bank
+PASS: gait direction: native movement matches the unfitted twin and both loaded tyres retain their original support
+PASS: gait direction: actual complete shoe outline stays continuous through the former253mm zero-speed flip without entering the native floor
+PASS: gait direction: connected real clothing and the final backward stroke survive a stopped fading Brake
+GAIT_NATIVE_STOP { "maximum_sole_step": 0.12746435403824, "stop83_sole_step": 0.04114131629467, "minimum_sole_y": 0.0007710531354, "banks": [100], "trace": [{ "tick": 80, "speed": 0.0, "direction": 1.0, "last_direction": 1.0, "brake": 0.0, "sole_step": 0.03726221248507 }, { "tick": 81, "speed": -0.71581715345383, "direction": 0.63746150615596, "last_direction": -1.0, "brake": 0.18126924692202, "sole_step": 0.10845643281937 }, { "tick": 82, "speed": -0.34915027022362, "direction": 0.34064009207128, "last_direction": -1.0, "brake": 0.32967995396436, "sole_step": 0.07934415340424 }, { "tick": 83, "speed": 0.0, "direction": 0.09762327218805, "last_direction": -1.0, "brake": 0.26991911698396, "sole_step": 0.04114131629467 }, { "tick": 84, "speed": 0.0, "direction": -0.10134207176556, "last_direction": -1.0, "brake": 0.22099108191842, "sole_step": 0.02280423603952 }] }
+PASS: gait direction: original steady forward/backward shoe positions and yaw remain unchanged at30Hz
+PASS: gait direction: zero-speed stroke retains its direction with bounded actual shoe speed at30Hz
+PASS: gait direction: genuine reverse-to-forward transition turns actual sole corners and yaw continuously on native support at30Hz
+PASS: gait direction: direction changes preserve the native body and finite fixed-length rig at30Hz
+GAIT_POSE_RATE { "rate": 30, "maximum_sole_speed": 11.0087639093399, "maximum_yaw_speed": 31.0716032981873, "minimum_sole_floor_gap": 0.00069999694824 }
+PASS: gait direction: original steady forward/backward shoe positions and yaw remain unchanged at60Hz
+PASS: gait direction: zero-speed stroke retains its direction with bounded actual shoe speed at60Hz
+PASS: gait direction: genuine reverse-to-forward transition turns actual sole corners and yaw continuously on native support at60Hz
+PASS: gait direction: direction changes preserve the native body and finite fixed-length rig at60Hz
+GAIT_POSE_RATE { "rate": 60, "maximum_sole_speed": 11.691555082798, "maximum_yaw_speed": 34.1684317588806, "minimum_sole_floor_gap": 0.00069999694824 }
+PASS: gait direction: original steady forward/backward shoe positions and yaw remain unchanged at120Hz
+PASS: gait direction: zero-speed stroke retains its direction with bounded actual shoe speed at120Hz
+PASS: gait direction: genuine reverse-to-forward transition turns actual sole corners and yaw continuously on native support at120Hz
+PASS: gait direction: direction changes preserve the native body and finite fixed-length rig at120Hz
+GAIT_POSE_RATE { "rate": 120, "maximum_sole_speed": 11.9209483265877, "maximum_yaw_speed": 35.8754503726959, "minimum_sole_floor_gap": 0.00069999694824 }
+PASS: gait direction: equal-duration30/60/120Hz pose samples converge to identical original forward shoe output
+PASS: gait direction: reset clears both direction scalars and immediately restores original planted shoes
+RESULT: 18 passed, 0 failed

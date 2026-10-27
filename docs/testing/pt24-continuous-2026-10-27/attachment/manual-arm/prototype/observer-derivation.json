@@ -1,0 +1,57 @@
+{
+  "source": ".local/manual_arm_candidate_proof.gd",
+  "source_sha256": "2114b7be1b12c9e7b5f2f4b774213b62de4221118541c219fbf537bd18134f4f",
+  "target": ".local/manual_arm_candidate_proof_v2.gd",
+  "sha256": "05ec60b6f9c00b2c296fc50368ef0a6a90b1de8f0fedc2c43e5717300f5d5ebe",
+  "method": "Original7/1 retained. Explicit native baseline+candidate world/body markers expose unchanged gait event; corrected arm-specific220mm wrist and additional elbow criterion applies every changed transition including first correction, with exact unchanged-marker twins. No candidate algorithm/cap/tolerance/source change.",
+  "replacements": [
+    [
+      "var previous: Array[Vector3]=[];var maximum_marker:=0.0;var maximum_changed_wrist:=0.0",
+      "var previous: Array[Vector3]=[];var maximum_marker:=0.0;var maximum_changed_wrist:=0.0\n\tvar previous_baseline: Array[Vector3]=[];var maximum_baseline_marker:=0.0\n\tvar previous_world: Array[Vector3]=[];var previous_baseline_world: Array[Vector3]=[]\n\tvar maximum_world:=0.0;var maximum_baseline_world:=0.0;var unchanged_markers:=true\n\tvar previous_elbows: Array[Vector3]=[];var maximum_changed_elbow:=0.0"
+    ],
+    [
+      "var changed: Array[bool]=[]",
+      "var changed: Array[bool]=[]\n\t\tvar elbows: Array[Vector3]=[]"
+    ],
+    [
+      "var wrist: Vector3=rig._arms[index].hand.global_position",
+      "var wrist: Vector3=rig._arms[index].hand.global_position\n\t\t\telbows.append(r.to_local(elbow))"
+    ],
+    [
+      "var markers: Array[Vector3]=[]\n\t\tfor marker: Vector3 in Authentic._markers(rig):markers.append(r.to_local(marker))",
+      "var markers: Array[Vector3]=[];var baseline_markers: Array[Vector3]=[]\n\t\tvar world_markers:=Authentic._markers(rig);var baseline_world_markers:=Authentic._markers(c._visual_rig)\n\t\tfor marker: Vector3 in world_markers:markers.append(r.to_local(marker))\n\t\tfor marker: Vector3 in baseline_world_markers:baseline_markers.append(c.to_local(marker))\n\t\tfor index: int in markers.size():\n\t\t\tif index<3 or not changed[index-3]:unchanged_markers=unchanged_markers and markers[index]==baseline_markers[index] and world_markers[index]==baseline_world_markers[index]"
+    ],
+    [
+      "maximum_marker=maxf(maximum_marker,Authentic._marker_delta(previous,markers))",
+      "maximum_marker=maxf(maximum_marker,Authentic._marker_delta(previous,markers))\n\t\t\tmaximum_baseline_marker=maxf(maximum_baseline_marker,Authentic._marker_delta(previous_baseline,baseline_markers))\n\t\t\tmaximum_world=maxf(maximum_world,Authentic._marker_delta(previous_world,world_markers))\n\t\t\tmaximum_baseline_world=maxf(maximum_baseline_world,Authentic._marker_delta(previous_baseline_world,baseline_world_markers))"
+    ],
+    [
+      "if changed[index] or previous_changed[index]:maximum_changed_wrist=maxf(maximum_changed_wrist,previous[index+3].distance_to(markers[index+3]))",
+      "if changed[index] or previous_changed[index]:\n\t\t\t\t\tmaximum_changed_wrist=maxf(maximum_changed_wrist,previous[index+3].distance_to(markers[index+3]))\n\t\t\t\t\tmaximum_changed_elbow=maxf(maximum_changed_elbow,previous_elbows[index].distance_to(elbows[index]))"
+    ],
+    [
+      "previous=markers;previous_changed=changed",
+      "previous=markers;previous_changed=changed;previous_baseline=baseline_markers;previous_world=world_markers;previous_baseline_world=baseline_world_markers;previous_elbows=elbows"
+    ],
+    [
+      "\"body_markers\":markers,",
+      "\"body_markers\":markers,\"baseline_body_markers\":baseline_markers,\"world_markers\":world_markers,\"baseline_world_markers\":baseline_world_markers,\"body_elbows\":elbows,"
+    ],
+    [
+      "_check(maximum_marker<0.22 and maximum_changed_wrist<0.22,\"complete actual body-relative pose and changed-wrist transitions retain original220mm bound\")",
+      "_check(unchanged_markers and maximum_changed_wrist<0.22 and maximum_changed_elbow<0.22,\"every unchanged world/body marker matches baseline exactly and all changed wrist/elbow steps retain original220mm bound including first correction\")"
+    ],
+    [
+      "\"maximum_body_marker\":maximum_marker,\"maximum_changed_wrist\":maximum_changed_wrist,",
+      "\"maximum_body_marker\":maximum_marker,\"maximum_changed_wrist\":maximum_changed_wrist,\"maximum_changed_elbow\":maximum_changed_elbow,\"maximum_baseline_body_marker\":maximum_baseline_marker,\"maximum_world_marker\":maximum_world,\"maximum_baseline_world_marker\":maximum_baseline_world,\"unchanged_markers_equal\":unchanged_markers,"
+    ],
+    [
+      "res://.local/manual_arm_candidate_proof.json",
+      "res://.local/manual_arm_candidate_proof_v2.json"
+    ],
+    [
+      "fixedlength/220mm pose and loadedtyre/100once invariants.",
+      "fixedlength/original220mm changed wrist and elbow transitions including first correction; every unchanged world/body marker exact baseline. Full gait253mm rightfoot event retained quantitatively, not accepted as a new fixed-body pose or modified to pass. Loadedtyre/100once invariants."
+    ]
+  ]
+}

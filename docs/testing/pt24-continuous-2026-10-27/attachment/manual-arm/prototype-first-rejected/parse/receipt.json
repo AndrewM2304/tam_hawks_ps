@@ -1,0 +1,25 @@
+{
+  "started_london": "2026-10-27T20:17:46.210405+00:00",
+  "completed_london": "2026-10-27T20:17:47.012946+00:00",
+  "wall_seconds": 0.8025403040001038,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/manual_arm_candidate_proof.gd",
+    "--",
+    ".local/manual_arm_candidate.gd",
+    ".local/manual_arm_candidate_skater.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 656,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "77ebead0f0c408c6da9212ea1c80f87c4902d1a7c003fe17e13ea78f406a5317",
+  "git_head": "98311cba78944d1828d1cb528be0293273d9c3b5"
+}

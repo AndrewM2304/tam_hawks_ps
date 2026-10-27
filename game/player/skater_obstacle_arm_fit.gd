@@ -81,21 +81,31 @@ func prepare(body: CharacterBody3D) -> void:
 		arms.append({"side":side,"upper":upper,"lower":lower,"rows":rows,"radius":radius,
 			"hand":hand,"mesh_local":mesh.transform,"hand_bounds":hand_bounds,"hand_radius":hand_radius,"hand_length":hand_length})
 
+func _ordinary_manual_fit() -> bool:
+	# The immediately preceding final root fit has proved current native
+	# loaded-tyre and complete board/shoe support; never reuse a stale ID alone.
+	return (actor.manual_active or rig._manual_blend>0.0001) \
+		and actor._obstacle_manual_continuation \
+		and actor.manual_trick_id in ["manual","nose_manual"] \
+		and not actor.airborne and actor._native_floor_valid and actor.is_on_floor() \
+		and not actor._force_air_tick and actor._native_floor_normal().y>0.999
+
 func apply(_delta: float) -> void:
 	calls=0
 	if not supported:return
-	if actor.manual_active or actor.transition_active or actor.grinding or actor.wallriding \
+	var ordinary_manual: bool=_ordinary_manual_fit()
+	if (actor.manual_active and not ordinary_manual) or actor.transition_active or actor.grinding or actor.wallriding \
 			or actor.bailing or actor.setup_active or actor.skitching or actor.lip_active \
 			or actor.powersliding or actor._special_remaining>0.0 \
 			or actor._grab_remaining>0.0 or rig._grab_blend>0.0001 \
 			or rig._skitch_blend>0.0001 or rig._pogo_blend>0.0001 or rig._handplant_blend>0.0001 \
-			or rig._manual_blend>0.0001 or rig._walk_blend>0.0001 or rig._cross_blend>0.0001 \
-			or rig._casper_blend>0.0001 or absf(rig._manual_weight_z)>0.0001 \
+			or ((rig._manual_blend>0.0001 or absf(rig._manual_weight_z)>0.0001) and not ordinary_manual) \
+			or rig._walk_blend>0.0001 or rig._cross_blend>0.0001 or rig._casper_blend>0.0001 \
 			or rig._front_foot_lift>0.0001 or rig._rear_foot_lift>0.0001 \
 			or rig._grind_blend>0.0001 or rig._lip_blend>0.0001 or rig._wall_blend>0.0001 \
 			or rig._transition_blend>0.0001 or rig._slide_blend>0.0001 or rig._bail_blend>0.0001:
 		continuing=false;return
-	if not continuing and not (actor.airborne and actor._obstacle_ollie_continuation and actor._launch_id=="ollie"):
+	if not continuing and not ordinary_manual and not (actor.airborne and actor._obstacle_ollie_continuation and actor._launch_id=="ollie"):
 		return
 	var query: PhysicsShapeQueryParameters3D=actor._grind_board_query
 	var ray: PhysicsRayQueryParameters3D=actor._recovery_floor_query
@@ -133,7 +143,9 @@ func apply(_delta: float) -> void:
 			var elbow_max:=target_gap
 			var circle:=_elbow(shoulder,target,elbow,normal,point,elbow_min,elbow_max)
 			if circle.is_empty():continue
-			var local_shoulder: Vector3=rig._rider.to_local(shoulder)
+			# Independent garment bones already use rider space. Preserve this
+			# original shoulder origin without a world/local round-trip drift.
+			var local_shoulder: Vector3=skeleton.get_bone_global_pose(arm.upper).origin
 			var local_elbow: Vector3=rig._rider.to_local(circle.point)
 			var local_wrist: Vector3=rig._rider.to_local(target)
 			var upper: Transform3D=rig._garments._bone_transform(local_shoulder,local_elbow-local_shoulder)

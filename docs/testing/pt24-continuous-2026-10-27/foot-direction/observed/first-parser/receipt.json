@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-27T20:34:23.120993+00:00",
+  "completed_london": "2026-10-27T20:34:23.723697+00:00",
+  "wall_seconds": 0.6027040120002312,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--check-only",
+    "--script",
+    ".local/foot_sign_trace.gd",
+    "--",
+    ".local/foot_sign_trace_skater.gd",
+    ".local/foot_sign_trace_visual.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 656,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "db5fda3be63df9b8cdd34c1f1feea23cd7e2a486b8b56c6cbf7d59dcdc43b856",
+  "git_head": "98311cba78944d1828d1cb528be0293273d9c3b5"
+}

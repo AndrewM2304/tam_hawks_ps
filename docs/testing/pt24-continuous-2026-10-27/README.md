@@ -1,3 +1,18 @@
+# Latest admitted source — 27 October 2026
+
+**5,520/0 required checks**, actual Music script isolation **2/0**, clean/stable657
+inputs. The ordinary Manual arms and stopping-foot repairs pass, including eight
+new matched native PNGs. [Latest raw receipt](validation/manual-gait-combined/receipt.json)
+and [independent review](manual-gait-review.md) own this admission.
+[Cold launch](cold-final/README.md) passes all four phases on563 stable inputs,
+including ordinary title→play50/0. Push/package refresh follows; older package
+records keep their exact source scope. All trial
+features remain available. The reduced-poly four-slot facade is the next existing
+independent art task; geometry/repeat-export proof does not yet admit appearance,
+imported-resource cost or live performance. Historical batches follow below.
+
+---
+
 # Continuing the accepted queue — 27 October 2026
 
 The owner corrected repeated stopping at completed batches. Main/origin start
@@ -143,3 +158,75 @@ on that same source confirms62.4mm near-sleeve and residual hand intrusion.
 Its8/0 count validates the workload only. The ordinary Manual free-arm case is
 now the next repair; no broader Manual arm policy is admitted by the completed
 wall-fit slice.
+
+## Ordinary Manual arms and stopping-foot continuation
+
+Work continued after source/package push `98311cb`. The next actual Manual
+observer found62.4mm sleeve intrusion. The same native trace then found a
+stopping-foot direction pop. Both source repairs are now written and pass
+focused and matched-native evidence; the next required combined suite is running
+on frozen source.
+
+- [Manual arm continuation](attachment/manual-arm/README.md): **145/0** focused
+  including the retained54 wall checks, original24 Manual checks and67 new
+  native/contact/mode checks. Retained free-Flip checks remain **48/0**. Both
+  genuine Manual/Nose Manual input routes clear original Skin/curl vertices,
+  preserve tyre support, physical/root/nonarm twins and100once. Six actual PNGs
+  retain102objects/102draws/65,108primitives per pair; finite skin hits134,220,
+  2137 become0. Pose and world motion retain the original220mm criterion;
+  raw actor-relative256.631mm including common backoff stays recorded.
+- [Gait direction](foot-direction/README.md): **18/0** focused, actual stop and
+  30/60/120 pose samples. Two actual matched PNGs and84-tick native twins retain
+  identical physical history. The same complete-shoe82→83 outline step improves
+  369.640→41.141mm, yaw54.584°→7.040°. Both frames keep98objects/98draws/
+  62,212primitives and identical texture/video counters. The first sequential
+  capture mismatch remains rejected; simultaneous, equally warmed twins pass.
+
+No physical speed policy, safety threshold, native contact margin, solver search,
+feature availability or personal Music behavior is changed. Prior packages above
+retain their clean `e0c9427` source scope until this next batch is admitted,
+pushed and rebuilt.
+
+## Retained first combined Manual/gait rejection
+
+The [first full combined run](validation/manual-gait-first-rejected/receipt.json)
+finishes **5,519/1**, exit1, on657 unchanged inputs in565.169s. Manifest:
+`907cd0cb837128d353e8ed7cc30da38e44608503cfae2283c89ac7b327a744f6`.
+All inputs resolve to649 immutable `98311cb` blobs plus eight exact snapshots.
+The new gait fixture did not enter backward braking in the full-suite order:
+its native80–84 trace is already stopped, with no Brake blend. The final backward
+stroke assertion correctly rejects that workload. Focused and capture receipts
+retain their own passing scope; this combined epoch is not admitted. The short sequenced diagnostic reproduces this while Brake remains fully
+pressed, so missing input is not the cause. Investigate native floor-fixture
+isolation before a new source-bound required run; do not change
+physical movement or relax the gait bounds to make the missing workload pass.
+
+The next existing independent C07/C10 implementation is the
+[reduced-poly four-slot facade source variant](../../planning/FACADE-COST-NEXT.md).
+This remains unfinished art implementation, separate from human acceptance.
+Prepare it offline with original materials/maps and deterministic geometry
+checks; preserve existing live assets and every earlier timing rejection.
+
+The [sequenced fixture investigation](manual-gait-review.md) reproduces the
+rejected workload with Brake strength1 and controls enabled, ruling out the
+initial missing-input hypothesis. The test now uses the explicit native Box
+floor and two twins from the admitted stop capture, rather than borrowing the
+unrelated convex-floor/three-actor Manual fixture. It explicitly requires actual
+negative-speed Brake followed by a stopped fading stroke. No production movement,
+visual repair, contact margin or gait tolerance changes. Final focused **18/0**
+and preceding Manual→arm→gait sequence **157/0** pass, both with the original
+41.141mm complete-sole stop step. A fresh required combined run is in progress
+on657 frozen inputs; the5,519/1 epoch remains rejected.
+
+## Final combined Manual/gait admission
+
+[Required final run](validation/manual-gait-combined/receipt.json): **5,520/0**,
+exit0, clean/stable657 inputs in561.612s. Actual Music script launch guard is
+**2/0** in the retained script-launch log. Source manifest SHA256:
+`47b8ac3495699c4bf9f2085ee0abe7b31d8d8e9429359258d55e14dfe045f44c`.
+Every input resolves to649 immutable `98311cb` blobs plus eight exact snapshots.
+The final full-suite trace contains genuine backward braking at81/82 and zero
+speed at83 with a fading stroke, unchanged100-point bank and41.141mm sole step.
+The earlier5,519/1 epoch remains rejected; no original limit or production
+movement was changed. All actual capture production-helper/Visual bytes remain
+unchanged; the final gait test fixture has its separate newer source identity.

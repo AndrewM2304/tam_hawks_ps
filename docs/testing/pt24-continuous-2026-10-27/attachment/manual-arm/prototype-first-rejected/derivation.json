@@ -1,0 +1,26 @@
+{
+  "parent": "e0c94273a648",
+  "source": "game/player/skater_obstacle_arm_fit.gd",
+  "source_sha256": "09caa3b89bd52a23ba4d40b11f322f75f82cbb9c63c8f06f677bf82fa9a403e4",
+  "target": ".local/manual_arm_candidate.gd",
+  "sha256": "774685744cf728fcc275575399d3aa5472ebd0eddaa7b5f73093a7e14c2045cc",
+  "method": "Subclass inherits every existing cache/IK/envelope/native-query function. apply is exact parent implementation except four explicit guard replacements listed below and one pure earned-ordinary-Manual predicate. No geometry, cap, query order or restoration change.",
+  "replacements": [
+    [
+      "calls=0\n\tif not supported:return",
+      "calls=0\n\tif not supported:return\n\tvar ordinary_manual: bool=_ordinary_manual_fit()"
+    ],
+    [
+      "if actor.manual_active or actor.transition_active",
+      "if (actor.manual_active and not ordinary_manual) or actor.transition_active"
+    ],
+    [
+      "or rig._manual_blend>0.0001 or rig._walk_blend>0.0001 or rig._cross_blend>0.0001 \\\n\t\t\tor rig._casper_blend>0.0001 or absf(rig._manual_weight_z)>0.0001 \\",
+      "or ((rig._manual_blend>0.0001 or absf(rig._manual_weight_z)>0.0001) and not ordinary_manual) \\\n\t\t\tor rig._walk_blend>0.0001 or rig._cross_blend>0.0001 or rig._casper_blend>0.0001 \\"
+    ],
+    [
+      "if not continuing and not (actor.airborne and actor._obstacle_ollie_continuation and actor._launch_id==\"ollie\"):",
+      "if not continuing and not ordinary_manual and not (actor.airborne and actor._obstacle_ollie_continuation and actor._launch_id==\"ollie\"):"
+    ]
+  ]
+}

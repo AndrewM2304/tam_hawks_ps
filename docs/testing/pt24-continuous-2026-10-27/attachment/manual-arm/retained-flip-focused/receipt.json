@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T20:43:47.121859+00:00",
+  "completed_london": "2026-10-27T20:43:49.476915+00:00",
+  "wall_seconds": 2.3550575740000568,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/arm_production_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 658,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "48",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "eccacc2c1d6e64ac09c29f4085ba462f4659d817556d6307ceca7e165cd7e65b",
+  "git_head": "98311cba78944d1828d1cb528be0293273d9c3b5"
+}

@@ -1,3 +1,24 @@
+# Ordinary Manual arms and stopping-foot fixes — 27 October 2026
+
+The required combined suite passes **5,520/0**, plus actual Music script
+isolation **2/0**, clean/stable657 inputs. Ordinary Manual/Nose Manual arm
+clearance and stopping-foot continuity preserve native movement, contacts and
+once-only score. Focused145/0 Manual,48/0 retained Flip and18/0 gait, the
+preceding-module sequence157/0 and eight new matched native PNGs pass.
+
+[Current exact evidence](testing/pt24-continuous-2026-10-27/README.md) retains the first5,519/1 combined rejection,
+the native fixture repair, immutable snapshots and all prior failure records.
+Four cold-source phases pass on563 stable inputs, including ordinary title→play
+50/0. Source push and current-source package refresh follow; older packages
+remain bound to their recorded source. All merged trial content
+stays enabled and personal Music stays isolated. The next existing C07/C10 task
+is the reduced-poly four-slot facade source: independent geometry checks and
+two identical exports pass; native appearance/import checks are pending. Mac,
+physical controls, saves/Music/TCC, moving shadows, target performance, rejected
+fountain timing and final art/human acceptance remain open honestly.
+
+---
+
 # Manual, free-arm and recorder continuation — 27 October 2026
 
 The next required combined suite passes **5,435/0** plus actual Music script

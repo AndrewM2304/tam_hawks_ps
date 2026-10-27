@@ -1,4 +1,13 @@
-# Remaining ordinary Manual sleeve/hand contact
+# Ordinary Manual sleeve/hand continuation
+
+The [production candidate proof](production/README.md) now passes **145/0**,
+including both genuine ordinary Manual IDs and55 native safety controls. Exact
+shoulder anchoring, world/visual-root continuity and unchanged non-arm/native
+contracts are explicit. Required combined admission and matched native frames
+remain separate. The original finite-solid finding and rejected epochs below
+retain their source scope.
+
+## Original native finding
 
 A single bounded observation on pushed main `e0c94273a648` confirms a separate
 C03 body-envelope defect in the exact two already captured Nose Manual poses.

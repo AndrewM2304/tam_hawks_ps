@@ -1,5 +1,10 @@
 # Grounded Manual at a finite wall
 
+The subsequent [arm continuation](../manual-arm/production/README.md) passes
+production focused **145/0**. The original board/root slice below retains its
+exact epoch; its all-bone parity exception now permits only proven sleeve/forearm
+and hand corrections, with every non-arm/native/contact contract preserved.
+
 The actual moving Push → fresh held Manual route earns the catalog **Nose
 Manual**, then fits the connected figure before its narrower physical capsule
 reaches the shutter. The earned residual axle pose keeps that finite fit through

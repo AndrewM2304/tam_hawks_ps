@@ -1,3 +1,36 @@
+## Ordinary Manual arms and stopped gait — 27 October 2026
+
+The free-arm helper now also admits ordinary Manual/Nose Manual only while the
+immediately preceding final root fit has earned its current native support
+certificate. Active/residual Manual influence, the exact two catalog IDs, flat
+native floor, grounded state and no forced-air tick are required. Only the three
+ordinary Manual exclusions gain this exception; all style, grip, special,
+transition and bail guards remain. Solver, original Skin/curl envelopes,8mm skin,
+20cm wrist cap and12-query helper ceiling are unchanged. The preceding Manual
+root solver retains its separate17-query ceiling. Original local shoulder
+origins are read directly from the independent garment bones, removing a world/
+local floating-point round trip. Non-arm bones, shared root, board, native state
+and score retain exact twins.
+
+The original220mm fixed-rig pose criterion is applied in the common visual-root
+frame and separately to actual world wrist/elbow travel. Raw actor-relative
+motion remains recorded; it includes a separately validated common wall backoff
+and does not by itself isolate arm articulation. Native world-space Skin and
+support volumes remain contact authority. Both genuine input variants pass
+focused/native evidence with unchanged limits.
+
+Visual gait remembers the last nonzero travel direction at a stop and blends a
+separate direction using the existing brake-pose rate12. Stroke position and
+shoe yaw use that same continuous value, with yaw on one fixed angle interval.
+Reset clears both values. Controller speed/sign, movement, queries, scoring and
+native sole fitting are unchanged. Exact old/new native twins remove the measured
+369.640mm complete-shoe stop jump, reducing it to41.141mm, and54.584° yaw to7.040°.
+Focused145/0 Manual,48/0 retained arm and18/0 gait checks plus eight native frames
+pass. Required combined admission belongs to the
+[current continuation](../testing/pt24-continuous-2026-10-27/README.md).
+
+---
+
 ## Grounded axle wall fit and free-arm clearance — 27 October 2026
 
 Ordinary grounded Manual/Nose Manual has its own finite wall presentation path.

@@ -29,6 +29,8 @@ var _sphere: SphereMesh
 var _cylinder: CylinderMesh
 var _push_phase := 0.0
 var _push_blend := 0.0
+var _last_travel_direction := 1.0
+var _travel_direction := 1.0
 var _air_blend := 0.0
 var _grab_blend := 0.0
 var _landing := 0.0
@@ -136,6 +138,8 @@ func reset() -> void:
 		_board.position = _board_rest_position
 	_push_phase = 0.0
 	_push_blend = 0.0
+	_last_travel_direction = 1.0
+	_travel_direction = 1.0
 	_air_blend = 0.0
 	_grab_blend = 0.0
 	_brake_blend = 0.0
@@ -218,7 +222,7 @@ func animate(delta: float, state: Dictionary) -> void:
 	var manual: bool = state["manual"]
 	var grind: bool = state["grind"]
 	var ride_speed := absf(float(state["speed"]))
-	var travel_sign := -1.0 if float(state.get("travel_sign", 1.0)) < 0.0 else 1.0
+	var travel_sign := _locomotion_direction(delta,float(state.get("travel_sign",1.0)))
 	var wall: bool = state.get("wallriding", false)
 	var transition: bool = state.get("transition_active", false)
 	var skitch: bool = state.get("skitching", false)
@@ -572,7 +576,10 @@ func animate(delta: float, state: Dictionary) -> void:
 			deck_foot.z = lerpf(deck_foot.z, push_z, _push_blend)
 			deck_foot.z = lerpf(deck_foot.z, 0.40 * travel_sign, _brake_blend)
 			deck_foot.y += push_y * _push_blend - 0.139 * _brake_blend
-			shoe_yaw = lerp_angle(shoe_yaw, -0.08 if travel_sign > 0.0 else PI - 0.08, maxf(_push_blend, _brake_blend))
+			# Use one angle interval for the two existing gait headings. Choosing
+			# a new shortest arc midway through a reversal would flip the shoe.
+			var stroke_yaw := -0.08-PI*(1.0-travel_sign)*0.5
+			shoe_yaw = lerpf(shoe_yaw,stroke_yaw,maxf(_push_blend,_brake_blend))
 		else:
 			shoe_yaw += 0.20 * _push_blend
 		# A spacewalk shuffles one foot while the other stays loaded. The
@@ -1119,6 +1126,16 @@ func _hand_basis(side: float, forearm: Vector3, grabbing: float, palm_axis: Vect
 	var x := y.cross(z).normalized()
 	var grab_basis := Basis(x, y, x.cross(y).normalized())
 	return neutral.orthonormalized().slerp(grab_basis, grabbing)
+
+func _locomotion_direction(delta: float,requested: float) -> float:
+	# Native speed can become exactly zero while the trailing-foot pose fades.
+	# Keep that stroke's direction, then turn position and yaw together when
+	# real signed travel reverses. This never changes movement or its policy.
+	if requested<0.0: _last_travel_direction=-1.0
+	elif requested>0.0: _last_travel_direction=1.0
+	_travel_direction=_blend(_travel_direction,_last_travel_direction,maxf(0.0,delta),12.0)
+	return _travel_direction
+
 
 func _blend(current: float, target: float, delta: float, rate: float) -> float:
 	return lerpf(current, target, 1.0 - exp(-rate * delta))
