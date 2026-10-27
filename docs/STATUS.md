@@ -18,8 +18,10 @@ map frames show the corrected Kelvingrove label. Exact receipts belong to the
 current batch record.
 
 Four cold-source phases pass with523 stable inputs, normal title→play50/0 and
-deliberate invalid-copy refusal. Current unsigned package handoff belongs to the
-same batch record after export; actual Mac execution remains unverified.
+deliberate invalid-copy refusal. Current unsigned Linux/universal-Mac packages
+export from clean source`ba187f32c2c5`; archive audit and normal Linux standalone
+startup pass. [Current packages](testing/pt24-connections-2026-10-27/packages/README.md).
+Actual Mac execution remains unverified; merged features stay on.
 The player guide explains the lines using their landmarks. [Current evidence,
 retained failures and final admission](testing/pt24-connections-2026-10-27/README.md)
 own this source; all merged features remain on and Music is preserved.

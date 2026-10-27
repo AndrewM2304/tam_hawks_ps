@@ -60,9 +60,10 @@ Y14.5610, completes the beginner loop and returns while retaining its original
 
 Four [cold-source phases](cold/SOURCE-LAUNCH.json) pass on523 stable inputs:
 cold/warm launch, normal no-script title→play50/0, and deliberate broken-copy
-source refusal. The source copy is restored. Current unsigned package evidence
-is recorded separately after export. Earlier5,100/0 and focused receipts retain
-their own source scope.
+source refusal. The source copy is restored. Current unsigned Linux/universal-Mac
+packages and normal Linux standalone startup pass, bound to clean source
+`ba187f32c2c5`; [artifact receipts](packages/README.md). Earlier5,100/0 and focused
+receipts retain their own source scope.
 
 ## Acceptance still requiring separate evidence
 
