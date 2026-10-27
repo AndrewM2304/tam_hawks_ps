@@ -8,6 +8,8 @@ native, combined and package results; earlier receipts retain their own scope.
 **Required5,220/0 plus actual Music script guard2/0**, clean/stable627 inputs.
 Fourteen native frames and focused189/0,33/0,31/0 and19/0 pass.
 Four cold-source phases pass with533 stable inputs and normal title→play50/0.
+Current unsigned Linux/universal-Mac exports from clean source`8d16c39a3850`,
+archive audit and normal Linux standalone startup pass; [current packages](testing/pt24-pose-finish-2026-10-27/packages/README.md).
 All merged trial features remain enabled. Mac, physical controls, moving shadows,
 target stutter, final art and human acceptance remain separate open work.
 

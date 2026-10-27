@@ -75,7 +75,7 @@ python3 docs/testing/horizon-background/observers/run_checked.py .local/pt24-pos
 Manifest SHA256:
 `39fb10e90d3cfe2f131fc732c6b2fbde35c86d634df1bc54391cabadd0ad859f`.
 The receipt's Git head is development parent`b257b56`; it is not a claim that the
-parent already included these repairs. The checked bytes are committed separately.
+parent already included these repairs. The checked bytes are committed at`8d16c39a3850` for packaging.
 The new assertions execute inside the full run; ordinary-Main
 connected routes, previous body/wall contacts, Music isolation and the original
 boundary protections remain passing.
@@ -83,5 +83,8 @@ boundary protections remain passing.
 Four [cold-source phases](cold/SOURCE-LAUNCH.json) pass with533 unchanged inputs:
 cold/warm startup, normal no-script title→play50/0, and deliberate invalid-copy
 source refusal. The copied source is restored; no live source/profile is changed.
-Current-source package results follow after the clean source commit. Mac execution,
-target frame times and human acceptance remain separate.
+Current unsigned Linux/universal-Mac packages export from clean source
+`8d16c39a3850`; [archive audit and normal Linux standalone startup](packages/README.md)
+pass. Actual Mac execution, target frame times and human acceptance remain
+separate. All source and retained evidence are pushed to main; no unattended
+continuation is scheduled.
