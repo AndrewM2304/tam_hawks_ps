@@ -9,8 +9,9 @@ preceding-module sequence157/0 and eight new matched native PNGs pass.
 [Current exact evidence](../testing/pt24-continuous-2026-10-27/README.md) retains the first5,519/1 combined rejection,
 the native fixture repair, immutable snapshots and all prior failure records.
 Four cold-source phases pass on563 stable inputs, including ordinary title→play
-50/0. Source push and current-source package refresh follow; older packages
-remain bound to their recorded source. All merged trial content
+50/0. Source is pushed as `a94b7374d049`; clean unsigned Linux/universal-Mac exports,
+archive audit and normal Linux standalone startup pass. The current package
+record is linked in the evidence; older builds keep their recorded source. All merged trial content
 stays enabled and personal Music stays isolated. The next existing C07/C10 task
 is the reduced-poly four-slot facade source: independent geometry checks and
 two identical exports pass; native appearance/import checks are pending. Mac,

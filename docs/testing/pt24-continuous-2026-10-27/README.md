@@ -5,8 +5,9 @@ inputs. The ordinary Manual arms and stopping-foot repairs pass, including eight
 new matched native PNGs. [Latest raw receipt](validation/manual-gait-combined/receipt.json)
 and [independent review](manual-gait-review.md) own this admission.
 [Cold launch](cold-final/README.md) passes all four phases on563 stable inputs,
-including ordinary title→play50/0. Push/package refresh follows; older package
-records keep their exact source scope. All trial
+including ordinary title→play50/0. Source is pushed as `a94b7374d049`. [Current packages](packages-final/README.md),
+archive audit and normal Linux standalone startup pass; older package records
+keep their exact source scope. All trial
 features remain available. The reduced-poly four-slot facade is the next existing
 independent art task; geometry/repeat-export proof does not yet admit appearance,
 imported-resource cost or live performance. Historical batches follow below.
@@ -230,3 +231,9 @@ speed at83 with a fading stroke, unchanged100-point bank and41.141mm sole step.
 The earlier5,519/1 epoch remains rejected; no original limit or production
 movement was changed. All actual capture production-helper/Visual bytes remain
 unchanged; the final gait test fixture has its separate newer source identity.
+
+The final Manual/gait source is pushed as `a94b7374d049d2e74b4de23bedfef22b2be91c58`.
+[Current unsigned Linux/universal-Mac packages](packages-final/README.md) export
+from that clean commit, pass667-blob archive consistency and ordinary Linux
+standalone startup. Older package/cold records retain their original source.
+Work continues with the accepted reduced-four-slot facade comparison.
