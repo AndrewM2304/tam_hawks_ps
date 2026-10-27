@@ -171,10 +171,19 @@ func height_at(x: float, z: float, maximum_height: float = INF) -> float:
 		var tz := clampf((z - bounds.position.y) / bounds.size.y, 0.0, 1.0)
 		var height := lerpf(lerpf(heights.x, heights.y, tx), lerpf(heights.w, heights.z, tx), tz)
 		if height > maximum_height: continue
-		# At a stair/deck's maximum edge the next interior floor owns the point,
-		# matching actual downward rays. Closed inclusion formerly selected an
-		# unsupported higher riser at exact seams (and a1.5m road corner).
-		if bounds.has_point(Vector2(x,z)):
+		# Keep the existing half-open ownership at stair/deck maximum ends.
+		# This compatibility policy may differ from a broad native ray's higher
+		# closed top; it must not be presented as universal highest-hit parity.
+		var owns_point := bounds.has_point(Vector2(x,z))
+		if not owns_point:
+			# A bank's lateral side remains real native top support. Admit only
+			# that exact edge on a one-axis grade; longitudinal ends and corners
+			# retain the stair/deck ownership policy above, with no widened bounds.
+			owns_point = (x==bounds.end.x and z>bounds.position.y and z<bounds.end.y
+				and heights.x==heights.y and heights.w==heights.z and heights.x!=heights.w) \
+				or (z==bounds.end.y and x>bounds.position.x and x<bounds.end.x
+				and heights.x==heights.w and heights.y==heights.z and heights.x!=heights.y)
+		if owns_point:
 			if is_nan(found) or height > found: found = height
 		elif is_nan(outer_edge) or height > outer_edge:
 			# Keep isolated exposed corners available to existing retained-edge

@@ -1,3 +1,19 @@
+# Latest remaining connections — 27 October 2026
+
+The former next software queue is implemented and under final admission:
+market loading-drop→hall, literal civic→park-practice combo, and banked practice
+followed by the same rider's facility trip/return. The current batch also fixes
+the graded-bank lateral public-height loss and exact practice-apron district
+classification. [Current source-bound results and artifacts](../testing/pt24-connections-2026-10-27/README.md)
+own these slices. The six selected flagship representatives have actual native
+input/score evidence; this is not every possible branch or human fun acceptance.
+Keep C02 temporal, C03 unmatched older evidence/active variants, C07 final art,
+C08/C09 actual platform/save/controls/Music, C10 target stutter and C11 owner-Mac
+acceptance distinct. All normal merged features stay available. Historical
+ticket bodies below remain intact; no blanket closure of all30 PT24 records.
+
+---
+
 # Current continuation — 27 October 2026
 
 | Slice | Current implementation / bounded evidence | Still open |

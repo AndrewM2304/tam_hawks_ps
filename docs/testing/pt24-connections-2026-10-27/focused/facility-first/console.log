@@ -1,0 +1,17 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Facility fixture: scripted Main Music remains isolated before gameplay
+PASS: Facility fixture: actual Main enables all merged trial content without an override
+PASS: C04-L06 facility: independently fixed full-width promenade/hillside/summit access has matching native support and two-way capsule clearance
+FACILITY_CONNECTION_GEOMETRY samples=483 max_error_m=0.00004625320435 clear=true
+PASS: C04-L06 facility: real promenade-quarter air tricks return to native support and earn one practice bank
+PASS: C04-L06 promenade practice: independently calculated catalog/repetition/hold receipt banks once without bail or hidden rider
+DENSITY CAMERA OCCLUSION rider=(-92.4369, 6.012411, -138.3759) camera=(-90.97024, 8.512411, -133.601) marker=(-92.49544, 6.035718, -138.0896) hit=(-92.43129, 6.139877, -137.9009) collider=SideRollIn
+FAIL: C04-L06 facility: the same rider travels the real promenade/hillside/summit access to the mapped sunken-park entrance
+FAIL: C04-L06 facility: actual no-jump deck turn enters the lower basin and returns through its finite beginner bank
+FAIL: C04-L06 facility: the complete hill/facility journey returns to practice on supported ground without a reset or relocation
+FAIL: C04-L06 facility: ordinary full-body chase keeps the rider clear and reveals the entry and beginner landing before commitment
+PASS: C04-L06 facility: ordinary hill/facility travel cannot manufacture extra tricks or duplicate the earned practice bank
+FACILITY_CONNECTION { "practice": true, "outbound": false, "beginner": false, "returned": false, "bank": 1100, "distance_m": 53.4646387510002, "transit_ticks": 392, "facility_ticks": 0, "entry_visible": false, "basin_visible": false, "summit_hint": "", "entry_hint": "", "supported": true, "camera": false, "bails": 0, "recoveries": 0, "targets": [] }
+C04_FLAGSHIP promenade_practice_to_facility captures=[] entries=[{ "id": "kickflip", "label": "Kickflip", "points": 300 }, { "id": "melon_grab", "label": "Melon Grab", "points": 250 }] holds=0 banks=1 total=1100 bails=0 recoveries=0 manual=0 bankManual=0 faces=[] transfer=false crossed=false farFloor=false farAt=(inf, inf, inf) camera=false supported=true at=(-89.61298, 6.013884, -129.3496) stages=[{ "phase": "practice_quarter_approach", "at": (-85.00278, 6.000165, -130.0), "speed": 0.16662596166134 }, { "phase": "practice_real_flip", "at": (-98.378, 8.602999, -130.0), "speed": 0.0 }, { "phase": "practice_real_grab", "at": (-98.378, 8.990664, -130.0), "speed": 0.0 }, { "phase": "practice_native_return", "at": (-98.378, 9.353884, -130.0), "speed": 0.0 }, { "phase": "practice_to_summit_access", "at": (-94.28282, 6.015486, -130.0093), "speed": -14.4650249481201 }, { "phase": "final_stopped_bank_observation", "at": (-89.65554, 6.013884, -129.4908), "speed": 2.72909712791443 }] gates=[] fountainCharge=(inf, inf, inf) fountainRelease=(inf, inf, inf) fountainReleaseSpeed=0.0
+RESULT: 6 passed, 4 failed

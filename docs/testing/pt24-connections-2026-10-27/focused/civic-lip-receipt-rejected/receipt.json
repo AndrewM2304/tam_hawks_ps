@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-27T14:18:57.993940+00:00",
+  "completed_london": "2026-10-27T14:19:08.521007+00:00",
+  "wall_seconds": 10.527066319002188,
+  "command": [
+    "timeout",
+    "45s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_civic_park_combo_focus.gd",
+    "--",
+    ".local/pt24_civic_park_candidate.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 619,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "4",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "7493d7376b85f9e0b1f5a67a6ee9cb51ec902c81b38cc7cdc5a5f22df28158aa",
+  "git_head": "69fcbc836e79e87f3a1734b7fb200b35c45f7ae6"
+}

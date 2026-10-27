@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Civic/park classification fixture: scripted Music stays inert
+PASS: Civic/park classification fixture: normal default-on Main
+FAIL: C04 park classification: actual practice quarter is central_station; expected kelvingrove
+FAIL: C04 park classification: actual practice manual pad is central_station; expected kelvingrove
+FAIL: C04 park classification: actual practice ledge is central_station; expected kelvingrove
+FAIL: C04 park classification: inside southwest apron edge is central_station; expected kelvingrove
+PASS: C04 park classification: inside northeast apron edge is kelvingrove; expected kelvingrove
+PASS: C04 park classification: outside west apron edge is central_station; expected central_station
+PASS: C04 park classification: outside east apron edge is central_station; expected central_station
+PASS: C04 park classification: unchanged station concourse is central_station; expected central_station
+PASS: C04 park classification: unchanged civic court is george_square; expected george_square
+PASS: C04 park classification: unchanged civic quarter approach is george_square; expected george_square
+PASS: C04 park classification: unchanged narrow promenade is kelvingrove; expected kelvingrove
+FAIL: C04 park public location: OutdoorRoutes/KelvingrovePromenadeQuarter is CENTRAL STATION / HIGH LINE
+FAIL: C04 park public location: OutdoorRoutes/PracticeManualPad is CENTRAL STATION / HIGH LINE
+FAIL: C04 park public location: OutdoorRoutes/PracticeLedge is CENTRAL STATION / HIGH LINE
+RESULT: 9 passed, 7 failed

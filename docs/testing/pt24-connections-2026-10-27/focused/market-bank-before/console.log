@@ -1,0 +1,65 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+BANK_EDGE_FAIL axis=x reverse=false at=(-1.5, 0.625, 2.0) queried=0.0 hit={ "position": (-1.5, 0.6247, 2.0), "normal": (-0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 297879479749, "collider": NativeGradedBank:<StaticBody3D#297879479749>, "shape": 0, "rid": RID(44165148705352) }
+BANK_EDGE_FAIL axis=x reverse=false at=(-0.5, 0.875, 2.0) queried=0.0 hit={ "position": (-0.5, 0.874786, 2.0), "normal": (-0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 297879479749, "collider": NativeGradedBank:<StaticBody3D#297879479749>, "shape": 0, "rid": RID(44165148705352) }
+BANK_EDGE_FAIL axis=x reverse=false at=(0.5, 1.125, 2.0) queried=0.0 hit={ "position": (0.5, 1.124871, 2.0), "normal": (-0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 297879479749, "collider": NativeGradedBank:<StaticBody3D#297879479749>, "shape": 0, "rid": RID(44165148705352) }
+BANK_EDGE_FAIL axis=x reverse=false at=(1.5, 1.375, 2.0) queried=0.0 hit={ "position": (1.5, 1.374957, 2.0), "normal": (-0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 297879479749, "collider": NativeGradedBank:<StaticBody3D#297879479749>, "shape": 0, "rid": RID(44165148705352) }
+FAIL: terrain bank: four exact lateral native supports and four1mm interior sites agree xfalse
+PASS: terrain bank:1mm outside remains lower floor and maximum-height filtering cannot choose the elevated bank xfalse
+BANK_END_COMPATIBILITY axis=x reverse=false point=(2.0, 0.0, -2.0) query=0.0 native={ "position": (2.0, 1.5, -2.0), "normal": (-0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 297879479749, "collider": NativeGradedBank:<StaticBody3D#297879479749>, "shape": 0, "rid": RID(44165148705352) }
+BANK_END_COMPATIBILITY axis=x reverse=false point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 1.5, 2.0), "normal": (-0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 297879479749, "collider": NativeGradedBank:<StaticBody3D#297879479749>, "shape": 0, "rid": RID(44165148705352) }
+PASS: terrain bank: longitudinal maximum end and its corner keep adjacent interior floor ownership xfalse
+BANK_EDGE_NATIVE axis=x reverse=false maximum_height_error_m=1.37495708465576
+BANK_EDGE_FAIL axis=x reverse=true at=(-1.5, 1.375, 2.0) queried=0.0 hit={ "position": (-1.5, 1.374957, 2.0), "normal": (0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 1367141787077, "collider": NativeGradedBank:<StaticBody3D#1367141787077>, "shape": 0, "rid": RID(44341242364488) }
+BANK_EDGE_FAIL axis=x reverse=true at=(-0.5, 1.125, 2.0) queried=0.0 hit={ "position": (-0.5, 1.124871, 2.0), "normal": (0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 1367141787077, "collider": NativeGradedBank:<StaticBody3D#1367141787077>, "shape": 0, "rid": RID(44341242364488) }
+BANK_EDGE_FAIL axis=x reverse=true at=(0.5, 0.875, 2.0) queried=0.0 hit={ "position": (0.5, 0.874786, 2.0), "normal": (0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 1367141787077, "collider": NativeGradedBank:<StaticBody3D#1367141787077>, "shape": 0, "rid": RID(44341242364488) }
+BANK_EDGE_FAIL axis=x reverse=true at=(1.5, 0.625, 2.0) queried=0.0 hit={ "position": (1.5, 0.6247, 2.0), "normal": (0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 1367141787077, "collider": NativeGradedBank:<StaticBody3D#1367141787077>, "shape": 0, "rid": RID(44341242364488) }
+FAIL: terrain bank: four exact lateral native supports and four1mm interior sites agree xtrue
+PASS: terrain bank:1mm outside remains lower floor and maximum-height filtering cannot choose the elevated bank xtrue
+BANK_END_COMPATIBILITY axis=x reverse=true point=(2.0, 0.0, -2.0) query=0.0 native={ "position": (2.0, 0.499657, -2.0), "normal": (0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 1367141787077, "collider": NativeGradedBank:<StaticBody3D#1367141787077>, "shape": 0, "rid": RID(44341242364488) }
+BANK_END_COMPATIBILITY axis=x reverse=true point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 0.499657, 2.0), "normal": (0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 1367141787077, "collider": NativeGradedBank:<StaticBody3D#1367141787077>, "shape": 0, "rid": RID(44341242364488) }
+PASS: terrain bank: longitudinal maximum end and its corner keep adjacent interior floor ownership xtrue
+BANK_EDGE_NATIVE axis=x reverse=true maximum_height_error_m=1.37495708465576
+BANK_EDGE_FAIL axis=z reverse=false at=(2.0, 0.625, -5.0) queried=0.0 hit={ "position": (2.0, 0.6247, -5.0), "normal": (0.0, 0.992273, -0.124077), "face_index": -1, "collider_id": 1385529615813, "collider": NativeGradedBank:<StaticBody3D#1385529615813>, "shape": 0, "rid": RID(44409961841224) }
+BANK_EDGE_FAIL axis=z reverse=false at=(2.0, 0.875, -3.0) queried=0.0 hit={ "position": (2.0, 0.874786, -3.0), "normal": (0.0, 0.992273, -0.124077), "face_index": -1, "collider_id": 1385529615813, "collider": NativeGradedBank:<StaticBody3D#1385529615813>, "shape": 0, "rid": RID(44409961841224) }
+BANK_EDGE_FAIL axis=z reverse=false at=(2.0, 1.125, -1.0) queried=0.0 hit={ "position": (2.0, 1.124871, -1.0), "normal": (0.0, 0.992273, -0.124077), "face_index": -1, "collider_id": 1385529615813, "collider": NativeGradedBank:<StaticBody3D#1385529615813>, "shape": 0, "rid": RID(44409961841224) }
+BANK_EDGE_FAIL axis=z reverse=false at=(2.0, 1.375, 1.0) queried=0.0 hit={ "position": (2.0, 1.374957, 1.0), "normal": (0.0, 0.992273, -0.124077), "face_index": -1, "collider_id": 1385529615813, "collider": NativeGradedBank:<StaticBody3D#1385529615813>, "shape": 0, "rid": RID(44409961841224) }
+FAIL: terrain bank: four exact lateral native supports and four1mm interior sites agree zfalse
+PASS: terrain bank:1mm outside remains lower floor and maximum-height filtering cannot choose the elevated bank zfalse
+BANK_END_COMPATIBILITY axis=z reverse=false point=(0.0, 0.0, 2.0) query=0.0 native={ "position": (0.0, 1.5, 2.0), "normal": (0.0, 0.992273, -0.124077), "face_index": -1, "collider_id": 1385529615813, "collider": NativeGradedBank:<StaticBody3D#1385529615813>, "shape": 0, "rid": RID(44409961841224) }
+BANK_END_COMPATIBILITY axis=z reverse=false point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 1.5, 2.0), "normal": (0.0, 0.992273, -0.124077), "face_index": -1, "collider_id": 1385529615813, "collider": NativeGradedBank:<StaticBody3D#1385529615813>, "shape": 0, "rid": RID(44409961841224) }
+PASS: terrain bank: longitudinal maximum end and its corner keep adjacent interior floor ownership zfalse
+BANK_EDGE_NATIVE axis=z reverse=false maximum_height_error_m=1.37495708465576
+BANK_EDGE_FAIL axis=z reverse=true at=(2.0, 1.375, -5.0) queried=0.0 hit={ "position": (2.0, 1.374957, -5.0), "normal": (0.0, 0.992273, 0.124077), "face_index": -1, "collider_id": 1403917444549, "collider": NativeGradedBank:<StaticBody3D#1403917444549>, "shape": 0, "rid": RID(44478681317960) }
+BANK_EDGE_FAIL axis=z reverse=true at=(2.0, 1.125, -3.0) queried=0.0 hit={ "position": (2.0, 1.124871, -3.0), "normal": (0.0, 0.992273, 0.124077), "face_index": -1, "collider_id": 1403917444549, "collider": NativeGradedBank:<StaticBody3D#1403917444549>, "shape": 0, "rid": RID(44478681317960) }
+BANK_EDGE_FAIL axis=z reverse=true at=(2.0, 0.875, -1.0) queried=0.0 hit={ "position": (2.0, 0.874786, -1.0), "normal": (0.0, 0.992273, 0.124077), "face_index": -1, "collider_id": 1403917444549, "collider": NativeGradedBank:<StaticBody3D#1403917444549>, "shape": 0, "rid": RID(44478681317960) }
+BANK_EDGE_FAIL axis=z reverse=true at=(2.0, 0.625, 1.0) queried=0.0 hit={ "position": (2.0, 0.6247, 1.0), "normal": (0.0, 0.992273, 0.124077), "face_index": -1, "collider_id": 1403917444549, "collider": NativeGradedBank:<StaticBody3D#1403917444549>, "shape": 0, "rid": RID(44478681317960) }
+FAIL: terrain bank: four exact lateral native supports and four1mm interior sites agree ztrue
+PASS: terrain bank:1mm outside remains lower floor and maximum-height filtering cannot choose the elevated bank ztrue
+BANK_END_COMPATIBILITY axis=z reverse=true point=(0.0, 0.0, 2.0) query=0.0 native={ "position": (0.0, 0.499657, 2.0), "normal": (0.0, 0.992273, 0.124077), "face_index": -1, "collider_id": 1403917444549, "collider": NativeGradedBank:<StaticBody3D#1403917444549>, "shape": 0, "rid": RID(44478681317960) }
+BANK_END_COMPATIBILITY axis=z reverse=true point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 0.499657, 2.0), "normal": (0.0, 0.992273, 0.124077), "face_index": -1, "collider_id": 1403917444549, "collider": NativeGradedBank:<StaticBody3D#1403917444549>, "shape": 0, "rid": RID(44478681317960) }
+PASS: terrain bank: longitudinal maximum end and its corner keep adjacent interior floor ownership ztrue
+BANK_EDGE_NATIVE axis=z reverse=true maximum_height_error_m=1.37495708465576
+PASS: terrain bank: flat step maximum faces/corner retain lower ownership while1mm inside stays on the step
+FLAT_END_COMPATIBILITY point=(2.0, 0.0, 0.0) query=0.0 native={ "position": (2.0, 1.0, 0.0), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 1422305273285, "collider": FlatStep:<StaticBody3D#1422305273285>, "shape": 0, "rid": RID(44547400794696) }
+FLAT_END_COMPATIBILITY point=(0.0, 0.0, 2.0) query=0.0 native={ "position": (0.0, 1.0, 2.0), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 1422305273285, "collider": FlatStep:<StaticBody3D#1422305273285>, "shape": 0, "rid": RID(44547400794696) }
+FLAT_END_COMPATIBILITY point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 1.0, 2.0), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 1422305273285, "collider": FlatStep:<StaticBody3D#1422305273285>, "shape": 0, "rid": RID(44547400794696) }
+FAIL: terrain bank: actual Market west lateral maximum-X support matches native bank instead of buried Barras floor
+MARKET_BANK_EDGE_WORLD query=0.0 native={ "position": (76.0, 0.049716, -6.4), "normal": (0.0, 0.992275, 0.124059), "face_index": -1, "collider_id": 95579802688, "collider": MarketWestLoadingBank:<StaticBody3D#95579802688>, "shape": 0, "rid": RID(5050881540284) }
+PASS: support query: matches real collision at gallery riser seam
+PASS: support query: matches real collision at gallery first step end
+PASS: support query: matches real collision at civic first step end
+PASS: support query: matches real collision at market street maximum X shoulder
+PASS: support query: matches real collision at platform maximum Z with lower concourse
+PASS: support query: matches real collision at yard flush floor beyond the retained route ribbon
+PASS: support query: matches real collision at park hip actual sloping triangle
+PASS: support query: matches real collision at park port beside actual ribbon end
+PASS: support query: matches real collision at civic park port exact start cap
+PASS: support query: matches real collision at Clyde approach shared triangle diagonal
+PASS: support query: height-aware station lower and upper levels remain distinct
+PASS: support query: isolated exposed outside corners remain available to retained boundaries
+PASS: support query: a centreline-radius false positive stays outside the actual bent ribbon
+PASS: support query: graded triangle interior interpolates its actual plane
+PASS: support query: shared ribbon triangle diagonal has no artificial NAN seam
+PASS: support query: exterior cap ownership preserves millimetre inside and outside distinction
+RESULT: 25 passed, 5 failed

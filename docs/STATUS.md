@@ -1,3 +1,35 @@
+# Remaining connections and practice identity — 27 October 2026
+
+Work continues from fully pushed main69fcbc8. The market loading-drop→hall line,
+civic lip/air→park-practice combo and practice→facility→return now have bounded
+native input evidence. The same-actor facility trip covers385m; the real civic
+low-court round trip returns toY1 rather than stopping early on its ramp.
+
+Two production fixes accompany the connections: exact lateral bank support no
+longer loses its public height to the buried floor, and the existing practice
+apron correctly reports Kelvingrove rather than Central Station in the actual
+map/location data. Native/display geometry, IDs and resource counts are unchanged.
+
+**Required5,151/0** plus actual short-script Music guard2/0, clean/stable617
+inputs. In the combined run, Market banks6,550 once and Civic13,882 once; the
+facility trip covers385m and retains its1,100-point practice bank. All actual
+camera/support/bail and both Market beginner-direction checks pass. Two native
+map frames show the corrected Kelvingrove label. Exact receipts belong to the
+current batch record.
+
+Four cold-source phases pass with523 stable inputs, normal title→play50/0 and
+deliberate invalid-copy refusal. Current unsigned package handoff belongs to the
+same batch record after export; actual Mac execution remains unverified.
+The player guide explains the lines using their landmarks. [Current evidence,
+retained failures and final admission](testing/pt24-connections-2026-10-27/README.md)
+own this source; all merged features remain on and Music is preserved.
+
+Six selected flagship representatives now have concrete input witnesses;
+this does not close every variant, temporal/Mac/performance/human requirement
+or final realistic-art work. Earlier receipts below retain their original scope.
+
+---
+
 # Current park and wall-contact continuation — 27 October 2026
 
 The next batch fixes actual board/shoe intrusion at ordinary vertical-wall

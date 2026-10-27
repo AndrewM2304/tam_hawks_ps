@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T13:59:49.039898+00:00",
+  "completed_london": "2026-10-27T14:00:21.319402+00:00",
+  "wall_seconds": 32.279502880999644,
+  "command": [
+    "timeout",
+    "100s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_facility_connection_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 616,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "11",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "db88ca82b9327dee265c10706cd12aec129d836766559664708f95006f85df00",
+  "git_head": "69fcbc836e79e87f3a1734b7fb200b35c45f7ae6"
+}

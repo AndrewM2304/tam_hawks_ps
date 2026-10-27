@@ -1,3 +1,17 @@
+# Remaining connected-run slices implemented — 27 October 2026
+
+C04-L04 now includes the real loading-drop→hall combo and supported returns;
+C04-L03 adds the literal civic→park-practice combo and trueY1 low-court return;
+C04-L06 adds banked practice followed by the same rider's full facility journey
+and return. C01 corrects exact graded-bank lateral query ownership. Practice
+district/location classification now uses its existing Kelvingrove footprint.
+[Current results and final combined admission](../testing/pt24-connections-2026-10-27/README.md)
+own these slices. All76 original full task bodies/statuses remain unchanged
+historical records. Native input evidence does not certify Mac, target stutter,
+moving shadows, final art or human fun, and those gates do not hide features.
+
+---
+
 # Current continuation — 27 October 2026
 
 C03 gains a finite connected wall-contact presentation repair and21/0 native

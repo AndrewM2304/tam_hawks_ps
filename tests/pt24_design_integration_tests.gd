@@ -14,6 +14,10 @@ const ParkRun = preload("res://tests/pt24_park_run_tests.gd")
 const GateRoute = preload("res://tests/pt24_gate_route_tests.gd")
 const ParkTransit = preload("res://tests/pt24_park_flagship_tests.gd")
 const ParkCombo = preload("res://tests/pt24_park_full_combo_tests.gd")
+const BankEdges = preload("res://tests/terrain_bank_edge_tests.gd")
+const MarketRun = preload("res://tests/pt24_market_full_run_tests.gd")
+const CivicParkRun = preload("res://tests/pt24_civic_park_run_tests.gd")
+const FacilityConnection = preload("res://tests/pt24_facility_connection_tests.gd")
 
 static func run(tree: SceneTree,check: Callable) -> void:
 	for action: String in InputMap.get_actions(): Input.action_release(action)
@@ -35,6 +39,8 @@ static func run(tree: SceneTree,check: Callable) -> void:
 		check.call(Routes._clear_sweep(game.world,span[0],span[1])
 			and Routes._clear_sweep(game.world,span[1],span[0]),
 			"PT24 default integration: actual railway and civic return preserve two-way route "+str(span))
+	await BankEdges.run(tree,check)
+	await BankEdges.run_world(tree,game,check)
 	await Green.run(tree,game.world,check)
 	await Pond.run_installed(tree,game,check)
 	await Pond.run_player(tree,game,check)
@@ -49,6 +55,9 @@ static func run(tree: SceneTree,check: Callable) -> void:
 	await GateRoute.run(tree,game,check)
 	await ParkTransit.run(tree,game,check)
 	await ParkCombo.run(tree,game,check)
+	await MarketRun.run(tree,game,check)
+	await CivicParkRun.run(tree,game,check)
+	await FacilityConnection.run(tree,game,check)
 	for action: String in InputMap.get_actions(): Input.action_release(action)
 	game.queue_free()
 	await tree.process_frame

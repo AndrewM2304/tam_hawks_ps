@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T14:18:26.601837+00:00",
+  "completed_london": "2026-10-27T14:18:33.969494+00:00",
+  "wall_seconds": 7.3676593320014945,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_civic_park_classification_focus.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 618,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "16",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "45be499e9aea4d6988ee36d10da273cf771c7d1d3c4fb943d6e75869e454f28c",
+  "git_head": "69fcbc836e79e87f3a1734b7fb200b35c45f7ae6"
+}

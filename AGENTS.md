@@ -1,3 +1,16 @@
+# Latest continuation: remaining district connections — 27 October 2026
+
+The owner requests pushing all work to main, then continuing. Main/origin were
+verified identical at69fcbc8 before this batch. Preserve the graded-bank lateral
+query correction, exact practice-apron district classification and all previous
+body/wall/guide fixes. [Current connected-run evidence](docs/testing/pt24-connections-2026-10-27/README.md)
+owns market, civic/park and facility acceptance. Normal Main remains default-on;
+the new routes use existing geometry and ordinary input. Keep main-only,
+non-force, personal Music isolation and all no-spend/no-hosted-CI/no-release
+constraints. Historical native, target-Mac and human results stay source-bound.
+
+---
+
 # Current continuation — 27 October 2026
 
 Continue the accepted remaining tickets directly on main. Preserve the connected

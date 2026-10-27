@@ -1,3 +1,16 @@
+# Later implementation of this queue — 27 October 2026
+
+The market, civic/park and facility scopes below are implemented in the
+[following continuation](../pt24-connections-2026-10-27/README.md). Its exact
+focused/combined/cold/package evidence owns the current result. The table below
+is the preserved queue definition, not three newly unimplemented systems.
+Remaining release acceptance includes moving shadows/materials, target stutter,
+actual Mac/controls/Music/save, final art and human readability/fun. Optional
+route branches and terminal query-policy limitations remain explicit without
+hiding features or recreating the selected representative runs.
+
+---
+
 # Remaining connected-run software work — 27 October 2026
 
 This is the next C04 queue after the current park/gate batch. It records source

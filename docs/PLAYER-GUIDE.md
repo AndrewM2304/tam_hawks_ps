@@ -237,6 +237,19 @@ bowls. Coping uses the same Grind, lip, balance and transfer controls as other
 transitions. The original park paths and lap routes remain available; Restart
 still returns you to the city start.
 
+Try these connected lines in Free skate:
+
+- **Barras loading to the hall:** hop off the terrace beside the loading stairs,
+  land in a Manual, and turn through the open aisle toward the repair hall's
+  low eastern ledge. Grind the hall edge, pop outward and use the dry runout.
+  Push and Ollie between manuals to carry speed across the longer flat section.
+- **Civic return to park practice:** use the quarter at the west park mouth for
+  a lip stall, then pop back onto the forecourt. Revert if needed, start a Manual
+  and turn west onto the promenade toward its practice quarter and ledges.
+- **Practice to the facility:** bank a practice combo, then follow the hill and
+  signed summit link. Stay on the arrival deck until the gentle-bank opening;
+  the beginner loop returns through that same opening to the hill route.
+
 The west Clyde quay and Kelvingrove promenade now have practice pockets with
 curved quarter-pipes, low ledges and manual pads; the quay also has a flatbar.
 Carry speed up a quarter-pipe for vertical air and descend back onto its curved

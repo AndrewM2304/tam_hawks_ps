@@ -1,0 +1,63 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Market fixture: personal Music is inert before start_mode
+PASS: Market fixture: ordinary Main content is enabled without override
+PASS: terrain bank: four exact lateral native supports and four1mm interior sites agree xfalse
+PASS: terrain bank:1mm outside remains lower floor and maximum-height filtering cannot choose the elevated bank xfalse
+BANK_END_COMPATIBILITY axis=x reverse=false point=(2.0, 0.0, -2.0) query=0.0 native={ "position": (2.0, 1.5, -2.0), "normal": (-0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 301536912844, "collider": NativeGradedBank:<StaticBody3D#301536912844>, "shape": 0, "rid": RID(44165148705352) }
+BANK_END_COMPATIBILITY axis=x reverse=false point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 1.5, 2.0), "normal": (-0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 301536912844, "collider": NativeGradedBank:<StaticBody3D#301536912844>, "shape": 0, "rid": RID(44165148705352) }
+PASS: terrain bank: longitudinal maximum end and its corner keep adjacent interior floor ownership xfalse
+BANK_EDGE_NATIVE axis=x reverse=false maximum_height_error_m=0.00029981136322
+PASS: terrain bank: four exact lateral native supports and four1mm interior sites agree xtrue
+PASS: terrain bank:1mm outside remains lower floor and maximum-height filtering cannot choose the elevated bank xtrue
+BANK_END_COMPATIBILITY axis=x reverse=true point=(2.0, 0.0, -2.0) query=0.0 native={ "position": (2.0, 0.499657, -2.0), "normal": (0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 1370799220172, "collider": NativeGradedBank:<StaticBody3D#1370799220172>, "shape": 0, "rid": RID(44341242364488) }
+BANK_END_COMPATIBILITY axis=x reverse=true point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 0.499657, 2.0), "normal": (0.242614, 0.970123, 0.0), "face_index": -1, "collider_id": 1370799220172, "collider": NativeGradedBank:<StaticBody3D#1370799220172>, "shape": 0, "rid": RID(44341242364488) }
+PASS: terrain bank: longitudinal maximum end and its corner keep adjacent interior floor ownership xtrue
+BANK_EDGE_NATIVE axis=x reverse=true maximum_height_error_m=0.00029981136322
+PASS: terrain bank: four exact lateral native supports and four1mm interior sites agree zfalse
+PASS: terrain bank:1mm outside remains lower floor and maximum-height filtering cannot choose the elevated bank zfalse
+BANK_END_COMPATIBILITY axis=z reverse=false point=(0.0, 0.0, 2.0) query=0.0 native={ "position": (0.0, 1.5, 2.0), "normal": (0.0, 0.992273, -0.124077), "face_index": -1, "collider_id": 1389187048908, "collider": NativeGradedBank:<StaticBody3D#1389187048908>, "shape": 0, "rid": RID(44409961841224) }
+BANK_END_COMPATIBILITY axis=z reverse=false point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 1.5, 2.0), "normal": (0.0, 0.992273, -0.124077), "face_index": -1, "collider_id": 1389187048908, "collider": NativeGradedBank:<StaticBody3D#1389187048908>, "shape": 0, "rid": RID(44409961841224) }
+PASS: terrain bank: longitudinal maximum end and its corner keep adjacent interior floor ownership zfalse
+BANK_EDGE_NATIVE axis=z reverse=false maximum_height_error_m=0.00029981136322
+PASS: terrain bank: four exact lateral native supports and four1mm interior sites agree ztrue
+PASS: terrain bank:1mm outside remains lower floor and maximum-height filtering cannot choose the elevated bank ztrue
+BANK_END_COMPATIBILITY axis=z reverse=true point=(0.0, 0.0, 2.0) query=0.0 native={ "position": (0.0, 0.499657, 2.0), "normal": (0.0, 0.992273, 0.124077), "face_index": -1, "collider_id": 1407574877644, "collider": NativeGradedBank:<StaticBody3D#1407574877644>, "shape": 0, "rid": RID(44478681317960) }
+BANK_END_COMPATIBILITY axis=z reverse=true point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 0.499657, 2.0), "normal": (0.0, 0.992273, 0.124077), "face_index": -1, "collider_id": 1407574877644, "collider": NativeGradedBank:<StaticBody3D#1407574877644>, "shape": 0, "rid": RID(44478681317960) }
+PASS: terrain bank: longitudinal maximum end and its corner keep adjacent interior floor ownership ztrue
+BANK_EDGE_NATIVE axis=z reverse=true maximum_height_error_m=0.00029981136322
+PASS: terrain bank: flat step maximum faces/corner retain lower ownership while1mm inside stays on the step
+FLAT_END_COMPATIBILITY point=(2.0, 0.0, 0.0) query=0.0 native={ "position": (2.0, 1.0, 0.0), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 1425962706380, "collider": FlatStep:<StaticBody3D#1425962706380>, "shape": 0, "rid": RID(44547400794696) }
+FLAT_END_COMPATIBILITY point=(0.0, 0.0, 2.0) query=0.0 native={ "position": (0.0, 1.0, 2.0), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 1425962706380, "collider": FlatStep:<StaticBody3D#1425962706380>, "shape": 0, "rid": RID(44547400794696) }
+FLAT_END_COMPATIBILITY point=(2.0, 0.0, 2.0) query=0.0 native={ "position": (2.0, 1.0, 2.0), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 1425962706380, "collider": FlatStep:<StaticBody3D#1425962706380>, "shape": 0, "rid": RID(44547400794696) }
+PASS: terrain bank: actual convex top vertices contain the unchanged maximum-X point and1mm inside native plane has the independent correct normal
+FAIL: terrain bank: actual Market west lateral maximum-X support matches native bank instead of buried Barras floor
+MARKET_BANK_EDGE_WORLD query=0.05000001192093 native={ "position": (76.0, 0.044672, -6.4), "normal": (1.0, 0.0, 0.0), "collider": MarketWestLoadingBank:<StaticBody3D#99237235783>, "radius": 0.001, "safe_fraction": 0.78515625, "unsafe_fraction": 0.791015625, "contact_center": (76.0, 0.044922, -6.4), "rest_overlap_m": 0.00025 }
+FAIL: Market native finite negative control: immutable prior query picks buried floor while current query matches unchanged real bank
+PASS: support query: matches real collision at gallery riser seam
+PASS: support query: matches real collision at gallery first step end
+PASS: support query: matches real collision at civic first step end
+PASS: support query: matches real collision at market street maximum X shoulder
+PASS: support query: matches real collision at platform maximum Z with lower concourse
+PASS: support query: matches real collision at yard flush floor beyond the retained route ribbon
+PASS: support query: matches real collision at park hip actual sloping triangle
+PASS: support query: matches real collision at park port beside actual ribbon end
+PASS: support query: matches real collision at civic park port exact start cap
+PASS: support query: matches real collision at Clyde approach shared triangle diagonal
+PASS: support query: height-aware station lower and upper levels remain distinct
+PASS: support query: isolated exposed outside corners remain available to retained boundaries
+PASS: support query: a centreline-radius false positive stays outside the actual bent ribbon
+PASS: support query: graded triangle interior interpolates its actual plane
+PASS: support query: shared ribbon triangle diagonal has no artificial NAN seam
+PASS: support query: exterior cap ownership preserves millimetre inside and outside distinction
+PASS: C04-L04: existing hall edge retains its exact supported straight/angled bearing and stable guide identity
+MARKET_SUPPORT_FAIL point=(76.0, 0.05, -6.4) hit={ "position": (76.0, 0.044672, -6.4), "normal": (1.0, 0.0, 0.0), "collider": MarketWestLoadingBank:<StaticBody3D#99237235783>, "radius": 0.001, "safe_fraction": 0.78515625, "unsafe_fraction": 0.791015625, "contact_center": (76.0, 0.044922, -6.4), "rest_overlap_m": 0.00025 }
+FAIL: C04-L04: fixed full-width dry hall-to-loading return has native support and two-way capsule clearance
+MARKET_FULL_GEOMETRY samples=234 support=false clear=true
+PASS: C04-L04: actual loading-drop Ollie/Manual links to the hall ledge and dry return in one connected mapped-input line
+PASS: C04-L04 market: independently calculated catalog/repetition/hold receipt banks once without bail or hidden rider
+MARKET_FULL_INPUT drop_air=true drop_landing=true hall_ticks=47 dry_return=true pop_at=(100.8, 1.628515, -19.09399)
+C04_FLAGSHIP market_loading_to_hall captures=["Grind_Ledge_MarketHall"] entries=[{ "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "manual", "label": "Manual", "points": 100 }, { "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "manual", "label": "Manual", "points": 100 }, { "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "manual", "label": "Manual", "points": 100 }, { "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "grind_50_50", "label": "50-50", "points": 200 }, { "id": "ollie", "label": "Ollie", "points": 100 }, { "id": "manual", "label": "Manual", "points": 100 }] holds=75 banks=1 total=6550 bails=0 recoveries=0 manual=584 bankManual=0 faces=[] transfer=false crossed=false farFloor=false farAt=(inf, inf, inf) camera=true supported=true at=(82.75086, 0.012711, 17.89615) stages=[{ "phase": "loading_approach", "at": (100.8, 1.501777, -23.99722), "speed": 0.16662596166134 }, { "phase": "loading_pop_charge", "at": (100.8, 1.501777, -19.19307), "speed": 5.66436719894409 }, { "phase": "loading_takeoff", "at": (100.8, 1.628515, -19.09399), "speed": 5.62887859344482 }, { "phase": "loading_native_landing", "at": (100.8, 1.739071, -19.00017), "speed": 5.62887859344482 }, { "phase": "hall_flatland_approach", "at": (100.8, 0.012474, -15.62422), "speed": 5.58105421066284 }, { "phase": "market_flatland_push_charge", "at": (100.8, 0.012474, -9.083211), "speed": 4.7997088432312 }, { "phase": "market_flatland_takeoff", "at": (100.8, 0.163428, -7.552621), "speed": 7.0928111076355 }, { "phase": "market_flatland_native_manual", "at": (100.8, 0.303983, -7.434407), "speed": 7.0928111076355 }, { "phase": "hall_flatland_approach", "at": (100.7993, 0.012418, -3.534909), "speed": 7.04006481170654 }, { "phase": "market_flatland_push_charge", "at": (90.13628, 0.012418, -1.891196), "speed": 3.38543438911438 }, { "phase": "market_flatland_takeoff", "at": (88.96498, 0.163558, -2.003239), "speed": 5.68031597137451 }, { "phase": "market_flatland_native_manual", "at": (88.87074, 0.304114, -2.012254), "speed": 5.68031597137451 }, { "phase": "hall_flatland_approach", "at": (85.76225, 0.012377, -2.309477), "speed": 5.63198280334473 }, { "phase": "hall_pop_charge", "at": (76.78188, 0.012377, 0.909552), "speed": 4.12328767776489 }, { "phase": "hall_native_catch", "at": (76.59887, 0.163458, 2.258002), "speed": 6.41845560073853 }, { "phase": "hall_edge_payoff", "at": (76.0, 0.77, 4.106846), "speed": 6.40576877501431 }, { "phase": "hall_outward_pop_charge", "at": (76.0, 0.77, 8.643076), "speed": 5.96576822863953 }, { "phase": "hall_outward_takeoff", "at": (76.0, 0.77, 8.742423), "speed": 5.95571613311768 }, { "phase": "hall_dry_landing", "at": (76.06667, 0.880556, 8.841686), "speed": 7.17432260513306 }, { "phase": "hall_dry_return", "at": (78.00689, 0.022202, 11.97816), "speed": 7.38233947753906 }, { "phase": "clean_bank", "at": (82.1032, 0.012711, 17.39743), "speed": 6.18195867538452 }, { "phase": "single_bank_observation", "at": (82.75086, 0.012711, 17.89615), "speed": 0.0 }] gates=[] fountainCharge=(inf, inf, inf) fountainRelease=(inf, inf, inf) fountainReleaseSpeed=0.0
+PASS: C04 flagship: actual no-jump market_hall_to_loading miss bypass returns on supported ground with clear chase
+C04_FLAGSHIP market_hall_to_loading_miss_return captures=[] entries=[] holds=0 banks=0 total=0 bails=0 recoveries=0 manual=0 bankManual=0 faces=[] transfer=false crossed=false farFloor=false farAt=(inf, inf, inf) camera=true supported=true at=(91.89832, 1.514782, -23.7123) stages=[{ "phase": "market_hall_to_loading_ordinary_miss_return", "at": (83.0, 0.001777, 17.99722), "speed": 0.16662596166134 }] gates=[] fountainCharge=(inf, inf, inf) fountainRelease=(inf, inf, inf) fountainReleaseSpeed=0.0
+RESULT: 36 passed, 3 failed

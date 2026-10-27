@@ -1,3 +1,16 @@
+# Latest connected-run continuation — 27 October 2026
+
+The current batch completes bounded market, civic/park and facility witnesses
+using existing layout, fixes bank lateral height queries and corrects practice
+place identity. [Current batch](../testing/pt24-connections-2026-10-27/README.md)
+owns exact native/combined/cold/package evidence and retained failures. Preserve
+the prior torso/wall fits, finite park guide, normal enabled features and Music.
+Human/Mac/temporal/performance/final-art work remains distinct; do not recreate
+implemented routes or promote every optional branch into a mandatory new task.
+Continue directly on main with existing no-spend/no-hosted-CI/no-release limits.
+
+---
+
 # Current continuation — 27 October 2026
 
 Main gains the bounded connected wall-presentation repair and finite downhill

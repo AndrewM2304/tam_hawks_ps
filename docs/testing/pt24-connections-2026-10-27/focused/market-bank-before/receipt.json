@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T14:02:29.612364+00:00",
+  "completed_london": "2026-10-27T14:02:36.834163+00:00",
+  "wall_seconds": 7.221799977000046,
+  "command": [
+    "timeout",
+    "60s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/terrain_bank_edge_focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 618,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "25",
+      "5"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "1847047d578974f91c75a6376d066c7dd8f9d4f7ff1968199dd4ad973b3c7883",
+  "git_head": "69fcbc836e79e87f3a1734b7fb200b35c45f7ae6"
+}

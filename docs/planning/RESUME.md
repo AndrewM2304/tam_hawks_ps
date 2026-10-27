@@ -1,3 +1,22 @@
+# Latest resumption: completed connection witnesses — 27 October 2026
+
+Read the [current connection record](../testing/pt24-connections-2026-10-27/README.md)
+for exact combined source/artifacts and retained failures. The three former
+next-queue slices now have real market/civic combos and a same-actor facility
+trip. Preserve the bank's exact lateral support rule and the authored practice
+apron's Kelvingrove identity, along with earlier torso/wall/grind-guide fixes.
+Do not weaken native tolerance or remove exact edge samples to hide a ray's
+zero-width tangency limit: the record retains actual native vertices, inside
+face and finite-boundary evidence. End/corner half-open compatibility remains
+an explicit query-policy limitation, not highest-native parity.
+
+Normal main keeps all merged features available. Remaining Mac/input/Music/save,
+moving-material/shadow, target stutter/performance, final art and human evidence
+stay open honestly. Keep main-only/non-force, no-spend/no-hosted-CI/no-release
+and no unattended jobs. Original full backlog bodies remain historical.
+
+---
+
 # Current resumption — 27 October 2026
 
 Use main and the [current park/wall batch record](../testing/pt24-park-2026-10-27/README.md),

@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T14:03:10.100081+00:00",
+  "completed_london": "2026-10-27T14:03:23.634838+00:00",
+  "wall_seconds": 13.534756791999826,
+  "command": [
+    "timeout",
+    "90s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_market_full_run_focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 618,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "36",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "b83038ba103cd62588cf625fd4c6fc6ece81ade4a9f09f005fe8c7a71cd175ad",
+  "git_head": "69fcbc836e79e87f3a1734b7fb200b35c45f7ae6"
+}

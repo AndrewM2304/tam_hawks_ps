@@ -1,3 +1,30 @@
+## Bank lateral ownership and practice district — 27 October 2026
+
+`CoreTerrain.height_at` retains its bounds and maximum-height filter. On an
+otherwise excluded maximum edge it admits only an exact lateral edge of a
+single-axis grade: maxX on a Z grade flat acrossX, or maxZ on an X grade flat
+acrossZ, strictly inside that edge's longitudinal endpoints. Flat step maxima,
+grade end caps and corners retain existing half-open ownership. No footprint,
+mesh, collider, native query or resource is added by this pure lookup rule.
+The inherited terminal policy can differ from a highest broad native hit and
+must not be described as universal ray parity. Exact convex tangent rays also
+have numeric limits; the current edge proof retains native vertices, inside-face
+rays and a bounded finite contact with unchanged2mm height agreement.
+
+`OutdoorRoutes.get_district_id` includes the existing `PRACTICE_APRON` footprint
+`Rect2(-118,-139.5,42,13.5)` as Kelvingrove. World continues delegating to outdoor
+classification before core fallback. Adjacent district guards, all save/goal
+IDs and schemas stay intact. The normal map uses Main/HUD's actual location;
+no label is overridden. Audio receives the same park district key as elsewhere
+in Kelvingrove, using its existing fallback bed and no new asset/stream.
+
+New ordinary-Main integration covers the full market/civic lines and practice
+bank→facility→return journey. Civic receipts validate exact takeoff-style labels
+from signal-time mode, without changing canonical IDs/repetition/score policy.
+[Current evidence and bounds](../testing/pt24-connections-2026-10-27/README.md).
+
+---
+
 ## Ordinary finite wall presentation and downhill guide — 27 October 2026
 
 `Skater._place_obstacle_wheels(delta)` runs after the existing rig/contact fits.

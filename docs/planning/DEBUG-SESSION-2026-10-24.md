@@ -1,3 +1,17 @@
+# Latest connection completion — 27 October 2026
+
+[Current continuation evidence](../testing/pt24-connections-2026-10-27/README.md)
+adds the market loading-drop/hall line, civic lip/air→park practice, a trueY1
+low-court return and the full same-actor facility trip/return. It also repairs
+the bank's exact lateral query ownership and practice's erroneous Central
+Station location label. Two real map frames show Kelvingrove Park. No new
+obstacle, collider or rendering resource is introduced; all features stay on.
+Final combined source-bound admission and packages belong to the current
+record. Original captures/ticket bodies and their remaining temporal/Mac/human/
+performance/final-art acceptance remain preserved, without blanket closure.
+
+---
+
 # Current continuation — 27 October 2026
 
 The ordinary gate input exposed actual board/shoe intrusion beyond the stopped

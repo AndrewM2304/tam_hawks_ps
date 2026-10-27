@@ -543,6 +543,9 @@ func get_district_id(world_position: Vector3) -> String:
 	var at := to_local(world_position)
 	if at.z >= 45.0 and at.z <= 143.0 and is_finite(_local_ground(at.x,at.z)): return "clyde"
 	if PARK_LANDSCAPE.has_point(Vector2(at.x, at.z)): return "kelvingrove"
+	# The paved practice pocket extends beyond the narrow promenade corridor.
+	# Use its exact authored footprint so adjacent station/civic land stays put.
+	if PRACTICE_APRON.has_point(Vector2(at.x, at.z)): return "kelvingrove"
 	for extension: Rect2 in [Rect2(-161,-34,3.2,15),Rect2(-139,-63,3.2,13),Rect2(-70,-132,16,6)]:
 		if extension.has_point(Vector2(at.x,at.z)): return "kelvingrove"
 	# Narrow connector footprints avoid capturing Central/George from broad bounds.

@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-27T14:14:10.448501+00:00",
+  "completed_london": "2026-10-27T14:14:23.880631+00:00",
+  "wall_seconds": 13.432133747002808,
+  "command": [
+    "timeout",
+    "90s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pt24_market_full_run_focused.gd",
+    "--",
+    ".local/market_legacy_terrain.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 619,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "38",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "0d8987017504fda7b7c7bf2e19814d2dd5512b9819e2ff40e5fcf774d91895dd",
+  "git_head": "69fcbc836e79e87f3a1734b7fb200b35c45f7ae6"
+}
