@@ -1,0 +1,42 @@
+[
+  {
+    "source": ".local/active_wall_arm_candidate_v2.gd",
+    "source_sha256": "059781948d8a92ed8cff75136580aebc51dd4a1f1614904f2e5d40c00082d403",
+    "target": ".local/active_wall_arm_candidate_v3.gd",
+    "sha256": "d9064c1fded74d0167b4fc84096ef83894f634273ebad455df372cbaecf5ce50",
+    "replacements": [
+      [
+        "## Ignored v2 prototype only.",
+        "## Ignored v3 prototype only."
+      ],
+      [
+        "or rig._skitch_blend>0.0001 or rig._pogo_blend>0.0001 or rig._handplant_blend>0.0001:",
+        "or rig._skitch_blend>0.0001 or rig._pogo_blend>0.0001 or rig._handplant_blend>0.0001 \\\n\t\t\tor rig._manual_blend>0.0001 or rig._walk_blend>0.0001 or rig._cross_blend>0.0001 \\\n\t\t\tor rig._casper_blend>0.0001 or absf(rig._manual_weight_z)>0.0001 \\\n\t\t\tor rig._front_foot_lift>0.0001 or rig._rear_foot_lift>0.0001 \\\n\t\t\tor rig._grind_blend>0.0001 or rig._lip_blend>0.0001 or rig._wall_blend>0.0001 \\\n\t\t\tor rig._transition_blend>0.0001 or rig._slide_blend>0.0001 or rig._bail_blend>0.0001:"
+      ],
+      [
+        "var face:=_face(ray,shoulder,wrist)\n\t\tvar elbow_face:=_face(ray,shoulder,elbow)\n\t\tif face.is_empty():face=elbow_face",
+        "# The base Box overlaps now; rest+same-RID ray authenticates its\n\t\t# current finite face even when both joint centres are outside it.\n\t\tvar face:=_envelope_face(query,ray)"
+      ],
+      [
+        "\t\tif not elbow_face.is_empty() and (elbow_face.rid!=face.rid \\\n\t\t\t\tor Vector3(elbow_face.normal).dot(normal)<0.999 \\\n\t\t\t\tor absf((Vector3(elbow_face.position)-point).dot(normal))>0.001):\n\t\t\trefused+=1;continue\n",
+        ""
+      ],
+      [
+        "func _face(ray: PhysicsRayQueryParameters3D,from: Vector3,to: Vector3) -> Dictionary:",
+        "func _envelope_face(query: PhysicsShapeQueryParameters3D,ray: PhysicsRayQueryParameters3D) -> Dictionary:\n\t# This axis belongs to the final freshly validated board/shoe fit, not a\n\t# remembered wall plane or an arbitrary direction manufactured in flight.\n\tvar axis: Vector3=actor._obstacle_visual_offset\n\tif not axis.is_finite() or axis.length_squared()<0.0000000001 or axis.length()>0.18:return {}\n\taxis=axis.normalized()\n\tcalls+=1\n\tvar contact:=actor.get_world_3d().direct_space_state.get_rest_info(query)\n\tif contact.is_empty():return {}\n\tvar point: Vector3=contact.point\n\tif not point.is_finite():return {}\n\tvar face:=_face(ray,point+axis*SKIN*2.0,point-axis*SKIN*2.0)\n\tvar normal: Vector3=face.get(\"normal\",Vector3.ZERO)\n\tif face.is_empty() or face.get(\"rid\")!=contact.get(\"rid\") or not normal.is_finite() \\\n\t\t\tor absf(normal.y)>0.001 or normal.dot(axis)<0.999:return {}\n\treturn face\n\nfunc _face(ray: PhysicsRayQueryParameters3D,from: Vector3,to: Vector3) -> Dictionary:"
+      ]
+    ]
+  },
+  {
+    "source": ".local/active_wall_arm_skater_v2.gd",
+    "source_sha256": "06630cdb3e49a59b60a19d1f29fc169c5c3ef25b83d3dd89e7818475d9764cf8",
+    "target": ".local/active_wall_arm_skater_v3.gd",
+    "sha256": "1f8ad443ccb7daba541dd5eaea8ef840e9854e02da38788c2d78c5f908b60e56",
+    "replacements": [
+      [
+        "res://.local/active_wall_arm_candidate_v2.gd",
+        "res://.local/active_wall_arm_candidate_v3.gd"
+      ]
+    ]
+  }
+]

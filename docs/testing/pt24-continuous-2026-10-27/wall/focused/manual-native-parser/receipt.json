@@ -1,0 +1,24 @@
+{
+  "started_london": "2026-10-27T20:03:30.921898+00:00",
+  "completed_london": "2026-10-27T20:03:31.624700+00:00",
+  "wall_seconds": 0.7028034119998665,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/active_wall_manual_capture.gd",
+    "--",
+    ".local/active_wall_manual_legacy_skater.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 655,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "76e8fd1ae788ab874724a2ef5c4bc06d217e04a86c9b017591ffd903aaa739e4",
+  "git_head": "cd661ca5b1e08a1a803570b1bd6e936ac0c9aed8"
+}

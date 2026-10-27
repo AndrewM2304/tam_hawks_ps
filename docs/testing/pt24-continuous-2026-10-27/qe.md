@@ -161,17 +161,19 @@ The ornament's rejected timing admission remains open. Production
 integration checkpoint until their actual receipts are linked. The required
 combined suite now passes on strictly frozen source; its exact receipt is linked below.
 
-The next independent C02 witness is prepared under ignored
-`.local/civic_shadow_witness.{gd,sh,md}` and has not run. It uses ordinary
-default-on Main, persistence disabled before tree entry, the exact owner
-position/orientation/FOV from captures 2/3 and their original 1440×900 viewport.
-Near/far come from current Main; the actor stays at its ordinary setup location.
-Each witness records six stationary and twelve authored one-metre moving
-completed native frames, preserving normal shadows and all merged content.
-The optional process-local directional-shadow-off diagnostic is for classifying
-an observed defect only. It never bypasses the whole repair helper or proposes
-shipping with shadows disabled. Readbacks and draw-wait intervals are not target
-frame-time evidence. Moving-image differences also contain ordinary parallax.
+After the pushed checkpoint, the [C02 civic2/3 witness](civic/README.md) passes
+**55/0**, clean/stable647 outer inputs on parent `cd661ca`, with36 independently
+SHA/dimension-verified native1440×900 frames. Ordinary Main keeps all content
+enabled and persistence/Music isolated. Exact owner positions/orientations/FOVs
+are reused; near/far and the actor's frozen setup position come from current Main.
+All five stationary same-camera image pairs at both witnesses have zero changed
+pixels; first moving images match stationary starts byte-for-byte. Independent
+moving-frame review finds continuous joins with ordinary parallax and no new
+source-backed repair. Normal shadows remain enabled. No shadow-off rerun,
+helper bypass or source/light change is justified. The original local-display
+socket startup rejection, successful parser-only check, exact snapshots/reports,
+all36frames and read-only comparator are retained. These narrow Linux findings
+do not close moving-Mac temporal acceptance or establish target frame times.
 
 Do not repeat completed required-wall-span audits or the selected six connected
 route representatives. Further traffic/skitch features, cone polish and the

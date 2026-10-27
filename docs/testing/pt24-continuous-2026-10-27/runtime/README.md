@@ -71,3 +71,7 @@ results. It preserves the camera receipts above and their earlier source scope.
 The [single-slot rig grab fallback cache](grab/README.md) has a later independent
 paired native output/count witness. Its source scope and results remain separate
 from both earlier receipts.
+
+After the first pushed checkpoint, the [two-site board support-ray resource](board/README.md)
+adds 23 independent native controls and an exact 77-ray fitting comparison. Its
+later source and results remain separate from the earlier allocation witnesses.

@@ -1,3 +1,21 @@
+# Manual, free-arm and recorder continuation — 27 October 2026
+
+The next required combined suite passes **5,435/0** plus actual Music script
+isolation **2/0**, clean/stable653 inputs. Grounded Manual wall clearance and
+residual handoff, free-arm sleeve/hand clearance and native floor-ray reuse
+retain physical/score/contact controls. Focused78/0,48/0 and23/0 pass; the actual
+displayed recorder PNG/JSON alignment witness passes35/0. Civic camera2/3 passes
+55/0 with36 native frames and no supported new face/light defect.
+
+[Current exact evidence](testing/pt24-continuous-2026-10-27/README.md) owns rejected epochs, source identities and
+eight matched native frames, four cold phases (559stableinputs, normal title→play
+50/0) and the pending current-package handoff. Work continues through this check checkpoint
+on main. All merged trial features stay enabled and personal Music stays isolated.
+Mac, physical controllers, saves/Music/TCC, moving shadows, target performance,
+fountain timing rejection and final art/human acceptance remain open honestly.
+
+---
+
 # Verified continuation; work proceeds — 27 October 2026
 
 From main `700e304`, connected tow/body, finite wall-to-Flip/Grab, menu input

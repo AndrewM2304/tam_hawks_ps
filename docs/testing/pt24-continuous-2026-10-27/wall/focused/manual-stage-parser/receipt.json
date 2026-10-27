@@ -1,0 +1,25 @@
+{
+  "started_london": "2026-10-27T19:18:00.346821+00:00",
+  "completed_london": "2026-10-27T19:18:00.948574+00:00",
+  "wall_seconds": 0.601754195005924,
+  "command": [
+    "timeout",
+    "10s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/active_wall_manual_solver_probe.gd",
+    "--",
+    ".local/active_wall_manual_solver_skater.gd",
+    ".local/active_wall_manual_solver_wall.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 652,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "4efb39bf0d6d7102382372d3efb66a7168f7c1411f3fd9488d0dbb9b3e2a7ca2",
+  "git_head": "cd661ca5b1e08a1a803570b1bd6e936ac0c9aed8"
+}

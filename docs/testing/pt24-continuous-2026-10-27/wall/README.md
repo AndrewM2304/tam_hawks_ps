@@ -1,5 +1,11 @@
 # Finite wall fit through active Flip and Grab
 
+The subsequent [grounded Manual repair](manual/README.md) passes focused **78/0**
+with exact finite floor-shape separation and a continuous residual handoff. That
+record supersedes the earlier ordinary Manual exclusion only for its explicit
+flat-ground scope. Four matched native Manual frames and the required combined
+**5,435/0 plus Music 2/0** now pass; exact scopes remain in their own records.
+
 C03 remains active after the ordinary/Ollie repair. Actual Push→native shutter
 contact→Brake→charged Ollie→fresh Flip discarded its ground-proven visual offset
 at the start of Kickflip, putting actual board/shoe vertices124.320mm through

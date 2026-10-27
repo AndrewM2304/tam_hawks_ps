@@ -1,0 +1,1 @@
+Root editor import rejected dynamic type inference for `manual_pose :=` in the Manual wall caller. The exact rejected controller and raw import log are retained here. Root corrected only the declaration to an explicit `bool`; this record has no test counts and no native gameplay acceptance. Other inputs were not fingerprinted by this unwrapped editor import.

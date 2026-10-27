@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T19:44:43.600838+00:00",
+  "completed_london": "2026-10-27T19:44:45.862378+00:00",
+  "wall_seconds": 2.261541158,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/active_wall_arm_before_proof_v3.gd",
+    "--",
+    ".local/active_wall_arm_candidate_proof_v3.gd",
+    ".local/active_wall_arm_skater_v3.gd",
+    ".local/active_wall_arm_candidate_v3.gd",
+    ".local/active_wall_arm_controls_v3.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 654,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "8b37887c00639a7a07f2e6ff5ece33927f7af5199b083451819ceaef0c6d3caf",
+  "git_head": "cd661ca5b1e08a1a803570b1bd6e936ac0c9aed8"
+}

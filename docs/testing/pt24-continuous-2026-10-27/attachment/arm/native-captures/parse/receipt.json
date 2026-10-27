@@ -1,0 +1,25 @@
+{
+  "started_london": "2026-10-27T20:04:35.317672+00:00",
+  "completed_london": "2026-10-27T20:04:36.103683+00:00",
+  "wall_seconds": 0.7860125239999434,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/active_wall_arm_capture.gd",
+    "--",
+    ".local/active_wall_arm_capture.sh",
+    ".local/active_wall_arm_legacy_skater.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 656,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "3a590d142321a51d6739f03a17151e19b1929546c06f34402cdb7fe7257cbfaf",
+  "git_head": "cd661ca5b1e08a1a803570b1bd6e936ac0c9aed8"
+}

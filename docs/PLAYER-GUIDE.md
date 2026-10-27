@@ -142,8 +142,9 @@ multiplier entry. A revert also changes facing and costs some speed.
 
 For an easier landing link, press and hold Manual just before touching down
 (within 0.18 seconds). Holding it from the start of a jump will not enter a manual.
-A deliberate fresh up direction plus Manual selects Nose Manual; ordinary held
-pushing alone keeps the usual manual. A quick forward → back gesture also starts
+Forward plus Manual selects Nose Manual, including when Push is already held.
+Release Push and centre the direction before pressing Manual for the ordinary
+rear-axle balance. A quick forward → back gesture also starts
 Manual, while back → forward starts Nose Manual; make the two direction changes
 within 220 ms, including a genuine neutral release between them. Gesture manuals stay latched until you press Manual again,
 pop, lose support or run out of speed. While balancing, use these style changes:

@@ -1,0 +1,68 @@
+[
+  {
+    "source": ".local/active_wall_arm_before_proof.gd",
+    "source_sha256": "a43af3c026277fa52f8e2a2b18b72ad4ae2e03655e05b83cd070898910e6d4ee",
+    "target": ".local/active_wall_arm_before_proof_v3.gd",
+    "sha256": "3d593543468bae46e73b732c4c81cc6dea89ee990b929cc16203fdb189172a4c",
+    "replacements": [
+      [
+        "var maximum_marker_step:=0.0",
+        "var maximum_marker_step:=0.0\nvar previous_body_markers: Array[Vector3]=[]\nvar maximum_body_marker_step:=0.0"
+      ],
+      [
+        "maximum_marker_step=maxf(maximum_marker_step,step);previous_markers=markers",
+        "maximum_marker_step=maxf(maximum_marker_step,step);previous_markers=markers\n\tvar body_markers: Array[Vector3]=[]\n\tfor marker: Vector3 in markers:body_markers.append(actor.to_local(marker))\n\tvar pose_step:=Authentic._marker_delta(previous_body_markers,body_markers) if previous_body_markers.size()==body_markers.size() else 0.0\n\tmaximum_body_marker_step=maxf(maximum_body_marker_step,pose_step);previous_body_markers=body_markers"
+      ],
+      [
+        "\"marker_step\":step,\"phase\":phase,",
+        "\"marker_step\":step,\"pose_marker_step\":pose_step,\"markers_world\":markers,\"markers_body\":body_markers,\"phase\":phase,"
+      ],
+      [
+        "\"banks\":banks,\"score_total\":score.total_score,\"maximum_marker_step\":maximum_marker_step,",
+        "\"banks\":banks,\"score_total\":score.total_score,\"maximum_marker_step\":maximum_marker_step,\"maximum_body_marker_step\":maximum_body_marker_step,"
+      ],
+      [
+        "res://.local/active_wall_arm_before_proof.json",
+        "res://.local/active_wall_arm_before_proof_v3.json"
+      ]
+    ]
+  },
+  {
+    "source": ".local/active_wall_arm_candidate_proof_v2.gd",
+    "source_sha256": "c368711056208c3d94ed38e2810910d88aaca7d2d125a8287b1bc43149ede132",
+    "target": ".local/active_wall_arm_candidate_proof_v3.gd",
+    "sha256": "771f0d708380c91f91a6902d02ebb6b6149847c584198427ddde2ab1f4896b09",
+    "replacements": [
+      [
+        "var maximum_marker_step:=0.0",
+        "var maximum_marker_step:=0.0\nvar previous_body_markers: Array[Vector3]=[]\nvar maximum_body_marker_step:=0.0"
+      ],
+      [
+        "maximum_marker_step=maxf(maximum_marker_step,step);previous_markers=markers",
+        "maximum_marker_step=maxf(maximum_marker_step,step);previous_markers=markers\n\tvar body_markers: Array[Vector3]=[]\n\tfor marker: Vector3 in markers:body_markers.append(actor.to_local(marker))\n\tvar pose_step:=Authentic._marker_delta(previous_body_markers,body_markers) if previous_body_markers.size()==body_markers.size() else 0.0\n\tmaximum_body_marker_step=maxf(maximum_body_marker_step,pose_step);previous_body_markers=body_markers"
+      ],
+      [
+        "\"marker_step\":step,\"phase\":phase,",
+        "\"marker_step\":step,\"pose_marker_step\":pose_step,\"markers_world\":markers,\"markers_body\":body_markers,\"phase\":phase,"
+      ],
+      [
+        "\"banks\":banks,\"score_total\":score.total_score,\"maximum_marker_step\":maximum_marker_step,",
+        "\"banks\":banks,\"score_total\":score.total_score,\"maximum_marker_step\":maximum_marker_step,\"maximum_body_marker_step\":maximum_body_marker_step,"
+      ],
+      [
+        "res://.local/active_wall_arm_skater_v2.gd",
+        "res://.local/active_wall_arm_skater_v3.gd"
+      ],
+      [
+        "res://.local/active_wall_arm_candidate_proof_v2.json",
+        "res://.local/active_wall_arm_candidate_proof_v3.json"
+      ]
+    ]
+  },
+  {
+    "source": ".local/active_wall_arm_compare_v2.py",
+    "target": ".local/active_wall_arm_compare_v3.py",
+    "sha256": "52ba09257522c822f02aa19e083220ebb85f09c883bcc4f489c29de5ccaa92a2",
+    "method": "Original world marker values retained. Original220mm fixed-body pose criterion uses explicit actor-relative native marker arrays; every unchanged native marker must match baseline in both frames."
+  }
+]

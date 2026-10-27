@@ -1,0 +1,169 @@
+{
+	"checks": [
+		{
+			"label": "controls use earned real shutter contact and active Flip6 pose",
+			"ok": true
+		},
+		{
+			"label": "live finite arm envelope earns a bounded correction",
+			"ok": true
+		},
+		{
+			"label": "positive correction restores every reused query field",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [@CharacterBody3D@10:<CharacterBody3D#40047216173>, \"manual_active\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [@CharacterBody3D@10:<CharacterBody3D#40047216173>, \"bailing\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [@CharacterBody3D@10:<CharacterBody3D#40047216173>, \"lip_active\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [@CharacterBody3D@10:<CharacterBody3D#40047216173>, \"powersliding\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [<RefCounted#-9223371996673341899>, \"active\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [<RefCounted#-9223371996438460861>, \"active\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [<RefCounted#-9223371996690119116>, \"active\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [<RefCounted#-9223371996337797559>, \"active\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [<RefCounted#-9223371996421683644>, \"active\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active contact guard [<RefCounted#-9223371996404906427>, \"active\"] has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active trick guard _grab_remaining has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "active trick guard _special_remaining has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _grab_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _skitch_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _pogo_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _handplant_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _manual_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _walk_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _cross_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _casper_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _manual_weight_z has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _front_foot_lift has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _rear_foot_lift has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _grind_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _lip_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _wall_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _transition_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _slide_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "residual contact guard _bail_blend has no arm or query effects",
+			"ok": true
+		},
+		{
+			"label": "absent, opposite, nonfinite or over-cap axis refuses stale plane authority: (0.0, 0.0, 0.0)",
+			"ok": true
+		},
+		{
+			"label": "absent, opposite, nonfinite or over-cap axis refuses stale plane authority: (0.0, 0.0, 0.13232)",
+			"ok": true
+		},
+		{
+			"label": "absent, opposite, nonfinite or over-cap axis refuses stale plane authority: (nan, 0.0, 0.0)",
+			"ok": true
+		},
+		{
+			"label": "absent, opposite, nonfinite or over-cap axis refuses stale plane authority: (0.0, 0.0, -0.181)",
+			"ok": true
+		},
+		{
+			"label": "unarmed ordinary pose adds zero native queries",
+			"ok": true
+		},
+		{
+			"label": "moved-away actual finite panel clears continuation without remembered plane",
+			"ok": true
+		},
+		{
+			"label": "short finite panel does not extend an infinite arm correction above its edge",
+			"ok": true
+		},
+		{
+			"label": "corner/enclosing solid refuses unsafe shoulder or full-envelope fit within unchanged budget",
+			"ok": true
+		}
+	],
+	"failed": 0,
+	"maximum_calls": 6,
+	"maximum_shift": 0.180646595716476,
+	"method": "Native current controller fixture first; afterwards frozen-actor negative contracts exercise every active/residual grip guard and current finite collision authority. No geometric or continuity tolerance changes.",
+	"passed": 40
+}

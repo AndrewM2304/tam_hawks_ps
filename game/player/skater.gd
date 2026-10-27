@@ -26,6 +26,7 @@ const GRIND_BOARD_CENTER := Vector3(0,-.036568,0)
 const GRIND_BOARD_CORNER_RADIUS := .457
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const SkaterVisualSource = preload("res://game/player/skater_visual.gd")
+const ObstacleArmFit = preload("res://game/player/skater_obstacle_arm_fit.gd")
 const SkateResponse = preload("res://game/player/skate_response.gd")
 const DirectionalTricks = preload("res://game/tricks/directional_tricks.gd")
 const TrickAnimation = preload("res://game/player/trick_animation.gd")
@@ -109,6 +110,7 @@ var _vert_start_up := 0.0
 var _grind_visual_offset := Vector3.ZERO
 var _obstacle_visual_offset := Vector3.ZERO
 var _obstacle_ollie_continuation := false
+var _obstacle_manual_continuation := false
 var _obstacle_shoe_bounds: Array[AABB] = []
 var _lip_feature: Dictionary = {}
 var _lip_across := 0.0
@@ -189,6 +191,7 @@ var _board_visual: Node3D
 var _rider_visual: Node3D
 var _camera: Camera3D
 var _visual_rig: RefCounted
+var _obstacle_arm_fit: RefCounted = ObstacleArmFit.new()
 var _response = SkateResponse.new()
 var _camera_follow = ChaseCamera.new()
 
@@ -312,6 +315,7 @@ const PLANAR_RIM_MAX_LIFT := 0.025
 const GROUND_PRESENTATION_SKIN := 0.008
 var _floor_wheel_shapes: Array[ConvexPolygonShape3D] = []
 var _floor_wheel_query := PhysicsShapeQueryParameters3D.new()
+var _board_floor_ray := PhysicsRayQueryParameters3D.create(Vector3.ZERO,Vector3.ZERO,1|8)
 const FeatureTransitionRide = preload("res://game/player/feature_transition_ride.gd")
 var _feature_transition = FeatureTransitionRide.new()
 var bail_progress: float:
@@ -371,6 +375,7 @@ func _ready() -> void:
 	_recovery_shape_query.exclude = [get_rid()]
 	_recovery_floor_query.collision_mask = 1 | 8
 	_recovery_floor_query.exclude = [get_rid()]
+	_obstacle_arm_fit.prepare(self)
 	_camera = Camera3D.new()
 	_camera.name = "ChaseCamera"
 	_camera.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
@@ -385,6 +390,7 @@ func _ready() -> void:
 
 
 func reset_skater(preserve_camera:bool=false,preserve_support:bool=false) -> void:
+	_obstacle_arm_fit.reset()
 	_grind_transfer.reset()
 	_grind_pending.clear()
 	_grind_exact_pose=false
@@ -466,6 +472,7 @@ func reset_skater(preserve_camera:bool=false,preserve_support:bool=false) -> voi
 	_grind_visual_offset = Vector3.ZERO
 	_obstacle_visual_offset = Vector3.ZERO
 	_obstacle_ollie_continuation = false
+	_obstacle_manual_continuation = false
 	transition_normal = Vector3.UP
 	_transition_cooldown = 0.0
 	lip_active = false
@@ -549,6 +556,7 @@ func begin_bail(reason: String, safe_position: Vector3 = Vector3.INF) -> void:
 	_grind_pending.clear()
 	_grind_exact_pose=false
 	if bailing:return
+	_obstacle_arm_fit.reset()
 	_setup.reset()
 	_feature_transition.reset(self)
 	_wall.stop()
@@ -558,6 +566,7 @@ func begin_bail(reason: String, safe_position: Vector3 = Vector3.INF) -> void:
 	if _visual_rig.has_method("begin_bail"): _visual_rig.begin_bail()
 	_obstacle_visual_offset = Vector3.ZERO
 	_obstacle_ollie_continuation = false
+	_obstacle_manual_continuation = false
 	# Retain only body-local interrupted presentation; native motion stays authoritative.
 	_bail_visual_basis=_visual.basis.orthonormalized()
 	_bail_visual_offset=_visual.position
@@ -2209,12 +2218,35 @@ func _update_pose(delta: float) -> void:
 		_place_manual_wheels()
 	if not air_landing_support.is_empty(): _place_air_landing_wheels(air_landing_support)
 	_place_obstacle_wheels(delta)
+	_obstacle_arm_fit.apply(delta)
 
 
 func _place_obstacle_wheels(delta: float) -> void:
 	# The upright locomotion capsule is narrower than the actual deck/shoes.
 	# Reuse its real vertical-wall contacts to fit only the connected figure;
 	# an obstacle must never move the physical actor or split feet from board.
+	var manual_pose: bool = manual_active or _visual_rig._manual_blend>0.0001
+	if manual_pose and (manual_active or _obstacle_manual_continuation) \
+			and not airborne and _native_floor_valid and is_on_floor() \
+			and not _force_air_tick and _native_floor_normal().y>0.999 \
+			and not (transition_active or grinding or wallriding or bail_active or setup_active \
+				or skitching or lip_active or powersliding) \
+			and _flip_remaining<=0.0 and _grab_remaining<=0.0 and _special_remaining<=0.0 \
+			and _ollie_pose_remaining<=0.0:
+		_place_obstacle_manual_wheels(delta)
+		return
+	if manual_pose:
+		_obstacle_visual_offset=Vector3.ZERO
+		_obstacle_ollie_continuation=false
+		_obstacle_manual_continuation=false
+		return
+	if airborne and _obstacle_manual_continuation:
+		# This grounded slice must not arm a new Manual-origin airborne fit.
+		_obstacle_visual_offset=Vector3.ZERO
+		_obstacle_ollie_continuation=false
+		_obstacle_manual_continuation=false
+		return
+	_obstacle_manual_continuation=false
 	if manual_active or transition_active or grinding or wallriding or bail_active \
 			or setup_active or skitching or lip_active or powersliding \
 			or _special_remaining>0.0:
@@ -2302,6 +2334,241 @@ func _place_obstacle_wheels(delta: float) -> void:
 		return
 	_obstacle_visual_offset=Vector3.ZERO
 	_obstacle_ollie_continuation=false
+
+
+func _place_obstacle_manual_wheels(delta: float) -> void:
+	# Only the two ordinary axle manuals use this separate flat-floor path.
+	# Residual pose continuation requires a fit actually earned by that Manual.
+	var valid_id := manual_trick_id in ["manual","nose_manual"]
+	var prior := _obstacle_visual_offset
+	var valid_prior := prior.is_finite() and prior.length_squared()>0.0 and prior.length()<=0.18
+	var candidate := Vector3.ZERO
+	var accepted := false
+	if valid_id and (manual_active or (_obstacle_manual_continuation and valid_prior)):
+		var geometry: Dictionary=_visual_rig.board_contact_geometry()
+		if valid_prior:
+			var decay := prior*exp(-maxf(0.0,delta)/0.045)
+			if decay.length_squared()<0.0000000001: decay=Vector3.ZERO
+			if _obstacle_manual_supported(geometry,decay):
+				candidate=decay
+				accepted=true
+		if not accepted:
+			# Derive the current finite minimum before retaining a safe but
+			# oversized prior fit, so a fading axle pose cannot leave a snap
+			# when the ordinary ground solver resumes at the end of its blend.
+			candidate=_obstacle_manual_contact_offset(geometry)
+			if candidate!=Vector3.ZERO and _obstacle_manual_supported(geometry,candidate):
+				accepted=true
+			else:
+				candidate=Vector3.ZERO
+		if not accepted and valid_prior and _obstacle_manual_supported(geometry,prior):
+			candidate=prior
+	if candidate!=Vector3.ZERO:
+		_visual.position+=global_basis.inverse()*candidate
+	_obstacle_visual_offset=candidate
+	_obstacle_ollie_continuation=false
+	_obstacle_manual_continuation=candidate!=Vector3.ZERO
+
+
+func _obstacle_manual_supported(geometry: Dictionary,offset: Vector3) -> bool:
+	if geometry.wheels.size()!=4: return false
+	var ray := _recovery_floor_query
+	var saved_from := ray.from
+	var saved_to := ray.to
+	var saved_mask := ray.collision_mask
+	ray.collision_mask=collision_mask
+	var space := get_world_3d().direct_space_state
+	var count := 0
+	var valid := absf(_board_visual.rotation.x)>0.000001
+	var floor_hit: Dictionary={}
+	for wheel: Dictionary in geometry.wheels:
+		if Vector3(wheel.center).z*_board_visual.rotation.x<=0.0: continue
+		count+=1
+		var at: Vector3=_board_visual.to_global(wheel.center)+offset
+		ray.from=at+Vector3.UP*0.16
+		ray.to=at-Vector3.UP*0.20
+		var hit := space.intersect_ray(ray)
+		if hit.is_empty() or Vector3(hit.get("normal",Vector3.ZERO)).y<0.999:
+			valid=false
+			break
+		var point: Vector3=hit.position
+		var normal: Vector3=hit.normal
+		if floor_hit.is_empty():
+			floor_hit=hit
+		elif hit.get("rid")!=floor_hit.get("rid") or hit.get("shape")!=floor_hit.get("shape") \
+				or normal.dot(Vector3(floor_hit.normal))<0.999 \
+				or absf((point-Vector3(floor_hit.position)).dot(floor_hit.normal))>0.001:
+			valid=false
+			break
+		var lowest := INF
+		for vertex: Vector3 in wheel.points:
+			lowest=minf(lowest,(_board_visual.to_global(vertex)+offset-point).dot(normal))
+		# Same flat support as the actually planted axle: a lower step cannot
+		# authorize floating, and a raised step cannot bury its finite tyre.
+		if lowest<GROUND_PRESENTATION_SKIN-0.00001 or lowest>GROUND_PRESENTATION_SKIN+0.001:
+			valid=false
+			break
+	ray.from=saved_from
+	ray.to=saved_to
+	ray.collision_mask=saved_mask
+	return valid and count==2 and _obstacle_manual_clear(offset,floor_hit)
+
+
+func _obstacle_manual_floor_shape(hit: Dictionary) -> Dictionary:
+	# The native shape index, not its entire body, owns this exception. A
+	# compound floor's separate wall/raised shape must still block the fit.
+	var body := hit.get("collider") as StaticBody3D
+	if body==null: return {}
+	var shape_index := int(hit.get("shape",-1))
+	if shape_index<0: return {}
+	var owner := body.shape_find_owner(shape_index)
+	var count := body.shape_owner_get_shape_count(owner)
+	if count>8: return {}
+	var shape: Shape3D
+	for index: int in count:
+		if body.shape_owner_get_shape_index(owner,index)==shape_index:
+			shape=body.shape_owner_get_shape(owner,index)
+			break
+	if shape==null: return {}
+	var pose := body.global_transform*body.shape_owner_get_transform(owner)
+	var normal: Vector3=hit.normal
+	if not normal.is_finite() or normal.y<0.999 or not is_equal_approx(normal.length_squared(),1.0): return {}
+	var maximum := -INF
+	if shape is BoxShape3D:
+		var half: Vector3=shape.size*0.5
+		maximum=pose.origin.dot(normal)+absf(pose.basis.x.dot(normal))*half.x \
+			+absf(pose.basis.y.dot(normal))*half.y+absf(pose.basis.z.dot(normal))*half.z
+	elif shape is ConvexPolygonShape3D:
+		var points: PackedVector3Array=shape.points
+		if points.is_empty() or points.size()>64: return {}
+		for point: Vector3 in points: maximum=maxf(maximum,(pose*point).dot(normal))
+	else:
+		return {}
+	# Use the exact primitive support plane, not the rounded native ray hit.
+	# Every point of this finite shape is at/below maximum; the complete
+	# query geometry must stay at least the unchanged native margin above it.
+	if not is_finite(maximum): return {}
+	return {"normal":normal,"maximum":maximum,"rid":hit.rid,"shape":shape_index}
+
+
+func _obstacle_manual_clear(offset: Vector3,hit: Dictionary) -> bool:
+	var floor_shape := _obstacle_manual_floor_shape(hit)
+	if floor_shape.is_empty(): return false
+	var hull: Shape3D=_visual_rig.board_contact_geometry().get("convex_shape")
+	if hull==null: return false
+	var query := _grind_board_query
+	var saved_shape := query.shape
+	var saved_size := _grind_board_box.size
+	var saved_margin := query.margin
+	var saved_transform := query.transform
+	var saved_motion := query.motion
+	query.margin=GROUND_PRESENTATION_SKIN-0.00001
+	query.motion=Vector3.ZERO
+	var space := get_world_3d().direct_space_state
+	var clear := true
+	for index: int in 3:
+		if index==0:
+			query.shape=hull
+			query.transform=_board_visual.global_transform
+		else:
+			var bounds: AABB=_obstacle_shoe_bounds[index-1]
+			_grind_board_box.size=bounds.size
+			query.shape=_grind_board_box
+			query.transform=_visual_rig._legs[index-1].foot.global_transform \
+				* Transform3D(Basis.IDENTITY,bounds.get_center())
+		var pose := query.transform
+		pose.origin+=offset
+		query.transform=pose
+		var normal: Vector3=floor_shape.normal
+		var minimum := INF
+		if query.shape is ConvexPolygonShape3D:
+			# The current authored cached hull has3,729 native points. Read
+			# those exact points, not its slightly simplified debug faces.
+			var points: PackedVector3Array=query.shape.points
+			if points.is_empty() or points.size()>4096:
+				clear=false
+				break
+			var local_normal := pose.basis.transposed()*normal
+			for point: Vector3 in points: minimum=minf(minimum,point.dot(local_normal)+pose.origin.dot(normal))
+		else:
+			var half := _grind_board_box.size*0.5
+			minimum=pose.origin.dot(normal)-absf(pose.basis.x.dot(normal))*half.x \
+				-absf(pose.basis.y.dot(normal))*half.y-absf(pose.basis.z.dot(normal))*half.z
+		if not is_finite(minimum) or minimum-float(floor_shape.maximum)<query.margin:
+			clear=false
+			break
+		var hits := space.intersect_shape(query,8)
+		if hits.size()>=8:
+			clear=false
+			break
+		for contact: Dictionary in hits:
+			if contact.get("rid")!=floor_shape.rid or int(contact.get("shape",-1))!=int(floor_shape.shape):
+				clear=false
+				break
+		if not clear: break
+	_grind_board_box.size=saved_size
+	query.shape=saved_shape
+	query.margin=saved_margin
+	query.transform=saved_transform
+	query.motion=saved_motion
+	return clear
+
+
+func _obstacle_manual_contact_offset(geometry: Dictionary) -> Vector3:
+	# At most17 DirectSpace queries: a decayed five-call validation, one live
+	# rest and face ray, a fresh five-call fit and a retained five-call fallback.
+	# Clear ordinary Manual skating adds only one rest query, with no wall fit.
+	var hull: Shape3D=geometry.get("convex_shape")
+	if hull==null: return Vector3.ZERO
+	var query := _grind_board_query
+	var saved_shape := query.shape
+	var saved_margin := query.margin
+	var saved_transform := query.transform
+	var saved_motion := query.motion
+	query.shape=hull
+	query.margin=GROUND_PRESENTATION_SKIN-0.00001
+	query.transform=_board_visual.global_transform
+	query.motion=Vector3.ZERO
+	var space := get_world_3d().direct_space_state
+	var rest := space.get_rest_info(query)
+	query.shape=saved_shape
+	query.margin=saved_margin
+	query.transform=saved_transform
+	query.motion=saved_motion
+	if rest.is_empty(): return Vector3.ZERO
+	var hint: Vector3=rest.get("normal",Vector3.ZERO)
+	var axis := Vector3(hint.x,0,hint.z).normalized()
+	if not axis.is_finite() or axis.length_squared()<0.99: return Vector3.ZERO
+	var point: Vector3=rest.point
+	var ray := _recovery_floor_query
+	var saved_from := ray.from
+	var saved_to := ray.to
+	var saved_mask := ray.collision_mask
+	ray.from=point+axis*(GROUND_PRESENTATION_SKIN*2.0)
+	ray.to=point-axis*(GROUND_PRESENTATION_SKIN*2.0)
+	ray.collision_mask=query.collision_mask
+	var face := space.intersect_ray(ray)
+	ray.from=saved_from
+	ray.to=saved_to
+	ray.collision_mask=saved_mask
+	var normal: Vector3=face.get("normal",Vector3.ZERO)
+	if face.is_empty() or face.get("rid")!=rest.get("rid") or not normal.is_finite() \
+			or absf(normal.y)>0.001 or normal.dot(axis)<0.999: return Vector3.ZERO
+	axis=Vector3(normal.x,0,normal.z).normalized()
+	point=face.position
+	var gap := INF
+	for vertex: Vector3 in geometry.support_points:
+		gap=minf(gap,(_board_visual.to_global(vertex)-point).dot(normal))
+	for index: int in _visual_rig._legs.size():
+		var bounds: AABB=_obstacle_shoe_bounds[index]
+		var foot: Transform3D=_visual_rig._legs[index].foot.global_transform
+		for x: float in [bounds.position.x,bounds.end.x]:
+			for y: float in [bounds.position.y,bounds.end.y]:
+				for z: float in [bounds.position.z,bounds.end.z]:
+					gap=minf(gap,(foot*Vector3(x,y,z)-point).dot(normal))
+	var amount := (GROUND_PRESENTATION_SKIN-gap)/normal.dot(axis)
+	if not is_finite(amount) or amount<=0.0 or amount>0.18: return Vector3.ZERO
+	return axis*amount
 
 
 func _obstacle_air_clear(offset: Vector3) -> bool:
@@ -3117,9 +3384,7 @@ func _native_board_floor() -> Dictionary:
 			# presentation skin. Flattening its localY shifts XZ on a bank and
 			# can select the wrong side of a short step by a few millimetres.
 			var bearing: Vector3 = point+axis*0.008+frame*(_visual_rig._board_rest_position+wheel_center)
-			var query := PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50,collision_mask)
-			query.exclude = [get_rid()]
-			var hit := space.intersect_ray(query)
+			var hit := _native_board_floor_ray(space,bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50)
 			if not _native_board_support_allowed(hit,bowl): return {}
 			var support: Vector3 = hit.position
 			same_plane = same_plane and Vector3(hit.normal).dot(axis)>0.999 \
@@ -3153,9 +3418,7 @@ func _native_board_floor() -> Dictionary:
 	for wheel: Dictionary in wheels:
 		var wheel_center: Vector3 = wheel.center
 		var bearing: Vector3 = point+axis*0.008+final_frame*(_visual_rig._board_rest_position+wheel_center)
-		var query := PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50,collision_mask)
-		query.exclude = [get_rid()]
-		var hit := space.intersect_ray(query)
+		var hit := _native_board_floor_ray(space,bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50)
 		if not _native_board_support_allowed(hit,bowl): return {}
 		# Use the real rounded GLB tyre vertices, not a primitive cylinder
 		# extent or the urethane bushings in the joined material surface.
@@ -3178,6 +3441,16 @@ func _native_board_floor() -> Dictionary:
 			_floor_wheel_query.margin=0.0
 			if not space.intersect_shape(_floor_wheel_query,1).is_empty(): return {}
 	return {"position":point,"normal":axis}
+
+
+func _native_board_floor_ray(space: PhysicsDirectSpaceState3D,from: Vector3,to: Vector3) -> Dictionary:
+	# Only parameter storage is retained. Each sequential support request uses
+	# the current endpoints, mask and self-exclusion, with factory ray defaults.
+	_board_floor_ray.from = from
+	_board_floor_ray.to = to
+	_board_floor_ray.collision_mask = collision_mask
+	_board_floor_ray.exclude = [get_rid()]
+	return space.intersect_ray(_board_floor_ray)
 
 
 func _native_board_support_allowed(hit: Dictionary,bowl: Node3D) -> bool:

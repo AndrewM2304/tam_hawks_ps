@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T18:55:02.945740+00:00",
+  "completed_london": "2026-10-27T18:55:04.300002+00:00",
+  "wall_seconds": 1.3542588310010615,
+  "command": [
+    "timeout",
+    "10s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/active_wall_manual_probe.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 646,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "3",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "ca75acc3ca0d6f67f0b5f5910200797cfaaeeb08005bb96e3224a773436dc85c",
+  "git_head": "cd661ca5b1e08a1a803570b1bd6e936ac0c9aed8"
+}

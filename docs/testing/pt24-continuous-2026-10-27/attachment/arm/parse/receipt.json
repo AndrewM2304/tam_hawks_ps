@@ -1,0 +1,24 @@
+{
+  "started_london": "2026-10-27T18:53:20.610706+00:00",
+  "completed_london": "2026-10-27T18:53:21.211769+00:00",
+  "wall_seconds": 0.601110064999375,
+  "command": [
+    "timeout",
+    "8s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--check-only",
+    "--script",
+    ".local/active_wall_arm_probe.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 646,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "574cfa297c09924b75bdd96a93b50c41b2246b2a0bc9af52ddc912890ab08a55",
+  "git_head": "cd661ca5b1e08a1a803570b1bd6e936ac0c9aed8"
+}

@@ -1,3 +1,35 @@
+## Grounded axle wall fit and free-arm clearance — 27 October 2026
+
+Ordinary grounded Manual/Nose Manual has its own finite wall presentation path.
+Both actual loaded tyres must retain the same native flat support RID and shape
+index at the existing8mm skin. The whole cached board hull and both complete
+shoe boxes must clear other finite geometry. A harmless native floor query hit
+is accepted only for that exact support shape when its entire transformed native
+Box/Convex primitive is separated from the entire query volume by the unchanged
+7.99mm query margin. Compound-body walls, raised blockers, unsupported primitives,
+missing support and the eight-hit cap refuse. The solver tries decay, current
+finite minimum, then revalidated prior; only a genuinely earned fit can continue
+the residual axle blend. It keeps18cm, at most17native queries, and restores
+shared query fields. No physical state, local axle pivot, garment bone or score
+changes. Grounded specials and Manual-origin airborne fits remain outside scope.
+
+After the final shared board/shoe root fit, a specific free-arm helper may retract
+an ungripped wrist by at most20cm while retaining the fixed shoulder and original
+0.30/0.29m chain lengths. Startup-cached actual Skin weight groups and anatomical
+hand/curl bounds conservatively enclose every original vertex. A current envelope
+rest contact and short same-collider finite vertical-face ray authenticate the
+freshly validated root-offset axis; the complete final arm envelope needs native
+clearance at8mm. The arm helper uses at most12native queries in addition to
+the preceding board/shoe fit, zero for ordinary unarmed
+skating or active/residual Manual and palm-contact modes. Reset/bail clear the
+continuation. The helper reuses the existing query/box/ray resources; physical
+motion, shared root, board, nonarm bones and scores stay unchanged. Focused
+78/0 wall/Manual and48/0 arm checks own these bounded representatives; full batch
+admission, native captures and target/human limits belong to the
+[current evidence](../testing/pt24-continuous-2026-10-27/README.md).
+
+---
+
 ## Connected tow, active wall tricks and menu settlement — 27 October 2026
 
 Existing towing lean and palm-reach translations now move the common pelvis
