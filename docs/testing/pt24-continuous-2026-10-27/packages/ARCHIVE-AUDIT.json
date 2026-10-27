@@ -1,0 +1,92 @@
+{
+  "valid": true,
+  "git_commit": "e0c94273a648f0c69b6c1ef5e022a7181da06f97",
+  "receipt_parent_git_head": "cd661ca5b1e08a1a803570b1bd6e936ac0c9aed8",
+  "working_tree_clean_at_export": true,
+  "required_assertion_counts": [
+    [
+      5435,
+      0
+    ]
+  ],
+  "required_input_count": 653,
+  "package_input_count": 264,
+  "package_test_overlap": 254,
+  "committed_source_blobs_verified": 663,
+  "all_required_and_package_memberships_match_checkout": true,
+  "all_required_and_package_inputs_match_commit_objects": true,
+  "required_suite_receipt_sha256": "0c3d09cf7c29de1687b7918539e8c8dc98621551debc7f0881d1f7dbfe01f2ed",
+  "required_suite_log_sha256": "1926aa57af0fabf105a91c915e3f297989cb6460859c811cefb53f434586e8b2",
+  "required_source_before_sha256": "4f9cee7297f6180054f5b60c8d4484e4849f13daf65e3bc348fcd554e160bd47",
+  "required_source_after_sha256": "4f9cee7297f6180054f5b60c8d4484e4849f13daf65e3bc348fcd554e160bd47",
+  "runtime_source_sha256": "8141c9d39657c716fbd332c1d0cbd5b9f53b254ffdae8c5ac07d9d759e78511d",
+  "checks_run_by_export_script": false,
+  "archives": [
+    {
+      "platform": "linux",
+      "file": "TamHawksProSkater-linux.zip",
+      "bytes": 36410131,
+      "sha256": "4a99efe6c25c7a9dbe17f72e2dd8a0bd923624bea7267a6be7971367e01ac3fe",
+      "architectures": [
+        "x86_64"
+      ],
+      "crc_valid": true,
+      "safe_member_paths": true,
+      "executable_mode_valid": true,
+      "notice_records": 13,
+      "pack_sha256": "4be94080ac13a23eed8deb69081217e33d999b8e30cdb1aa11c3493c21b9d091",
+      "native_pack_resource_report_verified": true
+    },
+    {
+      "platform": "macos",
+      "file": "TamHawksProSkater-macos.zip",
+      "bytes": 70969735,
+      "sha256": "f115658cb7a1e7836c4a7d4982276ca824c125d20df519a6caca7fae90ef8048",
+      "architecture_signature_observations": [
+        {
+          "architecture": "x86_64",
+          "code_signature_load_command_present": true,
+          "cryptographic_signature_validity": "not_verified",
+          "signature_blob_structure_readable": true,
+          "xml_entitlements_present": false,
+          "der_entitlements_present": false,
+          "apple_events_entitlement_in_xml": null
+        },
+        {
+          "architecture": "arm64",
+          "code_signature_load_command_present": true,
+          "cryptographic_signature_validity": "not_verified",
+          "signature_blob_structure_readable": true,
+          "xml_entitlements_present": false,
+          "der_entitlements_present": false,
+          "apple_events_entitlement_in_xml": null
+        }
+      ],
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "music_automation_usage_description": "Control Music to play your chosen soundtrack and show the current song.",
+      "main_app_code_resources_present": false,
+      "apple_events_entitlement_configured": true,
+      "effective_automation_entitlement_or_consent_verified": false,
+      "crc_valid": true,
+      "safe_member_paths": true,
+      "executable_mode_valid": true,
+      "notice_records": 13,
+      "pack_sha256": "4be94080ac13a23eed8deb69081217e33d999b8e30cdb1aa11c3493c21b9d091",
+      "native_pack_resource_report_verified": true
+    }
+  ],
+  "cross_platform_pack_bytes_identical": true,
+  "macos_export_signing_enabled": false,
+  "macos_export_notarization_enabled": false,
+  "macos_signature_cryptographically_verified": false,
+  "macos_executable_launched": false,
+  "target_performance_accepted": false,
+  "limits": [
+    "Unsigned export settings and a Music usage description do not certify an effective signed Automation entitlement or TCC consent.",
+    "Any embedded template signature/entitlement observations are structural only; signature validity is not verified on Linux.",
+    "Linux-loaded Mac resource packs do not execute the Mac binary or certify Music playback, physical controllers, audio, saves, performance or human acceptance."
+  ]
+}

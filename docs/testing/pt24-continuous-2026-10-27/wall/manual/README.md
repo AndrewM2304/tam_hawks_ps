@@ -136,3 +136,10 @@ ignored `.local/`, then run parser first and the capture on its own engine lease
 python3 docs/testing/horizon-background/observers/run_checked.py .local/manual-capture-repeat-parser timeout 15s ./tools/run.sh --headless --check-only --script .local/active_wall_manual_capture.gd -- .local/active_wall_manual_legacy_skater.gd
 python3 docs/testing/horizon-background/observers/run_checked.py .local/manual-capture-repeat bash .local/active_wall_manual_capture.sh .local/active_wall_manual_capture.gd .local/active_wall_manual_legacy_skater.gd
 ```
+
+## Bounded continuation after the push
+
+The [two-pose arm observation](../manual-arm/README.md) on pushed `e0c94273a648` confirms
+remaining left sleeve/hand intrusion during the same ordinary Nose Manual. The
+board/shoe/root acceptance above remains valid. Its **8/0 prerequisites are not
+arm acceptance**; the concrete finite-solid witnesses define the next C03 slice.

@@ -113,8 +113,8 @@ passes **5,435/0**, plus actual Music script isolation **2/0**, exit0 with a cle
 log and **653 unchanged inputs** in560.952s. Manifest SHA256:
 `4f9cee7297f6180054f5b60c8d4484e4849f13daf65e3bc348fcd554e160bd47`.
 All inputs resolve to643 immutable `cd661ca` blobs plus10 exact snapshots.
-Current-source native frames, cold launch, packages and push follow this
-admission. The prior5,340/0 receipt and older builds retain their own source scope.
+Current-source native frames, cold launch and package checks pass below.
+Verified source is pushed to main as `e0c94273a648f0c69b6c1ef5e022a7181da06f97`. The prior5,340/0 receipt and older builds retain their own source scope.
 
 ## Matched native frames for the next batch
 
@@ -136,5 +136,10 @@ performance. Mac motion and human feel remain separate.
 
 [Current cold source launch](cold/README.md) passes all four phases on559
 unchanged inputs, including normal title→play50/0 and deliberate invalid-copy
-refusal. Local unsigned exports and archive/standalone checks are next; no Mac
-execution result is implied.
+refusal. [Current unsigned Linux/universal-Mac packages](packages/README.md),
+archive audit and normal Linux standalone title startup pass. Packages bind clean
+source `e0c94273a648`; no Mac execution result is implied. Work continues: the [bounded Manual sleeve/hand observer](wall/manual-arm/README.md)
+on that same source confirms62.4mm near-sleeve and residual hand intrusion.
+Its8/0 count validates the workload only. The ordinary Manual free-arm case is
+now the next repair; no broader Manual arm policy is admitted by the completed
+wall-fit slice.

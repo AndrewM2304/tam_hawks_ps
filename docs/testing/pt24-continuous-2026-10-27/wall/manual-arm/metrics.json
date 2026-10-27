@@ -1,0 +1,206 @@
+{
+  "entry_speed": 2.65834784507751,
+  "events": [
+    {
+      "id": "nose_manual",
+      "label": "Nose Manual",
+      "points": 100
+    }
+  ],
+  "records": [
+    {
+      "stage": "active",
+      "tick": 78,
+      "impact": -1,
+      "position": [
+        0.0,
+        0.011667,
+        -0.405796
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        2.033274
+      ],
+      "manual_active": true,
+      "manual_id": "nose_manual",
+      "blend": 0.99996282968132,
+      "board_pitch": -0.30506664514542,
+      "root_offset": [
+        0.0,
+        0.0,
+        -0.104304
+      ],
+      "native_vertex_observer": {
+        "contained": true,
+        "panel_hits": 134
+      },
+      "detail": {
+        "finite": true,
+        "skin_hits": 134,
+        "solid_hits": 111,
+        "sides": [
+          {
+            "side": "left",
+            "sleeve": {
+              "vertices": 505,
+              "finite": true,
+              "skin_hits": 128,
+              "solid_hits": 111,
+              "minimum_north_gap": -0.06239978782833,
+              "cross_section_vertices": 505,
+              "deepest_panel_point": [
+                0.34043,
+                -0.376401,
+                -0.0276
+              ]
+            },
+            "hand": {
+              "vertices": 1901,
+              "finite": true,
+              "skin_hits": 6,
+              "solid_hits": 0,
+              "minimum_north_gap": 0.00449554622173,
+              "cross_section_vertices": 1901,
+              "deepest_panel_point": [
+                0.110895,
+                -0.459232,
+                -0.094496
+              ]
+            }
+          },
+          {
+            "side": "right",
+            "sleeve": {
+              "vertices": 505,
+              "finite": true,
+              "skin_hits": 0,
+              "solid_hits": 0,
+              "minimum_north_gap": 0.50804647803307,
+              "cross_section_vertices": 505,
+              "deepest_panel_point": [
+                0.173167,
+                -0.157843,
+                -0.598046
+              ]
+            },
+            "hand": {
+              "vertices": 1901,
+              "finite": true,
+              "skin_hits": 0,
+              "solid_hits": 0,
+              "minimum_north_gap": 0.81245473027229,
+              "cross_section_vertices": 1901,
+              "deepest_panel_point": [
+                -0.091734,
+                -0.643468,
+                -0.902455
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "stage": "residual",
+      "tick": 99,
+      "impact": 79,
+      "position": [
+        0.0,
+        0.014016,
+        -0.389865
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "manual_active": false,
+      "manual_id": "nose_manual",
+      "blend": 0.01831508149836,
+      "board_pitch": -0.00147519947495,
+      "root_offset": [
+        0.0,
+        0.0,
+        -0.125702
+      ],
+      "native_vertex_observer": {
+        "contained": true,
+        "panel_hits": 220
+      },
+      "detail": {
+        "finite": true,
+        "skin_hits": 220,
+        "solid_hits": 129,
+        "sides": [
+          {
+            "side": "left",
+            "sleeve": {
+              "vertices": 505,
+              "finite": true,
+              "skin_hits": 126,
+              "solid_hits": 110,
+              "minimum_north_gap": -0.05433268472552,
+              "cross_section_vertices": 505,
+              "deepest_panel_point": [
+                -0.019098,
+                -0.260929,
+                -0.035667
+              ]
+            },
+            "hand": {
+              "vertices": 1901,
+              "finite": true,
+              "skin_hits": 94,
+              "solid_hits": 19,
+              "minimum_north_gap": -0.00495857000351,
+              "cross_section_vertices": 1901,
+              "deepest_panel_point": [
+                -0.203969,
+                -0.423821,
+                -0.085041
+              ]
+            }
+          },
+          {
+            "side": "right",
+            "sleeve": {
+              "vertices": 505,
+              "finite": true,
+              "skin_hits": 0,
+              "solid_hits": 0,
+              "minimum_north_gap": 0.50980952382088,
+              "cross_section_vertices": 505,
+              "deepest_panel_point": [
+                -0.20638,
+                -0.062349,
+                -0.59981
+              ]
+            },
+            "hand": {
+              "vertices": 1901,
+              "finite": true,
+              "skin_hits": 0,
+              "solid_hits": 0,
+              "minimum_north_gap": 0.58599749207497,
+              "cross_section_vertices": 1901,
+              "deepest_panel_point": [
+                -0.283396,
+                -0.583874,
+                -0.675997
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "scope": "Original exact Skin and current curl vertices inside the actual finite native shutter Box and its unchanged7.99mm skin. Intrusion counts are observations, not acceptance assertions; zero sampled vertex hits alone does not certify all triangles or every Manual variant.",
+  "provenance": {
+    "method": "Numeric fields decoded losslessly from the original Godot Variant console line; Vector3 print tuples represented as JSON arrays. Raw original console retained separately.",
+    "raw_console": "../focused/manual-arm-observed/console.log",
+    "raw_console_sha256": "178495a75f795b3a702d6388ff68e79800397aff64d466549cdcd9d48f309658",
+    "head": "e0c94273a648f0c69b6c1ef5e022a7181da06f97",
+    "assertions": "8/0 observation prerequisites only; actual solid/skin intrusion below remains a defect."
+  }
+}

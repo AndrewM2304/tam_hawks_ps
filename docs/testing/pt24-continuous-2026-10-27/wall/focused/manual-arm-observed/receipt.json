@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T20:12:10.954037+00:00",
+  "completed_london": "2026-10-27T20:12:12.007591+00:00",
+  "wall_seconds": 1.0535525790000975,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/manual_arm_observer.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 654,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "8",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "c2a48c2be00c121f9bb456fbecac83021905f2eda409af0d0810a0e0bc79cdcb",
+  "git_head": "e0c94273a648f0c69b6c1ef5e022a7181da06f97"
+}

@@ -8,9 +8,12 @@ displayed recorder PNG/JSON alignment witness passes35/0. Civic camera2/3 passes
 55/0 with36 native frames and no supported new face/light defect.
 
 [Current exact evidence](testing/pt24-continuous-2026-10-27/README.md) owns rejected epochs, source identities and
-eight matched native frames, four cold phases (559stableinputs, normal title→play
-50/0) and the pending current-package handoff. Work continues through this check checkpoint
-on main. All merged trial features stay enabled and personal Music stays isolated.
+eight matched native frames and four cold phases (559stableinputs, normal title→play
+50/0). Source is pushed as `e0c94273a648`; clean unsigned Linux/universal-Mac
+exports, archive audit and normal Linux standalone startup pass. The current
+package record is linked there. The next bounded actual
+Manual observer confirms62.4mm near-sleeve and residual hand intrusion; ordinary
+Manual free-arm fitting now continues on main. All merged trial features stay enabled and personal Music stays isolated.
 Mac, physical controllers, saves/Music/TCC, moving shadows, target performance,
 fountain timing rejection and final art/human acceptance remain open honestly.
 
