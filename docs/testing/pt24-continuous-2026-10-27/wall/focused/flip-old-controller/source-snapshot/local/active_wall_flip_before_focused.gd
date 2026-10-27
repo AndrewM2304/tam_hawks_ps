@@ -1,0 +1,12 @@
+extends SceneTree
+const Active=preload("res://.local/active_wall_flip_legacy_tests.gd")
+var passed:=0
+var failed:=0
+func _initialize() -> void:_run.call_deferred()
+func _run() -> void:
+	await Active.run(self,_check)
+	print("RESULT: ",passed," passed, ",failed," failed")
+	quit(1 if failed else 0)
+func _check(ok: bool,label: String) -> void:
+	if ok:passed+=1;print("PASS: ",label)
+	else:failed+=1;print("FAIL: ",label)

@@ -1,0 +1,36 @@
+{
+  "started_london": "2026-10-27T18:17:33.627579+00:00",
+  "completed_london": "2026-10-27T18:17:43.708691+00:00",
+  "wall_seconds": 10.081113471002027,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/skitch_attachment_before_focused.gd",
+    "--",
+    ".local/skitch_attachment_legacy_tests.gd",
+    ".local/skitch_attachment_legacy_authentic.gd",
+    ".local/skitch_attachment_legacy_main.gd",
+    ".local/skitch_attachment_legacy_skater.gd",
+    ".local/skitch_attachment_baseline_visual.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 649,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "18",
+      "7"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "019669f48462d7014739b2969ae53f52e76d22e603d1384cd370bada5c5e432e",
+  "git_head": "700e304861c282bb11dcd762c0cae04a06ec2642"
+}

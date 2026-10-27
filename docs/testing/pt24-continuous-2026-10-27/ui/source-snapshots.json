@@ -1,0 +1,158 @@
+{
+  "immutable_parent": "700e304861c282bb11dcd762c0cae04a06ec2642",
+  "runs": {
+    "default-causal": {
+      "receipt": "focused/default-causal/receipt.json",
+      "valid": true,
+      "source_inputs": 628,
+      "parent_inputs": 626,
+      "changed_snapshots": 2,
+      "counts": [],
+      "manifest": "5c05893f565dcf4f3d5d5ad617789defb29c416946a4be937222cf48112963c2"
+    },
+    "default-queue-candidate-rejected": {
+      "receipt": "focused/default-queue-candidate-rejected/receipt.json",
+      "valid": false,
+      "source_inputs": 638,
+      "parent_inputs": 620,
+      "changed_snapshots": 18,
+      "counts": [
+        [
+          "16",
+          "1"
+        ]
+      ],
+      "manifest": "c8b37714bb33c2f018bc18b67c4c8ae44530e4c11ca07bcfc742e642440fe58b"
+    },
+    "saved-map-causal": {
+      "receipt": "focused/saved-map-causal/receipt.json",
+      "valid": true,
+      "source_inputs": 638,
+      "parent_inputs": 620,
+      "changed_snapshots": 18,
+      "counts": [],
+      "manifest": "3ee6d544f972cc3a5794de33086fa12e64779759310e33cdd25aee2b95ca326f"
+    },
+    "paused-charge-causal": {
+      "receipt": "focused/paused-charge-causal/receipt.json",
+      "valid": true,
+      "source_inputs": 638,
+      "parent_inputs": 620,
+      "changed_snapshots": 18,
+      "counts": [],
+      "manifest": "496b4fd29ce716feaa33fedfe0306d96ceb797251de7f9fde6b889e09f109786"
+    },
+    "same-tick-cross-causal": {
+      "receipt": "focused/same-tick-cross-causal/receipt.json",
+      "valid": true,
+      "source_inputs": 638,
+      "parent_inputs": 620,
+      "changed_snapshots": 18,
+      "counts": [],
+      "manifest": "5cd42bf6f7bb82fec0ca4dffdfcb4a9526d637ed088ff08a640e137c0cab27de"
+    },
+    "alternate-binding-causal": {
+      "receipt": "focused/alternate-binding-causal/receipt.json",
+      "valid": true,
+      "source_inputs": 638,
+      "parent_inputs": 620,
+      "changed_snapshots": 18,
+      "counts": [],
+      "manifest": "4f4f6154a9ec4a3fd0550bef5a2cd7241f9f5aed93547c7d97088320283f203c"
+    },
+    "fixture-type-rejected": {
+      "receipt": "focused/fixture-type-rejected/receipt.json",
+      "valid": false,
+      "source_inputs": 644,
+      "parent_inputs": 618,
+      "changed_snapshots": 26,
+      "counts": [],
+      "manifest": "316726ba069852d8c2081e6042c2f32c66d1c2c53fd455ac3659fc8974a8418c"
+    },
+    "restored-release-rejected": {
+      "receipt": "focused/restored-release-rejected/receipt.json",
+      "valid": false,
+      "source_inputs": 644,
+      "parent_inputs": 618,
+      "changed_snapshots": 26,
+      "counts": [
+        [
+          "30",
+          "2"
+        ]
+      ],
+      "manifest": "2360c79d0100da12429af286b49249cf0df24a80c4741beb726082e0e55976b0"
+    },
+    "duplicate-callback-rejected": {
+      "receipt": "focused/duplicate-callback-rejected/receipt.json",
+      "valid": false,
+      "source_inputs": 646,
+      "parent_inputs": 618,
+      "changed_snapshots": 28,
+      "counts": [
+        [
+          "32",
+          "1"
+        ]
+      ],
+      "manifest": "5facd4860a71c16414e9f2fd7e360626c0251a9e2ed24d53cf596e7e5468df19"
+    },
+    "weakref-type-rejected": {
+      "receipt": "focused/weakref-type-rejected/receipt.json",
+      "valid": false,
+      "source_inputs": 646,
+      "parent_inputs": 618,
+      "changed_snapshots": 28,
+      "counts": [
+        [
+          "3",
+          "8"
+        ]
+      ],
+      "manifest": "9c3a819a6ad9f59a9a030f49723c29b57064f779225f8126bd2418462a8f1a97"
+    },
+    "accepted": {
+      "receipt": "focused/accepted/receipt.json",
+      "valid": true,
+      "source_inputs": 646,
+      "parent_inputs": 618,
+      "changed_snapshots": 28,
+      "counts": [
+        [
+          "33",
+          "0"
+        ]
+      ],
+      "manifest": "48a3f859917f9f8480bde5d17285eaa61afe562aa2632f0917e37a67ecaf8bd5"
+    },
+    "render30": {
+      "receipt": "focused/render30/receipt.json",
+      "valid": true,
+      "source_inputs": 646,
+      "parent_inputs": 618,
+      "changed_snapshots": 28,
+      "counts": [
+        [
+          "6",
+          "0"
+        ]
+      ],
+      "manifest": "c1f923b808c7169c08bb7bb23cc7377c72b6e48fc7c36f14fc0d9816175e7560"
+    },
+    "render120": {
+      "receipt": "focused/render120/receipt.json",
+      "valid": true,
+      "source_inputs": 646,
+      "parent_inputs": 618,
+      "changed_snapshots": 28,
+      "counts": [
+        [
+          "6",
+          "0"
+        ]
+      ],
+      "manifest": "c1f923b808c7169c08bb7bb23cc7377c72b6e48fc7c36f14fc0d9816175e7560"
+    }
+  },
+  "missing": []
+}

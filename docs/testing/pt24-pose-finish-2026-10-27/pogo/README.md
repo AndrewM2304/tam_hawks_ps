@@ -24,9 +24,9 @@ award, followed by ordinary release or actual bail/get-up/restart and skating.
 [Old-source causal control](focused/old-input-control/receipt.json) is deliberately
 rejected13/6. The first minimal shared-delta candidate is also
 [retained and rejected185/4](focused/rejected-shared-delta/receipt.json): it fixed
-attachment but moved a knee274.6mm. Applying a partial reach blend on each of
-five iterations had over-applied entry translation; blending the solved total
-once restores original continuity. No threshold was relaxed.
+attachment but moved a sampled head, hand or foot marker 274.6 mm. Applying a
+partial reach blend on each of five iterations had over-applied entry translation;
+blending the solved total once restores original continuity. No threshold was relaxed.
 [Investigation](investigation.md) includes the separate initial neutral pose
 probe and its explicit controller limits. [Snapshot hashes](source-snapshots.json)
 retain the exact old visual, redirected controls, test sources and rejected

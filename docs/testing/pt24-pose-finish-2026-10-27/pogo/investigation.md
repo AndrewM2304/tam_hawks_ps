@@ -29,8 +29,9 @@ preloads. `.local/prepare_pogo_legacy.py` records exact source/target hashes.
 - `.local/pogo-attachment-focused`: first minimal candidate shared the original
   loop delta with pelvis unchanged. **185/4**, exit1, unchanged622inputs,5.813s.
   Cloth/joint improve to60.890/4.000mm, but existing unchanged AuthenticPose
-  continuity fails: knee marker movement274.6mm exceeds220mm. Both this newly
-  detected failure and exact rejected candidate/test/runner bytes are retained.
+  continuity fails: a sampled head, hand or foot marker step is 274.6 mm, above
+  the unchanged 220 mm limit. This failure and exact candidate/test/runner bytes
+  are retained.
   It is not admitted as a fix.
 
 ## Revised bounded correction
@@ -38,9 +39,9 @@ preloads. `.local/prepare_pogo_legacy.py` records exact source/target hashes.
 Pogo's existing five-iteration two-arm reach solver blends its correction on
 every iteration. At initial influence~0.234 this can accumulate~0.737 of full
 reach while actual palms blend once by0.234. Sharing that path exposes abrupt
-pelvis/knee movement. Solve the same finite reach at full strength with the
-original five iterations,0.5 averaging and0.565m reach, then multiply the total
-translation once by existing `_pogo_blend` and move torso/pelvis together.
+connected-body marker movement. Solve the same finite reach at full strength
+with the original five iterations,0.5 averaging and0.565m reach, then multiply
+the total translation once by existing `_pogo_blend` and move torso/pelvis together.
 This matches the grab policy. Full settled reach is unchanged. No new persistent
 state, pose clamp, limb/bind/asset/physics/score/camera/input/default change,
 render resource, native query or allocation is introduced. Existing thresholds

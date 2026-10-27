@@ -1,3 +1,16 @@
+# Current remaining queue — 27 October 2026
+
+The owner explicitly requests continuing past each push checkpoint. The
+[current holistic remaining list](PT24-REMAINING-2026-10-27.md) and
+[exact ongoing evidence](../testing/pt24-continuous-2026-10-27/README.md) own the
+current menu/body/wall/runtime and fountain candidate work. Required combined
+verification passes **5,340/0** plus Music script guard **2/0**, clean/stable645 inputs. Civic camera2/3, moving Manual contact and the two
+native floor-ray allocations are next; Mac/human acceptance stays separate.
+All merged trial content remains available. Historical ticket bodies below
+are retained, including superseded creation/preview wording.
+
+---
+
 # Rider, controller-menu and fountain continuation — 27 October 2026
 
 The owner requested pushing all work to main and continuing. Main/origin were

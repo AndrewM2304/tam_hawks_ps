@@ -23,7 +23,7 @@ this batch does not add arbitrary walls or repeat unchanged boundary surveys.
 
 - [Pogo](pogo/README.md): **189/0**, including19 new cloth/contact/controller
   assertions and170 unchanged AuthenticPose checks. The old13/6 and rejected
-  knee-continuity185/4 candidates are retained; thresholds remain unchanged.
+  marker-continuity185/4 candidates are retained; thresholds remain unchanged.
   Four native frames compare both deck stances at identical entry moments.
 - [Wall-to-Ollie](wall/README.md): **33/0**, including20 ordinary and13 new
   transition assertions. Actual held and quick-tap input retains8mm clearance

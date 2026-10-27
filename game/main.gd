@@ -62,6 +62,10 @@ var _hud_goals: Array[Dictionary] = []
 var _hud_unlocks: Array[String] = []
 var _hud_music_source: Node
 var _hud_music_state: Dictionary = {}
+var _hud_grind_name_id := ""
+var _hud_grind_name := ""
+var _hud_manual_name_id := ""
+var _hud_manual_name := "Manual"
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -720,6 +724,14 @@ func _refresh_hud() -> void:
 		_hud_career_revision = revision
 		_hud_goals = career.goals_snapshot()
 		_hud_unlocks = career.unlocks()
+	# Catalog labels are immutable metadata. Refresh each owned string only
+	# when its current identity changes, including unknown-ID fallbacks.
+	if skater.grind_trick_id != _hud_grind_name_id:
+		_hud_grind_name_id = skater.grind_trick_id
+		_hud_grind_name = _read_hud_trick_name(_hud_grind_name_id, "")
+	if skater.manual_trick_id != _hud_manual_name_id:
+		_hud_manual_name_id = skater.manual_trick_id
+		_hud_manual_name = _read_hud_trick_name(_hud_manual_name_id, "Manual")
 	var statuses := _encounter_snapshots()
 	hud.update_display({
 		"time": time_remaining, "score": score.total_score,
@@ -730,8 +742,8 @@ func _refresh_hud() -> void:
 		"banked_combo": score.last_banked, "stance": skater.stance,
 		"last_bonus": score.last_bonus,
 		"active_trick": skater.active_trick, "hold_points": skater.hold_points,
-		"grind_name": Skater.TrickCatalog.definition(skater.grind_trick_id).get("display_name", ""),
-		"manual_name": Skater.TrickCatalog.definition(skater.manual_trick_id).get("display_name", "Manual"),
+		"grind_name": _hud_grind_name,
+		"manual_name": _hud_manual_name,
 		"tricks": "  +  ".join(score.trick_history), "best": score.best_combo,
 		"speed": skater.velocity.length() if skater.transition_active else (skater.get_real_velocity().length() if skater._native_floor_valid and not skater.grinding and skater.is_on_floor() and skater.get_platform_velocity().length_squared() > 0.01 else skater.speed), "airborne": skater.airborne,
 		"grinding": skater.grinding, "balance": skater.grind_balance,
@@ -760,3 +772,7 @@ func _refresh_hud() -> void:
 		"interaction_prompt": _interaction_prompt(statuses),
 		"music": _hud_music_state,
 	})
+
+
+func _read_hud_trick_name(trick_id: String, fallback: String) -> String:
+	return str(Skater.TrickCatalog.definition(trick_id).get("display_name",fallback))

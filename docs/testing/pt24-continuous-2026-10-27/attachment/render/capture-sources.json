@@ -1,0 +1,27 @@
+{
+  "method": "Frozen current visual with only the three approved skitch attachment hunks reversed exactly once; current grab fallback cache and every other visual/controller change remain. Current controller differs only by this visual preload. Exact700e304 negative control remains separately archived.",
+  "visual_source_sha256": "442a9913a798ec404c99a394a107e074ba8c21ebb23d4baf4e7bb5e2554c46cb",
+  "before_visual_sha256": "6e75169797165c1302c64029299001d265fe23cc7955c04504e1be5ce00d378d",
+  "controller_source_sha256": "ae06c7af83aaa340e691e89864fa09ecec12ebedda70d8bb329f889e8f754f33",
+  "before_controller_sha256": "9956dbcb8a54f383e5fe35de7a4d2460b1fbdcb8a7b18e71065e7339bd3772ab",
+  "reverse_replacements": [
+    [
+      "\t\tvar toward_shift := Vector3(toward.x, 0, toward.z).limit_length(0.12) * _skitch_blend\n\t\t_upper.position += toward_shift\n\t\t# The existing tow lean belongs to the connected torso and pelvis.\n\t\thips_origin += toward_shift\n\t\thips_y = hips_origin.y",
+      "\t\t_upper.position += Vector3(toward.x, 0, toward.z).limit_length(0.12) * _skitch_blend"
+    ],
+    [
+      "\tif skitch_pose:\n\t\tvar unconstrained_torso := _upper.position\n\t\tfor iteration in 5:",
+      "\tif skitch_pose:\n\t\tfor iteration in 5:"
+    ],
+    [
+      "\t\t# Preserve the authored palm-reach path while the legs share its shift.\n\t\thips_origin += _upper.position - unconstrained_torso\n\t\thips_y = hips_origin.y\n",
+      ""
+    ]
+  ],
+  "controller_preload": [
+    [
+      "res://game/player/skater_visual.gd",
+      "res://.local/skitch_attachment_capture_before_visual.gd"
+    ]
+  ]
+}

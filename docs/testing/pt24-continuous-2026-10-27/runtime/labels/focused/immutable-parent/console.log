@@ -1,0 +1,10 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: HUD legacy parity: Main is profile-isolated before scene construction
+PASS: HUD legacy parity: first empty IDs preserve the entire original HUD snapshot
+PASS: HUD legacy parity: thirty-one unchanged refresh pairs retain full state with sixty-two original label reads versus two cached reads
+PASS: HUD legacy parity: every canonical, compatibility, unknown and empty ID preserves the complete HUD
+PASS: HUD legacy parity: a changed timer snapshot preserves complete original HUD values
+PASS: HUD legacy parity: fixture restores the complete live HUD and leaves personal Music isolated
+HUD_IMMUTABLE_LEGACY_PARITY { "pairs": 122, "old_label_reads": 244, "new_label_reads": 180, "unchanged_pairs": 31, "unchanged_old_reads": 62, "unchanged_new_reads": 2, "label_slots": 2 }
+RESULT: 6 passed, 0 failed

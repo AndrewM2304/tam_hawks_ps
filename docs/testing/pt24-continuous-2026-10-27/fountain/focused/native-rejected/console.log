@@ -1,0 +1,20 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: ornament fixture: no content override before tree entry
+PASS: ornament fixture: no personal Music or profile access
+PASS: PT24 fountain finish: fountain, pond and river share one existing water material
+PASS: PT24 fountain finish: existing circular water mesh, height and coping margin remain exact
+PASS: PT24 fountain finish: all 768 original water face vertices retain their fixed basin footprint
+PASS: PT24 fountain finish: both original basin and pedestal native shapes remain exact
+PASS: PT24 fountain finish: 32 native basin contacts keep their unchanged .55m support
+PASS: PT24 fountain finish: the existing fountain has no new water-recovery trigger
+PASS: PT24 fountain finish: original closed coping ID and all 65 authored guide points remain
+PASS: fountain ornament: three original display slots keep transforms/material identities and share indexed native meshes
+PASS: fountain ornament: real native arrays use288triangles within original360triangle/270vertex display budget
+FAIL: fountain ornament: every displayed triangle has finite indexed geometry, clockwise winding and unit orthogonal UV tangent frames
+PASS: fountain ornament: all display vertices stay inside the original combined authored frusta envelope
+PASS: fountain ornament: actual displayed rays find the recessed cup floor/inner wall and raised annular lip instead of a solid top disk
+PASS: fountain ornament: nozzle foot meets the displayed inner floor while the pedestal stays below the cup
+PASS: fountain ornament: the existing two native shapes and2.7m pedestal top remain unchanged; the decorative cup is not new playable support
+FOUNTAIN_ORNAMENT { "vertices": 259, "triangles": 288, "native_unchanged": true, "inner_y": 2.15500020980835, "rim_y": 2.34999990463257, "floor_y": 2.07999992370605, "crown_foot_y": 2.07999992370605, "pedestal_top_y": 1.90000009536743 }
+RESULT: 15 passed, 1 failed

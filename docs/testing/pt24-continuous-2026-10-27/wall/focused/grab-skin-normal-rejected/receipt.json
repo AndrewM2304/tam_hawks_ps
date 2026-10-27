@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T17:53:14.853771+00:00",
+  "completed_london": "2026-10-27T17:53:16.258428+00:00",
+  "wall_seconds": 1.4046567550030886,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/active_wall_grab_skin_probe.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 638,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "2",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "607a4c503713b0e907c33f3876e544708e984e385139cbfec89d3fa5580cf9f7",
+  "git_head": "700e304861c282bb11dcd762c0cae04a06ec2642"
+}

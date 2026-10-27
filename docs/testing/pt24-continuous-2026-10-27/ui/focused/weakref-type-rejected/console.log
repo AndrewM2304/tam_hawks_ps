@@ -1,0 +1,182 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
+          at: GDScript::reload (res://game/ui/hud.gd:1034)
+SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
+          at: GDScript::reload (res://game/ui/hud.gd:1056)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://game/main.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://.local/menu_launch_focused.gd:0)
+ERROR: Failed to load script "res://.local/menu_launch_focused.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _ready (res://game/main.gd:154)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://game/main.gd:154)
+              [1] _run (res://.local/menu_launch_focused.gd:11)
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _launch_after_back (res://tests/menu_launch_tests.gd:47)
+              [2] run (res://tests/menu_launch_tests.gd:10)
+              [3] _run (res://.local/menu_launch_focused.gd:12)
+SCRIPT ERROR: Invalid call. Nonexistent function 'toggle_goals' in base 'Nil'.
+          at: _back (res://tests/menu_launch_tests.gd:38)
+          GDScript backtrace (most recent call first):
+              [0] _back (res://tests/menu_launch_tests.gd:38)
+              [1] _launch_after_back (res://tests/menu_launch_tests.gd:49)
+              [2] run (res://tests/menu_launch_tests.gd:10)
+              [3] _run (res://.local/menu_launch_focused.gd:12)
+FAIL: menu launch: real Escape Back returns a supported run to actual fresh-input flight
+FAIL: menu launch: Escape Back cannot turn the next north-modified Nollie into an Ollie or Grab
+MENU_LAUNCH_RESULT { "circle": false, "back_grab_buffer": 0.0, "history": [], "launch": "ollie", "takeoff": "Regular", "at": (-22.0, 0.375, 28.0) }
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _launch_after_back (res://tests/menu_launch_tests.gd:47)
+              [2] run (res://tests/menu_launch_tests.gd:10)
+              [3] _launch_after_back (res://tests/menu_launch_tests.gd:62)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'toggle_goals' in base 'Nil'.
+          at: _back (res://tests/menu_launch_tests.gd:38)
+          GDScript backtrace (most recent call first):
+              [0] _back (res://tests/menu_launch_tests.gd:38)
+              [1] _launch_after_back (res://tests/menu_launch_tests.gd:49)
+              [2] run (res://tests/menu_launch_tests.gd:10)
+              [3] _launch_after_back (res://tests/menu_launch_tests.gd:62)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+FAIL: menu launch: real Circle Back returns a supported run to actual fresh-input flight
+FAIL: menu launch: Circle Back cannot turn the next north-modified Nollie into an Ollie or Grab
+MENU_LAUNCH_RESULT { "circle": true, "back_grab_buffer": 0.0, "history": ["Ollie"], "launch": "ollie", "takeoff": "Regular", "at": (-22.0, 0.517956, 27.98583) }
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _spin_after_back (res://tests/menu_launch_tests.gd:68)
+              [2] run (res://tests/menu_launch_tests.gd:12)
+              [3] _launch_after_back (res://tests/menu_launch_tests.gd:62)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'toggle_goals' in base 'Nil'.
+          at: _back (res://tests/menu_launch_tests.gd:38)
+          GDScript backtrace (most recent call first):
+              [0] _back (res://tests/menu_launch_tests.gd:38)
+              [1] _spin_after_back (res://tests/menu_launch_tests.gd:73)
+              [2] _frames (res://tests/ui_integration_tests.gd:265)
+FAIL: menu launch: actual Escape airborne Back/steer adds no unintended family award
+MENU_BACK_SPIN { "circle": false, "spin_delta": 0.0, "selection_remaining": 0.0, "history": ["Ollie"] }
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _spin_after_back (res://tests/menu_launch_tests.gd:68)
+              [2] run (res://tests/menu_launch_tests.gd:12)
+              [3] _spin_after_back (res://tests/menu_launch_tests.gd:85)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'toggle_goals' in base 'Nil'.
+          at: _back (res://tests/menu_launch_tests.gd:38)
+          GDScript backtrace (most recent call first):
+              [0] _back (res://tests/menu_launch_tests.gd:38)
+              [1] _spin_after_back (res://tests/menu_launch_tests.gd:73)
+              [2] _frames (res://tests/ui_integration_tests.gd:265)
+PASS: menu launch: actual Circle airborne Back/steer adds no unintended family award
+MENU_BACK_SPIN { "circle": true, "spin_delta": 0.36, "selection_remaining": 0.0, "history": ["Ollie", "Ollie"] }
+FAIL: menu launch: consumed Circle Back preserves the same immediate native steering-spin response as Escape
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _real_family (res://tests/menu_launch_tests.gd:89)
+              [2] run (res://tests/menu_launch_tests.gd:16)
+              [3] _spin_after_back (res://tests/menu_launch_tests.gd:85)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+FAIL: menu launch: a genuine queued north grab still uses plain Ollie and its actual directional family award
+MENU_REAL_FAMILY { "family": "grab", "history": ["Ollie", "Ollie", "Nose Grab", "Ollie"], "launch": "ollie", "takeoff": "Regular" }
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _real_family (res://tests/menu_launch_tests.gd:89)
+              [2] run (res://tests/menu_launch_tests.gd:16)
+              [3] _real_family (res://tests/menu_launch_tests.gd:100)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+FAIL: menu launch: a genuine queued north flip still uses plain Ollie and its actual directional family award
+MENU_REAL_FAMILY { "family": "flip", "history": ["Ollie", "Ollie", "Nose Grab", "Ollie", "Frontside Shuvit"], "launch": "ollie", "takeoff": "Regular" }
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _manual_extension (res://tests/menu_launch_tests.gd:105)
+              [2] run (res://tests/menu_launch_tests.gd:17)
+              [3] _real_family (res://tests/menu_launch_tests.gd:100)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+PASS: menu launch: real Manual then south/Grab consumes its queued Pogo extension after establishing remembered launch metadata
+PASS: menu launch: immediate real extension-to-pop preserves its existing plain-Ollie family preparation after queue consumption
+MENU_MANUAL_EXTENSION_POP { "extended": true, "remembered": true, "history": ["Manual", "Pogo", "Ollie"], "launch": "ollie", "at": (-21.64589, 0.519207, 25.32185) }
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _saved_back_matrix (res://tests/menu_launch_tests.gd:168)
+              [2] run (res://tests/menu_launch_tests.gd:18)
+              [3] _manual_extension (res://tests/menu_launch_tests.gd:132)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'toggle_goals' in base 'Nil'.
+          at: _saved_back_matrix (res://tests/menu_launch_tests.gd:188)
+          GDScript backtrace (most recent call first):
+              [0] _saved_back_matrix (res://tests/menu_launch_tests.gd:188)
+              [1] run (res://tests/menu_launch_tests.gd:18)
+              [2] _manual_extension (res://tests/menu_launch_tests.gd:132)
+              [3] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _held_bindings (res://tests/menu_launch_tests.gd:229)
+              [2] run (res://tests/menu_launch_tests.gd:19)
+              [3] _manual_extension (res://tests/menu_launch_tests.gd:132)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'toggle_goals' in base 'Nil'.
+          at: _held_bindings (res://tests/menu_launch_tests.gd:242)
+          GDScript backtrace (most recent call first):
+              [0] _held_bindings (res://tests/menu_launch_tests.gd:242)
+              [1] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] run_boundary (res://tests/menu_launch_tests.gd:275)
+              [2] run (res://tests/menu_launch_tests.gd:20)
+              [3] _held_bindings (res://tests/menu_launch_tests.gd:242)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'show_title' in base 'Nil'.
+          at: run_boundary (res://tests/menu_launch_tests.gd:277)
+          GDScript backtrace (most recent call first):
+              [0] run_boundary (res://tests/menu_launch_tests.gd:277)
+              [1] run (res://tests/menu_launch_tests.gd:20)
+              [2] _held_bindings (res://tests/menu_launch_tests.gd:242)
+              [3] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: _fresh (res://tests/menu_launch_tests.gd:32)
+          GDScript backtrace (most recent call first):
+              [0] _fresh (res://tests/menu_launch_tests.gd:32)
+              [1] _transition_invalidation (res://tests/menu_launch_tests.gd:328)
+              [2] run (res://tests/menu_launch_tests.gd:21)
+              [3] _held_bindings (res://tests/menu_launch_tests.gd:242)
+              [4] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'toggle_goals' in base 'Nil'.
+          at: _transition_invalidation (res://tests/menu_launch_tests.gd:329)
+          GDScript backtrace (most recent call first):
+              [0] _transition_invalidation (res://tests/menu_launch_tests.gd:329)
+              [1] run (res://tests/menu_launch_tests.gd:21)
+              [2] _held_bindings (res://tests/menu_launch_tests.gd:242)
+              [3] _frames (res://tests/ui_integration_tests.gd:265)
+SCRIPT ERROR: Invalid call. Nonexistent function 'hide_menu' in base 'Nil'.
+          at: run (res://tests/menu_launch_tests.gd:23)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/menu_launch_tests.gd:23)
+              [1] _held_bindings (res://tests/menu_launch_tests.gd:242)
+              [2] _frames (res://tests/ui_integration_tests.gd:265)
+RESULT: 3 passed, 8 failed

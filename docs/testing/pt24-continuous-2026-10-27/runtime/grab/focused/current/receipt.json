@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T18:32:59.289343+00:00",
+  "completed_london": "2026-10-27T18:33:00.240922+00:00",
+  "wall_seconds": 0.951582347996009,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/grab_pose_cache_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 646,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "8",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "c14cd60a2d7a521e579e8d035e20ad200c91bbb5b70eb7a8394ffc8b09f4e1ad",
+  "git_head": "700e304861c282bb11dcd762c0cae04a06ec2642"
+}

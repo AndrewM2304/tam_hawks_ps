@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: grab fallback cache: actual built cloth, bones, contacts and anatomical blend shapes equal the fresh controller
+PASS: grab fallback cache: sixty ordinary skating poses preserve every output with zero new fallback objects instead of sixty
+PASS: grab fallback cache: all authored grabs plus unknown and empty raw IDs retain exact native fallback and deformed-rig outputs
+PASS: grab fallback cache: distinct raw unknown and empty IDs refresh immediately even when their fallback values are equal
+PASS: grab fallback cache: changing hand, deck target and catalog tuck overrides stay live without rereading the unchanged fallback ID
+PASS: grab fallback cache: release fades preserve full native outputs on a reversed deck
+PASS: grab fallback cache: explicit reset restores the original default fallback and complete rig immediately
+GRAB_FALLBACK_CACHE { "paired_updates": 248, "cached_objects": 14, "fresh_objects": 250, "ordinary_updates": 60, "ordinary_new_objects": 0, "ordinary_fresh_objects": 60, "raw_ids": 10, "retained_slots": 1 }
+PASS: grab fallback cache: a deliberately corrupted cached tuck is rejected by actual cloth/bone/contact output parity
+RESULT: 8 passed, 0 failed

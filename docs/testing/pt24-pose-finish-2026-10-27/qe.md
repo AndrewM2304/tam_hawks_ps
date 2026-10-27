@@ -11,9 +11,10 @@ from inventory counts or the generator's own list of existing bodies.
 
 The Pogo reach loop had the same structural fault as the earlier grab: torso
 translation omitted the pelvis. Sharing its old iteratively blended path fixed
-the cloth but exposed a274.6mm knee movement, correctly rejected by the unchanged
-220mm limit. The final repair solves the same bounded reach, weights its total
-translation once, and moves torso/pelvis equally before the original leg fit.
+the cloth but exposed a 274.6 mm head, hand or foot marker step, correctly
+rejected by the unchanged 220 mm limit. The final repair solves the same bounded
+reach, weights its total translation once, and moves torso/pelvis equally before
+the original leg fit.
 No speculative knee-pole/IK rewrite, new cap or relaxed threshold was accepted.
 
 The [Pogo record](pogo/README.md) retains old-source13/6 and first-candidate185/4

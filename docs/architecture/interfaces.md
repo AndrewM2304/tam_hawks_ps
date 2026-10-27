@@ -1,3 +1,47 @@
+## Connected tow, active wall tricks and menu settlement — 27 October 2026
+
+Existing towing lean and palm-reach translations now move the common pelvis
+with the torso before fixed-length leg fitting. The upper-body path, influence
+weights, native vehicle behavior and score rules are retained. Actual deformed
+Skin clothing, palm/shoe contacts and recovery checks own attachment acceptance.
+
+A flat Ollie's already proven finite wall fit may continue through active Flip.
+Only an armed active Grab that fails both prior candidates can derive an extra
+offset along that same axis, using current finite board/shoe casts, a limiting
+native contact and a same-collider vertical-face ray. The existing8mm skin and
+18cm ceiling remain; complete finite envelopes revalidate the result. This rare
+path has at most17native calls, versus6for prior-only air fitting and0during
+clear skating. It creates no new query/shape/hull resources and restores every
+modified shared query field. Grounded active tricks and unarmed/ramp air stay
+under their existing policies; demonstrated Kickflip/Melon evidence is not a
+claim about every variant or corner.
+
+HUD consumes menu activation/Back action edges and pairs their physical releases,
+preserving other currently held keyboard bindings. Gameplay-enabling callbacks
+wait for those releases, then a paused physics pass and idle. Serial, page/input
+revision, modal/state/visibility guards and weak one-shot callbacks reject stale
+or duplicate work. Focus/device loss cancels queued transitions. Nested paused
+Back remains immediate. Unpause cancels a charge released during pause while
+preserving a real hold and accepted jump buffers. Live quick-tap sampling is
+unchanged; temporary family-only guards were removed.
+
+Camera visibility rays reuse one parameter object with current endpoints and
+exclusions; native answers/order/counts remain unchanged. Pose fields reuse an
+existing update-local manual definition. Main owns only two ID/string HUD label
+slots; the rig owns one raw-ID/pure grab fallback slot while live overrides stay
+current. These remove metadata/parameter allocations without claiming measured
+target stutter or FPS improvement.
+
+The three fountain ornament display slots use shared indexed hollow profiles
+within the authored circular radius/height envelope and original materials;
+native basin/pedestal/coping data is unchanged. Native correctness/resource
+checks pass, but two matched rendering-time gates reject admission. The normal
+main candidate stays available under the owner's main-only/trial instruction;
+rendering and final-art acceptance remain open. [Exact continuation evidence](../testing/pt24-continuous-2026-10-27/README.md)
+owns every scoped result; older contracts below retain their historical scope.
+
+---
+
 ## Pogo reach, finite Ollie continuation and native menu actions — 27 October 2026
 
 Pogo solves its existing bounded two-palm reach, blends the total translation

@@ -1,3 +1,17 @@
+# Ongoing owner instruction — 27 October 2026
+
+The owner explicitly corrected repeated stopping after completed batches.
+Continue the accepted independently actionable queue on main. Passing checks,
+creating a build or pushing main is a progress checkpoint, not a reason to end
+the requested work. Use commentary and commits to report those checkpoints,
+then take the next unblocked accepted task. Mac, physical-device and human
+acceptance stay honest and open while independent implementation continues.
+Preserve no-spend, no-hosted-CI, no-release, normal feature availability, personal
+Music isolation, main-only/non-force and no unattended scheduled-loop rules.
+The work proceeds in this active session; do not create a background automation.
+
+---
+
 # Rider, controller-menu and fountain continuation — 27 October 2026
 
 The owner requested pushing all work to main and continuing. Main/origin were

@@ -1,0 +1,37 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: HUD labels observer: Main is profile-isolated before scene construction
+PASS: HUD label cache: first empty identities have the original distinct fallbacks without a catalog read
+PASS: HUD label cache: thirty unchanged real refreshes retain both exact labels without repeating catalog reads
+PASS: HUD label cache: changing one identity updates that live label in the same call and does not reread its unchanged partner
+PASS: HUD label cache: a new manual identity reaches the actual HUD immediately
+PASS: HUD label cache: every canonical and compatibility identity preserves its original catalog label
+PASS: HUD label cache: unknown and empty identities retain each family's distinct fallback unknown_hud_label_fixture
+PASS: HUD label cache: unknown and empty identities retain each family's distinct fallback 
+PASS: HUD label cache: a changed timer snapshot is accepted without rereading unchanged metadata
+PASS: HUD label cache: returning to previous IDs restores the entire real HUD snapshot without changing physics or active ride state
+HUD_TRICK_LABEL_CACHE { "unchanged_refreshes": 31, "initial_label_reads": 2, "canonical_and_compatibility_ids": 87, "total_label_reads": 182, "retained_label_slots": 2 }
+PASS: HUD label cache: refresh-only witness never writes a career profile or controls personal Music
+PASS: HUD efficiency: disposable career-load fixture is writable
+PASS: HUD efficiency: loading saved completed goals invalidates presentation revision on the same career object
+PASS: HUD efficiency: unchanged refreshes reuse career snapshots without weakening their copy boundary
+PASS: HUD efficiency: a public collection event updates goal progress on the very next explicit refresh
+PASS: HUD efficiency: direct completed-ID edits invalidate both goals and unlocks
+PASS: HUD efficiency: starting a fresh career run clears cached collection progress
+PASS: HUD efficiency: a bank immediately refreshes completed goals, new rewards and record text
+PASS: HUD efficiency: an accepted new event changes presentation while a duplicate event creates no revision churn
+PASS: HUD efficiency: nested state arrays/dictionaries and editable settings remain detached from callers
+PASS: HUD efficiency: changed nested values are accepted immediately after an earlier cached snapshot
+PASS: HUD efficiency: refreshing production data discards removed fields and caller edits cannot corrupt career data
+PASS: HUD efficiency: active encounter start and elapsed-time text update without a refresh throttle
+PASS: HUD efficiency: new encounter feedback reaches the live event card immediately
+PASS: HUD efficiency: each balance change moves the correction marker in the same call
+PASS: HUD efficiency: remapped key, captions and UI-scale changes invalidate their cached presentation
+PASS: HUD efficiency: authoritative settings restore a rejected local preference even when the source snapshot is unchanged
+PASS: HUD efficiency: controller-device changes refresh prompts even when the game snapshot is unchanged
+PASS: HUD efficiency: explicit pause refresh still opens the menu in the same call
+PASS: HUD efficiency: an explicit unchanged-state refresh still reconciles a required menu transition
+PASS: HUD efficiency: explicit resume immediately restores the live HUD
+PASS: HUD efficiency: run completion immediately opens current results
+PASS: HUD efficiency: replacing the career object invalidates cache and the review writes no profile
+RESULT: 33 passed, 0 failed

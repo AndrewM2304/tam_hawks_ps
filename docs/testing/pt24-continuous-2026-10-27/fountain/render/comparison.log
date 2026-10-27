@@ -1,0 +1,470 @@
+{
+  "method": "Fresh-process A/B/A, exact current Main and preload-only legacy Main/World restoring only former ornament constructors. Same two camera sweeps/settings,36 native frame_post_draw intervals per view/phase after18 warm frames. Existing water-control p95/p99 caps apply independently per view: midpoint+absolute repeat spread+5% midpoint AND1.05x worse control. No failed view pooled/waived. No Mac/60fps, normal-chase or final-art acceptance.",
+  "phases": {
+    "original-a": {
+      "passed": 12,
+      "failed": 0,
+      "geometry": [
+        {
+          "material_id": -9223371950066235800,
+          "mesh_class": "CylinderMesh",
+          "node": "FountainPedestal",
+          "surfaces": 1,
+          "transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 1.2, 0.0)]",
+          "triangles": 120,
+          "vertices": 90
+        },
+        {
+          "material_id": -9223371950066235800,
+          "mesh_class": "CylinderMesh",
+          "node": "FountainBowl",
+          "surfaces": 1,
+          "transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 2.1, 0.0)]",
+          "triangles": 120,
+          "vertices": 90
+        },
+        {
+          "material_id": -9223371949915240847,
+          "mesh_class": "CylinderMesh",
+          "node": "FountainCrown",
+          "surfaces": 1,
+          "transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 2.7, 0.0)]",
+          "triangles": 120,
+          "vertices": 90
+        }
+      ]
+    },
+    "profile": {
+      "passed": 19,
+      "failed": 0,
+      "geometry": [
+        {
+          "material_id": -9223371950066235800,
+          "mesh_class": "ArrayMesh",
+          "node": "FountainPedestal",
+          "surfaces": 1,
+          "transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 1.2, 0.0)]",
+          "triangles": 90,
+          "vertices": 77
+        },
+        {
+          "material_id": -9223371950066235800,
+          "mesh_class": "ArrayMesh",
+          "node": "FountainBowl",
+          "surfaces": 1,
+          "transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 2.1, 0.0)]",
+          "triangles": 126,
+          "vertices": 115
+        },
+        {
+          "material_id": -9223371949915240847,
+          "mesh_class": "ArrayMesh",
+          "node": "FountainCrown",
+          "surfaces": 1,
+          "transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 2.7, 0.0)]",
+          "triangles": 72,
+          "vertices": 67
+        }
+      ]
+    },
+    "original-b": {
+      "passed": 12,
+      "failed": 0,
+      "geometry": [
+        {
+          "material_id": -9223371950066235800,
+          "mesh_class": "CylinderMesh",
+          "node": "FountainPedestal",
+          "surfaces": 1,
+          "transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 1.2, 0.0)]",
+          "triangles": 120,
+          "vertices": 90
+        },
+        {
+          "material_id": -9223371950066235800,
+          "mesh_class": "CylinderMesh",
+          "node": "FountainBowl",
+          "surfaces": 1,
+          "transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 2.1, 0.0)]",
+          "triangles": 120,
+          "vertices": 90
+        },
+        {
+          "material_id": -9223371949915240847,
+          "mesh_class": "CylinderMesh",
+          "node": "FountainCrown",
+          "surfaces": 1,
+          "transform": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 2.7, 0.0)]",
+          "triangles": 120,
+          "vertices": 90
+        }
+      ]
+    }
+  },
+  "views": [
+    {
+      "view": "cup-overhead",
+      "phases": {
+        "original-a": {
+          "samples": 36,
+          "p50_ms": 115.106,
+          "p95_ms": 133.775,
+          "p99_ms": 137.232,
+          "max_ms": 137.232,
+          "over_16_667_ms": 36,
+          "over_33_333_ms": 36,
+          "over_50_ms": 36,
+          "buffer_bytes": {
+            "min": 27194106,
+            "max": 27194106
+          },
+          "draws": {
+            "min": 238,
+            "max": 393
+          },
+          "objects": {
+            "min": 238,
+            "max": 393
+          },
+          "primitives": {
+            "min": 67624,
+            "max": 72470
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "total_draws": {
+            "min": 238,
+            "max": 393
+          },
+          "total_primitives": {
+            "min": 202712,
+            "max": 254514
+          },
+          "video_bytes": {
+            "min": 71535007,
+            "max": 71535007
+          }
+        },
+        "profile": {
+          "samples": 36,
+          "p50_ms": 113.744,
+          "p95_ms": 132.258,
+          "p99_ms": 157.45,
+          "max_ms": 157.45,
+          "over_16_667_ms": 36,
+          "over_33_333_ms": 36,
+          "over_50_ms": 36,
+          "buffer_bytes": {
+            "min": 27193366,
+            "max": 27193366
+          },
+          "draws": {
+            "min": 238,
+            "max": 393
+          },
+          "objects": {
+            "min": 238,
+            "max": 393
+          },
+          "primitives": {
+            "min": 67552,
+            "max": 72398
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "total_draws": {
+            "min": 238,
+            "max": 393
+          },
+          "total_primitives": {
+            "min": 202568,
+            "max": 254370
+          },
+          "video_bytes": {
+            "min": 71534267,
+            "max": 71534267
+          }
+        },
+        "original-b": {
+          "samples": 36,
+          "p50_ms": 112.4,
+          "p95_ms": 139.847,
+          "p99_ms": 144.131,
+          "max_ms": 144.131,
+          "over_16_667_ms": 36,
+          "over_33_333_ms": 36,
+          "over_50_ms": 36,
+          "buffer_bytes": {
+            "min": 27194106,
+            "max": 27194106
+          },
+          "draws": {
+            "min": 238,
+            "max": 393
+          },
+          "objects": {
+            "min": 238,
+            "max": 393
+          },
+          "primitives": {
+            "min": 67624,
+            "max": 72470
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "total_draws": {
+            "min": 238,
+            "max": 393
+          },
+          "total_primitives": {
+            "min": 202712,
+            "max": 254514
+          },
+          "video_bytes": {
+            "min": 71535007,
+            "max": 71535007
+          }
+        }
+      },
+      "timing_gates": {
+        "p95_ms": {
+          "candidate_ms": 132.258,
+          "spread_cap_ms": 149.72355000000002,
+          "worse_control_cap_ms": 146.83935000000002,
+          "passes": true
+        },
+        "p99_ms": {
+          "candidate_ms": 157.45,
+          "spread_cap_ms": 154.614575,
+          "worse_control_cap_ms": 151.33755,
+          "passes": false
+        }
+      },
+      "counter_gates": {
+        "draws": {
+          "passes": true,
+          "criterion": "Every matching sample equals both controls"
+        },
+        "objects": {
+          "passes": true,
+          "criterion": "Every matching sample equals both controls"
+        },
+        "total_draws": {
+          "passes": true,
+          "criterion": "Every matching sample equals both controls"
+        },
+        "texture_bytes": {
+          "passes": true,
+          "criterion": "Every matching sample equals both controls"
+        },
+        "primitives": {
+          "passes": true,
+          "criterion": "Candidate at every matching sample does not exceed worse original control"
+        },
+        "total_primitives": {
+          "passes": true,
+          "criterion": "Candidate at every matching sample does not exceed worse original control"
+        },
+        "buffer_bytes": {
+          "passes": true,
+          "criterion": "Candidate at every matching sample does not exceed worse original control"
+        },
+        "video_bytes": {
+          "passes": true,
+          "criterion": "Candidate at every matching sample does not exceed worse original control"
+        }
+      },
+      "timing_passes": false,
+      "counter_passes": true
+    },
+    {
+      "view": "court-approach",
+      "phases": {
+        "original-a": {
+          "samples": 36,
+          "p50_ms": 414.029,
+          "p95_ms": 452.737,
+          "p99_ms": 460.083,
+          "max_ms": 460.083,
+          "over_16_667_ms": 36,
+          "over_33_333_ms": 36,
+          "over_50_ms": 36,
+          "buffer_bytes": {
+            "min": 27194106,
+            "max": 27194106
+          },
+          "draws": {
+            "min": 843,
+            "max": 871
+          },
+          "objects": {
+            "min": 843,
+            "max": 871
+          },
+          "primitives": {
+            "min": 529393,
+            "max": 532741
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "total_draws": {
+            "min": 843,
+            "max": 871
+          },
+          "total_primitives": {
+            "min": 670975,
+            "max": 680926
+          },
+          "video_bytes": {
+            "min": 71535007,
+            "max": 71535007
+          }
+        },
+        "profile": {
+          "samples": 36,
+          "p50_ms": 411.642,
+          "p95_ms": 494.563,
+          "p99_ms": 505.556,
+          "max_ms": 505.556,
+          "over_16_667_ms": 36,
+          "over_33_333_ms": 36,
+          "over_50_ms": 36,
+          "buffer_bytes": {
+            "min": 27193366,
+            "max": 27193366
+          },
+          "draws": {
+            "min": 843,
+            "max": 871
+          },
+          "objects": {
+            "min": 843,
+            "max": 871
+          },
+          "primitives": {
+            "min": 529321,
+            "max": 532669
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "total_draws": {
+            "min": 843,
+            "max": 871
+          },
+          "total_primitives": {
+            "min": 670831,
+            "max": 680782
+          },
+          "video_bytes": {
+            "min": 71534267,
+            "max": 71534267
+          }
+        },
+        "original-b": {
+          "samples": 36,
+          "p50_ms": 414.572,
+          "p95_ms": 470.949,
+          "p99_ms": 883.299,
+          "max_ms": 883.299,
+          "over_16_667_ms": 36,
+          "over_33_333_ms": 36,
+          "over_50_ms": 36,
+          "buffer_bytes": {
+            "min": 27194106,
+            "max": 27194106
+          },
+          "draws": {
+            "min": 843,
+            "max": 871
+          },
+          "objects": {
+            "min": 843,
+            "max": 871
+          },
+          "primitives": {
+            "min": 529393,
+            "max": 532741
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "total_draws": {
+            "min": 843,
+            "max": 871
+          },
+          "total_primitives": {
+            "min": 670975,
+            "max": 680926
+          },
+          "video_bytes": {
+            "min": 71535007,
+            "max": 71535007
+          }
+        }
+      },
+      "timing_gates": {
+        "p95_ms": {
+          "candidate_ms": 494.563,
+          "spread_cap_ms": 503.14715,
+          "worse_control_cap_ms": 494.49645000000004,
+          "passes": false
+        },
+        "p99_ms": {
+          "candidate_ms": 505.556,
+          "spread_cap_ms": 1128.49155,
+          "worse_control_cap_ms": 927.4639500000001,
+          "passes": true
+        }
+      },
+      "counter_gates": {
+        "draws": {
+          "passes": true,
+          "criterion": "Every matching sample equals both controls"
+        },
+        "objects": {
+          "passes": true,
+          "criterion": "Every matching sample equals both controls"
+        },
+        "total_draws": {
+          "passes": true,
+          "criterion": "Every matching sample equals both controls"
+        },
+        "texture_bytes": {
+          "passes": true,
+          "criterion": "Every matching sample equals both controls"
+        },
+        "primitives": {
+          "passes": true,
+          "criterion": "Candidate at every matching sample does not exceed worse original control"
+        },
+        "total_primitives": {
+          "passes": true,
+          "criterion": "Candidate at every matching sample does not exceed worse original control"
+        },
+        "buffer_bytes": {
+          "passes": true,
+          "criterion": "Candidate at every matching sample does not exceed worse original control"
+        },
+        "video_bytes": {
+          "passes": true,
+          "criterion": "Candidate at every matching sample does not exceed worse original control"
+        }
+      },
+      "timing_passes": false,
+      "counter_passes": true
+    }
+  ],
+  "counter_gate_passes": true,
+  "timing_gate_passes": false
+}

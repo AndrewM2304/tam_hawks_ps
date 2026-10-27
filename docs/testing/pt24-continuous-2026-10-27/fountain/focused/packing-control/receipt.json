@@ -1,0 +1,23 @@
+{
+  "started_london": "2026-10-27T18:12:07.925695+00:00",
+  "completed_london": "2026-10-27T18:12:08.126730+00:00",
+  "wall_seconds": 0.20103529000334674,
+  "command": [
+    "timeout",
+    "5s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--script",
+    ".local/fountain_ornament_packing_control.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 638,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "961bcbcbf7a354a2814eba33fe111468752022b07097157ec6c76096ccc7cdcc",
+  "git_head": "700e304861c282bb11dcd762c0cae04a06ec2642"
+}

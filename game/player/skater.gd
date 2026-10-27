@@ -802,6 +802,12 @@ func _notification(what: int) -> void:
 		# Menu releases do not drop a locked rail; a fresh gameplay edge still exits.
 		_grind_held_exit=false
 		_grind_grip_age=0.0
+	if what == NOTIFICATION_UNPAUSED and _ollie_held and not Input.is_action_pressed("ollie"):
+		# A charge released while menus own input is cancelled, not popped on
+		# resume. Preserve a real held charge and an already accepted jump buffer.
+		_ollie_held = false
+		_crouch_charge = 0.0
+		crouching = false
 
 
 func _input(event: InputEvent) -> void:
@@ -2181,10 +2187,10 @@ func _update_pose(delta: float) -> void:
 		"rest_deck_yaw": _deck_yaw, "takeoff_mode": takeoff_mode, "launch_id": _launch_id, "launch_age": _launch_age, "crouching": crouching, "ollie_charge": ollie_charge,
 		"powersliding": powersliding, "wallriding": wallriding, "wall_normal": _wall.normal,
 		"transition_active": transition_active, "lip_active": lip_active,
-		"manual_walk": TrickCatalog.definition(manual_trick_id).get("manual_walk", false),
-		"manual_roll": TrickCatalog.definition(manual_trick_id).get("manual_roll", 0.0),
-		"manual_foot_lift": TrickCatalog.definition(manual_trick_id).get("manual_foot_lift", 0.0),
-		"manual_definition": TrickCatalog.definition(manual_trick_id), "grab_definition": _grab_definition,
+		"manual_walk": manual_definition.get("manual_walk", false),
+		"manual_roll": manual_definition.get("manual_roll", 0.0),
+		"manual_foot_lift": manual_definition.get("manual_foot_lift", 0.0),
+		"manual_definition": manual_definition, "grab_definition": _grab_definition,
 		"special_definition": _special_definition, "lip_definition": _lip_definition,
 		"lip_ground_point": _feature_transition.lip_frame().get("point", global_position) if _feature_transition.lip else global_position,
 		"lip_normal": Vector3.UP, "setup_active": setup_active, "setup_id": setup_id,
@@ -2211,14 +2217,14 @@ func _place_obstacle_wheels(delta: float) -> void:
 	# an obstacle must never move the physical actor or split feet from board.
 	if manual_active or transition_active or grinding or wallriding or bail_active \
 			or setup_active or skitching or lip_active or powersliding \
-			or _flip_remaining>0.0 or _grab_remaining>0.0 or _special_remaining>0.0:
+			or _special_remaining>0.0:
 		_obstacle_visual_offset=Vector3.ZERO
 		_obstacle_ollie_continuation=false
 		return
 	if airborne:
 		# Continue only a real flat-ground jump's already proven fit into a
-		# plain Ollie. No new air correction, wall plane or floor support is
-		# invented: both proposals need fresh finite board/shoe clearance.
+		# Ollie/Flip/Grab. Every proposal needs fresh finite board/shoe
+		# clearance; only a Grab may derive a bounded live-face correction.
 		if _obstacle_ollie_continuation and not _ramp_air and _launch_id=="ollie" \
 				and _obstacle_visual_offset.is_finite() and _obstacle_visual_offset.length_squared()>0.0 \
 				and _obstacle_visual_offset.length()<=0.18:
@@ -2232,10 +2238,17 @@ func _place_obstacle_wheels(delta: float) -> void:
 				_obstacle_visual_offset=candidate
 				if candidate==Vector3.ZERO: _obstacle_ollie_continuation=false
 				return
+			if _grab_remaining>0.0:
+				var candidate := _obstacle_grab_air_offset(_obstacle_visual_offset)
+				if candidate!=Vector3.ZERO:
+					_visual.position+=global_basis.inverse()*candidate
+					_obstacle_visual_offset=candidate
+					return
 		_obstacle_visual_offset=Vector3.ZERO
 		_obstacle_ollie_continuation=false
 		return
 	if not _native_floor_valid or not is_on_floor() or _force_air_tick \
+			or _flip_remaining>0.0 or _grab_remaining>0.0 \
 			or _ollie_pose_remaining>0.0 or _native_floor_normal().y<0.999:
 		_obstacle_visual_offset=Vector3.ZERO
 		_obstacle_ollie_continuation=false
@@ -2292,7 +2305,8 @@ func _place_obstacle_wheels(delta: float) -> void:
 
 
 func _obstacle_air_clear(offset: Vector3) -> bool:
-	# At most two proposals, each with one board and two shoe volume checks.
+	# Each proposal has one board and two shoe volume checks. The ordinary
+	# air branch tries two; a late Grab may derive one bounded final proposal.
 	# Only an existing grounded fit reaches this path; ordinary clear skating
 	# adds no work. The skin prevents decay from accepting a near-wall clip.
 	var hull: Shape3D=_visual_rig.board_contact_geometry().get("convex_shape")
@@ -2327,6 +2341,103 @@ func _obstacle_air_clear(offset: Vector3) -> bool:
 	_grind_board_query.margin=saved_margin
 	_grind_board_query.transform=saved_transform
 	return clear
+
+
+func _obstacle_grab_air_offset(prior: Vector3) -> Vector3:
+	# A late Grab can rotate beyond both previously proven candidates. Fit
+	# only along that original axis, never create a new unarmed air fit.
+	# Worst case including the prior checks: 6+3+3+1+1+3=17 native calls.
+	if not airborne or not _obstacle_ollie_continuation or _ramp_air \
+			or _launch_id!="ollie" or _grab_remaining<=0.0 or not prior.is_finite() \
+			or prior.length_squared()==0.0 or prior.length()>0.18:
+		return Vector3.ZERO
+	var hull: Shape3D=_visual_rig.board_contact_geometry().get("convex_shape")
+	if hull==null: return Vector3.ZERO
+	var query := _grind_board_query
+	var saved_shape := query.shape
+	var saved_size := _grind_board_box.size
+	var saved_margin := query.margin
+	var saved_transform := query.transform
+	var saved_motion := query.motion
+	var ray := _recovery_floor_query
+	var saved_from := ray.from
+	var saved_to := ray.to
+	var saved_mask := ray.collision_mask
+	var space := get_world_3d().direct_space_state
+	var axis := prior.normalized()
+	var ceiling := axis*0.18
+	var safe := 1.0
+	var unsafe := 1.0
+	var critical := -1
+	var valid := true
+	for index: int in 3:
+		if index==0:
+			query.shape=hull
+			query.transform=_board_visual.global_transform
+		else:
+			var bounds: AABB=_obstacle_shoe_bounds[index-1]
+			_grind_board_box.size=bounds.size
+			query.shape=_grind_board_box
+			query.transform=_visual_rig._legs[index-1].foot.global_transform \
+				* Transform3D(Basis.IDENTITY,bounds.get_center())
+		var pose := query.transform
+		pose.origin+=ceiling
+		query.transform=pose
+		query.motion=Vector3.ZERO
+		query.margin=GROUND_PRESENTATION_SKIN-0.00001
+		if not space.intersect_shape(query,1).is_empty():
+			valid=false
+			break
+		# Cast fractions locate contact, not the query skin. Add only the
+		# existing skin after authenticating this contact's finite face.
+		query.margin=0.0
+		query.motion=-ceiling
+		var fractions := space.cast_motion(query)
+		if fractions[0]<safe:
+			safe=fractions[0]
+			unsafe=fractions[1]
+			critical=index
+	var normal := Vector3.ZERO
+	if valid and critical>=0:
+		if critical==0:
+			query.shape=hull
+			query.transform=_board_visual.global_transform
+		else:
+			var bounds: AABB=_obstacle_shoe_bounds[critical-1]
+			_grind_board_box.size=bounds.size
+			query.shape=_grind_board_box
+			query.transform=_visual_rig._legs[critical-1].foot.global_transform \
+				* Transform3D(Basis.IDENTITY,bounds.get_center())
+		var pose := query.transform
+		pose.origin+=ceiling*(1.0-unsafe)
+		query.transform=pose
+		query.motion=Vector3.ZERO
+		query.margin=0.0
+		var rest := space.get_rest_info(query)
+		valid=not rest.is_empty()
+		if valid:
+			var point: Vector3=rest.point
+			ray.from=point+axis*(GROUND_PRESENTATION_SKIN*2.0)
+			ray.to=point-axis*(GROUND_PRESENTATION_SKIN*2.0)
+			ray.collision_mask=query.collision_mask
+			var face := space.intersect_ray(ray)
+			normal=face.get("normal",Vector3.ZERO)
+			valid=not face.is_empty() and face.get("rid")==rest.get("rid") \
+				and normal.is_finite() and absf(normal.y)<=0.001 and normal.dot(axis)>=0.999
+	else:
+		valid=false
+	query.shape=saved_shape
+	_grind_board_box.size=saved_size
+	query.margin=saved_margin
+	query.transform=saved_transform
+	query.motion=saved_motion
+	ray.from=saved_from
+	ray.to=saved_to
+	ray.collision_mask=saved_mask
+	if not valid: return Vector3.ZERO
+	var candidate := ceiling*(1.0-safe)+axis*(GROUND_PRESENTATION_SKIN/normal.dot(axis))
+	if candidate.length()>0.18 or not _obstacle_air_clear(candidate): return Vector3.ZERO
+	return candidate
 
 
 func _obstacle_offset_supported(geometry: Dictionary,offset: Vector3,planes: Array[Vector4],floor_y: float) -> bool:

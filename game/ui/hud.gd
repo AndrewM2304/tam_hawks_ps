@@ -72,6 +72,9 @@ var _free: Button
 var _focus_first: Control
 var _page := ""
 var _page_revision := 0
+var _gameplay_transition_serial := 0
+var _pending_gameplay_transition: Dictionary = {}
+var _consumed_menu_inputs: Dictionary = {}
 var _navigation: Array[Dictionary] = []
 var _scroll: ScrollContainer
 var _state: Dictionary = {}
@@ -99,6 +102,7 @@ var _music_playlist_rows: Array = []
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	Input.joy_connection_changed.connect(_menu_controller_connection_changed)
 	_controller_active = not Input.get_connected_joypads().is_empty()
 	_root = Control.new()
 	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -376,6 +380,7 @@ func toggle_goals() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	_restore_consumed_menu_release(event)
 	if debug_input_blocked:return
 	if event is InputEventKey and event.pressed: _controller_active = false
 	elif event is InputEventJoypadButton and event.pressed: _controller_active = true
@@ -400,23 +405,82 @@ func _input(event: InputEvent) -> void:
 		return
 	var menu_cancel: bool = event.is_action_pressed("ui_cancel") or (event is InputEventJoypadButton
 		and event.pressed and event.button_index == JOY_BUTTON_B)
+	# GUI activation runs after _input. Settle its gameplay actions too, including
+	# a Cross tap pressed and released before the next physics update.
+	if event.is_action_pressed("ui_accept"):
+		_consume_menu_input(event)
 	if event.is_action_pressed("pause") or menu_cancel:
-		# Handled events still change Input's polled action state. A menu's
-		# Circle press must not also become Grab when this Back resumes skating.
-		if menu_cancel:
-			for action: String in InputProfile.ACTION_LABELS:
-				if event.is_action(action): Input.action_release(action)
+		_consume_menu_input(event)
 		_back()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("restart"):
+		_consume_menu_input(event)
 		if _page in ["pause", "results"]: _restart_run()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("free_skate"):
+		_consume_menu_input(event)
 		if _page in ["pause", "results"]: _switch_mode()
 		get_viewport().set_input_as_handled()
 	elif InputMap.has_action("goals") and event.is_action_pressed("goals"):
+		_consume_menu_input(event)
 		toggle_goals()
 		get_viewport().set_input_as_handled()
+
+
+func _menu_input_token(event: InputEvent) -> String:
+	if event is InputEventJoypadButton:
+		return "pad:%d:%d" % [event.device, event.button_index]
+	if event is InputEventKey:
+		return "key:%d" % (event.physical_keycode if event.physical_keycode != 0 else event.keycode)
+	return ""
+
+
+func _consume_menu_input(event: InputEvent) -> void:
+	var token := _menu_input_token(event)
+	if token.is_empty(): return
+	_consumed_menu_inputs[token] = event.duplicate()
+	if not _pending_gameplay_transition.is_empty():
+		_pending_gameplay_transition.input_revision = int(_pending_gameplay_transition.input_revision) + 1
+		_pending_gameplay_transition.settling = false
+	for action: String in InputProfile.ACTION_LABELS:
+		if event.is_action(action):
+			Input.action_release(action)
+			_restore_other_held_keys(action, event)
+
+
+func _restore_consumed_menu_release(event: InputEvent) -> void:
+	var token := _menu_input_token(event)
+	if token.is_empty() or event.is_pressed() or not _consumed_menu_inputs.has(token): return
+	var consumed: InputEvent = _consumed_menu_inputs[token]
+	_consumed_menu_inputs.erase(token)
+	# Godot releases the action when either binding releases. A paired menu
+	# release must preserve a keyboard hold that existed independently of it.
+	for action: String in InputProfile.ACTION_LABELS:
+		if consumed.is_action(action): _restore_other_held_keys(action, consumed)
+	_arm_gameplay_transition()
+
+
+func _restore_other_held_keys(action: String, consumed: InputEvent) -> void:
+	for binding: InputEvent in InputMap.action_get_events(action):
+		if not binding is InputEventKey or binding.is_match(consumed): continue
+		var held: bool = Input.is_physical_key_pressed(binding.physical_keycode) if binding.physical_keycode != 0 \
+			else Input.is_key_pressed(binding.keycode)
+		if held:
+			Input.action_press(action)
+			return
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		_consumed_menu_inputs.clear()
+		_pending_gameplay_transition.clear()
+
+
+func _menu_controller_connection_changed(device: int, connected: bool) -> void:
+	if connected: return
+	_pending_gameplay_transition.clear()
+	for token: String in _consumed_menu_inputs.keys():
+		if token.begins_with("pad:%d:" % device): _consumed_menu_inputs.erase(token)
 
 
 func _show_page(page: String, focus_token: String = "", scroll_position: int = 0) -> void:
@@ -426,6 +490,7 @@ func _show_page(page: String, focus_token: String = "", scroll_position: int = 0
 		scroll_position = _scroll.scroll_vertical if is_instance_valid(_scroll) else 0
 	_page = page
 	_page_revision += 1
+	_pending_gameplay_transition.clear()
 	_binding_action = ""
 	_modal.visible = true
 	_focus_first = null
@@ -882,12 +947,14 @@ func _open_subpage(page: String) -> void:
 
 
 func _back() -> void:
+	if not _pending_gameplay_transition.is_empty(): return
 	if not _navigation.is_empty():
-		var origin: Dictionary = _navigation.pop_back()
+		var origin: Dictionary = _navigation.back()
 		if str(origin.page).is_empty():
-			_hide_modal()
-			if origin.get("resume", false): pause_requested.emit()
+			if origin.get("resume", false): _resume_run()
+			else: _hide_modal()
 		else:
+			_navigation.pop_back()
 			_show_page(str(origin.page), str(origin.focus), int(origin.scroll))
 	elif _page == "pause":
 		_resume_run()
@@ -926,26 +993,96 @@ func _find_focus_token(node: Node, token: String) -> Control:
 
 
 func _resume_run() -> void:
-	_hide_modal()
-	pause_requested.emit()
+	_queue_gameplay_transition("resume")
 
 
 func _restart_run() -> void:
-	_hide_modal()
-	restart_requested.emit()
+	_queue_gameplay_transition("restart")
 
 
 func _switch_mode() -> void:
-	_hide_modal()
-	free_skate_requested.emit()
+	_queue_gameplay_transition("switch")
 
 
 func _start_mode(free: bool) -> void:
+	_queue_gameplay_transition("start", free)
+
+
+func _queue_gameplay_transition(kind: String, free: bool = false) -> void:
+	if debug_input_blocked or _page.is_empty() or not _pending_gameplay_transition.is_empty(): return
+	_gameplay_transition_serial += 1
+	_pending_gameplay_transition = {"serial": _gameplay_transition_serial, "page": _page,
+		"revision": _page_revision, "kind": kind, "free": free,
+		"input_revision": 0, "settling": false,
+		"paused": bool(_state.get("paused", false)), "finished": bool(_state.get("finished", false))}
+	_arm_gameplay_transition()
+
+
+func _arm_gameplay_transition() -> void:
+	if _pending_gameplay_transition.is_empty(): return
+	var serial := int(_pending_gameplay_transition.serial)
+	if not _gameplay_transition_valid(serial):
+		_cancel_gameplay_transition(serial)
+		return
+	# Resume on release. Its restoration of another held binding can create
+	# native action edges too; those must expire while gameplay is still paused.
+	if not _consumed_menu_inputs.is_empty() or bool(_pending_gameplay_transition.settling): return
+	_pending_gameplay_transition.settling = true
+	# A rendered frame can precede the next physics tick. Keep the modal and
+	# pause in place through a physics pass, then dispatch during idle.
+	var input_revision := int(_pending_gameplay_transition.input_revision)
+	var receiver: WeakRef = weakref(self)
+	get_tree().physics_frame.connect(func() -> void:
+		var hud: Node = receiver.get_ref()
+		if is_instance_valid(hud) and not hud.is_queued_for_deletion():
+			hud._settle_gameplay_transition(serial, input_revision)
+	, CONNECT_ONE_SHOT)
+
+
+func _gameplay_transition_valid(serial: int) -> bool:
+	return not _pending_gameplay_transition.is_empty() and int(_pending_gameplay_transition.serial) == serial \
+		and is_inside_tree() and not is_queued_for_deletion() and not debug_input_blocked \
+		and visible and is_instance_valid(_modal) and _modal.visible and not _page.is_empty() \
+		and _page == str(_pending_gameplay_transition.page) and _page_revision == int(_pending_gameplay_transition.revision) \
+		and bool(_state.get("paused", false)) == bool(_pending_gameplay_transition.paused) \
+		and bool(_state.get("finished", false)) == bool(_pending_gameplay_transition.finished)
+
+
+func _settle_gameplay_transition(serial: int, input_revision: int) -> void:
+	if not _gameplay_transition_valid(serial):
+		_cancel_gameplay_transition(serial)
+		return
+	if input_revision != int(_pending_gameplay_transition.input_revision) or not _consumed_menu_inputs.is_empty(): return
+	var receiver: WeakRef = weakref(self)
+	get_tree().process_frame.connect(func() -> void:
+		var hud: Node = receiver.get_ref()
+		if is_instance_valid(hud) and not hud.is_queued_for_deletion():
+			hud._finish_gameplay_transition(serial, input_revision)
+	, CONNECT_ONE_SHOT)
+
+
+func _cancel_gameplay_transition(serial: int) -> void:
+	if not _pending_gameplay_transition.is_empty() and int(_pending_gameplay_transition.serial) == serial:
+		_pending_gameplay_transition.clear()
+
+
+func _finish_gameplay_transition(serial: int, input_revision: int) -> void:
+	if not _gameplay_transition_valid(serial):
+		_cancel_gameplay_transition(serial)
+		return
+	if input_revision != int(_pending_gameplay_transition.input_revision) or not _consumed_menu_inputs.is_empty(): return
+	var transition := _pending_gameplay_transition.duplicate()
 	_hide_modal()
-	start_requested.emit(free)
+	match str(transition.kind):
+		"resume": pause_requested.emit()
+		"restart": restart_requested.emit()
+		"switch": free_skate_requested.emit()
+		"start": start_requested.emit(bool(transition.free))
 
 
 func _hide_modal() -> void:
+	_page_revision += 1
+	_pending_gameplay_transition.clear()
 	_page = ""
 	_binding_action = ""
 	_modal.visible = false

@@ -47,6 +47,7 @@ var _ramp_exit_remaining := 0.0
 var _return_arm := AIR_RAMP_ARM
 var _minimum_arm := MIN_USEFUL_ARM
 var _ground_query := PhysicsRayQueryParameters3D.new()
+var _visibility_query := PhysicsRayQueryParameters3D.new()
 var _ground_board_y := 0.0
 var _wheel_landmarks:PackedVector3Array=PackedVector3Array()
 var _head_landmarks := PackedVector3Array()
@@ -81,6 +82,11 @@ func _init() -> void:
 	_query.collide_with_bodies = true
 	_query.collide_with_areas = false
 	_query.margin = 0.015
+	_visibility_query.collision_mask = 1 | 8
+	_visibility_query.collide_with_bodies = true
+	_visibility_query.collide_with_areas = false
+	_visibility_query.hit_back_faces = true
+	_visibility_query.hit_from_inside = false
 	_head_sight.margin = 0.0
 	_head_query.shape = _head_sight
 	_head_query.collision_mask = 1 | 8
@@ -597,13 +603,9 @@ func _usable_uncached(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: 
 	if anchor.distance_to(position) < _minimum_arm or not _clear_volume(space, position): return false
 	# Chest alone can be clear while a lip or column hides the board or head.
 	for height: float in [0.12, CHEST_HEIGHT, 1.8]:
-		var query := PhysicsRayQueryParameters3D.create(position, board + _body_up * height, 1 | 8, excluded)
-		_visibility_rays += 1
-		if not space.intersect_ray(query).is_empty(): return false
+		if not _visibility_ray(space, position, board + _body_up * height, excluded).is_empty(): return false
 	for point: Vector3 in _head_targets:
-		var head_ray := PhysicsRayQueryParameters3D.create(position,point,1|8,excluded)
-		_visibility_rays += 1
-		if not space.intersect_ray(head_ray).is_empty(): return false
+		if not _visibility_ray(space, position, point, excluded).is_empty(): return false
 	if not _head_bounds.is_empty():
 		# Centers and corner rays can all miss a thin slab crossing the visible
 		# head between them. One convex visibility volume contains both current
@@ -619,17 +621,24 @@ func _usable_uncached(space: PhysicsDirectSpaceState3D, board: Vector3, anchor: 
 		_shape_queries += 1
 		if not space.intersect_shape(_head_query,1).is_empty(): return false
 	for point: Vector3 in _foot_targets:
-		var sight := PhysicsRayQueryParameters3D.create(position,point,1|8,excluded)
-		_visibility_rays += 1
-		var hit := space.intersect_ray(sight)
+		var hit := _visibility_ray(space, position, point, excluded)
 		if hit.is_empty(): continue
 		# Grounded rubber already has a strict4mm contact band. Only that same
 		# actual endpoint support may be touched; an intervening bank/wall fails.
-		var under := PhysicsRayQueryParameters3D.create(point+_body_up*0.03,point-_body_up*0.03,1|8,excluded)
-		_visibility_rays += 1
-		var support := space.intersect_ray(under)
+		var support := _visibility_ray(space, point+_body_up*0.03, point-_body_up*0.03, excluded)
 		if support.is_empty() or support.collider!=hit.collider or Vector3(hit.normal).dot(_body_up)<0.65 \
 				or Vector3(support.normal).dot(hit.normal)<0.99 \
 				or absf((point-Vector3(support.position)).dot(support.normal))>0.004 \
 				or absf((point-Vector3(hit.position)).dot(hit.normal))>0.004: return false
 	return true
+
+
+func _visibility_ray(space: PhysicsDirectSpaceState3D, from: Vector3, to: Vector3, excluded: Array[RID]) -> Dictionary:
+	# These queries complete sequentially. Reuse the parameter object, never a
+	# native answer; every body/head/foot/support ray supplies fresh endpoints
+	# and exclusions, including direct calls outside the same-update cache.
+	_visibility_query.from = from
+	_visibility_query.to = to
+	_visibility_query.exclude = excluded
+	_visibility_rays += 1
+	return space.intersect_ray(_visibility_query)

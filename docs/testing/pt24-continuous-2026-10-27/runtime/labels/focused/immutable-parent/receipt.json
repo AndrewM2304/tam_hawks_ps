@@ -1,0 +1,33 @@
+{
+  "started_london": "2026-10-27T18:18:22.126952+00:00",
+  "completed_london": "2026-10-27T18:18:29.596237+00:00",
+  "wall_seconds": 7.469289175998711,
+  "command": [
+    "timeout",
+    "45s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/hud_labels_legacy_parity.gd",
+    "--",
+    ".local/hud_label_original_main.gd",
+    ".local/hud_label_original_counted_main.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 646,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "6",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "78e7af9b356ad7eb19914fae4a6b7cd9ebdade7a99d890d2140f61f919db9a1d",
+  "git_head": "700e304861c282bb11dcd762c0cae04a06ec2642"
+}

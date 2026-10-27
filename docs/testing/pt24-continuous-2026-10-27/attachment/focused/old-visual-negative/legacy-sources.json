@@ -1,0 +1,64 @@
+[
+  {
+    "kind": "exact old visual",
+    "source": "700e304:game/player/skater_visual.gd",
+    "path": ".local/skitch_attachment_baseline_visual.gd",
+    "sha256": "3497a46efc4322daceb3cd2f1ad8206398d76e08f190c15f6754eb2744cfabfe"
+  },
+  {
+    "kind": "preload-only redirect",
+    "source": "game/player/skater.gd",
+    "source_sha256": "ae06c7af83aaa340e691e89864fa09ecec12ebedda70d8bb329f889e8f754f33",
+    "path": ".local/skitch_attachment_legacy_skater.gd",
+    "sha256": "9d5ca6e488994847dd0762b4b33d74e27d8d303f4d245d7bcc870d989e0be252",
+    "replacements": [
+      [
+        "res://game/player/skater_visual.gd",
+        "res://.local/skitch_attachment_baseline_visual.gd"
+      ]
+    ]
+  },
+  {
+    "kind": "preload-only redirect",
+    "source": "game/main.gd",
+    "source_sha256": "369f27e1aea9e7005dbe7e56254c81e9b9e3fdd4387945f5937266c06fe66599",
+    "path": ".local/skitch_attachment_legacy_main.gd",
+    "sha256": "a6c7ceaffc6d5de89fbccb1d7980ba15129bb9997c6254e10875ed8161642508",
+    "replacements": [
+      [
+        "res://game/player/skater.gd",
+        "res://.local/skitch_attachment_legacy_skater.gd"
+      ]
+    ]
+  },
+  {
+    "kind": "preload-only redirect",
+    "source": "tests/authentic_pose_tests.gd",
+    "source_sha256": "f2e35b2e8fbf22016b11f9634a64f66d07e8c222896061142ad8d3719bddd7d6",
+    "path": ".local/skitch_attachment_legacy_authentic.gd",
+    "sha256": "5028c20d1d1195ea78ffed5d5789baba49292ae146a39c30573398e389675ac3",
+    "replacements": [
+      [
+        "res://game/player/skater_visual.gd",
+        "res://.local/skitch_attachment_baseline_visual.gd"
+      ]
+    ]
+  },
+  {
+    "kind": "preload-only redirect",
+    "source": "tests/skater_skitch_attachment_tests.gd",
+    "source_sha256": "9dfa5a262629e9bcef29778c9bb962fef067853aca75ed4a92db43d8fad8832d",
+    "path": ".local/skitch_attachment_legacy_tests.gd",
+    "sha256": "d4afeb13de1dbeeca10a0aeca28e32eafc184fd30ee1408c4e5d34bef7cf377c",
+    "replacements": [
+      [
+        "res://tests/authentic_pose_tests.gd",
+        "res://.local/skitch_attachment_legacy_authentic.gd"
+      ],
+      [
+        "res://game/main.gd",
+        "res://.local/skitch_attachment_legacy_main.gd"
+      ]
+    ]
+  }
+]

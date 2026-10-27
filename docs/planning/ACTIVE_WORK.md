@@ -1,3 +1,21 @@
+# Verified continuation; work proceeds — 27 October 2026
+
+From main `700e304`, connected tow/body, finite wall-to-Flip/Grab, menu input
+settlement and bounded camera/metadata allocation repairs pass **5,340/0**
+required checks plus Music script isolation **2/0**, clean/stable645 inputs.
+[Exact evidence and fourteen native frames](../testing/pt24-continuous-2026-10-27/README.md) retain focused controls,
+rejected attempts and the combined source identity. The fountain candidate passes
+native/resource checks but **two rendering-time gates reject admission**; keep
+C07/C10 timing and final art open. All merged trial features remain available.
+
+The owner requests continuing through push checkpoints. [Current holistic queue](PT24-REMAINING-2026-10-27.md)
+keeps civic camera2/3, actual moving-Manual wall contact, visible Flip upper-arm
+clipping and two native floor-ray allocations next. Existing Mac/hardware/Music/
+save/human gates stay honest while independent work proceeds. Preserve main-only,
+non-force, no-spend/no-hosted-CI/no-release and personal-account isolation rules.
+
+---
+
 # Rider, controller-menu and fountain continuation — 27 October 2026
 
 The owner requested pushing all work to main and continuing. Main/origin were

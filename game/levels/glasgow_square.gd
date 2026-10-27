@@ -1165,9 +1165,18 @@ func _fountain(at: Vector3, radius: float) -> void:
 	# Water and basin share their angular tessellation. Leave a deliberate
 	# 24cm coping rim rather than two coarse, differently sized decagons.
 	_cylinder(body, "FountainWater", Vector3(0, 0.55, 0), radius - 0.24, radius - 0.24, 0.01, "glass", 64, 0)
-	_cylinder(body, "FountainPedestal", Vector3(0, 1.2, 0), 0.65, 1.0, 2.0, "stone_light")
-	_cylinder(body, "FountainBowl", Vector3(0, 2.1, 0), 1.65, 0.65, 0.5, "stone_light")
-	_cylinder(body, "FountainCrown", Vector3(0, 2.7, 0), 0.22, 0.42, 0.85, "bronze")
+	# Keep the original display slots/transforms/materials and all physical data.
+	# Reallocate redundant straight height rings into a hollow, turned profile.
+	for part: Array in [["FountainPedestal",Vector3(0,1.2,0),"stone_light"],
+			["FountainBowl",Vector3(0,2.1,0),"stone_light"],
+			["FountainCrown",Vector3(0,2.7,0),"bronze"]]:
+		var ornament := MeshInstance3D.new()
+		ornament.name = part[0]
+		ornament.set_meta("art_label",part[0])
+		ornament.position = part[1]
+		ornament.mesh = preload("res://game/levels/art/fountain_ornament.gd").shared_mesh(part[0])
+		ornament.material_override = _materials[part[2]]
+		body.add_child(ornament)
 	var points := PackedVector3Array()
 	for index: int in range(65):
 		var angle := TAU * float(index) / 64.0

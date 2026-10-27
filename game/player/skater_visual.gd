@@ -76,6 +76,8 @@ var _lip_normal := Vector3.UP
 var _lip_definition: Dictionary = {}
 var _skitch_blend := 0.0
 var _skitch_local_grips: Array[Vector3] = []
+var _grab_pose_id := ""
+var _grab_pose: Dictionary = {}
 
 func build(board: Node3D, rider: Node3D, shirt: StandardMaterial3D) -> void:
 	_board = board
@@ -287,7 +289,7 @@ func animate(delta: float, state: Dictionary) -> void:
 	var flip_progress := clampf(float(state.get("flip_progress", 0.5)), 0.0, 1.0)
 	var flip_id: String = state.get("flip_id", "kickflip")
 	var grab_id := str(state.get("grab_id", "melon_grab"))
-	var native_grab := TrickAnimation.grab_pose(grab_id)
+	var native_grab := _native_grab_pose(grab_id)
 	var grab_side := -1.0 if float(state.get("grab_side", native_grab.hand_side)) < 0.0 else 1.0
 	var grab_target: Vector3 = state.get("grab_target", native_grab.deck_target)
 	var rest_deck_yaw: float = state.get("rest_deck_yaw", 0.0)
@@ -472,7 +474,11 @@ func animate(delta: float, state: Dictionary) -> void:
 		var toward := (_rider.to_local(center) - hips_origin)
 		var yaw := atan2(-toward.x, -toward.z)
 		_upper.rotation.y = lerp_angle(_upper.rotation.y, yaw, _skitch_blend)
-		_upper.position += Vector3(toward.x, 0, toward.z).limit_length(0.12) * _skitch_blend
+		var toward_shift := Vector3(toward.x, 0, toward.z).limit_length(0.12) * _skitch_blend
+		_upper.position += toward_shift
+		# The existing tow lean belongs to the connected torso and pelvis.
+		hips_origin += toward_shift
+		hips_y = hips_origin.y
 	_upper.rotation.z = -steer * 0.045 - manual_balance * _manual_blend * 0.07 * manual_sign
 	_upper.rotation.z -= grind_balance * _grind_blend * 0.20
 	_upper.rotation.z += grab_body_roll * _grab_blend
@@ -498,6 +504,7 @@ func animate(delta: float, state: Dictionary) -> void:
 		hips_origin += grab_shift
 		hips_y = hips_origin.y
 	if skitch_pose:
+		var unconstrained_torso := _upper.position
 		for iteration in 5:
 			var correction := Vector3.ZERO
 			var count := 0
@@ -511,6 +518,9 @@ func animate(delta: float, state: Dictionary) -> void:
 					count += 1
 			if count == 0: break
 			_upper.position += correction / count * _skitch_blend
+		# Preserve the authored palm-reach path while the legs share its shift.
+		hips_origin += _upper.position - unconstrained_torso
+		hips_y = hips_origin.y
 	if _pogo_blend > 0.0001:
 		var unconstrained_torso := _upper.position
 		for iteration in 5:
@@ -759,6 +769,15 @@ func animate(delta: float, state: Dictionary) -> void:
 		_anatomy.pose_hand(arm["hand"], palm_grip)
 	if _handplant_blend > 0.0001:
 		_apply_handplant(_handplant_blend, rest_deck_yaw)
+
+
+func _native_grab_pose(grab_id: String) -> Dictionary:
+	# Analytic fallback metadata is pure and only read by animate. Keep one
+	# owned definition; state and catalog overrides remain live every update.
+	if _grab_pose.is_empty() or grab_id != _grab_pose_id:
+		_grab_pose_id = grab_id
+		_grab_pose = TrickAnimation.grab_pose(grab_id)
+	return _grab_pose
 
 
 func _surface_basis(up: Vector3, facing: Vector3) -> Basis:

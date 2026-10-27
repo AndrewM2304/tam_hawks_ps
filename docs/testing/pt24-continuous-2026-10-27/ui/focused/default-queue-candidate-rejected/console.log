@@ -1,0 +1,27 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: menu launch queue: a fresh accepted family is queried without consuming or creating an edge
+PASS: menu launch queue: invalid family or non-finite/negative lifetime never admits an edge
+PASS: menu launch queue: same-sample membership distinguishes a real remembered family from a new edge
+PASS: menu launch queue: an inspected edge remains available to its real consumer exactly once
+PASS: menu launch queue: requested lifetime cannot revive an edge beyond the original maximum queue age
+PASS: menu launch: real Escape Back returns a supported run to actual fresh-input flight
+PASS: menu launch: Escape Back cannot turn the next north-modified Nollie into an Ollie or Grab
+MENU_LAUNCH_RESULT { "circle": false, "back_grab_buffer": 0.0, "history": ["Nollie"], "launch": "nollie", "takeoff": "Nollie", "at": (-22.0, 0.707936, 27.95222) }
+PASS: menu launch: real Circle Back returns a supported run to actual fresh-input flight
+PASS: menu launch: Circle Back cannot turn the next north-modified Nollie into an Ollie or Grab
+MENU_LAUNCH_RESULT { "circle": true, "back_grab_buffer": 0.0, "history": ["Nollie"], "launch": "nollie", "takeoff": "Nollie", "at": (-22.0, 0.707936, 27.95222) }
+PASS: menu launch: actual Escape airborne Back/steer adds no unintended family award
+MENU_BACK_SPIN { "circle": false, "spin_delta": 0.36, "selection_remaining": 0.0, "history": ["Ollie"] }
+PASS: menu launch: actual Circle airborne Back/steer adds no unintended family award
+MENU_BACK_SPIN { "circle": true, "spin_delta": 0.36, "selection_remaining": 0.0, "history": ["Ollie"] }
+PASS: menu launch: consumed Circle Back preserves the same immediate native steering-spin response as Escape
+PASS: menu launch: a genuine queued north grab still uses plain Ollie and its actual directional family award
+MENU_REAL_FAMILY { "family": "grab", "history": ["Ollie", "Nose Grab"], "launch": "ollie", "takeoff": "Regular" }
+FAIL: menu launch: a genuine queued north flip still uses plain Ollie and its actual directional family award
+MENU_REAL_FAMILY { "family": "flip", "history": ["Ollie", "Frontside Shuvit"], "launch": "ollie", "takeoff": "Regular" }
+PASS: menu launch: real Manual then south/Grab consumes its queued Pogo extension after establishing remembered launch metadata
+PASS: menu launch: immediate real extension-to-pop preserves its existing plain-Ollie family preparation after queue consumption
+MENU_MANUAL_EXTENSION_POP { "extended": true, "remembered": true, "history": ["Manual", "Pogo", "Ollie"], "launch": "ollie", "at": (-22.0, 0.512484, 23.17317) }
+PASS: menu launch: all native jump controls preserve personal profile and Music isolation
+RESULT: 16 passed, 1 failed

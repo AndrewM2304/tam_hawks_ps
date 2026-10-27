@@ -1,0 +1,230 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: skitch attachment: actual Skin-bound torso and trousers stay connected through tow entry/hold yaw=0.00
+PASS: skitch attachment: existing head/feet/hand continuity and fixed-limb reach remain bounded yaw=0.00
+PASS: skitch attachment: original actual palms, anatomical hand vertices and planted shoes retain their contacts yaw=0.00
+PASS: skitch attachment: ordinary release preserves real cloth attachment while the original tow influence fades yaw=0.00
+PASS: skitch attachment: an existing released-tow to Melon pose keeps cloth connected and fresh board grip authoritative yaw=0.00
+PASS: skitch attachment: explicit reset restores native neutral garment attachment and clears tow influence yaw=0.00
+SKITCH_ATTACHMENT_GEOMETRY { "yaw": 0.0, "entry": { "maximum_seam": 0.05995227023959, "maximum_joint": 0.00399971008301, "maximum_step": 0.1800062507391, "stretch": 1.00000035762787, "finite": true, "settled": { "hem": (6.008428, 3.751528, -8.121039), "waist": (6.002097, 3.81, -8.112729), "thigh": (6.001317, 3.770165, -8.115417), "seam": 0.05939758941531, "joint_gap": 0.00343585014343, "neck_gap": 0.02294757403433, "anatomical_neck_vertices": 47, "surface_gap": 0.0, "head": (5.953416, 4.381906, -8.178991), "finite": true, "grab_blend": 0.0, "body": (6.0, 3.0, -8.0), "bail": "rig_fixture", "rendered": false } }, "release": { "maximum_seam": 0.05906230211258, "maximum_joint": 0.00399971008301, "maximum_step": 0.16252590715885, "stretch": 1.00000023841858, "finite": true, "settled": { "hem": (6.003941, 3.973382, -7.992479), "waist": (6.002097, 4.025001, -7.992728), "thigh": (6.001563, 3.982742, -7.99457), "seam": 0.05165162682533, "joint_gap": 0.00341844558716, "neck_gap": 0.02294854074717, "anatomical_neck_vertices": 47, "surface_gap": 0.0, "head": (6.0388, 4.60376, -8.064379), "finite": true, "grab_blend": 0.0, "body": (6.0, 3.0, -8.0), "bail": "rig_fixture", "rendered": false } }, "interrupted": { "maximum_seam": 0.06212577968836, "maximum_joint": 0.03280567750335, "maximum_step": 0.49813088774681, "stretch": 1.00000011920929, "finite": true, "settled": { "hem": (6.028218, 3.309928, -8.035078), "waist": (6.070386, 3.355545, -8.035828), "thigh": (6.060362, 3.32237, -8.033544), "seam": 0.06212577968836, "joint_gap": 0.03280567750335, "neck_gap": 0.02392072603106, "anatomical_neck_vertices": 47, "surface_gap": 0.0, "head": (6.347165, 3.840329, -8.202622), "finite": true, "grab_blend": 0.99410312856127, "body": (6.0, 3.0, -8.0), "bail": "rig_fixture", "rendered": false } }, "palms": 0.00000257889133, "visible": 0.0078823491931 }
+PASS: skitch attachment: actual Skin-bound torso and trousers stay connected through tow entry/hold yaw=0.80
+PASS: skitch attachment: existing head/feet/hand continuity and fixed-limb reach remain bounded yaw=0.80
+PASS: skitch attachment: original actual palms, anatomical hand vertices and planted shoes retain their contacts yaw=0.80
+PASS: skitch attachment: ordinary release preserves real cloth attachment while the original tow influence fades yaw=0.80
+PASS: skitch attachment: an existing released-tow to Melon pose keeps cloth connected and fresh board grip authoritative yaw=0.80
+PASS: skitch attachment: explicit reset restores native neutral garment attachment and clears tow influence yaw=0.80
+SKITCH_ATTACHMENT_GEOMETRY { "yaw": 0.8, "entry": { "maximum_seam": 0.05995215475559, "maximum_joint": 0.00399971008301, "maximum_step": 0.18000619113445, "stretch": 1.00000035762787, "finite": true, "settled": { "hem": (5.919044, 3.751528, -8.090373), "waist": (5.920596, 3.81, -8.080043), "thigh": (5.918124, 3.770165, -8.081355), "seam": 0.05939747020602, "joint_gap": 0.00343585014343, "neck_gap": 0.0229486040771, "anatomical_neck_vertices": 47, "surface_gap": 0.0, "head": (5.839144, 4.381906, -8.091288), "finite": true, "grab_blend": 0.0, "body": (6.0, 3.0, -8.0), "bail": "rig_fixture", "rendered": false } }, "release": { "maximum_seam": 0.05906244367361, "maximum_joint": 0.00399971008301, "maximum_step": 0.16252622008324, "stretch": 1.00000035762787, "finite": true, "settled": { "hem": (6.008142, 3.973382, -7.997586), "waist": (6.006678, 4.025001, -7.996438), "thigh": (6.004982, 3.982743, -7.997335), "seam": 0.05165161564946, "joint_gap": 0.00341844558716, "neck_gap": 0.02294901199639, "anatomical_neck_vertices": 47, "surface_gap": 0.0, "head": (5.980849, 4.60376, -8.072687), "finite": true, "grab_blend": 0.0, "body": (6.0, 3.0, -8.0), "bail": "rig_fixture", "rendered": false } }, "interrupted": { "maximum_seam": 0.06212575733662, "maximum_joint": 0.0328058488667, "maximum_step": 0.49813079833984, "stretch": 1.00000023841858, "finite": true, "settled": { "hem": (5.994496, 3.309928, -8.044682), "waist": (6.023337, 3.355544, -8.075454), "thigh": (6.017992, 3.32237, -8.066669), "seam": 0.06212575733662, "joint_gap": 0.0328058488667, "neck_gap": 0.02391890436411, "anatomical_neck_vertices": 47, "surface_gap": 0.0, "head": (6.09652, 3.840329, -8.39021), "finite": true, "grab_blend": 0.99410312856127, "body": (6.0, 3.0, -8.0), "bail": "rig_fixture", "rendered": false } }, "palms": 0.00000253442431, "visible": 0.00788190122694 }
+PASS: authentic Main: actual push catches the moving world cart through held Grind and fresh Interact
+AUTHENTIC SKITCH ADMISSION caught=true pending_honest=true id=skitch count=1
+PASS: authentic Main: the cart physically tows the balanced player while one live entry remains unbanked
+PASS: authentic Main: both actual palms remain on the current moving cart bar, not its previous-frame location
+PASS: authentic Main: pausing freezes the actual attached player and moving vehicle together
+PASS: authentic Main: actual release-pop exits the cart with native upward momentum and an ordinary Ollie entry
+PASS: authentic Main: a fresh airborne board grab replaces the released tow grip at its actual palm contact
+PASS: authentic Main: skitch-to-Ollie-to-grab really lands and banks only its three catalog entries
+AUTHENTIC SKITCH tow=0.000064 grab=melon_grab palm=0.004698 bank=1500
+PASS: skitch attachment: ordinary default Main observes real caught tow, pause, Ollie, fresh Grab and native landing
+PASS: skitch attachment: native moving-cart input keeps actual clothed waist, torso and neck connected across every observed step
+PASS: skitch attachment: bail control first earns a real existing moving-cart grip and catalog entry
+BODY_ATTACHMENT_PHASE skitch_bail_getup { "samples": 180, "maximum_seam": 0.11830021440983, "maximum_joint_gap": 0.08003611862659, "maximum_neck_gap": 0.0229719299823, "maximum_surface_gap": 0.00763716874644, "maximum_influence": 0.0, "finite": true, "worst": { "hem": (-68.08032, 2.266642, 70.51534), "waist": (-68.08731, 2.341095, 70.42368), "thigh": (-68.09721, 2.30776, 70.42303), "seam": 0.11830021440983, "joint_gap": 0.08000924438238, "neck_gap": 0.0229472015053, "anatomical_neck_vertices": 47, "surface_gap": 0.00163147493731, "head": (-67.65082, 2.143604, 70.97907), "finite": true, "grab_blend": 0.0, "body": (-68.14848, 2.012555, 70.49993), "bail": "slide", "rendered": true }, "phases": ["fall", "slide", "get_up", "ready"] }
+PASS: skitch attachment: actual tow interruption preserves cloth and neck attachment through native fall/get-up
+PASS: skitch attachment: real restart during recovery immediately restores complete neutral attachment
+PASS: skitch attachment: actual Main remains isolated from profiles and personal Music
+SKITCH_ATTACHMENT_NATIVE { "samples": 228, "tow_samples": 79, "maximum_seam": 0.06465658545494, "maximum_joint": 0.03293346986175, "maximum_neck": 0.02393086627126, "finite": true }
+PASS: startup pose: complete torso and head are placed before the first animation tick
+PASS: startup pose: both visible shoes contact the board with finite anatomical limbs immediately after construction
+PASS: startup pose: reset immediately restores the complete neutral rig after an interrupted bail
+PASS: authentic pose: real support ray exists yaw 0.00 / rest 0.00
+PASS: authentic pose: actual front shoe sole plants on ray point and plane boneless yaw 0.00 / rest 0.00
+PASS: authentic pose: supporting rear shoe stays on the visible deck boneless yaw 0.00 / rest 0.00
+PASS: authentic pose: setup limbs remain finite and within human reach boneless yaw 0.00 / rest 0.00
+PASS: authentic pose: Boneless palm grips the real deck edge with curled fingers yaw 0.00 / rest 0.00
+PASS: authentic pose: visible anatomical palm geometry reaches the Boneless contact yaw 0.00 / rest 0.00
+PASS: authentic pose: actual front shoe sole plants on ray point and plane no_comply yaw 0.00 / rest 0.00
+PASS: authentic pose: supporting rear shoe stays on the visible deck no_comply yaw 0.00 / rest 0.00
+PASS: authentic pose: setup limbs remain finite and within human reach no_comply yaw 0.00 / rest 0.00
+PASS: authentic pose: real support ray exists yaw 0.80 / rest 3.14
+PASS: authentic pose: actual front shoe sole plants on ray point and plane boneless yaw 0.80 / rest 3.14
+PASS: authentic pose: supporting rear shoe stays on the visible deck boneless yaw 0.80 / rest 3.14
+PASS: authentic pose: setup limbs remain finite and within human reach boneless yaw 0.80 / rest 3.14
+PASS: authentic pose: Boneless palm grips the real deck edge with curled fingers yaw 0.80 / rest 3.14
+PASS: authentic pose: visible anatomical palm geometry reaches the Boneless contact yaw 0.80 / rest 3.14
+PASS: authentic pose: actual front shoe sole plants on ray point and plane no_comply yaw 0.80 / rest 3.14
+PASS: authentic pose: supporting rear shoe stays on the visible deck no_comply yaw 0.80 / rest 3.14
+PASS: authentic pose: setup limbs remain finite and within human reach no_comply yaw 0.80 / rest 3.14
+PASS: authentic pose: real support ray exists yaw 0.40 / rest 0.00
+PASS: authentic pose: actual front shoe sole plants on ray point and plane boneless yaw 0.40 / rest 0.00
+PASS: authentic pose: supporting rear shoe stays on the visible deck boneless yaw 0.40 / rest 0.00
+PASS: authentic pose: setup limbs remain finite and within human reach boneless yaw 0.40 / rest 0.00
+PASS: authentic pose: Boneless palm grips the real deck edge with curled fingers yaw 0.40 / rest 0.00
+PASS: authentic pose: visible anatomical palm geometry reaches the Boneless contact yaw 0.40 / rest 0.00
+PASS: authentic pose: actual front shoe sole plants on ray point and plane no_comply yaw 0.40 / rest 0.00
+PASS: authentic pose: supporting rear shoe stays on the visible deck no_comply yaw 0.40 / rest 0.00
+PASS: authentic pose: setup limbs remain finite and within human reach no_comply yaw 0.40 / rest 0.00
+PASS: authentic board: both caught sole markers rest on actual griptape triangles rest=0.00
+PASS: authentic board: complete cupsole and shoe upper vertices stay outside the deck rest=0.00
+PASS: authentic board: original native GLB geometry including its hardware remains unchanged rest=0.00
+PASS: authentic board: flat stance, curved kicks and closed exposed wood border are actual triangles rest=0.00
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear melon_grab rest=0.00
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear indy_grab rest=0.00
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear nose_grab rest=0.00
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear tail_grab rest=0.00
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear mute_grab rest=0.00
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear japan_grab rest=0.00
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear method_grab rest=0.00
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear stalefish_grab rest=0.00
+AUTHENTIC_BOARD rest=0.00 caught_sole=0.000853 complete_shoe=-0.000839 retained_native_model=true
+PASS: authentic board: both caught sole markers rest on actual griptape triangles rest=3.14
+PASS: authentic board: complete cupsole and shoe upper vertices stay outside the deck rest=3.14
+PASS: authentic board: original native GLB geometry including its hardware remains unchanged rest=3.14
+PASS: authentic board: flat stance, curved kicks and closed exposed wood border are actual triangles rest=3.14
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear melon_grab rest=3.14
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear indy_grab rest=3.14
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear nose_grab rest=3.14
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear tail_grab rest=3.14
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear mute_grab rest=3.14
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear japan_grab rest=3.14
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear method_grab rest=3.14
+PASS: authentic board: grab palm wraps the rendered surface while caught soles stay clear stalefish_grab rest=3.14
+AUTHENTIC_BOARD rest=3.14 caught_sole=0.000853 complete_shoe=-0.000838 retained_native_model=true
+PASS: authentic pose: setup to airborne catch has continuous finite articulated motion boneless
+AUTHENTIC_POSE setup=boneless max_step=0.185
+PASS: authentic pose: both actual shoe targets catch the deck after the bounded release boneless
+PASS: authentic pose: caught landing compresses knees and torso while shoes remain planted boneless
+PASS: authentic pose: setup to airborne catch has continuous finite articulated motion no_comply
+AUTHENTIC_POSE setup=no_comply max_step=0.181
+PASS: authentic pose: both actual shoe targets catch the deck after the bounded release no_comply
+PASS: authentic pose: caught landing compresses knees and torso while shoes remain planted no_comply
+PASS: authentic pose: native local bail lowers the figure below the riding head height
+PASS: authentic pose: native local fall and get-up stay finite without limb stretch or pose teleports
+PASS: authentic pose: actual head and sole meshes stay above the supplied recovery plane
+PASS: authentic pose: completed get-up restores the original stance and deck contact continuously
+PASS: authentic pose: explicit reset clears all setup and recovery offsets
+AUTHENTIC_POSE recovery head_drop=1.333 head_clearance=0.175 sole_clearance=0.080 max_step=0.056 max_stretch=1.000
+PASS: authentic pose: lip palm supports actual coping point while both shoes hold inverted deck handplant
+PASS: authentic pose: inverted lip body remains finite and within human reach handplant
+PASS: authentic pose: actual inverted anatomical head stays above coping plane handplant
+PASS: authentic pose: handplant release returns body and board to ordinary shoe contacts handplant
+AUTHENTIC_POSE lip=handplant palm_error=0.0000 stretch=1.000
+PASS: authentic pose: lip palm supports actual coping point while both shoes hold inverted deck invert
+PASS: authentic pose: inverted lip body remains finite and within human reach invert
+PASS: authentic pose: actual inverted anatomical head stays above coping plane invert
+PASS: authentic pose: handplant release returns body and board to ordinary shoe contacts invert
+AUTHENTIC_POSE lip=invert palm_error=0.0000 stretch=1.000
+PASS: authentic pose: lip palm supports actual coping point while both shoes hold inverted deck eggplant
+PASS: authentic pose: inverted lip body remains finite and within human reach eggplant
+PASS: authentic pose: actual inverted anatomical head stays above coping plane eggplant
+PASS: authentic pose: handplant release returns body and board to ordinary shoe contacts eggplant
+AUTHENTIC_POSE lip=eggplant palm_error=0.0000 stretch=1.000
+PASS: authentic pose: authored manual extension keeps finite human limb reach hang_ten
+PASS: authentic pose: manual extension gives each actual shoe a distinct support target hang_ten
+PASS: authentic pose: authored manual extension keeps finite human limb reach crossfoot_manual
+PASS: authentic pose: manual extension gives each actual shoe a distinct support target crossfoot_manual
+PASS: authentic pose: authored manual extension keeps finite human limb reach pogo
+PASS: authentic pose: manual extension gives each actual shoe a distinct support target pogo
+PASS: authentic pose: authored manual extension keeps finite human limb reach casper_manual
+PASS: authentic pose: manual extension gives each actual shoe a distinct support target casper_manual
+PASS: authentic pose: Casper uses the actual low toe vertex under the visible deck nose
+PASS: authentic pose: manual entry and release preserve articulated continuity and reach hang_ten rest=0.00
+PASS: authentic pose: actual complete board and shoe meshes clear floor throughout hang_ten rest=0.00
+AUTHENTIC_MANUAL id=hang_ten rest=0.00 step=0.1780 stretch=1.0000 board=0.0000 sole=0.1164
+PASS: authentic pose: manual entry and release preserve articulated continuity and reach crossfoot_manual rest=0.00
+PASS: authentic pose: actual complete board and shoe meshes clear floor throughout crossfoot_manual rest=0.00
+AUTHENTIC_MANUAL id=crossfoot_manual rest=0.00 step=0.0869 stretch=1.0000 board=0.0000 sole=0.1257
+PASS: authentic pose: Pogo shoe stays horizontal on actual rear wheel rest=0.00 side=-1
+PASS: authentic pose: Pogo shoe stays horizontal on actual rear wheel rest=0.00 side=1
+PASS: authentic pose: Pogo soles and anatomical palms meet actual wheel and nose geometry rest=0.00
+AUTHENTIC_MANUAL pogo rest=0.00 sole=0.0000 palm=0.0000 grip_surface=0.0008
+PASS: authentic pose: manual entry and release preserve articulated continuity and reach pogo rest=0.00
+PASS: authentic pose: actual complete board and shoe meshes clear floor throughout pogo rest=0.00
+AUTHENTIC_MANUAL id=pogo rest=0.00 step=0.2108 stretch=1.0000 board=0.0000 sole=0.0642
+PASS: authentic pose: Casper real toe bears under the inverted functional nose rest=0.00
+PASS: authentic pose: manual entry and release preserve articulated continuity and reach casper_manual rest=0.00
+PASS: authentic pose: actual complete board and shoe meshes clear floor throughout casper_manual rest=0.00
+AUTHENTIC_MANUAL id=casper_manual rest=0.00 step=0.0563 stretch=1.0000 board=-0.0000 sole=0.0440
+PASS: authentic pose: Casper to airborne catch clears support without a pose teleport rest=0.00
+PASS: authentic pose: explicit reset clears every manual style blend rest=0.00
+PASS: authentic pose: manual entry and release preserve articulated continuity and reach hang_ten rest=3.14
+PASS: authentic pose: actual complete board and shoe meshes clear floor throughout hang_ten rest=3.14
+AUTHENTIC_MANUAL id=hang_ten rest=3.14 step=0.1780 stretch=1.0000 board=0.0000 sole=0.1164
+PASS: authentic pose: manual entry and release preserve articulated continuity and reach crossfoot_manual rest=3.14
+PASS: authentic pose: actual complete board and shoe meshes clear floor throughout crossfoot_manual rest=3.14
+AUTHENTIC_MANUAL id=crossfoot_manual rest=3.14 step=0.0869 stretch=1.0000 board=0.0000 sole=0.1257
+PASS: authentic pose: Pogo shoe stays horizontal on actual rear wheel rest=3.14 side=-1
+PASS: authentic pose: Pogo shoe stays horizontal on actual rear wheel rest=3.14 side=1
+PASS: authentic pose: Pogo soles and anatomical palms meet actual wheel and nose geometry rest=3.14
+AUTHENTIC_MANUAL pogo rest=3.14 sole=0.0000 palm=0.0000 grip_surface=0.0008
+PASS: authentic pose: manual entry and release preserve articulated continuity and reach pogo rest=3.14
+PASS: authentic pose: actual complete board and shoe meshes clear floor throughout pogo rest=3.14
+AUTHENTIC_MANUAL id=pogo rest=3.14 step=0.2108 stretch=1.0000 board=0.0000 sole=0.0643
+PASS: authentic pose: Casper real toe bears under the inverted functional nose rest=3.14
+PASS: authentic pose: manual entry and release preserve articulated continuity and reach casper_manual rest=3.14
+PASS: authentic pose: actual complete board and shoe meshes clear floor throughout casper_manual rest=3.14
+AUTHENTIC_MANUAL id=casper_manual rest=3.14 step=0.0564 stretch=1.0000 board=-0.0000 sole=0.0440
+PASS: authentic pose: Casper to airborne catch clears support without a pose teleport rest=3.14
+PASS: authentic pose: explicit reset clears every manual style blend rest=3.14
+PASS: authentic manual: one_foot_manual loads the rear foot and raises its partner rest=0.00
+PASS: authentic manual: one_foot_nose_manual loads the front foot and raises its partner rest=0.00
+PASS: authentic manual: Hang Ten clusters a forward-facing shoe over the functional nose rest=0.00 side=-1
+PASS: authentic manual: Hang Ten real heel and forefoot bear on curved grip or wood without embedding rest=0.00 side=-1
+AUTHENTIC_HANG rest=0.00 side=-1 sole=(-0.066, 0.027709, -0.244507) forefoot=0.000151 heel=0.000151 whole=0.000151
+PASS: authentic manual: Hang Ten clusters a forward-facing shoe over the functional nose rest=0.00 side=1
+PASS: authentic manual: Hang Ten real heel and forefoot bear on curved grip or wood without embedding rest=0.00 side=1
+AUTHENTIC_HANG rest=0.00 side=1 sole=(0.066, 0.027724, -0.244514) forefoot=0.000150 heel=0.000151 whole=0.000150
+PASS: authentic manual: reset clears both weighted-foot role blends rest=0.00
+PASS: authentic manual: one_foot_manual loads the rear foot and raises its partner rest=3.14
+PASS: authentic manual: one_foot_nose_manual loads the front foot and raises its partner rest=3.14
+PASS: authentic manual: Hang Ten clusters a forward-facing shoe over the functional nose rest=3.14 side=-1
+PASS: authentic manual: Hang Ten real heel and forefoot bear on curved grip or wood without embedding rest=3.14 side=-1
+AUTHENTIC_HANG rest=3.14 side=-1 sole=(-0.066, 0.027709, -0.244506) forefoot=0.000150 heel=0.000151 whole=0.000150
+PASS: authentic manual: Hang Ten clusters a forward-facing shoe over the functional nose rest=3.14 side=1
+PASS: authentic manual: Hang Ten real heel and forefoot bear on curved grip or wood without embedding rest=3.14 side=1
+AUTHENTIC_HANG rest=3.14 side=1 sole=(0.066, 0.027724, -0.244513) forefoot=0.000150 heel=0.000150 whole=0.000150
+PASS: authentic manual: reset clears both weighted-foot role blends rest=3.14
+PASS: authentic pose: visible lip bearing and actual shoe targets meet their authored support lip_stall
+PASS: authentic pose: turned lip stance remains within human reach lip_stall
+PASS: authentic pose: visible lip bearing and actual shoe targets meet their authored support nose_stall
+PASS: authentic pose: turned lip stance remains within human reach nose_stall
+PASS: authentic pose: visible lip bearing and actual shoe targets meet their authored support tail_stall
+PASS: authentic pose: turned lip stance remains within human reach tail_stall
+PASS: authentic pose: visible lip bearing and actual shoe targets meet their authored support axle_stall
+PASS: authentic pose: turned lip stance remains within human reach axle_stall
+PASS: authentic pose: visible lip bearing and actual shoe targets meet their authored support rock_and_roll
+PASS: authentic pose: turned lip stance remains within human reach rock_and_roll
+PASS: authentic pose: visible lip bearing and actual shoe targets meet their authored support disaster_stall
+PASS: authentic pose: turned lip stance remains within human reach disaster_stall
+PASS: authentic pose: authored special body and board turns retain finite human articulation special_clyde_carousel
+PASS: authentic pose: authored special body and board turns retain finite human articulation special_tenement_tumble
+PASS: authentic pose: authored special body and board turns retain finite human articulation special_kelvin_corkscrew
+PASS: authentic pose: authored special body and board turns retain finite human articulation special_barras_butterflip
+PASS: authentic pose: authored special body and board turns retain finite human articulation special_bridge_blender
+PASS: authentic pose: authored special body and board turns retain finite human articulation special_sandstone_salute
+PASS: authentic pose: Salute palm keeps the actual raised deck contact
+PASS: authentic pose: pushing shoes point along actual regular and fakie travel
+PASS: authentic pose: interrupted native bail retains controller-owned local parent frame
+PASS: authentic pose: distant recovery ground cannot teleport the locally posed rider below its native body
+PASS: authentic pose: interrupted native local recovery keeps fixed anatomical reach
+PASS: authentic pose: Boned tweak visibly straightens the actual articulated front leg
+PASS: authentic pose: Boned extension preserves anatomical palm and planted shoe contacts within human reach
+PASS: authentic pose: both skitch palms grip the visible rear bar while shoes stay on deck yaw=0.0
+PASS: authentic pose: skitch shoulder fold reaches real handles without rubber arms yaw=0.0
+PASS: authentic pose: releasing a tow blends hands clear without a stance teleport yaw=0.0
+PASS: authentic pose: fresh airborne Melon overrides released tow wrist and palm orientation yaw=0.0
+AUTHENTIC_POSE skitch yaw=0.00 palm_error=0.0000 release_step=0.162
+PASS: authentic pose: both skitch palms grip the visible rear bar while shoes stay on deck yaw=0.8
+PASS: authentic pose: skitch shoulder fold reaches real handles without rubber arms yaw=0.8
+PASS: authentic pose: releasing a tow blends hands clear without a stance teleport yaw=0.8
+PASS: authentic pose: fresh airborne Melon overrides released tow wrist and palm orientation yaw=0.8
+AUTHENTIC_POSE skitch yaw=0.80 palm_error=0.0000 release_step=0.162
+PASS: authentic push: complete shoe clears actual finite bank toe and adjoining flat floor drag=false
+PASS: authentic push: native drag plants within 1mm while push return retains its lifted arc drag=false
+AUTHENTIC_PUSH drag=false whole=0.000700 recovery=0.2669 stretch=1.000000
+PASS: authentic push: complete shoe clears actual finite bank toe and adjoining flat floor drag=true
+PASS: authentic push: native drag plants within 1mm while push return retains its lifted arc drag=true
+AUTHENTIC_PUSH drag=true whole=0.000700 recovery=0.0000 stretch=1.000000
+PASS: authentic push: absent ground or layer2 steel cannot create a foot plant layer=0
+PASS: authentic push: absent ground or layer2 steel cannot create a foot plant layer=2
+PASS: authentic push: recorded genuine long-calf brake frame fits both actual contacts by lowering the common pelvis
+PASS: authentic push: recorded native brake crouch returns smoothly to the unchanged neutral stance
+PASS: authentic pump: actual helper state keeps both soles on the deck and rejects ordinary kick/drag ground solving
+RESULT: 195 passed, 0 failed

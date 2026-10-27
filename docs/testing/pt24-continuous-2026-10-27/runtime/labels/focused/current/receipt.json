@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T18:18:07.529593+00:00",
+  "completed_london": "2026-10-27T18:18:14.899636+00:00",
+  "wall_seconds": 7.37004194399924,
+  "command": [
+    "timeout",
+    "45s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/hud_labels_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 644,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "33",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "c6e97c5f7ab9609753159ed3fea3044345ccb4914de74a604ca730611ddf2c2f",
+  "git_head": "700e304861c282bb11dcd762c0cae04a06ec2642"
+}

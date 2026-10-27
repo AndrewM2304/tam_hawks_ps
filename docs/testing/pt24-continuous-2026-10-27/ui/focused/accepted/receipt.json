@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T18:31:49.053448+00:00",
+  "completed_london": "2026-10-27T18:32:02.135620+00:00",
+  "wall_seconds": 13.08216983499733,
+  "command": [
+    "timeout",
+    "25s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/menu_launch_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 646,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "33",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "48a3f859917f9f8480bde5d17285eaa61afe562aa2632f0917e37a67ecaf8bd5",
+  "git_head": "700e304861c282bb11dcd762c0cae04a06ec2642"
+}

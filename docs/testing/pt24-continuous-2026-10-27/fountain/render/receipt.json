@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-27T18:20:45.536276+00:00",
+  "completed_london": "2026-10-27T18:23:49.106641+00:00",
+  "wall_seconds": 183.57037793400377,
+  "command": [
+    "timeout",
+    "300s",
+    "bash",
+    ".local/fountain_ornament_capture.sh"
+  ],
+  "exit_code": 0,
+  "source_inputs": 644,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "12",
+      "0"
+    ],
+    [
+      "19",
+      "0"
+    ],
+    [
+      "12",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "373651e685afb4ba1ef46ed72924789cef928aee0bc9d41fd9f0f3ee89c5f31a",
+  "git_head": "700e304861c282bb11dcd762c0cae04a06ec2642"
+}

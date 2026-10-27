@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T18:01:44.155023+00:00",
+  "completed_london": "2026-10-27T18:01:51.622840+00:00",
+  "wall_seconds": 7.4678167889942415,
+  "command": [
+    "timeout",
+    "60s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/fountain_ornament_focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 638,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "15",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "ed23d852a02c4a1e99cf01447f8853b2d947aa20c4df131efb3fed475ec57394",
+  "git_head": "700e304861c282bb11dcd762c0cae04a06ec2642"
+}
