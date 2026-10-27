@@ -15,6 +15,11 @@ a different observed Ollie/Nollie entry. Each exact bank is independently derive
 from actual catalog/repetition/hold events. No physical movement or score rule
 is changed by the wall repair.
 
+Current unsigned Linux/universal-Mac packages export from clean source
+`2f2e22c1a0e3`; archive audits and normal Linux standalone startup pass.
+[Package receipts](testing/pt24-park-2026-10-27/packages/README.md). Actual Mac
+execution remains open; all merged features remain visible in normal play.
+
 [Current results, retained failures and artifact handoff](testing/pt24-park-2026-10-27/README.md)
 own this source. [Next bounded software work](testing/pt24-park-2026-10-27/next-queue.md)
 remains separate from Mac, temporal, performance and human acceptance. All

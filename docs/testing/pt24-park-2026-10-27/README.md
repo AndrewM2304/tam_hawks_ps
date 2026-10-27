@@ -67,5 +67,6 @@ now pass actual mesh-vertex and strict camera assertions in this same suite.
 Four [cold-source phases](cold/SOURCE-LAUNCH.json) pass with515 stable inputs:
 cold/warm launch, normal no-script title→play50/0, and deliberate broken-copy
 source refusal. The source copy is restored; its cache remains ignored.
-Current unsigned artifact receipts are recorded separately after export.
+Current unsigned Linux/universal-Mac packages and normal Linux startup pass,
+bound to clean source`2f2e22c1a0e3`; [artifact receipts](packages/README.md).
 The previous5,062/0 receipt certifies its recorded source only.
