@@ -2,6 +2,7 @@ extends RefCounted
 ## Standard SDL gamepad mappings; actual DualSense behavior requires hardware QA.
 
 static func register_actions() -> void:
+	_register_menu_actions()
 	_key_action("push", [KEY_W, KEY_UP])
 	_key_action("brake", [KEY_S, KEY_DOWN])
 	_key_action("steer_left", [KEY_A, KEY_LEFT])
@@ -45,6 +46,23 @@ static func register_actions() -> void:
 	_button("restart", JOY_BUTTON_RIGHT_STICK)
 	_button("pause", JOY_BUTTON_START)
 	_button("free_skate", JOY_BUTTON_TOUCHPAD)
+
+static func _register_menu_actions() -> void:
+	# Godot's built-in actions may contain only keyboard defaults. Add native
+	# pad navigation once without replacing keyboard recovery or saved skating
+	# bindings; remapping/reset must leave this independent menu map intact.
+	for action: String in ["ui_accept", "ui_cancel", "ui_left", "ui_right", "ui_up", "ui_down"]:
+		if not InputMap.has_action(action): InputMap.add_action(action, 0.5)
+	_button("ui_accept", JOY_BUTTON_A)
+	_button("ui_cancel", JOY_BUTTON_B)
+	_button("ui_left", JOY_BUTTON_DPAD_LEFT)
+	_button("ui_right", JOY_BUTTON_DPAD_RIGHT)
+	_button("ui_up", JOY_BUTTON_DPAD_UP)
+	_button("ui_down", JOY_BUTTON_DPAD_DOWN)
+	_axis("ui_left", JOY_AXIS_LEFT_X, -1.0)
+	_axis("ui_right", JOY_AXIS_LEFT_X, 1.0)
+	_axis("ui_up", JOY_AXIS_LEFT_Y, -1.0)
+	_axis("ui_down", JOY_AXIS_LEFT_Y, 1.0)
 
 static func _key_action(action: String, keys: Array) -> void:
 	if not InputMap.has_action(action):

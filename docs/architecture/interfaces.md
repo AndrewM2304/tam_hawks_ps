@@ -1,3 +1,31 @@
+## Pogo reach, finite Ollie continuation and native menu actions — 27 October 2026
+
+Pogo solves its existing bounded two-palm reach, blends the total translation
+once by the current Pogo influence, then shares that shift with torso/pelvis
+before fitting the unchanged fixed-length legs. The earlier grab repair remains.
+
+Only an actual flat-ground plain Ollie can carry an existing proven wall offset
+into flight. Each decayed/retained candidate needs finite clearance of the cached
+actual board convex envelope and both startup-cached shoe bounds, within18cm.
+The existing query is restored completely. No new airborne fit or remembered
+infinite plane is used. This retains one previously temporary shared convex
+shape/RID; bytes are unmeasured. The bounded airborne path uses at most six
+shape queries, ordinary clear skating none. Other active tricks stay excluded.
+
+Input setup idempotently ensures native menu Cross/Circle and D-pad/stick actions
+while preserving keyboard defaults and independent saved skating bindings.
+HUD routes modal Circle/ui_cancel through its existing Back stack after binding
+capture; matched skating actions are released so modern trick input cannot treat
+Back as Grab. Godot's same-update legacy request-buffer history is not cleared
+by this release and remains a documented compatibility limit. Actual controller
+hardware acceptance is separate from parsed-event integration tests.
+
+The fountain assigns the already existing Clyde/pond ShaderMaterial after outdoor
+construction. Meshes, shaders, textures, basin contacts, coping and recovery are
+unchanged. [Current exact results and limits](../testing/pt24-pose-finish-2026-10-27/README.md).
+
+---
+
 ## Bank lateral ownership and practice district — 27 October 2026
 
 `CoreTerrain.height_at` retains its bounds and maximum-height filter. On an

@@ -18,6 +18,7 @@ const BankEdges = preload("res://tests/terrain_bank_edge_tests.gd")
 const MarketRun = preload("res://tests/pt24_market_full_run_tests.gd")
 const CivicParkRun = preload("res://tests/pt24_civic_park_run_tests.gd")
 const FacilityConnection = preload("res://tests/pt24_facility_connection_tests.gd")
+const FountainFinish = preload("res://tests/fountain_finish_tests.gd")
 
 static func run(tree: SceneTree,check: Callable) -> void:
 	for action: String in InputMap.get_actions(): Input.action_release(action)
@@ -58,6 +59,7 @@ static func run(tree: SceneTree,check: Callable) -> void:
 	await MarketRun.run(tree,game,check)
 	await CivicParkRun.run(tree,game,check)
 	await FacilityConnection.run(tree,game,check)
+	await FountainFinish.run(tree,game,check)
 	for action: String in InputMap.get_actions(): Input.action_release(action)
 	game.queue_free()
 	await tree.process_frame

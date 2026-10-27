@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FAIL: menu cancel: real default Circle event resolves both menu cancel and skating Grab
+PASS: menu cancel: Circle at title is consumed without starting or resuming a run
+FAIL: menu cancel: Circle returns nested controls to settings and restores opener focus
+FAIL: menu cancel: Circle returns settings to its paused title origin
+FAIL: menu cancel: Circle returns map to goals without resuming or advancing time
+FAIL: menu cancel: Circle closes live-origin goals and resumes exactly once
+FAIL: menu cancel: Circle closes ordinary pause and resumes exactly once
+PASS: menu cancel: Circle cannot resume a finished results run
+FAIL: menu cancel: Circle returns results settings to the finished results origin
+PASS: menu cancel: Circle remains capturable as a skating binding without closing controls
+PASS: menu cancel: Escape still cancels binding capture without leaving controls
+PASS: menu cancel: no-injection fixture reaches real airborne skating before pausing
+FAIL: menu cancel: airborne Circle resume does not leak polled Grab or buffered trick score
+FAIL: menu cancel: Circle still performs a real Grab during ordinary airborne gameplay
+PASS: menu cancel: navigation and capture leave built-in accept/cancel maps unchanged
+PASS: menu cancel: fixture never writes career or controls a personal Music account
+RESULT: 7 passed, 9 failed

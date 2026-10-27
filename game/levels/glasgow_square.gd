@@ -95,6 +95,9 @@ func _ready() -> void:
 		_outdoors.name = "OutdoorRoutes"
 		add_child(_outdoors)
 		_outdoors.build(self, _materials)
+		# Reuse the existing opaque, filtered water finish without another
+		# material/texture or any displacement of the basin/coping geometry.
+		get_node("ExchangeFountain/FountainWater").material_override = _outdoors.get_node("ClydeWater").material_override
 	_fidelity_infill.build(self)
 	_build_exploration_boundaries()
 	if not bool(get_meta("pt24_render_repairs_baseline",false)):

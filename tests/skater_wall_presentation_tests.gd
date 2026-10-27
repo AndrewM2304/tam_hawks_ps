@@ -109,7 +109,7 @@ static func run(tree: SceneTree,check: Callable) -> void:
 static func _eligibility(_tree: SceneTree,fixture: Dictionary,base: Transform3D,check: Callable) -> void:
 	var rider: CharacterBody3D=fixture.rider
 	var original:=_physics(rider)
-	for kind: String in ["air","manual","flip","grab","special","wallride","bail","crouch"]:
+	for kind: String in ["air","manual","flip","grab","special","wallride","bail"]:
 		rider._visual.transform=base
 		rider._obstacle_visual_offset=Vector3(0,0,-0.10)
 		match kind:
@@ -120,7 +120,6 @@ static func _eligibility(_tree: SceneTree,fixture: Dictionary,base: Transform3D,
 			"special":rider._special_remaining=0.1
 			"wallride":rider._wall.active=true
 			"bail":rider.bailing=true
-			"crouch":rider.crouching=true
 		var before:=_physics(rider)
 		rider._place_obstacle_wheels(1.0/60.0)
 		check.call(rider._visual.transform==base and rider._obstacle_visual_offset==Vector3.ZERO and _physics(rider)==before,

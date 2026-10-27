@@ -18,6 +18,8 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _goals_pause(tree, game, check)
 	await _settings_and_controls(tree, game, check)
 	await _cosmetics_and_results(tree, game, check)
+	await load("res://tests/menu_cancel_tests.gd").run(tree, game, check)
+	await load("res://tests/controller_menu_tests.gd").run(tree, game, check)
 	_release_actions()
 	game.hud.hide_menu()
 	game.career = original_career

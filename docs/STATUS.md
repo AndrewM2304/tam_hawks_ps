@@ -1,3 +1,18 @@
+# Rider, controller-menu and fountain continuation — 27 October 2026
+
+The owner requested pushing all work to main and continuing. Main/origin were
+confirmed identical at `b257b56`. The next batch repairs Pogo's connected reach,
+finite wall-to-Ollie presentation, native controller menu activation/Back and
+shared fountain water finish. [Current evidence](testing/pt24-pose-finish-2026-10-27/README.md) owns exact focused,
+native, combined and package results; earlier receipts retain their own scope.
+**Required5,220/0 plus actual Music script guard2/0**, clean/stable627 inputs.
+Fourteen native frames and focused189/0,33/0,31/0 and19/0 pass.
+Four cold-source phases pass with533 stable inputs and normal title→play50/0.
+All merged trial features remain enabled. Mac, physical controls, moving shadows,
+target stutter, final art and human acceptance remain separate open work.
+
+---
+
 # Remaining connections and practice identity — 27 October 2026
 
 Work continues from fully pushed main69fcbc8. The market loading-drop→hall line,

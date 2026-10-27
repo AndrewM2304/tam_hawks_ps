@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T15:59:35.858407+00:00",
+  "completed_london": "2026-10-27T15:59:41.573912+00:00",
+  "wall_seconds": 5.715504421001242,
+  "command": [
+    "timeout",
+    "60s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/wall_ollie_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 628,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "33",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "9c350b0f320ab3cd18516e522ee0f7aa3f51ac1f5624b6f48858d40c6456c6a1",
+  "git_head": "b257b5682bdd40310660cc4be8b40ba20717ee7f"
+}

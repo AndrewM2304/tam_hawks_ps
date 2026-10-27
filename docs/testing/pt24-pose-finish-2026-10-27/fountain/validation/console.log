@@ -1,0 +1,31 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS: actual Main receives no feature override
+PASS: actual Main has no personal Music control or preferences
+PASS: ordinary Main retains all merged trial content
+PASS: PT24 fountain finish: fountain, pond and river share one existing water material
+PASS: PT24 fountain finish: existing circular water mesh, height and coping margin remain exact
+PASS: PT24 fountain finish: all 768 original water face vertices retain their fixed basin footprint
+PASS: PT24 fountain finish: both original basin and pedestal native shapes remain exact
+PASS: PT24 fountain finish: 32 native basin contacts keep their unchanged .55m support
+PASS: PT24 fountain finish: the existing fountain has no new water-recovery trigger
+PASS: PT24 fountain finish: original closed coping ID and all 65 authored guide points remain
+PASS: completed native viewport saved overhead-original-a.png
+FOUNTAIN_CAPTURE overhead original-a samples=60
+PASS: completed native viewport saved overhead-shared-water.png
+FOUNTAIN_CAPTURE overhead shared-water samples=60
+PASS: completed native viewport saved overhead-original-b.png
+FOUNTAIN_CAPTURE overhead original-b samples=60
+PASS: completed native viewport saved low-rim-original-a.png
+FOUNTAIN_CAPTURE low-rim original-a samples=60
+PASS: completed native viewport saved low-rim-shared-water.png
+FOUNTAIN_CAPTURE low-rim shared-water samples=60
+PASS: completed native viewport saved low-rim-original-b.png
+FOUNTAIN_CAPTURE low-rim original-b samples=60
+PASS: actual production water override restored after controls
+PASS: both authored views retain all three A/B/A phases
+PASS: complete source inputs remained unchanged
+RESULT: 19 passed, 0 failed

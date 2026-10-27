@@ -1,0 +1,61 @@
+[
+  {
+    "source_revision": "b257b5682bdd40310660cc4be8b40ba20717ee7f",
+    "source": "game/player/skater_visual.gd",
+    "target": ".local/pogo_attachment_legacy_visual.gd",
+    "sha256": "f0e3f3287dacff041cdf3b82a6f7ce8629025472822870ee923c470f9d0dbde7",
+    "transformation": "None; immutable committed source bytes."
+  },
+  {
+    "source": "game/player/skater.gd",
+    "source_sha256": "3a498aadd4e4def8cb4bbb71163416d659c1de02e8a7f45baed05a201fff2970",
+    "target": ".local/pogo_attachment_legacy_skater.gd",
+    "sha256": "b5f8f9cb2cb66d21c42d3ff16963931a4fb150e65002e8ca76c4e8dec1f3c41c",
+    "transformation": [
+      {
+        "old": "res://game/player/skater_visual.gd",
+        "new": "res://.local/pogo_attachment_legacy_visual.gd"
+      }
+    ]
+  },
+  {
+    "source": "tests/authentic_pose_tests.gd",
+    "source_sha256": "f2e35b2e8fbf22016b11f9634a64f66d07e8c222896061142ad8d3719bddd7d6",
+    "target": ".local/pogo_attachment_legacy_authentic.gd",
+    "sha256": "5c0c759223275c376ad528037489ce5fc9ab976f5e8103a4518c53668ce89698",
+    "transformation": [
+      {
+        "old": "res://game/player/skater_visual.gd",
+        "new": "res://.local/pogo_attachment_legacy_visual.gd"
+      }
+    ]
+  },
+  {
+    "source": "tests/classic_tricks_integration_tests.gd",
+    "source_sha256": "46db16d822fffa239ddea020bd5a2f5a55f7686f88a8b981b4656b51cdc5edb3",
+    "target": ".local/pogo_attachment_legacy_classic.gd",
+    "sha256": "cfa36981ca1bc10e72e8a31ea993ca528815ca48baf67189b1bfceeb11d09672",
+    "transformation": [
+      {
+        "old": "res://game/player/skater.gd",
+        "new": "res://.local/pogo_attachment_legacy_skater.gd"
+      }
+    ]
+  },
+  {
+    "source": "tests/skater_pogo_attachment_tests.gd",
+    "source_sha256": "2a47db3fcc68d17890106f95f2f61a5a169a14f32f6811965fbeacbd6a2a2863",
+    "target": ".local/pogo_attachment_legacy_tests.gd",
+    "sha256": "439f7292fdc9d558ad5b5ace6f2601733326c4d095af9c517a268cdc649234e9",
+    "transformation": [
+      {
+        "old": "res://tests/authentic_pose_tests.gd",
+        "new": "res://.local/pogo_attachment_legacy_authentic.gd"
+      },
+      {
+        "old": "res://tests/classic_tricks_integration_tests.gd",
+        "new": "res://.local/pogo_attachment_legacy_classic.gd"
+      }
+    ]
+  }
+]

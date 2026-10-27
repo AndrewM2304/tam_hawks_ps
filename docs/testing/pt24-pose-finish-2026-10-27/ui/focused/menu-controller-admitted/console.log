@@ -1,0 +1,38 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+MENU_ACTIONS_ENGINE_DEFAULTS { "ui_accept": ["Enter", "Kp Enter", "Space"], "ui_cancel": ["Escape"], "ui_left": ["Left", "Joypad Button 13 (D-pad Left)", "Joypad Motion on Axis 0 (Left Stick X-Axis, Joystick 0 X-Axis) with Value -1.00"], "ui_right": ["Right", "Joypad Button 14 (D-pad Right)", "Joypad Motion on Axis 0 (Left Stick X-Axis, Joystick 0 X-Axis) with Value 1.00"], "ui_up": ["Up", "Joypad Button 11 (D-pad Up)", "Joypad Motion on Axis 1 (Left Stick Y-Axis, Joystick 0 Y-Axis) with Value -1.00"], "ui_down": ["Down", "Joypad Button 12 (D-pad Down)", "Joypad Motion on Axis 1 (Left Stick Y-Axis, Joystick 0 Y-Axis) with Value 1.00"] }
+MENU_CANCEL_NATIVE_MAPS { "ui_accept": ["Enter", "Kp Enter", "Space", "Joypad Button 0 (Bottom Action, Sony Cross, Xbox A, Nintendo B)"], "ui_cancel": ["Escape", "Joypad Button 1 (Right Action, Sony Circle, Xbox B, Nintendo A)"] } grab=[InputEventKey: keycode=75 (K), mods=none, physical=true, location=unspecified, pressed=false, echo=false, InputEventJoypadButton: button_index=1, pressed=false, pressure=0.00] event=Joypad Button 1 (Right Action, Sony Circle, Xbox B, Nintendo A)
+PASS: menu cancel: real default Circle event resolves its overlapping skating Grab
+PASS: menu cancel: Circle at title is consumed without starting or resuming a run
+PASS: menu cancel: Circle returns nested controls to settings and restores opener focus
+PASS: menu cancel: Circle returns settings to its paused title origin
+PASS: menu cancel: Circle returns map to goals without resuming or advancing time
+PASS: menu cancel: Circle closes live-origin goals and resumes exactly once
+PASS: menu cancel: Circle closes ordinary pause and resumes exactly once
+PASS: menu cancel: Circle cannot resume a finished results run
+PASS: menu cancel: Circle returns results settings to the finished results origin
+PASS: menu cancel: Circle remains capturable as a skating binding without closing controls
+PASS: menu cancel: Escape still cancels binding capture without leaving controls
+PASS: menu cancel: no-injection fixture reaches real airborne skating before pausing
+MENU_CANCEL_AIR_RESUME page= paused=false air=true used=false pressed=false buffer=0.07 history=["Ollie"] previous=["Ollie"]
+PASS: menu cancel: airborne Circle resume adds no actual or pending Grab and no trick score
+MENU_CANCEL_LIVE_GRAB air=true used=false buffer=0.0 history=["Ollie", "Melon Grab"]
+PASS: menu cancel: Circle still performs a real Grab during ordinary airborne gameplay
+PASS: menu cancel: navigation and capture leave built-in accept/cancel maps unchanged
+PASS: menu cancel: fixture never writes career or controls a personal Music account
+PASS: controller menu: repeated input registration preserves all existing menu events without duplicates
+PASS: controller menu: Cross/Circle, D-pad and signed left stick resolve native UI actions
+PASS: controller menu: actual D-pad Down moves visible title focus to Free skate
+PASS: controller menu: actual Cross activates Free skate without an accidental Ollie
+PASS: controller menu: actual left-stick Down moves native title focus
+PASS: controller menu: neutral then left-stick Up returns native title focus
+PASS: controller menu: actual Cross activates Career without an accidental Ollie
+PASS: controller menu: actual Options opens pause with visible Resume focus
+PASS: controller menu: actual Cross resumes the run without an accidental Ollie
+PASS: controller menu: settings begins on its native focused volume slider
+PASS: controller menu: actual D-pad Left/Right adjusts and restores the live setting
+PASS: controller menu: actual stick Left/Right adjusts and restores the live setting
+PASS: controller menu: initialized Circle mapping still traverses settings/pause and resumes once
+PASS: controller menu: capture accepts Cross as Ollie before native UI activation
+PASS: controller menu: remapping restores settings, keeps menu maps stable and isolates personal state
+RESULT: 31 passed, 0 failed

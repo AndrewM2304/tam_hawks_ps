@@ -15,6 +15,7 @@ signal music_requested(action: String, value: String)
 const GraphicsQuality = preload("res://game/core/graphics_quality.gd")
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const RouteMap = preload("res://game/ui/route_map.gd")
+const InputProfile = preload("res://game/core/input_profile.gd")
 
 const INK := Color("101d22")
 const PANEL := Color("14272c")
@@ -397,7 +398,14 @@ func _input(event: InputEvent) -> void:
 			else:
 				_binding_status.text = str(result.get("error", "That input cannot be assigned."))
 		return
-	if event.is_action_pressed("pause"):
+	var menu_cancel: bool = event.is_action_pressed("ui_cancel") or (event is InputEventJoypadButton
+		and event.pressed and event.button_index == JOY_BUTTON_B)
+	if event.is_action_pressed("pause") or menu_cancel:
+		# Handled events still change Input's polled action state. A menu's
+		# Circle press must not also become Grab when this Back resumes skating.
+		if menu_cancel:
+			for action: String in InputProfile.ACTION_LABELS:
+				if event.is_action(action): Input.action_release(action)
 		_back()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("restart"):

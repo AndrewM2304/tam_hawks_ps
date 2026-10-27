@@ -1,0 +1,302 @@
+{
+  "source_manifest": ".local/fountain-finish-captures/manifest.json",
+  "method": "Nearest-rank percentiles of retained native frame_post_draw wall-clock intervals. Existing water-control diagnostic p95 and p99 caps apply independently per view: control midpoint + absolute repeat difference +5% midpoint AND 1.05 times worse control. Counters compare every matching camera sample. These short Linux software-rendered sweeps cannot certify target-Mac motion/performance or final water art.",
+  "views": [
+    {
+      "view": "overhead",
+      "phases": {
+        "original-a": {
+          "samples": 60,
+          "p50_ms": 111.035,
+          "p95_ms": 134.345,
+          "p99_ms": 150.086,
+          "max_ms": 150.086,
+          "over_16_667_ms": 60,
+          "over_33_333_ms": 60,
+          "over_50_ms": 60,
+          "draws": {
+            "min": 287,
+            "max": 459
+          },
+          "primitives": {
+            "min": 73752,
+            "max": 88660
+          },
+          "objects": {
+            "min": 287,
+            "max": 459
+          },
+          "total_draws": {
+            "min": 287,
+            "max": 459
+          },
+          "total_primitives": {
+            "min": 233334,
+            "max": 301717
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "buffer_bytes": {
+            "min": 27176050,
+            "max": 27176050
+          },
+          "video_bytes": {
+            "min": 71516951,
+            "max": 71516951
+          }
+        },
+        "shared-water": {
+          "samples": 60,
+          "p50_ms": 107.796,
+          "p95_ms": 121.704,
+          "p99_ms": 126.088,
+          "max_ms": 126.088,
+          "over_16_667_ms": 60,
+          "over_33_333_ms": 60,
+          "over_50_ms": 60,
+          "draws": {
+            "min": 287,
+            "max": 459
+          },
+          "primitives": {
+            "min": 73752,
+            "max": 88660
+          },
+          "objects": {
+            "min": 287,
+            "max": 459
+          },
+          "total_draws": {
+            "min": 287,
+            "max": 459
+          },
+          "total_primitives": {
+            "min": 233334,
+            "max": 301717
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "buffer_bytes": {
+            "min": 27176050,
+            "max": 27176050
+          },
+          "video_bytes": {
+            "min": 71516951,
+            "max": 71516951
+          }
+        },
+        "original-b": {
+          "samples": 60,
+          "p50_ms": 107.9,
+          "p95_ms": 121.456,
+          "p99_ms": 124.371,
+          "max_ms": 124.371,
+          "over_16_667_ms": 60,
+          "over_33_333_ms": 60,
+          "over_50_ms": 60,
+          "draws": {
+            "min": 287,
+            "max": 459
+          },
+          "primitives": {
+            "min": 73752,
+            "max": 88660
+          },
+          "objects": {
+            "min": 287,
+            "max": 459
+          },
+          "total_draws": {
+            "min": 287,
+            "max": 459
+          },
+          "total_primitives": {
+            "min": 233334,
+            "max": 301717
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "buffer_bytes": {
+            "min": 27176050,
+            "max": 27176050
+          },
+          "video_bytes": {
+            "min": 71516951,
+            "max": 71516951
+          }
+        }
+      },
+      "all_sample_counters_equal": true,
+      "timing_gates": {
+        "p95_ms": {
+          "candidate_ms": 121.704,
+          "spread_cap_ms": 147.18452499999998,
+          "worse_control_cap_ms": 141.06225,
+          "passes": true
+        },
+        "p99_ms": {
+          "candidate_ms": 126.088,
+          "spread_cap_ms": 169.80492500000003,
+          "worse_control_cap_ms": 157.5903,
+          "passes": true
+        }
+      },
+      "timing_passes": true
+    },
+    {
+      "view": "low-rim",
+      "phases": {
+        "original-a": {
+          "samples": 60,
+          "p50_ms": 412.692,
+          "p95_ms": 450.813,
+          "p99_ms": 484.916,
+          "max_ms": 484.916,
+          "over_16_667_ms": 60,
+          "over_33_333_ms": 60,
+          "over_50_ms": 60,
+          "draws": {
+            "min": 947,
+            "max": 972
+          },
+          "primitives": {
+            "min": 569918,
+            "max": 573538
+          },
+          "objects": {
+            "min": 947,
+            "max": 972
+          },
+          "total_draws": {
+            "min": 947,
+            "max": 972
+          },
+          "total_primitives": {
+            "min": 716600,
+            "max": 742328
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "buffer_bytes": {
+            "min": 27176050,
+            "max": 27176050
+          },
+          "video_bytes": {
+            "min": 71516951,
+            "max": 71516951
+          }
+        },
+        "shared-water": {
+          "samples": 60,
+          "p50_ms": 412.289,
+          "p95_ms": 461.062,
+          "p99_ms": 474.659,
+          "max_ms": 474.659,
+          "over_16_667_ms": 60,
+          "over_33_333_ms": 60,
+          "over_50_ms": 60,
+          "draws": {
+            "min": 947,
+            "max": 972
+          },
+          "primitives": {
+            "min": 569918,
+            "max": 573538
+          },
+          "objects": {
+            "min": 947,
+            "max": 972
+          },
+          "total_draws": {
+            "min": 947,
+            "max": 972
+          },
+          "total_primitives": {
+            "min": 716600,
+            "max": 742328
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "buffer_bytes": {
+            "min": 27176050,
+            "max": 27176050
+          },
+          "video_bytes": {
+            "min": 71516951,
+            "max": 71516951
+          }
+        },
+        "original-b": {
+          "samples": 60,
+          "p50_ms": 414.304,
+          "p95_ms": 465.881,
+          "p99_ms": 513.636,
+          "max_ms": 513.636,
+          "over_16_667_ms": 60,
+          "over_33_333_ms": 60,
+          "over_50_ms": 60,
+          "draws": {
+            "min": 947,
+            "max": 972
+          },
+          "primitives": {
+            "min": 569918,
+            "max": 573538
+          },
+          "objects": {
+            "min": 947,
+            "max": 972
+          },
+          "total_draws": {
+            "min": 947,
+            "max": 972
+          },
+          "total_primitives": {
+            "min": 716600,
+            "max": 742328
+          },
+          "texture_bytes": {
+            "min": 44340901,
+            "max": 44340901
+          },
+          "buffer_bytes": {
+            "min": 27176050,
+            "max": 27176050
+          },
+          "video_bytes": {
+            "min": 71516951,
+            "max": 71516951
+          }
+        }
+      },
+      "all_sample_counters_equal": true,
+      "timing_gates": {
+        "p95_ms": {
+          "candidate_ms": 461.062,
+          "spread_cap_ms": 496.33234999999996,
+          "worse_control_cap_ms": 489.17505,
+          "passes": true
+        },
+        "p99_ms": {
+          "candidate_ms": 474.659,
+          "spread_cap_ms": 552.9597999999999,
+          "worse_control_cap_ms": 539.3178,
+          "passes": true
+        }
+      },
+      "timing_passes": true
+    }
+  ],
+  "counter_gate_passes": true,
+  "timing_gate_passes": true
+}

@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T15:51:19.124094+00:00",
+  "completed_london": "2026-10-27T15:51:24.836750+00:00",
+  "wall_seconds": 5.712656616997265,
+  "command": [
+    "timeout",
+    "60s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/pogo_attachment_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 622,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "189",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "f867d0344d034b3dd012d6e06c7fb3f9feaa8d3af195813c044b6577ac0270f1",
+  "git_head": "b257b5682bdd40310660cc4be8b40ba20717ee7f"
+}

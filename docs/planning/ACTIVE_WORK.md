@@ -1,3 +1,15 @@
+# Rider, controller-menu and fountain continuation — 27 October 2026
+
+The owner requested pushing all work to main and continuing. Main/origin were
+confirmed identical at `b257b56`. The next batch repairs Pogo's connected reach,
+finite wall-to-Ollie presentation, native controller menu activation/Back and
+shared fountain water finish. [Current evidence](../testing/pt24-pose-finish-2026-10-27/README.md) owns exact focused,
+native, combined and package results; earlier receipts retain their own scope.
+All merged trial features remain enabled. Mac, physical controls, moving shadows,
+target stutter, final art and human acceptance remain separate open work.
+
+---
+
 # Latest connected-run continuation — 27 October 2026
 
 The current batch completes bounded market, civic/park and facility witnesses

@@ -512,6 +512,7 @@ func animate(delta: float, state: Dictionary) -> void:
 			if count == 0: break
 			_upper.position += correction / count * _skitch_blend
 	if _pogo_blend > 0.0001:
+		var unconstrained_torso := _upper.position
 		for iteration in 5:
 			var correction := Vector3.ZERO
 			for side: float in [-1.0, 1.0]:
@@ -520,7 +521,14 @@ func animate(delta: float, state: Dictionary) -> void:
 				var reach := _grip_wrist(side, shoulder, contact, grab_stance.x) - shoulder
 				if reach.length() > 0.565: correction += reach.normalized() * (reach.length() - 0.565)
 			if correction.length_squared() < 0.000001: break
-			_upper.position += correction * 0.5 * _pogo_blend
+			_upper.position += correction * 0.5
+		# Blend the complete reach once, just as the palms blend toward the nose.
+		# Repeating a partial blend inside the solver over-applies the first
+		# entry correction. Move the connected pelvis before fitting the legs.
+		var pogo_shift := (_upper.position - unconstrained_torso) * _pogo_blend
+		_upper.position = unconstrained_torso + pogo_shift
+		hips_origin += pogo_shift
+		hips_y = hips_origin.y
 	# Look along accepted travel after a revert, within a comfortable neck turn.
 	var travel_body: Node3D = _board.get_parent().get_parent()
 	var travel_direction := -travel_body.global_basis.z
@@ -837,9 +845,10 @@ func _cache_support_geometry() -> void:
 				if name == "Griptape": grip.append_array(faces)
 				else: wood.append_array(faces)
 		var hull := ConvexPolygonShape3D.new()
+		hull.margin = 0.0
 		hull.points = points
 		_native_board_cache = {"grip": grip, "wood": wood, "wheels": wheels,
-			"support": hull.get_debug_mesh().get_faces()}
+			"support": hull.get_debug_mesh().get_faces(), "convex_shape": hull}
 	_grip_faces = _native_board_cache.grip
 	_wood_faces = _native_board_cache.wood
 	_wheel_surfaces.assign(_native_board_cache.wheels)
@@ -1132,7 +1141,7 @@ func board_contact_geometry() -> Dictionary:
 	# these shared cached arrays; mesh references point at the visible GLB.
 	return {"grip_faces": _grip_faces, "wood_faces": _wood_faces,
 		"wheels": _wheel_surfaces, "support_points": _board_support_points,
-		"meshes": _board_meshes}
+		"convex_shape": _native_board_cache.convex_shape, "meshes": _board_meshes}
 
 
 func _grip_height_at(point: Vector3) -> float:

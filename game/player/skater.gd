@@ -108,6 +108,8 @@ var _vert_start_yaw := 0.0
 var _vert_start_up := 0.0
 var _grind_visual_offset := Vector3.ZERO
 var _obstacle_visual_offset := Vector3.ZERO
+var _obstacle_ollie_continuation := false
+var _obstacle_shoe_bounds: Array[AABB] = []
 var _lip_feature: Dictionary = {}
 var _lip_across := 0.0
 var _lip_elapsed := 0.0
@@ -333,6 +335,17 @@ func _ready() -> void:
 	collision_layer = 2
 	collision_mask = 1 | 8
 	_build_skater()
+	# Cache each authored shoe envelope once; the air continuation reuses the
+	# existing board query/box and never scans rendered meshes per frame.
+	for leg: Dictionary in _visual_rig._legs:
+		var bounds := AABB()
+		var first := true
+		for child: Node in leg.foot.get_children():
+			if not child is MeshInstance3D or child.mesh == null: continue
+			var local: AABB = child.transform * child.mesh.get_aabb()
+			bounds = local if first else bounds.merge(local)
+			first = false
+		_obstacle_shoe_bounds.append(bounds)
 	# Prepare exact displayed-wheel landmarks at construction, before first play.
 	_camera_follow.prepare_board_landmarks(_visual_rig)
 	_grind_clearance.rebuild(_board_visual,_visual_rig.board_contact_geometry(),get_rid())
@@ -452,6 +465,7 @@ func reset_skater(preserve_camera:bool=false,preserve_support:bool=false) -> voi
 	_vert_return.clear()
 	_grind_visual_offset = Vector3.ZERO
 	_obstacle_visual_offset = Vector3.ZERO
+	_obstacle_ollie_continuation = false
 	transition_normal = Vector3.UP
 	_transition_cooldown = 0.0
 	lip_active = false
@@ -543,6 +557,7 @@ func begin_bail(reason: String, safe_position: Vector3 = Vector3.INF) -> void:
 	_discard_cached_support()
 	if _visual_rig.has_method("begin_bail"): _visual_rig.begin_bail()
 	_obstacle_visual_offset = Vector3.ZERO
+	_obstacle_ollie_continuation = false
 	# Retain only body-local interrupted presentation; native motion stays authoritative.
 	_bail_visual_basis=_visual.basis.orthonormalized()
 	_bail_visual_offset=_visual.position
@@ -1321,6 +1336,12 @@ func _physics_process(delta: float) -> void:
 			_launch_id="ollie"
 			_launch_impulse=_launch_base_impulse
 		_end_manual(false)
+		# Only this actual plain, flat-ground jump may carry a prior finite
+		# wall fit into air, including a real within-frame tap. Falls and
+		# transition launches never arm this presentation continuation.
+		_obstacle_ollie_continuation=grounded_before and _native_floor_valid \
+			and _native_floor_normal().y>0.999 and _launch_id=="ollie" \
+			and _obstacle_visual_offset.length_squared()>0.0
 		_begin_air()
 		_set_launch_mode()
 		velocity.y = maxf(0.0, velocity.y) + _launch_impulse
@@ -2188,17 +2209,42 @@ func _place_obstacle_wheels(delta: float) -> void:
 	# The upright locomotion capsule is narrower than the actual deck/shoes.
 	# Reuse its real vertical-wall contacts to fit only the connected figure;
 	# an obstacle must never move the physical actor or split feet from board.
-	if not _native_floor_valid or not is_on_floor() or airborne or _force_air_tick \
-			or manual_active or transition_active or grinding or wallriding or bail_active \
-			or setup_active or skitching or lip_active or crouching or powersliding \
-			or _flip_remaining>0.0 or _grab_remaining>0.0 or _special_remaining>0.0 \
+	if manual_active or transition_active or grinding or wallriding or bail_active \
+			or setup_active or skitching or lip_active or powersliding \
+			or _flip_remaining>0.0 or _grab_remaining>0.0 or _special_remaining>0.0:
+		_obstacle_visual_offset=Vector3.ZERO
+		_obstacle_ollie_continuation=false
+		return
+	if airborne:
+		# Continue only a real flat-ground jump's already proven fit into a
+		# plain Ollie. No new air correction, wall plane or floor support is
+		# invented: both proposals need fresh finite board/shoe clearance.
+		if _obstacle_ollie_continuation and not _ramp_air and _launch_id=="ollie" \
+				and _obstacle_visual_offset.is_finite() and _obstacle_visual_offset.length_squared()>0.0 \
+				and _obstacle_visual_offset.length()<=0.18:
+			var decay := _obstacle_visual_offset*exp(-maxf(0.0,delta)/0.045)
+			if decay.length_squared()<0.0000000001: decay=Vector3.ZERO
+			for attempt: int in 2:
+				var candidate := decay if attempt==0 else _obstacle_visual_offset
+				if attempt==1 and candidate==decay: continue
+				if not _obstacle_air_clear(candidate): continue
+				_visual.position+=global_basis.inverse()*candidate
+				_obstacle_visual_offset=candidate
+				if candidate==Vector3.ZERO: _obstacle_ollie_continuation=false
+				return
+		_obstacle_visual_offset=Vector3.ZERO
+		_obstacle_ollie_continuation=false
+		return
+	if not _native_floor_valid or not is_on_floor() or _force_air_tick \
 			or _ollie_pose_remaining>0.0 or _native_floor_normal().y<0.999:
 		_obstacle_visual_offset=Vector3.ZERO
+		_obstacle_ollie_continuation=false
 		return
 	var offset := _obstacle_visual_offset*exp(-maxf(0.0,delta)/0.045)
 	if offset.length_squared()<0.0000000001:offset=Vector3.ZERO
 	if offset==Vector3.ZERO and not is_on_wall():
 		_obstacle_visual_offset=Vector3.ZERO
+		_obstacle_ollie_continuation=false
 		return
 	var geometry: Dictionary=_visual_rig.board_contact_geometry()
 	var planes: Array[Vector4]=[]
@@ -2223,9 +2269,11 @@ func _place_obstacle_wheels(delta: float) -> void:
 				offset+=normal*(GROUND_PRESENTATION_SKIN-gap)
 	if offset.length_squared()<0.0000000001:
 		_obstacle_visual_offset=Vector3.ZERO
+		_obstacle_ollie_continuation=false
 		return
 	if not offset.is_finite() or offset.length()>0.18:
 		_obstacle_visual_offset=Vector3.ZERO
+		_obstacle_ollie_continuation=false
 		return
 	var floor_y := _visual.global_position.y-GROUND_PRESENTATION_SKIN
 	# A collision rebound can release the capsule while the longer deck still
@@ -2237,8 +2285,48 @@ func _place_obstacle_wheels(delta: float) -> void:
 		if not _obstacle_offset_supported(geometry,candidate,planes,floor_y):continue
 		_visual.position+=global_basis.inverse()*candidate
 		_obstacle_visual_offset=candidate
+		_obstacle_ollie_continuation=false
 		return
 	_obstacle_visual_offset=Vector3.ZERO
+	_obstacle_ollie_continuation=false
+
+
+func _obstacle_air_clear(offset: Vector3) -> bool:
+	# At most two proposals, each with one board and two shoe volume checks.
+	# Only an existing grounded fit reaches this path; ordinary clear skating
+	# adds no work. The skin prevents decay from accepting a near-wall clip.
+	var hull: Shape3D=_visual_rig.board_contact_geometry().get("convex_shape")
+	if hull==null: return false
+	var saved_shape := _grind_board_query.shape
+	var saved_size := _grind_board_box.size
+	var saved_margin := _grind_board_query.margin
+	var saved_transform := _grind_board_query.transform
+	_grind_board_query.margin=GROUND_PRESENTATION_SKIN-0.00001
+	var board: Transform3D=_board_visual.global_transform
+	board.origin+=offset
+	# The old box's empty lower nose corner intersects a wall while the real
+	# curved kick clears it. Reuse the actual cached whole-board convex hull.
+	_grind_board_query.shape=hull
+	_grind_board_query.transform=board
+	var space := get_world_3d().direct_space_state
+	var clear := space.intersect_shape(_grind_board_query,1).is_empty()
+	if clear:
+		_grind_board_query.shape=_grind_board_box
+		for index: int in _visual_rig._legs.size():
+			var bounds: AABB=_obstacle_shoe_bounds[index]
+			_grind_board_box.size=bounds.size
+			var shoe: Transform3D=_visual_rig._legs[index].foot.global_transform \
+				* Transform3D(Basis.IDENTITY,bounds.get_center())
+			shoe.origin+=offset
+			_grind_board_query.transform=shoe
+			if not space.intersect_shape(_grind_board_query,1).is_empty():
+				clear=false
+				break
+	_grind_board_box.size=saved_size
+	_grind_board_query.shape=saved_shape
+	_grind_board_query.margin=saved_margin
+	_grind_board_query.transform=saved_transform
+	return clear
 
 
 func _obstacle_offset_supported(geometry: Dictionary,offset: Vector3,planes: Array[Vector4],floor_y: float) -> bool:

@@ -39,7 +39,7 @@ To change a binding, pause and open **Controls**, select an action, then press t
 
 Release Push to coast and slow naturally; hold Brake for a quicker stop. Ground steering now turns more tightly. In the air, left/right visibly spins the skater while preserving flight direction; Q/E or the shoulder buttons are alternate spin inputs. Camera sensitivity changes how quickly the view follows, so it does not change the skater's turning rate. The camera keeps a third-person view and moves to the side when a wall blocks the usual rear view.
 
-Back returns to the menu you came from. Interaction prompts use your current keyboard or controller binding. Goal updates remain visible alongside an active combo.
+In menus, use the D-pad or left stick to move focus, Cross to select and Circle to go Back. Back returns to the menu you came from. These menu controls stay available when skating bindings change. Interaction prompts use your current keyboard or controller binding. Goal updates remain visible alongside an active combo.
 
 ## Graphics settings
 
