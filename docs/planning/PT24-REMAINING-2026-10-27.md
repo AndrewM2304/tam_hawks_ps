@@ -15,8 +15,12 @@ with **583 unchanged copied-source inputs**, ordinary title→play **50/0** and
 expected invalid-source refusal; the outer cold receipt retains the same
 677-input manifest. Eight inspected original native frames accompany a separate
 **8/0** capture pass. Distinct 203/0 and corrected wall 153/0 focused epochs and
-all earlier rejections remain preserved. Fresh unsigned Linux/universal-Mac
-packages are in progress; older packages retain their earlier source scope.
+all earlier rejections remain preserved. [Fresh unsigned Linux/universal-Mac
+packages](../testing/turn-wall-2026-10-28/packages/README.md) pass export/archive
+checks from clean **`33bd26d`**, with unchanged gameplay **`40a6615`**, **687
+committed source blobs** and identical native game packs. Ordinary Linux
+standalone headless/rendered startup passes in **57.995 s**, with its original
+title frame inspected. Older packages retain their earlier source scope.
 Normal station/train, pond/green and civic content remains available, with
 personal Music isolated.
 
@@ -32,10 +36,10 @@ personal Music isolated.
 | C08 career/save/encounters | Career16/0 completes all ten goals at83.87s and returns at90.38s/16,692points/zero bails; required06 passes. | Actual Mac save/relaunch and human pacing/discovery/tone/replayability. Further traffic/skitch, cone and extra-lap development stays deferred. |
 | C09 controls/UI/Music | Native menu/bindings/held-charge boundaries and actual CLI Music-isolation2/0 pass; personal account isolation remains intact. | Wired/Bluetooth DualSense/reconnect, target accessibility/display, personal Music/TCC/playback and listening. |
 | C10 runtime/performance | Camera/metadata/query reuse retains native parity. Board-ray24/0 has93 rays; required06 passes. [Startup follow-up](../testing/ledge-startup-2026-10-28/README.md) completes with no production change:1.983–1.990s baseline,10,248 queries/10,060 intervals/five guides; cache/point-proof candidates slower; exact inventory/ownership parity14/0. Final reason probe6/0, clean/stable675 inputs,11.184s, all original counters exact. Outcomes:92 accepted/257 low/5,813 first-high/3,898 first-nonfinite;96.53% high/nonfinite first samples. | Global height bound deferred: valid14.52m East Arrival Deck over13m support and real17m park terraces make a13m cap unsafe; a park-wide cap cannot screen17m station masonry. Complete callback/triangle/pond/bowl bounds require broader justified work. No normal/ORM removal is supported. Future justified startup optimization, target stutter/frame times, rejected ornament/facade timing and final human/art acceptance remain open. |
-| C11 integration/handoff | Repair source `40a6615` is pushed on main. Complete 5,888/0 plus actual Music 2/0, four cold phases with normal title→play 50/0, and eight inspected original native frames pass in their source-bound scopes. | Fresh unsigned Linux/universal-Mac packages and archive/standalone checks are in progress; existing packages do not contain these repairs. Actual Mac execution, Music Automation/TCC, physical controls, audio, saves, target performance and owner acceptance remain open. |
+| C11 integration/handoff | Repair source `40a6615` is pushed on main. Complete 5,888/0 plus actual Music 2/0, four cold phases with normal title→play 50/0, and eight inspected original native frames pass. Fresh unsigned Linux/universal-Mac exports and archive audit pass from clean `33bd26d`: 687 committed blobs and identical native packs. Ordinary Linux standalone headless/rendered startup passes in 57.995 s; its original title frame is inspected. | Actual Mac execution, Music Automation/TCC, physical controls, audio, saves, target performance and owner acceptance remain open. Existing older apps must be replaced or the updated source launched. No release/upload is performed. |
 
-Finish the fresh package handoff for this verified owner defect batch, then continue
-accepted independently actionable work. The facade attribution and startup diagnostics are
+The current owner defect batch and fresh local package handoff are verified.
+Continue accepted independently actionable work when a concrete task remains. The facade attribution and startup diagnostics are
 complete; retain their failed cost cells, slower proposals and deferred global
 bound without reopening them as the next task. Preserve main-only/non-force,
 no-spend/no-hosted-CI/no-release and personal Music isolation. Hardware and human

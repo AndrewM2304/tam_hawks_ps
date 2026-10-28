@@ -102,18 +102,36 @@ certify source launch and mapped gameplay, not target frame rate or Mac executio
 ## Original rendered evidence and handoff
 
 The [separate final native capture](captures/README.md) passes **8/0** in
-**32.300 s** on **680 unchanged inputs**, with eight original960×640 PNGs retained
+**32.300 s** on **680 unchanged inputs**, with eight original 960×640 PNGs retained
 and inspected. Mirrored wall-entry pairs use the unedited preceding controller
 and the repaired controller with identical current rig/assets; native body
-position, velocity and yaw match exactly in both46-sample pairs. Repaired early
+position, velocity and yaw match exactly in both 46-sample pairs. Repaired early
 release/Wallie and both left/right turned rollouts retain one connected rider.
 All eight completed-draw/interpolation witnesses and separate strict chase
 frustum/occlusion/sphere controls pass. The capture's plain fixtures and fixed
 clock do not certify whole-city art, moving target performance or human feel.
 Its earlier parser/native rejections remain separate and unchanged.
 
-Fresh unsigned Linux/universal-Mac packages are in progress. Older exports retain
-their recorded source and do not contain this repair. Ordinary merged content
-stays enabled and personal Music stays isolated. Actual Mac execution, physical
-controls, effective Music Automation/TCC, saves/audio, target performance, final
-art and human feel remain open. No release, upload or hosted CI is implied.
+[Fresh unsigned Linux/universal-Mac packages](packages/README.md) pass export
+and archive checks from clean commit **`33bd26d78e4314c8b3bfd082a17491bfb48ef640`**.
+Its gameplay remains the exact tested **`40a6615`** source. The archive audit
+verifies **687 committed source blobs**, ZIP CRC/path/execute flags, **13 notice
+records per package**, native resources and byte-identical Linux/Mac game packs.
+The existing export script reuses the admitted full check via `--skip-check`;
+it does not claim to run another complete suite.
+
+Ordinary Linux standalone Main startup passes in **57.995 s** from an empty
+working directory and isolated profile, both headless and rendered, with no
+script override or fixed clock. Its original 1920×1080 title PNG is retained and
+inspected. This startup check is separate from the fixed-clock gameplay/capture
+epochs and does not certify moving-route performance. Exact local build path,
+archive hashes, source maps, logs, observer and smoke records are in the package
+record. No Mac executable is launched; universal architecture/resource inspection
+is structural evidence, and signing/notarization remain disabled.
+
+Older apps retain their recorded source and do not contain this repair. Fully
+quit/relaunch the updated source, or replace an older app with the fresh build.
+Ordinary merged content stays enabled and personal Music stays isolated. Actual
+Mac execution, physical controls, effective Music Automation/TCC, saves/audio,
+target performance, final art and human feel remain open. These are local
+artifacts; no release, upload or hosted CI is performed.

@@ -30,8 +30,12 @@ invalid-source refusal; the copied source retains **583 stable inputs**. The
 outer cold receipt retains the same 677-input manifest in **56.457 s**.
 
 [Eight original native frames](../testing/turn-wall-2026-10-28/captures/README.md) and their separate
-**8/0** capture pass are retained and inspected. Fresh unsigned Linux/universal-Mac
-packages are in progress; older apps do not contain this repair. Ordinary
+**8/0** capture pass are retained and inspected. [Fresh unsigned Linux/universal-Mac
+packages](../testing/turn-wall-2026-10-28/packages/README.md) pass export and archive checks from clean
+**`33bd26d`**, with unchanged gameplay **`40a6615`**, **687 committed source blobs**
+and identical native game packs. Ordinary Linux standalone headless/rendered Main
+startup passes in **57.995 s**; the original 1920×1080 title frame is inspected.
+These are local artifacts; older apps do not contain this repair. Ordinary
 station/train, pond/green and civic content stays enabled; personal Music stays
 isolated. Actual Mac/controller, Music/TCC, target performance, final art and
 human feel remain open.

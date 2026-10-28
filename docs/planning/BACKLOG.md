@@ -8,9 +8,12 @@ expected invalid-source refusal. The outer cold receipt uses the same 677-input
 manifest. [Evidence and eight inspected original frames](../testing/turn-wall-2026-10-28/README.md)
 retain distinct focused/capture epochs and all rejected attempts.
 
-Fresh unsigned Linux/universal-Mac packages are in progress; historical exports
-retain their recorded source. Normal trial content remains available and personal
-Music isolated. Actual Mac/controls/Music/save, target timing/moving shadows,
+[Fresh unsigned Linux/universal-Mac packages](../testing/turn-wall-2026-10-28/packages/README.md)
+pass export/archive checks from clean **`33bd26d`**, gameplay **`40a6615`**, with
+**687 committed source blobs** and identical native game packs. Ordinary Linux
+standalone headless/rendered startup passes in **57.995 s**, with its original
+title frame inspected. Historical exports retain their recorded source. Normal
+trial content remains available and personal Music isolated. Actual Mac/controls/Music/save, target timing/moving shadows,
 final art and human route/feel acceptance remain open. The latest remaining
 work table owns those limits; completed creation and measured facade/startup
 follow-ups are not new implementation tickets. All prior backlog bytes below
