@@ -2565,6 +2565,9 @@ func _update_pose(delta: float) -> void:
 		var body_forward := _ramp_launch_forward.rotated(_ramp_air_normal, PI * body_progress)
 		var body_right := body_forward.cross(_ramp_air_normal).normalized()
 		var body_frame := Basis(body_right, _ramp_air_normal, -body_forward).orthonormalized()
+		# Ordinary air must continue from the body actually drawn on this
+		# ramp flight, before the separately earned trick yaw is applied.
+		_air_support_basis=(global_basis.inverse()*body_frame).orthonormalized()
 		_visual.basis = global_basis.inverse()*body_frame*Basis(Vector3.UP,visual_yaw)
 	if _transition.active:
 		var toe: Transform3D = _transition.feature.transform
@@ -3170,11 +3173,13 @@ func _place_air_landing_wheels(support: Dictionary) -> void:
 	if axis.y<=0.999: return
 	var point: Vector3=support.position
 	var original: Transform3D=_visual.global_transform
+	var original_local:Transform3D=_visual.transform
 	var board_local: Transform3D=original.affine_inverse()*_board_visual.global_transform
 	if _air_landing_wheel_gap(original*board_local,wheels,point,axis)>=0.0: return
 	var space:=get_world_3d().direct_space_state
 	# Every real bearing must have the same finite native landing plane. A
 	# centre ray's infinite plane cannot establish support at an edge/wall.
+	var behind_support:=false
 	for wheel: Dictionary in wheels:
 		var bearing: Vector3=_board_visual.to_global(wheel.center)
 		var query:=PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*.35,bearing-Vector3.UP*.50,collision_mask)
@@ -3182,6 +3187,7 @@ func _place_air_landing_wheels(support: Dictionary) -> void:
 		var hit:=space.intersect_ray(query)
 		if hit.is_empty() or Vector3(hit.normal).dot(axis)<0.999 \
 				or absf((Vector3(hit.position)-point).dot(axis))>0.001: return
+		behind_support=behind_support or (bearing-Vector3(hit.position)).dot(axis)<0.0
 	var overlaps:=false
 	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
 		_floor_wheel_query.shape=shape
@@ -3189,7 +3195,9 @@ func _place_air_landing_wheels(support: Dictionary) -> void:
 		_floor_wheel_query.motion=Vector3.ZERO
 		_floor_wheel_query.margin=0.0
 		overlaps=not space.intersect_shape(_floor_wheel_query,1).is_empty() or overlaps
-	if not overlaps: return
+	# A wholly buried tyre may not intersect a zero-thickness native floor.
+	# Its centre must still be behind its own verified finite native support.
+	if not overlaps and not behind_support: return
 	var local_axis: Vector3=global_basis.inverse()*axis
 	var landing_basis:=Basis.from_euler(Vector3(atan2(local_axis.z,local_axis.y),0,-asin(clampf(local_axis.x,-1,1))))
 	var yaw:=_spin_angle+_stance_angle+_air_grind_yaw-PI*(_revert_pose_remaining/REVERT_DURATION)
@@ -3209,7 +3217,11 @@ func _place_air_landing_wheels(support: Dictionary) -> void:
 		_floor_wheel_query.shape=shape
 		_floor_wheel_query.transform=fitted*board_local
 		if not space.intersect_shape(_floor_wheel_query,1).is_empty(): return
+	if not _manual_model_frame_clear(fitted*board_local):return
 	_visual.global_transform=fitted
+	if not _native_rim_frame_clear(_board_visual.global_transform,0.0):
+		_visual.transform=original_local
+		return
 	_air_support_basis=(_visual.basis*Basis(Vector3.UP,-yaw)).orthonormalized()
 
 

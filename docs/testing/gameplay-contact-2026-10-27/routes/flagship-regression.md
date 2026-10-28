@@ -124,3 +124,65 @@ distance is 0.858mm and body-joint gap 2.152mm. PNG SHA-256:
 This is contact/framing evidence for one static earned pose, not moving
 presentation, FPS, target Mac/controller or human feel acceptance. The next
 required full-suite run remains separate.
+
+## Finite ground-fit static frame
+
+[The final grounded capture](ground-contact-final-static/receipt.json) passes
+**1/0**, clean/stable on 675 inputs in 20.468 seconds, after a
+[clean parser check](ground-contact-final-parser/receipt.json). Native source
+manifest: `8f8cae7908993234562db0b94f74aeae0db1a1386cc99a37a0154fa64caf26cf`.
+
+[The native PNG](ground-contact-final-static/ordinary-ground-finite-rim-contact.png)
+uses current production Main/Skater and the original chase. Its one declared
+initial condition is root(-199.9204,13.01199,-176.7438), heading0, with all inputs
+released and30 real native settling updates. No later pose, velocity, model,
+rig or camera assignment is used. The actual native bank's top triangles match
+`Y=13+.15*(X+200)` over X[-200,-190], Z[-181,-177]. All four tyre centres remain
+outside Z-177, while72 retained vertices of one tyre extend into the finite
+bank footprint. A fresh native ray authenticates the same bank under its
+lowest relevant vertex; the resulting vertical gap is9.820mm.
+
+[The independent geometry/draw witness](ground-contact-final-static/capture-manifest.json)
+reports zero actual native overlaps for all four tyre volumes and all32
+connected board/model components. The rider remains grounded at zero velocity,
+with no bail or manufactured score; the original strict full-body chase check
+passes. All nine physical/drawn node frames agree, and actor tick33 stays33
+across two natural completed-draw signals. Shoe/deck distance is0.855mm. PNG
+SHA-256: `5dd1ae5222ac68cd848ae78585b8206cbcba493cee197b3151b43cd51d78366a`.
+This is one explicitly frozen static ground-contact diagnostic. Native queries
+establish the geometry result; pixels do not certify clearance, motion, FPS,
+target Mac/controller or human feel. Full required04 acceptance is separate.
+
+## Actual ramp-air handoff static frame — scoped, rejected diagnostic
+
+[The final handoff frame](clyde-handoff-second-static-rejected/ordinary-clyde-post-handoff.png)
+comes from current production Main/Skater and unchanged original `Clyde.run`,
+including its original declared starts and mapped inputs. A passive final
+presentation observer selects the actual Clyde bowl handoff at root
+(-10.11413,4.08752,128.82376): native1179 has ramp-air true and Feature air;
+native1180 has ramp-air false, Feature idle and force-air true, still airborne.
+Both engine and actor advance exactly one physics step; this mode-transition
+step makes no physical position move. The diagnostic then stops the suspended
+controller and scene for one explicitly static normal-chase image.
+
+[The retained draw witness](clyde-handoff-second-static-rejected/capture-manifest.json)
+records all nine actual native/drawn poses agreeing, unchanged chase, strict
+whole-rider camera clearance and actor tick1179→1179 across two natural draws.
+Shoe/deck distance is0.848mm and the body-joint gap is below1µm. PNG SHA-256:
+`6e3555fa5cbbed0b7b2d18bf14fcdf0fecc23632dd28f8922cc794c10e712deb`.
+
+This is **not a clean diagnostic admission**. The
+[first attempt](clyde-handoff-first-static-rejected/receipt.json) reports a
+float32 quaternion angle0.0750001519918442rad and rejects the unchanged .075rad
+bound. The [final attempt](clyde-handoff-second-static-rejected/receipt.json)
+uses normalized quaternion arithmetic in double precision and still retains
+a local-frame angle0.0750000189835264rad, above the same bound; its actual
+world-frame angle is0.0749999476099726rad. No tolerance is enlarged. Both static
+images/draw/framing witnesses pass independently, but the process also reports
+one suspended diagnostic-route resource at shutdown. Both exact rejected source
+epochs and the clean parser receipts remain archived. Final attempt25.622s,
+675 stable inputs; manifest:
+`ef6f22746e1c5732933c0d3c44f287e96aab400268fbacc54363e600d4ce30b7`.
+The original route stops at capture, so this image does not certify its later
+landing/full completion, continuous motion, FPS, Mac/controller or human feel.
+No production or test source changes were made for either capture.

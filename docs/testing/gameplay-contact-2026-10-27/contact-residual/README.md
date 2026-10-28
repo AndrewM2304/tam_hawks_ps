@@ -4,29 +4,34 @@ The latest relevant original-module prefix passes **53/0**. It runs complete
 original Gallery/Station (including both miss returns), Clyde, Civic/Park and
 Facility tests in that order on one ordinary Main/Skater. Every strict camera,
 finite-support, input and score assertion passes. Canonical Bowl/air, finite
-footprint and board-ray controls pass **63/0**.
+footprint and board-ray controls pass **68/0**; the unchanged canonical camera
+cohort passes **57/0** on the same final production source.
 
 The preceding whole-project run is retained at
-[required-third-rejected](../required-third-rejected/receipt.json): **5726/2**.
-It exposed a5.68mm Clyde phase difference and a finite tyre overhanging
-BeginnerArrivalBank while its centre was outside the bank. The first focused
-prefix also exposed a separate ParkGranitePathEdge shoulder contact. The final
-native controls and unchanged original-prefix camera checks cover these repairs;
-they do not stand in for the next whole-project check.
+[required-fourth-rejected](../required-fourth-rejected/receipt.json): **5734/1**.
+All contact and Facility checks passed there; three Clyde frustum frames exposed
+a94.889° ramp-air→ordinary-air body-frame discontinuity. The final repair retains
+the actual drawn pre-yaw body base. The resulting continuous flight also exposed
+a wholly buried tyre missed by thin-surface crossing queries; actual finite
+native support now permits the existing minimum landing fit. These repairs pass
+the native controls and original prefix. Required05 remains the whole-project
+acceptance authority.
 
 | Latest native record | Result | Stable inputs | Time |
 | --- | --- | ---: | ---: |
-| [Canonical Bowl34 + board-ray29 guards](static-affine-correct-guards/receipt.json) | **63/0** | 674 | 1.808s |
-| [Relevant original-module prefix](static-affine-original-prefix/receipt.json) | **53/0** | 674 | 76.434s |
+| [Full graph parser](buried-air-landing-parser/receipt.json) | clean | 673 | 2.919s |
+| [Canonical Bowl39 + board-ray29 guards](buried-air-landing-guards/receipt.json) | **68/0** | 674 | 1.906s |
+| [Relevant original-module prefix](buried-air-landing-original-prefix/receipt.json) | **53/0** | 674 | 77.280s |
+| [Canonical camera/natural-return cohort](buried-air-landing-camera/receipt.json) | **57/0** | 674 | 7.769s |
 
 The prefix binds manifest
-`38b67d696a0b9f5f6b989a8334b756a47fc203c60610d5926786387c9b4480ff`.
+`92f083d061190c9e1632df2f7e17460ce8fc539f975c3b55080be1a9467311c1`.
 It uses original test modules directly, with production Main and Skater and
 persistence disabled before tree entry. It changes no camera predicate,
 assertion, input or route waypoint. The complete Design sequence contains other
 modules before and between these selected modules; whole-project acceptance is
 reported separately. All records were archived before engine release and the
-handoff for one static ground-fit capture.
+handoff for one actual post-handoff static capture.
 
 ## Resulting behavior
 
@@ -70,13 +75,15 @@ reaches steel even when the capsule centre is beyond the old350mm query screen.
 The native finite-footprint fallback casts each cached real tyre over the same
 original+0.35m/−0.50m vertical reach. Native rest points, normals and exact bodies
 supply its supports. It runs only after an existing planar raised endpoint fails,
-or after the authenticated wrapped-bowl final refinement fails. The latter
-restarts from the original centre support plane, so it cannot gain another100mm
-budget. Three bounded fitting passes retain actual four-tyre and full connected
+authenticated wrapped-bowl final refinement fails, or an ordinary lowered
+candidate proves natively blocked. Retries start from the original centre
+support plane, so they cannot gain another100mm budget. Three bounded fitting passes retain actual four-tyre and full connected
 model clearance, the original100mm total lift and25mm refinement ceiling.
 Clear planar and successful mixed fits retain their existing path. The original
-93-ray parity controls, both16-ray split-step cases, unrelated steep refusals and
-foreign thin-blocker rejection remain unchanged and passing.
+93-ray request sequence and both16-ray split-step inputs retain native parity.
+The formerly rejected StepUpper frame remains independently blocked; a new
+alternative must prove actual native clearance. Unrelated steep refusals and
+foreign thin-blocker rejection remain passing.
 
 Ordinary lowered native fits retain the original rigid validator's diagnostic.
 A refusal must pass exact static native queries of all four tyres and32 connected
@@ -87,6 +94,23 @@ validation remains unchanged; a rejection string alone grants no permission.
 The old StepUpper frame still independently intersects the actual native step;
 its new alternative must be different and fully native-clear. An inherited-scale
 control and a real foreign nose blocker cover the same lower-fit branch.
+
+Assisted ramp flight now retains the base of the body it actually draws,
+**before** adding separately earned trick yaw. Ordinary air therefore continues
+from that frame using its existing4.5rad/s interpolation, rather than reviving
+a stale surface frame. The camera orbit and physical flight are unchanged. The
+nonzero-yaw control measures zero seed error and a0.074997rad first ordinary
+step under the existing0.075rad/tick bound.
+
+A tyre wholly behind a zero-thickness deck can produce no native volume crossing.
+The flat landing fitter still requires all four real centre rays to verify the
+same finite native plane. A tyre centre behind its own verified support can now
+establish burial as well as an existing volume crossing. The original eight
+math-only passes find the smallest rigid orientation; no translation is added.
+The proposed and actually assigned hierarchy must pass all four tyre and32
+connected-model native queries. A refused actual pose restores the exact local
+transform. The recorded rear centre91.6mm below AnnularDeck, empty tyre-crossing
+queries and foreign nose slab provide independent positive and negative controls.
 
 ## What the controls prove
 
@@ -107,6 +131,12 @@ required whole-project check or a Mac/controller trial.
 ## Retained rejected evidence
 
 Earlier failures remain immutable and explain the specific repairs:
+
+- [Handoff-only original prefix](ramp-air-handoff-original-prefix-rejected/receipt.json):
+  all frustum failures disappear, but the continuous body pose exposes the later
+  fully buried rear tyre. This52/1 record is not superseded as a whole-project pass.
+- [Fourth whole-project rejection](../required-fourth-rejected/receipt.json):
+ 5734/1 with three exact Clyde frustum frames and no remaining contact failures.
 
 - [First finite-footprint controls](finite-footprint-guards-first-rejected/receipt.json):
   bank controls passed, but the5.68mm Clyde phase still rejected. The

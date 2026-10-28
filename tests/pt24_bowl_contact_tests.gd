@@ -63,9 +63,11 @@ static func run(tree: SceneTree,check: Callable) -> void:
 	check.call(negative==3,"PT24 native bowl: all three recorded old-frame controls independently reproduce real tyre penetration")
 	_native_footprint_phase_controls(fixture,check)
 	await _controls(tree,fixture,check)
+	await _buried_air_landing_controls(tree,fixture,check)
 	await _air_landing_controls(tree,fixture,check)
 	await _air_offset_controls(tree,fixture,check)
 	await _feature_air_coping_controls(tree,fixture,check)
+	_ramp_air_pose_handoff_controls(fixture,check)
 	fixture.viewport.queue_free()
 	await tree.process_frame
 
@@ -118,6 +120,43 @@ static func _volumes_clear(rider: CharacterBody3D,pose: Transform3D) -> bool:
 		query.shape=shape
 		if not rider.get_world_3d().direct_space_state.intersect_shape(query,1).is_empty(): return false
 	return true
+
+
+static func _ramp_air_pose_handoff_controls(fixture:Dictionary,check:Callable)->void:
+	var rider:CharacterBody3D=fixture.rider
+	rider.reset_skater()
+	rider.global_transform=Transform3D(Basis(Vector3.UP,0.6),Vector3(200,30,200))
+	rider.airborne=true
+	rider._ramp_air=true
+	rider._force_air_tick=false
+	rider._ramp_air_normal=Vector3(0.723209,0,0.690626).normalized()
+	rider._ramp_launch_forward=Vector3(-0.690626,0,0.723209).normalized()
+	rider.velocity=Vector3(1.77,0.46,-4.27)
+	rider._spin_angle=0.7
+	rider._stance_angle=0.0
+	rider._air_grind_yaw=0.0
+	rider._air_support_basis=Basis(Vector3.UP,-1.1)
+	rider._surface_pitch=-0.2
+	var old_surface:Basis=rider._air_support_basis
+	rider._update_pose(1.0/60.0)
+	# Derive the contract from the actual drawn figure, not a duplicate of
+	# the assisted-return formula. Earned yaw is a separate local rotation.
+	var drawn_base:Basis=(rider._visual.basis*Basis(Vector3.UP,-0.7)).orthonormalized()
+	var seed_error:float=drawn_base.get_rotation_quaternion().angle_to(rider._air_support_basis.get_rotation_quaternion())
+	var stale_gap:float=drawn_base.get_rotation_quaternion().angle_to(old_surface.get_rotation_quaternion())
+	check.call(stale_gap>PI/4 and seed_error<0.00001,
+		"PT24 air pose: horizontal-normal ramp flight retains its actual pre-yaw body frame instead of a stale surface frame")
+	var previous:Basis=rider._visual.basis
+	rider._ramp_air=false
+	rider._force_air_tick=true
+	var physical:=_state(rider)
+	var board_local:Transform3D=rider._board_visual.transform
+	rider._update_pose(1.0/60.0)
+	var angle:float=previous.get_rotation_quaternion().angle_to(rider._visual.basis.get_rotation_quaternion())
+	check.call(angle<=4.5/60.0+0.00001 and _state(rider)==physical
+		and rider._board_visual.transform==board_local and rider._spin_angle==0.7,
+		"PT24 air pose: ramp-to-ordinary handoff keeps the existing4.5rad/s body limit, earned yaw, local board and physical flight")
+	print("PT24_RAMP_AIR_POSE_HANDOFF ",{"stale_angle":stale_gap,"seed_error":seed_error,"first_ordinary_angle":angle})
 
 
 static func _state(body: CharacterBody3D) -> Dictionary:
@@ -191,6 +230,65 @@ static func _controls(tree: SceneTree,fixture: Dictionary,check: Callable) -> vo
 		if point.x>26 and point.x<34:
 			check.call(fixed.is_empty(),"PT24 native bowl: an unrelated actual steep plane still cannot acquire the wrapped-bowl exception")
 	fixture.quarter=quarter
+
+
+static func _buried_air_landing_controls(tree:SceneTree,fixture:Dictionary,check:Callable)->void:
+	var rider:CharacterBody3D=fixture.rider
+	rider.reset_skater()
+	rider.global_transform=Transform3D(Basis(Vector3.UP,-0.65),Vector3(-9.796431,2.129778,127.7172))
+	rider.airborne=true
+	rider.velocity=Vector3(1.0558074,-11.341945,-3.6876566)
+	var recorded:=Basis(Vector3(.743844,.620413,-.24856),Vector3(-.074727,.44677,.891521),Vector3(.664161,-.64458,.378689)).orthonormalized()
+	rider._visual.global_transform=Transform3D(recorded,rider.global_position)
+	var original:Transform3D=rider._visual.global_transform
+	var board_local:Transform3D=rider._board_visual.transform
+	var before:=_state(rider)
+	var support:Dictionary=rider._native_floor_hit(Vector3.UP)
+	var minimum_center:=INF
+	var crossings:=0
+	var wheels:Array=rider._visual_rig.board_contact_geometry().wheels
+	var space:=rider.get_world_3d().direct_space_state
+	var query:=PhysicsShapeQueryParameters3D.new()
+	query.transform=rider._board_visual.global_transform
+	query.collision_mask=1|2|8
+	query.exclude=[rider.get_rid()]
+	query.margin=0.0
+	for index:int in wheels.size():
+		minimum_center=minf(minimum_center,rider._board_visual.to_global(wheels[index].center).y-2.0)
+		query.shape=rider._floor_wheel_shapes[index]
+		crossings+=int(not space.intersect_shape(query,1).is_empty())
+	check.call(not support.is_empty() and support.collider==fixture.bowl._native_annular_deck
+		and minimum_center<-.08 and crossings==0,
+		"PT24 air landing: retained real rear tyre is wholly behind its finite native deck although all four tyre-volume crossing queries are empty")
+	rider._place_air_landing_wheels(support)
+	var corrected:Transform3D=rider._board_visual.global_transform
+	var gap:float=rider._air_landing_wheel_gap(corrected,wheels,Vector3(support.position),Vector3.UP)
+	check.call(gap>=0.008 and rider._native_rim_frame_clear(corrected,0.0)
+		and _state(rider)==before and rider._visual.global_position==original.origin
+		and rider._board_visual.transform==board_local,
+		"PT24 air landing: smallest native-clear rigid fit catches a fully buried tyre without translating the figure or changing physical flight/local board")
+	var blocker:=StaticBody3D.new()
+	blocker.name="ForeignBuriedAirNose"
+	blocker.collision_layer=1
+	blocker.collision_mask=0
+	var collision:=CollisionShape3D.new()
+	var shape:=BoxShape3D.new();shape.size=Vector3(.5,.3,.002);collision.shape=shape
+	blocker.add_child(collision)
+	fixture.root.add_child(blocker)
+	blocker.global_transform=corrected*Transform3D(Basis.IDENTITY,Vector3(0,0,-.4))
+	await tree.physics_frame
+	await tree.process_frame
+	var endpoint_tyres:bool=_volumes_clear(rider,corrected)
+	var endpoint_blocked:bool=not rider._manual_model_frame_clear(corrected)
+	rider._visual.global_transform=original
+	var blocked_original:Transform3D=rider._visual.global_transform
+	rider._place_air_landing_wheels(support)
+	check.call(endpoint_tyres and endpoint_blocked and rider._visual.global_transform==blocked_original
+		and _state(rider)==before and rider._board_visual.transform==board_local,
+		"PT24 air landing: a foreign nose slab missed by all four tyres still refuses the actual connected-model endpoint")
+	blocker.queue_free()
+	await tree.physics_frame
+	await tree.process_frame
 
 
 static func _air_landing_controls(tree: SceneTree,fixture: Dictionary,check: Callable) -> void:

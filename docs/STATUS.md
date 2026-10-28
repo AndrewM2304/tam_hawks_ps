@@ -1,26 +1,28 @@
-# Latest native contact trial checkpoint — 28 October2026
+# Ramp-air continuity and finite landing follow-up — 28 October2026
 
-The complete original-module same-skater replay passes53/0 in76.434s: Gallery,
-Station, both miss returns, Clyde, Civic/Park and the facility retain their strict
-camera, native geometry and scoring checks. Canonical native guards pass63/0,
-including both bowl entry phases, the partial bank footprint, inherited affine
-frames and foreign blockers. Exact receipts are in
-[contact-residual](testing/gameplay-contact-2026-10-27/contact-residual/README.md).
-This source checkpoint adds finite tyre support and exact native board/model
-checks to the existing main trial. The previous required03 remains rejected at
-5726/2 on its own earlier source; the new fourth whole-project check, cold launch
-and packages are pending. Work continues after this push. Normal trial content
-stays enabled and personal Music isolated.
+Current trial source preserves the actual drawn support orientation when ramp air
+ends, removing the recorded94.889degree pose jump. Flat landing also recognises a
+real tyre centre behind its verified native deck plane when a completely buried
+tyre no longer crosses the zero-thickness surface. Actual hierarchical tyre and
+all32 connected model checks retain foreign blockers and physical flight.
+
+Native guards68/0, the original-module same-actor route prefix53/0 and the current
+camera cohort57/0 pass. The new post-handoff PNG visibly retains the connected
+rider/board and nine native/drawn poses match; its auxiliary capture observer
+remains rejected for an18.98nanoradian local-angle excess and a suspended test-route
+cleanup resource. Those rejected receipts remain explicit, not relabelled passes.
+The preceding fourth whole run is5734/1 on its own earlier source; fresh required05,
+cold launch and packages remain pending. Work continues after this source push.
 
 ---
 
-# Main trial checkpoint; third full run leaves two contact failures — 28 October2026
+# Latest contact repair pushed; required04 running — 28 October2026
 
-Trial main173da24 (gameplay983de93) is pushed for the owner. Latest contact repairs extend that checkpoint and remain unpushed. [The third required run](testing/gameplay-contact-2026-10-27/README.md) is **rejected:5,726 passed,2 failed**,622.989s on673 stable inputs. Its archive resolves670 inputs to parent173da24 and retains three exact changed snapshots. Both failures are strict camera contact in the longer C04-L05 Clyde and C04-L06 Facility sequences: a centre support ray misses finite ledge/coping by millimetres while the actual tyre footprint remains over it.
+The latest native tyre-footprint and airborne contact repair is **pushed to main8cc97f9**. The owner can trial this source now. [Exact focused evidence](testing/gameplay-contact-2026-10-27/README.md) passes the original relevant-module same-skater prefix53/0 in76.434s, including Gallery/Station, both miss returns, full Clyde, Civic/Park and Facility strict camera/native-support/scoring checks. Canonical guards pass63/0. The real-bank static capture passes1/0 in20.468s, with72 tyre vertices overhanging while centres are outside, four clear tyre hulls,32 clear connected pieces and nine matched completed-draw poses.
 
-The actual-hierarchy Clyde11/0 and bowl/air32/0 focuses retain their exact passing scope; they do not admit these longer prefixes. A native finite four-tyre support fallback is being implemented without changing the capsule or visibility limits. The next required path is fresh `.local/gameplay-contact-required-04`; it has not started. Required01/02/03 are failed evidence. No current whole-project admission, fresh cold launch, packages or latest-repair push is claimed.
+The fourth required whole-project run is **running on frozen source**, not admitted, at `.local/gameplay-contact-required-04`. Required03 remains rejected5,726/2 on its earlier code; the new focused passes do not relabel that receipt or substitute for required04. Fresh cold launch and unsigned packages remain pending. All earlier failed epochs retain their exact source scope.
 
-Package audit must explicitly bind the future admitted required04 receipt and matching before/after maps. Ordinary station/train/pond/green/civic content stays enabled and Music isolated. Continue directly on main after the trial checkpoint, preserving non-force/no-spend/no-hosted-CI/no-release constraints. Mac/controller, human feel and final-art acceptance remain open. Facade attribution stays queued after gameplay packages. Historical sections below retain their exact source scope.
+Package audit must explicitly bind the future admitted required04 receipt and matching before/after maps. Ordinary station/train/pond/green/civic content stays enabled and Music isolated. Work continues directly on main after this push, preserving non-force/no-spend/no-hosted-CI/no-release constraints. Mac/controller, human feel and final-art acceptance remain open. Facade attribution stays queued after gameplay packages. Historical sections below retain their source scope.
 
 ---
 

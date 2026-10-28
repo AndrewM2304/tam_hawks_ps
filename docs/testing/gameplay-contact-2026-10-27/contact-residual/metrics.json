@@ -1,5 +1,5 @@
 {
-  "scope": "Focused original-module same-actor Gallery/Station\u2192Clyde\u2192Civic/Park\u2192Facility prefix53/0 and canonical native controls63/0; whole-project/platform acceptance reported separately.",
+  "scope": "Final native controls68/0, original-module same-actor prefix53/0, canonicalCamera57/0 on current production source; required05 whole-project/platform acceptance reported separately.",
   "runs": {
     "actual-hierarchy-parser": {
       "valid": true,
@@ -211,6 +211,116 @@
       "source_inputs": 674,
       "source_manifest_sha256": "38b67d696a0b9f5f6b989a8334b756a47fc203c60610d5926786387c9b4480ff",
       "git_head": "173da24abde7f4ceeaf1abc389473d2285f7dc7c"
+    },
+    "ramp-air-handoff-parser": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "wall_seconds": 2.758753051995882,
+      "source_inputs": 673,
+      "source_manifest_sha256": "3c9eca23e023447d4a0ce06276fcee76aaf521da083a3cb9a6a0d0cf6093bb9f",
+      "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+    },
+    "ramp-air-handoff-guards": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "65",
+          "0"
+        ]
+      ],
+      "wall_seconds": 1.8060274370000116,
+      "source_inputs": 674,
+      "source_manifest_sha256": "1bb9530fb0b11b98090b1ee822eaa461c97ceba0ddc8b2400b773037a78a21a0",
+      "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+    },
+    "ramp-air-handoff-original-prefix-rejected": {
+      "valid": false,
+      "source_stable": true,
+      "clean_log": false,
+      "result_counts": [
+        [
+          "52",
+          "1"
+        ]
+      ],
+      "wall_seconds": 77.18683523599611,
+      "source_inputs": 674,
+      "source_manifest_sha256": "2c230c3042213ee05b424694dad8395d09f36e9ab24f8deb779f08fecfeebb04",
+      "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+    },
+    "ramp-air-handoff-camera": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "57",
+          "0"
+        ]
+      ],
+      "wall_seconds": 7.869901536003454,
+      "source_inputs": 674,
+      "source_manifest_sha256": "7fa14f03f9f402c7f07a3130174b808228d6ea5e2a1b7f5caaf4b6b776a897ad",
+      "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+    },
+    "buried-air-landing-parser": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "wall_seconds": 2.919361640997522,
+      "source_inputs": 673,
+      "source_manifest_sha256": "1df10b57d66e5a667ec2b7cca9a68a618809d3ce13aab65702ea4fe8dd274d07",
+      "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+    },
+    "buried-air-landing-guards": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "68",
+          "0"
+        ]
+      ],
+      "wall_seconds": 1.9057672019989695,
+      "source_inputs": 674,
+      "source_manifest_sha256": "45ef5a4dea00e26fd704954255b510ceb6b8a89dff3575d0b141e0efef788932",
+      "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+    },
+    "buried-air-landing-original-prefix": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "53",
+          "0"
+        ]
+      ],
+      "wall_seconds": 77.27990516799764,
+      "source_inputs": 674,
+      "source_manifest_sha256": "92f083d061190c9e1632df2f7e17460ce8fc539f975c3b55080be1a9467311c1",
+      "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+    },
+    "buried-air-landing-camera": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "57",
+          "0"
+        ]
+      ],
+      "wall_seconds": 7.768611694998981,
+      "source_inputs": 674,
+      "source_manifest_sha256": "3d61661f5d33d5cbb8ad9f1949cbaef5ff75beef207760227053cdb557a54569",
+      "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
     }
   },
   "resolved_prefix_witness": {
@@ -236,7 +346,27 @@
   },
   "limits": [
     "Relevant original modules retain exact functions, order and same actor; this omits other full Design modules before/between them.",
-    "Whole-project required04 remains the final admission authority.",
+    "Required04 remains an immutable5734/1 rejection; required05 is the next whole-project authority.",
     "Native headless/static evidence does not certify Mac/controller feel."
-  ]
+  ],
+  "pose_handoff": {
+    "retained_full_fourth_discontinuity_degrees": 94.88934539195249,
+    "native_regression_stale_angle_radians": 2.3662269115448,
+    "native_regression_seed_error_radians": 0.0,
+    "native_regression_first_ordinary_angle_radians": 0.07499697059393,
+    "existing_rate_limit_radians_per_second": 4.5,
+    "physics_or_camera_changed": false
+  },
+  "buried_tyre": {
+    "native_body": "AnnularDeck",
+    "root": [
+      -9.796431,
+      2.129778,
+      127.7172
+    ],
+    "recorded_minimum_tyre_plane_gap_m": -0.123064994812012,
+    "tyre_volume_crossing_queries": 0,
+    "proof": "All four actual finite support rays; a real tyre centre behind its own native plane; proposed and actual hierarchy tyre/full-model clearance; foreign nose endpoint refusal.",
+    "physical_translation_added": false
+  }
 }

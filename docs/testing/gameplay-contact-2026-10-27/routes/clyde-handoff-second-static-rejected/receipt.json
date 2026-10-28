@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T05:47:24.312574+00:00",
+  "completed_london": "2026-10-28T05:47:49.934764+00:00",
+  "wall_seconds": 25.622190971997043,
+  "command": [
+    "timeout",
+    "45s",
+    "python3",
+    ".local/handoff_final_capture/run_rendered.py",
+    "--script",
+    ".local/handoff_final_capture/capture.gd",
+    "--output",
+    ".local/clyde-handoff-second-static-image"
+  ],
+  "exit_code": 1,
+  "source_inputs": 675,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "0",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "ef6f22746e1c5732933c0d3c44f287e96aab400268fbacc54363e600d4ce30b7",
+  "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+}
