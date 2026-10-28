@@ -1,37 +1,38 @@
 # Finite native support and bowl release contact
 
-The latest relevant original-module prefix passes **53/0**. It runs complete
-original Gallery/Station (including both miss returns), Clyde, Civic/Park and
-Facility tests in that order on one ordinary Main/Skater. Every strict camera,
-finite-support, input and score assertion passes. Canonical Bowl/air, finite
-footprint and board-ray controls pass **68/0**; the unchanged canonical camera
-cohort passes **57/0** on the same final production source.
+The **whole original default Design integration passes203/0** on the final
+source. It uses its original Main, shared actor, complete module order, inputs
+and assertions, including every module omitted by the earlier focused prefixes.
+Canonical Bowl/air and board-ray controls pass **68/0**; the canonical camera
+cohort passes **63/0** on that same production source.
 
-The preceding whole-project run is retained at
-[required-fourth-rejected](../required-fourth-rejected/receipt.json): **5734/1**.
-All contact and Facility checks passed there; three Clyde frustum frames exposed
-a94.889° ramp-air→ordinary-air body-frame discontinuity. The final repair retains
-the actual drawn pre-yaw body base. The resulting continuous flight also exposed
-a wholly buried tyre missed by thin-surface crossing queries; actual finite
-native support now permits the existing minimum landing fit. These repairs pass
-the native controls and original prefix. Required05 remains the whole-project
-acceptance authority.
+The preceding whole-project run remains an immutable
+[required-fifth-rejected](../required-fifth-rejected/receipt.json): **5739/1**.
+It exposed a remaining Clyde camera-height discontinuity after body continuity
+and native contacts had been repaired. The subsequent first-frustum witness
+proved that the remembered launch floor was1.689m while the actual body was4.099m.
+The camera followed this stale height through its handoff. The final camera
+keeps the real body axis and live height through the same ramp-origin flight,
+clearing that authority on ground/reset or a genuine new weighted flat pop.
+Ordinary flat jumps retain their original quiet-height window.
 
-| Latest native record | Result | Stable inputs | Time |
+| Final native record | Result | Stable inputs | Time |
 | --- | --- | ---: | ---: |
-| [Full graph parser](buried-air-landing-parser/receipt.json) | clean | 673 | 2.919s |
-| [Canonical Bowl39 + board-ray29 guards](buried-air-landing-guards/receipt.json) | **68/0** | 674 | 1.906s |
-| [Relevant original-module prefix](buried-air-landing-original-prefix/receipt.json) | **53/0** | 674 | 77.280s |
-| [Canonical camera/natural-return cohort](buried-air-landing-camera/receipt.json) | **57/0** | 674 | 7.769s |
+| [Full graph parser](camera-ramp-descent-parser/receipt.json) | clean | 673 | 2.710s |
+| [Canonical Bowl39 + board-ray29 guards](camera-ramp-descent-guards/receipt.json) | **68/0** | 674 | 1.706s |
+| [Canonical camera/natural-return cohort](camera-ramp-descent-native/receipt.json) | **63/0** | 674 | 8.423s |
+| [Whole original default Design integration](camera-ramp-descent-complete-design/receipt.json) | **203/0** | 674 | 144.040s |
 
-The prefix binds manifest
-`92f083d061190c9e1632df2f7e17460ce8fc539f975c3b55080be1a9467311c1`.
-It uses original test modules directly, with production Main and Skater and
-persistence disabled before tree entry. It changes no camera predicate,
-assertion, input or route waypoint. The complete Design sequence contains other
-modules before and between these selected modules; whole-project acceptance is
-reported separately. All records were archived before engine release and the
-handoff for one actual post-handoff static capture.
+The complete Design record binds manifest
+`7239a3c658ec0f468ce6e27e65da0172754c0258456b61875a72c363dfff1c5c`.
+Its ignored runner calls the original Design entry directly. It uses production
+Main/Skater, disables persistence before tree entry, and adds no observer,
+adapter, content opt-in, pose assignment, altered input or camera predicate.
+Clyde retains all483 strict chase samples, Civic earns its exact13882-point
+receipt once, and Facility completes385.784m on supported ground with zero bails
+and clear chase. The next whole-project required06 remains the acceptance
+authority beyond this complete Design scope. All records were archived before
+the engine/source lease was released.
 
 ## Resulting behavior
 
@@ -112,6 +113,22 @@ connected-model native queries. A refused actual pose restores the exact local
 transform. The recorded rear centre91.6mm below AnnularDeck, empty tyre-crossing
 queries and foreign nose slab provide independent positive and negative controls.
 
+The camera publishes and follows the unscored body support axis through its
+ramp-to-ordinary-air handoff, including both interpolation endpoints. The native
+short-arm control retains full original head/board/sole-hull framing at1.8m with
+a0.06651m anchor step and0.44263m camera move, below the unchanged0.8m/tick cap.
+Ground and ordinary no-exit camera axes remain unchanged.
+
+The exact-context diagnostic disproved a minimum-arm explanation: its camera
+volume was clear and native usability was true, with3.760m to an anchor incorrectly
+placed atY1.689. Its body was atY4.099, and the visible targets could not fit the
+lens by aim alone. The ground-height cache now follows the same ramp-origin
+airborne continuation through descent after the zoom-exit timer expires. Ground,
+reset and an independently authorised weighted flat takeoff clear that state;
+a rendered ground frame is not required for the latter. No field of view,
+collision clearance, camera speed, physical movement or ordinary flat-jump
+height window was changed.
+
 ## What the controls prove
 
 All earlier native Bowl tyre/support, locomotion parity and ordinary/unrelated
@@ -131,6 +148,17 @@ required whole-project check or a Mac/controller trial.
 ## Retained rejected evidence
 
 Earlier failures remain immutable and explain the specific repairs:
+
+- [Fifth whole-project rejection](../required-fifth-rejected/receipt.json):5739/1,
+  continuous body pose and no contact failures, but a stale-height camera handoff.
+- [Exact first-frustum witness](camera-support-up-first-frustum-witness/receipt.json):
+  source-stable diagnostic only; anchor/native usability, actual anatomical
+  vertex and infeasible angular spans are retained without route acceptance.
+- [Height handoff alone](camera-ramp-height-true-design-prefix/receipt.json):
+  original Design prelude through Clyde passes108/0, while the subsequent
+  [relevant subset](camera-ramp-height-relevant-prefix-rejected/receipt.json)
+  exposes a late Civic descent after the exit timer. The final whole-Design
+  203/0 record includes both contexts and all intervening original modules.
 
 - [Handoff-only original prefix](ramp-air-handoff-original-prefix-rejected/receipt.json):
   all frustum failures disappear, but the continuous body pose exposes the later

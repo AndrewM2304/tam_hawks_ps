@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-28T06:10:47.240306+00:00",
+  "completed_london": "2026-10-28T06:10:48.700403+00:00",
+  "wall_seconds": 1.4600939129959443,
+  "command": [
+    "timeout",
+    "10s",
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    ".local/clyde_true_frustum_witness.gd",
+    "--check-only"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "5ec98fef12e82092218274b27e6131baa502f8182953d5550e72c7100a7f65f4",
+  "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+}

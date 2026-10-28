@@ -2551,7 +2551,8 @@ func _update_pose(delta: float) -> void:
 		# Rotate the visible rider/board around the body, preserving the collision origin.
 		var tumble_pivot := Vector3.UP * 0.8
 		_visual.position = tumble_pivot - _visual.basis * tumble_pivot
-	_ramp_air_frame = global_basis * _air_support_basis if _feature_transition.active else global_basis * Basis(Vector3.RIGHT,_surface_pitch)
+	# Keep the unscored body support available through ordinary-air handoff.
+	_ramp_air_frame = global_basis * _air_support_basis if _feature_transition.active or airborne else global_basis * Basis(Vector3.RIGHT,_surface_pitch)
 	if airborne and _ramp_air:
 		# Camera orbit and rider orientation are independent. The camera keeps its
 		# agreed apex arc; the assisted body return has its own slower curve.

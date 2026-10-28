@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T06:05:42.198658+00:00",
+  "completed_london": "2026-10-28T06:06:29.362049+00:00",
+  "wall_seconds": 47.1633928539959,
+  "command": [
+    "timeout",
+    "150s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/clyde_true_design_prefix.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "107",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "c3071b0f8fbb5b5904ea20884387433311cf29ffb23a5a837657efd5724734e8",
+  "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+}

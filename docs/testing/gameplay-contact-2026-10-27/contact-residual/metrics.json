@@ -1,5 +1,5 @@
 {
-  "scope": "Final native controls68/0, original-module same-actor prefix53/0, canonicalCamera57/0 on current production source; required05 whole-project/platform acceptance reported separately.",
+  "scope": "Whole original default Design integration203/0, canonical camera63/0 and native Bowl/board68/0 on final production source; whole-project required06/platform acceptance reported separately.",
   "runs": {
     "actual-hierarchy-parser": {
       "valid": true,
@@ -321,6 +321,216 @@
       "source_inputs": 674,
       "source_manifest_sha256": "3d61661f5d33d5cbb8ad9f1949cbaef5ff75beef207760227053cdb557a54569",
       "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+    },
+    "camera-support-up-parser": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "wall_seconds": 2.758285147996503,
+      "source_inputs": 673,
+      "source_manifest_sha256": "ff2f7a3f8908aa13c10f0fa81e628b5e64df5baf949c745ec6ba7e39f5afe9d0",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-support-up-native": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "60",
+          "0"
+        ]
+      ],
+      "wall_seconds": 8.119431445004011,
+      "source_inputs": 674,
+      "source_manifest_sha256": "99e9b19fe83e5ce17c8b01a4cf63f8215b706890e7b76cf2cabf6d63584f3da8",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-support-up-guards": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "68",
+          "0"
+        ]
+      ],
+      "wall_seconds": 1.8062282109967782,
+      "source_inputs": 674,
+      "source_manifest_sha256": "4b037274e00f5eba70da66949a8bbf035100b02d24ecb17951a09b07080c23c2",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-support-up-true-design-prefix-rejected": {
+      "valid": false,
+      "source_stable": true,
+      "clean_log": false,
+      "result_counts": [
+        [
+          "107",
+          "1"
+        ]
+      ],
+      "wall_seconds": 47.1633928539959,
+      "source_inputs": 674,
+      "source_manifest_sha256": "c3071b0f8fbb5b5904ea20884387433311cf29ffb23a5a837657efd5724734e8",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-support-up-witness-parser-rejected": {
+      "valid": false,
+      "source_stable": true,
+      "clean_log": false,
+      "result_counts": [],
+      "wall_seconds": 0.2020219289988745,
+      "source_inputs": 674,
+      "source_manifest_sha256": "8d2316fcdc47a9b6d4d37e699f0d5a2e1c3afdece16dda1fc137e72b0e9faf79",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-support-up-witness-parser-second": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "wall_seconds": 1.4600939129959443,
+      "source_inputs": 674,
+      "source_manifest_sha256": "5ec98fef12e82092218274b27e6131baa502f8182953d5550e72c7100a7f65f4",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-support-up-first-frustum-witness": {
+      "valid": false,
+      "source_stable": true,
+      "clean_log": false,
+      "result_counts": [],
+      "wall_seconds": 47.57103782600461,
+      "source_inputs": 674,
+      "source_manifest_sha256": "5ec98fef12e82092218274b27e6131baa502f8182953d5550e72c7100a7f65f4",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-ramp-height-parser": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "wall_seconds": 2.909318948004511,
+      "source_inputs": 673,
+      "source_manifest_sha256": "0b20b40115aa5413b9e2783d4e5bd3f9838a76f43436ad069fe45db9a3c1c747",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-ramp-height-native": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "61",
+          "0"
+        ]
+      ],
+      "wall_seconds": 8.424673405002977,
+      "source_inputs": 674,
+      "source_manifest_sha256": "875f6e4eb387be2eae2fcfdfb15802d225e769c61a1ef23d442e6a8857b76c2a",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-ramp-height-guards": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "68",
+          "0"
+        ]
+      ],
+      "wall_seconds": 1.8063183379999828,
+      "source_inputs": 674,
+      "source_manifest_sha256": "d98bad2ef96f7fd0b2e3d9efd9e6f17cee63c91551c83b960e67f62aadb59252",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-ramp-height-true-design-prefix": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "108",
+          "0"
+        ]
+      ],
+      "wall_seconds": 47.263853552998626,
+      "source_inputs": 674,
+      "source_manifest_sha256": "cecc2b33508af8093f9875edb6ba9cdce4a2a66943478bc19c1418f9ae6db13a",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-ramp-height-relevant-prefix-rejected": {
+      "valid": false,
+      "source_stable": true,
+      "clean_log": false,
+      "result_counts": [
+        [
+          "52",
+          "1"
+        ]
+      ],
+      "wall_seconds": 77.1815087280047,
+      "source_inputs": 674,
+      "source_manifest_sha256": "02e3f93320d9f53c340ccb792dade798e58a218060c417427fa2ced681e8dc66",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-ramp-descent-parser": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "wall_seconds": 2.709996329002024,
+      "source_inputs": 673,
+      "source_manifest_sha256": "0c35be0f37a115c77c7df9b9bd49756a2dd41435d816be1eaa7d6011ec16a7da",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-ramp-descent-native": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "63",
+          "0"
+        ]
+      ],
+      "wall_seconds": 8.422801207998418,
+      "source_inputs": 674,
+      "source_manifest_sha256": "da8565bfbacba6743e7c8b3b757aa1be33ecf50420214b993009de7f204fc235",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-ramp-descent-guards": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "68",
+          "0"
+        ]
+      ],
+      "wall_seconds": 1.7059238170040771,
+      "source_inputs": 674,
+      "source_manifest_sha256": "4101330e5934eba40ff4a8c75167b53aeb85f1461b682474dd05d3e647c011e4",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+    },
+    "camera-ramp-descent-complete-design": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "203",
+          "0"
+        ]
+      ],
+      "wall_seconds": 144.040138286,
+      "source_inputs": 674,
+      "source_manifest_sha256": "7239a3c658ec0f468ce6e27e65da0172754c0258456b61875a72c363dfff1c5c",
+      "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
     }
   },
   "resolved_prefix_witness": {
@@ -345,8 +555,8 @@
     "status": "Original-module same-actor prefix53/0; exact static affine/native finite support repair, no camera/route changes."
   },
   "limits": [
-    "Relevant original modules retain exact functions, order and same actor; this omits other full Design modules before/between them.",
-    "Required04 remains an immutable5734/1 rejection; required05 is the next whole-project authority.",
+    "The complete original Design integration passes203/0; the whole-project required06 is the next overall acceptance authority.",
+    "Required05 remains an immutable5739/1 rejection, and every earlier prefix retains its exact historical source/scope.",
     "Native headless/static evidence does not certify Mac/controller feel."
   ],
   "pose_handoff": {
@@ -368,5 +578,19 @@
     "tyre_volume_crossing_queries": 0,
     "proof": "All four actual finite support rays; a real tyre centre behind its own native plane; proposed and actual hierarchy tyre/full-model clearance; foreign nose endpoint refusal.",
     "physical_translation_added": false
+  },
+  "camera_height_handoff": {
+    "diagnostic_actual_body_y_m": 4.098968,
+    "diagnostic_stale_ground_y_m": 1.68901777267456,
+    "diagnostic_actual_anchor_radius_m": 3.76015257835388,
+    "diagnostic_min_arm_m": 1.6,
+    "diagnostic_native_usable": true,
+    "diagnostic_camera_volume_clear": true,
+    "short_arm_native_control_m": 1.79999995231628,
+    "short_arm_anchor_step_m": 0.06650784611702,
+    "short_arm_camera_step_m": 0.4426281452179,
+    "existing_max_camera_speed_m_per_second": 48.0,
+    "continuation": "Only actual ramp-origin airborne flight; clears on ground/reset or a new authoritative weighted flat launch.",
+    "fov_collision_or_physics_changed": false
   }
 }

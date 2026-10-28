@@ -50,6 +50,7 @@ var _minimum_arm := MIN_USEFUL_ARM
 var _ground_query := PhysicsRayQueryParameters3D.new()
 var _visibility_query := PhysicsRayQueryParameters3D.new()
 var _ground_board_y := 0.0
+var _ramp_origin_air := false
 var _wheel_landmarks:PackedVector3Array=PackedVector3Array()
 var _head_landmarks := PackedVector3Array()
 var _head_mesh: MeshInstance3D
@@ -119,6 +120,7 @@ func reset() -> void:
 	_return_arm = AIR_RAMP_ARM
 	_minimum_arm = MIN_USEFUL_ARM
 	_ground_board_y = 0.0
+	_ramp_origin_air = false
 	_foot_targets.clear()
 	_head_targets.clear()
 	_head_bounds.clear()
@@ -209,7 +211,13 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	# follow the actual body axis; ramps retain the skater's local up axis.
 	_body_up = _contact_up(rider)
 	var ordinary_air := bool(rider.get("airborne")) and not bool(rider.get("_ramp_air")) and not bool(rider.get("transition_active"))
-	if not _ready or not bool(rider.get("airborne")):
+	# Preserve the live ramp-origin flight through its whole descent. A
+	# genuine new weighted flat pop also ends it if rendering missed ground.
+	if not bool(rider.get("airborne")) or bool(rider.get("_weighted_ollie_air")):
+		_ramp_origin_air=false
+	elif bool(rider.get("_ramp_air")) or _ramp_mode:
+		_ramp_origin_air=true
+	if not _ready or not bool(rider.get("airborne")) or _ramp_origin_air:
 		_ground_board_y = board.y
 	elif ordinary_air:
 		# Keep ordinary jumps inside a stable vertical viewing window. Follow
@@ -453,7 +461,8 @@ func _contact_up(rider: CharacterBody3D) -> Vector3:
 	# The collider is aligned to curved support in physics and upright elsewhere.
 	# Its displayed axis also blends across a transition exit, instead of popping
 	# when the current physics-state Boolean changes ahead of the rendered body.
-	if bool(rider.get("transition_active")) or (bool(rider.get("airborne")) and bool(rider.get("_ramp_air"))):
+	if bool(rider.get("transition_active")) or (bool(rider.get("airborne")) \
+			and (bool(rider.get("_ramp_air")) or _ramp_mode or _ramp_exit_remaining>0.0)):
 		return rider.get_camera_support_up()
 	var collision := rider.get_node_or_null("BodyCollision") as Node3D
 	if is_instance_valid(collision):
