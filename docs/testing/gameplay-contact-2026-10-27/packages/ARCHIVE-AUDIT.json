@@ -1,0 +1,100 @@
+{
+  "valid": true,
+  "git_commit": "471cd3c325dd729f52775ebd67dc77fddca81bdf",
+  "receipt_parent_git_head": "497781f350ddc15899fc73c69f5e993be20b6bd7",
+  "working_tree_clean_at_export": true,
+  "required_assertion_counts": [
+    [
+      5746,
+      0
+    ]
+  ],
+  "actual_music_script_guard_counts": [
+    [
+      2,
+      0
+    ]
+  ],
+  "actual_music_script_short_option_and_isolation_verified": true,
+  "audit_observer_sha256": "47b56b43a4d2b15737a26b9a9302e191cd639a810d7add3eafb85e4d20584965",
+  "required_input_count": 673,
+  "package_input_count": 274,
+  "package_test_overlap": 264,
+  "committed_source_blobs_verified": 683,
+  "all_required_and_package_memberships_match_checkout": true,
+  "all_required_and_package_inputs_match_commit_objects": true,
+  "required_suite_receipt_sha256": "247a26c86ba543a6c8ac6953ee86c7aeb3135f1a2d00b187e69c0396287d1db8",
+  "required_suite_log_sha256": "a1b3fc15a5a7aebd8b1e8067488b68737a34f4a6c24389044da32de29599fc68",
+  "required_source_before_sha256": "0c35be0f37a115c77c7df9b9bd49756a2dd41435d816be1eaa7d6011ec16a7da",
+  "required_source_after_sha256": "0c35be0f37a115c77c7df9b9bd49756a2dd41435d816be1eaa7d6011ec16a7da",
+  "runtime_source_sha256": "ba29aa385e7a88625c6ad195766d9b74441734797236367cfaaa4b1ee4469d32",
+  "checks_run_by_export_script": false,
+  "archives": [
+    {
+      "platform": "linux",
+      "file": "TamHawksProSkater-linux.zip",
+      "bytes": 36738882,
+      "sha256": "4493a57f593e603523cc03c12189c59dac95adfd586e4832d74fd11b4e195371",
+      "architectures": [
+        "x86_64"
+      ],
+      "crc_valid": true,
+      "safe_member_paths": true,
+      "executable_mode_valid": true,
+      "notice_records": 13,
+      "pack_sha256": "407d49cdb22af7b08cda09d7e61a2d3ad3376dc53affd83a8354c770f5cbcdc0",
+      "native_pack_resource_report_verified": true
+    },
+    {
+      "platform": "macos",
+      "file": "TamHawksProSkater-macos.zip",
+      "bytes": 71298486,
+      "sha256": "4c582949683a99e665d287f0fbaf9b19e635cc62d94e43048982fdf118cf61e7",
+      "architecture_signature_observations": [
+        {
+          "architecture": "x86_64",
+          "code_signature_load_command_present": true,
+          "cryptographic_signature_validity": "not_verified",
+          "signature_blob_structure_readable": true,
+          "xml_entitlements_present": false,
+          "der_entitlements_present": false,
+          "apple_events_entitlement_in_xml": null
+        },
+        {
+          "architecture": "arm64",
+          "code_signature_load_command_present": true,
+          "cryptographic_signature_validity": "not_verified",
+          "signature_blob_structure_readable": true,
+          "xml_entitlements_present": false,
+          "der_entitlements_present": false,
+          "apple_events_entitlement_in_xml": null
+        }
+      ],
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "music_automation_usage_description": "Control Music to play your chosen soundtrack and show the current song.",
+      "main_app_code_resources_present": false,
+      "apple_events_entitlement_configured": true,
+      "effective_automation_entitlement_or_consent_verified": false,
+      "crc_valid": true,
+      "safe_member_paths": true,
+      "executable_mode_valid": true,
+      "notice_records": 13,
+      "pack_sha256": "407d49cdb22af7b08cda09d7e61a2d3ad3376dc53affd83a8354c770f5cbcdc0",
+      "native_pack_resource_report_verified": true
+    }
+  ],
+  "cross_platform_pack_bytes_identical": true,
+  "macos_export_signing_enabled": false,
+  "macos_export_notarization_enabled": false,
+  "macos_signature_cryptographically_verified": false,
+  "macos_executable_launched": false,
+  "target_performance_accepted": false,
+  "limits": [
+    "Unsigned export settings and a Music usage description do not certify an effective signed Automation entitlement or TCC consent.",
+    "Any embedded template signature/entitlement observations are structural only; signature validity is not verified on Linux.",
+    "Linux-loaded Mac resource packs do not execute the Mac binary or certify Music playback, physical controllers, audio, saves, performance or human acceptance."
+  ]
+}
