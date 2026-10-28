@@ -48,7 +48,7 @@ minimum frame increment is imposed.
 The [completed session ZIP](session.zip) contains eight files, passes an
 independent Python ZIP CRC check and preserves both final notes and PNG/JSON
 pairs. The [raw native manifest](manifest.json) retains independent pixel hashes,
-draw metadata and exact original local paths. The [artifact manifest](MANIFEST.json)
+draw metadata and exact original local paths. The [artifact manifest](ARTIFACTS.json)
 binds raw outputs and execution records. Each execution's `SNAPSHOTS.json`
 resolves all inputs: parser643 immutable parent files plus11 exact snapshots;
 native643 plus12. The wrapper is the extra native input. No production recorder

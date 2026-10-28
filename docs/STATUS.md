@@ -1,3 +1,14 @@
+# macOS evidence filename collision — 28 October 2026
+
+Two evidence directories tracked both `MANIFEST.json` and `manifest.json`.
+On this Mac those names resolve to one file, so discarding either change made
+the other Git path dirty. Rename the two uppercase artifact indexes to
+`ARTIFACTS.json`, preserve all four committed JSON contents exactly, and update
+the recorder link. `git ls-files` case-fold collision scan now passes; no game
+source changed and gameplay checks are not required for these filename repairs.
+
+---
+
 # Ordinary Manual arms and stopping-foot fixes — 27 October 2026
 
 The required combined suite passes **5,520/0**, plus actual Music script
