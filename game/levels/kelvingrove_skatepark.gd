@@ -210,6 +210,7 @@ func _panel(label: String, faces: PackedVector3Array) -> StaticBody3D:
 func _box(label: String, at: Vector3, size: Vector3, wall: bool=false, layer: int=1, material: Material=null) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = label
+	body.set_meta("art_label",label)
 	body.position = at
 	body.collision_layer = layer
 	body.set_meta("wallrideable",wall)
@@ -256,7 +257,7 @@ func _stairs() -> void:
 	coping.name = "FiveStepHubbaSteelCoping"
 	coping.position = (start+finish)*0.5+normal*0.06
 	coping.basis = Basis(Quaternion(Vector3.UP,direction.normalized()))
-	coping.collision_layer = 2
+	coping.collision_layer = 1 | 2
 	coping.collision_mask = 0
 	coping.set_meta("art_label","FiveStepHubbaSteelCoping")
 	coping.set_meta("surface_audio","metal")
@@ -320,7 +321,7 @@ func _rail(id: String, points: PackedVector3Array) -> void:
 	var center := (points[0]+points[1])*0.5-Vector3.UP*lift
 	var bar := StaticBody3D.new()
 	bar.name = id
-	bar.collision_layer = 2
+	bar.collision_layer = 1 | 2
 	bar.position = center
 	bar.basis = Basis(Quaternion(Vector3.UP,direction.normalized()))
 	bar.set_meta("surface_audio","metal")
@@ -345,10 +346,12 @@ func _rail(id: String, points: PackedVector3Array) -> void:
 	for t: float in [0.12,0.88]:
 		var top := points[0].lerp(points[1],t)-Vector3.UP*lift
 		var bottom := Vector3(top.x,STREET_Y,top.z)
-		_box("SteelRailPost",(top+bottom)*0.5,Vector3(0.065,top.y-bottom.y,0.065),false,2,_steel)
+		_box("SteelRailPost",(top+bottom)*0.5,Vector3(0.065,top.y-bottom.y,0.065),false,1|2,_steel)
 
 func _index_native_surfaces(node: Node) -> void:
-	if node is StaticBody3D and (node.collision_layer & 1)!=0:
+	# This registry describes terrain. Rail caps stay physically solid without
+	# entering the public terrain-height query after gaining the world bit.
+	if node is StaticBody3D and (node.collision_layer & 1)!=0 and (node.collision_layer & 2)==0:
 		for child: Node in node.get_children():
 			if not child is MeshInstance3D or child.mesh==null: continue
 			var faces: PackedVector3Array = child.mesh.get_faces()

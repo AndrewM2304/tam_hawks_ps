@@ -30,7 +30,7 @@ func build(world: Node3D) -> void:
 	assert(not authored.is_empty(),"Cable contact requires the original CPU authoring records, not GPU readback")
 	var native := StaticBody3D.new()
 	native.name = "ExistingCableNativeCrowns"
-	native.collision_layer = 2
+	native.collision_layer = 1 | 2
 	native.collision_mask = 0
 	native.set_meta("surface_audio","metal")
 	native.set_meta("authored_grind_ids",["clyde_cable_west","clyde_cable_east"])

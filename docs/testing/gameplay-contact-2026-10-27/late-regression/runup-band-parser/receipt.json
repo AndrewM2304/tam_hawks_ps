@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-28T00:58:12.645365+00:00",
+  "completed_london": "2026-10-28T00:58:13.802903+00:00",
+  "wall_seconds": 1.157536948001507,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/late-regression-repair/runup_band.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "cc6f2d129d44cea3be3b06910ca1a1106ef063fedb0f4d58c11e931a5870962a",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

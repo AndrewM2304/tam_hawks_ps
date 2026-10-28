@@ -68,13 +68,14 @@ static func _geometry(tree: SceneTree, game: Node, check: Callable) -> void:
 					var vertex: int = indices[i+offset] if not indices.is_empty() else i+offset
 					upwards = upwards and normals[vertex].dot(normal)>0.999
 	check.call(upwards,"sunken park: floor normals point up and hard retaining-side normals point out with normal backface culling")
+	var terrain := {"valid":true,"excluded":0}
 	var compared := 0
 	var max_error := 0.0
 	var missing := 0
 	for ix in 20:
 		for iz in 15:
 			var p := Vector3(-226.5+ix*2.0,25,-201.5+iz*2.0)
-			var hit := _ray(game.skater,p,Vector3(p.x,9,p.z),1)
+			var hit := _terrain_ray(game.skater,park,p,Vector3(p.x,9,p.z),terrain)
 			var indexed: float = park.get_surface_height(p)
 			if hit.is_empty() or is_nan(indexed):
 				missing += 1
@@ -83,6 +84,8 @@ static func _geometry(tree: SceneTree, game: Node, check: Callable) -> void:
 			max_error = maxf(max_error,absf(indexed-Vector3(hit.position).y))
 	check.call(compared>=290 and missing==0 and max_error<0.004,
 		"sunken park: dense native floor rays and the shared mesh support index agree without pit caps or underside support")
+	check.call(terrain.valid and terrain.excluded > 0,
+		"sunken park: every dense terrain-ray steel exclusion independently matches its actual park-owned native rail-layer hit")
 	var actual_curve := true
 	var ports := true
 	var coping := true
@@ -110,7 +113,7 @@ static func _geometry(tree: SceneTree, game: Node, check: Callable) -> void:
 	check.call(park.get_node("DeepBowl").get_node_or_null("BowlAccessRollIn")==null \
 		and park.get_node("ShallowBowl").get_node_or_null("BowlAccessRollIn")==null,
 		"sunken park: standalone external bowl ramps are removed rather than buried beneath the facility")
-	print("SUNKEN_GEOMETRY compared=%d missing=%d native_index_error=%.6f"%[compared,missing,max_error])
+	print("SUNKEN_GEOMETRY compared=%d missing=%d native_index_error=%.6f authenticated_steel_exclusions=%d"%[compared,missing,max_error,terrain.excluded])
 
 static func _native_fixture(tree: SceneTree) -> Dictionary:
 	var root := Node3D.new()
@@ -360,6 +363,29 @@ static func _compact_hip(tree: SceneTree, game: Node, check: Callable) -> void:
 	print("SUNKEN_COMPACT_HIP launched=%s back=%s exit=%s stop=%s bails=%d exit_speed=%.5f min_x=%.5f position=%s"%[
 		launched,back,exited,stopped,evidence.bails,maximum_exit,minimum_x,game.skater.global_position])
 	_phase = ""
+
+static func _terrain_ray(rider: CharacterBody3D,park: Node3D,start: Vector3,finish: Vector3,evidence: Dictionary) -> Dictionary:
+	# The public index describes the park's non-steel native terrain. Keep all
+	# dense sites and authenticate the actual rail-layer hit before looking
+	# through that exact steel RID; capsule and coping tests remain unfiltered.
+	var query := PhysicsRayQueryParameters3D.create(start,finish,1)
+	var excluded: Array[RID] = [rider.get_rid()]
+	var space := rider.get_world_3d().direct_space_state
+	for attempt: int in 16:
+		query.exclude=excluded
+		var hit := space.intersect_ray(query)
+		var body := hit.get("collider") as StaticBody3D
+		if body==null or not park.is_ancestor_of(body) or body.collision_layer & 3 != 3:
+			return hit
+		var rail_query := PhysicsRayQueryParameters3D.create(start,finish,2)
+		rail_query.exclude=excluded
+		var rail_hit := space.intersect_ray(rail_query)
+		evidence.valid=evidence.valid and rail_hit.get("rid") == hit.rid \
+			and Vector3(rail_hit.get("position",Vector3.INF)).distance_to(hit.position)<=0.0001
+		evidence.excluded+=1
+		excluded.append(body.get_rid())
+	evidence.valid=false
+	return {}
 
 static func _ray(rider: CharacterBody3D, start: Vector3, finish: Vector3, mask: int) -> Dictionary:
 	var query := PhysicsRayQueryParameters3D.create(start,finish,mask)

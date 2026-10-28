@@ -1,0 +1,23 @@
+{
+  "started_london": "2026-10-27T23:22:57.410313+00:00",
+  "completed_london": "2026-10-27T23:23:06.738205+00:00",
+  "wall_seconds": 9.3278923580001,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/native_grind_body_datum_diag.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "9bb89cdd582925fa5742c68cdf5cc700c0c6210600ab10109795a6af88e9234c",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

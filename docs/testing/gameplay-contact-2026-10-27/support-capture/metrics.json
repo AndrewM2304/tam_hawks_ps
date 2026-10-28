@@ -1,0 +1,140 @@
+{
+  "native_receipt_sha256": "c428bf59c68f4d6c81c99e4975a66f39d7a3836b1cb68bf326a65ebcf04e0f26",
+  "native_manifest_sha256": "3d6d47b04f776b61eeca52ca46187668842df35f96217ccce9eba3ea95f1b597",
+  "native_seconds": 18.888558915998146,
+  "result_counts": [
+    [
+      "2",
+      "0"
+    ]
+  ],
+  "outer_inputs": 676,
+  "outer_stable": true,
+  "inner_inputs": 677,
+  "inner_stable": true,
+  "inner_additional_source": ".local/contact_support_capture/SOURCE_ADAPTER.json",
+  "images": [
+    {
+      "actor_position": [
+        -0.218666568398476,
+        0.564999997615814,
+        0.300000011920929
+      ],
+      "camera": "[X: (0.745241, 0.0, -0.666795), Y: (-0.130793, 0.980573, -0.146181), Z: (0.653841, 0.196152, 0.730764), O: (3.181334, 2.365, 4.1)]",
+      "camera_projection": "orthographic",
+      "camera_size": 3.0,
+      "clothing_seam": 0.0538523085415363,
+      "completed_draw_pose_matches": true,
+      "details": {
+        "captures": [
+          "Grind_Ledge_UnlistedPhysicalBench_1_Native_0_2_0"
+        ],
+        "derived_edge_roll_radians": 0.159023156933242,
+        "distance_advance": 0.794666671219802,
+        "grinding": true,
+        "guide_id": "Grind_Ledge_UnlistedPhysicalBench_1_Native_0_2_0",
+        "native_box_size": [
+          6,
+          0.1,
+          0.6
+        ],
+        "native_crown": [
+          -0.218666568398476,
+          0.550000011920929,
+          0.300000011920929
+        ],
+        "outward": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "style": "grind_50_50",
+        "support_error": 1.88486438901236e-07,
+        "derived_edge_roll_degrees": 9.111355737121322
+      },
+      "file": "generated-bench-edge.png",
+      "framed": true,
+      "interpolation_fraction": 0.0,
+      "joint_gap": 0.00123929034452885,
+      "native_physics_tick": 10,
+      "neck_gap": 0.0211127698421478,
+      "observed_engine_draw_frame": 11,
+      "observed_engine_physics_frame": 12,
+      "observed_engine_process_frame": 11,
+      "pose_nodes": [
+        "actor",
+        "visual",
+        "board",
+        "rider",
+        "head",
+        "front_foot",
+        "rear_foot",
+        "left_hand",
+        "right_hand"
+      ],
+      "sha256": "a651221f741b33bcc4cd10f15c44847789a6a417330000ba37eeaa4b3a4caa02",
+      "shoe_deck_distance": 0.000853462493978441,
+      "velocity": [
+        -5.92000007629395,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "actor_position": [
+        17.0,
+        5.27999973297119,
+        61.3250007629395
+      ],
+      "camera": "[X: (0.707107, 0.0, -0.707107), Y: (-0.131024, 0.982683, -0.131024), Z: (0.694862, 0.185296, 0.694862), O: (21.2, 7.18, 65.525)]",
+      "camera_projection": "orthographic",
+      "camera_size": 3.20000004768372,
+      "clothing_seam": 0.0578756369650364,
+      "completed_draw_pose_matches": true,
+      "details": {
+        "coping_contact": [
+          17.0,
+          5.25499963760376,
+          61.2999992370605
+        ],
+        "coping_layer": 3,
+        "coping_radius": 0.0549999997019768,
+        "held_native_updates": 10,
+        "lip_active": true,
+        "lip_id": "axle_stall",
+        "push_updates": 98,
+        "reached72degrees": true,
+        "tricks": [
+          "Axle Stall"
+        ]
+      },
+      "file": "solid-coping-axle-stall.png",
+      "framed": true,
+      "interpolation_fraction": 0.0,
+      "joint_gap": 0.00273590255528688,
+      "native_physics_tick": 170,
+      "neck_gap": 0.0224468074738979,
+      "observed_engine_draw_frame": 172,
+      "observed_engine_physics_frame": 173,
+      "observed_engine_process_frame": 172,
+      "pose_nodes": [
+        "actor",
+        "visual",
+        "board",
+        "rider",
+        "head",
+        "front_foot",
+        "rear_foot",
+        "left_hand",
+        "right_hand"
+      ],
+      "sha256": "62e33714620c6d337e984a4d106841d189ac4ccf39a6bfd061067aa0d91fef0c",
+      "shoe_deck_distance": 0.000853651436045766,
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

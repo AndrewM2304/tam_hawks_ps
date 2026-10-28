@@ -1,0 +1,158 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: grind ride: an airborne approach within capture bounds attaches
+PASS: grind ride: entry preserves projected speed and samples the rail
+PASS: grind ride: forward travel advances distance and loses speed to friction
+PASS: grind ride: stop retains finite release position and momentum
+PASS: grind ride: inactive updates do not keep moving the released skater
+PASS: grind ride: selects nearest eligible rail regardless of list order
+PASS: grind ride: blocked nearest rail falls back to a clear eligible rail
+PASS: grind ride: obstructed snap is rejected
+PASS: grind ride: reverse entry keeps its signed travel direction
+PASS: grind ride: reverse motion decreases distance and keeps momentum
+PASS: grind ride: crossing an open endpoint releases in direction -1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: crossing an open endpoint releases in direction 1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: outward approaches beyond either endpoint do not attach
+PASS: grind ride: an inward approach near an endpoint can attach
+PASS: grind ride: distance follows a translated bent rail and the outgoing tangent turns with it
+PASS: grind ride: rough aim accepts84degrees while a distant86degree crossing remains outside its separate near-contact band
+PASS: grind ride: rough aim accepts84degrees while a distant86degree crossing remains outside its separate near-contact band
+PASS: grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.78, 0.1, -5.0)
+PASS: grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.0, 0.58, -5.0)
+PASS: grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.0, -0.13, -5.0)
+PASS: grind ride: angled catch retains at least 90 percent horizontal speed without converting a fall to flat-rail boost
+PASS: grind ride: angled catch retains at least 90 percent horizontal speed without converting a fall to flat-rail boost
+PASS: grind ride: sloped rails capture both travel directions
+PASS: grind ride: slope gravity changes speed and outgoing velocity retains the vertical tangent
+PASS: grind ride: insufficient uphill momentum releases without silently reversing
+PASS: grind ride: downhill acceleration respects the speed ceiling
+PASS: grind ride: rejects full snap distance
+PASS: grind ride: rejects vertical reach
+PASS: grind ride: rejects below the rail
+PASS: grind ride: rejects ascending below the actual rail datum
+PASS: grind ride: rejects distant sideways approach
+PASS: grind ride: rejects too little speed
+PASS: grind ride: rejects excessive speed
+PASS: grind ride: rejects nonfinite position
+PASS: grind ride: rejects nonfinite velocity
+PASS: grind ride: malformed rail lists cannot attach
+PASS: grind ride: vertical lines have no usable horizontal approach
+PASS: grind ride: unattended deterministic balance eventually bails
+PASS: grind ride: countersteering controls the balance instead of an unavoidable timeout
+PASS: grind ride: analog correction is bounded to the normal input range
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [30.0, -0.4, -35.0, 8.0, 22.0, 0.5]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [60.0, 0.4, 35.0, 12.0, 42.0, 0.5]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [120.0, -0.5, -25.0, 17.0, 60.0, 0.46]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [60.0, 0.55, 0.0, 4.0, 28.0, 0.46]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [120.0, -0.3, 45.0, 10.0, 18.0, 0.46]
+PASS: grind forgiveness: offset/angle/speed admission survives tick phase [30.0, 0.0, 0.0, 17.0, 18.0, 0.46]
+PASS: grind forgiveness: actual descending travel recovers a window missed at both frame endpoints
+PASS: grind forgiveness: a blocked actual-body sweep rejects every historical sample
+PASS: grind forgiveness: clearance always starts at the current body, never a past sample
+PASS: grind forgiveness: no larger admission envelope for lateral miss
+PASS: grind forgiveness: no larger admission envelope for wrong upper level
+PASS: grind forgiveness: no larger admission envelope for below rail
+PASS: grind forgiveness: no larger admission envelope for distant perpendicular motion
+PASS: grind forgiveness: no larger admission envelope for rail behind travel
+PASS: grind forgiveness: no larger admission envelope for rising below support
+PASS: grind forgiveness: no larger admission envelope for insufficient forward speed
+PASS: grind forgiveness: no larger admission envelope for excessive forward speed
+PASS: grind forgiveness: no larger admission envelope for teleport-sized sweep
+PASS: grind forgiveness: no larger admission envelope for nonfinite history
+PASS: grind forgiveness: a second sweep cannot restart an active rail or duplicate its admission
+PASS: grind intent: rising Ollie catches above the real datum without converting ascent into flat-rail speed 1.01
+PASS: grind intent: rising Ollie catches above the real datum without converting ascent into flat-rail speed 4.0
+PASS: grind intent: rising Ollie catches above the real datum without converting ascent into flat-rail speed 9.0
+PASS: grind intent: ascent below the rail cannot pull a rider through its underside
+PASS: grind intent: close inward perpendicular crossing catches with stable tangent direction from side -1.0
+PASS: grind intent: sideways travel away from the rail or outside contact range has no broad magnetic catch -1.0
+PASS: grind intent: close inward perpendicular crossing catches with stable tangent direction from side 1.0
+PASS: grind intent: sideways travel away from the rail or outside contact range has no broad magnetic catch 1.0
+PASS: grind intent: perpendicular catch near an open end chooses the finite inward run
+PASS: grind intent: rising and sideways forgiveness never bypass actual path or support rejection
+PASS: grind intent: an actual upward crossing uses the same present and previous native correction caps
+PASS: grind intent: new intent handling preserves wrong-level, underside and over-metre sweep exclusions
+PASS: grind contact: verified raised bar captures and carries the body on its real crown rather than inside its centre guide
+PASS: grind contact: being above a guide centre cannot authorize an ascent from below the actual steel crown
+PASS: grind contact: the real upright capsule hemisphere rests outside an inclined crown instead of intersecting its tangent plane
+PASS: grind contact: the lower rising band cannot bypass a failed target-aware native capsule proof
+PASS: grind contact: an explicit successful native proof can use only the existing14cm lower band, never widen it
+PASS: grind contact: recovered crown crossings retain native target proof for every historical sample
+PASS: grind contact: target-aware swept clearance always starts at the completed actual body position
+PASS: capture bounds: recorded yard current position is inside the unchanged point envelope
+PASS: capture bounds: recorded1.085m previous-sample correction is refused without activating
+PASS: capture bounds: next real step catches the same endpoint within both independent budgets
+PASS: capture bounds: sub-metre descending missed-window recovery is retained
+PASS: capture bounds: unsupported nearest contact continues to a clear eligible candidate
+PASS: capture bounds: swept entry applies the same contact policy without a phantom capture
+PASS: rail index: exact candidate preserved across signed cell boundary (-960.8, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (-959.2, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (-948.8, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (-947.2, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (-12.8, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (-11.2, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (-0.8, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (0.8, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (11.2, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (12.8, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (947.2, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: exact candidate preserved across signed cell boundary (948.8, 2.12, -8.01)
+PASS: rail index: local request excludes distant curves from 160-line world
+PASS: rail index: historical oversized correction is refused by full and indexed sweeps despite candidate availability
+PASS: rail index: bounded missed window retains its real guide across negative cell boundaries
+PASS: rail index: both actual point endpoints refuse the bounded descending window with full and indexed candidates
+PASS: rail index: bounded historical window captures the same actual guide and point through full and indexed sweeps
+PASS: rail index: both recovered captures satisfy independent current .85m and prior-native-sample .99m budgets
+PASS: closed coping: crosses authored seam continuously in direction -1.0
+PASS: closed coping: crosses authored seam continuously in direction 1.0
+PASS: rail index: replaced lists and nonfinite positions cannot reuse stale tracks
+PASS: grind intent native: mapped approach begins on actual floor 0.0
+PASS: grind intent native: holding Grind on supported approach does not attach before Ollie 0.0
+PASS: grind intent native: already-held Grind catches the real solid rail on Ollie ascent with rough aim 0.0
+PASS: grind intent native: one bounded rising catch retains one Ollie and one grind award 0.0
+GRIND_INTENT_RISE { "degrees": 0.0, "captured": [{ "id": "intent_native_rail", "position": (0.0, 0.92, 0.0), "held_ticks": 75, "launched": 0.16666666666667, "direction": 1.0 }], "prior_vy": 3.96151161193848, "maximum_native_step": 0.18523155152798, "at": (0.0, 0.92, 0.0), "velocity": (0.0, 0.0, -2.034909), "awards": ["ollie", "grind_50_50"] }
+PASS: grind intent native: mapped approach begins on actual floor 84.0
+PASS: grind intent native: holding Grind on supported approach does not attach before Ollie 84.0
+PASS: grind intent native: already-held Grind catches the real solid rail on Ollie ascent with rough aim 84.0
+PASS: grind intent native: one bounded rising catch retains one Ollie and one grind award 84.0
+GRIND_INTENT_RISE { "degrees": 84.0, "captured": [{ "id": "intent_native_rail", "position": (0.0, 0.92, -5.988465), "held_ticks": 72, "launched": 0.11666666666667, "direction": 1.0 }], "prior_vy": 5.16151189804077, "maximum_native_step": 0.39257895946503, "at": (0.0, 0.92, -5.988465), "velocity": (0.0, 0.0, -6.532271), "awards": ["ollie", "boardslide"] }
+PASS: grind intent native: completed fast descent catches before a real rail-floor landing can bank the combo
+PASS: grind intent native: native rail-floor catch continues without duplicate capture or solid-support bail
+GRIND_INTENT_LANDING { "held": true, "captures": [{ "id": "intent_native_rail", "floor": true, "at": (0.0, 0.92, -5.014285) }], "floor": true, "grinding": true, "at": (0.0, 0.92, -5.512203) }
+PASS: grind intent native: without Grind the rail stays solid and supports the real rider without automatic capture
+GRIND_INTENT_LANDING { "held": false, "captures": [], "floor": true, "grinding": false, "at": (0.0, 0.932452, -5.590892) }
+PASS: grind intent native: a nearby target behind a real solid wall cannot borrow held-input forgiveness
+PASS: grind intent native: ordinary floor landing away from the rail remains a floor landing while Grind is held
+PASS: grind intent native: cache is earned only by this real marked solid-rail impact release
+PASS: grind intent native: releasing Grind clears the actual-hit cache before a later rising contact
+GRIND_INTENT_CACHE_CONTROL { "control": "release", "earned": true, "remaining": 0.0, "captures": [], "at": (0.329558, 0.967755, -6.013463), "velocity": (-0.478586, 3.961512, -0.749965) }
+PASS: grind intent native: cache is earned only by this real marked solid-rail impact expiry
+PASS: grind intent native: expired hit intent cannot restore movement or move the real rider
+PASS: grind intent native: expired momentum is not revived when the rider later clears the crown
+GRIND_INTENT_CACHE_CONTROL { "control": "expiry", "earned": true, "remaining": 0.0, "captures": [], "at": (0.329558, 0.967755, -6.013463), "velocity": (-0.478586, 3.961512, -0.749965) }
+PASS: grind intent native: cache is earned only by this real marked solid-rail impact wrong_target_wall
+PASS: grind intent native: an existing nearby foreign crown cannot borrow another rail's cached IDs
+PASS: grind intent native: reusing the same guide ID on a different real native RID cannot borrow the remembered hit
+PASS: grind intent native: an actual foreign wall still blocks the remembered target without rewriting physical movement
+GRIND_INTENT_CACHE_CONTROL { "control": "wrong_target_wall", "earned": true, "remaining": 0.08666666666667, "captures": [], "at": (0.34551, 0.829038, -5.988465), "velocity": (-0.478586, 4.761512, -0.749965) }
+PASS: grind intent native: cache is earned only by this real marked solid-rail impact removed
+PASS: grind intent native: removing the actual bearing invalidates a still-named remembered rail instead of authorizing a phantom catch
+GRIND_INTENT_CACHE_CONTROL { "control": "removed", "earned": true, "remaining": 0.05333333333333, "captures": [], "at": (0.329556, 0.967773, -6.013466), "velocity": (-0.478586, 3.961512, -0.749965) }
+RESULT: 147 passed, 0 failed

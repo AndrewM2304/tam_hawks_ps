@@ -1,3 +1,41 @@
+# Current continuation — 27 October 2026
+
+The reduced four-slot source is implemented. [Exact source and native evidence](../testing/facade-bay-four-slot-2026-10-27/README.md)
+records byte-identical factory exports, independent all-part geometry/UV/material
+checks,32 matched scene frames,34 imported mip images and44 native LOD samples.
+Near/mid/far triangles are9,864/3,544/648; fitted/reduced mid/far PNGs match
+pixel-for-pixel. The four original map image-data budget remains3,495,320 bytes.
+These are bounded source/import/appearance checks, not live timing or final art.
+
+Startup-only live integration now uses a separate mesh root and the original
+four texture paths. Its first native focused run rejects41/1: Godot automatically
+compresses the new near mesh and moves its0.53m threshold to0.5298m. Source
+geometry, physical threshold and the original test are correct. Disabling
+compression **only for the new near import** restores nativeY0.529999971 and
+strict top-face area0.549899995, within the unchanged1e-4 tolerance. Actual native
+mesh bytearrays are369,648B versus591,824B original and280,944B rejected compressed
+candidate; these are not VRAM residency measurements. Mid/far stay98,000/24,624B.
+All18 original runtime files and all three new import UIDs remain unchanged.
+
+The corrected focused/rendered native checks pass **63/0**, including actual
+ordinary Main. Required combined validation remains pending for the integrated
+batch. The six declared20/30-second full profiles were interrupted to prioritise
+the owner's rail/wall/Ollie defects: three1280×800 phases completed,1920×1080-a1
+was interrupted and the other two phases never started. No full-six-phase or
+current-source timing outcome is inferred.
+
+[Read-only retained1280 analysis](../testing/facade-bay-four-slot-2026-10-27/live/retained-1280-analysis/README.md)
+finds failed near p99 and moving p95/p99 cells under the original gates; raw
+receipts and manifests are unchanged. Do not repeat the unchanged seventeen-minute
+candidate. Process/render cost dominates the recorded spikes, but the monitors
+do not identify geometry versus material sampling. The next bounded proposal
+is a matched near-camera material-source attribution experiment on existing
+sandstone normal/ORM sampling before choosing another optimization. No source
+experiment, engine run or ordinary-feature/default change is implemented by
+this analysis. The original plan and historical receipts below retain their scope.
+
+---
+
 # Next bounded fidelity/cost comparison
 
 18 October 2026. Continue existing **M05-001 / M06-004 / M06-007**; this is a slice of the preserved 75 tasks. **Owner:** A05 source/art, A01 integration, A09 independent verification. **Priority:** P1 offline fidelity/cost experiment; target-Mac stuttering remains P0 under M06-004. No new area, gameplay feature, paid tool, infrastructure, hosted CI or unattended scheduling.

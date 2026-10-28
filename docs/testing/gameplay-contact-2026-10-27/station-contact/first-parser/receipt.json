@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-28T01:51:06.312669+00:00",
+  "completed_london": "2026-10-28T01:51:07.567651+00:00",
+  "wall_seconds": 1.2549816259997897,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    ".local/station-contact-diagnostic/runner.gd",
+    "--check-only",
+    "--",
+    ".local/station-contact-diagnostic/driver_adapter.gd",
+    ".local/station-contact-diagnostic/density_adapter.gd",
+    ".local/station-contact-diagnostic/observer.gd",
+    ".local/contact-camera-diagnostic/camera_shape_witness.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 678,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "2879a8c224222d93632e09e43f19f8f1248afdc3d444f2f4a54d75db79e6306b",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

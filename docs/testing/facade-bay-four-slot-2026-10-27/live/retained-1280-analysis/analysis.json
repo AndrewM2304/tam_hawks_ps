@@ -1,0 +1,201 @@
+{
+  "scope": "Informational completed1280-only evaluation of interrupted epoch; not six-phase admission/rejection or current-source result",
+  "retained_archive_manifest_pass": true,
+  "source_artifact_binding_pass": true,
+  "source_inputs": 666,
+  "completed_phases": 3,
+  "rows": [
+    {
+      "view": "spawn",
+      "p95_ms": [
+        523.189,
+        536.841,
+        516.075
+      ],
+      "p99_ms": [
+        538.577,
+        544.996,
+        563.636
+      ],
+      "timing_gates": {
+        "p95_ms": {
+          "pass": true,
+          "midpoint_ms": 519.6320000000001,
+          "repeat_noise_ms": 7.113999999999919,
+          "candidate_ms": 536.841,
+          "increase_ms": 17.208999999999946,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_ms": 549.34845,
+          "worse_baseline_cap_pass": true
+        },
+        "p99_ms": {
+          "pass": true,
+          "midpoint_ms": 551.1065,
+          "repeat_noise_ms": 25.05899999999997,
+          "candidate_ms": 544.996,
+          "increase_ms": -6.110500000000002,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_ms": 591.8178,
+          "worse_baseline_cap_pass": true
+        }
+      },
+      "draw_delta": 3.0,
+      "draw_gate": true,
+      "accepted_cell": true
+    },
+    {
+      "view": "02-frontage-wide",
+      "p95_ms": [
+        429.859,
+        427.94,
+        413.022
+      ],
+      "p99_ms": [
+        463.202,
+        434.091,
+        426.851
+      ],
+      "timing_gates": {
+        "p95_ms": {
+          "pass": true,
+          "midpoint_ms": 421.4405,
+          "repeat_noise_ms": 16.83699999999999,
+          "candidate_ms": 427.94,
+          "increase_ms": 6.499500000000012,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_ms": 451.35195,
+          "worse_baseline_cap_pass": true
+        },
+        "p99_ms": {
+          "pass": true,
+          "midpoint_ms": 445.0265,
+          "repeat_noise_ms": 36.351,
+          "candidate_ms": 434.091,
+          "increase_ms": -10.93549999999999,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_ms": 486.3621,
+          "worse_baseline_cap_pass": true
+        }
+      },
+      "draw_delta": 2.0,
+      "draw_gate": true,
+      "accepted_cell": true
+    },
+    {
+      "view": "03-frontage-near",
+      "p95_ms": [
+        447.234,
+        467.133,
+        456.207
+      ],
+      "p99_ms": [
+        456.328,
+        565.407,
+        456.362
+      ],
+      "timing_gates": {
+        "p95_ms": {
+          "pass": true,
+          "midpoint_ms": 451.7205,
+          "repeat_noise_ms": 8.973000000000013,
+          "candidate_ms": 467.133,
+          "increase_ms": 15.412499999999966,
+          "beyond_noise_and_five_percent": false,
+          "worse_baseline_cap_ms": 479.01735,
+          "worse_baseline_cap_pass": true
+        },
+        "p99_ms": {
+          "pass": false,
+          "midpoint_ms": 456.345,
+          "repeat_noise_ms": 0.03400000000004866,
+          "candidate_ms": 565.407,
+          "increase_ms": 109.06200000000001,
+          "beyond_noise_and_five_percent": true,
+          "worse_baseline_cap_ms": 479.18010000000004,
+          "worse_baseline_cap_pass": false
+        }
+      },
+      "draw_delta": 2.0,
+      "draw_gate": true,
+      "accepted_cell": false
+    },
+    {
+      "view": "exchange_west_bank_loop",
+      "p95_ms": [
+        556.702,
+        591.113,
+        556.007
+      ],
+      "p99_ms": [
+        570.521,
+        660.178,
+        608.4
+      ],
+      "timing_gates": {
+        "p95_ms": {
+          "pass": false,
+          "midpoint_ms": 556.3544999999999,
+          "repeat_noise_ms": 0.69500000000005,
+          "candidate_ms": 591.113,
+          "increase_ms": 34.75850000000014,
+          "beyond_noise_and_five_percent": true,
+          "worse_baseline_cap_ms": 584.5371,
+          "worse_baseline_cap_pass": false
+        },
+        "p99_ms": {
+          "pass": false,
+          "midpoint_ms": 589.4604999999999,
+          "repeat_noise_ms": 37.87900000000002,
+          "candidate_ms": 660.178,
+          "increase_ms": 70.71750000000009,
+          "beyond_noise_and_five_percent": true,
+          "worse_baseline_cap_ms": 638.82,
+          "worse_baseline_cap_pass": false
+        }
+      },
+      "draw_delta": null,
+      "draw_gate": true,
+      "accepted_cell": false
+    }
+  ],
+  "all_completed1280_cells_pass": false,
+  "engine_launched": false,
+  "six_phase_admission": false,
+  "current_source_acceptance": false,
+  "target_mac_acceptance": false,
+  "analysis_kind": "Read-only analysis of retained completed phases; no new engine execution",
+  "epoch_git_parent": "838e6f4dc02dfd48e9f122744238a1ad66de7a17",
+  "outer_source_inputs": 672,
+  "inner_source_inputs": 666,
+  "resolutions_complete": [
+    "1280x800"
+  ],
+  "interrupted_phase": "1920x1080-a1",
+  "never_started_phases": [
+    "1920x1080-b",
+    "1920x1080-a2"
+  ],
+  "full_cohort_outcome": "Interrupted, unchanged; no six-phase timing admission or rejection inferred",
+  "retained_manifest_sha256": "242fbb769600acc82bce3bd1357b65590ca2b85d653e2719c45149aeddd1e5bd",
+  "sequence_sha256": "04c3ec7f18c83ee74a08198632515b7b3b48c77bebf242c05d4a4fe90286d012",
+  "comparator_sha256": "428c12a04bb2d726072f739974d45a6ddd6e923c4171ed34f1157c0bd25bec3f",
+  "evaluator_sha256": "5646732315c3d04a318921d8c78a96b31e7109428a255e3a9c874f94e9db29aa",
+  "original_comparator_verify_executed": true,
+  "original_comparator_timing_gate_executed": true,
+  "all_retained_manifest_artifacts_authenticated": true,
+  "raw_epoch_changed": false,
+  "telemetry": {
+    "near_candidate": {
+      "frame_p99_ms": 565.407,
+      "process_p99_ms": 556.855,
+      "physics_p99_ms": 9.726
+    },
+    "moving_candidate": {
+      "frame_p99_ms": 660.178,
+      "process_p99_ms": 643.006,
+      "physics_p99_ms": 10.664,
+      "controller_p99_us": 78.0
+    },
+    "interpretation": "Costs sit predominantly in process/render path; these monitors do not attribute geometry, material sampling, GPU time or scheduling. No specific facade bottleneck is proven."
+  }
+}

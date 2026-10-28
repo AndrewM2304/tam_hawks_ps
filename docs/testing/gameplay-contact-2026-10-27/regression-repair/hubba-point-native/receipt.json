@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-28T01:16:51.793080+00:00",
+  "completed_london": "2026-10-28T01:17:01.418172+00:00",
+  "wall_seconds": 9.625091199999588,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/park-route-repair/hubba_precision.gd",
+    "--",
+    ".local/park-route-repair/bend_probe.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 675,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "1",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "9b5a84ab6abd27b61affe870e86538be3da570cb380792a9e679aa1dafdd928a",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

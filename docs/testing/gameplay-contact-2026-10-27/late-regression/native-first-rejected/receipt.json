@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-28T00:35:25.462982+00:00",
+  "completed_london": "2026-10-28T00:35:51.530826+00:00",
+  "wall_seconds": 26.06784539599903,
+  "command": [
+    "timeout",
+    "60s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/late-regression-repair/focus.gd",
+    "--",
+    "all"
+  ],
+  "exit_code": 1,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "110",
+      "10"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "40a23413c91d48a6bd1d33291d88f7e9bddc474a24fcfd25e2c6cfb1323767f0",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

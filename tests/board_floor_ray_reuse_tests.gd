@@ -43,7 +43,8 @@ static func _solver_pairs(fixture: Dictionary,check: Callable) -> void:
 	var pairs := 0
 	for record: Dictionary in [
 		{"name":"ordinary flat","at":Vector3(0,0.08,0),"minimum":4,"maximum":4,"fit":false},
-		{"name":"six-centimetre split step","at":Vector3(20.01,0.14,0),"minimum":16,"maximum":16,"fit":true},
+		{"name":"lowered six-centimetre split fit blocked by upper step","at":Vector3(20.01,0.14,0),"minimum":16,"maximum":16,"fit":false,"blocked_by":"StepUpper"},
+		{"name":"clear six-centimetre split step","at":Vector3(19.94,0.14,0),"minimum":16,"maximum":16,"fit":true,"model_clear":true},
 		{"name":"finite support edge","at":Vector3(40,0.08,0),"minimum":1,"maximum":4,"fit":false},
 		{"name":"missing lower side of tall step","at":Vector3(30.01,0.88,0),"minimum":1,"maximum":4,"fit":false},
 		{"name":"ordinary finite bank","at":Vector3(60,2.08,0),"minimum":4,"maximum":4},
@@ -56,7 +57,14 @@ static func _solver_pairs(fixture: Dictionary,check: Callable) -> void:
 		var count: int=result.rays
 		native_rays+=count
 		pairs+=1
-		check.call(result.equal and count>=int(record.minimum) and count<=int(record.maximum)
+		var model_ok := true
+		if record.has("blocked_by"):
+			model_ok=rider._grind_clearance.last_rejection=="model_obstruction" \
+				and rider._grind_clearance.last_obstruction.get("collider")==fixture.root.get_node(str(record.blocked_by))
+		if bool(record.get("model_clear",false)):
+			model_ok=not result.fit.is_empty() and rider._grind_clearance.allows_frame(
+				BowlChecks._presentation_pose(rider,result.fit),Vector3(result.fit.normal))
+		check.call(result.equal and model_ok and count>=int(record.minimum) and count<=int(record.maximum)
 			and (not record.has("fit") or (not result.fit.is_empty())==bool(record.fit)),
 			"board ray reuse: exact native support, query order/count and unchanged rider/presentation for "+record.name)
 		print("BOARD_SUPPORT_RAY_PAIR ",{"case":record.name,"rays":count,"fit":result.fit,"equal":result.equal})

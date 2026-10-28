@@ -3,6 +3,9 @@ extends RefCounted
 ## subsequent contact, ride, release and obstruction uses CharacterBody3D motion.
 
 const WallRide = preload("res://game/player/wall_ride.gd")
+const Boundary = preload("res://game/levels/exploration_boundary.gd")
+const SurfaceAudit = preload("res://game/levels/surface_audit.gd")
+const Railway = preload("res://game/levels/station_railway.gd")
 
 class Rider extends CharacterBody3D:
 	var ride = WallRide.new()
@@ -45,6 +48,8 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	await _lost_contact_jump(tree, check)
 	await _invalid_step(tree, check)
 	_surface_rules(check)
+	await _masonry_coverage(tree, check)
+	await _solid_glass_wall(tree, check)
 
 
 static func _actual_ride(tree: SceneTree, check: Callable) -> void:
@@ -222,7 +227,9 @@ static func _surface_rules(check: Callable) -> void:
 	check.call(not WallRide.is_surface_eligible(wall), "wallride: explicit no-wallride wins over an allow tag")
 	wall.remove_meta("no_wallride")
 	wall.set_meta("surface_audio", "glass")
-	check.call(not WallRide.is_surface_eligible(wall), "wallride: glass is excluded even with an allow tag")
+	check.call(WallRide.is_surface_eligible(wall), "wallride: a real continuous static glass wall is eligible like other rigid architecture")
+	wall.set_meta("no_wallride", true)
+	check.call(not WallRide.is_surface_eligible(wall), "wallride: protected scenic glazing still honours an explicit exclusion")
 	wall.free()
 	for request: Array in [["LowFence", Vector3(0.2, 1.0, 8)], ["TinyProp", Vector3(0.5, 2, 0.5)],
 		["WaterBoundary", Vector3(0.4, 4, 8)], ["CanvasCanopy", Vector3(0.4, 4, 8)]]:
@@ -322,3 +329,131 @@ static func _frames(tree: SceneTree, count: int) -> void:
 	for frame in count:
 		await tree.physics_frame
 		await tree.process_frame
+
+
+static func _masonry_coverage(tree: SceneTree, check: Callable) -> void:
+	for kind: String in ["solid", "opaque", "iron"]:
+		var fixture: Dictionary = await _boundary_fixture(tree, kind)
+		var rider: Rider = fixture.rider
+		var wall: StaticBody3D = fixture.wall
+		var masonry := kind != "iron"
+		var count := wall.get_child_count()
+		var shapes: Array[Shape3D] = []
+		for child: Node in wall.get_children():
+			if child is CollisionShape3D: shapes.append(child.shape)
+		check.call(WallRide.is_surface_eligible(wall) == masonry
+			and bool(wall.get_meta("no_wallride", true)) != masonry,
+			"wallride coverage: actual " + kind + " boundary keeps honest stone/iron eligibility after its surface audit")
+		rider.running = true
+		await _frames(tree, 24)
+		if masonry:
+			check.call(rider.entries == 1 and rider.ride.active and rider.global_position.z < fixture.root.global_position.z - 1.9
+				and rider.global_position.x > fixture.root.global_position.x + 0.37 and rider.bails == 0,
+				"wallride coverage: native " + kind + " masonry supports tangent travel across real panel joins without penetration")
+			rider.jump = true
+			await _frames(tree, 1)
+			check.call(not rider.ride.active and rider.launches == 1 and rider.velocity.x > 4.0 and rider.velocity.y > 7.0,
+				"wallride coverage: " + kind + " wallie returns away from the actual boundary once")
+		else:
+			check.call(rider.entries == 0 and rider.launches == 0 and not rider.ride.active,
+				"wallride coverage: the same finite iron fence retains collision without inventing an opaque supporting wall")
+		var unchanged := count == wall.get_child_count()
+		var index := 0
+		for child: Node in wall.get_children():
+			if child is CollisionShape3D:
+				unchanged = unchanged and not child.disabled and child.shape == shapes[index]
+				index += 1
+		check.call(unchanged, "wallride coverage: " + kind + " boundary keeps every original collision shape through ride and exit")
+		await _dispose(tree, fixture.root)
+
+	for kind: String in ["solid", "opaque"]:
+		var edge_fixture: Dictionary = await _boundary_fixture(tree, kind, -10.8)
+		var edge_rider: Rider = edge_fixture.rider
+		edge_rider.running = true
+		await _frames(tree, 18)
+		check.call(edge_rider.entries == 1 and not edge_rider.ride.active and edge_rider.launches == 0
+			and edge_rider.last_result.reason == "edge"
+			and edge_rider.global_position.z < edge_fixture.root.global_position.z - 12.2,
+			"wallride coverage: actual " + kind + " masonry ends finite support instead of extending a remembered plane")
+		await _dispose(tree, edge_fixture.root)
+
+	# These ordinary station faces were all excluded together with the scenic
+	# glazing. Their actual compound masonry and separate glass bodies now
+	# retain different, collision-backed eligibility through the normal audit.
+	var root := Node3D.new()
+	root.position = Vector3(2500, 300, 2500)
+	tree.root.add_child(root)
+	var materials: Dictionary = {}
+	for key: String in Railway.MATERIAL_KEYS: materials[key] = StandardMaterial3D.new()
+	var station: Node3D = Railway.new().build(root, materials)
+	var audit := SurfaceAudit.new()
+	audit.build(root, [])
+	var masonry_wall := station.get_node("StationRailwayMasonry") as StaticBody3D
+	var glass := station.get_node("StationRailwayGlazing") as StaticBody3D
+	check.call(WallRide.is_surface_eligible(masonry_wall) and not WallRide.is_surface_eligible(glass),
+		"wallride coverage: actual compound station masonry is rideable while the scenic track glazing remains excluded")
+	var rider := _coverage_rider(root, Vector3(-129.35, 3.0, 30.0))
+	await _frames(tree, 2)
+	rider.running = true
+	await _frames(tree, 18)
+	check.call(rider.entries == 1 and rider.ride.active and rider.ride.wall_id.ends_with("StationRailwayMasonry")
+		and rider.global_position.x > root.global_position.x - 129.75 and rider.bails == 0,
+		"wallride coverage: the real station wall admits finite native glancing support rather than a metadata-only claim")
+	await _dispose(tree, root)
+
+	for request: Array in [[1.5, 8.0], [3.0, 1.0]]:
+		var isolated := Node3D.new()
+		var wall := Boundary.build(isolated, "ShortStoneBoundary", PackedVector3Array([
+			Vector3.ZERO, Vector3(0, 0, request[1])]), StandardMaterial3D.new(), StandardMaterial3D.new(), request[0], true)
+		check.call(not WallRide.is_surface_eligible(wall),
+			"wallride coverage: insufficient native stone wall dimensions stay excluded " + str(request))
+		isolated.free()
+
+
+static func _boundary_fixture(tree: SceneTree, kind: String, start_z: float = 1.0) -> Dictionary:
+	var root := Node3D.new()
+	root.position = Vector3(2200, 300, 2200)
+	tree.root.add_child(root)
+	var points := PackedVector3Array()
+	for z: int in range(-12, 13, 2): points.append(Vector3(0, 0, z))
+	var wall := Boundary.build(root, "OrdinaryPropertyBoundary", points, StandardMaterial3D.new(),
+		StandardMaterial3D.new(), 3.0, kind == "solid", kind == "opaque")
+	var audit := SurfaceAudit.new()
+	audit.build(root, [])
+	var rider := _coverage_rider(root, Vector3(0.65, 0.8, start_z))
+	await _frames(tree, 2)
+	return {"root": root, "wall": wall, "rider": rider}
+
+
+static func _coverage_rider(root: Node3D, at: Vector3) -> Rider:
+	var rider := Rider.new()
+	rider.position = at
+	rider.collision_layer = 2
+	rider.collision_mask = 1
+	rider.safe_margin = 0.015
+	var collision := CollisionShape3D.new()
+	var shape := CapsuleShape3D.new()
+	shape.radius = 0.28
+	shape.height = 1.7
+	collision.shape = shape
+	collision.position.y = 0.85
+	rider.add_child(collision)
+	root.add_child(rider)
+	rider.velocity = Vector3(-1, 0, -8)
+	return rider
+
+
+static func _solid_glass_wall(tree: SceneTree, check: Callable) -> void:
+	var fixture := await _fixture(tree)
+	fixture.wall.name = "ContinuousGlassPane"
+	fixture.wall.set_meta("surface_audio", "glass")
+	var rider: Rider = fixture.rider
+	rider.running = true
+	await _frames(tree, 18)
+	check.call(rider.entries == 1 and rider.ride.active and rider.global_position.x >= fixture.root.global_position.x + 0.47,
+		"wallride coverage: actual finite continuous glass supports native glancing travel without material-only rejection")
+	fixture.wall.set_meta("no_wallride", true)
+	await _frames(tree, 1)
+	check.call(not rider.ride.active and rider.last_result.reason == "edge" and rider.launches == 0,
+		"wallride coverage: changing that real glass pane to protected scenery releases support without a wallie")
+	await _dispose(tree, fixture.root)

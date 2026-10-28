@@ -38,17 +38,19 @@ static func run_player(tree: SceneTree,game: Node,check: Callable,observer: Call
 			Driver._manual_to(game,Vector3(-147.34,0,-120))
 			await _step(tree,game,e,"downhill_catch_approach",observer)
 			if game.skater.global_position.z>=-145.25:break
-		# End the real Manual, Push briefly and pop before its .35s landing
-		# link expires. Keep Push held to avoid a fresh South/Boneless cue.
+		# Keep the same17 ground updates within the .35s Manual link, but
+		# spend15 on the real full charge rather than a two-tick tap. The
+		# slower summit approach must clear the native finite end bearing.
+		# Keep Push held to avoid a fresh South/Boneless cue.
 		Input.action_release("manual")
 		Driver._axis("spin_left","spin_right",0)
 		Driver._axis("steer_left","steer_right",0)
-		for tick: int in 15:
+		for tick: int in 2:
 			_speed_push(game,7.1)
 			Driver._steer_to(game,Vector3(-147.34,0,-120),false)
 			await _step(tree,game,e,"downhill_push_setup",observer)
 		Input.action_press("ollie")
-		for tick: int in 2:
+		for tick: int in 15:
 			_speed_push(game,7.1)
 			await _step(tree,game,e,"downhill_pop_charge",observer)
 		Input.action_release("ollie")

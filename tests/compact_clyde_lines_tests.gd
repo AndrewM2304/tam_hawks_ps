@@ -62,10 +62,15 @@ static func _line(tree: SceneTree, game: Node, check: Callable, rail_id: String,
 		Driver.action("ollie",0.0)
 		await Driver.ticks(tree,6)
 		Driver.action("ollie",1.0)
+		# The now-solid quay coping is31m long. Use its existing outward-pop
+		# input to land on the north quay, rather than back on the same crown.
+		if not yard: Driver.action("steer_left",0.5)
 		await Driver.ticks(tree,15)
 		Driver.action("ollie",0.0)
 		Driver.action("grind",0.0)
-		await Driver.ticks(tree,2)
+		await Driver.ticks(tree,1)
+		if not yard: Driver.action("steer_left",0.0)
+		await Driver.ticks(tree,1)
 		# Distinct families: yard Kickflip/Melon; quay forward/Nose Grab.
 		if not yard: Driver.action("push",1.0)
 		Driver.action("flip",1.0)
@@ -106,7 +111,7 @@ static func _line(tree: SceneTree, game: Node, check: Callable, rail_id: String,
 	else:
 		# The landward line stays behind the river edge and clear of both pipe
 		# structures, then reaches the continuous bridge instead of the gap.
-		return_points=PackedVector3Array([Vector3(-35,2,69),Vector3(-25,2,69),Vector3(-25,3.4,89),
+		return_points=PackedVector3Array([Vector3(-82,2,74),Vector3(-82,2,68),Vector3(-35,2,69),Vector3(-25,2,69),Vector3(-25,3.4,89),
 			Vector3(-25,3.4,105),Vector3(-25,2,125),Vector3(-31,2,125),
 			Vector3(-25,2,125),Vector3(-25,3.4,105),Vector3(-25,3.4,89),
 			# Leave room around the electric cart's landward patrol/end turn.
@@ -253,7 +258,7 @@ static func _river_circuit(tree: SceneTree, game: Node, check: Callable) -> void
 		"compact Clyde river circuit: actual charged optional bridge jump lands on south deck and banks the named gap")
 	var yard: Dictionary={"reached":false}
 	if not hip.is_empty():
-		var points := PackedVector3Array([Vector3(25,2,122),Vector3(54,2,122),Vector3(54,2,127.5)])
+		var points := PackedVector3Array([Vector3(20,2,125.2),Vector3(25,2,125.2),Vector3(25,2,122),Vector3(54,2,122),Vector3(54,2,127.5)])
 		# Follow representative physical arc endpoints; full support sampling is
 		# independent QE, and production steering still chooses each actual turn.
 		for index: int in range(0,hip.points.size(),3): points.append(hip.points[index])
@@ -262,7 +267,7 @@ static func _river_circuit(tree: SceneTree, game: Node, check: Callable) -> void
 	var returned: Dictionary=await Driver.drive(tree,game,PackedVector3Array([
 		# The sunken Clyde bowl occupies(-7,134.5); take the clear through lane
 		# rather than asking the return driver to cross the bowl interior.
-		Vector3(53,2,138),Vector3(20,2,138),Vector3(14,2,124),Vector3(-25,2,124),
+		Vector3(53,2,138),Vector3(20,2,138),Vector3(14,2,125.2),Vector3(-25,2,125.2),Vector3(-25,2,124),
 		Vector3(-25,3.4,105),Vector3(-25,3.4,89),Vector3(-25,2,69),
 		Vector3(0,2,69),Vector3(20,2,69),Vector3(20,2,65)]))
 	await Driver.stop(tree,game)

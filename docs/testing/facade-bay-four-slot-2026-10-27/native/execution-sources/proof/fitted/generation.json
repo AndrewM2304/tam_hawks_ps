@@ -1,0 +1,215 @@
+{
+  "schema": 1,
+  "status": "FITTED ASSET; live acceptance pending",
+  "blender": "4.3.2",
+  "generator_sha256": "38b5ccfb900c09a8b9086ae8136124fb22dd65bc9e082b06cba90c10e7115332",
+  "original_generator_sha256": "9089b13cfced0de978b9ced916e95afc69c41898c29344c14d9e512bf490c61d",
+  "entry_translation_m": [
+    0,
+    0.33,
+    0
+  ],
+  "entry_parts": {
+    "near": [
+      {
+        "part": "Recessed door",
+        "triangles": 108,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Door opaque glass",
+        "triangles": 12,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Stone threshold",
+        "triangles": 108,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Door handle",
+        "triangles": 188,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Handle mount",
+        "triangles": 108,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Handle mount",
+        "triangles": 108,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      }
+    ],
+    "mid": [
+      {
+        "part": "Recessed door",
+        "triangles": 12,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Door opaque glass",
+        "triangles": 12,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Stone threshold",
+        "triangles": 12,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Door handle",
+        "triangles": 188,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Handle mount",
+        "triangles": 108,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Handle mount",
+        "triangles": 108,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      }
+    ],
+    "far": [
+      {
+        "part": "Recessed door",
+        "triangles": 12,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Door opaque glass",
+        "triangles": 12,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Stone threshold",
+        "triangles": 12,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      },
+      {
+        "part": "Door metal handle silhouette",
+        "triangles": 12,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ]
+      }
+    ]
+  },
+  "geometry": [
+    {
+      "lod": "near",
+      "blender_triangles": 18392,
+      "authored_parts": 246
+    },
+    {
+      "lod": "mid",
+      "blender_triangles": 3544,
+      "authored_parts": 142
+    },
+    {
+      "lod": "far",
+      "blender_triangles": 648,
+      "authored_parts": 54
+    }
+  ],
+  "material_slots": [
+    "01_Original_sandstone",
+    "02_Painted_forest_joinery",
+    "03_Opaque_glazing",
+    "04_Aged_dark_metal"
+  ],
+  "embedded_images": 0,
+  "embedded_pbr_materials": 0,
+  "uv_policy": "Original authored FacadeUV becomes sole TEXCOORD_0; discard default cube UV; rebuild tangents",
+  "rendered": false,
+  "godot_launched": false,
+  "downloaded_assets": [],
+  "preserved_proof_sha256": {
+    ".gdignore": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "LICENSE-NOTICE.md": "a98ea842c6e8049218d1b1ff12f9da065d0a86ea165e389ab738a8b2521fcccd",
+    "PROVENANCE.md": "56b53204a89cc26428a4221bfd14ae3cfedb9db2b165e0c8383b1d7b9a461978",
+    "README.md": "f0a7333841df179c7edf2cd77114c08ccfa1a319d826ad25e9ef6398559623c7",
+    "audit.json": "a70a25601ce820ceca958b4c72660f06040a30eafe32c51a20d2c5b47a908a6f",
+    "audit.py": "93073cee92d5ad34f17badaf1175cc56495aff9eb0492f6b1d68d9fdd3493622",
+    "generated/glasgow_bay_far.glb": "5caa367a6d8d4e2e30e97df8a462251edc6826e5bec2a5ef76669a907efe9994",
+    "generated/glasgow_bay_mid.glb": "2794aff0ad9aa6c9865c6c25940388186b72514b695330578b856fc7108cd5bd",
+    "generated/glasgow_bay_near.glb": "193e20c6a6f65bf816b99dd592cf4a2196f309e7c096643a636359972f6a5ea0",
+    "generation.json": "fe06d3db626d5e587bf1457a9573cce88377b6139edcd5bfd64571ffc0288f22",
+    "generation.log": "691b17266b27844aba3aac355a399ccf0f664f24e8cd8b25f35aa409f26ccc7f",
+    "generator.py": "9089b13cfced0de978b9ced916e95afc69c41898c29344c14d9e512bf490c61d",
+    "preview/project.godot": "ac629246864753176d4f587b018c0f4bd1773b088f53dfab572ac6fa8d3a0495",
+    "preview/render.gd": "b4879ff293208c146e66873dca6086d5fb4a2c81a9d66f822b907bb46266076b",
+    "preview/run.sh": "c8904beba7f1dfa5bde5bef7285a4c9206f1098d66f66293ac16a75a70cd4e93",
+    "reproducibility.json": "b66e56464f92438dec26d2017c461cc51111da81230169b6e6d74354a471413a",
+    "textures/opaque_glazing_basecolor.png": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894",
+    "textures/sandstone_basecolor.png": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+    "textures/sandstone_normal_opengl.png": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+    "textures/sandstone_orm.png": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9"
+  }
+}

@@ -1,0 +1,183 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: named grind: approach begins on actual supported floor side=0 reversed=false slope=false
+PASS: named grind: charged real approach captures exact style and one authored rail ID side=0 reversed=false slope=false
+PASS: named grind: named entry awards once without a legacy compatibility duplicate side=0 reversed=false slope=false
+PASS: named grind: actual mounted board follows contact frame and native rail top side=0 reversed=false slope=false
+PASS: named grind: truck pair is parallel or deck contact is sideways independently of travel side=0 reversed=false slope=false
+PASS: named grind: soles stay planted while root and chase remain behind signed travel side=0 reversed=false slope=false
+PASS: named grind: continued held Triangle cannot reaward the locked ride side=0 reversed=false slope=false
+PASS: named grind: actual release-pop preserves signed XZ momentum and chosen board heading side=0 reversed=false slope=false
+PASS: named grind: release-pop preserves board origin before bounded offset decay side=0 reversed=false slope=false
+PASS: named grind: release-pop clears the reusable contact and style side=0 reversed=false slope=false
+PASS: named grind: sideways base heading earns no fake spin and two real pops land cleanly side=0 reversed=false slope=false
+NAMED_GRIND side=0 reversed=false slope=false styles=["grind_50_50"] captures=["IndependentVerifiedRail"] awards=["Ollie", "50-50", "Ollie"] native_ticks=23 contact_error=0.00000381469727 plane_error=0.00000011920929 foot_error=0.00012921665621 rear=1.0 first_exit={ "velocity": (0.0, 7.225062, -11.22229), "airborne": true, "position": (0.0, 0.92, 14.36503), "board_forward": (0.0, 0.0, -1.0), "bailing": false, "board_relative_step": 0.00526189804077 }
+PASS: named grind: approach begins on actual supported floor side=1 reversed=false slope=false
+PASS: named grind: charged real approach captures exact style and one authored rail ID side=1 reversed=false slope=false
+PASS: named grind: named entry awards once without a legacy compatibility duplicate side=1 reversed=false slope=false
+PASS: named grind: actual mounted board follows contact frame and native rail top side=1 reversed=false slope=false
+PASS: named grind: truck pair is parallel or deck contact is sideways independently of travel side=1 reversed=false slope=false
+PASS: named grind: soles stay planted while root and chase remain behind signed travel side=1 reversed=false slope=false
+PASS: named grind: continued held Triangle cannot reaward the locked ride side=1 reversed=false slope=false
+PASS: named grind: actual release-pop preserves signed XZ momentum and chosen board heading side=1 reversed=false slope=false
+PASS: named grind: release-pop preserves board origin before bounded offset decay side=1 reversed=false slope=false
+PASS: named grind: release-pop clears the reusable contact and style side=1 reversed=false slope=false
+PASS: named grind: sideways base heading earns no fake spin and two real pops land cleanly side=1 reversed=false slope=false
+NAMED_GRIND side=1 reversed=false slope=false styles=["boardslide"] captures=["IndependentVerifiedRail"] awards=["Ollie", "Boardslide", "Ollie"] native_ticks=23 contact_error=0.0 plane_error=0.00000005960464 foot_error=0.00013163269614 rear=1.0 first_exit={ "velocity": (0.0, 7.225062, -11.22229), "airborne": true, "position": (0.0, 0.92, 14.36503), "board_forward": (1.0, 0.0, 0.0), "bailing": false, "board_relative_step": 0.03280925750732 }
+PASS: named grind: approach begins on actual supported floor side=-1 reversed=true slope=true
+PASS: named grind: charged real approach captures exact style and one authored rail ID side=-1 reversed=true slope=true
+PASS: named grind: named entry awards once without a legacy compatibility duplicate side=-1 reversed=true slope=true
+PASS: named grind: actual mounted board follows contact frame and native rail top side=-1 reversed=true slope=true
+PASS: named grind: truck pair is parallel or deck contact is sideways independently of travel side=-1 reversed=true slope=true
+PASS: named grind: soles stay planted while root and chase remain behind signed travel side=-1 reversed=true slope=true
+PASS: named grind: continued held Triangle cannot reaward the locked ride side=-1 reversed=true slope=true
+PASS: named grind: actual release-pop preserves signed XZ momentum and chosen board heading side=-1 reversed=true slope=true
+PASS: named grind: release-pop preserves board origin before bounded offset decay side=-1 reversed=true slope=true
+PASS: named grind: release-pop clears the reusable contact and style side=-1 reversed=true slope=true
+PASS: named grind: sideways base heading earns no fake spin and two real pops land cleanly side=-1 reversed=true slope=true
+NAMED_GRIND side=-1 reversed=true slope=true styles=["boardslide"] captures=["IndependentVerifiedRail"] awards=["Ollie", "Boardslide", "Ollie"] native_ticks=23 contact_error=0.0 plane_error=0.00000005960464 foot_error=0.00012936283019 rear=1.0 first_exit={ "velocity": (0.0, 7.225062, -11.23728), "airborne": true, "position": (0.0, 0.954803, 14.36194), "board_forward": (-1.0, 0.0, 0.0), "bailing": false, "board_relative_step": 0.03280961513519 }
+PASS: named grind: pause/drop fixture reaches an actual sideways locked contact
+PASS: named grind: real pause freezes motion, contact, feet and style without reaward
+PASS: named grind: releasing held Triangle during pause resumes the same locked contact
+PASS: named grind: second fresh Triangle exits without a jump, recapture or extra award
+PASS: named grind: fresh drop preserves the deck origin instead of snapping .106m upward
+PASS: named grind: explicit restart clears contact, sideways heading and stale held capture
+PASS: named grind: actual bail clears contact and releases the board with exactly one failure
+PASS: named grind: an unverified legacy guide stays explicitly generic even after directional input
+PASS: named grind: blocker outside the native capsule leaves a parallel truck catch reachable
+NAMED_GRIND_BLOCKER side=0 captures=["IndependentVerifiedRail"] awards=["Ollie", "50-50"] body=(0.0, 0.92, 16.43253) requests=true
+PASS: named grind: real wall inside sideways nose envelope refuses contact and award without generic fallback
+NAMED_GRIND_BLOCKER side=1 captures=[] awards=["Ollie"] body=(0.025004, 0.01377, 13.36947) requests=true
+PASS: named grind: parallel blocker fixture independently clears the actual capsule at the capture target
+PASS: named grind: supported truck geometry blocked below the capsule rejects capture without generic fallback
+NAMED_GRIND_PARALLEL_BLOCKER capsule_clear=true requested_at=(0.0, 1.188747, 18.7109) captures=[] awards=["Ollie"]
+PASS: named clearance unit: exact start/end boxes are genuinely clear thin_translation_wall
+PASS: named clearance unit: native midpoint obstacle rejects the continuous envelope thin_translation_wall
+PASS: named clearance unit: translated unobstructed motion stays admitted thin_translation_wall
+PASS: named clearance unit: reusable query box size restores after rejected and clear paths thin_translation_wall
+NAMED_GRIND_CLEARANCE_UNIT { "id": "thin_translation_wall", "from_clear": true, "to_clear": true, "middle_clear": false, "path_clear": false, "control_clear": true, "restored_rejected": true, "restored_control": true }
+PASS: named clearance unit: exact start/end boxes are genuinely clear rotation_only_nose_arc
+PASS: named clearance unit: native midpoint obstacle rejects the continuous envelope rotation_only_nose_arc
+PASS: named clearance unit: translated unobstructed motion stays admitted rotation_only_nose_arc
+PASS: named clearance unit: reusable query box size restores after rejected and clear paths rotation_only_nose_arc
+NAMED_GRIND_CLEARANCE_UNIT { "id": "rotation_only_nose_arc", "from_clear": true, "to_clear": true, "middle_clear": false, "path_clear": false, "control_clear": true, "restored_rejected": true, "restored_control": true }
+PASS: named grind: natural finite endpoint releases actual contact once at the authored end
+PASS: named grind: natural endpoint preserves signed carry without inventing an Ollie
+PASS: named grind: natural endpoint lands once without fake spin or held-input recapture
+NAMED_GRIND_ENDPOINT exit={ "velocity": (0.0, 0.0, -11.30229), "airborne": true, "position": (0.0, 0.92, 16.0), "board_forward": (1.0, 0.0, 0.0), "bailing": false, "board_relative_step": 0.03280925750732 } awards=["Ollie", "Boardslide"] captures=["IndependentVerifiedRail"]
+PASS: named grind: saved input profile is restored after mapped native trials
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=0.0 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=0.0 balance=0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS: grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS: grind variants: rail_grind compatibility uses the identical existing two-truck solve
+PASS: grind variants: signed Lipslide has the actual GLB deck bearing without claiming crossing history
+PASS: grind variants: signed Lipslide has the actual GLB deck bearing without claiming crossing history
+PASS: grind variants: one truck may use a finite endpoint while two trucks still require the original rigid chord
+PASS: grind variants: an event or unknown ID cannot manufacture another physical pose grind_pivot
+PASS: grind variants: an event or unknown ID cannot manufacture another physical pose unimplemented_tailslide
+PASS: grind variants: a mismatched yaw cannot borrow another named hanger contact
+PASS: grind variants: unverified support never gains a named physical contact
+PASS: grind variants native: the actual combined GLB caches32 welded solid components instead of one false hull
+PASS: grind variants native: loaded hanger/deck anchors are on actual retained GLB triangles
+PASS: grind variants native: nosegrind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: five_o_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: crooked_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: overcrook_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: smith_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: feeble_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: lipslide sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids nosegrind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids five_o_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids crooked_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids overcrook_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids smith_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids feeble_grind
+PASS: grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids lipslide
+PASS: grind variants native: two clear deck poses cannot rotate their actual trucks through steel between frames
+PASS: grind variants native: a direct loaded50-50 to deck slide requires real unweighting rather than a hidden steel crossing
+PASS: grind transfer native: boardslide queues only a proved bounded lift/rotate/reseat and starts at the actual board frame
+PASS: grind transfer native: a zero-time tick cannot advance the unweight phase or complete its award
+PASS: grind transfer native: actual boardslide moves with its target and reseats at the bounded adaptive turn rate
+PASS: grind transfer native: a completed reseat can be committed once only
+PASS: grind transfer native: lipslide queues only a proved bounded lift/rotate/reseat and starts at the actual board frame
+PASS: grind transfer native: a zero-time tick cannot advance the unweight phase or complete its award
+PASS: grind transfer native: actual lipslide moves with its target and reseats at the bounded adaptive turn rate
+PASS: grind transfer native: a completed reseat can be committed once only
+PASS: grind transfer native: a real180-degree deck change receives its longer unweighted rotation phase
+PASS: grind transfer native: actual180-degree steel clearance keeps every displayed angular step below15rad/s
+PASS: grind transfer native: an actual starting wheel overlap cannot be laundered through a later clear lift
+PASS: grind transfer native: removing the genuine start obstruction permits the same proved transfer
+PASS: grind transfer native: dropping an incomplete transfer retains its last safe air frame without a completion
+PASS: grind transfer native: restart clears old path, pose and pending completion
+PASS: grind variants native: exact endpoint solids stay clear while the cached continuous model sweep catches an intervening world blocker
+PASS: grind variants native: a failed geometry rebuild clears prior clearance authority
+RESULT: 171 passed, 0 failed

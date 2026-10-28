@@ -1,0 +1,269 @@
+{
+  "native_receipt": "native/receipt.json",
+  "native_receipt_sha256": "fff1967cfed94ba4c36152a80635b4e7075317bd213c85f1ab6d27edc37257e7",
+  "manifest": "originals/manifest.json",
+  "manifest_sha256": "5867325ad7d4367dc024abbef8057fbeb83707693a38dc1682e716f1011102a5",
+  "source_inputs": 682,
+  "source_stable": true,
+  "inner_source_inputs": 275,
+  "inner_source_stable": true,
+  "native_seconds": 18.28881017599997,
+  "result_counts": [
+    [
+      "8",
+      "0"
+    ]
+  ],
+  "draw_pose_witnesses": 8,
+  "actors": [
+    {
+      "variant": "before",
+      "air_ticks": 32,
+      "peak": 1.26854919455945,
+      "events": [
+        "ollie"
+      ],
+      "bails": 0,
+      "clothing": true,
+      "maximum_seam": 0.0584589913487434,
+      "maximum_joint": 0.00328219681978226,
+      "maximum_grip_after_catch": 0.000853627570904791,
+      "minimum_sole_y": 0.145899966359138,
+      "air_seconds": 0.5333333333333333
+    },
+    {
+      "variant": "after",
+      "air_ticks": 38,
+      "peak": 1.25624131225049,
+      "events": [
+        "ollie"
+      ],
+      "bails": 0,
+      "clothing": true,
+      "maximum_seam": 0.0570842213928699,
+      "maximum_joint": 0.00188295391853899,
+      "maximum_grip_after_catch": 0.000853705278132111,
+      "minimum_sole_y": 0.145899966359138,
+      "air_seconds": 0.6333333333333333
+    }
+  ],
+  "image_phases": [
+    {
+      "file": "before-crouch.png",
+      "sha256": "9988b19559ac6e05dd678500bca13e5a0031f6cc51694164c50ceaf12944912e",
+      "variant": "before",
+      "stage": "crouch",
+      "native_tick": 0,
+      "native_seconds": 0.0,
+      "air_ticks": 0,
+      "ground_ticks": 0,
+      "position": [
+        0.0,
+        0.0116666648536921,
+        -0.833333373069763
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        -3.99999737739563
+      ],
+      "hips_y": 0.787071347236633,
+      "board_pitch": 0.0,
+      "completed_draw_pose_matches": true,
+      "observed_engine_draw_frame": 105,
+      "observed_engine_process_frame": 105,
+      "interpolation_fraction": 0.0,
+      "framed": true
+    },
+    {
+      "file": "after-crouch.png",
+      "sha256": "9988b19559ac6e05dd678500bca13e5a0031f6cc51694164c50ceaf12944912e",
+      "variant": "after",
+      "stage": "crouch",
+      "native_tick": 0,
+      "native_seconds": 0.0,
+      "air_ticks": 0,
+      "ground_ticks": 0,
+      "position": [
+        0.0,
+        0.0116666648536921,
+        -0.833333373069763
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        -3.99999737739563
+      ],
+      "hips_y": 0.787071347236633,
+      "board_pitch": 0.0,
+      "completed_draw_pose_matches": true,
+      "observed_engine_draw_frame": 107,
+      "observed_engine_process_frame": 107,
+      "interpolation_fraction": 0.0,
+      "framed": true
+    },
+    {
+      "file": "before-rise.png",
+      "sha256": "72d9ed383fb708133e1822fc801f9d332042bc5f231a8439a3a8d8b688346c2b",
+      "variant": "before",
+      "stage": "rise",
+      "native_tick": 5,
+      "native_seconds": 0.0833333333333333,
+      "air_ticks": 5,
+      "ground_ticks": 0,
+      "position": [
+        0.0,
+        0.66910457611084,
+        -1.16500091552734
+      ],
+      "velocity": [
+        0.0,
+        6.73333358764648,
+        -3.97004580497742
+      ],
+      "hips_y": 0.831316649913788,
+      "board_pitch": 0.354106336832047,
+      "completed_draw_pose_matches": true,
+      "observed_engine_draw_frame": 113,
+      "observed_engine_process_frame": 113,
+      "interpolation_fraction": 0.0,
+      "framed": true
+    },
+    {
+      "file": "after-rise.png",
+      "sha256": "c899dff05f7d410e0c2f585d0e9fe83af6adf451ab276f7dd4b4411ac84785f2",
+      "variant": "after",
+      "stage": "rise",
+      "native_tick": 5,
+      "native_seconds": 0.0833333333333333,
+      "air_ticks": 5,
+      "ground_ticks": 0,
+      "position": [
+        0.0,
+        0.576888799667358,
+        -1.16509616374969
+      ],
+      "velocity": [
+        0.0,
+        5.96151208877563,
+        -3.97004580497742
+      ],
+      "hips_y": 0.866137325763702,
+      "board_pitch": 0.379999995231628,
+      "completed_draw_pose_matches": true,
+      "observed_engine_draw_frame": 115,
+      "observed_engine_process_frame": 115,
+      "interpolation_fraction": 0.0,
+      "framed": true
+    },
+    {
+      "file": "before-apex.png",
+      "sha256": "20d84cad96ca13531d8f737cc3a9fe052d070711dce8b9a0d1a1b0f14e2bd300",
+      "variant": "before",
+      "stage": "apex",
+      "native_tick": 17,
+      "native_seconds": 0.283333333333333,
+      "air_ticks": 17,
+      "ground_ticks": 0,
+      "position": [
+        0.0,
+        1.27910470962524,
+        -1.9590106010437
+      ],
+      "velocity": [
+        0.0,
+        -0.0666660144925117,
+        -3.97004580497742
+      ],
+      "hips_y": 0.854393899440765,
+      "board_pitch": 0.0,
+      "completed_draw_pose_matches": true,
+      "observed_engine_draw_frame": 128,
+      "observed_engine_process_frame": 128,
+      "interpolation_fraction": 0.0,
+      "framed": true
+    },
+    {
+      "file": "after-apex.png",
+      "sha256": "7cece156b75fddedd88e23787d337092827871e948abae68c87e00114c587f1a",
+      "variant": "after",
+      "stage": "apex",
+      "native_tick": 20,
+      "native_seconds": 0.333333333333333,
+      "air_ticks": 20,
+      "ground_ticks": 0,
+      "position": [
+        0.0,
+        1.26726651191711,
+        -2.15760803222656
+      ],
+      "velocity": [
+        0.0,
+        -0.0384886786341667,
+        -3.97004580497742
+      ],
+      "hips_y": 0.820115804672241,
+      "board_pitch": 0.0,
+      "completed_draw_pose_matches": true,
+      "observed_engine_draw_frame": 132,
+      "observed_engine_process_frame": 132,
+      "interpolation_fraction": 0.0,
+      "framed": true
+    },
+    {
+      "file": "before-contact.png",
+      "sha256": "4c1f2307a88def6b67cf42d0b8546eaad083903c5c9eaf93c8394d3867b30d7b",
+      "variant": "before",
+      "stage": "contact",
+      "native_tick": 35,
+      "native_seconds": 0.583333333333333,
+      "air_ticks": 32,
+      "ground_ticks": 3,
+      "position": [
+        0.0,
+        0.0124204196035862,
+        -3.14853262901306
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        -3.91044950485229
+      ],
+      "hips_y": 0.855685770511627,
+      "board_pitch": 0.0,
+      "completed_draw_pose_matches": true,
+      "observed_engine_draw_frame": 148,
+      "observed_engine_process_frame": 148,
+      "interpolation_fraction": 0.0,
+      "framed": true
+    },
+    {
+      "file": "after-contact.png",
+      "sha256": "3b9ee28498a28f287e1bf0483e59a326b259a8d4a61d793b97930a67df096e07",
+      "variant": "after",
+      "stage": "contact",
+      "native_tick": 41,
+      "native_seconds": 0.683333333333333,
+      "air_ticks": 38,
+      "ground_ticks": 3,
+      "position": [
+        0.0,
+        0.000729425810277462,
+        -3.54563140869141
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        -3.91043519973755
+      ],
+      "hips_y": 0.789063513278961,
+      "board_pitch": 0.0,
+      "completed_draw_pose_matches": true,
+      "observed_engine_draw_frame": 155,
+      "observed_engine_process_frame": 155,
+      "interpolation_fraction": 0.0,
+      "framed": true
+    }
+  ],
+  "limits": "Intentional new physical trajectory: no false native position/velocity parity after release. Old controller/Visual/TrickAnimation are immutable 838e6f4 adapters; other dependencies are shared current and hashed. Static fixed-view PNGs do not certify moving-camera quality, target Mac feel, display FPS or timing admission."
+}

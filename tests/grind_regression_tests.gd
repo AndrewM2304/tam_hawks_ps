@@ -31,7 +31,9 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check: Callable) -> void:
 	# Establish a real supported approach, then use ordinary actions throughout
 	# takeoff/capture. No airborne state, speed or travel velocity is injected.
-	game.skater.spawn_position = Vector3(12.0, 0.8, 20.0)
+	# Leave room to finish charging before the now-solid rail can clip the
+	# earned approach speed. Everything after this initial fixture is input.
+	game.skater.spawn_position = Vector3(12.0, 0.8, 23.5)
 	game.restart_run()
 	await _frames(tree, 40)
 	check.call(game.skater.is_on_floor() and not game.skater.airborne,
@@ -49,7 +51,7 @@ static func _ground_approach_and_obstruction(tree: SceneTree, game: Node, check:
 		and game.skater.speed > 5.0 and game.score.get_combo_value() == 0,
 		"grind regression: grounded push builds speed without snapping or scoring a rail")
 	# Grounded hold already proved no snap. Request the specifically tested
-	# descending catch after the apex; normal admission also allows <=1m/s rise.
+	# descending catch after the apex; rising admission has separate coverage.
 	Input.action_release("grind")
 	Input.action_press("ollie")
 	# The calmer flat profile requires a deliberate charge for this early
@@ -174,11 +176,14 @@ static func _overtime_admission(tree: SceneTree, game: Node, check: Callable) ->
 		"grind regression: overtime cannot start a new scored rail ollie")
 	Input.action_release("grind")
 	await _frames(tree, 1)
+	var release_from: Vector3=game.skater.global_position
 	Input.action_press("grind")
 	await _frames(tree, 2)
 	Input.action_release("grind")
-	check.call(not game.skater.grinding and game.skater.airborne,
-		"grind regression: overtime still permits releasing an existing rail")
+	check.call(not game.skater.grinding and game.skater._grind_cooldown>=.30
+		and game.skater.global_position.is_finite() and game.skater.global_position.distance_to(release_from)<.40
+		and (game.skater.airborne or _solid_rail_support(game,"Grind_Rail_Exchange")),
+		"grind regression: overtime permits actual release above or onto the same solid rail")
 	await _frames(tree, 60)
 	check.call(game.run_finished and game.score.total_score == rail_combo
 		and game.score.get_combo_value() == 0,
@@ -226,3 +231,19 @@ static func _grind_award_count(names: Array) -> int:
 	for name: String in names:
 		if Catalog.is_grind_name(name): count += 1
 	return count
+
+
+static func _solid_rail_support(game: Node, id: String) -> bool:
+	# A fresh release may already have landed on the actual solid bar by the
+	# second observation. Require native support from that exact authored rail.
+	if not game.skater.is_on_floor() or game.skater.airborne:return false
+	var at: Vector3=game.skater.global_position
+	var ray:=PhysicsRayQueryParameters3D.create(at+Vector3.UP*.04,at-Vector3.UP*.12,1|2)
+	ray.exclude=[game.skater.get_rid()]
+	var hit: Dictionary=game.world.get_world_3d().direct_space_state.intersect_ray(ray)
+	if hit.is_empty() or not hit.collider is StaticBody3D:return false
+	var body: StaticBody3D=hit.collider
+	var ids: Variant=body.get_meta("authored_grind_ids",[])
+	return (body.collision_layer&(1|2))==(1|2) and (ids is Array or ids is PackedStringArray) \
+		and ids.has(id) and Vector3(hit.normal).y>.99 and at.y-Vector3(hit.position).y>=-.001 \
+		and at.y-Vector3(hit.position).y<=.03

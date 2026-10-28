@@ -1,3 +1,29 @@
+# Current contact repairs: one remaining focused blocker — 28 October2026
+
+[Current gameplay evidence](../testing/gameplay-contact-2026-10-27/README.md) retains both rejected full runs, including the portable second **5,700/15**,590.492s on673 stable inputs. New exact focused runs pass compact-route11/0, career16/0, board-ray parity24/0 and transition routes63/0. Career completes all ten goals at83.87s and returns at90.38s with16,692 points/zero bails. Transition evidence covers default Civic→Facility and historical-context Authentic Deep/Shallow camera checks. Prior Summit2/0, both Cable directions3/0 and earlier contact/camera guards keep their exact scope.
+
+Bowl assembly native guards pass22/0, but the **full original Clyde cohort still rejects10/1**; a bounded native diagnostic owns that remaining blocker. Do not infer all focused checks pass from the smaller guard result. Required03 has not started. No current whole-project admission, fresh cold launch, packages, commit or push is claimed; HEAD remains838e6f4.
+
+The next required output is fresh `.local/gameplay-contact-required-03`; package audit must explicitly bind its future admitted receipt and matching before/after maps. Both previous directories are failed evidence. Ordinary station/train/pond/green/civic trial content remains enabled and Music isolated. Continue directly on main after verified push/package checkpoints, preserving non-force/no-spend/no-hosted-CI/no-release constraints. Mac/controller, human feel and final-art acceptance remain open. Facade attribution is prepared but unrun until the gameplay push/packages. Historical sections below retain their source scope.
+
+---
+
+# Active facade source/cost continuation — 27 October 2026
+
+Manual-arm and stopped-foot fixes are pushed and packaged froma94b737; main
+package handoff838e6f4 retains5,520/0 plus Music2/0 and563-input cold proof.
+[The next existing facade task](../testing/facade-bay-four-slot-2026-10-27/README.md) now passes source geometry,
+repeat-export and32-frame native appearance/resource comparison. Live integration
+uses a separate mesh root with original textures. An initial41/1 focused rejection
+reveals automatic near-mesh quantization; new-near-only uncompressed import restores
+the exact threshold within the original tolerance and retains smaller native
+buffers than the original. Corrected native focused/rendered checks are running.
+Required combined and six full cost profiles remain pending; no final-art,
+Mac, timing or default-activation acceptance is inferred. Existing trial features
+remain available and Music isolation is preserved.
+
+---
+
 # Ordinary Manual arms and stopping-foot fixes — 27 October 2026
 
 The required combined suite passes **5,520/0**, plus actual Music script

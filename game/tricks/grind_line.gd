@@ -28,6 +28,16 @@ var contact_verified: bool = false
 var contact_source: String = ""
 var contact_vertical_offset: float = 0.0
 var contact_normal_offset: float = 0.0
+## Optional real exposed box side. This is independent of the upward crown
+## normal; it permits a board to lean over the edge without moving support.
+var contact_edge_outward := Vector3.ZERO
+## Native bearing cross-section used only for body travel. A changing-grade
+## beam may have this inspected radius without certifying named board contact.
+var body_profile_radius := 0.0
+var body_profile_source := ""
+## Runtime native owners of an inspected finite box-edge support assembly.
+## Other guides retain an empty list; matching metadata alone grants no RID.
+var native_support_rids: Array[RID] = []
 
 
 func _init(p_id: String, p_points: PackedVector3Array, p_kind: String = "") -> void:
@@ -84,6 +94,8 @@ func configure_contact(vertical_offset: float, normal_offset: float, source: Str
 	contact_source = ""
 	contact_vertical_offset = 0.0
 	contact_normal_offset = 0.0
+	contact_edge_outward = Vector3.ZERO
+	native_support_rids.clear()
 	if not is_valid or not is_finite(vertical_offset) or not is_finite(normal_offset) \
 			or absf(vertical_offset) > MAX_CONTACT_OFFSET or absf(normal_offset) > MAX_CONTACT_OFFSET \
 			or source.strip_edges().is_empty():
@@ -103,6 +115,33 @@ func configure_contact(vertical_offset: float, normal_offset: float, source: Str
 	contact_normal_offset = normal_offset
 	contact_source = source.strip_edges()
 	contact_verified = true
+	return self
+
+
+func configure_edge_contact(outward: Vector3) -> GrindLine:
+	contact_edge_outward = Vector3.ZERO
+	if not contact_verified or not outward.is_finite() or not is_finite(outward.length_squared()) or outward.length_squared()<0.5 \
+			or absf(outward.y)>0.000001: return self
+	var normal := outward.normalized()
+	var tangent := (points[-1]-points[0]).normalized()
+	if absf(tangent.y)>0.000001 or absf(normal.dot(tangent))>0.000001:return self
+	for index: int in range(points.size()-1):
+		var direction := (points[index+1]-points[index]).normalized()
+		if direction.dot(tangent)<0.999999 or absf(direction.y)>0.000001:return self
+	contact_edge_outward = normal
+	return self
+
+
+func configure_body_profile(normal_radius: float,source: String) -> GrindLine:
+	body_profile_radius=0.0
+	body_profile_source=""
+	if not is_valid or not is_finite(normal_radius) or normal_radius<=0.0 \
+			or normal_radius>MAX_CONTACT_OFFSET or source.strip_edges().is_empty():return self
+	for index: int in range(points.size()-1):
+		var segment := points[index+1]-points[index]
+		if not segment.is_finite() or Vector2(segment.x,segment.z).length_squared()<0.000001:return self
+	body_profile_radius=normal_radius
+	body_profile_source=source.strip_edges()
 	return self
 
 
@@ -152,6 +191,10 @@ func contact_at(dist: float) -> Vector3:
 func point_at(dist: float) -> Vector3:
 	if not is_valid or not is_finite(dist):
 		return Vector3.ZERO
+	if points.size()==2:
+		# The native two-point bar is exactly this authored segment. Sampling
+		# its baked far-origin curve adds unrelated quantized intermediate bends.
+		return points[0].lerp(points[1],clampf(dist/length,0.0,1.0))
 	return curve.sample_baked(clampf(dist, 0.0, length))
 
 
@@ -160,6 +203,11 @@ func dir_at(dist: float) -> Vector3:
 	if not is_valid or not is_finite(dist):
 		return Vector3.ZERO
 	var bounded: float = clampf(dist, 0.0, length)
+	if points.size()==2:
+		# A two-point native bar has one exact authored direction. Differencing
+		# adjacent baked world samples magnifies far-origin float rounding and
+		# invents changing normals along this physically straight bearing.
+		return (points[1]-points[0]).normalized()
 	if is_loop:
 		var before := curve.sample_baked(fposmod(bounded - TANGENT_STEP, length))
 		var after := curve.sample_baked(fposmod(bounded + TANGENT_STEP, length))

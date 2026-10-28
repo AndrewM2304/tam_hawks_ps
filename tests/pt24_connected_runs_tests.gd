@@ -39,7 +39,7 @@ static func run(tree: SceneTree,game: Node,check: Callable) -> void:
 	var side: StaticBody3D=world.get_node("RecordingAlcoveSide")
 	var back: StaticBody3D=world.get_node("RecordingAlcoveBack")
 	check.call(_matching_box(side,Vector3(113,1.8,-32.875),Vector3(0.5,0.6,17.75))
-		and _matching_box(back,Vector3(113,2.17,-32.875),Vector3(0.14,0.14,17.75)) and back.collision_layer==2,
+		and _matching_box(back,Vector3(113,2.17,-32.875),Vector3(0.14,0.14,17.75)) and back.collision_layer==(1|2),
 		"PT24-20: existing wall resources become a low loading kerb and real steel bearing with tyre clearance")
 	var yard=tracks.get("Grind_Ledge_RecordingCourt")
 	var real_contact: bool=yard!=null and yard.contact_verified

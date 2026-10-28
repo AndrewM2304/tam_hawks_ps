@@ -38,6 +38,7 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 		body.set_meta("solid_boundary",true)
 		body.set_meta("surface_audio","stone")
 		_flush(body,"PropertyMasonry",[_box_transform(high-low,(high+low)*.5)],stone)
+		_admit_masonry(body,points,height)
 		return body
 	var masonry: Array[Transform3D] = []
 	var metal: Array[Transform3D] = []
@@ -88,10 +89,29 @@ static func build(parent: Node3D, id: String, points: PackedVector3Array,
 		body.add_child(display)
 		body.set_meta("opaque_boundary",true)
 		body.set_meta("surface_audio","stone")
+		_admit_masonry(body,points,height)
 	else:
 		_flush(body,"RetainedMasonry",masonry,stone)
 		_flush(body,"Ironwork",metal,iron)
 	return body
+
+
+static func _admit_masonry(body: StaticBody3D, points: PackedVector3Array, height: float) -> void:
+	# Opaque walls keep every existing boundary collider. Riding their real
+	# inboard face must not depend on one named property's opt-in. Open iron
+	# fences still retain the explicit exclusion established above.
+	if not is_finite(height) or height < 1.6 or points.size() < 2:
+		return
+	var run := 0.0
+	for index in range(points.size() - 1):
+		if not points[index].is_finite() or not points[index + 1].is_finite():
+			return
+		run += Vector2(points[index + 1].x - points[index].x, points[index + 1].z - points[index].z).length()
+	if run < 2.0:
+		return
+	body.set_meta("wallrideable", true)
+	body.set_meta("no_wallride", false)
+	body.remove_meta("wallride_exclusion_reason")
 
 
 static func _panel_prism(tool: SurfaceTool, vertices: PackedVector3Array) -> void:

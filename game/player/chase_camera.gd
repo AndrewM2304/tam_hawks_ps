@@ -10,6 +10,7 @@ const CLEARANCE := 0.045
 const MIN_USEFUL_ARM := 3.0
 const NORMAL_HEIGHT := 2.5
 const LOW_HEIGHT := 1.95
+const HIGH_HEIGHT := 7.2 # Existing last-resort native clearance height.
 const REVERSE_MIN_SPEED := 1.2
 const REVERSE_CONFIRM_TIME := 0.28
 const FORWARD_CONFIRM_TIME := 0.22
@@ -293,6 +294,11 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 		var new_offset := desired - anchor
 		var follow_rate := 14.0 if _ramp_mode or bool(rider.get("airborne")) else 7.0
 		var blend := 1.0-exp(-follow_rate*response*step)
+		if _ramp_mode and bool(rider.get("transition_active")) and not bool(rider.get("airborne")) and _travel_velocity.y>0.1:
+			# The rear arm must converge before the rising concrete/steel crest
+			# closes its last body sightline. Native sweeps and the existing
+			# movement cap still admit every intermediate camera position.
+			blend=maxf(blend,1.0-smoothstep(0.20,0.45,_ramp_lift))
 		var direction := old_offset.normalized().slerp(new_offset.normalized(),blend)
 		var radius := lerpf(old_offset.length(),new_offset.length(),blend)
 		var proposed := anchor+direction*radius
@@ -508,6 +514,22 @@ func _choose(space: PhysicsDirectSpaceState3D, anchor: Vector3, board: Vector3, 
 	if ordinary.usable:
 		_selected_angle=0.0
 		return ordinary
+	if _ramp_mode and _ramp_lift<0.35 and _travel_velocity.y< -0.1:
+		# Coping can hide an actual tyre from a long overhead rear view. First
+		# prove the existing high rear view, then the already allowed short
+		# ramp arm, before considering any lateral orbit. FOV is unchanged.
+		var high_rear:=_candidate(space,anchor,board,rear,distance,0.0,HIGH_HEIGHT,excluded)
+		if high_rear.usable:
+			_selected_angle=0.0
+			return high_rear
+		var short_rear:=_best_height(space,anchor,board,rear,_minimum_arm,0.0,excluded)
+		if short_rear.usable:
+			_selected_angle=0.0
+			return short_rear
+		var short_high:=_candidate(space,anchor,board,rear,_minimum_arm,0.0,HIGH_HEIGHT,excluded)
+		if short_high.usable:
+			_selected_angle=0.0
+			return short_high
 	if not is_zero_approx(_selected_angle):
 		var current := _best_height(space, anchor, board, rear, distance, _selected_angle, excluded)
 		if current.usable:return current
@@ -521,7 +543,7 @@ func _choose(space: PhysicsDirectSpaceState3D, anchor: Vector3, board: Vector3, 
 		# Retain the work branch's last-resort swept high arm only after all
 		# ordinary rear/side heights fail the full body and real-foot checks.
 		for angle:float in [0.0]+ORBIT_ANGLES:
-			var candidate:=_candidate(space,anchor,board,rear,distance,angle,7.2,excluded)
+			var candidate:=_candidate(space,anchor,board,rear,distance,angle,HIGH_HEIGHT,excluded)
 			if float(candidate.score)>float(best.score):best=candidate
 	_selected_angle = best.angle
 	return best

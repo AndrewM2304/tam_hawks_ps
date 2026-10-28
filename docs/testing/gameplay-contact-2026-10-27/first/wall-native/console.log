@@ -1,0 +1,64 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: wallride: actual glancing side approach enters one physical wall ride
+PASS: wallride: native tangent travel advances without penetrating the solid wall
+PASS: wallride: retained normal and identity come from the real contacted wall
+PASS: wallride: collision resolves inward support while preserving useful tangent velocity
+PASS: wallride: explicitly reduced gravity descends rather than creating a vertical climb
+PASS: wallride: freezing physics consumes neither ride time, cooldown nor motion
+PASS: wallride: releasing the held action exits once with a reentry cooldown
+PASS: wallride: ordinary release carries tangent momentum outward without a jump award
+PASS: wallride: immediate recapture cannot bypass the attachment cooldown
+PASS: wallride: a deliberate wallie releases exactly once through the actual physics step
+PASS: wallride: wallie combines outward kick and upward launch with retained tangent momentum
+PASS: wallride: the launched capsule actually moves clear of its wall
+PASS: wallride: held input after a wallie cannot create another capture or launch
+PASS: wallride: an indefinitely held ride releases at its finite 1.25-second bound
+PASS: wallride: duration expiry follows real travel and does not fabricate a bail
+PASS: wallride: finite wall endpoint releases without wrapping or invisible support
+PASS: wallride: the rider physically leaves the wall endpoint
+PASS: wallride: steering away provides a deliberate lateral exit
+PASS: wallride: head-on approach retains ordinary collision instead of capturing
+PASS: wallride: slow approach retains ordinary collision instead of capturing
+PASS: wallride: outward approach retains ordinary collision instead of capturing
+PASS: wallride: nonfinite entry velocity cannot create support
+PASS: wallride: explicitly excluded wall cannot capture through actual probes
+PASS: wallride: floor rejection fixture has actual grounded support
+PASS: wallride: grounded contact cannot manufacture an airborne wall ride
+PASS: wallride: a real obstruction ends support with one failure result
+PASS: wallride: actual impact blocks travel and discarded momentum is never restored
+PASS: wallride: removed wall releases its weak reference without ghost support or a false bail
+PASS: wallride: reset clears all contact, travel and cooldown state
+PASS: wallride: invalid clock samples do not shorten cooldown
+PASS: wallride: a real elapsed cooldown reopens future eligibility
+PASS: wallride: wallie requires contact still eligible on the actual launch frame
+PASS: wallride: invalid integration time ends support without sending invalid native motion
+PASS: wallride: substantial solid architecture is eligible by default
+PASS: wallride: explicit false eligibility excludes architecture
+PASS: wallride: explicit no-wallride wins over an allow tag
+PASS: wallride: glass is excluded even with an allow tag
+PASS: wallride: scenery exclusion LowFence is honest
+PASS: wallride: scenery exclusion TinyProp is honest
+PASS: wallride: scenery exclusion WaterBoundary is honest
+PASS: wallride: scenery exclusion CanvasCanopy is honest
+PASS: wallride: moving bodies cannot masquerade as static walls
+PASS: wallride: detached surface audits account for ancestor scale without global-transform errors
+PASS: wallride: architecture eligibility measures actual world dimensions after rotation
+PASS: wallride coverage: actual solid boundary keeps honest stone/iron eligibility after its surface audit
+PASS: wallride coverage: native solid masonry supports tangent travel across real panel joins without penetration
+PASS: wallride coverage: solid wallie returns away from the actual boundary once
+PASS: wallride coverage: solid boundary keeps every original collision shape through ride and exit
+PASS: wallride coverage: actual opaque boundary keeps honest stone/iron eligibility after its surface audit
+PASS: wallride coverage: native opaque masonry supports tangent travel across real panel joins without penetration
+PASS: wallride coverage: opaque wallie returns away from the actual boundary once
+PASS: wallride coverage: opaque boundary keeps every original collision shape through ride and exit
+PASS: wallride coverage: actual iron boundary keeps honest stone/iron eligibility after its surface audit
+PASS: wallride coverage: the same finite iron fence retains collision without inventing an opaque supporting wall
+PASS: wallride coverage: iron boundary keeps every original collision shape through ride and exit
+PASS: wallride coverage: actual solid masonry ends finite support instead of extending a remembered plane
+PASS: wallride coverage: actual opaque masonry ends finite support instead of extending a remembered plane
+PASS: wallride coverage: actual compound station masonry is rideable while the scenic track glazing remains excluded
+PASS: wallride coverage: the real station wall admits finite native glancing support rather than a metadata-only claim
+PASS: wallride coverage: insufficient native stone wall dimensions stay excluded [1.5, 8.0]
+PASS: wallride coverage: insufficient native stone wall dimensions stay excluded [3.0, 1.0]
+RESULT: 61 passed, 0 failed

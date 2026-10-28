@@ -310,11 +310,19 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 	check.call(coping != null and coping.is_valid and coping.length > 35.0,
 		"topography: fountain publishes a full curved coping circuit")
 	if coping == null or not coping.is_valid: return
-	var contact: Vector3 = coping.point_at(coping.length * 0.125)
-	var tangent: Vector3 = coping.dir_at(coping.length * 0.125)
+	# This south-court tangent clears the separate teaching rail and the
+	# retained west planter seat before the fountain-specific takeoff.
+	var contact: Vector3 = coping.point_at(coping.length * 0.375)
+	var tangent: Vector3 = coping.dir_at(coping.length * 0.375)
 	var start: Vector3 = contact - tangent * 20.0
 	start.y = game.world.get_ground_height(start) + 0.8
 	await _reset_at(tree, game, start)
+	var runway_start:=start-Vector3.UP*.8
+	var runway_finish:=contact-tangent*4.0
+	runway_finish.y=game.world.get_ground_height(runway_finish)
+	check.call(_fountain_runway_clear(game,runway_start,runway_finish)
+		and _fountain_runway_clear(game,runway_finish,runway_start),
+		"topography: fixed fountain takeoff runway clears separate native rails and seats")
 	var state := {"bails": 0, "capture_ids": [], "tricks": []}
 	var on_bail := func(): state.bails += 1
 	var on_capture := func(id: String): state.capture_ids.append(id)
@@ -331,7 +339,7 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 		_aim(game.skater, tangent)
 		Input.action_press("push")
 		Input.action_press("grind")
-		if not jumped and (contact - game.skater.global_position).dot(tangent) < 13.0:
+		if not jumped and (contact - game.skater.global_position).dot(tangent) < 10.0:
 			Input.action_press("ollie")
 			jumped = true
 		if jumped and not released:
@@ -352,7 +360,7 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_release("steer_right")
 	check.call(captured and jumped and game.score.trick_history.has("Ollie")
 		and state.capture_ids == [coping.id] and _grind_award_count(game.score.trick_history) == 1,
-		"topography: real ground approach and descending ollie capture fountain coping")
+		"topography: real ground approach and held-Grind Ollie capture fountain coping")
 	if captured:
 		var initial_heading: float = game.skater.rotation.y
 		var initial_at: Vector3 = game.skater.global_position
@@ -389,6 +397,39 @@ static func _fountain(tree: SceneTree, game: Node, check: Callable) -> void:
 	game.skater.grind_captured.disconnect(on_capture)
 	game.skater.trick_performed.disconnect(on_trick)
 	_release()
+
+
+static func _fountain_runway_clear(game: Node,from: Vector3,to: Vector3) -> bool:
+	# The same native capsule, mask and safety margin as the real rider. Permit
+	# resting floor proximity only; independently sweep its physical volume.
+	var rider: CharacterBody3D=game.skater
+	var collision:=rider.get_node("BodyCollision") as CollisionShape3D
+	if collision==null or not collision.shape is CapsuleShape3D:return false
+	var clearance: float=rider.global_position.y-game.world.get_ground_height(rider.global_position)
+	if not is_finite(clearance) or clearance<0.0 or clearance>rider.safe_margin:return false
+	var first:=rider.global_transform
+	first.origin=from+Vector3.UP*clearance
+	var motion:=to-from
+	var contact:=KinematicCollision3D.new()
+	if rider.test_move(first,motion,contact,rider.safe_margin,true,16):
+		if contact.get_collision_count()>=16:return false
+		for index: int in contact.get_collision_count():
+			if contact.get_normal(index).dot(Vector3.UP)<.9999:return false
+		if not is_finite(contact.get_depth()) or contact.get_depth()>rider.safe_margin+.001:return false
+	var query:=PhysicsShapeQueryParameters3D.new()
+	query.shape=collision.shape
+	query.transform=first*collision.transform
+	query.collision_mask=rider.collision_mask
+	query.exclude=[rider.get_rid()]
+	query.margin=0.0
+	var space: PhysicsDirectSpaceState3D=rider.get_world_3d().direct_space_state
+	if not space.intersect_shape(query,1).is_empty():return false
+	query.motion=motion
+	var cast:=space.cast_motion(query)
+	if cast.size()!=2 or cast[0]<.9999:return false
+	query.transform.origin+=motion
+	query.motion=Vector3.ZERO
+	return space.intersect_shape(query,1).is_empty()
 
 
 static func _outdoor_routes(tree: SceneTree, game: Node, check: Callable) -> void:

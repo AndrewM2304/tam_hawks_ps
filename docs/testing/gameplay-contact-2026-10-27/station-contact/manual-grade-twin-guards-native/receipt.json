@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T02:21:09.112138+00:00",
+  "completed_london": "2026-10-28T02:21:18.335578+00:00",
+  "wall_seconds": 9.22343772199747,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/manual_rim_guards.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "120",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "9940ddab3abefdfb4b45e0c5c8e9772b73c78b3ba5a80b3e1ac62a49052b9510",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

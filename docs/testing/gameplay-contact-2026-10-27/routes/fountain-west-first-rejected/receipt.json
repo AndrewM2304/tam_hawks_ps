@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-28T01:57:11.327030+00:00",
+  "completed_london": "2026-10-28T01:57:21.408674+00:00",
+  "wall_seconds": 10.081647233000695,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/flagship_repair/focus.gd",
+    "--",
+    "fountain"
+  ],
+  "exit_code": 1,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "1",
+      "3"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "073dbec404539a050326112cfe45c4146be96e85f70e4fe783b7d33d52d6bbea",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

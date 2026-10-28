@@ -1,3 +1,81 @@
+## Solid rails, held Grind and weighted flat Ollies — 27 October 2026
+
+Rail colliders retain semantic layer2 and also occupy solid-world layer1. The
+rider mask remains1|8; other player bodies are not added to it. Terrain-height
+providers continue to exclude rail-only props, while native world queries see
+the actual steel. Existing shapes, guide IDs and normal trial availability stay
+in place. Suitable continuous physical walls use explicit eligibility and
+finite native bounds; protected scenery retains its explicit exclusions.
+
+Held Grind permits rising capture and rough aim within85degrees, with a tighter
+22cm incoming crossing rule for near-perpendicular approaches. Verified guides
+use their physical crown and the cached native capsule datum. Capsule paths,
+finite native support identity and actual board/model clearance remain required.
+Correction stays within85cm and99cm per native tick; the vertical envelope is
+60cm above/14cm below the candidate body datum. Swept acquisition uses the
+actual present body for clearance, including catches after native rail-floor
+contact. A real rising solid-rail impact may retain incoming XZ intent for at
+most120ms, tied to fresh guide IDs and native RID. It never restores physical
+velocity on failed acquisition; release, expiry, landing and mode takeovers
+clear it. Current-source validation is recorded in the
+[contact repair evidence](../testing/gameplay-contact-2026-10-27/README.md).
+
+The native capsule's existing15mm safety clearance belongs to body travel;
+the board anchors remain on the independently authenticated support crown.
+Inspected changing-grade square beams may publish a separate body-radius
+profile while keeping named-contact verification false. Unknown legacy guides
+retain their existing path plus the native body clearance. Native sweeps remain
+required at every acquisition and advancing grind step.
+
+At a verified finite incoming end, a rejected nearest contact may propose one
+inboard point derived from the cached actual board radius and inspected bearing
+radius. The same reach, height, direction, native support, body-path and model
+checks run again; loops, outgoing ends and unverified guides gain no retry.
+Two-point guides use their constant authored tangent instead of differencing
+nearby baked world samples.
+
+An intersecting conservative board sweep may subdivide its original linear
+translation and shortest rotation. Both child envelopes must be native-clear;
+endpoint overlap, depth8 or8,192-query exhaustion fails closed. The100µm support
+offset, collision masks and self-only exclusion remain unchanged. A stationary
+path uses the cached native model directly. A lower wheel-support fit is rejected
+when it would put the connected deck or trucks through a taller central bearing.
+
+Static grounded presentation checks the actual finite affine board frame and
+all connected model pieces. A failed Manual downcast fit may refine only inside
+the existing25mm rim allowance: the raised endpoint, eight bounded bisections
+and accepted endpoint retain native tyre/model clearance and the8mm tyre skin.
+A neutral support-plane correction requires actual model intrusion into the
+same native support RID and shape; foreign obstacles cannot authorise the fit.
+These whole-figure corrections preserve local trick/rig transforms and physical
+movement. Transition body targets consult the authenticated coping profile
+before accepting the nominal22mm target, retaining its100mm bound,2mm skin and
+native occupancy/movement checks.
+
+Wrapped bowls expose their constructor-owned wall, annular deck and coping
+body identities through `owns_native_wheel_support`. This permits one native
+four-wheel presentation fit across those adjoining surfaces. Copied names or
+feature metadata cannot grant ownership, and fitted tyres and connected model
+pieces must still clear the actual solids.
+
+New exposed native box edges carry their real outward side. The cached original
+board vertices derive a bounded neutral edge roll (currently9.11degrees), keeping
+both truck anchors on the exact top corner while the outer tyres overhang the
+side. Actual model queries still reject neighbouring solids. Continuous flat
+native sheets sharing that same finite edge may receive its support ID only
+after geometric coverage at the existing100µm contact tolerance. This resolves
+native ray ties without excluding either collider from movement or board queries.
+
+Ordinary flat ground/coyote Ollie and Nollie scale the requested vertical impulse
+by sqrt(24/34) and earn24m/s² gravity for that flight. This extends airtime while
+retaining almost the same apex. Ramp air retains22m/s²; ordinary falls and bails
+retain34m/s². Reset, bail, landing and other movement modes clear the earned
+profile. The visual state carries its duration for takeoff, tuck, deck catch
+and landing timing. Native movement, contact, once-only score and connected
+garment checks remain the authority; Linux checks do not certify owner feel.
+
+---
+
 ## Ordinary Manual arms and stopped gait — 27 October 2026
 
 The free-arm helper now also admits ordinary Manual/Nose Manual only while the

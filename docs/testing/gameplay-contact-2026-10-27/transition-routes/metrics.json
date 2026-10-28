@@ -1,0 +1,63 @@
+{
+  "parser_seconds": 1.4065662969987898,
+  "native_seconds": 89.21421998000005,
+  "native_limit_seconds": 90,
+  "passed": 63,
+  "failed": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "source_manifest_sha256": "449b7d0ab06a132613177d1b6b6cdb5138a3eb409746c4feb353e029b4f0ce34",
+  "git_parent": "838e6f4dc02dfd48e9f122744238a1ad66de7a17",
+  "exact_changed_snapshots": 82,
+  "original_scope_passes": {
+    "fixture": 4,
+    "design/civic_park_original_run": 21,
+    "design/facility_connection_original_run_same_actor": 9,
+    "authentic/original_facility_journey_then_deep_and_shallow_skating": 29
+  },
+  "civic": {
+    "bank": 13882,
+    "expected_bank": 13882,
+    "native_camera": true,
+    "supported": true,
+    "bails": 0,
+    "recoveries": 0,
+    "distance_m": 71.7590068504214
+  },
+  "facility": {
+    "bank": 1100,
+    "distance_m": 385.56049461232,
+    "transit_ticks": 6537,
+    "facility_ticks": 1102,
+    "arrival_y": 14.5775585174561,
+    "native_camera": true,
+    "supported": true,
+    "bails": 0,
+    "recoveries": 0
+  },
+  "authentic": {
+    "content_control": "pt24_design_preview=false before tree entry",
+    "original_cases": [
+      "facility",
+      "facility_skating"
+    ],
+    "bowl_order": [
+      "DeepBowl",
+      "ShallowBowl"
+    ],
+    "deep_bowl": {
+      "native_camera": true,
+      "accepted": 250,
+      "bank": 250
+    },
+    "shallow_bowl": {
+      "native_camera": true,
+      "accepted": 250,
+      "bank": 250
+    },
+    "beginner_circuit_camera": true,
+    "hip_camera": true,
+    "port_camera": true
+  },
+  "scope_note": "Original local predecessor scopes on two isolated Main worlds; does not replace the full required suite or certify hardware/feel."
+}

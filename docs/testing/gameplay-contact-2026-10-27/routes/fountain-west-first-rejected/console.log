@@ -1,0 +1,24 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: topography: fountain publishes a full curved coping circuit
+ERROR: FAIL: topography: real ground approach and held-Grind Ollie capture fountain coping
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/flagship_repair/focus.gd:71)
+       [1] _fountain (res://tests/topography_tests.gd:355)
+       [2] _frames (res://tests/topography_tests.gd:597)
+ERROR: FAIL: topography: curved grind follows changing tangent without cutting through the fountain
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/flagship_repair/focus.gd:71)
+       [1] _fountain (res://tests/topography_tests.gd:384)
+       [2] _frames (res://tests/topography_tests.gd:597)
+ERROR: FAIL: topography: second-tap drop from curved coping lands and banks once without a bail
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/flagship_repair/focus.gd:71)
+       [1] _fountain (res://tests/topography_tests.gd:385)
+       [2] _frames (res://tests/topography_tests.gd:597)
+TOPOGRAPHY fountain captured=false bails=0 charge_frames=0 release_distance=inf position=(-15.91944, 0.000506, 17.15092)
+TOPOGRAPHY fountain captured=false bails=0 position=(-15.91944, 0.000506, 17.15092) captures=[] tricks=[]
+RESULT: 1 passed, 3 failed

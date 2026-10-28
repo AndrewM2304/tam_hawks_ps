@@ -125,6 +125,34 @@ static func _state(body: CharacterBody3D) -> Dictionary:
 
 
 static func _controls(tree: SceneTree,fixture: Dictionary,check: Callable) -> void:
+	var bowl:Node3D=fixture.bowl
+	var rider_identity:CharacterBody3D=fixture.rider
+	var actual_deck:StaticBody3D=bowl._native_annular_deck
+	var original_name:StringName=actual_deck.name
+	actual_deck.name="RetainedDeckIdentityControl"
+	var foreign:=StaticBody3D.new()
+	foreign.name=original_name
+	foreign.position=Vector3(1000,0,0)
+	for key:StringName in actual_deck.get_meta_list():foreign.set_meta(key,actual_deck.get_meta(key))
+	foreign.set_meta("transition_feature",bowl)
+	foreign.set_meta("coping_feature",bowl)
+	var collision:=CollisionShape3D.new()
+	collision.shape=BoxShape3D.new()
+	foreign.add_child(collision)
+	bowl.add_child(foreign)
+	var steep:=Vector3(sqrt(0.96),0.2,0)
+	var accepted:=true
+	for body:CollisionObject3D in [bowl.surface_body,actual_deck,bowl._native_steel_coping]:
+		accepted=accepted and bowl.owns_native_wheel_support(body) \
+			and rider_identity._native_board_support_allowed({"normal":steep,"collider":body},bowl)
+	check.call(accepted,"PT24 native bowl: all three exact constructor-owned wall/deck/coping bodies retain steep support identity after a real body rename")
+	check.call(foreign.name==original_name and foreign.get_parent()==bowl \
+		and not bowl.owns_native_wheel_support(foreign) \
+		and not rider_identity._native_board_support_allowed({"normal":steep,"collider":foreign},bowl),
+		"PT24 native bowl: same-parent foreign native body with copied exact name and feature metadata cannot acquire steep support")
+	bowl.remove_child(foreign)
+	foreign.queue_free()
+	actual_deck.name=original_name
 	var terrain := Terrain.new()
 	var material := StandardMaterial3D.new()
 	terrain.add_patch(fixture.root,"UnrelatedFlat",Rect2(-34,-4,8,8),Vector4.ZERO,material)
@@ -253,6 +281,9 @@ static func _fixture(tree: SceneTree) -> Dictionary:
 		root.add_child(body)
 		body.set_process(false)
 		body.set_physics_process(false)
+	# The superimposed measurement twin keeps its real capsule and mask9 but
+	# cannot be a foreign layer2 obstacle inside the tested board volume.
+	control.collision_layer=0
 	await tree.physics_frame
 	await tree.process_frame
 	return {"viewport":viewport,"root":root,"bowl":bowl,"rider":rider,"control":control}

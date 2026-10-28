@@ -175,7 +175,7 @@ static func _coping(parent: Node3D, id: String, material: Material) -> void:
 	body.name = "Coping"
 	body.position = Vector3(0, RADIUS, -RADIUS)
 	body.rotation.z = PI * 0.5
-	body.collision_layer = 2 # Authored rail support, never a capsule snagging strip.
+	body.collision_layer = 1 | 2 # The visible coping is solid and queryable as a rail.
 	body.collision_mask = 0
 	body.set_meta("grind_id", id + "_coping")
 	parent.add_child(body)

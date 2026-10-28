@@ -1,0 +1,76 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: L06 park: existing seats are composed before world snapshots
+PASS: L06 park: fixed west-shoulder eight-metre footprint park_east_lower
+PT24_PARK_SEAT park_east_lower north=(-147.9186, 9.777272, -140.0145) south=(-147.9583, 7.441023, -132.0146)
+PASS: L06 park: catch and release follow the real downhill/flat road heading park_east_lower
+PASS: L06 park: all four top vertices agree within1mm between existing convex hull, display and height query park_east_lower
+PT24_PARK_VERTEX_ERROR park_east_lower native_m=0.0 display_m=0.00005420654998 query_m=0.0
+PT24_PARK_GUIDE park_east_lower verified=true points=[(-147.3186, 9.797273, -140.0116), (-147.3583, 7.461024, -132.0117)]
+PASS: L06 park: same-ID finite downhill guide publishes the real inboard long edge without a transverse masking cap
+PASS: L06 park: nine independent normal rays verify the straight-grade radial datum against the retained native bearing
+PT24_PARK_LONG_EDGE_NATIVE max_error_m=0.00001705984505
+PASS: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_lower
+ERROR: FAIL: L06 park: six independent transverse native/visible endcap rays close both reused seat ends park_east_lower
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/park-route-repair/contact_diag.gd:44)
+       [1] run (res://tests/pt24_park_run_tests.gd:114)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:312)
+PT24_PARK_ENDCAP park_east_lower native_plane_max_error_m=0.0489966571331
+PASS: L06 park: existing12-triangle seat and four native bearings retain their resource counts park_east_lower
+PASS: L06 park: fixed west-shoulder eight-metre footprint park_east_gateway
+PT24_PARK_SEAT park_east_gateway north=(-147.4165, 6.46, -115.9338) south=(-147.1921, 6.46, -107.9369)
+PASS: L06 park: catch and release follow the real downhill/flat road heading park_east_gateway
+PASS: L06 park: all four top vertices agree within1mm between existing convex hull, display and height query park_east_gateway
+PT24_PARK_VERTEX_ERROR park_east_gateway native_m=0.0 display_m=0.00007074607129 query_m=0.0
+PT24_PARK_GUIDE park_east_gateway verified=true points=[(-148.0163, 6.48, -115.9169), (-146.8167, 6.48, -115.9506), (-146.5924, 6.48, -107.9538), (-147.7919, 6.48, -107.9201), (-148.0163, 6.48, -115.9169)]
+PASS: L06 park:27 fixed native/visible/query samples agree on reused graded seat park_east_gateway
+ERROR: FAIL: L06 park: six independent transverse native/visible endcap rays close both reused seat ends park_east_gateway
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/park-route-repair/contact_diag.gd:44)
+       [1] run (res://tests/pt24_park_run_tests.gd:114)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:312)
+PT24_PARK_ENDCAP park_east_gateway native_plane_max_error_m=0.04899233207107
+PASS: L06 park: existing12-triangle seat and four native bearings retain their resource counts park_east_gateway
+PASS: L06 park:36 independently fixed centre/east bypass supports remain capsule-clear
+PARK_NATIVE_ADMISSION {"at":"(-147.3444, 10.5382, -140.5115)","body":false,"cooldown":0.0,"crown":true,"flip":0.0,"flip_buffer":0.0,"gap":0.885839283466339,"height":0.717044830322266,"model":false,"model_obstruction":{},"model_reason":"","offset":0.0,"on_floor":false,"request":true,"special":0.0,"spin_clean":true,"target":"(-147.3187, 9.821158, -139.9919)","velocity":"(-0.009292, -6.4, 7.08132)"}
+PARK_NATIVE_ADMISSION {"at":"(-147.3446, 10.42209, -140.3934)","body":true,"cooldown":0.0,"crown":true,"flip":0.0,"flip_buffer":0.0,"gap":0.723176538944244,"height":0.600934028625488,"model":false,"model_obstruction":{"collider":"NativeGrindBearing:<StaticBody3D#191797141178>","collider_id":191797141178,"frame":"[X: (-0.999988, -0.000003, -0.004957), Y: (-0.001392, 0.959906, 0.280318), Z: (0.004757, 0.280321, -0.959894), O: (-147.3201, 9.821856, -139.7183)]","rid":"RID(21814138896867)","shape":0},"model_reason":"model_path_obstruction","offset":0.0,"on_floor":false,"request":true,"special":0.0,"spin_clean":true,"target":"(-147.3187, 9.821158, -139.9919)","velocity":"(-0.009292, -6.966666, 7.08132)"}
+PARK_NATIVE_ADMISSION {"at":"(-147.3447, 10.29654, -140.2754)","body":true,"cooldown":0.0,"crown":true,"flip":0.0,"flip_buffer":0.0,"gap":0.554086744785309,"height":0.475378036499023,"model":false,"model_obstruction":{"collider":"NativeGrindBearing:<StaticBody3D#191797141178>","collider_id":191797141178,"frame":"[X: (-0.999988, -0.000003, -0.004957), Y: (-0.001392, 0.959906, 0.280318), Z: (0.004757, 0.280321, -0.959894), O: (-147.3201, 9.821856, -139.7183)]","rid":"RID(21814138896867)","shape":0},"model_reason":"model_path_obstruction","offset":0.0,"on_floor":false,"request":true,"special":0.0,"spin_clean":true,"target":"(-147.3187, 9.821158, -139.9919)","velocity":"(-0.009292, -7.533333, 7.08132)"}
+PARK_NATIVE_ADMISSION {"at":"(-147.3449, 10.16154, -140.1574)","body":true,"cooldown":0.0,"crown":true,"flip":0.0,"flip_buffer":0.0,"gap":0.379355847835541,"height":0.340377807617188,"model":false,"model_obstruction":{"collider":"NativeGrindBearing:<StaticBody3D#191797141178>","collider_id":191797141178,"frame":"[X: (-0.999988, -0.000003, -0.004957), Y: (-0.001392, 0.959906, 0.280318), Z: (0.004757, 0.280321, -0.959894), O: (-147.3201, 9.821856, -139.7183)]","rid":"RID(21814138896867)","shape":0},"model_reason":"model_path_obstruction","offset":0.0,"on_floor":false,"request":true,"special":0.0,"spin_clean":true,"target":"(-147.3187, 9.821158, -139.9919)","velocity":"(-0.009292, -8.099999, 7.08132)"}
+PARK_NATIVE_ADMISSION {"at":"(-147.345, 10.01709, -140.0394)","body":true,"cooldown":0.0,"crown":true,"flip":0.0,"flip_buffer":0.0,"gap":0.203298583626747,"height":0.19593334197998,"model":false,"model_obstruction":{"collider":"NativeGrindBearing:<StaticBody3D#191797141178>","collider_id":191797141178,"frame":"[X: (-0.999988, -0.000003, -0.004957), Y: (-0.001392, 0.959906, 0.280318), Z: (0.004757, 0.280321, -0.959894), O: (-147.3201, 9.821856, -139.7183)]","rid":"RID(21814138896867)","shape":0},"model_reason":"model_path_obstruction","offset":0.0,"on_floor":false,"request":true,"special":0.0,"spin_clean":true,"target":"(-147.3187, 9.821158, -139.9919)","velocity":"(-0.009292, -8.666666, 7.08132)"}
+PARK_NATIVE_ADMISSION {"at":"(-147.3452, 9.863203, -139.9213)","body":true,"cooldown":0.0,"crown":true,"flip":0.0,"flip_buffer":0.0,"gap":0.0656103268265724,"height":0.0577764511108398,"model":false,"model_obstruction":{"collider":"NativeGrindBearing:<StaticBody3D#191797141178>","collider_id":191797141178,"frame":"[X: (-0.999988, 0.000014, -0.004952), Y: (-0.001375, 0.959906, 0.280318), Z: (0.004757, 0.280321, -0.959894), O: (-147.3201, 9.821856, -139.7183)]","rid":"RID(21814138896867)","shape":0},"model_reason":"model_path_obstruction","offset":0.0561287105083466,"on_floor":false,"request":true,"special":0.0,"spin_clean":true,"target":"(-147.319, 9.805427, -139.9381)","velocity":"(-0.009292, -9.233333, 7.08132)"}
+ERROR: FAIL: L06 park: native downhill Push/Ollie captures and rides the reused path-side seat without a bail
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/park-route-repair/contact_diag.gd:44)
+       [1] _descent (res://tests/pt24_park_run_tests.gd:235)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:312)
+ERROR: FAIL: L06 park: real landing/manual carries the same descent across the flattening into the next-feature choice
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/park-route-repair/contact_diag.gd:44)
+       [1] _descent (res://tests/pt24_park_run_tests.gd:237)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:312)
+ERROR: FAIL: L06 park: the earned grind/manual combo banks its exact pending value once and remains unchanged
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/park-route-repair/contact_diag.gd:44)
+       [1] _descent (res://tests/pt24_park_run_tests.gd:240)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:312)
+PASS: L06 park: complete rider/board and chase-camera volume remain clear throughout the actual descent
+ERROR: FAIL: L06 park: ordinary chase shows both the catch and the next seat/clear through-lane choice before commitment
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/park-route-repair/contact_diag.gd:44)
+       [1] _descent (res://tests/pt24_park_run_tests.gd:244)
+       [2] _frames (res://tests/pt24_park_run_tests.gd:312)
+PT24_PARK_DESCENT captures=[] grind_frames=0 manual_frames=0 manual_begin=(inf, inf, inf) manual_end=(inf, inf, inf) banks=1 pending=0 banked=100 bails=0 camera=true catch_visible=true choice_visible=false at=(-147.3392, 8.258695, -134.6424) tricks=["Ollie"]
+PT24_PARK_CLOSEST descending={ "rider": (-147.3452, 9.863203, -139.9213), "guide": (-147.3189, 9.778136, -139.946), "velocity": (-0.009292, -9.233333, 7.08132), "gap": 0.09238751232624, "held": true }
+PASS: L06 park: ordinary no-jump uphill bypass travels past both seats
+PT24_PARK_TRANSIT direction=-1 reached=true supported=true bails=0 at=(-144.5965, 11.05614, -146.2214)
+PASS: L06 park: ordinary no-jump downhill bypass travels past both seats
+PT24_PARK_TRANSIT direction=1 reached=true supported=true bails=0 at=(-144.603, 6.014096, -106.9837)
+PT24_PARK_RUN_GEOMETRY fixed_bypass=36 reused_seats=2 added_triangles=0 added_draws=0
+RESULT: 17 passed, 6 failed

@@ -1,0 +1,46 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+COMPACT_FOCUS_CONTEXT main=false world=false
+ERROR: FAIL: compact finite-end runway: same native capsule height/base plus actual horizontal15mm shell clears every ground segment in both directions
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/compact-route-finish/runner.gd:10)
+       [1] _runway (res://.local/compact-route-finish/runner.gd:67)
+       [2] _run (res://.local/compact-route-finish/runner.gd:29)
+COMPACT_RUNWAY minimum_native_fraction=0.208984375 radius=0.29499998688698 height=1.70000004768372 original_height=1.70000004768372 from=(20.0, 2.0, 120.0) to=(54.0, 2.0, 127.5)
+PASS: compact finite-end runway: same native capsule height/base plus actual horizontal15mm shell clears every ground segment in both directions
+COMPACT_RUNWAY minimum_native_fraction=1.0 radius=0.29499998688698 height=1.70000004768372 original_height=1.70000004768372 from=(20.0, 2.0, 138.0) to=(-25.0, 2.0, 124.0)
+PASS: compact Clyde: real authored feature clyde_quay_coping
+PASS: compact Clyde: clyde_quay_coping real capture, rail pop, air tricks and supported manual link
+PASS: compact Clyde: clyde_quay_coping complete combo banks once
+COMPACT DRIVER NATIVE BLOCKER /root/@Node3D@2/GlasgowActivities/QuayCrewElectricCart normal=(-0.788271, 0.0, 0.615328) point=(-40.26303, 2.314241, 71.355)
+COMPACT DRIVER STALL { "target": (-35.0, 2.0, 69.0), "at": (-40.49284, 2.01402, 71.53223), "error": 0.0213873317474, "turn": 0.0, "braking": false, "speed": 0.0, "manual": false, "latched": false, "gesture": false, "air": false, "floor": true, "force_air": false, "controls": true, "steering": 0.0, "left": 0.0, "right": 0.0, "push": 1.0, "brake": 0.0, "setup": false, "bail": false }
+ERROR: FAIL: compact Clyde: clyde_quay_coping banks then uses real steering/braking to return safely
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/compact-route-finish/runner.gd:10)
+       [1] _line (res://tests/compact_clyde_lines_tests.gd:123)
+       [2] stop (res://tests/support/compact_clyde_lines_driver.gd:121)
+       [3] ticks (res://tests/support/compact_clyde_lines_driver.gd:174)
+PASS: compact Clyde: clyde_quay_coping native consecutive samples preserve real identity/landings without forced motion
+COMPACT_CLYDE_LINE rail=clyde_quay_coping capture=(-69.0, 2.655, 76.7) landing={ "tick": 232, "dt": 0.01666666666667, "at": (-56.88027, 2.014004, 75.53307), "velocity": (12.41693, 0.0, 0.000001), "yaw": -1.57079637050629, "floor": true, "air": false, "manual": true, "grind": "", "transition": "", "bank": 0, "combo": 5850, "support": ["ClydeNorthQuay"], "contacts": [{ "id": "ClydeNorthQuay", "boundary_family": "", "normal": (0.0, 1.0, 0.0), "at": (-56.88027, 2.0, 75.53307) }], "input": { "manual": 1.0 } } bank=5850 return={ "reached": false, "ticks": 232, "targets": [], "stall_ticks": 61 } summary={ "captured_ids": ["clyde_quay_coping"], "tricks": ["Ollie", "50-50", "Ollie", "Frontside Shuvit", "Nose Grab", "Manual"], "scored_tricks": ["Ollie", "50-50", "Ollie", "Frontside Shuvit", "Nose Grab", "Manual"], "bails": 0, "clean_landings": 1, "contiguous": true, "finite": true, "maximum_step": 0.72670078277588, "metres": 43.5116250419524, "samples": 507, "seconds": 8.45 }
+COMPACT_CLYDE_RIVER_GAP launch=true landed=true charge_ticks=22 bank=2000 at=(20.00007, 2.01369, 120.061)
+PASS: compact Clyde river circuit: actual charged optional bridge jump lands on south deck and banks the named gap
+COMPACT DRIVER NATIVE BLOCKER /root/@Node3D@2/GlasgowSquare/OutdoorRoutes/PrintYardPlanter normal=(-1.0, 0.0, 0.0) point=(38.5, 2.7, 125.2919)
+COMPACT DRIVER STALL { "target": (54.0, 2.0, 125.2), "at": (38.21278, 2.01369, 125.2918), "error": 0.01552613842559, "turn": 0.0, "braking": false, "speed": 0.0, "manual": false, "latched": false, "gesture": false, "air": false, "floor": true, "force_air": false, "controls": true, "steering": 0.0, "left": 0.0, "right": 0.0, "push": 1.0, "brake": 0.0, "setup": false, "bail": false }
+ERROR: FAIL: compact Clyde river circuit: real steering leaves landing for the translated curved yard hip and its actual rise
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/compact-route-finish/runner.gd:10)
+       [1] _river_circuit (res://tests/compact_clyde_lines_tests.gd:278)
+       [2] stop (res://tests/support/compact_clyde_lines_driver.gd:121)
+       [3] ticks (res://tests/support/compact_clyde_lines_driver.gd:174)
+ERROR: FAIL: compact Clyde river circuit: yard returns through continuous bridge to optional approach without teleport or another gap award
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/compact-route-finish/runner.gd:10)
+       [1] _river_circuit (res://tests/compact_clyde_lines_tests.gd:280)
+       [2] stop (res://tests/support/compact_clyde_lines_driver.gd:121)
+       [3] ticks (res://tests/support/compact_clyde_lines_driver.gd:174)
+COMPACT_CLYDE_RIVER { "summary": { "captured_ids": [], "tricks": ["Ollie"], "scored_tricks": ["Ollie", "Clyde Broken Bridge"], "bails": 0, "clean_landings": 1, "contiguous": true, "finite": true, "maximum_step": 0.30792683362961, "metres": 84.1936528459191, "samples": 2278, "seconds": 37.9666666666667 }, "launch": true, "charge_ticks": 22, "landed": true, "bank": 2000, "hip_high": 0.0, "yard": { "reached": false, "ticks": 443, "targets": [{ "at": [20.0000686645508, 2.01368975639343, 124.544822692871], "tick": 1024 }, { "at": [24.3114166259766, 2.01368975639343, 125.101081848145], "tick": 1141 }], "stall_ticks": 61 }, "return": { "reached": false, "ticks": 1500, "targets": [], "stall_ticks": 0 }, "events": [{ "tick": 782, "event": "trick", "id": "Ollie", "points": 100 }, { "tick": 782, "event": "score-trick", "id": "Ollie" }, { "tick": 817, "event": "score-trick", "id": "Clyde Broken Bridge" }, { "tick": 820, "event": "land", "clean": true, "at": [20.0000686645508, 2.76453375816345, 102.846229553223] }] }
+RESULT: 6 passed, 4 failed

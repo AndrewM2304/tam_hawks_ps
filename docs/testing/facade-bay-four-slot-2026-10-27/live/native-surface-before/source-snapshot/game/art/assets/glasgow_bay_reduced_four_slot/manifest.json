@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "status": "PREPARED conditional geometry handoff; actual native import, world integration and performance admission pending",
+  "source_root": "art_source/glasgow_bay/reduced_four_slot",
+  "source_manifest": "art_source/glasgow_bay/reduced_four_slot/generated/generation.json",
+  "source_generator_sha256": "2781d5c56913295e10dfcca8747ecf4d5a6297833c15be070099e08ae9fc2650",
+  "assets": [
+    {
+      "file": "glasgow_bay_near.glb",
+      "bytes": 595768,
+      "sha256": "67c0ebfbe88f83ddb0108e9c1ba6c861766905c641ed5c72bff102c4d87f8001",
+      "triangles": 9864,
+      "authored_parts": 246,
+      "material_surfaces": 4,
+      "embedded_images": 0
+    },
+    {
+      "file": "glasgow_bay_mid.glb",
+      "bytes": 255832,
+      "sha256": "481f8ed518be457a7df00ba720aec75e2dc81351a91b90c2b208c2e370ed7d0c",
+      "triangles": 3544,
+      "authored_parts": 142,
+      "material_surfaces": 4,
+      "embedded_images": 0
+    },
+    {
+      "file": "glasgow_bay_far.glb",
+      "bytes": 70408,
+      "sha256": "01347133a605228272dfaa8afefd38dd849e1df183707670b9466f9ff24d64d0",
+      "triangles": 648,
+      "authored_parts": 54,
+      "material_surfaces": 4,
+      "embedded_images": 0
+    }
+  ],
+  "texture_root": "res://game/art/assets/glasgow_bay/textures/",
+  "textures": {
+    "opaque_glazing_basecolor.png": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894",
+    "sandstone_basecolor.png": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+    "sandstone_normal_opengl.png": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+    "sandstone_orm.png": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9"
+  },
+  "duplicate_texture_files": false,
+  "material_slots": [
+    "01_Original_sandstone",
+    "02_Painted_forest_joinery",
+    "03_Opaque_glazing",
+    "04_Aged_dark_metal"
+  ],
+  "default_enabled_changed": false,
+  "target_mac_tested": false,
+  "historical_runtime_root_unchanged": "game/art/assets/glasgow_bay/"
+}

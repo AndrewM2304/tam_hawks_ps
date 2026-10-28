@@ -131,14 +131,20 @@ static func _construction(tree: SceneTree, game: Node, check: Callable) -> void:
 		clear = clear and Surfaces._clear_capture(world,point,point)
 	check.call(support and clear,"C04-L05: fixed bridge/landing/manual envelopes and the safe cross-quay bypass retain clear native support")
 	var bank_return := true
+	var registered_lines: Dictionary = {}
+	for track in world.get_grind_lines(): registered_lines[str(track.id)]=track
+	var terrain_steel: Dictionary = {"lines":registered_lines,"seen":{},"known":{},"valid":true}
 	for point: Vector3 in [Vector3(-32.5,2,139.5),Vector3(-28.5,2,140),
 		Vector3(-27,2.2057143,140),Vector3(-25,2.48,140),Vector3(-22,2.48,140),
 		Vector3(-19,2.48,140),Vector3(-17,2.2057143,140),Vector3(-15.5,2,140),
 		Vector3(-11.5,2,139.5)]:
-		var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.15,point-Vector3.UP*0.15,1))
+		# Match the terrain-only public height query after independently proving
+		# each intervening steel RID on its native rail layer at this exact site.
+		var hit := Surfaces._terrain_ray(world,point+Vector3.UP*0.15,point-Vector3.UP*0.15,terrain_steel)
 		bank_return = bank_return and not hit.is_empty() and absf(hit.position.y-point.y)<0.002 \
 			and absf(world.get_ground_height(point)-point.y)<0.002 and Surfaces._clear_capture(world,point,point)
-	check.call(bank_return,"C04-L05: the reused east-west bank keeps its actual graded Z140 return and a supported bowl-deck endpoint")
+	check.call(bank_return and terrain_steel.valid and not terrain_steel.seen.is_empty(),
+		"C04-L05: the reused east-west bank keeps its actual graded Z140 return and a supported bowl-deck endpoint")
 
 
 static func run_player(tree: SceneTree, game: Node, check: Callable, observer: Callable = Callable()) -> void:

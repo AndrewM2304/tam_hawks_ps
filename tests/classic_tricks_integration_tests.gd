@@ -70,8 +70,10 @@ static func _release_ollies(tree: SceneTree, check: Callable) -> void:
 			"classic input: held ollie visibly lowers the rider before release (%df)" % held)
 		_key(KEY_SPACE, false)
 		await _frames(tree, 2)
-		check.call(rider.airborne and rider.velocity.y > (7.8 if held > 2 else 6.0) \
-			and rider.velocity.y < (9.1 if held > 2 else 7.3) and seen.count("Ollie") == 1,
+		# Preserve the release/one-entry contract at the slower flat-pop speeds;
+		# exact height, flight duration and gravity have their own native checks.
+		check.call(rider.airborne and rider._weighted_ollie_air and rider.velocity.y > (6.5 if held > 2 else 5.0) \
+			and rider.velocity.y < (7.7 if held > 2 else 6.2) and seen.count("Ollie") == 1,
 			"classic input: releasing mapped Space pops exactly once (%df)" % held)
 		var apex: float = rider.global_position.y
 		for frame in 85:
@@ -323,16 +325,55 @@ static func _air_stick(tree: SceneTree, check: Callable) -> void:
 static func _latched_rail(tree: SceneTree, check: Callable) -> void:
 	var fixture: Dictionary = await _fixture(tree)
 	var rider: Node3D = fixture.rider
-	rider.set_grind_lines([Line.new("ClassicTapRail", PackedVector3Array([
-		Vector3(0, 0.92, 30), Vector3(0, 0.92, -30)]))])
+	# A finite solid bar leaves the Push/crouch approach clear. Its endpoint
+	# enters reach after the one-tick Triangle request has been released.
+	var line = Line.new("ClassicTapRail", PackedVector3Array([
+		Vector3(0, 0.92, -2), Vector3(0, 0.92, -30)]))
+	line.configure_contact(0.0,0.0,"classic_tap.native_box_top")
+	var bar := StaticBody3D.new()
+	bar.collision_layer = 1|2
+	bar.collision_mask = 0
+	bar.position = Vector3(0,0.85,-16)
+	bar.set_meta("authored_grind_ids",[line.id])
+	var collision := CollisionShape3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(0.14,0.14,28)
+	collision.shape = shape
+	bar.add_child(collision)
+	fixture.root.add_child(bar)
+	rider.set_grind_lines([line])
 	var captures: Array[String] = []
 	var capture_ticks: Array[int] = []
 	var capture_buttons: Array[bool] = []
+	var capture_support: Array[bool] = []
+	var capture_board_support: Array[bool] = []
+	var capture_body_gaps: Array[float] = []
 	var seen: Array[String] = []
 	rider.grind_captured.connect(func(id: String):
 		captures.append(id)
 		capture_ticks.append(Engine.get_physics_frames())
-		capture_buttons.append(Input.is_action_pressed("grind")))
+		capture_buttons.append(Input.is_action_pressed("grind"))
+		var near: Dictionary = line.closest(rider.global_position)
+		var crown: Vector3 = line.contact_at(float(near.dist))
+		var hit := rider.get_world_3d().direct_space_state.intersect_ray(
+			PhysicsRayQueryParameters3D.create(crown+Vector3.UP*0.1,crown-Vector3.UP*0.1,1))
+		var body_shape: CollisionShape3D = rider.get_node("BodyCollision")
+		var capsule := body_shape.shape as CapsuleShape3D
+		var bottom: float = body_shape.global_position.y-capsule.height*0.5
+		capture_body_gaps.append(bottom-crown.y)
+		capture_support.append(not hit.is_empty() and hit.collider == bar
+			and Vector3(hit.normal).y > 0.99 and absf(Vector3(hit.position).y-crown.y)<0.001
+			and rider.safe_margin > 0.0 and absf(bottom-crown.y-rider.safe_margin)<0.001)
+		var pose = rider._grind_contact
+		var board_supported: bool = rider.grind_style_id == "grind_50_50" and pose.valid and pose.anchor_count == 2
+		for index in pose.anchor_count:
+			var support: Vector3 = pose.supports[index]
+			var truck_hit := rider.get_world_3d().direct_space_state.intersect_ray(
+				PhysicsRayQueryParameters3D.create(support+Vector3.UP*0.1,support-Vector3.UP*0.1,1))
+			board_supported = board_supported and not truck_hit.is_empty() and truck_hit.collider == bar \
+				and Vector3(truck_hit.normal).y > 0.99 and absf(Vector3(truck_hit.position).y-support.y)<0.001 \
+				and (pose.board_transform*pose.anchors[index]).distance_to(support)<0.001
+		capture_board_support.append(board_supported))
 	rider.trick_performed.connect(func(name: String, _points: int): seen.append(name))
 	Input.action_press("push")
 	await _frames(tree, 60)
@@ -343,9 +384,8 @@ static func _latched_rail(tree: SceneTree, check: Callable) -> void:
 	# the old 34-frame airborne schedule here.
 	await _frames(tree, 24)
 	Input.action_release("ollie")
-	# At the new 1.27m apex this same 0.92m rail is already in vertical
-	# reach. Request while rising too fast to capture; release before the
-	# unchanged <=1m/s admission gate, then witness its buffered catch.
+	# Rising catches are allowed. Request while the finite endpoint is still
+	# outside the point envelope, then witness its released buffered catch.
 	var admission_window := false
 	for frame in 90:
 		await _frames(tree, 1)
@@ -356,6 +396,7 @@ static func _latched_rail(tree: SceneTree, check: Callable) -> void:
 	var request_tick := Engine.get_physics_frames()
 	var request_position: Vector3 = rider.global_position
 	var request_velocity: Vector3 = rider.velocity
+	var outside_reach: bool = request_position.distance_to(line.point_at(0.0)) > 0.85
 	_pad(JOY_BUTTON_Y, true)
 	await _frames(tree, 1)
 	var released_tick := Engine.get_physics_frames()
@@ -365,12 +406,17 @@ static func _latched_rail(tree: SceneTree, check: Callable) -> void:
 	var released_catch := capture_ticks.size() == 1 and capture_buttons.size() == 1 \
 		and not capture_buttons[0] and capture_ticks[0] > released_tick \
 		and float(capture_ticks[0] - request_tick) / Engine.physics_ticks_per_second <= 0.18
-	check.call(admission_window and released_tick - request_tick == 1 and uncaptured_while_pressed
-		and released_catch and rider.grinding and captures == ["ClassicTapRail"] and seen.count("Rail Grind") == 1,
-		"classic rail: a released one-tick mapped Triangle tap buffers a witnessed apex catch within180ms")
+	check.call(admission_window and outside_reach and released_tick - request_tick == 1 and uncaptured_while_pressed
+		and released_catch and capture_support == [true] and capture_board_support == [true]
+		and rider.grinding and captures == ["ClassicTapRail"]
+		and seen.size() == 2 and seen.count("Ollie") == 1 \
+		and _family_count(seen,["rail_grind","grind_50_50"]) == 1,
+		"classic rail: a released one-tick mapped Triangle tap buffers one native solid-endpoint catch within180ms")
 	print("CLASSIC RAIL request_tick=", request_tick, " release_tick=", released_tick,
 		" capture_ticks=", capture_ticks, " request_at=", request_position, " request_velocity=", request_velocity,
-		" uncaptured_while_pressed=", uncaptured_while_pressed, " buttons_at_capture=", capture_buttons)
+		" uncaptured_while_pressed=", uncaptured_while_pressed, " buttons_at_capture=", capture_buttons,
+		" native_support=", capture_support, " native_board_support=", capture_board_support,
+		" body_crown_gaps=", capture_body_gaps, " safe_margin=", rider.safe_margin)
 	await _frames(tree, 5)
 	check.call(rider.grinding and captures.size() == 1,
 		"classic rail: a released capture button neither drops nor repeatedly awards the locked rail")

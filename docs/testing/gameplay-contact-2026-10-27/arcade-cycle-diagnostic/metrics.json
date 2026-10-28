@@ -1,0 +1,349 @@
+{
+  "diagnostic_only": true,
+  "actual_natural_return_contract_passed": false,
+  "rows": 360,
+  "natural": {
+    "departures": 2,
+    "opposite_after_return": false,
+    "reentries": 0
+  },
+  "native_receipt": "native/receipt.json",
+  "rows_sha256": "79d83a0957c7dacc2728cc188f1f22b6ca7af73db3e32264d671253abc877810",
+  "derived_idealized_upright_tube_clearance": {
+    "capsule_radius": 0.28,
+    "tube_radius": 0.055,
+    "query_skin": 0.001,
+    "total_outward": 0.1857309882599024,
+    "extra_over_previous_body_target": 0.1297309882599024,
+    "limits": "Geometric prediction only; every proposed actual capsule endpoint and outward motion must still pass native all-solid queries."
+  },
+  "events": [
+    {
+      "row": 195,
+      "tick": 237,
+      "position": [
+        -48.984001159668,
+        5.19999980926514,
+        60.4999885559082
+      ],
+      "velocity": [
+        -7.83955149061266e-14,
+        10.2452745437622,
+        -1.7791285245039e-06
+      ],
+      "air": true,
+      "floor": true,
+      "transition": "",
+      "theta": 0.0,
+      "vert_return": "clyde_half_west",
+      "return_local": [
+        1.1444091796875e-05,
+        3.19999980926514,
+        -2.98400115966797
+      ],
+      "lip_height": 3.2,
+      "body_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "shape_local_origin": [
+        0.0,
+        0.850000023841858,
+        0.0
+      ],
+      "native_contacts": [
+        "clyde_half_west:"
+      ],
+      "outward_gap_from_concrete_lip": 0.2159988403320301
+    },
+    {
+      "row": 196,
+      "tick": 238,
+      "position": [
+        -48.984001159668,
+        5.36464309692383,
+        60.4999885559082
+      ],
+      "velocity": [
+        -7.83955149061266e-14,
+        9.87860774993896,
+        -1.7791285245039e-06
+      ],
+      "air": true,
+      "floor": false,
+      "transition": "",
+      "theta": 0.0,
+      "vert_return": "clyde_half_west",
+      "return_local": [
+        1.1444091796875e-05,
+        3.36464309692383,
+        -2.98400115966797
+      ],
+      "lip_height": 3.2,
+      "body_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "shape_local_origin": [
+        0.0,
+        0.850000023841858,
+        0.0
+      ],
+      "native_contacts": [],
+      "outward_gap_from_concrete_lip": 0.2159988403320301
+    },
+    {
+      "row": 248,
+      "tick": 290,
+      "position": [
+        -48.984001159668,
+        5.50499153137207,
+        60.4999885559082
+      ],
+      "velocity": [
+        -7.83955149061266e-14,
+        -9.18806171417236,
+        -1.7791285245039e-06
+      ],
+      "air": true,
+      "floor": false,
+      "transition": "",
+      "theta": 0.0,
+      "vert_return": "clyde_half_west",
+      "return_local": [
+        1.1444091796875e-05,
+        3.50499153137207,
+        -2.98400115966797
+      ],
+      "lip_height": 3.2,
+      "body_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "shape_local_origin": [
+        0.0,
+        0.850000023841858,
+        0.0
+      ],
+      "native_contacts": [],
+      "outward_gap_from_concrete_lip": 0.2159988403320301
+    },
+    {
+      "row": 249,
+      "tick": 291,
+      "position": [
+        -48.984001159668,
+        5.34574604034424,
+        60.4999885559082
+      ],
+      "velocity": [
+        -7.83955149061266e-14,
+        -9.55472850799561,
+        -1.7791285245039e-06
+      ],
+      "air": true,
+      "floor": false,
+      "transition": "",
+      "theta": 0.0,
+      "vert_return": "clyde_half_west",
+      "return_local": [
+        1.1444091796875e-05,
+        3.34574604034424,
+        -2.98400115966797
+      ],
+      "lip_height": 3.2,
+      "body_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "shape_local_origin": [
+        0.0,
+        0.850000023841858,
+        0.0
+      ],
+      "native_contacts": [],
+      "outward_gap_from_concrete_lip": 0.2159988403320301
+    },
+    {
+      "row": 250,
+      "tick": 292,
+      "position": [
+        -48.984001159668,
+        5.18038940429688,
+        60.4999885559082
+      ],
+      "velocity": [
+        -7.83955149061266e-14,
+        -9.92139530181885,
+        -1.7791285245039e-06
+      ],
+      "air": true,
+      "floor": false,
+      "transition": "",
+      "theta": 0.0,
+      "vert_return": "clyde_half_west",
+      "return_local": [
+        1.1444091796875e-05,
+        3.18038940429688,
+        -2.98400115966797
+      ],
+      "lip_height": 3.2,
+      "body_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "shape_local_origin": [
+        0.0,
+        0.850000023841858,
+        0.0
+      ],
+      "native_contacts": [],
+      "outward_gap_from_concrete_lip": 0.2159988403320301
+    },
+    {
+      "row": 251,
+      "tick": 293,
+      "position": [
+        -48.984001159668,
+        5.18038940429688,
+        60.4999885559082
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "air": false,
+      "floor": true,
+      "transition": "",
+      "theta": 0.0,
+      "vert_return": "",
+      "return_local": null,
+      "lip_height": null,
+      "body_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "shape_local_origin": [
+        0.0,
+        0.850000023841858,
+        0.0
+      ],
+      "native_contacts": [
+        "Coping:clyde_half_west_coping"
+      ]
+    },
+    {
+      "row": 257,
+      "tick": 299,
+      "position": [
+        -48.9070205688477,
+        5.10976266860962,
+        60.4999885559082
+      ],
+      "velocity": [
+        1.19184172153473,
+        -1.5140038728714,
+        -2.35182710639492e-07
+      ],
+      "air": true,
+      "floor": false,
+      "transition": "",
+      "theta": 0.0,
+      "vert_return": "",
+      "return_local": null,
+      "lip_height": null,
+      "body_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "shape_local_origin": [
+        0.0,
+        0.850000023841858,
+        0.0
+      ],
+      "native_contacts": []
+    },
+    {
+      "row": 272,
+      "tick": 314,
+      "position": [
+        -48.5922660827637,
+        3.60728907585144,
+        60.4999656677246
+      ],
+      "velocity": [
+        4.79318952560425,
+        -7.80130529403687,
+        -3.92602629517569e-07
+      ],
+      "air": false,
+      "floor": false,
+      "transition": "clyde_half_west",
+      "theta": 1.01984948015836,
+      "vert_return": "",
+      "return_local": null,
+      "lip_height": null,
+      "body_axis": [
+        0.852028906345367,
+        0.523494005203247,
+        -3.72433675011052e-08
+      ],
+      "shape_local_origin": [
+        2.30205934315109e-08,
+        0.444970071315765,
+        -0.724225223064423
+      ],
+      "native_contacts": [
+        "clyde_half_west:"
+      ]
+    },
+    {
+      "row": 347,
+      "tick": 389,
+      "position": [
+        -35.015998840332,
+        5.19999980926514,
+        60.4999656677246
+      ],
+      "velocity": [
+        7.839459333428e-14,
+        10.2257862091064,
+        -1.77913466359314e-06
+      ],
+      "air": true,
+      "floor": true,
+      "transition": "",
+      "theta": 0.0,
+      "vert_return": "clyde_half_east",
+      "return_local": [
+        -3.4332275390625e-05,
+        3.19999980926514,
+        -2.98400115966797
+      ],
+      "lip_height": 3.2,
+      "body_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "shape_local_origin": [
+        0.0,
+        0.850000023841858,
+        0.0
+      ],
+      "native_contacts": [
+        "@StaticBody3D@4:",
+        "clyde_half_east:"
+      ],
+      "outward_gap_from_concrete_lip": 0.2159988403320301
+    }
+  ]
+}

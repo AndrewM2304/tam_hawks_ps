@@ -1,0 +1,23 @@
+{
+  "started_london": "2026-10-27T21:36:16.551962+00:00",
+  "completed_london": "2026-10-27T21:36:54.275699+00:00",
+  "wall_seconds": 37.72374045500055,
+  "command": [
+    "python3",
+    ".local/facade_stage4/run_rendered.py",
+    "--script",
+    ".local/facade_stage4/facade_current_main_controls.gd",
+    "--output",
+    ".local/facade-stage4-controls-rendered-display",
+    "--seconds",
+    "150"
+  ],
+  "exit_code": 0,
+  "source_inputs": 669,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "82be9f51997e14bbba751b2fa5e61901d45c5b58f5ee5069c8a721381000cacb",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

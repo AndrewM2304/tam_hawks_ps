@@ -439,6 +439,10 @@ static func _fixture(tree: SceneTree, verified: bool, side: int,
 		PackedVector3Array([b, a] if reversed_line else [a, b]))
 	if verified:
 		line.configure_contact(0.0, 0.0, "native fixture: inspected box top, 80mm wide")
+	# Match the production association between this finite native bar and its
+	# real guide; verified data cannot authorize a detached remembered line.
+	rail.set_meta("authored_grind_ids",[line.id])
+	rail.set_meta("audit_capture_ids",[line.id])
 	if blocked:
 		# Its inner X=.32 plane clears the existing .28m capsule and parallel
 		# board. A sideways .82m deck would physically cross the same wall.

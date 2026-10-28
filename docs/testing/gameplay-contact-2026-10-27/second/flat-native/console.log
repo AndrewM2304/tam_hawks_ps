@@ -1,0 +1,34 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: flat ollie: one mapped release earns the weighted profile once and a supported landing moving=false held=2
+PASS: flat ollie: unchanged measured height has a slower weighted flight moving=false held=2
+PASS: flat ollie: front sole leads, rear follows into a level deck before actual apex moving=false held=2
+PASS: flat ollie: staged foot/deck motion adds no horizontal impulse moving=false held=2
+PASS: flat ollie: native impact absorbs weight within five ticks and recovers without lingering crouch moving=false held=2
+PASS: flat ollie: apex tuck and actual shoes retain deck/floor contact and connected clothing through launch/impact moving=false held=2
+FLAT_OLLIE moving=false held=2 apex=0.82505313307047 airtime=0.51666666666667 front_lead_m=0.16320514678955 level_error_m=0.00000011920929 launch=(0.0, 6.04921, -0.315618) level_tick=13 apex_tick=16 apex_tuck=0.13606607913971 impact_tick=3 impact_compression=0.16737002134323 pose_step=0.07453180104494 sole_grip=0.0008540310082 sole_floor=0.14589993655682
+PASS: flat ollie: one mapped release earns the weighted profile once and a supported landing moving=false held=24
+PASS: flat ollie: unchanged measured height has a slower weighted flight moving=false held=24
+PASS: flat ollie: front sole leads, rear follows into a level deck before actual apex moving=false held=24
+PASS: flat ollie: staged foot/deck motion adds no horizontal impulse moving=false held=24
+PASS: flat ollie: native impact absorbs weight within five ticks and recovers without lingering crouch moving=false held=24
+PASS: flat ollie: apex tuck and actual shoes retain deck/floor contact and connected clothing through launch/impact moving=false held=24
+FLAT_OLLIE moving=false held=24 apex=1.26385609060526 airtime=0.63333333333333 front_lead_m=0.16320508718491 level_error_m=0.00000011920929 launch=(0.0, 7.561512, -3.970445) level_tick=13 apex_tick=19 apex_tuck=0.13877201080322 impact_tick=3 impact_compression=0.16930550336838 pose_step=0.07454040646553 sole_grip=0.000853831938 sole_floor=0.14589993655682
+PASS: flat ollie: one mapped release earns the weighted profile once and a supported landing moving=true held=2
+PASS: flat ollie: unchanged measured height has a slower weighted flight moving=true held=2
+PASS: flat ollie: front sole leads, rear follows into a level deck before actual apex moving=true held=2
+PASS: flat ollie: staged foot/deck motion adds no horizontal impulse moving=true held=2
+PASS: flat ollie: native impact absorbs weight within five ticks and recovers without lingering crouch moving=true held=2
+PASS: flat ollie: apex tuck and actual shoes retain deck/floor contact and connected clothing through launch/impact moving=true held=2
+FLAT_OLLIE moving=true held=2 apex=0.81762174516916 airtime=0.51666666666667 front_lead_m=0.16238844394684 level_error_m=0.00000011920929 launch=(0.0, 6.04921, -7.7914) level_tick=13 apex_tick=16 apex_tuck=0.13974499702454 impact_tick=3 impact_compression=0.16999834775925 pose_step=0.08427469432354 sole_grip=0.00085364707047 sole_floor=0.14492039382458
+PASS: flat ollie: one mapped release earns the weighted profile once and a supported landing moving=true held=24
+PASS: flat ollie: unchanged measured height has a slower weighted flight moving=true held=24
+PASS: flat ollie: front sole leads, rear follows into a level deck before actual apex moving=true held=24
+PASS: flat ollie: staged foot/deck motion adds no horizontal impulse moving=true held=24
+PASS: flat ollie: native impact absorbs weight within five ticks and recovers without lingering crouch moving=true held=24
+PASS: flat ollie: apex tuck and actual shoes retain deck/floor contact and connected clothing through launch/impact moving=true held=24
+FLAT_OLLIE moving=true held=24 apex=1.25811342149973 airtime=0.63333333333333 front_lead_m=0.16318428516388 level_error_m=0.00000011920929 launch=(0.0, 7.561512, -11.44577) level_tick=13 apex_tick=19 apex_tuck=0.13884162902832 impact_tick=3 impact_compression=0.16951954364777 pose_step=0.07454029470682 sole_grip=0.00085382309044 sole_floor=0.14589616656303
+PASS: flat ollie: unsupported falling retains actual34g without a pop pose or slower launch gravity
+PASS: flat ollie: actual bail cancels launch pose and weighted flight authority
+PASS: flat ollie: explicit restart leaves no stale launch pose
+RESULT: 27 passed, 0 failed

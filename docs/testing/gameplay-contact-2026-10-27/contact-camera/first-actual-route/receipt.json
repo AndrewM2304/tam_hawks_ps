@@ -1,0 +1,32 @@
+{
+  "started_london": "2026-10-28T00:24:00.127161+00:00",
+  "completed_london": "2026-10-28T00:24:10.005414+00:00",
+  "wall_seconds": 9.878254871000536,
+  "command": [
+    "timeout",
+    "45s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/contact-camera-diagnostic/runner.gd",
+    "--",
+    ".local/contact-camera-diagnostic/connected_adapter.gd",
+    ".local/contact-camera-diagnostic/density_adapter.gd",
+    ".local/contact-camera-diagnostic/camera_shape_witness.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 677,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "0",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "7caf1918b6548d4a73e373e87e7f4ce2aea7aa88f03a16dcf50e4eb8863f15b1",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

@@ -14,13 +14,16 @@ const CIRCUIT: Array[Vector3] = [
 	Vector3(-94, 5, -12), Vector3(-94, 2, -38), Vector3(-62, 2, -38),
 	Vector3(-62, 2, 22), Vector3(-22, 0, 22), Vector3(22, 0, 22),
 	Vector3(60, 0, 22), Vector3(70, 0, 22), Vector3(94, 0, 20),
-	Vector3(106, 0, 26), Vector3(126, 0, 26), Vector3(126, 1.5, -18),
+	# The solid Barras rail ends at Z33. Use the clear south shoulder, then
+	# rejoin every original collection waypoint and scoring leg.
+	Vector3(106, 0, 26), Vector3(106, 0, 34), Vector3(126, 0, 34),
+	Vector3(126, 0, 26), Vector3(126, 1.5, -18),
 	Vector3(120, 1.5, -22), Vector3(120, 1.5, -33), Vector3(120, 1.5, -22),
 	Vector3(106, 1.5, -22), Vector3(106, 1.5, -26), Vector3(75, 1.5, -26),
 	Vector3(75, 1.5, -22), Vector3(22, 2, -22), Vector3(-22, 2, -22),
 	Vector3(-22, 0, 28),
 ]
-const COMBO_WAYPOINTS: Array[int] = [0, 4, 10, 21, 29, 37]
+const COMBO_WAYPOINTS: Array[int] = [0, 4, 10, 21, 31, 39]
 
 
 static func run(tree: SceneTree, game: Node, check: Callable) -> void:

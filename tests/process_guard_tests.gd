@@ -206,7 +206,9 @@ static func _nollie(tree: SceneTree) -> void:
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
-	await _frames(tree, 3)
+	# The weighted pop's front-foot lead is slower. Sample the same signed
+	# travel-relative dip after five native updates, before apex/level-off.
+	await _frames(tree, 5)
 	Input.action_release("push")
 
 static func _reverse_from_pivot(tree: SceneTree, game: Node) -> void:

@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-27T22:30:09.026898+00:00",
+  "completed_london": "2026-10-27T22:30:10.433683+00:00",
+  "wall_seconds": 1.4067851119998522,
+  "command": [
+    "timeout",
+    "60s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/grind_intent_focus.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 672,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "136",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "d6b75a35244dae49de2ee9d59e1b3922b80d9c9ea04dfbd126271be6d2f3dd3c",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

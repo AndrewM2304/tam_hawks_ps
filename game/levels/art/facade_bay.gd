@@ -12,6 +12,8 @@ const LEVELS: Array[String] = ["near", "mid", "far"]
 const SLOT_NAMES: Array[String] = ["01_Original_sandstone", "02_Painted_forest_joinery",
 	"03_Opaque_glazing", "04_Aged_dark_metal"]
 const ASSET_ROOT := "res://game/art/assets/glasgow_bay/"
+# Geometry revision only; all four texture/material resources keep their original root.
+const MESH_ROOT := "res://game/art/assets/glasgow_bay_reduced_four_slot/"
 static var _materials: Array[Material] = []
 static var _meshes: Array[Mesh] = []
 
@@ -73,7 +75,7 @@ static func _load_resources() -> bool:
 	if _meshes.size() == LEVELS.size(): return true
 	var loaded: Array[Mesh] = []
 	for level: String in LEVELS:
-		var path := ASSET_ROOT + "glasgow_bay_" + level + ".glb"
+		var path := MESH_ROOT + "glasgow_bay_" + level + ".glb"
 		var packed := load(path) as PackedScene
 		if packed == null:
 			push_error("Fitted facade asset cannot load: " + path)

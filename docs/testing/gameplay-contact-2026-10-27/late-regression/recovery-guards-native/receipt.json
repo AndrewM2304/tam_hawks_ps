@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T01:38:20.421631+00:00",
+  "completed_london": "2026-10-28T01:38:30.497103+00:00",
+  "wall_seconds": 10.075474284996744,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/late-regression-repair/recovery_guards.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "12",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "63ee5774a0dd132873d0661d1e70e3eacfc42490a6c242be9e7894566b4abc78",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

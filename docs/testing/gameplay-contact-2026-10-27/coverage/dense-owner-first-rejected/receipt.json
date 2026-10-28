@@ -1,0 +1,23 @@
+{
+  "started_london": "2026-10-27T23:33:59.699556+00:00",
+  "completed_london": "2026-10-27T23:34:09.126639+00:00",
+  "wall_seconds": 9.427083369999309,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/dense_native_obstruction_diag.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [],
+  "valid": false,
+  "source_manifest_sha256": "56fb81189502a3e37841cea16d8867ec57ebf005d85fc2d92de4341caad8e4ab",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

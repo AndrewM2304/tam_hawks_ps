@@ -92,7 +92,8 @@ static func run_player(tree: SceneTree,game: Node,check: Callable,observer: Call
 			reached=await _manual_to(tree,game,e,target,360,"hall_flatland_approach",observer)
 			if not reached:break
 			if target==Vector3(100.8,0,-8) or target==Vector3(89,0,-2):
-				reached=await _refresh_manual(tree,game,e,observer)
+				var next_target := Vector3(98,0,-2) if target==Vector3(100.8,0,-8) else Vector3(82,0,-2)
+				reached=await _refresh_manual(tree,game,e,next_target,observer)
 				if not reached:break
 	if reached:
 		Input.action_release("manual")
@@ -163,17 +164,23 @@ static func _step(tree: SceneTree,game: Node,e: Dictionary,phase: String,observe
 static func _steps(tree: SceneTree,game: Node,e: Dictionary,count: int,phase: String,observer: Callable) -> void:
 	for tick: int in count:await _step(tree,game,e,phase,observer)
 
-static func _refresh_manual(tree: SceneTree,game: Node,e: Dictionary,observer: Callable) -> bool:
+static func _refresh_manual(tree: SceneTree,game: Node,e: Dictionary,next_target: Vector3,observer: Callable) -> bool:
 	Input.action_release("manual")
 	Driver._axis("spin_left","spin_right",0)
 	Driver._axis("steer_left","steer_right",0)
 	Input.action_press("ollie")
 	for tick: int in 15:
 		_speed(game,8.0)
+		# Start the real ground carve before the longer weighted jump. The
+		# landing then carries that heading into the next Manual waypoint.
+		Driver._steer_to(game,next_target,false)
 		await _step(tree,game,e,"market_flatland_push_charge",observer)
 	Input.action_release("ollie")
 	Input.action_release("push")
 	Input.action_release("brake")
+	# The anticipated carve ends on the supported charge; holding it in air
+	# would request an unrelated spin instead of preserving the earned heading.
+	Driver._axis("steer_left","steer_right",0)
 	await _step(tree,game,e,"market_flatland_takeoff",observer)
 	await _landing_manual(tree,game,e,150,"market_flatland_native_manual",observer)
 	return game.skater.manual_active and e.bails==0

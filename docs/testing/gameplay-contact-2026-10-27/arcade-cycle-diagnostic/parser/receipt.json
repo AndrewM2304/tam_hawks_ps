@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-28T00:34:20.273925+00:00",
+  "completed_london": "2026-10-28T00:34:20.882231+00:00",
+  "wall_seconds": 0.6083073090012476,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/arcade_cycle_probe.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "5798afd3ef6ae886a6f72f28d1d8a31568c39bfa6e2f7061c6f14f57addd7039",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

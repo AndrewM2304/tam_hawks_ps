@@ -36,8 +36,8 @@ static func run(check: Callable) -> void:
 		and not indexed.start_swept(index.nearby(to), at, to, velocity)
 		and not full.active and not indexed.active,
 		"rail index: historical oversized correction is refused by full and indexed sweeps despite candidate availability")
-	# Preserve the real missed descending window while independently satisfying
-	# both new correction budgets; the completed move crosses a negative Z cell.
+	# Preserve the older below-band tuple across a negative Z cell. Even when
+	# correction budgets fit, a historical sample cannot waive present height.
 	at = Vector3(-0.65, 2.66, -8.01)
 	to = at + velocity / 60.0
 	var local: Array = index.nearby(to)
@@ -52,11 +52,21 @@ static func run(check: Callable) -> void:
 		"rail index: both actual point endpoints refuse the bounded descending window with full and indexed candidates")
 	full = Ride.new()
 	indexed = Ride.new()
+	check.call(not full.start_swept(lines, at, to, velocity)
+		and not indexed.start_swept(local, at, to, velocity)
+		and not full.active and not indexed.active,
+		"rail index: full and indexed sweeps both reject the retained .66m to -.24m present-height overshoot")
+	var target: Vector3 = expected_line.point_at(float(expected_line.closest(to).dist))
+	check.call(to.distance_to(target) <= 0.85 and at.distance_to(target) <= 0.99,
+		"rail index: below-band overshoot rejection remains necessary even when both independent displacement budgets fit")
+	velocity = Vector3(0, -45.6, 12)
+	to = at + velocity / 60.0
+	local = index.nearby(to)
 	check.call(full.start_swept(lines, at, to, velocity)
 		and indexed.start_swept(local, at, to, velocity)
 		and full.line == expected_line and indexed.line == expected_line
 		and full.position().distance_to(indexed.position()) < 0.00001,
-		"rail index: bounded historical window captures the same actual guide and point through full and indexed sweeps")
+		"rail index: .66m to -.10m captures the same actual guide and point through full and indexed sweeps")
 	check.call(full.active and indexed.active
 		and to.distance_to(full.position()) <= 0.85 and at.distance_to(full.position()) <= 0.99
 		and to.distance_to(indexed.position()) <= 0.85 and at.distance_to(indexed.position()) <= 0.99,

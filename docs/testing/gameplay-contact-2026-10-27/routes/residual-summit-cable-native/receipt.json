@@ -1,0 +1,29 @@
+{
+  "started_london": "2026-10-28T02:53:57.181940+00:00",
+  "completed_london": "2026-10-28T02:54:23.948409+00:00",
+  "wall_seconds": 26.766470675000164,
+  "command": [
+    "timeout",
+    "30s",
+    "python3",
+    ".local/flagship_repair/residual_pair.py",
+    ".local/flagship_repair/focus.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 675,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "2",
+      "0"
+    ],
+    [
+      "3",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "64cc5e892fe1243c00cc805e60d56abbfa8d06fc7a08a40aa9b511cb6b61956c",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

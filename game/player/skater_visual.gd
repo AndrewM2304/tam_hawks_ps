@@ -314,6 +314,10 @@ func animate(delta: float, state: Dictionary) -> void:
 	var takeoff_mode := str(state.get("takeoff_mode", "Regular")).to_lower()
 	var launch_id := str(state.get("launch_id", "nollie" if takeoff_mode == "nollie" else "ollie"))
 	var launch_age := maxf(0.0, float(state.get("launch_age", 1.0)))
+	# Only an actual ordinary pop earns this profile; falling and ramp air
+	# keep their existing timing, and physical flight remains in Skater.
+	var weighted_ollie_air: bool = air and bool(state.get("weighted_ollie_air", false))
+	var weighted_ollie_duration := maxf(0.001, float(state.get("weighted_ollie_duration", 0.60)))
 	var launch_curve := sin(PI * clampf(launch_age / 0.22, 0.0, 1.0)) if air and not flip else 0.0
 	var nose_pop := launch_curve if launch_id == "nollie" else 0.0
 	var boneless_grip := smoothstep(0.0, 0.55, setup_phase) if setup and setup_id == "boneless" else 0.0
@@ -332,7 +336,7 @@ func animate(delta: float, state: Dictionary) -> void:
 		or absf(float(special_definition.get("special_board_yaw", 0.0))) > PI
 	var tumble := sin(PI * special_progress) if special_id == "special_tenement_tumble" else 0.0
 	if _was_airborne and not air:
-		_landing = 0.30
+		_landing = 0.36
 	if not _was_airborne and air:
 		_air_time = 0.0
 	_was_airborne = air
@@ -420,9 +424,15 @@ func animate(delta: float, state: Dictionary) -> void:
 		if support_point.is_finite(): _board.global_position = support_point - _board.global_basis * bearing
 	if pushing:
 		_push_phase = fmod(_push_phase + delta * (1.25 + ride_speed * 0.025), 1.0)
-	var landing_curve := sin(PI * clampf(_landing / 0.30, 0.0, 1.0))
+	# Absorb impact promptly, then recover with the shoes still planted.
+	# The old symmetric sine waited 150 ms after contact for full weight.
+	var landing_age := 0.36 - _landing
+	var landing_curve := smoothstep(0.0, 0.055, landing_age) * (1.0 - smoothstep(0.08, 0.36, landing_age))
 	var compression := 0.14 * landing_curve
 	var launch_tuck := sin(PI * clampf(_air_time / 0.35, 0.0, 1.0)) * _air_blend
+	if weighted_ollie_air:
+		var flight_phase := clampf(launch_age / weighted_ollie_duration, 0.0, 1.0)
+		launch_tuck = smoothstep(0.07, 0.34, flight_phase) * (1.0 - smoothstep(0.62, 0.96, flight_phase)) * _air_blend
 	# Nose/tail grabs use the same planted feet with a deeper crouch and a lean
 	# toward the chosen contact. The arm solver therefore keeps human reach.
 	var hips_y := 0.955 - 0.055 * _air_blend - grab_tuck * _grab_blend - compression - 0.08 * launch_tuck - 0.05 * tumble
@@ -560,6 +570,11 @@ func animate(delta: float, state: Dictionary) -> void:
 	var deck_stance := Basis(Vector3.UP, -deck_yaw)
 	var foot_poses: Array[Dictionary] = []
 	var grounded_drag := false
+	# A quick pop may retain a large ground-stroke blend. Bring that actual
+	# shoe back to the deck over the first 100 ms without snapping gait state.
+	var gait_catch := 1.0 - smoothstep(0.0, 0.10, launch_age) if weighted_ollie_air else 1.0
+	var foot_push_blend := _push_blend * gait_catch
+	var foot_brake_blend := _brake_blend * gait_catch
 	for leg: Dictionary in _legs:
 		var side: float = leg["side"]
 		var deck_foot := Vector3(-0.015 if side < 0.0 else 0.015, PLANTED_FOOT_Y, side * PLANTED_FOOT_Z)
@@ -572,16 +587,16 @@ func animate(delta: float, state: Dictionary) -> void:
 			var recovery := maxf(0.0, (_push_phase - 0.60) / 0.40)
 			var push_z := (lerpf(-0.25, 0.40, stroke) if _push_phase < 0.60 else lerpf(0.40, -0.25, recovery)) * travel_sign
 			var push_y := -0.139 + (0.26 * sin(PI * recovery) if recovery > 0.0 else 0.008 * sin(PI * stroke))
-			deck_foot.x += 0.25 * _push_blend + 0.24 * _brake_blend
-			deck_foot.z = lerpf(deck_foot.z, push_z, _push_blend)
-			deck_foot.z = lerpf(deck_foot.z, 0.40 * travel_sign, _brake_blend)
-			deck_foot.y += push_y * _push_blend - 0.139 * _brake_blend
+			deck_foot.x += 0.25 * foot_push_blend + 0.24 * foot_brake_blend
+			deck_foot.z = lerpf(deck_foot.z, push_z, foot_push_blend)
+			deck_foot.z = lerpf(deck_foot.z, 0.40 * travel_sign, foot_brake_blend)
+			deck_foot.y += push_y * foot_push_blend - 0.139 * foot_brake_blend
 			# Use one angle interval for the two existing gait headings. Choosing
 			# a new shortest arc midway through a reversal would flip the shoe.
 			var stroke_yaw := -0.08-PI*(1.0-travel_sign)*0.5
-			shoe_yaw = lerpf(shoe_yaw,stroke_yaw,maxf(_push_blend,_brake_blend))
+			shoe_yaw = lerpf(shoe_yaw,stroke_yaw,maxf(foot_push_blend,foot_brake_blend))
 		else:
-			shoe_yaw += 0.20 * _push_blend
+			shoe_yaw += 0.20 * foot_push_blend
 		# A spacewalk shuffles one foot while the other stays loaded. The
 		# unweighted one-foot leg lifts outward and slightly toward the centre.
 		var walk_step := sin(_walk_phase + (0.0 if side < 0.0 else PI))

@@ -36,6 +36,12 @@ var _collision: CollisionShape3D
 var _collision_rest := Transform3D.IDENTITY
 var _has_rest := false
 var _half_height := 0.85
+var _coping_ray := PhysicsRayQueryParameters3D.new()
+var _coping_body_query := PhysicsShapeQueryParameters3D.new()
+var _coping_sections: Dictionary = {}
+var _coping_turn_shape := CapsuleShape3D.new()
+var _coping_turn_queries := 0
+var _air_contact_pending := false
 
 func reset(body: CharacterBody3D = null) -> void:
 	if is_instance_valid(_collision) and _has_rest:
@@ -62,6 +68,7 @@ func reset(body: CharacterBody3D = null) -> void:
 	_air_age = 0.0
 	_lip_age = 0.0
 	_pending_event = ""
+	_air_contact_pending = false
 	_last_push = 0.0
 	_last_brake = 0.0
 	_air_push_armed = false
@@ -76,6 +83,9 @@ func try_enter(body: CharacterBody3D, velocity: Vector3) -> bool:
 	for candidate: Node in body.get_tree().get_nodes_in_group("skate_transitions"):
 		if candidate is Node3D and _acquire(body, candidate, velocity):
 			return true
+	# A completed ordinary floor landing ends a released-air handoff even
+	# when no other finite feature acquired it. Do not carry it into a new run.
+	if body.is_on_floor(): _air_contact_pending=false
 	return false
 
 func _acquire(body: CharacterBody3D, candidate: Node3D, velocity: Vector3) -> bool:
@@ -95,15 +105,15 @@ func _acquire(body: CharacterBody3D, candidate: Node3D, velocity: Vector3) -> bo
 	if not _real_face_contact(body, candidate, contact):
 		return false
 	_cache_collision(body)
-	if not _can_occupy(body, contact.point + contact.normal * CONTACT_OFFSET, contact.normal):
-		return false
+	if not _surface_body_target(body,candidate,contact).is_finite(): return false
 	feature = candidate
 	air_feature = null
 	_theta = float(contact.theta)
 	_x = float(contact.x)
 	_speed = velocity.dot(contact.tangent)
 	_lateral_speed = velocity.dot(contact.lateral)
-	var was_air := state == "air" or (not body.is_on_floor() and velocity.y < -0.5)
+	var was_air := _air_contact_pending or state == "air" or (not body.is_on_floor() and velocity.y < -0.5)
+	_air_contact_pending=false
 	active = true
 	state = "surface"
 	lip = false
@@ -147,6 +157,7 @@ func step(body: CharacterBody3D, delta: float, push: float, brake: float,
 			if not feature.wrap_lateral:lift+=frame.face_normal*jump_impulse*0.6
 			return _launch(body, lift, "launch")
 		if not lip_held:
+			if not _drop_from_lip(body,support): return _end(body,"bail")
 			state = "surface"
 			lip = false
 			_speed = -0.6
@@ -371,16 +382,112 @@ func refresh_frame(body: CharacterBody3D) -> void:
 		body.up_direction = normal
 
 func _move_to_lip(body: CharacterBody3D) -> bool:
-	var frame: Dictionary = feature.lip_frame(_x)
-	var target: Vector3 = frame.point+Vector3.UP*0.002
+	var frame: Dictionary=feature.lip_frame(_x)
+	var target: Vector3=frame.point+Vector3.UP*0.002
 	if not _real_lip_contact(body,frame) or not _can_occupy(body,target,Vector3.UP): return false
+	var support: Dictionary=feature.sample(PI*0.5,_x)
+	var coping:=_coping_profile(body,feature,support)
+	if coping.is_empty(): return false
+	var face: Vector3=frame.face_normal
+	var gap: float=(body.global_position-Vector3(support.point)).dot(face)
+	var outward:=body.global_position+face*maxf(0.0,float(coping.offset)+0.002-gap)
+	var turn:=outward+Vector3.UP*maxf(0.0,target.y-outward.y)
+	var axis:=_collision.global_basis.y.normalized()
+	if not _coping_segment_clear(body,body.global_position,outward,axis) \
+			or not _coping_segment_clear(body,outward,turn,axis) \
+			or not _coping_turn_clear(body,turn,axis,Vector3.UP) \
+			or not _coping_segment_clear(body,turn,target,Vector3.UP): return false
+	for point: Vector3 in [outward,turn]:
+		if body.move_and_collide(point-body.global_position,false,0.001) \
+				or body.global_position.distance_to(point)>0.01: return false
 	_orient_collision(body,Vector3.UP)
-	var hit := body.move_and_collide(target-body.global_position,false,0.001)
-	if hit or body.global_position.distance_to(target)>0.01: return false
-	normal = Vector3.UP
-	forward = -Vector3(frame.face_normal)
-	body.up_direction = Vector3.UP
+	if body.move_and_collide(target-body.global_position,false,0.001) \
+			or body.global_position.distance_to(target)>0.01: return false
+	normal=Vector3.UP
+	forward=-face
+	body.up_direction=normal
 	return true
+
+func _drop_from_lip(body: CharacterBody3D,support: Dictionary) -> bool:
+	var coping:=_coping_profile(body,feature,support)
+	if coping.is_empty(): return false
+	var axis: Vector3=support.normal
+	var gap: float=(body.global_position-Vector3(support.point)).dot(axis)
+	var turn:=body.global_position+axis*maxf(0.0,float(coping.offset)+0.002-gap)
+	var old_axis:=_collision.global_basis.y.normalized()
+	if not _coping_segment_clear(body,body.global_position,turn,old_axis) \
+			or not _coping_turn_clear(body,turn,old_axis,axis): return false
+	if body.move_and_collide(turn-body.global_position,false,0.001) \
+			or body.global_position.distance_to(turn)>0.01: return false
+	_orient_collision(body,axis)
+	return true
+
+func _coping_segment_clear(body: CharacterBody3D,from: Vector3,to: Vector3,axis: Vector3) -> bool:
+	_coping_body_query.shape=_collision.shape
+	_coping_body_query.transform=Transform3D(Basis(Quaternion(Vector3.UP,axis)),from+axis*_half_height)
+	_coping_body_query.motion=Vector3.ZERO
+	_coping_body_query.collision_mask=body.collision_mask
+	_coping_body_query.exclude=[body.get_rid()]
+	_coping_body_query.margin=0.001
+	var space:=body.get_world_3d().direct_space_state
+	if not space.intersect_shape(_coping_body_query,1).is_empty(): return false
+	_coping_body_query.motion=to-from
+	var sweep:=space.cast_motion(_coping_body_query)
+	if sweep.size()!=2 or sweep[0]<0.9999: return false
+	_coping_body_query.motion=Vector3.ZERO
+	_coping_body_query.transform.origin=to+axis*_half_height
+	return space.intersect_shape(_coping_body_query,1).is_empty()
+
+## The union of enlarged native endpoint capsules encloses the continuous
+## turn. Dimensions carry the enclosure; this does not rely on query margin.
+func _coping_turn_clear(body: CharacterBody3D,at: Vector3,from: Vector3,to: Vector3) -> bool:
+	_coping_turn_queries=0
+	var capsule: CapsuleShape3D=_collision.shape as CapsuleShape3D
+	if capsule==null or _coping_body_query.shape==null or not at.is_finite() or not from.is_finite() or not to.is_finite() \
+			or absf(from.length_squared()-1.0)>0.00001 or absf(to.length_squared()-1.0)>0.00001: return false
+	var angle:=from.angle_to(to)
+	if not is_finite(angle) or from.dot(to)<-0.999999: return false
+	var intervals:=0 if angle<=0.000001 else ceili(angle/deg_to_rad(1.0))
+	if intervals<0 or intervals>180: return false
+	var r:=capsule.radius
+	var outer:=capsule.height-r
+	var half_interval:=angle/float(maxi(intervals,1))*0.5
+	# An arc-point ball lies in one of these two enlarged endpoint balls.
+	# The outer head on the angle bisector gives the largest required radius.
+	var enlargement:=sqrt(r*r+2.0*outer*(outer+r)*(1.0-cos(half_interval)))-r
+	if intervals>0: enlargement+=0.000001
+	_coping_turn_shape.radius=r+enlargement
+	_coping_turn_shape.height=capsule.height+2.0*enlargement
+	_coping_turn_shape.margin=capsule.margin
+	var previous_shape: Shape3D=_coping_body_query.shape
+	var previous_transform: Transform3D=_coping_body_query.transform
+	var previous_motion: Vector3=_coping_body_query.motion
+	var previous_margin: float=_coping_body_query.margin
+	var previous_mask: int=_coping_body_query.collision_mask
+	var previous_exclude: Array[RID]=_coping_body_query.exclude
+	_coping_body_query.shape=_coping_turn_shape
+	_coping_body_query.motion=Vector3.ZERO
+	_coping_body_query.margin=0.001
+	_coping_body_query.collision_mask=body.collision_mask
+	_coping_body_query.exclude=[body.get_rid()]
+	var space: PhysicsDirectSpaceState3D=body.get_world_3d().direct_space_state
+	var clear:=true
+	for index: int in range(intervals+1):
+		var progress:=float(index)/intervals if intervals>0 else 0.0
+		var axis:=from.slerp(to,progress).normalized()
+		# Keep the ORIGINAL centre: radius/height grow equally at each end,
+		# leaving both underlying spine endpoints fixed in the real body frame.
+		_coping_body_query.transform=Transform3D(Basis(Quaternion(Vector3.UP,axis)),at+axis*_half_height)
+		_coping_turn_queries+=1
+		if not space.intersect_shape(_coping_body_query,1).is_empty(): clear=false;break
+	_coping_body_query.shape=previous_shape
+	_coping_body_query.transform=previous_transform
+	_coping_body_query.motion=previous_motion
+	_coping_body_query.margin=previous_margin
+	_coping_body_query.collision_mask=previous_mask
+	_coping_body_query.exclude=previous_exclude
+	return clear
+
 
 func _real_lip_contact(body: CharacterBody3D, frame: Dictionary) -> bool:
 	var point: Vector3 = frame.point
@@ -424,16 +531,101 @@ func grind_path_clear(from: Vector3, to: Vector3, body: CharacterBody3D) -> bool
 func _end(body: CharacterBody3D, event: String) -> Dictionary:
 	var velocity := body.velocity
 	reset(body)
+	# The caller still owns ordinary air. Preserve only its pending contact
+	# provenance until native floor completion or the next acquired feature.
+	_air_contact_pending=event=="exit_air"
 	body.velocity = velocity
 	return _result(body, event)
 
+## Native feature-owned steel supplies only this finite clearance profile.
+## Ordinary movement still sees every solid, including this exact primitive.
+func _coping_profile(body: CharacterBody3D,candidate: Node3D,sample: Dictionary) -> Dictionary:
+	var frame: Dictionary=candidate.lip_frame(float(sample.x))
+	var crown: Vector3=frame.point
+	if Vector3(sample.point).distance_squared_to(crown)>0.35*0.35: return {}
+	_coping_ray.from=crown+Vector3.UP*0.03
+	_coping_ray.to=crown-Vector3.UP*0.03
+	_coping_ray.collision_mask=2
+	_coping_ray.exclude=[body.get_rid()]
+	var hit:=body.get_world_3d().direct_space_state.intersect_ray(_coping_ray)
+	if hit.is_empty() or not hit.collider is StaticBody3D \
+			or not hit.collider.has_meta("coping_feature") or hit.collider.get_meta("coping_feature")!=candidate \
+			or Vector3(hit.normal).y<0.95 or Vector3(hit.position).distance_to(crown)>0.008: return {}
+	var steel:=hit.collider as StaticBody3D
+	var primitive:=steel.shape_owner_get_owner(steel.shape_find_owner(int(hit.shape))) as CollisionShape3D
+	if primitive==null or primitive.disabled: return {}
+	var transform: Transform3D=primitive.global_transform
+	if not transform.basis.get_scale().is_equal_approx(Vector3.ONE): return {}
+	var axis: Vector3=sample.normal
+	var support: float=(transform.origin-Vector3(sample.point)).dot(axis)
+	if primitive.shape is BoxShape3D:
+		var half: Vector3=primitive.shape.size*0.5
+		support+=absf(axis.dot(transform.basis.x))*half.x+absf(axis.dot(transform.basis.y))*half.y+absf(axis.dot(transform.basis.z))*half.z
+	elif primitive.shape is CylinderShape3D:
+		var along:=axis.dot(transform.basis.y)
+		support+=absf(along)*primitive.shape.height*0.5+sqrt(maxf(0.0,1.0-along*along))*primitive.shape.radius
+	elif candidate.wrap_lateral and primitive.shape is ConcavePolygonShape3D:
+		var section:=_coping_torus_section(primitive.shape)
+		if section.is_empty(): return {}
+		var local_point:=transform.affine_inverse()*Vector3(sample.point)
+		var radial:=Vector3(local_point.x,0.0,local_point.z).normalized()
+		if radial.length_squared()<0.5: return {}
+		var centre: Vector3=radial*float(section.major)+Vector3.UP*float(section.centre_y)
+		var local_axis:=transform.basis.transposed()*axis
+		support=(centre-local_point).dot(local_axis)+float(section.minor)
+	else: return {}
+	if not is_finite(support) or support<0.0 or support>0.1: return {}
+	return {"body":steel,"offset":support,"crown":crown}
+
+## Validate every native torus vertex once and cache only its section radii.
+## The enclosing section proposes a target; native capsule queries remain final.
+func _coping_torus_section(shape: ConcavePolygonShape3D) -> Dictionary:
+	var identity:=shape.get_instance_id()
+	if _coping_sections.has(identity): return _coping_sections[identity]
+	var faces:=shape.get_faces()
+	if faces.is_empty(): return {}
+	var radial_min:=INF
+	var radial_max:=-INF
+	var lower:=INF
+	var upper:=-INF
+	for point: Vector3 in faces:
+		if not point.is_finite(): return {}
+		var rho:=Vector2(point.x,point.z).length()
+		radial_min=minf(radial_min,rho);radial_max=maxf(radial_max,rho)
+		lower=minf(lower,point.y);upper=maxf(upper,point.y)
+	var major:=(radial_min+radial_max)*0.5
+	var minor:=(upper-lower)*0.5
+	var centre_y:=(upper+lower)*0.5
+	if minor<=0.0 or minor>0.1 or major<=minor \
+			or absf((radial_max-radial_min)*0.5-minor)>0.0001: return {}
+	for point: Vector3 in faces:
+		var section:=Vector2(Vector2(point.x,point.z).length()-major,point.y-centre_y).length()
+		if absf(section-minor)>0.0001: return {}
+	var result:={"major":major,"minor":minor,"centre_y":centre_y}
+	_coping_sections[identity]=result
+	var invalidate:=_forget_coping_section.bind(identity)
+	if not shape.changed.is_connected(invalidate): shape.changed.connect(invalidate)
+	return result
+
+func _forget_coping_section(identity: int) -> void:
+	_coping_sections.erase(identity)
+
+func _surface_body_target(body: CharacterBody3D,candidate: Node3D,sample: Dictionary) -> Vector3:
+	# The capsule can clear steel while the leading tyre still reaches it.
+	# Keep the native coping profile authoritative before the nominal target.
+	var offset:=CONTACT_OFFSET
+	var coping:=_coping_profile(body,candidate,sample)
+	if not coping.is_empty(): offset=maxf(offset,float(coping.offset)+0.002)
+	var target: Vector3=sample.point+sample.normal*offset
+	return target if _can_occupy(body,target,sample.normal) else Vector3.INF
+
 func _move_supported(body: CharacterBody3D, sample: Dictionary, allow_ground: bool = false) -> bool:
-	var target: Vector3 = sample.point + sample.normal * CONTACT_OFFSET
 	var physical_contact := _real_face_contact(body, feature, sample)
 	if allow_ground:
 		physical_contact = physical_contact or _real_ground_contact(body, sample.point)
-	if not physical_contact or not _can_occupy(body, target, sample.normal):
-		return false
+	if not physical_contact: return false
+	var target:=_surface_body_target(body,feature,sample)
+	if not target.is_finite(): return false
 	_orient_collision(body, sample.normal)
 	var hit := body.move_and_collide(target - body.global_position, false, 0.001)
 	if hit and hit.get_collider() != feature.surface_body:
@@ -465,6 +657,8 @@ func _real_face_contact(body: CharacterBody3D, candidate: Node3D, sample: Dictio
 	var axis: Vector3 = physical_sample.normal
 	var query := PhysicsRayQueryParameters3D.create(point + axis * 0.10, point - axis * 0.08, body.collision_mask)
 	query.exclude = [body.get_rid()]
+	var coping:=_coping_profile(body,candidate,physical_sample)
+	if not coping.is_empty(): query.exclude=[body.get_rid(),coping.body.get_rid()]
 	var hit := body.get_world_3d().direct_space_state.intersect_ray(query)
 	return not hit.is_empty() and hit.get("collider") == candidate.surface_body \
 		and Vector3(hit.normal).dot(axis) > 0.93
@@ -485,6 +679,9 @@ func _cache_collision(body: CharacterBody3D) -> void:
 		_collision_rest = _collision.transform
 		_has_rest = true
 		_half_height = float(_collision.shape.height) * 0.5 if _collision.shape is CapsuleShape3D else 0.85
+
+	if is_instance_valid(_collision) and _coping_body_query.shape==null:
+		_coping_body_query.shape=_collision.shape
 
 func _orient_collision(body: CharacterBody3D, axis: Vector3) -> void:
 	if not is_instance_valid(_collision):

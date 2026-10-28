@@ -169,6 +169,10 @@ static func _fixture(tree: SceneTree, grade: String) -> Dictionary:
 		body.spawn_position=spawn
 		root.add_child(body)
 		body.rotation.y=yaw
+	# This superimposed negative-control twin observes the same native floor
+	# with its unchanged mask/capsule, but must not be a second solid rider
+	# inside the tested board. Real world and rail layers remain unchanged.
+	control.collision_layer=0
 	await _frames(tree,40)
 	return {"viewport":viewport,"rider":rider,"control":control}
 

@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-28T01:52:46.899872+00:00",
+  "completed_london": "2026-10-28T01:52:47.251805+00:00",
+  "wall_seconds": 0.35193328900277265,
+  "command": [
+    "timeout",
+    "8s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/park-route-repair/variants_canonical.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "c08cd28dabb89c46365603218572148b4aa489496ce080080d854efcc492c9f4",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

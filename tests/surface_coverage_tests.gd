@@ -43,6 +43,7 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	for line in world.get_grind_lines():
 		duplicate_ids = duplicate_ids or lines.has(line.id)
 		lines[line.id] = line
+	var terrain_steel: Dictionary={"lines":lines,"seen":{},"known":{},"valid":true}
 	check.call(not duplicate_ids, "surface audit: all authored and derived grind tracks retain unique stable IDs")
 	var classified := true
 	var boundary_excluded := true
@@ -63,6 +64,13 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 	if is_instance_valid(previous_camera): previous_camera.current = true
 	await tree.physics_frame
 	await tree.process_frame
+	var collision := rider.get_node("BodyCollision") as CollisionShape3D
+	var capsule := collision.shape as CapsuleShape3D
+	var body_path = Ride.new()
+	body_path.body_radius = capsule.radius
+	body_path.body_base_offset = collision.position.y-capsule.height*0.5
+	body_path.body_clearance = rider._grind.body_clearance
+	print("SURFACE_NATIVE_BODY_DATUM radius=",body_path.body_radius," base_offset=",body_path.body_base_offset)
 	for record: Dictionary in audit.surfaces:
 		var body := world.get_node(NodePath(record.path)) as StaticBody3D
 		classified = classified and body != null and body.has_meta("surface_audit_id") and not record.wall_reason.is_empty()
@@ -74,6 +82,9 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 				boundary_matches = record.wallrideable \
 					and body.get_meta("solid_boundary",false) and not body.get_meta("no_wallride",true) \
 					and _printyard_wall_backed(world,body)
+			elif body.has_node("GradedMasonryPanels") or body.has_node("PropertyMasonry"):
+				boundary_matches = record.wallrideable and not body.get_meta("no_wallride",true) \
+					and _native_masonry_bounds(body)
 			else:
 				boundary_matches = not record.wallrideable and body.get_meta("no_wallride", false)
 			if not boundary_matches: print("SURFACE_BOUNDARY_FAILURE record=",record," solid=",body.get_meta("solid_boundary",false)," excluded=",body.get_meta("no_wallride",false))
@@ -89,10 +100,13 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 			var line = lines[id]
 			var usable := true
 			for fraction: float in [0.2,0.5,0.8]:
-				var at: Vector3 = line.point_at(line.length * fraction)
+				var at: Vector3 = body_path._body_point(line,line.length*fraction)
 				var tangent: Vector3 = line.dir_at(line.length * fraction)
 				var approach := Vector3(tangent.x,0,tangent.z).normalized()*6.0-Vector3.UP
 				var ride = Ride.new()
+				ride.body_radius = body_path.body_radius
+				ride.body_base_offset = body_path.body_base_offset
+				ride.body_clearance = body_path.body_clearance
 				usable = usable and ride.start([line], at + Vector3.UP * 0.15,
 					approach, func(from: Vector3, to: Vector3) -> bool: return rider._rail_path_clear(from,to))
 			if usable:
@@ -100,7 +114,7 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 				else: authored_capture_count += 1
 			else: blocked.append(id)
 	check.call(classified and boundary_excluded,
-		"surface audit: every physical surface has a reason; fences stay excluded and only the independently backed print-yard masonry boundary admits wallrides")
+		"surface audit: every physical surface has a reason; real opaque property masonry admits wallrides while open ironwork retains its safety exclusion")
 	check.call(eligible_helpers_agree, "surface audit: architecture wall tags agree with production wallride eligibility")
 	check.call(candidate_covered and referenced_tracks_exist,
 		"surface audit: each selected visible ledge candidate references actual published grind tracks")
@@ -115,8 +129,8 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 		var count := maxi(4,ceili(line.length/0.35))
 		for i in range(1,count):
 			var distance: float = line.length*i/count
-			var point: Vector3 = line.point_at(distance)
-			var next: Vector3 = line.point_at(minf(line.length,distance+0.20))
+			var point: Vector3 = body_path._body_point(line,distance)
+			var next: Vector3 = body_path._body_point(line,minf(line.length,distance+0.20))
 			dense_samples += 1
 			if not rider._rail_path_clear(point+Vector3.UP*0.12,point) or not rider._rail_path_clear(point,next):
 				if not dense_blocked.has(line.id):
@@ -247,16 +261,19 @@ static func run(tree: SceneTree, world: Node3D, check: Callable) -> void:
 		for x: float in [-0.61,0.0,0.61]:
 			for z: float in [-4.03,0.0,4.03]:
 				var top := body.to_global(Vector3(x,0.30,z))
-				var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(top+Vector3.UP*0.1,top-Vector3.UP*0.1,1))
+				var hit := _terrain_ray(world,top+Vector3.UP*0.1,top-Vector3.UP*0.1,terrain_steel)
 				cap_ok = cap_ok and hit.get("collider")==body and absf(hit.get("position",Vector3.INF).y-top.y)<0.004
 		for outside: Vector3 in [Vector3(-0.65,0.3,0),Vector3(0.65,0.3,0),Vector3(0,0.3,-4.08),Vector3(0,0.3,4.08)]:
 			var top := body.to_global(outside)
-			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(top+Vector3.UP*0.1,top-Vector3.UP*0.05,1))
+			var hit := _terrain_ray(world,top+Vector3.UP*0.1,top-Vector3.UP*0.05,terrain_steel)
 			cap_ok = cap_ok and hit.get("collider")!=body
 		check.call(cap_ok,"surface audit: visible60mm court seat cap has native top/50mm overhang and exact finite outer bounds "+str(record.id))
-	await _sunken_excavation(tree,world,check)
+	await _sunken_excavation(tree,world,check,terrain_steel)
 	_native_rail_tops(world,lines,check)
-	_visible_park_materials(tree,world,check)
+	_visible_park_materials(tree,world,check,terrain_steel)
+	check.call(terrain_steel.valid and not terrain_steel.seen.is_empty(),
+		"surface terrain rays: every excluded registered steel RID independently matches its native rail-layer hit; all original floor sites remain checked")
+	print("SURFACE TERRAIN STEEL WITNESSES ",JSON.stringify(terrain_steel.seen))
 
 
 static func _native_rail_tops(world: Node3D,lines: Dictionary,check: Callable) -> void:
@@ -281,7 +298,7 @@ static func _native_rail_tops(world: Node3D,lines: Dictionary,check: Callable) -
 		check.call(matches,"surface audit: finite Outdoor bearing path has matching real native beam crown "+id)
 
 
-static func _visible_park_materials(tree: SceneTree,world: Node3D,check: Callable) -> void:
+static func _visible_park_materials(tree: SceneTree,world: Node3D,check: Callable,terrain_steel: Dictionary) -> void:
 	var entries: Array[Dictionary] = []
 	var collision_unchanged := true
 	for visual: MeshInstance3D in tree.get_nodes_in_group("park_native_visual_skins"):
@@ -319,7 +336,7 @@ static func _visible_park_materials(tree: SceneTree,world: Node3D,check: Callabl
 			for z in ceili(region.size.y/0.4):
 				var from := Vector3(region.position.x+(x+0.5)*0.4,30,region.position.y+(z+0.5)*0.4)
 				var to := from-Vector3.UP*40
-				var native := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(from,to,1))
+				var native := _terrain_ray(world,from,to,terrain_steel)
 				if native.is_empty(): continue
 				if seat_meshes.has(native.collider):
 					var seat_top := -INF
@@ -330,9 +347,7 @@ static func _visible_park_materials(tree: SceneTree,world: Node3D,check: Callabl
 					seat_max_error=maxf(seat_max_error,error)
 					seat_matches=seat_matches and is_finite(seat_top) and error<0.001
 					seat_covered+=1
-					var floor_ray := PhysicsRayQueryParameters3D.create(from,to,1)
-					floor_ray.exclude=seat_rids
-					native=world.get_world_3d().direct_space_state.intersect_ray(floor_ray)
+					native=_terrain_ray(world,from,to,terrain_steel,seat_rids)
 					if native.is_empty():
 						good=false
 						print("PARK FLOOR_MISSING_UNDER_SEAT at=",from)
@@ -359,7 +374,7 @@ static func _visible_park_materials(tree: SceneTree,world: Node3D,check: Callabl
 		"park material: actual visible mesh BVHs at over3000 reviewed road/stone sites stay above real support within nine millimetres")
 
 
-static func _sunken_excavation(_tree: SceneTree,world: Node3D,check: Callable) -> void:
+static func _sunken_excavation(_tree: SceneTree,world: Node3D,check: Callable,terrain_steel: Dictionary) -> void:
 	var definition: Dictionary = world.get_park_skatepark_definition()
 	check.call(not definition.is_empty() and world.get_node_or_null(definition.get("node_path",NodePath()))!=null,
 		"sunken park: real facility, resolvable World node path and supported summit access are registered in the existing park")
@@ -384,7 +399,7 @@ static func _sunken_excavation(_tree: SceneTree,world: Node3D,check: Callable) -
 		for z in 30:
 			var point := Vector3(bounds.position.x+x+0.5,0,bounds.position.y+z+0.5)
 			var height: float = world.get_ground_height(point)
-			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*30,point-Vector3.UP*2,1))
+			var hit := _terrain_ray(world,point+Vector3.UP*30,point-Vector3.UP*2,terrain_steel)
 			var matches: bool = is_finite(height) and not hit.is_empty() and absf(hit.position.y-height)<0.006 and hit.collider!=landscape
 			grid_ok = grid_ok and matches
 			grid_samples += 1
@@ -393,7 +408,7 @@ static func _sunken_excavation(_tree: SceneTree,world: Node3D,check: Callable) -
 	check.call(grid_ok and grid_samples==1200,
 		"sunken park:1200 independent native rays agree with the actual deck, basin, bowl and stair height query")
 	for bottom: Vector3 in [Vector3(-197,11,-194),Vector3(-219,13,-195)]:
-		var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(bottom+Vector3.UP*6,bottom-Vector3.UP*0.3,1))
+		var hit := _terrain_ray(world,bottom+Vector3.UP*6,bottom-Vector3.UP*0.3,terrain_steel)
 		check.call(not hit.is_empty() and absf(hit.position.y-bottom.y)<0.006 and hit.collider!=landscape \
 			and absf(world.get_ground_height(bottom)-bottom.y)<0.006,
 			"sunken park: visibly different bowl depth has real exposed native floor "+str(bottom))
@@ -402,7 +417,7 @@ static func _sunken_excavation(_tree: SceneTree,world: Node3D,check: Callable) -
 	for segment in range(access.size()-1):
 		for sample in 33:
 			var point := access[segment].lerp(access[segment+1],float(sample)/32.0)
-			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*0.3,point-Vector3.UP*0.3,1))
+			var hit := _terrain_ray(world,point+Vector3.UP*0.3,point-Vector3.UP*0.3,terrain_steel)
 			entry_ok = entry_ok and not hit.is_empty() and absf(hit.position.y-point.y)<0.006 \
 				and absf(world.get_ground_height(point)-point.y)<0.006 and absf(world.get_support_height(point,0.1)-point.y)<0.006
 	check.call(entry_ok,"sunken park: every shared summit/ramp/entry seam has native support and inclusive exact height queries in both directions")
@@ -417,7 +432,7 @@ static func _sunken_excavation(_tree: SceneTree,world: Node3D,check: Callable) -
 				2: point = Vector3(bounds.position.x-0.04,0,lerpf(bounds.position.y,bounds.end.y,fraction))
 				3: point = Vector3(bounds.end.x+0.04,0,lerpf(bounds.position.y,bounds.end.y,fraction))
 			var height: float = world.get_ground_height(point)
-			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*30,point-Vector3.UP*2,1))
+			var hit := _terrain_ray(world,point+Vector3.UP*30,point-Vector3.UP*2,terrain_steel)
 			perimeter_ok = perimeter_ok and is_finite(height) and not hit.is_empty() and absf(hit.position.y-height)<0.006
 	check.call(perimeter_ok,"sunken park: actual grass collar remains continuously supported around all four excavated edges")
 
@@ -439,6 +454,45 @@ static func _clear_capture(world: Node3D, from: Vector3, to: Vector3) -> bool:
 	query.transform.origin = to + Vector3.UP * 0.98
 	query.motion = Vector3.ZERO
 	return space.intersect_shape(query).is_empty()
+
+
+static func _terrain_ray(world: Node3D,from: Vector3,to: Vector3,steel: Dictionary,excluded: Array[RID]=[]) -> Dictionary:
+	# Terrain checks retain every original site and tolerance. Newly solid
+	# steel is checked separately, then only that authenticated RID is skipped.
+	var query := PhysicsRayQueryParameters3D.create(from,to,1)
+	var skip: Array[RID]=excluded.duplicate();query.exclude=skip
+	var space := world.get_world_3d().direct_space_state
+	for attempt: int in 16:
+		var hit := space.intersect_ray(query)
+		var body := hit.get("collider") as StaticBody3D
+		if body==null or body.collision_layer&3!=3:return hit
+		var key := str(body.get_rid().get_id())
+		if not steel.known.has(key):steel.known[key]=_registered_steel(body,world,steel.lines)
+		if not steel.known[key]:return hit
+		var rail_query := PhysicsRayQueryParameters3D.create(from,to,2)
+		rail_query.exclude=skip
+		var rail_hit := space.intersect_ray(rail_query)
+		steel.valid=steel.valid and rail_hit.get("collider")==body \
+			and Vector3(rail_hit.get("position",Vector3.INF)).distance_to(hit.position)<=0.0001
+		steel.seen[key]={"label":str(body.get_meta("art_label",body.name)),"point":hit.position,"normal":hit.normal}
+		skip.append(body.get_rid());query.exclude=skip
+	steel.valid=false
+	return {}
+
+
+static func _registered_steel(body: StaticBody3D,world: Node3D,lines: Dictionary) -> bool:
+	var node: Node=body
+	while node!=null and node!=world:
+		for id: String in _associated_grinds(node):
+			if lines.has(id):return true
+		if lines.has(str(node.get_meta("grind_id",""))):return true
+		if node.has_meta("coping_feature"):
+			var feature: Node3D=node.get_meta("coping_feature")
+			if is_instance_valid(feature) and feature.has_method("get_grind_lines"):
+				for line in feature.get_grind_lines():
+					if lines.has(line.id):return true
+		node=node.get_parent()
+	return false
 
 
 static func _associated_grinds(body: Node) -> Array:
@@ -486,7 +540,8 @@ static func _printyard_wall_backed(world: Node3D, body: StaticBody3D) -> bool:
 						or adjacent.get_meta("boundary_family","")!="SouthPocketEndBoundary" \
 						or adjacent.get_meta("art_label","")!="SouthPocketEndBoundary" \
 						or not adjacent.get_meta("solid_boundary",false) or not adjacent.get_meta("exploration_boundary",false) \
-						or not adjacent.get_meta("no_wallride",false) or adjacent.get_meta("wallrideable",false):
+							or adjacent.get_meta("no_wallride",true) or not adjacent.get_meta("wallrideable",false) \
+							or not _native_masonry_bounds(adjacent) or not WallRide.is_surface_eligible(adjacent):
 						print("PRINTYARD_WALL_UNEXPECTED from=",a," to=",b," actual=",hit)
 						return false
 					var caps := adjacent.find_children("*","CollisionShape3D",false,false)
@@ -530,3 +585,30 @@ static func _printyard_corner_controls(world: Node3D,rear: StaticBody3D) -> bool
 		if world.get_world_3d().direct_space_state.intersect_ray(query).is_empty(): negatives+=1
 	print("PRINTYARD_CORNER_CONTROLS rear_present=",positives," rear_and_end_absent=",negatives)
 	return positives==2 and negatives==2
+
+
+static func _native_masonry_bounds(body: StaticBody3D) -> bool:
+	# Derive this coverage witness from actual native primitives, separately
+	# from the constructor's intent tags and the production audit predicate.
+	var lower := Vector3(INF, INF, INF)
+	var upper := Vector3(-INF, -INF, -INF)
+	var count := 0
+	for child: Node in body.get_children():
+		if not child is CollisionShape3D or child.disabled: continue
+		var points := PackedVector3Array()
+		if child.shape is ConvexPolygonShape3D:
+			points = child.shape.points
+		elif child.shape is BoxShape3D:
+			var half: Vector3 = child.shape.size * 0.5
+			for x: float in [-half.x, half.x]:
+				for y: float in [-half.y, half.y]:
+					for z: float in [-half.z, half.z]: points.append(Vector3(x, y, z))
+		else: return false
+		for point: Vector3 in points:
+			var world_point: Vector3 = child.to_global(point)
+			if not world_point.is_finite(): return false
+			lower = lower.min(world_point)
+			upper = upper.max(world_point)
+		count += 1
+	var size := upper - lower
+	return count > 0 and size.is_finite() and size.y >= 1.6 and maxf(size.x, size.z) >= 2.0

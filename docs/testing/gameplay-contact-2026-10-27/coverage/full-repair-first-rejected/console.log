@@ -1,0 +1,329 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: grind ride: an airborne approach within capture bounds attaches
+PASS: grind ride: entry preserves projected speed and samples the rail
+PASS: grind ride: forward travel advances distance and loses speed to friction
+PASS: grind ride: stop retains finite release position and momentum
+PASS: grind ride: inactive updates do not keep moving the released skater
+PASS: grind ride: selects nearest eligible rail regardless of list order
+PASS: grind ride: blocked nearest rail falls back to a clear eligible rail
+PASS: grind ride: obstructed snap is rejected
+PASS: grind ride: reverse entry keeps its signed travel direction
+PASS: grind ride: reverse motion decreases distance and keeps momentum
+PASS: grind ride: crossing an open endpoint releases in direction -1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: crossing an open endpoint releases in direction 1.0
+PASS: grind ride: endpoint clamps without wrapping and preserves outgoing direction
+PASS: grind ride: outward approaches beyond either endpoint do not attach
+PASS: grind ride: an inward approach near an endpoint can attach
+PASS: grind ride: distance follows a translated bent rail and the outgoing tangent turns with it
+PASS: grind ride: rough aim accepts84degrees while a distant86degree crossing remains outside its separate near-contact band
+PASS: grind ride: rough aim accepts84degrees while a distant86degree crossing remains outside its separate near-contact band
+PASS: grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.78, 0.1, -5.0)
+PASS: grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.0, 0.58, -5.0)
+PASS: grind ride: deliberate enlarged margin admits a near-edge lateral/vertical approach (0.0, -0.13, -5.0)
+PASS: grind ride: angled catch retains at least 90 percent horizontal speed without converting a fall to flat-rail boost
+PASS: grind ride: angled catch retains at least 90 percent horizontal speed without converting a fall to flat-rail boost
+PASS: grind ride: sloped rails capture both travel directions
+PASS: grind ride: slope gravity changes speed and outgoing velocity retains the vertical tangent
+PASS: grind ride: insufficient uphill momentum releases without silently reversing
+PASS: grind ride: downhill acceleration respects the speed ceiling
+PASS: grind ride: rejects full snap distance
+PASS: grind ride: rejects vertical reach
+PASS: grind ride: rejects below the rail
+PASS: grind ride: rejects ascending below the actual rail datum
+PASS: grind ride: rejects distant sideways approach
+PASS: grind ride: rejects too little speed
+PASS: grind ride: rejects excessive speed
+PASS: grind ride: rejects nonfinite position
+PASS: grind ride: rejects nonfinite velocity
+PASS: grind ride: malformed rail lists cannot attach
+PASS: grind ride: vertical lines have no usable horizontal approach
+PASS: grind ride: unattended deterministic balance eventually bails
+PASS: grind ride: countersteering controls the balance instead of an unavoidable timeout
+PASS: grind ride: analog correction is bounded to the normal input range
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+PASS: grind ride: invalid update safely releases without contaminating body transforms
+GRIND_TICK_PHASE {"current_height":-0.233333349227905,"entry":[30.0,-0.4,-35.0,8.0,22.0,0.5,false],"from":"(-0.4, 0.5, -5.0)","physical_body_target":"(0.0, 0.0, -5.218441)","to":"(-0.552954, -0.233333, -5.218441)"}
+PASS: grind forgiveness: the actual pre-move origin catches before the completed tick can overshoot [30.0, -0.4, -35.0, 8.0, 22.0, 0.5, false]
+PASS: grind forgiveness: completed point capture respects its actual strict height at tick phase [30.0, -0.4, -35.0, 8.0, 22.0, 0.5, false]
+PASS: grind forgiveness: completed sweep preserves the current point-height envelope at tick phase [30.0, -0.4, -35.0, 8.0, 22.0, 0.5, false]
+GRIND_TICK_PHASE {"current_height":-0.199999988079071,"entry":[60.0,0.4,35.0,12.0,42.0,0.5,false],"from":"(0.4, 0.5, -5.0)","physical_body_target":"(0.0, 0.0, -5.16383)","to":"(0.514715, -0.2, -5.16383)"}
+PASS: grind forgiveness: the actual pre-move origin catches before the completed tick can overshoot [60.0, 0.4, 35.0, 12.0, 42.0, 0.5, false]
+PASS: grind forgiveness: completed point capture respects its actual strict height at tick phase [60.0, 0.4, 35.0, 12.0, 42.0, 0.5, false]
+PASS: grind forgiveness: completed sweep preserves the current point-height envelope at tick phase [60.0, 0.4, 35.0, 12.0, 42.0, 0.5, false]
+GRIND_TICK_PHASE {"current_height":-0.0399999916553497,"entry":[120.0,-0.5,-25.0,17.0,60.0,0.46,true],"from":"(-0.5, 0.46, -5.0)","physical_body_target":"(0.0, 0.0, -5.128394)","to":"(-0.559871, -0.04, -5.128394)"}
+PASS: grind forgiveness: the actual pre-move origin catches before the completed tick can overshoot [120.0, -0.5, -25.0, 17.0, 60.0, 0.46, true]
+PASS: grind forgiveness: completed point capture respects its actual strict height at tick phase [120.0, -0.5, -25.0, 17.0, 60.0, 0.46, true]
+PASS: grind forgiveness: completed sweep preserves the current point-height envelope at tick phase [120.0, -0.5, -25.0, 17.0, 60.0, 0.46, true]
+GRIND_TICK_PHASE {"current_height":-0.00666666030883789,"entry":[60.0,0.55,0.0,4.0,28.0,0.46,true],"from":"(0.55, 0.46, -5.0)","physical_body_target":"(0.0, 0.0, -5.066667)","to":"(0.55, -0.006667, -5.066667)"}
+PASS: grind forgiveness: the actual pre-move origin catches before the completed tick can overshoot [60.0, 0.55, 0.0, 4.0, 28.0, 0.46, true]
+PASS: grind forgiveness: completed point capture respects its actual strict height at tick phase [60.0, 0.55, 0.0, 4.0, 28.0, 0.46, true]
+PASS: grind forgiveness: completed sweep preserves the current point-height envelope at tick phase [60.0, 0.55, 0.0, 4.0, 28.0, 0.46, true]
+GRIND_TICK_PHASE {"current_height":0.310000002384186,"entry":[120.0,-0.3,45.0,10.0,18.0,0.46,true],"from":"(-0.3, 0.46, -5.0)","physical_body_target":"(0.0, 0.0, -5.058926)","to":"(-0.241074, 0.31, -5.058926)"}
+PASS: grind forgiveness: the actual pre-move origin catches before the completed tick can overshoot [120.0, -0.3, 45.0, 10.0, 18.0, 0.46, true]
+PASS: grind forgiveness: completed point capture respects its actual strict height at tick phase [120.0, -0.3, 45.0, 10.0, 18.0, 0.46, true]
+PASS: grind forgiveness: completed sweep preserves the current point-height envelope at tick phase [120.0, -0.3, 45.0, 10.0, 18.0, 0.46, true]
+GRIND_TICK_PHASE {"current_height":-0.140000015497208,"entry":[30.0,0.0,0.0,17.0,18.0,0.46,false],"from":"(0.0, 0.46, -5.0)","physical_body_target":"(0.0, 0.0, -5.566667)","to":"(0.0, -0.14, -5.566667)"}
+PASS: grind forgiveness: the actual pre-move origin catches before the completed tick can overshoot [30.0, 0.0, 0.0, 17.0, 18.0, 0.46, false]
+PASS: grind forgiveness: completed point capture respects its actual strict height at tick phase [30.0, 0.0, 0.0, 17.0, 18.0, 0.46, false]
+PASS: grind forgiveness: completed sweep preserves the current point-height envelope at tick phase [30.0, 0.0, 0.0, 17.0, 18.0, 0.46, false]
+GRIND_TICK_PHASE {"current_height":-0.130000025033951,"entry":[30.0,0.0,0.0,17.0,18.0,0.47,true],"from":"(0.0, 0.47, -5.0)","physical_body_target":"(0.0, 0.0, -5.566667)","to":"(0.0, -0.13, -5.566667)"}
+PASS: grind forgiveness: the actual pre-move origin catches before the completed tick can overshoot [30.0, 0.0, 0.0, 17.0, 18.0, 0.47, true]
+PASS: grind forgiveness: completed point capture respects its actual strict height at tick phase [30.0, 0.0, 0.0, 17.0, 18.0, 0.47, true]
+PASS: grind forgiveness: completed sweep preserves the current point-height envelope at tick phase [30.0, 0.0, 0.0, 17.0, 18.0, 0.47, true]
+PASS: grind forgiveness: the old .66m to -.24m overshoot cannot recover below the present14cm band
+PASS: grind forgiveness: .66m to -.10m descending travel retains capture within the present height and displacement bounds
+PASS: grind forgiveness: a blocked actual-body sweep rejects every historical sample
+PASS: grind forgiveness: clearance always starts at the current body, never a past sample
+PASS: grind forgiveness: no larger admission envelope for lateral miss
+PASS: grind forgiveness: no larger admission envelope for wrong upper level
+PASS: grind forgiveness: no larger admission envelope for below rail
+PASS: grind forgiveness: no larger admission envelope for distant perpendicular motion
+PASS: grind forgiveness: no larger admission envelope for rail behind travel
+PASS: grind forgiveness: no larger admission envelope for rising below support
+PASS: grind forgiveness: no larger admission envelope for insufficient forward speed
+PASS: grind forgiveness: no larger admission envelope for excessive forward speed
+PASS: grind forgiveness: no larger admission envelope for teleport-sized sweep
+PASS: grind forgiveness: no larger admission envelope for nonfinite history
+PASS: grind forgiveness: a second sweep cannot restart an active rail or duplicate its admission
+PASS: grind intent: rising Ollie catches above the real datum without converting ascent into flat-rail speed 1.01
+PASS: grind intent: rising Ollie catches above the real datum without converting ascent into flat-rail speed 4.0
+PASS: grind intent: rising Ollie catches above the real datum without converting ascent into flat-rail speed 9.0
+PASS: grind intent: ascent below the rail cannot pull a rider through its underside
+PASS: grind intent: close inward perpendicular crossing catches with stable tangent direction from side -1.0
+PASS: grind intent: sideways travel away from the rail or outside contact range has no broad magnetic catch -1.0
+PASS: grind intent: close inward perpendicular crossing catches with stable tangent direction from side 1.0
+PASS: grind intent: sideways travel away from the rail or outside contact range has no broad magnetic catch 1.0
+PASS: grind intent: perpendicular catch near an open end chooses the finite inward run
+PASS: grind intent: rising and sideways forgiveness never bypass actual path or support rejection
+PASS: grind intent: an actual upward crossing uses the same present and previous native correction caps
+PASS: grind intent: new intent handling preserves wrong-level, underside and over-metre sweep exclusions
+PASS: grind contact: verified raised bar captures and carries the body on its real crown rather than inside its centre guide
+PASS: grind contact: being above a guide centre cannot authorize an ascent from below the actual steel crown
+PASS: grind contact: the real upright capsule hemisphere rests outside an inclined crown instead of intersecting its tangent plane
+PASS: grind contact: the lower rising band cannot bypass a failed target-aware native capsule proof
+PASS: grind contact: an explicit successful native proof can use only the existing14cm lower band, never widen it
+PASS: grind contact: recovered crown crossings retain native target proof for every historical sample
+PASS: grind contact: target-aware swept clearance always starts at the completed actual body position
+PASS: grind current bounds: an earlier eligible rising sample cannot pull the actual body down from above60cm even with a clear native path
+PASS: grind current bounds: an earlier eligible falling sample cannot lift the actual body from below14cm even with a clear native path
+PASS: grind endpoint: an already clear nearest contact remains unchanged and performs no alternate queries
+PASS: grind endpoint: a blocked nearest cap may use one physically rechecked inboard entry inside the original capture radius
+PASS: grind endpoint: a still obstructed actual-model answer rejects after one alternate rather than ignoring the support
+PASS: grind endpoint: an intervening native wall refuses both points before model admission
+PASS: grind endpoint: a valid nearest gap cannot authorize an alternate farther than85cm
+PASS: grind endpoint: an eligible lower endpoint cannot lift the body beyond the original14cm lower band at its inboard target
+PASS: grind endpoint: a middle-rail obstruction cannot trigger longitudinal searching
+PASS: grind endpoint: outward travel beyond a finite end retains the original refusal without alternate queries
+PASS: grind endpoint: loops and unverified legacy geometry cannot gain an endpoint exception closed endpoint control
+PASS: grind endpoint: loops and unverified legacy geometry cannot gain an endpoint exception unknown endpoint control
+PASS: grind endpoint: an inboard correction cannot steal selection from a genuinely closer clear line in either enumeration order
+PASS: grind endpoint: an inboard correction cannot steal selection from a genuinely closer clear line in either enumeration order
+PASS: grind endpoint: a swept inboard target retains the previous body's99cm displacement cap
+PASS: grind endpoint: every swept native callback still starts at the actual completed body origin
+PASS: grind endpoint: an invalid actual-model bound refuses without an active ride -0.1
+PASS: grind endpoint: an invalid actual-model bound refuses without an active ride nan
+PASS: grind endpoint: an invalid actual-model bound refuses without an active ride inf
+PASS: grind endpoint: an invalid actual-model bound refuses without an active ride 0.86
+PASS: facade bay: explicit disable preserves the original selected building
+PASS: facade bay: exactly the fitted west middle Exchange building is enabled
+PASS: facade bay: every actual collision shape, body layer and world transform is unchanged
+PASS: facade bay: actual navigation routes and grind points remain identical
+PASS: facade bay: physical entry threshold, turning ledge and lower bypass retain support/clearance
+PASS: facade bay: front-cut visual keeps the original complete box collider and outer bounds
+PASS: facade bay: actual front triangles exclude the entire 6.5m strip, including crossing triangles
+PASS: facade bay: shell preserves complete rear, side, top and bottom surface areas
+PASS: facade bay: exactly one cheap closed original box casts only the original building-mass shadow at its unchanged transform/material
+PASS: facade bay: cut shell and all detailed native LODs receive shadows without duplicate detailed shadow submissions
+PASS: facade bay: invisible shadow mass is excluded from actual visible-wall occluder candidates
+PASS: facade bay: every actual filtered front primitive has its full transformed bounds outside the strip
+PASS: facade bay: all nine crossing window groups are absent, including their outside-strip fragments
+PASS: facade bay: one complete shop bay is removed and crossing continuous pieces are clipped
+PASS: facade bay: the old selected raised procedural door is actually removed
+PASS: facade bay: adjacent real procedural doors remain with their original individual elevations
+PASS: facade bay: one actual opaque neighbour jamb seals the full exposed display edge using its existing shared paint
+PASS: facade bay: the original shop identity is retained exactly once on the fitted fascia
+PASS: facade bay: exactly three native MeshInstance levels share unscaled metre placement
+PASS: facade bay: actual native dependency chain and both hysteresis margins are configured
+PASS: facade bay: four fitted material surfaces and authored triangle budget Near
+PASS: facade bay: hard native stage has no alpha fade or premature end Near
+PASS: facade bay: explicit authored stage has automatic import LODs disabled Near
+PASS: facade bay: four fitted material surfaces and authored triangle budget Mid
+PASS: facade bay: hard native stage has no alpha fade or premature end Mid
+PASS: facade bay: explicit authored stage has automatic import LODs disabled Mid
+PASS: facade bay: four fitted material surfaces and authored triangle budget Far
+PASS: facade bay: hard native stage has no alpha fade or premature end Far
+PASS: facade bay: explicit authored stage has automatic import LODs disabled Far
+PASS: facade bay: all levels share the same four live opaque material resources
+PASS: facade bay: near/mid/far use the same actual fitted bounds for native selection
+PASS: facade bay: active and imported materials retain only four shared 1024px maps
+PASS: facade bay: actual sandstone uses the authored normal strength and ORM green roughness
+PASS: facade bay: actual fitted threshold triangles meet the 0.53m landing without a second door lift
+PASS: facade bay: fitted placement composes actual rotated/translated author parents
+PASS: facade bay: mass shadow reuses the original closed mesh resource without duplication
+PASS: facade bay: ordinary runtime does not retain construction audit records
+PASS: PT24-16: independent centre ray reaches recessed native basin; old lawn is physically excavated
+PASS: PT24-16: 128 radial native support probes agree with the exact basin query
+PASS: PT24-16: basin-only support rays independently authenticate each newly solid perimeter-rail exclusion
+PASS: PT24-16: all 32 shoreline corners meet the visible water plane without an underwater dry gap
+PASS: PT24-16: every sampled water bank returns to supported clear dry lawn
+PASS: PT24-16: high air and dry bypass do not trigger water recovery or replace unrelated ground queries
+PASS: PT24-16: the independent 28m dry bypass keeps its original native lawn support
+PASS: PT24-16: the closed pond rail supplies actual steel and rigid two-truck contact around its complete loop
+PASS: PT24-16: upward visible water reuses the resident shader and two original ducks use shared static batches
+PASS: PT24-16: candidate stays within its two-body / 41-shape construction budget
+PASS: sunken park: deep11/shallow13/street13/rim14.5 native floors replace the real excavated hill
+PASS: sunken park: floor normals point up and hard retaining-side normals point out with normal backface culling
+PASS: sunken park: dense native floor rays and the shared mesh support index agree without pit caps or underside support
+PASS: sunken park: every dense terrain-ray steel exclusion independently matches its actual park-owned native rail-layer hit
+PASS: sunken park: sampled curved walls have actual native collision and exact indexed support
+PASS: sunken park: both entry ports are real missing wall sectors with no phantom transition acquisition
+PASS: sunken park: both finite coping tracks lie on actual steel crowns and stop at the entry openings
+PASS: sunken park: standalone external bowl ramps are removed rather than buried beneath the facility
+SUNKEN_GEOMETRY compared=300 missing=0 native_index_error=0.000101 authenticated_steel_exclusions=3
+PASS: sunken park: actual finite upper-port departure emits one native launch instead of bailing or inventing another entry
+PASS: sunken park: open-port departure preserves tangent momentum with no impulse, energy boost or position jump
+PASS: sunken park: the open port advances to actual bank support once and restores the upright capsule without phantom catches
+SUNKEN_PORT launches=1 landings=0 bails=0 gain=0.052387 max_step=0.133276 departure_travel=2.62512 state=idle floor=true position=(610.6773, 28.03421, 599.9124)
+PASS: sunken park: upright port recovery cannot manufacture a safe landing through a real ceiling
+PASS: sunken park: upright port recovery cannot manufacture a safe landing through a real side wall
+PASS: sunken park: the genuine lower deep-bowl wall supports an entire native carve beneath its open upper port
+PASS: sunken park: deep-bowl carving retains existing strict native energy and bounded-contact limits
+SUNKEN_CARVE sweep=6.30973 entries=1 bail=0 energy_gain=0.000000
+PASS: sunken park: ordinary mapped push/brake/steer enters the lower basin and returns through the gentle bank without a mandatory jump
+PASS: sunken park: the real beginner circuit keeps the rider visible and cannot award manufactured surface tricks
+SUNKEN_BEGINNER reached=true distance=49.539 bails=0 position=(-187.2495, 14.59935, -183.0174) score=0
+PASS: sunken park: compact hip reaches genuine native vert air from its declared eight-metre push approach
+PASS: sunken park: a fresh airborne direction transfers to the actual opposite hip face and brakes to a native stop
+PASS: sunken park: the compact hip's real transfer and braking fit its declared four-and-a-half-metre west runout
+PASS: sunken park: compact hip transfer keeps actual head visibility and manufactures no trick or bank
+SUNKEN_COMPACT_HIP launched=true back=true exit=true stop=true bails=0 exit_speed=4.24400 min_x=-222.45670 position=(-222.4567, 13.0138, -176.5)
+PASS: native ledge fallback: ordinary world contains the actual sunken-park retaining edges
+PASS: native ledge fallback: all five real north retaining lips expose finite south top guides while flush north faces and port gaps stay unregistered
+PASS: native edge contact: held Grind catches and advances on the actual retaining lip beside the excavated upper deck
+NATIVE_RETAINING_FULL_SKATER { "id": "Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0", "crown": (-224.5407, 14.5, -184.0), "solved": true, "native_crown": true, "capsule": true, "actual_model": true, "board": true, "captures": ["Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0"], "grinding": true, "position": (-225.3354, 14.515, -184.0), "support_error": 0.00001525878906 }
+PASS: native retaining rise: an actual native assembly impact earns clipped held-input intent for this finite edge
+PASS: native retaining rise: only proven native assembly RIDs bridge the real ray tie; an unrelated live RID remains refused
+PASS: native retaining rise: real cached wall momentum catches the same finite Fifty-Fifty edge and advances without duplicate capture
+NATIVE_RETAINING_RISE { "line": "Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0", "earned": { "rid": RID(81926501171546), "at": (-224.5611, 14.205, -183.7058), "velocity": (-0.6, 5.866667, 0.0), "remaining": 0.12, "ids": ["Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0"] }, "ray_rid": RID(81926501171546), "other_expected_rid": RID(82970178224498), "proven_rids": [RID(82970178224498), RID(81926501171546)], "captures": ["Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0"], "position": (-225.3173, 14.515, -184.0), "grinding": true, "style": "grind_50_50" }
+PASS: PT24-16 installed: the explicitly admitted candidate has its real pond
+PASS: PT24-16 installed: ordinary Push stops at the actual solid perimeter and cannot skate through into the pond
+PASS: PT24-16 installed: mapped charged Ollie crosses the solid rail, triggers one existing dramatic water bail, and recovers on dry land
+POND_INSTALLED_WATER_RESULT {"bails":1,"charged":true,"crossed_in_air":true,"entered":true,"ollies":1,"phase":"air_to_water","position":"Vector3(-172.00027, 0.5000261, -21.068739)","recovered":true,"ticks":490}
+PASS: PT24-16 input: actual Main explicitly installs the pond candidate
+POND_INPUT_RESULT {"accepted":true,"bails":0,"bank":1900,"banks":1,"captures":["kelvingrove_pond_perimeter"],"direction":1.0,"manual_ticks":12,"position":"Vector3(-176.1025, 0.5136736, -8.948114)","rail_ticks":27,"stages":[{"at":"Vector3(-173.65, 0.50177735, -25.997223)","speed":0.166625961661339,"stage":"dry_tangent_push","y_velocity":0.0},{"at":"Vector3(-173.65, 0.51315725, -24.619307)","speed":5.20442914962769,"stage":"charge_to_perimeter","y_velocity":0.0},{"at":"Vector3(-173.65, 0.63963896, -22.853323)","speed":7.87048530578613,"stage":"perimeter_air_catch","y_velocity":7.56151247024536},{"at":"Vector3(-174.15584, 1.105, -22.265707)","speed":7.85458146228949,"stage":"ride_perimeter","y_velocity":0.0},{"at":"Vector3(-174.27939, 1.105, -19.209183)","speed":7.6145814622895,"stage":"dry_exit_charge","y_velocity":0.0},{"at":"Vector3(-174.32436, 1.105, -19.090597)","speed":7.60457944869995,"stage":"outward_ollie","y_velocity":7.20000553131104},{"at":"Vector3(-174.30696, 1.2155557, -18.94845)","speed":8.5924186706543,"stage":"dry_landing_manual","y_velocity":6.63333892822266},{"at":"Vector3(-174.35674, 0.5136736, -13.55179)","speed":7.47476434707642,"stage":"clean_bank","y_velocity":0.0},{"at":"Vector3(-175.26787, 0.5136736, -11.14904)","speed":6.59250164031982,"stage":"single_bank_observation","y_velocity":0.0}],"ticks":168}
+PASS: PT24-16 input: dry lawn→Ollie→perimeter rail→outward Ollie→dry Manual earns one clean bank, direction=1.0
+PASS: PT24-16 input: earned pond combo survives an actual later mapped-Ollie water bail and supported recovery unchanged
+POND_BANKED_WATER_RESULT {"bails":1,"bank_after":1900,"bank_before":1900,"charged":true,"crossed_in_air":true,"entered":true,"ollies":1,"phase":"air_to_water","position":"Vector3(-178.76251, 0.5005057, -12.00275)","recovered":true,"ticks":372}
+POND_INPUT_RESULT {"accepted":true,"bails":0,"bank":1900,"banks":1,"captures":["kelvingrove_pond_perimeter"],"direction":-1.0,"manual_ticks":12,"position":"Vector3(-176.04964, 0.5140123, -32.91137)","rail_ticks":27,"stages":[{"at":"Vector3(-173.65, 0.50177735, -16.002777)","speed":0.166625961661339,"stage":"dry_tangent_push","y_velocity":0.0},{"at":"Vector3(-173.64986, 0.5138852, -17.375269)","speed":5.15773725509644,"stage":"charge_to_perimeter","y_velocity":0.0},{"at":"Vector3(-173.64986, 0.64006376, -19.128508)","speed":7.82367897033691,"stage":"perimeter_air_catch","y_velocity":7.56151247024536},{"at":"Vector3(-174.15852, 1.105, -19.71255)","speed":7.80780981772228,"stage":"ride_perimeter","y_velocity":0.0},{"at":"Vector3(-174.265, 1.105, -22.752842)","speed":7.56780981772228,"stage":"dry_exit_charge","y_velocity":0.0},{"at":"Vector3(-174.3097, 1.105, -22.8707)","speed":7.55780935287476,"stage":"outward_ollie","y_velocity":7.19999980926514},{"at":"Vector3(-174.29202, 1.2155555, -23.01212)","speed":8.55105113983154,"stage":"dry_landing_manual","y_velocity":6.63333320617676},{"at":"Vector3(-174.32729, 0.5140123, -28.369518)","speed":7.37902212142944,"stage":"clean_bank","y_velocity":0.0},{"at":"Vector3(-175.2265, 0.5140123, -30.740728)","speed":6.50431442260742,"stage":"single_bank_observation","y_velocity":0.0}],"ticks":168}
+PASS: PT24-16 input: dry lawn→Ollie→perimeter rail→outward Ollie→dry Manual earns one clean bank, direction=-1.0
+PASS: full map: complete declared spine approach is supported and clear in the actual map kelvingrove_foreground_hip minimum=8.0
+PASS: full map: complete declared spine landing is supported and clear in the actual map kelvingrove_foreground_hip minimum=4.5
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_exchange_south_line
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_exchange_south_return
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_civic_lower_island
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_civic_island_return
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Rail_east_climbing_handrail
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Rail_west_climbing_handrail
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_merchant_low_return
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_station_low_manual
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_barras_forecourt_line
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_barras_forecourt_return
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_clyde_south_link
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_clyde_south_return
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_ClydeSouthRelay
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Rail_ClydeSouthRelay
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_park_lower_carve
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_park_upper_return
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_park_east_carve
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_park_station_lower
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_park_station_upper
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_park_east_lower
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_park_east_gateway
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_park_civic_gateway
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Coping_ClydeEastBowl
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_StationConcourseHalfpipeNorthTransition_Coping
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_StationConcourseHalfpipeSouthTransition_Coping
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_StationWestSpineBackTransition_Coping
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_StationWestSpineFrontTransition_Coping
+PASS: full map: complete declared spine approach is supported and clear in the actual map StationWestSpine minimum=10.0
+PASS: full map: complete declared spine landing is supported and clear in the actual map StationWestSpine minimum=10.0
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_Ledge_RecordingCourt
+PASS: full map: new visible ledge/rail has three actual capsule-clear contacts Grind_CivicPortReturn_Coping
+PASS: full map: district has multiple published connected skating features royal_exchange
+PASS: full map: district has multiple published connected skating features george_square
+PASS: full map: district has multiple published connected skating features central_station
+PASS: full map: district has multiple published connected skating features barras
+PASS: full map: district has multiple published connected skating features clyde
+PASS: full map: district has multiple published connected skating features kelvingrove
+PASS: full map: original career's south-concourse diagonal stays clear of the new halfpipe in both directions
+PASS: full map: previously stalled park-edge crossing has matching support and clear native rider capsule (-180.904, 14.7177, -158.432)
+PASS: full map: previously stalled park-edge crossing has matching support and clear native rider capsule (-192.639, 9.151164, -109.843)
+PASS: full map: previously stalled park-edge crossing has matching support and clear native rider capsule (-150.909, 6.086855, -99.273)
+PASS: full map: explorable south-quay width has useful intermediate skating within fifteen metres
+PASS: full map: entire south-quay east-west through lane is supported and clear in both directions
+DENSITY royal_exchange samples=128 within20=128 within35=128 max=17.3501510620117
+PASS: full map: bounded quiet travel along sampled supported routes royal_exchange
+DENSITY george_square samples=65 within20=63 within35=65 max=23.7282543182373
+PASS: full map: bounded quiet travel along sampled supported routes george_square
+DENSITY clyde samples=136 within20=135 within35=136 max=21.470911026001
+PASS: full map: bounded quiet travel along sampled supported routes clyde
+DENSITY barras samples=119 within20=117 within35=119 max=22.2385787963867
+PASS: full map: bounded quiet travel along sampled supported routes barras
+DENSITY central_station samples=113 within20=83 within35=108 max=39.0184555053711
+PASS: full map: bounded quiet travel along sampled supported routes central_station
+DENSITY kelvingrove samples=257 within20=238 within35=257 max=27.5334339141846
+PASS: full map: bounded quiet travel along sampled supported routes kelvingrove
+DENSITY LINE exchange_south_line reached=true manual_frames=38 deck=true bails=0 camera=true score=100 at=(11.11247, 0.014017, 34.0)
+PASS: full map: actual push/manual crosses both banks and raised deck, then banks once exchange_south_line
+DENSITY LINE civic_lower_island reached=true manual_frames=42 deck=true bails=0 camera=true score=100 at=(22.53223, 4.007569, -64.0)
+PASS: full map: actual push/manual crosses both banks and raised deck, then banks once civic_lower_island
+DENSITY LINE station_low_manual reached=true manual_frames=31 deck=true bails=0 camera=true score=100 at=(-58.42417, 2.868067, 40.0)
+PASS: full map: actual push/manual crosses both banks and raised deck, then banks once station_low_manual
+DENSITY LINE barras_forecourt_line reached=true manual_frames=38 deck=true bails=0 camera=true score=100 at=(88.78036, 0.013866, 35.0)
+PASS: full map: actual push/manual crosses both banks and raised deck, then banks once barras_forecourt_line
+DENSITY LINE clyde_south_link reached=true manual_frames=45 deck=true bails=0 camera=true score=100 at=(-2.383298, 1.106187, 137.5133)
+PASS: full map: actual push/manual crosses both banks and raised deck, then banks once clyde_south_link
+PASS: full map: compact south-quay through fixture uses the actual authored route
+SOUTH QUAY CROSS reached=true distance=73.0838704369962 supported=true camera=true bails=0
+PASS: full map: native push crosses the complete new south-quay scene with support, clear chase and no invented score
+PASS: full map: compact relay fixture uses the actual published curved seat
+SOUTH QUAY RELAY captures=["Grind_Rail_ClydeSouthRelay"] held=18 score=650 bails=0 camera=true at=(41.90609, 2.014219, 140.0)
+PASS: full map: native seat approach, real Ollie and descending flatbar capture form an earned south-quay relay
+GALLERY STEPS captures=["Grind_Rail_GallerySteps"] held=78 bails=0 camera=true bank=850 at=(9.1, 2.014003, -21.13283)
+PASS: full map: actual push/pop captures the repaired Gallery stair rail, clears its cheek and banks once with full-body chase
+ACTUAL LEDGE Grind_Ledge_Court held=18 captures=["Grind_Ledge_Court"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Ledge_Court
+ACTUAL LEDGE clyde_safe_handrail_west held=18 captures=["Grind_Edge_BridgeRail_x-2885y375z8050_0"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase clyde_safe_handrail_west
+ACTUAL LEDGE clyde_safe_handrail_east held=18 captures=["Grind_Edge_BridgeRail_x-2115y375z8050_0"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase clyde_safe_handrail_east
+ACTUAL LEDGE kelvingrove_terrace_coping held=145 captures=["kelvingrove_terrace_coping"] bails=0 camera=true bank=425
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase kelvingrove_terrace_coping
+DENSITY CAMERA OCCLUSION rider=(-211.5, 14.63897, -183.5215) camera=(-211.5, 17.5659, -188.6668) marker=(-211.4449, 14.53012, -183.525) hit=(-211.4469, 14.64069, -183.7123) collider=FiveStepHubbaSteelCoping
+ACTUAL LEDGE Grind_Park_FiveStepHubba held=3 captures=["Grind_Park_FiveStepHubba"] bails=1 camera=false bank=0
+ERROR: FAIL: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Park_FiveStepHubba
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/ledge_surface_focus.gd:14)
+       [1] _actual_ledge_admission (res://tests/full_level_density_tests.gd:445)
+       [2] _frames (res://tests/full_level_density_tests.gd:495)
+ACTUAL LEDGE Grind_Edge_CourtSeat_x-1500y24z1300_0_0 held=18 captures=["Grind_Edge_CourtSeat_x-1500y24z1300_0_0"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Edge_CourtSeat_x-1500y24z1300_0_0
+ACTUAL LEDGE Grind_Edge_CourtSeat_x-1500y24z1300_1_0 held=18 captures=["Grind_Edge_CourtSeat_x-1500y24z1300_1_0"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Edge_CourtSeat_x-1500y24z1300_1_0
+ACTUAL LEDGE Grind_Edge_CourtSeat_x-1500y24z1300_2_0 held=18 captures=["Grind_Edge_CourtSeat_x-1500y24z1300_2_0"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Edge_CourtSeat_x-1500y24z1300_2_0
+ACTUAL LEDGE Grind_Edge_CourtSeat_x1700y24z1300_0_0 held=18 captures=["Grind_Edge_CourtSeat_x1700y24z1300_0_0"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Edge_CourtSeat_x1700y24z1300_0_0
+ACTUAL LEDGE Grind_Edge_CourtSeat_x1700y24z1300_1_0 held=18 captures=["Grind_Edge_CourtSeat_x1700y24z1300_1_0"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Edge_CourtSeat_x1700y24z1300_1_0
+ACTUAL LEDGE Grind_Edge_CourtSeat_x1700y24z1300_2_0 held=18 captures=["Grind_Edge_CourtSeat_x1700y24z1300_2_0"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Edge_CourtSeat_x1700y24z1300_2_0
+ACTUAL LEDGE Grind_Edge_CourtSeat_x1700y24z1300_3_0 held=18 captures=["Grind_Edge_CourtSeat_x1700y24z1300_3_0"] bails=0 camera=true bank=225
+PASS: full map: actual capsule holds repaired ledge and banks once with clear chase Grind_Edge_CourtSeat_x1700y24z1300_3_0
+PASS: full map: declared ledge fixtures preserve the production floor-snap setting for real rides and subsequent suites
+RESULT: 275 passed, 1 failed

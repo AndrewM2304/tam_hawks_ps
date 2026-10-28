@@ -408,9 +408,7 @@ static func _native_recovery(tree: SceneTree, game: Node, check: Callable) -> vo
 	await _frames(tree, 2)
 	Input.action_release("ollie")
 	await _frames(tree, 1)
-	for frame in 80:
-		if game.skater.velocity.y < -6.0: break
-		await _frames(tree, 1)
+	await _wait_for_late_flat_flip(tree,game,check,"native recovery")
 	Input.action_press("flip")
 	var previous: Array[Vector3] = _markers(game)
 	var max_step := 0.0
@@ -640,15 +638,33 @@ static func _recovery_floor_seam(tree: SceneTree, game: Node, check: Callable) -
 	fixture.queue_free()
 	await tree.process_frame
 
+static func _wait_for_late_flat_flip(tree: SceneTree,game: Node,check: Callable,label: String) -> void:
+	# The weighted flat tap has less downward speed at the same late height.
+	# Trigger the still-unfinished flip above actual native support, before impact.
+	var clearance := INF
+	var ready := false
+	for frame in 80:
+		if game.skater.airborne and game.skater.velocity.y < 0.0:
+			var at: Vector3=game.skater.global_position
+			var query:=PhysicsRayQueryParameters3D.create(at+Vector3.UP*0.05,at-Vector3.UP*0.30,game.skater.collision_mask)
+			query.exclude=[game.skater.get_rid()]
+			var hit: Dictionary=game.world.get_world_3d().direct_space_state.intersect_ray(query)
+			if not hit.is_empty() and Vector3(hit.normal).y>0.99:
+				clearance=at.y-Vector3(hit.position).y
+				if clearance>0.04 and clearance<=0.24:
+					ready=true
+					break
+		await _frames(tree,1)
+	check.call(ready,"authentic Main: "+label+" late mapped flip begins descending above actual flat support before touchdown")
+	print("AUTHENTIC_LATE_FLIP ",label," native_clearance=",clearance," velocity=",game.skater.velocity," airborne=",game.skater.airborne)
+
 static func _recovery_clearance(tree: SceneTree, game: Node, check: Callable) -> void:
 	await _reset(tree, game, SAFE)
 	Input.action_press("ollie")
 	await _frames(tree, 2)
 	Input.action_release("ollie")
 	await _frames(tree, 1)
-	for frame in 80:
-		if game.skater.velocity.y < -6.0: break
-		await _frames(tree, 1)
+	await _wait_for_late_flat_flip(tree,game,check,"standing recovery")
 	Input.action_press("flip")
 	for frame in 30:
 		await _frames(tree, 1)

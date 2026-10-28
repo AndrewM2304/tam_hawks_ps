@@ -1,0 +1,38 @@
+{
+  "overall_admitted": false,
+  "source_stable": true,
+  "source_inputs": 674,
+  "exact_changed_snapshots": 72,
+  "result_counts": [
+    [
+      211,
+      4
+    ]
+  ],
+  "wall_seconds": 44.86598774099912,
+  "groups": {
+    "arcade_response": {
+      "passed": 68,
+      "failed": 0,
+      "failures": []
+    },
+    "camera_turn_review": {
+      "passed": 53,
+      "failed": 4,
+      "failures": [
+        "classic camera: actual ramp updates avoid large view or zoom jumps (reduced=false)",
+        "classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=false)",
+        "classic camera: actual ramp updates avoid large view or zoom jumps (reduced=true)",
+        "classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=true)"
+      ]
+    },
+    "authentic_native_bail_styles_and_sunken_skating": {
+      "passed": 90,
+      "failed": 0,
+      "failures": []
+    }
+  },
+  "scope": "Diagnostic focused cohort. Two camera criteria still fail in each reduced-motion mode; no whole-batch acceptance inferred.",
+  "raw_receipt": "first-rejected/receipt.json",
+  "raw_receipt_sha256": "82e87be8431503fae4df73e33673788e013fabb598b3322162a8063b4256250a"
+}

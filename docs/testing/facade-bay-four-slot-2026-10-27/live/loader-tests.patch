@@ -1,0 +1,44 @@
+--- a/game/levels/art/facade_bay.gd
++++ b/game/levels/art/facade_bay.gd
+@@ -12,6 +12,8 @@
+ const SLOT_NAMES: Array[String] = ["01_Original_sandstone", "02_Painted_forest_joinery",
+ 	"03_Opaque_glazing", "04_Aged_dark_metal"]
+ const ASSET_ROOT := "res://game/art/assets/glasgow_bay/"
++# Geometry revision only; all four texture/material resources keep their original root.
++const MESH_ROOT := "res://game/art/assets/glasgow_bay_reduced_four_slot/"
+ static var _materials: Array[Material] = []
+ static var _meshes: Array[Mesh] = []
+ 
+@@ -73,7 +75,7 @@
+ 	if _meshes.size() == LEVELS.size(): return true
+ 	var loaded: Array[Mesh] = []
+ 	for level: String in LEVELS:
+-		var path := ASSET_ROOT + "glasgow_bay_" + level + ".glb"
++		var path := MESH_ROOT + "glasgow_bay_" + level + ".glb"
+ 		var packed := load(path) as PackedScene
+ 		if packed == null:
+ 			push_error("Fitted facade asset cannot load: " + path)
+--- a/tests/facade_bay_tests.gd
++++ b/tests/facade_bay_tests.gd
+@@ -319,18 +319,18 @@
+ 	var opaque := true
+ 	var bounds := true
+ 	var texture_ids: Dictionary = {}
+-	var budgets := [[12000, 20000], [2000, 5000], [300, 800]]
++	var triangles_by_level := [9864, 3544, 648]
+ 	var levels: Array[MeshInstance3D] = [near, mid, far]
+ 	for index: int in range(levels.size()):
+ 		var level := levels[index]
+ 		var triangles := level.mesh.get_faces().size() / 3
+-		check.call(level.mesh.get_surface_count() == 4 and triangles >= budgets[index][0] and triangles <= budgets[index][1],
++		check.call(level.mesh.get_surface_count() == 4 and triangles == triangles_by_level[index],
+ 			"facade bay: four fitted material surfaces and authored triangle budget " + String(level.name))
+ 		bounds = bounds and level.mesh.get_aabb().is_equal_approx(near.mesh.get_aabb())
+ 		check.call(level.visibility_range_end == 0.0 and level.visibility_range_fade_mode == GeometryInstance3D.VISIBILITY_RANGE_FADE_DISABLED,
+ 			"facade bay: hard native stage has no alpha fade or premature end " + String(level.name))
+ 		var imported := ConfigFile.new()
+-		check.call(imported.load(Bay.ASSET_ROOT + "glasgow_bay_" + String(level.name).to_lower() + ".glb.import") == OK
++		check.call(imported.load(Bay.MESH_ROOT + "glasgow_bay_" + String(level.name).to_lower() + ".glb.import") == OK
+ 			and imported.get_value("params", "meshes/generate_lods", true) == false,
+ 			"facade bay: explicit authored stage has automatic import LODs disabled " + String(level.name))
+ 		for slot: int in range(4):

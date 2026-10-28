@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-27T23:32:36.355761+00:00",
+  "completed_london": "2026-10-27T23:32:37.611224+00:00",
+  "wall_seconds": 1.2554641149999952,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/solid_coping_focus.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "74e750763de3b708187e79f213712d3cefe0e4dcccf282482272e5cf9570f013",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

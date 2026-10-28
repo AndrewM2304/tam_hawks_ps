@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T03:24:24.850774+00:00",
+  "completed_london": "2026-10-28T03:24:57.428784+00:00",
+  "wall_seconds": 32.57801020500119,
+  "command": [
+    "timeout",
+    "45s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/career-route-finish/focus.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "16",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "3b332d2bb842d78c175ee3afb4a5698e2f40ba94f540ae9f5d8497da1a2a7433",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

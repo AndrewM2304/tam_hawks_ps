@@ -1,0 +1,283 @@
+{
+	"device": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"errors": [],
+	"fixed_fps": false,
+	"limits": [
+		"Linux diagnostic, not Apple Silicon performance or human visual/feel acceptance.",
+		"Stationary inspection cameras are authored; moving trial uses the production chase and ordinary InputMap driver.",
+		"Warmup and screenshot readbacks are outside samples. Reported3D counters include shadow work; Compatibility does not separate shadow submissions.",
+		"Route admission requires actual movement and steering; partial laps are reported honestly."
+	],
+	"mesh_root": "res://game/art/assets/glasgow_bay_reduced_four_slot/",
+	"mode": "profile",
+	"moving_trials": [
+		{
+			"absolute_turn_radians": 12.6369241555426,
+			"bails": 0,
+			"camera_far": 220.0,
+			"camera_fov": 64.701286315918,
+			"camera_node": "/root/@Node3D@2/Skater/ChaseCamera",
+			"camera_position": [
+				-25.2102661132812,
+				2.55184841156006,
+				5.85243272781372
+			],
+			"completed_laps": 2,
+			"controller_total_us": 14664,
+			"controller_us_p50": 14.0,
+			"controller_us_p95": 20.0,
+			"controller_us_p99": 37.0,
+			"discontinuous_recoveries": 0,
+			"distance_m": 69.5550365187228,
+			"draw_calls_max": 1344.0,
+			"draw_calls_p50": 1036.0,
+			"draw_calls_p95": 1295.0,
+			"errors": [],
+			"final_position": [
+				-26.2495040893555,
+				0.353236109018326,
+				0.169434621930122
+			],
+			"frames_over_ms": {
+				"100.0": 98,
+				"16.666667": 98,
+				"33.333333": 98,
+				"50.0": 98
+			},
+			"initial_heading": 1.5707963267949,
+			"initial_position": [
+				-22.0,
+				0.000505648553371429,
+				0.300000011920929
+			],
+			"max_ms": 570.521,
+			"maximum_route_deviation_m": 0.56147289276123,
+			"mean_fps": 2.44173436292136,
+			"mean_ms": 409.544959183673,
+			"moving_tick_fraction": 0.994897959183674,
+			"nodes_max": 5209.0,
+			"p50_ms": 414.006,
+			"p95_ms": 556.702,
+			"p99_ms": 570.521,
+			"physics_ms_p50": 2.389,
+			"physics_ms_p95": 8.145,
+			"physics_ms_p99": 16.657,
+			"physics_ticks": 784,
+			"primitives_p95": 1097106.0,
+			"process_ms_p50": 401.89,
+			"process_ms_p95": 553.539,
+			"process_ms_p99": 556.331,
+			"requested_sample_seconds": 40.0,
+			"route": "exchange_west_bank_loop",
+			"route_points": [
+				[
+					-22.0,
+					0.0,
+					0.300000011920929
+				],
+				[
+					-24.0,
+					0.0,
+					0.300000011920929
+				],
+				[
+					-27.0,
+					0.449999988079071,
+					0.300000011920929
+				],
+				[
+					-31.5,
+					0.449999988079071,
+					0.300000011920929
+				],
+				[
+					-31.5,
+					0.449999988079071,
+					7.5
+				],
+				[
+					-28.5,
+					0.449999988079071,
+					8.5
+				],
+				[
+					-25.5,
+					0.0,
+					8.5
+				],
+				[
+					-22.0,
+					0.0,
+					8.5
+				],
+				[
+					-22.0,
+					0.0,
+					0.300000011920929
+				]
+			],
+			"route_source": "unchanged authored exchange_west_bank_loop",
+			"sampled_seconds": 40.135406,
+			"samples": 98,
+			"screenshot": "exchange_west_bank_loop.png",
+			"simulated_seconds": 13.0666666666669,
+			"steering_physics_ticks": 483,
+			"valid_trial": true,
+			"warmup_rendered_frames": 4,
+			"warmup_seconds": 2.013079,
+			"waypoint_index": 3
+		}
+	],
+	"normal_render_loop": true,
+	"ordinary_defaults": {
+		"central_green": true,
+		"civic_return": true,
+		"main_default": true,
+		"pond": true,
+		"station": true,
+		"train": true,
+		"world_default": true
+	},
+	"pilot_enabled": false,
+	"profile_writes": false,
+	"renderer": "gl_compatibility",
+	"schema": 1,
+	"settings": {
+		"ambience_volume": 0.6,
+		"audio": 0.8,
+		"bindings": {
+
+		},
+		"camera_sensitivity": 1.0,
+		"captions": true,
+		"cosmetic_id": "color_blue",
+		"graphics_quality": "balanced",
+		"reduced_motion": false,
+		"sfx_volume": 1.0,
+		"ui_scale": 1.0
+	},
+	"size": [
+		1280,
+		800
+	],
+	"stationary_views": [
+		{
+			"buffer_memory_bytes_p50": 27193366.0,
+			"controller_us_p50": 0.0,
+			"controller_us_p95": 0.0,
+			"controller_us_p99": 0.0,
+			"draw_calls_max": 1550.0,
+			"draw_calls_p50": 1510.0,
+			"draw_calls_p95": 1543.0,
+			"frames_over_ms": {
+				"100.0": 40,
+				"16.666667": 40,
+				"33.333333": 40,
+				"50.0": 40
+			},
+			"id": "spawn",
+			"max_ms": 538.577,
+			"mean_fps": 1.99233479074284,
+			"mean_ms": 501.923675,
+			"nodes_max": 5208.0,
+			"p50_ms": 500.036,
+			"p95_ms": 523.189,
+			"p99_ms": 538.577,
+			"physics_ms_p50": 1.833,
+			"physics_ms_p95": 2.648,
+			"physics_ms_p99": 10.133,
+			"primitives_p95": 980993.0,
+			"process_ms_p50": 496.881,
+			"process_ms_p95": 515.733,
+			"process_ms_p99": 530.654,
+			"sampled_seconds": 20.076947,
+			"samples": 40,
+			"shadow_draws_p50": 0.0,
+			"texture_memory_bytes_p50": 54171301.0,
+			"visible_draws_p50": 1497.0
+		},
+		{
+			"buffer_memory_bytes_p50": 27193366.0,
+			"controller_us_p50": 0.0,
+			"controller_us_p95": 0.0,
+			"controller_us_p99": 0.0,
+			"draw_calls_max": 1038.0,
+			"draw_calls_p50": 1038.0,
+			"draw_calls_p95": 1038.0,
+			"frames_over_ms": {
+				"100.0": 50,
+				"16.666667": 50,
+				"33.333333": 50,
+				"50.0": 50
+			},
+			"id": "02-frontage-wide",
+			"max_ms": 463.202,
+			"mean_fps": 2.4988913668451,
+			"mean_ms": 400.17746,
+			"nodes_max": 5208.0,
+			"p50_ms": 397.323,
+			"p95_ms": 429.859,
+			"p99_ms": 463.202,
+			"physics_ms_p50": 1.846,
+			"physics_ms_p95": 11.054,
+			"physics_ms_p99": 13.785,
+			"primitives_p95": 616415.0,
+			"process_ms_p50": 397.292,
+			"process_ms_p95": 446.55,
+			"process_ms_p99": 446.55,
+			"sampled_seconds": 20.008873,
+			"samples": 50,
+			"shadow_draws_p50": 0.0,
+			"texture_memory_bytes_p50": 54171301.0,
+			"visible_draws_p50": 1025.0
+		},
+		{
+			"buffer_memory_bytes_p50": 27193366.0,
+			"controller_us_p50": 0.0,
+			"controller_us_p95": 0.0,
+			"controller_us_p99": 0.0,
+			"draw_calls_max": 1095.0,
+			"draw_calls_p50": 1095.0,
+			"draw_calls_p95": 1095.0,
+			"frames_over_ms": {
+				"100.0": 47,
+				"16.666667": 47,
+				"33.333333": 47,
+				"50.0": 47
+			},
+			"id": "03-frontage-near",
+			"max_ms": 456.328,
+			"mean_fps": 2.3411708593965,
+			"mean_ms": 427.13670212766,
+			"nodes_max": 5208.0,
+			"p50_ms": 426.414,
+			"p95_ms": 447.234,
+			"p99_ms": 456.328,
+			"physics_ms_p50": 1.857,
+			"physics_ms_p95": 2.08,
+			"physics_ms_p99": 2.736,
+			"primitives_p95": 606807.0,
+			"process_ms_p50": 428.024,
+			"process_ms_p95": 448.347,
+			"process_ms_p99": 448.347,
+			"sampled_seconds": 20.075425,
+			"samples": 47,
+			"shadow_draws_p50": 0.0,
+			"texture_memory_bytes_p50": 54171301.0,
+			"visible_draws_p50": 1082.0
+		}
+	],
+	"texture_root": "res://game/art/assets/glasgow_bay/",
+	"valid": true
+}
