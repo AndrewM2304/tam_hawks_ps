@@ -35,7 +35,7 @@ supports distinct air momentum, grounded travel, mirrored wall states and normal
 alignment. The community reconstruction also contains sideways landing bails.
 The requested ordinary steering continuation is our explicit gameplay choice.
 No reconstructed implementation or animation clip was imported; the existing
-approximately37-degree wall lean is our authored pose.
+approximately 37-degree wall lean is our authored pose.
 
 ## Retained focused evidence
 
@@ -78,10 +78,42 @@ The raw quaternion maximum **0.075003333 rad** and exact before/after basis pair
 remain recorded; they are not deleted or reclassified as a production pose change.
 This addresses small-angle quaternion cancellation without enlarging the bound.
 
-## Remaining verification
+## Complete required check and cold source launch
 
-Current-source full check, cold launch and source-bound original rendered captures
-are pending. The preceding 5,746/0 result and old exports retain their recorded
-source scope. Root owns the final frozen verification, source commit and non-force
-main push. Ordinary merged content stays enabled and personal Music stays isolated.
-Mac, physical controls, target performance and human feel remain honest open work.
+Repair source **`40a6615d0c1837594a7e65fa73876d2ced08db11`** is pushed to main.
+The [complete required check](required-01/receipt.json) runs `./tools/check.sh`
+and passes **5,888/0** in **638.089 s**, exit0 with clean logs and **677 unchanged
+source inputs**. The actual short-script launch separately passes Music isolation
+**2/0**, as retained in its console log. All 677 inputs match exact committed
+blobs at the receipt's `40a6615` head; no non-parent source snapshots are needed.
+Before/after maps share SHA-256
+`5a22e2a7ca8e3beb64df27043e75856c80e55f7a64e7660ab2abf323a1dd800c`.
+This is the whole-project result for the repair, distinct from focused epochs.
+
+The [cold observer](cold-01/receipt.json) passes in **56.457 s**, clean/stable on
+the same 677-input manifest and head. The [four-phase cold source record](cold-source/SOURCE-LAUNCH.json)
+retains **583 unchanged copied-source inputs**: cache-free import/launch, ordinary
+title→play **50/0**, warm launch and correct refusal of deliberately invalid
+copied source. The invalid control's exit1 and parser messages are expected and
+retained; the normal source is restored and unchanged. All eight original import/
+launch logs are retained with their hashes. These headless fixed-clock checks
+certify source launch and mapped gameplay, not target frame rate or Mac execution.
+
+## Original rendered evidence and handoff
+
+The [separate final native capture](captures/README.md) passes **8/0** in
+**32.300 s** on **680 unchanged inputs**, with eight original960×640 PNGs retained
+and inspected. Mirrored wall-entry pairs use the unedited preceding controller
+and the repaired controller with identical current rig/assets; native body
+position, velocity and yaw match exactly in both46-sample pairs. Repaired early
+release/Wallie and both left/right turned rollouts retain one connected rider.
+All eight completed-draw/interpolation witnesses and separate strict chase
+frustum/occlusion/sphere controls pass. The capture's plain fixtures and fixed
+clock do not certify whole-city art, moving target performance or human feel.
+Its earlier parser/native rejections remain separate and unchanged.
+
+Fresh unsigned Linux/universal-Mac packages are in progress. Older exports retain
+their recorded source and do not contain this repair. Ordinary merged content
+stays enabled and personal Music stays isolated. Actual Mac execution, physical
+controls, effective Music Automation/TCC, saves/audio, target performance, final
+art and human feel remain open. No release, upload or hosted CI is implied.

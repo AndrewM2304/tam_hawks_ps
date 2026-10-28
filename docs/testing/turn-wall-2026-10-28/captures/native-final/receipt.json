@@ -1,0 +1,34 @@
+{
+  "started_london": "2026-10-28T18:26:11.533532+00:00",
+  "completed_london": "2026-10-28T18:26:43.833705+00:00",
+  "wall_seconds": 32.30011792501318,
+  "command": [
+    "timeout",
+    "105s",
+    "python3",
+    ".local/turn-wall-capture-2026-10-28/run_rendered.py",
+    "--seconds",
+    "90",
+    "--script",
+    ".local/turn-wall-capture-2026-10-28/capture.gd",
+    "--output",
+    "/workspace/tam_hawks_ps/.local/turn-wall-capture-2026-10-28/frames-02",
+    "--baseline",
+    ".local/turn-wall-capture-2026-10-28/baseline_skater.gd",
+    "--sources",
+    ".local/turn-wall-capture-2026-10-28/BASELINE.json"
+  ],
+  "exit_code": 0,
+  "source_inputs": 680,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "8",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "c9f5d0d13d511764d6228efb13ae297274d663b727fe18eb688e8653cdaabcbb",
+  "git_head": "21b0e86d79d9934a9b482cb6887ae91897b60467"
+}

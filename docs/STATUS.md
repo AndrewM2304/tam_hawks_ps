@@ -22,12 +22,19 @@ the independent matrix angle retains the original bound and the raw quaternion
 measurements/basis pairs. These focused epochs are not an additive whole-game
 result.
 
-**Current-source full check, cold launch and original rendered captures are
-pending.** The preceding **5,746/0** result and older packages certify their
-recorded gameplay source, not this repair. Root owns final frozen verification,
-source commit and non-force push to main. Ordinary station/train, pond/green and
-civic content stays enabled; personal Music stays isolated. Actual Mac/controller,
-Music/TCC, target performance, final art and human feel remain open.
+The repair is pushed to main as **`40a6615`**. The complete current-source
+`./tools/check.sh` passes **5,888/0**, plus actual script-launch Music isolation
+**2/0**, in **638.089 s** with clean logs and **677 unchanged exact Git inputs**.
+Four cold-source phases pass, including ordinary title→play **50/0** and expected
+invalid-source refusal; the copied source retains **583 stable inputs**. The
+outer cold receipt retains the same 677-input manifest in **56.457 s**.
+
+[Eight original native frames](testing/turn-wall-2026-10-28/captures/README.md) and their separate
+**8/0** capture pass are retained and inspected. Fresh unsigned Linux/universal-Mac
+packages are in progress; older apps do not contain this repair. Ordinary
+station/train, pond/green and civic content stays enabled; personal Music stays
+isolated. Actual Mac/controller, Music/TCC, target performance, final art and
+human feel remain open.
 
 The completed facade attribution and startup diagnostics below retain their
 scope; neither is reopened as the next task. Finish this owner defect batch,

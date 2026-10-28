@@ -1,3 +1,23 @@
+# Steering and wallride source verified — 28 October 2026
+
+The owner-priority C03 repair is pushed on main as **`40a6615`**. The complete
+current-source suite passes **5,888/0** plus actual Music script isolation **2/0**,
+clean/stable on **677 exact Git inputs**, in **638.089 s**. Four cold phases pass
+with **583 unchanged copied-source inputs**, ordinary title→play **50/0** and
+expected invalid-source refusal. The outer cold receipt uses the same 677-input
+manifest. [Evidence and eight inspected original frames](../testing/turn-wall-2026-10-28/README.md)
+retain distinct focused/capture epochs and all rejected attempts.
+
+Fresh unsigned Linux/universal-Mac packages are in progress; historical exports
+retain their recorded source. Normal trial content remains available and personal
+Music isolated. Actual Mac/controls/Music/save, target timing/moving shadows,
+final art and human route/feel acceptance remain open. The latest remaining
+work table owns those limits; completed creation and measured facade/startup
+follow-ups are not new implementation tickets. All prior backlog bytes below
+remain unchanged historical records.
+
+---
+
 # Owner steering landing and wallride priority — 28 October 2026
 
 The [current C03 repair](OWNER-TURN-WALLRIDE-2026-10-28.md) follows the owner's

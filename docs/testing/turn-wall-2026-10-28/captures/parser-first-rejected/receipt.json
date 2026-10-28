@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-28T18:22:06.205643+00:00",
+  "completed_london": "2026-10-28T18:22:06.509624+00:00",
+  "wall_seconds": 0.30398242799856234,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/turn-wall-capture-2026-10-28/capture.gd",
+    "--",
+    ".local/turn-wall-capture-2026-10-28/baseline_skater.gd",
+    ".local/turn-wall-capture-2026-10-28/run_rendered.py",
+    ".local/turn-wall-capture-2026-10-28/BASELINE.json"
+  ],
+  "exit_code": 1,
+  "source_inputs": 680,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [],
+  "valid": false,
+  "source_manifest_sha256": "19a527f6a8ded6a1223a13304f07d6ff8f8d87f37ae809631220b2fb3da9a826",
+  "git_head": "21b0e86d79d9934a9b482cb6887ae91897b60467"
+}

@@ -1,0 +1,200 @@
+{
+  "valid": true,
+  "actual_native_capture_counts": [
+    8,
+    0
+  ],
+  "wall_seconds": 32.30011792501318,
+  "outer_source_inputs": 680,
+  "outer_source_manifest_sha256": "c9f5d0d13d511764d6228efb13ae297274d663b727fe18eb688e8653cdaabcbb",
+  "source_parent_git_head": "21b0e86d79d9934a9b482cb6887ae91897b60467",
+  "outer_source_stable": true,
+  "clean_log": true,
+  "wall_pairs": [
+    {
+      "side": 1.0,
+      "samples_each": 46,
+      "native_position_max_delta_m": 0.0,
+      "native_velocity_max_delta_mps": 0.0,
+      "native_body_yaw_max_delta_rad": 0.0,
+      "before_max_rotation_rad": 0.6499999919743848,
+      "after_max_rotation_rad": 0.0750001489412999,
+      "before_max_local_offset_step_m": 0.544120728969574,
+      "after_max_local_offset_step_m": 0.07500000298023224,
+      "after_raw_quaternion_max_rad": 0.07500333338975906,
+      "before_events": [
+        "wallride"
+      ],
+      "after_events": [
+        "wallride"
+      ],
+      "before_bails": 0,
+      "after_bails": 0
+    },
+    {
+      "side": -1.0,
+      "samples_each": 46,
+      "native_position_max_delta_m": 0.0,
+      "native_velocity_max_delta_mps": 0.0,
+      "native_body_yaw_max_delta_rad": 0.0,
+      "before_max_rotation_rad": 0.6499999919743848,
+      "after_max_rotation_rad": 0.0750001489412999,
+      "before_max_local_offset_step_m": 0.544120728969574,
+      "after_max_local_offset_step_m": 0.07500000298023224,
+      "after_raw_quaternion_max_rad": 0.07500333338975906,
+      "before_events": [
+        "wallride",
+        "wallie"
+      ],
+      "after_events": [
+        "wallride",
+        "wallie"
+      ],
+      "before_bails": 0,
+      "after_bails": 0
+    }
+  ],
+  "turns": [
+    {
+      "side": -1.0,
+      "events": [
+        "ollie"
+      ],
+      "bails": 0,
+      "scoped_earned_lands": 1,
+      "total_lands_including_setup_fall": 2,
+      "grounded_rollout_ticks": 8,
+      "first_flight_tick": 100,
+      "last_flight_tick": 137,
+      "first_ground_tick": 138,
+      "first_flight_velocity": [
+        0.0,
+        7.561512470245361,
+        -8.954272270202637
+      ],
+      "last_flight_velocity": [
+        0.0,
+        -7.238489627838135,
+        -8.954272270202637
+      ],
+      "flight_xz_velocity_max_delta_mps": 0.0,
+      "first_ground_velocity": [
+        -8.954286575317383,
+        0.0,
+        -6.760298560948286e-07
+      ],
+      "rollout_velocity": [
+        -8.632454872131348,
+        0.0,
+        -6.517322503896139e-07
+      ],
+      "rollout_body_yaw": 1.570796251296997,
+      "near_landing_tick": 135,
+      "maximum_seam_m": 0.059200167655944824,
+      "maximum_joint_gap_m": 0.024909500032663345,
+      "maximum_neck_gap_m": 0.022949855774641037
+    },
+    {
+      "side": 1.0,
+      "events": [
+        "ollie"
+      ],
+      "bails": 0,
+      "scoped_earned_lands": 1,
+      "total_lands_including_setup_fall": 2,
+      "grounded_rollout_ticks": 8,
+      "first_flight_tick": 100,
+      "last_flight_tick": 137,
+      "first_ground_tick": 138,
+      "first_flight_velocity": [
+        0.0,
+        7.561512470245361,
+        -8.954272270202637
+      ],
+      "last_flight_velocity": [
+        0.0,
+        -7.238489627838135,
+        -8.954272270202637
+      ],
+      "flight_xz_velocity_max_delta_mps": 0.0,
+      "first_ground_velocity": [
+        8.954286575317383,
+        0.0,
+        -6.760298560948286e-07
+      ],
+      "rollout_velocity": [
+        8.632454872131348,
+        0.0,
+        -6.517322503896139e-07
+      ],
+      "rollout_body_yaw": -1.570796251296997,
+      "near_landing_tick": 135,
+      "maximum_seam_m": 0.059200167655944824,
+      "maximum_joint_gap_m": 0.024909500032663345,
+      "maximum_neck_gap_m": 0.02336936444044113
+    }
+  ],
+  "images": [
+    {
+      "file": "before-wall-on-left-wall-entry.png",
+      "sha256": "d9422daac4331ea867c920518a7d36c503141928142fb40e3975e345674be3f0",
+      "completed_draw_pose_matches": true,
+      "normal_chase_native_clear_and_framed": true,
+      "visually_inspected": true
+    },
+    {
+      "file": "after-wall-on-left-wall-entry.png",
+      "sha256": "efc9e1dc7ff552c039e535e5d9b8309c4412eef96072ac6c6f3399c79b696e3a",
+      "completed_draw_pose_matches": true,
+      "normal_chase_native_clear_and_framed": true,
+      "visually_inspected": true
+    },
+    {
+      "file": "after-wall-on-left-wall-release.png",
+      "sha256": "c1eee67b3c85315b29db5e797cf477e04e6f4f1e754d423c21bccca2c6f543a0",
+      "completed_draw_pose_matches": true,
+      "normal_chase_native_clear_and_framed": true,
+      "visually_inspected": true
+    },
+    {
+      "file": "before-wall-on-right-wall-entry.png",
+      "sha256": "0896f7d587cebbcdbe07dbd2554988941c833990f755cca01dae428fc6cb101b",
+      "completed_draw_pose_matches": true,
+      "normal_chase_native_clear_and_framed": true,
+      "visually_inspected": true
+    },
+    {
+      "file": "after-wall-on-right-wall-entry.png",
+      "sha256": "429f46e313d19bafe4f89f1809c3880a04263aebbc2ead3f911e9ae19b82ec60",
+      "completed_draw_pose_matches": true,
+      "normal_chase_native_clear_and_framed": true,
+      "visually_inspected": true
+    },
+    {
+      "file": "after-wall-on-right-wallie.png",
+      "sha256": "132d58b2d572d2d443565c1b474e4015342e475a12f49fe51baa115443b2bef9",
+      "completed_draw_pose_matches": true,
+      "normal_chase_native_clear_and_framed": true,
+      "visually_inspected": true
+    },
+    {
+      "file": "left-turned-rollout.png",
+      "sha256": "0e7491ede7c6e1d250f02e8db1ac729c7e12eb2c744dc8c06e82d5d3160af509",
+      "completed_draw_pose_matches": true,
+      "normal_chase_native_clear_and_framed": true,
+      "visually_inspected": true
+    },
+    {
+      "file": "right-turned-rollout.png",
+      "sha256": "99fc36ac25cda97e2fa21aa57946d003bc69650810a1ddacd5117bf1289a6f52",
+      "completed_draw_pose_matches": true,
+      "normal_chase_native_clear_and_framed": true,
+      "visually_inspected": true
+    }
+  ],
+  "limits": [
+    "Fixed-60 finite native fixture diagnostic, not performance, ordinary Main route, target Mac or human feel acceptance.",
+    "Final first-contact/release images and continuous transforms show a smoother original authored lean; no THPS animation clip is copied.",
+    "BASELINE.json is hashed by the inner capture maps and archive index; outer run_checked binds ignored code dependencies, not this JSON metadata."
+  ]
+}

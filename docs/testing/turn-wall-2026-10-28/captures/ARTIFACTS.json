@@ -1,0 +1,575 @@
+{
+  "method": "Exact original source-bound parser/native receipts, changed-source snapshots, original native PNGs and JSON, derived readout and observer sources. Rejected epochs remain rejected. BASELINE JSON metadata is inner-hashed and archive-hashed; actual ignored code dependencies are outer source-bound.",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 7621,
+      "sha256": "cf35bb3227b642c30a127534ec8c4e8bf9e5295ac041bd53678c9663757e3480"
+    },
+    {
+      "file": "READOUT.json",
+      "bytes": 6358,
+      "sha256": "1b48388deca0df7e796f9df0ee87363cd47679e09ed41fcfc54102c98578f758"
+    },
+    {
+      "file": "frames-final/CAPTURE.json",
+      "bytes": 2580053,
+      "sha256": "52657c07f04610a4c487dbd951c422cb214202b49dd2493a1afef24b3d62a4c5"
+    },
+    {
+      "file": "frames-final/after-wall-on-left-wall-entry.png",
+      "bytes": 29682,
+      "sha256": "efc9e1dc7ff552c039e535e5d9b8309c4412eef96072ac6c6f3399c79b696e3a"
+    },
+    {
+      "file": "frames-final/after-wall-on-left-wall-release.png",
+      "bytes": 27671,
+      "sha256": "c1eee67b3c85315b29db5e797cf477e04e6f4f1e754d423c21bccca2c6f543a0"
+    },
+    {
+      "file": "frames-final/after-wall-on-right-wall-entry.png",
+      "bytes": 101041,
+      "sha256": "429f46e313d19bafe4f89f1809c3880a04263aebbc2ead3f911e9ae19b82ec60"
+    },
+    {
+      "file": "frames-final/after-wall-on-right-wallie.png",
+      "bytes": 91379,
+      "sha256": "132d58b2d572d2d443565c1b474e4015342e475a12f49fe51baa115443b2bef9"
+    },
+    {
+      "file": "frames-final/before-wall-on-left-wall-entry.png",
+      "bytes": 26268,
+      "sha256": "d9422daac4331ea867c920518a7d36c503141928142fb40e3975e345674be3f0"
+    },
+    {
+      "file": "frames-final/before-wall-on-right-wall-entry.png",
+      "bytes": 86520,
+      "sha256": "0896f7d587cebbcdbe07dbd2554988941c833990f755cca01dae428fc6cb101b"
+    },
+    {
+      "file": "frames-final/command.json",
+      "bytes": 367,
+      "sha256": "5a55fc806647c13bb36c32dc3bd40d6770c90824ec244733bb28b652e8c3ca9d"
+    },
+    {
+      "file": "frames-final/display",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "file": "frames-final/left-turned-rollout.png",
+      "bytes": 42398,
+      "sha256": "0e7491ede7c6e1d250f02e8db1ac729c7e12eb2c744dc8c06e82d5d3160af509"
+    },
+    {
+      "file": "frames-final/right-turned-rollout.png",
+      "bytes": 45919,
+      "sha256": "99fc36ac25cda97e2fa21aa57946d003bc69650810a1ddacd5117bf1289a6f52"
+    },
+    {
+      "file": "frames-final/xorg-console.log",
+      "bytes": 1485,
+      "sha256": "1a096fef692a1c3d569582c4ab556158d4e6111f0a9de2268c01b163b8709abd"
+    },
+    {
+      "file": "frames-final/xorg.log",
+      "bytes": 52304,
+      "sha256": "847b0254832d85de6b0b361388e2ef9d0154c2892d255c02b4449eaec69139a6"
+    },
+    {
+      "file": "frames-first-rejected/CAPTURE.json",
+      "bytes": 1298868,
+      "sha256": "c3cd4cb3b19fa8fca179e37027ad8a36863770614fb033616953dba9f9c7e447"
+    },
+    {
+      "file": "frames-first-rejected/after-wall-on-left-wall-entry.png",
+      "bytes": 29682,
+      "sha256": "efc9e1dc7ff552c039e535e5d9b8309c4412eef96072ac6c6f3399c79b696e3a"
+    },
+    {
+      "file": "frames-first-rejected/after-wall-on-left-wall-release.png",
+      "bytes": 27671,
+      "sha256": "c1eee67b3c85315b29db5e797cf477e04e6f4f1e754d423c21bccca2c6f543a0"
+    },
+    {
+      "file": "frames-first-rejected/after-wall-on-right-wall-entry.png",
+      "bytes": 101041,
+      "sha256": "429f46e313d19bafe4f89f1809c3880a04263aebbc2ead3f911e9ae19b82ec60"
+    },
+    {
+      "file": "frames-first-rejected/after-wall-on-right-wallie.png",
+      "bytes": 91379,
+      "sha256": "132d58b2d572d2d443565c1b474e4015342e475a12f49fe51baa115443b2bef9"
+    },
+    {
+      "file": "frames-first-rejected/before-wall-on-left-wall-entry.png",
+      "bytes": 26268,
+      "sha256": "d9422daac4331ea867c920518a7d36c503141928142fb40e3975e345674be3f0"
+    },
+    {
+      "file": "frames-first-rejected/before-wall-on-right-wall-entry.png",
+      "bytes": 86520,
+      "sha256": "0896f7d587cebbcdbe07dbd2554988941c833990f755cca01dae428fc6cb101b"
+    },
+    {
+      "file": "frames-first-rejected/command.json",
+      "bytes": 367,
+      "sha256": "17bf2984477d3588ea58226657a7eba4ee9a608587d35e85b9b329a8a867ebc4"
+    },
+    {
+      "file": "frames-first-rejected/display",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "file": "frames-first-rejected/left-turned-rollout.png",
+      "bytes": 47220,
+      "sha256": "279aedb5194bdaa8ffdea5358d3993646b99c332dfcc812766819faabf39d4ff"
+    },
+    {
+      "file": "frames-first-rejected/right-turned-rollout.png",
+      "bytes": 47220,
+      "sha256": "279aedb5194bdaa8ffdea5358d3993646b99c332dfcc812766819faabf39d4ff"
+    },
+    {
+      "file": "frames-first-rejected/xorg-console.log",
+      "bytes": 1485,
+      "sha256": "485f2ef661955de38e01ba77fb195bb9b101d28462f8ff3fc787b765a4f7e48a"
+    },
+    {
+      "file": "frames-first-rejected/xorg.log",
+      "bytes": 52118,
+      "sha256": "ee2b078848d197df61e0bd8f9ecd6ca641bd8d0ada367cbd54dbe94f6f77e2b0"
+    },
+    {
+      "file": "native-final/ARTIFACTS.json",
+      "bytes": 860,
+      "sha256": "34a3a35bc201d5033cf66b69c3f7d6449f6bf42ddacaa1240605b45915944f40"
+    },
+    {
+      "file": "native-final/SNAPSHOTS.json",
+      "bytes": 2640,
+      "sha256": "26a9938974cb2d8282771b30a59144a6f5517198c098f5d96715356544d05138"
+    },
+    {
+      "file": "native-final/console.log",
+      "bytes": 395,
+      "sha256": "315569523ee6047bc675cca3f0b71aa5ff3d49a2cae75f57d72eecd281b8202f"
+    },
+    {
+      "file": "native-final/receipt.json",
+      "bytes": 936,
+      "sha256": "0092bd7c5995d2a9cd50b50f7d02e08f2838fe38bf3d3a0765ff4e3c926cdc23"
+    },
+    {
+      "file": "native-final/source-after.json",
+      "bytes": 73464,
+      "sha256": "c9f5d0d13d511764d6228efb13ae297274d663b727fe18eb688e8653cdaabcbb"
+    },
+    {
+      "file": "native-final/source-before.json",
+      "bytes": 73464,
+      "sha256": "c9f5d0d13d511764d6228efb13ae297274d663b727fe18eb688e8653cdaabcbb"
+    },
+    {
+      "file": "native-final/source-snapshot/.local/turn-wall-capture-2026-10-28/baseline_skater.gd",
+      "bytes": 195447,
+      "sha256": "609afff41622a6587c37073641b5096f255494bdaba79c379fe6f34e0291ccf5"
+    },
+    {
+      "file": "native-final/source-snapshot/.local/turn-wall-capture-2026-10-28/capture.gd",
+      "bytes": 17315,
+      "sha256": "3a58d156f8b387851ee43767643116cd3d03f8d1cf933eb115d71938285656e7"
+    },
+    {
+      "file": "native-final/source-snapshot/.local/turn-wall-capture-2026-10-28/run_rendered.py",
+      "bytes": 2060,
+      "sha256": "74017bf41421c966a8a6af325b3b9701ff352cc3ce184bf3f0cdf99ac71e7409"
+    },
+    {
+      "file": "native-final/source-snapshot/game/player/skater.gd",
+      "bytes": 198807,
+      "sha256": "123d1da040166e0bd2fa595d9e63bee083e018a99d7eb273e22b84e6296a280e"
+    },
+    {
+      "file": "native-final/source-snapshot/game/player/wall_ride.gd",
+      "bytes": 11538,
+      "sha256": "209853d43d31faf5619014339f14d4a7aa6ee83bc50733431758436307e2bcfb"
+    },
+    {
+      "file": "native-final/source-snapshot/tests/landing_turn_tests.gd",
+      "bytes": 7961,
+      "sha256": "d1b286ea5cdfaac760d7c7341efb759e50e167eeaa55d6b86fb243250dd5b61a"
+    },
+    {
+      "file": "native-final/source-snapshot/tests/landing_turn_tests.gd.uid",
+      "bytes": 19,
+      "sha256": "d83ef523ed339dd5fc9dfb2c3ce69ba6ee730c90633045a117c28b0288c42973"
+    },
+    {
+      "file": "native-final/source-snapshot/tests/run_tests.gd",
+      "bytes": 36476,
+      "sha256": "7cbce62d047cd2e4b024668055aad6bb2fd728f577e0e76ae456c717727c2be5"
+    },
+    {
+      "file": "native-final/source-snapshot/tests/wall_ride_presentation_tests.gd",
+      "bytes": 11863,
+      "sha256": "70e2dd668d222564ab1034cce9f7a86771abf99850e5b335df9cad8bb2a7847d"
+    },
+    {
+      "file": "native-final/source-snapshot/tests/wall_ride_presentation_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "8690f0fade1b1c96a928a022cd425bd04cf95f0afa2501ea08dcba5600313b59"
+    },
+    {
+      "file": "native-first-rejected/ARTIFACTS.json",
+      "bytes": 860,
+      "sha256": "4916ea0de9de295d261878f27f6aade78d1ebb5e1d51fc450469944d7a7d7079"
+    },
+    {
+      "file": "native-first-rejected/SNAPSHOTS.json",
+      "bytes": 2640,
+      "sha256": "8c3f359da5d7abc8ec4351ad66bffb9248995734f2110d9c9694a19c753f4ec4"
+    },
+    {
+      "file": "native-first-rejected/console.log",
+      "bytes": 395,
+      "sha256": "27ef883523f4bcb3c494ef12ca1d67349e5591a819f186e58cba2f139713c851"
+    },
+    {
+      "file": "native-first-rejected/receipt.json",
+      "bytes": 937,
+      "sha256": "0cfbe67f83861cfcd75e47454582e06543550a07320ca98e611cac5cb24bb720"
+    },
+    {
+      "file": "native-first-rejected/source-after.json",
+      "bytes": 73464,
+      "sha256": "8738d3131d27deb3f0c54f3429682822106b99087149774c3080323d7b05d7e1"
+    },
+    {
+      "file": "native-first-rejected/source-before.json",
+      "bytes": 73464,
+      "sha256": "8738d3131d27deb3f0c54f3429682822106b99087149774c3080323d7b05d7e1"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/.local/turn-wall-capture-2026-10-28/baseline_skater.gd",
+      "bytes": 195447,
+      "sha256": "609afff41622a6587c37073641b5096f255494bdaba79c379fe6f34e0291ccf5"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/.local/turn-wall-capture-2026-10-28/capture.gd",
+      "bytes": 17167,
+      "sha256": "d4c3e22504953a536982ff5d239f1af3272fd2213dd16a07d98b57acc9f93539"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/.local/turn-wall-capture-2026-10-28/run_rendered.py",
+      "bytes": 2060,
+      "sha256": "74017bf41421c966a8a6af325b3b9701ff352cc3ce184bf3f0cdf99ac71e7409"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/game/player/skater.gd",
+      "bytes": 198807,
+      "sha256": "123d1da040166e0bd2fa595d9e63bee083e018a99d7eb273e22b84e6296a280e"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/game/player/wall_ride.gd",
+      "bytes": 11538,
+      "sha256": "209853d43d31faf5619014339f14d4a7aa6ee83bc50733431758436307e2bcfb"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/tests/landing_turn_tests.gd",
+      "bytes": 7961,
+      "sha256": "d1b286ea5cdfaac760d7c7341efb759e50e167eeaa55d6b86fb243250dd5b61a"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/tests/landing_turn_tests.gd.uid",
+      "bytes": 19,
+      "sha256": "d83ef523ed339dd5fc9dfb2c3ce69ba6ee730c90633045a117c28b0288c42973"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/tests/run_tests.gd",
+      "bytes": 36476,
+      "sha256": "7cbce62d047cd2e4b024668055aad6bb2fd728f577e0e76ae456c717727c2be5"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/tests/wall_ride_presentation_tests.gd",
+      "bytes": 11863,
+      "sha256": "70e2dd668d222564ab1034cce9f7a86771abf99850e5b335df9cad8bb2a7847d"
+    },
+    {
+      "file": "native-first-rejected/source-snapshot/tests/wall_ride_presentation_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "8690f0fade1b1c96a928a022cd425bd04cf95f0afa2501ea08dcba5600313b59"
+    },
+    {
+      "file": "observers/BASELINE.json",
+      "bytes": 418,
+      "sha256": "788ab4f306c2607e6c0079ae967fd3cb359a2ed4ce003d354bce500da3e03f0e"
+    },
+    {
+      "file": "observers/PREPARED.md",
+      "bytes": 4752,
+      "sha256": "b61625a7705fa2430b9dc35129267462f70d56446e5e9aa1dce5941e1af0c6fd"
+    },
+    {
+      "file": "observers/archive_checked.py",
+      "bytes": 3138,
+      "sha256": "a26bbc39a09092100acd48c1efe5a5fc48ef00b69abb440c5942226a370b4ad0"
+    },
+    {
+      "file": "observers/baseline_skater.gd",
+      "bytes": 195447,
+      "sha256": "609afff41622a6587c37073641b5096f255494bdaba79c379fe6f34e0291ccf5"
+    },
+    {
+      "file": "observers/capture.gd",
+      "bytes": 17315,
+      "sha256": "3a58d156f8b387851ee43767643116cd3d03f8d1cf933eb115d71938285656e7"
+    },
+    {
+      "file": "observers/run_rendered.py",
+      "bytes": 2060,
+      "sha256": "74017bf41421c966a8a6af325b3b9701ff352cc3ce184bf3f0cdf99ac71e7409"
+    },
+    {
+      "file": "parser-corrected/ARTIFACTS.json",
+      "bytes": 859,
+      "sha256": "9bfc4ebf2df7f521680dfbbc918218e34ea1c7e05b6226c69514e9ea193b6a38"
+    },
+    {
+      "file": "parser-corrected/SNAPSHOTS.json",
+      "bytes": 2640,
+      "sha256": "8c3f359da5d7abc8ec4351ad66bffb9248995734f2110d9c9694a19c753f4ec4"
+    },
+    {
+      "file": "parser-corrected/console.log",
+      "bytes": 73,
+      "sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "file": "parser-corrected/receipt.json",
+      "bytes": 800,
+      "sha256": "df9483686aaad59b8d9ed35768f3d5c798cd5d6ef8d50b62e808af7a49761855"
+    },
+    {
+      "file": "parser-corrected/source-after.json",
+      "bytes": 73464,
+      "sha256": "8738d3131d27deb3f0c54f3429682822106b99087149774c3080323d7b05d7e1"
+    },
+    {
+      "file": "parser-corrected/source-before.json",
+      "bytes": 73464,
+      "sha256": "8738d3131d27deb3f0c54f3429682822106b99087149774c3080323d7b05d7e1"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/.local/turn-wall-capture-2026-10-28/baseline_skater.gd",
+      "bytes": 195447,
+      "sha256": "609afff41622a6587c37073641b5096f255494bdaba79c379fe6f34e0291ccf5"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/.local/turn-wall-capture-2026-10-28/capture.gd",
+      "bytes": 17167,
+      "sha256": "d4c3e22504953a536982ff5d239f1af3272fd2213dd16a07d98b57acc9f93539"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/.local/turn-wall-capture-2026-10-28/run_rendered.py",
+      "bytes": 2060,
+      "sha256": "74017bf41421c966a8a6af325b3b9701ff352cc3ce184bf3f0cdf99ac71e7409"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/game/player/skater.gd",
+      "bytes": 198807,
+      "sha256": "123d1da040166e0bd2fa595d9e63bee083e018a99d7eb273e22b84e6296a280e"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/game/player/wall_ride.gd",
+      "bytes": 11538,
+      "sha256": "209853d43d31faf5619014339f14d4a7aa6ee83bc50733431758436307e2bcfb"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/tests/landing_turn_tests.gd",
+      "bytes": 7961,
+      "sha256": "d1b286ea5cdfaac760d7c7341efb759e50e167eeaa55d6b86fb243250dd5b61a"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/tests/landing_turn_tests.gd.uid",
+      "bytes": 19,
+      "sha256": "d83ef523ed339dd5fc9dfb2c3ce69ba6ee730c90633045a117c28b0288c42973"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/tests/run_tests.gd",
+      "bytes": 36476,
+      "sha256": "7cbce62d047cd2e4b024668055aad6bb2fd728f577e0e76ae456c717727c2be5"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/tests/wall_ride_presentation_tests.gd",
+      "bytes": 11863,
+      "sha256": "70e2dd668d222564ab1034cce9f7a86771abf99850e5b335df9cad8bb2a7847d"
+    },
+    {
+      "file": "parser-corrected/source-snapshot/tests/wall_ride_presentation_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "8690f0fade1b1c96a928a022cd425bd04cf95f0afa2501ea08dcba5600313b59"
+    },
+    {
+      "file": "parser-final/ARTIFACTS.json",
+      "bytes": 859,
+      "sha256": "95d5263d3348def37848f3b5fe51e538dc2a0e8e3668cf422f1a75c10bd30fff"
+    },
+    {
+      "file": "parser-final/SNAPSHOTS.json",
+      "bytes": 2640,
+      "sha256": "26a9938974cb2d8282771b30a59144a6f5517198c098f5d96715356544d05138"
+    },
+    {
+      "file": "parser-final/console.log",
+      "bytes": 73,
+      "sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "file": "parser-final/receipt.json",
+      "bytes": 800,
+      "sha256": "25299c65e23827e13344b4f51631d692af2a87ef3395db6223d36154728d0a88"
+    },
+    {
+      "file": "parser-final/source-after.json",
+      "bytes": 73464,
+      "sha256": "c9f5d0d13d511764d6228efb13ae297274d663b727fe18eb688e8653cdaabcbb"
+    },
+    {
+      "file": "parser-final/source-before.json",
+      "bytes": 73464,
+      "sha256": "c9f5d0d13d511764d6228efb13ae297274d663b727fe18eb688e8653cdaabcbb"
+    },
+    {
+      "file": "parser-final/source-snapshot/.local/turn-wall-capture-2026-10-28/baseline_skater.gd",
+      "bytes": 195447,
+      "sha256": "609afff41622a6587c37073641b5096f255494bdaba79c379fe6f34e0291ccf5"
+    },
+    {
+      "file": "parser-final/source-snapshot/.local/turn-wall-capture-2026-10-28/capture.gd",
+      "bytes": 17315,
+      "sha256": "3a58d156f8b387851ee43767643116cd3d03f8d1cf933eb115d71938285656e7"
+    },
+    {
+      "file": "parser-final/source-snapshot/.local/turn-wall-capture-2026-10-28/run_rendered.py",
+      "bytes": 2060,
+      "sha256": "74017bf41421c966a8a6af325b3b9701ff352cc3ce184bf3f0cdf99ac71e7409"
+    },
+    {
+      "file": "parser-final/source-snapshot/game/player/skater.gd",
+      "bytes": 198807,
+      "sha256": "123d1da040166e0bd2fa595d9e63bee083e018a99d7eb273e22b84e6296a280e"
+    },
+    {
+      "file": "parser-final/source-snapshot/game/player/wall_ride.gd",
+      "bytes": 11538,
+      "sha256": "209853d43d31faf5619014339f14d4a7aa6ee83bc50733431758436307e2bcfb"
+    },
+    {
+      "file": "parser-final/source-snapshot/tests/landing_turn_tests.gd",
+      "bytes": 7961,
+      "sha256": "d1b286ea5cdfaac760d7c7341efb759e50e167eeaa55d6b86fb243250dd5b61a"
+    },
+    {
+      "file": "parser-final/source-snapshot/tests/landing_turn_tests.gd.uid",
+      "bytes": 19,
+      "sha256": "d83ef523ed339dd5fc9dfb2c3ce69ba6ee730c90633045a117c28b0288c42973"
+    },
+    {
+      "file": "parser-final/source-snapshot/tests/run_tests.gd",
+      "bytes": 36476,
+      "sha256": "7cbce62d047cd2e4b024668055aad6bb2fd728f577e0e76ae456c717727c2be5"
+    },
+    {
+      "file": "parser-final/source-snapshot/tests/wall_ride_presentation_tests.gd",
+      "bytes": 11863,
+      "sha256": "70e2dd668d222564ab1034cce9f7a86771abf99850e5b335df9cad8bb2a7847d"
+    },
+    {
+      "file": "parser-final/source-snapshot/tests/wall_ride_presentation_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "8690f0fade1b1c96a928a022cd425bd04cf95f0afa2501ea08dcba5600313b59"
+    },
+    {
+      "file": "parser-first-rejected/ARTIFACTS.json",
+      "bytes": 860,
+      "sha256": "fbe33105315d61d55bb7e2a8b8cd7dcb1bc4d351569d747cd6535a2b9915db73"
+    },
+    {
+      "file": "parser-first-rejected/SNAPSHOTS.json",
+      "bytes": 2640,
+      "sha256": "34e4a43c02d9c29364098ad01c5f3980b3f150381a537b7166cc63088cf1c4c1"
+    },
+    {
+      "file": "parser-first-rejected/console.log",
+      "bytes": 436,
+      "sha256": "06bb802f23561060222d1bb0ab7a2b4cc6a8c881f98ce72e607ab322165c34f8"
+    },
+    {
+      "file": "parser-first-rejected/receipt.json",
+      "bytes": 803,
+      "sha256": "5f949bb67d6ecaf47efe6bc43887ca9211ff513ff41b1fd1c9b1201598e87460"
+    },
+    {
+      "file": "parser-first-rejected/source-after.json",
+      "bytes": 73464,
+      "sha256": "19a527f6a8ded6a1223a13304f07d6ff8f8d87f37ae809631220b2fb3da9a826"
+    },
+    {
+      "file": "parser-first-rejected/source-before.json",
+      "bytes": 73464,
+      "sha256": "19a527f6a8ded6a1223a13304f07d6ff8f8d87f37ae809631220b2fb3da9a826"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/.local/turn-wall-capture-2026-10-28/baseline_skater.gd",
+      "bytes": 195447,
+      "sha256": "609afff41622a6587c37073641b5096f255494bdaba79c379fe6f34e0291ccf5"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/.local/turn-wall-capture-2026-10-28/capture.gd",
+      "bytes": 17164,
+      "sha256": "ee2768ca854b83feac7e8ebde22bf47abc8cee766180b7b8588bd692452d0056"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/.local/turn-wall-capture-2026-10-28/run_rendered.py",
+      "bytes": 2060,
+      "sha256": "74017bf41421c966a8a6af325b3b9701ff352cc3ce184bf3f0cdf99ac71e7409"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/game/player/skater.gd",
+      "bytes": 198807,
+      "sha256": "123d1da040166e0bd2fa595d9e63bee083e018a99d7eb273e22b84e6296a280e"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/game/player/wall_ride.gd",
+      "bytes": 11538,
+      "sha256": "209853d43d31faf5619014339f14d4a7aa6ee83bc50733431758436307e2bcfb"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/tests/landing_turn_tests.gd",
+      "bytes": 7961,
+      "sha256": "d1b286ea5cdfaac760d7c7341efb759e50e167eeaa55d6b86fb243250dd5b61a"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/tests/landing_turn_tests.gd.uid",
+      "bytes": 19,
+      "sha256": "d83ef523ed339dd5fc9dfb2c3ce69ba6ee730c90633045a117c28b0288c42973"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/tests/run_tests.gd",
+      "bytes": 36476,
+      "sha256": "7cbce62d047cd2e4b024668055aad6bb2fd728f577e0e76ae456c717727c2be5"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/tests/wall_ride_presentation_tests.gd",
+      "bytes": 11863,
+      "sha256": "70e2dd668d222564ab1034cce9f7a86771abf99850e5b335df9cad8bb2a7847d"
+    },
+    {
+      "file": "parser-first-rejected/source-snapshot/tests/wall_ride_presentation_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "8690f0fade1b1c96a928a022cd425bd04cf95f0afa2501ea08dcba5600313b59"
+    }
+  ]
+}
