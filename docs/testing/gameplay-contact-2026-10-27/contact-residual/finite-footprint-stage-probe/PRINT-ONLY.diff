@@ -1,0 +1,42 @@
+--- production
++++ print-only
+@@ -4294,7 +4294,8 @@
+ 	for pass_index:int in 3:
+ 		var pose:=Transform3D(frame,point+axis*GROUND_PRESENTATION_SKIN+frame*_visual_rig._board_rest_position)
+ 		hits=_native_wheel_footprint_hits(pose,bowl)
+-		if hits.size()!=4:return {}
++		print("FP_PASS ",pass_index," pose=",pose," hits=",hits)
++		if hits.size()!=4:print("FP_REJECT hits");return {}
+ 		var front:=Vector3.ZERO
+ 		var rear:=Vector3.ZERO
+ 		var left:=Vector3.ZERO
+@@ -4308,7 +4309,7 @@
+ 			if Vector3(wheels[index].center).x<0:left+=sample
+ 			else:right+=sample
+ 		axis=(rear-front).cross(right-left).normalized()
+-		if not axis.is_finite() or axis.y<(0.05 if is_instance_valid(bowl) else cos(floor_max_angle)):return {}
++		if not axis.is_finite() or axis.y<(0.05 if is_instance_valid(bowl) else cos(floor_max_angle)):print("FP_REJECT axis ",axis);return {}
+ 		var clearance:=0.0
+ 		for hit:Dictionary in hits:clearance=maxf(clearance,(Vector3(hit.position)-average).dot(axis))
+ 		point=global_position-axis*((global_position-average).dot(axis)-clearance)
+@@ -4322,15 +4323,17 @@
+ 		for vertex:Vector3 in wheels[index].points:gap=minf(gap,(pose*vertex-Vector3(hits[index].position)).dot(normal))
+ 		lift=maxf(lift,(GROUND_PRESENTATION_SKIN-gap)/normal.y)
+ 	var total:=maxf(0.0,point.y-original_point.y)+lift
+-	if not is_finite(total) or total>0.10:return {}
++	print("FP_TOTAL ",total," lift=",lift," point=",point," axis=",axis)
++	if not is_finite(total) or total>0.10:print("FP_REJECT total");return {}
+ 	point.y+=lift
+ 	pose.origin.y+=lift
+ 	if not _native_rim_frame_clear(pose,0.0):
+ 		var extra:=_native_rim_refinement_lift(pose,0.0,minf(PLANAR_RIM_MAX_LIFT,0.10-total))
+-		if not is_finite(extra):return {}
++		print("FP_EXTRA ",extra," pose=",pose)
++		if not is_finite(extra):print("FP_REJECT extra");return {}
+ 		point.y+=extra
+ 	var final_pose:=Transform3D(frame,point+axis*GROUND_PRESENTATION_SKIN+frame*_visual_rig._board_rest_position)
+-	if not _native_rim_frame_clear(final_pose,0.0):return {}
++	if not _native_rim_frame_clear(final_pose,0.0):print("FP_REJECT final");return {}
+ 	return {"position":point,"normal":axis}
+ 
+ 

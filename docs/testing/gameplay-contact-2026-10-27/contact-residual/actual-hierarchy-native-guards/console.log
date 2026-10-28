@@ -1,0 +1,39 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 0
+PASS: PT24 native bowl: all real tyre rims and the recorded urethane/axle extremity clear actual finite concrete 0
+PASS: PT24 native bowl: contact fit changes no locomotion/capsule/manual/velocity state or physical floor limit 0
+PT24_NATIVE_BOWL_CONTACT { "witness": 0, "fit": { "position": (-5.6048, 0.540385, 139.7005), "normal": (-0.201249, 0.631924, -0.748445) }, "minimum": 0.0066623436287, "maximum": 0.01754906773567, "material_gap": 0.01823118142784, "legacy_minimum": -0.02094788849354, "misses": 0 }
+PASS: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 1
+PASS: PT24 native bowl: all real tyre rims and the recorded urethane/axle extremity clear actual finite concrete 1
+PASS: PT24 native bowl: contact fit changes no locomotion/capsule/manual/velocity state or physical floor limit 1
+PT24_NATIVE_BOWL_CONTACT { "witness": 1, "fit": { "position": (-4.319512, 0.728351, 139.3112), "normal": (-0.401728, 0.557583, -0.72644) }, "minimum": 0.00711796991527, "maximum": 0.02626155689359, "material_gap": 0.03283134847879, "legacy_minimum": -0.03346793353558, "misses": 0 }
+PASS: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 2
+PASS: PT24 native bowl: all real tyre rims and the recorded urethane/axle extremity clear actual finite concrete 2
+PASS: PT24 native bowl: contact fit changes no locomotion/capsule/manual/velocity state or physical floor limit 2
+PT24_NATIVE_BOWL_CONTACT { "witness": 2, "fit": { "position": (-1.818508, 1.072834, 136.8465), "normal": (-0.822935, 0.425636, -0.376313) }, "minimum": 0.00446570245549, "maximum": 0.02658397331834, "material_gap": 0.03137105703354, "legacy_minimum": -0.0570330247283, "misses": 0 }
+PASS: PT24 native bowl: all three recorded old-frame controls independently reproduce real tyre penetration
+PASS: PT24 native bowl: all three exact constructor-owned wall/deck/coping bodies retain steep support identity after a real body rename
+PASS: PT24 native bowl: same-parent foreign native body with copied exact name and feature metadata cannot acquire steep support
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (-30.0, 0.02, 0.0)
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (60.0, 0.313109, -1.140074)
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (30.0, 8.02, 0.0)
+PASS: PT24 native bowl: an unrelated actual steep plane still cannot acquire the wrapped-bowl exception
+PASS: PT24 air landing: exact current-frame negative control retains the real rear-tyre and metal-axle penetration
+PASS: PT24 air landing: every actual finite tyre hull and recorded axle vertex clear the native quay before capsule landing
+PASS: PT24 air landing: smallest rigid orientation fit preserves physics, zero lift, board-local pose and both planted feet
+PT24_AIR_LANDING_CONTACT { "legacy_minimum": -0.03842747211456, "legacy_axle": -0.02273571491241, "minimum": 0.0081148147583, "axle": 0.02940130233765, "old_visual": [X: (0.767991, -0.592711, 0.24266), Y: (0.438894, 0.762984, 0.474582), Z: (-0.466435, -0.257972, 0.846102), O: (-9.289708, 2.102755, 127.4841)], "fixed_visual": [X: (0.81734, -0.421694, 0.392594), Y: (0.294898, 0.891571, 0.343709), Z: (-0.494965, -0.165151, 0.853074), O: (-9.289708, 2.102755, 127.4841)] }
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 0
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 1
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 2
+PASS: PT24 air offset: declared anticipated pose genuinely intersects the finite native floor
+PASS: PT24 air offset: bounded withdrawal clears actual tyres/model while preserving native flight, local board and both foot attachments
+PASS: PT24 air offset: accepted native fit restores every borrowed shape parameter
+PASS: PT24 air offset: already clear flight remains exactly unchanged
+PASS: PT24 air offset: zero earned offset cannot create a correction
+PASS: PT24 air offset: real foreign endpoint blocker refuses the whole correction without physics or query side effects
+PASS: PT24 Feature air: retained real release pose intersects the constructor-owned native coping
+PASS: PT24 Feature air: finite normal-only continuation clears actual tyres/model inside25mm while preserving flight, basis and local rig
+PASS: PT24 Feature air: non-ramp, surface and unassociated modes cannot acquire the coping continuation
+PASS: PT24 Feature air: real foreign slab clear of the starting model blocks the endpoint and refuses the whole continuation
+RESULT: 32 passed, 0 failed

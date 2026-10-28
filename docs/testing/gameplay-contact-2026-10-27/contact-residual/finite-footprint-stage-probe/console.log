@@ -1,0 +1,11 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: PT24 native footprint: exact full/standalone Clyde5.68mm phase pair supplies finite tyres/model clearance without changing physical state -10.63339
+ERROR: FAIL: PT24 native footprint: exact full/standalone Clyde5.68mm phase pair supplies finite tyres/model clearance without changing physical state -10.639068
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/finite-footprint-diagnostic/runner.gd:8)
+       [1] _native_footprint_phase_controls (res://.local/finite-footprint-diagnostic/bowl_adapter.gd:138)
+       [2] _run (res://.local/finite-footprint-diagnostic/runner.gd:12)
+       [3] _fixture (res://.local/finite-footprint-diagnostic/bowl_adapter.gd:431)
+RESULT: 1 passed, 1 failed

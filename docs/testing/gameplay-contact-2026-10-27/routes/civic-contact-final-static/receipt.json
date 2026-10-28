@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T04:25:50.534410+00:00",
+  "completed_london": "2026-10-28T04:26:10.397347+00:00",
+  "wall_seconds": 19.862936097000784,
+  "command": [
+    "timeout",
+    "45s",
+    "python3",
+    ".local/civic_final_capture/run_rendered.py",
+    "--script",
+    ".local/civic_final_capture/capture.gd",
+    "--output",
+    ".local/civic-contact-final-static-image"
+  ],
+  "exit_code": 0,
+  "source_inputs": 675,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "e6c23a7352aead2efc6b7c9fd0ff320fccc714a199b83eb44ab2453aef7a9a30",
+  "git_head": "173da24abde7f4ceeaf1abc389473d2285f7dc7c"
+}

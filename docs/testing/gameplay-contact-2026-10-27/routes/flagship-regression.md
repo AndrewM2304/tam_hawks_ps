@@ -98,3 +98,29 @@ samples are89.1201/89.3201/89.5201. The actual contact separately retains the
 same12cm bound, and all native crowns retain100µm. Both directions complete the
 original three physical captures and one bank with identical first/return bar
 RIDs. Raw event IDs remain recorded; no runtime guide or rider motion changes.
+
+## Ordinary Civic contact static frame
+
+[The current production Civic capture](civic-contact-final-static/receipt.json)
+passes **1/0**, clean/stable on 675 inputs in 19.863 seconds, after a
+[clean parser check](civic-contact-final-parser/receipt.json). Its exact source
+HEAD is `173da24abde7f4ceeaf1abc389473d2285f7dc7c`; native manifest:
+`e6c23a7352aead2efc6b7c9fd0ff320fccc714a199b83eb44ab2453aef7a9a30`.
+
+The [unaltered native PNG](civic-contact-final-static/ordinary-civic-coping-contact.png)
+shows the original Civic combo start after 96 real held Push + Grind updates,
+at the actual CivicPortReturn's 85.069° ascent. It uses current production
+Main/Skater, default trial content and the ordinary production chase. No actor,
+model, physics or camera pose is assigned after the declared start. Native
+warmup alone has rendering disabled; the earned normal presentation is then
+frozen, its interpolation reset and two natural `frame_post_draw` signals
+awaited for this explicitly static diagnostic.
+
+[The completed-draw witness](civic-contact-final-static/capture-manifest.json)
+retains all nine native/drawn node frames, unchanged chase and actor tick
+109→109. The original strict full-body native camera check passes. Shoe/deck
+distance is 0.858mm and body-joint gap 2.152mm. PNG SHA-256:
+`dff5217dd885ab415d3abcb0fac31f48772d24c06a1c3d664c3d842683d5d485`.
+This is contact/framing evidence for one static earned pose, not moving
+presentation, FPS, target Mac/controller or human feel acceptance. The next
+required full-suite run remains separate.

@@ -58,6 +58,24 @@ four-wheel presentation fit across those adjoining surfaces. Copied names or
 feature metadata cannot grant ownership, and fitted tyres and connected model
 pieces must still clear the actual solids.
 
+The real rider supplies its cached model radius to the transition controller.
+Coping-profile applicability uses that radius and the authenticated native
+coping extent; synthetic bodies retain the original350mm applicability. The
+100mm support bound,2mm skin and native movement checks remain in force.
+Ordinary air can withdraw only its current earned landing-anticipation offset
+when it intersects scenery. Associated bowl air may correct an actual collision
+with its constructor-owned coping by at most the existing25mm normal allowance.
+Both bounded translations test the actual hierarchical board pose, preserve
+local rig/basis/physical state, and retain an exact accepted local position only
+after the finite tyres and connected model clear every native solid.
+
+A blocked25mm planar rim endpoint can retry support with the four cached
+convex tyre footprints over the original350mm-up/500mm-down probe range.
+Actual native contact points and eligible normals drive three bounded fits;
+the100mm support budget and final25mm refinement remain enforced. Clear and
+mixed centre-ray fits keep their existing path. A tyre centre outside a ledge
+cannot conceal its overlapping rim, and foreign geometry remains blocking.
+
 New exposed native box edges carry their real outward side. The cached original
 board vertices derive a bounded neutral edge roll (currently9.11degrees), keeping
 both truck anchors on the exact top corner while the outer tyres overhang the

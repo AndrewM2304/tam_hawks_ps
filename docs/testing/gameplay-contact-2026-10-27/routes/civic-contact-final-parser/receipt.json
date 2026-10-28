@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-28T04:25:33.887668+00:00",
+  "completed_london": "2026-10-28T04:25:35.243946+00:00",
+  "wall_seconds": 1.3562771049982985,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/civic_final_capture/capture.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "8bffbb301188351fa9727af7fe83e4f6f36879c2eb6c35afabd0f30a1d2512ac",
+  "git_head": "173da24abde7f4ceeaf1abc389473d2285f7dc7c"
+}

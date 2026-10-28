@@ -1,0 +1,31 @@
+{
+  "started_london": "2026-10-28T04:51:27.827782+00:00",
+  "completed_london": "2026-10-28T04:51:28.782805+00:00",
+  "wall_seconds": 0.9550231190005434,
+  "command": [
+    "timeout",
+    "10s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/finite-footprint-diagnostic/runner.gd",
+    "--",
+    ".local/finite-footprint-diagnostic/skater_print.gd",
+    ".local/finite-footprint-diagnostic/bowl_adapter.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 676,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "1",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "94b2002d2432c63f6278d074c2aa2a03e052c471e25d850a697b3d6f9553e0c1",
+  "git_head": "173da24abde7f4ceeaf1abc389473d2285f7dc7c"
+}

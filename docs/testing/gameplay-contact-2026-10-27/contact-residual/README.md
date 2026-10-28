@@ -1,70 +1,145 @@
-# Residual native contact diagnostics
+# Finite native support and bowl release contact
 
-These rejected native cases preserve the original input/assertion logic. They
-are diagnostics, not passing acceptance receipts. No product source was edited
-for either run; Main/Driver/Clyde/Civic adapters change only relevant preloads,
-and the Skater copy adds print-only source-path/query-result observations.
-Personal persistence is disabled before Main enters the tree.
+The latest relevant original-module prefix passes **53/0**. It runs complete
+original Gallery/Station (including both miss returns), Clyde, Civic/Park and
+Facility tests in that order on one ordinary Main/Skater. Every strict camera,
+finite-support, input and score assertion passes. Canonical Bowl/air, finite
+footprint and board-ray controls pass **63/0**.
 
-| Record | Result | Stable inputs | Native time |
+The preceding whole-project run is retained at
+[required-third-rejected](../required-third-rejected/receipt.json): **5726/2**.
+It exposed a5.68mm Clyde phase difference and a finite tyre overhanging
+BeginnerArrivalBank while its centre was outside the bank. The first focused
+prefix also exposed a separate ParkGranitePathEdge shoulder contact. The final
+native controls and unchanged original-prefix camera checks cover these repairs;
+they do not stand in for the next whole-project check.
+
+| Latest native record | Result | Stable inputs | Time |
 | --- | --- | ---: | ---: |
-| [Clyde bank return alone](clyde-bank-only-rejected/receipt.json) | 3/1 | 682 | 12.234s |
-| [Exact Civic combo](civic-first-rejected/receipt.json) | 2/1 | 682 | 12.283s |
+| [Canonical Bowl34 + board-ray29 guards](static-affine-correct-guards/receipt.json) | **63/0** | 674 | 1.808s |
+| [Relevant original-module prefix](static-affine-original-prefix/receipt.json) | **53/0** | 674 | 76.434s |
 
-Both bind source manifest
-`106e352ad44e100bb9308714c5a5ff3b48c57ba7dc154acb9839790b52164b22`.
-All raw logs, adapters, source maps and exact non-parent inputs are retained.
-The engine lease was released after archiving; the next owner received the
-explicit direct handoff. No assertion, camera tolerance, physical capsule,
-transform or live collision layer was changed by the observers.
+The prefix binds manifest
+`38b67d696a0b9f5f6b989a8334b756a47fc203c60610d5926786387c9b4480ff`.
+It uses original test modules directly, with production Main and Skater and
+persistence disabled before tree entry. It changes no camera predicate,
+assertion, input or route waypoint. The complete Design sequence contains other
+modules before and between these selected modules; whole-project acceptance is
+reported separately. All records were archived before engine release and the
+handoff for one static ground-fit capture.
 
-## Civic: actual finite coping contact exceeds the existing visual fit cap
+## Resulting behavior
 
-The original combo reproduces the exact full-suite first failure at
-`(-38.5,8.195608,-113.6308)`. It is a supported **surface** frame at theta
-1.4847388385rad (85.069 degrees), not an airborne Flip or lip pose. The physical
-root is22.00068mm from its actual feature sample along normal
-`(0,.085951,-.996299)`; root/board determinants are1.
+A rejected Manual plane fit no longer restores an already intersecting original
+pose without proof. Existing native tyre casts can be refined only below their
+proved25mm endpoint, with the existing8mm tyre skin, actual connected-model
+clearance and eight bounded native subdivisions. Native query fields are restored.
 
-At that frame `_place_transition_wheels` requests35.188725mm normal displacement
-from its existing native tangent-plane rays and applies the existing25mm cap.
-Afterward actual tyre hulls0/1 and connected model components27/28 still overlap
-the actual native coping cylinder (radius45mm, width4.5m). The original strict
-Density marker is1.85686mm inside that cylinder. Its nearest real rendered
-vertex is13.75 micrometres away, and the actual vertex is also occluded. This is
-not an invented material-hull extremity. Native centre rays, their normal dots,
-the uncapped/capped lift, feature/body frames and the exact shape-local radial
-calculation are in the raw console log.
+The actual wrapped Bowl supplies a cached exact-body support API for its wall,
+AnnularDeck and steel coping. A foreign body with the same parent, copied exact
+name and copied feature metadata receives no authority. Only a missing vertical
+wheel-centre ray may use one additional finite ray aimed by that real Bowl's
+normal. The support point and normal still come from its actual native body.
+The synchronous four-wheel solve may retain each wheel's exact earlier native
+hit only within that same call, with body/RID/shape identity checks. Final tyre
+and full connected-model queries remain mandatory. The original100mm fitting
+budget and25mm rim-refinement ceiling are unchanged.
 
-The ordinary camera's endpoint allowance happens to accept this tiny contact,
-but the stricter original Density assertion correctly refuses it. No tolerance
-change follows from this observation. A repair must provide real native finite
-support; extending the25mm visual cap is not justified by this diagnostic.
-The route still earns its independently calculated13,882-point bank without a
-bail; only the original strict camera/visibility receipt fails.
+Ordinary descending air can withdraw only its current earned anticipation
+offset when that offset lowers the real model through intervening scenery. A
+wrapped Feature-Air release can earn at most25mm along its current real feature
+normal, only after the actual model intersects that same Bowl's constructor-owned
+coping. Both corrections preserve physical flight, basis, mode and every local
+rig/trick transform. Clear, zero-offset and unassociated states remain unchanged.
+Every endpoint and bounded subdivision sees all native solids; foreign endpoint
+blockers refuse the entire correction.
 
-## Clyde: narrower prefix exposes genuine neutral deck intrusion
+Native proof uses the **actual displayed hierarchy** at each synchronous
+translation candidate. It restores the original local position between probes,
+retains the exact accepted local position, and verifies the final actual board.
+This avoids a float32 discrepancy between an inverse/recomposed hypothetical
+frame and the child's actual global frame. No camera tolerance or collision skin
+was widened to hide that discrepancy.
 
-This wrapper executes `run_bank_return` alone. The full required suite executes
-the bridge combo on the same actor immediately before that method. The narrower
-run clears the first Manual steel crossing with a17mm different tick phase,
-so it does **not** supersede the full suite's earlier4.07mm Manual-tyre contact.
-A `clyde_full` selection has since been prepared to preserve the complete
-original entry/prefix; it has not been run in these receipts.
+The Feature body profile also uses the cached actual model radius plus the
+authenticated native tube minor radius to determine when to query nearby coping.
+Its original100mm support limit,2mm skin, real capsule occupancy and native
+movement remain intact. This begins actual support before the leading tyre
+reaches steel even when the capsule centre is beyond the old350mm query screen.
 
-The narrower first failure instead occurs at
-`(-10.380707,2.052482,139.51195)` on the bowl entrance. The actual neutral board
-has determinant1, while its fitted support frame follows the rounded capsule
-normal `(-.297848,.855728,.423104)`. The direct native centre support ray sees
-flat AnnularDeck atY2.0. Actual connected deck/truck components0,15,16,17 intersect
-that finite deck; a real rendered hull target lies61mm below its top, and another
-lies72mm below. The nearest actual model vertex is74.88 micrometres away and its
-ray also fails. This is physical presentation intrusion, not an affine-frame
-validation failure or merely a camera route choice.
+The native finite-footprint fallback casts each cached real tyre over the same
+original+0.35m/−0.50m vertical reach. Native rest points, normals and exact bodies
+supply its supports. It runs only after an existing planar raised endpoint fails,
+or after the authenticated wrapped-bowl final refinement fails. The latter
+restarts from the original centre support plane, so it cannot gain another100mm
+budget. Three bounded fitting passes retain actual four-tyre and full connected
+model clearance, the original100mm total lift and25mm refinement ceiling.
+Clear planar and successful mixed fits retain their existing path. The original
+93-ray parity controls, both16-ray split-step cases, unrelated steep refusals and
+foreign thin-blocker rejection remain unchanged and passing.
 
-The current neutral solver checks finite tyre volumes only when the centre is
-the actual tagged bowl surface and checks the complete model only for a lowered
-candidate. The AnnularDeck centre and mixed coping/deck wheel supports can avoid
-those branches. The raw actual pose, all4 tyres, connected-piece native overlap
-reports and native support/frame details are retained for the subsequent scoped
-repair. The existing100-point bank, zero bails and supported return still pass.
+Ordinary lowered native fits retain the original rigid validator's diagnostic.
+A refusal must pass exact static native queries of all four tyres and32 connected
+model parts at the actual affine frame before that original candidate is kept.
+If the actual candidate is blocked, the existing finite-support fallback may
+solve a different clear pose from the original centre plane. Rigid grind/sweep
+validation remains unchanged; a rejection string alone grants no permission.
+The old StepUpper frame still independently intersects the actual native step;
+its new alternative must be different and fully native-clear. An inherited-scale
+control and a real foreign nose blocker cover the same lower-fit branch.
+
+## What the controls prove
+
+All earlier native Bowl tyre/support, locomotion parity and ordinary/unrelated
+surface controls remain. Added controls cover exact constructor ownership,
+same-parent copied-name/metadata rejection, a real floor intrusion corrected by
+withdrawing the existing air offset, unchanged clear/zero-offset states, query
+restoration, the retained actual torus release pose, Feature mode guards, and a
+real foreign thin slab that is clear of the starting model but blocks the
+proposed endpoint. Diagnostic twins alone are non-occluding measurement bodies;
+the real rider remains layer2, with unchanged mask9 and native capsule.
+
+The Clyde route still earns its original banks without a bail and retains
+strict full-body chase clearance through the previously failing steel/deck and
+bowl-return frames. These focused headless receipts do not stand in for the
+required whole-project check or a Mac/controller trial.
+
+## Retained rejected evidence
+
+Earlier failures remain immutable and explain the specific repairs:
+
+- [First finite-footprint controls](finite-footprint-guards-first-rejected/receipt.json):
+  bank controls passed, but the5.68mm Clyde phase still rejected. The
+  [exact caller-stage probe](finite-footprint-stage2-probe/receipt.json) established
+  failure of the wrapped final refinement, so the finite retry starts from the
+  original native plane rather than an already lifted candidate.
+- [Bounded shoulder observer](park-shoulder-native-witness-incomplete/receipt.json):
+  the inherited print-only subclass reached a different contact phase and hit
+  its60s limit before reproducing the original camera failure. This is incomplete
+  diagnostic evidence, not route acceptance. Its retained refusal strings may
+  be stale; only actual native geometry can authorise a correction.
+
+- [Civic capped fit](civic-first-rejected/receipt.json): the real fitter requested35.189mm,
+  hit its25mm cap and left two actual tyres1.857mm inside the native cylinder.
+  [Production Civic3/0](native-pose-civic-native/receipt.json) verifies the repaired route.
+- [Complete original Clyde prefix](clyde-full-prefix-rejected/receipt.json): real
+  Manual tyre penetration and a rejected downcast endpoint on the actual70mm bar.
+- [Exact neutral return-stage proof](bowl-current-neutral-rejected/receipt.json):
+  native finite tyre overlap after plane fitting, then a wheel centre over the
+  mouth and a genuinely blocked25mm flat endpoint. Its declared production hash
+  and print-only source diff are retained alongside the log.
+- [Ordinary airborne release](bowl-typed-clyde-rejected/receipt.json): actual tyre
+  and truck overlap while earned anticipation moved the whole figure toward a
+  later face. The correction withdraws that same offset.
+- [Feature Surface/Air modes](air-offset-clyde-rejected/receipt.json): actual later
+  feature states, exact tyre/model pieces, native body identities and real mesh
+  vertices. [Model reach](model-reach-clyde-rejected/receipt.json) resolves the
+  Surface contact and isolates the final associated Air contact.
+- [Actual-hierarchy discrepancy](feature-air-booleans/receipt.json): the nominal
+  candidate was clear while the displayed tyre query remained blocked. Physics,
+  basis and local pose already matched; exact hierarchy probing resolves it.
+
+The narrower [bank-only replay](clyde-bank-only-rejected/receipt.json) has a
+different initial actor history and is not substituted for the full original
+entry. Intermediate parser, runtime typing and incorrect declared unit-normal
+receipts are also preserved honestly; none is admitted as passing validation.

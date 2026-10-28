@@ -374,6 +374,7 @@ func _ready() -> void:
 	# Prepare exact displayed-wheel landmarks at construction, before first play.
 	_camera_follow.prepare_board_landmarks(_visual_rig)
 	_grind_clearance.rebuild(_board_visual,_visual_rig.board_contact_geometry(),get_rid())
+	_feature_transition.coping_model_radius=_grind_clearance.model_radius
 	_grind.capture_model_radius=_grind_clearance.model_radius
 	# Startup-only exact tyre hulls; native finite-volume checks must not scan
 	# thousands of GLB vertices during ordinary skating.
@@ -2642,6 +2643,8 @@ func _update_pose(delta: float) -> void:
 	elif native_support and not (bail_active or setup_active or skitching or lip_active or powersliding):
 		_place_native_support_wheels(visual_yaw)
 	if not air_landing_support.is_empty(): _place_air_landing_wheels(air_landing_support)
+	if airborne and air_visual_offset.length_squared()>0.0:_withdraw_air_support_offset(air_visual_offset)
+	if airborne and _feature_transition.active and _feature_transition.state=="air":_place_feature_air_coping_wheels()
 	_place_obstacle_wheels(delta)
 	_obstacle_arm_fit.apply(delta)
 
@@ -3208,6 +3211,59 @@ func _place_air_landing_wheels(support: Dictionary) -> void:
 		if not space.intersect_shape(_floor_wheel_query,1).is_empty(): return
 	_visual.global_transform=fitted
 	_air_support_basis=(_visual.basis*Basis(Vector3.UP,-yaw)).orthonormalized()
+
+
+func _withdraw_air_support_offset(offset:Vector3) -> void:
+	# Withdraw only this frame's earned anticipation, without changing flight.
+	_fit_native_visual_translation(-offset)
+
+
+func _place_feature_air_coping_wheels() -> void:
+	# Only an actual associated wrapped-bowl release can earn this finite
+	# continuation. Copied metadata or a nearby foreign body is insufficient.
+	if not airborne or not _ramp_air or not _feature_transition.active \
+			or _feature_transition.state!="air" or bail_active or grinding or lip_active:return
+	var feature:Node3D=_feature_transition.feature
+	if not is_instance_valid(feature) or not bool(feature.get("wrap_lateral")) \
+			or not feature.has_method("owns_native_wheel_support"):return
+	var coping:=feature.get("_native_steel_coping") as CollisionObject3D
+	if not is_instance_valid(coping) or not bool(feature.owns_native_wheel_support(coping)) \
+			or PhysicsServer3D.body_get_shape_count(coping.get_rid())!=1:return
+	var board:Transform3D=_board_visual.global_transform
+	if _native_rim_frame_clear(board,0.0) \
+			or not _native_model_hits_support(board,{"rid":coping.get_rid(),"shape":0}):return
+	var axis:Vector3=transition_normal
+	if not axis.is_finite() or axis.length_squared()<0.5:return
+	_fit_native_visual_translation(axis.normalized()*PLANAR_RIM_MAX_LIFT)
+
+
+func _fit_native_visual_translation(displacement:Vector3) -> void:
+	# Probe the actual hierarchy, retaining the exact accepted local position.
+	# Inverse/recomposed hypothetical frames can differ at native contact by
+	# several float32 micrometres from the displayed child transform.
+	if not displacement.is_finite() or displacement.length_squared()<=0.0:return
+	if _native_rim_frame_clear(_board_visual.global_transform,0.0):return
+	var original_local:Vector3=_visual.position
+	var original_global:Vector3=_visual.global_position
+	_visual.global_position=original_global+displacement
+	var accepted_local:Vector3=_visual.position
+	var clear:=_native_rim_frame_clear(_board_visual.global_transform,0.0)
+	_visual.position=original_local
+	if not clear:return
+	var low:=0.0
+	var high:=1.0
+	for pass_index:int in 8:
+		var middle:float=(low+high)*0.5
+		_visual.global_position=original_global+displacement*middle
+		var candidate_local:Vector3=_visual.position
+		clear=_native_rim_frame_clear(_board_visual.global_transform,0.0)
+		_visual.position=original_local
+		if clear:
+			high=middle
+			accepted_local=candidate_local
+		else:low=middle
+	_visual.position=accepted_local
+	if not _native_rim_frame_clear(_board_visual.global_transform,0.0):_visual.position=original_local
 
 
 func _air_landing_wheel_gap(pose: Transform3D,wheels: Array,point: Vector3,axis: Vector3) -> float:
@@ -4007,6 +4063,10 @@ func _native_board_floor() -> Dictionary:
 		for contact_index:int in wheels.size():retained.append({})
 	var axis: Vector3 = center.normal
 	var point := global_position-axis*(global_position-Vector3(center.position)).dot(axis)
+	var original_point:=point
+	var original_axis:=axis
+	var original_local:=global_basis.inverse()*axis
+	var original_frame:=global_basis*Basis.from_euler(Vector3(atan2(original_local.z,original_local.y),0,-asin(clampf(original_local.x,-1,1))))
 	var space := get_world_3d().direct_space_state
 	# Re-probe after fitting: pitching the board changes the projected wheel
 	# locations slightly at a bank or a six-centimetre path/apron join.
@@ -4045,9 +4105,14 @@ func _native_board_floor() -> Dictionary:
 		# a short step before the rounded capsule does, even if their centre
 		# normals still agree, so verify all four locations before this shortcut.
 		if same_plane:
-			var planar_fit:=_native_planar_rim_fit(point,axis,frame)
+			var planar_fit:=_native_planar_rim_fit(point,axis,frame,bowl)
 			if is_instance_valid(bowl) and not planar_fit.is_empty():
-				var planar_board:=Transform3D(frame,Vector3(planar_fit.position)+axis*GROUND_PRESENTATION_SKIN+frame*_visual_rig._board_rest_position)
+				var planar_axis:Vector3=planar_fit.normal
+				var planar_frame:=frame
+				if planar_axis!=axis:
+					var local_planar:=global_basis.inverse()*planar_axis
+					planar_frame=global_basis*Basis.from_euler(Vector3(atan2(local_planar.z,local_planar.y),0,-asin(clampf(local_planar.x,-1,1))))
+				var planar_board:=Transform3D(planar_frame,Vector3(planar_fit.position)+planar_axis*GROUND_PRESENTATION_SKIN+planar_frame*_visual_rig._board_rest_position)
 				if not _manual_model_frame_clear(planar_board):return {}
 			return planar_fit
 		axis = (rear-front).cross(right-left).normalized()
@@ -4090,14 +4155,23 @@ func _native_board_floor() -> Dictionary:
 		var pose := Transform3D(final_frame,point+axis*GROUND_PRESENTATION_SKIN+final_frame*_visual_rig._board_rest_position)
 		if not _native_rim_frame_clear(pose,0.0):
 			var extra:=_native_rim_refinement_lift(pose,0.0,minf(PLANAR_RIM_MAX_LIFT,0.10-lift))
-			if not is_finite(extra):return {}
+			if not is_finite(extra):
+				# A centre-ray plane may still miss the finite coping footprint.
+				# Restart from the original native plane so the100mm budget
+				# cannot be granted again on an already raised candidate.
+				return _native_footprint_board_fit(original_point,original_axis,original_frame,bowl)
 			point.y+=extra
 	# Four low wheel supports can flank a taller rail under the deck. The
 	# actual capsule-centre support remains the fallback when that lower fit
 	# intersects any connected model component.
 	if not is_instance_valid(bowl) and (point-Vector3(center.position)).dot(center.normal)<-0.001:
 		var fitted_board := Transform3D(final_frame,point+axis*GROUND_PRESENTATION_SKIN+final_frame*_visual_rig._board_rest_position)
-		if not _grind_clearance.allows_frame(fitted_board,axis): return {}
+		if not _grind_clearance.allows_frame(fitted_board,axis):
+			# Static support uses the actual inherited affine model frame.
+			# Keep rigid grind/sweep validation unchanged, and retry finite
+			# supports only when that real candidate is natively blocked.
+			if not _native_rim_frame_clear(fitted_board,0.0):
+				return _native_footprint_board_fit(original_point,original_axis,original_frame,null)
 	return {"position":point,"normal":axis}
 
 
@@ -4147,7 +4221,7 @@ func _native_board_support_allowed(hit: Dictionary,bowl: Node3D) -> bool:
 		and bool(bowl.owns_native_wheel_support(hit.get("collider") as CollisionObject3D))
 
 
-func _native_planar_rim_fit(point: Vector3, axis: Vector3, frame: Basis) -> Dictionary:
+func _native_planar_rim_fit(point: Vector3, axis: Vector3, frame: Basis,bowl:Node3D=null) -> Dictionary:
 	# Four centre rays can all see a flat floor while a lower diagonal tyre
 	# contour reaches a finite bank side. Keep the unchanged planar pose unless
 	# an actual tyre volume overlaps native scenery. Only presentation may lift.
@@ -4166,13 +4240,111 @@ func _native_planar_rim_fit(point: Vector3, axis: Vector3, frame: Basis) -> Dict
 		_floor_wheel_query.margin = GROUND_PRESENTATION_SKIN
 		# A tall wall/ceiling is not a small support join and cannot be crossed
 		# by moving the drawn rider through it.
-		if not space.intersect_shape(_floor_wheel_query,1).is_empty(): return {}
+		if not space.intersect_shape(_floor_wheel_query,1).is_empty():
+			return _native_footprint_board_fit(point,axis,frame,bowl)
 		_floor_wheel_query.motion = Vector3.DOWN*PLANAR_RIM_MAX_LIFT
 		var fractions := space.cast_motion(_floor_wheel_query)
 		if fractions.size()!=2: return {}
 		lift = maxf(lift,PLANAR_RIM_MAX_LIFT*(1.0-clampf(fractions[0],0.0,1.0)))
 	if lift<=0.000001: return {}
 	return {"position":point+Vector3.UP*lift,"normal":axis}
+
+
+func _native_wheel_footprint_hits(pose:Transform3D,bowl:Node3D) -> Array[Dictionary]:
+	# Cast the cached real tyres over the same vertical reach as the centre
+	# rays. Only native contact points/normals supply the finite support.
+	var saved_shape:=_floor_wheel_query.shape
+	var saved_transform:=_floor_wheel_query.transform
+	var saved_motion:=_floor_wheel_query.motion
+	var saved_margin:=_floor_wheel_query.margin
+	var saved_mask:=_floor_wheel_query.collision_mask
+	_floor_wheel_query.collision_mask=1|2|8
+	_floor_wheel_query.margin=GROUND_PRESENTATION_SKIN
+	var raised:=pose
+	raised.origin.y+=0.35
+	var motion:=Vector3.DOWN*0.85
+	var hits:Array[Dictionary]=[]
+	var space:=get_world_3d().direct_space_state
+	for shape:ConvexPolygonShape3D in _floor_wheel_shapes:
+		_floor_wheel_query.shape=shape
+		_floor_wheel_query.transform=raised
+		_floor_wheel_query.motion=Vector3.ZERO
+		if not space.intersect_shape(_floor_wheel_query,1).is_empty():break
+		_floor_wheel_query.motion=motion
+		var fractions:=space.cast_motion(_floor_wheel_query)
+		if fractions.size()!=2 or not is_finite(fractions[0]) or not is_finite(fractions[1]) \
+				or fractions[0]<0.0 or fractions[0]>=1.0 or fractions[1]<fractions[0] or fractions[1]>1.0:break
+		var contact:=raised
+		contact.origin+=motion*fractions[1]
+		_floor_wheel_query.transform=contact
+		_floor_wheel_query.motion=Vector3.ZERO
+		var hit:=space.get_rest_info(_floor_wheel_query)
+		if hit.is_empty():break
+		var body:=instance_from_id(int(hit.get("collider_id",0))) as CollisionObject3D
+		if not is_instance_valid(body) or body.get_rid()!=hit.get("rid"):break
+		var shape_index:int=int(hit.get("shape",-1))
+		if shape_index<0 or shape_index>=PhysicsServer3D.body_get_shape_count(body.get_rid()):break
+		hit["collider"]=body
+		hit["position"]=hit.point
+		if not _native_board_support_allowed(hit,bowl):break
+		hits.append(hit)
+	_floor_wheel_query.shape=saved_shape
+	_floor_wheel_query.transform=saved_transform
+	_floor_wheel_query.motion=saved_motion
+	_floor_wheel_query.margin=saved_margin
+	_floor_wheel_query.collision_mask=saved_mask
+	if hits.size()!=4:hits.clear()
+	return hits
+
+
+func _native_footprint_board_fit(point:Vector3,axis:Vector3,frame:Basis,bowl:Node3D) -> Dictionary:
+	# Retry finite supports only after an ordinary native candidate is blocked.
+	# Clear planar and successful mixed fits retain their original path.
+	var wheels:Array=_visual_rig.board_contact_geometry().wheels
+	if wheels.size()!=4 or _floor_wheel_shapes.size()!=4:return {}
+	var original_point:=point
+	var hits:Array[Dictionary]=[]
+	for pass_index:int in 3:
+		var pose:=Transform3D(frame,point+axis*GROUND_PRESENTATION_SKIN+frame*_visual_rig._board_rest_position)
+		hits=_native_wheel_footprint_hits(pose,bowl)
+		if hits.size()!=4:return {}
+		var front:=Vector3.ZERO
+		var rear:=Vector3.ZERO
+		var left:=Vector3.ZERO
+		var right:=Vector3.ZERO
+		var average:=Vector3.ZERO
+		for index:int in wheels.size():
+			var sample:Vector3=hits[index].position
+			average+=sample*0.25
+			if Vector3(wheels[index].center).z<0:front+=sample
+			else:rear+=sample
+			if Vector3(wheels[index].center).x<0:left+=sample
+			else:right+=sample
+		axis=(rear-front).cross(right-left).normalized()
+		if not axis.is_finite() or axis.y<(0.05 if is_instance_valid(bowl) else cos(floor_max_angle)):return {}
+		var clearance:=0.0
+		for hit:Dictionary in hits:clearance=maxf(clearance,(Vector3(hit.position)-average).dot(axis))
+		point=global_position-axis*((global_position-average).dot(axis)-clearance)
+		var local_axis:=global_basis.inverse()*axis
+		frame=global_basis*Basis.from_euler(Vector3(atan2(local_axis.z,local_axis.y),0,-asin(clampf(local_axis.x,-1,1))))
+	var pose:=Transform3D(frame,point+axis*GROUND_PRESENTATION_SKIN+frame*_visual_rig._board_rest_position)
+	var lift:=0.0
+	for index:int in wheels.size():
+		var normal:Vector3=hits[index].normal
+		var gap:=INF
+		for vertex:Vector3 in wheels[index].points:gap=minf(gap,(pose*vertex-Vector3(hits[index].position)).dot(normal))
+		lift=maxf(lift,(GROUND_PRESENTATION_SKIN-gap)/normal.y)
+	var total:=maxf(0.0,point.y-original_point.y)+lift
+	if not is_finite(total) or total>0.10:return {}
+	point.y+=lift
+	pose.origin.y+=lift
+	if not _native_rim_frame_clear(pose,0.0):
+		var extra:=_native_rim_refinement_lift(pose,0.0,minf(PLANAR_RIM_MAX_LIFT,0.10-total))
+		if not is_finite(extra):return {}
+		point.y+=extra
+	var final_pose:=Transform3D(frame,point+axis*GROUND_PRESENTATION_SKIN+frame*_visual_rig._board_rest_position)
+	if not _native_rim_frame_clear(final_pose,0.0):return {}
+	return {"position":point,"normal":axis}
 
 
 

@@ -18,6 +18,8 @@ var forward := Vector3.FORWARD
 var lip := false
 var lip_balance := 0.0
 var max_support_error := 0.0
+## Actual cached board radius, assigned once; zero retains fixture applicability.
+var coping_model_radius := 0.0
 var _theta := 0.0
 var _x := 0.0
 var _speed := 0.0
@@ -542,7 +544,12 @@ func _end(body: CharacterBody3D, event: String) -> Dictionary:
 func _coping_profile(body: CharacterBody3D,candidate: Node3D,sample: Dictionary) -> Dictionary:
 	var frame: Dictionary=candidate.lip_frame(float(sample.x))
 	var crown: Vector3=frame.point
-	if Vector3(sample.point).distance_squared_to(crown)>0.35*0.35: return {}
+	if not is_finite(coping_model_radius) or coping_model_radius<0.0: return {}
+	var distance_squared:=Vector3(sample.point).distance_squared_to(crown)
+	if not is_finite(distance_squared): return {}
+	# Geometry-only fixtures keep the original cheap reach check. A real model
+	# needs the authenticated primitive's radius before deciding applicability.
+	if coping_model_radius==0.0 and distance_squared>0.35*0.35: return {}
 	_coping_ray.from=crown+Vector3.UP*0.03
 	_coping_ray.to=crown-Vector3.UP*0.03
 	_coping_ray.collision_mask=2
@@ -558,11 +565,14 @@ func _coping_profile(body: CharacterBody3D,candidate: Node3D,sample: Dictionary)
 	if not transform.basis.get_scale().is_equal_approx(Vector3.ONE): return {}
 	var axis: Vector3=sample.normal
 	var support: float=(transform.origin-Vector3(sample.point)).dot(axis)
+	var native_minor:=0.0
 	if primitive.shape is BoxShape3D:
 		var half: Vector3=primitive.shape.size*0.5
-		support+=absf(axis.dot(transform.basis.x))*half.x+absf(axis.dot(transform.basis.y))*half.y+absf(axis.dot(transform.basis.z))*half.z
+		native_minor=absf(axis.dot(transform.basis.x))*half.x+absf(axis.dot(transform.basis.y))*half.y+absf(axis.dot(transform.basis.z))*half.z
+		support+=native_minor
 	elif primitive.shape is CylinderShape3D:
 		var along:=axis.dot(transform.basis.y)
+		native_minor=primitive.shape.radius
 		support+=absf(along)*primitive.shape.height*0.5+sqrt(maxf(0.0,1.0-along*along))*primitive.shape.radius
 	elif candidate.wrap_lateral and primitive.shape is ConcavePolygonShape3D:
 		var section:=_coping_torus_section(primitive.shape)
@@ -572,9 +582,14 @@ func _coping_profile(body: CharacterBody3D,candidate: Node3D,sample: Dictionary)
 		if radial.length_squared()<0.5: return {}
 		var centre: Vector3=radial*float(section.major)+Vector3.UP*float(section.centre_y)
 		var local_axis:=transform.basis.transposed()*axis
+		native_minor=float(section.minor)
 		support=(centre-local_point).dot(local_axis)+float(section.minor)
 	else: return {}
 	if not is_finite(support) or support<0.0 or support>0.1: return {}
+	if not is_finite(native_minor) or native_minor<0.0: return {}
+	var reach:=maxf(0.35,coping_model_radius+native_minor) if coping_model_radius>0.0 else 0.35
+	var reach_squared:=reach*reach
+	if not is_finite(reach_squared) or distance_squared>reach_squared: return {}
 	return {"body":steel,"offset":support,"crown":crown}
 
 ## Validate every native torus vertex once and cache only its section radii.

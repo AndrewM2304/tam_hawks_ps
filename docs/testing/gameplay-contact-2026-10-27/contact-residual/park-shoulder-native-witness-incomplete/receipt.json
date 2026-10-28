@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T05:00:39.232111+00:00",
+  "completed_london": "2026-10-28T05:01:39.323323+00:00",
+  "wall_seconds": 60.09121166400291,
+  "command": [
+    "timeout",
+    "60s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/park-shoulder-witness/prefix_diagnostic.gd",
+    "--",
+    ".local/park-shoulder-witness/main_adapter.gd",
+    ".local/park-shoulder-witness/skater_observer.gd",
+    ".local/clyde-civic-contact/observer.gd",
+    ".local/contact-camera-diagnostic/camera_shape_witness.gd"
+  ],
+  "exit_code": 124,
+  "source_inputs": 678,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": false,
+  "source_manifest_sha256": "8530680e58972927462ba634eb7c4fef42cf338b7292941bc0afe3da587410dc",
+  "git_head": "173da24abde7f4ceeaf1abc389473d2285f7dc7c"
+}
