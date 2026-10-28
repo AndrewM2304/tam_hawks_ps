@@ -1,0 +1,102 @@
+{
+  "source_git_head": "c61ac7ad83ddd62123aa085a3319613b9c399db4",
+  "valid_cohort": false,
+  "completed_phases": {
+    "a1": {
+      "valid": true,
+      "source_stable": true,
+      "wall_seconds": 46.36105229600071,
+      "stationary": {
+        "buffer_memory_bytes_p50": 27849870.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 1100.0,
+        "draw_calls_p50": 1097.0,
+        "draw_calls_p95": 1100.0,
+        "frames_over_ms": {
+          "100.0": 46,
+          "16.666667": 46,
+          "33.333333": 46,
+          "50.0": 46
+        },
+        "id": "03-frontage-near",
+        "max_ms": 498.538,
+        "mean_fps": 2.25479618431625,
+        "mean_ms": 443.499065217391,
+        "nodes_max": 5212.0,
+        "p50_ms": 442.249,
+        "p95_ms": 473.912,
+        "p99_ms": 498.538,
+        "physics_ms_p50": 1.892,
+        "physics_ms_p95": 2.174,
+        "physics_ms_p99": 2.263,
+        "primitives_p95": 614163.0,
+        "process_ms_p50": 441.507,
+        "process_ms_p95": 490.221,
+        "process_ms_p99": 490.221,
+        "sampled_seconds": 20.400957,
+        "samples": 46,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 57666621.0,
+        "visible_draws_p50": 1084.0
+      },
+      "png": {
+        "sha256": "90c1f782bced7201f4bec30795b0d93ec46dd211684fdd1782e272d546bb9ebb",
+        "visually_inspected": true
+      }
+    },
+    "n": {
+      "valid": true,
+      "source_stable": true,
+      "wall_seconds": 44.954361678996065,
+      "stationary": {
+        "buffer_memory_bytes_p50": 27849870.0,
+        "controller_us_p50": 0.0,
+        "controller_us_p95": 0.0,
+        "controller_us_p99": 0.0,
+        "draw_calls_max": 1100.0,
+        "draw_calls_p50": 1097.0,
+        "draw_calls_p95": 1100.0,
+        "frames_over_ms": {
+          "100.0": 46,
+          "16.666667": 46,
+          "33.333333": 46,
+          "50.0": 46
+        },
+        "id": "03-frontage-near",
+        "max_ms": 522.827,
+        "mean_fps": 2.2773490310672,
+        "mean_ms": 439.107043478261,
+        "nodes_max": 5212.0,
+        "p50_ms": 437.655,
+        "p95_ms": 458.79,
+        "p99_ms": 522.827,
+        "physics_ms_p50": 1.932,
+        "physics_ms_p95": 7.573,
+        "physics_ms_p99": 7.573,
+        "primitives_p95": 614163.0,
+        "process_ms_p50": 434.53,
+        "process_ms_p95": 457.08,
+        "process_ms_p99": 514.785,
+        "sampled_seconds": 20.198924,
+        "samples": 46,
+        "shadow_draws_p50": 0.0,
+        "texture_memory_bytes_p50": 57666621.0,
+        "visible_draws_p50": 1084.0
+      },
+      "png": {
+        "sha256": "9e81ef5b36a18df8d653f32113139d650d1d3350272b62b235994a104aa915a1",
+        "visually_inspected": true
+      }
+    }
+  },
+  "stopped_phase": "r",
+  "unexecuted": [
+    "nr",
+    "a2"
+  ],
+  "failure": "Harness compares Dictionary Resource value with String null representation at near_material_ablation.gd:84. Native engine hit script error then90s phase timeout.",
+  "timing_attribution_admitted": false,
+  "production_change": false
+}

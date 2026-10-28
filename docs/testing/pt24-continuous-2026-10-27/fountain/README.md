@@ -156,3 +156,26 @@ render block and restored only the three former constructors/default ring count.
 Linux software diagnostics cannot certify target-Mac performance, normal chase
 play, physical controls, final world art or human visual/fun acceptance. Those
 remain separate open gates and do not hide the merged trial content.
+
+## Static follow-up — 28 October 2026
+
+Review at main `c61ac7ad83ddd62123aa085a3319613b9c399db4` confirms that the
+ornament source and `_fountain()` constructor exactly match the retained
+[ornament](render/source-snapshot/game/levels/art/fountain_ornament.gd) and
+[world](render/source-snapshot/game/levels/glasgow_square.gd) render sources.
+The ornament is already shared, indexed and constructed only at startup.
+Its shared `stone_light` material uses mipmapped triplanar albedo; it has no
+normal/ORM sampling path to remove. The bronze material is plain.
+
+Exact reviewed source SHA-256 values:
+
+- `game/levels/art/fountain_ornament.gd`: `8832883164a64e601103d449737a8c7bfcc9c49222d3b91ac67a5ea7c4e91f87`
+- `game/levels/city_art.gd`: `b08b80e021bc1f18f46a1a817ac9dff7c009cb7122e4022ca95c68b3806d2aad`
+- `game/art/assets/horizon/clyde_water.gdshader`: `e60ac5cbafce8eaaca67ed1d44903ca6fe94329b4fd1c375306bba7dd9cc71f3`
+
+The [shared-water comparison](../../pt24-pose-finish-2026-10-27/fountain/README.md)
+passed its own timing caps. The two [ornament timing failures](render/comparison.json)
+above remain rejected at their original thresholds. Their frame intervals do
+not establish a cause, so they do not justify further geometry or material
+changes. Preserve the displayed finish and leave timing acceptance open.
+This follow-up ran no engine, changed no production source and repeated no profile.

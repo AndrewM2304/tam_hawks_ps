@@ -1,0 +1,409 @@
+{
+  "comparisons": {
+    "n": {
+      "attribution_signal": false,
+      "needs_reverse_order_confirmation_before_source_change": true,
+      "same_draw_and_geometry_medians": true,
+      "timing": {
+        "p95": {
+          "baseline_midpoint_ms": 498.2105,
+          "candidate_ms": 471.163,
+          "reduction_beyond_noise_and_five_percent": false,
+          "reduction_ms": 27.047500000000014,
+          "repeat_noise_ms": 47.492999999999995
+        },
+        "p99": {
+          "baseline_midpoint_ms": 546.3924999999999,
+          "candidate_ms": 477.46,
+          "reduction_beyond_noise_and_five_percent": false,
+          "reduction_ms": 68.93249999999995,
+          "repeat_noise_ms": 91.03300000000002
+        }
+      }
+    },
+    "nr": {
+      "attribution_signal": false,
+      "needs_reverse_order_confirmation_before_source_change": true,
+      "same_draw_and_geometry_medians": true,
+      "timing": {
+        "p95": {
+          "baseline_midpoint_ms": 498.2105,
+          "candidate_ms": 456.959,
+          "reduction_beyond_noise_and_five_percent": false,
+          "reduction_ms": 41.25150000000002,
+          "repeat_noise_ms": 47.492999999999995
+        },
+        "p99": {
+          "baseline_midpoint_ms": 546.3924999999999,
+          "candidate_ms": 463.772,
+          "reduction_beyond_noise_and_five_percent": false,
+          "reduction_ms": 82.62049999999994,
+          "repeat_noise_ms": 91.03300000000002
+        }
+      }
+    },
+    "r": {
+      "attribution_signal": false,
+      "needs_reverse_order_confirmation_before_source_change": true,
+      "same_draw_and_geometry_medians": true,
+      "timing": {
+        "p95": {
+          "baseline_midpoint_ms": 498.2105,
+          "candidate_ms": 461.443,
+          "reduction_beyond_noise_and_five_percent": false,
+          "reduction_ms": 36.76750000000004,
+          "repeat_noise_ms": 47.492999999999995
+        },
+        "p99": {
+          "baseline_midpoint_ms": 546.3924999999999,
+          "candidate_ms": 478.826,
+          "reduction_beyond_noise_and_five_percent": false,
+          "reduction_ms": 67.5664999999999,
+          "repeat_noise_ms": 91.03300000000002
+        }
+      }
+    }
+  },
+  "diagnostic_only": true,
+  "distributions": {
+    "a1": {
+      "buffer_memory_bytes": {
+        "p50": 27849870.0,
+        "p95": 27849870.0,
+        "p99": 27849870.0
+      },
+      "draw_calls": {
+        "p50": 1097.0,
+        "p95": 1100.0,
+        "p99": 1100.0
+      },
+      "frame_ms": {
+        "p50": 434.856,
+        "p95": 474.464,
+        "p99": 500.876
+      },
+      "nodes": {
+        "p50": 5212.0,
+        "p95": 5212.0,
+        "p99": 5212.0
+      },
+      "physics_ms": {
+        "p50": 1.935,
+        "p95": 2.678,
+        "p99": 2.925
+      },
+      "primitives": {
+        "p50": 613761.0,
+        "p95": 614163.0,
+        "p99": 614163.0
+      },
+      "process_ms": {
+        "p50": 439.798,
+        "p95": 473.971,
+        "p99": 493.487
+      },
+      "render_objects": {
+        "p50": 1165.0,
+        "p95": 1206.0,
+        "p99": 1206.0
+      },
+      "shadow_draws": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "static_memory_bytes": {
+        "p50": 178564087.0,
+        "p95": 178594971.0,
+        "p99": 178597243.0
+      },
+      "texture_memory_bytes": {
+        "p50": 57666621.0,
+        "p95": 57666621.0,
+        "p99": 57666621.0
+      },
+      "video_memory_bytes": {
+        "p50": 85516491.0,
+        "p95": 85516491.0,
+        "p99": 85516491.0
+      },
+      "visible_draws": {
+        "p50": 1084.0,
+        "p95": 1084.0,
+        "p99": 1084.0
+      }
+    },
+    "a2": {
+      "buffer_memory_bytes": {
+        "p50": 27849870.0,
+        "p95": 27849870.0,
+        "p99": 27849870.0
+      },
+      "draw_calls": {
+        "p50": 1097.0,
+        "p95": 1100.0,
+        "p99": 1100.0
+      },
+      "frame_ms": {
+        "p50": 461.594,
+        "p95": 521.957,
+        "p99": 591.909
+      },
+      "nodes": {
+        "p50": 5212.0,
+        "p95": 5212.0,
+        "p99": 5212.0
+      },
+      "physics_ms": {
+        "p50": 1.96,
+        "p95": 3.074,
+        "p99": 6.949
+      },
+      "primitives": {
+        "p50": 613761.0,
+        "p95": 614163.0,
+        "p99": 614163.0
+      },
+      "process_ms": {
+        "p50": 461.303,
+        "p95": 514.24,
+        "p99": 528.454
+      },
+      "render_objects": {
+        "p50": 1165.0,
+        "p95": 1206.0,
+        "p99": 1206.0
+      },
+      "shadow_draws": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "static_memory_bytes": {
+        "p50": 178562295.0,
+        "p95": 178589467.0,
+        "p99": 178593587.0
+      },
+      "texture_memory_bytes": {
+        "p50": 57666621.0,
+        "p95": 57666621.0,
+        "p99": 57666621.0
+      },
+      "video_memory_bytes": {
+        "p50": 85516491.0,
+        "p95": 85516491.0,
+        "p99": 85516491.0
+      },
+      "visible_draws": {
+        "p50": 1084.0,
+        "p95": 1084.0,
+        "p99": 1084.0
+      }
+    },
+    "n": {
+      "buffer_memory_bytes": {
+        "p50": 27849870.0,
+        "p95": 27849870.0,
+        "p99": 27849870.0
+      },
+      "draw_calls": {
+        "p50": 1097.0,
+        "p95": 1100.0,
+        "p99": 1100.0
+      },
+      "frame_ms": {
+        "p50": 431.479,
+        "p95": 471.163,
+        "p99": 477.46
+      },
+      "nodes": {
+        "p50": 5212.0,
+        "p95": 5212.0,
+        "p99": 5212.0
+      },
+      "physics_ms": {
+        "p50": 1.993,
+        "p95": 12.732,
+        "p99": 12.732
+      },
+      "primitives": {
+        "p50": 613761.0,
+        "p95": 614163.0,
+        "p99": 614163.0
+      },
+      "process_ms": {
+        "p50": 434.361,
+        "p95": 469.306,
+        "p99": 469.306
+      },
+      "render_objects": {
+        "p50": 1165.0,
+        "p95": 1206.0,
+        "p99": 1206.0
+      },
+      "shadow_draws": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "static_memory_bytes": {
+        "p50": 178576414.0,
+        "p95": 178606842.0,
+        "p99": 178609466.0
+      },
+      "texture_memory_bytes": {
+        "p50": 57666621.0,
+        "p95": 57666621.0,
+        "p99": 57666621.0
+      },
+      "video_memory_bytes": {
+        "p50": 85516491.0,
+        "p95": 85516491.0,
+        "p99": 85516491.0
+      },
+      "visible_draws": {
+        "p50": 1084.0,
+        "p95": 1084.0,
+        "p99": 1084.0
+      }
+    },
+    "nr": {
+      "buffer_memory_bytes": {
+        "p50": 27849870.0,
+        "p95": 27849870.0,
+        "p99": 27849870.0
+      },
+      "draw_calls": {
+        "p50": 1097.0,
+        "p95": 1100.0,
+        "p99": 1100.0
+      },
+      "frame_ms": {
+        "p50": 429.295,
+        "p95": 456.959,
+        "p99": 463.772
+      },
+      "nodes": {
+        "p50": 5212.0,
+        "p95": 5212.0,
+        "p99": 5212.0
+      },
+      "physics_ms": {
+        "p50": 1.92,
+        "p95": 6.644,
+        "p99": 7.587
+      },
+      "primitives": {
+        "p50": 613761.0,
+        "p95": 614163.0,
+        "p99": 614163.0
+      },
+      "process_ms": {
+        "p50": 430.82,
+        "p95": 454.028,
+        "p99": 454.028
+      },
+      "render_objects": {
+        "p50": 1165.0,
+        "p95": 1206.0,
+        "p99": 1206.0
+      },
+      "shadow_draws": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "static_memory_bytes": {
+        "p50": 178577390.0,
+        "p95": 178607978.0,
+        "p99": 178610622.0
+      },
+      "texture_memory_bytes": {
+        "p50": 57666621.0,
+        "p95": 57666621.0,
+        "p99": 57666621.0
+      },
+      "video_memory_bytes": {
+        "p50": 85516491.0,
+        "p95": 85516491.0,
+        "p99": 85516491.0
+      },
+      "visible_draws": {
+        "p50": 1084.0,
+        "p95": 1084.0,
+        "p99": 1084.0
+      }
+    },
+    "r": {
+      "buffer_memory_bytes": {
+        "p50": 27849870.0,
+        "p95": 27849870.0,
+        "p99": 27849870.0
+      },
+      "draw_calls": {
+        "p50": 1097.0,
+        "p95": 1100.0,
+        "p99": 1100.0
+      },
+      "frame_ms": {
+        "p50": 437.172,
+        "p95": 461.443,
+        "p99": 478.826
+      },
+      "nodes": {
+        "p50": 5212.0,
+        "p95": 5212.0,
+        "p99": 5212.0
+      },
+      "physics_ms": {
+        "p50": 1.897,
+        "p95": 2.243,
+        "p99": 2.243
+      },
+      "primitives": {
+        "p50": 613761.0,
+        "p95": 614163.0,
+        "p99": 614163.0
+      },
+      "process_ms": {
+        "p50": 436.768,
+        "p95": 462.788,
+        "p99": 470.647
+      },
+      "render_objects": {
+        "p50": 1165.0,
+        "p95": 1206.0,
+        "p99": 1206.0
+      },
+      "shadow_draws": {
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 0.0
+      },
+      "static_memory_bytes": {
+        "p50": 178563479.0,
+        "p95": 178594835.0,
+        "p99": 178597291.0
+      },
+      "texture_memory_bytes": {
+        "p50": 57666621.0,
+        "p95": 57666621.0,
+        "p99": 57666621.0
+      },
+      "video_memory_bytes": {
+        "p50": 85516491.0,
+        "p95": 85516491.0,
+        "p99": 85516491.0
+      },
+      "visible_draws": {
+        "p50": 1084.0,
+        "p95": 1084.0,
+        "p99": 1084.0
+      }
+    }
+  },
+  "production_admission": false,
+  "schema": 1,
+  "source_artifact_binding_pass": true,
+  "target_mac_acceptance": false
+}

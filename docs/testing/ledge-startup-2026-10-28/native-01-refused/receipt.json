@@ -1,0 +1,23 @@
+{
+  "started_london": "2026-10-28T13:16:25.141175+00:00",
+  "completed_london": "2026-10-28T13:16:26.296153+00:00",
+  "wall_seconds": 1.1549794009988545,
+  "command": [
+    "timeout",
+    "180s",
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    ".local/ledge-startup-2026-10-28/probe.gd",
+    "--",
+    ".local/ledge-startup-2026-10-28/measurement-01"
+  ],
+  "exit_code": 2,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": false,
+  "source_manifest_sha256": "d64109e4372054f039af0c9678a47abe7fb569c95fe2804730528c54a150b6cc",
+  "git_head": "c61ac7ad83ddd62123aa085a3319613b9c399db4"
+}

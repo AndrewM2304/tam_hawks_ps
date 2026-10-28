@@ -1,0 +1,23 @@
+{
+  "started_london": "2026-10-28T13:10:51.757625+00:00",
+  "completed_london": "2026-10-28T13:14:39.804549+00:00",
+  "wall_seconds": 228.0469256350043,
+  "command": [
+    "timeout",
+    "500s",
+    "bash",
+    ".local/facade-next-bounded/run_bound.sh",
+    ".local/facade-next-bounded/run_ablation.py",
+    ".local/facade-next-bounded/near_material_ablation.gd",
+    ".local/facade_stage4/facade_bay_reduced_probe.gd",
+    "/workspace/tam_hawks_ps/.local/facade-near-material-ablation-02"
+  ],
+  "exit_code": 0,
+  "source_inputs": 677,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "957f4fd91afb9cf0ca2db48e2d8b63fa5f63fa786c46e1aa0883496844ada521",
+  "git_head": "c61ac7ad83ddd62123aa085a3319613b9c399db4"
+}

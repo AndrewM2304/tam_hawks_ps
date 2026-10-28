@@ -1,0 +1,67 @@
+{
+  "completed": [
+    {
+      "label": "a1",
+      "receipt_sha256": "b48a85a727be3e0346b32d5ddf885ae02aef54a9b7090f456868184411a45f16"
+    },
+    {
+      "label": "n",
+      "receipt_sha256": "f7212073708a5817dda19fecff25e3ade1d6a99a643ad8aabed972ee647ea347"
+    }
+  ],
+  "completed_utc": "2026-10-28T13:08:17Z",
+  "diagnostic_only": true,
+  "error": "Phase rejected: /workspace/tam_hawks_ps/.local/facade-near-material-ablation-01/r Command '['/workspace/tam_hawks_ps/tools/run.sh', '--rendering-method', 'gl_compatibility', '--audio-driver', 'Dummy', '--windowed', '--resolution', '1280x800', '--script', '/workspace/tam_hawks_ps/.local/facade-next-bounded/near_material_ablation.gd', '--', 'constant-orm', '/workspace/tam_hawks_ps/.local/facade-near-material-ablation-01/r', '20']' timed out after 90 seconds",
+  "git_head": "c61ac7ad83ddd62123aa085a3319613b9c399db4",
+  "plan": [
+    {
+      "label": "a1",
+      "sample_seconds": 20,
+      "size": [
+        1280,
+        800
+      ],
+      "variant": "full"
+    },
+    {
+      "label": "n",
+      "sample_seconds": 20,
+      "size": [
+        1280,
+        800
+      ],
+      "variant": "no-normal"
+    },
+    {
+      "label": "r",
+      "sample_seconds": 20,
+      "size": [
+        1280,
+        800
+      ],
+      "variant": "constant-orm"
+    },
+    {
+      "label": "nr",
+      "sample_seconds": 20,
+      "size": [
+        1280,
+        800
+      ],
+      "variant": "both"
+    },
+    {
+      "label": "a2",
+      "sample_seconds": 20,
+      "size": [
+        1280,
+        800
+      ],
+      "variant": "full"
+    }
+  ],
+  "source_stable": true,
+  "started_utc": "2026-10-28T13:05:15Z",
+  "valid": false,
+  "wall_seconds": 182.03482956600055
+}

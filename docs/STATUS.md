@@ -1,3 +1,54 @@
+# Facade and startup follow-up complete — 28 October 2026
+
+The current evidence checkpoint is main **c61ac7a**. Gameplay remains unchanged
+from **497781f**: [required06](testing/gameplay-contact-2026-10-27/required-final/receipt.json)
+admits **5,746/0 plus actual CLI Music-isolation 2/0** on 673 stable exact Git
+inputs. Four cold-launch phases, normal title→play 50/0, clean unsigned
+Linux/universal-Mac exports, archive audit and ordinary Linux standalone startup
+pass in their retained scopes. [Packages](testing/gameplay-contact-2026-10-27/packages/README.md)
+bind clean source **471cd3c**, 683 committed blobs and identical game packs.
+Subsequent filename, documentation and diagnostic-harness work changes no game
+source; the unchanged gameplay does not need a repeated full check.
+
+[The C07/C10 normal/ORM attribution](testing/facade-bay-four-slot-2026-10-27/material-attribution-2026-10-28/README.md)
+completes: the corrected five-phase diagnostic passes in **228.047 s** on 677
+unchanged inputs, but no candidate improves both tail percentiles beyond the
+full-control bracket variation. Keep the original maps. The first harness
+failure and older failed facade cost cells remain rejected. The pre-existing
+failed-cost facade diagnostic stays disabled; ordinary station/train, pond,
+green and civic trial content stays enabled.
+
+[The fountain follow-up](testing/pt24-continuous-2026-10-27/fountain/README.md)
+distinguishes the passed shared-water comparison from the two rejected ornament
+timing cells. Neither the indexed ornament nor its existing material reveals a
+justified source change; preserve the finish and its open timing acceptance.
+
+[C10 startup follow-up](testing/ledge-startup-2026-10-28/README.md) completes without a
+production change. Its baseline is **1.983–1.990 s**, with **10,248 terrain queries,
+10,060 intervals and five guides**. Cache and point-proof candidates are slower;
+exact guide inventory/ownership parity passes **14/0**. The final reason probe
+passes **6/0**, clean/stable on 675 inputs in **11.184 s**, with all original work
+counters and ordered guides exactly matching startup. Outcomes are 92 accepted,
+257 low drops (255 first-sample/two later), 5,813 first-sample high drops and
+3,898 first-sample nonfinite results. High/nonfinite first samples account for
+**96.53%** of intervals.
+
+The valid East Arrival Deck stays at 14.52 m over 13 m support. A global height cap
+is **deferred**, not implemented: real 17 m park terraces make a 13 m cap unsafe,
+and a global park-height bound would not screen 17 m station masonry. A complete
+safe bound must cover callbacks, triangle extrapolation, pond and bowl providers.
+Independent reviews agree that introducing that framework has no measured benefit
+within this bounded follow-up. The diagnostic/proposal work is complete; C10
+optimization and target performance remain open for future justified changes,
+without blocking other accepted implementation, art or owner/hardware acceptance.
+
+Mac/controller, effective Music Automation/TCC consent, saves/audio, human feel,
+target performance and final art remain open. Preserve personal Music isolation,
+main-only/non-force/no-spend/no-hosted-CI/no-release constraints. Pushes remain
+checkpoints while the accepted independent queue continues.
+
+---
+
 # macOS evidence filename collision — 28 October 2026
 
 Two evidence directories tracked both `MANIFEST.json` and `manifest.json`.
@@ -6,16 +57,6 @@ the other Git path dirty. Rename the two uppercase artifact indexes to
 `ARTIFACTS.json`, preserve all four committed JSON contents exactly, and update
 the recorder link. `git ls-files` case-fold collision scan now passes; no game
 source changed and gameplay checks are not required for these filename repairs.
-
----
-
-# Contact repairs packaged; facade attribution next — 28 October 2026
-
-Admitted gameplay source **497781f is pushed on main**; the clean package checkpoint is **471cd3c**. Subsequent main **72a1cad** preserves the macOS evidence filename repair without changing game source. [Required06 and exact evidence](testing/gameplay-contact-2026-10-27/README.md) pass **5,746/0 plus actual CLI Music-isolation2/0**,622.590s on673 stable exact497781f Git inputs, clean exit/log. Reported wall/grind/rail/Ollie defects and resulting native support/camera repairs are implemented and Linux verified. Supporting Design203/0, camera63/0, native68/0 and clean handoff1/0 retain their scopes; all earlier failed epochs remain unchanged.
-
-Source-bound cold launch passes **all four phases**, including ordinary title→play **50/0** and expected invalid-source refusal. The outer55.670s run binds the same673 inputs/full manifest; its copied project has579 stable inputs and no source changes. **Clean unsigned Linux/universal-Mac exports, archive audit and normal Linux standalone startup pass.** [Package records](testing/gameplay-contact-2026-10-27/packages/README.md) bind required06 and its matching source maps:683 committed blobs, identical cross-platform game packs, archive integrity, executable flags and13 notices per platform. The ordinary Linux app exits0 and supplies an actual1920×1080 title capture with no script/scene override or fixed clock. Build directory: `builds/tam-hawks-20261028T065221Z-471cd3c325dd`. Mac execution, effective Music Automation/TCC consent, physical controls, audio, saves and target performance remain unverified; archive structure does not certify them.
-
-Continue the accepted C07/C10 bounded near-camera normal/ORM facade attribution now that the gameplay package handoff passes; checks and pushes are checkpoints. Ordinary trial features remain enabled and Music isolated. Mac/controller, human feel, target performance and final-art acceptance stay open. Preserve main-only/non-force/no-spend/no-hosted-CI/no-release constraints. Historical sections below retain their source scope.
 
 ---
 
