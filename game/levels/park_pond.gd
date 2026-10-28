@@ -154,7 +154,7 @@ func _build_rail(material: Material) -> void:
 	var beams: Array[Transform3D] = []
 	var rail := StaticBody3D.new()
 	rail.name = "PondPerimeterRail"
-	rail.collision_layer = 2
+	rail.collision_layer = 1 | 2
 	rail.collision_mask = 0
 	rail.set_meta("authored_grind_ids", ["kelvingrove_pond_perimeter"])
 	rail.set_meta("audit_capture_ids", ["kelvingrove_pond_perimeter"])

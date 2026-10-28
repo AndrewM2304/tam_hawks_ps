@@ -163,20 +163,28 @@ static func _station(tree: SceneTree,game: Node,check: Callable,observer: Callab
 		await _step(tree,game,e,"station_fresh_transfer_push",observer)
 		Input.action_release("flip")
 		await _steps(tree,game,e,11,"station_spine_transfer",observer)
-		Input.action_release("push")
+		# Keep the mapped transfer Push through the actual far landing. Releasing
+		# at an old air tick can land back on the newly solid front transition.
 		for tick: int in 210:
-			if not game.skater._feature_transition.active and game.skater.global_position.x> -107:
+			if not game.skater._feature_transition.active and game.skater.global_position.x> -107.5 \
+					and game.skater.is_on_floor() and not game.skater.airborne:
+				Input.action_release("push")
 				Input.action_press("manual")
 			await _step(tree,game,e,"station_far_concourse_landing",observer)
 			if game.skater.manual_active or e.bails>0: break
 	var linked: bool=game.skater.manual_active
+	if linked:
+		linked=await _station_flatland_pop(tree,game,e,Vector3(-96,2,40),observer)
 	if linked:
 		var targets:=PackedVector3Array([Vector3(-96,2,40),Vector3(-88,2,40),Vector3(-73,2,40),
 			Vector3(-70.5,2,35),Vector3(-70.5,2,28.5),Vector3(-62,2,26.5),Vector3(-62,2,22),
 			Vector3(-50,2,22),Vector3(-35,0,22),Vector3(-26,0,22)])
 		for target_index: int in targets.size():
 			var target: Vector3=targets[target_index]
-			var segment_start: Vector3=game.skater.global_position
+			# A real refresh jump may already cross the next waypoint plane.
+			# Keep its authored incoming direction rather than reversing it from
+			# the post-landing body position; lateral/endpoint bounds stay strict.
+			var segment_start: Vector3=targets[target_index-1] if target_index>0 else game.skater.global_position
 			var incoming:=Vector2(target.x-segment_start.x,target.z-segment_start.z).normalized()
 			var reached := false
 			for tick: int in 210:
@@ -203,6 +211,9 @@ static func _station(tree: SceneTree,game: Node,check: Callable,observer: Callab
 			if not reached:
 				linked=false
 				break
+			if target_index+1<targets.size() and absf(game.skater.speed)<6.0:
+				linked=await _station_flatland_pop(tree,game,e,targets[target_index+1],observer)
+				if not linked: break
 	await _finish_bank(tree,game,e,observer)
 	check.call(launched and e.transfer and e.spine_crossed and e.native_far_landing and e.bank_manual_ticks>=6
 		and linked and e.districts.has("central_station") and e.districts.has("royal_exchange")
@@ -211,6 +222,35 @@ static func _station(tree: SceneTree,game: Node,check: Callable,observer: Callab
 	_check_receipt(game,e,check,"C04-L02")
 	_disconnect(game,e)
 	_report(e,game)
+
+
+static func _station_flatland_pop(tree: SceneTree,game: Node,e: Dictionary,target: Vector3,observer: Callable) -> bool:
+	# Native coping/face contact no longer supplies the former ghost carry.
+	# Earn fresh speed with a real short Push/charged Ollie between Manuals,
+	# within the unchanged .35s combo link. No velocity or score is assigned.
+	# Complete a tight ground turn while still balancing; launching before
+	# that real turn finishes sends a long jump across the next street corner.
+	for tick: int in 60:
+		var delta: Vector3=target-game.skater.global_position
+		var desired:=atan2(-delta.x,-delta.z)
+		if absf(angle_difference(game.skater.rotation.y,desired))<.5:break
+		_manual_to(game,target)
+		await _step(tree,game,e,"station_ground_turn_setup",observer)
+		if not game.skater.manual_active or e.bails>0:return false
+	Input.action_release("manual")
+	_axis("spin_left","spin_right",0)
+	_axis("steer_left","steer_right",0)
+	Input.action_press("push")
+	Input.action_press("ollie")
+	for tick: int in 15:
+		_steer_to(game,target,false)
+		await _step(tree,game,e,"station_flatland_push_charge",observer)
+	Input.action_release("ollie")
+	Input.action_release("push")
+	_axis("steer_left","steer_right",0)
+	await _step(tree,game,e,"station_flatland_takeoff",observer)
+	await _landing_manual(tree,game,e,150,"station_flatland_manual_landing",observer)
+	return game.skater.manual_active and e.bails==0 and e.banks==0
 
 
 static func _miss_return(tree: SceneTree,game: Node,check: Callable,id: String,start: Vector3,

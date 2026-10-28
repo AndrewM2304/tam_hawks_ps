@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T05:05:37.540583+00:00",
+  "completed_london": "2026-10-28T05:05:39.248289+00:00",
+  "wall_seconds": 1.7077085619966965,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/finite_footprint_guards.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "62",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "70dbcd9e4fa136d19f1e3a001a06e6385461a7efd6d7429f258890a95211795c",
+  "git_head": "173da24abde7f4ceeaf1abc389473d2285f7dc7c"
+}

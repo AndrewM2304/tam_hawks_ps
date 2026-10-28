@@ -1,0 +1,31 @@
+{
+  "started_london": "2026-10-28T01:15:45.067413+00:00",
+  "completed_london": "2026-10-28T01:15:48.427937+00:00",
+  "wall_seconds": 3.3605241580007714,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/camera-return-diagnostic/runner.gd",
+    "--",
+    ".local/camera-return-diagnostic/camera_turn_instrumented.gd",
+    ".local/camera-return-diagnostic/rear_grid_observer.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 676,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "14",
+      "2"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "0838d12394c7cf536b99c203a700dddde4be3c4588faa385aed3db3e2f3ee592",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

@@ -122,7 +122,7 @@ func _recording_court(world: Node3D) -> void:
 	# The venue and existing north boundary already enclose the rear of the yard.
 	_resize_box(side,Vector3(113,1.8,-32.875),Vector3(0.5,0.6,17.75))
 	_resize_box(back,Vector3(113,2.17,-32.875),Vector3(0.14,0.14,17.75))
-	back.collision_layer=2
+	back.collision_layer=1|2
 	back.collision_mask=0
 	back.set_meta("surface_audio","metal")
 	back.set_meta("authored_grind_ids",["Grind_Ledge_RecordingCourt"])

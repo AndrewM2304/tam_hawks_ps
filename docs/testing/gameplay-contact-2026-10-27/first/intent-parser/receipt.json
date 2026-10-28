@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-27T22:06:16.036646+00:00",
+  "completed_london": "2026-10-27T22:06:16.540021+00:00",
+  "wall_seconds": 0.5033764379986678,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/gameplay_contact_first/intent.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 672,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "6fb44d5617100652bfac0cf811fef92216885e1a1490ae208f27be68450c10d1",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

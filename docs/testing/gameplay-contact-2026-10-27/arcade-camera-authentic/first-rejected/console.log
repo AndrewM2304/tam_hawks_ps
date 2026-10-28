@@ -1,0 +1,341 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FOCUS_BEGIN arcade_response
+PASS: arcade jump: mapped 2-tick crouch stays supported until release
+PASS: arcade jump: tap real apex/airtime meet deliberate response envelope
+PASS: arcade jump: native consecutive ticks record exactly one pop and a supported landing
+ARCADE_JUMP held=2 apex=0.82505313307047 airtime=0.51666666666667 first_tick=42 last_tick=133
+PASS: arcade jump: mapped 24-tick crouch stays supported until release
+PASS: arcade jump: charged real apex/airtime meet deliberate response envelope
+PASS: arcade jump: native consecutive ticks record exactly one pop and a supported landing
+ARCADE_JUMP held=24 apex=1.26385609060526 airtime=0.63333333333333 first_tick=175 last_tick=288
+PASS: arcade wall pop: mapped release adds the requested pop once to actual upward ramp speed
+PASS: arcade wall pop: single tap reaches real support within a bounded flight with one total ollie
+ARCADE_WALL_POP repeat=false initial_up=9.38119983673096 launch=(0.0, 17.51612, -5.803716) peak=10.3791189193726 flight=1.55 ollies=1
+PASS: arcade wall pop: mapped release adds the requested pop once to actual upward ramp speed
+PASS: arcade wall pop: immediate second mapped tap cannot reuse stale street coyote time or award/boost a second airborne ollie
+PASS: arcade wall pop: quick-double-tap reaches real support within a bounded flight with one total ollie
+ARCADE_WALL_POP repeat=true initial_up=9.38119983673096 launch=(0.0, 17.51612, -5.803716) peak=10.3791189193726 flight=1.55 ollies=1
+PASS: arcade wall pop: repeated airborne tap preserves the single-pop physical arc and landing time
+PASS: arcade halfpipe: real steep upward natural departure recaptures the same live face descending, then reaches the opposite wall
+PASS: arcade halfpipe: actual low toe exits retain supported ground and bounded vertical velocity without artificial seam hops
+PASS: arcade halfpipe: held push achieves at least four alternating actual wall visits without steering/heading assistance
+PASS: arcade halfpipe: repeated automatic returns preserve finite continuous physical travel without bails or invented ollies
+ARCADE_PIPE crouch=false walls=["clyde_half_east", "clyde_half_west", "clyde_half_east", "clyde_half_west", "clyde_half_east"] natural_air=true natural_returns={ "departures": 4, "reentries": 4, "opposite_after_return": true } max_step=0.25675445795059 bails=0 final=(-35.38654, 3.358639, 60.49999)
+PASS: arcade halfpipe: real steep upward natural departure recaptures the same live face descending, then reaches the opposite wall
+PASS: arcade halfpipe: actual low toe exits retain supported ground and bounded vertical velocity without artificial seam hops
+PASS: arcade halfpipe: held crouch achieves at least four alternating actual wall visits without steering/heading assistance
+PASS: arcade halfpipe: repeated automatic returns preserve finite continuous physical travel without bails or invented ollies
+ARCADE_PIPE crouch=true walls=["clyde_half_east", "clyde_half_west", "clyde_half_east", "clyde_half_west", "clyde_half_east"] natural_air=true natural_returns={ "departures": 4, "reentries": 4, "opposite_after_return": true } max_step=0.25675445795059 bails=0 final=(-35.38654, 3.358639, 60.49999)
+PASS: arcade handoff: removed begins with a real mapped-input natural steep departure
+PASS: arcade handoff: removed actually reaches its declared invalid crossing/obstruction condition
+PASS: arcade handoff: removed refuses preparation without invented support, position or velocity
+PASS: arcade handoff: refused removed keeps ordinary air capsule upright and invents no trick award
+ARCADE_HANDOFF mode=removed launched=true crossing_tick=2375 witness=true prepared=false upright_air=true deflector_hit=false awards=[]
+PASS: arcade handoff: disabled begins with a real mapped-input natural steep departure
+PASS: arcade handoff: disabled actually reaches its declared invalid crossing/obstruction condition
+PASS: arcade handoff: disabled refuses preparation without invented support, position or velocity
+PASS: arcade handoff: refused disabled keeps ordinary air capsule upright and invents no trick award
+ARCADE_HANDOFF mode=disabled launched=true crossing_tick=2567 witness=true prepared=false upright_air=true deflector_hit=false awards=[]
+PASS: arcade handoff: width begins with a real mapped-input natural steep departure
+PASS: arcade handoff: width actually reaches its declared invalid crossing/obstruction condition
+PASS: arcade handoff: width refuses preparation without invented support, position or velocity
+PASS: arcade handoff: refused width keeps ordinary air capsule upright and invents no trick award
+ARCADE_HANDOFF mode=width launched=true crossing_tick=2759 witness=true prepared=false upright_air=true deflector_hit=false awards=[]
+PASS: arcade handoff: outward begins with a real mapped-input natural steep departure
+ARCADE_DEFLECTOR launch_y=5.19999980926514 launch_up=7.2790060043335 available_rise=0.77917541781063 gap=0.1 roof=(17.0, 7.200832, 61.48631)
+PASS: arcade handoff: outward actually reaches its declared invalid crossing/obstruction condition
+PASS: arcade handoff: outward refuses preparation without invented support, position or velocity
+PASS: arcade handoff: refused outward keeps ordinary air capsule upright and invents no trick award
+ARCADE_HANDOFF mode=outward launched=true crossing_tick=2933 witness=true prepared=false upright_air=true deflector_hit=true awards=[]
+PASS: arcade handoff: rotation_blocker begins with a real mapped-input natural steep departure
+PASS: arcade handoff: rotation_blocker actually reaches its declared invalid crossing/obstruction condition
+PASS: arcade handoff: rotation_blocker refuses preparation without invented support, position or velocity
+PASS: arcade handoff: refused rotation_blocker keeps ordinary air capsule upright and invents no trick award
+ARCADE_HANDOFF mode=rotation_blocker launched=true crossing_tick=3125 witness=true prepared=false upright_air=true deflector_hit=false awards=[]
+PASS: arcade rail: imperfect actual mapped approach held_early_left expected catch=true
+PASS: arcade rail: held_early_left release stays locked with one award
+PASS: arcade rail: held_early_left fresh second press exits without automatic recapture
+ARCADE_RAIL id=held_early_left caught=true catches=1 position=(0.0, -0.004444, 6.774058)
+PASS: arcade rail: imperfect actual mapped approach held_early_right expected catch=true
+PASS: arcade rail: held_early_right release stays locked with one award
+PASS: arcade rail: held_early_right fresh second press exits without automatic recapture
+ARCADE_RAIL id=held_early_right caught=true catches=1 position=(0.0, -0.004444, 6.774058)
+PASS: arcade rail: imperfect actual mapped approach held_angle_left_20 expected catch=true
+PASS: arcade rail: held_angle_left_20 release stays locked with one award
+PASS: arcade rail: held_angle_left_20 fresh second press exits without automatic recapture
+ARCADE_RAIL id=held_angle_left_20 caught=true catches=1 position=(0.0, 0.007653, 6.98479)
+PASS: arcade rail: imperfect actual mapped approach held_angle_right_20 expected catch=true
+PASS: arcade rail: held_angle_right_20 release stays locked with one award
+PASS: arcade rail: held_angle_right_20 fresh second press exits without automatic recapture
+ARCADE_RAIL id=held_angle_right_20 caught=true catches=1 position=(0.0, 0.007653, 6.98479)
+PASS: arcade rail: forgiving held 70-degree approach actually traverses the lateral/vertical/speed window
+PASS: arcade rail: imperfect actual mapped approach held_angle_70 expected catch=true
+PASS: arcade rail: held_angle_70 release stays locked with one award
+PASS: arcade rail: held_angle_70 fresh second press exits without automatic recapture
+ARCADE_RAIL id=held_angle_70 caught=true catches=1 position=(0.0, 0.007653, 9.205675)
+PASS: arcade rail: imperfect actual mapped approach tap_approach expected catch=true
+PASS: arcade rail: tap_approach release stays locked with one award
+PASS: arcade rail: tap_approach fresh second press exits without automatic recapture
+ARCADE_RAIL id=tap_approach caught=true catches=1 position=(0.0, 0.007653, 6.10203)
+PASS: arcade rail: imperfect actual mapped approach tap_later expected catch=true
+PASS: arcade rail: tap_later release stays locked with one award
+PASS: arcade rail: tap_later fresh second press exits without automatic recapture
+ARCADE_RAIL id=tap_later caught=true catches=1 position=(0.0, 0.007653, 5.616997)
+PASS: arcade rail: imperfect actual mapped approach outside_lateral expected catch=false
+PASS: arcade rail: rejected outside_lateral cannot score a phantom catch
+ARCADE_RAIL id=outside_lateral caught=false catches=0 position=(1.25, 0.011862, 1.712354)
+PASS: arcade rail: imperfect actual mapped approach expired_tap expected catch=false
+PASS: arcade rail: rejected expired_tap cannot score a phantom catch
+ARCADE_RAIL id=expired_tap caught=false catches=0 position=(0.0, 0.01199, 0.544992)
+PASS: arcade rail: imperfect actual mapped approach solid_obstruction expected catch=false
+PASS: arcade rail: rejected solid_obstruction cannot score a phantom catch
+ARCADE_RAIL id=solid_obstruction caught=false catches=0 position=(0.890658, 0.012463, 1.805628)
+FOCUS_BEGIN camera_turn_review
+PASS: classic camera: descending ramp flight finishes its single apex handoff
+PASS: classic camera: a new physics launch resets the handoff when rendering skipped supported travel
+PASS: classic camera: the same flight cannot reverse or repeat an already completed apex turn
+PASS: classic camera: interpolated ramp support removes root scale drift and preserves direction
+PASS: classic turns: 8m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=0.25 angle_deg=26.190 distance=6.763 effective_radius=14.795 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 8m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.643 input=0.50 angle_deg=55.587 distance=6.763 effective_radius=6.971 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 8m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 8m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=8.000 final=5.644 input=1.00 angle_deg=136.829 distance=6.763 effective_radius=2.832 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 8m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 12m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.25 angle_deg=24.682 distance=10.382 effective_radius=24.100 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 12m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=0.50 angle_deg=52.387 distance=10.382 effective_radius=11.355 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 12m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 12m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=12.000 final=8.918 input=1.00 angle_deg=128.952 distance=10.382 effective_radius=4.613 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=true
+PASS: classic turns: 12m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic turns: 15m/s input 0.25 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.25 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.374 input=0.25 angle_deg=23.551 distance=13.097 effective_radius=31.862 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 15m/s input 0.50 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 0.50 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=0.50 angle_deg=49.986 distance=13.097 effective_radius=15.012 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 15m/s input 1.00 stays supported, turns left and keeps the whole skater framed
+PASS: classic turns: 15m/s input 1.00 gives a bounded useful one-second angle
+CLASSIC TURN initial=15.000 final=11.375 input=1.00 angle_deg=123.042 distance=13.097 effective_radius=6.099 unsafe=0
+TURN_TIMING ticks=60 seconds=1.0 injected_stall=false
+PASS: classic turns: 15m/s full input carves while half/quarter input remain progressively finer corrections
+PASS: classic camera: sustained actual bank rollback moves chase behind travel without hiding rider or board
+CLASSIC REVERSE speed=-2.489 camera_dot_travel=-1.000 unsafe=0
+PASS: classic camera: after an actual flat-ground turn, short follow lag settles to a forward chase behind the skater
+GROUND CHASE view_dot_forward=0.99930638074875 rear_dot_back=0.99916690587997
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=false)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=false)
+CAMERA QUIET OLLIE held=2 reduced=false body_rise=0.82505319267511 camera_y_span=0.0111300945282 camera_angle_deg=0.41116911710257 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=false)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=false)
+CAMERA QUIET OLLIE held=24 reduced=false body_rise=1.26385656744242 camera_y_span=0.01404929161072 camera_angle_deg=0.87491590985799 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (2f reduced=true)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (2f reduced=true)
+CAMERA QUIET OLLIE held=2 reduced=true body_rise=0.82505319267511 camera_y_span=0.01103115081787 camera_angle_deg=0.40348299317176 unsafe=0
+PASS: classic quiet ollie: mapped release and flip make a real jump and supported landing (24f reduced=true)
+PASS: classic quiet ollie: camera height/aim stay steady while the full rider jumps (24f reduced=true)
+CAMERA QUIET OLLIE held=24 reduced=true body_rise=1.26385656744242 camera_y_span=0.01357531547546 camera_angle_deg=0.88026725635099 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=false sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=0.5)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+PASS: classic camera: actual air spin rotates body independently of travel/chase (reduced=true sensitivity=2.0)
+CAMERA AIR SPIN body_deg=137.510 camera_drift_deg=0.000 travel_drift=0.000000 unsafe=0
+LOCAL RAMP ORBIT turn_deg=179.990474747466 max_reverse_excursion_deg=0.00000006200307 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.996666431427 good=true
+LOCAL RAMP ORBIT turn_deg=179.990571170504 max_reverse_excursion_deg=0.00000021926522 up_y=0.99984902143478 down_y=-1.0 camera_up_dot_ramp_normal=0.99175465106964 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474955401 max_reverse_excursion_deg=0.0 up_y=0.99996137619019 down_y=-1.0 camera_up_dot_ramp_normal=0.99482238292694 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474540591 max_reverse_excursion_deg=0.0000002584392 up_y=0.99996143579483 down_y=-1.0 camera_up_dot_ramp_normal=0.99482524394989 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=false)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=false)
+ERROR: FAIL: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=false)
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/arcade_camera_authentic_focus.gd:26)
+       [1] _natural_returns (res://tests/camera_turn_review_tests.gd:362)
+       [2] _frames (res://tests/camera_turn_review_tests.gd:441)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=false)
+PASS: classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=false)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=false)
+ERROR: FAIL: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=false)
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/arcade_camera_authentic_focus.gd:26)
+       [1] _natural_returns (res://tests/camera_turn_review_tests.gd:370)
+       [2] _frames (res://tests/camera_turn_review_tests.gd:441)
+PASS: classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=false)
+CAMERA BOTTOM REAR samples=92 minimum_forward_dot=0.99099385738373
+CAMERA RAMP REAR side_frames=4 samples=140 minimum_forward_dot=0.99950957298279
+CAMERA LOCAL RETURNS reduced=false departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.07128424750434 max_update_move=1.27904653549194 max_update_angle=25.0011595511176 pose_forward_dot_velocity=0.9987478852272 body_step_deg=8.24207294127172 native_body_samples=220 native_contiguous=true
+LOCAL RAMP ORBIT turn_deg=179.990474740604 max_reverse_excursion_deg=0.000000083882 up_y=1.0 down_y=-1.0 camera_up_dot_ramp_normal=0.99588692188263 good=true
+LOCAL RAMP ORBIT turn_deg=179.990571228829 max_reverse_excursion_deg=0.00000017401884 up_y=0.99984902143478 down_y=-1.0 camera_up_dot_ramp_normal=0.99048054218292 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474910898 max_reverse_excursion_deg=0.0 up_y=0.99996137619019 down_y=-1.0 camera_up_dot_ramp_normal=0.99381619691849 good=true
+LOCAL RAMP ORBIT turn_deg=179.990474564331 max_reverse_excursion_deg=0.00000028909535 up_y=0.99996143579483 down_y=-1.0 camera_up_dot_ramp_normal=0.99381935596466 good=true
+PASS: classic camera: held push makes repeated natural finite-wall returns (reduced=true)
+PASS: classic camera: ramp cycles keep displayed rider/board clear and readable (reduced=true)
+ERROR: FAIL: classic camera: actual ramp updates avoid large view or zoom jumps (reduced=true)
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/arcade_camera_authentic_focus.gd:26)
+       [1] _natural_returns (res://tests/camera_turn_review_tests.gd:362)
+       [2] _frames (res://tests/camera_turn_review_tests.gd:441)
+PASS: classic ramp pose: airborne rider/board follows fast ascent/descent momentum (reduced=true)
+PASS: classic ramp pose: assisted return keeps the body outside the ramp with bounded per-tick rotation (reduced=true)
+PASS: classic camera: one local180 turn reaches sky/down views and retains skater perspective (reduced=true)
+ERROR: FAIL: classic camera: supported ramp chase stays rear-facing without a side orbit (reduced=true)
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/arcade_camera_authentic_focus.gd:26)
+       [1] _natural_returns (res://tests/camera_turn_review_tests.gd:370)
+       [2] _frames (res://tests/camera_turn_review_tests.gd:441)
+PASS: classic camera: flat half-pipe bottom also returns behind actual travel after short settling (reduced=true)
+CAMERA BOTTOM REAR samples=92 minimum_forward_dot=0.99036228656769
+CAMERA RAMP REAR side_frames=4 samples=140 minimum_forward_dot=0.99950957298279
+CAMERA LOCAL RETURNS reduced=true departures=4 returns=4 good_orbits=4 unsafe=0 minimum_axis_fraction=0.07163645426432 max_update_move=1.26113605499268 max_update_angle=25.0046344098578 pose_forward_dot_velocity=0.9987478852272 body_step_deg=8.24207294127172 native_body_samples=220 native_contiguous=true
+PASS: classic camera: a brief backwards impulse cannot reverse the chase
+PASS: classic camera: low-speed direction noise clears pending reversal
+FOCUS_BEGIN authentic_native_bail_styles_and_sunken_skating
+PASS: focused actual Main remains isolated from profile writes and personal Music
+PASS: authentic Main: native recovery late mapped flip begins descending above actual flat support before touchdown
+AUTHENTIC_LATE_FLIP native recovery native_clearance=0.22262811660767 velocity=(0.0, -5.150791, -6.783395) airborne=true
+PASS: authentic Main: a genuinely unfinished landing loses score immediately once while visible recovery continues
+PASS: authentic Main: bail keeps native local motion and continuous body markers instead of instantly teleporting
+PASS: authentic Main: the visible rider falls towards real ground and gets up at a supported local recovery
+PASS: authentic Main: holding the failed flip through get-up cannot create another entry or duplicate the bail
+AUTHENTIC BAIL frames=73 motion=1.0740 max_marker_step=0.1820 head_min=0.1486 entries=["ollie", "kickflip"]
+PASS: authentic Main: a real late Tumble begins before its unfinished landing
+PASS: authentic Main: interrupted Tumble preserves actual world pose into one continuous score-losing bail
+PASS: authentic Main: production pause freezes native recovery and every visible limb marker
+PASS: authentic Main: Tumble get-up finishes on real support with no held-special resurrection
+AUTHENTIC TUMBLE entry_max_step=0.19286 bails=1
+AUTHENTIC HIGH WALL PROBE frame=0 at=(-22.31, 17.97389, 27.9) floor=false air=true velocity=(0.0, -1.566667, -6.0) left={ "position": (-22.6, 18.52389, 27.9), "normal": (1.0, 0.0, 0.0), "face_index": -1, "collider_id": 4503692651882, "collider": TallDiagnosticWall:<StaticBody3D#4503692651882>, "shape": 0, "rid": RID(70377334112838), "distance": 0.28999900817871 }
+PASS: authentic Main: a real high-wall obstruction starts one airborne native bail
+AUTHENTIC HIGH BAIL ENTRY entered=true bails=1 at=(-22.30599, 17.33371, 26.63033) phase=fall velocity=(0.0, -3.658668, -5.74)
+PASS: authentic Main: long native fall holds its falling pose until real ground contact before completing get-up
+AUTHENTIC HIGH BAIL air_frames=54 no_air_getup=true touched=true
+PASS: authentic Main: a run ending during real recovery still clears its fade after native get-up with controls disabled
+AUTHENTIC RESULTS RECOVERY finished=true bail=false phase= score=0 fade=0.00000 visible=false
+PASS: authentic Main: standing recovery late mapped flip begins descending above actual flat support before touchdown
+AUTHENTIC_LATE_FLIP standing recovery native_clearance=0.22949093580246 velocity=(0.0, -5.150791, -0.315504) airborne=true
+PASS: authentic Main: actual native floor support permits standing during a genuine paused recovery
+PASS: authentic Main: real DiagnosticSideWall blocks the actual standing capsule without being mistaken for support
+PASS: authentic Main: real DiagnosticLowCeiling blocks the actual standing capsule without being mistaken for support
+PASS: authentic Main: removing diagnostic obstructions restores clear supported get-up
+PASS: authentic Main: unobstructed recovery resumes native get-up at its real supported position
+PASS: authentic Main: distinct actual traversable floor facets allow standing without accepting walls or ceilings
+PASS: authentic Main: a genuine late-flip bail gets up continuously at a real two-floor seam instead of returning to spawn
+PASS: authentic Main: seam recovery still drops the actual unfinished combo exactly once
+AUTHENTIC FLOOR SEAM normals=[(-0.34202, 0.939693, 0.0), (0.34202, 0.939693, 0.0)] depth=0.0000822 max_body_step=0.05401
+PASS: authentic Main: genuine push and Manual earn one supported entry on the 20-degree native bank
+PASS: authentic Main: actual 20-degree manual imbalance drops its real combo once and gets up on native support
+PASS: authentic Main: 20-degree recovery stays continuous through the first ordinary frame and five following frames
+AUTHENTIC SLOPED RECOVERY degrees=20 active_step=0.17306 first_recovered_step=0.00012 bails=1
+PASS: authentic Main: genuine push and Manual earn one supported entry on the 35-degree native bank
+PASS: authentic Main: actual 35-degree manual imbalance drops its real combo once and gets up on native support
+PASS: authentic Main: 35-degree recovery stays continuous through the first ordinary frame and five following frames
+AUTHENTIC SLOPED RECOVERY degrees=35 active_step=0.17377 first_recovered_step=0.00012 bails=1
+PASS: authentic Main: genuine push and Manual earn one supported entry on the 45-degree native bank
+PASS: authentic Main: actual 45-degree manual imbalance drops its real combo once and gets up on native support
+PASS: authentic Main: 45-degree recovery stays continuous through the first ordinary frame and five following frames
+AUTHENTIC SLOPED RECOVERY degrees=45 active_step=0.17444 first_recovered_step=0.00012 bails=1
+PASS: authentic Main: actual neutral input selects melon_grab and its real palm reaches the visible board
+PASS: authentic Main: native melon_grab takeoff, grip, catch and landing bank only their two earned entries
+AUTHENTIC GRAB melon_grab palm=0.001293 actual_griptape=0.016169 bank=700
+PASS: authentic Main: actual north input selects nose_grab and its real palm reaches the visible board
+PASS: authentic Main: native nose_grab takeoff, grip, catch and landing bank only their two earned entries
+AUTHENTIC GRAB nose_grab palm=0.000847 actual_griptape=0.001536 bank=800
+PASS: authentic Main: actual south input selects tail_grab and its real palm reaches the visible board
+PASS: authentic Main: native tail_grab takeoff, grip, catch and landing bank only their two earned entries
+AUTHENTIC GRAB tail_grab palm=0.000837 actual_griptape=0.001703 bank=800
+PASS: authentic Main: actual east input selects indy_grab and its real palm reaches the visible board
+PASS: authentic Main: native indy_grab takeoff, grip, catch and landing bank only their two earned entries
+AUTHENTIC GRAB indy_grab palm=0.000669 actual_griptape=0.017883 bank=800
+PASS: authentic Main: actual north_east input selects japan_grab and its real palm reaches the visible board
+PASS: authentic Main: native japan_grab takeoff, grip, catch and landing bank only their two earned entries
+AUTHENTIC GRAB japan_grab palm=0.000724 actual_griptape=0.017969 bank=1000
+PASS: authentic Main: actual north_west input selects mute_grab and its real palm reaches the visible board
+PASS: authentic Main: native mute_grab takeoff, grip, catch and landing bank only their two earned entries
+AUTHENTIC GRAB mute_grab palm=0.000853 actual_griptape=0.017919 bank=800
+PASS: authentic Main: actual south_east input selects stalefish_grab and its real palm reaches the visible board
+PASS: authentic Main: native stalefish_grab takeoff, grip, catch and landing bank only their two earned entries
+AUTHENTIC GRAB stalefish_grab palm=0.000649 actual_griptape=0.017925 bank=900
+PASS: authentic Main: actual south_west input selects method_grab and its real palm reaches the visible board
+PASS: authentic Main: native method_grab takeoff, grip, catch and landing bank only their two earned entries
+AUTHENTIC GRAB method_grab palm=0.001272 actual_griptape=0.016544 bank=1000
+PASS: authentic Main: every catalog grab has an actual ordinary-input native execution and landing
+PASS: authentic Main: native rail contact and fresh neutral style input complete the real rail_grind contact once
+PASS: authentic Main: actual rail_grind releases, lands and banks its native capture and completed style once
+AUTHENTIC GRIND rail_grind actual=["grind_50_50"] captures=["Grind_Rail_CentralGround"] holds=0 bails=0 bank=200
+PASS: authentic Main: native rail contact and fresh north style input complete the real nosegrind contact once
+PASS: authentic Main: actual nosegrind releases, lands and banks its native capture and completed style once
+AUTHENTIC GRIND nosegrind actual=["grind_50_50", "nosegrind"] captures=["Grind_Rail_CentralGround"] holds=25 bails=0 bank=1050
+PASS: authentic Main: native rail contact and fresh south style input complete the real five_o_grind contact once
+PASS: authentic Main: actual five_o_grind releases, lands and banks its native capture and completed style once
+AUTHENTIC GRIND five_o_grind actual=["grind_50_50", "five_o_grind"] captures=["Grind_Rail_CentralGround"] holds=25 bails=0 bank=1050
+PASS: authentic Main: native rail contact and fresh east style input complete the real boardslide contact once
+PASS: authentic Main: actual boardslide releases, lands and banks its native capture and completed style once
+AUTHENTIC GRIND boardslide actual=["grind_50_50", "boardslide"] captures=["Grind_Rail_CentralGround"] holds=50 bails=0 bank=900
+PASS: authentic Main: native rail contact and fresh west style input complete the real lipslide contact once
+PASS: authentic Main: actual lipslide releases, lands and banks its native capture and completed style once
+AUTHENTIC GRIND lipslide actual=["grind_50_50", "lipslide"] captures=["Grind_Rail_CentralGround"] holds=50 bails=0 bank=1100
+PASS: authentic Main: native rail contact and fresh north_east style input complete the real overcrook_grind contact once
+PASS: authentic Main: actual overcrook_grind releases, lands and banks its native capture and completed style once
+AUTHENTIC GRIND overcrook_grind actual=["grind_50_50", "overcrook_grind"] captures=["Grind_Rail_CentralGround"] holds=25 bails=0 bank=1250
+PASS: authentic Main: native rail contact and fresh north_west style input complete the real crooked_grind contact once
+PASS: authentic Main: actual crooked_grind releases, lands and banks its native capture and completed style once
+AUTHENTIC GRIND crooked_grind actual=["grind_50_50", "crooked_grind"] captures=["Grind_Rail_CentralGround"] holds=25 bails=0 bank=1150
+PASS: authentic Main: native rail contact and fresh south_east style input complete the real feeble_grind contact once
+PASS: authentic Main: actual feeble_grind releases, lands and banks its native capture and completed style once
+AUTHENTIC GRIND feeble_grind actual=["grind_50_50", "feeble_grind"] captures=["Grind_Rail_CentralGround"] holds=25 bails=0 bank=1150
+PASS: authentic Main: native rail contact and fresh south_west style input complete the real smith_grind contact once
+PASS: authentic Main: actual smith_grind releases, lands and banks its native capture and completed style once
+AUTHENTIC GRIND smith_grind actual=["grind_50_50", "smith_grind"] captures=["Grind_Rail_CentralGround"] holds=25 bails=0 bank=1150
+PASS: authentic Main: every directional grind style is physically played; the separately tested Revert pivot completes its family
+PASS: authentic Main: actual supported neutral manual input enters its real board balance with one entry
+PASS: authentic Main: real manual release banks exactly its single native manual entry
+PASS: authentic Main: actual supported north manual input enters its real board balance with one entry
+PASS: authentic Main: real nose_manual release banks exactly its single native manual entry
+PASS: sunken park skating: the production world contains the actual excavated facility
+PASS: sunken park skating: real ground input enters DeepBowl through its open port, reaches its actual bottom and bears on native coping
+PASS: sunken park skating: held DeepBowl lip remains one earned entry with clear actual head/deck/sole/toe and camera volume
+PASS: sunken park skating: DeepBowl releases its real lip, returns without collision and banks exactly its held receipt once
+SUNKEN PARK MAIN LIP DeepBowl minimum=11.0034 face=true camera=true entries=["lip_stall"] accepted=250 bank=250 at=(-196.9841, 12.15066, -199.7646)
+PASS: sunken park skating: real ground input enters ShallowBowl through its open port, reaches its actual bottom and bears on native coping
+PASS: sunken park skating: held ShallowBowl lip remains one earned entry with clear actual head/deck/sole/toe and camera volume
+PASS: sunken park skating: ShallowBowl releases its real lip, returns without collision and banks exactly its held receipt once
+SUNKEN PARK MAIN LIP ShallowBowl minimum=13.0005 face=true camera=true entries=["lip_stall"] accepted=250 bank=250 at=(-219.0, 13.46377, -199.0539)
+PASS: sunken park fixture: native acquisition establishes the declared curved board frame before render sampling
+PASS: sunken park skating: production Main circles the actual lower deep bowl through its whole open-port azimuth with clear native chase
+PASS: sunken park skating: all four actual wheels maintain the unchanged strict native-face contact bands throughout the full deep carve
+CURVED_VISUAL_CONTACT sunken_deep {"board_dot_min":0.999999940395355,"capsule_dot_min":0.999999940395355,"capsule_samples":212,"complete_frames":212,"first_native_normals":["Vector3(-0.2674905, 0.8037715, 0.5314135)","Vector3(-0.24163045, 0.84331495, 0.48003617)","Vector3(-0.21411593, 0.8037707, 0.5550739)","Vector3(-0.19341408, 0.84331614, 0.501407)"],"first_wheel_gaps":[0.0157271102070808,0.015881298109889,0.0156316049396992,0.016022989526391],"last_wheel_gaps":[0.0152457198128104,0.0155821088701487,0.0152211356908083,0.0155876874923706],"max_steer":0.0,"ray_misses":0,"samples":212,"spread_max":0.000588673166930676,"support_normal_first":"Vector3(-0.21829906, 0.8254728, 0.52051914)","support_normal_last":"Vector3(-0.014307633, 0.8422993, 0.53882027)","wheel_max":0.0163492355495691,"wheel_min":0.0150238126516342}
+PASS: sunken park skating: a real pushed approach and ground Ollie capture and hold the actual street flatbar with two connected entries
+PASS: sunken park skating: the native street grind releases, lands and banks exactly its accepted combo once
+SUNKEN PARK MAIN RAIL held=18 captures=["Grind_Park_StreetFlatbar"] entries=["ollie", "grind_50_50"] accepted=650 bank=650 at=(-201.6731, 13.00175, -174.8997)
+PASS: sunken park skating: a genuine eight-metre pushed approach and coast ride the compact hip face into real vert air
+PASS: sunken park skating: a fresh in-air transfer reaches the true back hip face, rides out and brakes within the visible finite west runout
+PASS: sunken park skating: pumping and transferring the compact hip cannot manufacture trick entries or bank points
+SUNKEN PARK MAIN HIP front=true air=true back=true exit=true camera=true min_x=-223.38487 speed=0.1300 at=(-223.3849, 13.01042, -176.5)
+PASS: sunken park fixture: native acquisition establishes the declared curved board frame before render sampling
+PASS: sunken park Main: the genuine finite upper-port departure moves through air and returns to the actual ordinary bank without a capture loop or teleport
+PASS: sunken park Main: actual open-port flight emits one clean landing and no phantom tricks, repeated bank or score
+PASS: sunken park Main: the optional-port return restores the real upright native capsule/floor cache and clear actual body/feet/camera
+SUNKEN PARK MAIN PORT entered=true air=true ordinary=true travel=2.427233 max_step=0.139565 camera=true landings=[true] tricks=[] at=(-196.6694, 12.47062, -187.7369)
+SUNKEN PARK PORT EVENT TRACE {"events":[{"airborne":false,"body":"(-195.2531, 12.3151, -188.25)","force_air_tick":false,"is_on_floor":true,"native_floor_valid":true,"state":"idle","tick":14464,"transition":false}],"final_airborne":false,"final_capsule_up":"(0.0, 1.0, 0.0)","final_floor":true,"final_force_air":false,"final_helper":"idle","final_native":true}
+RESULT: 211 passed, 4 failed

@@ -107,7 +107,22 @@ static func run(tree: SceneTree,game: Node,check: Callable) -> void:
 				var point := center+Vector3(bearing.y,0,-bearing.x)*side
 				var first := point+outward*0.08
 				var last := point-outward*0.08
-				var hit := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(first,last,1))
+				var query := PhysicsRayQueryParameters3D.create(first,last,1)
+				var space := world.get_world_3d().direct_space_state
+				var hit := space.intersect_ray(query)
+				var steel: StaticBody3D=world.get_node("Grind_Ledge_"+id+"/NativeGrindBearing")
+				# The original rounded bearing is now a real solid in front of
+				# this seat-only end-plane probe. Independently prove its exact
+				# native identity before continuing the unchanged six rays.
+				if not hit.is_empty() and hit.collider==steel:
+					var rail_hit:=space.intersect_ray(PhysicsRayQueryParameters3D.create(first,last,2))
+					var authenticated: bool=(steel.collision_layer & 3)==3 \
+						and steel.get_meta("authored_grind_ids",[]).has("Grind_Ledge_"+id) \
+						and not rail_hit.is_empty() and rail_hit.collider==steel \
+						and Vector3(rail_hit.position).distance_to(hit.position)<.00001
+					if authenticated:
+						query.exclude=[steel.get_rid()]
+						hit=space.intersect_ray(query)
 				if not hit.is_empty(): end_error=maxf(end_error,hit.position.distance_to(point))
 				endcaps=endcaps and not hit.is_empty() and hit.collider==body and hit.position.distance_to(point)<0.001 \
 					and Finish._visible_segment(body,first,last)

@@ -1,0 +1,21 @@
+{
+  "started_london": "2026-10-27T21:33:05.878675+00:00",
+  "completed_london": "2026-10-27T21:33:06.080709+00:00",
+  "wall_seconds": 0.2020355289996587,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    ".local/facade_stage4/threshold_diagnostic.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 668,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "c5d27001887f33af14e94ff465168aca3793d06d24a0ea732fd172feda209aa5",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

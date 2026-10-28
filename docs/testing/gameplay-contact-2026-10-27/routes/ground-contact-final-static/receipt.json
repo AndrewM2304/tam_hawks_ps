@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T05:11:17.297008+00:00",
+  "completed_london": "2026-10-28T05:11:37.765341+00:00",
+  "wall_seconds": 20.468334873999993,
+  "command": [
+    "timeout",
+    "45s",
+    "python3",
+    ".local/ground_final_capture/run_rendered.py",
+    "--script",
+    ".local/ground_final_capture/capture.gd",
+    "--output",
+    ".local/ground-contact-final-static-image"
+  ],
+  "exit_code": 0,
+  "source_inputs": 675,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "8f8cae7908993234562db0b94f74aeae0db1a1386cc99a37a0154fa64caf26cf",
+  "git_head": "173da24abde7f4ceeaf1abc389473d2285f7dc7c"
+}

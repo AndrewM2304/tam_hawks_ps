@@ -45,6 +45,9 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		and hit.collider.name=="PondExcavatedBank",
 		"PT24-16: independent centre ray reaches recessed native basin; old lawn is physically excavated")
 	var support_matches := true
+	var native_rail_matches := true
+	var rail_terrain_exclusions := 0
+	var perimeter: StaticBody3D = pond.get_node("PondPerimeterRail")
 	var shore_matches := true
 	var recoveries_clear := true
 	var capsule := CapsuleShape3D.new()
@@ -55,7 +58,16 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		for radial: float in [0.3,0.65,0.9,1.0]:
 			var at := world.to_global(Vector3(-184+10*cos(angle)*radial,0,-21+8*sin(angle)*radial))
 			var expected: float = pond.get_ground_height(at)
-			var ray := space.intersect_ray(PhysicsRayQueryParameters3D.create(at+Vector3.UP*3,at-Vector3.UP*3,1))
+			var terrain_query := PhysicsRayQueryParameters3D.create(at+Vector3.UP*3,at-Vector3.UP*3,1)
+			var ray := space.intersect_ray(terrain_query)
+			if ray.get("collider") == perimeter:
+				var rail_ray := space.intersect_ray(PhysicsRayQueryParameters3D.create(terrain_query.from,terrain_query.to,2))
+				native_rail_matches = native_rail_matches and perimeter.collision_layer & 3 == 3 \
+					and rail_ray.get("rid") == ray.rid \
+					and Vector3(rail_ray.get("position",Vector3.INF)).distance_to(ray.position) <= 0.0001
+				rail_terrain_exclusions += 1
+				terrain_query.exclude = [perimeter.get_rid()]
+				ray = space.intersect_ray(terrain_query)
 			support_matches = support_matches and is_finite(expected) and not ray.is_empty() and absf(ray.position.y-expected)<0.002
 		var shore := world.to_global(Vector3(-184+8*cos(angle),0.12,-21+6*sin(angle)))
 		shore_matches = shore_matches and absf(pond.get_ground_height(shore)-0.12)<0.002
@@ -70,6 +82,8 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		recoveries_clear = recoveries_clear and recovery.is_finite() and not native.is_empty() \
 			and absf(native.position.y-0.5)<0.002 and space.intersect_shape(query).is_empty()
 	check.call(support_matches,"PT24-16: 128 radial native support probes agree with the exact basin query")
+	check.call(native_rail_matches and rail_terrain_exclusions > 0,
+		"PT24-16: basin-only support rays independently authenticate each newly solid perimeter-rail exclusion")
 	check.call(shore_matches,"PT24-16: all 32 shoreline corners meet the visible water plane without an underwater dry gap")
 	check.call(recoveries_clear,"PT24-16: every sampled water bank returns to supported clear dry lawn")
 	check.call(not pond.get_recovery_position(world.to_global(Vector3(-184,1.1,-21))).is_finite()
@@ -120,31 +134,34 @@ static func run_installed(tree: SceneTree, game: Node, check: Callable) -> void:
 	var pond: Node3D = game.world.find_child("KelvingrovePond",true,false)
 	check.call(pond!=null,"PT24-16 installed: the explicitly admitted candidate has its real pond")
 	if pond==null: return
+	_release()
 	var old_spawn: Vector3 = game.skater.spawn_position
 	var old_free: bool = game.free_skate_mode
 	game.skater.spawn_position = pond.to_global(Vector3(-171,0.58,-21))
 	game.start_mode(true)
 	game.skater.rotation.y = PI*0.5
-	var entries := [0]
-	var on_bail := func(): entries[0]+=1
-	game.skater.bailed.connect(on_bail)
+	var perimeter: StaticBody3D = pond.get_node("PondPerimeterRail")
+	var touched := false
 	Input.action_press("push")
-	var entered := false
-	var recovered := false
-	for tick: int in 420:
-		if game.skater.bailing:
-			entered = true
-			Input.action_release("push")
-		if entered and not game.skater.bailing and game.skater.is_on_floor():
-			recovered = true
-			break
+	for tick: int in 100:
 		await tree.physics_frame
 		await tree.process_frame
-	Input.action_release("push")
-	game.skater.bailed.disconnect(on_bail)
-	check.call(entered and recovered and entries[0]==1
+		for index: int in game.skater.get_slide_collision_count():
+			var contact: KinematicCollision3D = game.skater.get_slide_collision(index)
+			for hit: int in contact.get_collision_count():
+				touched = touched or contact.get_collider(hit) == perimeter
+	_release()
+	var stopped_outside: bool = touched and game.skater.is_on_floor() and not game.skater.bailing \
+		and pond.to_local(game.skater.global_position).x > -174.0 \
+		and not pond.get_recovery_position(game.skater.global_position).is_finite()
+	check.call(stopped_outside,
+		"PT24-16 installed: ordinary Push stops at the actual solid perimeter and cannot skate through into the pond")
+	var result := await _ollie_into_water(tree,game,pond)
+	check.call(stopped_outside and result.entered and result.recovered and result.bails == 1 \
+		and result.ollies == 1 and result.crossed_in_air \
 		and not pond.get_recovery_position(game.skater.global_position).is_finite(),
-		"PT24-16 installed: ordinary Push enters the pond, triggers one existing dramatic bail, and recovers on dry land")
+		"PT24-16 installed: mapped charged Ollie crosses the solid rail, triggers one existing dramatic water bail, and recovers on dry land")
+	print("POND_INSTALLED_WATER_RESULT ",JSON.stringify(result))
 	game.skater.spawn_position = old_spawn
 	game.start_mode(old_free)
 
@@ -230,42 +247,86 @@ static func _drive_pond(tree: SceneTree, game: Node, pond: Node3D, check: Callab
 
 static func _water_with_banked_score(tree: SceneTree, game: Node, pond: Node3D, check: Callable) -> void:
 	var banked: int = game.score.total_score
-	var bails := [0]
-	var on_bail := func(): bails[0]+=1
+	# Continue from the actual clean landing using steering, braking, Push and
+	# one charged Ollie over the now-solid rail; do not replace rider or score.
+	var result := await _ollie_into_water(tree,game,pond)
+	check.call(banked>0 and result.entered and result.recovered and result.bails==1 \
+		and result.ollies==1 and result.crossed_in_air \
+		and game.score.total_score==banked and not pond.get_recovery_position(game.skater.global_position).is_finite(),
+		"PT24-16 input: earned pond combo survives an actual later mapped-Ollie water bail and supported recovery unchanged")
+	result.bank_before = banked
+	result.bank_after = game.score.total_score
+	print("POND_BANKED_WATER_RESULT ",JSON.stringify(result))
+
+
+static func _ollie_into_water(tree: SceneTree,game: Node,pond: Node3D) -> Dictionary:
+	_release()
+	var result := {"entered":false,"recovered":false,"bails":0,"ollies":0,
+		"crossed_in_air":false,"charged":false,"phase":"dry_runup","ticks":0}
+	var on_bail := func(): result.bails+=1
+	var on_trick := func(_label: String,_points: int):
+		if game.skater.last_trick_id=="ollie": result.ollies+=1
 	game.skater.bailed.connect(on_bail)
-	var entered := false
-	var recovered := false
-	# Turn and drive back from the actual clean landing. This uses ordinary
-	# steering/braking; there is no second placement or fabricated bank value.
-	for frame: int in 600:
+	game.skater.trick_performed.connect(on_trick)
+	var centre: Vector3 = pond.to_global(Vector3(-184,0.5,-21))
+	var outward: Vector3 = (game.skater.global_position-centre).slide(Vector3.UP).normalized()
+	var runway: Vector3 = centre+outward*17.0
+	var charge_ticks := 0
+	for tick: int in 1200:
+		result.ticks=tick+1
 		if game.skater.bailing:
-			entered = true
+			result.entered=true
 			_release()
-		elif entered and game.skater.is_on_floor():
-			recovered = true
+		elif result.entered and game.skater.is_on_floor():
+			result.recovered=true
 			break
+		elif result.phase=="air_to_water":
+			_release()
+			var local: Vector3=pond.to_local(game.skater.global_position)
+			if game.skater.airborne and Geometry2D.is_point_in_polygon(Vector2(local.x,local.z),pond._outer):
+				result.crossed_in_air=true
+		elif result.phase=="charge":
+			_set_steer(0.0)
+			Input.action_release("brake")
+			Input.action_press("push")
+			charge_ticks+=1
+			if charge_ticks>=16:
+				Input.action_release("ollie")
+				result.phase="air_to_water"
 		else:
-			var target: Vector3 = pond.to_global(Vector3(-184,0.12,-21))-game.skater.global_position
-			var desired := atan2(-target.x,-target.z)
-			var error := angle_difference(game.skater.rotation.y,desired)
+			var target: Vector3 = runway if result.phase=="dry_runup" else centre
+			var toward: Vector3 = target-game.skater.global_position
+			var error := angle_difference(game.skater.rotation.y,atan2(-toward.x,-toward.z))
 			_set_steer(-clampf(error/0.7,-1.0,1.0))
 			Input.action_release("push")
 			Input.action_release("brake")
-			if absf(error)>0.5:
+			if result.phase=="dry_runup" and toward.slide(Vector3.UP).length()<0.5:
+				result.phase="approach"
+				Input.action_press("brake")
+			elif absf(error)>0.25:
 				Input.action_press("brake")
 			elif game.skater.speed>4.0:
 				Input.action_press("brake",0.25)
 			else:
 				Input.action_press("push",0.35)
+			if result.phase=="approach" and absf(error)<0.1 and game.skater.speed>2.5:
+				var local: Vector3=pond.to_local(game.skater.global_position)
+				var gap := INF
+				for index: int in pond._outer.size():
+					var nearest := Geometry2D.get_closest_point_to_segment(Vector2(local.x,local.z),
+						pond._outer[index],pond._outer[(index+1)%pond._outer.size()])
+					gap=minf(gap,nearest.distance_to(Vector2(local.x,local.z)))
+				if gap<2.9 and gap>2.5:
+					result.phase="charge"
+					result.charged=true
+					Input.action_press("ollie")
 		await tree.physics_frame
 		await tree.process_frame
 	_release()
 	game.skater.bailed.disconnect(on_bail)
-	check.call(banked>0 and entered and recovered and bails[0]==1
-		and game.score.total_score==banked and not pond.get_recovery_position(game.skater.global_position).is_finite(),
-		"PT24-16 input: earned pond combo survives an actual later water bail and supported recovery unchanged")
-	print("POND_BANKED_WATER_RESULT ",JSON.stringify({"bank_before":banked,"bank_after":game.score.total_score,
-		"entered":entered,"recovered":recovered,"bails":bails[0],"position":var_to_str(game.skater.global_position)}))
+	game.skater.trick_performed.disconnect(on_trick)
+	result.position=var_to_str(game.skater.global_position)
+	return result
 
 
 static func _input_frames(tree: SceneTree, game: Node, evidence: Dictionary, count: int,

@@ -195,13 +195,13 @@ static func is_surface_eligible(collider: Object) -> bool:
 				return false
 			explicit_allow = true
 		var surface := str(node.get_meta("surface_audio", "")).to_lower()
-		if surface in ["water", "glass", "fabric"]:
+		if surface in ["water", "fabric"]:
 			return false
 		node = node.get_parent()
 	if explicit_allow:
 		return true
 	var name := String((collider as Node).name).to_lower()
-	for excluded: String in ["glass", "water", "curtain", "canvas", "fabric", "fence", "railing",
+	for excluded: String in ["water", "curtain", "canvas", "fabric", "fence", "railing",
 		"tree", "foliage", "bench", "bin", "cone", "sign", "lamp", "canopy", "boundary", "transition"]:
 		if excluded in name:
 			return false

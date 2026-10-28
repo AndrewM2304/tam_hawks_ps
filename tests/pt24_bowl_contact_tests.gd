@@ -61,8 +61,13 @@ static func run(tree: SceneTree,check: Callable) -> void:
 			"maximum":contact.maximum,"material_gap":material.gap,"legacy_minimum":old_contact.minimum,
 			"misses":contact.misses})
 	check.call(negative==3,"PT24 native bowl: all three recorded old-frame controls independently reproduce real tyre penetration")
+	_native_footprint_phase_controls(fixture,check)
 	await _controls(tree,fixture,check)
+	await _buried_air_landing_controls(tree,fixture,check)
 	await _air_landing_controls(tree,fixture,check)
+	await _air_offset_controls(tree,fixture,check)
+	await _feature_air_coping_controls(tree,fixture,check)
+	_ramp_air_pose_handoff_controls(fixture,check)
 	fixture.viewport.queue_free()
 	await tree.process_frame
 
@@ -117,6 +122,43 @@ static func _volumes_clear(rider: CharacterBody3D,pose: Transform3D) -> bool:
 	return true
 
 
+static func _ramp_air_pose_handoff_controls(fixture:Dictionary,check:Callable)->void:
+	var rider:CharacterBody3D=fixture.rider
+	rider.reset_skater()
+	rider.global_transform=Transform3D(Basis(Vector3.UP,0.6),Vector3(200,30,200))
+	rider.airborne=true
+	rider._ramp_air=true
+	rider._force_air_tick=false
+	rider._ramp_air_normal=Vector3(0.723209,0,0.690626).normalized()
+	rider._ramp_launch_forward=Vector3(-0.690626,0,0.723209).normalized()
+	rider.velocity=Vector3(1.77,0.46,-4.27)
+	rider._spin_angle=0.7
+	rider._stance_angle=0.0
+	rider._air_grind_yaw=0.0
+	rider._air_support_basis=Basis(Vector3.UP,-1.1)
+	rider._surface_pitch=-0.2
+	var old_surface:Basis=rider._air_support_basis
+	rider._update_pose(1.0/60.0)
+	# Derive the contract from the actual drawn figure, not a duplicate of
+	# the assisted-return formula. Earned yaw is a separate local rotation.
+	var drawn_base:Basis=(rider._visual.basis*Basis(Vector3.UP,-0.7)).orthonormalized()
+	var seed_error:float=drawn_base.get_rotation_quaternion().angle_to(rider._air_support_basis.get_rotation_quaternion())
+	var stale_gap:float=drawn_base.get_rotation_quaternion().angle_to(old_surface.get_rotation_quaternion())
+	check.call(stale_gap>PI/4 and seed_error<0.00001,
+		"PT24 air pose: horizontal-normal ramp flight retains its actual pre-yaw body frame instead of a stale surface frame")
+	var previous:Basis=rider._visual.basis
+	rider._ramp_air=false
+	rider._force_air_tick=true
+	var physical:=_state(rider)
+	var board_local:Transform3D=rider._board_visual.transform
+	rider._update_pose(1.0/60.0)
+	var angle:float=previous.get_rotation_quaternion().angle_to(rider._visual.basis.get_rotation_quaternion())
+	check.call(angle<=4.5/60.0+0.00001 and _state(rider)==physical
+		and rider._board_visual.transform==board_local and rider._spin_angle==0.7,
+		"PT24 air pose: ramp-to-ordinary handoff keeps the existing4.5rad/s body limit, earned yaw, local board and physical flight")
+	print("PT24_RAMP_AIR_POSE_HANDOFF ",{"stale_angle":stale_gap,"seed_error":seed_error,"first_ordinary_angle":angle})
+
+
 static func _state(body: CharacterBody3D) -> Dictionary:
 	return {"transform":body.global_transform,"velocity":body.velocity,"speed":body.speed,
 		"floor":body.is_on_floor(),"limit":body.floor_max_angle,"capsule":body.get_node("BodyCollision").transform,
@@ -124,7 +166,47 @@ static func _state(body: CharacterBody3D) -> Dictionary:
 		"transition":body.transition_active,"feature_state":body._feature_transition.state}
 
 
+static func _native_footprint_phase_controls(fixture:Dictionary,check:Callable) -> void:
+	var rider:CharacterBody3D=fixture.rider
+	for x:float in [-10.63339,-10.639068]:
+		rider.global_transform=Transform3D(Basis(Vector3.UP,-PI*0.5),Vector3(x,2.014172,139.5004))
+		var before:=_state(rider)
+		var fit:Dictionary=rider._native_board_floor()
+		var clear:=false
+		if not fit.is_empty():clear=rider._native_rim_frame_clear(_presentation_pose(rider,fit),0.0)
+		check.call(not fit.is_empty() and clear and _state(rider)==before,
+			"PT24 native footprint: exact full/standalone Clyde5.68mm phase pair supplies finite tyres/model clearance without changing physical state "+str(x))
+
+
 static func _controls(tree: SceneTree,fixture: Dictionary,check: Callable) -> void:
+	var bowl:Node3D=fixture.bowl
+	var rider_identity:CharacterBody3D=fixture.rider
+	var actual_deck:StaticBody3D=bowl._native_annular_deck
+	var original_name:StringName=actual_deck.name
+	actual_deck.name="RetainedDeckIdentityControl"
+	var foreign:=StaticBody3D.new()
+	foreign.name=original_name
+	foreign.position=Vector3(1000,0,0)
+	for key:StringName in actual_deck.get_meta_list():foreign.set_meta(key,actual_deck.get_meta(key))
+	foreign.set_meta("transition_feature",bowl)
+	foreign.set_meta("coping_feature",bowl)
+	var collision:=CollisionShape3D.new()
+	collision.shape=BoxShape3D.new()
+	foreign.add_child(collision)
+	bowl.add_child(foreign)
+	var steep:=Vector3(sqrt(0.96),0.2,0)
+	var accepted:=true
+	for body:CollisionObject3D in [bowl.surface_body,actual_deck,bowl._native_steel_coping]:
+		accepted=accepted and bowl.owns_native_wheel_support(body) \
+			and rider_identity._native_board_support_allowed({"normal":steep,"collider":body},bowl)
+	check.call(accepted,"PT24 native bowl: all three exact constructor-owned wall/deck/coping bodies retain steep support identity after a real body rename")
+	check.call(foreign.name==original_name and foreign.get_parent()==bowl \
+		and not bowl.owns_native_wheel_support(foreign) \
+		and not rider_identity._native_board_support_allowed({"normal":steep,"collider":foreign},bowl),
+		"PT24 native bowl: same-parent foreign native body with copied exact name and feature metadata cannot acquire steep support")
+	bowl.remove_child(foreign)
+	foreign.queue_free()
+	actual_deck.name=original_name
 	var terrain := Terrain.new()
 	var material := StandardMaterial3D.new()
 	terrain.add_patch(fixture.root,"UnrelatedFlat",Rect2(-34,-4,8,8),Vector4.ZERO,material)
@@ -148,6 +230,65 @@ static func _controls(tree: SceneTree,fixture: Dictionary,check: Callable) -> vo
 		if point.x>26 and point.x<34:
 			check.call(fixed.is_empty(),"PT24 native bowl: an unrelated actual steep plane still cannot acquire the wrapped-bowl exception")
 	fixture.quarter=quarter
+
+
+static func _buried_air_landing_controls(tree:SceneTree,fixture:Dictionary,check:Callable)->void:
+	var rider:CharacterBody3D=fixture.rider
+	rider.reset_skater()
+	rider.global_transform=Transform3D(Basis(Vector3.UP,-0.65),Vector3(-9.796431,2.129778,127.7172))
+	rider.airborne=true
+	rider.velocity=Vector3(1.0558074,-11.341945,-3.6876566)
+	var recorded:=Basis(Vector3(.743844,.620413,-.24856),Vector3(-.074727,.44677,.891521),Vector3(.664161,-.64458,.378689)).orthonormalized()
+	rider._visual.global_transform=Transform3D(recorded,rider.global_position)
+	var original:Transform3D=rider._visual.global_transform
+	var board_local:Transform3D=rider._board_visual.transform
+	var before:=_state(rider)
+	var support:Dictionary=rider._native_floor_hit(Vector3.UP)
+	var minimum_center:=INF
+	var crossings:=0
+	var wheels:Array=rider._visual_rig.board_contact_geometry().wheels
+	var space:=rider.get_world_3d().direct_space_state
+	var query:=PhysicsShapeQueryParameters3D.new()
+	query.transform=rider._board_visual.global_transform
+	query.collision_mask=1|2|8
+	query.exclude=[rider.get_rid()]
+	query.margin=0.0
+	for index:int in wheels.size():
+		minimum_center=minf(minimum_center,rider._board_visual.to_global(wheels[index].center).y-2.0)
+		query.shape=rider._floor_wheel_shapes[index]
+		crossings+=int(not space.intersect_shape(query,1).is_empty())
+	check.call(not support.is_empty() and support.collider==fixture.bowl._native_annular_deck
+		and minimum_center<-.08 and crossings==0,
+		"PT24 air landing: retained real rear tyre is wholly behind its finite native deck although all four tyre-volume crossing queries are empty")
+	rider._place_air_landing_wheels(support)
+	var corrected:Transform3D=rider._board_visual.global_transform
+	var gap:float=rider._air_landing_wheel_gap(corrected,wheels,Vector3(support.position),Vector3.UP)
+	check.call(gap>=0.008 and rider._native_rim_frame_clear(corrected,0.0)
+		and _state(rider)==before and rider._visual.global_position==original.origin
+		and rider._board_visual.transform==board_local,
+		"PT24 air landing: smallest native-clear rigid fit catches a fully buried tyre without translating the figure or changing physical flight/local board")
+	var blocker:=StaticBody3D.new()
+	blocker.name="ForeignBuriedAirNose"
+	blocker.collision_layer=1
+	blocker.collision_mask=0
+	var collision:=CollisionShape3D.new()
+	var shape:=BoxShape3D.new();shape.size=Vector3(.5,.3,.002);collision.shape=shape
+	blocker.add_child(collision)
+	fixture.root.add_child(blocker)
+	blocker.global_transform=corrected*Transform3D(Basis.IDENTITY,Vector3(0,0,-.4))
+	await tree.physics_frame
+	await tree.process_frame
+	var endpoint_tyres:bool=_volumes_clear(rider,corrected)
+	var endpoint_blocked:bool=not rider._manual_model_frame_clear(corrected)
+	rider._visual.global_transform=original
+	var blocked_original:Transform3D=rider._visual.global_transform
+	rider._place_air_landing_wheels(support)
+	check.call(endpoint_tyres and endpoint_blocked and rider._visual.global_transform==blocked_original
+		and _state(rider)==before and rider._board_visual.transform==board_local,
+		"PT24 air landing: a foreign nose slab missed by all four tyres still refuses the actual connected-model endpoint")
+	blocker.queue_free()
+	await tree.physics_frame
+	await tree.process_frame
 
 
 static func _air_landing_controls(tree: SceneTree,fixture: Dictionary,check: Callable) -> void:
@@ -213,6 +354,133 @@ static func _air_landing_controls(tree: SceneTree,fixture: Dictionary,check: Cal
 			"PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged "+str(variant))
 
 
+static func _air_offset_controls(tree:SceneTree,fixture:Dictionary,check:Callable) -> void:
+	var rider:CharacterBody3D=fixture.rider
+	Terrain.new().add_patch(fixture.root,"AirOffsetNativeFloor",Rect2(122,122,16,16),Vector4.ONE*2.0,StandardMaterial3D.new())
+	rider.global_transform=Transform3D(Basis.IDENTITY,Vector3(130,2.02,130))
+	rider.airborne=true
+	rider._board_visual.transform=Transform3D(Basis.IDENTITY,rider._visual_rig._board_rest_position)
+	rider._visual.global_transform=Transform3D(Basis.IDENTITY,Vector3(130,1.985,130))
+	await tree.physics_frame
+	await tree.process_frame
+	var offset:=Vector3.DOWN*0.035
+	var original:Transform3D=rider._visual.global_transform
+	var local_board:Transform3D=rider._board_visual.transform
+	var physical:=_state(rider)
+	var queries:=[_air_query_state(rider._floor_wheel_query),_air_query_state(rider._grind_board_query)]
+	var feet:Array[Transform3D]=[]
+	for leg:Dictionary in rider._visual_rig._legs:
+		feet.append(rider._board_visual.global_transform.affine_inverse()*leg.foot.global_transform)
+	check.call(not rider._native_rim_frame_clear(rider._board_visual.global_transform,0.0),
+		"PT24 air offset: declared anticipated pose genuinely intersects the finite native floor")
+	rider._withdraw_air_support_offset(offset)
+	var planted:=true
+	for side:int in feet.size():
+		var foot:Node3D=rider._visual_rig._legs[side].foot
+		planted=planted and (rider._board_visual.global_transform.affine_inverse()*foot.global_transform).is_equal_approx(feet[side])
+	var moved:Vector3=rider._visual.global_position-original.origin
+	check.call(moved.y>0.0 and moved.y<=0.03501 and moved.x==0.0 and moved.z==0.0 \
+		and rider._native_rim_frame_clear(rider._board_visual.global_transform,0.0) \
+		and _state(rider)==physical and rider._board_visual.transform==local_board and planted,
+		"PT24 air offset: bounded withdrawal clears actual tyres/model while preserving native flight, local board and both foot attachments")
+	check.call(queries==[_air_query_state(rider._floor_wheel_query),_air_query_state(rider._grind_board_query)],
+		"PT24 air offset: accepted native fit restores every borrowed shape parameter")
+	var clear_pose:Transform3D=rider._visual.global_transform
+	rider._withdraw_air_support_offset(offset)
+	check.call(rider._visual.global_transform==clear_pose,
+		"PT24 air offset: already clear flight remains exactly unchanged")
+	rider._visual.global_transform=original
+	rider._withdraw_air_support_offset(Vector3.ZERO)
+	check.call(rider._visual.global_transform==original,
+		"PT24 air offset: zero earned offset cannot create a correction")
+	var roof:=StaticBody3D.new()
+	roof.position=Vector3(130,2.22,130)
+	var collision:=CollisionShape3D.new()
+	var shape:=BoxShape3D.new()
+	shape.size=Vector3(1,0.10,1)
+	collision.shape=shape
+	roof.add_child(collision)
+	fixture.root.add_child(roof)
+	await tree.physics_frame
+	await tree.process_frame
+	var endpoint:=original
+	endpoint.origin-=offset
+	var board_local:Transform3D=original.affine_inverse()*rider._board_visual.global_transform
+	var unsafe_endpoint:bool=not rider._native_rim_frame_clear(endpoint*board_local,0.0)
+	rider._withdraw_air_support_offset(offset)
+	check.call(unsafe_endpoint and rider._visual.global_transform==original and _state(rider)==physical \
+		and queries==[_air_query_state(rider._floor_wheel_query),_air_query_state(rider._grind_board_query)],
+		"PT24 air offset: real foreign endpoint blocker refuses the whole correction without physics or query side effects")
+
+
+static func _feature_air_coping_controls(tree:SceneTree,fixture:Dictionary,check:Callable) -> void:
+	var rider:CharacterBody3D=fixture.rider
+	var bowl:Node3D=fixture.bowl
+	var frame:=Basis(Vector3(.653843,-.36276,-.663999),Vector3(.712535,0,.701637),Vector3(-.254525,-.931883,.258479)).orthonormalized()
+	rider.global_transform=Transform3D(Basis.IDENTITY,Vector3(-11.08071,2.310279,130.3022))
+	rider._visual.global_transform=Transform3D(frame,rider.global_position)
+	rider._board_visual.transform=Transform3D(Basis.IDENTITY,rider._visual_rig._board_rest_position)
+	rider.airborne=true
+	rider._ramp_air=true
+	rider._feature_transition.active=true
+	rider._feature_transition.state="air"
+	rider._feature_transition.feature=bowl
+	rider._feature_transition.normal=frame.y
+	rider.transition_normal=frame.y
+	var original:Transform3D=rider._visual.global_transform
+	var local_board:Transform3D=rider._board_visual.transform
+	var physical:=_state(rider)
+	var coping:CollisionObject3D=bowl._native_steel_coping
+	check.call(rider._native_model_hits_support(rider._board_visual.global_transform,{"rid":coping.get_rid(),"shape":0}),
+		"PT24 Feature air: retained real release pose intersects the constructor-owned native coping")
+	rider._place_feature_air_coping_wheels()
+	var moved:Vector3=rider._visual.global_position-original.origin
+	check.call(moved.dot(frame.y)>0.0 and moved.length()<=0.02501 \
+		and moved.cross(frame.y).length()<0.00002 and rider._visual.global_basis.is_equal_approx(frame) \
+		and rider._board_visual.transform==local_board and _state(rider)==physical \
+		and rider._native_rim_frame_clear(rider._board_visual.global_transform,0.0),
+		"PT24 Feature air: finite normal-only continuation clears actual tyres/model inside25mm while preserving flight, basis and local rig")
+	rider._visual.global_transform=original
+	rider._ramp_air=false
+	rider._place_feature_air_coping_wheels()
+	var guarded:bool=rider._visual.global_transform==original
+	rider._ramp_air=true
+	rider._feature_transition.state="surface"
+	rider._place_feature_air_coping_wheels()
+	guarded=guarded and rider._visual.global_transform==original
+	rider._feature_transition.state="air"
+	rider._feature_transition.active=false
+	rider._place_feature_air_coping_wheels()
+	guarded=guarded and rider._visual.global_transform==original
+	rider._feature_transition.active=true
+	check.call(guarded,"PT24 Feature air: non-ramp, surface and unassociated modes cannot acquire the coping continuation")
+	var maximum:=-INF
+	for part:Dictionary in rider._grind_clearance._parts:
+		for point:Vector3 in part.points:maximum=maxf(maximum,point.y)
+	var blocker:=StaticBody3D.new()
+	blocker.transform=Transform3D(frame,rider._board_visual.global_position+frame.y*(maximum+0.018))
+	var collision:=CollisionShape3D.new()
+	var shape:=BoxShape3D.new()
+	shape.size=Vector3(.6,.004,1.0)
+	collision.shape=shape
+	blocker.add_child(collision)
+	fixture.root.add_child(blocker)
+	await tree.physics_frame
+	await tree.process_frame
+	var current_clear:bool=not rider._native_model_hits_support(rider._board_visual.global_transform,{"rid":blocker.get_rid(),"shape":0})
+	var endpoint:Transform3D=rider._board_visual.global_transform
+	endpoint.origin+=frame.y*0.025
+	var endpoint_blocked:bool=not rider._native_rim_frame_clear(endpoint,0.0)
+	rider._place_feature_air_coping_wheels()
+	check.call(current_clear and endpoint_blocked and rider._visual.global_transform==original and _state(rider)==physical,
+		"PT24 Feature air: real foreign slab clear of the starting model blocks the endpoint and refuses the whole continuation")
+
+
+static func _air_query_state(query:PhysicsShapeQueryParameters3D) -> Dictionary:
+	return {"shape":query.shape,"transform":query.transform,"motion":query.motion,"margin":query.margin,
+		"mask":query.collision_mask,"exclude":query.exclude,"bodies":query.collide_with_bodies,"areas":query.collide_with_areas}
+
+
 static func _flat_contact(rider: CharacterBody3D,pose: Transform3D) -> Dictionary:
 	var minimum:=INF
 	var misses:=0
@@ -253,6 +521,9 @@ static func _fixture(tree: SceneTree) -> Dictionary:
 		root.add_child(body)
 		body.set_process(false)
 		body.set_physics_process(false)
+	# The superimposed measurement twin keeps its real capsule and mask9 but
+	# cannot be a foreign layer2 obstacle inside the tested board volume.
+	control.collision_layer=0
 	await tree.physics_frame
 	await tree.process_frame
 	return {"viewport":viewport,"root":root,"bowl":bowl,"rider":rider,"control":control}

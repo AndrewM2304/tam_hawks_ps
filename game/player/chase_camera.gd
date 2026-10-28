@@ -10,6 +10,7 @@ const CLEARANCE := 0.045
 const MIN_USEFUL_ARM := 3.0
 const NORMAL_HEIGHT := 2.5
 const LOW_HEIGHT := 1.95
+const HIGH_HEIGHT := 7.2 # Existing last-resort native clearance height.
 const REVERSE_MIN_SPEED := 1.2
 const REVERSE_CONFIRM_TIME := 0.28
 const FORWARD_CONFIRM_TIME := 0.22
@@ -49,6 +50,7 @@ var _minimum_arm := MIN_USEFUL_ARM
 var _ground_query := PhysicsRayQueryParameters3D.new()
 var _visibility_query := PhysicsRayQueryParameters3D.new()
 var _ground_board_y := 0.0
+var _ramp_origin_air := false
 var _wheel_landmarks:PackedVector3Array=PackedVector3Array()
 var _head_landmarks := PackedVector3Array()
 var _head_mesh: MeshInstance3D
@@ -118,6 +120,7 @@ func reset() -> void:
 	_return_arm = AIR_RAMP_ARM
 	_minimum_arm = MIN_USEFUL_ARM
 	_ground_board_y = 0.0
+	_ramp_origin_air = false
 	_foot_targets.clear()
 	_head_targets.clear()
 	_head_bounds.clear()
@@ -208,7 +211,13 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 	# follow the actual body axis; ramps retain the skater's local up axis.
 	_body_up = _contact_up(rider)
 	var ordinary_air := bool(rider.get("airborne")) and not bool(rider.get("_ramp_air")) and not bool(rider.get("transition_active"))
-	if not _ready or not bool(rider.get("airborne")):
+	# Preserve the live ramp-origin flight through its whole descent. A
+	# genuine new weighted flat pop also ends it if rendering missed ground.
+	if not bool(rider.get("airborne")) or bool(rider.get("_weighted_ollie_air")):
+		_ramp_origin_air=false
+	elif bool(rider.get("_ramp_air")) or _ramp_mode:
+		_ramp_origin_air=true
+	if not _ready or not bool(rider.get("airborne")) or _ramp_origin_air:
 		_ground_board_y = board.y
 	elif ordinary_air:
 		# Keep ordinary jumps inside a stable vertical viewing window. Follow
@@ -293,6 +302,11 @@ func update(rider: CharacterBody3D, camera: Camera3D, delta: float, sensitivity:
 		var new_offset := desired - anchor
 		var follow_rate := 14.0 if _ramp_mode or bool(rider.get("airborne")) else 7.0
 		var blend := 1.0-exp(-follow_rate*response*step)
+		if _ramp_mode and bool(rider.get("transition_active")) and not bool(rider.get("airborne")) and _travel_velocity.y>0.1:
+			# The rear arm must converge before the rising concrete/steel crest
+			# closes its last body sightline. Native sweeps and the existing
+			# movement cap still admit every intermediate camera position.
+			blend=maxf(blend,1.0-smoothstep(0.20,0.45,_ramp_lift))
 		var direction := old_offset.normalized().slerp(new_offset.normalized(),blend)
 		var radius := lerpf(old_offset.length(),new_offset.length(),blend)
 		var proposed := anchor+direction*radius
@@ -447,7 +461,8 @@ func _contact_up(rider: CharacterBody3D) -> Vector3:
 	# The collider is aligned to curved support in physics and upright elsewhere.
 	# Its displayed axis also blends across a transition exit, instead of popping
 	# when the current physics-state Boolean changes ahead of the rendered body.
-	if bool(rider.get("transition_active")) or (bool(rider.get("airborne")) and bool(rider.get("_ramp_air"))):
+	if bool(rider.get("transition_active")) or (bool(rider.get("airborne")) \
+			and (bool(rider.get("_ramp_air")) or _ramp_mode or _ramp_exit_remaining>0.0)):
 		return rider.get_camera_support_up()
 	var collision := rider.get_node_or_null("BodyCollision") as Node3D
 	if is_instance_valid(collision):
@@ -508,6 +523,22 @@ func _choose(space: PhysicsDirectSpaceState3D, anchor: Vector3, board: Vector3, 
 	if ordinary.usable:
 		_selected_angle=0.0
 		return ordinary
+	if _ramp_mode and _ramp_lift<0.35 and _travel_velocity.y< -0.1:
+		# Coping can hide an actual tyre from a long overhead rear view. First
+		# prove the existing high rear view, then the already allowed short
+		# ramp arm, before considering any lateral orbit. FOV is unchanged.
+		var high_rear:=_candidate(space,anchor,board,rear,distance,0.0,HIGH_HEIGHT,excluded)
+		if high_rear.usable:
+			_selected_angle=0.0
+			return high_rear
+		var short_rear:=_best_height(space,anchor,board,rear,_minimum_arm,0.0,excluded)
+		if short_rear.usable:
+			_selected_angle=0.0
+			return short_rear
+		var short_high:=_candidate(space,anchor,board,rear,_minimum_arm,0.0,HIGH_HEIGHT,excluded)
+		if short_high.usable:
+			_selected_angle=0.0
+			return short_high
 	if not is_zero_approx(_selected_angle):
 		var current := _best_height(space, anchor, board, rear, distance, _selected_angle, excluded)
 		if current.usable:return current
@@ -521,7 +552,7 @@ func _choose(space: PhysicsDirectSpaceState3D, anchor: Vector3, board: Vector3, 
 		# Retain the work branch's last-resort swept high arm only after all
 		# ordinary rear/side heights fail the full body and real-foot checks.
 		for angle:float in [0.0]+ORBIT_ANGLES:
-			var candidate:=_candidate(space,anchor,board,rear,distance,angle,7.2,excluded)
+			var candidate:=_candidate(space,anchor,board,rear,distance,angle,HIGH_HEIGHT,excluded)
 			if float(candidate.score)>float(best.score):best=candidate
 	_selected_angle = best.angle
 	return best

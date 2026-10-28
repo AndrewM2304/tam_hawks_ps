@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T03:25:38.537682+00:00",
+  "completed_london": "2026-10-28T03:25:39.292346+00:00",
+  "wall_seconds": 0.7546654360012326,
+  "command": [
+    "timeout",
+    "10s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/board_floor_ray_focused.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "24",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "08dcea5c6492c2f8f4998b650b668631f2a3b35ec1bf1aa5c032360390fa2c4f",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

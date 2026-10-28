@@ -1,0 +1,25 @@
+{
+  "started_london": "2026-10-28T00:13:00.411000+00:00",
+  "completed_london": "2026-10-28T00:13:19.299559+00:00",
+  "wall_seconds": 18.888558915998146,
+  "command": [
+    "bash",
+    ".local/contact_support_capture/run_bound.sh",
+    ".local/contact_support_capture/run_rendered.py",
+    ".local/contact_support_capture/capture.gd",
+    ".local/contact-support-two-originals"
+  ],
+  "exit_code": 0,
+  "source_inputs": 676,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "2",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "30f067e8ac1f76b08bb157d682eb44ca507a5cfedc9c3775d98f8c5e13209502",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

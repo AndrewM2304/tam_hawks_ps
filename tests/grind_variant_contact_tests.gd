@@ -124,6 +124,8 @@ static func _native(tree: SceneTree, check: Callable) -> void:
 		and not cache.allows_path(first.board_transform,last,Vector3.UP),
 		"grind variants native: a direct loaded50-50 to deck slide requires real unweighting rather than a hidden steel crossing")
 	await _transfers(tree,check,root,line,cache)
+	await _continuous_contracts(tree,check,root,line,cache)
+	await _support_certificate_contracts(tree,check,root,cache)
 	Style.solve_into(first,line,1.3,1,0,"nosegrind",0)
 	Style.solve_into(last,line,3.3,1,0,"nosegrind",0)
 	var blocker := StaticBody3D.new()
@@ -145,6 +147,141 @@ static func _native(tree: SceneTree, check: Callable) -> void:
 		"grind variants native: a failed geometry rebuild clears prior clearance authority")
 	root.queue_free()
 	await _frames(tree,2)
+
+
+static func _continuous_contracts(tree:SceneTree,check:Callable,root:Node3D,line:Line,cache:RefCounted)->void:
+	var first:=Style.ContactPose.new()
+	var last:=Style.ContactPose.new()
+	Style.solve_into(first,line,1.2,1,0,"grind_50_50",0)
+	Style.solve_into(last,line,3.2,1,0,"grind_50_50",0)
+	check.call(cache.allows(first,Vector3.UP)
+		and cache.allows_frame_path(first.board_transform,first.board_transform,Vector3.UP)
+		and cache.last_path_queries==cache.component_count and cache.last_path_subdivisions==0,
+		"grind continuous native: exactly stationary support uses the original cached model shapes and unchanged100micrometre skin")
+	var blocker:=StaticBody3D.new();blocker.collision_layer=1;blocker.collision_mask=0
+	var collision:=CollisionShape3D.new();var shape:=BoxShape3D.new()
+	shape.size=Vector3(.002,.004,.002);collision.shape=shape;blocker.add_child(collision);root.add_child(blocker)
+	# A genuine2mm obstacle between clear endpoints must remain solid even
+	# when refinement proves most of the proposed trajectory unobstructed.
+	blocker.global_position=(first.board_transform*Vector3(.126,-.119,-.255)
+		+last.board_transform*Vector3(.126,-.119,-.255))*.5
+	await _frames(tree,2)
+	check.call(cache.allows(first,Vector3.UP) and cache.allows(last,Vector3.UP)
+		and not cache.allows_frame_path(first.board_transform,last.board_transform,Vector3.UP)
+		and cache.last_path_queries<=Clearance.MAX_PATH_QUERIES
+		and cache.last_path_max_depth<=Clearance.MAX_PATH_REFINEMENT_DEPTH,
+		"grind continuous native: a real2mm foreign midpath obstacle cannot disappear between two clear endpoints or through adaptive child checks")
+	blocker.global_position=last.board_transform*Vector3(.126,-.119,-.255)
+	await _frames(tree,2)
+	check.call(cache.allows(first,Vector3.UP) and not cache.allows(last,Vector3.UP)
+		and not cache.allows_frame_path(first.board_transform,last.board_transform,Vector3.UP)
+		and not cache.allows_frame_path(last.board_transform,last.board_transform,Vector3.UP),
+		"grind continuous native: an actual endpoint overlap and an identical-frame overlap both refuse without a later-clear escape")
+	blocker.queue_free();await _frames(tree,2)
+	check.call(cache.allows_frame_path(first.board_transform,last.board_transform,Vector3.UP)
+		and not cache.last_path_budget_exhausted and cache.last_obstruction.is_empty(),
+		"grind continuous native: removing the independently real blocker permits the same unchanged physical trajectory and clears stale obstruction data")
+	var turn:=Basis(Vector3.UP,.00001)
+	check.call(Clearance._rotation_angle(Basis.IDENTITY,turn)>0.0
+		and Clearance._rotation_angle(Basis.IDENTITY,turn)<.00002,
+		"grind continuous bounds: a tiny real quaternion turn retains a positive rotational envelope rather than rounding an acos dot to no motion")
+	for origin:Vector3 in [Vector3.ZERO,Vector3(-211.5,14.5,-187.5),Vector3(500,20,500)]:
+		var authored:=Line.new("native straight grade precision",PackedVector3Array([
+			origin+Vector3(0,.4,2.8),origin+Vector3(0,-1.1,7.0)])).configure_contact(-.02,.12,"native.constant_grade")
+		var expected:=Vector3(0,-1.5,4.2).normalized()
+		var stable:=true;var maximum_error:=0.0
+		var reference:Vector3=authored.dir_at(0.0)
+		for sample:int in 33:
+			var direction:Vector3=authored.dir_at(authored.length*sample/32.0)
+			maximum_error=maxf(maximum_error,direction.distance_to(expected))
+			stable=stable and direction==reference
+		check.call(stable and maximum_error<.000002,
+			"grind native grade precision: a fixed authored two-point bar keeps its constant real slope at every finite sample and translated world position "+str(origin))
+
+
+static func _support_certificate_contracts(tree:SceneTree,check:Callable,root:Node3D,cache:RefCounted)->void:
+	var cylinder:=StaticBody3D.new();cylinder.collision_layer=2;cylinder.collision_mask=0
+	cylinder.position=Vector3(4,-.06,0);cylinder.basis=Basis(Quaternion(Vector3.UP,Vector3.FORWARD))
+	var collision:=CollisionShape3D.new();var native_shape:=CylinderShape3D.new()
+	native_shape.radius=.06;native_shape.height=8.0;collision.shape=native_shape;cylinder.add_child(collision);root.add_child(cylinder)
+	await _frames(tree,2)
+	var line:=Line.new("independent native certificate bar",PackedVector3Array([
+		root.to_global(Vector3(4,0,3)),root.to_global(Vector3(4,0,-3))])).configure_contact(0,0,"native.certificate_fixture")
+	var pose:=Style.ContactPose.new();Style.solve_into(pose,line,3,1,PI*.5,"boardslide",0)
+	var part:Dictionary=cache._parts[0]
+	var query:PhysicsShapeQueryParameters3D=cache._query
+	var saved_shape:Shape3D=query.shape;var saved_transform:Transform3D=query.transform;var saved_margin:float=query.margin
+	query.shape=part.shape;query.transform=pose.board_transform;query.transform.origin+=Vector3.UP*Style.CONTACT_TOLERANCE;query.margin=0.0
+	var hit:Dictionary={"collider":cylinder,"shape":0}
+	cache._reset_support_certificates()
+	# This directly exercises the geometric proof against actual server data;
+	# it does not pretend the engine issued a false-positive hit on every OS.
+	check.call(cache._separated_single_cylinder(hit,part.points,Vector3.UP)
+		and cache.last_support_minimum_gap>0.0 and cache.last_support_certificates==1,
+		"grind certificate native: the original cached deck has a strict positive separating plane against the actual single server cylinder without changing100micrometre contact skin")
+	query.margin=.0002;cache._reset_support_certificates()
+	check.call(not cache._separated_single_cylinder(hit,part.points,Vector3.UP),
+		"grind certificate native: the entire expanded query margin is subtracted and cannot borrow the endpoints' separation")
+	query.margin=0.0
+	var overlap:=pose.board_transform;overlap.origin.y-=.0004
+	query.transform=overlap;query.transform.origin+=Vector3.UP*Style.CONTACT_TOLERANCE
+	cache._reset_support_certificates()
+	# The retained raw trace proves this300micrometre probe intrusion is
+	# below native GJK's reliable hit in this fixture. The strict mathematical
+	# refusal is independent of that engine limitation and stays unchanged.
+	check.call(not cache._separated_single_cylinder(hit,part.points,Vector3.UP),
+		"grind certificate native: the original400micrometre foreign-cylinder pose cannot obtain a false mathematical separating plane")
+	var second:=CollisionShape3D.new();var other:=BoxShape3D.new();other.size=Vector3(.02,.02,.02)
+	second.shape=other;second.position=Vector3(0,2,0);cylinder.add_child(second)
+	await _frames(tree,2)
+	query.shape=part.shape;query.transform=pose.board_transform;query.transform.origin+=Vector3.UP*Style.CONTACT_TOLERANCE;query.margin=0.0
+	cache._reset_support_certificates()
+	check.call(not cache._separated_single_cylinder(hit,part.points,Vector3.UP),
+		"grind certificate native: a second actual body shape prevents a one-cylinder certificate even when the selected primitive is separately clear")
+	second.queue_free();await _frames(tree,2)
+	# A translated child at a distant body previously rounded its composed
+	# origin DOWN7.32micrometres before the scalar certificate. This genuine
+	# local hull starts3micrometres INSIDE the raw-transform cylinder top.
+	var distant:=StaticBody3D.new();distant.collision_layer=2;distant.collision_mask=0
+	distant.position=Vector3(0,1000,0);root.add_child(distant)
+	var child:=CollisionShape3D.new();var short_bar:=CylinderShape3D.new()
+	short_bar.radius=.01;short_bar.height=.02;child.shape=short_bar;child.position.y=.055;distant.add_child(child)
+	await _frames(tree,2)
+	var tiny:=ConvexPolygonShape3D.new();tiny.margin=0.0
+	var corners:=PackedVector3Array()
+	for x:float in [-.001,.001]:
+		for y:float in [.064997,.066]:
+			for z:float in [-.001,.001]:corners.append(Vector3(x,y,z))
+	tiny.points=corners;query.shape=tiny;query.transform=distant.global_transform;query.margin=0.0
+	cache._reset_support_certificates()
+	check.call(not cache._separated_single_cylinder({"collider":distant,"shape":0},corners,Vector3.UP),
+		"grind certificate native: far-origin translated child cannot round a real3micrometre overlap into a separating plane")
+	distant.queue_free();await _frames(tree,2)
+	# Reuse the independently proven20mm hit from the unchanged saturation
+	# fixture, FIRST with only the original cylinder present. No assumption
+	# that a submillimetre GJK query supplied a collider enters this control.
+	var penetrating:=pose.board_transform;penetrating.origin.y-=.02
+	query.shape=part.shape;query.transform=penetrating;query.transform.origin+=Vector3.UP*Style.CONTACT_TOLERANCE;query.margin=0.0
+	var native_witness:Dictionary={}
+	for candidate:Dictionary in root.get_world_3d().direct_space_state.intersect_shape(query,16):
+		if candidate.collider==cylinder and int(candidate.shape)==0:native_witness=candidate;break
+	cache._reset_support_certificates()
+	var certificate_refuses:bool=not cache._separated_single_cylinder(hit,part.points,Vector3.UP)
+	var native_refuses:bool=not cache.allows_frame(penetrating,Vector3.UP)
+	check.call(not native_witness.is_empty() and certificate_refuses and native_refuses,
+		"grind certificate native: the independently hit original20mm single-cylinder overlap refuses both mathematical and full-model clearance")
+	print("CERTIFICATE_FOREIGN_NATIVE_WITNESS ",{"native_shape":native_witness.get("shape",-1),"native_rid":native_witness.get("rid",RID()),"certificate_refuses":certificate_refuses,"native_refuses":native_refuses})
+	var crowded:Array[StaticBody3D]=[]
+	for copy:int in range(Clearance.MAX_NATIVE_HITS-1):
+		var body:=StaticBody3D.new();body.collision_layer=2;body.collision_mask=0
+		body.transform=cylinder.transform;var shape:=CollisionShape3D.new();shape.shape=native_shape;body.add_child(shape);root.add_child(body);crowded.append(body)
+	await _frames(tree,2)
+	check.call(not cache.allows_frame(penetrating,Vector3.UP) and cache.last_support_hit_cap
+		and cache.last_support_certificates==0,
+		"grind certificate native:16 real coincident cylinder hits saturate the native query and refuse before any certificate can hide another collider")
+	for body:StaticBody3D in crowded:body.queue_free()
+	cylinder.queue_free();await _frames(tree,2)
+	query.shape=saved_shape;query.transform=saved_transform;query.margin=saved_margin
 
 
 static func _transfers(tree: SceneTree, check: Callable, root: Node3D, line: Line, cache: RefCounted) -> void:

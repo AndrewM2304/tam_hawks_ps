@@ -1,0 +1,98 @@
+{
+  "scope": "Focused exact Station prefix and existing Manual regression guards; not whole-suite or platform acceptance.",
+  "runs": {
+    "manual-grade-twin-parser": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "wall_seconds": 2.7106948920009017,
+      "source_inputs": 673,
+      "source_manifest_sha256": "dbbc152432573a59e122b8a7661ec91ceabecd8444ab1ebb002f19998242b2c3"
+    },
+    "manual-affine-prefix-native": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "4",
+          "0"
+        ]
+      ],
+      "wall_seconds": 16.24222394500248,
+      "source_inputs": 678,
+      "source_manifest_sha256": "407d8e92edd1d63fd9a38f2c0a76dbfd307a1ad797047be0dc98057b8e912a71"
+    },
+    "manual-affine-standalone-native": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "2",
+          "0"
+        ]
+      ],
+      "wall_seconds": 14.087818887001049,
+      "source_inputs": 678,
+      "source_manifest_sha256": "caf82da9b21992af8831759fdb87a3b835d0a82172d85687972fd3bb975b24a8"
+    },
+    "manual-grade-twin-guards-native": {
+      "valid": true,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "120",
+          "0"
+        ]
+      ],
+      "wall_seconds": 9.22343772199747,
+      "source_inputs": 674,
+      "source_manifest_sha256": "9940ddab3abefdfb4b45e0c5c8e9772b73c78b3ba5a80b3e1ac62a49052b9510"
+    },
+    "manual-affine-guards-rejected": {
+      "valid": false,
+      "source_stable": true,
+      "clean_log": false,
+      "result_counts": [
+        [
+          "112",
+          "8"
+        ]
+      ],
+      "wall_seconds": 9.223226476999116,
+      "source_inputs": 674,
+      "source_manifest_sha256": "c0c68f4d21d502e4334aa5170e88e4c681d5a14df22c5d383e8a26eb7a275611"
+    },
+    "manual-rim-prefix-rejected": {
+      "valid": false,
+      "source_stable": true,
+      "clean_log": false,
+      "result_counts": [
+        [
+          "3",
+          "1"
+        ]
+      ],
+      "wall_seconds": 16.289837828997406,
+      "source_inputs": 678,
+      "source_manifest_sha256": "37cf340d17e8b26ea4284e9ca30052b9f166c1bd92d882f2732171459c834bd6"
+    },
+    "manual-rim-print-prefix-rejected": {
+      "valid": false,
+      "source_stable": true,
+      "clean_log": false,
+      "result_counts": [
+        [
+          "3",
+          "1"
+        ]
+      ],
+      "wall_seconds": 16.48993782300022,
+      "source_inputs": 680,
+      "source_manifest_sha256": "4653fe781efd8c8bf2eac960b6e3c4dc1a26e8f9ce84f11d53bc17caae368970"
+    }
+  }
+}

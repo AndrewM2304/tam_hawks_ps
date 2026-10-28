@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T00:50:56.259220+00:00",
+  "completed_london": "2026-10-28T00:51:08.592027+00:00",
+  "wall_seconds": 12.332806477999839,
+  "command": [
+    "timeout",
+    "30s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/park-route-repair/bend_probe.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "3",
+      "4"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "8021b915796c811d3fd3055990919cb448cbeb5d9d100cc1ccdaaa229b82f0f6",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

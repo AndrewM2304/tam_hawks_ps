@@ -1,0 +1,17 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: C04-L05: bridge-arrival continuation uses the real relocated west quay bearing
+PASS: C04-L05: fixed bridge/landing/manual envelopes and the safe cross-quay bypass retain clear native support
+PASS: C04-L05: the reused east-west bank keeps its actual graded Z140 return and a supported bowl-deck endpoint
+PASS: C04-L05: actual ordinary Push crosses the safe bridge from its north quay onto the south landing
+PASS: C04-L05: controlled bridge turn feeds a real Manual across the landfall and Ollie onto the quay ledge
+PASS: C04-L05: the complete bridge/manual/ledge continuation exits onto dry support and earns exactly one bank
+PASS: C04-L05: ordinary chase preserves real head, board, soles, hull extremities and native camera volume along the full run
+CLYDE_FLAGSHIP_RESULT {"aligned":true,"at":"Vector3(-30.943329, 2.014012, 138.25562)","bails":0,"bank":1900,"banks":1,"bridge_supported":true,"camera_clear":true,"camera_samples":126,"captures":["Grind_Ledge_clyde_south_return"],"caught":true,"crossed":true,"ledge_ticks":21,"manual":true,"manual_start":"Vector3(-25.77439, 2.109923, 120.82721)","manual_ticks":112,"stages":[{"at":"Vector3(-25, 2.0001647, 67.00139)","balance":0.0,"speed":0.0833129808306694,"stage":"safe_bridge_crossing"},{"at":"Vector3(-25.000315, 2.2908778, 118.6299)","balance":0.0,"speed":6.41533756256104,"stage":"bridge_landing_turn"},{"at":"Vector3(-25.77439, 2.109923, 120.82721)","balance":0.05,"speed":6.5836296081543,"stage":"manual_over_landfall"},{"at":"Vector3(-31.655748, 2.013914, 130.04247)","balance":0.379236404251506,"speed":5.28737449645996,"stage":"manual_to_ledge_pop"},{"at":"Vector3(-31.750126, 2.1149013, 130.1903)","balance":0.0,"speed":5.24035120010376,"stage":"quay_ledge_air_catch"},{"at":"Vector3(-32.199997, 2.615, 131.08588)","balance":0.0,"speed":5.14802330350524,"stage":"native_quay_ledge"},{"at":"Vector3(-32.199997, 2.615, 132.60329)","balance":0.0,"speed":4.96802330350524,"stage":"dry_runout_pop"},{"at":"Vector3(-32.199997, 2.615, 132.686)","balance":0.0,"speed":4.95802211761475,"stage":"exit_inboard"},{"at":"Vector3(-32.156662, 2.7255557, 132.76863)","balance":0.0,"speed":5.59839153289795,"stage":"dry_runout_bank"},{"at":"Vector3(-30.943329, 2.014012, 136.76347)","balance":0.0,"speed":4.2535400390625,"stage":"single_bank_observation"}],"ticks":792}
+PASS: C04-L05: the relocated bank retains its published ordinary manual-line identity
+DENSITY LINE clyde_south_link reached=true manual_frames=45 deck=true bails=0 camera=true score=100 at=(-2.164413, 0.835309, 136.9586)
+PASS: full map: actual push/manual crosses both banks and raised deck, then banks once clyde_south_link
+PASS: C04-L05: unchanged bank crossing/coast and controlled bowl-side return preserve the earned bank and supported Z124 bypass
+PASS: C04-L05: the moved bank's full crossing, coast and bowl-side return keep strict ordinary full-body chase clearance
+CLYDE_BANK_RETURN_RESULT {"at":"Vector3(-14.275064, 2.0141728, 124.27256)","bail_records":[],"bails":0,"bank_after":100,"bank_before":100,"bowl_samples":241,"camera_clear":true,"camera_samples":476,"coast_at":"Vector3(-2.1644135, 0.8353089, 136.95857)","minimum_y":-0.385949373245239,"returned":true,"support_finite":true}
+RESULT: 11 passed, 0 failed

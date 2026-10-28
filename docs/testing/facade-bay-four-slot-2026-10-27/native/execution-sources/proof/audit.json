@@ -1,0 +1,295 @@
+{
+  "schema": 1,
+  "status": "UNINTEGRATED PROTOTYPE; structural audit passed",
+  "coordinate_system": "metres; Y up; +Z front; pivot at ground centre of wall plane",
+  "tested": [
+    "actual GLB budgets",
+    "one mesh/four opaque single-sided primitives",
+    "applied transforms",
+    "finite positions/normals/UVs/tangents",
+    "unit orthogonal normals/tangents",
+    "nondegenerate geometry/UV triangles",
+    "same measured LOD bounds",
+    "self-contained original embedded images",
+    "linear/mipmap/repeat samplers",
+    "no optional Draco compression dependency",
+    "decoded surface data hashes"
+  ],
+  "not_tested": [
+    "rendered appearance",
+    "Godot import",
+    "in-game comparison",
+    "LOD switching",
+    "collision/route integration",
+    "Mac performance",
+    "human visual acceptance"
+  ],
+  "source_sha256": {
+    "generator.py": "9089b13cfced0de978b9ced916e95afc69c41898c29344c14d9e512bf490c61d",
+    "audit.py": "93073cee92d5ad34f17badaf1175cc56495aff9eb0492f6b1d68d9fdd3493622",
+    "textures/opaque_glazing_basecolor.png": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894",
+    "textures/sandstone_basecolor.png": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+    "textures/sandstone_normal_opengl.png": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+    "textures/sandstone_orm.png": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9"
+  },
+  "assets": [
+    {
+      "file": "generated/glasgow_bay_near.glb",
+      "sha256": "193e20c6a6f65bf816b99dd592cf4a2196f309e7c096643a636359972f6a5ea0",
+      "bytes": 4152092,
+      "triangles": 18392,
+      "exported_vertices": 19052,
+      "opaque_surfaces": 4,
+      "bounds_min_m": [
+        -3.25,
+        0.0,
+        -0.5
+      ],
+      "bounds_max_m": [
+        3.25,
+        16.0,
+        0.36000001430511475
+      ],
+      "degenerate_triangles": 0,
+      "degenerate_uv_triangles": 0,
+      "max_normal_length_error": 1.1012185585634882e-07,
+      "max_tangent_length_error": 6.95161152632906e-05,
+      "surface_data": [
+        {
+          "material": "01_Original_sandstone",
+          "triangles": 12516,
+          "vertices": 12504,
+          "decoded_geometry_sha256": "66ecd455900029f9aeaf75ad3906567d8df7a40075a8793af9c1a31e193853b9"
+        },
+        {
+          "material": "02_Painted_forest_joinery",
+          "triangles": 5244,
+          "vertices": 5828,
+          "decoded_geometry_sha256": "5f23226f939f1d316e213e402c6764e8a7201a5feede56994c3816c4a22df049"
+        },
+        {
+          "material": "03_Opaque_glazing",
+          "triangles": 120,
+          "vertices": 240,
+          "decoded_geometry_sha256": "3325540d9d01e91d8cb3e167cfd47026ba84b4e0450b255a808b890d7fbbbd29"
+        },
+        {
+          "material": "04_Aged_dark_metal",
+          "triangles": 512,
+          "vertices": 480,
+          "decoded_geometry_sha256": "24950d958ada726a7fa27637334f5cd03285ec16535f1c54ddfe51b2aa2f8f7e"
+        }
+      ],
+      "embedded_images": [
+        {
+          "name": "sandstone_normal_opengl",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 1000855,
+          "sha256": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862"
+        },
+        {
+          "name": "sandstone_basecolor",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 1090174,
+          "sha256": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942"
+        },
+        {
+          "name": "sandstone_orm",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 810907,
+          "sha256": "c506144eb57cb738f0f75aa586af98f79bb2c316f79ce415fc0597d661ea9360"
+        },
+        {
+          "name": "opaque_glazing_basecolor",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 66857,
+          "sha256": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894"
+        }
+      ]
+    },
+    {
+      "file": "generated/glasgow_bay_mid.glb",
+      "sha256": "2794aff0ad9aa6c9865c6c25940388186b72514b695330578b856fc7108cd5bd",
+      "bytes": 3300944,
+      "triangles": 3544,
+      "exported_vertices": 5444,
+      "opaque_surfaces": 4,
+      "bounds_min_m": [
+        -3.25,
+        0.0,
+        -0.5
+      ],
+      "bounds_max_m": [
+        3.25,
+        16.0,
+        0.36000001430511475
+      ],
+      "degenerate_triangles": 0,
+      "degenerate_uv_triangles": 0,
+      "max_normal_length_error": 1.1012185585634882e-07,
+      "max_tangent_length_error": 6.95161152632906e-05,
+      "surface_data": [
+        {
+          "material": "01_Original_sandstone",
+          "triangles": 2204,
+          "vertices": 3308,
+          "decoded_geometry_sha256": "17d1116c0ed57bcb23667d2e6f2fc46f9fa8b725f1f6a9ebddb9d27bf558a92c"
+        },
+        {
+          "material": "02_Painted_forest_joinery",
+          "triangles": 708,
+          "vertices": 1416,
+          "decoded_geometry_sha256": "aab72838cd77f10cd1a1eef076ddb639720826ff3c519805b11ead91ea985a63"
+        },
+        {
+          "material": "03_Opaque_glazing",
+          "triangles": 120,
+          "vertices": 240,
+          "decoded_geometry_sha256": "3325540d9d01e91d8cb3e167cfd47026ba84b4e0450b255a808b890d7fbbbd29"
+        },
+        {
+          "material": "04_Aged_dark_metal",
+          "triangles": 512,
+          "vertices": 480,
+          "decoded_geometry_sha256": "24950d958ada726a7fa27637334f5cd03285ec16535f1c54ddfe51b2aa2f8f7e"
+        }
+      ],
+      "embedded_images": [
+        {
+          "name": "sandstone_normal_opengl",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 1000855,
+          "sha256": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862"
+        },
+        {
+          "name": "sandstone_basecolor",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 1090174,
+          "sha256": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942"
+        },
+        {
+          "name": "sandstone_orm",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 810907,
+          "sha256": "c506144eb57cb738f0f75aa586af98f79bb2c316f79ce415fc0597d661ea9360"
+        },
+        {
+          "name": "opaque_glazing_basecolor",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 66857,
+          "sha256": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894"
+        }
+      ]
+    },
+    {
+      "file": "generated/glasgow_bay_far.glb",
+      "sha256": "5caa367a6d8d4e2e30e97df8a462251edc6826e5bec2a5ef76669a907efe9994",
+      "bytes": 3051228,
+      "triangles": 648,
+      "exported_vertices": 1296,
+      "opaque_surfaces": 4,
+      "bounds_min_m": [
+        -3.25,
+        0.0,
+        -0.5
+      ],
+      "bounds_max_m": [
+        3.25,
+        16.0,
+        0.36000001430511475
+      ],
+      "degenerate_triangles": 0,
+      "degenerate_uv_triangles": 0,
+      "max_normal_length_error": 0.0,
+      "max_tangent_length_error": 0.0,
+      "surface_data": [
+        {
+          "material": "01_Original_sandstone",
+          "triangles": 444,
+          "vertices": 888,
+          "decoded_geometry_sha256": "3321b0e686dc17a8e94d008f902f54f82ef336c53266d5be33d5a56fbfdcf921"
+        },
+        {
+          "material": "02_Painted_forest_joinery",
+          "triangles": 72,
+          "vertices": 144,
+          "decoded_geometry_sha256": "5ccae3c823cc7bcc0d0113bfc3f86b3fa5b48395b5204dec6c1cc554f7d92805"
+        },
+        {
+          "material": "03_Opaque_glazing",
+          "triangles": 120,
+          "vertices": 240,
+          "decoded_geometry_sha256": "3325540d9d01e91d8cb3e167cfd47026ba84b4e0450b255a808b890d7fbbbd29"
+        },
+        {
+          "material": "04_Aged_dark_metal",
+          "triangles": 12,
+          "vertices": 24,
+          "decoded_geometry_sha256": "bd266a2fcffa1c592c3a8721156a17bb3638dac78c144a8152395948c031fb11"
+        }
+      ],
+      "embedded_images": [
+        {
+          "name": "sandstone_normal_opengl",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 1000855,
+          "sha256": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862"
+        },
+        {
+          "name": "sandstone_basecolor",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 1090174,
+          "sha256": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942"
+        },
+        {
+          "name": "sandstone_orm",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 810907,
+          "sha256": "c506144eb57cb738f0f75aa586af98f79bb2c316f79ce415fc0597d661ea9360"
+        },
+        {
+          "name": "opaque_glazing_basecolor",
+          "dimensions": [
+            1024,
+            1024
+          ],
+          "bytes": 66857,
+          "sha256": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894"
+        }
+      ]
+    }
+  ]
+}

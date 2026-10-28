@@ -1,0 +1,205 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: wallride: actual glancing side approach enters one physical wall ride
+PASS: wallride: native tangent travel advances without penetrating the solid wall
+PASS: wallride: retained normal and identity come from the real contacted wall
+PASS: wallride: collision resolves inward support while preserving useful tangent velocity
+PASS: wallride: explicitly reduced gravity descends rather than creating a vertical climb
+PASS: wallride: freezing physics consumes neither ride time, cooldown nor motion
+PASS: wallride: releasing the held action exits once with a reentry cooldown
+PASS: wallride: ordinary release carries tangent momentum outward without a jump award
+PASS: wallride: immediate recapture cannot bypass the attachment cooldown
+PASS: wallride: a deliberate wallie releases exactly once through the actual physics step
+PASS: wallride: wallie combines outward kick and upward launch with retained tangent momentum
+PASS: wallride: the launched capsule actually moves clear of its wall
+PASS: wallride: held input after a wallie cannot create another capture or launch
+PASS: wallride: an indefinitely held ride releases at its finite 1.25-second bound
+PASS: wallride: duration expiry follows real travel and does not fabricate a bail
+PASS: wallride: finite wall endpoint releases without wrapping or invisible support
+PASS: wallride: the rider physically leaves the wall endpoint
+PASS: wallride: steering away provides a deliberate lateral exit
+PASS: wallride: head-on approach retains ordinary collision instead of capturing
+PASS: wallride: slow approach retains ordinary collision instead of capturing
+PASS: wallride: outward approach retains ordinary collision instead of capturing
+PASS: wallride: nonfinite entry velocity cannot create support
+PASS: wallride: explicitly excluded wall cannot capture through actual probes
+PASS: wallride: floor rejection fixture has actual grounded support
+PASS: wallride: grounded contact cannot manufacture an airborne wall ride
+PASS: wallride: a real obstruction ends support with one failure result
+PASS: wallride: actual impact blocks travel and discarded momentum is never restored
+PASS: wallride: removed wall releases its weak reference without ghost support or a false bail
+PASS: wallride: reset clears all contact, travel and cooldown state
+PASS: wallride: invalid clock samples do not shorten cooldown
+PASS: wallride: a real elapsed cooldown reopens future eligibility
+PASS: wallride: wallie requires contact still eligible on the actual launch frame
+PASS: wallride: invalid integration time ends support without sending invalid native motion
+PASS: wallride: substantial solid architecture is eligible by default
+PASS: wallride: explicit false eligibility excludes architecture
+PASS: wallride: explicit no-wallride wins over an allow tag
+PASS: wallride: a real continuous static glass wall is eligible like other rigid architecture
+PASS: wallride: protected scenic glazing still honours an explicit exclusion
+PASS: wallride: scenery exclusion LowFence is honest
+PASS: wallride: scenery exclusion TinyProp is honest
+PASS: wallride: scenery exclusion WaterBoundary is honest
+PASS: wallride: scenery exclusion CanvasCanopy is honest
+PASS: wallride: moving bodies cannot masquerade as static walls
+PASS: wallride: detached surface audits account for ancestor scale without global-transform errors
+PASS: wallride: architecture eligibility measures actual world dimensions after rotation
+PASS: wallride coverage: actual solid boundary keeps honest stone/iron eligibility after its surface audit
+PASS: wallride coverage: native solid masonry supports tangent travel across real panel joins without penetration
+PASS: wallride coverage: solid wallie returns away from the actual boundary once
+PASS: wallride coverage: solid boundary keeps every original collision shape through ride and exit
+PASS: wallride coverage: actual opaque boundary keeps honest stone/iron eligibility after its surface audit
+PASS: wallride coverage: native opaque masonry supports tangent travel across real panel joins without penetration
+PASS: wallride coverage: opaque wallie returns away from the actual boundary once
+PASS: wallride coverage: opaque boundary keeps every original collision shape through ride and exit
+PASS: wallride coverage: actual iron boundary keeps honest stone/iron eligibility after its surface audit
+PASS: wallride coverage: the same finite iron fence retains collision without inventing an opaque supporting wall
+PASS: wallride coverage: iron boundary keeps every original collision shape through ride and exit
+PASS: wallride coverage: actual solid masonry ends finite support instead of extending a remembered plane
+PASS: wallride coverage: actual opaque masonry ends finite support instead of extending a remembered plane
+PASS: wallride coverage: actual compound station masonry is rideable while the scenic track glazing remains excluded
+PASS: wallride coverage: the real station wall admits finite native glancing support rather than a metadata-only claim
+PASS: wallride coverage: insufficient native stone wall dimensions stay excluded [1.5, 8.0]
+PASS: wallride coverage: insufficient native stone wall dimensions stay excluded [3.0, 1.0]
+PASS: wallride coverage: actual finite continuous glass supports native glancing travel without material-only rejection
+PASS: wallride coverage: changing that real glass pane to protected scenery releases support without a wallie
+PASS: native ledge fallback: unlisted bench has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted bench keeps deterministic identity and exact native20mm contact datum
+PASS: native ledge fallback: all unlisted bench interior samples admit the production capsule and finite motion
+PASS: native ledge fallback: unlisted ledge has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted ledge keeps deterministic identity and exact native20mm contact datum
+PASS: native ledge fallback: all unlisted ledge interior samples admit the production capsule and finite motion
+PASS: native ledge fallback: unlisted curb has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted curb keeps deterministic identity and exact native20mm contact datum
+PASS: native ledge fallback: all unlisted curb interior samples admit the production capsule and finite motion
+PASS: native ledge fallback: unlisted floor has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted buried has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted fence has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted protected_glass has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted provider_cap has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted overhead has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted round_overhead has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted decor has honest exposed-top coverage without new scene nodes
+PASS: native edge contact: generated physical bench publishes the real outward side -1.0
+PASS: native edge contact: exact crown and real capsule admit the same supported candidate -1.0 blocked=false
+PASS: native edge contact: actual connected model distinguishes clear edge from neighbouring solid -1.0 blocked=false
+PASS: native edge contact: full Skater held input catches the generated edge with exact Fifty-Fifty support -1.0
+PASS: native edge contact: mirrored supported grind advances through eight native ticks without duplicate capture -1.0
+PASS: native edge contact: both truck anchors keep the physical crown while the board leans over its exposed side -1.0
+NATIVE_EDGE_FULL_SKATER { "side": -1.0, "blocked": false, "roll": 0.15902315693324, "crown": (-0.576, 0.55, -0.3), "body_clearance": 0.01499999966472, "model_clear": true, "capsule_clear": true, "captures": ["Grind_Ledge_UnlistedPhysicalBench_1_Native_0_0_0"], "grinding": true, "position": (0.218667, 0.565, -0.3), "support_error": 0.00000018848644 }
+PASS: native edge contact: generated physical bench publishes the real outward side 1.0
+PASS: native edge contact: exact crown and real capsule admit the same supported candidate 1.0 blocked=false
+PASS: native edge contact: actual connected model distinguishes clear edge from neighbouring solid 1.0 blocked=false
+PASS: native edge contact: full Skater held input catches the generated edge with exact Fifty-Fifty support 1.0
+PASS: native edge contact: mirrored supported grind advances through eight native ticks without duplicate capture 1.0
+PASS: native edge contact: both truck anchors keep the physical crown while the board leans over its exposed side 1.0
+NATIVE_EDGE_FULL_SKATER { "side": 1.0, "blocked": false, "roll": 0.15902315693324, "crown": (0.576, 0.55, 0.3), "body_clearance": 0.01499999966472, "model_clear": true, "capsule_clear": true, "captures": ["Grind_Ledge_UnlistedPhysicalBench_1_Native_0_2_0"], "grinding": true, "position": (-0.218667, 0.565, 0.3), "support_error": 0.00000018848644 }
+PASS: native edge contact: generated physical bench publishes the real outward side 1.0
+PASS: native edge contact: exact crown and real capsule admit the same supported candidate 1.0 blocked=true
+PASS: native edge contact: actual connected model distinguishes clear edge from neighbouring solid 1.0 blocked=true
+PASS: native edge contact: held Grind cannot ignore a real adjacent model obstruction
+NATIVE_EDGE_FULL_SKATER { "side": 1.0, "blocked": true, "roll": 0.15902315693324, "crown": (0.576, 0.55, 0.3), "body_clearance": 0.01499999966472, "model_clear": false, "capsule_clear": true, "captures": [], "grinding": false, "position": (0.476, 0.673889, 0.3), "support_error": inf }
+PASS: native ledge fallback: ordinary world contains the actual sunken-park retaining edges
+PASS: native ledge fallback: all five real north retaining lips expose finite south top guides while flush north faces and port gaps stay unregistered
+PASS: native edge contact: held Grind catches and advances on the actual retaining lip beside the excavated upper deck
+NATIVE_RETAINING_FULL_SKATER { "id": "Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0", "crown": (-224.5407, 14.5, -184.0), "solved": true, "native_crown": true, "capsule": true, "actual_model": true, "board": true, "captures": ["Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0"], "grinding": true, "position": (-225.3354, 14.515, -184.0), "support_error": 0.00001525878906 }
+PASS: surface audit: inventories real level colliders and substantial rideable walls
+PASS: surface audit: generated and retained semantic furniture edges expose at least40 collision-backed top candidates
+PASS: surface audit: all authored and derived grind tracks retain unique stable IDs
+SURFACE_NATIVE_BODY_DATUM radius=0.28000000119209 base_offset=0.0
+PASS: surface audit: every physical surface has a reason; real opaque property masonry admits wallrides while open ironwork retains its safety exclusion
+PASS: surface audit: architecture wall tags agree with production wallride eligibility
+PASS: surface audit: each selected visible ledge candidate references actual published grind tracks
+SURFACE BLOCKED GENERATED TRACKS ["Grind_Ledge_Planter_3_2"]
+ERROR: FAIL: surface audit: new generated and raised-terrain ledges capture at three interior points with the production capsule and native collision sweep
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/native_ledge_wall_focus.gd:14)
+       [1] run (res://tests/surface_coverage_tests.gd:122)
+PRODUCTION DENSE ADMISSION BLOCKED ["clyde_half_west_coping", "Grind_Edge_StairCheek_x-1000y90z-900_3_0", "Grind_Edge_StairCheek_x1000y90z-900_3_0", "Grind_Edge_MarketCounter_x10800y60z200_0_0", "Grind_Edge_MarketCounter_x12000y60z200_2_0", "Grind_Edge_StreetBenchSeat_x-12700y200z2800_0_0", "Grind_Edge_StreetBenchSeat_x-12700y200z2800_1_0", "Grind_Edge_StreetBenchSeat_x-12700y200z2800_3_0", "Grind_Edge_StreetBenchSeat_x6000y0z4150_0_0", "Grind_Edge_StreetBenchSeat_x6000y0z4150_1_0", "Grind_Edge_StreetBenchSeat_x6000y0z4150_3_0", "Grind_Edge_StreetBenchSeat_x2900y600z-11600_0_0", "Grind_Edge_StreetBenchSeat_x2900y600z-11600_1_0", "Grind_Edge_StreetBenchSeat_x2900y600z-11600_3_0", "Grind_Edge_StreetBenchSeat_x2900y0z2700_0_0", "Grind_Edge_StreetBenchSeat_x2900y0z2700_1_0", "Grind_Edge_StreetBenchSeat_x2900y0z2700_3_0", "Grind_Ledge_Planter_3_2", "Grind_Ledge_PrintYardPlanter_1_3"]
+PRODUCTION DENSE ADMISSION samples=7187
+ERROR: FAIL: surface audit: over5000 native-profile sweeps admit every unlisted track and independently reject exactly17 documented inherited obstructed candidates
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/native_ledge_wall_focus.gd:14)
+       [1] run (res://tests/surface_coverage_tests.gd:145)
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_MarketCounter_x10800y60z200_0_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_MarketCounter_x12000y60z200_2_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StairCheek_x-1000y90z-900_3_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StairCheek_x1000y90z-900_3_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x-12700y200z2800_0_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x-12700y200z2800_1_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x-12700y200z2800_3_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x2900y0z2700_0_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x2900y0z2700_1_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x2900y0z2700_3_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x2900y600z-11600_0_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x2900y600z-11600_1_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x2900y600z-11600_3_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x6000y0z4150_0_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x6000y0z4150_1_0
+PASS: surface audit: actual native admission refuses documented obstruction Grind_Edge_StreetBenchSeat_x6000y0z4150_3_0
+PASS: surface audit: actual native admission refuses documented obstruction clyde_half_west_coping
+SURFACE INHERITED NEGATIVE WITNESSES {"Grind_Edge_MarketCounter_x10800y60z200_0_0":{"next":"(106.5, 1.255, -0.904)","point":"(106.5, 1.255, -0.704)","reason":"stocked counter approach intersects its preserved native goods"},"Grind_Edge_MarketCounter_x12000y60z200_2_0":{"next":"(121.5, 1.255, -0.842)","point":"(121.5, 1.255, -1.042)","reason":"stocked counter approach intersects its preserved native goods"},"Grind_Edge_StairCheek_x-1000y90z-900_3_0":{"next":"(-10.5, 1.855, -11.78852)","point":"(-10.5, 1.855, -11.58852)","reason":"inner stair cheek meets the adjoining native stair solid"},"Grind_Edge_StairCheek_x1000y90z-900_3_0":{"next":"(9.5, 1.855, -11.78852)","point":"(9.5, 1.855, -11.58852)","reason":"inner stair cheek meets the adjoining native stair solid"},"Grind_Edge_StreetBenchSeat_x-12700y200z2800_0_0":{"next":"(-127.7225, 2.6, 27.72)","point":"(-127.9225, 2.6, 27.72)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x-12700y200z2800_1_0":{"next":"(-125.65, 2.6, 28.0874)","point":"(-125.65, 2.6, 27.8874)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x-12700y200z2800_3_0":{"next":"(-128.35, 2.6, 27.8926)","point":"(-128.35, 2.6, 28.0926)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x2900y0z2700_0_0":{"next":"(28.2775, 0.6, 26.72)","point":"(28.0775, 0.6, 26.72)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x2900y0z2700_1_0":{"next":"(30.35, 0.6, 27.0874)","point":"(30.35, 0.6, 26.8874)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x2900y0z2700_3_0":{"next":"(27.65, 0.6, 26.8926)","point":"(27.65, 0.6, 27.0926)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x2900y600z-11600_0_0":{"next":"(28.2775, 6.6, -116.28)","point":"(28.0775, 6.6, -116.28)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x2900y600z-11600_1_0":{"next":"(30.35, 6.599999, -115.9126)","point":"(30.35, 6.6, -116.1126)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x2900y600z-11600_3_0":{"next":"(27.65, 6.599999, -116.1074)","point":"(27.65, 6.6, -115.9074)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x6000y0z4150_0_0":{"next":"(59.2775, 0.6, 41.22)","point":"(59.0775, 0.6, 41.22)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x6000y0z4150_1_0":{"next":"(61.35, 0.6, 41.5874)","point":"(61.35, 0.6, 41.3874)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Edge_StreetBenchSeat_x6000y0z4150_3_0":{"next":"(58.65, 0.6, 41.3926)","point":"(58.65, 0.6, 41.5926)","reason":"backrest or end-frame obstructs part of this inherited seat-edge candidate"},"Grind_Ledge_Planter_3_2":{"next":"(-29.03333, 2.835, -30.5)","point":"(-28.83333, 2.835, -30.5)","reason":"UNEXPECTED"},"Grind_Ledge_PrintYardPlanter_1_3":{"next":"(38.5, 2.735, 124.6333)","point":"(38.5, 2.735, 124.8333)","reason":"UNEXPECTED"},"clyde_half_west_coping":{"next":"(-49.2, 5.27, 55.64483)","point":"(-49.2, 5.27, 55.84483)","reason":"retained landward halfpipe wall blocks an interior coping approach"}}
+PASS: surface audit: each inherited bench retains its usable unobstructed front edge
+PASS: surface audit: callers cannot mutate the level inventory
+PASS: surface audit: visible bridge handrail is grindable safe west
+PASS: surface audit: visible bridge handrail is grindable safe east
+PASS: surface audit: visible bridge handrail is grindable north west
+PASS: surface audit: broken bridge rail cannot bridge the water gap north west
+PASS: surface audit: visible bridge handrail is grindable north east
+PASS: surface audit: broken bridge rail cannot bridge the water gap north east
+PASS: surface audit: visible bridge handrail is grindable south west
+PASS: surface audit: broken bridge rail cannot bridge the water gap south west
+PASS: surface audit: visible bridge handrail is grindable south east
+PASS: surface audit: broken bridge rail cannot bridge the water gap south east
+PASS: surface audit: existing quay and park connector each have a real transition practice pocket
+PASS: surface audit: ten-metre-plus transition approach and landing are truly supported and clear kelvingrove_promenade_practice
+PASS: surface audit: ten-metre-plus transition approach and landing are truly supported and clear clyde_quarter_native
+PASS: surface audit: representative wallride masonry has the expected real vertical side face
+PRINTYARD_CORNER_CONTROLS rear_present=2 rear_and_end_absent=2
+PASS: surface audit: both coplanar yard corners retain independent rear-wall backing and refuse an absent rear/end pair
+PASS: surface audit: exposed convex retaining masonry supports wallrides with a real vertical face
+PASS: surface audit: visible park perimeter contains the new terrace at rider height 6.0
+PASS: surface audit: visible park perimeter contains the new terrace at rider height 7.19117647058824
+PASS: surface audit: all four accessible street furniture groups have physical seats and containers
+PASS: surface audit: actual slatted bench feet rest on ground and associated candidates meet real wood without filling its gaps (-127.0, 2.0, 28.0)
+PASS: surface audit: actual slatted bench feet rest on ground and associated candidates meet real wood without filling its gaps (60.0, 0.0, 41.5)
+PASS: surface audit: actual slatted bench feet rest on ground and associated candidates meet real wood without filling its gaps (29.0, 6.0, -116.0)
+PASS: surface audit: actual slatted bench feet rest on ground and associated candidates meet real wood without filling its gaps (29.0, 0.0, 27.0)
+PASS: surface audit: upright litter container has actual floor and visible-lid collision with an explicit finite-ledge exclusion station_west
+PASS: surface audit: upright litter container has actual floor and visible-lid collision with an explicit finite-ledge exclusion barras_south
+PASS: surface audit: upright litter container has actual floor and visible-lid collision with an explicit finite-ledge exclusion civic_east
+PASS: surface audit: upright litter container has actual floor and visible-lid collision with an explicit finite-ledge exclusion exchange_east
+PASS: surface audit: relocated Barras furniture leaves a clear native corridor around the entire manual bank
+PASS: surface audit: visible60mm court seat cap has native top/50mm overhang and exact finite outer bounds CourtPlanterSeat_1
+PASS: surface audit: visible60mm court seat cap has native top/50mm overhang and exact finite outer bounds CourtPlanterSeat_2
+PASS: sunken park: real facility, resolvable World node path and supported summit access are registered in the existing park
+PASS: sunken park: all192 original hill cells and384 native triangles are truly excavated, with no hidden hill through the bowls
+PASS: sunken park:1200 independent native rays agree with the actual deck, basin, bowl and stair height query
+PASS: sunken park: visibly different bowl depth has real exposed native floor (-197.0, 11.0, -194.0)
+PASS: sunken park: visibly different bowl depth has real exposed native floor (-219.0, 13.0, -195.0)
+PASS: sunken park: every shared summit/ramp/entry seam has native support and inclusive exact height queries in both directions
+PASS: sunken park: actual grass collar remains continuously supported around all four excavated edges
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown clyde_print_yard_ledge
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown clyde_quay_coping
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown clyde_bridge_rail
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown kelvingrove_cutback_ledge
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown kelvingrove_terrace_coping
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown kelvingrove_s_bend_0
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown kelvingrove_s_bend_1
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown Grind_Rail_ClydeSouthRelay
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown clyde_north_handrail_west
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown clyde_north_handrail_east
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown clyde_south_handrail_west
+PASS: surface audit: finite Outdoor bearing path has matching real native beam crown clyde_south_handrail_east
+PASS: park material: visual-only repair preserves the complete native shoulder/asphalt collision face snapshots
+PARK SEAT VISIBLE/NATIVE samples=60 maximum_error_m=0.00004386901855
+PASS: park material: actual relocated seat mesh BVHs match their native tops before reviewing every underlying floor coordinate
+PARK VISIBLE MATERIAL samples=3135 native_separation=0.00196266174316..0.00604438781738
+PASS: park material: actual visible mesh BVHs at over3000 reviewed road/stone sites stay above real support within nine millimetres
+PASS: surface terrain rays: every excluded registered steel RID independently matches its native rail-layer hit; all original floor sites remain checked
+SURFACE TERRAIN STEEL WITNESSES {"15964393439570":{"label":"NativeBowlSteelCoping","normal":"(0.172629, 0.981149, 0.086872)","point":"(-191.0, 14.56799, -191.0)"},"16140487098713":{"label":"NativeBowlSteelCoping","normal":"(-0.497239, 0.830734, -0.250269)","point":"(-215.0, 14.56033, -193.0)"},"22797686407653":{"label":"NativeGrindBearing","normal":"(0.021448, 0.644479, 0.764321)","point":"(-146.6, 6.455113, -107.9)"},"2701534429243":{"label":"NativeGrindBearing","normal":"(-0.714275, 0.699865, 0.0)","point":"(-15.65, 0.538991, 13.0)"}}
+NATIVE_LEDGE_WORK {"audit_startup_us":3891010,"box_shapes":131,"candidate_edges":212,"edge_obstacle_tests":345668,"guides":5,"headroom_rejected_intervals":4330,"interval_obstacle_tests":13655,"intervals":10372,"max_nearby_obstacles":8,"native_space_queries":0,"outdoor_screened_edges":6,"shared_native_support_links":5,"terrain_query_count":11184,"terrain_screened_edges":6}
+RESULT: 178 passed, 2 failed

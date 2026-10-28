@@ -57,11 +57,14 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		"the production rail can be ridden in the reverse direction")
 	Input.action_release("grind")
 	await _frames(tree, 1)
+	var release_from: Vector3=game.skater.global_position
 	Input.action_press("grind")
 	await _frames(tree, 2)
 	Input.action_release("grind")
-	check.call(not game.skater.grinding and game.skater.airborne,
-		"a second fresh grind tap drops off without teleporting to spawn")
+	check.call(not game.skater.grinding and game.skater._grind_cooldown>=.30
+		and game.skater.global_position.is_finite() and game.skater.global_position.distance_to(release_from)<.40
+		and (game.skater.airborne or _solid_rail_support(game,"Grind_Rail_Exchange")),
+		"a second fresh grind tap releases near the same solid rail without teleporting to spawn")
 
 	await _start(tree, game, Vector3(12, 1.08, 5.75), Vector3(0, -1, -6))
 	Input.action_press("grind")
@@ -71,11 +74,11 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	Input.action_release("grind")
 
 	var captures_before := captures.size()
-	await _start(tree, game, Vector3(12, 1.1, 10), Vector3(6, -1, 0))
+	await _start(tree, game, Vector3(12.50, 1.1, 10), Vector3(6, -1, 0))
 	Input.action_press("grind")
 	await _frames(tree, 2)
 	check.call(not game.skater.grinding and _grind_award_count(game.score.trick_history) == 0 and captures.size() == captures_before,
-		"perpendicular travel cannot snap, score or emit an authored rail capture")
+		"perpendicular travel away from the rail outside the close-contact band cannot snap, score or emit a capture")
 	Input.action_release("grind")
 
 	captures_before = captures.size()
@@ -164,3 +167,19 @@ static func _grind_award_count(names: Array) -> int:
 	for name: String in names:
 		if Catalog.is_grind_name(name): count += 1
 	return count
+
+
+static func _solid_rail_support(game: Node, id: String) -> bool:
+	# A fresh release may already have landed on the actual solid bar by the
+	# second observation. Require native support from that exact authored rail.
+	if not game.skater.is_on_floor() or game.skater.airborne:return false
+	var at: Vector3=game.skater.global_position
+	var ray:=PhysicsRayQueryParameters3D.create(at+Vector3.UP*.04,at-Vector3.UP*.12,1|2)
+	ray.exclude=[game.skater.get_rid()]
+	var hit: Dictionary=game.world.get_world_3d().direct_space_state.intersect_ray(ray)
+	if hit.is_empty() or not hit.collider is StaticBody3D:return false
+	var body: StaticBody3D=hit.collider
+	var ids: Variant=body.get_meta("authored_grind_ids",[])
+	return (body.collision_layer&(1|2))==(1|2) and (ids is Array or ids is PackedStringArray) \
+		and ids.has(id) and Vector3(hit.normal).y>.99 and at.y-Vector3(hit.position).y>=-.001 \
+		and at.y-Vector3(hit.position).y<=.03

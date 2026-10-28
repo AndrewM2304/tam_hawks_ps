@@ -1,0 +1,281 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: classic input: holding mapped Space for 2 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (2f)
+PASS: classic input: releasing mapped Space pops exactly once (2f)
+PASS: classic input: one held/released request lands without automatic hopping (2f)
+PASS: classic input: holding mapped Space for 36 frames crouches without launching or scoring
+PASS: classic input: held ollie visibly lowers the rider before release (36f)
+PASS: classic input: releasing mapped Space pops exactly once (36f)
+PASS: classic input: one held/released request lands without automatic hopping (36f)
+PASS: classic input: a deliberate crouch charges a measurably higher real ollie
+CLASSIC OLLIE short_apex=0.826 charged_apex=1.262
+PASS: classic flip: mapped J snapshots kickflip across a direction change before release
+PASS: classic flip: held kickflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots heelflip across a direction change before release
+PASS: classic flip: held heelflip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots frontside_shuvit across a direction change before release
+PASS: classic flip: held frontside_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots pop_shuvit across a direction change before release
+PASS: classic flip: held pop_shuvit finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots varial_flip across a direction change before release
+PASS: classic flip: held varial_flip finishes with one family award and a real landing
+PASS: classic flip: mapped J snapshots hardflip across a direction change before release
+PASS: classic flip: held hardflip finishes with one family award and a real landing
+PASS: classic grab: direction plus mapped K selects melon_grab in real airtime
+PASS: classic grab: held melon_grab stays selected while the stick changes direction
+PASS: classic grab: release ends melon_grab without a second award
+PASS: classic grab: direction plus mapped K selects indy_grab in real airtime
+PASS: classic grab: held indy_grab stays selected while the stick changes direction
+PASS: classic grab: release ends indy_grab without a second award
+PASS: classic grab: direction plus mapped K selects nose_grab in real airtime
+PASS: classic grab: held nose_grab stays selected while the stick changes direction
+PASS: classic grab: release ends nose_grab without a second award
+PASS: classic grab: direction plus mapped K selects tail_grab in real airtime
+PASS: classic grab: held tail_grab stays selected while the stick changes direction
+PASS: classic grab: release ends tail_grab without a second award
+PASS: classic grab: direction plus mapped K selects method_grab in real airtime
+PASS: classic grab: held method_grab stays selected while the stick changes direction
+PASS: classic grab: release ends method_grab without a second award
+PASS: classic flip: a fresh press during the unfinished clip cannot overlap or score twice
+PASS: classic flip: a fresh directional press after clip completion starts a second distinct flip
+PASS: classic manual: mapped M selects manual at eligible real ground speed
+PASS: classic manual: manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends manual
+PASS: classic manual: mapped M selects nose_manual at eligible real ground speed
+PASS: classic manual: nose_manual balance correction cannot relabel or duplicate the trick
+PASS: classic manual: releasing M ends nose_manual
+PASS: classic manual: tail and nose variants tilt the visible board in opposite directions
+PASS: classic gesture: mapped Left-Y Up-neutral-Down admits manual once within 220ms
+PASS: classic gesture: releasing the completed manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: mapped Left-Y Down-neutral-Up admits nose_manual once within 220ms
+PASS: classic gesture: releasing the completed nose_manual gesture keeps its existing balance link latched
+PASS: classic gesture: entry-disabled overtime preserves the existing latched nose_manual
+PASS: classic gesture: another stick gesture during overtime cannot create or relabel a manual award
+PASS: classic gesture: a fresh mapped M press can drop an existing gesture manual during overtime
+PASS: classic gesture: overtime rejects a new gesture entry after the previous manual has ended
+PASS: classic gesture: a direct push-to-brake reversal with no sampled neutral cannot turn ordinary braking into an automatic manual
+PASS: classic gesture: an expired >220ms stick sequence cannot turn ordinary braking into an automatic manual
+PASS: classic air: partial stick spin preserves physical flight heading and horizontal momentum
+PASS: classic air: the same partial stick visibly spins rider and deck
+PASS: classic rail: a released one-tick mapped Triangle tap buffers one native solid-endpoint catch within180ms
+CLASSIC RAIL request_tick=2576 release_tick=2577 capture_ticks=[2578] request_at=(0.0, 1.121554, -0.942209) request_velocity=(0.0, 2.761511, -13.9374) uncaptured_while_pressed=true buttons_at_capture=[false] native_support=[true] native_board_support=[true] body_crown_gaps=[0.01500004529953] safe_margin=0.01499999966472
+PASS: classic rail: a released capture button neither drops nor repeatedly awards the locked rail
+PASS: classic rail: a second fresh mapped Triangle press drops without an immediate recapture
+PASS: classic gates: disabling controls clears a crouch so its stale release cannot pop
+PASS: classic gates: overtime allows existing airtime but rejects new flip and grab entries
+PASS: classic gates: reset clears every selected/active trick family
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before axle_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits axle_stall at actual coping
+PASS: classic lip: held axle_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops axle_stall inward toward its own ramp
+PASS: classic lip: axle_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE axle_stall max_pitch=72.8294995042203 position=(17.0, 2.011549, 81.99017) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before nose_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits nose_stall at actual coping
+PASS: classic lip: held nose_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: holding Ollie crouches in the stall until release
+CLASSIC LIP POP air=true lip=false velocity=(0.0, 8.728017, 1.2) seen=["Nose Stall", "Ollie"]
+PASS: classic lip: release-pop exits the real coping once into upward airtime
+PASS: classic lip: nose_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE nose_stall max_pitch=72.8294995042203 position=(17.0, 2.011543, 75.91589) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before tail_stall
+PASS: classic lip: a fresh mapped Triangle plus direction admits tail_stall at actual coping
+PASS: classic lip: held tail_stall balances finitely and awards only its single admitted entry
+PASS: classic lip: overtime preserves an existing stall but rejects new tricks and pop
+PASS: classic lip: existing overtime stall still permits an ordinary release/drop
+PASS: classic lip: tail_stall exits and returns to supported current fixture without falling through
+CLASSIC PIPE tail_stall max_pitch=72.8294995042203 position=(17.0, 2.011557, 81.99017) bails=0
+PASS: classic pipe: ordinary Push reaches the finite curved quarter above 70 degrees before disaster
+PASS: classic lip: a fresh mapped Triangle plus direction admits disaster at actual coping
+PASS: classic lip: held disaster balances finitely and awards only its single admitted entry
+PASS: classic lip: releasing Triangle drops disaster inward toward its own ramp
+PASS: classic lip: disaster exits and returns to supported current fixture without falling through
+CLASSIC PIPE disaster max_pitch=72.8294995042203 position=(17.04967, 2.011549, 81.99938) bails=0
+PASS: classic lip: Triangle on ordinary flat approach cannot create a stall
+PASS: classic lip: a released expired Triangle from flat ground cannot acquire a later coping
+PASS: classic lip: a real solid obstruction at the coping rejects an otherwise held approach
+PASS: classic pipe: blocked coping contact never restores an analytic target through the obstacle
+PASS: classic pipe: removing a real obstruction cannot resurrect momentum already removed by its collision
+PASS: classic vert: ordinary roll-up naturally releases upward from the actual quarter without a jump input
+PASS: classic vert: exactly two real air ticks preserve XZ momentum and apply the owner-requested22m/s2 ramp gravity
+CLASSIC VERT released=true launch_tick=4510 elapsed_ticks=2 launch=(0.0, 7.079563, -0.0) expected_up=6.34622933069865 after=(0.0, 6.346229, -0.0)
+PASS: classic vert: preserved ramp launch gains real height from gentler air gravity
+PASS: classic vert: ramp-air gravity ends on real support without leaking into subsequent flat ollies
+CLASSIC RAMP HEIGHT rise=0.86309814453125 expected=0.915332425405 landed=true
+PASS: classic halfpipe: a modest actual push climbs its finite east wall and naturally reverses below the coping
+PASS: classic halfpipe: reverse wall exit carries momentum back across the supported flat bottom
+CLASSIC HALFPIPE entered=true reversed=true crossed=true maxheight=2.98458480834961 position=(-40.03687, 2.014028, 61.5) velocity=(-5.762101, 0.0, -0.0)
+TRANSITION90 position=(0.0, 0.000839, 19.54659) velocity=(0.0, 0.0, 11.72796) entry=1 launch=1 land=1 exit=1 bail=0 height=3.182 pitch=90.000 error=0.00000 energy=72.558
+PASS: transition: real approach traverses the finite face and launches once
+PASS: transition: capsule reaches a genuine 90-degree wall and rises above its lip
+PASS: transition: descending vertical return lands once then rolls out through the actual toe
+PASS: transition: full gravity returns useful outward momentum onto the approach
+PASS: transition: collision correction remains bounded and unpowered traversal creates no energy
+PASS: transition: normal toe exit restores the original capsule and world up
+PASS: transition: insufficient energy rolls back smoothly instead of climbing to the lip
+PASS: transition: low-speed maximum height and return agree with full tangent gravity
+PASS: transition: rollback neither manufactures momentum nor drifts off collision
+PASS: transition: held grind catches the real coping with one finite lip state
+PASS: transition: paused physics advances neither lip balance nor position
+PASS: transition: releasing coping drops into the actual face and rolls back out
+PASS: transition: deliberate coping jump launches upward and away with one event
+PASS: transition: an away jump releases its contact frame only after actual capsule clearance
+PASS: transition: uncorrected coping balance reaches a real finite failure
+PASS: transition: lip failure restores the capsule even while touching a vertical wall
+PASS: transition: nonfinite velocity cannot enter native transition motion
+PASS: transition: finite width rejects invisible continuation beyond the sides
+PASS: transition: ordinary approach ground does not become transition support at a distance
+PASS: transition: an analytic surface without actual tagged collision cannot support the rider
+PASS: transition: native collision restoration admits the same declared contact fixture
+PASS: transition: reset clears every associated state and restores the body collider
+PASS: transition: a real solid obstruction interrupts supported motion rather than passing through
+PASS: transition: interrupted native sweeps leave the rider on the near side of the obstacle
+PASS: transition: translated and yawed features retain true vertical launch and return
+PASS: transition: transformed rollout follows the feature's actual local approach
+APPROACH speed=12.0 angle=0.0 entry=1 launch=1 land=1 exit=1 bail=0 height=3.182
+PASS: transition: 12m/s +0-degree approach enters from actual flat-ground travel
+PASS: transition: 12m/s +0-degree approach completes the true vertical return
+APPROACH speed=15.0 angle=0.0 entry=1 launch=1 land=1 exit=1 bail=0 height=4.987
+PASS: transition: 15m/s +0-degree approach enters from actual flat-ground travel
+PASS: transition: 15m/s +0-degree approach completes the true vertical return
+APPROACH speed=12.0 angle=15.0 entry=1 launch=1 land=1 exit=1 bail=0 height=2.971
+PASS: transition: 12m/s +15-degree approach enters from actual flat-ground travel
+PASS: transition: 12m/s +15-degree approach completes the true vertical return
+APPROACH speed=12.0 angle=-15.0 entry=1 launch=1 land=1 exit=1 bail=0 height=2.971
+PASS: transition: 12m/s -15-degree approach enters from actual flat-ground travel
+PASS: transition: 12m/s -15-degree approach completes the true vertical return
+APPROACH speed=12.0 angle=30.0 entry=1 launch=1 land=1 exit=1 bail=0 height=2.406
+PASS: transition: 12m/s +30-degree approach enters from actual flat-ground travel
+PASS: transition: 12m/s +30-degree approach completes the true vertical return
+APPROACH speed=12.0 angle=-30.0 entry=1 launch=1 land=1 exit=1 bail=0 height=2.406
+PASS: transition: 12m/s -30-degree approach enters from actual flat-ground travel
+PASS: transition: 12m/s -30-degree approach completes the true vertical return
+PASS: transition: a deliberate early ollie leaves support through one launch
+PASS: transition: an upward ollie cannot snap back to its surface on the following frame
+PASS: transition: lateral departure physically clears the finite side without invisible continuation
+PASS: transition geometry: 0.5-degree visible sample matches native collision and its front normal
+PASS: transition geometry: 35.0-degree visible sample matches native collision and its front normal
+PASS: transition geometry: 55.0-degree visible sample matches native collision and its front normal
+PASS: transition geometry: 57.0-degree visible sample matches native collision and its front normal
+PASS: transition geometry: 80.0-degree visible sample matches native collision and its front normal
+PASS: transition geometry: the world ray first hits this feature's actual solid steel at89.9degrees
+PASS: transition geometry: 89.9-degree visible sample matches native collision and its front normal
+PASS: transition: the back side cannot acquire through a thin collision face
+PASS: transition geometry: side roll-in landing and deck share a supported level crossover
+PASS: transition geometry: side roll-in landing and deck share a supported level crossover
+PASS: transition: removing actual coping support ends a held lip instead of floating
+PASS: transition: removing curved collision during travel prevents analytic invisible support
+PASS: transition transfer: held approach push retains the ordinary vertical air
+PASS: transition transfer: a fresh push in air deliberately carries momentum over the rear deck
+PASS: transition transfer: directional input adds no vertical impulse or gravity reduction
+PASS: transition transfer: actual deck clearance returns control to ordinary air
+PASS: transition transfer: fresh brake input moves an airborne rider away from the coping
+PASS: transition transfer: steering can carve a purely vertical air with bounded lateral motion
+PASS: transition grind: the physical crown remains real solid-world steel below the body travel datum
+PASS: transition grind: prospective upright capture clears the actual coping and rear deck
+PASS: transition grind: admission queries preserve associated air and collider until capture succeeds
+PASS: transition grind: prospective upright overlap cannot capture through the solid deck
+PASS: transition grind: successful caller handoff can restore upright collision without losing velocity
+ERROR: Condition "p_shape_ref.is_null()" is true.
+   at: set_shape (servers/physics_3d/physics_server_3d.cpp:293)
+   GDScript backtrace (most recent call first):
+       [0] _coping_turn_clear (res://game/player/feature_transition_ride.gd:490)
+       [1] _continuous_capsule_turn (res://tests/feature_transition_ride_tests.gd:427)
+       [2] _fixture (res://tests/feature_transition_ride_tests.gd:491)
+       [3] _frames (res://tests/feature_transition_ride_tests.gd:508)
+PASS: transition turn: both real capsule helpers admit an unobstructed continuous quarter-turn
+PASS: transition turn: a real thin foreign solid reproduces the former sampled-pose gap
+ERROR: FAIL: transition turn: continuous native spine envelopes reject the between-sample foreign blocker
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/solid_coping_focus.gd:13)
+       [1] _continuous_capsule_turn (res://tests/feature_transition_ride_tests.gd:448)
+       [2] _frames (res://tests/feature_transition_ride_tests.gd:508)
+PASS: transition turn: reusable query shape, frame, motion, mask, exclusions and native margin restore exactly
+PASS: transition turn: fixed native query ceilings cover both positive and blocked quarter-turns
+CONTINUOUS_CAPSULE_TURN { "feature_positive": 91, "skater_positive": 91, "feature_blocked": 91, "skater_blocked": 91, "old_samples_clear": true, "sphere_radius": 0.01999999955297, "sphere_position": (0.0, 20.3297, 1.657527) }
+PASS: connected transition: bowl visible samples match native collision around all sides and steepnesses
+PASS: connected transition: circular lateral seam has continuous actual position and contact frame
+PASS: connected transition: bowl bottom, external roll-in and deck are real supported surfaces
+PASS: connected transition: complete bowl coping is one authored world-space grind track
+PASS: connected transition: real outside approach climbs the roll-in, clears the retaining wall and reaches the bowl bottom
+BOWL LAP swept=7.7619 theta=[0.5529,0.6000] energy=46.138/46.159 entry=1 bail=0
+PASS: connected transition: unpowered native bowl carving completes a full wrapped lap without detaching
+PASS: connected transition: lateral curvature sustains a physical carve without inventing air or repeated landings
+PASS: connected transition: bowl parallel transport adds no hidden energy, jumps or unbounded support correction
+PASS: connected transition: full-lap contact and travel normals remain finite at the seam
+PASS: connected transition: root heading changes preserve the actual global collision support axis
+PASS: connected transition: bowl reset restores ordinary capsule orientation and world up
+PASS: connected transition: actual flat-bottom approach climbs and rolls back from a low-energy bowl wall
+PASS: connected transition: bowl rollback height follows full gravity and preserves useful return momentum
+HALFPIPE faces=[&"NorthTransition", &"SouthTransition"] entry=3 launch=3 landing=2 exit=2 bail=0
+PASS: connected transition: real halfpipe bottom links two opposing vertical faces and their returns
+PASS: connected transition: repeated halfpipe crossings preserve bounded unpowered energy and collision support
+PASS: connected transition: each halfpipe deck exposes its own original coping track
+SPINE launch=true second=true entry=2 land=1 exit=1 bail=0 p=(-0.000002, 0.000839, -18.26526)
+PASS: connected transition: deliberate airborne spine transfer crosses the solid cap and lands on the other real face
+PASS: connected transition: spine transfer rolls down the second transition into its actual landing area
+PASS: connected transition: both sides of the narrow spine have independent real coping lines
+PASS: connected transition: a real bowl obstruction interrupts carving without crossing its collision
+PASS: connected transition: translated and yawed bowl contact follows its actual world-space curved surface
+PASS: connected transition: quarter-pipe coping holds an upright native capsule on the steel top
+PASS: connected transition: lip pose frame separates actual steel contact from the curved face normal
+PASS: connected transition: lip support ray contacts the actual native steel coping collision
+PASS: connected transition: removing steel collision ends lip support even while its concrete face remains
+PASS: connected transition: bowl coping holds an upright native capsule on the steel top
+PASS: connected transition: lip pose frame separates actual steel contact from the curved face normal
+PASS: connected transition: lip support ray contacts the actual native steel coping collision
+PASS: connected transition: removing steel collision ends lip support even while its concrete face remains
+PASS: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 0
+PASS: PT24 native bowl: all real tyre rims and the recorded urethane/axle extremity clear actual finite concrete 0
+PASS: PT24 native bowl: contact fit changes no locomotion/capsule/manual/velocity state or physical floor limit 0
+PT24_NATIVE_BOWL_CONTACT { "witness": 0, "fit": { "position": (-5.6048, 0.540385, 139.7005), "normal": (-0.201249, 0.631924, -0.748445) }, "minimum": 0.0066623436287, "maximum": 0.01754906773567, "material_gap": 0.01823118142784, "legacy_minimum": -0.02094788849354, "misses": 0 }
+PASS: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 1
+PASS: PT24 native bowl: all real tyre rims and the recorded urethane/axle extremity clear actual finite concrete 1
+PASS: PT24 native bowl: contact fit changes no locomotion/capsule/manual/velocity state or physical floor limit 1
+PT24_NATIVE_BOWL_CONTACT { "witness": 1, "fit": { "position": (-4.319512, 0.728351, 139.3112), "normal": (-0.401728, 0.557583, -0.72644) }, "minimum": 0.00711796991527, "maximum": 0.02626155689359, "material_gap": 0.03283134847879, "legacy_minimum": -0.03346793353558, "misses": 0 }
+PASS: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 2
+PASS: PT24 native bowl: all real tyre rims and the recorded urethane/axle extremity clear actual finite concrete 2
+PASS: PT24 native bowl: contact fit changes no locomotion/capsule/manual/velocity state or physical floor limit 2
+PT24_NATIVE_BOWL_CONTACT { "witness": 2, "fit": { "position": (-1.818508, 1.072834, 136.8465), "normal": (-0.822935, 0.425636, -0.376313) }, "minimum": 0.00446570245549, "maximum": 0.02658397331834, "material_gap": 0.03137105703354, "legacy_minimum": -0.0570330247283, "misses": 0 }
+PASS: PT24 native bowl: all three recorded old-frame controls independently reproduce real tyre penetration
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (-30.0, 0.02, 0.0)
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (60.0, 0.313109, -1.140074)
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (30.0, 8.02, 0.0)
+PASS: PT24 native bowl: an unrelated actual steep plane still cannot acquire the wrapped-bowl exception
+PASS: PT24 air landing: exact current-frame negative control retains the real rear-tyre and metal-axle penetration
+PASS: PT24 air landing: every actual finite tyre hull and recorded axle vertex clear the native quay before capsule landing
+PASS: PT24 air landing: smallest rigid orientation fit preserves physics, zero lift, board-local pose and both planted feet
+PT24_AIR_LANDING_CONTACT { "legacy_minimum": -0.03842747211456, "legacy_axle": -0.02273571491241, "minimum": 0.0081148147583, "axle": 0.02940130233765, "old_visual": [X: (0.767991, -0.592711, 0.24266), Y: (0.438894, 0.762984, 0.474582), Z: (-0.466435, -0.257972, 0.846102), O: (-9.289708, 2.102755, 127.4841)], "fixed_visual": [X: (0.81734, -0.421694, 0.392594), Y: (0.294898, 0.891571, 0.343709), Z: (-0.494965, -0.165151, 0.853074), O: (-9.289708, 2.102755, 127.4841)] }
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 0
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 1
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 2
+PASS: transition player: actual push approach launches from the true promenade vertical lip
+PASS: transition player: associated vert air applies full gravity exactly once per physics step
+PASS: transition player: held ollie in associated air cannot crouch or invent a directional transfer
+PASS: transition player: ordinary vertical takeoff manufactures no ollie or automatic spin award
+PASS: transition player: descending real contact finishes one clean airborne trick segment
+PASS: transition player: actual apex rises above the deck with a finite chase-camera path
+PASS: transition player: a flip returning to curved support opens the normal bank deadline
+PASS: transition player: continued supported descent cannot refresh its landing window
+PASS: transition player: the flip banks once through the physical toe exit
+PASS: transition player: ordinary rollout cannot duplicate the vert landing or its bank
+PASS: transition player: held grind catches and names the actual coping once
+PASS: transition player: a held balanced lip preserves its link without repeated stall awards
+PASS: transition player: production pause freezes coping position and balance
+PASS: transition player: release starts the bank window on actual supported drop-in
+PASS: transition player: ordinary curved support cannot keep a released lip combo alive forever
+PASS: transition player: actual lip drop-out restores the normal collision capsule at the toe
+PASS: transition player: deliberate lateral vert air can hand off to the real coping grind
+PASS: transition player: successful coping capture restores upright collision before rail motion
+PASS: transition player: held approach push cannot accidentally transfer over the deck
+PASS: transition player: a fresh airborne push deliberately transfers across the physical deck
+PASS: transition player: first ordinary transfer frame retains vertical momentum and applies gravity once
+PASS: transition player: stale transition floor flags cannot grant a coyote pop on airborne ollie release
+PASS: transition player: deck transfer completes an ordinary real landing above the quay
+RESULT: 240 passed, 1 failed

@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T00:25:47.842666+00:00",
+  "completed_london": "2026-10-28T00:25:59.976199+00:00",
+  "wall_seconds": 12.133535885001038,
+  "command": [
+    "timeout",
+    "28s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/park-route-repair/contact_diag.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "17",
+      "6"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "1318c8d66322b0809379e6ac491cf7daf0a8302d7912e757a267fd106c40be0c",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

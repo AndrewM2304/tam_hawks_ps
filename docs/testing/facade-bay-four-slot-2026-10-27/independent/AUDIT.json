@@ -1,0 +1,111 @@
+{
+  "scope": "Independent raw native receipt/source/counter/pixel audit. Visual assessment is recorded separately after inspecting original frames.",
+  "passed": true,
+  "receipt_sha256": "a21d9781f63a90a042ab28002b12af3e233ee31a5ef6946cf7eda27bb67ecdb6",
+  "report_sha256": "32352aea4e68db05a00048d6f87ef835c85ca966f63da85324c3be73d6c1911f",
+  "source_snapshots_verified": 77,
+  "still_available_original_source_paths_verified": 77,
+  "reviewer_script_sha256": "360c0321682cc37e5dfb11e5e3cc3e9e0d66458507eb5bc90c4e6b2db9a7ee43",
+  "scene_png_hashes_and_decodes_verified": 32,
+  "actual_decoded_mip_png_hashes_and_decodes_verified": 34,
+  "native_lod_samples_verified": 44,
+  "mesh_source_and_import_hashes_verified": 12,
+  "texture_source_and_import_hashes_verified": 7,
+  "actual_imported_map_data_bytes": {
+    "atlas_compressed": 3503512,
+    "atlas_lossless": 6998751,
+    "fitted": 3495320,
+    "reduced": 3495320
+  },
+  "matched_camera_and_counter_controls": [
+    {
+      "view": "01-front",
+      "native_lod": "near",
+      "fitted_triangles": 18392,
+      "reduced_triangles": 9864,
+      "same_four_slot_objects_draws": true,
+      "fitted_reduced_exact_pixels": false,
+      "diagnostic_mean_rgb_byte_delta": 0.035332593878600826,
+      "diagnostic_changed_pixel_fraction": 0.029371624228395062
+    },
+    {
+      "view": "02-close",
+      "native_lod": "near",
+      "fitted_triangles": 18392,
+      "reduced_triangles": 9864,
+      "same_four_slot_objects_draws": true,
+      "fitted_reduced_exact_pixels": false,
+      "diagnostic_mean_rgb_byte_delta": 0.21056600437242798,
+      "diagnostic_changed_pixel_fraction": 0.13322337962962963
+    },
+    {
+      "view": "03-threshold",
+      "native_lod": "near",
+      "fitted_triangles": 18392,
+      "reduced_triangles": 9864,
+      "same_four_slot_objects_draws": true,
+      "fitted_reduced_exact_pixels": false,
+      "diagnostic_mean_rgb_byte_delta": 0.3135908564814815,
+      "diagnostic_changed_pixel_fraction": 0.13311583719135803
+    },
+    {
+      "view": "04-oblique",
+      "native_lod": "near",
+      "fitted_triangles": 18392,
+      "reduced_triangles": 9864,
+      "same_four_slot_objects_draws": true,
+      "fitted_reduced_exact_pixels": false,
+      "diagnostic_mean_rgb_byte_delta": 0.11203430426954733,
+      "diagnostic_changed_pixel_fraction": 0.06165943287037037
+    },
+    {
+      "view": "05-foreshortened",
+      "native_lod": "near",
+      "fitted_triangles": 18392,
+      "reduced_triangles": 9864,
+      "same_four_slot_objects_draws": true,
+      "fitted_reduced_exact_pixels": false,
+      "diagnostic_mean_rgb_byte_delta": 0.03239068930041152,
+      "diagnostic_changed_pixel_fraction": 0.027434413580246914
+    },
+    {
+      "view": "06-distant-near",
+      "native_lod": "near",
+      "fitted_triangles": 18392,
+      "reduced_triangles": 9864,
+      "same_four_slot_objects_draws": true,
+      "fitted_reduced_exact_pixels": false,
+      "diagnostic_mean_rgb_byte_delta": 0.05392425411522634,
+      "diagnostic_changed_pixel_fraction": 0.02921826774691358
+    },
+    {
+      "view": "07-distant-mid",
+      "native_lod": "mid",
+      "fitted_triangles": 3544,
+      "reduced_triangles": 3544,
+      "same_four_slot_objects_draws": true,
+      "fitted_reduced_exact_pixels": true,
+      "diagnostic_mean_rgb_byte_delta": 0.0,
+      "diagnostic_changed_pixel_fraction": 0.0
+    },
+    {
+      "view": "08-distant-far",
+      "native_lod": "far",
+      "fitted_triangles": 648,
+      "reduced_triangles": 648,
+      "same_four_slot_objects_draws": true,
+      "fitted_reduced_exact_pixels": true,
+      "diagnostic_mean_rgb_byte_delta": 0.0,
+      "diagnostic_changed_pixel_fraction": 0.0
+    }
+  ],
+  "fitted_reduced_four_slot_draws_objects_perframe": 8,
+  "atlas_two_slot_draws_objects_perframe": 6,
+  "fixture_primitives_perframe": 14,
+  "not_tested": [
+    "GPUresidentmemory",
+    "livegameintegration/routes/collisions/camera",
+    "frametiming/performance/targetMac",
+    "fullcityart/owneracceptance"
+  ]
+}

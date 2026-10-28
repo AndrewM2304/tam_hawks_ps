@@ -1,0 +1,46 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: facade bay: explicit disable preserves the original selected building
+PASS: facade bay: exactly the fitted west middle Exchange building is enabled
+PASS: facade bay: every actual collision shape, body layer and world transform is unchanged
+PASS: facade bay: actual navigation routes and grind points remain identical
+PASS: facade bay: physical entry threshold, turning ledge and lower bypass retain support/clearance
+PASS: facade bay: front-cut visual keeps the original complete box collider and outer bounds
+PASS: facade bay: actual front triangles exclude the entire 6.5m strip, including crossing triangles
+PASS: facade bay: shell preserves complete rear, side, top and bottom surface areas
+PASS: facade bay: exactly one cheap closed original box casts only the original building-mass shadow at its unchanged transform/material
+PASS: facade bay: cut shell and all detailed native LODs receive shadows without duplicate detailed shadow submissions
+PASS: facade bay: invisible shadow mass is excluded from actual visible-wall occluder candidates
+PASS: facade bay: every actual filtered front primitive has its full transformed bounds outside the strip
+PASS: facade bay: all nine crossing window groups are absent, including their outside-strip fragments
+PASS: facade bay: one complete shop bay is removed and crossing continuous pieces are clipped
+PASS: facade bay: the old selected raised procedural door is actually removed
+PASS: facade bay: adjacent real procedural doors remain with their original individual elevations
+PASS: facade bay: one actual opaque neighbour jamb seals the full exposed display edge using its existing shared paint
+PASS: facade bay: the original shop identity is retained exactly once on the fitted fascia
+PASS: facade bay: exactly three native MeshInstance levels share unscaled metre placement
+PASS: facade bay: actual native dependency chain and both hysteresis margins are configured
+PASS: facade bay: four fitted material surfaces and authored triangle budget Near
+PASS: facade bay: hard native stage has no alpha fade or premature end Near
+PASS: facade bay: explicit authored stage has automatic import LODs disabled Near
+PASS: facade bay: four fitted material surfaces and authored triangle budget Mid
+PASS: facade bay: hard native stage has no alpha fade or premature end Mid
+PASS: facade bay: explicit authored stage has automatic import LODs disabled Mid
+PASS: facade bay: four fitted material surfaces and authored triangle budget Far
+PASS: facade bay: hard native stage has no alpha fade or premature end Far
+PASS: facade bay: explicit authored stage has automatic import LODs disabled Far
+PASS: facade bay: all levels share the same four live opaque material resources
+PASS: facade bay: near/mid/far use the same actual fitted bounds for native selection
+PASS: facade bay: active and imported materials retain only four shared 1024px maps
+PASS: facade bay: actual sandstone uses the authored normal strength and ORM green roughness
+FAIL: facade bay: actual fitted threshold triangles meet the 0.53m landing without a second door lift
+PASS: facade bay: fitted placement composes actual rotated/translated author parents
+PASS: facade bay: mass shadow reuses the original closed mesh resource without duplication
+PASS: facade bay: ordinary runtime does not retain construction audit records
+PASS: reduced facade ordinary Main: station/train/pond/green/civic defaults stay enabled without historical inventory switch
+PASS: reduced facade ordinary Main: persistence is disabled before tree entry
+PASS: reduced facade ordinary Main: every actual collision/layer/native transform and current world counts are unchanged
+PASS: reduced facade ordinary Main: actual current route data and every grind guide remain equal
+PASS: reduced facade ordinary Main: actual threshold, ledge and beginner bypass native support remain equal
+CURRENT_ORDINARY_MAIN_COUNTS bodies=574 shapes=1755 collision_records=1755 rails=260
+FOCUSED_RESULT passed=41 failed=1 rendered_lod_executed=false

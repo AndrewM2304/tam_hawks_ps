@@ -1,0 +1,39 @@
+{
+  "receipt": "short-rear-full-native/receipt.json",
+  "manifest_sha256": "72cbfaca2a253274ad8ec1eb340c992e42e64fca0d3ed79377c34f76f21b7ecf",
+  "passed": 57,
+  "failed": 0,
+  "source_inputs": 674,
+  "wall_seconds": 8.021531233000132,
+  "strict_assertions_unchanged": true,
+  "modes": [
+    {
+      "reduced": false,
+      "departures": 4,
+      "returns": 4,
+      "good_orbits": 4,
+      "unsafe": 0,
+      "minimum_axis_fraction": 0.07456461588542,
+      "max_update_move": 0.80000174045563,
+      "max_update_angle": 25.7442363214908,
+      "pose_forward_dot_velocity": 0.9987478852272,
+      "body_step_deg": 8.24207294127172,
+      "native_body_samples": 220,
+      "native_contiguous": true
+    },
+    {
+      "reduced": true,
+      "departures": 4,
+      "returns": 4,
+      "good_orbits": 4,
+      "unsafe": 0,
+      "minimum_axis_fraction": 0.07502807617187,
+      "max_update_move": 0.80000180006027,
+      "max_update_angle": 25.7442363214908,
+      "pose_forward_dot_velocity": 0.9987478852272,
+      "body_step_deg": 8.24207294127172,
+      "native_body_samples": 220,
+      "native_contiguous": true
+    }
+  ]
+}

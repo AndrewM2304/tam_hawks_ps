@@ -6,6 +6,10 @@ const Skater = preload("res://game/player/skater.gd")
 const Setup = preload("res://game/core/input_setup.gd")
 const Chase = preload("res://game/player/chase_camera.gd")
 const Classic = preload("res://tests/classic_tricks_integration_tests.gd")
+const Density = preload("res://tests/full_level_density_tests.gd")
+
+class CameraView extends Node:
+	var skater:CharacterBody3D
 
 
 class CameraProbe extends RefCounted:
@@ -99,6 +103,8 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	Setup.register_actions()
 	_apex_launch_identity(check)
 	await _support_interpolation(tree,check)
+	await _air_exit_anchor_continuity(tree,check)
+	await _ramp_origin_descent_height(tree,check)
 	for start_speed: float in [8.0, 12.0, 15.0]:
 		var measures: Array[Dictionary] = []
 		for strength: float in [0.25, 0.5, 1.0]:
@@ -443,6 +449,110 @@ static func _frames(tree: SceneTree, count: int) -> void:
 
 static func _release() -> void:
 	for action in InputMap.get_actions(): Input.action_release(action)
+
+
+static func _air_exit_anchor_continuity(tree:SceneTree,check:Callable)->void:
+	var fixture:=await _fixture(tree)
+	var rider:CharacterBody3D=fixture.rider
+	rider.set_physics_process(false)
+	rider.set_process(false)
+	rider.reset_skater()
+	# Declared current-endpoint handoff; interpolation itself has its separate
+	# native contract above. Physical motion is disabled, never faked by camera.
+	rider.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
+	rider.global_transform=Transform3D(Basis(Vector3.UP,0.6),Vector3(0,4.098968,0))
+	rider.airborne=true
+	rider._ramp_air=true
+	rider._ramp_air_normal=Vector3(.723209,0,.690626).normalized()
+	rider._ramp_launch_forward=Vector3(.155,.975,-.163).slide(rider._ramp_air_normal).normalized()
+	rider.velocity=Vector3(1.7713478,.46,-4.266853)
+	rider._ramp_air_sequence+=1
+	rider._spin_angle=.7
+	rider._stance_angle=0.0
+	rider._air_grind_yaw=0.0
+	rider._update_pose(1.0/60.0)
+	var chase:=Chase.new()
+	var camera:Camera3D=rider._camera
+	var view:=CameraView.new();view.skater=rider
+	chase.update(rider,camera,1.0/60.0,1.0,false)
+	# Retained full-run launch floor: ramp flight has climbed2.410m.
+	# The real ramp view ignores this quiet-ollie cache until its exit.
+	chase._ground_board_y=1.689018
+	chase.update(rider,camera,1.0/60.0,1.0,false)
+	check.call(absf(chase._ground_board_y-rider.global_position.y)<0.000001 and Density._camera_clear(view),
+		"classic camera: actual ramp air replaces its stale1.689m launch floor with the current4.099m body before ordinary-air handoff")
+	var before_anchor:Vector3=chase._last_anchor
+	var before_camera:Vector3=camera.global_position
+	var initial_framed:bool=Density._camera_clear(view)
+	var initial_arm:float=before_anchor.distance_to(before_camera)
+	rider._ramp_air=false
+	rider._force_air_tick=true
+	rider._update_pose(1.0/60.0)
+	var drawn_up:Vector3=rider._visual.global_basis.y.normalized()
+	var physical:Dictionary={"transform":rider.global_transform,"velocity":rider.velocity,"collision":rider.get_node("BodyCollision").transform,"spin":rider._spin_angle}
+	chase.update(rider,camera,1.0/60.0,1.0,false)
+	var anchor_move:float=chase._last_anchor.distance_to(before_anchor)
+	check.call(initial_framed and initial_arm<=2.1 and drawn_up.y<.2
+		and chase._body_up.dot(drawn_up)>.99999 and anchor_move<=Chase.CHEST_HEIGHT*4.5/60.0+.00001,
+		"classic camera: real short-arm air-exit anchor follows the continuous unscored body axis instead of jumping to the upright capsule")
+	check.call(Density._camera_clear(view) and camera.global_position.distance_to(before_camera)<=Chase.MAX_CAMERA_SPEED/60.0+.00001
+		and rider.global_transform==physical.transform and rider.velocity==physical.velocity
+		and rider.get_node("BodyCollision").transform==physical.collision and rider._spin_angle==physical.spin,
+		"classic camera: the native-clear short handoff keeps all actual head/board/sole hulls in frame within the unchanged movement cap and physical flight")
+	chase._ramp_mode=false
+	chase._ramp_exit_remaining=0.0
+	var quiet:Vector3=chase._contact_up(rider)
+	chase._ramp_exit_remaining=.4
+	rider.airborne=false
+	check.call(quiet.dot(Vector3.UP)>.99999 and chase._contact_up(rider).dot(Vector3.UP)>.99999,
+		"classic camera: ordinary air without a ramp exit and grounded exit settling retain the upright collision axis")
+	print("CAMERA_AIR_EXIT_ANCHOR ",{"initial_arm":initial_arm,"anchor_move":anchor_move,"body_up":drawn_up,"camera_move":camera.global_position.distance_to(before_camera)})
+	view.free()
+	await _dispose(tree,fixture)
+
+
+static func _ramp_origin_descent_height(tree:SceneTree,check:Callable)->void:
+	var fixture:=await _fixture(tree)
+	var rider:CharacterBody3D=fixture.rider
+	rider.set_physics_process(false);rider.set_process(false)
+	rider.reset_skater()
+	rider.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
+	rider.global_transform=Transform3D(Basis.IDENTITY,Vector3(-38.5,6.453665,-116.9601))
+	rider.airborne=true
+	rider.velocity=Vector3(0,-12,-4.5)
+	rider._update_pose(1.0/60.0)
+	var chase:=Chase.new()
+	chase._ready=true
+	chase._ramp_origin_air=true
+	chase._ground_board_y=9.0
+	chase._last_anchor=rider.global_position+Vector3.UP*Chase.CHEST_HEIGHT
+	var camera:Camera3D=rider._camera
+	camera.global_position=Vector3(-38.52097,9.361993,-113.1259)
+	var physical:Transform3D=rider.global_transform
+	var velocity:Vector3=rider.velocity
+	var view:=CameraView.new();view.skater=rider
+	chase.update(rider,camera,1.0/60.0,1.0,false)
+	check.call(chase._ramp_origin_air and is_zero_approx(chase._ramp_exit_remaining)
+		and absf(chase._ground_board_y-rider.global_position.y)<.000001
+		and Density._camera_clear(view) and rider.global_transform==physical and rider.velocity==velocity,
+		"classic camera: retained Civic descent follows the same ramp-origin airborne body after the exit timer expires and frames every actual extremity")
+	rider.airborne=false
+	chase.update(rider,camera,1.0/60.0,1.0,false)
+	var grounded_clear:bool=not chase._ramp_origin_air
+	var floor_y:float=chase._ground_board_y
+	# A genuine flat pop is independent authority if no ground was rendered.
+	chase._ramp_origin_air=true
+	rider.airborne=true
+	rider._weighted_ollie_air=true
+	rider.global_position.y+=.55
+	chase.update(rider,camera,1.0/60.0,1.0,false)
+	var quiet_clear:bool=not chase._ramp_origin_air and chase._ground_board_y==floor_y
+	chase._ramp_origin_air=true
+	chase.reset()
+	check.call(grounded_clear and quiet_clear and not chase._ramp_origin_air,
+		"classic camera: actual ground, reset and fresh weighted flat flight clear ramp-height continuation and preserve the ordinary quiet-jump window")
+	view.free()
+	await _dispose(tree,fixture)
 
 
 static func _support_interpolation(tree:SceneTree,check:Callable)->void:

@@ -25,7 +25,7 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 		"trick fidelity: supported ground travel cannot execute aerial flips or grabs")
 	_release()
 
-	# The retained default tap pop is intentionally short (7.2 m/s, 34 m/s²).
+	# The ordinary weighted tap pop still has a short, height-preserving arc.
 	# Two complete .32s flips plus catch need an explicit higher-drop fixture;
 	# no score or trick state is injected after this initial placement.
 	await _high_drop(tree, game, 12.0)
@@ -122,16 +122,28 @@ static func run(tree: SceneTree, game: Node, check: Callable) -> void:
 	var record_bail: Callable = func() -> void: bails["count"] += 1
 	game.skater.bailed.connect(record_bail)
 	game.score.total_score = 500
+	var late_flip_window := false
+	var late_clearance := INF
 	for frame in 80:
-		if game.skater.airborne and game.skater.velocity.y < -6.5:
-			break
+		if game.skater.airborne and game.skater.velocity.y < 0.0:
+			var at: Vector3 = game.skater.global_position
+			var hit: Dictionary = game.world.get_world_3d().direct_space_state.intersect_ray(
+				PhysicsRayQueryParameters3D.create(at+Vector3.UP*0.05,at-Vector3.UP*0.30,1))
+			if not hit.is_empty() and Vector3(hit.normal).y > 0.99:
+				late_clearance = at.y-Vector3(hit.position).y
+				if late_clearance > 0.04 and late_clearance <= 0.24:
+					late_flip_window = true
+					break
 		await _frames(tree, 1)
+	check.call(late_flip_window,
+		"trick fidelity: late flip starts while descending above native flat support before touchdown")
 	Input.action_press("flip")
 	await _frames(tree, 20)
 	check.call(bails["count"] == 1 and game.score.get_combo_value() == 0
 		and game.score.total_score == 500,
 		"trick fidelity: an unfinished late board flip bails once and preserves previously banked score")
-	print("FIDELITY LATE FLIP bails=%d total=%d pending=%d pos=%s airborne=%s" % [
+	print("FIDELITY LATE FLIP native_clearance=%.6f bails=%d total=%d pending=%d pos=%s airborne=%s" % [
+		late_clearance,
 		bails["count"], game.score.total_score, game.score.get_combo_value(),
 		game.skater.global_position, game.skater.airborne])
 	game.skater.bailed.disconnect(record_bail)

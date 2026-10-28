@@ -878,7 +878,9 @@ func _build_clyde() -> void:
 	_bridge_structure(south, 5.0, false)
 	# Low coping is readable from the quay and accessible to ordinary ollies.
 	_rail("clyde_quay_coping", PackedVector3Array([Vector3(-69, 2.42, 76.7), Vector3(-38, 2.42, 76.7)]), "coping", 0.22)
-	_rail("clyde_bridge_rail", PackedVector3Array([Vector3(Layout.TRANSFER_X+2.2, 3.25, 80), Vector3(Layout.TRANSFER_X+2.2, 3.55, 86), Vector3(Layout.TRANSFER_X+2.2, 4.0, 92)]), "rail", 0.065)
+	# The lower trick bar sits inboard of the higher solid bridge handrail,
+	# leaving space for the real upright capsule along both finite bearings.
+	_rail("clyde_bridge_rail", PackedVector3Array([Vector3(Layout.TRANSFER_X+1.6, 3.25, 80), Vector3(Layout.TRANSFER_X+1.6, 3.55, 86), Vector3(Layout.TRANSFER_X+1.6, 4.0, 92)]), "rail", 0.065)
 	for x: float in [-76.0,-58.0,-8.0,8.0,44.0,66.0,79.0]:
 		_bollard(Vector3(x, 2.0, 75.0))
 	for x: float in [-73.0,8.0,70.0]:
@@ -898,9 +900,12 @@ func _build_clyde() -> void:
 	_route("clyde_bridge_transfer", "Clyde eight-metre transfer", transfer, true)
 	# Publish the real south-bank return too: otherwise the route map depicts
 	# the continuous bridge as a dead end disconnected from the yard circuit.
-	var yard_return := PackedVector3Array([Vector3(Layout.SAFE_X,2,125),Vector3(Layout.SAFE_X,2,124)])
-	yard_return.append_array(_clyde_yard)
-	yard_return.append_array(PackedVector3Array([Vector3(Layout.SAFE_X,2,124),Vector3(Layout.SAFE_X,2,125)]))
+	var yard_return := PackedVector3Array([Vector3(Layout.SAFE_X,2,125),Vector3(Layout.SAFE_X,2,125.2),Vector3(Layout.TRANSFER_X,2,125.2)])
+	# Navigation skirts the finite solid handrail ends; the existing physical
+	# yard ribbon and its source vertices stay unchanged.
+	yard_return.append_array(_clyde_yard.slice(0,_clyde_yard.size()-1))
+	yard_return.append_array(PackedVector3Array([Vector3(30,2,125.2),Vector3(Layout.TRANSFER_X,2,125.2),_clyde_yard[-1]]))
+	yard_return.append_array(PackedVector3Array([Vector3(Layout.TRANSFER_X,2,125.2),Vector3(Layout.SAFE_X,2,125.2),Vector3(Layout.SAFE_X,2,125)]))
 	_route("clyde_print_yard_loop", "Clyde print-yard loop and safe bridge return", yard_return)
 
 
@@ -1374,6 +1379,11 @@ func _rail(id: String, points: PackedVector3Array, kind: String, radius: float) 
 		# A changing-grade polyline has no single verified normal at its joints;
 		# configure_contact keeps it unverified rather than averaging a new top.
 		line.configure_contact(0.0, radius, "outdoors.square_beam_normal_top")
+		# Bent/changing-grade beams retain generic grind contact. Their actual
+		# native square half-height is independent body-clearance geometry;
+		# capsule/path queries still decide whether finite joints are usable.
+		if not line.contact_verified and radius<=0.10 and kind=="rail":
+			line.configure_body_profile(radius,"outdoor.native_square_beam_radius")
 	_rails.append(line)
 	for i in range(points.size() - 1):
 		# The default contact model already maps this centre guide to the real
@@ -1384,7 +1394,7 @@ func _rail(id: String, points: PackedVector3Array, kind: String, radius: float) 
 		else:
 			body = _beam(id+"NativeBeam",points[i],points[i+1],radius,
 				_material("cut_stone" if kind=="coping" else "iron"),true) as StaticBody3D
-		body.collision_layer = 2
+		body.collision_layer = 1 | 2
 		body.collision_mask = 0
 		body.set_meta("surface_audio","stone" if radius>0.10 and kind in ["ledge","coping"] else "metal")
 		body.set_meta("authored_grind_ids",[id])
@@ -1443,7 +1453,7 @@ func _bridge_structure(points: PackedVector3Array, width: float, safe: bool) -> 
 			_beam("BridgeEdgeGirder", a - Vector3.UP * 0.25, b - Vector3.UP * 0.25, 0.18, _material("iron"))
 			var handrail_body := _beam("BridgeHandrail", a + Vector3.UP * 1.05, b + Vector3.UP * 1.05, 0.045, _material("iron"), true) as StaticBody3D
 			if not safe:
-				handrail_body.collision_layer = 2
+				handrail_body.collision_layer = 1 | 2
 				handrail_body.collision_mask = 0
 			handrail_body.set_meta("authored_grind_ids", [grind_id])
 			handrail_body.set_meta("audit_capture_ids", [grind_id])

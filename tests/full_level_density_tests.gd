@@ -20,10 +20,15 @@ static func run(tree: SceneTree,game: Node,check: Callable) -> void:
 			var clear: bool = track != null and track.is_valid
 			if clear:
 				for fraction: float in [0.2,0.5,0.8]:
-					var at: Vector3 = track.point_at(track.length*fraction)
+					var ride := Ride.new()
+					var capsule: CapsuleShape3D = game.skater._body_collision.shape
+					ride.body_radius = capsule.radius
+					ride.body_base_offset = game.skater._body_collision.position.y-capsule.height*0.5
+					ride.body_clearance = game.skater.safe_margin
+					var at: Vector3 = ride._body_point(track,track.length*fraction)
 					var tangent: Vector3 = track.dir_at(track.length*fraction)
 					var velocity := Vector3(tangent.x,0,tangent.z).normalized()*6.0-Vector3.UP
-					clear = clear and Ride.new().start([track],at+Vector3.UP*0.15,velocity,
+					clear = clear and ride.start([track],at+Vector3.UP*0.15,velocity,
 						func(from: Vector3,to: Vector3) -> bool: return game.skater._rail_path_clear(from,to))
 			check.call(clear,"full map: new visible ledge/rail has three actual capsule-clear contacts "+id)
 		if feature.get("kind","") == "spine":
@@ -179,7 +184,18 @@ static func _quay_through_crossing(tree: SceneTree,game: Node,check: Callable,ob
 	if observer.is_valid(): await observer.call("clyde_south_east_west",game,-1)
 	var previous: Vector3 = game.skater.global_position
 	Input.action_press("push")
+	var waypoint := 1
 	for step in 600:
+		# Follow the actual open through route around the solid finite bridge
+		# rail ends. All movement is mapped Push/steering after the one spawn.
+		while waypoint<points.size()-1 and game.skater.global_position.distance_to(points[waypoint])<1.0:
+			waypoint+=1
+		var toward: Vector3=points[waypoint]-game.skater.global_position
+		var error:=angle_difference(game.skater.rotation.y,atan2(-toward.x,-toward.z))
+		var steer: float=-clampf(error/0.7,-1.0,1.0)
+		Input.action_release("steer_left");Input.action_release("steer_right")
+		if steer<0.0:Input.action_press("steer_left",-steer)
+		if steer>0.0:Input.action_press("steer_right",steer)
 		await _frames(tree,1)
 		supported = supported and game.skater.is_on_floor() and absf(game.skater.global_position.y-points[0].y)<0.08
 		if step%6==0: camera_clear = camera_clear and _camera_clear(game)
@@ -238,6 +254,15 @@ static func _quay_relay_capture(tree: SceneTree,game: Node,check: Callable,obser
 	if observer.is_valid(): await observer.call("clyde_south_link_capture",game,frame)
 	frame += 1
 	Input.action_release("push")
+	# The old seat is also a real grind surface. Keep the input released until
+	# its finite endpoint is outside the unchanged magnetic capture radius,
+	# then use a fresh held Grind to catch the separate relay flatbar.
+	for i in 60:
+		if game.skater.global_position.x>seat_end.x+Ride.CAPTURE_RADIUS:break
+		await _frames(tree,1)
+		if observer.is_valid():await observer.call("clyde_south_link_capture",game,frame)
+		frame+=1
+		if game.skater.bailing:break
 	Input.action_press("grind")
 	for i in 150:
 		await _frames(tree,1)

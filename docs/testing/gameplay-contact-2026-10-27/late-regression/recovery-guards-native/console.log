@@ -1,0 +1,21 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: grind regression: ground approach starts with real floor support
+PASS: grind regression: grounded push builds speed without snapping or scoring a rail
+PASS: grind regression: real push and charged ollie leave support and descend into exactly one Exchange rail catch
+GRIND APPROACH peak=1.25782251358032 prior_air_vy=-0.03848867863417 departed=true descending_capture=true captures=["Grind_Rail_Exchange"]
+PASS: grind regression: played approach links ollie and rail without banking early
+PASS: grind regression: scenery blocking an active ride produces exactly one bail
+PASS: grind regression: obstructed ride loses its pending combo and preserves prior bank
+PASS: grind regression: obstructed ride recovers locally on support and preserves the run restart spawn
+PASS: grind regression: the complete rail fall/get-up stays collision-safe without teleport or another failure
+GRIND LOCAL RECOVERY step=0.20820140838623 impact=[(12.0, 0.935, 10.79055)] ready=(12.0, 0.922668, 10.55399) spawn=(12.0, 0.8, 23.5)
+PASS: recovery clearance: native clear enforces the full shell/path/support and restores query fields
+RECOVERY_GUARD { "kind": "clear", "moved": true, "distance": 0.00099992752075, "query_restored": true, "floor_flag": true, "phase": "slide", "disabled_supports": 0 }
+PASS: recovery clearance: native foreign_2mm enforces the full shell/path/support and restores query fields
+RECOVERY_GUARD { "kind": "foreign_2mm", "moved": false, "distance": 0.0, "query_restored": true, "floor_flag": true, "phase": "slide", "disabled_supports": 0 }
+PASS: recovery clearance: native embedded_body enforces the full shell/path/support and restores query fields
+RECOVERY_GUARD { "kind": "embedded_body", "moved": false, "distance": 0.0, "query_restored": true, "floor_flag": true, "phase": "slide", "disabled_supports": 0 }
+PASS: recovery clearance: native no_support enforces the full shell/path/support and restores query fields
+RECOVERY_GUARD { "kind": "no_support", "moved": false, "distance": 0.0, "query_restored": true, "floor_flag": true, "phase": "slide", "disabled_supports": 1 }
+RESULT: 12 passed, 0 failed

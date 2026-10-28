@@ -1,0 +1,25 @@
+{
+  "started_london": "2026-10-27T21:31:10.809318+00:00",
+  "completed_london": "2026-10-27T21:31:32.317321+00:00",
+  "wall_seconds": 21.508004448000065,
+  "command": [
+    "timeout",
+    "75s",
+    "./tools/run.sh",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/facade_stage4/facade_current_main_controls.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 668,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [],
+  "valid": false,
+  "source_manifest_sha256": "36fb3b50f445130e69c1127fb045644b069f0a3ed34607ed5044ecf6b6d74ae4",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

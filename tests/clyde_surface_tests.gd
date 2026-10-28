@@ -234,19 +234,35 @@ static func _check_sunken_bowl(world: Node3D, check: Callable) -> void:
 	var no_cap := true
 	var samples := 0
 	var max_error := 0.0
+	var native_coping: StaticBody3D = bowl.get_node("NativeBowlSteelCoping")
+	# The public query describes authored terrain; steel caps remain physical
+	# props. Inspect the concrete beneath this one known coping, and prove the
+	# ordinary-world steel contact independently below.
+	var coping_solid: bool = (native_coping.collision_layer & (1|2)) == (1|2) \
+		and native_coping.get_meta("coping_feature", null) == bowl
+	for phi: float in [0.17,1.41,3.97,5.22]:
+		var crown: Vector3 = bowl.sample(PI*0.5,phi*bowl.floor_radius).point + Vector3.UP*0.070
+		var hit := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+			crown+Vector3.UP*0.1,crown-Vector3.UP*0.2,1))
+		coping_solid = coping_solid and not hit.is_empty() and hit.collider == native_coping \
+			and absf(Vector3(hit.position).y-crown.y)<0.002
+	check.call(coping_solid,"Clyde sunken bowl: ordinary world rays meet the real solid coping independently of the terrain registry")
 	# Off-spoke/near-lip points detect the analytic-circle vs faceted-mesh error.
 	for spoke in 33:
 		var phi := (float(spoke)*3.87+0.37)*TAU/128
 		for rho: float in [0.0,2.7,3.49,3.6,4.1,4.9,5.5,5.78,5.86,5.895]:
 			var point: Vector3 = bowl.to_global(Vector3(sin(phi)*rho,0,-cos(phi)*rho))
 			var query := PhysicsRayQueryParameters3D.create(Vector3(point.x,3,point.z),Vector3(point.x,-1,point.z),1)
+			query.exclude = [native_coping.get_rid()]
 			var hit := world.get_world_3d().direct_space_state.intersect_ray(query)
 			if hit.is_empty():
 				matched = false
 				continue
 			var error := absf(world.get_ground_height(point)-hit.position.y)
 			max_error = maxf(max_error,error)
-			matched = matched and error<0.001 and absf(world.get_support_height(point+Vector3.UP*3,0)-hit.position.y)<0.001
+			var expected_body: StaticBody3D = bowl.get_node("FlatBowlBottom") if rho<=bowl.floor_radius else bowl.surface_body
+			matched = matched and hit.collider == expected_body and error<0.001 \
+				and absf(world.get_support_height(point+Vector3.UP*3,0)-hit.position.y)<0.001
 			no_cap = no_cap and hit.position.y<1.95
 			samples+=1
 	check.call(matched and no_cap and samples==330,
@@ -275,7 +291,7 @@ static func _check_sunken_bowl(world: Node3D, check: Callable) -> void:
 static func _combined_addition(world: Node3D,body: StaticBody3D) -> String:
 	var label := str(body.get_meta("art_label",body.name))
 	if world.get_path_to(body) == NodePath("ClydeCableContacts/ExistingCableNativeCrowns") \
-			and body.collision_layer == 2 and body.collision_mask == 0:
+			and body.collision_layer == (1|2) and body.collision_mask == 0:
 		var facets := 0
 		for child: Node in body.get_children():
 			if not child is CollisionShape3D: continue
@@ -289,7 +305,7 @@ static func _combined_addition(world: Node3D,body: StaticBody3D) -> String:
 			facets += 1
 		if facets == 16: return "new_cable_contacts"
 	if body.is_in_group("physical_street_bins") and label=="StreetLitterBin": return "new_bins"
-	if label=="NativeGrindBearing" and body.collision_layer==2 and body.collision_mask==0 \
+	if label=="NativeGrindBearing" and body.collision_layer==(1|2) and body.collision_mask==0 \
 			and body.get_parent().is_in_group("grind_rails"): return "new_native_factory"
 	var new_ids: Array = []
 	var labels: Array[String] = []
@@ -305,7 +321,7 @@ static func _combined_addition(world: Node3D,body: StaticBody3D) -> String:
 		var source: Script = owner_node.get_script()
 		if source!=null and source.resource_path in ["res://game/levels/bowl_feature.gd",
 				"res://game/levels/halfpipe_feature.gd","res://game/levels/spine_feature.gd"]: return "new_composites"
-		if str(owner_node.get_meta("grind_id","")) in new_ids and body.collision_layer==2: return "new_infill_rail"
+		if str(owner_node.get_meta("grind_id","")) in new_ids and body.collision_layer==(1|2): return "new_infill_rail"
 		owner_node=owner_node.get_parent()
 	return ""
 

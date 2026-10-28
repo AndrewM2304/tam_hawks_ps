@@ -367,7 +367,7 @@ static func _south_return(world: Node3D, outdoors: Node3D, check: Callable) -> v
 		for index in range(points.size()-1):
 			var a := outdoors.to_local(points[index])
 			var b := outdoors.to_local(points[index+1])
-			if absf(a.z-124)<.001 and absf(b.z-124)<.001 and absf(a.y-2)<.001 and absf(b.y-2)<.001 \
+			if absf(a.z-125.2)<.001 and absf(b.z-125.2)<.001 and absf(a.y-2)<.001 and absf(b.y-2)<.001 \
 				and minf(a.x,b.x)<=-25.0+.001 and maxf(a.x,b.x)>=20.0-.001:
 				declared_return=true
 	check.call(joined and declared_return,
@@ -376,7 +376,7 @@ static func _south_return(world: Node3D, outdoors: Node3D, check: Callable) -> v
 	for offset: float in [-.7,0.0,.7]:
 		var previous := Vector3.INF
 		for index: int in range(91):
-			var at := outdoors.to_global(Vector3(-25+float(index)*.5,2,124+offset))
+			var at := outdoors.to_global(Vector3(-25+float(index)*.5,2,125.2+offset))
 			clear=_supported_clear(world,at,at.y) and clear
 			if previous.is_finite(): clear=_clear_sweep(world,previous,at) and _clear_sweep(world,at,previous) and clear
 			previous=at

@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-27T23:59:44.933468+00:00",
+  "completed_london": "2026-10-28T00:00:07.540736+00:00",
+  "wall_seconds": 22.60724421300074,
+  "command": [
+    "timeout",
+    "180s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/solid_coping_focus.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "241",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "fada697aad06452f727d0edbfa15428a1f15fb4720a43120ac18d16251ee5233",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

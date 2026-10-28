@@ -143,7 +143,7 @@ func _replace_west_facades(world: Node3D) -> int:
 func _build_station_wing() -> void:
 	# The same west frontage remains closed and grounded. Only the established
 	# central park mouth is open below the elevated railway (Y2 to Y7.2).
-	var body := _body("StationRailwayMasonry")
+	var body := _body("StationRailwayMasonry", true)
 	for side: float in [-1.0, 1.0]:
 		_solid(body, Vector3(TRACK_X, 2.6, side * 39), Vector3(12, 11.2, 58), "stone")
 		# Concealed tunnel end sections; train wraps behind all five opaque sides.
@@ -222,13 +222,19 @@ func _build_train() -> void:
 	_box(_train_surfaces, "iron", Vector3(0, 0.76, 0), Vector3(0.5, 0.16, 0.38))
 
 
-func _body(id: String) -> StaticBody3D:
+func _body(id: String, masonry_wall: bool = false) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = id
 	body.collision_layer = 1
 	body.collision_mask = 0
-	body.set_meta("no_wallride", true)
-	body.set_meta("wallride_exclusion_reason", "scenic railway enclosure")
+	# The large opaque station wall is ordinary supporting masonry. Glazing
+	# still blocks track access without pretending to be a stone wallride.
+	body.set_meta("wallrideable", masonry_wall)
+	body.set_meta("no_wallride", not masonry_wall)
+	body.set_meta("surface_audio", "stone" if masonry_wall else "glass")
+	if not masonry_wall:
+		body.set_meta("wallride_exclusion_reason", "scenic railway safety glazing")
+		body.set_meta("grind_exclusion_reason", "protected scenic railway glazing")
 	add_child(body)
 	_body_count += 1
 	return body

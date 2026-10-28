@@ -3,6 +3,8 @@ extends "res://game/levels/transition_feature.gd"
 ## bottom, annular deck and optional external roll-in. Lateral coordinates wrap.
 
 var floor_radius := 3.5
+var _native_annular_deck: StaticBody3D
+var _native_steel_coping: StaticBody3D
 const AROUND_SEGMENTS := 128
 const VERTICAL_SEGMENTS := 90
 
@@ -67,6 +69,7 @@ func build() -> void:
 		deck.append_array(PackedVector3Array([a,c,b,b,c,d]))
 		outer_wall.append_array(PackedVector3Array([c,radial*outer,d,d,radial*outer,radial2*outer]))
 	_panel("AnnularDeck",deck,concrete)
+	_native_annular_deck=get_node("AnnularDeck") as StaticBody3D
 	_panel("BowlOuterWall",outer_wall,concrete)
 	var bottom := StaticBody3D.new()
 	bottom.name = "FlatBowlBottom"
@@ -115,10 +118,11 @@ func build() -> void:
 	coping.position.y = radius+0.025
 	add_child(coping)
 	var coping_body := StaticBody3D.new()
+	_native_steel_coping=coping_body
 	coping_body.name = "NativeBowlSteelCoping"
 	coping_body.set_meta("authored_grind_ids",["Grind_Coping_"+feature_id])
 	coping_body.set_meta("audit_capture_ids",["Grind_Coping_"+feature_id])
-	coping_body.collision_layer = 2
+	coping_body.collision_layer = 1 | 2
 	coping_body.transform = coping.transform
 	coping_body.set_meta("coping_feature",self)
 	coping_body.set_meta("surface_audio","metal")
@@ -129,6 +133,14 @@ func build() -> void:
 	var coping_collision := CollisionShape3D.new()
 	coping_collision.shape = coping_shape
 	coping_body.add_child(coping_collision)
+
+func owns_native_wheel_support(body: CollisionObject3D) -> bool:
+	# Only the exact native bodies constructed by this wrapped bowl supply
+	# its rim/deck exception. Names or copied metadata confer no ownership.
+	return wrap_lateral and is_instance_valid(body) and body.get_parent()==self \
+		and is_instance_valid(surface_body) and surface_body.get_parent()==self \
+		and (body==surface_body or body==_native_annular_deck or body==_native_steel_coping)
+
 
 func local_sample(theta: float, lateral: float) -> Dictionary:
 	var phi := lateral/floor_radius

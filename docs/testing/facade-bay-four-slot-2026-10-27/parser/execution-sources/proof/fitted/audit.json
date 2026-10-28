@@ -1,0 +1,587 @@
+{
+  "schema": 1,
+  "status": "Fitted asset structural audit passed; live acceptance pending",
+  "source_sha256": {
+    "fitted/generator.py": "38b5ccfb900c09a8b9086ae8136124fb22dd65bc9e082b06cba90c10e7115332",
+    "fitted/audit.py": "27aa82942953d9e5de35d8ce8b9f14a474feeeb93b9fdd59af23f2150ce00b8f",
+    "original/generator.py": "9089b13cfced0de978b9ced916e95afc69c41898c29344c14d9e512bf490c61d",
+    "original/audit.py": "93073cee92d5ad34f17badaf1175cc56495aff9eb0492f6b1d68d9fdd3493622"
+  },
+  "assets": [
+    {
+      "file": "glasgow_bay_near.glb",
+      "bytes": 954316,
+      "sha256": "bd472749297e42b21564e24ba93b44212aa0a1790150fba2e27dec79b00d9a6e",
+      "triangles": 18392,
+      "exported_vertices": 17492,
+      "opaque_named_slots": 4,
+      "embedded_images": 0,
+      "embedded_material_payloads": 0,
+      "bounds_min_m": [
+        -3.25,
+        0.0,
+        -0.5
+      ],
+      "bounds_max_m": [
+        3.25,
+        16.0,
+        0.36000001430511475
+      ],
+      "surface_data": [
+        {
+          "slot": 0,
+          "name": "01_Original_sandstone",
+          "triangles": 12516,
+          "vertices": 11712,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "634627de6621186e3664880eb9467c1075cfc98454429aecc767655f0b052ec4"
+        },
+        {
+          "slot": 1,
+          "name": "02_Painted_forest_joinery",
+          "triangles": 5244,
+          "vertices": 5088,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "1ca6f30ef2e9f5bf0b6e3dfc33b86ccb5079f356af5ace045a3237557d4f1100"
+        },
+        {
+          "slot": 2,
+          "name": "03_Opaque_glazing",
+          "triangles": 120,
+          "vertices": 240,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "6e7e7f6d1e6c2a2747097be68023dc98963effe046df531157919aa5e55e92cc"
+        },
+        {
+          "slot": 3,
+          "name": "04_Aged_dark_metal",
+          "triangles": 512,
+          "vertices": 452,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "fe1f4a05ea48a8f83869b18b298f92c4869f3c467b1553b4b5b3a493f8799da7"
+        }
+      ],
+      "entry_comparison": {
+        "changed_triangles": 632,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ],
+        "all_other_triangles_and_authored_uvs_unchanged": true,
+        "uv_comparison": "original authored TEXCOORD_1 equals fitted TEXCOORD_0",
+        "entry_bounds_min_m": [
+          1.4,
+          0.33,
+          -0.225
+        ],
+        "entry_bounds_max_m": [
+          2.6,
+          3.09,
+          0.275
+        ],
+        "threshold_top_m": 0.53
+      }
+    },
+    {
+      "file": "glasgow_bay_mid.glb",
+      "bytes": 255808,
+      "sha256": "7015c9bb99f89598cd77955e4024a221ab222fe7e5cd5fff63ccc45a8f4e5160",
+      "triangles": 3544,
+      "exported_vertices": 4796,
+      "opaque_named_slots": 4,
+      "embedded_images": 0,
+      "embedded_material_payloads": 0,
+      "bounds_min_m": [
+        -3.25,
+        0.0,
+        -0.5
+      ],
+      "bounds_max_m": [
+        3.25,
+        16.0,
+        0.36000001430511475
+      ],
+      "surface_data": [
+        {
+          "slot": 0,
+          "name": "01_Original_sandstone",
+          "triangles": 2204,
+          "vertices": 2688,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "c99d4ebce289c55f5284e642bcdca6e4ccd9e159d2f97d4c91aee09ac4ae389b"
+        },
+        {
+          "slot": 1,
+          "name": "02_Painted_forest_joinery",
+          "triangles": 708,
+          "vertices": 1416,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "73ccb4c4d9d747f7fccfa920c090120093cb47243854c4f601ae9ba1ae033a58"
+        },
+        {
+          "slot": 2,
+          "name": "03_Opaque_glazing",
+          "triangles": 120,
+          "vertices": 240,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "6e7e7f6d1e6c2a2747097be68023dc98963effe046df531157919aa5e55e92cc"
+        },
+        {
+          "slot": 3,
+          "name": "04_Aged_dark_metal",
+          "triangles": 512,
+          "vertices": 452,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "fe1f4a05ea48a8f83869b18b298f92c4869f3c467b1553b4b5b3a493f8799da7"
+        }
+      ],
+      "entry_comparison": {
+        "changed_triangles": 440,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ],
+        "all_other_triangles_and_authored_uvs_unchanged": true,
+        "uv_comparison": "original authored TEXCOORD_1 equals fitted TEXCOORD_0",
+        "entry_bounds_min_m": [
+          1.4,
+          0.33,
+          -0.225
+        ],
+        "entry_bounds_max_m": [
+          2.6,
+          3.09,
+          0.275
+        ],
+        "threshold_top_m": 0.53
+      }
+    },
+    {
+      "file": "glasgow_bay_far.glb",
+      "bytes": 70384,
+      "sha256": "d21b45202d29345d6c5ee935fde7b38e5598751a968306fdbb88dc1dbfdcf50a",
+      "triangles": 648,
+      "exported_vertices": 1296,
+      "opaque_named_slots": 4,
+      "embedded_images": 0,
+      "embedded_material_payloads": 0,
+      "bounds_min_m": [
+        -3.25,
+        0.0,
+        -0.5
+      ],
+      "bounds_max_m": [
+        3.25,
+        16.0,
+        0.36000001430511475
+      ],
+      "surface_data": [
+        {
+          "slot": 0,
+          "name": "01_Original_sandstone",
+          "triangles": 444,
+          "vertices": 888,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "c6d5aae28d3bf8446fed018ea67b1fefa30e0b967c564da849e7e10e27a19621"
+        },
+        {
+          "slot": 1,
+          "name": "02_Painted_forest_joinery",
+          "triangles": 72,
+          "vertices": 144,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "896e49924cae0320f718cce76da512138214aff2d9812938a3643d78ab7f7b3b"
+        },
+        {
+          "slot": 2,
+          "name": "03_Opaque_glazing",
+          "triangles": 120,
+          "vertices": 240,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "6e7e7f6d1e6c2a2747097be68023dc98963effe046df531157919aa5e55e92cc"
+        },
+        {
+          "slot": 3,
+          "name": "04_Aged_dark_metal",
+          "triangles": 12,
+          "vertices": 24,
+          "formats": {
+            "POSITION": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "NORMAL": {
+              "component_type": 5126,
+              "type": "VEC3",
+              "normalized": false
+            },
+            "TEXCOORD_0": {
+              "component_type": 5126,
+              "type": "VEC2",
+              "normalized": false
+            },
+            "TANGENT": {
+              "component_type": 5126,
+              "type": "VEC4",
+              "normalized": false
+            },
+            "INDICES": {
+              "component_type": 5123,
+              "type": "SCALAR"
+            }
+          },
+          "decoded_data_sha256": "6f9e5eb149904592096622af73be09617d7daba94ff149cd39003b14985ea3d9"
+        }
+      ],
+      "entry_comparison": {
+        "changed_triangles": 48,
+        "translation_m": [
+          0,
+          0.33,
+          0
+        ],
+        "all_other_triangles_and_authored_uvs_unchanged": true,
+        "uv_comparison": "original authored TEXCOORD_1 equals fitted TEXCOORD_0",
+        "entry_bounds_min_m": [
+          1.4,
+          0.33,
+          -0.225
+        ],
+        "entry_bounds_max_m": [
+          2.6,
+          3.09,
+          0.275
+        ],
+        "threshold_top_m": 0.53
+      }
+    }
+  ],
+  "shared_textures": [
+    {
+      "file": "textures/sandstone_basecolor.png",
+      "bytes": 1090174,
+      "sha256": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "original_unchanged": true
+    },
+    {
+      "file": "textures/sandstone_normal_opengl.png",
+      "bytes": 1000855,
+      "sha256": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "original_unchanged": true
+    },
+    {
+      "file": "textures/sandstone_orm.png",
+      "bytes": 800428,
+      "sha256": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9",
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "original_unchanged": true
+    },
+    {
+      "file": "textures/opaque_glazing_basecolor.png",
+      "bytes": 66857,
+      "sha256": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894",
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "original_unchanged": true
+    }
+  ],
+  "original_proof_files_preserved": 20,
+  "not_tested": [
+    "Godot import",
+    "live visual integration",
+    "route/camera clearance",
+    "LOD switching",
+    "Mac performance"
+  ]
+}

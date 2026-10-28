@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T06:34:28.796607+00:00",
+  "completed_london": "2026-10-28T06:34:54.808303+00:00",
+  "wall_seconds": 26.011695671004418,
+  "command": [
+    "timeout",
+    "60s",
+    "python3",
+    ".local/camera_handoff_capture/run_rendered.py",
+    "--script",
+    ".local/camera_handoff_capture/capture.gd",
+    "--output",
+    ".local/camera-handoff-final-static-image"
+  ],
+  "exit_code": 0,
+  "source_inputs": 675,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "3e5867320c3d33b2c356503e0348cd9280ae08c1b02771e259e8b755b6aefbd0",
+  "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+}

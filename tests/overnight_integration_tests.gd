@@ -32,8 +32,8 @@ static func _charged_launch(tree: SceneTree, game: Node, check: Callable) -> voi
 	Input.action_release("ollie")
 	await _frames(tree, 1)
 	var tap_velocity: float = game.skater.velocity.y
-	check.call(game.skater.airborne and absf(tap_velocity - game.skater.OLLIE_SPEED) < 0.01,
-		"overnight process: releasing a tap uses the retained default flat-ground impulse")
+	check.call(game.skater.airborne and absf(tap_velocity - game.skater.OLLIE_SPEED * game.skater.WEIGHTED_OLLIE_IMPULSE_SCALE) < 0.01,
+		"overnight process: releasing a tap uses the height-preserving weighted flat-ground impulse")
 	var tap_peak: float = game.skater.global_position.y
 	for frame in 90:
 		await _frames(tree, 1)
@@ -214,9 +214,16 @@ static func _special_timing(tree: SceneTree, game: Node, check: Callable) -> voi
 	await _frames(tree, 2)
 	Input.action_release("ollie")
 	await _frames(tree, 1)
+	var late_support_gap := INF
 	for frame in 80:
+		var ray := PhysicsRayQueryParameters3D.create(game.skater.global_position + Vector3.UP * .05,
+			game.skater.global_position + Vector3.DOWN, 1)
+		ray.exclude = [game.skater.get_rid()]
+		var support: Dictionary = game.world.get_world_3d().direct_space_state.intersect_ray(ray)
+		if game.skater.airborne and game.skater.velocity.y < 0.0 and not support.is_empty():
+			late_support_gap = game.skater.global_position.y - Vector3(support.position).y
+			if late_support_gap > .20 and late_support_gap < .32: break
 		await _frames(tree, 1)
-		if game.skater.velocity.y < -5.5: break
 	_key(KEY_U)
 	await _frames(tree, 2)
 	check.call(game.skater.special_name == "Clyde Carousel",

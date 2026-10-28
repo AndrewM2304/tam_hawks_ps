@@ -126,7 +126,21 @@ static func _rails(world: Node3D) -> PackedStringArray:
 static func _support(world: Node3D) -> Array:
 	var space := world.get_world_3d().direct_space_state
 	var threshold := space.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(-34.7, 3, 3.75), Vector3(-34.7, -1, 3.75), 1))
-	var ledge := space.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(-27.4, 3, 3.75), Vector3(-27.4, -1, 3.75), 1))
+	var ledge_from := Vector3(-27.4, 3, 3.75)
+	var ledge_to := Vector3(-27.4, -1, 3.75)
+	var crown := space.intersect_ray(PhysicsRayQueryParameters3D.create(ledge_from, ledge_to, 1))
+	var rail := space.intersect_ray(PhysicsRayQueryParameters3D.create(ledge_from, ledge_to, 2))
+	var crown_body := crown.get("collider") as StaticBody3D
+	var crown_valid: bool = crown_body != null and crown_body.collision_layer & 3 == 3 \
+		and "Grind_Ledge_ExchangeShops" in crown_body.get_meta("authored_grind_ids", []) \
+		and rail.get("rid") == crown.get("rid") \
+		and Vector3(rail.get("position", Vector3.INF)).distance_to(crown.position) <= EPS \
+		and absf(crown.position.y - 0.97) < EPS
+	# This is the unchanged masonry-support witness, below the newly solid
+	# authored steel. Authenticate that exact native crown before skipping it.
+	var ledge_query := PhysicsRayQueryParameters3D.create(ledge_from, ledge_to, 1)
+	if crown_valid: ledge_query.exclude = [crown_body.get_rid()]
+	var ledge := space.intersect_ray(ledge_query)
 	var capsule := CapsuleShape3D.new()
 	capsule.radius = 0.28
 	capsule.height = 1.7
@@ -138,7 +152,7 @@ static func _support(world: Node3D) -> Array:
 	query.margin = 0.01
 	var sweep := space.cast_motion(query)
 	return [not threshold.is_empty() and absf(threshold.position.y - 0.53) < 0.01,
-		not ledge.is_empty() and absf(ledge.position.y - 0.82) < 0.01,
+		crown_valid and not ledge.is_empty() and absf(ledge.position.y - 0.82) < 0.01,
 		sweep.size() == 2 and sweep[0] >= 0.9999]
 
 
@@ -319,18 +333,18 @@ static func _check_lods(building: Node3D, check: Callable) -> void:
 	var opaque := true
 	var bounds := true
 	var texture_ids: Dictionary = {}
-	var budgets := [[12000, 20000], [2000, 5000], [300, 800]]
+	var triangles_by_level := [9864, 3544, 648]
 	var levels: Array[MeshInstance3D] = [near, mid, far]
 	for index: int in range(levels.size()):
 		var level := levels[index]
 		var triangles := level.mesh.get_faces().size() / 3
-		check.call(level.mesh.get_surface_count() == 4 and triangles >= budgets[index][0] and triangles <= budgets[index][1],
+		check.call(level.mesh.get_surface_count() == 4 and triangles == triangles_by_level[index],
 			"facade bay: four fitted material surfaces and authored triangle budget " + String(level.name))
 		bounds = bounds and level.mesh.get_aabb().is_equal_approx(near.mesh.get_aabb())
 		check.call(level.visibility_range_end == 0.0 and level.visibility_range_fade_mode == GeometryInstance3D.VISIBILITY_RANGE_FADE_DISABLED,
 			"facade bay: hard native stage has no alpha fade or premature end " + String(level.name))
 		var imported := ConfigFile.new()
-		check.call(imported.load(Bay.ASSET_ROOT + "glasgow_bay_" + String(level.name).to_lower() + ".glb.import") == OK
+		check.call(imported.load(Bay.MESH_ROOT + "glasgow_bay_" + String(level.name).to_lower() + ".glb.import") == OK
 			and imported.get_value("params", "meshes/generate_lods", true) == false,
 			"facade bay: explicit authored stage has automatic import LODs disabled " + String(level.name))
 		for slot: int in range(4):

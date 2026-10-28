@@ -1,0 +1,23 @@
+{
+  "started_london": "2026-10-27T21:36:00.724980+00:00",
+  "completed_london": "2026-10-27T21:36:01.025950+00:00",
+  "wall_seconds": 0.30097361499974795,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    ".local/facade_stage4/native_surface_data.gd",
+    "--",
+    ".local/facade-stage4-native-surface-after.json"
+  ],
+  "exit_code": 0,
+  "source_inputs": 668,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "b91f1c2bcabcafe887b912835e01f11cd1fb9127d3c9195295e408e99ba5cf4b",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

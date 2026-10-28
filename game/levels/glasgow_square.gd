@@ -26,7 +26,7 @@ const StationRailway = preload("res://game/levels/station_railway.gd")
 const ParkPond = preload("res://game/levels/park_pond.gd")
 const ClydeCableLine = preload("res://game/levels/clyde_cable_line.gd")
 const CentralGreen = preload("res://game/levels/pt24_central_green.gd")
-const RAIL_COLLISION_LAYER := 2
+const RAIL_COLLISION_LAYER := 1 | 2 # Solid world contact and authored grind queries.
 const RAIL_TOP_HEIGHT := 0.92
 const PALETTE := {
 	"stone": Color("a89d87"),
@@ -432,8 +432,8 @@ func _rail(rail_id: String, at: Vector3, length: float) -> void:
 	bar.set_meta("audit_capture_ids",[rail_id])
 	for z: float in [-length / 2.0 + 0.4, length / 2.0 - 0.4]:
 		var post := _box(rail, "RailPost", Vector3(0.0, 0.42, z), Vector3(0.12, 0.84, 0.12), "slate", true) as StaticBody3D
-		# Thin supports cannot catch a rider entering/leaving the authored line.
-		# Ordinary world solids stay on layer1 for clearance and collision checks.
+		# Visible supports are solid too; the authored bearing retains its own
+		# finite grind path rather than making the entire rail non-colliding.
 		post.collision_layer = RAIL_COLLISION_LAYER
 		post.collision_mask = 0
 
@@ -734,7 +734,9 @@ func _build_barras() -> void:
 	_flat("BarrasFloor", Rect2(50, -42, 80, 87), 0, "paving")
 	var loading := _flat("MarketLoadingTerrace", Rect2(50, -42, 80, 24), 1.5, "stone")
 	var loading_ids: Array[String] = []
-	for span: Vector2 in [Vector2(76.1,86.5),Vector2(99.5,107.8)]:
+	# The east bearing starts beyond the stair handrail's actual capsule
+	# clearance; its former99.5m start crossed that solid upright cylinder.
+	for span: Vector2 in [Vector2(76.1,86.5),Vector2(100.2,107.8)]:
 		var id := "Grind_Ledge_LoadingLip_" + str(loading_ids.size())
 		_grind_path(id,PackedVector3Array([Vector3(span.x,1.52,-18),Vector3(span.y,1.52,-18)]),"ledge")
 		loading_ids.append(id)
@@ -1009,7 +1011,7 @@ func get_route_definitions() -> Array[Dictionary]:
 		_route("gallery_civic_ascent", "Gallery to civic terraces", [Vector3(-22,0,28), Vector3(-22,0,-4), Vector3(-22,2,-18), Vector3(-22,2,-42), Vector3(-22,4,-56), Vector3(-22,4,-96), Vector3(-22,6,-108), Vector3(-22,6,-118)]),
 		_route("exchange_fountain_loop", "Fountain court loop", [Vector3(-22,0,28), Vector3(22,0,28), Vector3(22,0,-2), Vector3(-22,0,-2), Vector3(-22,0,28)]),
 		_route("central_south_link", "Station climbing street", [Vector3(-22,0,22), Vector3(-35,0,22), Vector3(-50,2,22), Vector3(-70,2,22)]),
-		_route("central_north_link", "Gallery station street", [Vector3(-22,2,-22), Vector3(-35,2,-22), Vector3(-50,2,-22), Vector3(-64,2,-22)]),
+		_route("central_north_link", "Gallery station street", [Vector3(-22,2,-22), Vector3(-22,2,-21), Vector3(-35,2,-21), Vector3(-50,2,-21), Vector3(-64,2,-21), Vector3(-64,2,-22)]),
 		_route("barras_south_link", "Market approach", [Vector3(22,0,22), Vector3(35,0,22), Vector3(50,0,22), Vector3(94,0,22)]),
 		_route("barras_north_link", "Gallery loading street", [Vector3(22,2,-22), Vector3(35,2,-22), Vector3(50,1.5,-22), Vector3(75,1.5,-22)]),
 		_route("central_back_lane", "Station to civic back lane", [Vector3(-88,2,-38), Vector3(-88,2,-42), Vector3(-88,4,-74), Vector3(-88,4,-80), Vector3(-35,4,-80), Vector3(-22,4,-80)]),
@@ -1118,7 +1120,7 @@ func _grind_path(id: String, points: PackedVector3Array, kind: String = "rail") 
 		var basis := orientation * Basis.from_scale(Vector3(1, direction.length(), 1))
 		batches.set_instance_transform(index, Transform3D(basis, (start + end) / 2.0))
 		# Match the existing visible cylinder exactly without nonuniformly
-		# scaling a CollisionShape. Ordinary rider/world collision stays on1|8.
+		# scaling a CollisionShape. The ordinary rider now meets this solid bar.
 		var shape := CylinderShape3D.new()
 		shape.radius = radius
 		shape.height = direction.length()

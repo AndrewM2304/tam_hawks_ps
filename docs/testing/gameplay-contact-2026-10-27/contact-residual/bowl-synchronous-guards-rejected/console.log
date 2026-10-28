@@ -1,0 +1,85 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _native_board_floor (res://game/player/skater.gd:4005)
+          GDScript backtrace (most recent call first):
+              [0] _native_board_floor (res://game/player/skater.gd:4005)
+              [1] run (res://tests/pt24_bowl_contact_tests.gd:43)
+              [2] _fixture (res://tests/pt24_bowl_contact_tests.gd:289)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: LocomotionLimitSkater._native_board_floor (res://game/player/skater.gd:4005)
+          GDScript backtrace (most recent call first):
+              [0] _native_board_floor (res://game/player/skater.gd:4005)
+              [1] run (res://tests/pt24_bowl_contact_tests.gd:44)
+              [2] _fixture (res://tests/pt24_bowl_contact_tests.gd:289)
+ERROR: FAIL: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/bowl_contact_canonical.gd:8)
+       [1] run (res://tests/pt24_bowl_contact_tests.gd:49)
+       [2] _fixture (res://tests/pt24_bowl_contact_tests.gd:289)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _native_board_floor (res://game/player/skater.gd:4005)
+          GDScript backtrace (most recent call first):
+              [0] _native_board_floor (res://game/player/skater.gd:4005)
+              [1] run (res://tests/pt24_bowl_contact_tests.gd:43)
+              [2] _fixture (res://tests/pt24_bowl_contact_tests.gd:289)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: LocomotionLimitSkater._native_board_floor (res://game/player/skater.gd:4005)
+          GDScript backtrace (most recent call first):
+              [0] _native_board_floor (res://game/player/skater.gd:4005)
+              [1] run (res://tests/pt24_bowl_contact_tests.gd:44)
+              [2] _fixture (res://tests/pt24_bowl_contact_tests.gd:289)
+ERROR: FAIL: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 1
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/bowl_contact_canonical.gd:8)
+       [1] run (res://tests/pt24_bowl_contact_tests.gd:49)
+       [2] _fixture (res://tests/pt24_bowl_contact_tests.gd:289)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _native_board_floor (res://game/player/skater.gd:4005)
+          GDScript backtrace (most recent call first):
+              [0] _native_board_floor (res://game/player/skater.gd:4005)
+              [1] run (res://tests/pt24_bowl_contact_tests.gd:43)
+              [2] _fixture (res://tests/pt24_bowl_contact_tests.gd:289)
+ERROR: FAIL: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 2
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/bowl_contact_canonical.gd:8)
+       [1] run (res://tests/pt24_bowl_contact_tests.gd:49)
+       [2] _fixture (res://tests/pt24_bowl_contact_tests.gd:289)
+PASS: PT24 native bowl: all three recorded old-frame controls independently reproduce real tyre penetration
+PASS: PT24 native bowl: all three exact constructor-owned wall/deck/coping bodies retain steep support identity after a real body rename
+PASS: PT24 native bowl: same-parent foreign native body with copied exact name and feature metadata cannot acquire steep support
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _native_board_floor (res://game/player/skater.gd:4005)
+          GDScript backtrace (most recent call first):
+              [0] _native_board_floor (res://game/player/skater.gd:4005)
+              [1] _controls (res://tests/pt24_bowl_contact_tests.gd:172)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: LocomotionLimitSkater._native_board_floor (res://game/player/skater.gd:4005)
+          GDScript backtrace (most recent call first):
+              [0] _native_board_floor (res://game/player/skater.gd:4005)
+              [1] _controls (res://tests/pt24_bowl_contact_tests.gd:173)
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (-30.0, 0.02, 0.0)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: _native_board_floor (res://game/player/skater.gd:4005)
+          GDScript backtrace (most recent call first):
+              [0] _native_board_floor (res://game/player/skater.gd:4005)
+              [1] _controls (res://tests/pt24_bowl_contact_tests.gd:172)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[Dictionary]".
+          at: LocomotionLimitSkater._native_board_floor (res://game/player/skater.gd:4005)
+          GDScript backtrace (most recent call first):
+              [0] _native_board_floor (res://game/player/skater.gd:4005)
+              [1] _controls (res://tests/pt24_bowl_contact_tests.gd:173)
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (60.0, 0.313109, -1.140074)
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (30.0, 8.02, 0.0)
+PASS: PT24 native bowl: an unrelated actual steep plane still cannot acquire the wrapped-bowl exception
+PASS: PT24 air landing: exact current-frame negative control retains the real rear-tyre and metal-axle penetration
+PASS: PT24 air landing: every actual finite tyre hull and recorded axle vertex clear the native quay before capsule landing
+PASS: PT24 air landing: smallest rigid orientation fit preserves physics, zero lift, board-local pose and both planted feet
+PT24_AIR_LANDING_CONTACT { "legacy_minimum": -0.03842747211456, "legacy_axle": -0.02273571491241, "minimum": 0.0081148147583, "axle": 0.02940130233765, "old_visual": [X: (0.767991, -0.592711, 0.24266), Y: (0.438894, 0.762984, 0.474582), Z: (-0.466435, -0.257972, 0.846102), O: (-9.289708, 2.102755, 127.4841)], "fixed_visual": [X: (0.81734, -0.421694, 0.392594), Y: (0.294898, 0.891571, 0.343709), Z: (-0.494965, -0.165151, 0.853074), O: (-9.289708, 2.102755, 127.4841)] }
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 0
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 1
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 2
+RESULT: 13 passed, 3 failed

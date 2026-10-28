@@ -1,0 +1,355 @@
+extends RefCounted
+## Two different ordinary-input lines on the actual compact Clyde world.
+## These exercise feasibility; human enjoyment/controller margins stay open.
+const Driver = preload("res://tests/support/compact_clyde_lines_driver.gd")
+const Catalog = preload("res://game/tricks/trick_catalog.gd")
+
+
+static func run(tree: SceneTree, game: Node, check: Callable) -> void:
+	var original_spawn: Vector3=game.skater.spawn_position
+	game.persistence_enabled=false
+	await _line(tree,game,check,"clyde_print_yard_ledge",2.2,20.0,true)
+	await _line(tree,game,check,"clyde_quay_coping",5.2,18.0,false)
+	await _vert_circuit(tree,game,check)
+	await _river_circuit(tree,game,check)
+	await _deck_containment(tree,game,check)
+	Driver.release()
+	game.skater.spawn_position=original_spawn
+	game.start_mode(false)
+
+
+static func _line(tree: SceneTree, game: Node, check: Callable, rail_id: String,
+		target_distance: float, approach: float, yard: bool) -> void:
+	var rail = null
+	for candidate in game.world.get_grind_lines():
+		if candidate.id==rail_id: rail=candidate
+	check.call(rail!=null and rail.is_valid,"compact Clyde: real authored feature "+rail_id)
+	if rail==null or not rail.is_valid: return
+	var target: Vector3=rail.point_at(target_distance)
+	var tangent: Vector3=rail.dir_at(target_distance)
+	var start: Vector3=target-tangent*approach
+	start.y=2.8
+	var recorder=await Driver.fixture(tree,game,start,tangent)
+	var charged := false
+	var charge_ticks := 0
+	var released := false
+	var caught := false
+	for tick: int in 300:
+		Driver.action("push",1.0)
+		# Request the yard endpoint from closer range; retain<1m correction
+		# rather than hiding the old radius-plus-travel overshoot.
+		Driver.action("grind",1.0 if not yard or game.skater.global_position.x>=rail.point_at(0).x-0.5 else 0.0)
+		if not charged and (target-game.skater.global_position).dot(tangent)<13.0:
+			Driver.action("ollie",1.0)
+			charged=true
+		if charged and not released:
+			# Two more supported ticks place the shorter yard arc inside
+			# the closer endpoint request; full-charge impulse is unchanged.
+			if charge_ticks>=(17 if yard else 15):
+				Driver.action("ollie",0.0)
+				released=true
+			else: charge_ticks+=1
+		await Driver.ticks(tree,1)
+		if game.skater.grinding:
+			caught=str(game.skater._grind.line.id)==rail_id
+			break
+	var captured_at: Vector3=game.skater.global_position
+	var manual := false
+	var linked := false
+	var landing: Dictionary={}
+	if caught:
+		Driver.action("push",0.0)
+		Driver.action("ollie",0.0)
+		await Driver.ticks(tree,6)
+		Driver.action("ollie",1.0)
+		# The now-solid quay coping is31m long. Use its existing outward-pop
+		# input to land on the north quay, rather than back on the same crown.
+		if not yard: Driver.action("steer_left",0.5)
+		await Driver.ticks(tree,15)
+		Driver.action("ollie",0.0)
+		Driver.action("grind",0.0)
+		await Driver.ticks(tree,1)
+		if not yard: Driver.action("steer_left",0.0)
+		await Driver.ticks(tree,1)
+		# Distinct families: yard Kickflip/Melon; quay forward/Nose Grab.
+		if not yard: Driver.action("push",1.0)
+		Driver.action("flip",1.0)
+		Driver.action("grab",1.0)
+		await Driver.ticks(tree,1)
+		Driver.action("flip",0.0)
+		Driver.action("grab",0.0)
+		Driver.action("push",0.0)
+		for tick: int in 100:
+			await Driver.ticks(tree,1)
+			if game.skater.is_on_floor() and not game.skater.airborne:
+				Driver.action("manual",1.0)
+				await Driver.ticks(tree,2)
+				manual=game.skater.manual_active
+				break
+		landing=recorder.rows[-1].duplicate(true) if not recorder.rows.is_empty() else {}
+		linked=manual and game.score.total_score==0
+		for tick: int in 12:
+			await Driver.ticks(tree,1)
+			linked=linked and game.skater.manual_active and game.score.total_score==0
+	Driver.release()
+	await Driver.stop(tree,game)
+	var banked: int=game.score.total_score
+	await Driver.ticks(tree,24)
+	var stable_bank: bool=banked>0 and game.score.total_score==banked and game.score.get_combo_value()==0
+	var supported: bool=not landing.is_empty() and landing.floor and absf(float(landing.at.y)-2.0)<0.05
+	if yard:
+		supported=supported and landing.at.x>rail.point_at(rail.length).x+0.1 \
+			and (landing.support.has("ClydePrintYard") or landing.support.has("ClydeSouthQuay"))
+	else:
+		supported=supported and landing.support.has("ClydeNorthQuay")
+	check.call(caught and manual and linked and supported,
+		"compact Clyde: "+rail_id+" real capture, rail pop, air tricks and supported manual link")
+	check.call(stable_bank,"compact Clyde: "+rail_id+" complete combo banks once")
+	var return_points := PackedVector3Array()
+	if yard:
+		return_points=PackedVector3Array([Vector3(62,2,124),Vector3(62,2,137),Vector3(22,2,137),Vector3(start.x,2,start.z)])
+	else:
+		# The landward line stays behind the river edge and clear of both pipe
+		# structures, then reaches the continuous bridge instead of the gap.
+		return_points=PackedVector3Array([Vector3(-82,2,74),Vector3(-82,2,68),Vector3(-35,2,69),Vector3(-25,2,69),Vector3(-25,3.4,89),
+			Vector3(-25,3.4,105),Vector3(-25,2,125),Vector3(-31,2,125),
+			Vector3(-25,2,125),Vector3(-25,3.4,105),Vector3(-25,3.4,89),
+			# Leave room around the electric cart's landward patrol/end turn.
+			Vector3(-25,2,69),Vector3(-82,2,69),Vector3(-82,2,74),Vector3(start.x,2,start.z)])
+	var returned: Dictionary={"reached":false,"ticks":0}
+	if stable_bank and supported: returned=await Driver.drive(tree,game,return_points)
+	await Driver.stop(tree,game)
+	var result: Dictionary=Driver.summary(recorder)
+	check.call(returned.reached and game.skater.is_on_floor()
+		and Vector2(game.skater.global_position.x-start.x,game.skater.global_position.z-start.z).length()<1.0
+		and game.score.total_score==banked and result.bails==0,
+		"compact Clyde: "+rail_id+" banks then uses real steering/braking to return safely")
+	check.call(result.contiguous and result.finite and result.maximum_step<1.0 and result.clean_landings>=1
+		and result.captured_ids==[rail_id] and _grind_award_count(result.tricks)==1
+		and result.tricks.count("Ollie")==2 and result.tricks.count("Manual")==1
+		and result.tricks.has("Kickflip" if yard else "Frontside Shuvit")
+		and result.tricks.has("Melon Grab" if yard else "Nose Grab"),
+		"compact Clyde: "+rail_id+" native consecutive samples preserve real identity/landings without forced motion")
+	print("COMPACT_CLYDE_LINE rail=",rail_id," capture=",captured_at," landing=",landing,
+		" bank=",banked," return=",returned," summary=",result)
+	var output := str(OS.get_environment("COMPACT_CLYDE_LINES_OUTPUT"))
+	if not output.is_empty():
+		DirAccess.make_dir_recursive_absolute(output)
+		var file:=FileAccess.open(output.path_join(rail_id+".json"),FileAccess.WRITE)
+		if file:
+			file.store_string(JSON.stringify(Driver.serializable({"rail":rail_id,"fixture":start,"capture":captured_at,
+				"landing":landing,"bank":banked,"return":returned,"summary":result,
+				"events":recorder.events,"samples":recorder.rows}),"\t"))
+	recorder.active=false
+	recorder.queue_free()
+	await tree.process_frame
+
+
+static func _vert_circuit(tree: SceneTree, game: Node, check: Callable) -> void:
+	var start := Vector3(-3,2.8,62)
+	var recorder=await Driver.fixture(tree,game,start,Vector3.LEFT)
+	Driver.action("push",1.0)
+	Driver.action("grind",1.0)
+	var lip := false
+	var lip_id := ""
+	for tick: int in 240:
+		await Driver.ticks(tree,1)
+		if game.skater.lip_active:
+			lip=str(game.skater._lip_feature.get("id",""))=="clyde_quarter"
+			lip_id=str(game.skater.lip_id)
+			break
+	Driver.action("push",0.0)
+	await Driver.ticks(tree,10)
+	Driver.action("grind",0.0)
+	var manual := false
+	for tick: int in 240:
+		await Driver.ticks(tree,1)
+		if not game.skater.airborne and not game.skater.transition_active and game.skater.is_on_floor() \
+				and absf(game.skater.global_position.y-2.0)<0.05 and absf(game.skater.speed)>=2.0:
+			Driver.action("manual",1.0)
+			await Driver.ticks(tree,2)
+			manual=game.skater.manual_active
+			break
+	await Driver.ticks(tree,10)
+	Driver.release()
+	await Driver.stop(tree,game)
+	var bank: int=game.score.total_score
+	print("COMPACT_CLYDE_VERT_LIP lip=",lip," id=",lip_id," manual=",manual," bank=",bank,
+		" at=",game.skater.global_position," summary=",Driver.summary(recorder))
+	_save("vert-lip-stage",{"lip":lip,"lip_id":lip_id,"manual":manual,"bank":bank,
+		"events":recorder.events,"samples":recorder.rows})
+	check.call(lip and not lip_id.is_empty() and manual and bank>0 and game.score.get_combo_value()==0,
+		"compact Clyde circuit: live east-facing quarter lip drops through real contact to a supported manual and bank")
+	var approach: Dictionary=await Driver.drive(tree,game,PackedVector3Array([
+		Vector3(-3,2,69),Vector3(-42,2,69),Vector3(-42,2,60.5)]))
+	var aimed := await Driver.face(tree,game,Vector3.LEFT)
+	Driver.action("push",1.0)
+	var visits: Array[String]=[]
+	var previous := ""
+	var air_trick := false
+	var face_angles: Dictionary={}
+	for tick: int in 660:
+		await Driver.ticks(tree,1)
+		var current: String=str(game.skater._transition.feature.get("id","")) if game.skater.transition_active else ""
+		if not current.is_empty(): face_angles[current]=maxf(float(face_angles.get(current,0.0)),rad_to_deg(game.skater._transition.theta))
+		if not current.is_empty() and game.skater._transition.theta>=deg_to_rad(35.0) and current!=previous:
+			visits.append(current)
+			previous=current
+		if game.skater.airborne and not air_trick:
+			Driver.action("grab",1.0)
+			air_trick=true
+		else: Driver.action("grab",0.0)
+		if visits.has("clyde_half_west") and visits.has("clyde_half_east"): break
+	Driver.release()
+	await Driver.stop(tree,game)
+	var returned: Dictionary=await Driver.drive(tree,game,PackedVector3Array([
+		Vector3(-42,2,69),Vector3(-3,2,69),Vector3(-3,2,62)]))
+	await Driver.stop(tree,game)
+	var result: Dictionary=Driver.summary(recorder)
+	check.call(approach.reached and aimed and visits.has("clyde_half_west") and visits.has("clyde_half_east"),
+		"compact Clyde circuit: actual quay steering reaches open pipe and visits both real opposing faces")
+	check.call(returned.reached and result.bails==0 and result.contiguous and result.finite and result.maximum_step<1.0
+		and game.skater.is_on_floor() and game.skater.global_position.distance_to(Vector3(-3,2,62))<1.0
+		and game.score.total_score>=bank and game.score.get_combo_value()==0,
+		"compact Clyde circuit: quarter/half-pipe use different features and return around south ends without forced headings")
+	var data: Dictionary={"summary":result,"lip_feature":"clyde_quarter","lip_id":lip_id,"bank":bank,
+		"pipe_visits":visits,"face_angles":face_angles,"approach":approach,"return":returned,"events":recorder.events,"samples":recorder.rows}
+	var brief: Dictionary=data.duplicate()
+	brief.erase("samples")
+	print("COMPACT_CLYDE_VERT ",Driver.serializable(brief))
+	_save("vert-circuit",data)
+	recorder.active=false
+	recorder.queue_free()
+	await tree.process_frame
+
+
+static func _river_circuit(tree: SceneTree, game: Node, check: Callable) -> void:
+	var start := Vector3(20,2.8,65)
+	var recorder=await Driver.fixture(tree,game,start,Vector3.BACK)
+	var charging := false
+	var charge_ticks := 0
+	var launch := false
+	Driver.action("push",1.0)
+	for tick: int in 300:
+		if not charging and game.skater.is_on_floor() and game.skater.global_position.z>=87.5:
+			Driver.action("ollie",1.0)
+			charging=true
+		if charging: charge_ticks+=1
+		await Driver.ticks(tree,1)
+		if game.skater.global_position.z>=93.0 and game.skater.is_on_floor():
+			launch=charge_ticks>=15 and game.skater.speed>=12.0
+			break
+	Driver.action("ollie",0.0)
+	var landed := false
+	for tick: int in 180:
+		await Driver.ticks(tree,1)
+		if game.skater.global_position.z>=115.0 and game.skater.is_on_floor():
+			landed=true
+			break
+	Driver.release()
+	await Driver.stop(tree,game)
+	var bank: int=game.score.total_score
+	print("COMPACT_CLYDE_RIVER_GAP launch=",launch," landed=",landed," charge_ticks=",charge_ticks,
+		" bank=",bank," at=",game.skater.global_position)
+	var hip: Dictionary={}
+	for route: Dictionary in game.world.get_route_definitions():
+		if route.id=="clyde_print_yard_hip": hip=route
+	check.call(launch and landed and bank>=2000 and not hip.is_empty(),
+		"compact Clyde river circuit: actual charged optional bridge jump lands on south deck and banks the named gap")
+	var yard: Dictionary={"reached":false}
+	if not hip.is_empty():
+		var points := PackedVector3Array([Vector3(20,2,125.2),Vector3(25,2,125.2),Vector3(25,2,122),Vector3(54,2,122),Vector3(54,2,127.5)])
+		# Follow representative physical arc endpoints; full support sampling is
+		# independent QE, and production steering still chooses each actual turn.
+		for index: int in range(0,hip.points.size(),3): points.append(hip.points[index])
+		points.append(hip.points[-1])
+		yard=await Driver.drive(tree,game,points)
+	var returned: Dictionary=await Driver.drive(tree,game,PackedVector3Array([
+		# The sunken Clyde bowl occupies(-7,134.5); take the clear through lane
+		# rather than asking the return driver to cross the bowl interior.
+		Vector3(53,2,138),Vector3(20,2,138),Vector3(14,2,125.2),Vector3(-25,2,125.2),Vector3(-25,2,124),
+		Vector3(-25,3.4,105),Vector3(-25,3.4,89),Vector3(-25,2,69),
+		Vector3(0,2,69),Vector3(20,2,69),Vector3(20,2,65)]))
+	await Driver.stop(tree,game)
+	var result: Dictionary=Driver.summary(recorder)
+	var hip_high := 0.0
+	for row: Dictionary in recorder.rows:
+		if row.at.x>42 and row.at.x<51 and row.at.z>126 and row.at.z<134: hip_high=maxf(hip_high,float(row.at.y))
+	check.call(yard.reached and hip_high>2.65,
+		"compact Clyde river circuit: real steering leaves landing for the translated curved yard hip and its actual rise")
+	check.call(returned.reached and result.bails==0 and result.contiguous and result.finite and result.maximum_step<1.0
+		and game.skater.is_on_floor() and game.skater.global_position.distance_to(Vector3(20,2,65))<1.0
+		and game.score.total_score>=bank and game.score.get_combo_value()==0
+		and result.scored_tricks.count("Clyde Broken Bridge")==1,
+		"compact Clyde river circuit: yard returns through continuous bridge to optional approach without teleport or another gap award")
+	var data: Dictionary={"summary":result,"launch":launch,"charge_ticks":charge_ticks,"landed":landed,
+		"bank":bank,"hip_high":hip_high,"yard":yard,"return":returned,"events":recorder.events,"samples":recorder.rows}
+	var brief: Dictionary=data.duplicate()
+	brief.erase("samples")
+	print("COMPACT_CLYDE_RIVER ",Driver.serializable(brief))
+	_save("river-circuit",data)
+	recorder.active=false
+	recorder.queue_free()
+	await tree.process_frame
+
+
+static func _deck_containment(tree: SceneTree, game: Node, check: Callable) -> void:
+	for charged: bool in [false,true]:
+		var start := Vector3(-50.2,5.2,60.5)
+		var recorder=await Driver.fixture(tree,game,start,Vector3.FORWARD)
+		Driver.action("push",1.0)
+		await Driver.ticks(tree,20)
+		if charged:
+			Driver.action("ollie",1.0)
+			await Driver.ticks(tree,15)
+			Driver.action("ollie",0.0)
+		await Driver.ticks(tree,180)
+		var minimum_z := INF
+		var minimum_y := INF
+		var peak := -INF
+		var wall_contacts := 0
+		var elevated_wall_contact := false
+		for row: Dictionary in recorder.rows:
+			minimum_z=minf(minimum_z,float(row.at.z))
+			minimum_y=minf(minimum_y,float(row.at.y))
+			peak=maxf(peak,float(row.at.y))
+			for contact: Dictionary in row.contacts:
+				if str(contact.boundary_family)=="QuayLandwardBoundary" and contact.normal.z>0.9:
+					wall_contacts+=1
+					elevated_wall_contact=elevated_wall_contact or contact.at.y>5.1
+		var result: Dictionary=Driver.summary(recorder)
+		var label := "charged outward ollie" if charged else "ordinary outward roll"
+		check.call(wall_contacts>=5 and elevated_wall_contact and game.skater.is_on_floor()
+			and absf(game.skater.global_position.y-5.2)<0.05
+			and Vector2(game.skater.velocity.x,game.skater.velocity.z).length()<0.1,
+			"compact Clyde deck: "+label+" meets the actual raised landward wall and physically stops on deck")
+		check.call(minimum_z>=55.35 and minimum_y>=5.15 and result.bails==0
+			and result.contiguous and result.finite and result.maximum_step<1.0
+			and result.tricks.count("Ollie")==int(charged) and (not charged or (peak>=6.35 and peak<=6.65)),
+			"compact Clyde deck: "+label+" cannot reach the dry void or manufacture recovery/extra jumps")
+		var data: Dictionary={"charged":charged,"fixture":start,"minimum_z":minimum_z,"minimum_y":minimum_y,
+			"peak":peak,"wall_contacts":wall_contacts,"elevated_wall_contact":elevated_wall_contact,
+			"summary":result,"events":recorder.events,"samples":recorder.rows}
+		var brief: Dictionary=data.duplicate()
+		brief.erase("samples")
+		print("COMPACT_CLYDE_DECK ",Driver.serializable(brief))
+		_save("deck-charged" if charged else "deck-roll",data)
+		Driver.release()
+		recorder.active=false
+		recorder.queue_free()
+		await tree.process_frame
+
+
+static func _save(id: String, data: Dictionary) -> void:
+	var output := str(OS.get_environment("COMPACT_CLYDE_LINES_OUTPUT"))
+	if output.is_empty(): return
+	DirAccess.make_dir_recursive_absolute(output)
+	var file:=FileAccess.open(output.path_join(id+".json"),FileAccess.WRITE)
+	if file: file.store_string(JSON.stringify(Driver.serializable(data),"\t"))
+
+
+static func _grind_award_count(names: Array) -> int:
+	var count := 0
+	for name: String in names:
+		if Catalog.is_grind_name(name): count += 1
+	return count

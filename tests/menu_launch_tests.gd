@@ -164,7 +164,7 @@ static func _saved_back_matrix(tree: SceneTree,game: Node,check: Callable) -> vo
 	var spawn: Vector3=game.skater.spawn_position
 	for action: String in ["ollie","manual","revert","grind"]:
 		game.apply_settings({"bindings":{"grab":{"button":JOY_BUTTON_MISC1},action:{"button":JOY_BUTTON_B}}},false)
-		game.skater.spawn_position=Vector3(12,0.8,20) if action=="grind" else spawn
+		game.skater.spawn_position=Vector3(12,0.8,23.5) if action=="grind" else spawn
 		await _fresh(tree,game)
 		var prepared:=true
 		if action=="manual":

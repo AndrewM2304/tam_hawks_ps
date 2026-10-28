@@ -1,0 +1,98 @@
+{
+  "scope": "Focused native/pure grind intent plus retained named/model contracts; root owns full admission/captures/push.",
+  "final_native": {
+    "started_london": "2026-10-27T22:36:20.219771+00:00",
+    "completed_london": "2026-10-27T22:36:22.384717+00:00",
+    "wall_seconds": 2.1649492520009517,
+    "command": [
+      "timeout",
+      "60s",
+      "./tools/run.sh",
+      "--headless",
+      "--fixed-fps",
+      "60",
+      "--script",
+      ".local/grind_intent_focus.gd"
+    ],
+    "exit_code": 0,
+    "source_inputs": 672,
+    "source_stable": true,
+    "clean_log": true,
+    "result_counts": [
+      [
+        "149",
+        "0"
+      ]
+    ],
+    "valid": true,
+    "source_manifest_sha256": "d439febcf17c58ceeaf8d0152b3b1b50954a43d6bd0dd8efe4b0164c802fd540",
+    "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+  },
+  "retained_named_native": {
+    "started_london": "2026-10-27T22:36:56.979651+00:00",
+    "completed_london": "2026-10-27T22:37:03.498800+00:00",
+    "wall_seconds": 6.519150738000462,
+    "command": [
+      "timeout",
+      "90s",
+      "./tools/run.sh",
+      "--headless",
+      "--fixed-fps",
+      "60",
+      "--script",
+      ".local/grind_named_focus.gd"
+    ],
+    "exit_code": 0,
+    "source_inputs": 672,
+    "source_stable": true,
+    "clean_log": true,
+    "result_counts": [
+      [
+        "171",
+        "0"
+      ]
+    ],
+    "valid": true,
+    "source_manifest_sha256": "1af013443ebdb314f50ac815ca4bf54d8c4e0be05e46416195dc415086f384c6",
+    "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+  },
+  "verified_code_sha256": {
+    "game/tricks/grind_ride.gd": "56db35544e1e7a4ed4b4d934c2c27a629986ed6631d502a49af805639dd19769",
+    "game/player/skater.gd": "2bedcfd81e49cb08b73ed3f5a364b6c6209e2155f79e8ce5f7295e0018659250",
+    "tests/grind_ride_tests.gd": "038d45c451ceb890acf476795fd1071327f54e2b443a185c1abb838c5af852cd",
+    "tests/grind_intent_integration_tests.gd": "e0e9cebf1e58e890e64c4b6135a4056d496555707f77d11836c4ec5e2c0819c3",
+    "tests/grinding_tests.gd": "3a04884ee52bb923c762268aea93dc890d6685198f279479e783b836594875bc",
+    "tests/named_grind_integration_tests.gd": "5143af33469434cf3cb64d9bbfc063f6ff15c5f40b8d069f869b477131776ca9"
+  },
+  "ordinary_angle_degrees": 85,
+  "near_perpendicular_lateral_metres": 0.22,
+  "maximum_current_correction_metres": 0.85,
+  "maximum_previous_sample_step_metres": 0.99,
+  "maximum_completed_sweep_metres": 1.0,
+  "maximum_assisted_rise_metres": 0.14,
+  "maximum_native_hit_intent_seconds": 0.12,
+  "native_mapped_rise": {
+    "aligned": {
+      "prior_sample_vertical_mps": 3.96151161193848,
+      "maximum_native_step_metres": 0.18523155152798,
+      "catalog": [
+        "ollie",
+        "grind_50_50"
+      ]
+    },
+    "84_degrees": {
+      "prior_sample_vertical_mps": 5.16151189804077,
+      "maximum_native_step_metres": 0.39257895946503,
+      "captured_speed_mps": 6.532271,
+      "catalog": [
+        "ollie",
+        "boardslide"
+      ]
+    }
+  },
+  "limits": [
+    "Native mapped route covers aligned/84-degree; perpendicular crossing is pure-policy evidence, not an all-angle played acceptance.",
+    "Cache expiry boundary explicitly advances only the capture-clock helper after an actual native hit; other cache controls use real subsequent physics.",
+    "No moving-render, Mac, physical-controller, final-art or human-feel acceptance follows."
+  ]
+}

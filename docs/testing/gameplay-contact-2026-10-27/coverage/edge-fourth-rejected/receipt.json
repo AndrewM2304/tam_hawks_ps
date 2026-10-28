@@ -1,0 +1,30 @@
+{
+  "started_london": "2026-10-27T23:43:15.155139+00:00",
+  "completed_london": "2026-10-27T23:43:26.336136+00:00",
+  "wall_seconds": 11.181000497999776,
+  "command": [
+    "timeout",
+    "90s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/native_ledge_wall_focus.gd",
+    "--",
+    "both"
+  ],
+  "exit_code": 1,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "157",
+      "23"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "06856846e73a2f300d26ab17dc3414ed0d2b49d96ef0a0c1b6693bf17561cef6",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

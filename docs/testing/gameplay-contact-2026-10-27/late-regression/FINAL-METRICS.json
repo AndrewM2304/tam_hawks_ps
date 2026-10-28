@@ -1,0 +1,178 @@
+{
+  "receipts": {
+    "recovery-guards-parser": {
+      "started_london": "2026-10-28T01:38:05.591036+00:00",
+      "completed_london": "2026-10-28T01:38:06.744706+00:00",
+      "wall_seconds": 1.1536698599993542,
+      "command": [
+        "timeout",
+        "20s",
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        ".local/late-regression-repair/recovery_guards.gd"
+      ],
+      "exit_code": 0,
+      "source_inputs": 674,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "valid": true,
+      "source_manifest_sha256": "63ee5774a0dd132873d0661d1e70e3eacfc42490a6c242be9e7894566b4abc78",
+      "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+    },
+    "recovery-guards-native": {
+      "started_london": "2026-10-28T01:38:20.421631+00:00",
+      "completed_london": "2026-10-28T01:38:30.497103+00:00",
+      "wall_seconds": 10.075474284996744,
+      "command": [
+        "timeout",
+        "20s",
+        "./tools/run.sh",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        ".local/late-regression-repair/recovery_guards.gd"
+      ],
+      "exit_code": 0,
+      "source_inputs": 674,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "12",
+          "0"
+        ]
+      ],
+      "valid": true,
+      "source_manifest_sha256": "63ee5774a0dd132873d0661d1e70e3eacfc42490a6c242be9e7894566b4abc78",
+      "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+    },
+    "parser-fifth": {
+      "started_london": "2026-10-28T01:38:52.188552+00:00",
+      "completed_london": "2026-10-28T01:38:53.595859+00:00",
+      "wall_seconds": 1.4073057109999354,
+      "command": [
+        "timeout",
+        "20s",
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        ".local/late-regression-repair/focus.gd"
+      ],
+      "exit_code": 0,
+      "source_inputs": 674,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "valid": true,
+      "source_manifest_sha256": "1dfd1c34834693b5d3e08b0f9cdd8b19b690dfa0814b6cddf380f5b1b2c21043",
+      "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+    },
+    "native-fourth": {
+      "started_london": "2026-10-28T01:39:09.733552+00:00",
+      "completed_london": "2026-10-28T01:39:37.100938+00:00",
+      "wall_seconds": 27.367386378999072,
+      "command": [
+        "timeout",
+        "60s",
+        "./tools/run.sh",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        ".local/late-regression-repair/focus.gd",
+        "--",
+        "all"
+      ],
+      "exit_code": 0,
+      "source_inputs": 674,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "128",
+          "0"
+        ]
+      ],
+      "valid": true,
+      "source_manifest_sha256": "1dfd1c34834693b5d3e08b0f9cdd8b19b690dfa0814b6cddf380f5b1b2c21043",
+      "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+    }
+  },
+  "physical_recovery": {
+    "maximum_native_update_m": 0.20820140838623,
+    "ready_position": [
+      12,
+      0.922668,
+      10.55399
+    ],
+    "guard_actual_retreat_m": 0.00099992752075,
+    "foreign_2mm_movement_m": 0,
+    "embedded_body_movement_m": 0,
+    "missing_support_movement_m": 0,
+    "borrowed_query_fields_restored_all_cases": true
+  },
+  "scope": "Focused native fixed-step verification; required full suite and packages retain independent receipts.",
+  "later_board_ray_receipts": {
+    "board-ray-final-parser": {
+      "started_london": "2026-10-28T03:25:28.876839+00:00",
+      "completed_london": "2026-10-28T03:25:29.481007+00:00",
+      "wall_seconds": 0.6041661810013466,
+      "command": [
+        "timeout",
+        "10s",
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        ".local/board_floor_ray_focused.gd"
+      ],
+      "exit_code": 0,
+      "source_inputs": 674,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [],
+      "valid": true,
+      "source_manifest_sha256": "08dcea5c6492c2f8f4998b650b668631f2a3b35ec1bf1aa5c032360390fa2c4f",
+      "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+    },
+    "board-ray-final-native": {
+      "started_london": "2026-10-28T03:25:38.537682+00:00",
+      "completed_london": "2026-10-28T03:25:39.292346+00:00",
+      "wall_seconds": 0.7546654360012326,
+      "command": [
+        "timeout",
+        "10s",
+        "./tools/run.sh",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        ".local/board_floor_ray_focused.gd"
+      ],
+      "exit_code": 0,
+      "source_inputs": 674,
+      "source_stable": true,
+      "clean_log": true,
+      "result_counts": [
+        [
+          "24",
+          "0"
+        ]
+      ],
+      "valid": true,
+      "source_manifest_sha256": "08dcea5c6492c2f8f4998b650b668631f2a3b35ec1bf1aa5c032360390fa2c4f",
+      "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+    }
+  },
+  "board_ray_counts": {
+    "paired_cases": 14,
+    "native_support_rays": 93,
+    "fresh_parameter_objects": 93,
+    "retained_parameter_objects": 1
+  }
+}

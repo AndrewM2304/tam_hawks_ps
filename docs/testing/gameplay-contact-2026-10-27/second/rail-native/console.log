@@ -1,0 +1,14 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: rail solidity: every ordinary-world rail-query body has active native shapes on the rider's world layer: []
+PASS: rail solidity: ordinary rider mask meets real solids without colliding with the shared player layer
+PASS: rail solidity: native world-layer ray and actual rider capsule both stop at Exchange box rail
+PASS: rail solidity: the rider clears the real finite end of Exchange box rail
+PASS: rail solidity: native world-layer ray and actual rider capsule both stop at park cylinder rail
+PASS: rail solidity: the rider clears the real finite end of park cylinder rail
+PASS: rail solidity: native world-layer ray and actual rider capsule both stop at pond perimeter
+PASS: rail solidity: unchanged shape reproduces the old ignored-layer failure and restoring world contact fixes it
+PASS: rail solidity: real held Push approaches the teaching rail and cannot skate through its bar
+PASS: rail solidity: a blocked ordinary approach retains native floor support without an unrequested grind or trick
+RAIL_SOLIDITY { "bodies": 108, "shapes": 310, "missing": [], "old_layer_missed": true, "touched": true, "from": (13.2, 0.011667, 9.0), "at": (12.36381, 0.011667, 9.0), "entries": [] }
+RESULT: 10 passed, 0 failed

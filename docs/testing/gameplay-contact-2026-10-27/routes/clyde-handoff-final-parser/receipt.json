@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-28T05:44:05.281847+00:00",
+  "completed_london": "2026-10-28T05:44:06.637764+00:00",
+  "wall_seconds": 1.3559168550054892,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/handoff_final_capture/capture.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "54a8bf11336cba7c51da7b96626d38cf8ff2d318da871ce01838d8486cf164c6",
+  "git_head": "8cc97f9572ed523c904f7a73d38b7ec4a85e841a"
+}

@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T00:32:22.482441+00:00",
+  "completed_london": "2026-10-28T00:32:31.705623+00:00",
+  "wall_seconds": 9.22318125899983,
+  "command": [
+    "timeout",
+    "15s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/park-route-repair/model_probe.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "1",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "2a89c2da8316d5e0393ccf7e84a15bfeb8211379dcc0926a8c428dcc04c7be7d",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

@@ -1,0 +1,68 @@
+{
+  "valid": true,
+  "native_result": [
+    241,
+    0
+  ],
+  "wall_seconds": 22.60724421300074,
+  "source_inputs": 674,
+  "git_parent": "838e6f4dc02dfd48e9f122744238a1ad66de7a17",
+  "source_manifest_sha256": "fada697aad06452f727d0edbfa15428a1f15fb4720a43120ac18d16251ee5233",
+  "parent_blob_inputs": 616,
+  "exact_changed_snapshots": 58,
+  "unpowered_quarter": {
+    "entries": 1,
+    "launches": 1,
+    "landings": 1,
+    "exits": 1,
+    "bails": 0,
+    "maximum_pitch_degrees": 90.0,
+    "unchanged_energy_ceiling": 73.0,
+    "maximum_support_error_reported_to_five_decimals_metres": 0.0,
+    "maximum_energy_reported_to_three_decimals": 72.558
+  },
+  "continuous_turn": {
+    "cached_shape": "CapsuleShape3D",
+    "cached_shapes_per_helper": 1,
+    "maximum_interval_degrees": 1.0,
+    "global_query_ceiling": 181,
+    "unblocked_queries": {
+      "feature": 92,
+      "skater": 92
+    },
+    "blocked_queries": {
+      "feature": 8,
+      "skater": 8
+    },
+    "native_sphere_radius_metres": 0.02,
+    "sphere_relative_position": [
+      0.0,
+      0.329703,
+      1.657527
+    ],
+    "old_sample_poses_clear": true,
+    "actual_intermediate_capsule_blocked": true,
+    "all_mutated_query_fields_restore": true,
+    "query_margin_unchanged_metres": 0.001,
+    "numerical_geometric_enclosure_allowance_metres": 1e-06
+  },
+  "retained_rejections": [
+    [
+      164,
+      51
+    ],
+    [
+      227,
+      8
+    ],
+    [
+      240,
+      1
+    ]
+  ],
+  "required_combined_admission": "owned by root; not certified by this focused receipt",
+  "limits": [
+    "Native Linux scoped checks only.",
+    "No Mac/controller/owner feel or target frame-time acceptance inferred."
+  ]
+}

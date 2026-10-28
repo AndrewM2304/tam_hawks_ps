@@ -1,0 +1,780 @@
+{
+  "epoch": "immutable before README or later docs; exact originals and all source receipts/harness",
+  "files": [
+    {
+      "file": "harness/PLAN.md",
+      "bytes": 2517,
+      "sha256": "6c105027dfae3b9171e568689f8e1cb628e2e54bf2b1343e9e41d2363172e747"
+    },
+    {
+      "file": "harness/PREPARED.json",
+      "bytes": 964,
+      "sha256": "1bb728c00ea0562f3419bd1d3bbcb89f6eecea10155dba218c480ba1c8781ab1"
+    },
+    {
+      "file": "harness/capture.gd",
+      "bytes": 13379,
+      "sha256": "47c93d970f49904f832f0d798d148c3cde05276f53eaf3ecede2c9983962e042"
+    },
+    {
+      "file": "harness/legacy/skater.gd",
+      "bytes": 152345,
+      "sha256": "f3cea265c8acdbc81e3a0ae3bfa0511c310c8344a7c099a65b88f81da74d6492"
+    },
+    {
+      "file": "harness/legacy/skater_visual.gd",
+      "bytes": 66269,
+      "sha256": "871a8ab93b27c65db30d30d018a8612a70a4f75a46b02853feb4ce2c506cbffd"
+    },
+    {
+      "file": "harness/legacy/trick_animation.gd",
+      "bytes": 1806,
+      "sha256": "8f278a63a0b45fe1607891ede415b712074c12db14ac58fbca0ea05e6589b4d2"
+    },
+    {
+      "file": "harness/raw/skater.gd",
+      "bytes": 152295,
+      "sha256": "6c66f3e110048b64542fd7513d33918af198714f7f46ee3b1ea86a5b76cff22b"
+    },
+    {
+      "file": "harness/raw/skater_visual.gd",
+      "bytes": 66244,
+      "sha256": "58034b00338dba9502d4045cc35f3bf049bc98216fa6b75f382ee995898749e2"
+    },
+    {
+      "file": "harness/raw/trick_animation.gd",
+      "bytes": 1806,
+      "sha256": "8f278a63a0b45fe1607891ede415b712074c12db14ac58fbca0ea05e6589b4d2"
+    },
+    {
+      "file": "harness/run_bound.sh",
+      "bytes": 93,
+      "sha256": "0ae6983447d0595cc6e39cb7769f73e7e81590a08b01a552c4f6f29b8828588d"
+    },
+    {
+      "file": "harness/run_rendered.py",
+      "bytes": 1957,
+      "sha256": "c765f6c646f957652c1317cac4d8c320b7c025e802131c98307c8be836d24ca6"
+    },
+    {
+      "file": "harness/sources.json",
+      "bytes": 1788,
+      "sha256": "4e3a2be236cde398a4226fa93deb24be56a23550010a40c57c8b5a44dc2021a9"
+    },
+    {
+      "file": "native/MANIFEST.json",
+      "bytes": 862,
+      "sha256": "9eca7c0968f690cd3e6e6217c341a3f600a2c41c2182abfeb5dda52ddfb32805"
+    },
+    {
+      "file": "native/SNAPSHOTS.json",
+      "bytes": 14855,
+      "sha256": "61d082198cb0585689bd58fa8a93b3e2a17b84cfcc6ebd833f839e90538c9261"
+    },
+    {
+      "file": "native/console.log",
+      "bytes": 395,
+      "sha256": "315569523ee6047bc675cca3f0b71aa5ff3d49a2cae75f57d72eecd281b8202f"
+    },
+    {
+      "file": "native/receipt.json",
+      "bytes": 1046,
+      "sha256": "fff1967cfed94ba4c36152a80635b4e7075317bd213c85f1ab6d27edc37257e7"
+    },
+    {
+      "file": "native/source-after.json",
+      "bytes": 73751,
+      "sha256": "1037352b05cd3742ebe5f5dd8b65b1b67eb9da6b5c408a92da9e6d5e9de8da2d"
+    },
+    {
+      "file": "native/source-before.json",
+      "bytes": 73751,
+      "sha256": "1037352b05cd3742ebe5f5dd8b65b1b67eb9da6b5c408a92da9e6d5e9de8da2d"
+    },
+    {
+      "file": "native/source-snapshot/.local/weighted_ollie_capture/capture.gd",
+      "bytes": 13379,
+      "sha256": "47c93d970f49904f832f0d798d148c3cde05276f53eaf3ecede2c9983962e042"
+    },
+    {
+      "file": "native/source-snapshot/.local/weighted_ollie_capture/legacy/skater.gd",
+      "bytes": 152345,
+      "sha256": "f3cea265c8acdbc81e3a0ae3bfa0511c310c8344a7c099a65b88f81da74d6492"
+    },
+    {
+      "file": "native/source-snapshot/.local/weighted_ollie_capture/legacy/skater_visual.gd",
+      "bytes": 66269,
+      "sha256": "871a8ab93b27c65db30d30d018a8612a70a4f75a46b02853feb4ce2c506cbffd"
+    },
+    {
+      "file": "native/source-snapshot/.local/weighted_ollie_capture/legacy/trick_animation.gd",
+      "bytes": 1806,
+      "sha256": "8f278a63a0b45fe1607891ede415b712074c12db14ac58fbca0ea05e6589b4d2"
+    },
+    {
+      "file": "native/source-snapshot/.local/weighted_ollie_capture/raw/skater.gd",
+      "bytes": 152295,
+      "sha256": "6c66f3e110048b64542fd7513d33918af198714f7f46ee3b1ea86a5b76cff22b"
+    },
+    {
+      "file": "native/source-snapshot/.local/weighted_ollie_capture/raw/skater_visual.gd",
+      "bytes": 66244,
+      "sha256": "58034b00338dba9502d4045cc35f3bf049bc98216fa6b75f382ee995898749e2"
+    },
+    {
+      "file": "native/source-snapshot/.local/weighted_ollie_capture/raw/trick_animation.gd",
+      "bytes": 1806,
+      "sha256": "8f278a63a0b45fe1607891ede415b712074c12db14ac58fbca0ea05e6589b4d2"
+    },
+    {
+      "file": "native/source-snapshot/.local/weighted_ollie_capture/run_bound.sh",
+      "bytes": 93,
+      "sha256": "0ae6983447d0595cc6e39cb7769f73e7e81590a08b01a552c4f6f29b8828588d"
+    },
+    {
+      "file": "native/source-snapshot/.local/weighted_ollie_capture/run_rendered.py",
+      "bytes": 1957,
+      "sha256": "c765f6c646f957652c1317cac4d8c320b7c025e802131c98307c8be836d24ca6"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/LICENSE-NOTICE.md",
+      "bytes": 767,
+      "sha256": "1c4676ffd560e148ff54595e52e53badd6a5676a8f039f1476b124aa86e8ff45"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/README.md",
+      "bytes": 1478,
+      "sha256": "70c02637634a2505212a5ad525ece853ad72dc7295a85da114972b414ab178cd"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_far.glb",
+      "bytes": 70408,
+      "sha256": "01347133a605228272dfaa8afefd38dd849e1df183707670b9466f9ff24d64d0"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_far.glb.import",
+      "bytes": 1099,
+      "sha256": "67a661b37fcb9754cc4e1d1e5f4b93161c36b970854e10999f5701cf1f7d8c19"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_mid.glb",
+      "bytes": 255832,
+      "sha256": "481f8ed518be457a7df00ba720aec75e2dc81351a91b90c2b208c2e370ed7d0c"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_mid.glb.import",
+      "bytes": 1099,
+      "sha256": "da707454f8648a9acd00eb43efc3c0921265fb9aa3785d07e59d6226479c9b59"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_near.glb",
+      "bytes": 595768,
+      "sha256": "67c0ebfbe88f83ddb0108e9c1ba6c861766905c641ed5c72bff102c4d87f8001"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_near.glb.import",
+      "bytes": 1101,
+      "sha256": "aa874811a7344065928bebb95317d54f42938f7b8dc55a9c8dad11d97c008811"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/godot-imports.json",
+      "bytes": 3341,
+      "sha256": "0e5af0bfc1f91dca6a3a96fc3aead5b1c79afde97be622ed70b898d4807d7ca2"
+    },
+    {
+      "file": "native/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/manifest.json",
+      "bytes": 2362,
+      "sha256": "b355fe79d1d080d05c08c9c89fc2a30e25e24a5408b5d6b8303bb6f827c4845f"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/art/facade_bay.gd",
+      "bytes": 10556,
+      "sha256": "24531f976953cd82281533b5267bfd3585665e601c4bd69b47e75054a6125e45"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/bowl_feature.gd",
+      "bytes": 9075,
+      "sha256": "1e243ce4b4e00676017bf01cce26f5f60363f09236871787d52f0e64260c5912"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/clyde_cable_line.gd",
+      "bytes": 5660,
+      "sha256": "3cb5a1dfdcd2ee49d3937133f8c4bf2d887b5094f3ef3950828f5e90b26fa159"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/exploration_boundary.gd",
+      "bytes": 6588,
+      "sha256": "83bb01f197db788ae3fbfe0285009a4eade08e70628f3c84697225c05dd8be09"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/glasgow_square.gd",
+      "bytes": 70548,
+      "sha256": "b818b55b9de86fdaf05fc90be3e1efb163b0509e71aba56f68e7324403fa6491"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/kelvingrove_skatepark.gd",
+      "bytes": 20213,
+      "sha256": "8e721aec746421a250e24e86e09f5a7f676f8df1afe7804688eb91d765122262"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/outdoor_routes.gd",
+      "bytes": 85327,
+      "sha256": "516e1f5d7c91b4b89d4897979c937880b5f6939196d27f1942963c7ddd1b68b5"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/park_pond.gd",
+      "bytes": 12912,
+      "sha256": "b72f7f1ab2b4eef13072b14a3cf5f66fefd7da2868846c9cf4e548c535237d52"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/pt24_connected_runs.gd",
+      "bytes": 12374,
+      "sha256": "1bb121a9130b398df986f1c704f77eb849c709ddf77325be6c7e9b7545e20432"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/station_railway.gd",
+      "bytes": 12236,
+      "sha256": "aba86fc694917e42902dfa2f867cd07ceb535a251d3b5043149a30318f3a6a17"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/surface_audit.gd",
+      "bytes": 18787,
+      "sha256": "286da76037edbb84b107e26f58c757509ac2a049ff5e2b2dfd216971bc78bff3"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/transition_feature.gd",
+      "bytes": 11556,
+      "sha256": "e7eb9540a02032d09922e131ea8ca21b9eaef0c52f3adddafa3daf9fea4256e7"
+    },
+    {
+      "file": "native/source-snapshot/game/levels/transition_park.gd",
+      "bytes": 9531,
+      "sha256": "9e4fee40a7dbf30169f87b06bc8b637846749622907d8f2019d5b77fbfff9ba8"
+    },
+    {
+      "file": "native/source-snapshot/game/player/skater.gd",
+      "bytes": 162591,
+      "sha256": "2bedcfd81e49cb08b73ed3f5a364b6c6209e2155f79e8ce5f7295e0018659250"
+    },
+    {
+      "file": "native/source-snapshot/game/player/skater_visual.gd",
+      "bytes": 67370,
+      "sha256": "119f62f62ac664cdf98a560632bf82508717b349ea32d037251004346b92ca28"
+    },
+    {
+      "file": "native/source-snapshot/game/player/trick_animation.gd",
+      "bytes": 1807,
+      "sha256": "d16ba96f7ed6484aeef8443d8cffa75a2c1151a906ba1b864205b2e152960c2f"
+    },
+    {
+      "file": "native/source-snapshot/game/player/wall_ride.gd",
+      "bytes": 8813,
+      "sha256": "978fc103bf60de47ed81916ebdfe72f38c6b680ed04d5cecbcd5607d838cb089"
+    },
+    {
+      "file": "native/source-snapshot/game/tricks/grind_ride.gd",
+      "bytes": 11427,
+      "sha256": "0afe2b6aee6fd70656340626f83bb1bab6c1332c4084f7752a89e36d1115c33d"
+    },
+    {
+      "file": "native/source-snapshot/tests/classic_tricks_integration_tests.gd",
+      "bytes": 33592,
+      "sha256": "f8c0537ba44a7f52029265008c3a2b0e099037e058b95bc6dd2e94b9f6f4633a"
+    },
+    {
+      "file": "native/source-snapshot/tests/clyde_cable_line_tests.gd",
+      "bytes": 11471,
+      "sha256": "de5a5d504a73fdd1f114bccbc5280d73d0ae0b3af91ea81b17edefa089000405"
+    },
+    {
+      "file": "native/source-snapshot/tests/clyde_surface_tests.gd",
+      "bytes": 28337,
+      "sha256": "f5738d13baad42c1aacec0afb34f246d1f27b2748e6b05996cb9b4eb4a9c1e63"
+    },
+    {
+      "file": "native/source-snapshot/tests/facade_bay_tests.gd",
+      "bytes": 23172,
+      "sha256": "528fd5e418bddc22567b5232bb849063f9339f0423c562637306b9a99897482f"
+    },
+    {
+      "file": "native/source-snapshot/tests/flat_ollie_tests.gd",
+      "bytes": 6933,
+      "sha256": "089b1335439e71980c5442ce98d737e3eb0c954f5da8cec2dae539584a366bb1"
+    },
+    {
+      "file": "native/source-snapshot/tests/grind_capture_bounds_tests.gd",
+      "bytes": 2882,
+      "sha256": "cf03ebd8415ad26c6162e3adaf16a01b4e0990145a482cc9159f24a6b409204b"
+    },
+    {
+      "file": "native/source-snapshot/tests/grind_index_tests.gd",
+      "bytes": 4946,
+      "sha256": "d44519f2f541eea9c53a8b57c69ae6ce93475e0b76697c99b8f4e09e9af0b7df"
+    },
+    {
+      "file": "native/source-snapshot/tests/grind_intent_integration_tests.gd",
+      "bytes": 13399,
+      "sha256": "e0e9cebf1e58e890e64c4b6135a4056d496555707f77d11836c4ec5e2c0819c3"
+    },
+    {
+      "file": "native/source-snapshot/tests/grind_intent_integration_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "544661fc3c0bd3a6865f3591008454289f51ab8ad1dda1e6cd3b72b489303e87"
+    },
+    {
+      "file": "native/source-snapshot/tests/grind_ride_tests.gd",
+      "bytes": 21069,
+      "sha256": "9e65ab34aa24a164c17dff494a456e1f62d810c30e05326a3b0dda1c3da65cb1"
+    },
+    {
+      "file": "native/source-snapshot/tests/grinding_tests.gd",
+      "bytes": 7370,
+      "sha256": "3a04884ee52bb923c762268aea93dc890d6685198f279479e783b836594875bc"
+    },
+    {
+      "file": "native/source-snapshot/tests/named_grind_integration_tests.gd",
+      "bytes": 27432,
+      "sha256": "5143af33469434cf3cb64d9bbfc063f6ff15c5f40b8d069f869b477131776ca9"
+    },
+    {
+      "file": "native/source-snapshot/tests/native_ledge_fallback_tests.gd",
+      "bytes": 6585,
+      "sha256": "6dfbcc603555c372172b7f508c533528f26cac97aa59b06fb4fb3f48298e6810"
+    },
+    {
+      "file": "native/source-snapshot/tests/native_ledge_fallback_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "0cf1186db6555fc67c08f16f42e8dd3d8a724fc3202aaa95b4e449f9fe6f5c78"
+    },
+    {
+      "file": "native/source-snapshot/tests/pt24_connected_runs_tests.gd",
+      "bytes": 21244,
+      "sha256": "3e041a2b8d776eab16bc603a8d1ec581b235053a97ae8b5b48f8f7cf9604f42a"
+    },
+    {
+      "file": "native/source-snapshot/tests/rail_solidity_tests.gd",
+      "bytes": 6832,
+      "sha256": "36553902d2a222b6bf1bbcb8999840d640d788a3c84f4a8f7b0c2eafb492bbfc"
+    },
+    {
+      "file": "native/source-snapshot/tests/rail_solidity_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "8dbf02f277b27b535c6b37e51a9c15baef540412e6fb5b10da3992b709e0f030"
+    },
+    {
+      "file": "native/source-snapshot/tests/run_tests.gd",
+      "bytes": 36214,
+      "sha256": "9fd6cc7143f28fffecad494ef70f43279d462140c555c25d650ca4f79c6c33ad"
+    },
+    {
+      "file": "native/source-snapshot/tests/skate_edges_tests.gd",
+      "bytes": 10771,
+      "sha256": "ff8bde7c8606a2be198a64ad239ec51237d5da51707e139956e7337d525f82b8"
+    },
+    {
+      "file": "native/source-snapshot/tests/surface_coverage_tests.gd",
+      "bytes": 34873,
+      "sha256": "0d25d72ed09dc7c4a591ca79d640591feaa61de415002537a203becc37bad4c6"
+    },
+    {
+      "file": "native/source-snapshot/tests/trick_fidelity_tests.gd",
+      "bytes": 15247,
+      "sha256": "4ab1a3865528d216e9ca7d3dc8e5b3da4e86ecc7d700ec64ec96f225b17767f3"
+    },
+    {
+      "file": "native/source-snapshot/tests/wall_ride_tests.gd",
+      "bytes": 20848,
+      "sha256": "bec5a732bd9370c9dda7041ef1b94efb036c64525b88d6b6e495fd4aac461cd7"
+    },
+    {
+      "file": "originals/after-apex.png",
+      "bytes": 38393,
+      "sha256": "7cece156b75fddedd88e23787d337092827871e948abae68c87e00114c587f1a"
+    },
+    {
+      "file": "originals/after-contact.png",
+      "bytes": 37992,
+      "sha256": "3b9ee28498a28f287e1bf0483e59a326b259a8d4a61d793b97930a67df096e07"
+    },
+    {
+      "file": "originals/after-crouch.png",
+      "bytes": 37960,
+      "sha256": "9988b19559ac6e05dd678500bca13e5a0031f6cc51694164c50ceaf12944912e"
+    },
+    {
+      "file": "originals/after-rise.png",
+      "bytes": 40431,
+      "sha256": "c899dff05f7d410e0c2f585d0e9fe83af6adf451ab276f7dd4b4411ac84785f2"
+    },
+    {
+      "file": "originals/before-apex.png",
+      "bytes": 38236,
+      "sha256": "20d84cad96ca13531d8f737cc3a9fe052d070711dce8b9a0d1a1b0f14e2bd300"
+    },
+    {
+      "file": "originals/before-contact.png",
+      "bytes": 38326,
+      "sha256": "4c1f2307a88def6b67cf42d0b8546eaad083903c5c9eaf93c8394d3867b30d7b"
+    },
+    {
+      "file": "originals/before-crouch.png",
+      "bytes": 37960,
+      "sha256": "9988b19559ac6e05dd678500bca13e5a0031f6cc51694164c50ceaf12944912e"
+    },
+    {
+      "file": "originals/before-rise.png",
+      "bytes": 40346,
+      "sha256": "72d9ed383fb708133e1822fc801f9d332042bc5f231a8439a3a8d8b688346c2b"
+    },
+    {
+      "file": "originals/command.json",
+      "bytes": 354,
+      "sha256": "c365b80005f2a90c708192643a7346da354b32349884b2d61cce5fe3bf0af476"
+    },
+    {
+      "file": "originals/display",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "file": "originals/manifest.json",
+      "bytes": 158600,
+      "sha256": "5867325ad7d4367dc024abbef8057fbeb83707693a38dc1682e716f1011102a5"
+    },
+    {
+      "file": "originals/xorg-console.log",
+      "bytes": 1477,
+      "sha256": "aa2b44051a8c61438318a5fa1b15cb20b6fff13ebced90d1ab2935671bcfccbf"
+    },
+    {
+      "file": "originals/xorg.log",
+      "bytes": 51924,
+      "sha256": "a3d5121f8c53dd5200e11084d297a32133ac58c42b36ba098c3a3d8d70072ae2"
+    },
+    {
+      "file": "parser/MANIFEST.json",
+      "bytes": 861,
+      "sha256": "bb1a1f31317ac22826ec414601ad1d23b9a1902cdcca896b260a9ada742862ab"
+    },
+    {
+      "file": "parser/SNAPSHOTS.json",
+      "bytes": 14855,
+      "sha256": "61d082198cb0585689bd58fa8a93b3e2a17b84cfcc6ebd833f839e90538c9261"
+    },
+    {
+      "file": "parser/console.log",
+      "bytes": 73,
+      "sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "file": "parser/receipt.json",
+      "bytes": 1066,
+      "sha256": "b05ea971ee643a96feb1fff5bff6a0c643a5a8b90a6a05dffc17d6112b46e518"
+    },
+    {
+      "file": "parser/source-after.json",
+      "bytes": 73751,
+      "sha256": "1037352b05cd3742ebe5f5dd8b65b1b67eb9da6b5c408a92da9e6d5e9de8da2d"
+    },
+    {
+      "file": "parser/source-before.json",
+      "bytes": 73751,
+      "sha256": "1037352b05cd3742ebe5f5dd8b65b1b67eb9da6b5c408a92da9e6d5e9de8da2d"
+    },
+    {
+      "file": "parser/source-snapshot/.local/weighted_ollie_capture/capture.gd",
+      "bytes": 13379,
+      "sha256": "47c93d970f49904f832f0d798d148c3cde05276f53eaf3ecede2c9983962e042"
+    },
+    {
+      "file": "parser/source-snapshot/.local/weighted_ollie_capture/legacy/skater.gd",
+      "bytes": 152345,
+      "sha256": "f3cea265c8acdbc81e3a0ae3bfa0511c310c8344a7c099a65b88f81da74d6492"
+    },
+    {
+      "file": "parser/source-snapshot/.local/weighted_ollie_capture/legacy/skater_visual.gd",
+      "bytes": 66269,
+      "sha256": "871a8ab93b27c65db30d30d018a8612a70a4f75a46b02853feb4ce2c506cbffd"
+    },
+    {
+      "file": "parser/source-snapshot/.local/weighted_ollie_capture/legacy/trick_animation.gd",
+      "bytes": 1806,
+      "sha256": "8f278a63a0b45fe1607891ede415b712074c12db14ac58fbca0ea05e6589b4d2"
+    },
+    {
+      "file": "parser/source-snapshot/.local/weighted_ollie_capture/raw/skater.gd",
+      "bytes": 152295,
+      "sha256": "6c66f3e110048b64542fd7513d33918af198714f7f46ee3b1ea86a5b76cff22b"
+    },
+    {
+      "file": "parser/source-snapshot/.local/weighted_ollie_capture/raw/skater_visual.gd",
+      "bytes": 66244,
+      "sha256": "58034b00338dba9502d4045cc35f3bf049bc98216fa6b75f382ee995898749e2"
+    },
+    {
+      "file": "parser/source-snapshot/.local/weighted_ollie_capture/raw/trick_animation.gd",
+      "bytes": 1806,
+      "sha256": "8f278a63a0b45fe1607891ede415b712074c12db14ac58fbca0ea05e6589b4d2"
+    },
+    {
+      "file": "parser/source-snapshot/.local/weighted_ollie_capture/run_bound.sh",
+      "bytes": 93,
+      "sha256": "0ae6983447d0595cc6e39cb7769f73e7e81590a08b01a552c4f6f29b8828588d"
+    },
+    {
+      "file": "parser/source-snapshot/.local/weighted_ollie_capture/run_rendered.py",
+      "bytes": 1957,
+      "sha256": "c765f6c646f957652c1317cac4d8c320b7c025e802131c98307c8be836d24ca6"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/LICENSE-NOTICE.md",
+      "bytes": 767,
+      "sha256": "1c4676ffd560e148ff54595e52e53badd6a5676a8f039f1476b124aa86e8ff45"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/README.md",
+      "bytes": 1478,
+      "sha256": "70c02637634a2505212a5ad525ece853ad72dc7295a85da114972b414ab178cd"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_far.glb",
+      "bytes": 70408,
+      "sha256": "01347133a605228272dfaa8afefd38dd849e1df183707670b9466f9ff24d64d0"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_far.glb.import",
+      "bytes": 1099,
+      "sha256": "67a661b37fcb9754cc4e1d1e5f4b93161c36b970854e10999f5701cf1f7d8c19"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_mid.glb",
+      "bytes": 255832,
+      "sha256": "481f8ed518be457a7df00ba720aec75e2dc81351a91b90c2b208c2e370ed7d0c"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_mid.glb.import",
+      "bytes": 1099,
+      "sha256": "da707454f8648a9acd00eb43efc3c0921265fb9aa3785d07e59d6226479c9b59"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_near.glb",
+      "bytes": 595768,
+      "sha256": "67c0ebfbe88f83ddb0108e9c1ba6c861766905c641ed5c72bff102c4d87f8001"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_near.glb.import",
+      "bytes": 1101,
+      "sha256": "aa874811a7344065928bebb95317d54f42938f7b8dc55a9c8dad11d97c008811"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/godot-imports.json",
+      "bytes": 3341,
+      "sha256": "0e5af0bfc1f91dca6a3a96fc3aead5b1c79afde97be622ed70b898d4807d7ca2"
+    },
+    {
+      "file": "parser/source-snapshot/game/art/assets/glasgow_bay_reduced_four_slot/manifest.json",
+      "bytes": 2362,
+      "sha256": "b355fe79d1d080d05c08c9c89fc2a30e25e24a5408b5d6b8303bb6f827c4845f"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/art/facade_bay.gd",
+      "bytes": 10556,
+      "sha256": "24531f976953cd82281533b5267bfd3585665e601c4bd69b47e75054a6125e45"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/bowl_feature.gd",
+      "bytes": 9075,
+      "sha256": "1e243ce4b4e00676017bf01cce26f5f60363f09236871787d52f0e64260c5912"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/clyde_cable_line.gd",
+      "bytes": 5660,
+      "sha256": "3cb5a1dfdcd2ee49d3937133f8c4bf2d887b5094f3ef3950828f5e90b26fa159"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/exploration_boundary.gd",
+      "bytes": 6588,
+      "sha256": "83bb01f197db788ae3fbfe0285009a4eade08e70628f3c84697225c05dd8be09"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/glasgow_square.gd",
+      "bytes": 70548,
+      "sha256": "b818b55b9de86fdaf05fc90be3e1efb163b0509e71aba56f68e7324403fa6491"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/kelvingrove_skatepark.gd",
+      "bytes": 20213,
+      "sha256": "8e721aec746421a250e24e86e09f5a7f676f8df1afe7804688eb91d765122262"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/outdoor_routes.gd",
+      "bytes": 85327,
+      "sha256": "516e1f5d7c91b4b89d4897979c937880b5f6939196d27f1942963c7ddd1b68b5"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/park_pond.gd",
+      "bytes": 12912,
+      "sha256": "b72f7f1ab2b4eef13072b14a3cf5f66fefd7da2868846c9cf4e548c535237d52"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/pt24_connected_runs.gd",
+      "bytes": 12374,
+      "sha256": "1bb121a9130b398df986f1c704f77eb849c709ddf77325be6c7e9b7545e20432"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/station_railway.gd",
+      "bytes": 12236,
+      "sha256": "aba86fc694917e42902dfa2f867cd07ceb535a251d3b5043149a30318f3a6a17"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/surface_audit.gd",
+      "bytes": 18787,
+      "sha256": "286da76037edbb84b107e26f58c757509ac2a049ff5e2b2dfd216971bc78bff3"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/transition_feature.gd",
+      "bytes": 11556,
+      "sha256": "e7eb9540a02032d09922e131ea8ca21b9eaef0c52f3adddafa3daf9fea4256e7"
+    },
+    {
+      "file": "parser/source-snapshot/game/levels/transition_park.gd",
+      "bytes": 9531,
+      "sha256": "9e4fee40a7dbf30169f87b06bc8b637846749622907d8f2019d5b77fbfff9ba8"
+    },
+    {
+      "file": "parser/source-snapshot/game/player/skater.gd",
+      "bytes": 162591,
+      "sha256": "2bedcfd81e49cb08b73ed3f5a364b6c6209e2155f79e8ce5f7295e0018659250"
+    },
+    {
+      "file": "parser/source-snapshot/game/player/skater_visual.gd",
+      "bytes": 67370,
+      "sha256": "119f62f62ac664cdf98a560632bf82508717b349ea32d037251004346b92ca28"
+    },
+    {
+      "file": "parser/source-snapshot/game/player/trick_animation.gd",
+      "bytes": 1807,
+      "sha256": "d16ba96f7ed6484aeef8443d8cffa75a2c1151a906ba1b864205b2e152960c2f"
+    },
+    {
+      "file": "parser/source-snapshot/game/player/wall_ride.gd",
+      "bytes": 8813,
+      "sha256": "978fc103bf60de47ed81916ebdfe72f38c6b680ed04d5cecbcd5607d838cb089"
+    },
+    {
+      "file": "parser/source-snapshot/game/tricks/grind_ride.gd",
+      "bytes": 11427,
+      "sha256": "0afe2b6aee6fd70656340626f83bb1bab6c1332c4084f7752a89e36d1115c33d"
+    },
+    {
+      "file": "parser/source-snapshot/tests/classic_tricks_integration_tests.gd",
+      "bytes": 33592,
+      "sha256": "f8c0537ba44a7f52029265008c3a2b0e099037e058b95bc6dd2e94b9f6f4633a"
+    },
+    {
+      "file": "parser/source-snapshot/tests/clyde_cable_line_tests.gd",
+      "bytes": 11471,
+      "sha256": "de5a5d504a73fdd1f114bccbc5280d73d0ae0b3af91ea81b17edefa089000405"
+    },
+    {
+      "file": "parser/source-snapshot/tests/clyde_surface_tests.gd",
+      "bytes": 28337,
+      "sha256": "f5738d13baad42c1aacec0afb34f246d1f27b2748e6b05996cb9b4eb4a9c1e63"
+    },
+    {
+      "file": "parser/source-snapshot/tests/facade_bay_tests.gd",
+      "bytes": 23172,
+      "sha256": "528fd5e418bddc22567b5232bb849063f9339f0423c562637306b9a99897482f"
+    },
+    {
+      "file": "parser/source-snapshot/tests/flat_ollie_tests.gd",
+      "bytes": 6933,
+      "sha256": "089b1335439e71980c5442ce98d737e3eb0c954f5da8cec2dae539584a366bb1"
+    },
+    {
+      "file": "parser/source-snapshot/tests/grind_capture_bounds_tests.gd",
+      "bytes": 2882,
+      "sha256": "cf03ebd8415ad26c6162e3adaf16a01b4e0990145a482cc9159f24a6b409204b"
+    },
+    {
+      "file": "parser/source-snapshot/tests/grind_index_tests.gd",
+      "bytes": 4946,
+      "sha256": "d44519f2f541eea9c53a8b57c69ae6ce93475e0b76697c99b8f4e09e9af0b7df"
+    },
+    {
+      "file": "parser/source-snapshot/tests/grind_intent_integration_tests.gd",
+      "bytes": 13399,
+      "sha256": "e0e9cebf1e58e890e64c4b6135a4056d496555707f77d11836c4ec5e2c0819c3"
+    },
+    {
+      "file": "parser/source-snapshot/tests/grind_intent_integration_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "544661fc3c0bd3a6865f3591008454289f51ab8ad1dda1e6cd3b72b489303e87"
+    },
+    {
+      "file": "parser/source-snapshot/tests/grind_ride_tests.gd",
+      "bytes": 21069,
+      "sha256": "9e65ab34aa24a164c17dff494a456e1f62d810c30e05326a3b0dda1c3da65cb1"
+    },
+    {
+      "file": "parser/source-snapshot/tests/grinding_tests.gd",
+      "bytes": 7370,
+      "sha256": "3a04884ee52bb923c762268aea93dc890d6685198f279479e783b836594875bc"
+    },
+    {
+      "file": "parser/source-snapshot/tests/named_grind_integration_tests.gd",
+      "bytes": 27432,
+      "sha256": "5143af33469434cf3cb64d9bbfc063f6ff15c5f40b8d069f869b477131776ca9"
+    },
+    {
+      "file": "parser/source-snapshot/tests/native_ledge_fallback_tests.gd",
+      "bytes": 6585,
+      "sha256": "6dfbcc603555c372172b7f508c533528f26cac97aa59b06fb4fb3f48298e6810"
+    },
+    {
+      "file": "parser/source-snapshot/tests/native_ledge_fallback_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "0cf1186db6555fc67c08f16f42e8dd3d8a724fc3202aaa95b4e449f9fe6f5c78"
+    },
+    {
+      "file": "parser/source-snapshot/tests/pt24_connected_runs_tests.gd",
+      "bytes": 21244,
+      "sha256": "3e041a2b8d776eab16bc603a8d1ec581b235053a97ae8b5b48f8f7cf9604f42a"
+    },
+    {
+      "file": "parser/source-snapshot/tests/rail_solidity_tests.gd",
+      "bytes": 6832,
+      "sha256": "36553902d2a222b6bf1bbcb8999840d640d788a3c84f4a8f7b0c2eafb492bbfc"
+    },
+    {
+      "file": "parser/source-snapshot/tests/rail_solidity_tests.gd.uid",
+      "bytes": 20,
+      "sha256": "8dbf02f277b27b535c6b37e51a9c15baef540412e6fb5b10da3992b709e0f030"
+    },
+    {
+      "file": "parser/source-snapshot/tests/run_tests.gd",
+      "bytes": 36214,
+      "sha256": "9fd6cc7143f28fffecad494ef70f43279d462140c555c25d650ca4f79c6c33ad"
+    },
+    {
+      "file": "parser/source-snapshot/tests/skate_edges_tests.gd",
+      "bytes": 10771,
+      "sha256": "ff8bde7c8606a2be198a64ad239ec51237d5da51707e139956e7337d525f82b8"
+    },
+    {
+      "file": "parser/source-snapshot/tests/surface_coverage_tests.gd",
+      "bytes": 34873,
+      "sha256": "0d25d72ed09dc7c4a591ca79d640591feaa61de415002537a203becc37bad4c6"
+    },
+    {
+      "file": "parser/source-snapshot/tests/trick_fidelity_tests.gd",
+      "bytes": 15247,
+      "sha256": "4ab1a3865528d216e9ca7d3dc8e5b3da4e86ecc7d700ec64ec96f225b17767f3"
+    },
+    {
+      "file": "parser/source-snapshot/tests/wall_ride_tests.gd",
+      "bytes": 20848,
+      "sha256": "bec5a732bd9370c9dda7041ef1b94efb036c64525b88d6b6e495fd4aac461cd7"
+    }
+  ]
+}

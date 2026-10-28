@@ -5,15 +5,22 @@ const ClydeLayout = preload("res://game/levels/clyde_layout.gd")
 ## edges, building windows and out-of-bounds fence kilometres are not scanned.
 
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
+const GrindStyle = preload("res://game/tricks/grind_style.gd")
 const SKIN := 0.04
 const END_MARGIN := 0.12
 const MIN_LENGTH := 0.25
 const PREFIX := "Grind_Edge_"
+# Startup-only native upright capsule envelope. Its body travels15mm above
+# the guide and retains the existing15mm safety shell.
+const STEEL_CLEAR_RADIUS := 0.28+0.015
+const STEEL_CLEAR_HEIGHT := 1.7+0.015+0.015
+static var _solid_steel_bounds: Array[AABB] = []
 
 
 static func build(world: Node3D) -> Array:
 	var sources: Array[Node3D] = []
 	_collect(world,sources)
+	_collect_solid_steel(sources)
 	var original: Array = []
 	for line in world.get_grind_lines():
 		if not String(line.id).begins_with(PREFIX): original.append(line)
@@ -43,8 +50,12 @@ static func build(world: Node3D) -> Array:
 				top_extra=0.06
 			var stamp := _stamp(world.to_local(body.global_position))
 			var points := box_top(frame,size,top_extra)
+			var provider_begin := lines.size()
 			for index: int in range(4):
 				_add_segment(world,lines,original,String(boxes[label])+"_"+stamp+"_"+str(index),points[index],points[(index+1)%4],"ledge")
+			var provider_ids: Array[String]=[]
+			for index: int in range(provider_begin,lines.size()):provider_ids.append(lines[index].id)
+			body.set_meta("skate_edge_provider_ids",provider_ids)
 		elif label.begins_with("Grind_Cat_") and label.ends_with("Plinth") and body is StaticBody3D:
 			# Existing marked centre copings keep their exact IDs. The other visible
 			# plinth edges are ordinary optional ledges, ignored by the sequence.
@@ -74,6 +85,7 @@ static func build(world: Node3D) -> Array:
 	_civic_gardens(world,lines,original)
 	_station_edges(world,lines,original)
 	_quay_edges(world,sources,lines,original)
+	_solid_steel_bounds.clear()
 	return lines
 
 
@@ -160,18 +172,96 @@ static func _commit(lines: Array,original: Array,id: String,points: PackedVector
 				coincident=false
 				break
 		if coincident: return
-	var candidate=GrindLineSource.new(PREFIX+id,points,kind)
-	if candidate.is_valid: lines.append(candidate)
+	var fragments: Array[PackedVector3Array]=_steel_free_parts(points)
+	var number := 0
+	for fragment: PackedVector3Array in fragments:
+		var run := 0.0
+		for index: int in range(fragment.size()-1):run+=fragment[index].distance_to(fragment[index+1])
+		# Do not publish tiny newly cropped stubs that cannot fit one hanger
+		# chord. Original uncropped identities keep their prior minimum.
+		if fragment!=points and run<GrindStyle.TRUCK_HALF_SPAN*2.0:continue
+		var suffix := "" if number==0 else "_Clear_"+str(number)
+		var candidate=GrindLineSource.new(PREFIX+id+suffix,fragment,kind)
+		if candidate.is_valid:lines.append(candidate);number+=1
 
 
 static func _new_optional_guide(semantic_id: String, authored_id: String) -> bool:
 	# The default semantic identity predates these optional work guides. Keep
 	# its exact original top coordinates; original challenge rails still win.
-	if semantic_id.begins_with("CivicGarden_"):
-		return authored_id in ["Grind_Ledge_Civic_Return_Left","Grind_Ledge_Civic_Right"]
 	if semantic_id.begins_with("Platform") or semantic_id.begins_with("ServiceWalk"):
 		return authored_id in ["Grind_Ledge_CentralPlatformNorth","Grind_Ledge_CentralPlatformSouth","Grind_Ledge_StationUpperWalk"]
 	return semantic_id.begins_with("BridgeRail_") and authored_id.begins_with("clyde_") and authored_id.contains("_handrail_")
+
+
+static func _collect_solid_steel(sources: Array[Node3D]) -> void:
+	_solid_steel_bounds.clear()
+	for body: Node3D in sources:
+		if not body is StaticBody3D or body.collision_layer&3!=3:continue
+		for child: Node in body.get_children():
+			if not child is CollisionShape3D or child.disabled:continue
+			var size := Vector3.ZERO
+			if child.shape is BoxShape3D:size=child.shape.size
+			elif child.shape is CylinderShape3D:
+				size=Vector3(child.shape.radius*2.0,child.shape.height,child.shape.radius*2.0)
+			else:continue
+			var bounds: AABB=child.global_transform*AABB(-size*0.5,size)
+			_solid_steel_bounds.append(AABB(bounds.position-Vector3(STEEL_CLEAR_RADIUS,STEEL_CLEAR_HEIGHT,STEEL_CLEAR_RADIUS),
+				bounds.size+Vector3(STEEL_CLEAR_RADIUS*2.0,STEEL_CLEAR_HEIGHT,STEEL_CLEAR_RADIUS*2.0)))
+
+
+static func _steel_interval(a: Vector3,b: Vector3,bounds: AABB) -> Vector2:
+	var low := 0.0;var high := 1.0
+	var motion := b-a
+	for axis: int in 3:
+		if motion[axis]==0.0:
+			if a[axis]<=bounds.position[axis] or a[axis]>=bounds.end[axis]:return Vector2(1,-1)
+			continue
+		var first: float=(bounds.position[axis]-a[axis])/motion[axis]
+		var last: float=(bounds.end[axis]-a[axis])/motion[axis]
+		low=maxf(low,minf(first,last));high=minf(high,maxf(first,last))
+		if high<=low:return Vector2(1,-1)
+	return Vector2(low,high)
+
+
+static func _steel_free_parts(points: PackedVector3Array) -> Array[PackedVector3Array]:
+	var result: Array[PackedVector3Array]=[]
+	var current := PackedVector3Array()
+	var changed := false
+	for index: int in range(points.size()-1):
+		var a: Vector3=points[index];var b: Vector3=points[index+1]
+		var margin := END_MARGIN/a.distance_to(b)
+		var blocked: Array[Vector2]=[]
+		for bounds: AABB in _solid_steel_bounds:
+			var interval := _steel_interval(a,b,bounds)
+			if interval.y<interval.x:continue
+			blocked.append(Vector2(maxf(0.0,interval.x-margin),minf(1.0,interval.y+margin)))
+		blocked.sort_custom(func(x: Vector2,y: Vector2) -> bool:return x.x<y.x)
+		var free: Array[Vector2]=[]
+		var cursor := 0.0
+		for interval: Vector2 in blocked:
+			changed=true
+			if interval.x>cursor:free.append(Vector2(cursor,interval.x))
+			cursor=maxf(cursor,interval.y)
+		if cursor<1.0:free.append(Vector2(cursor,1.0))
+		for interval: Vector2 in free:
+			var start := a.lerp(b,interval.x)
+			var finish := a.lerp(b,interval.y)
+			if not current.is_empty() and current[-1].distance_squared_to(start)>0.000000000001:
+				if current.size()>=2:result.append(current)
+				current=PackedVector3Array()
+			if current.is_empty():current.append(start)
+			_append_corner(current,finish)
+			if interval.y<1.0:
+				if current.size()>=2:result.append(current)
+				current=PackedVector3Array()
+		if free.is_empty() and not current.is_empty():
+			if current.size()>=2:result.append(current)
+			current=PackedVector3Array()
+	if current.size()>=2:result.append(current)
+	if not changed:
+		result.clear()
+		result.append(points)
+	return result
 
 
 static func _civic_gardens(world: Node3D,lines: Array,original: Array) -> void:

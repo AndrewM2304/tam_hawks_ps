@@ -1,0 +1,36 @@
+{
+  "started_london": "2026-10-28T04:09:38.681262+00:00",
+  "completed_london": "2026-10-28T04:09:53.773693+00:00",
+  "wall_seconds": 15.092428923002444,
+  "command": [
+    "timeout",
+    "25s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/clyde-civic-contact/acceptance_runner.gd",
+    "--",
+    "clyde_full",
+    ".local/clyde-civic-contact/clyde_adapter.gd",
+    ".local/clyde-civic-contact/civic_adapter.gd",
+    ".local/clyde-civic-contact/driver_adapter.gd",
+    ".local/clyde-civic-contact/density_adapter.gd",
+    ".local/clyde-civic-contact/observer.gd",
+    ".local/contact-camera-diagnostic/camera_shape_witness.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 680,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "10",
+      "1"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "482e190eff7a4a4a0b6db2662b6f9e0bb0ff413f491a6de14cecffd49ebc6794",
+  "git_head": "173da24abde7f4ceeaf1abc389473d2285f7dc7c"
+}

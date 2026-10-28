@@ -26,9 +26,13 @@ static func run(check: Callable) -> void:
 	var low := high+fall/60.0
 	var recovery = Ride.new()
 	check.call(not Ride.new().start([missed],high,fall) and not Ride.new().start([missed],low,fall)
-		and recovery.start_swept([missed],high,low,fall)
+		and not recovery.start_swept([missed],high,low,fall) and not recovery.active,
+		"capture bounds: the retained .66m to -.24m overshoot rejects despite an eligible historical sample")
+	fall = Vector3(0,-45.6,-12)
+	low = high+fall/60.0
+	check.call(recovery.start_swept([missed],high,low,fall)
 		and high.distance_to(recovery.position()) < 1.0 and low.distance_to(recovery.position()) <= .85,
-		"capture bounds: sub-metre descending missed-window recovery is retained")
+		"capture bounds: .66m to -.10m descending recovery retains the current height and both displacement bounds")
 	var rejected = Line.new("unsupported contact",PackedVector3Array([Vector3.ZERO,Vector3(0,0,-20)]))
 	var supported = Line.new("supported contact",PackedVector3Array([Vector3(.3,0,0),Vector3(.3,0,-20)]))
 	var filtered = Ride.new()

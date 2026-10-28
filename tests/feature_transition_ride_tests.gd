@@ -4,6 +4,7 @@ extends RefCounted
 
 const TransitionRide = preload("res://game/player/feature_transition_ride.gd")
 const TransitionFeature = preload("res://game/levels/transition_feature.gd")
+const SkaterSource = preload("res://game/player/skater.gd")
 
 class Rider extends CharacterBody3D:
 	var ride = TransitionRide.new()
@@ -64,6 +65,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 	await _collision_loss(tree, check)
 	await _transfers(tree, check)
 	await _grind_handoff_clearance(tree, check)
+	await _continuous_capsule_turn(tree, check)
 
 
 static func _vertical_return(tree: SceneTree, check: Callable) -> void:
@@ -261,6 +263,18 @@ static func _surface_geometry(tree: SceneTree, check: Callable) -> void:
 			sample.point - sample.normal * 0.08, 1)
 		ray.exclude = [rider.get_rid()]
 		var hit := rider.get_world_3d().direct_space_state.intersect_ray(ray)
+		if angle == 89.9:
+			# This concrete sample lies behind the newly solid, visible steel.
+			# Prove the ordinary world hit before isolating the concrete query.
+			var steel: StaticBody3D
+			if not hit.is_empty() and hit.collider is StaticBody3D \
+					and hit.collider.has_meta("coping_feature") and hit.collider.get_meta("coping_feature") == fixture.feature:
+				steel = hit.collider
+			check.call(steel != null and steel.collision_layer & 3 == 3,
+				"transition geometry: the world ray first hits this feature's actual solid steel at89.9degrees")
+			if steel != null:
+				ray.exclude = [rider.get_rid(), steel.get_rid()]
+				hit = rider.get_world_3d().direct_space_state.intersect_ray(ray)
 		check.call(not hit.is_empty() and hit.collider == fixture.feature.surface_body
 			and hit.position.distance_to(sample.point) < 0.001 and hit.normal.dot(sample.normal) > 0.999,
 			"transition geometry: %.1f-degree visible sample matches native collision and its front normal" % angle)
@@ -361,8 +375,17 @@ static func _grind_handoff_clearance(tree: SceneTree, check: Callable) -> void:
 	var before: Transform3D = collision.transform
 	var velocity: Vector3 = rider.velocity
 	var line = fixture.feature.get_grind_lines()[0]
-	var coping: Vector3 = line.point_at(line.length * 0.5)
-	check.call(rider.ride.grind_path_clear(rider.global_position, coping, rider),
+	var coping: Vector3 = line.contact_at(line.length * 0.5)
+	var ray:=PhysicsRayQueryParameters3D.create(coping+Vector3.UP*0.03,coping-Vector3.UP*0.03,1)
+	ray.exclude=[rider.get_rid()]
+	var native:=rider.get_world_3d().direct_space_state.intersect_ray(ray)
+	check.call(not native.is_empty() and native.collider.has_meta("coping_feature")
+		and native.collider.get_meta("coping_feature")==fixture.feature and native.position.distance_to(coping)<0.008,
+		"transition grind: the physical crown remains real solid-world steel below the body travel datum")
+	# This API receives the upright body origin, independent of exact bearing.
+	# Include its real native safety shell and the existing1mm query margin.
+	var body_target:=coping+Vector3.UP*(rider.safe_margin+0.001)
+	check.call(rider.ride.grind_path_clear(rider.global_position, body_target, rider),
 		"transition grind: prospective upright capture clears the actual coping and rear deck")
 	check.call(rider.ride.active and rider.ride.state == "air" and collision.transform == before
 		and rider.velocity == velocity,
@@ -375,6 +398,66 @@ static func _grind_handoff_clearance(tree: SceneTree, check: Callable) -> void:
 		"transition grind: successful caller handoff can restore upright collision without losing velocity")
 	await _dispose(tree, fixture.root)
 
+
+
+static func _continuous_capsule_turn(tree: SceneTree,check: Callable) -> void:
+	var fixture:=await _fixture(tree)
+	var rider: Rider=fixture.rider
+	rider.ride._cache_collision(rider)
+	var skater=SkaterSource.new()
+	skater.spawn_position=Vector3(0,10,0)
+	skater.set_physics_process(false)
+	fixture.root.add_child(skater)
+	var at:=Vector3(0,20,0)
+	var start:=Vector3.BACK
+	var end:=Vector3.UP
+	var query:=PhysicsShapeQueryParameters3D.new()
+	query.shape=skater.get_node("BodyCollision").shape
+	query.transform=Transform3D(Basis.IDENTITY,Vector3(7,8,9))
+	query.motion=Vector3(0.1,0.2,0.3)
+	query.collision_mask=1
+	query.exclude=[rider.get_rid()]
+	query.margin=0.001
+	var shape_before: Shape3D=query.shape
+	var transform_before:=query.transform
+	var motion_before:=query.motion
+	var mask_before:=query.collision_mask
+	var exclude_before:=query.exclude
+	var margin_before:=query.margin
+	check.call(rider.ride._coping_turn_clear(rider,at,start,end)
+		and skater._transition_capsule_turn_clear(query,at,start,end),
+		"transition turn: both real capsule helpers admit an unobstructed continuous quarter-turn")
+	var feature_positive: int=rider.ride._coping_turn_queries
+	var skater_positive: int=skater._transition_turn_queries
+	var obstacle:=StaticBody3D.new()
+	var collision:=CollisionShape3D.new()
+	var sphere:=SphereShape3D.new()
+	sphere.radius=0.02
+	collision.shape=sphere
+	obstacle.add_child(collision)
+	# At12.5% this tiny solid touches the actual head-end hemisphere. All
+	# former quarter-orientation samples and both endpoint poses miss it.
+	obstacle.position=at+Vector3(0,0.329703,1.657527)
+	fixture.root.add_child(obstacle)
+	await _frames(tree,2)
+	var old_samples_clear:=true
+	for progress: float in [0.0,0.25,0.5,0.75,1.0]:
+		old_samples_clear=old_samples_clear and rider.ride._can_occupy(rider,at,start.slerp(end,progress).normalized())
+	check.call(old_samples_clear and not rider.ride._can_occupy(rider,at,start.slerp(end,0.125).normalized()),
+		"transition turn: a real thin foreign solid reproduces the former sampled-pose gap")
+	check.call(not rider.ride._coping_turn_clear(rider,at,start,end)
+		and not skater._transition_capsule_turn_clear(query,at,start,end),
+		"transition turn: continuous native capsule envelopes reject the between-sample foreign blocker")
+	check.call(query.shape==shape_before and query.transform==transform_before and query.motion==motion_before
+		and query.collision_mask==mask_before and query.exclude==exclude_before and query.margin==margin_before,
+		"transition turn: reusable query shape, frame, motion, mask, exclusions and native margin restore exactly")
+	check.call(feature_positive>1 and feature_positive<=181 and skater_positive>1 and skater_positive<=181
+		and rider.ride._coping_turn_queries<=feature_positive and skater._transition_turn_queries<=skater_positive,
+		"transition turn: fixed native query ceilings cover both positive and blocked quarter-turns")
+	print("CONTINUOUS_CAPSULE_TURN ",{"feature_positive":feature_positive,"skater_positive":skater_positive,
+		"feature_blocked":rider.ride._coping_turn_queries,"skater_blocked":skater._transition_turn_queries,
+		"old_samples_clear":old_samples_clear,"sphere_radius":sphere.radius,"sphere_position":obstacle.position})
+	await _dispose(tree,fixture.root)
 
 
 static func _fixture(tree: SceneTree, speed: float = 12.0,

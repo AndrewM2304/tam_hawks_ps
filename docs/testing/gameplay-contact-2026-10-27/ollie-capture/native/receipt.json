@@ -1,0 +1,31 @@
+{
+  "started_london": "2026-10-27T23:08:01.997555+00:00",
+  "completed_london": "2026-10-27T23:08:20.286363+00:00",
+  "wall_seconds": 18.28881017599997,
+  "command": [
+    "bash",
+    ".local/weighted_ollie_capture/run_bound.sh",
+    ".local/weighted_ollie_capture/run_rendered.py",
+    ".local/weighted_ollie_capture/capture.gd",
+    ".local/weighted-ollie-eight-originals",
+    ".local/weighted_ollie_capture/raw/skater.gd",
+    ".local/weighted_ollie_capture/raw/skater_visual.gd",
+    ".local/weighted_ollie_capture/raw/trick_animation.gd",
+    ".local/weighted_ollie_capture/legacy/skater.gd",
+    ".local/weighted_ollie_capture/legacy/skater_visual.gd",
+    ".local/weighted_ollie_capture/legacy/trick_animation.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 682,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "8",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "1037352b05cd3742ebe5f5dd8b65b1b67eb9da6b5c408a92da9e6d5e9de8da2d",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

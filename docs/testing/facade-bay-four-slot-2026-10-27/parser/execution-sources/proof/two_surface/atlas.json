@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "colour_size": 1024,
+  "orm_size": 128,
+  "source_domain_blender_uv": [
+    -1.75,
+    -0.25,
+    1.75,
+    8.0
+  ],
+  "atlas_uv_rects_blender": {
+    "paint": [
+      0.03173828125,
+      0.84423828125,
+      0.43701171875,
+      0.96826171875
+    ],
+    "opaque_glazing": [
+      0.03173828125,
+      0.03173828125,
+      0.96826171875,
+      0.78076171875
+    ],
+    "metal": [
+      0.53173828125,
+      0.84423828125,
+      0.96826171875,
+      0.96826171875
+    ]
+  },
+  "source_glazing_sha256": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894",
+  "method": "Bake original bilinear REPEAT over a bounded UV field; continuous affine mesh UVs; no per-vertex fract",
+  "maps": {
+    "accent_basecolor.png": {
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "role": "sRGB base colour",
+      "core_rects_bottom_origin_px": {
+        "paint": [
+          32,
+          864,
+          448,
+          992
+        ],
+        "opaque_glazing": [
+          32,
+          32,
+          992,
+          800
+        ],
+        "metal": [
+          544,
+          864,
+          992,
+          992
+        ]
+      },
+      "edge_extrusion_px": 32,
+      "bytes": 38851,
+      "sha256": "eab44d0de9fe735ee93b820fd06f9b27dd1d8292a9651a35ca57b44c3cfa978d"
+    },
+    "accent_orm.png": {
+      "dimensions_px": [
+        128,
+        128
+      ],
+      "role": "linear R=AO, G=roughness, B=metallic",
+      "core_rects_bottom_origin_px": {
+        "paint": [
+          4,
+          108,
+          56,
+          124
+        ],
+        "opaque_glazing": [
+          4,
+          4,
+          124,
+          100
+        ],
+        "metal": [
+          68,
+          108,
+          124,
+          124
+        ]
+      },
+      "edge_extrusion_px": 4,
+      "bytes": 269,
+      "sha256": "f3eba422951c1a02816c371ded53390974a5a0b8fa4b8c104af8de0f1ad0f027"
+    },
+    "sandstone_basecolor.png": {
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "unchanged_original": true,
+      "bytes": 1090174,
+      "sha256": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942"
+    },
+    "sandstone_normal_opengl.png": {
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "unchanged_original": true,
+      "bytes": 1000855,
+      "sha256": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862"
+    },
+    "sandstone_orm.png": {
+      "dimensions_px": [
+        1024,
+        1024
+      ],
+      "unchanged_original": true,
+      "bytes": 800428,
+      "sha256": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9"
+    }
+  },
+  "mip_limit": "Gutters reduce neighbouring-region bleed; deep mips still require measured error and rendered review"
+}

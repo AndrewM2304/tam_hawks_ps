@@ -162,12 +162,12 @@ static func _platform_ollie(tree: SceneTree, game: Node, check: Callable) -> voi
 	var outgoing: Vector3 = game.skater.velocity
 	var takeoff: Vector3 = game.skater.global_position
 	var platform: Vector3 = cart.travel_velocity
-	check.call(game.skater.airborne and absf(outgoing.y-game.skater.OLLIE_SPEED)<0.01
+	check.call(game.skater.airborne and absf(outgoing.y-game.skater.OLLIE_SPEED*game.skater.WEIGHTED_OLLIE_IMPULSE_SCALE)<0.01
 		and _planar(outgoing).dot(platform.normalized())>platform.length()-0.15
 		and _planar(outgoing).length()<platform.length()+1.0,
 		"platform contact: roof ollie adds one platform carry velocity to the actual upward pop")
 	await _frames(tree,1)
-	check.call(absf((outgoing.y-game.skater.velocity.y)-game.skater.GRAVITY/60.0)<0.005
+	check.call(absf((outgoing.y-game.skater.velocity.y)-game.skater.WEIGHTED_OLLIE_GRAVITY/60.0)<0.005
 		and _planar(game.skater.velocity-outgoing).length()<0.005,
 		"platform contact: first free frame preserves carried horizontal momentum and applies gravity exactly once")
 	await _frames(tree,11)

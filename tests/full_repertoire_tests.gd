@@ -571,7 +571,17 @@ static func _shove_to_tail_extensions(tree: SceneTree, game: Node, check: Callab
 		_set_direction("neutral")
 		for frame in 90:
 			await _physics(tree,1)
-			if game.skater.airborne and game.skater.velocity.y < -1.0 and game.skater.global_position.y < 0.70:
+			if game.skater.airborne and game.skater.velocity.y < -1.0:
+				var at: Vector3 = game.skater.global_position
+				var ray := PhysicsRayQueryParameters3D.create(at+Vector3.UP*.05,at-Vector3.UP*.40,1)
+				ray.exclude=[game.skater.get_rid()]
+				var support: Dictionary=game.world.get_world_3d().direct_space_state.intersect_ray(ray)
+				# The new weighted flight reaches Y.70 earlier than the fresh180ms
+				# Manual buffer. Observe real late native support before pressing.
+				if support.is_empty() or Vector3(support.normal).y<.99:continue
+				var gap: float=at.y-Vector3(support.position).y
+				if gap<.04 or gap>.30:continue
+				print("PLAYABLE_SHOVE_LATE_MANUAL native_gap=",gap," velocity=",game.skater.velocity)
 				Input.action_press("push")
 				Input.action_press("manual")
 				break

@@ -1,0 +1,15 @@
+# Provenance
+
+- **Asset:** original Glasgow-inspired sandstone retail bay, near/mid/far geometry and original material maps.
+- **Authored:** 17 October 2026 for Tam Hawks Pro Skater during the user-authorized no-spend local development task.
+- **Source of truth:** `generator.py`; seed 2304; local Blender 4.3.2; `audit.py` independently reads exported GLBs. Exact source/output/image hashes are in `audit.json` and export-source version in `generation.json`.
+- **Design references read:** repository `docs/product/ART_DIRECTION.md`, `docs/research/ENVIRONMENT-FIDELITY-REVIEW.md`, current `game/levels/art/facade_kit.gd` and the current Exchange building dimensions in `game/levels/glasgow_square.gd`. Reference code was inspected for dimensions; no source code from another project was imported.
+- **Architectural status:** original compressed composite, not surveyed geometry and not a verified depiction of any present-day Glasgow shop. Existing game's fascia/window rhythm informs compatibility. The attic row is an authored proposed detail.
+- **Third-party assets used:** none. The repository's verified ZC/CC0 manifest was inspected, but its brick/concrete images were not copied, modified, embedded or required by this proof. No research-only sample or Maps/Street View image was reused.
+- **Textures:** four mathematically generated original 1024² PNGs, seeded noise and analytic low-frequency variation. No generative image service, image editing service, baking renderer, photographic source or network request. PNGs are embedded in each GLB.
+- **Tools:** already-installed `/usr/bin/blender` 4.3.2, bundled glTF exporter/NumPy and local Python standard library. Tool binaries/source are not redistributed here. Blender's tool licence does not apply itself to original exported art; no Blender source is included.
+- **Restrictions:** no money spent, no downloads/installations, no Godot import, no game integration, no collision or rail content, no rendered image/animation, no performance claim. `.gdignore` excludes this prototype from project discovery/import.
+
+The final background process exits zero and exports all three GLBs. Its retained log contains two startup/environment diagnostics: an extension-cache write to the read-only home directory fails, and the installed exporter reports its optional Draco compression library is unavailable. No Draco compression is requested or used; the independent audit confirms ordinary decoded mesh accessors and no Draco extension dependency. Neither diagnostic prevents the exports. They are retained rather than removed from evidence.
+
+An earlier exploratory export had too many near triangles and Blender's duplicate-image-socket sampler warning. The final generator reduces small bevel subdivisions to meet the budget and leaves stone metallic at zero instead of redundantly wiring the packed image's zero blue channel. That material sampler warning is absent in the final log; actual exported samplers are independently checked as linear/mipmap/repeat. The final GLB audit verifies the resulting roughness and normal textures rather than treating an earlier export as accepted evidence.

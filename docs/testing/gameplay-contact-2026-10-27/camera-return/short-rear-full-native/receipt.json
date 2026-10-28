@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T01:37:40.793525+00:00",
+  "completed_london": "2026-10-28T01:37:48.815058+00:00",
+  "wall_seconds": 8.021531233000132,
+  "command": [
+    "timeout",
+    "60s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/camera_return_full.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [
+    [
+      "57",
+      "0"
+    ]
+  ],
+  "valid": true,
+  "source_manifest_sha256": "72cbfaca2a253274ad8ec1eb340c992e42e64fca0d3ed79377c34f76f21b7ecf",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

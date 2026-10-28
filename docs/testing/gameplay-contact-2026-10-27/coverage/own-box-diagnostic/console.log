@@ -1,0 +1,12 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+OWN_BOX { "a": (2698.62, 300.57, 2699.7), "b": (2701.38, 300.57, 2699.7), "top": 300.549976806641, "volume": [P: (2698.325, 300.535, 2699.405), S: (3.349609, 1.730011, 0.589844)], "drop": true, "lines": 0, "work": { "box_shapes": 2, "candidate_edges": 6, "intervals": 505, "guides": 0, "native_space_queries": 0, "edge_obstacle_tests": 4, "interval_obstacle_tests": 24, "max_nearby_obstacles": 1, "audit_startup_us": 666 } }
+OWN_BOUNDS { "bounds": [P: (2698.5, 300.45, 2699.7), S: (3.0, 0.099976, 0.600098)], "top": 300.549987792969, "below": false, "intersect": true }
+OWN_BOUNDS { "bounds": [P: (2685.0, 299.8, 2685.0), S: (30.0, 0.200012, 30.0)], "top": 300.0, "below": true, "intersect": false }
+NORTH_RECORD { "id": "NorthStreetRetaining_1", "path": "OutdoorRoutes/KelvingroveSunkenSkatepark/NorthStreetRetaining", "label": "NorthStreetRetaining", "position": (-224.6642, 13.75, -184.075), "shape_count": 1, "shape_type": "BoxShape3D", "box_size": (5.671619, 1.5, 0.15), "collision_layer": 1, "wallrideable": false, "wall_reason": "below 1.6m wall height or 2m face length; low ledge or narrow prop", "grind_ids": ["Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0"], "generated_ledge": true, "capture_check_ids": [], "grind_reason": "collision-backed exposed top edges" }
+ACTUAL_GENERIC { "id": "Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0", "points": [(-221.9484, 14.52, -184.0), (-227.1331, 14.52, -184.0)], "native": [true, true, false] }
+ACTUAL_GENERIC { "id": "Grind_Ledge_@StaticBody3D@1754_1_Native_0_2_4", "points": [(-212.1063, 14.52, -184.0), (-216.0516, 14.52, -184.0)], "native": [true, true, false] }
+ACTUAL_GENERIC { "id": "Grind_Ledge_@StaticBody3D@1757_1_Native_0_2_0", "points": [(-205.62, 14.52, -184.0), (-206.976, 14.52, -184.0)], "native": [false, false, false] }
+ACTUAL_GENERIC { "id": "Grind_Ledge_@StaticBody3D@1760_1_Native_0_2_0", "points": [(-200.6259, 14.52, -184.0), (-202.38, 14.52, -184.0)], "native": [false, false, false] }
+ACTUAL_GENERIC { "id": "Grind_Ledge_@StaticBody3D@1763_1_Native_0_2_10", "points": [(-190.0175, 14.52, -184.0), (-193.3741, 14.52, -184.0)], "native": [false, false, false] }
+ACTUAL_WORK { "box_shapes": 131, "candidate_edges": 212, "intervals": 15986, "guides": 5, "native_space_queries": 0, "edge_obstacle_tests": 55374, "interval_obstacle_tests": 816, "max_nearby_obstacles": 5, "audit_startup_us": 5043903 }

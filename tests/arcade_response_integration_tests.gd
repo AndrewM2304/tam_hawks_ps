@@ -82,7 +82,7 @@ static func run(tree: SceneTree, check: Callable) -> void:
 		{"id":"held_early_right", "offset":0.25, "angle":5.0, "press":-1, "held":true, "catch":true},
 		{"id":"held_angle_left_20", "offset":-1.40, "angle":-20.0, "press":-1, "held":true, "catch":true},
 		{"id":"held_angle_right_20", "offset":1.40, "angle":20.0, "press":-1, "held":true, "catch":true},
-		{"id":"outside_angle_70", "offset":-4.10, "angle":-70.0, "press":-1, "held":true, "catch":false},
+		{"id":"held_angle_70", "offset":-4.10, "angle":-70.0, "press":-1, "held":true, "catch":true},
 		{"id":"tap_approach", "offset":0.25, "angle":-4.0, "press":12, "held":false, "catch":true},
 		{"id":"tap_later", "offset":-0.25, "angle":4.0, "press":16, "held":false, "catch":true},
 		{"id":"outside_lateral", "offset":1.25, "angle":0.0, "press":-1, "held":true, "catch":false},
@@ -116,7 +116,7 @@ static func _flat_jump(tree: SceneTree, check: Callable, held: int) -> void:
 		previous_tick = row.tick
 	var short := held < 10
 	var in_envelope := peak >= (0.75 if short else 1.15) and peak <= (0.95 if short else 1.45)
-	in_envelope = in_envelope and air_seconds >= (0.36 if short else 0.48) and air_seconds <= (0.48 if short else 0.60)
+	in_envelope = in_envelope and air_seconds >= (0.48 if short else 0.59) and air_seconds <= (0.56 if short else 0.68)
 	check.call(in_envelope, "arcade jump: %s real apex/airtime meet deliberate response envelope" % ("tap" if short else "charged"))
 	check.call(contiguous and rider.is_on_floor() and awards.count("Ollie") == 1,
 		"arcade jump: native consecutive ticks record exactly one pop and a supported landing")
@@ -429,13 +429,13 @@ static func _rail_approach(tree: SceneTree, check: Callable, trial: Dictionary) 
 		await _ticks(tree, 1)
 		if rider.grinding: break
 	var caught: bool = rider.grinding
-	if trial.id == "outside_angle_70":
+	if trial.id == "held_angle_70":
 		var geometric_window := false
 		for row: Dictionary in f.recorder.rows:
 			geometric_window = geometric_window or (absf(row.at.x)<0.65 and row.at.y>=0.36 and row.at.y<=1.10
 				and row.velocity.y<=1.0 and Vector2(row.velocity.x,row.velocity.z).length()>2.0)
 		check.call(geometric_window,
-			"arcade rail: 70-degree negative actually traverses the lateral/vertical/speed window, isolating angle rejection")
+			"arcade rail: forgiving held 70-degree approach actually traverses the lateral/vertical/speed window")
 	check.call(caught == bool(trial.catch), "arcade rail: imperfect actual mapped approach %s expected catch=%s" % [trial.id,trial.catch])
 	if caught:
 		_key(KEY_L, false)

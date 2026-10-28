@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-28T06:27:50.845219+00:00",
+  "completed_london": "2026-10-28T06:27:53.555212+00:00",
+  "wall_seconds": 2.709996329002024,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    "tests/run_tests.gd",
+    "--check-only"
+  ],
+  "exit_code": 0,
+  "source_inputs": 673,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "0c35be0f37a115c77c7df9b9bd49756a2dd41435d816be1eaa7d6011ec16a7da",
+  "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+}

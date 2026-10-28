@@ -1,0 +1,91 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+FOCUS_BEGIN canonicalBowl
+PASS: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 0
+PASS: PT24 native bowl: all real tyre rims and the recorded urethane/axle extremity clear actual finite concrete 0
+PASS: PT24 native bowl: contact fit changes no locomotion/capsule/manual/velocity state or physical floor limit 0
+PT24_NATIVE_BOWL_CONTACT { "witness": 0, "fit": { "position": (-5.6048, 0.540385, 139.7005), "normal": (-0.201249, 0.631924, -0.748445) }, "minimum": 0.0066623436287, "maximum": 0.01754906773567, "material_gap": 0.01823118142784, "legacy_minimum": -0.02094788849354, "misses": 0 }
+PASS: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 1
+PASS: PT24 native bowl: all real tyre rims and the recorded urethane/axle extremity clear actual finite concrete 1
+PASS: PT24 native bowl: contact fit changes no locomotion/capsule/manual/velocity state or physical floor limit 1
+PT24_NATIVE_BOWL_CONTACT { "witness": 1, "fit": { "position": (-4.319512, 0.728351, 139.3112), "normal": (-0.401728, 0.557583, -0.72644) }, "minimum": 0.00711796991527, "maximum": 0.02626155689359, "material_gap": 0.03283134847879, "legacy_minimum": -0.03346793353558, "misses": 0 }
+PASS: PT24 native bowl: finite four-wheel fit survives the individual steep-face rejection at exact witness 2
+PASS: PT24 native bowl: all real tyre rims and the recorded urethane/axle extremity clear actual finite concrete 2
+PASS: PT24 native bowl: contact fit changes no locomotion/capsule/manual/velocity state or physical floor limit 2
+PT24_NATIVE_BOWL_CONTACT { "witness": 2, "fit": { "position": (-1.818508, 1.072834, 136.8465), "normal": (-0.822935, 0.425636, -0.376313) }, "minimum": 0.00446570245549, "maximum": 0.02658397331834, "material_gap": 0.03137105703354, "legacy_minimum": -0.0570330247283, "misses": 0 }
+PASS: PT24 native bowl: all three recorded old-frame controls independently reproduce real tyre penetration
+PASS: PT24 native footprint: exact full/standalone Clyde5.68mm phase pair supplies finite tyres/model clearance without changing physical state -10.63339
+PASS: PT24 native footprint: exact full/standalone Clyde5.68mm phase pair supplies finite tyres/model clearance without changing physical state -10.639068
+PASS: PT24 native bowl: all three exact constructor-owned wall/deck/coping bodies retain steep support identity after a real body rename
+PASS: PT24 native bowl: same-parent foreign native body with copied exact name and feature metadata cannot acquire steep support
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (-30.0, 0.02, 0.0)
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (60.0, 0.313109, -1.140074)
+PASS: PT24 native bowl: ordinary flat, nonwrapped quarter and unrelated steep-wall eligibility remains identical (30.0, 8.02, 0.0)
+PASS: PT24 native bowl: an unrelated actual steep plane still cannot acquire the wrapped-bowl exception
+PASS: PT24 air landing: retained real rear tyre is wholly behind its finite native deck although all four tyre-volume crossing queries are empty
+PASS: PT24 air landing: smallest native-clear rigid fit catches a fully buried tyre without translating the figure or changing physical flight/local board
+PASS: PT24 air landing: a foreign nose slab missed by all four tyres still refuses the actual connected-model endpoint
+PASS: PT24 air landing: exact current-frame negative control retains the real rear-tyre and metal-axle penetration
+PASS: PT24 air landing: every actual finite tyre hull and recorded axle vertex clear the native quay before capsule landing
+PASS: PT24 air landing: smallest rigid orientation fit preserves physics, zero lift, board-local pose and both planted feet
+PT24_AIR_LANDING_CONTACT { "legacy_minimum": -0.03842747211456, "legacy_axle": -0.02273571491241, "minimum": 0.0081148147583, "axle": 0.02940130233765, "old_visual": [X: (0.767991, -0.592711, 0.24266), Y: (0.438894, 0.762984, 0.474582), Z: (-0.466435, -0.257972, 0.846102), O: (-9.289708, 2.102755, 127.4841)], "fixed_visual": [X: (0.81734, -0.421694, 0.392594), Y: (0.294898, 0.891571, 0.343709), Z: (-0.494965, -0.165151, 0.853074), O: (-9.289708, 2.102755, 127.4841)] }
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 0
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 1
+PASS: PT24 air landing: clear flat/far-air/nonflat-quarter presentation is exactly unchanged 2
+PASS: PT24 air offset: declared anticipated pose genuinely intersects the finite native floor
+PASS: PT24 air offset: bounded withdrawal clears actual tyres/model while preserving native flight, local board and both foot attachments
+PASS: PT24 air offset: accepted native fit restores every borrowed shape parameter
+PASS: PT24 air offset: already clear flight remains exactly unchanged
+PASS: PT24 air offset: zero earned offset cannot create a correction
+PASS: PT24 air offset: real foreign endpoint blocker refuses the whole correction without physics or query side effects
+PASS: PT24 Feature air: retained real release pose intersects the constructor-owned native coping
+PASS: PT24 Feature air: finite normal-only continuation clears actual tyres/model inside25mm while preserving flight, basis and local rig
+PASS: PT24 Feature air: non-ramp, surface and unassociated modes cannot acquire the coping continuation
+PASS: PT24 Feature air: real foreign slab clear of the starting model blocks the endpoint and refuses the whole continuation
+PASS: PT24 air pose: horizontal-normal ramp flight retains its actual pre-yaw body frame instead of a stale surface frame
+PASS: PT24 air pose: ramp-to-ordinary handoff keeps the existing4.5rad/s body limit, earned yaw, local board and physical flight
+PT24_RAMP_AIR_POSE_HANDOFF { "stale_angle": 2.3662269115448, "seed_error": 0.0, "first_ordinary_angle": 0.07499697059393 }
+FOCUS_BEGIN canonicalBoardRay
+PASS: board ray reuse: exact native support, query order/count and unchanged rider/presentation for ordinary flat
+BOARD_SUPPORT_RAY_PAIR { "case": "ordinary flat", "rays": 4, "fit": {  }, "equal": true }
+BOARD_ORIGINAL_MODEL_REFUSAL { "frame": [X: (0.965384, 0.260832, 0.0), Y: (-0.260832, 0.965384, 0.0), Z: (0.0, 0.0, 1.0), O: (20.00554, 0.156524, 0.0)], "alternative": { "position": (20.03892, 0.044669, 0.0), "normal": (-0.260832, 0.965384, 0.0) }, "proved": true }
+PASS: board ray reuse: exact native support, query order/count and unchanged rider/presentation for six-centimetre split step refuses its obstructed original frame
+BOARD_SUPPORT_RAY_PAIR { "case": "six-centimetre split step refuses its obstructed original frame", "rays": 16, "fit": { "position": (20.03892, 0.044669, 0.0), "normal": (-0.260832, 0.965384, 0.0) }, "equal": true }
+PASS: board ray reuse: exact native support, query order/count and unchanged rider/presentation for clear six-centimetre split step
+BOARD_SUPPORT_RAY_PAIR { "case": "clear six-centimetre split step", "rays": 16, "fit": { "position": (19.96895, 0.032858, 0.0), "normal": (-0.260832, 0.965384, 0.0) }, "equal": true }
+PASS: board ray reuse: exact native support, query order/count and unchanged rider/presentation for finite support edge
+BOARD_SUPPORT_RAY_PAIR { "case": "finite support edge", "rays": 1, "fit": {  }, "equal": true }
+PASS: board ray reuse: exact native support, query order/count and unchanged rider/presentation for missing lower side of tall step
+BOARD_SUPPORT_RAY_PAIR { "case": "missing lower side of tall step", "rays": 1, "fit": {  }, "equal": true }
+PASS: board ray reuse: exact native support, query order/count and unchanged rider/presentation for ordinary finite bank
+BOARD_SUPPORT_RAY_PAIR { "case": "ordinary finite bank", "rays": 4, "fit": {  }, "equal": true }
+PASS: board ray reuse: exact native support, query order/count and unchanged rider/presentation for unrelated steep surface
+BOARD_SUPPORT_RAY_PAIR { "case": "unrelated steep surface", "rays": 0, "fit": {  }, "equal": true }
+PASS: board ray reuse: exact native support, query order/count and unchanged rider/presentation for absent floor
+BOARD_SUPPORT_RAY_PAIR { "case": "absent floor", "rays": 0, "fit": {  }, "equal": true }
+PASS: board ray reuse: exact finite wrapped-bowl fit and all sixteen native rays at recorded witness 0
+PASS: board ray reuse: exact finite wrapped-bowl fit and all sixteen native rays at recorded witness 1
+PASS: board ray reuse: exact finite wrapped-bowl fit and all sixteen native rays at recorded witness 2
+PASS: board ray reuse: removing wrapped ownership still rejects the same real steep native supports 0
+PASS: board ray reuse: removing wrapped ownership still rejects the same real steep native supports 1
+PASS: board ray reuse: removing wrapped ownership still rejects the same real steep native supports 2
+PASS: board ray reuse: fresh control constructs one parameter per unchanged native support ray while the actual solver retains one
+BOARD_SUPPORT_RAY_REUSE { "pairs": 14, "native_support_rays": 93, "fresh_parameter_objects": 93, "retained_parameter_objects": 1 }
+PASS: board ray reuse: inherited affine lower-step fit clears all actual tyres/model while rigid sweep validation stays strict and all sixteen rays match
+PASS: board ray reuse: affine eligibility never bypasses an actual foreign nose blocker and restores the original actor/rig exactly
+BOARD_AFFINE_LOWER_PARITY { "positive": { "position": (20.03892, 0.044669, 0.0), "normal": (-0.260827, 0.965385, 0.0) }, "negative": {  }, "pairs": 2, "support_rays": 32, "fresh_parameter_objects": 32 }
+PASS: board ray reuse: exact finite arrival-bank tyre footprint yields a native-clear full-model fit with four unchanged centre rays
+BOARD_PARTIAL_BANK { "fit": { "position": (-199.9206, 13.01521, -176.7437), "normal": (-0.063499, 0.997573, 0.028566) }, "rays": 4, "equal": true, "full_clear": true }
+PASS: board ray reuse: a foreign2mm nose blocker refuses the footprint fit while native capsule and all four tyres remain clear
+PASS: board ray reuse: removing the actual foreign blocker restores the same finite-support eligibility without stale refusal
+BOARD_PARTIAL_BANK_PARITY { "pairs": 3, "support_rays": 12, "fresh_parameter_objects": 12, "retained_parameter_objects": 1 }
+PASS: board ray reuse: every native body/area/back-face/inside flag remains equal to the original factory
+PASS: board ray reuse: actual layer1/layer8 versus layer2/area hit boundary matches fresh parameters x=100.0
+PASS: board ray reuse: actual layer1/layer8 versus layer2/area hit boundary matches fresh parameters x=104.0
+PASS: board ray reuse: actual layer1/layer8 versus layer2/area hit boundary matches fresh parameters x=108.0
+PASS: board ray reuse: actual layer1/layer8 versus layer2/area hit boundary matches fresh parameters x=112.0
+PASS: board ray reuse: a current mask change and stale exclusions cannot hide the finite support or hit the rider itself
+PASS: board ray reuse: restoring the normal mask immediately excludes the same layer2 support
+PASS: board ray reuse: moving a finite blocker is observed immediately without altering the earlier returned hit dictionary
+PASS: board ray reuse: one persistent parameter identity survives changing endpoints, masks, exclusions, layers and native blocker movement
+RESULT: 68 passed, 0 failed

@@ -9,6 +9,32 @@ source changed and gameplay checks are not required for these filename repairs.
 
 ---
 
+# Contact repairs and cold launch admitted; packages next — 28 October2026
+
+Source **main497781f is pushed**. [Required06 and exact evidence](testing/gameplay-contact-2026-10-27/README.md) pass **5,746/0 plus actual CLI Music-isolation2/0**,622.590s on673 stable exact497781f Git inputs, clean exit/log. Reported wall/grind/rail/Ollie defects and resulting native support/camera repairs are implemented and Linux verified. Supporting Design203/0, camera63/0, native68/0 and clean handoff1/0 retain their scopes; all earlier failed epochs remain unchanged.
+
+Source-bound cold launch passes **all four phases**, including ordinary title→play **50/0** and expected invalid-source refusal. The outer55.670s run binds the same673 inputs/full manifest; its copied project has579 stable inputs and no source changes. **Current unsigned exports, package audit and normal Linux standalone startup remain pending.** Package audit must explicitly bind admitted required06 and its matching before/after maps.
+
+Continue the accepted facade attribution after the gameplay package handoff; checks and pushes are checkpoints. Ordinary trial features remain enabled and Music isolated. Mac/controller, human feel, target performance and final-art acceptance stay open. Preserve main-only/non-force/no-spend/no-hosted-CI/no-release constraints. Historical sections below retain their source scope.
+
+---
+
+# Active facade source/cost continuation — 27 October 2026
+
+Manual-arm and stopped-foot fixes are pushed and packaged froma94b737; main
+package handoff838e6f4 retains5,520/0 plus Music2/0 and563-input cold proof.
+[The next existing facade task](testing/facade-bay-four-slot-2026-10-27/README.md) now passes source geometry,
+repeat-export and32-frame native appearance/resource comparison. Live integration
+uses a separate mesh root with original textures. An initial41/1 focused rejection
+reveals automatic near-mesh quantization; new-near-only uncompressed import restores
+the exact threshold within the original tolerance and retains smaller native
+buffers than the original. Corrected native focused/rendered checks are running.
+Required combined and six full cost profiles remain pending; no final-art,
+Mac, timing or default-activation acceptance is inferred. Existing trial features
+remain available and Music isolation is preserved.
+
+---
+
 # Ordinary Manual arms and stopping-foot fixes — 27 October 2026
 
 The required combined suite passes **5,520/0**, plus actual Music script

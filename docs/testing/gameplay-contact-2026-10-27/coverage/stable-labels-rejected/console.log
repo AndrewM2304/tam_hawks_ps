@@ -1,0 +1,99 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: wallride: actual glancing side approach enters one physical wall ride
+PASS: wallride: native tangent travel advances without penetrating the solid wall
+PASS: wallride: retained normal and identity come from the real contacted wall
+PASS: wallride: collision resolves inward support while preserving useful tangent velocity
+PASS: wallride: explicitly reduced gravity descends rather than creating a vertical climb
+PASS: wallride: freezing physics consumes neither ride time, cooldown nor motion
+PASS: wallride: releasing the held action exits once with a reentry cooldown
+PASS: wallride: ordinary release carries tangent momentum outward without a jump award
+PASS: wallride: immediate recapture cannot bypass the attachment cooldown
+PASS: wallride: a deliberate wallie releases exactly once through the actual physics step
+PASS: wallride: wallie combines outward kick and upward launch with retained tangent momentum
+PASS: wallride: the launched capsule actually moves clear of its wall
+PASS: wallride: held input after a wallie cannot create another capture or launch
+PASS: wallride: an indefinitely held ride releases at its finite 1.25-second bound
+PASS: wallride: duration expiry follows real travel and does not fabricate a bail
+PASS: wallride: finite wall endpoint releases without wrapping or invisible support
+PASS: wallride: the rider physically leaves the wall endpoint
+PASS: wallride: steering away provides a deliberate lateral exit
+PASS: wallride: head-on approach retains ordinary collision instead of capturing
+PASS: wallride: slow approach retains ordinary collision instead of capturing
+PASS: wallride: outward approach retains ordinary collision instead of capturing
+PASS: wallride: nonfinite entry velocity cannot create support
+PASS: wallride: explicitly excluded wall cannot capture through actual probes
+PASS: wallride: floor rejection fixture has actual grounded support
+PASS: wallride: grounded contact cannot manufacture an airborne wall ride
+PASS: wallride: a real obstruction ends support with one failure result
+PASS: wallride: actual impact blocks travel and discarded momentum is never restored
+PASS: wallride: removed wall releases its weak reference without ghost support or a false bail
+PASS: wallride: reset clears all contact, travel and cooldown state
+PASS: wallride: invalid clock samples do not shorten cooldown
+PASS: wallride: a real elapsed cooldown reopens future eligibility
+PASS: wallride: wallie requires contact still eligible on the actual launch frame
+PASS: wallride: invalid integration time ends support without sending invalid native motion
+PASS: wallride: substantial solid architecture is eligible by default
+PASS: wallride: explicit false eligibility excludes architecture
+PASS: wallride: explicit no-wallride wins over an allow tag
+PASS: wallride: a real continuous static glass wall is eligible like other rigid architecture
+PASS: wallride: protected scenic glazing still honours an explicit exclusion
+PASS: wallride: scenery exclusion LowFence is honest
+PASS: wallride: scenery exclusion TinyProp is honest
+PASS: wallride: scenery exclusion WaterBoundary is honest
+PASS: wallride: scenery exclusion CanvasCanopy is honest
+PASS: wallride: moving bodies cannot masquerade as static walls
+PASS: wallride: detached surface audits account for ancestor scale without global-transform errors
+PASS: wallride: architecture eligibility measures actual world dimensions after rotation
+PASS: wallride coverage: actual solid boundary keeps honest stone/iron eligibility after its surface audit
+PASS: wallride coverage: native solid masonry supports tangent travel across real panel joins without penetration
+PASS: wallride coverage: solid wallie returns away from the actual boundary once
+PASS: wallride coverage: solid boundary keeps every original collision shape through ride and exit
+PASS: wallride coverage: actual opaque boundary keeps honest stone/iron eligibility after its surface audit
+PASS: wallride coverage: native opaque masonry supports tangent travel across real panel joins without penetration
+PASS: wallride coverage: opaque wallie returns away from the actual boundary once
+PASS: wallride coverage: opaque boundary keeps every original collision shape through ride and exit
+PASS: wallride coverage: actual iron boundary keeps honest stone/iron eligibility after its surface audit
+PASS: wallride coverage: the same finite iron fence retains collision without inventing an opaque supporting wall
+PASS: wallride coverage: iron boundary keeps every original collision shape through ride and exit
+PASS: wallride coverage: actual solid masonry ends finite support instead of extending a remembered plane
+PASS: wallride coverage: actual opaque masonry ends finite support instead of extending a remembered plane
+PASS: wallride coverage: actual compound station masonry is rideable while the scenic track glazing remains excluded
+PASS: wallride coverage: the real station wall admits finite native glancing support rather than a metadata-only claim
+PASS: wallride coverage: insufficient native stone wall dimensions stay excluded [1.5, 8.0]
+PASS: wallride coverage: insufficient native stone wall dimensions stay excluded [3.0, 1.0]
+PASS: wallride coverage: actual finite continuous glass supports native glancing travel without material-only rejection
+PASS: wallride coverage: changing that real glass pane to protected scenery releases support without a wallie
+PASS: native ledge fallback: unlisted bench has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted bench keeps deterministic identity and exact native20mm contact datum
+ERROR: FAIL: native ledge fallback: all unlisted bench interior samples admit the production capsule and finite motion
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/native_ledge_wall_focus.gd:14)
+       [1] _fixture (res://tests/native_ledge_fallback_tests.gd:90)
+PASS: native ledge fallback: unlisted ledge has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted ledge keeps deterministic identity and exact native20mm contact datum
+ERROR: FAIL: native ledge fallback: all unlisted ledge interior samples admit the production capsule and finite motion
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/native_ledge_wall_focus.gd:14)
+       [1] _fixture (res://tests/native_ledge_fallback_tests.gd:90)
+PASS: native ledge fallback: unlisted curb has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted curb keeps deterministic identity and exact native20mm contact datum
+ERROR: FAIL: native ledge fallback: all unlisted curb interior samples admit the production capsule and finite motion
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/native_ledge_wall_focus.gd:14)
+       [1] _fixture (res://tests/native_ledge_fallback_tests.gd:90)
+PASS: native ledge fallback: unlisted floor has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted buried has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted fence has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted protected_glass has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted provider_cap has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted overhead has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted round_overhead has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: unlisted decor has honest exposed-top coverage without new scene nodes
+PASS: native ledge fallback: ordinary world contains the actual sunken-park retaining edges
+PASS: native ledge fallback: all five real north retaining lips expose finite south top guides while flush north faces and port gaps stay unregistered
+NATIVE_LEDGE_WORK {"audit_startup_us":5102027,"box_shapes":131,"candidate_edges":212,"edge_obstacle_tests":55374,"guides":5,"interval_obstacle_tests":816,"intervals":15986,"max_nearby_obstacles":5,"native_space_queries":0}
+RESULT: 80 passed, 3 failed

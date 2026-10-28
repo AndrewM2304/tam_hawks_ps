@@ -109,7 +109,7 @@ func build() -> void:
 	coping_body.name = "NativeSteelCoping"
 	coping_body.set_meta("authored_grind_ids",["Grind_"+feature_id+"_Coping"])
 	coping_body.set_meta("audit_capture_ids",["Grind_"+feature_id+"_Coping"])
-	coping_body.collision_layer = 2
+	coping_body.collision_layer = 1 | 2
 	coping_body.transform = coping.transform
 	coping_body.set_meta("coping_feature",self)
 	coping_body.set_meta("surface_audio","metal")

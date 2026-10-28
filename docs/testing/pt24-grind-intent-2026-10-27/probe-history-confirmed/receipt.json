@@ -1,0 +1,27 @@
+{
+  "started_london": "2026-10-27T22:21:15.342325+00:00",
+  "completed_london": "2026-10-27T22:21:16.095599+00:00",
+  "wall_seconds": 0.753274758999396,
+  "command": [
+    "timeout",
+    "30s",
+    "bash",
+    ".local/grind_intent_probe.sh",
+    ".local/grind_intent_probe.gd",
+    ".local/grind_intent_probe_fixture.gd",
+    ".local/grind_intent_probe_skater.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 675,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "2",
+      "2"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "64c2acc22754a7f053317dadc3975610c01ed7c7b163ef1ca04e8d0c1507c667",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

@@ -1,0 +1,91 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS: facade bay: explicit disable preserves the original selected building
+PASS: facade bay: exactly the fitted west middle Exchange building is enabled
+PASS: facade bay: every actual collision shape, body layer and world transform is unchanged
+PASS: facade bay: actual navigation routes and grind points remain identical
+PASS: facade bay: physical entry threshold, turning ledge and lower bypass retain support/clearance
+PASS: facade bay: front-cut visual keeps the original complete box collider and outer bounds
+PASS: facade bay: actual front triangles exclude the entire 6.5m strip, including crossing triangles
+PASS: facade bay: shell preserves complete rear, side, top and bottom surface areas
+PASS: facade bay: exactly one cheap closed original box casts only the original building-mass shadow at its unchanged transform/material
+PASS: facade bay: cut shell and all detailed native LODs receive shadows without duplicate detailed shadow submissions
+PASS: facade bay: invisible shadow mass is excluded from actual visible-wall occluder candidates
+PASS: facade bay: every actual filtered front primitive has its full transformed bounds outside the strip
+PASS: facade bay: all nine crossing window groups are absent, including their outside-strip fragments
+PASS: facade bay: one complete shop bay is removed and crossing continuous pieces are clipped
+PASS: facade bay: the old selected raised procedural door is actually removed
+PASS: facade bay: adjacent real procedural doors remain with their original individual elevations
+PASS: facade bay: one actual opaque neighbour jamb seals the full exposed display edge using its existing shared paint
+PASS: facade bay: the original shop identity is retained exactly once on the fitted fascia
+PASS: facade bay: exactly three native MeshInstance levels share unscaled metre placement
+PASS: facade bay: actual native dependency chain and both hysteresis margins are configured
+PASS: facade bay: four fitted material surfaces and authored triangle budget Near
+PASS: facade bay: hard native stage has no alpha fade or premature end Near
+PASS: facade bay: explicit authored stage has automatic import LODs disabled Near
+PASS: facade bay: four fitted material surfaces and authored triangle budget Mid
+PASS: facade bay: hard native stage has no alpha fade or premature end Mid
+PASS: facade bay: explicit authored stage has automatic import LODs disabled Mid
+PASS: facade bay: four fitted material surfaces and authored triangle budget Far
+PASS: facade bay: hard native stage has no alpha fade or premature end Far
+PASS: facade bay: explicit authored stage has automatic import LODs disabled Far
+PASS: facade bay: all levels share the same four live opaque material resources
+PASS: facade bay: near/mid/far use the same actual fitted bounds for native selection
+PASS: facade bay: active and imported materials retain only four shared 1024px maps
+PASS: facade bay: actual sandstone uses the authored normal strength and ORM green roughness
+PASS: facade bay: actual fitted threshold triangles meet the 0.53m landing without a second door lift
+PASS: facade bay: fitted placement composes actual rotated/translated author parents
+PASS: facade bay: mass shadow reuses the original closed mesh resource without duplication
+PASS: facade bay: ordinary runtime does not retain construction audit records
+PASS: reduced facade ordinary Main: station/train/pond/green/civic defaults stay enabled without historical inventory switch
+PASS: reduced facade ordinary Main: persistence is disabled before tree entry
+PASS: reduced facade ordinary Main: every actual collision/layer/native transform and current world counts are unchanged
+PASS: reduced facade ordinary Main: actual current route data and every grind guide remain equal
+PASS: reduced facade ordinary Main: actual threshold, ledge and beginner bypass native support remain equal
+CURRENT_ORDINARY_MAIN_COUNTS bodies=574 shapes=1755 collision_records=1755 rails=260
+FACADE_NATIVE_LOD distance=10.0 expected=Near primitives=9864 tick=12
+PASS: facade bay native LOD: one actual Near stage at 10.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=24.0 expected=Near primitives=9864 tick=15
+PASS: facade bay native LOD: one actual Near stage at 24.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=28.0 expected=Near primitives=9864 tick=18
+PASS: facade bay native LOD: one actual Near stage at 28.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=30.0 expected=Mid primitives=3544 tick=21
+PASS: facade bay native LOD: one actual Mid stage at 30.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=26.0 expected=Mid primitives=3544 tick=24
+PASS: facade bay native LOD: one actual Mid stage at 26.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=22.0 expected=Mid primitives=3544 tick=27
+PASS: facade bay native LOD: one actual Mid stage at 22.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=28.0 expected=Mid primitives=3544 tick=30
+PASS: facade bay native LOD: one actual Mid stage at 28.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=20.0 expected=Near primitives=9864 tick=33
+PASS: facade bay native LOD: one actual Near stage at 20.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=28.0 expected=Near primitives=9864 tick=36
+PASS: facade bay native LOD: one actual Near stage at 28.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=30.0 expected=Mid primitives=3544 tick=39
+PASS: facade bay native LOD: one actual Mid stage at 30.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=79.0 expected=Mid primitives=3544 tick=42
+PASS: facade bay native LOD: one actual Mid stage at 79.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=85.0 expected=Mid primitives=3544 tick=45
+PASS: facade bay native LOD: one actual Mid stage at 85.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=87.0 expected=Far primitives=648 tick=48
+PASS: facade bay native LOD: one actual Far stage at 87.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=81.0 expected=Far primitives=648 tick=51
+PASS: facade bay native LOD: one actual Far stage at 81.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=75.0 expected=Far primitives=648 tick=54
+PASS: facade bay native LOD: one actual Far stage at 75.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=85.0 expected=Far primitives=648 tick=57
+PASS: facade bay native LOD: one actual Far stage at 85.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=73.0 expected=Mid primitives=3544 tick=60
+PASS: facade bay native LOD: one actual Mid stage at 73.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=79.0 expected=Mid primitives=3544 tick=63
+PASS: facade bay native LOD: one actual Mid stage at 79.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=87.0 expected=Far primitives=648 tick=66
+PASS: facade bay native LOD: one actual Far stage at 87.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=73.0 expected=Mid primitives=3544 tick=69
+PASS: facade bay native LOD: one actual Mid stage at 73.0m, hysteresis holds on return/oscillation
+FACADE_NATIVE_LOD distance=20.0 expected=Near primitives=9864 tick=72
+PASS: facade bay native LOD: one actual Near stage at 20.0m, hysteresis holds on return/oscillation
+FOCUSED_RESULT passed=63 failed=0 rendered_lod_executed=true

@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T03:40:50.453249+00:00",
+  "completed_london": "2026-10-28T03:40:51.407424+00:00",
+  "wall_seconds": 0.9541773099990678,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/bowl_contact_canonical.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "22",
+      "0"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "a63560c76cef279b0d853c00a0a2402efad5ad68fff03b6a25fd73f51821e408",
+  "git_head": "838e6f4dc02dfd48e9f122744238a1ad66de7a17"
+}

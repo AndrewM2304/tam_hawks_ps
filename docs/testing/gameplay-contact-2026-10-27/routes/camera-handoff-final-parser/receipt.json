@@ -1,0 +1,22 @@
+{
+  "started_london": "2026-10-28T06:34:08.286128+00:00",
+  "completed_london": "2026-10-28T06:34:09.641445+00:00",
+  "wall_seconds": 1.3553170079976553,
+  "command": [
+    "timeout",
+    "20s",
+    "./tools/run.sh",
+    "--headless",
+    "--check-only",
+    "--script",
+    ".local/camera_handoff_capture/capture.gd"
+  ],
+  "exit_code": 0,
+  "source_inputs": 674,
+  "source_stable": true,
+  "clean_log": true,
+  "result_counts": [],
+  "valid": true,
+  "source_manifest_sha256": "5f55eb3817b945c82a4c214094f2325ee0ebf162935466aa5d6f175d033d7703",
+  "git_head": "f4b4f247f3ac56e3618a481aabe31a3cd2480318"
+}

@@ -1,0 +1,106 @@
+--- production
++++ print-only
+@@ -4041,9 +4041,9 @@
+ 	# than the actual wheelbase. Fit the presentation to four finite native
+ 	# supports only in that ambiguous case. Physics keeps its original normal.
+ 	var wheels: Array = _visual_rig.board_contact_geometry().wheels
+-	if wheels.size() != 4: return {}
++	if wheels.size() != 4: print("FLOOR_RETURN stage6 at=",global_position);return {}
+ 	var center := _native_floor_hit(Vector3.UP)
+-	if center.is_empty(): return {}
++	if center.is_empty(): print("FLOOR_RETURN stage8 at=",global_position);return {}
+ 	var bowl: Node3D
+ 	var contacted:=center.get("collider") as CollisionObject3D
+ 	if is_instance_valid(contacted):
+@@ -4054,7 +4054,7 @@
+ 	# Locomotion's capsule floor limit cannot classify the finite surface
+ 	# beneath every wheel on a concave bowl. This exception is presentation
+ 	# only, tied to the actual native wrapped wall beneath the board centre.
+-	if not _native_board_support_allowed(center,bowl): return {}
++	if not _native_board_support_allowed(center,bowl): print("FLOOR_RETURN stage19 at=",global_position);return {}
+ 	# Retain exact native contacts only during this synchronous solve. A
+ 	# reprobe may move a centre over the mouth while its finite tyre still
+ 	# bears on the coping sampled by the preceding iteration.
+@@ -4087,7 +4087,7 @@
+ 			if hit.is_empty() and is_instance_valid(bowl) and _native_bowl_hit_owned(retained[wheel_index],bowl):
+ 				hit=retained[wheel_index]
+ 			if _native_bowl_hit_owned(hit,bowl):retained[wheel_index]=hit
+-			if not _native_board_support_allowed(hit,bowl): return {}
++			if not _native_board_support_allowed(hit,bowl): print("FLOOR_RETURN stage52 at=",global_position);return {}
+ 			var support: Vector3 = hit.position
+ 			same_plane = same_plane and Vector3(hit.normal).dot(axis)>0.999 \
+ 				and absf((support-Vector3(center.position)).dot(axis))<=0.001
+@@ -4096,12 +4096,13 @@
+ 			else: rear+=support
+ 			if wheel_center.x<0: left+=support
+ 			else: right+=support
+-		if samples.size()!=4: return {}
++		if samples.size()!=4: print("FLOOR_RETURN stage61 at=",global_position);return {}
+ 		# Preserve the established planar-floor pose exactly. A wheel can reach
+ 		# a short step before the rounded capsule does, even if their centre
+ 		# normals still agree, so verify all four locations before this shortcut.
+ 		if same_plane:
+ 			var planar_fit:=_native_planar_rim_fit(point,axis,frame,bowl)
++			print("PLANAR_RESULT ",planar_fit," bowl=",bowl)
+ 			if is_instance_valid(bowl) and not planar_fit.is_empty():
+ 				var planar_axis:Vector3=planar_fit.normal
+ 				var planar_frame:=frame
+@@ -4109,10 +4110,10 @@
+ 					var local_planar:=global_basis.inverse()*planar_axis
+ 					planar_frame=global_basis*Basis.from_euler(Vector3(atan2(local_planar.z,local_planar.y),0,-asin(clampf(local_planar.x,-1,1))))
+ 				var planar_board:=Transform3D(planar_frame,Vector3(planar_fit.position)+planar_axis*GROUND_PRESENTATION_SKIN+planar_frame*_visual_rig._board_rest_position)
+-				if not _manual_model_frame_clear(planar_board):return {}
+-			return planar_fit
++				if not _manual_model_frame_clear(planar_board):print("FLOOR_RETURN stage74 at=",global_position);return {}
++			print("FLOOR_RETURN stage75 at=",global_position);return planar_fit
+ 		axis = (rear-front).cross(right-left).normalized()
+-		if axis.y<(0.05 if is_instance_valid(bowl) else cos(floor_max_angle)): return {}
++		if axis.y<(0.05 if is_instance_valid(bowl) else cos(floor_max_angle)): print("FLOOR_RETURN stage77 at=",global_position);return {}
+ 		var average := (front+rear)*0.25
+ 		var clearance := 0.0
+ 		for sample: Vector3 in samples:
+@@ -4134,7 +4135,7 @@
+ 		var hit := _native_board_wheel_support(space,bearing,bowl)
+ 		if hit.is_empty() and is_instance_valid(bowl) and _native_bowl_hit_owned(retained[wheel_index],bowl):
+ 			hit=retained[wheel_index]
+-		if not _native_board_support_allowed(hit,bowl): return {}
++		if not _native_board_support_allowed(hit,bowl): print("FLOOR_RETURN stage99 at=",global_position);return {}
+ 		# Use the real rounded GLB tyre vertices, not a primitive cylinder
+ 		# extent or the urethane bushings in the joined material surface.
+ 		var gap := INF
+@@ -4142,7 +4143,7 @@
+ 			var drawn: Vector3 = point+axis*0.008+final_frame*(_visual_rig._board_rest_position+vertex)
+ 			gap = minf(gap,(drawn-Vector3(hit.position)).dot(Vector3(hit.normal)))
+ 		lift = maxf(lift,(0.008-gap)/Vector3(hit.normal).y)
+-	if lift>0.10: return {}
++	if lift>0.10: print("FLOOR_RETURN stage107 at=",global_position);return {}
+ 	point.y += lift
+ 	if is_instance_valid(bowl):
+ 		# Plane samples alone cannot establish that each finite tyre volume is
+@@ -4151,15 +4152,15 @@
+ 		var pose := Transform3D(final_frame,point+axis*GROUND_PRESENTATION_SKIN+final_frame*_visual_rig._board_rest_position)
+ 		if not _native_rim_frame_clear(pose,0.0):
+ 			var extra:=_native_rim_refinement_lift(pose,0.0,minf(PLANAR_RIM_MAX_LIFT,0.10-lift))
+-			if not is_finite(extra):return {}
++			if not is_finite(extra):print("FLOOR_RETURN stage116 at=",global_position);return {}
+ 			point.y+=extra
+ 	# Four low wheel supports can flank a taller rail under the deck. The
+ 	# actual capsule-centre support remains the fallback when that lower fit
+ 	# intersects any connected model component.
+ 	if not is_instance_valid(bowl) and (point-Vector3(center.position)).dot(center.normal)<-0.001:
+ 		var fitted_board := Transform3D(final_frame,point+axis*GROUND_PRESENTATION_SKIN+final_frame*_visual_rig._board_rest_position)
+-		if not _grind_clearance.allows_frame(fitted_board,axis): return {}
+-	return {"position":point,"normal":axis}
++		if not _grind_clearance.allows_frame(fitted_board,axis): print("FLOOR_RETURN stage123 at=",global_position);return {}
++	print("FLOOR_RETURN stage124 at=",global_position);return {"position":point,"normal":axis}
+ 
+ 
+ func _native_bowl_hit_owned(hit:Dictionary,bowl:Node3D) -> bool:
+@@ -4233,6 +4234,7 @@
+ 		var fractions := space.cast_motion(_floor_wheel_query)
+ 		if fractions.size()!=2: return {}
+ 		lift = maxf(lift,PLANAR_RIM_MAX_LIFT*(1.0-clampf(fractions[0],0.0,1.0)))
++	print("PLANAR_LIFT ",lift)
+ 	if lift<=0.000001: return {}
+ 	return {"position":point+Vector3.UP*lift,"normal":axis}
+ 

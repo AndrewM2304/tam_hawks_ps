@@ -1,0 +1,1016 @@
+{
+  "schema": 1,
+  "status": "Actual imports, native LODs and decoded captures passed; scoped visual review follows separately",
+  "unchanged_sources": 77,
+  "source_before_sha256": {
+    "game/levels/art/facade_bay.gd": "5532963556c976e350423b7305b7e32110bcdf4c2042cda445c4844899359ef6",
+    "game/levels/glasgow_square.gd": "f7de7391d9addd05eaa6771660bc1f4c47536de01f8cd4b6d34a246930b35818",
+    "proof/.gdignore": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "proof/LICENSE-NOTICE.md": "a98ea842c6e8049218d1b1ff12f9da065d0a86ea165e389ab738a8b2521fcccd",
+    "proof/PROVENANCE.md": "56b53204a89cc26428a4221bfd14ae3cfedb9db2b165e0c8383b1d7b9a461978",
+    "proof/README.md": "f0a7333841df179c7edf2cd77114c08ccfa1a319d826ad25e9ef6398559623c7",
+    "proof/audit.json": "a70a25601ce820ceca958b4c72660f06040a30eafe32c51a20d2c5b47a908a6f",
+    "proof/audit.py": "93073cee92d5ad34f17badaf1175cc56495aff9eb0492f6b1d68d9fdd3493622",
+    "proof/fitted/PROVENANCE.md": "2b802a132c7c424e8402af5eafd471ab7f2407b49f50ef3686dedc311a75014d",
+    "proof/fitted/README.md": "87e9cb998ddb83ffb1230b295b1dad43a8709feddaf64a0dde5972c05cd0a0bc",
+    "proof/fitted/audit.json": "0ae9641f2702e1ae3869c1de10ad36734334affbed834da90c9d8a341f75f487",
+    "proof/fitted/audit.py": "27aa82942953d9e5de35d8ce8b9f14a474feeeb93b9fdd59af23f2150ce00b8f",
+    "proof/fitted/generated/glasgow_bay_far.glb": "d21b45202d29345d6c5ee935fde7b38e5598751a968306fdbb88dc1dbfdcf50a",
+    "proof/fitted/generated/glasgow_bay_mid.glb": "7015c9bb99f89598cd77955e4024a221ab222fe7e5cd5fff63ccc45a8f4e5160",
+    "proof/fitted/generated/glasgow_bay_near.glb": "bd472749297e42b21564e24ba93b44212aa0a1790150fba2e27dec79b00d9a6e",
+    "proof/fitted/generation.json": "83d3e444389575fad3386ccf5606ea38d989a630d99c17d109b47e2ed33dd71d",
+    "proof/fitted/generation.log": "4fb05fe6916726ebae2c2f37462a64bd970b95b38145785f04689e5e78659f95",
+    "proof/fitted/generator.py": "38b5ccfb900c09a8b9086ae8136124fb22dd65bc9e082b06cba90c10e7115332",
+    "proof/fitted/reproducibility.json": "46d81b84d1ee3950870b3fbf361dcef6e1fcde58c5228bfbbd21c3dfa3de47b7",
+    "proof/generated/glasgow_bay_far.glb": "5caa367a6d8d4e2e30e97df8a462251edc6826e5bec2a5ef76669a907efe9994",
+    "proof/generated/glasgow_bay_mid.glb": "2794aff0ad9aa6c9865c6c25940388186b72514b695330578b856fc7108cd5bd",
+    "proof/generated/glasgow_bay_near.glb": "193e20c6a6f65bf816b99dd592cf4a2196f309e7c096643a636359972f6a5ea0",
+    "proof/generation.json": "fe06d3db626d5e587bf1457a9573cce88377b6139edcd5bfd64571ffc0288f22",
+    "proof/generation.log": "691b17266b27844aba3aac355a399ccf0f664f24e8cd8b25f35aa409f26ccc7f",
+    "proof/generator.py": "9089b13cfced0de978b9ced916e95afc69c41898c29344c14d9e512bf490c61d",
+    "proof/preview/project.godot": "ac629246864753176d4f587b018c0f4bd1773b088f53dfab572ac6fa8d3a0495",
+    "proof/preview/render.gd": "b4879ff293208c146e66873dca6086d5fb4a2c81a9d66f822b907bb46266076b",
+    "proof/preview/run.sh": "c8904beba7f1dfa5bde5bef7285a4c9206f1098d66f66293ac16a75a70cd4e93",
+    "proof/reproducibility.json": "b66e56464f92438dec26d2017c461cc51111da81230169b6e6d74354a471413a",
+    "proof/textures/opaque_glazing_basecolor.png": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894",
+    "proof/textures/sandstone_basecolor.png": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+    "proof/textures/sandstone_normal_opengl.png": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+    "proof/textures/sandstone_orm.png": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9",
+    "proof/two_surface/PROVENANCE.md": "3249e2ef25c96111c375ee49cbe5cc0e13acd0e66004c0ef10b625139e9096e7",
+    "proof/two_surface/README.md": "060bfd949cad98636ecb9959088cb69bc7eb3b68347a3c4585f893b20482094d",
+    "proof/two_surface/atlas.json": "afb3241104d11f54b0b87943beb6a5fafbb0f25dc7a2b29cfc3440ceb223d898",
+    "proof/two_surface/atlas.py": "a42688ed9bc0763d0841fbbceb6d3bedc1ae1538f7b31600e22dabdb144606dc",
+    "proof/two_surface/audit.json": "e9e488909bf8fa14a4747db2301a70d6502cde485f1e04d2285f139d9526e2f9",
+    "proof/two_surface/audit.log": "570597f4fd579633fba20d9fa4b0a07a1da2019d6c377f3a259d759ba5fd0703",
+    "proof/two_surface/audit.py": "721d434f787773d15b93d568ac0d4994fb551e82d27d05aa236408fad33277e0",
+    "proof/two_surface/first-export-hashes.json": "8afa886ef55b022475db68474b57c1ca6a0d26e659975f1cebf5eb60d9feb6f7",
+    "proof/two_surface/generated/glasgow_bay_far.glb": "03d32769df29bed22e60c66b35f6bc443c69a083ead0b9a2bd1e2c837a7dabe9",
+    "proof/two_surface/generated/glasgow_bay_mid.glb": "0e9479f39886cb1dfd977fc6ae968ea526be0cbdaa7fc6888454883e9be3b473",
+    "proof/two_surface/generated/glasgow_bay_near.glb": "90a2803a22819c57c6511515341c5f80538f4ec4f3a10a411ba256edb8456c37",
+    "proof/two_surface/generation.json": "efd307daf6ffc749ab3d412ca98e0cd1e5cd976614859be01b4646411798cd14",
+    "proof/two_surface/generation.log": "89faff18b3e354d02e4c4116a05e95a04a441c62778538633409f7af39157ede",
+    "proof/two_surface/generator.py": "567738391d96f92f0c5463eb314d7b1c1083a0f81fa1ab47a6fa1a75c1ba1460",
+    "proof/two_surface/preview/.gitignore": "637400650411cd4eaf40681601af96eed5b72b298b06e54ed82a3d143938956a",
+    "proof/two_surface/preview/README.md": "e7eaa360f3b24fb3f741e48f304f7886f8798b53edf322491cd37405b92cf7b9",
+    "proof/two_surface/preview/compare_lossless.py": "d62aa4a1b3eebeb180dfe56dcd7d2bbc69bb352d9f7a5d1b74d7c31dfdff48ba",
+    "proof/two_surface/preview/diagnose_paint.py": "168d1da5518e994362f1c2b945de4b61c3f556eb8307fc2ffb608b52c2bd52cf",
+    "proof/two_surface/preview/prepare.py": "89f10371b3fb7a1d4b124bf46cb091801cc4c7c33d0153a622bfbc500edb7a04",
+    "proof/two_surface/preview/project.godot": "dc038f47dffb8a2e2ee9909b28aad7d36e1de9e57ce122fe005b0f547848f82c",
+    "proof/two_surface/preview/render.gd": "b30fa2cdb3561929d774fac66a8239b8b8b262253051a9daa875716833279617",
+    "proof/two_surface/preview/run.sh": "20422e8cfdbc18e5c2129085db65e99ac3fec38232a32f122e8eb68d8e5cc284",
+    "proof/two_surface/preview/xorg.conf": "cc68d2903c522469295982c240c57ee31d40898612a825fd2e52f6864deb8c1a",
+    "proof/two_surface/repro-generation.log": "2d84f8f811e0515d7096e6c57ea07f73c7a5bc3d6c96f5ce819a9268e1c684dd",
+    "proof/two_surface/reproducibility.json": "c29f8a7b295c7f68922e59197c3629a6fb840ca0378c232744e0ac04aa3b65fa",
+    "proof/two_surface/textures/accent_basecolor.png": "eab44d0de9fe735ee93b820fd06f9b27dd1d8292a9651a35ca57b44c3cfa978d",
+    "proof/two_surface/textures/accent_orm.png": "f3eba422951c1a02816c371ded53390974a5a0b8fa4b8c104af8de0f1ad0f027",
+    "proof/two_surface/textures/sandstone_basecolor.png": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+    "proof/two_surface/textures/sandstone_normal_opengl.png": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+    "proof/two_surface/textures/sandstone_orm.png": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9",
+    "recipe/prepare.py": "2400ffd6d7bb85ad800e9c1387af6011f982a2c44a5d9b94fe92fbecb96773de",
+    "recipe/project.godot": "84f58cf9f14309cf5e71489b7a60528cb99847b73bb4d7d24f212d29c2fc2324",
+    "recipe/render.gd": "977a83425ebf24c9acaf2f53738d13a921f95276c1353c9a40acade1a48fa4b6",
+    "recipe/run.sh": "5d46f782fb239e17b1d7f67cc815cabb3b7410628e2dfa93dc41bc7333797a7a",
+    "recipe/xorg.conf": "cc68d2903c522469295982c240c57ee31d40898612a825fd2e52f6864deb8c1a",
+    "reduced/audit.json": "c8b8e92b62b087f69c2248cef7831e3f62b7cc697b91683929d7f36f8b674f20",
+    "reduced/audit.py": "8b55cffc9a26ba9ab5d78424cca998d6c77aaf9824718e28b134f6e6c3166060",
+    "reduced/generation.json": "306b30dfc93b0de45073af682ae6162f39e4456f1643c053dcdc4f11413e64e4",
+    "reduced/generator.py": "2781d5c56913295e10dfcca8747ecf4d5a6297833c15be070099e08ae9fc2650",
+    "reduced/glasgow_bay_far.glb": "01347133a605228272dfaa8afefd38dd849e1df183707670b9466f9ff24d64d0",
+    "reduced/glasgow_bay_mid.glb": "481f8ed518be457a7df00ba720aec75e2dc81351a91b90c2b208c2e370ed7d0c",
+    "reduced/glasgow_bay_near.glb": "67c0ebfbe88f83ddb0108e9c1ba6c861766905c641ed5c72bff102c4d87f8001",
+    "reduced/part-triangles.json.gz": "9ea02990aab0522933d4cac5f6220505e98ff53b2ab6e0bef4ad8135fbf76602",
+    "reduced/reproducibility.json": "d8bc6287c017395e463aa083c59c7e5311bfd75c0431c1216a569ebae7743362"
+  },
+  "source_after_sha256": {
+    "recipe/prepare.py": "2400ffd6d7bb85ad800e9c1387af6011f982a2c44a5d9b94fe92fbecb96773de",
+    "recipe/render.gd": "977a83425ebf24c9acaf2f53738d13a921f95276c1353c9a40acade1a48fa4b6",
+    "recipe/project.godot": "84f58cf9f14309cf5e71489b7a60528cb99847b73bb4d7d24f212d29c2fc2324",
+    "recipe/run.sh": "5d46f782fb239e17b1d7f67cc815cabb3b7410628e2dfa93dc41bc7333797a7a",
+    "recipe/xorg.conf": "cc68d2903c522469295982c240c57ee31d40898612a825fd2e52f6864deb8c1a",
+    "game/levels/art/facade_bay.gd": "5532963556c976e350423b7305b7e32110bcdf4c2042cda445c4844899359ef6",
+    "game/levels/glasgow_square.gd": "f7de7391d9addd05eaa6771660bc1f4c47536de01f8cd4b6d34a246930b35818",
+    "proof/.gdignore": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "proof/LICENSE-NOTICE.md": "a98ea842c6e8049218d1b1ff12f9da065d0a86ea165e389ab738a8b2521fcccd",
+    "proof/PROVENANCE.md": "56b53204a89cc26428a4221bfd14ae3cfedb9db2b165e0c8383b1d7b9a461978",
+    "proof/README.md": "f0a7333841df179c7edf2cd77114c08ccfa1a319d826ad25e9ef6398559623c7",
+    "proof/audit.json": "a70a25601ce820ceca958b4c72660f06040a30eafe32c51a20d2c5b47a908a6f",
+    "proof/audit.py": "93073cee92d5ad34f17badaf1175cc56495aff9eb0492f6b1d68d9fdd3493622",
+    "proof/fitted/PROVENANCE.md": "2b802a132c7c424e8402af5eafd471ab7f2407b49f50ef3686dedc311a75014d",
+    "proof/fitted/README.md": "87e9cb998ddb83ffb1230b295b1dad43a8709feddaf64a0dde5972c05cd0a0bc",
+    "proof/fitted/audit.json": "0ae9641f2702e1ae3869c1de10ad36734334affbed834da90c9d8a341f75f487",
+    "proof/fitted/audit.py": "27aa82942953d9e5de35d8ce8b9f14a474feeeb93b9fdd59af23f2150ce00b8f",
+    "proof/fitted/generated/glasgow_bay_far.glb": "d21b45202d29345d6c5ee935fde7b38e5598751a968306fdbb88dc1dbfdcf50a",
+    "proof/fitted/generated/glasgow_bay_mid.glb": "7015c9bb99f89598cd77955e4024a221ab222fe7e5cd5fff63ccc45a8f4e5160",
+    "proof/fitted/generated/glasgow_bay_near.glb": "bd472749297e42b21564e24ba93b44212aa0a1790150fba2e27dec79b00d9a6e",
+    "proof/fitted/generation.json": "83d3e444389575fad3386ccf5606ea38d989a630d99c17d109b47e2ed33dd71d",
+    "proof/fitted/generation.log": "4fb05fe6916726ebae2c2f37462a64bd970b95b38145785f04689e5e78659f95",
+    "proof/fitted/generator.py": "38b5ccfb900c09a8b9086ae8136124fb22dd65bc9e082b06cba90c10e7115332",
+    "proof/fitted/reproducibility.json": "46d81b84d1ee3950870b3fbf361dcef6e1fcde58c5228bfbbd21c3dfa3de47b7",
+    "proof/generated/glasgow_bay_far.glb": "5caa367a6d8d4e2e30e97df8a462251edc6826e5bec2a5ef76669a907efe9994",
+    "proof/generated/glasgow_bay_mid.glb": "2794aff0ad9aa6c9865c6c25940388186b72514b695330578b856fc7108cd5bd",
+    "proof/generated/glasgow_bay_near.glb": "193e20c6a6f65bf816b99dd592cf4a2196f309e7c096643a636359972f6a5ea0",
+    "proof/generation.json": "fe06d3db626d5e587bf1457a9573cce88377b6139edcd5bfd64571ffc0288f22",
+    "proof/generation.log": "691b17266b27844aba3aac355a399ccf0f664f24e8cd8b25f35aa409f26ccc7f",
+    "proof/generator.py": "9089b13cfced0de978b9ced916e95afc69c41898c29344c14d9e512bf490c61d",
+    "proof/preview/project.godot": "ac629246864753176d4f587b018c0f4bd1773b088f53dfab572ac6fa8d3a0495",
+    "proof/preview/render.gd": "b4879ff293208c146e66873dca6086d5fb4a2c81a9d66f822b907bb46266076b",
+    "proof/preview/run.sh": "c8904beba7f1dfa5bde5bef7285a4c9206f1098d66f66293ac16a75a70cd4e93",
+    "proof/reproducibility.json": "b66e56464f92438dec26d2017c461cc51111da81230169b6e6d74354a471413a",
+    "proof/textures/opaque_glazing_basecolor.png": "a412e922fd427dc26c86362bd6a828fd5e5ec083a8fe9999ecbb59dce6507894",
+    "proof/textures/sandstone_basecolor.png": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+    "proof/textures/sandstone_normal_opengl.png": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+    "proof/textures/sandstone_orm.png": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9",
+    "proof/two_surface/PROVENANCE.md": "3249e2ef25c96111c375ee49cbe5cc0e13acd0e66004c0ef10b625139e9096e7",
+    "proof/two_surface/README.md": "060bfd949cad98636ecb9959088cb69bc7eb3b68347a3c4585f893b20482094d",
+    "proof/two_surface/atlas.json": "afb3241104d11f54b0b87943beb6a5fafbb0f25dc7a2b29cfc3440ceb223d898",
+    "proof/two_surface/atlas.py": "a42688ed9bc0763d0841fbbceb6d3bedc1ae1538f7b31600e22dabdb144606dc",
+    "proof/two_surface/audit.json": "e9e488909bf8fa14a4747db2301a70d6502cde485f1e04d2285f139d9526e2f9",
+    "proof/two_surface/audit.log": "570597f4fd579633fba20d9fa4b0a07a1da2019d6c377f3a259d759ba5fd0703",
+    "proof/two_surface/audit.py": "721d434f787773d15b93d568ac0d4994fb551e82d27d05aa236408fad33277e0",
+    "proof/two_surface/first-export-hashes.json": "8afa886ef55b022475db68474b57c1ca6a0d26e659975f1cebf5eb60d9feb6f7",
+    "proof/two_surface/generated/glasgow_bay_far.glb": "03d32769df29bed22e60c66b35f6bc443c69a083ead0b9a2bd1e2c837a7dabe9",
+    "proof/two_surface/generated/glasgow_bay_mid.glb": "0e9479f39886cb1dfd977fc6ae968ea526be0cbdaa7fc6888454883e9be3b473",
+    "proof/two_surface/generated/glasgow_bay_near.glb": "90a2803a22819c57c6511515341c5f80538f4ec4f3a10a411ba256edb8456c37",
+    "proof/two_surface/generation.json": "efd307daf6ffc749ab3d412ca98e0cd1e5cd976614859be01b4646411798cd14",
+    "proof/two_surface/generation.log": "89faff18b3e354d02e4c4116a05e95a04a441c62778538633409f7af39157ede",
+    "proof/two_surface/generator.py": "567738391d96f92f0c5463eb314d7b1c1083a0f81fa1ab47a6fa1a75c1ba1460",
+    "proof/two_surface/preview/.gitignore": "637400650411cd4eaf40681601af96eed5b72b298b06e54ed82a3d143938956a",
+    "proof/two_surface/preview/README.md": "e7eaa360f3b24fb3f741e48f304f7886f8798b53edf322491cd37405b92cf7b9",
+    "proof/two_surface/preview/compare_lossless.py": "d62aa4a1b3eebeb180dfe56dcd7d2bbc69bb352d9f7a5d1b74d7c31dfdff48ba",
+    "proof/two_surface/preview/diagnose_paint.py": "168d1da5518e994362f1c2b945de4b61c3f556eb8307fc2ffb608b52c2bd52cf",
+    "proof/two_surface/preview/prepare.py": "89f10371b3fb7a1d4b124bf46cb091801cc4c7c33d0153a622bfbc500edb7a04",
+    "proof/two_surface/preview/project.godot": "dc038f47dffb8a2e2ee9909b28aad7d36e1de9e57ce122fe005b0f547848f82c",
+    "proof/two_surface/preview/render.gd": "b30fa2cdb3561929d774fac66a8239b8b8b262253051a9daa875716833279617",
+    "proof/two_surface/preview/run.sh": "20422e8cfdbc18e5c2129085db65e99ac3fec38232a32f122e8eb68d8e5cc284",
+    "proof/two_surface/preview/xorg.conf": "cc68d2903c522469295982c240c57ee31d40898612a825fd2e52f6864deb8c1a",
+    "proof/two_surface/repro-generation.log": "2d84f8f811e0515d7096e6c57ea07f73c7a5bc3d6c96f5ce819a9268e1c684dd",
+    "proof/two_surface/reproducibility.json": "c29f8a7b295c7f68922e59197c3629a6fb840ca0378c232744e0ac04aa3b65fa",
+    "proof/two_surface/textures/accent_basecolor.png": "eab44d0de9fe735ee93b820fd06f9b27dd1d8292a9651a35ca57b44c3cfa978d",
+    "proof/two_surface/textures/accent_orm.png": "f3eba422951c1a02816c371ded53390974a5a0b8fa4b8c104af8de0f1ad0f027",
+    "proof/two_surface/textures/sandstone_basecolor.png": "2384cfbbdb40ce945a0929fd0238ef989e16e43265a96194e6f9c4323c555942",
+    "proof/two_surface/textures/sandstone_normal_opengl.png": "8f07f0e1727dbd6d2edc498e3dc99299a8c24babd87ace15d7689ed6a4f6e862",
+    "proof/two_surface/textures/sandstone_orm.png": "6d6d0f6462269e7e1a3ba9145caa97e5977c36b2a8b5dea06f5a5a338cc318d9",
+    "reduced/glasgow_bay_near.glb": "67c0ebfbe88f83ddb0108e9c1ba6c861766905c641ed5c72bff102c4d87f8001",
+    "reduced/glasgow_bay_mid.glb": "481f8ed518be457a7df00ba720aec75e2dc81351a91b90c2b208c2e370ed7d0c",
+    "reduced/glasgow_bay_far.glb": "01347133a605228272dfaa8afefd38dd849e1df183707670b9466f9ff24d64d0",
+    "reduced/generation.json": "306b30dfc93b0de45073af682ae6162f39e4456f1643c053dcdc4f11413e64e4",
+    "reduced/part-triangles.json.gz": "9ea02990aab0522933d4cac5f6220505e98ff53b2ab6e0bef4ad8135fbf76602",
+    "reduced/generator.py": "2781d5c56913295e10dfcca8747ecf4d5a6297833c15be070099e08ae9fc2650",
+    "reduced/audit.py": "8b55cffc9a26ba9ab5d78424cca998d6c77aaf9824718e28b134f6e6c3166060",
+    "reduced/audit.json": "c8b8e92b62b087f69c2248cef7831e3f62b7cc697b91683929d7f36f8b674f20",
+    "reduced/reproducibility.json": "d8bc6287c017395e463aa083c59c7e5311bfd75c0431c1216a569ebae7743362"
+  },
+  "executed_recipe_sha256": {
+    "project.godot": "84f58cf9f14309cf5e71489b7a60528cb99847b73bb4d7d24f212d29c2fc2324",
+    "render.gd": "977a83425ebf24c9acaf2f53738d13a921f95276c1353c9a40acade1a48fa4b6"
+  },
+  "images": [
+    {
+      "file": "fitted-01-front.png",
+      "sha256": "ff80710e21b20c4412439dff67772464d9ef3587b6582b2d6deff21bf6908f0e",
+      "decoded_rgb_sha256": "dedfe6b9de0802f774fc0b268a6c139542b8a729e388e65d610a36653b60458d",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "fitted-02-close.png",
+      "sha256": "6b2f0d203e1f0dd880fa8daef87616625c01a7a369b8a8474d1003c8374a9630",
+      "decoded_rgb_sha256": "581e4b934ccc6472e9458aee1ae9d12deea72b9575a482b258b35a6a3c7df33c",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "fitted-03-threshold.png",
+      "sha256": "e4f1ba0462296e40838b3a0e7ad4be2a03a83354714e26a9f9bfbb832b06e746",
+      "decoded_rgb_sha256": "c4a23ca0d07226155fc35f9d4f7b9e617518dd7083811c56a6d21259ac325564",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "fitted-04-oblique.png",
+      "sha256": "6e927d9e777b716a57b558810d8ce876d5fd6166c315a1f36c0d6fbf5a26cbb2",
+      "decoded_rgb_sha256": "c24f257ce6798018664a887d3bcf483a24229d0d8c28aa6e37aca1d441844c20",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "fitted-05-foreshortened.png",
+      "sha256": "fa77e0f73da78fa600ced2b0af83139a624b980b15cf198ff98e16b6ed89822d",
+      "decoded_rgb_sha256": "13d86b40d9f7f32931859b6e8b44d2e8abcdd0236d8b443689220ed694c97738",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "fitted-06-distant-near.png",
+      "sha256": "d6c456b297607f789c8a147630aede442dc6371b74c5752f5b2347d98dff862e",
+      "decoded_rgb_sha256": "649029d9b0a37e8e00330a5aa590a4ddc2db3901eae9d2d5e08ab8be5cb8e166",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "fitted-07-distant-mid.png",
+      "sha256": "7432c0d1411ce8e8f7c5ebf71f025d39cf125d7fa3625b59ef90c53d8814dc5b",
+      "decoded_rgb_sha256": "a8af2f889dbad19fcb07e3636dadb87363ce28c68626945c68e20e53422da0e4",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "fitted-08-distant-far.png",
+      "sha256": "c835e5f62c34599652427d0e6fbd39734d394a73f68651fb1ed4fc2ebb9a749a",
+      "decoded_rgb_sha256": "e77041b2d14826eb16b965ddb47d4dc7ef9cc4b13b0051793fed361affeef499",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "reduced-01-front.png",
+      "sha256": "19f5974b04bc0cd0c4a7b378ce4fc779a780ff32826dd95e0657f4c188e3aa17",
+      "decoded_rgb_sha256": "d6019747c64f8e8d518b86ed46b1e176f333de4aab4d9b571ec6309a51ab7b21",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "reduced-02-close.png",
+      "sha256": "90efa1685d6f04000b00b837af41aa2964e3829948ef074da6c1a0e5195013b9",
+      "decoded_rgb_sha256": "59d6f235ceaba761c94c8e4e943a792fdbc35435467a343d72b932ac19ff7e5f",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "reduced-03-threshold.png",
+      "sha256": "8f3fd91e16b36969b2ca64d5c4b6d38042b607759d3a837e4270b20873c82741",
+      "decoded_rgb_sha256": "2787677b16edfc90aad27377bf3b7db95e45fa16609f495a08102e5ce9111633",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "reduced-04-oblique.png",
+      "sha256": "6b7fdb1ff2bff2a490c58b20aebf86e9c12d56076e3acb3ed9c48d2e1d7274a2",
+      "decoded_rgb_sha256": "b243647fab591972ac1471239d1f3cb8dd8e35ea0eadbcf0a42c8ad222e365db",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "reduced-05-foreshortened.png",
+      "sha256": "bd272f68fe35aaa38dc5c445341030a5c243b7ae6ddd64cbcf791b64ea7bc7e8",
+      "decoded_rgb_sha256": "5dbaf4f72768e92ec162e88a4b441c3ff3e82efd3a5ec6196d24427f50cb88d1",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "reduced-06-distant-near.png",
+      "sha256": "b43f1e2f9a1711598ee1e66f0c60ab9f91eabbe422c3ba811896cf8d0936da1c",
+      "decoded_rgb_sha256": "ac9a7f840de1423466d9a512fd337db6792defb6265db28b80488313dcb067ba",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "reduced-07-distant-mid.png",
+      "sha256": "7432c0d1411ce8e8f7c5ebf71f025d39cf125d7fa3625b59ef90c53d8814dc5b",
+      "decoded_rgb_sha256": "a8af2f889dbad19fcb07e3636dadb87363ce28c68626945c68e20e53422da0e4",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "reduced-08-distant-far.png",
+      "sha256": "c835e5f62c34599652427d0e6fbd39734d394a73f68651fb1ed4fc2ebb9a749a",
+      "decoded_rgb_sha256": "e77041b2d14826eb16b965ddb47d4dc7ef9cc4b13b0051793fed361affeef499",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_compressed-01-front.png",
+      "sha256": "4343df425deddf0d99c4b28a9afb2acef09437bc8116f51e4075fb8837df4a8f",
+      "decoded_rgb_sha256": "e269f0380c3cca5bf5840eb2dcbe44e6142308603f4db6ab00928bbccd911f11",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_compressed-02-close.png",
+      "sha256": "fc1e85334234bef4e6e2917d52d73837f375d0db773645bf88e20e7fc261da7e",
+      "decoded_rgb_sha256": "d85a524d879d338683377474b740046283f141465df65f9c8a6947b79de4146b",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_compressed-03-threshold.png",
+      "sha256": "3a813e422255c4e2f46cecd8ed4e385276bcc2a96964446533795a8ca8c46214",
+      "decoded_rgb_sha256": "4de0d29eed1c682e58e884896e9195f51c8a8bccf0c3e68a83aff68801da264b",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_compressed-04-oblique.png",
+      "sha256": "ef436fc767d4ec495f9356fe82bd25f421373791d4d64b79a2b88e5de2141ab2",
+      "decoded_rgb_sha256": "c67efbaceb8ade0874aa6afb05d5d6e418527c8117cda1128682258cf9307003",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_compressed-05-foreshortened.png",
+      "sha256": "bdc08e19aced1892b2d9378923f4fda161d633d05e8028c5a4af16e6f47ff664",
+      "decoded_rgb_sha256": "f4f11c57cfc8b5aedd6a8cc109786189b56ff24c99a39fa6dc08a2480646e094",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_compressed-06-distant-near.png",
+      "sha256": "0945e409504918e1fb2e7000e4f2866d76a05dee4792cb8ff81cf2753fe36c9d",
+      "decoded_rgb_sha256": "114bf6f25acb9fd46b94be4286cdcfee6cac9a75ab402e36289e7eb95424bbc9",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_compressed-07-distant-mid.png",
+      "sha256": "bea7cd2605fdabf92087ff28ca0adc4c93672b86c591bc59a6c6b6eca6233219",
+      "decoded_rgb_sha256": "8c54fc5006b7d576e0fa5171ada97d3cc9345f6bd51df0df772c59a22d3bf0ea",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_compressed-08-distant-far.png",
+      "sha256": "98eb0e4a1c0d58b6c1f96c8e906ee16e12a76dfb4a6c957b28aec7addd0faee6",
+      "decoded_rgb_sha256": "4cc53edad5cb503f17b3e681fc61016a284b163d5dcc005bf542117f740c3894",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_lossless-01-front.png",
+      "sha256": "7d834a519358bee1d541f3eccfce9c56dd738801201129422987a84af768a4dd",
+      "decoded_rgb_sha256": "31e018e4cecf7e12da2aaca25c8adae011d9b43c41c8347c3ba206cb751368d1",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_lossless-02-close.png",
+      "sha256": "fae9fe0623d2b68140c9357fb128e2aa22794dc57a4835c9f7064b20ed03e304",
+      "decoded_rgb_sha256": "d95e96553126499878fea373cb1f354d5a87125198c106d539d42e95856698e5",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_lossless-03-threshold.png",
+      "sha256": "bf234a1cf83da5d37ea29b44d2ead3d373e8387cd2ecb468536d131a231266b0",
+      "decoded_rgb_sha256": "5f4d5613945355473311b9820b6fdaa76904fae02d74c9f52ba59f57ec08f80d",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_lossless-04-oblique.png",
+      "sha256": "307829c6d00ac4a6d29161c29a24b7c86d69806251791763b869412a1cb1a377",
+      "decoded_rgb_sha256": "76c2de4a163ae60f561df3b681f5b8259e6f0de3def832951d6485529a9adca1",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_lossless-05-foreshortened.png",
+      "sha256": "8e24cf0d24b3ffb299964ee725e491f2266e37868e758286d966d89623ebe1d8",
+      "decoded_rgb_sha256": "83043b679f17d5dcfed14f98105e607f2f42f0310cc38fe68106a3925ce3efa2",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_lossless-06-distant-near.png",
+      "sha256": "22191a5df8a1f4343f75d5a62480e1dbed14d3bf08f5dee0fb24ab20b4c0d66b",
+      "decoded_rgb_sha256": "11e1b58a7b5c44a00b352dd4c6503318e28c6db3e7228cdeb4cfc7a57a6677a8",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_lossless-07-distant-mid.png",
+      "sha256": "54ec1d77a5a212a276842dcb70c73022e252a1cd1b6cfe68294a66e0afe7be9c",
+      "decoded_rgb_sha256": "babb9051fcb902d5f8a3969d3df3243e9119c0af61af238f84d7d494fc107e6f",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "atlas_lossless-08-distant-far.png",
+      "sha256": "cebb57cbdd3e3104de1fa65eb6c6d0be5a68897aa0571f59b746b75122107296",
+      "decoded_rgb_sha256": "a869b67be187d382af8637a68291316b6c43e3b9313dcad469764a237b757e36",
+      "dimensions": [
+        1920,
+        1080
+      ]
+    }
+  ],
+  "decoded_imported_mips": [
+    {
+      "image": "mip-opaque_glazing_basecolor-00.png",
+      "level": 0,
+      "size": [
+        1024,
+        1024
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "ec06c7925703009d5b664179c796116c9607e690be9726e1d24e7c976357c841",
+      "decoded_rgb_sha256": "6f0dfda82b52f9e0b446b86c46c520bafa7d6ed0f2089421568cc7a0f4996f8e"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-01.png",
+      "level": 1,
+      "size": [
+        512,
+        512
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "4aa89def86176e2fa6609ad75de62a3e3d3c56a2803071029dd99f8443a4a51c",
+      "decoded_rgb_sha256": "bde43ed065f829675a78e0d278156f76a80c80292edb838340ed44fdff371ed3"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-02.png",
+      "level": 2,
+      "size": [
+        256,
+        256
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "fdc6088c71c5d786d2d280325490cd02cac9d0241d69b5290a660af671e9c4b7",
+      "decoded_rgb_sha256": "894a88930b903e2c41f4e6e9af70d0e0b75464f63b05485bef4415f16218da57"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-03.png",
+      "level": 3,
+      "size": [
+        128,
+        128
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "6f96e9e9a3ac10c55641ad24870fa16795ac74438dac439e83067ea4f61f5ae2",
+      "decoded_rgb_sha256": "e5e6170498517fd8849828acca62111033d7a85e5f250e58e56e73f7857ac958"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-04.png",
+      "level": 4,
+      "size": [
+        64,
+        64
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "ce108a6536a06f975687e148b6af3b5b4a3c3150c9dcfc6a736184c6879b3e19",
+      "decoded_rgb_sha256": "13149dd5a2a3023957db4dcac9722730fe79a815df91c7c44a74ecfd51427a87"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-05.png",
+      "level": 5,
+      "size": [
+        32,
+        32
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "2ee2f9e69341e0011c049d4ae1ee43e28b914b176ed9c3440b09697208095cdb",
+      "decoded_rgb_sha256": "1e0a4d1672828d547aa49f86fdf3ca7e5d294309873ee13022114898899e131a"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-06.png",
+      "level": 6,
+      "size": [
+        16,
+        16
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "13630f0d59f0b0aadad12ad350f915bc54436dfe4db94b725ae231d503903045",
+      "decoded_rgb_sha256": "8024c60534f6f4166592d82acb8e33bcb2dc4ac9ba241b4c0d2c477fce452ff0"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-07.png",
+      "level": 7,
+      "size": [
+        8,
+        8
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "d920195db93e25191ffb818e3855260f76f73300f8be874a917d211e84f6ed6d",
+      "decoded_rgb_sha256": "a3e115df9ed168c755a3ed91bf602240e7e17f876aa9283e8ec94fbabb00b8cb"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-08.png",
+      "level": 8,
+      "size": [
+        4,
+        4
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "32d81e7f3ba39163808875813db4c09b6369330038b47cf0ccd309c7bd7c6230",
+      "decoded_rgb_sha256": "49e6f792569bff378aee0a907ecc300bca3251eca29f7b0e6fadefd08b6d499f"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-09.png",
+      "level": 9,
+      "size": [
+        2,
+        2
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "4cf93d40bb14f636aff2fd573666c922ce40932f7d1df4edcb669411a2c5baf4",
+      "decoded_rgb_sha256": "92f3d32c4f41dcfb0e92e93accf77bb9933b69c5f9c4ca2a490ecb43e37e63bd"
+    },
+    {
+      "image": "mip-opaque_glazing_basecolor-10.png",
+      "level": 10,
+      "size": [
+        1,
+        1
+      ],
+      "texture": "opaque_glazing_basecolor",
+      "sha256": "f7db481cd681a1b7897ed3297a4be796b41003b74a7b4749727bd2a1c9a936f3",
+      "decoded_rgb_sha256": "ba41b40a4deafcffffeb473e9fb76d6fe7d85281237e65a641b79faf1623ebb1"
+    },
+    {
+      "image": "mip-accent_basecolor-00.png",
+      "level": 0,
+      "size": [
+        1024,
+        1024
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "47089767f009079802957346175eb8b5ba7216cdb29a81855964b83995c0e3b9",
+      "decoded_rgb_sha256": "78dac67590bae774ddcae736e4f91090af123619587c881530665db2555e774c"
+    },
+    {
+      "image": "mip-accent_basecolor-01.png",
+      "level": 1,
+      "size": [
+        512,
+        512
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "77fd2c1d3a0090fed80e04a8aa16914e5da61179a9fbb6570e385e93a60d5e56",
+      "decoded_rgb_sha256": "ec81f339d8cdbbb40dffba15329e7e318211c6bfc9f2469131af6d4a0dcb3c13"
+    },
+    {
+      "image": "mip-accent_basecolor-02.png",
+      "level": 2,
+      "size": [
+        256,
+        256
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "bd58662d6b7851639c2b99d986b5a6165c1cc375f29eddf3c438404ba3abdec1",
+      "decoded_rgb_sha256": "75f29eeb0f12793008fe9146938bfb8a4d45b6824440bcb08568edfc0d15ef1b"
+    },
+    {
+      "image": "mip-accent_basecolor-03.png",
+      "level": 3,
+      "size": [
+        128,
+        128
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "abda35992bbfecffd69d49292f576e7d7aa8890b1bab47581e655a101eef3f3f",
+      "decoded_rgb_sha256": "59ec0eadf19e0d72b214a386fde6a5e27c389a2bab466541b08d1dd778bb91ae"
+    },
+    {
+      "image": "mip-accent_basecolor-04.png",
+      "level": 4,
+      "size": [
+        64,
+        64
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "91d4bedffc1ce88eecfcea3419aa038b064f58ba7c6cc2974605fd46f61c7d00",
+      "decoded_rgb_sha256": "1d281135f3158d4a397c36da3ad17c67fb1fa569a903f819b85dafe8422ad60b"
+    },
+    {
+      "image": "mip-accent_basecolor-05.png",
+      "level": 5,
+      "size": [
+        32,
+        32
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "5786f83822902933d21b374a598d1c2fcad1052b5f803b874b50bd8dc07d6e3e",
+      "decoded_rgb_sha256": "4b338279f1947c8f265fa569e3387c4102256131a636b2d7528e1a27dece0fb1"
+    },
+    {
+      "image": "mip-accent_basecolor-06.png",
+      "level": 6,
+      "size": [
+        16,
+        16
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "051ddc34c1ea3554a85a06dd28851e954f6b16b098661598c0f2c50cc90294a9",
+      "decoded_rgb_sha256": "724a754246a3b65b981fbab5840741d89ec519a03827f121c449b7f0fa97bd9e"
+    },
+    {
+      "image": "mip-accent_basecolor-07.png",
+      "level": 7,
+      "size": [
+        8,
+        8
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "e911530bcabefc7d3fea1b75f113374620f2c7bd4abf70540d72089a85b4784c",
+      "decoded_rgb_sha256": "efcc49314159b86050772dee3e95e912e3882e0c2e269385d3f6abcc64e2aa92"
+    },
+    {
+      "image": "mip-accent_basecolor-08.png",
+      "level": 8,
+      "size": [
+        4,
+        4
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "363e0355d55f5655dafe40e957d182ec8cdb8ba8d17c2a2b0afaa9024f20583e",
+      "decoded_rgb_sha256": "d1777e65a24d67d36c6310de37fc091bbefaeb232b8ee2c2849c933af527e86a"
+    },
+    {
+      "image": "mip-accent_basecolor-09.png",
+      "level": 9,
+      "size": [
+        2,
+        2
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "7d22b84a869e580bc0ae48d393d7321f4acf2f2a6818ac0ea66aa0e5c5a0e23c",
+      "decoded_rgb_sha256": "6527d724f7c6d7509a0beb93823494ff3c2e26473ded88008b119d6a5c8e037e"
+    },
+    {
+      "image": "mip-accent_basecolor-10.png",
+      "level": 10,
+      "size": [
+        1,
+        1
+      ],
+      "texture": "accent_basecolor",
+      "sha256": "7899a781463b36d60b54ddcc9e586be18efc819307a8aba31c391e2775a7666d",
+      "decoded_rgb_sha256": "0ec3609599d58292726ed6d5f28117a72ffb85186a75a9cc2efe2b6e1f10e3ac"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-00.png",
+      "level": 0,
+      "size": [
+        1024,
+        1024
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "40e979f03ca2a97a043119b740de248f5c70ccb53efbfe5f4383b169ffa1a529",
+      "decoded_rgb_sha256": "d50a8f6a0565d2619a79cf5fb51cf0bfa7b3bca9f55d6e3d10b04c6cb5d6875c"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-01.png",
+      "level": 1,
+      "size": [
+        512,
+        512
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "3a9b41bd1f3dec530bc721867bb073d7c4e9a6f3f5878d0310515ed29e539a6e",
+      "decoded_rgb_sha256": "f3649c2a80aa49dcbbaf2ee1316bd462505dfef35513f72a7205f1c6f789ae93"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-02.png",
+      "level": 2,
+      "size": [
+        256,
+        256
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "ba6bb02744c66042ba5a3a0774eacf87f24e98d96b58e1481490cd05025da418",
+      "decoded_rgb_sha256": "7b8ee9736158fc60bef2d86d47bcd12bd28cac858140a4c17a26958f71eb3965"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-03.png",
+      "level": 3,
+      "size": [
+        128,
+        128
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "81c14b49dbfd92f01f7eede493bbdb1bc09f7523661796bc7a7e456d262732f9",
+      "decoded_rgb_sha256": "afa99cae51cce1c71550e080434842be32114564a7faaab5caeff7300b663b77"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-04.png",
+      "level": 4,
+      "size": [
+        64,
+        64
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "2e89d7acdc41f858e83b9f92e1a2b5ea25483c7e4cae12554c100e8f7c796bfc",
+      "decoded_rgb_sha256": "d3875c08bffe7d9d0fa15e44233b82f37ee519fa8767aeeee32888faa7100799"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-05.png",
+      "level": 5,
+      "size": [
+        32,
+        32
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "ddbe9c3939db036ebfc5fcd012e752b7c0d6e87aff0ff1e58d2effb2d9f70c8f",
+      "decoded_rgb_sha256": "437b5fed99e6985e9c406ae20f9b61a1fce1ac3e89934d0514d44942d83b6a2c"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-06.png",
+      "level": 6,
+      "size": [
+        16,
+        16
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "7666d29f5e0b951c66129d9dd7e34d65a08b8b0e3f6d32912c0c19d77ebd5242",
+      "decoded_rgb_sha256": "aeb6c6be38912c9ff004d4b4d43b00d088d9d62e1ae82d758af2d82584b3be3f"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-07.png",
+      "level": 7,
+      "size": [
+        8,
+        8
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "54b4f1d899776ed43d01f80713a479b29ac6226cef96ac6a553763fe89146952",
+      "decoded_rgb_sha256": "69896fa4e17ab178685c2b6e5d3dfe651e617bbf6ee6c54d5f62abe373e98320"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-08.png",
+      "level": 8,
+      "size": [
+        4,
+        4
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "61951a25c470655bc8b6f46f68cfffbbf06ae4bf9d5f40f8997d1139b0fbd485",
+      "decoded_rgb_sha256": "c93163f7b87ea9ae92618fb4e61e7f662d60e1340c39b17846bc0fcd5afb9bbc"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-09.png",
+      "level": 9,
+      "size": [
+        2,
+        2
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "1105ad824b06c791db05a144539f3a3b4b75283e648ac4de30b19aecb0529b1f",
+      "decoded_rgb_sha256": "0b0b03dd4d637173bc3f95dec54a9f11ff9548d265a9127a2cf33e2ae0943f38"
+    },
+    {
+      "image": "mip-accent_basecolor_lossless-10.png",
+      "level": 10,
+      "size": [
+        1,
+        1
+      ],
+      "texture": "accent_basecolor_lossless",
+      "sha256": "92a2ef0b36a752479e8675ae17a2ca5d2a2b522f6804998847ffad9e76a01784",
+      "decoded_rgb_sha256": "78a844f6360d5260b60886e7aa5cb53249bf62cca6711c64beeb96967ede0c18"
+    },
+    {
+      "image": "mip-accent_orm-00.png",
+      "level": 0,
+      "size": [
+        128,
+        128
+      ],
+      "texture": "accent_orm",
+      "sha256": "944dde9c9454edb1884ad1f1c0f3ea2fae5f543771b48ef9e10fc077ea465f88",
+      "decoded_rgb_sha256": "9f0bd0acc1c95a7f23f04aa3a971e8469fe94cf2ae5ac1d9d962fe833336fff5"
+    }
+  ],
+  "matched_differences": [
+    {
+      "view": "01-front",
+      "variant": "reduced",
+      "mean_absolute_srgb_byte_difference": 0.035332593878600826,
+      "changed_pixel_fraction": 0.029371624228395062,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "01-front",
+      "variant": "atlas_compressed",
+      "mean_absolute_srgb_byte_difference": 0.05319798096707819,
+      "changed_pixel_fraction": 0.052392457561728396,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "01-front",
+      "variant": "atlas_lossless",
+      "mean_absolute_srgb_byte_difference": 0.04922518004115226,
+      "changed_pixel_fraction": 0.05421971450617284,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "02-close",
+      "variant": "reduced",
+      "mean_absolute_srgb_byte_difference": 0.21056600437242798,
+      "changed_pixel_fraction": 0.13322337962962963,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "02-close",
+      "variant": "atlas_compressed",
+      "mean_absolute_srgb_byte_difference": 0.3179517103909465,
+      "changed_pixel_fraction": 0.24086564429012347,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "02-close",
+      "variant": "atlas_lossless",
+      "mean_absolute_srgb_byte_difference": 0.2816407857510288,
+      "changed_pixel_fraction": 0.24304591049382715,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "03-threshold",
+      "variant": "reduced",
+      "mean_absolute_srgb_byte_difference": 0.3135908564814815,
+      "changed_pixel_fraction": 0.13311583719135803,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "03-threshold",
+      "variant": "atlas_compressed",
+      "mean_absolute_srgb_byte_difference": 0.5649131944444444,
+      "changed_pixel_fraction": 0.3724054783950617,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "03-threshold",
+      "variant": "atlas_lossless",
+      "mean_absolute_srgb_byte_difference": 0.41382442772633743,
+      "changed_pixel_fraction": 0.31394675925925924,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "04-oblique",
+      "variant": "reduced",
+      "mean_absolute_srgb_byte_difference": 0.11203430426954733,
+      "changed_pixel_fraction": 0.06165943287037037,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "04-oblique",
+      "variant": "atlas_compressed",
+      "mean_absolute_srgb_byte_difference": 0.1673535558127572,
+      "changed_pixel_fraction": 0.12405960648148148,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "04-oblique",
+      "variant": "atlas_lossless",
+      "mean_absolute_srgb_byte_difference": 0.1471140367798354,
+      "changed_pixel_fraction": 0.1186525848765432,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "05-foreshortened",
+      "variant": "reduced",
+      "mean_absolute_srgb_byte_difference": 0.03239068930041152,
+      "changed_pixel_fraction": 0.027434413580246914,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "05-foreshortened",
+      "variant": "atlas_compressed",
+      "mean_absolute_srgb_byte_difference": 0.04979279192386831,
+      "changed_pixel_fraction": 0.040811149691358024,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "05-foreshortened",
+      "variant": "atlas_lossless",
+      "mean_absolute_srgb_byte_difference": 0.034870434670781894,
+      "changed_pixel_fraction": 0.03178385416666667,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "06-distant-near",
+      "variant": "reduced",
+      "mean_absolute_srgb_byte_difference": 0.05392425411522634,
+      "changed_pixel_fraction": 0.02921826774691358,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "06-distant-near",
+      "variant": "atlas_compressed",
+      "mean_absolute_srgb_byte_difference": 0.07316567001028806,
+      "changed_pixel_fraction": 0.05470196759259259,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "06-distant-near",
+      "variant": "atlas_lossless",
+      "mean_absolute_srgb_byte_difference": 0.06915075231481481,
+      "changed_pixel_fraction": 0.05455970293209877,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "07-distant-mid",
+      "variant": "reduced",
+      "mean_absolute_srgb_byte_difference": 0.0,
+      "changed_pixel_fraction": 0.0,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "07-distant-mid",
+      "variant": "atlas_compressed",
+      "mean_absolute_srgb_byte_difference": 0.004715952932098765,
+      "changed_pixel_fraction": 0.007230420524691358,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "07-distant-mid",
+      "variant": "atlas_lossless",
+      "mean_absolute_srgb_byte_difference": 0.002944476594650206,
+      "changed_pixel_fraction": 0.0059148341049382715,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "08-distant-far",
+      "variant": "reduced",
+      "mean_absolute_srgb_byte_difference": 0.0,
+      "changed_pixel_fraction": 0.0,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "08-distant-far",
+      "variant": "atlas_compressed",
+      "mean_absolute_srgb_byte_difference": 0.0004166666666666667,
+      "changed_pixel_fraction": 0.0009442515432098765,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    },
+    {
+      "view": "08-distant-far",
+      "variant": "atlas_lossless",
+      "mean_absolute_srgb_byte_difference": 0.000390625,
+      "changed_pixel_fraction": 0.0008559992283950617,
+      "scope": "Diagnostic difference; no automatic visual acceptance threshold"
+    }
+  ],
+  "report_sha256": "32352aea4e68db05a00048d6f87ef835c85ca966f63da85324c3be73d6c1911f",
+  "variant_imported_texture_data_bytes": {
+    "atlas_compressed": 3503512,
+    "atlas_lossless": 6998751,
+    "fitted": 3495320,
+    "reduced": 3495320
+  },
+  "performance_measurement": false,
+  "mac_result": false,
+  "runtime_files_written": false,
+  "fixture_shadow_range_m": 75,
+  "current_balanced_shadow_range_m": 45,
+  "limits": "Four variants loaded together; map image-data sizes are not resident GPU memory. No current Balanced timing, full-city/final art, physical controls or owner acceptance result."
+}

@@ -32,7 +32,9 @@ func build(world: Node3D) -> void:
 	_graded_seat("park_upper_return",Rect2(-194,-172,11,1.2),0.46)
 	_graded_seat("park_east_carve",Rect2(-159,-155,7,1.2),0.46)
 	_graded_seat("park_station_lower",Rect2(-160,-32,1.2,11),0.46)
-	_graded_seat("park_station_upper",Rect2(-138,-61,1.2,9),0.46)
+	# Keep the existing return seat on the park side of the station masonry,
+	# with0.8m between its east edge and the actual enclosing wall.
+	_graded_seat("park_station_upper",Rect2(-144,-61,1.2,9),0.46)
 	_graded_seat("park_east_lower",Rect2(-155,-140,1.2,8),0.46)
 	_graded_seat("park_east_gateway",Rect2(-154,-116,1.2,8),0.46)
 	_graded_seat("park_civic_gateway",Rect2(-68,-129.7,12,1.0),0.46)
@@ -261,4 +263,4 @@ func _south_quay_relay() -> void:
 		"review_from":Vector3(24,4.2,134),"review_target":Vector3(32,2.7,140)})
 	_world._label(_world,"SouthQuaySeatPlaque","SOUTH QUAY / PRINT YARD",Vector3(21.5,2.27,139.68),18,"cream",Vector3(0,180,0),0.006)
 	routes.append({"id":"clyde_south_east_west","label":"South quay linked-feature through lane",
-		"points":PackedVector3Array([Vector3(-38,2,124),Vector3(-12,2,124),Vector3(12,2,124),Vector3(35,2,124)]),"requires_jump":false})
+		"points":PackedVector3Array([Vector3(-38,2,124),Vector3(-12,2,124),Vector3(12,2,125.2),Vector3(28,2,125.2),Vector3(35,2,124)]),"requires_jump":false})

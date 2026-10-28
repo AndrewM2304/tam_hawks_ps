@@ -1,0 +1,179 @@
+--- production-skater
++++ print-only-skater
+@@ -3397,6 +3397,7 @@
+ 
+ 
+ func _manual_model_frame_clear(frame: Transform3D) -> bool:
++	var trace_native:=global_position.x> -12.0 and global_position.x< -9.0 and global_position.z>128.0 and global_position.z<141.0
+ 	# This static fit checks the ACTUAL displayed affine frame. Long native
+ 	# routes can retain tiny inherited scale; rigid sweep validation cannot
+ 	# substitute a normalized query pose for those rendered model vertices.
+@@ -3414,7 +3415,9 @@
+ 	var clear:=true
+ 	for part: Dictionary in _grind_clearance._parts:
+ 		_grind_board_query.shape=part.shape
+-		if not get_world_3d().direct_space_state.intersect_shape(_grind_board_query,1).is_empty():
++		var hits:=get_world_3d().direct_space_state.intersect_shape(_grind_board_query,1)
++		if trace_native and not hits.is_empty(): print("NATIVE_MODEL_HIT ",{"part":_grind_clearance._parts.find(part),"frame":frame,"hits":hits})
++		if not hits.is_empty():
+ 			clear=false
+ 			break
+ 	_grind_board_query.shape=saved_shape
+@@ -3426,6 +3429,7 @@
+ 
+ 
+ func _native_rim_frame_clear(frame:Transform3D,skin:float) -> bool:
++	var trace_native:=global_position.x> -12.0 and global_position.x< -9.0 and global_position.z>128.0 and global_position.z<141.0
+ 	var saved_shape:=_floor_wheel_query.shape
+ 	var saved_transform:=_floor_wheel_query.transform
+ 	var saved_motion:=_floor_wheel_query.motion
+@@ -3436,7 +3440,9 @@
+ 	var clear:=true
+ 	for shape:ConvexPolygonShape3D in _floor_wheel_shapes:
+ 		_floor_wheel_query.shape=shape
+-		if not get_world_3d().direct_space_state.intersect_shape(_floor_wheel_query,1).is_empty():
++		var hits:=get_world_3d().direct_space_state.intersect_shape(_floor_wheel_query,1)
++		if trace_native and not hits.is_empty(): print("NATIVE_RIM_HIT ",{"wheel":_floor_wheel_shapes.find(shape),"frame":frame,"skin":skin,"hits":hits})
++		if not hits.is_empty():
+ 			clear=false
+ 			break
+ 	_floor_wheel_query.shape=saved_shape
+@@ -3492,6 +3498,7 @@
+ 
+ 
+ func _place_native_support_wheels(visual_yaw:float) -> void:
++	var trace_native:=global_position.x> -12.0 and global_position.x< -9.0 and global_position.z>128.0 and global_position.z<141.0
+ 	# A rounded capsule can report a mixed coping/deck normal while the actual
+ 	# centre bearing is a walkable native face. Correct only proven intrusion
+ 	# into that same finite face, preserving every local trick/rig transform.
+@@ -3506,6 +3513,7 @@
+ 			for z:float in [-1.0,1.0]:
+ 				var point:=board*(GRIND_BOARD_CENTER+GRIND_BOARD_SIZE*Vector3(x,y,z)*0.5)
+ 				minimum=minf(minimum,(point-Vector3(hit.position)).dot(axis))
++	if trace_native: print("NATIVE_FALLBACK_PREFILTER ",{"minimum":minimum,"support":hit,"actual":board})
+ 	if minimum>=0.0 or _manual_model_frame_clear(board):return
+ 	if not _native_model_hits_support(board,hit):return
+ 	var original:Transform3D=_visual.global_transform
+@@ -3516,8 +3524,10 @@
+ 	var target:=Transform3D(global_basis*support*Basis(Vector3.UP,visual_yaw),
+ 		Vector3(hit.position)+axis*GROUND_PRESENTATION_SKIN)
+ 	var fitted_board:=target*board_local
++	if trace_native: print("NATIVE_FALLBACK_CANDIDATE ",{"visual":target,"board":fitted_board})
+ 	if not _native_rim_frame_clear(fitted_board,0.0):
+ 		var lift:=_native_rim_refinement_lift(fitted_board)
++		if trace_native: print("NATIVE_FALLBACK_REFINEMENT ",lift)
+ 		if not is_finite(lift):return
+ 		target.origin.y+=lift
+ 	_visual.global_transform=target
+@@ -3979,13 +3989,15 @@
+ 
+ 
+ func _native_board_floor() -> Dictionary:
++	var trace_native:=global_position.x> -12.0 and global_position.x< -9.0 and global_position.z>128.0 and global_position.z<141.0
++	if trace_native: print("NATIVE_ENTRY ",{"tick":Engine.get_physics_frames(),"root":global_transform,"cached_normal":_native_floor_normal()})
+ 	# Rounded capsule contact at a short step can report a much steeper normal
+ 	# than the actual wheelbase. Fit the presentation to four finite native
+ 	# supports only in that ambiguous case. Physics keeps its original normal.
+ 	var wheels: Array = _visual_rig.board_contact_geometry().wheels
+-	if wheels.size() != 4: return {}
++	if wheels.size() != 4: return _contact_trace_empty("floor-1",trace_native)
+ 	var center := _native_floor_hit(Vector3.UP)
+-	if center.is_empty(): return {}
++	if center.is_empty(): return _contact_trace_empty("floor-2",trace_native)
+ 	var bowl: Node3D
+ 	var contacted:=center.get("collider") as CollisionObject3D
+ 	if is_instance_valid(contacted):
+@@ -3993,10 +4005,11 @@
+ 		if owner is Node3D and owner.has_method("owns_native_wheel_support") \
+ 				and bool(owner.owns_native_wheel_support(contacted)):
+ 			bowl=owner
++	if trace_native: print("NATIVE_OWNER ",{"center":center,"bowl":bowl})
+ 	# Locomotion's capsule floor limit cannot classify the finite surface
+ 	# beneath every wheel on a concave bowl. This exception is presentation
+ 	# only, tied to the actual native wrapped wall beneath the board centre.
+-	if not _native_board_support_allowed(center,bowl): return {}
++	if not _native_board_support_allowed(center,bowl): return _contact_trace_empty("floor-3",trace_native)
+ 	var axis: Vector3 = center.normal
+ 	var point := global_position-axis*(global_position-Vector3(center.position)).dot(axis)
+ 	var space := get_world_3d().direct_space_state
+@@ -4019,7 +4032,8 @@
+ 			# can select the wrong side of a short step by a few millimetres.
+ 			var bearing: Vector3 = point+axis*0.008+frame*(_visual_rig._board_rest_position+wheel_center)
+ 			var hit := _native_board_floor_ray(space,bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50)
+-			if not _native_board_support_allowed(hit,bowl): return {}
++			if trace_native: print("NATIVE_WHEEL_RAY ",{"pass":pass_index,"bearing":bearing,"hit":hit,"axis":axis})
++			if not _native_board_support_allowed(hit,bowl): return _contact_trace_empty("floor-4",trace_native)
+ 			var support: Vector3 = hit.position
+ 			same_plane = same_plane and Vector3(hit.normal).dot(axis)>0.999 \
+ 				and absf((support-Vector3(center.position)).dot(axis))<=0.001
+@@ -4028,7 +4042,7 @@
+ 			else: rear+=support
+ 			if wheel_center.x<0: left+=support
+ 			else: right+=support
+-		if samples.size()!=4: return {}
++		if samples.size()!=4: return _contact_trace_empty("floor-5",trace_native)
+ 		# Preserve the established planar-floor pose exactly. A wheel can reach
+ 		# a short step before the rounded capsule does, even if their centre
+ 		# normals still agree, so verify all four locations before this shortcut.
+@@ -4036,10 +4050,11 @@
+ 			var planar_fit:=_native_planar_rim_fit(point,axis,frame)
+ 			if is_instance_valid(bowl) and not planar_fit.is_empty():
+ 				var planar_board:=Transform3D(frame,Vector3(planar_fit.position)+axis*GROUND_PRESENTATION_SKIN+frame*_visual_rig._board_rest_position)
+-				if not _manual_model_frame_clear(planar_board):return {}
++				if not _manual_model_frame_clear(planar_board):return _contact_trace_empty("floor-6",trace_native)
+ 			return planar_fit
+ 		axis = (rear-front).cross(right-left).normalized()
+-		if axis.y<(0.05 if is_instance_valid(bowl) else cos(floor_max_angle)): return {}
++		if trace_native: print("NATIVE_DERIVED_AXIS ",{"pass":pass_index,"axis":axis,"point":point,"samples":samples})
++		if axis.y<(0.05 if is_instance_valid(bowl) else cos(floor_max_angle)): return _contact_trace_empty("floor-7",trace_native)
+ 		var average := (front+rear)*0.25
+ 		var clearance := 0.0
+ 		for sample: Vector3 in samples:
+@@ -4058,7 +4073,7 @@
+ 		var wheel_center: Vector3 = wheel.center
+ 		var bearing: Vector3 = point+axis*0.008+final_frame*(_visual_rig._board_rest_position+wheel_center)
+ 		var hit := _native_board_floor_ray(space,bearing+Vector3.UP*0.35,bearing-Vector3.UP*0.50)
+-		if not _native_board_support_allowed(hit,bowl): return {}
++		if not _native_board_support_allowed(hit,bowl): return _contact_trace_empty("floor-8",trace_native)
+ 		# Use the real rounded GLB tyre vertices, not a primitive cylinder
+ 		# extent or the urethane bushings in the joined material surface.
+ 		var gap := INF
+@@ -4066,7 +4081,8 @@
+ 			var drawn: Vector3 = point+axis*0.008+final_frame*(_visual_rig._board_rest_position+vertex)
+ 			gap = minf(gap,(drawn-Vector3(hit.position)).dot(Vector3(hit.normal)))
+ 		lift = maxf(lift,(0.008-gap)/Vector3(hit.normal).y)
+-	if lift>0.10: return {}
++	if lift>0.10: return _contact_trace_empty("floor-9",trace_native)
++	if trace_native: print("NATIVE_FINAL_PLANE ",{"point":point,"axis":axis,"lift":lift,"frame":final_frame})
+ 	point.y += lift
+ 	if is_instance_valid(bowl):
+ 		# Plane samples alone cannot establish that each finite tyre volume is
+@@ -4078,14 +4094,16 @@
+ 			_floor_wheel_query.transform=pose
+ 			_floor_wheel_query.motion=Vector3.ZERO
+ 			_floor_wheel_query.margin=0.0
+-			if not space.intersect_shape(_floor_wheel_query,1).is_empty(): return {}
+-		if not _manual_model_frame_clear(pose):return {}
++			var hits:=space.intersect_shape(_floor_wheel_query,1)
++			if trace_native and not hits.is_empty(): print("NATIVE_FINAL_TYRE_HIT ",{"index":_floor_wheel_shapes.find(shape),"pose":pose,"hits":hits})
++			if not hits.is_empty(): return _contact_trace_empty("floor-10",trace_native)
++		if not _manual_model_frame_clear(pose):return _contact_trace_empty("floor-11",trace_native)
+ 	# Four low wheel supports can flank a taller rail under the deck. The
+ 	# actual capsule-centre support remains the fallback when that lower fit
+ 	# intersects any connected model component.
+ 	if not is_instance_valid(bowl) and (point-Vector3(center.position)).dot(center.normal)<-0.001:
+ 		var fitted_board := Transform3D(final_frame,point+axis*GROUND_PRESENTATION_SKIN+final_frame*_visual_rig._board_rest_position)
+-		if not _grind_clearance.allows_frame(fitted_board,axis): return {}
++		if not _grind_clearance.allows_frame(fitted_board,axis): return _contact_trace_empty("floor-12",trace_native)
+ 	return {"position":point,"normal":axis}
+ 
+ 
+@@ -4179,3 +4197,8 @@
+ 	_grind_pending.clear()
+ 	_emit_trick(str(choice.id))
+ 
++
++
++func _contact_trace_empty(reason:String,enabled:bool)->Dictionary:
++	if enabled:print("NATIVE_RETURN ",reason," tick=",Engine.get_physics_frames())
++	return {}

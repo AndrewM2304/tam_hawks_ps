@@ -1,0 +1,18 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: grind intent native: mapped approach begins on actual floor 84.0
+PASS: grind intent native: holding Grind on supported approach does not attach before Ollie 84.0
+ERROR: FAIL: grind intent native: already-held Grind catches the real solid rail on Ollie ascent with rough aim 84.0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/grind_intent_probe.gd:12)
+       [1] _played_rise (res://.local/grind_intent_probe_fixture.gd:53)
+       [2] _frames (res://.local/grind_intent_probe_fixture.gd:137)
+ERROR: FAIL: grind intent native: one bounded rising catch retains one Ollie and one grind award 84.0
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://.local/grind_intent_probe.gd:12)
+       [1] _played_rise (res://.local/grind_intent_probe_fixture.gd:56)
+       [2] _frames (res://.local/grind_intent_probe_fixture.gd:137)
+GRIND_INTENT_RISE { "degrees": 84.0, "captured": [], "prior_vy": 0.0, "maximum_native_step": 0.18272578716278, "at": (1.44486, 0.01089, -6.075923), "velocity": (3.479052, 0.0, 0.365663), "awards": ["ollie"] }
+RESULT: 2 passed, 2 failed

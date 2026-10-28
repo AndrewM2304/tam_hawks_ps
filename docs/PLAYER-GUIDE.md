@@ -1,4 +1,4 @@
-Current arcade hardening: tap and release **Space/Cross** for a low, fast hop; hold about a quarter-second before releasing for the higher Ollie. The half-pipe automatically turns the rider back downhill; the turn itself earns no spin score. Hold **L/Triangle** on an approach to seek one rail catch, or tap just before contact; after locking, release stays on, another fresh tap drops, and release-Ollie pops. The latest source and validation limits are in STATUS.
+Tap and release **Space/Cross** for a low hop; hold about a quarter-second before releasing for the higher Ollie. The half-pipe automatically turns the rider back downhill; the turn itself earns no spin score. Hold **L/Triangle** while jumping toward a rail, or tap just before contact; after locking, release stays on, another fresh tap drops, and release-Ollie pops. The latest source and validation limits are in STATUS.
 
 # Tam Hawks Pro Skater — prototype player guide
 
@@ -160,8 +160,9 @@ Diagonals use their forward/back component for these extensions. A changed style
 adds one entry after a 0.35-second cooldown while the existing balance continues.
 Pivots turn the physical facing and cost speed. The balance card names the ride.
 
-Tap Grind while descending toward an aligned rail, or hold it through the approach
-for one catch. A released early tap has a 140 ms margin. On verified contact rails,
+Hold Grind while jumping roughly along or across a rail, including while rising,
+or tap just before contact for one catch. Rails are solid: use an Ollie to clear a
+bar that blocks your ground approach. A released early tap has a 140 ms margin. On verified contact rails,
 neutral/up/down selects **50-50**; left/right chooses a signed **Boardslide**.
 The rail remains locked after release. Balance left/right against the meter's lean. While grinding, choose a direction and tap
 Flip or Grab to change style. Hold and release Ollie to pop off; steering during

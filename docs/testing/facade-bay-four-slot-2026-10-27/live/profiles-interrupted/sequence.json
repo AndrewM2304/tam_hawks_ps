@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "started_utc": "2026-10-27T21:40:05Z",
+  "plan": [
+    {
+      "name": "1280x800-a1",
+      "mode": "off",
+      "size": "1280x800",
+      "seconds": 20,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/facade_four_slot_profiles/probe_runner.py",
+        "--repo",
+        "/workspace/tam_hawks_ps",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/facade_stage4/facade_bay_reduced_probe.gd",
+        "profile",
+        "off",
+        "/workspace/tam_hawks_ps/.local/facade-four-slot-profile-six/1280x800-a1",
+        "--size",
+        "1280x800",
+        "--seconds",
+        "20",
+        "--quality",
+        "balanced"
+      ]
+    },
+    {
+      "name": "1280x800-b",
+      "mode": "on",
+      "size": "1280x800",
+      "seconds": 20,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/facade_four_slot_profiles/probe_runner.py",
+        "--repo",
+        "/workspace/tam_hawks_ps",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/facade_stage4/facade_bay_reduced_probe.gd",
+        "profile",
+        "on",
+        "/workspace/tam_hawks_ps/.local/facade-four-slot-profile-six/1280x800-b",
+        "--size",
+        "1280x800",
+        "--seconds",
+        "20",
+        "--quality",
+        "balanced"
+      ]
+    },
+    {
+      "name": "1280x800-a2",
+      "mode": "off",
+      "size": "1280x800",
+      "seconds": 20,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/facade_four_slot_profiles/probe_runner.py",
+        "--repo",
+        "/workspace/tam_hawks_ps",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/facade_stage4/facade_bay_reduced_probe.gd",
+        "profile",
+        "off",
+        "/workspace/tam_hawks_ps/.local/facade-four-slot-profile-six/1280x800-a2",
+        "--size",
+        "1280x800",
+        "--seconds",
+        "20",
+        "--quality",
+        "balanced"
+      ]
+    },
+    {
+      "name": "1920x1080-a1",
+      "mode": "off",
+      "size": "1920x1080",
+      "seconds": 30,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/facade_four_slot_profiles/probe_runner.py",
+        "--repo",
+        "/workspace/tam_hawks_ps",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/facade_stage4/facade_bay_reduced_probe.gd",
+        "profile",
+        "off",
+        "/workspace/tam_hawks_ps/.local/facade-four-slot-profile-six/1920x1080-a1",
+        "--size",
+        "1920x1080",
+        "--seconds",
+        "30",
+        "--quality",
+        "balanced"
+      ]
+    },
+    {
+      "name": "1920x1080-b",
+      "mode": "on",
+      "size": "1920x1080",
+      "seconds": 30,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/facade_four_slot_profiles/probe_runner.py",
+        "--repo",
+        "/workspace/tam_hawks_ps",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/facade_stage4/facade_bay_reduced_probe.gd",
+        "profile",
+        "on",
+        "/workspace/tam_hawks_ps/.local/facade-four-slot-profile-six/1920x1080-b",
+        "--size",
+        "1920x1080",
+        "--seconds",
+        "30",
+        "--quality",
+        "balanced"
+      ]
+    },
+    {
+      "name": "1920x1080-a2",
+      "mode": "off",
+      "size": "1920x1080",
+      "seconds": 30,
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/tam_hawks_ps/.local/facade_four_slot_profiles/probe_runner.py",
+        "--repo",
+        "/workspace/tam_hawks_ps",
+        "--script",
+        "/workspace/tam_hawks_ps/.local/facade_stage4/facade_bay_reduced_probe.gd",
+        "profile",
+        "off",
+        "/workspace/tam_hawks_ps/.local/facade-four-slot-profile-six/1920x1080-a2",
+        "--size",
+        "1920x1080",
+        "--seconds",
+        "30",
+        "--quality",
+        "balanced"
+      ]
+    }
+  ],
+  "dependencies": {
+    "/workspace/tam_hawks_ps/.local/facade_four_slot_profiles/profile_sequence.py": "249eca4a6756eafdef4dc2f195b3e45b2d022e1f36a0b2b94649ebef8444b329",
+    "/workspace/tam_hawks_ps/.local/facade_four_slot_profiles/probe_runner.py": "879d17ff133d6956dbd6b96d556f10bb9e3697314716ebb4457667c25a30a1e6",
+    "/workspace/tam_hawks_ps/.local/facade_stage4/facade_bay_reduced_probe.gd": "a5e6709ed414f7aabc817be99ce0da862d9a2dfdd652493eb52da3cb28f67a0d"
+  },
+  "completed": [
+    {
+      "name": "1280x800-a1",
+      "receipt_sha256": "0d627ec5933b77f62a94082bde8ab50f71e5e37899c9b38d019ef97f3e0ac8ea"
+    },
+    {
+      "name": "1280x800-b",
+      "receipt_sha256": "a332afd666b34d5b38b2183559a9666d1c7ea8f455ab770410bd747978df8caa"
+    },
+    {
+      "name": "1280x800-a2",
+      "receipt_sha256": "38d0db8c1a040098e4726e22013c384184ae9bccc6c03bcbd177a716fe8cfb90"
+    }
+  ],
+  "valid": false,
+  "quality": "balanced",
+  "current_ordinary_defaults_required": true,
+  "not_target_mac_acceptance": true
+}
