@@ -186,3 +186,37 @@ epochs and the clean parser receipts remain archived. Final attempt25.622s,
 The original route stops at capture, so this image does not certify its later
 landing/full completion, continuous motion, FPS, Mac/controller or human feel.
 No production or test source changes were made for either capture.
+
+## Camera support/height handoff frame — clean scoped admission
+
+[The new camera-support capture](camera-handoff-final-static/receipt.json)
+passes **1/0**, clean/stable on675 inputs in26.012 seconds after a
+[clean parser check](camera-handoff-final-parser/receipt.json). Manifest:
+`3e5867320c3d33b2c356503e0348cd9280ae08c1b02771e259e8b755b6aefbd0`.
+This is a new camera-specific workload on its own exact source snapshot; the
+older two rate-diagnostic rejections above remain unchanged.
+
+[The actual ordinary-chase PNG](camera-handoff-final-static/ordinary-clyde-camera-support-handoff.png)
+uses production Main/Skater and the unchanged original Clyde run at the real
+ramp-air→ordinary-air handoff. The current camera-height cache matches the
+followed body's Y4.087520m exactly. The recorded anchor formula error and
+anchorY minus followed-bodyY are both zero; the stale low ground reference is
+absent. Native camera sphere contacts are zero, the original strict complete
+rider frustum/occlusion/volume check passes, and all nine native/drawn pose
+frames agree while the static actor tick remains1179→1179.
+
+[The frozen witness](camera-handoff-final-static/frozen-capture-manifest.json)
+retains both local/world actual pose angles as camera-diagnostic metrics:
+0.0750000189835264/0.0749999476099726rad. This camera workload does not add a
+pose-rate criterion; the existing independent native gameplay guards own that
+contract. No production threshold is changed. The [final manifest](camera-handoff-final-static/capture-manifest.json)
+then confirms that the original controller resumed with its unchanged inputs,
+all11 original Clyde assertions completed successfully, and Main was normally
+freed before a clean exit. The original suspended route is not abandoned.
+
+PNG SHA-256:
+`d9dedd184792cc1a88feac3c21e3726ebdc42557cc44e00b3f7564c36fff2fe0`.
+This remains one explicitly static camera-support image plus native/draw
+witnesses. It does not certify moving presentation, FPS, target Mac/controller,
+human feel or the separate required full06 suite. No game/test/tool source
+changes were made for the capture.

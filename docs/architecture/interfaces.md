@@ -76,6 +76,12 @@ the100mm support budget and final25mm refinement remain enforced. Clear and
 mixed centre-ray fits keep their existing path. A tyre centre outside a ledge
 cannot conceal its overlapping rim, and foreign geometry remains blocking.
 
+Ramp air retains the actual drawn pre-yaw support basis when ordinary air
+resumes. The camera follows that displayed base axis through the handoff and
+tracks live board height for the same ramp flight until landing/reset. A fresh
+earned flat Ollie clears that provenance and retains the ordinary quiet height
+window. Projection, native camera clearance and movement limits are unchanged.
+
 New exposed native box edges carry their real outward side. The cached original
 board vertices derive a bounded neutral edge roll (currently9.11degrees), keeping
 both truck anchors on the exact top corner while the outer tyres overhang the
