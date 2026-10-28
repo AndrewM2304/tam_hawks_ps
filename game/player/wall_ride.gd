@@ -15,6 +15,10 @@ const WALL_GRAVITY_SCALE := 0.32
 const FRICTION := 1.2
 const WALLIE_OUTWARD_SPEED := 4.8
 const WALLIE_UP_SPEED := 8.0
+const PRESENTATION_ROLL := 0.65
+const PRESENTATION_RESPONSE := 14.0
+const PRESENTATION_MAX_RATE := 4.5
+const PRESENTATION_MAX_TRANSLATION_SPEED := 4.5
 
 var active := false
 var normal := Vector3.ZERO
@@ -23,6 +27,8 @@ var cooldown := 0.0
 var wall_id := ""
 var contact_point := Vector3.ZERO
 var travel_velocity := Vector3.ZERO
+var air_presentation_active := false
+var air_presentation_offset := Vector3.ZERO
 var _wall: WeakRef
 
 
@@ -35,6 +41,7 @@ func reset() -> void:
 	contact_point = Vector3.ZERO
 	travel_velocity = Vector3.ZERO
 	_wall = null
+	clear_air_presentation()
 
 
 func tick(delta: float) -> void:
@@ -47,6 +54,7 @@ func stop() -> void:
 		cooldown = REENTRY_SECONDS
 	active = false
 	_wall = null
+	clear_air_presentation()
 
 
 func try_start(body: CharacterBody3D, motion: Vector3) -> bool:
@@ -78,6 +86,7 @@ func try_start(body: CharacterBody3D, motion: Vector3) -> bool:
 			best = contact
 	if best.is_empty():
 		return false
+	clear_air_presentation()
 	active = true
 	normal = best.normal
 	contact_point = best.position
@@ -152,6 +161,60 @@ func _release_move(body: CharacterBody3D, motion: Vector3, launched: bool, reaso
 func _result(launched: bool, bailed: bool, reason: String) -> Dictionary:
 	return {"active": active, "velocity": travel_velocity, "normal": normal,
 		"launched": launched, "bailed": bailed, "reason": reason, "wall_id": wall_id}
+
+
+## Original pose easing; the real retained wall and native wheel fit still own
+## support. Blend the incoming pre-trick frame instead of snapping the connected
+## rider and board through the complete wall lean on the first contact frame.
+func presentation_basis(previous: Basis, body_basis: Basis, delta: float) -> Basis:
+	if not active or not previous.is_finite() or not body_basis.is_finite() \
+			or not is_finite(delta) or delta <= 0.0:
+		return previous
+	var local_normal := body_basis.inverse() * normal
+	var roll := clampf(-local_normal.x * PRESENTATION_ROLL, -PRESENTATION_ROLL, PRESENTATION_ROLL)
+	var target := Basis(Vector3.BACK, roll)
+	var current := previous.orthonormalized()
+	var angle := current.get_rotation_quaternion().angle_to(target.get_rotation_quaternion())
+	var blend := minf(1.0 - exp(-PRESENTATION_RESPONSE * delta),
+		PRESENTATION_MAX_RATE * delta / maxf(angle, 0.000001))
+	return current.slerp(target, blend).orthonormalized()
+
+
+## Positive wheel-plane gaps may close over a few real frames inside the
+## existing acquisition reach. The caller independently corrects penetration
+## against its freshly measured tyre vertices after this bounded approach.
+func presentation_offset(previous: Vector3, target: Vector3, delta: float) -> Vector3:
+	if not active or not previous.is_finite() or not target.is_finite() \
+			or not is_finite(delta) or delta <= 0.0:
+		return previous
+	return previous.move_toward(target, PRESENTATION_MAX_TRANSLATION_SPEED * delta)
+
+
+## Only the player's actual active-wall -> ordinary-air transition seeds this
+## offset. It is the last drawn figure's translation, never a remembered plane.
+func retain_air_presentation(offset: Vector3) -> void:
+	clear_air_presentation()
+	if active or not offset.is_finite():
+		return
+	air_presentation_offset = offset
+	air_presentation_active = offset.length_squared() > 0.0000000001
+
+
+func clear_air_presentation() -> void:
+	air_presentation_active = false
+	air_presentation_offset = Vector3.ZERO
+
+
+func decay_air_presentation(delta: float) -> Vector3:
+	if active:
+		clear_air_presentation()
+	if not air_presentation_active or not is_finite(delta) or delta <= 0.0:
+		return air_presentation_offset
+	air_presentation_offset = air_presentation_offset.move_toward(Vector3.ZERO,
+		PRESENTATION_MAX_TRANSLATION_SPEED * delta)
+	if air_presentation_offset == Vector3.ZERO:
+		clear_air_presentation()
+	return air_presentation_offset
 
 
 func _probe(body: CharacterBody3D, at: Vector3, direction: Vector3) -> Dictionary:

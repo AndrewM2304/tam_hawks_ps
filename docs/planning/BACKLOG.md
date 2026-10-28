@@ -1,3 +1,23 @@
+# Owner steering landing and wallride priority — 28 October 2026
+
+The [current C03 repair](OWNER-TURN-WALLRIDE-2026-10-28.md) follows the owner's
+clarification that ordinary **left/right steering** during an Ollie must land
+and continue in that direction. Steering continuation now preserves native
+contact-adjusted speed and airborne momentum while retaining explicit shoulder
+spin/fakie, scoring and genuine failed-trick/collision rules. Wall entry and
+early exit gain bounded connected presentation; native wall capture retires
+obsolete ramp-return state.
+
+[Focused evidence](../testing/turn-wall-2026-10-28/README.md) records distinct
+203/0 and corrected wall 153/0 epochs, with original 193/8 and 134/8 rejections
+preserved. Current full check, cold launch and original captures are pending;
+previous 5,746/0 and packages are historical source-bound admission. Ordinary
+trial content remains enabled and personal Music isolated. Finish final
+verification and main push, then continue accepted work. All historical full
+backlog bodies and statuses below are preserved unchanged.
+
+---
+
 # Rider, controller-menu and fountain continuation — 27 October 2026
 
 The owner requested pushing all work to main and continuing. Main/origin were

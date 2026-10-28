@@ -1,0 +1,28 @@
+{
+  "started_london": "2026-10-28T17:58:43.374386+00:00",
+  "completed_london": "2026-10-28T17:59:01.075142+00:00",
+  "wall_seconds": 17.7007562850049,
+  "command": [
+    "timeout",
+    "180s",
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/turn-wall-2026-10-28/focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 676,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "193",
+      "8"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "6f63e817e8124451550e1066424e8bd988ee60943495e7358c65b2f74100cf18",
+  "git_head": "21b0e86d79d9934a9b482cb6887ae91897b60467"
+}

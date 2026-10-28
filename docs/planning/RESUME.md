@@ -1,3 +1,40 @@
+# Owner steering landing and wallride repairs — 28 October 2026
+
+The [owner-priority repair](OWNER-TURN-WALLRIDE-2026-10-28.md) starts from main `21b0e86`.
+The owner clarified **left/right steering**, not shoulder spin buttons. Ordinary
+steering now commits its complete heading at real native floor contact and
+continues with the existing signed, collision-adjusted ground speed. Ballistic
+air momentum, explicit shoulder-spin/fakie rules, once-only rotation scoring
+and unfinished flip/special, hazard and obstruction guards remain intact.
+
+Wall presentation blends the actual incoming support pose and approaches the
+existing 15 mm tyre bearing without a first-frame snap. A genuine early wall
+exit retains only the last drawn translation, decays it into ordinary air and
+requires fresh native board/shoe clearance. Landing, new flight, reset, bail and
+mode takeover clear it. A successful native wall capture clears stale ramp-air
+and return tags while retaining the actual incoming pose.
+
+[Source-bound evidence](../testing/turn-wall-2026-10-28/README.md) retains the separate **203/0**
+focused cohort and later **153/0** corrected wall cohort: 19.850 s, 678 stable
+inputs, clean exit/log. The earlier **193/8** and early-exit **134/8** results
+remain rejected. Early exit marker travel falls from about 352 mm to 83–130 mm;
+the independent matrix angle retains the original bound and the raw quaternion
+measurements/basis pairs. These focused epochs are not an additive whole-game
+result.
+
+**Current-source full check, cold launch and original rendered captures are
+pending.** The preceding **5,746/0** result and older packages certify their
+recorded gameplay source, not this repair. Root owns final frozen verification,
+source commit and non-force push to main. Ordinary station/train, pond/green and
+civic content stays enabled; personal Music stays isolated. Actual Mac/controller,
+Music/TCC, target performance, final art and human feel remain open.
+
+The completed facade attribution and startup diagnostics below retain their
+scope; neither is reopened as the next task. Finish this owner defect batch,
+then continue the accepted independently actionable queue.
+
+---
+
 # Facade and startup follow-up complete — 28 October 2026
 
 The current evidence checkpoint is main **c61ac7a**. Gameplay remains unchanged

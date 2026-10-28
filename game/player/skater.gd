@@ -197,6 +197,9 @@ var _flip_remaining := 0.0
 var _grab_remaining := 0.0
 var _spin_angle := 0.0
 var _air_spin := 0.0
+# Ordinary left/right input also selects the eventual ground travel heading.
+# Keep it separate from deliberate shoulder spins and their fakie landing.
+var _air_steer_turn := 0.0
 var _steering := 0.0
 var _visual: Node3D
 var _board_visual: Node3D
@@ -552,6 +555,7 @@ func reset_skater(preserve_camera:bool=false,preserve_support:bool=false) -> voi
 	_ollie_pose_remaining = 0.0
 	_spin_angle = 0.0
 	_air_spin = 0.0
+	_air_steer_turn = 0.0
 	_steering = 0.0
 	if is_instance_valid(_visual):
 		_mount_board()
@@ -626,6 +630,7 @@ func begin_bail(reason: String, safe_position: Vector3 = Vector3.INF) -> void:
 	_grab_remaining = 0.0
 	_ollie_pose_remaining = 0.0
 	_air_spin = 0.0
+	_air_steer_turn = 0.0
 	_steering = 0.0
 	_selection_remaining = 0.0
 	revert_remaining = 0.0
@@ -1643,6 +1648,8 @@ func _physics_process(delta: float) -> void:
 
 		if Input.is_action_pressed("grind") and _flip_remaining<=0.0 and _special_remaining<=0.0 and _spin_landing_clean() and _wall.try_start(self,velocity):
 			_clear_grind_rail_intent()
+			_ramp_air = false
+			_vert_return.clear()
 			_complete_flip()
 			_award_air_spin()
 			_emit_trick("wallride")
@@ -1684,11 +1691,12 @@ func _physics_process(delta: float) -> void:
 		# Derive signed board-forward speed from actual contact-adjusted travel.
 		# This preserves collision response while allowing a steep uphill to
 		# become a controlled roll back down its bank.
-		var contact_direction := (-global_basis.z).slide(_native_floor_normal()).normalized()
+		var contact_normal := _native_floor_normal()
+		var contact_direction := (-global_basis.z).slide(contact_normal).normalized()
 		var continuing_platform := previous_carry_ready and previous_platform==_native_platform_floor
 		var carry := get_platform_velocity() if arriving_from_air or continuing_platform else Vector3.ZERO
 		speed = clampf((get_real_velocity()-carry).dot(contact_direction), -MAX_SPEED, MAX_SPEED)
-		if airborne and not _finish_landing():
+		if airborne and not _finish_landing(contact_normal):
 			_update_pose(delta)
 			return
 		if manual_active and absf(speed) < MANUAL_MIN_SPEED:
@@ -1713,6 +1721,7 @@ func _clear_weighted_ollie() -> void:
 
 
 func _begin_air(from_ramp: bool = false) -> void:
+	_wall.clear_air_presentation()
 	if airborne:
 		return
 	_clear_weighted_ollie()
@@ -1742,6 +1751,7 @@ func _begin_air(from_ramp: bool = false) -> void:
 	_flip_used = false
 	_grab_used = false
 	_air_spin = 0.0
+	_air_steer_turn = 0.0
 	_spin_angle = 0.0
 	_air_grind_yaw = 0.0
 
@@ -1814,37 +1824,61 @@ func _apply_air_tricks(delta: float) -> void:
 	var spin_input := Input.get_axis("spin_left", "spin_right") if _trick_entries_enabled else 0.0
 	if is_zero_approx(spin_input) and _selection_remaining<=0.0 and not Input.is_action_pressed("flip") and not Input.is_action_pressed("grab"):
 		spin_input=Input.get_axis("steer_left","steer_right")
+		_air_steer_turn -= spin_input * SPIN_SPEED * delta
 	_air_spin -= spin_input * SPIN_SPEED * delta
 	_spin_angle = _air_spin
 
 
-func _award_air_spin() -> void:
+func _completed_air_half_turns(angle: float) -> int:
+	return int(floor((absf(angle) + deg_to_rad(20.0)) / PI))
+
+
+func _award_air_spin(steering_turn: float = 0.0) -> void:
 	# M01 uses forgiving, clean landings at any heading. Small spin tolerance
 	# keeps the 180 accessible without precise last-frame timing.
-	var half_turns := int(floor((absf(_air_spin) + deg_to_rad(20.0)) / PI))
+	var half_turns := _completed_air_half_turns(_air_spin)
 	if half_turns > 0:
 		var direction := "Frontside" if _air_spin > 0.0 else "Backside"
 		_emit_trick("spin_180","%s %d" % [direction,half_turns*180],half_turns*200)
-		var turn:=signf(_air_spin)*half_turns*PI
+	# Steering commits its complete heading, independent from the score's
+	# discrete 180 threshold. Only explicit shoulder half-turns change stance.
+	var shoulder_spin := _air_spin - steering_turn
+	var shoulder_half_turns := _completed_air_half_turns(shoulder_spin)
+	var turn := steering_turn + signf(shoulder_spin) * shoulder_half_turns * PI
+	if shoulder_half_turns%2==1:_switch_stance=not _switch_stance
+	if not is_zero_approx(turn):
 		rotation.y+=turn
-		if half_turns%2==1:_switch_stance=not _switch_stance
 		_spin_angle=wrapf(_air_spin-turn,-PI,PI)
 		speed=Vector3(velocity.x,0,velocity.z).dot(-global_basis.z)
 	_air_spin = 0.0
+	_air_steer_turn = 0.0
 
 
-func _finish_landing() -> bool:
+func _finish_landing(ground_normal: Vector3 = Vector3.ZERO) -> bool:
+	_wall.clear_air_presentation()
 	_clear_grind_rail_intent()
 	_clear_weighted_ollie()
+	# Only real ordinary floor contact earns directional steering continuation.
+	# Transition, rail and wall admission retain their existing spin gates.
+	var steering_landing := is_on_floor() and ground_normal.length_squared()>0.5 and not transition_active
 	if _special_remaining>0.0 and _special_remaining<=.15:_complete_special()
-	if _special_remaining>.15 or not _spin_landing_clean() or (_flip_remaining>0.0 and 1.0-_flip_remaining/_flip_duration<FLIP_LANDING_TOLERANCE):
+	if _special_remaining>.15 or not _spin_landing_clean(steering_landing) or (_flip_remaining>0.0 and 1.0-_flip_remaining/_flip_duration<FLIP_LANDING_TOLERANCE):
 		_start_bail()
 		return false
 	_complete_flip()
 	_flip_buffer_remaining = 0.0
 	_grab_buffer_remaining = 0.0
 	var board_stance:=roundf(_air_grind_yaw/PI)*PI
-	_award_air_spin()
+	var steering_turn := _air_steer_turn if steering_landing else 0.0
+	var contact_speed := speed
+	var shoulder_half_turns := _completed_air_half_turns(_air_spin-steering_turn)
+	_award_air_spin(steering_turn)
+	if steering_landing and not is_zero_approx(steering_turn):
+		# The caller already measured signed, collision-adjusted travel relative
+		# to the native platform. Redirect only that earned ground motion; the
+		# CharacterBody keeps ownership of platform carrying and floor clipping.
+		speed = -contact_speed if shoulder_half_turns%2==1 else contact_speed
+		velocity = (-global_basis.z).slide(ground_normal).normalized() * speed
 	_stance_angle=wrapf(_stance_angle+board_stance,-PI,PI)
 	_spin_angle=wrapf(_spin_angle+_air_grind_yaw-board_stance,-PI,PI)
 	_air_grind_yaw = 0.0
@@ -2370,6 +2404,7 @@ func _update_pose(delta: float) -> void:
 	_visual.basis = _visual.basis.orthonormalized()
 	_board_visual.basis = _board_visual.basis.orthonormalized()
 	_rider_visual.basis = _rider_visual.basis.orthonormalized()
+	var previous_wall_offset: Vector3 = global_basis * _visual.position
 	var was_flipping := _flip_remaining > 0.0
 	var was_grabbing := _grab_remaining > 0.0
 	_previous_ramp_air_frame=_ramp_air_frame
@@ -2531,7 +2566,8 @@ func _update_pose(delta: float) -> void:
 		_air_support_basis = _air_support_basis.slerp(target_basis, minf(1, 4.5 * delta / maxf(angle, 0.000001))).orthonormalized()
 		_visual.basis = _air_support_basis * Basis(Vector3.UP, visual_yaw)
 	if wallriding:
-		_visual.rotation.z = clampf(-(global_basis.inverse() * _wall.normal).x * 0.65, -0.65, 0.65)
+		_air_support_basis = _wall.presentation_basis(_air_support_basis, global_basis, delta)
+		_visual.basis = _air_support_basis * Basis(Vector3.UP, visual_yaw)
 	if not (curved_support or native_support) and (not airborne or wallriding) and not bail_active:
 		_air_support_basis = (_visual.basis * Basis(Vector3.UP, -visual_yaw)).orthonormalized()
 	_grind_visual_offset *= exp(-delta / 0.045)
@@ -2639,7 +2675,19 @@ func _update_pose(delta: float) -> void:
 		"bail_normal": Vector3.UP,
 		"bail_recovery_transform": Transform3D(Basis(Vector3.UP, -PI / 2.0 + 0.28), Vector3.ZERO)})
 
-	if wallriding: _place_wall_wheels()
+	if _wall.air_presentation_active:
+		var ordinary_wall_air: bool = airborne and not (_ramp_air or wallriding or transition_active \
+			or grinding or lip_active or setup_active or skitching or bail_active or manual_active)
+		if not ordinary_wall_air:
+			_wall.clear_air_presentation()
+		else:
+			var wall_air_offset: Vector3 = _wall.decay_air_presentation(delta)
+			if wall_air_offset != Vector3.ZERO:
+				if _obstacle_air_clear(wall_air_offset):
+					_visual.position += global_basis.inverse() * wall_air_offset
+				else:
+					_wall.clear_air_presentation()
+	if wallriding: _place_wall_wheels(delta, previous_wall_offset)
 	if transition_active and not airborne and not lip_active and not grinding:
 		_place_transition_wheels()
 	elif native_support and manual_active and not bail_active and not setup_active and not skitching:
@@ -3006,8 +3054,9 @@ func _obstacle_manual_contact_offset(geometry: Dictionary) -> Vector3:
 func _obstacle_air_clear(offset: Vector3) -> bool:
 	# Each proposal has one board and two shoe volume checks. The ordinary
 	# air branch tries two; a late Grab may derive one bounded final proposal.
-	# Only an existing grounded fit reaches this path; ordinary clear skating
-	# adds no work. The skin prevents decay from accepting a near-wall clip.
+	# Existing grounded fits and an earned wall-to-air residual use this path;
+	# ordinary clear skating adds no work. A pending wall residual proposes
+	# just one endpoint. The skin prevents accepting a near-wall clip.
 	var hull: Shape3D=_visual_rig.board_contact_geometry().get("convex_shape")
 	if hull==null: return false
 	var saved_shape := _grind_board_query.shape
@@ -3837,6 +3886,8 @@ func _tick_wall(delta: float) -> void:
 		_set_launch_mode()
 		_jump_buffer_remaining = 0.0
 		_emit_trick("wallie")
+	if not _wall.active and not is_on_floor():
+		_wall.retain_air_presentation(global_basis * _visual.position)
 	if not _wall.active and is_on_floor():
 		_finish_landing()
 
@@ -3911,8 +3962,9 @@ func _styled_trick_name(definition: Dictionary) -> String:
 
 
 
-func _spin_landing_clean() -> bool:
-	return absf(_air_spin - roundf(_air_spin / PI) * PI) <= deg_to_rad(45.0)
+func _spin_landing_clean(steering_landing: bool = false) -> bool:
+	var spin := _air_spin - _air_steer_turn if steering_landing else _air_spin
+	return absf(spin - roundf(spin / PI) * PI) <= deg_to_rad(45.0)
 
 
 
@@ -3941,14 +3993,19 @@ func _rail_floor_contacts_only(contact: KinematicCollision3D) -> bool:
 
 
 
-func _place_wall_wheels() -> void:
+func _place_wall_wheels(delta: float, previous_world_offset: Vector3) -> void:
 	# Actual retained GLB tyre vertices against the native wall plane.
 	var gap:=INF
 	for wheel:Dictionary in _visual_rig.board_contact_geometry().wheels:
 		for point:Vector3 in wheel.points:
 			gap=minf(gap,(_board_visual.to_global(point)-_wall.contact_point).dot(_wall.normal))
 	if is_finite(gap):
-		_visual.position-=(global_basis.inverse()*_wall.normal)*(gap-.015)
+		var base_world_offset: Vector3 = global_basis * _visual.position
+		var target_world_offset: Vector3 = base_world_offset - _wall.normal * (gap - .015)
+		var candidate_world_offset: Vector3 = _wall.presentation_offset(previous_world_offset, target_world_offset, delta)
+		var candidate_gap: float = gap + (candidate_world_offset - base_world_offset).dot(_wall.normal)
+		if candidate_gap < .015: candidate_world_offset += _wall.normal * (.015 - candidate_gap)
+		_visual.position = global_basis.inverse() * candidate_world_offset
 
 
 

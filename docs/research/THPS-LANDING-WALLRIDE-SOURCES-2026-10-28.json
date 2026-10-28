@@ -1,0 +1,101 @@
+{
+  "accessed": "2026-10-28",
+  "repository": "https://github.com/LANCommander/THPS",
+  "revision": "fa128f5ba222e0f24a9bff019d59262b79141e48",
+  "git_tree_sha": "fa128f5ba222e0f24a9bff019d59262b79141e48",
+  "git_tree_entries": 2493,
+  "tree_truncated": false,
+  "licence_named_paths": [],
+  "source_files": [
+    {
+      "path": "decomp/src/physics/doinair.cpp",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/doinair.cpp",
+      "bytes": 13856,
+      "sha256": "bd831b30bde1357fe34bf4328fa19928a3e29f3cdd84e762b735152f416db3c5"
+    },
+    {
+      "path": "decomp/src/physics/doonground.cpp",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/doonground.cpp",
+      "bytes": 20497,
+      "sha256": "2779c6a53286e523dcec49713c89247e822e3af9a41bb928d03fac40b9adb959"
+    },
+    {
+      "path": "decomp/src/physics/handlespin.cpp",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/handlespin.cpp",
+      "bytes": 11512,
+      "sha256": "fe3af2a6e8c604a034d4a273dda8f4a5e0002cae63d43ae33f4ed00df9a40897"
+    },
+    {
+      "path": "decomp/src/physics/trickland.cpp",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/trickland.cpp",
+      "bytes": 3065,
+      "sha256": "ad3bb6ee54928753e27328205dc50445a0c6f4bb1fe5a8d4bacf14648c798ed6"
+    },
+    {
+      "path": "decomp/src/unnamed/800429d0.cpp",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/unnamed/800429d0.cpp",
+      "bytes": 1122,
+      "sha256": "838d7d4ee7ad79e11d70cf6307e2c28d94e0b992825b67e8c01f4a2dc1caa837"
+    },
+    {
+      "path": "decomp/src/unnamed/80031108.c",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/unnamed/80031108.c",
+      "bytes": 797,
+      "sha256": "d5525cc1c545b358dce69c143b1b442b43528503a051e173efc4a023e9b138db"
+    },
+    {
+      "path": "decomp/src/unnamed/80035f30.c",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/unnamed/80035f30.c",
+      "bytes": 1178,
+      "sha256": "7a211383334981ce182fe6656e497c04bb1b8d352077c4f57e83bad8d11fde76"
+    },
+    {
+      "path": "decomp/src/physics/dowallride.cpp",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/dowallride.cpp",
+      "bytes": 11014,
+      "sha256": "9b951cb678b9af9b3a4018f960ee9f3661173ebefc70a2ed9689ef965e4fa9d9"
+    },
+    {
+      "path": "decomp/src/physics/orienttonormal.cpp",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/orienttonormal.cpp",
+      "bytes": 1799,
+      "sha256": "6fcc98e9d18491920e65882899ec7724b64a39fc2269b2fffb590d402242e56e"
+    },
+    {
+      "path": "decomp/src/physics/handlebailperpendicular.cpp",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/src/physics/handlebailperpendicular.cpp",
+      "bytes": 2861,
+      "sha256": "c27837abd4af70a5d8e1a274f4258ecb6e60f9c78a80276bdd5cb328a0eb0b1c"
+    },
+    {
+      "path": "decomp/matched.tsv",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/matched.tsv",
+      "bytes": 73750,
+      "sha256": "3e8a6fb275c69a23f6f17051e2c4ec044c97ad37ca329710a52d5ec176841c65"
+    },
+    {
+      "path": "decomp/nearmiss.tsv",
+      "url": "https://raw.githubusercontent.com/LANCommander/THPS/fa128f5ba222e0f24a9bff019d59262b79141e48/decomp/nearmiss.tsv",
+      "bytes": 502,
+      "sha256": "854660169501cce33c14aea7ff03896669cf06598a0805858f9da17ad7f625e2"
+    }
+  ],
+  "upstream_matching_records_not_independently_verified": {
+    "decomp/matched.tsv": [
+      "src/unnamed/80031108.c\t0x80031108\t284\tsym\tHandleBailOnLanding__6CBrucei",
+      "src/unnamed/80035f30.c\t0x80035f30\t364\tsym\tFUN_80035f30",
+      "src/physics/orienttonormal.cpp\t0x8003b0c0\t560\tsym\tOrientToNormal__6CBruce",
+      "src/unnamed/800429d0.cpp\t0x800429d0\t224\tsym\tFlipToVelocity__6CBruce",
+      "src/physics/handlebailperpendicular.cpp\t0x80031224\t732\tdiv\tHandleBailPerpendicular__6CBruceG7SVECTOR",
+      "src/physics/dowallride.cpp\t0x800376f4\t2932\tdiv\tDoWallRidePhysics__6CBruce",
+      "src/physics/doinair.cpp\t0x8003609c\t3808\tdiv\tDoInAirPhysics__6CBruce",
+      "src/physics/handlespin.cpp\t0x800323e0\t3368\tdiv\tHandleSpin__6CBruce",
+      "src/physics/trickland.cpp\t0x8002f478\t764\tsym\tTrick_Land__6CBruce"
+    ],
+    "decomp/nearmiss.tsv": [
+      "src/physics/doonground.cpp\t0x800347a8\t5664\tdiv\t1413/1416"
+    ]
+  },
+  "reuse": "Research only. No compatible source-reuse permission found; no implementation, animation, assets or binaries imported or executed. THPS1 reconstruction does not certify THPS3 constants or animation.",
+  "local_scope": "C03/M01/M02/M05 owner-reported turning landing and wallride presentation; native implementation/results are recorded separately."
+}

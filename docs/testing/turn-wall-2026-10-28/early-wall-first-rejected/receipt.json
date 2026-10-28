@@ -1,0 +1,26 @@
+{
+  "started_london": "2026-10-28T18:07:09.662732+00:00",
+  "completed_london": "2026-10-28T18:07:28.658436+00:00",
+  "wall_seconds": 18.99570341099752,
+  "command": [
+    "timeout",
+    "120s",
+    "./tools/run.sh",
+    "--headless",
+    "--script",
+    ".local/wallride-fix-2026-10-28/focused.gd"
+  ],
+  "exit_code": 1,
+  "source_inputs": 678,
+  "source_stable": true,
+  "clean_log": false,
+  "result_counts": [
+    [
+      "134",
+      "8"
+    ]
+  ],
+  "valid": false,
+  "source_manifest_sha256": "b48ce669c1d1ed43f3e87c11450714ab1122269b77a0fce6eac06c53a2b6664f",
+  "git_head": "21b0e86d79d9934a9b482cb6887ae91897b60467"
+}

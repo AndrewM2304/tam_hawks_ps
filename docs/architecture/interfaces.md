@@ -1,3 +1,34 @@
+## Directional steering landings and wallride presentation — 28 October 2026
+
+The owner's left/right steering clarification distinguishes ordinary airborne
+turns from shoulder-button spins. Airborne steering still leaves physical flight
+momentum unchanged. Its separately earned angle commits completely on an actual
+ordinary native-floor landing; only the signed, collision-adjusted ground speed
+is redirected onto the new floor tangent. Native platform carrying remains owned
+by CharacterBody3D. Scoring still uses total actual rotation, independently from
+the continuous heading. Explicit shoulder half-turns retain their stance/fakie
+rules, and steering cannot cancel an unfinished shoulder spin. Rail, transition
+and wall admission retain their existing spin/contact requirements. Reset, bail,
+new flight and scored capture clear the steering provenance.
+
+Wall presentation blends the actual pre-trick support basis toward the existing
+mirrored 0.65-radian lean at no more than 4.5 rad/s with 14/s response. A positive
+tyre-plane gap approaches the original 15 mm bearing at up to 4.5 m/s; any proposed
+intrusion is corrected outward immediately. Actual native probes, capture reach,
+capsule movement and finite support remain the physical authority. A short
+visual approach does not manufacture an invisible wall or change physical motion.
+Only a genuine wall-to-air exit may retain the actual drawn translation. It
+decays at the same bounded speed, with at most three reused native board/shoe
+queries per nonzero proposal. Reset, bail, landing, new flight, recapture and
+other pose modes clear that provenance. A successful wall capture also clears
+the obsolete ramp-air/return tag while retaining its incoming drawn support
+basis, so ramp presentation cannot overwrite the wall pose.
+The [current repair record](../testing/turn-wall-2026-10-28/README.md) owns focused,
+rendered and combined results, including early-exit checks; prior receipts keep
+their original source scope.
+
+---
+
 ## Solid rails, held Grind and weighted flat Ollies — 27 October 2026
 
 Rail colliders retain semantic layer2 and also occupy solid-world layer1. The
