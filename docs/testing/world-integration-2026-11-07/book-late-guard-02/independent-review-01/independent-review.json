@@ -1,0 +1,263 @@
+{
+  "reviewer": "/root/independent_qa",
+  "utc": "2026-11-07T12:11:35.137994+00:00",
+  "scope": "Independent offline source/runtime-record/data-safety review of privateCatalog/Book; no native rerun, no actual profile/source modifications.",
+  "checks": [
+    {
+      "check": "all retained predecessor/final/source bytes match author preservation map",
+      "pass": true,
+      "actual": 24
+    },
+    {
+      "check": "two exact9-input source maps unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact native-bound source positive game/progression/level_catalog.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact native-bound source positive game/progression/level_career_book.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact native-bound source positive tests/level_career_book_tests.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency positive game/core/graphics_quality.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency positive game/core/input_profile.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency positive game/core/input_setup.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency positive game/progression/career_progress.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency positive tools/run.sh",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact native-bound source negative game/progression/level_catalog.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact native-bound source negative game/progression/level_career_book.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact native-bound source negative tests/level_career_book_tests.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency negative game/core/graphics_quality.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency negative game/core/input_profile.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency negative game/core/input_setup.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency negative game/progression/career_progress.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "unchanged actual baseline dependency negative tools/run.sh",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "both projects execute identical final adversarial fixture/catalog",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "negative source reconstructs original56 by only instance testing seam",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "final heldBook and fixture match exact nominated hashes",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all methods outside two save helpers/new guard unchanged",
+      "pass": true,
+      "actual": {
+        "changed": [
+          "save_profile",
+          "_write_verified"
+        ],
+        "added": [
+          "_guard_save_family"
+        ]
+      }
+    },
+    {
+      "check": "three destructive-boundary guards and exact intended candidate/backup hashes",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "catalog metadata imports only unchangedBase; never loads worlds",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "10newgoalIDs and all accepted event IDs namespaced",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "canonicallevelmetadata returned by deepcopies",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "oldBase remains exact and active legacy operations delegate unchanged",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "allnewbook slots absent before legacy migration, oldpaths protected",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "globalrewards derive domain completions and synthetic validator IDs discarded",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "selection closes run and invalidates presentation without changing scores",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativepositive65cases and expected verdict",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativepositivehas no script/parse errors",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativepositiveonly expected late-case failures appear",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativenegative65cases and expected verdict",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativenegativehas no script/parse errors",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "nativenegativeonly expected late-case failures appear",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all original56cases stay positive in both exact projects",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all9 strengthened latefilecases exercise valid preexistingbackup",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "deterministic fault occurs only after real verified write and foreign VALID completedscore differs",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "four process phases have expected exits and finite bounded duration",
+      "pass": true,
+      "actual": null
+    }
+  ],
+  "passed": 40,
+  "failed": 0,
+  "source_policy_verdict": "No remaining source/private-native blocker identified for root guarded integration. FinalMap/Main/title/pause/selection/actual save paths and full regression remain separate gates.",
+  "resolved_private_blocker": "Original56 source observes then ignores late.tmp/.bak.tmp data after own write. Successor checks all four expected byte signatures and own serialized bytes before copy/eachrename; deterministicoldguard witness fails six checks while all original56 remain positive.",
+  "native_result": {
+    "positive": [
+      65,
+      0
+    ],
+    "negative_expected": [
+      59,
+      6
+    ],
+    "source_count_per_project": 9,
+    "total_dual_source_map_entries": 18,
+    "launcher_prebound": false
+  },
+  "metadata": {
+    "default": "merchant_neighbourhood_v1",
+    "legacy": "glasgow_legacy_v1",
+    "new_goals": [
+      "md_first_shift",
+      "md_good_shift",
+      "md_some_shift",
+      "md_one_long_line",
+      "md_letters",
+      "md_cone_duty",
+      "md_roof_gap",
+      "md_market_sweep",
+      "md_four_corners",
+      "md_lost_recording"
+    ],
+    "no_world_instantiation": true
+  },
+  "limits": [
+    "Nine engine-input records per project, not fourteen. The outer Python launcher was post-preserved and not before-bound; no reconstructed stronger identity claim.",
+    "Code-only native fixtures use private XDG/user paths; no Main/world/HUD/AppleMusic object is constructed.",
+    "This is optimistic stale/conflict detection, not an interprocess lock or proof of complete filesystem race freedom.",
+    "Root owns lazy selected-world and UI; pure serializers do not prove one liveworld, contact reset, menu/controller cancellation, playability or fun.",
+    "Custom isolated callers must explicitly disable default legacy fallback; ordinary new-book load can migrate old profiles only when all four new slots are absent.",
+    "Current real profile migration/save and Mac filesystem/device behaviour remain unmeasured.",
+    "Metadata world paths are strings; the proposedMerchant script existence is an implementation prerequisite, not inferred from catalog validation."
+  ],
+  "source_sha256": {
+    "book": "4ef227e90d1fa84a7572402abc6887d24d0ba8b73722e1c835bda6dabe37164c",
+    "catalog": "bf5e3c35fe756465faa08d0324487cbc65df225cbf6c448563a2b6fc77a33c72",
+    "tests": "7b93e6a523140b0fb05a4e1cd6f32a5911889255d9077e980d856d2fa0deff23"
+  }
+}

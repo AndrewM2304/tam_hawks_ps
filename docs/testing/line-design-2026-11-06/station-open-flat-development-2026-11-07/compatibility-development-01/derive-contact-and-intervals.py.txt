@@ -1,0 +1,39 @@
+from pathlib import Path
+import json,hashlib,math,sys
+p=Path(sys.argv[1]) if len(sys.argv)>1 else Path(__file__).resolve().parent
+raw=p/'epoch-04/native.log'
+text=raw.read_text()
+def packet(label):
+ matches=[json.loads(s[len(label)+1:]) for s in text.splitlines() if s.startswith(label+' ')]
+ assert len(matches)==1,label
+ return matches[0]
+def vec(s):return [float(x) for x in s.strip('()').split(',')]
+def sequence(d):
+ rows=d['physics'];steps=[math.dist(vec(a['at']),vec(b['at'])) for a,b in zip(rows,rows[1:])]
+ return {'row_count':len(rows),'first':rows[0]['physics'],'last':rows[-1]['physics'],
+ 'contiguous':all(b['physics']==a['physics']+1 for a,b in zip(rows,rows[1:])),
+ 'finite':all(all(math.isfinite(v) for v in vec(r['at'])+vec(r['velocity'])+[r['speed'],r['yaw'],r['path_m'],r['theta_degrees']]) for r in rows),
+ 'max_step_m':max(steps),'sum_steps_m':sum(steps),'manual_physics_rows':sum(r['manual'] for r in rows),
+ 'actual_board_component_zero_failures':[r['physics'] for r in rows if not r['board_zero']],
+ 'actual_shoe_zero_failures':[r['physics'] for r in rows if not r['shoes_zero']],
+ 'actual_capsule_zero_failures':[r['physics'] for r in rows if not r['capsule_zero']]}
+prefix=packet('STATION_COMPAT_TRACE');pipe=packet('STATION_NATIVE_TRACE')
+features={}
+for r in pipe['physics']:
+ if r['feature'] and r['theta_degrees']>=35 and r['feature'] not in features:
+  features[r['feature']]={k:r[k] for k in ['physics','at','theta_degrees','path_m']}
+first=features['StationConcourseHalfpipeNorthTransition'];toe=pipe['events'][0]
+result={'kind':'LD derived actual-native chronology; no new engine or independent/global acceptance',
+ 'raw_log_sha256':hashlib.sha256(raw.read_bytes()).hexdigest(),
+ 'source_before_after_equal':json.loads((p/'epoch-04/source-before.json').read_text())==json.loads((p/'epoch-04/source-after.json').read_text()),
+ 'prefix':sequence(prefix),'pipe':sequence(pipe),'first_actual_35degree_faces':features,
+ 'toe_to_actual_35degree_curve':{'physics_steps':first['physics']-toe['physics'],'seconds_at_60hz':(first['physics']-toe['physics'])/60,'actual_path_m':first['path_m']-toe['path_m']},
+ 'rounded_vector_serialization':'Godot JSON Vector3 strings are rounded; recomputed path sums are a bounded cross-check, not exact native geometry.',
+ 'aggregate_stays_rejected':[28,3],'current_native_model_contact_admitted':False,
+ 'qualification':'35degree curve use is actual earned feature motion, not charge input or decorative proximity. No L1/visual/performance claim.'}
+assert result['source_before_after_equal']
+assert result['prefix']['contiguous'] and result['prefix']['finite'] and result['pipe']['contiguous'] and result['pipe']['finite']
+assert result['prefix']['actual_board_component_zero_failures']==[319]
+assert result['pipe']['actual_board_component_zero_failures']==[] and result['pipe']['actual_shoe_zero_failures']==[]
+(p/'physics-reconciliation-04.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps(result,indent=2))

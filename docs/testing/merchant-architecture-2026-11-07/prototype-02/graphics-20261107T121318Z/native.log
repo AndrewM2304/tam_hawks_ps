@@ -1,0 +1,90 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+CAPTURE baseline high_street_west
+CAPTURE baseline market_north_east
+CAPTURE baseline market_south
+CAPTURE baseline depot_front
+CAPTURE baseline depot_underpass
+CAPTURE baseline foundry_east
+CAPTURE candidate high_street_west
+CAPTURE candidate market_north_east
+CAPTURE candidate market_south
+CAPTURE candidate depot_front
+CAPTURE candidate depot_underpass
+CAPTURE candidate foundry_east
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass baseline_views/high_street_west
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass baseline_views/market_north_east
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass baseline_views/market_south
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass baseline_views/depot_front
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass baseline_views/depot_underpass
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass baseline_views/foundry_east
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass candidate_views/high_street_west
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass candidate_views/market_north_east
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass candidate_views/market_south
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass candidate_views/depot_front
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass candidate_views/depot_underpass
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+ERROR: FAIL: same-camera/Canvas native pixel witnesses pass candidate_views/foundry_east
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://probe.gd:17)
+       [1] _run (res://probe.gd:83)
+       [2] _render_six (res://probe.gd:174)
+MERCHANT_ARCHITECTURE: 99 passed,12 failed

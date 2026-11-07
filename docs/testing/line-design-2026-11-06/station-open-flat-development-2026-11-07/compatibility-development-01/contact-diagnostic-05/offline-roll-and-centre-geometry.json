@@ -1,0 +1,70 @@
+{
+  "scope": "OFFLINE STATIC illustration only; no native query, physical pose or runtime correction",
+  "wheel_source_mapping": {
+    "native_points": 160,
+    "matched_unique_source_indices": 160,
+    "maximum_rounded_distance_m": 5.9821262334468224e-05
+  },
+  "illustrative_vertex_gap_under_unearned_roll": [
+    {
+      "extra_local_longitudinal_axis_roll_degrees": -1,
+      "left_trailing_min_vertex_gap_m": -0.0008271051266059704,
+      "right_trailing_min_vertex_gap_m": -0.0013511283898798854,
+      "left_raised_min_vertex_gap_m": 0.4789454107200468,
+      "right_raised_min_vertex_gap_m": 0.4825991249493181
+    },
+    {
+      "extra_local_longitudinal_axis_roll_degrees": 0,
+      "left_trailing_min_vertex_gap_m": -0.002330902751657718,
+      "right_trailing_min_vertex_gap_m": -7.987807262815894e-05,
+      "left_raised_min_vertex_gap_m": 0.4786719923993902,
+      "right_raised_min_vertex_gap_m": 0.48286870133708915
+    },
+    {
+      "extra_local_longitudinal_axis_roll_degrees": 1,
+      "left_trailing_min_vertex_gap_m": -0.0038442987987624827,
+      "right_trailing_min_vertex_gap_m": 0.0012233438202157165,
+      "left_raised_min_vertex_gap_m": 0.4784113908101343,
+      "right_raised_min_vertex_gap_m": 0.4831472515629124
+    }
+  ],
+  "analytic_center_ray_surfaces_not_actual_ray_hits": [
+    {
+      "side_local_x_sign": -1,
+      "centre": [
+        -90.957467615,
+        2.399999499,
+        37.236786565
+      ],
+      "analytic_cylinder_top_under_center": [
+        -90.957467615,
+        2.36559672893197,
+        37.236786565
+      ],
+      "analytic_up_normal": [
+        0.6076054974131527,
+        0.7942389813609725,
+        0
+      ]
+    },
+    {
+      "side_local_x_sign": 1,
+      "centre": [
+        -90.952879805,
+        2.399999499,
+        37.006832564999996
+      ],
+      "analytic_cylinder_top_under_center": [
+        -90.952879805,
+        2.3617656958311657,
+        37.006832564999996
+      ],
+      "analytic_up_normal": [
+        0.6731456399913153,
+        0.7395099372967768,
+        0
+      ]
+    }
+  ],
+  "warning": "These fixed-origin roll perturbations ignore connected rider, finite wheel hull edges, shoes and support authority. They cannot certify a pose or recommend a blind roll; a finite simultaneous fit must prove all native volumes."
+}

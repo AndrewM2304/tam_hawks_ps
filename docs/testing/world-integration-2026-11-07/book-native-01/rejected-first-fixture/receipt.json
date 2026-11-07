@@ -1,0 +1,36 @@
+{
+  "events": [
+    {
+      "label": "parse",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "tests/level_career_book_tests.gd"
+      ],
+      "started_utc": "2026-11-07T11:31:11.129383+00:00",
+      "pid": 125852,
+      "exit": 0,
+      "finished_utc": "2026-11-07T11:31:11.545394+00:00"
+    },
+    {
+      "label": "native",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--script",
+        "tests/level_career_book_tests.gd"
+      ],
+      "started_utc": "2026-11-07T11:31:11.545437+00:00",
+      "pid": 125865,
+      "exit": 0,
+      "finished_utc": "2026-11-07T11:31:12.061733+00:00"
+    }
+  ],
+  "source_changed": [],
+  "elapsed_seconds": 0.9366155659954529,
+  "scope": "Private code-only Catalog/Book native fixtures, independent XDG, no Main/world/Music construction or production/profile writes.",
+  "accepted": false,
+  "reason": "Two untyped-array fixture assignments abort legacy-parity/roundtrip methods;48/0 printed result is incomplete, not native acceptance."
+}

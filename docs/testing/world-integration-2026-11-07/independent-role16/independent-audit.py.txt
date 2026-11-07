@@ -1,0 +1,42 @@
+from pathlib import Path
+import datetime,gzip,hashlib,json,re,urllib.parse
+R=Path('/workspace/tam_hawks_ps');O=R/'docs/testing/world-integration-2026-11-07/independent-role16';O.mkdir(parents=True,exist_ok=True)
+roles=sorted(p for p in(R/'.agents/agents').glob('*.md')if p.name!='README.md');skills=sorted((R/'.agents/skills').glob('*/SKILL.md'));roster=(R/'.agents/agents/README.md').read_text();studio=(R/'docs/planning/STUDIO.md').read_text();role=(R/'.agents/agents/world-integration-engineer.md').read_text();skill=(R/'.agents/skills/world-integration/SKILL.md').read_text();checks=[]
+def ck(name,ok):checks.append({'check':name,'pass':bool(ok)})
+ck('16 durable role briefs and16 skills',len(roles)==len(skills)==16)
+for p in roles:ck('roster links role '+p.name,'('+p.name+')'in roster)
+for p in skills:ck('skill named metadata '+p.parent.name,re.search(r'^name:\s*'+re.escape(p.parent.name)+r'\s*$',p.read_text(),re.M)is not None and re.search(r'^description:\s*\S',p.read_text(),re.M)is not None)
+ck('logical counts registered without autospawn','sixteen logical roles'in roster and 'sixteen skills'in roster and 'sixteen logical roles'in studio and 'not a requirement to run sixteen workers simultaneously'in roster)
+ck('new role uses exact skill and independent/root ownership','../skills/world-integration/SKILL.md'in role and 'root for Main/HUD'in role and 'Technical QE independently'in role and 'Root owns Git'in role)
+groups={
+ 'lazy selected world only':['merchant_neighbourhood_v1','glasgow_legacy_v1','instantiate only','hidden old city'],
+ 'explicit activities and query contracts':['world query signatures','level manifest','activity layout','absent optional'],
+ 'legacy source preservation':['version0/1','Preserve','source file and its backups','missing new book','damaged or'],
+ 'independent per-level progress':['completed goals, best score and best combo','Old completion IDs','namespaced'],
+ 'global genuine rewards':['Settings, control bindings, cosmetics','genuine achievements','fake'],
+ 'defensive actual IO':['Bound file size','nonfinite/fractional/out-of-range','temporary','Never','explicit'],
+ 'Music and test isolation':['persistence disabled','Apple Music','isolated'],
+ 'actual UI/game selection gate':['keyboard/controller','cancellation','one selected live world','reset score chain','stale contacts'],
+ 'hardware/art separation':['M5','pure persistence','fun']}
+for name,parts in groups.items():
+ source=re.sub(r'\s+',' ',skill+'\n'+role)
+ ck('world-integration semantic '+name,all(v.lower()in source.lower()for v in parts))
+files=[R/'AGENTS.md',R/'docs/planning/RESUME.md',R/'docs/planning/STUDIO.md',R/'.agents/agents/README.md',R/'docs/planning/FIDELITY_TICKETS.md',R/'docs/product/AAA_BENCHMARK.md',R/'docs/architecture/decisions/ADR-035-san-francisco-scale-neighbourhood.md',R/'docs/research/SAN-FRANCISCO-LINE-REFERENCE-2026-11-07.md']+roles+skills
+broken=[];links=0
+for p in files:
+ for href in re.findall(r'\]\(([^)]+)\)',p.read_text()):
+  if href.startswith(('http:','https:','mailto:','plugin:','app:','#')):continue
+  target=urllib.parse.unquote(href.split('#',1)[0].strip('<>'))
+  if not target:continue
+  links+=1
+  if not(p.parent/target).resolve().exists():broken.append({'source':str(p.relative_to(R)),'target':href})
+ck('all local process/research discovery links resolve',not broken)
+world=(R/'game/levels/glasgow_square.gd').read_text();api=re.findall(r'^func ([A-Za-z][A-Za-z0-9_]*)\(',world,re.M)
+ck('actual currentCityTour22declared public methods',len(api)==22 and 'get_gap_grind_destinations'in api)
+report={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reviewer':'/root/independent_qa','scope':'Independent new16th world-integration role/skill semantics and persistent discovery structure. Earlier9/13/14/15role receipts retain their exact scopes. No native/game/migration/layout admission.','checks':checks,'passed':sum(v['pass']for v in checks),'failed':sum(not v['pass']for v in checks),'role_count':len(roles),'skill_count':len(skills),'local_links':links,'broken':broken,'current_world_declared_public_methods':api,
+ 'source_pins':{str(p.relative_to(R)):hashlib.sha256(p.read_bytes()).hexdigest()for p in files},'boundaries':['ADR035 and medium dense neighbourhood are design/interface intent, not an implemented or accepted map.','Existing CityTour API is22afteractualGap install; two proposed manifest/activity getters make24. Earlier21-source receipts are unchanged historical facts.','Catalog/CareerBook data-safety requires separate source/native review; original56native proposal has a newly identified late-temp overwrite guard gap.','This structure review does not admit every newly added reference/research conclusion or any runtime agent registration.']}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');(O/'independent-audit.py.txt').write_bytes(Path(__file__).read_bytes())
+for p in[R/'.agents/agents/world-integration-engineer.md',R/'.agents/skills/world-integration/SKILL.md']:
+ name='role.md.gz'if p.name!='SKILL.md'else'skill.md.gz'
+ with gzip.GzipFile(filename=str(O/name),mode='wb',mtime=0)as s:s.write(p.read_bytes())
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'roles':len(roles),'skills':len(skills),'links':links,'failed_checks':[x for x in checks if not x['pass']]},indent=2))

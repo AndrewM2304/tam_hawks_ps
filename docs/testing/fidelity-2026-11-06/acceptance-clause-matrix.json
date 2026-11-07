@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "reviewer": "independent_qa",
-  "reviewed_utc": "2026-11-07T09:52:12.366376+00:00",
+  "reviewed_utc": "2026-11-07T12:18:08.154324+00:00",
   "overall_result": "Fail / incomplete",
   "scope": "Independent checkpoint, not final candidate acceptance. Production is mutable. Fail refers to directly inspected source-bound baseline or candidate evidence; later unreviewed production changes do not inherit a positive or negative current-source certification. Pass is only the bounded exact evidence stated; Unmeasured means missing independent complete-clause evidence.",
   "head": "65f045ef500d0e193cb545e376610cc8e2af5727",
   "source_documents": {
-    "docs/planning/FIDELITY_TICKETS.md": "da1c638d08d27b96b4abc10a671a39ae05c17cd1ed9b2c20327015b9eb91112f",
+    "docs/planning/FIDELITY_TICKETS.md": "6bf29891dc15efd6f40a0a48608f0074af36ce9efe69c3f72a5a041cec19c726",
     "docs/product/AAA_BENCHMARK.md": "31c28af085056ffd664bdfe7ba5f7f3e161b8a246c212400c8e62d51b4424b1b"
   },
   "evidence_index": {
@@ -109,7 +109,20 @@
     "gap_named_registry_source": "../line-design-2026-11-06/gap-line-inventory-independent-01/independent-review.json",
     "gap_named_registry_actual": "../line-design-2026-11-06/gap-line-inventory-independent-01/actual-native-registry-review.json",
     "startup_protocol": "../source-startup-2026-11-07/independent-launch-protocol/README.md",
-    "neutral_hand_selected_stills": "../rider-fit-2026-11-07/neutral-hand-independent-01/independent-review.json"
+    "neutral_hand_selected_stills": "../rider-fit-2026-11-07/neutral-hand-independent-01/independent-review.json",
+    "full_required03_independent": "required03-independent-review/README.md",
+    "actual_round_focused02": "../motion-fidelity-2026-11-07/actual-round-focused-02/README.md",
+    "flat_handoff05_independent": "../rider-fit-2026-11-07/flat-handoff-independent-05/README.md",
+    "compact_plan01_superseded": "../line-design-2026-11-06/compact-plan-independent-01/README.md",
+    "studio15_glc_subclauses": "../line-design-2026-11-06/glc-independent-acceptance-01/README.md",
+    "mac_texture_source_cpu_independent": "environment/mac-texture-independent-01/README.md",
+    "full_required04_qualified": "required04-independent-review/README.md",
+    "push351_independent": "../rider-fit-2026-11-07/independent-push351-01/README.md",
+    "push351_durable": "../rider-fit-2026-11-07/push-natural-three-01/README.md",
+    "mac_texture_nativeGL_independent": "environment/mac-texture-independent-01/native-gl-supplement.json",
+    "gap_actual134_independent": "../line-design-2026-11-06/gap-actual-integration-2026-11-07/independent-review-01/README.md",
+    "book_late_guard_private_independent": "../world-integration-2026-11-07/book-late-guard-02/independent-review-01/README.md",
+    "studio16_world_independent": "../world-integration-2026-11-07/independent-role16/README.md"
   },
   "benchmark": [
     {
@@ -179,7 +192,7 @@
         {
           "id": "V2.2",
           "name": "Texture scale and resolution",
-          "criterion": "Document metres per repeat and actual source resolution. Route-facing hero surfaces target about 256\u2013512 source texels per metre at their intended close view, with sensible mipmaps and filtering. Upsampling does not count as added detail. Match adjoining modules within about 10% apparent scale unless construction calls for a difference.",
+          "criterion": "Document metres per repeat and actual source resolution. Route-facing hero surfaces target about 256–512 source texels per metre at their intended close view, with sensible mipmaps and filtering. Upsampling does not count as added detail. Match adjoining modules within about 10% apparent scale unless construction calls for a difference.",
           "result": "Unmeasured",
           "evidence_or_limit": "Asset metadata/rebuild passes; full apparent adjacent scale and all-material target coverage not accepted.",
           "next_action": "Measure actual repeats/resolution/adjacent apparent scale."
@@ -187,7 +200,7 @@
         {
           "id": "V2.3",
           "name": "Stable surface detail",
-          "criterion": "No stretched UVs at banks, giant visible pixels on the normal path, shimmering grass, moir\u00e9, unintended normal-map inversion, z-fighting, detached decals or obvious discontinuities at pavement joins. Inspect both stationary and moving frames.",
+          "criterion": "No stretched UVs at banks, giant visible pixels on the normal path, shimmering grass, moiré, unintended normal-map inversion, z-fighting, detached decals or obvious discontinuities at pavement joins. Inspect both stationary and moving frames.",
           "result": "Unmeasured",
           "evidence_or_limit": "No full final moving UV/shimmer/seam review.",
           "next_action": "Inspect moving banks, pavement joins and grass."
@@ -226,8 +239,8 @@
           "name": "Action reel",
           "criterion": "The action reel must show idle, coast, push, brake, crouch, ollie, spin, flip, grab, rail entry/travel/exit, manual, revert, both specials, clean landing, bail and recovery. Add left/right carving, uphill/downhill, rollback, bank takeoff, support loss and a wall-adjacent camera turn. Record accepted input, actual state transitions and whether any setup fixture is used.",
           "result": "Unmeasured",
-          "evidence_or_limit": "ActualMain six selected plant/return stills and657 consecutive physical observations are complete;9pose inspector freezes each selected input pose. Neither is the351-frame normal-speed action reel.",
-          "next_action": "Complete current-source native normal-speed action coverage with worst-frame review."
+          "evidence_or_limit": "Current11-bone copied-source push film independently passes2909 source/hash/pixel/native-palette facts:351 frames across three117-frame consecutive60Hz640 clips plus3sync; all354 nativeRGBA equal originalPNG/losslessWebP, all879 source bytes reconstruct, rawUNORM localxyz→meshMODELonce reconstructs neck≤6.583µm/waist0. All3 chronological sheets and10 native-res buffers inspected. These are straight regular/rest/fakie pushes, not the complete action reel; no actual normal-speed playback tool was available. Epoch predates S3TC environment migration.",
+          "next_action": "Inspect real normal-speed playback and capture remaining action/slope/carve/bail/rail/manual/special transitions on final composition; preserve actual input/state/current-pixel proof."
         },
         {
           "id": "V3.2",
@@ -242,13 +255,13 @@
           "name": "Action coherence 2",
           "criterion": "Ordinary state transitions must have no single-frame pose pops, unexplained body rotation or camera cuts. Instrument discontinuities and distinguish the physical event from cosmetic smoothing. A camera may resolve collision promptly, but must not oscillate or cut through scenery.",
           "result": "Fail",
-          "evidence_or_limit": "D022/P0: actual75 current-matrix observations independently expose35.154/27.715/34.902-degree whole-Visual steps and0.76/0.58/0.73m world-head steps; native finite clearance was a separate scoped pass. The later actual round-combined133/1 remains rejected:23Transition+67Round+32Motion subsets pass, C04 is10/1 with real board11.399mm/tyre47.325mm below native PrintYard floor atphysics3547. No moving/GPU or full-current acceptance.",
-          "next_action": "Review bounded early finite-floor handoff on the exact combined prefix, preserve every native clearance/input/body guard, then verify current matrices, consecutive normal-speed pixels and complete current regression."
+          "evidence_or_limit": "D022 remains open. Actual75 recorded large descending-air pose steps; actual133/1 later found real board/tyre floor intrusion. Reviewed Handoff05 private exact combined prefix134/0+14owner/head controls reduces qualified landing Board step to4.297° and body-local Head step0.13025m without accepting a hardfit or changing physical rows. Root actual strict134/0 and complete required03 6600/0+CLI2/0 now pass. A separate grounded22.67° Visual/0.607m body-local Head pop remains in private same-source pose data; no complete normal-speed/GPU motion verdict follows.",
+          "next_action": "Repair/review the remaining finite grounded pose discontinuity, then inspect consecutive normal-speed current pixels and actual physical events; preserve contact guards."
         },
         {
           "id": "V3.4",
           "name": "Action coherence 3",
-          "criterion": "The board and shoes agree in grounded poses; push-foot ground contact follows the support height. Grabs meet the deck within 50 mm at full extension. These are measurable targets; no \u201csmooth\u201d status is awarded from source inspection.",
+          "criterion": "The board and shoes agree in grounded poses; push-foot ground contact follows the support height. Grabs meet the deck within 50 mm at full extension. These are measurable targets; no “smooth” status is awarded from source inspection.",
           "result": "Unmeasured",
           "evidence_or_limit": "Old actual Main D014 failed5/1. Researched coping Main10/0 clears complete cached board/tyre volumes in seven physics ticks; actual installed four-module190/0 independently reviewed20/0 with792 unchanged inputs. Signed near-face gaps are not force-bearing; final moving/all-action support remains open.",
           "next_action": "Review current moving support/flotation and complete final all-action finite contact cohort; near-face gaps do not prove physical loading."
@@ -266,8 +279,8 @@
           "name": "Action coherence 5",
           "criterion": "The owner-requested push stroke faces and follows actual travel: shoulders/hips open naturally, the supporting foot stays on the deck, the pushing leg extends behind travel and visibly lifts into recovery. Forward/reverse and carving strokes must avoid a side-sweeping leg, lateral foot skid or abrupt torso snap. Review the cycle in normal-speed chase/front/side views, not just a contact marker or static pose.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Historical D007/D008 native slide/side-on defects are preserved. ActualMain2056/0 physical cohort plus independent159/0 six-still review shows forward-facing regular/fakie/rest plant+return and connected collar/waist/feet. Full normal-speed/carving/slope cycle remains Unmeasured; old failure is not inherited as a proved current failure.",
-          "next_action": "Review current normal-speed forward/fakie/carving/slope push and transitions."
+          "evidence_or_limit": "Current11-bone copied-source push film independently passes2909 source/hash/pixel/native-palette facts:351 frames across three117-frame consecutive60Hz640 clips plus3sync; all354 nativeRGBA equal originalPNG/losslessWebP, all879 source bytes reconstruct, rawUNORM localxyz→meshMODELonce reconstructs neck≤6.583µm/waist0. All3 chronological sheets and10 native-res buffers inspected. These are straight regular/rest/fakie pushes, not the complete action reel; no actual normal-speed playback tool was available. Epoch predates S3TC environment migration. Viewed buffers show supporting/pushing feet connected and leg recovery behind travel; splay/finish gaps remain. Measured brisk joint recovery has no invented acceptance threshold.",
+          "next_action": "Obtain normal-speed chase/front/side human review and imperfect-input carving/slope strokes; this technical film does not close cadence."
         },
         {
           "id": "V3.7",
@@ -288,10 +301,10 @@
         {
           "id": "V3.9",
           "name": "Manual linking",
-          "criterion": "After the fidelity candidate, explicitly review manual continuity using real air\u2192manual\u2192air and air\u2192manual\u2192ground-bank inputs. Document admitted early/late requests, held/gesture semantics, release and cancellation; observe actual support/link/landing/bank events. No per-tick manual/balance/score/velocity assignment can create the claimed link. Unsupported, expired, low-speed and stale requests must fail deliberately; valid admission must not lose a combo through event-ordering or premature banking.",
+          "criterion": "After the fidelity candidate, explicitly review manual continuity using real air→manual→air and air→manual→ground-bank inputs. Document admitted early/late requests, held/gesture semantics, release and cancellation; observe actual support/link/landing/bank events. No per-tick manual/balance/score/velocity assignment can create the claimed link. Unsupported, expired, low-speed and stale requests must fail deliberately; valid admission must not lose a combo through event-ordering or premature banking.",
           "result": "Unmeasured",
           "evidence_or_limit": "Independent candidate landing matrix47/0 verifies actual widened early links, exclusive350ms expiry, release/stale/gesture and bank-once events. Full linked-run/interruption/threshold coverage remains open.",
-          "next_action": "Complete real manual\u2192air continuation and threshold/cooldown/pause/restart/bail neighbours on final source."
+          "next_action": "Complete real manual→air continuation and threshold/cooldown/pause/restart/bail neighbours on final source."
         },
         {
           "id": "V3.10",
@@ -327,8 +340,8 @@
           "name": "Connected set pieces",
           "criterion": "Preserve the existing density requirement: each retained core arena has at least two genuinely distinct original returnable lines and a safe bypass. Each line connects a launch, a rail/ledge/manual choice, a landing and a turnaround/re-entry. Reversing the same perimeter is not a second line. Across the six-area world, at least three independently demonstrated circuits must also connect arenas with useful next choices. A prop that cannot be approached and exited at useful speed is not a completed set piece.",
           "result": "Unmeasured",
-          "evidence_or_limit": "No complete two-distinct-lines-per-arena plus3cross-arena independent proof.",
-          "next_action": "Create actual-input packets for every required line/bypass."
+          "evidence_or_limit": "Historical six-geographic-arena benchmark remains unproved. Owner later supersedes retaining that geography in the new default: compact112×88MerchantYard was itself rejected as too small, and a medium dense San-Francisco-inspired original urban plan is being prepared. No replacement layout or circuit is admitted. Preserve CityTour/history and define exact new returned-line/single-combo criteria.",
+          "next_action": "Review medium dense urban proposal, freeze its original feature/event graph, then prove actual returned lines and closed single-combo cross-area circuits."
         },
         {
           "id": "L1.4",
@@ -367,8 +380,8 @@
           "name": "Existing game",
           "criterion": "All ten goals, three core encounters, existing enabled station/train, pond/ducks/cable, park/civic/green content, stable gap/rail IDs, saved progression and district connections remain usable. Preserve personal Music isolation and other implemented content. Further development of traffic/skitch, Cone on a Cruise and the extra park-lap challenge remains deferred under the existing queue. New line density cannot obstruct physical approaches or hide required interaction prompts.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Complete named registry independently cross-checked:8 scored gaps,66 default world/67 HUD routes,242 unique native guide IDs and33 feature records;63 source-resolved polylines match within5.78\u00b5m. This does not certify all goals/encounters/playable approaches or native one-combo circuits. Actual integrated133/1 remains rejected and all-generated-guide support is unproved.",
-          "next_action": "Execute integrated career/encounter/ID/default tests."
+          "evidence_or_limit": "Actual registry8gaps/66world/67HUD/242guideIDs/33features remains verified. Reviewed current gap134/0 includes all4cableIDs and2return500 events through actualMain/Score; six local runs bank separately. Full04 now6697/0+CLI2/0 with separately retainedUID freeze exception. New medium-dense Merchant District/optionalCityTour and private Catalog/Book65/0 are separate source/design work, without integrated selection/save-domain/current-map acceptance.",
+          "next_action": "Preserve CityTour/old saves and validate actual lazy level selection, reset/input lifetime, goals/activities/labels and save isolation before new-default admission."
         },
         {
           "id": "L1.9",
@@ -419,16 +432,16 @@
           "id": "Q1.4",
           "name": "Evidence 4",
           "criterion": "Run `./tools/check.sh` for GDScript changes after integration. Count and nonzero failure status must be retained. Focused tests, full regression, visual review, hardware performance and human acceptance receive separate results. Extend the existing native full-fidelity capture/receipt pipeline instead of creating a weaker replacement; its 78-trick catalogue, actual contacts, fixture disclosure and render/pixel synchronization proofs remain valuable.",
-          "result": "Fail",
-          "evidence_or_limit": "Completed actualrequired02:6526pass/7assertfail plus3runtimefreed-ownerScriptErrors,exit1,886unchanged inputs,2241.249s. Independent17/0 source/log and12/0 preservation checks verify rejection. CLI Music launchstage didnotrun. Distinct currentClydechase/copingcapture/runtime failures and reviewed board/route expectation migrations require fresh fixes and fullgate.",
-          "next_action": "Repair actual failures and validate legitimate changed oracles independently, then rerun the entire stable-source gate."
+          "result": "Pass",
+          "evidence_or_limit": "Latest required04 returns6697/0 plusCLI2/0,exit0/no rawerrors. Independent18-check audit confirms all895 existing inputs unchanged; five newUID sidecars appear, so raw eligible=false is preserved and separately qualified. Earlier strict required03 remains6600/0+CLI2/0 with890 equal before/after inputs. Full04 includes Mac-compatible imports and native-return gap tests. Shared-host Linux correctness is not moving/M5/AAA acceptance.",
+          "next_action": "Retain the raw freeze exception and source closure/UID binding; gate later integrated world changes separately. Keep native results, source identity, rendered and hardware outcomes distinct."
         },
         {
           "id": "Q1.5",
           "name": "Evidence 5",
           "criterion": "Log defects with reproduction, expected/actual behaviour, evidence, severity, owner, affected ticket and retest. A count of passing assertions cannot cancel a visible failed frame.",
           "result": "Pass",
-          "evidence_or_limit": "D001\u2013022 and separateD801\u2013803 retain source/repro/owners/retest. D022 is actual current largewholepose steps despite scopednativeclearance pass; old/native/partial results remain separate.",
+          "evidence_or_limit": "D001–022 and separateD801–803 retain source/repro/owners/retest. D022 is actual current largewholepose steps despite scopednativeclearance pass; old/native/partial results remain separate.",
           "next_action": "Update final retests while retaining failed epochs."
         },
         {
@@ -463,7 +476,7 @@
         {
           "id": "H1.2",
           "name": "Hardware requirement 1",
-          "criterion": "The intended target is 1920\u00d71080 at 60 fps during a representative ten-minute moving circuit through all six areas, including tricks, rail contacts, crowded views and menus. Record warm-up separately, average, median, p95/p99 frame times, worst stalls, memory and thermal/power conditions where observable.",
+          "criterion": "The intended target is 1920×1080 at 60 fps during a representative ten-minute moving circuit through all six areas, including tricks, rail contacts, crowded views and menus. Record warm-up separately, average, median, p95/p99 frame times, worst stalls, memory and thermal/power conditions where observable.",
           "result": "Unmeasured",
           "evidence_or_limit": "No actual ten-minute1080p target circuit.",
           "next_action": "Run representative ten-minute full-area route, separate warmup."
@@ -498,7 +511,7 @@
   "tickets": [
     {
       "id": "FID-001",
-      "title": "FID-001 \u2014 Preserve the baseline and bind evidence to source",
+      "title": "FID-001 — Preserve the baseline and bind evidence to source",
       "clauses": [
         {
           "id": "FID-001.A",
@@ -532,7 +545,7 @@
     },
     {
       "id": "FID-002",
-      "title": "FID-002 \u2014 Persist the specialist studio and exact-use-case skills",
+      "title": "FID-002 — Persist the specialist studio and exact-use-case skills",
       "clauses": [
         {
           "id": "FID-002.A",
@@ -573,7 +586,7 @@
     },
     {
       "id": "FID-010",
-      "title": "FID-010 \u2014 Evaluate engine/renderer against MacBook Air M5",
+      "title": "FID-010 — Evaluate engine/renderer against MacBook Air M5",
       "clauses": [
         {
           "id": "FID-010.A",
@@ -614,7 +627,7 @@
     },
     {
       "id": "FID-101",
-      "title": "FID-101 \u2014 Replace visible blockout character forms",
+      "title": "FID-101 — Replace visible blockout character forms",
       "clauses": [
         {
           "id": "FID-101.A",
@@ -655,7 +668,7 @@
     },
     {
       "id": "FID-102",
-      "title": "FID-102 \u2014 Make shoe, hand and board contacts coherent",
+      "title": "FID-102 — Make shoe, hand and board contacts coherent",
       "clauses": [
         {
           "id": "FID-102.A",
@@ -696,7 +709,7 @@
     },
     {
       "id": "FID-103",
-      "title": "FID-103 \u2014 Finish native skateboard construction and side UVs",
+      "title": "FID-103 — Finish native skateboard construction and side UVs",
       "clauses": [
         {
           "id": "FID-103.A",
@@ -744,7 +757,7 @@
     },
     {
       "id": "FID-201",
-      "title": "FID-201 \u2014 Replace poor route-facing surface textures",
+      "title": "FID-201 — Replace poor route-facing surface textures",
       "clauses": [
         {
           "id": "FID-201.A",
@@ -785,7 +798,7 @@
     },
     {
       "id": "FID-202",
-      "title": "FID-202 \u2014 Ground the scene with coherent light and material response",
+      "title": "FID-202 — Ground the scene with coherent light and material response",
       "clauses": [
         {
           "id": "FID-202.A",
@@ -826,7 +839,7 @@
     },
     {
       "id": "FID-203",
-      "title": "FID-203 \u2014 Remove remaining architectural placeholders along primary lines",
+      "title": "FID-203 — Remove remaining architectural placeholders along primary lines",
       "clauses": [
         {
           "id": "FID-203.A",
@@ -867,7 +880,7 @@
     },
     {
       "id": "FID-301",
-      "title": "FID-301 \u2014 Eliminate reproduced motion and camera discontinuities",
+      "title": "FID-301 — Eliminate reproduced motion and camera discontinuities",
       "clauses": [
         {
           "id": "FID-301.A",
@@ -880,8 +893,8 @@
           "id": "FID-301.B",
           "criterion": "Fix the identified discontinuities while preserving eligible input timing, takeoff momentum, rail release and combo deadlines.",
           "result": "Fail",
-          "evidence_or_limit": "D022/P0: actual75 current-matrix observations independently expose35.154/27.715/34.902-degree whole-Visual steps and0.76/0.58/0.73m world-head steps; native finite clearance was a separate scoped pass. The later actual round-combined133/1 remains rejected:23Transition+67Round+32Motion subsets pass, C04 is10/1 with real board11.399mm/tyre47.325mm below native PrintYard floor atphysics3547. No moving/GPU or full-current acceptance.",
-          "next_action": "Review bounded early finite-floor handoff on the exact combined prefix, preserve every native clearance/input/body guard, then verify current matrices, consecutive normal-speed pixels and complete current regression."
+          "evidence_or_limit": "D022 remains open. Actual75 recorded large descending-air pose steps; actual133/1 later found real board/tyre floor intrusion. Reviewed Handoff05 private exact combined prefix134/0+14owner/head controls reduces qualified landing Board step to4.297° and body-local Head step0.13025m without accepting a hardfit or changing physical rows. Root actual strict134/0 and complete required03 6600/0+CLI2/0 now pass. A separate grounded22.67° Visual/0.607m body-local Head pop remains in private same-source pose data; no complete normal-speed/GPU motion verdict follows.",
+          "next_action": "Repair/review the remaining finite grounded pose discontinuity, then inspect consecutive normal-speed current pixels and actual physical events; preserve contact guards."
         },
         {
           "id": "FID-301.C",
@@ -908,7 +921,7 @@
     },
     {
       "id": "FID-302",
-      "title": "FID-302 \u2014 Deliver complete animation state transitions and landing weight",
+      "title": "FID-302 — Deliver complete animation state transitions and landing weight",
       "clauses": [
         {
           "id": "FID-302.A",
@@ -928,8 +941,8 @@
           "id": "FID-302.C",
           "criterion": "No ordinary transition contains a single-frame pose pop or angular joint collapse.",
           "result": "Fail",
-          "evidence_or_limit": "D022/P0: actual75 current-matrix observations independently expose35.154/27.715/34.902-degree whole-Visual steps and0.76/0.58/0.73m world-head steps; native finite clearance was a separate scoped pass. The later actual round-combined133/1 remains rejected:23Transition+67Round+32Motion subsets pass, C04 is10/1 with real board11.399mm/tyre47.325mm below native PrintYard floor atphysics3547. No moving/GPU or full-current acceptance.",
-          "next_action": "Review bounded early finite-floor handoff on the exact combined prefix, preserve every native clearance/input/body guard, then verify current matrices, consecutive normal-speed pixels and complete current regression."
+          "evidence_or_limit": "D022 remains open. Actual75 recorded large descending-air pose steps; actual133/1 later found real board/tyre floor intrusion. Reviewed Handoff05 private exact combined prefix134/0+14owner/head controls reduces qualified landing Board step to4.297° and body-local Head step0.13025m without accepting a hardfit or changing physical rows. Root actual strict134/0 and complete required03 6600/0+CLI2/0 now pass. A separate grounded22.67° Visual/0.607m body-local Head pop remains in private same-source pose data; no complete normal-speed/GPU motion verdict follows.",
+          "next_action": "Repair/review the remaining finite grounded pose discontinuity, then inspect consecutive normal-speed current pixels and actual physical events; preserve contact guards."
         },
         {
           "id": "FID-302.D",
@@ -949,7 +962,7 @@
     },
     {
       "id": "FID-303",
-      "title": "FID-303 \u2014 Make the push stroke face and follow actual travel",
+      "title": "FID-303 — Make the push stroke face and follow actual travel",
       "clauses": [
         {
           "id": "FID-303.A",
@@ -997,20 +1010,20 @@
     },
     {
       "id": "FID-304",
-      "title": "FID-304 \u2014 Verify manual combo links and an honest balance meter",
+      "title": "FID-304 — Verify manual combo links and an honest balance meter",
       "clauses": [
         {
           "id": "FID-304.A",
-          "criterion": "Real input demonstrates air\u2192manual\u2192air and air\u2192manual\u2192ground-bank, preserving the intended combo across valid links and banking once on actual expiry/exit.",
+          "criterion": "Real input demonstrates air→manual→air and air→manual→ground-bank, preserving the intended combo across valid links and banking once on actual expiry/exit.",
           "result": "Unmeasured",
           "evidence_or_limit": "Author real5-entry line passes, but whole-source author epoch rejected; independent final link/bank run pending.",
-          "next_action": "Replay actual air\u2192manual\u2192air and manual\u2192bank with source-stable events."
+          "next_action": "Replay actual air→manual→air and manual→bank with source-stable events."
         },
         {
           "id": "FID-304.B",
           "criterion": "Define the admitted early/late request window and held/gesture semantics; test requests around landing, release/cancellation, speed threshold, cooldown, pause/restart, expired/stale inputs and bail. Valid landing manual admission must occur before an accidental score bank, without inventing a link while unsupported.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Independent frozen landing matrix47/0: fifteen real Main cases;100\u2013333ms fresh and200ms gesture link at native contact,350ms exact expiry and released/stale requests reject, original combo banks once. Full threshold/cooldown/pause/restart/bail scope remains open.",
+          "evidence_or_limit": "Independent frozen landing matrix47/0: fifteen real Main cases;100–333ms fresh and200ms gesture link at native contact,350ms exact expiry and released/stale requests reject, original combo banks once. Full threshold/cooldown/pause/restart/bail scope remains open.",
           "next_action": "Replay fresh/released/stale/gesture/threshold/cooldown/pause/restart/bail boundary cases."
         },
         {
@@ -1045,7 +1058,7 @@
     },
     {
       "id": "FID-401",
-      "title": "FID-401 \u2014 Review enclosed Tony Hawk lines and quantify current dead space",
+      "title": "FID-401 — Review enclosed Tony Hawk lines and quantify current dead space",
       "clauses": [
         {
           "id": "FID-401.A",
@@ -1086,7 +1099,7 @@
     },
     {
       "id": "FID-402",
-      "title": "FID-402 \u2014 Build dense original set pieces and return loops",
+      "title": "FID-402 — Build dense original set pieces and return loops",
       "clauses": [
         {
           "id": "FID-402.A",
@@ -1106,7 +1119,7 @@
           "id": "FID-402.C",
           "criterion": "Audit opportunity intervals and longest empty stretch against L1 targets, with deliberate run-up/recovery exceptions explained.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Old observer timing was withdrawn. Independent new log reading confirms manual\u2192secondcatch159physicsframes/2.65s, but safe return570frames/9.50s lacks a trick and does not certify a closed trick circuit. Whole-map intervals remain open.",
+          "evidence_or_limit": "Old observer timing was withdrawn. Independent new log reading confirms manual→secondcatch159physicsframes/2.65s, but safe return570frames/9.50s lacks a trick and does not certify a closed trick circuit. Whole-map intervals remain open.",
           "next_action": "Compute actual physics-time events, longest empty return and8m/s reference separately."
         },
         {
@@ -1127,7 +1140,7 @@
     },
     {
       "id": "FID-403",
-      "title": "FID-403 \u2014 Verify playable gaps, rails, landings and line continuity",
+      "title": "FID-403 — Verify playable gaps, rails, landings and line continuity",
       "clauses": [
         {
           "id": "FID-403.A",
@@ -1168,7 +1181,7 @@
     },
     {
       "id": "FID-404",
-      "title": "FID-404 \u2014 Protect exploration, career and challenge approaches",
+      "title": "FID-404 — Protect exploration, career and challenge approaches",
       "clauses": [
         {
           "id": "FID-404.A",
@@ -1209,7 +1222,7 @@
     },
     {
       "id": "FID-501",
-      "title": "FID-501 \u2014 Freeze, run regression and capture the integrated candidate",
+      "title": "FID-501 — Freeze, run regression and capture the integrated candidate",
       "clauses": [
         {
           "id": "FID-501.A",
@@ -1221,9 +1234,9 @@
         {
           "id": "FID-501.B",
           "criterion": "Run `./tools/check.sh` with current counts, nonzero failure behaviour and clean error scan.",
-          "result": "Fail",
-          "evidence_or_limit": "Completed actualrequired02:6526pass/7assertfail plus3runtimefreed-ownerScriptErrors,exit1,886unchanged inputs,2241.249s. Independent17/0 source/log and12/0 preservation checks verify rejection. CLI Music launchstage didnotrun. Distinct currentClydechase/copingcapture/runtime failures and reviewed board/route expectation migrations require fresh fixes and fullgate.",
-          "next_action": "Fix/retest current live failures without weakened guards, then rerun complete tools/check.sh and CLI Music stage."
+          "result": "Pass",
+          "evidence_or_limit": "Latest required04 returns6697/0 plusCLI2/0,exit0/no rawerrors. Independent18-check audit confirms all895 existing inputs unchanged; five newUID sidecars appear, so raw eligible=false is preserved and separately qualified. Earlier strict required03 remains6600/0+CLI2/0 with890 equal before/after inputs. Full04 includes Mac-compatible imports and native-return gap tests. Shared-host Linux correctness is not moving/M5/AAA acceptance.",
+          "next_action": "Retain the raw freeze exception and source closure/UID binding; gate later integrated world changes separately. Keep native results, source identity, rendered and hardware outcomes distinct."
         },
         {
           "id": "FID-501.C",
@@ -1236,8 +1249,8 @@
           "id": "FID-501.D",
           "criterion": "Independently inspect actual output; file defects and repair/retest P0/P1 integration failures.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Required02 rejection independentlypreserved; actual75 finite/camera gate passes but independentlyrevealsD022/P0 largewholepose steps. Rootdispatches matchedcause/progressivefix; finalcurrent native/moving P0/P1 retest incomplete.",
-          "next_action": "Inspect actual final output and resolve/retest reported integration defects."
+          "evidence_or_limit": "Historical required02/actual133 rejections remain. Latest full04 is6697/0+CLI2/0 with raw eligible=false solely five generatedUID additions; previous strictfull03 passed. Handoff05/actual134 repair qualified air contact. Grounded D022, normal-speed finish, new-world integration and actualMac/M5 remain open; positive contact counts do not erase observed pose failure.",
+          "next_action": "Retain exact source/UID qualification, repair remaining actual movement defect and review normal-speed current pixels before complete acceptance."
         },
         {
           "id": "FID-501.E",
@@ -1250,7 +1263,7 @@
     },
     {
       "id": "FID-502",
-      "title": "FID-502 \u2014 Independently audit every benchmark and ticket outcome",
+      "title": "FID-502 — Independently audit every benchmark and ticket outcome",
       "clauses": [
         {
           "id": "FID-502.A",
@@ -1277,7 +1290,7 @@
           "id": "FID-502.D",
           "criterion": "File actionable defects for every failed required clause and assign owners.",
           "result": "Pass",
-          "evidence_or_limit": "Observed failures/investigations maptoD001\u2013022 with owners/repro/retest; assetBA hasD801\u2013803. CurrentD022/P0 is independentlymeasured from actual887-source/459tick matrixtrace; no GPUorcausalclaiminvented.",
+          "evidence_or_limit": "Observed failures/investigations maptoD001–022 with owners/repro/retest; assetBA hasD801–803. CurrentD022/P0 is independentlymeasured from actual887-source/459tick matrixtrace; no GPUorcausalclaiminvented.",
           "next_action": "Add concrete final defects, retain old source scope and verify repairs."
         },
         {
@@ -1298,7 +1311,7 @@
     },
     {
       "id": "FID-503",
-      "title": "FID-503 \u2014 Prove actual MacBook Air M5 play and sustained performance",
+      "title": "FID-503 — Prove actual MacBook Air M5 play and sustained performance",
       "clauses": [
         {
           "id": "FID-503.A",
@@ -1339,7 +1352,7 @@
     },
     {
       "id": "FID-601",
-      "title": "FID-601 \u2014 Merge tested source into main and leave a reproducible handoff",
+      "title": "FID-601 — Merge tested source into main and leave a reproducible handoff",
       "clauses": [
         {
           "id": "FID-601.A",
@@ -1373,15 +1386,15 @@
           "id": "FID-601.E",
           "criterion": "Source contains reusable skills/roster, compatible asset notices and no generated caches/credentials.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Thirteen reusable roles/skills and source asset notices independently cold-reviewed; final tracked/generated/credential inventory not yet reviewed.",
-          "next_action": "Inspect staged/source inventory and exclude caches/credentials/unneeded generated data."
+          "evidence_or_limit": "Latest source-only studio review46/0 verifies16 durable roles/16skills and194 local links across40documents, including explicit world/persistence ownership. Earlier15-role/GLC and13-role/board audits keep their original source scopes. Final staged/asset-notice/credential inventory is a separate checkpoint gate.",
+          "next_action": "Inspect final staged/source inventory and licences; preserve evidence and exclude generated caches/credentials."
         },
         {
           "id": "FID-601.F",
           "criterion": "Normal merged trial features remain enabled and Music isolation intact.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Bounded snapshots/sign run preserve ordinary defaults and CLI Music; full final preservation pending.",
-          "next_action": "Run default-feature, actual Music-isolation and progression/career regressions."
+          "evidence_or_limit": "Latest full04 native6697/0+CLI2/0 runs actualCityTour/Mac-compatible imports/integratedgap consumers with Music isolation; raw UID-sidecar source exception is explicit. Book/Catalog65/0 remain private code-only fixtures. Newworld/defaultselection/activitylabels/menu/input/persistence lifecycle is not covered by this fullsuite.",
+          "next_action": "Run actual selected-world/default-feature/save-domain/input-lifetime/Music tests after world migration; no inheritance from code-only Book."
         },
         {
           "id": "FID-601.G",
@@ -1398,9 +1411,9 @@
     "active_tickets": 21,
     "ticket_clauses": 110,
     "results": {
-      "Fail": 20,
+      "Fail": 18,
       "Unmeasured": 102,
-      "Pass": 32
+      "Pass": 34
     }
   },
   "head_scope": "Repository checkpoint identity only. Native/source/pixel evidence retains each exact recorded manifest, dirty/private composition and limitations; this is not a current whole-game pass.",
@@ -1411,6 +1424,22 @@
       "previous_sha256": "b8dd171859d24813d6f7156924348e35264b91147a7cad15bb28c35e65e5206c",
       "current_sha256": "da1c638d08d27b96b4abc10a671a39ae05c17cd1ed9b2c20327015b9eb91112f",
       "criterion_comparison": "All110 clause texts match after Markdown/whitespace normalization. Evidence/status text changed; no criterion relaxed."
+    },
+    {
+      "utc": "2026-11-07T11:10:21.134806+00:00",
+      "path": "docs/planning/FIDELITY_TICKETS.md",
+      "previous_sha256": "da1c638d08d27b96b4abc10a671a39ae05c17cd1ed9b2c20327015b9eb91112f",
+      "current_sha256": "6bf29891dc15efd6f40a0a48608f0074af36ce9efe69c3f72a5a041cec19c726",
+      "criterion_comparison": "All110 clause texts match after Markdown/whitespace normalization. Status/evidence/assigned GLC links changed; no criterion relaxed. New owner geography direction is a separate scope overlay."
+    }
+  ],
+  "scope_overlays": [
+    {
+      "subject": "Default-level geography",
+      "authority": "Owner steering forwarded by root2026-11-07 after10:31, then Warehouse too small / think SanFrancisco correction",
+      "finding": "Old six-arena default retention superseded, not passed.112×88MerchantYard is also superseded as a rejected-scale draft. Medium dense original urban proposal pending. Preserve optionalCityTour/history, score/contact rules, Music, licensing and target-device evidence.",
+      "counts_scope": "154 preserved original clauses remain a historical/source-bound evidence map; their counts are not completion percentages or silent acceptance of new layout/GLC requirements.",
+      "current_new_layout_acceptance": "Unmeasured. Current Merchant District geometry and Catalog/Book/Main selection remain private prototypes with separate partial evidence; no new default or complete frozen replacement acceptance set is admitted."
     }
   ]
 }

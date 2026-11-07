@@ -1,0 +1,26 @@
+{
+  "events": [
+    {
+      "command": [
+        "./tools/run.sh",
+        "--resolution",
+        "1280x800",
+        "--script",
+        "probe.gd",
+        "--",
+        "--render-six"
+      ],
+      "start_utc": "2026-11-07T12:11:43.649175+00:00",
+      "xorg_pid": 130074,
+      "godot_pid": 130078,
+      "exit": -15,
+      "finish_utc": "2026-11-07T12:12:38.229187+00:00"
+    }
+  ],
+  "finished_utc": "2026-11-07T12:12:38.430161+00:00",
+  "elapsed_seconds": 55.2604086479987,
+  "source_changed": [],
+  "accepted": false,
+  "error": "Native graphics exit/log rejection",
+  "scope": "Private selected-world matched6camera locations/12frames. Per-process resource/nativepixel diagnostics; known full04/authorizedMEheadless overlap, no timing/M5/pacing/fullgameplay claim. Two observer-only debug materials/markers retained identically in A/B, excluded from art inventories."
+}

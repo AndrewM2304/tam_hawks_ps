@@ -1,0 +1,1 @@
+Initial author audit stopped before a report because fitted-reference head_rim contains47 UV-split rows for46 unique sourceBODY IDs. Audit incorrectly assumed46 rows. No engine or source mutation; threshold unchanged. Corrected array size follows actual reference length and independently checks46 unique sourceIDs.

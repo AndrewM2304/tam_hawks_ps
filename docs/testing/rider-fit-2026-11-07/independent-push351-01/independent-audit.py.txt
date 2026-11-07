@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""Independent offline full-frame/source/palette audit; no Godot/author imports."""
+from pathlib import Path
+import collections,datetime,gzip,hashlib,io,json,re,shutil,subprocess,zipfile
+import numpy as np
+from PIL import Image
+R=Path('/workspace/tam_hawks_ps');B=R/'.local/rider-fit-staging/whole-push-launch/durable-push351';O=R/'docs/testing/rider-fit-2026-11-07/independent-push351-01';O.mkdir(exist_ok=True)
+H=lambda b:hashlib.sha256(b).hexdigest();load=lambda p:json.loads(p.read_text());checks=[]
+def ck(name,yes,actual=None):checks.append({'check':name,'pass':bool(yes),'actual':actual})
+index=load(B/'index.json')['files']
+ck('all44 packet files match preservation hashes/lengths',len(index)==44 and all(H((B/n).read_bytes())==v['sha256'] and (B/n).stat().st_size==v['bytes'] for n,v in index.items()))
+m=load(B/'manifest.json');before=load(B/'source-before.json');after=load(B/'source-after.json');copy=load(B/'copy-epoch.json');launch=load(B/'launch-receipt.json')
+ck('879 executed source records unchanged',before==after and len(before)==879 and launch['source_unchanged'] and launch['source_count']==879)
+ck('copy descriptor native-bound',H((B/'copy-epoch.json').read_bytes())==launch['copy_epoch_sha256']==m['immutable_source_epoch']['copy_epoch_file_sha256'])
+native_output=Path(launch['output']);native_project=native_output.parents[1]
+ck('252 recorded by-value compiled cache pins match independent later read',len(copy['compiled_cache_sha256'])==252 and all((native_project/n).is_file() and not (native_project/n).is_symlink() and H((native_project/n).read_bytes())==v for n,v in copy['compiled_cache_sha256'].items()))
+ck('3772/0 native owner completion inside declared5400s',m['checks']==3772 and m['failures']==0 and launch['returncode']==0 and launch['failure']is None and 0<launch['wall_seconds']<launch['bound_seconds']==5400)
+ck('native/import/smoke raw hashes and no raw errors',all(H((B/'raw'/n).read_bytes())==m[field] for n,field in [('engine.log','engine_log_sha256'),('import.log','import_log_sha256'),('snapshot-smoke.log','snapshot_smoke_log_sha256')]) and all(not re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|(?:^|\n)ERROR:|^FAIL:',(B/'raw'/n).read_text(),re.M) for n in ['engine.log','import.log','snapshot-smoke.log']))
+repro=load(B/'source-reproduction.json');delta=zipfile.ZipFile(B/'executed-source-delta.zip');names=set(delta.namelist());base=repro['git_base'];base_names=[n for n in before if n not in names]
+ck('19 changed source objects in exact delta',len(names)==19 and all(n in before and H(delta.read(n))==before[n] for n in names))
+data=subprocess.run(['git','cat-file','--batch'],cwd=R,input=''.join(base+':'+n+'\n' for n in base_names).encode(),stdout=subprocess.PIPE,check=True).stdout
+stream=io.BytesIO(data);git_bad=[]
+for name in base_names:
+ header=stream.readline().decode().strip().split()
+ if len(header)!=3 or header[1]!='blob':git_bad.append(name);continue
+ body=stream.read(int(header[2]));assert stream.read(1)==b'\n'
+ if H(body)!=before[name]:git_bad.append(name)
+ck('all remaining860 source objects reproduce from pinned Git base',len(base_names)==860 and not git_bad,git_bad)
+del data,stream
+for n,pin in {'game/player/skater.gd':'1ef6cdb7dfe2942d1d3aa8f025d89213e2f1f06500fcfb588b7d18734de27f84','game/player/skater_anatomy.gd':'691b0a9362f925434077598df02b61b5adcfffe6f43b84061a313180f041f096','game/player/skater_visual.gd':'1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05'}.items():ck('actual declared body source '+n,before[n]==pin)
+def function(text,name):
+ hit=re.search(r'^func '+re.escape(name)+r'\(.*?(?=^func |\Z)',text,re.M|re.S);assert hit,name;return hit.group(0)
+original=(B/'actual-base-capture.gd').read_text();executed=(B/'executed-capture.gd').read_text()
+for n in ['_run','_observe','_snapshot']:ck('original complete capture function retained '+n,function(original,n)==function(executed,n))
+ck('exact executed capture bytes before-bound',before['tools/full_fidelity_capture.gd']==H(executed.encode()))
+rig=[json.loads(line) for line in gzip.open(B/'native-rig-readbacks.jsonl.gz','rt')];by={v['relative_file']:v for v in rig};buffers=load(B/'exact-buffer-index.json');z=zipfile.ZipFile(B/'exact-native-buffers.zip');bm={v['original_file']:v for v in buffers};frames=[v for c in m['clips'] for v in c['frames']];allframes=m['synchronization_proofs']+frames
+ck('354 unique readbacks/lossless buffers,351selected plus3sync',len(rig)==len(by)==len(buffers)==len(z.namelist())==len(allframes)==354 and len(frames)==351 and len(m['clips'])==3)
+max_projection=max_centroid=0.;pixels_review=[]
+for frame in allframes:
+ name=frame['file'];row=by[name];entry=bm[name];webp=z.read(entry['member']);im=Image.open(io.BytesIO(webp)).convert('RGBA');rgba=im.tobytes()
+ ck('exact native decoded buffer '+name,im.size==(640,400) and H(webp)==entry['webp_sha256'] and H(rgba)==entry['native_rgba8_sha256']==row['rgba8_sha256']==frame['pixels']['rgba8_sha256'] and len(rgba)==row['bytes']==frame['pixels']['bytes']==1024000 and entry['original_png_sha256']==frame['sha256'])
+ ck('retained original encoded PNG also exact '+name,H((native_output/name).read_bytes())==entry['original_png_sha256'] and Image.open(native_output/name).convert('RGBA').tobytes()==rgba)
+ ck('same current rig/camera/counter bracket '+name,row['before_current']==row['after_current'] and row['camera_before']==row['camera_after'] and row['counters_before']==row['counters_after'])
+ ck('actual11bones/3nativeRS palettes '+name,len(row['after_current']['bones'])==11 and set(row['after_rendered']['native_skin_palettes'])=={'SkinnedJacket','SkinnedTrousers','UpperChest'} and all(len(v['palette'])==11 for v in row['after_rendered']['native_skin_palettes'].values()))
+ if 'state' in frame:
+  ck('selected actual frame counters match sidecar '+name,row['counters_after']=={'physics':frame['state']['physics_frame'],'process':frame['state']['process_frame']} and row['native_step']==frame['native_step'])
+ else:
+  ck('sync actual Canvas '+name,list(im.getpixel(tuple(frame['canvas_pixel'])))==frame['canvas_expected'] and frame['same_native_frame'])
+  for marker in frame['markers']:
+   channel=0 if marker['color_channel']=='red' else 1;px,py=marker['projected_pixel'];points=[]
+   for y in range(max(0,int(py)-12),min(400,int(py)+13)):
+    for x in range(max(0,int(px)-12),min(640,int(px)+13)):
+     rgb=im.getpixel((x,y))[:3]
+     if rgb[channel]>191 and all(rgb[channel]-rgb[k]>51 for k in range(3) if k!=channel):points.append([x+.5,y+.5])
+   err=float(np.linalg.norm(np.mean(points,axis=0)-[px,py]))if points else float('inf');max_centroid=max(max_centroid,err);ck('sync independently decoded '+marker['kind']+' marker '+name,len(points)>=4 and err<=2.5,err)
+ camera=row['camera_after'];model=np.array(camera['model']);projection=np.array(camera['projection']);ck('finite camera/projection '+name,np.isfinite(model).all() and np.isfinite(projection).all() and camera['native_size']==[640,400] and camera['near']>0 and camera['far']>camera['near'])
+ pixels_review.append({'file':name,'rgba_sha256':H(rgba)})
+for clip in m['clips']:
+ f=clip['frames'];ck('117 consecutive selected physics ticks '+clip['id'],len(f)==clip['native_steps']==117 and clip['sample_stride']==1 and all(b['state']['physics_frame']==a['state']['physics_frame']+1 and b['native_step']==a['native_step']+1 for a,b in zip(f,f[1:])))
+ video=B/clip['video']['file'];probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-select_streams','v:0','-show_entries','stream=codec_name,width,height,r_frame_rate,nb_frames,duration','-of','json',str(video)]))['streams'][0]
+ result=subprocess.run(['ffmpeg','-v','error','-i',str(video),'-f','null','-'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+ ck('original fully decodes117native60Hz movie '+clip['id'],H(video.read_bytes())==clip['video']['sha256'] and probe['width']==640 and probe['height']==400 and probe['r_frame_rate']=='60/1' and probe['nb_frames']=='117' and abs(float(probe['duration'])-1.95)<1e-6 and result.returncode==0 and not result.stderr)
+counts=collections.Counter(v['phase'] for v in m['native_timeline']);ck('all7phase physical657timeline retained',counts=={'push_contact_regular':117,'push_contact_fakie':117,'push_contact_from_rest':117,'push_contact_brake':120,'push_contact_brake_return':36,'push_contact_pop_catch':81,'push_contact_pop_early':69})
+
+# Independent source-authenticated native seam maps, raw UNORM local xyz, MODEL once.
+g=json.load(gzip.open(B/'native-rig-geometry.json.gz','rt'))['geometry'];ref=json.load(gzip.open(B/'fitted-reference.json.gz','rt'));mapped={}
+for part in ['SkinnedJacket','SkinnedTrousers','UpperChest']:
+ src=ref['parts'][part];positions=np.array(g[part]['vertices']);n=len(positions);bones=np.array(g[part]['bones']).reshape(n,-1);weights=np.array(g[part]['weights']).reshape(n,-1);ids={v['source_id'] for v in ref['head_rim']}if part=='UpperChest'else{i for edge in ref['waist_edges']for i in edge};found={}
+ for i,sid in enumerate(src['source_ids']):
+  if sid not in ids:continue
+  wanted=np.bincount(src['attributes']['JOINTS_0'][i],weights=src['attributes']['WEIGHTS_0'][i],minlength=11)
+  for ni in np.where(np.linalg.norm(positions-np.array(src['attributes']['POSITION'][i]),axis=1)<1e-6)[0]:
+   got=np.bincount(bones[ni],weights=weights[ni],minlength=11)
+   if np.max(np.abs(wanted-got))<=weights.shape[1]/65535+1e-6:found.setdefault(sid,set()).add(int(ni))
+ ck('all actual native source seam identities '+part,set(found)==ids and np.isfinite(positions).all() and np.isfinite(weights).all() and bones.min()>=0 and bones.max()<11 and np.max(np.abs(weights.sum(axis=1)-1))<=weights.shape[1]/65535+1e-6)
+ mapped[part]=(found,positions,bones,weights)
+head=np.array(g['head']['vertices']);head_ids={}
+for rim in ref['head_rim']:
+ candidates=np.where(np.linalg.norm(head-np.array(rim['local']),axis=1)<1e-5)[0];ck('native Head rim identity '+str(rim['source_id']),len(candidates)>0);head_ids.setdefault(rim['source_id'],set()).update(int(v)for v in candidates)
+def world(model,p):return (model@np.r_[p,1.])[:3]
+def skin(row,part,clock):
+ mapping,points,bones,weights=mapped[part];native=row['after_rendered']['native_skin_palettes'][part];palette=np.array(native['palette']);model=np.array(native['mesh_'+clock]);out={}
+ for sid,inds in mapping.items():
+  out[sid]=[]
+  for i in inds:
+   p=np.r_[points[i],1.];local=sum(((palette[bi]@p)[:3]*w for bi,w in zip(bones[i],weights[i])),start=np.zeros(3));out[sid].append(world(model,local))
+ return out
+maximum={'current_neck_m':0.,'rendered_neck_m':0.,'current_waist_m':0.,'rendered_waist_m':0.};seams=[]
+for row in rig:
+ measures={'file':row['relative_file']}
+ for clock in ['current','rendered']:
+  upper=skin(row,'UpperChest',clock);shirt=skin(row,'SkinnedJacket',clock);pants=skin(row,'SkinnedTrousers',clock);hm=np.array(row['after_current']['nodes']['head_mesh']if clock=='current'else row['after_rendered']['nodes']['head_mesh']['model']);neck=max(np.linalg.norm(u-world(hm,head[hi]))for sid,pts in upper.items()for u in pts for hi in head_ids[sid]);waist=max(np.linalg.norm(p-q)for sid,pts in shirt.items()for p in pts for q in pants[sid]);maximum[clock+'_neck_m']=max(maximum[clock+'_neck_m'],float(neck));maximum[clock+'_waist_m']=max(maximum[clock+'_waist_m'],float(waist));measures[clock+'_neck_m']=float(neck);measures[clock+'_waist_m']=float(waist)
+  ck('native model-once seam arithmetic '+clock+' '+row['relative_file'],neck<.00005 and waist<.00005)
+ seams.append(measures)
+motion=[]
+def rotation(matrix):u,s,v=np.linalg.svd(np.array(matrix)[:3,:3]);return u@v
+for clip in m['clips']:
+ selected=[by[f['file']]for f in clip['frames']]
+ for node in ['visual','board','torso','head_mesh','foot0','foot1','hand0','hand1']:
+  values=[]
+  for i in range(1,len(selected)):
+   a=selected[i-1]['after_current']['nodes'];b=selected[i]['after_current']['nodes'];turn=float(np.degrees(np.arccos(np.clip((np.trace(rotation(a[node]).T@rotation(b[node]))-1)*.5,-1,1))));body_delta=np.array(b['actor'])[:3,3]-np.array(a['actor'])[:3,3];local_delta=float(np.linalg.norm(np.array(b[node])[:3,3]-np.array(a[node])[:3,3]-body_delta));values.append({'to_frame':i,'turn_degrees':turn,'translation_after_body_motion_removed_m':local_delta})
+  motion.append({'clip':clip['id'],'node':node,'largest_turn':max(values,key=lambda x:x['turn_degrees']),'largest_translation':max(values,key=lambda x:x['translation_after_body_motion_removed_m'])})
+report={'reviewer':'/root/independent_qa','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'Independent offline source reconstruction,354exact buffer/current-pose/palette readbacks,117×3 timeline+MP4 decode and native seam arithmetic. No engine rerun or normal-speed video watching.','checks':checks,'passed':sum(v['pass']for v in checks),'failed':sum(not v['pass']for v in checks),'maximum_seams':maximum,'seam_rows':seams,'all_pixel_rows':pixels_review,'sync_centroid_max_px':max_centroid,'native_phase_counts':dict(counts),'current_pose_step_metrics':motion,
+ 'viewed':{'chronological_thumbnails':'All three117-frame sheets personally opened. These are derivatives, not original-resolution evidence.','native_original_resolution_buffers':['push_contact_regular050/051/052','push_contact_fakie003/004/005','push_contact_from_rest069/070/071/072'],'finding':'Supporting/pushing feet, collar and waist remain visibly connected in these ten frames. Pushing leg extends behind travel and supporting sole stays over deck; the hand/shoulder silhouette changes quickly around from-rest069→070. No detached head/waist or whole-rigid-Visual pop observed here. Hand splay, bright nape/cuff highlights, stiff folds and coarse knee/board finish remain. The original nonuniform camera policies stay explicit.'},
+ 'verdict':'Pass for exact source/pixel/timeline/movie-decode and native seam integrity. Ten inspected native buffers support bounded connected-rider appearance. Natural cadence, complete V3 action/normal-speed human judgment, targetMac and AAA remain open.',
+ 'boundaries':['Three separately initialized117-frame clips; regular/front and from-rest/side are authored cameras, fakie is production chase.','Brake/pop remain physical657timeline scope, visually unreviewed.','Native640 diagnostic, not final1280texture/aliasing acceptance.','Source1ef/691b/1ba and pre-Mac-fixBC7 environment; laterS3TC integration is separate.','Skinned palette is actual RenderingServer bone×bind; raw weights accumulated in localxyz, then actual Mesh MODEL applied once withw1.','Packet does not duplicate252 imported cache bytes. Their copy-time pins match an independently measured later endpoint, not a native-exit cache measurement or write-free claim.','No normal-speed playback tool is available; MP4decode verifies integrity/timing, not human animation feel.','Joint step values are diagnostics without a newly invented pass threshold. From-rest hand0 reaches0.193m relative-body travel in one tick; normal-speed cadence remains a separate review.']}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(__file__,O/'independent-audit.py.txt');print(json.dumps({'passed':report['passed'],'failed':report['failed'],'maximum_seams':maximum,'failures':[v for v in checks if not v['pass']]},indent=2))

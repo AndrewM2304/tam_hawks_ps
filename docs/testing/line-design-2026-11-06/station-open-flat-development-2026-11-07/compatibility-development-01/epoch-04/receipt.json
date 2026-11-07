@@ -1,0 +1,57 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/station-compat-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/station-compat-source/.local/station_compat_probe.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/station-compat-source",
+  "started_utc": "2026-11-07T08:21:45.833920+00:00",
+  "os_deadline_seconds": 105,
+  "source_inputs": 1136,
+  "engine_pid": 95955,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    89810,
+    90358
+  ],
+  "declared_known_project_overlaps": [],
+  "overlap_scope": "Root explicitly authorizes current known qualitative and fixed-tick logical headless overlaps in separate private projects/caches; no timing acceptance",
+  "finished_utc": "2026-11-07T08:23:15.669788+00:00",
+  "wall_seconds": 89.8358788090045,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: station compatibility: supported four-metre body-centre band original career diagonal",
+    "FAIL: station compatibility: every full-prefix actual connected board/shoe/capsule pose is zero-overlap",
+    "FAIL: station candidate: every actual native pose has zero-overlap connected board/shoe/capsule volumes"
+  ],
+  "result": [
+    28,
+    3
+  ],
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "ignored_zombie_process_rows": [
+    "82100 Z    [godot] <defunct>"
+  ],
+  "zombie_policy": "Raw process rows retain state; live concurrency gate excludes only explicit Z-state. Baseline prior receipt remains unchanged.",
+  "unknown_other_engine_observed": true,
+  "preserved_sha256": {
+    "native-process-observer.json": "c1126e21d5cfda11747c871ef5ae8171b9a70d287066004480a80978b2954fc4",
+    "source-before.json": "c3037310a2bd3d9715e8544a84b5c3654f64376ae54aaa171c3650067e1d3ae1",
+    "observer.gd": "7aee947ec95f2b1ad42c801f89ad5c43751bc8e936357da4267c0d0c84de304a",
+    "wrapper.py.txt": "e9c5d3b280061a331005f9f912c9bd192f5b93710e3151bfd75346a840c6e505",
+    "native.log": "0d371755888c75e7abeb7dd83bf990cfbe9ebeb8c7094c89b9170d6a05a1a8b9",
+    "source-after.json": "c3037310a2bd3d9715e8544a84b5c3654f64376ae54aaa171c3650067e1d3ae1"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/station-compat-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/station-compat-source/.local/station_compat_probe.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/station-compat-source",
+  "started_utc": "2026-11-07T07:53:34.424560+00:00",
+  "os_deadline_seconds": 60,
+  "source_inputs": 1136,
+  "engine_pid": 91432,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    89810,
+    90358
+  ],
+  "declared_known_project_overlaps": [],
+  "overlap_scope": "Root explicitly authorizes current known qualitative and fixed-tick logical headless overlaps in separate private projects/caches; no timing acceptance",
+  "finished_utc": "2026-11-07T07:54:00.365965+00:00",
+  "wall_seconds": 25.94140111500019,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: station compatibility: supported four-metre body-centre band original career diagonal",
+    "FAIL: station compatibility: supported four-metre body-centre band new north-turn apron",
+    "FAIL: C04-L02: actual spine transfer feeds the existing manual bank and city street in one mapped-input continuation",
+    "FAIL: C04-L02: independently calculated catalog/repetition/hold receipt banks once without bail or hidden rider",
+    "FAIL: station compatibility: every full-prefix actual connected board/shoe/capsule pose is zero-overlap"
+  ],
+  "result": [
+    3,
+    5
+  ],
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "ignored_zombie_process_rows": [
+    "82100 Z    [godot] <defunct>"
+  ],
+  "zombie_policy": "Raw process rows retain state; live concurrency gate excludes only explicit Z-state. Baseline prior receipt remains unchanged.",
+  "unknown_other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "5ee17322c821c4f3cd6dfc73444327162aac9ff2d31a7099ff1ef04fb9a2cfa2",
+    "source-before.json": "54e720e37bead9b008a6b6b19fd6f880659df4d52bf08f2fb1ebccffb0998dd2",
+    "observer.gd": "c84f16b7a1189ad647194bce7f59aef20b21d3d81271ee1e6a730a4e6be066a1",
+    "wrapper.py.txt": "e9c5d3b280061a331005f9f912c9bd192f5b93710e3151bfd75346a840c6e505",
+    "native.log": "e1dd3e0ac028377954f14e5bff16d8bb3b63277e1857086dfd8f0ab3b7a149b5",
+    "source-after.json": "54e720e37bead9b008a6b6b19fd6f880659df4d52bf08f2fb1ebccffb0998dd2"
+  }
+}

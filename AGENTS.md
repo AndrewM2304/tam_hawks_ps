@@ -1,3 +1,24 @@
+# Owner correction: San Francisco-scale neighbourhood — 7 November 2026
+
+The owner rejects the current sparse city and the proposed Warehouse-sized map:
+"warehouse is a bit small. thik san fransico level". Replan and build a medium,
+dense original Glasgow neighbourhood inspired by Streets/San Francisco's connected
+streets, courts and elevated lines. Cut empty travel and unused areas; do not make
+a tiny isolated skatepark or uniformly shrink the skater/trick geometry. Study
+online references, then validate a playable layout and genuine single-combo lines.
+
+This direction supersedes earlier requirements to instantiate every old district
+in the default map. Preserve old content and progress as separately loaded
+**City Tour**; only the selected world is live. The new default is **Merchant
+District** (`merchant_neighbourhood_v1`), legacy `glasgow_legacy_v1`. Existing
+`career.json` progress belongs to City Tour; preserve it when adopting a versioned
+book with separate level goals/records and shared settings/unlocks. See
+[ADR-035](docs/architecture/decisions/ADR-035-san-francisco-scale-neighbourhood.md),
+the [revised plan](docs/planning/COMPACT-LEVEL-REPLAN-2026-11-07.md) and
+[world integration skill](.agents/skills/world-integration/SKILL.md).
+Proposed geometry and acceptance targets remain unmeasured until actually built
+and exercised. Main-only, no-spend, no-hosted-CI/release and Music isolation remain.
+
 # Fidelity studio mandate — 6 November 2026
 
 The owner requests a substantial realism and skating-line improvement programme,

@@ -1,0 +1,55 @@
+before=snapshot();(E/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');started=utc();wall=time.monotonic();proc=None;failure=None;code=None;observed={};output=None
+# Descendant ownership is sampled continuously; unrelatedagents/processes neverkilled.
+def descendants(parent):
+ table={}
+ for d in Path('/proc').iterdir():
+  if not d.name.isdigit():continue
+  try:
+   fields=(d/'stat').read_text().split(') ',1)[1].split();table[int(d.name)]=int(fields[1])
+  except(OSError,ValueError,IndexError):pass
+ result=set();front={parent}
+ while front:
+  new={pid for pid,ppid in table.items()if ppid in front and pid not in result};result|=new;front=new
+ return result
+try:
+ with(E/'console.log').open('w')as log:
+  proc=subprocess.Popen(command,cwd=Q,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);print(json.dumps({'owner_pid':proc.pid,'utc_start':started,'bound_seconds':5400,'epoch':str(E)}),flush=True)
+  next_progress=0
+  while proc.poll()is None:
+   for pid in descendants(proc.pid)|{proc.pid}:
+    if pid not in observed:
+     try:observed[pid]={'first_seen_utc':utc(),'start_ticks':Path('/proc',str(pid),'stat').read_text().split(') ',1)[1].split()[19],'cmdline':Path('/proc',str(pid),'cmdline').read_bytes().replace(b'\0',b' ').decode(errors='replace')}
+     except OSError:pass
+   if time.monotonic()-wall>5400:raise TimeoutError('Explicit5400secondouterbound exceeded')
+   found=sorted((Q/'.local').glob('full-fidelity-*'))if(Q/'.local').exists()else[]
+   if found:
+    output=found[-1];engine=output/'engine.log'
+    if engine.exists()and any(s in engine.read_text()for s in ['SCRIPT ERROR:','Parse Error:','ERROR:','FAIL:']):raise RuntimeError('Rawnativefailure; preservingpartialepoch')
+   if time.monotonic()>=next_progress:
+    progress={'utc':utc(),'elapsed_seconds':time.monotonic()-wall,'output':str(output)if output else None,'lossless_png_count':sum(1 for _ in output.rglob('*.png'))if output else 0,'observed_owned_processes':observed};(E/'progress.json').write_text(json.dumps(progress,indent=2)+'\n');print(json.dumps({k:v for k,v in progress.items()if k!='observed_owned_processes'}),flush=True);next_progress=time.monotonic()+30
+   time.sleep(1)
+  code=proc.returncode
+except Exception as exc:failure=str(exc)
+finally:
+ if proc and proc.poll()is None:
+  observed.update({pid:observed.get(pid,{})for pid in descendants(proc.pid)})
+  os.killpg(proc.pid,signal.SIGTERM)
+  try:proc.wait(timeout=5)
+  except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait()
+  for pid,row in observed.items():
+   try:
+    if row.get('start_ticks')==Path('/proc',str(pid),'stat').read_text().split(') ',1)[1].split()[19]:os.kill(pid,signal.SIGTERM)
+   except(OSError,IndexError):pass
+  time.sleep(.2)
+  for pid,row in observed.items():
+   try:
+    if row.get('start_ticks')==Path('/proc',str(pid),'stat').read_text().split(') ',1)[1].split()[19]:os.kill(pid,signal.SIGKILL)
+   except(OSError,IndexError):pass
+  code=proc.returncode
+qualified=[]
+if not failure and code==0:
+ for report in [output/'manifest.json',Q/'docs/testing/screenshots/push-natural-three-native640/manifest.json']:
+  if report.is_file():
+   raw=report.read_bytes();d=json.loads(raw);original=E/(report.parent.name+'-'+report.name+'.original');original.write_bytes(raw)
+   d['immutable_source_epoch']={'copy_epoch_file_sha256':sha(E/'copy-epoch.json'),'copy_actual_git_base_commit':git_base,'copy_actual_git_base_was_dirty':bool(git_status),'source_content_authority':'Complete copiedsource SHA inventory before/after; publicgitfields observed enclosingactualrepo atencoding and mayreflect laterRootcommits. They areNOT the copybaseidentity.','native_size_scope':'Native640x400diagnostic; noresize/upsample/finaltexture orM5FPSclaim','original_public_report_sha256':hashlib.sha256(raw).hexdigest()};report.write_text(json.dumps(d,indent=2)+'\n');qualified.append(str(report))
+after=snapshot();(E/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');receipt={'utc_start':started,'utc_end':utc(),'wall_seconds':time.monotonic()-wall,'bound_seconds':5400,'returncode':code,'failure':failure,'source_unchanged':before==after,'source_count':len(before),'output':str(output)if output else None,'qualified_report_paths':qualified,'observed_owned_processes':observed,'copy_epoch_sha256':sha(E/'copy-epoch.json'),'scope':'One complete351frame consecutive60Hz diagnostic cohort ifpublictool/allindependentchecks pass. No unsampledphase/FPS/M5/AAA acceptance. Timeout/rawfailure preservespartialrejection; no autoretry.'};(E/'launch-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));raise SystemExit(0 if not failure and code==0 and before==after else 1)

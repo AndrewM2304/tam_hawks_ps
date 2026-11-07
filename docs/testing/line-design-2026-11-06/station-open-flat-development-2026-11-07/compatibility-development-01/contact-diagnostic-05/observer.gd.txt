@@ -1,0 +1,51 @@
+extends "res://.local/station_open_probe.gd"
+const LineContact=preload("res://tests/line_design_tests.gd")
+
+class ContactWitness extends Witness:
+	var loaded: Array[Dictionary]=[]
+	func _physics_process(delta: float) -> void:
+		super(delta)
+		if rows.is_empty():return
+		var rider: CharacterBody3D=game.skater
+		var row: Dictionary=rows[-1]
+		if not row.capsule_zero and loaded.size()<64:
+			var proof: Dictionary=LineContact._loaded_capsule_contact(game,rider.get_node("BodyCollision").global_transform)
+			loaded.append({"physics":row.physics,"phase":row.phase,"at":row.at,"raw_capsule_zero":false,"loaded_native_floor_proof":proof})
+		if row.board_zero:return
+		var query:=PhysicsShapeQueryParameters3D.new()
+		query.transform=rider._board_visual.global_transform
+		query.collision_mask=1|2|8;query.exclude=[rider.get_rid()];query.margin=0.0
+		var space:=rider.get_world_3d().direct_space_state
+		var parts: Array[Dictionary]=[]
+		for index: int in rider._grind_clearance._parts.size():
+			query.shape=rider._grind_clearance._parts[index].shape
+			var hits:=space.intersect_shape(query,16)
+			if hits.is_empty():continue
+			var native: Array[Dictionary]=[]
+			for hit: Dictionary in hits:
+				var body: CollisionObject3D=hit.collider
+				var owner: int=body.shape_find_owner(int(hit.shape))
+				var shape: Shape3D=body.shape_owner_get_shape(owner,0)
+				var local: Transform3D=PhysicsServer3D.body_get_shape_transform(hit.rid,int(hit.shape))
+				var native_shape_rid: RID=PhysicsServer3D.body_get_shape(hit.rid,int(hit.shape))
+				native.append({"rid":str(hit.rid),"integer_shape":int(hit.shape),"shape_rid":str(native_shape_rid),"path":str(body.get_path()),
+					"body_node_frame":body.global_transform,"body_backend_frame":PhysicsServer3D.body_get_state(hit.rid,PhysicsServer3D.BODY_STATE_TRANSFORM),
+					"local_shape_frame":local,"type":shape.get_class(),"shape_data":PhysicsServer3D.shape_get_data(native_shape_rid),"shape_disabled":body.is_shape_owner_disabled(owner)})
+			parts.append({"part":index,"points":query.shape.points,"board_frame":query.transform,"native":native,"pairs":space.collide_shape(query,64),"rest":space.get_rest_info(query)})
+		print("STATION_CONTACT_FIRST_MODEL ",JSON.stringify({"physics":row.physics,"row":row,"parts":parts,"loaded_capsule_observations":loaded,
+			"board_frame":rider._board_visual.global_transform,"actor_frame":rider.global_transform,"capsule_frame":rider.get_node("BodyCollision").global_transform,
+			"manual_active":rider.manual_active,"airborne":rider.airborne,"on_floor":rider.is_on_floor(),"safe_margin":rider.safe_margin,
+			"floor_normal":rider.get_floor_normal()}))
+		print("STATION_CONTACT RESULT: 0 passed, 1 failed")
+		get_tree().quit(1)
+
+func _run() -> void:
+	Setup.register_actions()
+	var game:=Main.new();game.persistence_enabled=false;root.add_child(game)
+	await Driver._frames(self,5)
+	var witness:=ContactWitness.new();witness.game=game;witness.active=false;witness.process_physics_priority=100
+	game.add_child(witness)
+	var observe: Callable=func(phase: String,_game: Node,_tick: int) -> void:witness.phase=phase;witness.active=true
+	await Driver._station(self,game,_check,observe)
+	print("STATION_CONTACT_NO_MODEL_FAILURE loaded=",JSON.stringify(witness.loaded))
+	game.free();print("STATION_CONTACT RESULT: ",passed," passed, ",failed," failed");quit(1 if failed>0 else 0)

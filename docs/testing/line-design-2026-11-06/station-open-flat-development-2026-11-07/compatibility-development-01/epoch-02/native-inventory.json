@@ -1,0 +1,406 @@
+{
+  "bank_definition": {
+    "approach": "[(-92.2, 2.0, 37.2), (-88.2, 2.0, 37.2)]",
+    "bounds": "[P: (-88.2, 36.1), S: (10.4, 2.200001)]",
+    "district": "central_station",
+    "floor_y": 2.0,
+    "grind_ids": [
+      "Grind_Ledge_station_low_manual"
+    ],
+    "id": "station_low_manual",
+    "kind": "bank_manual_ledge_line",
+    "landing": "[(-77.8, 2.0, 37.2), (-73.8, 2.0, 37.2)]",
+    "line": "[(-92.2, 2.0, 37.2), (-88.2, 2.0, 37.2), (-86.0, 2.36, 37.2), (-80.0, 2.36, 37.2), (-77.8, 2.0, 37.2), (-73.8, 2.0, 37.2)]",
+    "position": "(-83.0, 2.0, 37.2)",
+    "review_from": "(-72.0, 4.6, 46.2)",
+    "review_target": "(-83.0, 2.7, 37.2)",
+    "rise": 0.36
+  },
+  "counts": {
+    "bodies": 574,
+    "mesh_nodes": 1187,
+    "multimesh_nodes": 503,
+    "shape_slots": 1755,
+    "unique_override_materials": 106,
+    "unique_visual_meshes": 531
+  },
+  "gaps": [
+    {
+      "airborne_required": true,
+      "end": "(0.0, 0.8, -5.0)",
+      "id": "exchange_launch",
+      "name": "Gallery Steps",
+      "points": 300,
+      "radius": 2.2,
+      "start": "(0.0, 2.4, -13.0)"
+    },
+    {
+      "airborne_required": true,
+      "end": "(-94.0, 5.4, -6.0)",
+      "id": "central_gap",
+      "name": "Mind The Gap",
+      "points": 600,
+      "radius": 2.0,
+      "start": "(-94.0, 5.4, 0.0)"
+    },
+    {
+      "airborne_required": true,
+      "end": "(93.0, 0.8, -7.0)",
+      "id": "market_hop",
+      "name": "Market Loading Steps",
+      "points": 350,
+      "radius": 2.0,
+      "start": "(93.0, 1.9, -15.0)"
+    },
+    {
+      "airborne_required": true,
+      "end": "(20.0, 2.69, 104.0)",
+      "id": "clyde_bridge_transfer",
+      "name": "Clyde Broken Bridge",
+      "points": 900,
+      "radius": 2.4,
+      "start": "(20.0, 3.05, 92.0)"
+    },
+    {
+      "airborne_required": true,
+      "end": "(-29.35, 4.959188, 95.0)",
+      "id": "clyde_handrail_to_cable_west",
+      "name": "Suspension Cable Transfer",
+      "points": 500,
+      "radius": 0.7,
+      "start": "(-28.85, 4.5, 92.0)"
+    },
+    {
+      "airborne_required": true,
+      "end": "(-28.85, 4.5, 102.0)",
+      "id": "clyde_cable_to_handrail_west",
+      "name": "Back To The Bridge",
+      "points": 500,
+      "radius": 0.7,
+      "start": "(-29.35, 4.959188, 99.0)"
+    },
+    {
+      "airborne_required": true,
+      "end": "(-20.65, 4.959188, 95.0)",
+      "id": "clyde_handrail_to_cable_east",
+      "name": "Suspension Cable Transfer",
+      "points": 500,
+      "radius": 0.7,
+      "start": "(-21.15, 4.5, 92.0)"
+    },
+    {
+      "airborne_required": true,
+      "end": "(-21.15, 4.5, 102.0)",
+      "id": "clyde_cable_to_handrail_east",
+      "name": "Back To The Bridge",
+      "points": 500,
+      "radius": 0.7,
+      "start": "(-20.65, 4.959188, 99.0)"
+    }
+  ],
+  "selected_bodies": [
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-83.0, 2.36, 37.2)]",
+      "path": "station_low_manualManualDeck",
+      "shapes": [
+        {
+          "aabb": "[P: (-86.0, -3.0, 36.1), S: (6.0, 5.36, 2.200001)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-83.0, 2.36, 37.2)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(20972325307486)",
+          "type": "ConvexPolygonShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-87.1, 2.0, 37.2)]",
+      "path": "station_low_manualWestBank",
+      "shapes": [
+        {
+          "aabb": "[P: (-88.2, -3.0, 36.1), S: (2.199783, 5.36, 2.200001)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-87.1, 2.0, 37.2)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(21023864915043)",
+          "type": "ConvexPolygonShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-78.9, 2.0, 37.2)]",
+      "path": "station_low_manualEastBank",
+      "shapes": [
+        {
+          "aabb": "[P: (-80.0, -3.0, 36.1), S: (2.199783, 5.36, 2.200001)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-78.9, 2.0, 37.2)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(21041044784228)",
+          "type": "ConvexPolygonShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+      "path": "StationConcourseHalfpipe/NorthTransition/QuarterPipeFace",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 2.0, 29.8), S: (8.0, 2.2, 2.200001)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22286585300155)",
+          "type": "ConcavePolygonShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 4.08, 28.55)]",
+      "path": "StationConcourseHalfpipe/NorthTransition/RearDeck",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 3.96, 27.3), S: (8.0, 0.24, 2.5)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 4.08, 28.55)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22303765169340)",
+          "type": "BoxShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 3.1, 27.3)]",
+      "path": "StationConcourseHalfpipe/NorthTransition/RearRetainingWall",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 2.0, 27.2), S: (8.0, 2.2, 0.200001)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 3.1, 27.3)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22320945038525)",
+          "type": "BoxShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.950092, 0.31197), Z: (0.0, -0.31197, 0.950092), O: (-71.0, 2.985989, 32.61256)]",
+      "path": "StationConcourseHalfpipe/NorthTransition/SideRollIn",
+      "shapes": [
+        {
+          "aabb": "[P: (-73.0, 1.771978, 29.22513), S: (4.0, 2.428022, 6.774874)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.950092, 0.31197), Z: (0.0, -0.31197, 0.950092), O: (-71.0, 2.985989, 32.61256)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22338124907710)",
+          "type": "BoxShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-71.0, 4.08, 28.3)]",
+      "path": "StationConcourseHalfpipe/NorthTransition/SideRollInLanding",
+      "shapes": [
+        {
+          "aabb": "[P: (-73.0, 3.96, 27.3), S: (4.0, 0.24, 2.0)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-71.0, 4.08, 28.3)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22355304776895)",
+          "type": "BoxShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+      "path": "StationConcourseHalfpipe/NorthTransition/ConcreteSide",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 2.0, 27.3), S: (0.000008, 2.2, 4.700001)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22372484646080)",
+          "type": "ConcavePolygonShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+      "path": "StationConcourseHalfpipe/NorthTransition/@StaticBody3D@2676",
+      "shapes": [
+        {
+          "aabb": "[P: (-61.0, 2.0, 27.3), S: (0.000011, 2.2, 4.700001)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22389664515265)",
+          "type": "ConcavePolygonShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (-0.0, 1.0, 0.0), Y: (-1.0, -0.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 4.182, 29.78)]",
+      "path": "StationConcourseHalfpipe/NorthTransition/NativeSteelCoping",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 4.152, 29.75), S: (8.0, 0.06, 0.060001)]",
+          "frame": "[X: (-0.0, 1.0, 0.0), Y: (-1.0, -0.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 4.182, 29.78)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22419729286338)",
+          "type": "CylinderShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 1.88, 35.0)]",
+      "path": "StationConcourseHalfpipe/NorthTransition/ConnectedFlatBottom",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 1.76, 32.0), S: (8.0, 0.24, 6.0)]",
+          "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 1.88, 35.0)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(23188528432331)",
+          "type": "BoxShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+      "path": "StationConcourseHalfpipe/SouthTransition/QuarterPipeFace",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 2.0, 38.0), S: (8.0, 2.2, 2.200001)]",
+          "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22737556866243)",
+          "type": "ConcavePolygonShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 4.08, 41.45)]",
+      "path": "StationConcourseHalfpipe/SouthTransition/RearDeck",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 3.96, 40.2), S: (8.0, 0.24, 2.5)]",
+          "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 4.08, 41.45)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22754736735428)",
+          "type": "BoxShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 3.1, 42.7)]",
+      "path": "StationConcourseHalfpipe/SouthTransition/RearRetainingWall",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 2.0, 42.6), S: (8.0, 2.2, 0.199997)]",
+          "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 3.1, 42.7)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22771916604613)",
+          "type": "BoxShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (-1.0, 0.0, 0.0), Y: (-0.0, 0.950092, -0.31197), Z: (-0.0, -0.31197, -0.950092), O: (-59.0, 2.985989, 37.38744)]",
+      "path": "StationConcourseHalfpipe/SouthTransition/SideRollIn",
+      "shapes": [
+        {
+          "aabb": "[P: (-61.0, 1.771978, 34.0), S: (4.0, 2.428022, 6.774872)]",
+          "frame": "[X: (-1.0, 0.0, 0.0), Y: (-0.0, 0.950092, -0.31197), Z: (-0.0, -0.31197, -0.950092), O: (-59.0, 2.985989, 37.38744)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22789096473798)",
+          "type": "BoxShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-59.0, 4.08, 41.7)]",
+      "path": "StationConcourseHalfpipe/SouthTransition/SideRollInLanding",
+      "shapes": [
+        {
+          "aabb": "[P: (-61.0, 3.96, 40.7), S: (4.0, 0.24, 2.0)]",
+          "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-59.0, 4.08, 41.7)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22806276342983)",
+          "type": "BoxShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+      "path": "StationConcourseHalfpipe/SouthTransition/ConcreteSide",
+      "shapes": [
+        {
+          "aabb": "[P: (-61.00001, 2.0, 38.0), S: (0.000011, 2.2, 4.700001)]",
+          "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22823456212168)",
+          "type": "ConcavePolygonShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+      "path": "StationConcourseHalfpipe/SouthTransition/@StaticBody3D@2726",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.00001, 2.0, 38.0), S: (0.000008, 2.2, 4.700001)]",
+          "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22840636081353)",
+          "type": "ConcavePolygonShape3D"
+        }
+      ]
+    },
+    {
+      "frame": "[X: (0.0, 1.0, -0.0), Y: (1.0, -0.0, -0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 4.182, 40.22)]",
+      "path": "StationConcourseHalfpipe/SouthTransition/NativeSteelCoping",
+      "shapes": [
+        {
+          "aabb": "[P: (-69.0, 4.152, 40.19), S: (8.0, 0.06, 0.059998)]",
+          "frame": "[X: (0.0, 1.0, -0.0), Y: (1.0, -0.0, -0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 4.182, 40.22)]",
+          "index": 0,
+          "owner": 0,
+          "rid": "RID(22870700852426)",
+          "type": "CylinderShape3D"
+        }
+      ]
+    }
+  ],
+  "selected_guides": [
+    {
+      "id": "Grind_Ledge_station_low_manual",
+      "length": 16.4000015258789,
+      "points": "[(-86.0, 2.38, 36.1), (-80.0, 2.38, 36.1), (-80.0, 2.38, 38.3), (-86.0, 2.38, 38.3), (-86.0, 2.38, 36.1)]",
+      "source": "glasgow.lowered_cylinder_envelope",
+      "verified": true
+    },
+    {
+      "id": "Grind_StationConcourseHalfpipeNorthTransition_Coping",
+      "length": 8.0,
+      "points": "[(-69.0, 4.212, 29.78), (-61.0, 4.212, 29.78)]",
+      "source": "feature.native_coping_crown",
+      "verified": true
+    },
+    {
+      "id": "Grind_StationConcourseHalfpipeSouthTransition_Coping",
+      "length": 8.0,
+      "points": "[(-61.0, 4.212, 40.22), (-69.0, 4.212, 40.22)]",
+      "source": "feature.native_coping_crown",
+      "verified": true
+    }
+  ]
+}

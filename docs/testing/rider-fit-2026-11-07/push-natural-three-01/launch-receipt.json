@@ -1,0 +1,94 @@
+{
+  "utc_start": "2026-11-07T10:22:40.247325+00:00",
+  "utc_end": "2026-11-07T10:56:37.172090+00:00",
+  "wall_seconds": 2036.9247833710033,
+  "bound_seconds": 5400,
+  "returncode": 0,
+  "failure": null,
+  "source_unchanged": true,
+  "source_count": 879,
+  "output": "/workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s",
+  "qualified_report_paths": [
+    "/workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s/manifest.json",
+    "/workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/docs/testing/screenshots/push-natural-three-native640/manifest.json"
+  ],
+  "observed_owned_processes": {
+    "115265": {
+      "first_seen_utc": "2026-11-07T10:22:40.288549+00:00",
+      "start_ticks": "4018070",
+      "cmdline": "bash tools/full_fidelity_capture.sh --private-display --cohort push-contact --push-selection natural-three --native-size 640x400 "
+    },
+    "115277": {
+      "first_seen_utc": "2026-11-07T10:22:41.307249+00:00",
+      "start_ticks": "4018076",
+      "cmdline": "godot --path /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project --headless --editor --import "
+    },
+    "115528": {
+      "first_seen_utc": "2026-11-07T10:22:54.561973+00:00",
+      "start_ticks": "4019428",
+      "cmdline": "godot --path /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project --headless --audio-driver Dummy --fixed-fps 60 --script tools/full_fidelity_capture_smoke.gd "
+    },
+    "115552": {
+      "first_seen_utc": "2026-11-07T10:23:10.922341+00:00",
+      "start_ticks": "4021105",
+      "cmdline": "godot --path /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project --rendering-method gl_compatibility --audio-driver Dummy --windowed --resolution 640x400 --disable-render-loop --fixed-fps 60 --script tools/full_fidelity_capture.gd -- /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s push-contact contact natural-three 640x400 "
+    },
+    "115543": {
+      "first_seen_utc": "2026-11-07T10:23:10.922502+00:00",
+      "start_ticks": "4021062",
+      "cmdline": "/usr/lib/xorg/Xorg -displayfd 3 -config /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/tools/xorg-dummy.conf -logfile /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s/xorg.log -noreset -nolisten tcp "
+    },
+    "115563": {
+      "first_seen_utc": "2026-11-07T10:23:10.922547+00:00",
+      "start_ticks": "4021115",
+      "cmdline": "dbus-launch --autolaunch eb48cb7606a947eda5c05ab030c799b8 --binary-syntax --close-stderr "
+    },
+    "115550": {
+      "first_seen_utc": "2026-11-07T10:23:10.922580+00:00",
+      "start_ticks": "4021083",
+      "cmdline": "python3 - /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s push-contact contact natural-three 640x400 "
+    },
+    "115608": {
+      "first_seen_utc": "2026-11-07T10:23:15.036693+00:00",
+      "start_ticks": "4021449",
+      "cmdline": "dbus-launch --autolaunch eb48cb7606a947eda5c05ab030c799b8 --binary-syntax --close-stderr "
+    },
+    "115624": {
+      "first_seen_utc": "2026-11-07T10:23:17.087098+00:00",
+      "start_ticks": "4021751",
+      "cmdline": "dbus-launch --autolaunch eb48cb7606a947eda5c05ab030c799b8 --binary-syntax --close-stderr "
+    },
+    "115642": {
+      "first_seen_utc": "2026-11-07T10:23:20.303099+00:00",
+      "start_ticks": "4022054",
+      "cmdline": "dbus-launch --autolaunch eb48cb7606a947eda5c05ab030c799b8 --binary-syntax --close-stderr "
+    },
+    "118904": {
+      "first_seen_utc": "2026-11-07T10:56:26.465899+00:00",
+      "start_ticks": "4220609",
+      "cmdline": "ffmpeg -v error -nostdin -y -framerate 60 -i /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s/frames/push_contact_regular/%05d.png -c:v libx264 -preset medium -crf 22 -pix_fmt yuv420p -movflags +faststart /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s/push_contact_regular.mp4 "
+    },
+    "118963": {
+      "first_seen_utc": "2026-11-07T10:56:27.498746+00:00",
+      "start_ticks": "4220785",
+      "cmdline": "ffmpeg -v error -nostdin -i /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s/push_contact_regular.mp4 -f null - "
+    },
+    "118992": {
+      "first_seen_utc": "2026-11-07T10:56:29.540460+00:00",
+      "start_ticks": "4220995",
+      "cmdline": "ffmpeg -v error -nostdin -y -framerate 60 -i /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s/frames/push_contact_fakie/%05d.png -c:v libx264 -preset medium -crf 22 -pix_fmt yuv420p -movflags +faststart /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s/push_contact_fakie.mp4 "
+    },
+    "119040": {
+      "first_seen_utc": "2026-11-07T10:56:33.631146+00:00",
+      "start_ticks": "4221373",
+      "cmdline": "ffmpeg -v error -nostdin -y -framerate 60 -i /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s/frames/push_contact_from_rest/%05d.png -c:v libx264 -preset medium -crf 22 -pix_fmt yuv420p -movflags +faststart /workspace/tam_hawks_ps/.local/rider-fit-staging/whole-push-launch/epochs/push351-20261107T101940Z/project/.local/full-fidelity-20261107T102240Z-MOc04s/push_contact_from_rest.mp4 "
+    },
+    "119110": {
+      "first_seen_utc": "2026-11-07T10:56:35.673961+00:00",
+      "start_ticks": "4221604",
+      "cmdline": "git status --porcelain "
+    }
+  },
+  "copy_epoch_sha256": "e89ca132bf651a2d919003afd5bfe24d6ff3fc437b7140750c5ec08b2a67bd68",
+  "scope": "One complete351frame consecutive60Hz diagnostic cohort ifpublictool/allindependentchecks pass. No unsampledphase/FPS/M5/AAA acceptance. Timeout/rawfailure preservespartialrejection; no autoretry."
+}

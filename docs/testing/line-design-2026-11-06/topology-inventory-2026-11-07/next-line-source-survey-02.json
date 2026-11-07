@@ -1,0 +1,134 @@
+{
+  "kind": "supplemental read-only source survey; no new native admission",
+  "utc": "2026-11-07T08:44:09.903522+00:00",
+  "source_before": {
+    "game/levels/glasgow_square.gd": "153b0d15d05cc749ada0ecbb5894c9fe37fe57ba2c709629163c617ab6f29f50",
+    "game/levels/pt24_connected_runs.gd": "3a6efa467e29cdf6fee9544e22d2c77de80f8ac9260084cf13f139c5bd6acb2f",
+    "game/levels/fidelity_infill.gd": "76f4a6a3c563d4a91233cb1e596d243c3d899147b3c6fa3197d765a4a78ad53b",
+    "game/levels/outdoor_routes.gd": "f43ce909519b188be3a94482de3c11deb385a89f5d47973a2e9c0919c91f5fb1",
+    "game/levels/exploration_boundary.gd": "11f1c16b622cd7765e14a37d39c4267ed50dc3a7b1eea3062bcd907459ee37ea",
+    "tests/full_level_density_tests.gd": "3cb2b569871f7902ceca51cd5c622c49fd61053226aff62899a52fe8b50e7555",
+    "tests/pt24_flagship_runs_tests.gd": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+    "tests/compact_clyde_lines_tests.gd": "680fc9835b1828296c2b227861a2d46d9316afb21bfff4309d63553de892ef81",
+    "tests/support/compact_clyde_lines_driver.gd": "f01dc64b05af194067522e8950de1577d07db8038cc39118a6cc6d3eaf37f222",
+    "tests/pt24_market_full_run_tests.gd": "ec308eed68fef335ae30e935a1d59a4179112c05d81c9b690f1ec7f0351d7c3a",
+    "tests/career_route_tests.gd": "b40d5700d13d6c14125c8be417b97d1a984960faa668712bb1573f1116f30cc7",
+    "docs/testing/native-exchange-gallery/pack_probe.gd": "924d4736af4c09e844e8bf8bc49eb90bec1b1a876396b35beb6a86cac35b4cee"
+  },
+  "source_after": {
+    "game/levels/glasgow_square.gd": "153b0d15d05cc749ada0ecbb5894c9fe37fe57ba2c709629163c617ab6f29f50",
+    "game/levels/pt24_connected_runs.gd": "3a6efa467e29cdf6fee9544e22d2c77de80f8ac9260084cf13f139c5bd6acb2f",
+    "game/levels/fidelity_infill.gd": "76f4a6a3c563d4a91233cb1e596d243c3d899147b3c6fa3197d765a4a78ad53b",
+    "game/levels/outdoor_routes.gd": "f43ce909519b188be3a94482de3c11deb385a89f5d47973a2e9c0919c91f5fb1",
+    "game/levels/exploration_boundary.gd": "11f1c16b622cd7765e14a37d39c4267ed50dc3a7b1eea3062bcd907459ee37ea",
+    "tests/full_level_density_tests.gd": "3cb2b569871f7902ceca51cd5c622c49fd61053226aff62899a52fe8b50e7555",
+    "tests/pt24_flagship_runs_tests.gd": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+    "tests/compact_clyde_lines_tests.gd": "680fc9835b1828296c2b227861a2d46d9316afb21bfff4309d63553de892ef81",
+    "tests/support/compact_clyde_lines_driver.gd": "f01dc64b05af194067522e8950de1577d07db8038cc39118a6cc6d3eaf37f222",
+    "tests/pt24_market_full_run_tests.gd": "ec308eed68fef335ae30e935a1d59a4179112c05d81c9b690f1ec7f0351d7c3a",
+    "tests/career_route_tests.gd": "b40d5700d13d6c14125c8be417b97d1a984960faa668712bb1573f1116f30cc7",
+    "docs/testing/native-exchange-gallery/pack_probe.gd": "924d4736af4c09e844e8bf8bc49eb90bec1b1a876396b35beb6a86cac35b4cee"
+  },
+  "stable": true,
+  "source_geometry_references": {
+    "exchange_west_shop_ledge": {
+      "x": -27.4,
+      "z": [
+        1,
+        6.5
+      ],
+      "bearing_length_m": 5.5
+    },
+    "exchange_court_ledge": {
+      "x": -15.6,
+      "z": [
+        9,
+        17
+      ]
+    },
+    "exchange_west_fountain_bank": {
+      "centre": [
+        -10,
+        0,
+        20
+      ],
+      "terrain_bounds_x": [
+        -12,
+        -8
+      ],
+      "terrain_bounds_z": [
+        13,
+        27
+      ],
+      "full_envelope_not_certified": "Perimeter cylinders and display edge strips require separate actual full-envelope inventory; terrain rectangle is not entire feature."
+    },
+    "station_service_walk": {
+      "x": [
+        -122,
+        -105
+      ],
+      "z": [
+        -20,
+        4
+      ],
+      "top_y": 5,
+      "underside_y": 4.6,
+      "floor_y": 2
+    },
+    "station_platform_slot": {
+      "x": [
+        -101,
+        -87
+      ],
+      "z": [
+        -5,
+        -1
+      ],
+      "physical_gap_m": 4,
+      "named_gap_start": [
+        -94,
+        5.4,
+        0
+      ],
+      "named_gap_end": [
+        -94,
+        5.4,
+        -6
+      ]
+    },
+    "station_lateral_slot": {
+      "x": [
+        -105,
+        -101
+      ],
+      "not_named_career_gap": true
+    },
+    "clyde_station_join": {
+      "route": "clyde_north_quay",
+      "points": [
+        [
+          -94,
+          2,
+          45
+        ],
+        [
+          -94,
+          2,
+          55
+        ],
+        [
+          -78,
+          2,
+          67
+        ]
+      ]
+    }
+  },
+  "limits": [
+    "source coordinates are not current native fit/approach/camera proof",
+    "shop packaged evidence is construction-only",
+    "legacy career grounded-yaw aiming is not strict new L1 admission",
+    "transport grade counts as a meaningful trick choice only after actual earned trick/landing evidence",
+    "all native tyre/capsule/contact failures remain rejected"
+  ]
+}

@@ -19,6 +19,13 @@ Use for planning, delegating, integrating or resuming work on this game. This is
 - Reconcile current PT24/C01–C11 evidence before choosing a creation task. Native wall/transition/rail contacts, the 78-trick repertoire, compact-map lines and enabled station/train/pond/cable/green/civic content already exist. Preserve them, personal Music isolation, completed diagnostics and rejected cost cells. Extend current proof/capture tools before duplicating infrastructure.
 - Parallelise independent investigation and disjoint implementation. Keep shared-file section changes sequential or obtain explicit ownership agreement. Reserve capacity for independent QE and later BA.
 - Give each worker a concrete result, not “make it AAA.” Require an early diagnosis, then changes, measured checks, actual inspected frames, known defects and a return report.
+- During an integrated full run, reserve one headless Godot slot for that run.
+  Private headless cohorts share the second slot through
+  `flock -n /workspace/tam_hawks_ps/.local/headless-secondary.lock <bounded-wrapper>`
+  in this Linux workspace. Hold the lock for the whole import/parser/native cohort,
+  preserve each existing deadline, and report a busy lease without starting an
+  engine. Qualitative GL has a separately assigned owner. This task-local scheduler
+  adds no dependency to production Mac launch scripts.
 - Use original or compatible free licensed assets. Inspect licences separately from code permissions. No purchases, billing, paid APIs, hosted CI, infrastructure or background agent loops. No copied franchise level layouts/branding/assets.
 
 ## Integrate and verify

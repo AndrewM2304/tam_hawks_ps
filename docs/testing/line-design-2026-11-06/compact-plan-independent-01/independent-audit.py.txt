@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+"""Offline independent design checks; never starts Godot or changes game source."""
+import datetime
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import re
+import shutil
+
+ROOT = Path('/workspace/tam_hawks_ps')
+OUT = ROOT / 'docs/testing/line-design-2026-11-06/compact-plan-independent-01'
+PLAN = ROOT / 'docs/planning/COMPACT-LEVEL-REPLAN-2026-11-07.json'
+PROSE = PLAN.with_suffix('.md')
+OUT.mkdir(parents=True, exist_ok=True)
+plan_bytes = PLAN.read_bytes()
+prose_bytes = PROSE.read_bytes()
+p = json.loads(plan_bytes)
+sha = lambda b: hashlib.sha256(b).hexdigest()
+checks = []
+
+def check(name, ok, actual=None):
+    checks.append({'name': name, 'pass': bool(ok), 'actual': actual})
+
+def area(rect):
+    return (rect[2]-rect[0])*(rect[3]-rect[1])
+
+def intersection(a, b):
+    return max(0, min(a[2], b[2])-max(a[0], b[0])) * max(0, min(a[3], b[3])-max(a[1], b[1]))
+
+def union_area(rects):
+    xs = sorted({r[i] for r in rects for i in (0, 2)})
+    zs = sorted({r[i] for r in rects for i in (1, 3)})
+    return sum((x1-x0)*(z1-z0) for x0,x1 in zip(xs,xs[1:]) for z0,z1 in zip(zs,zs[1:])
+               if any(r[0] <= x0 and r[2] >= x1 and r[1] <= z0 and r[3] >= z1 for r in rects))
+
+sources = {}
+for name, expected in p['source_sha256'].items():
+    b = (ROOT/name).read_bytes()
+    sources[name] = {'sha256': sha(b), 'bytes': len(b)}
+    check('source pin: '+name, sha(b) == expected)
+
+world = (ROOT/'game/levels/glasgow_square.gd').read_text()
+actual_public = re.findall(r'^func ([A-Za-z][A-Za-z0-9_]*)\(', world, re.M)
+check('all current declared world public methods enumerated', set(actual_public) == set(p['core_world_public_methods']), actual_public)
+check('21 current plus 2 proposed methods; inherited methods excluded', len(actual_public) == 21 and p['core_public_method_count'] == 21 and len(p['proposed_additional_methods']) == 2)
+outer = p['footprint']['selected_bounds_xz']
+courts = [c['bounds_xz'] for c in p['courts']]
+masses = [m['bounds_xz'] for m in p['building_masses']]
+check('outer area arithmetic', area(outer) == p['footprint']['area_m2'] == 9856)
+for c in p['courts'] + p['building_masses']:
+    r = c['bounds_xz']
+    check('footprint inside declared outer bounds: '+c['id'], outer[0] <= r[0] < r[2] <= outer[2] and outer[1] <= r[1] < r[3] <= outer[3])
+check('three court footprints do not overlap in area', union_area(courts) == sum(map(area, courts)))
+check('declared architecture does not overlap court interiors', all(intersection(a,b) == 0 for a in courts for b in masses))
+court_area = union_area(courts)
+mass_area = union_area(masses)
+remaining = area(outer)-union_area(courts+masses)
+check('reference pace arithmetic only', p['acceptance_draft']['reference_distance_m'] == [s*p['acceptance_draft']['reference_speed_mps'] for s in p['acceptance_draft']['meaningful_next_choice_reference_seconds']])
+check('unscaled complete 40 by 30 basin rectangle', p['courts'][2]['bounds_xz'] == [10,-7,50,23] and area(courts[2]) == 1200 and p['variant']['uniform_scaling'] is False)
+check('original east entry rotated PI at (30,0,8) reaches yard portal', [30-20,0,8-5] == p['primary_portals'][1]['center'])
+check('independent optional City Tour; old broad world not instantiated concurrently', p['variant']['instantiate_only_active_world'] and p['budget']['instantiate_old_broad_world_with_compact'] is False)
+portal = next(x for x in p['primary_portals'] if x['id']=='hall_basin')
+hall = next(x for x in p['courts'] if x['id']=='loading_hall')
+warehouse = next(x for x in p['building_masses'] if x['id']=='north_east_warehouse')
+near_x = portal['center'][0]-portal['width_m']/2
+hall_to_portal_x = max(0, near_x-hall['bounds_xz'][2])
+portal_conflict = warehouse['bounds_xz'][0] < portal['center'][0] < warehouse['bounds_xz'][2] and portal['center'][2] == warehouse['bounds_xz'][3]
+check('identified portal conflict reproduced from exact draft', portal_conflict and hall_to_portal_x == 19)
+check('2.0 m mezzanine-to-roof-underside clearance reproduced', hall['roof_underside_y']-hall['mezzanine_y'] == 2.0)
+source_lines = {}
+for name, needles in {
+ 'game/levels/kelvingrove_skatepark.gd': ['const LOCAL_BOUNDS', 'BeginnerArrivalBank', 'StepBypassBank', 'SouthRetainingFace', 'Grind_Park_SouthRim', 'func _upper_deck'],
+ 'game/features/feature_hub.gd': ['func configure', 'gate.tick(delta)', 'park_lap.on_launch(at)', 'func definitions_snapshot'],
+ 'game/progression/career_progress.gd': ['const PROFILE_VERSION', 'const DISTRICT_IDS', '"across_toon"', 'func record_event', 'func _profile_data', 'static func _validate_profile'],
+ 'game/main.gd': ['world = GlasgowSquare.new()', 'gaps.configure', 'feature_hub.configure', 'hud.set_map_data']
+}.items():
+    lines = (ROOT/name).read_text().splitlines()
+    source_lines[name] = {needle: [i for i,line in enumerate(lines,1) if needle in line] for needle in needles}
+
+findings = [
+ {'id':'CP-QA-01','severity':'P1 design blocker','result':'Fail','finding':'Hall-to-basin portal centre X34 is on the solid warehouse edge, and its 6 m opening near edge X31 is 19 m east of Hall max X12. The declared 8 m grade cannot create that missing lateral connection.','next':'Draw a continuous cutout/passage and solid mass subtraction with approach/exit room, or move the portal/mass; then check exact module obstructions and native clearances.'},
+ {'id':'CP-QA-02','severity':'P1 design prerequisite','result':'Unmeasured','finding':'Mezzanine floor Y2.2 below underside Y4.2 has 2.0 m vertical space. Standing clearance is not a jumping, camera or full-trick clearance certificate.','next':'Partition low grounded travel and open upper trick/roof regions; declare their complete body/board/chase swept envelopes and adversarial exits.'},
+ {'id':'CP-QA-03','severity':'P1 design prerequisite','result':'Unmeasured','finding':f'Court area is {court_area} m²; declared solid masses cover {mass_area} m². {remaining} m² is outside both declared courts and masses. It may be purposeful corridors/returns, but has no exact partition in this draft.','next':'Partition every remaining reachable floor and architectural void; assign each to an approach, landing, return, bypass or inaccessible solid. Avoid padding the enclosure with unspecified flat.'},
+ {'id':'CP-QA-04','severity':'P1 design prerequisite','result':'Unmeasured','finding':'The three-court concept has no exact feature-slot/event graph yet, so neither six distinct returned lines nor three closed single-combo cross-court circuits is demonstrated.','next':'Pin launch, native action, landing, next action, return and one real bank for each circuit; exclude reverse duplicates, mid-run resets and disjoint score sums. Sample novice/flow/expert ordinary inputs and purposeful event gaps.'},
+ {'id':'CP-QA-05','severity':'P1 compatibility prerequisite','result':'Unmeasured','finding':'Cutting the existing SouthRetainingFace also cuts the continuous Grind_Park_SouthRim guide. Existing upper-deck clipping and lower-street geometry must remain authoritative; a broad new flat floor would fill bowl or lower-street voids.','next':'Use compact-only wall/guide/support subtraction, authenticated finite guide ends and deck/port shoulder negatives. Preserve the separately loaded old City Tour module.'},
+ {'id':'CP-QA-06','severity':'P1 compatibility prerequisite','result':'Unmeasured','finding':'FeatureHub unconditionally creates and later calls the service gate, scenic lap, cone and vehicle. CareerProgress v1 validates fixed geographic district/gap/interaction identities. An empty activity or route list alone is insufficient.','next':'Define per-level construction and optional-object call guards plus level-domain goal/event validation; test old v0/v1, backup, future version refusal, settings/unlocks/Music and repeated level switching without duplicate worlds.'},
+ {'id':'CP-QA-07','severity':'P1 evidence boundary','result':'Unmeasured','finding':'112×88 m, zero new textures and lower body/shape targets are design bounds. No constructed native inventory, matched render cost, ordinary visibility, human fun or target Mac proof exists. Warehouse footage is edited reference, not proof of one continuous combo.','next':'Build one original graybox and profile only the selected world, verify initial three ordinary choices and whole-map recovery/boundaries, then current rendered motion and M5 portability/cost.'},
+ {'id':'CP-QA-08','severity':'P2 design clarification','result':'Unmeasured','finding':'The plan sets a 4 m minimum safe main bypass while the reused complete facility contains a 3 m secondary StepBypassBank. The parent request is at least 3 m.','next':'Keep a clear main-versus-secondary route distinction; do not call every existing path a 4 m bypass or scale the complete facility to fit a new nominal number.'}
+]
+report = {
+ 'reviewer':'/root/independent_qa', 'recorded_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+ 'review_kind':'Independent offline source-bound design feasibility and owner-intent review; no engine/native/gameplay test',
+ 'verdict':'Concept fits owner steering; exact portal topology must be revised before graybox. Native/moving/resource/M5 and human acceptance remain Unmeasured.',
+ 'proposal':{str(PLAN.relative_to(ROOT)):sha(plan_bytes),str(PROSE.relative_to(ROOT)):sha(prose_bytes)},
+ 'owner_scope':'Old six-geographic-arena retention is superseded for proposed compact default, not passed; preserve City Tour and historical evidence. Physics, contacts, score rules, Music and hardware honesty remain.',
+ 'checks':checks,'source_static_checks_passed':sum(x['pass'] for x in checks),'source_static_checks_failed':sum(not x['pass'] for x in checks),
+ 'checks_are_not_gameplay_tests':True,
+ 'area_accounting':{'outer_m2':area(outer),'court_union_m2':court_area,'building_union_m2':mass_area,'unassigned_remainder_m2':remaining,'noncourt_fraction':(area(outer)-court_area)/area(outer)},
+ 'portal_geometry':{'opening_near_x':near_x,'hall_max_x':hall['bounds_xz'][2],'lateral_gap_m':hall_to_portal_x,'proposed_grade_length_m':8,'world_south_wall_plane_z':8-14.925,'source_guide_requires_split':True},
+ 'findings':findings,'source_sha256':sources,'source_line_observations':source_lines,
+ 'no_production_changes_or_native_execution':True,
+ 'source_stable_after_review':all(sha((ROOT/name).read_bytes())==meta['sha256'] for name,meta in sources.items()),
+ 'proposal_stable_after_review':PLAN.read_bytes()==plan_bytes and PROSE.read_bytes()==prose_bytes,
+}
+(OUT/'independent-review.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+for name,b in [('proposal.json.gz',plan_bytes),('proposal.md.gz',prose_bytes)]:
+    with gzip.GzipFile(filename=str(OUT/name),mode='wb',mtime=0) as f:f.write(b)
+shutil.copyfile(__file__, OUT/'independent-audit.py.txt')
+print(json.dumps({k:report[k] for k in ['verdict','source_static_checks_passed','source_static_checks_failed','area_accounting','source_stable_after_review','proposal_stable_after_review']},indent=2))

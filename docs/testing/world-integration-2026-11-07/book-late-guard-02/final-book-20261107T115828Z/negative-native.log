@@ -1,0 +1,39 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: FAIL: late future_backup is refused before any backup/primary replacement; exact foreign bytes survive
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/level_career_book_tests.gd:33)
+       [1] _test_late_save_files (res://tests/level_career_book_tests.gd:289)
+       [2] _run (res://tests/level_career_book_tests.gd:45)
+ERROR: FAIL: refused late-file save preserves its recovery candidate: future_backup
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/level_career_book_tests.gd:33)
+       [1] _test_late_save_files (res://tests/level_career_book_tests.gd:292)
+       [2] _run (res://tests/level_career_book_tests.gd:45)
+ERROR: FAIL: late corrupt_backup is refused before any backup/primary replacement; exact foreign bytes survive
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/level_career_book_tests.gd:33)
+       [1] _test_late_save_files (res://tests/level_career_book_tests.gd:289)
+       [2] _run (res://tests/level_career_book_tests.gd:45)
+ERROR: FAIL: refused late-file save preserves its recovery candidate: corrupt_backup
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/level_career_book_tests.gd:33)
+       [1] _test_late_save_files (res://tests/level_career_book_tests.gd:292)
+       [2] _run (res://tests/level_career_book_tests.gd:45)
+ERROR: FAIL: late foreign_candidate is refused before any backup/primary replacement; exact foreign bytes survive
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/level_career_book_tests.gd:33)
+       [1] _test_late_save_files (res://tests/level_career_book_tests.gd:289)
+       [2] _run (res://tests/level_career_book_tests.gd:45)
+ERROR: FAIL: refused late-file save preserves its recovery candidate: foreign_candidate
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/level_career_book_tests.gd:33)
+       [1] _test_late_save_files (res://tests/level_career_book_tests.gd:292)
+       [2] _run (res://tests/level_career_book_tests.gd:45)
+LEVEL_CAREER_BOOK: 59 passed, 6 failed

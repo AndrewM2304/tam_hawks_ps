@@ -1,0 +1,55 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/station-compat-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/station-compat-source/.local/station_contact_probe.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/station-compat-source",
+  "started_utc": "2026-11-07T08:25:58.494982+00:00",
+  "os_deadline_seconds": 24,
+  "source_inputs": 1136,
+  "engine_pid": 96653,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    89810,
+    90358
+  ],
+  "declared_known_project_overlaps": [],
+  "overlap_scope": "Root explicitly authorizes current known qualitative and fixed-tick logical headless overlaps in separate private projects/caches; no timing acceptance",
+  "finished_utc": "2026-11-07T08:26:20.743324+00:00",
+  "wall_seconds": 22.248346543994558,
+  "changed_inputs": [],
+  "errors": [
+    "ERROR: 3 resources still in use at exit (run with --verbose for details)."
+  ],
+  "result": [
+    0,
+    1
+  ],
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "ignored_zombie_process_rows": [
+    "82100 Z    [godot] <defunct>"
+  ],
+  "zombie_policy": "Raw process rows retain state; live concurrency gate excludes only explicit Z-state. Baseline prior receipt remains unchanged.",
+  "unknown_other_engine_observed": true,
+  "preserved_sha256": {
+    "native-process-observer.json": "28691b803e483b4f8423c6d3ccee8e139028a3c0ea36f65374bd1ba5d8b5427d",
+    "source-before.json": "ab488dc2aed29dd4810f7748d261eebebb8e70f8aa203e3ef7d8f581c0eaf6f0",
+    "observer.gd": "b1cf88b9296377395e631564c676d523dc504eeeab9421572e281a44bbebffff",
+    "wrapper.py.txt": "e9c5d3b280061a331005f9f912c9bd192f5b93710e3151bfd75346a840c6e505",
+    "native.log": "ff002ba5294307ffe7809f2851af598ac5c6fb4ef8537045cd878a214f7ca36b",
+    "source-after.json": "ab488dc2aed29dd4810f7748d261eebebb8e70f8aa203e3ef7d8f581c0eaf6f0"
+  }
+}

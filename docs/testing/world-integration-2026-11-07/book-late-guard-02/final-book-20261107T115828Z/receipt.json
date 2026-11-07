@@ -1,0 +1,71 @@
+{
+  "events": [
+    {
+      "label": "positive",
+      "phase": "parse",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "tests/level_career_book_tests.gd"
+      ],
+      "started_utc": "2026-11-07T11:58:28.319230+00:00",
+      "pid": 128828,
+      "exit": 0,
+      "finished_utc": "2026-11-07T11:58:29.237718+00:00",
+      "script_clean": true
+    },
+    {
+      "label": "positive",
+      "phase": "native",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--script",
+        "tests/level_career_book_tests.gd"
+      ],
+      "started_utc": "2026-11-07T11:58:29.237975+00:00",
+      "pid": 128841,
+      "exit": 0,
+      "finished_utc": "2026-11-07T11:58:29.956082+00:00",
+      "script_clean": true
+    },
+    {
+      "label": "negative",
+      "phase": "parse",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "tests/level_career_book_tests.gd"
+      ],
+      "started_utc": "2026-11-07T11:58:29.956580+00:00",
+      "pid": 128854,
+      "exit": 0,
+      "finished_utc": "2026-11-07T11:58:30.522682+00:00",
+      "script_clean": true
+    },
+    {
+      "label": "negative",
+      "phase": "native",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--script",
+        "tests/level_career_book_tests.gd"
+      ],
+      "started_utc": "2026-11-07T11:58:30.522722+00:00",
+      "pid": 128867,
+      "exit": 1,
+      "finished_utc": "2026-11-07T11:58:31.139760+00:00",
+      "script_clean": true
+    }
+  ],
+  "source_changed": [],
+  "elapsed_seconds": 2.8298338419990614,
+  "accepted": true,
+  "error": null,
+  "scope": "Code-only isolated profile fixtures. Negative source is original56 save guard with ONLY static\u2192instance method seam, identical adversarial fixtures. Expected six failures prove old guard overwrites observed foreign data; positive refuses all three. Optimistic checks, not interprocess locking. No Main/world/Music/actual profile/source writes."
+}

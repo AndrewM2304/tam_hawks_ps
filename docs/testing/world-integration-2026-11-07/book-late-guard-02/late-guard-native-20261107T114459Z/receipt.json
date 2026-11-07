@@ -1,0 +1,38 @@
+{
+  "events": [
+    {
+      "label": "parse",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "tests/level_career_book_tests.gd"
+      ],
+      "started_utc": "2026-11-07T11:44:59.029296+00:00",
+      "pid": 127752,
+      "exit": 0,
+      "finished_utc": "2026-11-07T11:44:59.848053+00:00",
+      "clean_log": true
+    },
+    {
+      "label": "native",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--script",
+        "tests/level_career_book_tests.gd"
+      ],
+      "started_utc": "2026-11-07T11:44:59.848263+00:00",
+      "pid": 127765,
+      "exit": 0,
+      "finished_utc": "2026-11-07T11:45:00.364281+00:00",
+      "clean_log": true
+    }
+  ],
+  "source_changed": [],
+  "elapsed_seconds": 1.338694251004199,
+  "accepted": true,
+  "error": null,
+  "scope": "Private code-only Catalog/Book fixtures. Isolated user://paths/ownXDG. No Main/world/Music/production writes."
+}

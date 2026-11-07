@@ -1,0 +1,25 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,shutil,signal,subprocess,time
+ROOT=Path(__file__).resolve().parent/'proposal';OUT=ROOT.parent/('native-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'));OUT.mkdir();START=time.monotonic();events=[]
+def inventory():
+ paths=[ROOT/'project.godot']
+ for folder in ('game','tests','tools'):paths.extend(p for p in (ROOT/folder).rglob('*') if p.is_file())
+ return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
+before=inventory();(OUT/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');error=None
+try:
+ for label,command,limit in [('parse',['./tools/run.sh','--headless','--check-only','--script','tests/level_career_book_tests.gd'],10),('native',['./tools/run.sh','--headless','--script','tests/level_career_book_tests.gd'],30)]:
+  remaining=42-(time.monotonic()-START)
+  if remaining<=1:raise RuntimeError('Aggregate lease bound reached')
+  event={'label':label,'command':command,'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+  with (OUT/(label+'.log')).open('w') as log:
+   process=subprocess.Popen(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);event['pid']=process.pid;print(label,'PID',process.pid,'start',event['started_utc'],'bound',min(limit,remaining),flush=True)
+   try:code=process.wait(timeout=min(limit,remaining))
+   except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGTERM);process.wait(timeout=2);code=124
+  text=(OUT/(label+'.log')).read_text();event.update(exit=code,finished_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),clean_log=not bool(re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:',text)));events.append(event)
+  if code or not event['clean_log']:raise RuntimeError(label+' rejected by exit/log guard')
+ result=json.loads((ROOT/'.local/book-test-result.json').read_text());shutil.copy2(ROOT/'.local/book-test-result.json',OUT/'test-result.json')
+ if result['failures'] or result['checks']<56:raise RuntimeError('Incomplete or failing native test sections')
+except Exception as failure:error=str(failure)
+finally:
+ after=inventory();(OUT/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');changed=[p for p in before.keys()|after.keys() if before.get(p)!=after.get(p)];receipt={'events':events,'source_changed':changed,'elapsed_seconds':time.monotonic()-START,'accepted':error is None and not changed,'error':error,'scope':'Private code-only Catalog/Book fixtures. Isolated user://paths/ownXDG. No Main/world/Music/production writes.'};(OUT/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));print('OUTPUT',OUT)
+ if error:raise SystemExit(1)

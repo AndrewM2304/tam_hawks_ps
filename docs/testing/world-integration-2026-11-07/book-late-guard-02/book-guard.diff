@@ -1,0 +1,59 @@
+--- held56/level_career_book.gd
++++ corrected65/level_career_book.gd
+@@ -211,16 +211,25 @@
+ 	if directory_error != OK: return _error(directory_error, "Could not create the local career directory.")
+ 	var write_error: Error = _write_verified(target + ".tmp", checked.profile)
+ 	if write_error != OK: return _error(write_error, "Temporary career data could not be verified; previous files remain intact.")
+-	# Recheck the authoritative files before copying/replacing them. Never rotate
+-	# an unreadable/future backup, even when the primary was valid at initial load.
+-	if _signatures(_read_family(target), true) != _signatures(family, true):
+-		return _error(ERR_BUSY, "Career data changed during saving; the verified temporary candidate was preserved.")
++	# Every observed slot matters, including an interrupted backup which appeared
++	# after the initial read. The only expected change is our exact candidate.
++	var expected: Dictionary = _signatures(family)
++	expected[".tmp"] = (JSON.stringify(checked.profile, "\t") + "\n").sha256_text()
++	var guard_error: Error = _guard_save_family(target, expected)
++	if guard_error != OK: return guard_error
+ 	if family[""].error == OK:
+ 		var copy_error: Error = DirAccess.copy_absolute(target, target + ".bak.tmp")
+-		if copy_error != OK or _read_book(target + ".bak.tmp").error != OK:
++		if copy_error != OK or _read_book(target + ".bak.tmp").signature != family[""].signature:
+ 			return _error(ERR_FILE_CANT_WRITE, "The backup could not be verified; primary and temporary data were preserved.")
++		expected[".bak.tmp"] = family[""].signature
++		guard_error = _guard_save_family(target, expected)
++		if guard_error != OK: return guard_error
+ 		var backup_error: Error = DirAccess.rename_absolute(target + ".bak.tmp", target + ".bak")
+ 		if backup_error != OK: return _error(backup_error, "The backup could not be replaced; primary data was preserved.")
++		expected[".bak"] = expected[".bak.tmp"]
++		expected[".bak.tmp"] = "absent"
++	guard_error = _guard_save_family(target, expected)
++	if guard_error != OK: return guard_error
+ 	var replace_error: Error = DirAccess.rename_absolute(target + ".tmp", target)
+ 	if replace_error != OK: return _error(replace_error, "The primary could not be replaced; all recovery data remains available.")
+ 	settings = checked.profile.settings.duplicate(true)
+@@ -417,7 +426,16 @@
+ 	for suffix: String in (["", ".bak"] if authoritative_only else SUFFIXES): result[suffix] = family[suffix].signature
+ 	return result
+ 
+-static func _write_verified(path: String, profile: Dictionary) -> Error:
++func _guard_save_family(target: String, expected: Dictionary) -> Error:
++	var current: Dictionary = _read_family(target)
++	for suffix: String in SUFFIXES:
++		if current[suffix].error == ERR_UNAVAILABLE:
++			return _block(target, ERR_UNAVAILABLE, "Newer career data appeared during saving; every observed candidate was preserved.")
++	if _signatures(current) != expected:
++		return _error(ERR_BUSY, "Career data changed during saving; all observed files were preserved.")
++	return OK
++
++func _write_verified(path: String, profile: Dictionary) -> Error:
+ 	if FileAccess.file_exists(path) or DirAccess.dir_exists_absolute(path): return ERR_ALREADY_EXISTS
+ 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
+ 	if file == null: return FileAccess.get_open_error()
+@@ -426,4 +444,6 @@
+ 	var result: Error = file.get_error()
+ 	file.close()
+ 	if result != OK: return result
+-	return _read_book(path).error
++	var checked: Dictionary = _read_book(path)
++	if checked.error != OK: return checked.error
++	return OK if checked.signature == (JSON.stringify(profile, "\t") + "\n").sha256_text() else ERR_BUSY

@@ -1,0 +1,78 @@
+{
+  "kind": "LD derived actual-native chronology; no new engine or independent/global acceptance",
+  "raw_log_sha256": "0d371755888c75e7abeb7dd83bf990cfbe9ebeb8c7094c89b9170d6a05a1a8b9",
+  "source_before_after_equal": true,
+  "prefix": {
+    "row_count": 993,
+    "first": 18,
+    "last": 1010,
+    "contiguous": true,
+    "finite": true,
+    "max_step_m": 0.326955557126653,
+    "sum_steps_m": 124.20542967903195,
+    "manual_physics_rows": 601,
+    "actual_board_component_zero_failures": [
+      319
+    ],
+    "actual_shoe_zero_failures": [],
+    "actual_capsule_zero_failures": [
+      115,
+      301,
+      302,
+      303,
+      304,
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      311,
+      312,
+      313,
+      314,
+      315
+    ]
+  },
+  "pipe": {
+    "row_count": 703,
+    "first": 10360,
+    "last": 11062,
+    "contiguous": true,
+    "finite": true,
+    "max_step_m": 0.1932339217114884,
+    "sum_steps_m": 76.10442062321803,
+    "manual_physics_rows": 65,
+    "actual_board_component_zero_failures": [],
+    "actual_shoe_zero_failures": [],
+    "actual_capsule_zero_failures": [
+      11051
+    ]
+  },
+  "first_actual_35degree_faces": {
+    "StationConcourseHalfpipeNorthTransition": {
+      "physics": 10698,
+      "at": "(-65.7539, 2.426744, 30.73539)",
+      "theta_degrees": 35.4949016581687,
+      "path_m": 41.0764544084668
+    },
+    "StationConcourseHalfpipeSouthTransition": {
+      "physics": 10825,
+      "at": "(-66.15163, 2.434007, 39.27474)",
+      "theta_degrees": 35.8226695041532,
+      "path_m": 52.2820586806629
+    }
+  },
+  "toe_to_actual_35degree_curve": {
+    "physics_steps": 164,
+    "seconds_at_60hz": 2.7333333333333334,
+    "actual_path_m": 21.409252114594
+  },
+  "aggregate_stays_rejected": [
+    28,
+    3
+  ],
+  "current_native_model_contact_admitted": false,
+  "qualification": "35degree curve use is actual earned feature motion, not charge input or decorative proximity. No L1/visual/performance claim.",
+  "rounded_vector_serialization": "Position/velocity/frame Vector3 strings are rounded by Godot JSON; recomputed sums differ from in-engine float cumulative paths by <0.1mm. They are independent chronology/finite checks, not exact native geometry coordinates."
+}

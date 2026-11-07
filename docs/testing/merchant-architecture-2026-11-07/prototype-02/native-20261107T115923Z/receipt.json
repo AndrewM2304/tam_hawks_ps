@@ -1,0 +1,38 @@
+{
+  "events": [
+    {
+      "label": "parse",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "probe.gd"
+      ],
+      "started_utc": "2026-11-07T11:59:23.859318+00:00",
+      "pid": 128972,
+      "exit": 0,
+      "finished_utc": "2026-11-07T11:59:24.780755+00:00",
+      "clean_log": true
+    },
+    {
+      "label": "native",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--script",
+        "probe.gd"
+      ],
+      "started_utc": "2026-11-07T11:59:24.781264+00:00",
+      "pid": 129001,
+      "exit": -15,
+      "finished_utc": "2026-11-07T11:59:47.921374+00:00",
+      "clean_log": false
+    }
+  ],
+  "source_changed": [],
+  "elapsed_seconds": 24.47717404300056,
+  "accepted": false,
+  "error": "native rejected by exit/log guard",
+  "scope": "Private selected-world structural gate/CPUresource proxy. Full04 headless overlap allowed, no timing/GPU/Mac claim."
+}

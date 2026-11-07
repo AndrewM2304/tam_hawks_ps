@@ -1,0 +1,26 @@
+{
+  "installation": "none",
+  "fixture01": {
+    "baseline": [
+      4,
+      0
+    ],
+    "candidate_and_neighbors": [
+      77,
+      0
+    ],
+    "current_world_regression_reproduced": false,
+    "physical_parity": "90 regular-case body/capsule/velocity/speed/manual/balance/score rows exact after joining by row index; absolute physics counter differs because candidate ran existing ManualGrade first"
+  },
+  "fixture02": {
+    "baseline": [
+      10,
+      0
+    ],
+    "candidate": "interrupted and unbound, wrapper exit130; no acceptance",
+    "current_world_regression_reproduced": false,
+    "shutdown": "root scheduling hold; private wrapper and child stopped, original private controller restored, no actual writes",
+    "confirmed_no_worker_process_utc": "2026-11-07T11:20:59.203296+00:00"
+  },
+  "decision": "stop fixture expansion at root direction; preserve private22/0 legacy repair without actual admission or new-map acceptance"
+}

@@ -1,0 +1,29 @@
+{
+  "scope": "private Station04 geometry and input-coordinate proposal; not accepted/native-clear",
+  "runtime_files": {
+    "game/levels/fidelity_infill.gd": {
+      "baseline": "76f4a6a3c563d4a91233cb1e596d243c3d899147b3c6fa3197d765a4a78ad53b",
+      "candidate": "578edb0ed40feff759d96aa427b55f3a81eddb65a9bd454f228fa567e860756f",
+      "patch_file": "fidelity_infill.gd.patch"
+    },
+    "game/levels/pt24_connected_runs.gd": {
+      "baseline": "3a6efa467e29cdf6fee9544e22d2c77de80f8ac9260084cf13f139c5bd6acb2f",
+      "candidate": "13bc6b0286e6a79dbceee2bb0e7b51a68bc9d7e6e1da01a9e3cb6fea90359e64",
+      "patch_file": "pt24_connected_runs.gd.patch"
+    }
+  },
+  "driver_changed_functions": [
+    "_step",
+    "_station"
+  ],
+  "all_other_driver_function_bodies_exact": true,
+  "column_restored_to_actual": true,
+  "no_actual_source_write": true,
+  "driver": {
+    "tests/pt24_flagship_runs_tests.gd": {
+      "baseline": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+      "candidate": "a7e06abf1dc6bd41ee16ff8abc9354a782724739212f8ab6b86a6111f7268d91",
+      "patch_file": "pt24_flagship_runs_tests.gd.patch"
+    }
+  }
+}

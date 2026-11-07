@@ -1,0 +1,38 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,shutil,signal,subprocess,time
+BASE=Path(__file__).resolve().parent
+POS=BASE/'proposal-late-guard'; NEG=BASE/'negative-late-guard'
+if not NEG.exists():shutil.copytree(POS,NEG,ignore=shutil.ignore_patterns('.godot','.local'))
+old=(BASE/'proposal/game/progression/level_career_book.gd').read_text().replace('static func _write_verified(path: String, profile: Dictionary) -> Error:','func _write_verified(path: String, profile: Dictionary) -> Error:')
+(NEG/'game/progression/level_career_book.gd').write_text(old)
+shutil.copy2(POS/'tests/level_career_book_tests.gd',NEG/'tests/level_career_book_tests.gd')
+OUT=BASE/('final-book-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'));OUT.mkdir();START=time.monotonic();events=[]
+def inventory(root):
+ paths=[root/'project.godot']
+ for folder in ('game','tests','tools'):paths.extend(p for p in (root/folder).rglob('*') if p.is_file())
+ return {str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
+before={label:inventory(root) for label,root in [('positive',POS),('negative',NEG)]};(OUT/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');error=None
+try:
+ for label,root in [('positive',POS),('negative',NEG)]:
+  for phase,args in [('parse',['--check-only']),('native',[])]:
+   remaining=12-(time.monotonic()-START)
+   if remaining<=1:raise RuntimeError('Aggregate15s lease bound approaching')
+   command=['./tools/run.sh','--headless',*args,'--script','tests/level_career_book_tests.gd']
+   event={'label':label,'phase':phase,'command':command,'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+   with (OUT/(label+'-'+phase+'.log')).open('w') as log:
+    process=subprocess.Popen(command,cwd=root,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);event['pid']=process.pid;print(label,phase,'PID',process.pid,'start',event['started_utc'],'bound',min(4,remaining),flush=True)
+    try:code=process.wait(timeout=min(4,remaining))
+    except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGTERM);process.wait(timeout=1);code=124
+   text=(OUT/(label+'-'+phase+'.log')).read_text();event.update(exit=code,finished_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),script_clean=not bool(re.search(r'SCRIPT ERROR:|Parse Error:',text)));events.append(event)
+   expected=1 if label=='negative' and phase=='native' else 0
+   if code!=expected or not event['script_clean']:raise RuntimeError(label+' '+phase+' unexpected exit/script error')
+   if label=='positive' and re.search(r'ERROR:|FAIL:',text):raise RuntimeError('positive log not clean')
+  report=json.loads((root/'.local/book-test-result.json').read_text());shutil.copy2(root/'.local/book-test-result.json',OUT/(label+'-result.json'))
+  if report['checks']!=65 or report['failures']!=(0 if label=='positive' else 6):raise RuntimeError('Wrong native positive/control coverage')
+except Exception as failure:error=str(failure)
+finally:
+ after={label:inventory(root) for label,root in [('positive',POS),('negative',NEG)]};(OUT/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+ changed=[label+':'+p for label in before for p in before[label].keys()|after[label].keys() if before[label].get(p)!=after[label].get(p)]
+ receipt={'events':events,'source_changed':changed,'elapsed_seconds':time.monotonic()-START,'accepted':error is None and not changed,'error':error,'scope':'Code-only isolated profile fixtures. Negative source is original56 save guard with ONLY static→instance method seam, identical adversarial fixtures. Expected six failures prove old guard overwrites observed foreign data; positive refuses all three. Optimistic checks, not interprocess locking. No Main/world/Music/actual profile/source writes.'}
+ (OUT/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));print('OUTPUT',OUT)
+ if error:raise SystemExit(1)

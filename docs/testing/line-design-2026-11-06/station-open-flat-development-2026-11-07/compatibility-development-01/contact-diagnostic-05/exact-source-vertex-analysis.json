@@ -1,0 +1,107 @@
+{
+  "kind": "offline exact-source vertex + rounded actual-frame analysis; not native contact manifold/positive clearance",
+  "inputs": {
+    "glb_sha256": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+    "contact_dump_sha256": "a76e3ef7d3afde0678d0a164d95c34eae1b02c17a64c20b9d739ebd464e1ebfa"
+  },
+  "physics_frame": 319,
+  "relative_to_prefix_first_row_seconds_at60hz": 5.016666666666667,
+  "source": {
+    "material": "Urethane",
+    "primitive": 3,
+    "accessor": 12,
+    "bufferView": 13,
+    "index": 100,
+    "vertex_float32": [
+      -0.12399999797344208,
+      -0.11388854682445526,
+      -0.27380913496017456
+    ],
+    "source_primitive_triangles": [
+      106,
+      107,
+      109,
+      146,
+      148,
+      149
+    ],
+    "file_offset": 557780,
+    "raw_float32_bytes_hex": "b6f3fdbd663ee9bdb6308cbe"
+  },
+  "cache_mapping": {
+    "part": 27,
+    "points": 160,
+    "source_indices_unique": 160,
+    "max_rounded_mapping_error_m": 5.9821262334468224e-05
+  },
+  "native": {
+    "body_path": "/root/@Node3D@2/GlasgowSquare/Grind_Ledge_station_low_manual/NativeGrindBearing",
+    "rid": "RID(20993800143291)",
+    "integer_shape": 3,
+    "shape_rid": "RID(21010980013154)",
+    "type": "CylinderShape3D",
+    "centre_rounded": [
+      -91.0,
+      2.31,
+      37.2
+    ],
+    "axis": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "radius": 0.0700000002980232,
+    "height": 2.19999980926514,
+    "node_backend_frames_equal_as_serialized": true,
+    "disabled": false
+  },
+  "calculation": {
+    "world_vertex": [
+      -90.96853959368487,
+      2.369911180903286,
+      37.24556744956627
+    ],
+    "relative_to_centre": [
+      0.03146040631513358,
+      0.05991118090328573,
+      0.04556744956627057
+    ],
+    "axis_coordinate_m": -0.04556744956627057,
+    "nearest_axis_point": [
+      -91.0,
+      2.31,
+      37.24556744956627
+    ],
+    "radial_vector": [
+      0.03146040631513358,
+      0.05991118090328573,
+      0.0
+    ],
+    "radial_distance_m": 0.06766909754636548,
+    "signed_radial_gap_m": -0.002330902751657718,
+    "analytic_outward_normal": [
+      0.46491541125663094,
+      0.885355104111383,
+      0.0
+    ],
+    "ideal_cylinder_surface_point": [
+      -90.96745592107348,
+      2.371974857551653,
+      37.24556744956627
+    ],
+    "cap_clearance_m": 1.0544324550662993,
+    "all_tyre_vertices_inside_finite_caps": true
+  },
+  "pose": {
+    "grounded_manual": true,
+    "observed_world_axle_y": 0.0,
+    "observed_world_longitudinal_pitch_degrees": 16.09526554135462
+  },
+  "limits": [
+    "source vertex bytes/index and physics counter are exact",
+    "world matrices/positions serialize rounded strings; calculated gap is an estimate",
+    "analytic normal is not a returned native ray/contact normal; intersect_shape was positive while rest/pairs were empty",
+    "source triangles are GLB indices, not native shape face indices",
+    "no tolerance or loaded-contact allowance applied; no runtime correction or geometry shift authorized by this calculation"
+  ]
+}

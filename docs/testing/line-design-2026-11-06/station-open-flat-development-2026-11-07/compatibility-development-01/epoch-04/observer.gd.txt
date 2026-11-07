@@ -1,0 +1,85 @@
+extends "res://.local/station_open_probe.gd"
+const BaseProbe=preload("res://.local/station_open_probe.gd")
+const Career=preload("res://tests/career_route_tests.gd")
+
+func _run() -> void:
+	Setup.register_actions()
+	var game:=Main.new()
+	game.name="StationCompatMain"
+	game.persistence_enabled=false
+	root.add_child(game)
+	await Driver._frames(self,5)
+	var snapshot:=_inventory(game)
+	print("STATION_COMPAT_INVENTORY ",JSON.stringify(snapshot))
+	_check(snapshot.counts=={"bodies":574,"mesh_nodes":1187,"multimesh_nodes":503,"shape_slots":1755,
+		"unique_override_materials":106,"unique_visual_meshes":531},"station compatibility: current-world body/shape/display/material totals remain unchanged")
+	await _protected_widths(game)
+	var witness: Node=BaseProbe.Witness.new()
+	witness.game=game;witness.active=false;witness.process_physics_priority=100
+	game.add_child(witness)
+	var observe: Callable=func(phase: String,_game: Node,_tick: int) -> void:
+		witness.phase=phase
+		witness.active=true
+	var legacy_checks: Array[bool]=[]
+	var legacy_check: Callable=func(ok: bool,label: String) -> void:
+		legacy_checks.append(ok)
+		_check(ok,label)
+	await Driver._station(self,game,legacy_check,observe)
+	witness.active=false
+	_check(witness.contiguous and witness.max_step<1.0,"station compatibility: full spine-to-city native trace is contiguous and bounded")
+	_check(witness.model_clear and witness.shoes_clear and witness.capsule_zero_clear,
+		"station compatibility: every full-prefix actual connected board/shoe/capsule pose is zero-overlap")
+	print("STATION_COMPAT_TRACE ",JSON.stringify({"kind":"full original C04 spine/bank/city route, coordinate/turn migration only",
+		"initial_resets":1,"physics":witness.rows,"failures":witness.failures,"model_clear":witness.model_clear,
+		"shoe_clear":witness.shoes_clear,"capsule_zero_clear":witness.capsule_zero_clear,"path_m":witness.path_m,
+		"score":game.score.total_score,"original_one_bank_receipt_retained":true,"resource_inventory":snapshot}))
+	# Compatibility subsets execute only when both original C04 assertions
+	# pass. Earlier resource/width/raw-volume diagnostics retain their failure;
+	# no field or gate is reset to make this an overall passing receipt.
+	if legacy_checks.size()==2 and legacy_checks[0] and legacy_checks[1]:
+		print("STATION_LEGACY_C04_COMPLETE physics=",Engine.get_physics_frames())
+		var before_career_failed: int=failed
+		var before_career_passed: int=passed
+		await Career.run(self,game,_check)
+		print("STATION_CAREER_SUBSET ",passed-before_career_passed," passed, ",failed-before_career_failed," failed")
+		var before_miss_failed: int=failed
+		var before_miss_passed: int=passed
+		await Driver._miss_return(self,game,_check,"station_new_apron",Vector3(-124,2.08,42.3),-PI*.5,
+			PackedVector3Array([Vector3(-82.5,2,42.3),Vector3(-79.5,2,38),Vector3(-79.5,2,22),
+			Vector3(-62,2,22),Vector3(-50,2,22),Vector3(-35,0,22),Vector3(-26,0,22)]),Callable())
+		print("STATION_MISS_SUBSET ",passed-before_miss_passed," passed, ",failed-before_miss_failed," failed")
+		var before_pipe_failed: int=failed
+		var before_pipe_passed: int=passed
+		await _run_bank_pipe(game,_inventory(game))
+		print("STATION_PIPE_SUBSET ",passed-before_pipe_passed," passed, ",failed-before_pipe_failed," failed")
+	Driver._release();game.free()
+	print("STATION_COMPAT RESULT: ",passed," passed, ",failed," failed")
+	quit(1 if failed>0 else 0)
+
+func _protected_widths(game: Node) -> void:
+	var packet: Array[Dictionary]=[]
+	for item: Dictionary in [
+		{"id":"original north low-bypass","from":Vector3(-82,2,34),"to":Vector3(-82,2,-34)},
+		{"id":"original career diagonal","from":Vector3(-62,2,22),"to":Vector3(-82,2,34)},
+		{"id":"new north-turn apron","from":Vector3(-79.5,2,42.3),"to":Vector3(-79.5,2,22)}]:
+		var from: Vector3=item.from
+		var to: Vector3=item.to
+		var side:=Vector3((to-from).z,0,-(to-from).x).normalized()
+		var clear:=true;var supported:=true;var failures: Array[Dictionary]=[]
+		for column: int in 9:
+			var offset: float=-2.0+float(column)*.5
+			var a: Vector3=from+side*offset
+			var b: Vector3=to+side*offset
+			var sweep: bool=Routes._clear_sweep(game.world,a,b) and Routes._clear_sweep(game.world,b,a)
+			clear=clear and sweep
+			if not sweep:failures.append({"offset":offset,"from":a,"to":b,"kind":"two-way native capsule sweep"})
+			var count:=maxi(2,ceili(a.distance_to(b)))
+			for step: int in count+1:
+				var point: Vector3=a.lerp(b,float(step)/count)
+				var hit: Dictionary=game.world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(point+Vector3.UP*.12,point-Vector3.UP*.12,1))
+				var ok: bool=not hit.is_empty() and Vector3(hit.position).distance_to(point)<.002 and Vector3(hit.normal).dot(Vector3.UP)>.999
+				supported=supported and ok
+				if not ok and failures.size()<16:failures.append({"at":point,"kind":"fixed native floor support","hit":hit})
+		_check(clear and supported,"station compatibility: supported four-metre body-centre band "+String(item.id))
+		packet.append({"id":item.id,"width_m":4.0,"native_capsule_sweeps":18,"support_columns":9,"clear":clear,"supported":supported,"failures":failures})
+	print("STATION_COMPAT_CORRIDORS ",JSON.stringify(packet))

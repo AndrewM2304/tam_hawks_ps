@@ -1,0 +1,58 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/station-compat-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/station-compat-source/.local/station_compat_probe.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/station-compat-source",
+  "started_utc": "2026-11-07T08:06:42.496125+00:00",
+  "os_deadline_seconds": 60,
+  "source_inputs": 1136,
+  "engine_pid": 92732,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    89810,
+    90358
+  ],
+  "declared_known_project_overlaps": [],
+  "overlap_scope": "Root explicitly authorizes current known qualitative and fixed-tick logical headless overlaps in separate private projects/caches; no timing acceptance",
+  "finished_utc": "2026-11-07T08:07:20.420639+00:00",
+  "wall_seconds": 37.92451154399896,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: station compatibility: current-world body/shape/display/material totals remain unchanged",
+    "FAIL: station compatibility: supported four-metre body-centre band original career diagonal",
+    "FAIL: C04-L02: actual spine transfer feeds the existing manual bank and city street in one mapped-input continuation",
+    "FAIL: station compatibility: every full-prefix actual connected board/shoe/capsule pose is zero-overlap"
+  ],
+  "result": [
+    4,
+    4
+  ],
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "ignored_zombie_process_rows": [
+    "82100 Z    [godot] <defunct>"
+  ],
+  "zombie_policy": "Raw process rows retain state; live concurrency gate excludes only explicit Z-state. Baseline prior receipt remains unchanged.",
+  "unknown_other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "1123a89caad753c83f6df1f8181f2b18cc9cbb284334e6ce2909c7c47b0bb6c9",
+    "source-before.json": "be1c130bb83710bec43a810beccb94d9a7c3e94b261c730c887757a2824bb8a2",
+    "observer.gd": "06586dae42279b6a182c71ac4f48682571597b00a6dcaaf02796f7046fd6e961",
+    "wrapper.py.txt": "e9c5d3b280061a331005f9f912c9bd192f5b93710e3151bfd75346a840c6e505",
+    "native.log": "4520baf6dce3d9ca44ea3d18694c7af08d1d2ebe50c0ab426ce46502d4e5033a",
+    "source-after.json": "be1c130bb83710bec43a810beccb94d9a7c3e94b261c730c887757a2824bb8a2"
+  }
+}

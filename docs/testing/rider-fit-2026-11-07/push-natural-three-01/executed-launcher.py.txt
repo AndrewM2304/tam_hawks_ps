@@ -1,0 +1,17 @@
+"""Run the frozen by-value snapshot; neverreadactualgame source afterbinding."""
+from pathlib import Path
+import datetime,hashlib,json,os,signal,shutil,subprocess,time
+P=Path(__file__).resolve().parent;R=P.parents[2];E=Path((P/'prepared-latest.txt').read_text().strip());Q=E/'project';metadata=json.loads((E/'copy-epoch.json').read_text());git_base=metadata['actual_checkout_base_git_commit'];git_status=metadata['actual_checkout_base_git_status_porcelain'];sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+utc=lambda:datetime.datetime.now(datetime.timezone.utc).isoformat()
+command=['bash','tools/full_fidelity_capture.sh','--private-display','--cohort','push-contact','--push-selection','natural-three','--native-size','640x400']
+def snapshot():
+ out={str(f.relative_to(Q)):sha(f)for n in ['game','tests','tools']for f in(Q/n).rglob('*')if f.is_file()and '__pycache__'not in f.parts and f.suffix!='.pyc'}
+ for n in ['project.godot','export_presets.cfg','PLAYER_GUIDE.md','docs/PLAYER_GUIDE.md']:
+  if(Q/n).is_file():out[n]=sha(Q/n)
+ return out
+for key,digest in metadata['source_sha256'].items():
+ expected=metadata['observer_delta']['copied_candidate_sha256']if key=='tools/full_fidelity_capture.gd'else digest
+ assert sha(Q/key)==expected,key
+for key,digest in metadata['compiled_cache_sha256'].items():assert sha(Q/key)==digest,key
+controller=P/'run_immutable.py';body=controller.read_text();body=body[body.index('before=snapshot();'):];(E/'executed-owner-controller.py.txt').write_text(body);(E/'executed-launcher.py.txt').write_text(Path(__file__).read_text());(E/'owner-source-pin.json').write_text(json.dumps({'launch_sha256':sha(Path(__file__)),'controller_source_sha256':sha(controller),'controller_executed_sha256':hashlib.sha256(body.encode()).hexdigest(),'source_epoch_sha256':sha(E/'copy-epoch.json')},indent=2)+'\n')
+exec(compile(body,'frozen_351_owner_controller','exec'))

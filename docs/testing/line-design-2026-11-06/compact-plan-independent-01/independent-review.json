@@ -1,0 +1,414 @@
+{
+  "reviewer": "/root/independent_qa",
+  "recorded_utc": "2026-11-07T10:59:07.738992+00:00",
+  "review_kind": "Independent offline source-bound design feasibility and owner-intent review; no engine/native/gameplay test",
+  "verdict": "Concept fits owner steering; exact portal topology must be revised before graybox. Native/moving/resource/M5 and human acceptance remain Unmeasured.",
+  "proposal": {
+    "docs/planning/COMPACT-LEVEL-REPLAN-2026-11-07.json": "0f245b8018ecb30a857f760eaddd9294599513c94f736cdf7976baa784580e47",
+    "docs/planning/COMPACT-LEVEL-REPLAN-2026-11-07.md": "4ccc649ea8a0bcc0446a2b63a257f5806dd7a5db2f2d86e832a238ad5660755b"
+  },
+  "owner_scope": "Old six-geographic-arena retention is superseded for proposed compact default, not passed; preserve City Tour and historical evidence. Physics, contacts, score rules, Music and hardware honesty remain.",
+  "checks": [
+    {
+      "name": "source pin: game/main.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/levels/glasgow_square.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/features/feature_hub.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/progression/career_progress.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/levels/core_terrain.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/levels/fidelity_infill.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/levels/kelvingrove_skatepark.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/levels/sunken_bowl_feature.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/levels/bowl_feature.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/levels/transition_feature.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/levels/halfpipe_feature.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/levels/spine_feature.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/player/skater.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/audio/apple_music.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "source pin: game/scoring/score_session.gd",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "all current declared world public methods enumerated",
+      "pass": true,
+      "actual": [
+        "get_transition_features",
+        "get_spawn_position",
+        "get_npc_positions",
+        "get_encounter_definitions",
+        "activate_cone",
+        "reset_interactions",
+        "get_district_id",
+        "get_district_checkpoints",
+        "get_gap_definitions",
+        "get_location_name",
+        "get_ground_height",
+        "get_support_height",
+        "get_recovery_position",
+        "get_recovery_message",
+        "get_route_definitions",
+        "get_goal_markers",
+        "get_grind_lines",
+        "get_surface_audit",
+        "get_park_skatepark_definition",
+        "get_skate_feature_definitions",
+        "get_level_density_audit"
+      ]
+    },
+    {
+      "name": "21 current plus 2 proposed methods; inherited methods excluded",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "outer area arithmetic",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "footprint inside declared outer bounds: street_yard",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "footprint inside declared outer bounds: loading_hall",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "footprint inside declared outer bounds: lower_basin",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "footprint inside declared outer bounds: north_east_warehouse",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "footprint inside declared outer bounds: south_east_boilerhouse",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "footprint inside declared outer bounds: west_closed_frontage",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "footprint inside declared outer bounds: south_loading_stores",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "three court footprints do not overlap in area",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "declared architecture does not overlap court interiors",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "reference pace arithmetic only",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "unscaled complete 40 by 30 basin rectangle",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "original east entry rotated PI at (30,0,8) reaches yard portal",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "independent optional City Tour; old broad world not instantiated concurrently",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "identified portal conflict reproduced from exact draft",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "2.0 m mezzanine-to-roof-underside clearance reproduced",
+      "pass": true,
+      "actual": null
+    }
+  ],
+  "source_static_checks_passed": 33,
+  "source_static_checks_failed": 0,
+  "checks_are_not_gameplay_tests": true,
+  "area_accounting": {
+    "outer_m2": 9856,
+    "court_union_m2": 5672,
+    "building_union_m2": 3158,
+    "unassigned_remainder_m2": 1026,
+    "noncourt_fraction": 0.424512987012987
+  },
+  "portal_geometry": {
+    "opening_near_x": 31.0,
+    "hall_max_x": 12,
+    "lateral_gap_m": 19.0,
+    "proposed_grade_length_m": 8,
+    "world_south_wall_plane_z": -6.925000000000001,
+    "source_guide_requires_split": true
+  },
+  "findings": [
+    {
+      "id": "CP-QA-01",
+      "severity": "P1 design blocker",
+      "result": "Fail",
+      "finding": "Hall-to-basin portal centre X34 is on the solid warehouse edge, and its 6 m opening near edge X31 is 19 m east of Hall max X12. The declared 8 m grade cannot create that missing lateral connection.",
+      "next": "Draw a continuous cutout/passage and solid mass subtraction with approach/exit room, or move the portal/mass; then check exact module obstructions and native clearances."
+    },
+    {
+      "id": "CP-QA-02",
+      "severity": "P1 design prerequisite",
+      "result": "Unmeasured",
+      "finding": "Mezzanine floor Y2.2 below underside Y4.2 has 2.0 m vertical space. Standing clearance is not a jumping, camera or full-trick clearance certificate.",
+      "next": "Partition low grounded travel and open upper trick/roof regions; declare their complete body/board/chase swept envelopes and adversarial exits."
+    },
+    {
+      "id": "CP-QA-03",
+      "severity": "P1 design prerequisite",
+      "result": "Unmeasured",
+      "finding": "Court area is 5672 m²; declared solid masses cover 3158 m². 1026 m² is outside both declared courts and masses. It may be purposeful corridors/returns, but has no exact partition in this draft.",
+      "next": "Partition every remaining reachable floor and architectural void; assign each to an approach, landing, return, bypass or inaccessible solid. Avoid padding the enclosure with unspecified flat."
+    },
+    {
+      "id": "CP-QA-04",
+      "severity": "P1 design prerequisite",
+      "result": "Unmeasured",
+      "finding": "The three-court concept has no exact feature-slot/event graph yet, so neither six distinct returned lines nor three closed single-combo cross-court circuits is demonstrated.",
+      "next": "Pin launch, native action, landing, next action, return and one real bank for each circuit; exclude reverse duplicates, mid-run resets and disjoint score sums. Sample novice/flow/expert ordinary inputs and purposeful event gaps."
+    },
+    {
+      "id": "CP-QA-05",
+      "severity": "P1 compatibility prerequisite",
+      "result": "Unmeasured",
+      "finding": "Cutting the existing SouthRetainingFace also cuts the continuous Grind_Park_SouthRim guide. Existing upper-deck clipping and lower-street geometry must remain authoritative; a broad new flat floor would fill bowl or lower-street voids.",
+      "next": "Use compact-only wall/guide/support subtraction, authenticated finite guide ends and deck/port shoulder negatives. Preserve the separately loaded old City Tour module."
+    },
+    {
+      "id": "CP-QA-06",
+      "severity": "P1 compatibility prerequisite",
+      "result": "Unmeasured",
+      "finding": "FeatureHub unconditionally creates and later calls the service gate, scenic lap, cone and vehicle. CareerProgress v1 validates fixed geographic district/gap/interaction identities. An empty activity or route list alone is insufficient.",
+      "next": "Define per-level construction and optional-object call guards plus level-domain goal/event validation; test old v0/v1, backup, future version refusal, settings/unlocks/Music and repeated level switching without duplicate worlds."
+    },
+    {
+      "id": "CP-QA-07",
+      "severity": "P1 evidence boundary",
+      "result": "Unmeasured",
+      "finding": "112×88 m, zero new textures and lower body/shape targets are design bounds. No constructed native inventory, matched render cost, ordinary visibility, human fun or target Mac proof exists. Warehouse footage is edited reference, not proof of one continuous combo.",
+      "next": "Build one original graybox and profile only the selected world, verify initial three ordinary choices and whole-map recovery/boundaries, then current rendered motion and M5 portability/cost."
+    },
+    {
+      "id": "CP-QA-08",
+      "severity": "P2 design clarification",
+      "result": "Unmeasured",
+      "finding": "The plan sets a 4 m minimum safe main bypass while the reused complete facility contains a 3 m secondary StepBypassBank. The parent request is at least 3 m.",
+      "next": "Keep a clear main-versus-secondary route distinction; do not call every existing path a 4 m bypass or scale the complete facility to fit a new nominal number."
+    }
+  ],
+  "source_sha256": {
+    "game/main.gd": {
+      "sha256": "379233f0cab192c395c19d05b98311434a1ab008c345655b9f8925d3f0e10686",
+      "bytes": 33793
+    },
+    "game/levels/glasgow_square.gd": {
+      "sha256": "153b0d15d05cc749ada0ecbb5894c9fe37fe57ba2c709629163c617ab6f29f50",
+      "bytes": 71789
+    },
+    "game/features/feature_hub.gd": {
+      "sha256": "efc208777c12718e5bac79323d6f5757070a8509af1961ada55245628d29acd1",
+      "bytes": 7723
+    },
+    "game/progression/career_progress.gd": {
+      "sha256": "4ee0765bb9603c2c983577c4468718f466b27bbc3f21f49b0dfcf6395ab3ebee",
+      "bytes": 16315
+    },
+    "game/levels/core_terrain.gd": {
+      "sha256": "7ac4a31c5b1c2e50e31851ee884aa1e0560a306eaedff733b4054b58570655ce",
+      "bytes": 10825
+    },
+    "game/levels/fidelity_infill.gd": {
+      "sha256": "76f4a6a3c563d4a91233cb1e596d243c3d899147b3c6fa3197d765a4a78ad53b",
+      "bytes": 14080
+    },
+    "game/levels/kelvingrove_skatepark.gd": {
+      "sha256": "8e721aec746421a250e24e86e09f5a7f676f8df1afe7804688eb91d765122262",
+      "bytes": 20213
+    },
+    "game/levels/sunken_bowl_feature.gd": {
+      "sha256": "cb935ac891c0335543cdc26d64b913b55598d09808f2c6f86e2f00ba1715dcea",
+      "bytes": 9230
+    },
+    "game/levels/bowl_feature.gd": {
+      "sha256": "8f5ee5c456faf65f6621ae6b79ed2097a40a2c00dfd42ce17cc12896c22dcf99",
+      "bytes": 9791
+    },
+    "game/levels/transition_feature.gd": {
+      "sha256": "718c7e56a964a73c45412f19f2a9309f452c0728f694c54eb6af0f6526b4bfc9",
+      "bytes": 12219
+    },
+    "game/levels/halfpipe_feature.gd": {
+      "sha256": "a7c4d51841e81d99485942f77d9d1ccd3b4083274cee311f6e5a3103ff0f6caa",
+      "bytes": 1725
+    },
+    "game/levels/spine_feature.gd": {
+      "sha256": "3fffba9727980fb4c85955c6775864a80d32a439455d18d2ac0b61c813448656",
+      "bytes": 1614
+    },
+    "game/player/skater.gd": {
+      "sha256": "1ef6cdb7dfe2942d1d3aa8f025d89213e2f1f06500fcfb588b7d18734de27f84",
+      "bytes": 245029
+    },
+    "game/audio/apple_music.gd": {
+      "sha256": "f14eb31e725977e398f69c372fa3e47282223777f494180425ace7a4b3257890",
+      "bytes": 21888
+    },
+    "game/scoring/score_session.gd": {
+      "sha256": "1ce3d210665306a93ff7af0d8383f58f979568a3c4a94810a2e67753476f1ccd",
+      "bytes": 6774
+    }
+  },
+  "source_line_observations": {
+    "game/levels/kelvingrove_skatepark.gd": {
+      "const LOCAL_BOUNDS": [
+        9
+      ],
+      "BeginnerArrivalBank": [
+        71
+      ],
+      "StepBypassBank": [
+        86
+      ],
+      "SouthRetainingFace": [
+        101
+      ],
+      "Grind_Park_SouthRim": [
+        103,
+        111
+      ],
+      "func _upper_deck": [
+        117
+      ]
+    },
+    "game/features/feature_hub.gd": {
+      "func configure": [
+        26
+      ],
+      "gate.tick(delta)": [
+        75
+      ],
+      "park_lap.on_launch(at)": [
+        123
+      ],
+      "func definitions_snapshot": [
+        165
+      ]
+    },
+    "game/progression/career_progress.gd": {
+      "const PROFILE_VERSION": [
+        7
+      ],
+      "const DISTRICT_IDS": [
+        19
+      ],
+      "\"across_toon\"": [
+        29,
+        239
+      ],
+      "func record_event": [
+        79
+      ],
+      "func _profile_data": [
+        253
+      ],
+      "static func _validate_profile": [
+        290
+      ]
+    },
+    "game/main.gd": {
+      "world = GlasgowSquare.new()": [
+        82
+      ],
+      "gaps.configure": [
+        100
+      ],
+      "feature_hub.configure": [
+        151
+      ],
+      "hud.set_map_data": [
+        157,
+        612
+      ]
+    }
+  },
+  "no_production_changes_or_native_execution": true,
+  "source_stable_after_review": true,
+  "proposal_stable_after_review": true
+}

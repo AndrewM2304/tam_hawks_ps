@@ -1,0 +1,39 @@
+"""Read-only source/retained-frame analysis. No Godot, mutation or clearance pass."""
+from pathlib import Path
+import json,struct,re,math,hashlib,sys
+packet=Path(sys.argv[1]);glb=Path(sys.argv[2]);d=json.loads((packet/'first-model-contact.json').read_text())
+def vectors(s):return [tuple(map(float,x.split(','))) for x in re.findall(r'\(([-+0-9.e ,]+)\)',s)]
+def add(a,b):return tuple(x+y for x,y in zip(a,b))
+def sub(a,b):return tuple(x-y for x,y in zip(a,b))
+def mul(a,s):return tuple(x*s for x in a)
+def dot(a,b):return sum(x*y for x,y in zip(a,b))
+def length(a):return math.sqrt(dot(a,a))
+def apply(frame,p):return add(frame[3],tuple(sum(frame[k][j]*p[k] for k in range(3)) for j in range(3)))
+raw=glb.read_bytes();json_len=struct.unpack_from('<I',raw,12)[0];g=json.loads(raw[20:20+json_len]);bin_offset=28+json_len;buf=raw[bin_offset:]
+assert hashlib.sha256(raw).hexdigest()=='76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943'
+acc=g['accessors'][12];view=g['bufferViews'][acc['bufferView']];offset=view['byteOffset']+acc.get('byteOffset',0)
+points=[struct.unpack_from('<fff',buf,offset+12*i) for i in range(acc['count'])]
+part=d['parts'][0];native=part['native'][0];assert part['part']==27 and native['integer_shape']==3
+body=vectors(native['body_node_frame']);local=vectors(native['local_shape_frame']);board=vectors(part['board_frame'])
+centre=apply(body,local[3]);axis=tuple(sum(body[k][j]*local[1][k] for k in range(3)) for j in range(3));axis=mul(axis,1/length(axis))
+radius=native['shape_data']['radius'];height=native['shape_data']['height']
+source=[(i,p) for i,p in enumerate(points) if p[0]<-.09 and p[2]<0]
+cache=vectors(part['points']);mapping=[min(source,key=lambda v:math.dist(q,v[1])) for q in cache]
+assert len(cache)==len(set(i for i,p in mapping))==160
+candidates=[]
+for index,p in source:
+ world=apply(board,p);relative=sub(world,centre);axial=dot(relative,axis);radial=sub(relative,mul(axis,axial))
+ candidates.append({'source_index':index,'source_vertex':p,'world':world,'relative':relative,'axis_coordinate_m':axial,'radial':radial,'radial_distance_m':length(radial)})
+best=min(candidates,key=lambda x:x['radial_distance_m']);normal=mul(best['radial'],1/best['radial_distance_m']);axis_point=add(centre,mul(axis,best['axis_coordinate_m']));surface=add(axis_point,mul(normal,radius))
+ia=g['accessors'][15];iv=g['bufferViews'][ia['bufferView']];assert ia['componentType']==5123
+indices=struct.unpack_from('<'+'H'*ia['count'],buf,iv['byteOffset']+ia.get('byteOffset',0));faces=[j//3 for j in range(0,len(indices),3) if best['source_index'] in indices[j:j+3]]
+result={'kind':'offline exact-source vertex + rounded actual-frame analysis; not native contact manifold/positive clearance',
+'inputs':{'glb_sha256':hashlib.sha256(raw).hexdigest(),'contact_dump_sha256':hashlib.sha256((packet/'first-model-contact.json').read_bytes()).hexdigest()},
+'physics_frame':d['physics'],'relative_to_prefix_first_row_seconds_at60hz':(d['physics']-18)/60,
+'source':{'material':'Urethane','primitive':3,'accessor':12,'bufferView':13,'index':best['source_index'],'vertex_float32':best['source_vertex'],'source_primitive_triangles':faces,'file_offset':bin_offset+offset+12*best['source_index'],'raw_float32_bytes_hex':raw[bin_offset+offset+12*best['source_index']:bin_offset+offset+12*best['source_index']+12].hex()},
+'cache_mapping':{'part':27,'points':160,'source_indices_unique':160,'max_rounded_mapping_error_m':max(math.dist(q,p) for q,(i,p) in zip(cache,mapping))},
+'native':{'body_path':native['path'],'rid':native['rid'],'integer_shape':3,'shape_rid':native['shape_rid'],'type':native['type'],'centre_rounded':centre,'axis':axis,'radius':radius,'height':height,'node_backend_frames_equal_as_serialized':native['body_node_frame']==native['body_backend_frame'],'disabled':native['shape_disabled']},
+'calculation':{'world_vertex':best['world'],'relative_to_centre':best['relative'],'axis_coordinate_m':best['axis_coordinate_m'],'nearest_axis_point':axis_point,'radial_vector':best['radial'],'radial_distance_m':best['radial_distance_m'],'signed_radial_gap_m':best['radial_distance_m']-radius,'analytic_outward_normal':normal,'ideal_cylinder_surface_point':surface,'cap_clearance_m':height*.5-abs(best['axis_coordinate_m']),'all_tyre_vertices_inside_finite_caps':all(abs(c['axis_coordinate_m'])<height*.5 for c in candidates)},
+'pose':{'grounded_manual':d['manual_active'] and d['on_floor'] and not d['airborne'],'observed_world_axle_y':board[0][1],'observed_world_longitudinal_pitch_degrees':math.degrees(math.atan2(abs(board[2][1]),math.hypot(board[2][0],board[2][2])))},
+'limits':['source vertex bytes/index and physics counter are exact','world matrices/positions serialize rounded strings; calculated gap is an estimate','analytic normal is not a returned native ray/contact normal; intersect_shape was positive while rest/pairs were empty','source triangles are GLB indices, not native shape face indices','no tolerance or loaded-contact allowance applied; no runtime correction or geometry shift authorized by this calculation']}
+(packet/'exact-source-vertex-analysis.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))

@@ -1,0 +1,37 @@
+from pathlib import Path
+import os
+os.environ['MPLCONFIGDIR']='/tmp/tam-hawks-mpl'
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+import json,re
+p=Path('/workspace/tam_hawks_ps/docs/testing/line-design-2026-11-06/station-open-flat-development-2026-11-07/compatibility-development-01')
+inventory=json.loads((p/'station_compat_inventory.json').read_text());prefix=json.loads((p/'station_compat_trace.json').read_text());pipe=json.loads((p/'station_native_trace.json').read_text())
+def vec(s):return tuple(float(x) for x in s.strip('()').split(','))
+fig,ax=plt.subplots(figsize=(14,6.1));fig.subplots_adjust(left=.06,right=.98,bottom=.3,top=.9)
+ax.set_facecolor('#f4f0e7');ax.add_patch(Rectangle((-130,-42),80,87,facecolor='#e9e3d6',edgecolor='#b7ad9a',lw=1))
+for b in inventory['selected_bodies']:
+ for sh in b['shapes']:
+  a=re.findall(r'\(([-+0-9.e ,]+)\)',sh['aabb']);q=tuple(float(x) for x in a[0].split(','));s=tuple(float(x) for x in a[1].split(','))
+  path=b['path'];colour='#9a988f';alpha=.35
+  if 'SideRollIn' in path:colour='#d4a93d';alpha=.55
+  elif 'CanopyColumn' in path:colour='#424d58';alpha=.9
+  elif 'QuarterPipeFace' in path:colour='#649cbd';alpha=.45
+  elif 'ConnectedFlatBottom' in path:colour='#c4d8df';alpha=.4
+  elif 'station_low_manual' in path:colour='#8dbb89';alpha=.7
+  if 'NativeSteelCoping' not in path:ax.add_patch(Rectangle((q[0],q[2]),max(s[0],.04),max(s[2],.04),fc=colour,ec='#67717b',lw=.4,alpha=alpha))
+for data,colour,label in [(prefix,'#a3427e','Original C04 continuation: mapped inputs; one bank'),(pipe,'#1a7760','Separate one-reset bank → pipe → bank return')]:
+ points=[vec(r['at']) for r in data['physics']];ax.plot([v[0] for v in points],[v[2] for v in points],color=colour,lw=1.8,label=label,alpha=.9)
+ax.plot([-82,-82],[34,-34],'--',c='#4551a4',lw=1.2,label='Original X−82 bypass: 4m band passes')
+ax.plot([-79.5,-79.5],[42.3,22],'--',c='#b47a19',lw=1.2,label='New X−79.5 north apron: 4m band passes')
+ax.plot([-62,-82],[22,34],':',c='#8c4038',lw=1.1,label='Original career diagonal: centre passes; 4m band fails')
+ax.scatter([-90.73461],[37.12621],s=70,c='#ce362d',marker='x',zorder=10)
+ax.annotate('Actual tyre/coping overlap at physics319\n~2.33mm rounded radial depth; rejection retained',(-90.73461,37.12621),xytext=(-117,43),arrowprops={'arrowstyle':'->','color':'#9b2c26'},fontsize=8,color='#8f221c')
+for x,z,t,tx,tz in [(-110,35,'Existing spine',-113,37.2),(-88,37.2,'Same bank, shifted west',-89,40.2),(-65,35,'Same pipe, yaw0;\naccess corners exchanged',-61,32.4),(-76,28,'Original column unchanged',-79,25.8)]:
+ ax.annotate(t,(x,z),xytext=(tx,tz),fontsize=8,fontweight='bold',arrowprops={'arrowstyle':'-','color':'#555555','lw':.6})
+ax.set_xlim(-130,-49);ax.set_ylim(46,18);ax.set_aspect('equal',adjustable='box');ax.set_xlabel('World X / metres');ax.set_ylabel('World Z / metres (north up)');ax.grid(alpha=.2)
+ax.set_title('PRIVATE Station04 native plan — compatibility passes, contact aggregate rejected',fontsize=12)
+ax.legend(loc='upper left',bbox_to_anchor=(0,-.22),ncol=2,frameon=False,fontsize=8)
+fig.text(.06,.025,'Native AABBs are conservative, not a rendered view or exact curved footprint. Traces are actual physics rows. No production/visual/cost/L1 admission.',fontsize=8,color='#555555')
+fig.savefig(p/'native-plan-04.svg');fig.savefig(p/'native-plan-04.png',dpi=140);plt.close(fig)

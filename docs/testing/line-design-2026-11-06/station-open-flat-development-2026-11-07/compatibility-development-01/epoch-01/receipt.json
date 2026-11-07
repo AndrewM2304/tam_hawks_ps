@@ -1,0 +1,54 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/station-compat-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/station-compat-source/.local/station_compat_probe.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/station-compat-source",
+  "started_utc": "2026-11-07T07:53:11.129224+00:00",
+  "os_deadline_seconds": 60,
+  "source_inputs": 1136,
+  "engine_pid": 91374,
+  "engine_exit": -15,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    89810,
+    90358
+  ],
+  "declared_known_project_overlaps": [],
+  "overlap_scope": "Root explicitly authorizes current known qualitative and fixed-tick logical headless overlaps in separate private projects/caches; no timing acceptance",
+  "stopped_on_script_error": true,
+  "finished_utc": "2026-11-07T07:53:11.846731+00:00",
+  "wall_seconds": 0.7175039749999996,
+  "changed_inputs": [],
+  "errors": [
+    "SCRIPT ERROR: Parse Error: Cannot infer the type of \"hit\" variable because the value doesn't have a set type.",
+    "ERROR: Failed to load script \"res://.local/station_compat_probe.gd\" with error \"Parse error\"."
+  ],
+  "result": null,
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "ignored_zombie_process_rows": [
+    "82100 Z    [godot] <defunct>"
+  ],
+  "zombie_policy": "Raw process rows retain state; live concurrency gate excludes only explicit Z-state. Baseline prior receipt remains unchanged.",
+  "unknown_other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "fe75c4781371a9cd5a3d9a4cd7fc22944550ceaf6bd287bcfe8444c63e3b836a",
+    "source-before.json": "c8e389904513968f56f41bbe3bcc1183ec99553d4b4735c9757c601922e70e32",
+    "observer.gd": "609ebabf5f5109dd68f3d54f393c58601b7e3b2310173d6440cc58757d0ccbcb",
+    "wrapper.py.txt": "e9c5d3b280061a331005f9f912c9bd192f5b93710e3151bfd75346a840c6e505",
+    "native.log": "342b1f9cbabb3d48256b3a634135fe82e45008b6114171d34938a5fe51f8f689",
+    "source-after.json": "c8e389904513968f56f41bbe3bcc1183ec99553d4b4735c9757c601922e70e32"
+  }
+}

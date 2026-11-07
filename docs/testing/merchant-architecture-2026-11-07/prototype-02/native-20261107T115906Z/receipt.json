@@ -1,0 +1,24 @@
+{
+  "events": [
+    {
+      "label": "parse",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "probe.gd"
+      ],
+      "started_utc": "2026-11-07T11:59:06.337590+00:00",
+      "pid": 128913,
+      "exit": 1,
+      "finished_utc": "2026-11-07T11:59:06.703913+00:00",
+      "clean_log": false
+    }
+  ],
+  "source_changed": [],
+  "elapsed_seconds": 0.7960541349966661,
+  "accepted": false,
+  "error": "parse rejected by exit/log guard",
+  "scope": "Private selected-world structural gate/CPUresource proxy. Full04 headless overlap allowed, no timing/GPU/Mac claim."
+}

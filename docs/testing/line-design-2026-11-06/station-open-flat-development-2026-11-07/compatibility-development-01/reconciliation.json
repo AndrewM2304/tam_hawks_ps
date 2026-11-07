@@ -1,0 +1,147 @@
+{
+  "scope": "private Station compatibility; rejected aggregate retained; no production promotion",
+  "utc": "2026-11-07T08:24:46.084794+00:00",
+  "aggregate": {
+    "pass": 28,
+    "fail": 3
+  },
+  "completed_subsets": {
+    "old_C04_native_and_one_bank_receipt": [
+      2,
+      0
+    ],
+    "career_and_bidirectional_grade_combos": [
+      14,
+      0
+    ],
+    "no_jump_apron_miss": [
+      1,
+      0
+    ],
+    "bank_pipe_return": [
+      7,
+      1
+    ]
+  },
+  "resource_counts": {
+    "bodies": 574,
+    "mesh_nodes": 1187,
+    "multimesh_nodes": 503,
+    "shape_slots": 1755,
+    "unique_override_materials": 106,
+    "unique_visual_meshes": 531
+  },
+  "prefix": {
+    "physics_rows": 993,
+    "first_physics": 18,
+    "last_physics": 1010,
+    "path_m": 124.205361738801,
+    "board_clear": false,
+    "shoe_clear": true,
+    "capsule_zero_clear": false,
+    "board_failure_physics": [
+      319
+    ],
+    "capsule_zero_failure_physics": [
+      115,
+      301,
+      302,
+      303,
+      304,
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      311,
+      312,
+      313,
+      314,
+      315
+    ]
+  },
+  "pipe_return": {
+    "physics_rows": 703,
+    "first_physics": 10360,
+    "last_physics": 11062,
+    "path_m": 76.1044496703544,
+    "board_clear": true,
+    "shoe_clear": true,
+    "capsule_zero_clear": false,
+    "capsule_zero_failure_physics": [
+      11051
+    ],
+    "face_angles": {
+      "NorthTransition": 68.1011324399407,
+      "SouthTransition": 46.4128472394084
+    },
+    "bank_manual_steps": 42,
+    "bails": 0,
+    "recoveries": 0,
+    "camera": true
+  },
+  "actual_event_intervals": [
+    {
+      "from": "bank_east_toe_exit",
+      "to": "first_native_curve",
+      "physics_steps": 154,
+      "seconds": 2.566666666666667,
+      "actual_path_m": 20.188682809472102,
+      "scope": "actual event-to-event passage; charging is not counted as a meaningful feature"
+    },
+    {
+      "from": "first_native_curve",
+      "to": "opposing_faces_return",
+      "physics_steps": 186,
+      "seconds": 3.1,
+      "actual_path_m": 14.592982075700995,
+      "scope": "actual event-to-event passage; charging is not counted as a meaningful feature"
+    },
+    {
+      "from": "opposing_faces_return",
+      "to": "bank_return_approach",
+      "physics_steps": 164,
+      "seconds": 2.7333333333333334,
+      "actual_path_m": 17.705365810543306,
+      "scope": "actual event-to-event passage; charging is not counted as a meaningful feature"
+    }
+  ],
+  "no_claims": [
+    "four-metre career diagonal",
+    "all capsule/board-contact admission",
+    "rendered quality",
+    "new reverse line",
+    "two lines per arena",
+    "three cross-area circuits",
+    "performance/M5",
+    "whole L1"
+  ],
+  "native_lease_seconds_total": 176.6676419869982,
+  "known_contact_limit": "Failure array caps at16, so prefix board failure319 is retained in per-physics rows but exact part/hit was not logged; follow-up diagnostic required.",
+  "contact_diagnostic": {
+    "scope": "early-stop realfailure diagnostic; rejected0/1 with abruptquitresourcewarning",
+    "physics": 319,
+    "part": 27,
+    "native_integer_shape": 3,
+    "collider": "Grind_Ledge_station_low_manual/NativeGrindBearing",
+    "kind": "CylinderShape3D",
+    "radius_m": 0.0700000002980232,
+    "length_m": 2.19999980926514,
+    "centre": [
+      -91,
+      2.31,
+      37.2
+    ],
+    "rounded_radial_vertex_intrusion_m": 0.002332846067257796,
+    "loaded_capsule_bank_proofs": [
+      15,
+      15
+    ],
+    "loaded_capsule_spine_proofs": [
+      0,
+      1
+    ],
+    "no_tolerance_change": true
+  }
+}

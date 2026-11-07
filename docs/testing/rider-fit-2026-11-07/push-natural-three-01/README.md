@@ -1,0 +1,15 @@
+# Current fitted rider: three consecutive Main push cycles
+
+Native 640×400 diagnostic motion, three117-frame clips at60Hz (72 actual input-pressed+45 release ticks), including regular/front, from-rest/side and fakie/production chase. All7 physical phases/657 trace observations ran. Brake/pop phases remain visually unreviewed. Current11-bone/neck fitted outfit and neutral hand. No13-bone or new knee geometry.
+
+The owner launcher completed3772 assertions/0 failures in2036.925seconds on Linux software rendering. All879 executed source files and252 compiled cache files stayed unchanged. The offline author audit2154/0 verifies original pixels, poses, numeric camera projections, source/binds and actual RenderingServer palettes. Head-to-chest maximum6.583µm; all100 shared waist vertices exact throughout. This is a bounded technical result, not final art, human normal-speed, finalresolution, FPS or M5 acceptance.
+
+`exact-native-buffers.zip` contains all354 buffers (351 clean frames and3 synchronization proofs) as losslessWebP. Every decoded RGBA byte was compared to its original PNG/native SHA256. Original PNG hashes and per-buffer WebP/RGBA hashes are in `exact-buffer-index.json`; no upsampling or colour changes. The three original H264 MP4s are viewing copies, fully decoded but lossy. Thumbnail sheets are labelled derivatives, not original-resolution evidence.
+
+`manifest.json` retains all657 physical observations and the351 selected frame records. `native-rig-readbacks.jsonl.gz` contains actual before/after current rigid/bone matrices, after-draw RenderingServer palettes (BonePose×SkinBind), rendered mesh models, cameras and counters. Apply raw weighted LOCAL xyz, then MODEL with homogeneous w=1; do not normalize weights or apply SkinBind twice. `native-rig-geometry.json.gz` records actual native imported geometry once. `fitted-reference.json.gz` authenticates source landmarks;46 unique head boundary sourceIDs are47 UV-split rows.
+
+`copy-epoch.json` pins the by-value game/tools/test/cache copy. `executed-source-delta.zip` plus the pinned Git base reproduces all879 executed source files. Source contents, not later parent GitHEAD, are authoritative. Compiled cache bytes remain in the ignored immutable execution epoch; this compact packet records their hashes rather than duplicating300MB.
+
+Author audit setup errors are retained in the ignored `whole-push-launch/audit-rejected-*` folders: initial46-vs47 UV-row assumption, then a green-pixel mask that incorrectly required secondary channels<100 despite the native markerRGB173/255/109. Corrected audit uses the pre-existing>51 dominant-channel/2.5pixel centroid contract, with capture/source unchanged. No rejected capture was substituted.
+
+All3 chronological117-thumbnail sheets were personally inspected. The available tool does not expose native video playback to the model; an actual human normal-speed visual verdict remains open. Clothing is much more continuous than the procedural baseline, but high-flexion knee shape, hand splay, coarse collar folds, hair edges and scene detail remain below the requested AAA benchmark.

@@ -1,0 +1,35 @@
+--- a/tests/pt24_flagship_runs_tests.gd
++++ b/tests/pt24_flagship_runs_tests.gd
+@@ -175,10 +175,10 @@
+ 			if game.skater.manual_active or e.bails>0: break
+ 	var linked: bool=game.skater.manual_active
+ 	if linked:
+-		linked=await _station_flatland_pop(tree,game,e,Vector3(-96,2,40),observer)
++		linked=await _station_flatland_pop(tree,game,e,Vector3(-99,2,37.2),observer)
+ 	if linked:
+-		var targets:=PackedVector3Array([Vector3(-96,2,40),Vector3(-88,2,40),Vector3(-73,2,40),
+-			Vector3(-70.5,2,35),Vector3(-70.5,2,28.5),Vector3(-62,2,26.5),Vector3(-62,2,22),
++		var targets:=PackedVector3Array([Vector3(-99,2,37.2),Vector3(-96,2,37.2),Vector3(-81,2,37.2),
++			Vector3(-79.5,2,35),Vector3(-79.5,2,28.5),Vector3(-79.5,2,22),Vector3(-62,2,22),
+ 			Vector3(-50,2,22),Vector3(-35,0,22),Vector3(-26,0,22)])
+ 		for target_index: int in targets.size():
+ 			var target: Vector3=targets[target_index]
+@@ -213,7 +213,8 @@
+ 				linked=false
+ 				break
+ 			if target_index+1<targets.size() and absf(game.skater.speed)<6.0:
+-				linked=await _station_flatland_pop(tree,game,e,targets[target_index+1],observer)
++				var refresh_aim: Vector3=Vector3(-79.5,2,22) if target_index==2 else targets[target_index+1]
++				linked=await _station_flatland_pop(tree,game,e,refresh_aim,observer)
+ 				if not linked: break
+ 	await _finish_bank(tree,game,e,observer)
+ 	check.call(launched and e.transfer and e.spine_crossed and e.native_far_landing and e.bank_manual_ticks>=6
+@@ -418,7 +419,7 @@
+ 			point+Vector3.UP*0.2,point-Vector3.UP*0.2,1))
+ 		e.ground_supported=e.ground_supported and not hit.is_empty() and absf(Vector3(hit.position).y-point.y)<0.18 \
+ 			and Vector3(hit.normal).y>0.5
+-		if point.x>=-83 and point.x<=-77 and absf(point.z-40)<1.05 and point.y>2.25: e.bank_manual_ticks+=1
++		if point.x>=-91 and point.x<=-85 and absf(point.z-37.2)<1.05 and point.y>2.25: e.bank_manual_ticks+=1
+ 	if game.skater.grinding:
+ 		if game.skater._grind.line.id==STAIR: e.stair_ticks+=1
+ 		if game.skater._grind.line.id==FOUNTAIN: e.fountain_ticks+=1

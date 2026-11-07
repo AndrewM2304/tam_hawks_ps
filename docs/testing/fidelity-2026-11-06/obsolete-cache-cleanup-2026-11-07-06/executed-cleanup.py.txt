@@ -1,0 +1,52 @@
+import pathlib,hashlib,json,gzip,shutil,datetime,os
+root=pathlib.Path('/workspace/tam_hawks_ps')
+base=root/'.local/fitted-rig-admission'
+names=['epoch-01/project','epoch-02/project','epoch-03/project','epoch-04/project','epoch-05/project']
+out=root/'docs/testing/fidelity-2026-11-06/obsolete-cache-cleanup-2026-11-07-06'
+out.mkdir(parents=True,exist_ok=False)
+def sha(p):
+ h=hashlib.sha256()
+ with p.open('rb') as f:
+  for b in iter(lambda:f.read(1024*1024),b''):h.update(b)
+ return h.hexdigest()
+def inventory(p,exclude_cache=False):
+ rows=[]
+ for d,dirs,files in os.walk(p,followlinks=False):
+  if exclude_cache:dirs[:]=[x for x in dirs if x!='.godot']
+  for n in files:
+   f=pathlib.Path(d)/n
+   if f.is_symlink():rows.append({'path':str(f.relative_to(root)),'symlink':os.readlink(f)})
+   else:rows.append({'path':str(f.relative_to(root)),'bytes':f.stat().st_size,'sha256':sha(f)})
+ return sorted(rows,key=lambda x:x['path'])
+started=datetime.datetime.now(datetime.timezone.utc).isoformat()
+free_before=shutil.disk_usage(root).free
+before={};caches={}
+protected=[(base/n/'.godot').resolve() for n in names]
+for directory,dirs,files in os.walk(root/'.local',followlinks=False):
+ for item in dirs+files:
+  f=pathlib.Path(directory)/item
+  if f.is_symlink():
+   resolved=f.resolve()
+   assert not any(resolved==p or p in resolved.parents for p in protected),'Dependent symlink '+str(f)
+import subprocess
+processes=subprocess.check_output(['ps','-eo','pid,comm,args'],text=True)
+for line in processes.splitlines():
+ if 'godot' in line.lower() and any(str(p) in line for p in protected):raise RuntimeError('Native cache reader: '+line)
+
+for name in names:
+ p=base/name;cache=p/'.godot'
+ assert p.is_dir() and cache.is_dir() and not cache.is_symlink(),str(cache)
+ assert cache.resolve()==cache.absolute(),str(cache)
+ before[name]=inventory(p,True);caches[name]=inventory(cache)
+raw=json.dumps({'noncache_before':before,'deleted_cache_inventory':caches},sort_keys=True,indent=2).encode()
+archive=out/'before-inventory.json.gz'
+with archive.open('wb') as f:
+ f.write(gzip.compress(raw,mtime=0));f.flush();os.fsync(f.fileno())
+for name in names:shutil.rmtree(base/name/'.godot')
+after={name:inventory(base/name,True) for name in names}
+assert before==after,'noncache changed'
+receipt={'started_utc':started,'finished_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'coordination':'Root verified no live process commands or .local symlink targets inside these five obsolete fitted-rig caches after the rider artist confirmed no readers or aliases. Independent QA was notified; actual full04 and active private caches are protected. Only generated .godot directories are removed; all retained noncache bytes match.','directories':[str((base/x/'.godot').relative_to(root)) for x in names],'deleted_file_count':sum(map(len,caches.values())),'deleted_bytes':sum(r.get('bytes',0) for rs in caches.values() for r in rs),'preserved_noncache_file_count':sum(map(len,before.values())),'noncache_exact_before_after_equal':before==after,'inventory_sha256':sha(archive),'free_bytes_before':free_before,'free_bytes_after':shutil.disk_usage(root).free}
+(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+(out/'README.md').write_text('# Generated QA cache cleanup\n\nFive obsolete private fitted-rig `.godot` caches were removed after root checked process and symlink dependencies and notified independent QA. The compressed inventory preserves every deleted file hash and every retained noncache input hash. All retained inputs match exactly afterwards. This is storage maintenance, with no game or evidence acceptance claim.\n')
+(out/'executed-cleanup.py.txt').write_bytes(pathlib.Path(__file__).read_bytes())
+print(json.dumps(receipt,indent=2))

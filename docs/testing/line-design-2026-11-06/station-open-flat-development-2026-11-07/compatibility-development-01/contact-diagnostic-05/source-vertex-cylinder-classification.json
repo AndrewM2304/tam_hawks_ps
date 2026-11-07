@@ -1,0 +1,113 @@
+{
+  "scope": "offline source vertex + rounded actual native frame classification; no engine",
+  "source_GLb_sha256": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+  "accessor": 12,
+  "bufferView": 13,
+  "primitive_material_index": 3,
+  "material": "Urethane",
+  "source_vertex_index": 100,
+  "source_vertex_exact_float32": [
+    -0.12399999797344208,
+    -0.11388854682445526,
+    -0.27380913496017456
+  ],
+  "native_cache_part": 27,
+  "native_cache_rounded_vertex_index": 68,
+  "generator_profile": {
+    "function": "wheel(side=-1,z=-0.255)",
+    "profile_index": 2,
+    "profile_axial_m": -0.009,
+    "profile_radius_m": 0.032,
+    "angular_sample": 12,
+    "angular_samples": 20,
+    "angle_degrees": 216
+  },
+  "physics_frame": 319,
+  "prefix_first_physics": 18,
+  "elapsed_physics_seconds_since_first_observation": 5.016666666666667,
+  "native_body_path": "/root/@Node3D@2/GlasgowSquare/Grind_Ledge_station_low_manual/NativeGrindBearing",
+  "native_integer_shape": 3,
+  "native_type": "CylinderShape3D",
+  "native_radius_m": 0.0700000002980232,
+  "native_length_m": 2.19999980926514,
+  "native_axis_world": [
+    0,
+    0,
+    -1
+  ],
+  "native_centre_rounded": [
+    -91.0,
+    2.31,
+    37.2
+  ],
+  "tyre_vertex_world_from_exact_source_and_rounded_frame": [
+    -90.96853959368487,
+    2.369911180903286,
+    37.24556744956628
+  ],
+  "vertex_minus_cylinder_centre": [
+    0.03146040631513358,
+    0.05991118090328573,
+    0.045567449566277674
+  ],
+  "nearest_axis_point": [
+    -91.0,
+    2.31,
+    37.24556744956628
+  ],
+  "radial_vector": [
+    0.03146040631513358,
+    0.05991118090328573,
+    0
+  ],
+  "radial_distance_m": 0.06766909754636548,
+  "axis_outward_normal": [
+    0.46491541125663094,
+    0.8853551041113829,
+    0.0
+  ],
+  "normal_y": 0.8853551041113829,
+  "finite_cylinder_surface_point": [
+    -90.96745592107348,
+    2.371974857551653,
+    37.24556744956628
+  ],
+  "signed_radial_gap_m": -0.002330902751657718,
+  "vertex_inside_finite_axial_caps": true,
+  "nearest_cap_clearance_m": 1.0544324550662922,
+  "entire_wheel_inside_axial_caps": true,
+  "convex_projection_minradial_m": 0.06766909754636548,
+  "vertical_lift_illustrations_m": {
+    "0.0": 0.002620753947716194,
+    "0.004": 0.007068240403516676,
+    "0.008": 0.011462784104820137
+  },
+  "lift_illustrations_limits": "Isolated tyre/cylinder geometry only; not runtime correction proposals or complete board/shoe/load authority. Other tyres/components/support must be proved.",
+  "board_world_axle_y": 0.0,
+  "board_longitudinal_pitch_abs_degrees": 16.09526554135462,
+  "world_tyre_centres": {
+    "(-0.115, -0.255)": [
+      -90.957467615,
+      2.399999499,
+      37.236786565
+    ],
+    "(-0.115, 0.255)": [
+      -90.467556515,
+      2.5413893490000006,
+      37.246560715
+    ],
+    "(0.115, -0.255)": [
+      -90.952879805,
+      2.399999499,
+      37.006832564999996
+    ],
+    "(0.115, 0.255)": [
+      -90.462968705,
+      2.5413893490000006,
+      37.016606714999995
+    ]
+  },
+  "classification": "Grounded Manual trailing negativeZ loaded axle crosses its own bank west crest. It is not active or authenticated grind bearing; no named-contact tolerance applies. Real tyre intrusion into a finite native support tube remains rejected, despite being on the intended bank rather than a foreign feature.",
+  "hypothesis": "Capsule drops onto flat deck while loaded trailing tyre is still crossing rounded crest. This resembles finite manual-rim support fit, not grind round-lean/roll or an off-route feature collision. Production branch not instrumented; cause remains hypothesis.",
+  "precision_limits": "Source GLB vertex/accessor and native IDs/time are exact. Actual frame/centres serialize rounded Vector3 strings; world gap/normal/lift are bounded diagnostic estimates, not exact native penetration values or a positive clearance certificate."
+}
