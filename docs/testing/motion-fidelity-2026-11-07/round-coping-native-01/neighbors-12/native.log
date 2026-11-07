@@ -1,0 +1,360 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS grind contact: legacy guides remain explicitly unverified without an invented offset
+PASS grind contact: inspected top datum configures chainably with a retained source
+PASS grind contact: metadata cannot rewrite authored travel points, length or tangent
+PASS grind contact: flat normal and existing open-guide distance clamping remain explicit
+PASS grind contact: translated unit-yaw beam keeps world-space support and original guide coordinates
+PASS grind contact: grade support normal is unit projected world-up perpendicular to actual tangent
+PASS grind contact: centre-authored graded beam uses normal radius rather than a vertical-only height
+PASS grind contact: support side does not invert with authored or ridden travel direction
+PASS grind contact: lowered graded cylinder combines its world-vertical lowering and radial support
+PASS grind contact: lowered flat cylinder guide already describes its top, not its centre
+PASS grind contact: semantic admission skin is removed in world up without changing its guide
+PASS grind contact: closed-guide seam retains matching finite support at existing wrapped endpoints
+PASS grind contact: same-direction collinear grades retain an exact constant beam normal through a subdivision
+PASS grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (0.0, 3.0, -8.0)] (0.0, 0.065)
+PASS grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (0.0, 3.0, -8.0)] (-0.07, 0.07)
+PASS grind contact: zero-normal source-top metadata retains its real polyline without inventing radial joint support
+PASS grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (4.0, 4.0, -4.0)] (0.0, 0.065)
+PASS grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (4.0, 4.0, -4.0)] (-0.07, 0.07)
+PASS grind contact: zero-normal source-top metadata retains its real polyline without inventing radial joint support
+PASS grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (0.0, 2.0, 0.0)] (0.0, 0.065)
+PASS grind contact: grade break, graded corner or reversing grade cannot certify an averaged beam/cylinder top [(0.0, 2.0, 0.0), (0.0, 3.0, -4.0), (0.0, 2.0, 0.0)] (-0.07, 0.07)
+PASS grind contact: zero-normal source-top metadata retains its real polyline without inventing radial joint support
+PASS grind contact: malformed replacement clears stale authority and finite offsets [nan, 0.0, "bad vertical"]
+PASS grind contact: malformed replacement clears stale authority and finite offsets [0.0, inf, "bad normal"]
+PASS grind contact: malformed replacement clears stale authority and finite offsets [0.5001, 0.0, "too far vertical"]
+PASS grind contact: malformed replacement clears stale authority and finite offsets [0.0, -0.5001, "too far normal"]
+PASS grind contact: malformed replacement clears stale authority and finite offsets [0.0, 0.0, " \t "]
+PASS grind contact: missing and vertical geometry cannot acquire a manufactured support side
+PASS grind contact: nonfinite query distances cannot contaminate a physical transform
+PASS grind contact: direct malformed metadata mutation cannot return a nonfinite contact position
+PASS grind contact: original semantic box guide preserves exact translated/yawed top corners plus world-up admission skin
+PASS grind styles: neutral/up/down snapshot selects parallel 50-50 (0.0, 0.0)
+PASS grind styles: neutral/up/down snapshot selects parallel 50-50 (0.0, -1.0)
+PASS grind styles: neutral/up/down snapshot selects parallel 50-50 (0.0, 1.0)
+PASS grind styles: a reversed parallel board preserves fakie heading
+PASS grind styles: horizontal snapshot selects a signed deck-crossing quarter-turn -1.0
+PASS grind styles: already-perpendicular captured board selects deck contact independently of travel -1.0
+PASS grind styles: authored +/-0.35 direction boundary follows shared input precision semantics -1.0
+PASS grind styles: direction just below the shared threshold retains neutral truck contact -1.0
+PASS grind styles: horizontal snapshot selects a signed deck-crossing quarter-turn 1.0
+PASS grind styles: already-perpendicular captured board selects deck contact independently of travel 1.0
+PASS grind styles: authored +/-0.35 direction boundary follows shared input precision semantics 1.0
+PASS grind styles: direction just below the shared threshold retains neutral truck contact 1.0
+PASS grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 44.0
+PASS grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 46.0
+PASS grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 134.0
+PASS grind styles: captured heading distinguishes sides of 45/135 degree contact boundaries 136.0
+PASS grind styles: selection retains the passed capture snapshot when later direction changes
+PASS grind styles: separate selections own their result without shared mutable style state
+PASS grind styles: nonfinite and missing horizontal board/travel headings cannot select a style
+PASS grind styles: both original hanger undersides stay on support travel=-1.0 yaw=0.0 balance=-0.8
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=0.0 balance=-0.8
+PASS grind styles: both original hanger undersides stay on support travel=-1.0 yaw=0.0 balance=0.0
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=0.0 balance=0.0
+PASS grind styles: both original hanger undersides stay on support travel=-1.0 yaw=0.0 balance=0.8
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=0.0 balance=0.8
+PASS grind styles: both original hanger undersides stay on support travel=-1.0 yaw=3.14159265358979 balance=-0.8
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=3.14159265358979 balance=-0.8
+PASS grind styles: both original hanger undersides stay on support travel=-1.0 yaw=3.14159265358979 balance=0.0
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=3.14159265358979 balance=0.0
+PASS grind styles: both original hanger undersides stay on support travel=-1.0 yaw=3.14159265358979 balance=0.8
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=-1.0 yaw=3.14159265358979 balance=0.8
+PASS grind styles: both original hanger undersides stay on support travel=1.0 yaw=0.0 balance=-0.8
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=0.0 balance=-0.8
+PASS grind styles: both original hanger undersides stay on support travel=1.0 yaw=0.0 balance=0.0
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=0.0 balance=0.0
+PASS grind styles: both original hanger undersides stay on support travel=1.0 yaw=0.0 balance=0.8
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=0.0 balance=0.8
+PASS grind styles: both original hanger undersides stay on support travel=1.0 yaw=3.14159265358979 balance=-0.8
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=3.14159265358979 balance=-0.8
+PASS grind styles: both original hanger undersides stay on support travel=1.0 yaw=3.14159265358979 balance=0.0
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=3.14159265358979 balance=0.0
+PASS grind styles: both original hanger undersides stay on support travel=1.0 yaw=3.14159265358979 balance=0.8
+PASS grind styles: signed travel/fakie and balance retain a rigid board travel=1.0 yaw=3.14159265358979 balance=0.8
+PASS grind styles: 50-50 uses asset hanger undersides, not wheel/deck or guessed root height
+PASS grind styles: open endpoint clamps both support contacts inside the finite guide 0.0
+PASS grind styles: open endpoint clamps both support contacts inside the finite guide 0.05
+PASS grind styles: open endpoint clamps both support contacts inside the finite guide 9.94999809265137
+PASS grind styles: open endpoint clamps both support contacts inside the finite guide 9.99999809265137
+PASS grind styles: finite start supports span exactly .51m without extrapolating the rail
+PASS grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie -1.0/0.0
+PASS grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie -1.0/3.14159265358979
+PASS grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie 1.0/0.0
+PASS grind styles: tilted support keeps both rigid truck contacts for uphill/downhill/fakie 1.0/3.14159265358979
+PASS grind styles: right-angle bend solves an actual .51m support chord without stretching or tangent-only fake contact
+PASS grind styles: bent-guide contacts straddle the corner beyond the .255m straight arc offset
+PASS grind styles: loop seam wraps actual truck supports for signed fakie travel
+PASS grind styles: a loop whose entire diameter is below the fixed hanger span is rejected
+PASS grind styles: sufficient arc length alone cannot fake a rigid contact chord on a short right-angle guide
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/-1.5707963267949/-0.8
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/-1.5707963267949/0.0
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/-1.5707963267949/0.8
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/1.5707963267949/-0.8
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/1.5707963267949/0.0
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance -1.0/1.5707963267949/0.8
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/-1.5707963267949/-0.8
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/-1.5707963267949/0.0
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/-1.5707963267949/0.8
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/1.5707963267949/-0.8
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/1.5707963267949/0.0
+PASS grind styles: signed boardslide keeps the asset deck centre fixed through balance 1.0/1.5707963267949/0.8
+PASS grind styles: sloped boardslide crosses the rail in its support plane while holding the deck centre
+PASS grind styles: authored beam support offset, rather than its centreline, receives the deck
+PASS grind styles: short finite support rejects two trucks but can support one deck contact
+PASS grind styles: invalid request cannot retain a previously valid contact pose [inf, 1.0, 0.0, "grind_50_50", 0.0]
+PASS grind styles: invalid request cannot retain a previously valid contact pose [1.0, 0.0, 0.0, "grind_50_50", 0.0]
+PASS grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, nan, "grind_50_50", 0.0]
+PASS grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.2, "grind_50_50", 0.0]
+PASS grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "boardslide", 0.0]
+PASS grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "unimplemented_lipslide", 0.0]
+PASS grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "grind_50_50", nan]
+PASS grind styles: invalid request cannot retain a previously valid contact pose [1.0, 1.0, 0.0, "grind_50_50", 1.01]
+PASS grind styles: missing/unverified/vertical/empty support cannot claim named contact <null>
+PASS grind styles: missing/unverified/vertical/empty support cannot claim named contact <RefCounted#-9223371987529759162>
+PASS grind styles: missing/unverified/vertical/empty support cannot claim named contact <RefCounted#-9223371987496204732>
+PASS grind styles: missing/unverified/vertical/empty support cannot claim named contact <RefCounted#-9223371987462650302>
+PASS grind styles: one reused result replaces contact count/data while retaining its two fixed array slots
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade nosegrind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade five_o_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade crooked_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade overcrook_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade smith_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=-1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=0.0 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=0.0 balance=0.0
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=0.0 balance=0.8
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=3.14159265358979 balance=-0.8
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=3.14159265358979 balance=0.0
+PASS grind variants: real rigid hanger contact on grade feeble_grind direction=1.0 fakie=3.14159265358979 balance=0.8
+PASS grind variants: rail_grind compatibility uses the identical existing two-truck solve
+PASS grind variants: signed Lipslide has the actual GLB deck bearing without claiming crossing history
+PASS grind variants: signed Lipslide has the actual GLB deck bearing without claiming crossing history
+PASS grind variants: one truck may use a finite endpoint while two trucks still require the original rigid chord
+PASS grind variants: an event or unknown ID cannot manufacture another physical pose grind_pivot
+PASS grind variants: an event or unknown ID cannot manufacture another physical pose unimplemented_tailslide
+PASS grind variants: a mismatched yaw cannot borrow another named hanger contact
+PASS grind variants: unverified support never gains a named physical contact
+PASS grind variants native: the actual combined GLB caches32 welded solid components instead of one false hull
+PASS grind variants native: loaded hanger/deck anchors are on actual retained GLB triangles
+PASS grind variants native: nosegrind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS grind variants native: five_o_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS grind variants native: crooked_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS grind variants native: overcrook_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS grind variants native: smith_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS grind variants native: feeble_grind sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS grind variants native: lipslide sustains actual thin-steel contact through travel and balance without ignoring its body
+PASS grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids nosegrind
+PASS grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids five_o_grind
+PASS grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids crooked_grind
+PASS grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids overcrook_grind
+PASS grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids smith_grind
+PASS grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids feeble_grind
+PASS grind variants native: actual wide steel rejects intersecting GLB wheel/hardware solids lipslide
+PASS grind variants native: two clear deck poses cannot rotate their actual trucks through steel between frames
+PASS grind variants native: a direct loaded50-50 to deck slide requires real unweighting rather than a hidden steel crossing
+PASS grind transfer native: boardslide queues only a proved bounded lift/rotate/reseat and starts at the actual board frame
+PASS grind transfer native: a zero-time tick cannot advance the unweight phase or complete its award
+PASS grind transfer native: actual boardslide moves with its target and reseats at the bounded adaptive turn rate
+PASS grind transfer native: a completed reseat can be committed once only
+PASS grind transfer native: lipslide queues only a proved bounded lift/rotate/reseat and starts at the actual board frame
+PASS grind transfer native: a zero-time tick cannot advance the unweight phase or complete its award
+PASS grind transfer native: actual lipslide moves with its target and reseats at the bounded adaptive turn rate
+PASS grind transfer native: a completed reseat can be committed once only
+PASS grind transfer native: a real180-degree deck change receives its longer unweighted rotation phase
+PASS grind transfer native: actual180-degree steel clearance keeps every displayed angular step below15rad/s
+PASS grind transfer native: an actual starting wheel overlap cannot be laundered through a later clear lift
+PASS grind transfer native: removing the genuine start obstruction permits the same proved transfer
+PASS grind transfer native: dropping an incomplete transfer retains its last safe air frame without a completion
+PASS grind transfer native: restart clears old path, pose and pending completion
+PASS grind continuous native: exactly stationary support uses the original cached model shapes and unchanged100micrometre skin
+PASS grind continuous native: a real2mm foreign midpath obstacle cannot disappear between two clear endpoints or through adaptive child checks
+PASS grind continuous native: an actual endpoint overlap and an identical-frame overlap both refuse without a later-clear escape
+PASS grind continuous native: removing the independently real blocker permits the same unchanged physical trajectory and clears stale obstruction data
+PASS grind continuous bounds: a tiny real quaternion turn retains a positive rotational envelope rather than rounding an acos dot to no motion
+PASS grind native grade precision: a fixed authored two-point bar keeps its constant real slope at every finite sample and translated world position (0.0, 0.0, 0.0)
+PASS grind native grade precision: a fixed authored two-point bar keeps its constant real slope at every finite sample and translated world position (-211.5, 14.5, -187.5)
+PASS grind native grade precision: a fixed authored two-point bar keeps its constant real slope at every finite sample and translated world position (500.0, 20.0, 500.0)
+PASS grind certificate native: the original cached deck has a strict positive separating plane against the actual single server cylinder without changing100micrometre contact skin
+PASS grind certificate native: the entire expanded query margin is subtracted and cannot borrow the endpoints' separation
+PASS grind certificate native: the original400micrometre foreign-cylinder pose cannot obtain a false mathematical separating plane
+PASS grind certificate native: a second actual body shape prevents a one-cylinder certificate even when the selected primitive is separately clear
+PASS grind certificate native: far-origin translated child cannot round a real3micrometre overlap into a separating plane
+PASS grind certificate native: the independently hit original20mm single-cylinder overlap refuses both mathematical and full-model clearance
+CERTIFICATE_FOREIGN_NATIVE_WITNESS { "native_shape": 0, "native_rid": RID(463856467971), "certificate_refuses": true, "native_refuses": true }
+PASS grind certificate native:16 real coincident cylinder hits saturate the native query and refuse before any certificate can hide another collider
+PASS grind variants native: exact endpoint solids stay clear while the cached continuous model sweep catches an intervening world blocker
+PASS grind variants native: a failed geometry rebuild clears prior clearance authority
+TRANSITION90 position=(0.0, 0.000839, 19.25344) velocity=(0.0, 0.0, 11.55207) entry=1 launch=1 land=1 exit=1 bail=0 height=3.182 pitch=90.000 error=0.00000 energy=72.558
+PASS transition: real approach traverses the finite face and launches once
+PASS transition: capsule reaches a genuine 90-degree wall and rises above its lip
+PASS transition: descending vertical return lands once then rolls out through the actual toe
+PASS transition: full gravity returns useful outward momentum onto the approach
+PASS transition: collision correction remains bounded and unpowered traversal creates no energy
+PASS transition: normal toe exit restores the original capsule and world up
+PASS transition: insufficient energy rolls back smoothly instead of climbing to the lip
+PASS transition: low-speed maximum height and return agree with full tangent gravity
+PASS transition: rollback neither manufactures momentum nor drifts off collision
+PASS transition: held grind catches the real coping with one finite lip state
+PASS transition: paused physics advances neither lip balance nor position
+PASS transition: releasing coping drops into the actual face and rolls back out
+PASS transition: deliberate coping jump launches upward and away with one event
+PASS transition: an away jump releases its contact frame only after actual capsule clearance
+PASS transition: uncorrected coping balance reaches a real finite failure
+PASS transition: lip failure restores the capsule even while touching a vertical wall
+PASS transition: nonfinite velocity cannot enter native transition motion
+PASS transition: finite width rejects invisible continuation beyond the sides
+PASS transition: ordinary approach ground does not become transition support at a distance
+PASS transition: an analytic surface without actual tagged collision cannot support the rider
+PASS transition: native collision restoration admits the same declared contact fixture
+PASS transition: reset clears every associated state and restores the body collider
+PASS transition: a real solid obstruction interrupts supported motion rather than passing through
+PASS transition: interrupted native sweeps leave the rider on the near side of the obstacle
+PASS transition: translated and yawed features retain true vertical launch and return
+PASS transition: transformed rollout follows the feature's actual local approach
+APPROACH speed=12.0 angle=0.0 entry=1 launch=1 land=1 exit=1 bail=0 height=3.182
+PASS transition: 12m/s +0-degree approach enters from actual flat-ground travel
+PASS transition: 12m/s +0-degree approach completes the true vertical return
+APPROACH speed=15.0 angle=0.0 entry=1 launch=1 land=1 exit=1 bail=0 height=4.987
+PASS transition: 15m/s +0-degree approach enters from actual flat-ground travel
+PASS transition: 15m/s +0-degree approach completes the true vertical return
+APPROACH speed=12.0 angle=15.0 entry=1 launch=1 land=1 exit=1 bail=0 height=2.971
+PASS transition: 12m/s +15-degree approach enters from actual flat-ground travel
+PASS transition: 12m/s +15-degree approach completes the true vertical return
+APPROACH speed=12.0 angle=-15.0 entry=1 launch=1 land=1 exit=1 bail=0 height=2.971
+PASS transition: 12m/s -15-degree approach enters from actual flat-ground travel
+PASS transition: 12m/s -15-degree approach completes the true vertical return
+APPROACH speed=12.0 angle=30.0 entry=1 launch=1 land=1 exit=1 bail=0 height=2.406
+PASS transition: 12m/s +30-degree approach enters from actual flat-ground travel
+PASS transition: 12m/s +30-degree approach completes the true vertical return
+APPROACH speed=12.0 angle=-30.0 entry=1 launch=1 land=1 exit=1 bail=0 height=2.406
+PASS transition: 12m/s -30-degree approach enters from actual flat-ground travel
+PASS transition: 12m/s -30-degree approach completes the true vertical return
+PASS transition: a deliberate early ollie leaves support through one launch
+PASS transition: an upward ollie cannot snap back to its surface on the following frame
+PASS transition: lateral departure physically clears the finite side without invisible continuation
+PASS transition geometry: 0.5-degree visible sample matches native collision and its front normal
+PASS transition geometry: 35.0-degree visible sample matches native collision and its front normal
+PASS transition geometry: 55.0-degree visible sample matches native collision and its front normal
+PASS transition geometry: 57.0-degree visible sample matches native collision and its front normal
+PASS transition geometry: 80.0-degree visible sample matches native collision and its front normal
+PASS transition geometry: the world ray first hits this feature's actual solid steel at89.9degrees
+PASS transition geometry: 89.9-degree visible sample matches native collision and its front normal
+PASS transition: the back side cannot acquire through a thin collision face
+PASS transition geometry: side roll-in landing and deck share a supported level crossover
+PASS transition geometry: side roll-in landing and deck share a supported level crossover
+PASS transition: removing actual coping support ends a held lip instead of floating
+PASS transition: removing curved collision during travel prevents analytic invisible support
+PASS transition transfer: held approach push retains the ordinary vertical air
+PASS transition transfer: a fresh push in air deliberately carries momentum over the rear deck
+PASS transition transfer: directional input adds no vertical impulse or gravity reduction
+PASS transition transfer: actual deck clearance returns control to ordinary air
+PASS transition transfer: fresh brake input moves an airborne rider away from the coping
+PASS transition transfer: steering can carve a purely vertical air with bounded lateral motion
+PASS transition grind: the physical crown remains real solid-world steel below the body travel datum
+AIR_COPING_CAPSULE_CAST from=(0.0, 3.627089, -2.378) to=(0.0, 2.414, -2.42) motion=(0.0, -1.213089, -0.042) fractions=[1.0, 1.0]
+PASS transition grind: prospective upright capture clears the actual coping and rear deck
+PASS transition grind: admission queries preserve associated air and collider until capture succeeds
+PASS transition grind: prospective upright overlap cannot capture through the solid deck
+PASS transition grind: successful caller handoff can restore upright collision without losing velocity
+PASS transition turn: both real capsule helpers admit an unobstructed continuous quarter-turn
+PASS transition turn: a real thin foreign solid reproduces the former sampled-pose gap
+PASS transition turn: continuous native capsule envelopes reject the between-sample foreign blocker
+PASS transition turn: reusable query shape, frame, motion, mask, exclusions and native margin restore exactly
+PASS transition turn: fixed native query ceilings cover both positive and blocked quarter-turns
+CONTINUOUS_CAPSULE_TURN { "feature_positive": 92, "skater_positive": 92, "feature_blocked": 8, "skater_blocked": 8, "old_samples_clear": true, "sphere_radius": 0.01999999955297, "sphere_position": (0.0, 20.3297, 1.657527) }
+PASS connected transition: bowl visible samples match native collision around all sides and steepnesses
+PASS connected transition: circular lateral seam has continuous actual position and contact frame
+PASS connected transition: bowl bottom, external roll-in and deck are real supported surfaces
+PASS connected transition: complete bowl coping is one authored world-space grind track
+PASS connected transition: real outside approach climbs the roll-in, clears the retaining wall and reaches the bowl bottom
+BOWL LAP swept=7.7619 theta=[0.5529,0.6000] energy=46.138/46.159 entry=1 bail=0
+PASS connected transition: unpowered native bowl carving completes a full wrapped lap without detaching
+PASS connected transition: lateral curvature sustains a physical carve without inventing air or repeated landings
+PASS connected transition: bowl parallel transport adds no hidden energy, jumps or unbounded support correction
+PASS connected transition: full-lap contact and travel normals remain finite at the seam
+PASS connected transition: root heading changes preserve the actual global collision support axis
+PASS connected transition: bowl reset restores ordinary capsule orientation and world up
+PASS connected transition: actual flat-bottom approach climbs and rolls back from a low-energy bowl wall
+PASS connected transition: bowl rollback height follows full gravity and preserves useful return momentum
+HALFPIPE faces=[&"NorthTransition", &"SouthTransition"] entry=3 launch=3 landing=2 exit=2 bail=0
+PASS connected transition: real halfpipe bottom links two opposing vertical faces and their returns
+PASS connected transition: repeated halfpipe crossings preserve bounded unpowered energy and collision support
+PASS connected transition: each halfpipe deck exposes its own original coping track
+SPINE launch=true second=true entry=2 land=1 exit=1 bail=0 p=(-0.000002, 0.000843, -27.81665)
+PASS connected transition: deliberate airborne spine transfer crosses the solid cap and lands on the other real face
+PASS connected transition: spine transfer rolls down the second transition into its actual landing area
+PASS connected transition: both sides of the narrow spine have independent real coping lines
+PASS connected transition: a real bowl obstruction interrupts carving without crossing its collision
+PASS connected transition: translated and yawed bowl contact follows its actual world-space curved surface
+PASS connected transition: quarter-pipe coping holds an upright native capsule on the steel top
+PASS connected transition: lip pose frame separates actual steel contact from the curved face normal
+PASS connected transition: lip support ray contacts the actual native steel coping collision
+PASS connected transition: removing steel collision ends lip support even while its concrete face remains
+PASS connected transition: bowl coping holds an upright native capsule on the steel top
+PASS connected transition: lip pose frame separates actual steel contact from the curved face normal
+PASS connected transition: lip support ray contacts the actual native steel coping collision
+PASS connected transition: removing steel collision ends lip support even while its concrete face remains
+REQUIRED02_FOCUSED_RESULT 344/0

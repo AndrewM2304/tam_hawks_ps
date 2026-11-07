@@ -1,0 +1,22 @@
+{
+  "derived_utc": "2026-11-07T10:19:46.254701+00:00",
+  "derived_from_receipt_sha256": "f2de5edf7abfcb6f8175df74986876fea112330d0d976df379500786cb67b95e",
+  "eligible": true,
+  "source_unchanged": true,
+  "raw_error": false,
+  "exit_code": 0,
+  "native_control_sha256": "b41ce1d67310a8163c35c6d1be675dfc88afc76313686f993015b1523f997b8f",
+  "command": [
+    "/usr/local/bin/godot",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/board-construction-next/physical-project",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "res://native_control_probe.gd"
+  ],
+  "source_scope": "Post-run adapter of unmodified before-bound native-control receipt; not a new engine execution or altered measurement."
+}

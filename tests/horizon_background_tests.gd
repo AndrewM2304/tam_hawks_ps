@@ -11,7 +11,7 @@ const BOTTOM := -35.0
 # The independent physical identity contract is owned by clyde_surface_tests;
 # appearance toggles additionally compare the actual before/after inventories.
 const MAX_COMBINED_TRIANGLES := 846 + 64 + 2 + 4 + 4 + 2 # Prior contours, Civic return, shoulders, Civic corner and preserved port cap.
-const WORLD_ROUTES := 48 + 8 + 5 + 2
+const WORLD_ROUTES := 48 + 8 + 6 + 2
 const CELL := 8.0
 const CUBE_SIZE := 512
 const CUBE_MIPS := 9
@@ -579,7 +579,7 @@ static func _preservation(world: Node3D, context: Node3D, check: Callable) -> vo
 	check.call(routes.size()==WORLD_ROUTES and identities.size()==WORLD_ROUTES
 		and RouteContract.route_identities_preserved(routes)
 		and checkpoint_ids==["barras","central_station","clyde","george_square","kelvingrove","royal_exchange"],
-		"horizon: all56 fixed prior routes plus five connected-run and two cable routes stay unique with the same six district checkpoints")
+		"horizon: all56 fixed prior routes plus six connected-run and two cable routes stay unique with the same six district checkpoints")
 	var space := world.get_world_3d().direct_space_state
 	var supports := true
 	for at: Vector3 in [Vector3(-2,1,-8),Vector3(-6,4,-102),Vector3(-99,2,-5),

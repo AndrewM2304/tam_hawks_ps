@@ -1,0 +1,126 @@
+"""Meaningful source-only controls; no engine/current runtime claim."""
+from pathlib import Path
+import base64,copy,gzip,hashlib,json,math,struct,datetime
+from semantic_admission import *
+R=Path(__file__).resolve().parent;ROOT=R.parents[1]
+raw=(ROOT/'game/art/assets/tam_skateboard/tam_skateboard.glb').read_bytes();source_sha=sha(raw)
+artifact=ROOT/'docs/testing/board-fidelity-2026-11-07/native-uv04/native-08/native-result.json.gz'
+record=json.loads(gzip.decompress(artifact.read_bytes()))['records'][1]
+proposal=json.loads((R/'baseline-source-ownership.json').read_text());proposal_sha=sha(canonical(proposal))
+cert=json.loads((R/'baseline-certificate.json').read_text());expected=json.loads((R/'baseline-expected.json').read_text())
+_,sigs=native_surfaces(record)
+checks=[]
+def check(ok,label,detail=None):checks.append({'passed':bool(ok),'label':label,'detail':detail})
+def refused(label,fn):
+ try:fn()
+ except (Refused,ValueError,TypeError,OverflowError)as e:check(True,label,str(e));return
+ check(False,label,'unexpectedly accepted')
+def runtime_record(label,change):
+ v=copy.deepcopy(record);change(v);refused(label,lambda:verify_and_points(v,cert,expected))
+def runtime_cert(label,change,structural=False):
+ v=copy.deepcopy(cert);change(v);pins=copy.deepcopy(expected)
+ if structural:pins['certificate_sha256']=sha(canonical(v))
+ refused(label,lambda:verify_and_points(record,v,pins))
+def ownership(label,change):
+ v=copy.deepcopy(proposal);change(v)
+ # Deliberately rebind the altered proposal to reach structural validation;
+ # production uses the original independently reviewed immutable proposal pin.
+ refused(label,lambda:ownership_table(source_decode(raw,source_sha),v,sha(canonical(v))))
+def mutate_array(value,key,offset,fmt,new):
+ r=value['surfaces'][0][key];buf=bytearray(base64.b64decode(r['base64']));struct.pack_into(fmt,buf,offset,new);r['base64']=base64.b64encode(buf).decode()
+def reencode_gltf(mutator):
+ n=struct.unpack_from('<I',raw,12)[0];g=json.loads(raw[20:20+n]);b=raw[28+n:];mutator(g)
+ j=json.dumps(g,separators=(',',':')).encode();j+=b' '*((-len(j))%4)
+ return struct.pack('<III',0x46546c67,2,12+8+len(j)+8+len(b))+struct.pack('<II',len(j),0x4e4f534a)+j+struct.pack('<II',len(b),0x004e4942)+b
+
+def source_malformed(label,mutator):
+ value=reencode_gltf(mutator)
+ # Updated test pin ensures parser/schema validation, not just hash refusal.
+ refused(label,lambda:source_decode(value,sha(value)))
+proof=verify_and_points(record,cert,expected)
+check(proof['coverage']==5696 and len(proof['parts'])==32,'all5696 retained indexed native faces assigned once to32 source-authenticated parts')
+check(proof['provenance_bytes']<131072,'declared retained certificate ceiling',proof['provenance_bytes'])
+check(proof['point_payload_bytes']==35436,'points derived only from actual native indexed endpoints',proof['point_payload_bytes'])
+check(all('source_float32_points_base64'not in k for k in cert),'certificate carries no self-asserted support-point buffers')
+refused('wrong fixed source SHA',lambda:source_decode(raw,'0'*64))
+refused('actual source bytes changed with old pin',lambda:source_decode(raw[:-1]+bytes([raw[-1]^1]),source_sha))
+source_malformed('source external buffer URI refused',lambda g:g['buffers'][0].update(uri='foreign.bin'))
+source_malformed('source nonidentity node transform refused',lambda g:g['nodes'][0].update(scale=[1,1,1.01]))
+source_malformed('source Skin binding refused',lambda g:g['nodes'][0].update(skin=0))
+source_malformed('source animation refused',lambda g:g.update(animations=[{}]))
+source_malformed('source sparse accessor refused',lambda g:g['accessors'][0].update(sparse={}))
+source_malformed('source wrong float accessor width refused',lambda g:g['accessors'][0].update(type='VEC2'))
+source_malformed('source fractional accessor count refused',lambda g:g['accessors'][0].update(count=1.5))
+source_malformed('source bool mesh index refused',lambda g:g['nodes'][0].update(mesh=False))
+source_malformed('source normalized float accessor refused',lambda g:g['accessors'][0].update(normalized=True))
+source_malformed('source oversized buffer view refused',lambda g:g['bufferViews'][0].update(byteLength=2**30))
+source_malformed('source unsupported stride refused',lambda g:g['bufferViews'][0].update(byteStride=32))
+source_malformed('source boolean material index refused',lambda g:g['meshes'][0]['primitives'][0].update(material=False))
+ownership('missing source face refused',lambda d:d['parts'][0]['source_triangles'].pop())
+ownership('duplicate source face refused',lambda d:d['parts'][0]['source_triangles'].__setitem__(1,d['parts'][0]['source_triangles'][0]))
+ownership('foreign source surface refused',lambda d:d['parts'][0]['source_triangles'][0].__setitem__(0,4))
+ownership('fractional source face refused',lambda d:d['parts'][0]['source_triangles'][0].__setitem__(1,.5))
+ownership('boolean source face refused',lambda d:d['parts'][0]['source_triangles'][0].__setitem__(1,False))
+ownership('negative source face refused',lambda d:d['parts'][0]['source_triangles'][0].__setitem__(1,-1))
+ownership('duplicate source semantic name refused',lambda d:d['parts'][1].update(name=d['parts'][0]['name']))
+ownership('empty semantic source part refused',lambda d:d['parts'][0].update(source_triangles=[]))
+# A complete malicious reassignment has valid topology but cannot bypass the
+# immutable independently reviewed ownership pin.
+v=copy.deepcopy(proposal);v['parts'][0]['source_triangles'][0],v['parts'][2]['source_triangles'][0]=v['parts'][2]['source_triangles'][0],v['parts'][0]['source_triangles'][0]
+refused('complete wrong part ownership refused by immutable proposal pin',lambda:ownership_table(source_decode(raw,source_sha),v,proposal_sha))
+runtime_record('native vertex displaced100um refused',lambda v:mutate_array(v,'positions',0,'<f',.0001))
+runtime_record('native NaN position refused',lambda v:mutate_array(v,'positions',0,'<f',math.nan))
+runtime_record('native foreign index refused',lambda v:mutate_array(v,'indices',0,'<i',999999))
+runtime_record('native negative index refused',lambda v:mutate_array(v,'indices',0,'<i',-1))
+runtime_record('native UV changed refused',lambda v:mutate_array(v,'uv',0,'<f',.125))
+runtime_record('native tangent changed refused',lambda v:mutate_array(v,'tangents',0,'<f',.25))
+runtime_record('native short index bytes refused',lambda v:v['surfaces'][0]['indices'].update(base64='AAAA'))
+runtime_record('native fractional typed count refused',lambda v:v['surfaces'][0]['positions'].update(count=1600.5))
+runtime_record('native packed protected hardware changed refused',lambda v:v['surfaces'][2]['packed_surface']['vertex_data'].update(sha256='0'*64))
+runtime_record('native protected grip buffer changed refused',lambda v:v['surfaces'][1]['packed_surface']['attribute_data'].update(sha256='0'*64))
+runtime_record('native protected shadow changed refused',lambda v:v['surfaces'][3]['packed_shadow_surface']['vertex_data'].update(sha256='0'*64))
+runtime_record('native protected LOD changed refused',lambda v:v['surfaces'][0]['packed_surface']['lods'][0].update(index_sha256='0'*64))
+runtime_record('native protected LOD edge changed refused',lambda v:v['surfaces'][0]['packed_surface']['lods'][0].update(edge_length=1.0))
+runtime_record('native wrong material refused',lambda v:v['surfaces'][0].update(material='ForeignShader'))
+runtime_record('native wrong primitive integer identity refused',lambda v:v['surfaces'][0].update(index=False))
+runtime_cert('cooked missing native face refused',lambda v:v['native_face_owners'][0].pop(),True)
+runtime_cert('cooked foreign native part refused',lambda v:v['native_face_owners'][0].__setitem__(0,32),True)
+runtime_cert('cooked fractional native owner refused',lambda v:v['native_face_owners'][0].__setitem__(0,.5),True)
+runtime_cert('cooked boolean native owner refused',lambda v:v['native_face_owners'][0].__setitem__(0,False),True)
+runtime_cert('cooked duplicate part name refused',lambda v:v['part_names'].__setitem__(1,v['part_names'][0]),True)
+runtime_cert('cooked source pin mismatch refused',lambda v:v.update(source_sha256='0'*64),True)
+runtime_cert('cooked policy pin mismatch refused',lambda v:v.update(policy_sha256='0'*64),True)
+runtime_cert('cooked decoder pin mismatch refused',lambda v:v.update(decoder_sha256='0'*64),True)
+runtime_cert('cooked complete wrong native ownership refused by immutable certificate pin',lambda v:v['native_face_owners'][0].__setitem__(0,2))
+refused('nonidentity native local frame refused',lambda:verify_and_points(record,cert,expected,local_identity=False))
+refused('native Skin binding refused',lambda:verify_and_points(record,cert,expected,skin_absent=False))
+# Validate physical source ownership only; NO synthetic/native-shaped data is
+# fabricated for the unexecuted physical candidate.
+physical=(ROOT/'.local/board-fidelity/construction-study/physical-layout02/tam_skateboard.glb').read_bytes()
+physical_sha='c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5'
+p_source=source_decode(physical,physical_sha)
+p_proposal=json.loads(gzip.decompress((ROOT/'docs/testing/board-fidelity-2026-11-07/construction-study/semantic-parts-proposal.json.gz').read_bytes()))
+p_owners,p_names=ownership_table(p_source,p_proposal,sha(canonical(p_proposal)))
+check(sum(len(x)for x in p_owners)==5996 and len(p_names)==32,'physical study source5996faces has32 complete semantic memberships; native still unrun')
+# Resource-exhaustion controls use modest linear specimens; none allocate an
+# exponential tree or giant packed payload. All bounds precede stringify/hash.
+refused('global wide nested-node budget before canonicalisation',lambda:tree_budget({'a':[['']*500 for _ in range(33)]}))
+refused('global nested-container budget before canonicalisation',lambda:tree_budget({'a':[[]for _ in range(600)]}))
+refused('global scalar-byte budget before canonicalisation',lambda:tree_budget({'a':['x'*256 for _ in range(300)]}))
+nested=0
+for _ in range(10):nested=[nested]
+refused('global depth budget before canonicalisation',lambda:tree_budget(nested))
+runtime_record('packed index_count boolean refused before hashing',lambda v:v['surfaces'][0]['packed_surface'].update(index_count=False))
+runtime_record('packed index_count negative refused before hashing',lambda v:v['surfaces'][0]['packed_surface'].update(index_count=-1))
+runtime_record('packed index_count fractional refused before hashing',lambda v:v['surfaces'][0]['packed_surface'].update(index_count=1.5))
+runtime_record('packed index_count oversized refused before hashing',lambda v:v['surfaces'][0]['packed_surface'].update(index_count=MAX_FACES*3+1))
+runtime_record('packed missing index_count refused before hashing',lambda v:v['surfaces'][0]['packed_surface'].pop('index_count'))
+runtime_record('packed combined vertex count refused before hashing',lambda v:v['surfaces'][0]['packed_surface'].update(vertex_count=MAX_VERTICES))
+runtime_record('packed vertex byte-size cap refused without giant allocation',lambda v:v['surfaces'][0]['packed_surface']['vertex_data'].update(bytes=1600*64+1))
+runtime_record('packed shadow byte-size cap refused without giant allocation',lambda v:v['surfaces'][0]['packed_shadow_surface']['vertex_data'].update(bytes=MAX_VERTICES*64+1))
+runtime_record('packed index byte-size cap refused without giant allocation',lambda v:v['surfaces'][0]['packed_surface']['index_data'].update(bytes=7800*4+1))
+runtime_record('packed static board Skin payload refused without allocation',lambda v:v['surfaces'][0]['packed_surface'].update(skin_data={'bytes':4,'sha256':'0'*64}))
+runtime_record('packed LOD byte cap refused without giant allocation',lambda v:v['surfaces'][0]['packed_surface']['lods'][0].update(bytes=7800*4+2))
+check(tree_budget(cert)['nodes']<MAX_CERTIFICATE_NODES and tree_budget(cert)['scalar_bytes']<MAX_CERTIFICATE_SCALAR_BYTES,'normal current certificate stays inside all global prepass bounds',tree_budget(cert))
+report={'created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'PRIVATE source-only author checks over preserved historical native arrays','passes':sum(c['passed']for c in checks),'failures':[c for c in checks if not c['passed']],'checks':checks,'scope':'No native engine invocation, current-source proof, actual shape query, cooked PCK, rendering, motion or M5 result. Mutated structural controls intentionally rebind test hashes where indicated to exercise validation beyond simple immutable-pin refusal.','source_module_sha256':sha((R/'semantic_admission.py').read_bytes()),'test_script_sha256':sha(Path(__file__).read_bytes())}
+(R/'source-negative-report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({'passes':report['passes'],'failures':report['failures'],'scope':report['scope']},indent=2));raise SystemExit(1 if report['failures']else 0)

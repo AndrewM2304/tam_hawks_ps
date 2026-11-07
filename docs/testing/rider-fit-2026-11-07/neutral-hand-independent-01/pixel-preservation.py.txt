@@ -1,0 +1,20 @@
+from pathlib import Path
+import hashlib,json,gzip,shutil,datetime
+from PIL import Image
+R=Path('/workspace/tam_hawks_ps');P=R/'.local/rider-fit-staging/epochs/neutral-hand-01';O=R/'docs/testing/rider-fit-2026-11-07/neutral-hand-independent-01'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+frames=[]
+for s in sorted((P/'output').rglob('*.png')):
+ rel=s.relative_to(P/'output');q=O/'pixels'/rel.with_suffix('.webp');q.parent.mkdir(parents=True,exist_ok=True)
+ a=Image.open(s).convert('RGBA');a.save(q,'WEBP',lossless=True,quality=100,method=6,exact=True);b=Image.open(q).convert('RGBA');assert a.size==b.size and a.tobytes()==b.tobytes()
+ frames.append({'original_relative_path':str(s.relative_to(P)),'original_png_sha256':sha(s),'native_rgba_sha256':hashlib.sha256(a.tobytes()).hexdigest(),'lossless_webp':str(q.relative_to(O)),'webp_sha256':sha(q),'size':list(a.size)})
+assert len(frames)==20
+archives=[]
+for f in ['index.json','source-before.json','source-after.json','controls-source-before.json','controls-source-after.json','hand-controls.json','output/neutral-hand-receipt.json','launch-receipt.json','hand-controls-launch.json','hand-controls.log','studio-console.log','native.log','candidate-handoff.json','budget-before-prototype.json','source-delta-estimate.json']:
+ s=P/f;q=O/'native'/Path(f).with_suffix(Path(f).suffix+'.gz');q.parent.mkdir(parents=True,exist_ok=True);raw=s.read_bytes();q.write_bytes(gzip.compress(raw,compresslevel=9,mtime=0));assert gzip.decompress(q.read_bytes())==raw;archives.append({'original':f,'original_sha256':sha(s),'archive':str(q.relative_to(O)),'archive_sha256':sha(q)})
+for f in ['skater_anatomy_candidate.gd','hand_controls.gd','source/hand_studio.gd','source/WRAPPER']:
+ s=P/f
+ if s.is_file():q=O/'executed-source'/(Path(f).name+'.txt');q.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(s,q)
+q=O/'executed-source/skater_anatomy-base.gd.txt';shutil.copy2(R/'game/player/skater_anatomy.gd',q)
+report={'preserved_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'All20 proof/clean native buffers losslessly re-encoded, no crop/resize/changed pixels. Original encoded PNGs remain in immutable ignored epoch. Original PNG and exact decoded native RGBA hashes retained independently of WebP encoding.','result':{'pass':len(frames),'fail':0},'frames':frames,'raw_archives':archives}
+(O/'pixel-preservation.json').write_text(json.dumps(report,indent=2)+'\n');(O/'pixel-preservation.py.txt').write_bytes(Path(__file__).read_bytes());print(json.dumps({'frames':len(frames),'bytes':sum(x.stat().st_size for x in O.rglob('*') if x.is_file())},indent=2))

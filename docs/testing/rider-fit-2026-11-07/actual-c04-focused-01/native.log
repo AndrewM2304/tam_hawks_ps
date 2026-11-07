@@ -1,0 +1,112 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS body attachment: actual neutral skinned hem/waist vertices and native bind mappings form one figure
+PASS body attachment: a detached torso bind is rejected even when node/bone joint distances remain unchanged
+BODY_ATTACHMENT_PHASE before_grab_push { "samples": 30, "maximum_seam": 0.0, "maximum_joint_gap": 0.02491041086614, "maximum_neck_gap": 0.00000524520874, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE crouch { "samples": 18, "maximum_seam": 0.0, "maximum_joint_gap": 0.02110046334565, "maximum_neck_gap": 0.0000054537436, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE ollie { "samples": 3, "maximum_seam": 0.0, "maximum_joint_gap": 0.00114638730884, "maximum_neck_gap": 0.00000537376445, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE active_grab { "samples": 10, "maximum_seam": 0.0, "maximum_joint_gap": 0.03210843354464, "maximum_neck_gap": 0.00000540343308, "maximum_surface_gap": 0.0, "maximum_influence": 0.97443846679349, "finite": true, "worst": {  }, "phases": [] }
+PASS body attachment: partial-to-full actual grab keeps its skinned torso connected to pelvis and thighs
+BODY_ATTACHMENT_PHASE grab_landing { "samples": 60, "maximum_seam": 0.0, "maximum_joint_gap": 0.03269035741687, "maximum_neck_gap": 0.00000535134268, "maximum_surface_gap": 0.0, "maximum_influence": 0.99149130474057, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE after_grab_push { "samples": 180, "maximum_seam": 0.0, "maximum_joint_gap": 0.0253186840564, "maximum_neck_gap": 0.00000608655455, "maximum_surface_gap": 0.0, "maximum_influence": 0.00000000057583, "finite": true, "worst": {  }, "phases": [] }
+PASS body attachment: real mapped Ollie/K input enters the intended grab before release/interruption
+PASS body attachment: released/interrupted grab returns to real supported skating
+PASS body attachment: skinned torso/waist and global pelvis joint remain attached after grab/release
+BODY_ATTACHMENT_RESULT interrupt=false neutral={ "hem": (0.13561, 1.017456, 11.94961), "waist": (0.128997, 1.017836, 11.94947), "thigh": (0.154836, 0.709669, 11.93159), "seam": 0.0, "joint_gap": 0.00399829540402, "neck_gap": 0.00000514959629, "anatomical_neck_vertices": 47, "surface_gap": 0.0, "head": (0.193325, 1.60304, 11.89106), "finite": true, "grab_blend": 0.0, "body": (0.0, 0.000506, 12.0), "bail": "", "rendered": false } settled={ "samples": 180, "maximum_seam": 0.0, "maximum_joint_gap": 0.0253186840564, "maximum_neck_gap": 0.00000608655455, "maximum_surface_gap": 0.0, "maximum_influence": 0.00000000057583, "finite": true, "worst": {  }, "phases": [] } negative_bind_seam=0.18242473900318 events=["Ollie", "Melon Grab"]
+BODY_ATTACHMENT_PHASE post_grab_flip_crouch { "samples": 18, "maximum_seam": 0.0, "maximum_joint_gap": 0.02122595906258, "maximum_neck_gap": 0.00000882470886, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE post_grab_flip_pop { "samples": 3, "maximum_seam": 0.0, "maximum_joint_gap": 0.00123901409097, "maximum_neck_gap": 0.00000610329425, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE post_grab_flip { "samples": 3, "maximum_seam": 0.0, "maximum_joint_gap": 0.00080099148909, "maximum_neck_gap": 0.00000855674443, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE post_flip_landing { "samples": 90, "maximum_seam": 0.0, "maximum_joint_gap": 0.00352530158125, "maximum_neck_gap": 0.00000874463331, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+PASS body attachment: real post-grab flip and landing keep the actual torso/waist attached
+BODY_ATTACHMENT_PHASE actual_unbalanced_manual_failure { "samples": 300, "maximum_seam": 0.0, "maximum_joint_gap": 0.08003057539463, "maximum_neck_gap": 0.00001580017852, "maximum_surface_gap": 0.00000000139698, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": ["fall", "slide", "get_up", "ready"] }
+PASS body attachment: a real uncorrected manual failure preserves cloth attachment through recovery
+PASS body attachment: actual neutral skinned hem/waist vertices and native bind mappings form one figure
+PASS body attachment: a detached torso bind is rejected even when node/bone joint distances remain unchanged
+BODY_ATTACHMENT_PHASE before_grab_push { "samples": 30, "maximum_seam": 0.0, "maximum_joint_gap": 0.02491041086614, "maximum_neck_gap": 0.00000524520874, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE crouch { "samples": 18, "maximum_seam": 0.0, "maximum_joint_gap": 0.02110046334565, "maximum_neck_gap": 0.0000054537436, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE ollie { "samples": 3, "maximum_seam": 0.0, "maximum_joint_gap": 0.00114638730884, "maximum_neck_gap": 0.00000537376445, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+BODY_ATTACHMENT_PHASE active_grab { "samples": 10, "maximum_seam": 0.0, "maximum_joint_gap": 0.03210843354464, "maximum_neck_gap": 0.00000540343308, "maximum_surface_gap": 0.0, "maximum_influence": 0.97443846679349, "finite": true, "worst": {  }, "phases": [] }
+PASS body attachment: partial-to-full actual grab keeps its skinned torso connected to pelvis and thighs
+BODY_ATTACHMENT_PHASE grab_bail_getup { "samples": 180, "maximum_seam": 0.0, "maximum_joint_gap": 0.0800893008709, "maximum_neck_gap": 0.00000508426638, "maximum_surface_gap": 0.00000000186265, "maximum_influence": 0.67532543926264, "finite": true, "worst": {  }, "phases": ["fall", "slide", "get_up", "ready"] }
+PASS body attachment: interrupted/repeated grab bail keeps actual waist/neck geometry attached through get-up
+BODY_ATTACHMENT_PHASE after_grab_bail_push { "samples": 180, "maximum_seam": 0.0, "maximum_joint_gap": 0.02531795203686, "maximum_neck_gap": 0.00000529014324, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+PASS body attachment: real mapped Ollie/K input enters the intended grab before release/interruption
+PASS body attachment: released/interrupted grab returns to real supported skating
+PASS body attachment: skinned torso/waist and global pelvis joint remain attached after grab/bail/get-up
+BODY_ATTACHMENT_RESULT interrupt=true neutral={ "hem": (0.13561, 1.017456, 11.94961), "waist": (0.128997, 1.017836, 11.94947), "thigh": (0.154836, 0.709669, 11.93159), "seam": 0.0, "joint_gap": 0.00399829540402, "neck_gap": 0.00000514959629, "anatomical_neck_vertices": 47, "surface_gap": 0.0, "head": (0.193325, 1.60304, 11.89106), "finite": true, "grab_blend": 0.0, "body": (0.0, 0.000506, 12.0), "bail": "", "rendered": false } settled={ "samples": 180, "maximum_seam": 0.0, "maximum_joint_gap": 0.02531795203686, "maximum_neck_gap": 0.00000529014324, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] } negative_bind_seam=0.18242473900318 events=["Ollie", "Melon Grab"]
+BODY_ATTACHMENT_PHASE interrupted_bail { "samples": 12, "maximum_seam": 0.0, "maximum_joint_gap": 0.0643198043108, "maximum_neck_gap": 0.00000523876997, "maximum_surface_gap": 0.00000000325963, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": ["fall"] }
+BODY_ATTACHMENT_PHASE restart_then_push { "samples": 60, "maximum_seam": 0.0, "maximum_joint_gap": 0.025261297822, "maximum_neck_gap": 0.0000057423631, "maximum_surface_gap": 0.0, "maximum_influence": 0.0, "finite": true, "worst": {  }, "phases": [] }
+PASS body attachment: explicit restart during a fall restores actual connected mesh skinning before skating
+PASS body attachment: actual skinned cloth and anatomical neck stay connected through fully settled melon_grab
+BODY_ATTACHMENT_FULL_GRAB melon_grab seam=0.0 joint=0.03300036862493 neck=0.00000582053917 influence=1.0
+PASS body attachment: actual skinned cloth and anatomical neck stay connected through fully settled method_grab
+BODY_ATTACHMENT_FULL_GRAB method_grab seam=0.0 joint=0.03300023078918 neck=0.00000570712518 influence=1.0
+PASS gait direction: actual Push/Manual/impact/backward Brake/stopped fade preserves the real Nose Manual and once-only100-point bank
+PASS gait direction: native movement matches the unfitted twin and both loaded tyres retain their original support
+PASS gait direction: actual complete shoe outline stays continuous through the former253mm zero-speed flip without entering the native floor
+PASS gait direction: connected real clothing and the final backward stroke survive a stopped fading Brake
+GAIT_NATIVE_STOP { "maximum_sole_step": 0.11724711954594, "stop83_sole_step": 0.03655341267586, "minimum_sole_y": 0.00078125298023, "banks": [100], "backward_brake": true, "stopped_brake_fade": true, "trace": [{ "tick": 80, "speed": 0.0, "direction": 1.0, "last_direction": 1.0, "brake": 0.0, "sole_step": 0.04557198658586 }, { "tick": 81, "speed": -0.71581715345383, "direction": 0.63746150615596, "last_direction": -1.0, "brake": 0.18126924692202, "sole_step": 0.11440122127533 }, { "tick": 82, "speed": -0.34915027022362, "direction": 0.34064009207128, "last_direction": -1.0, "brake": 0.32967995396436, "sole_step": 0.08313050866127 }, { "tick": 83, "speed": 0.0, "direction": 0.09762327218805, "last_direction": -1.0, "brake": 0.26991911698396, "sole_step": 0.03655341267586 }, { "tick": 84, "speed": 0.0, "direction": -0.10134207176556, "last_direction": -1.0, "brake": 0.22099108191842, "sole_step": 0.02023531123996 }] }
+PASS gait direction: original steady forward/backward shoe positions and yaw remain unchanged at30Hz
+PASS gait direction: zero-speed stroke retains its direction with bounded actual shoe speed at30Hz
+PASS gait direction: genuine reverse-to-forward transition turns actual sole corners and yaw continuously on native support at30Hz
+PASS gait direction: direction changes preserve the native body and finite fixed-length rig at30Hz
+GAIT_POSE_RATE { "rate": 30, "maximum_sole_speed": 10.1594710350037, "maximum_yaw_speed": 31.0716032981873, "minimum_sole_floor_gap": 0.00069999694824 }
+PASS gait direction: original steady forward/backward shoe positions and yaw remain unchanged at60Hz
+PASS gait direction: zero-speed stroke retains its direction with bounded actual shoe speed at60Hz
+PASS gait direction: genuine reverse-to-forward transition turns actual sole corners and yaw continuously on native support at60Hz
+PASS gait direction: direction changes preserve the native body and finite fixed-length rig at60Hz
+GAIT_POSE_RATE { "rate": 60, "maximum_sole_speed": 10.8100202679634, "maximum_yaw_speed": 34.1684317588806, "minimum_sole_floor_gap": 0.00069999694824 }
+PASS gait direction: original steady forward/backward shoe positions and yaw remain unchanged at120Hz
+PASS gait direction: zero-speed stroke retains its direction with bounded actual shoe speed at120Hz
+PASS gait direction: genuine reverse-to-forward transition turns actual sole corners and yaw continuously on native support at120Hz
+PASS gait direction: direction changes preserve the native body and finite fixed-length rig at120Hz
+GAIT_POSE_RATE { "rate": 120, "maximum_sole_speed": 11.5504440665245, "maximum_yaw_speed": 35.8754503726959, "minimum_sole_floor_gap": 0.00069999694824 }
+PASS gait direction: equal-duration30/60/120Hz pose samples converge to identical original forward shoe output
+PASS gait direction: reset clears both direction scalars and immediately restores original planted shoes
+PASS flat ollie: one mapped release earns the weighted profile once and a supported landing moving=false held=2
+PASS flat ollie: unchanged measured height has a slower weighted flight moving=false held=2
+PASS flat ollie: front sole leads, rear follows into a level deck before actual apex moving=false held=2
+PASS flat ollie: staged foot/deck motion adds no horizontal impulse moving=false held=2
+PASS flat ollie: native impact absorbs weight within five ticks and recovers without lingering crouch moving=false held=2
+PASS flat ollie: apex tuck and actual shoes retain deck/floor contact and connected clothing through launch/impact moving=false held=2
+FLAT_OLLIE moving=false held=2 apex=0.82505313307047 airtime=0.51666666666667 front_lead_m=0.16320514678955 level_error_m=0.00000011920929 launch=(0.0, 6.04921, -0.315618) level_tick=13 apex_tick=16 apex_tuck=0.13606607913971 impact_tick=3 impact_compression=0.16737002134323 pose_step=0.07453180104494 sole_grip=0.0008540310082 sole_floor=0.14589993655682
+PASS flat ollie: one mapped release earns the weighted profile once and a supported landing moving=false held=24
+PASS flat ollie: unchanged measured height has a slower weighted flight moving=false held=24
+PASS flat ollie: front sole leads, rear follows into a level deck before actual apex moving=false held=24
+PASS flat ollie: staged foot/deck motion adds no horizontal impulse moving=false held=24
+PASS flat ollie: native impact absorbs weight within five ticks and recovers without lingering crouch moving=false held=24
+PASS flat ollie: apex tuck and actual shoes retain deck/floor contact and connected clothing through launch/impact moving=false held=24
+FLAT_OLLIE moving=false held=24 apex=1.26385609060526 airtime=0.63333333333333 front_lead_m=0.16320508718491 level_error_m=0.00000011920929 launch=(0.0, 7.561512, -3.970445) level_tick=13 apex_tick=19 apex_tuck=0.13877201080322 impact_tick=3 impact_compression=0.16930550336838 pose_step=0.07454040646553 sole_grip=0.000853831938 sole_floor=0.14589993655682
+PASS flat ollie: one mapped release earns the weighted profile once and a supported landing moving=true held=2
+PASS flat ollie: unchanged measured height has a slower weighted flight moving=true held=2
+PASS flat ollie: front sole leads, rear follows into a level deck before actual apex moving=true held=2
+PASS flat ollie: staged foot/deck motion adds no horizontal impulse moving=true held=2
+PASS flat ollie: native impact absorbs weight within five ticks and recovers without lingering crouch moving=true held=2
+PASS flat ollie: apex tuck and actual shoes retain deck/floor contact and connected clothing through launch/impact moving=true held=2
+FLAT_OLLIE moving=true held=2 apex=0.81762174516916 airtime=0.51666666666667 front_lead_m=0.16810059547424 level_error_m=0.00000011920929 launch=(0.0, 6.04921, -7.7914) level_tick=13 apex_tick=16 apex_tuck=0.13866424560547 impact_tick=3 impact_compression=0.16998213529587 pose_step=0.07449059188366 sole_grip=0.00085364707047 sole_floor=0.14494542777538
+PASS flat ollie: one mapped release earns the weighted profile once and a supported landing moving=true held=24
+PASS flat ollie: unchanged measured height has a slower weighted flight moving=true held=24
+PASS flat ollie: front sole leads, rear follows into a level deck before actual apex moving=true held=24
+PASS flat ollie: staged foot/deck motion adds no horizontal impulse moving=true held=24
+PASS flat ollie: native impact absorbs weight within five ticks and recovers without lingering crouch moving=true held=24
+PASS flat ollie: apex tuck and actual shoes retain deck/floor contact and connected clothing through launch/impact moving=true held=24
+FLAT_OLLIE moving=true held=24 apex=1.25811342149973 airtime=0.63333333333333 front_lead_m=0.16333013772964 level_error_m=0.00000011920929 launch=(0.0, 7.561512, -11.44577) level_tick=13 apex_tick=19 apex_tuck=0.13884162902832 impact_tick=3 impact_compression=0.16951954364777 pose_step=0.07454001158476 sole_grip=0.00085382309044 sole_floor=0.14589636027813
+PASS flat ollie: unsupported falling retains actual34g without a pop pose or slower launch gravity
+PASS flat ollie: actual bail cancels launch pose and weighted flight authority
+PASS flat ollie: explicit restart leaves no stale launch pose
+PASS scripted Main isolates personal Music/profile writes
+PASS C04-L05: bridge-arrival continuation uses the real relocated west quay bearing
+PASS C04-L05: fixed bridge/landing/manual envelopes and the safe cross-quay bypass retain clear native support
+PASS C04-L05: the reused east-west bank keeps its actual graded Z140 return and a supported bowl-deck endpoint
+PASS C04-L05: actual ordinary Push crosses the safe bridge from its north quay onto the south landing
+PASS C04-L05: controlled bridge turn feeds a real Manual across the landfall and Ollie onto the quay ledge
+PASS C04-L05: the complete bridge/manual/ledge continuation exits onto dry support and earns exactly one bank
+PASS C04-L05: ordinary chase preserves real head, board, soles, hull extremities and native camera volume along the full run
+CLYDE_FLAGSHIP_RESULT {"aligned":true,"at":"Vector3(-30.943249, 2.014012, 138.27553)","bails":0,"bank":1900,"banks":1,"bridge_supported":true,"camera_clear":true,"camera_samples":125,"captures":["Grind_Ledge_clyde_south_return"],"caught":true,"crossed":true,"ledge_ticks":21,"manual":true,"manual_start":"Vector3(-25.77439, 2.109923, 120.82721)","manual_ticks":111,"stages":[{"at":"Vector3(-25, 2.0001647, 67.00139)","balance":0.0,"speed":0.0833129808306694,"stage":"safe_bridge_crossing"},{"at":"Vector3(-25.000315, 2.2908778, 118.6299)","balance":0.0,"speed":6.41533756256104,"stage":"bridge_landing_turn"},{"at":"Vector3(-25.77439, 2.109923, 120.82721)","balance":0.05,"speed":6.5836296081543,"stage":"manual_over_landfall"},{"at":"Vector3(-31.56002, 2.0139198, 129.99551)","balance":0.0602222222222222,"speed":5.29833126068115,"stage":"manual_to_ledge_pop"},{"at":"Vector3(-31.653498, 2.114904, 130.14435)","balance":0.0,"speed":5.25139093399048,"stage":"quay_ledge_air_catch"},{"at":"Vector3(-32.199997, 2.615, 131.0861)","balance":0.0,"speed":5.16096690319173,"stage":"native_quay_ledge"},{"at":"Vector3(-32.199997, 2.615, 132.60739)","balance":0.0,"speed":4.98096690319173,"stage":"dry_runout_pop"},{"at":"Vector3(-32.199997, 2.615, 132.69032)","balance":0.0,"speed":4.97096586227417,"stage":"exit_inboard"},{"at":"Vector3(-32.156662, 2.7255557, 132.77318)","balance":0.0,"speed":5.60985803604126,"stage":"dry_runout_bank"},{"at":"Vector3(-30.943293, 2.014012, 136.77887)","balance":0.0,"speed":4.26544189453125,"stage":"single_bank_observation"}],"ticks":791}
+PASS C04-L05: the relocated bank retains its published ordinary manual-line identity
+DENSITY LINE clyde_south_link reached=true manual_frames=45 deck=true bails=0 camera=true score=100 at=(-2.812847, 0.864684, 137.9543)
+PASS full map: actual push/manual crosses both banks and raised deck, then banks once clyde_south_link
+PASS C04-L05: unchanged bank crossing/coast and controlled bowl-side return preserve the earned bank and supported Z124 bypass
+PASS C04-L05: the moved bank's full crossing, coast and bowl-side return keep strict ordinary full-body chase clearance
+CLYDE_BANK_RETURN_RESULT {"at":"Vector3(-14.946425, 2.0141027, 124.7886)","bail_records":[],"bails":0,"bank_after":100,"bank_before":100,"bowl_samples":247,"camera_clear":true,"camera_samples":458,"coast_at":"Vector3(-2.812847, 0.86468446, 137.95432)","minimum_y":-0.385861158370972,"returned":true,"support_finite":true}
+ACTUAL C04 FOCUS: 75 passed, 0 failed

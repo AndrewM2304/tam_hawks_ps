@@ -53,7 +53,10 @@ The thick wood and tall trucks are still visible and remain separate defects.
 
 The native01–08 directories preserve raw logs/receipts and available observer
 records. Large JSON records are losslessly gzipped; `native08-source.tar.gz`
-retains the complete final diagnostic source without its derived import cache.
+retains the final authored diagnostic source map without its derived import cache.
+Generated import settings/UIDs are transported separately in each available
+`generated-import/` directory; their before/after hashes retain their original
+separate scope.
 `inventory.json` binds these transported files. Original private paths in launch
 receipts are historical execution paths, not commands that work in this folder.
 

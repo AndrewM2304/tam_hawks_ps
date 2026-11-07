@@ -1,0 +1,71 @@
+from pathlib import Path
+import json,hashlib,re,datetime,math,gzip,shutil
+import numpy as np
+R=Path('/workspace/tam_hawks_ps');P=R/'.local/c04-landing-continuity/proposal05';N=R/'.local/c04-landing-continuity/composite04-03';A=R/'.local/motion-actual-round-focus-02';O=R/'docs/testing/rider-fit-2026-11-07/flat-handoff-independent-05';O.mkdir(parents=True,exist_ok=True)
+checks=[]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,v):
+ checks.append({'label':label,'pass':bool(v)})
+ if not v:raise AssertionError(label)
+def funcs(s):
+ ms=list(re.finditer(r'^func (\w+)\(',s,re.M));out={}
+ for m in ms:
+  tail=s[m.end():];end=re.search(r'^(?:func |var |const |signal |class |enum )',tail,re.M);out[m.group(1)]=s[m.start():m.end()+end.start()] if end else s[m.start():]
+ return out
+def executable(s):return '\n'.join(l.split('#',1)[0].rstrip() for l in s.splitlines() if l.split('#',1)[0].strip())
+before=(P/'skater.gd.before').read_text();clean=(P/'skater.gd').read_text();actual=(R/'game/player/skater.gd').read_text();executed=(N/'skater.gd').read_text();h=json.loads((P/'handoff.json').read_text())
+ck('exact actual4895 baseline',sha(P/'skater.gd.before')==h['files'][0]['before_sha256']=='4895c7bf8a58608f7bde4c4fd13b571d1a16d0e04f56cc26b56d973f4c0d8924');ck('exact executed clean05 pin',sha(P/'skater.gd')==h['files'][0]['after_sha256']=='c57751c916881d774b00b2288d2310430286a0643494cede31b374b7587a0849');ck('actual1ef contains only two comment edits versus clean05',executable(actual)==executable(clean) and sha(R/'game/player/skater.gd')=='1ef6cdb7dfe2942d1d3aa8f025d89213e2f1f06500fcfb588b7d18734de27f84')
+bf=funcs(before);cf=funcs(clean);ef=funcs(executed);added=set(cf)-set(bf);changed={x for x in bf if executable(bf[x])!=executable(cf[x])}
+ck('only additive ready/begin_air/update_pose hooks',changed=={'_ready','_begin_air','_update_pose'} and added=={'_prepare_ramp_flat_head_bounds','_ramp_flat_hit_valid','_ramp_flat_pose_clear','_update_ramp_flat_visual'})
+# Last original function receives appended top-level declarations; compare its executable prefix only.
+# getfunc above includes those declarations, so account for their exact isolated suffix.
+for name in bf.keys()-changed:ck('unchanged existing executable method '+name,executable(bf[name])==executable(cf[name]))
+for name in added:
+ body='\n'.join(line for line in ef[name].splitlines() if '_d022_' not in line)
+ ck('same executed final helper '+name,executable(body)==executable(cf[name]))
+ck('reset on actual fresh air and every ineligible mode','_ramp_flat_visual_ready=false' in cf['_begin_air'] and '_ramp_flat_visual_ready=false' in cf['_update_ramp_flat_visual'])
+ck('pose/query shared resources restored',all(x in cf['_ramp_flat_pose_clear'] for x in ['_visual.transform=saved','_grind_board_query.motion=motion','_grind_board_query.collision_mask=mask','_grind_board_box.size=old_size','_grind_board_query.shape=old_shape','_grind_board_query.transform=old_transform','_grind_board_query.margin=old_margin']))
+ck('no support or neighbour excluded by new helpers',not any('.exclude' in cf[x] for x in added))
+ck('same existing4.5rate and bounded horizon/travel',all(x in cf['_update_ramp_flat_visual'] for x in ['not is_finite(previous.determinant())','previous.x.dot(previous.y)','not is_finite(delta)','not velocity.is_finite()','not is_finite(velocity.length_squared())','time_to_floor<=PI/4.5+1.0/maxf(1.0,float(Engine.physics_ticks_per_second))','_air_forecast_frame_valid(_visual.global_transform,travel)','4.5*delta/maxf(angle,0.000001)']))
+ck('exact registered owned-flat identity with unitUP normal',all(x in cf['_ramp_flat_hit_valid'] for x in ['body.get_rid()!=hit.get("rid")','typeof(hit.get("shape"))!=TYPE_INT','body.is_shape_owner_disabled(owner)','normal.length_squared()-1.0','normal.y<=0.999','body==feature.get("_native_annular_deck")','body.get_parent()==feature','index==0','body_get_shape_count(body.get_rid())==1','feature.owns_native_wheel_support(body)']))
+ck('four fresh predicted wheel footprints no infinite-floor permission','for wheel:Dictionary in _visual_rig.board_contact_geometry().wheels:' in cf['_update_ramp_flat_visual'] and 'at+normal*.35,at-normal*.50' in cf['_update_ramp_flat_visual'] and '>.001' not in cf['_update_ramp_flat_visual'][-130:] and 'Vector3(contact.normal).dot(normal)<0.999' in cf['_update_ramp_flat_visual'] and '0.001:footprint=false' in cf['_update_ramp_flat_visual'])
+ck('head cache actual referenced surface indices only','arrays[Mesh.ARRAY_INDEX]' in cf['_prepare_ramp_flat_head_bounds'] and 'index<0 or index>=points.size()' in cf['_prepare_ramp_flat_head_bounds'] and 'not at.is_finite()' in cf['_prepare_ramp_flat_head_bounds'])
+ck('one current+four future+existingthree+one head upper bound9',cf['_update_ramp_flat_visual'].count('_native_board_floor_ray(')==2 and cf['_ramp_flat_pose_clear'].count('intersect_shape(')==1 and cf['_ramp_flat_pose_clear'].count('_obstacle_air_clear(')==1)
+# Private exact-prefix evidence and timestamped streams.
+r=json.loads((N/'receipt.json').read_text());d=json.loads((N/'result.json').read_text());s0=json.loads((N/'source-before.json').read_text());s1=json.loads((N/'source-after.json').read_text());i0=json.loads((N/'imported-before.json').read_text());i1=json.loads((N/'imported-after.json').read_text());m0=json.loads((N/'metadata-before.json').read_text());m1=json.loads((N/'metadata-after.json').read_text())
+ck('private882source/252resolvedimports/twometadata stable',s0==s1 and len(s0)==882 and i0==i1 and len(i0)==252 and m0==m1 and len(m0)==2 and r['source_stable'] and r['shared_resolved_imported_stable'] and r['independent_cache_metadata_stable'])
+ck('executed instrumented controller pinned',s0['game/player/skater.gd']==sha(N/'skater.gd'))
+ck('private exact current hand scalar691b','691b0a9362f925434077598df02b61b5adcfffe6f43b84061a313180f041f096'==s0['game/player/skater_anatomy.gd'])
+ck('private native134/0 and14 genuine owner/head controls',d['passed']==134 and d['failed']==0 and d['handoff_controls']['passed'] and len(d['handoff_controls']['checks'])==14 and all(d['handoff_controls']['checks'].values()) and r['code']==0 and not r['raw_error'] and r['eligible_diagnostic'])
+ck('39312 native indexed corners enclosed',d['handoff_controls']['native_head_indexed_corners']==39312 and d['handoff_controls']['head_vertices_outside_constructor_bound']==0)
+pipeline=d['physics_pose_pipeline'];late=d['late_postCamera_models'];pm={x['physics']:x for x in pipeline};lm={x['physics']:x for x in late}
+ck('two individually consecutive471-row streams',len(pipeline)==len(pm)==len(late)==len(lm)==471 and all(y['physics']-x['physics']==1 for seq in [pipeline,late] for x,y in zip(seq,seq[1:])))
+ck('late rows actually after camera update',all(x['camera_process']==x['process'] and not x['in_physics_frame'] for x in late))
+ck('counter join rather than index join disclosed',pipeline[0]['physics']==late[0]['physics']+1 and len(set(pm)&set(lm))==470)
+def rot(m):u,s,v=np.linalg.svd(np.array(m)[:3,:3]);return u@v
+def measured(x,y):
+ rr=rot(x['current']['board']).T@rot(y['current']['board']);angle=math.degrees(math.acos(np.clip((np.trace(rr)-1)/2,-1,1)))
+ hp=np.linalg.solve(np.array(x['body']),np.r_[np.array(x['current']['head'])[:3,3],1])[:3];hq=np.linalg.solve(np.array(y['body']),np.r_[np.array(y['current']['head'])[:3,3],1])[:3]
+ return {'physics':y['physics'],'board_step_deg':angle,'bodylocal_head_step_m':float(np.linalg.norm(hq-hp)),'world_head_step_m':float(np.linalg.norm(np.array(y['current']['head'])[:3,3]-np.array(x['current']['head'])[:3,3]))}
+steps=[measured(x,y) for x,y in zip(late,late[1:])];earned=[x['physics'] for x in pipeline if x.get('flat_earned')];first=min(earned);last_air=next(x['physics'] for x in pipeline if x['physics']>first and not x['airborne'])
+roi=[x for x in steps if first<=x['physics']<=last_air];allmax=max(steps,key=lambda x:x['board_step_deg']);headmax=max(steps,key=lambda x:x['bodylocal_head_step_m']);rq=max(roi,key=lambda x:x['board_step_deg']);rh=max(roi,key=lambda x:x['bodylocal_head_step_m'])
+ck('qualified handoff no step above existing4.5rad/s discretebound',rq['board_step_deg']<=math.degrees(4.5/60)+.0001)
+ck('qualified bodylocal head step independently130.251mm',abs(rh['bodylocal_head_step_m']-.13025128846934014)<1e-12)
+ck('no accepted late hard fit',not any(x.get('reason')=='accepted' for x in pipeline))
+# Strict actual execution corrects prior wrapper eligibility/Guide omissions.
+a=json.loads((A/'receipt.json').read_text());ar=json.loads((A/'result.json').read_text());ck('actual892source/fivecache before-after exact',a['source_before']==a['source_after'] and len(a['source_before'])==892 and a['cache_before']==a['cache_after'] and len(a['cache_before'])==5)
+ck('mandatory real Guide and installed pose source bound','docs/PLAYER-GUIDE.md' in a['source_before'] and a['source_before']['game/player/skater.gd']==sha(R/'game/player/skater.gd') and a['source_before']['game/player/skater_anatomy.gd']=='691b0a9362f925434077598df02b61b5adcfffe6f43b84061a313180f041f096')
+for e in a['epochs']:ck('strict actual '+e['name']+' exit0/noerror/exactlog',e['exit']==0 and e['stop'] is None and not e['raw_errors'] and sha(A/(e['name']+'.log'))==e['log_sha256'])
+ck('actual134 clean assertions+strict eligibility','ERROR:' not in (A/'native.log').read_text() and len(re.findall(r'^PASS ',(A/'native.log').read_text(),re.M))==134 and not re.search(r'^FAIL ',(A/'native.log').read_text(),re.M) and ar==a['result'] and ar['passed']==134 and ar['failed']==0 and a['eligible'] and a['complete'])
+ck('actual23+67+32+11 original module subsets',[(x['passed'],x['failed']) for x in ar['modules']]==[(23,0),(67,0),(32,0),(11,0)])
+for k,v in a['source_before'].items():ck('actual source retained at independent read '+k,(R/k).is_file() and sha(R/k)==v)
+report={'reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reviewer':'independent_qa','scope':'Clean05 source/private exact-prefix trace and strict ACTUAL02 recorded binding/eligibility audit; no QA engine execution.','result':{'source_hash_math_checks_pass':len(checks),'fail':0},'source_pins':{'before4895':h['files'][0]['before_sha256'],'private_clean05':h['files'][0]['after_sha256'],'actual_comment_only_1ef':sha(R/'game/player/skater.gd'),'hand691b':a['source_before']['game/player/skater_anatomy.gd'],'private_receipt':sha(N/'receipt.json'),'private_result':sha(N/'result.json'),'actual_receipt':sha(A/'receipt.json')},'actual_native':{'passed':134,'failed':0,'eligible':True,'sources':892,'cache_pins':5,'epochs':a['epochs'],'modules':ar['modules']},'private_trace_metrics':{'stream_lengths':{'pipeline':471,'late_postcamera':471,'counter_join_overlap':470},'pipeline_physics_range':[pipeline[0]['physics'],pipeline[-1]['physics']],'late_physics_range':[late[0]['physics'],late[-1]['physics']],'qualified_handoff_to_first_ground_range':[first,last_air],'qualified_maximum_board_step':rq,'qualified_maximum_bodylocal_head_step':rh,'whole_trace_maximum_board_step':allmax,'whole_trace_maximum_bodylocal_head_step':headmax},'findings':['Actual strict134/0 eligibility requires all native/parser exits0, zero raw errors, correct mandatory Guide and stable source/five explicit cache bindings.','Native owned-flat AnnularDeck authority is tied to the exact registered enabled shape/native RID, normal and real fresh ray result; all world/rail/platform solids remain in pose safety.','New helper uses up to9 extra native queries on qualified attempts, not9 total calls for the tick; startup AABB24bytes is raw coordinate payload, not resident allocation.','Fresh flight/ineligible modes reset readiness; unavailable/refused support can hold only a current all-world-clear prior orientation and cannot advance without fresh footprint authority.','The observed ordinary approach continuity is materially improved, but other bank/rim/first-air pose steps remain large and full motion acceptance stays open.'],'limits':['No native malformed-yaw/delta/horizon/reset fault cohort is claimed beyond the14 recorded owner/head controls; additional finite/horizon code is source-reviewed under normal engine-state invariants.','Private telemetry joins by physics counter: equal array lengths do not imply equal-index phases.','The rejected interim04 comparison80.4207deg/1.7139m is NOT untouched actual4895 baseline. Direct actual75 provides a separate35.154deg/.785m historical result; actual133/1 records real penetration but no full late-model trace.','Head proof covers actual constructor-visible rigid Head/hair/eyes indexed geometry; no universal mutable-asset envelope or whole-body cloth sweep claim.','Current endpoints/native matrices are not GPU/moving-pixel, whole-game/global-order, complete visual/M5/AAA acceptance.','Ordinary full-required03 is still running independently; original failed epochs remain preserved.'],'checks':checks}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');(O/'independent-audit.py.txt').write_bytes(Path(__file__).read_bytes());(O/'derived-step-metrics.json').write_text(json.dumps({'steps':steps,'qualified_physics':[first,last_air]},indent=2)+'\n')
+for file in ['skater.gd.before','skater.gd','skater.gd.patch','handoff.json','scope.json']:
+ q=O/'source'/file;q.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(P/file,q)
+shutil.copy2(R/'game/player/skater.gd',O/'source/actual-comment-only.gd');
+for name in ['receipt.json','result.json','source-before.json','source-after.json','imported-before.json','imported-after.json','metadata-before.json','metadata-after.json','probe.gd','handoff_controls.gd','run.py','scope-addendum.json']:
+ p=N/name
+ if not p.exists():continue
+ q=O/'private-native'/Path(name).with_suffix(Path(name).suffix+'.gz');q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(gzip.compress(p.read_bytes(),compresslevel=9,mtime=0))
+print(json.dumps({'checks':len(checks),'actual134':a['eligible'],'qualified_angle':rq,'qualified_head':rh,'whole_trace_board_step':allmax,'whole_trace_head_step':headmax},indent=2))

@@ -1,0 +1,19 @@
+{
+  "started_utc": "2026-11-07T11:03:02.619410+00:00",
+  "finished_utc": "2026-11-07T11:03:12.147742+00:00",
+  "coordination": "Independent QA confirmed no live readers and no .local symlink targets inside all five caches before deletion. Root deletes only generated .godot directories. Actual project, sources, logs, captures and active private project caches are untouched.",
+  "directories": [
+    ".local/qa-fidelity/checkpoint-source-01/.godot",
+    ".local/qa-fidelity/checkpoint-source-02/.godot",
+    ".local/qa-fidelity/checkpoint-source-03/.godot",
+    ".local/qa-fidelity/forecast-capture-source-01/.godot",
+    ".local/qa-fidelity/controls-source/.godot"
+  ],
+  "deleted_file_count": 1140,
+  "deleted_bytes": 1170262427,
+  "preserved_noncache_file_count": 4502,
+  "noncache_exact_before_after_equal": true,
+  "inventory_sha256": "b931cd8cb98b94ea7b4aeadbacc3bbd0388a5a2d30d21482c4f8036d99d008fb",
+  "free_bytes_before": 3417174016,
+  "free_bytes_after": 4590592000
+}

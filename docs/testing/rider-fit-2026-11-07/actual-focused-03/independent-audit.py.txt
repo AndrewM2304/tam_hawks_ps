@@ -1,0 +1,27 @@
+from pathlib import Path
+import hashlib,json,re,shutil
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/rider-fit-2026-11-07/actual-focused-03';W=R/'docs/testing/rider-fit-2026-11-07/actual-writer-install-01';checks=[]
+def j(p):return json.loads(p.read_text())
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,v):checks.append({'label':label,'pass':bool(v)})
+r=j(P/'receipt.json');b,a,f=[j(P/name)for name in ['source-before.json','source-after.json','source-final.json']];m=j(P/'modules.json');log=(P/'native.log').read_text();observer=(P/'observer.gd.txt').read_text()
+ck('complete actual93 native process exit0 clean eligible',r['eligible']and r['exit_code']==0 and r['stop_reason']is None and not r['error_markers']and r['result']=={'passed':93,'failed':0}and m['passed']==93 and m['failed']==0)
+ck('887 original inputs exact before native and certificate completion',len(b)==887 and b==a==f and r['source_unchanged']and not r['source_delta'])
+ck('observer and launcher exact before-bound bytes',sha(P/'observer.gd.txt')==r['observer_sha256_prebound']and sha(P/'launcher.py.txt')==r['launcher_sha256_prebound']and r['observer_sha256_prebound']in b.values()and r['launcher_sha256_prebound']in b.values())
+ck('all93 nativePASS lines and noFAIL/rawerror',len(re.findall(r'^PASS ',log,re.M))==93 and not re.search(r'^(?:FAIL |ERROR:|SCRIPT ERROR:)',log,re.M))
+ck('publicFitted60 plusMainMotion32 plusMusic1 recorded',sum(x['passed']for x in m['modules'])+1==93 and sorted(x['passed']for x in m['modules'])==[32,60]and all(x['failed']==0 for x in m['modules']))
+old=j(R/'docs/testing/rider-fit-2026-11-07/actual-c04-focused-01/source-before.json');core={k:v for k,v in old.items()if not k.startswith('.local/')};writer=j(W/'receipt.json');expected=dict(core)
+for e in writer['files']:
+ ck('writer guarded preimage '+e['path'],core[e['path']]==e['before_sha256']);expected[e['path']]=e['after_sha256']
+ck('all885 core inputs match exact two writer changes',len(core)==885 and len(writer['files'])==2 and expected=={k:v for k,v in b.items()if k in core}and writer['all_other_inputs_preserved'])
+metrics=(P/'fitted-rig-metrics.json').read_bytes();parsed=json.loads(metrics)
+ck('metrics immediate copied output nonempty944B dictionary and exacthash',len(metrics)==r['metrics_bytes']==944 and isinstance(parsed,dict)and bool(parsed)and hashlib.sha256(metrics).hexdigest()==r['metrics_sha256']and r['metrics_valid_nonempty_dictionary'])
+cert=P/'shoe-support-certificate.json';expected_cert='6aea89ba6876fcd4d635e56e00f8a4018f6ad41659fe6314ae8c32974035489a'
+ck('fresh actualcertificate exact independently integer-recomputed dataset',sha(cert)==r['certificate_input_sha256']==expected_cert)
+ck('exactinteger verifier result clean and retained',r['certificate_passed']and bool(j(P/'exact-shoe-certificate.json'))and (P/'certificate.log').read_bytes()==(P/'exact-shoe-certificate.json').read_bytes())
+ck('consumer source explicitlycloses then compares exactcopied bytes',all(t in observer for t in ['output.close()','copied!=bytes','source_json.data.is_empty()','copied_json.data.is_empty()']))
+ck('consumer failure cannot continue to cleanMain headline', '_copy_native_output(source: String, environment_key: String) -> bool'in observer and 'return false'in observer and 'if not _copy_native_output('in observer and '_check(false,'in observer)
+ck('currentinstalled controller andVisual remain exact C04 source during93',b['game/player/skater.gd']=='e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd'and b['game/player/skater_visual.gd']=='1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05')
+report={'passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'scope':'Actual93 positive execution and885core-source chain through two explicit producer-close changes; successful immediate nativeJSON copy and exact reused independently integer-proven certificate dataset. No new engine by QA.','limits':['Deliberate producer/copy IO failure negatives are source-reviewed but were not natively executed by this packet.','Earlier empty optionalmetrics remain preserved; no regenerated output replaces the old missing-data record.','Native93 covers Fitted60/MainMotion32/Music1, not C04 pose continuity, final whole action motion, complete tools/check.sh or export.','D022/P0 current large pose steps remain failed/open despite this source-stable positive fitted/certificate gate.','No GPU moving pixels, M5, physical controller, final art or AAA pass.'],'native_pid':r['pid'],'utc_start':r['start_utc'],'utc_end':r['end_utc'],'certificate_sha256':expected_cert,'metrics_bytes':944}
+(P/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(Path(__file__),P/'independent-audit.py.txt');print(json.dumps({'passed':report['passed'],'failed':report['failed'],'failures':[c for c in checks if not c['pass']]}))
+if report['failed']:raise SystemExit(1)

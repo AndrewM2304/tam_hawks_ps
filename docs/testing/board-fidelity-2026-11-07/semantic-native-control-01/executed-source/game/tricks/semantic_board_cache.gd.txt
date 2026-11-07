@@ -1,0 +1,316 @@
+@tool
+extends RefCounted
+## PRIVATE UNPARSED/UNRUN typed cooked-metadata verifier. Never loads source GLB,
+## parses JSON, creates mesh/shape resources or queries physics during gameplay.
+## Root must grant native validation before any production cache integration.
+signal invalidated
+const MAX_PARTS:=32
+const MAX_FACES:=8192
+const MAX_VERTICES:=8192
+const MAX_PROVENANCE_BYTES:=131072
+const MAX_CERTIFICATE_NODES:=16384
+const MAX_CERTIFICATE_CONTAINERS:=512
+const MAX_CERTIFICATE_SCALAR_BYTES:=65536
+const MAX_PACKED_VERTEX_STRIDE:=64
+const MAX_PACKED_TOTAL_BYTES:=4*1024*1024
+const MAX_LOD_TOTAL_BYTES:=MAX_FACES*3*4*2
+const MATERIALS:=["MapleAndRiverInk","Griptape","CastAluminium","Urethane"]
+var ready:=false
+var rejection:="unconfigured"
+var parts:Array[PackedVector3Array]=[]
+var provenance_bytes:=0
+var native_faces:=0
+var _mesh_instance:MeshInstance3D
+var _mesh:ArrayMesh
+var _board:Node3D
+var _shadow:ArrayMesh
+var _materials:Array[StandardMaterial3D]=[]
+
+func clear()->void:
+ if is_instance_valid(_mesh) and _mesh.changed.is_connected(_invalidate):_mesh.changed.disconnect(_invalidate)
+ if is_instance_valid(_shadow) and _shadow.changed.is_connected(_invalidate):_shadow.changed.disconnect(_invalidate)
+ for material:StandardMaterial3D in _materials:
+  if is_instance_valid(material)and material.changed.is_connected(_invalidate):material.changed.disconnect(_invalidate)
+ _materials.clear()
+ ready=false
+ parts.clear()
+ _shadow=null
+ _mesh_instance=null
+ _mesh=null
+ _board=null
+ provenance_bytes=0
+ native_faces=0
+ rejection="unconfigured"
+
+func prepare(board:Node3D,instance:MeshInstance3D,certificate:Dictionary,expected:Dictionary,import_receipt:Dictionary)->bool:
+ clear()
+ if not is_instance_valid(board)or not is_instance_valid(instance):return _refuse("missing native nodes")
+ _board=board;_mesh_instance=instance
+ if not _frame_valid():return _refuse("foreign frame or Skin")
+ _mesh=instance.mesh as ArrayMesh
+ if _mesh==null or _mesh.get_surface_count()!=4 or _mesh.get_blend_shape_count()!=0:return _refuse("native layout/morph")
+ if instance.material_override!=null or instance.material_overlay!=null:return _refuse("foreign material override")
+ for surface:int in 4:
+  if instance.get_surface_override_material(surface)!=null:return _refuse("foreign surface override")
+  var material:StandardMaterial3D=_mesh.surface_get_material(surface)as StandardMaterial3D
+  if not _undeformed_material(material):return _refuse("deforming/foreign surface material")
+  _materials.append(material)
+ for k:String in ["source_sha256","policy_sha256","decoder_sha256"]:
+  if not _sha_string(expected.get(k))or import_receipt.get(k)!=expected[k]:return _refuse("executed source/policy/decoder")
+ var tree_budget:Dictionary={"nodes":0,"containers":0,"scalar_bytes":0}
+ if not _typed_tree(certificate,0,tree_budget)or not _typed_tree(expected,0,tree_budget):
+  return _refuse("unsupported certificate type/global tree budget")
+ # No runtime parse: JSON.stringify canonicalises a typed cooked Dictionary.
+ # Only finite-free int/string/list/dict fields are permitted by _typed_tree.
+ var encoded:PackedByteArray=JSON.stringify(_canonical_view(certificate),"",true,true).to_utf8_buffer()
+ provenance_bytes=encoded.size()
+ if provenance_bytes>MAX_PROVENANCE_BYTES or not _sha_string(expected.get("certificate_sha256")) \
+   or _sha(encoded)!=expected.certificate_sha256:return _refuse("certificate digest/budget")
+ if typeof(certificate.get("schema"))!=TYPE_INT or certificate.schema!=1:return _refuse("certificate schema")
+ for k:String in ["source_sha256","ownership_sha256","policy_sha256","decoder_sha256"]:
+  if not _sha_string(expected.get(k))or certificate.get(k)!=expected[k]:return _refuse("certificate expected identity")
+ var actual:Array=_native_signatures()
+ if actual.is_empty()or actual!=certificate.get("native_surfaces"):return _refuse("actual indexed/packed/shadow/LOD signature")
+ var names:Variant=certificate.get("part_names")
+ if not names is Array or names.size()!=MAX_PARTS:return _refuse("part names")
+ var seen_names:Dictionary={}
+ for name:Variant in names:
+  if not name is String or name.is_empty()or name.length()>48 or seen_names.has(name):return _refuse("duplicate/invalid part name")
+  seen_names[name]=true
+ var owners:Variant=certificate.get("native_face_owners")
+ if not owners is Array or owners.size()!=4:return _refuse("owner surfaces")
+ var unique:Array[Dictionary]=[]
+ unique.resize(MAX_PARTS)
+ for part:int in MAX_PARTS:unique[part]={}
+ for surface:int in 4:
+  var arrays:Array=_mesh.surface_get_arrays(surface)
+  var positions:PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+  var indices:PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+  var ownership:Variant=owners[surface]
+  if not(ownership is Array or ownership is PackedInt32Array)or ownership.size()!=indices.size()/3:return _refuse("complete face coverage")
+  for face:int in ownership.size():
+   var pid:Variant=ownership[face]
+   if typeof(pid)!=TYPE_INT or pid<0 or pid>=MAX_PARTS:return _refuse("integer owner range")
+   for corner:int in 3:
+    var vertex:Vector3=positions[indices[face*3+corner]]
+    unique[pid][vertex]=true
+   native_faces+=1
+ if native_faces<=0 or native_faces>MAX_FACES:return _refuse("total face cap")
+ for pid:int in MAX_PARTS:
+  if unique[pid].size()<3:return _refuse("empty native part")
+  var support:=PackedVector3Array()
+  support.resize(unique[pid].size())
+  var index:=0
+  for point:Vector3 in unique[pid]:support[index]=point;index+=1
+  parts.append(support)
+ # Resource mutation invalidates immediately; no per-frame hashes or readbacks.
+ _mesh.changed.connect(_invalidate)
+ _shadow=_mesh.shadow_mesh
+ _shadow.changed.connect(_invalidate)
+ for material:StandardMaterial3D in _materials:
+  if not material.changed.is_connected(_invalidate):material.changed.connect(_invalidate)
+ ready=true;rejection=""
+ return true
+
+func valid()->bool:
+ if not ready:return false
+ if not _frame_valid()or not is_instance_valid(_mesh)or _mesh_instance.mesh!=_mesh \
+   or _mesh.get_blend_shape_count()!=0 or _mesh.shadow_mesh!=_shadow:
+  _invalidate();rejection="stale mesh/frame/Skin";return false
+ # Four pointer checks catch instance-local overrides, which do not mutate
+ # the shared Mesh Resource. No hashes, allocations or physics queries here.
+ for surface:int in 4:
+  if _mesh_instance.get_surface_override_material(surface)!=null:
+   _invalidate();rejection="stale surface override";return false
+ return true
+
+func _undeformed_material(material:StandardMaterial3D)->bool:
+ return material!=null and material.next_pass==null and not material.grow_enabled \
+  and material.billboard_mode==BaseMaterial3D.BILLBOARD_DISABLED and not material.fixed_size
+
+func _frame_valid()->bool:
+ if not is_instance_valid(_board)or not is_instance_valid(_mesh_instance)or _mesh_instance.skin!=null \
+  or _mesh_instance.material_override!=null or _mesh_instance.material_overlay!=null:return false
+ var at:Node3D=_mesh_instance
+ var depth:=0
+ while at!=_board:
+  if at.transform!=Transform3D.IDENTITY:return false
+  at=at.get_parent()as Node3D
+  depth+=1
+  if at==null or depth>8:return false
+ return true
+
+func _native_signatures()->Array:
+ if _mesh.shadow_mesh==null or _mesh.shadow_mesh.get_surface_count()!=4:return []
+ var packed:Variant=_mesh.get("_surfaces")
+ var shadow:Variant=_mesh.shadow_mesh.get("_surfaces")
+ if not packed is Array or packed.size()!=4 or not shadow is Array or shadow.size()!=4:return []
+ # Bound every packed draw/shadow/LOD byte BEFORE decoding or hashing any
+ # surface. Per-surface caps alone cannot bound the combined workload.
+ var packed_budget:Dictionary=_new_packed_budget()
+ for surface:int in 4:
+  if not _packed_bound(packed[surface],packed_budget,false)or not _packed_bound(shadow[surface],packed_budget,true):return []
+ var output:Array=[]
+ var total:=0
+ var total_vertices:=0
+ for surface:int in 4:
+  if _mesh.surface_get_primitive_type(surface)!=Mesh.PRIMITIVE_TRIANGLES:return []
+  var material:StandardMaterial3D=_mesh.surface_get_material(surface)as StandardMaterial3D
+  if not _undeformed_material(material)or material.resource_name!=MATERIALS[surface]:return []
+  var a:Array=_mesh.surface_get_arrays(surface)
+  if a.size()!=Mesh.ARRAY_MAX or not a[Mesh.ARRAY_VERTEX]is PackedVector3Array \
+    or not a[Mesh.ARRAY_NORMAL]is PackedVector3Array or not a[Mesh.ARRAY_TEX_UV]is PackedVector2Array \
+    or not a[Mesh.ARRAY_TANGENT]is PackedFloat32Array or not a[Mesh.ARRAY_INDEX]is PackedInt32Array:return []
+  var p:PackedVector3Array=a[Mesh.ARRAY_VERTEX]
+  var n:PackedVector3Array=a[Mesh.ARRAY_NORMAL]
+  var u:PackedVector2Array=a[Mesh.ARRAY_TEX_UV]
+  var t:PackedFloat32Array=a[Mesh.ARRAY_TANGENT]
+  var ix:PackedInt32Array=a[Mesh.ARRAY_INDEX]
+  if p.is_empty()or p.size()>MAX_VERTICES or n.size()!=p.size()or u.size()!=p.size() \
+    or t.size()!=p.size()*4 or ix.is_empty()or ix.size()%3!=0:return []
+  total+=ix.size()/3
+  total_vertices+=p.size()
+  if total>MAX_FACES or total_vertices>MAX_VERTICES:return []
+  if p.size()!=packed[surface].vertex_count or ix.size()!=packed[surface].index_count:return []
+  for point:Vector3 in p:
+   if not point.is_finite():return []
+  for normal:Vector3 in n:
+   if not normal.is_finite():return []
+  for uv:Vector2 in u:
+   if not uv.is_finite():return []
+  for tangent:float in t:
+   if not is_finite(tangent):return []
+  for index:int in ix:
+   if index<0 or index>=p.size():return []
+  var packed_signature:Dictionary=_packed_signature(packed[surface])
+  var shadow_signature:Dictionary=_packed_signature(shadow[surface])
+  if packed_signature.is_empty()or shadow_signature.is_empty():return []
+  output.append({"surface":surface,"material":material.resource_name,"format":_mesh.surface_get_format(surface), \
+   "arrays":{"positions":_array_signature(p),"normals":_array_signature(n),"uv":_array_signature(u), \
+    "tangents":_array_signature(t),"indices":_array_signature(ix)}, \
+   "packed":packed_signature,"shadow":shadow_signature})
+ return output
+
+func _packed_signature(value:Variant)->Dictionary:
+ if not _packed_bound(value,_new_packed_budget(),false):return {}
+ var data:Dictionary=value
+ for k:String in ["format","vertex_count"]:
+  if typeof(data.get(k))!=TYPE_INT or data[k]<0:return {}
+ var result:Dictionary={"format":data.format,"vertex_count":data.vertex_count,"index_count":data.get("index_count",0)}
+ for key:String in ["vertex_data","attribute_data","skin_data","index_data"]:
+  var bytes:Variant=data.get(key,PackedByteArray())
+  if not bytes is PackedByteArray:return {}
+  result[key]={"bytes":bytes.size(),"sha256":_sha(bytes)}
+ var lods:Variant=data.get("lods",[])
+ if not lods is Array or lods.size()%2!=0 or lods.size()>32:return {}
+ var records:Array=[]
+ for i:int in range(0,lods.size(),2):
+  if typeof(lods[i])not in [TYPE_FLOAT,TYPE_INT]or not is_finite(lods[i])or lods[i]<=0 \
+    or not lods[i+1]is PackedByteArray:return {}
+  var edge:=PackedByteArray();edge.resize(8);edge.encode_double(0,float(lods[i]))
+  records.append({"bytes":lods[i+1].size(),"edge_f64_hex":edge.hex_encode(),"index_sha256":_sha(lods[i+1])})
+ result["lods"]=records
+ return result
+
+func _array_signature(value:Variant)->Dictionary:
+ return {"count":value.size(),"sha256":_sha(value.to_byte_array())}
+
+func _typed_tree(value:Variant,depth:int,budget:Dictionary)->bool:
+ budget.nodes+=1
+ if depth>8 or budget.nodes>MAX_CERTIFICATE_NODES:return false
+ match typeof(value):
+  TYPE_INT:
+   budget.scalar_bytes+=8
+   return budget.scalar_bytes<=MAX_CERTIFICATE_SCALAR_BYTES
+  TYPE_STRING:
+   if value.length()>256:return false
+   budget.scalar_bytes+=value.to_utf8_buffer().size()
+   return budget.scalar_bytes<=MAX_CERTIFICATE_SCALAR_BYTES
+  TYPE_PACKED_INT32_ARRAY:
+   if value.size()>MAX_FACES:return false
+   budget.nodes+=value.size()
+   budget.scalar_bytes+=value.size()*4
+   return budget.nodes<=MAX_CERTIFICATE_NODES and budget.scalar_bytes<=MAX_CERTIFICATE_SCALAR_BYTES
+  TYPE_ARRAY:
+   budget.containers+=1
+   if value.size()>MAX_FACES or budget.containers>MAX_CERTIFICATE_CONTAINERS:return false
+   for child:Variant in value:
+    if not _typed_tree(child,depth+1,budget):return false
+   return true
+  TYPE_DICTIONARY:
+   budget.containers+=1
+   if value.size()>64 or budget.containers>MAX_CERTIFICATE_CONTAINERS:return false
+   for key:Variant in value:
+    if not key is String or not _typed_tree(key,depth+1,budget)or not _typed_tree(value[key],depth+1,budget):return false
+   return true
+ return false
+
+func _canonical_view(value:Variant)->Variant:
+ # Global _typed_tree bounds are mandatory before this bounded temporary view.
+ # Cooked face rows stay PackedInt32Array; no per-frame parse/copy occurs.
+ if value is PackedInt32Array:return Array(value)
+ if value is Array:
+  var result:Array=[]
+  for child:Variant in value:result.append(_canonical_view(child))
+  return result
+ if value is Dictionary:
+  var result:Dictionary={}
+  for key:String in value:result[key]=_canonical_view(value[key])
+  return result
+ return value
+
+func _new_packed_budget()->Dictionary:
+ return {"draw_vertices":0,"shadow_vertices":0,"draw_indices":0,"shadow_indices":0,"draw_lods":0,"shadow_lods":0,"bytes":0}
+
+func _packed_bound(value:Variant,budget:Dictionary,shadow:bool)->bool:
+ if not value is Dictionary:return false
+ var data:Dictionary=value
+ for key:String in ["format","vertex_count","index_count"]:
+  if typeof(data.get(key))!=TYPE_INT or data[key]<0:return false
+ if data.vertex_count<1 or data.vertex_count>MAX_VERTICES or data.index_count>MAX_FACES*3:return false
+ var prefix:String="shadow_"if shadow else "draw_"
+ budget[prefix+"vertices"]+=data.vertex_count
+ budget[prefix+"indices"]+=data.index_count
+ if budget[prefix+"vertices"]>MAX_VERTICES or budget[prefix+"indices"]>MAX_FACES*3:return false
+ for key:String in ["vertex_data","attribute_data","skin_data","index_data"]:
+  var bytes:Variant=data.get(key,PackedByteArray())
+  if not bytes is PackedByteArray:return false
+  var cap:int=data.vertex_count*MAX_PACKED_VERTEX_STRIDE
+  if key=="index_data":cap=data.index_count*4
+  if key=="skin_data":cap=0
+  if bytes.size()>cap:return false
+  budget.bytes+=bytes.size()
+  if budget.bytes>MAX_PACKED_TOTAL_BYTES:return false
+ var lods:Variant=data.get("lods",[])
+ if not lods is Array or lods.size()%2!=0 or lods.size()>32:return false
+ for i:int in range(0,lods.size(),2):
+  if typeof(lods[i])not in [TYPE_FLOAT,TYPE_INT]or not is_finite(lods[i])or lods[i]<=0 \
+    or not lods[i+1]is PackedByteArray:return false
+  var bytes:PackedByteArray=lods[i+1]
+  if bytes.is_empty()or bytes.size()>data.index_count*4 or bytes.size()%2!=0:return false
+  budget[prefix+"lods"]+=bytes.size()
+  budget.bytes+=bytes.size()
+  if budget[prefix+"lods"]>MAX_LOD_TOTAL_BYTES or budget.bytes>MAX_PACKED_TOTAL_BYTES:return false
+ return true
+
+func _sha_string(value:Variant)->bool:
+ if not value is String or value.length()!=64:return false
+ for code:int in value.to_utf8_buffer():
+  if not(code>=48 and code<=57)and not(code>=97 and code<=102):return false
+ return true
+
+func _sha(bytes:PackedByteArray)->String:
+ var hash:=HashingContext.new();hash.start(HashingContext.HASH_SHA256);hash.update(bytes)
+ return hash.finish().hex_encode()
+
+func _invalidate()->void:
+ var was_ready:bool=ready
+ ready=false
+ rejection="native mesh changed"
+ if was_ready:invalidated.emit()
+
+func _refuse(reason:String)->bool:
+ ready=false
+ parts.clear()
+ rejection=reason
+ return false

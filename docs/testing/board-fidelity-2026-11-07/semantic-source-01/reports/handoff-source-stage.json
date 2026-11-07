@@ -1,0 +1,95 @@
+{
+  "created_utc": "2026-11-07T09:30:39.296230+00:00",
+  "status": "PRIVATE source stage only; native parser/window pending root release",
+  "source_controls": {
+    "passed": 70,
+    "failed": 0
+  },
+  "historical_native_faces_bound": 5696,
+  "historical_semantic_parts": 32,
+  "canonical_certificate_bytes": 25095,
+  "physical_source_faces": 5996,
+  "physical_source_semantic_parts": 32,
+  "native_executions": 0,
+  "actual_source_writes": 0,
+  "retained_native_memory": "UNMEASURED",
+  "files": {
+    "PLAN.md": {
+      "sha256": "9e941da9cc4fc1d6a7b5890a91be00b0338c9c332963e4bf1b587d71dbf04991",
+      "bytes": 3046
+    },
+    "specification.json": {
+      "sha256": "45fa403be55892aa0f2cfc9e646d01029005a45dcd984c68e672167416fa1116",
+      "bytes": 1447
+    },
+    "semantic_admission.py": {
+      "sha256": "96e0d70a9979adfc4e746dafb3d3a127a098b786e2d3908b2311b37293e2ae60",
+      "bytes": 19950
+    },
+    "semantic_board_cache.gd": {
+      "sha256": "db60b0157f78b9987b96a2f9b410fbd03d22b15dbb5ac59ca980b314bbcd1bda",
+      "bytes": 15359
+    },
+    "test_semantic_admission.py": {
+      "sha256": "dc26c9132d670d358569d8b4664dbef251576cc30d18ecd566783cf5567be342",
+      "bytes": 12802
+    },
+    "source-negative-report.json": {
+      "sha256": "309c222c2cf7e4089370e734bf134ddefb3c356d2db231f36b2c23068be380e6",
+      "bytes": 10591
+    },
+    "baseline-report.json": {
+      "sha256": "be715fcd64e1e1828c47d87cdfb70f0ae84ec9167fca3b2cd80bde4bdbe04ab8",
+      "bytes": 13417
+    },
+    "baseline-certificate.json": {
+      "sha256": "0e36809afd196c7934d1d553f8507905c110f7b1ab5735a787717ebeb806c1d1",
+      "bytes": 70458
+    },
+    "baseline-expected.json": {
+      "sha256": "ef3a0fdb73f67428f66caab1bae9818c22cf856e18db0759cee8b61d35707b6b",
+      "bytes": 447
+    },
+    "baseline-source-ownership.json": {
+      "sha256": "44233612156efb0054d96b82e99247152e626284f24bce53b03b081bef0294fb",
+      "bytes": 277447
+    },
+    "baseline-pairing-correction.json": {
+      "sha256": "a00221a2c926bf0ac308c7c744bccba2f28d0af4d63b94dde45248e98f9e7137",
+      "bytes": 568
+    },
+    "physical-source-key-feasibility.json": {
+      "sha256": "019399574ff24df7ada8d4124272f120f5aa087fa30379efa6dd8f481657ee40",
+      "bytes": 776
+    },
+    "run_parser.py": {
+      "sha256": "51bd587d2d77202fe809dc0981a06e5e6da12f7856161232f145a22af847ac7d",
+      "bytes": 3067
+    },
+    "emit_cooked_definition.py": {
+      "sha256": "2c439925282fa99550d04242e5319c5ddf563440deaeba8347f0973ed05a624d",
+      "bytes": 4616
+    },
+    "physical-project/native_control_probe.gd": {
+      "sha256": "09b6517f1810215805bc54ad698988048484eeee9f00a10ba76ca9662cd0918e",
+      "bytes": 6429
+    },
+    "import_board_wood_semantic_final.gd": {
+      "sha256": "8574186fcd0a7d7da304971dbd5fe88a52b187b5b12fcea91e5d22c82eca479a",
+      "bytes": 5823
+    },
+    "loose-board-proposal/handoff.json": {
+      "sha256": "ee19345455f04064e276e296d8456498bbaf198286a00ba8c7754405cdc1bf30",
+      "bytes": 1035
+    },
+    "loose-board-proposal/skater.gd.patch": {
+      "sha256": "a28093d3e4594d5f705e8d36f4dbc79cfa2926543dadd6ec6e6c07dcf7e5dc94",
+      "bytes": 663
+    },
+    "README.md": {
+      "sha256": "39f691fbdf225542f25db8cfcffd76346eea70f6b0c5506ed4b5542cfdc75e91",
+      "bytes": 4295
+    }
+  },
+  "next": "Root releases existing20second parser hold; no cold import/native control authorised yet. Independent QA queued source review after current blockers."
+}

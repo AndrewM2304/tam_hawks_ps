@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "reviewer": "independent_qa",
-  "reviewed_utc": "2026-11-07T08:00:44.397823+00:00",
+  "reviewed_utc": "2026-11-07T09:52:12.366376+00:00",
   "overall_result": "Fail / incomplete",
   "scope": "Independent checkpoint, not final candidate acceptance. Production is mutable. Fail refers to directly inspected source-bound baseline or candidate evidence; later unreviewed production changes do not inherit a positive or negative current-source certification. Pass is only the bounded exact evidence stated; Unmeasured means missing independent complete-clause evidence.",
-  "head": "736a4df",
+  "head": "65f045ef500d0e193cb545e376610cc8e2af5727",
   "source_documents": {
-    "docs/planning/FIDELITY_TICKETS.md": "b8dd171859d24813d6f7156924348e35264b91147a7cad15bb28c35e65e5206c",
+    "docs/planning/FIDELITY_TICKETS.md": "da1c638d08d27b96b4abc10a671a39ae05c17cd1ed9b2c20327015b9eb91112f",
     "docs/product/AAA_BENCHMARK.md": "31c28af085056ffd664bdfe7ba5f7f3e161b8a246c212400c8e62d51b4424b1b"
   },
   "evidence_index": {
@@ -95,7 +95,21 @@
     "water_cost27_ld": "environment/two-wave-cost-27cells-01/independent-ld-arithmetic-ownership-review.json",
     "required02": "integrated-required-02-rejected/README.md",
     "optional_return_expectation_cold": "../line-design-2026-11-06/optional-return-route-expectation-review/independent-review.json",
-    "board_export_cold": "../board-fidelity-2026-11-07/independent-export-cold-review/README.md"
+    "board_export_cold": "../board-fidelity-2026-11-07/independent-export-cold-review/README.md",
+    "water_main_material_partial": "environment/current-main-water-material-partial-01/independent-review.json",
+    "required02_fix_source": "../motion-fidelity-2026-11-07/required02-fix-cold-review/independent-review.json",
+    "ground_stroke_eligibility_source": "../rider-fit-2026-11-07/ground-stroke-eligibility-cold-review/independent-review.json",
+    "ground_stroke_paired04": "../rider-fit-2026-11-07/ground-stroke-eligibility-cold-review/native04-paired-source-supplement.json",
+    "actual_c04_75": "../rider-fit-2026-11-07/actual-c04-focused-01/independent-review.json",
+    "finite_landing07": "../rider-fit-2026-11-07/finite-landing-native07-independent/independent-review.json",
+    "topology_studio_extension": "studio-structure-audit-topology-extension.json",
+    "actual_fitted_writer93": "../rider-fit-2026-11-07/actual-focused-03/independent-review.json",
+    "round_coping_successor02": "../motion-fidelity-2026-11-07/round-coping-independent-01/successor02-independent-review.json",
+    "actual_round_combined_rejected": "../motion-fidelity-2026-11-07/actual-round-focused-01/README.md",
+    "gap_named_registry_source": "../line-design-2026-11-06/gap-line-inventory-independent-01/independent-review.json",
+    "gap_named_registry_actual": "../line-design-2026-11-06/gap-line-inventory-independent-01/actual-native-registry-review.json",
+    "startup_protocol": "../source-startup-2026-11-07/independent-launch-protocol/README.md",
+    "neutral_hand_selected_stills": "../rider-fit-2026-11-07/neutral-hand-independent-01/independent-review.json"
   },
   "benchmark": [
     {
@@ -227,9 +241,9 @@
           "id": "V3.3",
           "name": "Action coherence 2",
           "criterion": "Ordinary state transitions must have no single-frame pose pops, unexplained body rotation or camera cuts. Instrument discontinuities and distinguish the physical event from cosmetic smoothing. A camera may resolve collision promptly, but must not oscillate or cut through scenery.",
-          "result": "Unmeasured",
-          "evidence_or_limit": "Historical D015 pop absent in independently reviewed32side+3chase forecast frames;1408 physical rows equal reactive. Actual fitted pose/local-clock/temporal03 and Main6still subsets are independently source/pixel reviewed. Full current integrated movement remains open.",
-          "next_action": "Run final integrated wider transitions and normal-speed pose/camera cohort; retain scoped forecast moving pass separately."
+          "result": "Fail",
+          "evidence_or_limit": "D022/P0: actual75 current-matrix observations independently expose35.154/27.715/34.902-degree whole-Visual steps and0.76/0.58/0.73m world-head steps; native finite clearance was a separate scoped pass. The later actual round-combined133/1 remains rejected:23Transition+67Round+32Motion subsets pass, C04 is10/1 with real board11.399mm/tyre47.325mm below native PrintYard floor atphysics3547. No moving/GPU or full-current acceptance.",
+          "next_action": "Review bounded early finite-floor handoff on the exact combined prefix, preserve every native clearance/input/body guard, then verify current matrices, consecutive normal-speed pixels and complete current regression."
         },
         {
           "id": "V3.4",
@@ -353,7 +367,7 @@
           "name": "Existing game",
           "criterion": "All ten goals, three core encounters, existing enabled station/train, pond/ducks/cable, park/civic/green content, stable gap/rail IDs, saved progression and district connections remain usable. Preserve personal Music isolation and other implemented content. Further development of traffic/skitch, Cone on a Cruise and the extra park-lap challenge remains deferred under the existing queue. New line density cannot obstruct physical approaches or hide required interaction prompts.",
           "result": "Unmeasured",
-          "evidence_or_limit": "All current ten-goal/three-encounter/default/save/Music preservation not rerun.",
+          "evidence_or_limit": "Complete named registry independently cross-checked:8 scored gaps,66 default world/67 HUD routes,242 unique native guide IDs and33 feature records;63 source-resolved polylines match within5.78\u00b5m. This does not certify all goals/encounters/playable approaches or native one-combo circuits. Actual integrated133/1 remains rejected and all-generated-guide support is unproved.",
           "next_action": "Execute integrated career/encounter/ID/default tests."
         },
         {
@@ -414,7 +428,7 @@
           "name": "Evidence 5",
           "criterion": "Log defects with reproduction, expected/actual behaviour, evidence, severity, owner, affected ticket and retest. A count of passing assertions cannot cancel a visible failed frame.",
           "result": "Pass",
-          "evidence_or_limit": "D001\u2013021 and separateD801\u2013803 retain source/repro/owners/retest. Historical failures and bounded repairs remain separate; D020 records physical-board dimensions and D021 actual current freed-owner ScriptError.",
+          "evidence_or_limit": "D001\u2013022 and separateD801\u2013803 retain source/repro/owners/retest. D022 is actual current largewholepose steps despite scopednativeclearance pass; old/native/partial results remain separate.",
           "next_action": "Update final retests while retaining failed epochs."
         },
         {
@@ -865,9 +879,9 @@
         {
           "id": "FID-301.B",
           "criterion": "Fix the identified discontinuities while preserving eligible input timing, takeoff momentum, rail release and combo deadlines.",
-          "result": "Unmeasured",
-          "evidence_or_limit": "D014 researched-profile native defect-window and D015 full-prefix forecast moving repairs pass their exact scopes; actual fitted focus93/0 and Main2056/0/six-still159/0 add current-source subsets. A new combined fullcheck and all affected continuous transitions remain pending. Historical isolated failures are retained without being inherited as proved current failures.",
-          "next_action": "Complete current combined fullcheck and all affected normal-speed contact/interruptions."
+          "result": "Fail",
+          "evidence_or_limit": "D022/P0: actual75 current-matrix observations independently expose35.154/27.715/34.902-degree whole-Visual steps and0.76/0.58/0.73m world-head steps; native finite clearance was a separate scoped pass. The later actual round-combined133/1 remains rejected:23Transition+67Round+32Motion subsets pass, C04 is10/1 with real board11.399mm/tyre47.325mm below native PrintYard floor atphysics3547. No moving/GPU or full-current acceptance.",
+          "next_action": "Review bounded early finite-floor handoff on the exact combined prefix, preserve every native clearance/input/body guard, then verify current matrices, consecutive normal-speed pixels and complete current regression."
         },
         {
           "id": "FID-301.C",
@@ -914,8 +928,8 @@
           "id": "FID-302.C",
           "criterion": "No ordinary transition contains a single-frame pose pop or angular joint collapse.",
           "result": "Fail",
-          "evidence_or_limit": "Corrected192privateforecast native40/0 and fullprefix32side+3chase review support narrowintegration: recordedpop absent, all35images inspected, all1408physicalfields equal reactive. Querymax152 under192, offsetmaxstep27.198mm. Ordinaryall-action/jointcollapse criterion remains incomplete.",
-          "next_action": "Integrate exact source-bound forecast then review remaining native actions/interruptions."
+          "evidence_or_limit": "D022/P0: actual75 current-matrix observations independently expose35.154/27.715/34.902-degree whole-Visual steps and0.76/0.58/0.73m world-head steps; native finite clearance was a separate scoped pass. The later actual round-combined133/1 remains rejected:23Transition+67Round+32Motion subsets pass, C04 is10/1 with real board11.399mm/tyre47.325mm below native PrintYard floor atphysics3547. No moving/GPU or full-current acceptance.",
+          "next_action": "Review bounded early finite-floor handoff on the exact combined prefix, preserve every native clearance/input/body guard, then verify current matrices, consecutive normal-speed pixels and complete current regression."
         },
         {
           "id": "FID-302.D",
@@ -1222,7 +1236,7 @@
           "id": "FID-501.D",
           "criterion": "Independently inspect actual output; file defects and repair/retest P0/P1 integration failures.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Actualrequired02 failure packet independently inspected; currentClydechase/copingcapture and freed-owner errors are dispatched, D021 records real stale-owner cast. Final current technical/visual P0/P1 retest incomplete.",
+          "evidence_or_limit": "Required02 rejection independentlypreserved; actual75 finite/camera gate passes but independentlyrevealsD022/P0 largewholepose steps. Rootdispatches matchedcause/progressivefix; finalcurrent native/moving P0/P1 retest incomplete.",
           "next_action": "Inspect actual final output and resolve/retest reported integration defects."
         },
         {
@@ -1263,7 +1277,7 @@
           "id": "FID-502.D",
           "criterion": "File actionable defects for every failed required clause and assign owners.",
           "result": "Pass",
-          "evidence_or_limit": "Observed failures/investigations map toD001\u2013021 with owners/repro/retest; assetBA hasD801\u2013803. Required02 actual6526/7+3ScriptErrors is independently preserved; no superseded native failure or missing final/hardware gate is hidden.",
+          "evidence_or_limit": "Observed failures/investigations maptoD001\u2013022 with owners/repro/retest; assetBA hasD801\u2013803. CurrentD022/P0 is independentlymeasured from actual887-source/459tick matrixtrace; no GPUorcausalclaiminvented.",
           "next_action": "Add concrete final defects, retain old source scope and verify repairs."
         },
         {
@@ -1384,10 +1398,19 @@
     "active_tickets": 21,
     "ticket_clauses": 110,
     "results": {
-      "Fail": 18,
-      "Unmeasured": 104,
+      "Fail": 20,
+      "Unmeasured": 102,
       "Pass": 32
     }
   },
-  "head_scope": "Review repository checkpoint only; individual evidence retains its own exact source/asset manifests. This is not certification of every current input or final combined source."
+  "head_scope": "Repository checkpoint identity only. Native/source/pixel evidence retains each exact recorded manifest, dirty/private composition and limitations; this is not a current whole-game pass.",
+  "source_document_reconciliations": [
+    {
+      "utc": "2026-11-07T08:36:28.138784+00:00",
+      "path": "docs/planning/FIDELITY_TICKETS.md",
+      "previous_sha256": "b8dd171859d24813d6f7156924348e35264b91147a7cad15bb28c35e65e5206c",
+      "current_sha256": "da1c638d08d27b96b4abc10a671a39ae05c17cd1ed9b2c20327015b9eb91112f",
+      "criterion_comparison": "All110 clause texts match after Markdown/whitespace normalization. Evidence/status text changed; no criterion relaxed."
+    }
+  ]
 }

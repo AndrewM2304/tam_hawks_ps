@@ -1,0 +1,1316 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T10:36:12.738059+00:00",
+  "scope": "Independent15-role/15-skill discoverability and gap-combo semantic coldread, plus a separate source-exact acceptance map for six new GLC tickets. No engine/production edits.",
+  "structure_result": {
+    "pass": 62,
+    "fail": 0,
+    "role_count": 15,
+    "skill_count": 15,
+    "local_links": 208
+  },
+  "source_pins": {
+    "AGENTS.md": "53f45f39d5e1b12ade4b41d9a06fae856259828aeca0ae84fc748e3610b355f9",
+    "docs/planning/RESUME.md": "137ad870be6ada4c4f0b29506078acfc52dcf64aebdd6699150f119bb70232b2",
+    "docs/planning/STUDIO.md": "0e3ad4caa0b87c3c9c3de14cacf8bd0796089b0ee4b82985adabe09142a48aea",
+    ".agents/agents/README.md": "09719b1208fbc0118b434298e5d88f7c6bb64f9ef64119bfb774d196a0ff5897",
+    "docs/planning/FIDELITY_TICKETS.md": "6bf29891dc15efd6f40a0a48608f0074af36ce9efe69c3f72a5a041cec19c726",
+    "docs/product/AAA_BENCHMARK.md": "31c28af085056ffd664bdfe7ba5f7f3e161b8a246c212400c8e62d51b4424b1b",
+    "docs/planning/GAP-LINE-TICKETS.md": "22b76e38843efb2e6a3c6b5d7772cc8e2e6fcc18727f216f6ccbe715b74a65b7",
+    "docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md": "c807320c48bf5aea3766a1e3e6412802e19b8fccdd1d3030a5f26661aa275ee2",
+    ".agents/agents/ba-verifier.md": "169b86933adab70edb5000b0b6539e7f7762d7b52ebd9322f42715904742aa6c",
+    ".agents/agents/board-artist.md": "6a69a48667d534f0d790fb2fe86751ef23c8f1f26235f1c84d3d75f015c4787a",
+    ".agents/agents/combo-engineer.md": "d01389f86917b02d6fd7ba2180361e1360053da7b8500b663eb53846490a10ec",
+    ".agents/agents/contact-rigging-engineer.md": "d62db4ccadd27bea2348c6f129590160f71eb125a4567de97550cbb492fcfd39",
+    ".agents/agents/environment-architect.md": "2284ac0d957e943bef92f2032ead3ece849a94f5b22796216154f62786c0531c",
+    ".agents/agents/environment-artist.md": "a7b126a3803525e7f1def4aa5a7dd12d936bcca5010202478a7819faaad355ff",
+    ".agents/agents/gap-combo-validator.md": "2120c8aead867ca0168ce3ce01a3994f63e0dab1a463c5975424d51cd838d1d5",
+    ".agents/agents/level-designer.md": "e5ac6c3e9f4e933b6afa6090269a1c143f9717c63132c7d9768cfcf2b4bbc92b",
+    ".agents/agents/motion-engineer.md": "f7349debd5664d9f65122cfb3c049af9c59e92e39f74839e222b705114b62e47",
+    ".agents/agents/rendering-engineer.md": "c4ad8b7876918de23235d43920543ce89981265368b855fe86b7b1ffc7760085",
+    ".agents/agents/rider-artist.md": "90a58efa2d9e7faea3f2462e2a696f9cc11cf1c57fae6061745814cb50af4fd1",
+    ".agents/agents/rigging-engineer.md": "d50b8bbba3636952a38eee652c3f3872052bb13341fcb32a4784131289fe33ff",
+    ".agents/agents/skate-topology-reviewer.md": "7c06da21329dcdb0fb5d8a691ebffa53968811e1abde1fd60b90556d57aa9363",
+    ".agents/agents/studio-director.md": "66472843690141cdf626d2a4d25dd0eef2f77cc0240691cf4aa1d4a17b12bf4b",
+    ".agents/agents/technical-qe.md": "c97a6faf5412ff83fe112180b7406840ed2b76c7055776427316f3176eb9ea5e",
+    ".agents/skills/architectural-fidelity/SKILL.md": "320340bd6cc03cbc7fe54bce68677547eb8f0fccbe2eadff670c8d04d70c9b14",
+    ".agents/skills/board-fidelity/SKILL.md": "5adc831cfd2511635ed4d519283ce3410f379afcde9e13abac37cd760c443c1f",
+    ".agents/skills/combo-usability/SKILL.md": "e61ee2d2317c50f483948fb7c940fcf14aceee071b53fefc5d82437109d8f19a",
+    ".agents/skills/deformed-contact/SKILL.md": "075cf448ac9d47090c55109e85706e8fbe165bbd1d50708b269c399b64fedf28",
+    ".agents/skills/environment-fidelity/SKILL.md": "2597c4707d1521d8feda535c1c0543ee800e471af51762cea0e5bc7c0ffc352a",
+    ".agents/skills/gameplay-qa/SKILL.md": "60ffb0358e094e7ce1263ba6d32a1472b128da7cf6a0861c522e07602ffc6cd6",
+    ".agents/skills/gap-combo-validation/SKILL.md": "eafcc709c195ae2d936188331f0622eaa0d33a6384ff636da170100e1eb384e1",
+    ".agents/skills/quality-verification/SKILL.md": "1a436c34c9407cbe80bd338c3f606d33c14d9513049aa37aa56a933479f1307b",
+    ".agents/skills/renderer-evaluation/SKILL.md": "8293ff95b5e27b0f4126f262227daca9ca2326a9a044fc58ccb3a6aa605273ae",
+    ".agents/skills/rider-fidelity/SKILL.md": "15bbf26e412bf83d3f18c5bb35f839a08a4e1efa8b5cce222cf8c49c0d5fa8c0",
+    ".agents/skills/rigging-validation/SKILL.md": "28599aff323189850c5aa5045697c343e891e153079180bc1d98a45d523d4589",
+    ".agents/skills/skate-level-design/SKILL.md": "55b8deff6b7474a032d8a9086604d5b4a3e78a94284fbd378b521dfd6fb3ea1f",
+    ".agents/skills/skate-topology-review/SKILL.md": "a059d05ba0418bd7c19350675c071024370544a24bec5c4a4bdc1765a77a30bb",
+    ".agents/skills/skating-motion/SKILL.md": "25194bfdc2a0caed6a1263f73b142d5f81e9ea1dd466010105fd87330a34b813",
+    ".agents/skills/studio-production/SKILL.md": "abfed78c327d48550bc0b2ac3c89bb298c0ed473f5ac95e6d8a99a0dcf1ca5bf"
+  },
+  "new_criteria_counts": {
+    "common_clauses": 6,
+    "glc_tickets": 6,
+    "ticket_subclauses": 104,
+    "result": "All new complete-ticket subclauses remain Unmeasured; scoped historical failures/positives are explicit evidence slices."
+  },
+  "core_domain": "Existing154 core benchmark/FID clauses and21 FID tickets remain a distinct domain with unchanged acceptance criteria; no GLC requirement silently accepted from prior core passes.",
+  "scope_limits": [
+    "Source registry identity coverage8/67 and native242 guides is complete, not every physical jump/landing/next-feature or one-combo circuit.",
+    "New return-gap finish policy02/46 is a private separate experiment, not GLC01/02/03/04 admission.",
+    "Full required03 is running; no interim native subset is a global pass.",
+    "The owning implementations require independent QE/BA and actual moving/human/M5 dimensions remain separate."
+  ],
+  "common_clauses": [
+    {
+      "id": "GLC-C1",
+      "criterion_verbatim": "Start the ordinary default-enabled world with personal Music persistence isolated. Declare the only initial fixture; after movement starts use real registered Push/Brake/A/D/Ollie/Manual/Grind actions. Do not assign actor position, yaw, speed, velocity, balance, score, capture ID or gap events mid-run.",
+      "result": "Unmeasured",
+      "evidence_or_limit": "Common AND-contract applies to every new completed GLC route. Independent8/67/242 identity coverage is a preserved baseline subset, not joined-line/whole-game admission."
+    },
+    {
+      "id": "GLC-C2",
+      "criterion_verbatim": "Observe every actual physics step, exact native support/RID/integer-shape/finite bearing, actual GLB board and shoe clearance, correctly scoped loaded-support contact, strict unloaded air and chase. Preserve first failure per query class. Keep existing native tolerances, 2 m/s Manual minimum, cooldowns, drag and 350 ms score-link behavior.",
+      "result": "Unmeasured",
+      "evidence_or_limit": "Common AND-contract applies to every new completed GLC route. Independent8/67/242 identity coverage is a preserved baseline subset, not joined-line/whole-game admission."
+    },
+    {
+      "id": "GLC-C3",
+      "criterion_verbatim": "For a claimed **single combo**, record zero banks before the final exit and exactly one positive terminal bank. Recompute catalog/repetition/hold/gap arithmetic independently from actual signals, retaining repetition across banks. A spatial return with multiple banks is valid only when explicitly labelled as such. The installed east-quay return remains **7,400 + 5,688, two banks**, not a single combo or cross-area line.",
+      "result": "Unmeasured",
+      "evidence_or_limit": "Common AND-contract applies to every new completed GLC route. Independent8/67/242 identity coverage is a preserved baseline subset, not joined-line/whole-game admission."
+    },
+    {
+      "id": "GLC-C4",
+      "criterion_verbatim": "Record launch \u2192 earned contact/transfer \u2192 supported landing \u2192 next meaningful action \u2192 useful return. Keep actual physics intervals and cumulative path distances; a charge or generic refresh is not automatically another spatial opportunity. Review gaps above three seconds; deliberate approach/recovery exceptions need a concrete reason.",
+      "result": "Unmeasured",
+      "evidence_or_limit": "Common AND-contract applies to every new completed GLC route. Independent8/67/242 identity coverage is a preserved baseline subset, not joined-line/whole-game admission."
+    },
+    {
+      "id": "GLC-C5",
+      "criterion_verbatim": "Freeze source/helper/cache before each native epoch; retain command, PID/start/end/deadline/exit, raw errors and every failed attempt. Declare known untimed overlap; do not claim frame performance from it. Moving rendered play, human discovery/fun and actual MacBook Air M5 remain separate gates.",
+      "result": "Unmeasured",
+      "evidence_or_limit": "Common AND-contract applies to every new completed GLC route. Independent8/67/242 identity coverage is a preserved baseline subset, not joined-line/whole-game admission."
+    },
+    {
+      "id": "GLC-C6",
+      "criterion_verbatim": "Preserve all 8 gap IDs, 67 HUD route identities, existing career/encounter/save semantics and default feature availability. Protect tested passage widths and supported shoulders; do not globally impose a new 4 m width on inherited narrow underpasses. Any changed main corridor must meet the existing density/bypass contract.",
+      "result": "Unmeasured",
+      "evidence_or_limit": "Common AND-contract applies to every new completed GLC route. Independent8/67/242 identity coverage is a preserved baseline subset, not joined-line/whole-game admission."
+    }
+  ],
+  "tickets": [
+    {
+      "id": "GLC-01",
+      "title": "Join the scored market drop to the real hall bearing",
+      "original_fields": {
+        "Priority / milestone / owner / BA": "P0 \u00b7 F2.1 \u00b7 LD + gap/combo validation specialist; CE for ledger semantics \u00b7 independent QE/BA.",
+        "Dependencies": "Current native round/legacy-bearing admission; unchanged `market_hop` definition and actual `market_hall_bank_loop` geometry; source freeze. No geometry ticket required.",
+        "Problem / resulting behavior": "Mairi earns the X93 scored stair gap but must bank before delivery gates. C04 earns loading drop \u2192 hall combo at X100.8, outside the score trigger. Free skate should earn the **actual X93 gap \u2192 native lower landing Manual \u2192 exact bent hall ledge \u2192 dry exit** in one combo without changing the mission.",
+        "Implementation": "Reuse existing source-bound gap/market drivers and shared mapped Manual steering/balance helpers. Drive the Z\u22122 forecourt approach naturally. Add a bounded optional continuation/evidence hook rather than duplicate the world or hardcode semantic captures.",
+        "Acceptance": "Actual `gap:market_hop` once, real launched flight/landing, intended hall guide capture and useful hold, dry native Manual exit, zero bails/recoveries, strict model/sole/capsule/chase, and one exact recomputed terminal bank. Mairi covered/west missions retain their deliberate bank-before-gates and fixed qualifying score logic. Natural route has no per-frame heading injection.",
+        "Verification": "QE cold-reads source and ledger, independently replays current ordinary scene plus early/late pop and lateral landing variants. BA checks the scored gap is X93 rather than merely a labelled C04 drop; inspect moving approach/landing/next-bearing visibility. Preserve named-gap misses rather than widening radius.",
+        "Evidence to reuse": "`market_hop`, `market_step_drop`, Mairi `covered/west` and required02 C04 `market_loading_to_hall` bank8,490. They are related components, not an existing joined pass.",
+        "Budget": "Zero production geometry, body, shape, mesh, material, texture, light or per-frame gameplay-resource additions. Reuse existing harness/recorder and score signals.",
+        "Status": "**Unrun input-only proposal.** [Exact private input/observer proposal](../testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/glc01-input-proposal-01/README.md) is prepared but **unparsed/unexecuted**; bind a refreshed private source/cache before a bounded native slot. No current joined one-combo claim."
+      },
+      "overall_result": "Unmeasured / not admitted",
+      "subclauses": [
+        {
+          "id": "GLC-01.D1",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "Current native round/legacy-bearing admission",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.D2",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "unchanged `market_hop` definition and actual `market_hall_bank_loop` geometry",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.D3",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "source freeze.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.D4",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "No geometry ticket required.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.I1",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Reuse existing source-bound gap/market drivers and shared mapped Manual steering/balance helpers.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.I2",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Drive the Z\u22122 forecourt approach naturally.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.I3",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Add a bounded optional continuation/evidence hook rather than duplicate the world or hardcode semantic captures.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.A1",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Actual `gap:market_hop` once, real launched flight/landing, intended hall guide capture and useful hold, dry native Manual exit, zero bails/recoveries, strict model/sole/capsule/chase, and one exact recomputed terminal bank.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.A2",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Mairi covered/west missions retain their deliberate bank-before-gates and fixed qualifying score logic.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.A3",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Natural route has no per-frame heading injection.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.V1",
+          "source_field": "Verification",
+          "criterion_verbatim": "QE cold-reads source and ledger, independently replays current ordinary scene plus early/late pop and lateral landing variants.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.V2",
+          "source_field": "Verification",
+          "criterion_verbatim": "BA checks the scored gap is X93 rather than merely a labelled C04 drop",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.V3",
+          "source_field": "Verification",
+          "criterion_verbatim": "inspect moving approach/landing/next-bearing visibility.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.V4",
+          "source_field": "Verification",
+          "criterion_verbatim": "Preserve named-gap misses rather than widening radius.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.B1",
+          "source_field": "Budget",
+          "criterion_verbatim": "Zero production geometry, body, shape, mesh, material, texture, light or per-frame gameplay-resource additions.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        },
+        {
+          "id": "GLC-01.B2",
+          "source_field": "Budget",
+          "criterion_verbatim": "Reuse existing harness/recorder and score signals.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run actual X93 market_hop\u2192native hall continuation with one fixture/bank and independently observed score/contacts/variants."
+        }
+      ],
+      "known_scoped_evidence": []
+    },
+    {
+      "id": "GLC-02",
+      "title": "Continue the civic Manual into Gallery entrance, stairs and fountain",
+      "original_fields": {
+        "Priority / milestone / owner / BA": "P0 \u00b7 F2.1 \u00b7 LD + CE \u00b7 independent QE/BA.",
+        "Dependencies": "Existing source-bound civic\u2192Gallery and entrance\u2192stair\u2192fountain admission; current finite contact/Manual contracts. Test the short entrance join before combining the park prefix.",
+        "Problem / resulting behavior": "The civic-bank run deliberately banks at the raised entrance; another driver resets there to earn the entrance/stair/fountain chain. Link these actual areas with the same rider before banking. Later prepend the existing summit\u2192civic line to investigate a **three-area through-run**.",
+        "Implementation": "Optional continuation hooks in existing drivers; mapped steering/pop from the actual arrival near X\u22124/Y2.662/Z\u221237. Adapt pop to actual speed/projection rather than assigning a new heading or widening a capture. Retain current deadlines/2 m/s minimum and natural score exhaustion as a real failure.",
+        "Acceptance": "Civic bank \u2192 lower-court Ollie \u2192 balanced Manual \u2192 native west Gallery close/raised entrance \u2192 earned entrance bearing \u2192 StairRail \u2192 Fountain coping \u2192 supported dry payoff, one initial fixture and one terminal bank. Exact bearing sequence and current model/sole/capsule/chase proof. Park extension must independently prove summit\u2192civic\u2192same entrance sequence without a bank/reset.",
+        "Verification": "QE recomputes the full bank and actual event intervals; BA verifies that joining separately passing fixtures did not add grounded-yaw shortcuts, reset state or mere goal flags. Render full-speed chase and the entrance approach. Preserve bypass in both directions.",
+        "Evidence to reuse": "Required02 bounded records civic\u2192Gallery bank400, entrance\u2192stair\u2192fountain14,616, park\u2192civic10,822. These three scores are separate old terminal banks; their sum is not a new combo score.",
+        "Budget": "Zero production geometry/resources; optional test hooks only until evidence supports player-facing guidance.",
+        "Status": "**Unrun join proposal.** Three-area through-run would still not close a distinct cross-area circuit."
+      },
+      "overall_result": "Unmeasured / not admitted",
+      "subclauses": [
+        {
+          "id": "GLC-02.D1",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "Existing source-bound civic\u2192Gallery and entrance\u2192stair\u2192fountain admission",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.D2",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "current finite contact/Manual contracts.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.D3",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "Test the short entrance join before combining the park prefix.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.I1",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Optional continuation hooks in existing drivers",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.I2",
+          "source_field": "Implementation",
+          "criterion_verbatim": "mapped steering/pop from the actual arrival near X\u22124/Y2.662/Z\u221237.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.I3",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Adapt pop to actual speed/projection rather than assigning a new heading or widening a capture.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.I4",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Retain current deadlines/2 m/s minimum and natural score exhaustion as a real failure.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.A1",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Civic bank \u2192 lower-court Ollie \u2192 balanced Manual \u2192 native west Gallery close/raised entrance \u2192 earned entrance bearing \u2192 StairRail \u2192 Fountain coping \u2192 supported dry payoff, one initial fixture and one terminal bank.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.A2",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Exact bearing sequence and current model/sole/capsule/chase proof.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.A3",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Park extension must independently prove summit\u2192civic\u2192same entrance sequence without a bank/reset.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.V1",
+          "source_field": "Verification",
+          "criterion_verbatim": "QE recomputes the full bank and actual event intervals",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.V2",
+          "source_field": "Verification",
+          "criterion_verbatim": "BA verifies that joining separately passing fixtures did not add grounded-yaw shortcuts, reset state or mere goal flags.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.V3",
+          "source_field": "Verification",
+          "criterion_verbatim": "Render full-speed chase and the entrance approach.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.V4",
+          "source_field": "Verification",
+          "criterion_verbatim": "Preserve bypass in both directions.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.B1",
+          "source_field": "Budget",
+          "criterion_verbatim": "Zero production geometry/resources",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        },
+        {
+          "id": "GLC-02.B2",
+          "source_field": "Budget",
+          "criterion_verbatim": "optional test hooks only until evidence supports player-facing guidance.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Join civic\u2192Gallery\u2192stair\u2192fountain without reset/bank, then independently prove any park extension; inspect both bypass directions."
+        }
+      ],
+      "known_scoped_evidence": []
+    },
+    {
+      "id": "GLC-03",
+      "title": "Keep the broken-bridge gap alive into the print yard",
+      "original_fields": {
+        "Priority / milestone / owner / BA": "P0 \u00b7 F2.1 \u00b7 LD; ME for any real contact failure \u00b7 independent QE/BA.",
+        "Dependencies": "Current Clyde physical/chase defect closure; original no-jump-water miss/recovery contract; actual named bridge gap and existing yard/hip/relay.",
+        "Problem / resulting behavior": "Existing river trial earns the 8 m broken-bridge jump and banks2,000 **before** yard traversal. Continue the real south landing into Manual \u2192 print-yard bearing or actual curved hip \u2192 supported exit before the bank, rather than adding another object on the bridge.",
+        "Implementation": "Reuse compact river/yard input driver with an optional no-bank continuation, one initial fixture and read-only event recorder. Aim from actual landing pose/momentum toward the existing finite next feature. Keep continuous bridge as the easier route.",
+        "Acceptance": "Actual `gap:clyde_bridge_transfer` exactly once, legitimate charged launch and real south deck landing; next intended native bearing/hip transfer earned; useful dry payoff and one recomputed terminal bank; no hidden recovery or board/sole penetration. Existing optional-opening miss still reaches real water, bails and recovers according to production rather than an invisible catch.",
+        "Verification": "QE independently checks launch speed/charge from actual frames, south support, exact next-feature identity, score events and missed-input variants. BA distinguishes a ride up the curved guide from an earned air transfer. Full matched chase/body review required after the current ordinary Clyde failure.",
+        "Evidence to reuse": "`COMPACT_CLYDE_RIVER_GAP` actual charged jump/award/landing; historical 2,000 gap bank and later yard/hip access. Current actual focus133/1 retains Clyde full-body chase failure and cannot admit this whole route.",
+        "Budget": "Zero geometry/resource additions; reuse bridge, yard ledge, curved hip and south relay.",
+        "Status": "**Unrun continuation; blocked for admission by current Clyde native clearance failure.**"
+      },
+      "overall_result": "Unmeasured / not admitted",
+      "subclauses": [
+        {
+          "id": "GLC-03.D1",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "Current Clyde physical/chase defect closure",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.D2",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "original no-jump-water miss/recovery contract",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.D3",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "actual named bridge gap and existing yard/hip/relay.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.I1",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Reuse compact river/yard input driver with an optional no-bank continuation, one initial fixture and read-only event recorder.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.I2",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Aim from actual landing pose/momentum toward the existing finite next feature.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.I3",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Keep continuous bridge as the easier route.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.A1",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Actual `gap:clyde_bridge_transfer` exactly once, legitimate charged launch and real south deck landing",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.A2",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "next intended native bearing/hip transfer earned",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.A3",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "useful dry payoff and one recomputed terminal bank",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.A4",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "no hidden recovery or board/sole penetration.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.A5",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Existing optional-opening miss still reaches real water, bails and recovers according to production rather than an invisible catch.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.V1",
+          "source_field": "Verification",
+          "criterion_verbatim": "QE independently checks launch speed/charge from actual frames, south support, exact next-feature identity, score events and missed-input variants.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.V2",
+          "source_field": "Verification",
+          "criterion_verbatim": "BA distinguishes a ride up the curved guide from an earned air transfer.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.V3",
+          "source_field": "Verification",
+          "criterion_verbatim": "Full matched chase/body review required after the current ordinary Clyde failure.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.B1",
+          "source_field": "Budget",
+          "criterion_verbatim": "Zero geometry/resource additions",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        },
+        {
+          "id": "GLC-03.B2",
+          "source_field": "Budget",
+          "criterion_verbatim": "reuse bridge, yard ledge, curved hip and south relay.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "The actual134/0 C04 component now passes; run the unproved named bridge-gap\u2192yard/hip continuation, water miss, score and rendered route."
+        }
+      ],
+      "known_scoped_evidence": [
+        {
+          "result": "Pass scoped component",
+          "source": "docs/testing/motion-fidelity-2026-11-07/actual-round-focused-02/README.md",
+          "finding": "Later actual134/0 passes original C04 component. The earlier133/1 rejection is retained; neither proves bridge-gap continuation."
+        }
+      ]
+    },
+    {
+      "id": "GLC-04",
+      "title": "Link the actual Gallery scored gap to fountain coping",
+      "original_fields": {
+        "Priority / milestone / owner / BA": "P0 \u00b7 F2.1 \u00b7 LD + gap/combo validation specialist \u00b7 independent QE/BA.",
+        "Dependencies": "Current stair/fountain native contracts and exact `exchange_launch` actor-origin triggers.",
+        "Problem / resulting behavior": "Current successful StairRail chain is X9.1, well outside the centreline scored gap. Earn the real centre stair gap, land a Manual and steer onto the fountain tangent/coping without a bank, producing a visible gap\u2192ground-link\u2192curved-grind choice in the broad spawn court.",
+        "Implementation": "Input-only branch off the existing gallery driver. Use actual south flight/landing; choose an unobstructed fountain tangent from native geometry and actual speed. Keep side-bank and ground bypasses; no fountain-water shortcut.",
+        "Acceptance": "Actual `gap:exchange_launch` once, clear centre stair flight/native lower-court landing, earned fountain bearing and useful dry exit, exact one-bank arithmetic, no bails/recoveries, current model/sole/capsule/chase clear. A generic Ollie beside the trigger or old StairRail success is insufficient.",
+        "Verification": "QE independently checks the actor sphere crossings and time-ordered award plus actual landing/next capture. Deliberately late pop and off-tangent approach retain honest failure. BA inspects whether the landing naturally frames the fountain choice and short replay rather than a fussy scripted turn.",
+        "Evidence to reuse": "Existing `gallery_step_drop` geometry and required02 rail/Manual/fountain8,800 only as nearby feature evidence. Named gap\u2192next-bearing is still unproved.",
+        "Budget": "Zero production geometry/resources. No scoring-radius, approach-speed or bank-window change.",
+        "Status": "**Unrun scored-gap join proposal.**"
+      },
+      "overall_result": "Unmeasured / not admitted",
+      "subclauses": [
+        {
+          "id": "GLC-04.D1",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "Current stair/fountain native contracts and exact `exchange_launch` actor-origin triggers.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.I1",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Input-only branch off the existing gallery driver.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.I2",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Use actual south flight/landing",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.I3",
+          "source_field": "Implementation",
+          "criterion_verbatim": "choose an unobstructed fountain tangent from native geometry and actual speed.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.I4",
+          "source_field": "Implementation",
+          "criterion_verbatim": "Keep side-bank and ground bypasses",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.I5",
+          "source_field": "Implementation",
+          "criterion_verbatim": "no fountain-water shortcut.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.A1",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Actual `gap:exchange_launch` once, clear centre stair flight/native lower-court landing, earned fountain bearing and useful dry exit, exact one-bank arithmetic, no bails/recoveries, current model/sole/capsule/chase clear.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.A2",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "A generic Ollie beside the trigger or old StairRail success is insufficient.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.V1",
+          "source_field": "Verification",
+          "criterion_verbatim": "QE independently checks the actor sphere crossings and time-ordered award plus actual landing/next capture.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.V2",
+          "source_field": "Verification",
+          "criterion_verbatim": "Deliberately late pop and off-tangent approach retain honest failure.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.V3",
+          "source_field": "Verification",
+          "criterion_verbatim": "BA inspects whether the landing naturally frames the fountain choice and short replay rather than a fussy scripted turn.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.B1",
+          "source_field": "Budget",
+          "criterion_verbatim": "Zero production geometry/resources.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        },
+        {
+          "id": "GLC-04.B2",
+          "source_field": "Budget",
+          "criterion_verbatim": "No scoring-radius, approach-speed or bank-window change.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Run true centreline exchange_launch\u2192Manual\u2192fountain capture; preserve early/late/off-tangent misses and native dry support."
+        }
+      ],
+      "known_scoped_evidence": []
+    },
+    {
+      "id": "GLC-05",
+      "title": "Face the Station bank into the existing halfpipe open flat",
+      "original_fields": {
+        "Priority / milestone / owner / BA": "P0 \u00b7 F2.2 \u00b7 LD placement/driver; ME finite Manual crest contact \u00b7 independent topology reviewer + QE/BA.",
+        "Dependencies": "Fix and independently admit the real finite rim/tyre failure under existing 25 mm fit budget and whole-model guards. Then current-source C04, upper gap, career, resource and visible approach checks.",
+        "Problem / resulting behavior": "Current bank arrival faces a halfpipe outside retaining back. Recompose the existing bank/pipe and side entries so one landing offers a real north/south opposing-face carve and supported re-entry, rather than passing beside the pipe on the way to town.",
+        "Private candidate": "Bank centre `(\u221288,2,37.2)`; pipe centre `(\u221265,2,35)`, yaw0; mirrored side-entry placement uses valid positive rigid bases. Original canopy roof/columns remain. Bank occupies X\u221293.2\u2026\u221282.8/Z36.1\u202638.3, opening the X\u221279.5 northern apron. Preserve original X\u221282/Z34 bypass and career path.",
+        "Actual blocker": "Candidate04 full prefix has real tyre27 penetration ~2.331 mm into its own west 70 mm rim, native integer shape3, physics319. This is an actual urethane vertex intrusion, not allowable truck bearing or capsule safe-margin contact. The current ME branch diagnostic reproduces restored tyre overlap with empty native rest data; its first packet has a teardown error and remains rejected. Do not shift geometry a few centimetres to hide one phase.",
+        "Acceptance": "Real full spine prefix \u2192 bank Manual \u2192 open pipe \u2192 both distinct curved faces \u2192 supported return under ordinary input, no per-step pose/heading/speed injection; all native component/tyre/shoe/capsule/chase checks, interval record and independent score ledger. Original upper `central_gap`, concourse/service walk, no-jump miss, career, body/side-entry/camera shoulders remain usable.",
+        "Score provenance": "**6,730** belongs to unmodified actual-layout required02. **Private candidate04 banked5,496 = 687 \u00d7 8**, with its original C04 subset2/0; its whole cohort remains28/3 rejected. Preserve one-bank actions and exact independently calculated score of the actual new epoch, not one historical numeric target across changed geometry/inputs.",
+        "Verification": "Topology reviewer checks actual full bank/side-entry/deck/support AABBs, not just curve cores. QE replays original C04 plus new natural line, upper-gap/career/miss/finite contacts and unchanged resource identities. BA inspects complete moving set piece and return choice; reconcile all failures before promotion.",
+        "Evidence": "[Immutable rejected candidate04/contact05 and exact source tyre analysis](../testing/line-design-2026-11-06/station-open-flat-development-2026-11-07/compatibility-development-01/README.md). Functional8/0 earlier geometry is a distinct candidate, not proof of this composition.",
+        "Budget": "No new bodies/shapes/mesh instances/MultiMeshes/unique meshes/materials/textures/lights. Candidate04 measured574/1,755/1,187/503/531/106 for bodies/shapes/mesh nodes/MultiMesh nodes/unique meshes/materials, identical to its own baseline. New current composition must be measured again; counts do not certify GPU cost.",
+        "Status": "**Private rejected. No actual geometry promotion.**"
+      },
+      "overall_result": "Unmeasured / not admitted",
+      "subclauses": [
+        {
+          "id": "GLC-05.D1",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "Fix and independently admit the real finite rim/tyre failure under existing 25 mm fit budget and whole-model guards.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.D2",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "Then current-source C04, upper gap, career, resource and visible approach checks.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.DESIGN1",
+          "source_field": "Private candidate",
+          "criterion_verbatim": "Bank centre `(\u221288,2,37.2)`",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.DESIGN2",
+          "source_field": "Private candidate",
+          "criterion_verbatim": "pipe centre `(\u221265,2,35)`, yaw0",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.DESIGN3",
+          "source_field": "Private candidate",
+          "criterion_verbatim": "mirrored side-entry placement uses valid positive rigid bases.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.DESIGN4",
+          "source_field": "Private candidate",
+          "criterion_verbatim": "Original canopy roof/columns remain.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.DESIGN5",
+          "source_field": "Private candidate",
+          "criterion_verbatim": "Bank occupies X\u221293.2\u2026\u221282.8/Z36.1\u202638.3, opening the X\u221279.5 northern apron.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.DESIGN6",
+          "source_field": "Private candidate",
+          "criterion_verbatim": "Preserve original X\u221282/Z34 bypass and career path.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.A1",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Real full spine prefix \u2192 bank Manual \u2192 open pipe \u2192 both distinct curved faces \u2192 supported return under ordinary input, no per-step pose/heading/speed injection",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.A2",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "all native component/tyre/shoe/capsule/chase checks, interval record and independent score ledger.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.A3",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Original upper `central_gap`, concourse/service walk, no-jump miss, career, body/side-entry/camera shoulders remain usable.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.V1",
+          "source_field": "Verification",
+          "criterion_verbatim": "Topology reviewer checks actual full bank/side-entry/deck/support AABBs, not just curve cores.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.V2",
+          "source_field": "Verification",
+          "criterion_verbatim": "QE replays original C04 plus new natural line, upper-gap/career/miss/finite contacts and unchanged resource identities.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.V3",
+          "source_field": "Verification",
+          "criterion_verbatim": "BA inspects complete moving set piece and return choice",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.V4",
+          "source_field": "Verification",
+          "criterion_verbatim": "reconcile all failures before promotion.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.B1",
+          "source_field": "Budget",
+          "criterion_verbatim": "No new bodies/shapes/mesh instances/MultiMeshes/unique meshes/materials/textures/lights.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.B2",
+          "source_field": "Budget",
+          "criterion_verbatim": "Candidate04 measured574/1,755/1,187/503/531/106 for bodies/shapes/mesh nodes/MultiMesh nodes/unique meshes/materials, identical to its own baseline.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.B3",
+          "source_field": "Budget",
+          "criterion_verbatim": "New current composition must be measured again",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        },
+        {
+          "id": "GLC-05.B4",
+          "source_field": "Budget",
+          "criterion_verbatim": "counts do not certify GPU cost.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion."
+        }
+      ],
+      "known_scoped_evidence": [
+        {
+          "result": "Fail historical private geometry candidate04",
+          "source": "docs/testing/line-design-2026-11-06/station-open-flat-development-2026-11-07/compatibility-development-01/README.md",
+          "finding": "28/3 cohort includes real tyre/coping intrusion. Current one-file contact fix and adversarial native subset are private/unadmitted; do not transfer old failures or narrow positives to an unseen final composition."
+        }
+      ]
+    },
+    {
+      "id": "GLC-06",
+      "title": "Recompose Barras into an enclosed branching hall/market junction",
+      "original_fields": {
+        "Priority / milestone / owner / BA": "P0 \u00b7 F2.2 \u00b7 LD; environment architect for visible native enclosure \u00b7 independent topology reviewer + QE/BA.",
+        "Dependencies": "GLC-01 current gap/hall input evidence; current finite legacy bearing/body clearance; source-proposal review and private geometry slot. No copying of another game's layout.",
+        "Problem / resulting behavior": "The hall line, southern bank/seat and market aisles act as islands. Reuse them around a compact court where a hall landing can choose bank/Manual, seat grind or useful glancing wallride/Wallie, then return toward hall/market or branch to the Clyde mouth.",
+        "Private design to implement": "Bank `(91,0,8)`, yaw\u2212\u03c0/2, native X89\u202693/Z1\u202615 with plateau Z5\u202611/Y0.55. Existing 10 m seat X79\u202689 goes to **Z26**; Z19 was rejected because its cap would be only0.69 m from the current C04 hall landing. Fold the existing 36 m southern boundary to `(50,30.8)\u2192(72,30.8)\u2192(72,44.8)`, preserving18 native panels/19 points and resampling **both** legs. Use the horizontal22 m face for a west-going oblique wallride and northward Wallie; the 14 m south-going leg is not a useful exit.",
+        "Acceptance": "Actual loading/hall\u2192seat\u2192finite glancing wallride/Wallie\u2192supported forecourt landing/next action with ordinary input, actual meaningful intervals and honest single-bank/two-bank labels. Native display/collision/query/audio/guide/feature transforms atomic; all ground/air/shoulder/maximum-charged misses deliberate. Preserve X83 hall return, X103 west aisle, X114 covered aisle, Z22 crossing, X86\u2026102 Clyde mouth, recording and all Mairi/career gates. Visible/native wall height needs real containment proof; a proposed 5 m face is not pre-certified.",
+        "Verification": "Independent topology reviewer derives every body/guide/shape AABB and protected path from current source. QE drives both useful directions, no-pop/late-pop/lateral/upper-wall misses and all career/mission approaches. BA inspects matched overview/chase/full-speed line and checks the court creates distinct choices rather than repetitive bank modules.",
+        "Evidence": "[Exact unbuilt source proposal and partial independent source review](../levels/BARRAS-JUNCTION-PROPOSAL-2026-11-07/README.md), existing C04 hall through-run, all-gap audit. No native layout or resource pass exists for this proposal.",
+        "Budget": "Reuse existing bank, seat, wall body/18 native shape slots/materials; keep all55 protected opaque prisms unchanged. Proposed enclosure display must reuse existing unit Box/MultiMesh resources without increasing unique mesh/material/texture/light counts; source triangle reductions alone are not cost admission. Measure current body/shape/draw/mesh/memory and actual performance after native/moving admission.",
+        "Status": "**Source proposal, unbuilt and unrun.**"
+      },
+      "overall_result": "Unmeasured / not admitted",
+      "subclauses": [
+        {
+          "id": "GLC-06.D1",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "GLC-01 current gap/hall input evidence",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.D2",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "current finite legacy bearing/body clearance",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.D3",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "source-proposal review and private geometry slot.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.D4",
+          "source_field": "Dependencies",
+          "criterion_verbatim": "No copying of another game's layout.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.DESIGN1",
+          "source_field": "Private design to implement",
+          "criterion_verbatim": "Bank `(91,0,8)`, yaw\u2212\u03c0/2, native X89\u202693/Z1\u202615 with plateau Z5\u202611/Y0.55.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.DESIGN2",
+          "source_field": "Private design to implement",
+          "criterion_verbatim": "Existing 10 m seat X79\u202689 goes to **Z26**",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.DESIGN3",
+          "source_field": "Private design to implement",
+          "criterion_verbatim": "Z19 was rejected because its cap would be only0.69 m from the current C04 hall landing.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.DESIGN4",
+          "source_field": "Private design to implement",
+          "criterion_verbatim": "Fold the existing 36 m southern boundary to `(50,30.8)\u2192(72,30.8)\u2192(72,44.8)`, preserving18 native panels/19 points and resampling **both** legs.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.DESIGN5",
+          "source_field": "Private design to implement",
+          "criterion_verbatim": "Use the horizontal22 m face for a west-going oblique wallride and northward Wallie",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.DESIGN6",
+          "source_field": "Private design to implement",
+          "criterion_verbatim": "the 14 m south-going leg is not a useful exit.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.A1",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Actual loading/hall\u2192seat\u2192finite glancing wallride/Wallie\u2192supported forecourt landing/next action with ordinary input, actual meaningful intervals and honest single-bank/two-bank labels.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.A2",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Native display/collision/query/audio/guide/feature transforms atomic",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.A3",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "all ground/air/shoulder/maximum-charged misses deliberate.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.A4",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Preserve X83 hall return, X103 west aisle, X114 covered aisle, Z22 crossing, X86\u2026102 Clyde mouth, recording and all Mairi/career gates.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.A5",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "Visible/native wall height needs real containment proof",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.A6",
+          "source_field": "Acceptance",
+          "criterion_verbatim": "a proposed 5 m face is not pre-certified.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.V1",
+          "source_field": "Verification",
+          "criterion_verbatim": "Independent topology reviewer derives every body/guide/shape AABB and protected path from current source.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.V2",
+          "source_field": "Verification",
+          "criterion_verbatim": "QE drives both useful directions, no-pop/late-pop/lateral/upper-wall misses and all career/mission approaches.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.V3",
+          "source_field": "Verification",
+          "criterion_verbatim": "BA inspects matched overview/chase/full-speed line and checks the court creates distinct choices rather than repetitive bank modules.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.B1",
+          "source_field": "Budget",
+          "criterion_verbatim": "Reuse existing bank, seat, wall body/18 native shape slots/materials",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.B2",
+          "source_field": "Budget",
+          "criterion_verbatim": "keep all55 protected opaque prisms unchanged.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.B3",
+          "source_field": "Budget",
+          "criterion_verbatim": "Proposed enclosure display must reuse existing unit Box/MultiMesh resources without increasing unique mesh/material/texture/light counts",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.B4",
+          "source_field": "Budget",
+          "criterion_verbatim": "source triangle reductions alone are not cost admission.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        },
+        {
+          "id": "GLC-06.B5",
+          "source_field": "Budget",
+          "criterion_verbatim": "Measure current body/shape/draw/mesh/memory and actual performance after native/moving admission.",
+          "result": "Unmeasured",
+          "evidence_or_limit": "No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.",
+          "next_action": "Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices."
+        }
+      ],
+      "known_scoped_evidence": []
+    }
+  ],
+  "checks": [
+    {
+      "label": "fifteen persistent role briefs and fifteen skills",
+      "pass": true
+    },
+    {
+      "label": "roster reaches ba-verifier.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches board-artist.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches combo-engineer.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches contact-rigging-engineer.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches environment-architect.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches environment-artist.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches gap-combo-validator.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches level-designer.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches motion-engineer.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches rendering-engineer.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches rider-artist.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches rigging-engineer.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches skate-topology-reviewer.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches studio-director.md",
+      "pass": true
+    },
+    {
+      "label": "roster reaches technical-qe.md",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata architectural-fidelity",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata board-fidelity",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata combo-usability",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata deformed-contact",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata environment-fidelity",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata gameplay-qa",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata gap-combo-validation",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata quality-verification",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata renderer-evaluation",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata rider-fidelity",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata rigging-validation",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata skate-level-design",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata skate-topology-review",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata skating-motion",
+      "pass": true
+    },
+    {
+      "label": "named reusable metadata studio-production",
+      "pass": true
+    },
+    {
+      "label": "role count registered without concurrent/autospawn claim",
+      "pass": true
+    },
+    {
+      "label": "new gap role exact skill/ticket independent QE BA/root ownership",
+      "pass": true
+    },
+    {
+      "label": "skill semantic coldread actual constructor/geometry namespaces",
+      "pass": true
+    },
+    {
+      "label": "skill semantic coldread native caller/capture ordering",
+      "pass": true
+    },
+    {
+      "label": "skill semantic coldread separate original miss versus finish rule",
+      "pass": true
+    },
+    {
+      "label": "skill semantic coldread faithful untouched shadow state",
+      "pass": true
+    },
+    {
+      "label": "skill semantic coldread complete score authority",
+      "pass": true
+    },
+    {
+      "label": "skill semantic coldread natural one-fixture input",
+      "pass": true
+    },
+    {
+      "label": "skill semantic coldread narrow opted destination, strict old negatives",
+      "pass": true
+    },
+    {
+      "label": "skill semantic coldread native contact separate from score",
+      "pass": true
+    },
+    {
+      "label": "skill semantic coldread one bank distinct circuit and hardware",
+      "pass": true
+    },
+    {
+      "label": "all persistent local discovery links resolve",
+      "pass": true
+    },
+    {
+      "label": "21 core fidelity tickets preserved alongside six GLC tickets",
+      "pass": true
+    },
+    {
+      "label": "FID-401 assigned GLC continuation linked",
+      "pass": true
+    },
+    {
+      "label": "FID-402 assigned GLC continuation linked",
+      "pass": true
+    },
+    {
+      "label": "FID-403 assigned GLC continuation linked",
+      "pass": true
+    },
+    {
+      "label": "FID-404 assigned GLC continuation linked",
+      "pass": true
+    },
+    {
+      "label": "six unique detailed/indexed GLC IDs",
+      "pass": true
+    },
+    {
+      "label": "six exact common evidence contracts",
+      "pass": true
+    },
+    {
+      "label": "GLC-01 full demanding ticket metadata",
+      "pass": true
+    },
+    {
+      "label": "GLC-01 P0 and independent verification",
+      "pass": true
+    },
+    {
+      "label": "GLC-02 full demanding ticket metadata",
+      "pass": true
+    },
+    {
+      "label": "GLC-02 P0 and independent verification",
+      "pass": true
+    },
+    {
+      "label": "GLC-03 full demanding ticket metadata",
+      "pass": true
+    },
+    {
+      "label": "GLC-03 P0 and independent verification",
+      "pass": true
+    },
+    {
+      "label": "GLC-04 full demanding ticket metadata",
+      "pass": true
+    },
+    {
+      "label": "GLC-04 P0 and independent verification",
+      "pass": true
+    },
+    {
+      "label": "GLC-05 full demanding ticket metadata",
+      "pass": true
+    },
+    {
+      "label": "GLC-05 P0 and independent verification",
+      "pass": true
+    },
+    {
+      "label": "GLC-06 full demanding ticket metadata",
+      "pass": true
+    },
+    {
+      "label": "GLC-06 P0 and independent verification",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+from pathlib import Path
+import ast,re,json,hashlib,math,datetime,gzip,collections
+R=Path('/workspace/tam_hawks_ps');I=R/'docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/registry-source-draft-01.json';O=R/'docs/testing/line-design-2026-11-06/gap-line-inventory-independent-01';O.mkdir(parents=True,exist_ok=True)
+raw=I.read_bytes();d=json.loads(raw);checks=[]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(k,v,detail=None):
+ checks.append({'label':k,'pass':bool(v),**({'detail':detail} if detail is not None else {})})
+ if not v:raise AssertionError(k)
+def text(p):return (R/p).read_text()
+def function(p,n):
+ s=text(p);m=re.search(r'^func '+re.escape(n)+r'\([^\n]*',s,re.M)
+ if not m:raise ValueError(n)
+ e=re.search(r'^func ',s[m.end():],re.M);return s[m.start():m.end()+e.start()] if e else s[m.start():]
+groups={}
+groups['game/levels/glasgow_square.gd']=re.findall(r'_route\("([^\"]+)"',function('game/levels/glasgow_square.gd','get_route_definitions'))
+groups['game/levels/outdoor_routes.gd']=re.findall(r'_route\("([^\"]+)"',text('game/levels/outdoor_routes.gd'))
+groups['game/levels/fidelity_infill.gd']=re.findall(r'_bank_line\("([^\"]+)"',function('game/levels/fidelity_infill.gd','build'))
+groups['game/levels/fidelity_infill.gd']+=re.findall(r'routes\.append\(\{"id":"([^\"]+)"',text('game/levels/fidelity_infill.gd'))
+groups['game/levels/pt24_connected_runs.gd']=re.findall(r'_add_route\(world,"([^\"]+)"',text('game/levels/pt24_connected_runs.gd'))
+groups['game/levels/kelvingrove_skatepark.gd']=re.findall(r'\{"id":"([^\"]+)"',function('game/levels/kelvingrove_skatepark.gd','get_safety_routes'))
+groups['game/levels/park_pond.gd']=re.findall(r'\{"id":"([^\"]+)"',function('game/levels/park_pond.gd','get_route_definitions'))
+groups['game/features/service_gate.gd']=re.findall(r'\{"id": "([^\"]+)"',function('game/features/service_gate.gd','route_definition'))
+cable=function('game/levels/clyde_cable_line.gd','get_route_definitions');ck('actual cable route generator has exactly two signed branches','for side: float in [-1.0,1.0]:' in cable and '"clyde_cable_transfer_"+("west" if side<0.0 else "east")' in cable)
+groups['game/levels/clyde_cable_line.gd']=['clyde_cable_transfer_west','clyde_cable_transfer_east']
+ids=[v for a in groups.values() for v in a];ck('source constructor counts by provider', {p:len(a) for p,a in groups.items()}=={'game/levels/glasgow_square.gd':39,'game/levels/outdoor_routes.gd':10,'game/levels/fidelity_infill.gd':6,'game/levels/pt24_connected_runs.gd':6,'game/levels/kelvingrove_skatepark.gd':1,'game/levels/park_pond.gd':2,'game/features/service_gate.gd':1,'game/levels/clyde_cable_line.gd':2})
+ck('exact67 unique source HUD route IDs',len(ids)==len(set(ids))==67)
+rows=d['authored_routes'];rowids=[x['id'] for x in rows];ck('draft exact67 IDs without omission/duplicate/invention',len(rowids)==len(set(rowids))==67 and set(rowids)==set(ids))
+for p,a in groups.items():ck('provider ownership exact '+p,{x['id'] for x in rows if x['provider']==p}==set(a))
+fixed={}
+s=text('tests/skate_edges_tests.gd')
+for name in ['ORIGINAL_ROUTE_IDS','PT24_ROUTE_IDS','POND_ROUTE_IDS']:
+ fixed[name]=ast.literal_eval(re.search(r'^const '+name+r' := (\[[\s\S]*?\])',s,re.M).group(1));ck('fixed identity list '+name,d['fixed_world_route_registry'][name]==fixed[name])
+ck('independent fixed66 equals world constructor union',set(sum(fixed.values(),[]))==set(ids)-{'service_gate_shortcut'} and len(sum(fixed.values(),[]))==66)
+ck('legacy world64 and actual defaultworld66/HUD67 kept separate',d['counts']['world_route_ids']==66 and d['counts']['main_hud_route_ids']==67 and len(set(ids)-{'service_gate_shortcut',*groups['game/levels/park_pond.gd']})==64)
+ck('Main explicitly enables ordinary design content', 'if not has_meta("pt24_design_preview"):' in text('game/main.gd') and 'set_meta("pt24_design_preview",true)' in text('game/main.gd'))
+ck('HUD actually appends feature hub routes', 'world.get_route_definitions() + feature_hub.get_route_definitions()' in text('game/main.gd'))
+ck('gate route dynamic enable flag retained','"enabled": progress >= 0.99' in function('game/features/service_gate.gd','route_definition'))
+# Scored gaps: three exact core dicts, one outdoor transfer, two directions on each of two cable sides.
+core=function('game/levels/glasgow_square.gd','get_gap_definitions');gapids=re.findall(r'\{"id": "([^\"]+)"',core)
+outgap=function('game/levels/outdoor_routes.gd','get_gap_definitions');gapids+=re.findall(r'\{"id": "([^\"]+)"',outgap)
+cg=function('game/levels/clyde_cable_line.gd','get_gap_definitions');ck('two cable gap families expanded over real signed loop',all(x in cg for x in ['for side: float in [-1.0,1.0]:','"clyde_handrail_to_cable_"+suffix','"clyde_cable_to_handrail_"+suffix']))
+for side in ['west','east']:gapids+=['clyde_handrail_to_cable_'+side,'clyde_cable_to_handrail_'+side]
+gaprows={x['id']:x for x in d['scored_gaps']};ck('exact8 unique scored IDs',len(gapids)==len(set(gapids))==len(d['scored_gaps'])==8 and set(gapids)==set(gaprows))
+expected={'exchange_launch':([0,2.4,-13],[0,.8,-5],2.2,300),'central_gap':([-94,5.4,0],[-94,5.4,-6],2,600),'market_hop':([93,1.9,-15],[93,.8,-7],2,350),'clyde_bridge_transfer':([20,3.05,92],[20,2.69,104],2.4,900)}
+# Float64 source arithmetic; this is not a native float32/reachability claim.
+height=lambda i:4.85+4.75*(2*i/32-1)**2
+for side,sgn in [('west',-1),('east',1)]:
+ crown=lambda z:[-25+sgn*4.35, (lambda a:height(min(math.floor(a),19))+(height(min(math.floor(a),19)+1)-height(min(math.floor(a),19)))*(a-min(math.floor(a),19))+ .075*math.sqrt(1+((height(min(math.floor(a),19)+1)-height(min(math.floor(a),19)))/(50/32))**2))((z-72)/(50/32)),z]
+ expected['clyde_handrail_to_cable_'+side]=([-25+sgn*3.85,4.5,92],crown(95),.7,500)
+ expected['clyde_cable_to_handrail_'+side]=(crown(99),[-25+sgn*3.85,4.5,102],.7,500)
+for id,(start,end,radius,points) in expected.items():
+ row=gaprows[id];ck('gap datums/radius/points/air '+id,all(abs(a-b)<1e-12 for a,b in zip(row['start_actor_origin_volume_center'],start)) and all(abs(a-b)<1e-12 for a,b in zip(row['end_actor_origin_volume_center'],end)) and row['radius_m']==radius and row['points']==points and row['airborne_required'] is True)
+ distance=math.dist(start,end);ck('gap source distance/valid separated triggers '+id,abs(distance-row['trigger_center_distance_m'])<1e-12 and distance>2*radius+1e-6)
+ck('actual actor-origin trigger feed explicitly correct', 'gaps.update(skater.global_position, skater.airborne, delta)' in text('game/main.gd') and d['trigger_authority']['position']=='skater.global_position (actor origin)')
+ck('actual scoring window4/maxstep20/finish-air source',all(x in text('game/tricks/gap_tracker.gd') for x in ['const WINDOW: float = 4.0','const MAX_STEP_DISTANCE: float = 20.0','(air_between and airborne)']))
+ck('actual gap awards add current combo with canonical gap identity', 'score.add_trick(gap.name, gap.points, "gap:" + str(gap.id))' in text('game/main.gd'))
+non={x['namespace']:set(x['ids']) for x in d['non_hud_named_branches']};ck('mission and lap subroutes not inflated into HUD67',non=={'gull_proof_delivery':{'covered','west'},'one_more_lap':{'park_full_loop','park_bank_cut'}})
+ck('all-dynamic-grind and complete-native proof explicitly open',not d['completeness']['all_dynamic_grind_ids'] and not d['completeness']['every_current_native_combo_or_gap_award'] and d['counts']['grind_line_unique_runtime_count'] is None)
+ck('two-bank east-return not relabeled one combo',any('TWO' in x and 'not one combo' in x for x in d['scope_rules']))
+ck('symbolic runtime-dependent polylines remain unresolved',len([x for x in rows if not x['source_polyline_fully_resolved']])==4,{'ids':[x['id'] for x in rows if not x['source_polyline_fully_resolved']]})
+required=['game/main.gd','game/levels/glasgow_square.gd','game/levels/outdoor_routes.gd','game/levels/fidelity_infill.gd','game/levels/pt24_connected_runs.gd','game/levels/clyde_cable_line.gd','game/levels/park_pond.gd','game/levels/kelvingrove_skatepark.gd','game/features/feature_hub.gd','game/features/service_gate.gd','game/tricks/gap_tracker.gd','tests/skate_edges_tests.gd']
+pins={p:sha(R/p) for p in required};ck('all actual gap and named-route providers match draft pins',all(d['source_binding']['provider_sha256'][p]==h for p,h in pins.items()))
+# Preserve reviewed draft byte-exactly, even while the author continues annotations.
+packed=gzip.compress(raw,compresslevel=9,mtime=0);(O/'reviewed-inventory.json.gz').write_bytes(packed)
+report={'reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'Offline independent constructor identity, provider and scored-trigger datum audit; no engine or native reachability claim. Draft gameplay/per-line annotations remain in progress.','result':{'pass':len(checks),'fail':0},'reviewed_inventory':{'path':str(I.relative_to(R)),'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'preserved_gzip_sha256':hashlib.sha256(packed).hexdigest()},'source_pins':pins,'source_counts':{'scored_gaps':8,'world_legacy_routes':64,'world_default_routes':66,'main_hud_default_routes':67},'source_route_ids_by_provider':groups,'scored_gap_ids':gapids,'findings':['All8 scored gaps and67 default Main HUD route IDs are covered exactly, including dynamic service_gate_shortcut.','Three constructor-level gap providers feed Main; Main passes actor origin, not the board-contact frame.','Four non-HUD mission/lap branches are separate namespaces and not counted in67.','Four route polylines retain symbolic curve-bake/ground-projection coordinates; no invented native points.','Source binding885 core includes historical launcher hashes; exact actual route/gap providers match the reviewed draft. Later round-coping change only affects the separate grind-contact provider scope.'],'limits':['Route metadata and scoring trigger definitions do not prove approaches, native landings, next-trick density, returnability or one continuous combo.','Dynamic semantic grind identities require a future source-bound native snapshot; regex literal counts are not an authoritative grind inventory.','Historical east quay pays7400+5688 in two banks; it does not meet the new cross-area one-combo request.','No new full-graph/playability/AAA/M5 acceptance; per-gap handoff statements and source points need native and visual verification.'],'checks':checks}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');(O/'independent-audit.py.txt').write_bytes(Path(__file__).read_bytes());print(json.dumps({'result':report['result'],'counts':report['source_counts'],'path':str(O/'independent-review.json')},indent=2))

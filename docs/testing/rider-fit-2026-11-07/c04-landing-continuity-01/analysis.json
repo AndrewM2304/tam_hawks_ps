@@ -1,0 +1,644 @@
+{
+  "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/c04-landing-continuity-01/baseline-01/result.json.gz": {
+    "input_sha256": "af2982e549e67f14c17464c341a7fb66da9cd9a0cc286b1e3b67f6e00a74c9dd",
+    "original_passed": 10,
+    "original_failed": 1,
+    "pose_rows": 57,
+    "physics_rows": 57,
+    "all_world_visual_peak_degrees": {
+      "value": 58.484642287699806,
+      "index": 33,
+      "physics": 1190,
+      "process": 1189,
+      "body": [
+        -12.015810012817383,
+        2.209412097930908,
+        130.11944580078125
+      ]
+    },
+    "all_body_relative_head_peak_m": {
+      "value": 1.270242449790143,
+      "index": 33,
+      "physics": 1190,
+      "process": 1189,
+      "body": [
+        -12.015810012817383,
+        2.209412097930908,
+        130.11944580078125
+      ]
+    },
+    "landing_world_visual_peak_degrees": {
+      "value": 58.484642287699806,
+      "index": 33,
+      "physics": 1190,
+      "process": 1189,
+      "body": [
+        -12.015810012817383,
+        2.209412097930908,
+        130.11944580078125
+      ]
+    },
+    "landing_body_relative_head_peak_m": {
+      "value": 1.270242449790143,
+      "index": 33,
+      "physics": 1190,
+      "process": 1189,
+      "body": [
+        -12.015810012817383,
+        2.209412097930908,
+        130.11944580078125
+      ]
+    },
+    "exact_solver_calls": [
+      {
+        "physics": 1189,
+        "body": [
+          -11.949651718139648,
+          2.315524101257324,
+          130.1150665283203
+        ],
+        "reason": "guard3: if _air_landing_wheel_gap(original*board_local,wheels,point,axis)>=0.0: return",
+        "fraction": null,
+        "angle_deg": 0.0
+      },
+      {
+        "physics": 1190,
+        "body": [
+          -12.015810012817383,
+          2.209412097930908,
+          130.11944580078125
+        ],
+        "reason": "accepted",
+        "fraction": 0.484375,
+        "angle_deg": 54.187453063039314
+      },
+      {
+        "physics": 1191,
+        "body": [
+          -12.081968307495117,
+          2.093855619430542,
+          130.1238250732422
+        ],
+        "reason": "accepted",
+        "fraction": 0.578125,
+        "angle_deg": 30.86391843268272
+      }
+    ],
+    "joined_by_physics_not_parallel_array_index": true,
+    "postcamera_stamp_valid": true,
+    "controls": null
+  },
+  "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/c04-landing-continuity-01/baseline-02-fullbank/result.json.gz": {
+    "input_sha256": "f22bfa15eb4a95ccd8da9da5ac2429673102ee5ff42a2f8b47737d2c0e357f1d",
+    "original_passed": 10,
+    "original_failed": 1,
+    "pose_rows": 459,
+    "physics_rows": 459,
+    "all_world_visual_peak_degrees": {
+      "value": 58.484642287699806,
+      "index": 368,
+      "physics": 1190,
+      "process": 1189,
+      "body": [
+        -12.015810012817383,
+        2.209412097930908,
+        130.11944580078125
+      ]
+    },
+    "all_body_relative_head_peak_m": {
+      "value": 1.270242449790143,
+      "index": 368,
+      "physics": 1190,
+      "process": 1189,
+      "body": [
+        -12.015810012817383,
+        2.209412097930908,
+        130.11944580078125
+      ]
+    },
+    "landing_world_visual_peak_degrees": {
+      "value": 58.484642287699806,
+      "index": 368,
+      "physics": 1190,
+      "process": 1189,
+      "body": [
+        -12.015810012817383,
+        2.209412097930908,
+        130.11944580078125
+      ]
+    },
+    "landing_body_relative_head_peak_m": {
+      "value": 1.270242449790143,
+      "index": 368,
+      "physics": 1190,
+      "process": 1189,
+      "body": [
+        -12.015810012817383,
+        2.209412097930908,
+        130.11944580078125
+      ]
+    },
+    "exact_solver_calls": [
+      {
+        "physics": 1189,
+        "body": [
+          -11.949651718139648,
+          2.315524101257324,
+          130.1150665283203
+        ],
+        "reason": "guard3: if _air_landing_wheel_gap(original*board_local,wheels,point,axis)>=0.0: return",
+        "fraction": null,
+        "angle_deg": 0.0
+      },
+      {
+        "physics": 1190,
+        "body": [
+          -12.015810012817383,
+          2.209412097930908,
+          130.11944580078125
+        ],
+        "reason": "accepted",
+        "fraction": 0.484375,
+        "angle_deg": 54.187453063039314
+      },
+      {
+        "physics": 1191,
+        "body": [
+          -12.081968307495117,
+          2.093855619430542,
+          130.1238250732422
+        ],
+        "reason": "accepted",
+        "fraction": 0.578125,
+        "angle_deg": 30.86391843268272
+      }
+    ],
+    "joined_by_physics_not_parallel_array_index": true,
+    "postcamera_stamp_valid": true,
+    "controls": null
+  },
+  "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/c04-landing-continuity-01/candidate-01/result.json.gz": {
+    "input_sha256": "731e07294bec33de289a9e690838f2ccb59ea945d91c9a54d7d57ea72d1d791d",
+    "original_passed": 11,
+    "original_failed": 0,
+    "pose_rows": 57,
+    "physics_rows": 57,
+    "all_world_visual_peak_degrees": {
+      "value": 35.15432261188262,
+      "index": 32,
+      "physics": 1189,
+      "process": 1188,
+      "body": [
+        -11.949651718139648,
+        2.315524101257324,
+        130.1150665283203
+      ]
+    },
+    "all_body_relative_head_peak_m": {
+      "value": 0.7851157795539724,
+      "index": 32,
+      "physics": 1189,
+      "process": 1188,
+      "body": [
+        -11.949651718139648,
+        2.315524101257324,
+        130.1150665283203
+      ]
+    },
+    "landing_world_visual_peak_degrees": {
+      "value": 35.15432261188262,
+      "index": 32,
+      "physics": 1189,
+      "process": 1188,
+      "body": [
+        -11.949651718139648,
+        2.315524101257324,
+        130.1150665283203
+      ]
+    },
+    "landing_body_relative_head_peak_m": {
+      "value": 0.7851157795539724,
+      "index": 32,
+      "physics": 1189,
+      "process": 1188,
+      "body": [
+        -11.949651718139648,
+        2.315524101257324,
+        130.1150665283203
+      ]
+    },
+    "exact_solver_calls": [
+      {
+        "physics": 1189,
+        "body": [
+          -11.949651718139648,
+          2.315524101257324,
+          130.1150665283203
+        ],
+        "reason": "accepted",
+        "fraction": 0.265625,
+        "angle_deg": 30.85714424532161
+      },
+      {
+        "physics": 1190,
+        "body": [
+          -12.015810012817383,
+          2.209412097930908,
+          130.11944580078125
+        ],
+        "reason": "accepted",
+        "fraction": 0.2890625,
+        "angle_deg": 23.418029704164727
+      },
+      {
+        "physics": 1191,
+        "body": [
+          -12.081968307495117,
+          2.093855619430542,
+          130.1238250732422
+        ],
+        "reason": "accepted",
+        "fraction": 0.57421875,
+        "angle_deg": 30.605012448417952
+      }
+    ],
+    "joined_by_physics_not_parallel_array_index": true,
+    "postcamera_stamp_valid": true,
+    "controls": null
+  },
+  "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/c04-landing-continuity-01/candidate-02-fullbank/result.json.gz": {
+    "input_sha256": "962edf31ece671cd08c46daee43093eb79b2db2eac726c3bf467f82ec4d4f7d8",
+    "original_passed": 11,
+    "original_failed": 0,
+    "pose_rows": 459,
+    "physics_rows": 459,
+    "all_world_visual_peak_degrees": {
+      "value": 35.15432261188262,
+      "index": 367,
+      "physics": 1189,
+      "process": 1188,
+      "body": [
+        -11.949651718139648,
+        2.315524101257324,
+        130.1150665283203
+      ]
+    },
+    "all_body_relative_head_peak_m": {
+      "value": 0.7851157795539724,
+      "index": 367,
+      "physics": 1189,
+      "process": 1188,
+      "body": [
+        -11.949651718139648,
+        2.315524101257324,
+        130.1150665283203
+      ]
+    },
+    "landing_world_visual_peak_degrees": {
+      "value": 35.15432261188262,
+      "index": 367,
+      "physics": 1189,
+      "process": 1188,
+      "body": [
+        -11.949651718139648,
+        2.315524101257324,
+        130.1150665283203
+      ]
+    },
+    "landing_body_relative_head_peak_m": {
+      "value": 0.7851157795539724,
+      "index": 367,
+      "physics": 1189,
+      "process": 1188,
+      "body": [
+        -11.949651718139648,
+        2.315524101257324,
+        130.1150665283203
+      ]
+    },
+    "exact_solver_calls": [
+      {
+        "physics": 1189,
+        "body": [
+          -11.949651718139648,
+          2.315524101257324,
+          130.1150665283203
+        ],
+        "reason": "accepted",
+        "fraction": 0.265625,
+        "angle_deg": 30.85714424532161
+      },
+      {
+        "physics": 1190,
+        "body": [
+          -12.015810012817383,
+          2.209412097930908,
+          130.11944580078125
+        ],
+        "reason": "accepted",
+        "fraction": 0.2890625,
+        "angle_deg": 23.418029704164727
+      },
+      {
+        "physics": 1191,
+        "body": [
+          -12.081968307495117,
+          2.093855619430542,
+          130.1238250732422
+        ],
+        "reason": "accepted",
+        "fraction": 0.57421875,
+        "angle_deg": 30.605012448417952
+      }
+    ],
+    "joined_by_physics_not_parallel_array_index": true,
+    "postcamera_stamp_valid": true,
+    "controls": null
+  },
+  "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/c04-landing-continuity-01/composite04-02/result.json.gz": {
+    "input_sha256": "c14a408017d23078de0510bbc50b5e472c8c9df352ca35e9c6a4839ac1f03a86",
+    "original_passed": 133,
+    "original_failed": 1,
+    "pose_rows": 471,
+    "physics_rows": 471,
+    "all_world_visual_peak_degrees": {
+      "value": 80.4207010507644,
+      "index": 384,
+      "physics": 3549,
+      "process": 3548,
+      "body": [
+        -12.153106689453125,
+        2.014098644256592,
+        129.91966247558594
+      ]
+    },
+    "all_body_relative_head_peak_m": {
+      "value": 1.7139148347693434,
+      "index": 384,
+      "physics": 3549,
+      "process": 3548,
+      "body": [
+        -12.153106689453125,
+        2.014098644256592,
+        129.91966247558594
+      ]
+    },
+    "landing_world_visual_peak_degrees": {
+      "value": 80.4207010507644,
+      "index": 384,
+      "physics": 3549,
+      "process": 3548,
+      "body": [
+        -12.153106689453125,
+        2.014098644256592,
+        129.91966247558594
+      ]
+    },
+    "landing_body_relative_head_peak_m": {
+      "value": 1.7139148347693434,
+      "index": 384,
+      "physics": 3549,
+      "process": 3548,
+      "body": [
+        -12.153106689453125,
+        2.014098644256592,
+        129.91966247558594
+      ]
+    },
+    "exact_solver_calls": [
+      {
+        "physics": 3547,
+        "body": [
+          -12.034590721130371,
+          2.2253475189208984,
+          129.9227752685547
+        ],
+        "reason": "guard6: if not _air_landing_finite_model_overlap(original*board_local,support,query):return",
+        "fraction": null,
+        "angle_deg": 0.0
+      },
+      {
+        "physics": 3548,
+        "body": [
+          -12.093697547912598,
+          2.085268974304199,
+          129.9215545654297
+        ],
+        "reason": "guard6: if not _air_landing_finite_model_overlap(original*board_local,support,query):return",
+        "fraction": null,
+        "angle_deg": 0.0
+      }
+    ],
+    "joined_by_physics_not_parallel_array_index": true,
+    "postcamera_stamp_valid": true,
+    "controls": {
+      "checks": {
+        "actual_coping_cannot_supply_even_claimed_flat_footprint": true,
+        "actual_coplanar_annular_can_supply_footprint": true,
+        "associated_annular_cannot_start_handoff": true,
+        "controls_do_not_mutate_actor_velocity_board_or_physics_tick": true,
+        "fresh_external_native_floor_positive": true,
+        "missing_floor_refused": true,
+        "native_indexed_head_hair_eye_constructor_bound": true,
+        "negative_shape_refused": true,
+        "nonfinite_normal_refused": true,
+        "noninteger_shape_refused": true,
+        "out_of_range_shape_refused": true,
+        "steep_surface_refused": true,
+        "wrong_RID_refused": true
+      },
+      "head_vertices_outside_constructor_bound": 0,
+      "native_head_indexed_corners": 39312,
+      "passed": true,
+      "scope": "Read-only direct freshfloor/nativeidentity/malformedcounterexamples and actualindexedHeadcache enclosure afteroriginalcombinedprefix. Ownedobjects are declared real-native-identity counterexamples, not fabricated first-hit-ray claims. No actor pose/input mutation;1um enclosure arithmetic allowance is not a contact tolerance."
+    }
+  },
+  "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/c04-landing-continuity-01/composite04-03/result.json.gz": {
+    "input_sha256": "a674a3c6ac4521bf70b380847025fb642c5d905ea0d6b49d5ee723db602779ef",
+    "original_passed": 134,
+    "original_failed": 0,
+    "pose_rows": 471,
+    "physics_rows": 471,
+    "all_world_visual_peak_degrees": {
+      "value": 26.183020445353222,
+      "index": 266,
+      "physics": 3431,
+      "process": 3430,
+      "body": [
+        -2.0608572959899902,
+        0.24306850135326385,
+        135.78085327148438
+      ]
+    },
+    "all_body_relative_head_peak_m": {
+      "value": 0.6071672441639644,
+      "index": 153,
+      "physics": 3318,
+      "process": 3317,
+      "body": [
+        -9.749217987060547,
+        1.9338746070861816,
+        139.50790405273438
+      ]
+    },
+    "landing_world_visual_peak_degrees": {
+      "value": 4.2972004908707415,
+      "index": 382,
+      "physics": 3547,
+      "process": 3546,
+      "body": [
+        -12.034590721130371,
+        2.2253475189208984,
+        129.9227752685547
+      ]
+    },
+    "landing_body_relative_head_peak_m": {
+      "value": 0.13025128846934012,
+      "index": 374,
+      "physics": 3539,
+      "process": 3538,
+      "body": [
+        -11.561736106872559,
+        3.0059762001037598,
+        129.9325408935547
+      ]
+    },
+    "exact_solver_calls": [
+      {
+        "physics": 3547,
+        "body": [
+          -12.034590721130371,
+          2.2253475189208984,
+          129.9227752685547
+        ],
+        "reason": "guard3: if _air_landing_model_gap(original*board_local,wheels,point,axis)>=0.0: return",
+        "fraction": null,
+        "angle_deg": 0.0
+      },
+      {
+        "physics": 3548,
+        "body": [
+          -12.093697547912598,
+          2.085268974304199,
+          129.9215545654297
+        ],
+        "reason": "guard3: if _air_landing_model_gap(original*board_local,wheels,point,axis)>=0.0: return",
+        "fraction": null,
+        "angle_deg": 0.0
+      }
+    ],
+    "joined_by_physics_not_parallel_array_index": true,
+    "postcamera_stamp_valid": true,
+    "controls": {
+      "checks": {
+        "actual_coping_cannot_supply_even_claimed_flat_footprint": true,
+        "actual_coplanar_annular_can_supply_footprint": true,
+        "associated_annular_is_not_an_external_floor": true,
+        "controls_do_not_mutate_actor_velocity_board_or_physics_tick": true,
+        "fresh_external_native_floor_positive": true,
+        "missing_floor_refused": true,
+        "native_indexed_head_hair_eye_constructor_bound": true,
+        "negative_shape_refused": true,
+        "nonfinite_normal_refused": true,
+        "noninteger_shape_refused": true,
+        "nonunit_normal_refused": true,
+        "out_of_range_shape_refused": true,
+        "steep_surface_refused": true,
+        "wrong_RID_refused": true
+      },
+      "head_vertices_outside_constructor_bound": 0,
+      "native_head_indexed_corners": 39312,
+      "passed": true,
+      "scope": "Read-only direct freshfloor/nativeidentity/malformedcounterexamples and actualindexedHeadcache enclosure afteroriginalcombinedprefix. Ownedobjects are declared real-native-identity counterexamples, not fabricated first-hit-ray claims. No actor pose/input mutation;1um enclosure arithmetic allowance is not a contact tolerance."
+    }
+  },
+  "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/c04-landing-continuity-01/handoff03-01/result.json.gz": {
+    "input_sha256": "d0ba6a416eacb96c60339eacfe31999cdf71338f1b1a9d87b43754d12e573c25",
+    "original_passed": 11,
+    "original_failed": 0,
+    "pose_rows": 459,
+    "physics_rows": 459,
+    "all_world_visual_peak_degrees": {
+      "value": 24.904826392072742,
+      "index": 259,
+      "physics": 1081,
+      "process": 1080,
+      "body": [
+        -1.9682245254516602,
+        0.24288760125637054,
+        135.3455352783203
+      ]
+    },
+    "all_body_relative_head_peak_m": {
+      "value": 0.6071532217469677,
+      "index": 153,
+      "physics": 975,
+      "process": 974,
+      "body": [
+        -9.749001502990723,
+        1.9338765144348145,
+        139.50802612304688
+      ]
+    },
+    "landing_world_visual_peak_degrees": {
+      "value": 4.2971995475885425,
+      "index": 367,
+      "physics": 1189,
+      "process": 1188,
+      "body": [
+        -11.949651718139648,
+        2.315524101257324,
+        130.1150665283203
+      ]
+    },
+    "landing_body_relative_head_peak_m": {
+      "value": 0.11376662624360312,
+      "index": 364,
+      "physics": 1186,
+      "process": 1185,
+      "body": [
+        -11.751176834106445,
+        2.499415159225464,
+        130.1019287109375
+      ]
+    },
+    "exact_solver_calls": [
+      {
+        "physics": 1189,
+        "body": [
+          -11.949651718139648,
+          2.315524101257324,
+          130.1150665283203
+        ],
+        "reason": "guard3: if _air_landing_model_gap(original*board_local,wheels,point,axis)>=0.0: return",
+        "fraction": null,
+        "angle_deg": 0.0
+      },
+      {
+        "physics": 1190,
+        "body": [
+          -12.015810012817383,
+          2.209412097930908,
+          130.11944580078125
+        ],
+        "reason": "guard3: if _air_landing_model_gap(original*board_local,wheels,point,axis)>=0.0: return",
+        "fraction": null,
+        "angle_deg": 0.0
+      },
+      {
+        "physics": 1191,
+        "body": [
+          -12.081968307495117,
+          2.093855619430542,
+          130.1238250732422
+        ],
+        "reason": "guard3: if _air_landing_model_gap(original*board_local,wheels,point,axis)>=0.0: return",
+        "fraction": null,
+        "angle_deg": 0.0
+      }
+    ],
+    "joined_by_physics_not_parallel_array_index": true,
+    "postcamera_stamp_valid": true,
+    "controls": null
+  }
+}

@@ -1,0 +1,171 @@
+--- a/game/player/skater.gd
++++ b/game/player/skater.gd
+@@ -4014,6 +4014,9 @@
+ 	for index: int in wheels.size():
+ 		if Vector3(wheels[index].center).z*_board_visual.rotation.x>0.0: loaded.append(index)
+ 	if loaded.size()!=2: return
++	var probe_frame:Transform3D=_board_visual.global_transform
++	var probe_physics:int=Engine.get_physics_frames()
++	var probe_hits:Variant=null
+ 	var original := _visual.transform
+ 	var original_world_y := _visual.global_position.y
+ 	var original_pitch := _surface_pitch
+@@ -4031,10 +4034,11 @@
+ 			query.exclude = [get_rid()]
+ 			var hit := space.intersect_ray(query)
+ 			if hit.is_empty() or Vector3(hit.normal).y<minimum_normal:
+-				_restore_manual_wheel_pose(original,original_pitch,original_air_basis)
++				_restore_manual_wheel_pose(original,original_pitch,original_air_basis, {"physics":probe_physics,"frame":probe_frame,"wheels":loaded,"hits":probe_hits})
+ 				return
+ 			hits.append(hit)
+ 			aligned = aligned and Vector3(hit.normal).dot(axis)>0.999
++		if pass_index==0:probe_hits=hits
+ 		var lowest := INF
+ 		var highest := -INF
+ 		for side: int in loaded.size():
+@@ -4050,14 +4054,14 @@
+ 			break
+ 		var axle: Vector3 = Vector3(hits[1].position)-Vector3(hits[0].position)
+ 		if axle.length_squared()<0.01:
+-			_restore_manual_wheel_pose(original,original_pitch,original_air_basis)
++			_restore_manual_wheel_pose(original,original_pitch,original_air_basis, {"physics":probe_physics,"frame":probe_frame,"wheels":loaded,"hits":probe_hits})
+ 			return
+ 		# Native rear planes supply longitudinal grade; their actual finite hit
+ 		# positions determine axle roll across a join. A capsule normal or a
+ 		# simple averaged normal cannot support wheels on two different planes.
+ 		axis = (Vector3(hits[0].normal)+Vector3(hits[1].normal)).slide(axle.normalized()).normalized()
+ 		if axis.y<minimum_normal:
+-			_restore_manual_wheel_pose(original,original_pitch,original_air_basis)
++			_restore_manual_wheel_pose(original,original_pitch,original_air_basis, {"physics":probe_physics,"frame":probe_frame,"wheels":loaded,"hits":probe_hits})
+ 			return
+ 		var local_axis := global_basis.inverse()*axis
+ 		var pitch := atan2(local_axis.z,local_axis.y)
+@@ -4072,7 +4076,7 @@
+ 				gap=minf(gap,(_board_visual.to_global(point)-Vector3(hits[side].position)).dot(normal))
+ 			lift=maxf(lift,(GROUND_PRESENTATION_SKIN-gap)/normal.y)
+ 		if not is_finite(lift) or absf(lift)>0.10:
+-			_restore_manual_wheel_pose(original,original_pitch,original_air_basis)
++			_restore_manual_wheel_pose(original,original_pitch,original_air_basis, {"physics":probe_physics,"frame":probe_frame,"wheels":loaded,"hits":probe_hits})
+ 			return
+ 		_visual.position += global_basis.inverse()*Vector3.UP*lift
+ 		_surface_pitch=pitch
+@@ -4083,7 +4087,7 @@
+ 	# an edge. Reuse the immutable real tyre hulls, with the actual manual pose.
+ 	var pose: Transform3D = _board_visual.global_transform
+ 	var rim_lift := 0.0
+-	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
++	for shape:ConvexPolygonShape3D in _floor_wheel_shapes:
+ 		_floor_wheel_query.shape=shape
+ 		_floor_wheel_query.transform=pose
+ 		_floor_wheel_query.motion=Vector3.ZERO
+@@ -4094,12 +4098,12 @@
+ 		_floor_wheel_query.transform=raised
+ 		_floor_wheel_query.margin=GROUND_PRESENTATION_SKIN
+ 		if not space.intersect_shape(_floor_wheel_query,1).is_empty():
+-			_restore_manual_wheel_pose(original,original_pitch,original_air_basis)
++			_restore_manual_wheel_pose(original,original_pitch,original_air_basis, {"physics":probe_physics,"frame":probe_frame,"wheels":loaded,"hits":probe_hits})
+ 			return
+ 		_floor_wheel_query.motion=Vector3.DOWN*PLANAR_RIM_MAX_LIFT
+ 		var fractions := space.cast_motion(_floor_wheel_query)
+ 		if fractions.size()!=2:
+-			_restore_manual_wheel_pose(original,original_pitch,original_air_basis)
++			_restore_manual_wheel_pose(original,original_pitch,original_air_basis, {"physics":probe_physics,"frame":probe_frame,"wheels":loaded,"hits":probe_hits})
+ 			return
+ 		rim_lift=maxf(rim_lift,PLANAR_RIM_MAX_LIFT*(1.0-clampf(fractions[0],0,1)))
+ 	_visual.position += global_basis.inverse()*Vector3.UP*rim_lift
+@@ -4107,10 +4111,10 @@
+ 	# both sides. Never lower the connected deck/trucks through that bearing.
+ 	if _visual.global_position.y<original_world_y-0.001 \
+ 			and not _manual_model_frame_clear(_board_visual.global_transform):
+-		_restore_manual_wheel_pose(original,original_pitch,original_air_basis)
+-
+-
+-func _restore_manual_wheel_pose(original: Transform3D,pitch: float,air_basis: Basis) -> void:
++		_restore_manual_wheel_pose(original,original_pitch,original_air_basis, {"physics":probe_physics,"frame":probe_frame,"wheels":loaded,"hits":probe_hits})
++
++
++func _restore_manual_wheel_pose(original: Transform3D,pitch: float,air_basis: Basis,probe:Dictionary={}) -> void:
+ 	_visual.transform=original
+ 	_surface_pitch=pitch
+ 	_air_support_basis=air_basis
+@@ -4127,14 +4131,21 @@
+ 	var blocked:=false
+ 	var valid:=true
+ 	var lift:=0.0
+-	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
++	for wheel_index:int in _floor_wheel_shapes.size():
++		var shape:ConvexPolygonShape3D=_floor_wheel_shapes[wheel_index]
+ 		_floor_wheel_query.shape=shape
+ 		_floor_wheel_query.transform=pose
+ 		_floor_wheel_query.motion=Vector3.ZERO
+ 		_floor_wheel_query.margin=0.0
+-		if space.intersect_shape(_floor_wheel_query,1).is_empty():continue
++		var overlaps:Array=space.intersect_shape(_floor_wheel_query,16)
++		if overlaps.is_empty():continue
+ 		blocked=true
++		if overlaps.size()>=16:
++			valid=false
++			break
+ 		var rest:=space.get_rest_info(_floor_wheel_query)
++		if rest.is_empty():
++			rest=_manual_probe_rest(pose,wheel_index,overlaps,probe)
+ 		if rest.is_empty() or Vector3(rest.normal).y<cos(floor_max_angle):
+ 			valid=false
+ 			break
+@@ -4177,6 +4188,56 @@
+ 	_floor_wheel_query.margin=saved_margin
+ 	if valid and blocked and lift>0.0:
+ 		_visual.global_position+=Vector3.UP*lift
++
++
++func _manual_probe_rest(pose:Transform3D,wheel_index:int,overlaps:Array,probe:Dictionary) -> Dictionary:
++	# The caller just restored this exact drawn frame. Reuse only the original
++	# loaded-wheel ray from THIS physics callback, never a nearby/stored plane.
++	if (not manual_active or airborne or not _native_floor_valid or not is_on_floor()
++			or overlaps.size()!=1 or not probe.has_all(["physics","frame","wheels","hits"])
++			or typeof(probe.physics)!=TYPE_INT or int(probe.physics)!=Engine.get_physics_frames()
++			or typeof(probe.frame)!=TYPE_TRANSFORM3D or not probe.wheels is Array
++			or not probe.hits is Array or probe.wheels.size()!=2 or probe.hits.size()!=2
++			or wheel_index<0 or wheel_index>=_floor_wheel_shapes.size()):return {}
++	var previous:Transform3D=probe.frame
++	if (not pose.is_finite() or not previous.is_finite()
++			or pose.origin.distance_to(previous.origin)>0.00001
++			or pose.basis.x.distance_to(previous.basis.x)>0.000001
++			or pose.basis.y.distance_to(previous.basis.y)>0.000001
++			or pose.basis.z.distance_to(previous.basis.z)>0.000001):return {}
++	if (typeof(probe.wheels[0])!=TYPE_INT or typeof(probe.wheels[1])!=TYPE_INT
++			or probe.wheels[0]==probe.wheels[1]):return {}
++	var slot:int=probe.wheels.find(wheel_index)
++	if slot<0 or not probe.hits[slot] is Dictionary or not overlaps[0] is Dictionary:return {}
++	var ray:Dictionary=probe.hits[slot]
++	var overlap:Dictionary=overlaps[0]
++	if (not ray.has_all(["position","normal","rid","shape","collider"])
++			or not overlap.has_all(["rid","shape","collider"])
++			or typeof(ray.position)!=TYPE_VECTOR3 or typeof(ray.normal)!=TYPE_VECTOR3
++			or typeof(ray.rid)!=TYPE_RID or typeof(overlap.rid)!=TYPE_RID
++			or typeof(ray.shape)!=TYPE_INT or typeof(overlap.shape)!=TYPE_INT
++			or ray.rid!=overlap.rid or ray.shape!=overlap.shape or ray.collider!=overlap.collider):return {}
++	var raw:Variant=ray.collider
++	if typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw):return {}
++	var body:=raw as PhysicsBody3D
++	if (body==null or not body.is_inside_tree() or body.get_rid()!=ray.rid
++			or body.get_rid()==get_rid() or int(ray.shape)<0
++			or int(ray.shape)>=PhysicsServer3D.body_get_shape_count(body.get_rid())):return {}
++	var normal:Vector3=ray.normal
++	var point:Vector3=ray.position
++	if (not normal.is_finite() or not point.is_finite()
++			or not is_finite(normal.length_squared()) or absf(normal.length_squared()-1.0)>0.00001
++			or normal.y<cos(floor_max_angle)):return {}
++	var wheels:Array=_visual_rig.board_contact_geometry().wheels
++	if wheels.size()!=_floor_wheel_shapes.size() or wheels.size()!=4:return {}
++	if Vector3(wheels[wheel_index].center).z*_board_visual.rotation.x<=0.0:return {}
++	var bearing:Vector3=pose*Vector3(wheels[wheel_index].center)
++	var delta:Vector3=point-bearing
++	# These are the original finite0.35m-up/0.50m-down vertical ray endpoints.
++	# Agreement is an arithmetic/authentication guard, not penetration leeway.
++	if (not bearing.is_finite() or not delta.is_finite() or absf(delta.x)>0.00001
++			or absf(delta.z)>0.00001 or delta.y>0.35001 or delta.y< -0.50001):return {}
++	return ray
+ 
+ 
+ func _manual_model_frame_clear(frame: Transform3D) -> bool:

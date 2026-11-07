@@ -89,7 +89,11 @@ static func run(tree:SceneTree,check:Callable)->void:
  last_evidence={"schema":2,"legs":records,"extreme_exponent_negative":{"guard":unsupported_guard,"all_source_endpoints_retained":retained_all,"source_unique_points":unsupported.size(),"fallback_support_points":fallback.size()},"raw_hull_XYZ_payload_bytes":total_points*12,"retained_source_XYZ_payload_bytes":int(records[0].source_unique_points+records[1].source_unique_points)*12,"retained_resource_delta_after10refreshes":resources_after-resources_before,"physical_and_markers_unchanged":unchanged,"scope":"source enclosure/resource contract only; independent exact-integer face certificate required; no Mac performance or final native skating certificate"}
  print("FULL_SHOE_SUPPORT_CACHE ",JSON.stringify(last_evidence,"",true,true))
  var certificate:=FileAccess.open("res://.local/shoe-support-certificate.json",FileAccess.WRITE)
- if certificate!=null:certificate.store_string(JSON.stringify(last_evidence,"",true,true))
+ if certificate==null:
+  push_error("Could not open full-precision shoe certificate output")
+ else:
+  certificate.store_string(JSON.stringify(last_evidence,"",true,true))
+  certificate.close()
  await Classic._dispose(tree,fixture)
 static func _endpoint_count(leg:Dictionary)->int:
  var count:=0

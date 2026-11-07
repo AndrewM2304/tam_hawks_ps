@@ -1,0 +1,45 @@
+"""UNRUN physical definition emitter. Requires a genuine root-leased control.
+
+The runtime consumes a generated typed GDScript definition and cooked scene
+metadata, never this JSON/native probe output or a raw source GLB. This tool is
+not a native-proof substitute; a final cold reimport/empty-project PCK check is
+mandatory after emission.
+"""
+from pathlib import Path
+import argparse,gzip,json
+from semantic_admission import *
+R=Path(__file__).resolve().parent;ROOT=R.parents[1];PROJECT=R/'physical-project'
+p=argparse.ArgumentParser();p.add_argument('--native-control',type=Path,required=True);p.add_argument('--receipt',type=Path,required=True);args=p.parse_args()
+raw_control=args.native_control.read_bytes();data=json.loads(raw_control);receipt=json.loads(args.receipt.read_text())
+need(receipt.get('eligible')is True and receipt.get('source_unchanged')is True and receipt.get('raw_error')is False and receipt.get('exit_code')==0,'genuine clean source-bound native control receipt required')
+need(receipt.get('native_control_sha256')==sha(raw_control),'native control output receipt digest')
+need('native_control_probe.gd'in ' '.join(receipt.get('command',[])),'native control entrypoint identity')
+need(type(data.get('passed'))is int and data['passed']>0 and data.get('failures')==[],'native control complete passed output')
+record=data.get('record');need(type(record)is dict,'actual native control record')
+source=(PROJECT/'game/art/assets/tam_skateboard/tam_skateboard.glb').read_bytes()
+source_sha='c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5'
+need(record.get('source_glb_sha256')==source_sha,'native source identity')
+proposal=json.loads(gzip.decompress((ROOT/'docs/testing/board-fidelity-2026-11-07/construction-study/semantic-parts-proposal.json.gz').read_bytes()))
+_,signatures=native_surfaces(record)
+old=json.loads(gzip.decompress((ROOT/'docs/testing/board-fidelity-2026-11-07/native-uv04/native-08/native-result.json.gz').read_bytes()))['records'][1]
+_,old_signatures=native_surfaces(old)
+need(signatures[1]==old_signatures[1],'physical candidate preserved compressed grip/shadow/LOD buffers')
+final_policy=(R/'import_board_wood_semantic_final.gd').read_bytes();decoder=(PROJECT/'tools/art/board_wood_source.gd').read_bytes()
+cert,expected=compile_certificate(source,source_sha,proposal,sha(canonical(proposal)),record,signatures,sha(final_policy),sha(decoder))
+proof=verify_and_points(record,cert,expected)
+need(proof['coverage']==5996,'physical complete actual native5996face coverage')
+def literal(value,key=None):
+    if key=='native_face_owners':return '['+','.join('PackedInt32Array('+json.dumps(row,separators=(',',':'))+')'for row in value)+']'
+    if type(value)is dict:return '{'+','.join(json.dumps(k)+':'+literal(v,k)for k,v in sorted(value.items()))+'}'
+    if type(value)is list:return '['+','.join(literal(v)for v in value)+']'
+    need(type(value)in [str,int],'typed definition scalar')
+    return json.dumps(value,separators=(',',':'))
+text='@tool\nextends RefCounted\n## PRIVATE generated from actual source-bound physical native control.\n## Cooked integer face rows; no runtime JSON/raw-GLB parsing or claimed shape data.\n'
+text+='const CERTIFICATE:='+literal(cert)+'\nconst EXPECTED:='+literal(expected)+'\n'
+text+='const DIMENSIONS_UM:={"wood_underside":5750,"truck_underside":-73775,"wheel_centre":-58775,"wheel_bottom":-90775,"board_rest_height":90775,"grip_centre":17000,"truck_half_span":255000,"wheel_radius":32000}\n'
+out=PROJECT/'game/art/board_contact_definition.gd';need(not out.exists(),'preserve prior definition; use new reviewed epoch')
+out.write_text(text)
+(PROJECT/'tools/art/import_board_wood.gd').write_bytes(final_policy)
+(R/'physical-certificate.json').write_text(json.dumps(cert,indent=2)+'\n');(R/'physical-expected.json').write_text(json.dumps(expected,indent=2)+'\n')
+report={'scope':'PRIVATE generated typed definition; final native metadata reimport/actual shape/native-cached/moving/cooked tests remain required','source_sha256':source_sha,'native_control_sha256':sha(raw_control),'definition_sha256':sha(out.read_bytes()),'final_policy_sha256':sha(final_policy),'certificate_sha256':expected['certificate_sha256'],'native_actual_triangles':proof['coverage'],'actual_native_points_payload_bytes':proof['point_payload_bytes'],'canonical_certificate_bytes':proof['provenance_bytes'],'cooked_face_rows':'PackedInt32Array','retained_native_memory_gate':'UNMEASURED; canonical bytes are not Godot resident bytes'}
+(R/'physical-definition-emission.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))

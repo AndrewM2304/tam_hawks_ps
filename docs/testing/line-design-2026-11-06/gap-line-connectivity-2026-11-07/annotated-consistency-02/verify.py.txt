@@ -1,0 +1,48 @@
+from pathlib import Path
+import json,re,hashlib,gzip,math,sys
+R=Path(sys.argv[1]).resolve()if len(sys.argv)>1 else Path('/workspace/tam_hawks_ps');P=R/'docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.json';D=json.loads(P.read_text());packet=R/D['runtime_registry_scope']['packet'];raw=json.load(open(packet/'public-registry.json'));receipt=json.load(open(packet/'receipt.json'));checks=[]
+def check(ok,label):
+ checks.append({'label':label,'passed':bool(ok)})
+ if not ok:raise AssertionError(label)
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+check(sha(packet/'public-registry.json')==D['runtime_registry_scope']['public_registry_sha256'],'exact raw native snapshot preserved')
+check(sha(packet/'receipt.json')==D['runtime_registry_scope']['wrapper_receipt_sha256'],'exact rejected native wrapper receipt preserved')
+check(receipt['source_stable']and receipt['source_before']==receipt['source_after'],'native parent source manifest stable')
+check(receipt['cache_stable']and receipt['cache_before']==receipt['cache_after'],'native parent import cache stable')
+check(receipt['result']['passed']==133 and receipt['result']['failed']==1 and receipt['epochs'][1]['exit']==1,'actual parent rejection retained133/1 exit1')
+for key,n in [('scored_gaps',8),('authored_routes',67),('grind_opportunities',242)]:
+ rows=D[key];check(len(rows)==len({x['id']for x in rows})==n,key+' records unique and complete')
+check({x['id']for x in D['scored_gaps']}=={x['id']for x in raw['gaps']},'every native scored gap accounted')
+check({x['id']for x in D['authored_routes']}=={x['id']for x in raw['hud_routes']},'every native HUD route accounted')
+check({x['id']for x in D['grind_opportunities']}=={x['id']for x in raw['grind_lines']},'every native grind ID accounted')
+world=[x for x in D['authored_routes']if x['namespace']=='world'];check(len(world)==66,'66 world routes')
+check({x['id']for x in world}==set(sum(D['fixed_world_route_registry'].values(),[])),'fixed56/8/2 registry matches complete world set')
+rr={x['id']:x for x in raw['hud_routes']};allids={x['id']for x in D['authored_routes']}
+for route in D['authored_routes']:
+ check(route['runtime_points']==rr[route['id']]['points']and route['requires_jump']==rr[route['id']]['requires_jump'],'native exact points/jump '+route['id'])
+ a=route['gameplay_handoff_audit'];check(bool(a['source_opportunity_sequence'])and bool(a['specific_review'])and set(a['next_route_candidates'])<=allids,'individual handoff references '+route['id'])
+ for candidate in route['nearby_guide_proximity_candidates']:check(not candidate['meaningful_trick_or_reachable_capture_proven'],'nearby guide never falsely certified '+route['id'])
+for gap in D['scored_gaps']:
+ pair=gap['continuation_pair'];check(pair['approach_route']in allids and pair['next_route']in allids and not pair['one_combo_certified'],'gap explicit unadmitted continuation '+gap['id'])
+ for k in ['approach_launch','landing_runout','next_meaningful_trick_or_return','speed_envelope']:check(bool(gap[k]),'per-gap scope '+gap['id']+' '+k)
+check(len(D['six_arena_line_matrix'])==12 and all(not x['full_current_returned_line_admitted']for x in D['six_arena_line_matrix']),'12 arena lines remain current-return open')
+check(len(D['cross_arena_circuit_candidates'])==3 and D['directed_arena_graph']['three_cross_arena_closed_circuits_admitted']==0,'3 circuit candidates not fabricated admission')
+wall=next(x for x in D['authored_routes']if x['id']=='clyde_east_quay_wall_return');e=wall['actual_mapped_input_evidence'];check(e['bank_events']==[7400,5688]and not e['one_combo'],'two-bank quay return kept distinct')
+check(len(D['physical_transfer_families'])==28 and len(D['wall_opportunity_inventory']['records'])==70,'wider physical transfers and wall-eligible inventory retained')
+check(D['counts']['score_gap_distribution']=={'royal_exchange':1,'george_square':0,'central_station':1,'barras':1,'clyde':5,'kelvingrove':0},'score triggers distinguished from physical jumps')
+gids={x['id']for x in D['grind_opportunities']}
+for f in D['physical_transfer_families']:check(set(f['live_grind_ids'])<=gids and not f['whole_family_current_one_combo_return_admitted'],'family source bindings '+f['family_id'])
+for g in D['grind_opportunities']:
+ check(not g['native_fixture_or_mapped_capture_proven_by_registry']and all(x['next_grind_id']in gids and not x['native_transfer_proven']and not x['same_combo_proven']for x in g['next_guide_endpoint_proximity_candidates']),'all guide geometry neighbors unadmitted '+g['id'])
+md=R/'docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md';text=md.read_text();check(all(('`'+x['id']+'`')in text for x in D['authored_routes']),'all67 route rows appear in prose table')
+check(all(('`'+x['id']+'`')in text for x in D['scored_gaps']),'all8 scored gap rows appear in prose table')
+ticket=R/'docs/planning/GAP-LINE-TICKETS.md';t=ticket.read_text();check(all('## GLC-0'+str(i)+' 'in t for i in range(1,7)),'all6 assigned tickets present')
+for path in [md,ticket]:
+ for target in re.findall(r'\]\(([^)]+)\)',path.read_text()):
+  if '://'in target or target.startswith('#'):continue
+  clean=target.split('#')[0];check((path.parent/clean).exists(),'relative link '+str(path.relative_to(R))+'→'+clean)
+check('6,730'in text and '5,496 = 687 × 8'in text,'different Station score epochs explicitly distinguished')
+hist=R/'docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01';i=json.load(open(hist/'index.json'));check(hashlib.sha256(gzip.decompress((hist/'command.log.gz').read_bytes())).hexdigest()==i['original_log_sha256'],'original required02 failed raw log preserved byte-exact')
+check(i['global_result']==[6526,7]and i['engine_exit']==1,'earlier whole ordinary failure kept rejected')
+result={'scope':'author structural/provenance consistency audit only; no engine/render/native gameplay tests','counts':{'passed':len(checks),'failed':0},'files':{str(p.relative_to(R)):sha(p)for p in [P,md,ticket,packet/'public-registry.json',packet/'receipt.json']},'checks':checks}
+print(json.dumps({'scope':result['scope'],'counts':result['counts']},indent=2));Path('.local/gap-line-audit/verification.json').write_text(json.dumps(result,indent=2)+'\n')

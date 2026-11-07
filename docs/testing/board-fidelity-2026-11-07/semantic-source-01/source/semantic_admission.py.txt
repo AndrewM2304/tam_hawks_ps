@@ -1,0 +1,309 @@
+"""PRIVATE source/native semantic membership compiler; no Godot process or write.
+
+This is a bounded admission prototype over recorded *indexed native* buffers.
+It never substitutes source points for native points, never tolerates a native
+triangle displacement, and does not admit its own result to the running game.
+"""
+from __future__ import annotations
+import base64, collections, hashlib, json, math, re, struct
+
+MAX_PARTS=32
+MAX_FACES=8192
+MAX_VERTICES=8192
+MAX_PROVENANCE_BYTES=128*1024
+MAX_CERTIFICATE_NODES=16384
+MAX_CERTIFICATE_CONTAINERS=512
+MAX_CERTIFICATE_SCALAR_BYTES=65536
+MAX_PACKED_VERTEX_STRIDE=64
+MAX_PACKED_TOTAL_BYTES=4*1024*1024
+MAX_LOD_TOTAL_BYTES=MAX_FACES*3*4*2
+MATERIALS=['MapleAndRiverInk','Griptape','CastAluminium','Urethane']
+SHA=re.compile(r'^[0-9a-f]{64}$')
+
+class Refused(ValueError): pass
+
+def need(ok, reason):
+    if not ok: raise Refused(reason)
+
+def integer(value, lo=0, hi=2**31-1):
+    need(type(value) is int and lo <= value <= hi,'noninteger/out-of-range ID/count')
+    return value
+
+def sha(raw): return hashlib.sha256(raw).hexdigest()
+
+def canonical(value):
+    # Certificate payloads contain only dict/list/string/int/bool; never floats.
+    return json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode('ascii')
+
+def raw_array(record,width,integer_values=False):
+    need(type(record) is dict and record.get('available') is True,'missing native array')
+    count=integer(record.get('count'),1,MAX_FACES*3 if integer_values else MAX_VERTICES*4)
+    need(type(record.get('base64')) is str,'missing native bytes')
+    need(len(record['base64'])==4*((count*width*4+2)//3),'native encoded buffer bound')
+    try: raw=base64.b64decode(record['base64'],validate=True)
+    except (ValueError,TypeError): raise Refused('invalid native base64')
+    need(len(raw)==count*width*4,'native typed buffer length')
+    values=list(struct.iter_unpack('<'+('i' if integer_values else 'f')*width,raw))
+    need(integer_values or all(math.isfinite(x)for row in values for x in row),'nonfinite native array')
+    return raw,values
+
+def winding_key(corners):
+    need(len(corners)==3 and all(len(p)==12 for p in corners),'triangle corner bytes')
+    return min(b''.join(corners[i:]+corners[:i])for i in range(3))
+
+def source_decode(raw, expected_sha):
+    need(len(raw)<=8*1024*1024,'source binary cap')
+    need(type(expected_sha)is str and SHA.fullmatch(expected_sha)and sha(raw)==expected_sha,'source SHA')
+    need(len(raw)>=28,'short GLB')
+    magic,version,total=struct.unpack_from('<III',raw)
+    need((magic,version,total)==(0x46546c67,2,len(raw)),'GLB header')
+    size,kind=struct.unpack_from('<II',raw,12)
+    need(kind==0x4e4f534a and size%4==0 and 20+size+8<=len(raw),'GLB JSON span')
+    try: g=json.loads(raw[20:20+size])
+    except (ValueError,UnicodeError):raise Refused('GLB JSON')
+    need(type(g)is dict,'GLB document')
+    at=20+size;bsize,bkind=struct.unpack_from('<II',raw,at)
+    need(bkind==0x004e4942 and at+8+bsize==len(raw),'GLB binary span/trailing data')
+    binary=raw[at+8:]
+    need(bsize%4==0 and type(g.get('buffers'))is list and len(g['buffers'])==1,'one aligned source buffer')
+    need('uri'not in g['buffers'][0] and integer(g['buffers'][0].get('byteLength'),1,len(binary))<=len(binary),'embedded source buffer')
+    need(not g.get('skins')and not g.get('animations'),'static unskinned source')
+    need(type(g.get('meshes'))is list and len(g['meshes'])==1,'one source mesh')
+    primitives=g['meshes'][0].get('primitives')
+    need(type(primitives)is list and len(primitives)==4,'four source surfaces')
+    need([x.get('name')for x in g.get('materials',[])]==MATERIALS,'source materials')
+    need(len(g.get('nodes',[]))==1 and type(g['nodes'][0].get('mesh'))is int and g['nodes'][0]['mesh']==0,'one source node')
+    node=g['nodes'][0]
+    need(not any(k in node for k in ['matrix','translation','rotation','scale','skin','children']),'source rigid identity frame')
+    def accessor(index,width,ctype):
+        integer(index,0,len(g.get('accessors',[]))-1);a=g['accessors'][index]
+        need(type(a)is dict and 'sparse'not in a and type(a.get('componentType'))is int and a['componentType']==ctype and a.get('normalized',False)is False,'source accessor type/sparse')
+        need(a.get('type')==('SCALAR'if width==1 else 'VEC'+str(width)),'source accessor width')
+        count=integer(a.get('count'),1,MAX_FACES*3 if width==1 else MAX_VERTICES)
+        vi=integer(a.get('bufferView'),0,len(g.get('bufferViews',[]))-1);v=g['bufferViews'][vi]
+        stride=width*(4 if ctype in [5125,5126]else 2)
+        need(type(v.get('buffer',0))is int and v.get('buffer',0)==0 and type(v.get('byteStride',stride))is int and v.get('byteStride',stride)==stride,'source buffer/stride')
+        start=integer(v.get('byteOffset',0));inner=integer(a.get('byteOffset',0));length=integer(v.get('byteLength'))
+        need(inner+count*stride<=length and start+length<=len(binary),'source accessor span')
+        code='f'if ctype==5126 else ('I'if ctype==5125 else 'H')
+        rows=list(struct.iter_unpack('<'+code*width,binary[start+inner:start+inner+count*stride]))
+        need(ctype!=5126 or all(math.isfinite(x)for row in rows for x in row),'nonfinite source')
+        return rows
+    surfaces=[]
+    for k,p in enumerate(primitives):
+        need(type(p)is dict and type(p.get('mode',4))is int and p.get('mode',4)==4 and type(p.get('material'))is int and p['material']==k,'source primitive mode/material')
+        need(not any(x in p for x in ['targets','extensions']),'unsupported source morph/extension')
+        attrs=p.get('attributes');need(type(attrs)is dict,'source attributes')
+        points=accessor(attrs.get('POSITION'),3,5126)
+        # Validate all protected attribute spans even though ownership uses XYZ.
+        for name,width in [('NORMAL',3),('TEXCOORD_0',2),('TANGENT',4)]:
+            # Godot generates tangents for legacy nonwood primitives. They
+            # are still bound exactly in the actual native signature.
+            if name=='TANGENT' and k>0 and name not in attrs:continue
+            rows=accessor(attrs.get(name),width,5126);need(len(rows)==len(points),'source attribute count')
+        ai=integer(p.get('indices'),0,len(g['accessors'])-1);ct=g['accessors'][ai].get('componentType')
+        need(ct in [5123,5125],'source integer indices')
+        indices=[x[0]for x in accessor(ai,1,ct)]
+        need(len(indices)%3==0 and len(indices)//3<=MAX_FACES,'source triangle count')
+        need(all(0<=x<len(points)for x in indices),'source index range')
+        faces=[]
+        for off in range(0,len(indices),3):
+            # glTF CCW -> Godot CW, without changing source vertex bytes.
+            ids=[indices[off],indices[off+2],indices[off+1]]
+            faces.append([struct.pack('<fff',*points[i])for i in ids])
+        surfaces.append({'points':points,'indices':indices,'faces':faces})
+    need(sum(len(s['faces'])for s in surfaces)<=MAX_FACES and sum(len(s['points'])for s in surfaces)<=MAX_VERTICES,'source total face/vertex cap')
+    return surfaces
+
+def connected_source_ownership(surfaces):
+    """Only for unchanged legacy source; touching physical study uses its proposal."""
+    parent=[];table={};refs=[]
+    def root(i):
+        while parent[i]!=i:parent[i]=parent[parent[i]];i=parent[i]
+        return i
+    for s in surfaces:
+        sr=[]
+        for corners in s['faces']:
+            ids=[]
+            for raw in corners:
+                p=struct.unpack('<fff',raw)
+                # Source-only 1um connectivity matches the old constructor's
+                # membership intent. These points never become native supports.
+                key=tuple(math.floor(x*1e6+.5)if x>=0 else math.ceil(x*1e6-.5)for x in p)
+                if key not in table:table[key]=len(parent);parent.append(len(parent))
+                ids.append(table[key])
+            parent[root(ids[1])]=root(ids[0]);parent[root(ids[2])]=root(ids[0]);sr.append(ids[0])
+        refs.append(sr)
+    roots={};parts=[]
+    for si,sr in enumerate(refs):
+        for fi,ref in enumerate(sr):
+            rr=root(ref)
+            if rr not in roots:roots[rr]=len(parts);parts.append({'name':f'legacy_{len(parts):02d}','source_triangles':[]})
+            parts[roots[rr]]['source_triangles'].append([si,fi])
+    need(len(parts)==MAX_PARTS,'legacy exactly32 source memberships')
+    return {'source_glb_sha256':'','parts':parts}
+
+def ownership_table(surfaces,proposal,expected_proposal_sha):
+    need(type(proposal)is dict and sha(canonical(proposal))==expected_proposal_sha,'ownership SHA')
+    parts=proposal.get('parts');need(type(parts)is list and len(parts)==MAX_PARTS,'exactly32 semantic parts')
+    owners=[[-1]*len(s['faces'])for s in surfaces];names=[]
+    for pid,part in enumerate(parts):
+        need(type(part)is dict,'part object');name=part.get('name')
+        need(type(name)is str and re.fullmatch(r'[a-z][a-z0-9_]{0,47}',name)and name not in names,'unique semantic name')
+        names.append(name);faces=part.get('source_triangles')
+        need(type(faces)is list and 0<len(faces)<=MAX_FACES,'part face count')
+        for face in faces:
+            need(type(face)is list and len(face)==2,'source face address')
+            si=integer(face[0],0,3);fi=integer(face[1],0,len(surfaces[si]['faces'])-1)
+            need(owners[si][fi]==-1,'duplicate source face');owners[si][fi]=pid
+    need(all(pid>=0 for row in owners for pid in row),'missing source face')
+    need(len(set(owners[1]))==1,'compressed grip must remain one complete part')
+    return owners,names
+
+def tree_budget(value, budget=None,depth=0):
+    """Mirror the runtime global prepass before canonicalisation/hash work."""
+    if budget is None:budget={'nodes':0,'containers':0,'scalar_bytes':0}
+    budget['nodes']+=1
+    need(depth<=8 and budget['nodes']<=MAX_CERTIFICATE_NODES,'global certificate node/depth budget')
+    if type(value)is int:
+        need(-(2**63)<=value<2**63,'certificate int64');budget['scalar_bytes']+=8
+    elif type(value)is str:
+        need(len(value)<=256,'certificate scalar length');budget['scalar_bytes']+=len(value.encode('utf8'))
+    elif type(value)is list:
+        budget['containers']+=1
+        need(len(value)<=MAX_FACES and budget['containers']<=MAX_CERTIFICATE_CONTAINERS,'global certificate container budget')
+        for x in value:tree_budget(x,budget,depth+1)
+    elif type(value)is dict:
+        budget['containers']+=1
+        need(len(value)<=64 and budget['containers']<=MAX_CERTIFICATE_CONTAINERS,'global certificate dictionary budget')
+        for k,v in value.items():
+            need(type(k)is str,'certificate key type');tree_budget(k,budget,depth+1);tree_budget(v,budget,depth+1)
+    else:raise Refused('certificate scalar/container type')
+    need(budget['scalar_bytes']<=MAX_CERTIFICATE_SCALAR_BYTES,'global certificate scalar byte budget')
+    return budget
+
+def new_packed_budget():
+    return {k:0 for k in ['draw_vertices','shadow_vertices','draw_indices','shadow_indices','draw_lods','shadow_lods','bytes']}
+
+def packed_bound(packed,budget=None,shadow=False):
+    if budget is None:budget=new_packed_budget()
+    need(type(packed)is dict,'packed native surface')
+    fmt=integer(packed.get('format'),0,2**63-1)
+    vertices=integer(packed.get('vertex_count'),1,MAX_VERTICES)
+    indices=integer(packed.get('index_count'),0,MAX_FACES*3)
+    prefix='shadow_'if shadow else 'draw_'
+    budget[prefix+'vertices']+=vertices;budget[prefix+'indices']+=indices
+    need(budget[prefix+'vertices']<=MAX_VERTICES and budget[prefix+'indices']<=MAX_FACES*3,'global packed vertex/index budget')
+    for name in ['vertex_data','attribute_data','skin_data','index_data']:
+        rec=packed.get(name,{'bytes':0,'sha256':sha(b'')})
+        need(type(rec)is dict,'packed buffer record')
+        cap=indices*4 if name=='index_data'else (0 if name=='skin_data'else vertices*MAX_PACKED_VERTEX_STRIDE)
+        size=integer(rec.get('bytes'),0,cap);budget['bytes']+=size
+        need(budget['bytes']<=MAX_PACKED_TOTAL_BYTES,'global packed byte budget')
+    lods=packed.get('lods');need(type(lods)is list and len(lods)<=16,'native LOD count')
+    for lod in lods:
+        need(type(lod)is dict,'LOD record');size=integer(lod.get('bytes'),1,indices*4)
+        need(size%2==0,'LOD native index byte alignment')
+        budget[prefix+'lods']+=size;budget['bytes']+=size
+        need(budget[prefix+'lods']<=MAX_LOD_TOTAL_BYTES and budget['bytes']<=MAX_PACKED_TOTAL_BYTES,'global LOD/packed byte budget')
+    return budget
+
+def packed_signature(packed):
+    packed_bound(packed)
+    result={k:integer(packed.get(k),0,2**63-1 if k=='format' else 2**31-1)for k in ['format','index_count','vertex_count']}
+    for name in ['vertex_data','attribute_data','skin_data','index_data']:
+        rec=packed.get(name,{'bytes':0,'sha256':sha(b'')})
+        need(type(rec)is dict and type(rec.get('sha256'))is str and SHA.fullmatch(rec['sha256']),'packed digest')
+        result[name]={'bytes':integer(rec.get('bytes'),0,2**25),'sha256':rec['sha256']}
+    lods=packed.get('lods');need(type(lods)is list and len(lods)<=16,'native LOD count')
+    result['lods']=[]
+    for lod in lods:
+        need(type(lod)is dict and type(lod.get('index_sha256'))is str and SHA.fullmatch(lod['index_sha256']),'LOD digest')
+        edge=lod.get('edge_length');need(type(edge)in [float,int]and math.isfinite(edge)and edge>0,'LOD edge')
+        result['lods'].append({'bytes':integer(lod.get('bytes'),1,2**25),'edge_f64_hex':struct.pack('<d',edge).hex(),'index_sha256':lod['index_sha256']})
+    return result
+
+def native_surfaces(record):
+    need(type(record)is dict and type(record.get('surfaces'))is list and len(record['surfaces'])==4,'four native surfaces')
+    decoded=[];signatures=[]
+    # Check all packed/shadow/LOD sizes before decoding any base64 arrays.
+    budget=new_packed_budget()
+    for s in record['surfaces']:
+        need(type(s)is dict,'native surface record');packed_bound(s.get('packed_surface'),budget);packed_bound(s.get('packed_shadow_surface'),budget,True)
+    for si,s in enumerate(record['surfaces']):
+        need(type(s)is dict and type(s.get('index'))is int and s['index']==si and s.get('material')==MATERIALS[si],'native surface identity')
+        data={};sig={'surface':si,'material':s['material'],'format':integer(s.get('imported_surface_format'),0,2**63-1),'arrays':{}}
+        for name,width,is_int in [('positions',3,False),('normals',3,False),('uv',2,False),('tangents',1,False),('indices',1,True)]:
+            raw,rows=raw_array(s.get(name),width,is_int);data[name]=rows
+            sig['arrays'][name]={'count':len(rows),'sha256':sha(raw)}
+        points=data['positions'];indices=[x[0]for x in data['indices']]
+        need(len(points)<=MAX_VERTICES and len(indices)%3==0 and len(indices)//3<=MAX_FACES,'native layout cap')
+        need(len(data['normals'])==len(points)and len(data['uv'])==len(points)and len(data['tangents'])==4*len(points),'native attribute layout')
+        need(all(0<=x<len(points)for x in indices),'native index range')
+        corners=[struct.pack('<fff',*p)for p in points]
+        faces=[[corners[indices[i+j]]for j in range(3)]for i in range(0,len(indices),3)]
+        sig['packed']=packed_signature(s.get('packed_surface'));sig['shadow']=packed_signature(s.get('packed_shadow_surface'))
+        signatures.append(sig);decoded.append({'faces':faces,'points':points,'indices':indices})
+    need(sum(len(s['faces'])for s in decoded)<=MAX_FACES and sum(len(s['points'])for s in decoded)<=MAX_VERTICES,'native total face/vertex cap')
+    return decoded,signatures
+
+def compile_certificate(raw_source, expected_source_sha, proposal, expected_proposal_sha,
+                        native_record, expected_native_signatures, policy_sha, decoder_sha):
+    need(all(type(x)is str and SHA.fullmatch(x)for x in [policy_sha,decoder_sha]),'editor policy/decoder identity')
+    source=source_decode(raw_source,expected_source_sha)
+    need(proposal.get('source_glb_sha256')==expected_source_sha,'ownership source identity')
+    owners,names=ownership_table(source,proposal,expected_proposal_sha)
+    native,sigs=native_surfaces(native_record)
+    need(sigs==expected_native_signatures,'matched control native arrays/packed/shadow/LODs')
+    native_owners=[];counts=[0]*MAX_PARTS
+    for si,(src,nat)in enumerate(zip(source,native)):
+        need(len(src['faces'])==len(nat['faces']),'source/native triangle count')
+        if si==1:
+            row=[owners[1][0]]*len(nat['faces'])
+        else:
+            inventory=collections.defaultdict(collections.deque)
+            for fi,face in enumerate(src['faces']):inventory[winding_key(face)].append(owners[si][fi])
+            # Coincident source faces in different semantic volumes are ambiguous;
+            # refuse, rather than guess a nearest centre/normal/order.
+            need(all(len(set(q))==1 for q in inventory.values()),'ambiguous source ownership')
+            row=[]
+            for face in nat['faces']:
+                q=inventory.get(winding_key(face));need(q is not None and len(q)>0,'foreign native winding/position')
+                row.append(q.popleft())
+            need(all(not q for q in inventory.values()),'missing native source face')
+        native_owners.append(row)
+        for pid in row:counts[pid]+=1
+    need(all(c>0 for c in counts),'empty semantic native part')
+    certificate={'schema':1,'source_sha256':expected_source_sha,'ownership_sha256':expected_proposal_sha,
+                 'policy_sha256':policy_sha,'decoder_sha256':decoder_sha,'part_names':names,
+                 'native_surfaces':sigs,'native_face_owners':native_owners}
+    encoded=canonical(certificate)
+    # Cooked integer map is 4bytes/face. Hash text/config overhead is reported
+    # separately; the encoded ceiling conservatively bounds this private form.
+    need(len(encoded)<=MAX_PROVENANCE_BYTES,'provenance budget')
+    expected={'certificate_sha256':sha(encoded),'source_sha256':expected_source_sha,
+              'ownership_sha256':expected_proposal_sha,'policy_sha256':policy_sha,'decoder_sha256':decoder_sha}
+    return certificate,expected
+
+def verify_and_points(native_record,certificate,expected,local_identity=True,skin_absent=True):
+    need(local_identity is True and skin_absent is True,'native rigid identity/skin')
+    need(type(certificate)is dict and type(expected)is dict,'certificate/expected dictionaries')
+    tree_budget(expected,tree_budget(certificate))
+    encoded=canonical(certificate);need(len(encoded)<=MAX_PROVENANCE_BYTES,'canonical provenance bound')
+    need(sha(encoded)==expected.get('certificate_sha256'),'certificate digest')
+    need(certificate.get('schema')==1,'certificate schema')
+    for k in ['source_sha256','ownership_sha256','policy_sha256','decoder_sha256']:
+        need(certificate.get(k)==expected.get(k),'expected '+k)
+    native,sigs=native_surfaces(native_record);need(sigs==certificate.get('native_surfaces'),'live native array/packed/shadow/LOD signature')
+    names=certificate.get('part_names');need(type(names)is list and len(names)==MAX_PARTS and len(set(names))==MAX_PARTS,'native part names')
+    owners=certificate.get('native_face_owners');need(type(owners)is list and len(owners)==4,'native owner surfaces')
+    parts=[{}for _ in range(MAX_PARTS)];coverage=0
+    for si,s in enumerate(native):
+        row=owners[si];need(type(row)is list and len(row)==len(s['faces']),'complete native face ownership')
+        for fi,face in enumerate(s['faces']):
+            pid=integer(row[fi],0,MAX_PARTS-1)
+            for point in face:parts[pid][point]=None
+            coverage+=1
+    need(all(len(p)>=3 for p in parts),'nonempty native pointsets')
+    return {'parts':[list(p)for p in parts],'coverage':coverage,'point_payload_bytes':sum(len(p)*12 for p in parts),
+            'provenance_bytes':len(canonical(certificate)),'certificate_sha256':expected['certificate_sha256']}

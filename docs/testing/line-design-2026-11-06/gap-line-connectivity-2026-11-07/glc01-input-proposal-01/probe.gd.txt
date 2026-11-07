@@ -1,0 +1,174 @@
+extends SceneTree
+## PRIVATE/UNPARSED. External wrapper must provide the source/cache freeze,
+## process/deadline/error receipt and copy this directory to res://.local/glc01.
+const Main=preload("res://game/main.gd")
+const GapObserver=preload("res://.local/glc01/gap_observer.gd")
+const ScoreObserver=preload("res://.local/glc01/score_with_holds.gd")
+const Join=preload("res://.local/glc01/market_join.gd")
+const Catalog=preload("res://game/tricks/trick_catalog.gd")
+const Score=preload("res://game/scoring/score_session.gd")
+const Registry=preload("res://.local/glc01/registry_helper.gd")
+var passes:=0
+var failures: Array[String]=[]
+var game: Node
+var gap_probe: RefCounted
+var score_probe: RefCounted
+
+func _initialize() -> void:
+	run.call_deferred()
+
+func check(ok: bool,label: String) -> void:
+	if ok:passes+=1
+	else:failures.append(label)
+	print("PASS: " if ok else "FAIL: ",label)
+
+func _encode(value: Variant) -> Variant:
+	if value is float and not is_finite(value):return {"nonfinite":str(value)}
+	if value is Vector3:return [_encode(value.x),_encode(value.y),_encode(value.z)]
+	if value is Vector2:return [_encode(value.x),_encode(value.y)]
+	if value is Vector4:return [_encode(value.x),_encode(value.y),_encode(value.z),_encode(value.w)]
+	if value is Basis:return [_encode(value.x),_encode(value.y),_encode(value.z)]
+	if value is Transform3D:return {"basis":_encode(value.basis),"origin":_encode(value.origin)}
+	if value is Array or value is PackedVector3Array or value is PackedVector2Array or value is PackedStringArray:
+		var result: Array=[]
+		for item: Variant in value:result.append(_encode(item))
+		return result
+	if value is Dictionary:
+		var result: Dictionary={}
+		for key: Variant in value:result[str(key)]=_encode(value[key])
+		return result
+	if value is Object or value is RID:return str(value)
+	return value
+
+func run() -> void:
+	game=Main.new()
+	check(not game.persistence_enabled,"GLC-01: profile persistence disabled before Main tree entry")
+	if game.persistence_enabled:
+		game.free()
+		quit(1)
+		return
+	gap_probe=GapObserver.new()
+	gap_probe.target=game
+	score_probe=ScoreObserver.new()
+	game.gaps=gap_probe
+	game.score=score_probe
+	root.add_child(game)
+	check(not game.music._can_control and not game.music._persist,"GLC-01: actual default Main isolates personal Music")
+	var registry: Dictionary=Registry.capture(game)
+	# Observational logs clear before the single route fixture; no score or
+	# tracker/physical state is assigned by clearing these output arrays.
+	gap_probe.rows.clear()
+	gap_probe.mismatches.clear()
+	score_probe.events.clear()
+	gap_probe.run_label="market_gap_to_hall"
+	score_probe.run_label=gap_probe.run_label
+	var result: Dictionary=await Join.run(self,game,check)
+	var contiguous: bool=not result.frames.is_empty()
+	for index: int in range(1,result.frames.size()):
+		contiguous=contiguous and int(result.frames[index].physics)==int(result.frames[index-1].physics)+1
+	check(contiguous,"GLC-01: recorder observes every consecutive actual physics step of the claimed line")
+	var ledger: Dictionary=_ledger(score_probe.events,registry.gaps)
+	check(ledger.clear,"GLC-01: all actual gap/trick/hold/bank calls match independent source points/staleness arithmetic")
+	check(ledger.banks.size()==1 and int(ledger.banks[0].expected)>0 and int(ledger.calculated_total)==game.score.total_score \
+		and game.score.get_combo_value()==0,"GLC-01: actual entire scored-gap/hall journey banks exactly once")
+	var awards: Array=[]
+	for row: Dictionary in gap_probe.rows:
+		for award: Dictionary in row.awards:
+			awards.append({"physics":row.physics,"award":award})
+	check(awards.size()==1 and String(awards[0].award.id)=="market_hop", "GLC-01: original actual gap tracker awards exactly the named market stair gap")
+	check(gap_probe.mismatches.is_empty(),"GLC-01: actual tracker remains exactly equal to untouched original shadow each call")
+	check(bool(result.holds_valid) and bool(result.camera_clear_sampled) and int(result.bails)==0 and int(result.recoveries)==0 and bool(result.support),
+		"GLC-01: complete route preserves sampled strict chase, native Manual support and zero hidden recovery")
+	var data: Dictionary={"status":"native diagnostic, not automatically accepted","passed":passes,"failed":failures.size(),
+		"failures":failures,"registry":registry,"line":result,"score_events":score_probe.events,
+		"gap_updates":gap_probe.rows,"shadow_mismatches":gap_probe.mismatches,"actual_gap_awards":awards,
+		"independent_ledger":ledger,"scope":"One source-bound ordinary default Main and one initial route fixture; actual registered input only. Private proof, no production geometry/physics/deadline changes. No rendered/human/M5/cross-area circuit acceptance."}
+	var destination:=OS.get_environment("TAM_GLC01_OUTPUT")
+	if destination.is_empty():destination="res://.local/glc01-result.json"
+	var output:=FileAccess.open(destination,FileAccess.WRITE)
+	if output==null:
+		push_error("GLC-01: cannot write native evidence")
+		await _dispose()
+		quit(2)
+		return
+	output.store_string(JSON.stringify(_encode(data),"\t",true,true)+"\n")
+	output.close()
+	print("GLC01_NATIVE ",passes," passed, ",failures.size()," failed")
+	await _dispose()
+	quit(0 if failures.is_empty()else 1)
+
+func _dispose() -> void:
+	# Avoid the known diagnostic quit-inside-physics teardown failure. No
+	# claimant frame is added: evidence is already closed before this cleanup.
+	gap_probe.target=null
+	if is_instance_valid(game):game.queue_free()
+	await process_frame
+	await process_frame
+	game=null
+
+func _ledger(events: Array,definitions: Array) -> Dictionary:
+	var gaps: Dictionary={}
+	for definition: Dictionary in definitions:gaps["gap:"+String(definition.id)]=definition
+	var repetitions: Dictionary={}
+	var base:=0
+	var count:=0
+	var total:=0
+	var clear:=true
+	var banks: Array[Dictionary]=[]
+	var errors: Array[Dictionary]=[]
+	var resets:=0
+	for event: Dictionary in events:
+		var kind:=String(event.kind)
+		var valid:=true
+		match kind:
+			"reset":
+				resets+=1
+				valid=base==0 and count==0 and total==0 and resets==1
+				repetitions.clear()
+				base=0
+				count=0
+				total=0
+			"add_trick":
+				var id:=String(event.identity)
+				var points:=int(event.points)
+				if id.begins_with("gap:"):
+					valid=gaps.has(id) and points==int(gaps[id].points) and String(event.label)==String(gaps[id].name)
+				else:
+					var definition: Dictionary=Catalog.definition(id)
+					valid=not definition.is_empty() and int(definition.get("base_points",0))==points
+				var repeat_before:=mini(int(repetitions.get(id,0)),4)
+				var award:=maxi(1,int(points/pow(2,repeat_before)))
+				var updated:=mini(Score.MAX_SCORE,base+award)
+				valid=valid and int(event.awarded)==updated-base
+				base=updated
+				count+=1
+				repetitions[id]=mini(4,repeat_before+1)
+				valid=valid and int(event.after.base)==base and int(event.after.multiplier)==mini(count,100)
+			"add_hold_points","add_spin_bonus":
+				var points:=mini(int(event.points),Score.MAX_EVENT_POINTS)
+				var updated:=base if count<=0 or base<=0 or points<=0 else mini(Score.MAX_SCORE,base+points)
+				valid=int(event.awarded)==updated-base and int(event.after.base)==updated
+				base=updated
+			"bank_combo":
+				var expected:=mini(Score.MAX_SCORE,base*mini(count,100))
+				total=mini(Score.MAX_SCORE,total+expected)
+				valid=expected>0 and int(event.banked)==expected and int(event.after.total)==total
+				banks.append({"physics":event.physics,"base":base,"count":count,"expected":expected,"actual":event.banked,"valid":valid})
+				base=0
+				count=0
+			"drop_combo":
+				valid=base==0 and count==0
+				base=0
+				count=0
+			"upgrade_last_trick":
+				# No upgrade is advertised by this Manual/Ollie/grind recipe.
+				# Refuse unhandled score semantics rather than claiming parity.
+				valid=false
+			"begin_landing","continue_combo":
+				pass
+			_:
+				valid=false
+		clear=clear and valid
+		if not valid:errors.append({"kind":kind,"physics":event.physics,"event":event})
+	return {"clear":clear and resets==1,"banks":banks,"calculated_total":total,"errors":errors,
+		"actual_reset_calls":resets,"source_points":"Catalog ordinary identities; exact authored world gap definitions; explicit4-halving/run-long repetition; holds/spins extendbase only"}

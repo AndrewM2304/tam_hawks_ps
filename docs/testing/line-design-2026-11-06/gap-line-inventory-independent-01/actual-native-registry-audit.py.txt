@@ -1,0 +1,54 @@
+from pathlib import Path
+import json,hashlib,tarfile,re,math,collections,subprocess,datetime
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/motion-fidelity-2026-11-07/actual-round-focused-01';O=R/'docs/testing/line-design-2026-11-06/gap-line-inventory-independent-01';checks=[]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,v):
+ checks.append({'label':label,'pass':bool(v)})
+ if not v:raise AssertionError(label)
+r=json.loads((P/'receipt.json').read_text());v=json.loads((P/'public-registry.json').read_text());result=json.loads((P/'result.json').read_text());pres=json.loads((P/'preservation.json').read_text())['files'];refs=json.loads((P/'unchanged-binary-source-references.json').read_text())
+for k,h in pres.items():ck('author post-preservation exact '+k,sha(P/k)==h)
+ck('native source891 before/after exact',r['source_stable'] and r['source_before']==r['source_after'] and len(r['source_before'])==891)
+ck('only five explicit cache pins stable',r['cache_stable'] and r['cache_before']==r['cache_after'] and len(r['cache_before'])==5)
+ck('wrong guide path omission explicitly visible','PLAYER_GUIDE.md' not in r['source_before'] and 'docs/PLAYER-GUIDE.md' not in r['source_before'])
+allpins=r['source_before']|r['cache_before'];archivepins={}
+with tarfile.open(P/'execution-sources-and-pinned-cache.tar.gz') as t:
+ for member in t.getmembers():
+  ck('safe regular archive member '+member.name,member.isfile() and not Path(member.name).is_absolute() and '..' not in Path(member.name).parts)
+  raw=t.extractfile(member).read();archivepins[member.name]=hashlib.sha256(raw).hexdigest();ck('source/native cache archive exact '+member.name,archivepins[member.name]==allpins[member.name])
+ ck('exact frozen observer/helper/launcher source',all(archivepins[k]==r['source_before'][k] for k in ['.local/motion_actual_round_focus.gd','.local/motion_round_registry_helper.gd','.local/run_motion_actual_round_focus.py']))
+ observer=t.extractfile('.local/motion_actual_round_focus.gd').read().decode();helper=t.extractfile('.local/motion_round_registry_helper.gd').read().decode();wrapper=t.extractfile('.local/run_motion_actual_round_focus.py').read().decode()
+ck('60 referenced binary source assets',len(refs['files'])==60)
+for path,ref in refs['files'].items():
+ raw=subprocess.check_output(['git','show',ref['base_commit']+':'+path],cwd=R)
+ ck('referenced pushed Git blob exact '+path,len(raw)==ref['bytes'] and hashlib.sha256(raw).hexdigest()==ref['source_sha256']==allpins[path])
+ck('complete source/cache reconstruction union',set(archivepins)|set(refs['files'])==set(allpins) and not(set(archivepins)&set(refs['files'])))
+for e in r['epochs']:ck(e['name']+' raw log exact',sha(P/(e['name']+'.log'))==e['log_sha256'])
+log=(P/'native.log').read_text();ck('actual133/1 result/raw assertion lines and native exit1',result==r['result'] and result['passed']==133 and result['failed']==1 and len(re.findall(r'^PASS ',log,re.M))==133 and len(re.findall(r'^FAIL ',log,re.M))==1 and r['epochs'][-1]['exit']==1)
+ck('whole combined rejected, raw error absent',not re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:',log) and r['complete'])
+ck('positive subsets23/67/32 retained separately',[(x['passed'],x['failed']) for x in result['modules']]==[(23,0),(67,0),(32,0),(10,1)])
+ck('registry call is before motion input on actual default Main',observer.index('game=_main(false)')<observer.index('Registry.capture(game)')<observer.index('await Motion.run_main(') and 'if legacy:game.set_meta("pt24_design_preview",false)' in observer and v['normal_main_preview_content_enabled'] is True)
+ck('registry getter adds no rider input/tick/geometry/space queries',not re.search(r'Input\.|await |move_and_slide|\.position\s*=|\.velocity\s*=|add_child|intersect_ray|intersect_shape|cast_motion',helper))
+ck('native identity world frame',v['world_frame']=={'basis':[[1,0,0],[0,1,0],[0,0,1]],'origin':[0,0,0]})
+ck('six ordinary district checkpoints',set(v['checkpoints'])=={'royal_exchange','central_station','barras','george_square','clyde','kelvingrove'})
+d=json.loads((R/'docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/registry-source-draft-01.json').read_text());draft={x['id']:x for x in d['authored_routes']}
+for key,count in [('gaps',8),('world_routes',66),('hud_routes',67),('grind_lines',242),('features',33)]:ck('native '+key+' exact count/unique IDs',len(v[key])==len({x['id'] for x in v[key]})==count)
+ck('actual67 route IDs exact source registry',set(draft)=={x['id'] for x in v['hud_routes']})
+ck('only one dynamic hub addition',set(x['id'] for x in v['hud_routes'])-set(x['id'] for x in v['world_routes'])=={'service_gate_shortcut'})
+ck('gate currently closed without losing route ID',next(x for x in v['hud_routes'] if x['id']=='service_gate_shortcut')['enabled'] is False)
+ck('exact8 scored gap ID set',set(x['id'] for x in v['gaps'])==set(x['id'] for x in d['scored_gaps']))
+actual_routes={x['id']:x for x in v['hud_routes']};maximum=0;resolved=0
+for id,row in draft.items():
+ n=actual_routes[id]
+ ck('requires_jump exact '+id,n['requires_jump']==row['requires_jump'])
+ ck('native finite route points '+id,len(n['points'])>=2 and all(len(p)==3 and all(math.isfinite(c) for c in p) for p in n['points']))
+ if row['source_polyline_fully_resolved']:
+  a=row['source_points'];b=n['points'];ck('source point count '+id,len(a)==len(b));delta=max(math.dist(p,q) for p,q in zip(a,b));maximum=max(maximum,delta);resolved+=1;ck('source-resolved coordinates within0.1mm '+id,delta<.0001)
+ck('63 resolved/four symbolic handled explicitly',resolved==63 and len(draft)-resolved==4)
+for x in d['scored_gaps']:
+ n=next(g for g in v['gaps'] if g['id']==x['id']);ck('native trigger datums '+x['id'],math.dist(n['start'],x['start_actor_origin_volume_center'])<1e-6 and math.dist(n['end'],x['end_actor_origin_volume_center'])<1e-6 and n['radius']==x['radius_m'] and n['points']==x['points'] and n['airborne_required'] is True)
+lines=v['grind_lines'];kinds=dict(collections.Counter(x['kind'] for x in lines));ck('actual guide kinds exact',kinds=={'ledge':183,'rail':41,'coping':12,'curb':6})
+for x in lines:ck('finite usable declared guide '+x['id'],x['valid'] and len(x['points'])>=2 and math.isfinite(x['length']) and x['length']>.001 and all(len(p)==3 and all(math.isfinite(c) for c in p) for p in x['points']))
+classes=collections.Counter(('round' if x['contact_round_declared'] else 'verified' if x['contact_verified'] else 'generic') for x in lines);ck('contact metadata groups exact',dict(classes)=={'verified':82,'generic':156,'round':4})
+roundids=[x['id'] for x in lines if x['contact_round_declared']];ck('four round profiles distinct actual default contacts',set(roundids)=={'Grind_KelvingrovePromenadeQuarter_Coping','Grind_StationConcourseHalfpipeNorthTransition_Coping','Grind_StationConcourseHalfpipeSouthTransition_Coping','Grind_CivicPortReturn_Coping'})
+report={'reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'Independent actual native public registry identity/source-coordinate corroboration inside a whole REJECTED combined functional run. No engine launched by QA.','result':{'source_hash_record_checks_pass':len(checks),'fail':0},'whole_native_gate':{'passed':133,'failed':1,'status':'REJECTED','native_exit':1,'source_inputs':891,'cache_pins':5,'module_subsets':result['modules']},'counts':{'gaps':8,'world_routes':66,'hud_routes':67,'unique_grind_guides':242,'features':33,'kinds':kinds,'metadata_classification':dict(classes)},'maximum_resolved_source_polyline_error_m':maximum,'registry_sha256':sha(P/'public-registry.json'),'receipt_sha256':sha(P/'receipt.json'),'round_ids':roundids,'guide_ids':sorted(x['id'] for x in lines),'source_reconstruction':{'archive_entries':len(archivepins),'referenced_pushed_blobs':len(refs['files']),'unique_source_cache_union':len(allpins)},'limitations':['The real Player Guide was omitted by the wrapper wrong path;891 input maps do not bind it.','Only five explicit cache artifacts are bound, not every imported texture/model.','complete:true is execution completion/stability, not eligibility; nativeexit1/failed assertion reject the combined run.','Registry content was written by the prebound helper and preserved post-run; its content hash is not present in the original native wrapper receipt.','242 valid guide records and86 contact_verified fields are metadata, not242 demonstrated captures/supports, connected lines or one-combo circuits.','Actual ordinary full-runner global test order remains separate.','The current installed hand scalar can change after this source-frozen run; original anatomy022 remains source-bound here.','No source/native geometry coverage result closes C04 real board/floor penetration, D022 continuity, visual/target-Mac or AAA gates.'],'checks':checks}
+(O/'actual-native-registry-review.json').write_text(json.dumps(report,indent=2)+'\n');(O/'actual-native-registry-audit.py.txt').write_bytes(Path(__file__).read_bytes());print(json.dumps({'checks':len(checks),'counts':report['counts'],'max_polyline_error_m':maximum,'whole_native_gate':'REJECTED133/1'},indent=2))

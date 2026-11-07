@@ -1,0 +1,20 @@
+extends "res://.local/glc01/score_observer.gd"
+## All mutations remain the exact inherited production score method. Additional
+## records observe actual holds/rotation/upgrades; no fabricated gap Catalog row.
+func add_hold_points(points: int) -> int:
+	var before: Dictionary=_state()
+	var result: int=super.add_hold_points(points)
+	_event("add_hold_points",before,{"points":points,"awarded":result})
+	return result
+
+func add_spin_bonus(points: int,label: String="") -> int:
+	var before: Dictionary=_state()
+	var result: int=super.add_spin_bonus(points,label)
+	_event("add_spin_bonus",before,{"points":points,"label":label,"awarded":result})
+	return result
+
+func upgrade_last_trick(label: String,points: int,identity: String="") -> int:
+	var before: Dictionary=_state()
+	var result: int=super.upgrade_last_trick(label,points,identity)
+	_event("upgrade_last_trick",before,{"points":points,"label":label,"identity":identity,"awarded":result})
+	return result

@@ -128,7 +128,7 @@ func _styled_hair() -> ArrayMesh:
 
 func pose_hand(node: Node3D, grabbing: float) -> void:
 	var mesh: MeshInstance3D = node.get_node("HandAndFingers")
-	mesh.set_blend_shape_value(0, lerpf(0.22, 1.0, grabbing))
+	mesh.set_blend_shape_value(0, lerpf(0.38, 1.0, grabbing))
 
 func _hand_mesh(source: Mesh) -> ArrayMesh:
 	var key := source.get_instance_id()

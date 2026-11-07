@@ -1,0 +1,15 @@
+--- a/game/player/skater.gd
++++ b/game/player/skater.gd
+@@ -4354,8 +4354,10 @@
+ 	material.bounce = .18
+ 	_loose_board.physics_material_override = material
+ 	var collider := CollisionShape3D.new()
+-	var shape := BoxShape3D.new()
+-	shape.size = Vector3(.24, .12, .82)
++	# The visual model is released in this same rigid-body frame. Reuse its
++	# actual cached complete-model hull so tyre/kick contacts cannot disappear
++	# inside the former120mm-high box. No new shape or mesh is constructed.
++	var shape: ConvexPolygonShape3D = _visual_rig.board_contact_geometry().convex_shape
+ 	collider.shape = shape
+ 	_loose_board.add_child(collider)
+ 	add_child(_loose_board)

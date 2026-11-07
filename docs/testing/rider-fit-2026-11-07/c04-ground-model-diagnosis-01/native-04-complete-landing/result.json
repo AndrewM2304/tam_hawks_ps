@@ -1,0 +1,4365 @@
+{
+	"actual_log_fixed_geometry": [
+		{
+			"camera_hit_signed_gap_m": -1.4296729564666748,
+			"camera_ray": {
+				"at": [
+					-5.788136959075928,
+					2.0,
+					140.4699249267578
+				],
+				"collider": "AnnularDeck",
+				"normal": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+				"rid": "RID(26109106192873)",
+				"shape": 0
+			},
+			"logged_camera": [
+				-7.415247917175293,
+				3.0625429153442383,
+				141.9342041015625
+			],
+			"logged_point": [
+				-3.598824977874756,
+				0.5703269839286804,
+				138.49969482421875
+			],
+			"scope": "Fixed rounded positions from actual required02 log, fresh native scene geometry only; no authored player pose or trajectory acceptance.",
+			"vertical_support": {
+
+			}
+		},
+		{
+			"camera_hit_signed_gap_m": -0.013643399812281132,
+			"camera_ray": {
+				"at": [
+					-3.5963451862335205,
+					0.7313553094863892,
+					138.8655242919922
+				],
+				"collider": "ContinuousBowlWall",
+				"normal": [
+					-0.5246174335479736,
+					0.5223767161369324,
+					-0.6722344160079956
+				],
+				"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/ContinuousBowlWall",
+				"rid": "RID(26091926323688)",
+				"shape": 0
+			},
+			"logged_camera": [
+				-8.622918128967285,
+				3.0570619106292725,
+				138.45120239257813
+			],
+			"logged_point": [
+				-3.5797460079193115,
+				0.723675012588501,
+				138.8668975830078
+			],
+			"native_surface_signed_gap_m": -0.013640154153108597,
+			"scope": "Fixed rounded positions from actual required02 log, fresh native scene geometry only; no authored player pose or trajectory acceptance.",
+			"vertical_support": {
+				"at": [
+					-3.5797460079193115,
+					0.7497867345809937,
+					138.8668975830078
+				],
+				"collider": "ContinuousBowlWall",
+				"normal": [
+					-0.5246174931526184,
+					0.5223766565322876,
+					-0.6722344160079956
+				],
+				"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/ContinuousBowlWall",
+				"rid": "RID(26091926323688)",
+				"shape": 0
+			}
+		},
+		{
+			"camera_hit_signed_gap_m": -0.014654811471700668,
+			"camera_ray": {
+				"at": [
+					-3.5081980228424072,
+					0.7370020151138306,
+					138.80113220214844
+				],
+				"collider": "ContinuousBowlWall",
+				"normal": [
+					-0.5246174335479736,
+					0.5223767161369324,
+					-0.6722344160079956
+				],
+				"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/ContinuousBowlWall",
+				"rid": "RID(26091926323688)",
+				"shape": 0
+			},
+			"logged_camera": [
+				-8.54369068145752,
+				3.051769971847534,
+				138.59170532226563
+			],
+			"logged_point": [
+				-3.489706039428711,
+				0.72850102186203,
+				138.80189514160156
+			],
+			"native_surface_signed_gap_m": -0.014658834785223007,
+			"scope": "Fixed rounded positions from actual required02 log, fresh native scene geometry only; no authored player pose or trajectory acceptance.",
+			"vertical_support": {
+				"at": [
+					-3.489706039428711,
+					0.7565628290176392,
+					138.80189514160156
+				],
+				"collider": "ContinuousBowlWall",
+				"normal": [
+					-0.5246174335479736,
+					0.5223767161369324,
+					-0.6722344160079956
+				],
+				"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/ContinuousBowlWall",
+				"rid": "RID(26091926323688)",
+				"shape": 0
+			}
+		}
+	],
+	"current_bad_frames": 1,
+	"failures": [
+		"C04-L05: the moved bank's full crossing, coast and bowl-side return keep strict ordinary full-body chase clearance"
+	],
+	"gait_pairs": {
+		"passed": true,
+		"records": [
+			{
+				"direction": 1.0,
+				"first_difference": -1,
+				"grade": 0.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			},
+			{
+				"direction": -1.0,
+				"first_difference": -1,
+				"grade": 0.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			},
+			{
+				"direction": 1.0,
+				"first_difference": -1,
+				"grade": -8.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					0.9902681112289429,
+					-0.13917312026023865
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			},
+			{
+				"direction": -1.0,
+				"first_difference": -1,
+				"grade": -8.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					0.9902681112289429,
+					-0.13917312026023865
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			},
+			{
+				"direction": 1.0,
+				"first_difference": -1,
+				"grade": 8.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					0.9902681112289429,
+					0.13917312026023865
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			},
+			{
+				"direction": -1.0,
+				"first_difference": -1,
+				"grade": 8.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					0.9902681112289429,
+					0.13917312026023865
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			},
+			{
+				"direction": 1.0,
+				"first_difference": -1,
+				"grade": -20.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					0.9396926164627075,
+					-0.3420201539993286
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			},
+			{
+				"direction": -1.0,
+				"first_difference": -1,
+				"grade": -20.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					0.9396926164627075,
+					-0.3420201539993286
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			},
+			{
+				"direction": 1.0,
+				"first_difference": -1,
+				"grade": 20.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					0.9396926164627075,
+					0.3420201539993286
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			},
+			{
+				"direction": -1.0,
+				"first_difference": -1,
+				"grade": 20.0,
+				"native_floor_valid": true,
+				"native_normal": [
+					0.0,
+					0.9396926164627075,
+					0.3420201539993286
+				],
+				"physics_and_capsule_unchanged": true,
+				"pose_and_gait_float32_bytes_equal": true,
+				"samples": 240
+			}
+		],
+		"scope": "Declared paired pose-source regressions under the SAME actual authenticated frozen native support/capsule; all node+bone and gait float32 bytes compared. Not a controller trajectory or target-performance claim."
+	},
+	"late_samples": 459,
+	"passes": 10,
+	"rendered_GTI_bad_frames": 1,
+	"rows": [
+		{
+			"actual_camera_rejection": {
+				"hit": {
+					"collider": "ClydePrintYardGround",
+					"normal": [
+						0.0,
+						1.0,
+						0.0
+					],
+					"position": [
+						-11.932373046875,
+						2.000000476837158,
+						130.31820678710938
+					],
+					"rid": "RID(16655883174170)",
+					"shape": 0
+				},
+				"kind": "foot_or_board_endpoint",
+				"nearest_current_foot_marker": {
+					"distance_m": 0.14111095666885376,
+					"marker": "toe",
+					"side": -1.0,
+					"world": [
+						-11.932636260986328,
+						2.128857135772705,
+						130.35275268554688
+					]
+				},
+				"target": [
+					-11.938937187194824,
+					1.99265718460083,
+					130.31639099121094
+				]
+			},
+			"actual_camera_usable": false,
+			"anchor": [
+				-11.482748031616211,
+				2.5239593982696533,
+				131.0747528076172
+			],
+			"board": [
+				[
+					-0.9195863008499146,
+					0.340590238571167,
+					-0.19584950804710388,
+					-11.908781051635742
+				],
+				[
+					-0.15421061217784882,
+					0.14558440446853638,
+					0.9772534370422363,
+					2.332994222640991
+				],
+				[
+					0.36135563254356384,
+					0.9288709759712219,
+					-0.08135479688644409,
+					130.22653198242188
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"board_GTI": [
+				[
+					-0.8970934152603149,
+					0.381661593914032,
+					-0.22261106967926025,
+					-11.83769416809082
+				],
+				[
+					-0.196580708026886,
+					0.10644513368606567,
+					0.9746925830841064,
+					2.4249653816223145
+				],
+				[
+					0.395698606967926,
+					0.9181512594223022,
+					-0.020463936030864716,
+					130.2208709716797
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"board_proxy": [
+				-11.883493423461914,
+				2.412191867828369,
+				130.11068725585938
+			],
+			"body": [
+				[
+					-0.46520549058914185,
+					0.0,
+					0.8852014541625977,
+					-11.949651718139648
+				],
+				[
+					0.0,
+					1.0,
+					0.0,
+					2.315524101257324
+				],
+				[
+					-0.8852014541625977,
+					0.0,
+					-0.46520549058914185,
+					130.1150665283203
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"body_GTI": [
+				[
+					-0.46520549058914185,
+					0.0,
+					0.8852014541625977,
+					-11.883493423461914
+				],
+				[
+					0.0,
+					1.0,
+					0.0,
+					2.412191867828369
+				],
+				[
+					-0.8852014541625977,
+					0.0,
+					-0.46520549058914185,
+					130.11068725585938
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"body_up": [
+				0.3816620111465454,
+				0.10644537210464478,
+				0.9181522130966187
+			],
+			"camera": [
+				[
+					-0.5455132126808167,
+					0.31460222601890564,
+					0.7768145203590393,
+					-9.645020484924316
+				],
+				[
+					0.7114641070365906,
+					-0.3160731792449951,
+					0.6276277899742126,
+					4.558752536773682
+				],
+				[
+					0.44298335909843445,
+					0.895054817199707,
+					-0.05140608921647072,
+					130.95314025878906
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"camera_cache_active_after_update": false,
+			"camera_process": 1423,
+			"camera_ramp_mode": false,
+			"candidates": [
+				{
+					"angle": 0.0,
+					"height": 2.5,
+					"position": [
+						-6.907207489013672,
+						5.429966926574707,
+						130.77197265625
+					],
+					"reach": 4.585547924041748,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.92818832397461,
+								2.0,
+								130.31736755371094
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.414452075958252,
+					"usable": false
+				},
+				{
+					"angle": 0.0,
+					"height": 1.95,
+					"position": [
+						-6.907207489013672,
+						4.879966735839844,
+						130.77197265625
+					],
+					"reach": 4.585547924041748,
+					"rejection": {
+						"hit": {
+							"collider": "AnnularDeck",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.926140785217285,
+								2.0,
+								130.3175506591797
+							],
+							"rid": "RID(26109106192873)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.513452075958252,
+					"usable": false
+				},
+				{
+					"angle": 0.0,
+					"height": 7.2,
+					"position": [
+						-6.907207489013672,
+						10.129966735839844,
+						130.77197265625
+					],
+					"reach": 4.585547924041748,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.934396743774414,
+								1.9999990463256836,
+								130.31680297851563
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.260452075958252,
+					"usable": false
+				},
+				{
+					"angle": 0.7853981634,
+					"height": 2.5,
+					"position": [
+						-8.461450576782227,
+						5.429966926574707,
+						127.62525939941406
+					],
+					"reach": 4.58554744720459,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.931509017944336,
+								2.0,
+								130.31063842773438
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.58724014874341,
+					"usable": false
+				},
+				{
+					"angle": 0.7853981634,
+					"height": 1.95,
+					"position": [
+						-8.461450576782227,
+						4.879966735839844,
+						127.62525939941406
+					],
+					"reach": 4.58554744720459,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.930093765258789,
+								1.9999995231628418,
+								130.30953979492188
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.68624014874341,
+					"usable": false
+				},
+				{
+					"angle": 0.7853981634,
+					"height": 7.2,
+					"position": [
+						-8.461450576782227,
+						10.129966735839844,
+						127.62525939941406
+					],
+					"reach": 4.58554744720459,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.935799598693848,
+								1.9999990463256836,
+								130.31396484375
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.43324014874341,
+					"usable": false
+				},
+				{
+					"angle": -0.7853981634,
+					"height": 2.5,
+					"position": [
+						-8.033252716064453,
+						5.429966926574707,
+						134.09605407714844
+					],
+					"reach": 4.5855512619018555,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.930593490600586,
+								2.0,
+								130.324462890625
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.587236334046144,
+					"usable": false
+				},
+				{
+					"angle": -0.7853981634,
+					"height": 1.95,
+					"position": [
+						-8.033252716064453,
+						4.879966735839844,
+						134.09605407714844
+					],
+					"reach": 4.5855512619018555,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.929004669189453,
+								1.9999995231628418,
+								130.3260040283203
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.686236334046145,
+					"usable": false
+				},
+				{
+					"angle": -0.7853981634,
+					"height": 7.2,
+					"position": [
+						-8.033252716064453,
+						10.129966735839844,
+						134.09605407714844
+					],
+					"reach": 4.5855512619018555,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.935413360595703,
+								1.9999990463256836,
+								130.31980895996094
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.433236334046143,
+					"usable": false
+				},
+				{
+					"angle": 1.5707963268,
+					"height": 2.5,
+					"position": [
+						-11.785530090332031,
+						5.429966926574707,
+						126.49921417236328
+					],
+					"reach": 4.585546016693115,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.93860912322998,
+								2.0,
+								130.30824279785156
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.760029175202884,
+					"usable": false
+				},
+				{
+					"angle": 1.5707963268,
+					"height": 1.95,
+					"position": [
+						-11.785530090332031,
+						4.879966735839844,
+						126.49921417236328
+					],
+					"reach": 4.585546016693115,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.938547134399414,
+								1.9999995231628418,
+								130.3066864013672
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.859029175202885,
+					"usable": false
+				},
+				{
+					"angle": 1.5707963268,
+					"height": 7.2,
+					"position": [
+						-11.785530090332031,
+						10.129966735839844,
+						126.49921417236328
+					],
+					"reach": 4.585546016693115,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.938798904418945,
+								1.9999990463256836,
+								130.3129425048828
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.606029175202885,
+					"usable": false
+				},
+				{
+					"angle": -1.5707963268,
+					"height": 2.5,
+					"position": [
+						-11.179966926574707,
+						5.429966926574707,
+						135.65029907226563
+					],
+					"reach": 4.585553169250488,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.937315940856934,
+								2.0,
+								130.32778930664063
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.760022022645511,
+					"usable": false
+				},
+				{
+					"angle": -1.5707963268,
+					"height": 1.95,
+					"position": [
+						-11.179966926574707,
+						4.879966735839844,
+						135.65029907226563
+					],
+					"reach": 4.585553169250488,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.937006950378418,
+								1.9999995231628418,
+								130.3299560546875
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.859022022645512,
+					"usable": false
+				},
+				{
+					"angle": -1.5707963268,
+					"height": 7.2,
+					"position": [
+						-11.179966926574707,
+						10.129966735839844,
+						135.65029907226563
+					],
+					"reach": 4.585553169250488,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.938252449035645,
+								1.9999990463256836,
+								130.32119750976563
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.60602202264551,
+					"usable": false
+				},
+				{
+					"angle": 2.3561944902,
+					"height": 2.5,
+					"position": [
+						-14.932243347167969,
+						5.429966926574707,
+						128.05345153808594
+					],
+					"reach": 4.5855512619018555,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.945331573486328,
+								2.0,
+								130.31155395507813
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.932811525942144,
+					"usable": false
+				},
+				{
+					"angle": 2.3561944902,
+					"height": 1.95,
+					"position": [
+						-14.932243347167969,
+						4.879966735839844,
+						128.05345153808594
+					],
+					"reach": 4.5855512619018555,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.946549415588379,
+								1.9999995231628418,
+								130.31063842773438
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.031811525942146,
+					"usable": false
+				},
+				{
+					"angle": 2.3561944902,
+					"height": 7.2,
+					"position": [
+						-14.932243347167969,
+						10.129966735839844,
+						128.05345153808594
+					],
+					"reach": 4.5855512619018555,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.941637992858887,
+								1.9999990463256836,
+								130.31434631347656
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.778811525942146,
+					"usable": false
+				},
+				{
+					"angle": -2.3561944902,
+					"height": 2.5,
+					"position": [
+						-14.504045486450195,
+						5.429966926574707,
+						134.5242462158203
+					],
+					"reach": 4.58554744720459,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.944416999816895,
+								2.0,
+								130.32537841796875
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -15.93281534063941,
+					"usable": false
+				},
+				{
+					"angle": -2.3561944902,
+					"height": 1.95,
+					"position": [
+						-14.504045486450195,
+						4.879966735839844,
+						134.5242462158203
+					],
+					"reach": 4.58554744720459,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.945460319519043,
+								1.9999995231628418,
+								130.32708740234375
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.03181534063941,
+					"usable": false
+				},
+				{
+					"angle": -2.3561944902,
+					"height": 7.2,
+					"position": [
+						-14.504045486450195,
+						10.129966735839844,
+						134.5242462158203
+					],
+					"reach": 4.58554744720459,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.941251754760742,
+								1.9999990463256836,
+								130.3201904296875
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.77881534063941,
+					"usable": false
+				},
+				{
+					"angle": 3.141592653589793,
+					"height": 2.5,
+					"position": [
+						-16.05828857421875,
+						5.429966926574707,
+						131.37753295898438
+					],
+					"reach": 4.585547924041748,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.947736740112305,
+								2.0,
+								130.31866455078125
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.105602459748006,
+					"usable": false
+				},
+				{
+					"angle": 3.141592653589793,
+					"height": 1.95,
+					"position": [
+						-16.05828857421875,
+						4.879966735839844,
+						131.37753295898438
+					],
+					"reach": 4.585547924041748,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.949413299560547,
+								1.9999995231628418,
+								130.319091796875
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.204602459748006,
+					"usable": false
+				},
+				{
+					"angle": 3.141592653589793,
+					"height": 7.2,
+					"position": [
+						-16.05828857421875,
+						10.129966735839844,
+						131.37753295898438
+					],
+					"reach": 4.585547924041748,
+					"rejection": {
+						"hit": {
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"position": [
+								-11.94265365600586,
+								1.9999990463256836,
+								130.31735229492188
+							],
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"kind": "foot_or_board_endpoint",
+						"nearest_current_foot_marker": {
+							"distance_m": 0.14111095666885376,
+							"marker": "toe",
+							"side": -1.0,
+							"world": [
+								-11.932636260986328,
+								2.128857135772705,
+								130.35275268554688
+							]
+						},
+						"target": [
+							-11.938937187194824,
+							1.99265718460083,
+							130.31639099121094
+						]
+					},
+					"score": -16.951602459748006,
+					"usable": false
+				}
+			],
+			"current": {
+				"failed": [
+					{
+						"hit": {
+							"at": [
+								-11.9323148727417,
+								1.999999761581421,
+								130.31820678710938
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.11267425119876862,
+							0.023636989295482635,
+							-0.3340490460395813
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.932373046875,
+									2.000000476837158,
+									130.31820678710938
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 5.228356479064542e-05,
+							"local": [
+								0.11268656700849533,
+								0.023650238290429115,
+								-0.33399999141693115
+							],
+							"normal_support": {
+								"at": [
+									-11.938937187194824,
+									2.0,
+									130.31639099121094
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.007342815399169922,
+							"world": [
+								-11.938937187194824,
+								1.99265718460083,
+								130.31639099121094
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.007390499114990234,
+						"world": [
+							-11.938920974731445,
+							1.9926092624664307,
+							130.31637573242188
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.932689666748047,
+								2.000000238418579,
+								130.3177490234375
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.11297573149204254,
+							0.022967316210269928,
+							-0.3340490460395813
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.932757377624512,
+									1.999999761581421,
+									130.31773376464844
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 5.304563491673557e-05,
+							"local": [
+								0.11299557238817215,
+								0.022971034049987793,
+								-0.33399999141693115
+							],
+							"normal_support": {
+								"at": [
+									-11.939453125,
+									2.0,
+									130.3158721923828
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.007489323616027832,
+							"world": [
+								-11.939453125,
+								1.9925106763839722,
+								130.3158721923828
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.007534980773925781,
+						"world": [
+							-11.93942642211914,
+							1.9924652576446533,
+							130.3158721923828
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.902607917785645,
+								2.0,
+								130.32583618164063
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.10412295162677765,
+							0.028537042438983917,
+							-0.3548913300037384
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.902639389038086,
+									2.0,
+									130.32586669921875
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.210596700816021e-05,
+							"local": [
+								0.10414640605449677,
+								0.028551669791340828,
+								-0.35487499833106995
+							],
+							"normal_support": {
+								"at": [
+									-11.925326347351074,
+									2.0,
+									130.31956481933594
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.02571237087249756,
+							"world": [
+								-11.925326347351074,
+								1.9742876291275024,
+								130.31956481933594
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.025726795196533203,
+						"world": [
+							-11.92530632019043,
+							1.9742732048034668,
+							130.3195343017578
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.903002738952637,
+								2.000000238418579,
+								130.32537841796875
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.10445185005664825,
+							0.02786736935377121,
+							-0.3548913300037384
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.903029441833496,
+									2.0,
+									130.3253936767578
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 2.0824184836988057e-05,
+							"local": [
+								0.10446403175592422,
+								0.027871673926711082,
+								-0.35487499833106995
+							],
+							"normal_support": {
+								"at": [
+									-11.925849914550781,
+									2.0,
+									130.3190460205078
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.025860309600830078,
+							"world": [
+								-11.925849914550781,
+								1.97413969039917,
+								130.3190460205078
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.025875329971313477,
+						"world": [
+							-11.925836563110352,
+							1.9741249084472656,
+							130.31903076171875
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.868903160095215,
+								2.0,
+								130.3318634033203
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.09014487266540527,
+							0.034106768667697906,
+							-0.37581539154052734
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.868971824645996,
+									2.000000238418579,
+									130.33184814453125
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 6.566318375421093e-05,
+							"local": [
+								0.09014780819416046,
+								0.034112028777599335,
+								-0.37575000524520874
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.906471252441406,
+								1.9568556547164917,
+								130.3213653564453
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.04320859909057617,
+						"world": [
+							-11.90645694732666,
+							1.9567914009094238,
+							130.3213653564453
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.93814754486084,
+								2.0,
+								130.29458618164063
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.11297573149204254,
+							-0.0030846521258354187,
+							-0.3340490460395813
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.938215255737305,
+									1.999999761581421,
+									130.29457092285156
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 5.2941338641487085e-05,
+							"local": [
+								0.11299557238817215,
+								-0.003082988318055868,
+								-0.33399999141693115
+							],
+							"normal_support": {
+								"at": [
+									-11.948326110839844,
+									2.0,
+									130.2916717529297
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.01128232479095459,
+							"world": [
+								-11.948326110839844,
+								1.9887176752090454,
+								130.2916717529297
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.011327505111694336,
+						"world": [
+							-11.948299407958984,
+							1.9886724948883057,
+							130.2916717529297
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.908465385437012,
+								2.0,
+								130.3023681640625
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.10445185005664825,
+							0.001815401017665863,
+							-0.3548913300037384
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.908491134643555,
+									2.000000238418579,
+									130.30238342285156
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 2.0630447796304764e-05,
+							"local": [
+								0.10446403175592422,
+								0.0018186410889029503,
+								-0.35487499833106995
+							],
+							"normal_support": {
+								"at": [
+									-11.934722900390625,
+									2.0,
+									130.2948455810547
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.029653310775756836,
+							"world": [
+								-11.934722900390625,
+								1.9703466892242432,
+								130.2948455810547
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.02966785430908203,
+						"world": [
+							-11.934709548950195,
+							1.970332145690918,
+							130.29483032226563
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.869302749633789,
+								2.000000238418579,
+								130.3313751220703
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.09047377109527588,
+							0.03342076390981674,
+							-0.37581539154052734
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.869368553161621,
+									2.0,
+									130.33135986328125
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 6.631012043254781e-05,
+							"local": [
+								0.09047617018222809,
+								0.0334315299987793,
+								-0.37575000524520874
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.907004356384277,
+								1.956705927848816,
+								130.3208465576172
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.04335939884185791,
+						"world": [
+							-11.906993865966797,
+							1.9566408395767212,
+							130.3208465576172
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.868234634399414,
+								2.0,
+								130.33177185058594
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.08935004472732544,
+							0.03436810523271561,
+							-0.37581539154052734
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.868303298950195,
+									2.0,
+									130.33175659179688
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 6.646921139312496e-05,
+							"local": [
+								0.08935510367155075,
+								0.03437893092632294,
+								-0.37575000524520874
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.905651092529297,
+								1.9570167064666748,
+								130.32131958007813
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.04304790496826172,
+						"world": [
+							-11.905637741088867,
+							1.9569520950317383,
+							130.32131958007813
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.828150749206543,
+								2.0,
+								130.33474731445313
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06654660403728485,
+							0.04050951451063156,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.82819938659668,
+									2.000000476837158,
+									130.33473205566406
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.9000648953463124e-05,
+							"local": [
+								0.06656789034605026,
+								0.04051053896546364,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.878520011901855,
+								1.941023349761963,
+								130.3204803466797
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.0590054988861084,
+						"world": [
+							-11.878494262695313,
+							1.9409945011138916,
+							130.3204803466797
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.829261779785156,
+								1.999999761581421,
+								130.3343505859375
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06772513687610626,
+							0.039545826613903046,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.829297065734863,
+									2.000000476837158,
+									130.33436584472656
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.58142488727501e-05,
+							"local": [
+								0.06773189455270767,
+								0.03955886885523796,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.879914283752441,
+								1.9407052993774414,
+								130.3200225830078
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.05932736396789551,
+						"world": [
+							-11.879905700683594,
+							1.9406723976135254,
+							130.32000732421875
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.828842163085938,
+								2.000000476837158,
+								130.33480834960938
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06736883521080017,
+							0.040231846272945404,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.828890800476074,
+									2.000000238418579,
+									130.33482360839844
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 4.0300578196653076e-05,
+							"local": [
+								0.06739097833633423,
+								0.040240027010440826,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.879368782043457,
+								1.94085693359375,
+								130.32052612304688
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.05917322635650635,
+						"world": [
+							-11.879344940185547,
+							1.9408272504806519,
+							130.3205108642578
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.766315460205078,
+								2.0000007152557373,
+								130.29957580566406
+							],
+							"collider": "AnnularDeck",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+							"rid": "RID(26109106192873)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.006934225559234619,
+							0.019324935972690582,
+							-0.417254775762558
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.76634407043457,
+									2.0,
+									130.29959106445313
+								],
+								"collider": "AnnularDeck",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+								"rid": "RID(26109106192873)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.003845322621888e-05,
+							"local": [
+								0.006947562098503113,
+								0.01934049278497696,
+								-0.41723281145095825
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.826868057250977,
+								1.9269963502883911,
+								130.28094482421875
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.07302606105804443,
+						"world": [
+							-11.82685661315918,
+							1.9269746541976929,
+							130.2809295654297
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.769603729248047,
+								1.9999995231628418,
+								130.30126953125
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.011209875345230103,
+							0.01934126764535904,
+							-0.417254775762558
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.769630432128906,
+									2.000000238418579,
+									130.30128479003906
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 2.946461695116857e-05,
+							"local": [
+								0.011220943182706833,
+								0.019355449825525284,
+								-0.4172314405441284
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.830792427062988,
+								1.9263408184051514,
+								130.2825164794922
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.07368183135986328,
+						"world": [
+							-11.830782890319824,
+							1.9263176918029785,
+							130.28250122070313
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.834066390991211,
+								2.0,
+								130.31031799316406
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06654660403728485,
+							0.012497521936893463,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.834112167358398,
+									2.000000238418579,
+									130.31031799316406
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 4.110227838853773e-05,
+							"local": [
+								0.06656789034605026,
+								0.012510537169873714,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.888055801391602,
+								1.9369468688964844,
+								130.2944793701172
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.06308364868164063,
+						"world": [
+							-11.88803482055664,
+							1.9369163513183594,
+							130.29446411132813
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.834632873535156,
+								2.0,
+								130.31089782714844
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06736883521080017,
+							0.012807853519916534,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.834681510925293,
+									2.000000238418579,
+									130.31089782714844
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.948251273428384e-05,
+							"local": [
+								0.06739097833633423,
+								0.012809140607714653,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.888710975646973,
+								1.9368634223937988,
+								130.2950439453125
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.06316518783569336,
+						"world": [
+							-11.88868522644043,
+							1.9368348121643066,
+							130.2950439453125
+						]
+					}
+				],
+				"hits": 44,
+				"outside": 0,
+				"scope": "Actual indexed nearest-point/native-ray diagnostics; rendered means native Node3D GTI CPU frame, not GPU pixels."
+			},
+			"fraction": 0.0,
+			"gait": {
+				"air": true,
+				"brake_blend": 0.0,
+				"floor": false,
+				"manual": false,
+				"native_normal": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"native_valid": true,
+				"push_blend": 0.0,
+				"push_phase": 0.17137745099190016
+			},
+			"landing_geometry": {
+				"cached_model_points": 2953,
+				"model_gap_to_diagnostic_plane_y2_m": -0.07376372814178467,
+				"parts": 32,
+				"wheel_gap_m": 0.02058887481689453
+			},
+			"minimum_arm": 1.6,
+			"observer_priority": 1000,
+			"physics": 1424,
+			"process": 1423,
+			"queries_are_read_only": true,
+			"rendered_GTI": {
+				"failed": [],
+				"hits": 0,
+				"outside": 0,
+				"scope": "Actual indexed nearest-point/native-ray diagnostics; rendered means native Node3D GTI CPU frame, not GPU pixels."
+			},
+			"selected_angle": 0.0
+		},
+		{
+			"actual_camera_rejection": {
+
+			},
+			"actual_camera_usable": true,
+			"anchor": [
+				-11.592031478881836,
+				2.4683878421783447,
+				131.0903778076172
+			],
+			"board": [
+				[
+					-0.9255434274673462,
+					-0.07442304491996765,
+					0.3712525963783264,
+					-12.024741172790527
+				],
+				[
+					0.2058423012495041,
+					0.7240481972694397,
+					0.658317506313324,
+					2.296297788619995
+				],
+				[
+					-0.31779876351356506,
+					0.685721755027771,
+					-0.6548192501068115,
+					130.2017364501953
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"board_GTI": [
+				[
+					-0.9195864200592041,
+					0.34059032797813416,
+					-0.19584959745407104,
+					-11.908781051635742
+				],
+				[
+					-0.15421074628829956,
+					0.14558428525924683,
+					0.9772535562515259,
+					2.332994222640991
+				],
+				[
+					0.3613557815551758,
+					0.9288710355758667,
+					-0.08135475218296051,
+					130.22653198242188
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"board_proxy": [
+				-11.949651718139648,
+				2.315524101257324,
+				130.1150665283203
+			],
+			"body": [
+				[
+					-0.46520549058914185,
+					0.0,
+					0.8852014541625977,
+					-12.015810012817383
+				],
+				[
+					0.0,
+					1.0,
+					0.0,
+					2.209412097930908
+				],
+				[
+					-0.8852014541625977,
+					0.0,
+					-0.46520549058914185,
+					130.11944580078125
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"body_GTI": [
+				[
+					-0.46520549058914185,
+					0.0,
+					0.8852014541625977,
+					-11.949651718139648
+				],
+				[
+					0.0,
+					1.0,
+					0.0,
+					2.315524101257324
+				],
+				[
+					-0.8852014541625977,
+					0.0,
+					-0.46520549058914185,
+					130.1150665283203
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"body_up": [
+				0.34059056639671326,
+				0.1455845832824707,
+				0.9288719892501831
+			],
+			"camera": [
+				[
+					-0.5574133992195129,
+					0.2552039921283722,
+					0.7900387644767761,
+					-9.652490615844727
+				],
+				[
+					0.7527565360069275,
+					-0.24604688584804535,
+					0.6105887293815613,
+					4.5173797607421875
+				],
+				[
+					0.3502112329006195,
+					0.9350571632385254,
+					-0.05495662987232208,
+					130.95545959472656
+				],
+				[
+					0,
+					0,
+					0,
+					1
+				]
+			],
+			"camera_cache_active_after_update": false,
+			"camera_process": 1424,
+			"camera_ramp_mode": false,
+			"candidates": [
+				{
+					"angle": 0.0,
+					"height": 2.5,
+					"position": [
+						-6.845962047576904,
+						5.023777961730957,
+						130.77630615234375
+					],
+					"reach": 4.7564496994018555,
+					"rejection": {
+
+					},
+					"score": 4.7564496994018555,
+					"usable": true
+				},
+				{
+					"angle": 0.0,
+					"height": 1.95,
+					"position": [
+						-6.845962047576904,
+						4.473777770996094,
+						130.77630615234375
+					],
+					"reach": 4.7564496994018555,
+					"rejection": {
+
+					},
+					"score": 4.657449699401855,
+					"usable": true
+				},
+				{
+					"angle": 0.0,
+					"height": 7.2,
+					"position": [
+						-6.845962047576904,
+						9.723777770996094,
+						130.77630615234375
+					],
+					"reach": 4.7564496994018555,
+					"rejection": {
+
+					},
+					"score": 3.9104496994018554,
+					"usable": true
+				},
+				{
+					"angle": 0.7853981634,
+					"height": 2.5,
+					"position": [
+						-8.458131790161133,
+						5.023777961730957,
+						127.51232147216797
+					],
+					"reach": 4.7564496994018555,
+					"rejection": {
+
+					},
+					"score": 4.583662103453856,
+					"usable": true
+				},
+				{
+					"angle": 0.7853981634,
+					"height": 1.95,
+					"position": [
+						-8.458131790161133,
+						4.473777770996094,
+						127.51232147216797
+					],
+					"reach": 4.7564496994018555,
+					"rejection": {
+
+					},
+					"score": 4.484662103453855,
+					"usable": true
+				},
+				{
+					"angle": 0.7853981634,
+					"height": 7.2,
+					"position": [
+						-8.458131790161133,
+						9.723777770996094,
+						127.51232147216797
+					],
+					"reach": 4.7564496994018555,
+					"rejection": {
+
+					},
+					"score": 3.7376621034538555,
+					"usable": true
+				},
+				{
+					"angle": -0.7853981634,
+					"height": 2.5,
+					"position": [
+						-8.013975143432617,
+						5.023777961730957,
+						134.22427368164063
+					],
+					"reach": 4.7564473152160645,
+					"rejection": {
+
+					},
+					"score": 4.583659719268065,
+					"usable": true
+				},
+				{
+					"angle": -0.7853981634,
+					"height": 1.95,
+					"position": [
+						-8.013975143432617,
+						4.473777770996094,
+						134.22427368164063
+					],
+					"reach": 4.7564473152160645,
+					"rejection": {
+
+					},
+					"score": 4.484659719268064,
+					"usable": true
+				},
+				{
+					"angle": -0.7853981634,
+					"height": 7.2,
+					"position": [
+						-8.013975143432617,
+						9.723777770996094,
+						134.22427368164063
+					],
+					"reach": 4.7564473152160645,
+					"rejection": {
+
+					},
+					"score": 3.7376597192680645,
+					"usable": true
+				},
+				{
+					"angle": 1.5707963268,
+					"height": 2.5,
+					"position": [
+						-11.906097412109375,
+						5.023777961730957,
+						126.34430694580078
+					],
+					"reach": 4.756450653076172,
+					"rejection": {
+
+					},
+					"score": 4.410875461180172,
+					"usable": true
+				},
+				{
+					"angle": 1.5707963268,
+					"height": 1.95,
+					"position": [
+						-11.906097412109375,
+						4.473777770996094,
+						126.34430694580078
+					],
+					"reach": 4.756450653076172,
+					"rejection": {
+
+					},
+					"score": 4.311875461180172,
+					"usable": true
+				},
+				{
+					"angle": 1.5707963268,
+					"height": 7.2,
+					"position": [
+						-11.906097412109375,
+						9.723777770996094,
+						126.34430694580078
+					],
+					"reach": 4.756450653076172,
+					"rejection": {
+
+					},
+					"score": 3.564875461180172,
+					"usable": true
+				},
+				{
+					"angle": -1.5707963268,
+					"height": 2.5,
+					"position": [
+						-11.277965545654297,
+						5.023777961730957,
+						135.83644104003906
+					],
+					"reach": 4.756443500518799,
+					"rejection": {
+
+					},
+					"score": 4.410868308622799,
+					"usable": true
+				},
+				{
+					"angle": -1.5707963268,
+					"height": 1.95,
+					"position": [
+						-11.277965545654297,
+						4.473777770996094,
+						135.83644104003906
+					],
+					"reach": 4.756443500518799,
+					"rejection": {
+
+					},
+					"score": 4.311868308622799,
+					"usable": true
+				},
+				{
+					"angle": -1.5707963268,
+					"height": 7.2,
+					"position": [
+						-11.277965545654297,
+						9.723777770996094,
+						135.83644104003906
+					],
+					"reach": 4.756443500518799,
+					"rejection": {
+
+					},
+					"score": 3.564868308622799,
+					"usable": true
+				},
+				{
+					"angle": 2.3561944902,
+					"height": 2.5,
+					"position": [
+						-15.170087814331055,
+						5.023777961730957,
+						127.95647430419922
+					],
+					"reach": 4.7564520835876465,
+					"rejection": {
+
+					},
+					"score": 4.238089295743647,
+					"usable": true
+				},
+				{
+					"angle": 2.3561944902,
+					"height": 1.95,
+					"position": [
+						-15.170087814331055,
+						4.473777770996094,
+						127.95647430419922
+					],
+					"reach": 4.7564520835876465,
+					"rejection": {
+
+					},
+					"score": 4.139089295743647,
+					"usable": true
+				},
+				{
+					"angle": 2.3561944902,
+					"height": 7.2,
+					"position": [
+						-15.170087814331055,
+						9.723777770996094,
+						127.95647430419922
+					],
+					"reach": 4.7564520835876465,
+					"rejection": {
+
+					},
+					"score": 3.392089295743647,
+					"usable": true
+				},
+				{
+					"angle": -2.3561944902,
+					"height": 2.5,
+					"position": [
+						-14.725931167602539,
+						5.023777961730957,
+						134.66844177246094
+					],
+					"reach": 4.756455421447754,
+					"rejection": {
+
+					},
+					"score": 4.238092633603754,
+					"usable": true
+				},
+				{
+					"angle": -2.3561944902,
+					"height": 1.95,
+					"position": [
+						-14.725931167602539,
+						4.473777770996094,
+						134.66844177246094
+					],
+					"reach": 4.756455421447754,
+					"rejection": {
+
+					},
+					"score": 4.139092633603754,
+					"usable": true
+				},
+				{
+					"angle": -2.3561944902,
+					"height": 7.2,
+					"position": [
+						-14.725931167602539,
+						9.723777770996094,
+						134.66844177246094
+					],
+					"reach": 4.756455421447754,
+					"rejection": {
+
+					},
+					"score": 3.3920926336037542,
+					"usable": true
+				},
+				{
+					"angle": 3.141592653589793,
+					"height": 2.5,
+					"position": [
+						-16.33810043334961,
+						5.023777961730957,
+						131.40444946289063
+					],
+					"reach": 4.7564496994018555,
+					"rejection": {
+
+					},
+					"score": 4.065299315612101,
+					"usable": true
+				},
+				{
+					"angle": 3.141592653589793,
+					"height": 1.95,
+					"position": [
+						-16.33810043334961,
+						4.473777770996094,
+						131.40444946289063
+					],
+					"reach": 4.7564496994018555,
+					"rejection": {
+
+					},
+					"score": 3.966299315612101,
+					"usable": true
+				},
+				{
+					"angle": 3.141592653589793,
+					"height": 7.2,
+					"position": [
+						-16.33810043334961,
+						9.723777770996094,
+						131.40444946289063
+					],
+					"reach": 4.7564496994018555,
+					"rejection": {
+
+					},
+					"score": 3.2192993156121013,
+					"usable": true
+				}
+			],
+			"current": {
+				"failed": [],
+				"hits": 0,
+				"outside": 0,
+				"scope": "Actual indexed nearest-point/native-ray diagnostics; rendered means native Node3D GTI CPU frame, not GPU pixels."
+			},
+			"fraction": 0.0,
+			"gait": {
+				"air": true,
+				"brake_blend": 0.0,
+				"floor": false,
+				"manual": false,
+				"native_normal": [
+					0.0,
+					1.0,
+					0.0
+				],
+				"native_valid": true,
+				"push_blend": 0.0,
+				"push_phase": 0.17137745099190016
+			},
+			"landing_geometry": {
+				"cached_model_points": 2953,
+				"model_gap_to_diagnostic_plane_y2_m": 0.008056879043579102,
+				"parts": 32,
+				"wheel_gap_m": 0.008059263229370117
+			},
+			"minimum_arm": 1.6,
+			"observer_priority": 1000,
+			"physics": 1425,
+			"process": 1424,
+			"queries_are_read_only": true,
+			"rendered_GTI": {
+				"failed": [
+					{
+						"hit": {
+							"at": [
+								-11.932228088378906,
+								1.999999761581421,
+								130.31825256347656
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.11267425119876862,
+							0.023636989295482635,
+							-0.3340490460395813
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.932287216186523,
+									1.999999761581421,
+									130.31825256347656
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 5.228356479064542e-05,
+							"local": [
+								0.11268656700849533,
+								0.023650238290429115,
+								-0.33399999141693115
+							],
+							"normal_support": {
+								"at": [
+									-11.938937187194824,
+									2.0,
+									130.31639099121094
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.007342815399169922,
+							"world": [
+								-11.938937187194824,
+								1.99265718460083,
+								130.31639099121094
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.007390499114990234,
+						"world": [
+							-11.938920974731445,
+							1.9926092624664307,
+							130.31637573242188
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.932601928710938,
+								1.9999995231628418,
+								130.31777954101563
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.11297573149204254,
+							0.022967316210269928,
+							-0.3340490460395813
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.932669639587402,
+									2.0,
+									130.31776428222656
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 5.304563491673557e-05,
+							"local": [
+								0.11299557238817215,
+								0.022971034049987793,
+								-0.33399999141693115
+							],
+							"normal_support": {
+								"at": [
+									-11.939453125,
+									2.0,
+									130.3158721923828
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.007489442825317383,
+							"world": [
+								-11.939453125,
+								1.9925105571746826,
+								130.3158721923828
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.0075342655181884766,
+						"world": [
+							-11.93942642211914,
+							1.9924652576446533,
+							130.3158721923828
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.902313232421875,
+								2.0,
+								130.3259735107422
+							],
+							"collider": "AnnularDeck",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+							"rid": "RID(26109106192873)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.10412295162677765,
+							0.028537042438983917,
+							-0.3548913300037384
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.90234661102295,
+									1.999999761581421,
+									130.32598876953125
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.210596700816021e-05,
+							"local": [
+								0.10414640605449677,
+								0.028551669791340828,
+								-0.35487499833106995
+							],
+							"normal_support": {
+								"at": [
+									-11.925326347351074,
+									2.0,
+									130.31956481933594
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.02571249008178711,
+							"world": [
+								-11.925326347351074,
+								1.974287509918213,
+								130.31956481933594
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.025726914405822754,
+						"world": [
+							-11.92530632019043,
+							1.9742730855941772,
+							130.3195343017578
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.902708053588867,
+								1.9999995231628418,
+								130.32550048828125
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.10445185005664825,
+							0.02786736935377121,
+							-0.3548913300037384
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.90273380279541,
+									1.999999761581421,
+									130.3255157470703
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 2.0824184836988057e-05,
+							"local": [
+								0.10446403175592422,
+								0.027871673926711082,
+								-0.35487499833106995
+							],
+							"normal_support": {
+								"at": [
+									-11.925849914550781,
+									2.0,
+									130.3190460205078
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.02586042881011963,
+							"world": [
+								-11.925849914550781,
+								1.9741395711898804,
+								130.3190460205078
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.025874614715576172,
+						"world": [
+							-11.925836563110352,
+							1.9741249084472656,
+							130.31903076171875
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.868422508239746,
+								2.0,
+								130.33206176757813
+							],
+							"collider": "AnnularDeck",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+							"rid": "RID(26109106192873)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.09014487266540527,
+							0.034106768667697906,
+							-0.37581539154052734
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.868492126464844,
+									2.000000238418579,
+									130.33204650878906
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 6.566318375421093e-05,
+							"local": [
+								0.09014780819416046,
+								0.034112028777599335,
+								-0.37575000524520874
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.906471252441406,
+								1.9568555355072021,
+								130.3213653564453
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.04320859909057617,
+						"world": [
+							-11.90645694732666,
+							1.9567914009094238,
+							130.3213653564453
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.93801498413086,
+								2.0,
+								130.29464721679688
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.11297573149204254,
+							-0.0030846521258354187,
+							-0.3340490460395813
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.938082695007324,
+									2.000000238418579,
+									130.2946319580078
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 5.2941338641487085e-05,
+							"local": [
+								0.11299557238817215,
+								-0.003082988318055868,
+								-0.33399999141693115
+							],
+							"normal_support": {
+								"at": [
+									-11.948326110839844,
+									2.0,
+									130.2916717529297
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.01128244400024414,
+							"world": [
+								-11.948326110839844,
+								1.9887175559997559,
+								130.2916717529297
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.011327505111694336,
+						"world": [
+							-11.948299407958984,
+							1.9886724948883057,
+							130.2916717529297
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.908126831054688,
+								2.0,
+								130.30252075195313
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.10445185005664825,
+							0.001815401017665863,
+							-0.3548913300037384
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.90815258026123,
+									2.0,
+									130.3025360107422
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 2.0630447796304764e-05,
+							"local": [
+								0.10446403175592422,
+								0.0018186410889029503,
+								-0.35487499833106995
+							],
+							"normal_support": {
+								"at": [
+									-11.934722900390625,
+									2.0,
+									130.2948455810547
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"signed_normal_gap_m": -0.029653310775756836,
+							"world": [
+								-11.934722900390625,
+								1.9703466892242432,
+								130.2948455810547
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.02966785430908203,
+						"world": [
+							-11.934709548950195,
+							1.970332145690918,
+							130.29483032226563
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.868820190429688,
+								2.0,
+								130.3315887451172
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.09047377109527588,
+							0.03342076390981674,
+							-0.37581539154052734
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.868886947631836,
+									1.999999761581421,
+									130.33157348632813
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 6.631012043254781e-05,
+							"local": [
+								0.09047617018222809,
+								0.0334315299987793,
+								-0.37575000524520874
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.907004356384277,
+								1.956705927848816,
+								130.3208465576172
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.04335916042327881,
+						"world": [
+							-11.906993865966797,
+							1.9566408395767212,
+							130.3208465576172
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.867755889892578,
+								1.999999761581421,
+								130.3319854736328
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.08935004472732544,
+							0.03436810523271561,
+							-0.37581539154052734
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.867825508117676,
+									1.9999992847442627,
+									130.33197021484375
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 6.646921139312496e-05,
+							"local": [
+								0.08935510367155075,
+								0.03437893092632294,
+								-0.37575000524520874
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.905651092529297,
+								1.9570167064666748,
+								130.32131958007813
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.04304778575897217,
+						"world": [
+							-11.905637741088867,
+							1.9569519758224487,
+							130.32131958007813
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.827513694763184,
+								1.999999761581421,
+								130.33502197265625
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06654660403728485,
+							0.04050951451063156,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.827563285827637,
+									1.999999761581421,
+									130.33502197265625
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.9000648953463124e-05,
+							"local": [
+								0.06656789034605026,
+								0.04051053896546364,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.878520011901855,
+								1.9410232305526733,
+								130.3204803466797
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.0590052604675293,
+						"world": [
+							-11.878494262695313,
+							1.9409945011138916,
+							130.3204803466797
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.828620910644531,
+								2.0,
+								130.3346405029297
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06772513687610626,
+							0.039545826613903046,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.828657150268555,
+									2.0,
+									130.3346405029297
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.58142488727501e-05,
+							"local": [
+								0.06773189455270767,
+								0.03955886885523796,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.879914283752441,
+								1.9407051801681519,
+								130.3200225830078
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.05932760238647461,
+						"world": [
+							-11.879905700683594,
+							1.9406723976135254,
+							130.32000732421875
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.828203201293945,
+								2.0,
+								130.33509826660156
+							],
+							"collider": "AnnularDeck",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+							"rid": "RID(26109106192873)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06736883521080017,
+							0.040231846272945404,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.828251838684082,
+									2.0,
+									130.33509826660156
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 4.0300578196653076e-05,
+							"local": [
+								0.06739097833633423,
+								0.040240027010440826,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.879368782043457,
+								1.94085693359375,
+								130.32052612304688
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.059172749519348145,
+						"world": [
+							-11.879344940185547,
+							1.9408272504806519,
+							130.3205108642578
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.765559196472168,
+								2.000000476837158,
+								130.29994201660156
+							],
+							"collider": "AnnularDeck",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+							"rid": "RID(26109106192873)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.006934225559234619,
+							0.019324935972690582,
+							-0.417254775762558
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.76558780670166,
+									2.000000476837158,
+									130.29995727539063
+								],
+								"collider": "AnnularDeck",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+								"rid": "RID(26109106192873)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.003845322621888e-05,
+							"local": [
+								0.006947562098503113,
+								0.01934049278497696,
+								-0.41723281145095825
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.826868057250977,
+								1.9269962310791016,
+								130.28094482421875
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.07302594184875488,
+						"world": [
+							-11.82685661315918,
+							1.9269745349884033,
+							130.2809295654297
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.768838882446289,
+								1.9999995231628418,
+								130.3016357421875
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.011209875345230103,
+							0.01934126764535904,
+							-0.417254775762558
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.768866539001465,
+									2.000000476837158,
+									130.30165100097656
+								],
+								"collider": "AnnularDeck",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+								"rid": "RID(26109106192873)",
+								"shape": 0
+							},
+							"hull_local_error_m": 2.946461695116857e-05,
+							"local": [
+								0.011220943182706833,
+								0.019355449825525284,
+								-0.4172314405441284
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.830792427062988,
+								1.9263408184051514,
+								130.2825164794922
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.07368195056915283,
+						"world": [
+							-11.830782890319824,
+							1.926317572593689,
+							130.28250122070313
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.833383560180664,
+								1.9999992847442627,
+								130.3106231689453
+							],
+							"collider": "ClydePrintYardGround",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+							"rid": "RID(16655883174170)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06654660403728485,
+							0.012497521936893463,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.833429336547852,
+									2.0,
+									130.3106231689453
+								],
+								"collider": "AnnularDeck",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+								"rid": "RID(26109106192873)",
+								"shape": 0
+							},
+							"hull_local_error_m": 4.110227838853773e-05,
+							"local": [
+								0.06656789034605026,
+								0.012510537169873714,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.888055801391602,
+								1.9369468688964844,
+								130.2944793701172
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.06308293342590332,
+						"world": [
+							-11.88803482055664,
+							1.9369163513183594,
+							130.29446411132813
+						]
+					},
+					{
+						"hit": {
+							"at": [
+								-11.833949089050293,
+								1.9999998807907104,
+								130.3112030029297
+							],
+							"collider": "AnnularDeck",
+							"normal": [
+								0.0,
+								1.0,
+								0.0
+							],
+							"path": "/root/@Node3D@92/GlasgowSquare/ClydeEastBowl/AnnularDeck",
+							"rid": "RID(26109106192873)",
+							"shape": 0
+						},
+						"in_frustum": true,
+						"kind": "mesh_hull",
+						"local": [
+							0.06736883521080017,
+							0.012807853519916534,
+							-0.39665767550468445
+						],
+						"nearest_indexed": {
+							"camera_ray": {
+								"at": [
+									-11.833998680114746,
+									1.999999761581421,
+									130.3112030029297
+								],
+								"collider": "ClydePrintYardGround",
+								"normal": [
+									0.0,
+									1.0,
+									0.0
+								],
+								"path": "/root/@Node3D@92/GlasgowSquare/OutdoorRoutes/ClydePrintYardGround",
+								"rid": "RID(16655883174170)",
+								"shape": 0
+							},
+							"hull_local_error_m": 3.948251273428384e-05,
+							"local": [
+								0.06739097833633423,
+								0.012809140607714653,
+								-0.39662501215934753
+							],
+							"normal_support": {
+
+							},
+							"world": [
+								-11.888710975646973,
+								1.9368634223937988,
+								130.2950439453125
+							]
+						},
+						"node": "/root/@Node3D@92/Skater/SkaterVisual/Board/DetailedSkateboard/TamSkateboard",
+						"ray_endpoint_signed_gap_m": -0.06316518783569336,
+						"world": [
+							-11.88868522644043,
+							1.936834692955017,
+							130.2950439453125
+						]
+					}
+				],
+				"hits": 44,
+				"outside": 0,
+				"scope": "Actual indexed nearest-point/native-ray diagnostics; rendered means native Node3D GTI CPU frame, not GPU pixels."
+			},
+			"selected_angle": 0.0
+		}
+	],
+	"scope": "Exact C04 construction+bridge prefix+bank return, unchanged input/assertions; extra priority1000 read-only native/current/GTI witness only. No GPU or performance acceptance."
+}

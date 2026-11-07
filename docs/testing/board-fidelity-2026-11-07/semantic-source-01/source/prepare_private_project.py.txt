@@ -1,0 +1,47 @@
+"""Prepare a coherent private importer project. Does not launch an engine."""
+from pathlib import Path
+import hashlib,json,shutil,datetime
+R=Path(__file__).resolve().parent;ROOT=R.parents[1];O=R/'physical-project'
+assert not O.exists(), 'Preserve existing private preparation'
+O.mkdir();(O/'project.godot').write_text('config_version=5\n[application]\nconfig/name="PRIVATE physical board semantic contact study"\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n')
+for sub in ['tools/art','game/tricks','game/art/assets/tam_skateboard']:(O/sub).mkdir(parents=True)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+source=ROOT/'.local/board-fidelity/construction-study/physical-layout02/tam_skateboard.glb'
+assert sha(source)=='c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5'
+target=O/'game/art/assets/tam_skateboard/tam_skateboard.glb';shutil.copy2(source,target)
+for file in ['tam_skateboard.glb.import','tam_skateboard_board_albedo.png','tam_skateboard_board_albedo.png.import']:
+ p=ROOT/'game/art/assets/tam_skateboard'/file
+ if p.exists():shutil.copy2(p,O/'game/art/assets/tam_skateboard'/file)
+# No generated imports/cache are copied: first future native import is cold.
+policy=(ROOT/'tools/art/import_board_wood.gd').read_text()
+decoder=(ROOT/'tools/art/board_wood_source.gd').read_text().replace('76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943','c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5')
+# Control import keeps all native buffers. Final semantic import changes only
+# this explicit gate, then validates the exact generated cooked certificate.
+control=policy.replace('const Decoder=', 'const REQUIRE_SEMANTICS:=false\nconst Decoder=',1)
+needle=' return scene\nfunc _source_shadow'
+assert needle in control
+extra=''' if REQUIRE_SEMANTICS:
+  var definition:Script=load("res://game/art/board_contact_definition.gd")as Script
+  var checker_script:Script=load("res://game/tricks/semantic_board_cache.gd")as Script
+  if definition==null or checker_script==null:return _refuse("missing cooked semantic definition/validator")
+  var checker:RefCounted=checker_script.new()
+  var certificate:Dictionary=definition.CERTIFICATE
+  var expected:Dictionary=definition.EXPECTED
+  if not checker.prepare(scene,nodes[0],certificate,expected,scene.get_meta("tam_board_wood_import",{})):
+   return _refuse("actual native semantic refusal: "+str(checker.rejection))
+  scene.set_meta("tam_board_semantic_parts",certificate.duplicate(true))
+ return scene
+func _source_shadow'''
+control=control.replace(needle,extra)
+final=control.replace('const REQUIRE_SEMANTICS:=false','const REQUIRE_SEMANTICS:=true')
+(O/'tools/art/import_board_wood.gd').write_text(control)
+(R/'import_board_wood_semantic_final.gd').write_text(final)
+(O/'tools/art/board_wood_source.gd').write_text(decoder)
+shutil.copy2(R/'semantic_board_cache.gd',O/'game/tricks/semantic_board_cache.gd')
+# The retained Native08 cache/probe can later inspect the current legacy
+# constructor in this independent minimal project. No production cache copy is
+# overwritten and no source dependency points into an external project.
+for name in ['grind_clearance.gd','grind_style.gd','grind_line.gd','directional_tricks.gd','trick_catalog.gd']:
+ shutil.copy2(ROOT/'.local/board-fidelity/native-project/game/tricks'/name,O/'game/tricks'/name)
+manifest={'prepared_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'PRIVATE cold project prepared; zero engines launched','source_sha256':sha(target),'control_policy_sha256':sha(O/'tools/art/import_board_wood.gd'),'future_final_policy_sha256':sha(R/'import_board_wood_semantic_final.gd'),'decoder_sha256':sha(O/'tools/art/board_wood_source.gd'),'runtime_validator_sha256':sha(O/'game/tricks/semantic_board_cache.gd'),'files':{str(p.relative_to(O)):sha(p)for p in sorted(O.rglob('*'))if p.is_file()},'scope':'Control REQUIRE_SEMANTICS=false exists only in this private control project; future final policy requires typed cooked definition and exact actual native verification or refuses import. Final definition missing until a root-leased actual native control is captured. No synthetic native candidate certificate.'}
+(R/'private-project-preparation.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps({k:v for k,v in manifest.items()if k!='files'},indent=2))

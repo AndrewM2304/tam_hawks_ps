@@ -1,0 +1,42 @@
+from pathlib import Path
+import hashlib,json,re,datetime,math
+import numpy as np
+from PIL import Image
+R=Path('/workspace/tam_hawks_ps');P=R/'.local/rider-fit-staging/epochs/neutral-hand-01';O=R/'docs/testing/rider-fit-2026-11-07/neutral-hand-independent-01';O.mkdir(parents=True,exist_ok=True)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+checks=[]
+def ck(k,v):
+ checks.append({'label':k,'pass':bool(v)})
+ if not v:raise AssertionError(k)
+def vector(s):return np.array([float(x.strip()) for x in s.strip('()').split(',')])
+idx=json.loads((P/'index.json').read_text())['files'];ck('789 exact archive entries',len(idx)==789)
+for k,v in idx.items():ck('preserved '+k,(P/k).is_file() and sha(P/k)==v['sha256'] and (P/k).stat().st_size==v['bytes'])
+before=json.loads((P/'source-before.json').read_text());after=json.loads((P/'source-after.json').read_text());ck('745 source before/after same',before==after and len(before)==745)
+for k,h in before.items():ck('executed source frozen '+k,sha(P/'source'/k)==h)
+r=json.loads((P/'output/neutral-hand-receipt.json').read_text());launch=json.loads((P/'launch-receipt.json').read_text());ck('completed native10frames clean',launch['returncode']==0 and launch['failure'] is None and not launch['raw_engine_error'] and launch['source_stable'] and r['failures']==0 and len(r['frames'])==10)
+ck('93 inner source before/after same',r['source_before']==r['source_after'] and len(r['source_before'])==93)
+rows={x['label']:x for x in r['frames']};projection=[];centroids=[]
+for label,f in rows.items():
+ clean=P/'output'/(label+'.png');proof=P/'output/synchronization'/(label+'.png');a=np.array(Image.open(clean).convert('RGBA'));b=np.array(Image.open(proof).convert('RGBA'))
+ ck(label+' clean full native PNG/RGBA',a.shape==(800,1280,4) and sha(clean)==f['png_sha256'] and hashlib.sha256(a.tobytes()).hexdigest()==f['native_rgba_sha256'])
+ ck(label+' proof full native PNG/RGBA',b.shape==(800,1280,4) and sha(proof)==f['synchronization_png_sha256'] and hashlib.sha256(b.tobytes()).hexdigest()==f['synchronization_native_rgba_sha256'])
+ ck(label+' all frozen pose brackets exact',f['proof_readback_pose_bracket'][0]==f['proof_readback_pose_bracket'][1]==f['clean_readback_pose_bracket'][0]==f['clean_readback_pose_bracket'][1]==f['native_state'])
+ ck(label+' each natural readback counters stable',f['proof_readback_counter_bracket'][0]==f['proof_readback_counter_bracket'][1] and f['clean_readback_counter_bracket'][0]==f['clean_readback_counter_bracket'][1])
+ n=f['native_state'];camera=np.array(n['camera_global']);proj=np.array(n['camera_projection_columns']).T
+ for channel,m in enumerate(f['synchronization']):
+  declared=vector(m['projected_pixel']);world=np.r_[vector(m['world_position']),1.0];clip=proj@np.linalg.solve(camera,world);ndc=clip[:2]/clip[3];pixel=np.array([(ndc[0]+1)*640,(1-ndc[1])*400]);err=float(np.linalg.norm(pixel-declared));projection.append(err);ck(label+' projected world marker '+str(channel),err<.03)
+  x,y=declared;lo=np.maximum([int(x)-12,int(y)-12],[0,0]);hi=np.minimum([int(x)+13,int(y)+13],[1280,800]);x0,y0=lo;x1,y1=hi
+  ca=a[y0:y1,x0:x1,:3].astype(np.float32)/np.float32(255);cb=b[y0:y1,x0:x1,:3].astype(np.float32)/np.float32(255);other=[x for x in range(3) if x!=channel];mask=(np.sum(np.abs(cb-ca),axis=2)>.12)&(cb[:,:,channel]>.75)&(cb[:,:,channel]-cb[:,:,other[0]]>.2)&(cb[:,:,channel]-cb[:,:,other[1]]>.2);ys,xs=np.nonzero(mask)
+  ck(label+' native marker count '+str(channel),len(xs)>0 and len(xs)==m['count']);measured=np.array([x0+xs.mean()+.5,y0+ys.mean()+.5]);e=float(np.linalg.norm(measured-declared));centroids.append(e);ck(label+' native marker centroid '+str(channel),e<2.5 and abs(e-m['centroid_error'])<.001)
+for lighting in ['production','studio']:
+ for view in ['palm','side']:
+  a=rows[lighting+'-control022-'+view];b=rows[lighting+'-candidate038-'+view]
+  ck(lighting+' '+view+' pose/camera/bones exact twins',a['native_state']==b['native_state'] and a['rendered_head_world']==b['rendered_head_world'] and a['rendered_rider_world']==b['rendered_rider_world'])
+  ck(lighting+' '+view+' same cache/material lighting',a['hand_mesh_resource_id']==b['hand_mesh_resource_id'] and a['lighting']==b['lighting'])
+  ck(lighting+' '+view+' intended neutral values',abs(a['hand_blend']-.22)<1e-7 and abs(b['hand_blend']-.38)<1e-7)
+ck('nape controls same camera and rig pose',rows['production-nape-control']['native_state']==rows['studio-nape-control']['native_state'])
+h=json.loads((P/'candidate-handoff.json').read_text());candidate=(P/'skater_anatomy_candidate.gd').read_bytes();actual=(R/'game/player/skater_anatomy.gd').read_bytes();ck('actual preimage still exact hand base',hashlib.sha256(actual).hexdigest()==h['base_sha256']);ck('candidate exact handoff',hashlib.sha256(candidate).hexdigest()==h['candidate_sha256']);ck('whole source reverses after only one scalar',candidate.count(b'lerpf(0.38, 1.0, grabbing)')==1 and candidate.replace(b'lerpf(0.38, 1.0, grabbing)',b'lerpf(0.22, 1.0, grabbing)')==actual)
+controls=json.loads((P/'hand-controls.json').read_text());cl=json.loads((P/'hand-controls-launch.json').read_text());cb=json.loads((P/'controls-source-before.json').read_text());ca=json.loads((P/'controls-source-after.json').read_text());ck('recorded native12281 controls all individually true',controls['passed']==12281 and controls['failed']==0 and len(controls['checks'])==12281 and all(x['pass'] for x in controls['checks']));ck('native morph control process clean/recorded86inputs same',cl['returncode']==0 and not cl['raw_error'] and cl['source_stable'] and cl['source_count']==86 and len(cb)==86 and cb==ca)
+ck('both native1901-vertex hands finite bounded source change',len(controls['hands'])==2 and {x['side'] for x in controls['hands']}=={-1,1} and all(x['native_vertices']==1901 and x['protected_palm_vertices']==430 and x['surface_count']==1 and abs(x['maximum_neutral_vertex_displacement_m']-.0100956978276372)<1e-15 for x in controls['hands']))
+report={'reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reviewer':'independent_qa','scope':'Exact immutable ten-frame private neutral-hand source/pixel/protocol audit and personal original-image inspection; no engine launched.','result':{'pass':len(checks),'fail':0},'source_pins':{'actual_anatomy':h['base_sha256'],'candidate_anatomy':h['candidate_sha256'],'epoch_index':sha(P/'index.json'),'native_receipt':sha(P/'output/neutral-hand-receipt.json'),'controls':sha(P/'hand-controls.json')},'originals_personally_opened':list(rows),'visual_verdict':'The038 side views show a modestly more curved distal profile with no newly visible neutral-pose separation. Palm views remain conspicuously spread; this does not solve splay or complete hand realism. The strong nape patch persists in both declared lighting controls. A material-only cause is not isolated. Coarse cuff/hand silhouette and side highlights remain finish gaps.','integration_decision':'No remaining source/selected-neutral-pose blocker to Root considering the one-scalar incremental trial. Actual full arm/grab/contact/current-Main moving regression must remain separately open. Do not award AAA or close the broader hand ticket.','protocol_metrics':{'max_source_string_projection_reconstruction_px':max(projection),'max_original_native_centroid_error_px':max(centroids),'native_maximum_neutral_vertex_delta_m':.0100956978276372},'limits':['Native12281 is the author-executed morph/cache/enclosure cohort with recorded per-assertion results; QA did not rerun it or receive full raw vertex arrays for independent per-vertex reconstruction.','The old022 control is an explicit instance scalar override on the SAME candidate-created shared mesh, not a separately imported old mesh. One-scalar full-file reversal proves other source unchanged.','Lighting uses copied production/inspector parameters in a blank native-floor fixture; no full-city occlusion equivalence.','Projection world coordinates are rounded Godot Vector strings;0.03px reconstruction is distinguished from the unchanged2.5px native pixel-centroid gate.','Ten static frozen-pose originals do not prove ordinary-motion/full-grab/contact/target-Mac acceptance.'],'checks':checks}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');(O/'independent-audit.py.txt').write_bytes(Path(__file__).read_bytes());print(json.dumps({'result':report['result'],'projection_max':max(projection),'centroid_max':max(centroids),'output':str(O/'independent-review.json')},indent=2))

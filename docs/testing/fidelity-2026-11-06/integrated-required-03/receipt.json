@@ -1,0 +1,43 @@
+{
+  "command": [
+    "./tools/check.sh"
+  ],
+  "started_utc": "2026-11-07T10:10:51.190640+00:00",
+  "git_head": "65f045ef500d0e193cb545e376610cc8e2af5727",
+  "branch": "main",
+  "input_scope": "Exact cached/untracked project,export presets,game,tests,tools,licence records and player guide PLUS this ignored launcher; generated caches excluded. Native entrypoints tools/check.sh,tools/run.sh,tests/run_tests.gd and tests/support/music_launch_guard.gd are included. Ordinary suite runs on main after preparatory editor import. No target-hardware or visual result.",
+  "source_input_count": 890,
+  "working_tree_dirty": true,
+  "source_before_sha256": "31edebe47133151f6f3afbedce3b217117e135b65b73d68f83352e93745981e7",
+  "engine_exit": 0,
+  "eligible": true,
+  "deadline_seconds": 3600,
+  "deadline_rationale": "The previous complete required02 took2241.249s. The next current-source gate adds public finite round-coping tests and current landing/contact changes; active private fixed-step diagnostics may share CPU. Declare a60-minute maximum BEFORE the new source freeze; no target-performance claim.",
+  "process_pid": 114318,
+  "finished_utc": "2026-11-07T10:55:46.750592+00:00",
+  "wall_seconds": 2695.441052,
+  "changed_inputs": [],
+  "secondary_log_preservation": {
+    "import.log": "current command epoch",
+    "tests.log": "current command epoch",
+    "script-launch.log": "current command epoch"
+  },
+  "error_lines": [],
+  "main_result": [
+    6600,
+    0
+  ],
+  "script_launch_result": [
+    2,
+    0
+  ],
+  "preserved_files_sha256": {
+    "command.log": "52f382484ff5db454343515370a51984ca2aec5e87e93a3bf9017e5536bae63f",
+    "import.log": "88a65891fcfd1b9f913a70de3df0508e5bc3ce83dca9418150bf4d7ac5d341b2",
+    "runner.py.txt": "6d6a334483553ac160d9ee526af45331342d36af46aaf540d1e98848adcca058",
+    "script-launch.log": "823882bc10a33a2f224e60044515b1ab6ff1701f4c7e45253f236118317b4fae",
+    "source-after.json": "31edebe47133151f6f3afbedce3b217117e135b65b73d68f83352e93745981e7",
+    "source-before.json": "31edebe47133151f6f3afbedce3b217117e135b65b73d68f83352e93745981e7",
+    "tests.log": "4504ffd3a9fba5fc47b3bf7ea1049a865e0fc570d85f8c6a45d63bbbc93fb155"
+  }
+}

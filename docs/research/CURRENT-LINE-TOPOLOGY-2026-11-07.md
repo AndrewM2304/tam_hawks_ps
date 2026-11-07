@@ -148,18 +148,40 @@ retains the unrun whole-spine/C04/career, shoulder/miss, graphical and independe
 review gates before installation. Neither this feasibility result nor the old
 fixed sweeps certify the full4m corridor or the second distinct station line.
 
+**Current private compatibility correction (not installed):** preserve the original
+canopy post and move the same bank farther west to`(−88,2,37.2)`. Its east toe
+X−82.8 is13.8m from the pipe open end. The north lane atX−79.5 has a supported
+four-metre body-centre band between that toe and the unchanged column; the
+originalX−82 north bypass also passes. The resource inventory remains exactly
+531 unique visual meshes/574 bodies/1,755 shapes. The original full spine → bank
+→ city C04 line and its exactly-one-bank score receipt now pass; career14/0 and
+mapped no-jump miss1/0 also pass. The separate bank/pipe/return records154 actual
+physics steps/2.5667s/20.1887m from bank toe to native curve, and164/2.7333s/
+17.7054m from south return to bank approach. This makes the spatial hypothesis
+credible without another prop, but its aggregate is **28/3 rejected**: a real
+2.333mm tyre/coping overlap at one full-prefix crest frame, an unclassified
+inherited spine capsule contact, and an experimental four-metre diagonal band
+remain unresolved. Fifteen other bank capsule contacts separately satisfy the
+existing authenticated loaded-floor contract; that cannot excuse the tyre.
+No production install or final rendered/cost acceptance is proposed. Exact
+[compatibility evidence](../testing/line-design-2026-11-06/station-open-flat-development-2026-11-07/compatibility-development-01/README.md)
+keeps all older failures and the unchanged held8/0 arrangement separate.
+
 ## Next intervention2: make a compact repair-hall/market junction
 
 This is an original provisional composition, not authorised actual geometry.
 Reuse the isolated `barras_forecourt_line` bank and10m return seat as a branch
 between the existing repair hall and covered market. Provisional bank centre
-`(91,0,8)`, yaw−π/2 gives native X89…93/Z1…15, deckZ5…11/Y0.55 and
-runoutZ−3…19. The Z−2 loading/hall line remains outside its physical toe;
-the new bank is a visible southbound choice from the stair/aisle approach.
-Place the reused seat approximately X79…89/Z19, keeping the bank's straight
-runout atX91 clear. Its west end can feed a short pop/Manual toward the actual
-hall corner bank rather than another long rectangle. Exact approach feasibility
-and the finite guide fit remain unmeasured.
+`(91,0,8)`, yaw−π/2 gives a terrain core X89…93/Z1…15,
+deckZ5…11/Y0.55 and runoutZ−3…19. The complete bearing/cap/guide envelope still
+needs native inventory. The Z−2 loading/hall line remains outside its terrain
+toe; the new bank is a visible southbound choice from the stair/aisle approach.
+The first seat proposal X79…89/Z19 was rejected at source review: its display
+cap would be only0.69m from the original C04 dry landing at(83,18). Prefer the
+same seat atZ26, beyond the protected Z20…24 cross street. Its11m separation
+from the south bank toe and10.817m from its west end to the existing hall corner
+suggest a short pop/Manual/ledge branch. Actual approach, finite guide fit,
+landing/runout width and natural return remain unmeasured.
 
 Relocation alone would abandon the old southern apron. Treat enclosure as part
 of the same intervention: investigate folding only the existing west
@@ -169,7 +191,16 @@ slots. It frames the court and removes the ordinary promise of a308m² surplus
 south-west strip while keeping the full X86…102 Clyde mouth and the eastern
 career collection run. A convincing visible warehouse/yard edge is preferable
 to an arbitrary fence. Material/display/containment cost must be measured:
-equal length does not prove unchanged bar instances, corners or draw cost.
+equal length does not prove unchanged bar instances, corners or draw cost. The partial
+review found that the generic opaque conversion creates a new unique ArrayMesh,
+so investigate a flat orthogonal wall made from the existing shared unit BoxMesh
+in one18-panel masonry MultiMesh. Both legs need explicit2m resampling;
+`_boundary(start,end,return_to)` subdivides only its first leg and would otherwise
+make12 shapes. The source constructor arithmetic is234 old box instances versus
+18 closed panels, not a measured draw/frame-time result. Real native integer
+shape identity, wall eligibility, height, material scale, charged containment and
+supported recovery still need proof. The [partial review](../testing/line-design-2026-11-06/topology-inventory-2026-11-07/barras-partial-source-review-01/README.md)
+retains its exact source scope.
 
 Protect the entire Z20…24 cross-street riding width, X83 dry return and X103/114
 aisles, Mairi's two ordered branches, all collection/recording sites and the
@@ -198,6 +229,45 @@ its `CareerRoute._aim` deliberately assigns grounded yaw. Preserve that existing
 feasibility test; do not count it as a strict mapped-steering circuit or weaken
 its ten-goal/120-second checks. Likewise, shared fixture resets between a combo
 and its easier return must remain explicit.
+
+## Existing second-line investigations before adding geometry
+
+**Exchange west circuit:** the original shop terrace has its bank at
+X−27…−24/Z0…7 and its5.5m seating bearing atX−27.4/Z1…6.5. The existing Court
+bearing lies atX−15.6/Z9…17; the November fountain-exit bank lies atX−10/Z13…27.
+These already suggest a distinct shop-bank/ledge → Court bearing → fountain-exit
+bank → supported Z28/X−22 return. They are different features from the
+entrance/stair/fountain chain. Original packaged shop evidence is construction
+only, however, and a generic guide does not certify current truck contact.
+First prove one continuous mapped-input route, useful bearing payoffs, actual
+landing/return and event intervals. If that fails, diagnose the exact relation;
+do not add a duplicate ledge merely to increase the inventory.
+
+**Station upper/lower circuit:** the existing Y5 service walk occupies
+X−122…−105/Z−20…4. Its real underside isY4.6 above the Y2 concourse, leaving a
+2.6m lower route. The two Y5 platforms occupyX−101…−87 with a4m physical gap
+betweenZ−5 and−1; the named `central_gap` uses the retained approach/exit
+volumes at`(−94,5.4,0)` and`(−94,5.4,−6)`. A separate4m lateral slot also lies
+between the service walk's east edgeX−105 and platform edgeX−101. The old
+career run proves its particular platform crossing and upper landing, using its
+legacy aiming; it does not prove a new service-walk/rail/slot/underpass return.
+Survey an original technical route through these existing vertical overlaps
+before constructing another ramp. Preserve all four service piers, both column
+rows, stair descent, native gap/guide IDs, low bypass and the canopy/camera
+volume. Do not count the unmarked lateral slot as the named career gap, or
+state that either is currently approachable from arbitrary headings.
+
+**First three-arena closure to investigate:** the already published Clyde north
+route joins the Station opening at`(−94,2,45)` to`(−94,2,55)`, then to the west
+quay at`(−78,2,67)`. This provides a physically existing return direction for
+Station → Exchange → west Clyde → Station. The Exchange west close rises from
+Z42 to55; its grade could become a genuine charged-pop/Manual handoff to the
+existing Clyde quarter, but a transport slope is not automatically a meaningful
+trick choice. Use actual grade takeoff/landing and native quarter/pipe/coping
+witnesses, then return through the unchanged X−94 mouth to an actual original
+Station entry. Keep each score segment independently audited, with no extra
+reset or per-frame heading assignment. The join is a source-bound candidate,
+not an admitted circuit or a claim of uniform3-second density.
 
 ## Separate faster/one-combo experiment
 

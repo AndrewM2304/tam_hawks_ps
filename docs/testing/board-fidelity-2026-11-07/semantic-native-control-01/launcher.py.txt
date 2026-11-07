@@ -1,0 +1,26 @@
+from pathlib import Path
+import hashlib,json,datetime,subprocess,os,signal,time,re
+R=Path(__file__).resolve().parent;P=R/'physical-project';O=R/'native-control-01';O.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def src():return {str(p.relative_to(P)):sha(p)for p in P.rglob('*')if p.is_file()and'.godot'not in p.relative_to(P).parts and p.name!='native-control.json'}
+def cache():return {str(p.relative_to(P)):sha(p)for p in(P/'.godot').rglob('*')if p.is_file()and('.godot/imported/'in str(p.relative_to(P))or p.name in['global_script_class_cache.cfg','uid_cache.bin'])}
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+env=dict(os.environ)
+for key in ['DATA','CONFIG','CACHE']:
+ p=O/('xdg-'+key.lower());p.mkdir();env['XDG_'+key+'_HOME']=str(p)
+entries=[]
+launcher_sha=sha(Path(__file__).resolve())
+(O/"launcher.py.txt").write_bytes(Path(__file__).read_bytes())
+def call(label,args,bound):
+ log=O/(label+'.log');cmd=['/usr/local/bin/godot','--headless','--audio-driver','Dummy','--path',str(P)]+args;start=utc();why=None
+ with log.open('w')as f:
+  p=subprocess.Popen(cmd,env=env,stdout=f,stderr=subprocess.STDOUT,start_new_session=True);print(json.dumps({'label':label,'pid':p.pid,'start':start,'bound':bound}),flush=True)
+  try:code=p.wait(timeout=bound)
+  except subprocess.TimeoutExpired:
+   why='deadline';os.killpg(p.pid,signal.SIGTERM)
+   try:code=p.wait(timeout=3)
+   except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);code=p.wait(timeout=3)
+ raw=log.read_text();d={'label':label,'start':start,'end':utc(),'pid':p.pid,'bound':bound,'command':cmd,'exit_code':code,'stop':why,'raw_errors':bool(re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:',raw)),'log_sha256':sha(log)};entries.append(d);return code==0 and not why and not d['raw_errors']
+before_import=src();good=call('import',['--editor','--import'],60);after_import=src();(O/'source-import-before.json').write_text(json.dumps(before_import,indent=2));(O/'source-import-after.json').write_text(json.dumps(after_import,indent=2));before=src();cb=cache();(O/'source-native-before.json').write_text(json.dumps(before,indent=2));(O/'cache-native-before.json').write_text(json.dumps(cb,indent=2));good=good and call('native',['--fixed-fps','60','--script','res://native_control_probe.gd'],30);after=src();ca=cache();(O/'source-native-after.json').write_text(json.dumps(after,indent=2));(O/'cache-native-after.json').write_text(json.dumps(ca,indent=2));output=P/'native-control.json';data=json.loads(output.read_text())if output.exists()else None
+if data:(O/'native-control.json').write_bytes(output.read_bytes())
+d={'launcher_sha256_before':launcher_sha,'launcher_unchanged':sha(Path(__file__).resolve())==launcher_sha,'entries':entries,'source_count':len(before),'source_stable':before==after,'cache_count':len(cb),'cache_stable':cb==ca,'native_summary':{'passed':data['passed'],'failed':len(data['failures'])}if data else None,'source_commit_scope':'Private physical c773 board; actual game unchanged','eligible':bool(good and before==after and cb==ca and data and data['passed']>0 and not data['failures']),'scope':'Native IMPORT/legacy-weld baseline/real phantom-sphere diagnostic only. No semantic cache admission, gameplay datum changes, moving graphics, package or Mac claim.'};(O/'receipt.json').write_text(json.dumps(d,indent=2));print(json.dumps(d),flush=True);raise SystemExit(0 if d['eligible']else 1)

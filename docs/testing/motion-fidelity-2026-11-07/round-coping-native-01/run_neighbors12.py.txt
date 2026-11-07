@@ -1,0 +1,31 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time
+R=Path(__file__).resolve().parent;P=R/'project';O=R/'neighbors-12';O.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sources():
+ files=[P/'project.godot',P/'probe.gd',Path(__file__).resolve()]
+ for directory in ['game','tests','tools']:
+  files.extend(f for f in (P/directory).rglob('*') if f.is_file() and '__pycache__' not in f.parts)
+ return {str(f.relative_to(P)) if f.is_relative_to(P) else str(f.relative_to(R)):sha(f) for f in sorted(set(files))}
+start=time.monotonic();deadline=start+120;before=sources();epochs=[]
+for name,option,cap in [('parser',['--check-only'],5),('native',['--fixed-fps','60'],115)]:
+ command=[str(P/'tools/run.sh'),'--headless']+option+['--script','res://probe.gd'];log=O/(name+'.log');record={'name':name,'command':command,'start':now(),'cap_s':cap};stop=None
+ with log.open('wb') as output:
+  process=subprocess.Popen(command,stdout=output,stderr=subprocess.STDOUT,start_new_session=True);record['pid']=process.pid;print(json.dumps(record),flush=True)
+  cap_time=min(deadline,time.monotonic()+cap);position=0;carry=b''
+  while process.poll() is None:
+   with log.open('rb') as incoming:incoming.seek(position);chunk=incoming.read();position=incoming.tell()
+   data=carry+chunk;carry=data[-300:]
+   if re.search(rb'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',data):stop='first script error';break
+   if time.monotonic()>cap_time:stop='120s aggregate bound';break
+   time.sleep(.05)
+  if process.poll() is None:
+   os.killpg(process.pid,signal.SIGTERM)
+   try:process.wait(timeout=1)
+   except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait()
+ raw=log.read_text();record.update({'end':now(),'exit':process.returncode,'stop':stop,'log_sha256':sha(log),'raw_script_error':bool(re.search(r'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',raw))});epochs.append(record)
+ if stop or record['raw_script_error']:break
+ if name=='parser' and process.returncode!=0:break
+raw=(O/'native.log').read_text() if (O/'native.log').exists() else '';result=re.search(r'REQUIRED02_FOCUSED_RESULT (\d+)/(\d+)',raw);after=sources()
+receipt={'epochs':epochs,'source_before':before,'source_after':after,'source_stable':before==after,'result':[int(x) for x in result.groups()] if result else None,'complete':bool(result) and before==after and all(e['stop'] is None and not e['raw_script_error'] for e in epochs),'scope':'NO-MAIN existing Metadata/GrindStyle/Variants/FeatureTransition/Connected neighbor modules, unchanged checks+inputs; private copied project+minimal fixes; same legacy Main mode/persistence/35settle as full runner then original Transition controls+read-only exact admission/capsule-hit trace (additional diagnostic space queries disclosed); prior Takeoff/Authentic stages omitted as disclosed; no actual source writes/no performance claim'};(O/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({k:v for k,v in receipt.items() if k not in ['source_before','source_after']},indent=2));print(raw[-16000:]);raise SystemExit(0 if receipt['complete'] and receipt['result'][1]==0 else 1)

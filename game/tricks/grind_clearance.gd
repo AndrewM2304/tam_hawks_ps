@@ -29,6 +29,9 @@ var last_support_vertex_cap := false
 ## Minimum neutral edge roll for this actual model, derived at startup. The
 ## caller still proves each final pose against all native solid geometry.
 var edge_roll_angle := INF
+var _round_radius:=NAN
+var _round_reveal:=NAN
+var _round_angle:=INF
 var _parts: Array[Dictionary] = []
 var _space: PhysicsDirectSpaceState3D
 var _query := PhysicsShapeQueryParameters3D.new()
@@ -41,6 +44,9 @@ var model_radius: float:
 func rebuild(board: Node3D, geometry: Dictionary, rider: RID) -> bool:
 	ready = false
 	edge_roll_angle = INF
+	_round_radius=NAN
+	_round_reveal=NAN
+	_round_angle=INF
 	_parts.clear()
 	_radius = 0.0
 	last_rejection = "missing_model"
@@ -120,6 +126,31 @@ func rebuild(board: Node3D, geometry: Dictionary, rider: RID) -> bool:
 	ready = true
 	last_rejection = ""
 	return true
+
+
+## Minimum model-derived roll that raises the deck-side solid above the real
+## adjoining deck datum while its hanger stays tangent to the SAME round pipe.
+## Cached scalar result: no per-tick geometry/resource allocation.
+func round_roll_angle(radius:float,reveal:float) -> float:
+	if not ready or not is_finite(radius) or radius<=0.0 or not is_finite(reveal) 			or reveal<0.0 or reveal>radius:return INF
+	if radius==_round_radius and reveal==_round_reveal:return _round_angle
+	_round_radius=radius
+	_round_reveal=reveal
+	_round_angle=0.0
+	var target:float=radius-reveal+Style.CONTACT_TOLERANCE
+	for part:Dictionary in _parts:
+		for point:Vector3 in part.points:
+			var vertical:float=radius+point.y-Style.TRUCK_UNDERSIDE
+			if vertical>=target:continue
+			var lateral:float=absf(point.x)
+			var magnitude:float=sqrt(vertical*vertical+lateral*lateral)
+			if not is_finite(magnitude) or magnitude<target or lateral<=0.000001:
+				_round_angle=INF
+				return _round_angle
+			var angle:float=asin(clampf(target/magnitude,-1.0,1.0))-atan2(vertical,lateral)
+			_round_angle=maxf(_round_angle,angle)
+	if _round_angle>Style.BALANCE_ROLL:_round_angle=INF
+	return _round_angle
 
 
 func allows(pose: Style.ContactPose, support_up: Vector3) -> bool:

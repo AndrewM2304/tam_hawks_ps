@@ -1,0 +1,59 @@
+from pathlib import Path
+import hashlib,json,re,datetime,math
+R=Path('/workspace/tam_hawks_ps');B=R/'.local/motion-required02-fixes';A=B/'round-admission-02';N=B/'current-composite-13';P=B/'round-current-source'
+out=R/'docs/testing/motion-fidelity-2026-11-07/round-coping-independent-01';out.mkdir(parents=True,exist_ok=True)
+checks=[]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,ok,detail=None):
+ checks.append({'label':label,'pass':bool(ok),**({'detail':detail} if detail is not None else {})})
+ if not ok:raise AssertionError(label)
+m=json.loads((A/'manifest.json').read_text());n=json.loads((N/'receipt.json').read_text());c=json.loads((B/'round-current-copy-receipt.json').read_text());entries=m['entries'];paths={e['path'] for e in entries}
+ck('exact reviewed successor manifest',sha(A/'manifest.json')=='d7cd383c3fce6c356c49901dc06400ed54d1be7075635e8380a6fe4b36e17d47')
+ck('exact seven scoped paths',len(entries)==7 and paths=={'game/player/skater.gd','game/tricks/grind_line.gd','game/tricks/grind_style.gd','game/tricks/grind_clearance.gd','game/levels/transition_feature.gd','tests/round_coping_contact_tests.gd','tests/run_tests.gd'})
+for e in entries:
+ p=e['path'];ck('payload hash '+p,sha(A/'payload'/p)==e['after_sha256']);ck('native source binds payload '+p,n['source_before'].get(p)==e['after_sha256']);ck('held project payload '+p,sha(P/p)==e['after_sha256'])
+ before=(R/p);actual=sha(before) if before.is_file() else None
+ ck('actual source at review is declared pre/postimage '+p,actual in (e['before_sha256'],e['after_sha256']),{'actual':actual,'already_integrated':actual==e['after_sha256']})
+ if e['before_sha256'] is not None:ck('archived before '+p,sha(A/'before'/p)==e['before_sha256'])
+ck('actual-before/copy/actual-after all 875 identical',c['actual_source_before']==c['copied_source']==c['actual_source_after'] and len(c['copied_source'])==875 and c['same_all'])
+ck('native before/after 877 identical',n['source_before']==n['source_after'] and len(n['source_before'])==877 and n['source_stable'])
+copy=c['copied_source'];native=n['source_before'];changes={k for k in copy.keys()&native.keys() if copy[k]!=native[k]}
+ck('only six existing proposal source changes after copy',changes==paths-{'tests/round_coping_contact_tests.gd'})
+ck('exact inventory difference disclosed',set(copy)-set(native)=={'export_presets.cfg'} and set(native)-set(copy)=={'tests/round_coping_contact_tests.gd','probe.gd','run_current13.py'})
+for p,h in native.items():
+ actual=B/'run_current13.py' if p=='run_current13.py' else P/p
+ ck('retained native input '+p,actual.is_file() and sha(actual)==h)
+for name in ['parser','native']:
+ e=next(x for x in n['epochs'] if x['name']==name);ck(name+' zero exit no script error',e['exit']==0 and e['stop'] is None and not e['raw_script_error']);ck(name+' exact raw log hash',sha(N/(name+'.log'))==e['log_sha256'])
+log=(N/'native.log').read_text();ck('434 PASS and zero FAIL raw log',len(re.findall(r'^PASS ',log,re.M))==434 and not re.search(r'^FAIL |SCRIPT ERROR|^ERROR:',log,re.M) and n['result']==[434,0] and n['complete'])
+def funcs(s):
+ ms=list(re.finditer(r'^(?:static )?func ([A-Za-z0-9_]+)\(',s,re.M));return {x.group(1):s[x.start():(ms[i+1].start() if i+1<len(ms) else len(s))] for i,x in enumerate(ms)}
+before=(A/'before/game/player/skater.gd').read_text();after=(A/'payload/game/player/skater.gd').read_text();bf=funcs(before);af=funcs(after)
+changed={k for k in bf if bf[k]!=af.get(k)};added=set(af)-set(bf)
+ck('controller change only four grind functions/new radial helper',changed=={'_solve_grind_contact','_grind_candidate_supported','_grind_board_clear','_grind_board_path_clear'} and added=={'_round_grind_native_contacts'} and not (set(bf)-set(af)),{'changed':sorted(changed),'added':sorted(added)})
+for k in bf.keys()-changed:ck('unchanged existing controller function '+k,bf[k]==af[k])
+for p in ['game/tricks/grind_style.gd','game/tricks/grind_clearance.gd']:
+ old=(A/'before'/p).read_text();new=(A/'payload'/p).read_text();pat=r'^const\s+\w+[^\n]*';ck('all existing constants exact '+p,re.findall(pat,old,re.M)==re.findall(pat,new,re.M))
+cl=(A/'payload/game/tricks/grind_clearance.gd').read_text();oldcl=(A/'before/game/tricks/grind_clearance.gd').read_text();cf=funcs(cl);ocf=funcs(oldcl)
+ck('native clearance/path proofs unchanged except startup reset and new scalar roll',all(cf[k]==v for k,v in ocf.items() if k!='rebuild') and set(cf)-set(ocf)=={'round_roll_angle'})
+reg=(A/'payload/tests/run_tests.gd').read_text();oldreg=(A/'before/tests/run_tests.gd').read_text()
+newlines=[x for x in reg.splitlines(keepends=True) if 'ROUND_COPING_CONTACT_TESTS' in x]
+ck('runner only one preload and one await',len(newlines)==2 and ''.join(x for x in reg.splitlines(keepends=True) if 'ROUND_COPING_CONTACT_TESTS' not in x)==oldreg,{'added_lines':[x.strip() for x in newlines]})
+line=(A/'payload/game/tricks/grind_line.gd').read_text();nativefun=af['_round_grind_native_contacts'];sk=af['_grind_board_clear']+af['_grind_board_path_clear']
+ck('live profile fail-closed finite/unit/source/zero-offset guards present',all(x in line for x in ['contact_vertical_offset!=0.0','contact_normal_offset!=0.0','not is_finite(length)','points[0].is_finite()','contact_round_face_reveal','typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw)','feature.get_script().resource_path','absf(absf(local.x)-half.x)','half.z-contact_round_radius+contact_round_face_reveal','is_finite(determinant)','deck_primitive.disabled','primitive.disabled']))
+ck('two actual bounded radial native rays same owner shape and contact error',all(x in nativefun for x in ['pose.anchor_count!=2','point+normal*.03,point-normal*.03','hit.rid!=owner','int(hit.shape)!=line.contact_round_shape','GrindStyle.CONTACT_TOLERANCE','dot(normal)<0.999']))
+ck('round broad hits refine all native solids without adding exclusions','line.round_contact_live() and _grind_clearance.allows_frame_path' in sk and '.exclude' not in sk)
+ck('invalid declared round cannot generic fallback','and not line.contact_round_declared' in af['_grind_candidate_supported'])
+positive=[];witness=[]
+for row in log.splitlines():
+ for prefix,dst in [('ROUND_COPING_POSITIVE ',positive),('ROUND_COPING_NATIVE_WITNESS ',witness)]:
+  if row.startswith(prefix):dst.append(json.loads(row[len(prefix):]))
+ck('twelve posed direction/yaw native records',len(positive)==12 and all(x['anchor_error']<=.0001 and x['deck_vertex_gap']>=0 and abs(x['roll']-.04827480869424)<1e-12 for x in positive))
+ck('four direction/fakie every-physics witnesses',len(witness)==4 and {(x['direction'],x['backwards']) for x in witness}=={(-1,False),(-1,True),(1,False),(1,True)})
+for i,w in enumerate(witness):
+ rows=w['rows'];ck('all recorded support/first-release proofs '+str(i),w['all_clear'] and w['exact_supported'] and w['release_exact'] and w['release_ticks']>=4 and w['maximum_actual_anchor_error']<=.0001 and all(x['clear'] for x in rows));ck('contiguous native physics '+str(i),all(y['physics']-x['physics']==1 for x,y in zip(rows,rows[1:])))
+ck('two-hanger radial geometry independent arithmetic',all(abs(math.sqrt((.03*math.sin(x['roll']))**2+(.03*math.cos(x['roll']))**2)-.03)<1e-15 for x in positive))
+ck('full-model triangle derivative source retains no physics writes',all(x not in cf['round_roll_angle'] for x in ['velocity','global_transform =','position =','move_and_slide','shape.points=']))
+inputs=[A/'manifest.json',A/'proposal.patch',A/'install.py',N/'receipt.json',N/'parser.log',N/'native.log',B/'round-current-copy-receipt.json',P/'probe.gd',B/'run_current13.py']+[A/'payload'/e['path'] for e in entries]+[A/'before'/e['path'] for e in entries if e['before_sha256']]
+report={'reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reviewer':'independent_qa','scope':'Independent read-only source/native receipt review; no engine run and no production source edits. Guarded integration has no remaining source blocker; actual integrated regression and rendered naturalness remain open.','result':{'pass':len(checks),'fail':0},'manifest_sha256':sha(A/'manifest.json'),'native_counts':[434,0],'native_epoch':n['epochs'][1],'inventory_scope':{'copy':875,'native':877,'copy_only':['export_presets.cfg'],'native_added':['tests/round_coping_contact_tests.gd','probe.gd','run_current13.py'],'existing_changed':sorted(changes)},'semantic_findings':['Actual same-cylinder radial contacts and model-derived 2.76594 degree lean retain guide/pipe/deck dimensions, physical input/capture limits and contact tolerances.','Native all-solid component and swept-path refinement retains every reported solid, existing strict separation certificate and finite query/depth caps.','Malformed declared round profiles fail before generic fallback; stale/freed native owners are refused.','Four moving-start fixtures seed initial position/velocity/facing once, then mapped controls/native physics; not full ordinary approaches.','Public runner registration was inspected, but the private observer invoked modules directly; actual integrated runner remains required.'],'limits':['No graphical/moving naturalness, whole-game, target-Mac or AAA pass.','D022 critical rapid late-landing uprighting remains open and independent of this round-coping repair.','The existing 100 micrometre contact skin is retained; zero-overlap and force-bearing are not inferred from this bounded skin proof.','Constructor component memory diagnostics and helper-level query bounds do not certify whole-frame CPU/GPU timing.'],'inputs':{str(p.relative_to(R)):sha(p) for p in inputs},'checks':checks}
+(out/'successor02-independent-review.json').write_text(json.dumps(report,indent=2)+'\n');(out/'successor02-independent-audit.py.txt').write_bytes(Path(__file__).read_bytes());print(json.dumps({'result':report['result'],'output':str(out/'successor02-independent-review.json'),'maximum_postrelease_angular_step_deg':max(w['maximum_angular_step'] for w in witness)*180/math.pi,'maximum_relative_step_m':max(w['maximum_relative_translation'] for w in witness)},indent=2))

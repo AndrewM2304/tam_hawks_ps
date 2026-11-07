@@ -1,0 +1,34 @@
+"""UNRUN private parser; root releases the native slot explicitly."""
+from pathlib import Path
+import datetime,hashlib,json,os,re,shutil,signal,subprocess,time
+R=Path(__file__).resolve().parent;PROJECT=R/'physical-project';O=R/'parser-01';BOUND=20
+O.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def inputs():
+ p=[x for x in PROJECT.rglob('*')if x.is_file()and '.godot'not in x.parts]
+ p+=[Path(__file__).resolve(),R/'semantic_board_cache.gd',R/'source-candidate-02-manifest.json',R/'source-candidate-03-manifest.json']
+ return {str(x.relative_to(R)):sha(x)for x in sorted(p)}
+def processes():
+ out=[]
+ for row in subprocess.check_output(['ps','-eo','pid=,stat=,comm='],text=True).splitlines():
+  fields=row.split()
+  if len(fields)==3 and fields[2]in ['godot','Xorg','Xvfb']:out.append({'pid':int(fields[0]),'state':fields[1],'comm':fields[2]})
+ return out
+before=inputs();(O/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');shutil.copy2(__file__,O/'launcher.py.txt')
+command=['/usr/local/bin/godot','--headless','--path',str(PROJECT),'--audio-driver','Dummy','--check-only','--script','res://game/tricks/semantic_board_cache.gd']
+env=dict(os.environ)
+for key in ['DATA','CONFIG','CACHE']:
+ p=O/('xdg-'+key.lower());p.mkdir();env['XDG_'+key+'_HOME']=str(p)
+start=utc();clock=time.monotonic();stop=None;initial_processes=processes()
+with(O/'native.log').open('w')as log:
+ process=subprocess.Popen(command,cwd=PROJECT,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+ print(json.dumps({'start_utc':start,'pid':process.pid,'process_group':process.pid,'bound_seconds':BOUND,'command':command}),flush=True)
+ try:code=process.wait(timeout=BOUND)
+ except subprocess.TimeoutExpired:
+  stop='OS20seconddeadline';os.killpg(process.pid,signal.SIGTERM)
+  try:code=process.wait(timeout=3)
+  except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);code=process.wait(timeout=3)
+end=utc();after=inputs();raw=(O/'native.log').read_text();errors=bool(re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:',raw));(O/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+receipt={'start_utc':start,'end_utc':end,'wall_seconds':time.monotonic()-clock,'pid':process.pid,'bound_seconds':BOUND,'exit_code':code,'stop':stop,'raw_error':errors,'source_count':len(before),'source_unchanged':before==after,'changed_inputs':[k for k in before.keys()|after.keys()if before.get(k)!=after.get(k)],'command':command,'engine_sha256':sha(Path(command[0]).resolve()),'processes_before':initial_processes,'processes_after':processes(),'eligible':bool(code==0 and not stop and not errors and before==after),'scope':'Private typed semantic cache parser only. No native import, source/native buffer admission, contacts/shape query, cooked export, moving graphics or M5 claim.'}
+(O/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));print(raw);raise SystemExit(0 if receipt['eligible'] else 1)

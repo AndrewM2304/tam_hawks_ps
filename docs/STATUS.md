@@ -11,8 +11,91 @@ preserved, origin fetched and main fast-forwarded to `0b62035` before accepting
 production changes. Obsolete cross-bank/interpolation patches were discarded.
 Work remains directly on main, with non-force integration, no hosted CI, no
 spending and no release publication. October evidence below keeps its own scope.
-The latest in-progress November checkpoint **`97d72fa` is pushed to origin/main**.
-It is available for ordinary trial while the remaining implementation continues.
+Main remains the ordinary trial build while implementation continues. The last
+launcher-specific checkpoint was **`65f045e`**. The current integrated gameplay
+candidate now passes the complete required check: **6,600/0 game assertions and
+2/0 CLI launch checks**, exit0, with all890 recorded inputs unchanged. The
+[preserved run](testing/fidelity-2026-11-06/integrated-required-03/README.md) and
+[independent audit](testing/fidelity-2026-11-06/required03-independent-review/README.md)
+bind the actual landing handoff, finite round-coping repair, fitted-rider contacts,
+neutral hands and migrated metadata tests. Earlier rejected runs below remain
+historical evidence; this does not certify moving fidelity or M5 performance.
+
+The owner has rejected both the existing sparse city and the proposed
+Warehouse-sized replacement. **San Francisco-scale urban skating is the new
+design reference**: a medium neighbourhood with hills, intersecting streets,
+roof/elevated lines and short connected trick opportunities. The112×88m draft is
+superseded. A revised original plan and private playable layout are in progress;
+no new dense default map has been integrated yet. The existing all-gap inventory
+remains useful evidence about the current city, not proof of good pacing.
+
+A source-frozen native351-frame forward-push film completed with3×117 consecutive
+60Hz frames at640×400, full decoding and3,772/0 observer checks. Normal-speed and
+actual deformed-mesh review is underway. Recording success is not visual approval.
+
+That checkpoint is the urgent source-launch repair over fitted-rider checkpoint
+`7e7a178`. The Mac command now streams importer output, prints30-second progress
+notices, bounds preparation to300 seconds and stops its worker process group on
+timeout/cancellation. [The native four-phase gate](testing/source-startup-2026-11-07/native-launcher-fix-01/README.md)
+passes cold launch, actual title-to-play50/0, warm launch and deliberate bad-source
+refusal on the exact pushed gameplay plus four launcher files. Eight public shell
+protocol cases and independent22/0 use a labelled fake editor. Original pushed
+source took129.183s silently importing on Linux. The owner's subsequent M5 log
+shows asset import completed and the game process started on Compatibility/
+OpenGL4.1; repeated unsupported BPTC_RGBA conversions then occurred while loading
+PBR materials. A guarded S3TC-compatible import repair is being verified privately.
+Actual Mac interaction, smooth startup and performance remain unmeasured.
+
+The [second complete November regression](testing/fidelity-2026-11-06/integrated-required-02-rejected/README.md)
+is rejected: **6,526 passed, seven failed**, with three freed-owner script errors;
+886 recorded source inputs stayed unchanged. The CLI Music stage did not execute.
+Current working-source repairs preserve those raw failures: freed-owner validity,
+the reviewed board-UV source identity, native coping-height expectations, and
+64-route metadata. Export admission now includes the actual board manifest and
+notices, but a fresh cooked package has not yet been verified.
+
+At08:51UTC a guarded two-file install applied the independently reviewed bowl
+stroke/finite landing repair; [the receipt](testing/rider-fit-2026-11-07/actual-c04-install-01/receipt.json)
+binds the exact sources and preserves all other885 inputs. Private original C04
+11/0, finite-support controls14/0 and2,400 authored pose pairs retain their own
+scope. The [actual-source focused check](testing/rider-fit-2026-11-07/actual-c04-focused-01/receipt.json)
+passes75/0 on887 unchanged inputs: Body18, Gait18, Flat Ollie27, C04 eleven and
+Music isolation one. Its459 consecutive late pose samples also expose a serious
+remaining movement fault: a30.857° landing correction and successive roughly
+0.76/0.58/0.73m world-head steps. Contact clearance passes; continuous motion
+does not. A matched private causal replay and continuous approach repair are next.
+Matched causal replays establish that the earlier source already made a54° late
+landing turn; the repaired source modifies an inherited presentation fault. The
+earlier22° grounded bowl/lip turns are inherited too and remain open.
+
+The other substantive full-run failure, a genuine5mm tyre/deck conflict in a
+round-coping50-50, now has a guarded seven-file working-source repair. Its
+[independent review](testing/motion-fidelity-2026-11-07/round-coping-independent-01/README.md)
+binds the real finite cylinder/deck and strict all-solid path checks. Private
+current-composition434/0 passes, followed by actual Transition23/0, public round67/0
+and Main motion32/0. However the [actual combined run](testing/motion-fidelity-2026-11-07/actual-round-focused-01/README.md)
+is rejected133/1: a different bank-return approach still puts a tyre47.325mm and
+wood11.399mm into the yard floor. All runtime inputs stayed stable; the erroneous
+Player Guide path omitted that document from this epoch's inventory and is
+explicitly qualified. The earlier75/0 is not a broader clearance certificate.
+An earlier wrapped-bowl visual handoff is being checked against this exact combined
+prefix. Whole-game motion and a fresh full check remain open.
+
+The owner's additional all-gap/line review is active. Actual ordinary Main exposes
+eight scored gaps,66 world routes/67 HUD routes,33 feature records and242 unique
+grind guides. These are inventory facts, not242 certified trick choices or proof
+that the paths sustain one combo. All67 route/gap handoffs are being annotated;
+the east-quay return retains two separate score banks. Clyde owns five scored
+gaps; George Square and Kelvingrove currently have none. Native cable award
+validation and the complete directed connectivity report are in progress.
+
+The [fresh fitted followup](testing/rider-fit-2026-11-07/actual-focused-03/receipt.json)
+passes93/0 on887 unchanged inputs plus its independent exact shoe certificate.
+Two test-output producers now explicitly close their files before consumers read
+them; the fresh metrics report is a valid nonempty944-byte dictionary. The prior
+zero-byte optional output remains preserved and explicitly classified, rather
+than being rewritten as successful evidence. Neither focused result replaces the
+next complete regression or moving/target-hardware review.
 
 Start with [STUDIO](planning/STUDIO.md), [persistent roles/skills](../.agents/agents/README.md),
 [AAA_BENCHMARK](product/AAA_BENCHMARK.md), [FIDELITY_TICKETS](planning/FIDELITY_TICKETS.md),

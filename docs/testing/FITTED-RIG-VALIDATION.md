@@ -424,3 +424,26 @@ and an angular raised knee remain qualitative follow-ups. The thick/orange legac
 board edge belongs to separate board work. This validates the existing inspector
 on installed source, not AAA finish, continuous movement, ordinary Main rendering
 or M5 performance. No rendering pipeline, source fixture or thresholds changed.
+
+The subsequent actual required02 regression is **6526/7 plus three raw script
+errors**, preserved with its original source scope. The first C04 bank-return
+failure is investigated in [the ground/model packet](rider-fit-2026-11-07/c04-ground-model-diagnosis-01/README.md).
+A private Visual-only slope eligibility change removes reproduced off-board toe
+intrusions on authenticated steep native bowl support. Flat/±8°/±20°, forward and
+reverse authored Visual states under frozen actual native support remain bitwise
+identical for2400 states; this is not2400 ordinary moving physics frames.
+A separate landing proposal fits the cached complete board rather than tyres
+alone, locates the same four finite native probes at their actual plane-projected
+footprints, and retains native hit/normal/plane and final rim/model checks. Its
+private original C04 local prefix and bank return pass **11/0**, with zero current
+and Node3D-GTI ray obstructions. The local bank coast differs from the full-suite
+coast, so actual integration/full-order and moving-pixel review remain required.
+The two-file proposal is function-scoped onto the director's latest controller;
+this specialist has made no actual runtime source change for this repair.
+
+The optional actual-focused02 metrics file was subsequently audited as zero
+bytes, not JSON. Its original bytes, correction addendum and earlier README/index
+are retained. It supplies no diagnostic metrics; the93 native assertions and
+complete independently validated shoe certificate keep their original scope.
+Explicit producer close and consumer failure/JSON validation are prepared as
+separate private, unrun hardening and do not repair that historical artifact.

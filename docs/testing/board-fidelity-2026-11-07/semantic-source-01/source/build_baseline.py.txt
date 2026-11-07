@@ -1,0 +1,43 @@
+from pathlib import Path
+import gzip,json,hashlib,datetime,sys
+from semantic_admission import *
+R=Path(__file__).resolve().parent;ROOT=R.parents[1]
+raw=(ROOT/'game/art/assets/tam_skateboard/tam_skateboard.glb').read_bytes()
+source_sha='76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943'
+artifact=ROOT/'docs/testing/board-fidelity-2026-11-07/native-uv04/native-08/native-result.json.gz'
+record=json.loads(gzip.decompress(artifact.read_bytes()))['records'][1]
+proposal=connected_source_ownership(source_decode(raw,source_sha));proposal['source_glb_sha256']=source_sha
+proposal_sha=sha(canonical(proposal));_,signatures=native_surfaces(record)
+policy=ROOT/'tools/art/import_board_wood.gd';decoder=ROOT/'tools/art/board_wood_source.gd'
+cert,expected=compile_certificate(raw,source_sha,proposal,proposal_sha,record,signatures,sha(policy.read_bytes()),sha(decoder.read_bytes()))
+proof=verify_and_points(record,cert,expected)
+# Retain native points only in the source-only report. The cooked certificate
+# contains ownership, hashes and names, never its own claimed support points.
+old_parts=record['component_parts']
+oldpointsets=[]
+for part in old_parts:
+ rawpts,_=raw_array(part['points'],3);oldpointsets.append({rawpts[i:i+12]for i in range(0,len(rawpts),12)})
+newpointsets=[set(p)for p in proof['parts']]
+# Source/native ownership group order follows first source occurrence; match
+# old cache by exact point count and complete bounds for diagnostic only, not runtime authority.
+import struct,math
+centres=lambda p:tuple(sum(v[k]for v in [struct.unpack('<fff',x)for x in p])/len(p)for k in range(3))
+comparisons=[]
+for pid,p in enumerate(newpointsets):
+ c=centres(p)
+ def bounds(q):
+  rows=[struct.unpack('<fff',x)for x in q]
+  return tuple(min(row[k]for row in rows)for k in range(3))+tuple(max(row[k]for row in rows)for k in range(3))
+ candidates=[i for i in range(len(oldpointsets))if len(oldpointsets[i])==len(p)]
+ assert candidates,'No equal point-count legacy component; native baseline remains unproved'
+ bp=bounds(p);idx=min(candidates,key=lambda i:sum((bounds(oldpointsets[i])[k]-bp[k])**2 for k in range(6)))
+ old=oldpointsets[idx]
+ distances=[]
+ unpacked=[struct.unpack('<fff',x)for x in old]
+ for x in p:
+  point=struct.unpack('<fff',x);distances.append(min(math.sqrt(sum((point[k]-q[k])**2 for k in range(3)))for q in unpacked))
+ comparisons.append({'semantic_part':pid,'legacy_nearest_centre_part':idx,'native_indexed_points':len(p),'legacy_quantized_points':len(old),'pointsets_bit_exact':p==old,'maximum_nearest_legacy_vertex_m':max(distances),'scope':'diagnostic exact-count/full-bounds matching only; fresh exact native component/membership baseline still required'})
+for filename,value in [('baseline-source-ownership.json',proposal),('baseline-certificate.json',cert),('baseline-expected.json',expected)]:
+ (R/filename).write_bytes(json.dumps(value,indent=2).encode()+b'\n')
+report={'scope':'PRIVATE source-only compiler and independent-runtime-model validation over historical Native08 buffers; not a fresh engine/current/source promotion proof','created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'artifact_sha256':sha(artifact.read_bytes()),'actual_source_sha256':sha(raw),'source_triangle_count':sum(len(s['faces'])for s in source_decode(raw,source_sha)),'semantic_parts':len(proof['parts']),'native_triangle_coverage':proof['coverage'],'native_indexed_point_payload_bytes':proof['point_payload_bytes'],'canonical_provenance_bytes':proof['provenance_bytes'],'certificate_sha256':expected['certificate_sha256'],'legacy_bit_exact_part_count':sum(p['pointsets_bit_exact']for p in comparisons),'legacy_pairing_is_unique':len({x['legacy_nearest_centre_part']for x in comparisons})==32,'legacy_maximum_nearest_vertex_m':max(x['maximum_nearest_legacy_vertex_m']for x in comparisons),'legacy_part_comparisons':comparisons,'limits':['UV04 production legacy constructor unchanged','Native08 historical imported buffers, not newly executed current source','indexed support shapes are not admitted; old get_faces quantization stays explicit','No native engine/clearance/cooked package/visual/motion/M5 result']}
+(R/'baseline-report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items()if k!='legacy_part_comparisons'},indent=2))

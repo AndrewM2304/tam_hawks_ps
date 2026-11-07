@@ -234,6 +234,10 @@ func _native_coping_line(id: String, points: PackedVector3Array, kind: String=""
 	# World-up scalar contact is certified only under the supported unit yaw.
 	if contact_frame_supported(global_transform):
 		line.configure_contact(0.0,0.0,"feature.native_coping_crown")
+		var body:=get_node_or_null("NativeSteelCoping") as StaticBody3D
+		if points.size()==2 and is_instance_valid(body) and get_node_or_null("RearDeck") is StaticBody3D:
+			line.configure_round_contact(COPING_RADIUS,COPING_DECK_REVEAL,COPING_FACE_REVEAL,
+				(global_basis*Vector3.BACK).normalized(),body,0)
 	return line
 
 static func contact_frame_supported(frame: Transform3D) -> bool:

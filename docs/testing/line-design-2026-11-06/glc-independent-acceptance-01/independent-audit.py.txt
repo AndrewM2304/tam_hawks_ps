@@ -1,0 +1,60 @@
+from pathlib import Path
+import json,re,hashlib,datetime,collections,gzip,urllib.parse
+R=Path('/workspace/tam_hawks_ps');O=R/'docs/testing/line-design-2026-11-06/glc-independent-acceptance-01';O.mkdir(parents=True,exist_ok=True);checks=[]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(k,v):
+ checks.append({'label':k,'pass':bool(v)})
+ if not v:raise AssertionError(k)
+roles=sorted(p for p in (R/'.agents/agents').glob('*.md') if p.name!='README.md');skills=sorted((R/'.agents/skills').glob('*/SKILL.md'));roster=(R/'.agents/agents/README.md').read_text();studio=(R/'docs/planning/STUDIO.md').read_text();skill=(R/'.agents/skills/gap-combo-validation/SKILL.md').read_text();role=(R/'.agents/agents/gap-combo-validator.md').read_text();ticket_path=R/'docs/planning/GAP-LINE-TICKETS.md';ticket_raw=ticket_path.read_bytes();t=ticket_raw.decode()
+ck('fifteen persistent role briefs and fifteen skills',len(roles)==len(skills)==15)
+for p in roles:ck('roster reaches '+p.name,'('+p.name+')' in roster)
+for p in skills:
+ s=p.read_text();ck('named reusable metadata '+p.parent.name,re.search(r'^name:\s*'+re.escape(p.parent.name)+r'\s*$',s,re.M) is not None and re.search(r'^description:\s*\S',s,re.M) is not None)
+ck('role count registered without concurrent/autospawn claim','fifteen logical roles' in roster and 'fifteen skills' in roster and 'fifteen logical roles' in studio and 'not a requirement to run fifteen workers simultaneously' in roster)
+ck('new gap role exact skill/ticket independent QE BA/root ownership',all(x in role for x in ['../skills/gap-combo-validation/SKILL.md','GAP-LINE-TICKETS.md','Root owns','independent QE','BA checks','Do not self-admit']))
+semantics=[('actual constructor/geometry namespaces', ['get_gap_definitions()','unscored physical transfers','regex','existing','Main']),('native caller/capture ordering', ['actor origin','current/previous position','matching physics number','same phase']),('separate original miss versus finish rule',['geometric/timing miss','finish-air rejection','Preserve both trajectories','One-way']),('faithful untouched shadow state',['actual `super`','untouched tracker','Shadow','never enter scoring']),('complete score authority',['ScoreSession.add_trick','trick_performed','run-long repetition','Do not invent a Catalog gap']),('natural one-fixture input',['One initial fixture','Never assign actor pose','W/S','A/D']),('narrow opted destination, strict old negatives',['authored opt-in','live bearing IDs','native body/RID/integer shape/contact','fresh capture','pause/restart/bail','globally accept any grounded finish']),('native contact separate from score',['scored capture does not','actual tyre intrusion','moving output']),('one bank distinct circuit and hardware',['Exactly one positive terminal bank','no earlier','two-distinct-lines-per-six-arenas','three-cross-area-circuits','M5/human-feel'])]
+for label,words in semantics:ck('skill semantic coldread '+label,all(x in skill for x in words))
+files=[R/'AGENTS.md',R/'docs/planning/RESUME.md',R/'docs/planning/STUDIO.md',R/'.agents/agents/README.md',R/'docs/planning/FIDELITY_TICKETS.md',R/'docs/product/AAA_BENCHMARK.md',ticket_path,R/'docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md']+roles+skills
+broken=[];links=0
+for p in files:
+ for target in re.findall(r'\]\(([^)]+)\)',p.read_text()):
+  if target.startswith(('http:','https:','mailto:','plugin:','app:','#')):continue
+  path=urllib.parse.unquote(target.split('#',1)[0].strip('<>'))
+  if not path:continue
+  links+=1
+  if not (p.parent/path).resolve().exists():broken.append({'source':str(p.relative_to(R)),'target':target})
+ck('all persistent local discovery links resolve',not broken)
+ft=(R/'docs/planning/FIDELITY_TICKETS.md').read_text();fid=re.findall(r'^## (FID-\d+) — ',ft,re.M);ck('21 core fidelity tickets preserved alongside six GLC tickets',len(fid)==len(set(fid))==21)
+for x in ['FID-401','FID-402','FID-403','FID-404']:
+ segment=ft.split('## '+x+' — ',1)[1].split('\n## ',1)[0];ck(x+' assigned GLC continuation linked','GAP-LINE-TICKETS.md' in segment)
+heads=list(re.finditer(r'^## (GLC-\d+) — (.+)$',t,re.M));index=re.findall(r'^\| (GLC-\d+) \|',t,re.M);ck('six unique detailed/indexed GLC IDs',len(heads)==len(index)==6 and {x.group(1) for x in heads}==set(index))
+common=t.split('## Common acceptance and evidence contract\n',1)[1].split('\n## GLC-',1)[0];bullets=re.findall(r'^- (.+)$',common,re.M);ck('six exact common evidence contracts',len(bullets)==6)
+sourcefields={};tickets=[]
+# Verbatim field text is retained; punctuation splitting provides smaller source-exact clauses.
+def atoms(text):return [x.strip() for x in re.split(r';\s+|(?<=\.)\s+(?=[A-Z])',text) if x.strip()]
+nexts={'GLC-01':'Run actual X93 market_hop→native hall continuation with one fixture/bank and independently observed score/contacts/variants.','GLC-02':'Join civic→Gallery→stair→fountain without reset/bank, then independently prove any park extension; inspect both bypass directions.','GLC-03':'The actual134/0 C04 component now passes; run the unproved named bridge-gap→yard/hip continuation, water miss, score and rendered route.','GLC-04':'Run true centreline exchange_launch→Manual→fountain capture; preserve early/late/off-tangent misses and native dry support.','GLC-05':'Review new private finite-rest contact fix against preserved candidate04 failure, then run complete current geometry/C04/career/upper-gap/misses/resources/motion before promotion.','GLC-06':'Build the source-reviewed resource-reusing junction privately, authenticate every envelope/protected route, then prove useful directions/misses/current resources and moving choices.'}
+for i,m in enumerate(heads):
+ end=heads[i+1].start() if i+1<len(heads) else t.index('\n## Queue and completion rules');body=t[m.end():end];id=m.group(1)
+ fs=dict(re.findall(r'^- \*\*([^*]+):\*\* (.+)$',body,re.M));ck(id+' full demanding ticket metadata',all(k in fs for k in ['Priority / milestone / owner / BA','Dependencies','Problem / resulting behavior','Acceptance','Verification','Budget','Status']))
+ ck(id+' P0 and independent verification','P0' in fs['Priority / milestone / owner / BA'] and 'independent' in fs['Priority / milestone / owner / BA'])
+ clauses=[]
+ fieldlist=[('D','Dependencies'),('I','Implementation'),('DESIGN','Private candidate'),('DESIGN','Private design to implement'),('A','Acceptance'),('V','Verification'),('B','Budget')]
+ for code,field in fieldlist:
+  if field not in fs:continue
+  for j,quote in enumerate(atoms(fs[field]),1):clauses.append({'id':id+'.'+code+str(j),'source_field':field,'criterion_verbatim':quote,'result':'Unmeasured','evidence_or_limit':'No complete current integrated native/moving proof for this requested joined ticket. Historical pieces, source proposals and separate cable policy experiments are not this completed line.','next_action':nexts[id]})
+ # Exact original fields remain the normative AND-contract if a punctuation atom is context-sensitive.
+ tickets.append({'id':id,'title':m.group(2),'original_fields':fs,'overall_result':'Unmeasured / not admitted','subclauses':clauses,'known_scoped_evidence':[]})
+for x in tickets:
+ if x['id']=='GLC-03':x['known_scoped_evidence']=[{'result':'Pass scoped component','source':'docs/testing/motion-fidelity-2026-11-07/actual-round-focused-02/README.md','finding':'Later actual134/0 passes original C04 component. The earlier133/1 rejection is retained; neither proves bridge-gap continuation.'}]
+ if x['id']=='GLC-05':x['known_scoped_evidence']=[{'result':'Fail historical private geometry candidate04','source':'docs/testing/line-design-2026-11-06/station-open-flat-development-2026-11-07/compatibility-development-01/README.md','finding':'28/3 cohort includes real tyre/coping intrusion. Current one-file contact fix and adversarial native subset are private/unadmitted; do not transfer old failures or narrow positives to an unseen final composition.'}]
+commonrows=[{'id':'GLC-C'+str(i+1),'criterion_verbatim':s,'result':'Unmeasured','evidence_or_limit':'Common AND-contract applies to every new completed GLC route. Independent8/67/242 identity coverage is a preserved baseline subset, not joined-line/whole-game admission.'} for i,s in enumerate(bullets)]
+count=sum(len(x['subclauses']) for x in tickets);report={'schema':1,'reviewer':'independent_qa','reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'Independent15-role/15-skill discoverability and gap-combo semantic coldread, plus a separate source-exact acceptance map for six new GLC tickets. No engine/production edits.','structure_result':{'pass':len(checks),'fail':0,'role_count':15,'skill_count':15,'local_links':links},'source_pins':{str(p.relative_to(R)):sha(p) for p in files},'new_criteria_counts':{'common_clauses':6,'glc_tickets':6,'ticket_subclauses':count,'result':'All new complete-ticket subclauses remain Unmeasured; scoped historical failures/positives are explicit evidence slices.'},'core_domain':'Existing154 core benchmark/FID clauses and21 FID tickets remain a distinct domain with unchanged acceptance criteria; no GLC requirement silently accepted from prior core passes.','scope_limits':['Source registry identity coverage8/67 and native242 guides is complete, not every physical jump/landing/next-feature or one-combo circuit.','New return-gap finish policy02/46 is a private separate experiment, not GLC01/02/03/04 admission.','Full required03 is running; no interim native subset is a global pass.','The owning implementations require independent QE/BA and actual moving/human/M5 dimensions remain separate.'],'common_clauses':commonrows,'tickets':tickets,'checks':checks}
+(O/'independent-structure-and-glc-matrix.json').write_text(json.dumps(report,indent=2)+'\n');(O/'independent-audit.py.txt').write_bytes(Path(__file__).read_bytes());(O/'reviewed-tickets.md.gz').write_bytes(gzip.compress(ticket_raw,compresslevel=9,mtime=0))
+lines=['# Independent GLC acceptance map','',f"The persistent studio now has15 roles/15 skills. {len(checks)} independent source/link/semantic checks pass; all{links} inspected local links resolve. This accepts reusable process structure only.",'',f"The six new GLC tickets have six common clauses and{count} source-exact ticket subclauses in the [machine record](independent-structure-and-glc-matrix.json). All complete-route criteria remain **Unmeasured / not admitted**. The existing154 core clauses remain separate. Exact original fields are retained; every listed requirement remains mandatory.",'','| Ticket | Current evidence scope | Next proof |','| --- | --- | --- |']
+for x in tickets:
+ scope='Unrun complete requested join; source/history only.'
+ if x['id']=='GLC-03':scope='Actual134/0 clears the C04 component; named bridge-gap continuation is unrun.'
+ if x['id']=='GLC-05':scope='Historical private28/3 includes real tyre intrusion; newer private contact fix is unadmitted.'
+ lines.append('| '+x['id']+' | '+scope+' | '+nexts[x['id']]+' |')
+lines+=['','The gap-combo skill correctly separates actor-origin triggers, callback phases, geometric misses, native destination capture, actual score-call arithmetic and one-bank claims. It preserves strict ordinary gap finishes, requires authored native-target opt-in plus positive/negative proof, and forbids relaxed radii/windows, state injection and self-admission.','', 'The actual native registry and cable subsets do not certify12 distinct returned arena lines or three closed cross-area circuits. Source/proximity graphs, reset component scores and a three-area through-run cannot substitute for those outcomes.']
+(O/'README.md').write_text('\n'.join(lines)+'\n');print(json.dumps({'structure_checks':len(checks),'roles':15,'skills':15,'links':links,'common':6,'glc_subclauses':count},indent=2))

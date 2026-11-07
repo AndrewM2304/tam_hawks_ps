@@ -1,0 +1,39 @@
+from pathlib import Path
+import hashlib,json,datetime,os,signal,subprocess,time,re,shutil
+R=Path(__file__).resolve().parents[1];WRAPPER=Path(__file__).resolve();OBSERVER=R/'.local/actual_c04_focused.gd';O=R/'docs/testing/rider-fit-2026-11-07/actual-c04-focused-01';O.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inputs():
+ files=[R/'project.godot',R/'export_presets.cfg',R/'docs/PLAYER-GUIDE.md',WRAPPER,OBSERVER]
+ files += [p for n in ['game','tests','tools','docs/licences'] for p in (R/n).rglob('*') if p.is_file() and '__pycache__'not in p.parts]
+ return {str(p.relative_to(R)):sha(p)for p in sorted(files)}
+def native():
+ records=[]
+ for row in subprocess.check_output(['ps','-eo','pid=,comm=,args='],text=True).splitlines():
+  a=row.strip().split(None,2)
+  if len(a)==3 and a[1]in ('godot','Xorg','Xvfb'):records.append({'pid':int(a[0]),'comm':a[1],'command':a[2]})
+ return records
+before=inputs();(O/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');shutil.copy2(OBSERVER,O/'observer.gd.txt');shutil.copy2(WRAPPER,O/'launcher.py.txt')
+env=dict(os.environ,TAM_C04_ACTUAL_OUTPUT=str(O/'modules.json'))
+for n in ['DATA','CONFIG','CACHE']:
+ p=O/('xdg-'+n.lower());p.mkdir();env['XDG_'+n+'_HOME']=str(p)
+cmd=['./tools/run.sh','--headless','--fixed-fps','60','--script','.local/actual_c04_focused.gd'];start=datetime.datetime.now(datetime.timezone.utc).isoformat();timer=time.monotonic();reason=None;seen={x['pid']:x for x in native()}
+with (O/'native.log').open('w')as log:
+ p=subprocess.Popen(cmd,cwd=R,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);print(json.dumps({'pid':p.pid,'start_utc':start,'bound_seconds':180,'command':cmd}),flush=True);offset=0;carry=b'';next_ps=1
+ while p.poll()is None:
+  time.sleep(.05)
+  with (O/'native.log').open('rb')as f:f.seek(offset);chunk=f.read();offset=f.tell()
+  data=carry+chunk;carry=data[-100:]
+  if re.search(rb'SCRIPT ERROR:|Parse Error:|ERROR:',data):reason='first raw engine error'
+  if time.monotonic()-timer>=180:reason='OS deadline'
+  if time.monotonic()-timer>=next_ps:
+   for x in native():seen[x['pid']]=x
+   next_ps+=1
+  if reason:
+   try:os.killpg(p.pid,signal.SIGTERM)
+   except ProcessLookupError:pass
+   break
+ try:code=p.wait(timeout=3)
+ except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);code=p.wait(timeout=3)
+after=inputs();(O/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');raw=(O/'native.log').read_text();m=re.search(r'ACTUAL C04 FOCUS: (\d+) passed, (\d+) failed',raw);report=json.loads((O/'modules.json').read_text())if(O/'modules.json').is_file()else None
+receipt={'start_utc':start,'end_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'pid':p.pid,'process_group':p.pid,'command':cmd,'bound_seconds':180,'exit_code':code,'stop_reason':reason,'raw_error':bool(re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:',raw)),'source_count':len(before),'source_unchanged':before==after,'source_delta':[k for k in set(before)|set(after)if before.get(k)!=after.get(k)],'native_summary':{'passed':int(m[1]),'failed':int(m[2])}if m else None,'modules':report.get('modules') if report else None,'pose_trace_samples':len(report.get('pose_trace',[])) if report else 0,'native_processes_observed':list(seen.values()),'scope':'Actual installed-source focused original fixtures unchanged. Before-bound ignored observer/launcher and allactual game/tests/tools/licences/project/export/PlayerGuide. Known qualitative/native jobs may overlap per root; no FPS/exclusivity/M5/whole-suite/pixel claim.'}
+receipt['eligible']=bool(code==0 and not reason and not receipt['raw_error']and before==after and m and int(m[2])==0 and report and report['failed']==0 and report['passed']==int(m[1]));(O/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));print(raw[-1500:]);raise SystemExit(0 if receipt['eligible']else 1)

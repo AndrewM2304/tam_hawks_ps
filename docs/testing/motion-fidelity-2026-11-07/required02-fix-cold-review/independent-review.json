@@ -1,0 +1,70 @@
+{
+  "passed": 14,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "game/player/skater.gd exact before",
+      "pass": true
+    },
+    {
+      "label": "game/player/skater.gd exact candidate",
+      "pass": true
+    },
+    {
+      "label": "tests/authentic_pose_tests.gd exact before",
+      "pass": true
+    },
+    {
+      "label": "tests/authentic_pose_tests.gd exact candidate",
+      "pass": true
+    },
+    {
+      "label": "tests/transition_player_tests.gd exact before",
+      "pass": true
+    },
+    {
+      "label": "tests/transition_player_tests.gd exact candidate",
+      "pass": true
+    },
+    {
+      "label": "entirecontroller exact except precast validity guard",
+      "pass": true
+    },
+    {
+      "label": "entireauthenticfixture exact except reviewedUV04pin and label",
+      "pass": true
+    },
+    {
+      "label": "entiretransitionfixture exact except obsoleteheight replaced by nativewitness",
+      "pass": true
+    },
+    {
+      "label": "freshnative samefeature UPcrown and excluded ownbody",
+      "pass": true
+    },
+    {
+      "label": "same0.01tolerance and singleLipStallaward",
+      "pass": true
+    },
+    {
+      "label": "existing0.002rideoffset and realanalyticnativeCylinder corroboratewitness",
+      "pass": true
+    },
+    {
+      "label": "unresolvedairgrindfunction includinginputs/assertions byteexact",
+      "pass": true
+    },
+    {
+      "label": "originalrealwallremovalnegative retained",
+      "pass": true
+    }
+  ],
+  "manifest_sha256": "4e0dbe46d6d16c7f8eb03316a864d4f54b2970e530c25b900577f76d867a72f4",
+  "scope": "Independent3file sourcecold review; no productionwrites/nativeexecution.",
+  "limits": [
+    "OriginalTakeoff wallremoval suppliesrealnegative; nativecleanrerunrequired.",
+    "UV04pin identitymigration only, notphysicalconstruction repair.",
+    "Nativecopingcrown replacesobsolete70mmprofileabsoluteheight with samefeatureUPandretainedoffset/tolerance. Unresolvedairgrindunchanged.",
+    "No physics/reach/input/score/forecastthreshold changed."
+  ]
+}

@@ -1,0 +1,336 @@
+{
+  "reviewed_utc": "2026-11-07T09:35:21.377012+00:00",
+  "scope": "Offline independent constructor identity, provider and scored-trigger datum audit; no engine or native reachability claim. Draft gameplay/per-line annotations remain in progress.",
+  "result": {
+    "pass": 46,
+    "fail": 0
+  },
+  "reviewed_inventory": {
+    "path": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/registry-source-draft-01.json",
+    "sha256": "4008c4d8a8ac296ce12324be8b59e50225713ee01c4c427ce00fcf9792bdfea5",
+    "bytes": 207641,
+    "preserved_gzip_sha256": "1744e46c60df9183aa7665460f35ceb29349d86ab2ac766c413b654b66ceb15b"
+  },
+  "source_pins": {
+    "game/main.gd": "379233f0cab192c395c19d05b98311434a1ab008c345655b9f8925d3f0e10686",
+    "game/levels/glasgow_square.gd": "153b0d15d05cc749ada0ecbb5894c9fe37fe57ba2c709629163c617ab6f29f50",
+    "game/levels/outdoor_routes.gd": "f43ce909519b188be3a94482de3c11deb385a89f5d47973a2e9c0919c91f5fb1",
+    "game/levels/fidelity_infill.gd": "76f4a6a3c563d4a91233cb1e596d243c3d899147b3c6fa3197d765a4a78ad53b",
+    "game/levels/pt24_connected_runs.gd": "3a6efa467e29cdf6fee9544e22d2c77de80f8ac9260084cf13f139c5bd6acb2f",
+    "game/levels/clyde_cable_line.gd": "3cb5a1dfdcd2ee49d3937133f8c4bf2d887b5094f3ef3950828f5e90b26fa159",
+    "game/levels/park_pond.gd": "b72f7f1ab2b4eef13072b14a3cf5f66fefd7da2868846c9cf4e548c535237d52",
+    "game/levels/kelvingrove_skatepark.gd": "8e721aec746421a250e24e86e09f5a7f676f8df1afe7804688eb91d765122262",
+    "game/features/feature_hub.gd": "efc208777c12718e5bac79323d6f5757070a8509af1961ada55245628d29acd1",
+    "game/features/service_gate.gd": "0438a1afb8985fbfd61a834ae69773e037d762b4e63bc420071368a75a3a3948",
+    "game/tricks/gap_tracker.gd": "cd43ba41e367bc4b887e28da6e6d16ba14af26e043af757b7ebab3188687e0bb",
+    "tests/skate_edges_tests.gd": "2afd4fca810ee9363ab76a299e7c173b220506d5556b4dffc95c5790e1bac3a9"
+  },
+  "source_counts": {
+    "scored_gaps": 8,
+    "world_legacy_routes": 64,
+    "world_default_routes": 66,
+    "main_hud_default_routes": 67
+  },
+  "source_route_ids_by_provider": {
+    "game/levels/glasgow_square.gd": [
+      "gallery_west_close",
+      "gallery_east_close",
+      "exchange_west_quay_close",
+      "exchange_east_quay_close",
+      "cat_coping_approach",
+      "cat_coping_runout",
+      "cat_ordered_coping_line",
+      "cat_workshop_bypass",
+      "civic_workshop_bank_loop",
+      "market_hall_bank_loop",
+      "gallery_entrance_bank_loop",
+      "gallery_entrance_front_return",
+      "gallery_entrance_bypass",
+      "exchange_west_bank_loop",
+      "exchange_west_bypass",
+      "barras_covered_delivery_lane",
+      "barras_west_delivery_lane",
+      "barras_market_inner_loop",
+      "barras_market_outer_loop",
+      "barras_covered_loading_link",
+      "gallery_civic_ascent",
+      "exchange_fountain_loop",
+      "central_south_link",
+      "central_north_link",
+      "barras_south_link",
+      "barras_north_link",
+      "central_back_lane",
+      "barras_back_lane",
+      "central_high_line",
+      "central_high_line_bypass",
+      "market_loading_ascent",
+      "gallery_step_drop",
+      "market_step_drop",
+      "merchant_service_east_return",
+      "merchant_service_west_return",
+      "merchant_close_cutthrough",
+      "station_low_level_close",
+      "station_park_port",
+      "civic_park_port"
+    ],
+    "game/levels/outdoor_routes.gd": [
+      "kelvingrove_summit_skatepark",
+      "clyde_print_yard_hip",
+      "clyde_north_quay",
+      "clyde_safe_crossing",
+      "clyde_bridge_transfer",
+      "clyde_print_yard_loop",
+      "kelvingrove_central_climb",
+      "kelvingrove_george_promenade",
+      "kelvingrove_rolling_loop",
+      "kelvingrove_cutback_return"
+    ],
+    "game/levels/fidelity_infill.gd": [
+      "exchange_south_line",
+      "civic_lower_island",
+      "station_low_manual",
+      "barras_forecourt_line",
+      "clyde_south_link",
+      "clyde_south_east_west"
+    ],
+    "game/levels/pt24_connected_runs.gd": [
+      "exchange_east_quay_handoff",
+      "civic_backstreet_ledge_return",
+      "station_transition_handoff",
+      "clyde_west_landing_return",
+      "clyde_east_quay_wall_return",
+      "recording_court_return"
+    ],
+    "game/levels/kelvingrove_skatepark.gd": [
+      "kelvingrove_facility_beginner"
+    ],
+    "game/levels/park_pond.gd": [
+      "kelvingrove_pond_dry_bypass",
+      "kelvingrove_pond_rail_approach"
+    ],
+    "game/features/service_gate.gd": [
+      "service_gate_shortcut"
+    ],
+    "game/levels/clyde_cable_line.gd": [
+      "clyde_cable_transfer_west",
+      "clyde_cable_transfer_east"
+    ]
+  },
+  "scored_gap_ids": [
+    "exchange_launch",
+    "central_gap",
+    "market_hop",
+    "clyde_bridge_transfer",
+    "clyde_handrail_to_cable_west",
+    "clyde_cable_to_handrail_west",
+    "clyde_handrail_to_cable_east",
+    "clyde_cable_to_handrail_east"
+  ],
+  "findings": [
+    "All8 scored gaps and67 default Main HUD route IDs are covered exactly, including dynamic service_gate_shortcut.",
+    "Three constructor-level gap providers feed Main; Main passes actor origin, not the board-contact frame.",
+    "Four non-HUD mission/lap branches are separate namespaces and not counted in67.",
+    "Four route polylines retain symbolic curve-bake/ground-projection coordinates; no invented native points.",
+    "Source binding885 core includes historical launcher hashes; exact actual route/gap providers match the reviewed draft. Later round-coping change only affects the separate grind-contact provider scope."
+  ],
+  "limits": [
+    "Route metadata and scoring trigger definitions do not prove approaches, native landings, next-trick density, returnability or one continuous combo.",
+    "Dynamic semantic grind identities require a future source-bound native snapshot; regex literal counts are not an authoritative grind inventory.",
+    "Historical east quay pays7400+5688 in two banks; it does not meet the new cross-area one-combo request.",
+    "No new full-graph/playability/AAA/M5 acceptance; per-gap handoff statements and source points need native and visual verification."
+  ],
+  "checks": [
+    {
+      "label": "actual cable route generator has exactly two signed branches",
+      "pass": true
+    },
+    {
+      "label": "source constructor counts by provider",
+      "pass": true
+    },
+    {
+      "label": "exact67 unique source HUD route IDs",
+      "pass": true
+    },
+    {
+      "label": "draft exact67 IDs without omission/duplicate/invention",
+      "pass": true
+    },
+    {
+      "label": "provider ownership exact game/levels/glasgow_square.gd",
+      "pass": true
+    },
+    {
+      "label": "provider ownership exact game/levels/outdoor_routes.gd",
+      "pass": true
+    },
+    {
+      "label": "provider ownership exact game/levels/fidelity_infill.gd",
+      "pass": true
+    },
+    {
+      "label": "provider ownership exact game/levels/pt24_connected_runs.gd",
+      "pass": true
+    },
+    {
+      "label": "provider ownership exact game/levels/kelvingrove_skatepark.gd",
+      "pass": true
+    },
+    {
+      "label": "provider ownership exact game/levels/park_pond.gd",
+      "pass": true
+    },
+    {
+      "label": "provider ownership exact game/features/service_gate.gd",
+      "pass": true
+    },
+    {
+      "label": "provider ownership exact game/levels/clyde_cable_line.gd",
+      "pass": true
+    },
+    {
+      "label": "fixed identity list ORIGINAL_ROUTE_IDS",
+      "pass": true
+    },
+    {
+      "label": "fixed identity list PT24_ROUTE_IDS",
+      "pass": true
+    },
+    {
+      "label": "fixed identity list POND_ROUTE_IDS",
+      "pass": true
+    },
+    {
+      "label": "independent fixed66 equals world constructor union",
+      "pass": true
+    },
+    {
+      "label": "legacy world64 and actual defaultworld66/HUD67 kept separate",
+      "pass": true
+    },
+    {
+      "label": "Main explicitly enables ordinary design content",
+      "pass": true
+    },
+    {
+      "label": "HUD actually appends feature hub routes",
+      "pass": true
+    },
+    {
+      "label": "gate route dynamic enable flag retained",
+      "pass": true
+    },
+    {
+      "label": "two cable gap families expanded over real signed loop",
+      "pass": true
+    },
+    {
+      "label": "exact8 unique scored IDs",
+      "pass": true
+    },
+    {
+      "label": "gap datums/radius/points/air exchange_launch",
+      "pass": true
+    },
+    {
+      "label": "gap source distance/valid separated triggers exchange_launch",
+      "pass": true
+    },
+    {
+      "label": "gap datums/radius/points/air central_gap",
+      "pass": true
+    },
+    {
+      "label": "gap source distance/valid separated triggers central_gap",
+      "pass": true
+    },
+    {
+      "label": "gap datums/radius/points/air market_hop",
+      "pass": true
+    },
+    {
+      "label": "gap source distance/valid separated triggers market_hop",
+      "pass": true
+    },
+    {
+      "label": "gap datums/radius/points/air clyde_bridge_transfer",
+      "pass": true
+    },
+    {
+      "label": "gap source distance/valid separated triggers clyde_bridge_transfer",
+      "pass": true
+    },
+    {
+      "label": "gap datums/radius/points/air clyde_handrail_to_cable_west",
+      "pass": true
+    },
+    {
+      "label": "gap source distance/valid separated triggers clyde_handrail_to_cable_west",
+      "pass": true
+    },
+    {
+      "label": "gap datums/radius/points/air clyde_cable_to_handrail_west",
+      "pass": true
+    },
+    {
+      "label": "gap source distance/valid separated triggers clyde_cable_to_handrail_west",
+      "pass": true
+    },
+    {
+      "label": "gap datums/radius/points/air clyde_handrail_to_cable_east",
+      "pass": true
+    },
+    {
+      "label": "gap source distance/valid separated triggers clyde_handrail_to_cable_east",
+      "pass": true
+    },
+    {
+      "label": "gap datums/radius/points/air clyde_cable_to_handrail_east",
+      "pass": true
+    },
+    {
+      "label": "gap source distance/valid separated triggers clyde_cable_to_handrail_east",
+      "pass": true
+    },
+    {
+      "label": "actual actor-origin trigger feed explicitly correct",
+      "pass": true
+    },
+    {
+      "label": "actual scoring window4/maxstep20/finish-air source",
+      "pass": true
+    },
+    {
+      "label": "actual gap awards add current combo with canonical gap identity",
+      "pass": true
+    },
+    {
+      "label": "mission and lap subroutes not inflated into HUD67",
+      "pass": true
+    },
+    {
+      "label": "all-dynamic-grind and complete-native proof explicitly open",
+      "pass": true
+    },
+    {
+      "label": "two-bank east-return not relabeled one combo",
+      "pass": true
+    },
+    {
+      "label": "symbolic runtime-dependent polylines remain unresolved",
+      "pass": true,
+      "detail": {
+        "ids": [
+          "kelvingrove_central_climb",
+          "kelvingrove_rolling_loop",
+          "kelvingrove_cutback_return",
+          "service_gate_shortcut"
+        ]
+      }
+    },
+    {
+      "label": "all actual gap and named-route providers match draft pins",
+      "pass": true
+    }
+  ]
+}

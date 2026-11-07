@@ -1,0 +1,4525 @@
+{
+  "reviewed_utc": "2026-11-07T09:23:23.256022+00:00",
+  "reviewer": "independent_qa",
+  "scope": "Independent read-only source/native receipt review; no engine run and no production source edits. Guarded integration has no remaining source blocker; actual integrated regression and rendered naturalness remain open.",
+  "result": {
+    "pass": 1097,
+    "fail": 0
+  },
+  "manifest_sha256": "d7cd383c3fce6c356c49901dc06400ed54d1be7075635e8380a6fe4b36e17d47",
+  "native_counts": [
+    434,
+    0
+  ],
+  "native_epoch": {
+    "name": "native",
+    "command": [
+      "/workspace/tam_hawks_ps/.local/motion-required02-fixes/round-current-source/tools/run.sh",
+      "--headless",
+      "--fixed-fps",
+      "60",
+      "--script",
+      "res://probe.gd"
+    ],
+    "start": "2026-11-07T09:12:13.475006+00:00",
+    "cap_s": 115,
+    "pid": 103247,
+    "end": "2026-11-07T09:12:46.569364+00:00",
+    "exit": 0,
+    "stop": null,
+    "log_sha256": "aa2e42c4896377a8ccc006c50bdeb428d3bdff3a7d1d1774dac83f64be0bcd09",
+    "raw_script_error": false
+  },
+  "inventory_scope": {
+    "copy": 875,
+    "native": 877,
+    "copy_only": [
+      "export_presets.cfg"
+    ],
+    "native_added": [
+      "tests/round_coping_contact_tests.gd",
+      "probe.gd",
+      "run_current13.py"
+    ],
+    "existing_changed": [
+      "game/levels/transition_feature.gd",
+      "game/player/skater.gd",
+      "game/tricks/grind_clearance.gd",
+      "game/tricks/grind_line.gd",
+      "game/tricks/grind_style.gd",
+      "tests/run_tests.gd"
+    ]
+  },
+  "semantic_findings": [
+    "Actual same-cylinder radial contacts and model-derived 2.76594 degree lean retain guide/pipe/deck dimensions, physical input/capture limits and contact tolerances.",
+    "Native all-solid component and swept-path refinement retains every reported solid, existing strict separation certificate and finite query/depth caps.",
+    "Malformed declared round profiles fail before generic fallback; stale/freed native owners are refused.",
+    "Four moving-start fixtures seed initial position/velocity/facing once, then mapped controls/native physics; not full ordinary approaches.",
+    "Public runner registration was inspected, but the private observer invoked modules directly; actual integrated runner remains required."
+  ],
+  "limits": [
+    "No graphical/moving naturalness, whole-game, target-Mac or AAA pass.",
+    "D022 critical rapid late-landing uprighting remains open and independent of this round-coping repair.",
+    "The existing 100 micrometre contact skin is retained; zero-overlap and force-bearing are not inferred from this bounded skin proof.",
+    "Constructor component memory diagnostics and helper-level query bounds do not certify whole-frame CPU/GPU timing."
+  ],
+  "inputs": {
+    ".local/motion-required02-fixes/round-admission-02/manifest.json": "d7cd383c3fce6c356c49901dc06400ed54d1be7075635e8380a6fe4b36e17d47",
+    ".local/motion-required02-fixes/round-admission-02/proposal.patch": "0f66441c56b27c8325383d0f1695158071dce08c89361f16a6db110bdfb567aa",
+    ".local/motion-required02-fixes/round-admission-02/install.py": "4eb1ecdb46ab47f35aa934f9aa95b4c1b5b581095ad80fb19b9523c654dcf619",
+    ".local/motion-required02-fixes/current-composite-13/receipt.json": "a7ef12c654fa1e9780b617e7290961716c6178396e114f967f64fb4b6a9fed86",
+    ".local/motion-required02-fixes/current-composite-13/parser.log": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+    ".local/motion-required02-fixes/current-composite-13/native.log": "aa2e42c4896377a8ccc006c50bdeb428d3bdff3a7d1d1774dac83f64be0bcd09",
+    ".local/motion-required02-fixes/round-current-copy-receipt.json": "796b837d30ad190400327fcb2a858dabc832ebb15e295b775158466fb45fbb6f",
+    ".local/motion-required02-fixes/round-current-source/probe.gd": "e91f34fdf363f7d9353f4e0d366e89d542edfa90de27249162aca2efe0d7e9d6",
+    ".local/motion-required02-fixes/run_current13.py": "5f2267e57fdaa695cc4edc35da5404e544065ff854e123a6d4b7f82fb3a525b7",
+    ".local/motion-required02-fixes/round-admission-02/payload/game/player/skater.gd": "4895c7bf8a58608f7bde4c4fd13b571d1a16d0e04f56cc26b56d973f4c0d8924",
+    ".local/motion-required02-fixes/round-admission-02/payload/game/tricks/grind_line.gd": "8a3b80d6f40aaaac4d0eb93c8be72f3bc27bc856acff4ac6253e584d6757afeb",
+    ".local/motion-required02-fixes/round-admission-02/payload/game/tricks/grind_style.gd": "3d147af480c70c1335a124fc1533037d20f195cc4d1e75dc0f844fedee8651ab",
+    ".local/motion-required02-fixes/round-admission-02/payload/game/tricks/grind_clearance.gd": "3c08d327c1d787d2e500650842981f006ce5ff874488716efc860a637739b8c5",
+    ".local/motion-required02-fixes/round-admission-02/payload/game/levels/transition_feature.gd": "718c7e56a964a73c45412f19f2a9309f452c0728f694c54eb6af0f6526b4bfc9",
+    ".local/motion-required02-fixes/round-admission-02/payload/tests/round_coping_contact_tests.gd": "9320c2843b7ab71802b70a0380da428541c06c10ab35ea247e0c814b7ce80928",
+    ".local/motion-required02-fixes/round-admission-02/payload/tests/run_tests.gd": "4ce99131ccae50c2f40d27957c04424b2ad21a8476b17573bb1fa74eb0397e27",
+    ".local/motion-required02-fixes/round-admission-02/before/game/player/skater.gd": "e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd",
+    ".local/motion-required02-fixes/round-admission-02/before/game/tricks/grind_line.gd": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+    ".local/motion-required02-fixes/round-admission-02/before/game/tricks/grind_style.gd": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+    ".local/motion-required02-fixes/round-admission-02/before/game/tricks/grind_clearance.gd": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+    ".local/motion-required02-fixes/round-admission-02/before/game/levels/transition_feature.gd": "7e7a543663da3918344f834a69da1e9ab48d950a9bb4708c406c2b7ff271a087",
+    ".local/motion-required02-fixes/round-admission-02/before/tests/run_tests.gd": "fbd0944feb1c3a6bdc8e929106dff65ef16b3c90c52575ecc3d30c4f6c1851a1"
+  },
+  "checks": [
+    {
+      "label": "exact reviewed successor manifest",
+      "pass": true
+    },
+    {
+      "label": "exact seven scoped paths",
+      "pass": true
+    },
+    {
+      "label": "payload hash game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "native source binds payload game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "held project payload game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source at review is declared pre/postimage game/player/skater.gd",
+      "pass": true,
+      "detail": {
+        "actual": "e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd",
+        "already_integrated": false
+      }
+    },
+    {
+      "label": "archived before game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "payload hash game/tricks/grind_line.gd",
+      "pass": true
+    },
+    {
+      "label": "native source binds payload game/tricks/grind_line.gd",
+      "pass": true
+    },
+    {
+      "label": "held project payload game/tricks/grind_line.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source at review is declared pre/postimage game/tricks/grind_line.gd",
+      "pass": true,
+      "detail": {
+        "actual": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+        "already_integrated": false
+      }
+    },
+    {
+      "label": "archived before game/tricks/grind_line.gd",
+      "pass": true
+    },
+    {
+      "label": "payload hash game/tricks/grind_style.gd",
+      "pass": true
+    },
+    {
+      "label": "native source binds payload game/tricks/grind_style.gd",
+      "pass": true
+    },
+    {
+      "label": "held project payload game/tricks/grind_style.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source at review is declared pre/postimage game/tricks/grind_style.gd",
+      "pass": true,
+      "detail": {
+        "actual": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+        "already_integrated": false
+      }
+    },
+    {
+      "label": "archived before game/tricks/grind_style.gd",
+      "pass": true
+    },
+    {
+      "label": "payload hash game/tricks/grind_clearance.gd",
+      "pass": true
+    },
+    {
+      "label": "native source binds payload game/tricks/grind_clearance.gd",
+      "pass": true
+    },
+    {
+      "label": "held project payload game/tricks/grind_clearance.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source at review is declared pre/postimage game/tricks/grind_clearance.gd",
+      "pass": true,
+      "detail": {
+        "actual": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+        "already_integrated": false
+      }
+    },
+    {
+      "label": "archived before game/tricks/grind_clearance.gd",
+      "pass": true
+    },
+    {
+      "label": "payload hash game/levels/transition_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "native source binds payload game/levels/transition_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "held project payload game/levels/transition_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source at review is declared pre/postimage game/levels/transition_feature.gd",
+      "pass": true,
+      "detail": {
+        "actual": "7e7a543663da3918344f834a69da1e9ab48d950a9bb4708c406c2b7ff271a087",
+        "already_integrated": false
+      }
+    },
+    {
+      "label": "archived before game/levels/transition_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "payload hash tests/round_coping_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "native source binds payload tests/round_coping_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "held project payload tests/round_coping_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source at review is declared pre/postimage tests/round_coping_contact_tests.gd",
+      "pass": true,
+      "detail": {
+        "actual": null,
+        "already_integrated": false
+      }
+    },
+    {
+      "label": "payload hash tests/run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "native source binds payload tests/run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "held project payload tests/run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source at review is declared pre/postimage tests/run_tests.gd",
+      "pass": true,
+      "detail": {
+        "actual": "fbd0944feb1c3a6bdc8e929106dff65ef16b3c90c52575ecc3d30c4f6c1851a1",
+        "already_integrated": false
+      }
+    },
+    {
+      "label": "archived before tests/run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual-before/copy/actual-after all 875 identical",
+      "pass": true
+    },
+    {
+      "label": "native before/after 877 identical",
+      "pass": true
+    },
+    {
+      "label": "only six existing proposal source changes after copy",
+      "pass": true
+    },
+    {
+      "label": "exact inventory difference disclosed",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/derived/grass_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/derived/grass_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/derived/grass_normal_opengl.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/derived/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/derived/pavement_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/derived/pavement_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/LICENSE-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/README.md",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/glasgow_bay_far.glb",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/glasgow_bay_far.glb.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/glasgow_bay_mid.glb",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/glasgow_bay_mid.glb.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/glasgow_bay_near.glb",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/glasgow_bay_near.glb.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/godot-imports.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/textures/opaque_glazing_basecolor.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/textures/opaque_glazing_basecolor.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/textures/sandstone_basecolor.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/textures/sandstone_basecolor.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/textures/sandstone_normal_opengl.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/textures/sandstone_normal_opengl.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/textures/sandstone_orm.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay/textures/sandstone_orm.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/LICENSE-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/README.md",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_far.glb",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_far.glb.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_mid.glb",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_mid.glb.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_near.glb",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_near.glb.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/godot-imports.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/glasgow_bay_reduced_four_slot/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/clyde_water.gdshader",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/clyde_water.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/footing_colour.gdshader",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/footing_colour.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/glasgow_horizon.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/glasgow_horizon.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/glasgow_horizon_cube.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/glasgow_horizon_cube.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/horizon_sky.gdshader",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/horizon_sky.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/horizon/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/generate.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/hair.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/hair.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/head.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/head.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/left_hand.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/left_hand.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/right_hand.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/makehuman_hm08/right_hand.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/tam_skateboard/README.md",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/tam_skateboard/UV-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/tam_skateboard/board_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/tam_skateboard/board_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/tam_skateboard/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/tam_skateboard/tam_skateboard.glb",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/tam_skateboard/tam_skateboard.glb.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/zc_textures/T_bricks01/T_bricks01_normal_opengl.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/zc_textures/T_bricks01/T_bricks01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/zc_textures/T_concrete01/T_concrete01_albedo.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/zc_textures/T_concrete01/T_concrete01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/zc_textures/T_concrete01/T_concrete01_normal_opengl.jpg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/zc_textures/T_concrete01/T_concrete01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/assets/zc_textures/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/FITTED-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/SKIN-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/accessory-fit.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/eye-source-selection.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/face-atlas-layout.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted-garment-fit.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted-licence-headers.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted-manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted-source-pins.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_accessories.glb",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_accessories.glb.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_brows.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_brows.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_brows_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_brows_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_cloth_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_cloth_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_cloth_normal.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_cloth_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_eyes.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_eyes.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_fit.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_hair.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_hair.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_hair_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_hair_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_head.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_head.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_landmarks.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_outfit.glb",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_outfit.glb.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_reflector_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_reflector_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_left_laces.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_left_laces.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_left_sole.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_left_sole.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_left_upper.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_left_upper.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_right_laces.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_right_laces.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_right_sole.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_right_sole.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_right_upper.obj",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_shoe_right_upper.obj.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_vest_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/fitted_vest_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/footwear-fit.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/hand-atlas-layout.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/head-neck-restoration.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/head_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/head_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/head_normal.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/head_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/head_roughness.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/head_roughness.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/lace-fit.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/left_hand_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/left_hand_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/left_hand_normal.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/left_hand_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/left_hand_roughness.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/left_hand_roughness.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/palette-map.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/right_hand_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/right_hand_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/right_hand_normal.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/right_hand_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/right_hand_roughness.png",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/right_hand_roughness.png.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/rider/source-neck-helper-map.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/shaders/window_interior.gdshader",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/art/shaders/window_interior.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/apple_music.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/apple_music.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/generated/again.wav",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/generated/again.wav.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/generated/cone.wav",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/generated/cone.wav.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/generated/landing.wav",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/generated/landing.wav.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/generated/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/skate_audio.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/audio/skate_audio.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/bin_percussion.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/bin_percussion.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/busker_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/busker_actor.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/busker_sound.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/busker_sound.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/cat_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/cat_actor.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/cat_encounter.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/cat_encounter.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/glasgow_encounters.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/glasgow_encounters.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/market_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/market_actor.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/market_encounter.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/characters/market_encounter.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/core/graphics_quality.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/core/graphics_quality.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/core/input_profile.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/core/input_profile.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/core/input_setup.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/core/input_setup.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/core/playtest_recorder.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/core/playtest_recorder.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/activity_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/activity_actor.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/cone_stunt.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/cone_stunt.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/feature_hub.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/feature_hub.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/feature_visuals.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/feature_visuals.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/lap_challenge.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/lap_challenge.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/service_gate.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/service_gate.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/skate_vehicle.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/features/skate_vehicle.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/icon.svg",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/icon.svg.import",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/arch_mesh.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/arch_mesh.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/barras_market.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/barras_market.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/clyde_landmarks.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/clyde_landmarks.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/exchange_gallery.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/exchange_gallery.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/facade_bay.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/facade_bay.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/facade_kit.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/facade_kit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/facade_shell.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/facade_shell.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/foliage_mesh.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/foliage_mesh.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/fountain_basin_mesh.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/fountain_basin_mesh.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/fountain_ornament.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/fountain_ornament.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/gallery_column.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/gallery_column.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/material_library.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/material_library.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/street_dressing.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/art/street_dressing.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/bowl_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/bowl_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/city_art.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/city_art.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/city_backdrop.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/city_backdrop.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/city_visibility.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/city_visibility.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/clyde_cable_line.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/clyde_cable_line.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/clyde_layout.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/clyde_layout.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/core_terrain.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/core_terrain.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/exploration_boundary.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/exploration_boundary.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/fidelity_infill.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/fidelity_infill.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/glasgow_murals.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/glasgow_murals.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/glasgow_square.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/glasgow_square.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/halfpipe_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/halfpipe_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/horizon_background.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/horizon_background.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/kelvingrove_skatepark.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/kelvingrove_skatepark.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/outdoor_routes.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/outdoor_routes.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/outdoors/surface_builder.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/outdoors/surface_builder.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/outdoors/vegetation.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/outdoors/vegetation.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/park_pond.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/park_pond.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/park_visual_skin.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/park_visual_skin.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/pt24_central_green.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/pt24_central_green.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/pt24_connected_runs.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/pt24_connected_runs.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/pt24_render_repairs.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/pt24_render_repairs.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/render_budget.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/render_budget.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/skate_edges.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/skate_edges.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/spine_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/spine_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/static_batches.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/static_batches.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/station_railway.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/station_railway.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/sunken_bowl_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/sunken_bowl_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/surface_audit.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/surface_audit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/transition_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/transition_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/transition_park.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/transition_park.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/water_shadow_policy.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/levels/water_shadow_policy.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/main.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/main.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/main.tscn",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/bail_recovery.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/bail_recovery.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/chase_camera.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/chase_camera.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/feature_transition_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/feature_transition_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/launch_setup.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/launch_setup.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/shoe_support_hull.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/shoe_support_hull.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skate_response.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skate_response.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_anatomy.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_anatomy.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_footwear.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_footwear.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_garments.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_garments.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_obstacle_arm_fit.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_obstacle_arm_fit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_visual.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skater_visual.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skitch_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/skitch_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/transition_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/transition_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/trick_animation.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/trick_animation.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/wall_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/player/wall_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/progression/career_progress.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/progression/career_progress.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/progression/objective_tracker.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/progression/objective_tracker.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/scoring/score_session.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/scoring/score_session.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/directional_tricks.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/directional_tricks.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/gap_tracker.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/gap_tracker.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_clearance.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_clearance.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_index.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_index.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_line.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_line.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_style.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_style.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_transfer.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/grind_transfer.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/special_meter.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/special_meter.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/trick_catalog.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/trick_catalog.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/trick_input.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/tricks/trick_input.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/ui/hud.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/ui/hud.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/ui/route_map.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input game/ui/route_map.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input project.godot",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/activity_actor_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/activity_actor_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/ambient_adult_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/ambient_adult_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/apple_music_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/apple_music_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/arcade_economy_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/arcade_economy_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/arcade_response_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/arcade_response_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/audio_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/audio_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/authentic_fidelity_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/authentic_fidelity_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/authentic_pose_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/authentic_pose_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/bail_recovery_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/bail_recovery_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/board_floor_ray_reuse_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/board_floor_ray_reuse_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/board_geometry_tests_support.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/board_geometry_tests_support.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/board_import_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/board_import_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/camera_ray_reuse_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/camera_ray_reuse_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/camera_turn_review_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/camera_turn_review_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/career_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/career_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/career_route_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/career_route_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/cat_encounter_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/cat_encounter_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/city_backdrop_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/city_backdrop_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/city_visibility_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/city_visibility_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/civic_edge_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/civic_edge_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/classic_control_input_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/classic_control_input_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/classic_tricks_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/classic_tricks_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/clyde_cable_line_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/clyde_cable_line_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/clyde_surface_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/clyde_surface_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/combo_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/combo_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/combo_resolution_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/combo_resolution_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/compact_clyde_lines_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/compact_clyde_lines_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/connected_transition_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/connected_transition_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/controller_menu_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/controller_menu_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/curved_visual_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/curved_visual_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/directional_tricks_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/directional_tricks_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/edge_grind_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/edge_grind_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/environment_text_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/environment_text_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/exchange_place_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/exchange_place_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/facade_bay_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/facade_bay_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/feature_transition_ride_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/feature_transition_ride_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fidelity_acceptance_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fidelity_acceptance_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fitted-reference.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fitted_adapter.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fitted_adapter.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fitted_garment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fitted_garment_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/flat_ollie_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/flat_ollie_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fountain_basin_mesh_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fountain_basin_mesh_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fountain_finish_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fountain_finish_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fountain_ornament_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/fountain_ornament_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/full_level_density_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/full_level_density_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/full_repertoire_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/full_repertoire_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/full_shoe_support_contract.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/full_shoe_support_contract.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/glasgow_encounters_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/glasgow_encounters_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/glasgow_murals_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/glasgow_murals_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grab_pose_cache_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grab_pose_cache_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/graphics_quality_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/graphics_quality_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_capture_bounds_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_capture_bounds_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_contact_metadata_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_contact_metadata_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_index_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_index_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_intent_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_intent_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_regression_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_regression_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_ride_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_ride_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_style_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_style_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_surface_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_surface_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_variant_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grind_variant_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grinding_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/grinding_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/horizon_background_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/horizon_background_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/hud_efficiency_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/hud_efficiency_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/hud_trick_label_cache_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/hud_trick_label_cache_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/input_profile_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/input_profile_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/kelvingrove_skatepark_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/kelvingrove_skatepark_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/landing_turn_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/landing_turn_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/limb_pose_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/limb_pose_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/line_design_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/line_design_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/manual_combo_usability_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/manual_combo_usability_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/manual_revert_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/manual_revert_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/map_connector_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/map_connector_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/market_encounter_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/market_encounter_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/menu_cancel_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/menu_cancel_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/menu_launch_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/menu_launch_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/merchant_return_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/merchant_return_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/motion_fidelity_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/motion_fidelity_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/music_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/music_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/music_ui_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/music_ui_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/named_grind_consumers_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/named_grind_consumers_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/named_grind_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/named_grind_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/native_grind_transfer_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/native_grind_transfer_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/native_ledge_fallback_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/native_ledge_fallback_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/outdoor_repair_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/outdoor_repair_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/overnight_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/overnight_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/owner_playtest_repairs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/owner_playtest_repairs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/park_construction_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/park_construction_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/park_pond_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/park_pond_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/per_leg_sole_contract.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/per_leg_sole_contract.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/physics_interpolation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/physics_interpolation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/platform_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/platform_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/playability_boot.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/playability_boot.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/playability_boot.tscn",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/playability_regression_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/playability_regression_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/player_forgiveness_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/player_forgiveness_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/playtest_recorder_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/playtest_recorder_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/presentation_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/presentation_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/process_guard_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/process_guard_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/progression_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/progression_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_acceptance_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_acceptance_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_boundary_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_boundary_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_bowl_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_bowl_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_central_green_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_central_green_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_city_repairs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_city_repairs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_civic_flagship_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_civic_flagship_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_civic_park_run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_civic_park_run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_clyde_flagship_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_clyde_flagship_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_connected_runs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_connected_runs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_design_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_design_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_facility_connection_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_facility_connection_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_flagship_runs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_flagship_runs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_gallery_entrance_run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_gallery_entrance_run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_gate_route_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_gate_route_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_manual_grade_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_manual_grade_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_market_full_run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_market_full_run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_park_finish_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_park_finish_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_park_flagship_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_park_flagship_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_park_full_combo_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_park_full_combo_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_park_run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_park_run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_render_repairs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/pt24_render_repairs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/rail_geometry_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/rail_geometry_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/rail_solidity_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/rail_solidity_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/ramp_pop_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/ramp_pop_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/remaining_feature_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/remaining_feature_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/render_budget_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/render_budget_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/repetition_alias_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/repetition_alias_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/round_coping_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/route_availability_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/route_availability_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skate_edges_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skate_edges_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skate_response_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skate_response_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skatepark_navigation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skatepark_navigation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_body_attachment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_body_attachment_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_gait_direction_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_gait_direction_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_manual_arm_controls.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_manual_arm_controls.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_obstacle_arm_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_obstacle_arm_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_pogo_attachment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_pogo_attachment_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_skitch_attachment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_skitch_attachment_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_flip_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_flip_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_grab_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_grab_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_manual_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_manual_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_presentation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_presentation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_transition_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/skater_wall_transition_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/special_gap_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/special_gap_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/static_batches_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/static_batches_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/station_gate_repairs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/station_gate_repairs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/station_railway_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/station_railway_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support/compact_clyde_lines_driver.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support/compact_clyde_lines_driver.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support/manual_balance_driver.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support/manual_balance_driver.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support/music_launch_guard.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support/music_launch_guard.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support/native_prism_audit.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support/native_prism_audit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support_query_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/support_query_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/surface_coverage_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/surface_coverage_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/takeoff_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/takeoff_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/terrain_bank_edge_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/terrain_bank_edge_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/terrain_top_ownership_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/terrain_top_ownership_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/test_compact_clyde.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/test_compact_clyde.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/topography_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/topography_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/transition_geometry_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/transition_geometry_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/transition_player_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/transition_player_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/transition_ride_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/transition_ride_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_animation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_animation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_catalog_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_catalog_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_encounter_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_encounter_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_fidelity_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_fidelity_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_input_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_input_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_language_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_language_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_pose_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_pose_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_score_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/trick_score_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/ui_feedback_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/ui_feedback_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/ui_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/ui_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/wall_ride_presentation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/wall_ride_presentation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/wall_ride_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/wall_ride_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/water_shadow_policy_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/water_shadow_policy_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/world_routes_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tests/world_routes_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/area_audit_play.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/area_audit_play.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/area_audit_play.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/board_wood_source.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/board_wood_source.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/build_skateboard.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/finish_board_uv.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/import_board_wood.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/import_board_wood.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/regenerate_skateboard_uv.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/requirements-board.txt",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/source/tam_skateboard-base-manifest.json",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/art/source/tam_skateboard-base.glb.gz",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/build_environment_derivatives.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/check.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/classic_controls_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/classic_controls_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/classic_controls_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/classic_tricks_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/classic_tricks_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/classic_tricks_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/environment_texture_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/environment_texture_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/environment_water_isolated_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/environment_water_isolated_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/environment_water_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/environment_water_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/environment_water_probe.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/export.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/facade_bay_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/facade_bay_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/facade_bay_probe.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/fetch_environment_materials.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/fixtures/environment/clyde_water_before_2026_11_06.gdshader",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/fixtures/environment/clyde_water_before_2026_11_06.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/full_fidelity_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/full_fidelity_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/full_fidelity_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/full_fidelity_capture_png.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/full_fidelity_capture_smoke.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/full_fidelity_capture_smoke.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/generate_voice.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/grind_contact_audit.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/grind_contact_audit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/level_design_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/level_design_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/level_design_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/moving_profile.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/moving_profile.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/moving_profile.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/moving_profile.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/mural_review.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/mural_review.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/mural_review.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/music_ui_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/music_ui_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/music_ui_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/native_smoke.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/occlusion_owner_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/occlusion_owner_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/overnight_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/overnight_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/overnight_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/performance_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/performance_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/performance_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/playability_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/playability_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/playability_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/playability_capture.tscn",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/profile.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/profile.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/profile.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/pt24_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/pt24_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/pt24_design_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/pt24_design_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/pt24_temporal_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/pt24_temporal_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/render_budget_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/render_budget_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/render_budget_probe.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/render_repair_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/render_repair_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/render_repair_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_accessories.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_acquire.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_bake.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_fit.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_head.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_inspect.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_inspect.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_inspect.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_laces.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_projection.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_shoes.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_skin.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_surfaces.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_validate.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_validate.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_asset_validate.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_motion.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_motion.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/rider_motion.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/run.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/setup.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/source_launch_smoke.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/static_batches_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/static_batches_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/static_batches_probe.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/static_batches_probe.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/support_audit.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/support_audit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/testing/build_fitted_rig_reference.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/testing/verify_shoe_support_certificate.py",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/trick_fidelity_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/trick_fidelity_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/trick_fidelity_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/ui_feedback_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/ui_feedback_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/ui_feedback_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/ui_title_boot_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/ui_title_boot_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/ui_title_boot_probe.tscn",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/visibility_precision_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/visibility_precision_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/visual_pass_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/visual_pass_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/visual_pass_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "retained native input tools/xorg-dummy.conf",
+      "pass": true
+    },
+    {
+      "label": "retained native input run_current13.py",
+      "pass": true
+    },
+    {
+      "label": "parser zero exit no script error",
+      "pass": true
+    },
+    {
+      "label": "parser exact raw log hash",
+      "pass": true
+    },
+    {
+      "label": "native zero exit no script error",
+      "pass": true
+    },
+    {
+      "label": "native exact raw log hash",
+      "pass": true
+    },
+    {
+      "label": "434 PASS and zero FAIL raw log",
+      "pass": true
+    },
+    {
+      "label": "controller change only four grind functions/new radial helper",
+      "pass": true,
+      "detail": {
+        "changed": [
+          "_grind_board_clear",
+          "_grind_board_path_clear",
+          "_grind_candidate_supported",
+          "_solve_grind_contact"
+        ],
+        "added": [
+          "_round_grind_native_contacts"
+        ]
+      }
+    },
+    {
+      "label": "unchanged existing controller function balance_action",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_obstacle_manual_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_model_hits_support",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_landing_finite_model_overlap",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_transition",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_bail",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _spin_landing_clean",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _physics_process",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_grind",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_wall_forecast_impl",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _transition_body_target",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function manual_request_pending",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_wall",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _try_begin_lip",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _grind_native_crown",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _drop_board",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _complete_special",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _grind_capsule_segment_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _direction_snapshot",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_vert_return",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _clear_grind_rail_intent",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_native_support_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _restore_manual_wheel_pose",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _restore_platform_after_move",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _process",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function balance_value",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _set_launch_mode",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _start_grab",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_board_support_allowed",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _try_lip_extension",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _obstacle_air_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function begin_bail",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _bail_pose_weight",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _transition_capsule_segment_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _finish_landing",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _release_grind",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _complete_flip",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _ready",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _update_pose",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _transition_coping_data",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function balance_axis",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function set_controls_enabled",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _rail_floor_contacts_only",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _notification",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _clear_special_visual",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_floor_normal",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_wall_model_face",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _manual_model_frame_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _requires_model_grind_clearance",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function try_special",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _try_ground_links",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function set_transition_features",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _orient_contact_shape",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _emit_trick",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_rim_refinement_lift",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _recovery_step_supported",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _clear_weighted_ollie",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _mount_board",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _sample_feature_charge",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _only_intended_grind_hits",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _grind_capsule_rest_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _input",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _clear_charge",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_wheel_footprint_hits",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _graded_obstacle_offset_supported",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _sample_trick_requests",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_wall_forecast",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _material",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_air_landing_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function recover_to",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _build_skater",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _clear_trick_buffers",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _obstacle_manual_floor_shape",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _completed_air_half_turns",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_footprint_board_fit",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _start_bail",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _face_transition_travel",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_skitch",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _grind_capture_path_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _flip_pose_angles",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_obstacle_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function get_camera_support_frame",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function set_grind_lines",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _prepare_vert_return_contact",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_manual_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _discard_cached_support",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _obstacle_manual_contact_offset",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function set_trick_entries_enabled",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _clear_direction_gesture",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_floor_hit",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_board_wheel_support",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_air_wall_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _remember_grind_rail_impact",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function set_skater_color",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_forecast_query",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_setup",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_lip",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _try_recovery_clearance_step",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_transition_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _begin_air",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_grind_rail_intent",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_feature_transition",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_wall_forecast_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function reset_skater",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _special_axis",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _complete_grind_transfer",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _minimum_air_wall_offset",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_graded_obstacle_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_wall_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _restore_contact_shape",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _obstacle_offset_supported",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _obstacle_manual_supported",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _place_feature_air_coping_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _transition_capsule_turn_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _styled_trick_name",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_bowl_hit_owned",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _obstacle_grab_air_offset",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _fit_native_visual_translation",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _transition_support",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _try_transition",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _release_lip",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function get_camera_support_up",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _physical_revert",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _apply_air_tricks",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _manual_choice",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _clear_grind_style",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function get_support_normal",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _rail_path_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _award_air_spin",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _manual_balance_input_sign",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _arm_vert_return",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _grind_request_available",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_board_floor_ray",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_board_floor",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _obstacle_manual_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_planar_rim_fit",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_wall_model_face_at",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_rim_frame_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _recovery_volume_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _relocate_recovery",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function set_presentation_settings",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _align_to_travel",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _end_manual",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_forecast_frame_valid",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _native_footprint_contact",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _build_loose_board",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _try_grind",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _try_grind_extension",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _withdraw_air_support_offset",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_landing_model_gap",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _leave_transition",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_landing_wheel_gap",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _tick_manual_balance",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing controller function _air_forecast_owner_bounds",
+      "pass": true
+    },
+    {
+      "label": "all existing constants exact game/tricks/grind_style.gd",
+      "pass": true
+    },
+    {
+      "label": "all existing constants exact game/tricks/grind_clearance.gd",
+      "pass": true
+    },
+    {
+      "label": "native clearance/path proofs unchanged except startup reset and new scalar roll",
+      "pass": true
+    },
+    {
+      "label": "runner only one preload and one await",
+      "pass": true,
+      "detail": {
+        "added_lines": [
+          "const ROUND_COPING_CONTACT_TESTS = preload(\"res://tests/round_coping_contact_tests.gd\")",
+          "await ROUND_COPING_CONTACT_TESTS.run(self, game, _check)"
+        ]
+      }
+    },
+    {
+      "label": "live profile fail-closed finite/unit/source/zero-offset guards present",
+      "pass": true
+    },
+    {
+      "label": "two actual bounded radial native rays same owner shape and contact error",
+      "pass": true
+    },
+    {
+      "label": "round broad hits refine all native solids without adding exclusions",
+      "pass": true
+    },
+    {
+      "label": "invalid declared round cannot generic fallback",
+      "pass": true
+    },
+    {
+      "label": "twelve posed direction/yaw native records",
+      "pass": true
+    },
+    {
+      "label": "four direction/fakie every-physics witnesses",
+      "pass": true
+    },
+    {
+      "label": "all recorded support/first-release proofs 0",
+      "pass": true
+    },
+    {
+      "label": "contiguous native physics 0",
+      "pass": true
+    },
+    {
+      "label": "all recorded support/first-release proofs 1",
+      "pass": true
+    },
+    {
+      "label": "contiguous native physics 1",
+      "pass": true
+    },
+    {
+      "label": "all recorded support/first-release proofs 2",
+      "pass": true
+    },
+    {
+      "label": "contiguous native physics 2",
+      "pass": true
+    },
+    {
+      "label": "all recorded support/first-release proofs 3",
+      "pass": true
+    },
+    {
+      "label": "contiguous native physics 3",
+      "pass": true
+    },
+    {
+      "label": "two-hanger radial geometry independent arithmetic",
+      "pass": true
+    },
+    {
+      "label": "full-model triangle derivative source retains no physics writes",
+      "pass": true
+    }
+  ]
+}

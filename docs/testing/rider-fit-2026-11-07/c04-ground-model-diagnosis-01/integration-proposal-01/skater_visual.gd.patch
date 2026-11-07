@@ -1,0 +1,38 @@
+--- a/game/player/skater_visual.gd
++++ b/game/player/skater_visual.gd
+@@ -287,6 +287,15 @@
+ 	braking = braking and not setup
+ 	pushing = pushing and not skitch
+ 	braking = braking and not skitch
++	# A ground stroke needs the same native support accepted by the existing
++	# foot probe. On a steep bowl, retain physical Push but fade to an onboard
++	# pumping pose before the off-board sole loses its permitted floor.
++	var ground_stroke_weight := 1.0
++	var gait_body: Node3D = _board.get_parent().get_parent()
++	if (pushing or braking) and gait_body is CharacterBody3D and gait_body.is_on_floor() \
++			and bool(gait_body.get("_native_floor_valid")) and gait_body.has_method("get_support_normal"):
++		var gait_normal: Vector3 = gait_body.call("get_support_normal")
++		ground_stroke_weight = smoothstep(0.65, 0.80, gait_normal.normalized().y) if gait_normal.is_finite() and gait_normal.length_squared()>0.5 else 0.0
+ 	var steer: float = state.get("steering", 0.0)
+ 	var manual_balance: float = state.get("manual_balance", 0.0)
+ 	var grind_balance: float = state.get("grind_balance", 0.0)
+@@ -345,8 +354,8 @@
+ 	_air_time += delta if air else 0.0
+ 	_motion_time += delta
+ 	_landing = maxf(0.0, _landing - delta)
+-	_push_blend = _blend(_push_blend, 1.0 if pushing else 0.0, delta, 22.0 if transition else 10.0)
+-	_brake_blend = _blend(_brake_blend, 1.0 if braking else 0.0, delta, 22.0 if transition else 12.0)
++	_push_blend = _blend(_push_blend, ground_stroke_weight if pushing else 0.0, delta, 22.0 if transition else 10.0)
++	_brake_blend = _blend(_brake_blend, ground_stroke_weight if braking else 0.0, delta, 22.0 if transition else 12.0)
+ 	if transition:
+ 		if _push_blend < 0.002: _push_blend = 0.0
+ 		if _brake_blend < 0.002: _brake_blend = 0.0
+@@ -424,7 +433,7 @@
+ 			"both_trucks": bearing = Vector3(0, -0.103, 0)
+ 		var support_point: Vector3 = state.get("lip_ground_point", _board.get_parent().global_position)
+ 		if support_point.is_finite(): _board.global_position = support_point - _board.global_basis * bearing
+-	if pushing:
++	if pushing and ground_stroke_weight > 0.0001:
+ 		# The planted stroke must travel backwards relative to the deck as fast
+ 		# as the deck travels forwards. A fixed cadence made a loaded sole slide
+ 		# two metres across stationary pavement during one fast push. Keep the

@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "scope": "PRIVATE source-only prototype; no engine/native/promotion claim",
+  "declared_before_implementation": {
+    "maximum_parts": 32,
+    "maximum_faces": 8192,
+    "maximum_native_vertices": 8192,
+    "maximum_added_retained_provenance_bytes": 131072,
+    "extra_per_frame_native_queries": 0,
+    "extra_render_resources": 0,
+    "startup_only_hash_and_parse": true,
+    "preserve_legacy_UV04_production_path": true,
+    "maximum_startup_hash_bytes": 4194304,
+    "maximum_certificate_nodes": 16384,
+    "maximum_certificate_containers": 512,
+    "maximum_certificate_scalar_bytes": 65536
+  },
+  "source_UV04_sha256": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+  "physical_study02_sha256": "c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5",
+  "native_baseline_artifact": "docs/testing/board-fidelity-2026-11-07/native-uv04/native-08/native-result.json.gz",
+  "open": [
+    "fresh native source mapping",
+    "exact legacy32 support-point parity",
+    "native phantom bridge negative",
+    "cooked Mac proof",
+    "all datum migrations and moving/close/whole regression"
+  ],
+  "memory_scope": "128KiB retained provenance is a gate, not a measured result. 25,095B current canonical encoding does not establish Godot Dictionary residency. Cooked native_face_owners must use PackedInt32Array; bounded temporary canonicalisation is startup-only and must be measured independently."
+}

@@ -393,6 +393,7 @@ func _ready() -> void:
 		_obstacle_shoe_bounds.append(bounds)
 	# Prepare exact displayed-wheel landmarks at construction, before first play.
 	_camera_follow.prepare_board_landmarks(_visual_rig)
+	_prepare_ramp_flat_head_bounds()
 	_grind_clearance.rebuild(_board_visual,_visual_rig.board_contact_geometry(),get_rid())
 	_feature_transition.coping_model_radius=_grind_clearance.model_radius
 	_grind.capture_model_radius=_grind_clearance.model_radius
@@ -1761,6 +1762,7 @@ func _begin_air(from_ramp: bool = false) -> void:
 	_clear_weighted_ollie()
 	airborne = true
 	_ramp_air_sequence += 1
+	_ramp_flat_visual_ready=false
 	takeoff_mode = stance.capitalize()
 	_launch_age = 0.0
 	_trick_input.clear_recent()
@@ -2136,12 +2138,34 @@ func _solve_grind_contact(result: GrindStyle.ContactPose, line, distance: float,
 		direction: float, yaw: float, style_id: String, balance: float) -> bool:
 	# The native crown stays fixed. Only explicit box edges may use the roll
 	# derived once from this rider's actual connected board model.
-	return GrindStyle.solve_into(result,line,distance,direction,yaw,style_id,balance,
-		_grind_clearance.edge_roll_angle)
+	var round_angle:float=0.0
+	if line.contact_round_declared:
+		if not line.round_contact_live():return false
+		round_angle=_grind_clearance.round_roll_angle(line.contact_round_radius,line.contact_round_deck_reveal)
+	var solved:bool=GrindStyle.solve_into(result,line,distance,direction,yaw,style_id,balance,
+		_grind_clearance.edge_roll_angle,round_angle)
+	if not solved:return false
+	if line.contact_round_declared and style_id in ["grind_50_50","rail_grind"]:
+		return _round_grind_native_contacts(result,line)
+	return true
+
+
+func _round_grind_native_contacts(pose:GrindStyle.ContactPose,line) -> bool:
+	if not pose.valid or pose.anchor_count!=2 or not line.round_contact_live():return false
+	var owner:RID=line.round_contact_rid()
+	if not owner.is_valid():return false
+	var normal:Vector3=pose.board_transform.basis.y
+	for index:int in pose.anchor_count:
+		var point:Vector3=pose.board_transform*pose.anchors[index]
+		var hit:Dictionary=_native_board_floor_ray(get_world_3d().direct_space_state,
+			point+normal*.03,point-normal*.03)
+		if hit.is_empty() or hit.rid!=owner or int(hit.shape)!=line.contact_round_shape 				or Vector3(hit.position).distance_to(point)>GrindStyle.CONTACT_TOLERANCE 				or Vector3(hit.normal).dot(normal)<0.999:return false
+	return true
 
 
 func _grind_candidate_supported(line, distance: float, direction: float) -> bool:
 	var key: int = line.get_instance_id()
+	if line.contact_round_declared and not line.round_contact_live():return false
 	# Legacy guides retain their explicit generic path; metadata is not inferred.
 	if not line.contact_verified:
 		_grind_choices[key] = {"id":"rail_grind","yaw":0.0}
@@ -2153,8 +2177,9 @@ func _grind_candidate_supported(line, distance: float, direction: float) -> bool
 			selected={"id":str(advanced.id),"yaw":float(advanced.get("grind_yaw",0.0))}
 	if selected.is_empty(): return false
 	var supported := _solve_grind_contact(_grind_candidate_contact,line,distance,direction,float(selected.yaw),str(selected.id),0.0)
-	if supported and _requires_model_grind_clearance(str(selected.id)):
-		supported=_grind_clearance.allows_path(_board_visual.global_transform,_grind_candidate_contact,line.contact_up(distance))
+	if supported and (_requires_model_grind_clearance(str(selected.id)) or line.contact_round_declared):
+		var support_up:Vector3=_grind_candidate_contact.board_transform.basis.y if line.contact_round_declared else line.contact_up(distance)
+		supported=_grind_clearance.allows_path(_board_visual.global_transform,_grind_candidate_contact,support_up)
 	if supported:
 		var model_origin := _grind_candidate_contact.board_transform.origin - _grind_candidate_contact.board_transform.basis * Vector3(0,.12,0)
 		# A known board obstruction or oversized visual correction must not gain
@@ -2166,7 +2191,7 @@ func _grind_candidate_supported(line, distance: float, direction: float) -> bool
 		return true
 	# A neutral legacy route may lack a supported two-truck chord/board envelope.
 	# Do not award a named style for it; explicit sideways selection must refuse.
-	if selected.id == "grind_50_50" and line.contact_edge_outward == Vector3.ZERO:
+	if selected.id == "grind_50_50" and line.contact_edge_outward == Vector3.ZERO and not line.contact_round_declared:
 		_grind_choices[key] = {"id":"rail_grind","yaw":0.0}
 		return true
 	return false
@@ -2180,6 +2205,11 @@ func _grind_board_clear(board_transform: Transform3D,line=null,distance: float=0
 	# The conservative whole-board box extends below the actual truck crowns.
 	# Refine only its intended support contact with the cached real model; all
 	# solids, including this rail and neighbouring rails, stay in that query.
+	if line!=null and line.contact_round_declared:
+		# A broad box can hit adjoining concrete while the real rolled truck and
+		# wheels clear it. Refine ALL native solids; no support RID is excluded.
+		return line.round_contact_live() and _grind_clearance.allows_frame_path(
+			board_transform,board_transform,board_transform.basis.y)
 	return _only_intended_grind_hits(hits,line) and _grind_clearance.allows_frame_path(
 		board_transform,board_transform,line.contact_up(distance))
 
@@ -2210,7 +2240,9 @@ func _grind_board_path_clear(from: Transform3D, to: Transform3D,line=null,distan
 	_grind_board_query.transform = Transform3D(from.basis,(from.origin+to.origin)*.5+from.basis*GRIND_BOARD_CENTER)
 	var hits:=get_world_3d().direct_space_state.intersect_shape(_grind_board_query,16)
 	var clear: bool=hits.is_empty()
-	if not clear and _only_intended_grind_hits(hits,line):
+	if not clear and line!=null and line.contact_round_declared:
+		clear=line.round_contact_live() and _grind_clearance.allows_frame_path(from,to,to.basis.y)
+	elif not clear and _only_intended_grind_hits(hits,line):
 		clear=_grind_clearance.allows_frame_path(from,to,line.contact_up(distance))
 	_grind_board_box.size = GRIND_BOARD_SIZE
 	return clear
@@ -2481,6 +2513,7 @@ func get_camera_support_up() -> Vector3:
 
 
 func _update_pose(delta: float) -> void:
+	var flat_previous:Basis=_air_support_basis
 	# These are rigid presentation frames. Repeated Euler/basis edits otherwise
 	# retain tiny scale errors across long runs and eventually reject real rail
 	# transfers or feed a nonrotation into landing-frame interpolation.
@@ -2786,6 +2819,7 @@ func _update_pose(delta: float) -> void:
 		_place_native_support_wheels(visual_yaw)
 	if not air_landing_support.is_empty(): _place_air_landing_wheels(air_landing_support)
 	if airborne and air_visual_offset.length_squared()>0.0:_withdraw_air_support_offset(air_visual_offset)
+	_update_ramp_flat_visual(delta,flat_previous)
 	if airborne and _feature_transition.active and _feature_transition.state=="air":_place_feature_air_coping_wheels()
 	_place_obstacle_wheels(delta)
 	_obstacle_arm_fit.apply(delta)
@@ -3133,7 +3167,9 @@ func _air_wall_forecast(owner:Dictionary,delta:float) -> Dictionary:
 func _air_forecast_owner_bounds(owner:Dictionary)->AABB:
 	# Debug meshes are cached by the native Shape3D resource and invalidated
 	# when it changes. Bounds are only a conservative cull, never authority.
-	var body:=owner.get("collider") as CollisionObject3D
+	var raw:Variant=owner.get("collider")
+	if typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw):return AABB()
+	var body:=raw as CollisionObject3D
 	var index:int=int(owner.get("shape",-1))
 	if not is_instance_valid(body) or body.get_rid()!=owner.get("rid") \
 			or (body.collision_layer&collision_mask)==0 or index<0 \
@@ -3789,7 +3825,7 @@ func _obstacle_offset_supported(geometry: Dictionary,offset: Vector3,planes: Arr
 
 
 func _place_air_landing_wheels(support: Dictionary) -> void:
-	# A last descending bowl-air pose can retain enough roll to bury a tyre
+	# A last descending bowl-air pose can retain enough roll to bury its deck or tyre
 	# before the upright capsule lands. Correct only proven finite flat-floor
 	# overlap, after the rig has planted its feet; never move the physical body
 	# or flatten ordinary clear flight, active tricks or a curved ramp return.
@@ -3801,42 +3837,56 @@ func _place_air_landing_wheels(support: Dictionary) -> void:
 	var original: Transform3D=_visual.global_transform
 	var original_local:Transform3D=_visual.transform
 	var board_local: Transform3D=original.affine_inverse()*_board_visual.global_transform
-	if _air_landing_wheel_gap(original*board_local,wheels,point,axis)>=0.0: return
+	if _air_landing_model_gap(original*board_local,wheels,point,axis)>=0.0: return
 	var space:=get_world_3d().direct_space_state
 	# Every real bearing must have the same finite native landing plane. A
 	# centre ray's infinite plane cannot establish support at an edge/wall.
 	var behind_support:=false
+	var query:=PhysicsRayQueryParameters3D.new()
+	query.collision_mask=collision_mask
+	query.exclude=[get_rid()]
 	for wheel: Dictionary in wheels:
 		var bearing: Vector3=_board_visual.to_global(wheel.center)
-		var query:=PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*.35,bearing-Vector3.UP*.50,collision_mask)
-		query.exclude=[get_rid()]
+		# Anchor the finite probe on the proposed native plane. A raised axle
+		# can exceed the existing0.50m range while its actual XZ footprint is
+		# above the same floor. This locates the ray only: the native hit below
+		# must still prove finite support, normal and exact plane agreement.
+		var footprint:Vector3=bearing-axis*(bearing-point).dot(axis)
+		query.from=footprint+Vector3.UP*.35
+		query.to=footprint-Vector3.UP*.50
 		var hit:=space.intersect_ray(query)
 		if hit.is_empty() or Vector3(hit.normal).dot(axis)<0.999 \
 				or absf((Vector3(hit.position)-point).dot(axis))>0.001: return
 		behind_support=behind_support or (bearing-Vector3(hit.position)).dot(axis)<0.0
-	var overlaps:=false
-	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
-		_floor_wheel_query.shape=shape
-		_floor_wheel_query.transform=original*board_local
-		_floor_wheel_query.motion=Vector3.ZERO
-		_floor_wheel_query.margin=0.0
-		overlaps=not space.intersect_shape(_floor_wheel_query,1).is_empty() or overlaps
+	# One cached complete-model broad query replaces the former four tyre-only
+	# overlap queries. Its result authenticates only this actual finite RID/shape;
+	# cached indexed model points decide the gap and all final pieces stay strict.
+	_floor_wheel_query.shape=_visual_rig.board_contact_geometry().convex_shape
+	_floor_wheel_query.transform=original*board_local
+	_floor_wheel_query.motion=Vector3.ZERO
+	_floor_wheel_query.margin=0.0
+	var overlaps_support:=false
+	for hit:Dictionary in space.intersect_shape(_floor_wheel_query,16):
+		if hit.get("rid")==support.get("rid") and hit.get("shape")==support.get("shape"):
+			overlaps_support=true
+			break
 	# A wholly buried tyre may not intersect a zero-thickness native floor.
 	# Its centre must still be behind its own verified finite native support.
-	if not overlaps and not behind_support: return
+	if not overlaps_support and not behind_support:return
+	if not _air_landing_finite_model_overlap(original*board_local,support,query):return
 	var local_axis: Vector3=global_basis.inverse()*axis
 	var landing_basis:=Basis.from_euler(Vector3(atan2(local_axis.z,local_axis.y),0,-asin(clampf(local_axis.x,-1,1))))
 	var yaw:=_spin_angle+_stance_angle+_air_grind_yaw-PI*(_revert_pose_remaining/REVERT_DURATION)
 	var target:=Transform3D(global_basis*landing_basis*Basis(Vector3.UP,yaw),original.origin)
-	if _air_landing_wheel_gap(target*board_local,wheels,point,axis)<GROUND_PRESENTATION_SKIN: return
+	if _air_landing_model_gap(target*board_local,wheels,point,axis)<GROUND_PRESENTATION_SKIN: return
 	var low:=0.0
 	var high:=1.0
-	# Fixed eight math-only passes find the smallest safe orientation change.
+	# Fixed eight math-only passes find a bounded safe orientation change.
 	# There is no translation/lift and no native query inside this search.
 	for pass_index: int in 8:
 		var middle: float=(low+high)*0.5
 		var candidate:=original.interpolate_with(target,middle)
-		if _air_landing_wheel_gap(candidate*board_local,wheels,point,axis)>=GROUND_PRESENTATION_SKIN: high=middle
+		if _air_landing_model_gap(candidate*board_local,wheels,point,axis)>=GROUND_PRESENTATION_SKIN: high=middle
 		else: low=middle
 	var fitted:=original.interpolate_with(target,high)
 	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
@@ -3902,6 +3952,44 @@ func _fit_native_visual_translation(displacement:Vector3) -> void:
 		else:low=middle
 	_visual.position=accepted_local
 	if not _native_rim_frame_clear(_board_visual.global_transform,0.0):_visual.position=original_local
+
+
+func _air_landing_finite_model_overlap(pose:Transform3D,support:Dictionary,query:PhysicsRayQueryParameters3D)->bool:
+	# The broad hull can bridge empty space. Require a real negative cached
+	# model vertex to lie behind this same finite native surface before any
+	# correction. If the lowest vertex is outside the ledge, refuse the fit.
+	if not _grind_clearance.ready or not pose.origin.is_finite() or not pose.basis.is_finite() \
+			or typeof(support.get("shape"))!=TYPE_INT:return false
+	var axis:Vector3=support.get("normal",Vector3.ZERO)
+	var point:Vector3=support.get("position",Vector3(INF,INF,INF))
+	if not axis.is_finite() or axis.length_squared()<0.5 or not point.is_finite():return false
+	var minimum:=INF
+	var vertex:=Vector3(INF,INF,INF)
+	for part:Dictionary in _grind_clearance._parts:
+		for local:Vector3 in part.points:
+			var at:Vector3=pose*local
+			var gap:float=(at-point).dot(axis)
+			if gap<minimum:minimum=gap;vertex=at
+	if not vertex.is_finite() or minimum>=0.0:return false
+	query.from=vertex+axis*.35
+	query.to=vertex-axis*.50
+	var hit:Dictionary=get_world_3d().direct_space_state.intersect_ray(query)
+	return not hit.is_empty() and hit.get("rid")==support.get("rid") \
+		and typeof(hit.get("shape"))==TYPE_INT and hit.shape==support.shape \
+		and Vector3(hit.normal).dot(axis)>=0.999 \
+		and absf((Vector3(hit.position)-point).dot(axis))<=0.001 \
+		and (vertex-Vector3(hit.position)).dot(axis)<0.0
+
+
+func _air_landing_model_gap(pose:Transform3D,wheels:Array,point:Vector3,axis:Vector3)->float:
+	# Startup-cached actual connected model pieces, including the raised nose,
+	# trucks and hardware. No new geometry/resources or per-fit packed arrays.
+	if not _grind_clearance.ready:return -INF
+	var minimum:float=_air_landing_wheel_gap(pose,wheels,point,axis)
+	for part:Dictionary in _grind_clearance._parts:
+		for vertex:Vector3 in part.points:
+			minimum=minf(minimum,(pose*vertex-point).dot(axis))
+	return minimum
 
 
 func _air_landing_wheel_gap(pose: Transform3D,wheels: Array,point: Vector3,axis: Vector3) -> float:
@@ -5110,3 +5198,148 @@ func _complete_grind_transfer() -> void:
 	_grind_pending.clear()
 	_emit_trick(str(choice.id))
 
+
+# Presentation-only wrapped-bowl exit. Physical feature ownership/gravity remain.
+var _ramp_flat_visual_ready:=false
+var _ramp_flat_head_bounds:=AABB()
+var _ramp_flat_head_valid:=false
+
+func _prepare_ramp_flat_head_bounds()->void:
+	_ramp_flat_head_valid=false
+	var head:Node3D=_visual_rig._head
+	var first:=true
+	for mesh:MeshInstance3D in head.find_children("*","MeshInstance3D",true,false):
+		if mesh.mesh==null or not mesh.visible:continue
+		var local:Transform3D=mesh.transform
+		var parent:Node=mesh.get_parent()
+		while parent!=head:
+			if not parent is Node3D:return
+			local=(parent as Node3D).transform*local
+			parent=parent.get_parent()
+		for surface:int in mesh.mesh.get_surface_count():
+			var arrays:Array=mesh.mesh.surface_get_arrays(surface)
+			var points:PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+			var indices:PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+			if indices.is_empty():
+				for vertex:Vector3 in points:
+					var at:Vector3=local*vertex
+					if not at.is_finite():return
+					if first:_ramp_flat_head_bounds=AABB(at,Vector3.ZERO);first=false
+					else:_ramp_flat_head_bounds=_ramp_flat_head_bounds.expand(at)
+			else:
+				for index:int in indices:
+					if index<0 or index>=points.size():return
+					var at:Vector3=local*points[index]
+					if not at.is_finite():return
+					if first:_ramp_flat_head_bounds=AABB(at,Vector3.ZERO);first=false
+					else:_ramp_flat_head_bounds=_ramp_flat_head_bounds.expand(at)
+	_ramp_flat_head_valid=not first and _ramp_flat_head_bounds.has_volume()
+
+func _ramp_flat_hit_valid(hit:Dictionary,feature:Node3D,external:bool)->bool:
+	if hit.is_empty() or typeof(hit.get("shape"))!=TYPE_INT:return false
+	var raw:Variant=hit.get("collider")
+	if typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw) or not raw is CollisionObject3D:return false
+	var body:CollisionObject3D=raw
+	var index:int=hit.shape
+	if body.get_rid()!=hit.get("rid") or index<0 or index>=PhysicsServer3D.body_get_shape_count(body.get_rid()) \
+			or (body.collision_layer&collision_mask)==0:return false
+	var owner:int=body.shape_find_owner(index)
+	if owner<0 or body.is_shape_owner_disabled(owner):return false
+	var normal:Vector3=hit.get("normal",Vector3.ZERO)
+	var point:Vector3=hit.get("position",Vector3.INF)
+	if not normal.is_finite() or absf(normal.length_squared()-1.0)>.001 or normal.y<=0.999 or not point.is_finite():return false
+	# The registered flat annular deck is also valid when external is false.
+	# Other feature-owned surfaces cannot donate a landing floor.
+	if is_instance_valid(feature) and feature.is_ancestor_of(body):
+		return not external and body==feature.get("_native_annular_deck") and body.get_parent()==feature and index==0 and PhysicsServer3D.body_get_shape_count(body.get_rid())==1 and feature.has_method("owns_native_wheel_support") and bool(feature.owns_native_wheel_support(body))
+	var node:Node=body
+	while is_instance_valid(node):
+		if node.has_meta("transition_feature") or node.has_meta("coping_feature") or node.has_meta("skate_feature"):return false
+		node=node.get_parent()
+	return true
+
+func _ramp_flat_pose_clear(basis:Basis)->bool:
+	if not _ramp_flat_head_valid or not basis.is_finite():return false
+	var saved:Transform3D=_visual.transform
+	var motion:Vector3=_grind_board_query.motion
+	var mask:int=_grind_board_query.collision_mask
+	_grind_board_query.motion=Vector3.ZERO
+	_grind_board_query.collision_mask=1|2|8
+	_visual.basis=basis
+	var clear:=_obstacle_air_clear(Vector3.ZERO)
+	if clear:
+		var old_shape:Shape3D=_grind_board_query.shape
+		var old_size:Vector3=_grind_board_box.size
+		var old_transform:Transform3D=_grind_board_query.transform
+		var old_margin:float=_grind_board_query.margin
+		_grind_board_box.size=_ramp_flat_head_bounds.size
+		_grind_board_query.shape=_grind_board_box
+		_grind_board_query.transform=_visual_rig._head.global_transform*Transform3D(Basis.IDENTITY,_ramp_flat_head_bounds.get_center())
+		_grind_board_query.margin=GROUND_PRESENTATION_SKIN-0.00001
+		clear=get_world_3d().direct_space_state.intersect_shape(_grind_board_query,1).is_empty()
+		_grind_board_box.size=old_size
+		_grind_board_query.shape=old_shape
+		_grind_board_query.transform=old_transform
+		_grind_board_query.margin=old_margin
+	_visual.transform=saved
+	_grind_board_query.motion=motion
+	_grind_board_query.collision_mask=mask
+	return clear
+
+func _update_ramp_flat_visual(delta:float,previous:Basis)->void:
+	var feature:Node3D=_feature_transition.feature
+	if not airborne or not _ramp_air or not _feature_transition.active or _feature_transition.state!="air" \
+			or not is_instance_valid(feature) or not bool(feature.get("wrap_lateral")) \
+			or grinding or wallriding or bail_active or manual_active or setup_active or skitching or lip_active \
+			or _flip_remaining>0.0 or _grab_remaining>0.0 or _special_remaining>0.0 or _ollie_pose_remaining>0.0:
+		_ramp_flat_visual_ready=false
+		return
+	if not previous.is_finite() or not is_finite(previous.determinant()) or absf(previous.determinant()-1.0)>.001 \
+			or absf(previous.x.length_squared()-1.0)>.001 or absf(previous.y.length_squared()-1.0)>.001 or absf(previous.z.length_squared()-1.0)>.001 \
+			or absf(previous.x.dot(previous.y))>.001 or absf(previous.x.dot(previous.z))>.001 or absf(previous.y.dot(previous.z))>.001 \
+			or not is_finite(delta) or delta<=0.0 or not velocity.is_finite() or not is_finite(velocity.length_squared()) \
+			or not _air_forecast_frame_valid(global_transform,Vector3.ZERO):return
+	var space:=get_world_3d().direct_space_state
+	var hit:=_native_board_floor_ray(space,global_position+Vector3.UP*.2,global_position-Vector3.UP*3.0)
+	var yaw:float=_spin_angle+_stance_angle+_air_grind_yaw-PI*(_revert_pose_remaining/REVERT_DURATION)
+	var proposed:Basis=previous
+	var earned:=false
+	# A registered flat annular deck is a genuine outward landing floor too.
+	# Coincident native terrain may lose the first-hit tie; ownership alone
+	# must not prevent the same verified physical landing. No RID is excluded.
+	if _ramp_flat_hit_valid(hit,feature,false):
+		var normal:Vector3=hit.normal
+		var point:Vector3=hit.position
+		var air_frame:Dictionary=feature.air_return_frame(global_position,_feature_transition._x)
+		var outward:Vector3=air_frame.normal
+		var horizontal:Vector3=velocity*Vector3(1,0,1)
+		var gap:float=(global_position-point).dot(normal)
+		var local_up:Vector3=global_basis.inverse()*normal
+		var target:=Basis.from_euler(Vector3(atan2(local_up.z,local_up.y),0,-asin(clampf(local_up.x,-1,1))))
+		var angle:float=previous.get_rotation_quaternion().angle_to(target.get_rotation_quaternion())
+		var discriminant:float=velocity.y*velocity.y+2.0*RAMP_AIR_GRAVITY*gap
+		var time_to_floor:float=(velocity.y+sqrt(maxf(0.0,discriminant)))/RAMP_AIR_GRAVITY
+		# Start when the SAME4.5rad/s needs the remaining ballistic time. This
+		# can be just before the apex; waiting for descent is already too late.
+		if gap>=0.0 and discriminant>=0.0 and is_finite(time_to_floor) and time_to_floor>=0.0 and time_to_floor<=PI/4.5+1.0/maxf(1.0,float(Engine.physics_ticks_per_second)) and horizontal.dot(outward)<0.0 \
+				and (_ramp_flat_visual_ready or time_to_floor<=angle/4.5+delta):
+			var local_board:Transform3D=_visual.global_transform.affine_inverse()*_board_visual.global_transform
+			var travel:Vector3=horizontal*time_to_floor
+			if not _air_forecast_frame_valid(_visual.global_transform,travel):return
+			var future:Transform3D=Transform3D(global_basis*target*Basis(Vector3.UP,yaw),_visual.global_position+travel)*local_board
+			var footprint:=true
+			for wheel:Dictionary in _visual_rig.board_contact_geometry().wheels:
+				var at:Vector3=future*Vector3(wheel.center)
+				at-=normal*(at-point).dot(normal)
+				var contact:=_native_board_floor_ray(space,at+normal*.35,at-normal*.50)
+				if not _ramp_flat_hit_valid(contact,feature,false) or Vector3(contact.normal).dot(normal)<0.999 \
+						or absf((Vector3(contact.position)-point).dot(normal))>0.001:footprint=false;break
+			if footprint:
+				proposed=previous.slerp(target,minf(1.0,4.5*delta/maxf(angle,0.000001))).orthonormalized()
+				earned=true
+	# An unavailable or refused probe may hold the proven orientation, never advance
+	# toward a stale floor. The current full board/shoes/head must still clear.
+	if (earned or _ramp_flat_visual_ready) and _ramp_flat_pose_clear(proposed*Basis(Vector3.UP,yaw)):
+		_air_support_basis=proposed
+		_visual.basis=proposed*Basis(Vector3.UP,yaw)
+		_ramp_flat_visual_ready=true

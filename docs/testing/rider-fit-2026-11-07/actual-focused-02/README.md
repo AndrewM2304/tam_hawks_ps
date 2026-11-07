@@ -47,3 +47,10 @@ python3 .local/run-actual-fitted-focused-02.py
 typed-variable parser error. The actual full registered runner/check-hook
 execution, final moving graphics, target-M5 performance and physical controls
 remain separate gates owned by the director and relevant specialists.
+
+Audit correction: the optional `fitted-rig-metrics.json` artifact is zero bytes,
+not valid JSON, and supplies no diagnostic metrics. Its original bytes are retained.
+See `empty-optional-metrics-addendum.json`. The independent93 native log assertions,
+module results and validated complete shoe certificate retain their stated scope.
+Explicit producer close and consumer validation are separate pending hardening;
+this packet has not been replaced or retrospectively repaired.

@@ -1,0 +1,53 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,sys,time
+ROOT=Path(__file__).resolve().parents[1]
+label=sys.argv[1]
+if not re.fullmatch(r'[a-zA-Z0-9_-]+',label): raise SystemExit('Invalid epoch label')
+OUT=ROOT/'.local/fidelity-checkpoints'/label
+OUT.mkdir(parents=True,exist_ok=False)
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def identity():
+ names=subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard','-z','--','project.godot','export_presets.cfg','game','tests','tools','docs/licences','docs/PLAYER-GUIDE.md'],cwd=ROOT).split(b'\0')
+ paths=sorted({Path(n.decode()) for n in names if n and '__pycache__' not in Path(n.decode()).parts})
+ paths=sorted(set(paths+[Path(__file__).resolve().relative_to(ROOT)]))
+ if any((ROOT/p).is_symlink() for p in paths):raise RuntimeError('Symlinked production input')
+ return {p.as_posix():{'sha256':sha(ROOT/p),'bytes':(ROOT/p).stat().st_size} for p in paths if (ROOT/p).is_file()}
+before=identity()
+(OUT/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+shutil_target=OUT/'runner.py.txt'
+shutil_target.write_bytes(Path(__file__).read_bytes())
+receipt={'command':['./tools/check.sh'],'started_utc':utc(),'git_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'branch':subprocess.check_output(['git','branch','--show-current'],cwd=ROOT,text=True).strip(),'input_scope':'Exact cached/untracked project,export presets,game,tests,tools,licence records and player guide PLUS this ignored launcher; generated caches excluded. Native entrypoints tools/check.sh,tools/run.sh,tests/run_tests.gd and tests/support/music_launch_guard.gd are included. Ordinary suite runs on main after preparatory editor import. No target-hardware or visual result.','source_input_count':len(before),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT)),'source_before_sha256':sha(OUT/'source-before.json'),'engine_exit':None,'eligible':False,'deadline_seconds':2400,'deadline_rationale':'Original complete epoch took1620.781s under known diagnostics; the new native fitted/authenticated-shoe module and full local-return case add substantive checks. Declare a40-minute bound before the fresh freeze.'}
+start=time.monotonic();start_ns=time.time_ns();process=None
+try:
+ with (OUT/'command.log').open('w') as stream:
+  process=subprocess.Popen(['./tools/check.sh'],cwd=ROOT,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True)
+  receipt['process_pid']=process.pid
+  try:receipt['engine_exit']=process.wait(timeout=2400)
+  except subprocess.TimeoutExpired:
+   receipt['timeout']=True;os.killpg(process.pid,signal.SIGTERM)
+   try:process.wait(timeout=5)
+   except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait(timeout=5)
+except BaseException:
+ if process is not None and process.poll() is None:
+  os.killpg(process.pid,signal.SIGTERM);process.wait(timeout=5)
+ raise
+finally:
+ after=identity();(OUT/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+ receipt.update(finished_utc=utc(),wall_seconds=round(time.monotonic()-start,6),changed_inputs=sorted(p for p in before.keys()|after.keys() if before.get(p)!=after.get(p)))
+ for name in ('import.log','tests.log','script-launch.log'):
+  source=ROOT/'.local'/name
+  fresh=source.exists() and source.stat().st_mtime_ns>=start_ns
+  receipt.setdefault('secondary_log_preservation',{})[name]='current command epoch' if fresh else 'not preserved: absent or predates command invocation'
+  if fresh:(OUT/name).write_bytes(source.read_bytes())
+ text=(OUT/'command.log').read_text(errors='replace')
+ receipt['error_lines']=[line for line in text.splitlines() if re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|ERROR:|FAIL:',line)]
+ main=re.findall(r'^RESULT: ([0-9]+) passed, ([0-9]+) failed$',text,re.M)
+ cli=re.findall(r'^SCRIPT LAUNCH: ([0-9]+) passed, ([0-9]+) failed$',text,re.M)
+ receipt['main_result']=[int(n) for n in main[0]] if len(main)==1 else None
+ receipt['script_launch_result']=[int(n) for n in cli[0]] if len(cli)==1 else None
+ receipt['eligible']=receipt['engine_exit']==0 and not receipt['changed_inputs'] and not receipt['error_lines'] and receipt['main_result'] is not None and receipt['main_result'][0]>0 and receipt['main_result'][1]==0 and receipt['script_launch_result'] is not None and receipt['script_launch_result'][0]>0 and receipt['script_launch_result'][1]==0
+ receipt['preserved_files_sha256']={p.name:sha(p) for p in sorted(OUT.iterdir()) if p.is_file() and p.name!='receipt.json'}
+ (OUT/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+ print(json.dumps(receipt,indent=2),flush=True)
+if not receipt['eligible']:raise SystemExit(1)

@@ -1,0 +1,46 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time
+ROOT=Path(__file__).resolve().parent.parent
+OUT=ROOT/'.local/motion-actual-round-focus-01'
+OUT.mkdir(exist_ok=False)
+OBSERVER=ROOT/'.local/motion_actual_round_focus.gd'
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sources():
+ files=[OBSERVER,ROOT/'.local/motion_round_registry_helper.gd',Path(__file__).resolve(),ROOT/'project.godot',ROOT/'export_presets.cfg',ROOT/'PLAYER_GUIDE.md']
+ for directory in ['game','tests','tools','docs/licences']:
+  files +=[p for p in (ROOT/directory).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+ return {str(p.relative_to(ROOT)):sha(p) for p in sorted(set(files)) if p.exists()}
+def cachepins():
+ files=[]
+ for rel in ['game/art/assets/tam_skateboard/tam_skateboard.glb.import','.godot/global_script_class_cache.cfg','.godot/uid_cache.bin']:
+  if (ROOT/rel).exists():files.append(ROOT/rel)
+ for p in (ROOT/'.godot/imported').glob('tam_skateboard.glb-*'):
+  if p.is_file():files.append(p)
+ return {str(p.relative_to(ROOT)):sha(p) for p in sorted(files)}
+before=sources();cache_before=cachepins();epochs=[];deadline=time.monotonic()+180
+env=os.environ.copy();env['TAM_ACTUAL_ROUND_FOCUS_RESULT']=str(OUT/'result.json');env['TAM_ACTUAL_ROUND_REGISTRY_RESULT']=str(OUT/'public-registry.json')
+for label,flags,cap in [('parser',['--check-only'],5),('native',['--fixed-fps','60'],175)]:
+ command=[str(ROOT/'tools/run.sh'),'--headless']+flags+['--script','res://.local/motion_actual_round_focus.gd']
+ log=OUT/(label+'.log');record={'name':label,'command':command,'start':now(),'cap_seconds':cap};stop=None
+ with log.open('wb') as stream:
+  proc=subprocess.Popen(command,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True,env=env)
+  record['pid']=proc.pid;print(json.dumps(record),flush=True)
+  end=min(deadline,time.monotonic()+cap);position=0;carry=b''
+  while proc.poll() is None:
+   with log.open('rb') as incoming:incoming.seek(position);chunk=incoming.read();position=incoming.tell()
+   data=carry+chunk;carry=data[-300:]
+   if re.search(rb'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',data):stop='first raw engine error';break
+   if time.monotonic()>end:stop='automatic bounded diagnostic deadline';break
+   time.sleep(.05)
+  if proc.poll() is None:
+   os.killpg(proc.pid,signal.SIGTERM)
+   try:proc.wait(timeout=1)
+   except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait()
+ record.update({'end':now(),'exit':proc.returncode,'stop':stop,'log_sha256':sha(log),'raw_errors':bool(re.search(r'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',log.read_text()))});epochs.append(record)
+ if stop or record['raw_errors'] or (label=='parser' and proc.returncode!=0):break
+after=sources();cache_after=cachepins();result=json.loads((OUT/'result.json').read_text()) if (OUT/'result.json').exists() else None
+receipt={'epochs':epochs,'source_before':before,'source_after':after,'source_stable':before==after,'cache_before':cache_before,'cache_after':cache_after,'cache_stable':cache_before==cache_after,'result':result,'complete':result is not None and before==after and cache_before==cache_after and all(e['stop'] is None and not e['raw_errors'] for e in epochs),'scope':'Actual read-only focused modules; exact source/observer/launcher before+after; board import metadata/cooked binary pins independent. No edits/imports/GPU/performance claim.'}
+(OUT/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps({k:v for k,v in receipt.items() if not isinstance(v,dict) or k in ['result']},indent=2),flush=True)
+raise SystemExit(0 if receipt['complete'] and result['failed']==0 else 1)

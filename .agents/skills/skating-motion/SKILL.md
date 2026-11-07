@@ -65,3 +65,23 @@ Keep numerical ambiguity separate from contact tolerances and declare both cache
 support and source-invalidation memory, not only the compact XYZ payload.
 
 Completion benchmark: satisfy current AAA_BENCHMARK V1/V3 and all existing detailed native finite-contact tolerances without relaxing them. New planted push-slip checks target under 5 mm per 60 Hz tick on real stationary support in both travel directions against the actual native sole-support plane, a visibly lifted return, a supporting sole within 5 mm of actual griptape triangles, and no connected head step above 220 mm relative to body travel. Preserve physical input/trajectory/scoring checks and native interpolation. Full action/camera coverage, performance and owner acceptance remain separate gates; a focused push check cannot close them.
+
+A straight round coping needs its own native profile, separate from exposed-box
+edge semantics. Keep its guide/body crown fixed. A rolled hanger contacts the
+actual circle at centre + radius × board normal; rolling around a fixed crown
+is not equivalent. Authenticate the actual finite cylinder, both hanger radial
+hits, associated native deck dimensions/footprint/front face, and all current
+source datums. A declared but invalid round profile must refuse the generic
+neutral-grind fallback. Refine broad board-box hits against every actual cached
+component and all solids, preserving the existing native path/query/skin caps.
+A positive contact pose alone does not prove its entry path or release continuity.
+
+Before calling a candidate current-composition evidence, snapshot every actual
+runtime dependency, test and tool, then overlay only the explicit proposal and
+observer. Rebasing the controller alone into a retained project leaves older
+Visual/support-helper dependencies; keep that evidence scoped historically.
+Record source/cache import provenance independently. Quantify helper calls and
+native query bounds without treating a last-helper counter as a whole-tick total.
+Native allocator component deltas are distinct from whole-game memory and target
+Mac performance. Preserve malformed/freed/foreign profile controls and raw engine
+errors even when all assertion counters print PASS.

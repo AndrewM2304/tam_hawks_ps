@@ -1,0 +1,4470 @@
+{
+  "reviewed_utc": "2026-11-07T10:16:50.939704+00:00",
+  "reviewer": "independent_qa",
+  "scope": "Clean05 source/private exact-prefix trace and strict ACTUAL02 recorded binding/eligibility audit; no QA engine execution.",
+  "result": {
+    "source_hash_math_checks_pass": 1081,
+    "fail": 0
+  },
+  "source_pins": {
+    "before4895": "4895c7bf8a58608f7bde4c4fd13b571d1a16d0e04f56cc26b56d973f4c0d8924",
+    "private_clean05": "c57751c916881d774b00b2288d2310430286a0643494cede31b374b7587a0849",
+    "actual_comment_only_1ef": "1ef6cdb7dfe2942d1d3aa8f025d89213e2f1f06500fcfb588b7d18734de27f84",
+    "hand691b": "691b0a9362f925434077598df02b61b5adcfffe6f43b84061a313180f041f096",
+    "private_receipt": "452b78a6d2a0c99f7acde2bde5f0f62e7fe2ee260e513458a9af20d1286145c9",
+    "private_result": "a8621d13bfd92c438e9a84226615cb79207c365ae414a52eaf5eb9504677b5f8",
+    "actual_receipt": "618c99e0383cc0559fe132f0750bef990b3f6443fc8d88342368ca4d754c49a1"
+  },
+  "actual_native": {
+    "passed": 134,
+    "failed": 0,
+    "eligible": true,
+    "sources": 892,
+    "cache_pins": 5,
+    "epochs": [
+      {
+        "name": "parser",
+        "command": [
+          "/workspace/tam_hawks_ps/tools/run.sh",
+          "--headless",
+          "--check-only",
+          "--script",
+          "res://.local/motion_actual_round_focus02.gd"
+        ],
+        "start": "2026-11-07T10:08:48.082431+00:00",
+        "cap_seconds": 5,
+        "pid": 114120,
+        "end": "2026-11-07T10:08:50.554839+00:00",
+        "exit": 0,
+        "stop": null,
+        "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+        "raw_errors": false
+      },
+      {
+        "name": "native",
+        "command": [
+          "/workspace/tam_hawks_ps/tools/run.sh",
+          "--headless",
+          "--fixed-fps",
+          "60",
+          "--script",
+          "res://.local/motion_actual_round_focus02.gd"
+        ],
+        "start": "2026-11-07T10:08:50.555292+00:00",
+        "cap_seconds": 175,
+        "pid": 114141,
+        "end": "2026-11-07T10:09:37.586261+00:00",
+        "exit": 0,
+        "stop": null,
+        "log_sha256": "3914597894c510748f08d8057704a75c6e3a927caceb0344e2ec19cb8c361d16",
+        "raw_errors": false
+      }
+    ],
+    "modules": [
+      {
+        "failed": 0,
+        "module": "original_legacyMainTransition",
+        "passed": 23
+      },
+      {
+        "failed": 0,
+        "module": "registered_publicRoundContact",
+        "passed": 67
+      },
+      {
+        "failed": 0,
+        "module": "original_defaultMainMotion_and_nativeSupport",
+        "passed": 32
+      },
+      {
+        "failed": 0,
+        "module": "original_fullClydeLocalPrefix_and_bankReturn",
+        "passed": 11
+      }
+    ]
+  },
+  "private_trace_metrics": {
+    "stream_lengths": {
+      "pipeline": 471,
+      "late_postcamera": 471,
+      "counter_join_overlap": 470
+    },
+    "pipeline_physics_range": [
+      3166,
+      3636
+    ],
+    "late_physics_range": [
+      3165,
+      3635
+    ],
+    "qualified_handoff_to_first_ground_range": [
+      3528,
+      3549
+    ],
+    "qualified_maximum_board_step": {
+      "physics": 3533,
+      "board_step_deg": 4.297192018855008,
+      "bodylocal_head_step_m": 0.10912458921605497,
+      "world_head_step_m": 0.12420445058302136
+    },
+    "qualified_maximum_bodylocal_head_step": {
+      "physics": 3539,
+      "board_step_deg": 4.297187032684471,
+      "bodylocal_head_step_m": 0.13025128846934014,
+      "world_head_step_m": 0.13025122981364004
+    },
+    "whole_trace_maximum_board_step": {
+      "physics": 3431,
+      "board_step_deg": 26.1830284139752,
+      "bodylocal_head_step_m": 0.43489598005773045,
+      "world_head_step_m": 0.05970785078343415
+    },
+    "whole_trace_maximum_bodylocal_head_step": {
+      "physics": 3318,
+      "board_step_deg": 22.666471172348487,
+      "bodylocal_head_step_m": 0.6071672441639647,
+      "world_head_step_m": 0.7504855258124314
+    }
+  },
+  "findings": [
+    "Actual strict134/0 eligibility requires all native/parser exits0, zero raw errors, correct mandatory Guide and stable source/five explicit cache bindings.",
+    "Native owned-flat AnnularDeck authority is tied to the exact registered enabled shape/native RID, normal and real fresh ray result; all world/rail/platform solids remain in pose safety.",
+    "New helper uses up to9 extra native queries on qualified attempts, not9 total calls for the tick; startup AABB24bytes is raw coordinate payload, not resident allocation.",
+    "Fresh flight/ineligible modes reset readiness; unavailable/refused support can hold only a current all-world-clear prior orientation and cannot advance without fresh footprint authority.",
+    "The observed ordinary approach continuity is materially improved, but other bank/rim/first-air pose steps remain large and full motion acceptance stays open."
+  ],
+  "limits": [
+    "No native malformed-yaw/delta/horizon/reset fault cohort is claimed beyond the14 recorded owner/head controls; additional finite/horizon code is source-reviewed under normal engine-state invariants.",
+    "Private telemetry joins by physics counter: equal array lengths do not imply equal-index phases.",
+    "The rejected interim04 comparison80.4207deg/1.7139m is NOT untouched actual4895 baseline. Direct actual75 provides a separate35.154deg/.785m historical result; actual133/1 records real penetration but no full late-model trace.",
+    "Head proof covers actual constructor-visible rigid Head/hair/eyes indexed geometry; no universal mutable-asset envelope or whole-body cloth sweep claim.",
+    "Current endpoints/native matrices are not GPU/moving-pixel, whole-game/global-order, complete visual/M5/AAA acceptance.",
+    "Ordinary full-required03 is still running independently; original failed epochs remain preserved."
+  ],
+  "checks": [
+    {
+      "label": "exact actual4895 baseline",
+      "pass": true
+    },
+    {
+      "label": "exact executed clean05 pin",
+      "pass": true
+    },
+    {
+      "label": "actual1ef contains only two comment edits versus clean05",
+      "pass": true
+    },
+    {
+      "label": "only additive ready/begin_air/update_pose hooks",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _end_manual",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _spin_landing_clean",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _complete_grind_transfer",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _physics_process",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_landing_model_gap",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _sample_feature_charge",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _build_skater",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_board_floor_ray",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_board_wheel_support",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _direction_snapshot",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _obstacle_manual_contact_offset",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _release_grind",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_lip",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _try_transition",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_feature_transition",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_board_floor",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method get_camera_support_up",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _leave_transition",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_wall_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method set_transition_features",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_wall_forecast_impl",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _grind_capsule_segment_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_forecast_owner_bounds",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method reset_skater",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method balance_axis",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _clear_charge",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method set_skater_color",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _physical_revert",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _transition_support",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_wall_model_face",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _obstacle_offset_supported",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_air_wall_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _process",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _recovery_step_supported",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_footprint_board_fit",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_transition_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _mount_board",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method balance_value",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _grind_candidate_supported",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _notification",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_rim_frame_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _try_grind",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_manual_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _apply_air_tricks",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _withdraw_air_support_offset",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method set_trick_entries_enabled",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_floor_normal",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_wall_forecast_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_landing_finite_model_overlap",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _relocate_recovery",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _discard_cached_support",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _set_launch_mode",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _try_lip_extension",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _start_bail",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_landing_wheel_gap",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_model_hits_support",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _material",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _rail_path_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _obstacle_manual_floor_shape",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _clear_grind_rail_intent",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_skitch",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _transition_body_target",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _orient_contact_shape",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _solve_grind_contact",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _input",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _obstacle_grab_air_offset",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_feature_air_coping_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _restore_platform_after_move",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _emit_trick",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _styled_trick_name",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _grind_capture_path_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _special_axis",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _transition_coping_data",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _recovery_volume_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _completed_air_half_turns",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _clear_special_visual",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_air_landing_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_native_support_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _grind_native_crown",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _rail_floor_contacts_only",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _requires_model_grind_clearance",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _drop_board",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _transition_capsule_segment_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _remember_grind_rail_impact",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_setup",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _bail_pose_weight",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_bail",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_board_support_allowed",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method get_support_normal",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method try_special",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method manual_request_pending",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _clear_direction_gesture",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method balance_action",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _restore_contact_shape",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _face_transition_travel",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _only_intended_grind_hits",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method set_controls_enabled",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_vert_return",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _round_grind_native_contacts",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _start_grab",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _try_grind_extension",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _try_ground_links",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method set_grind_lines",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _try_recovery_clearance_step",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_transition",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_forecast_query",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _flip_pose_angles",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _build_loose_board",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_footprint_contact",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method recover_to",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_floor_hit",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _try_begin_lip",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _graded_obstacle_offset_supported",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method set_presentation_settings",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_grind",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_bowl_hit_owned",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _clear_trick_buffers",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _clear_grind_style",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _prepare_vert_return_contact",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_planar_rim_fit",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_wall_model_face_at",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _align_to_travel",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _award_air_spin",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _transition_capsule_turn_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _manual_choice",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _manual_model_frame_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _obstacle_manual_supported",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_obstacle_manual_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _clear_weighted_ollie",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _complete_special",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_wall",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_rim_refinement_lift",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _grind_capsule_rest_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _obstacle_air_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_wall_forecast",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _sample_trick_requests",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _restore_manual_wheel_pose",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _fit_native_visual_translation",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _air_forecast_frame_valid",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _grind_board_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _finish_landing",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_obstacle_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method begin_bail",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _minimum_air_wall_offset",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _release_lip",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _obstacle_manual_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_grind_rail_intent",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _tick_manual_balance",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _native_wheel_footprint_hits",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method get_camera_support_frame",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _arm_vert_return",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _manual_balance_input_sign",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _grind_request_available",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _grind_board_path_clear",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _place_graded_obstacle_wheels",
+      "pass": true
+    },
+    {
+      "label": "unchanged existing executable method _complete_flip",
+      "pass": true
+    },
+    {
+      "label": "same executed final helper _ramp_flat_hit_valid",
+      "pass": true
+    },
+    {
+      "label": "same executed final helper _prepare_ramp_flat_head_bounds",
+      "pass": true
+    },
+    {
+      "label": "same executed final helper _update_ramp_flat_visual",
+      "pass": true
+    },
+    {
+      "label": "same executed final helper _ramp_flat_pose_clear",
+      "pass": true
+    },
+    {
+      "label": "reset on actual fresh air and every ineligible mode",
+      "pass": true
+    },
+    {
+      "label": "pose/query shared resources restored",
+      "pass": true
+    },
+    {
+      "label": "no support or neighbour excluded by new helpers",
+      "pass": true
+    },
+    {
+      "label": "same existing4.5rate and bounded horizon/travel",
+      "pass": true
+    },
+    {
+      "label": "exact registered owned-flat identity with unitUP normal",
+      "pass": true
+    },
+    {
+      "label": "four fresh predicted wheel footprints no infinite-floor permission",
+      "pass": true
+    },
+    {
+      "label": "head cache actual referenced surface indices only",
+      "pass": true
+    },
+    {
+      "label": "one current+four future+existingthree+one head upper bound9",
+      "pass": true
+    },
+    {
+      "label": "private882source/252resolvedimports/twometadata stable",
+      "pass": true
+    },
+    {
+      "label": "executed instrumented controller pinned",
+      "pass": true
+    },
+    {
+      "label": "private exact current hand scalar691b",
+      "pass": true
+    },
+    {
+      "label": "private native134/0 and14 genuine owner/head controls",
+      "pass": true
+    },
+    {
+      "label": "39312 native indexed corners enclosed",
+      "pass": true
+    },
+    {
+      "label": "two individually consecutive471-row streams",
+      "pass": true
+    },
+    {
+      "label": "late rows actually after camera update",
+      "pass": true
+    },
+    {
+      "label": "counter join rather than index join disclosed",
+      "pass": true
+    },
+    {
+      "label": "qualified handoff no step above existing4.5rad/s discretebound",
+      "pass": true
+    },
+    {
+      "label": "qualified bodylocal head step independently130.251mm",
+      "pass": true
+    },
+    {
+      "label": "no accepted late hard fit",
+      "pass": true
+    },
+    {
+      "label": "actual892source/fivecache before-after exact",
+      "pass": true
+    },
+    {
+      "label": "mandatory real Guide and installed pose source bound",
+      "pass": true
+    },
+    {
+      "label": "strict actual parser exit0/noerror/exactlog",
+      "pass": true
+    },
+    {
+      "label": "strict actual native exit0/noerror/exactlog",
+      "pass": true
+    },
+    {
+      "label": "actual134 clean assertions+strict eligibility",
+      "pass": true
+    },
+    {
+      "label": "actual23+67+32+11 original module subsets",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read .local/motion_actual_round_focus02.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read .local/motion_round_registry_helper.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read .local/run_motion_actual_round_focus02.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/PLAYER-GUIDE.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/licences/ENVIRONMENT-FIDELITY.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/licences/REGISTER.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/licences/third-party/flite-COPYING.txt",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/licences/third-party/flite-debian-copyright.txt",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/licences/third-party/flite-kal16-LICENSE.txt",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/licences/third-party/makehuman-CC0.txt",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/licences/third-party/makehuman-LICENCE-SCOPE.txt",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/licences/third-party/not-pro-skater-MIT.txt",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read docs/licences/third-party/zc-spectacular-textures-CC0.txt",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read export_presets.cfg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_grass01/T_grass01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_grass01/T_grass01_ao.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_grass01/T_grass01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_wood01/T_wood01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_wood01/T_wood01_ao.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/T_wood01/T_wood01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/asphalt_02/asphalt_02_arm_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/asphalt_02/asphalt_02_diff_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/asphalt_02/asphalt_02_nor_gl_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/derived/grass_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/derived/grass_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/derived/grass_ambient_occlusion.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/derived/grass_normal_opengl.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/derived/grass_normal_opengl.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/derived/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/derived/pavement_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/derived/pavement_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/pavement_01/pavement_01_arm_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/pavement_01/pavement_01_diff_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/pavement_01/pavement_01_nor_gl_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_arm_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_diff_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/environment_pbr/sandstone_blocks_04/sandstone_blocks_04_nor_gl_2k.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/LICENSE-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/README.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/glasgow_bay_far.glb",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/glasgow_bay_far.glb.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/glasgow_bay_mid.glb",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/glasgow_bay_mid.glb.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/glasgow_bay_near.glb",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/glasgow_bay_near.glb.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/godot-imports.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/textures/opaque_glazing_basecolor.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/textures/opaque_glazing_basecolor.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/textures/sandstone_basecolor.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/textures/sandstone_basecolor.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/textures/sandstone_normal_opengl.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/textures/sandstone_normal_opengl.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/textures/sandstone_orm.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay/textures/sandstone_orm.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/LICENSE-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/README.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_far.glb",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_far.glb.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_mid.glb",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_mid.glb.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_near.glb",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/glasgow_bay_near.glb.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/godot-imports.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/glasgow_bay_reduced_four_slot/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/clyde_water.gdshader",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/clyde_water.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/footing_colour.gdshader",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/footing_colour.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/glasgow_horizon.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/glasgow_horizon.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/glasgow_horizon_cube.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/glasgow_horizon_cube.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/horizon_sky.gdshader",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/horizon_sky.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/horizon/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/generate.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/hair.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/hair.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/head.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/head.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/left_hand.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/left_hand.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/right_hand.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/makehuman_hm08/right_hand.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/tam_skateboard/README.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/tam_skateboard/UV-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/tam_skateboard/board_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/tam_skateboard/board_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/tam_skateboard/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/tam_skateboard/tam_skateboard.glb",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/tam_skateboard/tam_skateboard.glb.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/tam_skateboard/tam_skateboard_board_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/zc_textures/T_bricks01/T_bricks01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/zc_textures/T_bricks01/T_bricks01_normal_opengl.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/zc_textures/T_bricks01/T_bricks01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/zc_textures/T_concrete01/T_concrete01_albedo.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/zc_textures/T_concrete01/T_concrete01_albedo.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/zc_textures/T_concrete01/T_concrete01_normal_opengl.jpg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/zc_textures/T_concrete01/T_concrete01_normal_opengl.jpg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/assets/zc_textures/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/FITTED-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/SKIN-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/accessory-fit.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/eye-source-selection.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/face-atlas-layout.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted-garment-fit.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted-licence-headers.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted-manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted-source-pins.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_accessories.glb",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_accessories.glb.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_brows.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_brows.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_brows_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_brows_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_cloth_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_cloth_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_cloth_normal.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_cloth_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_eyes.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_eyes.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_fit.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_hair.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_hair.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_hair_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_hair_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_head.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_head.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_landmarks.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_outfit.glb",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_outfit.glb.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_reflector_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_reflector_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_left_laces.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_left_laces.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_left_sole.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_left_sole.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_left_upper.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_left_upper.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_right_laces.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_right_laces.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_right_sole.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_right_sole.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_right_upper.obj",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_shoe_right_upper.obj.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_vest_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/fitted_vest_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/footwear-fit.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/hand-atlas-layout.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/head-neck-restoration.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/head_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/head_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/head_normal.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/head_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/head_roughness.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/head_roughness.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/lace-fit.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/left_hand_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/left_hand_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/left_hand_normal.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/left_hand_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/left_hand_roughness.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/left_hand_roughness.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/palette-map.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/right_hand_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/right_hand_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/right_hand_normal.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/right_hand_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/right_hand_roughness.png",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/right_hand_roughness.png.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/rider/source-neck-helper-map.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/shaders/window_interior.gdshader",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/art/shaders/window_interior.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/apple_music.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/apple_music.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/generated/again.wav",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/generated/again.wav.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/generated/cone.wav",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/generated/cone.wav.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/generated/landing.wav",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/generated/landing.wav.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/generated/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/skate_audio.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/audio/skate_audio.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/bin_percussion.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/bin_percussion.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/busker_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/busker_actor.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/busker_sound.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/busker_sound.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/cat_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/cat_actor.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/cat_encounter.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/cat_encounter.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/glasgow_encounters.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/glasgow_encounters.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/market_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/market_actor.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/market_encounter.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/characters/market_encounter.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/core/graphics_quality.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/core/graphics_quality.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/core/input_profile.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/core/input_profile.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/core/input_setup.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/core/input_setup.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/core/playtest_recorder.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/core/playtest_recorder.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/activity_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/activity_actor.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/cone_stunt.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/cone_stunt.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/feature_hub.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/feature_hub.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/feature_visuals.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/feature_visuals.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/lap_challenge.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/lap_challenge.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/service_gate.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/service_gate.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/skate_vehicle.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/features/skate_vehicle.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/icon.svg",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/icon.svg.import",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/arch_mesh.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/arch_mesh.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/barras_market.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/barras_market.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/clyde_landmarks.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/clyde_landmarks.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/exchange_gallery.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/exchange_gallery.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/facade_bay.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/facade_bay.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/facade_kit.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/facade_kit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/facade_shell.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/facade_shell.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/foliage_mesh.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/foliage_mesh.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/fountain_basin_mesh.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/fountain_basin_mesh.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/fountain_ornament.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/fountain_ornament.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/gallery_column.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/gallery_column.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/material_library.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/material_library.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/street_dressing.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/art/street_dressing.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/bowl_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/bowl_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/city_art.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/city_art.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/city_backdrop.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/city_backdrop.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/city_visibility.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/city_visibility.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/clyde_cable_line.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/clyde_cable_line.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/clyde_layout.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/clyde_layout.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/core_terrain.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/core_terrain.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/exploration_boundary.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/exploration_boundary.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/fidelity_infill.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/fidelity_infill.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/glasgow_murals.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/glasgow_murals.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/glasgow_square.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/glasgow_square.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/halfpipe_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/halfpipe_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/horizon_background.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/horizon_background.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/kelvingrove_skatepark.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/kelvingrove_skatepark.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/outdoor_routes.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/outdoor_routes.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/outdoors/surface_builder.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/outdoors/surface_builder.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/outdoors/vegetation.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/outdoors/vegetation.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/park_pond.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/park_pond.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/park_visual_skin.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/park_visual_skin.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/pt24_central_green.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/pt24_central_green.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/pt24_connected_runs.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/pt24_connected_runs.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/pt24_render_repairs.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/pt24_render_repairs.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/render_budget.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/render_budget.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/skate_edges.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/skate_edges.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/spine_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/spine_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/static_batches.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/static_batches.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/station_railway.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/station_railway.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/sunken_bowl_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/sunken_bowl_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/surface_audit.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/surface_audit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/transition_feature.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/transition_feature.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/transition_park.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/transition_park.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/water_shadow_policy.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/levels/water_shadow_policy.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/main.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/main.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/main.tscn",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/bail_recovery.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/bail_recovery.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/chase_camera.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/chase_camera.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/feature_transition_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/feature_transition_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/launch_setup.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/launch_setup.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/shoe_support_hull.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/shoe_support_hull.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skate_response.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skate_response.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_anatomy.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_anatomy.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_footwear.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_footwear.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_garments.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_garments.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_obstacle_arm_fit.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_obstacle_arm_fit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_visual.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skater_visual.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skitch_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/skitch_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/transition_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/transition_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/trick_animation.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/trick_animation.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/wall_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/player/wall_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/progression/career_progress.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/progression/career_progress.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/progression/objective_tracker.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/progression/objective_tracker.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/scoring/score_session.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/scoring/score_session.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/directional_tricks.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/directional_tricks.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/gap_tracker.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/gap_tracker.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_clearance.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_clearance.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_index.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_index.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_line.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_line.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_ride.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_ride.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_style.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_style.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_transfer.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/grind_transfer.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/special_meter.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/special_meter.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/trick_catalog.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/trick_catalog.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/trick_input.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/tricks/trick_input.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/ui/hud.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/ui/hud.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/ui/route_map.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read game/ui/route_map.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read project.godot",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/activity_actor_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/activity_actor_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/ambient_adult_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/ambient_adult_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/apple_music_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/apple_music_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/arcade_economy_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/arcade_economy_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/arcade_response_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/arcade_response_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/audio_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/audio_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/authentic_fidelity_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/authentic_fidelity_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/authentic_pose_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/authentic_pose_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/bail_recovery_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/bail_recovery_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/board_floor_ray_reuse_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/board_floor_ray_reuse_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/board_geometry_tests_support.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/board_geometry_tests_support.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/board_import_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/board_import_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/camera_ray_reuse_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/camera_ray_reuse_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/camera_turn_review_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/camera_turn_review_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/career_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/career_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/career_route_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/career_route_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/cat_encounter_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/cat_encounter_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/city_backdrop_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/city_backdrop_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/city_visibility_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/city_visibility_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/civic_edge_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/civic_edge_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/classic_control_input_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/classic_control_input_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/classic_tricks_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/classic_tricks_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/clyde_cable_line_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/clyde_cable_line_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/clyde_surface_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/clyde_surface_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/combo_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/combo_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/combo_resolution_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/combo_resolution_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/compact_clyde_lines_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/compact_clyde_lines_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/connected_transition_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/connected_transition_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/controller_menu_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/controller_menu_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/curved_visual_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/curved_visual_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/directional_tricks_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/directional_tricks_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/edge_grind_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/edge_grind_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/environment_text_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/environment_text_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/exchange_place_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/exchange_place_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/facade_bay_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/facade_bay_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/feature_transition_ride_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/feature_transition_ride_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fidelity_acceptance_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fidelity_acceptance_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fitted-reference.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fitted_adapter.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fitted_adapter.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fitted_garment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fitted_garment_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/flat_ollie_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/flat_ollie_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fountain_basin_mesh_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fountain_basin_mesh_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fountain_finish_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fountain_finish_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fountain_ornament_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/fountain_ornament_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/full_level_density_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/full_level_density_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/full_repertoire_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/full_repertoire_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/full_shoe_support_contract.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/full_shoe_support_contract.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/glasgow_encounters_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/glasgow_encounters_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/glasgow_murals_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/glasgow_murals_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grab_pose_cache_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grab_pose_cache_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/graphics_quality_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/graphics_quality_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_capture_bounds_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_capture_bounds_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_contact_metadata_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_contact_metadata_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_index_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_index_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_intent_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_intent_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_regression_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_regression_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_ride_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_ride_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_style_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_style_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_surface_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_surface_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_variant_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grind_variant_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grinding_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/grinding_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/horizon_background_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/horizon_background_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/hud_efficiency_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/hud_efficiency_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/hud_trick_label_cache_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/hud_trick_label_cache_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/input_profile_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/input_profile_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/kelvingrove_skatepark_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/kelvingrove_skatepark_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/landing_turn_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/landing_turn_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/limb_pose_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/limb_pose_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/line_design_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/line_design_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/manual_combo_usability_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/manual_combo_usability_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/manual_revert_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/manual_revert_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/map_connector_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/map_connector_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/market_encounter_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/market_encounter_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/menu_cancel_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/menu_cancel_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/menu_launch_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/menu_launch_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/merchant_return_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/merchant_return_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/motion_fidelity_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/motion_fidelity_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/music_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/music_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/music_ui_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/music_ui_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/named_grind_consumers_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/named_grind_consumers_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/named_grind_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/named_grind_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/native_grind_transfer_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/native_grind_transfer_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/native_ledge_fallback_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/native_ledge_fallback_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/outdoor_repair_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/outdoor_repair_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/overnight_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/overnight_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/owner_playtest_repairs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/owner_playtest_repairs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/park_construction_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/park_construction_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/park_pond_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/park_pond_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/per_leg_sole_contract.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/per_leg_sole_contract.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/physics_interpolation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/physics_interpolation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/platform_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/platform_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/playability_boot.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/playability_boot.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/playability_boot.tscn",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/playability_regression_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/playability_regression_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/player_forgiveness_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/player_forgiveness_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/playtest_recorder_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/playtest_recorder_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/presentation_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/presentation_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/process_guard_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/process_guard_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/progression_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/progression_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_acceptance_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_acceptance_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_boundary_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_boundary_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_bowl_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_bowl_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_central_green_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_central_green_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_city_repairs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_city_repairs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_civic_flagship_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_civic_flagship_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_civic_park_run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_civic_park_run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_clyde_flagship_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_clyde_flagship_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_connected_runs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_connected_runs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_design_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_design_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_facility_connection_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_facility_connection_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_flagship_runs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_flagship_runs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_gallery_entrance_run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_gallery_entrance_run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_gate_route_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_gate_route_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_manual_grade_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_manual_grade_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_market_full_run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_market_full_run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_park_finish_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_park_finish_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_park_flagship_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_park_flagship_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_park_full_combo_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_park_full_combo_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_park_run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_park_run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_render_repairs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/pt24_render_repairs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/rail_geometry_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/rail_geometry_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/rail_solidity_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/rail_solidity_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/ramp_pop_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/ramp_pop_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/remaining_feature_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/remaining_feature_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/render_budget_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/render_budget_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/repetition_alias_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/repetition_alias_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/round_coping_contact_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/round_coping_contact_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/route_availability_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/route_availability_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/run_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skate_edges_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skate_edges_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skate_response_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skate_response_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skatepark_navigation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skatepark_navigation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_body_attachment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_body_attachment_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_gait_direction_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_gait_direction_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_manual_arm_controls.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_manual_arm_controls.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_obstacle_arm_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_obstacle_arm_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_pogo_attachment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_pogo_attachment_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_skitch_attachment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_skitch_attachment_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_flip_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_flip_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_grab_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_grab_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_manual_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_manual_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_presentation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_presentation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_transition_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/skater_wall_transition_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/special_gap_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/special_gap_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/static_batches_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/static_batches_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/station_gate_repairs_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/station_gate_repairs_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/station_railway_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/station_railway_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support/compact_clyde_lines_driver.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support/compact_clyde_lines_driver.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support/manual_balance_driver.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support/manual_balance_driver.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support/music_launch_guard.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support/music_launch_guard.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support/native_prism_audit.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support/native_prism_audit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support_query_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/support_query_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/surface_coverage_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/surface_coverage_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/takeoff_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/takeoff_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/terrain_bank_edge_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/terrain_bank_edge_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/terrain_top_ownership_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/terrain_top_ownership_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/test_compact_clyde.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/test_compact_clyde.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/topography_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/topography_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/transition_geometry_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/transition_geometry_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/transition_player_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/transition_player_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/transition_ride_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/transition_ride_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_animation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_animation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_catalog_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_catalog_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_encounter_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_encounter_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_fidelity_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_fidelity_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_input_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_input_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_language_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_language_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_pose_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_pose_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_score_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/trick_score_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/ui_feedback_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/ui_feedback_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/ui_integration_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/ui_integration_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/wall_ride_presentation_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/wall_ride_presentation_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/wall_ride_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/wall_ride_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/water_shadow_policy_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/water_shadow_policy_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/world_routes_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tests/world_routes_tests.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/area_audit_play.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/area_audit_play.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/area_audit_play.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/board_wood_source.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/board_wood_source.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/build_skateboard.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/finish_board_uv.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/import_board_wood.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/import_board_wood.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/regenerate_skateboard_uv.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/requirements-board.txt",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/source/tam_skateboard-base-manifest.json",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/art/source/tam_skateboard-base.glb.gz",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/build_environment_derivatives.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/check.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/classic_controls_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/classic_controls_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/classic_controls_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/classic_tricks_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/classic_tricks_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/classic_tricks_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/environment_texture_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/environment_texture_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/environment_water_isolated_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/environment_water_isolated_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/environment_water_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/environment_water_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/environment_water_probe.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/export.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/facade_bay_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/facade_bay_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/facade_bay_probe.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/fetch_environment_materials.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/fixtures/environment/clyde_water_before_2026_11_06.gdshader",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/fixtures/environment/clyde_water_before_2026_11_06.gdshader.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/full_fidelity_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/full_fidelity_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/full_fidelity_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/full_fidelity_capture_png.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/full_fidelity_capture_smoke.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/full_fidelity_capture_smoke.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/generate_voice.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/grind_contact_audit.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/grind_contact_audit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/level_design_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/level_design_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/level_design_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/moving_profile.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/moving_profile.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/moving_profile.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/moving_profile.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/mural_review.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/mural_review.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/mural_review.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/music_ui_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/music_ui_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/music_ui_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/native_smoke.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/occlusion_owner_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/occlusion_owner_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/overnight_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/overnight_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/overnight_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/performance_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/performance_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/performance_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/playability_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/playability_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/playability_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/playability_capture.tscn",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/prepare_source_assets.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/profile.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/profile.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/profile.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/pt24_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/pt24_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/pt24_design_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/pt24_design_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/pt24_temporal_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/pt24_temporal_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/render_budget_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/render_budget_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/render_budget_probe.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/render_repair_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/render_repair_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/render_repair_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_accessories.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_acquire.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_bake.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_fit.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_head.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_inspect.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_inspect.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_inspect.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_laces.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_projection.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_shoes.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_skin.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_surfaces.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_validate.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_validate.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_asset_validate.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_motion.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_motion.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/rider_motion.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/run.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/setup.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/source_launch_smoke.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/static_batches_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/static_batches_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/static_batches_probe.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/static_batches_probe.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/support_audit.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/support_audit.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/testing/build_fitted_rig_reference.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/testing/launcher_protocol_tests.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/testing/verify_shoe_support_certificate.py",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/trick_fidelity_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/trick_fidelity_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/trick_fidelity_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/ui_feedback_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/ui_feedback_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/ui_feedback_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/ui_title_boot_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/ui_title_boot_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/ui_title_boot_probe.tscn",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/visibility_precision_probe.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/visibility_precision_probe.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/visual_pass_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/visual_pass_capture.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/visual_pass_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "actual source retained at independent read tools/xorg-dummy.conf",
+      "pass": true
+    }
+  ]
+}

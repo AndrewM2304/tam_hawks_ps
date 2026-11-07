@@ -1,0 +1,132 @@
+
+# Presentation-only wrapped-bowl exit. Physical feature ownership/gravity remain.
+var _ramp_flat_visual_ready:=false
+var _ramp_flat_head_bounds:=AABB()
+var _ramp_flat_head_valid:=false
+
+func _prepare_ramp_flat_head_bounds()->void:
+	_ramp_flat_head_valid=false
+	var head:Node3D=_visual_rig._head
+	var inverse:Transform3D=head.global_transform.affine_inverse()
+	var first:=true
+	for mesh:MeshInstance3D in head.find_children("*","MeshInstance3D",true,false):
+		if mesh.mesh==null or not mesh.visible:continue
+		var local:Transform3D=inverse*mesh.global_transform
+		for surface:int in mesh.mesh.get_surface_count():
+			var arrays:Array=mesh.mesh.surface_get_arrays(surface)
+			var points:PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+			var indices:PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+			if indices.is_empty():
+				for vertex:Vector3 in points:
+					var at:Vector3=local*vertex
+					if not at.is_finite():return
+					if first:_ramp_flat_head_bounds=AABB(at,Vector3.ZERO);first=false
+					else:_ramp_flat_head_bounds=_ramp_flat_head_bounds.expand(at)
+			else:
+				for index:int in indices:
+					if index<0 or index>=points.size():return
+					var at:Vector3=local*points[index]
+					if not at.is_finite():return
+					if first:_ramp_flat_head_bounds=AABB(at,Vector3.ZERO);first=false
+					else:_ramp_flat_head_bounds=_ramp_flat_head_bounds.expand(at)
+	_ramp_flat_head_valid=not first and _ramp_flat_head_bounds.has_volume()
+
+func _ramp_flat_hit_valid(hit:Dictionary,feature:Node3D,external:bool)->bool:
+	if hit.is_empty() or typeof(hit.get("shape"))!=TYPE_INT:return false
+	var raw:Variant=hit.get("collider")
+	if typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw) or not raw is CollisionObject3D:return false
+	var body:CollisionObject3D=raw
+	var index:int=hit.shape
+	if body.get_rid()!=hit.get("rid") or index<0 or index>=PhysicsServer3D.body_get_shape_count(body.get_rid()) \
+			or (body.collision_layer&collision_mask)==0:return false
+	var owner:int=body.shape_find_owner(index)
+	if owner<0 or body.is_shape_owner_disabled(owner):return false
+	var normal:Vector3=hit.get("normal",Vector3.ZERO)
+	var point:Vector3=hit.get("position",Vector3.INF)
+	if not normal.is_finite() or normal.y<=0.999 or not point.is_finite():return false
+	# Footprint samples may share the actual coplanar annular deck, but the
+	# centre MUST be a real external floor. Copings/other features never donate.
+	if is_instance_valid(feature) and feature.is_ancestor_of(body):
+		return not external and body==feature.get("_native_annular_deck")
+	var node:Node=body
+	while is_instance_valid(node):
+		if node.has_meta("transition_feature") or node.has_meta("coping_feature") or node.has_meta("skate_feature"):return false
+		node=node.get_parent()
+	return true
+
+func _ramp_flat_pose_clear(basis:Basis)->bool:
+	if not _ramp_flat_head_valid or not basis.is_finite():return false
+	var saved:Transform3D=_visual.transform
+	var motion:Vector3=_grind_board_query.motion
+	var mask:int=_grind_board_query.collision_mask
+	_grind_board_query.motion=Vector3.ZERO
+	_grind_board_query.collision_mask=1|2|8
+	_visual.basis=basis
+	var clear:=_obstacle_air_clear(Vector3.ZERO)
+	if clear:
+		var old_shape:Shape3D=_grind_board_query.shape
+		var old_size:Vector3=_grind_board_box.size
+		var old_transform:Transform3D=_grind_board_query.transform
+		var old_margin:float=_grind_board_query.margin
+		_grind_board_box.size=_ramp_flat_head_bounds.size
+		_grind_board_query.shape=_grind_board_box
+		_grind_board_query.transform=_visual_rig._head.global_transform*Transform3D(Basis.IDENTITY,_ramp_flat_head_bounds.get_center())
+		_grind_board_query.margin=GROUND_PRESENTATION_SKIN-0.00001
+		clear=get_world_3d().direct_space_state.intersect_shape(_grind_board_query,1).is_empty()
+		_grind_board_box.size=old_size
+		_grind_board_query.shape=old_shape
+		_grind_board_query.transform=old_transform
+		_grind_board_query.margin=old_margin
+	_visual.transform=saved
+	_grind_board_query.motion=motion
+	_grind_board_query.collision_mask=mask
+	return clear
+
+func _update_ramp_flat_visual(delta:float,previous:Basis)->void:
+	var feature:Node3D=_feature_transition.feature
+	if not airborne or not _ramp_air or not _feature_transition.active or _feature_transition.state!="air" \
+			or not is_instance_valid(feature) or not bool(feature.get("wrap_lateral")) \
+			or grinding or wallriding or bail_active or manual_active or setup_active or skitching or lip_active \
+			or _flip_remaining>0.0 or _grab_remaining>0.0 or _special_remaining>0.0 or _ollie_pose_remaining>0.0:
+		_ramp_flat_visual_ready=false
+		return
+	if not previous.is_finite() or delta<=0.0:return
+	var space:=get_world_3d().direct_space_state
+	var hit:=_native_board_floor_ray(space,global_position+Vector3.UP*.2,global_position-Vector3.UP*3.0)
+	var yaw:float=_spin_angle+_stance_angle+_air_grind_yaw-PI*(_revert_pose_remaining/REVERT_DURATION)
+	var proposed:Basis=previous
+	var earned:=false
+	if _ramp_flat_hit_valid(hit,feature,true):
+		var normal:Vector3=hit.normal
+		var point:Vector3=hit.position
+		var air_frame:Dictionary=feature.air_return_frame(global_position,_feature_transition._x)
+		var outward:Vector3=air_frame.normal
+		var horizontal:Vector3=velocity*Vector3(1,0,1)
+		var gap:float=(global_position-point).dot(normal)
+		var local_up:Vector3=global_basis.inverse()*normal
+		var target:=Basis.from_euler(Vector3(atan2(local_up.z,local_up.y),0,-asin(clampf(local_up.x,-1,1))))
+		var angle:float=previous.get_rotation_quaternion().angle_to(target.get_rotation_quaternion())
+		var discriminant:float=velocity.y*velocity.y+2.0*RAMP_AIR_GRAVITY*gap
+		var time_to_floor:float=(velocity.y+sqrt(maxf(0.0,discriminant)))/RAMP_AIR_GRAVITY
+		# Start when the SAME4.5rad/s needs the remaining ballistic time. This
+		# can be just before the apex; waiting for descent is already too late.
+		if gap>=0.0 and discriminant>=0.0 and horizontal.dot(outward)<0.0 \
+				and (_ramp_flat_visual_ready or time_to_floor<=angle/4.5+delta):
+			var local_board:Transform3D=_visual.global_transform.affine_inverse()*_board_visual.global_transform
+			var future:Transform3D=Transform3D(global_basis*target*Basis(Vector3.UP,yaw),_visual.global_position+horizontal*time_to_floor)*local_board
+			var footprint:=true
+			for wheel:Dictionary in _visual_rig.board_contact_geometry().wheels:
+				var at:Vector3=future*Vector3(wheel.center)
+				at-=normal*(at-point).dot(normal)
+				var contact:=_native_board_floor_ray(space,at+normal*.35,at-normal*.50)
+				if not _ramp_flat_hit_valid(contact,feature,false) or Vector3(contact.normal).dot(normal)<0.999 \
+						or absf((Vector3(contact.position)-point).dot(normal))>0.001:footprint=false;break
+			if footprint:
+				proposed=previous.slerp(target,minf(1.0,4.5*delta/maxf(angle,0.000001))).orthonormalized()
+				earned=true
+	# A missing/owned probe may hold the last proven orientation, never advance
+	# toward a stale floor. The current full board/shoes/head must still clear.
+	if (earned or _ramp_flat_visual_ready) and _ramp_flat_pose_clear(proposed*Basis(Vector3.UP,yaw)):
+		_air_support_basis=proposed
+		_visual.basis=proposed*Basis(Vector3.UP,yaw)
+		_ramp_flat_visual_ready=true

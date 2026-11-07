@@ -104,6 +104,7 @@ import hashlib, json, os, pathlib, subprocess
 root = pathlib.Path.cwd()
 paths = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
 paths += list((root / 'tools').glob('rider_asset_*.py'))
+paths += [p for p in (root / 'tools/art').rglob('*') if p.is_file() and '__pycache__' not in p.parts]
 paths += [root / 'tools' / name for name in ('fetch_environment_materials.py', 'build_environment_derivatives.py')]
 paths += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
 entries = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
@@ -168,6 +169,76 @@ if fitted_manifest_path.exists():
             raise SystemExit('Invalid fitted-rider generator name.')
         if entries.get('tools/' + name) != expected:
             raise SystemExit('Fitted rider generator differs from reviewed provenance: ' + name)
+# Board UV04 preflight; stdlib only, no editor tool execution or runtime dependency.
+import gzip, re, struct
+board_relative = 'game/art/assets/tam_skateboard/'
+board_path = root / board_relative
+board_manifest = json.loads((board_path / 'manifest.json').read_text())
+if (board_manifest.get('schema') != 2 or board_manifest.get('meshes') != 1
+        or board_manifest.get('surfaces') != 4 or board_manifest.get('triangles') != 5696
+        or board_manifest.get('materials') != ['MapleAndRiverInk', 'Griptape', 'CastAluminium', 'Urethane']
+        or board_manifest.get('texture', {}).get('dimensions') != [1024, 1024]
+        or set(board_manifest.get('outputs', {})) != {'tam_skateboard.glb', 'board_albedo.png'}):
+    raise SystemExit('Unsupported native board provenance/schema/resource contract.')
+expected_board_contract = {'axle_z_m': [-0.255, 0.255], 'wheel_center_y_m': -0.088, 'wheel_radius_m': 0.032, 'deck_grip_center_y_m': 0.017, 'shoe_contact_at_z_m': [-0.255, 0.255]}
+if any(board_manifest.get('contract', {}).get(key) != value for key, value in expected_board_contract.items()):
+    raise SystemExit('Native board functional datums differ from the reviewed UV04 contract.')
+board_pipeline_inputs = ['finish_board_uv.py', 'regenerate_skateboard_uv.py', 'requirements-board.txt', 'import_board_wood.gd', 'board_wood_source.gd', 'build_skateboard.py', 'source/tam_skateboard-base.glb.gz', 'source/tam_skateboard-base-manifest.json']
+if any(not entries.get('tools/art/' + name) for name in board_pipeline_inputs) or board_manifest.get('regenerate') != 'python tools/art/regenerate_skateboard_uv.py':
+    raise SystemExit('Native board is missing a reproducible pinned source pipeline input.')
+for name, record in board_manifest['outputs'].items():
+    if pathlib.Path(name).name != name or entries.get(board_relative + name) != record['sha256'] or (board_path / name).stat().st_size != record['bytes']:
+        raise SystemExit('Native board output differs from reviewed provenance: ' + name)
+if (board_manifest.get('generator') != 'tools/art/finish_board_uv.py'
+        or entries.get(board_manifest['generator']) != board_manifest['generator_sha256']):
+    raise SystemExit('Native board UV generator differs from reviewed provenance.')
+base_board = board_manifest.get('base_source', {})
+if (base_board.get('archive') != 'tools/art/source/tam_skateboard-base.glb.gz'
+        or base_board.get('manifest') != 'tools/art/source/tam_skateboard-base-manifest.json'
+        or base_board.get('original_generator') != 'tools/art/build_skateboard.py'
+        or entries.get(base_board['original_generator']) != base_board['original_generator_sha256']):
+    raise SystemExit('Native board original source/generator paths differ from the reviewed contract.')
+base_raw = gzip.decompress((root / base_board['archive']).read_bytes())
+base_manifest = json.loads((root / base_board['manifest']).read_text())
+if (hashlib.sha256(base_raw).hexdigest() != base_board['sha256']
+        or base_manifest.get('outputs', {}).get('tam_skateboard.glb', {}).get('sha256') != base_board['sha256']
+        or base_manifest.get('generator_sha256') != base_board['original_generator_sha256']):
+    raise SystemExit('Native board pinned original archive/manifest is inconsistent.')
+board_editor = board_manifest.get('editor_import', {})
+for field, expected in [('policy', 'tools/art/import_board_wood.gd'), ('decoder', 'tools/art/board_wood_source.gd')]:
+    if board_editor.get(field) != expected or entries.get(expected) != board_editor.get(field + '_sha256'):
+        raise SystemExit('Native board editor import source differs from reviewed provenance: ' + field)
+if board_editor.get('global_force_disable_compression') is not False or board_editor.get('runtime_generation') is not False:
+    raise SystemExit('Native board requires its reviewed editor-only narrow compression policy.')
+board_import = (board_path / 'tam_skateboard.glb.import').read_text()
+for line in ['meshes/force_disable_compression=false', 'import_script/path="res://tools/art/import_board_wood.gd"']:
+    if len(re.findall(r'^' + re.escape(line) + r'$', board_import, flags=re.M)) != 1:
+        raise SystemExit('Native board importer configuration differs from its reviewed policy.')
+source_pin = re.search(r'^const SOURCE_SHA\s*:?=\s*"([0-9a-f]{64})"\s*$', (root / board_editor['decoder']).read_text(), flags=re.M)
+if source_pin is None or source_pin.group(1) != board_manifest['outputs']['tam_skateboard.glb']['sha256']:
+    raise SystemExit('Native board decoder is not pinned to this exact board source.')
+atlas_bytes = (board_path / 'board_albedo.png').read_bytes()
+if (atlas_bytes[:8] != b'\x89PNG\r\n\x1a\n' or struct.unpack('>II', atlas_bytes[16:24]) != (1024, 1024)
+        or atlas_bytes[24:26] != bytes([8, 2])):
+    raise SystemExit('Native board atlas must retain reviewed 8-bit RGB1024 allocation.')
+board_bytes = (board_path / 'tam_skateboard.glb').read_bytes()
+if struct.unpack_from('<III', board_bytes) != (0x46546c67, 2, len(board_bytes)):
+    raise SystemExit('Native board GLB container differs from reviewed format.')
+json_size, json_kind = struct.unpack_from('<II', board_bytes, 12)
+if json_kind != 0x4e4f534a: raise SystemExit('Native board is missing its JSON chunk.')
+board_gltf = json.loads(board_bytes[20:20 + json_size])
+binary_at = 20 + json_size
+binary_size, binary_kind = struct.unpack_from('<II', board_bytes, binary_at)
+if binary_kind != 0x004e4942 or len(board_gltf.get('images', [])) != 1:
+    raise SystemExit('Native board must retain one embedded atlas.')
+image_view = board_gltf['bufferViews'][board_gltf['images'][0]['bufferView']]
+image_start = binary_at + 8 + image_view.get('byteOffset', 0)
+if image_start + image_view['byteLength'] > binary_at + 8 + binary_size or board_bytes[image_start:image_start + image_view['byteLength']] != atlas_bytes:
+    raise SystemExit('Native board embedded atlas differs from its pinned RGB source output.')
+board_notice = board_path / 'UV-NOTICE.md'
+if not board_notice.is_file() or 'Permission is hereby granted' not in board_notice.read_text() or 'Godot' not in board_notice.read_text():
+    raise SystemExit('Native board adapted shadow algorithm is missing its retained MIT/ownership notice.')
+
 manifest = {'git_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
             'working_tree_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
             'runtime_source_sha256': fingerprint, 'source_files_sha256': entries,
@@ -274,6 +345,9 @@ func _initialize() -> void:
 	if has_fitted and not _fitted_resources(fitted_path, report):
 		quit(1)
 		return
+	if not _board_resource(report):
+		quit(1)
+		return
 	var output := FileAccess.open(OS.get_cmdline_user_args()[0], FileAccess.WRITE)
 	if output == null:
 		push_error("Could not write packaged resource report.")
@@ -339,6 +413,128 @@ func _fitted_resources(manifest_path: String, report: Dictionary) -> bool:
 			report.fitted_resources[name] = {"kind": "scene", "mesh_nodes": meshes.size(), "skeletons": skeletons.size(), "skinned_meshes": skinned}
 			actor.free()
 	return true
+func _board_resource(report: Dictionary) -> bool:
+	# Read the cooked scene and its data-only import receipt. Editor importers,
+	# source decoders and Python generators are intentionally not runtime loads.
+	var manifest_path := "res://game/art/assets/tam_skateboard/manifest.json"
+	var manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+	if not manifest is Dictionary or int(manifest.get("schema", -1)) != 2:
+		return _board_failure(null, "Pack is missing readable board UV provenance.")
+	if int(manifest.get("meshes", 0)) != 1 or int(manifest.get("surfaces", 0)) != 4 or int(manifest.get("triangles", 0)) != 5696:
+		return _board_failure(null, "Pack board provenance has an unsupported resource contract.")
+	var path := "res://game/art/assets/tam_skateboard/tam_skateboard.glb"
+	var packed: PackedScene = load(path) as PackedScene
+	if packed == null:
+		return _board_failure(null, "Pack is missing its cooked skateboard scene.")
+	var model: Node3D = packed.instantiate() as Node3D
+	if model == null:
+		return _board_failure(null, "Pack skateboard has no native 3D root.")
+	var meta: Dictionary = model.get_meta("tam_board_wood_import", {})
+	var outputs: Dictionary = manifest.get("outputs", {})
+	var source_record: Dictionary = outputs.get("tam_skateboard.glb", {})
+	var editor: Dictionary = manifest.get("editor_import", {})
+	if (str(meta.get("source_sha256", "")) != str(source_record.get("sha256", "")) or str(meta.get("source_sha256", "")).length() != 64
+			or str(meta.get("policy_sha256", "")) != str(editor.get("policy_sha256", "")) or str(meta.get("policy_sha256", "")).length() != 64
+			or str(meta.get("decoder_sha256", "")) != str(editor.get("decoder_sha256", "")) or str(meta.get("decoder_sha256", "")).length() != 64
+			or int(meta.get("source_vertices", 0)) != 1600 or int(meta.get("source_indices", 0)) != 7800
+			or meta.get("wood_compressed", true) != false or meta.get("protected_packed_surfaces_exact", false) != true or meta.get("protected_shadow_surfaces_exact", false) != true):
+		return _board_failure(model, "Cooked board source/editor/decoder receipt differs from packaged provenance.")
+	var meshes: Array[MeshInstance3D] = []
+	_board_collect(model, meshes)
+	if meshes.size() != 1 or model.transform != Transform3D.IDENTITY or meshes[0].transform != Transform3D.IDENTITY:
+		return _board_failure(model, "Pack skateboard changed its single-mesh identity frame.")
+	var mesh: ArrayMesh = meshes[0].mesh as ArrayMesh
+	if mesh == null or mesh.get_surface_count() != 4:
+		return _board_failure(model, "Pack skateboard is missing its four native ArrayMesh surfaces.")
+	var names: Array[String] = ["MapleAndRiverInk", "Griptape", "CastAluminium", "Urethane"]
+	var texture_ids: Dictionary = {}
+	var triangles := 0
+	var grip_minimum: float = INF
+	var wheel_points := PackedVector3Array()
+	for surface: int in mesh.get_surface_count():
+		var material: StandardMaterial3D = mesh.surface_get_material(surface) as StandardMaterial3D
+		if material == null or material.resource_name != names[surface] or material.albedo_texture == null:
+			return _board_failure(model, "Pack skateboard material/atlas identity changed.")
+		texture_ids[material.albedo_texture.get_instance_id()] = material.albedo_texture
+		var arrays: Array = mesh.surface_get_arrays(surface)
+		var points: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+		var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
+		if points.is_empty() or indices.is_empty() or indices.size() % 3 != 0:
+			return _board_failure(model, "Pack skateboard has incomplete indexed native geometry.")
+		triangles += indices.size() / 3
+		for index: int in indices:
+			if index < 0 or index >= points.size() or not points[index].is_finite():
+				return _board_failure(model, "Pack skateboard contains invalid indexed positions.")
+		if surface == 0:
+			var uv: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
+			if indices.size() != 7800 or uv.size() != points.size() or (mesh.surface_get_format(0) & Mesh.ARRAY_FLAG_COMPRESS_ATTRIBUTES) != 0:
+				return _board_failure(model, "Pack wood lost source geometry/compression protection.")
+			for i: int in range(0, indices.size(), 3):
+				var a: Vector2 = uv[indices[i]]
+				var b: Vector2 = uv[indices[i + 1]]
+				var c: Vector2 = uv[indices[i + 2]]
+				if not a.is_finite() or not b.is_finite() or not c.is_finite() or absf((b - a).cross(c - a)) * 0.5 <= 1e-12:
+					return _board_failure(model, "Pack wood contains collapsed/nonfinite native UV triangles.")
+		elif surface == 1:
+			for point: Vector3 in points:
+				grip_minimum = minf(grip_minimum, point.y)
+		elif surface == 3:
+			for point: Vector3 in points:
+				if absf(point.x) > 0.09:
+					wheel_points.append(point)
+	if triangles != 5696 or texture_ids.size() != 1 or not model.find_children("*", "CollisionObject3D", true, false).is_empty():
+		return _board_failure(model, "Pack skateboard changed its triangle/atlas/visual-only contract.")
+	var contract: Dictionary = manifest.get("contract", {})
+	if absf(grip_minimum - float(contract.get("deck_grip_center_y_m", INF))) > 0.000001:
+		return _board_failure(model, "Pack board grip datum differs from its physical contract.")
+	var wheels: Array = []
+	var axles: Array = contract.get("axle_z_m", [])
+	if axles.size() != 2:
+		return _board_failure(model, "Pack board is missing its two axle datums.")
+	for axle: float in axles:
+		for side: float in [-1.0, 1.0]:
+			var minimum_y: float = INF
+			var maximum_y: float = -INF
+			var minimum_z: float = INF
+			var maximum_z: float = -INF
+			var count := 0
+			for point: Vector3 in wheel_points:
+				if point.x * side <= 0.09 or point.z * signf(axle) <= 0.0:
+					continue
+				minimum_y = minf(minimum_y, point.y)
+				maximum_y = maxf(maximum_y, point.y)
+				minimum_z = minf(minimum_z, point.z)
+				maximum_z = maxf(maximum_z, point.z)
+				count += 1
+			if (count < 20 or absf((minimum_y + maximum_y) * 0.5 - float(contract.get("wheel_center_y_m", INF))) > 0.000001
+					or absf((maximum_y - minimum_y) * 0.5 - float(contract.get("wheel_radius_m", INF))) > 0.000001
+					or absf((minimum_z + maximum_z) * 0.5 - axle) > 0.000001):
+				return _board_failure(model, "Pack board native wheel centre/radius/axle contract changed.")
+			wheels.append({"side": side, "axle_z": axle, "native_points": count, "minimum_y": minimum_y, "maximum_y": maximum_y})
+	var texture: Texture2D = texture_ids.values()[0]
+	var image: Image = texture.get_image()
+	if (image == null or texture.get_width() != 1024 or texture.get_height() != 1024
+			or image.get_format() != Image.FORMAT_RGB8 or image.get_mipmap_count() != 10 or image.get_data().size() != 4194303):
+		return _board_failure(model, "Pack board atlas lost its RGB8/mip allocation contract.")
+	report.board = {"resource": path, "mesh_nodes": meshes.size(), "surfaces": mesh.get_surface_count(), "triangles": triangles,
+		"atlas_resource": texture.resource_path, "atlas_width": texture.get_width(), "atlas_height": texture.get_height(),
+		"atlas_format": image.get_format(), "atlas_mipmaps": image.get_mipmap_count(), "atlas_bytes": image.get_data().size(),
+		"native_import_receipt": meta, "grip_minimum_y": grip_minimum, "native_wheels": wheels, "editor_tools_required": false}
+	model.free()
+	return true
+
+func _board_collect(node: Node, meshes: Array[MeshInstance3D]) -> void:
+	if node is MeshInstance3D:
+		meshes.append(node)
+	for child: Node in node.get_children():
+		_board_collect(child, meshes)
+
+func _board_failure(model: Node, reason: String) -> bool:
+	if is_instance_valid(model):
+		model.free()
+	push_error(reason)
+	return false
+
 GDSCRIPT
 for TASK_PLATFORM in linux macos; do
   if [[ ! -d "$TASK_BUILD/$TASK_PLATFORM" ]]; then continue; fi
@@ -358,6 +554,7 @@ build = pathlib.Path(os.environ['TASK_BUILD'])
 metadata = json.loads((build / 'BUILD-METADATA.json').read_text())
 current_inputs = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
 current_inputs += list((root / 'tools').glob('rider_asset_*.py'))
+current_inputs += [p for p in (root / 'tools/art').rglob('*') if p.is_file() and '__pycache__' not in p.parts]
 current_inputs += [root / 'tools' / name for name in ('fetch_environment_materials.py', 'build_environment_derivatives.py')]
 current_inputs += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
 if {str(p.relative_to(root)) for p in current_inputs} != set(metadata['source_files_sha256']):
@@ -400,6 +597,8 @@ for platform in ('linux', 'macos'):
     shutil.copy2(root / 'game/art/assets/environment_pbr/derived/manifest.json', notices / 'ENVIRONMENT-DERIVATIVES.json')
     shutil.copy2(root / 'game/art/rider/manifest.json', notices / 'RIDER-SURFACE-PROVENANCE.json')
     shutil.copy2(root / 'game/art/rider/SKIN-NOTICE.md', notices / 'SKIN-NOTICE.md')
+    shutil.copy2(root / 'game/art/assets/tam_skateboard/UV-NOTICE.md', notices / 'UV-NOTICE.md')
+    shutil.copy2(root / 'game/art/assets/tam_skateboard/manifest.json', notices / 'BOARD-PROVENANCE.json')
     for name in ('fitted-manifest.json', 'fitted-source-pins.json', 'fitted-licence-headers.json', 'FITTED-NOTICE.md'):
         source = root / 'game/art/rider' / name
         if source.exists(): shutil.copy2(source, notices / name)
@@ -425,7 +624,7 @@ for platform in ('linux', 'macos'):
         bad_entry = z.testzip()
         if bad_entry is not None:
             raise SystemExit('ZIP CRC check failed: ' + bad_entry)
-        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt', 'zc-spectacular-textures-CC0.txt', 'makehuman-CC0.txt', 'makehuman-LICENCE-SCOPE.txt', 'GODOT-LICENSE.txt', 'GODOT-COPYRIGHT.txt']
+        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt', 'zc-spectacular-textures-CC0.txt', 'makehuman-CC0.txt', 'makehuman-LICENCE-SCOPE.txt', 'GODOT-LICENSE.txt', 'GODOT-COPYRIGHT.txt', 'UV-NOTICE.md', 'BOARD-PROVENANCE.json']
         if not all('NOTICES/' + name in z.namelist() for name in required_notices):
             raise SystemExit('A required third-party notice is absent from the completed ZIP.')
         for source in reviewed_notices:
@@ -438,6 +637,8 @@ for platform in ('linux', 'macos'):
             'ENVIRONMENT-DERIVATIVES.json': root / 'game/art/assets/environment_pbr/derived/manifest.json',
             'RIDER-SURFACE-PROVENANCE.json': root / 'game/art/rider/manifest.json',
             'SKIN-NOTICE.md': root / 'game/art/rider/SKIN-NOTICE.md',
+            'UV-NOTICE.md': root / 'game/art/assets/tam_skateboard/UV-NOTICE.md',
+            'BOARD-PROVENANCE.json': root / 'game/art/assets/tam_skateboard/manifest.json',
             'ENVIRONMENT-FIDELITY.md': root / 'docs/licences/ENVIRONMENT-FIDELITY.md',
             'VOICE-PROVENANCE.json': root / 'game/audio/generated/manifest.json',
             'PROVENANCE.md': root / 'docs/licences/REGISTER.md',

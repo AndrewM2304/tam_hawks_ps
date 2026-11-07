@@ -1,0 +1,41 @@
+{
+  "eligible": true,
+  "source_count": 892,
+  "player_guide_bound": true,
+  "cache_pin_count": 5,
+  "gaps": 8,
+  "world_routes": 66,
+  "hud_routes": 67,
+  "grind_lines": 242,
+  "result": {
+    "failed": 0,
+    "failures": [],
+    "modules": [
+      {
+        "failed": 0,
+        "module": "original_legacyMainTransition",
+        "passed": 23
+      },
+      {
+        "failed": 0,
+        "module": "registered_publicRoundContact",
+        "passed": 67
+      },
+      {
+        "failed": 0,
+        "module": "original_defaultMainMotion_and_nativeSupport",
+        "passed": 32
+      },
+      {
+        "failed": 0,
+        "module": "original_fullClydeLocalPrefix_and_bankReturn",
+        "passed": 11
+      }
+    ],
+    "passed": 134,
+    "scope": "Actual installed modules and original inputs/checks: legacy Main Transition/publicRound, separate default Main Motion/nativeSupport and complete Clyde local prefix/bank return. No pixel/moving/M5/performance claim; ordinary full-runner global order remains separate."
+  },
+  "base_commit": "65f045ef500d0e193cb545e376610cc8e2af5727",
+  "archived_files": 836,
+  "binary_git_references": 60
+}

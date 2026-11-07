@@ -1,0 +1,57 @@
+from pathlib import Path
+import base64,gzip,hashlib,json,re,shutil
+import numpy as np
+R=Path('/workspace/tam_hawks_ps');P=R/'.local/c04-camera-diagnosis/integration-proposal-02';N=R/'.local/c04-camera-diagnosis/native-07-finite-witness';checks=[]
+def j(p):return json.loads(p.read_text())
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+def functions(s):return{m.group(1):m.group(0)for m in re.finditer(r'^func (\w+)\(.*?(?=^func |\Z)',s,re.S|re.M)}
+h=j(P/'handoff.json');sources={}
+for e in h['files']:
+ name=Path(e['path']).name;a=P/(name+'.before');b=P/name;patch=P/(name+'.patch')
+ ck(e['path']+' current before matches guarded source',sha(R/e['path'])==sha(a)==e['before_sha256'])
+ ck(e['path']+' exact held payload/patch hashes',sha(b)==e['after_sha256']and sha(patch)==e['patch_sha256'])
+ sources[name]=(a.read_text(),b.read_text())
+a,b=sources['skater.gd'];af,bf=functions(a),functions(b)
+new_helpers={'_air_landing_model_gap','_air_landing_finite_model_overlap'}
+ck('only two named added controller helpers',set(bf)-set(af)==new_helpers and not(set(af)-set(bf)))
+ck('all other original controller functions byteexact',all(af[k]==bf[k]for k in af if k!='_place_air_landing_wheels'))
+undo=b.replace(bf['_place_air_landing_wheels'],af['_place_air_landing_wheels'],1)
+for name in new_helpers:undo=undo.replace(bf[name],'',1)
+ck('entire controller byteexact after removing only declared function changes',undo==a)
+ck('parent freedowner guard retained before cast','if typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw):return AABB()'in bf['_air_forecast_owner_bounds'])
+landing=bf['_place_air_landing_wheels'];witness=bf['_air_landing_finite_model_overlap']
+ck('new initial authority requires actual negative vertex on exact finiteowner shape',all(t in witness for t in ['typeof(support.get("shape"))!=TYPE_INT','for part:Dictionary in _grind_clearance._parts','pose*local','minimum>=0.0','vertex+axis*.35','vertex-axis*.50','hit.get("rid")==support.get("rid")','typeof(hit.get("shape"))==TYPE_INT','hit.shape==support.shape','Vector3(hit.normal).dot(axis)>=0.999','absf((Vector3(hit.position)-point).dot(axis))<=0.001','(vertex-Vector3(hit.position)).dot(axis)<0.0']))
+ck('actual finite vertex gate precedes any corrective pose write',landing.index('_air_landing_finite_model_overlap')<landing.index('_visual.global_transform=fitted'))
+ck('same4 bearing count normal plane range and native allpart/finalrim tests retained',all(t in landing for t in ['wheels.size()!=4','axis.y<=0.999','footprint+Vector3.UP*.35','footprint-Vector3.UP*.50','Vector3(hit.normal).dot(axis)<0.999','>0.001: return','for pass_index: int in 8','_manual_model_frame_clear(fitted*board_local)','_native_rim_frame_clear(_board_visual.global_transform,0.0)','_visual.transform=original_local']))
+ck('physical body/input/velocity/score state not modified in owned landing helpers',not any(re.search(r'(?<![.\w])'+name+r'\s*(?:[+*/-]?=)',landing+witness+bf['_air_landing_model_gap'])for name in ['velocity','global_position','global_transform','airborne','manual_active','_speed','score']))
+ck('only actual displayed orientation changes without lift', 'original.origin)'in landing and 'There is no translation/lift'in landing and '_visual.global_transform=fitted'in landing)
+before,after=j(N/'source-before.json'),j(N/'source-after.json');receipt,result=j(N/'receipt.json'),j(N/'result.json')
+ck('complete native07 inventories stable including three auxiliary sources',before==after and receipt['private_source_stable']and all(before[k]==sha(N/name)for k,name in [('OBSERVER','probe.gd'),('WRAPPER','run.py'),('AUX_GAIT_PAIRS','gait_pairs.gd'),('AUX_BEFORE_VISUAL','skater_visual_before_gait.gd'),('AUX_FINITE_CONTROLS','finite_landing_controls.gd')]))
+executed=(R/'.local/c04-camera-diagnosis/project/game/player/skater.gd').read_text();ef=functions(executed)
+ck('executed private controller source exact pinned native07 epoch',sha(R/'.local/c04-camera-diagnosis/project/game/player/skater.gd')==before['game/player/skater.gd']==h['files'][1]['executed_private_file_sha256'])
+ck('all three owned landing functions byteexact executed→rebased',all(ef[k]==bf[k]for k in new_helpers|{'_place_air_landing_wheels'}))
+rawold='\tvar body:=owner.get("collider") as CollisionObject3D\n';rawnew='\tvar raw:Variant=owner.get("collider")\n\tif typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw):return AABB()\n\tvar body:=raw as CollisionObject3D\n'
+ck('entire native07 controller differs from rebase only by parent freedguard',executed.replace(rawold,rawnew,1)==b)
+ck('Visual exact previously source-reviewed and executed candidate',before['game/player/skater_visual.gd']==sha(P/'skater_visual.gd')=='1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05')
+ck('actual C04 originalassertions unchanged and fullprivate11/0clean',receipt['exit_code']==0 and receipt['stop_reason']is None and not receipt['raw_errors']and result['passes']==11 and not result['failures']and result['current_bad_frames']==result['rendered_GTI_bad_frames']==0 and result['late_samples']==459)
+controls=result['finite_controls'];ck('all14 real finiteowner controls pass including falsebroad counterexample',controls['passed']and len(controls['checks'])==14 and all(controls['checks'].values())and controls['false_broad_gap_m']<-.09)
+pairs=result['gait_pairs']['records'];ck('2400 sourcepaired authoredVisualstates retain allposegaitbytes andfrozenbody',len(pairs)==10 and sum(x['samples']for x in pairs)==2400 and all(x['pose_and_gait_float32_bytes_equal']and x['physics_and_capsule_unchanged']and x['native_floor_valid']for x in pairs))
+control_source=(N/'finite_landing_controls.gd').read_text()
+ck('finitecontrols preserve saved originalarray and mutate only new syntheticparts',all(t in control_source for t in ['var saved:Array[Dictionary]=rider._grind_clearance._parts','var parts:Array[Dictionary]=[','rider._grind_clearance._parts=parts','rider._grind_clearance._parts=saved'])and 'saved['not in control_source and 'saved.clear'not in control_source)
+ck('falsebroad controls perform actual native componentqueries and all4bearingray proofs',all(t in control_source for t in ['space.intersect_shape(query,16)','actual_components_clear and space.intersect_shape(query,1).is_empty()','bearing_proofs==4','false_gap<0','outside_refused']))
+# Independent dataset cardinality and worst-case operation arithmetic.
+native=j(R/'.local/board-fidelity/native-component-08/native-result.json')['records'][1]
+parts=len(native['component_parts']);points=sum(len(base64.b64decode(p['points']['base64']))//12 for p in native['component_parts'])
+ure=np.frombuffer(base64.b64decode(native['surfaces'][3]['positions']['base64']),dtype='<f4').reshape(-1,3);wheel_points=int((np.abs(ure[:,0])>.09).sum())
+ck('retained native source cache32parts2953points plus640wheelvertices',parts==32 and points==2953 and wheel_points==640)
+ck('math/nativequery operation upperbounds independently recompute',10*(points+wheel_points)+points==38883 and 4+1+1+4+parts+4+parts==78 and 4+4+4+parts+4+parts==80)
+report={'passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'verdict':'Exact two-file source rebase and private native07 support guarded integration followed by actual current focused/full regression. Earlier whole-broad-hull authority gap is repaired by a real negative-vertex finite-owner witness. No full motion/AAA/M5 award.','native_scope':{'C04':[11,0],'finite_owner_controls':[14,0],'authored_visual_states':2400,'late_current_GTI_samples':459,'badframes':[0,0],'source_before_sha256':sha(N/'source-before.json'),'native_pid':receipt['pid'],'utc_start':receipt['start_utc'],'utc_end':receipt['end_utc']},'operation_bound':{'cached_parts':parts,'cached_part_points':points,'raw_wheel_points':wheel_points,'max_gap_evaluations':10,'max_transformed_point_gap_evaluations_including_witness':38883,'max_native_calls':78,'previous_max_native_calls':80,'runtime_timing_measured':False},'limits':['Private C04 construction+bridge prefix+bankreturn differs from earlier actualfullrequired02 coast/preceding test order. Fresh actual focus and fullcheck remain required.','2400 authored Visual states under frozen genuine native floor/body are not2400 movingphysicsframes.','Current/GTI native API geometry visibility is not an actual GPU/readback or normal-speed motion proof.','A conservative lowestvertex outsidefiniteowner refuses ratherthan searching unbounded vertices; affected finiteedge/miss/ordinaryair/trick neighbours need regression.','All existing current ray/support/plane/skin/board/camera/capsule proofs remain; no physics,input,score orbodytranslation changed.','Finitecontrols use disclosed synthetic BoxMesh/cachedparts and real native collision/ray queries; not ordinary visibleboard/gameplay acceptance.','Native-call and math bounds are explicit; no elapsed CPU,M5,Metal,package or whole-game performance admission.','Old native01–06 rejections and after-only03auxiliary-source limit remain unchanged.']}
+O=R/'docs/testing/rider-fit-2026-11-07/finite-landing-native07-independent';O.mkdir(parents=True,exist_ok=True)
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(Path(__file__),O/'independent-audit.py.txt');shutil.copyfile(P/'handoff.json',O/'handoff.json')
+for name in ['skater.gd','skater.gd.before','skater.gd.patch','skater_visual.gd','skater_visual.gd.before','skater_visual.gd.patch']:
+ shutil.copyfile(P/name,O/(name+'.txt'))
+for name in ['receipt.json','source-before.json','source-after.json','result.json','native.log','probe.gd','run.py','finite_landing_controls.gd','gait_pairs.gd','skater_visual_before_gait.gd']:
+ (O/(name+'.gz')).write_bytes(gzip.compress((N/name).read_bytes(),mtime=0))
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'failures':[c for c in checks if not c['pass']]}))
+if report['failed']:raise SystemExit(1)

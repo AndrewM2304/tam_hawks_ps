@@ -1,0 +1,49 @@
+{
+  "gaps": 8,
+  "world_routes": 66,
+  "hud_routes": 67,
+  "grind_lines": 242,
+  "all_grind_ids_unique": true,
+  "result": {
+    "failed": 1,
+    "failures": [
+      "C04-L05: the moved bank's full crossing, coast and bowl-side return keep strict ordinary full-body chase clearance"
+    ],
+    "modules": [
+      {
+        "failed": 0,
+        "module": "original_legacyMainTransition",
+        "passed": 23
+      },
+      {
+        "failed": 0,
+        "module": "registered_publicRoundContact",
+        "passed": 67
+      },
+      {
+        "failed": 0,
+        "module": "original_defaultMainMotion_and_nativeSupport",
+        "passed": 32
+      },
+      {
+        "failed": 1,
+        "module": "original_fullClydeLocalPrefix_and_bankReturn",
+        "passed": 10
+      }
+    ],
+    "passed": 133,
+    "scope": "Actual installed modules and original inputs/checks: legacy Main Transition/publicRound, separate default Main Motion/nativeSupport and complete Clyde local prefix/bank return. No pixel/moving/M5/performance claim; ordinary full-runner global order remains separate."
+  },
+  "source_input_count": 891,
+  "source_stable": true,
+  "cache_scope": "Only recorded board descriptor/cooked binary +UID/class pins before/after; not all imported caches",
+  "base_commit": "65f045ef500d0e193cb545e376610cc8e2af5727",
+  "archived_sources": 831,
+  "archived_cache_pins": 5,
+  "binary_git_references": 60,
+  "player_guide_before_bound": false,
+  "scope_corrections": [
+    "Actual guide path docs/PLAYER-GUIDE.md omitted by original launcher; missing PLAYER_GUIDE.md silently skipped",
+    "Original complete is execution completeness, not pass; native exit1 rejects whole epoch"
+  ]
+}

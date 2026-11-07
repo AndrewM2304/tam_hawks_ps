@@ -1,0 +1,121 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+TRANSITION_MAIN_CONSTRUCT
+TRANSITION_MAIN_READY 36
+PASS transition player: actual push approach launches from the true promenade vertical lip
+PASS transition player: associated vert air applies full gravity exactly once per physics step
+PASS transition player: held ollie in associated air cannot crouch or invent a directional transfer
+PASS transition player: ordinary vertical takeoff manufactures no ollie or automatic spin award
+PASS transition player: descending real contact finishes one clean airborne trick segment
+PASS transition player: actual apex rises above the deck with a finite chase-camera path
+PASS transition player: a flip returning to curved support opens the normal bank deadline
+PASS transition player: continued supported descent cannot refresh its landing window
+PASS transition player: the flip banks once through the physical toe exit
+PASS transition player: ordinary rollout cannot duplicate the vert landing or its bank
+TRANSITION_PLAYER_NATIVE_LIP actorY=8.41399955749512 nativeCrown=8.41199970245361 rideOffset=0.002 hit={ "position": (-98.42, 8.412, -130.0), "normal": (0.0, 1.0, 0.0), "face_index": -1, "collider_id": 165926672371, "collider": NativeSteelCoping:<StaticBody3D#165926672371>, "shape": 0, "rid": RID(16892106375563) }
+PASS transition player: held grind catches and names the actual coping once
+PASS transition player: a held balanced lip preserves its link without repeated stall awards
+PASS transition player: production pause freezes coping position and balance
+PASS transition player: release starts the bank window on actual supported drop-in
+PASS transition player: ordinary curved support cannot keep a released lip combo alive forever
+PASS transition player: actual lip drop-out restores the normal collision capsule at the toe
+TRANSITION_AIR_GRIND_TRACE begin_grind at=(-98.32281, 11.86512, -130.5829) velocity=(0.291545, 0.813761, -2.106949) transition=true state=air airborne=true grinding=false request=false cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42001, 8.412, -130.5829), "body_target": (-98.42, 8.427, -130.5829), "body_gap": 3.43949127197266, "height": 3.43811798095703, "alignment": 0.99056178331375, "offset": 4.5828709602356, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_0 at=(-98.31795, 11.87257, -130.618) velocity=(0.291545, 0.447095, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42, 8.412, -130.618), "body_target": (-98.42, 8.427, -130.618), "body_gap": 3.4470808506012, "height": 3.44556999206543, "alignment": 0.99056178331375, "offset": 4.61796569824219, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_3 at=(-98.30337, 11.85826, -130.7233) velocity=(0.291545, -0.652905, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42, 8.412001, -130.7234), "body_target": (-98.42, 8.427, -130.7234), "body_gap": 3.43324065208435, "height": 3.43125915527344, "alignment": 0.99056178331375, "offset": 4.72338771820068, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_6 at=(-98.28879, 11.78895, -130.8286) velocity=(0.291545, -1.752905, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42001, 8.412, -130.8286), "body_target": (-98.42, 8.427, -130.8286), "body_gap": 3.36450743675232, "height": 3.36194801330566, "alignment": 0.99056178331375, "offset": 4.82855844497681, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_9 at=(-98.27421, 11.66464, -130.934) velocity=(0.291545, -2.852905, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42, 8.412, -130.934), "body_target": (-98.42, 8.427, -130.934), "body_gap": 3.24091720581055, "height": 3.23763656616211, "alignment": 0.99056178331375, "offset": 4.9339599609375, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_12 at=(-98.25963, 11.48532, -131.0393) velocity=(0.291545, -3.952904, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42, 8.412, -131.0393), "body_target": (-98.42, 8.427, -131.0393), "body_gap": 3.06252670288086, "height": 3.05832481384277, "alignment": 0.99056178331375, "offset": 5.03929138183594, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_15 at=(-98.24505, 11.25101, -131.1446) velocity=(0.291545, -5.052905, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42, 8.412, -131.1446), "body_target": (-98.42, 8.427, -131.1446), "body_gap": 2.82942676544189, "height": 2.82401275634766, "alignment": 0.99056178331375, "offset": 5.14462280273438, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_18 at=(-98.23047, 10.9617, -131.25) velocity=(0.291545, -6.152905, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42001, 8.412, -131.25), "body_target": (-98.42, 8.427, -131.25), "body_gap": 2.54177641868591, "height": 2.53470039367676, "alignment": 0.99056178331375, "offset": 5.24998664855957, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_21 at=(-98.21589, 10.61739, -131.3553) velocity=(0.291545, -7.252905, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42001, 8.412, -131.3553), "body_target": (-98.42, 8.427, -131.3553), "body_gap": 2.1998770236969, "height": 2.19038772583008, "alignment": 0.99056178331375, "offset": 5.35532093048096, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_24 at=(-98.20131, 10.21807, -131.4606) velocity=(0.291545, -8.352905, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42, 8.412001, -131.4607), "body_target": (-98.42, 8.427, -131.4607), "body_gap": 1.80437624454498, "height": 1.79107475280762, "alignment": 0.99056178331375, "offset": 5.46065616607666, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_27 at=(-98.18673, 9.763762, -131.5659) velocity=(0.291545, -9.452906, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42, 8.412, -131.566), "body_target": (-98.42, 8.427, -131.566), "body_gap": 1.35696184635162, "height": 1.33676147460938, "alignment": 0.99056178331375, "offset": 5.56598949432373, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_TRACE tick_30 at=(-98.17215, 9.254451, -131.6713) velocity=(0.291545, -10.55291, -2.106949) transition=true state=air airborne=true grinding=false request=true cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42, 8.412, -131.6713), "body_target": (-98.42, 8.427, -131.6713), "body_gap": 0.86377292871475, "height": 0.8274507522583, "alignment": 0.99056178331375, "offset": 5.67127990722656, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+AIR_COPING_CAPSULE_CAST from=(-98.16243, 8.884355, -131.7415) to=(-98.42, 8.427, -131.7415) motion=(-0.257568, -0.457355, -0.000046) fractions=[1.0, 1.0]
+TRANSITION_AIR_GRIND_TRACE tick_33 at=(-98.42, 8.427, -131.7415) velocity=(0.0, 0.0, -2.125016) transition=false state=idle airborne=false grinding=true request=false cooldown=0.0 candidates=[{ "id": "Grind_KelvingrovePromenadeQuarter_Coping", "guide": (-98.42001, 8.412, -131.7415), "body_target": (-98.42, 8.427, -131.7415), "body_gap": 0.0, "height": 0.0, "alignment": 1.0, "offset": 5.74154663085938, "verified": true, "edge_outward": (0.0, 0.0, 0.0) }]
+TRANSITION_AIR_GRIND_RESULT captured=true line=Grind_KelvingrovePromenadeQuarter_Coping at=(-98.42, 8.427, -131.7415) velocity=(0.0, 0.0, -2.125016) transition=false clearance= obstruction={  }
+PASS transition player: deliberate lateral vert air can hand off to the real coping grind
+PASS transition player: successful coping capture restores upright collision before rail motion
+PASS transition player: held approach push cannot accidentally transfer over the deck
+PASS transition player: a fresh airborne push deliberately transfers across the physical deck
+PASS transition player: first ordinary transfer frame retains vertical momentum and applies gravity once
+PASS transition player: stale transition floor flags cannot grant a coyote pop on airborne ollie release
+PASS transition player: deck transfer completes an ordinary real landing above the quay
+PASS round coping: actual admitted native skateboard cache has32components
+PASS round coping: exact live cylinder/feature/deck/crown profile 0.0
+PASS round coping: neutral roll derived from actual32-component wheel geometry
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=-1.0 boardyaw=0.0 featureyaw=0.0
+ROUND_COPING_POSITIVE { "feature_yaw": 0.0, "direction": -1.0, "board_yaw": 0.0, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(45707041964610)", "shape": 0, "frame": "[X: (0.0, 0.048256, -0.998835), Y: (0.0, 0.998835, 0.048256), Z: (1.0, 0.0, 0.0), O: (0.0, 72.51485, -2.413582)]" }
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=-1.0 boardyaw=3.14159265358979 featureyaw=0.0
+ROUND_COPING_POSITIVE { "feature_yaw": 0.0, "direction": -1.0, "board_yaw": 3.14159265358979, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(45707041964610)", "shape": 0, "frame": "[X: (0.0, -0.048256, 0.998835), Y: (0.0, 0.998835, 0.048256), Z: (-1.0, 0.0, 0.0), O: (0.0, 72.51485, -2.413582)]" }
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=1.0 boardyaw=0.0 featureyaw=0.0
+ROUND_COPING_POSITIVE { "feature_yaw": 0.0, "direction": 1.0, "board_yaw": 0.0, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(45707041964610)", "shape": 0, "frame": "[X: (0.0, -0.048256, 0.998835), Y: (0.0, 0.998835, 0.048256), Z: (-1.0, 0.0, 0.0), O: (0.0, 72.51485, -2.413582)]" }
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=1.0 boardyaw=3.14159265358979 featureyaw=0.0
+ROUND_COPING_POSITIVE { "feature_yaw": 0.0, "direction": 1.0, "board_yaw": 3.14159265358979, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(45707041964610)", "shape": 0, "frame": "[X: (0.0, 0.048256, -0.998835), Y: (0.0, 0.998835, 0.048256), Z: (1.0, 0.0, 0.0), O: (0.0, 72.51485, -2.413582)]" }
+PASS round coping negative: wrong/NaN/zero native radius nan rejects native profile/solve/generic fallback
+PASS round coping negative: wrong/NaN/zero native radius 0.0 rejects native profile/solve/generic fallback
+PASS round coping negative: wrong/NaN/zero native radius 0.04 rejects native profile/solve/generic fallback
+PASS round coping negative: wrong/NaN actual native deck reveal nan rejects native profile/solve/generic fallback
+PASS round coping negative: wrong/NaN actual native deck reveal 0.02 rejects native profile/solve/generic fallback
+PASS round coping negative: zero/opposite/vertical/NaN outward (0.0, 0.0, 0.0) rejects native profile/solve/generic fallback
+PASS round coping negative: zero/opposite/vertical/NaN outward (0.0, 0.0, -1.0) rejects native profile/solve/generic fallback
+PASS round coping negative: zero/opposite/vertical/NaN outward (0.0, 1.0, 0.0) rejects native profile/solve/generic fallback
+PASS round coping negative: zero/opposite/vertical/NaN outward (nan, 0.0, 0.0) rejects native profile/solve/generic fallback
+PASS round coping negative: wrong integer shape rejects native profile/solve/generic fallback
+PASS round coping negative: foreign declared source rejects native profile/solve/generic fallback
+PASS round coping negative: wrong feature object rejects native profile/solve/generic fallback
+PASS round coping negative: moved native body cannot retain old crown rejects native profile/solve/generic fallback
+PASS round coping negative: scaled native body rejects native profile/solve/generic fallback
+ERROR: The object does not have any 'meta' values with the key 'coping_feature'.
+   at: get_meta (core/object/object.cpp:1177)
+   GDScript backtrace (most recent call first):
+       [0] round_contact_live (res://game/tricks/grind_line.gd:180)
+       [1] _refused (res://tests/round_coping_contact_tests.gd:59)
+       [2] _negatives (res://tests/round_coping_contact_tests.gd:99)
+       [3] run (res://tests/round_coping_contact_tests.gd:40)
+ERROR: The object does not have any 'meta' values with the key 'coping_feature'.
+   at: get_meta (core/object/object.cpp:1177)
+   GDScript backtrace (most recent call first):
+       [0] round_contact_live (res://game/tricks/grind_line.gd:180)
+       [1] _solve_grind_contact (res://game/player/skater.gd:2141)
+       [2] _refused (res://tests/round_coping_contact_tests.gd:59)
+       [3] _negatives (res://tests/round_coping_contact_tests.gd:99)
+       [4] run (res://tests/round_coping_contact_tests.gd:40)
+ERROR: The object does not have any 'meta' values with the key 'coping_feature'.
+   at: get_meta (core/object/object.cpp:1177)
+   GDScript backtrace (most recent call first):
+       [0] round_contact_live (res://game/tricks/grind_line.gd:180)
+       [1] _grind_candidate_supported (res://game/player/skater.gd:2166)
+       [2] _refused (res://tests/round_coping_contact_tests.gd:59)
+       [3] _negatives (res://tests/round_coping_contact_tests.gd:99)
+       [4] run (res://tests/round_coping_contact_tests.gd:40)
+PASS round coping negative: foreign actual body/BoxShape rejects native profile/solve/generic fallback
+PASS round coping negative: unverified contact cannot become legacy fallback rejects native profile/solve/generic fallback
+PASS round coping: fixture restored after malformed profile controls
+PASS round coping negative: real hanger rays beyond finite native ends fail
+PASS round coping negative: actual foreign blocker remains in full native model queries
+PASS round coping: foreign blocker removal restores same authentic target
+PASS round coping: freed native owner refuses before cast/query or generic fallback
+PASS round coping: exact live cylinder/feature/deck/crown profile 1.5707963267949
+PASS round coping: neutral roll derived from actual32-component wheel geometry
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=-1.0 boardyaw=0.0 featureyaw=1.5707963267949
+ROUND_COPING_POSITIVE { "feature_yaw": 1.5707963267949, "direction": -1.0, "board_yaw": 0.0, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(46140833661506)", "shape": 0, "frame": "[X: (-0.998835, 0.048256, 0.0), Y: (0.048256, 0.998835, 0.0), Z: (0.0, 0.0, -1.0), O: (-2.413582, 72.51485, 0.0)]" }
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=-1.0 boardyaw=3.14159265358979 featureyaw=1.5707963267949
+ROUND_COPING_POSITIVE { "feature_yaw": 1.5707963267949, "direction": -1.0, "board_yaw": 3.14159265358979, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(46140833661506)", "shape": 0, "frame": "[X: (0.998835, -0.048256, 0.0), Y: (0.048256, 0.998835, 0.0), Z: (0.0, 0.0, 1.0), O: (-2.413582, 72.51485, 0.0)]" }
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=1.0 boardyaw=0.0 featureyaw=1.5707963267949
+ROUND_COPING_POSITIVE { "feature_yaw": 1.5707963267949, "direction": 1.0, "board_yaw": 0.0, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(46140833661506)", "shape": 0, "frame": "[X: (0.998835, -0.048256, 0.0), Y: (0.048256, 0.998835, 0.0), Z: (0.0, 0.0, 1.0), O: (-2.413582, 72.51485, 0.0)]" }
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=1.0 boardyaw=3.14159265358979 featureyaw=1.5707963267949
+ROUND_COPING_POSITIVE { "feature_yaw": 1.5707963267949, "direction": 1.0, "board_yaw": 3.14159265358979, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(46140833661506)", "shape": 0, "frame": "[X: (-0.998835, 0.048256, 0.0), Y: (0.048256, 0.998835, 0.0), Z: (0.0, 0.0, -1.0), O: (-2.413582, 72.51485, 0.0)]" }
+PASS round coping: freed native owner refuses before cast/query or generic fallback
+PASS round coping: exact live cylinder/feature/deck/crown profile -0.61
+PASS round coping: neutral roll derived from actual32-component wheel geometry
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=-1.0 boardyaw=0.0 featureyaw=-0.61
+ROUND_COPING_POSITIVE { "feature_yaw": -0.61, "direction": -1.0, "board_yaw": 0.0, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(46557445489218)", "shape": 0, "frame": "[X: (0.5722, 0.048256, -0.818693), Y: (-0.027644, 0.998835, 0.039553), Z: (0.819648, 0.0, 0.572867), O: (1.382663, 72.51485, -1.978288)]" }
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=-1.0 boardyaw=3.14159265358979 featureyaw=-0.61
+ROUND_COPING_POSITIVE { "feature_yaw": -0.61, "direction": -1.0, "board_yaw": 3.14159265358979, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(46557445489218)", "shape": 0, "frame": "[X: (-0.5722, -0.048256, 0.818693), Y: (-0.027644, 0.998835, 0.039553), Z: (-0.819648, 0.0, -0.572867), O: (1.382663, 72.51485, -1.978288)]" }
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=1.0 boardyaw=0.0 featureyaw=-0.61
+ROUND_COPING_POSITIVE { "feature_yaw": -0.61, "direction": 1.0, "board_yaw": 0.0, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(46557445489218)", "shape": 0, "frame": "[X: (-0.5722, -0.048256, 0.818693), Y: (-0.027644, 0.998835, 0.039553), Z: (-0.819648, 0.0, -0.572867), O: (1.382663, 72.51485, -1.978288)]" }
+PASS round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction=1.0 boardyaw=3.14159265358979 featureyaw=-0.61
+ROUND_COPING_POSITIVE { "feature_yaw": -0.61, "direction": 1.0, "board_yaw": 3.14159265358979, "roll": 0.04827480869424, "anchor_error": 0.00000011920929, "deck_vertex_gap": 0.00010193139315, "owner": "RID(46557445489218)", "shape": 0, "frame": "[X: (0.5722, 0.048256, -0.818693), Y: (-0.027644, 0.998835, 0.039553), Z: (0.819648, 0.0, 0.572867), O: (1.382663, 72.51485, -1.978288)]" }
+PASS round coping: freed native owner refuses before cast/query or generic fallback
+REQUIRED02_FOCUSED_RESULT 65/0

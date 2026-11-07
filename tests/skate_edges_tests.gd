@@ -24,7 +24,7 @@ const ORIGINAL_ROUTE_IDS := [
 const PT24_ROUTE_IDS := [
 	"recording_court_return", "exchange_east_quay_handoff", "civic_backstreet_ledge_return",
 	"station_transition_handoff", "clyde_west_landing_return",
-	"clyde_cable_transfer_west", "clyde_cable_transfer_east"]
+	"clyde_cable_transfer_west", "clyde_cable_transfer_east", "clyde_east_quay_wall_return"]
 const POND_ROUTE_IDS := ["kelvingrove_pond_dry_bypass","kelvingrove_pond_rail_approach"]
 
 static func run(world: Node3D,check: Callable) -> void:
@@ -36,7 +36,7 @@ static func run(world: Node3D,check: Callable) -> void:
 	var lines: Array=Edges.build(world)
 	check.call(_node_count(world)==before_nodes,"skate edges: startup authoring adds no render nodes or colliders")
 	check.call(world.get_route_definitions()==routes and route_identities_preserved(routes,world.get_node_or_null("KelvingrovePond")!=null),
-		"skate edges: all56 fixed prior routes, seven connected routes and exactly the installed pond routes remain unique and unchanged by edge registration")
+		"skate edges: all56 fixed prior routes, eight connected routes and exactly the installed pond routes remain unique and unchanged by edge registration")
 	var ids: Array[String]=[]
 	var unique := true
 	var valid := true
@@ -102,7 +102,7 @@ static func route_identities_preserved(routes: Array,include_pond: bool=false) -
 	for route: Dictionary in routes:
 		if identities.has(route.id):return false
 		identities[route.id] = true
-	if ORIGINAL_ROUTE_IDS.size()!=56 or PT24_ROUTE_IDS.size()!=7 or routes.size()!=63+(POND_ROUTE_IDS.size() if include_pond else 0):return false
+	if ORIGINAL_ROUTE_IDS.size()!=56 or PT24_ROUTE_IDS.size()!=8 or routes.size()!=64+(POND_ROUTE_IDS.size() if include_pond else 0):return false
 	for id: String in ORIGINAL_ROUTE_IDS:
 		if not identities.has(id):return false
 	for id: String in PT24_ROUTE_IDS:

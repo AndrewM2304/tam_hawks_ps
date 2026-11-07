@@ -1,0 +1,2512 @@
+{
+  "scope": "author structural/provenance consistency audit only; no engine/render/native gameplay tests",
+  "counts": {
+    "passed": 624,
+    "failed": 0
+  },
+  "files": {
+    "docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.json": "0d257ef6356183dd31dd5774772d8734d1fee2458f5c49c7b6bf664b95b595ef",
+    "docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md": "58a7b5579cabdc3b9092a4e041d535a56d868535f0bdb5ac541e8a53e20260d0",
+    "docs/planning/GAP-LINE-TICKETS.md": "09c4622a35b1ab06b6c7a798417dd183672be3910f0935b09fcad08eb0667bc5",
+    "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/live-registry-01/public-registry.json": "f470a95ada8c6fe765cbaa596b96c1a76cc7d30d798644245259bcbff7425a59",
+    "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/live-registry-01/receipt.json": "ddfecdfe56adb0e39b296dad5bbd8c1986a2b96b90877896e502434d020ba330"
+  },
+  "checks": [
+    {
+      "label": "exact raw native snapshot preserved",
+      "passed": true
+    },
+    {
+      "label": "exact rejected native wrapper receipt preserved",
+      "passed": true
+    },
+    {
+      "label": "native parent source manifest stable",
+      "passed": true
+    },
+    {
+      "label": "native parent import cache stable",
+      "passed": true
+    },
+    {
+      "label": "actual parent rejection retained133/1 exit1",
+      "passed": true
+    },
+    {
+      "label": "scored_gaps records unique and complete",
+      "passed": true
+    },
+    {
+      "label": "authored_routes records unique and complete",
+      "passed": true
+    },
+    {
+      "label": "grind_opportunities records unique and complete",
+      "passed": true
+    },
+    {
+      "label": "every native scored gap accounted",
+      "passed": true
+    },
+    {
+      "label": "every native HUD route accounted",
+      "passed": true
+    },
+    {
+      "label": "every native grind ID accounted",
+      "passed": true
+    },
+    {
+      "label": "66 world routes",
+      "passed": true
+    },
+    {
+      "label": "fixed56/8/2 registry matches complete world set",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump gallery_west_close",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references gallery_west_close",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump gallery_east_close",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references gallery_east_close",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump exchange_west_quay_close",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references exchange_west_quay_close",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump exchange_east_quay_close",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references exchange_east_quay_close",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_east_quay_close",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump cat_coping_approach",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references cat_coping_approach",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_coping_approach",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_coping_approach",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_coping_approach",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump cat_coping_runout",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references cat_coping_runout",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_coping_runout",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_coping_runout",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_coping_runout",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified cat_ordered_coping_line",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump cat_workshop_bypass",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references cat_workshop_bypass",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_workshop_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump market_hall_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references market_hall_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified market_hall_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump gallery_entrance_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references gallery_entrance_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified gallery_entrance_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump gallery_entrance_front_return",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references gallery_entrance_front_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified gallery_entrance_front_return",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump gallery_entrance_bypass",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references gallery_entrance_bypass",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified gallery_entrance_bypass",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified gallery_entrance_bypass",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified gallery_entrance_bypass",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified gallery_entrance_bypass",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump exchange_west_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references exchange_west_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_west_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_west_bank_loop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump exchange_west_bypass",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references exchange_west_bypass",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump barras_covered_delivery_lane",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references barras_covered_delivery_lane",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_covered_delivery_lane",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump barras_west_delivery_lane",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references barras_west_delivery_lane",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump barras_market_inner_loop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references barras_market_inner_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_market_inner_loop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump barras_market_outer_loop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references barras_market_outer_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_market_outer_loop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump barras_covered_loading_link",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references barras_covered_loading_link",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_covered_loading_link",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_covered_loading_link",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump gallery_civic_ascent",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references gallery_civic_ascent",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_fountain_loop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump central_south_link",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references central_south_link",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump central_north_link",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references central_north_link",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified central_north_link",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump barras_south_link",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references barras_south_link",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump barras_north_link",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references barras_north_link",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_north_link",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_north_link",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump central_back_lane",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references central_back_lane",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump barras_back_lane",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references barras_back_lane",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_back_lane",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump central_high_line",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references central_high_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified central_high_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified central_high_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified central_high_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified central_high_line",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump central_high_line_bypass",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references central_high_line_bypass",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump market_loading_ascent",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references market_loading_ascent",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump gallery_step_drop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references gallery_step_drop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump market_step_drop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references market_step_drop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump merchant_service_east_return",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references merchant_service_east_return",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump merchant_service_west_return",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references merchant_service_west_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified merchant_service_west_return",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump merchant_close_cutthrough",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references merchant_close_cutthrough",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump station_low_level_close",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references station_low_level_close",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump station_park_port",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references station_park_port",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump civic_park_port",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references civic_park_port",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump kelvingrove_summit_skatepark",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references kelvingrove_summit_skatepark",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_summit_skatepark",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_summit_skatepark",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_summit_skatepark",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_summit_skatepark",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_print_yard_hip",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_print_yard_hip",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_print_yard_hip",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_print_yard_hip",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_north_quay",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_north_quay",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_north_quay",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_north_quay",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_safe_crossing",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_safe_crossing",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_print_yard_loop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_print_yard_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_print_yard_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_print_yard_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_print_yard_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_print_yard_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_print_yard_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_print_yard_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_print_yard_loop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump kelvingrove_central_climb",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references kelvingrove_central_climb",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump kelvingrove_george_promenade",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references kelvingrove_george_promenade",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump kelvingrove_rolling_loop",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references kelvingrove_rolling_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_rolling_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_rolling_loop",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_rolling_loop",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump kelvingrove_cutback_return",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references kelvingrove_cutback_return",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump exchange_east_quay_handoff",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references exchange_east_quay_handoff",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_east_quay_handoff",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump civic_backstreet_ledge_return",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references civic_backstreet_ledge_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_backstreet_ledge_return",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump station_transition_handoff",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references station_transition_handoff",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified station_transition_handoff",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_west_landing_return",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_west_landing_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_west_landing_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_west_landing_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_west_landing_return",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_east_quay_wall_return",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump recording_court_return",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references recording_court_return",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified recording_court_return",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump exchange_south_line",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references exchange_south_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified exchange_south_line",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump civic_lower_island",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references civic_lower_island",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified civic_lower_island",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump station_low_manual",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references station_low_manual",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified station_low_manual",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump barras_forecourt_line",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references barras_forecourt_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_forecourt_line",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified barras_forecourt_line",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_south_link",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_south_link",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_link",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_link",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_link",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_south_east_west",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump kelvingrove_pond_dry_bypass",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references kelvingrove_pond_dry_bypass",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump kelvingrove_pond_rail_approach",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references kelvingrove_pond_rail_approach",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_pond_rail_approach",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump kelvingrove_facility_beginner",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references kelvingrove_facility_beginner",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_facility_beginner",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_facility_beginner",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_facility_beginner",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_facility_beginner",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified kelvingrove_facility_beginner",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_cable_transfer_west",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_cable_transfer_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_west",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_west",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump clyde_cable_transfer_east",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references clyde_cable_transfer_east",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_east",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_east",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_east",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_east",
+      "passed": true
+    },
+    {
+      "label": "nearby guide never falsely certified clyde_cable_transfer_east",
+      "passed": true
+    },
+    {
+      "label": "native exact points/jump service_gate_shortcut",
+      "passed": true
+    },
+    {
+      "label": "individual handoff references service_gate_shortcut",
+      "passed": true
+    },
+    {
+      "label": "gap explicit unadmitted continuation exchange_launch",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope exchange_launch approach_launch",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope exchange_launch landing_runout",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope exchange_launch next_meaningful_trick_or_return",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope exchange_launch speed_envelope",
+      "passed": true
+    },
+    {
+      "label": "gap explicit unadmitted continuation central_gap",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope central_gap approach_launch",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope central_gap landing_runout",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope central_gap next_meaningful_trick_or_return",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope central_gap speed_envelope",
+      "passed": true
+    },
+    {
+      "label": "gap explicit unadmitted continuation market_hop",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope market_hop approach_launch",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope market_hop landing_runout",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope market_hop next_meaningful_trick_or_return",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope market_hop speed_envelope",
+      "passed": true
+    },
+    {
+      "label": "gap explicit unadmitted continuation clyde_bridge_transfer",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_bridge_transfer approach_launch",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_bridge_transfer landing_runout",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_bridge_transfer next_meaningful_trick_or_return",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_bridge_transfer speed_envelope",
+      "passed": true
+    },
+    {
+      "label": "gap explicit unadmitted continuation clyde_handrail_to_cable_west",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_handrail_to_cable_west approach_launch",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_handrail_to_cable_west landing_runout",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_handrail_to_cable_west next_meaningful_trick_or_return",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_handrail_to_cable_west speed_envelope",
+      "passed": true
+    },
+    {
+      "label": "gap explicit unadmitted continuation clyde_cable_to_handrail_west",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_cable_to_handrail_west approach_launch",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_cable_to_handrail_west landing_runout",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_cable_to_handrail_west next_meaningful_trick_or_return",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_cable_to_handrail_west speed_envelope",
+      "passed": true
+    },
+    {
+      "label": "gap explicit unadmitted continuation clyde_handrail_to_cable_east",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_handrail_to_cable_east approach_launch",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_handrail_to_cable_east landing_runout",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_handrail_to_cable_east next_meaningful_trick_or_return",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_handrail_to_cable_east speed_envelope",
+      "passed": true
+    },
+    {
+      "label": "gap explicit unadmitted continuation clyde_cable_to_handrail_east",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_cable_to_handrail_east approach_launch",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_cable_to_handrail_east landing_runout",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_cable_to_handrail_east next_meaningful_trick_or_return",
+      "passed": true
+    },
+    {
+      "label": "per-gap scope clyde_cable_to_handrail_east speed_envelope",
+      "passed": true
+    },
+    {
+      "label": "12 arena lines remain current-return open",
+      "passed": true
+    },
+    {
+      "label": "3 circuit candidates not fabricated admission",
+      "passed": true
+    },
+    {
+      "label": "two-bank quay return kept distinct",
+      "passed": true
+    },
+    {
+      "label": "wider physical transfers and wall-eligible inventory retained",
+      "passed": true
+    },
+    {
+      "label": "score triggers distinguished from physical jumps",
+      "passed": true
+    },
+    {
+      "label": "family source bindings exchange_gallery_cheeks",
+      "passed": true
+    },
+    {
+      "label": "family source bindings exchange_entrance_stair_chain",
+      "passed": true
+    },
+    {
+      "label": "family source bindings exchange_shop_bank_return",
+      "passed": true
+    },
+    {
+      "label": "family source bindings exchange_east_south_handoff",
+      "passed": true
+    },
+    {
+      "label": "family source bindings civic_cat_transfers",
+      "passed": true
+    },
+    {
+      "label": "family source bindings civic_lower_grade",
+      "passed": true
+    },
+    {
+      "label": "family source bindings civic_park_quarter",
+      "passed": true
+    },
+    {
+      "label": "family source bindings station_upper_lower",
+      "passed": true
+    },
+    {
+      "label": "family source bindings station_spine",
+      "passed": true
+    },
+    {
+      "label": "family source bindings station_bank_pipe",
+      "passed": true
+    },
+    {
+      "label": "family source bindings station_service_rail",
+      "passed": true
+    },
+    {
+      "label": "family source bindings barras_loading_hall",
+      "passed": true
+    },
+    {
+      "label": "family source bindings barras_recording_edge",
+      "passed": true
+    },
+    {
+      "label": "family source bindings barras_opposed_market",
+      "passed": true
+    },
+    {
+      "label": "family source bindings barras_east_backstreet",
+      "passed": true
+    },
+    {
+      "label": "family source bindings clyde_transition_street",
+      "passed": true
+    },
+    {
+      "label": "family source bindings clyde_quay_bridge",
+      "passed": true
+    },
+    {
+      "label": "family source bindings clyde_west_cable",
+      "passed": true
+    },
+    {
+      "label": "family source bindings clyde_east_cable",
+      "passed": true
+    },
+    {
+      "label": "family source bindings clyde_yard_hip_relay",
+      "passed": true
+    },
+    {
+      "label": "family source bindings clyde_bowl_bank",
+      "passed": true
+    },
+    {
+      "label": "family source bindings clyde_east_seats_wall",
+      "passed": true
+    },
+    {
+      "label": "family source bindings park_summit_downhill",
+      "passed": true
+    },
+    {
+      "label": "family source bindings park_cutback_fork",
+      "passed": true
+    },
+    {
+      "label": "family source bindings park_station_graded",
+      "passed": true
+    },
+    {
+      "label": "family source bindings park_practice",
+      "passed": true
+    },
+    {
+      "label": "family source bindings park_facility_bowls",
+      "passed": true
+    },
+    {
+      "label": "family source bindings park_pond_optional",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_GalleryCheek_West_Outer",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_GalleryCheek_West_Inner",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_GalleryCheek_East_Inner",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_GalleryCheek_East_Outer",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Coping_ExchangeFountain",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_GalleryEntrance",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_ExchangeShops",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_Exchange",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_Tenement",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_GallerySteps",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_Court",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_MerchantClose",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_WorkshopTerrace",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Cat_A",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Cat_B",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Cat_C",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_Civic_Return_Left",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_Civic_Right",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_George",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_Civic",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_CentralPlatformSouth",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_CentralPlatformNorth",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_CentralPlatform",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_CentralGround",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_StationUpperWalk",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_ServiceWalk",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_LoadingLip_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_LoadingLip_1",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_MarketHall",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_Barras",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_MarketSteps",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_exchange_south_line",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_exchange_south_return",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_civic_lower_island",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_civic_island_return",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_east_climbing_handrail",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_west_climbing_handrail",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_merchant_low_return",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_station_low_manual",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_barras_forecourt_line",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_barras_forecourt_return",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_clyde_south_link",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_clyde_south_return",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_ClydeSouthRelay",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Rail_ClydeSouthRelay",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_park_lower_carve",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_park_upper_return",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_park_east_carve",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_park_station_lower",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_park_station_upper",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_park_east_lower",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_park_east_gateway",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_park_civic_gateway",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_print_yard_ledge",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_safe_handrail_west",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_safe_handrail_east",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_north_handrail_west",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_north_handrail_east",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_south_handrail_west",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_south_handrail_east",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_quay_coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_bridge_rail",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted kelvingrove_cutback_ledge",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted kelvingrove_terrace_coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted kelvingrove_s_bend_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted kelvingrove_s_bend_1",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_KelvingrovePromenadeQuarter_Coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_StairNose_1",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_StairNose_2",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_StairNose_3",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_StairNose_4",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_StairNose_5",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_FiveStepHubba",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_FiveStepHandrail",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_ArrivalEdge_3.5",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_ArrivalEdge_10.5",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_SouthRim",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_WestRim",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_ProgressionLedge",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Park_StreetFlatbar",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Coping_kelvingrove_deep_bowl",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Coping_kelvingrove_shallow_bowl",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_kelvingrove_foreground_hipBackTransition_Coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_kelvingrove_foreground_hipFrontTransition_Coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_quarter_coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_half_west_coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_half_east_coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StairCheek_x-1000y90z-900_1_4",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StairCheek_x-1000y90z-900_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StairCheek_x-1000y90z-900_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StairCheek_x1000y90z-900_1_4",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StairCheek_x1000y90z-900_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StairCheek_x1000y90z-900_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_CourtSeat_x-1500y24z1300_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_CourtSeat_x-1500y24z1300_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_CourtSeat_x-1500y24z1300_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_CourtSeat_x1700y24z1300_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_CourtSeat_x1700y24z1300_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_CourtSeat_x1700y24z1300_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_CourtSeat_x1700y24z1300_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_ClosePocket_x-7100y345z-6600_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_ClosePocket_x-7100y345z-6600_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_ClosePocket_x-7100y345z-6600_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_ClosePocket_x-7100y345z-6600_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BuskingPlinth_x-1300y422z-9100_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BuskingPlinth_x-1300y422z-9100_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BuskingPlinth_x-100y422z-9100_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BuskingPlinth_x-100y422z-9100_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BuskingPlinth_x1100y422z-9100_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BuskingPlinth_x1100y422z-9100_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_WorkshopSeat_x-1050y491z-9800_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_WorkshopSeat_x-1050y491z-9800_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_WorkshopSeat_x-1050y491z-9800_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_WorkshopSeat_x-1050y491z-9800_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_WorkshopSeat_x1050y491z-9800_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_WorkshopSeat_x1050y491z-9800_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_WorkshopSeat_x1050y491z-9800_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_WorkshopSeat_x1050y491z-9800_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x10800y60z200_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x10800y60z200_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x10800y60z200_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x10800y60z200_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x12000y60z200_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x12000y60z200_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x12000y60z200_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x12000y60z200_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x10800y60z1300_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x10800y60z1300_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x10800y60z1300_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x10800y60z1300_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x12000y60z1300_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x12000y60z1300_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x12000y60z1300_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_MarketCounter_x12000y60z1300_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x-2900y40z1300_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x-2900y40z1300_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x-2900y40z1300_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x-2900y40z1300_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x2800y40z1400_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x2800y40z1400_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x2800y40z1400_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x2800y40z1400_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x-2800y240z-3200_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x-2800y240z-3200_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x-2800y240z-3200_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x-2800y240z-3200_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x2800y240z-3200_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x2800y240z-3200_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x2800y240z-3200_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Planter_x2800y240z-3200_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_PrintYard_x4300y235z12700_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_PrintYard_x4300y235z12700_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_PrintYard_x4300y235z12700_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BridgeRail_x-2885y375z8050_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BridgeRail_x-2885y445z9700_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BridgeRail_x-2885y375z11350_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BridgeRail_x-2115y375z8050_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BridgeRail_x-2115y445z9700_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BridgeRail_x-2115y375z11350_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BridgeRail_x1765y305z12000_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_BridgeRail_x2235y305z12000_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x-7300y244z5900_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x-7300y244z5900_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x-7300y244z5900_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x-7300y244z5900_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x800y244z5900_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x800y244z5900_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x800y244z5900_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x800y244z5900_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x7000y244z5900_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x7000y244z5900_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x7000y244z5900_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x7000y244z5900_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_Bench_x-17400y1744z-18330_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x-12700y200z2800_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x-12700y200z2800_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x-12700y200z2800_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x-12700y200z2800_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchBack_x-12700y200z2800_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchBack_x-12700y200z2800_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x6000y0z4150_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x6000y0z4150_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x6000y0z4150_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x6000y0z4150_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchBack_x6000y0z4150_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchBack_x6000y0z4150_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x2900y600z-11600_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x2900y600z-11600_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x2900y600z-11600_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x2900y600z-11600_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchBack_x2900y600z-11600_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchBack_x2900y600z-11600_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x2900y0z2700_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x2900y0z2700_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x2900y0z2700_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchSeat_x2900y0z2700_3_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchBack_x2900y0z2700_0_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_StreetBenchBack_x2900y0z2700_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_PlatformNorthWest_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_PlatformNorthEast_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_PlatformNorthGap_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_PlatformSouthWest_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_PlatformSouthEast_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_PlatformSouthGap_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_ServiceWalkWest_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_ServiceWalkEast_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_ServiceWalkFront_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_NorthEmbankment_-839_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_NorthEmbankment_-206_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_NorthEmbankment_229_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_SouthEmbankment_-564_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_SouthEmbankment_-391_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Edge_SouthEmbankment_44_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Coping_ClydeEastBowl",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_StationConcourseHalfpipeNorthTransition_Coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_StationConcourseHalfpipeSouthTransition_Coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_StationWestSpineBackTransition_Coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_StationWestSpineFrontTransition_Coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_RecordingCourt",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_CivicPortReturn_Coping",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted kelvingrove_pond_perimeter",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_cable_west",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted clyde_cable_east",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PlinthFoot_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PlinthFoot_1_1",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PlinthFoot_1_2",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PlinthFoot_1_3",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PlinthCrown_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PlinthCrown_1_1",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PlinthCrown_1_2",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PlinthCrown_1_3",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_NorthStreetRetaining_1_Native_0_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_NorthStreetRetaining_2_Native_0_2_4",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_NorthStreetRetaining_3_Native_0_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_NorthStreetRetaining_4_Native_0_2_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_NorthStreetRetaining_5_Native_0_2_10",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PracticeLedge_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PracticeLedge_1_2",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PracticeManualPad_1_0",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PracticeManualPad_1_1",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PracticeManualPad_1_2",
+      "passed": true
+    },
+    {
+      "label": "all guide geometry neighbors unadmitted Grind_Ledge_PracticeManualPad_1_3",
+      "passed": true
+    },
+    {
+      "label": "all67 route rows appear in prose table",
+      "passed": true
+    },
+    {
+      "label": "all8 scored gap rows appear in prose table",
+      "passed": true
+    },
+    {
+      "label": "all6 assigned tickets present",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md\u2192GAP-LINE-CONNECTIVITY-2026-11-07.json",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md\u2192THPS-LINE-DESIGN.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md\u2192GAP-LINE-CONNECTIVITY-2026-11-07.html",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md\u2192../testing/line-design-2026-11-06/gap-line-inventory-independent-01/README.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md\u2192../testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/live-registry-01/preservation.json",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md\u2192../testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01/index.json",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md\u2192../planning/GAP-LINE-TICKETS.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md\u2192../testing/line-design-2026-11-06/station-open-flat-development-2026-11-07/compatibility-development-01/README.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/research/GAP-LINE-CONNECTIVITY-2026-11-07.md\u2192../levels/BARRAS-JUNCTION-PROPOSAL-2026-11-07/README.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../product/AAA_BENCHMARK.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192FIDELITY_TICKETS.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../research/GAP-LINE-CONNECTIVITY-2026-11-07.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../research/GAP-LINE-CONNECTIVITY-2026-11-07.json",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../research/GAP-LINE-CONNECTIVITY-2026-11-07.html",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../../.agents/agents/level-designer.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../../.agents/agents/combo-engineer.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../../.agents/agents/motion-engineer.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../../.agents/agents/skate-topology-reviewer.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../../.agents/agents/technical-qe.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../../.agents/agents/ba-verifier.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../testing/line-design-2026-11-06/station-open-flat-development-2026-11-07/compatibility-development-01/README.md",
+      "passed": true
+    },
+    {
+      "label": "relative link docs/planning/GAP-LINE-TICKETS.md\u2192../levels/BARRAS-JUNCTION-PROPOSAL-2026-11-07/README.md",
+      "passed": true
+    },
+    {
+      "label": "different Station score epochs explicitly distinguished",
+      "passed": true
+    },
+    {
+      "label": "original required02 failed raw log preserved byte-exact",
+      "passed": true
+    },
+    {
+      "label": "earlier whole ordinary failure kept rejected",
+      "passed": true
+    }
+  ]
+}

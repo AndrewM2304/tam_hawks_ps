@@ -1,0 +1,68 @@
+{
+  "start_utc": "2026-11-07T08:55:24.310634+00:00",
+  "end_utc": "2026-11-07T08:56:08.019905+00:00",
+  "pid": 100747,
+  "process_group": 100747,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/fitted-output-writer-hardening/actual_fitted_focused.gd"
+  ],
+  "deadline_seconds": 180,
+  "stop_reason": null,
+  "exit_code": 0,
+  "error_markers": [],
+  "result": {
+    "passed": 93,
+    "failed": 0
+  },
+  "modules": [
+    {
+      "failed": 0,
+      "name": "FittedGarmentNative",
+      "passed": 60
+    },
+    {
+      "failed": 0,
+      "name": "DefaultMainMotionAndSupport",
+      "passed": 32
+    }
+  ],
+  "source_count": 887,
+  "source_unchanged": true,
+  "source_delta": [],
+  "observer_sha256_prebound": "ebe1536f98b3f88ac4e81c36aa5d2f7a1944c6bc7d649a99fde0048bcce951cb",
+  "launcher_sha256_prebound": "6da07f43911e58f28a7a370d62ad989eccc7401d5034409349da16c9d70ea685",
+  "certificate_command": [
+    "python3",
+    "/workspace/tam_hawks_ps/tools/testing/verify_shoe_support_certificate.py",
+    "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/actual-focused-03/shoe-support-certificate.json",
+    "--output",
+    "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/actual-focused-03/exact-shoe-certificate.json"
+  ],
+  "certificate_passed": true,
+  "metrics_valid_nonempty_dictionary": true,
+  "metrics_bytes": 944,
+  "metrics_sha256": "7b9e7a2b3a8d2056a7d48afe292156c824825ef6123971eec7a960e2732f2edb",
+  "certificate_input_sha256": "6aea89ba6876fcd4d635e56e00f8a4018f6ad41659fe6314ae8c32974035489a",
+  "known_process_snapshot_before": [],
+  "native_processes_observed": [
+    {
+      "pid": 100747,
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script .local/fitted-output-writer-hardening/actual_fitted_focused.gd "
+    },
+    {
+      "pid": 100823,
+      "command": "godot --path /workspace/tam_hawks_ps/.local/motion-required02-fixes/project --headless --check-only --script res://probe.gd "
+    },
+    {
+      "pid": 100868,
+      "command": "godot --path /workspace/tam_hawks_ps/.local/motion-required02-fixes/project --headless --fixed-fps 60 --script res://probe.gd "
+    }
+  ],
+  "eligible": true,
+  "scope": "Actual installed-source focused Fitted60/MainMotion32/Music-profile isolation1 plus independent exact-integer shoe certificate. Root-authorized private qualitative RA/ME/native jobs may overlap; observed processes recorded. No FPS, engine cost, exclusivity, target-Mac, final art or whole-suite claim."
+}

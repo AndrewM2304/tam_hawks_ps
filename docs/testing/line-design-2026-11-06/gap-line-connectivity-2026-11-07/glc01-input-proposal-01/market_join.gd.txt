@@ -1,0 +1,149 @@
+extends RefCounted
+## PRIVATE, UNPARSED proposal: actual scored Mairi stair flight -> existing hall
+## continuation. No production edit or physics tuning. Source rebound after the
+## gap-destination policy is promoted is required before a native epoch.
+const Driver=preload("res://tests/pt24_flagship_runs_tests.gd")
+const Market=preload("res://tests/pt24_market_full_run_tests.gd")
+const Balance=preload("res://tests/support/manual_balance_driver.gd")
+const Lines=preload("res://tests/line_design_tests.gd")
+const LEDGE="Grind_Ledge_MarketHall"
+const GAP="market_hop"
+
+class GeometryWitness extends Lines.QuayReturnWitness:
+	# Reuse the existing actual all-physics board/sole/capsule observation,
+	# including raw-first loaded floor proof. Scoring is separately observed
+	# through real ScoreSession calls because gaps do not emit skater signals.
+	func observe_bank() -> void:
+		pass
+	func _physics_process(delta: float) -> void:
+		if game.skater.wallriding:
+			model_clear=false
+			failures.append({"physics":Engine.get_physics_frames(),"reason":"unexpected_wallride_not_an_advertised_market_contact"})
+			return
+		super._physics_process(delta)
+
+static func run(tree: SceneTree,game: Node,check: Callable,observer: Callable=Callable()) -> Dictionary:
+	await Driver._reset(tree,game,Vector3(93,1.58,-30),PI)
+	var e: Dictionary=Driver._evidence(game,"market_scored_gap_to_hall")
+	e.merge({"drop_air":false,"drop_landing":false,"hall_ticks":0,"return_reached":false,"drop_at":Vector3.INF})
+	var release:=Lines.ExitModelWitness.new()
+	release.rider=game.skater
+	release.process_physics_priority=100
+	game.add_child(release)
+	var witness:=GeometryWitness.new()
+	witness.game=game
+	witness.evidence=e
+	witness.exit_witness=release
+	witness.fit=Lines._native_seat_fit
+	witness.ground_contact=Lines._loaded_capsule_contact
+	witness.process_physics_priority=100
+	game.add_child(witness)
+	Driver._connect(game,e)
+	# Existing Mairi's earned gap prefix, starting at its already-braked
+	# platform point. Push then coast; no threshold-brake oscillation creates
+	# an unintended Nollie/Boneless modifier before the deliberate plain Ollie.
+	Input.action_press("push")
+	for tick: int in 180:
+		await Market._step(tree,game,e,"scored_platform_push",observer)
+		if game.skater.global_position.z>=-22 or e.bails>0:break
+	Input.action_release("push")
+	Input.action_press("manual")
+	await Market._step(tree,game,e,"scored_platform_manual",observer)
+	var platform_manual: bool=game.skater.manual_active
+	for tick: int in 180:
+		if not game.skater.manual_active or e.bails>0:break
+		Balance.hold(game.skater,.05,1.0)
+		if game.skater.global_position.z>=-15.3:break
+		await Market._step(tree,game,e,"scored_gap_lip_manual",observer)
+	Input.action_release("push")
+	Input.action_release("brake")
+	Input.action_press("ollie")
+	await Market._step(tree,game,e,"scored_gap_charge",observer)
+	Input.action_release("ollie")
+	Input.action_release("manual")
+	# Same source-backed neutral release as the real delivery qualification;
+	# both directions cancel the last balance gesture without forcing physics.
+	Input.action_press("push")
+	Input.action_press("brake")
+	await Market._step(tree,game,e,"scored_gap_takeoff",observer)
+	e.drop_at=game.skater.global_position
+	Input.action_release("push")
+	Input.action_release("brake")
+	await Market._landing_manual(tree,game,e,180,"scored_gap_native_landing",observer)
+	e.drop_landing=game.skater.manual_active and game.skater.global_position.z>-18 and game.skater.global_position.y<.20
+	var reached: bool=e.drop_landing and platform_manual
+	var landed_at: Vector3=game.skater.global_position
+	# Actual landing determines which already-supported forecourt path is
+	# ahead. A missed northern turn takes the wider southern apron rather
+	# than aiming backwards at an already-passed waypoint. These are genuine
+	# mapped carves; neither branch writes actor yaw, speed or position.
+	var targets: Array[Vector3]
+	if landed_at.z< -2.8:
+		targets=[Vector3(93,0,-2),Vector3(89,0,-2),Vector3(82,0,-2),Vector3(78,0,-2),Vector3(76.65,0,2)]
+	else:
+		targets=[Vector3(93,0,2),Vector3(88,0,2),Vector3(82,0,2),Vector3(78,0,2),Vector3(76.65,0,2)]
+	if reached:
+		for target: Vector3 in targets:
+			reached=await Market._manual_to(tree,game,e,target,360,"scored_gap_hall_manual",observer)
+			if not reached:break
+	# Preserve the original market hall launch, finite payoff and dry exit
+	# controls/thresholds. Do not stop/bank the gap on its landing.
+	if reached:
+		Input.action_release("manual")
+		Driver._axis("spin_left","spin_right",0)
+		Input.action_press("ollie")
+		for tick: int in 15:
+			Market._speed(game,7.2)
+			Driver._steer_to(game,Vector3(76.4,0,12),false)
+			await Market._step(tree,game,e,"hall_pop_charge",observer)
+		Input.action_release("ollie")
+		Input.action_release("manual")
+		Input.action_release("push")
+		Input.action_release("brake")
+		Driver._axis("spin_left","spin_right",0)
+		Driver._axis("steer_left","steer_right",0)
+		Input.action_press("grind")
+		for tick: int in 150:
+			await Market._step(tree,game,e,"hall_native_catch",observer)
+			if game.skater.grinding or e.bails>0:break
+	var caught: bool=game.skater.grinding and String(game.skater._grind.line.id)==LEDGE
+	if caught:
+		for tick: int in 180:
+			Driver._axis("steer_left","steer_right",clampf(-.14-game.skater.grind_balance*.85,-.6,.6))
+			await Market._step(tree,game,e,"hall_edge_payoff",observer)
+			if game.skater.global_position.z>=8.5 or not game.skater.grinding:break
+		Input.action_press("ollie")
+		await Market._steps(tree,game,e,2,"hall_outward_pop_charge",observer)
+		var actual_named_pop: bool=game.skater.grinding and String(game.skater._grind.line.id)==LEDGE
+		release.arm("hall_loaded_release",actual_named_pop and Lines._native_seat_fit(game))
+		Driver._axis("steer_left","steer_right",-1)
+		Input.action_release("ollie")
+		await Market._step(tree,game,e,"hall_outward_takeoff",observer)
+		Input.action_release("grind")
+		Driver._axis("steer_left","steer_right",0)
+		await Market._landing_manual(tree,game,e,150,"hall_dry_landing",observer)
+		if game.skater.manual_active:e.return_reached=await Market._manual_to(tree,game,e,Market.RETURN[0],500,"hall_dry_return",observer)
+	await Driver._finish_bank(tree,game,e,observer)
+	check.call(platform_manual and e.drop_air and e.drop_landing and caught and e.captures==[LEDGE]and e.hall_ticks>=18 and e.return_reached and e.manual_ticks>=45,
+		"GLC-01: actual platform Manual / scored-gap flight reaches the existing hall bearing and dry payoff")
+	check.call(witness.model_clear and witness.capsule_clear and witness.shoe_clear and witness.skin_clear,
+		"GLC-01: all actual physics board/sole/capsule states retain existing native contact authority")
+	check.call(release.clear and release.completed.has("hall_loaded_release"),"GLC-01: loaded hall release preserves authenticated board/capsule frame then actual separating native model clearance")
+	var packet: Dictionary={"initial_route_fixtures":1,"platform_manual":platform_manual,"actual_landing":landed_at,
+		"forecourt_targets":targets,"captures":e.captures,"stages":e.stages,"banks_observed_driver":e.banks,"holds_valid":e.hold_valid,
+		"bails":e.bails,"recoveries":e.recoveries,"camera_clear_sampled":e.camera_clear,"support":e.ground_supported,
+		"frames":witness.frames.duplicate(true),"first_geometry_failures":witness.failures.duplicate(true),
+		"model":witness.model_clear,"capsule":witness.capsule_clear,"shoes":witness.shoe_clear,
+		"release_clear":release.clear,"release_samples":release.samples.duplicate(true),"score_total":game.score.total_score,
+		"scope":"PRIVATE source proposal; score/gap ledger must separately prove actual gap:market_hop and exact single terminal bank; no interarea/fullL1/render admission"}
+	Driver._disconnect(game,e)
+	Driver._release()
+	witness.set_physics_process(false)
+	release.set_physics_process(false)
+	witness.exit_witness=null
+	witness.game=null
+	release.rider=null
+	witness.queue_free()
+	release.queue_free()
+	await tree.process_frame
+	return packet

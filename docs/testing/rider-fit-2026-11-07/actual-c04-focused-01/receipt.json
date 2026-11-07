@@ -1,0 +1,82 @@
+{
+  "start_utc": "2026-11-07T08:52:55.908533+00:00",
+  "end_utc": "2026-11-07T08:54:13.545266+00:00",
+  "pid": 100222,
+  "process_group": 100222,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/actual_c04_focused.gd"
+  ],
+  "bound_seconds": 180,
+  "exit_code": 0,
+  "stop_reason": null,
+  "raw_error": false,
+  "source_count": 887,
+  "source_unchanged": true,
+  "source_delta": [],
+  "native_summary": {
+    "passed": 75,
+    "failed": 0
+  },
+  "modules": [
+    {
+      "failed": 0,
+      "name": "OriginalBodyAttachment",
+      "passed": 18
+    },
+    {
+      "failed": 0,
+      "name": "OriginalGaitDirection",
+      "passed": 18
+    },
+    {
+      "failed": 0,
+      "name": "OriginalFlatOllie",
+      "passed": 27
+    },
+    {
+      "failed": 0,
+      "name": "OriginalClydeFullLocalPrefixAndBankReturn",
+      "passed": 11
+    }
+  ],
+  "pose_trace_samples": 459,
+  "native_processes_observed": [
+    {
+      "pid": 6356,
+      "comm": "Xorg",
+      "command": "[Xorg] <defunct>"
+    },
+    {
+      "pid": 6460,
+      "comm": "Xorg",
+      "command": "[Xorg] <defunct>"
+    },
+    {
+      "pid": 82100,
+      "comm": "godot",
+      "command": "[godot] <defunct>"
+    },
+    {
+      "pid": 100222,
+      "comm": "godot",
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script .local/actual_c04_focused.gd"
+    },
+    {
+      "pid": 100295,
+      "comm": "godot",
+      "command": "godot --path /workspace/tam_hawks_ps/.local/motion-required02-fixes/project --headless --check-only --script res://probe.gd"
+    },
+    {
+      "pid": 100327,
+      "comm": "godot",
+      "command": "godot --path /workspace/tam_hawks_ps/.local/motion-required02-fixes/project --headless --fixed-fps 60 --script res://probe.gd"
+    }
+  ],
+  "scope": "Actual installed-source focused original fixtures unchanged. Before-bound ignored observer/launcher and allactual game/tests/tools/licences/project/export/PlayerGuide. Known qualitative/native jobs may overlap per root; no FPS/exclusivity/M5/whole-suite/pixel claim.",
+  "eligible": true
+}

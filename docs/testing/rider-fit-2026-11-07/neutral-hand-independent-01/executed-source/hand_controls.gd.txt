@@ -1,0 +1,59 @@
+extends SceneTree
+const Anatomy = preload("res://.local/rider-fit-staging/neutral-hand-proposal/skater_anatomy_candidate.gd")
+var checks:Array=[]
+func ck(label:String,value:bool)->void:
+	checks.append({"label":label,"pass":value})
+func digest(value:Variant)->String:
+	var hash:=HashingContext.new()
+	hash.start(HashingContext.HASH_SHA256)
+	hash.update(var_to_bytes(value))
+	return hash.finish().hex_encode()
+func _initialize()->void:
+	_run.call_deferred()
+func _run()->void:
+	var parent:=Node3D.new()
+	root.add_child(parent)
+	var anatomy:RefCounted=Anatomy.new()
+	var data:Array=[]
+	for side:float in [-1.0,1.0]:
+		var control:Node3D=anatomy.build_hand(parent,side)
+		var candidate:Node3D=anatomy.build_hand(parent,side)
+		var baseline:MeshInstance3D=control.get_node("HandAndFingers")
+		var proposed:MeshInstance3D=candidate.get_node("HandAndFingers")
+		var mesh:ArrayMesh=proposed.mesh
+		ck("same existing cached mesh resource per hand side",baseline.mesh==proposed.mesh)
+		ck("one existing surface and GripCurl only",mesh.get_surface_count()==1 and mesh.get_blend_shape_count()==1)
+		var base:Array=mesh.surface_get_arrays(0)
+		var target:Array=mesh.surface_get_blend_shape_arrays(0)[0]
+		var before:=digest([base,target])
+		anatomy.pose_hand(control,0.0)
+		baseline.set_blend_shape_value(0,.22) # Declared old instance-value control.
+		anatomy.pose_hand(candidate,0.0) # Actual private candidate API, not override.
+		ck("actual candidate neutral scalar038",absf(proposed.get_blend_shape_value(0)-.38)<.000001)
+		ck("instance morph values independent on shared source",absf(baseline.get_blend_shape_value(0)-.22)<.000001)
+		var max_delta:=0.0
+		var protected:=0
+		var points:PackedVector3Array=base[Mesh.ARRAY_VERTEX]
+		var curled:PackedVector3Array=target[Mesh.ARRAY_VERTEX]
+		for i:int in points.size():
+			var old:Vector3=points[i].lerp(curled[i],.22)
+			var newer:Vector3=points[i].lerp(curled[i],.38)
+			max_delta=maxf(max_delta,old.distance_to(newer))
+			if points[i].y>=-.09:
+				protected+=1
+				ck("actual protected palm vertex unchanged",old==newer)
+			for axis:int in 3:ck("proposed native coordinate inside unchanged base/curl enclosure",newer[axis]>=minf(points[i][axis],curled[i][axis])-.000001 and newer[axis]<=maxf(points[i][axis],curled[i][axis])+.000001)
+		ck("palm marker remains exact",Anatomy.PALM_CONTACT==Vector3(0,-.075,-.015) and maxf(0.0,-Anatomy.PALM_CONTACT.y-.09)==0.0)
+		anatomy.pose_hand(candidate,1.0)
+		ck("full-grab endpoint unchanged",proposed.get_blend_shape_value(0)==1.0)
+		ck("native base/index/UV/normal/tangent/curl arrays unchanged",before==digest([mesh.surface_get_arrays(0),mesh.surface_get_blend_shape_arrays(0)[0]]))
+		data.append({"side":side,"native_vertices":points.size(),"surface_count":mesh.get_surface_count(),"protected_palm_vertices":protected,"maximum_neutral_vertex_displacement_m":max_delta,"native_source_array_sha256":before})
+	ck("exactly two existing side cache entries",Anatomy._hand_cache.size()==2)
+	var failed:=0
+	for row:Dictionary in checks:
+		if not row["pass"]:failed+=1
+	var out:=FileAccess.open("res://.local/rider-fit-staging/neutral-hand-proposal/hand-controls.json",FileAccess.WRITE)
+	out.store_string(JSON.stringify({"scope":"Private native cached hand morph/source/contact-marker/enclosure controls only. No actual game edits, appearance, wrist/garment/grab integration, moving or targetperformance pass.","passed":checks.size()-failed,"failed":failed,"checks":checks,"hands":data},"\t"))
+	out.close()
+	print("NEUTRAL_HAND_CONTROLS passed=",checks.size()-failed," failed=",failed)
+	quit(1 if failed else 0)

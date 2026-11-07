@@ -1,0 +1,355 @@
+{
+  "original_log_sha256": "99456b87a6f76aa1d83ddd3ad62ed0901a618a13eed70707b8a30063b492059f",
+  "raw_compressed_sha256": "1aba59873ec9819697f9f4965366c42729df2020c26fc66e70b176173c79c7f8",
+  "global_result": [
+    6526,
+    7
+  ],
+  "engine_exit": 1,
+  "source_input_count": 886,
+  "source_before_after_byte_identical": true,
+  "no_global_pass": true,
+  "selected_raw_lines_file": "selected-raw-lines.json",
+  "evidence": {
+    "civic_gallery": {
+      "label": "Civic bank \u2192 lower-court Ollie/Manual \u2192 WEST close \u2192 raised Gallery entrance",
+      "kind": "actual native mapped-input subset",
+      "arenas": [
+        "george_square",
+        "royal_exchange"
+      ],
+      "banks": 1,
+      "score": 400,
+      "same_combo": true,
+      "source_record_found": true,
+      "original_log_lines": [
+        647
+      ],
+      "driver": "tests/pt24_civic_flagship_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "bb6af681fc23e3ec800057f560cd52578bde26a2883d48158dde8b5e98e2791b",
+        "bytes": 11744
+      },
+      "current_driver_sha256": "bb6af681fc23e3ec800057f560cd52578bde26a2883d48158dde8b5e98e2791b",
+      "caveat": "mapped inputs after sole initial fixture; no closed return",
+      "global_epoch_status": "REJECTED6526pass7fail, engine_exit1, three freed-object SCRIPT ERROR lines; source stable886",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "gallery_fountain": {
+      "label": "StairRail \u2192 Manual \u2192 Fountain coping \u2192 dry Manual",
+      "kind": "actual native mapped-input subset",
+      "arenas": [
+        "royal_exchange"
+      ],
+      "banks": 1,
+      "score": 8800,
+      "same_combo": true,
+      "source_record_found": true,
+      "original_log_lines": [
+        660
+      ],
+      "driver": "tests/pt24_flagship_runs_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+        "bytes": 24466
+      },
+      "current_driver_sha256": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+      "caveat": "StairRail X9.1 misses named gap centre; one forward chain only",
+      "global_epoch_status": "REJECTED6526pass7fail, engine_exit1, three freed-object SCRIPT ERROR lines; source stable886",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "station_city": {
+      "label": "Spine transfer \u2192 actual bank Manual \u2192 city refreshes \u2192 Exchange street",
+      "kind": "actual native mapped-input subset",
+      "arenas": [
+        "central_station",
+        "royal_exchange"
+      ],
+      "banks": 1,
+      "score": 6730,
+      "same_combo": true,
+      "source_record_found": true,
+      "original_log_lines": [
+        663
+      ],
+      "driver": "tests/pt24_flagship_runs_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+        "bytes": 24466
+      },
+      "current_driver_sha256": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+      "caveat": "mapped inputs; pipe is not entered; flatland refreshes are actual actions, not new set pieces",
+      "global_epoch_status": "REJECTED6526pass7fail, engine_exit1, three freed-object SCRIPT ERROR lines; source stable886",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "gallery_entrance": {
+      "label": "Entrance ledge \u2192 StairRail \u2192 Fountain coping \u2192 dry Manual",
+      "kind": "actual native mapped-input subset",
+      "arenas": [
+        "royal_exchange"
+      ],
+      "banks": 1,
+      "score": 14616,
+      "same_combo": true,
+      "source_record_found": true,
+      "original_log_lines": [
+        732
+      ],
+      "driver": "tests/pt24_flagship_runs_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+        "bytes": 24466
+      },
+      "current_driver_sha256": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+      "caveat": "related entrance approach; centre scored stair gap not asserted",
+      "global_epoch_status": "REJECTED6526pass7fail, engine_exit1, three freed-object SCRIPT ERROR lines; source stable886",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "park_civic": {
+      "label": "Summit Ollie/Manual \u2192 downhill selected50-50 \u2192 refreshes \u2192 civic mouth",
+      "kind": "actual native mapped-input subset",
+      "arenas": [
+        "kelvingrove",
+        "george_square"
+      ],
+      "banks": 1,
+      "score": 10822,
+      "same_combo": true,
+      "source_record_found": true,
+      "original_log_lines": [
+        758
+      ],
+      "driver": "tests/pt24_park_full_combo_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "5e3724e253dfa4183ac5c6bf3a081ed6e97a20cbaa985edd2de664467c531caa",
+        "bytes": 7663
+      },
+      "current_driver_sha256": "5e3724e253dfa4183ac5c6bf3a081ed6e97a20cbaa985edd2de664467c531caa",
+      "caveat": "through-run only; does not prove full scenic-loop return",
+      "global_epoch_status": "REJECTED6526pass7fail, engine_exit1, three freed-object SCRIPT ERROR lines; source stable886",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "market_hall": {
+      "label": "Loading dropX100.8 \u2192 Manual/refreshes \u2192 bent hall ledge \u2192 dry Manual",
+      "kind": "actual native mapped-input subset",
+      "arenas": [
+        "barras"
+      ],
+      "banks": 1,
+      "score": 8490,
+      "same_combo": true,
+      "source_record_found": true,
+      "original_log_lines": [
+        765,
+        769
+      ],
+      "driver": "tests/pt24_market_full_run_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "ec308eed68fef335ae30e935a1d59a4179112c05d81c9b690f1ec7f0351d7c3a",
+        "bytes": 9681
+      },
+      "current_driver_sha256": "ec308eed68fef335ae30e935a1d59a4179112c05d81c9b690f1ec7f0351d7c3a",
+      "caveat": "actual drop lies outside named market_hop X93 sphere",
+      "global_epoch_status": "REJECTED6526pass7fail, engine_exit1, three freed-object SCRIPT ERROR lines; source stable886",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "civic_park": {
+      "label": "Civic real lip/air/revert \u2192 Manual/refreshes \u2192 park practice",
+      "kind": "actual native mapped-input subset",
+      "arenas": [
+        "george_square",
+        "kelvingrove"
+      ],
+      "banks": 1,
+      "score": 13882,
+      "same_combo": true,
+      "source_record_found": true,
+      "original_log_lines": [
+        792
+      ],
+      "driver": "tests/pt24_civic_park_run_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "a68655d7609a4fe1166dbbf5df69a196313d3da884643521a171d497d5787140",
+        "bytes": 14889
+      },
+      "current_driver_sha256": "a68655d7609a4fe1166dbbf5df69a196313d3da884643521a171d497d5787140",
+      "caveat": "reverse paired graph edge, separate fixture; concatenation not automatic",
+      "global_epoch_status": "REJECTED6526pass7fail, engine_exit1, three freed-object SCRIPT ERROR lines; source stable886",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "wall_return": {
+      "label": "FIRST50-50 \u2192 SECOND50-50 \u2192 Wallride/Wallie \u2192 sameFIRST \u2192 Manual",
+      "kind": "actual native mapped-input subset",
+      "arenas": [
+        "clyde"
+      ],
+      "banks": 2,
+      "score": 13088,
+      "same_combo": false,
+      "source_record_found": true,
+      "original_log_lines": [
+        7496
+      ],
+      "driver": "tests/line_design_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "a895a03433e6dde54b39922eafb119a376d7ccffa458a95bd545ccb3de275045",
+        "bytes": 112281
+      },
+      "current_driver_sha256": "a895a03433e6dde54b39922eafb119a376d7ccffa458a95bd545ccb3de275045",
+      "caveat": "TWO banks7400+5688; 896 contiguous steps; 188step16.272m approach flag",
+      "global_epoch_status": "REJECTED6526pass7fail, engine_exit1, three freed-object SCRIPT ERROR lines; source stable886",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "clyde_bridge_bank": {
+      "label": "Broken-bridge Manual line \u2192 west landing ledge \u2192 rear bank / bowl-side return",
+      "kind": "rejected related ordinary native line",
+      "arenas": [
+        "clyde"
+      ],
+      "banks": 1,
+      "score": null,
+      "same_combo": false,
+      "source_record_found": false,
+      "original_log_lines": [],
+      "driver": "tests/pt24_clyde_flagship_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "3a78673da477b308d6071bc287576d85243f6e9ae61018deea361d1f3eb2502d",
+        "bytes": 19277
+      },
+      "current_driver_sha256": "3a78673da477b308d6071bc287576d85243f6e9ae61018deea361d1f3eb2502d",
+      "caveat": "ordinary full bank/coast/bowl-side chase FAILED in this aggregate; no positive whole-flow claim",
+      "global_epoch_status": "REJECTED6526pass7fail, engine_exit1, three freed-object SCRIPT ERROR lines; source stable886",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "career_grade": {
+      "label": "Six-grade career traversal / upper station named-gap mission",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "_aim assigns grounded heading; separately banked career/goal evidence, not strict mapped one-combo circuit",
+      "driver": "tests/career_route_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "b40d5700d13d6c14125c8be417b97d1a984960faa668712bb1573f1116f30cc7",
+        "bytes": 15846
+      },
+      "current_driver_sha256": "b40d5700d13d6c14125c8be417b97d1a984960faa668712bb1573f1116f30cc7",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "station_gap": {
+      "label": "Station upper named central_gap award + native landing",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "actual goal/gap assertion with grounded yaw aiming; no strict mapped gap\u2192next-bearing return",
+      "driver": "tests/career_route_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "b40d5700d13d6c14125c8be417b97d1a984960faa668712bb1573f1116f30cc7",
+        "bytes": 15846
+      },
+      "current_driver_sha256": "b40d5700d13d6c14125c8be417b97d1a984960faa668712bb1573f1116f30cc7",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "market_mission": {
+      "label": "Mairi covered and west deliveries",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "actual market_hop+Manual/Ollie qualify1650, then bank BEFORE mission gates; grounded yaw aiming",
+      "driver": "tests/market_encounter_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "648f3d3f3c0adbd61d099338271e2a336247400144cb4ce6f0b776b906191f0a",
+        "bytes": 30333
+      },
+      "current_driver_sha256": "648f3d3f3c0adbd61d099338271e2a336247400144cb4ce6f0b776b906191f0a",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "cat_legacy": {
+      "label": "Existing Cat A\u2192B\u2192C challenge",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "source fixtures/encounter prove existing opportunity; legacy heading aiming and no current strict return certificate",
+      "driver": "tests/cat_encounter_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "6b2d34c2a5288e0868fc5924333282b0fc9c51fbb0b7fc1c742a5c08500e3b34",
+        "bytes": 36803
+      },
+      "current_driver_sha256": "6b2d34c2a5288e0868fc5924333282b0fc9c51fbb0b7fc1c742a5c08500e3b34",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "recording": {
+      "label": "Manual \u2192 Ollie \u2192 exact recording steel bearing \u2192 bank",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "named local native line beside published ground return, not full return-to-start proof",
+      "driver": "tests/pt24_connected_runs_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "10bcd80dffc321dec1916755efd0c4b9240eef541127acaca67c12186a8188b4",
+        "bytes": 21331
+      },
+      "current_driver_sha256": "10bcd80dffc321dec1916755efd0c4b9240eef541127acaca67c12186a8188b4",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "facility": {
+      "label": "Practice quarter \u2192 facility beginner \u2192 original approach",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "journey385m contains earlier1100 bank; access/circuit geometry not385m continuous combo",
+      "driver": "tests/pt24_facility_connection_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "e3d747284954d8bece0e91b64e96584bed33d0b0b7933d199213f29c55f130c2",
+        "bytes": 11369
+      },
+      "current_driver_sha256": "e3d747284954d8bece0e91b64e96584bed33d0b0b7933d199213f29c55f130c2",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "cable_west": {
+      "label": "WEST handrail \u2192 cable \u2192 handrail in each direction",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "one bank8696 forward /4109 reverse in required02; no four gap-ID awards asserted; east not driven",
+      "driver": "tests/clyde_cable_line_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "ceb553aea5af23d2d982b5c1753ca8dad2a571abd287725f5311021c12ef5a6a",
+        "bytes": 15489
+      },
+      "current_driver_sha256": "ceb553aea5af23d2d982b5c1753ca8dad2a571abd287725f5311021c12ef5a6a",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "river_yard": {
+      "label": "Optional broken bridge gap / hip / rear / safe crossing",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "gap banks2000 BEFORE yard; whole circuit contains transport; native gap/collision preserved historically",
+      "driver": "tests/compact_clyde_lines_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "680fc9835b1828296c2b227861a2d46d9316afb21bfff4309d63553de892ef81",
+        "bytes": 17240
+      },
+      "current_driver_sha256": "680fc9835b1828296c2b227861a2d46d9316afb21bfff4309d63553de892ef81",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "quay_coping": {
+      "label": "Independent north coping \u2192 dry Manual \u2192 safe-bridge travel return",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "single combo5850 occurs before4236tick return; local spatial roundtrip, not all travel one combo",
+      "driver": "tests/compact_clyde_lines_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "680fc9835b1828296c2b227861a2d46d9316afb21bfff4309d63553de892ef81",
+        "bytes": 17240
+      },
+      "current_driver_sha256": "680fc9835b1828296c2b227861a2d46d9316afb21bfff4309d63553de892ef81",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    },
+    "compact_clyde": {
+      "label": "Yard ledge/coping/vert/river local access families",
+      "kind": "legacy or related source-bound evidence; see exact assertion/trace",
+      "caveat": "original compact package has source-bound actual returns; newer source needs exact per-scope replay, not regex-inferred current pass",
+      "driver": "tests/compact_clyde_lines_tests.gd",
+      "driver_sha256_in_epoch": {
+        "sha256": "680fc9835b1828296c2b227861a2d46d9316afb21bfff4309d63553de892ef81",
+        "bytes": 17240
+      },
+      "current_driver_sha256": "680fc9835b1828296c2b227861a2d46d9316afb21bfff4309d63553de892ef81",
+      "same_combo": "only where exact individual bank trace asserts; not full published route",
+      "packet": "docs/testing/line-design-2026-11-06/gap-line-connectivity-2026-11-07/named-line-evidence-index-01"
+    }
+  }
+}

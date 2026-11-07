@@ -1,0 +1,30 @@
+{
+	"failed": 1,
+	"failures": [
+		"C04-L05: the moved bank's full crossing, coast and bowl-side return keep strict ordinary full-body chase clearance"
+	],
+	"modules": [
+		{
+			"failed": 0,
+			"module": "original_legacyMainTransition",
+			"passed": 23
+		},
+		{
+			"failed": 0,
+			"module": "registered_publicRoundContact",
+			"passed": 67
+		},
+		{
+			"failed": 0,
+			"module": "original_defaultMainMotion_and_nativeSupport",
+			"passed": 32
+		},
+		{
+			"failed": 1,
+			"module": "original_fullClydeLocalPrefix_and_bankReturn",
+			"passed": 10
+		}
+	],
+	"passed": 133,
+	"scope": "Actual installed modules and original inputs/checks: legacy Main Transition/publicRound, separate default Main Motion/nativeSupport and complete Clyde local prefix/bank return. No pixel/moving/M5/performance claim; ordinary full-runner global order remains separate."
+}

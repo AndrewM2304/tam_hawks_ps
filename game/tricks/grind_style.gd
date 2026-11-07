@@ -53,7 +53,7 @@ static func select(direction: Vector2, board_forward: Vector3,
 ## A bounded search may decline a tight corner rather than stretching the board.
 static func solve_into(result: ContactPose, line: LineSource, distance: float,
 		direction: float, yaw: float, style_id: String, balance: float,
-		edge_roll_angle: float = 0.0) -> bool:
+		edge_roll_angle: float = 0.0, round_roll_angle:float=0.0) -> bool:
 	if result == null:
 		return false
 	_clear(result)
@@ -81,7 +81,7 @@ static func solve_into(result: ContactPose, line: LineSource, distance: float,
 		var edge := line.contact_edge_outward != Vector3.ZERO
 		if edge and (not line.contact_edge_outward.is_finite() or not is_finite(edge_roll_angle) \
 				or edge_roll_angle<0.0 or edge_roll_angle>BALANCE_ROLL):return false
-		if not _install_frame(result, forward, up, 0.0 if edge else balance):
+		if not _install_frame(result, forward, up, 0.0 if edge or line.contact_round_declared else balance):
 			return false
 		if edge:
 			var side := line.contact_edge_outward.dot(result.board_transform.basis.x)
@@ -89,6 +89,14 @@ static func solve_into(result: ContactPose, line: LineSource, distance: float,
 			# Both fixed bottom-hanger anchors stay on the true corner. Inner
 			# wheels rise above the top; outer wheels occupy its exposed side.
 			result.board_transform.basis *= Basis(Vector3.BACK,-signf(side)*edge_roll_angle)
+		if line.contact_round_declared:
+			if edge or not line.round_contact_live() or not is_finite(round_roll_angle) 					or round_roll_angle<0.0 or round_roll_angle>BALANCE_ROLL:return false
+			var side:float=line.contact_round_outward.dot(result.board_transform.basis.x)
+			if absf(absf(side)-1.0)>0.00001:return false
+			result.board_transform.basis*=Basis(Vector3.BACK,-signf(side)*round_roll_angle)
+			var radial_shift:Vector3=line.contact_round_radius*(result.board_transform.basis.y-up)
+			result.supports[0]+=radial_shift
+			result.supports[1]+=radial_shift
 		var midpoint: Vector3 = (result.supports[0] + result.supports[1]) * 0.5
 		result.board_transform.origin = midpoint - result.board_transform.basis * Vector3(0.0, TRUCK_UNDERSIDE, 0.0)
 	elif style_id == "boardslide":
@@ -107,7 +115,7 @@ static func solve_into(result: ContactPose, line: LineSource, distance: float,
 		result.board_transform.origin = result.supports[0] - result.board_transform.basis * result.anchors[0]
 	elif style_id == "rail_grind":
 		# Compatibility naming does not change the certified two-truck solve.
-		return solve_into(result, line, distance, direction, yaw, "grind_50_50", balance,edge_roll_angle)
+		return solve_into(result, line, distance, direction, yaw, "grind_50_50", balance,edge_roll_angle,round_roll_angle)
 	elif style_id == "lipslide":
 		# Crossing history belongs to admission. Its settled physical support is
 		# the same deck belly; a signed quarter-turn alone proves no new name.

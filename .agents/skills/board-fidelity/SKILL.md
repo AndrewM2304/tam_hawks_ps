@@ -63,3 +63,18 @@ the cache authority. Keep phantom-convex-bridge negatives, missing/foreign/dupli
 face and stale-cache controls, startup resource budgets and all current contact
 tolerances. Source-only construction arithmetic and semantic-part metadata are
 proposals; neither is runtime clearance proof.
+
+Semantic-cache workflow lessons are retained in the
+[source-only admission packet](../../../docs/testing/board-fidelity-2026-11-07/semantic-source-01/README.md).
+Pin immutable source/policy/decoder and certificate expectations; bind every actual
+indexed triangle once and derive support points from native faces, never a claimed
+metadata point buffer. Validate protected packed draw/shadow/LOD data and refuse
+invalid present metadata. Bound traversal globally before canonicalisation and
+bound all payload bytes/counts before decode/hash; per-container limits alone do
+not bound nested work. Encoded certificate bytes do not establish resident memory:
+prefer cooked PackedInt32Array memberships and measure retained allocation. Keep
+quantized get_faces cache behavior separate from an indexed-point migration;
+concentric bearings/tyres defeat centroid-only correspondence. Guard rendered
+material deformation/overrides and stale resources, declaring any scalar validity
+work. Source controls and historical native arrays do not certify a new parser,
+import, collision, cooked package, motion or target-hardware result.

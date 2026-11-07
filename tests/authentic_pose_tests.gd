@@ -121,8 +121,8 @@ static func _board_mesh_contacts(tree: SceneTree, check: Callable) -> void:
 		# Retain the latest default asset exactly: its joined metal surface
 		# contains the authored bolt caps, not eight old procedural spheres.
 		check.call(geometry.meshes.size() == 1 and geometry.meshes[0].mesh.get_surface_count() == 4
-			and FileAccess.get_sha256("res://game/art/assets/tam_skateboard/tam_skateboard.glb") == "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
-			"authentic board: original native GLB geometry including its hardware remains unchanged rest=%.2f" % rest)
+			and FileAccess.get_sha256("res://game/art/assets/tam_skateboard/tam_skateboard.glb") == "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+			"authentic board: reviewed UV04 native GLB retains its four-surface hardware/contact identity rest=%.2f" % rest)
 		var wood_faces: PackedVector3Array = geometry.wood_faces
 		check.call(_triangle_height(faces, Vector3(0, 0, 0.255)) < 0.018
 			and _triangle_height(faces, Vector3(0, 0, 0.38)) > 0.036

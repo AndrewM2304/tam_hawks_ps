@@ -1,0 +1,94 @@
+--- a/game/player/skater.gd
++++ b/game/player/skater.gd
+@@ -3791,7 +3791,7 @@
+ 
+ 
+ func _place_air_landing_wheels(support: Dictionary) -> void:
+-	# A last descending bowl-air pose can retain enough roll to bury a tyre
++	# A last descending bowl-air pose can retain enough roll to bury its deck or tyre
+ 	# before the upright capsule lands. Correct only proven finite flat-floor
+ 	# overlap, after the rig has planted its feet; never move the physical body
+ 	# or flatten ordinary clear flight, active tricks or a curved ramp return.
+@@ -3803,34 +3803,44 @@
+ 	var original: Transform3D=_visual.global_transform
+ 	var original_local:Transform3D=_visual.transform
+ 	var board_local: Transform3D=original.affine_inverse()*_board_visual.global_transform
+-	if _air_landing_wheel_gap(original*board_local,wheels,point,axis)>=0.0: return
++	if _air_landing_model_gap(original*board_local,wheels,point,axis)>=0.0: return
+ 	var space:=get_world_3d().direct_space_state
+ 	# Every real bearing must have the same finite native landing plane. A
+ 	# centre ray's infinite plane cannot establish support at an edge/wall.
+ 	var behind_support:=false
+ 	for wheel: Dictionary in wheels:
+ 		var bearing: Vector3=_board_visual.to_global(wheel.center)
+-		var query:=PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*.35,bearing-Vector3.UP*.50,collision_mask)
++		# Anchor the finite probe on the proposed native plane. A raised axle
++		# can exceed the existing0.50m range while its actual XZ footprint is
++		# above the same floor. This locates the ray only: the native hit below
++		# must still prove finite support, normal and exact plane agreement.
++		var footprint:Vector3=bearing-axis*(bearing-point).dot(axis)
++		var query:=PhysicsRayQueryParameters3D.create(footprint+Vector3.UP*.35,footprint-Vector3.UP*.50,collision_mask)
+ 		query.exclude=[get_rid()]
+ 		var hit:=space.intersect_ray(query)
+ 		if hit.is_empty() or Vector3(hit.normal).dot(axis)<0.999 \
+ 				or absf((Vector3(hit.position)-point).dot(axis))>0.001: return
+ 		behind_support=behind_support or (bearing-Vector3(hit.position)).dot(axis)<0.0
+-	var overlaps:=false
+-	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
+-		_floor_wheel_query.shape=shape
+-		_floor_wheel_query.transform=original*board_local
+-		_floor_wheel_query.motion=Vector3.ZERO
+-		_floor_wheel_query.margin=0.0
+-		overlaps=not space.intersect_shape(_floor_wheel_query,1).is_empty() or overlaps
++	# One cached complete-model broad query replaces the former four tyre-only
++	# overlap queries. Its result authenticates only this actual finite RID/shape;
++	# cached indexed model points decide the gap and all final pieces stay strict.
++	_floor_wheel_query.shape=_visual_rig.board_contact_geometry().convex_shape
++	_floor_wheel_query.transform=original*board_local
++	_floor_wheel_query.motion=Vector3.ZERO
++	_floor_wheel_query.margin=0.0
++	var overlaps_support:=false
++	for hit:Dictionary in space.intersect_shape(_floor_wheel_query,16):
++		if hit.get("rid")==support.get("rid") and hit.get("shape")==support.get("shape"):
++			overlaps_support=true
++			break
+ 	# A wholly buried tyre may not intersect a zero-thickness native floor.
+ 	# Its centre must still be behind its own verified finite native support.
+-	if not overlaps and not behind_support: return
++	if not overlaps_support and not behind_support:return
+ 	var local_axis: Vector3=global_basis.inverse()*axis
+ 	var landing_basis:=Basis.from_euler(Vector3(atan2(local_axis.z,local_axis.y),0,-asin(clampf(local_axis.x,-1,1))))
+ 	var yaw:=_spin_angle+_stance_angle+_air_grind_yaw-PI*(_revert_pose_remaining/REVERT_DURATION)
+ 	var target:=Transform3D(global_basis*landing_basis*Basis(Vector3.UP,yaw),original.origin)
+-	if _air_landing_wheel_gap(target*board_local,wheels,point,axis)<GROUND_PRESENTATION_SKIN: return
++	if _air_landing_model_gap(target*board_local,wheels,point,axis)<GROUND_PRESENTATION_SKIN: return
+ 	var low:=0.0
+ 	var high:=1.0
+ 	# Fixed eight math-only passes find the smallest safe orientation change.
+@@ -3838,7 +3848,7 @@
+ 	for pass_index: int in 8:
+ 		var middle: float=(low+high)*0.5
+ 		var candidate:=original.interpolate_with(target,middle)
+-		if _air_landing_wheel_gap(candidate*board_local,wheels,point,axis)>=GROUND_PRESENTATION_SKIN: high=middle
++		if _air_landing_model_gap(candidate*board_local,wheels,point,axis)>=GROUND_PRESENTATION_SKIN: high=middle
+ 		else: low=middle
+ 	var fitted:=original.interpolate_with(target,high)
+ 	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
+@@ -3906,6 +3916,17 @@
+ 	if not _native_rim_frame_clear(_board_visual.global_transform,0.0):_visual.position=original_local
+ 
+ 
++func _air_landing_model_gap(pose:Transform3D,wheels:Array,point:Vector3,axis:Vector3)->float:
++	# Startup-cached actual connected model pieces, including the raised nose,
++	# trucks and hardware. No new geometry/resources or per-fit packed arrays.
++	if not _grind_clearance.ready:return -INF
++	var minimum:float=_air_landing_wheel_gap(pose,wheels,point,axis)
++	for part:Dictionary in _grind_clearance._parts:
++		for vertex:Vector3 in part.points:
++			minimum=minf(minimum,(pose*vertex-point).dot(axis))
++	return minimum
++
++
+ func _air_landing_wheel_gap(pose: Transform3D,wheels: Array,point: Vector3,axis: Vector3) -> float:
+ 	var minimum:=INF
+ 	for wheel: Dictionary in wheels:

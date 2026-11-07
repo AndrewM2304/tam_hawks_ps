@@ -1,0 +1,93 @@
+extends SceneTree
+## PRIVATE UNPARSED/UNRUN control. Actual native arrays are written only after
+## real import and native queries; no source-shaped fake record is accepted.
+const Clearance=preload("res://game/tricks/grind_clearance.gd")
+const SOURCE_SHA:="c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5"
+var passes:=0
+var failures:Array[String]=[]
+func _initialize()->void:_run.call_deferred()
+func _check(ok:bool,label:String)->void:
+ if ok:passes+=1
+ else:failures.append(label)
+ print("PASS "if ok else "FAIL ",label)
+func _run()->void:
+ var packed:PackedScene=load("res://game/art/assets/tam_skateboard/tam_skateboard.glb")as PackedScene
+ _check(packed!=null,"physical control actual PackedScene loads")
+ if packed==null:_finish({});return
+ var stage:=Node3D.new();root.add_child(stage)
+ var model:Node3D=packed.instantiate();stage.add_child(model)
+ var receipt:Dictionary=model.get_meta("tam_board_wood_import",{})
+ _check(receipt.get("source_sha256")==SOURCE_SHA,"physical control actual import source pin")
+ _check(receipt.get("policy_sha256")==FileAccess.get_sha256("res://tools/art/import_board_wood.gd"),"physical control executed private policy pin")
+ _check(receipt.get("decoder_sha256")==FileAccess.get_sha256("res://tools/art/board_wood_source.gd"),"physical control executed private decoder pin")
+ _check(not model.has_meta("tam_board_semantic_parts"),"control deliberately has no admitted semantic metadata")
+ var meshes:Array[MeshInstance3D]=[];_collect(model,meshes)
+ _check(meshes.size()==1,"physical control exactly one imported MeshInstance")
+ if meshes.size()!=1:stage.free();_finish({});return
+ var mesh:MeshInstance3D=meshes[0]
+ _check(mesh.transform==Transform3D.IDENTITY and mesh.skin==null,"physical native mesh identity and no Skin")
+ var surfaces:Array=[];var triangles:=0
+ for surface:int in mesh.mesh.get_surface_count():
+  var a:Array=mesh.mesh.surface_get_arrays(surface)
+  var positions:PackedVector3Array=a[Mesh.ARRAY_VERTEX]
+  var indices:PackedInt32Array=a[Mesh.ARRAY_INDEX]
+  var material:StandardMaterial3D=mesh.mesh.surface_get_material(surface)as StandardMaterial3D
+  _check(material!=null,"physical control native standard material"+str(surface))
+  if material==null:continue
+  triangles+=indices.size()/3
+  surfaces.append({"index":surface,"material":material.resource_name,"positions":_bytes(positions), \
+   "normals":_bytes(a[Mesh.ARRAY_NORMAL]),"uv":_bytes(a[Mesh.ARRAY_TEX_UV]), \
+   "tangents":_bytes(a[Mesh.ARRAY_TANGENT]),"indices":_bytes(indices),"mesh_instance":str(mesh.name), \
+   "imported_surface_format":mesh.mesh.surface_get_format(surface), \
+   "packed_surface":_packed_surface(mesh.mesh.get("_surfaces")[surface]), \
+   "packed_shadow_surface":_packed_surface(mesh.mesh.shadow_mesh.get("_surfaces")[surface])})
+ _check(surfaces.size()==4 and triangles==5996,"physical control actual5996 indexed faces/four surfaces")
+ var rider:=CharacterBody3D.new();root.add_child(rider)
+ var legacy:=Clearance.new()
+ _check(legacy.rebuild(stage,{"meshes":meshes},rider.get_rid()),"legacy native cache builds from physical model")
+ _check(legacy.component_count==30,"actual touching assembly exposes the known30-part coordinate-weld merge")
+ var parts:Array=[]
+ var body:=StaticBody3D.new();body.collision_layer=1;body.collision_mask=0
+ for part:Dictionary in legacy._parts:
+  parts.append({"points":_bytes(part.points),"shape_class":part.shape.get_class(),"margin":part.shape.margin})
+  var shape:=CollisionShape3D.new();shape.shape=part.shape;body.add_child(shape)
+ stage.add_child(body)
+ await physics_frame;await process_frame
+ await physics_frame;await process_frame
+ var sphere:=SphereShape3D.new();sphere.radius=.0005
+ var query:=PhysicsShapeQueryParameters3D.new();query.shape=sphere
+ query.transform=Transform3D(Basis.IDENTITY,Vector3(0,-.010,0));query.margin=0.0;query.collision_mask=1
+ var hits:Array[Dictionary]=stage.get_world_3d().direct_space_state.intersect_shape(query,8)
+ _check(not hits.is_empty(),"real native legacy convex cache reports the retained under-deck phantom witness")
+ var hit_shapes:Array=[]
+ for hit:Dictionary in hits:hit_shapes.append({"rid":hit.rid.get_id(),"shape":hit.shape,"same_body":hit.rid==body.get_rid()})
+ var record:Dictionary={"label":"physical-control","surfaces":surfaces,"component_count":legacy.component_count, \
+  "component_parts":parts,"model_radius":legacy.model_radius,"edge_roll_angle":legacy.edge_roll_angle, \
+  "import_receipt":receipt,"source_glb_sha256":SOURCE_SHA,"legacy_phantom_query": \
+  {"centre_m":[0,-.010,0],"sphere_radius_m":.0005,"margin_m":0,"hits":hit_shapes}, \
+  "scope":"actual native imported physical control arrays and inherited coordinate-weld cache; no semantic admission or gameplay datum change"}
+ stage.free();rider.free()
+ _finish(record)
+func _finish(record:Dictionary)->void:
+ var data:Dictionary={"passed":passes,"failures":failures,"record":record,"scope":"PRIVATE physical native control only; fixtures, no ordinary Main/visual/motion/M5 claim"}
+ var file:=FileAccess.open("res://native-control.json",FileAccess.WRITE)
+ if file==null:push_error("Cannot write native control output");quit(2);return
+ file.store_string(JSON.stringify(data,"",true,true));file.close()
+ print("PHYSICAL BOARD NATIVE CONTROL: ",passes," passed, ",failures.size()," failed")
+ quit(0 if failures.is_empty() else 1)
+func _collect(node:Node,meshes:Array[MeshInstance3D])->void:
+ if node is MeshInstance3D:meshes.append(node)
+ for child:Node in node.get_children():_collect(child,meshes)
+func _bytes(value:Variant)->Dictionary:
+ if value==null:return {"available":false}
+ return {"available":true,"count":value.size(),"base64":Marshalls.raw_to_base64(value.to_byte_array())}
+func _sha(bytes:PackedByteArray)->String:
+ var h:=HashingContext.new();h.start(HashingContext.HASH_SHA256);h.update(bytes);return h.finish().hex_encode()
+func _packed_surface(data:Dictionary)->Dictionary:
+ var result:Dictionary={"format":data.format,"vertex_count":data.vertex_count,"index_count":data.get("index_count",0)}
+ for key:String in ["vertex_data","attribute_data","skin_data","index_data"]:
+  if data.has(key):result[key]={"bytes":data[key].size(),"sha256":_sha(data[key])}
+ var lods:Array=data.get("lods",[]);var records:Array=[]
+ for i:int in range(0,lods.size(),2):records.append({"edge_length":float(lods[i]),"index_sha256":_sha(lods[i+1]),"bytes":lods[i+1].size()})
+ result["lods"]=records
+ return result

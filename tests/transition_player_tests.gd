@@ -89,7 +89,16 @@ static func _lip_process(tree: SceneTree, game: Node, check: Callable) -> void:
 		if game.skater.lip_active:
 			caught = true
 			break
-	check.call(caught and absf(game.skater.global_position.y - 8.472) < 0.01
+	var native_crown:=INF
+	var native_coping:Dictionary={}
+	if caught:
+		var ray:=PhysicsRayQueryParameters3D.create(game.skater.global_position+Vector3.UP*.10,game.skater.global_position-Vector3.UP*.10,1,[game.skater.get_rid()])
+		native_coping=game.skater.get_world_3d().direct_space_state.intersect_ray(ray)
+		var raw:Variant=native_coping.get("collider")
+		if typeof(raw)==TYPE_OBJECT and is_instance_valid(raw) and raw is StaticBody3D and raw.get_meta("coping_feature",null)==game.skater._feature_transition.feature and Vector3(native_coping.normal).y>.999:
+			native_crown=float(native_coping.position.y)
+	print("TRANSITION_PLAYER_NATIVE_LIP actorY=",game.skater.global_position.y," nativeCrown=",native_crown," rideOffset=0.002 hit=",native_coping)
+	check.call(caught and is_finite(native_crown) and absf(game.skater.global_position.y - (native_crown+0.002)) < 0.01
 		and game.score.trick_history.count("Lip Stall") == 1,
 		"transition player: held grind catches and names the actual coping once")
 	if not caught: return

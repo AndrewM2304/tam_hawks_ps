@@ -128,7 +128,11 @@ static func run(tree:SceneTree,check:Callable)->void:
 	await Classic._dispose(tree,fixture)
 	DirAccess.make_dir_recursive_absolute("res://.local")
 	var file:=FileAccess.open("res://.local/fitted-rig-metrics.json",FileAccess.WRITE)
+	if file==null:
+		push_error("Could not open fitted native metrics output")
+		return
 	file.store_string(JSON.stringify(metrics,"\t",true,true))
+	file.close()
 	print("FITTED_GARMENT_METRICS ",JSON.stringify(metrics))
 
 static func _topology_negatives(rig:RefCounted,reference:Dictionary,check:Callable)->void:

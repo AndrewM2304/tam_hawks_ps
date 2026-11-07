@@ -120,3 +120,38 @@ certificate is inferred. Two initial market-counter camera rays are explicitly
 pre-camera-process observations, so a post-camera/draw test is required before
 claiming a rendered obstruction. Actual native support authoring and visual contact
 remain open; no global generic pose offset is applied.
+
+
+## Native round coping catch (2026-11-07, private candidate)
+
+The original unchanged promenade air-grind fixture physically put two actual
+inner tyres 5 mm into its real rear deck after the researched 12 mm coping reveal.
+The native part/RID/shape rejection, finite-cylinder solution and honest failed
+predecessors are retained in [round-coping-native-01](motion-fidelity-2026-11-07/round-coping-native-01/README.md).
+A current coherent actual-source snapshot with only the guarded seven-file
+proposal passes 434/0: existing neighbors 344, original Main Transition 23 and
+new public native round/profile/ride/release controls 67. Actual body/guide/input/
+reach/tolerances remain unchanged; model-derived 2.76594° roll follows the true
+cylinder and keeps both actual hanger anchors within 100 µm. Independent review,
+actual installation/integration and moving appearance remain separate gates.
+
+Root subsequently installed the guarded round solution. The first actual combined
+run was [rejected at 133/1](motion-fidelity-2026-11-07/actual-round-focused-01/README.md)
+for an actual Clyde landing intrusion; it also records the launcher's omitted
+Player Guide binding. After the separate finite flat-landing handoff repair,
+[strict actual focus02 passed 134/0](motion-fidelity-2026-11-07/actual-round-focused-02/README.md):
+original Transition 23, public round contact 67, ordinary Main motion/support 32,
+original Clyde 11 and Music isolation 1. Both processes exited zero, raw logs were
+clean, 892 required source inputs and five independent native cache pins stayed
+stable. The same already-created Main supplied the read-only registry snapshot:
+8 gaps, 66 world routes, 67 HUD routes and 242 unique grind guides. This focused
+result does not certify the subsequent full suite, moving appearance or M5 cost.
+
+The later [private Manual rim recovery](motion-fidelity-2026-11-07/station-manual-native-01/README.md)
+reproduces a real trailing tyre/Cylinder3 overlap for which native rest information
+is empty. Reusing only the original same-callback loaded-wheel ray allows the
+existing 25 mm/full-model correction to run. Clean current-source native checks
+pass 22/0; all 1004 physical rows equal the rejected baseline, and 993 consecutive
+ordinary board/shoe-box frames clear. The packet retains the unrelated inherited
+spine capsule failure, diagnostic fixture limits and bounded-query cost. The
+proposal remains private pending independent review and neighboring checks.

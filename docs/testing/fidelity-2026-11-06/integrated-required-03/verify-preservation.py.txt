@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+"""Verify this completed full-gate packet, with optional exact base-Git checks."""
+from pathlib import Path
+import argparse,datetime,gzip,hashlib,json,re,subprocess,tarfile
+R=Path(__file__).resolve().parent
+parser=argparse.ArgumentParser();parser.add_argument('--repo',type=Path);args=parser.parse_args()
+count=0
+def check(ok,label):
+ global count
+ if not ok:raise AssertionError(label)
+ count+=1
+def sha(data):return hashlib.sha256(data).hexdigest()
+def unpack(name):return gzip.decompress((R/(name+'.gz')).read_bytes())
+def load(name):return json.loads(unpack(name))
+index=json.loads((R/'preservation.json').read_text())
+for name,item in index['files'].items():
+ data=(R/name).read_bytes();check(sha(data)==item['sha256'] and len(data)==item['bytes'],'preserved '+name)
+receipt=json.loads((R/'receipt.json').read_text());before=load('source-before.json');after=load('source-after.json')
+check(before==after and len(before)==receipt['source_input_count']==890,'all source identity stable')
+check(sha(unpack('source-before.json'))==receipt['source_before_sha256'],'before map hash')
+for name,expected in receipt['preserved_files_sha256'].items():
+ data=unpack(name) if (R/(name+'.gz')).exists() else (R/name).read_bytes()
+ check(sha(data)==expected,'original receipt output '+name)
+check(receipt['eligible'] and receipt['engine_exit']==0 and not receipt['changed_inputs'] and not receipt['error_lines'],'eligible exact complete command')
+check(receipt['main_result']==[6600,0] and receipt['script_launch_result']==[2,0],'result counts')
+check(receipt['command']==['./tools/check.sh'] and receipt['branch']=='main','ordinary main invocation')
+check(receipt['deadline_seconds']==3600 and 0<receipt['wall_seconds']<3600,'declared bound')
+mandatory=['project.godot','export_presets.cfg','docs/PLAYER-GUIDE.md','tools/check.sh','tools/run.sh','tools/prepare_source_assets.sh','tests/run_tests.gd','tests/support/music_launch_guard.gd','.local/run-fidelity-checkpoint03.py']
+check(all(x in before for x in mandatory),'mandatory entrypoints before-bound')
+check(sha((R/'runner.py.txt').read_bytes())==before['.local/run-fidelity-checkpoint03.py']['sha256'],'exact before-bound runner')
+command=unpack('command.log').decode();tests=unpack('tests.log').decode();cli=unpack('script-launch.log').decode()
+for name in ['command.log','tests.log','import.log','script-launch.log']:
+ check(not re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|ERROR:|FAIL:',unpack(name).decode()),'raw clean '+name)
+check(re.findall(r'^RESULT: (\d+) passed, (\d+) failed$',command,re.M)==[('6600','0')],'one Main result in command')
+check(re.findall(r'^SCRIPT LAUNCH: (\d+) passed, (\d+) failed$',command,re.M)==[('2','0')],'one CLI result in command')
+check(re.findall(r'^RESULT: (\d+) passed, (\d+) failed$',tests,re.M)==[('6600','0')],'secondary Main log')
+check(re.findall(r'^SCRIPT LAUNCH: (\d+) passed, (\d+) failed$',cli,re.M)==[('2','0')],'secondary CLI log')
+check(tests in command and cli in command and unpack('import.log').decode() in command,'secondary logs occur in full stdout')
+bindings=json.loads((R/'source-bindings.json').read_text());refs=json.loads((R/'unchanged-git-source-references.json').read_text())
+check(bindings['base_commit']==refs['base_commit']==receipt['git_head'],'same exact base')
+check(set(bindings['inputs'])==set(before),'all source paths resolved')
+with tarfile.open(R/'source-delta-objects.tar.gz','r:gz') as tar:
+ objects={m.name:tar.extractfile(m).read() for m in tar.getmembers() if m.isfile()}
+for name,item in bindings['inputs'].items():
+ check(item['sha256']==before[name]['sha256'] and item['bytes']==before[name]['bytes'],'source binding '+name)
+ if 'object' in item:
+  data=objects[item['object']];check(sha(data)==item['sha256'] and len(data)==item['bytes'],'archived changed source '+name)
+ else:check(refs['files'][name]['sha256']==item['sha256'] and refs['files'][name]['bytes']==item['bytes'],'Git reference '+name)
+check(len(objects)==20 and len(refs['files'])==870,'deduplicated complete source split')
+repo=args.repo
+if repo is None:repo=next((p for p in R.parents if (p/'.git').exists()),None)
+if repo is not None:
+ proc=subprocess.Popen(['git','cat-file','--batch'],cwd=repo,stdin=subprocess.PIPE,stdout=subprocess.PIPE)
+ for name,item in refs['files'].items():
+  proc.stdin.write((item['git_blob']+'\n').encode());proc.stdin.flush();header=proc.stdout.readline().decode().split()
+  check(len(header)==3 and header[1]=='blob','base blob exists '+name)
+  data=proc.stdout.read(int(header[2]));check(proc.stdout.read(1)==b'\n','base blob framing')
+  check(sha(data)==item['sha256'] and len(data)==item['bytes'],'exact base Git bytes '+name)
+ proc.stdin.close();check(proc.wait()==0,'Git batch clean exit')
+certificate=load('shoe-support-certificate.json');exact=load('shoe-support-exact.json')
+check(sha(unpack('shoe-support-certificate.json'))==exact['input_sha256'],'exact-integer certificate input binding')
+native=[json.loads(line.split(' ',1)[1]) for line in tests.splitlines() if line.startswith('FULL_SHOE_SUPPORT_CACHE ')]
+check(len(native)==1 and native[0]==certificate,'generated certificate equals native stdout')
+pos=command.index('{\n  "oracle_self_test"');reported,_=json.JSONDecoder().raw_decode(command,pos)
+check(reported==exact and exact['passed'] and all(x['passed'] for x in exact['legs']),'exact verifier equals successful command stdout')
+outputs=json.loads((R/'generated-output-record.json').read_text())
+for name,item in outputs.items():check(sha(unpack(name))==item['sha256'] and len(unpack(name))==item['bytes'],'generated output preserved '+name)
+print(json.dumps({'passed':count,'failed':0,'base_git_objects_verified':repo is not None,'scope':'offline preservation/source-and-stdout binding only; not another native/visual/M5/performance acceptance'}))

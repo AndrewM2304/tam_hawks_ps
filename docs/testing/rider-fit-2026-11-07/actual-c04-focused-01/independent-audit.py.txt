@@ -1,0 +1,42 @@
+from pathlib import Path
+import datetime,hashlib,json,math,re,shutil
+import numpy as np
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/rider-fit-2026-11-07/actual-c04-focused-01';C=R/'docs/testing/fidelity-2026-11-06/required02-cleanup-actual-install-01';I=R/'docs/testing/rider-fit-2026-11-07/actual-c04-install-01';checks=[]
+def j(p):return json.loads(p.read_text())
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,v):checks.append({'label':label,'pass':bool(v)})
+receipt=j(P/'receipt.json');before=j(P/'source-before.json');after=j(P/'source-after.json');data=j(P/'modules.json');log=(P/'native.log').read_text()
+ck('complete actual75/0 clean native process',receipt['eligible']and receipt['exit_code']==0 and receipt['stop_reason']is None and not receipt['raw_error']and receipt['native_summary']=={'passed':75,'failed':0}and data['passed']==75 and data['failed']==0 and not data['failures'])
+ck('887 actual source inputs unchanged',len(before)==len(after)==receipt['source_count']==887 and before==after and receipt['source_unchanged']and receipt['source_delta']==[])
+ck('observer and launcher genuinely beforebound exact',before['.local/actual_c04_focused.gd']==sha(P/'observer.gd.txt')and before['.local/run-actual-c04-focused.py']==sha(P/'launcher.py.txt'))
+ck('all75 rawPASS and zeroFAIL or rawerrors match finalsummary',len(re.findall(r'^PASS ',log,re.M))==75 and not re.search(r'^(?:FAIL |ERROR:|SCRIPT ERROR:)',log,re.M) and'ACTUAL C04 FOCUS: 75 passed, 0 failed'in log)
+ck('actual measured modules18/18/27/11 plus oneisolation—not119estimate',[(x['name'],x['passed'],x['failed'])for x in data['modules']]==[('OriginalBodyAttachment',18,0),('OriginalGaitDirection',18,0),('OriginalFlatOllie',27,0),('OriginalClydeFullLocalPrefixAndBankReturn',11,0)]and sum(x['passed']for x in data['modules'])+1==75)
+cb,ca=j(C/'source-before.json'),j(C/'source-after.json');cr=j(C/'receipt.json');expected=dict(cb);selected=[]
+for manifest in sorted(C.glob('reviewed-manifest-*.json')):
+ m=j(manifest)
+ for e in m.get('entries',m.get('files',[])):
+  ck('cleanup preimage beforebound '+e['path'],cb[e['path']]==e['before_sha256']);expected[e['path']]=e['after_sha256'];selected.append(e['path'])
+ck('all885cleanup bytes equal exact8reviewed outputs with nootherchanges',len(cb)==len(ca)==885 and len(selected)==len(set(selected))==8 and expected==ca and set(cr['changed_inputs'])==set(selected)and cr['all_other_source_bytes_preserved'])
+install=j(I/'receipt.json');expected=dict(ca)
+for e in install['files']:
+ ck('C04 guarded preimage matches prior cleanup '+e['path'],ca[e['path']]==e['before_sha256'])
+ expected[e['path']]=e['after_sha256']
+ck('exact2file C04installation binds all885actual75core inputs',len(install['files'])==2 and install['all_other_inputs_preserved']and install['input_count']==885 and expected=={k:v for k,v in before.items()if k in ca})
+ck('actualcontroller/Visual exactlyindependently reviewed finiteproposal02',before['game/player/skater.gd']=='e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd'and before['game/player/skater_visual.gd']=='1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05')
+rows=data['pose_trace'];ck('all459 physical poses consecutive and latecamera stamps current',len(rows)==459 and all(b['physics']==a['physics']+1 for a,b in zip(rows,rows[1:]))and all(x['camera_process']==x['process']for x in rows))
+ck('all actual body visual board and head matrices finite',all(np.isfinite(np.asarray(x[k])).all()for x in rows for k in ['body','visual','board','board_GTI','head']))
+steps=[]
+for idx,(a,b)in enumerate(zip(rows,rows[1:]),1):
+ ah,bh=np.asarray(a['head'])[:3,3],np.asarray(b['head'])[:3,3];ab,bb=np.asarray(a['body'])[:3,3],np.asarray(b['body'])[:3,3]
+ relative=(bh-bb)-(ah-ab);delta=np.linalg.solve(np.asarray(a['visual'])[:3,:3],np.asarray(b['visual'])[:3,:3]);u,s,v=np.linalg.svd(delta);rot=u@v
+ angle=math.degrees(math.acos(float(np.clip((np.trace(rot)-1)/2,-1,1))))
+ steps.append({'row_index':idx,'physics':b['physics'],'process':b['process'],'previous_physics':a['physics'],'physics_steps':1,'airborne_before':a['air'],'airborne_after':b['air'],'body_position_m':bb.tolist(),'head_position_m':bh.tolist(),'head_delta_world_m':float(np.linalg.norm(bh-ah)),'body_translation_m':float(np.linalg.norm(bb-ab)),'head_delta_relative_to_body_m':float(np.linalg.norm(relative)),'relative_head_delta_vector_m':relative.tolist(),'visual_relative_rotation_degrees':angle})
+largest=sorted(steps,key=lambda x:x['head_delta_relative_to_body_m'],reverse=True)[:10];air=[x for x in steps if x['physics']in[3375,3376,3377]]
+ck('D022 three adjacent actualair frames each massiveheadrelative step',len(air)==3 and all(x['airborne_before']and x['airborne_after']for x in air)and all(x['head_delta_relative_to_body_m']>.60 for x in air))
+ck('D022 measuredworldheadsteps .761/.579/.731m independently reproduce',all(abs(x['head_delta_world_m']-y)<.000001 for x,y in zip(air,[.7609596870892121,.5786420550112833,.7309396512621813])))
+ck('D022 measuredconsecutiveVisualrotations35.154/27.715/34.902deg',all(abs(x['visual_relative_rotation_degrees']-y)<.001 for x,y in zip(air,[35.15432096008785,27.715215236732025,34.90218769435247])))
+ck('ordinaryair actual actorbasis unchanged across severe3steps',all(np.array_equal(np.asarray(rows[x['row_index']-1]['body'])[:3,:3],np.asarray(rows[x['row_index']]['body'])[:3,:3])for x in air))
+report={'passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'native_result':[75,0],'native_scope':'Current actual installed-source18BodyAttachment+18GaitDirection+27FlatOllie+11Clyde originalmodules+1Music/profile isolation,887inputs stable. Not119estimate.','code_chain':'Exact8reviewed cleanup outputs across885inputs; exact2C04 gamefile changes then match all885core inputs in actual75. Both ignored executionentrypoints are additionally beforebound.','visual_motion_result':'FAIL: FID-D022/P0 observed current whole-pose rapid upright steps in real consecutivephysics data; native finite-clear/camera75/0 remains valid separately.','d022':{'owner':'Contact/rigging with root integration; independent moving/native QA','source_controller':before['game/player/skater.gd'],'source_visual':before['game/player/skater_visual.gd'],'native_pid':receipt['pid'],'utc_start':receipt['start_utc'],'utc_end':receipt['end_utc'],'frames':air,'largest_relative_head_steps':largest,'scope':'Current Node3D matrices and their consecutive-physics arithmetic, not GPU images. Sourceobserver uses lateprocesspriority1000 and matches actualpostcamera stamps.','interpretation':'Large rapid upright rotation across3ticks, not demonstrated alternatingoscillation or a detachedhead/neck seam. Introduced-versus-inherited cause awaits matchedold/new solver stamps. The actualwholefigure rotation is not excused by clearance pass.','required_next':'Matched sameinput/privateprefix pre-C04 versus current2file source, stamp incoming/outgoing support/landingfit and actualnative floor authority; then gradual finite-safe correction with retained actualmodel/contact/physics guards. Source-bound native movingpixels and fullcurrentgate stillrequired.'},'limits':['The current originalClyde localprefix differs from earlier globalrequired02 precedingorder/coast; do not silently callsamefulltrajectory.','These are actualphysics75-nodeframe data, not normal-speed GPU frames or targetM5 evidence.','Pure authored Visualpair proof remains2400statesunderfrozenbody, notthisactual459physics trace.','Fullgame/action/contact/physicalcontroller/export/hardware/owner/AAA acceptance remains open.','D022 is a currentobserved failure; no unmeasured causal attribution to a particularnew helper is asserted.']}
+(P/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(Path(__file__),P/'independent-audit.py.txt');(P/'d022-pose-step-analysis.json').write_text(json.dumps({'scope':'Independent algebra over originalactual75 currentmatrices, one row peractualphysics step. NoGPU/newenginecall.','steps':steps},indent=2)+'\n')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'native':[75,0],'motion':'D022FAIL','max_relative_head_step_m':largest[0]['head_delta_relative_to_body_m'],'failures':[c for c in checks if not c['pass']]}))
+if report['failed']:raise SystemExit(1)

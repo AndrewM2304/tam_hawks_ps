@@ -1,0 +1,251 @@
+{
+  "reviewer": "LD, independent of Motion author; source/provenance only, QE retains semantic/native ownership",
+  "recorded_utc": "2026-11-07T09:11:17.299631+00:00",
+  "bundle_manifest_sha256": "ef8f34faf56c5d5a14f81187dd977a22074cb2a0f1964ebdb15e930536b34c8b",
+  "bundle_manifest_expected": "ef8f34faf56c5d5a14f81187dd977a22074cb2a0f1964ebdb15e930536b34c8b",
+  "entries": [
+    {
+      "path": "game/player/skater.gd",
+      "before_guard": true,
+      "payload_guard": true,
+      "current_preimage_guard": true,
+      "current_sha256": "e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd",
+      "native_overlay_equals_payload": true,
+      "native_epoch_equals_payload": true,
+      "existing_constant_declarations_exact": true
+    },
+    {
+      "path": "game/tricks/grind_line.gd",
+      "before_guard": true,
+      "payload_guard": true,
+      "current_preimage_guard": true,
+      "current_sha256": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+      "native_overlay_equals_payload": true,
+      "native_epoch_equals_payload": true,
+      "existing_constant_declarations_exact": true
+    },
+    {
+      "path": "game/tricks/grind_style.gd",
+      "before_guard": true,
+      "payload_guard": true,
+      "current_preimage_guard": true,
+      "current_sha256": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+      "native_overlay_equals_payload": true,
+      "native_epoch_equals_payload": true,
+      "existing_constant_declarations_exact": true
+    },
+    {
+      "path": "game/tricks/grind_clearance.gd",
+      "before_guard": true,
+      "payload_guard": true,
+      "current_preimage_guard": true,
+      "current_sha256": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+      "native_overlay_equals_payload": true,
+      "native_epoch_equals_payload": true,
+      "existing_constant_declarations_exact": true
+    },
+    {
+      "path": "game/levels/transition_feature.gd",
+      "before_guard": true,
+      "payload_guard": true,
+      "current_preimage_guard": true,
+      "current_sha256": "7e7a543663da3918344f834a69da1e9ab48d950a9bb4708c406c2b7ff271a087",
+      "native_overlay_equals_payload": true,
+      "native_epoch_equals_payload": true,
+      "existing_constant_declarations_exact": true
+    },
+    {
+      "path": "tests/round_coping_contact_tests.gd",
+      "before_guard": true,
+      "payload_guard": true,
+      "current_preimage_guard": true,
+      "current_sha256": null,
+      "native_overlay_equals_payload": true,
+      "native_epoch_equals_payload": true
+    },
+    {
+      "path": "tests/run_tests.gd",
+      "before_guard": true,
+      "payload_guard": true,
+      "current_preimage_guard": true,
+      "current_sha256": "fbd0944feb1c3a6bdc8e929106dff65ef16b3c90c52575ecc3d30c4f6c1851a1",
+      "native_overlay_equals_payload": null,
+      "native_epoch_equals_payload": null
+    }
+  ],
+  "runner_reconstructs_exact_after_only_two_additions_removed": true,
+  "native_runner_registration_executed": false,
+  "native_epoch": {
+    "source_input_count": 877,
+    "source_before_after_equal": true,
+    "result": [
+      78,
+      0
+    ],
+    "complete": true,
+    "logs": [
+      {
+        "name": "parser",
+        "sha_matches_receipt": true,
+        "exit": 0,
+        "stop": null,
+        "raw_error_lines": [],
+        "raw_pass_line_count": 0
+      },
+      {
+        "name": "native",
+        "sha_matches_receipt": true,
+        "exit": 0,
+        "stop": null,
+        "raw_error_lines": [],
+        "raw_pass_line_count": 78
+      }
+    ]
+  },
+  "changed_skater_functions": [
+    "_solve_grind_contact",
+    "_grind_candidate_supported",
+    "_grind_board_clear",
+    "_grind_board_path_clear"
+  ],
+  "added_skater_functions": [
+    "_round_grind_native_contacts"
+  ],
+  "native_dependency_differences_from_current_actual": [
+    {
+      "path": "game/player/feature_transition_ride.gd",
+      "native_sha256": "a095314cc7dc4e2607e66e1d0a4b316f37706bb474f629ed0caa81406f471e4c",
+      "current_sha256": "9717bc66614be81bf45dd095b6083046a6d3ea54eda7c97f4cb0088724a2c341"
+    },
+    {
+      "path": "game/player/skater_visual.gd",
+      "native_sha256": "6f6d6dca484b8f24a5f8efa2db1536150f779497b1ab58d4e0525b26aff4f30b",
+      "current_sha256": "1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05"
+    },
+    {
+      "path": "tests/fitted_garment_tests.gd",
+      "native_sha256": "a9d7d1e8774a59df2bc0032a5da4a6567a346aa84264c3255a41d12b74ba2986",
+      "current_sha256": "2b6f1d6883aab14b3cf32aaa590d779ff43df1948054323ab38396e58c1101b2"
+    },
+    {
+      "path": "tests/full_shoe_support_contract.gd",
+      "native_sha256": "961c8b62af4924f8780b6cfc74f563172b6a217f4473bf67ff90d853d77afef3",
+      "current_sha256": "7df15a629f42e8f2a3226269e599f828729d9c1f2a5dc72d1b604d57704af245"
+    },
+    {
+      "path": "tests/horizon_background_tests.gd",
+      "native_sha256": "28428dd8c7cf4e59f7c49a4d0fa5a1d8ec1d4ad9c903ff8f7423e74a1e0587fa",
+      "current_sha256": "3187340fc915536cb385eaee916af24fd26071b2675422586d2f39d35e4e977b"
+    },
+    {
+      "path": "tests/skate_edges_tests.gd",
+      "native_sha256": "2d94fef70a15782492b5564d1a2b3476b1aaf99b173106e9e1d045c829e4dd29",
+      "current_sha256": "2afd4fca810ee9363ab76a299e7c173b220506d5556b4dffc95c5790e1bac3a9"
+    },
+    {
+      "path": "tests/transition_player_tests.gd",
+      "native_sha256": "8699f7d0f1cc3272c6bc41acc610102554263648e50c004f358517670046fd2d",
+      "current_sha256": "019df1d29a28777d8afa2832fe87f39c41eeef4e2a30f406613bc9ecafe57ed0"
+    },
+    {
+      "path": "tools/export.sh",
+      "native_sha256": "9ca2dce2c12ee1371279317ed2b4bcd27f6cb463936033ba47e196fa40434962",
+      "current_sha256": "451d4bbf4102f7c3f5ae8c687005fea62c66c233c3aae135a08fb2be7111a594"
+    }
+  ],
+  "dependency_qualification": {
+    "game/player/feature_transition_ride.gd": "Only disclosed read-only diagnostic cast/hit queries/prints differ; existing physical return conditions preserved.",
+    "tests/transition_player_tests.gd": "Only trace calls/helper differ; all original assertions remain.",
+    "game/player/skater_visual.gd": "Later steep-ground Push/Brake gait fade is absent from native epoch. Four round moving-start cases use neither input, but current complete composition not executed here.",
+    "other_test_tool_drift": "Not part of guarded payload; native private scope remains explicit."
+  },
+  "no_blanket_threshold_claim": "All five existing const declarations match. Round branch deliberately replaces conservative box-owner refinement with actual all-model/all-solid proof. This admission behavior and successor finite guards require QE semantic review; unchanged numeric constants alone do not certify it.",
+  "status": "HISTORICAL SOURCE GUARDS PASS; admission01 held by author for successor finite/point/deck-frame guards; no final/current/native/visual/performance admission",
+  "source_before": {
+    ".local/motion-required02-fixes/round-admission-01/before/game/levels/transition_feature.gd": "7e7a543663da3918344f834a69da1e9ab48d950a9bb4708c406c2b7ff271a087",
+    ".local/motion-required02-fixes/round-admission-01/before/game/player/skater.gd": "e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd",
+    ".local/motion-required02-fixes/round-admission-01/before/game/tricks/grind_clearance.gd": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+    ".local/motion-required02-fixes/round-admission-01/before/game/tricks/grind_line.gd": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+    ".local/motion-required02-fixes/round-admission-01/before/game/tricks/grind_style.gd": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+    ".local/motion-required02-fixes/round-admission-01/before/tests/run_tests.gd": "fbd0944feb1c3a6bdc8e929106dff65ef16b3c90c52575ecc3d30c4f6c1851a1",
+    ".local/motion-required02-fixes/round-admission-01/install.py": "4eb1ecdb46ab47f35aa934f9aa95b4c1b5b581095ad80fb19b9523c654dcf619",
+    ".local/motion-required02-fixes/round-admission-01/manifest.json": "ef8f34faf56c5d5a14f81187dd977a22074cb2a0f1964ebdb15e930536b34c8b",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/levels/transition_feature.gd": "c5592f4c5507ba7bab73ff0dc7f79424181f4618a76007efde8895eaa802df35",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/player/skater.gd": "4895c7bf8a58608f7bde4c4fd13b571d1a16d0e04f56cc26b56d973f4c0d8924",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/tricks/grind_clearance.gd": "3c08d327c1d787d2e500650842981f006ce5ff874488716efc860a637739b8c5",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/tricks/grind_line.gd": "dfe4e1c16a6b98e73958f210e71928d3ffda0322d180eb387fe390062deddd26",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/tricks/grind_style.gd": "3d147af480c70c1335a124fc1533037d20f195cc4d1e75dc0f844fedee8651ab",
+    ".local/motion-required02-fixes/round-admission-01/payload/tests/round_coping_contact_tests.gd": "49ee31398fb67e7b573e68f664f83a2082533e00764bdaa00b42b9602ad291c2",
+    ".local/motion-required02-fixes/round-admission-01/payload/tests/run_tests.gd": "4ce99131ccae50c2f40d27957c04424b2ad21a8476b17573bb1fa74eb0397e27",
+    ".local/motion-required02-fixes/round-admission-01/proposal.patch": "18d08a30b03f43ca570aa4aab09a71bd452c8d62f6646b9e64acd9046f8276c1",
+    ".local/motion-required02-fixes/transition-11/native.log": "2d11fd861ccc79edbf19580eacd72064e851d18dd3c7f90002ae51e4f06a8968",
+    ".local/motion-required02-fixes/transition-11/parser.log": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+    ".local/motion-required02-fixes/transition-11/receipt.json": "595b2bb78ca21ee45648e9999c8aaf8e2b3ca057b18eaab044e6fcbbc337d9cd",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/levels/transition_feature.gd": "c5592f4c5507ba7bab73ff0dc7f79424181f4618a76007efde8895eaa802df35",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/player/feature_transition_ride.gd": "a095314cc7dc4e2607e66e1d0a4b316f37706bb474f629ed0caa81406f471e4c",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/player/skater.gd": "4895c7bf8a58608f7bde4c4fd13b571d1a16d0e04f56cc26b56d973f4c0d8924",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/tricks/grind_clearance.gd": "3c08d327c1d787d2e500650842981f006ce5ff874488716efc860a637739b8c5",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/tricks/grind_line.gd": "dfe4e1c16a6b98e73958f210e71928d3ffda0322d180eb387fe390062deddd26",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/tricks/grind_style.gd": "3d147af480c70c1335a124fc1533037d20f195cc4d1e75dc0f844fedee8651ab",
+    ".local/motion-required02-fixes/transition-11/source-overlay/tests/round_coping_contact_tests.gd": "49ee31398fb67e7b573e68f664f83a2082533e00764bdaa00b42b9602ad291c2",
+    ".local/motion-required02-fixes/transition-11/source-overlay/tests/transition_player_tests.gd": "8699f7d0f1cc3272c6bc41acc610102554263648e50c004f358517670046fd2d",
+    "game/levels/transition_feature.gd": "7e7a543663da3918344f834a69da1e9ab48d950a9bb4708c406c2b7ff271a087",
+    "game/player/feature_transition_ride.gd": "9717bc66614be81bf45dd095b6083046a6d3ea54eda7c97f4cb0088724a2c341",
+    "game/player/skater.gd": "e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd",
+    "game/player/skater_visual.gd": "1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05",
+    "game/tricks/grind_clearance.gd": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+    "game/tricks/grind_line.gd": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+    "game/tricks/grind_style.gd": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+    "tests/fitted_garment_tests.gd": "2b6f1d6883aab14b3cf32aaa590d779ff43df1948054323ab38396e58c1101b2",
+    "tests/full_shoe_support_contract.gd": "7df15a629f42e8f2a3226269e599f828729d9c1f2a5dc72d1b604d57704af245",
+    "tests/horizon_background_tests.gd": "3187340fc915536cb385eaee916af24fd26071b2675422586d2f39d35e4e977b",
+    "tests/run_tests.gd": "fbd0944feb1c3a6bdc8e929106dff65ef16b3c90c52575ecc3d30c4f6c1851a1",
+    "tests/skate_edges_tests.gd": "2afd4fca810ee9363ab76a299e7c173b220506d5556b4dffc95c5790e1bac3a9",
+    "tests/transition_player_tests.gd": "019df1d29a28777d8afa2832fe87f39c41eeef4e2a30f406613bc9ecafe57ed0",
+    "tools/export.sh": "451d4bbf4102f7c3f5ae8c687005fea62c66c233c3aae135a08fb2be7111a594"
+  },
+  "source_after": {
+    ".local/motion-required02-fixes/round-admission-01/before/game/levels/transition_feature.gd": "7e7a543663da3918344f834a69da1e9ab48d950a9bb4708c406c2b7ff271a087",
+    ".local/motion-required02-fixes/round-admission-01/before/game/player/skater.gd": "e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd",
+    ".local/motion-required02-fixes/round-admission-01/before/game/tricks/grind_clearance.gd": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+    ".local/motion-required02-fixes/round-admission-01/before/game/tricks/grind_line.gd": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+    ".local/motion-required02-fixes/round-admission-01/before/game/tricks/grind_style.gd": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+    ".local/motion-required02-fixes/round-admission-01/before/tests/run_tests.gd": "fbd0944feb1c3a6bdc8e929106dff65ef16b3c90c52575ecc3d30c4f6c1851a1",
+    ".local/motion-required02-fixes/round-admission-01/install.py": "4eb1ecdb46ab47f35aa934f9aa95b4c1b5b581095ad80fb19b9523c654dcf619",
+    ".local/motion-required02-fixes/round-admission-01/manifest.json": "ef8f34faf56c5d5a14f81187dd977a22074cb2a0f1964ebdb15e930536b34c8b",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/levels/transition_feature.gd": "c5592f4c5507ba7bab73ff0dc7f79424181f4618a76007efde8895eaa802df35",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/player/skater.gd": "4895c7bf8a58608f7bde4c4fd13b571d1a16d0e04f56cc26b56d973f4c0d8924",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/tricks/grind_clearance.gd": "3c08d327c1d787d2e500650842981f006ce5ff874488716efc860a637739b8c5",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/tricks/grind_line.gd": "dfe4e1c16a6b98e73958f210e71928d3ffda0322d180eb387fe390062deddd26",
+    ".local/motion-required02-fixes/round-admission-01/payload/game/tricks/grind_style.gd": "3d147af480c70c1335a124fc1533037d20f195cc4d1e75dc0f844fedee8651ab",
+    ".local/motion-required02-fixes/round-admission-01/payload/tests/round_coping_contact_tests.gd": "49ee31398fb67e7b573e68f664f83a2082533e00764bdaa00b42b9602ad291c2",
+    ".local/motion-required02-fixes/round-admission-01/payload/tests/run_tests.gd": "4ce99131ccae50c2f40d27957c04424b2ad21a8476b17573bb1fa74eb0397e27",
+    ".local/motion-required02-fixes/round-admission-01/proposal.patch": "18d08a30b03f43ca570aa4aab09a71bd452c8d62f6646b9e64acd9046f8276c1",
+    ".local/motion-required02-fixes/transition-11/native.log": "2d11fd861ccc79edbf19580eacd72064e851d18dd3c7f90002ae51e4f06a8968",
+    ".local/motion-required02-fixes/transition-11/parser.log": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da",
+    ".local/motion-required02-fixes/transition-11/receipt.json": "595b2bb78ca21ee45648e9999c8aaf8e2b3ca057b18eaab044e6fcbbc337d9cd",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/levels/transition_feature.gd": "c5592f4c5507ba7bab73ff0dc7f79424181f4618a76007efde8895eaa802df35",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/player/feature_transition_ride.gd": "a095314cc7dc4e2607e66e1d0a4b316f37706bb474f629ed0caa81406f471e4c",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/player/skater.gd": "4895c7bf8a58608f7bde4c4fd13b571d1a16d0e04f56cc26b56d973f4c0d8924",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/tricks/grind_clearance.gd": "3c08d327c1d787d2e500650842981f006ce5ff874488716efc860a637739b8c5",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/tricks/grind_line.gd": "dfe4e1c16a6b98e73958f210e71928d3ffda0322d180eb387fe390062deddd26",
+    ".local/motion-required02-fixes/transition-11/source-overlay/game/tricks/grind_style.gd": "3d147af480c70c1335a124fc1533037d20f195cc4d1e75dc0f844fedee8651ab",
+    ".local/motion-required02-fixes/transition-11/source-overlay/tests/round_coping_contact_tests.gd": "49ee31398fb67e7b573e68f664f83a2082533e00764bdaa00b42b9602ad291c2",
+    ".local/motion-required02-fixes/transition-11/source-overlay/tests/transition_player_tests.gd": "8699f7d0f1cc3272c6bc41acc610102554263648e50c004f358517670046fd2d",
+    "game/levels/transition_feature.gd": "7e7a543663da3918344f834a69da1e9ab48d950a9bb4708c406c2b7ff271a087",
+    "game/player/feature_transition_ride.gd": "9717bc66614be81bf45dd095b6083046a6d3ea54eda7c97f4cb0088724a2c341",
+    "game/player/skater.gd": "e2b3ea3f66fab4a0cd7b46754590404f2d3e4d8f7863d3c60a3425fdffe994fd",
+    "game/player/skater_visual.gd": "1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05",
+    "game/tricks/grind_clearance.gd": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+    "game/tricks/grind_line.gd": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+    "game/tricks/grind_style.gd": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+    "tests/fitted_garment_tests.gd": "2b6f1d6883aab14b3cf32aaa590d779ff43df1948054323ab38396e58c1101b2",
+    "tests/full_shoe_support_contract.gd": "7df15a629f42e8f2a3226269e599f828729d9c1f2a5dc72d1b604d57704af245",
+    "tests/horizon_background_tests.gd": "3187340fc915536cb385eaee916af24fd26071b2675422586d2f39d35e4e977b",
+    "tests/run_tests.gd": "fbd0944feb1c3a6bdc8e929106dff65ef16b3c90c52575ecc3d30c4f6c1851a1",
+    "tests/skate_edges_tests.gd": "2afd4fca810ee9363ab76a299e7c173b220506d5556b4dffc95c5790e1bac3a9",
+    "tests/transition_player_tests.gd": "019df1d29a28777d8afa2832fe87f39c41eeef4e2a30f406613bc9ecafe57ed0",
+    "tools/export.sh": "451d4bbf4102f7c3f5ae8c687005fea62c66c233c3aae135a08fb2be7111a594"
+  },
+  "source_stable_during_review": true
+}

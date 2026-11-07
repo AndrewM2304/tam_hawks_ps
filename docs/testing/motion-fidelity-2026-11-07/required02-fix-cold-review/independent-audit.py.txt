@@ -1,0 +1,35 @@
+from pathlib import Path
+import hashlib,json,re,shutil
+R=Path('/workspace/tam_hawks_ps');P=R/'.local/motion-required02-fixes';m=json.loads((P/'manifest.json').read_text());checks=[]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+files={}
+for e in m['entries']:
+    a,b=R/e['path'],P/'payload'/e['path']
+    ck(e['path']+' exact before',sha(a)==e['before_sha256']);ck(e['path']+' exact candidate',sha(b)==e['after_sha256'])
+    files[e['path']]=(a.read_text(),b.read_text())
+a,b=files['game/player/skater.gd']
+old='\tvar body:=owner.get("collider") as CollisionObject3D\n'
+new='\tvar raw:Variant=owner.get("collider")\n\tif typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw):return AABB()\n\tvar body:=raw as CollisionObject3D\n'
+ck('entirecontroller exact except precast validity guard',b.replace(new,old,1)==a)
+a,b=files['tests/authentic_pose_tests.gd']
+ck('entireauthenticfixture exact except reviewedUV04pin and label',b.replace('76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943','d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99').replace('reviewed UV04 native GLB retains its four-surface hardware/contact identity','original native GLB geometry including its hardware remains unchanged')==a)
+a,b=files['tests/transition_player_tests.gd'];start=b.index('\tvar native_crown:=INF\n');end=b.index('\n\t\tand game.score.trick_history.count("Lip Stall")',start)
+undo=b[:start]+'\tcheck.call(caught and absf(game.skater.global_position.y - 8.472) < 0.01'+b[end:]
+ck('entiretransitionfixture exact except obsoleteheight replaced by nativewitness',undo==a)
+part=b[start:end]
+ck('freshnative samefeature UPcrown and excluded ownbody',all(t in part for t in ['direct_space_state.intersect_ray(ray)','Vector3.UP*.10','[game.skater.get_rid()]','is_instance_valid(raw)','raw.get_meta("coping_feature",null)==game.skater._feature_transition.feature','Vector3(native_coping.normal).y>.999','is_finite(native_crown)']))
+ck('same0.01tolerance and singleLipStallaward',( '(native_crown+0.002)) < 0.01'in part and 'and game.score.trick_history.count("Lip Stall") == 1'in b))
+ride=(R/'game/player/feature_transition_ride.gd').read_text();geo=(R/'game/levels/transition_feature.gd').read_text()
+ck('existing0.002rideoffset and realanalyticnativeCylinder corroboratewitness','var target: Vector3=frame.point+Vector3.UP*0.002'in ride and'var coping_shape := CylinderShape3D.new()'in geo)
+def func(s,name):return re.search(r'^static func '+name+r'\(.*?(?=^static func |\Z)',s,re.S|re.M).group(0)
+ck('unresolvedairgrindfunction includinginputs/assertions byteexact',func(a,'_air_grind')==func(b,'_air_grind'))
+ck('originalrealwallremovalnegative retained','removing the wall cannot resurrect'in(R/'tests/takeoff_tests.gd').read_text())
+O=R/'docs/testing/motion-fidelity-2026-11-07/required02-fix-cold-review';O.mkdir(parents=True,exist_ok=True)
+report={'passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'manifest_sha256':sha(P/'manifest.json'),'scope':'Independent3file sourcecold review; no productionwrites/nativeexecution.','limits':['OriginalTakeoff wallremoval suppliesrealnegative; nativecleanrerunrequired.','UV04pin identitymigration only, notphysicalconstruction repair.','Nativecopingcrown replacesobsolete70mmprofileabsoluteheight with samefeatureUPandretainedoffset/tolerance. Unresolvedairgrindunchanged.','No physics/reach/input/score/forecastthreshold changed.']}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(P/'manifest.json',O/'manifest.json');shutil.copyfile(Path(__file__),O/'independent-audit.py.txt')
+for e in m['entries']:
+    for label,src in [('before',R/e['path']),('candidate',P/'payload'/e['path'])]:
+        q=O/'source'/label/(e['path']+'.txt');q.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src,q)
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'failures':[c for c in checks if not c['pass']]}))
+if report['failed']:raise SystemExit(1)

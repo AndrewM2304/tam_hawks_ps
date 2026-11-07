@@ -1,0 +1,43 @@
+from pathlib import Path
+import hashlib,json,re,difflib,datetime
+root=Path('/workspace/tam_hawks_ps');bundle=root/'.local/motion-required02-fixes/round-admission-01';epoch=root/'.local/motion-required02-fixes/transition-11';out=root/'.local/round-admission-01-independent-ld';out.mkdir(exist_ok=True)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else None
+m=json.loads((bundle/'manifest.json').read_text());r=json.loads((epoch/'receipt.json').read_text());paths={bundle/'manifest.json',bundle/'proposal.patch',bundle/'install.py',epoch/'receipt.json',epoch/'parser.log',epoch/'native.log'}
+for e in m['entries']:
+ for p in [bundle/'before'/e['path'],bundle/'payload'/e['path'],root/e['path'],epoch/'source-overlay'/e['path']]:
+  if p.is_file():paths.add(p)
+for name in ['game/player/skater_visual.gd','game/player/feature_transition_ride.gd','tests/transition_player_tests.gd','tests/fitted_garment_tests.gd','tests/full_shoe_support_contract.gd','tests/horizon_background_tests.gd','tests/skate_edges_tests.gd','tools/export.sh']:
+ paths.add(root/name)
+ if (epoch/'source-overlay'/name).is_file():paths.add(epoch/'source-overlay'/name)
+source_before={str(p.relative_to(root)):sha(p) for p in sorted(paths)}
+entries=[]
+for e in m['entries']:
+ name=e['path'];pre=sha(bundle/'before'/name);post=sha(bundle/'payload'/name);current=sha(root/name);overlay=sha(epoch/'source-overlay'/name)
+ rec={'path':name,'before_guard':pre==e['before_sha256'],'payload_guard':post==e['after_sha256'],'current_preimage_guard':current==e['before_sha256'],'current_sha256':current,'native_overlay_equals_payload':overlay==post if overlay else None,'native_epoch_equals_payload':r['source_before'].get(name)==post if name!='tests/run_tests.gd' else None}
+ if name.startswith('game/'):
+  constants=lambda p:[l for l in p.read_text().splitlines() if l.startswith('const ')]
+  rec['existing_constant_declarations_exact']=constants(bundle/'before'/name)==constants(bundle/'payload'/name)
+ entries.append(rec)
+before=(bundle/'before/tests/run_tests.gd').read_bytes();after=(bundle/'payload/tests/run_tests.gd').read_bytes();cleaned=after.replace(b'const ROUND_COPING_CONTACT_TESTS = preload("res://tests/round_coping_contact_tests.gd")\n',b'',1).replace(b'\tawait ROUND_COPING_CONTACT_TESTS.run(self, game, _check)\n',b'',1)
+logchecks=[]
+for e in r['epochs']:
+ p=epoch/(e['name']+'.log');text=p.read_text()
+ logchecks.append({'name':e['name'],'sha_matches_receipt':sha(p)==e['log_sha256'],'exit':e['exit'],'stop':e['stop'],'raw_error_lines':[l for l in text.splitlines() if re.match(r'^(SCRIPT ERROR:|ERROR:|FAIL:)',l)],'raw_pass_line_count':sum(l.startswith(('PASS ','PASS:')) for l in text.splitlines())})
+expected={e['path']:e['after_sha256'] for e in m['entries'] if e['path']!='tests/run_tests.gd'}
+drift=[]
+for name,digest in r['source_before'].items():
+ if name in expected:continue
+ p=root/name
+ if p.is_file() and sha(p)!=digest:drift.append({'path':name,'native_sha256':digest,'current_sha256':sha(p)})
+def functions(text):
+ matches=list(re.finditer(r'(?m)^func ([A-Za-z0-9_]+)\(',text));return {q.group(1):text[q.start():matches[i+1].start() if i+1<len(matches) else len(text)] for i,q in enumerate(matches)}
+a=functions((bundle/'before/game/player/skater.gd').read_text());b=functions((bundle/'payload/game/player/skater.gd').read_text());changed=[k for k in a if a[k]!=b.get(k)];added=[k for k in b if k not in a]
+source_after={str(p.relative_to(root)):sha(p) for p in sorted(paths)}
+result={'reviewer':'LD, independent of Motion author; source/provenance only, QE retains semantic/native ownership','recorded_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'bundle_manifest_sha256':sha(bundle/'manifest.json'),'bundle_manifest_expected':'ef8f34faf56c5d5a14f81187dd977a22074cb2a0f1964ebdb15e930536b34c8b','entries':entries,'runner_reconstructs_exact_after_only_two_additions_removed':cleaned==before,'native_runner_registration_executed':False,'native_epoch':{'source_input_count':len(r['source_before']),'source_before_after_equal':r['source_before']==r['source_after'],'result':r['result'],'complete':r['complete'],'logs':logchecks},'changed_skater_functions':changed,'added_skater_functions':added,'native_dependency_differences_from_current_actual':drift,'dependency_qualification':{'game/player/feature_transition_ride.gd':'Only disclosed read-only diagnostic cast/hit queries/prints differ; existing physical return conditions preserved.','tests/transition_player_tests.gd':'Only trace calls/helper differ; all original assertions remain.','game/player/skater_visual.gd':'Later steep-ground Push/Brake gait fade is absent from native epoch. Four round moving-start cases use neither input, but current complete composition not executed here.','other_test_tool_drift':'Not part of guarded payload; native private scope remains explicit.'},'no_blanket_threshold_claim':'All five existing const declarations match. Round branch deliberately replaces conservative box-owner refinement with actual all-model/all-solid proof. This admission behavior and successor finite guards require QE semantic review; unchanged numeric constants alone do not certify it.','status':'HISTORICAL SOURCE GUARDS PASS; admission01 held by author for successor finite/point/deck-frame guards; no final/current/native/visual/performance admission','source_before':source_before,'source_after':source_after,'source_stable_during_review':source_before==source_after}
+assert len(entries)==7 and all(x['before_guard'] and x['payload_guard'] and x['current_preimage_guard'] for x in entries)
+assert all(x['native_overlay_equals_payload'] and x['native_epoch_equals_payload'] for x in entries if x['path']!='tests/run_tests.gd')
+assert cleaned==before and r['source_before']==r['source_after'] and r['result']==[78,0]
+assert all(x['sha_matches_receipt'] and x['exit']==0 and not x['stop'] and not x['raw_error_lines'] for x in logchecks)
+assert source_before==source_after
+(out/'review.json').write_text(json.dumps(result,indent=2)+'\n');(out/'review.py.txt').write_bytes(Path(__file__).read_bytes())
+print(json.dumps({k:result[k] for k in ['bundle_manifest_sha256','runner_reconstructs_exact_after_only_two_additions_removed','native_runner_registration_executed','native_epoch','changed_skater_functions','added_skater_functions','source_stable_during_review','status']},indent=2))

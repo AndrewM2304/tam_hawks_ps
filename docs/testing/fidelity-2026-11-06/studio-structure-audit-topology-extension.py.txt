@@ -1,0 +1,44 @@
+from pathlib import Path
+import datetime,hashlib,json,re,shutil
+R=Path('/workspace/tam_hawks_ps');checks=[]
+def ck(label,v):checks.append({'label':label,'pass':bool(v)})
+roles=sorted(p for p in(R/'.agents/agents').glob('*.md')if p.name!='README.md');skills=sorted((R/'.agents/skills').glob('*/SKILL.md'))
+roster=(R/'.agents/agents/README.md').read_text();studio=(R/'docs/planning/STUDIO.md').read_text()
+ck('fourteen persistent roles and fourteen skills',len(roles)==len(skills)==14)
+for role in roles:ck(role.name+' discoverable in roster','('+role.name+')'in roster)
+for skill in skills:
+ s=skill.read_text();match=re.search(r'^name:\s*(.+)$',s,re.M)
+ ck(skill.parent.name+' exact named skill metadata',match is not None and match.group(1).strip()==skill.parent.name and re.search(r'^description:\s*\S',s,re.M))
+files=[R/'AGENTS.md',R/'docs/planning/RESUME.md',R/'docs/planning/STUDIO.md',R/'.agents/agents/README.md',R/'docs/planning/FIDELITY_TICKETS.md',R/'docs/product/AAA_BENCHMARK.md']+roles+skills
+broken=[];links=0
+for file in files:
+ for link in re.findall(r'\]\(([^)]+)\)',file.read_text()):
+  if link.startswith(('https:','http:','mailto:','plugin:','app:','#')):continue
+  target=link.split('#',1)[0]
+  if not target:continue
+  links+=1
+  if not(file.parent/target).resolve().exists():broken.append({'file':str(file.relative_to(R)),'target':link})
+ck('all current local role skill benchmark ticket entry links resolve',not broken)
+ck('role count and ownership consistently registered','fourteen logical roles'in roster and'fourteen skills'in roster and'fourteen logical roles'in studio and'| Skate topology reviewer |'in studio)
+role=(R/'.agents/agents/skate-topology-reviewer.md').read_text();skill=(R/'.agents/skills/skate-topology-review/SKILL.md').read_text()
+ck('new role disjoint read-only source evidence ownership',all(t in role for t in ['../skills/skate-topology-review/SKILL.md','do not','production gameplay','tests','Git','root','QE/native']))
+ck('future instructions do not claim runtime autospawn','do not automatically spawn'in role and'not a requirement to run fourteen workers simultaneously'in roster)
+ck('skill current existing source and complete compound envelopes',all(t in skill for t in ['SHA-256','Audit what already exists','side roll-ins','cap overhangs','hidden native bearing cylinders','integer shape IDs']))
+ck('skill protected tasks and strict natural-input scope',all(t in skill for t in ['ten career goals','recording/collectible','centreline test is not a 4m riding','grounded-yaw','mapped-steering']))
+ck('skill genuine choices and two distinct lines plus three circuits',all(t in skill for t in ['Two relocated props','second returnable line','two distinct returnable lines per arena','three demonstrated cross-arena circuits']))
+ck('skill measured physics-event timing distinguishes estimates',all(t in skill for t in ['8m/s calculations are design estimates','real physics steps','Charge inputs and decorative proximity do not count']))
+ck('skill finite enclosure side/miss/return safeguards',all(t in skill for t in ['both directions','seam/corner misses','longest charged departure','invisible catches','exclude whole owner RIDs']))
+ck('skill construction resource/native identity and startup budget accounting',all(t in skill for t in ['every','polyline leg','Equal','ArrayMesh','startup mesh interning','texture memory','actual cost']))
+ck('skill distinguishes loadedcapsule margin from actual model overlap',all(t in skill for t in ['not new tolerances','real displayed board/tyre or','cannot be excused by a loaded capsule margin']))
+ck('skill root leases separate source/native/render/cost/human acceptance',all(t in skill for t in ['root\'s explicit schedule','Do not','self-certify production','open native/render/cost/human gates']))
+ck('skill actionable finite firstfailure per query class',all(t in skill for t in ['component/frame','finite shape owner/ID','first sample of each query','later model collision']))
+t=(R/'docs/planning/FIDELITY_TICKETS.md').read_text();ids=re.findall(r'^## (FID-\d+) — ',t,re.M);index=re.findall(r'^\| (FID-\d+) \|',t,re.M)
+ck('twenty-one detailed tickets unchanged in count and index',len(ids)==len(set(ids))==len(index)==21 and set(ids)==set(index))
+sections=list(re.finditer(r'^## (FID-\d+) — ',t,re.M))
+for i,match in enumerate(sections):
+ body=t[match.end():sections[i+1].start()if i+1<len(sections)else len(t)]
+ ck(match.group(1)+' complete contract metadata',all(k in body for k in ['**Priority / milestone / owner / verifier:**','**Dependencies:**','**Problem:**','**Acceptance:**','**Test strategy:**','**Evidence / completion record:**']))
+report={'schema':1,'reviewer':'/root/independent_qa','reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'role_count':14,'skill_count':14,'ticket_count':21,'local_links':links,'broken_links':broken,'source_sha256':{str(p.relative_to(R)):hashlib.sha256(p.read_bytes()).hexdigest()for p in files},'scope':'Independent new topology-role/skill semantic coldread and14role/14skill/21ticket discovery/link/metadata extension only. Older9/13-role audits retain historical scopes; no map/native/wholegame/AAA orM5 acceptance. QA own gameplay skill is not self-certified by this extension.'}
+O=R/'docs/testing/fidelity-2026-11-06';(O/'studio-structure-audit-topology-extension.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(Path(__file__),O/'studio-structure-audit-topology-extension.py.txt')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'links':links,'failures':[c for c in checks if not c['pass']]}))
+if report['failed']:raise SystemExit(1)
