@@ -64,6 +64,30 @@ independently reviewed rejected and bounded-positive epochs):
   Verify repeat tiles, padding, source sampling and actual bound UV properties,
   then compare matched native hand closeups. Texture dimensions alone prove
   neither preserved detail nor native allocation.
+- Diagnose a flattened folded leg with actual source vertices and segment frames
+  before adding corrective bones. Independently projecting a world axis onto each
+  segment can reverse thigh/calf transverse axes. A shared bend plane visibly
+  improved the private raised thigh without changing source weights or endpoints,
+  but a fresh hip-reference sign can flip180degrees. Require transported temporal
+  reference, straight/rebend, hip-dot-zero and antiparallel negatives. Read previous
+  actual Skeleton frames after final snapshot blends, not a stale pre-blend cache.
+  Shared waist vertices can carry leg weights: both garments must retain identical
+  deformation; do not claim their world positions are unaffected by new leg poses.
+- Current logical Skin and rigid Head matrices do not prove rendered continuity.
+  Physics interpolation can use different local clocks for a current Skin palette
+  and an independently interpolated rigid branch. Retain actual RenderingServer
+  palette/readback evidence at fractional ticks. A Player-local clock correction
+  does not certify live NPCs; preserve outer actor/Visual interpolation and verify
+  each caller's torso/head/hand/foot hierarchy under ordinary motion.
+- Give each pose constraint one explicit owner. Player's synchronous final
+  head-to-neck pose should not compete with an automatic external Skeleton
+  attachment. Keep the automatic driver as the default for existing NPC callers,
+  share seam materials in either mode, and prove exact non-arm parity after root
+  translation without weakening tolerances.
+- Audit articulated props as complete assemblies. A drummer's shaft and bead
+  can be separately animated sibling meshes; aligning the wrist and shaft does
+  not establish bead continuity. Retain native shaft vertices/indices, derive
+  its actual tip and compare rendered tip/shaft models at fractional frames.
 - Capture native RGBA and PNG hashes, full numeric camera/projection and all
   actual bone/model matrices, proof/clean pose and tick brackets, source inventories
   before AND after, and raw engine logs. Archive only receipt-listed current

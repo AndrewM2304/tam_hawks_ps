@@ -1,0 +1,37 @@
+from pathlib import Path
+import re,json,hashlib,datetime,shutil
+R=Path('/workspace/tam_hawks_ps');D=R/'docs/testing/fidelity-2026-11-06';checks=[]
+def ck(label,value,actual=None):checks.append({'label':label,'pass':bool(value),'actual':actual})
+roles=sorted(p for p in (R/'.agents/agents').glob('*.md')if p.name!='README.md');skills=sorted((R/'.agents/skills').glob('*/SKILL.md'));roster=(R/'.agents/agents/README.md').read_text();studio=(R/'docs/planning/STUDIO.md').read_text()
+ck('thirteen actual persistent role briefs',len(roles)==13,len(roles));ck('thirteen actual skill entrypoints',len(skills)==13,len(skills))
+for role in roles:ck('role discoverable '+role.name,'('+role.name+')'in roster)
+for skill in skills:
+ text=skill.read_text();name=re.search(r'^name:\s*(.+)$',text,re.M);ck('named skill metadata '+skill.parent.name,bool(name)and name.group(1).strip()==skill.parent.name and bool(re.search(r'^description:\s*\S',text,re.M)))
+files=[R/'AGENTS.md',R/'docs/planning/RESUME.md',R/'docs/planning/STUDIO.md',R/'.agents/agents/README.md',R/'docs/planning/FIDELITY_TICKETS.md',R/'docs/product/AAA_BENCHMARK.md']+roles+skills
+broken=[];links=0
+for path in files:
+ for link in re.findall(r'\]\(([^)]+)\)',path.read_text()):
+  if link.startswith(('http:','https:','mailto:','plugin:','app:','#')):continue
+  link=link.split('#',1)[0]
+  if not link:continue
+  links+=1
+  if not(path.parent/link).resolve().exists():broken.append([str(path.relative_to(R)),link])
+ck('all role skill entrypoint ticket benchmark links resolve',not broken,{'count':links,'broken':broken})
+ck('roster runtime scope honest','do not create continuously running agents'in roster and 'thirteen logical roles'in roster)
+ck('studio board ownership and13roles reconciled','thirteen logical roles'in studio and '| Board artist |'in studio)
+role=(R/'.agents/agents/board-artist.md').read_text();skill=(R/'.agents/skills/board-fidelity/SKILL.md').read_text()
+ck('board role explicit skill/disjoint files/controller restriction','../skills/board-fidelity/SKILL.md'in role and 'Do not edit the player controller'in role and 'Root assigns'in role)
+ck('board role independent acceptance and bounded native delivery',all(t in role for t in ['protected-buffer/marker proof','native close/moving','independently reviewed','No Git, spending']))
+ck('board skill protects actual contact migration',all(t in skill for t in ['Preserve grip/stance planes','component identities','reviewed migration','Do not shrink','legacy negative']))
+ck('board skill exact indexed and source/target authority',all(t in skill.lower() for t in ['indexed vertices/indices','get_faces()','quantize/weld','linux cannot certify m5','actual','moving']))
+ck('board skill budgets/offline/startup/root/QE separation',all(t in skill for t in ['before changes','no per-frame','Independent QE','guarded main integration','full checks and push']))
+tickets=(R/'docs/planning/FIDELITY_TICKETS.md').read_text();sections=list(re.finditer(r'^## (FID-\d+) — (.+)$',tickets,re.M));ids=[m.group(1)for m in sections];table_ids=re.findall(r'^\| (FID-\d+) \|',tickets,re.M)
+ck('twenty-one unique detailed tickets match index table',len(ids)==len(set(ids))==len(table_ids)==21 and set(ids)==set(table_ids),ids)
+for i,match in enumerate(sections):
+ body=tickets[match.end():sections[i+1].start()if i+1<len(sections)else len(tickets)]
+ ck(match.group(1)+' complete metadata',all(label in body for label in ['**Priority / milestone / owner / verifier:**','**Dependencies:**','**Problem:**','**Acceptance:**','**Test strategy:**','**Evidence / completion record:**']))
+board=next(tickets[m.end():sections[i+1].start()if i+1<len(sections)else len(tickets)]for i,m in enumerate(sections)if m.group(1)=='FID-103')
+ck('FID103 explicit A-F criteria',all('('+letter+')'in board for letter in 'ABCDEF'))
+ck('FID103 keeps source native moving hardware distinctions',all(t in board for t in ['physical specification','correctly handed UVs','marker frames','no runtime generation','coast/push/grind/flip/grab/manual/release','complete regression','No board implementation is promoted']))
+out={'schema':1,'reviewer':'/root/independent_qa','reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'checks':len(checks),'failures':sum(not c['pass']for c in checks),'checks_detail':checks,'local_link_count':links,'role_count':len(roles),'skill_count':len(skills),'ticket_count':len(ids),'scope':'Independent semantic cold-read of new board role/skill/FID103 and current13role13skill/21ticket discovery,links,metadata audit. Bounded FID002 process extension only; no board implementation or AAA acceptance.','limits':['Earlier9/10/11/12-role audit scopes remain unchanged.','QA authored gameplay-qa additions11–14; their semantic independent review belongs to root, excluded here.','Persistent repository instructions are not automatic runtime/autospawn registration; six worker slots can be reassigned.','Board sourceUV01 only same-author19controls; independent source/native/contact/moving/physical28mm migration remains open.'],'source_sha256':{str(path.relative_to(R)):hashlib.sha256(path.read_bytes()).hexdigest()for path in files}}
+(D/'studio-structure-audit-board-extension.json').write_text(json.dumps(out,indent=2)+'\n');shutil.copyfile(__file__,D/'studio-structure-audit-board-extension.py.txt');print({'checks':len(checks),'failed':[c for c in checks if not c['pass']],'links':links});raise SystemExit(bool(out['failures']))

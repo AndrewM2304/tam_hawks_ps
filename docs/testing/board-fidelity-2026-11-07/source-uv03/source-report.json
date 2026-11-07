@@ -1,0 +1,308 @@
+{
+  "scope": "PRIVATE source-indexed UV/material derivative only; no native import/draw/contact/M5 acceptance; 28mm construction deliberately unresolved",
+  "generator_sha256": "595a73730894767a1924af7be06e65a5f4234386fc8926c40339304d5e01f84f",
+  "base": {
+    "glb_sha256": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+    "nodes": 1,
+    "mesh_count": 1,
+    "material_names": [
+      "MapleAndRiverInk",
+      "Griptape",
+      "CastAluminium",
+      "Urethane"
+    ],
+    "image_count": 1,
+    "image_size": [
+      1024,
+      1024
+    ],
+    "surfaces": [
+      {
+        "material": "MapleAndRiverInk",
+        "vertices": 1310,
+        "triangles": 2600,
+        "geometric_side_triangles": 600,
+        "side_zero_uv_1e12": 427,
+        "all_zero_uv_1e12": 427,
+        "minimum_real_triangle_area": 4.654526551594449e-07,
+        "bounds_min": [
+          -0.11800000071525574,
+          -0.014000000432133675,
+          -0.41749998927116394
+        ],
+        "bounds_max": [
+          0.11800000071525574,
+          0.046863239258527756,
+          0.41749998927116394
+        ],
+        "minimum_side_abs_uv_jacobian": 0.0,
+        "attributes": {
+          "POSITION": "ed72b77777d31d26164d171b68e90554c86bd6da03edd1a18b7d4f95b7b78433",
+          "NORMAL": "f1638ee9d93fefeb835b27458a46f126d2688c730530964c786ede565a8f923b",
+          "TEXCOORD_0": "53ef4139bc08b75fa5fb8b71bd1c1a3f5e133550a667facf7b8a2527068803df"
+        },
+        "indices_sha256": "adc96d8b9a50eaf129b7a2749e72564d1512c63db82033e5f6c2843b36ebc94b"
+      },
+      {
+        "material": "Griptape",
+        "vertices": 451,
+        "triangles": 800,
+        "geometric_side_triangles": 0,
+        "side_zero_uv_1e12": 0,
+        "all_zero_uv_1e12": 0,
+        "minimum_real_triangle_area": 2.2557441967091876e-05,
+        "bounds_min": [
+          -0.11100000143051147,
+          0.017000000923871994,
+          -0.3924500048160553
+        ],
+        "bounds_max": [
+          0.11100000143051147,
+          0.04152757301926613,
+          0.3924500048160553
+        ],
+        "minimum_side_abs_uv_jacobian": null,
+        "attributes": {
+          "POSITION": "faac30dc7571735325c30b5dadeec31ad210f8728b230571dbb3d4f0d3606781",
+          "NORMAL": "ddc60a08a9151b41fbd68cb484d1a44e25dd1f9aa90f2b2c31b76dbf8b362f8c",
+          "TEXCOORD_0": "6aad2001e70acce94cbf8c5ed4a98d0212be5dff511b3e8c095200c3d5518cce"
+        },
+        "indices_sha256": "87b1e2430f14e63e8e73524544672194ece3b48781080a0e189c27175421b434"
+      },
+      {
+        "material": "CastAluminium",
+        "vertices": 1232,
+        "triangles": 928,
+        "geometric_side_triangles": 560,
+        "side_zero_uv_1e12": 560,
+        "all_zero_uv_1e12": 928,
+        "minimum_real_triangle_area": 2.0724170915005923e-06,
+        "bounds_min": [
+          -0.14000000059604645,
+          -0.10300000011920929,
+          -0.3019999861717224
+        ],
+        "bounds_max": [
+          0.14000000059604645,
+          0.019999999552965164,
+          0.3019999861717224
+        ],
+        "minimum_side_abs_uv_jacobian": 0.0,
+        "attributes": {
+          "POSITION": "ce364ebe0c25648e8ac1522150c33b27ee441fbaff9ff918734f1235e7933315",
+          "NORMAL": "04ef225c0aba9aeb715d139e7dc46a49d6f2c3a497ab6126fada518a372bf544",
+          "TEXCOORD_0": "d816ede87fb81c5c65835afe806b1a70ed9437eab1cff3bac00f4b43bb0c345d"
+        },
+        "indices_sha256": "4ac8e8756a266e1b18b0027a5d8296f6b4f531c49cc0c6b04e96e14a1d9c84e9"
+      },
+      {
+        "material": "Urethane",
+        "vertices": 736,
+        "triangles": 1368,
+        "geometric_side_triangles": 944,
+        "side_zero_uv_1e12": 944,
+        "all_zero_uv_1e12": 1368,
+        "minimum_real_triangle_area": 1.6686843868352064e-05,
+        "bounds_min": [
+          -0.13099999725818634,
+          -0.11999999731779099,
+          -0.28700000047683716
+        ],
+        "bounds_max": [
+          0.13099999725818634,
+          -0.03701497241854668,
+          0.28700000047683716
+        ],
+        "minimum_side_abs_uv_jacobian": 0.0,
+        "attributes": {
+          "POSITION": "b5c279e51cef7646d8e1fdf58c3b0390ad362e397ec77146a1aec838842739a2",
+          "NORMAL": "9f576ee8f7a0cca3c21bc04a0605f2e739cab70594435e4cbb415e0d8f28cba1",
+          "TEXCOORD_0": "0d4e629a1ee7082d6289ecc14860ce2b5e6be41742895bf9b5badf86d554aa33"
+        },
+        "indices_sha256": "ce4f65d10b706d452a99025845b425ebd58cf220b2903a225e059baaf9ad9304"
+      }
+    ]
+  },
+  "candidate": {
+    "glb_sha256": "954ff19340b1c41d6ea0f2153f7e41a8242f853b135486bbdc6cf8b2c024993d",
+    "nodes": 1,
+    "mesh_count": 1,
+    "material_names": [
+      "MapleAndRiverInk",
+      "Griptape",
+      "CastAluminium",
+      "Urethane"
+    ],
+    "image_count": 1,
+    "image_size": [
+      1024,
+      1024
+    ],
+    "surfaces": [
+      {
+        "material": "MapleAndRiverInk",
+        "vertices": 1600,
+        "triangles": 2600,
+        "geometric_side_triangles": 600,
+        "side_zero_uv_1e12": 0,
+        "all_zero_uv_1e12": 0,
+        "minimum_real_triangle_area": 4.654526551594449e-07,
+        "bounds_min": [
+          -0.11800000071525574,
+          -0.014000000432133675,
+          -0.41749998927116394
+        ],
+        "bounds_max": [
+          0.11800000071525574,
+          0.046863239258527756,
+          0.41749998927116394
+        ],
+        "minimum_side_abs_uv_jacobian": 1.0944574398763507e-05,
+        "attributes": {
+          "POSITION": "ea101c1e334135bf5dc3fe0447fa0db093fc70af28480006eb38c3d6fbf8510e",
+          "NORMAL": "3eb8649e4638ce8558c1c7e6cdb19efd65f9268a4f6a2ab971f7652c1a6d6c05",
+          "TEXCOORD_0": "d44e7061e7112a4d600c86d70e5b5e7aea260182996d398823b9063e5b0c8092",
+          "TANGENT": "22a758116c37ce9e3640d1d2932592be5ccd22dddfbf2c38ad5abbc7f106af51"
+        },
+        "indices_sha256": "5dc6cb3cf51398b216048e4aa67bd0418348f06146f4933fbee08ac4eba3945d"
+      },
+      {
+        "material": "Griptape",
+        "vertices": 451,
+        "triangles": 800,
+        "geometric_side_triangles": 0,
+        "side_zero_uv_1e12": 0,
+        "all_zero_uv_1e12": 0,
+        "minimum_real_triangle_area": 2.2557441967091876e-05,
+        "bounds_min": [
+          -0.11100000143051147,
+          0.017000000923871994,
+          -0.3924500048160553
+        ],
+        "bounds_max": [
+          0.11100000143051147,
+          0.04152757301926613,
+          0.3924500048160553
+        ],
+        "minimum_side_abs_uv_jacobian": null,
+        "attributes": {
+          "POSITION": "faac30dc7571735325c30b5dadeec31ad210f8728b230571dbb3d4f0d3606781",
+          "NORMAL": "ddc60a08a9151b41fbd68cb484d1a44e25dd1f9aa90f2b2c31b76dbf8b362f8c",
+          "TEXCOORD_0": "6aad2001e70acce94cbf8c5ed4a98d0212be5dff511b3e8c095200c3d5518cce"
+        },
+        "indices_sha256": "87b1e2430f14e63e8e73524544672194ece3b48781080a0e189c27175421b434"
+      },
+      {
+        "material": "CastAluminium",
+        "vertices": 1232,
+        "triangles": 928,
+        "geometric_side_triangles": 560,
+        "side_zero_uv_1e12": 560,
+        "all_zero_uv_1e12": 928,
+        "minimum_real_triangle_area": 2.0724170915005923e-06,
+        "bounds_min": [
+          -0.14000000059604645,
+          -0.10300000011920929,
+          -0.3019999861717224
+        ],
+        "bounds_max": [
+          0.14000000059604645,
+          0.019999999552965164,
+          0.3019999861717224
+        ],
+        "minimum_side_abs_uv_jacobian": 0.0,
+        "attributes": {
+          "POSITION": "ce364ebe0c25648e8ac1522150c33b27ee441fbaff9ff918734f1235e7933315",
+          "NORMAL": "04ef225c0aba9aeb715d139e7dc46a49d6f2c3a497ab6126fada518a372bf544",
+          "TEXCOORD_0": "d816ede87fb81c5c65835afe806b1a70ed9437eab1cff3bac00f4b43bb0c345d"
+        },
+        "indices_sha256": "4ac8e8756a266e1b18b0027a5d8296f6b4f531c49cc0c6b04e96e14a1d9c84e9"
+      },
+      {
+        "material": "Urethane",
+        "vertices": 736,
+        "triangles": 1368,
+        "geometric_side_triangles": 944,
+        "side_zero_uv_1e12": 944,
+        "all_zero_uv_1e12": 1368,
+        "minimum_real_triangle_area": 1.6686843868352064e-05,
+        "bounds_min": [
+          -0.13099999725818634,
+          -0.11999999731779099,
+          -0.28700000047683716
+        ],
+        "bounds_max": [
+          0.13099999725818634,
+          -0.03701497241854668,
+          0.28700000047683716
+        ],
+        "minimum_side_abs_uv_jacobian": 0.0,
+        "attributes": {
+          "POSITION": "b5c279e51cef7646d8e1fdf58c3b0390ad362e397ec77146a1aec838842739a2",
+          "NORMAL": "9f576ee8f7a0cca3c21bc04a0605f2e739cab70594435e4cbb415e0d8f28cba1",
+          "TEXCOORD_0": "0d4e629a1ee7082d6289ecc14860ce2b5e6be41742895bf9b5badf86d554aa33"
+        },
+        "indices_sha256": "ce4f65d10b706d452a99025845b425ebd58cf220b2903a225e059baaf9ad9304"
+      }
+    ]
+  },
+  "protected": {
+    "wood_triangle_corner_positions_exact": true,
+    "wood_triangle_corner_normals_exact": true,
+    "wood_all_original_source_positions_used": true,
+    "wood_downward_art_UV_corner_bytes_exact": true,
+    "nodes_exact": true,
+    "materials_exact": true,
+    "primitives_1_2_3_exact": true
+  },
+  "atlas": {
+    "changed_RGBA_pixels": 118048,
+    "protected_grip_quadrant_identical": true,
+    "protected_original_art_left_half_identical": true,
+    "hardware_UV_65px_neighborhoods_identical": true,
+    "side_period_px": 192,
+    "side_repeat_distance_m": 0.09227392044462752,
+    "side_uv_origin_u": 0.625,
+    "side_uv_period_u": 0.1875,
+    "side_v_region": [
+      0.53,
+      0.64
+    ],
+    "side_padded_pixels_region": [
+      0.51,
+      0.515,
+      0.99,
+      0.655
+    ],
+    "top_uv_region": [
+      0.54,
+      0.82,
+      0.72,
+      0.97
+    ]
+  },
+  "resource_budget_declared": {
+    "added_nodes": 0,
+    "added_materials": 0,
+    "added_texture_RGBA_bytes": 0,
+    "added_draw_surfaces": 0,
+    "added_collision_objects": 0,
+    "maximum_added_triangles": 512,
+    "maximum_added_geometry_buffer_bytes": 131072
+  },
+  "observed_source_delta": {
+    "added_triangles": 0,
+    "added_geometry_buffer_bytes": 34880,
+    "encoded_GLB_file_bytes": 10048,
+    "maple_vertex_delta": 290
+  },
+  "perimeter_m": 1.937752329337178,
+  "side_horizontal_texels_per_m": 2080.7612711678044,
+  "side_repeat_distance_m": 0.09227392044462752,
+  "side_repeat_count": 21,
+  "side_period_px": 192,
+  "side_vertical_texels_per_m": 4022.8571428571427,
+  "side_visual_ply_count": 7,
+  "source_ply_physical_thickness_m": 0.004,
+  "functional_markers": "No node markers changed; exact drawn triangle positions/primitive IDs preserved. Native support/component/marker checks still required."
+}

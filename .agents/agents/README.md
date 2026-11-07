@@ -8,6 +8,7 @@ Start with [the studio guide](../../docs/planning/STUDIO.md), [the fidelity tick
 | --- | --- | --- |
 | [Studio director](studio-director.md) | Ticket selection, file ownership, integration, main handoff | [Studio production](../skills/studio-production/SKILL.md) |
 | [Rider artist](rider-artist.md) | Believable anatomy, clothing, board, rig deformation | [Rider fidelity](../skills/rider-fidelity/SKILL.md) |
+| [Board artist](board-artist.md) | Physical deck construction, native side UVs and board materials with protected skating contacts | [Board fidelity](../skills/board-fidelity/SKILL.md) |
 | [Rigging engineer](rigging-engineer.md) | Source-authenticated fitted seams, multi-bone deformation and head/neck continuity | [Rigging validation](../skills/rigging-validation/SKILL.md) |
 | [Contact rigging engineer](contact-rigging-engineer.md) | Conservative actual skinned-surface contact envelopes with bounded native queries and CPU cost | [Deformed contact](../skills/deformed-contact/SKILL.md) |
 | [Environment artist](environment-artist.md) | Materials, architecture, lighting and scene composition | [Environment fidelity](../skills/environment-fidelity/SKILL.md) |
@@ -19,6 +20,6 @@ Start with [the studio guide](../../docs/planning/STUDIO.md), [the fidelity tick
 | [Technical QE](technical-qe.md) | Independent reproduction, regression and source-bound capture | [Quality verification](../skills/quality-verification/SKILL.md) |
 | [BA verifier](ba-verifier.md) | Independent requirements-to-outcome audit and acceptance gaps | [Quality verification](../skills/quality-verification/SKILL.md) |
 
-There are twelve logical roles, not a requirement to run twelve workers simultaneously. With a root plus six available slots, root can direct production/rendering and BA can run after implementation owners finish. Independence means the person/agent verifying a ticket did not implement its production change. Do not ask an implementation owner to mark their own work accepted.
+There are thirteen logical roles, not a requirement to run thirteen workers simultaneously. With a root plus six available slots, root can direct production/rendering and BA can run after implementation owners finish. Independence means the person/agent verifying a ticket did not implement its production change. Do not ask an implementation owner to mark their own work accepted.
 
-The supporting [native gameplay QA skill](../skills/gameplay-qa/SKILL.md) is available for technical QE alongside the verification skill. The current library contains twelve skills; future additions belong in this roster and the relevant ticket.
+The supporting [native gameplay QA skill](../skills/gameplay-qa/SKILL.md) is available for technical QE alongside the verification skill. The current library contains thirteen skills; future additions belong in this roster and the relevant ticket.

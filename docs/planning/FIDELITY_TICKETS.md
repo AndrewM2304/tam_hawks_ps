@@ -24,6 +24,7 @@ Implementation owners: **SD** studio director/root; **RA** rider artist; **EA** 
 | FID-010 | P0 | F0 | SD / RE | BA + QE | In progress |
 | FID-101 | P0 | F1 | RA | BA + QE | Audit current rider; final art open |
 | FID-102 | P0 | F1 | RA + ME | BA + QE | Audit existing native contacts |
+| FID-103 | P1 | F1 | Board artist | BA + QE | Native construction/UV defect reproduced; private work |
 | FID-201 | P0 | F1 | EA | BA + QE | Surface candidate; visual/cost review pending |
 | FID-202 | P1 | F1 | EA | BA + QE | Audit current light/cost evidence |
 | FID-203 | P1 | F1 | EA | BA | Inventory remaining visible placeholders |
@@ -98,6 +99,15 @@ These overlays sharpen the requested outcome and BA gates; they do not replace t
 - **Acceptance:** (A) Measure planted shoe/deck separation against V1's target, with maximum/95th percentile or an explicit instrumentation gap. (B) Push foot follows actual support and returns without teleporting through the board. (C) Grab hand meets the intended deck edge within V3's target. (D) Flip/revert/special board and body rotations agree and return to eligible grounded poses. (E) Pause/restart/recovery clears stale contact poses.
 - **Test strategy:** Actual-input coast/push/brake/ollie/flip/grab/manual/grind/revert/special replay, state/contact traces and worst-frame closeups. Label intentional separation and setup fixtures. Retest both travel directions and incline support.
 - **Evidence / completion record:** Current main has authenticated native wheel/board/shoe support, finite wall presentation and many contact regressions. Those repairs are preserved, not recreated. Joint RA/ME review must identify which new V1/V3 tolerances are measured on the November candidate; no new contact result is claimed here.
+
+## FID-103 — Finish native skateboard construction and side UVs
+
+- **Priority / milestone / owner / verifier:** P1 · F1 · Board artist · independent BA/QE.
+- **Dependencies:** FID-101/102 source/stance/contact contract and FID-001 evidence binding.
+- **Problem:** The current native board has28mm centre wood and172of224 genuinely side-facing maple triangles with zero UV area. Close shoe views show thick orange stripes; recolouring the atlas cannot repair its construction/UV mapping.
+- **Acceptance:** (A) Preserve the measured source defect and document a credible physical specification from attributable references. (B) Produce coherent layered sidewalls with nondegenerate, correctly handed UVs and a declared texel scale. (C) Preserve grip/stance planes, protected truck/wheel geometry, component IDs and all functional marker frames, or obtain independent acceptance of an explicit contact migration. (D) Stay within declared node/draw/material/texture/buffer/geometry budgets; no runtime generation. (E) Inspect close/normal/shaded native views and actual coast/push/grind/flip/grab/manual/release behavior, retaining negative controls and source/asset provenance. (F) Pass affected contacts, complete regression and package checks; hardware/final V1/V3 stay open until measured.
+- **Test strategy:** Independent indexed GLB/UV/marker audit, protected-native-buffer comparison, physical contact replay and source-bound actual frames. Do not shrink a collider/model to hide failure or award acceptance from an atlas preview.
+- **Evidence / completion record:** Rider specialist's read-only diagnosis is `.local/rider-fit-staging/board-finish-readonly-diagnosis.json`. The board artist independently reproduces its strict172/224source-side UV defect and prepares a private [UV01 source derivative](../testing/board-fidelity-2026-11-07/source-uv01/README.md): all2600wood triangles gain nondegenerate UVs while every drawn position/normal, protected hardware/grip stream and original underside artwork remains exact. The later [UV03 proposal](../testing/board-fidelity-2026-11-07/source-uv03/README.md) gives the side grain approximately2081texels/m with exact periodic wrap; a failed UV02nose-seam control is retained. UV03same-author source controls pass22/0; independent QA, native import/markers, appearance and contact/moving gates remain pending. It adds no triangles, materials or atlas RGBA allocation and34,880geometry-buffer bytes. The inherited28mm thickness is deliberately unchanged; [primary construction references and the underside/mount migration conflict](../research/BOARD-CONSTRUCTION.md) are recorded separately. No board implementation is promoted.
 
 ## FID-201 — Replace poor route-facing surface textures
 

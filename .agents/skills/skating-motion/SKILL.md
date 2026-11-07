@@ -32,6 +32,13 @@ large one-tick correction can remain visibly wrong despite a clear endpoint.
 Diagnose actual indexed mesh triangles versus convex-envelope conservatism before
 changing a pose. Anticipation must prove a finite native swept contact; do not
 attract a rider toward an unrelated nearby wall or relax a failed margin.
+Treat observer phases as part of the contract: `SceneTree.process_frame` is
+emitted before nodes run `_process`, so awaiting it alone cannot establish that
+the chase camera has processed the newest physical pose. A late process-priority
+observer must authenticate the same physics/process index, unchanged rider/model
+pose and the player's current `last_presentation_process_frame`; actual rendered
+visibility still needs the existing native draw/readback/pixel proof. Preserve
+pre-camera failures as such rather than silently renaming them rendered defects.
 Declare the finite prediction horizon and native-query hard cap before testing.
 Record actual invocation-frame stamps and separate controller costs from observer
 queries; counts cannot establish target-Mac CPU time. Duplicate receipt dictionaries

@@ -1,0 +1,28 @@
+{
+  "scope": "PRIVATE offline authoring only; no Godot/Blender/import launched",
+  "dependencies": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "Pillow": "12.3.0"
+  },
+  "source_generator": "tools/art/build_skateboard.py",
+  "base_generator_sha256": "2eebc13deacb3b464caacbc15862f4b7e8bfaaf15e4f025ca15c604067aaaf15",
+  "derivative_generator": ".local/board-fidelity/board_uv_finish.py",
+  "derivative_generator_sha256": "67e159a564f0b2dbd137d433e794240074f91cde86ca51aba79e81f1ddb2941d",
+  "inputs": {
+    "tam_skateboard.glb": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+    "manifest.json": "5636e34a2bfa842c8f1d6f496450e3475fe03f19aee2177981ba100f05c2379b",
+    "board_albedo.png": "0d7ffd2f597771878348e79e4673b48737668fc2251338b7a9e1586ac51cbed3",
+    "build_skateboard.py": "2eebc13deacb3b464caacbc15862f4b7e8bfaaf15e4f025ca15c604067aaaf15"
+  },
+  "outputs": {
+    "pre-rename-checks.json": "f363c4a041b96c3b6551656c86eb2cbdc2118763af7c380bcb1875ca9f281a46",
+    "author-source-checks.json": "2634a7b341165a81346a2def3a4008002832f8447d0a94ec0b7a13b2cef34d33",
+    "tam_skateboard.glb": "6d1b5fd27af335650db36786fd72a46249d8a272594f8bc5adf35a95e806f0c0",
+    "source-report.json": "3cfc826c92b30a0a6d10e33b1f3906042f7d7a2c7666efc8bde1e88960afdffc",
+    "board_albedo.png": "8213e4271969e7b5d478b029c37322348531c8e16e7b7a4f1d0d2d95a5287d24"
+  },
+  "external_assets": [],
+  "provenance": "Original project-owned GLB/atlas, source-indexed seam remap and deterministic original NumPy maple; no copied branding or source photography",
+  "remaining_disk_bytes": 5330980864
+}
