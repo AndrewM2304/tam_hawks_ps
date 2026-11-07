@@ -1,0 +1,41 @@
+from pathlib import Path
+import gzip,hashlib,json,re,shutil
+R=Path('/workspace/tam_hawks_ps');P=R/'.local/fidelity-checkpoints/required-02';D=R/'docs/testing/fidelity-2026-11-06/integrated-required-02-rejected';checks=[]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,v):checks.append({'label':label,'pass':bool(v)})
+receipt=json.loads((P/'receipt.json').read_text());before=json.loads((P/'source-before.json').read_text());after=json.loads((P/'source-after.json').read_text());native=(P/'tests.log').read_text();command=(P/'command.log').read_text()
+ck('all6 original wrapper-preserved files hashes exact',len(receipt['preserved_files_sha256'])==6 and all(sha(P/k)==v for k,v in receipt['preserved_files_sha256'].items()))
+ck('886 complete required source inputs unchanged',len(before)==receipt['source_input_count']==886 and before==after and receipt['changed_inputs']==[])
+ck('before inventory originalencoded hash binds receipt',sha(P/'source-before.json')==receipt['source_before_sha256'])
+entry='.local/run-fidelity-checkpoint.py'
+ck('executed wrapper source actually included before and after',before.get(entry,{}).get('sha256')==sha(P/'runner.py.txt'))
+for name in ['tools/check.sh','tools/run.sh','tests/run_tests.gd','tests/support/music_launch_guard.gd']:
+    ck('required entrypoint before-bound '+name,name in before and len(before[name]['sha256'])==64 and before[name]['bytes']>0)
+passes=re.findall(r'^PASS: (.*)$',native,re.M);failures=re.findall(r'^ERROR: FAIL: (.*)$',native,re.M);script_errors=re.findall(r'^SCRIPT ERROR: (.*)$',native,re.M)
+footer=re.findall(r'^RESULT: (\d+) passed, (\d+) failed$',native,re.M)
+ck('all6526 actualPASS lines equal final required footer',len(passes)==6526 and footer==[('6526','7')] and receipt['main_result']==[6526,7])
+ck('sevenFAIL lines retained exactly',len(failures)==7)
+ck('three real freedobject ScriptErrors retained separately',script_errors==['Trying to cast a freed object.']*3)
+errors=re.findall(r'^(?:ERROR:|SCRIPT ERROR:).*$' ,native,re.M)
+ck('all10 native error lines equal wrappererror summary',errors==receipt['error_lines'])
+ck('native and top-levelcommand final results agree',re.findall(r'^RESULT: (\d+) passed, (\d+) failed$',command,re.M)==footer)
+ck('nonzero completed wrapper correctly rejects whole epoch',receipt['engine_exit']==1 and receipt['eligible'] is False and receipt['wall_seconds']<receipt['deadline_seconds'])
+ck('CLI Musicstage was not executed after main failure',receipt['script_launch_result'] is None and receipt['secondary_log_preservation']['script-launch.log'].startswith('not preserved'))
+ck('all three freed-object traces identify forecastowner cast',native.count('at: _air_forecast_owner_bounds (res://game/player/skater.gd:3136)')==3)
+classes={
+ 'current_live_contact_camera': [s for s in failures if s.startswith('C04-L05:')],
+ 'old_board_source_fingerprint_expectation':[s for s in failures if s.startswith('authentic board:')],
+ 'old_route_count_identity_expectation':[s for s in failures if s.startswith('horizon:')or s.startswith('skate edges:')],
+ 'current_native_coping_capture':[s for s in failures if s.startswith('transition player:')],
+ 'runtime_freed_owner':script_errors}
+ck('all failures accountedwithoutrelabeling as accepted',list(map(len,classes.values()))==[1,2,2,2,3])
+report={'passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'actual_result':{'assertions_passed':6526,'assertions_failed':7,'script_errors':3,'process_exit':1,'source_inputs':886,'source_changed':[],'git_head':receipt['git_head'],'working_tree_dirty':receipt['working_tree_dirty'],'started_utc':receipt['started_utc'],'finished_utc':receipt['finished_utc'],'elapsed_seconds':receipt['wall_seconds']},'failure_classification':classes,'verdict':'REJECTED complete current-main technical checkpoint. Test expectation migrations and implementation fixes require fresh affected tests and another complete gate; no subset erases this recorded failure.','limits':['886 input/source equality is historical to this exact run; newer patches are not automatically accepted.','Seven asserted failures and3runtimeScriptErrors are separate, not10assertion failures.','6526 includes newly integrated focused modules; no comparison of raw counts demonstrates quality or completeness.','CLI Music launch stage did not run after requiredMainfailed; its separate earlier isolation subsets remain separate.','No normal-speed current-source fullreel, package/Metal/M5/physical controls/human/AAA pass.','Native diagnostics in command log contain long per-physics records; retained compressed bytes are lossless, not truncated.']}
+D.mkdir(parents=True,exist_ok=True)
+for name in ['command.log','tests.log','import.log','source-before.json','source-after.json']:
+    raw=(P/name).read_bytes();q=D/(name+'.gz');q.write_bytes(gzip.compress(raw,mtime=0));assert gzip.decompress(q.read_bytes())==raw
+for name in ['receipt.json','runner.py.txt']:shutil.copyfile(P/name,D/name)
+(D/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(Path(__file__),D/'independent-audit.py.txt')
+files={str(p.relative_to(D)):{'sha256':sha(p),'bytes':p.stat().st_size}for p in D.rglob('*')if p.is_file()and p.name!='preservation.json'}
+(D/'preservation.json').write_text(json.dumps({'files':files},indent=2)+'\n')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'actual':report['actual_result'],'failedchecks':[c for c in checks if not c['pass']]}))
+if report['failed']:raise SystemExit(1)

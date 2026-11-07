@@ -1,0 +1,217 @@
+#!/usr/bin/env python3
+"""Read-only independent audit of this rejected partial packet. No engine launch.
+
+Run with: python3 <this-file>
+Outputs technical findings to stdout. Does not alter receipts or assign native
+checks to a synthetic subset. Uses Pillow/numpy solely to decode retained images
+and independently apply the retained camera/projection matrices.
+"""
+import hashlib
+import json
+import math
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+P = Path(__file__).resolve().parent
+ROOT = P.parents[4]
+PRIVATE = ROOT / '.local/environment-phase2/current-main-water-source'
+THREE = '4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190'
+TWO = 'd646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44'
+failures = []
+checks = []
+
+
+def check(ok, label):
+    checks.append(label)
+    if not ok:
+        failures.append(label)
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def load(name):
+    return json.loads((P / name).read_text())
+
+
+def centroid(pixels, projected, channel, radius):
+    x, y = projected
+    x0, x1 = max(0, int(x) - radius), min(1280, int(x) + radius + 1)
+    y0, y1 = max(0, int(y) - radius), min(800, int(y) + radius + 1)
+    # Godot Color channels are float32. A channel difference of 51/255 can
+    # fall on opposite sides of the strict .20 threshold in float64.
+    rgb = pixels[y0:y1, x0:x1, :3].astype(np.float32) / 255
+    other = [c for c in range(3) if c != channel]
+    matched = ((rgb[:, :, channel] > .75)
+               & (rgb[:, :, channel] - rgb[:, :, other[0]] > .20)
+               & (rgb[:, :, channel] - rgb[:, :, other[1]] > .20))
+    ys, xs = np.where(matched)
+    return len(xs), np.array([float(xs.mean()) + x0 + .5,
+                             float(ys.mean()) + y0 + .5])
+
+
+before, after = load('source-before.json'), load('source-after.json')
+receipt, report = load('receipt.json'), load('actual-main-water-material-report.json')
+check(before == after and len(before) == 879, '879 retained source inputs match before/after')
+check(sha(P / 'source-after.json') == receipt['source_inventory_sha256'], 'receipt source inventory digest')
+private_missing = [name for name in before if not (PRIVATE / name).is_file()]
+private_mismatch = [name for name, digest in before.items()
+                    if (PRIVATE / name).is_file() and sha(PRIVATE / name) != digest]
+check(not private_missing and not private_mismatch, 'all 879 extant private source files independently hash to their retained pins')
+copy = load('source-copy-proof.json')
+game_inventory = {name: digest for name, digest in before.items() if name.startswith('game/')}
+copy_extra = sorted(set(copy['game_inventory']) - set(game_inventory))
+check(len(game_inventory) == 391 and len(copy['game_inventory']) == 392
+      and all(copy['game_inventory'].get(name) == digest for name, digest in game_inventory.items())
+      and copy_extra == ['game/art/assets/makehuman_hm08/__pycache__/generate.cpython-312.pyc']
+      and all((PRIVATE / name).is_file() and sha(PRIVATE / name) == digest
+              for name, digest in copy['game_inventory'].items()),
+      '391 supervisor game-source pins match 392 copy pins; sole extra is excluded Python bytecode cache')
+check(copy['actual_game_before_after_equal'] and copy['private_game_equal'], 'copy proof explicitly records actual/private equality')
+preserved = load('preserved-files.json')
+check(all((P / name).is_file() and sha(P / name) == digest for name, digest in preserved.items()),
+      'all 30 pre-existing preserved-file hashes')
+executed = []
+for path in sorted((P / 'executed-source').rglob('*.txt')):
+    source_name = str(path.relative_to(P / 'executed-source'))[:-4]
+    digest = sha(path)
+    check(before.get(source_name) == digest, 'executed-source pin: ' + source_name)
+    executed.append({'path': source_name, 'sha256': digest})
+check(report['complete'] is False and receipt['eligible'] is False
+      and receipt['engine_exit'] is None and receipt['process_timeout_seconds'] == 360
+      and len(report['images']) == 8 and report['checks'] == 86 and report['failures'] == 0,
+      'whole epoch rejection and original native86/0 stay intact')
+check(not (P / 'three-b-pond.png').exists(), 'final restored pond is absent')
+check(report['timing_measured'] is False and receipt['timing_measured'] is False,
+      'both timing flags remain false')
+check(not receipt['engine_errors'] and receipt['source_stable'] and receipt['changed_inputs'] == [],
+      'receipt source/log integrity claims are internally consistent')
+log = (P / 'engine.log').read_text()
+check(not any(token in log for token in ['SCRIPT ERROR:', 'SHADER ERROR:', 'Parse Error:', 'ERROR:', 'FAIL:']),
+      'retained log has no known engine/assertion error tokens')
+check('7d41c59c4' in log and report['engine']['hash'] == '7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3',
+      'retained engine log version agrees with report commit prefix')
+
+inv = report['inventory_before']
+check(len(inv['water']) == 3 and len(inv['nonwater']) == 1772 and len(inv['collisions']) == 1755,
+      'native inventory cardinalities retained')
+for mode, row in report['mode_inventories'].items():
+    check(row['inventory'] == inv, 'identical complete world inventory: ' + mode)
+    check(row['runtime_shader_sha256'] == (TWO if mode == 'two-candidate' else THREE),
+          'runtime shader hash: ' + mode)
+    check(row['resource_file_sha256'] == TWO, 'fixed on-disk resource hash: ' + mode)
+    check(all(w['shader_id'] == row['shader_instance_id'] and w['cast_shadow'] == 0
+              and w['shader_source_sha256'] == TWO for w in row['inventory']['water']),
+          'one exact shared shader, 3 OFF casters: ' + mode)
+check(len({v['shader_instance_id'] for v in report['mode_inventories'].values()}) == 1,
+      'shared shader object identity across modes')
+check(abs(inv['sun']['bias'] - .1) < 1e-6 and inv['sun']['normal_bias'] == 2,
+      'native .1/2 sun-bias profile fixed')
+basin = [r for r in inv['nonwater'] if r['path'] == 'ExchangeFountain/FountainBasin']
+check(len(basin) == 1 and basin[0]['cast_shadow'] == 1, 'fountain basin remains a casting native mesh')
+check(len(report['warm_states']) == 3 and all(r['native_completed_frame'] and r['viewport_size'] == [1280, 800]
+      and r['runtime_shader_sha256'] == (TWO if r['mode'] == 'two-candidate' else THREE)
+      for r in report['warm_states']), 'all 3 submitted shader states have recorded native warm frames')
+
+frames = []
+previous_process = -1
+for row in report['images']:
+    path = P / row['file']
+    rgba = np.array(Image.open(path).convert('RGBA'))
+    native_sha = hashlib.sha256(rgba.tobytes()).hexdigest()
+    check(sha(path) == receipt['images'][row['file']], 'PNG hash: ' + row['file'])
+    check(native_sha == row['pixels']['rgba8_sha256'] and rgba.shape == (800, 1280, 4)
+          and row['pixels']['bytes'] == rgba.nbytes, 'decoded native RGBA identity: ' + row['file'])
+    check(row['physics_before'] == row['physics_after'] and row['process_before'] == row['process_after'],
+          'same tick native readback: ' + row['file'])
+    check(row['process_before'] > previous_process, 'unique ordered process tick: ' + row['file'])
+    previous_process = row['process_before']
+    expected = TWO if row['mode'] == 'two-candidate' else THREE
+    check(row['runtime_shader_sha256'] == expected and row['resource_file_sha256'] == TWO,
+          'per-frame runtime/file distinction: ' + row['file'])
+    basis = np.array(row['camera_basis'], dtype=float).T
+    projection = np.array(row['projection_columns'], dtype=float).T
+    position = np.array(row['camera_position'], dtype=float)
+    check(np.max(np.abs(basis.T @ basis - np.eye(3))) < 1e-6
+          and np.max(np.abs(-basis[:, 2] - row['camera_forward'])) < 1e-6,
+          'orthonormal basis and forward: ' + row['file'])
+    check(row['viewport_size'] == [1280, 800] and row['fov'] == 68
+          and abs(projection[1, 1] - 1 / math.tan(math.radians(34))) < 1e-6
+          and abs(projection[0, 0] - projection[1, 1] / 1.6) < 1e-6,
+          'declared viewport/FOV projection: ' + row['file'])
+    marker_results = []
+    for index, marker in enumerate(row['pixel_proofs']['markers']):
+        local = np.linalg.solve(basis, np.array(marker['world_position']) - position)
+        clip = projection @ np.append(local, 1)
+        ndc = clip[:2] / clip[3]
+        projected = (ndc * [1, -1] + 1) * [640, 400]
+        count, center = centroid(rgba, projected, index, 10)
+        projection_error = float(np.linalg.norm(projected - marker['projected_xy']))
+        actual_error = float(np.linalg.norm(center - projected))
+        check(projection_error < .002, 'independent world projection: ' + row['file'] + ':' + str(index))
+        check(count == marker['pixel_count'] and np.linalg.norm(center - marker['centroid_xy']) < 1e-4
+              and abs(actual_error - marker['error_pixels']) < .002 and actual_error < 2,
+              'independent pixel centroid: ' + row['file'] + ':' + str(index))
+        mode_index = ['three-a', 'two-candidate', 'three-b'].index(row['mode'])
+        view_index = ['river', 'fountain', 'pond'].index(row['view'])
+        authored = [-1.6 + view_index * .35 + mode_index * .10, 1.2, -5] if index == 0 else [1.5 - view_index * .25, .8 + mode_index * .12, -5]
+        check(np.linalg.norm(local - authored) < 1e-4, 'declared unique world-marker placement: ' + row['file'] + ':' + str(index))
+        marker_results.append({'color': marker['color'], 'count': count,
+                               'projection_metadata_error_pixels': projection_error,
+                               'centroid_projection_error_pixels': actual_error})
+    proof = row['pixel_proofs']
+    x, y = proof['canvas_sample_xy']
+    expected_rgb = np.round(np.array(proof['canvas_expected_rgb']) * 255).astype(int)
+    check(np.array_equal(rgba[y, x, :3], expected_rgb), 'independent Canvas swatch: ' + row['file'])
+    check(np.max(np.abs(rgba[y, x, :3] / 255 - proof['canvas_actual_rgb'])) < 1e-6,
+          'recorded Canvas actual matches image: ' + row['file'])
+    frames.append({'file': row['file'], 'png_sha256': sha(path), 'native_rgba8_sha256': native_sha,
+                   'runtime_shader_sha256': row['runtime_shader_sha256'],
+                   'resource_file_sha256': row['resource_file_sha256'],
+                   'physics_tick': row['physics_before'], 'process_tick': row['process_before'],
+                   'markers': marker_results, 'canvas_rgb': expected_rgb.tolist(),
+                   'counters': row['counters']})
+
+same_camera = {}
+for view in ['river', 'fountain', 'pond']:
+    rows = [row for row in report['images'] if row['view'] == view]
+    fields = ['camera_basis', 'camera_position', 'camera_forward', 'projection_columns',
+              'viewport_size', 'fov', 'near', 'far', 'keep_aspect']
+    same_camera[view] = all(all(r[f] == rows[0][f] for f in fields) for r in rows)
+    check(same_camera[view], 'exact recorded matched camera/projection: ' + view)
+
+startup = []
+for row in report['synchronization_proofs']:
+    path = P / row['file']
+    rgba = np.array(Image.open(path).convert('RGBA'))
+    check(sha(path) == receipt['images'][row['file']]
+          and hashlib.sha256(rgba.tobytes()).hexdigest() == row['pixels']['rgba8_sha256'],
+          'startup PNG/native pixel identity: ' + row['file'])
+    x, y = row['canvas_pixel']
+    check(np.array_equal(rgba[y, x], row['canvas_expected']) and row['same_native_frame'],
+          'startup actual Canvas and same-frame metadata: ' + row['file'])
+    markers = []
+    for index, marker in enumerate(row['markers']):
+        count, center = centroid(rgba, marker['projected_pixel'], index, 12)
+        error = float(np.linalg.norm(center - marker['projected_pixel']))
+        check(count == marker['count'] and abs(error - marker['centroid_error']) < 1e-4 and error < 2.5,
+              'startup independently decoded centroid vs retained projection: ' + row['file'] + ':' + str(index))
+        markers.append({'count': count, 'centroid_error_pixels': error})
+    startup.append({'file': row['file'], 'markers': markers,
+                    'projection_limit': 'startup lacks full basis/projection; only retained projected coordinates independently matched to pixels'})
+
+result = {'technical_audit_pass': not failures, 'independent_read_only_check_count': len(checks),
+          'failures': failures, 'private_missing': private_missing, 'private_mismatch': private_mismatch,
+          'source_inputs': len(before), 'source_inventory_sha256': sha(P / 'source-after.json'),
+          'preserved_file_count': len(preserved), 'executed_source': executed,
+          'copy_scope': {'copy_game_inputs': 392, 'supervised_game_inputs': 391, 'excluded_copy_cache': copy_extra},
+          'matched_cameras': same_camera, 'target_frames': frames, 'startup_proofs': startup,
+          'whole_epoch': 'REJECTED; original native86/0 remains incomplete whole-run integrity, never subset verification',
+          'native_complete': report['complete'], 'native_checks': report['checks'], 'native_failures': report['failures'],
+          'final_report_runtime_sha256': report['restored_final_runtime_sha256'],
+          'final_runtime_limit': 'last retained report is three-b/4f5; timeout precedes final return to installed d646 code; no successful cleanup claim'}
+print(json.dumps(result, indent=2))
+raise SystemExit(1 if failures else 0)

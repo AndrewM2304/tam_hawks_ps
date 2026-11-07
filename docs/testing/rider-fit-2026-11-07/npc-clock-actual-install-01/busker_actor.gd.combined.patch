@@ -1,0 +1,26 @@
+--- a/game/characters/busker_actor.gd
++++ b/game/characters/busker_actor.gd
+@@ -29,17 +29,22 @@
+ 	_anatomy = Anatomy.new()
+ 	_head = Node3D.new()
+ 	_head.name = "Head"
++	# Match the current Skin palette; the actor keeps root interpolation.
++	_head.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+ 	_head.position = Vector3(0, 1.410, 0) - Vector3(0, -0.13, 0.036)
+ 	add_child(_head)
+ 	_anatomy.build_head(_head)
+ 	for side: float in [-1.0, 1.0]:
+ 		var shoe := Node3D.new()
+ 		shoe.name = "BuskerShoe"
++		shoe.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+ 		shoe.position = Vector3(side * 0.14, 0.061, -0.015)
+ 		shoe.rotation.y = PI + side * 0.12
+ 		add_child(shoe)
+ 		Footwear.build(shoe, shoes, rubber, denim)
+-		_hands.append(_anatomy.build_hand(self, side))
++		var hand := _anatomy.build_hand(self, side)
++		hand.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
++		_hands.append(hand)
+ 	_build_guitar()
+ 	_build_case()
+ 	_sign = Label3D.new()

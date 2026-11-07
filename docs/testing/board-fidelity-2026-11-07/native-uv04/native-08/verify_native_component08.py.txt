@@ -1,0 +1,59 @@
+from pathlib import Path
+import base64,collections,hashlib,json
+import numpy as np
+from PIL import Image
+ROOT=Path(__file__).parent
+p=ROOT/'native-project/native-result.json';d=json.loads(p.read_text());a,b=d['records'];fail=[];checks=[]
+def check(ok,label):(checks if ok else fail).append(label)
+def array(record,width,dtype='<f4'):
+ assert record['available']
+ result=np.frombuffer(base64.b64decode(record['base64']),dtype=dtype).copy();assert result.size==record['count']*width
+ return result.reshape(-1,width)
+def attr(s,name):
+ result=array(s[name],{'positions':3,'normals':3,'uv':2,'tangents':1,'indices':1}[name],'<i4' if name=='indices' else '<f4')
+ return result.reshape(-1,4) if name=='tangents' else result
+def corners(s,names):
+ ix=attr(s,'indices').ravel();data=np.concatenate([attr(s,k) for k in names],axis=1)[ix].reshape(-1,3,sum(attr(s,k).shape[1] for k in names))
+ result=[]
+ for tri in data:
+  row=[p.tobytes() for p in tri]
+  result.append(min(b''.join(row[i:]+row[:i]) for i in range(3)))
+ return collections.Counter(result)
+check(len(d['records'])==2 and not d['failures'],'native executable reports two complete assets without failures')
+check(a['component_count']==b['component_count'],'actual cached native component count unchanged')
+for record,source_folder in [(a,'baseline'),(b,'candidate-uv04')]:
+ label=record['label'];extracted=ROOT/'native-project'/label/'tam_skateboard_board_albedo.png'
+ image_ok=extracted.exists() and np.array_equal(np.asarray(Image.open(extracted).convert('RGBA')),np.asarray(Image.open(ROOT/source_folder/'board_albedo.png').convert('RGBA')))
+ check(image_ok,label+' actual extracted native atlas pixels match source derivative')
+ check(all(x['resource_path'].startswith('res://'+label+'/') for x in record['textures']),label+' material actually binds its own imported atlas path')
+check(a['model_radius']==b['model_radius'] and a['edge_roll_angle']==b['edge_roll_angle'],'actual cached model radius/edge roll unchanged')
+for i,(sa,sb) in enumerate(zip(a['surfaces'],b['surfaces'])):
+ check(sa['material']==sb['material'],'native surface'+str(i)+' material identity retained')
+ check(corners(sa,['positions'])==corners(sb,['positions']),'native surface'+str(i)+' indexed triangle position/winding multiset exact')
+ if i>0:
+  check(sa['packed_surface']==sb['packed_surface'],'native protected surface'+str(i)+' packed buffers and LODs byte-exact')
+  check(sa['packed_shadow_surface']==sb['packed_shadow_surface'],'native protected shadow'+str(i)+' packed buffers and LODs byte-exact')
+  names=['positions','normals','uv']
+  same_tangent_presence=sa['tangents']['available']==sb['tangents']['available']
+  if sa['tangents']['available'] and sb['tangents']['available']:names.append('tangents')
+  check(same_tangent_presence and corners(sa,names)==corners(sb,names),'native protected surface'+str(i)+' complete indexed position/normal/UV/tangent streams exact')
+ else:
+  pos=attr(sb,'positions');uv=attr(sb,'uv');ix=attr(sb,'indices').ravel();q=uv[ix].reshape(-1,3,2).astype(np.float64);e=q[:,1]-q[:,0];f=q[:,2]-q[:,0];jac=e[:,0]*f[:,1]-e[:,1]*f[:,0]
+  check(np.isfinite(pos).all() and np.isfinite(uv).all() and np.all(abs(jac)*.5>1e-12),'all actual imported wood triangles have finite nonzero UV area')
+  check(sb['tangents']['available'],'actual imported candidate wood tangents available')
+for i,(pa,pb) in enumerate(zip(a['component_parts'],b['component_parts'])):
+ aa=array(pa['points'],3);bb=array(pb['points'],3)
+ same=collections.Counter(x.tobytes() for x in aa)==collections.Counter(x.tobytes() for x in bb)
+ check(same and pa['shape_class']==pb['shape_class'] and pa['margin']==pb['margin'],'native cached component'+str(i)+' exact pointset/class/margin retained')
+def payload(record):
+ total=0
+ for surface in record['surfaces']:
+  for label in ['packed_surface','packed_shadow_surface']:
+   packed=surface[label]
+   total+=sum(packed.get(k,{}).get('bytes',0) for k in ['vertex_data','attribute_data','skin_data','index_data'])
+   total+=sum(lod['bytes'] for lod in packed['lods'])
+ return total
+old_payload=payload(a);new_payload=payload(b)
+check(new_payload-old_payload<=131072,'actual native geometry+shadow+LOD buffer payload delta within declared128KiB')
+report={'native_payload_bytes_baseline':old_payload,'native_payload_bytes_candidate':new_payload,'native_payload_delta_bytes':new_payload-old_payload,'passed':not fail,'passes':len(checks),'failures':fail,'checks':checks,'native_result_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'verifier_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'scope':'same-author separate arithmetic over actual editor-imported indexed buffers and current native component constructor; no rendered/action/contact/M5 acceptance'}
+(ROOT/'native-component-verification08.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2));raise SystemExit(1 if fail else 0)

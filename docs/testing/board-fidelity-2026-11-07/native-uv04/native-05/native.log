@@ -1,0 +1,38 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS source policy actual pinned raw wood decodes
+PASS source policy wrong source pin refuses before geometry
+PASS source policy changed source bytes refuse original pin
+PASS source policy rehashed wrong primitive layout refuses
+PASS source policy rehashed unsupported interleaving refuses
+PASS source policy rehashed nonfinite actual source position refuses
+PASS source policy rehashed out-of-range source index refuses
+PASS baseline actual imported PackedScene loads
+PASS baseline actual scene import settings match protected source policy
+PASS baseline actual source has exactly one MeshInstance
+PASS baseline imported mesh preserves identity transform
+PASS baseline actual StandardMaterial surface 0
+PASS baseline actual StandardMaterial surface 1
+PASS baseline actual StandardMaterial surface 2
+PASS baseline actual StandardMaterial surface 3
+PASS baseline exact existing native component constructor succeeds
+PASS baseline actual four surfaces/materials retained
+PASS baseline actual5696 indexed triangles retained
+PASS baseline actual one1024atlas shared across all four materials
+PASS candidate actual imported PackedScene loads
+PASS candidate actual scene import settings match protected source policy
+PASS candidate actual packed scene retains authenticated source import receipt
+PASS candidate actual source has exactly one MeshInstance
+PASS candidate imported mesh preserves identity transform
+PASS candidate actual StandardMaterial surface 0
+PASS candidate actual StandardMaterial surface 1
+PASS candidate actual StandardMaterial surface 2
+PASS candidate actual StandardMaterial surface 3
+PASS candidate exact existing native component constructor succeeds
+PASS candidate actual four surfaces/materials retained
+PASS candidate actual5696 indexed triangles retained
+PASS candidate actual one1024atlas shared across all four materials
+PASS baseline32 candidate32 no added native cached component
+PASS actual native edge roll datum unchanged
+PASS actual native full-model radius unchanged
+BOARD_NATIVE_COMPONENT_RESULT 35/0

@@ -1,0 +1,18 @@
+--- a/game/levels/fidelity_infill.gd
++++ b/game/levels/fidelity_infill.gd
+@@ -52,7 +52,14 @@
+ 	# CentralStationFloor owns the flush visible flat. Two coincident top faces
+ 	# caused the recorded bottom seam to flash; native support remains unchanged.
+ 	halfpipe.build_flat_visual = false
+-	_transition(halfpipe,"StationConcourseHalfpipe",Vector3(-60,2,35),PI*0.5,"central_station")
++	_transition(halfpipe,"StationConcourseHalfpipe",Vector3(-65,2,35),0.0,"central_station")
++	# The retained side accesses occupy opposite open-end corners. Swap
++	# those corners so the west bank sees the southern open flat; keep both
++	# deck approaches, native/display frames and all resident resources.
++	for quarter: Node3D in halfpipe.get_children():
++		for id: String in ["SideRollIn","SideRollInLanding"]:
++			var access: Node3D=quarter.get_node(id)
++			access.position.x=-access.position.x
+ 	var spine := Spine.new()
+ 	spine.radius = 2.2
+ 	spine.width = 8.0

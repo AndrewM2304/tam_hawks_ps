@@ -1,0 +1,76 @@
+{
+  "scope": "PRIVATE source-only engineering study; no actual file, runtime datum, native contact or admission change",
+  "declared_before_authoring": {
+    "added_mesh_nodes": 0,
+    "added_surfaces_materials_textures_draws_collision_objects": 0,
+    "max_added_triangles": 512,
+    "max_added_geometry_bytes": 131072,
+    "same_atlas_dimensions": true,
+    "startup_only": true
+  },
+  "input_glb_sha256": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+  "design": {
+    "wood_thickness_m": 0.01025,
+    "wood_top_centre_m": 0.016,
+    "grip_centre_preserved_m": 0.017,
+    "truck_baseplate_to_axle_m": 0.055,
+    "wheel_radius_preserved_m": 0.032,
+    "axle_z_preserved_m": [
+      -0.255,
+      0.255
+    ],
+    "baseplate_centre_z_m": [
+      -0.215,
+      0.215
+    ],
+    "mount_hole_spacing_x_m": 0.041275,
+    "mount_hole_spacing_z_m": 0.053975,
+    "riser_thickness_at_centre_m": 0.009525,
+    "bolt_head_above_actual_finite_grip_m": 0.0001
+  },
+  "references": [
+    {
+      "url": "https://www.roarockit.com/skateboard-building/veneer/street-deck/street-deck-maple-7-layer-sets/",
+      "fact": "5 face/core sheets1/16in plus2crossbands1/22in sum10.24659mm unpressed",
+      "inference": "nominal10.25mm study; not a finished thickness guarantee"
+    },
+    {
+      "url": "https://independenttrucks.com/trucks",
+      "fact": "standard55mm truck height; lower models53.5/52/50.5"
+    },
+    {
+      "url": "https://nhsskatedirect.com/products/genuine-parts-1-8-in-risers-pk-2-independent",
+      "fact": "maker sizing table recommends3/8\u20131/2in risers and1.5in hardware for60\u201365mm wheels",
+      "inference": "choose3/8in for retained64mm wheels; no arbitrary23mm spacer"
+    },
+    {
+      "url": "https://www.empireskatemfg.com/store/index.php?article_id=25&route=blog/article",
+      "fact": "newschool mounting2.125x1.625in; wide-deck commonwheelbase14.5\u201315+in",
+      "inference": "movingplatecentres255\u2192215mm with53.975mm pattern gives376.025mm(14.804in) betweeninnerbolts whilepreservingaxle510mm span"
+    }
+  ],
+  "derived_datums": {
+    "wood_bottom_m": 0.00575,
+    "baseplate_top_m": -0.003775,
+    "wheel_centre_m": -0.058775,
+    "wheel_bottom_m": -0.090775,
+    "truck_bearing_m": -0.073775,
+    "grip_to_wheel_bottom_m": 0.107775,
+    "inner_bolt_wheelbase_m": 0.376025
+  },
+  "required_explicit_runtime_migration": [
+    "DECK_UNDERSIDE\u2212.014\u2192+.00575",
+    "TRUCK_UNDERSIDE\u2212.103\u2192\u2212.073775",
+    "wheel_centres\u2212.088\u2192\u2212.058775",
+    "board_rest_height .12\u2192.090775",
+    "all static native caches reset/rebuilt from exact new model",
+    "all ordinary floor/manual/grind/wall/air/transition/handplant/grab/release/fittedsole gates unchanged in tolerance"
+  ],
+  "negative": "thinning only whilekeepingoldhardware leaves23.75mm mountgap and19.75mm boardslide datum error; reject that aesthetically tempting partialchange",
+  "limits": [
+    "source study cannot certify actual geometry/nativecomponent/visual quality",
+    "originaltubularhanger and singlebushing remain stylised; mechanicalfit/moving review required",
+    "riserlowerplane/baseplateconnection andtopnativefinitewoodgap mustbe measured",
+    "nooriginal/currentproductionfiles written"
+  ]
+}

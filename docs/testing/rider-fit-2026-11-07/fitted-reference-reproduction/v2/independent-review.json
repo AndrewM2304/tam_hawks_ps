@@ -1,0 +1,190 @@
+{
+  "passed": 18,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "exact held generator SHA",
+      "pass": true
+    },
+    {
+      "label": "isolated standard-library four-file source0",
+      "pass": true
+    },
+    {
+      "label": "source0 exact executed native reference bytes",
+      "pass": true
+    },
+    {
+      "label": "isolated standard-library four-file source1",
+      "pass": true
+    },
+    {
+      "label": "source1 exact executed native reference bytes",
+      "pass": true
+    },
+    {
+      "label": "isolated standard-library four-file source2",
+      "pass": true
+    },
+    {
+      "label": "source2 exact executed native reference bytes",
+      "pass": true
+    },
+    {
+      "label": "repeated generation deterministic",
+      "pass": true
+    },
+    {
+      "label": "honestly repinned truncated rest array rejected",
+      "pass": true
+    },
+    {
+      "label": "honestly repinned duplicate extra source mesh rejected",
+      "pass": true
+    },
+    {
+      "label": "honestly repinned missing admitted mesh rejected",
+      "pass": true
+    },
+    {
+      "label": "honestly repinned wrong actual shared edge rejected",
+      "pass": true
+    },
+    {
+      "label": "honestly repinned false waist endpoint rejected",
+      "pass": true
+    },
+    {
+      "label": "honestly repinned incomplete source Head correspondence rejected",
+      "pass": true
+    },
+    {
+      "label": "honestly repinned wrong11bone profile rejected",
+      "pass": true
+    },
+    {
+      "label": "wrong actual asset pin rejected before decoding",
+      "pass": true
+    },
+    {
+      "label": "actual repinned split-seam native source normal mismatch rejected",
+      "pass": true
+    },
+    {
+      "label": "wrong metadata pin rejected before correspondence",
+      "pass": true
+    }
+  ],
+  "native_reference_sha256": "eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae",
+  "generator_sha256": "5e4d01aabe24f07d003a80a8a52bf945a386b682cde8a61186603c10013b9359",
+  "executions_and_faults": [
+    {
+      "source_file_hashes": {
+        "fitted-manifest.json": "938fb9cb09391c921f33e8e077ebefa0c11039cc3b35593db9382c4f6d34ed9b",
+        "fitted_outfit.glb": "03944d9a01a030ee39a5cab2211cc8827c85e81cd60f6fd3e8783a8d360f7a46",
+        "fitted_landmarks.json": "bd33506f2510dc4e11ebed11566a671d14573fa5d4cead562a67c613c958f404",
+        "fitted_head.obj": "dd5cc4a17b142defb1400b4ef0d25d6252bc00049a1f77f8d2c17ab8f6dfad5b"
+      },
+      "argv": [
+        "python3",
+        "-I",
+        "-S",
+        "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/fitted-reference-reproduction/v2/build_fitted_rig_reference.py",
+        "--assets",
+        "temporary/assets",
+        "--output",
+        "temporary/reference.json"
+      ],
+      "exit": 0,
+      "stdout": "{\"output\": \"/tmp/qa-fitted-public-v2-2k6cv6ta/reference-0.json\", \"sha256\": \"eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae\", \"bone_count\": 11, \"waist_edges\": 100, \"head_edges\": 46}\n",
+      "stderr": "",
+      "output_sha256": "eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae"
+    },
+    {
+      "source_file_hashes": {
+        "fitted-manifest.json": "fa4be573d3d281cbe5400ed1a0a9c6da21333bd3e1308b7f460a03286ad7650e",
+        "fitted_outfit.glb": "03944d9a01a030ee39a5cab2211cc8827c85e81cd60f6fd3e8783a8d360f7a46",
+        "fitted_landmarks.json": "bd33506f2510dc4e11ebed11566a671d14573fa5d4cead562a67c613c958f404",
+        "fitted_head.obj": "dd5cc4a17b142defb1400b4ef0d25d6252bc00049a1f77f8d2c17ab8f6dfad5b"
+      },
+      "argv": [
+        "python3",
+        "-I",
+        "-S",
+        "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/fitted-reference-reproduction/v2/build_fitted_rig_reference.py",
+        "--assets",
+        "temporary/assets",
+        "--output",
+        "temporary/reference.json"
+      ],
+      "exit": 0,
+      "stdout": "{\"output\": \"/tmp/qa-fitted-public-v2-2k6cv6ta/reference-1.json\", \"sha256\": \"eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae\", \"bone_count\": 11, \"waist_edges\": 100, \"head_edges\": 46}\n",
+      "stderr": "",
+      "output_sha256": "eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae"
+    },
+    {
+      "source_file_hashes": {
+        "fitted-manifest.json": "00a20e7b01f7ef9cd5078b3a0373fbc3498646a239bb27a3b2f7b71a523a6153",
+        "fitted_outfit.glb": "03944d9a01a030ee39a5cab2211cc8827c85e81cd60f6fd3e8783a8d360f7a46",
+        "fitted_landmarks.json": "bd33506f2510dc4e11ebed11566a671d14573fa5d4cead562a67c613c958f404",
+        "fitted_head.obj": "dd5cc4a17b142defb1400b4ef0d25d6252bc00049a1f77f8d2c17ab8f6dfad5b"
+      },
+      "argv": [
+        "python3",
+        "-I",
+        "-S",
+        "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/fitted-reference-reproduction/v2/build_fitted_rig_reference.py",
+        "--assets",
+        "temporary/assets",
+        "--output",
+        "temporary/reference.json"
+      ],
+      "exit": 0,
+      "stdout": "{\"output\": \"/tmp/qa-fitted-public-v2-2k6cv6ta/reference-2.json\", \"sha256\": \"eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae\", \"bone_count\": 11, \"waist_edges\": 100, \"head_edges\": 46}\n",
+      "stderr": "",
+      "output_sha256": "eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae"
+    },
+    {
+      "label": "honestly repinned truncated rest array rejected",
+      "refusal": "Missing source vertex identity/rest metadata"
+    },
+    {
+      "label": "honestly repinned duplicate extra source mesh rejected",
+      "refusal": "Expected exactly3 unique admitted meshes"
+    },
+    {
+      "label": "honestly repinned missing admitted mesh rejected",
+      "refusal": "Expected exactly3 unique admitted meshes"
+    },
+    {
+      "label": "honestly repinned wrong actual shared edge rejected",
+      "refusal": "Wrong actual shared source100edge waist incidence"
+    },
+    {
+      "label": "honestly repinned false waist endpoint rejected",
+      "refusal": "Wrong waist source endpoint position"
+    },
+    {
+      "label": "honestly repinned incomplete source Head correspondence rejected",
+      "refusal": "Incomplete source46/47neck contract"
+    },
+    {
+      "label": "honestly repinned wrong11bone profile rejected",
+      "refusal": "This admitted profile requires original11bone order"
+    },
+    {
+      "label": "wrong actual asset pin rejected before decoding",
+      "refusal": "Source pin mismatch: fitted_outfit.glb"
+    },
+    {
+      "label": "actual repinned split-seam native source normal mismatch rejected",
+      "refusal": "Source split waist positions/normals/weights differ"
+    },
+    {
+      "label": "wrong metadata pin rejected before correspondence",
+      "refusal": "Source pin mismatch: fitted_landmarks.json"
+    }
+  ],
+  "verdict": "Supports exact v2 reference-only tool integration. V11/V12/V13 four-public-file sources reproduce exact bytes of native58/0 reference under isolated Python -I -S. Source pin/truncation/duplicate/missing/waist identity/position/normal/Head/profile controls fail closed.",
+  "scope": "No Godot, network, NumPy or private-source download needed by the tool. This review copies existing four declared public assets to temporary isolated directories; no runtime assets written. Reference reproduction is not native contact/Main/art/Mac acceptance. Pin manifest is reviewed provenance, not a signature or a general untrusted-GLTF validator."
+}

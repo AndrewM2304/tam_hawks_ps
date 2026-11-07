@@ -8,8 +8,9 @@ Data Collection AB, Joel Palmius and Jonas Hauquier (2020).
 
 The complete CC0 terms and MakeHuman asset/code scope are already retained in
 `docs/licences/third-party/makehuman-CC0.txt` and
-`docs/licences/third-party/makehuman-LICENCE-SCOPE.txt`. This imports texture
-asset data only, not MakeHuman program code or its shader implementation.
+`docs/licences/third-party/makehuman-LICENCE-SCOPE.txt`. This skin import uses texture asset data only. Additional CC0 wardrobe, hair,
+eye, brow and shoe derivatives have their own exact source records in
+`FITTED-NOTICE.md`; no MakeHuman program or shader code is imported.
 
 Inspected 6 November 2026. The official catalog independently labels this exact
 skin CC0: <https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_assets.html>.
@@ -25,13 +26,29 @@ the original metadata is preserved rather than reinterpreted.
 | `skins/young_caucasian_male/young_lightskinned_male_diffuse.png` | `862a26e335e958b70534cb5f0d7c47ef30ab148a56c42b3e9da969cf76f12963` |
 | `skins/young_caucasian_male/young_caucasian_male.mhmat` | `6eda60b07ff2afbde078a2535ef3913593d84e9de92b2eb76c30f396a181fe2e` |
 
-The distributed derivatives retain only texture triangles used by the existing
-cropped head and hands, dilate their edges for mip filtering, neutral-fill the
-rest of each image and downsample the hands. The complete body atlas is kept
-only in ignored development downloads. No third-party clothes, full body,
-animation, hair image, brand or photograph from another source is imported.
-`manifest.json` records every distributed map's hash. All roughness/normal,
-cloth, suede and cropped-hair maps are original project-authored material studies.
+The distributed skin derivatives retain only the authenticated head, exposed
+neck/chest and hand source triangles. They dilate island edges for mip filtering
+and neutral-fill unused pixels. The full source body atlas stays in ignored
+development downloads. The natural fitted-head derivative retains the original
+source UVs; the original anatomical source mesh remains intact. Opaque source
+eyes occupy a verified unused region of the head RGB map and have separate
+source-selection metadata.
 
-Regenerate with `python3 tools/rider_asset_acquire.py`, then
-`python3 tools/rider_asset_bake.py`. Neither tool runs during gameplay.
+Each hand preserves its original native vertex, UV, normal and triangle streams.
+A positive uniform material UV scale and offset, with repeat, packs the actual
+palm and nail islands into a 512 map. Albedo samples the pinned 2048 source only
+inside those authenticated islands; `hand-atlas-layout.json` records exact source
+IDs, bounds, repeat tiles and padding. Texture size alone is not a detail or
+performance acceptance claim.
+
+`manifest.json` records every distributed map hash and the complete original
+fitting/baking generator chain. `fitted-manifest.json` additionally pins selected
+geometry and provenance outputs. Original analytical skin roughness/normal maps,
+source fitting, flat laces and NPC apron are project work; original source cloth,
+hair, brows, eye and trainer data are documented in `FITTED-NOTICE.md`. No full
+body, franchise asset, brand, animation or external program code is distributed.
+
+Regenerate with `python3 tools/rider_asset_acquire.py --fitted --body`, then
+`python3 tools/rider_asset_bake.py --garment-fit game/art/rider/fitted-garment-fit.json`.
+Neither tool runs during gameplay. Native contact, Main appearance, motion,
+target hardware and final human art approval are separate evidence gates.

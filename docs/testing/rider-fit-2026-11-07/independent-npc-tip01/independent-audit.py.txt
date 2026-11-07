@@ -1,0 +1,70 @@
+from pathlib import Path
+import json,hashlib,re,gzip,shutil
+import numpy as np
+from PIL import Image
+R=Path.cwd();P=R/'.local/rider-fit-staging/epochs/npc-clock-tip-01';O=R/'docs/testing/rider-fit-2026-11-07/independent-npc-tip01';O.mkdir(parents=True,exist_ok=True);checks=[]
+def ck(v,s):checks.append({'label':s,'pass':bool(v)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def point(m,v):return(np.array(m)@np.r_[v,1])[:3]
+def project(t,v):
+ q=np.array(t['projection'])@np.linalg.inv(np.array(t['camera']))@np.r_[v,1];return np.array([(q[0]/q[3]+1)*192,(1-q[1]/q[3])*192])
+r=json.loads((P/'output/receipt.json').read_text());before=json.loads((P/'source-before.json').read_text());after=json.loads((P/'source-after.json').read_text());launch=json.loads((P/'launch-receipt.json').read_text());idx=json.loads((P/'index.json').read_text())['files']
+for n,v in idx.items():ck(sha(P/n)==v['sha256'] and(P/n).stat().st_size==v['bytes'],'original frozen '+n)
+ck(len(idx)==156 and len(before)==125 and before==after,'156 archivedfiles/125 recordedsource inputs stable')
+for n,h in before.items():
+ name='run_npc_clock.py'if n=='WRAPPER'else'xorg-dummy.conf'if n=='XORG_CONFIG'else n;ck(sha(P/'source'/name)==h,'before-bound exact '+n)
+ck(launch['returncode']==0 and launch['failure']is None and not launch['raw_engine_error'] and not r['failures'],'clean actual native retry')
+ck(not re.search(r'SCRIPT ERROR|ERROR:|Parse Error',(P/'native.log').read_text()),'raw native log independently clean')
+ck(len(r['candidate_records'])==5 and len(r['records'])==2 and r['physics_hz']==60,'five retained/two selected default60Hz pairs')
+source=(P/'source/candidate_drummer.gd').read_text();base=(P/'source/game/characters/cat_actor.gd').read_text()
+without='\n'.join(x for x in source.splitlines()if'physics_interpolation_mode ='not in x and x not in['\t# Rigid process-driven pose branches follow the current cloth palette.','\t# StreetDrummer and the actor keep their shared root interpolation.'])+'\n'
+without=without.replace('\t\tvar bead_tip := _mesh(person,"DrumstickBeadTip",bead,Vector3.ZERO,stick_material)\n\t\t_stick_tips.append(bead_tip)','\t\t_stick_tips.append(_mesh(person,"DrumstickBeadTip",bead,Vector3.ZERO,stick_material))')
+ck(without==base,'candidate constructor changes only declared local interpolation assignments/comments and equivalent bead localvariable')
+maxima={'baseline_tip_gap_m':0.,'coherent_tip_gap_m':0.,'independent_world_reconstruction_m':0.,'independent_projection_error_px':0.,'world_marker_centroid_error_px':0.};frames={};selected=[];endpoint_visibility=[]
+for rec in r['candidate_records']:
+ label=str(rec['id'])+'/'+rec['band'];a,b=rec['twins']
+ ck(rec['pose_readback_bracket'][0]==rec['pose_readback_bracket'][1]and rec['counter_bracket'][0]==rec['counter_bracket'][1],label+' actual pose and frame readback brackets fixed')
+ ck(a['bones']==b['bones']and a['native_palette']==b['native_palette'],label+' actual native bones/palette exacttwins')
+ ck(all(a['components'][n]==b['components'][n]for n in['actor','common_motion_root','pose_parent','chest','skeleton']),label+' outerroot and skinned model both current/rendered exact')
+ ck(all(a[n]==b[n]for n in['camera','projection','near','far','viewport','viewport_msaa']),label+' matched actual camera/projection')
+ for t in[a,b]:
+  tag=label+'/'+t['policy'];png=P/t['png'].removeprefix('res://');im=Image.open(png).convert('RGBA');pixels=np.array(im);raw=im.tobytes()
+  ck(im.size==(384,384)and sha(png)==t['png_sha256']and hashlib.sha256(raw).hexdigest()==t['rgba_sha256'],tag+' exact original encoded PNG/native RGBA')
+  ident=[255,64,0]if t['policy']=='baseline'else[0,255,64];ck(np.all(pixels[4:12,4:12,:3]==ident)and np.all(pixels[4:12,16:24,:3]==rec['expected_stamp_rgb']),tag+' actual Canvas identity/frame stamp')
+  for node in['actor','common_motion_root','pose_parent']:ck(t['components'][node]['interpolated'],tag+' outer '+node+' interpolation remains enabled')
+  policies=t['posed_branch_policy'];ck(len(policies)==9 and all(x['component']['interpolated']==(t['policy']=='baseline')for x in policies),tag+' nine local posed branches only inclbothbead siblings')
+  tips=t['stick_tip_witness'];ck(len(tips['endpoints'])==2,tag+' both actual shafts/beads recorded')
+  gaps=[]
+  for end in tips['endpoints']:
+   points=np.array(end['native_shaft_vertices']);indices=np.array(end['native_shaft_indices'],dtype=int);ck(len(indices)%3==0 and indices.min()>=0 and indices.max()<len(points)and np.isfinite(points).all(),tag+' exact finite actual indexed CylinderMesh side'+str(end['side']))
+   drawn=points[np.unique(indices)];lo=drawn.min(axis=0);hi=drawn.max(axis=0);top=np.array([(lo[0]+hi[0])/2,hi[1],(lo[2]+hi[2])/2]);ck(np.linalg.norm(top-end['native_top_local'])<1e-9,tag+' independent referenced-vertex topcap centre side'+str(end['side']))
+   err=projerr=0.
+   for clock,stem in [('current','current'),('rendered','rendered')]:
+    shaft=point(end['shaft'][clock],top);bead=np.array(end['bead'][clock])[:3,3];gap=float(np.linalg.norm(shaft-bead));err=max(err,float(np.linalg.norm(shaft-end[stem+'_shaft'])),float(np.linalg.norm(bead-end[stem+'_bead'])),abs(gap-end[stem+'_gap_m']))
+    if clock=='rendered':gaps.append(gap);projerr=max(projerr,float(np.linalg.norm(project(t,shaft)-end['shaft_pixel'])),float(np.linalg.norm(project(t,bead)-end['bead_pixel'])))
+   maxima['independent_world_reconstruction_m']=max(maxima['independent_world_reconstruction_m'],err);maxima['independent_projection_error_px']=max(maxima['independent_projection_error_px'],projerr)
+   ck(err<2e-6 and projerr<.01,tag+' independently reconstructed actual shaft/bead models and projections side'+str(end['side']))
+   if t['policy']=='coherent':ck(end['shaft']['mode']==end['bead']['mode']==2 and not end['shaft']['interpolated']and not end['bead']['interpolated'],tag+' shaft and its SIBLINGbead share localOFF clock')
+   if rec in r['records']:endpoint_visibility.append({'record':rec['id'],'policy':t['policy'],'side':end['side'],'pixel':end['bead_pixel'],'inside384':all(0<=v<384 for v in end['bead_pixel'])})
+  ck(abs(max(gaps)-tips['maximum_m'])<2e-6,tag+' exactnative tip maximum independently recomputed')
+  maxima['baseline_tip_gap_m'if t['policy']=='baseline'else'coherent_tip_gap_m']=max(maxima['baseline_tip_gap_m'if t['policy']=='baseline'else'coherent_tip_gap_m'],max(gaps))
+  for channel,marker in enumerate(t['markers']):
+   at=project(t,marker['world']);x,y=map(int,at);pts=[]
+   for yy in range(max(0,y-7),min(384,y+8)):
+    for xx in range(max(0,x-7),min(384,x+8)):
+     rgb=pixels[yy,xx,:3].astype(int)
+     if rgb[channel]>220 and all(rgb[k]<40 for k in range(3)if k!=channel):pts.append([xx+.5,yy+.5])
+   distance=float(np.linalg.norm(np.array(pts).mean(axis=0)-at))if pts else float('inf');maxima['world_marker_centroid_error_px']=max(maxima['world_marker_centroid_error_px'],distance);ck(np.linalg.norm(at-marker['pixel'])<.01 and distance<1.5,tag+' independent projected native marker'+str(channel))
+  target=O/'frames'/png.with_suffix('.webp').name;target.parent.mkdir(exist_ok=True);im.save(target,'WEBP',lossless=True,quality=100,method=6);ck(Image.open(target).convert('RGBA').tobytes()==raw,tag+' exact decoded native losslessWebP')
+  frames[target.name]={'native_rgba_sha256':t['rgba_sha256'],'original_png_sha256':sha(png),'original_png':png.name,'webp_sha256':sha(target)}
+  if rec in r['records']:
+   selected.append(png.name);dst=O/'selected-original-png'/png.name;dst.parent.mkdir(exist_ok=True);shutil.copy2(png,dst)
+ck(maxima['coherent_tip_gap_m']<.0000002,'all ten actual coherent shaft/bead rendered observations <.2um')
+report={'kind':'Independent exactsource/native indexed shaft/bead model/pixel review; no new engine execution','passed':sum(x['pass']for x in checks),'failed':sum(not x['pass']for x in checks),'checks':checks,'maxima':maxima,'personally_viewed_original_pngs':selected,'selected_native_tip_pixel_visibility':endpoint_visibility,'finding':'Candidate local shaft and sibling bead clocks agree at actual native endpoint models within.123um. All four selected originals personally opened; the low/head-close crop excludes the actual bead endpoints, so no visible tiny-tip improvement is claimed. Wide pair shows no new obvious prop break.','verdict':'Supports exact local bead-tip addition alongside already separately reviewed caller-local clock policy; current Main constructor/regression still required.','limits':['Baseline is ORIGINAL ALL-INHERITV13, not partialclock01 stickOFF/beadINHERIT. No matched partialpolicy delta is invented.','Complete hand grip/drum strike/contact and every rendered triangle are not certified by tip-centre agreement.','Five retained pairs/two selected; synthetic Head/chest IDs, authored movingroot/default60Hz fixture, older standalonelegframe.','No fullMain, continuous movie, finalart, physicalcontrols, timing/M5 or AAA acceptance.'],'frames':frames,'source_candidate_sha256':sha(P/'source/candidate_drummer.gd')}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n')
+for name in['output/receipt.json','source-before.json','source-after.json','index.json','launch-receipt.json','native.log','logical-launch-receipt.json','tip-logical-receipt.json','logical-source-before.json','logical-source-after.json','tip-logical.log','author-review.json','rejected-author-review-label-copy.json']:(O/(name.replace('/','-')+'.gz')).write_bytes(gzip.compress((P/name).read_bytes(),mtime=0))
+for name in['npc_clock.gd','candidate_drummer.gd','game/characters/cat_actor.gd']:
+ dst=O/'sources'/(name+'.txt');dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(P/'source'/name,dst)
+shutil.copy2(Path(__file__),O/'independent-audit.py.txt');(O/'independent-preservation.json').write_text(json.dumps({str(f.relative_to(O)):sha(f)for f in O.rglob('*')if f.is_file()and f.name!='independent-preservation.json'},indent=2)+'\n')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'maxima':maxima,'failedchecks':[x for x in checks if not x['pass']]},indent=2))
+if report['failed']:raise SystemExit(1)

@@ -1,0 +1,96 @@
+--- a/tools/full_fidelity_capture.gd
++++ b/tools/full_fidelity_capture.gd
+@@ -26,6 +26,7 @@
+ var _cohort := "all"
+ var _push_view := "contact"
+ var _push_selection := "all"
++var _native_size := Vector2i(1280,800)
+ const NATURAL_PUSH_VIEWS := {"push_contact_regular":"front", "push_contact_from_rest":"side", "push_contact_fakie":"chase"}
+ 
+ func _initialize() -> void:
+@@ -41,6 +42,16 @@
+ 	if arguments.size()>1:_cohort=arguments[1]
+ 	if arguments.size()>2:_push_view=arguments[2]
+ 	if arguments.size()>3:_push_selection=arguments[3]
++	if arguments.size()>4:
++		if arguments[4]=="640x400":_native_size=Vector2i(640,400)
++		elif arguments[4]!="1280x800":
++			push_error("Unsupported native capture size: "+arguments[4])
++			quit(1)
++			return
++	if _native_size!=Vector2i(1280,800) and _cohort!="push-contact":
++		push_error("Native640 is restricted to focused diagnostic push motion.")
++		quit(1)
++		return
+ 	if _push_selection not in ["all","natural-three"] or (_push_selection!="all" and _cohort!="push-contact"):
+ 		push_error("Invalid push capture-only selection: "+_push_selection)
+ 		quit(1)
+@@ -98,6 +109,9 @@
+ 		"cohort":_cohort,"complete_repertoire_coverage":_cohort=="all",
+ 		"push_camera_view":"mixed-per-case" if _push_selection=="natural-three" else _push_view,
+ 		"push_capture_selection":_push_selection,
++		"native_capture_size":[_native_size.x,_native_size.y],
++		"logical_viewport_size":[root.get_visible_rect().size.x,root.get_visible_rect().size.y],
++		"resolution_scope":"Native640x400 diagnostic motion; no upsampling, finaltexture/H1/targetFPS or finalAAA claim. Separate native1280Main/closeups own surface fidelity." if _native_size==Vector2i(640,400) else "Original native1280x800 capture.",
+ 		"observed_phase_ids":_clips.keys(),
+ 		"recorded_phase_ids":clips.map(func(clip: Dictionary): return clip.id),
+ 		"unrecorded_phase_ids":observed_clips.filter(func(clip: Dictionary): return clip.frames.is_empty()).map(func(clip: Dictionary): return clip.id),
+@@ -109,7 +123,7 @@
+ 		"fixture_policy": "Only declared restart/initial-contact fixtures from the linked integration tests; real input/native motion thereafter. Repertoire uses explicitly declared elevated air fixtures and special unlock/meter eligibility seeds." if _cohort=="all" else "Declared default-spawn restarts, regular/fakie initial headings and two signed6m/s moving starts. Separate from-rest, brake and6/18-tick pop cases use actual input without motion seeds; see push_fixture_policy.",
+ 		"camera_policy": ("Explicit per-case camera map: regular/front and from-rest/side authored inspection; fakie uses the actual production chase camera and HUD. Every117 consecutive native push/release tick is recorded. Brake/pop stay physically checked but visually unreviewed." if _push_selection=="natural-three" else  "Native chase for world lines, connected surfaces and activities; authored marker-bounded contact inspection for tricks/setup/recovery; explicit cart-centred inspection for the empty parked turn." if _cohort=="all" else ("Production chase camera and HUD throughout actual push/brake/pop motion." if _push_view=="chase" else "Authored "+_push_view+" inspection of actual production Main input/motion; camera/Canvas boundary proofs retained.")),
+ 		"render_fence_policy": "Production processing is fenced by a same-frame zero timer; each selected frame uses the natural render loop and awaits frame_post_draw, with unchanged physics/process counters. Independent coloured 3D markers at actual projected head/board and current Canvas swatches prove camera/Canvas boundary synchronization.",
+-		"pixel_storage_policy": "Native RGBA8 bytes are hashed before atomic raw spooling; a local standard-library lossless PNG worker encodes those exact bytes and independently checks the decoded pixel hash. No pixel/resolution/sample reduction.",
++		"pixel_storage_policy": "Every declared native640 RGBA8 pixel is hashed and losslessly encoded without resizing or upsampling; consecutive selected physics frames remain60Hz. This is diagnostic motion, not finalresolution acceptance." if _native_size==Vector2i(640,400) else "Native RGBA8 bytes are hashed before atomic raw spooling; a local standard-library lossless PNG worker encodes those exact bytes and independently checks the decoded pixel hash. No pixel/resolution/sample reduction.",
+ 		"raw_frame_policy": "Lossless input PNGs remain in the ignored staging directory; published movies are fully decoded and source-frame hashes/timeline plus selected lossless review frames are retained.",
+ 		"human_or_target_hardware_certification": false}
+ 	var file := FileAccess.open(output.path_join("manifest.json"), FileAccess.WRITE)
+@@ -185,7 +199,7 @@
+ 	var camera: Camera3D = root.get_camera_3d()
+ 	clip.frames.append({"file": relative, "native_step": _global_step, "state": state,
+ 		"camera_position": _v(camera.global_position), "camera_forward": _v(-camera.global_basis.z), "camera_fov": camera.fov,
+-		"camera_far": camera.far, "camera_cull_mask": camera.cull_mask, "visual_workload": "complete production world; authored camera only",
++		"camera_far": camera.far, "camera_cull_mask": camera.cull_mask, "visual_workload": "complete production world at declared native640; source geometry/assets/quality settings unchanged" if _native_size==Vector2i(640,400) else "complete production world; authored camera only",
+ 		"pixels": storage})
+ 
+ func _snapshot(observed: Node) -> Dictionary:
+@@ -307,8 +321,8 @@
+ 		"natural readback completes the current frame without another physics/process tick")
+ 	var image := root.get_texture().get_image()
+ 	image.convert(Image.FORMAT_RGBA8)
+-	_check(image.get_width() == 1280 and image.get_height() == 800,
+-		"native capture retains the full 1280 by 800 viewport")
++	_check(image.get_width() == _native_size.x and image.get_height() == _native_size.y,
++		"native capture retains every pixel of its declared "+str(_native_size)+" viewport")
+ 	image.set_meta("draw_and_read_microseconds", Time.get_ticks_usec() - started)
+ 	return image
+ 
+@@ -387,12 +401,16 @@
+ 		var process_tick := Engine.get_process_frames()
+ 		var camera := root.get_camera_3d()
+ 		var image: Image = await _render_current_frame()
++		var logical_viewport:Vector2=camera.get_viewport().get_visible_rect().size
++		var native_scale:=Vector2(image.get_size())/logical_viewport
++		var canvas_at:=Vector2i(Vector2(20,20)*native_scale)
+ 		var proof := {"id":label, "file":"synchronization/" + label + ".png",
+ 			"physics_frame":native_tick, "process_frame":process_tick,
+ 			"same_native_frame":Engine.get_physics_frames() == native_tick and Engine.get_process_frames() == process_tick,
+-			"camera_position":_v(camera.global_position), "canvas_pixel":[20,20],
++			"camera_position":_v(camera.global_position), "canvas_pixel":[canvas_at.x,canvas_at.y],
++			"native_size":[image.get_width(),image.get_height()],"logical_viewport_size":[logical_viewport.x,logical_viewport.y],
+ 			"canvas_expected":_color(swatch.color), "markers":[]}
+-		_check(image.get_pixel(20,20).is_equal_approx(swatch.color),
++		_check(image.get_pixelv(canvas_at).is_equal_approx(swatch.color),
+ 			"current Canvas pixel survives camera boundary " + label)
+ 		if index > 0:
+ 			for part in 2:
+@@ -420,8 +438,8 @@
+ func _marker_pixels(image: Image, projected: Vector2, part: int) -> Dictionary:
+ 	var total := Vector2.ZERO
+ 	var count := 0
+-	for y in range(maxi(0,int(projected.y)-12), mini(800,int(projected.y)+13)):
+-		for x in range(maxi(0,int(projected.x)-12), mini(1280,int(projected.x)+13)):
++	for y in range(maxi(0,int(projected.y)-12), mini(image.get_height(),int(projected.y)+13)):
++		for x in range(maxi(0,int(projected.x)-12), mini(image.get_width(),int(projected.x)+13)):
+ 			var color := image.get_pixel(x,y)
+ 			var match_color := color.r > 0.75 and color.r - color.g > 0.20 and color.r - color.b > 0.20 if part == 0 else color.g > 0.75 and color.g - color.r > 0.20 and color.g - color.b > 0.20
+ 			if match_color:

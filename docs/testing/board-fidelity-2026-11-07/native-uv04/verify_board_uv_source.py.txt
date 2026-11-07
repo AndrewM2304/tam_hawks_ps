@@ -1,0 +1,69 @@
+"""Independent source geometry/UV/protection checks; no native/visual acceptance."""
+from pathlib import Path
+import hashlib,importlib.util,io,json
+import numpy as np
+from PIL import Image
+ROOT=Path(__file__).parent
+spec=importlib.util.spec_from_file_location('reader',ROOT/'board_uv_finish04.py');reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
+base=reader.GLB(ROOT/'baseline/tam_skateboard.glb');candidate=reader.GLB(ROOT/'candidate-uv04/tam_skateboard.glb')
+passes=[];failures=[]
+def check(ok,label):
+ (passes if ok else failures).append(label)
+def protected(op,oa,oi,np_,na,ni):return op==np_ and np.array_equal(oi,ni) and all(oa[k].tobytes()==na[k].tobytes() for k in oa)
+def triangles(a,ix):return a['POSITION'][ix].reshape(-1,3,3).astype(np.float64)
+def geometry(a,ix):
+ p=triangles(a,ix);cross=np.cross(p[:,1]-p[:,0],p[:,2]-p[:,0]);twicearea=np.sqrt(np.sum(cross*cross,axis=1));return cross/twicearea[:,None],twicearea
+
+def uv_jac(a,ix):
+ uv=a['TEXCOORD_0'][ix].reshape(-1,3,2).astype(np.float64);e=uv[:,1]-uv[:,0];f=uv[:,2]-uv[:,0];return e[:,0]*f[:,1]-e[:,1]*f[:,0]
+def tangent_valid(a):
+ t=a['TANGENT'];n=a['NORMAL'];return bool(np.isfinite(t).all() and np.max(np.abs(np.sqrt(np.sum(t[:,:3]**2,axis=1))-1))<2e-6 and np.max(np.abs(np.sum(t[:,:3]*n,axis=1)))<2e-6 and np.all(np.abs(t[:,3])==1))
+check(hashlib.sha256(base.file).hexdigest()=='d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99','authenticated inherited source identity')
+op,oa,oi=base.primitive(0);cp,ca,ci=candidate.primitive(0);normal,area=geometry(oa,oi);jac=uv_jac(oa,oi);strict=(np.abs(normal[:,1])<.3)&(area>1e-12)
+check(int(strict.sum())==224 and int((strict&(np.abs(jac)*.5<1e-12)).sum())==172,'independent RA strict224side/172collapsedUV reproduction')
+cn,car=geometry(ca,ci);cj=uv_jac(ca,ci)
+check(np.all(np.abs(cj)*.5>1e-12),'every one of2600 candidate actual wood triangles has nonzero UV area')
+check(np.array_equal(oa['POSITION'][oi],ca['POSITION'][ci]),'all wood triangle-corner float32 positions exact')
+check(np.array_equal(oa['NORMAL'][oi],ca['NORMAL'][ci]),'all wood triangle-corner float32 normals exact')
+check(np.array_equal(normal,cn) and np.array_equal(area,car),'exact wood face winding/area retained')
+check(candidate.g['nodes']==base.g['nodes'] and candidate.g['materials']==base.g['materials'],'node/material records exact')
+for surface in [1,2,3]:
+ p,a,ix=base.primitive(surface);q,b,ii=candidate.primitive(surface);check(protected(p,a,ix,q,b,ii),'surface'+str(surface)+' protected actual primitive attributes/indices exact')
+check(tangent_valid(ca),'wood tangent frames finite unit orthogonal with proper signed handedness')
+# Independent Jacobian-derived tangent/bitangent handedness at triangle corners.
+p=triangles(ca,ci);uv=ca['TEXCOORD_0'][ci].reshape(-1,3,2).astype(np.float64);du=uv[:,1]-uv[:,0];dv=uv[:,2]-uv[:,0]
+e1=p[:,1]-p[:,0];e2=p[:,2]-p[:,0];bit=(e2*du[:,0,None]-e1*dv[:,0,None])/cj[:,None]
+corner_n=ca['NORMAL'][ci].reshape(-1,3,3).astype(np.float64);corner_t=ca['TANGENT'][ci].reshape(-1,3,4).astype(np.float64);reconstructed=np.cross(corner_n,corner_t[:,:,:3])*corner_t[:,:,3,None]
+handed_dot=np.sum(reconstructed*bit[:,None,:],axis=2)/np.maximum(np.linalg.norm(bit,axis=1)[:,None],1e-100)
+check(float(handed_dot.min())>0,'every wood triangle-corner tangent handedness agrees with independent UV bitangent')
+old=np.asarray(Image.open(io.BytesIO(base.image())).convert('RGBA'));new=np.asarray(Image.open(io.BytesIO(candidate.image())).convert('RGBA'))
+check(old.shape==new.shape==(1024,1024,4),'single atlas dimensions/RGBA allocation unchanged')
+check(np.array_equal(old[:,:512],new[:,:512]),'original underside-art left-half pixels exact')
+check(np.array_equal(old[:512,512:],new[:512,512:]),'whole original grip quadrant pixels exact')
+# Actual side UV seams differ only by an exact integer192px atlas period.
+side=np.abs(cn[:,1])<.5
+seam_groups={}
+for face in ci.reshape(-1,3)[side]:
+ for index in face:
+  key=(ca['POSITION'][index].tobytes(),ca['NORMAL'][index].tobytes())
+  seam_groups.setdefault(key,[]).append(ca['TEXCOORD_0'][index])
+seams=[]
+for group in seam_groups.values():
+ first=group[0]
+ for uv in group[1:]:
+  if np.array_equal(first,uv):continue
+  delta=(float(first[0])-float(uv[0]))/.1875
+  seams.append(abs(delta-round(delta))<1e-6 and first[1].tobytes()==uv[1].tobytes())
+check(bool(seams) and all(seams),'actual side UV seam correspondences retain exact integer192px periodic phase')
+# Compare actual encoded atlas pixels, not a procedural expression alone.
+periodic=new[530:670,523:822].tobytes()==new[530:670,715:1014].tobytes()
+check(periodic,'actual side-atlas192px repeats remain byte-exact throughout padded sampling strip')
+bad_pixels=new.copy();bad_pixels[600,700,0]^=1
+check(bad_pixels[530:670,523:822].tobytes()!=bad_pixels[530:670,715:1014].tobytes(),'single changed side-grain pixel periodicity negative detected')
+# Genuine negatives are in-memory only; no actual/private assets overwritten.
+bad={k:v.copy() for k,v in ca.items()};bad['TEXCOORD_0'][ci[:3]]=np.array([.5,.5]);check(np.abs(uv_jac(bad,ci)[0])*.5<1e-12,'collapsed candidate triangle negative detected')
+bad={k:v.copy() for k,v in ca.items()};bad['TANGENT'][0,3]=0;check(not tangent_valid(bad),'invalid tangent handedness negative detected')
+p,a,ix=base.primitive(3);q,b,ii=candidate.primitive(3);bad={k:v.copy() for k,v in b.items()};bad['POSITION'][ii[0],0]+=np.float32(.0001);check(not protected(p,a,ix,q,bad,ii),'real protected-wheel displacement negative detected')
+bad_ix=ci.copy();bad_ix[[0,1]]=bad_ix[[1,0]];check(not np.array_equal(oa['POSITION'][oi],ca['POSITION'][bad_ix]),'real changed face-winding negative detected')
+report={'passed':not failures,'passes':len(passes),'failures':failures,'checks':passes,'baseline_sha256':hashlib.sha256(base.file).hexdigest(),'candidate_sha256':hashlib.sha256(candidate.file).hexdigest(),'verifier_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'shared_GLTF_reader_sha256':hashlib.sha256((ROOT/'board_uv_finish04.py').read_bytes()).hexdigest(),'independence':'same-author separate raw-float32 GLB/scalar64 cross/Jacobian/bitangent/source-corner arithmetic; shares binary-accessor reader; independent QA still required','minimum_corner_bitangent_agreement':float(handed_dot.min()),'strict_RA_side_faces':int(strict.sum()),'inherited_strict_zero_UV_faces':int((strict&(np.abs(jac)*.5<1e-12)).sum()),'scope':'source GLB only; not Godot imported/rendered/contact/cadence/M5 certification'}
+(ROOT/'candidate-uv04/author-source-checks.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2));raise SystemExit(0 if not failures else 1)

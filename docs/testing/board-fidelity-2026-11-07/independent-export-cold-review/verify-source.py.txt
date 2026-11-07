@@ -1,0 +1,41 @@
+"""Portable source-only review; never runs Godot, exporters or archive creation."""
+from pathlib import Path
+import ast,hashlib,json,re,subprocess
+p=Path(__file__).resolve().parent
+m=json.loads((p/'manifest.json').read_text());checks=[]
+def ck(label,v):checks.append({'label':label,'pass':bool(v)})
+def read(mode,name):return(p/'source'/mode/(name+'.txt')).read_text()
+for e in m['entries']:
+    for mode,key in [('before','before_sha256'),('candidate','after_sha256')]:
+        q=p/'source'/mode/(e['path']+'.txt')
+        ck(e['path']+' '+mode+' bytes exact',hashlib.sha256(q.read_bytes()).hexdigest()==e[key])
+old=read('before','tools/export.sh');new=read('candidate','tools/export.sh')
+ck('shell syntax without executing it',subprocess.run(['bash','-n',str(p/'source/candidate/tools/export.sh.txt')],capture_output=True).returncode==0)
+blocks=re.findall(r"<<'PY'\n(.*?)\nPY",new,re.S)
+ck('all embedded Python syntax without executing it',len(blocks)>=4 and all(ast.parse(b)is not None for b in blocks))
+def functions(s):return{q.group(1):q.group(0)for q in re.finditer(r'^func ([A-Za-z0-9_]+)\(.*?(?=^func |^GDSCRIPT\n)',s,re.S|re.M)}
+a,b=functions(old),functions(new)
+for name,body in a.items():
+    if name!='_initialize':ck('retained native helper '+name+' exact',body==b[name])
+ck('new board smoke explicitly called once',new.count('if not _board_resource(report):')==1)
+ck('new runtime board checker never loads excluded editor tools',not any('load("res://tools/'in line or'preload("res://tools/'in line for line in b['_board_resource'].splitlines()))
+ck('both native PCK paths remain explicitly checked','for TASK_PLATFORM in linux macos; do' in new)
+ck('both native ZIP paths remain explicitly packaged',"for platform in ('linux', 'macos'):"in new)
+presets=read('candidate','export_presets.cfg')
+ck('both native presets explicitly include board manifest',presets.count('include_filter="game/art/assets/environment_pbr/manifest.json,game/art/assets/environment_pbr/derived/manifest.json,game/art/rider/*.json,game/art/assets/tam_skateboard/manifest.json"')==2)
+ck('both native presets keep excluded tools/tests/caches',presets.count('exclude_filter="tests/*,tools/*,.local/*,builds/*"')==2)
+# This is a source smoke contract, not evidence that its runtime path executed.
+ck('native pack branch checks exact cooked scene and RGB8 allocation',all(token in b['_board_resource']for token in ['tam_board_wood_import','load(path)','Image.FORMAT_RGB8','4194303']))
+oldgd=old.split("<<'GDSCRIPT'\n",1)[1].split('\nGDSCRIPT\n',1)[0]
+newgd=new.split("<<'GDSCRIPT'\n",1)[1].split('\nGDSCRIPT\n',1)[0]
+prefix=newgd.split('\nfunc _board_resource(',1)[0].rstrip('\n').replace('\tif not _board_resource(report):\n\t\tquit(1)\n\t\treturn\n','')
+ck('entire old native checker preserved after removing only board additions',prefix==oldgd.rstrip('\n'))
+ck('both presets change only board manifest include',presets.replace(',game/art/assets/tam_skateboard/manifest.json','')==read('before','export_presets.cfg'))
+ck('tools/art fingerprint symmetric before and after export',new.count("(root / 'tools/art').rglob('*')")==2)
+assigns={t.id:n.value for n in ast.walk(ast.parse(blocks[-1]))if isinstance(n,ast.Assign)for t in n.targets if isinstance(t,ast.Name)}
+notices=ast.literal_eval(assigns['required_notices']);keys=[k.value for k in assigns['provenance_sources'].keys]
+for name,src in [('UV-NOTICE.md','game/art/assets/tam_skateboard/UV-NOTICE.md'),('BOARD-PROVENANCE.json','game/art/assets/tam_skateboard/manifest.json')]:
+    ck(name+' exact copy plus ZIP membership and byte checks',"shutil.copy2(root / '"+src+"', notices / '"+name+"')"in new and name in notices and name in keys)
+report={'passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'scope':'Source-only. No exporter, Godot, PCK or ZIP execution.'}
+print(json.dumps(report))
+if report['failed']:raise SystemExit(1)

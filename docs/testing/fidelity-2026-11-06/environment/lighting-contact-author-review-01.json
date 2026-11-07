@@ -1,0 +1,95 @@
+{
+  "reviewed_utc": "2026-11-07T07:01:24.276048+00:00",
+  "personally_opened_contact_originals": [
+    {
+      "file": "before-a-ordinary-chase.png",
+      "sha256": "9a9cf6399d68d715704102e22aee5a7150623d98e8034cf08f08641c56b3b744"
+    },
+    {
+      "file": "before-a-ground-bank-close.png",
+      "sha256": "a7c95e9a9fd42f70eb8fbf0ad06a3ca9612acc2d3766b419de64af94745dcc75"
+    },
+    {
+      "file": "before-a-basin-exterior.png",
+      "sha256": "78a9f1fb9b1479f5026e28fc188298360af1480bde851b8a28d24d3b0d9065c9"
+    },
+    {
+      "file": "before-a-bowl-contact.png",
+      "sha256": "baf5ef21f4f4a6dd6a978832099843c62b7095d879b003b880d3dc96ead3fded"
+    },
+    {
+      "file": "before-a-architecture-contact.png",
+      "sha256": "fb8deec444f7b5f53025c313563388dbd93d84c41fe071a286828e71076aa793"
+    },
+    {
+      "file": "before-a-river-bridge-contact.png",
+      "sha256": "8d0b0e0648bc5fc9b29d72a4c08b2c89245d0ce8d6fec6e6abf45984d0f1964e"
+    },
+    {
+      "file": "native-default-bias-ordinary-chase.png",
+      "sha256": "a7fdf8822786750b63f8487e1e38e14833864cb0b50613b28efc90b327a80b2f"
+    },
+    {
+      "file": "native-default-bias-ground-bank-close.png",
+      "sha256": "d0a2414e5defdf06eebf7374b4b59bb9cdd53c35cef7db9006a986aaa9e7b4e1"
+    },
+    {
+      "file": "native-default-bias-basin-exterior.png",
+      "sha256": "d01d2a479bea4c0ca37bbf88137ccce31082c9e54f5c6db103a86801a0cd7b48"
+    },
+    {
+      "file": "native-default-bias-bowl-contact.png",
+      "sha256": "a00cc32a22012990d33d988d6c4df9d6fbfc9a09ed210ab5f3145e4107c25ac1"
+    },
+    {
+      "file": "native-default-bias-architecture-contact.png",
+      "sha256": "bed2ee5b1575182d49f4b56d0305ac5f2947a9133d0e316b16748b02cb3c58ac"
+    },
+    {
+      "file": "native-default-bias-river-bridge-contact.png",
+      "sha256": "bdadd0eb5ae5a1c3069c1ba0fde18593235e88aa7a6b20aad90fd214a9e272f8"
+    },
+    {
+      "file": "before-b-ordinary-chase.png",
+      "sha256": "62631ed3a53999817f65c05cf10c832137b8837a508ca4483b3b3c3ede9e3a0a"
+    },
+    {
+      "file": "before-b-ground-bank-close.png",
+      "sha256": "74c32dd1330b4b694ea086b87885d5c446885fa2b7041cb20d5f8f8afef163f7"
+    },
+    {
+      "file": "before-b-basin-exterior.png",
+      "sha256": "4f02c62bcd7cbb6b5eca114d0f937e4e282449b87b57b38ce5812fc8c93036ea"
+    },
+    {
+      "file": "before-b-bowl-contact.png",
+      "sha256": "0fbef748e14079e335384ba60f99fee8b343006a9a0120d917e5f037404262e2"
+    },
+    {
+      "file": "before-b-architecture-contact.png",
+      "sha256": "15b8d706d4e1936674b6300948c1ed027a52d81fc5453db966d519567ad15fdc"
+    },
+    {
+      "file": "before-b-river-bridge-contact.png",
+      "sha256": "f5cde40a94a01c589adc0e35e992de35923a6f2787c0fbf72f620cb3258ec76a"
+    }
+  ],
+  "count": 18,
+  "findings": "Native .1/2 removes broad ground/bank/bowl-deck curves while retaining visible directional rider/board, basin, bowl, awning/shopfront and bridge shadows. No obvious new static contact-shadow detachment in these six viewpoints. Restored low-bias controls return curves. Existing room/window/display art remains simplified; lighting is not final art acceptance.",
+  "water_limit": "River remains harsh grey/white with broad specular reflection; original3wave cost rejection and future2wave cost/appearance work are separate. Coin/generic scene object crosses river foreground, declared ordinarycontent not hidden.",
+  "source_limit": "These immutable capture bytes precede later115-file fitted character integration. Read-only comparison matched actual game at capture observation except2helperUIDmetadata files; no subsequent current-source/rig or movingquality certification. Rider is idle in ordinary spawn, not a complete sunny-foot pose sweep.",
+  "overlap_followup": {
+    "rv_core": {
+      "pid": 80431,
+      "reported_start_utc": "2026-11-07T06:40:20.794080Z",
+      "reported_end_utc": "2026-11-07T06:43:19.521990Z",
+      "actual_capture_wrapper_end_utc": "2026-11-07T06:41:04.518868+00:00",
+      "scope": "Known qualitative headless overlap through capture end; no timing claim"
+    },
+    "ld_integration": {
+      "pid": 80747,
+      "scope": "Reported launched near/after graphical completion; exact window not yet received, no overlap asserted without timestamps."
+    }
+  },
+  "independent_review": "lighting-contact-01/independent-review.json244/0,all12candidate/restoredoriginals personallyreviewed; sourcegeometry512authority separate from lightinventory."
+}

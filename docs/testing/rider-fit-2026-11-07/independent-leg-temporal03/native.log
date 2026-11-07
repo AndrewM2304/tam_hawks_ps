@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS 02 actual native near-straight/rebend keeps finite oriented frames and exact unchanged endpoints/scales
+PASS 02 near-straight source noise cannot flip longitudinal frame
+PASS 02 continuous actual bend plane crosses hip-dot0 without fresh sign flip
+PASS 02 exact perpendicular antiparallel counterexample retains proper finite native frames
+PASS 02 near-antiparallel sweep has no discontinuous longitudinal frame change
+PASS 02 deliberate final native Skeleton snapshot override defeats stale pre-blend history
+PASS 02 explicit source frame reset reseeds deterministically
+PASS 02 original11bone rest/bind/mesh resources unchanged by temporal solution
+PASS 03 actual native near-straight/rebend keeps finite oriented frames and exact unchanged endpoints/scales
+PASS 03 near-straight source noise cannot flip longitudinal frame
+PASS 03 continuous actual bend plane crosses hip-dot0 without fresh sign flip
+PASS 03 exact perpendicular antiparallel counterexample retains proper finite native frames
+PASS 03 near-antiparallel sweep has no discontinuous longitudinal frame change
+PASS 03 deliberate final native Skeleton snapshot override defeats stale pre-blend history
+PASS 03 explicit source frame reset reseeds deterministically
+PASS 03 original11bone rest/bind/mesh resources unchanged by temporal solution
+LEG_TEMPORAL_RESULT 16 failures=[] metrics={ "02": { "max_endpoint_error_m": 0.00000013411045, "plane_endpoint_error_m": 0.00000013411045, "anti_endpoint_error_m": 0.00000008429498, "near_straight_max_axis_step_rad": 0.00000026940418, "bend_plane_max_axis_step_rad": 0.01745411008596, "antiparallel_max_axis_step_rad": 0.00453750696033, "reference_dot_min": -1.0 }, "03": { "max_endpoint_error_m": 0.00000013334019, "plane_endpoint_error_m": 0.00000012818464, "anti_endpoint_error_m": 0.00000013334019, "near_straight_max_axis_step_rad": 0.00000026952955, "bend_plane_max_axis_step_rad": 0.01745411008596, "antiparallel_max_axis_step_rad": 0.00001953780702, "reference_dot_min": -1.0 } }

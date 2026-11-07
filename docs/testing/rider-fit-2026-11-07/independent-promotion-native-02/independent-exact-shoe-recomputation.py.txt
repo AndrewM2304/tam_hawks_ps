@@ -1,0 +1,23 @@
+from pathlib import Path
+import json,hashlib,math,collections,time
+R=Path.cwd();P=R/'docs/testing/rider-fit-2026-11-07/independent-promotion-native-02/constructors-01/shoe-support-certificate.json';d=json.loads(P.read_text());t=time.monotonic();records=[]
+def integral(points):
+ values=[float(v)for p in points for v in p]
+ if not all(math.isfinite(v)for v in values):raise ValueError('nonfinite coordinate')
+ ratios=[v.as_integer_ratio()for v in values];scale=max(b for a,b in ratios)
+ return [tuple(a*(scale//b)for a,b in ratios[i:i+3])for i in range(0,len(ratios),3)],scale
+for leg in d['legs']:
+ source=leg['source_coordinates'];support=leg['support_coordinates'];ints,scale=integral(source+support);src=ints[:len(source)];hull=ints[len(source):];faces=leg['support_faces'];edges=collections.Counter();outside=0;zero=0;badindices=0;used=set();maxout=None
+ for i in range(0,len(faces),3):
+  a,b,c=faces[i:i+3]
+  if not all(isinstance(k,int)and 0<=k<len(hull)for k in [a,b,c]):badindices+=1;continue
+  used.update([a,b,c]);A,B,C=hull[a],hull[b],hull[c];u=tuple(B[k]-A[k]for k in range(3));v=tuple(C[k]-A[k]for k in range(3));n=(u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]);plane=sum(n[k]*A[k]for k in range(3))
+  if n==(0,0,0):zero+=1
+  for point in src:
+   sign=n[0]*point[0]+n[1]*point[1]+n[2]*point[2]-plane
+   if sign>0:outside+=1;maxout=max(sign,maxout or sign)
+  edges.update([(a,b),(b,c),(c,a)])
+ badedges=sum(count!=1 or edges[(b,a)]!=1 for(a,b),count in edges.items());provenance=set(hull)<=set(src);euler=len(used)-len(edges)//2+len(faces)//3
+ record={'side':leg['side'],'source_points':len(source),'support_points':len(support),'faces':len(faces)//3,'common_exact_binary_denominator':scale,'positive_integer_halfspace_tests':outside,'degenerate_faces':zero,'invalid_indices':badindices,'bad_directed_edge_records':badedges,'euler':euler,'all_support_points_referenced':len(used)==len(support),'all_support_points_exact_native_source':provenance,'pass':outside==zero==badindices==badedges==0 and euler==2 and provenance and len(used)==len(support)};records.append(record)
+out={'kind':'Independent QE exact integer half-space and oriented-edge computation from actual native indexed-source certificate; independent implementation, no runtime hull code imported','native_input_sha256':hashlib.sha256(P.read_bytes()).hexdigest(),'legs':records,'passed':all(x['pass']for x in records),'python_seconds_diagnostic_only':time.monotonic()-t,'scope':'Closed oriented native source-point convex enclosure at zero tolerance only; no native physics/contact response/M5/time-budget certificate.'}
+O=P.parent.parent/'independent-exact-shoe-recomputation.json';O.write_text(json.dumps(out,indent=2)+'\n');(O.parent/'independent-exact-shoe-recomputation.py.txt').write_bytes(Path(__file__).read_bytes());print(json.dumps(out,indent=2));raise SystemExit(not out['passed'])

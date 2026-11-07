@@ -1,0 +1,47 @@
+from pathlib import Path
+import json,hashlib,ast,types,subprocess,struct,zlib,shutil
+R=Path.cwd();P=R/'.local/rider-fit-staging/native-push-resolution';O=R/'docs/testing/fidelity-2026-11-06/native-push640-independent';O.mkdir(parents=True,exist_ok=True);checks=[]
+def ck(v,l):checks.append({'label':l,'pass':bool(v)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+h=json.loads((P/'handoff.json').read_text())
+for rec in h['files']:ck(sha(P/rec['path'])==rec['candidate_sha256'],'exact reviewed candidate '+rec['path'])
+new=types.ModuleType('qe_native_png');exec(compile((P/'tools/full_fidelity_capture_png.py').read_text(),'candidate','exec'),new.__dict__)
+oldraw=subprocess.run(['git','show','HEAD:tools/full_fidelity_capture_png.py'],check=True,capture_output=True).stdout;ck(hashlib.sha256(oldraw).hexdigest()=='c89f228cdb9f461a6331c6e6583a8df40c83595b260b0c4418b0e361aef8809e','read-only HEAD golden encoder matches declared baseline')
+old=types.ModuleType('qe_old_png');exec(compile(oldraw,'baseline','exec'),old.__dict__)
+for w,hgt in[(1280,800),(640,400)]:
+ raw=bytes(range(256))*(w*hgt*4//256);encoded=new.encode_rgba8(raw,w,hgt);ck(new.decode_proven_rgba8(encoded,w,hgt)==raw,f'{w}x{hgt} every native RGBA byte lossless')
+ if w==1280:ck(encoded==old.encode_rgba8(raw),'DEFAULT1280 encoded PNG byte-for-byte identical to old implementation')
+ bad=bytearray(encoded);bad[20]^=1
+ try:new.decode_proven_rgba8(bad,w,hgt);ok=False
+ except ValueError:ok=True
+ ck(ok,f'{w}x{hgt} corrupt PNG refused')
+ try:new.encode_rgba8(raw[:-1],w,hgt);ok=False
+ except ValueError:ok=True
+ ck(ok,f'{w}x{hgt} incomplete last pixel refused')
+for dims in[(320,200),(1280,400),(640,800),(True,400),(640.0,400)]:
+ try:new._native_dimensions(*dims);ok=False
+ except ValueError:ok=True
+ ck(ok,'unsupported/mismatched dimensions fail '+str(dims))
+# Execute actual source expression, not a rewritten stride formula.
+shell=(P/'tools/full_fidelity_capture.sh').read_text();python=shell.split("<<'PY'\n",1)[1].rsplit('\nPY',1)[0];tree=ast.parse(python);expressions=[]
+for node in ast.walk(tree):
+ if isinstance(node,ast.Assign)and len(node.targets)==1 and isinstance(node.targets[0],ast.Tuple)and[getattr(x,'id','')for x in node.targets[0].elts]==['r','g','b','_']:expressions.append(node.value)
+ck(len(expressions)==1,'one actual wrapper RGBA source slice isolated')
+code=compile(ast.Expression(expressions[0]),'actual-wrapper-slice','eval')
+for w,hgt in[(640,400),(1280,800)]:
+ data=bytearray(w*hgt*4)
+ for y in[0,1,7,hgt//2,hgt-1]:
+  for x in[0,1,w//2,w-1]:
+   at=(y*w+x)*4;expected=bytes((x%251,y%251,(x+y)%251,255));data[at:at+4]=expected;actual=eval(code,{'__builtins__':{}},{'pixels':data,'width':w,'x':x,'y':y});ck(bytes(actual)==expected and len(actual)==4,f'actual source slice correct{w}x{hgt}@{x},{y}')
+gd=(P/'tools/full_fidelity_capture.gd').read_text();ck('var _native_size := Vector2i(1280,800)'in gd and'TASK_NATIVE_SIZE=1280x800'in shell,'original1280 defaults unchanged')
+ck('_cohort!="push-contact"'in gd and'TASK_COHORT" != push-contact'in shell and'cohort!="push-contact"'in python,'all three entry guards restrict640 to focusedpush')
+ck('logical_projected * Vector2(image.get_size()) / viewport_size'in gd and'Vector2(20,20)*native_scale'in gd,'actual world andCanvas projections scale logical→native image')
+ck('mini(image.get_height()'in gd and'mini(image.get_width()'in gd,'GD marker search bounds actual native image')
+ck("(probe['width'],probe['height'])!=(width,height)"in python and'encoder=PixelSpoolEncoder(output,width,height)'in python,'worker/video assertions use declared actual dimensions')
+ck('Separate native1280Main/closeups own surface fidelity.'in gd,'reducednative diagnostic cannot claim final surface fidelity')
+report={'kind':'Independent source and actual-codec/source-AST control review; no engine or graphical pilot','passed':sum(x['pass']for x in checks),'failed':sum(not x['pass']for x in checks),'checks':checks,'verdict':'No source blocker for exact optionalnative640 focusedpush integration, followed by actual pilot. Original1280/all78 preserved.','limits':['Native640 pilot unmeasured; no current source graphics/motion/frame continuity pass inferred.','Actual viewport-size/projection/current-frame guards must pass;640 image is not resampled or accepted for final1280 texture quality/AAA/M5.','No simulation/sample reduction is introduced; every selected60Hz tick remains, but rendered cadence must be proved by native packet.'],'candidate_hashes':{x['path']:x['candidate_sha256']for x in h['files']}}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copy2(Path(__file__),O/'independent-audit.py.txt')
+for rec in h['files']:
+ dest=O/'sources'/(rec['path']+'.txt');dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(P/rec['path'],dest)
+for name in['handoff.json','encoder-controls.json','marker-slice-controls.json','parser-receipt.json']:shutil.copy2(P/name,O/name)
+(O/'independent-preservation.json').write_text(json.dumps({str(f.relative_to(O)):sha(f)for f in O.rglob('*')if f.is_file()and f.name!='independent-preservation.json'},indent=2)+'\n');print({'passed':report['passed'],'failed':report['failed'],'failures':[x for x in checks if not x['pass']]});raise SystemExit(bool(report['failed']))

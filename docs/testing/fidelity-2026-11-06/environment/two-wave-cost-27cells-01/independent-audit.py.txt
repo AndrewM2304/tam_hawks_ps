@@ -1,0 +1,77 @@
+from pathlib import Path
+import hashlib,json,math,re
+import numpy as np
+from PIL import Image
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/fidelity-2026-11-06/environment/two-wave-cost-27cells-01';checks=[]
+def j(name):return json.loads((P/name).read_text())
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+record=j('isolated-water-report.json');receipt=j('receipt.json');before=j('source-before.json');after=j('source-after.json')
+saved=j('preserved-files.json')
+ck('all original retained preservation hashes exact',all(sha(P/k)==v for k,v in saved.items()))
+ck('802 source inputs stable before and after complete native epoch',len(before)==802 and before==after and receipt['source_stable'] and not receipt['changed_inputs'])
+ck('native source inventory file hash binds receipt',sha(P/'source-before.json')==receipt['source_inventory_sha256'])
+ck('actual completed clean native67/0 process guard',receipt['engine_exit']==0 and not receipt['engine_errors'] and receipt['abort_reason'] is None and receipt['eligible'] and record['complete'] and record['checks']==67 and record['failures']==0)
+source_rows=[]
+for p in (P/'executed-source').rglob('*'):
+    if not p.is_file():continue
+    relative=str(p.relative_to(P/'executed-source')).removesuffix('.txt')
+    if relative in before:
+        source_rows.append(relative);ck('executed source '+relative+' before-bound exact',sha(p)==before[relative])
+ck('actual executed observer and wrapper retained and before-bound',any(x.endswith('environment_water_isolated_probe.gd')for x in source_rows)and any(x.endswith('environment_water_probe.py')for x in source_rows))
+ck('exact original two-phase baseline and two-phase candidate shader identities',record['baseline_sha256']==sha(P/'executed-source/tools/fixtures/environment/clyde_water_before_2026_11_06.gdshader.txt') and record['candidate_sha256']==sha(P/'executed-source/game/art/assets/horizon/clyde_water.gdshader.txt'))
+host=j('host-observer.json');samples=host['samples']
+ck('407 actual host observations retained',len(samples)==receipt['host_observer_samples']==407)
+ck('no observed live competing Godot in native samples',not receipt['observed_competing_godot'] and all(not s['competing_godot'] for s in samples))
+ck('zombie82100 is separately classified not attributed as owned live worker',receipt['ignored_godot_zombies_at_start']==[{'pid':82100,'state':'Z'}] and all(82100 not in s['owned_native_pids'] for s in samples))
+busy=[{'utc':s['utc'],'observations':s['other_busy_process_names_only']}for s in samples if s['other_busy_process_names_only']]
+marker_errors=[];projection_errors=[]
+for image in record['images']:
+    path=P/image['file'];im=Image.open(path).convert('RGBA');proof=image['pixel_proofs']
+    ck(image['file']+' original encodedPNG and nativeRGBA identity',im.size==(640,400)and sha(path)==receipt['images'][image['file']]and hashlib.sha256(im.tobytes()).hexdigest()==image['rgba8_sha256'])
+    ck(image['file']+' actual native physics/process brackets fixed',image['physics_after']==image['physics_before']and image['process_after']==image['process_before'])
+    expected=[round(x*255)for x in proof['canvas_expected_rgb']]
+    ck(image['file']+' actual Canvas bytes exact',list(im.getpixel(tuple(proof['canvas_sample_xy']))[:3])==expected)
+    basis=np.asarray(image['camera_basis']).T;origin=np.asarray(image['camera_position']);projection=np.asarray(image['projection_columns']).T
+    ck(image['file']+' camera/projection finite and forward consistent',np.isfinite(basis).all()and np.isfinite(projection).all()and np.allclose(-basis[:,2],image['camera_forward'],atol=1e-7,rtol=0))
+    for marker in proof['markers']:
+        local=np.linalg.solve(basis,np.asarray(marker['world_position'])-origin);clip=projection@np.r_[local,1];ndc=clip[:3]/clip[3];pixel=np.array([(ndc[0]+1)*320,(1-ndc[1])*200])
+        projected=np.asarray(marker['projected_xy']);error=float(np.linalg.norm(pixel-projected));projection_errors.append(error)
+        ck(image['file']+' independent numerical '+marker['color']+' marker projection',clip[3]>0 and error<.001)
+        ch=0 if marker['color']=='red'else 1;pts=[];x,y=projected
+        for yy in range(max(0,int(y)-12),min(400,int(y)+13)):
+            for xx in range(max(0,int(x)-12),min(640,int(x)+13)):
+                rgb=im.getpixel((xx,yy))[:3]
+                if rgb[ch]>191 and all(rgb[ch]-rgb[c]>51 for c in range(3)if c!=ch):pts.append((xx+.5,yy+.5))
+        error=float(np.linalg.norm(np.mean(pts,axis=0)-projected))if pts else math.inf;marker_errors.append(error)
+        ck(image['file']+' independent actual '+marker['color']+' centroid proof',len(pts)>=4 and error<=2.5)
+
+cells=record['cost_brackets'];ck('all27 view-repeat-A/C/B cells unique',len(cells)==27 and len({(c['id'],c['repeat'],c['mode'])for c in cells})==27)
+metrics=['frame_ms','draws','visible_draws','shadow_draws','primitives','texture_bytes','buffer_bytes']
+for c in cells:
+    name=f"{c['id']}-repeat{c['repeat']}-{c['mode']}";raw=c['raw_samples'];n=len(raw)
+    ck(name+' native count warm-duration workload valid',n==c['sample_count'] and n>=48 and sum(s['frame_ms']for s in raw)>=3000 and all(s['frame_ms']>0 and math.isfinite(s['frame_ms'])for s in raw))
+    ck(name+' measurement excludes diagnostic markers/Canvas',not c['canvas_visible']and not c['proof_markers_visible'])
+    for m in metrics:
+        values=sorted(s[m]for s in raw)
+        for suffix,p in [('p50',.5),('p95',.95),('p99',.99)]:
+            value=values[max(0,min(n-1,math.ceil(p*n)-1))]
+            ck(name+' nearest-rank '+m+' '+suffix,abs(value-c[m+'_'+suffix])<1e-9)
+    ck(name+' actual steady resource counters equal declared fixture',all(s['draws']==1 and s['primitives']==2 and s['texture_bytes']==14736405 and s['buffer_bytes']==7451468 for s in raw))
+comparisons=[]
+camera_keys=['camera_basis','camera_forward','camera_position','projection_columns','fov','near','far','keep_aspect']
+for view in sorted({c['id']for c in cells}):
+    for repeat in range(3):
+        triplet={c['mode']:c for c in cells if c['id']==view and c['repeat']==repeat};a,c,b=[triplet[k]for k in ['before-a','candidate','before-b']]
+        ck(view+str(repeat)+' exact same numerical A/C/B cameras',all(a[k]==b[k]==c[k]for k in camera_keys))
+        for key in ['frame_ms_p50','frame_ms_p95','frame_ms_p99']:
+            slow=max(a[key],b[key]);comparisons.append({'view':view,'repeat':repeat,'metric':key,'before_a_ms':a[key],'candidate_ms':c[key],'before_b_ms':b[key],'candidate_exceeds_both':c[key]>slow,'percent_vs_slower_control':100*(c[key]/slow-1)})
+exceed=[c for c in comparisons if c['candidate_exceeds_both']]
+worst=max(comparisons,key=lambda c:c['percent_vs_slower_control'])
+ck('independent result5of27 candidate percentile comparisons exceed both controls',len(exceed)==5)
+ck('all9candidatep95 below slower bracketing control only',all(not c['candidate_exceeds_both']for c in comparisons if c['metric']=='frame_ms_p95'))
+ck('highcoverage repeat2p99 independent60.335 versus31.01331.238 tail',worst['view']=='high-coverage'and worst['repeat']==2 and worst['metric']=='frame_ms_p99'and abs(worst['candidate_ms']-60.335)<1e-9 and abs(worst['before_a_ms']-31.013)<1e-9 and abs(worst['before_b_ms']-31.238)<1e-9)
+report={'passed':sum(x['pass']for x in checks),'failed':sum(not x['pass']for x in checks),'checks':checks,'percentile_rule':'Actual observer nearest rank ceil(p*N)-1, independently recomputed from every raw native interval; no interpolated percentile.','comparisons':comparisons,'exceed_both_count':len(exceed),'worst_tail':worst,'maximum_marker_centroid_error_px':max(marker_errors),'maximum_numeric_projection_error_px':max(projection_errors),'host_other_busy_process_observations':busy,'personally_viewed_originals':[x['file']for x in record['images']],'visual_review':'All six native640x400 previews personally opened. Candidate ripple is substantially calmer and softer; highcoverage/grazing retain broad white reflection and a grey opaque appearance. Oblique is the edge of the isolated long plane, not actual Main river/bridge enclosure. Different native TIME phases prevent exact water-pixel A/B equality.','verdict':'Capture/source/arithmetic subset passes if checks green; COST NOT ADMITTED. Five percentile comparisons exceed both controls, including highcoverage repeat2p99 +93.15%. Control drift/transient Python observations and incomplete CPU exclusivity prevent clean causal attribution. All9p95 below slower control does not erase the tail result.','limits':['Original admitted TWO-phase e60 shader versus candidate TWO-phase d646 shader; not current THREE-wave direct A/B or a three-wave-cost closure.','Actual production OutdoorRoutes._water plane/GlasgowSquare lighting called in an isolated640x400 fixture; not final Main18triangle river,512basin, rider, complete game, GPU hardware, M5 or Metal.','No observed live competing Godot; only sampled process identity, not complete host CPU exclusivity. QA offline Python hashing/geometry/pixel work may have overlapped; exact PID/UTC not recorded, no causal attribution.','Resource counters remain exact; equal resource counters do not imply elapsed-cost equivalence.','Six previews are stills, not a temporal shimmer/cadence/final water-art verdict.','Original guard eligible=true means integrity only; all original rejected timing epochs remain unchanged.']}
+(P/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');(P/'independent-audit.py.txt').write_text(Path(__file__).read_text())
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'exceed_both':len(exceed),'worst_tail':worst,'failures':[x for x in checks if not x['pass']]}))
+if report['failed']:raise SystemExit(1)

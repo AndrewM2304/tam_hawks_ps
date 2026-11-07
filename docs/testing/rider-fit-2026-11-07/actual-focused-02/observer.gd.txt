@@ -1,0 +1,81 @@
+extends SceneTree
+## Actual installed-source focused admission. No private runtime overlays.
+const Fitted = preload("res://tests/fitted_garment_tests.gd")
+const Motion = preload("res://tests/motion_fidelity_tests.gd")
+const Main = preload("res://game/main.gd")
+var passes := 0
+var failures: Array[String] = []
+var modules: Array[Dictionary] = []
+var native_bindings: Array[Dictionary] = []
+
+func _initialize() -> void:
+	_run.call_deferred()
+
+func _check(ok: bool, label: String) -> void:
+	if ok:
+		passes += 1
+	else:
+		failures.append(label)
+	print("PASS " if ok else "FAIL ", label)
+
+func _frames(count: int) -> void:
+	for tick: int in count:
+		await physics_frame
+		await process_frame
+
+func _copy_native_output(source: String, environment_key: String) -> void:
+	var destination := OS.get_environment(environment_key)
+	if destination.is_empty():
+		push_error("Focused observer requires output environment: " + environment_key)
+		return
+	var output := FileAccess.open(destination, FileAccess.WRITE)
+	if output == null or not FileAccess.file_exists(source):
+		push_error("Focused native evidence could not be copied: " + source)
+		return
+	output.store_buffer(FileAccess.get_file_as_bytes(source))
+	output.close()
+
+func _run() -> void:
+	var old_passes := passes
+	var old_failures := failures.size()
+	await Fitted.run(self, _check)
+	modules.append({"name": "FittedGarmentNative", "passed": passes-old_passes, "failed": failures.size()-old_failures})
+	# Preserve THIS process's full-precision certificate before running Main.
+	_copy_native_output("res://.local/shoe-support-certificate.json", "TAM_FITTED_ACTUAL_CERTIFICATE")
+	_copy_native_output("res://.local/fitted-rig-metrics.json", "TAM_FITTED_ACTUAL_METRICS")
+	var game := Main.new()
+	var isolated_before := not game.persistence_enabled
+	if not isolated_before:
+		_check(false, "scripted Main isolates personal Music/profile before entering tree")
+		game.free()
+		_finish()
+		return
+	game.persistence_enabled = false
+	root.add_child(game)
+	await _frames(40)
+	_check(isolated_before and not game.music._can_control and not game.music._persist,
+		"scripted Main isolates personal Music/profile writes")
+	var jacket: MeshInstance3D = game.skater._rider_visual.get_node("SkinnedJacket")
+	var skeleton: Skeleton3D = game.skater._visual_rig._garments.skeleton
+	for bind: int in jacket.skin.get_bind_count():
+		var name := jacket.skin.get_bind_name(bind)
+		native_bindings.append({"bind": bind, "native_name": str(name), "native_index": jacket.skin.get_bind_bone(bind),
+			"name_resolved_bone": skeleton.find_bone(name) if not name.is_empty() else -1})
+	old_passes = passes
+	old_failures = failures.size()
+	await Motion.run_main(self, game, _check)
+	await Motion.run_main_support(self, game, _check)
+	modules.append({"name": "DefaultMainMotionAndSupport", "passed": passes-old_passes, "failed": failures.size()-old_failures})
+	game.queue_free()
+	await process_frame
+	_finish()
+
+func _finish() -> void:
+	var report := {"passed": passes, "failed": failures.size(), "failures": failures, "modules": modules,
+		"actual_native_skin_bindings": native_bindings,
+		"scope": "Installed actual-source Fitted60 plus default Main Motion/support32 and Music/profile isolation1. No private overlay, engine timing, graphics, Mac or whole-game acceptance."}
+	var output := FileAccess.open(OS.get_environment("TAM_FITTED_ACTUAL_OUTPUT"), FileAccess.WRITE)
+	output.store_string(JSON.stringify(report, "\t", true, true) + "\n")
+	output.close()
+	print("ACTUAL FITTED FOCUS: ", passes, " passed, ", failures.size(), " failed")
+	quit(0 if failures.is_empty() else 1)

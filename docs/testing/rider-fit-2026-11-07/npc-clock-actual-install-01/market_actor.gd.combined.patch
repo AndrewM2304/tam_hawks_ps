@@ -1,0 +1,27 @@
+--- a/game/characters/market_actor.gd
++++ b/game/characters/market_actor.gd
+@@ -184,6 +184,8 @@
+ 	_anatomy=Anatomy.new()
+ 	var head:=Node3D.new()
+ 	head.name="MairiHead"
++	# Keep rigid body parts on the Skin clock without disabling actor motion.
++	head.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+ 	head.position=Vector3(0,1.410,0)-Vector3(0,-.13,.036)
+ 	person.add_child(head)
+ 	_anatomy.build_head(head)
+@@ -194,6 +196,7 @@
+ 		var ankle:=Vector3(side*.14,.061,-.015)
+ 		_garments.pose_leg(side,hip,knee,ankle)
+ 		var shoe:=Node3D.new()
++		shoe.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+ 		shoe.position=ankle
+ 		shoe.rotation.y=PI+side*.10
+ 		person.add_child(shoe)
+@@ -203,6 +206,7 @@
+ 		var wrist:=Vector3(side*.235,.81,-.025)
+ 		_garments.pose_arm(side,shoulder,elbow,wrist)
+ 		var hand: Node3D=_anatomy.build_hand(person,side)
++		hand.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+ 		var y: Vector3=(elbow-wrist).normalized()
+ 		var z: Vector3=Vector3(-side,0,0).slide(y).normalized()
+ 		var x:=y.cross(z).normalized()

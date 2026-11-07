@@ -1,0 +1,53 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source/.local/connected_return_probe_v4.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+  "started_utc": "2026-11-07T06:00:39.658771+00:00",
+  "os_deadline_seconds": 120,
+  "source_inputs": 1018,
+  "engine_pid": 73983,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    73694,
+    73780
+  ],
+  "overlap_scope": "Root-approved EA Ground qualitative640 graphics and private integration headless after RV temporal lease; no timing acceptance",
+  "finished_utc": "2026-11-07T06:01:08.717494+00:00",
+  "wall_seconds": 29.058713709000585,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: continuous return: mapped finite first-bearing exit lands supported paving Manual with authenticated release",
+    "FAIL: continuous return: every actual score bank independently matches native catalog/repetition/hold events",
+    "FAIL: continuous return: every observed actual physics state retains native board/capsule/shoe and finite wall proof"
+  ],
+  "result": [
+    10,
+    3
+  ],
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "unknown_other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "c169394b3545485802768c3c803ba815dac1d156e4bae8a26f3486c1e1f1253d",
+    "source-before.json": "a1d62d0ad6083fd59f64bd14537571a3d397732a356b4140b777b4bbdf78a788",
+    "observer.gd": "40be40ad57043c719aed32a85d0c53920ecd509ec8d44ba04129aa767cfc2d9b",
+    "native-trace.json": "98a1b83a2bc87d1d1c3bc82f30d21fa0c7cd05c551c96475511b484346e3e923",
+    "wrapper.py.txt": "de454b8049ba48f1c293813ddb202bed83dbaaf16b9e29f0b1f8a59f25b4fe7b",
+    "native.log": "037dbce1c2b8c903e67afb07524d1a4c8e5fe326c9778136cc1a38ae6a514070",
+    "source-after.json": "a1d62d0ad6083fd59f64bd14537571a3d397732a356b4140b777b4bbdf78a788"
+  }
+}

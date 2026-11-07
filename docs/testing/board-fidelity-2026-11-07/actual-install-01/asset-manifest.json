@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "scope": "PRIVATE exact UV04 native08/close02 admission candidate; root guarded install only after independent review",
+  "baseline_board_sha256": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+  "candidate_board_sha256": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+  "entries": [
+    {
+      "path": "game/art/assets/tam_skateboard/UV-NOTICE.md",
+      "before_sha256": null,
+      "after_sha256": "47b8784952b7e6bbb63da2637f6b6e2ce2f18a9e5eb75859f947ffff2ffe6851",
+      "bytes": 2468
+    },
+    {
+      "path": "game/art/assets/tam_skateboard/board_albedo.png",
+      "before_sha256": "0d7ffd2f597771878348e79e4673b48737668fc2251338b7a9e1586ac51cbed3",
+      "after_sha256": "a8931d5421762bcebb8b20ceefe88992975a899cee4148696ba0886358de68bf",
+      "bytes": 421245
+    },
+    {
+      "path": "game/art/assets/tam_skateboard/manifest.json",
+      "before_sha256": "5636e34a2bfa842c8f1d6f496450e3475fe03f19aee2177981ba100f05c2379b",
+      "after_sha256": "e72205e95c7e2c6523a989eeeedb7be2ad9706c11451cd75f47ba7c29410729d",
+      "bytes": 3780
+    },
+    {
+      "path": "game/art/assets/tam_skateboard/tam_skateboard.glb",
+      "before_sha256": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+      "after_sha256": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+      "bytes": 613940
+    },
+    {
+      "path": "game/art/assets/tam_skateboard/tam_skateboard.glb.import",
+      "before_sha256": "fb0c6ca2f42f58f92191cf80c6a9ecbdee65104f73d9a4b0a11228e0e0d01662",
+      "after_sha256": "46094a26837e02812e33fd3ecd242ebec8222432745f83b574ea3b16946242c4",
+      "bytes": 1115
+    },
+    {
+      "path": "tools/art/board_wood_source.gd",
+      "before_sha256": null,
+      "after_sha256": "8ef7fba286fe1dbf881df48030fea587d34ca9435543f96c4e40de05545df7cf",
+      "bytes": 5441
+    },
+    {
+      "path": "tools/art/finish_board_uv.py",
+      "before_sha256": null,
+      "after_sha256": "46ebd91b29117aa58d706d80545c5400f524d18f3cf174ac2eaf8d052f6e2f39",
+      "bytes": 13158
+    },
+    {
+      "path": "tools/art/import_board_wood.gd",
+      "before_sha256": null,
+      "after_sha256": "134e6fc320256e98928988ee21be9c3598e38a0b87dcd001c46bcaf1b5258b6e",
+      "bytes": 5090
+    },
+    {
+      "path": "tools/art/regenerate_skateboard_uv.py",
+      "before_sha256": null,
+      "after_sha256": "29aed80e43058ae80a246eff467249383e100d5621fa0a6665742abc0bbc0de2",
+      "bytes": 1494
+    },
+    {
+      "path": "tools/art/requirements-board.txt",
+      "before_sha256": null,
+      "after_sha256": "f793676a40e71a12c2d9066d4f2e342bf5d920a971a725519c00ed500c4231ed",
+      "bytes": 42
+    },
+    {
+      "path": "tools/art/source/tam_skateboard-base-manifest.json",
+      "before_sha256": null,
+      "after_sha256": "5636e34a2bfa842c8f1d6f496450e3475fe03f19aee2177981ba100f05c2379b",
+      "bytes": 1733
+    },
+    {
+      "path": "tools/art/source/tam_skateboard-base.glb.gz",
+      "before_sha256": null,
+      "after_sha256": "96ddce60aea12f45642373b30101c2f439ae16660e800ec31279fc1dd8d682ca",
+      "bytes": 513355
+    }
+  ],
+  "evidence": {
+    "native": ".local/board-fidelity/native-component-08",
+    "close": ".local/board-fidelity/close-02",
+    "source": ".local/board-fidelity/candidate-uv04"
+  },
+  "required_after_install": [
+    "editor reimport executes policy and source/decoder meta pins match",
+    "unchanged native board/component/contact checks",
+    "Main movement/grind/flip/grab/manual/release checks",
+    "full required regression",
+    "actual moving appearance/final target hardware gates remain separate"
+  ]
+}

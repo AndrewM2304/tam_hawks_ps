@@ -1,0 +1,101 @@
+{
+  "passed": 22,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "docs/licences/REGISTER.md preimage current exact",
+      "pass": true
+    },
+    {
+      "label": "docs/licences/REGISTER.md candidate exact",
+      "pass": true
+    },
+    {
+      "label": "export_presets.cfg preimage current exact",
+      "pass": true
+    },
+    {
+      "label": "export_presets.cfg candidate exact",
+      "pass": true
+    },
+    {
+      "label": "tools/export.sh preimage current exact",
+      "pass": true
+    },
+    {
+      "label": "tools/export.sh candidate exact",
+      "pass": true
+    },
+    {
+      "label": "shell syntax",
+      "pass": true
+    },
+    {
+      "label": "all embedded Python syntax",
+      "pass": true
+    },
+    {
+      "label": "retained native pack checker _fidelity_texture body exact",
+      "pass": true
+    },
+    {
+      "label": "retained native pack checker _fitted_resources body exact",
+      "pass": true
+    },
+    {
+      "label": "boardpack smoke explicitly called once",
+      "pass": true
+    },
+    {
+      "label": "boardpack runtime never loads excluded editor tools",
+      "pass": true
+    },
+    {
+      "label": "linux board notice packaged-byte checks common loop",
+      "pass": true
+    },
+    {
+      "label": "macos board notice packaged-byte checks common loop",
+      "pass": true
+    },
+    {
+      "label": "both actual native presets explicitly include manifest",
+      "pass": true
+    },
+    {
+      "label": "both presets keep tools tests caches excluded",
+      "pass": true
+    },
+    {
+      "label": "native source parser gate exists but no export/native resource smoke claimed",
+      "pass": true
+    },
+    {
+      "label": "entire previous native checker restored byte-exact after deleting only added boardcall/helpers",
+      "pass": true
+    },
+    {
+      "label": "both native preset changes only board-manifest include",
+      "pass": true
+    },
+    {
+      "label": "source tools/art fingerprint added symmetrically pre and post export",
+      "pass": true
+    },
+    {
+      "label": "UV-NOTICE.md exactcopy ZIPrequired and byteprovenance verification",
+      "pass": true
+    },
+    {
+      "label": "BOARD-PROVENANCE.json exactcopy ZIPrequired and byteprovenance verification",
+      "pass": true
+    }
+  ],
+  "manifest_sha256": "32239a88c6c522f4f5084d216568ab866c4022352ac62517374ef012b5f3a4f3",
+  "scope": "Read-only3file pre/post guard, shell/embeddedPython syntax, preserved native checker helpers and packaging-path cold review. No engine/export/PCK/package execution by independent QA.",
+  "limits": [
+    "Author24/0 metadata/preflight controls and empty-project GDScript parser are separate scope.",
+    "Actual cookedPCK loading/native board texture/UV/wheel smoke and both ZIP checks remain to execute after guarded installation.",
+    "No restored28mm deck or mounting correction, moving contact, performance/M5 or AAA award."
+  ]
+}

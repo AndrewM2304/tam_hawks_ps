@@ -1,0 +1,280 @@
+"""PRIVATE source-only physical layout study. Never installs or changes contacts.
+
+Uses original authored geometry and atlas. The inherited tubular hanger remains
+a visual limitation; this experiment is not an AAA construction certificate.
+"""
+from pathlib import Path
+import copy, hashlib, importlib.util, json, math, struct
+import numpy as np
+from scipy.spatial import ConvexHull
+
+ROOT = Path(__file__).resolve().parent
+BASE = ROOT.parent / 'candidate-uv04/tam_skateboard.glb'
+SPEC = json.loads((ROOT / 'specification.json').read_text())
+loader = importlib.util.spec_from_file_location('uv_reader', ROOT.parent / 'board_uv_finish04.py')
+reader = importlib.util.module_from_spec(loader)
+loader.loader.exec_module(reader)
+
+
+def components(points, indices):
+    parent = list(range(len(points)))
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    def union(a, b):
+        parent[find(a)] = find(b)
+    welded = {}
+    for i, point in enumerate(points):
+        key = tuple(np.rint(point.astype(np.float64) * 1e6).astype(np.int64))
+        if key in welded:
+            union(i, welded[key])
+        else:
+            welded[key] = i
+    for face in indices.reshape(-1, 3):
+        union(int(face[0]), int(face[1]))
+        union(int(face[0]), int(face[2]))
+    result = {}
+    for i in range(len(points)):
+        result.setdefault(find(i), []).append(i)
+    return list(result.values())
+
+
+def wood_warp(points):
+    x, y, z = points.astype(np.float64).T
+    kick = .65 * np.maximum(0, np.abs(z) - .28) ** 1.5
+    middle = kick + .14 * x * x
+    scale = .01025 / .028
+    mapped = points.astype(np.float64).copy()
+    mapped[:, 1] = middle + .010875 + scale * (y - middle)
+    derivative_x = 2 * .14 * x
+    derivative_z = .65 * 1.5 * np.sqrt(np.maximum(0, np.abs(z) - .28)) * np.sign(z)
+    matrices = np.repeat(np.eye(3)[None], len(points), axis=0)
+    matrices[:, 1, 0] = (1 - scale) * derivative_x
+    matrices[:, 1, 1] = scale
+    matrices[:, 1, 2] = (1 - scale) * derivative_z
+    return mapped.astype('<f4'), matrices
+
+
+def transform_normals(normals, matrices):
+    output = np.einsum('nij,nj->ni', np.transpose(np.linalg.inv(matrices), (0, 2, 1)), normals.astype(np.float64))
+    output /= np.linalg.norm(output, axis=1)[:, None]
+    return output.astype('<f4')
+
+
+def finite_y(points, indices, x, z, bottom=False):
+    triangles = points[indices].astype(np.float64).reshape(-1, 3, 3)
+    hits = []
+    for face, triangle in enumerate(triangles):
+        matrix = np.column_stack((triangle[1, [0, 2]] - triangle[0, [0, 2]], triangle[2, [0, 2]] - triangle[0, [0, 2]]))
+        if abs(np.linalg.det(matrix)) < 1e-14:
+            continue
+        uv = np.linalg.solve(matrix, np.array([x, z]) - triangle[0, [0, 2]])
+        if min(uv) >= -1e-10 and uv.sum() <= 1 + 1e-10:
+            weights = np.array([1 - uv.sum(), *uv])
+            hits.append((float(weights @ triangle[:, 1]), face, weights.tolist()))
+    if not hits:
+        raise ValueError('No actual finite source face beneath fixture point')
+    return min(hits) if bottom else max(hits)
+
+
+def axis_rotation(before, after):
+    a, b = before / np.linalg.norm(before), after / np.linalg.norm(after)
+    cross = np.cross(a, b)
+    cosine = float(a @ b)
+    assert cosine > -.999999
+    skew = np.array([[0, -cross[2], cross[1]], [cross[2], 0, -cross[0]], [-cross[1], cross[0], 0]])
+    return np.eye(3) + skew + skew @ skew / (1 + cosine)
+
+
+def remap_tube(points, normals, old_start, old_end, new_start, new_end):
+    before, after = old_end - old_start, new_end - new_start
+    rotation = axis_rotation(before, after)
+    parameter = ((points.astype(np.float64) - old_start) @ before) / (before @ before)
+    radial = points - old_start - parameter[:, None] * before
+    mapped = new_start + parameter[:, None] * after + radial @ rotation.T
+    return mapped.astype('<f4'), (normals @ rotation.T).astype('<f4')
+
+
+def tangent_frame(arrays, indices):
+    points = arrays['POSITION'][indices].reshape(-1, 3, 3).astype(np.float64)
+    uv = arrays['TEXCOORD_0'][indices].reshape(-1, 3, 2).astype(np.float64)
+    e1, e2 = points[:, 1] - points[:, 0], points[:, 2] - points[:, 0]
+    du, dv = uv[:, 1] - uv[:, 0], uv[:, 2] - uv[:, 0]
+    jacobian = du[:, 0] * dv[:, 1] - du[:, 1] * dv[:, 0]
+    assert np.all(np.abs(jacobian) > 1e-12)
+    tangent = (e1 * dv[:, 1, None] - e2 * du[:, 1, None]) / jacobian[:, None]
+    bitangent = (e2 * du[:, 0, None] - e1 * dv[:, 0, None]) / jacobian[:, None]
+    weight = np.linalg.norm(np.cross(e1, e2), axis=1)[:, None]
+    sums = np.zeros_like(arrays['POSITION'], dtype=np.float64)
+    bsums = np.zeros_like(sums)
+    for corner in range(3):
+        np.add.at(sums, indices.reshape(-1, 3)[:, corner], tangent * weight)
+        np.add.at(bsums, indices.reshape(-1, 3)[:, corner], bitangent * weight)
+    normal = arrays['NORMAL'].astype(np.float64)
+    orthogonal = sums - normal * np.sum(sums * normal, axis=1)[:, None]
+    orthogonal /= np.linalg.norm(orthogonal, axis=1)[:, None]
+    handed = np.where(np.sum(np.cross(normal, orthogonal) * bsums, axis=1) < 0, -1, 1)
+    return np.c_[orthogonal, handed].astype('<f4')
+
+
+def write_glb(base, arrays, index_arrays, destination):
+    gltf = copy.deepcopy(base.g)
+    replacements = {}
+    for surface, primitive in enumerate(gltf['meshes'][0]['primitives']):
+        for name, index in primitive['attributes'].items():
+            accessor = gltf['accessors'][index]
+            values = arrays[surface][name]
+            accessor['count'] = len(values)
+            accessor.pop('byteOffset', None)
+            if 'min' in accessor:
+                accessor['min'], accessor['max'] = values.min(0).tolist(), values.max(0).tolist()
+            view = accessor['bufferView']
+            gltf['bufferViews'][view].pop('byteStride', None)
+            replacements[view] = values.tobytes()
+        accessor = gltf['accessors'][primitive['indices']]
+        accessor['count'] = len(index_arrays[surface])
+        accessor.pop('byteOffset', None)
+        replacements[accessor['bufferView']] = index_arrays[surface].tobytes()
+    gltf['asset']['generator'] = 'Original Tam private physical construction study; no runtime admission'
+    binary = bytearray()
+    for i, view in enumerate(gltf['bufferViews']):
+        binary.extend(b'\x00' * (-len(binary) % 4))
+        payload = replacements.get(i, base.view(i))
+        view['byteOffset'], view['byteLength'] = len(binary), len(payload)
+        binary.extend(payload)
+    binary.extend(b'\x00' * (-len(binary) % 4))
+    gltf['buffers'][0]['byteLength'] = len(binary)
+    encoded = json.dumps(gltf, separators=(',', ':')).encode()
+    encoded += b' ' * (-len(encoded) % 4)
+    total = 12 + 8 + len(encoded) + 8 + len(binary)
+    output = struct.pack('<III', 0x46546c67, 2, total) + struct.pack('<II', len(encoded), 0x4e4f534a) + encoded
+    output += struct.pack('<II', len(binary), 0x004e4942) + binary
+    destination.mkdir(exist_ok=True)
+    (destination / 'tam_skateboard.glb').write_bytes(output)
+    return reader.GLB(destination / 'tam_skateboard.glb')
+
+
+def main():
+    base = reader.GLB(BASE)
+    assert hashlib.sha256(base.file).hexdigest() == SPEC['input_glb_sha256']
+    arrays, indices = [], []
+    for surface in range(4):
+        _, attributes, source_indices = base.primitive(surface)
+        arrays.append(attributes)
+        indices.append(source_indices)
+    original = [{name: value.copy() for name, value in a.items()} for a in arrays]
+    arrays[0]['POSITION'], matrices = wood_warp(arrays[0]['POSITION'])
+    arrays[0]['NORMAL'] = transform_normals(arrays[0]['NORMAL'], matrices)
+    arrays[0]['TANGENT'] = tangent_frame(arrays[0], indices[0])
+    negative = write_glb(base, arrays, indices, ROOT / 'thin-only-negative')
+
+    baseplate_shift = .014225
+    lower_shift = .029225
+    transformed = []
+    plate_loops = []
+    bolt_records = []
+    counts = {}
+    for surface in (2, 3):
+        for ids in components(original[surface]['POSITION'], indices[surface]):
+            source = original[surface]['POSITION'][ids]
+            lo, hi = source.min(0).astype(float), source.max(0).astype(float)
+            centre, size = (lo + hi) / 2, hi - lo
+            end = 1 if centre[2] > 0 else -1
+            kind = 'bushing' if surface == 3 else 'kingpin'
+            if surface == 3 and abs(centre[0]) > .09:
+                kind = 'wheel'
+            elif surface == 2:
+                if lo[1] > .0174:
+                    kind = 'bolt'
+                elif .074 < size[0] < .076 and .093 < size[2] < .095:
+                    kind = 'baseplate'
+                elif size[0] > .25:
+                    kind = 'axle'
+                elif size[0] > .18:
+                    kind = 'hanger'
+                elif abs(centre[0]) > .09:
+                    kind = 'bearing' if size[0] > .025 else 'axle_nut'
+            counts[kind] = counts.get(kind, 0) + 1
+            output = source.astype(np.float64).copy()
+            if kind == 'baseplate':
+                output[:, 1] += baseplate_shift
+                output[:, 2] -= end * .04
+                top = output[np.abs(source[:, 1] - hi[1]) < 1e-8]
+                unique = np.unique(top.astype('<f4'), axis=0)
+                hull = ConvexHull(unique[:, [0, 2]])
+                plate_loops.append(unique[hull.vertices])
+            elif kind == 'bolt':
+                output[:, 0] += math.copysign(.0206375, centre[0]) - centre[0]
+                new_z = end * .215 + math.copysign(.0269875, centre[2] - end * .255)
+                output[:, 2] += new_z - centre[2]
+                grip_y, face, bary = finite_y(original[1]['POSITION'], indices[1], math.copysign(.0206375, centre[0]), new_z)
+                output[:, 1] += grip_y + .0001 - hi[1]
+                bolt_records.append({'source_indices': ids, 'actual_grip_face': face, 'barycentric': bary, 'grip_y': grip_y, 'new_centre_xz': [math.copysign(.0206375, centre[0]), new_z]})
+            elif kind in ('kingpin', 'bushing'):
+                if kind == 'kingpin':
+                    start = np.array([0, -.033, end * (.255 - .021)])
+                    stop = np.array([0, -.082, end * .255])
+                else:
+                    start = np.array([0, -.044, end * (.255 - .017)])
+                    stop = np.array([0, -.063, end * (.255 - .009)])
+                # Shorten the original tube axis; preserve each circular cross
+                # section rather than scaling tyre/metal radii vertically.
+                start_t = (-.033 - start[1]) / .049
+                stop_t = (-.033 - stop[1]) / .049
+                new_start = start + [0, baseplate_shift + .015 * start_t, 0]
+                new_stop = stop + [0, baseplate_shift + .015 * stop_t, 0]
+                output, new_normals = remap_tube(source, original[surface]['NORMAL'][ids], start, stop, new_start, new_stop)
+                arrays[surface]['NORMAL'][ids] = new_normals
+            else:
+                output[:, 1] += lower_shift
+            arrays[surface]['POSITION'][ids] = output.astype('<f4')
+            transformed.append({'surface': surface, 'kind': kind, 'source_indices': ids, 'old_bounds': [lo.tolist(), hi.tolist()], 'new_bounds': [output.min(0).tolist(), output.max(0).tolist()]})
+    assert counts == {'baseplate': 2, 'hanger': 2, 'axle': 2, 'kingpin': 2, 'bearing': 4, 'axle_nut': 4, 'bolt': 8, 'bushing': 2, 'wheel': 4}, counts
+
+    # Riser bottoms reuse actual transformed plate-top points; upper vertices
+    # query finite transformed wood triangles. No guessed infinite deck plane.
+    extra_positions, extra_normals, extra_uv = [], [], []
+    def triangle(a, b, c):
+        normal = np.cross(b.astype(float) - a, c.astype(float) - a)
+        assert np.linalg.norm(normal) > 1e-12
+        normal /= np.linalg.norm(normal)
+        for point in (a, b, c):
+            extra_positions.append(point)
+            extra_normals.append(normal)
+            extra_uv.append([.75, .25])  # Existing original dark grip texel.
+    pads = []
+    for ring in plate_loops:
+        top = ring.copy()
+        witnesses = []
+        for i, point in enumerate(ring):
+            y, face, bary = finite_y(arrays[0]['POSITION'], indices[0], float(point[0]), float(point[2]), bottom=True)
+            top[i, 1] = y
+            witnesses.append({'xz': point[[0, 2]].tolist(), 'wood_face': face, 'barycentric': bary, 'top_y': y, 'bottom_y': float(point[1])})
+        centre = ring.mean(0)
+        upper = centre.copy()
+        upper[1] = finite_y(arrays[0]['POSITION'], indices[0], float(centre[0]), float(centre[2]), bottom=True)[0]
+        for i in range(len(ring)):
+            j = (i + 1) % len(ring)
+            triangle(upper, top[j], top[i])
+            triangle(centre, ring[i], ring[j])
+            triangle(ring[i], top[i], top[j])
+            triangle(ring[i], top[j], ring[j])
+        pads.append({'ring_vertices': len(ring), 'witnesses': witnesses})
+    start = len(arrays[3]['POSITION'])
+    for key, values in [('POSITION', extra_positions), ('NORMAL', extra_normals), ('TEXCOORD_0', extra_uv)]:
+        arrays[3][key] = np.concatenate((arrays[3][key], np.array(values, dtype='<f4')))
+    indices[3] = np.concatenate((indices[3], np.arange(start, start + len(extra_positions), dtype=indices[3].dtype)))
+    study = write_glb(base, arrays, indices, ROOT / 'physical-layout01')
+    source_groups = components(np.concatenate([a['POSITION'] for a in arrays]), np.concatenate([ix + sum(len(a['POSITION']) for a in arrays[:i]) for i, ix in enumerate(indices)]))
+    old_bytes = sum(value.nbytes for a in original for value in a.values()) + sum(ix.nbytes for _, _, ix in [base.primitive(i) for i in range(4)])
+    new_bytes = sum(value.nbytes for a in arrays for value in a.values()) + sum(ix.nbytes for ix in indices)
+    report = {'scope': SPEC['scope'], 'specification_sha256': hashlib.sha256((ROOT / 'specification.json').read_bytes()).hexdigest(), 'generator_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'input_sha256': hashlib.sha256(base.file).hexdigest(), 'negative_sha256': hashlib.sha256(negative.file).hexdigest(), 'study_sha256': hashlib.sha256(study.file).hexdigest(), 'source_budget': {'added_triangles': len(extra_positions) // 3, 'added_geometry_bytes': new_bytes - old_bytes, 'surfaces_materials_meshes': [len(study.g['meshes'][0]['primitives']), len(study.g['materials']), len(study.g['meshes'])], 'atlas_encoded_bytes_exact': study.image() == base.image(), 'grip_all_attribute_arrays_exact': all(arrays[1][k].tobytes() == original[1][k].tobytes() for k in original[1]), 'all_original_topology_retained': True, 'connected_source_component_count_1um': len(source_groups)}, 'derived_datums': SPEC['derived_datums'], 'transformed_components': transformed, 'finite_bolt_faces': bolt_records, 'finite_riser_faces': pads, 'limits': SPEC['limits'] + ['native import/cache/contact and actual moving artistic inspection are UNRUN', 'old production decoder/pin must reject this unadmitted study', 'source radii are rigidly preserved for wheels/hangers; native float32/import effects not certified']}
+    assert report['source_budget']['added_triangles'] <= 512 and new_bytes - old_bytes <= 131072
+    (ROOT / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
+    print(json.dumps({k: report[k] for k in ['scope', 'study_sha256', 'source_budget', 'derived_datums']}, indent=2))
+
+
+if __name__ == '__main__':
+    main()

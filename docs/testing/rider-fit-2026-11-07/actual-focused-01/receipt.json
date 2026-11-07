@@ -1,0 +1,46 @@
+{
+  "start_utc": "2026-11-07T06:55:22.955871+00:00",
+  "end_utc": "2026-11-07T06:55:24.723929+00:00",
+  "pid": 83218,
+  "process_group": 83218,
+  "command": [
+    "./tools/run.sh",
+    "--headless",
+    "--fixed-fps",
+    "60",
+    "--script",
+    ".local/actual_fitted_focused.gd"
+  ],
+  "deadline_seconds": 180,
+  "stop_reason": "stop-first-raw-engine-error",
+  "exit_code": -15,
+  "error_markers": [
+    "Parse Error:",
+    "SCRIPT ERROR:"
+  ],
+  "result": null,
+  "modules": null,
+  "source_count": 875,
+  "source_unchanged": true,
+  "source_delta": [],
+  "observer_sha256_prebound": "206dee641cd87cd5ce185be1e1a31d3f7056fce1a91eb80b91ed892ad6989061",
+  "launcher_sha256_prebound": "6c8e18923cd3d5c989d6ee3debc98aa820c5b8251bb74019f97b146f7989821a",
+  "certificate_command": [
+    "python3",
+    "/workspace/tam_hawks_ps/tools/testing/verify_shoe_support_certificate.py",
+    "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/actual-focused-01/shoe-support-certificate.json",
+    "--output",
+    "/workspace/tam_hawks_ps/docs/testing/rider-fit-2026-11-07/actual-focused-01/exact-shoe-certificate.json"
+  ],
+  "certificate_passed": false,
+  "certificate_input_sha256": null,
+  "known_process_snapshot_before": [],
+  "native_processes_observed": [
+    {
+      "pid": 83218,
+      "command": "godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script .local/actual_fitted_focused.gd "
+    }
+  ],
+  "eligible": false,
+  "scope": "Actual installed-source focused Fitted60/MainMotion32/Music-profile isolation1 plus independent exact-integer shoe certificate. Root-authorized private qualitative RA/ME/native jobs may overlap; observed processes recorded. No FPS, engine cost, exclusivity, target-Mac, final art or whole-suite claim."
+}

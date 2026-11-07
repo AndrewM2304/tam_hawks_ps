@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "scope": "Reproducible source build, not native motion, Main, visual or target performance acceptance.",
+  "source_manifest_sha256": "329f499128037f5d52e2c5f8b21e4c455ac4952f566ef7790badfe6c7a15515f",
+  "original_body_manifest_sha256": "cd8792d529f509d8defb55b65ea6fced02c754678f7846af65dba20ed8218f0b",
+  "generator_sha256": {
+    "rider_asset_accessories.py": "c606a75297f344f3c8911102019df94b92ea517aeb4570f3d95bedf63650b923",
+    "rider_asset_acquire.py": "f1b7cc455c0f14318b9888f5a2fc1c6cef6c4e80a630ff1bc418c652a6327153",
+    "rider_asset_bake.py": "d48b7cb15f0f65f421d5a8bd7c23aa8dc7a8db5664f4d59e505ab9590ed86dd1",
+    "rider_asset_fit.py": "5fc25906c4f5a1460b2b85caa25d5107e01116773c888339f4f8c62e70486dd9",
+    "rider_asset_head.py": "888ea57cf50fc2ea10c26fc50bb8f4805301f898328ab932a6a0324ca73b9f3c",
+    "rider_asset_laces.py": "2b114401bc0b1027bd7cc2e2b8d43d96d064b729ff8093bc4195d4bdbadcde1c",
+    "rider_asset_projection.py": "f3937f9d4e21dc204fd7454670f4b37525b85852b3a762d044f6cefd4e22816c",
+    "rider_asset_shoes.py": "0787d03b724a5dd4dd0ddbeff135d4b6ea96448d216cf03e22e95be3a3f44a21",
+    "rider_asset_skin.py": "2539e21831da47ba9bf9b1fe0e6f637996a26280b41964271e628051a25523be",
+    "rider_asset_surfaces.py": "dd0d07db2a34e07fd16c1cbf175900ccb38e4c68736aa76428f576c0240f3752"
+  },
+  "outputs": {
+    "accessory-fit.json": {
+      "bytes": 214309,
+      "sha256": "e8aec79f603a700590cc416781b1ea0d08f260e5b1a5914a42eb603ff6f675ae"
+    },
+    "eye-source-selection.json": {
+      "bytes": 52264,
+      "sha256": "fc7109d69bf26f0e6368850fe744928950aa9ae91d47d86da9f710e17b5040fc"
+    },
+    "face-atlas-layout.json": {
+      "bytes": 844,
+      "sha256": "7c90bb01595a7aec9d2148a8a8f1aa9a98c4aab9453a8316037da785b55b0d28"
+    },
+    "fitted-garment-fit.json": {
+      "bytes": 4527,
+      "sha256": "6f2aee1cbb2243e9bf5c2a8ff48ad8449af8defc696620de79748a7a026d606a"
+    },
+    "fitted-licence-headers.json": {
+      "bytes": 16724,
+      "sha256": "0cded65535d97d084927787c45121dcfae5c0ba50ab3a8323e1d5ce513de276f"
+    },
+    "fitted-source-pins.json": {
+      "bytes": 3976,
+      "sha256": "329f499128037f5d52e2c5f8b21e4c455ac4952f566ef7790badfe6c7a15515f"
+    },
+    "fitted_accessories.glb": {
+      "bytes": 247776,
+      "sha256": "b7f1fc2c8eae2009cd03d307d6ae45b79aac57bcc5ccf96b748c454d854f6bfd"
+    },
+    "fitted_brows.obj": {
+      "bytes": 18365,
+      "sha256": "e8e2a2b8d42465caebe671e28f337c60b451bde0c070e40622d627eae843789c"
+    },
+    "fitted_brows_albedo.png": {
+      "bytes": 25064,
+      "sha256": "5cf942fb1907cc2e42b4542e9056d4f5ed775325649b237016cdbe17e257ff61"
+    },
+    "fitted_cloth_albedo.png": {
+      "bytes": 561430,
+      "sha256": "37fbdab14f32ac917a857e4aa0d9e7024c1cf5b7c65b25a4f8f544478a0713cf"
+    },
+    "fitted_cloth_normal.png": {
+      "bytes": 186968,
+      "sha256": "6de81cf5dc732834b8d8b1c8386d23860d2aa0c04c5866c1dc6058f3c94efff6"
+    },
+    "fitted_eyes.obj": {
+      "bytes": 139517,
+      "sha256": "b93ae233e6fd2e22b8ba37652329156a6dd41c553662bc47e7fd52403e718639"
+    },
+    "fitted_fit.json": {
+      "bytes": 16477,
+      "sha256": "7d220d058a7f9ca321a04d8c3b71cc4298c5ee3d17ed26190cbef383465c47f9"
+    },
+    "fitted_hair.obj": {
+      "bytes": 319607,
+      "sha256": "eeb36c9c5cfb1413bb421fb31606f14305b7723b0386005c78c6d802097f382f"
+    },
+    "fitted_hair_albedo.png": {
+      "bytes": 892570,
+      "sha256": "bc1fbdff1e909305083e3d879690d5b358b9c97bb5089c15262249e4e43bcaa4"
+    },
+    "fitted_head.obj": {
+      "bytes": 810729,
+      "sha256": "dd5cc4a17b142defb1400b4ef0d25d6252bc00049a1f77f8d2c17ab8f6dfad5b"
+    },
+    "fitted_landmarks.json": {
+      "bytes": 1970451,
+      "sha256": "bd33506f2510dc4e11ebed11566a671d14573fa5d4cead562a67c613c958f404"
+    },
+    "fitted_outfit.glb": {
+      "bytes": 737844,
+      "sha256": "03944d9a01a030ee39a5cab2211cc8827c85e81cd60f6fd3e8783a8d360f7a46"
+    },
+    "fitted_reflector_albedo.png": {
+      "bytes": 13949,
+      "sha256": "9487053822305696af5e36fe3da6f579a98c16d918258e24a3b38615f88c4d34"
+    },
+    "fitted_shoe_albedo.png": {
+      "bytes": 242666,
+      "sha256": "3d31ce1d64c9e46027fe41a29d47ebe168498ca5359f57bceed4b373c75dea76"
+    },
+    "fitted_shoe_left_laces.obj": {
+      "bytes": 164664,
+      "sha256": "b5709bba9de0531d373cbabe77e9197af56939d04ab3c504b58ed76363c46fae"
+    },
+    "fitted_shoe_left_sole.obj": {
+      "bytes": 172008,
+      "sha256": "842b4d69a8e1e52c0ddc013d87609839a4de12691d9309442bc7947689c87791"
+    },
+    "fitted_shoe_left_upper.obj": {
+      "bytes": 197363,
+      "sha256": "4035f8c8088a50223599d1ff2f2cd8ab2072fd7954125f69ea3d75a0cb6bda05"
+    },
+    "fitted_shoe_right_laces.obj": {
+      "bytes": 164666,
+      "sha256": "1e07f04b9e07f1a5d5db44c8b706073747b83bfebafbe7205899bac170586aa3"
+    },
+    "fitted_shoe_right_sole.obj": {
+      "bytes": 172811,
+      "sha256": "97c8bf4da2461db203cdec16fdd8793c1aeabd94793302be566613ff2e31772b"
+    },
+    "fitted_shoe_right_upper.obj": {
+      "bytes": 198166,
+      "sha256": "c428ba1d7c0bb372eebbcf9300ae3878b954901ff52ca7a1ea76cb03bee0a7e5"
+    },
+    "fitted_vest_albedo.png": {
+      "bytes": 212045,
+      "sha256": "4b9984646403924c3b6c8b74698b4fcf3dbfa14fccad7771e8e45436d03551b7"
+    },
+    "footwear-fit.json": {
+      "bytes": 100608,
+      "sha256": "1ac5c7b0d838f4b55685ea015f6d88d5b30f7241c0c3c1f837c14a1cf6cdf51f"
+    },
+    "hand-atlas-layout.json": {
+      "bytes": 188395,
+      "sha256": "7d0e1d7dc40922cc4dd5790426be6c79dfe86657fd862d590670fa824f28e888"
+    },
+    "head-neck-restoration.json": {
+      "bytes": 4825,
+      "sha256": "ed84da5b368deb72475244d380dbb0bf64e4f1285c2ae593de131628bc18db69"
+    },
+    "head_albedo.png": {
+      "bytes": 1816890,
+      "sha256": "a1ccb19fbcb8370b61648684042bb9f0051a5e78027af8c37a4d71aae629e5e6"
+    },
+    "head_normal.png": {
+      "bytes": 271036,
+      "sha256": "098308eb94c3985660300a10433cdeca34304c4e2c4b68979dea965cfc1c99e5"
+    },
+    "head_roughness.png": {
+      "bytes": 4386,
+      "sha256": "58bcb5895b53c7ba9b5509e1b67f46fd9ebf039b98bbdf371672ea72ddd2b6b1"
+    },
+    "lace-fit.json": {
+      "bytes": 98663,
+      "sha256": "6d74bb223149dc4c5232e283814cbf2e5c748213c8d84206ee067d811af1d658"
+    },
+    "left_hand_albedo.png": {
+      "bytes": 69295,
+      "sha256": "cd6e0119ab593c7efc04a13b87444389c24ed83db27f4cd0ff438de20015974c"
+    },
+    "left_hand_normal.png": {
+      "bytes": 31821,
+      "sha256": "47bff54eb120596dd22e64201853f07182f54e5c7841aaccf9cbe47516f2060f"
+    },
+    "left_hand_roughness.png": {
+      "bytes": 1302,
+      "sha256": "56f174da7de47316e0df6819a55d780d4e31d0519c603fe7e2e6075d8f4a2178"
+    },
+    "manifest.json": {
+      "bytes": 6438,
+      "sha256": "9126ad8920d851a374067b3b6425e43bbc0df79a5d1790dc30de6fd0ff75821b"
+    },
+    "palette-map.json": {
+      "bytes": 704,
+      "sha256": "310bcb2aec672da2a7ae5a8f24abef7ebcad73078274d9eea4b3cb36678ed199"
+    },
+    "right_hand_albedo.png": {
+      "bytes": 68482,
+      "sha256": "aefe7a727804ede468f9d769924b35d734106d5e31de2199f10c4cea3dd62304"
+    },
+    "right_hand_normal.png": {
+      "bytes": 31955,
+      "sha256": "625149e75098a5c67883e1e0cd47b2eeec9587b7466b5814fafe3e11222910c9"
+    },
+    "right_hand_roughness.png": {
+      "bytes": 1302,
+      "sha256": "56f174da7de47316e0df6819a55d780d4e31d0519c603fe7e2e6075d8f4a2178"
+    },
+    "source-neck-helper-map.json": {
+      "bytes": 361889,
+      "sha256": "1428985436a7c05670520853aad3f8ea519a9bf3f131c371f717bcfb27b5ada7"
+    }
+  }
+}

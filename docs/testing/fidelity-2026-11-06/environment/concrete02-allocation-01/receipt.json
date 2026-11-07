@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T05:26:27.494290+00:00",
+  "finished_utc": "2026-11-07T05:26:44.110908+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--script",
+      "tools/environment_texture_probe.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/flat-paving-source/.local/environment-water/concrete02-allocation-01"
+    ]
+  ],
+  "git_head": "736a4df43718ce7a81c1d7f15bf587eb9c17ba3f",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_texture_probe.gd",
+  "process_timeout_seconds": 120,
+  "workload": "fresh-native-allocation-only",
+  "concurrent_headless_authorised_pid": null,
+  "other_godot_at_start": [],
+  "timing_measured": false,
+  "source_inventory_sha256": "c058252a42ff5a80183f33398d2d3e603bce16e58ed05eb67a121a48dcb4d178",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {},
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

@@ -1,0 +1,1 @@
+Narrow cached-asset native35/0 and audit52/0 pass, but editor did not reimport after source-helper split; generated asset remains from editor04. This is NOT fresh final policy-source binding.06 forces candidate-only cache refresh and records actual executed policy/helper hashes.

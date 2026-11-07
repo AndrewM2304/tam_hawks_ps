@@ -1,0 +1,80 @@
+extends "res://tools/environment_main_paving_capture.gd"
+const THREE_FIXTURE="res://tools/fixtures/environment/clyde_water_three_wave_before_trial.gdshader"
+const THREE_SHA="4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190"
+const TWO_SHA="d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44"
+var _material_frames: Array[Dictionary]=[]
+var _material_modes: Dictionary={}
+var _material_scene_before: Dictionary={}
+var _warm_states: Array[Dictionary]=[]
+var _three_code: String
+var _two_code: String
+var _shared: Shader
+func _run() -> void:
+ var ready: bool=await _start_actual_main()
+ if not ready:return
+ game.skater.process_mode=Node.PROCESS_MODE_DISABLED
+ _shared=Policy.WATER
+ _two_code=_shared.code
+ _three_code=FileAccess.get_file_as_string(THREE_FIXTURE)
+ _check(_two_code.sha256_text()==TWO_SHA and _three_code.sha256_text()==THREE_SHA,"exact installed2phase and saved3phase runtime shader strings match pinned bytes")
+ var policy:=Policy.apply(game.world)
+ _check(policy.matched_count==3 and policy.changed_count==0 and policy.unsupported.is_empty(),"current3waterOFF policy is installed, idempotent and exact before material comparison")
+ _material_scene_before=_inventory()
+ _check(_material_scene_before.water.size()==3,"all3current native water instances remain resident")
+ for row: Dictionary in _material_scene_before.water:_check(row.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF,"water casting staysOFF for all shader states")
+ var sun: DirectionalLight3D=game.world.get_node("LateAfternoonSun")
+ _check(is_equal_approx(sun.shadow_bias,.1) and is_equal_approx(sun.shadow_normal_bias,2.0),"current native-defaultlight profile remains fixed")
+ var basin: MeshInstance3D=game.world.get_node("ExchangeFountain/FountainBasin")
+ _check(basin.mesh is ArrayMesh and basin.mesh.surface_get_arrays(0)[Mesh.ARRAY_INDEX].size()/3==512 and basin.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_ON,"actual512closed basin remains casting and uses unchanged geometry")
+ _create_pixel_proofs()
+ var modes: Array[String]=["three-a","two-candidate","three-b"]
+ for mode_index: int in modes.size():
+  var mode: String=modes[mode_index]
+  _shared.code=_two_code if mode=="two-candidate" else _three_code
+  var expected_sha: String=TWO_SHA if mode=="two-candidate" else THREE_SHA
+  _check(_shared.code.sha256_text()==expected_sha,"actualshared runtime shadercode has thedeclared hash: "+mode)
+  # Render one complete natural frame after code submission before target views.
+  # No manual force_draw, visibility reduction or changing water/collision data.
+  await process_frame
+  await create_timer(0.0,true).timeout
+  var warm: Image=await _render_current_frame()
+  _warm_states.append({"mode":mode,"runtime_shader_sha256":_shared.code.sha256_text(),"native_completed_frame":true,"viewport_size":[warm.get_width(),warm.get_height()],"physics_tick":Engine.get_physics_frames(),"process_tick":Engine.get_process_frames()})
+  var inventory:=_inventory()
+  _check(inventory==_material_scene_before,"all mesh/material/shaderobject/collider/caster/light identities and bounds are unchanged; only declared runtime shadercode differs")
+  _material_modes[mode]={"inventory":inventory,"runtime_shader_sha256":_shared.code.sha256_text(),"resource_file_sha256":FileAccess.get_sha256(_shared.resource_path),"shader_instance_id":_shared.get_instance_id(),"shader_resource_path":_shared.resource_path}
+  var view_index:=0
+  for view: Dictionary in _material_views():
+   _inspection.global_position=view.at
+   _inspection.look_at(view.target)
+   _inspection.current=true
+   game.hud.visible=false
+   _active_proof_camera=_inspection
+   _position_proofs(mode_index,view_index)
+   await process_frame
+   await create_timer(0.0,true).timeout
+   var physics_before:=Engine.get_physics_frames()
+   var process_before:=Engine.get_process_frames()
+   var image: Image=await _render_current_frame()
+   var proofs:=_verify_pixel_proofs(image)
+   var projection: Projection=_inspection.get_camera_projection()
+   var filename: String=mode+"-"+str(view.id)+".png"
+   var stored:=_store_frame(image,filename)
+   _material_frames.append({"file":filename,"mode":mode,"view":view.id,"pixels":stored,"runtime_shader_sha256":_shared.code.sha256_text(),"resource_file_sha256":FileAccess.get_sha256(_shared.resource_path),"physics_before":physics_before,"physics_after":Engine.get_physics_frames(),"process_before":process_before,"process_after":Engine.get_process_frames(),"pixel_proofs":proofs,"camera_basis":[_v(_inspection.global_basis.x),_v(_inspection.global_basis.y),_v(_inspection.global_basis.z)],"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],"keep_aspect":_inspection.keep_aspect,"near":_inspection.near,"far":_inspection.far,"viewport_size":[root.size.x,root.size.y],"camera_position":_v(_inspection.global_position),"camera_forward":_v(-_inspection.global_basis.z),"fov":_inspection.fov,"counters":_native_counters()})
+   _write_material(false)
+   view_index+=1
+ _shared.code=_two_code
+ _check(_shared.code.sha256_text()==TWO_SHA,"private sharedshader returns to installed2phase code after diagnostic")
+ _check(_material_frames.size()==9,"all9actualMain threeview3v2v3 material originals completed")
+ _write_material(true)
+ print("ACTUAL_MAIN_WATER_MATERIAL_RESULT checks=",checks," failures=",failures)
+ quit(1 if failures else 0)
+func _material_views() -> Array[Dictionary]:
+ var centre: Vector3=game.world.get_node("ExchangeFountain").global_position
+ return [{"id":"river","at":Vector3(-9,4,77),"target":Vector3(-9,-2,99)},
+  {"id":"fountain","at":centre+Vector3(5,2.5,6),"target":centre+Vector3(0,.55,0)},
+  {"id":"pond","at":Vector3(-173,3.5,-13),"target":Vector3(-184,.12,-21)}]
+func _write_material(complete: bool) -> void:
+ var report: Dictionary={"complete":complete,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),"images":_material_frames,"synchronization_proofs":_sync_proofs,"inventory_before":_material_scene_before,"mode_inventories":_material_modes,"warm_states":_warm_states,"restored_final_runtime_sha256":_shared.code.sha256_text() if _shared else "","timing_measured":false,"limits":"Private currentfitted Main1280x800 river/fountain/pond3vs2vs3 authored stills. Three startup proofs; nine full perimage nativeRGBA/camera/projection/tick/2worldmarker/Canvas proofs; one completed naturalwarmframe after each shadercode submission. Only runtime code of exactshared Shader object changes; sourcefile on disk remains installedd646, explicitly distinct from recorded runtimecode SHA. All materials/meshes/colliders/casts/lights/current512basin/3waterOFF remain fixed. Native shaderTIME phases vary in walltime; not normal-speedwater, cost, FPS, M5 or globalfinish certification. No texture/geometry/drawfamily/light addition and no actualsource mutation."}
+ var file:=FileAccess.open(output.path_join("actual-main-water-material-report.json"),FileAccess.WRITE)
+ if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+ else:_check(false,"Mainwatermaterial report writable")

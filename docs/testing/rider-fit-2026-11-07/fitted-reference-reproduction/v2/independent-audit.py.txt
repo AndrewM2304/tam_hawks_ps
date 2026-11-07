@@ -1,0 +1,41 @@
+from pathlib import Path
+import json,hashlib,tempfile,shutil,subprocess,importlib.util,struct,copy
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/rider-fit-2026-11-07/fitted-reference-reproduction';V=P/'v2';tool=V/'build_fitted_rig_reference.py';expected='eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae';checks=[];runs=[]
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+spec=importlib.util.spec_from_file_location('qa_ref_v2',tool);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+ck('exact held generator SHA',sha(tool)=='5e4d01aabe24f07d003a80a8a52bf945a386b682cde8a61186603c10013b9359')
+names=['fitted-manifest.json','fitted_outfit.glb','fitted_landmarks.json','fitted_head.obj']
+sources=[R/'.local/rider-fit-staging/release-reproduction-v11-final',R/'.local/rider-fit-staging/epochs/v12-six/source/game/art/rider',R/'.local/rider-fit-staging/release-reproduction-v13']
+with tempfile.TemporaryDirectory(prefix='qa-fitted-public-v2-')as tmp:
+ root=Path(tmp);assets=root/'assets';assets.mkdir()
+ def reset(source=sources[-1]):
+  for name in names:shutil.copyfile(source/name,assets/name)
+ def repin(name):
+  manifest=json.loads((assets/names[0]).read_text());manifest['outputs'][name]['sha256']=sha(assets/name);(assets/names[0]).write_text(json.dumps(manifest))
+ def edit_meta(fn):
+  metadata=json.loads((assets/names[2]).read_text());fn(metadata);(assets/names[2]).write_text(json.dumps(metadata));repin(names[2])
+ def edit_glb(fn):
+  raw=(assets/names[1]).read_bytes();size,kind=struct.unpack_from('<II',raw,12);doc=json.loads(raw[20:20+size]);off=20+size;binary=bytearray(raw[off+8:]);fn(doc,binary);text=json.dumps(doc,separators=(',',':')).encode();text+=b' '*((-len(text))%4);encoded=struct.pack('<III',0x46546c67,2,12+8+len(text)+8+len(binary))+struct.pack('<II',len(text),0x4e4f534a)+text+struct.pack('<II',len(binary),0x004e4942)+binary;(assets/names[1]).write_bytes(encoded);repin(names[1])
+ def reject(label,expected_reason):
+  try:m.build(assets);ck(label,False);runs.append({'label':label,'unexpected':'accepted'})
+  except (ValueError,KeyError,IndexError,AssertionError)as error:ck(label,expected_reason in str(error));runs.append({'label':label,'refusal':str(error)})
+ for i,source in enumerate(sources):
+  reset(source);output=root/('reference-'+str(i)+'.json');result=subprocess.run(['python3','-I','-S',str(tool),'--assets',str(assets),'--output',str(output)],cwd=root,capture_output=True,text=True,timeout=15)
+  ck('isolated standard-library four-file source'+str(i),result.returncode==0 and result.stderr=='' and set(p.name for p in assets.iterdir())==set(names));ck('source'+str(i)+' exact executed native reference bytes',output.exists()and sha(output)==expected);runs.append({'source_file_hashes':{name:sha(assets/name)for name in names},'argv':['python3','-I','-S',str(tool),'--assets','temporary/assets','--output','temporary/reference.json'],'exit':result.returncode,'stdout':result.stdout,'stderr':result.stderr,'output_sha256':sha(output)if output.exists()else None})
+ reset();ck('repeated generation deterministic',json.dumps(m.build(assets),separators=(',',':'),allow_nan=False)==json.dumps(m.build(assets),separators=(',',':'),allow_nan=False))
+ reset();edit_meta(lambda d:d['SkinnedJacket']['mesh_vertex_game_rest_positions_m'].pop());reject('honestly repinned truncated rest array rejected','Missing source vertex identity/rest metadata')
+ reset();edit_glb(lambda d,b:d['meshes'].append(copy.deepcopy(d['meshes'][0])));reject('honestly repinned duplicate extra source mesh rejected','Expected exactly3 unique')
+ reset();edit_glb(lambda d,b:d['meshes'].pop(next(i for i,v in enumerate(d['meshes'])if v['name']=='SkinnedTrousers')));reject('honestly repinned missing admitted mesh rejected','Expected exactly3 unique')
+ reset();edit_meta(lambda d:d['waist_seam_correspondence']['source_vertex_edges'][0].__setitem__(0,999999));reject('honestly repinned wrong actual shared edge rejected','Wrong actual shared source100edge')
+ reset();edit_meta(lambda d:d['waist_seam_correspondence']['game_rest_endpoint_positions_m'][0][0].__setitem__(1,d['waist_seam_correspondence']['game_rest_endpoint_positions_m'][0][0][1]+.001));reject('honestly repinned false waist endpoint rejected','Wrong waist source endpoint position')
+ reset();edit_meta(lambda d:d['UpperChest']['head_boundary_correspondence'].pop());reject('honestly repinned incomplete source Head correspondence rejected','Incomplete source46/47neck')
+ reset();edit_glb(lambda d,b:d['nodes'][d['skins'][0]['joints'][0]].__setitem__('name','wrong_hips'));reject('honestly repinned wrong11bone profile rejected','original11bone')
+ reset();(assets/names[1]).write_bytes((assets/names[1]).read_bytes()+b'changed');reject('wrong actual asset pin rejected before decoding','Source pin mismatch')
+ reset();baseline=m.build(assets);waist_source=baseline['waist_edges'][0][0];pants=baseline['parts']['SkinnedTrousers'];index=pants['source_ids'].index(waist_source)
+ def corrupt_normal(doc,binary):
+  primitive=next(v for v in doc['meshes']if v['name']=='SkinnedTrousers')['primitives'][0];access=doc['accessors'][primitive['attributes']['NORMAL']];view=doc['bufferViews'][access['bufferView']];offset=view.get('byteOffset',0)+access.get('byteOffset',0)+view.get('byteStride',12)*index;value=struct.unpack_from('<f',binary,offset)[0];struct.pack_into('<f',binary,offset,value+.01)
+ edit_glb(corrupt_normal);reject('actual repinned split-seam native source normal mismatch rejected','Source split waist positions/normals/weights differ')
+ reset();(assets/names[2]).write_text((assets/names[2]).read_text()+' ');reject('wrong metadata pin rejected before correspondence','Source pin mismatch')
+out={'passed':sum(v['pass']for v in checks),'failed':sum(not v['pass']for v in checks),'checks':checks,'native_reference_sha256':expected,'generator_sha256':sha(tool),'executions_and_faults':runs,'verdict':'Supports exact v2 reference-only tool integration. V11/V12/V13 four-public-file sources reproduce exact bytes of native58/0 reference under isolated Python -I -S. Source pin/truncation/duplicate/missing/waist identity/position/normal/Head/profile controls fail closed.','scope':'No Godot, network, NumPy or private-source download needed by the tool. This review copies existing four declared public assets to temporary isolated directories; no runtime assets written. Reference reproduction is not native contact/Main/art/Mac acceptance. Pin manifest is reviewed provenance, not a signature or a general untrusted-GLTF validator.'}
+(V/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n');print({'passed':out['passed'],'failed':out['failed'],'failures':[v for v in checks if not v['pass']]});raise SystemExit(bool(out['failed']))

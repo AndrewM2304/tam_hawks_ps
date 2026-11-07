@@ -127,7 +127,7 @@ static func _legacy(f: Dictionary) -> RefCounted:
 static func _sole_points(rig: RefCounted) -> Array[Vector3]:
 	var foot: Node3D=rig._legs[1].foot
 	var result: Array[Vector3]=[]
-	for vertex: Vector3 in rig._sole_points:result.append(foot.to_global(vertex))
+	for vertex: Vector3 in rig.sole_contact_points(rig._legs[1]):result.append(foot.to_global(vertex))
 	return result
 
 static func _stop_fixture(tree: SceneTree) -> Dictionary:

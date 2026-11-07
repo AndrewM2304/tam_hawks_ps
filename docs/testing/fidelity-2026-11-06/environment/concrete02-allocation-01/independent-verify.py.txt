@@ -1,0 +1,32 @@
+from pathlib import Path
+import json,hashlib,re
+P=Path(__file__).resolve().parent
+checks=[]
+def j(name):return json.loads((P/name).read_text())
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+for path,digest in j('preserved-files.json').items():ck('original preservation '+path,sha(P/path)==digest)
+before=j('source-before.json');after=j('source-after.json');receipt=j('receipt.json');data=j('texture-report.json')
+ck('802 exact before/after inputs',before==after and len(before)==802 and receipt['source_stable'] and receipt['changed_inputs']==[])
+ck('native clean exit0 eligible',receipt['engine_exit']==0 and not receipt['engine_errors'] and receipt['eligible'] and data['failures']==0)
+ck('raw native log clean',not re.search(r'SCRIPT ERROR|ERROR:|Parse Error',(P/'engine.log').read_text()))
+for path in (P/'executed-source').rglob('*.txt'):
+ relative=str(path.relative_to(P/'executed-source'))[:-4]
+ if relative in before:ck('before-bound exact source '+relative,sha(path)==before[relative])
+old,new=data['before'],data['after'];delta=new['texture_bytes']-old['texture_bytes']
+ck('independent exact native texture delta',delta==data['additional_texture_bytes']==32768403 and abs(delta/1048576-data['additional_texture_mib'])<1e-9)
+ck('32MiB incremental ceiling',delta<=32*1048576 and data['budget_mib']==32 and data['budget_pass'])
+ck('same eight draw96 primitive cohort',old['draws']==new['draws']==8 and old['primitives']==new['primitives']==96)
+ck('three original actual procedural maps to15 unique maps',old['unique_bound_maps']==len(old['maps'])==3 and new['unique_bound_maps']==len(new['maps'])==15 and len(set(v['resource_path']for v in new['maps']))==15)
+groups={}
+for row in new['maps']:
+ ck(row['resource_path']+' native compressed format22 mips',row['compressed'] and row['format']==22 and row['width']==row['height'] and row['width'] in [1024,2048] and row['mipmap_count']==(11 if row['width']==2048 else 10))
+ groups.setdefault(row['first_binding'],[]).append(row)
+ck('five actual map binding families',set(groups)=={'stone','paving','asphalt','wood','grass'} and all(len(v)==3 for v in groups.values()))
+for row in groups['paving']:
+ ck('actual concrete02 map identity '+row['resource_path'],'/concrete_pavement_02/' in row['resource_path'] and row['resource_path'][6:] in before)
+ ck('actual concrete02 resolution '+row['resource_path'],row['width']==(2048 if '_diff_' in row['resource_path'] else 1024))
+out={'passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'additional_native_texture_bytes':delta,'additional_native_texture_mib':delta/1048576,'verdict':'Bounded native surface-allocation admission passes. No paving art, actual Main readability, temporal shimmer, whole-game draw/memory/pacing, Mac or AAA acceptance.','scope':'Independent read-only receipt/source/native-resource arithmetic audit; no engine. Fresh eight-cube fixture with exact retired three procedural bindings versus15 actual compressed maps, not Main/rider/HUD. Provenance/licence and deterministic generation have separate evidence.'}
+(P/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n')
+print(json.dumps({'passed':out['passed'],'failed':out['failed']}))
+raise SystemExit(bool(out['failed']))

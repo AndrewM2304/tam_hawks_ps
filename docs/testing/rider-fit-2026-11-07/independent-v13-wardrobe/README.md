@@ -1,0 +1,7 @@
+Independent72/0 read-only checks verify the private V13 settled NPC repair. Four original images were personally inspected: V12/V13 steward and V13 drummer/market. The steward's conspicuous left-side shirt fragments are covered; drummer sleeves remain clear. The apron remains plain and flat, and companion props remain below the final fidelity benchmark.
+
+All six V13 clean/proof buffers have exact original PNG/native RGBA identity, numerical camera projections and matching pose/readback brackets. They are archived as lossless WebP with independently equal native RGBA; two selected steward original PNGs are retained verbatim. Full ignored source epochs remain available locally. All eleven bone palettes, actual rigid hand/foot transforms/curls and cameras match V12.
+
+Process-local buffer deltas are852B for vest roles and628B for market; draws/textures remain exact, submitted primitive deltas72 for vest roles and0 for market. These are process counters, not a claim that market geometry changed or that target VRAM/frame cost is measured.
+
+`independent-verify.py.txt` preserves the original source-review analysis, which requires the exact ignored epochs. `verify-preservation.py.txt` runs from this durable packet alone and checks retained bytes/source receipts/native pixels. This supports retaining the accessory repair for combined fitted admission, not live NPC/Main/moving/contact/Mac or AAA acceptance.

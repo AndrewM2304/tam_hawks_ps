@@ -1,0 +1,103 @@
+from pathlib import Path
+import hashlib,json,re,gzip,shutil,math
+import numpy as np
+from PIL import Image
+R=Path.cwd();P=R/'.local/rider-fit-staging/epochs/npc-clock-01';O=R/'docs/testing/rider-fit-2026-11-07/independent-npc-clock01';O.mkdir(parents=True,exist_ok=True)
+checks=[]
+def ck(v,l):checks.append({'label':l,'pass':bool(v)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def bufsha(b):return hashlib.sha256(b).hexdigest()
+def xyz(v):return np.array([*v,1.],dtype=np.float64)
+def model(m,v):return (np.array(m,dtype=np.float64)@xyz(v))[:3]
+def project(t,v):
+ clip=np.array(t['projection'])@np.linalg.inv(np.array(t['camera']))@xyz(v)
+ return np.array([(clip[0]/clip[3]+1)*t['viewport'][0]/2,(1-clip[1]/clip[3])*t['viewport'][1]/2])
+r=json.loads((P/'output/receipt.json').read_text());b=json.loads((P/'source-before.json').read_text());a=json.loads((P/'source-after.json').read_text());launch=json.loads((P/'launch-receipt.json').read_text());idx=json.loads((P/'index.json').read_text())['files']
+for n,v in idx.items():ck(sha(P/n)==v['sha256'] and (P/n).stat().st_size==v['bytes'],'retained exact '+n)
+ck(len(idx)==195,'all195 frozen epoch files indexed')
+ck(b==a and len(b)==124 and launch['source_stable'],'all124 recorded native source inputs byte-identical')
+for n,h in b.items():
+ name='run_npc_clock.py' if n=='WRAPPER' else 'xorg-dummy.conf' if n=='XORG_CONFIG' else n
+ ck(sha(P/'source'/name)==h,'before-bound executed source '+n)
+ck(launch['returncode']==0 and not launch['raw_engine_error'] and launch['failure'] is None and not r['failures'],'clean actual native retry')
+ck(not re.search(r'SCRIPT ERROR|ERROR:|Parse Error|SHADER ERROR',(P/'native.log').read_text()),'raw native log independently error-free')
+ck(len(r['records'])==8 and len(r['candidate_records'])==24 and r['capture_pairs']==8 and r['physics_hz']==60,'8selected pairs within24 retained native pairs/default60Hz')
+ck({(x['role'],x['band'])for x in r['records']}=={(role,band)for role in ['activity-steward','busker','drummer','market-control']for band in ['low','high']},'all four actual actor callers sampled in both fractional bands')
+maxima={'world_reconstruction_m':0.,'camera_projection_px':0.,'marker_centroid_px':0.,'coherent_head_model_factor_error':0.,'common_root_interpolation_translation_m':0.}
+frames={};metrics={};selected_names=[]
+for record in r['candidate_records']:
+ label=str(record['id'])+'/'+record['role']+'/'+record['band'];twins=record['twins'];base,coherent=twins
+ ck(record['pose_readback_bracket'][0]==record['pose_readback_bracket'][1] and record['counter_bracket'][0]==record['counter_bracket'][1] and not record['inside_physics_frame'],label+' exact post-draw pose/frame bracket')
+ ck(base['bones']==coherent['bones'] and base['native_palette']==coherent['native_palette'],label+' current actual bones and RenderingServer palette identical')
+ ck(all(base['components'][n]['current']==coherent['components'][n]['current'] and base['components'][n]['rendered']==coherent['components'][n]['rendered']for n in ['actor','common_motion_root','pose_parent','chest','skeleton']),label+' actual shared actor/root/skin model current AND rendered parity')
+ ck(all(base[n]==coherent[n]for n in ['camera','projection','near','far','viewport','viewport_msaa']),label+' exact native camera/projection/render size parity')
+ ck(.15<=record['fraction']<=.45 if record['band']=='low' else .55<=record['fraction']<=.90,label+' declared fractional band actual value')
+ severity=[]
+ for t in twins:
+  tag=label+'/'+t['policy'];png=P/t['png'].removeprefix('res://');im=Image.open(png).convert('RGBA');pixels=np.array(im);raw=im.tobytes()
+  ck(im.size==(384,384) and sha(png)==t['png_sha256'] and bufsha(raw)==t['rgba_sha256'],tag+' original native PNG and decoded RGBA identity')
+  ident=[255,64,0]if t['policy']=='baseline'else[0,255,64]
+  ck(np.all(pixels[4:12,4:12,:3]==ident) and np.all(pixels[4:12,16:24,:3]==record['expected_stamp_rgb']),tag+' actual Canvas twin identity/native same-frame stamp')
+  worlderr=projerr=0.;neckgaps=[];jointgaps=[]
+  ck({e['source_id']for e in t['authentic_neck_endpoints']}.__len__()==46,tag+' complete46 authentic source rim identities')
+  for e in t['authentic_neck_endpoints']:
+   # RenderingServer transforms ALREADY contain inverse bind. Discard local
+   # weighted w, then apply mesh model ONCE with w=1 as the native pipeline does.
+   local=np.zeros(3)
+   ck(len(e['native_bones'])==len(e['native_weights']) and all(math.isfinite(w)and w>=0 for w in e['native_weights']),tag+' finite native rim influence layout '+str(e['native_index']))
+   for bone,weight in zip(e['native_bones'],e['native_weights']):local+=(np.array(t['native_palette'][bone])@xyz(e['native_rest_point']))[:3]*weight
+   for clock in ['current','rendered']:
+    skin=model(t['components']['chest'][clock],local);head=model(t['components']['head'][clock],e['head_local'])
+    worlderr=max(worlderr,float(np.linalg.norm(skin-e[clock+'_skin'])),float(np.linalg.norm(head-e[clock+'_head'])))
+    if clock=='rendered':neckgaps.append(float(np.linalg.norm(skin-head)))
+   projerr=max(projerr,float(np.linalg.norm(project(t,e['rendered_skin'])-e['skin_pixel'])),float(np.linalg.norm(project(t,e['rendered_head'])-e['head_pixel'])))
+  ck(len(t['joint_endpoints'])==4,tag+' both native wrists and ankles recorded')
+  for e in t['joint_endpoints']:
+   local=(np.array(t['native_palette'][e['bone']])@xyz(e['bind_rest_endpoint']))[:3];skin=model(t['components']['chest']['rendered'],local);rigid=np.array(e['component']['rendered'])[:3,3];gap=float(np.linalg.norm(skin-rigid));jointgaps.append(gap)
+   worlderr=max(worlderr,float(np.linalg.norm(skin-e['skin_world'])),float(np.linalg.norm(rigid-e['rigid_world'])),abs(gap-e['gap_m']))
+   projerr=max(projerr,float(np.linalg.norm(project(t,skin)-e['skin_pixel'])),float(np.linalg.norm(project(t,rigid)-e['rigid_pixel'])))
+  ck(worlderr<2e-6 and abs(max(neckgaps)-t['rendered_neck_max_m'])<2e-6 and abs(max(jointgaps)-t['rendered_joint_max_m'])<2e-6,tag+' independent local-LBS/model-once native endpoint reconstruction')
+  ck(projerr<.01,tag+' independently reconstructed all numeric endpoint camera projections')
+  maxima['world_reconstruction_m']=max(maxima['world_reconstruction_m'],worlderr);maxima['camera_projection_px']=max(maxima['camera_projection_px'],projerr)
+  for channel,marker in enumerate(t['markers']):
+   pos=project(t,marker['world']);x,y=pos;pts=[]
+   for yy in range(max(0,int(y)-7),min(384,int(y)+8)):
+    for xx in range(max(0,int(x)-7),min(384,int(x)+8)):
+     color=pixels[yy,xx,:3].astype(int)
+     if color[channel]>220 and all(color[c]<40 for c in range(3)if c!=channel):pts.append([xx+.5,yy+.5])
+   err=float(np.linalg.norm(np.array(pts).mean(axis=0)-pos))if pts else float('inf');maxima['marker_centroid_px']=max(maxima['marker_centroid_px'],err)
+   ck(np.linalg.norm(pos-marker['pixel'])<.01 and bool(pts)and err<1.5,tag+' independently projected actual RGB centroid '+str(channel))
+  for node in ['common_motion_root','actor','pose_parent']:
+   ck(t['components'][node]['interpolated'],tag+' outer '+node+' interpolation remains enabled')
+  root=t['components']['common_motion_root'];maxima['common_root_interpolation_translation_m']=max(maxima['common_root_interpolation_translation_m'],float(np.linalg.norm(np.array(root['current'])[:3,3]-np.array(root['rendered'])[:3,3])))
+  ck(all(x['component']['mode']==(0 if t['policy']=='baseline'else 2)and x['component']['interpolated']==(t['policy']=='baseline')for x in t['posed_branch_policy']),tag+' caller-local posed branch policy only')
+  if t['policy']=='coherent':
+   parent=t['components']['pose_parent'];head=t['components']['head'];expected=np.array(parent['rendered'])@np.linalg.inv(np.array(parent['current']))@np.array(head['current']);factorerr=float(np.max(np.abs(expected-np.array(head['rendered']))));maxima['coherent_head_model_factor_error']=max(maxima['coherent_head_model_factor_error'],factorerr)
+   ck(factorerr<2e-6 and max(neckgaps)<.00005 and max(jointgaps)<.00005,tag+' OFF head still inherits rendered outer-root model and native endpoints align')
+  severity.append(max(max(neckgaps),max(jointgaps)))
+  dst=O/'frames'/png.with_suffix('.webp').name;dst.parent.mkdir(exist_ok=True);im.save(dst,'WEBP',lossless=True,quality=100,method=6)
+  ck(Image.open(dst).convert('RGBA').tobytes()==raw,tag+' lossless WebP decoded pixels exactly preserve original native RGBA')
+  frames[dst.name]={'original_png':png.name,'original_png_sha256':sha(png),'native_rgba_sha256':t['rgba_sha256'],'lossless_webp_sha256':sha(dst),'selected':record in r['records']}
+  if record in r['records']:selected_names.append(png.name)
+ ck(abs(severity[0]-record['baseline_severity_m'])<2e-6,label+' selected severity independently recomputed')
+ metrics[label]={'baseline_max_endpoint_gap_m':severity[0],'coherent_max_endpoint_gap_m':severity[1]}
+ck(maxima['common_root_interpolation_translation_m']>.005,'outer common-root native interpolation actually exercised beyond5mm')
+ck(maxima['coherent_head_model_factor_error']<2e-6,'all24 coherent head matrices inherit smooth root without their local pose lag')
+# Independent selected-maximum check; no claim of every frame/all possible gestures.
+for rec in r['records']:
+ others=[x for x in r['candidate_records']if x['role']==rec['role']and x['band']==rec['band']]
+ ck(rec in others and rec['baseline_severity_m']==max(x['baseline_severity_m']for x in others),rec['role']+'/'+rec['band']+' selected maximum among retained native candidates')
+source=(P/'source/npc_clock.gd').read_text();ck('RenderingServer.frame_post_draw.connect(_after_draw)'in source and 'RenderingServer.skeleton_bone_get_transform' in source,'executed observer uses actual postdraw native Skin palette')
+ck('node.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF' in source and 'mover.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON' in source,'controlled policy applied only listed local posed branches; common root explicitlyON')
+report={'kind':'Independent source/hash/native-palette/camera/pixel audit and personal selected-image review; no engine rerun','passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'maxima':maxima,'metrics_per_retained_pair':metrics,'native_role_summary_author':r['role_summary'],'personally_viewed_original_pngs':selected_names,'visual_findings':['All16 selected originals personally opened at original384x384. Steward low baseline hands detach visibly; coherent hands align with current cuffs.','Drummer low shows wrist/cuff alignment improvement. Busker has smaller local hand shifts. Static market control shows no conspicuous pose change.','Head/chest synthetic cyan/magenta object-ID materials, RGB world markers and Canvas stamps are diagnostic. These frames do not certify final head/neck shading or appearance.','Clothes, apron, guitar/drums and props remain visibly simplified; no AAA appearance acceptance.'],'limits':['Standalone actual caller constructors/public gesture states under AUTHORED moving common root and native tilted floor, not default Main gameplay.','Joint origins plus46 source rim identities do not prove complete deformed sleeves/hands/soles, prop gripping or collision.','V13 assets and older standalone11-bone leg frame; temporal03 and final composite require their own gates.','Drummer bead-tip siblings are outside this epoch local policy; followup remains separate.','Only24 retained fractional candidate pairs and8 selected pairs. No continuous movie/whole action cadence/human/M5/FPS/global-memory acceptance.'],'frames':frames,'native_receipt_sha256':sha(P/'output/receipt.json'),'launch_sha256':sha(P/'launch-receipt.json')}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n')
+for name in ['output/receipt.json','source-before.json','source-after.json','index.json','source-audit.json','launch-receipt.json','launch-processes.json','native.log','author-review.json']:
+ dst=O/(name.replace('/','-')+'.gz');dst.write_bytes(gzip.compress((P/name).read_bytes(),mtime=0))
+for name in ['npc_clock.gd','run_npc_clock.py','tests/fitted_adapter.gd','game/features/activity_actor.gd','game/characters/busker_actor.gd','game/characters/cat_actor.gd','game/characters/market_actor.gd']:
+ dst=O/'sources'/(name+'.txt');dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(P/'source'/name,dst)
+shutil.copy2(Path(__file__),O/'independent-audit.py.txt')
+preserved={str(f.relative_to(O)):sha(f)for f in O.rglob('*')if f.is_file()and f.name!='independent-preservation.json'};(O/'independent-preservation.json').write_text(json.dumps(preserved,indent=2)+'\n')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'maxima':maxima,'selected_originals_viewed':len(selected_names),'retained_native_frames':len(frames)},indent=2))
+for c in checks:
+ if not c['pass']:print('FAIL',c['label'])
+if report['failed']:raise SystemExit(1)

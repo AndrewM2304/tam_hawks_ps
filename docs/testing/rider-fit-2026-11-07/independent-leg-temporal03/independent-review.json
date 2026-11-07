@@ -1,0 +1,152 @@
+{
+  "kind": "Independent cold-read/hash/native-result audit, no new engine execution",
+  "checks": [
+    {
+      "label": "native process exit and raw error guard",
+      "pass": true
+    },
+    {
+      "label": "399 recorded native inputs unchanged",
+      "pass": true
+    },
+    {
+      "label": "before-bound exact candidate02.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound exact candidate03.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound exact probe.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound exact project.godot",
+      "pass": true
+    },
+    {
+      "label": "before-bound exact executed wrapper",
+      "pass": true
+    },
+    {
+      "label": "author source and native candidate02 identical",
+      "pass": true
+    },
+    {
+      "label": "author source and native candidate03 identical",
+      "pass": true
+    },
+    {
+      "label": "exact reviewed temporal03",
+      "pass": true
+    },
+    {
+      "label": "all 16 actual native frame conditioning checks passed",
+      "pass": true
+    },
+    {
+      "label": "raw log independently clean and 16 assertions",
+      "pass": true
+    },
+    {
+      "label": "02 native endpoint conservation <10um",
+      "pass": true
+    },
+    {
+      "label": "02 native near-straight continuity",
+      "pass": true
+    },
+    {
+      "label": "02 full native bend-plane crossing continuity",
+      "pass": true
+    },
+    {
+      "label": "02 native antiparallel fold continuity",
+      "pass": true
+    },
+    {
+      "label": "03 native endpoint conservation <10um",
+      "pass": true
+    },
+    {
+      "label": "03 native near-straight continuity",
+      "pass": true
+    },
+    {
+      "label": "03 full native bend-plane crossing continuity",
+      "pass": true
+    },
+    {
+      "label": "03 native antiparallel fold continuity",
+      "pass": true
+    },
+    {
+      "label": "upper segment gives defined reference at antiparallel fold",
+      "pass": true
+    },
+    {
+      "label": "transport reads actual final Skeleton poses after blends",
+      "pass": true
+    },
+    {
+      "label": "bend plane fades in over declared 2 to 8 degree conditioning",
+      "pass": true
+    },
+    {
+      "label": "local bend normal follows transported orientation",
+      "pass": true
+    },
+    {
+      "label": "build explicitly clears source pose history",
+      "pass": true
+    },
+    {
+      "label": "native assertions cover final snapshot authority and explicit reset",
+      "pass": true
+    },
+    {
+      "label": "native rest/bind/11-bone/resource invariants explicitly asserted",
+      "pass": true
+    },
+    {
+      "label": "pending composite uses exact native temporal03 garment source",
+      "pass": true
+    },
+    {
+      "label": "pending composite explicitly resets leg history",
+      "pass": true
+    }
+  ],
+  "passed": 29,
+  "failed": 0,
+  "native_scope": "Original native16/0 actual Skeleton pose conditioning; near-straight, full bend-plane rotation, antiparallel calf folds, final snapshot override, reset and unchanged rest/binds/resources. Headless installed-binary observations.",
+  "metrics03": {
+    "anti_endpoint_error_m": 1.33340193997356e-07,
+    "antiparallel_max_axis_step_rad": 1.95378070202423e-05,
+    "bend_plane_max_axis_step_rad": 0.0174541100859642,
+    "max_endpoint_error_m": 1.33340193997356e-07,
+    "near_straight_max_axis_step_rad": 2.69529550678271e-07,
+    "plane_endpoint_error_m": 1.28184638015227e-07,
+    "reference_dot_min": -1.0
+  },
+  "limits": [
+    "Synthetic native left-leg sequences; no complete gameplay moving garment/camera/contact/cloth collision or cadence acceptance.",
+    "Both02 and03 passed retained broad thresholds; do not invent a failed02 native count.03 removes the source bisector singularity and improves measured antiparallel step.",
+    "Current composite identity checked but its separately running full gate is not accepted here.",
+    "No M5 timing, GPU image or AAA acceptance."
+  ],
+  "preserved": {
+    "native-receipt.json": "3c69b1bd51dba44ca3eed4f7f4ec6e26b6ef19f6d1878dc92e957307c0c71a98",
+    "source-before.json": "d5c591afb120765283121cdf425d1b6a986cd66fb55239e65410c48456fd0eed",
+    "source-after.json": "d5c591afb120765283121cdf425d1b6a986cd66fb55239e65410c48456fd0eed",
+    "source-candidates.json": "9e54a4afb7b3c0b81e7b22181748d3103965d02e2cde498ae3b433ee7825fecf",
+    "native-result.json": "881b34da5cb6076efaeb0ef30f6dedbef5aa57304909c29c4f56b0a19b53806e",
+    "observer.gd.txt": "8ecbdfdbe4c4b62975b750386cf861074cf5a8e42e14ec175f181b018939bf7d",
+    "candidate02.gd.txt": "067684e0a77a2fd98e61862210627f6b110865a4669c9971ec10f94ecc458dc0",
+    "candidate03.gd.txt": "556f43cd29b3d8ab38f3b9ecd86655e20ba4b73e8931435b2418f11fbba6e9a7",
+    "project.godot.txt": "1daca0f44053c8615886a9d0d7747659f38fa1bc6f0fdf3616ab75e3298f1392",
+    "wrapper.py.txt": "3ce68d8faf89ae427510522d9cb166fa2c634b5797841823fabee0c2ca979bed",
+    "native.log": "5288612954782833aa64a0fcc31c33762ce24c49467c84f947d68f4335b4d5f1"
+  }
+}

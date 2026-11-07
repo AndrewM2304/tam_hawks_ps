@@ -1,0 +1,28 @@
+--- a/game/levels/pt24_connected_runs.gd
++++ b/game/levels/pt24_connected_runs.gd
+@@ -47,6 +47,15 @@
+ 		Vector3(-77,2.36,40),Vector3(-74.8,2,40),Vector3(-70.8,2,40),Vector3(-68,2,40)])
+ 	_add_route(world,"clyde_west_landing_return","Safe bridge west ledge return",[
+ 		Vector3(-25,2,124),Vector3(-36,2,124),Vector3(-36,2,140),Vector3(-30,2,140)])
++	# An optional trick route through existing native seats and masonry. It
++	# is not a ground navigation/bypass promise or a new geometry district.
++	_add_route(world,"clyde_east_quay_wall_return","East quay seats and wallride return",[
++		Vector3(33,2,63.55),Vector3(39.32,2.53,63.725),Vector3(43.67,2.53,63.725),
++		Vector3(46.73,2,63.725),Vector3(59.16,2,65.07),Vector3(61.34,2.53,64.428),
++		Vector3(66.04,2.53,63.168),Vector3(67.74,2,62.713),Vector3(67.77,2,60.146),
++		Vector3(58.18,2,56.594),Vector3(56.27,3.23,55.9),Vector3(52.51,3.1,55.674),
++		Vector3(48.70,2,58.474),Vector3(46.54,2,61.897),Vector3(44.68,2.53,63.725),
++		Vector3(43.18,2.53,63.725),Vector3(41.89,2,61.792)],true)
+ 	world.set_meta("pt24_connected_runs_built",true)
+ 
+ 
+@@ -266,7 +275,7 @@
+ 		"added_draw_surfaces":0,"added_textures":0,"added_lights":0})
+ 
+ 
+-func _add_route(world: Node3D,id: String,label: String,local_points: Array) -> void:
++func _add_route(world: Node3D,id: String,label: String,local_points: Array,requires_jump: bool=false) -> void:
+ 	var points := PackedVector3Array()
+ 	for at: Vector3 in local_points: points.append(world.to_global(at))
+-	routes.append({"id":id,"label":label,"points":points,"requires_jump":false})
++	routes.append({"id":id,"label":label,"points":points,"requires_jump":requires_jump})

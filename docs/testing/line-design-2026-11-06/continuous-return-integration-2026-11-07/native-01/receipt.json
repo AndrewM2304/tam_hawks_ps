@@ -1,0 +1,52 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/line-return-integration-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/line-return-integration-source/.local/integration_runner.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/line-return-integration-source",
+  "started_utc": "2026-11-07T06:42:24.292372+00:00",
+  "os_deadline_seconds": 90,
+  "source_inputs": 1028,
+  "engine_pid": 80747,
+  "engine_exit": 0,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    78709,
+    80431
+  ],
+  "declared_known_project_overlaps": [
+    "/workspace/tam_hawks_ps/.local/fitted-rig-admission/final-composite-01/project",
+    "/workspace/tam_hawks_ps/.local/environment-phase2/lighting-contact-source"
+  ],
+  "overlap_scope": "Root explicitly authorizes current known qualitative and fixed-tick logical headless overlaps in separate private projects/caches; no timing acceptance",
+  "finished_utc": "2026-11-07T06:43:50.275600+00:00",
+  "wall_seconds": 85.98321070499878,
+  "changed_inputs": [],
+  "errors": [],
+  "result": [
+    56,
+    0
+  ],
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "unknown_other_engine_observed": true,
+  "preserved_sha256": {
+    "native-process-observer.json": "c24ee41ade737dd2f8bcf990dddee041b6717f12997fae70fcb6e56b06b77c8d",
+    "source-before.json": "2bbce88bb7d7229875a4a74a1a9aab960cbbda93dc99f734612fecf8e03e8012",
+    "observer.gd": "4d8de6618186342fbd29df9d2b50ab331cb321b45d3e0301b2f33aca20d00c7e",
+    "wrapper.py.txt": "26544f2f0c5710b640fe4b8e6d475a47058bb1d5991bd34e74d7c35f9ea03ba1",
+    "native.log": "f4f3fed141980c69589e1f58262915e79b3c491ec82032ff389eceeeade35a7e",
+    "source-after.json": "2bbce88bb7d7229875a4a74a1a9aab960cbbda93dc99f734612fecf8e03e8012"
+  }
+}

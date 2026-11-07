@@ -1,0 +1,58 @@
+{
+  "whole_epoch": "REJECTED:360secondtimeout,8of9targetframes,3startupand3warmstates;86checks/0failuresbutcompletefalse. Do notcallthisawholepass.",
+  "source_inputs": 879,
+  "completed_primary_pairs": [
+    {
+      "file": "three-a-river.png",
+      "mode": "three-a",
+      "view": "river",
+      "runtime_shader_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+      "native_rgba8_sha256": "1a82a7e4f35175fddade6de1fa06fb611e416a1b73cf34037ee2273f5b7b9ba3"
+    },
+    {
+      "file": "three-a-fountain.png",
+      "mode": "three-a",
+      "view": "fountain",
+      "runtime_shader_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+      "native_rgba8_sha256": "ba3e8d4349f1bce59d637781834681a29f7811718ecbe25eb2a808edc19cfcf1"
+    },
+    {
+      "file": "three-a-pond.png",
+      "mode": "three-a",
+      "view": "pond",
+      "runtime_shader_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+      "native_rgba8_sha256": "fa98b17d31bf5fd93259240ed52b5f499bf83cc84e5e3acc777404a63efdc077"
+    },
+    {
+      "file": "two-candidate-river.png",
+      "mode": "two-candidate",
+      "view": "river",
+      "runtime_shader_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+      "native_rgba8_sha256": "b1f4ef643ad267d6e11d6c720d6b3f4dad142bb8929fb7ab6df1243c39bfff3c"
+    },
+    {
+      "file": "two-candidate-fountain.png",
+      "mode": "two-candidate",
+      "view": "fountain",
+      "runtime_shader_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+      "native_rgba8_sha256": "7effb397561a5921efbdb0580198c38ac14e00130b1b87a4c7eaa4399bd12026"
+    },
+    {
+      "file": "two-candidate-pond.png",
+      "mode": "two-candidate",
+      "view": "pond",
+      "runtime_shader_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+      "native_rgba8_sha256": "dbb165cfc974316ed59fb7c683bc56b9ad9b8fd7a6856bb2387cea51ff3c6c53"
+    }
+  ],
+  "additional_restored_frames": [
+    "three-b-river.png",
+    "three-b-fountain.png"
+  ],
+  "missing": "three-b-pond.png",
+  "runtime_vs_file": "One exactsharedShader object code is changed in memory; current diskresource staysd646 inallstates. Runtimecode SHA4f5/d646 perimage is authoritative forvariant; no claimed sourcefilemutation.",
+  "personal_review": "All8contactoriginals personallyopened.2phase materiallyreduces broadwhite riverglint, bridge shadows remain; fountain/pond are darker/calmer butstillreadas fairlyflatopaquegreywater.3phase restoredriver/fountainreturnthebroaderresponse. Nofinalwaterrealism/moving/cost/M5pass.",
+  "camera_limit": "Rivercoin shifted tofarleftedge,notremoved; centralwater isclear. Pondrestoredcontrolmissing andnativeTIMEphasesvarywallclock,so nofullthreeviewABAor motionacceptance.",
+  "source_epoch": "Frozen copy includescurrentfittedactors,exact512basin/3waterOFF/native.1/2light profile;392actualgamefiles match before/aftercopy. Underlyingprivate879inputsdonotchange duringcapture. Rootrequiredheadless89810overlaps; noFPSorCPUexclusivityclaim.",
+  "review_request": "QE may independentlyaudit the6completed sourceboundA/Bstills and2restoredframes as a boundedpartial observation; native86/0belongs incompletewhole report andisnot reassigned to asynthetic subset."
+}

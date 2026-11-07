@@ -1,0 +1,76 @@
+{
+  "passed": 16,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "UV03\u2192UV04 primitive0 every attribute and index exact",
+      "pass": true
+    },
+    {
+      "label": "UV03\u2192UV04 primitive1 every attribute and index exact",
+      "pass": true
+    },
+    {
+      "label": "UV03\u2192UV04 primitive2 every attribute and index exact",
+      "pass": true
+    },
+    {
+      "label": "UV03\u2192UV04 primitive3 every attribute and index exact",
+      "pass": true
+    },
+    {
+      "label": "UV03\u2192UV04 scene contract nodes exact",
+      "pass": true
+    },
+    {
+      "label": "UV03\u2192UV04 scene contract scenes exact",
+      "pass": true
+    },
+    {
+      "label": "UV03\u2192UV04 scene contract scene exact",
+      "pass": true
+    },
+    {
+      "label": "UV03\u2192UV04 scene contract materials exact",
+      "pass": true
+    },
+    {
+      "label": "UV03\u2192UV04 scene contract textures exact",
+      "pass": true
+    },
+    {
+      "label": "UV03\u2192UV04 scene contract samplers exact",
+      "pass": true
+    },
+    {
+      "label": "only unused source PNG alpha channel removed RGBA\u2192RGB",
+      "pass": true
+    },
+    {
+      "label": "all decoded atlas RGBA pixels exact",
+      "pass": true
+    },
+    {
+      "label": "native08 surface0 exact winding-aware POSITION+NORMAL triangle multiset",
+      "pass": true
+    },
+    {
+      "label": "native08 surface1 exact winding-aware POSITION+NORMAL triangle multiset",
+      "pass": true
+    },
+    {
+      "label": "native08 surface2 exact winding-aware POSITION+NORMAL triangle multiset",
+      "pass": true
+    },
+    {
+      "label": "native08 surface3 exact winding-aware POSITION+NORMAL triangle multiset",
+      "pass": true
+    }
+  ],
+  "scope": "Independent supplemental raw UV03/UV04 buffer+RGBA equality and actual native08 POSITION+NORMAL winding multisets. No importer/raster/LOD/motion/contact equivalence inferred.",
+  "inputs": {
+    "uv03": "954ff19340b1c41d6ea0f2153f7e41a8242f853b135486bbdc6cf8b2c024993d",
+    "uv04": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+    "native08": "e0819d7ea4b4806b8f9cee02db2b5d333ca285f8abe9529dfc9b23173d68befb"
+  }
+}

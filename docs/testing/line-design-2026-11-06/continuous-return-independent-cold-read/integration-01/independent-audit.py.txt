@@ -1,0 +1,38 @@
+from pathlib import Path
+import json,hashlib,re,shutil
+R=Path.cwd();P=R/'.local/line-return-integration';O=R/'docs/testing/line-design-2026-11-06/continuous-return-independent-cold-read/integration-01';O.mkdir(parents=True,exist_ok=True)
+checks=[]
+def ck(x,label):checks.append({'label':label,'pass':bool(x)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def block(s,start):
+ a=s.index(start);m=re.search(r'\n(?:static func |class )',s[a+len(start):]);return s[a:a+len(start)+m.start()+1]if m else s[a:]
+b=(P/'baseline/tests/line_design_tests.gd').read_text();c=(P/'candidate/tests/line_design_tests.gd').read_text();receipt=json.loads((P/'preparation-receipt.json').read_text())
+ck(sha(P/'candidate/tests/line_design_tests.gd')=='79d9a541b6786842fc6bf8dc3cfb9247b5a12cd3a9791ddda01fc1f3ee163df4','exact held79d9a541 private test candidate')
+ck(sha(P/'baseline/tests/line_design_tests.gd')=='157556f2f733fe21e65ec286115101d2dfe45f5dddf0c90ca73b65636c59037f','exact existing forecast-aware line tests baseline')
+for row in receipt['unchanged_existing_blocks']:ck(block(b,row['block']).rstrip('\n')==block(c,row['block']).rstrip('\n'),'existing block unchanged except separating newlines '+row['block'])
+cb=block(c,'static func run_relay');bb=block(b,'static func run_relay')
+cb=cb.replace('(),continuation: Callable=Callable(),recorder: Node=null)', '())',1)
+# Exact hook removals, not a semantic parser or an execution claim.
+cb=re.sub(r'\n\tif recorder!=null:\n\t\te.id="east_quay_wall_return".*?\n\t\trecorder.connect_native_score\(\)','',cb,flags=re.S)
+cb=cb.replace('\n\tif recorder!=null:recorder.exit_witness=null','')
+cb=re.sub(r'\n\tif continuation.is_valid\(\):.*?\n\t\treturn','',cb,flags=re.S)
+ck(cb==bb,'default run_relay reconstructs byte-for-byte by deleting ONLY optional observer/continuation hooks')
+br=block(b,'static func run(');cr=block(c,'static func run(');ck(cr.replace('\n\tif seats:await run_wall_return(tree,game,check,observer)','')==br,'existing run only appends local return AFTER old bank/forecast cases')
+ck('recorder.fit=_native_seat_fit' in c and 'recorder.ground_contact=_loaded_capsule_contact'in c,'new recorder reuses existing real seat and loadedfloor authorities')
+ck('var release_witness:=ExitModelWitness.new()'in c and 'release_witness.arm("return_first_release",_native_seat_fit(game))'in c and 'release_witness.completed.has("return_first_release")'in c,'actual final pop reuses unchanged release transform/strict separation witness')
+ck('return_bearing_ride_frames>=30'in c and c.index('actual_bearing_ride_steps_before_charge')<c.index('var release_witness:=ExitModelWitness.new()'),'actual30physics payoff duration recorded before final charge/release')
+ck('var raw_capsule_clear: bool=capsule'in c and 'if not raw_capsule_clear:'in c,'raw1mm observation precedes narrowly conditional loaded support')
+ck('same_current'not in c and 'pending_actual_current_slide_motion'in c,'explicit pending native phase naming retained')
+ck('recorder.score_banks.size()==e.banks'in c and '"one_combo":e.banks==1'in c,'separate actual banks retained; no combined multiplier across disconnected segments')
+ck('if recorder.wall_load_controls_ran:check.call(recorder.wall_load_controls_clear'in c,'loadedwall negative gate preserved whenever branch exercised')
+ck(len(re.findall(r'^\t\telif rider.manual_active:mode="manual"',c,re.M))==1,'single Manual diagnostic mode branch; prior duplicate was overlapping read output')
+route=(P/'candidate/game/levels/pt24_connected_runs.gd').read_text();routeb=(P/'baseline/game/levels/pt24_connected_runs.gd').read_text()
+ck('clyde_east_quay_wall_return'in route and 'Vector3(41.89,2,61.792)],true)'in route,'new optional authored route explicitly requires jump')
+ck('requires_jump: bool=false'in route and '"requires_jump":requires_jump'in route,'all existing _add_route callers keep ground navigation defaultfalse')
+ck('StaticBody3D.new'not in (P/'optional-route-metadata.patch').read_text() and 'MeshInstance3D.new'not in (P/'optional-route-metadata.patch').read_text(),'metadata patch adds no new visible or collision resource constructors')
+report={'kind':'Independent private integration source/hook cold-read; unparsed/unexecuted source only','passed':sum(x['pass']for x in checks),'failed':sum(not x['pass']for x in checks),'checks':checks,'verdict':'No source blocker for the separately authorized private native integration test. No production install/native pass inferred.','limits':['No current fitted composition or native result in this cold-read.','Existing final function only gains two separator newlines; function BODY bytes unchanged.','Local route is one sequence/two prototype combos, not two distinct lines or whole-map completion.','3.133s prototype feature interval, imperfect input, reverse and natural moving visual gates remain open.']}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copy2(Path(__file__),O/'independent-audit.py.txt')
+for name in ['line-tests-integration.patch','optional-route-metadata.patch','preparation-receipt.json']:shutil.copy2(P/name,O/name)
+(O/'independent-preservation.json').write_text(json.dumps({p.name:sha(p)for p in O.iterdir()if p.is_file()and p.name!='independent-preservation.json'},indent=2)+'\n')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'failed_checks':[x for x in checks if not x['pass']]},indent=2))
+if report['failed']:raise SystemExit(1)

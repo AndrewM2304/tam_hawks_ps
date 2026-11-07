@@ -1,0 +1,13 @@
+from pathlib import Path
+import json,gzip,hashlib
+from PIL import Image
+P=Path(__file__).resolve().parent
+checks=[]
+def ck(label,value):checks.append((label,bool(value)))
+for name,digest in json.loads((P/'preservation.json').read_text()).items():ck(name,hashlib.sha256((P/name).read_bytes()).hexdigest()==digest)
+receipt=json.loads(gzip.decompress((P/'receipt.json.gz').read_bytes()))
+ck('retained120source before/after identity',receipt['source_sha256']==receipt['source_after_sha256'] and len(receipt['source_sha256'])==120 and receipt['source_stable'] and receipt['failures']==0)
+for f in receipt['frames']:
+ for folder,key in [('', 'native_rgba_sha256'),('synchronization','synchronization_native_rgba_sha256')]:ck(f['label']+'/'+folder,hashlib.sha256(Image.open(P/folder/(f['label']+'.webp')).convert('RGBA').tobytes()).hexdigest()==f[key])
+print(json.dumps({'passed':sum(v for _,v in checks),'failed':[name for name,v in checks if not v],'scope':'Durable artifact/pixel preservation only. Original72-check source review used exact ignored epochs retained at review time; no new native execution.'},indent=2))
+raise SystemExit(any(not v for _,v in checks))

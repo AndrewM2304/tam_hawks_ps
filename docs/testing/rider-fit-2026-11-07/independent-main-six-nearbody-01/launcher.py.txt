@@ -1,0 +1,35 @@
+from pathlib import Path
+import os,json,time,datetime,subprocess,hashlib,signal,re
+R=Path('/workspace/tam_hawks_ps');D=R/'.local/rider-fit-staging/push-capture-selection';O=D/'main-six-nearbody-01';O.mkdir(exist_ok=False);g=None;x=None;code=None;failure=None;started=datetime.datetime.now(datetime.timezone.utc).isoformat();tick=time.monotonic()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inventory():
+ rows={str(p.relative_to(R)):sha(p)for folder in ['game','tests']for p in (R/folder).rglob('*')if p.is_file()}
+ for p in [R/'project.godot',R/'tools/xorg-dummy.conf',*sorted((R/'tools').glob('full_fidelity_capture*')),D/'push_main_six_nearbody.gd',Path(__file__)]:rows[str(p.relative_to(R))]=sha(p)
+ return rows
+engines=[line.strip()for line in subprocess.run(['ps','-eo','pid,ppid,comm,args'],check=True,capture_output=True,text=True).stdout.splitlines()[1:]if len(line.split(None,3))==4 and line.split(None,3)[2]in['godot','Xorg']];(O/'launch-processes.json').write_text(json.dumps({'utc':started,'scope':'Actual process snapshot; untimed headless overlaps disclosed, no timing/exclusivity claim.','engines':engines},indent=2)+'\n');before=inventory();(O/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+try:
+ with (O/'display').open('w')as f,(O/'xorg-console.log').open('w')as log:x=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(f.fileno()),'-config',str(R/'tools/xorg-dummy.conf'),'-logfile',str(O/'xorg.log'),'-noreset','-nolisten','tcp'],pass_fds=[f.fileno()],stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+ end=time.monotonic()+10
+ while time.monotonic()<end and not(O/'display').read_text().strip():time.sleep(.05)
+ display=(O/'display').read_text().strip()
+ if not display:raise RuntimeError('Private Xorg startup failed')
+ env={**os.environ,'DISPLAY':':'+display,'LIBGL_ALWAYS_SOFTWARE':'1','LP_NUM_THREADS':'2'}
+ for key in ['CONFIG','CACHE','DATA']:
+  q=D/('xdg-'+key.lower());q.mkdir(exist_ok=True);env['XDG_'+key+'_HOME']=str(q)
+ cmd=['godot','--path',str(R),'--rendering-method','gl_compatibility','--rendering-driver','opengl3','--audio-driver','Dummy','--display-driver','x11','--disable-render-loop','--fixed-fps','60','--windowed','--resolution','1280x800','--script','res://.local/rider-fit-staging/push-capture-selection/push_main_six_nearbody.gd','--',str(O)]
+ with (O/'native.log').open('w')as log:
+  g=subprocess.Popen(cmd,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);print(json.dumps({'godot_pid':g.pid,'xorg_pid':x.pid,'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'command':cmd}),flush=True);seen=0
+  while g.poll()is None:
+   time.sleep(.1)
+   with (O/'native.log').open('rb')as log:log.seek(seen);chunk=log.read();seen=log.tell()
+   if re.search(rb'SCRIPT ERROR|ERROR:|Parse Error|FAIL:',chunk):failure='stop on first raw engine/assertion error';os.killpg(g.pid,signal.SIGTERM);break
+   if time.monotonic()-tick>300:failure='300s OS bound';os.killpg(g.pid,signal.SIGTERM);break
+  code=g.wait(timeout=5)
+except BaseException as e:failure=repr(e)
+finally:
+ for p in [g,x]:
+  if p is not None and p.poll()is None:
+   os.killpg(p.pid,signal.SIGTERM)
+   try:p.wait(timeout=5)
+   except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait()
+after=inventory();(O/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');raw=(O/'native.log').read_text()if(O/'native.log').exists()else'';receipt={'utc_start':started,'utc_end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'godot_pid':g.pid if g else None,'xorg_pid':x.pid if x else None,'returncode':code,'failure':failure,'raw_error':bool(re.search('SCRIPT ERROR|ERROR:|Parse Error|FAIL:',raw)),'source_stable':before==after,'source_count':len(before),'wall_seconds':time.monotonic()-tick,'command':cmd if g else None,'specific_source_pins':{k:v for k,v in before.items()if v.startswith(('d646','76103'))or k in ['tools/full_fidelity_capture.gd','tools/full_fidelity_capture.sh','tools/full_fidelity_capture_png.py']},'scope':'Actual ordinaryMain six selected moving-input stills, wholeworldworkload, original7physical push/brake/pop cases and alltraces. No continuousnormal-speed, wholeart/contact, Mac orperformance acceptance.'};(O/'launch-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));print(raw[-3500:]);raise SystemExit(0 if code==0 and not failure and not receipt['raw_error']and before==after else 1)

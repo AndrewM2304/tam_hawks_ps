@@ -1,0 +1,75 @@
+{
+  "observed_utc": "2026-11-07T05:42:21.258533+00:00",
+  "responses": [
+    {
+      "name": "public-tag",
+      "url": "https://api.github.com/repos/godotengine/godot/git/ref/tags/4.6.3-stable",
+      "status": 200,
+      "sha256": "5e765efdaf07326dd8e14681b18a025637c9a9831b0537565f30b8621556e9e1",
+      "bytes": 363
+    },
+    {
+      "name": "binary-commit-api",
+      "url": "https://api.github.com/repos/godotengine/godot/commits/7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+      "status": 422,
+      "sha256": "acfa266b48a9cfbf559db99babe5065d25792e2af64671fedc932accec85f342",
+      "bytes": 174
+    },
+    {
+      "name": "binary-commit-raw",
+      "url": "https://raw.githubusercontent.com/godotengine/godot/7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3/scene/3d/physics/character_body_3d.cpp",
+      "status": 404,
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "bytes": 14
+    }
+  ],
+  "installed_binary": "/opt/godot/4.6.3/Godot_v4.6.3-stable_linux.x86_64",
+  "binary_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+  "binary_bytes": 138981968,
+  "embedded_full_hash_occurrences": 1,
+  "actual_native_log": {
+    "path": "docs/testing/fidelity-2026-11-06/rendered-model-clock-01/engine.log",
+    "sha256": "0f17e0a9b58fccdcbd3ff776b8f76ff9dffc5e4486c22780c84c46a491411716",
+    "header": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org"
+  },
+  "public_tag_object": {
+    "sha": "35e80b3a8822a9df9be390814b62f44c0a9c69e8",
+    "type": "commit",
+    "url": "https://api.github.com/repos/godotengine/godot/git/commits/35e80b3a8822a9df9be390814b62f44c0a9c69e8"
+  },
+  "public_source_matches": [
+    {
+      "path": "scene/3d/node_3d.cpp",
+      "url": "https://raw.githubusercontent.com/godotengine/godot/35e80b3a8822a9df9be390814b62f44c0a9c69e8/scene/3d/node_3d.cpp",
+      "status": 200,
+      "pinned_public_sha256": "df1809e637b2a6d01b7df96fa878bdd61ce2a6cfbc5a31c0c0ac0eb8802a1497",
+      "cited_cached_sha256": "df1809e637b2a6d01b7df96fa878bdd61ce2a6cfbc5a31c0c0ac0eb8802a1497",
+      "cited_cache_matches_public_pin": true
+    },
+    {
+      "path": "scene/3d/skeleton_3d.cpp",
+      "url": "https://raw.githubusercontent.com/godotengine/godot/35e80b3a8822a9df9be390814b62f44c0a9c69e8/scene/3d/skeleton_3d.cpp",
+      "status": 200,
+      "pinned_public_sha256": "a3f1c913ee48a9df1dc417ad3b8e2178a33214c9edb3f76947ab2f6a2cdf75dc",
+      "cited_cached_sha256": "a3f1c913ee48a9df1dc417ad3b8e2178a33214c9edb3f76947ab2f6a2cdf75dc",
+      "cited_cache_matches_public_pin": true
+    },
+    {
+      "path": "drivers/gles3/shaders/skeleton.glsl",
+      "url": "https://raw.githubusercontent.com/godotengine/godot/35e80b3a8822a9df9be390814b62f44c0a9c69e8/drivers/gles3/shaders/skeleton.glsl",
+      "status": 200,
+      "pinned_public_sha256": "4a7637ef93114055cfeb670a5dbf1de264ba7ed69b9b064de68e14f8d9b1b941",
+      "cited_cached_sha256": "4a7637ef93114055cfeb670a5dbf1de264ba7ed69b9b064de68e14f8d9b1b941",
+      "cited_cache_matches_public_pin": true
+    },
+    {
+      "path": "drivers/gles3/storage/mesh_storage.cpp",
+      "url": "https://raw.githubusercontent.com/godotengine/godot/35e80b3a8822a9df9be390814b62f44c0a9c69e8/drivers/gles3/storage/mesh_storage.cpp",
+      "status": 200,
+      "pinned_public_sha256": "63ba77e4788b45aabd0647ff177b8c30dbde471b76e0e134c52924b391605906",
+      "cited_cached_sha256": "63ba77e4788b45aabd0647ff177b8c30dbde471b76e0e134c52924b391605906",
+      "cited_cache_matches_public_pin": true
+    }
+  ],
+  "conclusion": "Public inspected4.6.3tag source is corroborating source, not established exact installed-binary commit parity. Actual native/GPU evidence keeps its directly observed installed-binary scope."
+}

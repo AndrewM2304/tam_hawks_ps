@@ -1,0 +1,270 @@
+{
+  "kind": "Independent source and actual-codec/source-AST control review; no engine or graphical pilot",
+  "passed": 63,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "exact reviewed candidate tools/full_fidelity_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "exact reviewed candidate tools/full_fidelity_capture_png.py",
+      "pass": true
+    },
+    {
+      "label": "exact reviewed candidate tools/full_fidelity_capture.sh",
+      "pass": true
+    },
+    {
+      "label": "read-only HEAD golden encoder matches declared baseline",
+      "pass": true
+    },
+    {
+      "label": "1280x800 every native RGBA byte lossless",
+      "pass": true
+    },
+    {
+      "label": "DEFAULT1280 encoded PNG byte-for-byte identical to old implementation",
+      "pass": true
+    },
+    {
+      "label": "1280x800 corrupt PNG refused",
+      "pass": true
+    },
+    {
+      "label": "1280x800 incomplete last pixel refused",
+      "pass": true
+    },
+    {
+      "label": "640x400 every native RGBA byte lossless",
+      "pass": true
+    },
+    {
+      "label": "640x400 corrupt PNG refused",
+      "pass": true
+    },
+    {
+      "label": "640x400 incomplete last pixel refused",
+      "pass": true
+    },
+    {
+      "label": "unsupported/mismatched dimensions fail (320, 200)",
+      "pass": true
+    },
+    {
+      "label": "unsupported/mismatched dimensions fail (1280, 400)",
+      "pass": true
+    },
+    {
+      "label": "unsupported/mismatched dimensions fail (640, 800)",
+      "pass": true
+    },
+    {
+      "label": "unsupported/mismatched dimensions fail (True, 400)",
+      "pass": true
+    },
+    {
+      "label": "unsupported/mismatched dimensions fail (640.0, 400)",
+      "pass": true
+    },
+    {
+      "label": "one actual wrapper RGBA source slice isolated",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@0,0",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@1,0",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@320,0",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@639,0",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@0,1",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@1,1",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@320,1",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@639,1",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@0,7",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@1,7",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@320,7",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@639,7",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@0,200",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@1,200",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@320,200",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@639,200",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@0,399",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@1,399",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@320,399",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct640x400@639,399",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@0,0",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1,0",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@640,0",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1279,0",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@0,1",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1,1",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@640,1",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1279,1",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@0,7",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1,7",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@640,7",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1279,7",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@0,400",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1,400",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@640,400",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1279,400",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@0,799",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1,799",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@640,799",
+      "pass": true
+    },
+    {
+      "label": "actual source slice correct1280x800@1279,799",
+      "pass": true
+    },
+    {
+      "label": "original1280 defaults unchanged",
+      "pass": true
+    },
+    {
+      "label": "all three entry guards restrict640 to focusedpush",
+      "pass": true
+    },
+    {
+      "label": "actual world andCanvas projections scale logical\u2192native image",
+      "pass": true
+    },
+    {
+      "label": "GD marker search bounds actual native image",
+      "pass": true
+    },
+    {
+      "label": "worker/video assertions use declared actual dimensions",
+      "pass": true
+    },
+    {
+      "label": "reducednative diagnostic cannot claim final surface fidelity",
+      "pass": true
+    }
+  ],
+  "verdict": "No source blocker for exact optionalnative640 focusedpush integration, followed by actual pilot. Original1280/all78 preserved.",
+  "limits": [
+    "Native640 pilot unmeasured; no current source graphics/motion/frame continuity pass inferred.",
+    "Actual viewport-size/projection/current-frame guards must pass;640 image is not resampled or accepted for final1280 texture quality/AAA/M5.",
+    "No simulation/sample reduction is introduced; every selected60Hz tick remains, but rendered cadence must be proved by native packet."
+  ],
+  "candidate_hashes": {
+    "tools/full_fidelity_capture.gd": "432f4d8b8d90ecca3659a79b01c291eecad56980e1053039cac39528a5579bf1",
+    "tools/full_fidelity_capture_png.py": "b800b08bd83384a3daf50a81e7f2176babd5610f86ca868200fd32f2b282d7cf",
+    "tools/full_fidelity_capture.sh": "88a7d7e3a51e382798ff91c1bd3e25ad165e6a6805ba056ecc8349e40e928de3"
+  }
+}

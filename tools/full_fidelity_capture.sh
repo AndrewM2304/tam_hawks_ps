@@ -6,18 +6,32 @@ cd "$TASK_ROOT"
 TASK_PRIVATE_DISPLAY=false
 TASK_COHORT=all
 TASK_PUSH_VIEW=contact
+TASK_PUSH_SELECTION=all
+TASK_NATIVE_SIZE=1280x800
 while (($#)); do
   case "$1" in
     --private-display) TASK_PRIVATE_DISPLAY=true ;;
     --cohort) TASK_COHORT="${2:?--cohort needs all or push-contact}"; shift ;;
     --push-view) TASK_PUSH_VIEW="${2:?--push-view needs contact, front, side or chase}"; shift ;;
-    --help|-h) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase]'; exit 0 ;;
-    *) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase]' >&2; exit 2 ;;
+    --push-selection) TASK_PUSH_SELECTION="${2:?--push-selection needs all or natural-three}"; shift ;;
+    --native-size) TASK_NATIVE_SIZE="${2:?--native-size needs1280x800 or640x400}"; shift ;;
+    --help|-h) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase] [--push-selection all|natural-three] [--native-size 1280x800|640x400]'; exit 0 ;;
+    *) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase] [--push-selection all|natural-three] [--native-size 1280x800|640x400]' >&2; exit 2 ;;
   esac
   shift
 done
 case "$TASK_COHORT" in all|push-contact) ;; *) echo "Invalid cohort: $TASK_COHORT" >&2; exit 2 ;; esac
 case "$TASK_PUSH_VIEW" in contact|front|side|chase) ;; *) echo "Invalid push view: $TASK_PUSH_VIEW" >&2; exit 2 ;; esac
+case "$TASK_PUSH_SELECTION" in all|natural-three) ;; *) echo "Invalid push selection: $TASK_PUSH_SELECTION" >&2; exit 2 ;; esac
+if [[ "$TASK_PUSH_SELECTION" != all && "$TASK_COHORT" != push-contact ]]; then
+  echo "Capture-only push selection requires the complete push-contact physical cohort." >&2
+  exit 2
+fi
+case "$TASK_NATIVE_SIZE" in 1280x800|640x400) ;; *) echo "Invalid native size: $TASK_NATIVE_SIZE" >&2; exit 2 ;; esac
+if [[ "$TASK_NATIVE_SIZE" != 1280x800 && "$TASK_COHORT" != push-contact ]]; then
+  echo "Native640 is restricted to focused push motion diagnostics." >&2
+  exit 2
+fi
 TASK_VERSION="$(./tools/run.sh --version)"
 case "$TASK_VERSION" in 4.6.3.*) ;; *) echo "Expected Godot 4.6.3, found $TASK_VERSION" >&2; exit 1 ;; esac
 mkdir -p .local
@@ -64,11 +78,14 @@ if [[ "$(uname -s)" == Linux && ( -z "${DISPLAY:-}" || "$TASK_PRIVATE_DISPLAY" =
   export LP_NUM_THREADS=4
 fi
 
-python3 - "$TASK_ROOT" "$TASK_OUTPUT" "$TASK_COHORT" "$TASK_PUSH_VIEW" <<'PY'
+python3 - "$TASK_ROOT" "$TASK_OUTPUT" "$TASK_COHORT" "$TASK_PUSH_VIEW" "$TASK_PUSH_SELECTION" "$TASK_NATIVE_SIZE" <<'PY'
 import hashlib, json, math, os, pathlib, re, shutil, signal, struct, subprocess, sys, time, zlib
 root, output = map(pathlib.Path, sys.argv[1:3])
-cohort, push_view = sys.argv[3:5]
-destination = root / 'docs/testing/screenshots' / ('full-fidelity' if cohort=='all' else 'push-contact-'+push_view)
+cohort, push_view, push_selection, native_size = sys.argv[3:7]
+width,height=map(int,native_size.split("x"))
+if (width,height) not in ((1280,800),(640,400)) or ((width,height)!=(1280,800) and cohort!="push-contact"):
+    raise SystemExit("Invalid focused native capture dimensions.")
+destination = root / 'docs/testing/screenshots' / ('full-fidelity' if cohort=='all' else ('push-natural-three' if push_selection=='natural-three' else 'push-contact-'+push_view)+('' if native_size=='1280x800' else '-native640'))
 sys.path.insert(0,str(root/'tools'))
 from full_fidelity_capture_png import PixelSpoolEncoder, decode_proven_rgba8
 
@@ -92,14 +109,14 @@ def png_details(path, pixels=None):
         if kind==b'IDAT': compressed.extend(chunk)
         if kind==b'IEND': ended=True
         offset+=size+12
-    if not ended or dimensions is None or dimensions[:2]!=(1280,800): raise ValueError('PNG dimensions/end: '+str(path))
-    width,height,depth,colour,_,_,interlace=dimensions
+    if not ended or dimensions is None or dimensions[:2]!=(width,height): raise ValueError('PNG dimensions/end: '+str(path))
+    png_width,png_height,depth,colour,_,_,interlace=dimensions
     channels={2:3,6:4}.get(colour)
-    if depth!=8 or channels is None or interlace or len(zlib.decompress(compressed))!=height*(1+width*channels):
+    if depth!=8 or channels is None or interlace or len(zlib.decompress(compressed))!=png_height*(1+png_width*channels):
         raise ValueError('PNG complete rows: '+str(path))
-    details={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'resolution':[width,height],'png_crc_and_rows_valid':True}
+    details={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'resolution':[png_width,png_height],'png_crc_and_rows_valid':True}
     if pixels is not None:
-        decoded=decode_proven_rgba8(data)
+        decoded=decode_proven_rgba8(data,width,height)
         digest=hashlib.sha256(decoded).hexdigest()
         if digest!=pixels['rgba8_sha256'] or len(decoded)!=pixels['bytes']: raise ValueError('PNG changed native pixels: '+str(path))
         details.update(decoded_rgba8_sha256=digest,native_pixels_equal=True)
@@ -109,10 +126,10 @@ for executable in ('ffmpeg','ffprobe'):
     if shutil.which(executable) is None: raise SystemExit('Installed '+executable+' is required; nothing was downloaded.')
 before=fingerprint()
 command=[str(root/'tools/run.sh'),'--rendering-method','gl_compatibility','--audio-driver','Dummy',
-    '--windowed','--resolution','1280x800','--disable-render-loop','--fixed-fps','60',
-    '--script','tools/full_fidelity_capture.gd','--',str(output),cohort,push_view]
+    '--windowed','--resolution',native_size,'--disable-render-loop','--fixed-fps','60',
+    '--script','tools/full_fidelity_capture.gd','--',str(output),cohort,push_view,push_selection,native_size]
 process=None
-encoder=PixelSpoolEncoder(output)
+encoder=PixelSpoolEncoder(output,width,height)
 encoder.start()
 capture_started=time.monotonic()
 def stop(*_):
@@ -145,6 +162,7 @@ print(log,end='',flush=True)
 if code or re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:',log):
     raise SystemExit('Motion capture failed; no current evidence published: '+str(output))
 report=json.loads((output/'manifest.json').read_text())
+if report.get('native_capture_size')!=[width,height]:raise SystemExit('Native size does not match source-bound capture declaration.')
 after=fingerprint()
 changed=sorted(p for p in before.keys()|after.keys() if before.get(p)!=after.get(p))
 if changed or report.get('failures')!=0 or not report.get('production_main') or report.get('profile_writes_enabled'):
@@ -171,7 +189,7 @@ required={'nollie_native_launch','rotation_native_spin_left','rotation_native_sp
     'exchange_south_line','civic_lower_island','station_low_manual','barras_forecourt_line','clyde_south_link',
     'clyde_south_middle','clyde_south_east_west','clyde_south_link_capture'}
 names={c['id'] for c in clips}
-if report.get('cohort')!=cohort or report.get('complete_repertoire_coverage')!=(cohort=='all'):
+if report.get('cohort')!=cohort or report.get('complete_repertoire_coverage')!=(cohort=='all') or report.get('push_capture_selection','all')!=push_selection:
     raise SystemExit('Capture coverage declaration does not match requested cohort.')
 actual_catalog=set(report.get('catalog_ids',[]))
 observed_catalog=set()
@@ -204,9 +222,22 @@ if cohort=='all':
     if len(names)!=len(clips) or required-names or len(clips)<50:
         raise SystemExit('Incomplete actual motion coverage: '+str(sorted(required-names)))
 else:
-    required={'push_contact_'+name for name in ('regular','fakie','from_rest','brake','brake_return','pop_catch','pop_early')}
-    if len(names)!=len(clips) or names!=required:
-        raise SystemExit('Incomplete actual push contact coverage: '+str(sorted(required-names)))
+    physical_required={'push_contact_'+name for name in ('regular','fakie','from_rest','brake','brake_return','pop_catch','pop_early')}
+    required={'push_contact_'+name for name in ('regular','fakie','from_rest')} if push_selection=='natural-three' else physical_required
+    if len(names)!=len(clips) or names!=required or set(report.get('observed_phase_ids',[]))!=physical_required:
+        raise SystemExit('Incomplete declared physical/visual push coverage: '+str(sorted(required-names)))
+    if push_selection=='natural-three':
+        expected_views={'push_contact_regular':'front','push_contact_from_rest':'side','push_contact_fakie':'chase'}
+        if report.get('per_case_push_view')!=expected_views or report.get('visual_phase_coverage_complete') or set(report.get('unrecorded_phase_ids',[]))!=physical_required-required:
+            raise SystemExit('Capture-only phase policy is missing or overclaims discarded phases.')
+        if {s['phase']for s in report['native_timeline']}!=physical_required:
+            raise SystemExit('Capture selection discarded a physical native trace.')
+        for clip in clips:
+            frames=clip.get('frames',[])
+            if len(frames)!=117 or clip['native_steps']!=117 or clip['sample_stride']!=1:
+                raise SystemExit('Natural push requires every72press+45release native frame: '+clip['id'])
+            if any(b['state']['physics_frame']-a['state']['physics_frame']!=1 for a,b in zip(frames,frames[1:])):
+                raise SystemExit('A claimed normal-speed push clip skipped a physics tick: '+clip['id'])
     report['accepted_catalog_identity_coverage']={'total':len(actual_catalog),'observed':sorted(observed_catalog),'complete':False,'scope':'Focused push cohort only; full78 acceptance remains separate.'}
 frame_rate=int(report['motion_sample_hz'])
 if frame_rate!=(60 if cohort=='push-contact' else 15): raise SystemExit('Unexpected native sample rate')
@@ -217,17 +248,17 @@ if len(proofs)!=3 or [p['id'] for p in proofs]!=['overview_before_contact','firs
     raise SystemExit('Missing actual camera/Canvas synchronization boundary proofs.')
 for proof in proofs:
     proof.update(png_details(output/proof['file'],proof['pixels']))
-    pixels=decode_proven_rgba8((output/proof['file']).read_bytes())
-    x,y=proof['canvas_pixel']; offset=(y*1280+x)*4
+    pixels=decode_proven_rgba8((output/proof['file']).read_bytes(),width,height)
+    x,y=proof['canvas_pixel']; offset=(y*width+x)*4
     if list(pixels[offset:offset+4])!=proof['canvas_expected'] or not proof['same_native_frame']:
         raise SystemExit('Stale current-Canvas/native-frame boundary: '+proof['id'])
     if proof['id']!='overview_before_contact' and len(proof['markers'])!=2:
         raise SystemExit('Missing actual head/board projected pixel evidence.')
     for marker in proof['markers']:
         px,py=marker['projected_pixel']; matches=[]
-        for y in range(max(0,int(py)-12),min(800,int(py)+13)):
-            for x in range(max(0,int(px)-12),min(1280,int(px)+13)):
-                r,g,b,_=pixels[(y*1280+x)*4:(y*1280+x+1)*4]
+        for y in range(max(0,int(py)-12),min(height,int(py)+13)):
+            for x in range(max(0,int(px)-12),min(width,int(px)+13)):
+                r,g,b,_=pixels[(y*width+x)*4:(y*width+x+1)*4]
                 if (r>191 and r-g>51 and r-b>51) if marker['color_channel']=='red' else (g>191 and g-r>51 and g-b>51):
                     matches.append((x+.5,y+.5))
         if len(matches)<4: raise SystemExit('Current projected 3D marker absent: '+proof['id'])
@@ -255,7 +286,7 @@ for clip in clips:
     probe=json.loads(subprocess.run(['ffprobe','-v','error','-select_streams','v:0','-show_entries',
         'stream=codec_name,width,height,nb_frames,r_frame_rate,duration','-of','json',str(movie)],
         check=True,capture_output=True,text=True,timeout=15).stdout)['streams'][0]
-    if int(probe['nb_frames'])!=len(frames) or (probe['width'],probe['height'])!=(1280,800) or probe['r_frame_rate']!=str(frame_rate)+'/1':
+    if int(probe['nb_frames'])!=len(frames) or (probe['width'],probe['height'])!=(width,height) or probe['r_frame_rate']!=str(frame_rate)+'/1':
         raise SystemExit('Video stream validation failed: '+name)
     subprocess.run(['ffmpeg','-v','error','-nostdin','-i',str(movie),'-f','null','-'],check=True,timeout=120)
     clip['video']={'file':movie.name,'sha256':hashlib.sha256(movie.read_bytes()).hexdigest(),

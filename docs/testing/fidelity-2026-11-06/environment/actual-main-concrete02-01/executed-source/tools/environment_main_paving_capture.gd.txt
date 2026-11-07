@@ -1,0 +1,156 @@
+extends "res://tools/environment_main_water_shadow_capture.gd"
+const Library = preload("res://game/levels/art/material_library.gd")
+var _baseline_paving: Dictionary = {}
+var _paving_frames: Array[Dictionary] = []
+var _paving_modes: Dictionary = {}
+var _proof_markers: Array[MeshInstance3D] = []
+var _proof_swatch: ColorRect
+var _active_proof_camera: Camera3D
+const FIELDS: Array[String] = ["albedo_texture","normal_texture","roughness_texture","ao_texture","uv1_scale","normal_scale","roughness","metallic","metallic_specular","albedo_color","normal_enabled","ao_enabled","ao_light_affect","roughness_texture_channel","ao_texture_channel","uv1_triplanar","uv1_world_triplanar","uv1_triplanar_sharpness","texture_filter"]
+
+func _run() -> void:
+	var ready: bool=await _start_actual_main()
+	if not ready:return
+	var scene_before:=_inventory()
+	_water_before=scene_before
+	var candidate: Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://tools/fixtures/environment/paving_candidate_source.json"))
+	for key: String in ["paving","path"]:
+		var material: StandardMaterial3D=game.world._materials[key]
+		var values: Dictionary={}
+		for field: String in FIELDS:values[field]=material.get(field)
+		_baseline_paving[key]=values
+	_create_pixel_proofs()
+	_write_paving_report(false,"startup")
+	for mode: String in ["before-a","flags-candidate","before-b"]:
+		for key: String in _baseline_paving:
+			var material: StandardMaterial3D=game.world._materials[key]
+			var values: Dictionary=_baseline_paving[key]
+			if mode=="flags-candidate":Library._apply(material,candidate,values.albedo_color,values.normal_scale,values.roughness)
+			else:
+				for field: String in FIELDS:material.set(field,values[field])
+		var inventory:=_inventory()
+		_mode_inventories[mode]=inventory
+		_check(inventory==scene_before,"all native Main mesh/material/collision identities and geometry render states remain unchanged by paving bindings")
+		_paving_modes[mode]=_paving_materials()
+		var mode_index: int=["before-a","flags-candidate","before-b"].find(mode)
+		var view_index:=0
+		for view: Dictionary in _paving_views():
+			var camera: Camera3D
+			if view.id=="ordinary-spawn":
+				camera=game.skater._camera
+				game.hud.visible=true
+			else:
+				camera=_inspection
+				camera.global_position=view.at
+				camera.look_at(view.target)
+				game.hud.visible=false
+			camera.current=true
+			_active_proof_camera=camera
+			_position_proofs(mode_index,view_index)
+			await process_frame
+			await create_timer(0.0,true).timeout
+			var physics_before:=Engine.get_physics_frames()
+			var process_before:=Engine.get_process_frames()
+			var image: Image=await _render_current_frame()
+			var proof:=_verify_pixel_proofs(image)
+			var projection: Projection=camera.get_camera_projection()
+			var filename: String=mode+"-"+str(view.id)+".png"
+			var stored:=_store_frame(image,filename)
+			_paving_frames.append({"file":filename,"mode":mode,"view":view.id,"pixels":stored,
+				"physics_before":physics_before,"physics_after":Engine.get_physics_frames(),"process_before":process_before,"process_after":Engine.get_process_frames(),"pixel_proofs":proof,
+				"camera_basis":[_v(camera.global_basis.x),_v(camera.global_basis.y),_v(camera.global_basis.z)],"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],"keep_aspect":camera.keep_aspect,"near":camera.near,"far":camera.far,"viewport_size":[root.size.x,root.size.y],
+				"camera_position":_v(camera.global_position),"camera_forward":_v(-camera.global_basis.z),"fov":camera.fov,"hud_visible":game.hud.visible,
+				"material_mode":mode,"counters":_native_counters()})
+			_write_paving_report(false,"actual-main-paving")
+			view_index+=1
+	_check(_paving_frames.size()==9,"all nine actual Main paving A/B/A originals completed")
+	_write_paving_report(true,"complete")
+	print("ACTUAL_MAIN_PAVING_RESULT checks=",checks," failures=",failures," images=",_paving_frames.size())
+	quit(1 if failures else 0)
+
+func _paving_views() -> Array[Dictionary]:
+	return [{"id":"ordinary-spawn"},{"id":"close-ground","at":Vector3(-12,1.3,11),"target":Vector3(-8,0,17)},
+		{"id":"court-readability","at":Vector3(0,8,23),"target":Vector3(0,0,5)}]
+
+func _paving_materials() -> Dictionary:
+	var records: Dictionary={}
+	for key: String in ["paving","path"]:
+		var material: StandardMaterial3D=game.world._materials[key]
+		var maps: Array[Dictionary]=[]
+		for texture: Texture2D in [material.albedo_texture,material.normal_texture,material.roughness_texture,material.ao_texture]:
+			var image:=texture.get_image()
+			_check(image!=null,"actual Main paving map can be inspected")
+			if image:maps.append({"path":texture.resource_path,"instance_id":texture.get_instance_id(),"width":image.get_width(),"height":image.get_height(),"format":image.get_format(),"compressed":image.is_compressed(),"mipmaps":image.get_mipmap_count()})
+		_check(maps[0].width==2048 and maps[1].width==1024 and maps[2].width==1024,"actual Main maps retain2K albedo/1K normal and roughness")
+		records[key]={"material_id":material.get_instance_id(),"maps":maps,"uv_scale":_v(material.uv1_scale),"normal_strength":material.normal_scale,"roughness":material.roughness,"tint":[material.albedo_color.r,material.albedo_color.g,material.albedo_color.b]}
+	return records
+
+func _write_paving_report(complete: bool,phase: String) -> void:
+	var report: Dictionary={"schema":1,"complete":complete,"phase":phase,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),
+		"images":_paving_frames,"synchronization_proofs":_sync_proofs,"material_modes":_paving_modes,"inventory_before":_water_before,"mode_inventories":_mode_inventories,"timing_measured":false,
+		"limits":"Actual default Main at1280x800 with all normal station/pond/city content. Existing full-fidelity natural camera/Canvas marker proofs plus per-view2worldmarker/Canvas/fullbasis+projection/tick metadata;40settled ticks then actors/processing frozen for stills. Ordinary-spawn uses actual settled production chase and HUD; other views are authored inspections. Only existing shared paving/path map bindings and documented1.5m-to1.8m physical scale change; all mesh/material/collision object identities and geometry render states guarded; texture bindings intentionally differ. Baseline control textures coexist transiently, so visual-process memory is not final15-map allocation admission. Separate fresh native allocation already owns that result. No timing, moving-surface, gameplay-route, finalV2 orM5 acceptance."}
+	var file:=FileAccess.open(output.path_join("actual-main-paving-report.json"),FileAccess.WRITE)
+	if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	else:_check(false,"actual Main paving report writable")
+
+func _create_pixel_proofs() -> void:
+	for color: Color in [Color.RED,Color.GREEN]:
+		var mesh := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.055
+		sphere.height = 0.11
+		sphere.radial_segments = 12
+		sphere.rings = 6
+		mesh.mesh = sphere
+		var material := StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.albedo_color = color
+		material.no_depth_test = true
+		mesh.material_override = material
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		root.add_child(mesh)
+		_proof_markers.append(mesh)
+	var canvas := CanvasLayer.new()
+	root.add_child(canvas)
+	_proof_swatch = ColorRect.new()
+	_proof_swatch.position = Vector2(4,4)
+	_proof_swatch.size = Vector2(18,18)
+	canvas.add_child(_proof_swatch)
+
+
+
+func _position_proofs(mode: int,view: int) -> void:
+	# Independent world nodes, deliberately changing projected position between
+	# views/modes. A fully stale camera+marker frame cannot pass the next target.
+	_proof_markers[0].global_position = _active_proof_camera.to_global(Vector3(-1.6+view*0.35+mode*0.10,1.2,-5))
+	_proof_markers[1].global_position = _active_proof_camera.to_global(Vector3(1.5-view*0.25,0.8+mode*0.12,-5))
+	_proof_swatch.color = Color8(30+70*mode,40+70*view,190-30*mode)
+
+
+
+func _verify_pixel_proofs(image: Image) -> Dictionary:
+	var records: Array[Dictionary] = []
+	for index: int in _proof_markers.size():
+		var point := _proof_markers[index].global_position
+		var projected := _active_proof_camera.unproject_position(point)
+		var center := Vector2.ZERO
+		var count := 0
+		for y: int in range(maxi(0,int(projected.y)-10),mini(image.get_height(),int(projected.y)+11)):
+			for x: int in range(maxi(0,int(projected.x)-10),mini(image.get_width(),int(projected.x)+11)):
+				var color := image.get_pixel(x,y)
+				var found := color.r>0.75 and color.r-color.g>0.20 and color.r-color.b>0.20 if index==0 else color.g>0.75 and color.g-color.r>0.20 and color.g-color.b>0.20
+				if found: center+=Vector2(x+0.5,y+0.5);count+=1
+		if count: center/=float(count)
+		var error := center.distance_to(projected)
+		_check(count>=8 and error<=2.0,"projected independent3D marker matches actual pixels")
+		records.append({"color":"red" if index==0 else "green","world_position":_v(point),"projected_xy":[projected.x,projected.y],"pixel_count":count,"centroid_xy":[center.x,center.y],"error_pixels":error})
+	var expected := _proof_swatch.color
+	var actual := image.get_pixel(10,10)
+	var swatch_error := maxf(absf(expected.r-actual.r),maxf(absf(expected.g-actual.g),absf(expected.b-actual.b)))
+	_check(swatch_error<=2.0/255.0,"current Canvas material/view swatch agrees with native pixels")
+	return {"markers":records,"canvas_expected_rgb":[expected.r,expected.g,expected.b],"canvas_actual_rgb":[actual.r,actual.g,actual.b],"canvas_error":swatch_error,"canvas_sample_xy":[10,10]}
+
+
+
+func _v4(value: Vector4) -> Array:
+	return [value.x,value.y,value.z,value.w]

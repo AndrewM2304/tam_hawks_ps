@@ -1,0 +1,22 @@
+--- a/tests/ambient_adult_tests.gd
++++ b/tests/ambient_adult_tests.gd
+@@ -29,7 +29,7 @@
+ 		var hands := true
+ 		for hand: Node3D in actor._hands:
+ 			hands = hands and ActorChecks._vertices(hand.get_node("HandAndFingers").mesh)>300
+-		check.call(ActorChecks._vertices(head.mesh)>500 and hands and actor._garments.skeleton.get_bone_count()==10
++		check.call(ActorChecks._vertices(head.mesh)>500 and hands and actor._garments.skeleton.get_bone_count()==11 and actor._garments.skeleton.find_bone("neck")==10
+ 			and actor.get_node("AdultActivityBody/SkinnedJacket").skin!=null and ActorChecks._finite_reach(actor),
+ 			"ambient adults: actual adult face, fingers and finite skinned limbs replace the capsule mannequin")
+ 		var grounded := ActorChecks._sole_contacts(actor)
+@@ -48,8 +48,8 @@
+ 		var coat: StandardMaterial3D = jacket.material_override
+ 		materials[coat.get_instance_id()]=true
+ 		check.call(coat.albedo_color.is_equal_approx(spec[1])
+-			and actor.get_node("AdultActivityBody/CoatDetails/FoldedCoatCollar").material_override==coat,
+-			"ambient adults: each original coat color has a matching instance-local tailored collar")
++			and jacket.get_active_material(0)==coat and coat.albedo_texture!=null,
++			"ambient adults: each original coat color drives its instance-local fitted jacket and integrated collar")
+ 		var before: Dictionary = actor.get_pose_snapshot()
+ 		await _frames(tree,24)
+ 		var after: Dictionary = actor.get_pose_snapshot()

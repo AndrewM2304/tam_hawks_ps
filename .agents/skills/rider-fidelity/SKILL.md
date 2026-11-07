@@ -16,13 +16,14 @@ Load docs/product/AAA_BENCHMARK.md, docs/planning/FIDELITY_TICKETS.md and the cu
 
 Default file ownership: game/player/skater_anatomy.gd, skater_garments.gd, skater_footwear.gd, skater_visual.gd; game/art/rider; tools/rider_asset*. Do not commit/merge during a shared swarm; report to orchestrator.
 
-Asset reproduction: read game/art/rider/SKIN-NOTICE.md and the actual current manifests before selecting a pipeline. The admitted phase1 pipeline and private fitted candidate differ; do not copy rejected staging resources into main. The fitted pipeline verifies original BODY/morph pins, selected CC0 source members and explicit licence headers, then builds only selected derivatives with its declared generator chain. It replaces the old procedural crop/maps only after native admission. Keep full source body atlases in ignored local storage. Write generated outputs atomically and coordinate a single editor import lease. Never mutate source resources during another agent's import or source-bound capture. Preserve explicit VRAM compression, normal-map modes and mipmaps in each tracked .import file. A valid PNG with invalid import metadata still fails runtime loading.
+Asset reproduction: read game/art/rider/SKIN-NOTICE.md and the actual current manifests before selecting a pipeline. The earlier phase1 pipeline and fitted resources differ; determine which is installed from current source and never copy rejected staging resources into main. The fitted pipeline verifies original BODY/morph pins, selected CC0 source members and explicit licence headers, then builds only selected derivatives with its declared generator chain. Keep full source body atlases in ignored local storage. Write generated outputs atomically and coordinate a single editor import lease. Never mutate source resources during another agent's import or source-bound capture. Preserve explicit VRAM compression, normal-map modes and mipmaps in each tracked .import file. A valid PNG with invalid import metadata still fails runtime loading.
 
 Current provisional scope budget: at most 65,000 actual rider source triangles and 64 MiB conservative unique RGBA mip texture estimate. Report actual mesh/surface counts too. These limits do not establish target GPU performance. Shared immutable anatomy surfaces may be cached once; hand blend values remain per MeshInstance3D. Never claim zero runtime mesh construction when startup copies exist.
 
-Authentic wardrobe fitting lessons from the private phase2 candidates (admission
-is still pending; consult `docs/testing/rider-fit-2026-11-07/` for preserved,
-independently reviewed rejected and bounded-positive epochs):
+Authentic wardrobe fitting lessons from the phase2 candidates (installation and
+individual source/rig results do not certify final moving fidelity; consult
+`docs/testing/rider-fit-2026-11-07/` for preserved, independently reviewed rejected
+and bounded-positive epochs):
 
 - Pin the official CC0 system-pack members and inspect each selected asset's
   actual OBJ/MHCLO/MHMAT declaration. Keep source BODY, morph targets, full skin
@@ -88,7 +89,17 @@ independently reviewed rejected and bounded-positive epochs):
   can be separately animated sibling meshes; aligning the wrist and shaft does
   not establish bead continuity. Retain native shaft vertices/indices, derive
   its actual tip and compare rendered tip/shaft models at fractional frames.
+- An observer that overrides interpolation properties verifies the policy, not
+  a proposed constructor patch. Parse and instantiate every changed constructor
+  through actual Main before spending a graphical slot. A successful Cat-only
+  test does not compile ActivityActor or Busker. Give locals explicit Node3D
+  types when their values come from a dynamically typed RefCounted method;
+  inference with `:=` may fail even when the returned node is correct.
 - Capture native RGBA and PNG hashes, full numeric camera/projection and all
   actual bone/model matrices, proof/clean pose and tick brackets, source inventories
   before AND after, and raw engine logs. Archive only receipt-listed current
   labels; stale PNGs are not evidence. Read every original before reporting a pass.
+- A capture-only selection must retain the complete physical driver, checks and
+  native trace. Record captured and uncaptured phases separately. For a claimed
+  normal-speed clip, retain consecutive physics ticks at the declared rate; a
+  plant/return still pair cannot stand in for a complete push-and-release cycle.

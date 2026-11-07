@@ -1,0 +1,43 @@
+from pathlib import Path
+import hashlib,json,shutil,re
+R=Path.cwd(); P=R/'.local/rider-rig-validation/leg-temporal'; O=R/'docs/testing/rider-fit-2026-11-07/independent-leg-temporal03';O.mkdir(exist_ok=True)
+checks=[]
+def check(x,label):checks.append({'label':label,'pass':bool(x)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+receipt=json.loads((P/'receipt.json').read_text());before=json.loads((P/'source-before.json').read_text());after=json.loads((P/'source-after.json').read_text());result=json.loads((P/'project/result.json').read_text());sources=json.loads((P/'source-candidates.json').read_text())
+check(receipt['returncode']==0 and receipt['failure'] is None and not receipt['raw_engine_error'],'native process exit and raw error guard')
+check(before==after and len(before)==399 and receipt['source_stable'],'399 recorded native inputs unchanged')
+for name in ['candidate02.gd','candidate03.gd','probe.gd','project.godot']:check(sha(P/'project'/name)==before[name],f'before-bound exact {name}')
+check(sha(P/'run.py')==before['WRAPPER'],'before-bound exact executed wrapper')
+for n in ['02','03']:check(sha(P/'project'/f'candidate{n}.gd')==sources[n]['sha256'],f'author source and native candidate{n} identical')
+check(sources['03']['sha256']=='556f43cd29b3d8ab38f3b9ecd86655e20ba4b73e8931435b2418f11fbba6e9a7','exact reviewed temporal03')
+check(result['passes']==16 and not result['failures'],'all 16 actual native frame conditioning checks passed')
+log=(P/'native.log').read_text();check(len(re.findall(r'^PASS ',log,re.M))==16 and not re.search(r'SCRIPT ERROR|ERROR:|Parse Error|^FAIL ',log,re.M),'raw log independently clean and 16 assertions')
+for n in ['02','03']:
+ m=result['metrics'][n]
+ check(m['max_endpoint_error_m']<1e-5,f'{n} native endpoint conservation <10um')
+ check(m['near_straight_max_axis_step_rad']<.01,f'{n} native near-straight continuity')
+ check(m['bend_plane_max_axis_step_rad']<.04 and m['reference_dot_min']<-.99,f'{n} full native bend-plane crossing continuity')
+ check(m['antiparallel_max_axis_step_rad']<.04,f'{n} native antiparallel fold continuity')
+source=(P/'project/candidate03.gd').read_text();probe=(P/'project/probe.gd').read_text()
+check('previous_direction = previous_upper.y' in source and 'previous_upper.y+previous_lower.y' not in source,'upper segment gives defined reference at antiparallel fold')
+check('get_bone_global_pose(_bones[prefix+"_thigh"])' in source and 'get_bone_global_pose(_bones[prefix+"_calf"])' in source,'transport reads actual final Skeleton poses after blends')
+check('smoothstep(LEG_FRAME_LOW_SINE,LEG_FRAME_HIGH_SINE,conditioning)' in source,'bend plane fades in over declared 2 to 8 degree conditioning')
+check('if bend_normal.dot(axis)<0.0:' in source,'local bend normal follows transported orientation')
+check('_leg_frame_ready.clear()' in source and 'reset_leg_frames()' in source.split('func build',1)[1].split('func _collect',1)[0],'build explicitly clears source pose history')
+check('after_snapshot.x.dot(override_axis)>.999' in probe and 'reset.x.dot(Vector3.LEFT)>.999' in probe,'native assertions cover final snapshot authority and explicit reset')
+check('s.get_bone_count()==11' in probe and 'rests[i]==s.get_bone_rest(i)' in probe and 'record[1][i]==mesh.skin.get_bind_pose(i)' in probe,'native rest/bind/11-bone/resource invariants explicitly asserted')
+# Actual pending composite identity, not a claim that its unfinished gate passed.
+composite=R/'.local/fitted-rig-admission/final-composite-01/project/game/player'
+check(sha(composite/'skater_garments.gd')==sources['03']['sha256'],'pending composite uses exact native temporal03 garment source')
+visual=(composite/'skater_visual.gd').read_text();check('_garments.reset_leg_frames()' in visual,'pending composite explicitly resets leg history')
+files={}
+for old,new in [('receipt.json','native-receipt.json'),('source-before.json','source-before.json'),('source-after.json','source-after.json'),('source-candidates.json','source-candidates.json'),('project/result.json','native-result.json'),('project/probe.gd','observer.gd.txt'),('project/candidate02.gd','candidate02.gd.txt'),('project/candidate03.gd','candidate03.gd.txt'),('project/project.godot','project.godot.txt'),('run.py','wrapper.py.txt'),('native.log','native.log')]:
+ shutil.copy2(P/old,O/new);files[new]=sha(O/new)
+report={'kind':'Independent cold-read/hash/native-result audit, no new engine execution','checks':checks,'passed':sum(x['pass'] for x in checks),'failed':sum(not x['pass'] for x in checks),'native_scope':'Original native16/0 actual Skeleton pose conditioning; near-straight, full bend-plane rotation, antiparallel calf folds, final snapshot override, reset and unchanged rest/binds/resources. Headless installed-binary observations.','metrics03':result['metrics']['03'],'limits':['Synthetic native left-leg sequences; no complete gameplay moving garment/camera/contact/cloth collision or cadence acceptance.','Both02 and03 passed retained broad thresholds; do not invent a failed02 native count.03 removes the source bisector singularity and improves measured antiparallel step.','Current composite identity checked but its separately running full gate is not accepted here.','No M5 timing, GPU image or AAA acceptance.'],'preserved':files}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n')
+shutil.copy2(Path(__file__),O/'independent-audit.py.txt')
+idx={p.name:sha(p) for p in O.iterdir() if p.is_file() and p.name!='independent-preservation.json'}
+(O/'independent-preservation.json').write_text(json.dumps(idx,indent=2)+'\n')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'report':str(O/'independent-review.json')},indent=2))
+if report['failed']:raise SystemExit(1)

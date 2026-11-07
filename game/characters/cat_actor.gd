@@ -172,7 +172,6 @@ func _build_drummer() -> void:
 	_drummer=person
 	var shirt := _material(Color("48565e"))
 	var denim := _material(Color("353a3e"))
-	var canvas := _material(Color("bd885c"))
 	var rubber := _material(Color("aaa697"))
 	_clothes = Garments.new()
 	_clothes.build(person,shirt,denim)
@@ -180,35 +179,43 @@ func _build_drummer() -> void:
 	_anatomy = Anatomy.new()
 	var head := Node3D.new()
 	head.name = "DrummerHead"
+	# Rigid process-driven pose branches follow the current cloth palette.
+	# StreetDrummer and the actor keep their shared root interpolation.
+	head.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	head.position = Vector3(0,1.15,0)-Vector3(0,-0.13,0.036)
 	person.add_child(head)
 	_anatomy.build_head(head)
-	_cylinder(person,"Collar",Vector3(0,1.166,-0.012),0.068,0.07,shirt)
+	# A fitted opaque safety hat covers the hairstyle, as an actual hat does.
+	(head.get_node("CroppedHair") as MeshInstance3D).visible = false
+	_clothes.add_role_accessory("drummer")
 	var hat := _material(Color("d8d4c4"),0.0,0.82)
 	_ellipsoid(head,"UnbrandedSafetyHat",Vector3(0,0.12,0.005),Vector3(0.112,0.067,0.125),hat)
 	_cylinder(head,"SafetyHatBrim",Vector3(0,0.066,-0.008),0.130,0.014,hat)
 	for side: float in [-1.0,1.0]:
-		_box(person,"CanvasVestPanel",Vector3(side*0.095,0.94,-0.117),Vector3(0.14,0.37,0.028),canvas)
-		_box(person,"VestReflector",Vector3(side*0.095,0.92,-0.135),Vector3(0.14,0.025,0.006),rubber)
 		var ankle := Vector3(side*0.17,0.061,-0.43)
 		_clothes.pose_leg(side,Vector3(side*0.105,0.705,0),Vector3(side*0.16,0.49,-0.34),ankle)
 		var shoe := Node3D.new()
+		shoe.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		shoe.position=ankle
 		shoe.rotation.y=PI+side*0.08
 		person.add_child(shoe)
 		Footwear.build(shoe,denim,rubber,shirt)
 		var hand:Node3D=_anatomy.build_hand(person,side)
+		hand.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		_close_drum_hand(hand,side)
 		_hands.append(hand)
 		var stick_material:=_material(Color("d4b27c"),0.0,0.82)
 		var stick:=_cylinder(person,"WoodenDrumstick",Vector3.ZERO,STICK_RADIUS,1.0,stick_material)
+		stick.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		_sticks.append(stick)
 		var bead:=SphereMesh.new()
 		bead.radius=TIP_RADIUS
 		bead.height=TIP_RADIUS*2.0
 		bead.radial_segments=16
 		bead.rings=8
-		_stick_tips.append(_mesh(person,"DrumstickBeadTip",bead,Vector3.ZERO,stick_material))
+		var bead_tip := _mesh(person,"DrumstickBeadTip",bead,Vector3.ZERO,stick_material)
+		bead_tip.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+		_stick_tips.append(bead_tip)
 	var seat:=_material(Color("434948"),0.2,0.8)
 	_cylinder(person,"BuskingStoolSeat",Vector3(0,0.525,0.015),0.23,0.06,seat)
 	for side: float in [-1.0,1.0]:

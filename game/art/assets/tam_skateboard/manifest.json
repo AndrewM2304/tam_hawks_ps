@@ -1,14 +1,14 @@
 {
-  "schema": 1,
+  "schema": 2,
   "asset": "Original Tam skateboard",
   "author": "Original project-authored geometry and texture",
   "licence": "Project-owned original content; no public project licence grant selected (ART-001)",
   "external_assets": [],
   "network_required": false,
   "blender_version": "4.3.2",
-  "generator": "tools/art/build_skateboard.py",
-  "generator_sha256": "2eebc13deacb3b464caacbc15862f4b7e8bfaaf15e4f025ca15c604067aaaf15",
-  "regenerate": "blender --background --factory-startup --python tools/art/build_skateboard.py",
+  "generator": "tools/art/finish_board_uv.py",
+  "generator_sha256": "46ebd91b29117aa58d706d80545c5400f524d18f3cf174ac2eaf8d052f6e2f39",
+  "regenerate": "python tools/art/regenerate_skateboard_uv.py",
   "coordinates": "Godot board-local metres: X right, Y up, Z along deck. No runtime offset or scale.",
   "contract": {
     "axle_z_m": [
@@ -53,12 +53,51 @@
   },
   "outputs": {
     "tam_skateboard.glb": {
-      "bytes": 626756,
-      "sha256": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99"
+      "bytes": 613940,
+      "sha256": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943"
     },
     "board_albedo.png": {
-      "bytes": 469086,
-      "sha256": "0d7ffd2f597771878348e79e4673b48737668fc2251338b7a9e1586ac51cbed3"
+      "bytes": 421245,
+      "sha256": "a8931d5421762bcebb8b20ceefe88992975a899cee4148696ba0886358de68bf"
     }
-  }
+  },
+  "base_source": {
+    "sha256": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+    "archive": "tools/art/source/tam_skateboard-base.glb.gz",
+    "manifest": "tools/art/source/tam_skateboard-base-manifest.json",
+    "original_generator": "tools/art/build_skateboard.py",
+    "original_generator_sha256": "2eebc13deacb3b464caacbc15862f4b7e8bfaaf15e4f025ca15c604067aaaf15"
+  },
+  "uv_derivative": {
+    "revision": "UV04 RGB",
+    "side_period_px": 192,
+    "side_perimeter_repeats": 21,
+    "perimeter_m": 1.937752329,
+    "side_ply_colours": 7,
+    "raw_source_geometry_buffer_delta_bytes": 34880,
+    "native_geometry_shadow_lod_buffer_delta_bytes": 7232,
+    "added_triangles": 0,
+    "added_nodes_surfaces_materials_collision_objects": 0,
+    "actual_bound_RGB8_mips_bytes": 4194303,
+    "texture_allocation_delta_bytes": 0,
+    "protected_source": "all wood position/normal corners and underside UV corners exact; all other primitive attributes+indices exact",
+    "protected_native": "all4actual indexed geometry/winding multisets and32cached component pointsets exact; grip/metal/urethane packed buffers+LOD/shadow exact",
+    "scope": "UV-only material grounding improvement; no Main/moving/M5 or complete physical construction acceptance"
+  },
+  "editor_import": {
+    "policy": "tools/art/import_board_wood.gd",
+    "policy_sha256": "134e6fc320256e98928988ee21be9c3598e38a0b87dcd001c46bcaf1b5258b6e",
+    "decoder": "tools/art/board_wood_source.gd",
+    "decoder_sha256": "8ef7fba286fe1dbf881df48030fea587d34ca9435543f96c4e40de05545df7cf",
+    "global_force_disable_compression": false,
+    "wood": "raw pinned source restored editor-only with compression off",
+    "protected_surfaces": "native importer packed data retained verbatim",
+    "runtime_generation": false
+  },
+  "unresolved_physical_defects": [
+    "centre wood28mm vs unpressed7ply reference~10.25mm",
+    "8 bolt centres7.5mm outside actual baseplate footprint",
+    "bolt head tops~1.845–2.715mm above finite grip triangles",
+    "separate geometry/contact migration required"
+  ]
 }

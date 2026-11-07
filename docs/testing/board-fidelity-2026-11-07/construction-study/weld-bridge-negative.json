@@ -1,0 +1,38 @@
+{
+  "status": "PRIVATE source geometry reproduces conservative weld-bridge defect; native engine unrun",
+  "source_glb_sha256": "c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5",
+  "legacy_connected_components": 30,
+  "semantic_parts_proposed": 32,
+  "merged_wood_mount_unique_points": 1536,
+  "phantom_point_m": [
+    0.0,
+    -0.01,
+    0.0
+  ],
+  "maximum_merged_convex_plane_signed_distance_m": -0.007775001004338264,
+  "actual_closest_triangle_distance_m": 0.015750000011175873,
+  "closest_actual_complete_model_triangle": 388,
+  "closest_actual_triangle_positions_m": [
+    [
+      0.0,
+      0.005750000011175871,
+      -0.020874999463558197
+    ],
+    [
+      0.0,
+      0.005750000011175871,
+      -0.0
+    ],
+    [
+      -0.023600000888109207,
+      0.0058279745280742645,
+      -0.0
+    ]
+  ],
+  "negative": "A future contact cache must not create an obstacle under the clear deck middle by merging physically touching wood+risers+baseplates.",
+  "limits": [
+    "scalar64 SciPy no-joggle hull is diagnostic, not robust runtime enclosure authority",
+    "all source float32 triangle positions tested for closest distance",
+    "does not change current UV04 model or its valid native32 cache"
+  ]
+}

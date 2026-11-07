@@ -1,0 +1,141 @@
+"""Private offline indexed-GLB wood-UV finish; no native scene/runtime mutations.
+
+Preserves every drawn triangle position/normal, other primitive byte streams and
+all material/node identities. Seven visual layers do not fix 28 mm construction.
+Only original project-authored image pixels and deterministic NumPy grain used.
+"""
+from pathlib import Path
+import argparse,copy,hashlib,io,json,math,struct
+import numpy as np
+from PIL import Image
+from scipy.spatial import ConvexHull
+DTYPES={5120:'i1',5121:'u1',5122:'<i2',5123:'<u2',5125:'<u4',5126:'<f4'}
+WIDTH={'SCALAR':1,'VEC2':2,'VEC3':3,'VEC4':4,'MAT4':16}
+def sha(b):return hashlib.sha256(b).hexdigest()
+class GLB:
+ def __init__(self,path):
+  self.path=Path(path);self.file=self.path.read_bytes();magic,version,total=struct.unpack_from('<III',self.file)
+  assert magic==0x46546c67 and version==2 and total==len(self.file)
+  n,kind=struct.unpack_from('<II',self.file,12);assert kind==0x4e4f534a
+  self.g=json.loads(self.file[20:20+n]);off=20+n;n,kind=struct.unpack_from('<II',self.file,off);assert kind==0x004e4942
+  self.raw=self.file[off+8:off+8+n]
+ def view(self,i):
+  q=self.g['bufferViews'][i];return self.raw[q.get('byteOffset',0):q.get('byteOffset',0)+q['byteLength']]
+ def array(self,i):
+  a=self.g['accessors'][i];assert 'sparse' not in a
+  v=self.g['bufferViews'][a['bufferView']];dtype=np.dtype(DTYPES[a['componentType']]);width=WIDTH[a['type']]
+  return np.ndarray((a['count'],width),dtype=dtype,buffer=self.raw,offset=v.get('byteOffset',0)+a.get('byteOffset',0),strides=(v.get('byteStride',width*dtype.itemsize),dtype.itemsize)).copy()
+ def primitive(self,i):
+  p=self.g['meshes'][0]['primitives'][i]
+  return p,{name:self.array(index) for name,index in p['attributes'].items()},self.array(p['indices']).ravel()
+ def image(self):return self.view(self.g['images'][0]['bufferView'])
+def face_data(vertices,indices,uv):
+ p=vertices[indices].astype(np.float64).reshape(-1,3,3);t=uv[indices].astype(np.float64).reshape(-1,3,2)
+ cross=np.cross(p[:,1]-p[:,0],p[:,2]-p[:,0]);length=np.linalg.norm(cross,axis=1)
+ normal=cross/length[:,None];du=t[:,1]-t[:,0];dv=t[:,2]-t[:,0];jac=du[:,0]*dv[:,1]-du[:,1]*dv[:,0]
+ return p,t,normal,length,jac
+
+def audit(board):
+ result={'glb_sha256':sha(board.file),'nodes':len(board.g['nodes']),'mesh_count':len(board.g['meshes']),'material_names':[m['name'] for m in board.g['materials']],'image_count':len(board.g['images']),'image_size':list(Image.open(io.BytesIO(board.image())).size),'surfaces':[]}
+ for i,p in enumerate(board.g['meshes'][0]['primitives']):
+  _,a,ix=board.primitive(i);positions,uv=a['POSITION'],a['TEXCOORD_0'];fp,ft,normal,length,jac=face_data(positions,ix,uv);side=np.abs(normal[:,1])<.5
+  result['surfaces'].append({'material':board.g['materials'][p['material']]['name'],'vertices':len(positions),'triangles':len(ix)//3,'geometric_side_triangles':int(side.sum()),'side_zero_uv_1e12':int((side&(np.abs(jac)<1e-12)).sum()),'all_zero_uv_1e12':int((np.abs(jac)<1e-12).sum()),'minimum_real_triangle_area':float(length.min()/2),'bounds_min':positions.min(0).tolist(),'bounds_max':positions.max(0).tolist(),'minimum_side_abs_uv_jacobian':float(np.abs(jac[side]).min()) if side.any() else None,'attributes':{k:sha(v.tobytes()) for k,v in a.items()},'indices_sha256':sha(ix.tobytes())})
+ return result
+
+def perimeter_parameters(points):
+ xz=points[:,[0,2]].astype(np.float64);hull=ConvexHull(xz);outline=xz[hull.vertices]
+ # Begin at one exact finite convex-hull vertex, retaining seam provenance.
+ begin=int(np.lexsort((outline[:,0],outline[:,1]))[0]);outline=np.roll(outline,-begin,axis=0)
+ edge=np.roll(outline,-1,axis=0)-outline;lens=np.linalg.norm(edge,axis=1);cumulative=np.r_[0,np.cumsum(lens)];total=float(cumulative[-1])
+ result=[]
+ for at in xz:
+  t=np.clip(np.sum((at-outline)*edge,axis=1)/lens**2,0,1)
+  distances=np.sum((outline+edge*t[:,None]-at)**2,axis=1);nearest=int(np.argmin(distances))
+  result.append((cumulative[nearest]+t[nearest]*lens[nearest])/total)
+ return np.array(result),total,outline
+
+def atlas(source):
+ pixels=np.asarray(Image.open(io.BytesIO(source)).convert('RGBA')).copy();assert pixels.shape==(1024,1024,4)
+ yy,xx=np.mgrid[0:1024,0:1024].astype(np.float64);u=(xx+.5)/1024;v=(yy+.5)/1024
+ # All UV coordinates below are glTF/PIL top-left. Existing grip is upper right;
+ # hardware uses exact(.62,.76)/(.87,.76), outside both padded new regions.
+ side=(u>=.51)&(u<=.99)&(v>=.515)&(v<=.655)
+ s=((xx+.5-640)%192)/192;t=np.clip(1-(v-.53)/.11,0,1)
+ layer=np.minimum((t*7).astype(int),6)
+ palette=np.array([[.67,.53,.35],[.70,.57,.39],[.55,.41,.27],[.72,.59,.41],[.57,.43,.28],[.69,.55,.37],[.73,.60,.42]])
+ grain=np.sin(s*math.tau*71+np.sin(t*12)*.3)*.009+np.sin(s*math.tau*179+t*17)*.004
+ seam=np.exp(-np.minimum((t*7)%1,1-(t*7)%1)**2/.003)*.028
+ colors=np.clip(palette[layer]+grain[:,:,None]-seam[:,:,None],0,1)
+ pixels[side,:3]=np.rint(colors[side]*255).astype(np.uint8)
+ top=(u>=.515)&(u<=.745)&(v>=.795)&(v<=.99)
+ gx=(u-.54)/.18;gz=(v-.82)/.15
+ fine=np.sin(gx*117+np.sin(gz*7)*1.1)*.012+np.sin(gx*431+gz*9)*.003
+ face=np.clip(np.array([.73,.61,.43])+fine[:,:,None],0,1)
+ pixels[top,:3]=np.rint(face[top]*255).astype(np.uint8)
+ original=np.asarray(Image.open(io.BytesIO(source)).convert('RGBA'))
+ assert np.array_equal(pixels[:512,512:],original[:512,512:])
+ assert np.array_equal(pixels[:,:512],original[:,:512])
+ for x,y in [(int(.62*1024),int(.76*1024)),(int(.87*1024),int(.76*1024))]:assert np.array_equal(pixels[y-32:y+33,x-32:x+33],original[y-32:y+33,x-32:x+33])
+ buffer=io.BytesIO();Image.fromarray(pixels,'RGBA').save(buffer,format='PNG',compress_level=9)
+ return buffer.getvalue(),{'changed_RGBA_pixels':int(np.any(pixels!=original,axis=2).sum()),'protected_grip_quadrant_identical':True,'protected_original_art_left_half_identical':True,'hardware_UV_65px_neighborhoods_identical':True,'side_period_px':192,'side_repeat_distance_m':.09375,'side_uv_origin_u':.625,'side_uv_period_u':.1875,'side_v_region':[.53,.64],'side_padded_pixels_region':[.51,.515,.99,.655],'top_uv_region':[.54,.82,.72,.97]}
+
+def finish(board,out):
+ g=copy.deepcopy(board.g);p,a,ix=board.primitive(0);positions=a['POSITION'];old_uv=a['TEXCOORD_0'];_,_,normal,_,_=face_data(positions,ix,old_uv)
+ s,total,outline=perimeter_parameters(positions);new={k:[] for k in a};indices=[];lookup={};categories=[];source_indices=[]
+ for tri,face in enumerate(ix.reshape(-1,3)):
+  category='top' if normal[tri,1]>.5 else ('bottom' if normal[tri,1]<-.5 else 'side');categories.append(category)
+  parameter=s[face].copy()
+  if category=='side' and parameter.max()-parameter.min()>.5:parameter[parameter<.5]+=1
+  tile=math.floor(float(parameter.mean())*total/.09375)
+  for corner,source in enumerate(face):
+   source=int(source);x,y,z=map(float,positions[source]);uv=old_uv[source]
+   if category=='top':uv=np.array([.54+.18*(x/.236+.5),.82+.15*(z/.835+.5)],dtype='<f4')
+   elif category=='side':
+    mid=.65*max(0,abs(z)-.28)**1.5+x*x*.14;t=(y-mid+.014)/.028
+    uv=np.array([.625+.1875*(parameter[corner]*total/.09375-tile),.53+.11*(1-t)],dtype='<f4')
+   key=(source,uv.tobytes())
+   if key not in lookup:
+    lookup[key]=len(new['POSITION']);source_indices.append(source)
+    for name in a:new[name].append(uv if name=='TEXCOORD_0' else a[name][source])
+   indices.append(lookup[key])
+ new={name:np.asarray(v,dtype=a[name].dtype) for name,v in new.items()};new_ix=np.asarray(indices,dtype=ix.dtype)
+ # Explicit tangent source for wood only. No normal-map resource/pipeline added.
+ tangent=np.zeros((len(new_ix)//3,3,3),dtype=np.float64);bitangent=np.zeros_like(tangent)
+ fp,ft,fn,length,jac=face_data(new['POSITION'],new_ix,new['TEXCOORD_0'])
+ assert np.all(np.abs(jac)>1e-12),'all genuine wood triangles require nonzero UV area'
+ e1=fp[:,1]-fp[:,0];e2=fp[:,2]-fp[:,0];du=ft[:,1]-ft[:,0];dv=ft[:,2]-ft[:,0]
+ tan=(e1*dv[:,1,None]-e2*du[:,1,None])/jac[:,None];bit=(e2*du[:,0,None]-e1*dv[:,0,None])/jac[:,None]
+ sums=np.zeros((len(new['POSITION']),3),dtype=np.float64);bsums=np.zeros_like(sums)
+ for corner in range(3):np.add.at(sums,new_ix.reshape(-1,3)[:,corner],tan*length[:,None]);np.add.at(bsums,new_ix.reshape(-1,3)[:,corner],bit*length[:,None])
+ normals=new['NORMAL'].astype(np.float64);t=sums-normals*np.sum(normals*sums,axis=1)[:,None];t/=np.linalg.norm(t,axis=1)[:,None]
+ handed=np.where(np.sum(np.cross(normals,t)*bsums,axis=1)<0,-1,1);new['TANGENT']=np.c_[t,handed].astype('<f4');assert np.isfinite(new['TANGENT']).all()
+ image,image_record=atlas(board.image());replacement={}
+ def replace_accessor(index,array):
+  ac=g['accessors'][index];view=ac['bufferView'];ac['count']=len(array);ac.pop('byteOffset',None)
+  if ac['type']=='VEC3' and 'min' in ac:ac['min']=array.min(0).tolist();ac['max']=array.max(0).tolist()
+  replacement[view]=array.tobytes();g['bufferViews'][view].pop('byteStride',None)
+ for name,index in p['attributes'].items():replace_accessor(index,new[name])
+ replace_accessor(p['indices'],new_ix[:,None]);replacement[g['images'][0]['bufferView']]=image
+ tangent_view=len(g['bufferViews']);g['bufferViews'].append({'buffer':0,'byteLength':new['TANGENT'].nbytes,'target':34962});replacement[tangent_view]=new['TANGENT'].tobytes()
+ tangent_access=len(g['accessors']);g['accessors'].append({'bufferView':tangent_view,'componentType':5126,'count':len(new['TANGENT']),'type':'VEC4'});g['meshes'][0]['primitives'][0]['attributes']['TANGENT']=tangent_access
+ binary=bytearray()
+ for i,view in enumerate(g['bufferViews']):
+  while len(binary)%4:binary.append(0)
+  data=replacement[i] if i in replacement else board.view(i);view['byteOffset']=len(binary);view['byteLength']=len(data);binary.extend(data)
+ while len(binary)%4:binary.append(0)
+ g['buffers'][0]['byteLength']=len(binary);encoded=json.dumps(g,separators=(',',':')).encode();encoded+=b' '*((-len(encoded))%4)
+ output=struct.pack('<III',0x46546c67,2,12+8+len(encoded)+8+len(binary))+struct.pack('<II',len(encoded),0x4e4f534a)+encoded+struct.pack('<II',len(binary),0x004e4942)+binary
+ out.mkdir(parents=True,exist_ok=True);(out/'tam_skateboard.glb').write_bytes(output);(out/'board_albedo.png').write_bytes(image)
+ candidate=GLB(out/'tam_skateboard.glb');_,ca,ci=candidate.primitive(0)
+ protected={'wood_triangle_corner_positions_exact':np.array_equal(positions[ix],ca['POSITION'][ci]),'wood_triangle_corner_normals_exact':np.array_equal(a['NORMAL'][ix],ca['NORMAL'][ci]),'wood_all_original_source_positions_used':len(set(source_indices))==len(positions),'wood_downward_art_UV_corner_bytes_exact':all(old_uv[face].tobytes()==ca['TEXCOORD_0'][ci.reshape(-1,3)[i]].tobytes() for i,face in enumerate(ix.reshape(-1,3)) if categories[i]=='bottom'),'nodes_exact':g['nodes']==board.g['nodes'],'materials_exact':g['materials']==board.g['materials'],'primitives_1_2_3_exact':True}
+ for i in (1,2,3):
+  op,oa,oi=board.primitive(i);cp,pa,pi=candidate.primitive(i)
+  protected['primitives_1_2_3_exact'] &= op==cp and oi.tobytes()==pi.tobytes() and all(oa[k].tobytes()==pa[k].tobytes() for k in oa)
+ assert all(protected.values()),protected
+ old_geom=sum(board.g['accessors'][j]['count']*np.dtype(DTYPES[board.g['accessors'][j]['componentType']]).itemsize*WIDTH[board.g['accessors'][j]['type']] for p in board.g['meshes'][0]['primitives'] for j in list(p['attributes'].values())+[p['indices']])
+ new_geom=sum(g['accessors'][j]['count']*np.dtype(DTYPES[g['accessors'][j]['componentType']]).itemsize*WIDTH[g['accessors'][j]['type']] for p in g['meshes'][0]['primitives'] for j in list(p['attributes'].values())+[p['indices']])
+ report={'scope':'PRIVATE source-indexed UV/material derivative only; no native import/draw/contact/M5 acceptance; 28mm construction deliberately unresolved','generator_sha256':sha(Path(__file__).read_bytes()),'base':audit(board),'candidate':audit(candidate),'protected':protected,'atlas':image_record,'resource_budget_declared':{'added_nodes':0,'added_materials':0,'added_texture_RGBA_bytes':0,'added_draw_surfaces':0,'added_collision_objects':0,'maximum_added_triangles':512,'maximum_added_geometry_buffer_bytes':131072},'observed_source_delta':{'added_triangles':0,'added_geometry_buffer_bytes':new_geom-old_geom,'encoded_GLB_file_bytes':len(output)-len(board.file),'maple_vertex_delta':len(new['POSITION'])-len(positions)},'perimeter_m':total,'side_horizontal_texels_per_m':192/.09375,'side_repeat_distance_m':.09375,'side_period_px':192,'side_vertical_texels_per_m':.11*1024/.028,'side_visual_ply_count':7,'source_ply_physical_thickness_m':.028/7,'functional_markers':'No node markers changed; exact drawn triangle positions/primitive IDs preserved. Native support/component/marker checks still required.'}
+ assert new_geom-old_geom<=131072
+ (out/'source-report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:report[k] for k in ['scope','protected','observed_source_delta','perimeter_m']},indent=2))
+if __name__=='__main__':
+ parser=argparse.ArgumentParser();parser.add_argument('--base',type=Path,required=True);parser.add_argument('--out',type=Path,required=True);args=parser.parse_args();finish(GLB(args.base),args.out)

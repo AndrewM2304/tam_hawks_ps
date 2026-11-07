@@ -66,22 +66,17 @@ Then perform a bounded actual-input inspection, preserving strict assertions:
 The real active cylindrical Main snapshot now passes4/0, recorded separately in
 [capture-cylindrical-active-native](motion-fidelity-2026-11-07/capture-cylindrical-active-native/README.md).
 It verifies observer metadata, not grind presentation. The first four-family
-generic-contact observer attempt is rejected after a tooling reference to a
-nonexistent Main bail counter; it supplies no generic-contact result. The repaired
-private observer uses actual Skater `bailed`/`recovered` signals, perphysics
-`bail_active`/`recovery_fade`, actual indexed GLB positions, finite native Box/Cylinder
-geometry and fullprecision numeric records. It remains unparsed/unexecuted after
-those corrections and needs a fresh current-source native epoch.
+observer attempt is retained as rejected after a nonexistent Main bail-counter
+reference. The fresh epoch below instead uses actual Skater `bailed`/`recovered`
+signals, perphysics `bail_active`/`recovery_fade`, actual indexed GLB positions,
+finite native Box/Cylinder geometry and fullprecision numeric records.
 
-Its declared one-start airborne/momentum fixtures then use mapped Grind for24ticks
-per representative seat, planter, counter and changing-grade bridge rail. It
-records actual captured identity, component/native RID+shape, real vertex intrusion
-over1mm, bounded signed/vertical hanger/tyre rays and completed-frame camera checks.
-Those setup fixtures cannot establish an ordinary approach or wheel load, and a
-convex hit alone does not prove actual material penetration. Saturated/unsupported
-queries remain unknown. No family is accepted from a missing catch or an observer
-exit code. Root queues the corrected bounded native audit after the active source
-integration/contact work.
+Each declared one-start airborne/momentum fixture uses mapped Grind for24ticks
+on a representative seat, planter, counter or changing-grade bridge rail.
+Captured guide/style, component/native RID+shape, real vertex intrusion over1mm
+and bounded signed/vertical hanger/tyre rays are retained. These setup fixtures
+cannot establish an ordinary approach or wheel load; a convex hit alone is not
+actual material penetration. Saturated/unsupported queries remain unknown.
 
 The subsequent fresh-current-source [native four-family epoch](motion-fidelity-2026-11-07/legacy-generic-native-01/README.md)
 executes cleanly with803stable inputs and24physics samples per family. No actual
@@ -92,3 +87,32 @@ are retained. This identifies a grounding follow-up rather than accepting generi
 presentation. The raw camera field has a documented phase-label correction:
 two initial counter rays hit the awning before the camera process update; this
 does not certify a rendered ordinary-play obstruction. No runtime fix is included.
+
+Independent QA subsequently recomputes this packet's geometry/arithmetic and
+provenance in46checks with no failures, recorded beside the packet. FID-D019/P2
+therefore tracks a measured grounding investigation: positive empty-volume
+clearance does not close hanger contact, while a missing tyre ray supplies no
+support or loading conclusion. No ordinary approach or visible-hover verdict has
+been inferred from the airborne setup fixtures.
+
+The next prepared observer is a separate private file, not a revision of that
+immutable epoch. It retains the four original24tick input prefixes and schedules
+a priority250 Node process after the production camera. Every accepted comparison
+must retain the exact rider, velocity, board, head, physics tick and process frame,
+and the production presentation-frame stamp must equal that process frame. The
+last24th pre-sample ends its fixture before a late callback; it is explicitly
+unknown rather than adding an await that changes the original input prefix.
+Parser/native results and actual96row physical parity are pending. Even a clear
+late callback will establish a post-camera query, not an actual drawn frame or an
+ordinary approach.
+
+The bounded runtime follow-up for the three native flat-box families should use
+the existing finite named-edge contract only after inspecting their real native
+BoxShape transforms, outward face, guide identities and source mesh alignment.
+Preserve the exact current guide coordinates and geometry; use their independent
+native crown offset rather than lowering all generic rider poses. Exclude authored
+proxy/cap overrides, unsupported frames and failed edge configurations. Require
+actual named bearing/whole-model/capsule admission and ordinary approach/release
+regressions, including adversarial adjacent solids and native support changes.
+The graded bridge remains a separate geometry family. No such new family contact
+authoring is installed or accepted by this report.

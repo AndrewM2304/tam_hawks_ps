@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T06:47:37.530516+00:00",
+  "finished_utc": "2026-11-07T06:47:41.071861+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "640x400",
+      "--script",
+      "tools/environment_water_isolated_probe.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/water-cost-source/.local/environment-water/two-wave-native-profile-27cells-01"
+    ]
+  ],
+  "git_head": "97d72fa15bd3032a04658a827e8dbc76a2af09ff",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": null,
+  "engine_errors": false,
+  "abort_reason": "RuntimeError: Competing Godot invalidates exclusive cost epoch: ['82100 godot --path /workspace/tam_hawks_ps/.local/environment-phase2/water-cost-source --rendering-method gl_compatibility --audio-driver Dummy --windowed --resolution 640x400 --script tools/environment_water_isolated_probe.gd -- /workspace/tam_hawks_ps/.local/environment-phase2/water-cost-source/.local/environment-water/two-wave-native-profile-27cells-01']",
+  "last_stage": "tools/environment_water_isolated_probe.gd",
+  "process_timeout_seconds": 180,
+  "workload": "isolated-water-27cells-finalsky-casteroff-640x400",
+  "concurrent_headless_authorised_pid": null,
+  "other_godot_at_start": [],
+  "timing_measured": true,
+  "host_observer_samples": 12,
+  "observed_competing_godot": true,
+  "source_inventory_sha256": "8bc93f2888563320ba446831f9ca0661306caabc89663c6082e9ffccd361b254",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {},
+  "eligible": false,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

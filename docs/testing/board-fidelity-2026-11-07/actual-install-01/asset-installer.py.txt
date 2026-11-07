@@ -1,0 +1,36 @@
+"""Root-only guarded admission installer. Default is read-only verification.
+Every payload/postimage and current preimage is checked before any write.
+This installs source only: editor reimport and native/full gates still required.
+"""
+from pathlib import Path
+import argparse,hashlib,json,os,tempfile
+BUNDLE=Path(__file__).resolve().parent
+MANIFEST_SHA="87aba344bd62565abdd69cb7a8edd00c3ff6c60a5b012a542f03cdd0d5498262"
+def sha(data):return hashlib.sha256(data).hexdigest()
+def main():
+ parser=argparse.ArgumentParser();parser.add_argument('--repo',type=Path,required=True);parser.add_argument('--apply',action='store_true');args=parser.parse_args();repo=args.repo.resolve()
+ raw=(BUNDLE/'manifest.json').read_bytes()
+ if sha(raw)!=MANIFEST_SHA:raise SystemExit('Admission manifest changed')
+ manifest=json.loads(raw);changes=[]
+ for entry in manifest['entries']:
+  relative=Path(entry['path'])
+  if relative.is_absolute() or '..' in relative.parts:raise SystemExit('Unsafe manifest path')
+  target=repo/relative;source=BUNDLE/'payload'/relative
+  if sha(source.read_bytes())!=entry['after_sha256']:raise SystemExit('Payload changed: '+str(relative))
+  actual=sha(target.read_bytes()) if target.exists() else None
+  if actual!=entry['before_sha256']:raise SystemExit('Current source preimage mismatch: '+str(relative))
+  changes.append((target,source))
+ print('All '+str(len(changes))+' exact preimages/postimages authenticated')
+ if not args.apply:return
+ for target,source in changes:
+  target.parent.mkdir(parents=True,exist_ok=True)
+  fd,name=tempfile.mkstemp(prefix='.'+target.name+'.board-',dir=target.parent)
+  try:
+   with os.fdopen(fd,'wb') as output:output.write(source.read_bytes());output.flush();os.fsync(output.fileno())
+   os.replace(name,target)
+  finally:
+   if os.path.exists(name):os.unlink(name)
+ for entry in manifest['entries']:
+  if sha((repo/entry['path']).read_bytes())!=entry['after_sha256']:raise SystemExit('Installed postimage mismatch')
+ print('Installed exact UV04 source; editor/native/contact/full checks remain required')
+if __name__=='__main__':main()

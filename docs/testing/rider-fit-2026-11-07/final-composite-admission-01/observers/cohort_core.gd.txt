@@ -1,0 +1,169 @@
+extends SceneTree
+const Classic=preload("res://tests/classic_tricks_integration_tests.gd")
+const Adapter=preload("res://tests/fitted_adapter.gd")
+const ArmFit=preload("res://game/player/skater_obstacle_arm_fit.gd")
+var passes:=0
+var failures:Array[String]=[]
+var metrics:Dictionary={}
+
+func _initialize()->void:
+	_run.call_deferred()
+
+func _check(ok:bool,label:String)->void:
+	if ok:
+		passes+=1
+		print("PASS ",label)
+	else:
+		failures.append(label)
+		print("FAIL ",label)
+
+func _run()->void:
+	Classic.Setup.register_actions()
+	var reference:Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://tests/fitted-reference.json"))
+	_check(FileAccess.get_sha256("res://game/art/rider/fitted_outfit.glb")==reference.asset_sha256,"exact selected GLB hash")
+	_check(FileAccess.get_sha256("res://game/art/rider/fitted_landmarks.json")==reference.metadata_sha256,"exact source semantic metadata hash")
+	_check(FileAccess.get_sha256("res://game/art/rider/fitted_head.obj")==reference.head_asset_sha256,"exact original source-authenticated Head hash")
+	var fixture:Dictionary=await Classic._fixture(self)
+	var rider:CharacterBody3D=fixture.rider
+	rider.set_physics_process(false)
+	var rig:RefCounted=rider._visual_rig
+	var hands:Dictionary={}
+	for arm:Dictionary in rig._arms:
+		var name:String="right_hand" if arm.side<0.0 else "left_hand"
+		var mesh:MeshInstance3D=arm.hand.get_node("HandAndFingers")
+		var source:Mesh=load("res://game/art/assets/makehuman_hm08/"+name+".obj")
+		var surfaces:Array=[]
+		for surface:int in mesh.mesh.get_surface_count():
+			var arrays:Array=mesh.mesh.surface_get_arrays(surface)
+			var points:Array=[]
+			var tex:Array=[]
+			for point:Vector3 in arrays[Mesh.ARRAY_VERTEX]:points.append([point.x,point.y,point.z])
+			for uv:Vector2 in arrays[Mesh.ARRAY_TEX_UV]:tex.append([uv.x,uv.y])
+			surfaces.append({"points":points,"uv":tex,"indices":Array(arrays[Mesh.ARRAY_INDEX])})
+		hands[name]={"source_sha256":FileAccess.get_sha256("res://game/art/assets/makehuman_hm08/"+name+".obj"),"source_compressed":(source.surface_get_format(0)&Mesh.ARRAY_FLAG_COMPRESS_ATTRIBUTES)!=0,"position_identity_bound_m":source.get_aabb().size.length()/65535.0+.0000002,"surfaces":surfaces}
+	var hand_file:=FileAccess.open("res://hand-native-import.json",FileAccess.WRITE)
+	hand_file.store_string(JSON.stringify(hands))
+	hand_file.close()
+	var data:Dictionary=Adapter.prepare(rig,reference)
+	metrics.mapping_errors=data.errors
+	if data.head.has("identity_position_bound_m"):metrics.head_import={"compressed":data.head.import_compressed,"position_identity_bound_m":data.head.identity_position_bound_m,"uv_identity_bound":data.head.identity_uv_bound}
+	_check(data.errors.is_empty(),"all actual native arrays/bindings/topology authenticate source identity")
+	if not data.errors.is_empty():
+		print("MAPPING_DIAGNOSTIC ",data.errors)
+		await Classic._dispose(self,fixture)
+		_finish()
+		return
+	_check(data.waist_edges.size()==100 and data.neck_ids.size()==46 and data.head.authenticated_uv_records==47 and data.head.native_boundary_edges.size()==46,"all100 actual waist edges and46 neck identities complete")
+	for name:String in ["SkinnedJacket","SkinnedTrousers","UpperChest"]:
+		metrics[name]={"native_vertices":data.parts[name].records.size(),"source_vertices":data.parts[name].by_source.size(),"triangles":data.parts[name].triangles.size()}
+	var state:Dictionary={"airborne":false,"grab":false,"flip":false,"manual":false,"grind":false,"speed":0.0,"push":false,"brake":false}
+	var peak_waist:=0.0
+	var peak_neck:=0.0
+	for pose:Dictionary in [{},{"look_direction":Vector3.LEFT},{"look_direction":Vector3.RIGHT},{"speed":7.0,"push":true},{"crouch":1.0},{"airborne":true,"grab":true,"grab_id":"melon_grab"},{"airborne":true,"grab":true,"grab_id":"method_grab"},{"manual":true,"manual_balance":0.9},{"bail":1.0}]:
+		var active:Dictionary=state.duplicate()
+		active.merge(pose,true)
+		for tick:int in 30:rig.animate(1.0/60.0,active)
+		var sample:Dictionary=Adapter.sample(data)
+		peak_waist=maxf(peak_waist,sample.maximum_waist_m)
+		peak_neck=maxf(peak_neck,sample.maximum_neck_m)
+		_check(sample.finite and sample.maximum_waist_m<.08 and sample.maximum_neck_m<.05,"actual multi-bone source seam remains within original limits "+str(pose))
+	metrics.pose_peaks={"waist_m":peak_waist,"neck_m":peak_neck,"source":"direct visual-pose diagnostics; not controller trajectory or moving review"}
+	for tick:int in 30:rig.animate(1.0/60.0,state)
+	var neutral:Dictionary=Adapter.sample(data)
+	var jacket:MeshInstance3D=data.parts.SkinnedJacket.mesh
+	var original:Skin=jacket.skin
+	var skeleton:Skeleton3D=data.skeleton
+	var torso_bind:=-1
+	for bind:int in original.get_bind_count():
+		if skeleton.get_bone_name(Adapter._bone(original,skeleton,bind))==&"torso":torso_bind=bind
+	_check(torso_bind>=0,"actual named torso binding exists")
+	var corrupt:Skin=original.duplicate(true) as Skin
+	var wrong:Transform3D=corrupt.get_bind_pose(torso_bind)
+	wrong.origin.y-=.8
+	corrupt.set_bind_pose(torso_bind,wrong)
+	var before:Array[Vector3]=[]
+	for record:Dictionary in data.parts.SkinnedJacket.records:before.append(Adapter.point(jacket,skeleton,record))
+	jacket.skin=corrupt
+	var detached:Dictionary=Adapter.sample(data)
+	var upper_shift:=0.0
+	for i:int in data.parts.SkinnedJacket.records.size():
+		var record:Dictionary=data.parts.SkinnedJacket.records[i]
+		var torso_weight:=0.0
+		for k:int in record.bones.size():
+			if record.bones[k]==torso_bind:torso_weight+=record.weights[k]
+		if torso_weight>.999:upper_shift=maxf(upper_shift,before[i].distance_to(Adapter.point(jacket,skeleton,record)))
+	_check(detached.maximum_waist_m>.08 and detached.joint_gap_m==neutral.joint_gap_m,"same800mm torso corruption exceeds original80mm limit without node joint change")
+	_check(upper_shift>.5,"same800mm corruption retains pure upper-shirt over500mm sentinel")
+	metrics.detachment800={"waist_m":detached.maximum_waist_m,"pure_upper_shift_m":upper_shift,"joint_gap_unchanged":detached.joint_gap_m==neutral.joint_gap_m}
+	jacket.skin=original
+	corrupt=original.duplicate(true) as Skin
+	for bind:int in corrupt.get_bind_count():
+		var pose:Transform3D=skeleton.get_bone_global_pose(Adapter._bone(corrupt,skeleton,bind))
+		# Every weighted LOCAL palette receives the same250mm translation.
+		# Preserve raw native sums; displacement is250mm times decoded mass.
+		wrong=pose.affine_inverse()*Transform3D(Basis.IDENTITY,Vector3(.25,0,0))*pose*corrupt.get_bind_pose(bind)
+		corrupt.set_bind_pose(bind,wrong)
+	jacket.skin=corrupt
+	var translated:Dictionary=Adapter.sample(data)
+	_check(absf(translated.maximum_waist_m-.25)<.00002 and translated.joint_gap_m==neutral.joint_gap_m,"uniform250mm all-bind translation detected despite healthy control nodes")
+	jacket.skin=original
+	var invalid:Dictionary=reference.duplicate(true)
+	invalid.waist_edges.pop_back()
+	_check(not Adapter.prepare(rig,invalid).errors.is_empty(),"missing authenticated seam edge fails closed")
+	invalid=reference.duplicate(true)
+	invalid.waist_edges[0][0]=999999
+	_check(not Adapter.prepare(rig,invalid).errors.is_empty(),"wrong authenticated seam source identity fails closed")
+	corrupt=original.duplicate(true) as Skin
+	corrupt.set_bind_name(torso_bind,"")
+	corrupt.set_bind_bone(torso_bind,999999)
+	jacket.skin=corrupt
+	_check(not Adapter.prepare(rig,reference).errors.is_empty(),"out-of-range actual native Skin binding fails before bone reads")
+	jacket.skin=original
+	var selected:Dictionary={}
+	for record:Dictionary in data.parts.SkinnedJacket.records:
+		var sum:=0.0
+		for w:float in record.weights:sum+=w
+		if sum<.999999:
+			selected=record
+			break
+	_check(not selected.is_empty(),"actual decoded native nonunit UNORM16 witness exists")
+	if not selected.is_empty():
+		var model:Transform3D=jacket.global_transform
+		var initial:=Adapter.point(jacket,skeleton,selected)
+		jacket.global_position+=Vector3(137,0,-106)
+		var moved:=Adapter.point(jacket,skeleton,selected)
+		_check(moved.distance_to(initial+Vector3(137,0,-106))<.00003,"far-origin unequal mesh/skeleton model translation applied once with raw native weights")
+		jacket.global_transform=model
+	var fit:=ArmFit.new()
+	fit.prepare(rider)
+	_check(fit.supported and fit.arms.size()==2 and fit.cache_bytes<=512*1024,"fresh fitted actual arm cache supports source geometry within512KiB")
+	var outside:=0
+	var counts:Array=[]
+	for arm:Dictionary in fit.arms:
+		var bounds:AABB=fit._bounds(arm,{},arm.hand.global_transform)
+		var vertices:int=arm.points.size()
+		counts.append(vertices)
+		for i:int in vertices:
+			var record:Dictionary={"point":arm.points[i],"bones":arm.binds.slice(arm.offsets[i],arm.offsets[i+1]),"weights":arm.weights.slice(arm.offsets[i],arm.offsets[i+1])}
+			if not bounds.grow(.00001).has_point(Adapter.point(jacket,skeleton,record)):outside+=1
+	_check(outside==0,"actual fitted arm incident endpoints remain inside native cached LBS envelopes")
+	metrics.contact_cache={"vertices":counts,"packed_bytes":fit.cache_bytes,"outside":outside,"scope":"cache geometry only; real wall trajectories and12query limits remain separate"}
+	await load("res://tests/per_leg_sole_contract.gd").run(self,_check)
+	await load("res://tests/full_shoe_support_contract.gd").run(self,_check)
+	# Preserve all original BodyAttachment input/recovery sequences and limits.
+	await load("res://tests/skater_body_attachment_tests.gd").run(self,_check)
+	await load("res://tests/skater_wall_manual_tests.gd").run(self,_check)
+	await load("res://tests/skater_obstacle_arm_tests.gd").run(self,_check)
+	metrics.neutral=neutral
+	metrics.uniform250=translated
+	await Classic._dispose(self,fixture)
+	_finish()
+
+func _finish()->void:
+	metrics["interpolation_estimates"]=Adapter.largest_neck_witness
+	var result:Dictionary={"passes":passes,"failures":failures,"metrics":metrics,"scope":"private native fitted mapping/seam/bind/cache pilot; original positive limits and corruption magnitudes preserved, no graphics/Main trajectory/M5 acceptance"}
+	var file:=FileAccess.open("res://result-core.json",FileAccess.WRITE)
+	file.store_string(JSON.stringify(result,"\t"))
+	file.close()
+	print("FITTED_PILOT_RESULT ",JSON.stringify(result))
+	quit(0 if failures.is_empty() else 1)

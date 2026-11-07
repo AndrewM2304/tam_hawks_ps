@@ -1,0 +1,19 @@
+{
+  "recorded_utc": "2026-11-07T07:02:35.758374+00:00",
+  "reviewer": "/root/level_design, delegated by independent_qa",
+  "reported_scope": "Independent read-only source and pure-function review; no native engine/startup/cost execution, no edited files",
+  "source_sha256": "1229b1c9dc33f984205514f72fb27b534dd9d6b526407693d01f99e17700a542",
+  "unit_fixture_sha256": "5b6e2dae10c5ac0be44febd96c79571cfcf8c6aa99a2750ef87623d4a71b2498",
+  "reported_checks": 12,
+  "reported_failures": 0,
+  "reported_controls": [
+    "All7existing pure fixture outputs reproduced",
+    "Separate wrongPGID",
+    "Wrongsession",
+    "Missingparent",
+    "Samegroup unrelated",
+    "Zombie launcher"
+  ],
+  "reported_finding": "No source blocker. Launch ancestor AND PGID AND SID required; matching command text grants no ownership; startup zombies recorded separately. Old PID-only epoch remains rejected, no retroactive ancestry claim.",
+  "limits": "This file records the reviewer message; their native cost acceptance is not claimed. Fresh sourcebound native epoch still required."
+}

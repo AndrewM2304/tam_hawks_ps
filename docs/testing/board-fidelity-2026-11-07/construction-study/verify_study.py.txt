@@ -1,0 +1,150 @@
+"""Same-author independent arithmetic over private indexed study, no engine.
+
+Shares the binary accessor reader, not the geometry transformation or part labels.
+Internal pad/wood differences are reported even when hidden by the finished mesh.
+"""
+from pathlib import Path
+import hashlib, importlib.util, json
+import numpy as np
+
+ROOT = Path(__file__).resolve().parent
+loader = importlib.util.spec_from_file_location('reader', ROOT.parent / 'board_uv_finish04.py')
+reader = importlib.util.module_from_spec(loader)
+loader.loader.exec_module(reader)
+base = reader.GLB(ROOT.parent / 'candidate-uv04/tam_skateboard.glb')
+study = reader.GLB(ROOT / 'physical-layout01/tam_skateboard.glb')
+negative = reader.GLB(ROOT / 'thin-only-negative/tam_skateboard.glb')
+checks = []
+
+
+def check(ok, label):
+    checks.append({'pass': bool(ok), 'label': label})
+
+
+def centre_levels(board, surface, x=0.0, z=0.0):
+    _, attributes, indices = board.primitive(surface)
+    result = []
+    for triangle in attributes['POSITION'][indices].reshape(-1, 3, 3).astype(float):
+        matrix = np.column_stack((triangle[1, [0, 2]] - triangle[0, [0, 2]], triangle[2, [0, 2]] - triangle[0, [0, 2]]))
+        if abs(np.linalg.det(matrix)) < 1e-14:
+            continue
+        uv = np.linalg.solve(matrix, [x - triangle[0, 0], z - triangle[0, 2]])
+        if min(uv) >= -1e-10 and sum(uv) <= 1 + 1e-10:
+            result.append(float(np.array([1 - sum(uv), *uv]) @ triangle[:, 1]))
+    return result
+
+
+def cross2(a, b):
+    return float(a[0] * b[1] - a[1] * b[0])
+
+
+def clip_polygon(subject, triangle):
+    polygon = [x.copy() for x in subject]
+    sign = 1 if cross2(triangle[1] - triangle[0], triangle[2] - triangle[0]) > 0 else -1
+    for i in range(3):
+        a, b = triangle[i], triangle[(i + 1) % 3]
+        if not polygon:
+            break
+        output = []
+        for j, end in enumerate(polygon):
+            start = polygon[j - 1]
+            ds, de = sign * cross2(b - a, start - a), sign * cross2(b - a, end - a)
+            inside_start, inside_end = ds >= -1e-13, de >= -1e-13
+            if inside_start != inside_end:
+                output.append(start + (end - start) * ds / (ds - de))
+            if inside_end:
+                output.append(end)
+        polygon = output
+    return polygon
+
+
+def at(triangle, point):
+    matrix = np.column_stack((triangle[1, [0, 2]] - triangle[0, [0, 2]], triangle[2, [0, 2]] - triangle[0, [0, 2]]))
+    uv = np.linalg.solve(matrix, point - triangle[0, [0, 2]])
+    return float(np.array([1 - sum(uv), *uv]) @ triangle[:, 1])
+
+
+check(hashlib.sha256(base.file).hexdigest() == '76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943', 'study uses exact admitted UV04 source')
+check(base.image() == study.image(), 'encoded original atlas unchanged')
+check(base.g['nodes'] == study.g['nodes'] and base.g['materials'] == study.g['materials'], 'one mesh hierarchy and four material definitions retained')
+_, original_grip, original_grip_ix = base.primitive(1)
+_, grip, grip_ix = study.primitive(1)
+check(np.array_equal(original_grip_ix, grip_ix) and all(np.array_equal(grip[key], original_grip[key]) for key in original_grip), 'all indexed grip position/normal/UV/index bytes retained')
+level = centre_levels(study, 0)
+check(abs(max(level) - .016) < 1e-8 and abs(min(level) - .00575) < 1e-8, 'actual finite centre wood top16mm bottom5.75mm')
+check(abs(max(level) - min(level) - .01025) < 1e-8, 'actual finite centre wood10.25mm thickness')
+check(abs(min(centre_levels(study, 1)) - .017) < 1e-8, 'actual finite centre grip17mm unchanged')
+
+all_positions, all_normals, all_uv, all_windings = True, True, True, True
+for surface in range(4):
+    _, source_arrays, source_indices = base.primitive(surface)
+    _, arrays, indices = study.primitive(surface)
+    triangles = arrays['POSITION'][indices].astype(float).reshape(-1, 3, 3)
+    crosses = np.cross(triangles[:, 1] - triangles[:, 0], triangles[:, 2] - triangles[:, 0])
+    areas = np.linalg.norm(crosses, axis=1)
+    all_positions &= np.isfinite(arrays['POSITION']).all() and (areas > 1e-12).all()
+    normals = arrays['NORMAL'][indices].reshape(-1, 3, 3).astype(float)
+    all_normals &= np.isfinite(normals).all() and np.max(abs(np.linalg.norm(normals, axis=2) - 1)) < 2e-6
+    # Flat source metal corners can be hard edges: no averaging across components.
+    geometric = crosses / areas[:, None]
+    all_windings &= bool(np.all(np.einsum('tci,ti->tc', normals, geometric) > -.001))
+    if surface == 0:
+        uv = arrays['TEXCOORD_0'][indices].reshape(-1, 3, 2).astype(float)
+        e, f = uv[:, 1] - uv[:, 0], uv[:, 2] - uv[:, 0]
+        all_uv &= bool(np.all(abs(e[:, 0] * f[:, 1] - e[:, 1] * f[:, 0]) > 1e-12))
+        tangent = arrays['TANGENT'].astype(float)
+        check(np.isfinite(tangent).all() and np.max(abs(np.linalg.norm(tangent[:, :3], axis=1) - 1)) < 2e-6 and np.all(abs(tangent[:, 3]) == 1), 'new wood tangent frames finite unit handed')
+    check(np.array_equal(indices[:len(source_indices)], source_indices), 'surface' + str(surface) + ' retains all original triangle index topology')
+check(all_positions, 'all study indexed triangles finite and nondegenerate')
+check(all_normals, 'all study native-source normals finite and unit')
+check(all_windings, 'all study geometric triangle winding agrees with retained/transformed normals')
+check(all_uv, 'all wood UV triangles retain nonzero Jacobian')
+
+# Whole Urethane wheel original endpoints receive one rigid translation. Tests
+# compare relative vectors too, so reducing radii to meet a target cannot pass.
+_, urethane0, ui0 = base.primitive(3)
+_, urethane, ui = study.primitive(3)
+source_points = urethane0['POSITION']
+for side in (-1, 1):
+    for end in (-1, 1):
+        mask = (source_points[:, 0] * side > .09) & (source_points[:, 2] * end > .15)
+        before, after = source_points[mask].astype(float), urethane['POSITION'][:len(source_points)][mask].astype(float)
+        delta = after - before
+        check(np.max(abs(delta - [0, .029225, 0])) < 1e-8 and np.max(abs((after - after[0]) - (before - before[0]))) < 1e-8, 'whole wheel' + str((side, end)) + ' retains dimensions through rigid translation')
+check(abs(float(urethane['POSITION'][:, 1].min()) + .090775) < 1e-8, 'actual source wheel-bottom matches declared new90.775mm datum')
+
+# Clip every overlapping pair of actual finite wood-bottom / riser-top triangles.
+# Linear signed separation reaches its extrema at intersection polygon vertices.
+_, wood, wi = study.primitive(0)
+wood_triangles = wood['POSITION'][wi].reshape(-1, 3, 3).astype(float)
+wood_cross = np.cross(wood_triangles[:, 1] - wood_triangles[:, 0], wood_triangles[:, 2] - wood_triangles[:, 0])
+bottom = wood_triangles[(wood_cross[:, 1] < -.5 * np.linalg.norm(wood_cross, axis=1))]
+extra = urethane['POSITION'][ui[len(ui0):]].reshape(-1, 3, 3).astype(float)
+extra_cross = np.cross(extra[:, 1] - extra[:, 0], extra[:, 2] - extra[:, 0])
+top = extra[extra_cross[:, 1] > .5 * np.linalg.norm(extra_cross, axis=1)]
+gaps = []
+worst = None
+for pad_index, pad in enumerate(top):
+    pxz = pad[:, [0, 2]]
+    for wood_index, triangle in enumerate(bottom):
+        txz = triangle[:, [0, 2]]
+        if np.any(pxz.max(0) < txz.min(0)) or np.any(txz.max(0) < pxz.min(0)):
+            continue
+        polygon = clip_polygon(pxz, txz)
+        for xz in polygon:
+            gap = at(pad, xz) - at(triangle, xz)
+            gaps.append(gap)
+            if worst is None or abs(gap) > abs(worst['pad_minus_wood_m']):
+                worst = {'pad_triangle': pad_index, 'wood_bottom_subset_triangle': wood_index, 'xz': xz.tolist(), 'pad_minus_wood_m': gap}
+check(bool(gaps), 'finite triangle-pair overlay measures both actual riser upper surfaces')
+check(bool(gaps) and max(abs(x) for x in gaps) < 1e-8, 'strict source-study pad top exactly conforms to finite wood surface')
+
+# This deliberately incomplete source edit must not be confused with a usable
+# board. It leaves the old hardware and old boardslide datum behind.
+_, negative_metal, _ = negative.primitive(2)
+check(all(np.array_equal(negative_metal[key], base.primitive(2)[1][key]) for key in negative_metal), 'thin-only negative retains exact old hardware')
+check(abs(min(centre_levels(negative, 0)) - (-.018) - .02375) < 1e-8 and abs(min(centre_levels(negative, 0)) - (-.014) - .01975) < 1e-8, 'thin-only negative exposes23.75mm mount gap and19.75mm old boardslide datum error')
+report = {'scope': 'PRIVATE same-author source-only construction arithmetic; no native/contact/moving acceptance', 'passes': sum(x['pass'] for x in checks), 'failures': [x['label'] for x in checks if not x['pass']], 'checks': checks, 'generator_sha256': hashlib.sha256((ROOT / 'build_study.py').read_bytes()).hexdigest(), 'verifier_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'study_sha256': hashlib.sha256(study.file).hexdigest(), 'finite_pad_signed_gap': {'samples': len(gaps), 'minimum_m': min(gaps) if gaps else None, 'maximum_m': max(gaps) if gaps else None, 'worst': worst}, 'source_budgets': {'triangles': sum(len(study.primitive(i)[2]) // 3 for i in range(4)), 'maximum_added_triangles': 512}, 'limits': ['10nm exact-conformance gate is a source-study design check, not a changed gameplay tolerance', 'negative/signed internal pad gaps remain explicit; no source-only result authorizes runtime migration']}
+(ROOT / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
+print(json.dumps({k: report[k] for k in ['scope', 'passes', 'failures', 'finite_pad_signed_gap', 'source_budgets']}, indent=2))
+raise SystemExit(0 if not report['failures'] else 1)

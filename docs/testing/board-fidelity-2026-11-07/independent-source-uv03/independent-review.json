@@ -1,0 +1,180 @@
+{
+  "kind": "Independent raw source GLB/texture/UV/tangent audit; NO native import or engine call",
+  "passed": 40,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "protected actual original source GLB",
+      "pass": true
+    },
+    {
+      "label": "exact held UV03 source GLB",
+      "pass": true
+    },
+    {
+      "label": "source exact nodes",
+      "pass": true
+    },
+    {
+      "label": "source exact scenes",
+      "pass": true
+    },
+    {
+      "label": "source exact scene",
+      "pass": true
+    },
+    {
+      "label": "source exact materials",
+      "pass": true
+    },
+    {
+      "label": "source exact textures",
+      "pass": true
+    },
+    {
+      "label": "source exact samplers",
+      "pass": true
+    },
+    {
+      "label": "same single mesh/four draw surfaces",
+      "pass": true
+    },
+    {
+      "label": "protected primitive/index records EXACT 1",
+      "pass": true
+    },
+    {
+      "label": "protected raw attribute EXACT 1/POSITION",
+      "pass": true
+    },
+    {
+      "label": "protected raw attribute EXACT 1/NORMAL",
+      "pass": true
+    },
+    {
+      "label": "protected raw attribute EXACT 1/TEXCOORD_0",
+      "pass": true
+    },
+    {
+      "label": "protected primitive/index records EXACT 2",
+      "pass": true
+    },
+    {
+      "label": "protected raw attribute EXACT 2/POSITION",
+      "pass": true
+    },
+    {
+      "label": "protected raw attribute EXACT 2/NORMAL",
+      "pass": true
+    },
+    {
+      "label": "protected raw attribute EXACT 2/TEXCOORD_0",
+      "pass": true
+    },
+    {
+      "label": "protected primitive/index records EXACT 3",
+      "pass": true
+    },
+    {
+      "label": "protected raw attribute EXACT 3/POSITION",
+      "pass": true
+    },
+    {
+      "label": "protected raw attribute EXACT 3/NORMAL",
+      "pass": true
+    },
+    {
+      "label": "protected raw attribute EXACT 3/TEXCOORD_0",
+      "pass": true
+    },
+    {
+      "label": "all2600 drawn wood triangle corner positions and winding EXACT",
+      "pass": true
+    },
+    {
+      "label": "all2600 drawn wood triangle corner source normals EXACT",
+      "pass": true
+    },
+    {
+      "label": "every original downward underside art triangle UV corner EXACT",
+      "pass": true
+    },
+    {
+      "label": "independently measured original427 UV-degenerate realwood triangles",
+      "pass": true
+    },
+    {
+      "label": "ALL2600 candidate genuinewood triangles have nondegenerate UV area",
+      "pass": true
+    },
+    {
+      "label": "all600 geometricwoodside triangles mapped",
+      "pass": true
+    },
+    {
+      "label": "all actual source tangents finite/unit/orthogonal to retained normals",
+      "pass": true
+    },
+    {
+      "label": "actual tangent handedness finite signedunit",
+      "pass": true
+    },
+    {
+      "label": "every actual tangentW agrees UV V derivative using retained normal",
+      "pass": true
+    },
+    {
+      "label": "same one1024 RGBAatlas payload size",
+      "pass": true
+    },
+    {
+      "label": "entire original underside art lefthalf pixels EXACT",
+      "pass": true
+    },
+    {
+      "label": "entire original grip quadrant pixels EXACT",
+      "pass": true
+    },
+    {
+      "label": "protected hardware65px sampling neighbourhood EXACT 0.62",
+      "pass": true
+    },
+    {
+      "label": "protected hardware65px sampling neighbourhood EXACT 0.87",
+      "pass": true
+    },
+    {
+      "label": "independent source convexperimeter1.937752329m",
+      "pass": true
+    },
+    {
+      "label": "all1800 side corners match exactly21 periodicphysicalperimeter repeats modulo atlas tile",
+      "pass": true
+    },
+    {
+      "label": "encoded padded side region repeats EXACT192pixels without phase seams",
+      "pass": true
+    },
+    {
+      "label": "measured source geometry payload+34880B within128KiB predeclared",
+      "pass": true
+    },
+    {
+      "label": "zero added triangles/nodes; no functionalmarkers or collisionobjects inasset",
+      "pass": true
+    }
+  ],
+  "perimeter_m_independent": 1.937752329337178,
+  "side_texels_per_m": 2080.7612711678044,
+  "max_periodic_side_phase_error_cycles": 1.589425711046033e-07,
+  "source_delta_geometry_payload_bytes": 34880,
+  "base_sha256": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+  "candidate_sha256": "954ff19340b1c41d6ea0f2153f7e41a8242f853b135486bbdc6cf8b2c024993d",
+  "verdict": "Source-only UV03 geometry/atlas protection passes if checks green. Native import-policy/contact/renderedvisual gates remain separate.",
+  "limits": [
+    "No Godot source-binding/nativebuffer equivalence established; retained native02/03 failures and04/05 tooling/source-binding gaps are separate.",
+    "Default native importer may change position quantization when UV splits change. Protected other surfaces require exact native packed preservation; source wood positions are exact.",
+    "Wood still28mm with7visual4mm plies, plus mounting/bolt misalignment held as separate physical-realism work.",
+    "No appearance, moving contact, fullskating, timing/M5 or AAA acceptance."
+  ]
+}

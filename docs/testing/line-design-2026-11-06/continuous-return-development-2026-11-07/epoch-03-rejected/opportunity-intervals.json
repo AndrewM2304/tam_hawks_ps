@@ -1,0 +1,523 @@
+{
+  "observed_capture_transitions": [
+    {
+      "physics": 162,
+      "line": "Grind_Edge_Bench_x800y244z5900_0_0",
+      "position": "(39.32, 2.505, 63.725)",
+      "path_m": 6.53424423933029
+    },
+    {
+      "physics": 391,
+      "line": "Grind_Edge_Bench_x7000y244z5900_0_0",
+      "position": "(61.34014, 2.505, 64.428)",
+      "path_m": 29.6974339187145
+    },
+    {
+      "physics": 915,
+      "line": "Grind_Edge_Bench_x800y244z5900_2_0",
+      "position": "(44.54286, 2.505, 64.275)",
+      "path_m": 74.281591154635
+    }
+  ],
+  "kind": "derived actual-physics intervals, not independent fun or circuit acceptance",
+  "native_input": "native-trace.json",
+  "initial_resets": 1,
+  "actual_events": [
+    {
+      "at": "(39.32, 2.505, 63.725)",
+      "event": "first_catch",
+      "physics": 162,
+      "tick": 71
+    },
+    {
+      "at": "(43.45825, 2.505, 63.725)",
+      "event": "first_exit_charge",
+      "physics": 200,
+      "tick": 109
+    },
+    {
+      "at": "(46.72599, 2.01245, 63.725)",
+      "event": "manual_landing",
+      "physics": 232,
+      "tick": 141
+    },
+    {
+      "at": "(59.15695, 2.014017, 65.07066)",
+      "event": "second_charge",
+      "physics": 370,
+      "tick": 279
+    },
+    {
+      "at": "(60.31324, 2.014017, 64.75829)",
+      "event": "second_release",
+      "physics": 386,
+      "tick": 295
+    },
+    {
+      "at": "(61.34014, 2.505, 64.428)",
+      "event": "second_catch",
+      "physics": 391,
+      "tick": 300
+    },
+    {
+      "at": "(65.9265, 2.505, 63.1991)",
+      "event": "second_exit_charge",
+      "physics": 462,
+      "tick": 371
+    },
+    {
+      "at": "(66.04394, 2.505, 63.16763)",
+      "event": "second_exit_release",
+      "physics": 464,
+      "speed": 3.63751807299263,
+      "still_on_bearing": true,
+      "tick": 373
+    },
+    {
+      "at": "(67.74227, 2.01245, 62.71262)",
+      "clear": true,
+      "event": "paving_landing",
+      "physics": 494,
+      "tick": 403
+    },
+    {
+      "direction_edge_age": 2.41666666666666,
+      "event": "second_seat_paving_manual",
+      "launch": "ollie",
+      "path_m": 37.2860330268741,
+      "physics": 494,
+      "position": "(67.74227, 2.01245, 62.71262)",
+      "speed": 3.63765478134155,
+      "trick_direction": "neutral",
+      "velocity": "(3.513574, 0.0, -0.941456)",
+      "yaw": -1.30899786949158
+    },
+    {
+      "direction_edge_age": 1.11666666666667,
+      "event": "manual_turn_finished",
+      "launch": "ollie",
+      "path_m": 40.9207171909511,
+      "physics": 562,
+      "position": "(67.77221, 2.014017, 60.14557)",
+      "speed": 2.78857111930847,
+      "trick_direction": "neutral",
+      "velocity": "(-2.543308, 0.0, -1.1434)",
+      "yaw": 1.14829850196838
+    },
+    {
+      "direction_edge_age": 1.45,
+      "event": "wall_plain_charge_quiet",
+      "launch": "ollie",
+      "path_m": 49.4286298900843,
+      "physics": 650,
+      "position": "(59.79783, 2.014017, 57.18193)",
+      "speed": 5.02762889862061,
+      "trick_direction": "neutral",
+      "velocity": "(-4.724468, 0.0, -1.71914)",
+      "yaw": 1.22181010246277
+    },
+    {
+      "direction_edge_age": 1.71666666666667,
+      "event": "wall_plain_pop",
+      "launch": "ollie",
+      "path_m": 51.1469694077969,
+      "physics": 666,
+      "position": "(58.18306, 2.014017, 56.59439)",
+      "speed": 7.69338369369507,
+      "trick_direction": "neutral",
+      "velocity": "(-7.229768, 0.0, -2.630501)",
+      "yaw": 1.22184276580811
+    },
+    {
+      "direction_edge_age": 1.98333333333333,
+      "event": "native_landward_wall_entry",
+      "launch": "ollie",
+      "path_m": 53.5584031939507,
+      "physics": 682,
+      "position": "(56.26594, 3.228565, 55.90032)",
+      "speed": 7.55845069885254,
+      "trick_direction": "neutral",
+      "velocity": "(-7.170019, 1.444178, -2.4)",
+      "yaw": 1.22184360027313
+    },
+    {
+      "direction_edge_age": 2.53333333333333,
+      "event": "earned_landward_wallie",
+      "launch": "wallie",
+      "path_m": 57.5044149979949,
+      "physics": 715,
+      "position": "(52.50948, 3.099661, 55.67405)",
+      "speed": 4.49525737762451,
+      "trick_direction": "neutral",
+      "velocity": "(-6.530019, 8.0, 4.8)",
+      "yaw": 1.22184360027313
+    },
+    {
+      "direction_edge_age": 3.11666666666666,
+      "event": "wallie_manual_landing",
+      "launch": "wallie",
+      "path_m": 63.2368663623929,
+      "physics": 750,
+      "position": "(48.70031, 2.012527, 58.47411)",
+      "speed": 4.49521970748901,
+      "trick_direction": "neutral",
+      "velocity": "(-6.530019, 0.0, 4.8)",
+      "yaw": 1.22184360027313
+    },
+    {
+      "direction_edge_age": 1.65,
+      "event": "return_actual_north_shoulder_join",
+      "launch": "wallie",
+      "path_m": 69.6767973378301,
+      "physics": 850,
+      "position": "(46.59654, 2.014026, 63.01609)",
+      "speed": 3.24459362030029,
+      "trick_direction": "neutral",
+      "velocity": "(0.595469, 0.0, 3.189382)",
+      "yaw": -2.9570140838623
+    },
+    {
+      "direction_edge_age": 1.65,
+      "event": "return_first_bearing_charge",
+      "launch": "wallie",
+      "path_m": 69.6767973378301,
+      "physics": 850,
+      "position": "(46.59654, 2.014026, 63.01609)",
+      "speed": 3.24459362030029,
+      "trick_direction": "neutral",
+      "velocity": "(0.595469, 0.0, 3.189382)",
+      "yaw": -2.9570140838623
+    },
+    {
+      "direction_edge_age": 0.616666666666667,
+      "event": "return_first_bearing_pop",
+      "launch": "wallie",
+      "path_m": 71.5771937966347,
+      "physics": 888,
+      "position": "(45.75715, 2.014026, 64.48898)",
+      "speed": 2.7689425945282,
+      "trick_direction": "east",
+      "velocity": "(-2.704337, 0.0, 0.59504)",
+      "yaw": 1.78737688064575
+    }
+  ],
+  "all_event_intervals": [
+    {
+      "from": "first_catch",
+      "to": "first_exit_charge",
+      "start_physics": 162,
+      "end_physics": 200,
+      "physics_steps": 38,
+      "seconds_at_60hz": 0.6333333333333333,
+      "actual_path_m": 4.13825225830081,
+      "observed_modes": {
+        "named_bearing": 39
+      },
+      "minimum_abs_speed": 6.34408342361451,
+      "maximum_abs_speed": 6.7240834236145
+    },
+    {
+      "from": "first_exit_charge",
+      "to": "manual_landing",
+      "start_physics": 200,
+      "end_physics": 232,
+      "physics_steps": 32,
+      "seconds_at_60hz": 0.5333333333333333,
+      "actual_path_m": 3.9440353587269996,
+      "observed_modes": {
+        "named_bearing": 3,
+        "authenticated_stationary_bearing_release": 1,
+        "air": 28,
+        "manual": 1
+      },
+      "minimum_abs_speed": 6.32408332824707,
+      "maximum_abs_speed": 6.34408342361451
+    },
+    {
+      "from": "manual_landing",
+      "to": "second_charge",
+      "start_physics": 232,
+      "end_physics": 370,
+      "physics_steps": 138,
+      "seconds_at_60hz": 2.3,
+      "actual_path_m": 12.546569846570401,
+      "observed_modes": {
+        "manual": 139
+      },
+      "minimum_abs_speed": 4.5994086265564,
+      "maximum_abs_speed": 6.3242335319519
+    },
+    {
+      "from": "second_charge",
+      "to": "second_release",
+      "start_physics": 370,
+      "end_physics": 386,
+      "physics_steps": 16,
+      "seconds_at_60hz": 0.26666666666666666,
+      "actual_path_m": 1.1981348991394007,
+      "observed_modes": {
+        "manual": 17
+      },
+      "minimum_abs_speed": 4.3991584777832,
+      "maximum_abs_speed": 4.5994086265564
+    },
+    {
+      "from": "second_release",
+      "to": "second_catch",
+      "start_physics": 386,
+      "end_physics": 391,
+      "physics_steps": 5,
+      "seconds_at_60hz": 0.08333333333333333,
+      "actual_path_m": 1.3361973166465972,
+      "observed_modes": {
+        "manual": 1,
+        "air": 4,
+        "named_bearing": 1
+      },
+      "minimum_abs_speed": 4.36751807299261,
+      "maximum_abs_speed": 4.3991584777832
+    },
+    {
+      "from": "second_catch",
+      "to": "second_exit_charge",
+      "start_physics": 391,
+      "end_physics": 462,
+      "physics_steps": 71,
+      "seconds_at_60hz": 1.1833333333333333,
+      "actual_path_m": 4.748144697398001,
+      "observed_modes": {
+        "named_bearing": 72
+      },
+      "minimum_abs_speed": 3.65751807299262,
+      "maximum_abs_speed": 4.36751807299261
+    },
+    {
+      "from": "second_exit_charge",
+      "to": "second_exit_release",
+      "start_physics": 462,
+      "end_physics": 464,
+      "physics_steps": 2,
+      "seconds_at_60hz": 0.03333333333333333,
+      "actual_path_m": 0.12158298119899769,
+      "observed_modes": {
+        "named_bearing": 3
+      },
+      "minimum_abs_speed": 3.63751807299263,
+      "maximum_abs_speed": 3.65751807299262
+    },
+    {
+      "from": "second_exit_release",
+      "to": "paving_landing",
+      "start_physics": 464,
+      "end_physics": 494,
+      "physics_steps": 30,
+      "seconds_at_60hz": 0.5,
+      "actual_path_m": 2.718871429562604,
+      "observed_modes": {
+        "named_bearing": 1,
+        "authenticated_stationary_bearing_release": 1,
+        "air": 28,
+        "manual": 1
+      },
+      "minimum_abs_speed": 3.63750624656677,
+      "maximum_abs_speed": 3.63765478134155
+    },
+    {
+      "from": "paving_landing",
+      "to": "second_seat_paving_manual",
+      "start_physics": 494,
+      "end_physics": 494,
+      "physics_steps": 0,
+      "seconds_at_60hz": 0.0,
+      "actual_path_m": 0.0,
+      "observed_modes": {
+        "manual": 1
+      },
+      "minimum_abs_speed": 3.63765478134155,
+      "maximum_abs_speed": 3.63765478134155
+    },
+    {
+      "from": "second_seat_paving_manual",
+      "to": "manual_turn_finished",
+      "start_physics": 494,
+      "end_physics": 562,
+      "physics_steps": 68,
+      "seconds_at_60hz": 1.1333333333333333,
+      "actual_path_m": 3.634684164077001,
+      "observed_modes": {
+        "manual": 69
+      },
+      "minimum_abs_speed": 2.78857111930847,
+      "maximum_abs_speed": 3.63765478134155
+    },
+    {
+      "from": "manual_turn_finished",
+      "to": "wall_plain_charge_quiet",
+      "start_physics": 562,
+      "end_physics": 650,
+      "physics_steps": 88,
+      "seconds_at_60hz": 1.4666666666666666,
+      "actual_path_m": 8.5079126991332,
+      "observed_modes": {
+        "manual": 1,
+        "ground": 88
+      },
+      "minimum_abs_speed": 2.78857111930847,
+      "maximum_abs_speed": 7.28843688964844
+    },
+    {
+      "from": "wall_plain_charge_quiet",
+      "to": "wall_plain_pop",
+      "start_physics": 650,
+      "end_physics": 666,
+      "physics_steps": 16,
+      "seconds_at_60hz": 0.26666666666666666,
+      "actual_path_m": 1.7183395177126002,
+      "observed_modes": {
+        "ground": 17
+      },
+      "minimum_abs_speed": 5.02762889862061,
+      "maximum_abs_speed": 7.69338369369507
+    },
+    {
+      "from": "wall_plain_pop",
+      "to": "native_landward_wall_entry",
+      "start_physics": 666,
+      "end_physics": 682,
+      "physics_steps": 16,
+      "seconds_at_60hz": 0.26666666666666666,
+      "actual_path_m": 2.4114337861538004,
+      "observed_modes": {
+        "ground": 1,
+        "air": 15,
+        "wallride": 1
+      },
+      "minimum_abs_speed": 7.55845069885254,
+      "maximum_abs_speed": 7.69338369369507
+    },
+    {
+      "from": "native_landward_wall_entry",
+      "to": "earned_landward_wallie",
+      "start_physics": 682,
+      "end_physics": 715,
+      "physics_steps": 33,
+      "seconds_at_60hz": 0.55,
+      "actual_path_m": 3.946011804044197,
+      "observed_modes": {
+        "wallride": 33,
+        "air": 1
+      },
+      "minimum_abs_speed": 4.49525737762451,
+      "maximum_abs_speed": 7.55845069885254
+    },
+    {
+      "from": "earned_landward_wallie",
+      "to": "wallie_manual_landing",
+      "start_physics": 715,
+      "end_physics": 750,
+      "physics_steps": 35,
+      "seconds_at_60hz": 0.5833333333333334,
+      "actual_path_m": 5.732451364398003,
+      "observed_modes": {
+        "air": 35,
+        "manual": 1
+      },
+      "minimum_abs_speed": 4.49521970748901,
+      "maximum_abs_speed": 8.10439109802246
+    },
+    {
+      "from": "wallie_manual_landing",
+      "to": "return_actual_north_shoulder_join",
+      "start_physics": 750,
+      "end_physics": 850,
+      "physics_steps": 100,
+      "seconds_at_60hz": 1.6666666666666667,
+      "actual_path_m": 6.439930975437193,
+      "observed_modes": {
+        "manual": 101
+      },
+      "minimum_abs_speed": 3.24459362030029,
+      "maximum_abs_speed": 4.49521970748901
+    },
+    {
+      "from": "return_actual_north_shoulder_join",
+      "to": "return_first_bearing_charge",
+      "start_physics": 850,
+      "end_physics": 850,
+      "physics_steps": 0,
+      "seconds_at_60hz": 0.0,
+      "actual_path_m": 0.0,
+      "observed_modes": {
+        "manual": 1
+      },
+      "minimum_abs_speed": 3.24459362030029,
+      "maximum_abs_speed": 3.24459362030029
+    },
+    {
+      "from": "return_first_bearing_charge",
+      "to": "return_first_bearing_pop",
+      "start_physics": 850,
+      "end_physics": 888,
+      "physics_steps": 38,
+      "seconds_at_60hz": 0.6333333333333333,
+      "actual_path_m": 1.9003964588046074,
+      "observed_modes": {
+        "manual": 39
+      },
+      "minimum_abs_speed": 2.7689425945282,
+      "maximum_abs_speed": 3.24459362030029
+    }
+  ],
+  "feature_intervals": [
+    {
+      "from": "first_catch",
+      "to": "manual_landing",
+      "physics_steps": 70,
+      "seconds_at_60hz": 1.1666666666666667,
+      "actual_path_m": 8.08228761702781,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "manual_landing",
+      "to": "second_catch",
+      "physics_steps": 159,
+      "seconds_at_60hz": 2.65,
+      "actual_path_m": 15.0809020623564,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "second_catch",
+      "to": "paving_landing",
+      "physics_steps": 103,
+      "seconds_at_60hz": 1.7166666666666666,
+      "actual_path_m": 7.5885991081596025,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "paving_landing",
+      "to": "native_landward_wall_entry",
+      "physics_steps": 188,
+      "seconds_at_60hz": 3.1333333333333333,
+      "actual_path_m": 16.272370167076602,
+      "exceeds_3s_review_trigger": true
+    },
+    {
+      "from": "native_landward_wall_entry",
+      "to": "earned_landward_wallie",
+      "physics_steps": 33,
+      "seconds_at_60hz": 0.55,
+      "actual_path_m": 3.946011804044197,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "earned_landward_wallie",
+      "to": "wallie_manual_landing",
+      "physics_steps": 35,
+      "seconds_at_60hz": 0.5833333333333334,
+      "actual_path_m": 5.732451364398003,
+      "exceeds_3s_review_trigger": false
+    }
+  ],
+  "scope": "Manual duration is a real held skill, but its frame count is not a count of new choices. Preparation events are omitted from feature intervals. A missing return endpoint remains missing.",
+  "complete_named_return": false
+}

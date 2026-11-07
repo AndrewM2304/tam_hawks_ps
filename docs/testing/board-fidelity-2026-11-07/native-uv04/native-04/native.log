@@ -1,0 +1,17 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: Class 'EditorScenePostImport' can only be instantiated by editor.
+   at: _instantiate_internal (core/object/class_db.cpp:581)
+   GDScript backtrace (most recent call first):
+       [0] run (res://source_controls.gd:4)
+       [1] _run (res://probe.gd:19)
+ERROR: Can't inherit from a virtual class.
+   at: _new (modules/gdscript/gdscript.cpp:230)
+   GDScript backtrace (most recent call first):
+       [0] run (res://source_controls.gd:4)
+       [1] _run (res://probe.gd:19)
+SCRIPT ERROR: Invalid call. Nonexistent function 'decode_source' in base 'Nil'.
+          at: run (res://source_controls.gd:6)
+          GDScript backtrace (most recent call first):
+              [0] run (res://source_controls.gd:6)
+              [1] _run (res://probe.gd:19)

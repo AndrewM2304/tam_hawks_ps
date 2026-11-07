@@ -1,0 +1,126 @@
+extends SceneTree
+const Candidate02=preload("res://candidate02.gd")
+const Candidate03=preload("res://candidate03.gd")
+var passes:=0
+var failures:Array[String]=[]
+var metrics:Dictionary={}
+func _initialize()->void:_run.call_deferred()
+func _check(ok:bool,label:String)->void:
+ if ok:passes+=1;print("PASS ",label)
+ else:failures.append(label);print("FAIL ",label)
+func _pose(garments:RefCounted,h:Vector3,first:Vector3,second:Vector3)->Dictionary:
+ var k:Vector3=h+first*.43
+ var a:Vector3=k+second*.41
+ garments.pose_leg(-1.0,h,k,a)
+ var s:Skeleton3D=garments.skeleton
+ var upper:Transform3D=s.get_bone_global_pose(s.find_bone("left_thigh"))
+ var lower:Transform3D=s.get_bone_global_pose(s.find_bone("left_calf"))
+ var error:float=maxf(upper.origin.distance_to(h),maxf((upper.origin+upper.basis.y*.43).distance_to(k),maxf(lower.origin.distance_to(k),(lower.origin+lower.basis.y*.41).distance_to(a))))
+ return {"upper":upper,"lower":lower,"x":upper.basis.x.normalized(),"lower_x":lower.basis.x.normalized(),"finite":lower.origin.is_finite() and is_finite(upper.basis.determinant()) and is_finite(lower.basis.determinant()) and upper.origin.is_finite() and upper.basis.x.is_finite() and upper.basis.y.is_finite() and upper.basis.z.is_finite() and lower.basis.x.is_finite() and lower.basis.y.is_finite() and lower.basis.z.is_finite(),"endpoint_error_m":error,"determinants":[upper.basis.determinant(),lower.basis.determinant()]}
+func _run()->void:
+ for entry:Array in [["02",Candidate02],["03",Candidate03]]:
+  var stage:=Node3D.new()
+  root.add_child(stage)
+  var garments:RefCounted=entry[1].new()
+  garments.build(stage,StandardMaterial3D.new(),StandardMaterial3D.new())
+  var s:Skeleton3D=garments.skeleton
+  garments.pose_body(Transform3D(Basis.IDENTITY,Vector3(0,.94,0)),Transform3D(Basis.IDENTITY,Vector3(0,.94,0)))
+  var rests:Array=[]
+  var binds:Array=[]
+  var meshes:Dictionary={}
+  for i:int in s.get_bone_count():rests.append(s.get_bone_rest(i))
+  for child:Node in stage.get_children():
+   if child is MeshInstance3D:
+    meshes[str(child.name)]=child.mesh.get_instance_id()
+    var source:Array=[]
+    for bind:int in child.skin.get_bind_count():source.append(child.skin.get_bind_pose(bind))
+    binds.append([child,source])
+  var h:=Vector3(-.12,.94,0)
+  var max_endpoint:=0.0
+  var max_step:=0.0
+  var previous:=Vector3.ZERO
+  var previous_lower:=Vector3.ZERO
+  var finite:=true
+  for i:int in 301:
+   var t:float=float(i)/300.0
+   var angle:float=.25*absf(cos(PI*t))
+   var noise:float=sin(float(i)*.71)*.00000001
+   var first:=Vector3(noise,-cos(angle),-sin(angle)).normalized()
+   var second:=Vector3(-noise,-cos(angle),sin(angle)).normalized()
+   var pose:=_pose(garments,h,first,second)
+   finite=finite and pose.finite and pose.determinants[0]>.5 and pose.determinants[1]>.5
+   max_endpoint=maxf(max_endpoint,pose.endpoint_error_m)
+   if previous.length_squared()>.5:max_step=maxf(max_step,maxf(previous.angle_to(pose.x),previous_lower.angle_to(pose.lower_x)))
+   previous=pose.x
+   previous_lower=pose.lower_x
+  _check(finite and max_endpoint<.00001,str(entry[0])+" actual native near-straight/rebend keeps finite oriented frames and exact unchanged endpoints/scales")
+  _check(max_step<.01,str(entry[0])+" near-straight source noise cannot flip longitudinal frame")
+  garments.reset_leg_frames()
+  previous=Vector3.ZERO
+  var plane_step:=0.0
+  var minimum_reference_dot:=1.0
+  var plane_finite:=true
+  var plane_endpoint:=0.0
+  for i:int in 361:
+   var phi:float=TAU*float(i)/360.0
+   var rotation:=Basis(Vector3.DOWN,phi)
+   var pose:=_pose(garments,h,rotation*Vector3(0,-cos(.55),-sin(.55)),rotation*Vector3(0,-cos(.55),sin(.55)))
+   plane_finite=plane_finite and pose.finite
+   plane_endpoint=maxf(plane_endpoint,pose.endpoint_error_m)
+   max_endpoint=maxf(max_endpoint,pose.endpoint_error_m)
+   if previous.length_squared()>.5:plane_step=maxf(plane_step,maxf(previous.angle_to(pose.x),previous_lower.angle_to(pose.lower_x)))
+   minimum_reference_dot=minf(minimum_reference_dot,pose.x.dot(Vector3.LEFT))
+   previous=pose.x
+   previous_lower=pose.lower_x
+  _check(plane_finite and plane_endpoint<.00001 and plane_step<.04 and minimum_reference_dot<-.99,str(entry[0])+" continuous actual bend plane crosses hip-dot0 without fresh sign flip")
+  garments.reset_leg_frames()
+  _pose(garments,h,Vector3(0,-cos(.4),-sin(.4)),Vector3(0,-cos(.4),sin(.4)))
+  var anti_finite:=true
+  var anti_step:=0.0
+  var anti_endpoint:=0.0
+  previous=Vector3.ZERO
+  for i:int in 401:
+   var angle:float=PI-.02+.04*float(i)/400.0
+   var rotation:=Basis(Vector3.BACK,.43)
+   var first:=rotation*Vector3.DOWN
+   var second:=rotation*(Basis(Vector3.RIGHT,angle)*Vector3.DOWN)
+   var pose:=_pose(garments,h,first,second)
+   anti_finite=anti_finite and pose.finite and pose.determinants[0]>.5 and pose.determinants[1]>.5
+   anti_endpoint=maxf(anti_endpoint,pose.endpoint_error_m)
+   max_endpoint=maxf(max_endpoint,pose.endpoint_error_m)
+   if previous.length_squared()>.5:anti_step=maxf(anti_step,maxf(previous.angle_to(pose.x),previous_lower.angle_to(pose.lower_x)))
+   previous=pose.x
+   previous_lower=pose.lower_x
+  var exact:=_pose(garments,h,Vector3.LEFT,Vector3.RIGHT)
+  _check(anti_finite and anti_endpoint<.00001 and exact.finite and exact.determinants[0]>.5 and exact.determinants[1]>.5 and exact.endpoint_error_m<.00001,str(entry[0])+" exact perpendicular antiparallel counterexample retains proper finite native frames")
+  _check(anti_step<.04,str(entry[0])+" near-antiparallel sweep has no discontinuous longitudinal frame change")
+  garments.reset_leg_frames()
+  _pose(garments,h,Vector3.DOWN,Vector3.DOWN)
+  var old_axis:Vector3=s.get_bone_global_pose(s.find_bone("left_thigh")).basis.x.normalized()
+  var override_axis:Vector3=Basis(Vector3.DOWN,.73)*old_axis
+  for bone_name:String in ["left_thigh","left_calf"]:
+   var bone:int=s.find_bone(bone_name)
+   var actual:Transform3D=s.get_bone_global_pose(bone)
+   var y:Vector3=actual.basis.y.normalized()
+   var z:Vector3=override_axis.cross(y).normalized()
+   var x:Vector3=y.cross(z).normalized()
+   s.set_bone_pose_rotation(bone,Basis(x,y,z).get_rotation_quaternion())
+  var after_snapshot:=_pose(garments,h,Vector3.DOWN,Vector3.DOWN)
+  _check(after_snapshot.x.dot(override_axis)>.999 and after_snapshot.x.dot(old_axis)<.9,str(entry[0])+" deliberate final native Skeleton snapshot override defeats stale pre-blend history")
+  garments.reset_leg_frames()
+  var reset:=_pose(garments,h,Vector3.DOWN,Vector3.DOWN)
+  _check(reset.x.dot(Vector3.LEFT)>.999,str(entry[0])+" explicit source frame reset reseeds deterministically")
+  var unchanged:bool=s.get_bone_count()==11
+  for i:int in rests.size():unchanged=unchanged and rests[i]==s.get_bone_rest(i)
+  for record:Array in binds:
+   var mesh:MeshInstance3D=record[0]
+   unchanged=unchanged and meshes[str(mesh.name)]==mesh.mesh.get_instance_id()
+   for i:int in record[1].size():unchanged=unchanged and record[1][i]==mesh.skin.get_bind_pose(i)
+  _check(unchanged,str(entry[0])+" original11bone rest/bind/mesh resources unchanged by temporal solution")
+  metrics[str(entry[0])]={"max_endpoint_error_m":max_endpoint,"plane_endpoint_error_m":plane_endpoint,"anti_endpoint_error_m":anti_endpoint,"near_straight_max_axis_step_rad":max_step,"bend_plane_max_axis_step_rad":plane_step,"antiparallel_max_axis_step_rad":anti_step,"reference_dot_min":minimum_reference_dot}
+  stage.queue_free()
+  await process_frame
+ var output:=FileAccess.open("res://result.json",FileAccess.WRITE)
+ output.store_string(JSON.stringify({"passes":passes,"failures":failures,"metrics":metrics,"scope":"Independent actual native pose-frame conditioning/snapshot controls; no garment appearance/contact/Main/cadence/M5 acceptance"},"\t"));output.close()
+ print("LEG_TEMPORAL_RESULT ",passes," failures=",failures," metrics=",metrics)
+ quit(0 if failures.is_empty() else 1)

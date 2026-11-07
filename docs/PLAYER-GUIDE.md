@@ -386,6 +386,24 @@ before time runs out. Skipping a gate, bailing or leaving the park fails the lap
 Return to the start for another attempt. Both branches are available in career
 and free skate; their session results do not add saved goals or unlocks.
 
+### East quay seats and wall return
+
+Try the two long seats on the north Clyde quay. Ollie onto the first long edge
+with **Space/Cross** and **Grind (L/Triangle)**, pop out and hold **Manual (M/L2)**
+across to the angled second seat. Balance with **W/S** and steer with **A/D**.
+Catch its long edge, then pop past the end onto the paving.
+
+Keep the Manual through a turn toward the landward masonry wall. Release Manual,
+push into the approach, then coast before your next Ollie. The opening relay
+banks here; the return starts another score segment. Approach the wall at a
+glancing angle travelling west, jump with Grind held, then Ollie from the wall
+to Wallie back onto the quay. Catch a Manual as you land and turn toward the
+first seat's city-side edge.
+
+Catch that edge westbound, ride briefly, then hold **Right/D** as you pop outward
+onto the north paving. Release Right in the air and catch a Manual on the clear
+landing. The wider riverside path provides an easier travel bypass.
+
 ## Useful playtest notes
 
 Record your computer/OS, keyboard or wired/Bluetooth controller, then note any sticking input, difficult rail capture, unclear balance direction, camera discomfort, unreadable text, missing sound, save failure or route that feels unrewarding. Include the package's `BUILD-METADATA.json` when reporting a defect. Automated Linux checks do not replace this controller and feel review.

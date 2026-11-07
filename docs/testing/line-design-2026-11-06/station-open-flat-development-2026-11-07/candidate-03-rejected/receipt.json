@@ -1,0 +1,55 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/station-open-pipe-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/station-open-pipe-source/.local/station_open_probe.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/station-open-pipe-source",
+  "started_utc": "2026-11-07T07:28:29.174656+00:00",
+  "os_deadline_seconds": 45,
+  "source_inputs": 1123,
+  "engine_pid": 89284,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    87471
+  ],
+  "declared_known_project_overlaps": [],
+  "overlap_scope": "Root explicitly authorizes current known qualitative and fixed-tick logical headless overlaps in separate private projects/caches; no timing acceptance",
+  "finished_utc": "2026-11-07T07:28:55.128512+00:00",
+  "wall_seconds": 25.95385617499778,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: station candidate: bank runout feeds real open flat, both35degree opposing faces and native return",
+    "FAIL: station candidate: same rider exits open side onto supported bank re-entry without reset"
+  ],
+  "result": [
+    6,
+    2
+  ],
+  "other_engine_observed": false,
+  "overlap_authorized_untimed": true,
+  "ignored_zombie_process_rows": [
+    "82100 Z    [godot] <defunct>"
+  ],
+  "zombie_policy": "Raw process rows retain state; live concurrency gate excludes only explicit Z-state. Baseline prior receipt remains unchanged.",
+  "unknown_other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "b344c401e0fd0a62986857508510912a6f252cfe1d9dfc6d73a57d4fc0f79b6c",
+    "source-before.json": "28548d75663361bd0f789726d23a6ed6c952951f204884b960934c5fe4f3e149",
+    "observer.gd": "3926088a0cd59e263fb5773042325ee8d700c139201e7d55e8952d88edf8442b",
+    "wrapper.py.txt": "149825965943e06d8966e5216e38ba25838b42bdd67b04bfaa2bb344da221754",
+    "native.log": "b31d959f7a04db1ffa80600aed7520b21965e00c5379092d29c3c1ad2fbccba8",
+    "source-after.json": "28548d75663361bd0f789726d23a6ed6c952951f204884b960934c5fe4f3e149"
+  }
+}

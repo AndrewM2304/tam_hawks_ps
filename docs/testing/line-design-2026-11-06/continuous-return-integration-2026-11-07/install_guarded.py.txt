@@ -1,0 +1,21 @@
+from pathlib import Path
+import hashlib,json,os,sys
+bundle=Path(__file__).resolve().parent
+repo=Path('/workspace/tam_hawks_ps')
+manifest=json.loads((bundle/'guarded-proposal.json').read_text())
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+for name,record in manifest['files'].items():
+ target=repo/name;candidate=bundle/record['preserved_candidate']
+ if sha(target)!=record['baseline_sha256']:raise SystemExit('Refusing changed actual baseline: '+name)
+ if sha(candidate)!=record['candidate_sha256']:raise SystemExit('Refusing changed candidate: '+name)
+print('Both exact baselines/candidates match. No Git operation is performed.')
+if '--apply' not in sys.argv:
+ print('Review only. Root may pass --apply after authorizing this exact proposal.');raise SystemExit(0)
+for name,record in manifest['files'].items():
+ target=repo/name;temporary=target.with_name(target.name+'.quay-return-candidate')
+ temporary.write_bytes((bundle/record['preserved_candidate']).read_bytes())
+ temporary.chmod(target.stat().st_mode)
+ os.replace(temporary,target)
+for name,record in manifest['files'].items():
+ if sha(repo/name)!=record['candidate_sha256']:raise SystemExit('Unexpected installed hash: '+name)
+print('Installed exactly two guarded candidates; integration/testing/main commit remain Root-owned.')

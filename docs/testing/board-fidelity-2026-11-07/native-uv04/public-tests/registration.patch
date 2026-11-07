@@ -1,0 +1,18 @@
+--- a/tests/run_tests.gd
++++ b/tests/run_tests.gd
+@@ -39,6 +39,7 @@
+ const RAIL_GEOMETRY_TESTS = preload("res://tests/rail_geometry_tests.gd")
+ const TAKEOFF_TESTS = preload("res://tests/takeoff_tests.gd")
+ const PLAYER_FORGIVENESS_TESTS = preload("res://tests/player_forgiveness_tests.gd")
++const BOARD_IMPORT_TESTS = preload("res://tests/board_import_tests.gd")
+ const RENDER_BUDGET_TESTS = preload("res://tests/render_budget_tests.gd")
+ const SKATE_RESPONSE_TESTS = preload("res://tests/skate_response_tests.gd")
+ const GRINDING_TESTS = preload("res://tests/grinding_tests.gd")
+@@ -166,6 +167,7 @@
+ 	_test_score_session()
+ 	SKATE_RESPONSE_TESTS.run(_check)
+ 	RENDER_BUDGET_TESTS.run(_check)
++	BOARD_IMPORT_TESTS.run(_check)
+ 	await STATIC_BATCHES_TESTS.run(self, _check)
+ 	await WATER_SHADOW_POLICY_TESTS.run(self, _check)
+ 	await FOUNTAIN_BASIN_MESH_TESTS.run(self, _check)

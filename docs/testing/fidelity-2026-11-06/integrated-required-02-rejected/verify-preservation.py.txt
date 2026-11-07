@@ -1,0 +1,18 @@
+from pathlib import Path
+import gzip,hashlib,json,re
+p=Path(__file__).resolve().parent;checks=[]
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+def raw(name):
+ q=p/name
+ return q.read_bytes()if q.exists()else gzip.decompress((p/(name+'.gz')).read_bytes())
+receipt=json.loads(raw('receipt.json'))
+for name,expected in receipt['preserved_files_sha256'].items():ck(name+' exact original decoded bytes',hashlib.sha256(raw(name)).hexdigest()==expected)
+before=json.loads(raw('source-before.json'));after=json.loads(raw('source-after.json'));native=raw('tests.log').decode()
+ck('886 frozen input records agree',before==after and len(before)==886)
+ck('6526 actualPASS lines and7 actualFAIL lines retained',len(re.findall('^PASS:',native,re.M))==6526 and len(re.findall('^ERROR: FAIL:',native,re.M))==7)
+ck('all3 freedobject ScriptErrors retained',re.findall(r'^SCRIPT ERROR: (.*)$',native,re.M)==['Trying to cast a freed object.']*3)
+ck('whole gate rejected with exact final footer',receipt['engine_exit']==1 and not receipt['eligible'] and re.findall(r'^RESULT: (\d+) passed, (\d+) failed$',native,re.M)==[('6526','7')])
+ck('launcher before-bound exact',before['.local/run-fidelity-checkpoint.py']['sha256']==hashlib.sha256(raw('runner.py.txt')).hexdigest())
+ck('Music launch stage absent',receipt['script_launch_result']is None)
+print(json.dumps({'passed':sum(c['pass']for c in checks),'failed':sum(not c['pass']for c in checks),'checks':checks,'scope':'Integrity of a rejected run; no game acceptance.'}))
+if not all(c['pass']for c in checks):raise SystemExit(1)

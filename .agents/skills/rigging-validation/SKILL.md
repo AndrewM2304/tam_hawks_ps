@@ -69,6 +69,12 @@ durable plan until the director explicitly releases that stage.
    import/render lease, run the actual native deformed geometry checks, inspect
    ordinary Main and close motion views, and reject raw engine/resource errors even
    if assertion totals pass. Use immutable source inventories and exact commands.
+   Parse the exact newly integrated callers before a long native capture. A
+   factory held as RefCounted has a dynamic return at the call site even if its
+   implementation declares Node3D: use an explicit `var hand: Node3D = ...`
+   rather than inferred `:=`. The first actual NPC clock integration exposed
+   this error after an earlier editor preflight; preserve that rejected epoch
+   and rerun on the corrected source rather than inheriting an older parse pass.
 7. Report independently witnessed positives, observed defects and unmeasured gates
    separately. If you implemented the fitter or adapter, another QE/BA verifies it.
    Headless algebra cannot accept visual realism, target Mac performance or AAA.

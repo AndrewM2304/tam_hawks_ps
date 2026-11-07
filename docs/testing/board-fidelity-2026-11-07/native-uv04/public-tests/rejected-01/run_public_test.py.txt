@@ -1,0 +1,23 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time
+R=Path(__file__).parent;P=R/'native-project';O=R/'public-test-01';O.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inputs():
+ paths=[P/'public_test_runner.gd',P/'tests/board_import_tests.gd',P/'tools/art/import_board_wood.gd',P/'tools/art/board_wood_source.gd',P/'candidate/tam_skateboard.glb',P/'candidate/tam_skateboard.glb.import']
+ paths+=list((P/'.godot/imported').glob('*.scn'))+list((P/'.godot/imported').glob('*.ctex'))
+ return {str(p.relative_to(P)):sha(p) for p in paths}
+source=inputs();before=sha(Path(__file__));deadline=time.monotonic()+29.7;epochs=[]
+for name,extra,cap in [('parser',['--check-only'],5),('native',[],24.7)]:
+ log=O/(name+'.log');cmd=['godot','--headless','--path',str(P.resolve()),'--audio-driver','Dummy']+extra+['--script','res://public_test_runner.gd'];rec={'command':cmd,'name':name,'start':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+ with log.open('wb') as out:
+  proc=subprocess.Popen(cmd,stdout=out,stderr=subprocess.STDOUT,start_new_session=True);rec['pid']=proc.pid;print(json.dumps(rec),flush=True);until=min(deadline,time.monotonic()+cap);stop=None
+  while proc.poll() is None:
+   if re.search(rb'SCRIPT ERROR:|Parse Error:|\nERROR:',log.read_bytes()):stop='first error';break
+   if time.monotonic()>until:stop='bound';break
+   time.sleep(.04)
+  if proc.poll() is None:os.killpg(proc.pid,signal.SIGTERM);proc.wait(timeout=1)
+ rec.update({'end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'code':proc.returncode,'stop':stop,'log_sha256':sha(log)});epochs.append(rec)
+ if proc.returncode!=0 or stop:break
+raw=(O/'native.log').read_text() if (O/'native.log').exists() else ''
+receipt={'epochs':epochs,'before':source,'after':inputs(),'source_stable':source==inputs(),'launcher_before':before,'launcher_after':sha(Path(__file__)),'complete':len(epochs)==2 and all(x['code']==0 and x['stop'] is None for x in epochs) and source==inputs() and before==sha(Path(__file__)),'scope':'same exact proposed public module; private runner overrides only actual imported candidate resource path; no Main/moving/M5 claim'}
+(O/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(raw);print(json.dumps({k:v for k,v in receipt.items() if k not in ['before','after']},indent=2));raise SystemExit(0 if receipt['complete'] else 1)

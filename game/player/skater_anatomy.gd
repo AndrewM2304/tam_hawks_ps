@@ -2,8 +2,8 @@ extends RefCounted
 ## Anatomical MakeHuman CC0 derivatives; see the asset manifest and retained licence.
 ## Only visible geometry/materials live here. The skating rig owns every pose target.
 
-const HEAD: Mesh = preload("res://game/art/assets/makehuman_hm08/head.obj")
-const HAIR: Mesh = preload("res://game/art/rider/short_crop.obj")
+const HEAD: Mesh = preload("res://game/art/rider/fitted_head.obj")
+const HAIR: Mesh = preload("res://game/art/rider/fitted_hair.obj")
 const LEFT_HAND: Mesh = preload("res://game/art/assets/makehuman_hm08/left_hand.obj")
 const RIGHT_HAND: Mesh = preload("res://game/art/assets/makehuman_hm08/right_hand.obj")
 ## Physical marker on the retained palm mesh, unchanged by distal finger curl.
@@ -14,11 +14,9 @@ const EYE_CENTERS: Array[Vector3] = [Vector3(0.0294083333, 0.04127, -0.078793333
 static var _head_cache: ArrayMesh
 static var _hair_cache: ArrayMesh
 static var _hand_cache: Dictionary = {}
-static var _brow_cache: ArrayMesh
-static var _iris_cache: ShaderMaterial
 var _skin: StandardMaterial3D
-var _sphere: SphereMesh
 var _head_skin: StandardMaterial3D
+static var _hand_atlas_layout: Dictionary = {}
 
 func _init() -> void:
 	_skin = _material(Color.WHITE, 0.68)
@@ -26,31 +24,64 @@ func _init() -> void:
 	_skin.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	_head_skin = _skin.duplicate()
 	_apply_skin_maps(_head_skin, "head")
-	_sphere = SphereMesh.new()
-	_sphere.radius = 1.0
-	_sphere.height = 2.0
-	_sphere.radial_segments = 24
-	_sphere.rings = 16
 
-func build_head(parent: Node3D) -> void:
+func build_head(parent: Node3D, automatic_neck_driver: bool = true) -> void:
 	_instance(parent, "AnatomicalHead", _head_surface(), _head_skin)
-	var hair_material := _material(Color("352b25"), 0.86)
-	hair_material.metallic_specular = 0.15
-	hair_material.albedo_texture = preload("res://game/art/rider/hair_albedo.png")
+	var hair_material := _material(Color.WHITE, 0.80)
+	hair_material.metallic_specular = 0.18
+	hair_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+	hair_material.alpha_scissor_threshold = 0.35
+	hair_material.alpha_antialiasing_mode = BaseMaterial3D.ALPHA_ANTIALIASING_ALPHA_TO_COVERAGE
+	hair_material.alpha_antialiasing_edge = 0.20
+	hair_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	hair_material.albedo_texture = preload("res://game/art/rider/fitted_hair_albedo.png")
 	hair_material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	_instance(parent, "CroppedHair", _styled_hair(), hair_material)
-	var brow_material := _material(Color("554235"), 0.82)
-	brow_material.metallic_specular = 0.18
+	var brow_material := _material(Color.WHITE, 0.86)
+	brow_material.albedo_texture = preload("res://game/art/rider/fitted_brows_albedo.png")
+	brow_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
 	brow_material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	_instance(parent, "RootedEyebrows", _brow_surface(), brow_material)
-	var sclera := _material(Color("c9c7b9"), 0.24)
-	sclera.metallic_specular = 0.55
-	var iris := _iris_material()
-	var pupil := _material(Color("101311"), 0.40)
-	for center: Vector3 in EYE_CENTERS:
-		_ellipsoid(parent, "Eye", center, Vector3.ONE * 0.0138, sclera)
-		_ellipsoid(parent, "Iris", center + Vector3(0, 0, -0.0131), Vector3(0.0056, 0.0056, 0.0010), iris)
-		_ellipsoid(parent, "Pupil", center + Vector3(0, 0, -0.0139), Vector3(0.0021, 0.0021, 0.00055), pupil)
+	brow_material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	var brows := _instance(parent, "FittedBrows", preload("res://game/art/rider/fitted_brows.obj"), brow_material)
+	brows.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	var eyes := _material(Color.WHITE, 0.13)
+	eyes.metallic_specular = 0.68
+	eyes.clearcoat_enabled = true
+	eyes.clearcoat = 0.55
+	eyes.clearcoat_roughness = 0.09
+	eyes.albedo_texture = preload("res://game/art/rider/head_albedo.png")
+	eyes.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	_instance(parent, "FittedEyes", preload("res://game/art/rider/fitted_eyes.obj"), eyes)
+	_bind_neck(parent, automatic_neck_driver)
+
+func _bind_neck(parent: Node3D, automatic_neck_driver: bool) -> void:
+	# This native constraint also serves the existing NPC callers, whose head
+	# frames differ from the skater. Driver identity must be assigned LAST:
+	# binding a bone while follow-mode is active can introduce a torso offset.
+	var cursor: Node = parent.get_parent()
+	var skeleton: Skeleton3D
+	while cursor != null and skeleton == null:
+		skeleton = cursor.get_node_or_null("ClothingSkeleton") as Skeleton3D
+		cursor = cursor.get_parent()
+	if skeleton == null or skeleton.find_bone("neck") < 0:
+		return
+	# Share the exact material object across the real head/body source seam,
+	# including fine normal, roughness and specular response for every caller.
+	for mesh in skeleton.get_parent().get_children():
+		if mesh is MeshInstance3D and mesh.name == "UpperChest":
+			mesh.material_override = _head_skin
+	# Player owns the final Rider-local pose_head call; avoid a second global
+	# constraint overwriting it after finite root fitting. NPC defaults retain it.
+	if not automatic_neck_driver:
+		return
+	var driver := BoneAttachment3D.new()
+	driver.name = "NeckSkinPose"
+	parent.add_child(driver)
+	driver.set_use_external_skeleton(true)
+	driver.set_external_skeleton(driver.get_path_to(skeleton))
+	driver.set_override_pose(true)
+	driver.set_bone_name("neck")
+	driver.transform = Transform3D.IDENTITY
 
 func build_hand(parent: Node3D, side: float) -> Node3D:
 	var node := Node3D.new()
@@ -71,6 +102,19 @@ func _apply_skin_maps(material: StandardMaterial3D, part: String) -> void:
 	material.normal_texture = load("res://game/art/rider/" + part + "_normal.png")
 	material.normal_scale = 0.35
 	material.roughness = 1.0
+	if part == "left_hand" or part == "right_hand":
+		if _hand_atlas_layout.is_empty():
+			var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://game/art/rider/hand-atlas-layout.json"))
+			assert(parsed is Dictionary and parsed.get("schema", 0) == 1)
+			_hand_atlas_layout = parsed.hands
+		var layout: Dictionary = _hand_atlas_layout[part]
+		var scale: Array = layout.material_uv1_scale
+		var offset: Array = layout.material_uv1_offset
+		# Positive uniform scale/offset + native repeat preserves every original
+		# mesh UV/position/index/normal and the tangent basis used by the maps.
+		material.uv1_scale = Vector3(float(scale[0]),float(scale[1]),float(scale[2]))
+		material.uv1_offset = Vector3(float(offset[0]),float(offset[1]),float(offset[2]))
+		material.texture_repeat = true
 
 func _styled_hair() -> ArrayMesh:
 	if _hair_cache != null:
@@ -128,100 +172,11 @@ func _head_surface() -> ArrayMesh:
 		_head_cache.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, HEAD.surface_get_arrays(surface))
 	return _head_cache
 
-func _brow_surface() -> ArrayMesh:
-	if _brow_cache != null:
-		return _brow_cache
-	# Original short fibres follow the retained face, rather than floating
-	# cylinders or a painted rectangular strip above each eye. Only this small
-	# forehead region is searched, once, when creating the shared native mesh.
-	var triangles := PackedVector3Array()
-	var faces := HEAD.get_faces()
-	for index in range(0, faces.size(), 3):
-		var a := faces[index]
-		var b := faces[index + 1]
-		var c := faces[index + 2]
-		if minf(a.y, minf(b.y, c.y)) > 0.074 or maxf(a.y, maxf(b.y, c.y)) < 0.047:
-			continue
-		if minf(a.z, minf(b.z, c.z)) > -0.075:
-			continue
-		triangles.append_array(PackedVector3Array([a, b, c]))
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for side: float in [-1.0, 1.0]:
-		for index in 84:
-			var t := float(index) / 83.0
-			var jitter := sin(float(index) * 37.71 + side) * 0.0012
-			var x := side * lerpf(0.012, 0.052, t)
-			var y := 0.059 + 0.0045 * sin(PI * t) - 0.004 * t + jitter
-			var length := 0.0027 * (1.0 - 0.55 * t)
-			var root := Vector2(x, y)
-			var tip := root + Vector2(side * length * (0.25 + 0.65 * t), length * (1.0 - 0.65 * t))
-			var width := 0.00020 * (1.0 - 0.55 * t)
-			var a := _face_point(root + Vector2(-width, 0), triangles)
-			var b := _face_point(root + Vector2(width, 0), triangles)
-			var c := _face_point(tip, triangles)
-			for point: Vector3 in [a, b, c]:
-				surface.set_normal(Vector3.FORWARD)
-				surface.add_vertex(point)
-	_brow_cache = surface.commit()
-	return _brow_cache
-
-func _face_point(point: Vector2, triangles: PackedVector3Array) -> Vector3:
-	var front := INF
-	for index in range(0, triangles.size(), 3):
-		var a := triangles[index]
-		var b := triangles[index + 1]
-		var c := triangles[index + 2]
-		var ab := Vector2(b.x - a.x, b.y - a.y)
-		var ac := Vector2(c.x - a.x, c.y - a.y)
-		var offset := point - Vector2(a.x, a.y)
-		var determinant := ab.cross(ac)
-		if absf(determinant) < 0.0000000001:
-			continue
-		var u := offset.cross(ac) / determinant
-		var v := ab.cross(offset) / determinant
-		if u >= -0.00001 and v >= -0.00001 and u + v <= 1.00001:
-			front = minf(front, a.z + (b.z - a.z) * u + (c.z - a.z) * v)
-	assert(is_finite(front), "Every original eyebrow fibre must have an actual retained face surface.")
-	return Vector3(point.x, point.y, front - 0.00022)
-
-func _iris_material() -> ShaderMaterial:
-	if _iris_cache != null:
-		return _iris_cache
-	# Original radial pigmentation at actual iris scale. This is evaluated on
-	# the existing six native eye surfaces; it adds no texture or draw surface.
-	var shader := Shader.new()
-	shader.code = """shader_type spatial;
-render_mode diffuse_burley, specular_schlick_ggx;
-varying vec2 iris_xy;
-void vertex() { iris_xy = VERTEX.xy; }
-void fragment() {
-    float radius = clamp(length(iris_xy), 0.0, 1.0);
-    float angle = atan(iris_xy.y, iris_xy.x);
-    float fibres = 0.5 + 0.24 * sin(angle * 83.0 + sin(angle * 19.0) * 1.8 + radius * 13.0)
-        + 0.15 * sin(angle * 157.0 - radius * 31.0);
-    float collarette = exp(-pow((radius - 0.48) / 0.12, 2.0));
-    vec3 pigment = mix(vec3(0.025, 0.039, 0.022), vec3(0.115, 0.145, 0.073), clamp(fibres, 0.0, 1.0));
-    pigment += vec3(0.025, 0.012, 0.002) * collarette;
-    ALBEDO = pigment * (1.0 - 0.65 * smoothstep(0.80, 1.0, radius));
-    ROUGHNESS = 0.34;
-    SPECULAR = 0.50;
-}
-"""
-	_iris_cache = ShaderMaterial.new()
-	_iris_cache.shader = shader
-	return _iris_cache
-
 func _material(color: Color, roughness: float) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
 	material.albedo_color = color
 	material.roughness = roughness
 	return material
-
-func _ellipsoid(parent: Node3D, label: String, point: Vector3, radii: Vector3, material: Material) -> void:
-	var node := _instance(parent, label, _sphere, material)
-	node.position = point
-	node.scale = radii
 
 func _instance(parent: Node3D, label: String, mesh: Mesh, material: Material) -> MeshInstance3D:
 	var node := MeshInstance3D.new()

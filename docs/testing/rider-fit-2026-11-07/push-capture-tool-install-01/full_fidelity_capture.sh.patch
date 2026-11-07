@@ -1,0 +1,89 @@
+--- a/tools/full_fidelity_capture.sh
++++ b/tools/full_fidelity_capture.sh
+@@ -6,18 +6,25 @@
+ TASK_PRIVATE_DISPLAY=false
+ TASK_COHORT=all
+ TASK_PUSH_VIEW=contact
++TASK_PUSH_SELECTION=all
+ while (($#)); do
+   case "$1" in
+     --private-display) TASK_PRIVATE_DISPLAY=true ;;
+     --cohort) TASK_COHORT="${2:?--cohort needs all or push-contact}"; shift ;;
+     --push-view) TASK_PUSH_VIEW="${2:?--push-view needs contact, front, side or chase}"; shift ;;
+-    --help|-h) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase]'; exit 0 ;;
+-    *) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase]' >&2; exit 2 ;;
++    --push-selection) TASK_PUSH_SELECTION="${2:?--push-selection needs all or natural-three}"; shift ;;
++    --help|-h) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase] [--push-selection all|natural-three]'; exit 0 ;;
++    *) echo 'Usage: tools/full_fidelity_capture.sh [--private-display] [--cohort all|push-contact] [--push-view contact|front|side|chase] [--push-selection all|natural-three]' >&2; exit 2 ;;
+   esac
+   shift
+ done
+ case "$TASK_COHORT" in all|push-contact) ;; *) echo "Invalid cohort: $TASK_COHORT" >&2; exit 2 ;; esac
+ case "$TASK_PUSH_VIEW" in contact|front|side|chase) ;; *) echo "Invalid push view: $TASK_PUSH_VIEW" >&2; exit 2 ;; esac
++case "$TASK_PUSH_SELECTION" in all|natural-three) ;; *) echo "Invalid push selection: $TASK_PUSH_SELECTION" >&2; exit 2 ;; esac
++if [[ "$TASK_PUSH_SELECTION" != all && "$TASK_COHORT" != push-contact ]]; then
++  echo "Capture-only push selection requires the complete push-contact physical cohort." >&2
++  exit 2
++fi
+ TASK_VERSION="$(./tools/run.sh --version)"
+ case "$TASK_VERSION" in 4.6.3.*) ;; *) echo "Expected Godot 4.6.3, found $TASK_VERSION" >&2; exit 1 ;; esac
+ mkdir -p .local
+@@ -64,11 +71,11 @@
+   export LP_NUM_THREADS=4
+ fi
+ 
+-python3 - "$TASK_ROOT" "$TASK_OUTPUT" "$TASK_COHORT" "$TASK_PUSH_VIEW" <<'PY'
++python3 - "$TASK_ROOT" "$TASK_OUTPUT" "$TASK_COHORT" "$TASK_PUSH_VIEW" "$TASK_PUSH_SELECTION" <<'PY'
+ import hashlib, json, math, os, pathlib, re, shutil, signal, struct, subprocess, sys, time, zlib
+ root, output = map(pathlib.Path, sys.argv[1:3])
+-cohort, push_view = sys.argv[3:5]
+-destination = root / 'docs/testing/screenshots' / ('full-fidelity' if cohort=='all' else 'push-contact-'+push_view)
++cohort, push_view, push_selection = sys.argv[3:6]
++destination = root / 'docs/testing/screenshots' / ('full-fidelity' if cohort=='all' else 'push-natural-three' if push_selection=='natural-three' else 'push-contact-'+push_view)
+ sys.path.insert(0,str(root/'tools'))
+ from full_fidelity_capture_png import PixelSpoolEncoder, decode_proven_rgba8
+ 
+@@ -110,7 +117,7 @@
+ before=fingerprint()
+ command=[str(root/'tools/run.sh'),'--rendering-method','gl_compatibility','--audio-driver','Dummy',
+     '--windowed','--resolution','1280x800','--disable-render-loop','--fixed-fps','60',
+-    '--script','tools/full_fidelity_capture.gd','--',str(output),cohort,push_view]
++    '--script','tools/full_fidelity_capture.gd','--',str(output),cohort,push_view,push_selection]
+ process=None
+ encoder=PixelSpoolEncoder(output)
+ encoder.start()
+@@ -171,7 +178,7 @@
+     'exchange_south_line','civic_lower_island','station_low_manual','barras_forecourt_line','clyde_south_link',
+     'clyde_south_middle','clyde_south_east_west','clyde_south_link_capture'}
+ names={c['id'] for c in clips}
+-if report.get('cohort')!=cohort or report.get('complete_repertoire_coverage')!=(cohort=='all'):
++if report.get('cohort')!=cohort or report.get('complete_repertoire_coverage')!=(cohort=='all') or report.get('push_capture_selection','all')!=push_selection:
+     raise SystemExit('Capture coverage declaration does not match requested cohort.')
+ actual_catalog=set(report.get('catalog_ids',[]))
+ observed_catalog=set()
+@@ -204,9 +211,22 @@
+     if len(names)!=len(clips) or required-names or len(clips)<50:
+         raise SystemExit('Incomplete actual motion coverage: '+str(sorted(required-names)))
+ else:
+-    required={'push_contact_'+name for name in ('regular','fakie','from_rest','brake','brake_return','pop_catch','pop_early')}
+-    if len(names)!=len(clips) or names!=required:
+-        raise SystemExit('Incomplete actual push contact coverage: '+str(sorted(required-names)))
++    physical_required={'push_contact_'+name for name in ('regular','fakie','from_rest','brake','brake_return','pop_catch','pop_early')}
++    required={'push_contact_'+name for name in ('regular','fakie','from_rest')} if push_selection=='natural-three' else physical_required
++    if len(names)!=len(clips) or names!=required or set(report.get('observed_phase_ids',[]))!=physical_required:
++        raise SystemExit('Incomplete declared physical/visual push coverage: '+str(sorted(required-names)))
++    if push_selection=='natural-three':
++        expected_views={'push_contact_regular':'front','push_contact_from_rest':'side','push_contact_fakie':'chase'}
++        if report.get('per_case_push_view')!=expected_views or report.get('visual_phase_coverage_complete') or set(report.get('unrecorded_phase_ids',[]))!=physical_required-required:
++            raise SystemExit('Capture-only phase policy is missing or overclaims discarded phases.')
++        if {s['phase']for s in report['native_timeline']}!=physical_required:
++            raise SystemExit('Capture selection discarded a physical native trace.')
++        for clip in clips:
++            frames=clip.get('frames',[])
++            if len(frames)!=117 or clip['native_steps']!=117 or clip['sample_stride']!=1:
++                raise SystemExit('Natural push requires every72press+45release native frame: '+clip['id'])
++            if any(b['state']['physics_frame']-a['state']['physics_frame']!=1 for a,b in zip(frames,frames[1:])):
++                raise SystemExit('A claimed normal-speed push clip skipped a physics tick: '+clip['id'])
+     report['accepted_catalog_identity_coverage']={'total':len(actual_catalog),'observed':sorted(observed_catalog),'complete':False,'scope':'Focused push cohort only; full78 acceptance remains separate.'}
+ frame_rate=int(report['motion_sample_hz'])
+ if frame_rate!=(60 if cohort=='push-contact' else 15): raise SystemExit('Unexpected native sample rate')

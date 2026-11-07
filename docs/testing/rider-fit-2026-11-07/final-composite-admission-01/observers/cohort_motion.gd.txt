@@ -1,0 +1,33 @@
+extends SceneTree
+const Motion=preload("res://tests/motion_fidelity_tests.gd")
+const Main=preload("res://game/main.gd")
+var passes:=0
+var failures:Array[String]=[]
+var modules:Array=[]
+func _initialize()->void:_run.call_deferred()
+func _check(ok:bool,label:String)->void:
+ if ok:passes+=1;print("PASS ",label)
+ else:failures.append(label);print("FAIL ",label)
+func _frames(count:int)->void:
+ for i:int in count:await physics_frame;await process_frame
+func _run()->void:
+ var old_passes:=passes
+ var old_failures:=failures.size()
+ await Motion.run(self,_check)
+ modules.append({"name":"fullMotionStandalone","passes":passes-old_passes,"failures":failures.size()-old_failures})
+ var game:=Main.new()
+ _check(not game.persistence_enabled,"actual default Main is isolated before entering tree")
+ game.persistence_enabled=false
+ root.add_child(game)
+ await _frames(40)
+ old_passes=passes
+ old_failures=failures.size()
+ await Motion.run_main(self,game,_check)
+ await Motion.run_main_support(self,game,_check)
+ modules.append({"name":"defaultMainMotionAndSupport","passes":passes-old_passes,"failures":failures.size()-old_failures})
+ game.queue_free()
+ await process_frame
+ var file:=FileAccess.open("res://result-motion.json",FileAccess.WRITE)
+ file.store_string(JSON.stringify({"passes":passes,"failures":failures,"modules":modules,"scope":"full original standalone Motion plus default-enabled ordinary Main motion/support on exact private fitted composite; no graphics/FPS/M5 acceptance"},"\t"));file.close()
+ print("FINAL_MOTION_RESULT ",passes," failures=",failures)
+ quit(0 if failures.is_empty() else 1)

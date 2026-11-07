@@ -1,0 +1,61 @@
+from pathlib import Path
+import hashlib,json,re,shutil,subprocess
+R=Path.cwd();O=R/'.local/fitted-rig-admission/final-composite-01';P=O/'project';RA=R/'.local/rider-fit-staging/integration-proposal-v13';ME=R/'.local/per-leg-sole-proposal';H=json.loads((RA/'handoff.json').read_text());M=json.loads((ME/'proposal.json').read_text());A=Path(H['assets_directory']);G=Path(H['generators_directory'])
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def source_manifest(base):
+ return {str(p.relative_to(base)):sha(p) for name in ['game','tests','tools'] for p in (base/name).rglob('*') if p.is_file() and '__pycache__' not in p.parts}|{'project.godot':sha(base/'project.godot')}
+assert not P.exists();P.mkdir(parents=True);before=source_manifest(R)
+assert before['game/player/skater.gd']==M['base_controller_sha256'],'Actual forecast baseline changed; rebase narrow patch first'
+assert before['game/player/skater_visual.gd']==H['visual_surgical_patch']['base_actual_sha256'],'Actual Visual baseline changed'
+assert before['game/player/skater_obstacle_arm_fit.gd']=='77f2a6a09a40055b644b91eed901afb1111b10b15684d9293f28689998cfaab2'
+for name in ['game','tests','tools']:subprocess.run(['cp','-a','--reflink=auto',str(R/name),str(P/name)],check=True)
+shutil.copy2(R/'project.godot',P/'project.godot');assert before==source_manifest(R),'Actual source changed during snapshot'
+(O/'actual-base-source.json').write_text(json.dumps(before,indent=2)+'\n')
+cache=R/'.local/fitted-rig-admission/epoch-06/project/.godot';(P/'.godot').symlink_to(cache,target_is_directory=True)
+for name,item in H['outputs'].items():
+ assert sha(A/name)==item['sha256'];shutil.copy2(A/name,P/'game/art/rider'/name)
+shutil.copy2(A/'fitted-manifest.json',P/'game/art/rider/fitted-manifest.json');assert sha(A/'fitted-manifest.json')==H['fitted_manifest_sha256']
+for name,wanted in H['generator_sha256'].items():
+ assert sha(G/name)==wanted;shutil.copy2(G/name,P/'tools'/name)
+for dest,entry in H['runtime_targets'].items():
+ src=Path(entry['source']);assert sha(src)==entry['sha256'];shutil.copy2(src,P/dest)
+for name,wanted in H['notices'].items():assert sha(RA/name)==wanted;shutil.copy2(RA/name,P/'game/art/rider'/name)
+for patch in ['skater_visual.gd.patch','activity_actor.gd.patch','busker_actor.gd.patch','market_actor.gd.patch','cat_actor.gd.patch','rider_asset_inspect.gd.patch','rider_asset_inspect.sh.patch']:
+ subprocess.run(['patch','-p1','--batch','--fuzz=0','-i',str(RA/patch)],cwd=P,check=True)
+for patch in ['skater_visual.gd.patch','skater.gd.patch']:
+ assert sha(ME/patch)==M['candidate_sha256'][patch];subprocess.run(['patch','-p1','--batch','--fuzz=0','-i',str(ME/patch)],cwd=P,check=True)
+assert sha(P/'game/player/skater.gd')==M['candidate_sha256']['skater.gd']
+for name in ['shoe_support_hull.gd']:assert sha(ME/name)==M['candidate_sha256'][name];shutil.copy2(ME/name,P/'game/player'/name)
+for name in ['per_leg_sole_contract.gd','full_shoe_support_contract.gd']:assert sha(ME/name)==M['candidate_sha256'][name];shutil.copy2(ME/name,P/'tests'/name)
+(P/'.local').mkdir();shutil.copy2(ME/'shoe_support_math_smoke.gd',P/'.local/shoe_support_math_smoke.gd')
+f=P/'game/player/skater_visual.gd';text=f.read_text();needle='\t_rider = rider\n';assert text.count(needle)==1;text=text.replace(needle,needle+'\t# Current Skin and rigid local poses share one interpolated outer root.\n\t_rider.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF\n\t_board.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF\n');assert 'Vector3.UP.cross(deck_back)' in text and 'reset_leg_frames()' in text and 'pose_head(_upper.transform * _head.transform)' in text;f.write_text(text)
+# Existing geometry observers must sample each actual authored foot, not the old negative-foot alias.
+f=P/'tests/flat_ollie_tests.gd';text=f.read_text();assert text.count('for point:Vector3 in rig._sole_points:')==1;f.write_text(text.replace('for point:Vector3 in rig._sole_points:','for point:Vector3 in rig.sole_contact_points(leg):'))
+f=P/'tests/skater_gait_direction_tests.gd';text=f.read_text();assert text.count('for vertex: Vector3 in rig._sole_points:')==1;f.write_text(text.replace('for vertex: Vector3 in rig._sole_points:','for vertex: Vector3 in rig.sole_contact_points(rig._legs[1]):'))
+B=R/'.local/fitted-rig-admission/epoch-08/project'
+for name in ['fitted_adapter.gd','skater_body_attachment_tests.gd']:shutil.copy2(B/'tests'/name,P/'tests'/name)
+(P/'tools/testing').mkdir(exist_ok=True);shutil.copy2(R/'.local/fitted-rig-admission/build_reference.py',P/'tools/testing/build_fitted_rig_reference.py')
+subprocess.run(['python3','-I','-S',str(P/'tools/testing/build_fitted_rig_reference.py'),'--assets',str(P/'game/art/rider'),'--output',str(P/'tests/fitted-reference.json')],check=True)
+assert sha(P/'tests/fitted-reference.json')=='eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae'
+shutil.copy2(B/'controls.gd',P/'controls.gd')
+# Pin import parameters from immutable source, not the artist's changing active cache.
+imports=R/'.local/rider-fit-staging/epochs/v13-three/source/game/art/rider'
+for name in H['outputs']:
+ src=imports/(name+'.import')
+ if src.exists():shutil.copy2(src,P/'game/art/rider'/src.name)
+# Reuse ONE isolated cache; preserve changed historical imported resources before editor refresh.
+old=R/'.local/fitted-rig-admission/epoch-07/project';backup=O/'cache-before-changed';changed=[]
+for imp in (P/'game').rglob('*.import'):
+ rel=imp.relative_to(P);asset=Path(str(imp)[:-7]);old_imp=old/rel;old_asset=old/asset.relative_to(P)
+ if old_imp.exists() and old_asset.exists() and sha(old_imp)==sha(imp) and sha(old_asset)==sha(asset):continue
+ paths=set(re.findall(r'res://(\.godot/imported/[^"\]]+)',imp.read_text()))
+ if old_imp.exists():paths.update(re.findall(r'res://(\.godot/imported/[^"\]]+)',old_imp.read_text()))
+ for relative in paths:
+  q=P/relative
+  if not q.is_file():continue
+  for entry in [q,q.with_suffix('.md5')]:
+   if entry.is_file():
+    dest=backup/entry.relative_to(P);dest.parent.mkdir(parents=True,exist_ok=True)
+    if not dest.exists():shutil.copy2(entry,dest);changed.append({'path':str(entry.relative_to(P)),'sha256':sha(entry),'bytes':entry.stat().st_size})
+cache_info={'shared_isolated_cache':str(cache),'no_full_cache_copy':True,'historical_replay':'Restore archived changed imported resources plus original source .import params before replaying old V11 epochs; original source/log/PNG evidence remains immutable.','preserved_changed_resources':changed,'preserved_bytes':sum(x['bytes'] for x in changed)};(O/'cache-before-refresh.json').write_text(json.dumps(cache_info,indent=2)+'\n')
+(O/'preparation.json').write_text(json.dumps({'actual_source_count':len(before),'rider_handoff':H,'movement_proposal':M,'stage':'private composite prepared; editor import/UID generation must occur before source freeze; no native eligibility yet','final_controller_sha256':sha(P/'game/player/skater.gd'),'final_visual_sha256':sha(P/'game/player/skater_visual.gd'),'final_garments_sha256':sha(P/'game/player/skater_garments.gd')},indent=2)+'\n');print(json.dumps({'project':str(P),'cache_delta_backup_bytes':cache_info['preserved_bytes'],'private_source_count':len(source_manifest(P))}))

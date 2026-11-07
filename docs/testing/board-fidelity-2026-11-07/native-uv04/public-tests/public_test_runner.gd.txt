@@ -1,0 +1,13 @@
+extends SceneTree
+const Tests=preload("res://tests/board_import_tests.gd")
+var passes:int=0
+var failures:int=0
+func _initialize()->void:_run.call_deferred()
+func _check(ok:bool,label:String)->void:
+ if ok:passes+=1
+ else:failures+=1
+ print("PASS " if ok else "FAIL ",label)
+func _run()->void:
+ Tests.run(_check,"res://candidate/tam_skateboard.glb")
+ print("BOARD_PUBLIC_TEST_RESULT ",passes,"/",failures)
+ quit(0 if failures==0 else 1)

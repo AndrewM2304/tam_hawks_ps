@@ -1,0 +1,566 @@
+{
+  "schema": 1,
+  "reviewer": "independent BA/QE; /root/independent_qa/water_partial_review; not production author",
+  "review_date_utc": "2026-11-07",
+  "scope": "Only current-main-water-material-partial-01. Read-only retained-source/image audit; no Godot/import/graphics invocation, engine rerun, implementation edit, prior receipt rewrite or Git operation.",
+  "instructions_loaded": [
+    "AGENTS.md",
+    ".agents/skills/quality-verification/SKILL.md",
+    ".agents/skills/gameplay-qa/SKILL.md",
+    "docs/STATUS.md",
+    "docs/architecture/interfaces.md",
+    "docs/product/AAA_BENCHMARK.md",
+    "docs/planning/FIDELITY_TICKETS.md:FID-201/FID-202"
+  ],
+  "verdict": "Bounded retained-still integrity verified and reduced broad glare observed. Whole epoch remains REJECTED. Water realism remains unfinished; moving, cost, target-Mac and AAA acceptance remain open.",
+  "whole_epoch": {
+    "result": "REJECTED",
+    "supervisor_seconds": 360,
+    "target_frames_retained": 8,
+    "target_frames_planned": 9,
+    "missing": "three-b-pond.png",
+    "startup_proofs": 3,
+    "warm_states": 3,
+    "native_checks": 86,
+    "native_failures": 0,
+    "native_complete": false,
+    "eligible": false,
+    "native_count_scope": "Native86/0 belongs to the incomplete whole report. It is not reassigned as a subset pass or combined with independent172/0.",
+    "budget_amendment": "Retained root-budget-amendment.json supersedes the earlier240 instruction before the unchanged360s deadline; no external-truncation explanation is claimed.",
+    "cleanup_limit": "Last retained report runtime SHA is4f5, reflecting three-b. The timeout occurs before final return to installed d646 runtime code; the on-disk resource remained d646 throughout."
+  },
+  "independent_verification": {
+    "result": "Pass within declared retained-proof scope",
+    "checks": 172,
+    "failures": 0,
+    "command": "python3 docs/testing/fidelity-2026-11-06/environment/current-main-water-material-partial-01/independent-source-audit.py.txt",
+    "exit_code": 0,
+    "audit_source": "independent-source-audit.py.txt",
+    "audit_source_sha256": "f139506fa31b78135635f96cdcf40f6adb7fed69f48dd0bbc517d4d6c915664c",
+    "all_879_private_inputs_hashed": true,
+    "original_preserved_files_hashed": 30,
+    "original_preservation_index_unchanged": true,
+    "target_png_and_decoded_rgba_verified": 8,
+    "startup_png_and_decoded_rgba_verified": 3,
+    "target_world_markers_independently_projected": 16,
+    "target_canvas_swatches_independently_decoded": 8,
+    "max_target_projection_metadata_error_pixels": 4.5314525528606445e-05,
+    "max_target_centroid_projection_error_pixels": 0.19874383669117332,
+    "startup_limit": "Startup marker pixels match retained projected coordinates, but those records omit full basis/projection. Only the8target frames support a full independent world-to-pixel reconstruction.",
+    "numeric_decoding_note": "Strict marker thresholds use float32 Color channels, matching Godot; float64 alone includes one extra boundary-color pixel in the two-candidate pond green marker.",
+    "copied_game_scope": "392copied game files consist of391supervised game inputs plus game/art/assets/makehuman_hm08/__pycache__/generate.cpython-312.pyc. All392copy pins independently match extant private files; the supervisor explicitly excludes __pycache__ from879inputs.",
+    "world_inventory": "All3mode inventories equal inventory_before:1772nonwater entries,1755collision shapes,3water entries; same shared Shader object, fixed.1/2sun bias,3water castersOFF and basin casterON.",
+    "basin_limit": "Observer explicitly checks the native512triangle basin; retained nonwater inventory records its mesh identity/bounds/casting but does not retain its full triangle arrays. This review verifies that guarded observer/source identity and unchanged inventories, not a new native mesh extraction.",
+    "engine_limit": "Retained log and metadata agree on Godot4.6.3 official commit7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3. No independent installed-binary fingerprint or engine-source parity is supplied by this packet."
+  },
+  "causal_scope": {
+    "three_runtime_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+    "two_runtime_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+    "on_disk_sha256_all_modes": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+    "intervention": [
+      "RemoveWAVE_C and change varying/attenuation/gradient vec3 to vec2",
+      "ROUGHNESS.36 to.48",
+      "SPECULAR.50 to.35"
+    ],
+    "inference": "Matched camera/projection, fixed world inventories, warm states and restored river/fountain support a bounded material-response difference for this combined intervention. They do not isolate phase-count causation.",
+    "time_limit": "Native shaderTIME varies with wallclock. A/B/A imagery shows different phases and cannot prove phase-matched causality, temporal stability or normal-speed visual quality.",
+    "counter_limit": "Recorded draw/primitive/shadow/memory counters match exactly by retained view across modes. These instantaneous untimed counters establish no complete whole-game cost or frame-time admission.",
+    "overlap": "Root-authorized required headlessPID89810 overlaps; receipt discloses it. No FPS, CPU exclusivity, frame-time, sustained performance or M5 claim is made."
+  },
+  "personal_visual_review": {
+    "method": "Each of8target PNG originals opened individually using one view_image result per tool call. All3startup originals also opened individually. No montage, downsampled derivative or generated image substitutes for an original.",
+    "target_originals": [
+      {
+        "file": "three-a-river.png",
+        "finding": "Broad white glint dominates the lower-right river. Bridge shadow remains visible across the water; coin geometry enters the left/bottom edge."
+      },
+      {
+        "file": "two-candidate-river.png",
+        "finding": "Broad lower-right glare is substantially reduced, making the bridge shadow clearer. Far-right bright water remains. Broad grey/teal gradients and smooth repeated bands still read rather plain and opaque."
+      },
+      {
+        "file": "three-b-river.png",
+        "finding": "The broad bright right-hand response returns with the three-wave code. Shadow and fixed bridge/river geometry remain. The exact ripple phase differs from three-a."
+      },
+      {
+        "file": "three-a-fountain.png",
+        "finding": "Soft pale water gradient surrounds the pedestal. The basin has a clear stone rim, but the water itself is a largely featureless opaque grey surface."
+      },
+      {
+        "file": "two-candidate-fountain.png",
+        "finding": "Water is darker and calmer with less broad light response. It still resembles a smooth grey/teal filled disk; the material does not yet provide a convincing local water read."
+      },
+      {
+        "file": "three-b-fountain.png",
+        "finding": "Brighter broad response returns. Geometry, rim and pedestal remain aligned; opaque/plain surface read persists."
+      },
+      {
+        "file": "three-a-pond.png",
+        "finding": "Broad diagonal light bands cross the pond around the two ducks. The water is opaque grey and geometrically simple at this authored view."
+      },
+      {
+        "file": "two-candidate-pond.png",
+        "finding": "Broad bands are reduced and surface is darker/calmer, but it looks like a flat grey/teal ellipse. No restored pond exists to complete the A/B/A control."
+      }
+    ],
+    "startup_originals": [
+      "synchronization/overview_before_contact.png",
+      "synchronization/first_contact_inspection.png",
+      "synchronization/return_to_production_chase.png"
+    ],
+    "bounded_benefit": "Reduced broad river glare and calmer fountain/pond response are visible in these retained stills. Reduced glare is not sufficient to pass realistic water finish.",
+    "finish_gap": "Large water regions remain plain opaque grey/teal. Fountain/pond lack enough readable local surface variation and edge interaction in these images to meet a polished credible material standard.",
+    "camera_limit": "The river coin is present at the left/bottom edge and clips the framing. The central river remains inspectable. All three inspection cameras are authored frozen-actor fixtures, not ordinary moving play."
+  },
+  "ba_clause_results": [
+    {
+      "clause": "Packet retained source/pixel/projection identity",
+      "expected": "Retained target pixels and per-frame state authenticate the declared variants",
+      "result": "Pass",
+      "actual": "172independent read-only checks pass; all8retained targets and3startup PNG/RGBA identities validate",
+      "next_action": "Use only these declared retained-still observations; preserve whole rejection"
+    },
+    {
+      "clause": "Complete3viewA/B/A epoch",
+      "expected": "All9target frames and clean completed runtime",
+      "result": "Fail",
+      "actual": "360stimeout,8of9targets,complete=false; restored pond absent",
+      "next_action": "Root may schedule a fresh complete source-frozen packet when an exclusive graphics slot is available; never repair or promote this receipt"
+    },
+    {
+      "clause": "FID-201.A / V2 readable water material",
+      "expected": "Water has credible coherent physical material response",
+      "result": "Fail",
+      "actual": "Two-wave response reduces glare but water remains plain opaque grey/teal, especially fountain/pond",
+      "owner": "EA",
+      "next_action": "Refine restrained water material readability and local edge/surface detail within admitted cost, then obtain matched close/ordinary-view evidence"
+    },
+    {
+      "clause": "FID-201.D and FID-202.D temporal response",
+      "expected": "Ordinary moving views substantiate improvement without unstable glints",
+      "result": "Unmeasured",
+      "actual": "Frozen authored snapshots and varying nativeTIME supply no consecutive normal-speed sequence",
+      "owner": "EA/RE with independentQE",
+      "next_action": "Capture a source-bound normal-speed water sequence with consecutive native frames and moving ordinary camera"
+    },
+    {
+      "clause": "Retained shader/log integrity",
+      "expected": "No shader errors in the supplied epoch",
+      "result": "Pass",
+      "actual": "Retained engine.log has no known script/shader/error/assertion tokens",
+      "next_action": "Keep separate from visual/temporal acceptance"
+    },
+    {
+      "clause": "Whole-game cost / FID-202.E / Q1",
+      "expected": "Matched complete admitted workload and measured cost",
+      "result": "Unmeasured",
+      "actual": "timing_measured=false; known required headless overlap; only untimed instantaneous counters",
+      "owner": "RE",
+      "next_action": "Use a separate authorized uncontended cost workload if required; infer no FPS or complete cost pass here"
+    },
+    {
+      "clause": "MacBookAirM5 / FID-503 / H1",
+      "expected": "Actual target-Mac launch and sustained performance",
+      "result": "Unmeasured",
+      "actual": "Linuxsoftware-rendered diagnostic only",
+      "owner": "Owner/RE",
+      "next_action": "ActualM5 review remains required"
+    },
+    {
+      "clause": "OverallV2/AAA/human acceptance",
+      "expected": "Polished ordinary-play outcome and complete required gates",
+      "result": "Unmeasured",
+      "actual": "Water finish fails the bounded visual criterion and required motion/cost/hardware gates remain open",
+      "owner": "SD/Owner",
+      "next_action": "Keep full acceptance open; no whole-city or AAA verdict from this packet"
+    }
+  ],
+  "next_action": "Carry the observed glare reduction as bounded evidence for the combined installed material response; continue the existing water-finish and temporal/hardware gates. Do not rewrite, repair, rerun or synthesize a subset receipt from this rejected epoch.",
+  "technical_audit": {
+    "technical_audit_pass": true,
+    "independent_read_only_check_count": 172,
+    "failures": [],
+    "private_missing": [],
+    "private_mismatch": [],
+    "source_inputs": 879,
+    "source_inventory_sha256": "ca8c7b7c5c1b02a4fe71f406a03bc776827cebaa276fd94ea86387b902cb09dd",
+    "preserved_file_count": 30,
+    "executed_source": [
+      {
+        "path": "game/art/assets/horizon/clyde_water.gdshader",
+        "sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44"
+      },
+      {
+        "path": "game/levels/art/fountain_basin_mesh.gd",
+        "sha256": "f569accb1a2fa3443005f6d51edcfb0ef67110cfaa9837456b972da64a1d6f02"
+      },
+      {
+        "path": "game/levels/glasgow_square.gd",
+        "sha256": "153b0d15d05cc749ada0ecbb5894c9fe37fe57ba2c709629163c617ab6f29f50"
+      },
+      {
+        "path": "game/levels/water_shadow_policy.gd",
+        "sha256": "5eb47aae515824b26637cec1b388db9b7c2038647037ae1a75705a146197f696"
+      },
+      {
+        "path": "tools/environment_main_paving_capture.gd",
+        "sha256": "b5f52acbf561cc83f418e30a0c01ee43b8c893b34bcd3a69662e5e76767e4b81"
+      },
+      {
+        "path": "tools/environment_main_water_material_capture.gd",
+        "sha256": "fc635a5400f2664cc65a2f793cbdc71be03fbd17864a04f4794984e756e2b561"
+      },
+      {
+        "path": "tools/environment_main_water_shadow_capture.gd",
+        "sha256": "e599f32f153c2b3294ab72bd9fe00e15f881b6a2b17f8964aa336b335cf81e10"
+      },
+      {
+        "path": "tools/environment_water_probe.py",
+        "sha256": "bd49dc2762dd4d29c0738836b105ca278bf41eb4c0f888102ec3cb146713f8b1"
+      },
+      {
+        "path": "tools/fixtures/environment/clyde_water_three_wave_before_trial.gdshader",
+        "sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190"
+      },
+      {
+        "path": "tools/full_fidelity_capture.gd",
+        "sha256": "432f4d8b8d90ecca3659a79b01c291eecad56980e1053039cac39528a5579bf1"
+      }
+    ],
+    "copy_scope": {
+      "copy_game_inputs": 392,
+      "supervised_game_inputs": 391,
+      "excluded_copy_cache": [
+        "game/art/assets/makehuman_hm08/__pycache__/generate.cpython-312.pyc"
+      ]
+    },
+    "matched_cameras": {
+      "river": true,
+      "fountain": true,
+      "pond": true
+    },
+    "target_frames": [
+      {
+        "file": "three-a-river.png",
+        "png_sha256": "7d2074972361c11ccad7b2c5d76d622175a8569b1c430c0eb7e3702a099f932f",
+        "native_rgba8_sha256": "1a82a7e4f35175fddade6de1fa06fb611e416a1b73cf34037ee2273f5b7b9ba3",
+        "runtime_shader_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+        "resource_file_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "physics_tick": 95,
+        "process_tick": 263,
+        "markers": [
+          {
+            "color": "red",
+            "count": 136,
+            "projection_metadata_error_pixels": 2.9036261575187306e-05,
+            "centroid_projection_error_pixels": 0.18232511347303912
+          },
+          {
+            "color": "green",
+            "count": 124,
+            "projection_metadata_error_pixels": 1.4459138770876104e-05,
+            "centroid_projection_error_pixels": 0.045294509215926725
+          }
+        ],
+        "canvas_rgb": [
+          30,
+          40,
+          190
+        ],
+        "counters": {
+          "buffer_bytes": 27516586,
+          "draws": 239,
+          "primitives": 100912,
+          "shadow_primitives": 49523,
+          "texture_bytes": 96590209
+        }
+      },
+      {
+        "file": "three-a-fountain.png",
+        "png_sha256": "7cad4a1b1cc384f23d5891a79841eae702aead4c4c233786f583fac8afe2a2d9",
+        "native_rgba8_sha256": "ba3e8d4349f1bce59d637781834681a29f7811718ecbe25eb2a808edc19cfcf1",
+        "runtime_shader_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+        "resource_file_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "physics_tick": 103,
+        "process_tick": 264,
+        "markers": [
+          {
+            "color": "red",
+            "count": 133,
+            "projection_metadata_error_pixels": 1.6272008212423088e-05,
+            "centroid_projection_error_pixels": 0.19874383669117332
+          },
+          {
+            "color": "green",
+            "count": 126,
+            "projection_metadata_error_pixels": 2.296481338573458e-05,
+            "centroid_projection_error_pixels": 0.10429713763766024
+          }
+        ],
+        "canvas_rgb": [
+          30,
+          110,
+          190
+        ],
+        "counters": {
+          "buffer_bytes": 27516586,
+          "draws": 1194,
+          "primitives": 914851,
+          "shadow_primitives": 237218,
+          "texture_bytes": 96590209
+        }
+      },
+      {
+        "file": "three-a-pond.png",
+        "png_sha256": "2f982a49a2ff9c04a4cdd92d12edfe13d0e7d43917e850d660fb49927a7dc7f9",
+        "native_rgba8_sha256": "fa98b17d31bf5fd93259240ed52b5f499bf83cc84e5e3acc777404a63efdc077",
+        "runtime_shader_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+        "resource_file_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "physics_tick": 111,
+        "process_tick": 265,
+        "markers": [
+          {
+            "color": "red",
+            "count": 138,
+            "projection_metadata_error_pixels": 3.222150521596259e-05,
+            "centroid_projection_error_pixels": 0.07630199818675551
+          },
+          {
+            "color": "green",
+            "count": 132,
+            "projection_metadata_error_pixels": 8.228641173967162e-06,
+            "centroid_projection_error_pixels": 0.0746283929039101
+          }
+        ],
+        "canvas_rgb": [
+          30,
+          180,
+          190
+        ],
+        "counters": {
+          "buffer_bytes": 27516586,
+          "draws": 184,
+          "primitives": 590002,
+          "shadow_primitives": 250398,
+          "texture_bytes": 96590209
+        }
+      },
+      {
+        "file": "two-candidate-river.png",
+        "png_sha256": "832df56ab27e14d27b309876983f4d94c1a216d59ddbfb2b84f3548159170af4",
+        "native_rgba8_sha256": "b1f4ef643ad267d6e11d6c720d6b3f4dad142bb8929fb7ab6df1243c39bfff3c",
+        "runtime_shader_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "resource_file_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "physics_tick": 127,
+        "process_tick": 267,
+        "markers": [
+          {
+            "color": "red",
+            "count": 135,
+            "projection_metadata_error_pixels": 1.3180203474647083e-05,
+            "centroid_projection_error_pixels": 0.15711295963159003
+          },
+          {
+            "color": "green",
+            "count": 127,
+            "projection_metadata_error_pixels": 2.1323401524676415e-05,
+            "centroid_projection_error_pixels": 0.09393277731437634
+          }
+        ],
+        "canvas_rgb": [
+          100,
+          40,
+          160
+        ],
+        "counters": {
+          "buffer_bytes": 27516586,
+          "draws": 239,
+          "primitives": 100912,
+          "shadow_primitives": 49523,
+          "texture_bytes": 96590209
+        }
+      },
+      {
+        "file": "two-candidate-fountain.png",
+        "png_sha256": "3805beadcec57e972591af99254e62268549365ecc49a45bdaa5427c7521235c",
+        "native_rgba8_sha256": "7effb397561a5921efbdb0580198c38ac14e00130b1b87a4c7eaa4399bd12026",
+        "runtime_shader_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "resource_file_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "physics_tick": 135,
+        "process_tick": 268,
+        "markers": [
+          {
+            "color": "red",
+            "count": 136,
+            "projection_metadata_error_pixels": 2.3257197111878036e-05,
+            "centroid_projection_error_pixels": 0.12226307871884441
+          },
+          {
+            "color": "green",
+            "count": 126,
+            "projection_metadata_error_pixels": 1.448228536739554e-05,
+            "centroid_projection_error_pixels": 0.06348864776636139
+          }
+        ],
+        "canvas_rgb": [
+          100,
+          110,
+          160
+        ],
+        "counters": {
+          "buffer_bytes": 27516586,
+          "draws": 1194,
+          "primitives": 914851,
+          "shadow_primitives": 237218,
+          "texture_bytes": 96590209
+        }
+      },
+      {
+        "file": "two-candidate-pond.png",
+        "png_sha256": "a03f28f0a9c1557b5b46647349f56ce3d4d7c04c82d23b035ccd6340c620d636",
+        "native_rgba8_sha256": "dbb165cfc974316ed59fb7c683bc56b9ad9b8fd7a6856bb2387cea51ff3c6c53",
+        "runtime_shader_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "resource_file_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "physics_tick": 143,
+        "process_tick": 269,
+        "markers": [
+          {
+            "color": "red",
+            "count": 133,
+            "projection_metadata_error_pixels": 3.127091831031857e-05,
+            "centroid_projection_error_pixels": 0.07674981932609663
+          },
+          {
+            "color": "green",
+            "count": 134,
+            "projection_metadata_error_pixels": 1.0502001746618521e-05,
+            "centroid_projection_error_pixels": 0.07751815688281605
+          }
+        ],
+        "canvas_rgb": [
+          100,
+          180,
+          160
+        ],
+        "counters": {
+          "buffer_bytes": 27516586,
+          "draws": 184,
+          "primitives": 590002,
+          "shadow_primitives": 250398,
+          "texture_bytes": 96590209
+        }
+      },
+      {
+        "file": "three-b-river.png",
+        "png_sha256": "9d2c95b510f1d3b89784ca6b0e1c82f339a4387ecd68ddcefd7c039b69aaf9ef",
+        "native_rgba8_sha256": "437e26a721fa5155321758385c28d173c65331137380dbccf5b3b4d2504649b1",
+        "runtime_shader_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+        "resource_file_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "physics_tick": 159,
+        "process_tick": 271,
+        "markers": [
+          {
+            "color": "red",
+            "count": 134,
+            "projection_metadata_error_pixels": 1.0684675690782385e-05,
+            "centroid_projection_error_pixels": 0.16258286864374447
+          },
+          {
+            "color": "green",
+            "count": 128,
+            "projection_metadata_error_pixels": 4.5314525528606445e-05,
+            "centroid_projection_error_pixels": 0.07877630463008901
+          }
+        ],
+        "canvas_rgb": [
+          170,
+          40,
+          130
+        ],
+        "counters": {
+          "buffer_bytes": 27516586,
+          "draws": 239,
+          "primitives": 100912,
+          "shadow_primitives": 49523,
+          "texture_bytes": 96590209
+        }
+      },
+      {
+        "file": "three-b-fountain.png",
+        "png_sha256": "8578047b8777564396ca448e012106e51206bdb0085dfc7104af0d3f9bfcedcb",
+        "native_rgba8_sha256": "47658a3ef49d41b056489cae8d76ae174256995a9374b0f4c888f1406ab076c3",
+        "runtime_shader_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+        "resource_file_sha256": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+        "physics_tick": 167,
+        "process_tick": 272,
+        "markers": [
+          {
+            "color": "red",
+            "count": 138,
+            "projection_metadata_error_pixels": 3.343518401035409e-05,
+            "centroid_projection_error_pixels": 0.10493575524603628
+          },
+          {
+            "color": "green",
+            "count": 131,
+            "projection_metadata_error_pixels": 4.304166792732886e-05,
+            "centroid_projection_error_pixels": 0.04853853261417087
+          }
+        ],
+        "canvas_rgb": [
+          170,
+          110,
+          130
+        ],
+        "counters": {
+          "buffer_bytes": 27516586,
+          "draws": 1194,
+          "primitives": 914851,
+          "shadow_primitives": 237218,
+          "texture_bytes": 96590209
+        }
+      }
+    ],
+    "startup_proofs": [
+      {
+        "file": "synchronization/overview_before_contact.png",
+        "markers": [],
+        "projection_limit": "startup lacks full basis/projection; only retained projected coordinates independently matched to pixels"
+      },
+      {
+        "file": "synchronization/first_contact_inspection.png",
+        "markers": [
+          {
+            "count": 625,
+            "centroid_error_pixels": 0.24849197344162588
+          },
+          {
+            "count": 589,
+            "centroid_error_pixels": 0.24072169879987987
+          }
+        ],
+        "projection_limit": "startup lacks full basis/projection; only retained projected coordinates independently matched to pixels"
+      },
+      {
+        "file": "synchronization/return_to_production_chase.png",
+        "markers": [
+          {
+            "count": 162,
+            "centroid_error_pixels": 0.48678192263676257
+          },
+          {
+            "count": 138,
+            "centroid_error_pixels": 0.025865602692501134
+          }
+        ],
+        "projection_limit": "startup lacks full basis/projection; only retained projected coordinates independently matched to pixels"
+      }
+    ],
+    "whole_epoch": "REJECTED; original native86/0 remains incomplete whole-run integrity, never subset verification",
+    "native_complete": false,
+    "native_checks": 86,
+    "native_failures": 0,
+    "final_report_runtime_sha256": "4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190",
+    "final_runtime_limit": "last retained report is three-b/4f5; timeout precedes final return to installed d646 code; no successful cleanup claim"
+  }
+}

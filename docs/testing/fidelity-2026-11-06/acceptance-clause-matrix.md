@@ -1,51 +1,49 @@
 # Independent acceptance-clause matrix
 
-Reviewer: independent QA/BA. Checkpoint: 2026-11-07T02:07:05.175947+00:00. **Overall: Fail / incomplete.**
+Reviewer: independent QA/BA. Checkpoint: 2026-11-07T08:00:44.397823+00:00. **Overall: Fail / incomplete.**
 
 Independent checkpoint, not final candidate acceptance. Production is mutable. Fail refers to directly inspected source-bound baseline or candidate evidence; later unreviewed production changes do not inherit a positive or negative current-source certification. Pass is only the bounded exact evidence stated; Unmeasured means missing independent complete-clause evidence.
 
-Coverage: 44 benchmark requirements and 104 clauses across all20 active tickets. This is an evidence map, not a percentage-complete score. The [machine-readable record](acceptance-clause-matrix.json) retains each exact criterion and source-document hashes; the IDs below follow document order.
+Coverage:44 benchmark requirements and110clauses across21tickets. This is an evidence map, not a percentage-complete score. The [machine-readable record](acceptance-clause-matrix.json) retains every exact criterion and source-document hashes. Bounded results:32Pass,18Fail,104Unmeasured.
 
-Evidence: [independent review](../FIDELITY-REVIEW.md), [baseline](baseline/README.md), [push baseline](push-baseline/README.md), [manual baseline](manual-baseline/README.md), [physical direction](controls-sign-01/README.md), [matched renderer inspection](renderers/README.md), [asset BA](../FIDELITY-BA.md), [derivative checks](derivative-independent.json), [studio audit](studio-structure-audit-extension.json), [resident allocation](environment-allocation-independent.json), [contact diagnostics](motion-contact-diagnostics/README.md).
-
-A full clause stays Unmeasured if a narrower subset passes. Observed failures have actionable D001–015 records in the independent review; they are not automatically carried forward as proof that an unseen later source is still broken. The production author cannot accept their own code.
+Evidence: [independent review](../FIDELITY-REVIEW.md), [baseline](baseline/README.md), [matched renderer review](renderers/README.md), and the complete evidence_index in the JSON. A narrow passing repair does not close a whole criterion. Historical rejected epochs remain retained; an unseen later source receives neither inherited failure nor acceptance.
 
 ## V1
 
 | Requirement | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| V1.1 — Continuous believable forms | Fail | D001; older GL still angular, final garment changes unreviewed. | Review final front/side/rear/three-quarter close and chase. |
-| V1.2 — Adult scale and proportions | Unmeasured | No independent final adult/limb/board measurements. | Measure metre-world proportions. |
-| V1.3 — Character surfaces | Fail | D001 surfaces; GL skin improves but cloth/angular finish remains. | Inspect final ordinary camera material/form quality. |
-| V1.4 — Deformation | Unmeasured | Full worst-bend candidate motion absent. | Review crouch/landing/push/grab/special bends. |
-| V1.5 — Board construction | Unmeasured | Wheel8mm native flat baseline is bounded; complete final construction/idle review absent. | Inspect finite wheel/truck/deck/shoe motion and idle. |
-| V1.6 — Grounding | Unmeasured | Baseline frontsole0.854mm; final full supported-pose max/p95 absent. | Measure final shoe/deck errors and label intentional separation. |
+| V1.1 — Continuous believable forms | Fail | Actual fitted inspector independently211/0 and all9 originals viewed; complete Main six-still review159/0 plus50 preservation checks verifies visible neck/waist/feet continuity at shown states. Splayed hands, stiff collar and angular deepest grabbed thigh/knee remain observed finish gaps. Earlier procedural D001 is historical; no current full-action/anatomy/AAA pass. | Review final worst bends and normal-speed transitions, then owner art acceptance. |
+| V1.2 — Adult scale and proportions | Unmeasured | Main packet records actual native envelope/head/board bounds and0.30/0.29m arm,0.43/0.41m leg segments; source declares authentic adult morphs. Independent close/chase images look adult, but final standing-height/all-view anatomy measurement and human judgement remain incomplete. | Independently validate standing dimensions and front/side/rear/three-quarter anatomy. |
+| V1.3 — Character surfaces | Fail | Actual fitted ordinaryMain front/side/chase and inspector originals now reviewed. Clothing/face continuity improves; bright nape/hand highlights, stiff collar, soft footwear and plain companion props remain. Final materials under moving gameplay light remain incomplete. | Inspect final ordinary camera material/form quality. |
+| V1.4 — Deformation | Unmeasured | Actual fitted focus93/0 source-reviewed15/0; inspector9poses211/0 and Main6pushstills159/0 retain seam continuity. Native full fitted/core and temporal03 subsets pass source-bound checks. Angular deepest-grab knee,26internal folded-lapel pairs and normal-speed all-action deformation remain open. | Review crouch/landing/push/grab/special bends. |
+| V1.5 — Board construction | Fail | Actual UV04 side/rim/underside native originals independently reviewed146/0 plus16 source-delta/normal checks. Continuous grain improves; unchanged28mm wood profile and documented bolt/mounting proportions remain physically incoherent. Native32part caches/protected positions stay exact; a physical migration is still unadmitted. | Resolve researched physical board dimensions with explicit contact/native component migration and moving retests. |
+| V1.6 — Grounding | Unmeasured | ActualMain6stills show coherent supporting/pushing feet and retain original native2056/0 push/brake/pop checks. Independent actual indexed sole world heights are recorded, explicitly without treating height as a floor/load certificate. Complete supported-action maximum/p95 remains absent. | Measure final shoe/deck errors and label intentional separation. |
 
 ## V2
 
 | Requirement | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| V2.1 — Readable physical materials | Fail | D002/D004; improved paving but inspected repeated stone/bright glass remain. | Enumerate and finish actual materials in ordinary views. |
+| V2.1 — Readable physical materials | Fail | D002/D004 remain broad material requirements. Private paving115/0 integrity/allocation passes but bright mortar grid needs actual Main readability. Actual-Main river/basin causal controls137/0 isolate fine-band causes without installing a repair or accepting realism. Exact closed512basin independent204/0 removes banding/preserves exterior shadow in static Main under fixed watercastingOFF; quieterConcrete02 allocation55/0 passes separately, actualMain ground art/temporal remains open. | Enumerate and finish actual materials in ordinary views. |
 | V2.2 — Texture scale and resolution | Unmeasured | Asset metadata/rebuild passes; full apparent adjacent scale and all-material target coverage not accepted. | Measure actual repeats/resolution/adjacent apparent scale. |
 | V2.3 — Stable surface detail | Unmeasured | No full final moving UV/shimmer/seam review. | Inspect moving banks, pavement joins and grass. |
 | V2.4 — Architecture | Fail | D002 flat bright window panels remain in inspected GL. | Inspect/finish architectural depth, joins and district silhouette. |
-| V2.5 — Light and contact | Unmeasured | Final shaded/bright grounding pair absent. | Review final shadows, bright stone detail and landing clarity. |
+| V2.5 — Light and contact | Unmeasured | Actual-Main water controls retain sunlight/receiving shadows; river bands isolate to water casting and fountain to basin casting. This is a bounded cause test, not complete bright/shaded landing grounding. | Review final shadows, bright stone detail and landing clarity. |
 | V2.6 — Composition | Fail | D003 broad east-quay transport; latest bank-return unseen. | Review useful next choices from actual primary decision points. |
 
 ## V3
 
 | Requirement | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| V3.1 — Action reel | Unmeasured | No complete current-source normal-speed action reel. | Review all named actions plus bank/support-loss/wall sequence. |
+| V3.1 — Action reel | Unmeasured | ActualMain six selected plant/return stills and657 consecutive physical observations are complete;9pose inspector freezes each selected input pose. Neither is the351-frame normal-speed action reel. | Complete current-source native normal-speed action coverage with worst-frame review. |
 | V3.2 — Action coherence 1 | Unmeasured | Final all-action input/contact/visual latency not measured. | Pair accepted input, physics events and same-frame visuals. |
-| V3.3 — Action coherence 2 | Fail | D015 native full-world side sequence independently exposes a 28.627-pixel rider/deck step at the bank crown; 119.816 mm physical-frame presentation offset. | Repair earned finite wall anticipation, then repeat exact source-bound frames/video and the wider transition cohort. |
-| V3.4 — Action coherence 3 | Fail | D014 current grounded tyre penetrates finite coping by 35.716 mm with a mesh/camera obstruction. Native push improves, but all-action contact is not accepted. | Rerun final contact checks and actual normal-speed action. |
-| V3.5 — Action coherence 4 | Unmeasured | Actual wheel/lean/compression all-action review incomplete. | Inspect native event versus model without cosmetic state drift. |
-| V3.6 — Action coherence 5 | Fail | D008 baseline side-on stroke; final source-aligned cycles unreviewed. | Review forward/fakie/carving/slope push and actual hips. |
+| V3.3 — Action coherence 2 | Unmeasured | Historical D015 pop absent in independently reviewed32side+3chase forecast frames;1408 physical rows equal reactive. Actual fitted pose/local-clock/temporal03 and Main6still subsets are independently source/pixel reviewed. Full current integrated movement remains open. | Run final integrated wider transitions and normal-speed pose/camera cohort; retain scoped forecast moving pass separately. |
+| V3.4 — Action coherence 3 | Unmeasured | Old actual Main D014 failed5/1. Researched coping Main10/0 clears complete cached board/tyre volumes in seven physics ticks; actual installed four-module190/0 independently reviewed20/0 with792 unchanged inputs. Signed near-face gaps are not force-bearing; final moving/all-action support remains open. | Review current moving support/flotation and complete final all-action finite contact cohort; near-face gaps do not prove physical loading. |
+| V3.5 — Action coherence 4 | Unmeasured | Independent body-axis A/B gives old100/4 vs proposed104/0 across10 actual-input styles, fixing Pogo/HangTen reversed W/S torso response. Lateral/hip/compression, plausible near20cm arm correction and all-action natural moving review remain open. | Inspect native event versus model without cosmetic state drift. |
+| V3.6 — Action coherence 5 | Unmeasured | Historical D007/D008 native slide/side-on defects are preserved. ActualMain2056/0 physical cohort plus independent159/0 six-still review shows forward-facing regular/fakie/rest plant+return and connected collar/waist/feet. Full normal-speed/carving/slope cycle remains Unmeasured; old failure is not inherited as a proved current failure. | Review current normal-speed forward/fakie/carving/slope push and transitions. |
 | V3.7 — Action coherence 6 | Unmeasured | No final30-second wall/undercroft/turn framing proof. | Capture natural-input camera sequence with full rider/landing. |
 | V3.8 — Action coherence 7 | Unmeasured | Full reduced-motion/pause/restart/reverse repetition state review absent. | Replay interruptions and observe stale timers/poses. |
 | V3.9 — Manual linking | Unmeasured | Independent candidate landing matrix47/0 verifies actual widened early links, exclusive350ms expiry, release/stale/gesture and bank-once events. Full linked-run/interruption/threshold coverage remains open. | Complete real manual→air continuation and threshold/cooldown/pause/restart/bail neighbours on final source. |
-| V3.10 — Balance feedback | Unmeasured | Actual W/S direction passes10 variants; clean native34/0 retest fixes D011 glyph and rider/approach interference at1280x800/UI1.0+1.4. Full moving/risk/remap/lateral scope remains open. | Inspect final integrated normal-speed feedback and body lean, endpoints, remaps and lateral modes. |
+| V3.10 — Balance feedback | Unmeasured | Actual board/control signs pass the84 original checks and20 new world-torso assertions in private104/0 epoch; root applied exact visual hunk. Native34/0 HUD correction remains source-bound. Full moving/risk/remap/lateral review remains open. | Inspect final integrated normal-speed feedback and body lean, endpoints, remaps and lateral modes. |
 
 ## L1
 
@@ -67,12 +65,12 @@ A full clause stays Unmeasured if a narrower subset passes. Observed failures ha
 | Requirement | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
 | Q1.1 — Evidence 1 | Unmeasured | Matched baseline/GL exist; final candidate comparison not complete. | Use same renderer/camera/resolution/light and retain failed frames. |
-| Q1.2 — Evidence 2 | Pass | Baseline and immutable sign receipts have unchanged inventories; 17 baseline plus 34 matched renderer PNG/native hashes independently verified, including renderer synchronization markers. | Require identical complete identity contract for final packets. |
+| Q1.2 — Evidence 2 | Pass | Baseline17/renderer34 and later native frame subsets remain source-bound. Actual fitted focus93/0 and Main-six159/0 verify current sources/pixels/poses; Main-six preserves all9 decoded buffers losslessly and all748 execution inputs. Require exact final fullgate inventory correspondence. | Require identical complete identity contract for final packets. |
 | Q1.3 — Evidence 3 | Pass | Authored/static/moving-start/reset fixtures explicitly disclosed; personal Music isolated. | Keep final native routes distinct from reconstruction/closeups. |
-| Q1.4 — Evidence 4 | Fail | Current required-01 already contains native/integration failures including D014; the final count/exit/source-after receipt remains root-owned. Earlier focused passes do not replace it. | Repair actual failures and validate legitimate changed oracles independently, then rerun the entire stable-source gate. |
-| Q1.5 — Evidence 5 | Pass | D001–015 and separate D801–803 have source/repro/owners/retest; rejected seat/bank witnesses remain explicit. | Update final retests while retaining failed epochs. |
+| Q1.4 — Evidence 4 | Fail | Completed actualrequired02:6526pass/7assertfail plus3runtimefreed-ownerScriptErrors,exit1,886unchanged inputs,2241.249s. Independent17/0 source/log and12/0 preservation checks verify rejection. CLI Music launchstage didnotrun. Distinct currentClydechase/copingcapture/runtime failures and reviewed board/route expectation migrations require fresh fixes and fullgate. | Repair actual failures and validate legitimate changed oracles independently, then rerun the entire stable-source gate. |
+| Q1.5 — Evidence 5 | Pass | D001–021 and separateD801–803 retain source/repro/owners/retest. Historical failures and bounded repairs remain separate; D020 records physical-board dimensions and D021 actual current freed-owner ScriptError. | Update final retests while retaining failed epochs. |
 | Q1.6 — Evidence 6 | Unmeasured | Exact independent matrix exists; final technical/moving/human scopes open. | Inspect final candidate and obtain actual owner response separately. |
-| Q1.7 — Evidence 7 | Fail | D013 isolated water high-coverage candidate exceeds both controls at p50/p95/p99, so cost admission is rejected despite equal draws/memory and passing resident texture increment. Whole Main and M5 pacing remain unmeasured. | Evaluate cheaper prepared water in fresh warmed repeated matched controls, then complete whole Main cost admission without contention. |
+| Q1.7 — Evidence 7 | Fail | Historical D0133wave cost rejection retained. New independent728/0 arithmetic/proof audit verifies27 two-phase-control/candidate cells:5of27 percentiles exceed BOTH controls; highcoverage repeat2p99=60.335ms vs31.013/31.238 (+93.146%). Sampled live Godot competition absent, but Python observations/control drift prevent CPU-exclusivity/causal claim. No fullMain/M5 cost admission. | Evaluate cheaper prepared water in fresh warmed repeated matched controls, then complete whole Main cost admission without contention. |
 
 ## H1
 
@@ -101,11 +99,11 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| FID-002.A | Pass | Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill. | Keep these files in the integrated commit. |
-| FID-002.B | Pass | Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill. | Keep these files in the integrated commit. |
-| FID-002.C | Pass | Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill. | Keep these files in the integrated commit. |
-| FID-002.D | Pass | Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill. | Keep these files in the integrated commit. |
-| FID-002.E | Pass | Independent original nine-role audit and later ten-role/skill extension pass; 20 metadata-complete tickets, 152 valid links across 26 extension documents; production separately reviewed QA skill. | Keep these files in the integrated commit. |
+| FID-002.A | Pass | Original nine-role setup and separately recorded ten/eleven-role extensions retain their scopes. Current contact-role extension passes31/0:12role briefs/12skills and137 local entrypoint/role/skill links. Original20ticket metadata audit remains source-bound. Production separately accepted the original QA skill; this reviewer does not self-accept its recent QA-skill additions. | Keep these files in the integrated commit. |
+| FID-002.B | Pass | Original nine-role setup and separately recorded ten/eleven-role extensions retain their scopes. Current contact-role extension passes31/0:12role briefs/12skills and137 local entrypoint/role/skill links. Original20ticket metadata audit remains source-bound. Production separately accepted the original QA skill; this reviewer does not self-accept its recent QA-skill additions. | Keep these files in the integrated commit. |
+| FID-002.C | Pass | Original nine-role setup and separately recorded ten/eleven-role extensions retain their scopes. Current contact-role extension passes31/0:12role briefs/12skills and137 local entrypoint/role/skill links. Original20ticket metadata audit remains source-bound. Production separately accepted the original QA skill; this reviewer does not self-accept its recent QA-skill additions. | Keep these files in the integrated commit. |
+| FID-002.D | Pass | Original nine-role setup and separately recorded ten/eleven-role extensions retain their scopes. Current contact-role extension passes31/0:12role briefs/12skills and137 local entrypoint/role/skill links. Original20ticket metadata audit remains source-bound. Production separately accepted the original QA skill; this reviewer does not self-accept its recent QA-skill additions. | Keep these files in the integrated commit. |
+| FID-002.E | Pass | Original nine-role setup and separately recorded ten/eleven-role extensions retain their scopes. Current contact-role extension passes31/0:12role briefs/12skills and137 local entrypoint/role/skill links. Original20ticket metadata audit remains source-bound. Production separately accepted the original QA skill; this reviewer does not self-accept its recent QA-skill additions. | Keep these files in the integrated commit. |
 
 ## FID-010 — Evaluate engine/renderer against MacBook Air M5
 
@@ -125,10 +123,10 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| FID-101.A | Fail | Baseline D001; inspected renderer-GL epoch still has angular torso/hip silhouette. Later garment topology has not been independently rendered. | RA: repeat final chase/front/side/rear/three-quarter close views and measure proportions. |
-| FID-101.B | Unmeasured | Candidate GL shows better skin/hands; whole rider/cloth/shoe/board provenance and finish are not fully independently accepted. | Inspect final materials/asset notices and ordinary camera survival. |
-| FID-101.C | Unmeasured | Final deepest crouch/push/grab/special deformation not independently reviewed in motion. | Inspect natural-frame worst bends with source/pixel proofs; resolve D803 evidence gap. |
-| FID-101.D | Unmeasured | Baseline and earlier GL ordinary spawn inspected; latest revised complete rider has no independent current-source spawn review yet. | Capture latest ordinary title-to-play/chase after final source freeze. |
+| FID-101.A | Fail | Actual fitted inspector independently211/0 and all9 originals viewed; complete Main six-still review159/0 plus50 preservation checks verifies visible neck/waist/feet continuity at shown states. Splayed hands, stiff collar and angular deepest grabbed thigh/knee remain observed finish gaps. Earlier procedural D001 is historical; no current full-action/anatomy/AAA pass. | RA: repeat final chase/front/side/rear/three-quarter close views and measure proportions. |
+| FID-101.B | Unmeasured | Actual source-authenticated fitted assets/public reference/native seams and current Main/inspector appearances independently reviewed. BoardUV04 finish146+16 passes its narrow source/native/visual scope; remaining bright nape, stiff collar, soft footwear, companion material and physical-board gaps prevent full surface/art acceptance. | Inspect final materials/asset notices and ordinary camera survival. |
+| FID-101.C | Unmeasured | Actual fitted focus93/0 source-reviewed15/0; inspector9poses211/0 and Main6pushstills159/0 retain seam continuity. Native full fitted/core and temporal03 subsets pass source-bound checks. Angular deepest-grab knee,26internal folded-lapel pairs and normal-speed all-action deformation remain open. | Inspect natural-frame worst bends with source/pixel proofs; resolve D803 evidence gap. |
+| FID-101.D | Unmeasured | Current actualMain ordinary production-chase startup proof plus two fakie chase clean originals, and four close front/side push originals, were personally inspected. Actual fitted inspector9poses and source-bound Main159/0 complete revised-rider static evidence. Full unmarked title-to-spawn/normal gameplay moving presentation remains open. | Capture latest ordinary title-to-play/chase after final source freeze. |
 | FID-101.E | Pass | D001 and later angular/gap observations were sent to RA/root; owner visual acceptance remains explicitly open. | Record retests and retain failed original frames. |
 
 ## FID-102 — Make shoe, hand and board contacts coherent
@@ -138,10 +136,23 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
 | FID-102.A | Unmeasured | Independent baseline native sole/wheel samples pass a narrow flat scope; final full-action maximum and p95 remain absent. | Measure final supported-pose separation and report maximum/p95 by action. |
-| FID-102.B | Unmeasured | Independent frozen checkpoint native push/grade/contact subsets pass regular/fakie/rest peaks 2.892/4.017/0.162 mm; aggregate66/1 remains rejected for fast-bank component clearance. Normal-speed foot return is unreviewed. | Resolve bank component failure and inspect normal-speed push/support transitions. |
+| FID-102.B | Unmeasured | ActualMain2056/0 repeats all7 native push/brake/pop phases and657 consecutive observations. Independent six-still159/0 review sees planted/pushing/return feet coherently connected. Native regular/fakie/rest slide peaks2.892/4.017/0.162mm remain bounded; no normal-speed full-return visual verdict. | Resolve bank component failure and inspect normal-speed push/support transitions. |
 | FID-102.C | Unmeasured | No independent current grab-edge 50mm result. | Measure real hand/deck world-space distance at full extension and review render. |
 | FID-102.D | Unmeasured | Actual final flip/revert/special rotation/contact sequence not fully reviewed. | Run existing full repertoire with contacts and inspect worst return transitions. |
 | FID-102.E | Unmeasured | Release/brake/pop baseline slices are bounded; final pause/restart/recovery whole contact sequence remains open. | Replay all interruption/recovery cases and inspect stale-pose clearance. |
+
+## FID-103 — Finish native skateboard construction and side UVs
+
+Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
+
+| Clause | Result | Independently observed evidence / limit | Next verification |
+| --- | --- | --- | --- |
+| FID-103.A | Unmeasured | Current28mm wood and source-measured bolt/mounting defects are documented; independent UV04 native close views still show excessive thickness. Attributable construction study and private10.25mm physical prototype exist, but native semantic-part/contact migration and final physical design remain unadmitted. | Independently admit the researched physical specification and finite semantic parts before geometry promotion. |
+| FID-103.B | Pass | Independent raw source40/0 plus finalUV04 source-delta/native/visual146+16 checks confirm all2600 wood faces have nondegenerate handed UVs,21 physical perimeter repeats at2080.761texel/m, and continuous horizontal ply/grain in matched native side/rim/underside views. This admits UV finish only;28mm physical profile remains open. | Preserve exact source/import identity through future physical migration. |
+| FID-103.C | Pass | Final native08 all4 indexed position/winding/normal triangle multisets and32cached clearance part pointsets agree with baseline. Protected3packed surfaces/shadow buffers/LODs stay byte-exact; functional source marker/node/datums and grip/hardware/urethane attributes remain exact. No geometry/contact migration occurred in UV04. | Repeat protected/native component contracts for any physical geometry change. |
+| FID-103.D | Pass | FinalUV04 has1mesh/4surfaces/1atlas and no added triangles/materials/nodes. Source payload+34880B and native geometry/shadow/LOD payload+7232B remain within128KiB. Both actual bound Texture2D API readbacks are RGB8/10mips/4194303B. This resource contract is not a frame-time/M5 claim. | Retain budgets; independently admit any future physical geometry growth. |
+| FID-103.E | Unmeasured | All8 matched native side/rim/underside/normal originals independently opened;24marker projections/centroids and actual bound texture API identity pass. ActualMain six push stills use finalUV04 hash. Complete coast/grind/flip/grab/manual/release normal-speed review remains absent. | Inspect source-bound shaded close and actual contact/action motion with negatives. |
+| FID-103.F | Unmeasured | Actual default public BoardImport27/0 is author-reported after installation; independent146+16 native/source/visual checks support the scoped finish. Complete current tools/check.sh/package and final moving contact remain pending; no hardware/AAA award. | Complete affected native/current regression, package and hardware/human gates. |
 
 ## FID-201 — Replace poor route-facing surface textures
 
@@ -149,8 +160,8 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| FID-201.A | Fail | D002/D004 baseline material deficiencies; candidate paving/stone improve, but repeated paving and flat bright windows persist in inspected GL. | EA: enumerate unfinished materials and inspect complete final moving bright/shaded set. |
-| FID-201.B | Pass | Independent raw asset BA plus derivative rebuild/reflection audit verify sources, dimensions, imports, licence and physical repeat metadata. | Recheck any final material/import changes and actual resident allocation. |
+| FID-201.A | Fail | Selected photo materials improve. Private paving115/0 removes fan arcs but stronger bright mortar grid remains to inspect in actual chase/court. Water137/0 causal controls remove fine bands only through private caster interventions; whole material realism remains incomplete. | EA: enumerate unfinished materials and inspect complete final moving bright/shaded set. |
+| FID-201.B | Pass | Independent raw asset/rebuild/derivative audits plus private paving source licence/rebuild/native allocation scope verify provenance, dimensions, imports and metres per repeat. Actual visual and cost admission remain distinct. | Recheck any final material/import changes and actual resident allocation. |
 | FID-201.C | Unmeasured | Derived normal tangent signs verified within one byte; moving shimmer/seams/UV continuity not reviewed on final source. | Inspect moving banks, joins, grass and close surfaces. |
 | FID-201.D | Unmeasured | Matched stills exist; ordinary moving material and shaded review remains open. | Capture final source moving routes and close bright/shaded pairs. |
 | FID-201.E | Pass | Bounded asset BA register audit and official CC0 source/licence inspection support redistributed environment subset. | Retain notices and verify additions before final integration. |
@@ -161,7 +172,7 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| FID-202.A | Unmeasured | Flat wheel gap is about8mm; a visible unsupported hover is not established. All wheels/rails/building bases not accepted. | Inspect final ordinary motion/contact shadows at all support types. |
+| FID-202.A | Unmeasured | Flat wheels approximately8mm are bounded. Coping private seven-frame native board/tyre volumes clear, but near-face signed gaps are not actual weight-bearing;19 near-band samples include two side normalsY0.194653 with37.608/107.194mm vertical separation. Moving loaded/unloaded realism remains open. | Inspect final ordinary motion/contact shadows at all support types. |
 | FID-202.B | Unmeasured | Selected bright GL frames inspected; matched shaded landing/runout detail not fully reviewed. | Inspect a matched bright/shaded route pair. |
 | FID-202.C | Unmeasured | All six baseline areas inspected, but latest candidate daylight/exposure consistency not complete. | Review final all-area ordinary moving views. |
 | FID-202.D | Unmeasured | Clean GL capture log proves no error in that epoch; no final moving glint/post-effect acceptance. | Inspect final shader log and moving surfaces without concealing detail. |
@@ -173,7 +184,7 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| FID-203.A | Unmeasured | Baseline facade defects identified; no complete primary-line placeholder inventory independently verified. | EA: enumerate route-facing placeholders by primary line. |
+| FID-203.A | Unmeasured | Private actual-Main A/V2/A independently22/0:16real aperture shells, source triangles+65,854, all1755native shape records/other routes-grinds-gaps-terrain preserved, exact controlled restore. Graphical ordinary/close/shoulder resource admission remains open. | EA: enumerate route-facing placeholders by primary line. |
 | FID-203.B | Fail | D002 and inspected candidate GL still show uniform bright window panels/weak facade depth. | EA: finish plausible recess/joins/scale and verify district identity. |
 | FID-203.C | Unmeasured | Full final primary-line seam/trim/boundary traversal not independently inspected. | Inspect close and shoulder views of each changed module. |
 | FID-203.D | Unmeasured | Final dressing/support/camera/goal access not independently replayed. | Run affected actual approaches, landings, misses and challenge interactions. |
@@ -186,9 +197,9 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
 | FID-301.A | Pass | Independent baseline D006 manual timing, D007 push slip and D008 side-on push were reproduced before positive acceptance. | Retain exact old traces and input observers. |
-| FID-301.B | Fail | Native sign/contact subsets pass, but current D014 finite coping penetration and D015 rendered crown pop show remaining discontinuities. The combined required-01 already records failures. | Repair exact native mixed support and finite wall anticipation; repeat affected neighbours and the complete integrated gate. |
+| FID-301.B | Unmeasured | D014 researched-profile native defect-window and D015 full-prefix forecast moving repairs pass their exact scopes; actual fitted focus93/0 and Main2056/0/six-still159/0 add current-source subsets. A new combined fullcheck and all affected continuous transitions remain pending. Historical isolated failures are retained without being inherited as proved current failures. | Complete current combined fullcheck and all affected normal-speed contact/interruptions. |
 | FID-301.C | Unmeasured | Complete normal-speed V3 sequence remains missing from independent review. | Capture/inspect action, incline, wall, undercroft, reverse and restart sequences. |
-| FID-301.D | Unmeasured | No independent final30-second natural wall/undercroft/turn camera framing result. | Verify complete rider/board/immediate landing throughout the prescribed route. |
+| FID-301.D | Unmeasured | Actual helper complete native139/0 independently source/receipt-verified10/0,797stable inputs. Body/clothing/contact moving acceptance and full integrated regression remain open. | Verify complete rider/board/immediate landing throughout the prescribed route. |
 | FID-301.E | Pass | Reports keep native checks, visual motion, human feel and Mac acceptance distinct. | Preserve separation in final report and owner handoff. |
 
 ## FID-302 — Deliver complete animation state transitions and landing weight
@@ -199,7 +210,7 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 | --- | --- | --- | --- |
 | FID-302.A | Unmeasured | Full normal-speed intention/recovery reel not independently reviewed. | Inspect every V3 action at normal speed, then worst frames. |
 | FID-302.B | Unmeasured | Final actual takeoff/landing event versus rendered compression not measured across actions. | Pair native events with same-frame visuals without gameplay delay. |
-| FID-302.C | Fail | D015 immutable full-world 32-frame side sequence shows a 28.627-pixel connected rider/deck step around a 119.816 mm offset change. Capture integrity passes 492/0; motion criterion fails. | Repair finite earned-wall contact anticipation, then inspect the exact native sequence and the remaining action/interruptions. |
+| FID-302.C | Fail | Corrected192privateforecast native40/0 and fullprefix32side+3chase review support narrowintegration: recordedpop absent, all35images inspected, all1408physicalfields equal reactive. Querymax152 under192, offsetmaxstep27.198mm. Ordinaryall-action/jointcollapse criterion remains incomplete. | Integrate exact source-bound forecast then review remaining native actions/interruptions. |
 | FID-302.D | Unmeasured | Final reduced-motion/pause/restart visual-state cohort not independently reviewed. | Replay those transitions in native Main. |
 | FID-302.E | Unmeasured | Baseline push worst defects recorded; final worst remaining transition and owner review absent. | Publish actual worst transition and separate owner feel response. |
 
@@ -209,12 +220,12 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| FID-303.A | Fail | Baseline D008 torso/frontshoe dots about0.30/0.066; later positive physical alignment diagnostics are not a final motion verdict. | ME+RA: source-stable chase/front/side motion of final shoulder/hip/shoe geometry. |
-| FID-303.B | Fail | Baseline D007 peak planted slip212.5mm/tick; positive working-tree epoch rejected for changing source. | Independently rerun final planted stroke/recovery with finite native support. |
+| FID-303.A | Unmeasured | Historical D007/D008 native slide/side-on defects are preserved. ActualMain2056/0 physical cohort plus independent159/0 six-still review shows forward-facing regular/fakie/rest plant+return and connected collar/waist/feet. Full normal-speed/carving/slope cycle remains Unmeasured; old failure is not inherited as a proved current failure. | Review current normal-speed forward/fakie/carving/slope push and transitions. |
+| FID-303.B | Unmeasured | Historical212.5mm/tick loaded slide replaced in current native cohort by2.892/4.017/0.162mm regular/fakie/rest peaks;6 actualMain plant/return stills159/0 show coherent poses. A whole normal-speed cycle/turning transition has not yet been independently viewed. | Review consecutive current native push cycles and transitions; do not substitute stills. |
 | FID-303.C | Unmeasured | Final forward/reverse/carving/grade acceleration knee/snap sequence not independently accepted. | Review normal-speed signed-travel cycles, actual hips and slope support. |
-| FID-303.D | Unmeasured | Independent baseline wheel8mm/frontsole0.854mm scope established; final whole native support/trajectory/score preservation pending. | Run final native focused and full existing contact/trajectory/score cohorts. |
+| FID-303.D | Unmeasured | ActualMain all7 physical push/brake/pop cases retain657 consecutive observations with2056/0; current final board/tools hashes are before-bound. Native8mm wheels/frontsole checks remain distinct from complete supported-pose/all-action preservation. | Finish full combined suite and native all-action support/score/trajectory coverage. |
 | FID-303.E | Unmeasured | Six/18-tick push-pop interruptions covered narrowly; final manual/pause/restart transition scope incomplete. | Inspect all named state interruptions and continuity. |
-| FID-303.F | Unmeasured | No final normal-speed current-source push reel/worst closeups independently accepted. | Capture final natural frames and retain owner visual review as distinct. |
+| FID-303.F | Unmeasured | Six currentMain1280 stills and9pose inspector were personally inspected and independently pixel/source verified. Optional native640 focused-capture tool source independently63/0 preserves1280/all78 defaults; its native640 pilot and final351-frame normal-speed movie remain unmeasured. | Capture final natural frames and retain owner visual review as distinct. |
 
 ## FID-304 — Verify manual combo links and an honest balance meter
 
@@ -224,8 +235,8 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 | --- | --- | --- | --- |
 | FID-304.A | Unmeasured | Author real5-entry line passes, but whole-source author epoch rejected; independent final link/bank run pending. | Replay actual air→manual→air and manual→bank with source-stable events. |
 | FID-304.B | Unmeasured | Independent frozen landing matrix47/0: fifteen real Main cases;100–333ms fresh and200ms gesture link at native contact,350ms exact expiry and released/stale requests reject, original combo banks once. Full threshold/cooldown/pause/restart/bail scope remains open. | Replay fresh/released/stale/gesture/threshold/cooldown/pause/restart/bail boundary cases. |
-| FID-304.C | Unmeasured | Independent85/0 physical signs and clean34/0 native HUD retest pass bounded scopes: complete forward/back glyphs, true vertical track and state visible. Full endpoint/remap/lateral/variant/moving review remains open. | Inspect final effective prompts, all risk endpoints, remaps, lateral modes and actual body lean in normal-speed motion. |
-| FID-304.D | Pass | Independent actual-world sign cohort: W/S change board pitch with identical coast loss/no heading change; A/D steer opposite independently in10 cases. | Re-run integrated source; physical-device feel remains separate. |
+| FID-304.C | Unmeasured | Original84 board/control assertions plus20 independent world-torso direction assertions pass private104/0; old100/4 confirms actual Pogo/HangTen body reversal. Root applied exact visual hunk. HUD34/0 native static correction is separate; full moving/remap/risk/lateral coverage stays open. | Inspect final effective prompts, all risk endpoints, remaps, lateral modes and actual body lean in normal-speed motion. |
+| FID-304.D | Pass | Independent real-Main104/0 candidate preserves original84 board/steering checks: W/S balance without carving/acceleration, opposite A/D steering across10 cases. Exact physical control subset passes; human feel is separate. | Re-run integrated source; physical-device feel remains separate. |
 | FID-304.E | Unmeasured | D011 original negative retained; independent clean34/0 native retest at1280x800/UI1.0+1.4 shows full glyphs, projected actual head/board bounds and central approach clear, actual release clears panel. Other moving/resolution/risk cases remain open. | Complete supported-resolution/remap/risk/moving/restart review on integrated source. |
 | FID-304.F | Unmeasured | Immutable sign run verifies CLI Music isolation; score-once/deadlines/save/contact/default preservation need integrated suite. | Run existing combo, progression, save, native contact and CLI Music regressions. |
 
@@ -260,9 +271,9 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
 | FID-403.A | Unmeasured | Author early relay was rejected for second exit landing on seat; corrected line not independently accepted. | Demonstrate each advertised interaction with real approach/capture/exit events. |
-| FID-403.B | Fail | D012 now passes a bounded four-input native containment/contact retest. Current D014 coping penetration and D015 rendered bank snap still undermine deliberate runout and recovery; full bidirectional/miss scope remains incomplete. | Preserve the four-input safety pass while fixing exact coping support and wall contact continuity; replay both directions, miss and runout neighbours. |
+| FID-403.B | Fail | D012 four-input containment and private corrected192fullprefix moving crown review pass narrow scopes. Actual researched coping complete Clyde/Bowl/Feature/Connected190/0 independentlysource/logverified20/0,792stableinputs. Full bothdirections/misses/movingrunout remains open. | Preserve finite safety and replay complete bidirectional/miss/runout neighbours on combined source. |
 | FID-403.C | Unmeasured | Author relay links diagnose mechanics; final source-stable independent combo/expiry proof pending. | Observe actual links/bank/bails with existing deadlines unchanged. |
-| FID-403.D | Unmeasured | Independent baseline/sign inputs contain no per-tick injection; final advertised line drivers still require audit. | Inspect exact driver and trace for source-bound actual-input run. |
+| FID-403.D | Unmeasured | Researched coping bundle independently19/0; actual four-module190/0 independently20/0,792inventoriedinputs unchanged. Two ignored entrypoints preserved AFTER execution only, not before-run authenticated. Forecast actual-input1408physicaltrace remains exact. Signed bands are proximity, not force-bearing; full moving/current-source gate remains open. | Bind future wrapper/observer before execution and complete moving source-bound actual-input run. |
 | FID-403.E | Unmeasured | Rejected exit and observer-time error retained; final complete bails/stalls report pending. | Include all failed attempts and final actual-physics intervals. |
 
 ## FID-404 — Protect exploration, career and challenge approaches
@@ -273,7 +284,7 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 | --- | --- | --- | --- |
 | FID-404.A | Unmeasured | Snapshots show default station/pond and CLI Music isolation, not all goals/encounters/save IDs. | Run full candidate career/encounter/default/Music and ID-preservation checks. |
 | FID-404.B | Unmeasured | Final shoulders/joins/aisles/taper native and visible support not independently complete. | Run affected current routes plus off-centre probes. |
-| FID-404.C | Fail | D012 upper-boundary containment now passes its four native inputs, but D015 visibly snaps during crown recovery and D014 fails loaded coping clearance. These do not establish coherent added-set-piece recovery. | Retain native safety while repairing rendered contact response and finite coping support; review misses and supported recovery on current source. |
+| FID-404.C | Fail | D012 native containment passes fourinputs. Corrected192privateforecast removes recorded crown snap in32side+3chase frames with1408exactphysicalrows; actual researched coping fourmodules190/0 independently20/0. Broader current combined setpiece recovery remains unmeasured. | Integrate exact forecast then review all advertised misses/recovery and actual moving support. |
 | FID-404.D | Unmeasured | No final off-route camera/collision review of all modified boundaries. | Probe centre/shoulders/misses and compare visible/native support. |
 | FID-404.E | Unmeasured | Current full career replay not complete; deferred creation scope remains deferred in inspected plans. | Run final career and adverse off-route checks; preserve deferred implementations. |
 
@@ -284,9 +295,9 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
 | FID-501.A | Unmeasured | Specialists coordinated shared files, but final native support/control/resource interfaces remain under integration. | Reconcile exact final source/assets and verify provenance. |
-| FID-501.B | Unmeasured | No final current-candidate tools/check.sh result yet; baseline/capture/focused counts are separate. | Root executes sole full check with source hashes, counts, error scan and CLI Music. |
+| FID-501.B | Fail | Completed actualrequired02:6526pass/7assertfail plus3runtimefreed-ownerScriptErrors,exit1,886unchanged inputs,2241.249s. Independent17/0 source/log and12/0 preservation checks verify rejection. CLI Music launchstage didnotrun. Distinct currentClydechase/copingcapture/runtime failures and reviewed board/route expectation migrations require fresh fixes and fullgate. | Fix/retest current live failures without weakened guards, then rerun complete tools/check.sh and CLI Music stage. |
 | FID-501.C | Unmeasured | 17-view snapshots are static diagnostics; final title-to-play/moving all-area/action/new-circuit packet missing. | Capture source-stable Q1-native moving evidence with actual events. |
-| FID-501.D | Unmeasured | Baseline/GL static and native subsets inspected; final integrated visual/physics P0/P1 retest incomplete. | Inspect actual final output and resolve/retest reported integration defects. |
+| FID-501.D | Unmeasured | Actualrequired02 failure packet independently inspected; currentClydechase/copingcapture and freed-owner errors are dispatched, D021 records real stale-owner cast. Final current technical/visual P0/P1 retest incomplete. | Inspect actual final output and resolve/retest reported integration defects. |
 | FID-501.E | Pass | Current STATUS/benchmark/review retain failed/unmeasured gates; no AAA/M5 pass claimed. | Keep final delivery claims bounded to their actual source/evidence. |
 
 ## FID-502 — Independently audit every benchmark and ticket outcome
@@ -295,10 +306,10 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
-| FID-502.A | Pass | This exact-clause JSON and readable matrix enumerate every benchmark requirement and all20 active ticket clauses. | Update results only after inspecting new independent evidence. |
-| FID-502.B | Unmeasured | Actual baseline and selected GL stills/native inputs inspected; final normal-speed motion/routes not yet complete. | Inspect actual final frames, normal-speed sequences and route source identity. |
+| FID-502.A | Pass | This exact-clause JSON/readable matrix enumerate44benchmark requirements and110clauses across21active tickets. | Update results only after inspecting new independent evidence. |
+| FID-502.B | Unmeasured | Current baseline/renderer/architecture/lighting/NPCclock/board8/inspector9/Main6 native stills and source/event subsets independently inspected. Complete normal-speed action/all-map routes/current final combined capture remain incomplete. | Inspect actual final frames, normal-speed sequences and route source identity. |
 | FID-502.C | Pass | Every enumerated clause has Pass/Fail/Unmeasured, bounded evidence and a concrete next action. | Replace open results with inspected evidence, never author-only prose. |
-| FID-502.D | Pass | Observed failures map to D001–015 with owners/repro/retest; new finite-seat and fast-bank negative logs independently inspected, diagnostic fixes not accepted; asset BA has D801–803. | Add concrete final defects, retain old source scope and verify repairs. |
+| FID-502.D | Pass | Observed failures/investigations map toD001–021 with owners/repro/retest; assetBA hasD801–803. Required02 actual6526/7+3ScriptErrors is independently preserved; no superseded native failure or missing final/hardware gate is hidden. | Add concrete final defects, retain old source scope and verify repairs. |
 | FID-502.E | Unmeasured | Persistent roles/skills independently pass; final integrated main/remote commit not yet available. | Cold-read final handoff and verify integrated runtime/source inventories and remote ref. |
 | FID-502.F | Pass | Overall acceptance remains Fail/incomplete and M5/owner gates stay Unmeasured. | Do not award overall AAA/release while any required gate remains open. |
 
@@ -321,10 +332,9 @@ Exact clauses: [active ticket source](../../planning/FIDELITY_TICKETS.md).
 | Clause | Result | Independently observed evidence / limit | Next verification |
 | --- | --- | --- | --- |
 | FID-601.A | Pass | Current branchmain and local/origin0b62035 ancestry independently inspected; stale initial checkout was recovered with preserved work. | Verify final refs and owner-change ancestry at integration. |
-| FID-601.B | Unmeasured | Production changes are present in mutable main; no final tested integrated commit yet. | Commit verified source and retain exact runtime inventory/commit correspondence. |
-| FID-601.C | Unmeasured | No November final remote push observed yet. | Root pushes non-force without prohibited hosted jobs and records actual remote ref. |
+| FID-601.B | Unmeasured | Root recorded in-progress main checkpoints9b91dbc/736a4df/97d72fa and later actual integrations. No final passing combined inventory-to-commit correspondence independently verified yet. | Commit verified source and retain exact runtime inventory/commit correspondence. |
+| FID-601.C | Unmeasured | Root reports successful non-force in-progress main pushes; final tested current-candidate remote ref remains to be independently matched after fullcheck. | Root pushes non-force without prohibited hosted jobs and records actual remote ref. |
 | FID-601.D | Unmeasured | Current STATUS/backlog/resume point to studio and open gates; final counts/commands/refs pending. | Update all final handoff files with actual evidence and next unblocked reproductions. |
-| FID-601.E | Unmeasured | Ten reusable roles/skills and asset notices exist; final tracked/generated/credential inventory not yet reviewed. | Inspect staged/source inventory and exclude caches/credentials/unneeded generated data. |
+| FID-601.E | Unmeasured | Thirteen reusable roles/skills and source asset notices independently cold-reviewed; final tracked/generated/credential inventory not yet reviewed. | Inspect staged/source inventory and exclude caches/credentials/unneeded generated data. |
 | FID-601.F | Unmeasured | Bounded snapshots/sign run preserve ordinary defaults and CLI Music; full final preservation pending. | Run default-feature, actual Music-isolation and progression/career regressions. |
 | FID-601.G | Pass | Inspected programme explicitly separates main integration from visual/hardware/human acceptance. | Retain that separation after actual commit/push. |
-

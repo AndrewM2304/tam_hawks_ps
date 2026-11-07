@@ -1,0 +1,48 @@
+from pathlib import Path
+import json,hashlib,math,re
+import numpy as np
+from PIL import Image
+P=Path(__file__).resolve().parent
+checks=[]
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+def j(path):return json.loads(path.read_text())
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def pixels(path):return np.asarray(Image.open(path).convert('RGBA'))
+for path,digest in j(P/'preserved-files.json').items():ck('preserved original '+path,sha(P/path)==digest)
+report=j(P/'actual-main-paving-report.json');receipt=j(P/'receipt.json');before=j(P/'source-before.json');after=j(P/'source-after.json')
+ck('807 inputs byte-identical before after',before==after and len(before)==807 and receipt['source_stable'] and not receipt['changed_inputs'])
+ck('native106/0 complete eligible',report['checks']==106 and report['failures']==0 and report['complete'] and receipt['eligible'] and receipt['engine_exit']==0 and not receipt['engine_errors'])
+ck('raw native engine log clean',not re.search(r'SCRIPT ERROR|ERROR:|Parse Error',(P/'engine.log').read_text()))
+for path in (P/'executed-source').rglob('*.txt'):
+ relative=str(path.relative_to(P/'executed-source'))[:-4]
+ if relative in before:ck('before-bound source '+relative,sha(path)==before[relative])
+for mode,inventory in report['mode_inventories'].items():ck(mode+' native1755collision/1809geometry/water/sun inventory unchanged',inventory==report['inventory_before'] and len(inventory['collisions'])==1755 and len(inventory['nonwater'])==1809)
+ck('original material controls restored exactly',report['material_modes']['before-a']==report['material_modes']['before-b'])
+for key,m in report['material_modes']['flags-candidate'].items():
+ original=report['material_modes']['before-b'][key];ck(key+' material identity/normal/roughness/tint unchanged',all(m[k]==original[k]for k in ['material_id','normal_strength','roughness','tint']))
+ ck(key+' candidate actual1.8m repeat',max(abs(v-1/1.8)for v in m['uv_scale'])<1e-7)
+ ck(key+' actual concrete02 compressed bound maps',all('/concrete_pavement_02/'in v['path']and v['compressed']and v['format']==22 and v['width']==v['height']==(2048 if '_diff_'in v['path']else 1024)for v in m['maps']))
+for view in ['ordinary-spawn','close-ground','court-readability']:
+ a=next(v for v in report['images']if v['view']==view and v['mode']=='flags-candidate');b=next(v for v in report['images']if v['view']==view and v['mode']=='before-b')
+ ck(view+' matched actual camera/projection and HUD',all(a[k]==b[k]for k in ['camera_basis','camera_position','camera_forward','projection_columns','fov','near','far','keep_aspect','viewport_size','hud_visible']))
+ ck(view+' candidate/restored submitted draw/primitives exact',all(a['counters'][k]==b['counters'][k]for k in ['draws','primitives','shadow_primitives']))
+frames=report['images']+report['synchronization_proofs'];ck('all12 native frames retained',len(frames)==12)
+projection_errors=[];centroid_errors=[]
+for frame in frames:
+ name=frame['file'];a=pixels(P/name);ck(name+' exact native RGBA',a.shape==(800,1280,4) and hashlib.sha256(a.tobytes()).hexdigest()==frame['pixels']['rgba8_sha256'])
+ ck(name+' original encoded PNG hash',sha(P/name)==receipt['images'][name])
+ if 'pixel_proofs' not in frame:
+  ck(name+' native startup swatch',a[frame['canvas_pixel'][1],frame['canvas_pixel'][0]].tolist()==frame['canvas_expected'] and frame['same_native_frame'])
+  continue
+ ck(name+' same actual physics/process bracket',frame['physics_before']==frame['physics_after'] and frame['process_before']==frame['process_after'])
+ proof=frame['pixel_proofs'];xy=proof['canvas_sample_xy'];color=a[xy[1],xy[0],:3]/255
+ ck(name+' actual Canvas stamp',max(abs(color-np.array(proof['canvas_expected_rgb'])))<2/255+1e-7)
+ basis=np.array(frame['camera_basis']).T;proj=np.array(frame['projection_columns']).T;origin=np.array(frame['camera_position'])
+ ck(name+' finite actual camera/projection',np.isfinite(basis).all() and np.isfinite(proj).all() and abs(np.linalg.det(basis)-1)<1e-5 and np.linalg.norm(np.array(frame['camera_forward'])+basis[:,2])<1e-6)
+ for marker in proof['markers']:
+  local=np.linalg.solve(basis,np.array(marker['world_position'])-origin);clip=proj@np.r_[local,1];ndc=clip[:3]/clip[3];actual=np.array([(ndc[0]+1)*640,(1-ndc[1])*400]);error=np.linalg.norm(actual-np.array(marker['projected_xy']));projection_errors.append(float(error))
+  ck(name+' independently projected '+marker['color'],error<.002)
+  x,y=map(int,marker['projected_xy']);region=a[max(0,y-10):min(800,y+11),max(0,x-10):min(1280,x+11),:3].astype(float)/255;idx=0 if marker['color']=='red' else 1;other=[v for v in range(3) if v!=idx];mask=(region[:,:,idx]>.75)&(region[:,:,idx]-region[:,:,other[0]]>.20)&(region[:,:,idx]-region[:,:,other[1]]>.20);yy,xx=np.where(mask);centroid=np.array([xx.mean()+max(0,x-10)+.5,yy.mean()+max(0,y-10)+.5]);centroid_errors.append(float(np.linalg.norm(centroid-actual)))
+  ck(name+' independently found native '+marker['color'],len(xx)==marker['pixel_count'] and np.linalg.norm(centroid-np.array(marker['centroid_xy']))<.001 and np.linalg.norm(centroid-actual)<2)
+out={'passed':sum(v['pass']for v in checks),'failed':sum(not v['pass']for v in checks),'checks':checks,'independent_projection_max_error_px':max(projection_errors),'independent_centroid_max_error_px':max(centroid_errors),'personally_viewed_originals':['before-b-ordinary-spawn.png','flags-candidate-ordinary-spawn.png','flags-candidate-close-ground.png','flags-candidate-court-readability.png'],'verdict':'Capture integrity passes; no paving art promotion recommended. Candidate joints are calmer than earlier bright mortar but repeated alternating slab luminance remains prominent across court. Broad curved bands persist on ground and bank over both rectangular textures; their cause requires controlled rendering diagnosis.','scope':'Static actualMain material A/B/A nine views plus three startup sync originals, actors frozen, shaderTIME active. Native actual collision/node/mesh/water/sun identity constant; only material maps/repeat change. Both texture sets remain held in visual process; independent fresh allocation owns32MiB increment. No source-fan causal attribution, accepted lighting hypothesis, moving shimmer, final ground finish, timing or M5 claim.'}
+(P/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'passed':out['passed'],'failed':out['failed']}));raise SystemExit(bool(out['failed']))

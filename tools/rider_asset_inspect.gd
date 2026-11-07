@@ -116,7 +116,7 @@ func _run() -> void:
 	file.store_string(JSON.stringify({"purpose": "Native diagnostic studio; actual rig on a flat fixture, not normal Main or human acceptance.",
 		"renderer": RenderingServer.get_current_rendering_method(), "frames": frames, "failures": failures,
 		"captured_at_utc": Time.get_datetime_string_from_system(true) + "Z",
-		"source_stable": stable, "source_sha256": source_before}, "\t"))
+		"source_stable": stable, "source_sha256": source_before, "source_after_sha256": source_after}, "\t"))
 	print("RIDER_STUDIO frames=", frames.size(), " failures=", failures)
 	await Classic._dispose(self, fixture)
 	quit(1 if failures else 0)
@@ -137,19 +137,14 @@ func shot(label: String, from: Vector3, toward: Vector3, field_of_view: float) -
 		sync_markers[index].global_position = marker_points[index]
 		sync_markers[index].scale = Vector3.ONE * depth * 0.003
 		sync_markers[index].visible = true
+	var pose_before := _pose_snapshot()
 	await _native_frame()
+	var proof_pose_before := _pose_snapshot()
+	var proof_tick_before := _frame_counts()
 	var proof_image := root.get_texture().get_image()
-	var proofs: Array[Dictionary] = []
-	for index in sync_markers.size():
-		var projected := camera.unproject_position(marker_points[index])
-		projected *= Vector2(proof_image.get_size()) / root.get_visible_rect().size
-		var proof := _marker_pixels(proof_image, projected, index)
-		proof.world_position = marker_points[index]
-		proof.projected_pixel = projected
-		proofs.append(proof)
-		if proof.count < 4 or proof.centroid_error > 2.5:
-			failures += 1
-			push_error("Studio projected-pixel camera synchronization failed " + label)
+	var proof_tick_after := _frame_counts()
+	var proof_pose_after := _pose_snapshot()
+	proof_image.convert(Image.FORMAT_RGBA8)
 	var proof_path := OUTPUT + "/synchronization/" + label + ".png"
 	if proof_image.save_png(proof_path) != OK:
 		failures += 1
@@ -161,9 +156,29 @@ func shot(label: String, from: Vector3, toward: Vector3, field_of_view: float) -
 	# from the preceding view, so it is not used as current-frame proof.
 	await _native_frame()
 	var path := OUTPUT + "/" + label + ".png"
-	if root.get_texture().get_image().save_png(path) != OK:
+	var clean_pose_before := _pose_snapshot()
+	var clean_tick_before := _frame_counts()
+	var clean_image := root.get_texture().get_image()
+	var clean_tick_after := _frame_counts()
+	var clean_pose_after := _pose_snapshot()
+	clean_image.convert(Image.FORMAT_RGBA8)
+	if clean_image.save_png(path) != OK:
 		failures += 1
 		push_error("Could not save rider studio frame " + label)
+	var proofs: Array[Dictionary] = []
+	for index in sync_markers.size():
+		var projected := camera.unproject_position(marker_points[index])
+		projected *= Vector2(proof_image.get_size()) / root.get_visible_rect().size
+		var proof := _marker_pixels(proof_image, clean_image, projected, index)
+		proof.world_position = marker_points[index]
+		proof.projected_pixel = projected
+		proofs.append(proof)
+		if proof.count < 4 or proof.centroid_error > 2.5:
+			failures += 1
+			push_error("Studio projected-pixel camera synchronization failed " + label)
+	if pose_before != proof_pose_before or pose_before != proof_pose_after or pose_before != clean_pose_before or pose_before != clean_pose_after or proof_tick_before != proof_tick_after or clean_tick_before != clean_tick_after:
+		failures += 1
+		push_error("Studio rig/camera pose or frame counter changed during readback: " + label)
 	if not camera.is_current():
 		failures += 1
 		push_error("The intended rider studio camera did not own the native frame.")
@@ -172,6 +187,12 @@ func shot(label: String, from: Vector3, toward: Vector3, field_of_view: float) -
 		"png_sha256": FileAccess.get_sha256(path), "camera_current": camera.is_current(),
 		"camera_position": camera.global_position, "camera_fov": camera.fov,
 		"native_frame": Engine.get_process_frames(), "synchronization": proofs,
+		"native_rgba_sha256": _image_sha256(clean_image), "synchronization_native_rgba_sha256": _image_sha256(proof_image),
+		"proof_readback_counter_bracket": [proof_tick_before,proof_tick_after], "clean_readback_counter_bracket": [clean_tick_before,clean_tick_after],
+		"proof_readback_pose_bracket": [proof_pose_before,proof_pose_after], "clean_readback_pose_bracket": [clean_pose_before,clean_pose_after],
+		"native_state": clean_pose_after, "rendered_head_world": _matrix(fixture.rider._visual_rig._head.get_global_transform_interpolated()),
+		"rendered_rider_world": _matrix(fixture.rider._visual_rig._rider.get_global_transform_interpolated()),
+		"physics_interpolation_fraction": Engine.get_physics_interpolation_fraction(),
 		"synchronization_png_sha256": FileAccess.get_sha256(proof_path)})
 	fixture.rider.set_physics_process(true)
 	fixture.rider.set_process(true)
@@ -182,14 +203,16 @@ func _native_frame() -> void:
 	await process_frame
 	await RenderingServer.frame_post_draw
 
-func _marker_pixels(image: Image, projected: Vector2, channel: int) -> Dictionary:
+func _marker_pixels(image: Image, clean_image: Image, projected: Vector2, channel: int) -> Dictionary:
 	var total := Vector2.ZERO
 	var count := 0
 	for y in range(maxi(0, int(projected.y) - 12), mini(image.get_height(), int(projected.y) + 13)):
 		for x in range(maxi(0, int(projected.x) - 12), mini(image.get_width(), int(projected.x) + 13)):
 			var pixel := image.get_pixel(x, y)
+			var clean := clean_image.get_pixel(x,y)
+			var changed := absf(pixel.r-clean.r)+absf(pixel.g-clean.g)+absf(pixel.b-clean.b)>0.12
 			var components := [pixel.r, pixel.g, pixel.b]
-			if components[channel] > 0.75 and components[channel] - components[(channel + 1) % 3] > 0.2 \
+			if changed and components[channel] > 0.75 and components[channel] - components[(channel + 1) % 3] > 0.2 \
 				and components[channel] - components[(channel + 2) % 3] > 0.2:
 				count += 1
 				total += Vector2(x + 0.5, y + 0.5)
@@ -207,6 +230,35 @@ func source_manifest() -> Dictionary:
 		result[path] = FileAccess.get_sha256(path)
 	for directory: String in ["res://game/art/rider", "res://game/art/assets/makehuman_hm08"]:
 		for file in DirAccess.get_files_at(directory):
-			if file.ends_with(".png") or file.ends_with(".obj") or file.ends_with(".json") or file.ends_with(".import"):
+			if file.ends_with(".png") or file.ends_with(".obj") or file.ends_with(".glb") or file.ends_with(".json") or file.ends_with(".import"):
 				result[directory + "/" + file] = FileAccess.get_sha256(directory + "/" + file)
 	return result
+
+func _frame_counts() -> Dictionary:
+	return {"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames()}
+
+func _matrix(value: Transform3D) -> Array:
+	return [[value.basis.x.x,value.basis.y.x,value.basis.z.x,value.origin.x],
+		[value.basis.x.y,value.basis.y.y,value.basis.z.y,value.origin.y],
+		[value.basis.x.z,value.basis.y.z,value.basis.z.z,value.origin.z],[0,0,0,1]]
+
+func _pose_snapshot() -> Dictionary:
+	var rig: RefCounted = fixture.rider._visual_rig
+	var skeleton: Skeleton3D = rig._garments.skeleton
+	var bones := {}
+	for bone in skeleton.get_bone_count():
+		bones[skeleton.get_bone_name(bone)] = _matrix(skeleton.get_bone_global_pose(bone))
+	var projection := camera.get_camera_projection()
+	return {"camera_global":_matrix(camera.global_transform), "camera_near":camera.near, "camera_far":camera.far,
+		"camera_projection_columns":[[projection.x.x,projection.x.y,projection.x.z,projection.x.w],
+			[projection.y.x,projection.y.y,projection.y.z,projection.y.w],[projection.z.x,projection.z.y,projection.z.z,projection.z.w],
+			[projection.w.x,projection.w.y,projection.w.z,projection.w.w]],"viewport_pixels":[root.size.x,root.size.y],
+		"head_global":_matrix(rig._head.global_transform),"rider_global":_matrix(rig._rider.global_transform),
+		"skeleton_global":_matrix(skeleton.global_transform),"bone_global_pose_in_skeleton":bones,
+		"scope":"Current actual native pose. Rendered interpolation and moving contact remain separate gates."}
+
+func _image_sha256(value: Image) -> String:
+	var context := HashingContext.new()
+	context.start(HashingContext.HASH_SHA256)
+	context.update(value.get_data())
+	return context.finish().hex_encode()

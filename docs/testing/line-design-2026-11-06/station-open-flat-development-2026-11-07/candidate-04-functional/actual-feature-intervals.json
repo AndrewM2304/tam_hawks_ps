@@ -1,0 +1,65 @@
+{
+  "scope": "Derived from recorded native surface-state transitions, not charge/setup markers; no independent replay or whole-L1 acceptance",
+  "features": [
+    {
+      "at": "(-74.39545, 2.012596, 37.2)",
+      "event": "bank_east_toe_exit",
+      "path_m": 19.6709575429559,
+      "physics": 191,
+      "speed": 6.74285840988159,
+      "velocity": "(6.742718, 0.0, 0.0)"
+    },
+    {
+      "event": "actual_native_surface_entry",
+      "feature": "StationConcourseHalfpipeNorthTransition",
+      "physics": 284,
+      "path_m": 31.8565838709474,
+      "position": "(-65.78348, 2.025799, 31.87142)",
+      "speed": 7.79912853240967,
+      "theta_degrees": 3.38459444319674
+    },
+    {
+      "event": "actual_native_surface_entry",
+      "feature": "StationConcourseHalfpipeSouthTransition",
+      "physics": 405,
+      "path_m": 42.9593730405904,
+      "position": "(-66.14181, 2.02388, 38.09048)",
+      "speed": -5.48436450958252,
+      "theta_degrees": 2.38111273083249
+    },
+    {
+      "at": "(-74.82603, 2.014018, 36.89767)",
+      "event": "bank_return_approach",
+      "path_m": 56.1143214598997,
+      "physics": 585,
+      "speed": 8.31873893737793,
+      "velocity": "(-8.392099, 0.0, 0.78371)"
+    }
+  ],
+  "intervals": [
+    {
+      "from": "bank_east_toe_exit",
+      "to": "actual_native_surface_entry StationConcourseHalfpipeNorthTransition",
+      "physics_steps": 93,
+      "seconds": 1.55,
+      "path_m": 12.1856263279915
+    },
+    {
+      "from": "actual_native_surface_entry StationConcourseHalfpipeNorthTransition",
+      "to": "actual_native_surface_entry StationConcourseHalfpipeSouthTransition",
+      "physics_steps": 121,
+      "seconds": 2.0166666666666666,
+      "path_m": 11.102789169643
+    },
+    {
+      "from": "actual_native_surface_entry StationConcourseHalfpipeSouthTransition",
+      "to": "bank_return_approach",
+      "physics_steps": 180,
+      "seconds": 3.0,
+      "path_m": 13.1549484193093
+    }
+  ],
+  "maximum_between_recorded_features_seconds": 3.0,
+  "ordinary_input_source": "observer.gd",
+  "native_rows_source": "native-trace.json"
+}

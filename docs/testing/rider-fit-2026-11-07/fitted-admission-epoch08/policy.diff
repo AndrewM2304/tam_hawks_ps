@@ -1,0 +1,12 @@
+--- policy-before.gd
++++ policy-after.gd
+@@ -88,6 +88,9 @@
+ 	_board_rest_height = board.position.y
+ 	_board_rest_position = board.position
+ 	_rider = rider
++	# Current Skin and rigid local poses share one interpolated outer root.
++	_rider.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
++	_board.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+ 	_sphere = SphereMesh.new()
+ 	_sphere.radius = 1.0
+ 	_sphere.height = 2.0

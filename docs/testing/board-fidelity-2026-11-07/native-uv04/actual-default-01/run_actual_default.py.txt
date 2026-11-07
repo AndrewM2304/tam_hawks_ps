@@ -1,0 +1,28 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time
+R=Path(__file__).parent;P=Path.cwd().resolve();O=R/'actual-default-01';O.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inputs():
+ paths=[P/'project.godot',P/'.local/board-fidelity/actual_default_runner.gd',Path(__file__).resolve()]
+ for folder in ['game','tests','tools']:
+  paths.extend(f for f in (P/folder).rglob('*') if f.is_file() and '__pycache__' not in f.parts)
+ paths+=list((P/'.godot/imported').glob('tam_skateboard*.scn'))+list((P/'.godot/imported').glob('tam_skateboard*.ctex'))
+ return {str(p.relative_to(P)):sha(p) for p in sorted(set(paths))}
+env=os.environ.copy()
+for key in ['DATA','CACHE','CONFIG']:
+ d=R/('xdg-'+key.lower());d.mkdir(exist_ok=True);env['XDG_'+key+'_HOME']=str(d.resolve())
+source=inputs();before=sha(Path(__file__));deadline=time.monotonic()+29.7;epochs=[]
+for name,extra,cap in [('parser',['--check-only'],5),('native',[],24.7)]:
+ log=O/(name+'.log');cmd=['godot','--headless','--path',str(P.resolve()),'--audio-driver','Dummy']+extra+['--script','res://.local/board-fidelity/actual_default_runner.gd'];rec={'command':cmd,'name':name,'start':datetime.datetime.now(datetime.timezone.utc).isoformat()}
+ with log.open('wb') as out:
+  proc=subprocess.Popen(cmd,stdout=out,stderr=subprocess.STDOUT,start_new_session=True,env=env);rec['pid']=proc.pid;print(json.dumps(rec),flush=True);until=min(deadline,time.monotonic()+cap);stop=None
+  while proc.poll() is None:
+   if re.search(rb'SCRIPT ERROR:|Parse Error:|\nERROR:',log.read_bytes()):stop='first error';break
+   if time.monotonic()>until:stop='bound';break
+   time.sleep(.04)
+  if proc.poll() is None:os.killpg(proc.pid,signal.SIGTERM);proc.wait(timeout=1)
+ rec.update({'end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'code':proc.returncode,'stop':stop,'log_sha256':sha(log)});epochs.append(rec)
+ if proc.returncode!=0 or stop:break
+raw=(O/'native.log').read_text() if (O/'native.log').exists() else ''
+receipt={'epochs':epochs,'before':source,'after':inputs(),'source_stable':source==inputs(),'launcher_before':before,'launcher_after':sha(Path(__file__)),'complete':len(epochs)==2 and all(x['code']==0 and x['stop'] is None for x in epochs) and source==inputs() and before==sha(Path(__file__)),'scope':'actual installed public BoardImport.run default resource path; all production game/tests/tools and board compiled resources source-bound; no Main/moving/M5 claim'}
+(O/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(raw);print(json.dumps({k:v for k,v in receipt.items() if k not in ['before','after']},indent=2));raise SystemExit(0 if receipt['complete'] else 1)

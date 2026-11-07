@@ -1,0 +1,14 @@
+{
+  "utc": "2026-11-07T07:21:01.572147+00:00",
+  "scope": "Author classification of raw process rows, not a process-guard/native pass",
+  "baseline_raw_eligible": false,
+  "baseline_engine_exit": 0,
+  "baseline_native_counts_captured": true,
+  "baseline_changed_inputs": [],
+  "baseline_other_process_rows": [
+    "82100 [godot] <defunct>"
+  ],
+  "reason": "Old PID-only wrapper treated retained defunct82100 as live/unknown; no other live engine observed. Raw receipt unchanged. Candidate wrapper now records stat and separates explicit Z states.",
+  "candidate_verdict": "REJECTED 3 passed/5 failed; real SideRollIn blocking/native model overlap, preserved bypass obstruction, no actual installation",
+  "performance_claim": false
+}

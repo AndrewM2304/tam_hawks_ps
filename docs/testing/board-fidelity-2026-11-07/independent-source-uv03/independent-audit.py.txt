@@ -1,0 +1,69 @@
+from pathlib import Path
+import struct,json,hashlib,io,math,collections,shutil
+import numpy as np
+from PIL import Image
+R=Path.cwd();B=R/'game/art/assets/tam_skateboard/tam_skateboard.glb';C=R/'.local/board-fidelity/candidate-uv03/tam_skateboard.glb';O=R/'docs/testing/board-fidelity-2026-11-07/independent-source-uv03';O.mkdir(parents=True,exist_ok=True);checks=[]
+def ck(v,l):checks.append({'label':l,'pass':bool(v)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+class GLB:
+ def __init__(self,p):
+  self.data=p.read_bytes();magic,version,total=struct.unpack_from('<III',self.data);assert(magic,version,total)==(0x46546c67,2,len(self.data));off=12;chunks={}
+  while off<len(self.data):
+   size,kind=struct.unpack_from('<II',self.data,off);chunks[kind]=self.data[off+8:off+8+size];off+=8+size
+  self.j=json.loads(chunks[0x4e4f534a]);self.bin=chunks[0x004e4942]
+ def arr(self,i):
+  a=self.j['accessors'][i];v=self.j['bufferViews'][a['bufferView']];dtype={5121:'<u1',5123:'<u2',5125:'<u4',5126:'<f4'}[a['componentType']];width={'SCALAR':1,'VEC2':2,'VEC3':3,'VEC4':4}[a['type']];d=np.dtype(dtype);return np.ndarray((a['count'],width),dtype=d,buffer=self.bin,offset=v.get('byteOffset',0)+a.get('byteOffset',0),strides=(v.get('byteStride',width*d.itemsize),d.itemsize)).copy()
+ def primitive(self,i):
+  p=self.j['meshes'][0]['primitives'][i];return p,{k:self.arr(v)for k,v in p['attributes'].items()},self.arr(p['indices']).ravel()
+ def image(self):
+  v=self.j['bufferViews'][self.j['images'][0]['bufferView']];return self.bin[v.get('byteOffset',0):v.get('byteOffset',0)+v['byteLength']]
+a,b=GLB(B),GLB(C);ck(sha(B)=='d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99','protected actual original source GLB')
+ck(sha(C)=='954ff19340b1c41d6ea0f2153f7e41a8242f853b135486bbdc6cf8b2c024993d','exact held UV03 source GLB')
+for key in['nodes','scenes','scene','materials','textures','samplers']:ck(a.j.get(key)==b.j.get(key),'source exact '+key)
+ck(len(a.j['meshes'])==len(b.j['meshes'])==1 and len(a.j['meshes'][0]['primitives'])==len(b.j['meshes'][0]['primitives'])==4,'same single mesh/four draw surfaces')
+for i in[1,2,3]:
+ pa,aa,ia=a.primitive(i);pb,ab,ib=b.primitive(i);ck(pa==pb and ia.tobytes()==ib.tobytes(),'protected primitive/index records EXACT '+str(i))
+ for k in aa:ck(aa[k].tobytes()==ab[k].tobytes(),'protected raw attribute EXACT '+str(i)+'/'+k)
+_,aa,ia=a.primitive(0);_,ab,ib=b.primitive(0);A=aa['POSITION'][ia].reshape(-1,3,3).astype(float);D=ab['POSITION'][ib].reshape(-1,3,3).astype(float);N=aa['NORMAL'][ia].reshape(-1,3,3);M=ab['NORMAL'][ib].reshape(-1,3,3);U=aa['TEXCOORD_0'][ia].reshape(-1,3,2);V=ab['TEXCOORD_0'][ib].reshape(-1,3,2)
+ck(np.array_equal(A,D),'all2600 drawn wood triangle corner positions and winding EXACT')
+ck(np.array_equal(N,M),'all2600 drawn wood triangle corner source normals EXACT')
+area=np.cross(A[:,1]-A[:,0],A[:,2]-A[:,0]);fn=area/np.linalg.norm(area,axis=1)[:,None];down=fn[:,1]<-.5;side=np.abs(fn[:,1])<.5
+ck(np.array_equal(U[down],V[down]),'every original downward underside art triangle UV corner EXACT')
+def jac(uv):
+ u=uv[:,1]-uv[:,0];v=uv[:,2]-uv[:,0];return u[:,0]*v[:,1]-u[:,1]*v[:,0]
+oldjac,newjac=jac(U),jac(V);ck(int((np.abs(oldjac)<1e-12).sum())==427,'independently measured original427 UV-degenerate realwood triangles')
+ck(len(A)==2600 and np.all(np.abs(newjac)>1e-12),'ALL2600 candidate genuinewood triangles have nondegenerate UV area')
+ck(int(side.sum())==600 and np.all(np.abs(newjac[side])>1e-12),'all600 geometricwoodside triangles mapped')
+tan=ab['TANGENT'].astype(float);norm=ab['NORMAL'].astype(float);ck(np.isfinite(tan).all()and np.max(np.abs(np.linalg.norm(tan[:,:3],axis=1)-1))<2e-7 and np.max(np.abs((tan[:,:3]*norm).sum(axis=1)))<2e-6,'all actual source tangents finite/unit/orthogonal to retained normals')
+ck(set(tan[:,3])<=set([-1.,1.]),'actual tangent handedness finite signedunit')
+facebit=( (D[:,2]-D[:,0])*(V[:,1,0]-V[:,0,0])[:,None]-(D[:,1]-D[:,0])*(V[:,2,0]-V[:,0,0])[:,None])/newjac[:,None]
+weighted=np.zeros((len(ab['POSITION']),3))
+for corner in range(3):np.add.at(weighted,ib.reshape(-1,3)[:,corner],facebit*np.linalg.norm(area,axis=1)[:,None])
+ck(np.all((np.cross(norm,tan[:,:3])*weighted).sum(axis=1)*tan[:,3]>0),'every actual tangentW agrees UV V derivative using retained normal')
+old=Image.open(io.BytesIO(a.image())).convert('RGBA');new=Image.open(io.BytesIO(b.image())).convert('RGBA');oldp=np.array(old);newp=np.array(new)
+ck(old.size==new.size==(1024,1024),'same one1024 RGBAatlas payload size')
+ck(np.array_equal(oldp[:,:512],newp[:,:512]),'entire original underside art lefthalf pixels EXACT')
+ck(np.array_equal(oldp[:512,512:],newp[:512,512:]),'entire original grip quadrant pixels EXACT')
+for u in[.62,.87]:
+ x,y=int(u*1024),int(.76*1024);ck(np.array_equal(oldp[y-32:y+33,x-32:x+33],newp[y-32:y+33,x-32:x+33]),'protected hardware65px sampling neighbourhood EXACT '+str(u))
+# Independent monotone convex outline; no scipy/generator import.
+points=sorted({(float(p[0]),float(p[2]))for p in aa['POSITION']})
+def cross(a,b,c):return(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
+lo=[];hi=[]
+for p in points:
+ while len(lo)>=2 and cross(lo[-2],lo[-1],p)<=0:lo.pop()
+ lo.append(p)
+for p in reversed(points):
+ while len(hi)>=2 and cross(hi[-2],hi[-1],p)<=0:hi.pop()
+ hi.append(p)
+outline=lo[:-1]+hi[:-1];start=min(range(len(outline)),key=lambda i:(outline[i][1],outline[i][0]));outline=np.array(outline[start:]+outline[:start]);delta=np.roll(outline,-1,axis=0)-outline;length=np.linalg.norm(delta,axis=1);cum=np.r_[0,np.cumsum(length)];perimeter=float(cum[-1]);errors=[]
+for tri in np.where(side)[0]:
+ for corner in range(3):
+  at=A[tri,corner,[0,2]];t=np.clip(((at-outline)*delta).sum(axis=1)/(length*length),0,1);d=((outline+t[:,None]*delta-at)**2).sum(axis=1);edge=int(d.argmin());s=(cum[edge]+t[edge]*length[edge])/perimeter;expected=(21*s)%1;actual=((float(V[tri,corner,0])-.625)/.1875)%1;error=abs(actual-expected);errors.append(min(error,1-error))
+ck(abs(perimeter-1.937752329337178)<1e-12,'independent source convexperimeter1.937752329m')
+ck(max(errors)<1e-6,'all1800 side corners match exactly21 periodicphysicalperimeter repeats modulo atlas tile')
+ck(np.array_equal(newp[528:670,523:821],newp[528:670,715:1013]),'encoded padded side region repeats EXACT192pixels without phase seams')
+oldbytes=sum(a.arr(i).nbytes for p in a.j['meshes'][0]['primitives']for i in[*p['attributes'].values(),p['indices']]);newbytes=sum(b.arr(i).nbytes for p in b.j['meshes'][0]['primitives']for i in[*p['attributes'].values(),p['indices']]);ck(newbytes-oldbytes==34880 and newbytes-oldbytes<=131072,'measured source geometry payload+34880B within128KiB predeclared')
+ck(len(ia)==len(ib) and len(a.j['nodes'])==len(b.j['nodes']),'zero added triangles/nodes; no functionalmarkers or collisionobjects inasset')
+report={'kind':'Independent raw source GLB/texture/UV/tangent audit; NO native import or engine call','passed':sum(x['pass']for x in checks),'failed':sum(not x['pass']for x in checks),'checks':checks,'perimeter_m_independent':perimeter,'side_texels_per_m':21*192/perimeter,'max_periodic_side_phase_error_cycles':max(errors),'source_delta_geometry_payload_bytes':newbytes-oldbytes,'base_sha256':sha(B),'candidate_sha256':sha(C),'verdict':'Source-only UV03 geometry/atlas protection passes if checks green. Native import-policy/contact/renderedvisual gates remain separate.','limits':['No Godot source-binding/nativebuffer equivalence established; retained native02/03 failures and04/05 tooling/source-binding gaps are separate.','Default native importer may change position quantization when UV splits change. Protected other surfaces require exact native packed preservation; source wood positions are exact.','Wood still28mm with7visual4mm plies, plus mounting/bolt misalignment held as separate physical-realism work.','No appearance, moving contact, fullskating, timing/M5 or AAA acceptance.']}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copy2(Path(__file__),O/'independent-audit.py.txt');(O/'independent-preservation.json').write_text(json.dumps({p.name:sha(p)for p in O.iterdir()if p.is_file()and p.name!='independent-preservation.json'},indent=2)+'\n');print(json.dumps({'passed':report['passed'],'failed':report['failed'],'phase_error':max(errors),'failedchecks':[x for x in checks if not x['pass']]},indent=2));raise SystemExit(bool(report['failed']))

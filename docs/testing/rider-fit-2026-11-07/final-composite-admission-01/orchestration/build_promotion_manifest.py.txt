@@ -1,0 +1,37 @@
+from pathlib import Path
+import json,hashlib,datetime,difflib
+R=Path.cwd();B=R/'.local/fitted-rig-admission/final-composite-01';P=B/'project';O=B/'promotion-review-01';O.mkdir(exist_ok=True);A=B/'additive-public-cohort';H=json.loads((R/'.local/rider-fit-staging/integration-proposal-v13/handoff.json').read_text());base=json.loads((B/'actual-base-source.json').read_text())
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+selected={}
+def add(rel,source=None,category='source'):
+ p=Path(source) if source else P/rel
+ assert p.is_file(),str(p)
+ actual=R/rel
+ selected[rel]={'source':str(p),'candidate_sha256':sha(p),'bytes':p.stat().st_size,'actual_before_sha256':sha(actual) if actual.is_file() else None,'snapshot_base_sha256':base.get(rel),'category':category}
+for name in list(H['outputs'])+['fitted-manifest.json']+list(H['notices']):
+ rel='game/art/rider/'+name;add(rel,category='selected asset or source notice')
+ q=P/(rel+'.import')
+ if q.exists():add(rel+'.import',category='Godot import settings; generated compiled caches excluded')
+for name in H['generator_sha256']:add('tools/'+name,category='reproducible asset generator')
+for rel in ['game/player/skater.gd','game/player/skater_visual.gd','game/player/skater_anatomy.gd','game/player/skater_footwear.gd','game/player/skater_garments.gd','game/player/shoe_support_hull.gd','game/features/activity_actor.gd','game/characters/busker_actor.gd','game/characters/market_actor.gd','game/characters/cat_actor.gd','game/levels/city_art.gd','tools/rider_asset_inspect.gd','tools/rider_asset_inspect.sh']:
+ add(rel,category='runtime or asset inspection caller')
+for rel in ['tests/skater_body_attachment_tests.gd','tests/fitted_adapter.gd','tests/fitted-reference.json','tests/flat_ollie_tests.gd','tests/skater_gait_direction_tests.gd','tests/activity_actor_tests.gd','tests/ambient_adult_tests.gd','tests/per_leg_sole_contract.gd','tests/full_shoe_support_contract.gd','tests/fitted_garment_tests.gd','tools/testing/build_fitted_rig_reference.py','tools/testing/verify_shoe_support_certificate.py']:
+ add(rel,category='native semantic/contact regression or independent reference/certificate')
+add('tests/run_tests.gd',A/'run_tests.gd',category='two additive registration statements; current actual Water cohorts retained')
+add('tools/check.sh',A/'check.sh',category='independent native full-precision certificate gate after main test runner')
+for rel in list(selected):
+ if rel.endswith('.gd') and (P/(rel+'.uid')).is_file() and not (R/(rel+'.uid')).is_file():add(rel+'.uid',category='new native script identity')
+for rel,item in selected.items():
+ if item['category'].startswith('runtime') or rel.endswith('.gd') or rel.endswith('check.sh'):
+  actual=R/rel
+  if actual.is_file():
+   d=O/'diffs'/(rel+'.patch');d.parent.mkdir(parents=True,exist_ok=True);d.write_text(''.join(difflib.unified_diff(actual.read_text().splitlines(True),Path(item['source']).read_text().splitlines(True),fromfile='a/'+rel,tofile='b/'+rel)));item['diff']=str(d)
+gates={}
+for stage in ['math-01','core-01','wall-trace-01','wall-remedy-01','motion-01','motion-02','core-remedy-02','constructors-01']:
+ f=B/stage/'receipt.json'
+ if f.exists():gates[stage]=json.loads(f.read_text())
+required=['math-01','wall-remedy-01','motion-02','core-remedy-02','constructors-01']
+ready=all(k in gates and gates[k]['returncode']==0 and gates[k]['source_stable'] and not gates[k]['raw_engine_error'] for k in required)
+status='ADMITTED (private scoped)' if ready else 'PRIVATE admission in progress; final core/public/constructors must be green before promotion'
+manifest={'schema':1,'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'scope':'Review-only complete minimal fitted integration manifest. Root controls actual promotion. Unchanged files/world/camera/music/physics authority are not copied. No NPC live-clock patches in this bundle.','status':status,'selected_outputs':len(H['outputs']),'fitted_manifest_sha256':H['fitted_manifest_sha256'],'files':selected,'gates':gates,'must_preserve':{'forecast_controller_before':'45f20c28a810960fb10ba32e87cfafa8e9f2e3c2da2d7497922df24e1daa145e','forecast_plus_four_shoe_getter_loops_after':'56787e0752e8465318f4d3e718f86a6bd330e7badaa497f2aa4345d741bc22d8','actual_visual_baseline':'0e7409dd7aa1330f0e6e43a0bd76836a0900ae3bc796dd78645ae55de418e70b','manual_torso_axis':'Vector3.UP.cross(deck_back)','arm_helper_name_first':'77f2a6a09a40055b644b91eed901afb1111b10b15684d9293f28689998cfaab2','leg03':'556f43cd29b3d8ab38f3b9ecd86655e20ba4b73e8931435b2418f11fbba6e9a7','reference_generator':'5e4d01aabe24f07d003a80a8a52bf945a386b682cde8a61186603c10013b9359','reference':'eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae'},'retirement_review_only':H['retirement']+['tools/rider_asset_hair.py'],'open_gates':['NPC live process/physics clock and drummer bead tips (separate RA/QA policy)','selected final native ordinary-Main motion graphics','full actual tools/check.sh after guarded source install','MacBook Air M5/frame pacing/physical controls/human art acceptance','26 declared internal folded-lapel pairs']}
+(O/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n');print(json.dumps({'manifest':str(O/'manifest.json'),'files':len(selected),'candidate_bytes':sum(x['bytes'] for x in selected.values()),'file_scopes':len([x for x in selected if x.startswith('game/')]),'gates':list(gates)},indent=2))

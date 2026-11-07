@@ -1,0 +1,52 @@
+from pathlib import Path
+import json,hashlib,re,copy
+import numpy as np
+from PIL import Image
+R=Path.cwd();P=R/'docs/testing/fidelity-2026-11-06/environment/lighting-contact-01';checks=[]
+def ck(v,label):checks.append({'label':label,'pass':bool(v)})
+def j(n):return json.loads((P/n).read_text())
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+for n,h in j('preserved-files.json').items():ck(sha(P/n)==h,'original exact preservation '+n)
+r=j('receipt.json');n=j('actual-main-lighting-report.json');before=j('source-before.json');after=j('source-after.json')
+ck(before==after and len(before)==803 and r['source_stable'] and not r['changed_inputs'],'all803 source inputs unchanged')
+ck(r['eligible'] and r['engine_exit']==0 and not r['engine_errors'] and r['abort_reason']is None and n['complete'] and n['checks']==136 and n['failures']==0,'clean completed native136/0')
+ck(not re.search(r'SCRIPT ERROR|ERROR:|Parse Error|SHADER ERROR',(P/'engine.log').read_text()),'raw native error scan')
+for file in (P/'executed-source').rglob('*.txt'):
+ name=str(file.relative_to(P/'executed-source'))[:-4]
+ if name in before:ck(sha(file)==before[name],'before-bound executed source '+name)
+base=n['mode_inventories']['before-b'];defaults=n['native_directional_shadow_defaults']
+ck(abs(defaults['shadow_bias']-.1)<1e-7 and defaults['shadow_normal_bias']==2,'actual unadded light native getter pair.1/2')
+ck(n['inventory_before']==base==n['mode_inventories']['before-a'],'A/B actual inventory fully restored')
+for mode,inv in n['mode_inventories'].items():
+ ck(inv['collisions']==base['collisions'] and len(inv['collisions'])==1755,mode+' all1755 actual collision records unchanged')
+ ck(inv['nonwater']==base['nonwater'],mode+' every nonwater mesh/material/geometry/caster property unchanged')
+ ck(inv['water']==base['water'] and len(inv['water'])==3 and all(w['cast_shadow']==0 for w in inv['water']),mode+' installed exact3water casterOFF policy fixed')
+ sun=copy.deepcopy(inv['sun']);sun['bias']=base['sun']['bias'];sun['normal_bias']=base['sun']['normal_bias'];ck(sun==base['sun'] and sun['shadow_enabled'],mode+' sun/spectrum/transform/cull/shadow enable unchanged except2bias fields')
+ ck(abs(inv['sun']['bias']-(defaults['shadow_bias']if mode=='native-default-bias'else n['baseline_bias']))<1e-8 and abs(inv['sun']['normal_bias']-(defaults['shadow_normal_bias']if mode=='native-default-bias'else n['baseline_normal_bias']))<1e-8,mode+' only declared actual numeric bias pair')
+ck(all(w['material_id']==base['water'][0]['material_id']and w['shader_source_sha256']==base['water'][0]['shader_source_sha256']for w in base['water']),'all3water nodes retain identical shared production shader/material')
+basin=[x for x in base['nonwater']if x['path'].endswith('FountainBasin')];ck(len(basin)==1 and basin[0]['cast_shadow']==1 and basin[0]['visible'],'actual basin remains visible and castingON;512topology authority is separate source-bound packet')
+views={x['view']for x in n['images']};ck(len(views)==6 and len(n['images'])==18 and len(n['synchronization_proofs'])==3,'sixactualMain1280 views A/nativeDefault/B plus3startup native proofs')
+for view in views:
+ rows=[x for x in n['images']if x['view']==view];ck(len(rows)==3 and {x['mode']for x in rows}=={'before-a','before-b','native-default-bias'},view+' all3actual modes present')
+ ck(all(all(x[k]==rows[0][k]for k in ['camera_basis','camera_position','camera_forward','projection_columns','near','far','fov','viewport_size','keep_aspect','hud_visible'])for x in rows),view+' exact actual camera/projection/HUD acrossmodes')
+ candidate=next(x for x in rows if x['mode']=='native-default-bias');restored=next(x for x in rows if x['mode']=='before-b');ck(candidate['counters']==restored['counters'],view+' candidate/restored process-local draw/primitive/shadowprimitive/buffer/texture counters exact')
+projection=[];centroids=[]
+for frame in n['images']+n['synchronization_proofs']:
+ name=frame['file'];im=Image.open(P/name).convert('RGBA');a=np.array(im)
+ ck(im.size==(1280,800)and hashlib.sha256(im.tobytes()).hexdigest()==frame['pixels']['rgba8_sha256']and sha(P/name)==r['images'][name],name+' exact original native PNG/RGBA1280x800')
+ if'pixel_proofs'not in frame:
+  ck(a[frame['canvas_pixel'][1],frame['canvas_pixel'][0]].tolist()==frame['canvas_expected'] and frame['same_native_frame'],name+' native startup frame identity');continue
+ ck(frame['physics_before']==frame['physics_after'] and frame['process_before']==frame['process_after'],name+' unchanged real physics/process readback counters')
+ proof=frame['pixel_proofs'];x,y=proof['canvas_sample_xy'];ck(np.max(np.abs(a[y,x,:3]/255-np.array(proof['canvas_expected_rgb'])))<2/255+1e-7,name+' actual rendered Canvas stamp')
+ basis=np.array(frame['camera_basis']).T;proj=np.array(frame['projection_columns']).T;origin=np.array(frame['camera_position']);ck(np.isfinite(basis).all()and np.isfinite(proj).all()and abs(np.linalg.det(basis)-1)<1e-5 and np.linalg.norm(np.array(frame['camera_forward'])+basis[:,2])<1e-6,name+' finite native camera/projection basis')
+ for marker in proof['markers']:
+  local=np.linalg.solve(basis,np.array(marker['world_position'])-origin);clip=proj@np.r_[local,1];ndc=clip[:3]/clip[3];actual=np.array([(ndc[0]+1)*640,(1-ndc[1])*400]);error=float(np.linalg.norm(actual-marker['projected_xy']));projection.append(error);ck(error<.002,name+' independent world projection '+marker['color'])
+  x,y=map(int,marker['projected_xy']);left=max(0,x-10);top=max(0,y-10);region=a[top:min(800,y+11),left:min(1280,x+11),:3].astype(float)/255;channel=0 if marker['color']=='red'else 1;other=[k for k in range(3)if k!=channel];mask=(region[:,:,channel]>.75)&(region[:,:,channel]-region[:,:,other[0]]>.20)&(region[:,:,channel]-region[:,:,other[1]]>.20);yy,xx=np.where(mask);center=np.array([xx.mean()+left+.5,yy.mean()+top+.5]);distance=float(np.linalg.norm(center-actual));centroids.append(distance)
+  ck(len(xx)==marker['pixel_count']and np.linalg.norm(center-marker['centroid_xy'])<.001 and distance<2,name+' independently detected actual RGB centroid '+marker['color'])
+comparison=j('actual-game-source-comparison.json');ck({x['path']for x in comparison['differences']}=={'game/levels/art/fountain_basin_mesh.gd.uid','game/levels/water_shadow_policy.gd.uid'} and all(x['private']is None for x in comparison['differences']),'recorded actual/private comparison differs ONLY2generated UID metadata files (after-start observation, not later actualfreeze)')
+source=(P/'executed-source/tools/environment_main_lighting_contact_capture.gd.txt').read_text();ck('shadow_bias' in source and 'shadow_normal_bias'in source,'executed light pair control visible in preserved native observer')
+viewed=[mode+'-'+view+'.png'for view in ['ordinary-chase','ground-bank-close','basin-exterior','bowl-contact','architecture-contact','river-bridge-contact']for mode in ['before-b','native-default-bias']]
+out={'kind':'Independent preserved source/native camera/pixel proof audit and personally opened matched contact originals; no native rerun','passed':sum(x['pass']for x in checks),'failed':sum(not x['pass']for x in checks),'checks':checks,'personally_viewed_originals':viewed,'max_numeric_projection_error_px':max(projection),'max_native_marker_centroid_error_px':max(centroids),'finding':'Actualnative bias pair.1/2 removes curved bands on flatground/bank while visible board/rider grounding, basin exterior shadow, bowl/step contacts, shopfront contacts and bridge shadow remain in six matched frozen1280views. No new obvious static contact-shadow detachment was seen.','verdict':'Supports guarded restoration of EXACT two native bias fields, then combined current regression/moving shadow review. Not final lighting/ground/water art acceptance.','limits':['Original packet803stable production inputs include closed512basin and fixed3waterOFF policy. Later fitted/NPCclock composition and arbitrarymoving contacts not covered.','Allactor subtrees frozen after40settledticks. Only ordinarychase uses production camera/HUD; five othercontact cameras are authored diagnostics.','Bothbias fields change together; no minimalcalibration or fieldisolation claim.','River remains harsh grey/white reflective; material/shadercost rejection stays separate.','InitialA draw/basin warmup/cullingtransients retained; candidate/restoredB counters equal do not establish timing/M5 cost or globalVRAM.','After-start actual/private comparison recorded2UIDmetadata differences only; no claim lateractualsourcefreeze.']}
+(P/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n');(P/'independent-verify.py.txt').write_bytes(Path(__file__).read_bytes());(P/'independent-preservation.json').write_text(json.dumps({f.name:sha(f)for f in P.iterdir()if f.is_file()and f.name.startswith('independent-')and f.name!='independent-preservation.json'},indent=2)+'\n')
+print(json.dumps({'passed':out['passed'],'failed':out['failed'],'max_projection_px':max(projection),'max_centroid_px':max(centroids),'failedchecks':[x for x in checks if not x['pass']]},indent=2))
+if out['failed']:raise SystemExit(1)

@@ -1,0 +1,418 @@
+{
+  "utc": "2026-11-07T06:57:48.204929+00:00",
+  "source_sha256": "1229b1c9dc33f984205514f72fb27b534dd9d6b526407693d01f99e17700a542",
+  "checks": 7,
+  "failures": 0,
+  "fixtures": [
+    {
+      "name": "root-and-native-fork",
+      "input": [
+        {
+          "pid": 100,
+          "ppid": 1,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        },
+        {
+          "pid": 101,
+          "ppid": 100,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        }
+      ],
+      "expected_counts": [
+        2,
+        0,
+        0
+      ],
+      "actual": {
+        "owned": [
+          {
+            "pid": 100,
+            "ppid": 1,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              100
+            ]
+          },
+          {
+            "pid": 101,
+            "ppid": 100,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              101,
+              100
+            ]
+          }
+        ],
+        "competing": [],
+        "zombies": []
+      },
+      "pass": true
+    },
+    {
+      "name": "foreign-live-process",
+      "input": [
+        {
+          "pid": 100,
+          "ppid": 1,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        },
+        {
+          "pid": 200,
+          "ppid": 1,
+          "pgid": 200,
+          "sid": 200,
+          "state": "S",
+          "name": "godot"
+        }
+      ],
+      "expected_counts": [
+        1,
+        1,
+        0
+      ],
+      "actual": {
+        "owned": [
+          {
+            "pid": 100,
+            "ppid": 1,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              100
+            ]
+          }
+        ],
+        "competing": [
+          {
+            "pid": 200,
+            "ppid": 1,
+            "pgid": 200,
+            "sid": 200,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              200
+            ]
+          }
+        ],
+        "zombies": []
+      },
+      "pass": true
+    },
+    {
+      "name": "group-alone-insufficient",
+      "input": [
+        {
+          "pid": 100,
+          "ppid": 1,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        },
+        {
+          "pid": 201,
+          "ppid": 1,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        }
+      ],
+      "expected_counts": [
+        1,
+        1,
+        0
+      ],
+      "actual": {
+        "owned": [
+          {
+            "pid": 100,
+            "ppid": 1,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              100
+            ]
+          }
+        ],
+        "competing": [
+          {
+            "pid": 201,
+            "ppid": 1,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              201
+            ]
+          }
+        ],
+        "zombies": []
+      },
+      "pass": true
+    },
+    {
+      "name": "foreign-session-descendant",
+      "input": [
+        {
+          "pid": 100,
+          "ppid": 1,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        },
+        {
+          "pid": 202,
+          "ppid": 100,
+          "pgid": 202,
+          "sid": 202,
+          "state": "S",
+          "name": "godot"
+        }
+      ],
+      "expected_counts": [
+        1,
+        1,
+        0
+      ],
+      "actual": {
+        "owned": [
+          {
+            "pid": 100,
+            "ppid": 1,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              100
+            ]
+          }
+        ],
+        "competing": [
+          {
+            "pid": 202,
+            "ppid": 100,
+            "pgid": 202,
+            "sid": 202,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              202,
+              100
+            ]
+          }
+        ],
+        "zombies": []
+      },
+      "pass": true
+    },
+    {
+      "name": "zombie-reported",
+      "input": [
+        {
+          "pid": 100,
+          "ppid": 1,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        },
+        {
+          "pid": 203,
+          "ppid": 1,
+          "pgid": 203,
+          "sid": 203,
+          "state": "Z",
+          "name": "godot"
+        }
+      ],
+      "expected_counts": [
+        1,
+        0,
+        1
+      ],
+      "actual": {
+        "owned": [
+          {
+            "pid": 100,
+            "ppid": 1,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              100
+            ]
+          }
+        ],
+        "competing": [],
+        "zombies": [
+          {
+            "pid": 203,
+            "ppid": 1,
+            "pgid": 203,
+            "sid": 203,
+            "state": "Z",
+            "name": "godot"
+          }
+        ]
+      },
+      "pass": true
+    },
+    {
+      "name": "cycle-rejected",
+      "input": [
+        {
+          "pid": 100,
+          "ppid": 1,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        },
+        {
+          "pid": 204,
+          "ppid": 205,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        },
+        {
+          "pid": 205,
+          "ppid": 204,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "helper"
+        }
+      ],
+      "expected_counts": [
+        1,
+        1,
+        0
+      ],
+      "actual": {
+        "owned": [
+          {
+            "pid": 100,
+            "ppid": 1,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              100
+            ]
+          }
+        ],
+        "competing": [
+          {
+            "pid": 204,
+            "ppid": 205,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              204,
+              205
+            ]
+          }
+        ],
+        "zombies": []
+      },
+      "pass": true
+    },
+    {
+      "name": "launcher-shell-ancestry",
+      "input": [
+        {
+          "pid": 100,
+          "ppid": 1,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "run.sh"
+        },
+        {
+          "pid": 110,
+          "ppid": 100,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        },
+        {
+          "pid": 111,
+          "ppid": 110,
+          "pgid": 100,
+          "sid": 100,
+          "state": "S",
+          "name": "godot"
+        }
+      ],
+      "expected_counts": [
+        2,
+        0,
+        0
+      ],
+      "actual": {
+        "owned": [
+          {
+            "pid": 110,
+            "ppid": 100,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              110,
+              100
+            ]
+          },
+          {
+            "pid": 111,
+            "ppid": 110,
+            "pgid": 100,
+            "sid": 100,
+            "state": "S",
+            "name": "godot",
+            "ancestors": [
+              111,
+              110,
+              100
+            ]
+          }
+        ],
+        "competing": [],
+        "zombies": []
+      },
+      "pass": true
+    }
+  ],
+  "scope": "Current fullwrapper revision with zombie-aware preflight; ownership function fixtures only. No native/fake named process launched; fresh native epoch is still required. Startup filtering is independently cold-reviewed, not claimed runtime-tested by these fixtures."
+}

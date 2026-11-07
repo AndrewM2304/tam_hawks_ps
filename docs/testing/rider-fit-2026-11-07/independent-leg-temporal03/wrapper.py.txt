@@ -1,0 +1,26 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,subprocess,time
+R=Path.cwd();O=R/'.local/rider-rig-validation/leg-temporal';P=O/'project'
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inventory():
+ result={'WRAPPER':sha(Path(__file__))}
+ for name in ['candidate02.gd','candidate03.gd','probe.gd','project.godot']:result[name]=sha(P/name)
+ base=(P/'game').resolve()
+ for p in base.rglob('*'):
+  if p.is_file():result['game/'+str(p.relative_to(base))]=sha(p)
+ return result
+before=inventory();(O/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');env=os.environ.copy()
+for name in ['DATA','CACHE','CONFIG']:
+ d=O/('xdg-'+name.lower());d.mkdir(exist_ok=True);env['XDG_'+name+'_HOME']=str(d)
+cmd=['godot','--headless','--path',str(P),'--script','res://probe.gd'];start=now();timer=time.monotonic();failure=None
+with (O/'native.log').open('w') as log:
+ process=subprocess.Popen(cmd,env=env,stdout=log,stderr=subprocess.STDOUT)
+ print(json.dumps({'pid':process.pid,'utc':start,'command':cmd}),flush=True);seen=0
+ while process.poll() is None:
+  time.sleep(.05)
+  with (O/'native.log').open('rb') as reader:reader.seek(seen);chunk=reader.read();seen=reader.tell()
+  if re.search(rb'SCRIPT ERROR|ERROR:|Parse Error',chunk):failure='stop-first-engine-error';process.terminate();break
+  if time.monotonic()-timer>20:failure='20s OS bound';process.kill();break
+ code=process.wait(timeout=5)
+after=inventory();raw=(O/'native.log').read_text();(O/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');receipt={'utc_start':start,'utc_end':now(),'pid':process.pid,'returncode':code,'failure':failure,'raw_engine_error':bool(re.search('SCRIPT ERROR|ERROR:|Parse Error',raw)),'source_stable':before==after,'source_count':len(before),'os_bound_seconds':20,'scope':'Private independent actual native Skeleton frame/snapshot conditioning controls, no graphics/contact/Main/performance claim.'};(O/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));print(raw[-7000:]);raise SystemExit(0 if code==0 and not failure and not receipt['raw_engine_error'] and before==after else 1)

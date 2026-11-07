@@ -1,0 +1,9 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS actual source-authenticated positive11bone mesh/Head/edges
+PASS actual indexed Head missing_edge fails despite retained matching orphan vertex arrays
+PASS actual indexed Head orphan fails despite retained matching orphan vertex arrays
+PASS native buffer reconstruction control preserves source admission before winding change
+PASS actual reversed native triangle winding fails directed source topology
+PASS restored actual native resources authenticate again
+SEMANTIC_CONTROL_RESULT passes=6 failures=[]

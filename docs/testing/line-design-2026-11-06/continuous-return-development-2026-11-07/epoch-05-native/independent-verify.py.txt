@@ -1,0 +1,68 @@
+from pathlib import Path
+import hashlib,json,re,math,collections
+R=Path.cwd();P=R/'docs/testing/line-design-2026-11-06/continuous-return-development-2026-11-07/epoch-05-native';checks=[]
+def ck(x,label):checks.append({'label':label,'pass':bool(x)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def vec(v):return [float(x) for x in re.findall(r'[-+]?(?:\d*\.)?\d+(?:[eE][-+]?\d+)?',v)]
+def dist(a,b):return math.sqrt(sum((x-y)**2 for x,y in zip(a,b)))
+r=json.loads((P/'receipt.json').read_text());t=json.loads((P/'native-trace.json').read_text());a=json.loads((P/'source-before.json').read_text());b=json.loads((P/'source-after.json').read_text());i=json.loads((P/'opportunity-intervals.json').read_text());s=json.loads((P/'native-summary.json').read_text())
+for name,h in json.loads((P/'preservation.json').read_text())['files'].items():ck(sha(P/name)==h,'preserved '+name)
+for name,h in r['preserved_sha256'].items():ck(sha(P/name)==h,'native receipt '+name)
+ck(r['eligible'] and r['engine_exit']==0 and r['result']==[13,0] and not r['errors'] and not r['changed_inputs'],'native eligible13/0 clean exit')
+ck(a==b and len(a)==1018,'all1018 before/after source inputs exact')
+ck(sha(P/'observer.gd')==a['.local/connected_return_probe_v5.gd']=='8fc626b7004cbf1537ebee57fccce1fd91eea0b44a28adf95bde8872b09096d5','exact before-bound reviewed V5 input observer')
+wrapper_hash=sha(P/'wrapper.py.txt');ck(wrapper_hash in a.values(),'executed wrapper hash before-bound')
+ck(not r['unknown_other_engine_observed'] and r['declared_known_untimed_overlap_pids']==[75302] and r['other_engine_observed'] and not r['performance_acceptance'] and not r['visual_acceptance'],'known EA qualitative overlap disclosed; no timing/visual admission')
+log=(P/'native.log').read_text();ck(not re.search(r'SCRIPT ERROR|ERROR:|Parse Error|SHADER ERROR|FAIL:',log),'raw native log error scan')
+f=t['frames'];ids=[x['physics'] for x in f];by={x['physics']:x for x in f}
+ck(len(f)==896 and ids==list(range(92,988)),'896 exact consecutive actual physics ticks92..987')
+ck(t['initial_resets']==1 and t['bails']==0 and t['recoveries']==0,'one initial reset, zero bails/recoveries')
+for key in ['model','capsule','shoe_zero','skin','wall']:ck(all(x[key] is True for x in f),'all896 native '+key+' predicates clear')
+ck(all(math.isfinite(v) for x in f for v in vec(x['position'])+vec(x['velocity'])+[x['speed'],x['path_m']]),'every recorded physical scalar finite')
+ck(all(x['path_m']<=y['path_m'] for x,y in zip(f,f[1:])),'cumulative actual path monotonic')
+path=sum(dist(vec(x['position']),vec(y['position'])) for x,y in zip(f,f[1:]));ck(abs(path-f[-1]['path_m'])<.002,'independent rounded-position path reconstructs77.2496m')
+previous='';captures=[]
+for x in f:
+ if x['grind'] and x['grind']!=previous:captures.append((x['physics'],x['grind']))
+ previous=x['grind']
+first='Grind_Edge_Bench_x800y244z5900_0_0';second='Grind_Edge_Bench_x7000y244z5900_0_0'
+ck(captures==[(162,first),(391,second),(879,first)],'actual named FIRST→SECOND→sameFIRST native captures')
+events={x['event']:x for x in t['events']};hold=events['returned_first_bearing_payoff_complete'];landing=events['returned_first_bearing_paving_manual']
+ck(hold['physics']==909 and hold['actual_bearing_ride_steps_before_charge']==30 and hold['actual_bearing_id']==first,'30 actual named bearing steps completed BEFORE pop charge')
+ck(all(by[n]['grind']==first for n in range(879,910)),'entire30-step payoff actually remains on exact first bearing')
+ck(landing['physics']==941 and by[941]['manual'] and by[941]['mode']=='manual' and not by[941]['grind'] and landing['speed']>=2 and abs(vec(landing['position'])[1]-2)<.03,'actual return landing is paving Manual above unchanged2m/s threshold')
+positive=[x for x in f if x['loaded_wall_capsule'].get('clear')];ck(len(positive)==1 and positive[0]['physics']==690 and not positive[0]['capsule_raw_strict_clear'],'raw1mm wall contact remains recorded, not overwritten as raw clear')
+wall=positive[0]['loaded_wall_capsule'];ck(wall['signed_gap']>0 and not wall['zero_margin_overlap'] and wall['hits']==1 and len(wall['pairs'])==2 and wall['shape']==20,'actual wall positive gap/zero-overlap/unsaturated exact finite face contacts')
+ck(wall['native_binding']['phase']=='pending_actual_current_slide_motion' and wall['native_binding']['clear'],'actual current Node/nativeLOCAL binding kept distinct from pending backend')
+bind=wall['native_binding'];delta=vec(bind['backend_to_current_delta']);ck(dist(delta,vec(bind['last_motion']))<1e-5 and dist(delta,vec(bind['position_delta']))<1e-5,'independent rounded numeric pending delta agrees with BOTH measured slide motions')
+for control in t['loaded_wall_controls']:
+ if control['id']=='20mm_deep_query_only_proxy':ck(control['actual_zero_margin_hit'] and not control['actual_frame_auth_refusal']['clear'] and not control['independent_pure_signed_plane_classification']['clear'],'actual20mm proxy overlap plus separate frame/pure-gap refusals')
+ else:ck(control['result']['clear'] is False,'adverse loaded-wall control '+control['id'])
+ck(len(t['loaded_wall_controls'])==10 and t['loaded_wall_controls_ran'] and t['loaded_wall_controls_clear'],'all10 independent loadedwall negative/pure controls exercised')
+repeats=collections.Counter();total=0
+for number,bank in enumerate(s['score_banks']):
+ base=count=0
+ for e in bank['entries']:
+  if 'hold' in e:base+=e['hold'];continue
+  ck(e['repeat_before']==repeats[e['id']],f'bank{number+1} global repeat '+e['id']+'@'+str(e['physics']))
+  award=max(1,int(e['points']/(2**min(repeats[e['id']],4))))
+  ck(e['award']==award,f'bank{number+1} independent integer halving '+e['id']+'@'+str(e['physics']))
+  repeats[e['id']]+=1;base+=award;count+=1
+ expected=base*min(count,100);ck(base==bank['base'] and count==bank['count'] and expected==bank['expected']==bank['actual_delta'],f'bank{number+1} independently recomputed base and multiplier')
+ total+=expected
+ck(total==13088 and [x['actual_delta'] for x in s['score_banks']]==[7400,5688] and len(t['score_banks'])==2 and not t['one_combo'],'two real banks7400+5688=13088; NOT one combo')
+all_events=sorted(t['prefix_events']+t['events'],key=lambda x:x['physics']);byevent={x['event']:x for x in all_events}
+for interval in i['feature_intervals']:
+ e1,e2=byevent[interval['from']],byevent[interval['to']];dt=e2['physics']-e1['physics'];length=by[e2['physics']]['path_m']-by[e1['physics']]['path_m']
+ ck(dt==interval['physics_steps'] and abs(dt/60-interval['seconds_at_60hz'])<1e-12 and abs(length-interval['actual_path_m'])<1e-8,'independent actual physics/path interval '+interval['from']+'→'+interval['to'])
+flags=[x for x in i['feature_intervals'] if x['exceeds_3s_review_trigger']];ck(len(flags)==1 and flags[0]['physics_steps']==188 and flags[0]['from']=='paving_landing','188ticks/3.133seconds remains explicit feature-gap review flag')
+source=(P/'observer.gd').read_text();ck(len(re.findall(r'await Driver\._reset\(',source))==1,'source has one initial Driver reset only')
+ck('capsule_raw_strict_clear' in source and 'pending_actual_current_slide_motion' in source,'source retains raw query truth and named current/backend phase')
+report={'kind':'Independent source/trace/score/interval audit; no new native execution','passed':sum(x['pass'] for x in checks),'failed':sum(not x['pass'] for x in checks),'checks':checks,'verdict':'Scoped successful local native return with TWO banked combos; no whole-map, single-combo or moving-visual acceptance.','limits':['Source created05:11:31 at736a4df plus declared pending fixes; later actual fitted/current Main composition not covered.','896 contiguous native ticks and current loaded-wall contact proof are physics diagnostics, not a natural frame_post_draw movie.','PavingManual→wall188ticks/3.133s/16.272m remains review trigger.','No reverse/imperfect-input/second distinct arena line/fun/M5/AAA acceptance.'],'actual_path_reconstructed_from_rounded_positions_m':path,'native_source_count':len(a),'feature_intervals':i['feature_intervals'],'native_receipt_sha256':sha(P/'receipt.json')}
+(P/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n')
+(P/'independent-verify.py.txt').write_bytes(Path(__file__).read_bytes())
+(P/'independent-preservation.json').write_text(json.dumps({n:sha(P/n) for n in ['independent-review.json','independent-verify.py.txt']},indent=2)+'\n')
+print(json.dumps({k:report[k] for k in ['passed','failed','verdict','actual_path_reconstructed_from_rounded_positions_m']},indent=2))
+for x in checks:
+ if not x['pass']:print('FAIL',x['label'])
+if report['failed']:raise SystemExit(1)

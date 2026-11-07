@@ -1,0 +1,367 @@
+{
+  "start_utc": "2026-11-07T07:16:40.435733+00:00",
+  "end_utc": "2026-11-07T07:17:19.122549+00:00",
+  "shell_pid": 87650,
+  "process_group": 87650,
+  "native_processes_observed": [
+    {
+      "pid": 87655,
+      "process_group": 87650,
+      "command": "/usr/lib/xorg/Xorg -displayfd 3 -config /workspace/tam_hawks_ps/tools/xorg-dummy.conf -logfile /workspace/tam_hawks_ps/.local/xorg-rider-studio.log -noreset -nolisten tcp "
+    },
+    {
+      "pid": 87663,
+      "process_group": 87650,
+      "command": "godot --path /workspace/tam_hawks_ps --audio-driver Dummy --fixed-fps 60 --script tools/rider_asset_inspect.gd "
+    }
+  ],
+  "all_qualitative_native_processes_observed": [
+    {
+      "pid": 87655,
+      "process_group": 87650,
+      "command": "/usr/lib/xorg/Xorg -displayfd 3 -config /workspace/tam_hawks_ps/tools/xorg-dummy.conf -logfile /workspace/tam_hawks_ps/.local/xorg-rider-studio.log -noreset -nolisten tcp "
+    },
+    {
+      "pid": 87663,
+      "process_group": 87650,
+      "command": "godot --path /workspace/tam_hawks_ps --audio-driver Dummy --fixed-fps 60 --script tools/rider_asset_inspect.gd "
+    }
+  ],
+  "known_process_snapshot_before": [],
+  "command": [
+    "./tools/rider_asset_inspect.sh"
+  ],
+  "deadline_seconds": 180,
+  "stop_reason": null,
+  "exit_code": 0,
+  "error_markers": [],
+  "source_count": 874,
+  "source_unchanged": true,
+  "launcher_sha256_prebound": "9d01352258369ce03bd4511b108552b6ed10f64c5e66bf0f77a9276694cb0e84",
+  "checks": [
+    {
+      "passed": true,
+      "label": "clean bounded existing-tool execution"
+    },
+    {
+      "passed": true,
+      "label": "all actual source and prebound launcher unchanged"
+    },
+    {
+      "passed": true,
+      "label": "existing tool produced its receipt"
+    },
+    {
+      "passed": true,
+      "label": "unchanged inspector accepts its native/pixel/pose evidence"
+    },
+    {
+      "passed": true,
+      "label": "exact existing nine views retained"
+    },
+    {
+      "passed": true,
+      "label": "both original native buffers retained idle-front"
+    },
+    {
+      "passed": true,
+      "label": "fresh original captures idle-front"
+    },
+    {
+      "passed": true,
+      "label": "original PNG identity idle-front"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA rider-studio/idle-front"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA synchronization/idle-front"
+    },
+    {
+      "passed": true,
+      "label": "same-readback actual camera/counters idle-front"
+    },
+    {
+      "passed": true,
+      "label": "actual pose stable across proof/clean idle-front"
+    },
+    {
+      "passed": true,
+      "label": "existing marker proof limits retained idle-front"
+    },
+    {
+      "passed": true,
+      "label": "both original native buffers retained idle-side"
+    },
+    {
+      "passed": true,
+      "label": "fresh original captures idle-side"
+    },
+    {
+      "passed": true,
+      "label": "original PNG identity idle-side"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA rider-studio/idle-side"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA synchronization/idle-side"
+    },
+    {
+      "passed": true,
+      "label": "same-readback actual camera/counters idle-side"
+    },
+    {
+      "passed": true,
+      "label": "actual pose stable across proof/clean idle-side"
+    },
+    {
+      "passed": true,
+      "label": "existing marker proof limits retained idle-side"
+    },
+    {
+      "passed": true,
+      "label": "both original native buffers retained idle-jacket"
+    },
+    {
+      "passed": true,
+      "label": "fresh original captures idle-jacket"
+    },
+    {
+      "passed": true,
+      "label": "original PNG identity idle-jacket"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA rider-studio/idle-jacket"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA synchronization/idle-jacket"
+    },
+    {
+      "passed": true,
+      "label": "same-readback actual camera/counters idle-jacket"
+    },
+    {
+      "passed": true,
+      "label": "actual pose stable across proof/clean idle-jacket"
+    },
+    {
+      "passed": true,
+      "label": "existing marker proof limits retained idle-jacket"
+    },
+    {
+      "passed": true,
+      "label": "both original native buffers retained idle-jacket-side"
+    },
+    {
+      "passed": true,
+      "label": "fresh original captures idle-jacket-side"
+    },
+    {
+      "passed": true,
+      "label": "original PNG identity idle-jacket-side"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA rider-studio/idle-jacket-side"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA synchronization/idle-jacket-side"
+    },
+    {
+      "passed": true,
+      "label": "same-readback actual camera/counters idle-jacket-side"
+    },
+    {
+      "passed": true,
+      "label": "actual pose stable across proof/clean idle-jacket-side"
+    },
+    {
+      "passed": true,
+      "label": "existing marker proof limits retained idle-jacket-side"
+    },
+    {
+      "passed": true,
+      "label": "both original native buffers retained idle-face"
+    },
+    {
+      "passed": true,
+      "label": "fresh original captures idle-face"
+    },
+    {
+      "passed": true,
+      "label": "original PNG identity idle-face"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA rider-studio/idle-face"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA synchronization/idle-face"
+    },
+    {
+      "passed": true,
+      "label": "same-readback actual camera/counters idle-face"
+    },
+    {
+      "passed": true,
+      "label": "actual pose stable across proof/clean idle-face"
+    },
+    {
+      "passed": true,
+      "label": "existing marker proof limits retained idle-face"
+    },
+    {
+      "passed": true,
+      "label": "both original native buffers retained idle-profile"
+    },
+    {
+      "passed": true,
+      "label": "fresh original captures idle-profile"
+    },
+    {
+      "passed": true,
+      "label": "original PNG identity idle-profile"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA rider-studio/idle-profile"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA synchronization/idle-profile"
+    },
+    {
+      "passed": true,
+      "label": "same-readback actual camera/counters idle-profile"
+    },
+    {
+      "passed": true,
+      "label": "actual pose stable across proof/clean idle-profile"
+    },
+    {
+      "passed": true,
+      "label": "existing marker proof limits retained idle-profile"
+    },
+    {
+      "passed": true,
+      "label": "both original native buffers retained idle-feet"
+    },
+    {
+      "passed": true,
+      "label": "fresh original captures idle-feet"
+    },
+    {
+      "passed": true,
+      "label": "original PNG identity idle-feet"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA rider-studio/idle-feet"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA synchronization/idle-feet"
+    },
+    {
+      "passed": true,
+      "label": "same-readback actual camera/counters idle-feet"
+    },
+    {
+      "passed": true,
+      "label": "actual pose stable across proof/clean idle-feet"
+    },
+    {
+      "passed": true,
+      "label": "existing marker proof limits retained idle-feet"
+    },
+    {
+      "passed": true,
+      "label": "both original native buffers retained push"
+    },
+    {
+      "passed": true,
+      "label": "fresh original captures push"
+    },
+    {
+      "passed": true,
+      "label": "original PNG identity push"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA rider-studio/push"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA synchronization/push"
+    },
+    {
+      "passed": true,
+      "label": "same-readback actual camera/counters push"
+    },
+    {
+      "passed": true,
+      "label": "actual pose stable across proof/clean push"
+    },
+    {
+      "passed": true,
+      "label": "existing marker proof limits retained push"
+    },
+    {
+      "passed": true,
+      "label": "both original native buffers retained grab"
+    },
+    {
+      "passed": true,
+      "label": "fresh original captures grab"
+    },
+    {
+      "passed": true,
+      "label": "original PNG identity grab"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA rider-studio/grab"
+    },
+    {
+      "passed": true,
+      "label": "decoded PNG matches native RGBA synchronization/grab"
+    },
+    {
+      "passed": true,
+      "label": "same-readback actual camera/counters grab"
+    },
+    {
+      "passed": true,
+      "label": "actual pose stable across proof/clean grab"
+    },
+    {
+      "passed": true,
+      "label": "existing marker proof limits retained grab"
+    },
+    {
+      "passed": true,
+      "label": "actual source remains frozen through frame validation"
+    },
+    {
+      "passed": true,
+      "label": "own native display/engine processes stopped"
+    }
+  ],
+  "passed": 79,
+  "failed": 0,
+  "eligible": true,
+  "source_delta": [],
+  "new_history_names": [
+    "rider-studio-history-20261107T071640Z"
+  ],
+  "scope": "Existing actual promoted tools/rider_asset_inspect.sh and unchanged nine-view inspector, isolated native floor with real push/grab input. Root-authorized qualitative overlap is permitted/disclosed. No rendering threshold/pipeline changes, Main/moving-film/AAA/M5/FPS or exclusive timing acceptance."
+}

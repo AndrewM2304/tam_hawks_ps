@@ -1,0 +1,289 @@
+extends "res://tools/full_fidelity_capture.gd"
+## Six declared moving-input stills from all seven original physical push cases.
+## No normal-speed/full-cycle visual claim. Continuous351capture is separate.
+var _rows: Array = []
+var _trace: Array = []
+var _taken := {}
+var _native_geometry := {}
+var _anthropometry := {}
+var _phase_ticks := {}
+var _source_binding := ""
+var _stamp: ColorRect
+const CASE_VIEWS := {"push_contact_regular":"front","push_contact_from_rest":"side","push_contact_fakie":"chase"}
+func _run() -> void:
+	if DisplayServer.get_name()=="headless":quit(2);return
+	var args:=OS.get_cmdline_user_args()
+	if args.size()!=1:quit(2);return
+	output=args[0]
+	_source_binding=FileAccess.get_sha256(output.path_join("source-before.json"))
+	root.size=Vector2i(1280,800)
+	root.content_scale_size=root.size
+	RenderingServer.set_render_loop_enabled(false)
+	DirAccess.make_dir_recursive_absolute(output)
+	game=Main.new()
+	game.persistence_enabled=false
+	root.add_child(game)
+	game.start_mode(true)
+	_check(not game.music._can_control and not game.music._persist,"selected Main push isolates personal Music and profile writes")
+	for tick:int in 40:
+		await physics_frame
+		await process_frame
+	_inspection=Camera3D.new()
+	_inspection.name="DeclaredMovingPushInspection"
+	_inspection.fov=40
+	_inspection.far=220
+	_inspection.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
+	game.add_child(_inspection)
+	await _synchronization_probe()
+	_anthropometry = _native_proportions()
+	_write_incremental(false)
+	var canvas:=CanvasLayer.new()
+	root.add_child(canvas)
+	_stamp=ColorRect.new()
+	_stamp.position=Vector2(4,4)
+	_stamp.size=Vector2(8,8)
+	canvas.add_child(_stamp)
+	await PushContact.run_main(self,game,_check,_observe_selected)
+	_check(_rows.size()==6,"selected Main moving probe retains plant+return for all three actual input cases")
+	_write_incremental(true)
+	print("SELECTED_MAIN_PUSH checks=",checks," failures=",failures," images=",_rows.size()," native_steps=",_trace.size())
+	quit(1 if failures else 0)
+func _observe_selected(phase:String,observed:Node,_step:int)->void:
+	if phase.is_empty() or _step<0:return
+	var p:=Engine.get_physics_frames()
+	var f:=Engine.get_process_frames()
+	await create_timer(0.0,true).timeout
+	_check(Engine.get_physics_frames()==p and Engine.get_process_frames()==f,"selected Main observer fences current process without advancingphysics")
+	var state:=_snapshot(observed)
+	if _phase_ticks.has(phase):_check(int(state.physics_frame)-int(_phase_ticks[phase])==1,"every physical phase retains consecutive native observations")
+	_phase_ticks[phase]=state.physics_frame
+	_trace.append({"phase":phase,"state":state})
+	if not CASE_VIEWS.has(phase):return
+	var rig:RefCounted=game.skater._visual_rig
+	var part:="plant" if rig._push_blend>.98 and rig._push_phase>.05 and rig._push_phase<.55 else ("return" if rig._push_blend>.90 and rig._push_phase>.65 and rig._push_phase<.95 else "")
+	var label:=phase+"-"+part
+	if part.is_empty() or _taken.has(label):return
+	_taken[label]=true
+	var view:String=CASE_VIEWS[phase]
+	game.hud.visible=view=="chase"
+	if view=="chase":game.skater._camera.current=true
+	else:
+		var points:=_markers(game)
+		var low:Vector3=points[0]
+		var high:Vector3=points[0]
+		for at:Vector3 in points:low=low.min(at);high=high.max(at)
+		var center:Vector3=(low+high)*.5
+		var radius:=high.distance_to(low)*.5+.20
+		var distance:=maxf(3.8,radius/tan(deg_to_rad(20.0))*1.20)
+		var forward:Vector3=(-game.skater.global_basis.z*rig._last_travel_direction).slide(Vector3.UP).normalized()
+		var axis:Vector3=(forward+Vector3.UP*.35).normalized() if view=="front" else (forward.cross(Vector3.UP)+Vector3.UP*.35).normalized()
+		_inspection.global_position=center+axis*distance
+		_inspection.look_at(center)
+		_inspection.current=true
+	var stamp:=[int(state.physics_frame)%251,int(state.process_frame)%251,(_rows.size()+1)*31]
+	_stamp.color=Color(float(stamp[0])/255.0,float(stamp[1])/255.0,float(stamp[2])/255.0)
+	var before:=_pose_current()
+	var image:Image=await _render_current_frame()
+	var after:=_pose_current()
+	_check(before==after,"selected Main current rig pose unchanged across native readback")
+	_check(_color(image.get_pixel(6,6))==[stamp[0],stamp[1],stamp[2],255],"selected Main currentframe Canvas stamp proves exactreadback")
+	var camera:Camera3D=root.get_camera_3d()
+	var path:=label+".png"
+	var pixels:=_store_frame(image,path)
+	var native:=_pose_rendered()
+	_rows.append({"label":label,"phase":phase,"view":view,"file":path,"pixels":pixels,"state":state,"counter_bracket":[{"physics":p,"process":f},{"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames()}],"pose_before":before,"pose_after":after,"native_rendered":native,"camera":_rows_matrix(camera.global_transform),"projection":_projection_rows(camera.get_camera_projection()),"near":camera.near,"far":camera.far,"viewport":[1280,800],"fov":camera.fov,"canvas_stamp_rgb":stamp,"native_driver_counters":_counters(),"source_before_pinfile_sha256":_source_binding})
+	_write_incremental(false)
+func _nodes()->Dictionary:
+	var rig:RefCounted=game.skater._visual_rig
+	var result:={"actor":game.skater,"visual":game.skater._visual,"rider":rig._rider,"torso":rig._upper,"head_node":rig._head,"head_mesh":rig._head.get_node("AnatomicalHead"),"board":game.skater._board_visual,"skeleton":rig._garments.skeleton}
+	for i:int in rig._legs.size():result["foot"+str(i)]=rig._legs[i].foot
+	for i:int in rig._arms.size():result["hand"+str(i)]=rig._arms[i].hand
+	return result
+func _pose_current()->Dictionary:
+	var nodes:=_nodes()
+	var out:={"nodes":{},"bones":[]}
+	for key:String in nodes:out.nodes[key]=_rows_matrix(nodes[key].global_transform)
+	var skeleton:Skeleton3D=nodes.skeleton
+	for i:int in skeleton.get_bone_count():out.bones.append(_rows_matrix(skeleton.get_bone_global_pose(i)))
+	return out
+func _pose_rendered()->Dictionary:
+	var nodes:=_nodes()
+	var result:={"nodes":{},"native_skin_palettes":{},"physics_fraction":Engine.get_physics_interpolation_fraction(),"inside_physics_frame":Engine.is_in_physics_frame()}
+	for key:String in nodes:result.nodes[key]={"model":_rows_matrix(nodes[key].get_global_transform_interpolated()),"mode":nodes[key].physics_interpolation_mode,"interpolated":nodes[key].is_physics_interpolated_and_enabled()}
+	var skeleton:Skeleton3D=nodes.skeleton
+	for name:String in ["UpperChest","SkinnedJacket","SkinnedTrousers"]:
+		var mesh:=nodes.rider.get_node_or_null(name) as MeshInstance3D
+		if mesh==null:continue
+		var skinref:SkinReference=skeleton.register_skin(mesh.skin)
+		var palette:Array=[]
+		for i:int in mesh.skin.get_bind_count():palette.append(_rows_matrix(RenderingServer.skeleton_bone_get_transform(skinref.get_skeleton(),i)))
+		result.native_skin_palettes[name]={"palette":palette,"mesh_current":_rows_matrix(mesh.global_transform),"mesh_rendered":_rows_matrix(mesh.get_global_transform_interpolated())}
+		if not _native_geometry.has(name):_native_geometry[name]=_mesh_geometry(mesh)
+	for i:int in 2:
+		var sole:MeshInstance3D=nodes["foot"+str(i)].get_node("Cupsole")
+		result.nodes["sole"+str(i)]={"current":_rows_matrix(sole.global_transform),"model":_rows_matrix(sole.get_global_transform_interpolated())}
+		if not _native_geometry.has("sole"+str(i)):_native_geometry["sole"+str(i)]=_mesh_geometry(sole)
+	if not _native_geometry.has("head"):_native_geometry.head=_mesh_geometry(nodes.head_mesh)
+	return result
+func _mesh_geometry(mesh:MeshInstance3D)->Dictionary:
+	var a:=mesh.mesh.surface_get_arrays(0)
+	var points:Array=[]
+	for p:Vector3 in a[Mesh.ARRAY_VERTEX]:points.append(_v(p))
+	var out:={"path":mesh.mesh.resource_path,"vertices":points,"indices":Array(a[Mesh.ARRAY_INDEX]),"mesh_local":_rows_matrix(mesh.transform)}
+	if a[Mesh.ARRAY_BONES] is PackedInt32Array:out.bones=Array(a[Mesh.ARRAY_BONES])
+	if a[Mesh.ARRAY_WEIGHTS] is PackedFloat32Array:out.weights=Array(a[Mesh.ARRAY_WEIGHTS])
+	if mesh.skin!=null:
+		out.binds=[]
+		for i:int in mesh.skin.get_bind_count():out.binds.append({"bone":mesh.skin.get_bind_bone(i),"name":mesh.skin.get_bind_name(i),"pose":_rows_matrix(mesh.skin.get_bind_pose(i))})
+	return out
+func _rows_matrix(t:Transform3D)->Array:
+	return [[t.basis.x.x,t.basis.y.x,t.basis.z.x,t.origin.x],[t.basis.x.y,t.basis.y.y,t.basis.z.y,t.origin.y],[t.basis.x.z,t.basis.y.z,t.basis.z.z,t.origin.z],[0,0,0,1]]
+func _projection_rows(p:Projection)->Array:
+	return [[p.x.x,p.y.x,p.z.x,p.w.x],[p.x.y,p.y.y,p.z.y,p.w.y],[p.x.z,p.y.z,p.z.z,p.w.z],[p.x.w,p.y.w,p.z.w,p.w.w]]
+func _counters()->Dictionary:
+	return {"texture_bytes":Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),"buffer_bytes":Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED),"draw_calls":Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),"primitives":Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)}
+
+func _native_proportions()->Dictionary:
+	var rig:RefCounted=game.skater._visual_rig
+	var skeleton:Skeleton3D=rig._garments.skeleton
+	var limbs:Array=[]
+	var shoulders:Array[Vector3]=[]
+	var hips:Array[Vector3]=[]
+	for i:int in 2:
+		var prefix:String="left" if i==0 else "right"
+		var shoulder:Vector3=skeleton.to_global(skeleton.get_bone_global_pose(skeleton.find_bone(prefix+"_sleeve")).origin)
+		var elbow:Vector3=skeleton.to_global(skeleton.get_bone_global_pose(skeleton.find_bone(prefix+"_forearm")).origin)
+		var hip:Vector3=skeleton.to_global(skeleton.get_bone_global_pose(skeleton.find_bone(prefix+"_thigh")).origin)
+		var knee:Vector3=skeleton.to_global(skeleton.get_bone_global_pose(skeleton.find_bone(prefix+"_calf")).origin)
+		var wrist:Vector3=rig._arms[i].hand.global_position
+		var ankle:Vector3=rig._legs[i].foot.global_position
+		shoulders.append(shoulder)
+		hips.append(hip)
+		limbs.append({"side":prefix,"upper_arm_m":shoulder.distance_to(elbow),"forearm_to_actual_wrist_m":elbow.distance_to(wrist),"thigh_m":hip.distance_to(knee),"calf_to_actual_ankle_m":knee.distance_to(ankle),"shoulder":_v(shoulder),"elbow":_v(elbow),"wrist":_v(wrist),"hip":_v(hip),"knee":_v(knee),"ankle":_v(ankle)})
+	var manifest_path:="res://game/art/assets/makehuman_hm08/manifest.json"
+	var manifest:Dictionary=JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+	return {"scope":"Actual settled ordinaryMain native source-vertex envelope with current rawweightedRS palettes, sourceblendshape weights and worldmodels. Hair alpha-card geometry bounds include transparent parts; not opaque silhouette or visualadult acceptance.","rider_bounds":_native_bounds(rig._rider,skeleton),"head_bounds":_native_bounds(rig._head.get_node("AnatomicalHead"),skeleton),"board_bounds":_native_bounds(game.skater._board_visual,skeleton),"hip_midpoint_to_shoulder_midpoint_m":((hips[0]+hips[1])*.5).distance_to((shoulders[0]+shoulders[1])*.5),"limbs":limbs,"body_source_manifest_sha256":FileAccess.get_sha256(manifest_path),"source_revision":manifest.source_revision,"source_adult_morph_declaration":manifest.adaptation.adult_morph,"source_body_member":"base.obj","source_morph_members":manifest.sources.keys().filter(func(name:String):return name.ends_with(".target")),"age25_scope":"Sourceyoung-male target declaration, not inferred from pixels or a hardware/age-estimation model."}
+func _native_bounds(node:Node,skeleton:Skeleton3D)->Dictionary:
+	var low:=Vector3(INF,INF,INF)
+	var high:=Vector3(-INF,-INF,-INF)
+	var count:=0
+	var meshes:Array[MeshInstance3D]=[]
+	_collect_native_meshes(node,meshes)
+	for mesh:MeshInstance3D in meshes:
+		var palette:Array[Transform3D]=[]
+		if mesh.skin!=null:
+			var skinref:SkinReference=skeleton.register_skin(mesh.skin)
+			for i:int in mesh.skin.get_bind_count():palette.append(RenderingServer.skeleton_bone_get_transform(skinref.get_skeleton(),i))
+		for surface:int in mesh.mesh.get_surface_count():
+			var arrays:=mesh.mesh.surface_get_arrays(surface)
+			var points:PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+			var blends:Array=mesh.mesh.surface_get_blend_shape_arrays(surface) if mesh.mesh is ArrayMesh else []
+			for i:int in points.size():
+				var point:Vector3=points[i]
+				for blend:int in blends.size():
+					var target:PackedVector3Array=blends[blend][Mesh.ARRAY_VERTEX]
+					if target.size()==points.size():point+=(target[i]-points[i])*mesh.get_blend_shape_value(blend)
+				if not palette.is_empty():
+					var weighted:=Vector3.ZERO
+					var slots:int=arrays[Mesh.ARRAY_BONES].size()/points.size()
+					for slot:int in slots:
+						var at:int=i*slots+slot
+						weighted+=(palette[arrays[Mesh.ARRAY_BONES][at]]*point)*float(arrays[Mesh.ARRAY_WEIGHTS][at])
+					point=weighted
+				var world:Vector3=mesh.global_transform*point
+				low=low.min(world)
+				high=high.max(world)
+				count+=1
+	return {"min_world":_v(low),"max_world":_v(high),"extent_m":_v(high-low),"native_vertices":count}
+func _collect_native_meshes(node:Node,meshes:Array[MeshInstance3D])->void:
+	if node is MeshInstance3D and node.is_visible_in_tree():meshes.append(node)
+	for child:Node in node.get_children():_collect_native_meshes(child,meshes)
+
+func _write_incremental(complete:bool)->void:
+	var report:={"scope":"Six moving-input stills only; not normal-speed/fullcycle/finalcontact/art/targetMac acceptance. Complete ordinaryMain world, all7physical PushContact cases and native traces remain unchanged.","complete":complete,"checks":checks,"failures":failures,"frames":_rows,"native_trace":_trace,"native_geometry":_native_geometry,"anthropometry":_anthropometry,"synchronization_proofs":_sync_proofs,"case_views":CASE_VIEWS,"source_before_pinfile_sha256":_source_binding,"fixtures":"Original defaultspawn/nativefloor driver: signed6m/s regular/fakie movingstarts+initialheading; separate fromrest has no motionseed. Real mapped inputs thereafter; no pose writes.","proof_policy":"Natural frame_post_draw and sameframe fences from full_fidelity_capture. Diagnostic actual nearbodyproductionchase→contactinspection→productionchase with all3 actualhead/board markers+Canvas; no distant overview rendered.","partial_policy":"Every completed cleanframe flushes this source-bound native pose/pixel/projection row atomically. complete=false neverpasses the6image/fullphysicalcohort gate; wrapperstop/source-after inventory remain separate.","counter_scope":"Wholeprocess/Main/viewport/shadows/preloads, not targetperformance or exclusiveFPS."}
+	var path:=output.path_join("selected-main-push.json")
+	var file:=FileAccess.open(path+".tmp",FileAccess.WRITE)
+	_check(file!=null,"incremental selectedMain native metadata writable")
+	if file==null:return
+	file.store_string(JSON.stringify(report,"\t")+"\n")
+	file.close()
+	_check(DirAccess.rename_absolute(path+".tmp",path)==OK,"incremental selectedMain metadata atomicallypublished")
+func _synchronization_probe() -> void:
+	# Separate diagnostic images, never used as gameplay/movie samples. Visible
+	# 3D spheres sit at the actual head/board world points, so a stale camera
+	# buffer fails an independent projected-pixel test; a Canvas swatch proves
+	# the HUD/Canvas commands belong to that same logical frame as well.
+	var canvas := CanvasLayer.new()
+	root.add_child(canvas)
+	var swatch := ColorRect.new()
+	swatch.position = Vector2(12,12)
+	swatch.size = Vector2(32,32)
+	canvas.add_child(swatch)
+	var markers: Array[MeshInstance3D] = []
+	for color: Color in [Color.RED, Color.GREEN]:
+		var marker := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.055
+		sphere.height = 0.11
+		marker.mesh = sphere
+		var material := StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.no_depth_test = true
+		material.albedo_color = color
+		marker.material_override = material
+		game.add_child(marker)
+		markers.append(marker)
+	DirAccess.make_dir_recursive_absolute(output.path_join("synchronization"))
+	for index in 3:
+		await physics_frame
+		await process_frame
+		await create_timer(0.0, true).timeout
+		var points := _markers(game)
+		for part in 2: markers[part].global_position = points[part]
+		var label: String = ["production_chase_before_contact", "first_contact_inspection", "return_to_production_chase"][index]
+		swatch.color = [Color.BLUE, Color.YELLOW, Color.MAGENTA][index]
+		if index == 0:
+			# Actual near-body chase, not the distant whole-park overview.
+			game.skater._camera.current = true
+		elif index == 1:
+			var center := (points[0] + points[1]) * 0.5
+			_inspection.global_position = center + Vector3(2.4,1.4,2.8).normalized() * 3.8
+			_inspection.look_at(center)
+			_inspection.fov = 40.0
+			_inspection.current = true
+		else:
+			game.skater._camera.current = true
+		game.hud.visible = index == 2
+		var native_tick := Engine.get_physics_frames()
+		var process_tick := Engine.get_process_frames()
+		var camera := root.get_camera_3d()
+		var image: Image = await _render_current_frame()
+		var proof := {"id":label, "file":"synchronization/" + label + ".png",
+			"physics_frame":native_tick, "process_frame":process_tick,
+			"same_native_frame":Engine.get_physics_frames() == native_tick and Engine.get_process_frames() == process_tick,
+			"camera_position":_v(camera.global_position), "canvas_pixel":[20,20],
+			"canvas_expected":_color(swatch.color), "markers":[]}
+		_check(image.get_pixel(20,20).is_equal_approx(swatch.color),
+			"current Canvas pixel survives camera boundary " + label)
+		if index >= 0:
+			for part in 2:
+				var logical_projected := camera.unproject_position(points[part])
+				var viewport_size := camera.get_viewport().get_visible_rect().size
+				var projected := logical_projected * Vector2(image.get_size()) / viewport_size
+				var evidence := _marker_pixels(image, projected, part)
+				evidence.world = _v(points[part])
+				evidence.projected_pixel = [projected.x,projected.y]
+				evidence.logical_viewport_size = [viewport_size.x,viewport_size.y]
+				evidence.logical_projected = [logical_projected.x,logical_projected.y]
+				evidence.kind = "actual head" if part == 0 else "actual board"
+				proof.markers.append(evidence)
+				_check(evidence.count >= 4 and evidence.centroid_error <= 2.5,
+					"actual projected head/board pixels use the current camera at " + label)
+		proof.pixels = _store_frame(image, proof.file)
+		_sync_proofs.append(proof)
+	for marker in markers: marker.queue_free()
+	canvas.queue_free()
+	await process_frame
+	await create_timer(0.0, true).timeout
+	game.skater._camera.current = true
+	game.hud.visible = true

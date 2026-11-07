@@ -1,0 +1,338 @@
+extends SceneTree
+const Adapter = preload("res://tests/fitted_adapter.gd")
+const ACTIVITY = preload("res://game/features/activity_actor.gd")
+const BUSKER = preload("res://game/characters/busker_actor.gd")
+const DRUMMER = preload("res://game/characters/cat_actor.gd")
+const MARKET = preload("res://game/characters/market_actor.gd")
+
+class RigProxy:
+	extends RefCounted
+	var _garments: RefCounted
+	var _head: Node3D
+	var _rider: Node3D
+
+class MotionRoot:
+	extends Node3D
+	var start_frame: int
+	func _physics_process(_delta: float) -> void:
+		var t := float(Engine.get_physics_frames()-start_frame)/60.0
+		position.x = sin(t*1.9)*0.24
+		position.z = sin(t*1.1)*0.08
+		rotation.y = sin(t*1.3)*0.19
+
+var twins: Array[Dictionary] = []
+var records: Array = []
+var selected: Dictionary = {}
+var role_summary: Dictionary = {}
+var failures: Array[String] = []
+var role := ""
+var capturing := false
+var busy := false
+var finished := false
+var capture_id := 0
+var stamp_color := Color.BLACK
+var reference: Dictionary
+
+func _initialize() -> void:
+	_run.call_deferred()
+
+func _run() -> void:
+	root.size = Vector2i(32,32)
+	Engine.max_fps = 144
+	reference = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fitted-reference.json"))
+	DirAccess.make_dir_recursive_absolute("res://output")
+	process_frame.connect(_prepare_draw)
+	RenderingServer.frame_post_draw.connect(_after_draw)
+	for name: String in ["activity-steward","busker","drummer","market-control"]:
+		role = name
+		var start := Engine.get_physics_frames()
+		for coherent: bool in [false,true]:
+			_build_twin(coherent,start)
+		await _frames(18)
+		capturing = true
+		await _frames(60)
+		capturing = false
+		for band: String in ["low","high"]:
+			if not selected.has(role+"-"+band):failures.append("missing fractional pair "+role+"-"+band)
+		for twin: Dictionary in twins:twin.viewport.queue_free()
+		twins.clear()
+		await _frames(2)
+	finished = true
+	var file := FileAccess.open("res://output/receipt.json",FileAccess.WRITE)
+	file.store_string(JSON.stringify({"scope":"Private actual-NPC twin worlds: ordinary actor process gestures, authored common-root physics motion/native sloped support. Synthetic object-ID Head/chest materials and markers disclosed. No Main, gameplay, final appearance, complete contacts, timing or M5 acceptance.","records":selected.values(),"candidate_records":records,"role_summary":role_summary,"failures":failures,"capture_pairs":selected.size(),"physics_hz":Engine.physics_ticks_per_second,"geometry_source_unchanged":true},"\t"))
+	file.close()
+	print("NPC_CLOCK_RESULT pairs=",selected.size()," candidates=",records.size()," failures=",failures)
+	quit(0 if failures.is_empty() else 1)
+
+func _frames(count: int) -> void:
+	for i: int in count:
+		await physics_frame
+		await process_frame
+
+func _build_twin(coherent: bool,start: int) -> void:
+	var viewport := SubViewport.new()
+	viewport.size = Vector2i(384,384)
+	viewport.own_world_3d = true
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	var stage := Node3D.new()
+	viewport.add_child(stage)
+	var env := WorldEnvironment.new()
+	env.environment = Environment.new()
+	env.environment.background_mode = Environment.BG_COLOR
+	env.environment.background_color = Color("20252d")
+	env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.environment.ambient_light_color = Color.WHITE
+	env.environment.ambient_light_energy = 1.0
+	stage.add_child(env)
+	var floor := StaticBody3D.new()
+	var collision := CollisionShape3D.new()
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(30,.4,30)
+	collision.shape = shape
+	floor.add_child(collision)
+	floor.position.y = -.2
+	floor.rotation.z = .08
+	stage.add_child(floor)
+	var mover := MotionRoot.new()
+	mover.name = "CommonInterpolatedMotionRoot"
+	mover.start_frame = start
+	mover.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
+	mover.process_physics_priority = -100
+	stage.add_child(mover)
+	var actor: Node3D
+	match role:
+		"activity-steward":
+			actor = ACTIVITY.new()
+			actor.set("steward",true)
+		"busker":actor = BUSKER.new()
+		"drummer":actor = DRUMMER.new()
+		_:actor = MARKET.new()
+	mover.add_child(actor)
+	match role:
+		"activity-steward":
+			actor.call("set_activity_state","success")
+			actor.call("set_look_target",Vector3(2,1.4,-3))
+		"busker":actor.call("set_encounter_state","success",3,12.0)
+		"drummer":
+			actor.call("set_audio_gain",0.0)
+			actor.call("set_encounter_state","success",3,12.0,false,"playing")
+			actor.call("start_celebration")
+		_:
+			actor.call("set_encounter_state","success",12.0,false,"playing","")
+			actor.call("start_celebration")
+	var head_mesh: MeshInstance3D = actor.find_child("AnatomicalHead",true,false)
+	var garments: RefCounted = actor.get("_clothes") if role == "drummer" else actor.get("_garments")
+	var skeleton: Skeleton3D = garments.skeleton
+	var proxy := RigProxy.new()
+	proxy._garments = garments
+	proxy._head = head_mesh.get_parent()
+	proxy._rider = skeleton.get_parent()
+	var hands: Array = []
+	if role == "market-control":
+		for child: Node in proxy._rider.get_children():
+			if child is Node3D and String(child.name).contains("Hand"):hands.append(child)
+	else:hands = actor.get("_hands")
+	var shoes: Array[Node3D] = []
+	_collect_shoes(actor,shoes)
+	var posed: Array[Node3D] = [proxy._head]
+	for hand: Node3D in hands:posed.append(hand)
+	for shoe: Node3D in shoes:posed.append(shoe)
+	if role == "activity-steward":posed.append(actor.get("_details"))
+	if role == "drummer":
+		for stick: Node3D in actor.get("_sticks"):posed.append(stick)
+	if coherent:
+		for node: Node3D in posed:node.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+	var data: Dictionary = Adapter.prepare(proxy,reference)
+	if not data.errors.is_empty():failures.append("authentic source mapping "+role+" "+str(data.errors))
+	for pair: Array in [[head_mesh,Color("67ffda")],[proxy._rider.get_node("UpperChest"),Color("ff54d5")]]:
+		var mat := StandardMaterial3D.new()
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		mat.albedo_color = pair[1]
+		pair[0].material_override = mat
+	var camera := Camera3D.new()
+	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.near = .01
+	camera.far = 30
+	camera.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+	stage.add_child(camera)
+	camera.current = true
+	var markers: Array[MeshInstance3D] = []
+	for color: Color in [Color.RED,Color.GREEN,Color.BLUE]:
+		var marker := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = .007
+		sphere.height = .014
+		marker.mesh = sphere
+		var mat := StandardMaterial3D.new()
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		mat.no_depth_test = true
+		mat.albedo_color = color
+		marker.material_override = mat
+		marker.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+		stage.add_child(marker)
+		markers.append(marker)
+	var canvas := CanvasLayer.new()
+	viewport.add_child(canvas)
+	var identity := ColorRect.new()
+	identity.position = Vector2(4,4)
+	identity.size = Vector2(8,8)
+	identity.color = Color(0,1,.25) if coherent else Color(1,.25,0)
+	canvas.add_child(identity)
+	var stamp := ColorRect.new()
+	stamp.position = Vector2(16,4)
+	stamp.size = Vector2(8,8)
+	canvas.add_child(stamp)
+	twins.append({"viewport":viewport,"stage":stage,"actor":actor,"mover":mover,"proxy":proxy,"data":data,"camera":camera,"markers":markers,"stamp":stamp,"coherent":coherent,"hands":hands,"shoes":shoes,"posed":posed})
+
+func _collect_shoes(node: Node,result: Array[Node3D]) -> void:
+	if node is MeshInstance3D and node.name == "Cupsole":result.append(node.get_parent())
+	for child: Node in node.get_children():_collect_shoes(child,result)
+
+func _prepare_draw() -> void:
+	if twins.size()!=2:return
+	var fraction := Engine.get_physics_interpolation_fraction()
+	var close := fraction < .5
+	var first: Dictionary = twins[0]
+	var head: Node3D = first.proxy._head
+	var target: Vector3 = head.global_position+Vector3(0,-.04,0) if close else first.proxy._rider.global_position+Vector3(0,.82,0)
+	var at := target+Vector3(1.0,.10,-3.0)
+	stamp_color = Color(float(Engine.get_process_frames()%251)/255.0,float(Engine.get_physics_frames()%251)/255.0,float(((capture_id+1)*37)%251)/255.0)
+	for twin: Dictionary in twins:
+		var camera: Camera3D = twin.camera
+		camera.size = .78 if close else 2.15
+		camera.global_position = at
+		camera.look_at(target,Vector3.UP)
+		twin.stamp.color = stamp_color
+		for i: int in 3:
+			var x: float = [.22,.28,.22][i]*(1.0 if close else 2.0)
+			var y: float = [.20,.20,.26][i]*(1.0 if close else 2.0)
+			twin.markers[i].global_position = target+camera.global_basis.x*x+camera.global_basis.y*y
+
+func _native_state(twin: Dictionary) -> Dictionary:
+	var data: Dictionary = twin.data
+	var skeleton: Skeleton3D = data.skeleton
+	var chest: MeshInstance3D = data.parts.UpperChest.mesh
+	var head: MeshInstance3D = data.head.mesh
+	var skin_ref: SkinReference = skeleton.register_skin(chest.skin)
+	var palette: Array[Transform3D] = []
+	var palettes: Array = []
+	var bones: Dictionary = {}
+	for i: int in chest.skin.get_bind_count():
+		var transform := RenderingServer.skeleton_bone_get_transform(skin_ref.get_skeleton(),i)
+		palette.append(transform)
+		palettes.append(Adapter._rows(transform))
+		bones[String(skeleton.get_bone_name(i))] = Adapter._rows(skeleton.get_bone_global_pose(i))
+	var seam: Array = []
+	var current_max := 0.0
+	var rendered_max := 0.0
+	for id: int in data.neck_ids:
+		for index: int in data.parts.UpperChest.by_source[id]:
+			var record: Dictionary = data.parts.UpperChest.records[index]
+			var local := Vector3.ZERO
+			for k: int in record.bones.size():local += (palette[record.bones[k]]*Vector3(record.point))*float(record.weights[k])
+			for q: Vector3 in data.head.by_source[id]:
+				var current_skin: Vector3 = chest.global_transform*local
+				var current_head: Vector3 = head.global_transform*q
+				var rendered_skin: Vector3 = chest.get_global_transform_interpolated()*local
+				var rendered_head: Vector3 = head.get_global_transform_interpolated()*q
+				current_max = maxf(current_max,current_skin.distance_to(current_head))
+				rendered_max = maxf(rendered_max,rendered_skin.distance_to(rendered_head))
+				seam.append({"source_id":id,"native_index":index,"native_rest_point":Adapter._xyz(record.point),"native_bones":Array(record.bones),"native_weights":Array(record.weights),"head_local":Adapter._xyz(q),"current_skin":Adapter._xyz(current_skin),"current_head":Adapter._xyz(current_head),"rendered_skin":Adapter._xyz(rendered_skin),"rendered_head":Adapter._xyz(rendered_head),"skin_pixel":_xy(twin.camera.unproject_position(rendered_skin)),"head_pixel":_xy(twin.camera.unproject_position(rendered_head))})
+	var components: Dictionary = {}
+	for pair: Array in [["actor",twin.actor],["common_motion_root",twin.mover],["pose_parent",data.rig._rider],["head",head],["chest",chest],["skeleton",skeleton]]:
+		components[pair[0]] = _component(pair[1])
+	var limbs: Array = []
+	var limb_max := 0.0
+	for kind: String in ["hands","shoes"]:
+		var nodes: Array = twin[kind]
+		for index: int in nodes.size():
+			var node: Node3D = nodes[index]
+			var prefix := "left" if index == 0 else "right"
+			var bone_name := prefix+("_forearm" if kind == "hands" else "_calf")
+			var bone := skeleton.find_bone(bone_name)
+			var rest_local := Vector3(0,.29 if kind == "hands" else .41,0)
+			var source_rest := chest.skin.get_bind_pose(bone).affine_inverse()*rest_local
+			var skin_world := chest.get_global_transform_interpolated()*(palette[bone]*source_rest)
+			var rigid_world := node.get_global_transform_interpolated().origin
+			var gap := skin_world.distance_to(rigid_world)
+			limb_max = maxf(limb_max,gap)
+			var pixel: Vector2 = twin.camera.unproject_position(rigid_world)
+			limbs.append({"kind":kind,"side":prefix,"bone":bone,"bind_rest_endpoint":Adapter._xyz(source_rest),"skin_world":Adapter._xyz(skin_world),"rigid_world":Adapter._xyz(rigid_world),"skin_pixel":_xy(twin.camera.unproject_position(skin_world)),"rigid_pixel":_xy(pixel),"rigid_pixel_in_viewport":Rect2(Vector2.ZERO,Vector2(384,384)).has_point(pixel),"gap_m":gap,"component":_component(node)})
+	var policies: Array = []
+	for node: Node3D in twin.posed:policies.append({"path":String(twin.actor.get_path_to(node)),"component":_component(node)})
+	var markers: Array = []
+	for marker: MeshInstance3D in twin.markers:markers.append({"world":Adapter._xyz(marker.global_position),"pixel":_xy(twin.camera.unproject_position(marker.global_position))})
+	return {"current_neck_max_m":current_max,"rendered_neck_max_m":rendered_max,"rendered_joint_max_m":limb_max,"authentic_neck_endpoints":seam,"joint_endpoints":limbs,"joint_scope":"Actual native Skin/bone joint versus rigid wrist/ankle origin, not all visible garment/hand/sole contact.","native_palette":palettes,"bones":bones,"components":components,"posed_branch_policy":policies,"camera":Adapter._rows(twin.camera.global_transform),"projection":_projection(twin.camera.get_camera_projection()),"camera_size":twin.camera.size,"near":twin.camera.near,"far":twin.camera.far,"viewport":[384,384],"viewport_msaa":twin.viewport.msaa_3d,"markers":markers}
+
+func _after_draw() -> void:
+	if not capturing or busy or finished or twins.size()!=2:return
+	var fraction := Engine.get_physics_interpolation_fraction()
+	var band := "low" if fraction>=.15 and fraction<=.45 else ("high" if fraction>=.55 and fraction<=.90 else "")
+	if band.is_empty():return
+	busy = true
+	var pose_before: Array = [_pose_snapshot(twins[0]),_pose_snapshot(twins[1])]
+	var native: Array = [_native_state(twins[0]),_native_state(twins[1])]
+	var summary: Dictionary = role_summary.get(role,{"sampled_frames":0,"baseline_max_neck_m":0.0,"candidate_max_neck_m":0.0,"baseline_max_joint_m":0.0,"candidate_max_joint_m":0.0})
+	summary.sampled_frames += 1
+	summary.baseline_max_neck_m = maxf(summary.baseline_max_neck_m,native[0].rendered_neck_max_m)
+	summary.candidate_max_neck_m = maxf(summary.candidate_max_neck_m,native[1].rendered_neck_max_m)
+	summary.baseline_max_joint_m = maxf(summary.baseline_max_joint_m,native[0].rendered_joint_max_m)
+	summary.candidate_max_joint_m = maxf(summary.candidate_max_joint_m,native[1].rendered_joint_max_m)
+	role_summary[role] = summary
+	var key := role+"-"+band
+	var severity: float = maxf(native[0].rendered_neck_max_m,native[0].rendered_joint_max_m)
+	if selected.has(key) and severity<=float(selected[key].baseline_severity_m):
+		busy = false
+		return
+	var before := {"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames()}
+	var item: Dictionary = {"id":capture_id,"role":role,"band":band,"fraction":fraction,"inside_physics_frame":Engine.is_in_physics_frame(),"baseline_severity_m":severity,"expected_stamp_rgb":[roundi(stamp_color.r*255),roundi(stamp_color.g*255),roundi(stamp_color.b*255)],"twins":[]}
+	for index: int in 2:
+		var twin: Dictionary = twins[index]
+		var image: Image = twin.viewport.get_texture().get_image()
+		image.convert(Image.FORMAT_RGBA8)
+		var label := "coherent" if twin.coherent else "baseline"
+		var path := "res://output/"+str(capture_id)+"-"+role+"-"+band+"-"+label+".png"
+		if image.save_png(path)!=OK:failures.append("image write "+path)
+		var state: Dictionary = native[index]
+		state["policy"] = label
+		state["png"] = path
+		state["png_sha256"] = FileAccess.get_sha256(path)
+		state["rgba_sha256"] = _hash(image.get_data())
+		item.twins.append(state)
+	item["pose_readback_bracket"] = [pose_before,[_pose_snapshot(twins[0]),_pose_snapshot(twins[1])]]
+	if item.pose_readback_bracket[0]!=item.pose_readback_bracket[1]:failures.append("readback pose changed "+key)
+	item["counter_bracket"] = [before,{"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames()}]
+	item["current_bone_parity"] = native[0].bones == native[1].bones
+	item["current_common_root_parity"] = native[0].components.actor.current == native[1].components.actor.current and native[0].components.pose_parent.current == native[1].components.pose_parent.current
+	if not item.current_bone_parity or not item.current_common_root_parity:failures.append("physical twin parity "+key)
+	if native[0].current_neck_max_m>.00005 or native[1].current_neck_max_m>.00005:failures.append("current neck correspondence "+key)
+	if native[1].rendered_neck_max_m>.00005:failures.append("candidate rendered neck correspondence "+key)
+	if native[1].rendered_joint_max_m>.00005:failures.append("candidate joint correspondence "+key)
+	if item.counter_bracket[0]!=item.counter_bracket[1]:failures.append("readback counter changed "+key)
+	records.append(item)
+	selected[key] = item
+	capture_id += 1
+	print("NPC_CLOCK_PAIR ",role," ",band," fraction=",fraction," baseline_neck=",native[0].rendered_neck_max_m," candidate_neck=",native[1].rendered_neck_max_m," baseline_joint=",native[0].rendered_joint_max_m," candidate_joint=",native[1].rendered_joint_max_m)
+	busy = false
+
+func _pose_snapshot(twin: Dictionary) -> Dictionary:
+	var result: Dictionary = {"actor":Adapter._rows(twin.actor.global_transform),"pose_parent":Adapter._rows(twin.proxy._rider.global_transform),"head":Adapter._rows(twin.proxy._head.global_transform),"bones":[],"posed":[]}
+	var skeleton: Skeleton3D = twin.data.skeleton
+	for i: int in skeleton.get_bone_count():result.bones.append(Adapter._rows(skeleton.get_bone_global_pose(i)))
+	for node: Node3D in twin.posed:result.posed.append(Adapter._rows(node.global_transform))
+	return result
+
+func _component(node: Node3D) -> Dictionary:
+	return {"current":Adapter._rows(node.global_transform),"rendered":Adapter._rows(node.get_global_transform_interpolated()),"mode":node.physics_interpolation_mode,"interpolated":node.is_physics_interpolated_and_enabled()}
+
+func _projection(p: Projection) -> Array:
+	return [[p.x.x,p.y.x,p.z.x,p.w.x],[p.x.y,p.y.y,p.z.y,p.w.y],[p.x.z,p.y.z,p.z.z,p.w.z],[p.x.w,p.y.w,p.z.w,p.w.w]]
+
+func _xy(p: Vector2) -> Array:return [p.x,p.y]
+
+func _hash(bytes: PackedByteArray) -> String:
+	var context := HashingContext.new()
+	context.start(HashingContext.HASH_SHA256)
+	context.update(bytes)
+	return context.finish().hex_encode()

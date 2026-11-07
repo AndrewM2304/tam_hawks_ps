@@ -1,0 +1,685 @@
+{
+  "scope": "Derived source/native reconciliation only; no engine rerun and no source/visual/whole-L1 acceptance",
+  "utc": "2026-11-07T07:33:31.541246+00:00",
+  "world_counts_before": {
+    "bodies": 574,
+    "mesh_nodes": 1187,
+    "multimesh_nodes": 503,
+    "shape_slots": 1755,
+    "unique_override_materials": 106,
+    "unique_visual_meshes": 531
+  },
+  "world_counts_after": {
+    "bodies": 574,
+    "mesh_nodes": 1187,
+    "multimesh_nodes": 503,
+    "shape_slots": 1755,
+    "unique_override_materials": 106,
+    "unique_visual_meshes": 531
+  },
+  "world_counts_identical": true,
+  "selected_body_paths_identical": true,
+  "changed_native_bodies": [
+    {
+      "path": "StationConcourseHalfpipe/NorthTransition/@StaticBody3D@2676",
+      "before": {
+        "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-63.0, 2.0, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-67.7, 2.0, 30.99999), S: (4.699997, 2.2, 0.00001)]",
+            "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-63.0, 2.0, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-61.0, 2.0, 27.3), S: (0.000011, 2.2, 4.700001)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/NorthTransition/ConcreteSide",
+      "before": {
+        "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-63.0, 2.0, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-67.7, 2.0, 38.99999), S: (4.699997, 2.2, 0.000011)]",
+            "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-63.0, 2.0, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 2.0, 27.3), S: (0.000008, 2.2, 4.700001)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/NorthTransition/ConnectedFlatBottom",
+      "before": {
+        "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-60.0, 1.88, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-63.0, 1.76, 31.0), S: (6.0, 0.24, 8.0)]",
+            "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-60.0, 1.88, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 1.88, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 1.76, 32.0), S: (8.0, 0.24, 6.0)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 1.88, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/NorthTransition/NativeSteelCoping",
+      "before": {
+        "frame": "[X: (0.0, 1.0, 0.0), Y: (0.0, -0.0, 1.0), Z: (1.0, 0.0, -0.0), O: (-65.22, 4.182, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-65.25, 4.152, 31.0), S: (0.059998, 0.06, 8.0)]",
+            "frame": "[X: (0.0, 1.0, 0.0), Y: (0.0, -0.0, 1.0), Z: (1.0, 0.0, -0.0), O: (-65.22, 4.182, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "CylinderShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (-0.0, 1.0, 0.0), Y: (-1.0, -0.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 4.182, 29.78)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 4.152, 29.75), S: (8.0, 0.06, 0.060001)]",
+            "frame": "[X: (-0.0, 1.0, 0.0), Y: (-1.0, -0.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 4.182, 29.78)]",
+            "index": 0,
+            "owner": 0,
+            "type": "CylinderShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/NorthTransition/QuarterPipeFace",
+      "before": {
+        "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-63.0, 2.0, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-65.2, 2.0, 31.0), S: (2.199997, 2.2, 8.0)]",
+            "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-63.0, 2.0, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 2.0, 29.8), S: (8.0, 2.2, 2.200001)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 2.0, 32.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/NorthTransition/RearDeck",
+      "before": {
+        "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-66.45, 4.08, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-67.7, 3.96, 31.0), S: (2.5, 0.24, 8.0)]",
+            "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-66.45, 4.08, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 4.08, 28.55)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 3.96, 27.3), S: (8.0, 0.24, 2.5)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 4.08, 28.55)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/NorthTransition/RearRetainingWall",
+      "before": {
+        "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-67.7, 3.1, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-67.8, 2.0, 31.0), S: (0.199997, 2.2, 8.0)]",
+            "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-67.7, 3.1, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 3.1, 27.3)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 2.0, 27.2), S: (8.0, 2.2, 0.200001)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-65.0, 3.1, 27.3)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/NorthTransition/SideRollIn",
+      "before": {
+        "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.31197, 0.950092, -0.0), Z: (0.950092, -0.31197, -0.0), O: (-62.38744, 2.985989, 29.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-65.77487, 1.771978, 27.0), S: (6.774872, 2.428022, 4.0)]",
+            "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.31197, 0.950092, -0.0), Z: (0.950092, -0.31197, -0.0), O: (-62.38744, 2.985989, 29.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.950092, 0.31197), Z: (0.0, -0.31197, 0.950092), O: (-71.0, 2.985989, 32.61256)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-73.0, 1.771978, 29.22513), S: (4.0, 2.428022, 6.774874)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 0.950092, 0.31197), Z: (0.0, -0.31197, 0.950092), O: (-71.0, 2.985989, 32.61256)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/NorthTransition/SideRollInLanding",
+      "before": {
+        "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-66.7, 4.08, 29.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-67.7, 3.96, 27.0), S: (2.0, 0.24, 4.0)]",
+            "frame": "[X: (-0.0, 0.0, -1.0), Y: (0.0, 1.0, 0.0), Z: (1.0, 0.0, -0.0), O: (-66.7, 4.08, 29.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-71.0, 4.08, 28.3)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-73.0, 3.96, 27.3), S: (4.0, 0.24, 2.0)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-71.0, 4.08, 28.3)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/SouthTransition/@StaticBody3D@2726",
+      "before": {
+        "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-57.0, 2.0, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-57.0, 2.0, 39.0), S: (4.700001, 2.2, 0.000011)]",
+            "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-57.0, 2.0, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.00001, 2.0, 38.0), S: (0.000008, 2.2, 4.700001)]",
+            "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/SouthTransition/ConcreteSide",
+      "before": {
+        "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-57.0, 2.0, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-57.0, 2.0, 31.0), S: (4.700001, 2.2, 0.00001)]",
+            "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-57.0, 2.0, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-61.00001, 2.0, 38.0), S: (0.000011, 2.2, 4.700001)]",
+            "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/SouthTransition/NativeSteelCoping",
+      "before": {
+        "frame": "[X: (-0.0, 1.0, -0.0), Y: (-0.0, -0.0, -1.0), Z: (-1.0, 0.0, 0.0), O: (-54.78, 4.182, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-54.81, 4.152, 31.0), S: (0.059998, 0.06, 8.0)]",
+            "frame": "[X: (-0.0, 1.0, -0.0), Y: (-0.0, -0.0, -1.0), Z: (-1.0, 0.0, 0.0), O: (-54.78, 4.182, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "CylinderShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (0.0, 1.0, -0.0), Y: (1.0, -0.0, -0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 4.182, 40.22)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 4.152, 40.19), S: (8.0, 0.06, 0.059998)]",
+            "frame": "[X: (0.0, 1.0, -0.0), Y: (1.0, -0.0, -0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 4.182, 40.22)]",
+            "index": 0,
+            "owner": 0,
+            "type": "CylinderShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/SouthTransition/QuarterPipeFace",
+      "before": {
+        "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-57.0, 2.0, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-57.0, 2.0, 31.0), S: (2.200001, 2.2, 8.0)]",
+            "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-57.0, 2.0, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 2.0, 38.0), S: (8.0, 2.2, 2.200001)]",
+            "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 2.0, 38.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConcavePolygonShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/SouthTransition/RearDeck",
+      "before": {
+        "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-53.55, 4.08, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-54.8, 3.96, 31.0), S: (2.5, 0.24, 8.0)]",
+            "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-53.55, 4.08, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 4.08, 41.45)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 3.96, 40.2), S: (8.0, 0.24, 2.5)]",
+            "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 4.08, 41.45)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/SouthTransition/RearRetainingWall",
+      "before": {
+        "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-52.3, 3.1, 35.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-52.4, 2.0, 31.0), S: (0.199997, 2.2, 8.0)]",
+            "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-52.3, 3.1, 35.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 3.1, 42.7)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-69.0, 2.0, 42.6), S: (8.0, 2.2, 0.199997)]",
+            "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-65.0, 3.1, 42.7)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/SouthTransition/SideRollIn",
+      "before": {
+        "frame": "[X: (0.0, 0.0, 1.0), Y: (-0.31197, 0.950092, 0.0), Z: (-0.950092, -0.31197, 0.0), O: (-57.61256, 2.985989, 41.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-61.0, 1.771978, 39.0), S: (6.774872, 2.428022, 4.0)]",
+            "frame": "[X: (0.0, 0.0, 1.0), Y: (-0.31197, 0.950092, 0.0), Z: (-0.950092, -0.31197, 0.0), O: (-57.61256, 2.985989, 41.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (-1.0, 0.0, 0.0), Y: (-0.0, 0.950092, -0.31197), Z: (-0.0, -0.31197, -0.950092), O: (-59.0, 2.985989, 37.38744)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-61.0, 1.771978, 34.0), S: (4.0, 2.428022, 6.774872)]",
+            "frame": "[X: (-1.0, 0.0, 0.0), Y: (-0.0, 0.950092, -0.31197), Z: (-0.0, -0.31197, -0.950092), O: (-59.0, 2.985989, 37.38744)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "StationConcourseHalfpipe/SouthTransition/SideRollInLanding",
+      "before": {
+        "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-53.3, 4.08, 41.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-54.3, 3.96, 39.0), S: (2.0, 0.24, 4.0)]",
+            "frame": "[X: (0.0, 0.0, 1.0), Y: (0.0, 1.0, 0.0), Z: (-1.0, 0.0, 0.0), O: (-53.3, 4.08, 41.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-59.0, 4.08, 41.7)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-61.0, 3.96, 40.7), S: (4.0, 0.24, 2.0)]",
+            "frame": "[X: (-1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (-0.0, 0.0, -1.0), O: (-59.0, 4.08, 41.7)]",
+            "index": 0,
+            "owner": 0,
+            "type": "BoxShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "station_low_manualEastBank",
+      "before": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-75.9, 2.0, 40.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-77.0, -3.0, 38.9), S: (2.199783, 5.36, 2.199997)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-75.9, 2.0, 40.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConvexPolygonShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-75.9, 2.0, 37.2)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-77.0, -3.0, 36.1), S: (2.199783, 5.36, 2.200001)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-75.9, 2.0, 37.2)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConvexPolygonShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "station_low_manualManualDeck",
+      "before": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-80.0, 2.36, 40.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-83.0, -3.0, 38.9), S: (6.0, 5.36, 2.199997)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-80.0, 2.36, 40.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConvexPolygonShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-80.0, 2.36, 37.2)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-83.0, -3.0, 36.1), S: (6.0, 5.36, 2.200001)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-80.0, 2.36, 37.2)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConvexPolygonShape3D"
+          }
+        ]
+      }
+    },
+    {
+      "path": "station_low_manualWestBank",
+      "before": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-84.1, 2.0, 40.0)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-85.2, -3.0, 38.9), S: (2.199783, 5.36, 2.199997)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-84.1, 2.0, 40.0)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConvexPolygonShape3D"
+          }
+        ]
+      },
+      "after": {
+        "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-84.1, 2.0, 37.2)]",
+        "shapes": [
+          {
+            "aabb": "[P: (-85.2, -3.0, 36.1), S: (2.199783, 5.36, 2.200001)]",
+            "frame": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-84.1, 2.0, 37.2)]",
+            "index": 0,
+            "owner": 0,
+            "type": "ConvexPolygonShape3D"
+          }
+        ]
+      }
+    }
+  ],
+  "guides_before": [
+    {
+      "id": "Grind_Ledge_station_low_manual",
+      "length": 16.3999938964844,
+      "points": "[(-83.0, 2.38, 38.9), (-77.0, 2.38, 38.9), (-77.0, 2.38, 41.1), (-83.0, 2.38, 41.1), (-83.0, 2.38, 38.9)]",
+      "source": "glasgow.lowered_cylinder_envelope",
+      "verified": true
+    },
+    {
+      "id": "Grind_StationConcourseHalfpipeNorthTransition_Coping",
+      "length": 8.0,
+      "points": "[(-65.21999, 4.212, 39.0), (-65.21999, 4.212, 31.0)]",
+      "source": "feature.native_coping_crown",
+      "verified": true
+    },
+    {
+      "id": "Grind_StationConcourseHalfpipeSouthTransition_Coping",
+      "length": 8.0,
+      "points": "[(-54.78, 4.212, 31.0), (-54.78, 4.212, 39.0)]",
+      "source": "feature.native_coping_crown",
+      "verified": true
+    }
+  ],
+  "guides_after": [
+    {
+      "id": "Grind_Ledge_station_low_manual",
+      "length": 16.4000015258789,
+      "points": "[(-83.0, 2.38, 36.1), (-77.0, 2.38, 36.1), (-77.0, 2.38, 38.3), (-83.0, 2.38, 38.3), (-83.0, 2.38, 36.1)]",
+      "source": "glasgow.lowered_cylinder_envelope",
+      "verified": true
+    },
+    {
+      "id": "Grind_StationConcourseHalfpipeNorthTransition_Coping",
+      "length": 8.0,
+      "points": "[(-69.0, 4.212, 29.78), (-61.0, 4.212, 29.78)]",
+      "source": "feature.native_coping_crown",
+      "verified": true
+    },
+    {
+      "id": "Grind_StationConcourseHalfpipeSouthTransition_Coping",
+      "length": 8.0,
+      "points": "[(-61.0, 4.212, 40.22), (-69.0, 4.212, 40.22)]",
+      "source": "feature.native_coping_crown",
+      "verified": true
+    }
+  ],
+  "stable_guide_ids": true,
+  "guide_lengths_identical": false,
+  "all_gap_definitions_identical": true,
+  "actual_physics_rows": 593,
+  "first_physics": 17,
+  "last_physics": 609,
+  "contiguous": true,
+  "observed_path_m": 59.0280496076448,
+  "bails": 0,
+  "recoveries": 0,
+  "face_angles": {
+    "NorthTransition": 67.404010814208,
+    "SouthTransition": 45.8973946980407
+  },
+  "feature_intervals": [
+    {
+      "from": "bank_east_toe_exit",
+      "to": "first_native_curve",
+      "physics_steps": 93,
+      "seconds": 1.55,
+      "path_m": 12.1856263279915,
+      "limits": "Face traversal interval includes two actual opposing support choices; event endpoints alone are not evidence of no opportunity within."
+    },
+    {
+      "from": "first_native_curve",
+      "to": "opposing_faces_return",
+      "physics_steps": 186,
+      "seconds": 3.1,
+      "path_m": 14.501654204796,
+      "limits": "Face traversal interval includes two actual opposing support choices; event endpoints alone are not evidence of no opportunity within."
+    },
+    {
+      "from": "opposing_faces_return",
+      "to": "bank_return_approach",
+      "physics_steps": 115,
+      "seconds": 1.9166666666666667,
+      "path_m": 9.756083384156298,
+      "limits": "Face traversal interval includes two actual opposing support choices; event endpoints alone are not evidence of no opportunity within."
+    }
+  ],
+  "native_functional_result": [
+    8,
+    0
+  ],
+  "raw_process_guard_eligible": false,
+  "process_qualification": "Pending root classification of observed required-suite89810 and RAcheck-only89863; original receipt unchanged. No exclusivity/FPS claim.",
+  "open_gates": [
+    "full current spine prefix and natural city continuation",
+    "old C04 fixed bank-coordinate and turn adaptation without physical/score/camera relaxation",
+    "career run and all affected protected approach witnesses",
+    "deliberate failed approach/edge misses and actual native landing recovery",
+    "matched after overview/chase and normal-speed current fitted visual review",
+    "independent QA source/native review",
+    "complete integration/M5/human L1 acceptance"
+  ],
+  "guide_length_deltas_m": [
+    {
+      "id": "Grind_Ledge_station_low_manual",
+      "before_m": 16.3999938964844,
+      "after_m": 16.4000015258789,
+      "delta_m": 7.629394499275577e-06
+    },
+    {
+      "id": "Grind_StationConcourseHalfpipeNorthTransition_Coping",
+      "before_m": 8.0,
+      "after_m": 8.0,
+      "delta_m": 0.0
+    },
+    {
+      "id": "Grind_StationConcourseHalfpipeSouthTransition_Coping",
+      "before_m": 8.0,
+      "after_m": 8.0,
+      "delta_m": 0.0
+    }
+  ]
+}

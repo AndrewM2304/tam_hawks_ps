@@ -1,0 +1,50 @@
+--- body-tests-before.gd
++++ body-tests-after.gd
+@@ -3,6 +3,7 @@
+ ## Skeleton global poses, rather than healthy-looking control-node positions.
+ const Classic = preload("res://tests/classic_tricks_integration_tests.gd")
+ const Authentic = preload("res://tests/authentic_pose_tests.gd")
++const Fitted = preload("res://tests/fitted_adapter.gd")
+ const SETTLED_SEAM_LIMIT := 0.08
+ const SETTLED_JOINT_LIMIT := 0.06
+ 
+@@ -31,6 +32,7 @@
+ 	# control node, bone pose and limb length remains untouched.
+ 	var jacket: MeshInstance3D = data.jacket
+ 	var original: Skin = jacket.skin
++	var fitted_torso_before: Array[Vector3] = Fitted.pure_torso_points(data) if data.has("fitted") else []
+ 	var corrupt := original.duplicate(true) as Skin
+ 	var torso_bind := _bind_for(corrupt,data.skeleton,"torso")
+ 	var wrong := corrupt.get_bind_pose(torso_bind)
+@@ -38,7 +40,12 @@
+ 	corrupt.set_bind_pose(torso_bind,wrong)
+ 	jacket.skin=corrupt
+ 	var negative := _sample(rider,data)
+-	check.call(negative.seam>0.5 and negative.joint_gap==neutral.joint_gap,
++	# Same800mm corruption, same80mm positive limit; fitted waist has authentic
++	# torso/hips blend. Retain the pure upper-shirt500mm sensitivity as well.
++	var corruption_detected: bool=negative.seam>0.5
++	if data.has("fitted"):
++		corruption_detected=negative.seam>SETTLED_SEAM_LIMIT and Fitted.pure_torso_shift(data,fitted_torso_before)>.5
++	check.call(corruption_detected and negative.joint_gap==neutral.joint_gap,
+ 		"body attachment: a detached torso bind is rejected even when node/bone joint distances remain unchanged")
+ 	jacket.skin=original
+ 	var events: Array[String] = []
+@@ -110,6 +117,8 @@
+ 
+ 
+ static func _prepare(rig: RefCounted) -> Dictionary:
++	if rig._rider.has_node("UpperChest"):
++		return Fitted.legacy_prepare(rig,JSON.parse_string(FileAccess.get_file_as_string("res://tests/fitted-reference.json")))
+ 	var skeleton: Skeleton3D = rig._garments.skeleton
+ 	var jacket: MeshInstance3D = rig._rider.get_node("SkinnedJacket")
+ 	var trousers: MeshInstance3D = rig._rider.get_node("SkinnedTrousers")
+@@ -182,6 +191,8 @@
+ 
+ 
+ static func _sample(rider: Node3D,data: Dictionary,rendered: bool = false) -> Dictionary:
++	if data.has("fitted"):
++		return Fitted.legacy_sample(rider,data,rendered)
+ 	var skeleton: Skeleton3D = data.skeleton
+ 	var hem := _center(data.jacket,skeleton,data.hem,rendered)
+ 	var waist := _center(data.trousers,skeleton,data.waist,rendered)

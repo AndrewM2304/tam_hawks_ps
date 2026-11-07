@@ -1,0 +1,69 @@
+{
+  "passed": 14,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "tests/skate_edges_tests.gd exact currentpreimage",
+      "pass": true
+    },
+    {
+      "label": "tests/skate_edges_tests.gd exact heldcandidate",
+      "pass": true
+    },
+    {
+      "label": "tests/horizon_background_tests.gd exact currentpreimage",
+      "pass": true
+    },
+    {
+      "label": "tests/horizon_background_tests.gd exact heldcandidate",
+      "pass": true
+    },
+    {
+      "label": "SkateEdges entirefileexact afterundoingonly newID/count/message",
+      "pass": true
+    },
+    {
+      "label": "ORIGINAL_ROUTE_IDS all fixedIDs/orderexact",
+      "pass": true
+    },
+    {
+      "label": "POND_ROUTE_IDS all fixedIDs/orderexact",
+      "pass": true
+    },
+    {
+      "label": "exactlyone newPT24ID and all prior7/orderpreserved",
+      "pass": true
+    },
+    {
+      "label": "all56fixedoriginal IDs remainunique",
+      "pass": true
+    },
+    {
+      "label": "newexpectedIDnotduplicateoriginalPT24orpond",
+      "pass": true
+    },
+    {
+      "label": "Horizon entirefileexact afterundoingonly count/message",
+      "pass": true
+    },
+    {
+      "label": "correct standalone64 routes vs optionalpond66",
+      "pass": true
+    },
+    {
+      "label": "actualauthorisedrouteIDalreadyexists exactlyonce",
+      "pass": true
+    },
+    {
+      "label": "all original checkpoint/uniqueness/nativeguards byteexact within fullreverse",
+      "pass": true
+    }
+  ],
+  "scope": "Independent read-only two-test route-identity migration. No Godot/run/runtime/geometry edits; actual native/full gate after installation remains required.",
+  "manifest_sha256": "6e6408ec1da07f18f0231d2c1975b6cefb3d00c109599d240428b983b415445d",
+  "limits": [
+    "Only already-authorisedoptionalrouteclyde_east_quay_wall_return admitted to fixedexpectedIDs.",
+    "No deleted fixed IDs, dynamic expectation derivedfromcandidate, support/contact threshold change, checkpoint relaxation, or new geometry.",
+    "Currentfull6335pass7fail3scriptErrors remains rejected; this sourceonly review cannot close native regressions."
+  ]
+}

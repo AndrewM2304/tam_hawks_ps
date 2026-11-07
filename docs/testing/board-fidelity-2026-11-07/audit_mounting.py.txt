@@ -1,0 +1,35 @@
+from pathlib import Path
+import hashlib,importlib.util,json
+import numpy as np
+ROOT=Path(__file__).parent;spec=importlib.util.spec_from_file_location('reader',ROOT/'board_uv_finish03.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);b=m.GLB(ROOT/'baseline/tam_skateboard.glb');_,a,indices=b.primitive(2);points=a['POSITION'];parent=list(range(len(points)));weld={}
+def find(i):
+ while parent[i]!=i:parent[i]=parent[parent[i]];i=parent[i]
+ return i
+def union(a,b):parent[find(a)]=find(b)
+for i,p in enumerate(points):
+ key=tuple(np.rint(p.astype(np.float64)*1e6).astype(np.int64))
+ if key in weld:union(i,weld[key])
+ else:weld[key]=i
+for face in indices.reshape(-1,3):union(int(face[0]),int(face[1]));union(int(face[0]),int(face[2]))
+groups={}
+for i in range(len(points)):groups.setdefault(find(i),[]).append(i)
+parts=[]
+for n,ids in enumerate(groups.values()):
+ p=points[ids].astype(np.float64);lo=p.min(0);hi=p.max(0);center=(lo+hi)*.5
+ parts.append({'source_component_index':n,'source_indices':ids,'minimum_m':lo.tolist(),'maximum_m':hi.tolist(),'center_m':center.tolist(),'dimensions_m':(hi-lo).tolist()})
+bolts=[x for x in parts if x['minimum_m'][1]>.0174]
+plates=[x for x in parts if .074<x['dimensions_m'][0]<.076 and .093<x['dimensions_m'][2]<.095]
+assert len(bolts)==8 and len(plates)==2
+_,grip,gindices=b.primitive(1);gtri=grip['POSITION'][gindices].astype(np.float64).reshape(-1,3,3)
+for bolt in bolts:
+ plate=min(plates,key=lambda p:abs(p['center_m'][2]-bolt['center_m'][2]));bolt['outside_baseplate_width_by_m']=abs(bolt['center_m'][0])-plate['dimensions_m'][0]*.5;bolt['proud_of_grip_center_by_m']=bolt['maximum_m'][1]-.017
+ at=np.array(bolt['center_m'])[[0,2]]
+ for face,tri in enumerate(gtri):
+  matrix=np.column_stack((tri[1,[0,2]]-tri[0,[0,2]],tri[2,[0,2]]-tri[0,[0,2]]))
+  if abs(np.linalg.det(matrix))<1e-15:continue
+  bary=np.linalg.solve(matrix,at-tri[0,[0,2]])
+  if min(bary)<-1e-12 or bary.sum()>1+1e-12:continue
+  weights=np.array([1-bary.sum(),*bary]);height=float(weights@tri[:,1]);bolt['actual_grip_at_bolt_XZ']={'triangle_index':face,'barycentric':weights.tolist(),'height_m':height,'bolt_top_above_this_finite_face_m':bolt['maximum_m'][1]-height};break
+ assert 'actual_grip_at_bolt_XZ' in bolt
+report={'scope':'READ-ONLY source indexed GLB mounting proportions; no actual rider/sole intersection or native gameplay certificate','source_sha256':hashlib.sha256(b.file).hexdigest(),'algorithm':'actual indexed metal primitives with1micrometre coordinate weld matching current component constructor; generator names not sole authority','metal_component_count':len(parts),'baseplates':plates,'bolt_components':bolts,'baseplate_to_wood_gap_m':-.014-max(p['maximum_m'][1] for p in plates),'grip_to_wheel_bottom_m':.017-(-.12),'future_10_25mm_wood_at_top16mm':{'top_m':.016,'bottom_m':.00575,'riser_to_protected_baseplate_top_m':.00575-(-.018),'old_boardslide_anchor_below_actual_new_wood_m':.00575-(-.014),'permission':'requires explicit independently reviewed underside/mount/contact migration; not proposed as approved actual change'}}
+(ROOT/'mounting-source-diagnosis.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items() if k not in ['baseplates','bolt_components']},indent=2));print('bolt_width_excess',[x['outside_baseplate_width_by_m'] for x in bolts]);print('bolt_proud',[x['proud_of_grip_center_by_m'] for x in bolts])

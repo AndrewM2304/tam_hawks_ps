@@ -22,18 +22,26 @@ def _chunk(kind: bytes, data: bytes) -> bytes:
     return struct.pack('>I', len(data)) + kind + data + struct.pack('>I', zlib.crc32(kind + data) & 0xffffffff)
 
 
-def encode_rgba8(data: bytes) -> bytes:
+def _native_dimensions(width: int, height: int) -> tuple[int, int]:
+    if type(width) is not int or type(height) is not int or (width, height) not in ((1280, 800), (640, 400)):
+        raise ValueError("Expected declared native1280x800 or focused640x400 integer dimensions")
+    return width * CHANNELS, width * height * CHANNELS
+
+
+def encode_rgba8(data: bytes, width: int = WIDTH, height: int = HEIGHT) -> bytes:
     """Encode all native pixels verbatim; filter 0 makes the proof explicit."""
-    if len(data) != RAW_BYTES:
-        raise ValueError(f'Incomplete native RGBA8 buffer: {len(data)} != {RAW_BYTES}')
-    rows = b''.join(b'\0' + data[start:start + ROW_BYTES] for start in range(0, RAW_BYTES, ROW_BYTES))
+    row_bytes, raw_bytes = _native_dimensions(width, height)
+    if len(data) != raw_bytes:
+        raise ValueError(f'Incomplete native RGBA8 buffer: {len(data)} != {raw_bytes}')
+    rows = b''.join(b'\0' + data[start:start + row_bytes] for start in range(0, raw_bytes, row_bytes))
     return (b'\x89PNG\r\n\x1a\n'
-            + _chunk(b'IHDR', struct.pack('>IIBBBBB', WIDTH, HEIGHT, 8, 6, 0, 0, 0))
+            + _chunk(b'IHDR', struct.pack('>IIBBBBB', width, height, 8, 6, 0, 0, 0))
             + _chunk(b'IDAT', zlib.compress(rows, 1)) + _chunk(b'IEND', b''))
 
 
-def decode_proven_rgba8(data: bytes) -> bytes:
+def decode_proven_rgba8(data: bytes, width: int = WIDTH, height: int = HEIGHT) -> bytes:
     """Independently validate every chunk/row and reconstruct native RGBA8."""
+    row_bytes, raw_bytes = _native_dimensions(width, height)
     if data[:8] != b'\x89PNG\r\n\x1a\n':
         raise ValueError('Invalid PNG signature')
     offset, compressed, dimensions, ended = 8, bytearray(), None, False
@@ -55,18 +63,20 @@ def decode_proven_rgba8(data: bytes) -> bytes:
         elif kind == b'IEND':
             ended = True
         offset += length + 12
-    if dimensions != (WIDTH, HEIGHT, 8, 6, 0, 0, 0) or not ended:
+    if dimensions != (width, height, 8, 6, 0, 0, 0) or not ended:
         raise ValueError('Expected complete full-resolution RGBA8 PNG')
     rows = zlib.decompress(compressed)
-    stride = ROW_BYTES + 1
-    if len(rows) != HEIGHT * stride or any(rows[y * stride] != 0 for y in range(HEIGHT)):
+    stride = row_bytes + 1
+    if len(rows) != height * stride or any(rows[y * stride] != 0 for y in range(height)):
         raise ValueError('Expected complete unfiltered native pixel rows')
-    return b''.join(rows[y * stride + 1:(y + 1) * stride] for y in range(HEIGHT))
+    return b''.join(rows[y * stride + 1:(y + 1) * stride] for y in range(height))
 
 
 class PixelSpoolEncoder:
     """Keep at most 32 pending buffers; fail capture on corruption or backlog."""
-    def __init__(self, output: pathlib.Path):
+    def __init__(self, output: pathlib.Path, width: int = WIDTH, height: int = HEIGHT):
+        _native_dimensions(width, height)
+        self.width, self.height = width, height
         self.output = output
         self.done = threading.Event()
         self.thread = threading.Thread(target=self._run, name='native-lossless-png', daemon=True)
@@ -96,8 +106,8 @@ class PixelSpoolEncoder:
                 for raw in pending:
                     started = time.monotonic()
                     native = raw.read_bytes()
-                    png = encode_rgba8(native)
-                    if hashlib.sha256(decode_proven_rgba8(png)).digest() != hashlib.sha256(native).digest():
+                    png = encode_rgba8(native, self.width, self.height)
+                    if hashlib.sha256(decode_proven_rgba8(png, self.width, self.height)).digest() != hashlib.sha256(native).digest():
                         raise RuntimeError('Lossless PNG changed native pixels')
                     destination = raw.with_suffix('.png')
                     temporary = destination.with_suffix('.png.tmp')

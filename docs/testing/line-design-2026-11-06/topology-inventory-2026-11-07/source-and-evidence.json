@@ -1,0 +1,285 @@
+{
+  "schema": 1,
+  "utc": "2026-11-07T07:10:09.709491+00:00",
+  "git_head": "97d72fa15bd3032a04658a827e8dbc76a2af09ff",
+  "comparison_base": "0b62035",
+  "scope": "Offline source/evidence inventory only. No Godot/import/native startup/performance or current fitted route run. Exact unchanged constructors establish placement correspondence, not full dependency or behavioural equivalence.",
+  "source": {
+    "game/levels/glasgow_square.gd": {
+      "sha256": "153b0d15d05cc749ada0ecbb5894c9fe37fe57ba2c709629163c617ab6f29f50",
+      "identical_to_compact_main": false
+    },
+    "game/levels/outdoor_routes.gd": {
+      "sha256": "f43ce909519b188be3a94482de3c11deb385a89f5d47973a2e9c0919c91f5fb1",
+      "identical_to_compact_main": false
+    },
+    "game/levels/fidelity_infill.gd": {
+      "sha256": "76f4a6a3c563d4a91233cb1e596d243c3d899147b3c6fa3197d765a4a78ad53b",
+      "identical_to_compact_main": true
+    },
+    "game/levels/core_terrain.gd": {
+      "sha256": "7ac4a31c5b1c2e50e31851ee884aa1e0560a306eaedff733b4054b58570655ce",
+      "identical_to_compact_main": true
+    },
+    "game/levels/clyde_layout.gd": {
+      "sha256": "d0dd62899e29c5ff979b082d01053942a30ab7ea9b631c0044d973c6228308f9",
+      "identical_to_compact_main": true
+    },
+    "game/levels/transition_park.gd": {
+      "sha256": "9e4fee40a7dbf30169f87b06bc8b637846749622907d8f2019d5b77fbfff9ba8",
+      "identical_to_compact_main": true
+    },
+    "game/levels/kelvingrove_skatepark.gd": {
+      "sha256": "8e721aec746421a250e24e86e09f5a7f676f8df1afe7804688eb91d765122262",
+      "identical_to_compact_main": true
+    },
+    "game/levels/halfpipe_feature.gd": {
+      "sha256": "a7c4d51841e81d99485942f77d9d1ccd3b4083274cee311f6e5a3103ff0f6caa",
+      "identical_to_compact_main": true
+    },
+    "game/levels/spine_feature.gd": {
+      "sha256": "3fffba9727980fb4c85955c6775864a80d32a439455d18d2ac0b61c813448656",
+      "identical_to_compact_main": true
+    },
+    "game/levels/pt24_connected_runs.gd": {
+      "sha256": "3a6efa467e29cdf6fee9544e22d2c77de80f8ac9260084cf13f139c5bd6acb2f",
+      "identical_to_compact_main": false
+    },
+    "game/levels/transition_feature.gd": {
+      "sha256": "7e7a543663da3918344f834a69da1e9ab48d950a9bb4708c406c2b7ff271a087",
+      "identical_to_compact_main": false
+    },
+    "game/levels/bowl_feature.gd": {
+      "sha256": "8f5ee5c456faf65f6621ae6b79ed2097a40a2c00dfd42ce17cc12896c22dcf99",
+      "identical_to_compact_main": false
+    },
+    "game/levels/sunken_bowl_feature.gd": {
+      "sha256": "cb935ac891c0335543cdc26d64b913b55598d09808f2c6f86e2f00ba1715dcea",
+      "identical_to_compact_main": false
+    },
+    "tests/career_route_tests.gd": {
+      "sha256": "b40d5700d13d6c14125c8be417b97d1a984960faa668712bb1573f1116f30cc7",
+      "identical_to_compact_main": false
+    },
+    "tests/pt24_flagship_runs_tests.gd": {
+      "sha256": "8bfae6a8a9ace21f782ccc4393efb647d4f20d418143b9384e078f94c4b0fc76",
+      "identical_to_compact_main": false
+    },
+    "tests/pt24_market_full_run_tests.gd": {
+      "sha256": "ec308eed68fef335ae30e935a1d59a4179112c05d81c9b690f1ec7f0351d7c3a",
+      "identical_to_compact_main": true
+    },
+    "tests/pt24_park_full_combo_tests.gd": {
+      "sha256": "5e3724e253dfa4183ac5c6bf3a081ed6e97a20cbaa985edd2de664467c531caa",
+      "identical_to_compact_main": false
+    },
+    "tests/pt24_facility_connection_tests.gd": {
+      "sha256": "e3d747284954d8bece0e91b64e96584bed33d0b0b7933d199213f29c55f130c2",
+      "identical_to_compact_main": true
+    },
+    "tests/line_design_tests.gd": {
+      "sha256": "a895a03433e6dde54b39922eafb119a376d7ccffa458a95bd545ccb3de275045",
+      "identical_to_compact_main": null
+    }
+  },
+  "core_constructor_correspondence": {
+    "_build_floor": {
+      "current_sha256": "db989979ee7fad1b030d232d04a10d07544e277219215fd49540d1d13533c504",
+      "compact_main_sha256": "db989979ee7fad1b030d232d04a10d07544e277219215fd49540d1d13533c504",
+      "byte_identical": true
+    },
+    "_build_exchange_attachments": {
+      "current_sha256": "508b60d16edca0a6a0c42ef05770e9af8880845c09c42407802e747e6115c8e1",
+      "compact_main_sha256": "508b60d16edca0a6a0c42ef05770e9af8880845c09c42407802e747e6115c8e1",
+      "byte_identical": true
+    },
+    "_build_central_station": {
+      "current_sha256": "06dc4489eae488587ec00155f909a797b8107c73f3ed43282150c042e65587d3",
+      "compact_main_sha256": "06dc4489eae488587ec00155f909a797b8107c73f3ed43282150c042e65587d3",
+      "byte_identical": true
+    },
+    "_build_barras": {
+      "current_sha256": "46066bb45f5f3915bbe9d3be916bc2c55b71713fafb6679c59f8935441ffb87d",
+      "compact_main_sha256": "46066bb45f5f3915bbe9d3be916bc2c55b71713fafb6679c59f8935441ffb87d",
+      "byte_identical": true
+    },
+    "_build_market_hall_island": {
+      "current_sha256": "d4120d63b6cc91bb7b06fcc86ca4fb56c2d5fc608fd092bb1ac3862b6956bb12",
+      "compact_main_sha256": "d4120d63b6cc91bb7b06fcc86ca4fb56c2d5fc608fd092bb1ac3862b6956bb12",
+      "byte_identical": true
+    },
+    "_build_barras_through_market": {
+      "current_sha256": "d084a15f3b1916b548ceba633cfffd4648f629f6aa953885d430dc750cfa4396",
+      "compact_main_sha256": "d084a15f3b1916b548ceba633cfffd4648f629f6aa953885d430dc750cfa4396",
+      "byte_identical": true
+    },
+    "_build_district_connections": {
+      "current_sha256": "45fc68d6368438e8c2aefeb0837a27f360588994f650cc1297e1448d018215fe",
+      "compact_main_sha256": "45fc68d6368438e8c2aefeb0837a27f360588994f650cc1297e1448d018215fe",
+      "byte_identical": true
+    },
+    "_build_george_square": {
+      "current_sha256": "85e24b26056a5188cfc1d52fa9efe0f6a180dbc654defeb11ca7037ab1d9f315",
+      "compact_main_sha256": "85e24b26056a5188cfc1d52fa9efe0f6a180dbc654defeb11ca7037ab1d9f315",
+      "byte_identical": true
+    },
+    "_build_civic_workshop": {
+      "current_sha256": "0f2fd043cfe9fd8f8a35eebd32113cbbd19127bc5cc7c8f68563d6c1ea4d0ed3",
+      "compact_main_sha256": "0f2fd043cfe9fd8f8a35eebd32113cbbd19127bc5cc7c8f68563d6c1ea4d0ed3",
+      "byte_identical": true
+    },
+    "_build_exploration_joins": {
+      "current_sha256": "0319f43e14c2293dc8ab3de05277d8fd08b3e3bf826ff9dcd533d107e63e8441",
+      "compact_main_sha256": "0319f43e14c2293dc8ab3de05277d8fd08b3e3bf826ff9dcd533d107e63e8441",
+      "byte_identical": true
+    },
+    "_build_merchant_close": {
+      "current_sha256": "d786a820b163c663b71fd649ce9fbdcb6ec6c508f3f0895ebab6c4106afcc73d",
+      "compact_main_sha256": "d786a820b163c663b71fd649ce9fbdcb6ec6c508f3f0895ebab6c4106afcc73d",
+      "byte_identical": true
+    },
+    "_build_exploration_boundaries": {
+      "current_sha256": "248e38b21a4caca7ada3daf8e7f03f05b313c1d83d3f4afbaf9802e92af800c9",
+      "compact_main_sha256": "248e38b21a4caca7ada3daf8e7f03f05b313c1d83d3f4afbaf9802e92af800c9",
+      "byte_identical": true
+    }
+  },
+  "proposal_station": {
+    "implemented": false,
+    "bank_old_centre": [
+      -80,
+      2,
+      40
+    ],
+    "bank_candidate_centre": [
+      -80,
+      2,
+      35
+    ],
+    "bank_native_toes_x": [
+      -85.2,
+      -74.8
+    ],
+    "bank_candidate_native_z": [
+      33.9,
+      36.1
+    ],
+    "bank_published_east_runout_x": -70.8,
+    "halfpipe_old_centre": [
+      -60,
+      2,
+      35
+    ],
+    "halfpipe_candidate_centre": [
+      -65,
+      2,
+      35
+    ],
+    "halfpipe_old_yaw_radians": 1.5707963267948966,
+    "halfpipe_candidate_yaw_radians": 0,
+    "native_candidate_bounds_x": [
+      -69,
+      -61
+    ],
+    "native_candidate_bounds_z": [
+      27.3,
+      42.7
+    ],
+    "bank_to_open_end_distance_m": 5.8,
+    "published_bank_runout_to_open_end_m": 1.8,
+    "declared_added_texture_bytes": 0,
+    "declared_added_materials": 0,
+    "declared_added_bodies_shapes_meshes": 0,
+    "native_geometry_and_resource_result": "Unmeasured"
+  },
+  "proposal_barras": {
+    "implemented": false,
+    "bank_candidate_centre": [
+      91,
+      0,
+      8
+    ],
+    "bank_candidate_yaw_radians": -1.5707963267948966,
+    "bank_native_bounds_x": [
+      89,
+      93
+    ],
+    "bank_native_bounds_z": [
+      1,
+      15
+    ],
+    "bank_approach_and_runout_z": [
+      -3,
+      19
+    ],
+    "seat_candidate_points": [
+      [
+        79,
+        0,
+        19
+      ],
+      [
+        89,
+        0,
+        19
+      ]
+    ],
+    "enclosure_provisional_polyline_xz": [
+      [
+        50,
+        30.8
+      ],
+      [
+        72,
+        30.8
+      ],
+      [
+        72,
+        44.8
+      ]
+    ],
+    "enclosure_length_m": 36,
+    "original_boundary_length_m": 36,
+    "nominal_existing_native_panel_slots": 18,
+    "nominal_removed_ordinary_play_promise_m2": 308,
+    "limits": "Proposed dimensions only. No containment, model/camera, delivery/career or resource result. Equal length does not prove equal bar instances/corner cost."
+  },
+  "reference_metrics": {
+    "civic_park_connector_endpoint_chord_m": 103.04368005850722,
+    "station_far_landing_to_existing_west_bank_toe_plan_m": 22.853664913969485,
+    "barras_flagship_north_straight_plan_m": 21.349999999999994,
+    "limits": "Source-coordinate reference calculations; not actual travelled feature intervals or proof that tricks are impossible."
+  },
+  "current_local_route": {
+    "source_epoch": "continuous-return-development-2026-11-07/epoch-05-native",
+    "checks": 13,
+    "independent_review_checks": 101,
+    "physics_rows": 896,
+    "path_m": 77.249625,
+    "one_combo": false,
+    "banks": [
+      7400,
+      5688
+    ],
+    "feature_interval_flag": {
+      "from": "second_seat_paving_manual",
+      "to": "native_landward_wall_entry",
+      "physics_steps": 188,
+      "seconds": 3.1333333333333333,
+      "path_m": 16.2723701670766
+    }
+  },
+  "protected_gate": "Whole L1, current fitted moving visuals, final complete regression, human discovery/fun and M5 remain open.",
+  "source_stable_during_inventory": true,
+  "later_private_station_development": {
+    "actual_installed": false,
+    "packet": "../station-open-flat-development-2026-11-07",
+    "geometry_revision": "bankZ37.2; halfpipe(-65,2,35)yaw0; both existing access corners swapped via local positions",
+    "native_functional": [
+      8,
+      0
+    ],
+    "raw_guard_eligible": false,
+    "whole_spine_c04_career_misses_render_qe": "Pending; not promotion-ready"
+  }
+}

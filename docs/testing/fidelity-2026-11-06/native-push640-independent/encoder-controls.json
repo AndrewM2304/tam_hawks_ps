@@ -1,0 +1,96 @@
+{
+  "passed": 22,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "1280x800 exact native RGBA roundtrip",
+      "pass": true
+    },
+    {
+      "label": "1280x800 native IHDR exact",
+      "pass": true
+    },
+    {
+      "label": "1280x800 wrong raw byte count rejected",
+      "pass": true
+    },
+    {
+      "label": "1280x800 PNG CRC corruption rejected",
+      "pass": true
+    },
+    {
+      "label": "1280x800 truncated PNG rejected",
+      "pass": true
+    },
+    {
+      "label": "1280x800 wrong declared dimensions rejected",
+      "pass": true
+    },
+    {
+      "label": "1280x800 actual threaded atomic spool preserves every byte",
+      "pass": true
+    },
+    {
+      "label": "original1280 default PNG bytes exactly unchanged",
+      "pass": true
+    },
+    {
+      "label": "640x400 exact native RGBA roundtrip",
+      "pass": true
+    },
+    {
+      "label": "640x400 native IHDR exact",
+      "pass": true
+    },
+    {
+      "label": "640x400 wrong raw byte count rejected",
+      "pass": true
+    },
+    {
+      "label": "640x400 PNG CRC corruption rejected",
+      "pass": true
+    },
+    {
+      "label": "640x400 truncated PNG rejected",
+      "pass": true
+    },
+    {
+      "label": "640x400 wrong declared dimensions rejected",
+      "pass": true
+    },
+    {
+      "label": "640x400 actual threaded atomic spool preserves every byte",
+      "pass": true
+    },
+    {
+      "label": "native640 must not silently pass original1280 decoder",
+      "pass": true
+    },
+    {
+      "label": "unsupported/untyped dimension (0, 0)",
+      "pass": true
+    },
+    {
+      "label": "unsupported/untyped dimension (640, 800)",
+      "pass": true
+    },
+    {
+      "label": "unsupported/untyped dimension (1280, 400)",
+      "pass": true
+    },
+    {
+      "label": "unsupported/untyped dimension (640.0, 400)",
+      "pass": true
+    },
+    {
+      "label": "unsupported/untyped dimension (True, 400)",
+      "pass": true
+    },
+    {
+      "label": "unsupported/untyped dimension (384, 384)",
+      "pass": true
+    }
+  ],
+  "scope": "Private stdlib pixel encoder/control test. No engine, actualMain, camera, motion, FPS ortargethardware acceptance. All native pixels/dimensions exact; no resampling.",
+  "generator_sha256": "b800b08bd83384a3daf50a81e7f2176babd5610f86ca868200fd32f2b282d7cf"
+}

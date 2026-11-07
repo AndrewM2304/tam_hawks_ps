@@ -1,0 +1,72 @@
+{
+  "epochs": [
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/board-fidelity/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--check-only",
+        "--script",
+        "res://public_test_runner.gd"
+      ],
+      "name": "parser",
+      "start": "2026-11-07T07:25:49.445555+00:00",
+      "pid": 88867,
+      "end": "2026-11-07T07:25:49.769334+00:00",
+      "code": 0,
+      "stop": null,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/board-fidelity/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--script",
+        "res://public_test_runner.gd"
+      ],
+      "name": "native",
+      "start": "2026-11-07T07:25:49.769565+00:00",
+      "pid": 88877,
+      "end": "2026-11-07T07:25:50.153239+00:00",
+      "code": 0,
+      "stop": null,
+      "log_sha256": "d6393dd7f0ae02f30c2f9c5302799318814c84b72ac129545ea5affb72372993"
+    }
+  ],
+  "before": {
+    "public_test_runner.gd": "abe6013f1364f33adc8c75b33c25b1640e546ec5b5c51ae3e098bc78504a854f",
+    "tests/board_import_tests.gd": "825dca6d8ead86464432b9b187f1966102b40a00422d360cf9ce556d7a0fc0d3",
+    "tools/art/import_board_wood.gd": "134e6fc320256e98928988ee21be9c3598e38a0b87dcd001c46bcaf1b5258b6e",
+    "tools/art/board_wood_source.gd": "8ef7fba286fe1dbf881df48030fea587d34ca9435543f96c4e40de05545df7cf",
+    "candidate/tam_skateboard.glb": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+    "candidate/tam_skateboard.glb.import": "e0056c869fd5677c704721e95106b9e4e76aa98c1af5df61bb88e680cce3b031",
+    ".godot/imported/tam_skateboard.glb-d01a2c770de698673acb72f1e06b2a58.scn": "0a6c2d72fb742465c3d1cce26c0227c2e70b6060012472943eeb884667395137",
+    ".godot/imported/tam_skateboard.glb-5309b5e3e2bf6f830a1c6b4f3b8e1268.scn": "ddddc7924589fcce0b4e285f235c84428fd6d6c99c86929caddff9b15db3fe93",
+    ".godot/imported/tam_skateboard_board_albedo.png-3d6d00c57be6f584d8c92d10e31ee820.ctex": "ed5030a99f866a28035d665a0843d6ff9505b99d70b02b59053de73f57f97765",
+    ".godot/imported/tam_skateboard_board_albedo.png-b595889c530a7411e88430b46adac189.ctex": "4341cecd3c20610b5fc1d810f394561eb6ffce810cd6091e7199f66d01890730"
+  },
+  "after": {
+    "public_test_runner.gd": "abe6013f1364f33adc8c75b33c25b1640e546ec5b5c51ae3e098bc78504a854f",
+    "tests/board_import_tests.gd": "825dca6d8ead86464432b9b187f1966102b40a00422d360cf9ce556d7a0fc0d3",
+    "tools/art/import_board_wood.gd": "134e6fc320256e98928988ee21be9c3598e38a0b87dcd001c46bcaf1b5258b6e",
+    "tools/art/board_wood_source.gd": "8ef7fba286fe1dbf881df48030fea587d34ca9435543f96c4e40de05545df7cf",
+    "candidate/tam_skateboard.glb": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+    "candidate/tam_skateboard.glb.import": "e0056c869fd5677c704721e95106b9e4e76aa98c1af5df61bb88e680cce3b031",
+    ".godot/imported/tam_skateboard.glb-d01a2c770de698673acb72f1e06b2a58.scn": "0a6c2d72fb742465c3d1cce26c0227c2e70b6060012472943eeb884667395137",
+    ".godot/imported/tam_skateboard.glb-5309b5e3e2bf6f830a1c6b4f3b8e1268.scn": "ddddc7924589fcce0b4e285f235c84428fd6d6c99c86929caddff9b15db3fe93",
+    ".godot/imported/tam_skateboard_board_albedo.png-3d6d00c57be6f584d8c92d10e31ee820.ctex": "ed5030a99f866a28035d665a0843d6ff9505b99d70b02b59053de73f57f97765",
+    ".godot/imported/tam_skateboard_board_albedo.png-b595889c530a7411e88430b46adac189.ctex": "4341cecd3c20610b5fc1d810f394561eb6ffce810cd6091e7199f66d01890730"
+  },
+  "source_stable": true,
+  "launcher_before": "eb893d57d1bb5e3acb5b2f8a4ee9e9d91e4e191032ebb55d1b571b45b19721f7",
+  "launcher_after": "eb893d57d1bb5e3acb5b2f8a4ee9e9d91e4e191032ebb55d1b571b45b19721f7",
+  "complete": true,
+  "scope": "same exact proposed public module; private runner overrides only actual imported candidate resource path; no Main/moving/M5 claim"
+}

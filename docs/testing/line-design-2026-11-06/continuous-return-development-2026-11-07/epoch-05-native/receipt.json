@@ -1,0 +1,48 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source/.local/connected_return_probe_v5.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+  "started_utc": "2026-11-07T06:12:21.462172+00:00",
+  "os_deadline_seconds": 120,
+  "source_inputs": 1018,
+  "engine_pid": 75501,
+  "engine_exit": 0,
+  "eligible": true,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    75302
+  ],
+  "overlap_scope": "Root-approved EA Ground six-mode qualitative graphics PID75302 ground-cause-source after RV temporal lease; no timing acceptance",
+  "finished_utc": "2026-11-07T06:13:00.555704+00:00",
+  "wall_seconds": 39.09355556299852,
+  "changed_inputs": [],
+  "errors": [],
+  "result": [
+    13,
+    0
+  ],
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "unknown_other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "2d2a16dc0c454043a89c86c25a625fcd6e91af763c75a02d741233d0144ace04",
+    "source-before.json": "d09a28df83eb4b0757d77be027386ddc7716c8160a5be037bb5b982c75e2c255",
+    "observer.gd": "8fc626b7004cbf1537ebee57fccce1fd91eea0b44a28adf95bde8872b09096d5",
+    "native-trace.json": "d348ab95689aca5e5127bff1fd18d0d31882f894e2de366c5e846bcdea9ee192",
+    "wrapper.py.txt": "96a211d4759bd7472c5f5bc2413b01bf951b77910f6a4788e61f77a7b2f0a41b",
+    "native.log": "168c6b8076e268bd2fefdab83c2783135ba177e2a1ad6cf475ec05074ddc9376",
+    "source-after.json": "d09a28df83eb4b0757d77be027386ddc7716c8160a5be037bb5b982c75e2c255"
+  }
+}

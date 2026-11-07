@@ -19,6 +19,8 @@ if grep -Eq 'SCRIPT ERROR:|ERROR:|FAIL:' .local/tests.log; then
   exit 1
 fi
 grep -Eq 'RESULT: [1-9][0-9]* passed, 0 failed' .local/tests.log
+# Independent exact-integer enclosure authority for actual native shoe buffers.
+python3 tools/testing/verify_shoe_support_certificate.py .local/shoe-support-certificate.json --output .local/shoe-support-exact.json
 # Exercise the actual short script option too. This fixture checks Main before
 # it enters the tree, so an isolation regression is detected before profile or
 # personal Music access. Backend behavior remains in the main suite above.

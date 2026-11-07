@@ -27,30 +27,24 @@ func _ready() -> void:
 	_garments = Garments.new()
 	_garments.build(self, shirt, denim)
 	_anatomy = Anatomy.new()
-	var collar_mesh := CylinderMesh.new()
-	collar_mesh.top_radius = 0.062
-	collar_mesh.bottom_radius = 0.072
-	collar_mesh.height = 0.070
-	collar_mesh.radial_segments = 24
-	var collar := MeshInstance3D.new()
-	collar.name = "BuskerJacketCollar"
-	collar.mesh = collar_mesh
-	collar.material_override = shirt
-	collar.position = Vector3(0, 1.426, -0.012)
-	add_child(collar)
 	_head = Node3D.new()
 	_head.name = "Head"
+	# Match the current Skin palette; the actor keeps root interpolation.
+	_head.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	_head.position = Vector3(0, 1.410, 0) - Vector3(0, -0.13, 0.036)
 	add_child(_head)
 	_anatomy.build_head(_head)
 	for side: float in [-1.0, 1.0]:
 		var shoe := Node3D.new()
 		shoe.name = "BuskerShoe"
+		shoe.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		shoe.position = Vector3(side * 0.14, 0.061, -0.015)
 		shoe.rotation.y = PI + side * 0.12
 		add_child(shoe)
 		Footwear.build(shoe, shoes, rubber, denim)
-		_hands.append(_anatomy.build_hand(self, side))
+		var hand: Node3D = _anatomy.build_hand(self, side)
+		hand.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+		_hands.append(hand)
 	_build_guitar()
 	_build_case()
 	_sign = Label3D.new()

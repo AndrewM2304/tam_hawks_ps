@@ -1,0 +1,107 @@
+--- a/tools/full_fidelity_capture.gd
++++ b/tools/full_fidelity_capture.gd
+@@ -25,6 +25,8 @@
+ var _raw_spool := false
+ var _cohort := "all"
+ var _push_view := "contact"
++var _push_selection := "all"
++const NATURAL_PUSH_VIEWS := {"push_contact_regular":"front", "push_contact_from_rest":"side", "push_contact_fakie":"chase"}
+ 
+ func _initialize() -> void:
+ 	_run.call_deferred()
+@@ -38,6 +40,11 @@
+ 	if not arguments.is_empty(): output = arguments[0]
+ 	if arguments.size()>1:_cohort=arguments[1]
+ 	if arguments.size()>2:_push_view=arguments[2]
++	if arguments.size()>3:_push_selection=arguments[3]
++	if _push_selection not in ["all","natural-three"] or (_push_selection!="all" and _cohort!="push-contact"):
++		push_error("Invalid push capture-only selection: "+_push_selection)
++		quit(1)
++		return
+ 	if _cohort not in ["all","push-contact"]:
+ 		push_error("Unknown full-fidelity cohort: "+_cohort)
+ 		quit(1)
+@@ -73,9 +80,14 @@
+ 		await Remaining.run_main(self, game, _check, _observe)
+ 		await Repertoire.run_playable(self, game, _check, _observe)
+ 		await Density.run_player(self, game, _check, _observe)
+-	var clips: Array = _clips.values()
+-	_check(clips.size() >= (7 if _cohort=="push-contact" else 50),
++	var observed_clips: Array = _clips.values()
++	var clips: Array = observed_clips.filter(func(clip: Dictionary): return not clip.frames.is_empty())
++	_check(observed_clips.size() >= (7 if _cohort=="push-contact" else 50),
+ 		"full motion: selected "+_cohort+" cohort produced its required real clips")
++	if _push_selection=="natural-three":
++		_check(clips.size()==3,"natural-three records exactly its three declared push cases")
++		for clip: Dictionary in clips:
++			_check(int(clip.native_steps)==117 and clip.frames.size()==117,"natural-three retains all72press+45release consecutive ticks in "+str(clip.id))
+ 	var catalog_families := {}
+ 	for family: String in Catalog.FAMILIES:
+ 		catalog_families[family] = Catalog.family_ids(family)
+@@ -84,11 +96,18 @@
+ 		"production_main": true, "profile_writes_enabled": game.persistence_enabled,
+ 		"checks": checks, "failures": failures, "physics_hz": 60, "motion_sample_hz": 60 if _cohort=="push-contact" else 15,
+ 		"cohort":_cohort,"complete_repertoire_coverage":_cohort=="all",
+-		"push_camera_view":_push_view,
++		"push_camera_view":"mixed-per-case" if _push_selection=="natural-three" else _push_view,
++		"push_capture_selection":_push_selection,
++		"observed_phase_ids":_clips.keys(),
++		"recorded_phase_ids":clips.map(func(clip: Dictionary): return clip.id),
++		"unrecorded_phase_ids":observed_clips.filter(func(clip: Dictionary): return clip.frames.is_empty()).map(func(clip: Dictionary): return clip.id),
++		"per_case_push_view":NATURAL_PUSH_VIEWS if _push_selection=="natural-three" else {},
++		"visual_phase_coverage_complete":_push_selection=="all",
++		"capture_selection_policy":"Every physical phase/check/native trace still runs. The natural-three selection records all117consecutive ticks (72push+45release) of regular/front, from-rest/side and fakie/productionchase; brake/pop are physically checked but visually UNREVIEWED. No discarded phase is claimed as a visual pass." if _push_selection=="natural-three" else "Original complete selected cohort and sampling policy unchanged.",
+ 		"push_fixture_policy":"Regular/fakie moving-start cases seed signed6m/s and one initial heading on the same native spine; a separate actual push-from-rest case seeds no motion. Brake and6/18-tick push-to-pop interruptions use actual mapped input from rest.",
+ 		"clips": clips, "overviews": _overview_frames, "synchronization_proofs": _sync_proofs, "native_timeline": _timeline, "catalog_families": catalog_families, "catalog_ids":Catalog.ids(),
+ 		"fixture_policy": "Only declared restart/initial-contact fixtures from the linked integration tests; real input/native motion thereafter. Repertoire uses explicitly declared elevated air fixtures and special unlock/meter eligibility seeds." if _cohort=="all" else "Declared default-spawn restarts, regular/fakie initial headings and two signed6m/s moving starts. Separate from-rest, brake and6/18-tick pop cases use actual input without motion seeds; see push_fixture_policy.",
+-		"camera_policy": "Native chase for world lines, connected surfaces and activities; authored marker-bounded contact inspection for tricks/setup/recovery; explicit cart-centred inspection for the empty parked turn." if _cohort=="all" else ("Production chase camera and HUD throughout actual push/brake/pop motion." if _push_view=="chase" else "Authored "+_push_view+" inspection of actual production Main input/motion; camera/Canvas boundary proofs retained."),
++		"camera_policy": ("Explicit per-case camera map: regular/front and from-rest/side authored inspection; fakie uses the actual production chase camera and HUD. Every117 consecutive native push/release tick is recorded. Brake/pop stay physically checked but visually unreviewed." if _push_selection=="natural-three" else  "Native chase for world lines, connected surfaces and activities; authored marker-bounded contact inspection for tricks/setup/recovery; explicit cart-centred inspection for the empty parked turn." if _cohort=="all" else ("Production chase camera and HUD throughout actual push/brake/pop motion." if _push_view=="chase" else "Authored "+_push_view+" inspection of actual production Main input/motion; camera/Canvas boundary proofs retained.")),
+ 		"render_fence_policy": "Production processing is fenced by a same-frame zero timer; each selected frame uses the natural render loop and awaits frame_post_draw, with unchanged physics/process counters. Independent coloured 3D markers at actual projected head/board and current Canvas swatches prove camera/Canvas boundary synchronization.",
+ 		"pixel_storage_policy": "Native RGBA8 bytes are hashed before atomic raw spooling; a local standard-library lossless PNG worker encodes those exact bytes and independently checks the decoded pixel hash. No pixel/resolution/sample reduction.",
+ 		"raw_frame_policy": "Lossless input PNGs remain in the ignored staging directory; published movies are fully decoded and source-frame hashes/timeline plus selected lossless review frames are retained.",
+@@ -118,7 +137,7 @@
+ 	if not _clips.has(phase):
+ 		var inspection := _uses_inspection(phase)
+ 		var camera_label := "authored vehicle inspection" if phase == "cart_parked_turn" else ("authored contact inspection" if inspection else "production chase")
+-		if phase.begins_with("push_contact_") and inspection:camera_label="authored "+_push_view+" push inspection"
++		if phase.begins_with("push_contact_") and inspection:camera_label="authored "+_phase_push_view(phase)+" push inspection"
+ 		_clips[phase] = {"id": phase, "camera": camera_label,
+ 			"native_steps": 0, "sample_stride": 1 if phase.begins_with("push_contact_") else 4, "frames": []}
+ 		DirAccess.make_dir_recursive_absolute(output.path_join("frames/" + phase))
+@@ -128,6 +147,7 @@
+ 			"native motion has no missing physics observations in " + phase)
+ 	clip.last_physics_frame = state.physics_frame
+ 	clip.native_steps += 1
++	if _push_selection=="natural-three" and not NATURAL_PUSH_VIEWS.has(phase):return
+ 	if (int(clip.native_steps) - 1) % int(clip.sample_stride) != 0: return
+ 	var inspection: bool = _uses_inspection(phase)
+ 	var vehicle_inspection := phase == "cart_parked_turn"
+@@ -152,8 +172,8 @@
+ 		var view_axis:=Vector3(2.4,1.4,2.8).normalized()
+ 		if phase.begins_with("push_contact_"):
+ 			var forward:Vector3=(-game.skater.global_basis.z*game.skater._visual_rig._last_travel_direction).slide(Vector3.UP).normalized()
+-			if _push_view=="front":view_axis=(forward+Vector3.UP*0.35).normalized()
+-			elif _push_view=="side":view_axis=(forward.cross(Vector3.UP)+Vector3.UP*0.35).normalized()
++			if _phase_push_view(phase)=="front":view_axis=(forward+Vector3.UP*0.35).normalized()
++			elif _phase_push_view(phase)=="side":view_axis=(forward.cross(Vector3.UP)+Vector3.UP*0.35).normalized()
+ 		_inspection.global_position = center + view_axis * distance
+ 		_inspection.look_at(center)
+ 		_inspection.current = true
+@@ -226,13 +246,16 @@
+ 	for arm: Dictionary in rig._arms: points.append(arm.hand.global_position)
+ 	return points
+ 
++func _phase_push_view(phase: String) -> String:
++	return str(NATURAL_PUSH_VIEWS.get(phase,_push_view)) if _push_selection=="natural-three" else _push_view
++
+ func _uses_inspection(phase: String) -> bool:
+ 	return phase.begins_with("setup_") or phase.begins_with("bail_") or phase.begins_with("interrupted_") \
+ 		or phase.begins_with("unsupported_plant_") or phase == "high_wall_bail" \
+ 		or phase == "platform_roof_boneless" \
+ 		or phase.begins_with("flip_") or phase.begins_with("grab_") or phase.begins_with("manual_") \
+ 		or phase.begins_with("special_") or phase.begins_with("lip_") or phase.begins_with("grind_") \
+-		or phase == "triple_flip_one_entry" or (phase.begins_with("push_contact_") and _push_view!="chase")
++		or phase == "triple_flip_one_entry" or (phase.begins_with("push_contact_") and _phase_push_view(phase)!="chase")
+ 
+ func _overviews() -> void:
+ 	game.set_physics_process(false)

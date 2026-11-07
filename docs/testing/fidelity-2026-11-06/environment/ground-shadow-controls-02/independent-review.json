@@ -1,0 +1,740 @@
+{
+  "passed": 179,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "original preservation README.md",
+      "pass": true
+    },
+    {
+      "label": "original preservation actual-main-ground-report.json",
+      "pass": true
+    },
+    {
+      "label": "original preservation analysis.json",
+      "pass": true
+    },
+    {
+      "label": "original preservation before-a-ground.png",
+      "pass": true
+    },
+    {
+      "label": "original preservation before-b-ground.png",
+      "pass": true
+    },
+    {
+      "label": "original preservation engine.log",
+      "pass": true
+    },
+    {
+      "label": "original preservation executed-source/game/levels/art/material_library.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "original preservation executed-source/game/levels/glasgow_square.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "original preservation executed-source/tools/environment_main_ground_shadow_capture.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "original preservation executed-source/tools/environment_main_paving_capture.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "original preservation executed-source/tools/environment_main_water_shadow_capture.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "original preservation executed-source/tools/environment_water_probe.py.txt",
+      "pass": true
+    },
+    {
+      "label": "original preservation executed-source/tools/full_fidelity_capture.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "original preservation floor-caster-off-ground.png",
+      "pass": true
+    },
+    {
+      "label": "original preservation native-default-bias-ground.png",
+      "pass": true
+    },
+    {
+      "label": "original preservation normal-map-off-ground.png",
+      "pass": true
+    },
+    {
+      "label": "original preservation receipt.json",
+      "pass": true
+    },
+    {
+      "label": "original preservation runtime-cache-policy.json",
+      "pass": true
+    },
+    {
+      "label": "original preservation source-after.json",
+      "pass": true
+    },
+    {
+      "label": "original preservation source-before.json",
+      "pass": true
+    },
+    {
+      "label": "original preservation sun-shadow-off-ground.png",
+      "pass": true
+    },
+    {
+      "label": "original preservation synchronization/first_contact_inspection.png",
+      "pass": true
+    },
+    {
+      "label": "original preservation synchronization/overview_before_contact.png",
+      "pass": true
+    },
+    {
+      "label": "original preservation synchronization/return_to_production_chase.png",
+      "pass": true
+    },
+    {
+      "label": "799 source inputs byte-stable",
+      "pass": true
+    },
+    {
+      "label": "native139/0 complete clean exit",
+      "pass": true
+    },
+    {
+      "label": "raw log clean",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/environment_main_water_shadow_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/environment_main_paving_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/full_fidelity_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/environment_main_ground_shadow_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/environment_water_probe.py",
+      "pass": true
+    },
+    {
+      "label": "before-bound source game/levels/glasgow_square.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source game/levels/art/material_library.gd",
+      "pass": true
+    },
+    {
+      "label": "actual new directional light reports .1 and2",
+      "pass": true
+    },
+    {
+      "label": "A/B original states exact",
+      "pass": true
+    },
+    {
+      "label": "before-a actual1755 colliders and water exact",
+      "pass": true
+    },
+    {
+      "label": "before-a material/maps/normal-strength/UV identity exact",
+      "pass": true
+    },
+    {
+      "label": "before-a exact floor_aabb",
+      "pass": true
+    },
+    {
+      "label": "before-a exact floor_instance_id",
+      "pass": true
+    },
+    {
+      "label": "before-a exact floor_material_id",
+      "pass": true
+    },
+    {
+      "label": "before-a exact floor_mesh_id",
+      "pass": true
+    },
+    {
+      "label": "before-a exact floor_path",
+      "pass": true
+    },
+    {
+      "label": "before-a declared normal enable flags only",
+      "pass": true
+    },
+    {
+      "label": "before-a declared floor caster flag only",
+      "pass": true
+    },
+    {
+      "label": "before-a declared sun caster flag only",
+      "pass": true
+    },
+    {
+      "label": "before-a all other inventory properties exact",
+      "pass": true
+    },
+    {
+      "label": "before-a actual declared sun numeric biases",
+      "pass": true
+    },
+    {
+      "label": "before-b actual1755 colliders and water exact",
+      "pass": true
+    },
+    {
+      "label": "before-b material/maps/normal-strength/UV identity exact",
+      "pass": true
+    },
+    {
+      "label": "before-b exact floor_aabb",
+      "pass": true
+    },
+    {
+      "label": "before-b exact floor_instance_id",
+      "pass": true
+    },
+    {
+      "label": "before-b exact floor_material_id",
+      "pass": true
+    },
+    {
+      "label": "before-b exact floor_mesh_id",
+      "pass": true
+    },
+    {
+      "label": "before-b exact floor_path",
+      "pass": true
+    },
+    {
+      "label": "before-b declared normal enable flags only",
+      "pass": true
+    },
+    {
+      "label": "before-b declared floor caster flag only",
+      "pass": true
+    },
+    {
+      "label": "before-b declared sun caster flag only",
+      "pass": true
+    },
+    {
+      "label": "before-b all other inventory properties exact",
+      "pass": true
+    },
+    {
+      "label": "before-b actual declared sun numeric biases",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off actual1755 colliders and water exact",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off material/maps/normal-strength/UV identity exact",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off exact floor_aabb",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off exact floor_instance_id",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off exact floor_material_id",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off exact floor_mesh_id",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off exact floor_path",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off declared normal enable flags only",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off declared floor caster flag only",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off declared sun caster flag only",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off all other inventory properties exact",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off actual declared sun numeric biases",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias actual1755 colliders and water exact",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias material/maps/normal-strength/UV identity exact",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias exact floor_aabb",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias exact floor_instance_id",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias exact floor_material_id",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias exact floor_mesh_id",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias exact floor_path",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias declared normal enable flags only",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias declared floor caster flag only",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias declared sun caster flag only",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias all other inventory properties exact",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias actual declared sun numeric biases",
+      "pass": true
+    },
+    {
+      "label": "native default preserves EVERY actual caster and all geometry",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off actual1755 colliders and water exact",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off material/maps/normal-strength/UV identity exact",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off exact floor_aabb",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off exact floor_instance_id",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off exact floor_material_id",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off exact floor_mesh_id",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off exact floor_path",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off declared normal enable flags only",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off declared floor caster flag only",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off declared sun caster flag only",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off all other inventory properties exact",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off actual declared sun numeric biases",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off actual1755 colliders and water exact",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off material/maps/normal-strength/UV identity exact",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off exact floor_aabb",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off exact floor_instance_id",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off exact floor_material_id",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off exact floor_mesh_id",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off exact floor_path",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off declared normal enable flags only",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off declared floor caster flag only",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off declared sun caster flag only",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off all other inventory properties exact",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off actual declared sun numeric biases",
+      "pass": true
+    },
+    {
+      "label": "before-a matched fixed native camera",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off matched fixed native camera",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off matched fixed native camera",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off matched fixed native camera",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias matched fixed native camera",
+      "pass": true
+    },
+    {
+      "label": "before-b matched fixed native camera",
+      "pass": true
+    },
+    {
+      "label": "all9 native frames retained",
+      "pass": true
+    },
+    {
+      "label": "before-a-ground.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "before-a-ground.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "before-a-ground.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "before-a-ground.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "before-a-ground.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "before-a-ground.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "before-a-ground.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "before-a-ground.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "before-a-ground.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off-ground.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off-ground.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off-ground.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off-ground.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off-ground.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off-ground.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off-ground.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off-ground.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "sun-shadow-off-ground.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off-ground.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off-ground.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off-ground.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off-ground.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off-ground.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off-ground.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off-ground.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off-ground.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "floor-caster-off-ground.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off-ground.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off-ground.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off-ground.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off-ground.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off-ground.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off-ground.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off-ground.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off-ground.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "normal-map-off-ground.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias-ground.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias-ground.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias-ground.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias-ground.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias-ground.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias-ground.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias-ground.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias-ground.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "native-default-bias-ground.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "before-b-ground.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "before-b-ground.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "before-b-ground.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "before-b-ground.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "before-b-ground.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "before-b-ground.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "before-b-ground.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "before-b-ground.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "before-b-ground.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "synchronization/overview_before_contact.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "synchronization/overview_before_contact.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "synchronization/overview_before_contact.png native startup swatch",
+      "pass": true
+    },
+    {
+      "label": "synchronization/first_contact_inspection.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "synchronization/first_contact_inspection.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "synchronization/first_contact_inspection.png native startup swatch",
+      "pass": true
+    },
+    {
+      "label": "synchronization/return_to_production_chase.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "synchronization/return_to_production_chase.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "synchronization/return_to_production_chase.png native startup swatch",
+      "pass": true
+    }
+  ],
+  "independent_projection_max_error_px": 3.785219393440653e-05,
+  "independent_marker_centroid_max_error_px": 0.20489040461014602,
+  "personally_viewed_originals": [
+    "before-b-ground.png",
+    "native-default-bias-ground.png",
+    "floor-caster-off-ground.png",
+    "normal-map-off-ground.png",
+    "sun-shadow-off-ground.png"
+  ],
+  "finding": "Fine curved ground/bank bands persist with ground normal mapping disabled. Disabling the exact flat-court caster removes them on court but leaves bank bands; disabling sun shadows removes both. Returning the actual native default pair(.1bias,2normalbias) also removes both while every original caster stays enabled. This supports shadow-artifact attribution in this scene, not an albedo/source-fan explanation.",
+  "verdict": "Bounded causal diagnostic passes. No lighting/source promotion or final contact-shadow acceptance: test actual current1280 chase/rider feet, bank seams, basin exterior, bowl and architectural contact shadows before integrating settings.",
+  "limits": [
+    "Declared640x400 authored actualMain diagnostic, not reduced-quality substitute for final1280/gameplay evidence.",
+    "Baseline bias.035/normalbias.55; native-default control changes BOTH to.1/2, so it does not isolate which field or choose minimum necessary calibration.",
+    "Source predates proper512basin and later fitted/architecture integration; actual combined neighbours must be verified.",
+    "Actors frozen, source799 stable, warm runtime shaders, no timing/sole-engine/M5/final water/ground art claim.",
+    "Viewport-mismatched earlier epoch remains rejected and is not repaired by this clean run."
+  ]
+}

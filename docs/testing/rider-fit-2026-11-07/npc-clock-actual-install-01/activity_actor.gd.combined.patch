@@ -1,0 +1,30 @@
+--- a/game/features/activity_actor.gd
++++ b/game/features/activity_actor.gd
+@@ -49,19 +49,26 @@
+ 	_anatomy = Anatomy.new()
+ 	_details = Node3D.new()
+ 	_details.name = "HiVisWaistcoat" if steward else "CoatDetails"
++	# Process-driven rigid branches share the current Skin pose clock.
++	# AdultActivityBody and the actor retain whole-character interpolation.
++	_details.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+ 	_body.add_child(_details)
+ 	_build_clothing_details(coat)
+ 	_head = Node3D.new()
+ 	_head.name = "Head"
++	_head.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+ 	_body.add_child(_head)
+ 	_anatomy.build_head(_head)
+ 	for side: float in [-1.0,1.0]:
+ 		var foot := Node3D.new()
+ 		foot.name = "LeftShoe" if side < 0.0 else "RightShoe"
++		foot.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+ 		_body.add_child(foot)
+ 		Footwear.build(foot,shoes,rubber,trousers)
+ 		_feet.append({"node":foot,"side":side,"point":Vector3.ZERO,"normal":Vector3.UP})
+-		_hands.append(_anatomy.build_hand(_body,side))
++		var hand := _anatomy.build_hand(_body,side)
++		hand.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
++		_hands.append(hand)
+ 	_find_skater()
+ 	_pose(0.0)
+ 

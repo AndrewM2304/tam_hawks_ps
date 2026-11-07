@@ -1,0 +1,92 @@
+"""Bound the existing promoted rider inspector; never overlay runtime or fixtures."""
+from pathlib import Path
+import ast,datetime,hashlib,json,os,re,shutil,signal,subprocess,time
+R=Path(__file__).resolve().parents[1];SELF=Path(__file__).resolve();O=R/'docs/testing/rider-fit-2026-11-07/promoted-inspector-01';STUDIO=R/'.local/fidelity/rider-studio';BOUND=180
+EXPECTED=['idle-front','idle-side','idle-jacket','idle-jacket-side','idle-face','idle-profile','idle-feet','push','grab']
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def inputs():
+ files=[R/'project.godot',R/'export_presets.cfg',R/'docs/PLAYER-GUIDE.md',SELF]
+ files += [p for base in ['game','tests','tools','docs/licences'] for p in (R/base).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+ return {str(p.relative_to(R)):sha(p) for p in sorted(set(files))}
+def process_snapshot():
+ records=[]
+ for q in Path('/proc').glob('[0-9]*/cmdline'):
+  try:
+   argv=q.read_bytes().split(b'\0');exe=Path(argv[0].decode(errors='replace')).name.lower() if argv else ''
+   if exe not in ['godot','godot4','xorg','xvfb']:continue
+   stat=(q.parent/'stat').read_text().rsplit(') ',1)[1].split()
+   records.append({'pid':int(q.parent.name),'process_group':int(stat[2]),'command':b' '.join(argv).decode(errors='replace')})
+  except (OSError,ProcessLookupError,IndexError):pass
+ return records
+def stop_group(p):
+ try:os.killpg(p.pid,signal.SIGTERM)
+ except ProcessLookupError:pass
+ try:p.wait(timeout=3)
+ except subprocess.TimeoutExpired:
+  try:os.killpg(p.pid,signal.SIGKILL)
+  except ProcessLookupError:pass
+  p.wait(timeout=3)
+
+O.mkdir(parents=True,exist_ok=False);(O/'.gdignore').write_text('');(O/'.gitignore').write_text('/xdg-data/\n/xdg-config/\n/xdg-cache/\n')
+for key in ['data','config','cache']:(O/('xdg-'+key)).mkdir()
+prior={'studio_existed':STUDIO.is_dir(),'prior_receipt_sha256':sha(STUDIO/'receipt.json') if (STUDIO/'receipt.json').exists() else None,'existing_history_names':sorted(p.name for p in STUDIO.parent.glob('rider-studio-history-*'))}
+priorlog=R/'.local/rider-studio-native.log'
+if priorlog.is_file():shutil.copy2(priorlog,O/'prior-studio-native.log')
+(O/'prior-output.json').write_text(json.dumps(prior,indent=2)+'\n')
+before=inputs();(O/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+shutil.copy2(SELF,O/'launcher.py.txt')
+for name in ['rider_asset_inspect.gd','rider_asset_inspect.sh','run.sh','xorg-dummy.conf']:shutil.copy2(R/'tools'/name,O/(name+'.txt'))
+env=os.environ.copy()
+for key in ['DATA','CONFIG','CACHE']:env['XDG_'+key+'_HOME']=str(O/('xdg-'+key.lower()))
+# Let the unchanged existing shell tool create its own isolated Linux display.
+if os.uname().sysname=='Linux':env.pop('DISPLAY',None)
+command=['./tools/rider_asset_inspect.sh'];start=utc();start_epoch=time.time();clock=time.monotonic();reason=None;seen={r['pid']:r for r in process_snapshot()};initial=list(seen.values());next_snapshot=0.0
+with (O/'native.log').open('w') as log:
+ process=subprocess.Popen(command,cwd=R,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+ print(json.dumps({'start_utc':start,'shell_pid':process.pid,'process_group':process.pid,'command':command,'bound_seconds':BOUND}),flush=True)
+ offset=0;carry=b''
+ try:
+  while process.poll() is None:
+   time.sleep(.05)
+   with (O/'native.log').open('rb') as read:read.seek(offset);chunk=read.read();offset=read.tell()
+   combined=carry+chunk;carry=combined[-128:]
+   if re.search(rb'SCRIPT ERROR:|Parse Error:|ERROR:',combined):reason='stop-first-raw-engine-error';stop_group(process);break
+   elapsed=time.monotonic()-clock
+   if elapsed>=BOUND:reason='OS deadline';stop_group(process);break
+   if elapsed>=next_snapshot:
+    for record in process_snapshot():seen[record['pid']]=record
+    next_snapshot=elapsed+1.0
+  code=process.wait(timeout=5)
+ finally:
+  own_remaining=[r for r in process_snapshot() if r['process_group']==process.pid]
+  if process.poll() is None or own_remaining:stop_group(process)
+end=utc();after=inputs();(O/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');raw=(O/'native.log').read_text();errors=sorted(set(re.findall(r'SCRIPT ERROR:|Parse Error:|ERROR:',raw)))
+studio_receipt=json.loads((STUDIO/'receipt.json').read_text()) if (STUDIO/'receipt.json').is_file() else None
+if STUDIO.is_dir():shutil.copytree(STUDIO,O/'frames')
+checks=[]
+def check(ok,label):checks.append({'passed':bool(ok),'label':label})
+check(code==0 and reason is None and not errors,'clean bounded existing-tool execution')
+check(before==after,'all actual source and prebound launcher unchanged')
+check(studio_receipt is not None,'existing tool produced its receipt')
+if studio_receipt is not None:
+ check(studio_receipt.get('accepted') is True and studio_receipt.get('failures')==0 and studio_receipt.get('source_stable') is True,'unchanged inspector accepts its native/pixel/pose evidence')
+ frames=studio_receipt.get('frames',[]);check([f.get('label') for f in frames]==EXPECTED,'exact existing nine views retained')
+ from PIL import Image
+ for frame in frames:
+  label=frame['label'];clean=STUDIO/(label+'.png');proof=STUDIO/'synchronization'/(label+'.png')
+  check(clean.is_file() and proof.is_file(),'both original native buffers retained '+label)
+  if not clean.is_file() or not proof.is_file():continue
+  check(clean.stat().st_mtime>=start_epoch and proof.stat().st_mtime>=start_epoch,'fresh original captures '+label)
+  check(sha(clean)==frame['png_sha256'] and sha(proof)==frame['synchronization_png_sha256'],'original PNG identity '+label)
+  for path,key in [(clean,'native_rgba_sha256'),(proof,'synchronization_native_rgba_sha256')]:
+   with Image.open(path) as im:rgba=im.convert('RGBA');digest=hashlib.sha256(rgba.tobytes()).hexdigest();size=rgba.size
+   check(digest==frame[key] and size==(1280,800),'decoded PNG matches native RGBA '+path.parent.name+'/'+label)
+  check(frame['camera_current'] and frame['proof_readback_counter_bracket'][0]==frame['proof_readback_counter_bracket'][1] and frame['clean_readback_counter_bracket'][0]==frame['clean_readback_counter_bracket'][1],'same-readback actual camera/counters '+label)
+  check(frame['proof_readback_pose_bracket'][0]==frame['proof_readback_pose_bracket'][1]==frame['clean_readback_pose_bracket'][0]==frame['clean_readback_pose_bracket'][1],'actual pose stable across proof/clean '+label)
+  check(len(frame['synchronization'])==3 and all(p['count']>=4 and p['centroid_error']<=2.5 for p in frame['synchronization']),'existing marker proof limits retained '+label)
+ after_frames=inputs();check(before==after_frames,'actual source remains frozen through frame validation')
+else:after_frames=after
+own_native=[r for r in seen.values() if r['process_group']==process.pid];remaining=[r for r in process_snapshot() if r['process_group']==process.pid];check(not remaining,'own native display/engine processes stopped')
+result={'start_utc':start,'end_utc':end,'shell_pid':process.pid,'process_group':process.pid,'native_processes_observed':own_native,'all_qualitative_native_processes_observed':list(seen.values()),'known_process_snapshot_before':initial,'command':command,'deadline_seconds':BOUND,'stop_reason':reason,'exit_code':code,'error_markers':errors,'source_count':len(before),'source_unchanged':before==after==after_frames,'launcher_sha256_prebound':before[str(SELF.relative_to(R))],'checks':checks,'passed':sum(x['passed'] for x in checks),'failed':sum(not x['passed'] for x in checks),'eligible':all(x['passed'] for x in checks),'source_delta':[p for p in set(before)|set(after_frames) if before.get(p)!=after_frames.get(p)],'new_history_names':sorted(p.name for p in STUDIO.parent.glob('rider-studio-history-*') if p.name not in prior['existing_history_names']),'scope':'Existing actual promoted tools/rider_asset_inspect.sh and unchanged nine-view inspector, isolated native floor with real push/grab input. Root-authorized qualitative overlap is permitted/disclosed. No rendering threshold/pipeline changes, Main/moving-film/AAA/M5/FPS or exclusive timing acceptance.'}
+(O/'receipt.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:v for k,v in result.items() if k!='checks'},indent=2));print(raw[-1500:]);raise SystemExit(0 if result['eligible'] else 1)

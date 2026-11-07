@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+"""Root-owned exact provisional two-wave copy. D013 cost gate stays failed/open."""
+from pathlib import Path
+import argparse,hashlib,json,datetime,os,shutil
+ROOT=Path('/workspace/tam_hawks_ps')
+BASELINE='4f5f42719cc37a35aa934f1d144d90d0d1b0f6f43d6adfc27914052e1b251190'
+CANDIDATE='d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44'
+def sha(data):return hashlib.sha256(data).hexdigest()
+def main():
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--apply',action='store_true');args=p.parse_args()
+ target=ROOT/'game/art/assets/horizon/clyde_water.gdshader';source=ROOT/'.local/environment-fidelity/clyde_water_two_wave.gdshader';before=target.read_bytes();after=source.read_bytes();assert sha(before)==BASELINE,'Current3wave SHA mismatch';assert sha(after)==CANDIDATE,'Exact d646 candidate SHA mismatch'
+ uid=target.with_suffix(target.suffix+'.uid');uid_before=uid.read_bytes() if uid.exists() else None
+ receipt={'baseline_sha256':BASELINE,'candidate_sha256':CANDIDATE,'applied':args.apply,'D013':'COST FAILED/OPEN; no clean cost/M5/global admission','scope':'Only exact owned shader bytes; no mesh/collision/texture/materialfamily/caster/light/renderer/Git/import changes; directMain3v2/movingappearance stillopen'}
+ if args.apply:
+  backup=ROOT/'.local/environment-phase2/actual-two-wave-backup-01';assert not backup.exists();backup.mkdir(parents=True);shutil.copy2(target,backup/'clyde_water.gdshader.before');receipt['started_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();tmp=target.with_name(target.name+'.two-wave-install-temp');assert not tmp.exists();tmp.write_bytes(after);tmp.chmod(target.stat().st_mode&0o777);os.replace(tmp,target);assert sha(target.read_bytes())==CANDIDATE;assert (uid.read_bytes() if uid.exists() else None)==uid_before;receipt['uid_bytes_preserved']=True;receipt['finished_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat();(backup/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+ print(json.dumps(receipt,indent=2))
+if __name__=='__main__':main()

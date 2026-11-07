@@ -1,0 +1,422 @@
+{
+  "kind": "derived local spatial sequence summary; native receipt remains authority",
+  "native_result": [
+    13,
+    0
+  ],
+  "initial_resets": 1,
+  "physics_records": 896,
+  "contiguous_physics": true,
+  "first_physics": 92,
+  "last_physics": 987,
+  "all_native_predicates_clear": true,
+  "captures": [
+    "Grind_Edge_Bench_x800y244z5900_0_0",
+    "Grind_Edge_Bench_x7000y244z5900_0_0",
+    "Grind_Edge_Bench_x800y244z5900_0_0"
+  ],
+  "paving_landing": [
+    {
+      "actual_bearing_id": "",
+      "direction_edge_age": 0.516666666666667,
+      "event": "returned_first_bearing_paving_manual",
+      "launch": "ollie",
+      "path_m": 77.1102877818048,
+      "physics": 941,
+      "position": "(41.88916, 2.01245, 61.79169)",
+      "speed": 2.66120862960815,
+      "trick_direction": "neutral",
+      "velocity": "(-2.661112, 0.0, -3.999976)",
+      "yaw": 1.57079637050629
+    }
+  ],
+  "bearing_hold_before_charge": [
+    {
+      "actual_bearing_id": "Grind_Edge_Bench_x800y244z5900_0_0",
+      "actual_bearing_ride_steps_before_charge": 30,
+      "direction_edge_age": 1.3,
+      "event": "returned_first_bearing_payoff_complete",
+      "launch": "ollie",
+      "path_m": 73.8836150951684,
+      "physics": 909,
+      "position": "(43.26445, 2.505, 63.725)",
+      "speed": 2.68111126776307,
+      "trick_direction": "neutral",
+      "velocity": "(-2.681111, 0.0, 0.0)",
+      "yaw": 1.57079637050629
+    }
+  ],
+  "loaded_wall_positives": [
+    {
+      "physics": 690,
+      "proof": {
+        "clear": true,
+        "contract": "actual_zero_penetration_loaded_wall_contact",
+        "height": 1.70000004768372,
+        "hits": 1,
+        "native_binding": {
+          "backend_body_state_shape_frame": "[X: (0.341912, 0.0, -0.939727), Y: (0.0, 1.0, 0.0), Z: (0.939727, 0.0, 0.341912), O: (55.43877, 4.192297, 55.62032)]",
+          "backend_to_current_delta": "(-0.116833, 0.008425, -0.040001)",
+          "clear": true,
+          "current_node_body_native_local_frame": "[X: (0.341912, 0.0, -0.939727), Y: (0.0, 1.0, 0.0), Z: (0.939727, 0.0, 0.341912), O: (55.32194, 4.200722, 55.58031)]",
+          "index": 0,
+          "last_motion": "(-0.116834, 0.008425, -0.04)",
+          "native_dimensions": {
+            "height": 1.70000004768372,
+            "radius": 0.280000001192093
+          },
+          "native_local_shape": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.85, 0.0)]",
+          "node_body_global": "[X: (0.341912, 0.0, -0.939727), Y: (0.0, 1.0, 0.0), Z: (0.939727, 0.0, 0.341912), O: (55.32194, 3.350722, 55.58031)]",
+          "node_local_shape": "[X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.0, 0.85, 0.0)]",
+          "phase": "pending_actual_current_slide_motion",
+          "position_delta": "(-0.116833, 0.008425, -0.040001)",
+          "rid": "RID(38903813768930)",
+          "scope": "current-pose geometry only; backendglobalstate never replaces the actual Node query frame"
+        },
+        "native_shape_index": 0,
+        "node_frame": "[X: (0.341912, 0.0, -0.939727), Y: (0.0, 1.0, 0.0), Z: (0.939727, 0.0, 0.341912), O: (55.32194, 4.200722, 55.58031)]",
+        "normal": "(0.0, 0.0, 1.0)",
+        "pairs": [
+          {
+            "environment_point": "(55.32194, 4.770722, 55.3)",
+            "fresh_normal": "(0.0, 0.0, 1.0)",
+            "fresh_point": "(55.32194, 4.770722, 55.3)",
+            "query_point": "(55.32194, 4.770722, 55.29932)"
+          },
+          {
+            "environment_point": "(55.32194, 3.630722, 55.3)",
+            "fresh_normal": "(0.0, 0.0, 1.0)",
+            "fresh_point": "(55.32194, 3.630722, 55.3)",
+            "query_point": "(55.32194, 3.630722, 55.29932)"
+          }
+        ],
+        "point": "(55.43877, 3.892297, 55.3)",
+        "radius": 0.280000001192093,
+        "raw_margin": 0.001,
+        "rid": "RID(20074677141924)",
+        "shape": 20,
+        "signed_gap": 0.000316649675374592,
+        "solver_safe_margin": 0.0149999996647239,
+        "zero_margin_overlap": false
+      },
+      "raw_capsule_hit": true
+    }
+  ],
+  "loaded_wall_controls": [
+    {
+      "id": "foreign_owner",
+      "result": {
+        "clear": false,
+        "reason": "wrong_expected_identity"
+      }
+    },
+    {
+      "id": "wrong_integer_shape",
+      "result": {
+        "clear": false,
+        "reason": "wrong_expected_identity"
+      }
+    },
+    {
+      "id": "opposite_face_normal_same_shape",
+      "result": {
+        "clear": false,
+        "reason": "wrong_expected_identity"
+      }
+    },
+    {
+      "actual_frame_auth_refusal": {
+        "clear": false,
+        "reason": "not_actual_native_frame"
+      },
+      "actual_zero_margin_hit": true,
+      "id": "20mm_deep_query_only_proxy",
+      "independent_pure_signed_plane_classification": {
+        "clear": false,
+        "reason": "negative_gap",
+        "signed_gap": -0.0196838080882973
+      },
+      "scope": "modified proxy is not actual Node/native frame; actual helper refuses before its gap branch"
+    },
+    {
+      "id": "pure_nan_solver_margin",
+      "result": {
+        "clear": false,
+        "reason": "invalid_pure_inputs"
+      }
+    },
+    {
+      "id": "pure_nonunit_native_normal",
+      "result": {
+        "clear": false,
+        "reason": "invalid_pure_inputs"
+      }
+    },
+    {
+      "id": "nonfinite_origin",
+      "result": {
+        "clear": false,
+        "reason": "invalid_frame"
+      }
+    },
+    {
+      "id": "finite_entries_overflow_determinant",
+      "result": {
+        "clear": false,
+        "reason": "invalid_frame"
+      }
+    },
+    {
+      "id": "pure_nonfinite_backend_origin",
+      "result": {
+        "clear": false,
+        "reason": "invalid_current_or_backend_full_frame"
+      }
+    },
+    {
+      "id": "pure_backend_determinant_overflow",
+      "result": {
+        "clear": false,
+        "reason": "invalid_current_or_backend_full_frame"
+      }
+    }
+  ],
+  "score_banks": [
+    {
+      "actual_delta": 7400,
+      "base": 925,
+      "count": 8,
+      "entries": [
+        {
+          "award": 150,
+          "id": "nollie",
+          "physics": 158,
+          "points": 150,
+          "repeat_before": 0
+        },
+        {
+          "award": 200,
+          "id": "grind_50_50",
+          "physics": 162,
+          "points": 200,
+          "repeat_before": 0
+        },
+        {
+          "hold": 25,
+          "physics": 177
+        },
+        {
+          "hold": 25,
+          "physics": 192
+        },
+        {
+          "award": 100,
+          "id": "ollie",
+          "physics": 203,
+          "points": 100,
+          "repeat_before": 0
+        },
+        {
+          "award": 100,
+          "id": "manual",
+          "physics": 232,
+          "points": 100,
+          "repeat_before": 0
+        },
+        {
+          "award": 50,
+          "id": "ollie",
+          "physics": 387,
+          "points": 100,
+          "repeat_before": 1
+        },
+        {
+          "award": 100,
+          "id": "grind_50_50",
+          "physics": 391,
+          "points": 200,
+          "repeat_before": 1
+        },
+        {
+          "hold": 25,
+          "physics": 406
+        },
+        {
+          "hold": 25,
+          "physics": 421
+        },
+        {
+          "hold": 25,
+          "physics": 436
+        },
+        {
+          "hold": 25,
+          "physics": 451
+        },
+        {
+          "award": 25,
+          "id": "ollie",
+          "physics": 465,
+          "points": 100,
+          "repeat_before": 2
+        },
+        {
+          "award": 50,
+          "id": "manual",
+          "physics": 494,
+          "points": 100,
+          "repeat_before": 1
+        }
+      ],
+      "expected": 7400,
+      "physics": 584,
+      "valid": true
+    },
+    {
+      "actual_delta": 5688,
+      "base": 711,
+      "count": 8,
+      "entries": [
+        {
+          "award": 12,
+          "id": "ollie",
+          "physics": 667,
+          "points": 100,
+          "repeat_before": 3
+        },
+        {
+          "award": 300,
+          "id": "wallride",
+          "physics": 682,
+          "points": 300,
+          "repeat_before": 0
+        },
+        {
+          "award": 250,
+          "id": "wallie",
+          "physics": 715,
+          "points": 250,
+          "repeat_before": 0
+        },
+        {
+          "award": 25,
+          "id": "manual",
+          "physics": 750,
+          "points": 100,
+          "repeat_before": 2
+        },
+        {
+          "award": 6,
+          "id": "ollie",
+          "physics": 869,
+          "points": 100,
+          "repeat_before": 4
+        },
+        {
+          "award": 50,
+          "id": "grind_50_50",
+          "physics": 879,
+          "points": 200,
+          "repeat_before": 2
+        },
+        {
+          "hold": 25,
+          "physics": 894
+        },
+        {
+          "hold": 25,
+          "physics": 909
+        },
+        {
+          "award": 6,
+          "id": "ollie",
+          "physics": 912,
+          "points": 100,
+          "repeat_before": 5
+        },
+        {
+          "award": 12,
+          "id": "manual",
+          "physics": 941,
+          "points": 100,
+          "repeat_before": 3
+        }
+      ],
+      "expected": 5688,
+      "physics": 963,
+      "valid": true
+    }
+  ],
+  "one_combo": false,
+  "score": 13088,
+  "bails": 0,
+  "recoveries": 0,
+  "strict_sampled_chase": true,
+  "feature_intervals": [
+    {
+      "from": "first_catch",
+      "to": "manual_landing",
+      "physics_steps": 70,
+      "seconds_at_60hz": 1.1666666666666667,
+      "actual_path_m": 8.08228761702781,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "manual_landing",
+      "to": "second_catch",
+      "physics_steps": 159,
+      "seconds_at_60hz": 2.65,
+      "actual_path_m": 15.0809020623564,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "second_catch",
+      "to": "paving_landing",
+      "physics_steps": 103,
+      "seconds_at_60hz": 1.7166666666666666,
+      "actual_path_m": 7.5885991081596025,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "paving_landing",
+      "to": "native_landward_wall_entry",
+      "physics_steps": 188,
+      "seconds_at_60hz": 3.1333333333333333,
+      "actual_path_m": 16.272370167076602,
+      "exceeds_3s_review_trigger": true
+    },
+    {
+      "from": "native_landward_wall_entry",
+      "to": "earned_landward_wallie",
+      "physics_steps": 33,
+      "seconds_at_60hz": 0.55,
+      "actual_path_m": 3.946011804044197,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "earned_landward_wallie",
+      "to": "wallie_manual_landing",
+      "physics_steps": 35,
+      "seconds_at_60hz": 0.5833333333333334,
+      "actual_path_m": 5.732451364398003,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "wallie_manual_landing",
+      "to": "first_bearing_native_return_catch",
+      "physics_steps": 129,
+      "seconds_at_60hz": 2.15,
+      "actual_path_m": 9.231194686144605,
+      "exceeds_3s_review_trigger": false
+    },
+    {
+      "from": "first_bearing_native_return_catch",
+      "to": "returned_first_bearing_paving_manual",
+      "physics_steps": 62,
+      "seconds_at_60hz": 1.0333333333333334,
+      "actual_path_m": 4.642226733267293,
+      "exceeds_3s_review_trigger": false
+    }
+  ],
+  "scope": "One direction of one local existing-geometry return, source-bound to frozen05:11:31 snapshot; not current later-source/fitted admission, whole-map L1, moving visual, hardware or fun acceptance."
+}

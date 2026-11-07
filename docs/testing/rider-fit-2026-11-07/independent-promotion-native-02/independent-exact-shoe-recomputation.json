@@ -1,0 +1,39 @@
+{
+  "kind": "Independent QE exact integer half-space and oriented-edge computation from actual native indexed-source certificate; independent implementation, no runtime hull code imported",
+  "native_input_sha256": "6aea89ba6876fcd4d635e56e00f8a4018f6ad41659fe6314ae8c32974035489a",
+  "legs": [
+    {
+      "side": -1.0,
+      "source_points": 1645,
+      "support_points": 288,
+      "faces": 572,
+      "common_exact_binary_denominator": 549755813888,
+      "positive_integer_halfspace_tests": 0,
+      "degenerate_faces": 0,
+      "invalid_indices": 0,
+      "bad_directed_edge_records": 0,
+      "euler": 2,
+      "all_support_points_referenced": true,
+      "all_support_points_exact_native_source": true,
+      "pass": true
+    },
+    {
+      "side": 1.0,
+      "source_points": 1645,
+      "support_points": 294,
+      "faces": 584,
+      "common_exact_binary_denominator": 549755813888,
+      "positive_integer_halfspace_tests": 0,
+      "degenerate_faces": 0,
+      "invalid_indices": 0,
+      "bad_directed_edge_records": 0,
+      "euler": 2,
+      "all_support_points_referenced": true,
+      "all_support_points_exact_native_source": true,
+      "pass": true
+    }
+  ],
+  "passed": true,
+  "python_seconds_diagnostic_only": 0.6534609170012118,
+  "scope": "Closed oriented native source-point convex enclosure at zero tolerance only; no native physics/contact response/M5/time-budget certificate."
+}

@@ -1,0 +1,24 @@
+{
+  "reviewer": "/root/independent_qa",
+  "source_sha256": "82f3a3a4702a025dbc176a8c0fdc18e6a552ff74ed5e5458f69d9ae6590f662f",
+  "standard_library_isolated_reproduction": {
+    "argv": [
+      "python3",
+      "-I",
+      "-S",
+      "docs/testing/rider-fit-2026-11-07/fitted-reference-reproduction/build_fitted_rig_reference.py",
+      "--assets",
+      "temporary copy of only four declared public V13 files",
+      "--output",
+      "temporary/reference.json"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "output_sha256": "eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae",
+    "expected_native_reference_match": true
+  },
+  "confirmed_first_pass_defect": "After honest metadata repin, removing final SkinnedJacket.mesh_vertex_game_rest_positions_m element still builds successfully because zip truncates. Require exact rest metadata/source ID/POSITION counts.",
+  "source_cold_read_defect": "Require exactly three unique admitted mesh names; current mesh loop permits duplicate overwrite or missing parts.",
+  "wording": "Generator currently copies100waist edge identities from pinned metadata; native adapter separately authenticates actual indexed incidence. Avoid calling copied metadata an independently derived source-edge list.",
+  "scope": "Read-only standard-library reproduction and temporary malformed source; no engine/runtime asset writes. Defects are private reference-tool admission findings, not demonstrated shipped gameplay regressions. Owner preparing bounded correction."
+}

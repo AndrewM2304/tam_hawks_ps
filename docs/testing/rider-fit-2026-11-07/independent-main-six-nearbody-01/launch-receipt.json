@@ -1,0 +1,43 @@
+{
+  "utc_start": "2026-11-07T07:31:17.494855+00:00",
+  "utc_end": "2026-11-07T07:36:03.917644+00:00",
+  "godot_pid": 89979,
+  "xorg_pid": 89975,
+  "returncode": 0,
+  "failure": null,
+  "raw_error": false,
+  "source_stable": true,
+  "source_count": 748,
+  "wall_seconds": 286.4254594800004,
+  "command": [
+    "godot",
+    "--path",
+    "/workspace/tam_hawks_ps",
+    "--rendering-method",
+    "gl_compatibility",
+    "--rendering-driver",
+    "opengl3",
+    "--audio-driver",
+    "Dummy",
+    "--display-driver",
+    "x11",
+    "--disable-render-loop",
+    "--fixed-fps",
+    "60",
+    "--windowed",
+    "--resolution",
+    "1280x800",
+    "--script",
+    "res://.local/rider-fit-staging/push-capture-selection/push_main_six_nearbody.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/rider-fit-staging/push-capture-selection/main-six-nearbody-01"
+  ],
+  "specific_source_pins": {
+    "game/art/assets/tam_skateboard/tam_skateboard.glb": "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
+    "game/art/assets/horizon/clyde_water.gdshader": "d646a33cc39d70fdd456f0534106d238bc1c318fb9e7081dd81ce1ba87ae4e44",
+    "tools/full_fidelity_capture.gd": "432f4d8b8d90ecca3659a79b01c291eecad56980e1053039cac39528a5579bf1",
+    "tools/full_fidelity_capture.sh": "88a7d7e3a51e382798ff91c1bd3e25ad165e6a6805ba056ecc8349e40e928de3",
+    "tools/full_fidelity_capture_png.py": "b800b08bd83384a3daf50a81e7f2176babd5610f86ca868200fd32f2b282d7cf"
+  },
+  "scope": "Actual ordinaryMain six selected moving-input stills, wholeworldworkload, original7physical push/brake/pop cases and alltraces. No continuousnormal-speed, wholeart/contact, Mac orperformance acceptance."
+}

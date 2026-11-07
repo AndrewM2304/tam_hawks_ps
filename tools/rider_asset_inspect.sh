@@ -31,19 +31,25 @@ if [[ -d .local/fidelity/rider-studio ]]; then
   TASK_EPOCH_TAG="$(date -u +%Y%m%dT%H%M%SZ)"
   mv .local/fidelity/rider-studio ".local/fidelity/rider-studio-history-$TASK_EPOCH_TAG"
 fi
+set +e
 ./tools/run.sh --audio-driver Dummy --fixed-fps 60 --script tools/rider_asset_inspect.gd 2>&1 | tee "$TASK_STUDIO_LOG"
-python3 - "$TASK_STUDIO_LOG" <<'PY'
+TASK_ENGINE_STATUS=${PIPESTATUS[0]}
+set -e
+python3 - "$TASK_STUDIO_LOG" "$TASK_ENGINE_STATUS" <<'PY'
 from pathlib import Path
 import hashlib, json, re, sys
 log = Path(sys.argv[1]).read_bytes()
 path = Path('.local/fidelity/rider-studio/receipt.json')
 receipt = json.loads(path.read_text())
 clean = not re.search(rb'SCRIPT ERROR:|Parse Error:|ERROR:', log)
+receipt['engine_exit_code'] = int(sys.argv[2])
 receipt['engine_log_clean'] = clean
 receipt['engine_log_sha256'] = hashlib.sha256(log).hexdigest()
-if not clean:
+if not clean or int(sys.argv[2]) != 0:
     receipt['failures'] += 1
+receipt['accepted'] = clean and int(sys.argv[2]) == 0 and receipt['failures'] == 0 and receipt.get('source_stable', False)
 path.write_text(json.dumps(receipt, indent=2) + '\n')
+sys.exit(0 if receipt['accepted'] else 1)
 PY
 if rg -q 'SCRIPT ERROR:|Parse Error:|ERROR:' "$TASK_STUDIO_LOG"; then
   echo 'Rider studio rejected engine/script errors; inspect .local/rider-studio-native.log.' >&2

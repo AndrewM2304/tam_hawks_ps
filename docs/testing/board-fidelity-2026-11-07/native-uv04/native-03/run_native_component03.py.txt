@@ -1,0 +1,37 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time
+ROOT=Path(__file__).parent;P=ROOT/'native-project';O=ROOT/'native-component-03';O.mkdir(exist_ok=False)
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def source():return {str(p.relative_to(P)):sha(p) for p in sorted(P.rglob('*')) if p.is_file() and '.godot' not in p.parts and p.suffix not in ('.import','.png','.uid') and p.name!='native-result.json'}
+def godots():
+ out=[]
+ for row in subprocess.check_output(['ps','-eo','pid=,comm=,args='],text=True).splitlines():
+  parts=row.strip().split(None,2)
+  if len(parts)==3 and parts[1]=='godot':out.append({'pid':int(parts[0]),'args':parts[2]})
+ return out
+env=os.environ.copy()
+for key in ('DATA','CACHE','CONFIG'):
+ path=ROOT/('xdg-'+key.lower());path.mkdir(exist_ok=True);env['XDG_'+key+'_HOME']=str(path.resolve())
+start=time.monotonic();deadline=start+29.7;epochs=[];before=source();registry=sha(P/'.godot/global_script_class_cache.cfg');initial_imports={str(p.relative_to(P)):sha(p) for p in sorted(P.rglob('*.import'))};overlap=godots()
+def run(name,cmd,cap):
+ log=O/(name+'.log');record={'name':name,'command':cmd,'utc_start':now(),'hard_limit_s':cap};t=time.monotonic();stop=None
+ with log.open('wb') as w:
+  proc=subprocess.Popen(cmd,stdout=w,stderr=subprocess.STDOUT,env=env,start_new_session=True);record['pid']=proc.pid;seen=0;carry=b''
+  while proc.poll() is None:
+   with log.open('rb') as r:r.seek(seen);chunk=r.read();seen=r.tell()
+   joined=carry+chunk;carry=joined[-100:]
+   if re.search(rb'SCRIPT ERROR:|\nERROR:|Parse Error',joined):stop='first native engine error';break
+   if time.monotonic()-t>cap or time.monotonic()>deadline:stop='cumulative30s engine deadline';break
+   time.sleep(.03)
+  if proc.poll() is None:
+   os.killpg(proc.pid,signal.SIGTERM)
+   try:proc.wait(timeout=1)
+   except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait()
+ raw=log.read_bytes();record.update({'returncode':proc.returncode,'utc_end':now(),'stop':stop,'raw_engine_error':bool(re.search(rb'SCRIPT ERROR:|\nERROR:|Parse Error',raw)),'raw_log_sha256':sha(log)});epochs.append(record);print(json.dumps(record),flush=True)
+ return not stop and proc.returncode==0 and not record['raw_engine_error']
+base=['godot','--headless','--path',str(P.resolve()),'--audio-driver','Dummy']
+ok=run('parser',base+['--check-only','--script','res://probe.gd'],5)
+if ok:ok=run('isolated-editor-import',base+['--editor','--import','--quit'],max(.1,deadline-time.monotonic()))
+if ok:ok=run('native',base+['--script','res://probe.gd'],max(.1,deadline-time.monotonic()))
+after=source();result={'epochs':epochs,'wrapper_sha256':sha(Path(__file__)),'initial_import_metadata_sha256':initial_imports,'bootstrap_global_class_registry':registry,'source_before':before,'source_after':after,'source_stable':before==after,'overlap_at_start':overlap,'Godots_at_end':godots(),'generated_import_metadata_after':{str(p.relative_to(P)):sha(p) for p in sorted(P.rglob('*')) if p.is_file() and '.godot' not in p.parts and p.suffix in ('.import','.png','.uid')},'scope':'private tiny actual-imported component proof; root-granted lease required; elapsed metadata is not performance','complete':ok and before==after,'utc_end':now()};(O/'receipt.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:v for k,v in result.items() if k not in ('source_before','source_after')},indent=2));raise SystemExit(0 if result['complete'] else 1)

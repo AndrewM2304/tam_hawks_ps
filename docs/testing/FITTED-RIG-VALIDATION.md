@@ -299,3 +299,128 @@ Independent QE additionally found required adapter improvements now being prepar
 Official Skeleton3D source also gives every nonempty Skin bind name precedence over its index. The inherited production helper was index-first. A held private name-first helper `77f2a6a09a40055b644b91eed901afb1111b10b15684d9293f28689998cfaab2` has independent **18/0 native palette/GPU** support, including conflicting valid bindings and missing-name failure. Promotion and rerunning the original 139 contact limits remain director-controlled.
 
 Independent source-only audits are retained under `.local/rider-rig-validation`: shoe audit **57/0** reconstructs all eight original UV components, verifies sock islands 6/7 each have 154 UV vertices / 252 triangles, and proves exported non-sock coverage plus unchanged Cupsole/toe provenance. Per foot the actual V9→V10 delta is **171 real upper triangles restored, 61 old sock triangles removed, net +110**, with no non-sock triangle lost. Hand atlas audit **30/0** verifies original 1,817/84 UV islands, positive uniform material transform/repeat tiles, padding, and 6,300 independently inverted albedo samples against the licensed 2K source within half an 8-bit quantum. Wrong offset and disabled-repeat controls fail. An early native array diagnostic maps all 1,901 vertices on each hand to original U and `1−OBJ V`; because its enclosing epoch06 is rejected, this observation will be reconfirmed in a clean cohort. These audits do not certify final materials, mipmaps or moving presentation.
+
+## Coherent clock and final composite admission — 7 November 2026
+
+The private epoch07 is a clean **54/4** baseline. Its four original attachment
+failures concern the independently interpolated rigid head versus the current
+Skin palette. The matched epoch08 changes only the Player's local Rider and Board
+subtrees to interpolation OFF, preserving the interpolated actor/Visual ancestors,
+and passes the entire original attachment repertoire plus native source controls
+**58/0**. Real indexed Head missing-edge/orphan and reversed cloth winding controls
+separately pass **6/0**. [Independent review](rider-fit-2026-11-07/fitted-admission-epoch08/)
+binds the matched sources and preserves the rejected baseline and first invalid
+control fixture. This is private source admission, not a production policy change.
+
+Actual rendered clock02 captures independently reconstruct a worst retained
+**36.671-mm** head/chest separation under the original local clocks versus micron
+separation with the coherent policy. All current component poses, native Skin
+palettes, cameras and outer rendered frames match. The [independent 300/0 review](rider-fit-2026-11-07/independent-clock-02/)
+verifies native endpoint projections and selected original images. The earlier
+83/224-mm figures remain headless CPU/model-interpolated estimates; they are not
+GPU measurements. [A separate native MODEL witness](fidelity-2026-11-06/rendered-model-clock-01/README.md)
+proves that an OFF descendant still inherits interpolation from its ON ancestor.
+Smooth high-refresh animation and target-Mac cost remain unmeasured.
+
+The public reference generator v2 reproduces the exact native reference using
+only four pinned public assets and Python's standard library. It authenticates
+all 100 source waist edges, three unique meshes and complete attribute lengths,
+and rejects honestly repinned malformed metadata. [Independent 18/0 reproduction](rider-fit-2026-11-07/fitted-reference-reproduction/v2/)
+supports its integration; the original truncated-metadata loophole and v1 source
+are retained separately.
+
+The artist's transported03 leg-frame change retains the original 11 bones,
+endpoints, source positions and weights. Actual final Skeleton frame history,
+upper-segment transport and a conditioned common bend plane remove independent
+segment sign flips. The private native temporal observer passes **16/0** across
+near-straight extension, full bend-plane rotation, antiparallel folds, final
+snapshot overrides and reset. [Independent 29/0 review](rider-fit-2026-11-07/independent-leg-temporal03/)
+finds no blocker in that bounded change; it does not certify moving gameplay.
+
+The first final composite combines exact V13 assets, transported03, coherent
+Player clocks, current forecast45/name-first helper77 and the motion engineer's
+candidate05 per-leg sole/full-shoe support cache. Its import and 12-control math
+smoke are clean. The full source-bound core is **198/1**, exit 1 with no raw engine
+errors and 875 unchanged source inputs. All original attachment and arm checks
+pass, but strict non-arm bone parity in WallManual fails. A read-only repeat is
+**90/1**, source-stable: its first difference is only neck bone 10, at the first
+3.274-mm visual root correction, with identical head/torso local transforms and
+basis but a **14.9-nm** local origin difference. The automatic external
+BoneAttachment and final Player-local `pose_head` are competing drivers. Keep the
+failure; do not relax exact parity. A caller-selective automatic-driver API is
+prepared privately for controlled testing, retaining the NPC default driver.
+
+The fresh native shoe certificate independently passes with exact Python integer
+determinants over full-precision binary32 coordinates: 1,645 source points per
+foot, 288/294 support vertices, closed oriented 572/584-face hulls, zero outside
+points and 6,984 raw support-coordinate bytes. The unsupported exponent-span
+negative retains every source endpoint. Fresh hand arrays again match all
+1,901 source corner pairs per side with original U and `1−OBJ V`; no unflipped-V
+match exists. These bounded positives do not turn the rejected combined run green.
+
+Exact final private source, prebound wrapper, manifests, failed logs and native
+outputs are under `.local/fitted-rig-admission/final-composite-01`. No fitted asset,
+new attachment adapter or local clock policy has been promoted by this specialist.
+Ordinary Main/motion, the corrected strict contact cohort, caller-specific live NPC
+clocks, selected final native views, the 26 folded-lapel pairs and MacBook Air M5
+performance remain explicit admission work.
+
+The final private composite subsequently passes the original full core
+**199/0**, ordinary Main/standalone Motion **67/0**, and the public fitted/NPC
+constructor and encounter cohort **249/0**, all with clean raw logs and unchanged
+source pins. The Player-only automatic-neck-driver exclusion restores strict
+bone parity; NPC one-argument defaults and shared skin materials remain intact.
+The real Main constructor also required removal of its obsolete separate-collar
+material lookup. The registered public fitted module contributes **60** checks,
+including math, source edges/winding, corruption and actual indexed shoe-cache
+controls. The independent exact-integer certificate is part of the proposed
+ordinary `tools/check.sh` gate, not an inference from matching native predicates.
+
+The fresh fitted contact cache contains 3,488 nonzero native influences and
+1,202/1,116 endpoint vertices: worst eight envelopes require **13,952 weighted
+contributions**, plus **9,272 model transforms** recorded separately, in **66,100
+packed bytes**. The original 16,000-contribution/512-KiB limits are retained;
+target-M5 CPU p95/p99 remains unmeasured. The final explicit joint/native support,
+12-query, 20-cm wrist, 8-mm skin and 220-mm continuity limits all remain unchanged.
+
+[The durable final packet](rider-fit-2026-11-07/final-composite-admission-01/README.md)
+preserves executable observers, candidate sources, prebound wrappers/manifests,
+losslessly compressed raw logs and the rejected preceding stages. The director
+has now performed the [guarded actual source install](rider-fit-2026-11-07/actual-install-01/receipt.json):
+115 exact files installed and 16 obsolete asset/import/generator files retired,
+with other source bytes preserved. Actual editor import, focused current-main
+verification and full regression are the director's next gates. Live NPC clocks,
+selected final moving Main captures, internal folded-lapel pairs and target-Mac
+performance remain separate from this source installation.
+
+The private native inputs bind 113 of the 115 integration entries. The public
+60-check module and certificate verifier execute directly in those observers;
+the two final runner/check hook files are source-reviewed there and await their
+actual execution in the director's full check. Actual-focused01 is separately
+rejected immediately for a typed-variable inference error in the later NPC clock
+policy; no private green result is relabelled as that failed actual integration.
+
+[Actual-focused02](rider-fit-2026-11-07/actual-focused-02/README.md) now passes
+**93/0** on installed source: public Fitted60, default Main Motion/support32 and
+Music/profile isolation1, followed by the installed independent exact-integer
+shoe verifier. Exit0, no raw errors and all 875 executable/source hashes remain
+unchanged before native execution, after exit and after the certificate. Its
+only actual-runtime changes from rejected actual-focused01 are the two explicit
+Node3D declarations. The actor clock, bead tips, sun policy, level integration and
+capture tools are included in that source scope. All 11 actual imported Skin
+indices are -1 with valid names; no current name/index conflict is observed.
+This completes the focused actual integration gate, while full registered
+runner/check execution, moving graphical acceptance and M5 verification remain
+separate.
+
+The promoted, unchanged `tools/rider_asset_inspect.sh` also completes its existing
+**nine** native close views, zero failures, with **79/0** outer source/capture
+checks and 874 unchanged actual inputs. [The packet](rider-fit-2026-11-07/promoted-inspector-01/README.md)
+retains nine clean plus nine proof originals, exact PNG/native-RGBA identities,
+current camera/pose/counter brackets and the original marker limits. All nine
+clean images were opened. Face/eyes, continuous cloth/cuffs and restored shoe
+vamps are visible; resting hand splay/highlights, close collar/sleeve stiffness
+and an angular raised knee remain qualitative follow-ups. The thick/orange legacy
+board edge belongs to separate board work. This validates the existing inspector
+on installed source, not AAA finish, continuous movement, ordinary Main rendering
+or M5 performance. No rendering pipeline, source fixture or thresholds changed.

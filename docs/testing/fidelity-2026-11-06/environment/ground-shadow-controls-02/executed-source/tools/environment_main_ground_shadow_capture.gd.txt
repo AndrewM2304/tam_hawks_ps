@@ -1,0 +1,87 @@
+extends "res://tools/environment_main_paving_capture.gd"
+var _ground_frames: Array[Dictionary] = []
+var _ground_modes: Dictionary = {}
+var _floor: MeshInstance3D
+var _ground_sun: DirectionalLight3D
+var _sun_shadows: bool
+var _floor_cast: int
+var _baseline_sun_bias: float
+var _baseline_sun_normal_bias: float
+var _native_defaults: Dictionary = {}
+var _normal_flags: Dictionary = {}
+const MODES = ["before-a","sun-shadow-off","floor-caster-off","normal-map-off","native-default-bias","before-b"]
+func _run() -> void:
+ var ready: bool=await _start_actual_main()
+ if not ready:return
+ var body: StaticBody3D=game.world.get_node("ExchangeLowerCourt")
+ var visuals: Array[Node]=body.find_children("*","MeshInstance3D",true,false)
+ _check(visuals.size()==1,"exact existing ExchangeLowerCourt has one native visual")
+ if visuals.size()!=1:quit(1);return
+ _floor=visuals[0] as MeshInstance3D
+ _ground_sun=game.world.get_node("LateAfternoonSun")
+ _sun_shadows=_ground_sun.shadow_enabled
+ _baseline_sun_bias=_ground_sun.shadow_bias
+ _baseline_sun_normal_bias=_ground_sun.shadow_normal_bias
+ var native_default_light:=DirectionalLight3D.new()
+ _native_defaults={"shadow_bias":native_default_light.shadow_bias,"shadow_normal_bias":native_default_light.shadow_normal_bias,"source":"actual public DirectionalLight3D.new getters; probe never added to scene and freed before capture"}
+ native_default_light.free()
+ print("NATIVE_DIRECTIONAL_SHADOW_DEFAULTS ",_native_defaults)
+ _floor_cast=_floor.cast_shadow
+ for key: String in ["paving","path"]:_normal_flags[key]=game.world._materials[key].normal_enabled
+ var base_bindings:=_paving_materials()
+ _water_before=_inventory()
+ _create_pixel_proofs()
+ _inspection.global_position=Vector3(-12,1.3,11)
+ _inspection.look_at(Vector3(-8,0,17))
+ _inspection.current=true
+ _active_proof_camera=_inspection
+ game.hud.visible=false
+ _write_ground(false)
+ for index: int in MODES.size():
+  var mode: String=MODES[index]
+  _ground_sun.shadow_enabled=_sun_shadows and mode!="sun-shadow-off"
+  _ground_sun.shadow_bias=float(_native_defaults.shadow_bias) if mode=="native-default-bias" else _baseline_sun_bias
+  _ground_sun.shadow_normal_bias=float(_native_defaults.shadow_normal_bias) if mode=="native-default-bias" else _baseline_sun_normal_bias
+  _floor.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if mode=="floor-caster-off" else _floor_cast
+  for key: String in _normal_flags:game.world._materials[key].normal_enabled=bool(_normal_flags[key]) and mode!="normal-map-off"
+  var inventory:=_inventory()
+  var normalised: Dictionary=inventory.duplicate(true)
+  normalised.sun.shadow_enabled=_water_before.sun.shadow_enabled
+  normalised.sun.bias=_water_before.sun.bias
+  normalised.sun.normal_bias=_water_before.sun.normal_bias
+  var floor_rows:=0
+  for row: Dictionary in normalised.nonwater:
+   if row.instance_id==_floor.get_instance_id():row.cast_shadow=_floor_cast;floor_rows+=1
+  _check(floor_rows==1 and normalised==_water_before,"only declared sun flag/exact floor caster or2shared normal-enabled fields may differ; geometry/resources/colliders retained")
+  if mode=="native-default-bias":
+   _check(inventory.nonwater==_water_before.nonwater and inventory.water==_water_before.water and inventory.collisions==_water_before.collisions and _ground_sun.shadow_enabled==_sun_shadows,"native-default-bias preserves EVERY original caster, all real receiving shadows and all native geometry/collision identities")
+  _ground_modes[mode]={"inventory":inventory,"sun_shadow_enabled":_ground_sun.shadow_enabled,"floor_path":str(game.world.get_path_to(_floor)),"floor_instance_id":_floor.get_instance_id(),"floor_mesh_id":_floor.mesh.get_instance_id(),"floor_aabb":str(_floor.mesh.get_aabb()),"floor_cast":_floor.cast_shadow,"normal_flags":{"paving":game.world._materials.paving.normal_enabled,"path":game.world._materials.path.normal_enabled},"normal_texture_ids":{"paving":game.world._materials.paving.normal_texture.get_instance_id(),"path":game.world._materials.path.normal_texture.get_instance_id()},"floor_material_id":_floor.material_override.get_instance_id()}
+  var bindings:=_paving_materials()
+  _check(bindings==base_bindings,"all2sharedground material/texture identity, dimensions and PBR scale/strength/tint bindings remain exact")
+  _ground_modes[mode].material_bindings=bindings
+  _position_proofs(index,0)
+  await process_frame
+  await create_timer(0.0,true).timeout
+  var physics_before:=Engine.get_physics_frames()
+  var process_before:=Engine.get_process_frames()
+  var image: Image=await _render_current_frame()
+  var proofs:=_verify_pixel_proofs(image)
+  var projection: Projection=_inspection.get_camera_projection()
+  var filename: String=mode+"-ground.png"
+  var stored:=_store_frame(image,filename)
+  _ground_frames.append({"file":filename,"mode":mode,"pixels":stored,"physics_before":physics_before,"physics_after":Engine.get_physics_frames(),"process_before":process_before,"process_after":Engine.get_process_frames(),"pixel_proofs":proofs,"camera_basis":[_v(_inspection.global_basis.x),_v(_inspection.global_basis.y),_v(_inspection.global_basis.z)],"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],"keep_aspect":_inspection.keep_aspect,"near":_inspection.near,"far":_inspection.far,"viewport_size":[root.size.x,root.size.y],"camera_position":_v(_inspection.global_position),"camera_forward":_v(-_inspection.global_basis.z),"fov":_inspection.fov,"counters":_native_counters()})
+  _write_ground(false)
+ _check(_ground_frames.size()==6,"all6declared causal controls complete")
+ _write_ground(true)
+ print("ACTUAL_MAIN_GROUND_RESULT checks=",checks," failures=",failures)
+ quit(1 if failures else 0)
+func _write_ground(complete: bool) -> void:
+ var report: Dictionary={"complete":complete,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),"images":_ground_frames,"synchronization_proofs":_sync_proofs,"inventory_before":_water_before,"mode_inventories":_ground_modes,"timing_measured":false,"native_directional_shadow_defaults":_native_defaults,"baseline_shadow_bias":_baseline_sun_bias,"baseline_shadow_normal_bias":_baseline_sun_normal_bias,"limits":"Private actual Main640x400 source-material-ground diagnostic. Original→sunshadowOFF→onlyexactExchangeLowerCourt visual casterOFF→only2shared paving/path normal-enabled fieldsOFF→actualnative-default-bias with EVERY original caster retained→restoredoriginal. Onlydeclared caster/normal-enabled flags and actualnative-default bias control differ; no map/geometry/collider/energy/sky/source modifications; nonwater/water native identities guarded. Camera fixed; fullperframe nativepixels/matrices/ticks/2worldmarkers/Canvas.3inheritedstartup proofs. Warm cache, no timing/cost/soleengine/M5 or final finish/promotion claim."}
+ var file:=FileAccess.open(output.path_join("actual-main-ground-report.json"),FileAccess.WRITE)
+ if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+ else:_check(false,"ground diagnostic report writable")
+
+func _position_proofs(mode: int, view: int) -> void:
+ _proof_markers[0].global_position = _active_proof_camera.to_global(Vector3(-1.6+view*0.35+mode*0.10,1.2,-5))
+ _proof_markers[1].global_position = _active_proof_camera.to_global(Vector3(1.5-view*0.25,0.8+mode*0.12,-5))
+ _proof_swatch.color = Color8(30+40*mode,40+50*view,190-20*mode)

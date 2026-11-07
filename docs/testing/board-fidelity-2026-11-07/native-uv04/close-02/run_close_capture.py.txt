@@ -1,0 +1,51 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time
+R=Path(__file__).parent;P=R/'native-project';O=R/'close-02';O.mkdir(exist_ok=False)
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inputs():
+ files=[p for p in P.rglob('*') if p.is_file() and 'frames' not in p.parts and '.godot' not in p.parts and p.name not in ['native-result.json','close-receipt.json']]
+ files += [p for p in (P/'.godot/imported').glob('*') if p.suffix in ['.scn','.ctex']]
+ return {str(p.relative_to(P)):sha(p) for p in sorted(files)}
+env=os.environ.copy()
+for key in ['DATA','CACHE','CONFIG']:
+ d=R/('xdg-'+key.lower());d.mkdir(exist_ok=True);env['XDG_'+key+'_HOME']=str(d.resolve())
+start=time.monotonic();deadline=start+120;before=inputs();launcher_before=sha(Path(__file__));epochs=[];xorg=None;display=None
+
+def run(name,cmd,cap):
+ log=O/(name+'.log');rec={'name':name,'command':cmd,'utc_start':now(),'hard_limit_s':cap};t=time.monotonic();stop=None
+ with log.open('wb') as output:
+  process=subprocess.Popen(cmd,stdout=output,stderr=subprocess.STDOUT,env=env,start_new_session=True);rec['pid']=process.pid;seen=0;carry=b'';print(json.dumps({'started':rec}),flush=True)
+  while process.poll() is None:
+   with log.open('rb') as f:f.seek(seen);chunk=f.read();seen=f.tell()
+   check=carry+chunk;carry=check[-150:]
+   if re.search(rb'SCRIPT ERROR:|Parse Error:|\nERROR:',check):stop='first engine error';break
+   if time.monotonic()-t>cap or time.monotonic()>deadline:stop='120s aggregate bound';break
+   time.sleep(.04)
+  if process.poll() is None:
+   os.killpg(process.pid,signal.SIGTERM)
+   try:process.wait(timeout=1)
+   except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait()
+ raw=log.read_bytes();rec.update({'utc_end':now(),'returncode':process.returncode,'stop':stop,'raw_engine_error':bool(re.search(rb'SCRIPT ERROR:|Parse Error:|\nERROR:',raw)),'raw_log_sha256':sha(log)});epochs.append(rec);print(json.dumps(rec),flush=True)
+ return rec['returncode']==0 and not stop and not rec['raw_engine_error']
+okay=run('parser',['godot','--headless','--path',str(P.resolve()),'--audio-driver','Dummy','--check-only','--script','res://close_capture.gd'],5)
+try:
+ if okay:
+  display_file=O/'display';display_handle=display_file.open('wb');console=(O/'xorg-console.log').open('wb')
+  xorg=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(display_handle.fileno()),'-config',str(Path('tools/xorg-dummy.conf').resolve()),'-logfile',str((O/'xorg.log').resolve()),'-noreset','-nolisten','tcp'],pass_fds=(display_handle.fileno(),),stdout=console,stderr=subprocess.STDOUT,start_new_session=True)
+  for i in range(60):
+   if display_file.stat().st_size:break
+   if xorg.poll() is not None:raise RuntimeError('Xorg failed')
+   time.sleep(.05)
+  display=':'+display_file.read_text().strip();env['DISPLAY']=display;env['LIBGL_ALWAYS_SOFTWARE']='1'
+  cmd=['godot','--path',str(P.resolve()),'--rendering-method','gl_compatibility','--rendering-driver','opengl3','--display-driver','x11','--audio-driver','Dummy','--windowed','--resolution','1280x800','--script','res://close_capture.gd']
+  okay=run('graphics',cmd,max(.1,deadline-time.monotonic()))
+finally:
+ if xorg and xorg.poll() is None:
+  os.killpg(xorg.pid,signal.SIGTERM)
+  try:xorg.wait(timeout=2)
+  except subprocess.TimeoutExpired:os.killpg(xorg.pid,signal.SIGKILL);xorg.wait()
+after=inputs();capture={};f=P/'close-receipt.json'
+if f.exists():capture=json.loads(f.read_text());(O/'close-receipt.json').write_bytes(f.read_bytes())
+receipt={'epochs':epochs,'source_before':before,'source_after':after,'source_stable':before==after,'launcher_before_sha256':launcher_before,'launcher_after_sha256':sha(Path(__file__)),'launcher_stable':launcher_before==sha(Path(__file__)),'xorg_pid':xorg.pid if xorg else None,'display':display,'scope':'eight matched isolated board model/shaded normal views, actual bound texture readback/native pixel-camera proof; no Main/action/contact/M5 timing claim','complete':okay and before==after and launcher_before==sha(Path(__file__)) and len(capture.get('frames',[]))==8 and capture.get('failures',1)==0}
+(O/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps({k:v for k,v in receipt.items() if k not in ['source_before','source_after']},indent=2));raise SystemExit(0 if receipt['complete'] else 1)

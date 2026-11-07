@@ -49,19 +49,26 @@ func _ready() -> void:
 	_anatomy = Anatomy.new()
 	_details = Node3D.new()
 	_details.name = "HiVisWaistcoat" if steward else "CoatDetails"
+	# Process-driven rigid branches share the current Skin pose clock.
+	# AdultActivityBody and the actor retain whole-character interpolation.
+	_details.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	_body.add_child(_details)
 	_build_clothing_details(coat)
 	_head = Node3D.new()
 	_head.name = "Head"
+	_head.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	_body.add_child(_head)
 	_anatomy.build_head(_head)
 	for side: float in [-1.0,1.0]:
 		var foot := Node3D.new()
 		foot.name = "LeftShoe" if side < 0.0 else "RightShoe"
+		foot.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		_body.add_child(foot)
 		Footwear.build(foot,shoes,rubber,trousers)
 		_feet.append({"node":foot,"side":side,"point":Vector3.ZERO,"normal":Vector3.UP})
-		_hands.append(_anatomy.build_hand(_body,side))
+		var hand: Node3D = _anatomy.build_hand(_body,side)
+		hand.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+		_hands.append(hand)
 	_find_skater()
 	_pose(0.0)
 
@@ -226,27 +233,9 @@ func _pose(delta: float) -> void:
 		_anatomy.pose_hand(_hands[index],0.05+0.12*(1.0-maxf(_offer_blend,_success_blend)))
 
 
-func _build_clothing_details(coat: StandardMaterial3D) -> void:
-	var dark := _material(Color("263237"))
-	var collar := [Vector3(0.46,0.073,0.063),Vector3(0.52,0.067,0.058)]
-	_loft(_details,"FoldedCoatCollar",collar,coat)
-	var outer: Array[Vector4] = []
-	for ring: Vector4 in COAT_PROFILE:
-		outer.append(Vector4(ring.x,ring.y+0.012,ring.z+0.012,ring.w))
+func _build_clothing_details(_coat: StandardMaterial3D) -> void:
 	if steward:
-		var hi_vis := _material(Color("c4ce59"))
-		hi_vis.albedo_texture = coat.albedo_texture
-		_loft(_details,"ShapedHiVisWaistcoat",outer,hi_vis)
-		var reflective := _material(Color("cad4d0"))
-		reflective.metallic = 0.2
-		_loft(_details,"ReflectiveWaistBand",[_ring_at(outer,0.105,0.003),_ring_at(outer,0.145,0.003)],reflective)
-		_loft(_details,"ReflectiveChestBand",[_ring_at(outer,0.274,0.003),_ring_at(outer,0.313,0.003)],reflective)
-		for side: float in [-1.0,1.0]:
-			_panel(_details,"ReflectiveShoulderTape",Vector3(side*0.11,0.374,0),Vector2(0.027,0.16),reflective,outer)
-	else:
-		for side: float in [-1.0,1.0]:
-			_panel(_details,"CoatPocketFlap",Vector3(side*0.105,0.153,0),Vector2(0.105,0.032),dark,COAT_PROFILE)
-	_panel(_details,"CoatZip",Vector3(0,0.25,0),Vector2(0.008,0.43),dark,outer if steward else COAT_PROFILE)
+		_garments.add_role_accessory("steward")
 
 
 static func _loft(parent: Node3D, label: String, rings: Array, material: Material) -> void:

@@ -1,0 +1,65 @@
+extends SceneTree
+const BASELINE = preload("res://game/characters/cat_actor.gd")
+const CANDIDATE = preload("res://candidate_drummer.gd")
+var actors: Array[Node3D] = []
+var checks: Array = []
+var samples: Array = []
+var maximum := 0.0
+func _initialize() -> void:
+	_run.call_deferred()
+func ck(label: String,condition: bool) -> void:
+	checks.append({"label":label,"pass":condition})
+func xyz(p: Vector3) -> Array:
+	return [p.x,p.y,p.z]
+func rows(t: Transform3D) -> Array:
+	return [[t.basis.x.x,t.basis.y.x,t.basis.z.x,t.origin.x],[t.basis.x.y,t.basis.y.y,t.basis.z.y,t.origin.y],[t.basis.x.z,t.basis.y.z,t.basis.z.z,t.origin.z],[0,0,0,1]]
+func _run() -> void:
+	var mover := Node3D.new()
+	mover.name = "CommonInterpolatedMotionRoot"
+	mover.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
+	root.add_child(mover)
+	for script: GDScript in [BASELINE,CANDIDATE]:
+		var actor: Node3D = script.new()
+		mover.add_child(actor)
+		actor.call("set_audio_gain",0.0)
+		actor.call("set_encounter_state","success",3,12.0,false,"playing")
+		actor.call("start_celebration")
+		actors.append(actor)
+	for tick: int in 36:
+		await physics_frame
+		await process_frame
+		var frame := {"tick":tick,"twins":[]}
+		for actor: Node3D in actors:
+			var shafts: Array = actor.get("_sticks")
+			var beads: Array = actor.get("_stick_tips")
+			var ends: Array = []
+			for i: int in shafts.size():
+				var shaft: MeshInstance3D = shafts[i]
+				var bead: MeshInstance3D = beads[i]
+				var arrays := shaft.mesh.surface_get_arrays(0)
+				var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+				var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
+				var low := Vector3(INF,INF,INF)
+				var high := Vector3(-INF,-INF,-INF)
+				for p: Vector3 in vertices:
+					low = low.min(p)
+					high = high.max(p)
+				var local := Vector3((low.x+high.x)*.5,high.y,(low.z+high.z)*.5)
+				var tip := shaft.global_transform*local
+				var gap := tip.distance_to(bead.global_position)
+				maximum = maxf(maximum,gap)
+				ck("tick"+str(tick)+" actual current shaft/bead endpoint"+str(i),gap < .000005)
+				ends.append({"native_top_local":xyz(local),"native_vertex_count":vertices.size(),"native_index_count":indices.size(),"shaft_model":rows(shaft.global_transform),"bead_model":rows(bead.global_transform),"shaft_world":xyz(tip),"bead_world":xyz(bead.global_position),"gap_m":gap,"shaft_mode":shaft.physics_interpolation_mode,"bead_mode":bead.physics_interpolation_mode})
+			frame.twins.append(ends)
+		samples.append(frame)
+		ck("tick"+str(tick)+" actual endpoint physical twins exact",frame.twins[0][0].shaft_world==frame.twins[1][0].shaft_world and frame.twins[0][1].shaft_world==frame.twins[1][1].shaft_world and frame.twins[0][0].bead_world==frame.twins[1][0].bead_world and frame.twins[0][1].bead_world==frame.twins[1][1].bead_world)
+		ck("tick"+str(tick)+" common root/actor remains interpolated",mover.is_physics_interpolated_and_enabled() and actors[0].is_physics_interpolated_and_enabled() and actors[1].is_physics_interpolated_and_enabled())
+		ck("tick"+str(tick)+" candidate shaft and separate bead OFF",frame.twins[1][0].shaft_mode==Node.PHYSICS_INTERPOLATION_MODE_OFF and frame.twins[1][0].bead_mode==Node.PHYSICS_INTERPOLATION_MODE_OFF and frame.twins[1][1].shaft_mode==Node.PHYSICS_INTERPOLATION_MODE_OFF and frame.twins[1][1].bead_mode==Node.PHYSICS_INTERPOLATION_MODE_OFF)
+	var failed := 0
+	for item: Dictionary in checks:
+		if not item["pass"]:failed += 1
+	var out := FileAccess.open("res://tip-logical-receipt.json",FileAccess.WRITE)
+	out.store_string(JSON.stringify({"scope":"Headless native CURRENT transforms and real cylinder endpoint only; no rendered/interpolated endpoint/pixel/contact/Main/performance acceptance. Actual public-state process animation, exact V13original versus actual revised constructor.","passed":checks.size()-failed,"failed":failed,"checks":checks,"samples":samples,"maximum_current_endpoint_gap_m":maximum},"\t"))
+	out.close()
+	print("TIP_LOGICAL_RESULT passed=",checks.size()-failed," failed=",failed," max_current_gap_m=",maximum)
+	quit(1 if failed else 0)

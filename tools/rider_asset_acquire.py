@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Fetch two verified CC0 skin files with bounded ZIP range reads, not a full pack.
+"""Fetch verified CC0 rider sources with bounded ZIP reads, never the full pack.
 
 This original developer tool uses the configured HTTP proxy and normal TLS trust.
 It performs no authentication, purchase, hosted job or runtime network request.
 """
 from pathlib import Path
+import argparse
+import json
 import hashlib
 import io
 import urllib.request
@@ -55,6 +57,18 @@ class BoundedZipSource(io.RawIOBase):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--fitted", action="store_true", help="Include the pinned authentic hair/outfit/footwear/face asset data.")
+    parser.add_argument("--body", action="store_true", help="Fetch the existing four pinned body/morph data files into the ignored cache.")
+    parser.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[1])
+    args = parser.parse_args()
+    root = args.project_root.resolve()
+    DEST = root / ".local/downloads/mh_skin"
+    if args.fitted:
+        source_manifest = json.loads((root / "game/art/rider/fitted-source-pins.json").read_text())
+        if source_manifest["archive"] != PACK or source_manifest["archive_bytes"] != PACK_BYTES:
+            raise RuntimeError("Fitted source archive pin differs from the inspected catalogue.")
+        FILES.update({member["member"]: member["sha256"] for member in source_manifest["members"]})
     DEST.mkdir(parents=True, exist_ok=True)
     needed = {name: digest for name, digest in FILES.items() if not (DEST / Path(name).name).exists()
               or hashlib.sha256((DEST / Path(name).name).read_bytes()).hexdigest() != digest}
@@ -64,5 +78,26 @@ if __name__ == "__main__":
                 data = archive.read(name)
                 if hashlib.sha256(data).hexdigest() != digest:
                     raise RuntimeError("Source digest mismatch; review upstream before modifying the pinned hash")
-                (DEST / Path(name).name).write_bytes(data)
-    print("Verified2 CC0 skin source files in .local/downloads/mh_skin")
+                temporary = DEST / ("." + Path(name).name + ".tmp")
+                temporary.write_bytes(data)
+                temporary.replace(DEST / Path(name).name)
+    for name, digest in FILES.items():
+        if hashlib.sha256((DEST / Path(name).name).read_bytes()).hexdigest() != digest:
+            raise RuntimeError(f"Cached source digest mismatch: {name}")
+    if args.body:
+        body_cache = root / ".local/downloads/makehuman_hm08"
+        body_cache.mkdir(parents=True, exist_ok=True)
+        manifest = json.loads((root / "game/art/assets/makehuman_hm08/manifest.json").read_text())
+        for name, pin in manifest["sources"].items():
+            path = body_cache / name
+            if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest() != pin["sha256"]:
+                with urllib.request.urlopen(pin["url"], timeout=40) as response:
+                    data = response.read(pin["bytes"] + 1)
+                if len(data) != pin["bytes"] or hashlib.sha256(data).hexdigest() != pin["sha256"]:
+                    raise RuntimeError(f"Body source pin mismatch: {name}")
+                temporary = body_cache / ("." + name + ".tmp")
+                temporary.write_bytes(data)
+                temporary.replace(path)
+            if path.stat().st_size != pin["bytes"] or hashlib.sha256(path.read_bytes()).hexdigest() != pin["sha256"]:
+                raise RuntimeError(f"Cached body source pin mismatch: {name}")
+    print(f"Verified {len(FILES)} selected CC0 archive members" + (" and 4 body/morph sources." if args.body else "."))

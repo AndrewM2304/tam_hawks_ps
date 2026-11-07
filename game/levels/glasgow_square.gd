@@ -298,8 +298,8 @@ func _build_lighting() -> void:
 	sun.light_energy = 0.86
 	sun.shadow_opacity = 0.80
 	sun.shadow_enabled = true
-	sun.shadow_bias = 0.035
-	sun.shadow_normal_bias = 0.55
+	sun.shadow_bias = 0.1
+	sun.shadow_normal_bias = 2.0
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
 	sun.directional_shadow_max_distance = 75.0
 	add_child(sun)

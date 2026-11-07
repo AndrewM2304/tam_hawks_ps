@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T07:37:25.440104+00:00",
+  "finished_utc": "2026-11-07T07:43:26.626657+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--script",
+      "tools/environment_main_water_material_capture.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/current-main-water-source/.local/environment-water/actual-main-three-v-two-water-01"
+    ]
+  ],
+  "git_head": "97d72fa15bd3032a04658a827e8dbc76a2af09ff",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": null,
+  "engine_errors": false,
+  "abort_reason": "TimeoutExpired: Command '['./tools/run.sh', '--rendering-method', 'gl_compatibility', '--audio-driver', 'Dummy', '--windowed', '--resolution', '1280x800', '--script', 'tools/environment_main_water_material_capture.gd', '--', '/workspace/tam_hawks_ps/.local/environment-phase2/current-main-water-source/.local/environment-water/actual-main-three-v-two-water-01']' timed out after 360 seconds",
+  "last_stage": "tools/environment_main_water_material_capture.gd",
+  "process_timeout_seconds": 360,
+  "workload": "actual-main-water-material-three-views-ABA-1280x800",
+  "concurrent_headless_authorised_pid": 89810,
+  "other_godot_at_start": [
+    "89810 godot --path /workspace/tam_hawks_ps --headless --fixed-fps 60 --script tests/run_tests.gd"
+  ],
+  "ignored_godot_zombies_at_start": [
+    {
+      "pid": 82100,
+      "state": "Z"
+    }
+  ],
+  "timing_measured": false,
+  "source_inventory_sha256": "ca8c7b7c5c1b02a4fe71f406a03bc776827cebaa276fd94ea86387b902cb09dd",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "synchronization/first_contact_inspection.png": "fdbb7cd2b612fcc6c378e276a6b9633b830e649bb58b5feddcc3ebc898d681ec",
+    "synchronization/overview_before_contact.png": "b89e4734a4dbab0651944c06ca8f2f2015ace77a809060f00aa7bbe74f3b35d5",
+    "synchronization/return_to_production_chase.png": "20672e92af2a3968adbf61c80fd91628064f92b44cc217e5778fb00a229c164a",
+    "three-a-fountain.png": "7cad4a1b1cc384f23d5891a79841eae702aead4c4c233786f583fac8afe2a2d9",
+    "three-a-pond.png": "2f982a49a2ff9c04a4cdd92d12edfe13d0e7d43917e850d660fb49927a7dc7f9",
+    "three-a-river.png": "7d2074972361c11ccad7b2c5d76d622175a8569b1c430c0eb7e3702a099f932f",
+    "three-b-fountain.png": "8578047b8777564396ca448e012106e51206bdb0085dfc7104af0d3f9bfcedcb",
+    "three-b-river.png": "9d2c95b510f1d3b89784ca6b0e1c82f339a4387ecd68ddcefd7c039b69aaf9ef",
+    "two-candidate-fountain.png": "3805beadcec57e972591af99254e62268549365ecc49a45bdaa5427c7521235c",
+    "two-candidate-pond.png": "a03f28f0a9c1557b5b46647349f56ce3d4d7c04c82d23b035ccd6340c620d636",
+    "two-candidate-river.png": "832df56ab27e14d27b309876983f4d94c1a216d59ddbfb2b84f3548159170af4"
+  },
+  "eligible": false,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

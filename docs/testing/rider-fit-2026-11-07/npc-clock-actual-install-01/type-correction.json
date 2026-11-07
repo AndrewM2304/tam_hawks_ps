@@ -1,0 +1,18 @@
+{
+  "utc": "2026-11-07T06:57:04.965825+00:00",
+  "files": [
+    {
+      "file": "game/features/activity_actor.gd",
+      "before_sha256": "fb1318c384ace51f9531451f3792b612dc82ce58870b95b7843ead71cfdb68cd",
+      "after_sha256": "45bb2438fdb81155b4a285e8082feae41f9d4c1a6ffc4f7fbf37053cbacc1e14",
+      "change": "Explicit Node3D type for dynamic RefCounted build_hand return; no pose/geometry behavior change."
+    },
+    {
+      "file": "game/characters/busker_actor.gd",
+      "before_sha256": "34fb6ffbde1c37300e381333ea1786d4583ecce7284ec85ace925fd2128b74e0",
+      "after_sha256": "67f52b238472f0e539fc27405f94cd6c5f5f51722ed02508fb18cece84cfc54e",
+      "change": "Explicit Node3D type for dynamic RefCounted build_hand return; no pose/geometry behavior change."
+    }
+  ],
+  "reason": "Both first actual Main observers rejected on original Activity constructor type inference before checks/frames. Original installation receipt and rejected epochs retained; actual import and fresh focused/capture follow."
+}

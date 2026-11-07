@@ -1,0 +1,122 @@
+{
+  "reviewer": "LD, independent of environment implementation",
+  "utc": "2026-11-07T07:58:50.569398+00:00",
+  "scope": "Offline recomputation of recorded raw statistics and native process ownership only. No engine/rerun/source edits/images reviewed.",
+  "input_sha256": {
+    "isolated-water-report.json": "da286dcefe99765311a29f6734a393134e66fd85a5ce9e15faa32c747b160c1f",
+    "host-observer.json": "add9ff9aa24435ec389c1cf565cc2175352fd510baa9a7c14faf18c9ef600b7e",
+    "receipt.json": "351cab9d297f0944756ddfad6786773428893a7c15c8065d328ac41b541be356",
+    "analysis.json": "601d5fac17f7c322a45bcf2d7e29a09f5388d00e1d51f377919e4ca397c0ec6a",
+    "source-before.json": "17f4d83e64d7273b8f2bc5330b473021cac2d261e80ffa872bc1a4027061ab7b",
+    "source-after.json": "17f4d83e64d7273b8f2bc5330b473021cac2d261e80ffa872bc1a4027061ab7b",
+    "executed-source/tools/environment_water_probe.py.txt": "1229b1c9dc33f984205514f72fb27b534dd9d6b526407693d01f99e17700a542"
+  },
+  "cells": 27,
+  "raw_samples": 4771,
+  "nearest_rank_rule": "sorted[ceil(p*N)-1]",
+  "nearest_rank_statistics_checked": 81,
+  "statistics_mismatches": [],
+  "comparisons": 27,
+  "candidate_exceeds_both_controls": [
+    {
+      "view": "grazing",
+      "repeat": 2,
+      "percentile": "p99",
+      "before_a_ms": 33.314,
+      "candidate_ms": 34.452,
+      "before_b_ms": 28.563,
+      "candidate_over_slower_control_percent": 3.4159812691360925
+    },
+    {
+      "view": "high-coverage",
+      "repeat": 2,
+      "percentile": "p99",
+      "before_a_ms": 31.013,
+      "candidate_ms": 60.335,
+      "before_b_ms": 31.238,
+      "candidate_over_slower_control_percent": 93.14616812856138
+    },
+    {
+      "view": "river-oblique",
+      "repeat": 0,
+      "percentile": "p50",
+      "before_a_ms": 12.433,
+      "candidate_ms": 13.557,
+      "before_b_ms": 13.064,
+      "candidate_over_slower_control_percent": 3.773729332516851
+    },
+    {
+      "view": "river-oblique",
+      "repeat": 2,
+      "percentile": "p50",
+      "before_a_ms": 13.34,
+      "candidate_ms": 13.739,
+      "before_b_ms": 13.452,
+      "candidate_over_slower_control_percent": 2.1335117454653663
+    },
+    {
+      "view": "river-oblique",
+      "repeat": 2,
+      "percentile": "p99",
+      "before_a_ms": 30.148,
+      "candidate_ms": 31.162,
+      "before_b_ms": 26.494,
+      "candidate_over_slower_control_percent": 3.3634071911901264
+    }
+  ],
+  "authored_exceedances_match_as_unordered_records": true,
+  "all9_candidate_p95_below_slower_control": true,
+  "all_raw_resource_tuples": [
+    [
+      1,
+      2,
+      14736405,
+      7451468
+    ]
+  ],
+  "source_inputs": 802,
+  "before_after_equal": true,
+  "source_manifest_hash_matches_receipt": true,
+  "executed_wrapper_matches_bound_source": true,
+  "host_samples": 407,
+  "ownership_failures": [],
+  "live_native_pids": [
+    85315
+  ],
+  "recorded_zombie_pids": [
+    82100
+  ],
+  "transient_other_busy": [
+    {
+      "utc": "2026-11-07T07:03:49.318553+00:00",
+      "rows": [
+        {
+          "pid": 85717,
+          "name": "python3",
+          "lifetime_cpu_percent": 100.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-11-07T07:03:55.103487+00:00",
+      "rows": [
+        {
+          "pid": 85763,
+          "name": "python3",
+          "lifetime_cpu_percent": 100.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-11-07T07:04:31.245608+00:00",
+      "rows": [
+        {
+          "pid": 86043,
+          "name": "python3",
+          "lifetime_cpu_percent": 184.0
+        }
+      ]
+    }
+  ],
+  "verdict": "Arithmetic/recorded integrity corroborated. Cost admission remains failed/inconclusive:5/27 exceed both controls, highcoverage repeat2p99 +93.146168%; source-stable eligible does not imply performance passed. No causal shader/CPU exclusivity/Main/M5 admission."
+}

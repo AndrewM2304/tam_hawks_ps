@@ -1,0 +1,50 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/station-open-pipe-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/station-open-pipe-source/.local/station_open_probe.gd",
+    "--",
+    "--inventory-only"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/station-open-pipe-source",
+  "started_utc": "2026-11-07T07:16:07.201799+00:00",
+  "os_deadline_seconds": 20,
+  "source_inputs": 1123,
+  "engine_pid": 87526,
+  "engine_exit": 0,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    87471
+  ],
+  "declared_known_project_overlaps": [],
+  "overlap_scope": "Root explicitly authorizes current known qualitative and fixed-tick logical headless overlaps in separate private projects/caches; no timing acceptance",
+  "finished_utc": "2026-11-07T07:16:25.645592+00:00",
+  "wall_seconds": 18.44379225400189,
+  "changed_inputs": [],
+  "errors": [],
+  "result": [
+    0,
+    0
+  ],
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "unknown_other_engine_observed": true,
+  "preserved_sha256": {
+    "native-process-observer.json": "e79aab914d1e10ed7ba3e509a370813a11648da9bac43b822d553a4ae2f31e09",
+    "source-before.json": "3ee2796e4f4b4a2fe3cbbce40301f1fae9236f005ad07183ddbc5b98dce1d0ee",
+    "observer.gd": "e039f16f1202307c8e8295bb757406fc677ea3e15cf19a82387b843f3a99c264",
+    "wrapper.py.txt": "e4e81bc096dc5cd63f32607c4036724eb95b9a7466a6adddcdbf29101b62ed12",
+    "native.log": "2736403bdbc2c4f36ca929b730035bf9b0e279234ae98f24051f9c3ce7051d26",
+    "source-after.json": "3ee2796e4f4b4a2fe3cbbce40301f1fae9236f005ad07183ddbc5b98dce1d0ee"
+  }
+}

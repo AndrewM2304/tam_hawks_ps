@@ -1,0 +1,39 @@
+from pathlib import Path
+import json,hashlib,gzip,re,math,shutil
+from PIL import Image
+import numpy as np
+R=Path('/workspace/tam_hawks_ps');H=R/'.local/rider-fit-staging';P=H/'epochs/v13-three';D=R/'docs/testing/rider-fit-2026-11-07/independent-v13-wardrobe';D.mkdir(exist_ok=True);checks=[]
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+def sha(data):return hashlib.sha256(data).hexdigest()
+def vector(s):return np.array([float(x)for x in re.findall(r'[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?',s)])
+data=json.loads((P/'output/receipt.json').read_text());control=json.loads((H/'epochs/v12-six/output/receipt.json').read_text());index=json.loads((P/'index.json').read_text())['files']
+ck('all145 original epoch pins',len(index)==145 and all(sha((P/k).read_bytes())==v['sha256'] and (P/k).stat().st_size==v['bytes']for k,v in index.items()))
+ck('native120 source stable clean',len(data['source_sha256'])==120 and data['source_sha256']==data['source_after_sha256'] and data['source_stable'] and data['failures']==0)
+ck('native/import/console logs clean',not any(e in (P/name).read_text()for name in ['native.log','import.log','console.log']for e in ['ERROR:','SCRIPT ERROR:','Parse Error:']))
+counter_deltas={}
+for f in data['frames']:
+ label=f['label'];old=next(v for v in control['frames']if v['label']==label);images=[]
+ for folder,key,encoded in [('', 'native_rgba_sha256','png_sha256'),('synchronization','synchronization_native_rgba_sha256','sync_png_sha256')]:
+  p=P/'output'/folder/(label+'.png');image=Image.open(p).convert('RGBA');images.append(image);ck(label+'/'+folder+' original PNG and native RGBA exact',sha(p.read_bytes())==f[encoded] and sha(image.tobytes())==f[key]);q=D/folder/(label+'.webp');q.parent.mkdir(exist_ok=True);image.save(q,format='WEBP',lossless=True,exact=True,method=3);ck(label+'/'+folder+' lossless archived RGBA exact',Image.open(q).convert('RGBA').tobytes()==image.tobytes())
+ pose=f['native_state'];ck(label+' all current native pose/camera brackets exact',all(f[k]==pose for k in ['pose_before_proof_readback','pose_after_proof_readback','pose_before_clean_readback','pose_after_clean_readback']));ck(label+' no physics/process advance inside readbacks',all(f[k][0]==f[k][1]for k in ['proof_readback_counter_bracket','clean_readback_counter_bracket']))
+ for key in ['camera_global','camera_projection_columns','camera_near','camera_far','viewport_pixels','head_global','rider_global','skeleton_global','bone_global_pose_in_skeleton','actual_hand_foot_mesh_transforms_and_blend_shapes']:
+  ck(label+' exact matched V12 '+key,pose[key]==old['native_state'][key])
+ camera=np.array(pose['camera_global']);projection=np.array(pose['camera_projection_columns']).T
+ for channel,marker in enumerate(f['synchronization']):
+  clip=projection@np.linalg.inv(camera)@np.r_[vector(marker['world']),1];projected=np.array([(clip[0]/clip[3]*.5+.5)*1280,(.5-clip[1]/clip[3]*.5)*800]);stated=vector(marker['projected']);ck(label+' independent worldprojection '+str(channel),np.linalg.norm(projected-stated)<.02);points=[]
+  for y in range(max(0,int(stated[1])-12),min(800,int(stated[1])+13)):
+   for x in range(max(0,int(stated[0])-12),min(1280,int(stated[0])+13)):
+    rgb=images[1].getpixel((x,y))[:3];clean=images[0].getpixel((x,y))[:3]
+    if sum(abs(rgb[k]-clean[k])for k in range(3))>30.6 and rgb[channel]>191.25 and all(rgb[channel]-rgb[k]>51 for k in range(3)if k!=channel):points.append((x+.5,y+.5))
+  ck(label+' actual 3D marker '+str(channel),len(points)==marker['count'] and math.dist(np.mean(points,axis=0),stated)<2.5)
+ before=old['native_allocation_and_render_counters'];after=f['native_allocation_and_render_counters'];deltas={k:after[k]-before[k]for k in ['buffer_bytes','draw_calls','primitives','texture_bytes']};counter_deltas[label]=deltas
+ ck(label+' matched per-process draw/textures stable bounded buffers',deltas['draw_calls']==deltas['texture_bytes']==0 and 0<=deltas['buffer_bytes']<=852 and deltas['primitives']==(0 if label=='npc-market'else 72))
+for name in ['native.log','import.log','console.log','index.json','matched-v12-review.json']:shutil.copyfile(P/name,D/name)
+(D/'receipt.json.gz').write_bytes(gzip.compress((P/'output/receipt.json').read_bytes(),mtime=0));(D/'control-v12-receipt.json.gz').write_bytes(gzip.compress((H/'epochs/v12-six/output/receipt.json').read_bytes(),mtime=0))
+for epoch in ['v12-six','v13-three']:
+ q=D/'selected-original-png'/(epoch+'-npc-steward.png');q.parent.mkdir(exist_ok=True);shutil.copyfile(H/'epochs'/epoch/'output/npc-steward.png',q)
+for source in ['preview.gd','game/player/skater_garments.gd','game/player/skater_role_wardrobe.gd']:
+ p=P/'source'/source
+ if p.exists():q=D/'executed-source'/(source+'.txt');q.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,q)
+out={'passed':sum(v['pass']for v in checks),'failed':sum(not v['pass']for v in checks),'checks':checks,'counter_deltas':counter_deltas,'personally_viewed_originals':['V12 npc-steward','V13 npc-steward','V13 npc-drummer','V13 npc-market'],'verdict':'Bounded settled NPC still improvement: conspicuous left-side steward shirt fragments are covered and drummer sleeves remain clear at exact matched native poses/cameras. Apron remains flat and plain, overall prop/wardrobe finish and live animation still open. Supports retaining this exact accessory repair for combined fitted admission, not final NPC/Main/AAA acceptance.','scope':'All six V13 original/proof native buffers independently checked and losslessly re-encoded WebP; two selected original steward PNGs retained verbatim. Full original epochs remain ignored locally. All eleven palette states and actual rigid contacts/curls remain identical to V12; no moving garment/contact/temporal or target-device test. Native submitted primitive72 delta is distinct from author source24triangle change.','limits':'Read-only image/source checks; no new engine, no targetMac frame time or globalVRAM claim. Coarse companion props and apron finish remain visibly below final benchmark.'}
+(D/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n');shutil.copyfile(__file__,D/'independent-verify.py.txt');preserved={str(p.relative_to(D)):sha(p.read_bytes())for p in D.rglob('*')if p.is_file()and p.name!='preservation.json'};(D/'preservation.json').write_text(json.dumps(preserved,indent=2)+'\n');print({'passed':out['passed'],'failed':out['failed'],'failures':[v for v in checks if not v['pass']]});raise SystemExit(bool(out['failed']))

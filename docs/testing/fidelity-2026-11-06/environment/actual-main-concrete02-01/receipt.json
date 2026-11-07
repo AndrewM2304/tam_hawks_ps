@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T05:39:35.652128+00:00",
+  "finished_utc": "2026-11-07T05:43:44.027210+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--script",
+      "tools/environment_main_paving_capture.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/main-flat-paving-source/.local/environment-water/actual-main-concrete02-01"
+    ]
+  ],
+  "git_head": "4a7ae8e31c1a4c1fe59206ef8464ba1821a31ce5",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_main_paving_capture.gd",
+  "process_timeout_seconds": 360,
+  "workload": "actual-main-paving-ABA-1280x800",
+  "concurrent_headless_authorised_pid": null,
+  "other_godot_at_start": [],
+  "timing_measured": false,
+  "source_inventory_sha256": "d883f1a07df514c2290ca75f2e5607da49c17966a90e1d02cb10948abfd17d01",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "before-a-close-ground.png": "aa9b9b1a14da37e3e665147b91068870865c2a764f3bc5af9f1a2b26da09a6a6",
+    "before-a-court-readability.png": "0892c88edb2444a94aff225574d00920b85e1bee48e551b23b6b8093ba5e2977",
+    "before-a-ordinary-spawn.png": "56f172ad3116134cd28a30c0e3787e028fb26316a2d64d5e7c03d585447dbc4b",
+    "before-b-close-ground.png": "7841ae09618b2b4668ad4cbdaf1ad3466d29fc735aa626f7e01da38e1979caa0",
+    "before-b-court-readability.png": "4bc8fb619218f64a99dffe2b0065e0023e9469539cbb8ce6a83789fd2c727745",
+    "before-b-ordinary-spawn.png": "3763d01ff4efa4071acdfef6c0291acdd93dedab2caa2266128605879420de9f",
+    "flags-candidate-close-ground.png": "4890549195ba38f98d6e7f8327c6a9946847f85e67af3ae918d6c8d9e18d8b89",
+    "flags-candidate-court-readability.png": "287c7afbd31492fa6f0eabc5a5892d47fdf888f53d212ee374b0d8a4308731a3",
+    "flags-candidate-ordinary-spawn.png": "93561d3d272c6bac3f48e0a24c522266a9e94a0276a2f7fdb3606f3cf9a0fdb6",
+    "synchronization/first_contact_inspection.png": "a8791f6750a3f1b2bbbd4d16413d5acf89524723e3e261201ca85ffd909b0600",
+    "synchronization/overview_before_contact.png": "b9881c70a83a587f5fc8691aa8ec89a0013ae2d8625d6f6fd81fb876ac212fda",
+    "synchronization/return_to_production_chase.png": "e879f2593dee7845ebac052616c19eb3ec31fd39d4f9e979f69a9cf350b0cc1f"
+  },
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

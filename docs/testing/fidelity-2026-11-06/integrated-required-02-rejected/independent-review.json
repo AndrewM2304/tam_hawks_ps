@@ -1,0 +1,118 @@
+{
+  "passed": 17,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "all6 original wrapper-preserved files hashes exact",
+      "pass": true
+    },
+    {
+      "label": "886 complete required source inputs unchanged",
+      "pass": true
+    },
+    {
+      "label": "before inventory originalencoded hash binds receipt",
+      "pass": true
+    },
+    {
+      "label": "executed wrapper source actually included before and after",
+      "pass": true
+    },
+    {
+      "label": "required entrypoint before-bound tools/check.sh",
+      "pass": true
+    },
+    {
+      "label": "required entrypoint before-bound tools/run.sh",
+      "pass": true
+    },
+    {
+      "label": "required entrypoint before-bound tests/run_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "required entrypoint before-bound tests/support/music_launch_guard.gd",
+      "pass": true
+    },
+    {
+      "label": "all6526 actualPASS lines equal final required footer",
+      "pass": true
+    },
+    {
+      "label": "sevenFAIL lines retained exactly",
+      "pass": true
+    },
+    {
+      "label": "three real freedobject ScriptErrors retained separately",
+      "pass": true
+    },
+    {
+      "label": "all10 native error lines equal wrappererror summary",
+      "pass": true
+    },
+    {
+      "label": "native and top-levelcommand final results agree",
+      "pass": true
+    },
+    {
+      "label": "nonzero completed wrapper correctly rejects whole epoch",
+      "pass": true
+    },
+    {
+      "label": "CLI Musicstage was not executed after main failure",
+      "pass": true
+    },
+    {
+      "label": "all three freed-object traces identify forecastowner cast",
+      "pass": true
+    },
+    {
+      "label": "all failures accountedwithoutrelabeling as accepted",
+      "pass": true
+    }
+  ],
+  "actual_result": {
+    "assertions_passed": 6526,
+    "assertions_failed": 7,
+    "script_errors": 3,
+    "process_exit": 1,
+    "source_inputs": 886,
+    "source_changed": [],
+    "git_head": "97d72fa15bd3032a04658a827e8dbc76a2af09ff",
+    "working_tree_dirty": true,
+    "started_utc": "2026-11-07T07:30:28.420012+00:00",
+    "finished_utc": "2026-11-07T08:07:49.796105+00:00",
+    "elapsed_seconds": 2241.249264
+  },
+  "failure_classification": {
+    "current_live_contact_camera": [
+      "C04-L05: the moved bank's full crossing, coast and bowl-side return keep strict ordinary full-body chase clearance"
+    ],
+    "old_board_source_fingerprint_expectation": [
+      "authentic board: original native GLB geometry including its hardware remains unchanged rest=0.00",
+      "authentic board: original native GLB geometry including its hardware remains unchanged rest=3.14"
+    ],
+    "old_route_count_identity_expectation": [
+      "horizon: all56 fixed prior routes plus five connected-run and two cable routes stay unique with the same six district checkpoints",
+      "skate edges: all56 fixed prior routes, seven connected routes and exactly the installed pond routes remain unique and unchanged by edge registration"
+    ],
+    "current_native_coping_capture": [
+      "transition player: held grind catches and names the actual coping once",
+      "transition player: deliberate lateral vert air can hand off to the real coping grind"
+    ],
+    "runtime_freed_owner": [
+      "Trying to cast a freed object.",
+      "Trying to cast a freed object.",
+      "Trying to cast a freed object."
+    ]
+  },
+  "verdict": "REJECTED complete current-main technical checkpoint. Test expectation migrations and implementation fixes require fresh affected tests and another complete gate; no subset erases this recorded failure.",
+  "limits": [
+    "886 input/source equality is historical to this exact run; newer patches are not automatically accepted.",
+    "Seven asserted failures and3runtimeScriptErrors are separate, not10assertion failures.",
+    "6526 includes newly integrated focused modules; no comparison of raw counts demonstrates quality or completeness.",
+    "CLI Music launch stage did not run after requiredMainfailed; its separate earlier isolation subsets remain separate.",
+    "No normal-speed current-source fullreel, package/Metal/M5/physical controls/human/AAA pass.",
+    "Native diagnostics in command log contain long per-physics records; retained compressed bytes are lossless, not truncated."
+  ]
+}

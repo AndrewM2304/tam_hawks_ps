@@ -1,0 +1,27 @@
+{
+  "passed": 5,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "installed_editor exact local binary SHA256",
+      "pass": true
+    },
+    {
+      "label": "installed_editor controlled stdout/stderr/exit0",
+      "pass": true
+    },
+    {
+      "label": "verified_linux_release_template exact local binary SHA256",
+      "pass": true
+    },
+    {
+      "label": "verified_linux_release_template controlled stdout/stderr/exit0",
+      "pass": true
+    },
+    {
+      "label": "both exact reported7d41versions agree",
+      "pass": true
+    }
+  ],
+  "scope": "Independent local binary/log hash and controlled receipt audit only; no new engine. Official template archive SHA512 verification is retained director evidence, not re-downloaded/rehashed in this subset. Public35e80 source parity remains unverified; no demonstrated editor/export version mismatch."
+}

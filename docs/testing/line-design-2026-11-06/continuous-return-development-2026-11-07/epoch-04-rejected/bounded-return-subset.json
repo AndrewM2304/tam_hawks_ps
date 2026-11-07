@@ -1,0 +1,96 @@
+{
+  "kind": "derived bounded subset, not upgrade of rejected aggregate",
+  "native_packet": "receipt.json",
+  "requested_return_capture_physics": 879,
+  "frames_through_capture": 788,
+  "all_aggregate_model_contact_predicates_clear": true,
+  "all_capsule_contracts_clear": true,
+  "all_air_shoe_zero_and_wall_skin_context_checks_clear": true,
+  "all_finite_wall_witnesses_clear": true,
+  "raw_1mm_capsule_hits_preserved": [
+    690
+  ],
+  "loaded_wall_positive_frames": [
+    690
+  ],
+  "loaded_wall_controls": [
+    {
+      "id": "foreign_owner",
+      "result": {
+        "clear": false,
+        "reason": "wrong_expected_identity"
+      }
+    },
+    {
+      "id": "wrong_integer_shape",
+      "result": {
+        "clear": false,
+        "reason": "wrong_expected_identity"
+      }
+    },
+    {
+      "id": "opposite_face_normal_same_shape",
+      "result": {
+        "clear": false,
+        "reason": "wrong_expected_identity"
+      }
+    },
+    {
+      "actual_frame_auth_refusal": {
+        "clear": false,
+        "reason": "not_actual_native_frame"
+      },
+      "actual_zero_margin_hit": true,
+      "id": "20mm_deep_query_only_proxy",
+      "independent_pure_signed_plane_classification": {
+        "clear": false,
+        "reason": "negative_gap",
+        "signed_gap": -0.0196838080882973
+      },
+      "scope": "modified proxy is not actual Node/native frame; actual helper refuses before its gap branch"
+    },
+    {
+      "id": "pure_nan_solver_margin",
+      "result": {
+        "clear": false,
+        "reason": "invalid_pure_inputs"
+      }
+    },
+    {
+      "id": "pure_nonunit_native_normal",
+      "result": {
+        "clear": false,
+        "reason": "invalid_pure_inputs"
+      }
+    },
+    {
+      "id": "nonfinite_origin",
+      "result": {
+        "clear": false,
+        "reason": "invalid_frame"
+      }
+    },
+    {
+      "id": "finite_entries_overflow_determinant",
+      "result": {
+        "clear": false,
+        "reason": "invalid_frame"
+      }
+    },
+    {
+      "id": "pure_nonfinite_backend_origin",
+      "result": {
+        "clear": false,
+        "reason": "invalid_current_or_backend_full_frame"
+      }
+    },
+    {
+      "id": "pure_backend_determinant_overflow",
+      "result": {
+        "clear": false,
+        "reason": "invalid_current_or_backend_full_frame"
+      }
+    }
+  ],
+  "scope": "Named loaded contact uses existing100um finite bearing contract and unchanged release-frame proof; ordinaryair actual GLB/shoes remain zero-overlap. Loadedwall is scoped positive-gap/no-overlap ownface proof. Departure after879 fails and aggregate remains rejected."
+}

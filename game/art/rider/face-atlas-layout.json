@@ -1,0 +1,31 @@
+{
+  "size": 2048,
+  "policy": "Existing skin UVs unchanged; opaque eyes use verified unoccupied RGB skin atlas region. Tiny brows use separate alpha map to preserve skinBC1 and avoidlargealphaVRAMincrease.",
+  "regions": {
+    "eyes": {
+      "source_obj": "high-poly.obj",
+      "source_image": "brownlight_eye.png",
+      "rectangle_xywh": [
+        352,
+        528,
+        512,
+        512
+      ],
+      "padding_px": 16,
+      "vertices": 1064,
+      "triangles": 2040,
+      "source_all_triangles": 2040,
+      "native_retained_triangles": 1060
+    },
+    "brows": {
+      "source_obj": "eyebrow001.obj",
+      "source_image": "eyebrow001.png",
+      "separate_RGBA_map": "fitted_brows_albedo.png",
+      "size": [
+        256,
+        256
+      ],
+      "reason": "Keep2KskinRGB/BC1; avoidwholeatlassparsealphaforcingBC3."
+    }
+  }
+}

@@ -1,0 +1,31 @@
+from pathlib import Path
+import argparse,datetime,hashlib,json,os,re,shutil,subprocess,time
+R=Path.cwd();BASE=R/'.local/fitted-rig-admission/final-composite-01';P=BASE/'project';parser=argparse.ArgumentParser();parser.add_argument('stage');parser.add_argument('--script');parser.add_argument('--bound',type=float,default=180);parser.add_argument('--import-assets',action='store_true');args=parser.parse_args();O=BASE/args.stage;O.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inventory():
+ d={'WRAPPER':sha(Path(__file__))}
+ for name in ['game','tests','tools']:
+  for p in (P/name).rglob('*'):
+   if p.is_file() and '__pycache__' not in p.parts:d[str(p.relative_to(P))]=sha(p)
+ for p in P.iterdir():
+  if p.is_file() and (p.suffix=='.gd' or p.name.endswith('.gd.uid') or p.name=='project.godot'):d[p.name]=sha(p)
+ if args.script:
+  p=P/args.script.removeprefix('res://');d[str(p.relative_to(P))]=sha(p)
+ return d
+before=inventory();(O/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');shutil.copy2(Path(__file__),O/'run_final_stage.py');env=os.environ.copy()
+for kind in ['DATA','CONFIG','CACHE']:
+ d=O/('xdg-'+kind.lower());d.mkdir();env['XDG_'+kind+'_HOME']=str(d)
+cmd=['godot','--headless','--path',str(P)]
+if args.import_assets:cmd+=['--editor','--import']
+else:cmd+=['--fixed-fps','60','--script',args.script]
+start=datetime.datetime.now(datetime.timezone.utc).isoformat();timer=time.monotonic();failure=None
+with (O/'native.log').open('w') as log:
+ process=subprocess.Popen(cmd,env=env,stdout=log,stderr=subprocess.STDOUT);seen=0
+ print(json.dumps({'pid':process.pid,'utc':start,'command':cmd,'bound':args.bound}),flush=True)
+ while process.poll() is None:
+  time.sleep(.05)
+  with (O/'native.log').open('rb') as read:read.seek(seen);chunk=read.read();seen=read.tell()
+  if re.search(rb'SCRIPT ERROR|ERROR:|Parse Error',chunk):failure='stop-first-engine-error';process.terminate();break
+  if time.monotonic()-timer>=args.bound:failure='OS time bound';process.kill();break
+ code=process.wait(timeout=5)
+after=inventory();(O/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');raw=(O/'native.log').read_text();receipt={'utc_start':start,'utc_end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'pid':process.pid,'returncode':code,'failure':failure,'raw_engine_error':bool(re.search('SCRIPT ERROR|ERROR:|Parse Error',raw)),'source_stable':before==after,'source_count':len(before),'pre_freeze_import':args.import_assets,'source_delta':[p for p in set(before)|set(after) if before.get(p)!=after.get(p)],'os_bound_seconds':args.bound,'wrapper_sha256_prebound':before['WRAPPER'],'scope':'PRIVATE final composite source import/admission stage; root-authorized qualitative EA/RA overlap may occur, no timing/FPS/VRAM/M5 claim.'};(O/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2));print(raw[-7000:]);raise SystemExit(0 if code==0 and not failure and not receipt['raw_engine_error'] and (args.import_assets or before==after) else 1)

@@ -1,0 +1,1 @@
+See the [independent engine source identity addendum](../engine-source-identity-01/README.md). Public release-tag source is corroborating evidence; exact installed-binary commit parity is unverified. The original native receipt and its directly observed scope remain unchanged.

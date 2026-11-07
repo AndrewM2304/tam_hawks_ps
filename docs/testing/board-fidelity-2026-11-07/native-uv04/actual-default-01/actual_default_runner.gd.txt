@@ -1,0 +1,18 @@
+extends SceneTree
+const Tests=preload("res://tests/board_import_tests.gd")
+var passes:int=0
+var failures:int=0
+func _initialize()->void:_run.call_deferred()
+func _check(ok:bool,label:String)->void:
+ if ok:passes+=1
+ else:failures+=1
+ print("PASS " if ok else "FAIL ",label)
+func _run()->void:
+ Tests.run(_check)
+ var source:String="res://game/art/assets/tam_skateboard/tam_skateboard.glb"
+ var packed:PackedScene=load(source) as PackedScene
+ var model:Node=packed.instantiate()
+ print("ACTUAL_BOARD_IMPORT_META ",JSON.stringify(model.get_meta("tam_board_wood_import",{}),"",true,true))
+ model.free()
+ print("ACTUAL_BOARD_DEFAULT_RESULT ",passes,"/",failures)
+ quit(0 if failures==0 else 1)

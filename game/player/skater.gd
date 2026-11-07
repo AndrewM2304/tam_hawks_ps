@@ -2897,10 +2897,10 @@ func _place_obstacle_wheels(delta: float) -> void:
 			var gap := INF
 			for vertex: Vector3 in geometry.support_points:
 				gap=minf(gap,(_board_visual.to_global(vertex)+offset-point).dot(normal))
-			# Cupsole XZ encloses the upper's XZ for these authored shoes. A
-			# horizontal plane therefore needs no new hull or per-frame mesh scan.
+			# Complete per-leg shoe hull extrema are cached during loading.
+			# A horizontal wall can meet an upper beyond the sole on a tilted foot.
 			for leg: Dictionary in _visual_rig._legs:
-				for vertex: Vector3 in _visual_rig._sole_points:
+				for vertex: Vector3 in _visual_rig.shoe_support_points(leg):
 					gap=minf(gap,(leg.foot.to_global(vertex)+offset-point).dot(normal))
 			if is_finite(gap) and gap<GROUND_PRESENTATION_SKIN:
 				offset+=normal*(GROUND_PRESENTATION_SKIN-gap)
@@ -3330,7 +3330,7 @@ func _place_graded_obstacle_wheels(delta: float) -> void:
 			for vertex: Vector3 in geometry.support_points:
 				gap=minf(gap,(_board_visual.to_global(vertex)+offset-point).dot(normal))
 			for leg: Dictionary in _visual_rig._legs:
-				for vertex: Vector3 in _visual_rig._sole_points:
+				for vertex: Vector3 in _visual_rig.shoe_support_points(leg):
 					gap=minf(gap,(leg.foot.to_global(vertex)+offset-point).dot(normal))
 			var tangent := normal.slide(up)
 			var authority := tangent.dot(normal)
@@ -3371,7 +3371,7 @@ func _graded_obstacle_offset_supported(geometry: Dictionary,offset: Vector3,plan
 		for vertex: Vector3 in geometry.support_points:
 			if (_board_visual.to_global(vertex)+offset).dot(normal)-plane.w<GROUND_PRESENTATION_SKIN-0.00001:return false
 		for leg: Dictionary in _visual_rig._legs:
-			for vertex: Vector3 in _visual_rig._sole_points:
+			for vertex: Vector3 in _visual_rig.shoe_support_points(leg):
 				if (leg.foot.to_global(vertex)+offset).dot(normal)-plane.w<GROUND_PRESENTATION_SKIN-0.00001:return false
 	var space := get_world_3d().direct_space_state
 	for wheel: Dictionary in geometry.wheels:
@@ -3772,7 +3772,7 @@ func _obstacle_offset_supported(geometry: Dictionary,offset: Vector3,planes: Arr
 		for vertex: Vector3 in geometry.support_points:
 			if (_board_visual.to_global(vertex)+offset).dot(normal)-plane.w<GROUND_PRESENTATION_SKIN-0.00001:return false
 		for leg: Dictionary in _visual_rig._legs:
-			for vertex: Vector3 in _visual_rig._sole_points:
+			for vertex: Vector3 in _visual_rig.shoe_support_points(leg):
 				if (leg.foot.to_global(vertex)+offset).dot(normal)-plane.w<GROUND_PRESENTATION_SKIN-0.00001:return false
 	var candidate: Transform3D=_board_visual.global_transform
 	candidate.origin+=offset

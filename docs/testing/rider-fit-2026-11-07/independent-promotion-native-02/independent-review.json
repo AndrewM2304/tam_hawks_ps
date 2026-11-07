@@ -1,0 +1,620 @@
+{
+  "kind": "Independent final private native receipt/source/strictlimit review; no engine rerun",
+  "passed": 149,
+  "failed": 2,
+  "checks": [
+    {
+      "label": "core-remedy-02 native process clean exit",
+      "pass": true
+    },
+    {
+      "label": "core-remedy-02 exact pre/post source counts and stablebytes",
+      "pass": true
+    },
+    {
+      "label": "core-remedy-02 independently counted raw PASS/error log",
+      "pass": true
+    },
+    {
+      "label": "core-remedy-02 actual result agrees raw log count",
+      "pass": true
+    },
+    {
+      "label": "core-remedy-02 wrapper hash was prebound in source inventory",
+      "pass": true
+    },
+    {
+      "label": "core-remedy-02 exact final runtime game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "core-remedy-02 exact final runtime game/player/skater_visual.gd",
+      "pass": true
+    },
+    {
+      "label": "core-remedy-02 exact final runtime game/player/skater_garments.gd",
+      "pass": true
+    },
+    {
+      "label": "core-remedy-02 exact final runtime game/player/skater_anatomy.gd",
+      "pass": true
+    },
+    {
+      "label": "core-remedy-02 exact final runtime game/player/shoe_support_hull.gd",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 native process clean exit",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 exact pre/post source counts and stablebytes",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 independently counted raw PASS/error log",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 actual result agrees raw log count",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 wrapper hash was prebound in source inventory",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 exact final runtime game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 exact final runtime game/player/skater_visual.gd",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 exact final runtime game/player/skater_garments.gd",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 exact final runtime game/player/skater_anatomy.gd",
+      "pass": true
+    },
+    {
+      "label": "constructors-01 exact final runtime game/player/shoe_support_hull.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/accessory-fit.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/eye-source-selection.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/face-atlas-layout.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted-garment-fit.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted-licence-headers.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted-source-pins.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_accessories.glb",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_accessories.glb.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_brows.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_brows.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_brows_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_brows_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_cloth_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_cloth_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_cloth_normal.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_cloth_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_eyes.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_eyes.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_fit.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_hair.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_hair.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_hair_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_hair_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_head.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_head.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_landmarks.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_outfit.glb",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_outfit.glb.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_reflector_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_reflector_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_left_laces.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_left_laces.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_left_sole.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_left_sole.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_left_upper.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_left_upper.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_right_laces.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_right_laces.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_right_sole.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_right_sole.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_right_upper.obj",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_shoe_right_upper.obj.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_vest_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted_vest_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/footwear-fit.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/hand-atlas-layout.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/head-neck-restoration.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/head_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/head_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/head_normal.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/head_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/head_roughness.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/head_roughness.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/lace-fit.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/left_hand_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/left_hand_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/left_hand_normal.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/left_hand_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/left_hand_roughness.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/left_hand_roughness.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/manifest.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/palette-map.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/right_hand_albedo.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/right_hand_albedo.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/right_hand_normal.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/right_hand_normal.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/right_hand_roughness.png",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/right_hand_roughness.png.import",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/source-neck-helper-map.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/fitted-manifest.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/SKIN-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/art/rider/FITTED-NOTICE.md",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_accessories.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_acquire.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_bake.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_fit.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_head.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_laces.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_projection.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_shoes.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_skin.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_surfaces.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/player/skater_visual.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/player/skater_anatomy.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/player/skater_footwear.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/player/skater_garments.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/player/shoe_support_hull.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/features/activity_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/characters/busker_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/characters/market_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/characters/cat_actor.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/levels/city_art.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_inspect.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/rider_asset_inspect.sh",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/skater_body_attachment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/fitted_adapter.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/fitted-reference.json",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/flat_ollie_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/skater_gait_direction_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/activity_actor_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/ambient_adult_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/per_leg_sole_contract.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/full_shoe_support_contract.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/fitted_garment_tests.gd",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/testing/build_fitted_rig_reference.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/testing/verify_shoe_support_certificate.py",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/run_tests.gd",
+      "pass": false
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tools/check.sh",
+      "pass": false
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output game/player/shoe_support_hull.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/fitted_adapter.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/per_leg_sole_contract.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "dedicated publicgate binds exact complete selected output tests/full_shoe_support_contract.gd.uid",
+      "pass": true
+    },
+    {
+      "label": "public60+Activity57+MainNPC131 plus separateisolation1 is249",
+      "pass": true
+    },
+    {
+      "label": "motion-02 native process clean exit",
+      "pass": true
+    },
+    {
+      "label": "motion-02 exact pre/post source counts and stablebytes",
+      "pass": true
+    },
+    {
+      "label": "motion-02 independently counted raw PASS/error log",
+      "pass": true
+    },
+    {
+      "label": "motion-02 actual result agrees raw log count",
+      "pass": true
+    },
+    {
+      "label": "motion-02 wrapper hash was prebound in source inventory",
+      "pass": true
+    },
+    {
+      "label": "motion-02 exact final runtime game/player/skater.gd",
+      "pass": true
+    },
+    {
+      "label": "motion-02 exact final runtime game/player/skater_visual.gd",
+      "pass": true
+    },
+    {
+      "label": "motion-02 exact final runtime game/player/skater_garments.gd",
+      "pass": true
+    },
+    {
+      "label": "motion-02 exact final runtime game/player/skater_anatomy.gd",
+      "pass": true
+    },
+    {
+      "label": "motion-02 exact final runtime game/player/shoe_support_hull.gd",
+      "pass": true
+    },
+    {
+      "label": "separate exactinteger certificate binds fresh actual nativeinput/selfcontrols",
+      "pass": true
+    },
+    {
+      "label": "recorded integer proof sourceprovenance/enclosure/manifold/range all valid",
+      "pass": true
+    },
+    {
+      "label": "actual twoleg hull288/294 points6984B within512perleg/12KiB",
+      "pass": true
+    },
+    {
+      "label": "independently18checked public-only referencegenerator exact",
+      "pass": true
+    },
+    {
+      "label": "source-authenticated native reference bytes exact",
+      "pass": true
+    }
+  ],
+  "verdict": "Supports exact guarded115-file integration and fresh ACTUAL current-source tests. This is not whole-suite/currentMain moving art or AAA acceptance.",
+  "limits": [
+    "Three private native stages retain their distinct877/881-source epochs as recorded above; they are not merged into one fictitious run.",
+    "Public callable issue was caught by QA before dedicated parser, correctedwithoutthresholdchanges; exact corrected115outputs all bound by constructors249/0.",
+    "Recorded exactinteger certificate checked for identity/result here; independent recomputation is separately required/retained, not described as native proof.",
+    "Raw original198/1 andneck90/1 plusstop-first-error Main obsoletecollar failure remain preserved byRV.",
+    "No NPC live-clock policy in115-filebase; its independentlyreviewed additions and LDroute/biaslatercurrentintegration need fresh actualtests.",
+    "No imported compiledcache transfer, targetMac/devicecontrols/M5pacing/human/AAA acceptance."
+  ]
+}

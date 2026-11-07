@@ -291,7 +291,7 @@ func _npc(at: Vector3, coat_color: Color, yaw: float) -> void:
 	var coat := jacket.material_override.duplicate() as StandardMaterial3D
 	coat.albedo_color = coat_color
 	jacket.material_override = coat
-	person.get_node("AdultActivityBody/CoatDetails/FoldedCoatCollar").material_override = coat
+	# The authentic lapel/collar is part of this same skinned jacket surface.
 
 
 func _capsule(parent: Node3D, at: Vector3, radius: float, height: float, material: Material) -> void:

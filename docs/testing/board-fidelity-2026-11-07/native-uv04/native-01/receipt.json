@@ -1,0 +1,63 @@
+{
+  "epochs": [
+    {
+      "name": "parser",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/board-fidelity/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--check-only",
+        "--script",
+        "res://probe.gd"
+      ],
+      "utc_start": "2026-11-07T06:34:54.413190+00:00",
+      "hard_limit_s": 5,
+      "pid": 78283,
+      "returncode": -15,
+      "utc_end": "2026-11-07T06:34:54.598622+00:00",
+      "stop": "first native engine error",
+      "raw_engine_error": true,
+      "raw_log_sha256": "d399a7f0746d539b9763348ebcf22085c4a61ba61403cc9da7727dda6f3a011d"
+    }
+  ],
+  "wrapper_sha256": "e9800c001ea4fffa7fcab8eaa040b4d85fed0723d26ddb10f8a0c4f12cbb5e7f",
+  "initial_import_metadata_sha256": {
+    "baseline/tam_skateboard.glb.import": "286a6131b60a178c615083d81b4412213664bdab0226fb04f123566f830fdbb8",
+    "candidate/tam_skateboard.glb.import": "c378b004775d9524f2a2c52dfd8ff99194a76dd1e26ca6048b74fd23e039988f"
+  },
+  "source_before": {
+    "baseline/tam_skateboard.glb": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+    "candidate/tam_skateboard.glb": "954ff19340b1c41d6ea0f2153f7e41a8242f853b135486bbdc6cf8b2c024993d",
+    "game/tricks/directional_tricks.gd": "181b7147015fe8cfdb230f8467e69472672aa8136a623f1a0305f3a316103300",
+    "game/tricks/grind_clearance.gd": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+    "game/tricks/grind_line.gd": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+    "game/tricks/grind_style.gd": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+    "game/tricks/trick_catalog.gd": "9cb1bdce05dc7ab20abc7731b862e90039df4709fa8b6c4fc24b01f243cb1f99",
+    "probe.gd": "274b82d09cec61c0fb597bb8e2ba91c2434f144ad8a0ac161794754b7b11eab6",
+    "project.godot": "adecb5963312abe09d1cc5b2b046942be964680c9874a9b1c6df84e00e9a4a75"
+  },
+  "source_after": {
+    "baseline/tam_skateboard.glb": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+    "candidate/tam_skateboard.glb": "954ff19340b1c41d6ea0f2153f7e41a8242f853b135486bbdc6cf8b2c024993d",
+    "game/tricks/directional_tricks.gd": "181b7147015fe8cfdb230f8467e69472672aa8136a623f1a0305f3a316103300",
+    "game/tricks/grind_clearance.gd": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+    "game/tricks/grind_line.gd": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+    "game/tricks/grind_style.gd": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+    "game/tricks/trick_catalog.gd": "9cb1bdce05dc7ab20abc7731b862e90039df4709fa8b6c4fc24b01f243cb1f99",
+    "probe.gd": "274b82d09cec61c0fb597bb8e2ba91c2434f144ad8a0ac161794754b7b11eab6",
+    "project.godot": "adecb5963312abe09d1cc5b2b046942be964680c9874a9b1c6df84e00e9a4a75"
+  },
+  "source_stable": true,
+  "overlap_at_start": [],
+  "Godots_at_end": [],
+  "generated_import_metadata_after": {
+    "baseline/tam_skateboard.glb.import": "286a6131b60a178c615083d81b4412213664bdab0226fb04f123566f830fdbb8",
+    "candidate/tam_skateboard.glb.import": "c378b004775d9524f2a2c52dfd8ff99194a76dd1e26ca6048b74fd23e039988f"
+  },
+  "scope": "private tiny actual-imported component proof; root-granted lease required; elapsed metadata is not performance",
+  "complete": false,
+  "utc_end": "2026-11-07T06:34:54.646609+00:00"
+}

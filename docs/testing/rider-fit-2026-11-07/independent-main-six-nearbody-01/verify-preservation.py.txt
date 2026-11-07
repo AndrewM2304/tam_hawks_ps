@@ -1,0 +1,17 @@
+from pathlib import Path
+import hashlib,json
+from PIL import Image
+p=Path(__file__).resolve().parent
+def sha(q):return hashlib.sha256(q.read_bytes()).hexdigest()
+checks=[]
+def ck(label,v):checks.append({'label':label,'pass':bool(v)})
+for name,v in json.loads((p/'preservation.json').read_text())['files'].items():
+    q=p/name;ck(name+' retained bytes',q.stat().st_size==v['bytes'] and sha(q)==v['sha256'])
+for row in json.loads((p/'pixel-preservation.json').read_text())['images']:
+    q=p/row['preserved_file'];im=Image.open(q).convert('RGBA')
+    ck(row['preserved_file']+' encoded WebP hash',sha(q)==row['webp_sha256'])
+    ck(row['preserved_file']+' exact native dimensions',im.size==(row['width'],row['height']))
+    ck(row['preserved_file']+' exact original nativeRGBA pixels',hashlib.sha256(im.tobytes()).hexdigest()==row['native_rgba8_sha256'])
+report={'passed':sum(c['pass'] for c in checks),'failed':sum(not c['pass'] for c in checks),'checks':checks}
+print(json.dumps(report))
+if report['failed']:raise SystemExit(1)

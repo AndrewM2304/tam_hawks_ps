@@ -1,0 +1,84 @@
+@tool
+extends EditorScenePostImport
+## Editor-only: restore the actual pinned source wood before native compression
+## can alter its physical support. Other packed surfaces are retained verbatim.
+const Decoder=preload("res://tools/art/board_wood_source.gd")
+const SOURCE_SHA:=Decoder.SOURCE_SHA
+const EXPECTED_VERTICES:=1600
+const EXPECTED_INDICES:=7800
+func _post_import(scene:Node)->Object:
+ var raw:PackedByteArray=FileAccess.get_file_as_bytes(get_source_file())
+ var decoder:RefCounted=Decoder.new()
+ var source:Dictionary=decoder.decode_source(raw,SOURCE_SHA)
+ if source.is_empty():return _refuse("unsupported or unauthenticated source")
+ var nodes:Array[MeshInstance3D]=[]
+ _collect(scene,nodes)
+ if nodes.size()!=1 or nodes[0].transform!=Transform3D.IDENTITY:return _refuse("unexpected model hierarchy/frame")
+ var mesh:ArrayMesh=nodes[0].mesh as ArrayMesh
+ if mesh==null or mesh.get_surface_count()!=4:return _refuse("unexpected native surfaces")
+ var original:Array=mesh.get("_surfaces")
+ if original.size()!=4:return _refuse("native packed surface API unavailable")
+ var material:Material=mesh.surface_get_material(0)
+ if material==null or material.resource_name!="MapleAndRiverInk":return _refuse("unexpected wood material")
+ var wood:=ImporterMesh.new()
+ # ImporterMesh has raw source arrays here, not decoded compressed geometry.
+ wood.add_surface(Mesh.PRIMITIVE_TRIANGLES,source.arrays,[],{},material,mesh.surface_get_name(0),0)
+ wood.generate_lods(20.0,60.0,[])
+ var authored:ArrayMesh=wood.get_mesh()
+ if authored==null or authored.get_surface_count()!=1:return _refuse("wood conversion failed")
+ if (authored.surface_get_format(0)&Mesh.ARRAY_FLAG_COMPRESS_ATTRIBUTES)!=0:return _refuse("wood compression unexpectedly enabled")
+ var authored_surfaces:Array=authored.get("_surfaces")
+ var combined:Array=original.duplicate()
+ combined[0]=authored_surfaces[0]
+ # _surfaces is the engine's registered packed-resource serialization API.
+ # Retaining packed dictionaries avoids a lossy decode/re-encode of grip data.
+ mesh.set("_surfaces",combined)
+ var after:Array=mesh.get("_surfaces")
+ for index:int in range(1,4):
+  if after[index]!=original[index]:return _refuse("protected native packed surface changed")
+ var authored_shadow:ArrayMesh=_source_shadow(wood)
+ if mesh.shadow_mesh==null or authored_shadow==null:return _refuse("expected native shadow resources missing")
+ var old_shadow:ArrayMesh=mesh.shadow_mesh
+ var shadow_original:Array=old_shadow.get("_surfaces")
+ var shadow_wood:Array=authored_shadow.get("_surfaces")
+ if shadow_original.size()!=4 or shadow_wood.size()!=1:return _refuse("unexpected shadow surface layout")
+ var shadow_combined:Array=shadow_original.duplicate()
+ shadow_combined[0]=shadow_wood[0]
+ old_shadow.set("_surfaces",shadow_combined)
+ var shadow_after:Array=old_shadow.get("_surfaces")
+ for index:int in range(1,4):
+  if shadow_after[index]!=shadow_original[index]:return _refuse("protected native shadow surface changed")
+ scene.set_meta("tam_board_wood_import",{"source_sha256":SOURCE_SHA,"policy_sha256":FileAccess.get_sha256(get_script().resource_path),"decoder_sha256":FileAccess.get_sha256("res://tools/art/board_wood_source.gd"),"source_vertices":EXPECTED_VERTICES,"source_indices":EXPECTED_INDICES,"wood_compressed":false,"protected_packed_surfaces_exact":true,"protected_shadow_surfaces_exact":true,"construction":"editor-only raw source; no runtime mesh construction"})
+ return scene
+func _source_shadow(wood:ImporterMesh)->ArrayMesh:
+ # Same exact-position deduplication as the native importer; public script APIs
+ # expose LOD arrays but not ImporterMesh.create_shadow_mesh itself.
+ var source:Array=wood.get_surface_arrays(0)
+ var positions:PackedVector3Array=source[Mesh.ARRAY_VERTEX]
+ var remap:=PackedInt32Array();remap.resize(positions.size())
+ var vertices:=PackedVector3Array()
+ var unique:Dictionary={}
+ for i:int in positions.size():
+  if not unique.has(positions[i]):unique[positions[i]]=vertices.size();vertices.append(positions[i])
+  remap[i]=unique[positions[i]]
+ var original_indices:PackedInt32Array=source[Mesh.ARRAY_INDEX]
+ var indices:=PackedInt32Array();indices.resize(original_indices.size())
+ for i:int in indices.size():indices[i]=remap[original_indices[i]]
+ var lods:Dictionary={}
+ for lod:int in wood.get_surface_lod_count(0):
+  var raw:PackedInt32Array=wood.get_surface_lod_indices(0,lod)
+  var mapped:=PackedInt32Array();mapped.resize(raw.size())
+  for i:int in raw.size():mapped[i]=remap[raw[i]]
+  lods[wood.get_surface_lod_size(0,lod)]=mapped
+ var arrays:Array=[];arrays.resize(Mesh.ARRAY_MAX)
+ arrays[Mesh.ARRAY_VERTEX]=vertices;arrays[Mesh.ARRAY_INDEX]=indices
+ var shadow:=ArrayMesh.new()
+ shadow.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays,[],lods,0)
+ shadow.surface_set_name(0,wood.get_surface_name(0))
+ return shadow
+func _refuse(reason:String)->Object:
+ push_error("Board source import refused: "+reason)
+ return null
+func _collect(node:Node,nodes:Array[MeshInstance3D])->void:
+ if node is MeshInstance3D:nodes.append(node)
+ for child:Node in node.get_children():_collect(child,nodes)

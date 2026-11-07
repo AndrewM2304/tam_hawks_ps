@@ -1,0 +1,63 @@
+[preset.0]
+
+name="Linux x86_64"
+platform="Linux"
+runnable=true
+advanced_options=false
+dedicated_server=false
+custom_features=""
+export_filter="all_resources"
+include_filter="game/art/assets/environment_pbr/manifest.json,game/art/assets/environment_pbr/derived/manifest.json,game/art/rider/*.json,game/art/assets/tam_skateboard/manifest.json"
+exclude_filter="tests/*,tools/*,.local/*,builds/*"
+export_path="builds/TamHawksProSkater.x86_64"
+encryption_include_filters=""
+encryption_exclude_filters=""
+encrypt_pck=false
+encrypt_directory=false
+script_export_mode=2
+
+[preset.0.options]
+
+custom_template/debug=""
+custom_template/release=""
+debug/export_console_wrapper=1
+binary_format/embed_pck=false
+binary_format/architecture="x86_64"
+texture_format/s3tc_bptc=true
+texture_format/etc2_astc=false
+
+[preset.1]
+
+name="macOS unsigned universal"
+platform="macOS"
+runnable=false
+advanced_options=false
+dedicated_server=false
+custom_features=""
+export_filter="all_resources"
+include_filter="game/art/assets/environment_pbr/manifest.json,game/art/assets/environment_pbr/derived/manifest.json,game/art/rider/*.json,game/art/assets/tam_skateboard/manifest.json"
+exclude_filter="tests/*,tools/*,.local/*,builds/*"
+export_path="builds/Tam Hawks Pro Skater.app"
+encryption_include_filters=""
+encryption_exclude_filters=""
+encrypt_pck=false
+encrypt_directory=false
+script_export_mode=2
+
+[preset.1.options]
+
+custom_template/debug=""
+custom_template/release=""
+export/distribution_type=0
+binary_format/architecture="universal"
+application/bundle_identifier="org.andrewm2304.tamhawksproskater"
+application/app_category="Games"
+application/short_version="0.1.0"
+application/version="1"
+application/copyright="Original game content belongs to the project owner. See accompanying notices."
+application/additional_plist_content="<key>NSAppleEventsUsageDescription</key>\n<string>Control Music to play your chosen soundtrack and show the current song.</string>"
+application/min_macos_version_x86_64="10.12"
+application/min_macos_version_arm64="11.00"
+codesign/codesign=0
+codesign/entitlements/apple_events=true
+notarization/notarization=0

@@ -1,0 +1,26 @@
+{
+	"failures": [],
+	"findings": {
+		"clone_errors": [],
+		"missing_edge": {
+			"all_original_vertex_arrays_retained": true,
+			"errors": [
+				"incomplete actual46edge/47UV native Head boundary"
+			],
+			"removed_native_triangles": 1
+		},
+		"orphan": {
+			"all_original_vertex_arrays_retained": true,
+			"errors": [
+				"missing INDEXED native Head/chest seam identity 757",
+				"incomplete actual46edge/47UV native Head boundary"
+			],
+			"removed_native_triangles": 3
+		},
+		"winding_errors": [
+			"incomplete native source topology UpperChest"
+		]
+	},
+	"passes": 6,
+	"scope": "native source semantic negative controls only, no contact/visual/Main/M5 acceptance"
+}

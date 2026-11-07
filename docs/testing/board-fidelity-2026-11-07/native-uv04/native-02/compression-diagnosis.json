@@ -1,0 +1,38 @@
+{
+  "rendered": {
+    "old_points": 1310,
+    "new_points": 1600,
+    "maximum_nearest_delta_m": 1.285926858068797e-05,
+    "changed_nearest_count": 1310,
+    "worst_before": [
+      -0.009264727123081684,
+      0.04678014665842056,
+      0.4172322154045105
+    ],
+    "worst_after": [
+      -0.009267501533031464,
+      0.046779654920101166,
+      0.4172196686267853
+    ]
+  },
+  "cached_component0": {
+    "old_points": 1302,
+    "new_points": 1302,
+    "maximum_nearest_delta_m": 0.00010000169277191162,
+    "changed_nearest_count": 154,
+    "worst_before": [
+      0.023599999025464058,
+      0.014099999330937862,
+      -0.04169999808073044
+    ],
+    "worst_after": [
+      0.023599999025464058,
+      0.014099999330937862,
+      -0.04179999977350235
+    ]
+  },
+  "native_surface_format_before": "0x800001017",
+  "native_surface_format_after": "0x820001017",
+  "root_cause": "correct tangents enable COMPRESS_ATTRIBUTES on wood; no source-position changes; imported geometry/cache contract fails",
+  "policy": "no tolerance waiver; preserved50/2 result; no native/promoted acceptance"
+}

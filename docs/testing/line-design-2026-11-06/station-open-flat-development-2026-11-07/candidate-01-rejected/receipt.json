@@ -1,0 +1,58 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/station-open-pipe-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/station-open-pipe-source/.local/station_open_probe.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/station-open-pipe-source",
+  "started_utc": "2026-11-07T07:17:19.383460+00:00",
+  "os_deadline_seconds": 100,
+  "source_inputs": 1123,
+  "engine_pid": 87827,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_untimed_overlap_pids": [
+    87471
+  ],
+  "declared_known_project_overlaps": [],
+  "overlap_scope": "Root explicitly authorizes current known qualitative and fixed-tick logical headless overlaps in separate private projects/caches; no timing acceptance",
+  "finished_utc": "2026-11-07T07:17:45.944995+00:00",
+  "wall_seconds": 26.561535370998172,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: station candidate: original career diagonal, low bypass and district mouths remain clear both ways",
+    "FAIL: station candidate: bank runout feeds real open flat, both35degree opposing faces and native return",
+    "FAIL: station candidate: same rider exits open side onto supported bank re-entry without reset",
+    "FAIL: station candidate: every actual native pose has zero-overlap connected board/shoe/capsule volumes",
+    "FAIL: station candidate: existing full-body native chase witness remains clear"
+  ],
+  "result": [
+    3,
+    5
+  ],
+  "other_engine_observed": false,
+  "overlap_authorized_untimed": true,
+  "ignored_zombie_process_rows": [
+    "82100 Z    [godot] <defunct>"
+  ],
+  "zombie_policy": "Raw process rows retain state; live concurrency gate excludes only explicit Z-state. Baseline prior receipt remains unchanged.",
+  "unknown_other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "4f71bde952f2d1001ed1caf29351a79f029d535f46f6e18240cc4f2ede42ecb2",
+    "source-before.json": "ae2e1e02946b5e9b57e6c0d57a5b41f6d27f89b6e7547d2c2d24ba0dc4546026",
+    "observer.gd": "e039f16f1202307c8e8295bb757406fc677ea3e15cf19a82387b843f3a99c264",
+    "wrapper.py.txt": "149825965943e06d8966e5216e38ba25838b42bdd67b04bfaa2bb344da221754",
+    "native.log": "bd61de9d21522be6da3de664f15e610ee87bc40fb8f0ab14e5ce92f6f7878d83",
+    "source-after.json": "ae2e1e02946b5e9b57e6c0d57a5b41f6d27f89b6e7547d2c2d24ba0dc4546026"
+  }
+}

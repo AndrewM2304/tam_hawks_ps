@@ -1,0 +1,18 @@
+{
+  "reviewer": "/root/independent_qa",
+  "source_sha256": "40be40ad57043c719aed32a85d0c53920ecd509ec8d44ba04129aa767cfc2d9b",
+  "scope": "Independent source cold-read only, no engine or current route pass. Supersedes rejected V3 backend-state assumption without changing actual capsule geometry.",
+  "finding": "Current query frame is current CharacterBody Node global \u00d7 independently authenticated PhysicsServer LOCAL Capsule shape, matching CollisionShape local and global fullframes. Native backendGLOBAL is retained separately and can be pending only with equalbasis and delta matching both actual last_motion and position_delta within10\u00b5m, or already synchronized.",
+  "guards": [
+    "actual native Capsule resourceRID/integer shapeindex/type/dimensions",
+    "native localshape equals exact node localshape andcurrentfullframe equals actual CollisionShape global",
+    "current/local/backend full origins,bases,positive finite determinants andpendingdelta finite before comparisons",
+    "loadedwall only actual current wall notfloor/unloadedair; fresh finite sameRID/shape face,nonnegative affinegap,raw zero-margin nohit",
+    "all actual1mm hit owners and nonsaturated pairs authenticated to same finite face; no RID exclusion",
+    "NaN backend origin and finite-entry determinantoverflow pure controls; no liveNode writes",
+    "20mm proxy refusal accurately states mismatchactualframe; separate pure negativegap does not pretend physical branch reached"
+  ],
+  "public_source_limit": "Public35e80 transform-notification source is corroboration only; installed7d41 exactsource parity unverified. Native actual Node/local/backend/motion/query evidence decides; see engine-source-identity-01 addendum.",
+  "author_result_after_review": "Author later reports loadedwall actual positive +10 controls pass, fullroute10/3 rejected due real seatcorner landing and groundobserver conflation. This file does not independently certify that result before durable raw receipt audit.",
+  "v5_handoff": "Record universal raw1mm query independently before conditional loadedfloor classifier. Existing actual0margin/component/shoe/face proofs remain; input-only landing change requires fresh route epoch. Preserve rejected V4."
+}

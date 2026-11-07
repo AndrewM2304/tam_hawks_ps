@@ -1,0 +1,34 @@
+--- a/game/player/skater_anatomy.gd
++++ b/game/player/skater_anatomy.gd
+@@ -25,7 +25,7 @@
+ 	_head_skin = _skin.duplicate()
+ 	_apply_skin_maps(_head_skin, "head")
+ 
+-func build_head(parent: Node3D) -> void:
++func build_head(parent: Node3D, automatic_neck_driver: bool = true) -> void:
+ 	_instance(parent, "AnatomicalHead", _head_surface(), _head_skin)
+ 	var hair_material := _material(Color.WHITE, 0.80)
+ 	hair_material.metallic_specular = 0.18
+@@ -52,9 +52,9 @@
+ 	eyes.albedo_texture = preload("res://game/art/rider/head_albedo.png")
+ 	eyes.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+ 	_instance(parent, "FittedEyes", preload("res://game/art/rider/fitted_eyes.obj"), eyes)
+-	_bind_neck(parent)
++	_bind_neck(parent, automatic_neck_driver)
+ 
+-func _bind_neck(parent: Node3D) -> void:
++func _bind_neck(parent: Node3D, automatic_neck_driver: bool) -> void:
+ 	# This native constraint also serves the existing NPC callers, whose head
+ 	# frames differ from the skater. Driver identity must be assigned LAST:
+ 	# binding a bone while follow-mode is active can introduce a torso offset.
+@@ -70,6 +70,10 @@
+ 	for mesh in skeleton.get_parent().get_children():
+ 		if mesh is MeshInstance3D and mesh.name == "UpperChest":
+ 			mesh.material_override = _head_skin
++	# Player owns the final Rider-local pose_head call; avoid a second global
++	# constraint overwriting it after finite root fitting. NPC defaults retain it.
++	if not automatic_neck_driver:
++		return
+ 	var driver := BoneAttachment3D.new()
+ 	driver.name = "NeckSkinPose"
+ 	parent.add_child(driver)

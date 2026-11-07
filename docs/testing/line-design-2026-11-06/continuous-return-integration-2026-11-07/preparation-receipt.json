@@ -1,0 +1,65 @@
+{
+  "kind": "unrun private reviewable integration; no actual source installation",
+  "prepared_utc": "2026-11-07T06:36:46.952222+00:00",
+  "native_prototype_sha256": "8fc626b7004cbf1537ebee57fccce1fd91eea0b44a28adf95bde8872b09096d5",
+  "existing_test_baseline_sha256": "157556f2f733fe21e65ec286115101d2dfe45f5dddf0c90ca73b65636c59037f",
+  "candidate_test_sha256": "79d9a541b6786842fc6bf8dc3cfb9247b5a12cd3a9791ddda01fc1f3ee163df4",
+  "existing_default_relay_reconstructed_byte_identical": true,
+  "unchanged_existing_blocks": [
+    {
+      "block": "class ExitModelWitness extends Node:",
+      "sha256": "40c533f190a15f35cfb72af83ddba2c9182becac3ec17fd1983f790239616226"
+    },
+    {
+      "block": "class AirWallWitness extends Node:",
+      "sha256": "96a48247a39bac5e2e0ffbbf1f80f91c44b34ec2249281c4c633675318112f18"
+    },
+    {
+      "block": "static func _native_seat_fit",
+      "sha256": "5d52f7f8c76b6e684e02ef7cf56885985c6e6f51525925b6aba8cc3794f9f8e4"
+    },
+    {
+      "block": "static func _return_to_entry",
+      "sha256": "f4d7a7ac911fce0812759f70eb43ad0e685e595989b02ce5e4f48560a35b7f56"
+    },
+    {
+      "block": "static func _travel_targets",
+      "sha256": "9f040e5255a74fd5d77c0df3bb10ed541dede18acd06a0aa1c7c95ba46b0364d"
+    },
+    {
+      "block": "static func run_bank_return",
+      "sha256": "74e3c9b91e2fe869a9ae76deebec588803742f59c28d29575a19c222b1a23b1f"
+    },
+    {
+      "block": "static func run_bank_jump_misses",
+      "sha256": "8fbdf19b1998fdda3005ba845380a40fa77fc9f15ba35635cd7179466506e204"
+    },
+    {
+      "block": "static func _loaded_capsule_contact",
+      "sha256": "6e569ea2759d5aa8b6fda9da2c51cea0d6c4e25e7a2cd69726adc410c3573989"
+    },
+    {
+      "block": "static func _loaded_capsule_negatives",
+      "sha256": "b8219013658568847996947e507e7c7cf27140708b3cc7f064e2db0718172327"
+    },
+    {
+      "block": "static func _lateral_bank_crossing",
+      "sha256": "7890889e59b3b5ccf243f556b0d61958c92178ee1caed912db6f7917b86f463d"
+    },
+    {
+      "block": "static func _uphill_rollback",
+      "sha256": "de8136662557936870b68f5e96bb9bc8a75f7a4ad1ab246254cce540ad67f0d7"
+    },
+    {
+      "block": "static func _roll_bank_phase",
+      "sha256": "f7615830f81852d49a4000489117bfbd8b9204bc8997d05d8ca25ff8035ac068"
+    }
+  ],
+  "original_run_extra_call_only": true,
+  "optional_route_baseline_sha256": "9181d269b44053c5b93bbf2b690b0cb287543da10d9fdc17600fd78591551f16",
+  "optional_route_candidate_sha256": "3a6efa467e29cdf6fee9544e22d2c77de80f8ac9260084cf13f139c5bd6acb2f",
+  "route_requires_jump": true,
+  "added_geometry_material_texture_collision_resources": 0,
+  "native_integration_status": "UNPARSED/UNRUN; prototype13/0 is a separate source epoch",
+  "actual_files_still_match_baseline": true
+}

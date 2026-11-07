@@ -1,0 +1,80 @@
+{
+  "scope": "PRIVATE source-only proposal structural controls; no native runtime cache/face authority acceptance",
+  "passes": 16,
+  "failures": [],
+  "checks": [
+    {
+      "pass": true,
+      "label": "complete source proposal covers every drawn triangle once and all actual support points exactly"
+    },
+    {
+      "pass": true,
+      "label": "foreign source GLB pin refused"
+    },
+    {
+      "pass": true,
+      "label": "missing actual face refused"
+    },
+    {
+      "pass": true,
+      "label": "duplicate actual face refused"
+    },
+    {
+      "pass": true,
+      "label": "foreign primitive index refused"
+    },
+    {
+      "pass": true,
+      "label": "fractional face index refused"
+    },
+    {
+      "pass": true,
+      "label": "negative face index refused"
+    },
+    {
+      "pass": true,
+      "label": "duplicate logical part identity refused"
+    },
+    {
+      "pass": true,
+      "label": "false source winding hash refused"
+    },
+    {
+      "pass": true,
+      "label": "false Godot winding hash refused"
+    },
+    {
+      "pass": true,
+      "label": "wrong declared point payload count refused"
+    },
+    {
+      "pass": true,
+      "label": "malformed point buffer refused"
+    },
+    {
+      "pass": true,
+      "label": "actual 100micrometre support-point displacement refused"
+    },
+    {
+      "pass": true,
+      "label": "nonfinite support point refused"
+    },
+    {
+      "pass": true,
+      "label": "wrong logical ownership of otherwise real faces refused"
+    },
+    {
+      "pass": true,
+      "label": "oversized unapproved source support payload refused"
+    }
+  ],
+  "source_sha256": "c7737ca758b1f8aa39b259ae88c28a98b817f5417b1433d137d39e69075215f5",
+  "part_proposal_sha256": "d9afa0ada48ccf3bb26f7158a9e01befa948892a8908c91313626544830acbc1",
+  "verifier_sha256": "87807a80f95ad2e25152ac59be0d8b29aa26481bd7832c79309e1d68c677b4b7",
+  "limits": [
+    "same author; shares raw binary accessor reader but not geometry transformations",
+    "proposal producer is not cryptographic/native authority; future accepted certificate/policy must be pinned",
+    "actual imported face provenance and native phantom-bridge refusal remain unrun",
+    "no actual runtime source or contact API changed"
+  ]
+}

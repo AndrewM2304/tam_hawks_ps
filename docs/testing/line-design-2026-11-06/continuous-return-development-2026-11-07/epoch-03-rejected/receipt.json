@@ -1,0 +1,50 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source/.local/connected_return_probe_v3.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+  "started_utc": "2026-11-07T05:35:45.873978+00:00",
+  "os_deadline_seconds": 120,
+  "source_inputs": 1018,
+  "engine_pid": 70524,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "declared_known_qualitative_overlap_pid": 69725,
+  "overlap_scope": "Root-authorized untimed private physics after RV lease; known EA actual-Main closed-basin qualitative capture; no performance acceptance",
+  "finished_utc": "2026-11-07T05:36:11.086330+00:00",
+  "wall_seconds": 25.21234949599966,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: continuous return: two seats\u2192manual turn\u2192wallride/Wallie/manual\u2192finite named first-bearing catch uses one reset",
+    "FAIL: continuous return: every actual score bank independently matches native catalog/repetition/hold events",
+    "FAIL: continuous return: every observed actual physics state retains native board/capsule/shoe and finite wall proof"
+  ],
+  "result": [
+    8,
+    3
+  ],
+  "other_engine_observed": false,
+  "overlap_authorized_untimed": true,
+  "unknown_other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "04cc44389fa781c411d9553d4a4edd984f084d9a62cfdad24da2eed64127077b",
+    "source-before.json": "36c88dceae062791808d2a91eb11fa3fa95d8e51db812045d578c648189551fe",
+    "observer.gd": "77f9e25de463f09b31b5dbd596428ddec93c33dcbd847673a112184d5c8e5d8b",
+    "native-trace.json": "b2132e60ca24ff839a28115513d93c5294a68b571bfe12c83f0357f5448e4eca",
+    "wrapper.py.txt": "d6e7ef8ace498230af5388e07d6c37cb9759930a1e16fa6828db4770051956a4",
+    "native.log": "7aadb815322ffa3de5760b325afd7ef6daf23040846ca7490b000e3fad9626ad",
+    "source-after.json": "36c88dceae062791808d2a91eb11fa3fa95d8e51db812045d578c648189551fe"
+  }
+}

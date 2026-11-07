@@ -1,0 +1,67 @@
+from pathlib import Path
+import json,hashlib,base64,collections,struct,gzip,io,shutil
+import numpy as np
+from PIL import Image
+R=Path.cwd();N=R/'.local/board-fidelity/native-component-08';C=R/'.local/board-fidelity/close-02';P=R/'.local/board-fidelity/admission-uv04';F=R/'.local/board-fidelity/native-project';O=R/'docs/testing/board-fidelity-2026-11-07/independent-uv04-admission';O.mkdir(parents=True,exist_ok=True);checks=[]
+def ck(v,s):checks.append({'label':s,'pass':bool(v)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def pixels(p,mode='RGBA'):return Image.open(p).convert(mode).tobytes()
+m=json.loads((P/'manifest.json').read_text());ck(sha(P/'manifest.json')=='87aba344bd62565abdd69cb7a8edd00c3ff6c60a5b012a542f03cdd0d5498262','exact12file guarded manifest')
+for e in m['entries']:
+ ck(sha(P/'payload'/e['path'])==e['after_sha256']and(P/'payload'/e['path']).stat().st_size==e['bytes'],'exact guarded payload '+e['path'])
+ actual=R/e['path'];ck((sha(actual)if actual.exists()else None)==e['before_sha256'],'actual preimage guard '+e['path'])
+ck(hashlib.sha256(gzip.decompress((P/'payload/tools/art/source/tam_skateboard-base.glb.gz').read_bytes())).hexdigest()==m['baseline_board_sha256'],'archived projectowned original decompresses exactbaseline')
+r=json.loads((N/'receipt.json').read_text());d=json.loads((N/'native-result.json').read_text());ck(r['complete']and r['fresh_native_result']and r['source_before']==r['source_after']and len(r['source_before'])==12,'native08 all12 source inputs stable/fresh complete')
+for name,h in r['source_before'].items():ck(sha(N/'source-project'/name)==h,'exact native before-bound '+name)
+ck(r['launcher_stable']and r['launcher_before_sha256']==r['wrapper_sha256']==sha(N/'run_native_component08.py.txt'),'native08 launcher pre/post bytebound')
+for e in r['epochs']:ck(e['returncode']==0 and not e['raw_engine_error']and e['stop']is None and sha(N/(e['name']+'.log'))==e['raw_log_sha256'],'native phase clean/source log '+e['name'])
+ck(d['passes']==36 and not d['failures'],'native actual36/0')
+for fn in['tools/art/board_wood_source.gd','tools/art/import_board_wood.gd']:ck(sha(P/'payload'/fn)==r['source_before'][fn],'guarded importer/decoder exactly natively executed '+fn)
+def arr(x,width,dtype='<f4'):
+ raw=base64.b64decode(x['base64']);v=np.frombuffer(raw,dtype=dtype);assert len(v)==x['count']*width;return v.reshape(-1,width)
+def field(s,key):return arr(s[key],{'positions':3,'normals':3,'uv':2,'tangents':1,'indices':1}[key],'<i4'if key=='indices'else'<f4').reshape(-1,4 if key=='tangents'else{'positions':3,'normals':3,'uv':2,'indices':1}[key])
+def tris(s,fields):
+ v=np.concatenate([field(s,k)for k in fields],axis=1);idx=field(s,'indices').ravel();a=v[idx].reshape(-1,3,v.shape[1]);return collections.Counter(min(b''.join([row[(i+j)%3].tobytes()for j in range(3)])for i in range(3))for row in a)
+a,b=d['records'];ck(len(d['records'])==2 and a['component_count']==b['component_count']==32 and len(a['component_parts'])==len(b['component_parts'])==32,'two actual imports have32 cached components')
+for i,(s,t)in enumerate(zip(a['surfaces'],b['surfaces'])):
+ ck(s['material']==t['material']and tris(s,['positions'])==tris(t,['positions']),'actual indexed triangle position/winding multiset EXACT surface'+str(i))
+ if i:
+  ck(s['packed_surface']==t['packed_surface']and s['packed_shadow_surface']==t['packed_shadow_surface'],'protected packed draw+shadow buffers/LODs EXACT surface'+str(i))
+  ck(tris(s,['positions','normals','uv','tangents'])==tris(t,['positions','normals','uv','tangents']),'protected full native attribute streams EXACT surface'+str(i))
+ else:
+  v=field(t,'uv')[field(t,'indices').ravel()].reshape(-1,3,2).astype(float);du=v[:,1]-v[:,0];dv=v[:,2]-v[:,0];jac=du[:,0]*dv[:,1]-du[:,1]*dv[:,0];ck(np.all(np.isfinite(v))and np.all(np.abs(jac)>1e-12),'every actually imported candidatewood UV triangle nondegenerate')
+for i,(x,y)in enumerate(zip(a['component_parts'],b['component_parts'])):ck(collections.Counter(p.tobytes()for p in arr(x['points'],3))==collections.Counter(p.tobytes()for p in arr(y['points'],3))and x['margin']==y['margin']and x['shape_class']==y['shape_class'],'actual native cached pointset/class/margin EXACT part'+str(i))
+ck(a['model_radius']==b['model_radius']and a['edge_roll_angle']==b['edge_roll_angle'],'actual native radius/edge-roll datum unchanged')
+def payload(rec):return sum(sum(s[t].get(k,{}).get('bytes',0)for k in['vertex_data','attribute_data','skin_data','index_data'])+sum(x['bytes']for x in s[t]['lods'])for s in rec['surfaces']for t in['packed_surface','packed_shadow_surface'])
+ck(payload(b)-payload(a)==7232 and payload(b)-payload(a)<=131072,'actual draw/shadow/LOD bytepayload +7232B within128KiB')
+close=json.loads((C/'close-receipt.json').read_text());cr=json.loads((C/'receipt.json').read_text());ck(cr['complete']and cr['source_before']==cr['source_after']and cr['source_stable'],'close02 source/compiledresource identity stable')
+ck(cr['launcher_stable']and cr['launcher_before_sha256']==cr['launcher_after_sha256'],'close02 launcher stable')
+ck(close['source_before']==close['source_after']and close['source_stable']and close['failures']==0 and len(close['frames'])==8,'actual8closeframes source stable/zero internalfailures')
+ck(all(x['returncode']==0 for x in cr['epochs']),'close02 native parser+graphics exit0')
+for readback in close['texture_readbacks']:
+ t=readback['textures'][0];png=F/t['png_path'].removeprefix('res://');raw=pixels(png,'RGB');ck(t['native_image_format']==4 and t['mipmap_count']==10 and t['data_bytes']==4194303 and sha(png)==t['png_sha256']and hashlib.sha256(raw).hexdigest()==t['base_level_sha256'],'actual boundTexture2D API RGB8/mips/basehash '+readback['label'])
+ label=readback['label'];source=Image.open(io.BytesIO((lambda data: data)(b'')))if False else None
+ ck(t['path'].startswith('res://'+label+'/'),'actual boundtexture own sourcepath '+label)
+ if label=='candidate':
+  meta=readback['source_import_policy'];ck(meta['source_sha256']==m['candidate_board_sha256']and meta['policy_sha256']==r['source_before']['tools/art/import_board_wood.gd']and meta['decoder_sha256']==r['source_before']['tools/art/board_wood_source.gd'],'actual packedscene executed import source+policy+decoder metadata bound')
+frames={};markers=[]
+for frame in close['frames']:
+ label=frame['label'];png=F/frame['png_path'].removeprefix('res://');proof=F/frame['proof_path'].removeprefix('res://');im=Image.open(png).convert('RGBA');clean_pixels=np.array(im);q=np.array(Image.open(proof).convert('RGBA'))
+ ck(im.size==(1280,800)and sha(png)==frame['png_sha256']and hashlib.sha256(im.tobytes()).hexdigest()==frame['rgba_sha256']and sha(proof)==frame['proof_png_sha256'],label+' exact clean/proof native1280 pixels')
+ ck(frame['camera_unchanged']and frame['camera']==frame['native_camera_transform'],label+' declared camera equals native rendered camera')
+ basis=np.array(frame['camera']['basis']).T;origin=np.array(frame['camera']['origin']);proj=np.array(frame['projection']).T
+ for marker in frame['pixel_proofs']:
+  local=np.linalg.solve(basis,np.array(marker['world_position'])-origin);clip=proj@np.r_[local,1];at=np.array([(clip[0]/clip[3]+1)*640,(1-clip[1]/clip[3])*400]);x,y=map(int,at);ch=marker['channel'];pts=[]
+  for yy in range(max(0,y-8),min(800,y+9)):
+   for xx in range(max(0,x-8),min(1280,x+9)):
+    rgb=q[yy,xx,:3].astype(int)
+    if rgb[ch]>191 and all(rgb[ch]-rgb[k]>51 for k in range(3)if k!=ch) and np.sum(np.abs(q[yy,xx,:3].astype(int)-clean_pixels[yy,xx,:3].astype(int)))>30.6:pts.append([xx+.5,yy+.5])
+  centroid=np.array(pts).mean(axis=0)if pts else np.array([9999,9999]);err=float(np.linalg.norm(centroid-at));markers.append(err);ck(np.linalg.norm(at-marker['projected_pixel'])<.001 and len(pts)==marker['count']and err<1.5,label+' independent numeric/pixel RGB marker'+str(ch))
+ frames[label]={'original_png_sha256':sha(png),'native_rgba_sha256':frame['rgba_sha256'],'proof_png_sha256':sha(proof)}
+for view in['side','rim','underside','normal']:
+ x=next(f for f in close['frames']if f['label']=='baseline-'+view);y=next(f for f in close['frames']if f['label']=='candidate-'+view);ck(all(x[k]==y[k]for k in['camera','projection','fov','image_size']),'matched baseline/candidate actual view '+view)
+normal_a=np.array(Image.open(F/'frames/baseline-normal.png'));normal_b=np.array(Image.open(F/'frames/candidate-normal.png'));normaldiff=int(np.max(np.abs(normal_a.astype(int)-normal_b.astype(int))))
+report={'kind':'Independent12file source guard/native indexedbuffer/cache/actualboundtexture/closepixel audit, noengine','passed':sum(x['pass']for x in checks),'failed':sum(not x['pass']for x in checks),'checks':checks,'verdict':'Supports exact guarded UV04+editorimport source installation, then unchanged actual Main/contact/full regression. Source-only UV03 proof is inherited only through explicit samegeometry/decodedpixel delta; native08/close02 are separate.','personally_viewed_originals':[x['label']+'.png'for x in close['frames']],'visual_findings':['All8actual1280 originals personally opened: side/rim/underside show continuous horizontal ply/grain instead of stretched vertical streaks/redside stripe.','Grip/hardware/underside graphic and normal-debug silhouette remain visually consistent. Rim is deliberately cropped.','28mm seven-ply profile is still visibly excessive; mounting/bolt construction and broaderhero realism remain unresolved.'],'max_numeric_native_marker_error_px':max(markers),'normal_debug_max_RGB_delta':normaldiff,'frames':frames,'limits':['Isolated static imported board, notMain/inmotion/grind/flip/grab/manual/contact or M5/FPS acceptance.','Texture2D.get_image API readback is nativeboundtexture evidence, not independently audited rawhardwarememory. Allmipshash stored but fullmipbytes are not dumped for independent recomputation.','Native12sourceinputs+launcher have before/after hashes; generatedimports separately recorded. Close32source/resource map is separate.','Editorpacked_surfaces property API and imported format remain Godot4.6.3 scoped.','7visualplies still4mm each; final physical deck/hardware migration held.'],'manifest_sha256':sha(P/'manifest.json')}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copy2(Path(__file__),O/'independent-audit.py.txt');shutil.copy2(P/'manifest.json',O/'manifest.json')
+for name,path in [('native08-receipt',N/'receipt.json'),('native08-result',N/'native-result.json'),('close02-receipt',C/'receipt.json'),('close02-native',C/'close-receipt.json')]: (O/(name+'.json.gz')).write_bytes(gzip.compress(path.read_bytes(),mtime=0))
+(O/'independent-preservation.json').write_text(json.dumps({str(f.relative_to(O)):sha(f)for f in O.rglob('*')if f.is_file()and f.name!='independent-preservation.json'},indent=2)+'\n');print({'passed':report['passed'],'failed':report['failed'],'maxmarker':max(markers),'normaldebugmaxdelta':normaldiff,'failures':[x for x in checks if not x['pass']]});raise SystemExit(bool(report['failed']))

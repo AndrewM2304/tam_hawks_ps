@@ -74,3 +74,11 @@ recorded guard and refusal in the separate integer certificate. No contact/query
 limit or source geometry is changed. The four controller getter changes are now
 rebased onto root's actual45f20forecast controller; they cannot replace it with an
 older whole controller.
+
+RV's later coherent-render pilot still uses candidate03; it does not execute04's
+new range guard. A further [candidate05 source delta](candidate05-source/README.md)
+therefore remains explicitly unparsed/unexecuted. It fails closed if a finite,
+narrow-exponent source overflows the float32tetrahedron-centre sum, and adds the
+twelfth executable math control for that branch. Actual shoe source coordinates
+remain below0.176m and their exact-data certificate retains its original source
+scope. The actual controller, contact budgets and candidate04payload are unchanged.

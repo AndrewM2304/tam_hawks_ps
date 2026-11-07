@@ -1,0 +1,91 @@
+extends RefCounted
+## Shared photographic surface library. Startup-only, no geometry or collision.
+## CC0 source, physical widths and exact bytes: assets/environment_pbr/manifest.json.
+## Additional resident texture budget: 32 MiB with mipmapped VRAM compression.
+const MANIFEST := "res://game/art/assets/environment_pbr/manifest.json"
+const WINDOW_SHADER = preload("res://game/art/shaders/window_interior.gdshader")
+const DERIVED := "res://game/art/assets/environment_pbr/derived/"
+
+
+static func apply(materials: Dictionary) -> void:
+	var decoded: Variant = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST))
+	if not decoded is Dictionary or not decoded.get("materials") is Dictionary:
+		push_error("Photographic material manifest is missing or invalid.")
+		return
+	var sources: Dictionary = decoded.materials
+	# Source albedo already contains the material's colour. Small deliberate tints
+	# distinguish warm sandstone and cooler paving without multiplying by the old
+	# dark procedural palette and crushing the photographic range.
+	for key: String in ["stone", "stone_light", "sandstone"]:
+		# The source is already warm sandstone. A neutralizing cool tint prevents
+		# multiplying beige photography by the former warm procedural palette.
+		var tint := Color("c5d5ef") if key == "stone" else (Color("d1e1f5") if key == "stone_light" else Color("c2d0e8"))
+		_apply(materials[key], sources.sandstone_blocks_04, tint, 0.22)
+	var paving: Dictionary = sources.concrete_pavement_02
+	_apply(materials.paving, paving, Color("d5d9d9"), 0.18)
+	_apply(materials.path, paving, Color("e3e5df"), 0.16)
+	_apply(materials.asphalt, sources.asphalt_02, Color("d0d6d6"), 0.30)
+	_apply(materials.wood, sources.T_wood01, Color("b8a38a"), 0.20, 0.84)
+	# Lawn material is shared by all existing ground meshes, never per patch.
+	var lawn := StandardMaterial3D.new()
+	var grass: Dictionary = sources.T_grass01.duplicate(true)
+	grass.tile_size_m = 3.0 # Two reflected1.5m source tiles per axis.
+	for channel: String in grass.files:
+		grass.files[channel] = DERIVED + "grass_" + channel + ".png"
+	_apply(lawn, grass, Color("e1e0d8"), 0.16, 0.98)
+	lawn.metallic_specular = 0.12
+	materials.grass = lawn
+	# Train windows share the legacy glass key and move as a merged ArrayMesh.
+	# Keep their material native: world-position room hashing would otherwise
+	# re-randomize the whole coach interior every time the train crosses a cell.
+	var mobile_glass: StandardMaterial3D = materials.glass
+	mobile_glass.albedo_color = Color("263c43")
+	mobile_glass.roughness = 0.18
+	mobile_glass.metallic = 0.0
+	mobile_glass.metallic_specular = 0.5
+	for key: String in ["facade_glass", "window_dull", "window_lit"]:
+		var glazing := ShaderMaterial.new()
+		glazing.resource_name = "SharedGlazing_" + key
+		glazing.shader = WINDOW_SHADER
+		glazing.set_shader_parameter("room_light", 0.18 if key == "window_lit" else 0.0)
+		glazing.set_shader_parameter("glass_tint", Color("384b50") if key != "window_dull" else Color("28383c"))
+		materials[key] = glazing
+	# The source glass in front of real shop displays stays transparent and
+	# nonmetallic. It reflects the actual sky rather than a painted cyan slab.
+	var shop_glass: StandardMaterial3D = materials.shop_glass
+	shop_glass.albedo_color = Color(0.72, 0.81, 0.83, 0.11)
+	shop_glass.roughness = 0.12
+	shop_glass.metallic = 0.0
+	shop_glass.metallic_specular = 0.5
+	materials.iron.metallic = 0.72
+	materials.iron.roughness = 0.42
+
+
+static func _apply(material: StandardMaterial3D, source: Dictionary, tint: Color,
+		normal_strength: float, roughness: float = 1.0) -> void:
+	var files: Dictionary = source.files
+	material.albedo_texture = load(String(files.albedo)) as Texture2D
+	material.albedo_color = tint
+	material.normal_enabled = true
+	material.normal_texture = load(String(files.normal_opengl)) as Texture2D
+	material.normal_scale = normal_strength
+	material.roughness = roughness
+	material.metallic = 0.0
+	material.metallic_specular = 0.28
+	material.uv1_triplanar = true
+	material.uv1_world_triplanar = true
+	material.uv1_triplanar_sharpness = 12.0
+	material.uv1_scale = Vector3.ONE / maxf(0.1, float(source.tile_size_m))
+	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	if files.has("arm"):
+		var arm := load(String(files.arm)) as Texture2D
+		material.roughness_texture = arm
+		material.roughness_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_GREEN
+		material.ao_enabled = true
+		material.ao_texture = arm
+		material.ao_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_RED
+	elif files.has("ambient_occlusion"):
+		material.ao_enabled = true
+		material.ao_texture = load(String(files.ambient_occlusion)) as Texture2D
+		material.ao_texture_channel = BaseMaterial3D.TEXTURE_CHANNEL_RED
+	material.ao_light_affect = 0.18

@@ -1,0 +1,592 @@
+{
+  "passed": 144,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "preserved original README.md",
+      "pass": true
+    },
+    {
+      "label": "preserved original actual-main-paving-report.json",
+      "pass": true
+    },
+    {
+      "label": "preserved original analysis.json",
+      "pass": true
+    },
+    {
+      "label": "preserved original before-a-close-ground.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original before-a-court-readability.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original before-a-ordinary-spawn.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original before-b-close-ground.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original before-b-court-readability.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original before-b-ordinary-spawn.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original engine.log",
+      "pass": true
+    },
+    {
+      "label": "preserved original executed-source/game/levels/art/material_library.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "preserved original executed-source/game/levels/glasgow_square.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "preserved original executed-source/tools/environment_main_paving_capture.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "preserved original executed-source/tools/environment_main_water_shadow_capture.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "preserved original executed-source/tools/environment_water_probe.py.txt",
+      "pass": true
+    },
+    {
+      "label": "preserved original executed-source/tools/fixtures/environment/paving_candidate_source.json.txt",
+      "pass": true
+    },
+    {
+      "label": "preserved original executed-source/tools/full_fidelity_capture.gd.txt",
+      "pass": true
+    },
+    {
+      "label": "preserved original flags-candidate-close-ground.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original flags-candidate-court-readability.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original flags-candidate-ordinary-spawn.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original receipt.json",
+      "pass": true
+    },
+    {
+      "label": "preserved original runtime-cache-policy.json",
+      "pass": true
+    },
+    {
+      "label": "preserved original source-after.json",
+      "pass": true
+    },
+    {
+      "label": "preserved original source-before.json",
+      "pass": true
+    },
+    {
+      "label": "preserved original synchronization/first_contact_inspection.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original synchronization/overview_before_contact.png",
+      "pass": true
+    },
+    {
+      "label": "preserved original synchronization/return_to_production_chase.png",
+      "pass": true
+    },
+    {
+      "label": "807 inputs byte-identical before after",
+      "pass": true
+    },
+    {
+      "label": "native106/0 complete eligible",
+      "pass": true
+    },
+    {
+      "label": "raw native engine log clean",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/environment_main_water_shadow_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/environment_main_paving_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/full_fidelity_capture.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/environment_water_probe.py",
+      "pass": true
+    },
+    {
+      "label": "before-bound source game/levels/glasgow_square.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source game/levels/art/material_library.gd",
+      "pass": true
+    },
+    {
+      "label": "before-bound source tools/fixtures/environment/paving_candidate_source.json",
+      "pass": true
+    },
+    {
+      "label": "before-a native1755collision/1809geometry/water/sun inventory unchanged",
+      "pass": true
+    },
+    {
+      "label": "before-b native1755collision/1809geometry/water/sun inventory unchanged",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate native1755collision/1809geometry/water/sun inventory unchanged",
+      "pass": true
+    },
+    {
+      "label": "original material controls restored exactly",
+      "pass": true
+    },
+    {
+      "label": "path material identity/normal/roughness/tint unchanged",
+      "pass": true
+    },
+    {
+      "label": "path candidate actual1.8m repeat",
+      "pass": true
+    },
+    {
+      "label": "path actual concrete02 compressed bound maps",
+      "pass": true
+    },
+    {
+      "label": "paving material identity/normal/roughness/tint unchanged",
+      "pass": true
+    },
+    {
+      "label": "paving candidate actual1.8m repeat",
+      "pass": true
+    },
+    {
+      "label": "paving actual concrete02 compressed bound maps",
+      "pass": true
+    },
+    {
+      "label": "ordinary-spawn matched actual camera/projection and HUD",
+      "pass": true
+    },
+    {
+      "label": "ordinary-spawn candidate/restored submitted draw/primitives exact",
+      "pass": true
+    },
+    {
+      "label": "close-ground matched actual camera/projection and HUD",
+      "pass": true
+    },
+    {
+      "label": "close-ground candidate/restored submitted draw/primitives exact",
+      "pass": true
+    },
+    {
+      "label": "court-readability matched actual camera/projection and HUD",
+      "pass": true
+    },
+    {
+      "label": "court-readability candidate/restored submitted draw/primitives exact",
+      "pass": true
+    },
+    {
+      "label": "all12 native frames retained",
+      "pass": true
+    },
+    {
+      "label": "before-a-ordinary-spawn.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "before-a-ordinary-spawn.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "before-a-ordinary-spawn.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "before-a-ordinary-spawn.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "before-a-ordinary-spawn.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "before-a-ordinary-spawn.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "before-a-ordinary-spawn.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "before-a-ordinary-spawn.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "before-a-ordinary-spawn.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "before-a-close-ground.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "before-a-close-ground.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "before-a-close-ground.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "before-a-close-ground.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "before-a-close-ground.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "before-a-close-ground.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "before-a-close-ground.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "before-a-close-ground.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "before-a-close-ground.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "before-a-court-readability.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "before-a-court-readability.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "before-a-court-readability.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "before-a-court-readability.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "before-a-court-readability.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "before-a-court-readability.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "before-a-court-readability.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "before-a-court-readability.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "before-a-court-readability.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-ordinary-spawn.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-ordinary-spawn.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-ordinary-spawn.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-ordinary-spawn.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-ordinary-spawn.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-ordinary-spawn.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-ordinary-spawn.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-ordinary-spawn.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-ordinary-spawn.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-close-ground.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-close-ground.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-close-ground.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-close-ground.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-close-ground.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-close-ground.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-close-ground.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-close-ground.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-close-ground.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-court-readability.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-court-readability.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-court-readability.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-court-readability.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-court-readability.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-court-readability.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-court-readability.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-court-readability.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "flags-candidate-court-readability.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "before-b-ordinary-spawn.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "before-b-ordinary-spawn.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "before-b-ordinary-spawn.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "before-b-ordinary-spawn.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "before-b-ordinary-spawn.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "before-b-ordinary-spawn.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "before-b-ordinary-spawn.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "before-b-ordinary-spawn.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "before-b-ordinary-spawn.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "before-b-close-ground.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "before-b-close-ground.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "before-b-close-ground.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "before-b-close-ground.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "before-b-close-ground.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "before-b-close-ground.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "before-b-close-ground.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "before-b-close-ground.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "before-b-close-ground.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "before-b-court-readability.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "before-b-court-readability.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "before-b-court-readability.png same actual physics/process bracket",
+      "pass": true
+    },
+    {
+      "label": "before-b-court-readability.png actual Canvas stamp",
+      "pass": true
+    },
+    {
+      "label": "before-b-court-readability.png finite actual camera/projection",
+      "pass": true
+    },
+    {
+      "label": "before-b-court-readability.png independently projected red",
+      "pass": true
+    },
+    {
+      "label": "before-b-court-readability.png independently found native red",
+      "pass": true
+    },
+    {
+      "label": "before-b-court-readability.png independently projected green",
+      "pass": true
+    },
+    {
+      "label": "before-b-court-readability.png independently found native green",
+      "pass": true
+    },
+    {
+      "label": "synchronization/overview_before_contact.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "synchronization/overview_before_contact.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "synchronization/overview_before_contact.png native startup swatch",
+      "pass": true
+    },
+    {
+      "label": "synchronization/first_contact_inspection.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "synchronization/first_contact_inspection.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "synchronization/first_contact_inspection.png native startup swatch",
+      "pass": true
+    },
+    {
+      "label": "synchronization/return_to_production_chase.png exact native RGBA",
+      "pass": true
+    },
+    {
+      "label": "synchronization/return_to_production_chase.png original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "synchronization/return_to_production_chase.png native startup swatch",
+      "pass": true
+    }
+  ],
+  "independent_projection_max_error_px": 5.9052281371376885e-05,
+  "independent_centroid_max_error_px": 0.1718433645761346,
+  "personally_viewed_originals": [
+    "before-b-ordinary-spawn.png",
+    "flags-candidate-ordinary-spawn.png",
+    "flags-candidate-close-ground.png",
+    "flags-candidate-court-readability.png"
+  ],
+  "verdict": "Capture integrity passes; no paving art promotion recommended. Candidate joints are calmer than earlier bright mortar but repeated alternating slab luminance remains prominent across court. Broad curved bands persist on ground and bank over both rectangular textures; their cause requires controlled rendering diagnosis.",
+  "scope": "Static actualMain material A/B/A nine views plus three startup sync originals, actors frozen, shaderTIME active. Native actual collision/node/mesh/water/sun identity constant; only material maps/repeat change. Both texture sets remain held in visual process; independent fresh allocation owns32MiB increment. No source-fan causal attribution, accepted lighting hypothesis, moving shimmer, final ground finish, timing or M5 claim."
+}

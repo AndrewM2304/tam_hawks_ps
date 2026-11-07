@@ -48,14 +48,14 @@ static func run(tree: SceneTree, check: Callable) -> void:
 				hands = hands and mesh.mesh.get_blend_shape_count() == 1 and _vertices(mesh.mesh) > 300
 			check.call(_vertices(head.mesh) > 500 and hands and _count(actor,"AudioStreamPlayer3D") == 0,
 				"activity actor: detailed cleared adult face/finger meshes replace cylinders without adding an instrument or voice " + label)
-			check.call(actor._garments.skeleton.get_bone_count() == 10
+			check.call(actor._garments.skeleton.get_bone_count() == 11 and actor._garments.skeleton.find_bone("neck") == 10
 				and actor._body.get_node("SkinnedJacket").skin != null and _finite_reach(actor),
 				"activity actor: original native clothing is skinned to finite articulated adult limbs " + label)
 			var clearance := _plane_bounds(head,Vector3(17,1,-12),normal)
 			check.call(clearance.x > 1.1 and clearance.y < 2.1,
 				"activity actor: actual head vertices sit at plausible adult height above native ground " + label)
-			check.call(actor._details.has_node("ShapedHiVisWaistcoat") == steward
-				and actor._details.has_node("ReflectiveWaistBand") == steward,
+			check.call(actor._body.has_node("FittedVest") == steward
+				and actor._body.has_node("FittedReflectors") == steward,
 				"activity actor: shaped hi-vis and reflective tailoring distinguish the steward " + label)
 			var hand_start: Vector3 = actor._hands[1].global_position
 			activity.activity_state = "active"

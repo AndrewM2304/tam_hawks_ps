@@ -1,0 +1,11 @@
+--- a/game/player/skater_visual.gd
++++ b/game/player/skater_visual.gd
+@@ -119,7 +119,7 @@
+ 	head.rotation.y = 1.05
+ 	_head = head
+ 	_upper.add_child(head)
+-	_anatomy.build_head(head)
++	_anatomy.build_head(head, false)
+ 	for side: float in [-1.0, 1.0]:
+ 		var foot := Node3D.new()
+ 		foot.name = "FrontFoot" if side < 0.0 else "PushFoot"

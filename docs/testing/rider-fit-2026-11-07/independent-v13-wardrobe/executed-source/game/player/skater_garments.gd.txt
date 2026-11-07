@@ -1,0 +1,134 @@
+extends RefCounted
+const OUTFIT := preload("res://game/art/rider/fitted_outfit.glb")
+const ACCESSORIES := preload("res://game/art/rider/fitted_accessories.glb")
+var skeleton: Skeleton3D
+var _bones: Dictionary = {}
+var _surfaces: Array[MeshInstance3D] = []
+
+func build(parent: Node3D, _shirt: StandardMaterial3D, _denim: StandardMaterial3D) -> void:
+	var model := OUTFIT.instantiate()
+	parent.add_child(model)
+	_collect(model)
+	assert(skeleton != null)
+	skeleton.reparent(parent, true)
+	skeleton.name = "ClothingSkeleton"
+	for index in skeleton.get_bone_count():
+		_bones[skeleton.get_bone_name(index)] = index
+	# Retain the actual caller-owned material so Player colour customisation
+	# and every NPC palette continue to update the visible native garment.
+	for cloth: StandardMaterial3D in [_shirt, _denim]:
+		cloth.uv1_scale = Vector3.ONE
+		cloth.uv1_offset = Vector3.ZERO
+		cloth.albedo_texture = preload("res://game/art/rider/fitted_cloth_albedo.png")
+		cloth.roughness = 0.84
+		cloth.metallic_specular = 0.22
+		cloth.normal_enabled = true
+		cloth.normal_texture = preload("res://game/art/rider/fitted_cloth_normal.png")
+		cloth.normal_scale = 0.70
+		cloth.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	var underlayer := StandardMaterial3D.new()
+	underlayer.albedo_color = Color.WHITE
+	underlayer.albedo_texture = preload("res://game/art/rider/head_albedo.png")
+	underlayer.roughness = 0.68
+	for mesh in _surfaces:
+		mesh.reparent(parent, true)
+		mesh.skeleton = mesh.get_path_to(skeleton)
+		if mesh.skin != null:
+			mesh.skin = mesh.skin.duplicate() as Skin
+		mesh.material_override = underlayer if mesh.name == "UpperChest" else (_shirt if mesh.name == "SkinnedJacket" else _denim)
+		mesh.custom_aabb = AABB(Vector3(-1.5,-.4,-1.5),Vector3(3,3,3))
+	model.queue_free()
+	skeleton.reset_bone_poses()
+
+func _collect(node: Node) -> void:
+	if node is Skeleton3D: skeleton = node
+	if node is MeshInstance3D: _surfaces.append(node)
+	for child in node.get_children(): _collect(child)
+
+func add_role_accessory(role: String) -> void:
+	# The old procedural torso's boxes/lofts cannot fit the real wardrobe.
+	# These offline pieces share its exact native bones, binds and source surface.
+	var model := ACCESSORIES.instantiate()
+	var parent := skeleton.get_parent()
+	parent.add_child(model)
+	var selected: Array = ["FittedApron", "FittedApronPocket"] if role == "market" else ["FittedVest", "FittedReflectors"]
+	var meshes: Array[MeshInstance3D] = []
+	_collect_accessories(model, meshes)
+	for mesh in meshes:
+		if str(mesh.name) not in selected:
+			continue
+		var fabric := StandardMaterial3D.new()
+		fabric.roughness = 0.92
+		fabric.metallic_specular = 0.14
+		fabric.cull_mode = BaseMaterial3D.CULL_DISABLED
+		if mesh.name == "FittedReflectors":
+			fabric.albedo_color = Color("d4dbd3")
+			fabric.albedo_texture = preload("res://game/art/rider/fitted_reflector_albedo.png")
+			fabric.metallic = 0.18
+			fabric.roughness = 0.45
+		else:
+			fabric.albedo_color = Color("c4ce59") if role == "steward" else Color("bd885c")
+			if role == "market":
+				fabric.albedo_color = Color("a58a61") if mesh.name == "FittedApronPocket" else Color("b99b6d")
+			if mesh.name == "FittedVest":
+				fabric.albedo_texture = preload("res://game/art/rider/fitted_vest_albedo.png")
+			fabric.normal_enabled = true
+			fabric.normal_texture = preload("res://game/art/rider/fitted_cloth_normal.png")
+			fabric.normal_scale = 0.45
+		if mesh.name in ["FittedVest", "FittedReflectors"]:
+			fabric.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+			fabric.alpha_scissor_threshold = 0.35
+			fabric.alpha_antialiasing_mode = BaseMaterial3D.ALPHA_ANTIALIASING_ALPHA_TO_COVERAGE
+			fabric.alpha_antialiasing_edge = 0.20
+		fabric.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+		mesh.reparent(parent, true)
+		mesh.skeleton = mesh.get_path_to(skeleton)
+		mesh.skin = mesh.skin.duplicate() as Skin
+		mesh.material_override = fabric
+		mesh.custom_aabb = AABB(Vector3(-1.5,-.4,-1.5),Vector3(3,3,3))
+	model.queue_free()
+
+func _collect_accessories(node: Node, meshes: Array[MeshInstance3D]) -> void:
+	if node is MeshInstance3D:
+		meshes.append(node)
+	for child in node.get_children():
+		_collect_accessories(child, meshes)
+
+func pose_body(hips: Transform3D, torso: Transform3D) -> void:
+	_pose("hips", hips)
+	_pose("torso", torso)
+
+func pose_head(head_in_rider: Transform3D) -> void:
+	# Actual head frame after every final pose/snapshot blend. The source crop
+	# rim is weighted entirely to the neck; no deferred notification is needed for skater sync.
+	_pose("neck", head_in_rider)
+
+func pose_leg(side: float, hip: Vector3, knee: Vector3, ankle: Vector3) -> void:
+	var prefix := "left" if side < 0 else "right"
+	_pose_segment(prefix + "_thigh", hip, knee, .43)
+	_pose_segment(prefix + "_calf", knee, ankle, .41)
+
+func pose_arm(side: float, shoulder: Vector3, elbow: Vector3, wrist: Vector3) -> void:
+	var prefix := "left" if side < 0 else "right"
+	_pose_segment(prefix + "_sleeve", shoulder, elbow, .30)
+	_pose_segment(prefix + "_forearm", elbow, wrist, .29)
+
+func _bone_transform(origin: Vector3, direction: Vector3) -> Transform3D:
+	var y := direction.normalized()
+	var z := Vector3.BACK.slide(y).normalized()
+	if z.length_squared() < .01: z = Vector3.RIGHT.slide(y).normalized()
+	var x := y.cross(z).normalized()
+	z = x.cross(y).normalized()
+	return Transform3D(Basis(x,y,z),origin)
+
+func _pose(bone_name: String, transform: Transform3D) -> void:
+	var bone: int = _bones[bone_name]
+	skeleton.set_bone_pose_position(bone, transform.origin)
+	skeleton.set_bone_pose_rotation(bone, transform.basis.get_rotation_quaternion())
+	skeleton.set_bone_pose_scale(bone, transform.basis.get_scale())
+
+func _pose_segment(bone_name: String, start: Vector3, end: Vector3, rest_length: float) -> void:
+	var direction := end - start
+	var transform := _bone_transform(start,direction)
+	transform.basis = transform.basis.scaled_local(Vector3(1,direction.length()/rest_length,1))
+	_pose(bone_name,transform)

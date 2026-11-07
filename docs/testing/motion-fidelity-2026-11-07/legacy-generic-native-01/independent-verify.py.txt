@@ -1,0 +1,40 @@
+from pathlib import Path
+import json,gzip,hashlib,re,math
+P=Path(__file__).resolve().parent;raw=gzip.decompress((P/'native-result.json.gz').read_bytes());data=json.loads(raw);receipt=json.loads((P/'receipt.json').read_text());derivation=json.loads((P/'gap-derivation.json').read_text());checks=[];rows=[]
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def dist(a,b):return math.sqrt(sum((a[k]-b[k])**2 for k in range(3)))
+ck('source803 before/after equal',receipt['source_stable'] and receipt['source_before']==receipt['source_after'] and len(receipt['source_before'])==803)
+ck('native exact4cases',len(data['cases'])==len(receipt['cases'])==4)
+ck('raw input hash bound to derivation',hashlib.sha256(raw).hexdigest()==derivation['input_sha256'])
+ck('actual executed observer matches before-run hash',sha(P/'observer.gd')==receipt['source_before']['.local/legacy_generic_grind_probe.gd'])
+for epoch in receipt['epochs']:
+ ck(epoch['name']+' exit0 no timeout/error',epoch['returncode']==0 and not epoch['timed_out'] and not epoch['raw_engine_error'])
+ ck(epoch['name']+' raw log bound',sha(P/(epoch['name']+'.log'))==epoch['raw_log_sha256'])
+ ck(epoch['name']+' raw log clean',not re.search(r'SCRIPT ERROR|ERROR:|Parse Error',(P/(epoch['name']+'.log')).read_text()))
+for case in data['cases']:
+ ident=case['requested_id'];samples=case['rows'];ck(ident+'24 actual physics rows',len(samples)==24 and len(set(r['physics'] for r in samples))==24)
+ ck(ident+' all32component zero-overlap and unmodified queries',all(r['ready_component_count']==32 and r['native_component_hits']==[] and not r['hit_buffer_saturated_unknown'] and r['queries_read_only'] for r in samples))
+ ck(ident+' no bails/recoveries',case['new_bails']==case['new_recoveries']==0)
+ ck(ident+' generic style and no verified guide claim',not case['guide_verified'] and all(r['style']=='rail_grind' and not r['contact_verified'] for r in samples))
+ limits={};max_error=0.;missing={}
+ for key in ['native_hanger_bearing_gap_samples','native_tyre_vertex_minimum_gap_samples']:
+  signed=[];vertical=[];unknown=0
+  for row in samples:
+   for v in row[key]:
+    if not v['hit']:continue
+    n=v['native_normal'];point=v['point'];hit=v['native_point'];recomputed=sum((point[k]-hit[k])*n[k] for k in range(3));max_error=max(max_error,abs(recomputed-v['signed_gap']),abs(point[1]-hit[1]-v['vertical_gap']))
+  for row in samples[-8:]:
+   for v in row[key]:
+    if not v['hit']:unknown+=1;continue
+    signed.append(sum((v['point'][k]-v['native_point'][k])*v['native_normal'][k] for k in range(3)));vertical.append(v['point'][1]-v['native_point'][1])
+  limits[key]={'signed_min_m':min(signed) if signed else None,'signed_max_m':max(signed) if signed else None,'vertical_min_m':min(vertical) if vertical else None,'vertical_max_m':max(vertical) if vertical else None,'hit_samples':len(signed),'unknown_slots':unknown}
+ ck(ident+' independently recomputed signed and vertical point gaps',max_error<1e-6)
+ derived=next(c for c in derivation['cases'] if c['requested_id']==ident)
+ for key,v in limits.items():
+  recorded=derived['last8'][key]
+  ck(ident+' '+key+' missing slots exact',v['unknown_slots']==recorded['missing_ray_slots_unknown'])
+  ck(ident+' '+key+' signed interval exact',all((v['signed_min_m'] is None and recorded['signed']['count']==0) or abs(v['signed_min_m']-recorded['signed']['minimum_m'])<1e-6 for _ in [0]))
+ rows.append({'requested_id':ident,'captured_ids':sorted(set(r['captured_id'] for r in samples)),'last8_native_gap_recomputation':limits,'maximum_arithmetic_identity_error_m':max_error})
+report={'passed':sum(c['pass'] for c in checks),'failed':sum(not c['pass'] for c in checks),'checks':checks,'case_arithmetic':rows,'defect':'FID-D019','priority':'P2 investigation','finding':'Generic flat grind steady hanger datums remain about55mm above fresh native top faces; bounded tyre vertices about35–40mm above those faces. Generic contact is unverified; missing rays remain unknown.','verdict':'Grounding/contact investigation remains open. No named-bearing/wheel-loading, ordinary-approach, visible-hover, rendered-camera, Main completeness, M5 or AAA verdict.','next':'Capture exact named actual generic cases at a post-camera natural draw in ordinary chase; identify actual support/contact and preserve whole-model/capsule/native layout before any correction.','camera_limit':'Raw historical completed_frame_camera samples SceneTree.process_frame before camera._process. First2 counter failures prove pre-update rays only, not completed native pixels.','entrypoint_scope':'Observer is before/after bound. Wrapper source is retained but is not itself in803before/after inventory; no invented pre-run launcher identity.'}
+assert json.loads((P/'independent-review.json').read_text())==report;print(json.dumps({'passed':report['passed'],'failed':report['failed'],'output':str(P/'independent-review.json')},indent=2));raise SystemExit(bool(report['failed']))

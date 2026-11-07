@@ -1,0 +1,83 @@
+extends "res://tools/environment_main_paving_capture.gd"
+var _lighting_frames: Array[Dictionary] = []
+var _lighting_modes: Dictionary = {}
+var _lighting_before: Dictionary = {}
+var _native_defaults: Dictionary = {}
+var _baseline_bias: float
+var _baseline_normal_bias: float
+const MODES = ["before-a","native-default-bias","before-b"]
+func _run() -> void:
+ var ready: bool=await _start_actual_main()
+ if not ready:return
+ game.skater.process_mode=Node.PROCESS_MODE_DISABLED
+ var sun: DirectionalLight3D=game.world.get_node("LateAfternoonSun")
+ _baseline_bias=sun.shadow_bias
+ _baseline_normal_bias=sun.shadow_normal_bias
+ _check(is_equal_approx(_baseline_bias,.035) and is_equal_approx(_baseline_normal_bias,.55),"combined current-source comparison starts from the declared actual low-bias profile")
+ var default_light:=DirectionalLight3D.new()
+ _native_defaults={"shadow_bias":default_light.shadow_bias,"shadow_normal_bias":default_light.shadow_normal_bias,"source":"actual unadded DirectionalLight3D getters, probe freed before frames"}
+ default_light.free()
+ _lighting_before=_inventory()
+ _check(_lighting_before.water.size()==3,"three installed exact shared-water instances remain resident")
+ for water: Dictionary in _lighting_before.water:_check(water.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF,"installed water policy is constant through every lighting mode")
+ var basin: MeshInstance3D=game.world.get_node("ExchangeFountain/FountainBasin")
+ _check(basin.mesh is ArrayMesh and basin.mesh.surface_get_arrays(0)[Mesh.ARRAY_INDEX].size()/3==512 and basin.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_ON,"current exact512closed basin is integrated and remains a real caster")
+ _create_pixel_proofs()
+ for mode_index: int in MODES.size():
+  var mode: String=MODES[mode_index]
+  sun.shadow_bias=float(_native_defaults.shadow_bias) if mode=="native-default-bias" else _baseline_bias
+  sun.shadow_normal_bias=float(_native_defaults.shadow_normal_bias) if mode=="native-default-bias" else _baseline_normal_bias
+  var inventory:=_inventory()
+  var canonical: Dictionary=inventory.duplicate(true)
+  canonical.sun.bias=_lighting_before.sun.bias
+  canonical.sun.normal_bias=_lighting_before.sun.normal_bias
+  _check(canonical==_lighting_before,"only two declared sun-bias values change; every native caster/receiver/geometry/material/map/collider/sky state remains")
+  _lighting_modes[mode]=inventory
+  var view_index:=0
+  for view: Dictionary in _lighting_views():
+   var camera: Camera3D
+   if view.id=="ordinary-chase":
+    camera=game.skater._camera
+    game.hud.visible=true
+   else:
+    camera=_inspection
+    camera.global_position=view.at
+    camera.look_at(view.target)
+    game.hud.visible=false
+   camera.current=true
+   _active_proof_camera=camera
+   _position_proofs(mode_index,view_index)
+   await process_frame
+   await create_timer(0.0,true).timeout
+   var physics_before:=Engine.get_physics_frames()
+   var process_before:=Engine.get_process_frames()
+   var image: Image=await _render_current_frame()
+   var proofs:=_verify_pixel_proofs(image)
+   var projection: Projection=camera.get_camera_projection()
+   var filename: String=mode+"-"+str(view.id)+".png"
+   var stored:=_store_frame(image,filename)
+   _lighting_frames.append({"file":filename,"mode":mode,"view":view.id,"pixels":stored,"physics_before":physics_before,"physics_after":Engine.get_physics_frames(),"process_before":process_before,"process_after":Engine.get_process_frames(),"pixel_proofs":proofs,"camera_basis":[_v(camera.global_basis.x),_v(camera.global_basis.y),_v(camera.global_basis.z)],"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],"keep_aspect":camera.keep_aspect,"near":camera.near,"far":camera.far,"viewport_size":[root.size.x,root.size.y],"camera_position":_v(camera.global_position),"camera_forward":_v(-camera.global_basis.z),"fov":camera.fov,"hud_visible":game.hud.visible,"counters":_native_counters()})
+   _write_lighting(false)
+   view_index+=1
+ _check(_lighting_frames.size()==18,"all18full-resolution six-view A/B/A light-contact originals complete")
+ _write_lighting(true)
+ print("ACTUAL_MAIN_LIGHTING_RESULT checks=",checks," failures=",failures)
+ quit(1 if failures else 0)
+func _lighting_views() -> Array[Dictionary]:
+ var facility: Dictionary=game.world.get_park_skatepark_definition()
+ var park_at: Vector3=facility.position
+ return [{"id":"ordinary-chase"},{"id":"ground-bank-close","at":Vector3(-12,1.3,11),"target":Vector3(-8,0,17)},
+  {"id":"basin-exterior","at":Vector3(9,1.4,17),"target":Vector3(4.8,.3,13.8)},
+  {"id":"bowl-contact","at":park_at+Vector3(18,3,8),"target":park_at+Vector3(8,-2,-6)},
+  {"id":"architecture-contact","at":Vector3(-29,2,-2),"target":Vector3(-35,2.2,1)},
+  {"id":"river-bridge-contact","at":Vector3(-5,4,77),"target":Vector3(-5,-2,99)}]
+func _write_lighting(complete: bool) -> void:
+ var report: Dictionary={"complete":complete,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),"images":_lighting_frames,"synchronization_proofs":_sync_proofs,"inventory_before":_lighting_before,"mode_inventories":_lighting_modes,"native_directional_shadow_defaults":_native_defaults,"baseline_bias":_baseline_bias,"baseline_normal_bias":_baseline_normal_bias,"timing_measured":false,"limits":"Combined installed512basin and exact3-water-caster policy plus current actual pre-promotion code. Six actual Main1280x800 A/B/A light contact views including ordinary chase/HUD; authored bank/basin/bowl/architecture/river inspections. Entire actor subtree processing is frozen after40settledticks for matched stills; this is not normal-speed movement. Only actualnativegetter shadowbias/normalbias values change; all original enabled casters remain enabled, water policyOFF stays constant, every geometry/material/collision identity and sun/sky state otherwise guarded. Full per-frame nativeRGBA/camera/projection/tick/2worldmarker/Canvas proofs. Warm imported/compiled caches. No FPS/cost/M5/finalglobalfinish claim."}
+ var file:=FileAccess.open(output.path_join("actual-main-lighting-report.json"),FileAccess.WRITE)
+ if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+ else:_check(false,"light contact report writable")
+
+func _position_proofs(mode: int, view: int) -> void:
+ _proof_markers[0].global_position=_active_proof_camera.to_global(Vector3(-1.6+view*0.35+mode*0.10,1.2,-5))
+ _proof_markers[1].global_position=_active_proof_camera.to_global(Vector3(1.5-view*0.25,0.8+mode*0.12,-5))
+ _proof_swatch.color=Color8(30+60*mode,40+30*view,190-30*mode)

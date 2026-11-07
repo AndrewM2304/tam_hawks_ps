@@ -19,14 +19,23 @@ Skin resolver and recessed architecture are now integrated with the actual
 392/0 combined focused gate (808 unchanged inputs, executed launcher/observer
 included). Hollow closed-basin geometry and selective water casting are now
 integrated with an actual-source49/0 gate on816 unchanged inputs. Continuous
-fitted assets/coherent pose clock and exact per-leg shoe cache remain private
-pending final composite checks. Paving replacements are not integrated; native
-default sun bias removes the diagnosed curved bands in the causal diagnostic,
-with full-resolution contact-shadow review underway before actual installation.
+fitted assets, transported leg frames, coherent player/NPC pose clocks and exact
+per-leg shoe support are now installed: actual focused93/0 plus exact-integer
+certificate,875 unchanged inputs. Two NPC constructor types were corrected after
+the rejected first attempt; all original limits remain. Native sun bias0.1/2.0
+is restored after full-resolution contact review (independent244/0). Replacement
+paving is not integrated. The optional east-quay wall return and its regression
+are installed, with two score segments explicitly retained. Current rendered
+motion and fresh packages remain pending. The complete required02 run now
+finished rejected:6526/7 plus3 freed-object script errors,886 stable inputs,
+2241.249s, no CLI stage. Root owns actual integration of the prepared
+freed-owner/board-pin/native-lip/route-expectation repairs; RV owns the genuine
+Clyde steep push-toe/landing-deck clearance diagnosis. Keep their exact private
+proposals separate from current source until focused verification.
 Inspect Git and exact source receipts before continuing;
 do not infer global success from these focused checks. Commit/push is a checkpoint,
 then continue the accepted independent queue.
-The latest checkpoint is **`4a7ae8e`**, pushed to origin/main; newer changes may
+The latest checkpoint is **`97d72fa`**, pushed to origin/main; newer changes may
 still be in progress. Native fitted export/resource acceptance remains pending.
 
 Continue the owner's realism/line-design programme, including the explicit

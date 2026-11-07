@@ -1,0 +1,145 @@
+{
+  "epochs": [
+    {
+      "name": "parser",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/board-fidelity/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--check-only",
+        "--script",
+        "res://probe.gd"
+      ],
+      "utc_start": "2026-11-07T06:42:42.677613+00:00",
+      "hard_limit_s": 5,
+      "pid": 80933,
+      "returncode": 0,
+      "utc_end": "2026-11-07T06:42:43.102106+00:00",
+      "stop": null,
+      "raw_engine_error": false,
+      "raw_log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "name": "isolated-editor-import",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/board-fidelity/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "utc_start": "2026-11-07T06:42:43.102434+00:00",
+      "hard_limit_s": 29.253687811000418,
+      "pid": 80945,
+      "returncode": 0,
+      "utc_end": "2026-11-07T06:42:50.180727+00:00",
+      "stop": null,
+      "raw_engine_error": false,
+      "raw_log_sha256": "7ab71863bdf2c5a55290827ff10ad09f304f256827eac3a65b295c929f86e541"
+    },
+    {
+      "name": "native",
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/board-fidelity/native-project",
+        "--audio-driver",
+        "Dummy",
+        "--script",
+        "res://probe.gd"
+      ],
+      "utc_start": "2026-11-07T06:42:50.182279+00:00",
+      "hard_limit_s": 22.173951205000776,
+      "pid": 81249,
+      "returncode": 0,
+      "utc_end": "2026-11-07T06:42:50.671225+00:00",
+      "stop": null,
+      "raw_engine_error": false,
+      "raw_log_sha256": "ea9fff627272f2c0257e41630dd87a59ccb0e274021f1f36f0302d3a8a823f66"
+    }
+  ],
+  "wrapper_sha256": "9842d55ac549b77cb6564cad1b1c540a08b51bcc2de472e8f98fe7db1f3b3af1",
+  "initial_import_metadata_sha256": {
+    "baseline/tam_skateboard.glb.import": "131ee2355090bad23fc490a40648d3b8daab4160c4cff3703805ce18aaf9ab1d",
+    "baseline/tam_skateboard_board_albedo.png.import": "8cfb032f2805479ad1366b10c7d780f85f06b892607b37ee52179633c808a7b1",
+    "candidate/tam_skateboard.glb.import": "19ce4e595b54b3e5e1e60ed52194dbdf327a72f3f69e830fe5998cce03f0655b",
+    "candidate/tam_skateboard_board_albedo.png.import": "0ce226f20d56cae4866a4dce4585637cc5ff7d9296404c52d88825a576a75aeb"
+  },
+  "bootstrap_global_class_registry": "aff3fc921aedb7788829982ea3e033e1bad7b8ca9784d4ab130796c35018f708",
+  "source_before": {
+    "baseline/tam_skateboard.glb": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+    "candidate/tam_skateboard.glb": "954ff19340b1c41d6ea0f2153f7e41a8242f853b135486bbdc6cf8b2c024993d",
+    "game/tricks/directional_tricks.gd": "181b7147015fe8cfdb230f8467e69472672aa8136a623f1a0305f3a316103300",
+    "game/tricks/grind_clearance.gd": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+    "game/tricks/grind_line.gd": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+    "game/tricks/grind_style.gd": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+    "game/tricks/trick_catalog.gd": "9cb1bdce05dc7ab20abc7731b862e90039df4709fa8b6c4fc24b01f243cb1f99",
+    "probe.gd": "9345bfae15bb77cec689157ba74fb6884b5c8c2afa9303d25b8e886d1cd894a0",
+    "project.godot": "adecb5963312abe09d1cc5b2b046942be964680c9874a9b1c6df84e00e9a4a75"
+  },
+  "source_after": {
+    "baseline/tam_skateboard.glb": "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+    "candidate/tam_skateboard.glb": "954ff19340b1c41d6ea0f2153f7e41a8242f853b135486bbdc6cf8b2c024993d",
+    "game/tricks/directional_tricks.gd": "181b7147015fe8cfdb230f8467e69472672aa8136a623f1a0305f3a316103300",
+    "game/tricks/grind_clearance.gd": "460016c500384336b85ad4f73813efc9d8ec00717cc6818fb4551fd6a6b1407b",
+    "game/tricks/grind_line.gd": "47520cfe56ebcb5775161d4443b917f456ec0ebb8ac243c941f413f82a0b213c",
+    "game/tricks/grind_style.gd": "040dca8b67e84face43e4ae3d234ae088e26621694d8859664fc10b5062bc25f",
+    "game/tricks/trick_catalog.gd": "9cb1bdce05dc7ab20abc7731b862e90039df4709fa8b6c4fc24b01f243cb1f99",
+    "probe.gd": "9345bfae15bb77cec689157ba74fb6884b5c8c2afa9303d25b8e886d1cd894a0",
+    "project.godot": "adecb5963312abe09d1cc5b2b046942be964680c9874a9b1c6df84e00e9a4a75"
+  },
+  "source_stable": true,
+  "overlap_at_start": [
+    {
+      "pid": 80431,
+      "args": "godot --headless --path /workspace/tam_hawks_ps/.local/fitted-rig-admission/final-composite-01/project --fixed-fps 60 --script res://cohort_core.gd"
+    },
+    {
+      "pid": 80747,
+      "args": "godot --headless --path /workspace/tam_hawks_ps/.local/line-return-integration-source --audio-driver Dummy --fixed-fps 60 --script /workspace/tam_hawks_ps/.local/line-return-integration-source/.local/integration_runner.gd"
+    },
+    {
+      "pid": 80859,
+      "args": "godot --path /workspace/tam_hawks_ps/.local/rider-fit-staging/npc-clock-tip-followup/project --rendering-method gl_compatibility --rendering-driver opengl3 --audio-driver Dummy --display-driver x11 --disable-vsync --max-fps 144 --script res://npc_clock.gd"
+    }
+  ],
+  "Godots_at_end": [
+    {
+      "pid": 80431,
+      "args": "godot --headless --path /workspace/tam_hawks_ps/.local/fitted-rig-admission/final-composite-01/project --fixed-fps 60 --script res://cohort_core.gd"
+    },
+    {
+      "pid": 80747,
+      "args": "godot --headless --path /workspace/tam_hawks_ps/.local/line-return-integration-source --audio-driver Dummy --fixed-fps 60 --script /workspace/tam_hawks_ps/.local/line-return-integration-source/.local/integration_runner.gd"
+    },
+    {
+      "pid": 80859,
+      "args": "godot --path /workspace/tam_hawks_ps/.local/rider-fit-staging/npc-clock-tip-followup/project --rendering-method gl_compatibility --rendering-driver opengl3 --audio-driver Dummy --display-driver x11 --disable-vsync --max-fps 144 --script res://npc_clock.gd"
+    }
+  ],
+  "generated_import_metadata_after": {
+    "baseline/tam_skateboard.glb.import": "131ee2355090bad23fc490a40648d3b8daab4160c4cff3703805ce18aaf9ab1d",
+    "baseline/tam_skateboard_board_albedo.png": "0d7ffd2f597771878348e79e4673b48737668fc2251338b7a9e1586ac51cbed3",
+    "baseline/tam_skateboard_board_albedo.png.import": "8cfb032f2805479ad1366b10c7d780f85f06b892607b37ee52179633c808a7b1",
+    "candidate/tam_skateboard.glb.import": "19ce4e595b54b3e5e1e60ed52194dbdf327a72f3f69e830fe5998cce03f0655b",
+    "candidate/tam_skateboard_board_albedo.png": "39cfdcd2825fb09deeebe7c5dd95800010638f5efa109e0e75a9a3ec3c6a12d4",
+    "candidate/tam_skateboard_board_albedo.png.import": "0ce226f20d56cae4866a4dce4585637cc5ff7d9296404c52d88825a576a75aeb",
+    "game/tricks/directional_tricks.gd.uid": "3c46bddf2e4a34032a8eb9ca7f0f199736c48e6177b6df22f559570aa2d09cf0",
+    "game/tricks/grind_clearance.gd.uid": "877402ace68d4cae2610bf0df01d59fee0827be4613dbcff5018448ceeefb2e8",
+    "game/tricks/grind_line.gd.uid": "3e52e6cd08294d4cffc6e03654b7bc1705c0b02dd7b9720b4f764582970dbb58",
+    "game/tricks/grind_style.gd.uid": "520b308042127fd2418f478a002639e113bcadfa2a1fbfef0914436b123ccd3a",
+    "game/tricks/trick_catalog.gd.uid": "d75185a6125a56a523268aeb8a7da07a92ff1bac2869063435d4d67e386670b6",
+    "probe.gd.uid": "b154fdca732a43f861b0d363884926b24824c9ecd886ae2eef18569ea43f9cf7"
+  },
+  "scope": "private tiny actual-imported component proof; root-granted lease required; elapsed metadata is not performance",
+  "complete": true,
+  "utc_end": "2026-11-07T06:42:50.706861+00:00"
+}

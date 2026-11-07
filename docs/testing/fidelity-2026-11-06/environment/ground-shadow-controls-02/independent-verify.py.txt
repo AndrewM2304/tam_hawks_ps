@@ -1,0 +1,54 @@
+from pathlib import Path
+import json,hashlib,math,re,copy
+import numpy as np
+from PIL import Image
+P=Path(__file__).resolve().parent
+checks=[]
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+def j(path):return json.loads(path.read_text())
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def pixels(path):return np.asarray(Image.open(path).convert('RGBA'))
+for path,digest in j(P/'preserved-files.json').items():ck('original preservation '+path,sha(P/path)==digest)
+report=j(P/'actual-main-ground-report.json');receipt=j(P/'receipt.json');before=j(P/'source-before.json');after=j(P/'source-after.json')
+ck('799 source inputs byte-stable',before==after and len(before)==799 and receipt['source_stable'] and receipt['changed_inputs']==[])
+ck('native139/0 complete clean exit',report['complete'] and report['checks']==139 and report['failures']==0 and receipt['engine_exit']==0 and not receipt['engine_errors'] and receipt['eligible'])
+ck('raw log clean',not re.search(r'SCRIPT ERROR|ERROR:|Parse Error',(P/'engine.log').read_text()))
+for path in (P/'executed-source').rglob('*.txt'):
+ relative=str(path.relative_to(P/'executed-source'))[:-4]
+ if relative in before:ck('before-bound source '+relative,sha(path)==before[relative])
+modes=report['mode_inventories'];base=modes['before-b'];defaults=report['native_directional_shadow_defaults'];ck('actual new directional light reports .1 and2',abs(defaults['shadow_bias']-.1)<1e-7 and defaults['shadow_normal_bias']==2)
+ck('A/B original states exact',modes['before-a']==base)
+for mode,row in modes.items():
+ inv=row['inventory'];old=base['inventory'];ck(mode+' actual1755 colliders and water exact',inv['collisions']==old['collisions'] and len(inv['collisions'])==1755 and inv['water']==old['water'])
+ ck(mode+' material/maps/normal-strength/UV identity exact',row['material_bindings']==base['material_bindings'] and row['normal_texture_ids']==base['normal_texture_ids'])
+ for key in ['floor_aabb','floor_instance_id','floor_material_id','floor_mesh_id','floor_path']:ck(mode+' exact '+key,row[key]==base[key])
+ ck(mode+' declared normal enable flags only',row['normal_flags']==({'path':False,'paving':False}if mode=='normal-map-off'else base['normal_flags']))
+ ck(mode+' declared floor caster flag only',row['floor_cast']==(0 if mode=='floor-caster-off'else base['floor_cast']))
+ ck(mode+' declared sun caster flag only',row['sun_shadow_enabled']==(False if mode=='sun-shadow-off'else True))
+ normal=copy.deepcopy(inv);normal['sun']['shadow_enabled']=old['sun']['shadow_enabled'];normal['sun']['bias']=old['sun']['bias'];normal['sun']['normal_bias']=old['sun']['normal_bias']
+ for entry in normal['nonwater']:
+  if entry['instance_id']==base['floor_instance_id']:entry['cast_shadow']=base['floor_cast']
+ ck(mode+' all other inventory properties exact',normal==old)
+ ck(mode+' actual declared sun numeric biases',abs(inv['sun']['bias']-(defaults['shadow_bias']if mode=='native-default-bias'else report['baseline_shadow_bias']))<1e-8 and abs(inv['sun']['normal_bias']-(defaults['shadow_normal_bias']if mode=='native-default-bias'else report['baseline_shadow_normal_bias']))<1e-8)
+ if mode=='native-default-bias':ck('native default preserves EVERY actual caster and all geometry',inv['nonwater']==old['nonwater'] and inv['water']==old['water'] and inv['sun']['shadow_enabled'])
+for row in report['images']:ck(row['mode']+' matched fixed native camera',all(row[k]==report['images'][0][k]for k in ['camera_basis','camera_position','camera_forward','projection_columns','near','far','fov','viewport_size','keep_aspect']))
+frames=report['images']+report['synchronization_proofs'];ck('all9 native frames retained',len(frames)==9)
+projection_errors=[];centroid_errors=[]
+for frame in frames:
+ name=frame['file'];a=pixels(P/name);ck(name+' exact native RGBA',a.shape==(400,640,4) and hashlib.sha256(a.tobytes()).hexdigest()==frame['pixels']['rgba8_sha256'])
+ ck(name+' original encoded PNG hash',sha(P/name)==receipt['images'][name])
+ if 'pixel_proofs' not in frame:
+  ck(name+' native startup swatch',a[frame['canvas_pixel'][1],frame['canvas_pixel'][0]].tolist()==frame['canvas_expected'] and frame['same_native_frame'])
+  continue
+ ck(name+' same actual physics/process bracket',frame['physics_before']==frame['physics_after'] and frame['process_before']==frame['process_after'])
+ proof=frame['pixel_proofs'];xy=proof['canvas_sample_xy'];color=a[xy[1],xy[0],:3]/255
+ ck(name+' actual Canvas stamp',max(abs(color-np.array(proof['canvas_expected_rgb'])))<2/255+1e-7)
+ basis=np.array(frame['camera_basis']).T;proj=np.array(frame['projection_columns']).T;origin=np.array(frame['camera_position'])
+ ck(name+' finite actual camera/projection',np.isfinite(basis).all() and np.isfinite(proj).all() and abs(np.linalg.det(basis)-1)<1e-5 and np.linalg.norm(np.array(frame['camera_forward'])+basis[:,2])<1e-6)
+ for marker in proof['markers']:
+  local=np.linalg.solve(basis,np.array(marker['world_position'])-origin);clip=proj@np.r_[local,1];ndc=clip[:3]/clip[3];actual=np.array([(ndc[0]+1)*320,(1-ndc[1])*200]);error=np.linalg.norm(actual-np.array(marker['projected_xy']));projection_errors.append(float(error))
+  ck(name+' independently projected '+marker['color'],error<.002)
+  x,y=map(int,marker['projected_xy']);region=a[max(0,y-10):min(400,y+11),max(0,x-10):min(640,x+11),:3].astype(float)/255;idx=0 if marker['color']=='red' else 1;other=[v for v in range(3) if v!=idx];mask=(region[:,:,idx]>.75)&(region[:,:,idx]-region[:,:,other[0]]>.20)&(region[:,:,idx]-region[:,:,other[1]]>.20);yy,xx=np.where(mask);centroid=np.array([xx.mean()+max(0,x-10)+.5,yy.mean()+max(0,y-10)+.5]);centroid_errors.append(float(np.linalg.norm(centroid-actual)))
+  ck(name+' independently found native '+marker['color'],len(xx)==marker['pixel_count'] and np.linalg.norm(centroid-np.array(marker['centroid_xy']))<.001 and np.linalg.norm(centroid-actual)<2)
+out={'passed':sum(v['pass']for v in checks),'failed':sum(not v['pass']for v in checks),'checks':checks,'independent_projection_max_error_px':max(projection_errors),'independent_marker_centroid_max_error_px':max(centroid_errors),'personally_viewed_originals':['before-b-ground.png','native-default-bias-ground.png','floor-caster-off-ground.png','normal-map-off-ground.png','sun-shadow-off-ground.png'],'finding':'Fine curved ground/bank bands persist with ground normal mapping disabled. Disabling the exact flat-court caster removes them on court but leaves bank bands; disabling sun shadows removes both. Returning the actual native default pair(.1bias,2normalbias) also removes both while every original caster stays enabled. This supports shadow-artifact attribution in this scene, not an albedo/source-fan explanation.','verdict':'Bounded causal diagnostic passes. No lighting/source promotion or final contact-shadow acceptance: test actual current1280 chase/rider feet, bank seams, basin exterior, bowl and architectural contact shadows before integrating settings.','limits':['Declared640x400 authored actualMain diagnostic, not reduced-quality substitute for final1280/gameplay evidence.','Baseline bias.035/normalbias.55; native-default control changes BOTH to.1/2, so it does not isolate which field or choose minimum necessary calibration.','Source predates proper512basin and later fitted/architecture integration; actual combined neighbours must be verified.','Actors frozen, source799 stable, warm runtime shaders, no timing/sole-engine/M5/final water/ground art claim.','Viewport-mismatched earlier epoch remains rejected and is not repaired by this clean run.']}
+(P/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'passed':out['passed'],'failed':out['failed']}));raise SystemExit(bool(out['failed']))

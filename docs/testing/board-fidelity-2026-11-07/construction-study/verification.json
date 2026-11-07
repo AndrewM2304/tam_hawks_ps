@@ -1,0 +1,134 @@
+{
+  "scope": "PRIVATE same-author source-only construction arithmetic; no native/contact/moving acceptance",
+  "passes": 24,
+  "failures": [
+    "strict source-study pad top exactly conforms to finite wood surface"
+  ],
+  "checks": [
+    {
+      "pass": true,
+      "label": "study uses exact admitted UV04 source"
+    },
+    {
+      "pass": true,
+      "label": "encoded original atlas unchanged"
+    },
+    {
+      "pass": true,
+      "label": "one mesh hierarchy and four material definitions retained"
+    },
+    {
+      "pass": true,
+      "label": "all indexed grip position/normal/UV/index bytes retained"
+    },
+    {
+      "pass": true,
+      "label": "actual finite centre wood top16mm bottom5.75mm"
+    },
+    {
+      "pass": true,
+      "label": "actual finite centre wood10.25mm thickness"
+    },
+    {
+      "pass": true,
+      "label": "actual finite centre grip17mm unchanged"
+    },
+    {
+      "pass": true,
+      "label": "new wood tangent frames finite unit handed"
+    },
+    {
+      "pass": true,
+      "label": "surface0 retains all original triangle index topology"
+    },
+    {
+      "pass": true,
+      "label": "surface1 retains all original triangle index topology"
+    },
+    {
+      "pass": true,
+      "label": "surface2 retains all original triangle index topology"
+    },
+    {
+      "pass": true,
+      "label": "surface3 retains all original triangle index topology"
+    },
+    {
+      "pass": true,
+      "label": "all study indexed triangles finite and nondegenerate"
+    },
+    {
+      "pass": true,
+      "label": "all study native-source normals finite and unit"
+    },
+    {
+      "pass": true,
+      "label": "all study geometric triangle winding agrees with retained/transformed normals"
+    },
+    {
+      "pass": true,
+      "label": "all wood UV triangles retain nonzero Jacobian"
+    },
+    {
+      "pass": true,
+      "label": "whole wheel(-1, -1) retains dimensions through rigid translation"
+    },
+    {
+      "pass": true,
+      "label": "whole wheel(-1, 1) retains dimensions through rigid translation"
+    },
+    {
+      "pass": true,
+      "label": "whole wheel(1, -1) retains dimensions through rigid translation"
+    },
+    {
+      "pass": true,
+      "label": "whole wheel(1, 1) retains dimensions through rigid translation"
+    },
+    {
+      "pass": true,
+      "label": "actual source wheel-bottom matches declared new90.775mm datum"
+    },
+    {
+      "pass": true,
+      "label": "finite triangle-pair overlay measures both actual riser upper surfaces"
+    },
+    {
+      "pass": false,
+      "label": "strict source-study pad top exactly conforms to finite wood surface"
+    },
+    {
+      "pass": true,
+      "label": "thin-only negative retains exact old hardware"
+    },
+    {
+      "pass": true,
+      "label": "thin-only negative exposes23.75mm mount gap and19.75mm old boardslide datum error"
+    }
+  ],
+  "generator_sha256": "d33dfaddf11a90bc6346b734a0bc4ac0d2b600e511b545b77027b643b266e7d1",
+  "verifier_sha256": "c93195fb603ba1255cc93be2b77d1895f1dc901140764330fc7cf56628e1cf9e",
+  "study_sha256": "4f5fc061b6ea0411f49c16b7d046e8949d6b727692a78d4617957cda9806ed7d",
+  "finite_pad_signed_gap": {
+    "samples": 464,
+    "minimum_m": -8.673617379884035e-19,
+    "maximum_m": 0.00018601538613438606,
+    "worst": {
+      "pad_triangle": 0,
+      "wood_bottom_subset_triangle": 102,
+      "xz": [
+        0.0,
+        -0.2590000033378601
+      ],
+      "pad_minus_wood_m": 0.00018601538613438606
+    }
+  },
+  "source_budgets": {
+    "triangles": 5728,
+    "maximum_added_triangles": 512
+  },
+  "limits": [
+    "10nm exact-conformance gate is a source-study design check, not a changed gameplay tolerance",
+    "negative/signed internal pad gaps remain explicit; no source-only result authorizes runtime migration"
+  ]
+}

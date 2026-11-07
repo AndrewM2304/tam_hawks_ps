@@ -1,0 +1,13 @@
+from pathlib import Path
+import json,hashlib
+from PIL import Image
+P=Path(__file__).resolve().parent;checks=[]
+def ck(x,label):checks.append((label,bool(x)))
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+for name,h in json.loads((P/'independent-preservation.json').read_text()).items():ck(sha(P/name)==h,'retained encoded '+name)
+r=json.loads((P/'independent-review.json').read_text())
+for name,f in r['frames'].items():ck(hashlib.sha256(Image.open(P/'frames'/name).convert('RGBA').tobytes()).hexdigest()==f['native_rgba_sha256'],'exact native lossless pixels '+name)
+for name in r['personally_viewed_original_pngs']:ck(any(f['original_png']==name and f['original_png_sha256']==sha(P/'selected-original-png'/name)for f in r['frames'].values()),'verbatim selected original '+name)
+ck(r['failed']==0 and len(r['frames'])==10 and len(r['personally_viewed_original_pngs'])==4,'scoped502 positive retained')
+print(json.dumps({'passed':sum(c[1]for c in checks),'failed':sum(not c[1]for c in checks),'scope':'Durable evidence preservation only; no new engine or quality acceptance.'},indent=2))
+if any(not c[1]for c in checks):raise SystemExit(1)

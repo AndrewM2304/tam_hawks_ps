@@ -1,0 +1,81 @@
+"""Root-released actual-source focused runner. Preparing this file does not launch it."""
+from pathlib import Path
+import datetime,gzip,hashlib,json,os,re,shutil,signal,subprocess,time
+R=Path(__file__).resolve().parents[1]
+O=R/'docs/testing/rider-fit-2026-11-07/actual-focused-02'
+OBSERVER=R/'.local/actual_fitted_focused.gd'
+LAUNCHER=Path(__file__).resolve()
+BOUND=180
+
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inputs():
+    paths=[R/'project.godot',R/'export_presets.cfg',R/'docs/PLAYER-GUIDE.md',OBSERVER,LAUNCHER]
+    paths += [p for base in ['game','tests','tools','docs/licences'] for p in (R/base).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+    return {str(p.relative_to(R)):sha(p) for p in sorted(set(paths))}
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def native_processes():
+    records=[]
+    for p in Path('/proc').glob('[0-9]*/cmdline'):
+        try:
+            argv=p.read_bytes().split(b'\0');exe=Path(argv[0].decode(errors='replace')).name.lower() if argv else ''
+            if exe in ['godot','godot4','xorg','xvfb']:
+                records.append({'pid':int(p.parent.name),'command':b' '.join(argv).decode(errors='replace')})
+        except (OSError,ProcessLookupError):pass
+    return records
+
+def stop_group(process):
+    if process.poll() is not None:return
+    try:os.killpg(process.pid,signal.SIGTERM)
+    except ProcessLookupError:return
+    try:process.wait(timeout=3)
+    except subprocess.TimeoutExpired:
+        try:os.killpg(process.pid,signal.SIGKILL)
+        except ProcessLookupError:pass
+        process.wait(timeout=3)
+
+O.mkdir(parents=True,exist_ok=False)
+(O/'.gdignore').write_text('')
+for kind in ['data','config','cache']:(O/('xdg-'+kind)).mkdir()
+before=inputs();(O/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+shutil.copy2(OBSERVER,O/'observer.gd.txt');shutil.copy2(LAUNCHER,O/'launcher.py.txt')
+command=['./tools/run.sh','--headless','--fixed-fps','60','--script','.local/actual_fitted_focused.gd']
+env=dict(os.environ,TAM_FITTED_ACTUAL_OUTPUT=str(O/'modules.json'),TAM_FITTED_ACTUAL_CERTIFICATE=str(O/'shoe-support-certificate.json'),TAM_FITTED_ACTUAL_METRICS=str(O/'fitted-rig-metrics.json'))
+for kind in ['DATA','CONFIG','CACHE']:env['XDG_'+kind+'_HOME']=str(O/('xdg-'+kind.lower()))
+start=utc();clock=time.monotonic();reason=None;external_before=native_processes();seen_processes={r['pid']:r for r in external_before};next_snapshot=0.0
+with (O/'native.log').open('w') as log:
+    process=subprocess.Popen(command,cwd=R,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+    print(json.dumps({'start_utc':start,'pid':process.pid,'process_group':process.pid,'command':command,'bound_seconds':BOUND}),flush=True)
+    offset=0;carry=b''
+    try:
+        while process.poll() is None:
+            time.sleep(.05)
+            with (O/'native.log').open('rb') as read:read.seek(offset);chunk=read.read();offset=read.tell()
+            combined=carry+chunk;carry=combined[-128:]
+            if re.search(rb'SCRIPT ERROR:|Parse Error:|ERROR:',combined):reason='stop-first-raw-engine-error';stop_group(process);break
+            elapsed=time.monotonic()-clock
+            if elapsed>=BOUND:reason='OS deadline';stop_group(process);break
+            if elapsed>=next_snapshot:
+                for record in native_processes():seen_processes[record['pid']]=record
+                next_snapshot=elapsed+1.0
+        code=process.wait(timeout=5)
+    finally:
+        stop_group(process)
+end=utc();raw=(O/'native.log').read_text();errors=sorted(set(re.findall(r'SCRIPT ERROR:|Parse Error:|ERROR:',raw)));match=re.search(r'ACTUAL FITTED FOCUS: (\d+) passed, (\d+) failed',raw)
+# Freeze executable sources immediately after native exit, before any verifier work.
+after=inputs();(O/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+modules=json.loads((O/'modules.json').read_text()) if (O/'modules.json').is_file() else None
+native_good=(code==0 and reason is None and not errors and match is not None and (int(match[1]),int(match[2]))==(93,0) and before==after and modules is not None)
+if native_good:
+    native_good=modules['modules']==[{'name':'FittedGarmentNative','passed':60,'failed':0},{'name':'DefaultMainMotionAndSupport','passed':32,'failed':0}]
+certificate_command=['python3',str(R/'tools/testing/verify_shoe_support_certificate.py'),str(O/'shoe-support-certificate.json'),'--output',str(O/'exact-shoe-certificate.json')]
+certificate=None
+if native_good:
+    with (O/'certificate.log').open('w') as log:
+        cp=subprocess.run(certificate_command,cwd=R,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=30,start_new_session=True)
+    if (O/'exact-shoe-certificate.json').is_file():certificate=json.loads((O/'exact-shoe-certificate.json').read_text())
+    certificate_good=(cp.returncode==0 and certificate is not None and certificate.get('passed') and set(certificate.get('oracle_self_test',{}))=={'valid_tetra','sub_femtometre_outside_rejected','open_hull_rejected','invented_vertex_rejected','flipped_face_rejected'} and all(certificate['oracle_self_test'].values()) and len(certificate.get('legs',[]))==2 and all(x.get('passed') for x in certificate['legs']) and certificate.get('input_sha256')==sha(O/'shoe-support-certificate.json'))
+else:certificate_good=False
+final=inputs();(O/'source-final.json').write_text(json.dumps(final,indent=2)+'\n')
+receipt={'start_utc':start,'end_utc':end,'pid':process.pid,'process_group':process.pid,'command':command,'deadline_seconds':BOUND,'stop_reason':reason,'exit_code':code,'error_markers':errors,'result':{'passed':int(match[1]),'failed':int(match[2])} if match else None,'modules':modules['modules'] if modules else None,'source_count':len(before),'source_unchanged':before==after==final,'source_delta':[p for p in set(before)|set(after)|set(final) if before.get(p)!=after.get(p) or before.get(p)!=final.get(p)],'observer_sha256_prebound':before[str(OBSERVER.relative_to(R))],'launcher_sha256_prebound':before[str(LAUNCHER.relative_to(R))],'certificate_command':certificate_command,'certificate_passed':bool(certificate_good),'certificate_input_sha256':sha(O/'shoe-support-certificate.json') if (O/'shoe-support-certificate.json').is_file() else None,'known_process_snapshot_before':external_before,'native_processes_observed':list(seen_processes.values()),'eligible':bool(native_good and certificate_good and before==after==final),'scope':'Actual installed-source focused Fitted60/MainMotion32/Music-profile isolation1 plus independent exact-integer shoe certificate. Root-authorized private qualitative RA/ME/native jobs may overlap; observed processes recorded. No FPS, engine cost, exclusivity, target-Mac, final art or whole-suite claim.'}
+(O/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps(receipt,indent=2));print(raw[-1500:]);raise SystemExit(0 if receipt['eligible'] else 1)

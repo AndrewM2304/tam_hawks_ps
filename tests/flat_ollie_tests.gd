@@ -57,7 +57,7 @@ class Probe extends Node:
 		clothing=clothing and sample.finite and sample.seam<.08 and sample.joint_gap<.06 and sample.neck_gap<.05
 		for leg:Dictionary in rig._legs:
 			if air_ticks>=8:maximum_grip_error=maxf(maximum_grip_error,BoardGeometry.grip_distance(rig,leg.foot.to_global(Authentic.SOLE)))
-			for point:Vector3 in rig._sole_points:minimum_sole_y=minf(minimum_sole_y,leg.foot.to_global(point).y)
+			for point:Vector3 in rig.sole_contact_points(leg):minimum_sole_y=minf(minimum_sole_y,leg.foot.to_global(point).y)
 static func run(tree:SceneTree,check:Callable)->void:
 	Classic.Setup.register_actions()
 	for moving:bool in [false,true]:

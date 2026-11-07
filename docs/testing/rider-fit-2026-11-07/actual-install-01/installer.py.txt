@@ -1,0 +1,61 @@
+import datetime, hashlib, json, pathlib, shutil, subprocess, sys
+
+root = pathlib.Path(__file__).resolve().parents[1]
+manifest_path = root / '.local/fitted-rig-admission/final-composite-01/promotion-review-01/manifest.json'
+manifest = json.loads(manifest_path.read_text())
+packet = root / 'docs/testing/rider-fit-2026-11-07/actual-install-01'
+backup = root / '.local/fitted-actual-backup-01'
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
+
+def inputs():
+    paths = [root / 'project.godot', root / 'export_presets.cfg', root / 'docs/PLAYER-GUIDE.md']
+    paths += [p for folder in ['game', 'tests', 'tools', 'docs/licences'] for p in (root / folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+    return {p.relative_to(root).as_posix(): digest(p) for p in sorted(set(paths))}
+
+files = manifest['files']
+for name, entry in files.items():
+    destination = root / name
+    source = pathlib.Path(entry['source'])
+    assert destination.resolve().is_relative_to(root) and not destination.is_symlink(), name
+    assert source.resolve().is_relative_to(root / '.local'), name
+    assert digest(source) == entry['candidate_sha256'] and source.stat().st_size == entry['bytes'], name
+    assert digest(destination) == entry['actual_before_sha256'], name
+retire = ['game/art/rider/' + n for n in manifest['retirement_review_only'] if '/' not in n]
+retire += [n for n in manifest['retirement_review_only'] if '/' in n]
+retire += [n + '.import' for n in list(retire) if (root / (n + '.import')).is_file()]
+assert not (set(files) & set(retire))
+before = inputs()
+print(json.dumps({'validated_files': len(files), 'retire_existing': [n for n in retire if (root/n).exists()], 'manifest_sha256': digest(manifest_path)}))
+if '--install' not in sys.argv:
+    raise SystemExit(0)
+assert manifest['status'].startswith('ADMITTED'), 'Final independently reviewed admission required'
+packet.mkdir(parents=True, exist_ok=False)
+backup.mkdir(parents=True, exist_ok=False)
+for name in set(files) | set(retire):
+    original = root / name
+    if original.exists():
+        saved = backup / name
+        saved.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(original, saved)
+started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+shutil.copy2(manifest_path, packet / 'reviewed-manifest.json')
+shutil.copy2(__file__, packet / 'installer.py.txt')
+(packet / 'source-before.json').write_text(json.dumps(before, indent=2) + '\n')
+for name, entry in files.items():
+    destination = root / name
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    previous_mode = destination.stat().st_mode if destination.exists() else None
+    shutil.copy2(entry['source'], destination)
+    if previous_mode is not None:
+        destination.chmod(previous_mode)
+    assert digest(destination) == entry['candidate_sha256'], name
+for name in retire:
+    (root / name).unlink(missing_ok=True)
+after = inputs()
+changed = sorted(n for n in before.keys() | after.keys() if before.get(n) != after.get(n))
+assert set(changed) <= set(files) | set(retire), changed
+(packet / 'source-after.json').write_text(json.dumps(after, indent=2) + '\n')
+(packet / 'receipt.json').write_text(json.dumps({'started_utc': started, 'finished_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'head': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip(), 'reviewed_manifest_sha256': digest(manifest_path), 'changed_inputs': changed, 'all_other_source_bytes_preserved': True, 'scope': 'Guarded installation only. Private admission retains its own evidence. Subsequent actual import, focused/full regression, moving graphics, packaging and Mac acceptance are separate.'}, indent=2) + '\n')
+print('Fitted integration installed with exact candidate hashes; actual verification pending.')

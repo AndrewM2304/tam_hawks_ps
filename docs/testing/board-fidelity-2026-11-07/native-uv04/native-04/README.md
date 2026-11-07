@@ -1,0 +1,1 @@
+Rejected whole epoch: pure decoder controls attempted to instantiate EditorScenePostImport outside editor. Parser/editor import clean but no accepted native result. The preexisting native-project/native-result.json remains policy03 and is NOT an epoch04 output. Source helper split follows in05.

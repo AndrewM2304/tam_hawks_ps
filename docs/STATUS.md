@@ -11,7 +11,7 @@ preserved, origin fetched and main fast-forwarded to `0b62035` before accepting
 production changes. Obsolete cross-bank/interpolation patches were discarded.
 Work remains directly on main, with non-force integration, no hosted CI, no
 spending and no release publication. October evidence below keeps its own scope.
-The latest in-progress November checkpoint **`4a7ae8e` is pushed to origin/main**.
+The latest in-progress November checkpoint **`97d72fa` is pushed to origin/main**.
 It is available for ordinary trial while the remaining implementation continues.
 
 Start with [STUDIO](planning/STUDIO.md), [persistent roles/skills](../.agents/agents/README.md),
@@ -28,9 +28,11 @@ workers or published remote issues.
   Existing physical support remains unchanged. The [actual-source focused gate](testing/fidelity-2026-11-06/water-actual-focused-01/README.md)
   passes **49/0** on816 unchanged inputs, including its executed entrypoints;
   the independently reviewed matched images retain their separate scope.
-  The paving's curved bands were traced to the added low sun-bias settings;
-  full-resolution native-default contact-shadow review is in progress before
-  changing production lighting. Replacement paving is not integrated.
+  The paving's curved bands were traced to the added low sun-bias settings.
+  Native directional bias0.1/2.0 is restored after the six-view1280 comparison
+  (136/0 integrity, independent244/0): all12 candidate/restored originals were
+  personally reviewed by QE, with existing contact shadows retained. Replacement
+  paving is not integrated; moving and target-hardware shadows remain open.
 - Recessed windows, panelled shop joinery/displays and smoother gallery columns
   are now integrated. [Independent native review](testing/fidelity-2026-11-06/architecture/main-graphics-03/README.md)
   verifies21 matched originals, unchanged canonical collision/routes, at most+4
@@ -50,12 +52,21 @@ workers or published remote issues.
   camera/Canvas proofs and unchanged 781-input inventories. Forward+ alone leaves
   the dominant asset defects visible. Keep Godot 4.6.3 and default Compatibility;
   later actual Metal/M5 evaluation remains open. Capture durations are not FPS.
-- Current procedural rider improvements include licensed cropped skin, smoother
-  anatomy, connected clothes, shoes and strand clumps: 50,596 source triangles /
-  29 surfaces in the recorded focused epoch. It still fails the final silhouette
-  and clothing benchmark. A private **continuous CC0 fitted outfit and hair** is
-  advancing with an independent rigging specialist; rejected collar/cuff/brow
-  iterations are retained. Those assets have not replaced production yet.
+- A **continuous CC0 fitted outfit, hair, eyes and trainers** now replaces the
+  procedural clothing in the working build. The exact115-file guarded install
+  retains source/derivative provenance, transported leg frames, actual per-leg
+  shoe support and coherent player/NPC pose clocks. The recorded fitted player
+  uses48,768 source triangles/19 surfaces versus50,596/29 in phase1; those figures
+  do not prove frame time. Private admission retains separate199/0 contact,
+  67/0 motion and249/0 constructor results; two later runner hooks were reviewed
+  there but await execution by the complete actual check.
+- The [actual fitted integration gate](testing/rider-fit-2026-11-07/actual-focused-02/README.md)
+  passes **93/0** plus the independent exact-integer shoe certificate on875
+  unchanged inputs. It includes native fitted60, default-Main motion/support32
+  and Music/profile isolation. The first attempt stopped correctly on two NPC
+  type-inference errors; explicit Node3D declarations and clean editor import
+  precede the accepted retry. Moving/close rendered review and full regression
+  remain open; the timed-out six-still attempt is rejected.
 - Distance-matched pushing turns hips/torso/lead shoe toward signed travel.
   Baseline actual-Main planting slid over 200 mm/tick; candidate flat/incline
   diagnostics reduce slip to millimetres. Finite raised-seat support, named-seat
@@ -83,7 +94,24 @@ workers or published remote issues.
 
 ## Current defects and next integration
 
-The [actual integrated focused checkpoint](testing/fidelity-2026-11-06/integrated-focused-02/README.md)
+The [second complete actual required run](testing/fidelity-2026-11-06/integrated-required-02-rejected/README.md)
+is **rejected:6,526 passed /7 failed**, with three freed-object script errors,
+exit1,886 unchanged inputs and a clean import. It completed in2241.249s and
+correctly skipped CLI Music isolation. The failures cover a genuine Clyde bowl
+toe/deck clearance issue, the removed-wall forecast reference, old board/route
+expectations and two coping-transition checks. Routine test migrations and
+runtime repairs are prepared separately; no failed result is relabelled.
+
+The UV04 board finish is installed with an actual default-path27/0 gate;
+indexed geometry,32 contact components and protected hardware remain unchanged.
+The physical28mm deck/mounting defects stay open. A six-still actual-Main push
+packet passes2056/0 with independent159/0, all657 observations and six reviewed
+front/side/chase plant/return originals. It is not the continuous motion reel.
+The calmer two-wave shader is provisional: its27-cell benchmark remains
+unadmitted despite verified evidence. Actual Main material pairs show reduced
+river glare, with opaque-grey water and full water realism still unfinished.
+
+The [earlier actual integrated focused checkpoint](testing/fidelity-2026-11-06/integrated-focused-02/README.md)
 passes **392/0** with808 unchanged inputs, including the before-hashed executed
 observer and launcher. It covers standalone/default-Main motion, independent
 manual balance, all line/forecast controls, complete wall/arm and FacadeBay
@@ -146,15 +174,13 @@ proximity is not evidence of gravity-bearing contact. D015's recorded current
 procedural-rider case is repaired in its bounded scope; final fitted/moving
 regression and lateral panel transitions remain open.
 
-The continuous fitted rider is still private. Its production admission must
-exercise the new cached native-Skin envelope, semantically correct seam tests,
-real per-leg sole geometry and all NPC clothing/accessories. The passing current
-procedural-rider contact gate does not certify the pending fitted outfit.
-Independent native palette/GPU work also exposed a rigid-head/skinned-clothes
-pose-clock mismatch. [The fitted clock comparison](testing/rider-fit-2026-11-07/independent-clock-02/README.md)
-supports coherent local Rider/Board interpolation policy with outer motion
-retained; this policy and the continuous outfit remain private pending the full
-fitted attachment/contact/movement gate. No83/224mm native GPU gap is claimed.
+The continuous fitted rider, native-Skin envelope and exact per-leg sole/full-shoe
+support are now installed with the source-bound gates above. Independent native
+palette/GPU work exposed rigid/skinned pose-clock disagreement. The local
+Rider/Board policy retains outer interpolation; independently reviewed NPC caller
+policies also retain actor/body motion and include the drummer's separate bead
+tips. Final actual moving review, complete regression and hardware cost remain
+open. No83/224mm native GPU gap is claimed.
 
 Next: complete focused repairs and fitted-rider/helper admission, take a new
 source freeze, pass the complete required check, inspect current motion and verify

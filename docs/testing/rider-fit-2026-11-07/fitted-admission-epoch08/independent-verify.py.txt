@@ -1,0 +1,49 @@
+from pathlib import Path
+import json,hashlib,re,difflib
+P=Path(__file__).resolve().parent;R=P.parents[3];checks=[]
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(label,value):checks.append({'label':label,'pass':bool(value)})
+index=json.loads((P/'sha256.json').read_text())
+for name,h in index.items():ck('exact archive '+name,(P/name).is_file() and sha(P/name)==h)
+receipts={}
+for name in ['epoch-07','epoch-08','epoch-08-controls','epoch-08-controls-02']:
+ q=P/name;r=json.loads((q/'receipt.json').read_text());receipts[name]=r
+ ck(name+' before/after source inventory matches',r['source_stable'] and r['source_before']==r['source_after'] and json.loads((q/'source-before.json').read_text())==r['source_before'] and json.loads((q/'source-after.json').read_text())==r['source_after'])
+ ck(name+' exact retained launcher AFTER execution identity',sha(q/'run_pilot.py')==r['wrapper_sha256'])
+ if name!='epoch-08-controls':ck(name+' no engine errors/timeout',not r['raw_engine_error'] and not r['timed_out'] and not re.search(r'SCRIPT ERROR|ERROR:|Parse Error',(q/'native.log').read_text()))
+ else:ck(name+' rejected malformed ancestry kept',r['raw_engine_error'] and r['aborted_on_engine_error'] and r['returncode']!=0)
+base=receipts['epoch-07'];candidate=receipts['epoch-08'];controls=receipts['epoch-08-controls-02']
+changes=[k for k,v in candidate['source_before'].items() if base['source_before'].get(k)!=v]
+ck('730 matched source inputs differ only local clock visual',len(base['source_before'])==len(candidate['source_before'])==730 and set(base['source_before'])==set(candidate['source_before']) and changes==['game/player/skater_visual.gd'])
+for ep,passes,fails,code in [('epoch-07',54,4,1),('epoch-08',58,0,0),('epoch-08-controls-02',6,0,0)]:
+ raw=(P/ep/'native.log').read_text();ck(ep+' exact raw PASS/FAIL count',len(re.findall(r'^PASS ',raw,re.M))==passes and len(re.findall(r'^FAIL ',raw,re.M))==fails and receipts[ep]['returncode']==code)
+ck('exact2statements+comment local policy', (P/'policy-before.gd').read_text().replace('\t_rider = rider\n','\t_rider = rider\n\t# Current Skin and rigid local poses share one interpolated outer root.\n\t_rider.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF\n\t_board.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF\n',1)==(P/'policy-after.gd').read_text())
+ck('actual main overlay is same exact narrow2statement edit',(P/'actual-main-policy-before.gd').read_text().replace('\t_rider = rider\n','\t_rider = rider\n\t# Current Skin and rigid local poses share one interpolated outer root.\n\t_rider.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF\n\t_board.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF\n',1)==(P/'actual-main-policy-after.gd').read_text())
+for field,name in [('game/player/skater_visual.gd','policy-after.gd'),('tests/skater_body_attachment_tests.gd','body-tests-after.gd'),('tests/fitted_adapter.gd','fitted_adapter.gd'),('tests/fitted-reference.json','fitted-reference.json')]:ck('native candidate before-run bound '+field,candidate['source_before'][field]==sha(P/name))
+ck('baseline policy bound',base['source_before']['game/player/skater_visual.gd']==sha(P/'policy-before.gd'))
+ck('actual controls observer before-run bound',controls['source_before']['controls.gd']==sha(P/'controls.gd'))
+body_before=(P/'body-tests-before.gd').read_text();body_after=(P/'body-tests-after.gd').read_text()
+for function in ['_observe','_full_grabs']:
+ def extract(text):
+  start=text.index('static func '+function+'(');end=text.find('\nstatic func ',start+1);return text[start:] if end<0 else text[start:end]
+ ck('original unchanged body input/observation function '+function,extract(body_before)==extract(body_after))
+ck('unchanged positive and original corruption magnitudes',all(token in body_after and token in body_before for token in ['const SETTLED_SEAM_LIMIT := 0.08','const SETTLED_JOINT_LIMIT := 0.06','wrong.origin.y-=0.8','bail.maximum_surface_gap<0.05','failure.maximum_neck_gap<0.05','for rendered: bool in [false,true]']))
+adapter=(P/'fitted_adapter.gd').read_text()
+ck('rendered model queried regardless child interpolation flag','return mesh.get_global_transform_interpolated() if rendered else mesh.global_transform' in adapter)
+ck('native raw weights local palette then actual mesh model','return _frame(mesh,rendered)*(x*p.x+y*p.y+z*p.z+origin)' in adapter and 'origin+=transform.origin*w' in adapter)
+ck('source topology is directed cyclic','_triangle_key([triangle[2],triangle[1],triangle[0]])' in adapter)
+ck('native Head incidence required','for index: int in surface.used:' in adapter and 'missing actual matching UpperChest boundary edge' in adapter)
+ck('explicit native UV/normal finite guards','not normals[i].is_finite() or not uv[i].is_finite()' in adapter)
+result=json.loads((P/'epoch-08/result.json').read_text());m=result['metrics'];negative=m['detachment800'];uniform=m['uniform250']
+ck('native58zero result',result['passes']==58 and result['failures']==[])
+ck('real mixed waist and pure upper800mm negative sensitivity',negative['waist_m']>.08 and negative['pure_upper_shift_m']>.5 and negative['joint_gap_unchanged'])
+ck('uniform250mm local palette translation measured',abs(uniform['maximum_waist_m']-.25)<.00002)
+ck('actual fitted cache geometry only within existing bounds',m['contact_cache']['outside']==0 and m['contact_cache']['packed_bytes']<=512*1024)
+ck('head import identity bound format derived',m['head_import']['compressed'] and m['head_import']['position_identity_bound_m']<.00001 and m['head_import']['uv_identity_bound']<.00003)
+semantic=json.loads((P/'epoch-08-controls-02/result.json').read_text())
+ck('actual semantic6zero',semantic['passes']==6 and semantic['failures']==[])
+ck('real orphan and missingedge retain arrays but reject',all(semantic['findings'][key]['removed_native_triangles']>0 and semantic['findings'][key]['errors'] and semantic['findings'][key]['all_original_vertex_arrays_retained'] for key in ['orphan','missing_edge']))
+ck('real buffer clone passes and reversedtriangle refuses',semantic['findings']['clone_errors']==[] and 'incomplete native source topology UpperChest' in semantic['findings']['winding_errors'])
+recorded=json.loads((P/'independent-review.json').read_text());actual=recorded['actual_visual_at_review_sha256'];expected=sha(P/'actual-main-policy-before.gd')
+report={'passed':sum(c['pass'] for c in checks),'failed':sum(not c['pass'] for c in checks),'checks':checks,'matched_changes':changes,'actual_visual_at_review_sha256':actual,'reviewed_actual_overlay_base_sha256':expected,'actual_base_matches_at_review':actual==expected,'verdict':'Exact local coherent-clock policy is source-reviewed for narrow integration and actual regression. Fitted test branch is semantically sound for the recorded assets but not ready for promotion until public reference-only generator/final asset pins and fresh combined fitted/contact/moving gates.','limits':['Native58/0 is imported-mesh/physics/headless model estimation, not rendered GPU seam distance; actual8+18 GPU images/independentMODEL authority are separate packets.','Matched730-input baseline/candidate excludes launcher from before/after manifest. Retained wrapper SHA is recorded after execution only; no invented before-run launcher binding.','Current imported/source Head format identity bounds are not changed contact tolerances.','Named Skin resolution/model-once LBS are separately native GPU-proved; remaining original legacy-only oracle code is unchanged by this adapted branch.','Semantic orphan/missingedge/winding controls executed; explicit nonfiniteUV/normal guards are source-reviewed here, not claimed exercised by native malformed-buffer controls.','BodyAttachment keeps original inputs/positive limits and800mm corruption. Mixed real waist800mm response is182.425mm, so upper authentic pure-shirt>500mm remains an additional sentinel.','Current selected private controller/shoe/garment variant differs from future combination. No actual Main/final footwear/deformed trajectory/temporal poles/NPC/M5/AAA acceptance.','Public generator still has private preparation paths in this packet and must be replaced before test integration.']}
+assert json.loads((P/'independent-review.json').read_text())==report;print(json.dumps({'passed':report['passed'],'failed':report['failed'],'actual_base_match':report['actual_base_matches_at_review']},indent=2));raise SystemExit(bool(report['failed']))

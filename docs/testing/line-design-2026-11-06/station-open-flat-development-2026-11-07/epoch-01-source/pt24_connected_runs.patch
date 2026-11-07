@@ -1,0 +1,22 @@
+--- a/game/levels/pt24_connected_runs.gd
++++ b/game/levels/pt24_connected_runs.gd
+@@ -26,7 +26,7 @@
+ 	_move_feature(world,"civic_island_return",Vector3(13,4,-64),Vector3(66,4,-84.7),PI*0.5)
+ 	# A low existing bank belongs between the two station transition pockets,
+ 	# rather than beneath the service walk. The old high/low routes stay open.
+-	_move_feature(world,"station_low_manual",Vector3(-114,2,-13.5),Vector3(-80,2,40),0.0)
++	_move_feature(world,"station_low_manual",Vector3(-114,2,-13.5),Vector3(-80,2,35),0.0)
+ 	# The safe bridge's west return gets an edge aligned with its arrival heading;
+ 	# it does not send the through lane across the bowl mouth or technical relay.
+ 	_move_feature(world,"clyde_south_return",Vector3(-18.5,2,140),Vector3(-32.2,2,134.5),-PI*0.5)
+@@ -43,8 +43,8 @@
+ 	_add_route(world,"civic_backstreet_ledge_return","Civic back-street ledge and clear return",[
+ 		Vector3(57,4,-80),Vector3(75,4,-80),Vector3(75,4,-83),Vector3(57,4,-83),Vector3(57,4,-80)])
+ 	_add_route(world,"station_transition_handoff","Station spine to manual bank and halfpipe return",[
+-		Vector3(-98,2,40),Vector3(-89.2,2,40),Vector3(-85.2,2,40),Vector3(-83,2.36,40),
+-		Vector3(-77,2.36,40),Vector3(-74.8,2,40),Vector3(-70.8,2,40),Vector3(-68,2,40)])
++		Vector3(-98,2,35),Vector3(-89.2,2,35),Vector3(-85.2,2,35),Vector3(-83,2.36,35),
++		Vector3(-77,2.36,35),Vector3(-74.8,2,35),Vector3(-70.8,2,35),Vector3(-68,2,35)])
+ 	_add_route(world,"clyde_west_landing_return","Safe bridge west ledge return",[
+ 		Vector3(-25,2,124),Vector3(-36,2,124),Vector3(-36,2,140),Vector3(-30,2,140)])
+ 	# An optional trick route through existing native seats and masonry. It

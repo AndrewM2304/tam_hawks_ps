@@ -1,0 +1,57 @@
+{
+  "kind": "guarded two-file proposal, not actual installation",
+  "prepared_utc": "2026-11-07T06:50:43.022909+00:00",
+  "files": {
+    "tests/line_design_tests.gd": {
+      "baseline_sha256": "157556f2f733fe21e65ec286115101d2dfe45f5dddf0c90ca73b65636c59037f",
+      "candidate_sha256": "79d9a541b6786842fc6bf8dc3cfb9247b5a12cd3a9791ddda01fc1f3ee163df4",
+      "preserved_candidate": "proposal/candidate/tests/line_design_tests.gd.txt",
+      "preserved_baseline": "proposal/baseline/tests/line_design_tests.gd.txt",
+      "actual_still_matches_baseline": true
+    },
+    "game/levels/pt24_connected_runs.gd": {
+      "baseline_sha256": "9181d269b44053c5b93bbf2b690b0cb287543da10d9fdc17600fd78591551f16",
+      "candidate_sha256": "3a6efa467e29cdf6fee9544e22d2c77de80f8ac9260084cf13f139c5bd6acb2f",
+      "preserved_candidate": "proposal/candidate/game/levels/pt24_connected_runs.gd.txt",
+      "preserved_baseline": "proposal/baseline/game/levels/pt24_connected_runs.gd.txt",
+      "actual_still_matches_baseline": true
+    }
+  },
+  "native_integration_logical_result": [
+    56,
+    0
+  ],
+  "original_cases": [
+    42,
+    0
+  ],
+  "new_shared_prefix_return": [
+    13,
+    0
+  ],
+  "optional_map_metadata": [
+    1,
+    0
+  ],
+  "watched_inputs": 1028,
+  "native_receipt": "native-01/receipt.json",
+  "raw_guard_eligible": false,
+  "separate_root_qualification": "root-overlap-qualification.json",
+  "actual_install_performed": false,
+  "all_existing_twelve_blocks_byte_identical": true,
+  "default_relay_reconstructed_byte_identical": true,
+  "run_extra_call_after_original_cases_only": true,
+  "geometry_material_texture_collision_resources_added": 0,
+  "optional_map_route_points_added": 17,
+  "true_one_combo": false,
+  "wall_approach_seconds_review_flag": 3.1333333333333333,
+  "remaining_gates": [
+    "actual guarded installation",
+    "fresh current-source/fitted-rider combined gate",
+    "moving route/visual/readability review",
+    "reverse/imperfect inputs",
+    "one-combo variant",
+    "whole-map L1",
+    "M5/human acceptance"
+  ]
+}

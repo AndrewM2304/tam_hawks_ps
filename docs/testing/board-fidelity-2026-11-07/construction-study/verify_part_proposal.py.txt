@@ -1,0 +1,110 @@
+"""Source-only structural negatives for the UNADMITTED logical-part proposal.
+
+This checks raw indexed source data; it cannot replace an actual native imported
+face/policy/cache proof. No runtime authority consumes this JSON today.
+"""
+from pathlib import Path
+import base64, copy, hashlib, importlib.util, json
+import numpy as np
+
+ROOT = Path(__file__).resolve().parent
+loader = importlib.util.spec_from_file_location('reader', ROOT.parent / 'board_uv_finish04.py')
+reader = importlib.util.module_from_spec(loader)
+loader.loader.exec_module(reader)
+board = reader.GLB(ROOT / 'physical-layout02/tam_skateboard.glb')
+source_sha = hashlib.sha256(board.file).hexdigest()
+original = json.loads((ROOT / 'semantic-parts-proposal.json').read_text())
+expected_names = frozenset(p['name'] for p in original['parts'])
+assert len(expected_names) == 32
+surfaces = [board.primitive(i) for i in range(4)]
+required_faces = {(surface, face) for surface in range(4) for face in range(len(surfaces[surface][2]) // 3)}
+
+
+def triangle_hash(triangles):
+    chunks = []
+    for triangle in triangles:
+        rows = [v.astype('<f4').tobytes() for v in triangle]
+        chunks.append(min(b''.join(rows[i:] + rows[:i]) for i in range(3)))
+    return hashlib.sha256(b''.join(sorted(chunks))).hexdigest()
+
+
+def valid(value):
+    try:
+        if value['source_glb_sha256'] != source_sha or value['part_count'] != 32 or len(value['parts']) != 32:
+            return False
+        names = [p['name'] for p in value['parts']]
+        if len(set(names)) != 32 or set(names) != expected_names:
+            return False
+        owned = set()
+        raw_size = 0
+        for part in value['parts']:
+            triangles = []
+            if len(part['source_triangles']) != part['source_triangle_count']:
+                return False
+            for surface, face in part['source_triangles']:
+                if type(surface) is not int or type(face) is not int or (surface, face) not in required_faces or (surface, face) in owned:
+                    return False
+                owned.add((surface, face))
+                _, arrays, indices = surfaces[surface]
+                triangles.append(arrays['POSITION'][indices.reshape(-1, 3)[face]])
+            triangles = np.array(triangles, dtype='<f4')
+            if triangle_hash(triangles) != part['source_CCW_position_winding_multiset_sha256']:
+                return False
+            if triangle_hash(triangles[:, [0, 2, 1]]) != part['expected_Godot_CW_position_winding_multiset_sha256']:
+                return False
+            raw = base64.b64decode(part['source_float32_points_base64'], validate=True)
+            raw_size += len(raw)
+            # Declared producer check only. Native cache/metadata memory still
+            # needs its separately measured budget before any implementation.
+            if raw_size > 65536 or len(raw) % 12 or len(raw) // 12 != part['source_unique_point_count']:
+                return False
+            points = np.frombuffer(raw, dtype='<f4').reshape(-1, 3)
+            if not np.isfinite(points).all():
+                return False
+            expected = np.unique(triangles.reshape(-1, 3), axis=0)
+            if not np.array_equal(points, expected):
+                return False
+            if not np.array_equal(points.min(0), np.array(part['source_bounds_min_m'])) or not np.array_equal(points.max(0), np.array(part['source_bounds_max_m'])):
+                return False
+        return owned == required_faces and len(owned) == value['complete_triangle_count'] and raw_size == value['raw_point_payload_bytes']
+    except (KeyError, ValueError, TypeError, IndexError):
+        return False
+
+
+checks = []
+def check(ok, label):
+    checks.append({'pass': bool(ok), 'label': label})
+def negative(label, change):
+    specimen = copy.deepcopy(original)
+    change(specimen)
+    check(not valid(specimen), label)
+
+
+check(valid(original), 'complete source proposal covers every drawn triangle once and all actual support points exactly')
+negative('foreign source GLB pin refused', lambda d: d.update(source_glb_sha256='0' * 64))
+negative('missing actual face refused', lambda d: d['parts'][0]['source_triangles'].pop())
+negative('duplicate actual face refused', lambda d: d['parts'][0]['source_triangles'].__setitem__(1, d['parts'][0]['source_triangles'][0]))
+negative('foreign primitive index refused', lambda d: d['parts'][0]['source_triangles'][0].__setitem__(0, 4))
+negative('fractional face index refused', lambda d: d['parts'][0]['source_triangles'][0].__setitem__(1, .5))
+negative('negative face index refused', lambda d: d['parts'][0]['source_triangles'][0].__setitem__(1, -1))
+negative('duplicate logical part identity refused', lambda d: d['parts'][0].__setitem__('name', d['parts'][1]['name']))
+negative('false source winding hash refused', lambda d: d['parts'][0].__setitem__('source_CCW_position_winding_multiset_sha256', '0' * 64))
+negative('false Godot winding hash refused', lambda d: d['parts'][0].__setitem__('expected_Godot_CW_position_winding_multiset_sha256', d['parts'][0]['source_CCW_position_winding_multiset_sha256']))
+negative('wrong declared point payload count refused', lambda d: d.update(raw_point_payload_bytes=d['raw_point_payload_bytes'] + 12))
+negative('malformed point buffer refused', lambda d: d['parts'][0].__setitem__('source_float32_points_base64', '!invalid!'))
+def bad_point(value, nonfinite=False):
+    part = value['parts'][0]
+    points = np.frombuffer(base64.b64decode(part['source_float32_points_base64']), dtype='<f4').copy()
+    points[0] = np.nan if nonfinite else points[0] + .0001
+    part['source_float32_points_base64'] = base64.b64encode(points.tobytes()).decode()
+negative('actual 100micrometre support-point displacement refused', bad_point)
+negative('nonfinite support point refused', lambda d: bad_point(d, True))
+def foreign_face(value):
+    left, right = value['parts'][0], value['parts'][2]
+    left['source_triangles'][0], right['source_triangles'][0] = right['source_triangles'][0], left['source_triangles'][0]
+negative('wrong logical ownership of otherwise real faces refused', foreign_face)
+negative('oversized unapproved source support payload refused', lambda d: d['parts'][0].__setitem__('source_float32_points_base64', base64.b64encode(bytes(65544)).decode()))
+report = {'scope': 'PRIVATE source-only proposal structural controls; no native runtime cache/face authority acceptance', 'passes': sum(c['pass'] for c in checks), 'failures': [c['label'] for c in checks if not c['pass']], 'checks': checks, 'source_sha256': source_sha, 'part_proposal_sha256': hashlib.sha256((ROOT / 'semantic-parts-proposal.json').read_bytes()).hexdigest(), 'verifier_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), 'limits': ['same author; shares raw binary accessor reader but not geometry transformations', 'proposal producer is not cryptographic/native authority; future accepted certificate/policy must be pinned', 'actual imported face provenance and native phantom-bridge refusal remain unrun', 'no actual runtime source or contact API changed']}
+(ROOT / 'part-proposal-verification.json').write_text(json.dumps(report, indent=2) + '\n')
+print(json.dumps(report, indent=2))
+raise SystemExit(0 if not report['failures'] else 1)

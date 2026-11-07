@@ -1,0 +1,73 @@
+{
+  "passes": 16,
+  "failures": [],
+  "checks": [
+    {
+      "pass": true,
+      "check": "public-only reference exact semantic equality release-reproduction-v11-final"
+    },
+    {
+      "pass": true,
+      "check": "public-only output byte SHA matches executed native reference release-reproduction-v11-final"
+    },
+    {
+      "pass": true,
+      "check": "public-only reference exact semantic equality rider"
+    },
+    {
+      "pass": true,
+      "check": "public-only output byte SHA matches executed native reference rider"
+    },
+    {
+      "pass": true,
+      "check": "public-only reference exact semantic equality release-reproduction-v13"
+    },
+    {
+      "pass": true,
+      "check": "public-only output byte SHA matches executed native reference release-reproduction-v13"
+    },
+    {
+      "pass": true,
+      "check": "deterministic repeated generation"
+    },
+    {
+      "pass": true,
+      "check": "wrong actual asset pin rejected before interpretation"
+    },
+    {
+      "pass": true,
+      "check": "missing semantic Head record rejected even after honest metadata repin"
+    },
+    {
+      "pass": true,
+      "check": "wrong source Head identity rejected independently of pin"
+    },
+    {
+      "pass": true,
+      "check": "wrong source Head rest correspondence rejected independently of pin"
+    },
+    {
+      "pass": true,
+      "check": "changed native bone profile rejected after asset repin"
+    },
+    {
+      "pass": true,
+      "check": "truncated rest metadata rejected before zip comparison"
+    },
+    {
+      "pass": true,
+      "check": "wrong declared waist edge rejected against derived actual source boundary"
+    },
+    {
+      "pass": true,
+      "check": "duplicate actual source mesh rejected after repin"
+    },
+    {
+      "pass": true,
+      "check": "missing actual source mesh rejected after repin"
+    }
+  ],
+  "generator_sha256": "5e4d01aabe24f07d003a80a8a52bf945a386b682cde8a61186603c10013b9359",
+  "reference_sha256": "eabce3798fd552a593a13683f2fb1b267c84088bf197f020d96634c0eaf367ae",
+  "scope": "Standalone standard-library public-source reference reproduction and malformed source controls; exact same reference bytes as native58/0. No new runtime/source asset or engine operation."
+}

@@ -1,0 +1,216 @@
+{
+  "scope": "Same-camera/pose V12 to V13 accessory-only native still comparison. Not live NPC, Main, final wardrobe/AAA or timing acceptance.",
+  "all_three_clean_originals_personally_opened": true,
+  "visible_result": "Four conspicuous left torso-side shirt fragments are covered; drummer sleeves stay clean and market apron remains unchanged. Tiny armhole edge quality, plain apron finish and live deformation remain open.",
+  "native_matched_rows": [
+    {
+      "label": "npc-steward",
+      "native_state_exact": {
+        "camera_global": true,
+        "camera_projection_columns": true,
+        "camera_near": true,
+        "camera_far": true,
+        "viewport_pixels": true,
+        "head_global": true,
+        "rider_global": true,
+        "skeleton_global": true,
+        "bone_global_pose_in_skeleton": true,
+        "actual_hand_foot_mesh_transforms_and_blend_shapes": true
+      },
+      "native_process_counters": {
+        "buffer_bytes": {
+          "v12": 10309216,
+          "v13": 10310068,
+          "delta": 852
+        },
+        "draw_calls": {
+          "v12": 43,
+          "v13": 43,
+          "delta": 0
+        },
+        "primitives": {
+          "v12": 114632,
+          "v13": 114704,
+          "delta": 72
+        },
+        "texture_bytes": {
+          "v12": 38531682,
+          "v13": 38531682,
+          "delta": 0
+        },
+        "video_bytes": {
+          "v12": 48840898,
+          "v13": 48841750,
+          "delta": 852
+        }
+      },
+      "source_inventory_delta": {
+        "triangles": 24,
+        "surfaces": 0,
+        "mesh_instances": 0
+      }
+    },
+    {
+      "label": "npc-market",
+      "native_state_exact": {
+        "camera_global": true,
+        "camera_projection_columns": true,
+        "camera_near": true,
+        "camera_far": true,
+        "viewport_pixels": true,
+        "head_global": true,
+        "rider_global": true,
+        "skeleton_global": true,
+        "bone_global_pose_in_skeleton": true,
+        "actual_hand_foot_mesh_transforms_and_blend_shapes": true
+      },
+      "native_process_counters": {
+        "buffer_bytes": {
+          "v12": 10424732,
+          "v13": 10425360,
+          "delta": 628
+        },
+        "draw_calls": {
+          "v12": 117,
+          "v13": 117,
+          "delta": 0
+        },
+        "primitives": {
+          "v12": 116164,
+          "v13": 116164,
+          "delta": 0
+        },
+        "texture_bytes": {
+          "v12": 39055970,
+          "v13": 39055970,
+          "delta": 0
+        },
+        "video_bytes": {
+          "v12": 49480702,
+          "v13": 49481330,
+          "delta": 628
+        }
+      },
+      "source_inventory_delta": {
+        "triangles": 0,
+        "surfaces": 0,
+        "mesh_instances": 0
+      }
+    },
+    {
+      "label": "npc-drummer",
+      "native_state_exact": {
+        "camera_global": true,
+        "camera_projection_columns": true,
+        "camera_near": true,
+        "camera_far": true,
+        "viewport_pixels": true,
+        "head_global": true,
+        "rider_global": true,
+        "skeleton_global": true,
+        "bone_global_pose_in_skeleton": true,
+        "actual_hand_foot_mesh_transforms_and_blend_shapes": true
+      },
+      "native_process_counters": {
+        "buffer_bytes": {
+          "v12": 11087656,
+          "v13": 11088508,
+          "delta": 852
+        },
+        "draw_calls": {
+          "v12": 215,
+          "v13": 215,
+          "delta": 0
+        },
+        "primitives": {
+          "v12": 167324,
+          "v13": 167396,
+          "delta": 72
+        },
+        "texture_bytes": {
+          "v12": 40606984,
+          "v13": 40606984,
+          "delta": 0
+        },
+        "video_bytes": {
+          "v12": 51694640,
+          "v13": 51695492,
+          "delta": 852
+        }
+      },
+      "source_inventory_delta": {
+        "triangles": 24,
+        "surfaces": 0,
+        "mesh_instances": 0
+      }
+    }
+  ],
+  "previous_problem_pixels": [
+    {
+      "xy": [
+        563,
+        326
+      ],
+      "v12_rgb": [
+        6,
+        20,
+        29
+      ],
+      "v13_rgb": [
+        115,
+        139,
+        55
+      ]
+    },
+    {
+      "xy": [
+        577,
+        360
+      ],
+      "v12_rgb": [
+        13,
+        33,
+        47
+      ],
+      "v13_rgb": [
+        147,
+        174,
+        80
+      ]
+    },
+    {
+      "xy": [
+        580,
+        358
+      ],
+      "v12_rgb": [
+        10,
+        28,
+        41
+      ],
+      "v13_rgb": [
+        129,
+        157,
+        67
+      ]
+    },
+    {
+      "xy": [
+        579,
+        362
+      ],
+      "v12_rgb": [
+        13,
+        33,
+        48
+      ],
+      "v13_rgb": [
+        190,
+        210,
+        220
+      ]
+    }
+  ],
+  "raw_engine_import_and_render_errors": 0,
+  "source_count": 120
+}

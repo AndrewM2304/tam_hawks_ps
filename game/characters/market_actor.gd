@@ -178,36 +178,25 @@ func _build_stallholder() -> void:
 	add_child(person)
 	var shirt:=_material(Color("4e6864"))
 	var denim:=_material(Color("323c40"))
-	var apron:=_material(Color("b99b6d"))
 	_garments=Garments.new()
 	_garments.build(person,shirt,denim)
 	_garments.pose_body(Transform3D(Basis.IDENTITY,Vector3(0,.94,0)),Transform3D(Basis.IDENTITY,Vector3(0,.94,0)))
 	_anatomy=Anatomy.new()
 	var head:=Node3D.new()
 	head.name="MairiHead"
+	# Keep rigid body parts on the Skin clock without disabling actor motion.
+	head.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	head.position=Vector3(0,1.410,0)-Vector3(0,-.13,.036)
 	person.add_child(head)
 	_anatomy.build_head(head)
-	_cylinder(person,"JacketCollar",Vector3(0,1.428,0),.069,.065,shirt)
-	# Original cloth apron in front of the jacket, with a lower flared hem.
-	var cloth:=SurfaceTool.new()
-	cloth.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var points:=[Vector3(-.11,1.36,-.137),Vector3(.11,1.36,-.137),Vector3(-.155,.75,-.16),Vector3(.155,.75,-.16)]
-	for index in [0,2,1,1,2,3]: cloth.add_vertex(points[index])
-	cloth.generate_normals()
-	var apron_mesh:=MeshInstance3D.new()
-	apron_mesh.name="CanvasApron"
-	apron_mesh.mesh=cloth.commit()
-	apron.cull_mode=BaseMaterial3D.CULL_DISABLED
-	apron_mesh.material_override=apron
-	person.add_child(apron_mesh)
-	_box(person,"ApronPocket",Vector3(0,.97,-.168),Vector3(.20,.15,.018),_material(Color("a58a61")))
+	_garments.add_role_accessory("market")
 	for side: float in [-1.0,1.0]:
 		var hip:=Vector3(side*.105,.965,0)
 		var knee:=Vector3(side*.14,.52,-.016)
 		var ankle:=Vector3(side*.14,.061,-.015)
 		_garments.pose_leg(side,hip,knee,ankle)
 		var shoe:=Node3D.new()
+		shoe.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		shoe.position=ankle
 		shoe.rotation.y=PI+side*.10
 		person.add_child(shoe)
@@ -217,6 +206,7 @@ func _build_stallholder() -> void:
 		var wrist:=Vector3(side*.235,.81,-.025)
 		_garments.pose_arm(side,shoulder,elbow,wrist)
 		var hand: Node3D=_anatomy.build_hand(person,side)
+		hand.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 		var y: Vector3=(elbow-wrist).normalized()
 		var z: Vector3=Vector3(-side,0,0).slide(y).normalized()
 		var x:=y.cross(z).normalized()

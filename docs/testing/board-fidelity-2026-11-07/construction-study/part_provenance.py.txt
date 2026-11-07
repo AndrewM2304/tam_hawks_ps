@@ -1,0 +1,175 @@
+"""PRIVATE source triangle ownership proposal; never authorizes current runtime.
+
+An assembled truck can touch the wood without becoming one conservative convex
+piece. This proposal preserves logical volumes and binds every drawn triangle;
+native import matching/negative controls are still a future integration gate.
+"""
+from pathlib import Path
+import base64, collections, hashlib, importlib.util, json
+import numpy as np
+from scipy.spatial import ConvexHull
+
+ROOT = Path(__file__).resolve().parent
+loader = importlib.util.spec_from_file_location('reader', ROOT.parent / 'board_uv_finish04.py')
+reader = importlib.util.module_from_spec(loader)
+loader.loader.exec_module(reader)
+base = reader.GLB(ROOT.parent / 'candidate-uv04/tam_skateboard.glb')
+study = reader.GLB(ROOT / 'physical-layout02/tam_skateboard.glb')
+construction = json.loads((ROOT / 'report02.json').read_text())
+parts = {'wood': [], 'grip': []}
+vertex_owner = {}
+for record in construction['transformed_components']:
+    lo, hi = np.array(record['old_bounds'])
+    centre = (lo + hi) * .5
+    name = ('front_' if centre[2] < 0 else 'rear_') + record['kind']
+    if record['kind'] in ['wheel', 'bearing', 'axle_nut', 'bolt']:
+        name += '_left' if centre[0] < 0 else '_right'
+    if record['kind'] == 'bolt':
+        name += '_inner' if abs(centre[2]) < .255 else '_outer'
+    assert name not in parts
+    parts[name] = []
+    for vertex in record['source_indices']:
+        key = (record['surface'], vertex)
+        assert key not in vertex_owner
+        vertex_owner[key] = name
+assert len(parts) == 32
+
+arrays, indices = [], []
+triangles = []
+total_faces = 0
+for surface in range(4):
+    _, attributes, ix = study.primitive(surface)
+    arrays.append(attributes)
+    indices.append(ix)
+    original_count = len(base.primitive(surface)[2]) // 3
+    for face_id, face in enumerate(ix.reshape(-1, 3)):
+        if surface < 2:
+            name = ['wood', 'grip'][surface]
+        elif face_id < original_count:
+            names = {vertex_owner[surface, int(i)] for i in face}
+            assert len(names) == 1
+            name = names.pop()
+        else:
+            assert surface == 3
+            centre_z = float(attributes['POSITION'][face, 2].mean())
+            name = 'front_baseplate' if centre_z < 0 else 'rear_baseplate'
+        parts[name].append([surface, face_id])
+        total_faces += 1
+assert total_faces == 5996
+
+
+def winding_multiset_hash(faces):
+    rows = []
+    for triangle in faces:
+        corners = [point.astype('<f4').tobytes() for point in triangle]
+        rows.append(min(b''.join(corners[shift:] + corners[:shift]) for shift in range(3)))
+    return hashlib.sha256(b''.join(sorted(rows))).hexdigest()
+
+
+records = []
+all_owners = set()
+for name, owned in parts.items():
+    corners = []
+    for surface, face in owned:
+        assert (surface, face) not in all_owners
+        all_owners.add((surface, face))
+        corners.append(arrays[surface]['POSITION'][indices[surface].reshape(-1, 3)[face]])
+    corners = np.array(corners, dtype='<f4')
+    points = np.unique(corners.reshape(-1, 3), axis=0)
+    records.append({'name': name, 'source_triangles': owned,
+                    'source_triangle_count': len(corners),
+                    'source_CCW_position_winding_multiset_sha256': winding_multiset_hash(corners),
+                    'expected_Godot_CW_position_winding_multiset_sha256': winding_multiset_hash(corners[:, [0, 2, 1]]),
+                    'source_unique_point_count': len(points),
+                    'source_float32_points_base64': base64.b64encode(points.tobytes()).decode(),
+                    'source_bounds_min_m': points.min(0).tolist(),
+                    'source_bounds_max_m': points.max(0).tolist()})
+assert len(all_owners) == total_faces
+certificate = {'status': 'PRIVATE UNADMITTED proposal; source ownership only, not a runtime authority',
+               'source_glb_sha256': hashlib.sha256(study.file).hexdigest(),
+               'producer_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+               'part_count': len(records), 'complete_triangle_count': total_faces,
+               'raw_point_payload_bytes': sum(p['source_unique_point_count'] * 12 for p in records),
+               'parts': records,
+               'requirements_before_runtime_use': [
+                   'actual imported indexed position/winding multiset for every part must match',
+                   'every actual native face assigned exactly once, including pad faces',
+                   'executed editor policy/source/decoder SHA bindings',
+                   'wrong mesh/face ownership/missing faces/NaN/foreign transform negatives',
+                   'actual native convex enclosure and finite contact proofs',
+                   'all old loaded tolerance and physics/motion/query budgets unchanged',
+                   'no per-frame parsing/mesh generation; one startup cache only']}
+(ROOT / 'semantic-parts-proposal.json').write_text(json.dumps(certificate, indent=2) + '\n')
+
+# Independently reproduce legacy all-mesh coordinate welding and demonstrate the
+# resulting phantom hull in empty space under the middle of the source board.
+positions = np.concatenate([a['POSITION'] for a in arrays])
+parents = list(range(len(positions)))
+def root(i):
+    while parents[i] != i:
+        parents[i] = parents[parents[i]]
+        i = parents[i]
+    return i
+def merge(a, b):
+    parents[root(a)] = root(b)
+weld = {}
+for i, point in enumerate(positions):
+    key = tuple(np.rint(point.astype(float) * 1e6).astype(np.int64))
+    if key in weld:
+        merge(i, weld[key])
+    else:
+        weld[key] = i
+offset = 0
+all_triangles = []
+for attributes, ix in zip(arrays, indices):
+    for face in ix.reshape(-1, 3):
+        merge(offset + int(face[0]), offset + int(face[1]))
+        merge(offset + int(face[0]), offset + int(face[2]))
+    all_triangles.extend(attributes['POSITION'][ix].reshape(-1, 3, 3))
+    offset += len(attributes['POSITION'])
+groups = collections.defaultdict(list)
+for i in range(len(positions)):
+    groups[root(i)].append(i)
+wood_group = groups[root(0)]
+hull = ConvexHull(positions[wood_group].astype(float))
+ghost = np.array([0, -.010, 0])
+maximum_plane = float(np.max(hull.equations[:, :3] @ ghost + hull.equations[:, 3]))
+assert maximum_plane < -.001
+
+triangles = np.array(all_triangles, dtype=float)
+origin, first, second = triangles[:, 0], triangles[:, 1] - triangles[:, 0], triangles[:, 2] - triangles[:, 0]
+relative = ghost - origin
+d00, d01, d11 = np.sum(first * first, axis=1), np.sum(first * second, axis=1), np.sum(second * second, axis=1)
+d20, d21 = np.sum(relative * first, axis=1), np.sum(relative * second, axis=1)
+denominator = d00 * d11 - d01 * d01
+assert np.all(denominator > 0)
+u = (d11 * d20 - d01 * d21) / denominator
+v = (d00 * d21 - d01 * d20) / denominator
+projected = origin + first * u[:, None] + second * v[:, None]
+inside = (u >= 0) & (v >= 0) & (u + v <= 1)
+distances = np.full(len(triangles), np.inf)
+distances[inside] = np.sum((projected[inside] - ghost) ** 2, axis=1)
+for edge in range(3):
+    start, stop = triangles[:, edge], triangles[:, (edge + 1) % 3]
+    direction = stop - start
+    parameter = np.clip(np.sum((ghost - start) * direction, axis=1) / np.sum(direction * direction, axis=1), 0, 1)
+    squared = np.sum((start + direction * parameter[:, None] - ghost) ** 2, axis=1)
+    distances = np.minimum(distances, squared)
+closest = int(np.argmin(distances))
+distance = float(np.sqrt(distances[closest]))
+assert distance > .01
+diagnosis = {'status': 'PRIVATE source geometry reproduces conservative weld-bridge defect; native engine unrun',
+             'source_glb_sha256': certificate['source_glb_sha256'],
+             'legacy_connected_components': len(groups), 'semantic_parts_proposed': len(records),
+             'merged_wood_mount_unique_points': len(np.unique(positions[wood_group], axis=0)),
+             'phantom_point_m': ghost.tolist(),
+             'maximum_merged_convex_plane_signed_distance_m': maximum_plane,
+             'actual_closest_triangle_distance_m': distance,
+             'closest_actual_complete_model_triangle': closest,
+             'closest_actual_triangle_positions_m': triangles[closest].tolist(),
+             'negative': 'A future contact cache must not create an obstacle under the clear deck middle by merging physically touching wood+risers+baseplates.',
+             'limits': ['scalar64 SciPy no-joggle hull is diagnostic, not robust runtime enclosure authority',
+                        'all source float32 triangle positions tested for closest distance',
+                        'does not change current UV04 model or its valid native32 cache']}
+(ROOT / 'weld-bridge-negative.json').write_text(json.dumps(diagnosis, indent=2) + '\n')
+print(json.dumps({'part_count': len(records), 'triangles': total_faces, 'point_payload_bytes': certificate['raw_point_payload_bytes'], 'weld_diagnosis': diagnosis}, indent=2))

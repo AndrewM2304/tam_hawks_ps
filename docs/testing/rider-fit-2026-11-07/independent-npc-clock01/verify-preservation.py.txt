@@ -1,0 +1,16 @@
+from pathlib import Path
+import hashlib,json,gzip
+from PIL import Image
+P=Path(__file__).resolve().parent
+checks=[]
+def ck(x,label):checks.append((label,bool(x)))
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+for name,h in json.loads((P/'independent-preservation.json').read_text()).items():ck(sha(P/name)==h,'durable encoded '+name)
+r=json.loads((P/'independent-review.json').read_text());native=json.loads(gzip.decompress((P/'output-receipt.json.gz').read_bytes()))
+for name,frame in r['frames'].items():
+ im=Image.open(P/'frames'/name).convert('RGBA');ck(im.size==(384,384)and hashlib.sha256(im.tobytes()).hexdigest()==frame['native_rgba_sha256'],'losslessly preserved actual native pixels '+name)
+for name in r['personally_viewed_original_pngs']:
+ ck(any(v['original_png']==name and v['original_png_sha256']==sha(P/'selected-original-png'/name)for v in r['frames'].values()),'selected exact original PNG '+name)
+ck(r['failed']==0 and len(native['candidate_records'])==24 and len(native['records'])==8,'scoped independent report/native receipt retained')
+print(json.dumps({'passed':sum(c[1]for c in checks),'failed':sum(not c[1]for c in checks),'scope':'Portable durable evidence preservation only; no new engine/quality acceptance.'},indent=2))
+if any(not c[1]for c in checks):raise SystemExit(1)

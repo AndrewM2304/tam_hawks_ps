@@ -1,0 +1,40 @@
+from pathlib import Path
+import json,hashlib,re
+import numpy as np
+from PIL import Image
+R=Path.cwd();P=R/'docs/testing/rider-fit-2026-11-07/promoted-inspector-01';checks=[]
+def ck(v,s):checks.append({'label':s,'pass':bool(v)})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def vec(v):return np.array([float(x)for x in re.findall(r'[-+]?(?:\d*\.)?\d+(?:[eE][-+]?\d+)?',v)])
+r=json.loads((P/'receipt.json').read_text());a=json.loads((P/'source-before.json').read_text());b=json.loads((P/'source-after.json').read_text());j=json.loads((P/'frames/receipt.json').read_text());idx=json.loads((P/'preservation-index.json').read_text())['files']
+for n,v in idx.items():ck(sha(P/n)==v['sha256']and(P/n).stat().st_size==v['bytes'],'preserved original '+n)
+ck(r['eligible']and r['exit_code']==0 and r['stop_reason']is None and not r['error_markers']and r['passed']==79 and r['failed']==0,'actual outer inspector79/0 clean')
+ck(a==b and len(a)==874 and r['source_unchanged']and not r['source_delta'],'874 actualinputs unchanged')
+ck(sha(P/'launcher.py.txt')==r['launcher_sha256_prebound']==a['.local/run-promoted-rider-inspector.py'],'outer launcher beforebound')
+for file,source in [('rider_asset_inspect.sh.txt','tools/rider_asset_inspect.sh'),('rider_asset_inspect.gd.txt','tools/rider_asset_inspect.gd'),('run.sh.txt','tools/run.sh')]:ck(sha(P/file)==a[source],'executed actual beforebound '+source)
+ck(j['accepted']and j['engine_exit_code']==0 and j['engine_log_clean']and j['failures']==0 and len(j['frames'])==9,'inner unchanged inspector9/0 nativeactualcapture')
+ck(j['source_sha256']==j['source_after_sha256']and len(j['source_sha256'])==93,'internal93rider sourcepins stable')
+for n,h in j['source_sha256'].items():ck(a[n.removeprefix('res://')]==h,'internal actualrider source matches outer '+n)
+ck(not re.search(r'SCRIPT ERROR|ERROR:|Parse Error',(P/'native.log').read_text()),'raw native outer error scan')
+projection=[];centroids=[]
+for f in j['frames']:
+ label=f['label'];clean=Image.open(P/'frames'/(label+'.png')).convert('RGBA');proof=Image.open(P/'frames/synchronization'/(label+'.png')).convert('RGBA');cp=np.array(clean);pp=np.array(proof)
+ ck(clean.size==proof.size==(1280,800)and sha(P/'frames'/(label+'.png'))==f['png_sha256']and hashlib.sha256(clean.tobytes()).hexdigest()==f['native_rgba_sha256'],label+' exact original cleanRGBA/PNG/native1280')
+ ck(sha(P/'frames/synchronization'/(label+'.png'))==f['synchronization_png_sha256']and hashlib.sha256(proof.tobytes()).hexdigest()==f['synchronization_native_rgba_sha256'],label+' exact native proofRGBA/PNG')
+ ck(f['camera_current']and f['proof_readback_counter_bracket'][0]==f['proof_readback_counter_bracket'][1]and f['clean_readback_counter_bracket'][0]==f['clean_readback_counter_bracket'][1],label+' current camera and separate unchanged actualframe brackets')
+ ck(f['proof_readback_pose_bracket'][0]==f['proof_readback_pose_bracket'][1]==f['clean_readback_pose_bracket'][0]==f['clean_readback_pose_bracket'][1]==f['native_state'],label+' exact camera/head/rider/skeleton/allbones acrossproof/clean')
+ state=f['native_state'];cam=np.array(state['camera_global']);proj=np.array(state['camera_projection_columns']).T;ck(state['viewport_pixels']==[1280,800]and np.isfinite(cam).all()and np.isfinite(proj).all(),label+' finite numeric nativecamera/projection')
+ for channel,marker in enumerate(f['synchronization']):
+  q=proj@np.linalg.inv(cam)@np.r_[vec(marker['world_position']),1];at=np.array([(q[0]/q[3]+1)*640,(1-q[1]/q[3])*400]);stated=vec(marker['projected_pixel']);err=float(np.linalg.norm(at-stated));projection.append(err)
+  x,y=map(int,stated);pts=[]
+  for yy in range(max(0,y-8),min(800,y+9)):
+   for xx in range(max(0,x-8),min(1280,x+9)):
+    rgb=pp[yy,xx,:3].astype(int)
+    if rgb[channel]>191 and all(rgb[channel]-rgb[k]>51 for k in range(3)if k!=channel)and np.sum(np.abs(rgb-cp[yy,xx,:3].astype(int)))>30.6:pts.append([xx+.5,yy+.5])
+  center=np.array(pts).mean(axis=0)if pts else np.array([9999,9999]);delta=float(np.linalg.norm(center-stated));centroids.append(delta)
+  ck(err<.03 and len(pts)==marker['count']and delta<2.5,label+' independent rounded-world projection/native centroid '+str(channel))
+source=(P/'rider_asset_inspect.gd.txt').read_text();ck('Input.action_press("push")'in source and'Input.action_press("ollie")'in source and'Classic._key(KEY_K, true)'in source,'push andgrab arise from declared real nativeinput')
+ck('RenderingServer.force_draw('not in source and'await RenderingServer.frame_post_draw'in source,'natural drawloop, no manualforce_draw')
+ck('fixture.rider.set_physics_process(false)'in source,'stillreadbacks explicitlyfreezeactor; no normal-speed movie claim')
+report={'kind':'Independent installed inspector source/nativeframe/pixel proof review andpersonal nineoriginal review; no newengine','passed':sum(x['pass']for x in checks),'failed':sum(not x['pass']for x in checks),'checks':checks,'max_projection_error_px_from_rounded_world_vectors':max(projection),'max_marker_centroid_error_px':max(centroids),'personally_viewed_originals':[f['label']+'.png'for f in j['frames']],'finding':'Current promoted continuous face/clothing visibly improves on old proceduralrider. No obvious detached neck/waist hole in these nineviews. Resthands stronglysplayed,studiohand/nape highlights clipped,collar stiff/coarse,grab farraised thigh/knee angular. AAA/V1/V3 remain open.','limits':['Actual promoted script/rig withisolatedflat fixture/authoredcamera+studio lighting, notordinaryMain.','Push/grab useactualinput, buteachshotfreezesphysics/process acrossreadbacks; no cadence/wholemoving sequence acceptance.','Studio light/material cause ofhighlight clipping notisolated.','Sourceepoch874 predatesUV04 board; orange/thick oldboard isseparate andnot evidenceagainst newUV.','Nativeworld markerpositions were stored asroundedVector strings; numericalprojection bound.03px reflects serializationprecision,not a relaxed rastercentroid gate.','Internalfoldedlapel pairs,fullcurrentMain/M5/physicalcontroller/human acceptance stayopen.']}
+(P/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');(P/'independent-audit.py.txt').write_bytes(Path(__file__).read_bytes());(P/'independent-preservation.json').write_text(json.dumps({n:sha(P/n)for n in['independent-review.json','independent-audit.py.txt']},indent=2)+'\n');print({'passed':report['passed'],'failed':report['failed'],'projectionmax':max(projection),'centroidmax':max(centroids),'failures':[x for x in checks if not x['pass']]});raise SystemExit(bool(report['failed']))
