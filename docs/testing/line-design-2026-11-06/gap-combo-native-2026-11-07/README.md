@@ -1,0 +1,19 @@
+# Native cable gaps and one-combo scoring audit
+
+This copied-current-source diagnostic is **not a production change**. Actual sources were captured7November2026 at09:46:39UTC: controller4895c7bf, Visual1ba86edf and anatomy691b0a93. The exact879-file source map,252 resolved read-only imported files and private cache metadata are before/after bound in each epoch. `runtime-delta-from-65f045e.patch` preserves the source changes relative to the public launcher checkpoint. No actual source/cache/profile was modified.
+
+The observer replaces freshly constructed Main GapTracker/ScoreSession objects before tree entry with subclasses that delegate to the real methods. A separate original tracker sees identical actor-root/air/delta samples and never feeds its shadow awards to scoring. Every baseline sample has exact original award/state parity. Score events retain actual add-trick identities, normal bank calls and arithmetic. No actor position/heading/velocity/score writes occur after the original declared spawn/orientation setup; input timing variants are explicit below. The observers add no spatial/native/render queries. Ordinary default trial content and Music/profile isolation are verified.
+
+| Epoch | Native result | Actual input scope | Result |
+| --- | --- | --- | --- |
+| west-native-01 |5/0|Original unmodified WEST driver, south then north|South banks8,696 once and awards `clyde_handrail_to_cable_west`500; north banks4,109 once and awards no gaps.|
+| south-timing-01 |7/0|WEST south, plus8/12/16/20 real held-grind ticks before the original16-tick return charge|All four preserve original one-bank/no-bail native acceptance. Only cable-entry gap awards. Raw receipt generic scope text is corrected by separate `scope-correction.json`; native-result scope, exact probe and input diff are already correct.|
+| east-control-01 |6/0|Mirrored initialX/side IDs/mapped steering sign; east south/north original timing plus south wait12|Same south8,696/entryeast500, north4,109/no gaps; retimed south still rejects the rail-return gap.|
+
+The original zero-wait south driver does **not** touch either return trigger sphere: actual swept minimum start distance1.255376982m and end0.847870946m exceed the unchanged0.7m radius. That is a geometric/timing miss, not a detector failure.
+
+The legitimate WAIT12 case is different. It arms inside the return start (minimum0.255598106m), remains airborne between triggers, then captures the real destination BridgeRail atphysics414. Main next evaluates the gap at415: its swept segment enters the end sphere (minimum0.576028626m), forward motion0.123318859m, elapsed0.565106239s<4s, prior-air=true, current grinding=true/current-air=false. The existing end-air predicate changes armed→locked without awarding. EAST mirrors this capture642→gap643. Blanket claims that capture suppresses every award are disproved: entry500 is awarded in the same physics counter as the cable capture because Main runs before its child Skater.
+
+The proposed repair is an **explicit opt-in native rail-destination finish policy**, with actual configured grindline identity, authored native body/shape authority and a fresh capture covering the sampled interval. Generic airborne gaps and their grounded-finish negatives must stay strict. Radius, direction, window and scoring deadlines must not change. No policy prototype is included in these baseline epochs.
+
+These are local cable lines, not inter-area circuits. Both chains bank once; this does not establish rendered full-body clearance, smooth motion, human feel, east/west map circuits or Mac/M5 performance. Original cable driver native crown queries remain unchanged; its one initial pose is disclosed. Compacted logs/data are lossless gzip, source scripts are verbatim `.txt`, and preservation hashes cover every retained byte.

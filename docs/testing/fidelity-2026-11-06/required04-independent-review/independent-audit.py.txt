@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+"""Independent receipt/raw-log/source audit; does not execute the suite."""
+from pathlib import Path
+import datetime, hashlib, json, re, shutil
+
+ROOT=Path('/workspace/tam_hawks_ps')
+E=ROOT/'.local/fidelity-checkpoints/required-04'
+O=ROOT/'docs/testing/fidelity-2026-11-06/required04-independent-review'
+O.mkdir(parents=True,exist_ok=True)
+sha=lambda b:hashlib.sha256(b).hexdigest()
+r=json.loads((E/'receipt.json').read_text())
+before=json.loads((E/'source-before.json').read_text())
+after=json.loads((E/'source-after.json').read_text())
+checks=[]
+def check(label,value,actual=None):checks.append({'check':label,'pass':bool(value),'actual':actual})
+expected_uids={"game/tricks/native_gap_finish.gd.uid", "tests/cable_gap_input_driver.gd.uid", "tests/native_gap_finish_capture_controls.gd.uid", "tests/native_gap_finish_contract_tests.gd.uid", "tests/native_gap_finish_integration_tests.gd.uid"}
+added=set(after)-set(before); removed=set(before)-set(after); modified={n for n in before.keys()&after.keys() if before[n]!=after[n]}
+check('895 existing before inputs stay exact; only five declared UID sidecars appear',len(before)==r['source_input_count']==895 and len(after)==900 and not removed and not modified and added==expected_uids,{'added':sorted(added),'removed':sorted(removed),'modified':sorted(modified)})
+check('new sidecars are small unique canonicalUID strings attached to before-bound scripts',all((ROOT/n[:-4]).is_file() and n[:-4] in before and after[n]['bytes'] in (19,20,21) and re.fullmatch(rb'uid://[a-z0-9]+\n',(ROOT/n).read_bytes()) for n in added) and len({(ROOT/n).read_bytes()for n in added})==5)
+check('source reference texts never use newUID values as preexisting resource paths',not any((ROOT/n).read_bytes().strip() in (ROOT/source).read_bytes() for n in added for source in before if source.endswith(('.gd','.tscn','.tres','.godot','.cfg'))))
+missing=[];changed=[]
+for name,meta in before.items():
+ p=ROOT/name
+ if not p.is_file():missing.append(name)
+ elif p.is_symlink() or sha(p.read_bytes())!=meta['sha256'] or p.stat().st_size!=meta['bytes']:changed.append(name)
+check('all recorded source bytes match still-frozen actual source at independent read',not missing and not changed,{'missing':missing,'changed':changed})
+check('source inventory own hash matches receipt',sha((E/'source-before.json').read_bytes())==r['source_before_sha256'])
+check('all seven preserved log/runner/inventory hashes match receipt',len(r['preserved_files_sha256'])==7 and all(sha((E/name).read_bytes())==h for name,h in r['preserved_files_sha256'].items()))
+runner=(E/'runner.py.txt').read_bytes()
+check('exact ignored executable launcher bound before and after',before['.local/run-fidelity-checkpoint04.py']['sha256']==sha(runner))
+required=['project.godot','export_presets.cfg','docs/PLAYER-GUIDE.md','tools/check.sh','tools/run.sh','tools/prepare_source_assets.sh','tests/run_tests.gd','tests/support/music_launch_guard.gd']
+check('all mandatory native/source/guide entrypoints before-bound',all(n in before for n in required))
+check('ordinary tools/check.sh on main dirty source is the declared command',r['command']==['./tools/check.sh'] and r['branch']=='main' and r['working_tree_dirty'] is True)
+raw={name:(E/name).read_text(errors='replace') for name in ['command.log','import.log','tests.log','script-launch.log']}
+errors={name:[(i,line[:200]) for i,line in enumerate(text.splitlines(),1) if re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|ERROR:|^FAIL:',line)] for name,text in raw.items()}
+check('all four preserved logs have no raw script/shader/parse/ERROR/FAIL lines',not any(errors.values()),errors)
+main=re.findall(r'^RESULT: (\d+) passed, (\d+) failed$',raw['tests.log'],re.M)
+cli=re.findall(r'^SCRIPT LAUNCH: (\d+) passed, (\d+) failed$',raw['script-launch.log'],re.M)
+check('main raw native result is uniquely6697/0',main==[('6697','0')] and r['main_result']==[6697,0])
+check('CLI raw native result is uniquely2/0',cli==[('2','0')] and r['script_launch_result']==[2,0])
+main_pass=len(re.findall(r'^PASS:',raw['tests.log'],re.M));cli_pass=len(re.findall(r'^PASS:',raw['script-launch.log'],re.M))
+check('raw assertions agree with result totals',main_pass==6697 and cli_pass==2,{'main_PASS_lines':main_pass,'CLI_PASS_lines':cli_pass})
+check('combined command contains both exact result markers once',re.findall(r'^RESULT: (\d+) passed, (\d+) failed$',raw['command.log'],re.M)==main and re.findall(r'^SCRIPT LAUNCH: (\d+) passed, (\d+) failed$',raw['command.log'],re.M)==cli)
+check('process exit0/no timeout but exact source gate stays ineligible due five UID additions',r['engine_exit']==0 and not r.get('timeout',False) and r['eligible'] is False and set(r['changed_inputs'])==expected_uids and not r['error_lines'])
+start=datetime.datetime.fromisoformat(r['started_utc']);end=datetime.datetime.fromisoformat(r['finished_utc'])
+elapsed=(end-start).total_seconds()
+check('recorded wall span inside predeclared3600s',r['deadline_seconds']==3600 and 0<r['wall_seconds']<3600 and abs(elapsed-r['wall_seconds'])<.2,{'UTC_span_seconds':elapsed,'wrapper_wall_seconds':r['wall_seconds']})
+check('current reviewed controller/Anatomy/Visual are native before-bound',all(before[n]['sha256']==v for n,v in {
+ 'game/player/skater.gd':'1ef6cdb7dfe2942d1d3aa8f025d89213e2f1f06500fcfb588b7d18734de27f84',
+ 'game/player/skater_anatomy.gd':'691b0a9362f925434077598df02b61b5adcfffe6f43b84061a313180f041f096',
+ 'game/player/skater_visual.gd':'1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05'
+}.items()))
+native_versions=sorted(set(re.findall(r'Godot Engine v([^\n]+)',raw['command.log'])))
+check('native logs record actual4.6.3 installed binary identity',bool(native_versions) and all('4.6.3.stable.official.7d41c59c4' in v for v in native_versions),native_versions)
+report={'recorded_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reviewer':'/root/independent_qa','verdict':'Functional results6697/0 plus CLI2/0; raw source-stability gate remains ineligible because five UID sidecars were generated. All895 preexisting inputs unchanged; separately qualified generated-file appearance, not a byte-identical before/after source gate.',
+ 'independent_checks':checks,'passed':sum(x['pass'] for x in checks),'failed':sum(not x['pass'] for x in checks),
+ 'native_source_inputs':len(before),'native_after_inputs':len(after),'raw_eligible':False,'source_delta':{'added':sorted(added),'modified':sorted(modified),'removed':sorted(removed)},'native_source_scope':'Source/assets/import descriptors/project/export/licences/guide/tools/tests/ignored wrapper. Generated .godot and runtime caches excluded; do not infer byte-stable imported-cache or write-free provenance.',
+ 'native_command_process_pid':r['process_pid'],'known_workload_scope':'Untimed shared-host Linux headless run; private renderer/offline work was authorized. No exclusivity/FPS/global-GPU or target-device claim.',
+ 'exact_receipt_sha256':sha((E/'receipt.json').read_bytes()),'native_runtime_results':{'main':[6697,0],'script_launch':[2,0]},
+ 'limitations':['No rerun by independent reviewer.','Current rendered351-push and normal-speed moving review are separate.','Grounded D022 pose jumps remain observed in earlier direct current-matrix evidence; a global test pass does not certify natural motion.','Mac-compatible imports and the integrated cable-gap public tests are included; the new Merchant District world/Book/UI/art remain private and outside this result.','Old failed full02 and actual133/1 receipts remain unchanged. This raw eligible=false receipt is also retained unchanged; no retroactive stable-gate assertion.'],
+ 'logs_sha256':r['preserved_files_sha256'],'source_current_at_review':not missing and not changed}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n')
+shutil.copyfile(__file__,O/'independent-audit.py.txt')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'source_inputs':len(before),'actual_source_changed':changed,'main_PASS':main_pass,'CLI_PASS':cli_pass},indent=2))

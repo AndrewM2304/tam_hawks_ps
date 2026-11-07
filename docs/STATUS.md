@@ -11,9 +11,10 @@ preserved, origin fetched and main fast-forwarded to `0b62035` before accepting
 production changes. Obsolete cross-bank/interpolation patches were discarded.
 Work remains directly on main, with non-force integration, no hosted CI, no
 spending and no release publication. October evidence below keeps its own scope.
-Main remains the ordinary trial build while implementation continues. The last
-launcher-specific checkpoint was **`65f045e`**. The current integrated gameplay
-candidate now passes the complete required check: **6,600/0 game assertions and
+Main remains the ordinary trial build while implementation continues. The latest
+pushed runtime checkpoint is **`305d037`**, including compatible Mac texture
+imports; the earlier launcher-specific checkpoint was `65f045e`. The preceding
+integrated gameplay checkpoint passes the complete required check: **6,600/0 game assertions and
 2/0 CLI launch checks**, exit0, with all890 recorded inputs unchanged. The
 [preserved run](testing/fidelity-2026-11-06/integrated-required-03/README.md) and
 [independent audit](testing/fidelity-2026-11-06/required03-independent-review/README.md)
@@ -21,19 +22,35 @@ bind the actual landing handoff, finite round-coping repair, fitted-rider contac
 neutral hands and migrated metadata tests. Earlier rejected runs below remain
 historical evidence; this does not certify moving fidelity or M5 performance.
 
+The next actual gap-repair integration passes **6,697/0 game assertions and2/0
+CLI guards**, exit0. Its raw strict-freeze receipt remains ineligible because the
+editor generated five new UID sidecars; all895 prebound inputs stayed exact.
+[Independent review](testing/fidelity-2026-11-06/required04-independent-review/README.md)
+keeps that exception separate from the positive native result. A separately
+before-bound native15/0 probe confirms the five canonical source/UID registry
+bindings on902 stable inputs. No gameplay code changed to resolve the metadata.
+
 The owner has rejected both the existing sparse city and the proposed
 Warehouse-sized replacement. **San Francisco-scale urban skating is the new
-design reference**: a medium neighbourhood with hills, intersecting streets,
-roof/elevated lines and short connected trick opportunities. The112×88m draft is
-superseded. A revised original plan and private playable layout are in progress;
-no new dense default map has been integrated yet. The existing all-gap inventory
-remains useful evidence about the current city, not proof of good pacing.
+design reference**, joined by Los Angeles and London for city-line lessons.
+The owner liked the [overall and section sketches](levels/MERCHANT-DISTRICT-CONCEPTS-2026-11-07/README.md)
+and explicitly retains Glasgow identity. The112×88m draft, mandatory old40×30m
+facility and long Kelvingrove approach are superseded. The concept-led private
+layout has four adjoining primary spaces. Its repaired market bypass passes ten
+no-jump input cases; a proposed underpass lane still clips optional features and
+is being rerouted. No new dense default map has been integrated. Eight returned
+lines and three closed circuits remain unproved; see the [implementation tickets](planning/MERCHANT-IMPLEMENTATION-TICKETS.md).
+The current all-gap inventory is evidence about the old city, not good pacing.
 
 A source-frozen native351-frame forward-push film completed with3×117 consecutive
-60Hz frames at640×400, full decoding and3,772/0 observer checks. Normal-speed and
-actual deformed-mesh review is underway. Recording success is not visual approval.
+60Hz frames at640×400, full decoding and3,772/0 observer checks. The
+[portable packet](testing/rider-fit-2026-11-07/push-natural-three-01/README.md)
+retains exact native buffers and actual rig state; independent2,909 checks pass.
+Worst-frame/chronology review finds connected head/waist and forward-facing strokes.
+Real-time human cadence acceptance remains open. The conspicuous knee cap,
+brisk arm recovery and grounded bowl/lip pose changes remain active repairs.
 
-That checkpoint is the urgent source-launch repair over fitted-rider checkpoint
+The earlier65f045e checkpoint is the urgent source-launch repair over fitted-rider checkpoint
 `7e7a178`. The Mac command now streams importer output, prints30-second progress
 notices, bounds preparation to300 seconds and stops its worker process group on
 timeout/cancellation. [The native four-phase gate](testing/source-startup-2026-11-07/native-launcher-fix-01/README.md)

@@ -1,0 +1,66 @@
+{
+  "finish_mode": "on",
+  "start_utc": "2026-11-07T11:06:05.693731+00:00",
+  "end_utc": "2026-11-07T11:06:32.802911+00:00",
+  "wall_seconds": 27.109149741998408,
+  "epochs": [
+    {
+      "name": "parser",
+      "start_utc": "2026-11-07T11:06:05.693792+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "res://.local/probe_matched.gd"
+      ],
+      "finish_mode": "on",
+      "stage_bound_seconds": 15,
+      "aggregate_bound_seconds": 120,
+      "pid": 120819,
+      "process_group": 120819,
+      "end_utc": "2026-11-07T11:06:07.909346+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "name": "native",
+      "start_utc": "2026-11-07T11:06:07.910316+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://.local/probe_matched.gd"
+      ],
+      "finish_mode": "on",
+      "stage_bound_seconds": 105,
+      "aggregate_bound_seconds": 120,
+      "pid": 120832,
+      "process_group": 120832,
+      "end_utc": "2026-11-07T11:06:31.886311+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "fbf6678c1b9cda8b3adcbd84bec4d6f2403b1eb3f155057ac7cb068b9447aade"
+    }
+  ],
+  "source_count": 897,
+  "source_stable": true,
+  "imported_files": 252,
+  "private_imported_stable": true,
+  "private_metadata_stable": true,
+  "result_summary": {
+    "passed": 47,
+    "failed": 0,
+    "gap_updates": 1442,
+    "score_events": 84,
+    "samples": 1442,
+    "shadow_mismatches": 0
+  },
+  "eligible": true,
+  "scope": "Current copied actual source, PRIVATE matched policy Callable selection via explicit env mode; identical six-case order and production provider/source in both modes; WEST/EASTsouthWAIT12 and originaltiming\u00b1driver, super-delegated gap/score instrumentation. Shadow awards never fed game. Owned imported cache by-value; no actual cache/source/profile changes, no observer spatial queries or draw additions; explicit bounded native-finish helper queries are logged. No FPS/M5 claim."
+}

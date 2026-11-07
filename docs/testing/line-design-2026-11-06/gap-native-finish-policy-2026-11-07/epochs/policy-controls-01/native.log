@@ -1,0 +1,107 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS special meter: empty meter cannot spend a special
+PASS special meter: earned live trick points charge one unit per ten points
+PASS special meter: zero or negative awards earn nothing
+PASS special meter: an event earns at most 50 and cannot authorize a partial charge
+PASS special meter: full charge activates sustained special admission without consuming the mode
+PASS special meter: active mode drains over time while retaining special admission
+PASS special meter: run reset clears charge
+PASS special meter: nonfinite state cannot unlock a special
+PASS special meter: public meter state is bounded before earning
+PASS gap tracker: first sample only primes the route
+PASS gap tracker: crossing start alone does not award
+PASS gap tracker: ordered forward airborne traversal produces the defined reward
+PASS gap tracker: staying in the finish trigger cannot duplicate rewards
+PASS gap tracker: leaving both triggers allows a new forward traversal
+PASS gap tracker: reverse crossing of both triggers does not award
+PASS gap tracker: reversing an armed traversal invalidates that attempt
+PASS gap tracker: teleporting over a finish cannot claim the route
+PASS gap tracker: bail or restart reset removes armed progress
+PASS gap tracker: an expired four-second attempt cannot finish later
+PASS gap tracker: a required aerial gap cannot be rolled along the ground
+PASS gap tracker: air earlier in the route is insufficient when grounded at the finish
+PASS gap tracker: becoming airborne only at the finish does not establish air between triggers
+PASS gap tracker: an explicitly ground-optional route accepts ground travel
+PASS gap tracker: swept segments detect both ordered triggers without endpoint samples inside
+PASS gap tracker: a segment passing outside the trigger radius does not award
+PASS gap tracker: duplicate definition IDs cannot double-award
+PASS gap tracker: overlapping start and finish spheres are rejected as invalid authoring
+PASS gap tracker: independent definitions preserve their own progress and IDs
+PASS gap tracker: configuration snapshots authoring data
+PASS gap tracker: malformed and nonfinite authoring entries are ignored
+PASS gap tracker: invalid update timing cannot bridge a route
+PASS gap tracker: invalid update timing cannot bridge a route
+PASS gap tracker: invalid update timing cannot bridge a route
+PASS gap tracker: a nonfinite position resets continuous traversal evidence
+PASS native finish schema refuses present invalid policy { "finish_kind": "unknown" }
+PASS native finish schema refuses present invalid policy { "finish_kind": <null> }
+PASS native finish schema refuses present invalid policy { "finish_destination": "" }
+PASS native finish schema refuses present invalid policy { "finish_destination": 5 }
+PASS native finish schema refuses present invalid policy { "finish_destination": "unregistered" }
+PASS native finish schema refuses present invalid policy { "airborne_required": false }
+PASS native finish requires an explicitly registered authored destination
+PASS generic grounded finish remains strict even with a deceptive true callback
+PASS legacy three-argument update never acquires a native finish implicitly
+PASS ground roll never calls destination authority
+PASS new first sample cannot finish a gap
+PASS newly armed one-step nonair capture cannot invent prior gap air
+PASS expired gap never invokes native finish authority
+PASS native authority refusal has no generic grounded fallback
+PASS structural callback gate runs only after armed real-air ordered end/window checks; fixture callback is not native proof
+PASS same finish cannot award or invoke its provider twice
+PASS reversed armed attempt remains invalid with native policy
+PASS reset removes armed native finish progress
+PASS script launch disables profile persistence before tree entry
+PASS actual default Main isolates personal Music/profile
+PASS native destinations configure from real constructor-owned bodies and actual Skater lines
+PASS all eight original gap IDs retain registered strict or native-finish definitions
+CABLE_INPUT_RESULT {"bails":0,"bank":14283,"banks":1,"cable":true,"cable_ticks":29,"captures":["clyde_safe_handrail_west","clyde_cable_west","clyde_safe_handrail_west"],"direction":1.0,"first":true,"max_cable_gap":0.0,"physical_bridge_supports":[{"actual_crown":"Vector3(-28.85, 4.495, 89.24983)","canonical_id":"clyde_safe_handrail_west","crowns":"Array[Vector3]([Vector3(-28.85, 4.495, 89.5201), Vector3(-28.85, 4.495, 89.3201), Vector3(-28.85, 4.495, 89.1201)])","native_box_size":"Vector3(0.09, 0.09, 16)","native_shape":0,"raw_id":"clyde_safe_handrail_west","rid":12859132084508},{"actual_crown":"Vector3(-28.850002, 4.495, 101.95818)","canonical_id":"clyde_safe_handrail_west","crowns":"Array[Vector3]([Vector3(-28.85, 4.495, 102.15818), Vector3(-28.85, 4.495, 101.95818), Vector3(-28.85, 4.495, 101.75819)])","native_box_size":"Vector3(0.09, 0.09, 16)","native_shape":0,"raw_id":"Grind_Edge_BridgeRail_x-2885y445z9700_0","rid":12859132084508}],"position":"Vector3(-28.85, 3.916104, 112.194176)","raw_captures":["clyde_safe_handrail_west","clyde_cable_west","Grind_Edge_BridgeRail_x-2885y445z9700_0"],"returned":true,"stages":[{"at":"Vector3(-28.1, 3.0715828, 85.00291)","speed":0.27742674946785,"stage":"push_on_bridge","y_velocity":0.0227775033563375},{"at":"Vector3(-28.1, 3.1837585, 86.3651)","speed":5.03131628036499,"stage":"charge_to_handrail","y_velocity":0.412927448749542},{"at":"Vector3(-28.100264, 3.4873362, 88.05768)","speed":7.52953100204468,"stage":"first_handrail","y_velocity":9.62007904052734},{"at":"Vector3(-28.85, 4.515, 89.375244)","speed":7.51953100204468,"stage":"handrail_run","y_velocity":0.0000224094346776837},{"at":"Vector3(-28.85, 4.515, 90.37251)","speed":7.43952553830642,"stage":"charge_to_cable","y_velocity":-0.0000221710070036352},{"at":"Vector3(-28.85, 4.515, 92.213646)","speed":7.28952789306641,"stage":"leave_handrail","y_velocity":9.0},{"at":"Vector3(-28.886667, 4.6555552, 92.33514)","speed":7.61427736282349,"stage":"fresh_cable_request","y_velocity":8.43333339691162},{"at":"Vector3(-28.923334, 4.7866664, 92.45663)","speed":7.61427736282349,"stage":"cable_air_catch","y_velocity":7.86666679382324},{"at":"Vector3(-29.350002, 4.978907, 94.8734)","speed":7.58487469299667,"stage":"wait_on_cable_for_declared_gap","y_velocity":-0.270467430353165},{"at":"Vector3(-29.35, 4.9472847, 96.39001)","speed":7.5602555261208,"stage":"charge_from_cable","y_velocity":-0.0899902284145355},{"at":"Vector3(-29.350002, 4.9550533, 98.26263)","speed":7.39125156402588,"stage":"leave_cable","y_velocity":9.08796310424805},{"at":"Vector3(-29.313334, 5.097075, 98.38581)","speed":7.71171855926514,"stage":"fresh_return_request","y_velocity":8.52129650115967},{"at":"Vector3(-29.276665, 5.229652, 98.508995)","speed":7.71171855926514,"stage":"return_handrail","y_velocity":7.95462989807129},{"at":"Vector3(-28.85, 4.5499997, 102.0861)","speed":7.66966659294553,"stage":"short_dry_exit_charge","y_velocity":0.0},{"at":"Vector3(-28.85, 4.5405555, 102.21393)","speed":7.66966676712036,"stage":"exit_to_deck","y_velocity":-0.566666662693024},{"at":"Vector3(-28.85, 4.5216665, 102.34176)","speed":7.66966676712036,"stage":"dry_landing_and_bank","y_velocity":-1.13333332538605},{"at":"Vector3(-28.85, 4.1373434, 109.5077)","speed":7.41285610198975,"stage":"single_bank_observation","y_velocity":0.0}],"ticks":251}
+PASS PT24-25 input: native bridge→handrail→air→cable→air→handrail→dry deck earns one clean combo, direction=1.0
+PASS adversarial fixture reaches genuine native capture/end interval
+PASS native finish control: independent control helper registers same genuine native scene
+PASS native finish control: frozen actual capture interval is a nontrivial positive control
+PASS native finish control: noninteger capture token field epoch
+PASS native finish control: noninteger capture token field serial
+PASS native finish control: noninteger capture token field frame
+PASS native finish control: noninteger capture token field line_instance
+PASS native finish control: recycled stale capture epoch
+PASS native finish control: recycled stale capture serial
+PASS native finish control: older than sampled capture interval
+PASS native finish control: future capture clock
+PASS native finish control: wrong sampled start
+PASS native finish control: wrong sampled finish
+PASS native finish control: copied or altered authoring declaration { "id": "copied_unknown_gap" }
+PASS native finish control: copied or altered authoring declaration { "finish_destination": "clyde_safe_handrail_east" }
+PASS native finish control: copied or altered authoring declaration { "finish_kind": "unknown" }
+PASS native finish control: copied or altered authoring declaration { "radius": 0.8 }
+PASS native finish control: copied or altered authoring declaration { "start": (0.0, 0.0, 0.0) }
+PASS native finish control: copied or altered authoring declaration { "direction": (0.0, 0.0, 1.0) }
+PASS native finish control: copied raw guide identity
+PASS native finish control: wrong configured line instance
+PASS native finish control: wrong native RID in capture proof
+PASS native finish control: wrong integer native shape in capture proof
+PASS native finish control: fractional-type native shape refuses even equal numeric value
+PASS native finish control: unsupported controls
+PASS native finish control: disabled trick entries
+PASS native finish control: bailed rider
+PASS native finish control: inconsistent airborne plus grind state
+PASS native finish control: reset epoch cannot replay old capture
+PASS native finish control: genuine registered native RID/shape located
+PASS native finish control: out-of-range cached integer shape fails before native API
+PASS native finish control: unregistered native shape RID
+PASS native finish control: actual moved native body
+PASS native finish control: restored actual native body returns valid proof
+PASS native finish control: actual disabled native layer
+PASS native finish control: actual disabled primitive
+PASS native finish control: actual unsupported native shape
+FAIL native finish control: restored exact original native shape returns valid proof
+PASS native finish control: actual altered primitive data
+PASS native finish control: copied metadata foreign body never grants native authority
+PASS native finish control: unmodified genuine context remains valid after restored faults
+PASS native finish control: first independent helper consumption succeeds
+PASS native finish control: same capture cannot be consumed twice
+PASS native finish control: actual released grind refuses stale captured finish
+PASS native finish control: all native/frame/shape and rider flags restored
+PASS legacy awards and every tracker phase remain exact; explicit destination policy may only add finish awards
+GAP_COMBO_NATIVE 102 passed, 1 failed

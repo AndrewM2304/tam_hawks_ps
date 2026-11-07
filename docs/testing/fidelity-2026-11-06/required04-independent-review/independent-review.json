@@ -1,0 +1,170 @@
+{
+  "recorded_utc": "2026-11-07T12:13:47.618179+00:00",
+  "reviewer": "/root/independent_qa",
+  "verdict": "Functional results6697/0 plus CLI2/0; raw source-stability gate remains ineligible because five UID sidecars were generated. All895 preexisting inputs unchanged; separately qualified generated-file appearance, not a byte-identical before/after source gate.",
+  "independent_checks": [
+    {
+      "check": "895 existing before inputs stay exact; only five declared UID sidecars appear",
+      "pass": true,
+      "actual": {
+        "added": [
+          "game/tricks/native_gap_finish.gd.uid",
+          "tests/cable_gap_input_driver.gd.uid",
+          "tests/native_gap_finish_capture_controls.gd.uid",
+          "tests/native_gap_finish_contract_tests.gd.uid",
+          "tests/native_gap_finish_integration_tests.gd.uid"
+        ],
+        "removed": [],
+        "modified": []
+      }
+    },
+    {
+      "check": "new sidecars are small unique canonicalUID strings attached to before-bound scripts",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "source reference texts never use newUID values as preexisting resource paths",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all recorded source bytes match still-frozen actual source at independent read",
+      "pass": true,
+      "actual": {
+        "missing": [],
+        "changed": []
+      }
+    },
+    {
+      "check": "source inventory own hash matches receipt",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all seven preserved log/runner/inventory hashes match receipt",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "exact ignored executable launcher bound before and after",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all mandatory native/source/guide entrypoints before-bound",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "ordinary tools/check.sh on main dirty source is the declared command",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "all four preserved logs have no raw script/shader/parse/ERROR/FAIL lines",
+      "pass": true,
+      "actual": {
+        "command.log": [],
+        "import.log": [],
+        "tests.log": [],
+        "script-launch.log": []
+      }
+    },
+    {
+      "check": "main raw native result is uniquely6697/0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "CLI raw native result is uniquely2/0",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "raw assertions agree with result totals",
+      "pass": true,
+      "actual": {
+        "main_PASS_lines": 6697,
+        "CLI_PASS_lines": 2
+      }
+    },
+    {
+      "check": "combined command contains both exact result markers once",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "process exit0/no timeout but exact source gate stays ineligible due five UID additions",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "recorded wall span inside predeclared3600s",
+      "pass": true,
+      "actual": {
+        "UTC_span_seconds": 1806.262405,
+        "wrapper_wall_seconds": 1806.128834
+      }
+    },
+    {
+      "check": "current reviewed controller/Anatomy/Visual are native before-bound",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "check": "native logs record actual4.6.3 installed binary identity",
+      "pass": true,
+      "actual": [
+        "4.6.3.stable.official.7d41c59c4 - https://godotengine.org"
+      ]
+    }
+  ],
+  "passed": 18,
+  "failed": 0,
+  "native_source_inputs": 895,
+  "native_after_inputs": 900,
+  "raw_eligible": false,
+  "source_delta": {
+    "added": [
+      "game/tricks/native_gap_finish.gd.uid",
+      "tests/cable_gap_input_driver.gd.uid",
+      "tests/native_gap_finish_capture_controls.gd.uid",
+      "tests/native_gap_finish_contract_tests.gd.uid",
+      "tests/native_gap_finish_integration_tests.gd.uid"
+    ],
+    "modified": [],
+    "removed": []
+  },
+  "native_source_scope": "Source/assets/import descriptors/project/export/licences/guide/tools/tests/ignored wrapper. Generated .godot and runtime caches excluded; do not infer byte-stable imported-cache or write-free provenance.",
+  "native_command_process_pid": 126872,
+  "known_workload_scope": "Untimed shared-host Linux headless run; private renderer/offline work was authorized. No exclusivity/FPS/global-GPU or target-device claim.",
+  "exact_receipt_sha256": "aab893fec2be29c61ff6b0c185bb26b6c44307540dc78e422d08516bf2db241b",
+  "native_runtime_results": {
+    "main": [
+      6697,
+      0
+    ],
+    "script_launch": [
+      2,
+      0
+    ]
+  },
+  "limitations": [
+    "No rerun by independent reviewer.",
+    "Current rendered351-push and normal-speed moving review are separate.",
+    "Grounded D022 pose jumps remain observed in earlier direct current-matrix evidence; a global test pass does not certify natural motion.",
+    "Mac-compatible imports and the integrated cable-gap public tests are included; the new Merchant District world/Book/UI/art remain private and outside this result.",
+    "Old failed full02 and actual133/1 receipts remain unchanged. This raw eligible=false receipt is also retained unchanged; no retroactive stable-gate assertion."
+  ],
+  "logs_sha256": {
+    "command.log": "ac19e8104f6780bd86a94089b7e4c9960fd88dc2f7bc2a87c075177f081405b6",
+    "import.log": "518bacd203a87aaf88cc0fa39b4466bfd9ebcfee4fac5d581f13afdddc7a573c",
+    "runner.py.txt": "11d95a3ca21f1cd45d913469e35cf03bcf7fe33f99a010ee62f9d985ba143a76",
+    "script-launch.log": "823882bc10a33a2f224e60044515b1ab6ff1701f4c7e45253f236118317b4fae",
+    "source-after.json": "acf88b2be125d30f830ea210a02c05dc4607f829e819dcab7297224c5eb10c27",
+    "source-before.json": "0272c82d10f968455cb5e4818e585f4e3d614959c6f732fe1b4827dce236d82b",
+    "tests.log": "39c581bea7406bb80796cda364624025b0c0e08e81a71d3ba0215053f9f31ea2"
+  },
+  "source_current_at_review": true
+}

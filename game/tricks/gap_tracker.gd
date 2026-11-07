@@ -1,6 +1,7 @@
 extends RefCounted
 ## Original ordered, swept gap triggers; no physics nodes or external dependencies.
-## Positions are world-space board contacts. Call only during active play and reset
+## Positions are caller-supplied world samples (Main uses actor origin). Call only
+## during active play and reset
 ## after bail/restart. A first update establishes position; it cannot award a gap.
 
 const WINDOW: float = 4.0
@@ -12,12 +13,13 @@ var _definitions: Array[Dictionary] = []
 var _states: Array[Dictionary] = []
 var _previous: Vector3 = Vector3.ZERO
 var _previous_airborne: bool = false
+var _previous_physics_frame: int = -1
 var _has_previous: bool = false
 
 
 ## Duplicate IDs, overlapping start/end spheres and malformed entries are ignored.
 ## Snapshot definitions so later level-authoring edits do not mutate an active route.
-func configure(definitions: Array) -> void:
+func configure(definitions: Array, native_destinations: PackedStringArray = PackedStringArray()) -> void:
 	_definitions.clear()
 	var ids: Dictionary = {}
 	for raw in definitions:
@@ -43,6 +45,11 @@ func configure(definitions: Array) -> void:
 			continue
 		if not is_finite(length) or length <= radius * 2.0 + EPSILON:
 			continue
+		if raw.has("finish_kind") or raw.has("finish_destination"):
+			if typeof(raw.get("finish_kind"))!=TYPE_STRING or raw.finish_kind!="native_grind" \
+				or typeof(raw.get("finish_destination"))!=TYPE_STRING or raw.finish_destination.is_empty() \
+				or not native_destinations.has(raw.finish_destination) or not raw.airborne_required:
+				continue
 		var entry: Dictionary = raw.duplicate(true)
 		entry["direction"] = route / length
 		_definitions.append(entry)
@@ -51,6 +58,7 @@ func configure(definitions: Array) -> void:
 
 
 func reset() -> void:
+	_previous_physics_frame = -1
 	_has_previous = false
 	_states.clear()
 	for _definition in _definitions:
@@ -59,7 +67,7 @@ func reset() -> void:
 
 ## Awards have only {id, name, points}. Each route resolves once before leaving both
 ## triggers. A segment may cross both triggers in one step, with ordered entry times.
-func update(position: Vector3, airborne: bool, delta: float) -> Array[Dictionary]:
+func update(position: Vector3, airborne: bool, delta: float, native_finish: Callable = Callable()) -> Array[Dictionary]:
 	var awards: Array[Dictionary] = []
 	if not position.is_finite() or not is_finite(delta) or delta < 0.0:
 		reset()
@@ -67,6 +75,7 @@ func update(position: Vector3, airborne: bool, delta: float) -> Array[Dictionary
 	if not _has_previous:
 		_previous = position
 		_previous_airborne = airborne
+		_previous_physics_frame = Engine.get_physics_frames()
 		_has_previous = true
 		return awards
 	var displacement: Vector3 = position - _previous
@@ -75,6 +84,7 @@ func update(position: Vector3, airborne: bool, delta: float) -> Array[Dictionary
 		_lock_all()
 		_previous = position
 		_previous_airborne = airborne
+		_previous_physics_frame = Engine.get_physics_frames()
 		return awards
 	for index in _definitions.size():
 		var definition: Dictionary = _definitions[index]
@@ -87,6 +97,7 @@ func update(position: Vector3, airborne: bool, delta: float) -> Array[Dictionary
 		var start_t: float = _sphere_entry(_previous, position, definition.start, definition.radius)
 		var end_t: float = _sphere_entry(_previous, position, definition.end, definition.radius)
 		var elapsed_before: float = state.elapsed
+		var already_armed: bool = state.phase == "armed"
 		if state.phase == "ready":
 			if start_t < 0.0 or forward <= EPSILON:
 				continue
@@ -104,6 +115,10 @@ func update(position: Vector3, airborne: bool, delta: float) -> Array[Dictionary
 			# between triggers. A fully aerial swept step may still cross both at once.
 			var air_between: bool = state.air or (_previous_airborne and airborne)
 			var required_air: bool = not definition.airborne_required or (air_between and airborne)
+			if not required_air and already_armed and state.air and air_between and not airborne \
+				and ordered and flight_time<=WINDOW and definition.get("finish_kind","")=="native_grind" \
+				and native_finish.is_valid():
+				required_air=native_finish.call(definition,_previous,position,_previous_physics_frame)==true
 			if ordered and flight_time <= WINDOW and required_air:
 				awards.append({"id": definition.id, "name": definition.name, "points": definition.points})
 			state.phase = "locked"
@@ -114,6 +129,7 @@ func update(position: Vector3, airborne: bool, delta: float) -> Array[Dictionary
 			state.phase = "locked"
 	_previous = position
 	_previous_airborne = airborne
+	_previous_physics_frame = Engine.get_physics_frames()
 	return awards
 
 

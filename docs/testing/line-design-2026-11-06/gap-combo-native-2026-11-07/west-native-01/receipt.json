@@ -1,0 +1,63 @@
+{
+  "start_utc": "2026-11-07T09:48:06.262006+00:00",
+  "end_utc": "2026-11-07T09:48:29.230784+00:00",
+  "wall_seconds": 22.96874869000021,
+  "epochs": [
+    {
+      "name": "parser",
+      "start_utc": "2026-11-07T09:48:06.262072+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "res://.local/probe.gd"
+      ],
+      "stage_bound_seconds": 15,
+      "aggregate_bound_seconds": 120,
+      "pid": 111455,
+      "process_group": 111455,
+      "end_utc": "2026-11-07T09:48:08.740639+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "name": "native",
+      "start_utc": "2026-11-07T09:48:08.741074+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://.local/probe.gd"
+      ],
+      "stage_bound_seconds": 105,
+      "aggregate_bound_seconds": 120,
+      "pid": 111468,
+      "process_group": 111468,
+      "end_utc": "2026-11-07T09:48:28.647075+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "e8e9f52387c889639e4bc121b0e9084f4c09e273b6d619bec5515651611dd025"
+    }
+  ],
+  "source_count": 884,
+  "source_stable": true,
+  "imported_files": 252,
+  "resolved_actual_imports_stable": true,
+  "private_metadata_stable": true,
+  "result_summary": {
+    "passed": 5,
+    "failed": 0,
+    "gap_updates": 473,
+    "score_events": 23,
+    "samples": 473,
+    "shadow_mismatches": 0
+  },
+  "eligible": true,
+  "scope": "Current copied actual source, original WEST\u00b1cable inputs unchanged, super-delegated gap/score instrumentation. Shadow awards never fed game. No actual cache/source/profile changes, no rendering/native-query additions or FPS/M5 claim."
+}

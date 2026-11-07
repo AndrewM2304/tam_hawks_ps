@@ -1,0 +1,63 @@
+{
+  "start_utc": "2026-11-07T11:01:04.921681+00:00",
+  "end_utc": "2026-11-07T11:01:26.927825+00:00",
+  "wall_seconds": 22.006140012999822,
+  "epochs": [
+    {
+      "name": "parser",
+      "start_utc": "2026-11-07T11:01:04.921746+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "res://.local/probe_controls.gd"
+      ],
+      "stage_bound_seconds": 15,
+      "aggregate_bound_seconds": 120,
+      "pid": 119724,
+      "process_group": 119724,
+      "end_utc": "2026-11-07T11:01:07.491374+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "name": "native",
+      "start_utc": "2026-11-07T11:01:07.492398+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://.local/probe_controls.gd"
+      ],
+      "stage_bound_seconds": 105,
+      "aggregate_bound_seconds": 120,
+      "pid": 119737,
+      "process_group": 119737,
+      "end_utc": "2026-11-07T11:01:25.953478+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "502f081afcdb58a4b3af866b0f5b02cab73da657618d59ef4e18cb7df4a1ef2f"
+    }
+  ],
+  "source_count": 895,
+  "source_stable": true,
+  "imported_files": 252,
+  "private_imported_stable": true,
+  "private_metadata_stable": true,
+  "result_summary": {
+    "passed": 106,
+    "failed": 0,
+    "gap_updates": 251,
+    "score_events": 15,
+    "samples": 251,
+    "shadow_mismatches": 0
+  },
+  "eligible": true,
+  "scope": "Current copied actual source, PRIVATE adversarial native-finish fixture; actual native/rider eligibility mutations restored, not natural physical-parity proof, super-delegated gap/score instrumentation. Shadow awards never fed game. Owned imported cache by-value; no actual cache/source/profile changes, no observer spatial queries or draw additions; explicit bounded native-finish helper queries are logged. No FPS/M5 claim."
+}

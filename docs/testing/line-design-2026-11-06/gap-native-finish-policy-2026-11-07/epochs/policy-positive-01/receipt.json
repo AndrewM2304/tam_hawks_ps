@@ -1,0 +1,35 @@
+{
+  "start_utc": "2026-11-07T10:19:03.636380+00:00",
+  "end_utc": "2026-11-07T10:19:05.115579+00:00",
+  "wall_seconds": 1.4791963649986428,
+  "epochs": [
+    {
+      "name": "parser",
+      "start_utc": "2026-11-07T10:19:03.636415+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "res://.local/probe_policy.gd"
+      ],
+      "stage_bound_seconds": 15,
+      "aggregate_bound_seconds": 120,
+      "pid": 115030,
+      "process_group": 115030,
+      "end_utc": "2026-11-07T10:19:04.415250+00:00",
+      "exit_code": -15,
+      "stop": "first raw engine error",
+      "raw_error": true,
+      "log_sha256": "c7fa27d95399ec4cc027727ffa2949c1613cfbc15aded3f887f671f07f0964d9"
+    }
+  ],
+  "source_count": 892,
+  "source_stable": true,
+  "imported_files": 252,
+  "resolved_actual_imports_stable": true,
+  "private_metadata_stable": true,
+  "result_summary": null,
+  "eligible": false,
+  "scope": "Current copied actual source, PRIVATE explicitnativefinishpolicy; WEST/EASTsouthWAIT12 and originaltiming\u00b1driver, super-delegated gap/score instrumentation. Shadow awards never fed game. No actual cache/source/profile changes, no rendering/native-query additions or FPS/M5 claim."
+}

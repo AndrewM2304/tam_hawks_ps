@@ -89,7 +89,8 @@ func get_gap_definitions() -> Array[Dictionary]:
 		result.append({"id":"clyde_cable_to_handrail_"+suffix,"name":"Back To The Bridge",
 			"start":to_global(_crown_at(side,99.0)),
 			"end":to_global(Vector3(Layout.SAFE_X+side*3.85,4.5,102.0)),
-			"radius":0.7,"points":500,"airborne_required":true})
+			"radius":0.7,"points":500,"airborne_required":true,"finish_kind":"native_grind",
+			"finish_destination":"clyde_safe_handrail_"+suffix})
 	return result
 
 
@@ -128,3 +129,4 @@ func _z(index: int) -> float:
 func _height(index: int) -> float:
 	var t := float(index)/32.0
 	return 4.85+4.75*pow(2.0*t-1.0,2.0)
+

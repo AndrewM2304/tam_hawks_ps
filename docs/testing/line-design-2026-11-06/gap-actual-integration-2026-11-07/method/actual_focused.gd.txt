@@ -1,0 +1,71 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+const Legacy=preload("res://tests/special_gap_tests.gd")
+const Contracts=preload("res://tests/native_gap_finish_contract_tests.gd")
+const Native=preload("res://tests/native_gap_finish_integration_tests.gd")
+var passes:=0
+var failures:Array=[]
+var stages:Dictionary={}
+var game:Node
+var initial_score:RefCounted
+var proof_events:Array=[]
+var score_entries:Array=[]
+var score_banks:Array=[]
+var contexts:Array=[]
+var _seen:Dictionary={}
+func _initialize()->void:run.call_deferred()
+func check(ok:bool,label:String)->void:
+ if ok:passes+=1
+ else:failures.append(label)
+ print("PASS: "if ok else"FAIL: ",label)
+func encode(value:Variant)->Variant:
+ if value is Vector3:return [value.x,value.y,value.z]
+ if value is Array:
+  var rows:Array=[]
+  for v:Variant in value:rows.append(encode(v))
+  return rows
+ if value is Dictionary:
+  var row:Dictionary={}
+  for k:Variant in value:row[str(k)]=encode(value[k])
+  return row
+ return value
+func observe()->void:
+ if not is_instance_valid(game):return
+ var helper:RefCounted=game.native_gap_finish
+ for event:Dictionary in helper.proof_events:
+  var key:String=str(helper.get_instance_id())+":"+str(event)
+  if not _seen.has(key):_seen[key]=true;proof_events.append(encode(event))
+ if helper!=null and helper.get_script()==preload("res://tests/native_gap_finish_capture_controls.gd"):
+  if not helper.control_context.is_empty()and not _seen.has("control_context"):
+   _seen["control_context"]=true;contexts.append(encode(helper.control_context))
+ if game.score!=initial_score:
+  for index:int in game.score.entries.size():
+   var key:String="score_entry:"+str(index)
+   if not _seen.has(key):_seen[key]=true;score_entries.append(game.score.entries[index].duplicate(true))
+  for index:int in game.score.banks.size():
+   var key:String="score_bank:"+str(index)
+   if not _seen.has(key):_seen[key]=true;score_banks.append(game.score.banks[index].duplicate(true))
+func run()->void:
+ print("ACTUAL_ENGINE_ARGUMENTS ",OS.get_cmdline_args())
+ var count:int=passes;Legacy.run(check);stages.legacy={"passed":passes-count,"failed":failures.size()}
+ count=passes;var old_fail:int=failures.size();Contracts.run(check);stages.contracts={"passed":passes-count,"failed":failures.size()-old_fail}
+ game=Main.new()
+ check(not game.persistence_enabled,"actual focused: profile persistence disabled before Main tree entry")
+ if game.persistence_enabled:game.free();finish();return
+ root.add_child(game)
+ initial_score=game.score
+ check(not game.music._can_control and not game.music._persist,"actual focused: personal Music/profile remain isolated")
+ check(game.native_gap_finish.ready and game.gaps._definitions.size()==8,"actual focused: exact current Main registers native return policy and all eight score gaps")
+ process_frame.connect(observe)
+ count=passes;old_fail=failures.size();await Native.run_player(self,game,check);stages.native={"passed":passes-count,"failed":failures.size()-old_fail}
+ observe();process_frame.disconnect(observe)
+ var result:Dictionary={"passed":passes,"failed":failures.size(),"failures":failures,"stages":stages,"proof_events":proof_events,"control_contexts":contexts,"score_entries":score_entries,"score_banks":score_banks,"scope":"Actual current runtime/public cohort. Six separately reset native mapped-input local cases; diagnostic native/body/eligibility faults restored synchronously. Read-only process-frame observer adds0 spatial queries/draws and never feeds score. Original legacy34 tests untouched. No natural physical-parity, full current suite, visual, full body contact, map-wide circuit, performance or M5 acceptance."}
+ var out:=FileAccess.open(OS.get_environment("TAM_GAP_COMBO_OUTPUT"),FileAccess.WRITE)
+ if out==null:push_error("Cannot write actual gap evidence");quit(2);return
+ out.store_string(JSON.stringify(result,"\t",true,true)+"\n");out.close()
+ game.queue_free();await process_frame
+ print("GAP_ACTUAL_RESULT: ",passes," passed, ",failures.size()," failed")
+ quit(0 if failures.is_empty()else 1)
+func finish()->void:
+ print("GAP_ACTUAL_RESULT: ",passes," passed, ",failures.size()," failed")
+ quit(1)

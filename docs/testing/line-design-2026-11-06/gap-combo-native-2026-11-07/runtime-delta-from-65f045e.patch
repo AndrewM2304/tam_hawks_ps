@@ -1,0 +1,1229 @@
+--- a/export_presets.cfg
++++ b/export_presets.cfg
+@@ -7,7 +7,7 @@
+ dedicated_server=false
+ custom_features=""
+ export_filter="all_resources"
+-include_filter="game/art/assets/environment_pbr/manifest.json,game/art/assets/environment_pbr/derived/manifest.json,game/art/rider/*.json"
++include_filter="game/art/assets/environment_pbr/manifest.json,game/art/assets/environment_pbr/derived/manifest.json,game/art/rider/*.json,game/art/assets/tam_skateboard/manifest.json"
+ exclude_filter="tests/*,tools/*,.local/*,builds/*"
+ export_path="builds/TamHawksProSkater.x86_64"
+ encryption_include_filters=""
+@@ -35,7 +35,7 @@
+ dedicated_server=false
+ custom_features=""
+ export_filter="all_resources"
+-include_filter="game/art/assets/environment_pbr/manifest.json,game/art/assets/environment_pbr/derived/manifest.json,game/art/rider/*.json"
++include_filter="game/art/assets/environment_pbr/manifest.json,game/art/assets/environment_pbr/derived/manifest.json,game/art/rider/*.json,game/art/assets/tam_skateboard/manifest.json"
+ exclude_filter="tests/*,tools/*,.local/*,builds/*"
+ export_path="builds/Tam Hawks Pro Skater.app"
+ encryption_include_filters=""
+--- a/game/levels/transition_feature.gd
++++ b/game/levels/transition_feature.gd
+@@ -234,6 +234,10 @@
+ 	# World-up scalar contact is certified only under the supported unit yaw.
+ 	if contact_frame_supported(global_transform):
+ 		line.configure_contact(0.0,0.0,"feature.native_coping_crown")
++		var body:=get_node_or_null("NativeSteelCoping") as StaticBody3D
++		if points.size()==2 and is_instance_valid(body) and get_node_or_null("RearDeck") is StaticBody3D:
++			line.configure_round_contact(COPING_RADIUS,COPING_DECK_REVEAL,COPING_FACE_REVEAL,
++				(global_basis*Vector3.BACK).normalized(),body,0)
+ 	return line
+ 
+ static func contact_frame_supported(frame: Transform3D) -> bool:
+--- a/game/player/skater.gd
++++ b/game/player/skater.gd
+@@ -2136,12 +2136,34 @@
+ 		direction: float, yaw: float, style_id: String, balance: float) -> bool:
+ 	# The native crown stays fixed. Only explicit box edges may use the roll
+ 	# derived once from this rider's actual connected board model.
+-	return GrindStyle.solve_into(result,line,distance,direction,yaw,style_id,balance,
+-		_grind_clearance.edge_roll_angle)
++	var round_angle:float=0.0
++	if line.contact_round_declared:
++		if not line.round_contact_live():return false
++		round_angle=_grind_clearance.round_roll_angle(line.contact_round_radius,line.contact_round_deck_reveal)
++	var solved:bool=GrindStyle.solve_into(result,line,distance,direction,yaw,style_id,balance,
++		_grind_clearance.edge_roll_angle,round_angle)
++	if not solved:return false
++	if line.contact_round_declared and style_id in ["grind_50_50","rail_grind"]:
++		return _round_grind_native_contacts(result,line)
++	return true
++
++
++func _round_grind_native_contacts(pose:GrindStyle.ContactPose,line) -> bool:
++	if not pose.valid or pose.anchor_count!=2 or not line.round_contact_live():return false
++	var owner:RID=line.round_contact_rid()
++	if not owner.is_valid():return false
++	var normal:Vector3=pose.board_transform.basis.y
++	for index:int in pose.anchor_count:
++		var point:Vector3=pose.board_transform*pose.anchors[index]
++		var hit:Dictionary=_native_board_floor_ray(get_world_3d().direct_space_state,
++			point+normal*.03,point-normal*.03)
++		if hit.is_empty() or hit.rid!=owner or int(hit.shape)!=line.contact_round_shape 				or Vector3(hit.position).distance_to(point)>GrindStyle.CONTACT_TOLERANCE 				or Vector3(hit.normal).dot(normal)<0.999:return false
++	return true
+ 
+ 
+ func _grind_candidate_supported(line, distance: float, direction: float) -> bool:
+ 	var key: int = line.get_instance_id()
++	if line.contact_round_declared and not line.round_contact_live():return false
+ 	# Legacy guides retain their explicit generic path; metadata is not inferred.
+ 	if not line.contact_verified:
+ 		_grind_choices[key] = {"id":"rail_grind","yaw":0.0}
+@@ -2153,8 +2175,9 @@
+ 			selected={"id":str(advanced.id),"yaw":float(advanced.get("grind_yaw",0.0))}
+ 	if selected.is_empty(): return false
+ 	var supported := _solve_grind_contact(_grind_candidate_contact,line,distance,direction,float(selected.yaw),str(selected.id),0.0)
+-	if supported and _requires_model_grind_clearance(str(selected.id)):
+-		supported=_grind_clearance.allows_path(_board_visual.global_transform,_grind_candidate_contact,line.contact_up(distance))
++	if supported and (_requires_model_grind_clearance(str(selected.id)) or line.contact_round_declared):
++		var support_up:Vector3=_grind_candidate_contact.board_transform.basis.y if line.contact_round_declared else line.contact_up(distance)
++		supported=_grind_clearance.allows_path(_board_visual.global_transform,_grind_candidate_contact,support_up)
+ 	if supported:
+ 		var model_origin := _grind_candidate_contact.board_transform.origin - _grind_candidate_contact.board_transform.basis * Vector3(0,.12,0)
+ 		# A known board obstruction or oversized visual correction must not gain
+@@ -2166,7 +2189,7 @@
+ 		return true
+ 	# A neutral legacy route may lack a supported two-truck chord/board envelope.
+ 	# Do not award a named style for it; explicit sideways selection must refuse.
+-	if selected.id == "grind_50_50" and line.contact_edge_outward == Vector3.ZERO:
++	if selected.id == "grind_50_50" and line.contact_edge_outward == Vector3.ZERO and not line.contact_round_declared:
+ 		_grind_choices[key] = {"id":"rail_grind","yaw":0.0}
+ 		return true
+ 	return false
+@@ -2180,6 +2203,11 @@
+ 	# The conservative whole-board box extends below the actual truck crowns.
+ 	# Refine only its intended support contact with the cached real model; all
+ 	# solids, including this rail and neighbouring rails, stay in that query.
++	if line!=null and line.contact_round_declared:
++		# A broad box can hit adjoining concrete while the real rolled truck and
++		# wheels clear it. Refine ALL native solids; no support RID is excluded.
++		return line.round_contact_live() and _grind_clearance.allows_frame_path(
++			board_transform,board_transform,board_transform.basis.y)
+ 	return _only_intended_grind_hits(hits,line) and _grind_clearance.allows_frame_path(
+ 		board_transform,board_transform,line.contact_up(distance))
+ 
+@@ -2210,7 +2238,9 @@
+ 	_grind_board_query.transform = Transform3D(from.basis,(from.origin+to.origin)*.5+from.basis*GRIND_BOARD_CENTER)
+ 	var hits:=get_world_3d().direct_space_state.intersect_shape(_grind_board_query,16)
+ 	var clear: bool=hits.is_empty()
+-	if not clear and _only_intended_grind_hits(hits,line):
++	if not clear and line!=null and line.contact_round_declared:
++		clear=line.round_contact_live() and _grind_clearance.allows_frame_path(from,to,to.basis.y)
++	elif not clear and _only_intended_grind_hits(hits,line):
+ 		clear=_grind_clearance.allows_frame_path(from,to,line.contact_up(distance))
+ 	_grind_board_box.size = GRIND_BOARD_SIZE
+ 	return clear
+@@ -3133,7 +3163,9 @@
+ func _air_forecast_owner_bounds(owner:Dictionary)->AABB:
+ 	# Debug meshes are cached by the native Shape3D resource and invalidated
+ 	# when it changes. Bounds are only a conservative cull, never authority.
+-	var body:=owner.get("collider") as CollisionObject3D
++	var raw:Variant=owner.get("collider")
++	if typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw):return AABB()
++	var body:=raw as CollisionObject3D
+ 	var index:int=int(owner.get("shape",-1))
+ 	if not is_instance_valid(body) or body.get_rid()!=owner.get("rid") \
+ 			or (body.collision_layer&collision_mask)==0 or index<0 \
+@@ -3789,7 +3821,7 @@
+ 
+ 
+ func _place_air_landing_wheels(support: Dictionary) -> void:
+-	# A last descending bowl-air pose can retain enough roll to bury a tyre
++	# A last descending bowl-air pose can retain enough roll to bury its deck or tyre
+ 	# before the upright capsule lands. Correct only proven finite flat-floor
+ 	# overlap, after the rig has planted its feet; never move the physical body
+ 	# or flatten ordinary clear flight, active tricks or a curved ramp return.
+@@ -3801,42 +3833,56 @@
+ 	var original: Transform3D=_visual.global_transform
+ 	var original_local:Transform3D=_visual.transform
+ 	var board_local: Transform3D=original.affine_inverse()*_board_visual.global_transform
+-	if _air_landing_wheel_gap(original*board_local,wheels,point,axis)>=0.0: return
++	if _air_landing_model_gap(original*board_local,wheels,point,axis)>=0.0: return
+ 	var space:=get_world_3d().direct_space_state
+ 	# Every real bearing must have the same finite native landing plane. A
+ 	# centre ray's infinite plane cannot establish support at an edge/wall.
+ 	var behind_support:=false
++	var query:=PhysicsRayQueryParameters3D.new()
++	query.collision_mask=collision_mask
++	query.exclude=[get_rid()]
+ 	for wheel: Dictionary in wheels:
+ 		var bearing: Vector3=_board_visual.to_global(wheel.center)
+-		var query:=PhysicsRayQueryParameters3D.create(bearing+Vector3.UP*.35,bearing-Vector3.UP*.50,collision_mask)
+-		query.exclude=[get_rid()]
++		# Anchor the finite probe on the proposed native plane. A raised axle
++		# can exceed the existing0.50m range while its actual XZ footprint is
++		# above the same floor. This locates the ray only: the native hit below
++		# must still prove finite support, normal and exact plane agreement.
++		var footprint:Vector3=bearing-axis*(bearing-point).dot(axis)
++		query.from=footprint+Vector3.UP*.35
++		query.to=footprint-Vector3.UP*.50
+ 		var hit:=space.intersect_ray(query)
+ 		if hit.is_empty() or Vector3(hit.normal).dot(axis)<0.999 \
+ 				or absf((Vector3(hit.position)-point).dot(axis))>0.001: return
+ 		behind_support=behind_support or (bearing-Vector3(hit.position)).dot(axis)<0.0
+-	var overlaps:=false
+-	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
+-		_floor_wheel_query.shape=shape
+-		_floor_wheel_query.transform=original*board_local
+-		_floor_wheel_query.motion=Vector3.ZERO
+-		_floor_wheel_query.margin=0.0
+-		overlaps=not space.intersect_shape(_floor_wheel_query,1).is_empty() or overlaps
++	# One cached complete-model broad query replaces the former four tyre-only
++	# overlap queries. Its result authenticates only this actual finite RID/shape;
++	# cached indexed model points decide the gap and all final pieces stay strict.
++	_floor_wheel_query.shape=_visual_rig.board_contact_geometry().convex_shape
++	_floor_wheel_query.transform=original*board_local
++	_floor_wheel_query.motion=Vector3.ZERO
++	_floor_wheel_query.margin=0.0
++	var overlaps_support:=false
++	for hit:Dictionary in space.intersect_shape(_floor_wheel_query,16):
++		if hit.get("rid")==support.get("rid") and hit.get("shape")==support.get("shape"):
++			overlaps_support=true
++			break
+ 	# A wholly buried tyre may not intersect a zero-thickness native floor.
+ 	# Its centre must still be behind its own verified finite native support.
+-	if not overlaps and not behind_support: return
++	if not overlaps_support and not behind_support:return
++	if not _air_landing_finite_model_overlap(original*board_local,support,query):return
+ 	var local_axis: Vector3=global_basis.inverse()*axis
+ 	var landing_basis:=Basis.from_euler(Vector3(atan2(local_axis.z,local_axis.y),0,-asin(clampf(local_axis.x,-1,1))))
+ 	var yaw:=_spin_angle+_stance_angle+_air_grind_yaw-PI*(_revert_pose_remaining/REVERT_DURATION)
+ 	var target:=Transform3D(global_basis*landing_basis*Basis(Vector3.UP,yaw),original.origin)
+-	if _air_landing_wheel_gap(target*board_local,wheels,point,axis)<GROUND_PRESENTATION_SKIN: return
++	if _air_landing_model_gap(target*board_local,wheels,point,axis)<GROUND_PRESENTATION_SKIN: return
+ 	var low:=0.0
+ 	var high:=1.0
+-	# Fixed eight math-only passes find the smallest safe orientation change.
++	# Fixed eight math-only passes find a bounded safe orientation change.
+ 	# There is no translation/lift and no native query inside this search.
+ 	for pass_index: int in 8:
+ 		var middle: float=(low+high)*0.5
+ 		var candidate:=original.interpolate_with(target,middle)
+-		if _air_landing_wheel_gap(candidate*board_local,wheels,point,axis)>=GROUND_PRESENTATION_SKIN: high=middle
++		if _air_landing_model_gap(candidate*board_local,wheels,point,axis)>=GROUND_PRESENTATION_SKIN: high=middle
+ 		else: low=middle
+ 	var fitted:=original.interpolate_with(target,high)
+ 	for shape: ConvexPolygonShape3D in _floor_wheel_shapes:
+@@ -3902,6 +3948,44 @@
+ 		else:low=middle
+ 	_visual.position=accepted_local
+ 	if not _native_rim_frame_clear(_board_visual.global_transform,0.0):_visual.position=original_local
++
++
++func _air_landing_finite_model_overlap(pose:Transform3D,support:Dictionary,query:PhysicsRayQueryParameters3D)->bool:
++	# The broad hull can bridge empty space. Require a real negative cached
++	# model vertex to lie behind this same finite native surface before any
++	# correction. If the lowest vertex is outside the ledge, refuse the fit.
++	if not _grind_clearance.ready or not pose.origin.is_finite() or not pose.basis.is_finite() \
++			or typeof(support.get("shape"))!=TYPE_INT:return false
++	var axis:Vector3=support.get("normal",Vector3.ZERO)
++	var point:Vector3=support.get("position",Vector3(INF,INF,INF))
++	if not axis.is_finite() or axis.length_squared()<0.5 or not point.is_finite():return false
++	var minimum:=INF
++	var vertex:=Vector3(INF,INF,INF)
++	for part:Dictionary in _grind_clearance._parts:
++		for local:Vector3 in part.points:
++			var at:Vector3=pose*local
++			var gap:float=(at-point).dot(axis)
++			if gap<minimum:minimum=gap;vertex=at
++	if not vertex.is_finite() or minimum>=0.0:return false
++	query.from=vertex+axis*.35
++	query.to=vertex-axis*.50
++	var hit:Dictionary=get_world_3d().direct_space_state.intersect_ray(query)
++	return not hit.is_empty() and hit.get("rid")==support.get("rid") \
++		and typeof(hit.get("shape"))==TYPE_INT and hit.shape==support.shape \
++		and Vector3(hit.normal).dot(axis)>=0.999 \
++		and absf((Vector3(hit.position)-point).dot(axis))<=0.001 \
++		and (vertex-Vector3(hit.position)).dot(axis)<0.0
++
++
++func _air_landing_model_gap(pose:Transform3D,wheels:Array,point:Vector3,axis:Vector3)->float:
++	# Startup-cached actual connected model pieces, including the raised nose,
++	# trucks and hardware. No new geometry/resources or per-fit packed arrays.
++	if not _grind_clearance.ready:return -INF
++	var minimum:float=_air_landing_wheel_gap(pose,wheels,point,axis)
++	for part:Dictionary in _grind_clearance._parts:
++		for vertex:Vector3 in part.points:
++			minimum=minf(minimum,(pose*vertex-point).dot(axis))
++	return minimum
+ 
+ 
+ func _air_landing_wheel_gap(pose: Transform3D,wheels: Array,point: Vector3,axis: Vector3) -> float:
+--- a/game/player/skater_anatomy.gd
++++ b/game/player/skater_anatomy.gd
+@@ -128,7 +128,7 @@
+ 
+ func pose_hand(node: Node3D, grabbing: float) -> void:
+ 	var mesh: MeshInstance3D = node.get_node("HandAndFingers")
+-	mesh.set_blend_shape_value(0, lerpf(0.22, 1.0, grabbing))
++	mesh.set_blend_shape_value(0, lerpf(0.38, 1.0, grabbing))
+ 
+ func _hand_mesh(source: Mesh) -> ArrayMesh:
+ 	var key := source.get_instance_id()
+--- a/game/player/skater_visual.gd
++++ b/game/player/skater_visual.gd
+@@ -287,6 +287,15 @@
+ 	braking = braking and not setup
+ 	pushing = pushing and not skitch
+ 	braking = braking and not skitch
++	# A ground stroke needs the same native support accepted by the existing
++	# foot probe. On a steep bowl, retain physical Push but fade to an onboard
++	# pumping pose before the off-board sole loses its permitted floor.
++	var ground_stroke_weight := 1.0
++	var gait_body: Node3D = _board.get_parent().get_parent()
++	if (pushing or braking) and gait_body is CharacterBody3D and gait_body.is_on_floor() \
++			and bool(gait_body.get("_native_floor_valid")) and gait_body.has_method("get_support_normal"):
++		var gait_normal: Vector3 = gait_body.call("get_support_normal")
++		ground_stroke_weight = smoothstep(0.65, 0.80, gait_normal.normalized().y) if gait_normal.is_finite() and gait_normal.length_squared()>0.5 else 0.0
+ 	var steer: float = state.get("steering", 0.0)
+ 	var manual_balance: float = state.get("manual_balance", 0.0)
+ 	var grind_balance: float = state.get("grind_balance", 0.0)
+@@ -345,8 +354,8 @@
+ 	_air_time += delta if air else 0.0
+ 	_motion_time += delta
+ 	_landing = maxf(0.0, _landing - delta)
+-	_push_blend = _blend(_push_blend, 1.0 if pushing else 0.0, delta, 22.0 if transition else 10.0)
+-	_brake_blend = _blend(_brake_blend, 1.0 if braking else 0.0, delta, 22.0 if transition else 12.0)
++	_push_blend = _blend(_push_blend, ground_stroke_weight if pushing else 0.0, delta, 22.0 if transition else 10.0)
++	_brake_blend = _blend(_brake_blend, ground_stroke_weight if braking else 0.0, delta, 22.0 if transition else 12.0)
+ 	if transition:
+ 		if _push_blend < 0.002: _push_blend = 0.0
+ 		if _brake_blend < 0.002: _brake_blend = 0.0
+@@ -424,7 +433,7 @@
+ 			"both_trucks": bearing = Vector3(0, -0.103, 0)
+ 		var support_point: Vector3 = state.get("lip_ground_point", _board.get_parent().global_position)
+ 		if support_point.is_finite(): _board.global_position = support_point - _board.global_basis * bearing
+-	if pushing:
++	if pushing and ground_stroke_weight > 0.0001:
+ 		# The planted stroke must travel backwards relative to the deck as fast
+ 		# as the deck travels forwards. A fixed cadence made a loaded sole slide
+ 		# two metres across stationary pavement during one fast push. Keep the
+--- a/game/tricks/grind_line.gd
++++ b/game/tricks/grind_line.gd
+@@ -38,6 +38,15 @@
+ ## Runtime native owners of an inspected finite box-edge support assembly.
+ ## Other guides retain an empty list; matching metadata alone grants no RID.
+ var native_support_rids: Array[RID] = []
++## Explicit finite round bearing; distinct from an exposed planar box edge.
++var contact_round_declared := false
++var contact_round_radius := 0.0
++var contact_round_deck_reveal := 0.0
++var contact_round_face_reveal := 0.0
++var contact_round_outward := Vector3.ZERO
++var contact_round_shape := -1
++var _contact_round_body: WeakRef
++
+ 
+ 
+ func _init(p_id: String, p_points: PackedVector3Array, p_kind: String = "") -> void:
+@@ -95,6 +104,13 @@
+ 	contact_vertical_offset = 0.0
+ 	contact_normal_offset = 0.0
+ 	contact_edge_outward = Vector3.ZERO
++	contact_round_declared=false
++	contact_round_radius=0.0
++	contact_round_deck_reveal=0.0
++	contact_round_face_reveal=0.0
++	contact_round_outward=Vector3.ZERO
++	contact_round_shape=-1
++	_contact_round_body=null
+ 	native_support_rids.clear()
+ 	if not is_valid or not is_finite(vertical_offset) or not is_finite(normal_offset) \
+ 			or absf(vertical_offset) > MAX_CONTACT_OFFSET or absf(normal_offset) > MAX_CONTACT_OFFSET \
+@@ -132,6 +148,130 @@
+ 	return self
+ 
+ 
++func configure_round_contact(radius:float,reveal:float,face_reveal:float,outward:Vector3,
++		body:StaticBody3D,shape_index:int) -> GrindLine:
++	contact_round_declared=true
++	contact_round_radius=0.0
++	contact_round_deck_reveal=0.0
++	contact_round_face_reveal=0.0
++	contact_round_outward=Vector3.ZERO
++	contact_round_shape=-1
++	_contact_round_body=null
++	if not contact_verified or contact_edge_outward!=Vector3.ZERO or points.size()!=2 			or not is_finite(radius) or radius<=0.0 or radius>MAX_CONTACT_OFFSET 			or not is_finite(reveal) or reveal<0.0 or reveal>radius 			or not outward.is_finite() or absf(outward.length_squared()-1.0)>0.00001 			or absf(outward.y)>0.000001 or not is_instance_valid(body):return self
++	contact_round_radius=radius
++	contact_round_deck_reveal=reveal
++	contact_round_face_reveal=face_reveal
++	contact_round_outward=outward
++	contact_round_shape=shape_index
++	_contact_round_body=weakref(body)
++	if not round_contact_live():
++		contact_round_radius=0.0
++		contact_round_deck_reveal=0.0
++		contact_round_face_reveal=0.0
++		contact_round_outward=Vector3.ZERO
++		contact_round_shape=-1
++		_contact_round_body=null
++		return self
++	if not native_support_rids.has(body.get_rid()):native_support_rids.append(body.get_rid())
++	return self
++
++
++func round_contact_live() -> bool:
++	if (not contact_round_declared or not contact_verified
++			or contact_source!="feature.native_coping_crown" or not is_valid or is_loop
++			or contact_edge_outward!=Vector3.ZERO or contact_vertical_offset!=0.0
++			or contact_normal_offset!=0.0 or not is_finite(length) or length<=0.001
++			or points.size()!=2 or not points[0].is_finite() or not points[1].is_finite()
++			or not is_finite(contact_round_radius) or contact_round_radius<=0.0
++			or contact_round_radius>MAX_CONTACT_OFFSET or not is_finite(contact_round_deck_reveal)
++			or contact_round_deck_reveal<0.0 or contact_round_deck_reveal>contact_round_radius
++			or not is_finite(contact_round_face_reveal) or contact_round_face_reveal<0.0
++			or contact_round_face_reveal>contact_round_radius or not contact_round_outward.is_finite()
++			or absf(contact_round_outward.length_squared()-1.0)>0.00001
++			or absf(contact_round_outward.y)>0.000001 or _contact_round_body==null
++			or contact_round_shape<0):return false
++	var chord:Vector3=points[1]-points[0]
++	if not chord.is_finite() or not is_finite(chord.length_squared()) 			or chord.length_squared()<=0.000001 or absf(chord.length()-length)>0.0001:return false
++	var raw:Variant=_contact_round_body.get_ref()
++	if typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw):return false
++	var body:=raw as StaticBody3D
++	if body==null or not body.is_inside_tree():return false
++	if not body.has_meta("coping_feature") or not body.has_meta("authored_grind_ids"):return false
++	var feature:Variant=body.get_meta("coping_feature")
++	if (typeof(feature)!=TYPE_OBJECT or not is_instance_valid(feature) or not feature is Node3D
++			or body.get_parent()!=feature or feature.get_node_or_null("NativeSteelCoping")!=body
++			or feature.get_script()==null
++			or feature.get_script().resource_path!="res://game/levels/transition_feature.gd"
++			or not _round_unit_frame(feature.global_transform)):return false
++	var ids:Variant=body.get_meta("authored_grind_ids")
++	if not (ids is Array or ids is PackedStringArray) or not ids.has(id):return false
++	# This exact authored quarter's local+Z is its exposed transition side.
++	# Read the live frame directly, avoiding allocating lip/sample dictionaries.
++	var outward:Vector3=feature.global_basis*Vector3.BACK
++	if not outward.is_finite() or outward.dot(contact_round_outward)<0.999999:return false
++	var deck:=feature.get_node_or_null("RearDeck") as StaticBody3D
++	if not is_instance_valid(deck) or PhysicsServer3D.body_get_shape_count(deck.get_rid())!=1:return false
++	var deck_owner:int=deck.shape_find_owner(0)
++	var deck_primitive:Variant=deck.shape_owner_get_owner(deck_owner)
++	if (not deck_primitive is CollisionShape3D or not deck_primitive.shape is BoxShape3D
++			or deck_primitive.disabled
++			or deck_primitive.shape.get_rid()!=PhysicsServer3D.body_get_shape(deck.get_rid(),0)):return false
++	var size:Vector3=deck_primitive.shape.size
++	if not size.is_finite() or size.x<=0.0 or size.y<=0.0 or size.z<=0.0:return false
++	var deck_frame:Transform3D=deck.global_transform*PhysicsServer3D.body_get_shape_transform(deck.get_rid(),0)
++	if (not _round_unit_frame(deck_frame) or deck_frame.basis.y.distance_to(Vector3.UP)>0.00001
++			or deck_frame.basis.x.distance_to(feature.global_basis.x)>0.00001
++			or deck_frame.basis.z.distance_to(feature.global_basis.z)>0.00001):return false
++	var half:Vector3=size*.5
++	var inverse:Transform3D=deck_frame.affine_inverse()
++	for point:Vector3 in points:
++		var local:Vector3=inverse*point
++		if (not local.is_finite() or absf(absf(local.x)-half.x)>0.0001
++				or absf(local.y-half.y-contact_round_deck_reveal)>0.0001
++				or absf(local.z-(half.z-contact_round_radius+contact_round_face_reveal))>0.0001):return false
++	var rid:RID=body.get_rid()
++	if not rid.is_valid() or contact_round_shape>=PhysicsServer3D.body_get_shape_count(rid):return false
++	var shape:RID=PhysicsServer3D.body_get_shape(rid,contact_round_shape)
++	var primitive_owner:int=body.shape_find_owner(contact_round_shape)
++	var primitive:Variant=body.shape_owner_get_owner(primitive_owner)
++	if (not primitive is CollisionShape3D or not primitive.shape is CylinderShape3D
++			or primitive.disabled or primitive.shape.get_rid()!=shape):return false
++	if PhysicsServer3D.shape_get_type(shape)!=PhysicsServer3D.SHAPE_CYLINDER:return false
++	var data:Variant=PhysicsServer3D.shape_get_data(shape)
++	if (not data is Dictionary or not data.has_all(["radius","height"])
++			or not is_finite(float(data.radius))
++			or absf(float(data.radius)-contact_round_radius)>0.000001):return false
++	var frame:Transform3D=body.global_transform*PhysicsServer3D.body_get_shape_transform(rid,contact_round_shape)
++	if not _round_unit_frame(frame):return false
++	var tangent:Vector3=chord.normalized()
++	if (absf(tangent.y)>0.000001 or absf(absf(tangent.dot(frame.basis.y))-1.0)>0.00001
++			or absf(contact_round_outward.dot(tangent))>0.000001):return false
++	var half_height:float=float(data.height)*.5
++	if not is_finite(half_height) or half_height<=0.0:return false
++	for point:Vector3 in points:
++		var centre:Vector3=point-Vector3.UP*contact_round_radius
++		var delta:Vector3=centre-frame.origin
++		if not delta.is_finite() or absf(absf(delta.dot(frame.basis.y))-half_height)>0.0001 				or delta.slide(frame.basis.y).length()>0.0001:return false
++	return true
++
++
++static func _round_unit_frame(frame:Transform3D) -> bool:
++	if not frame.is_finite():return false
++	var b:Basis=frame.basis
++	var determinant:float=b.determinant()
++	return (is_finite(determinant) and absf(determinant-1.0)<=0.00001
++		and absf(b.x.length_squared()-1.0)<=0.00001 and absf(b.y.length_squared()-1.0)<=0.00001
++		and absf(b.z.length_squared()-1.0)<=0.00001 and absf(b.x.dot(b.y))<=0.00001
++		and absf(b.x.dot(b.z))<=0.00001 and absf(b.y.dot(b.z))<=0.00001)
++
++
++func round_contact_rid() -> RID:
++	if not round_contact_live():return RID()
++	var raw:Variant=_contact_round_body.get_ref()
++	if typeof(raw)!=TYPE_OBJECT or not is_instance_valid(raw):return RID()
++	return (raw as StaticBody3D).get_rid()
++
++
+ func configure_body_profile(normal_radius: float,source: String) -> GrindLine:
+ 	body_profile_radius=0.0
+ 	body_profile_source=""
+--- a/game/tricks/grind_clearance.gd
++++ b/game/tricks/grind_clearance.gd
+@@ -29,6 +29,9 @@
+ ## Minimum neutral edge roll for this actual model, derived at startup. The
+ ## caller still proves each final pose against all native solid geometry.
+ var edge_roll_angle := INF
++var _round_radius:=NAN
++var _round_reveal:=NAN
++var _round_angle:=INF
+ var _parts: Array[Dictionary] = []
+ var _space: PhysicsDirectSpaceState3D
+ var _query := PhysicsShapeQueryParameters3D.new()
+@@ -41,6 +44,9 @@
+ func rebuild(board: Node3D, geometry: Dictionary, rider: RID) -> bool:
+ 	ready = false
+ 	edge_roll_angle = INF
++	_round_radius=NAN
++	_round_reveal=NAN
++	_round_angle=INF
+ 	_parts.clear()
+ 	_radius = 0.0
+ 	last_rejection = "missing_model"
+@@ -122,6 +128,31 @@
+ 	return true
+ 
+ 
++## Minimum model-derived roll that raises the deck-side solid above the real
++## adjoining deck datum while its hanger stays tangent to the SAME round pipe.
++## Cached scalar result: no per-tick geometry/resource allocation.
++func round_roll_angle(radius:float,reveal:float) -> float:
++	if not ready or not is_finite(radius) or radius<=0.0 or not is_finite(reveal) 			or reveal<0.0 or reveal>radius:return INF
++	if radius==_round_radius and reveal==_round_reveal:return _round_angle
++	_round_radius=radius
++	_round_reveal=reveal
++	_round_angle=0.0
++	var target:float=radius-reveal+Style.CONTACT_TOLERANCE
++	for part:Dictionary in _parts:
++		for point:Vector3 in part.points:
++			var vertical:float=radius+point.y-Style.TRUCK_UNDERSIDE
++			if vertical>=target:continue
++			var lateral:float=absf(point.x)
++			var magnitude:float=sqrt(vertical*vertical+lateral*lateral)
++			if not is_finite(magnitude) or magnitude<target or lateral<=0.000001:
++				_round_angle=INF
++				return _round_angle
++			var angle:float=asin(clampf(target/magnitude,-1.0,1.0))-atan2(vertical,lateral)
++			_round_angle=maxf(_round_angle,angle)
++	if _round_angle>Style.BALANCE_ROLL:_round_angle=INF
++	return _round_angle
++
++
+ func allows(pose: Style.ContactPose, support_up: Vector3) -> bool:
+ 	if not _valid(pose,support_up): return false
+ 	return allows_frame(pose.board_transform,support_up)
+--- a/game/tricks/grind_style.gd
++++ b/game/tricks/grind_style.gd
+@@ -53,7 +53,7 @@
+ ## A bounded search may decline a tight corner rather than stretching the board.
+ static func solve_into(result: ContactPose, line: LineSource, distance: float,
+ 		direction: float, yaw: float, style_id: String, balance: float,
+-		edge_roll_angle: float = 0.0) -> bool:
++		edge_roll_angle: float = 0.0, round_roll_angle:float=0.0) -> bool:
+ 	if result == null:
+ 		return false
+ 	_clear(result)
+@@ -81,7 +81,7 @@
+ 		var edge := line.contact_edge_outward != Vector3.ZERO
+ 		if edge and (not line.contact_edge_outward.is_finite() or not is_finite(edge_roll_angle) \
+ 				or edge_roll_angle<0.0 or edge_roll_angle>BALANCE_ROLL):return false
+-		if not _install_frame(result, forward, up, 0.0 if edge else balance):
++		if not _install_frame(result, forward, up, 0.0 if edge or line.contact_round_declared else balance):
+ 			return false
+ 		if edge:
+ 			var side := line.contact_edge_outward.dot(result.board_transform.basis.x)
+@@ -89,6 +89,14 @@
+ 			# Both fixed bottom-hanger anchors stay on the true corner. Inner
+ 			# wheels rise above the top; outer wheels occupy its exposed side.
+ 			result.board_transform.basis *= Basis(Vector3.BACK,-signf(side)*edge_roll_angle)
++		if line.contact_round_declared:
++			if edge or not line.round_contact_live() or not is_finite(round_roll_angle) 					or round_roll_angle<0.0 or round_roll_angle>BALANCE_ROLL:return false
++			var side:float=line.contact_round_outward.dot(result.board_transform.basis.x)
++			if absf(absf(side)-1.0)>0.00001:return false
++			result.board_transform.basis*=Basis(Vector3.BACK,-signf(side)*round_roll_angle)
++			var radial_shift:Vector3=line.contact_round_radius*(result.board_transform.basis.y-up)
++			result.supports[0]+=radial_shift
++			result.supports[1]+=radial_shift
+ 		var midpoint: Vector3 = (result.supports[0] + result.supports[1]) * 0.5
+ 		result.board_transform.origin = midpoint - result.board_transform.basis * Vector3(0.0, TRUCK_UNDERSIDE, 0.0)
+ 	elif style_id == "boardslide":
+@@ -107,7 +115,7 @@
+ 		result.board_transform.origin = result.supports[0] - result.board_transform.basis * result.anchors[0]
+ 	elif style_id == "rail_grind":
+ 		# Compatibility naming does not change the certified two-truck solve.
+-		return solve_into(result, line, distance, direction, yaw, "grind_50_50", balance,edge_roll_angle)
++		return solve_into(result, line, distance, direction, yaw, "grind_50_50", balance,edge_roll_angle,round_roll_angle)
+ 	elif style_id == "lipslide":
+ 		# Crossing history belongs to admission. Its settled physical support is
+ 		# the same deck belly; a signed quarter-turn alone proves no new name.
+--- a/tests/run_tests.gd
++++ b/tests/run_tests.gd
+@@ -100,6 +100,7 @@
+ const FEATURE_TRANSITION_RIDE_TESTS = preload("res://tests/feature_transition_ride_tests.gd")
+ const SURFACE_COVERAGE_TESTS = preload("res://tests/surface_coverage_tests.gd")
+ const TRANSITION_PLAYER_TESTS = preload("res://tests/transition_player_tests.gd")
++const ROUND_COPING_CONTACT_TESTS = preload("res://tests/round_coping_contact_tests.gd")
+ const PROCESS_GUARD_TESTS = preload("res://tests/process_guard_tests.gd")
+ const FULL_REPERTOIRE_TESTS = preload("res://tests/full_repertoire_tests.gd")
+ const AUTHENTIC_POSE_TESTS = preload("res://tests/authentic_pose_tests.gd")
+@@ -298,6 +299,7 @@
+ 	await TRICK_FIDELITY_TESTS.run(self, game, _check)
+ 	await OVERNIGHT_INTEGRATION_TESTS.run(self, game, _check)
+ 	await TRANSITION_PLAYER_TESTS.run(self, game, _check)
++	await ROUND_COPING_CONTACT_TESTS.run(self, game, _check)
+ 	await PROCESS_GUARD_TESTS.run(self, game, _check)
+ 	await AUTHENTIC_FIDELITY_TESTS.run(self, game, _check)
+ 	await CURVED_VISUAL_CONTACT_TESTS.run(self, game, _check)
+--- a/tests/horizon_background_tests.gd
++++ b/tests/horizon_background_tests.gd
+@@ -11,7 +11,7 @@
+ # The independent physical identity contract is owned by clyde_surface_tests;
+ # appearance toggles additionally compare the actual before/after inventories.
+ const MAX_COMBINED_TRIANGLES := 846 + 64 + 2 + 4 + 4 + 2 # Prior contours, Civic return, shoulders, Civic corner and preserved port cap.
+-const WORLD_ROUTES := 48 + 8 + 5 + 2
++const WORLD_ROUTES := 48 + 8 + 6 + 2
+ const CELL := 8.0
+ const CUBE_SIZE := 512
+ const CUBE_MIPS := 9
+@@ -579,7 +579,7 @@
+ 	check.call(routes.size()==WORLD_ROUTES and identities.size()==WORLD_ROUTES
+ 		and RouteContract.route_identities_preserved(routes)
+ 		and checkpoint_ids==["barras","central_station","clyde","george_square","kelvingrove","royal_exchange"],
+-		"horizon: all56 fixed prior routes plus five connected-run and two cable routes stay unique with the same six district checkpoints")
++		"horizon: all56 fixed prior routes plus six connected-run and two cable routes stay unique with the same six district checkpoints")
+ 	var space := world.get_world_3d().direct_space_state
+ 	var supports := true
+ 	for at: Vector3 in [Vector3(-2,1,-8),Vector3(-6,4,-102),Vector3(-99,2,-5),
+--- a/tests/transition_player_tests.gd
++++ b/tests/transition_player_tests.gd
+@@ -89,7 +89,16 @@
+ 		if game.skater.lip_active:
+ 			caught = true
+ 			break
+-	check.call(caught and absf(game.skater.global_position.y - 8.472) < 0.01
++	var native_crown:=INF
++	var native_coping:Dictionary={}
++	if caught:
++		var ray:=PhysicsRayQueryParameters3D.create(game.skater.global_position+Vector3.UP*.10,game.skater.global_position-Vector3.UP*.10,1,[game.skater.get_rid()])
++		native_coping=game.skater.get_world_3d().direct_space_state.intersect_ray(ray)
++		var raw:Variant=native_coping.get("collider")
++		if typeof(raw)==TYPE_OBJECT and is_instance_valid(raw) and raw is StaticBody3D and raw.get_meta("coping_feature",null)==game.skater._feature_transition.feature and Vector3(native_coping.normal).y>.999:
++			native_crown=float(native_coping.position.y)
++	print("TRANSITION_PLAYER_NATIVE_LIP actorY=",game.skater.global_position.y," nativeCrown=",native_crown," rideOffset=0.002 hit=",native_coping)
++	check.call(caught and is_finite(native_crown) and absf(game.skater.global_position.y - (native_crown+0.002)) < 0.01
+ 		and game.score.trick_history.count("Lip Stall") == 1,
+ 		"transition player: held grind catches and names the actual coping once")
+ 	if not caught: return
+--- /dev/null
++++ b/tests/round_coping_contact_tests.gd.uid
+@@ -0,0 +1 @@
++uid://c2acenkl7mk5e
+--- a/tests/fitted_garment_tests.gd
++++ b/tests/fitted_garment_tests.gd
+@@ -128,7 +128,11 @@
+ 	await Classic._dispose(tree,fixture)
+ 	DirAccess.make_dir_recursive_absolute("res://.local")
+ 	var file:=FileAccess.open("res://.local/fitted-rig-metrics.json",FileAccess.WRITE)
++	if file==null:
++		push_error("Could not open fitted native metrics output")
++		return
+ 	file.store_string(JSON.stringify(metrics,"\t",true,true))
++	file.close()
+ 	print("FITTED_GARMENT_METRICS ",JSON.stringify(metrics))
+ 
+ static func _topology_negatives(rig:RefCounted,reference:Dictionary,check:Callable)->void:
+--- a/tests/skate_edges_tests.gd
++++ b/tests/skate_edges_tests.gd
+@@ -24,7 +24,7 @@
+ const PT24_ROUTE_IDS := [
+ 	"recording_court_return", "exchange_east_quay_handoff", "civic_backstreet_ledge_return",
+ 	"station_transition_handoff", "clyde_west_landing_return",
+-	"clyde_cable_transfer_west", "clyde_cable_transfer_east"]
++	"clyde_cable_transfer_west", "clyde_cable_transfer_east", "clyde_east_quay_wall_return"]
+ const POND_ROUTE_IDS := ["kelvingrove_pond_dry_bypass","kelvingrove_pond_rail_approach"]
+ 
+ static func run(world: Node3D,check: Callable) -> void:
+@@ -36,7 +36,7 @@
+ 	var lines: Array=Edges.build(world)
+ 	check.call(_node_count(world)==before_nodes,"skate edges: startup authoring adds no render nodes or colliders")
+ 	check.call(world.get_route_definitions()==routes and route_identities_preserved(routes,world.get_node_or_null("KelvingrovePond")!=null),
+-		"skate edges: all56 fixed prior routes, seven connected routes and exactly the installed pond routes remain unique and unchanged by edge registration")
++		"skate edges: all56 fixed prior routes, eight connected routes and exactly the installed pond routes remain unique and unchanged by edge registration")
+ 	var ids: Array[String]=[]
+ 	var unique := true
+ 	var valid := true
+@@ -102,7 +102,7 @@
+ 	for route: Dictionary in routes:
+ 		if identities.has(route.id):return false
+ 		identities[route.id] = true
+-	if ORIGINAL_ROUTE_IDS.size()!=56 or PT24_ROUTE_IDS.size()!=7 or routes.size()!=63+(POND_ROUTE_IDS.size() if include_pond else 0):return false
++	if ORIGINAL_ROUTE_IDS.size()!=56 or PT24_ROUTE_IDS.size()!=8 or routes.size()!=64+(POND_ROUTE_IDS.size() if include_pond else 0):return false
+ 	for id: String in ORIGINAL_ROUTE_IDS:
+ 		if not identities.has(id):return false
+ 	for id: String in PT24_ROUTE_IDS:
+--- /dev/null
++++ b/tests/round_coping_contact_tests.gd
+@@ -0,0 +1,270 @@
++extends RefCounted
++const Feature=preload("res://game/levels/transition_feature.gd")
++const Style=preload("res://game/tricks/grind_style.gd")
++
++class RideWitness extends Node:
++ var rider:Node
++ var rows:Array[Dictionary]=[]
++ var all_clear:=true
++ var exact_supported:=true
++ var release_exact:=false
++ var saw_grind:=false
++ var release_ticks:=0
++ var previous_board:=Transform3D.IDENTITY
++ var previous_body:=Transform3D.IDENTITY
++ var maximum_angle:=0.0
++ var maximum_relative_step:=0.0
++ var maximum_anchor_error:=0.0
++ func _physics_process(_delta:float)->void:
++  if not is_instance_valid(rider) or (not rider.grinding and not saw_grind):return
++  var frame:Transform3D=rider._board_visual.global_transform
++  var body:Transform3D=rider.global_transform
++  if saw_grind:
++   var angle:float=previous_board.basis.get_rotation_quaternion().angle_to(frame.basis.get_rotation_quaternion())
++   maximum_angle=maxf(maximum_angle,angle)
++   maximum_relative_step=maxf(maximum_relative_step,(frame.origin-previous_board.origin-(body.origin-previous_body.origin)).length())
++  var runtime_path_queries:int=rider._grind_clearance.last_path_queries
++  var clear:bool=rider._grind_clearance.allows_frame(frame,frame.basis.y)
++  all_clear=all_clear and clear
++  var anchor_error:float=0.0
++  if rider.grinding:
++   var pose:Style.ContactPose=rider._grind_contact
++   for index:int in pose.anchor_count:
++    anchor_error=maxf(anchor_error,(frame*pose.anchors[index]).distance_to(pose.supports[index]))
++   maximum_anchor_error=maxf(maximum_anchor_error,anchor_error)
++   exact_supported=exact_supported and pose.anchor_count==2 and anchor_error<=.0001      and frame.origin.distance_to(pose.board_transform.origin)<=.0001      and frame.basis.x.distance_to(pose.board_transform.basis.x)<.00001      and frame.basis.y.distance_to(pose.board_transform.basis.y)<.00001      and frame.basis.z.distance_to(pose.board_transform.basis.z)<.00001
++  else:
++   release_ticks+=1
++   if release_ticks==1:
++    release_exact=frame.origin.distance_to(previous_board.origin)<=.00001       and frame.basis.x.distance_to(previous_board.basis.x)<.00001       and frame.basis.y.distance_to(previous_board.basis.y)<.00001       and frame.basis.z.distance_to(previous_board.basis.z)<.00001       and body.origin.distance_to(previous_body.origin)<=.00001
++  rows.append({"physics":Engine.get_physics_frames(),"grinding":rider.grinding,"airborne":rider.airborne,
++    "clear":clear,"last_runtime_path_queries":runtime_path_queries,"board":str(frame),"body":str(body),"anchor_error":anchor_error})
++  saw_grind=true
++  previous_board=frame
++  previous_body=body
++
++static func run(tree:SceneTree,game:Node,check:Callable)->void:
++ var rider:Node=game.skater
++ var cached:int=rider._grind_clearance.component_count
++ await _native_captures(tree,game,check)
++ check.call(cached==32,"round coping: actual admitted native skateboard cache has32components")
++ for yaw:float in [0.0,PI*.5,-.61]:
++  var feature:Node3D=Feature.new()
++  feature.feature_id="RoundContact_"+str(yaw)
++  feature.position=Vector3(0,70,0)
++  feature.rotation.y=yaw
++  feature.width=8.0
++  feature.build_access=false
++  tree.root.add_child(feature)
++  await tree.physics_frame
++  await tree.physics_frame
++  var line=feature.get_grind_lines()[0]
++  check.call(line.contact_round_declared and line.round_contact_live(),"round coping: exact live cylinder/feature/deck/crown profile "+str(yaw))
++  var original:PackedVector3Array=line.points.duplicate()
++  var body:StaticBody3D=feature.get_node("NativeSteelCoping")
++  var deck:StaticBody3D=feature.get_node("RearDeck")
++  var angle:float=rider._grind_clearance.round_roll_angle(line.contact_round_radius,line.contact_round_deck_reveal)
++  check.call(angle>.0473 and angle<.05,"round coping: neutral roll derived from actual32-component wheel geometry")
++  for direction:float in [-1.0,1.0]:
++   for board_yaw:float in [0.0,PI]:
++    var pose:=Style.ContactPose.new()
++    var solved:bool=rider._solve_grind_contact(pose,line,line.length*.5,direction,board_yaw,"grind_50_50",0.0)
++    var native:bool=solved and rider._round_grind_native_contacts(pose,line)
++    var clear:bool=solved and rider._grind_board_clear(pose.board_transform,line,line.length*.5)
++    var gap:float=_deck_gap(rider,pose.board_transform,deck) if solved else -INF
++    var normal:Vector3=pose.board_transform.basis.y
++    var expected:Vector3=Vector3.UP*cos(angle)+line.contact_round_outward*sin(angle)
++    check.call(solved and native and clear and pose.anchor_count==2 and pose.max_error<=.0001 \
++      and normal.distance_to(expected)<.00001 and gap>=0.0 and line.points==original,
++      "round coping: exact two actual hanger/native cylinder contacts plus all-model clearance direction="+str(direction)+" boardyaw="+str(board_yaw)+" featureyaw="+str(yaw))
++    print("ROUND_COPING_POSITIVE ",{"feature_yaw":yaw,"direction":direction,"board_yaw":board_yaw,"roll":angle,"anchor_error":pose.max_error,"deck_vertex_gap":gap,"owner":str(line.round_contact_rid()),"shape":line.contact_round_shape,"frame":str(pose.board_transform)})
++  if yaw==0.0:
++   await _negatives(tree,rider,feature,line,check)
++  feature.queue_free()
++  await tree.physics_frame
++  await tree.physics_frame
++  check.call(not line.round_contact_live() and not rider._grind_candidate_supported(line,line.length*.5,1.0),"round coping: freed native owner refuses before cast/query or generic fallback")
++
++static func _deck_gap(rider:Node,frame:Transform3D,deck:StaticBody3D)->float:
++ var primitive:CollisionShape3D=deck.shape_owner_get_owner(deck.shape_find_owner(0))
++ var half:Vector3=primitive.shape.size*.5
++ var minimum:float=INF
++ for part:Dictionary in rider._grind_clearance._parts:
++  for point:Vector3 in part.points:
++   var local:Vector3=deck.to_local(frame*point)
++   if absf(local.x)<=half.x and absf(local.z)<=half.z:
++    minimum=minf(minimum,local.y-half.y)
++ return minimum
++
++static func _refused(rider:Node,line,check:Callable,label:String)->void:
++ var pose:=Style.ContactPose.new()
++ check.call(not line.round_contact_live() and not rider._solve_grind_contact(pose,line,line.length*.5,1.0,0.0,"grind_50_50",0.0) \
++   and not rider._grind_candidate_supported(line,line.length*.5,1.0),"round coping negative: "+label+" rejects native profile/solve/generic fallback")
++
++static func _negatives(tree:SceneTree,rider:Node,feature:Node3D,line,check:Callable)->void:
++ var old_length:float=line.length
++ for wrong:float in [0.0,NAN,old_length+.01]:
++  line.length=wrong
++  _refused(rider,line,check,"zero/NaN/stale chord length "+str(wrong))
++ line.length=old_length
++ var original_points:PackedVector3Array=line.points.duplicate()
++ line.points[0]=Vector3(NAN,0,0)
++ _refused(rider,line,check,"nonfinite native guide endpoint")
++ line.points=original_points
++ line.contact_vertical_offset=.01
++ _refused(rider,line,check,"forged vertical crown offset")
++ line.contact_vertical_offset=0.0
++ line.contact_normal_offset=.01
++ _refused(rider,line,check,"forged radial crown offset")
++ line.contact_normal_offset=0.0
++ var face_reveal:float=line.contact_round_face_reveal
++ for wrong:float in [NAN,.02]:
++  line.contact_round_face_reveal=wrong
++  _refused(rider,line,check,"wrong/NaN native finite face reveal")
++ line.contact_round_face_reveal=face_reveal
++ var deck:StaticBody3D=feature.get_node("RearDeck")
++ var deck_frame:Transform3D=deck.transform
++ for shift:Vector3 in [Vector3(100,0,0),Vector3(0,0,100)]:
++  deck.position+=shift
++  _refused(rider,line,check,"same-height real Box moved away from finite coping "+str(shift))
++  deck.transform=deck_frame
++ deck.scale=Vector3(2,1,.5)
++ _refused(rider,line,check,"nonunit Deck basis with determinant1")
++ deck.transform=deck_frame
++ var overflow:=Transform3D(Basis(Vector3(1e20,0,0),Vector3(0,1e20,0),Vector3(0,0,1e20)),Vector3.ZERO)
++ check.call(not line._round_unit_frame(overflow),"round coping negative: finite entries with determinant overflow fail before native query")
++ var radius:float=line.contact_round_radius
++ var reveal:float=line.contact_round_deck_reveal
++ var outward:Vector3=line.contact_round_outward
++ var shape:int=line.contact_round_shape
++ var body:StaticBody3D=feature.get_node("NativeSteelCoping")
++ for wrong:float in [NAN,0.0,.04]:
++  line.contact_round_radius=wrong
++  _refused(rider,line,check,"wrong/NaN/zero native radius "+str(wrong))
++ line.contact_round_radius=radius
++ for wrong:float in [NAN,.02]:
++  line.contact_round_deck_reveal=wrong
++  _refused(rider,line,check,"wrong/NaN actual native deck reveal "+str(wrong))
++ line.contact_round_deck_reveal=reveal
++ for wrong:Vector3 in [Vector3.ZERO,-outward,Vector3.UP,Vector3(NAN,0,0)]:
++  line.contact_round_outward=wrong
++  _refused(rider,line,check,"zero/opposite/vertical/NaN outward "+str(wrong))
++ line.contact_round_outward=outward
++ line.contact_round_shape=1
++ _refused(rider,line,check,"wrong integer shape")
++ line.contact_round_shape=shape
++ var source:String=line.contact_source
++ line.contact_source="foreign"
++ _refused(rider,line,check,"foreign declared source")
++ line.contact_source=source
++ body.set_meta("coping_feature",rider)
++ _refused(rider,line,check,"wrong feature object")
++ body.set_meta("coping_feature",feature)
++ var saved:Transform3D=body.transform
++ body.position.x+=.01
++ _refused(rider,line,check,"moved native body cannot retain old crown")
++ body.transform=saved
++ body.scale.x=1.01
++ _refused(rider,line,check,"scaled native body")
++ body.transform=saved
++ var weak:WeakRef=line._contact_round_body
++ line._contact_round_body=weakref(feature.get_node("RearDeck"))
++ _refused(rider,line,check,"foreign actual body/BoxShape")
++ line._contact_round_body=weak
++ var valid:bool=line.contact_verified
++ line.contact_verified=false
++ _refused(rider,line,check,"unverified contact cannot become legacy fallback")
++ line.contact_verified=valid
++ var pose:=Style.ContactPose.new()
++ var solved:bool=rider._solve_grind_contact(pose,line,line.length*.5,1.0,0.0,"grind_50_50",0.0)
++ check.call(solved,"round coping: fixture restored after malformed profile controls")
++ if not solved:return
++ var frame:Transform3D=pose.board_transform
++ pose.board_transform.origin+=line.dir_at(line.length*.5)*(line.length+1.0)
++ check.call(not rider._round_grind_native_contacts(pose,line),"round coping negative: real hanger rays beyond finite native ends fail")
++ pose.board_transform=frame
++ var blocker:=StaticBody3D.new()
++ blocker.collision_layer=1
++ var primitive:=CollisionShape3D.new()
++ var box:=BoxShape3D.new()
++ box.size=Vector3(.4,.1,.9)
++ primitive.shape=box
++ blocker.add_child(primitive)
++ tree.root.add_child(blocker)
++ blocker.global_position=frame.origin+Vector3.UP*.01
++ await tree.physics_frame
++ await tree.physics_frame
++ check.call(not rider._grind_board_clear(frame,line,line.length*.5),"round coping negative: actual foreign blocker remains in full native model queries")
++ blocker.queue_free()
++ await tree.physics_frame
++ await tree.physics_frame
++ check.call(rider._grind_board_clear(frame,line,line.length*.5),"round coping: foreign blocker removal restores same authentic target")
++
++static func _native_captures(tree:SceneTree,game:Node,check:Callable)->void:
++ var rider:Node=game.skater
++ var old_spawn:Vector3=rider.spawn_position
++ var old_mode:bool=game.free_skate_mode
++ var guide=null
++ for line in game.world.get_grind_lines():
++  if line.id=="Grind_KelvingrovePromenadeQuarter_Coping":guide=line
++ check.call(guide!=null and guide.round_contact_live(),"round coping: actual promenade finite native cylinder is the moving-start fixture")
++ if guide==null:return
++ for direction:float in [-1.0,1.0]:
++  for backwards:bool in [false,true]:
++   for action:String in ["push","brake","grind","ollie","steer_left","steer_right"]:Input.action_release(action)
++   rider.spawn_position=old_spawn
++   game.start_mode(true)
++   await tree.physics_frame
++   await tree.process_frame
++   rider.set_physics_process(false)
++   var tangent:Vector3=guide.dir_at(guide.length*.5)*direction
++   rider.spawn_position=guide.point_at(guide.length*.5)+Vector3.UP*.25+guide.contact_round_outward*.04
++   rider.reset_skater()
++   rider.velocity=tangent*4.0+Vector3.DOWN
++   rider.speed=-4.0 if backwards else 4.0
++   rider.airborne=true
++   rider.rotation.y=atan2(-tangent.x,-tangent.z)+(PI if backwards else 0.0)
++   rider.reset_physics_interpolation()
++   var evidence:Dictionary={"entries":0,"bails":0}
++   var entry:Callable=func(_id:String):evidence.entries+=1
++   var bail:Callable=func():evidence.bails+=1
++   rider.grind_captured.connect(entry)
++   rider.bailed.connect(bail)
++   var witness:=RideWitness.new()
++   witness.rider=rider
++   witness.process_physics_priority=100
++   tree.root.add_child(witness)
++   Input.action_press("grind")
++   rider.set_physics_process(true)
++   var contact_ticks:int=0
++   var allclear:bool=true
++   var error:float=0.0
++   for tick:int in 45:
++    await tree.physics_frame
++    await tree.process_frame
++    if rider.grinding:
++     contact_ticks+=1
++     allclear=allclear and rider._grind_clearance.allows_frame(rider._board_visual.global_transform,rider._board_visual.global_basis.y)
++     error=maxf(error,rider._grind_contact.max_error)
++     if contact_ticks>=12:break
++   check.call(rider.grinding and rider._grind.line.id==guide.id and contact_ticks>=12      and rider._rail_backwards==backwards and evidence.entries==1 and evidence.bails==0      and error<=.0001 and allclear,
++     "round coping: native mapped moving-start capture and12supported ticks travel="+str(direction)+" fakie="+str(backwards))
++   print("ROUND_COPING_NATIVE_RUN ",{"direction":direction,"backwards":backwards,"contact_ticks":contact_ticks,"entries":evidence.entries,"bails":evidence.bails,"error":error,"all_model_clear":allclear,"speed":rider.speed,"position":str(rider.global_position)})
++   Input.action_release("grind")
++   await tree.physics_frame
++   await tree.process_frame
++   check.call(not rider.grinding and evidence.entries==1 and evidence.bails==0,"round coping: actual release ends once without another catch/award")
++   for frame:int in 4:
++    await tree.physics_frame
++    await tree.process_frame
++   check.call(witness.all_clear and witness.exact_supported and witness.release_exact      and witness.release_ticks>=4 and witness.maximum_anchor_error<=.0001,
++     "round coping: every native physics board frame keeps exact roll/anchors and zero-travel release pose")
++   print("ROUND_COPING_NATIVE_WITNESS ",{"direction":direction,"backwards":backwards,"all_clear":witness.all_clear,
++     "exact_supported":witness.exact_supported,"release_exact":witness.release_exact,"release_ticks":witness.release_ticks,
++     "maximum_angular_step":witness.maximum_angle,"maximum_relative_translation":witness.maximum_relative_step,
++     "maximum_actual_anchor_error":witness.maximum_anchor_error,"rows":witness.rows})
++   witness.queue_free()
++   rider.grind_captured.disconnect(entry)
++   rider.bailed.disconnect(bail)
++ rider.spawn_position=old_spawn
++ game.start_mode(old_mode)
+--- a/tests/full_shoe_support_contract.gd
++++ b/tests/full_shoe_support_contract.gd
+@@ -89,7 +89,11 @@
+  last_evidence={"schema":2,"legs":records,"extreme_exponent_negative":{"guard":unsupported_guard,"all_source_endpoints_retained":retained_all,"source_unique_points":unsupported.size(),"fallback_support_points":fallback.size()},"raw_hull_XYZ_payload_bytes":total_points*12,"retained_source_XYZ_payload_bytes":int(records[0].source_unique_points+records[1].source_unique_points)*12,"retained_resource_delta_after10refreshes":resources_after-resources_before,"physical_and_markers_unchanged":unchanged,"scope":"source enclosure/resource contract only; independent exact-integer face certificate required; no Mac performance or final native skating certificate"}
+  print("FULL_SHOE_SUPPORT_CACHE ",JSON.stringify(last_evidence,"",true,true))
+  var certificate:=FileAccess.open("res://.local/shoe-support-certificate.json",FileAccess.WRITE)
+- if certificate!=null:certificate.store_string(JSON.stringify(last_evidence,"",true,true))
++ if certificate==null:
++  push_error("Could not open full-precision shoe certificate output")
++ else:
++  certificate.store_string(JSON.stringify(last_evidence,"",true,true))
++  certificate.close()
+  await Classic._dispose(tree,fixture)
+ static func _endpoint_count(leg:Dictionary)->int:
+  var count:=0
+--- a/tests/authentic_pose_tests.gd
++++ b/tests/authentic_pose_tests.gd
+@@ -121,8 +121,8 @@
+ 		# Retain the latest default asset exactly: its joined metal surface
+ 		# contains the authored bolt caps, not eight old procedural spheres.
+ 		check.call(geometry.meshes.size() == 1 and geometry.meshes[0].mesh.get_surface_count() == 4
+-			and FileAccess.get_sha256("res://game/art/assets/tam_skateboard/tam_skateboard.glb") == "d5a68a8bd94fa8ad5c374ceddeb3804cc38d7ef780c5b87d3093ef8e15431f99",
+-			"authentic board: original native GLB geometry including its hardware remains unchanged rest=%.2f" % rest)
++			and FileAccess.get_sha256("res://game/art/assets/tam_skateboard/tam_skateboard.glb") == "76103e39e5ed91c5c8381d38c58af8272915952f000ba475dbda30206b7d0943",
++			"authentic board: reviewed UV04 native GLB retains its four-surface hardware/contact identity rest=%.2f" % rest)
+ 		var wood_faces: PackedVector3Array = geometry.wood_faces
+ 		check.call(_triangle_height(faces, Vector3(0, 0, 0.255)) < 0.018
+ 			and _triangle_height(faces, Vector3(0, 0, 0.38)) > 0.036
+--- a/tools/export.sh
++++ b/tools/export.sh
+@@ -104,6 +104,7 @@
+ root = pathlib.Path.cwd()
+ paths = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
+ paths += list((root / 'tools').glob('rider_asset_*.py'))
++paths += [p for p in (root / 'tools/art').rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+ paths += [root / 'tools' / name for name in ('fetch_environment_materials.py', 'build_environment_derivatives.py')]
+ paths += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
+ entries = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
+@@ -168,6 +169,76 @@
+             raise SystemExit('Invalid fitted-rider generator name.')
+         if entries.get('tools/' + name) != expected:
+             raise SystemExit('Fitted rider generator differs from reviewed provenance: ' + name)
++# Board UV04 preflight; stdlib only, no editor tool execution or runtime dependency.
++import gzip, re, struct
++board_relative = 'game/art/assets/tam_skateboard/'
++board_path = root / board_relative
++board_manifest = json.loads((board_path / 'manifest.json').read_text())
++if (board_manifest.get('schema') != 2 or board_manifest.get('meshes') != 1
++        or board_manifest.get('surfaces') != 4 or board_manifest.get('triangles') != 5696
++        or board_manifest.get('materials') != ['MapleAndRiverInk', 'Griptape', 'CastAluminium', 'Urethane']
++        or board_manifest.get('texture', {}).get('dimensions') != [1024, 1024]
++        or set(board_manifest.get('outputs', {})) != {'tam_skateboard.glb', 'board_albedo.png'}):
++    raise SystemExit('Unsupported native board provenance/schema/resource contract.')
++expected_board_contract = {'axle_z_m': [-0.255, 0.255], 'wheel_center_y_m': -0.088, 'wheel_radius_m': 0.032, 'deck_grip_center_y_m': 0.017, 'shoe_contact_at_z_m': [-0.255, 0.255]}
++if any(board_manifest.get('contract', {}).get(key) != value for key, value in expected_board_contract.items()):
++    raise SystemExit('Native board functional datums differ from the reviewed UV04 contract.')
++board_pipeline_inputs = ['finish_board_uv.py', 'regenerate_skateboard_uv.py', 'requirements-board.txt', 'import_board_wood.gd', 'board_wood_source.gd', 'build_skateboard.py', 'source/tam_skateboard-base.glb.gz', 'source/tam_skateboard-base-manifest.json']
++if any(not entries.get('tools/art/' + name) for name in board_pipeline_inputs) or board_manifest.get('regenerate') != 'python tools/art/regenerate_skateboard_uv.py':
++    raise SystemExit('Native board is missing a reproducible pinned source pipeline input.')
++for name, record in board_manifest['outputs'].items():
++    if pathlib.Path(name).name != name or entries.get(board_relative + name) != record['sha256'] or (board_path / name).stat().st_size != record['bytes']:
++        raise SystemExit('Native board output differs from reviewed provenance: ' + name)
++if (board_manifest.get('generator') != 'tools/art/finish_board_uv.py'
++        or entries.get(board_manifest['generator']) != board_manifest['generator_sha256']):
++    raise SystemExit('Native board UV generator differs from reviewed provenance.')
++base_board = board_manifest.get('base_source', {})
++if (base_board.get('archive') != 'tools/art/source/tam_skateboard-base.glb.gz'
++        or base_board.get('manifest') != 'tools/art/source/tam_skateboard-base-manifest.json'
++        or base_board.get('original_generator') != 'tools/art/build_skateboard.py'
++        or entries.get(base_board['original_generator']) != base_board['original_generator_sha256']):
++    raise SystemExit('Native board original source/generator paths differ from the reviewed contract.')
++base_raw = gzip.decompress((root / base_board['archive']).read_bytes())
++base_manifest = json.loads((root / base_board['manifest']).read_text())
++if (hashlib.sha256(base_raw).hexdigest() != base_board['sha256']
++        or base_manifest.get('outputs', {}).get('tam_skateboard.glb', {}).get('sha256') != base_board['sha256']
++        or base_manifest.get('generator_sha256') != base_board['original_generator_sha256']):
++    raise SystemExit('Native board pinned original archive/manifest is inconsistent.')
++board_editor = board_manifest.get('editor_import', {})
++for field, expected in [('policy', 'tools/art/import_board_wood.gd'), ('decoder', 'tools/art/board_wood_source.gd')]:
++    if board_editor.get(field) != expected or entries.get(expected) != board_editor.get(field + '_sha256'):
++        raise SystemExit('Native board editor import source differs from reviewed provenance: ' + field)
++if board_editor.get('global_force_disable_compression') is not False or board_editor.get('runtime_generation') is not False:
++    raise SystemExit('Native board requires its reviewed editor-only narrow compression policy.')
++board_import = (board_path / 'tam_skateboard.glb.import').read_text()
++for line in ['meshes/force_disable_compression=false', 'import_script/path="res://tools/art/import_board_wood.gd"']:
++    if len(re.findall(r'^' + re.escape(line) + r'$', board_import, flags=re.M)) != 1:
++        raise SystemExit('Native board importer configuration differs from its reviewed policy.')
++source_pin = re.search(r'^const SOURCE_SHA\s*:?=\s*"([0-9a-f]{64})"\s*$', (root / board_editor['decoder']).read_text(), flags=re.M)
++if source_pin is None or source_pin.group(1) != board_manifest['outputs']['tam_skateboard.glb']['sha256']:
++    raise SystemExit('Native board decoder is not pinned to this exact board source.')
++atlas_bytes = (board_path / 'board_albedo.png').read_bytes()
++if (atlas_bytes[:8] != b'\x89PNG\r\n\x1a\n' or struct.unpack('>II', atlas_bytes[16:24]) != (1024, 1024)
++        or atlas_bytes[24:26] != bytes([8, 2])):
++    raise SystemExit('Native board atlas must retain reviewed 8-bit RGB1024 allocation.')
++board_bytes = (board_path / 'tam_skateboard.glb').read_bytes()
++if struct.unpack_from('<III', board_bytes) != (0x46546c67, 2, len(board_bytes)):
++    raise SystemExit('Native board GLB container differs from reviewed format.')
++json_size, json_kind = struct.unpack_from('<II', board_bytes, 12)
++if json_kind != 0x4e4f534a: raise SystemExit('Native board is missing its JSON chunk.')
++board_gltf = json.loads(board_bytes[20:20 + json_size])
++binary_at = 20 + json_size
++binary_size, binary_kind = struct.unpack_from('<II', board_bytes, binary_at)
++if binary_kind != 0x004e4942 or len(board_gltf.get('images', [])) != 1:
++    raise SystemExit('Native board must retain one embedded atlas.')
++image_view = board_gltf['bufferViews'][board_gltf['images'][0]['bufferView']]
++image_start = binary_at + 8 + image_view.get('byteOffset', 0)
++if image_start + image_view['byteLength'] > binary_at + 8 + binary_size or board_bytes[image_start:image_start + image_view['byteLength']] != atlas_bytes:
++    raise SystemExit('Native board embedded atlas differs from its pinned RGB source output.')
++board_notice = board_path / 'UV-NOTICE.md'
++if not board_notice.is_file() or 'Permission is hereby granted' not in board_notice.read_text() or 'Godot' not in board_notice.read_text():
++    raise SystemExit('Native board adapted shadow algorithm is missing its retained MIT/ownership notice.')
++
+ manifest = {'git_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+             'working_tree_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
+             'runtime_source_sha256': fingerprint, 'source_files_sha256': entries,
+@@ -272,6 +343,9 @@
+ 		quit(1)
+ 		return
+ 	if has_fitted and not _fitted_resources(fitted_path, report):
++		quit(1)
++		return
++	if not _board_resource(report):
+ 		quit(1)
+ 		return
+ 	var output := FileAccess.open(OS.get_cmdline_user_args()[0], FileAccess.WRITE)
+@@ -339,6 +413,128 @@
+ 			report.fitted_resources[name] = {"kind": "scene", "mesh_nodes": meshes.size(), "skeletons": skeletons.size(), "skinned_meshes": skinned}
+ 			actor.free()
+ 	return true
++func _board_resource(report: Dictionary) -> bool:
++	# Read the cooked scene and its data-only import receipt. Editor importers,
++	# source decoders and Python generators are intentionally not runtime loads.
++	var manifest_path := "res://game/art/assets/tam_skateboard/manifest.json"
++	var manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
++	if not manifest is Dictionary or int(manifest.get("schema", -1)) != 2:
++		return _board_failure(null, "Pack is missing readable board UV provenance.")
++	if int(manifest.get("meshes", 0)) != 1 or int(manifest.get("surfaces", 0)) != 4 or int(manifest.get("triangles", 0)) != 5696:
++		return _board_failure(null, "Pack board provenance has an unsupported resource contract.")
++	var path := "res://game/art/assets/tam_skateboard/tam_skateboard.glb"
++	var packed: PackedScene = load(path) as PackedScene
++	if packed == null:
++		return _board_failure(null, "Pack is missing its cooked skateboard scene.")
++	var model: Node3D = packed.instantiate() as Node3D
++	if model == null:
++		return _board_failure(null, "Pack skateboard has no native 3D root.")
++	var meta: Dictionary = model.get_meta("tam_board_wood_import", {})
++	var outputs: Dictionary = manifest.get("outputs", {})
++	var source_record: Dictionary = outputs.get("tam_skateboard.glb", {})
++	var editor: Dictionary = manifest.get("editor_import", {})
++	if (str(meta.get("source_sha256", "")) != str(source_record.get("sha256", "")) or str(meta.get("source_sha256", "")).length() != 64
++			or str(meta.get("policy_sha256", "")) != str(editor.get("policy_sha256", "")) or str(meta.get("policy_sha256", "")).length() != 64
++			or str(meta.get("decoder_sha256", "")) != str(editor.get("decoder_sha256", "")) or str(meta.get("decoder_sha256", "")).length() != 64
++			or int(meta.get("source_vertices", 0)) != 1600 or int(meta.get("source_indices", 0)) != 7800
++			or meta.get("wood_compressed", true) != false or meta.get("protected_packed_surfaces_exact", false) != true or meta.get("protected_shadow_surfaces_exact", false) != true):
++		return _board_failure(model, "Cooked board source/editor/decoder receipt differs from packaged provenance.")
++	var meshes: Array[MeshInstance3D] = []
++	_board_collect(model, meshes)
++	if meshes.size() != 1 or model.transform != Transform3D.IDENTITY or meshes[0].transform != Transform3D.IDENTITY:
++		return _board_failure(model, "Pack skateboard changed its single-mesh identity frame.")
++	var mesh: ArrayMesh = meshes[0].mesh as ArrayMesh
++	if mesh == null or mesh.get_surface_count() != 4:
++		return _board_failure(model, "Pack skateboard is missing its four native ArrayMesh surfaces.")
++	var names: Array[String] = ["MapleAndRiverInk", "Griptape", "CastAluminium", "Urethane"]
++	var texture_ids: Dictionary = {}
++	var triangles := 0
++	var grip_minimum: float = INF
++	var wheel_points := PackedVector3Array()
++	for surface: int in mesh.get_surface_count():
++		var material: StandardMaterial3D = mesh.surface_get_material(surface) as StandardMaterial3D
++		if material == null or material.resource_name != names[surface] or material.albedo_texture == null:
++			return _board_failure(model, "Pack skateboard material/atlas identity changed.")
++		texture_ids[material.albedo_texture.get_instance_id()] = material.albedo_texture
++		var arrays: Array = mesh.surface_get_arrays(surface)
++		var points: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
++		var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
++		if points.is_empty() or indices.is_empty() or indices.size() % 3 != 0:
++			return _board_failure(model, "Pack skateboard has incomplete indexed native geometry.")
++		triangles += indices.size() / 3
++		for index: int in indices:
++			if index < 0 or index >= points.size() or not points[index].is_finite():
++				return _board_failure(model, "Pack skateboard contains invalid indexed positions.")
++		if surface == 0:
++			var uv: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
++			if indices.size() != 7800 or uv.size() != points.size() or (mesh.surface_get_format(0) & Mesh.ARRAY_FLAG_COMPRESS_ATTRIBUTES) != 0:
++				return _board_failure(model, "Pack wood lost source geometry/compression protection.")
++			for i: int in range(0, indices.size(), 3):
++				var a: Vector2 = uv[indices[i]]
++				var b: Vector2 = uv[indices[i + 1]]
++				var c: Vector2 = uv[indices[i + 2]]
++				if not a.is_finite() or not b.is_finite() or not c.is_finite() or absf((b - a).cross(c - a)) * 0.5 <= 1e-12:
++					return _board_failure(model, "Pack wood contains collapsed/nonfinite native UV triangles.")
++		elif surface == 1:
++			for point: Vector3 in points:
++				grip_minimum = minf(grip_minimum, point.y)
++		elif surface == 3:
++			for point: Vector3 in points:
++				if absf(point.x) > 0.09:
++					wheel_points.append(point)
++	if triangles != 5696 or texture_ids.size() != 1 or not model.find_children("*", "CollisionObject3D", true, false).is_empty():
++		return _board_failure(model, "Pack skateboard changed its triangle/atlas/visual-only contract.")
++	var contract: Dictionary = manifest.get("contract", {})
++	if absf(grip_minimum - float(contract.get("deck_grip_center_y_m", INF))) > 0.000001:
++		return _board_failure(model, "Pack board grip datum differs from its physical contract.")
++	var wheels: Array = []
++	var axles: Array = contract.get("axle_z_m", [])
++	if axles.size() != 2:
++		return _board_failure(model, "Pack board is missing its two axle datums.")
++	for axle: float in axles:
++		for side: float in [-1.0, 1.0]:
++			var minimum_y: float = INF
++			var maximum_y: float = -INF
++			var minimum_z: float = INF
++			var maximum_z: float = -INF
++			var count := 0
++			for point: Vector3 in wheel_points:
++				if point.x * side <= 0.09 or point.z * signf(axle) <= 0.0:
++					continue
++				minimum_y = minf(minimum_y, point.y)
++				maximum_y = maxf(maximum_y, point.y)
++				minimum_z = minf(minimum_z, point.z)
++				maximum_z = maxf(maximum_z, point.z)
++				count += 1
++			if (count < 20 or absf((minimum_y + maximum_y) * 0.5 - float(contract.get("wheel_center_y_m", INF))) > 0.000001
++					or absf((maximum_y - minimum_y) * 0.5 - float(contract.get("wheel_radius_m", INF))) > 0.000001
++					or absf((minimum_z + maximum_z) * 0.5 - axle) > 0.000001):
++				return _board_failure(model, "Pack board native wheel centre/radius/axle contract changed.")
++			wheels.append({"side": side, "axle_z": axle, "native_points": count, "minimum_y": minimum_y, "maximum_y": maximum_y})
++	var texture: Texture2D = texture_ids.values()[0]
++	var image: Image = texture.get_image()
++	if (image == null or texture.get_width() != 1024 or texture.get_height() != 1024
++			or image.get_format() != Image.FORMAT_RGB8 or image.get_mipmap_count() != 10 or image.get_data().size() != 4194303):
++		return _board_failure(model, "Pack board atlas lost its RGB8/mip allocation contract.")
++	report.board = {"resource": path, "mesh_nodes": meshes.size(), "surfaces": mesh.get_surface_count(), "triangles": triangles,
++		"atlas_resource": texture.resource_path, "atlas_width": texture.get_width(), "atlas_height": texture.get_height(),
++		"atlas_format": image.get_format(), "atlas_mipmaps": image.get_mipmap_count(), "atlas_bytes": image.get_data().size(),
++		"native_import_receipt": meta, "grip_minimum_y": grip_minimum, "native_wheels": wheels, "editor_tools_required": false}
++	model.free()
++	return true
++
++func _board_collect(node: Node, meshes: Array[MeshInstance3D]) -> void:
++	if node is MeshInstance3D:
++		meshes.append(node)
++	for child: Node in node.get_children():
++		_board_collect(child, meshes)
++
++func _board_failure(model: Node, reason: String) -> bool:
++	if is_instance_valid(model):
++		model.free()
++	push_error(reason)
++	return false
++
+ GDSCRIPT
+ for TASK_PLATFORM in linux macos; do
+   if [[ ! -d "$TASK_BUILD/$TASK_PLATFORM" ]]; then continue; fi
+@@ -358,6 +554,7 @@
+ metadata = json.loads((build / 'BUILD-METADATA.json').read_text())
+ current_inputs = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
+ current_inputs += list((root / 'tools').glob('rider_asset_*.py'))
++current_inputs += [p for p in (root / 'tools/art').rglob('*') if p.is_file() and '__pycache__' not in p.parts]
+ current_inputs += [root / 'tools' / name for name in ('fetch_environment_materials.py', 'build_environment_derivatives.py')]
+ current_inputs += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
+ if {str(p.relative_to(root)) for p in current_inputs} != set(metadata['source_files_sha256']):
+@@ -400,6 +597,8 @@
+     shutil.copy2(root / 'game/art/assets/environment_pbr/derived/manifest.json', notices / 'ENVIRONMENT-DERIVATIVES.json')
+     shutil.copy2(root / 'game/art/rider/manifest.json', notices / 'RIDER-SURFACE-PROVENANCE.json')
+     shutil.copy2(root / 'game/art/rider/SKIN-NOTICE.md', notices / 'SKIN-NOTICE.md')
++    shutil.copy2(root / 'game/art/assets/tam_skateboard/UV-NOTICE.md', notices / 'UV-NOTICE.md')
++    shutil.copy2(root / 'game/art/assets/tam_skateboard/manifest.json', notices / 'BOARD-PROVENANCE.json')
+     for name in ('fitted-manifest.json', 'fitted-source-pins.json', 'fitted-licence-headers.json', 'FITTED-NOTICE.md'):
+         source = root / 'game/art/rider' / name
+         if source.exists(): shutil.copy2(source, notices / name)
+@@ -425,7 +624,7 @@
+         bad_entry = z.testzip()
+         if bad_entry is not None:
+             raise SystemExit('ZIP CRC check failed: ' + bad_entry)
+-        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt', 'zc-spectacular-textures-CC0.txt', 'makehuman-CC0.txt', 'makehuman-LICENCE-SCOPE.txt', 'GODOT-LICENSE.txt', 'GODOT-COPYRIGHT.txt']
++        required_notices = ['flite-COPYING.txt', 'flite-kal16-LICENSE.txt', 'flite-debian-copyright.txt', 'not-pro-skater-MIT.txt', 'zc-spectacular-textures-CC0.txt', 'makehuman-CC0.txt', 'makehuman-LICENCE-SCOPE.txt', 'GODOT-LICENSE.txt', 'GODOT-COPYRIGHT.txt', 'UV-NOTICE.md', 'BOARD-PROVENANCE.json']
+         if not all('NOTICES/' + name in z.namelist() for name in required_notices):
+             raise SystemExit('A required third-party notice is absent from the completed ZIP.')
+         for source in reviewed_notices:
+@@ -438,6 +637,8 @@
+             'ENVIRONMENT-DERIVATIVES.json': root / 'game/art/assets/environment_pbr/derived/manifest.json',
+             'RIDER-SURFACE-PROVENANCE.json': root / 'game/art/rider/manifest.json',
+             'SKIN-NOTICE.md': root / 'game/art/rider/SKIN-NOTICE.md',
++            'UV-NOTICE.md': root / 'game/art/assets/tam_skateboard/UV-NOTICE.md',
++            'BOARD-PROVENANCE.json': root / 'game/art/assets/tam_skateboard/manifest.json',
+             'ENVIRONMENT-FIDELITY.md': root / 'docs/licences/ENVIRONMENT-FIDELITY.md',
+             'VOICE-PROVENANCE.json': root / 'game/audio/generated/manifest.json',
+             'PROVENANCE.md': root / 'docs/licences/REGISTER.md',

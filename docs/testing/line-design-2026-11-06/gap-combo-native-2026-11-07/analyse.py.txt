@@ -1,0 +1,25 @@
+from pathlib import Path
+import json,math
+O=Path(__file__).resolve().parent;E=O/'west-native-01';d=json.loads((E/'native-result.json').read_text());defs={x['id']:x for x in d['definitions']}
+def dist(a,b):return math.dist(a,b)
+def segdist(a,b,p):
+ v=[b[i]-a[i]for i in range(3)];n=sum(x*x for x in v);t=max(0,min(1,sum((p[i]-a[i])*v[i]for i in range(3))/n))if n else 0
+ return dist([a[i]+t*v[i]for i in range(3)],p),t
+report={}
+for run in ['west_southbound','west_northbound']:
+ rows=[x for x in d['gap_updates']if x['run']==run];events=[x for x in d['score_events']if x['run']==run];samples={x['physics']:x for x in d['samples']if x['run']==run};gaps={}
+ for gid,definition in defs.items():
+  detail={}
+  for key in ['start','end']:
+   measures=[]
+   for x in rows:
+    gap,t=segdist(x['previous'],x['position'],definition[key]);measures.append((gap,x,t))
+   gap,x,t=min(measures,key=lambda z:z[0]);detail[key]={'minimum_actual_swept_distance':gap,'radius':definition['radius'],'intersects_sphere':gap<=definition['radius'],'physics':x['physics'],'segment_fraction':t,'previous':x['previous'],'current':x['position'],'airborne':x['airborne'],'grinding':x['grinding'],'stage':samples.get(x['physics'],{}).get('stage'),'state_before':next(z for z in x['phase_before']if z['id']==gid),'state_after':next(z for z in x['phase_after']if z['id']==gid)}
+  detail['state_changes']=[{'physics':x['physics'],'airborne':x['airborne'],'grinding':x['grinding'],'previous':x['previous'],'current':x['position'],'before':next(z for z in x['phase_before']if z['id']==gid),'after':next(z for z in x['phase_after']if z['id']==gid)}for x in rows if next(z for z in x['phase_before']if z['id']==gid)['phase']!=next(z for z in x['phase_after']if z['id']==gid)['phase']]
+  detail['awards']=[{'physics':x['physics'],'award':a}for x in rows for a in x['awards']if a['id']==gid];gaps[gid]=detail
+ report[run]={'gaps':gaps,'positive_banks':[x for x in events if x['kind']=='bank_combo'and x['banked']>0],'tricks':[x for x in events if x['kind']=='add_trick'],'samples':len(samples)}
+(E/'swept-gap-analysis.json').write_text(json.dumps(report,indent=2)+'\n')
+for run,details in report.items():
+ print(run)
+ for gid,x in details['gaps'].items():
+  if 'west' in gid:print(gid,'start',x['start'],'end',x['end'],'awards',x['awards'],'changes',x['state_changes'])

@@ -1,0 +1,51 @@
+from pathlib import Path
+import datetime,gzip,hashlib,json,re,shutil
+R=Path('/workspace/tam_hawks_ps');B=R/'docs/testing/line-design-2026-11-06/gap-actual-integration-2026-11-07';E=B/'actual-focused-01';I=B/'actual-install-01';O=B/'independent-review-01';O.mkdir(exist_ok=True)
+H=lambda b:hashlib.sha256(b).hexdigest()
+def load(p):return json.loads(gzip.decompress(p.read_bytes())if p.suffix=='.gz'else p.read_bytes())
+checks=[]
+def ck(n,v,a=None):checks.append({'check':n,'pass':bool(v),'actual':a})
+preserve=load(B/'preservation.json');bad=[]
+for row in preserve['files']:
+ b=(B/row['destination']).read_bytes();raw=gzip.decompress(b)if row['encoding']=='gzip'else b
+ if H(b)!=row['stored_sha256']or H(raw)!=row['raw_sha256']or len(raw)!=row['raw_bytes']:bad.append(row['destination'])
+ck('all32 retained native/source/installation records match stored and raw hashes',len(preserve['files'])==32 and not bad,bad)
+before=load(E/'source-before.json.gz');after=load(E/'source-after.json.gz');r=load(E/'receipt.json');ib=load(I/'source-before.json.gz');ia=load(I/'source-after.json.gz');ir=load(I/'receipt.json');result=load(E/'native-result.json');summary=load(B/'summary.json')
+ck('exact896 native source and entrypoint inputs unchanged',before==after and len(before)==r['source_count']==896)
+missing=[n for n in before if not(R/n).is_file()];changed=[n for n,h in before.items()if(R/n).is_file()and H((R/n).read_bytes())!=h]
+ck('all before-bound bytes still match actual source at independent read',not missing and not changed,{'missing':missing,'changed':changed})
+ck('actual imported290 hashes unchanged within native epoch',load(E/'imported-before.json.gz')==load(E/'imported-after.json.gz')and len(load(E/'imported-before.json.gz'))==r['imported_files']==290)
+ck('native UID/class metadata unchanged within focused epoch',load(E/'metadata-before.json')==load(E/'metadata-after.json')and r['actual_metadata_stable'])
+ck('ignored observer and wrapper both source-before bound',before['.local/gap-combo-validation/actual_focused.gd']==H((E/'actual_focused.gd.txt').read_bytes())and before['.local/gap-combo-validation/run_actual01.py']==H((E/'run.py.txt').read_bytes()))
+required=['project.godot','export_presets.cfg','docs/PLAYER-GUIDE.md','tools/run.sh','tools/prepare_source_assets.sh','tests/run_tests.gd','tests/special_gap_tests.gd','tests/clyde_cable_line_tests.gd']
+ck('mandatory project/guide/ordinary runner/old regressions bound',all(n in before for n in required))
+ck('controller/Visual reflect actual1ef and1ba composition',before['game/player/skater.gd']==summary['controller']=='1ef6cdb7dfe2942d1d3aa8f025d89213e2f1f06500fcfb588b7d18734de27f84'and before['game/player/skater_visual.gd']==summary['visual']=='1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05')
+delta=sorted(n for n in ib.keys()|ia.keys()if ib.get(n)!=ia.get(n))
+ck('guarded install changes exactly declared11 files,889 to894',len(ib)==889 and len(ia)==894 and len(delta)==11 and delta==sorted(ir['declared_delta'])==sorted(ir['actual_delta']))
+ck('installed source map carries directly into native map',all(before.get(n)==h for n,h in ia.items()))
+ck('all11 exact executed changed sources archived',all(H((E/'executed-source'/(n+'.txt')).read_bytes())==ia[n]==before[n]for n in delta))
+proposal=load(R/'docs/testing/line-design-2026-11-06/gap-native-finish-policy-2026-11-07/proposal/manifest.json')
+ck('all6 production bytes equal independently reviewed private proposal',all(before[n]==v['proposed_sha256']for n,v in proposal['files'].items())and len(proposal['files'])==6)
+public=R/'docs/testing/line-design-2026-11-06/gap-public-test-proposal-2026-11-07/tests'
+ck('four public test/driver adapters exactly match prior unrun proposal',all(before['tests/'+p.name[:-4]]==H(p.read_bytes())for p in public.glob('*.gd.txt'))and len(list(public.glob('*.gd.txt')))==4)
+ck('original34 and originalCable tests unchanged across install',all(ib[n]==ia[n]==before[n]for n in ['tests/special_gap_tests.gd','tests/clyde_cable_line_tests.gd']))
+oldrun=(I/'run_tests.before.gd.txt').read_text();newrun=(E/'executed-source/tests/run_tests.gd.txt').read_text();oldlines=oldrun.splitlines(keepends=True);newlines=newrun.splitlines(keepends=True)
+import difflib
+added=[line[1:]for line in difflib.unified_diff(oldlines,newlines)if line.startswith('+')and not line.startswith('+++')];removed=[line for line in difflib.unified_diff(oldlines,newlines)if line.startswith('-')and not line.startswith('---')]
+ck('ordinary runner changes only two preload and two execution registrations',not removed and len(added)==4 and sum('preload('in line for line in added)==2 and sum('run('in line or'run_player('in line for line in added)==2,added)
+logs={n:(E/(n+'.log')).read_text()for n in ['parser','native']}
+ck('recorded parser/native both exit0/clean within predeclared bounds',len(r['epochs'])==2 and r['eligible']and all(v['exit_code']==0 and v['stop']is None and not v['raw_error']and(datetime.datetime.fromisoformat(v['end_utc'])-datetime.datetime.fromisoformat(v['start_utc'])).total_seconds()<v['stage_bound_seconds']for v in r['epochs'])and r['wall_seconds']<120)
+ck('raw logs match receipt and have no script/shader/parse/error/failure',all(H((E/(v['name']+'.log')).read_bytes())==v['log_sha256']for v in r['epochs'])and not any(re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|ERROR:|^FAIL:',s,re.M)for s in logs.values()))
+ck('134 rawPASS lines and unique134/0 result',len(re.findall(r'^PASS:',logs['native'],re.M))==134 and re.findall(r'^GAP_ACTUAL_RESULT: (\d+) passed, (\d+) failed$',logs['native'],re.M)==[('134','0')]and result['passed']==134 and result['failed']==0 and not result['failures'])
+ck('result stages old34/pure18/native79 plus3 independent Main guards',result['stages']=={'legacy':{'passed':34,'failed':0},'contracts':{'passed':18,'failed':0},'native':{'passed':79,'failed':0}}and 34+18+79+3==134)
+finishes=[v for v in result['proof_events']if v['kind']=='finish'];captures=[v for v in result['proof_events']if v['kind']=='capture']
+ck('exact two real finish samples WEST169to170 EAST420to421',[(v['capture_frame'],v['frame'],v['target'])for v in finishes]==[(169,170,'clyde_safe_handrail_west'),(420,421,'clyde_safe_handrail_east')]and all(v['sample_frame']==v['capture_frame']for v in finishes))
+ck('each consumed native token matches genuine same-target serial capture',all(any(c['frame']==v['capture_frame']and c['serial']==v['serial']and c['target']==v['target']and isinstance(c['shape'],int)and c['shape']>=0 and c['rid']>0 for c in captures)for v in finishes))
+gaps=[v for v in result['score_entries']if v['identity'].startswith('gap:')]
+ck('actual Main Score observes only500 native-return/legacy-entry awards,all4IDs',len(gaps)==6 and all(v['points']==v['awarded']==500 for v in gaps)and len({v['identity']for v in gaps})==4 and [(v['physics'],v['identity'])for v in gaps if'cable_to_handrail'in v['identity']]==[(170,'gap:clyde_cable_to_handrail_west'),(421,'gap:clyde_cable_to_handrail_east')])
+ck('six separate local cases bank once each,not one circuit',len(result['score_banks'])==6 and [v['value']for v in result['score_banks']]==[14283,14283,8696,8696,4109,4109]and len({v['run']for v in result['score_banks']})==6)
+obs=(E/'actual_focused.gd.txt').read_text()
+ck('observer disables persistence before tree entry and checks inert Music','check(not game.persistence_enabled'in obs and obs.index('check(not game.persistence_enabled')<obs.index('root.add_child(game)')and 'not game.music._can_control and not game.music._persist'in obs)
+ck('observer only records helper/Score outputs,not native queries','direct_space_state'not in obs and'intersect_'not in obs and'score.add_'not in obs and'proof_events.append(encode(event))'in obs)
+report={'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reviewer':'/root/independent_qa','passed':sum(v['pass']for v in checks),'failed':sum(not v['pass']for v in checks),'checks':checks,'native_result':[134,0],'native_input_count':896,'native_imported_count':290,'source_current_at_review':not missing and not changed,'verdict':'Recorded actual City Tour134/0 source/cache/entrypoint binding is independently corroborated. Public regressions are synchronously adversarial; this is not natural physical parity, moving or dense-map circuit acceptance.','scope':['No Godot rerun or actual source/cache/profile changes by reviewer.','The older private matched4895 physics proof stays separate; this actual1ef cohort is not relabelled natural parity.','These are six separately reset local lines, not one interarea closed circuit.','Subsequent required04 native6697/0+CLI2/0 has a separate raw eligible=false UID-sidecar qualifier. Its five newUIDs were absent during this focused stable epoch.','No full-body/contact/normal-speed visual/AAA/fun/M5/frame-time or resident-memory certificate.'],'receipt_sha256':H((E/'receipt.json').read_bytes())}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(__file__,O/'independent-audit.py.txt');print(json.dumps({'passed':report['passed'],'failed':report['failed'],'failed_checks':[v for v in checks if not v['pass']]},indent=2))

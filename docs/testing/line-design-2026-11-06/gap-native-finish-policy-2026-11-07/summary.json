@@ -1,0 +1,229 @@
+{
+  "created_utc": "2026-11-07T11:09:27.716908+00:00",
+  "status": "PRIVATE candidate native evidence; independent QA/promotion pending",
+  "source_scope": "Copied actual4895c7bf controller /691b0a93 neutralcurl anatomy, matching five actual Main/gap/level preimages at11:05:19; final current actual controller/cache/M5/default dense redesign acceptance not implied.",
+  "baseline_packet": "../gap-combo-native-2026-11-07/README.md",
+  "epochs": [
+    {
+      "epoch": "policy-positive-01",
+      "eligible_in_its_declared_scope": false,
+      "result": null,
+      "failures": [
+        "parser rejection"
+      ],
+      "receipt": "epochs/policy-positive-01/receipt.json"
+    },
+    {
+      "epoch": "policy-positive-02",
+      "eligible_in_its_declared_scope": true,
+      "result": {
+        "passed": 46,
+        "failed": 0,
+        "gap_updates": 1442,
+        "score_events": 72,
+        "samples": 1442,
+        "shadow_mismatches": 0
+      },
+      "failures": [],
+      "receipt": "epochs/policy-positive-02/receipt.json"
+    },
+    {
+      "epoch": "policy-controls-01",
+      "eligible_in_its_declared_scope": false,
+      "result": {
+        "passed": 102,
+        "failed": 1,
+        "gap_updates": 251,
+        "score_events": 15,
+        "samples": 251,
+        "shadow_mismatches": 0
+      },
+      "failures": [
+        "native finish control: restored exact original native shape returns valid proof"
+      ],
+      "receipt": "epochs/policy-controls-01/receipt.json"
+    },
+    {
+      "epoch": "policy-controls-02",
+      "eligible_in_its_declared_scope": false,
+      "result": {
+        "passed": 102,
+        "failed": 1,
+        "gap_updates": 251,
+        "score_events": 15,
+        "samples": 251,
+        "shadow_mismatches": 0
+      },
+      "failures": [
+        "native finish control: restored exact original native shape returns valid proof"
+      ],
+      "receipt": "epochs/policy-controls-02/receipt.json"
+    },
+    {
+      "epoch": "policy-controls-03",
+      "eligible_in_its_declared_scope": true,
+      "result": {
+        "passed": 106,
+        "failed": 0,
+        "gap_updates": 251,
+        "score_events": 15,
+        "samples": 251,
+        "shadow_mismatches": 0
+      },
+      "failures": [],
+      "receipt": "epochs/policy-controls-03/receipt.json"
+    },
+    {
+      "epoch": "policy-positive-03",
+      "eligible_in_its_declared_scope": true,
+      "result": {
+        "passed": 46,
+        "failed": 0,
+        "gap_updates": 1442,
+        "score_events": 72,
+        "samples": 1442,
+        "shadow_mismatches": 0
+      },
+      "failures": [],
+      "receipt": "epochs/policy-positive-03/receipt.json"
+    },
+    {
+      "epoch": "policy-matched-off-01",
+      "eligible_in_its_declared_scope": true,
+      "result": {
+        "passed": 47,
+        "failed": 0,
+        "gap_updates": 1442,
+        "score_events": 82,
+        "samples": 1442,
+        "shadow_mismatches": 0
+      },
+      "failures": [],
+      "receipt": "epochs/policy-matched-off-01/receipt.json"
+    },
+    {
+      "epoch": "policy-matched-on-01",
+      "eligible_in_its_declared_scope": true,
+      "result": {
+        "passed": 47,
+        "failed": 0,
+        "gap_updates": 1442,
+        "score_events": 84,
+        "samples": 1442,
+        "shadow_mismatches": 0
+      },
+      "failures": [],
+      "receipt": "epochs/policy-matched-on-01/receipt.json"
+    }
+  ],
+  "final_production_hashes": {
+    "game/tricks/native_gap_finish.gd": {
+      "proposed_sha256": "f204c9edbf2ab92b6249881aa3a86968c8b9fb3bc3b16ee237eb32924d6eb097",
+      "preimage_sha256": null
+    },
+    "game/tricks/gap_tracker.gd": {
+      "proposed_sha256": "8f56609d9c4e34f538a7e74ca1a7110ef4a82a1b66f5e703909df938490239ab",
+      "preimage_sha256": "cd43ba41e367bc4b887e28da6e6d16ba14af26e043af757b7ebab3188687e0bb"
+    },
+    "game/main.gd": {
+      "proposed_sha256": "58419c852dea03882db5efaa9c5da7e96339e530e4b87fc9c5270d5461281d58",
+      "preimage_sha256": "379233f0cab192c395c19d05b98311434a1ab008c345655b9f8925d3f0e10686"
+    },
+    "game/levels/outdoor_routes.gd": {
+      "proposed_sha256": "b9c913b8d17e98ab31cc3fae2a71c37539df255c23fa6fddcf296e8521164a35",
+      "preimage_sha256": "f43ce909519b188be3a94482de3c11deb385a89f5d47973a2e9c0919c91f5fb1"
+    },
+    "game/levels/glasgow_square.gd": {
+      "proposed_sha256": "ca4308be378ba619962000b73113b28e9a1cf5c871823eae978d14a2414a9445",
+      "preimage_sha256": "153b0d15d05cc749ada0ecbb5894c9fe37fe57ba2c709629163c617ab6f29f50"
+    },
+    "game/levels/clyde_cable_line.gd": {
+      "proposed_sha256": "293ce8caf3fb62b34b38dd2630d6be516943109dfd37fea5c1032c3d876c7ba8",
+      "preimage_sha256": "3cb5a1dfdcd2ee49d3937133f8c4bf2d887b5094f3ef3950828f5e90b26fa159"
+    }
+  },
+  "matched": {
+    "source_manifests_identical": true,
+    "source_count": 897,
+    "sample_counts": [
+      1442,
+      1442
+    ],
+    "gap_counts": [
+      1442,
+      1442
+    ],
+    "physical_sample_keys": [
+      "run",
+      "tick",
+      "stage",
+      "physics",
+      "position",
+      "airborne",
+      "grinding",
+      "grind_id",
+      "floor",
+      "last_gap_call"
+    ],
+    "physical_gap_keys": [
+      "run",
+      "physics",
+      "position",
+      "previous",
+      "previous_sample_frame",
+      "has_previous",
+      "previous_airborne",
+      "airborne",
+      "delta",
+      "grinding",
+      "grind_id",
+      "is_on_floor",
+      "velocity",
+      "speed",
+      "phase_before",
+      "phase_after",
+      "legacy_awards"
+    ],
+    "physical_mismatches": [],
+    "additional_awards": [
+      {
+        "run": "west_south_wait_12",
+        "physics": 170,
+        "award": {
+          "id": "clyde_cable_to_handrail_west",
+          "name": "Back To The Bridge",
+          "points": 500
+        }
+      },
+      {
+        "run": "east_south_wait_12",
+        "physics": 419,
+        "award": {
+          "id": "clyde_cable_to_handrail_east",
+          "name": "Back To The Bridge",
+          "points": 500
+        }
+      }
+    ],
+    "native_queries": {
+      "off": 12,
+      "on": 14
+    },
+    "scope": "Matched identical-source natural mapped-input six-case A/B; test wrapper only switches passed finish Callable. Comparison excludes process counters/render timing and score fields by design. No visual, full body contact, M5/performance or cross-area circuit acceptance.",
+    "passed": true
+  },
+  "rejects_preserved_verbatim": true,
+  "prior_receipt_scope_correction": "Early positive/control wrapper prose says no native-query additions; observer query delta is0, while the explicit helper made recorded queries. New03/matched receipts state that distinction. Earlier traces/receipts remain unedited.",
+  "accepted_claims": [
+    "All four scored cable IDs can award in native mapped-input local cases with strict entry and opt-in return-only policy",
+    "All1442 matched physical samples and tracker rows remain exactly equal with only finish callable changed",
+    "Independent score replay derives one14283 versus8696 bank per WAIT12; original timings/reverse banks unchanged"
+  ],
+  "open": [
+    "Independent QA/BA review and actual integration",
+    "Full current actual controller/source/cache rerun after integration",
+    "Other four gaps native positive completion",
+    "Whole-map/cross-area circuits and dense default redesign",
+    "Visual animation/full body contact/human feel/M5 performance"
+  ]
+}

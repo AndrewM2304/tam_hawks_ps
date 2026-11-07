@@ -1,0 +1,63 @@
+{
+  "start_utc": "2026-11-07T10:01:54.965729+00:00",
+  "end_utc": "2026-11-07T10:02:17.069416+00:00",
+  "wall_seconds": 22.103690030002326,
+  "epochs": [
+    {
+      "name": "parser",
+      "start_utc": "2026-11-07T10:01:54.965755+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "res://.local/probe_east.gd"
+      ],
+      "stage_bound_seconds": 15,
+      "aggregate_bound_seconds": 120,
+      "pid": 113255,
+      "process_group": 113255,
+      "end_utc": "2026-11-07T10:01:57.531050+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "name": "native",
+      "start_utc": "2026-11-07T10:01:57.531551+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://.local/probe_east.gd"
+      ],
+      "stage_bound_seconds": 105,
+      "aggregate_bound_seconds": 120,
+      "pid": 113268,
+      "process_group": 113268,
+      "end_utc": "2026-11-07T10:02:16.481209+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "85a291529af80c3b1a150c29a16ebaeb374c285d1e21f9a25e8e679e16d1caa8"
+    }
+  ],
+  "source_count": 888,
+  "source_stable": true,
+  "imported_files": 252,
+  "resolved_actual_imports_stable": true,
+  "private_metadata_stable": true,
+  "result_summary": {
+    "passed": 6,
+    "failed": 0,
+    "gap_updates": 722,
+    "score_events": 35,
+    "samples": 722,
+    "shadow_mismatches": 0
+  },
+  "eligible": true,
+  "scope": "Current copied actual source, derived EAST mirrored inputs, \u00b1originaltiming and SOUTHwait12 case, super-delegated gap/score instrumentation. Shadow awards never fed game. No actual cache/source/profile changes, no rendering/native-query additions or FPS/M5 claim."
+}

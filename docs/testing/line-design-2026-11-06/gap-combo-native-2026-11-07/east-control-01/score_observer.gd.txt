@@ -1,0 +1,35 @@
+extends "res://game/scoring/score_session.gd"
+var events:Array=[]
+var run_label:="setup"
+func _state()->Dictionary:
+ return {"total":total_score,"base":combo_base,"multiplier":combo_multiplier,"value":get_combo_value(),"pending_landing":pending_landing,"landing_remaining":landing_remaining,"last_identity":_last_identity,"history":trick_history.duplicate(),"last_banked":last_banked,"last_banked_tricks":last_banked_tricks.duplicate()}
+func _event(kind:String,before:Dictionary,extra:Dictionary={})->void:
+ var row:Dictionary={"kind":kind,"run":run_label,"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames(),"before":before,"after":_state()}
+ row.merge(extra)
+ events.append(row)
+func add_trick(label:String,points:int,identity:String="")->int:
+ var before:Dictionary=_state()
+ var result:int=super.add_trick(label,points,identity)
+ _event("add_trick",before,{"label":label,"identity":identity,"points":points,"awarded":result})
+ return result
+func bank_combo()->int:
+ var before:Dictionary=_state()
+ var result:int=super.bank_combo()
+ _event("bank_combo",before,{"banked":result})
+ return result
+func drop_combo()->void:
+ var before:Dictionary=_state()
+ super.drop_combo()
+ _event("drop_combo",before)
+func begin_landing()->void:
+ var before:Dictionary=_state()
+ super.begin_landing()
+ if before!=_state():_event("begin_landing",before)
+func continue_combo()->void:
+ var before:Dictionary=_state()
+ super.continue_combo()
+ if before!=_state():_event("continue_combo",before)
+func reset()->void:
+ var before:Dictionary=_state()
+ super.reset()
+ _event("reset",before)

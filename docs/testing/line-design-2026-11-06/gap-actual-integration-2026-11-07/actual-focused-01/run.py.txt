@@ -1,0 +1,37 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time
+O=Path(__file__).resolve().parent;R=O.parents[1];P=R;OUT=O/'actual-focused-01';OUT.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sources():
+ f=[R/'project.godot',R/'export_presets.cfg',R/'docs/PLAYER-GUIDE.md',O/'actual_focused.gd',Path(__file__).resolve()]
+ f +=[q for n in ['game','tests','tools','docs/licences']for q in(R/n).rglob('*')if q.is_file()and'__pycache__'not in q.parts]
+ return {str(q.relative_to(R)):sha(q)for q in sorted(set(f))}
+def imported():return{str(q.relative_to(P/'.godot/imported')):sha(q)for q in(P/'.godot/imported').rglob('*')if q.is_file()}
+def metadata():return{n:sha(P/'.godot'/n)for n in['global_script_class_cache.cfg','uid_cache.bin']if(P/'.godot'/n).is_file()}
+before=sources();ib=imported();mb=metadata();(OUT/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');(OUT/'imported-before.json').write_text(json.dumps(ib,indent=2)+'\n');(OUT/'metadata-before.json').write_text(json.dumps(mb,indent=2)+'\n')
+for n in ['actual_focused.gd']: (OUT/(n+'.txt')).write_bytes((O/n).read_bytes())
+for n in ['tests/native_gap_finish_contract_tests.gd','tests/native_gap_finish_capture_controls.gd','tests/native_gap_finish_integration_tests.gd','tests/cable_gap_input_driver.gd','game/tricks/native_gap_finish.gd','game/tricks/gap_tracker.gd','game/main.gd','game/levels/outdoor_routes.gd','game/levels/glasgow_square.gd','game/levels/clyde_cable_line.gd','tests/run_tests.gd']:
+ q=OUT/'executed-source'/Path(n+'.txt');q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes((R/n).read_bytes())
+(OUT/'run.py.txt').write_bytes(Path(__file__).read_bytes())
+env=dict(os.environ,GODOT_BIN='/usr/local/bin/godot',TAM_GAP_COMBO_OUTPUT=str(OUT/'native-result.json'))
+start=utc();total=time.monotonic();epochs=[]
+for label,flags,cap in [('parser',['--check-only'],15),('native',['--fixed-fps','60'],105)]:
+ command=['./tools/run.sh','--headless',*flags,'--script','res://.local/gap-combo-validation/actual_focused.gd'];log=OUT/(label+'.log');stop=None;record={'name':label,'start_utc':utc(),'command':command,'stage_bound_seconds':cap,'aggregate_bound_seconds':120}
+ with log.open('wb')as stream:
+  proc=subprocess.Popen(command,cwd=P,env=env,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True);record['pid']=proc.pid;record['process_group']=proc.pid;print(json.dumps(record),flush=True)
+  deadline=min(total+120,time.monotonic()+cap);offset=0;carry=b''
+  while proc.poll()is None:
+   with log.open('rb')as f:f.seek(offset);chunk=f.read();offset=f.tell()
+   data=carry+chunk;carry=data[-256:]
+   if re.search(rb'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',data):stop='first raw engine error';break
+   if time.monotonic()>=deadline:stop='automatic deadline';break
+   time.sleep(.05)
+  if proc.poll()is None:
+   os.killpg(proc.pid,signal.SIGTERM)
+   try:proc.wait(timeout=2)
+   except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait(timeout=2)
+ record.update(end_utc=utc(),exit_code=proc.returncode,stop=stop,raw_error=bool(re.search(r'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',log.read_text())),log_sha256=sha(log));epochs.append(record)
+ if record['exit_code']!=0 or record['raw_error']or stop:break
+after=sources();ia=imported();ma=metadata();(OUT/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');(OUT/'imported-after.json').write_text(json.dumps(ia,indent=2)+'\n');(OUT/'metadata-after.json').write_text(json.dumps(ma,indent=2)+'\n');result=json.loads((OUT/'native-result.json').read_text())if(OUT/'native-result.json').is_file()else None
+receipt={'start_utc':start,'end_utc':utc(),'wall_seconds':time.monotonic()-total,'epochs':epochs,'source_count':len(before),'source_stable':before==after,'imported_files':len(ib),'actual_imported_stable':ib==ia,'actual_metadata_stable':mb==ma,'result_summary':{'passed':result['passed'],'failed':result['failed'],'stages':result['stages'],'proof_events':len(result['proof_events']),'score_entries':len(result['score_entries']),'score_banks':len(result['score_banks'])}if result else None,'eligible':bool(len(epochs)==2 and all(e['exit_code']==0 and not e['stop']and not e['raw_error']for e in epochs)and before==after and ib==ia and mb==ma and result and result['failed']==0),'scope':'ACTUAL current1ef/Visual1ba source and current Mac-compatible23 import composition; public regression cohort, actual native/rider eligibility mutations restored, not natural physical-parity proof, super-delegated gap/score instrumentation. Shadow awards never fed game. Actual native cache/metadata bound before-after; no actual source/profile/cache writes during execution, no observer spatial queries or draw additions; explicit bounded native-finish helper queries are logged. No FPS/M5 claim.'};(OUT/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2),flush=True);raise SystemExit(0 if receipt['eligible']else 1)

@@ -1,0 +1,38 @@
+from pathlib import Path
+import json,gzip,hashlib,shutil,subprocess,io,tarfile,difflib
+O=Path(__file__).resolve().parent;R=O.parents[1];D=R/'docs/testing/line-design-2026-11-06/gap-combo-native-2026-11-07';D.mkdir(parents=True,exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+for n in ['copied-current-source.json','shared-imported.json']:
+ with gzip.open(D/(n+'.gz'),'wb')as f:f.write((O/n).read_bytes())
+for n in ['copy-receipt.json','cable-timing-driver.patch','cable-east-driver.patch']:
+ shutil.copy2(O/n,D/n)
+for n in ['prepare.py','analyse.py','preserve_baselines.py']:
+ shutil.copy2(O/n,D/(n+'.txt'))
+for epoch in ['west-native-01','south-timing-01','east-control-01']:
+ s=O/epoch;t=D/epoch;t.mkdir()
+ for p in s.iterdir():
+  if not p.is_file():continue
+  if p.suffix in ['.json','.log'] and p.name not in ['receipt.json','scope-correction.json']:
+   with gzip.open(t/(p.name+'.gz'),'wb')as f:f.write(p.read_bytes())
+  else:shutil.copy2(p,t/p.name)
+# Bind every executed uncommitted runtime delta to a public ancestor, without duplicating assets.
+raw=subprocess.check_output(['git','archive','65f045e','project.godot','export_presets.cfg','game','tests','tools'],cwd=R)
+with tarfile.open(fileobj=io.BytesIO(raw))as archive:base={m.name:archive.extractfile(m).read()for m in archive.getmembers()if m.isfile()}
+source=json.loads((O/'copied-current-source.json').read_text());patch=[];changes=[]
+for n,h in source.items():
+ now=(O/'project'/n).read_bytes();assert hashlib.sha256(now).hexdigest()==h,n
+ old=base.get(n,b'')
+ if now==old:continue
+ try:a=old.decode('utf-8');b=now.decode('utf-8')
+ except UnicodeDecodeError:raise RuntimeError('Unexpected binary runtime delta: '+n)
+ patch.extend(difflib.unified_diff(a.splitlines(True),b.splitlines(True),fromfile=('a/'+n if n in base else '/dev/null'),tofile='b/'+n));changes.append(n)
+(D/'runtime-delta-from-65f045e.patch').write_text(''.join(patch));(D/'runtime-delta.json').write_text(json.dumps({'base_commit':'65f045e','changed_files':changes,'compiled_cache_rebuild_required':True,'scope':'Copied actual runtime at09:46:39, exact source map879. Apply before observer files; excludes source-neutral generated caches and no prototype policy changes.'},indent=2)+'\n')
+summary=[]
+for epoch in ['west-native-01','south-timing-01','east-control-01']:
+ data=json.loads((O/epoch/'native-result.json').read_text());runs=list(dict.fromkeys(x['run']for x in data['samples']))
+ for label in runs:
+  updates=[x for x in data['gap_updates']if x['run']==label];events=[x for x in data['score_events']if x['run']==label]
+  summary.append({'epoch':epoch,'run':label,'samples':sum(x['run']==label for x in data['samples']),'gap_awards':[{'physics':x['physics'],'award':a}for x in updates for a in x['awards']],'banks':[{'physics':e['physics'],'value':e['banked'],'base':e['before']['base'],'multiplier':e['before']['multiplier'],'tricks':e['after']['last_banked_tricks']}for e in events if e['kind']=='bank_combo'and e['banked']>0]})
+(D/'event-summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+(D/'README.md').write_text('''# Native cable gaps and one-combo scoring audit\n\nThis copied-current-source diagnostic is **not a production change**. Actual sources were captured7November2026 at09:46:39UTC: controller4895c7bf, Visual1ba86edf and anatomy691b0a93. The exact879-file source map,252 resolved read-only imported files and private cache metadata are before/after bound in each epoch. `runtime-delta-from-65f045e.patch` preserves the source changes relative to the public launcher checkpoint. No actual source/cache/profile was modified.\n\nThe observer replaces freshly constructed Main GapTracker/ScoreSession objects before tree entry with subclasses that delegate to the real methods. A separate original tracker sees identical actor-root/air/delta samples and never feeds its shadow awards to scoring. Every baseline sample has exact original award/state parity. Score events retain actual add-trick identities, normal bank calls and arithmetic. No actor position/heading/velocity/score writes occur after the original declared spawn/orientation setup; input timing variants are explicit below. The observers add no spatial/native/render queries. Ordinary default trial content and Music/profile isolation are verified.\n\n| Epoch | Native result | Actual input scope | Result |\n| --- | --- | --- | --- |\n| west-native-01 |5/0|Original unmodified WEST driver, south then north|South banks8,696 once and awards `clyde_handrail_to_cable_west`500; north banks4,109 once and awards no gaps.|\n| south-timing-01 |7/0|WEST south, plus8/12/16/20 real held-grind ticks before the original16-tick return charge|All four preserve original one-bank/no-bail native acceptance. Only cable-entry gap awards. Raw receipt generic scope text is corrected by separate `scope-correction.json`; native-result scope, exact probe and input diff are already correct.|\n| east-control-01 |6/0|Mirrored initialX/side IDs/mapped steering sign; east south/north original timing plus south wait12|Same south8,696/entryeast500, north4,109/no gaps; retimed south still rejects the rail-return gap.|\n\nThe original zero-wait south driver does **not** touch either return trigger sphere: actual swept minimum start distance1.255376982m and end0.847870946m exceed the unchanged0.7m radius. That is a geometric/timing miss, not a detector failure.\n\nThe legitimate WAIT12 case is different. It arms inside the return start (minimum0.255598106m), remains airborne between triggers, then captures the real destination BridgeRail atphysics414. Main next evaluates the gap at415: its swept segment enters the end sphere (minimum0.576028626m), forward motion0.123318859m, elapsed0.565106239s<4s, prior-air=true, current grinding=true/current-air=false. The existing end-air predicate changes armed→locked without awarding. EAST mirrors this capture642→gap643. Blanket claims that capture suppresses every award are disproved: entry500 is awarded in the same physics counter as the cable capture because Main runs before its child Skater.\n\nThe proposed repair is an **explicit opt-in native rail-destination finish policy**, with actual configured grindline identity, authored native body/shape authority and a fresh capture covering the sampled interval. Generic airborne gaps and their grounded-finish negatives must stay strict. Radius, direction, window and scoring deadlines must not change. No policy prototype is included in these baseline epochs.\n\nThese are local cable lines, not inter-area circuits. Both chains bank once; this does not establish rendered full-body clearance, smooth motion, human feel, east/west map circuits or Mac/M5 performance. Original cable driver native crown queries remain unchanged; its one initial pose is disclosed. Compacted logs/data are lossless gzip, source scripts are verbatim `.txt`, and preservation hashes cover every retained byte.\n''')
+index={str(p.relative_to(D)):{'bytes':p.stat().st_size,'sha256':sha(p)}for p in D.rglob('*')if p.is_file()};(D/'preservation.json').write_text(json.dumps(index,indent=2)+'\n');print({'packet':str(D.relative_to(R)),'files':len(index)+1,'bytes':sum(p.stat().st_size for p in D.rglob('*')if p.is_file()),'runtime_deltas':len(changes)})

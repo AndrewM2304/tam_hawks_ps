@@ -1,0 +1,69 @@
+{
+  "scope": "Exact native04 raw receipt/log/source maps/runner; receipt eligible=false is retained. No source objects or generated caches copied.",
+  "files": [
+    {
+      "source_name": "receipt.json",
+      "destination": "receipt.json",
+      "raw_sha256": "aab893fec2be29c61ff6b0c185bb26b6c44307540dc78e422d08516bf2db241b",
+      "stored_sha256": "aab893fec2be29c61ff6b0c185bb26b6c44307540dc78e422d08516bf2db241b",
+      "raw_bytes": 2544,
+      "encoding": "identity"
+    },
+    {
+      "source_name": "source-before.json",
+      "destination": "source-before.json.gz",
+      "raw_sha256": "0272c82d10f968455cb5e4818e585f4e3d614959c6f732fe1b4827dce236d82b",
+      "stored_sha256": "f75a722f51be889caa97464b7881776212cbaa406535c360c2f4a402887178e7",
+      "raw_bytes": 133103,
+      "encoding": "gzip"
+    },
+    {
+      "source_name": "source-after.json",
+      "destination": "source-after.json.gz",
+      "raw_sha256": "acf88b2be125d30f830ea210a02c05dc4607f829e819dcab7297224c5eb10c27",
+      "stored_sha256": "d67ebddce4ad10d232c27f99d08d62e6f2167e6a03062c201c55bf38aaf65ed4",
+      "raw_bytes": 133869,
+      "encoding": "gzip"
+    },
+    {
+      "source_name": "runner.py.txt",
+      "destination": "runner.py.txt",
+      "raw_sha256": "11d95a3ca21f1cd45d913469e35cf03bcf7fe33f99a010ee62f9d985ba143a76",
+      "stored_sha256": "11d95a3ca21f1cd45d913469e35cf03bcf7fe33f99a010ee62f9d985ba143a76",
+      "raw_bytes": 5376,
+      "encoding": "identity"
+    },
+    {
+      "source_name": "command.log",
+      "destination": "command.log.gz",
+      "raw_sha256": "ac19e8104f6780bd86a94089b7e4c9960fd88dc2f7bc2a87c075177f081405b6",
+      "stored_sha256": "0be033f4e3caf4e699d2e41f9f27f5e2eedf967d83610b52cdb9340cbb670db0",
+      "raw_bytes": 2184454,
+      "encoding": "gzip"
+    },
+    {
+      "source_name": "import.log",
+      "destination": "import.log.gz",
+      "raw_sha256": "518bacd203a87aaf88cc0fa39b4466bfd9ebcfee4fac5d581f13afdddc7a573c",
+      "stored_sha256": "84d13cc693d684cea61ac13185e848a76b4bdd3c15adc152c8959e2758a7478e",
+      "raw_bytes": 1817,
+      "encoding": "gzip"
+    },
+    {
+      "source_name": "tests.log",
+      "destination": "tests.log.gz",
+      "raw_sha256": "39c581bea7406bb80796cda364624025b0c0e08e81a71d3ba0215053f9f31ea2",
+      "stored_sha256": "66ff19a25b8f4595fd5b1644163d37178a583d6fdf2e086c3a346b306713caf7",
+      "raw_bytes": 2180714,
+      "encoding": "gzip"
+    },
+    {
+      "source_name": "script-launch.log",
+      "destination": "script-launch.log",
+      "raw_sha256": "823882bc10a33a2f224e60044515b1ab6ff1701f4c7e45253f236118317b4fae",
+      "stored_sha256": "823882bc10a33a2f224e60044515b1ab6ff1701f4c7e45253f236118317b4fae",
+      "raw_bytes": 337,
+      "encoding": "identity"
+    }
+  ]
+}

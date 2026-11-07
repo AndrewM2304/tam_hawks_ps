@@ -1,0 +1,18 @@
+--- original/tests/clyde_cable_line_tests.gd
++++ private/.local/cable_timing_driver.gd
+@@ -7,6 +7,7 @@
+ const Style = preload("res://game/tricks/grind_style.gd")
+ const StaticBatches = preload("res://game/levels/static_batches.gd")
+ const Edges = preload("res://game/levels/skate_edges.gd")
++static var extra_cable_wait:int=0
+ 
+ class Fixture extends Node3D:
+ 	var _materials: Dictionary = {}
+@@ -150,6 +151,7 @@
+ 	var cable := false
+ 	if first: cable = await _wait_capture(tree,game,evidence,"clyde_cable_west",100,"cable_air_catch",observer)
+ 	if cable:
++		await _input_frames(tree,game,evidence,extra_cable_wait,"wait_on_cable_for_declared_gap",observer)
+ 		Input.action_press("ollie")
+ 		await _input_frames(tree,game,evidence,16,"charge_from_cable",observer)
+ 		_set_steer(-direction*0.55)

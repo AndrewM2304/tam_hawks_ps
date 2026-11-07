@@ -1298,3 +1298,9 @@ func get_skate_feature_definitions() -> Array[Dictionary]:
 
 func get_level_density_audit() -> Dictionary:
 	return _fidelity_infill.density_snapshot()
+
+
+func get_gap_grind_destinations() -> Dictionary:
+	var result:Dictionary={}
+	if is_instance_valid(_outdoors):result.merge(_outdoors.gap_grind_destinations())
+	return result

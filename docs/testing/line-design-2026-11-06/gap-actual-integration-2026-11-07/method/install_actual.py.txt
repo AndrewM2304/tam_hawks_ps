@@ -1,0 +1,31 @@
+from pathlib import Path
+import datetime,hashlib,json
+O=Path(__file__).resolve().parent;R=O.parents[1];D=O/'actual-install-01';D.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def snapshot():
+ files=[R/'project.godot',R/'export_presets.cfg',R/'docs/PLAYER-GUIDE.md']
+ files +=[p for n in ['game','tests','tools','docs/licences']for p in(R/n).rglob('*')if p.is_file()and'__pycache__'not in p.parts]
+ return {str(p.relative_to(R)):sha(p)for p in sorted(set(files))}
+before=snapshot();(D/'source-before.json').write_text(json.dumps(before,indent=2)+'\n')
+prod=json.loads((O/'proposal-final-01/manifest.json').read_text())['files'];tests=json.loads((O/'public-tests-proposal-01/manifest.json').read_text())['files']
+assert before['tests/special_gap_tests.gd']==json.loads((O/'public-tests-proposal-01/manifest.json').read_text())['original_special_gap_tests_sha256']
+assert before['tests/clyde_cable_line_tests.gd']==json.loads((O/'public-tests-proposal-01/manifest.json').read_text())['original_clyde_cable_tests_sha256']
+for n,v in prod.items():
+ p=R/n;assert (sha(p)if p.is_file()else None)==v['preimage_sha256'],n
+ assert sha(O/'proposal-final-01'/n)==v['proposed_sha256'],n
+for n,h in tests.items():assert not(R/n).exists()and sha(O/'public-tests-proposal-01'/n)==h,n
+run=R/'tests/run_tests.gd';original=run.read_text();patched=original
+old='const SPECIAL_GAP_TESTS = preload("res://tests/special_gap_tests.gd")'
+new=old+'\nconst NATIVE_GAP_FINISH_CONTRACT_TESTS = preload("res://tests/native_gap_finish_contract_tests.gd")\nconst NATIVE_GAP_FINISH_INTEGRATION_TESTS = preload("res://tests/native_gap_finish_integration_tests.gd")'
+assert patched.count(old)==1;patched=patched.replace(old,new)
+old='\tSPECIAL_GAP_TESTS.run(_check)';assert patched.count(old)==1;patched=patched.replace(old,old+'\n\tNATIVE_GAP_FINISH_CONTRACT_TESTS.run(_check)')
+old='\tawait CLYDE_CABLE_LINE_TESTS.run_player(self,game,_check)';assert patched.count(old)==1;patched=patched.replace(old,old+'\n\tawait NATIVE_GAP_FINISH_INTEGRATION_TESTS.run_player(self,game,_check)')
+(D/'run_tests.before.gd.txt').write_text(original)
+for n in prod:
+ p=R/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((O/'proposal-final-01'/n).read_bytes())
+for n in tests:(R/n).write_bytes((O/'public-tests-proposal-01'/n).read_bytes())
+run.write_text(patched)
+after=snapshot();delta=[n for n in sorted(set(before)|set(after))if before.get(n)!=after.get(n)];expected=sorted([*prod,*tests,'tests/run_tests.gd']);assert delta==expected,(delta,expected)
+(D/'source-after.json').write_text(json.dumps(after,indent=2)+'\n')
+receipt={'time_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'base_commit':'305d037','before_count':len(before),'after_count':len(after),'declared_delta':expected,'actual_delta':delta,'all_other_source_inputs_unchanged':True,'production_exact_reviewed_payloads':all(after[n]==v['proposed_sha256']for n,v in prod.items()),'tests_exact_unrun_proposal':all(after[n]==h for n,h in tests.items()),'old34_and_clyde_original_unchanged':all(before[n]==after[n]for n in['tests/special_gap_tests.gd','tests/clyde_cable_line_tests.gd']),'controller':after['game/player/skater.gd'],'visual':after['game/player/skater_visual.gd'],'scope':'Guarded root-authorized actual install only; adapter parser/native unrun; no geometry/controller/scoring source change or Git mutation.'}
+(D/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2))

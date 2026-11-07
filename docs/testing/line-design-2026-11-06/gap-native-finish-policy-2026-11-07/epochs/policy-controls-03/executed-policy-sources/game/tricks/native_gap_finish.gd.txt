@@ -1,0 +1,224 @@
+extends RefCounted
+## PRIVATE prototype: opt-in finite native rail destinations. No new physics body,
+## mesh or gameplay motion. Existing airborne gap callers do not use this helper.
+const Line=preload("res://game/tricks/grind_line.gd")
+const Style=preload("res://game/tricks/grind_style.gd")
+const Edges=preload("res://game/levels/skate_edges.gd")
+const MAX_TARGETS:=2
+const MAX_BODIES:=8
+const MAX_SHAPES:=16
+const MAX_LINES:=16
+const MAX_POINTS:=128
+var ready:=false
+var rejection:="unconfigured"
+var native_queries:=0
+var proof_events:Array=[]
+var _epoch:=0
+var _capture_serial:=0
+var _rider:WeakRef
+var _world:WeakRef
+var _targets:Dictionary={}
+var _gap_signatures:Dictionary={}
+var _lines:Dictionary={}
+var _pending:Dictionary={}
+var _ray:=PhysicsRayQueryParameters3D.new()
+func invalidate()->void:
+ _epoch+=1
+ _pending.clear()
+func destination_ids()->PackedStringArray:
+ return PackedStringArray(_targets.keys())if ready else PackedStringArray()
+func _object(ref:Variant)->Variant:
+ if not ref is WeakRef:return null
+ var value:Variant=ref.get_ref()
+ if typeof(value)!=TYPE_OBJECT or not is_instance_valid(value):return null
+ if value is Node and value.is_queued_for_deletion():return null
+ return value
+func _script_is(node:Variant,path:String)->bool:
+ return typeof(node)==TYPE_OBJECT and is_instance_valid(node) and node.get_script()!=null and node.get_script().resource_path==path
+func _frame_valid(frame:Transform3D)->bool:
+ var b:Basis=frame.basis
+ return frame.is_finite() and absf(b.determinant()-1.0)<0.00001 and absf(b.x.length_squared()-1.0)<0.00001 and absf(b.y.length_squared()-1.0)<0.00001 and absf(b.z.length_squared()-1.0)<0.00001 and absf(b.x.dot(b.y))<0.00001 and absf(b.x.dot(b.z))<0.00001 and absf(b.y.dot(b.z))<0.00001
+func configure(world:Node3D,rider:CharacterBody3D)->bool:
+ invalidate();ready=false;_targets.clear();_lines.clear();_gap_signatures.clear();native_queries=0;proof_events.clear()
+ if not _script_is(world,"res://game/levels/glasgow_square.gd")or not _script_is(rider,"res://game/player/skater.gd"):return _refuse("foreign world/rider")
+ _world=weakref(world);_rider=weakref(rider)
+ var declarations:Dictionary=world.get_gap_grind_destinations()
+ if declarations.size()!=MAX_TARGETS:return _refuse("destination count")
+ for id:String in declarations:
+  var raw:Dictionary=declarations[id]
+  var kind:String="handrail"if id in["clyde_safe_handrail_west","clyde_safe_handrail_east"]else""
+  if kind.is_empty()or raw.get("kind")!=kind:return _refuse("unknown destination")
+  var provider:Variant=_object(raw.get("provider"))
+  var source:String="res://game/levels/outdoor_routes.gd"
+  if not _script_is(provider,source)or provider.get_parent()!=world:return _refuse("foreign authored provider")
+  var owners:Variant=raw.get("owners")
+  if not owners is Array or owners.is_empty()or owners.size()>MAX_BODIES:return _refuse("owner bounds")
+  var rows:Array=[]
+  for owner:Variant in owners:
+   if not owner is Dictionary:return _refuse("owner record")
+   var body:Variant=_object(owner.get("body"))
+   if not body is StaticBody3D or body.get_parent()!=provider or body.collision_layer&(1|2)==0:return _refuse("foreign authored body")
+   var indices:Variant=owner.get("shape_indices")
+   var count:int=PhysicsServer3D.body_get_shape_count(body.get_rid())
+   if not indices is PackedInt32Array or indices.is_empty()or indices.size()>MAX_SHAPES or count<1 or count>MAX_SHAPES:return _refuse("native shape bounds")
+   var seen:Dictionary={}
+   var shapes:Array=[]
+   for index:int in indices:
+    if index<0 or index>=count or seen.has(index):return _refuse("native integer shape")
+    seen[index]=true
+    var primitive:Variant=body.shape_owner_get_owner(body.shape_find_owner(index))
+    if not primitive is CollisionShape3D or primitive.disabled or not primitive.shape is BoxShape3D:return _refuse("native box authority")
+    var rid:RID=PhysicsServer3D.body_get_shape(body.get_rid(),index)
+    if not rid.is_valid()or primitive.shape.get_rid()!=rid or PhysicsServer3D.shape_get_type(rid)!=PhysicsServer3D.SHAPE_BOX:return _refuse("native shape identity")
+    var frame:Transform3D=body.global_transform*PhysicsServer3D.body_get_shape_transform(body.get_rid(),index)
+    var size:Vector3=primitive.shape.size
+    if not _frame_valid(frame)or not size.is_finite()or minf(size.x,minf(size.y,size.z))<=0:return _refuse("native box frame/data")
+    var native_data:Variant=PhysicsServer3D.shape_get_data(rid)
+    if not native_data is Vector3 or native_data!=size*.5:return _refuse("native box data")
+    shapes.append({"index":index,"node":weakref(primitive),"rid":rid,"size":size,"native_data":native_data,"frame":frame})
+   rows.append({"body":weakref(body),"rid":body.get_rid(),"frame":body.global_transform,"shape_count":count,"shapes":shapes})
+  _targets[id]={"kind":kind,"provider":weakref(provider),"source":source,"owners":rows}
+ var configured:Variant=rider.get("_grind_lines")
+ if not configured is Array:return _refuse("missing configured lines")
+ for line:Variant in configured:
+  if not line is Line or not line.is_valid:continue
+  var target:String=""
+  var skin:float=0.0
+  if _targets.has(line.id):
+   target=str(line.id)
+   skin=0.005
+  elif str(line.id).begins_with("Grind_Edge_BridgeRail_"):
+   for id:String in _targets:
+    if _targets[id].kind=="handrail"and _semantic_on_target(line,_targets[id]):target=id;skin=Edges.SKIN;break
+  if target.is_empty():continue
+  if _lines.size()>=MAX_LINES or line.points.size()<2 or line.points.size()>MAX_POINTS:return _refuse("configured line bounds")
+  _lines[line.get_instance_id()]={"ref":weakref(line),"target":target,"id":str(line.id),"points":line.points.duplicate(),"length":line.length,"skin":skin,"vertical_offset":line.contact_vertical_offset,"normal_offset":line.contact_normal_offset,"verified":line.contact_verified}
+ for id:String in _targets:
+  var found:=false
+  for record:Dictionary in _lines.values():found=found or record.target==id
+  if not found:return _refuse("missing actual destination line")
+ var definitions:Array=world.get_gap_definitions()
+ for definition:Dictionary in definitions:
+  if definition.get("finish_kind","")!="native_grind":continue
+  if not definition.has_all(["id","name","start","end","radius","points","airborne_required","finish_destination"])or not _targets.has(definition.finish_destination)or not definition.airborne_required or _gap_signatures.size()>=16:return _refuse("invalid authored finish declaration")
+  var signature:Dictionary=definition.duplicate(true)
+  var route:Vector3=definition.end-definition.start
+  signature["direction"]=route/route.length()
+  _gap_signatures[definition.id]=signature
+ _ray.collision_mask=1|2
+ _ray.exclude=[rider.get_rid()]
+ ready=true;rejection=""
+ return true
+func _semantic_on_target(line:Line,target:Dictionary)->bool:
+ for owner:Dictionary in target.owners:
+  for shape:Dictionary in owner.shapes:
+   var frame:Transform3D=shape.frame
+   if frame.basis.y.distance_to(Vector3.UP)>0.00001:continue
+   var all_inside:=true
+   for point:Vector3 in line.points:
+    var local:Vector3=frame.affine_inverse()*point
+    all_inside=all_inside and absf(local.x)<=shape.size.x*.5+Style.CONTACT_TOLERANCE and absf(local.z)<=shape.size.z*.5+Style.CONTACT_TOLERANCE and absf(local.y-shape.size.y*.5-Edges.SKIN)<=Style.CONTACT_TOLERANCE
+   if all_inside:return true
+ return false
+func _refuse(why:String)->bool:
+ rejection=why;ready=false;_pending.clear();return false
+func _line_live(line:Variant,record:Dictionary,rider:CharacterBody3D)->bool:
+ if not line is Line or not is_instance_valid(line)or _object(record.ref)!=line or not rider._grind_lines.has(line):return false
+ if not line.is_valid or line.id!=record.id or line.points!=record.points or line.length!=record.length or line.is_loop or line.contact_vertical_offset!=record.vertical_offset or line.contact_normal_offset!=record.normal_offset or line.contact_verified!=record.verified:return false
+ if line.curve==null or line.curve.get_point_count()!=line.points.size():return false
+ for i:int in line.points.size():
+  if line.curve.get_point_position(i)!=line.points[i]or line.curve.get_point_in(i)!=Vector3.ZERO or line.curve.get_point_out(i)!=Vector3.ZERO:return false
+ return true
+func _owner_live(owner:Dictionary,provider:Node3D)->bool:
+ var body:Variant=_object(owner.body)
+ if not body is StaticBody3D or body.get_parent()!=provider or body.get_rid()!=owner.rid or body.global_transform!=owner.frame or body.collision_layer&(1|2)==0 or PhysicsServer3D.body_get_shape_count(owner.rid)!=owner.shape_count:return false
+ for shape:Dictionary in owner.shapes:
+  if typeof(shape.get("index"))!=TYPE_INT or int(shape.index)<0 or int(shape.index)>=int(owner.shape_count)or typeof(shape.get("rid"))!=TYPE_RID or not shape.get("frame")is Transform3D or not shape.get("size")is Vector3 or not shape.get("native_data")is Vector3:return false
+  var node:Variant=_object(shape.node)
+  if not node is CollisionShape3D or node.disabled or not node.shape is BoxShape3D or node.shape.size!=shape.size or node.shape.get_rid()!=shape.rid or PhysicsServer3D.body_get_shape(owner.rid,shape.index)!=shape.rid or PhysicsServer3D.shape_get_type(shape.rid)!=PhysicsServer3D.SHAPE_BOX or PhysicsServer3D.shape_get_data(shape.rid)!=shape.native_data:return false
+  if body.global_transform*PhysicsServer3D.body_get_shape_transform(owner.rid,shape.index)!=shape.frame:return false
+ return true
+func _native_proof(line:Line,record:Dictionary,rider:CharacterBody3D)->Dictionary:
+ var target:Dictionary=_targets[record.target]
+ var world:Variant=_object(_world)
+ var provider:Variant=_object(target.provider)
+ if not is_instance_valid(world)or not _script_is(provider,target.source)or provider.get_parent()!=world:return {}
+ for owner:Dictionary in target.owners:
+  if not _owner_live(owner,provider):return {}
+ if not _line_live(line,record,rider)or not is_finite(rider._grind.distance)or rider._grind.position().distance_to(rider.global_position)>Style.CONTACT_TOLERANCE:return {}
+ var point:Vector3=line.contact_at(rider._grind.distance)
+ if not point.is_finite():return {}
+ _ray.from=point+Vector3.UP*.06
+ _ray.to=point-Vector3.UP*.12
+ native_queries+=1
+ var hit:Dictionary=rider.get_world_3d().direct_space_state.intersect_ray(_ray)
+ if hit.is_empty()or typeof(hit.get("shape"))!=TYPE_INT or not Vector3(hit.position).is_finite()or not Vector3(hit.normal).is_finite():return {}
+ for owner:Dictionary in target.owners:
+  if hit.get("rid")!=owner.rid:continue
+  for shape:Dictionary in owner.shapes:
+   if hit.shape!=shape.index:continue
+   var frame:Transform3D=shape.frame
+   var normal:Vector3=hit.normal
+   var local:Vector3=frame.affine_inverse()*Vector3(hit.position)
+   var axis:=0
+   if absf(frame.basis.y.y)>absf(frame.basis[axis].y):axis=1
+   if absf(frame.basis.z.y)>absf(frame.basis[axis].y):axis=2
+   var sign_up:float=signf(frame.basis[axis].y)
+   var expected_normal:Vector3=frame.basis[axis]*sign_up
+   if normal.dot(expected_normal)<0.999 or normal.y<0.65:return {}
+   for k:int in 3:
+    if absf(local[k])>shape.size[k]*.5+Style.CONTACT_TOLERANCE:return {}
+   if absf(local[axis]-sign_up*shape.size[axis]*.5)>Style.CONTACT_TOLERANCE:return {}
+   var gap:float=(point-Vector3(hit.position)).dot(normal)
+   if absf(gap-float(record.skin))>Style.CONTACT_TOLERANCE:return {}
+   return {"rid":owner.rid,"shape":int(hit.shape),"position":hit.position,"normal":normal,"guide_point":point,"source_gap":gap}
+ return {}
+func refresh()->void:
+ if _pending.is_empty():return
+ var rider:Variant=_object(_rider)
+ if not rider is CharacterBody3D or not rider.grinding or rider.bailing or not Input.is_action_pressed("grind")or Engine.get_physics_frames()-int(_pending.frame)>1:
+  invalidate()
+func remember_capture(raw_id:String,from:Vector3,was_airborne:bool,had_previous:bool,sample_frame:int)->void:
+ _pending.clear()
+ if not ready or not had_previous or not was_airborne or not from.is_finite()or sample_frame<0 or Engine.get_physics_frames()<sample_frame or Engine.get_physics_frames()-sample_frame>1:return
+ var rider:Variant=_object(_rider)
+ if not rider is CharacterBody3D or not rider.grinding or rider.bailing or rider.airborne or not rider._controls_enabled or not rider._trick_entries_enabled or not Input.is_action_pressed("grind"):return
+ var line:Variant=rider._grind.line
+ if not line is Line or str(line.id)!=raw_id or not _lines.has(line.get_instance_id()):return
+ var record:Dictionary=_lines[line.get_instance_id()]
+ var proof:Dictionary=_native_proof(line,record,rider)
+ if proof.is_empty():return
+ _capture_serial+=1
+ _pending={"epoch":_epoch,"serial":_capture_serial,"frame":Engine.get_physics_frames(),"sample_frame":sample_frame,"line":weakref(line),"line_instance":line.get_instance_id(),"raw_id":raw_id,"target":record.target,"from":from,"to":rider.global_position,"proof":proof,"used":false}
+ _record_proof({"kind":"capture","frame":Engine.get_physics_frames(),"serial":_capture_serial,"target":record.target,"raw_id":raw_id,"from":from,"to":rider.global_position,"rid":proof.rid.get_id(),"shape":proof.shape})
+func finish(definition:Dictionary,from:Vector3,to:Vector3,sample_frame:int)->bool:
+ var valid:bool=_finish_ready(definition,from,to,sample_frame)
+ if valid:
+  _pending.used=true
+  _record_proof({"kind":"finish","frame":Engine.get_physics_frames(),"capture_frame":_pending.frame,"sample_frame":sample_frame,"serial":_pending.serial,"target":_pending.target,"gap_id":definition.id})
+ return valid
+func _finish_ready(definition:Dictionary,from:Vector3,to:Vector3,sample_frame:int)->bool:
+ if not definition.has_all(["id","finish_kind","finish_destination"])or typeof(definition.id)!=TYPE_STRING or not _gap_signatures.has(definition.id):return false
+ var signature:Dictionary=_gap_signatures[definition.id]
+ for key:Variant in signature:
+  if not definition.has(key)or definition[key]!=signature[key]:return false
+ if not _pending.has_all(["used","epoch","serial","frame","sample_frame","line","line_instance","raw_id","target","from","to","proof"])or typeof(_pending.used)!=TYPE_BOOL:return false
+ for field:String in ["epoch","serial","frame","sample_frame","line_instance"]:
+  if typeof(_pending[field])!=TYPE_INT:return false
+ if sample_frame<0 or sample_frame!=_pending.sample_frame or int(_pending.frame)<sample_frame or int(_pending.frame)-sample_frame>1:return false
+ if _pending.serial!=_capture_serial or not _pending.proof is Dictionary or typeof(_pending.proof.get("rid"))!=TYPE_RID or typeof(_pending.proof.get("shape"))!=TYPE_INT:return false
+ if not ready or _pending.is_empty()or _pending.used or _pending.epoch!=_epoch or definition.get("finish_kind","")!="native_grind"or definition.get("finish_destination","")!=_pending.target:return false
+ var frame:int=Engine.get_physics_frames()
+ if frame<int(_pending.frame)or frame-int(_pending.frame)>1 or from!=_pending.from or to!=_pending.to:return false
+ var rider:Variant=_object(_rider)
+ var line:Variant=_object(_pending.line)
+ if not rider is CharacterBody3D or not line is Line or not rider.grinding or rider.bailing or rider.airborne or not rider._controls_enabled or not rider._trick_entries_enabled or not Input.is_action_pressed("grind")or rider._grind.line!=line or rider.global_position!=to or line.get_instance_id()!=_pending.line_instance or str(line.id)!=_pending.raw_id:return false
+ if not _lines.has(line.get_instance_id()):return false
+ var record:Dictionary=_lines[line.get_instance_id()]
+ var proof:Dictionary=_native_proof(line,record,rider)
+ if proof.is_empty():return false
+ return proof.rid==_pending.proof.rid and proof.shape==_pending.proof.shape
+
+func _record_proof(event:Dictionary)->void:
+ proof_events.append(event)
+ if proof_events.size()>64:proof_events.pop_front()

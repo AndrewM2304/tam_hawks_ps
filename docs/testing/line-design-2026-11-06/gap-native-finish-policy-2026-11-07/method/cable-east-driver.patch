@@ -1,0 +1,84 @@
+--- originalWESTdriver-functions
++++ privateEASTmirroreddriver-functions
+@@ -12,7 +12,7 @@
+ 
+ static func _drive_player(tree: SceneTree, game: Node, check: Callable, direction: float, observer: Callable) -> void:
+ 	_release()
+-	var start := Vector3(-28.1,0.0,85.0 if direction>0.0 else 109.0)
++	var start := Vector3(-21.9,0.0,85.0 if direction>0.0 else 109.0)
+ 	start.y = game.world.get_ground_height(start)+0.08
+ 	game.skater.spawn_position = start
+ 	game.start_mode(true)
+@@ -26,7 +26,7 @@
+ 		var support := _finite_bridge_support(game,id)
+ 		if not support.is_empty():
+ 			evidence.bridge_supports.append(support)
+-			evidence.captures.append("clyde_safe_handrail_west")
++			evidence.captures.append("clyde_safe_handrail_east")
+ 		else: evidence.captures.append(id)
+ 	var on_bail := func(): evidence.bails+=1
+ 	game.skater.grind_captured.connect(on_capture)
+@@ -38,7 +38,7 @@
+ 	await _input_frames(tree,game,evidence,16,"charge_to_handrail",observer)
+ 	Input.action_release("ollie")
+ 	Input.action_press("grind")
+-	var first := await _wait_capture(tree,game,evidence,"clyde_safe_handrail_west",100,"first_handrail",observer)
++	var first := await _wait_capture(tree,game,evidence,"clyde_safe_handrail_east",100,"first_handrail",observer)
+ 	if first:
+ 		await _input_frames(tree,game,evidence,8,"handrail_run",observer)
+ 		Input.action_press("ollie")
+@@ -51,8 +51,9 @@
+ 		await _input_frames(tree,game,evidence,1,"fresh_cable_request",observer)
+ 		Input.action_press("grind")
+ 	var cable := false
+-	if first: cable = await _wait_capture(tree,game,evidence,"clyde_cable_west",100,"cable_air_catch",observer)
++	if first: cable = await _wait_capture(tree,game,evidence,"clyde_cable_east",100,"cable_air_catch",observer)
+ 	if cable:
++		await _input_frames(tree,game,evidence,extra_cable_wait,"wait_on_cable_for_declared_gap",observer)
+ 		Input.action_press("ollie")
+ 		await _input_frames(tree,game,evidence,16,"charge_from_cable",observer)
+ 		_set_steer(-direction*0.55)
+@@ -63,7 +64,7 @@
+ 		await _input_frames(tree,game,evidence,1,"fresh_return_request",observer)
+ 		Input.action_press("grind")
+ 	var returned := false
+-	if cable: returned = await _wait_capture(tree,game,evidence,"clyde_safe_handrail_west",100,"return_handrail",observer)
++	if cable: returned = await _wait_capture(tree,game,evidence,"clyde_safe_handrail_east",100,"return_handrail",observer)
+ 	if returned:
+ 		Input.action_press("ollie")
+ 		await _input_frames(tree,game,evidence,2,"short_dry_exit_charge",observer)
+@@ -85,7 +86,7 @@
+ 		"cable_ticks":evidence.cable_ticks,"max_cable_gap":evidence.max_cable_gap,
+ 		"position":var_to_str(game.skater.global_position),"stages":evidence.stages}))
+ 	check.call(first and cable and returned and evidence.captures==[
+-		"clyde_safe_handrail_west","clyde_cable_west","clyde_safe_handrail_west"]
++		"clyde_safe_handrail_east","clyde_cable_east","clyde_safe_handrail_east"]
+ 		and evidence.bridge_supports.size()==2
+ 		and evidence.bridge_supports[0].rid==evidence.bridge_supports[1].rid
+ 		and evidence.cable_ticks>=8 and evidence.bails==0 and evidence.banks==1
+@@ -100,7 +101,7 @@
+ 	if not rider.grinding or str(rider._grind.line.id)!=raw_id:return {}
+ 	var reference=null
+ 	for line in game.world.get_grind_lines():
+-		if line.id=="clyde_safe_handrail_west":reference=line
++		if line.id=="clyde_safe_handrail_east":reference=line
+ 	if reference==null:return {}
+ 	var query:=PhysicsRayQueryParameters3D.create(rider.global_position+Vector3.UP*.1,rider.global_position-Vector3.UP*.2,1,[rider.get_rid()])
+ 	var space: PhysicsDirectSpaceState3D=game.world.get_world_3d().direct_space_state
+@@ -169,7 +170,7 @@
+ 		if game.score.total_score!=evidence.last_score:
+ 			evidence.banks+=1
+ 			evidence.last_score=game.score.total_score
+-		if game.skater.grinding and game.skater._grind.line.id=="clyde_cable_west":
++		if game.skater.grinding and game.skater._grind.line.id=="clyde_cable_east":
+ 			evidence.cable_ticks+=1
+ 			evidence.max_cable_gap=maxf(evidence.max_cable_gap,
+ 				game.skater.global_position.distance_to(game.skater._grind.position()))
+@@ -177,6 +178,7 @@
+ 
+ 
+ static func _set_steer(amount: float) -> void:
++	amount = -amount # Mirror ordinary mapped steering across the bridge centreline.
+ 	Input.action_release("steer_left")
+ 	Input.action_release("steer_right")
+ 	if amount<0.0: Input.action_press("steer_left",-amount)

@@ -1,0 +1,40 @@
+extends "res://game/tricks/gap_tracker.gd"
+const Original=preload("res://.local/gap_tracker_legacy.gd")
+var target:Node
+var rows:Array=[]
+var mismatches:Array=[]
+var policy_deltas:Array=[]
+var shadow=Original.new()
+var run_label:="setup"
+func configure(definitions:Array,native_destinations:PackedStringArray=PackedStringArray())->void:
+ super.configure(definitions,native_destinations)
+ shadow.configure(definitions)
+func reset()->void:
+ super.reset()
+ shadow.reset()
+func _phase_rows()->Array:
+ var result:Array=[]
+ for index:int in _definitions.size():
+  var state:Dictionary=_states[index].duplicate(true)
+  state["id"]=_definitions[index].id
+  result.append(state)
+ return result
+func update(position:Vector3,airborne:bool,delta:float,native_finish:Callable=Callable())->Array[Dictionary]:
+ var before:Array=_phase_rows()
+ var previous:Vector3=_previous
+ var had_previous:bool=_has_previous
+ var old_air:bool=_previous_airborne
+ var awards:Array[Dictionary]=super.update(position,airborne,delta,native_finish)
+ var expected:Array[Dictionary]=shadow.update(position,airborne,delta)
+ var missing:Array=[]
+ for old_award:Dictionary in expected:
+  if not awards.has(old_award):missing.append(old_award)
+ var added:Array=[]
+ for award:Dictionary in awards:
+  if not expected.has(award):added.append(award)
+ if not added.is_empty():policy_deltas.append({"physics":Engine.get_physics_frames(),"run":run_label,"added":added,"legacy":expected.duplicate(true),"new":awards.duplicate(true)})
+ if not missing.is_empty() or _states!=shadow._states or _previous!=shadow._previous or _has_previous!=shadow._has_previous or _previous_airborne!=shadow._previous_airborne:
+  mismatches.append({"physics":Engine.get_physics_frames(),"run":run_label})
+ var s:CharacterBody3D=target.skater
+ rows.append({"run":run_label,"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames(),"position":[position.x,position.y,position.z],"previous":[previous.x,previous.y,previous.z],"has_previous":had_previous,"previous_airborne":old_air,"airborne":airborne,"delta":delta,"grinding":s.grinding,"grind_id":str(s._grind.line.id)if s.grinding else "","is_on_floor":s.is_on_floor(),"velocity":[s.velocity.x,s.velocity.y,s.velocity.z],"speed":s.speed,"phase_before":before,"phase_after":_phase_rows(),"awards":awards.duplicate(true),"legacy_awards":expected.duplicate(true)})
+ return awards

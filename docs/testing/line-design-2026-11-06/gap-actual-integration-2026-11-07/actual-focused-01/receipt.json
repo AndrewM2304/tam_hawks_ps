@@ -1,0 +1,76 @@
+{
+  "start_utc": "2026-11-07T11:36:29.993520+00:00",
+  "end_utc": "2026-11-07T11:36:55.893141+00:00",
+  "wall_seconds": 25.899607810002635,
+  "epochs": [
+    {
+      "name": "parser",
+      "start_utc": "2026-11-07T11:36:29.993561+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "res://.local/gap-combo-validation/actual_focused.gd"
+      ],
+      "stage_bound_seconds": 15,
+      "aggregate_bound_seconds": 120,
+      "pid": 126645,
+      "process_group": 126645,
+      "end_utc": "2026-11-07T11:36:32.257724+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "name": "native",
+      "start_utc": "2026-11-07T11:36:32.258141+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://.local/gap-combo-validation/actual_focused.gd"
+      ],
+      "stage_bound_seconds": 105,
+      "aggregate_bound_seconds": 120,
+      "pid": 126658,
+      "process_group": 126658,
+      "end_utc": "2026-11-07T11:36:55.365056+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "09ac701edef3d50f106940e409616f814de496ee20275afe790fa84983485e13"
+    }
+  ],
+  "source_count": 896,
+  "source_stable": true,
+  "imported_files": 290,
+  "actual_imported_stable": true,
+  "actual_metadata_stable": true,
+  "result_summary": {
+    "passed": 134,
+    "failed": 0,
+    "stages": {
+      "contracts": {
+        "failed": 0,
+        "passed": 18
+      },
+      "legacy": {
+        "failed": 0,
+        "passed": 34
+      },
+      "native": {
+        "failed": 0,
+        "passed": 79
+      }
+    },
+    "proof_events": 14,
+    "score_entries": 48,
+    "score_banks": 6
+  },
+  "eligible": true,
+  "scope": "ACTUAL current1ef/Visual1ba source and current Mac-compatible23 import composition; public regression cohort, actual native/rider eligibility mutations restored, not natural physical-parity proof, super-delegated gap/score instrumentation. Shadow awards never fed game. Actual native cache/metadata bound before-after; no actual source/profile/cache writes during execution, no observer spatial queries or draw additions; explicit bounded native-finish helper queries are logged. No FPS/M5 claim."
+}

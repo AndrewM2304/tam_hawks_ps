@@ -1,0 +1,72 @@
+extends SceneTree
+const Main=preload("res://game/main.gd")
+const CableWest=preload("res://.local/cable_timing_driver.gd")
+const CableEast=preload("res://.local/cable_east_driver.gd")
+const LegacyTests=preload("res://tests/special_gap_tests.gd")
+const GapObserver=preload("res://.local/gap_toggle_observer.gd")
+const ScoreObserver=preload("res://.local/score_observer.gd")
+var passes:=0
+var failures:Array[String]=[]
+var samples:Array=[]
+var game:Node
+var gap_probe:RefCounted
+var score_probe:RefCounted
+func _initialize()->void:run.call_deferred()
+func check(ok:bool,label:String)->void:
+ if ok:passes+=1
+ else:failures.append(label)
+ print("PASS "if ok else"FAIL ",label)
+func observe(stage:String,g:Node,tick:int)->void:
+ samples.append({"run":gap_probe.run_label,"tick":tick,"stage":stage,"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames(),"position":[g.skater.global_position.x,g.skater.global_position.y,g.skater.global_position.z],"airborne":g.skater.airborne,"grinding":g.skater.grinding,"grind_id":str(g.skater._grind.line.id)if g.skater.grinding else"","floor":g.skater.is_on_floor(),"total":g.score.total_score,"combo":g.score.get_combo_value(),"combo_base":g.score.combo_base,"combo_multiplier":g.score.combo_multiplier,"last_identity":g.score._last_identity,"history":g.score.trick_history.duplicate(),"last_gap_call":gap_probe.rows.size()-1})
+func encode(value:Variant)->Variant:
+ if value is Vector3:return [value.x,value.y,value.z]
+ if value is Array:
+  var result:Array=[]
+  for v:Variant in value:result.append(encode(v))
+  return result
+ if value is Dictionary:
+  var result:Dictionary={}
+  for k:Variant in value:result[str(k)]=encode(value[k])
+  return result
+ return value
+func run()->void:
+ LegacyTests.run(check)
+ game=Main.new()
+ check(not game.persistence_enabled,"script launch disables profile persistence before tree entry")
+ if game.persistence_enabled:game.free();finish();return
+ gap_probe=GapObserver.new();gap_probe.target=game
+ score_probe=ScoreObserver.new()
+ gap_probe.allow_native_finish=OS.get_environment("TAM_GAP_FINISH_MODE")=="on"
+ game.gaps=gap_probe
+ game.score=score_probe
+ root.add_child(game)
+ check(not game.music._can_control and not game.music._persist,"actual default Main isolates personal Music/profile")
+ var gaps:Array=encode(game.world.get_gap_definitions())
+ check(game.native_gap_finish.ready,"native destinations configure from real constructor-owned bodies and actual Skater lines")
+ check(game.gaps._definitions.size()==8,"all eight original gap IDs retain registered strict or native-finish definitions")
+ for entry:Dictionary in [{"run":"west_south_wait_12","east":false,"direction":1.0,"wait":12},{"run":"east_south_wait_12","east":true,"direction":1.0,"wait":12},{"run":"west_south_original","east":false,"direction":1.0,"wait":0},{"run":"east_south_original","east":true,"direction":1.0,"wait":0},{"run":"west_north_original","east":false,"direction":-1.0,"wait":0},{"run":"east_north_original","east":true,"direction":-1.0,"wait":0}]:
+  gap_probe.run_label=str(entry.run)
+  score_probe.run_label=gap_probe.run_label
+  if bool(entry.east):
+   CableEast.extra_cable_wait=int(entry.wait)
+   await CableEast._drive_player(self,game,check,float(entry.direction),observe)
+  else:
+   CableWest.extra_cable_wait=int(entry.wait)
+   await CableWest._drive_player(self,game,check,float(entry.direction),observe)
+ var ids:Array=[]
+ for row:Dictionary in gap_probe.rows:
+  for award:Dictionary in row.awards:
+   if not ids.has(award.id):ids.append(award.id)
+ check(ids.has("clyde_handrail_to_cable_west")and ids.has("clyde_handrail_to_cable_east"),"both strict entry gaps award in the matched natural-input fixture")
+ check(ids.has("clyde_cable_to_handrail_west")==gap_probe.allow_native_finish and ids.has("clyde_cable_to_handrail_east")==gap_probe.allow_native_finish,"return awards follow only the explicit native-finish callable selection")
+ check(gap_probe.mismatches.is_empty(),"legacy awards and every tracker phase remain exact; explicit destination policy may only add finish awards")
+ var data:Dictionary={"finish_mode":OS.get_environment("TAM_GAP_FINISH_MODE"),"passed":passes,"failed":failures.size(),"failures":failures,"definitions":gaps,"gap_updates":gap_probe.rows,"score_events":score_probe.events,"samples":samples,"shadow_mismatches":gap_probe.mismatches,"policy_deltas":gap_probe.policy_deltas,"native_finish_ready":game.native_gap_finish.ready,"native_finish_rejection":game.native_gap_finish.rejection,"native_finish_queries":game.native_gap_finish.native_queries,"native_finish_events":encode(game.native_gap_finish.proof_events),"scope":"PRIVATE identical-source A/B finish-callable fixture (env mode on/off): unchanged old special/gap unit tests plusWEST/EASTsouthWAIT12 and originaltiming both directions; explicitmirror/inputwait fixtures. No physical pose/velocity/heading/score writes afterinitialspawn. Test-only toggle explicitly passes or withholds the finish Callable; gap/score methods otherwise super-delegate; shadow tracker results never feed game scoring. No observer spatial queries or draws; bounded finish-helper queries logged; no per-tick physical state writes; no performance/render/M5 claim."}
+ var out:=FileAccess.open(OS.get_environment("TAM_GAP_COMBO_OUTPUT"),FileAccess.WRITE)
+ if out==null:push_error("Cannot write gap/combo native evidence");quit(2);return
+ out.store_string(JSON.stringify(data,"\t",true,true)+"\n");out.close()
+ game.queue_free();await process_frame
+ print("GAP_COMBO_NATIVE ",passes," passed, ",failures.size()," failed")
+ quit(0 if failures.is_empty()else 1)
+func finish()->void:
+ print("GAP_COMBO_NATIVE ",passes," passed, ",failures.size()," failed")
+ quit(1)

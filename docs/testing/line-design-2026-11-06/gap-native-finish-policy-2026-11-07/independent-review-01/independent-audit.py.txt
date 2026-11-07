@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""Independent source/provenance, physical-row and integer-ledger review."""
+from pathlib import Path
+import collections,datetime,hashlib,json,re,shutil
+R=Path('/workspace/tam_hawks_ps');B=R/'.local/gap-combo-validation';P=B/'proposal-final-01';O=R/'docs/testing/line-design-2026-11-06/gap-native-finish-policy-2026-11-07/independent-review-01'
+O.mkdir(exist_ok=True);H=lambda b:hashlib.sha256(b).hexdigest();load=lambda p:json.loads(p.read_text());checks=[]
+def check(name,value,actual=None):checks.append({'check':name,'pass':bool(value),'actual':actual})
+m=load(P/'manifest.json')['files']
+for n,v in m.items():
+ check('payload '+n,H((P/n).read_bytes())==v['proposed_sha256'])
+ check('actual preimage '+n,not (R/n).exists() if v['preimage_sha256'] is None else H((R/n).read_bytes())==v['preimage_sha256'])
+check('six files only; controller/score/geometry unchanged',len(m)==6 and not any(n.startswith(('game/player/','game/scoring/')) for n in m))
+epochs={}
+for tag,count in [('policy-controls-03',106),('policy-positive-03',46),('policy-matched-off-01',47),('policy-matched-on-01',47)]:
+ d=B/tag;r=load(d/'receipt.json');v=load(d/'native-result.json');before=load(d/'source-before.json');after=load(d/'source-after.json')
+ check(tag+' native/source/cache eligibility',r['eligible'] and r['source_stable'] and r['private_imported_stable'] and r['private_metadata_stable'] and before==after and len(before)==r['source_count'] and len(load(d/'imported-before.json'))==252 and load(d/'imported-before.json')==load(d/'imported-after.json') and load(d/'metadata-before.json')==load(d/'metadata-after.json'))
+ check(tag+' count/result',v['passed']==count and v['failed']==0 and not v['failures'] and not v['shadow_mismatches'])
+ native_log=(d/'native.log').read_text()
+ check(tag+' raw PASS lines and unique summary match',len(re.findall(r'^PASS ',native_log,re.M))==count and re.findall(r'^GAP_COMBO_NATIVE (\d+) passed, (\d+) failed$',native_log,re.M)==[(str(count),'0')])
+ for ep in r['epochs']:
+  raw=(d/(ep['name']+'.log')).read_bytes();text=raw.decode(errors='replace')
+  check(tag+' '+ep['name']+' raw/exit/deadline',ep['exit_code']==0 and not ep['stop'] and not ep['raw_error'] and H(raw)==ep['log_sha256'] and not re.search(r'SCRIPT ERROR:|SHADER ERROR:|Parse Error:|(?:^|\n)ERROR:|^FAIL:',text,re.M) and (datetime.datetime.fromisoformat(ep['end_utc'])-datetime.datetime.fromisoformat(ep['start_utc'])).total_seconds()<ep['stage_bound_seconds'])
+ check(tag+' six proposed source files exactly native-bound',all(before['project/'+n]==v2['proposed_sha256'] and H((d/'executed-policy-sources'/(n+'.txt')).read_bytes())==v2['proposed_sha256'] for n,v2 in m.items()))
+ check(tag+' executable wrapper before-bound',H((d/'run.py.txt').read_bytes()) in before.values())
+ epochs[tag]={'result':v,'before':before,'receipt':r}
+
+a=epochs['policy-matched-off-01']['result'];z=epochs['policy-matched-on-01']['result']
+check('matched897 source maps identical',epochs['policy-matched-off-01']['before']==epochs['policy-matched-on-01']['before'] and len(epochs['policy-matched-on-01']['before'])==897)
+sample_keys=['run','tick','stage','physics','position','airborne','grinding','grind_id','floor','last_gap_call']
+gap_keys=['run','physics','position','previous','previous_sample_frame','has_previous','previous_airborne','airborne','delta','grinding','grind_id','is_on_floor','velocity','speed','phase_before','phase_after','legacy_awards']
+check('1442 physical samples exactly equal',len(a['samples'])==len(z['samples'])==1442 and all({k:x[k] for k in sample_keys}=={k:y[k] for k in sample_keys} for x,y in zip(a['samples'],z['samples'])))
+check('1442 physical/trigger state rows exactly equal',len(a['gap_updates'])==len(z['gap_updates'])==1442 and all({k:x[k] for k in gap_keys}=={k:y[k] for k in gap_keys} for x,y in zip(a['gap_updates'],z['gap_updates'])))
+old_awards={(v['run'],v['physics']):v['awards'] for v in a['gap_updates']};added=[];lost=[]
+for row in z['gap_updates']:
+ previous=old_awards[(row['run'],row['physics'])]
+ added.extend({'run':row['run'],'physics':row['physics'],'award':v} for v in row['awards'] if v not in previous)
+ lost.extend({'run':row['run'],'physics':row['physics'],'award':v} for v in previous if v not in row['awards'])
+check('only two explicit500-point return awards added',not lost and [(v['run'],v['physics'],v['award']['id'],v['award']['points']) for v in added]==[('west_south_wait_12',170,'clyde_cable_to_handrail_west',500),('east_south_wait_12',419,'clyde_cable_to_handrail_east',500)])
+captures={(e['serial'],e['target']):e for e in z['native_finish_events'] if e['kind']=='capture'}
+for finish in [e for e in z['native_finish_events'] if e['kind']=='finish']:
+ c=captures[(finish['serial'],finish['target'])];row=next(v for v in z['gap_updates'] if v['physics']==finish['frame'])
+ check('actual capture→sample freshness '+finish['gap_id'],finish['frame']-c['frame'] in [0,1] and finish['capture_frame']==c['frame'] and finish['sample_frame']==row['previous_sample_frame'] and c['from']==row['previous'] and c['to']==row['position'] and row['grinding'] and not row['airborne'] and row['previous_airborne'] and row['grind_id']==c['raw_id'])
+check('helper12capture+2finish ray counts; not total driver queries',a['native_finish_queries']==12 and z['native_finish_queries']==14 and len(captures)==12)
+controls=epochs['policy-controls-03']['result']['native_finish_controls']
+check('all47 genuine-context controls retain expected outcomes',len(controls)==47 and all(v['passed'] and v['observed']==v['expected'] for v in controls))
+
+def ledger(events):
+ total=bank_base=entry_count=0;repeated={};fail=[];banks=[];trace=[]
+ def state():return {'total':total,'base':bank_base,'multiplier':min(entry_count,100),'value':min(2147483647,bank_base*min(entry_count,100))}
+ for i,e in enumerate(events):
+  if e['kind'] in ['begin_landing','continue_combo']:continue
+  before=state()
+  if any(e['before'][k]!=v for k,v in before.items()):fail.append({'event':i,'when':'before'})
+  award=None
+  if e['kind']=='reset':total=bank_base=entry_count=0;repeated={}
+  elif e['kind']=='add_trick':
+   identity=e['identity'].strip() or e['label'];times=repeated.get(identity,0)
+   points=max(1,min(e['points'],1000000)//(1<<min(times,4)));newbase=min(2147483647,bank_base+points);award=newbase-bank_base;bank_base=newbase;entry_count=min(2147483647,entry_count+1);repeated[identity]=min(times+1,4)
+  elif e['kind']=='add_hold_points':
+   oldbase=bank_base
+   if entry_count and bank_base and e['points']>0:bank_base=min(2147483647,bank_base+min(1000000,e['points']))
+   award=bank_base-oldbase
+  elif e['kind']=='bank_combo':
+   value=state()['value']
+   if e['banked']!=value:fail.append({'event':i,'when':'bank'})
+   if value:banks.append({'run':e['run'],'physics':e['physics'],'base':bank_base,'entries':entry_count,'bank':value})
+   total=min(2147483647,total+value);bank_base=entry_count=0
+  else:raise AssertionError('Unreviewed event kind '+e['kind'])
+  after=state()
+  if any(e['after'][k]!=v for k,v in after.items()):fail.append({'event':i,'when':'after'})
+  if award is not None and award!=e['awarded']:fail.append({'event':i,'when':'award'})
+  trace.append({'index':i,'run':e['run'],'physics':e['physics'],'kind':e['kind'],'before':before,'after':after,'award':award})
+ return {'failures':fail,'positive_banks':banks,'trace':trace,'event_kinds':dict(collections.Counter(e['kind'] for e in events))}
+
+ledgers={k:ledger(v['score_events']) for k,v in [('off',a),('on',z)]}
+for mode,l in ledgers.items():check('independent integer ledger '+mode,not l['failures'] and len(l['positive_banks'])==6,l['event_kinds'])
+for mode,l in ledgers.items():
+ for bank in l['positive_banks']:
+  expected=14283 if mode=='on' and 'wait_12' in bank['run'] else (4109 if 'north' in bank['run'] else 8696)
+  check('single terminal bank '+mode+' '+bank['run'],bank['bank']==expected)
+private_controller=epochs['policy-matched-on-01']['before']['project/game/player/skater.gd']
+report={'recorded_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'reviewer':'/root/independent_qa','review_kind':'Independent offline source/native-evidence/physical-parity/integer-ledger audit; no engine run','verdict':'No source/native-subset blocker for guarded six-file integration. Fresh actual-current Main/Gap focused regression remains required; no complete-map/motion/M5 admission.',
+ 'checks':checks,'passed':sum(v['pass'] for v in checks),'failed':sum(not v['pass'] for v in checks),'additional_awards':added,'lost_awards':lost,'score_ledgers':ledgers,
+ 'source_policy_observations':['Only two cable→safe-handrail return definitions opt in. Both entries retain old strict air finish.','GapTracker prior-air/order/radius4s window/max20m displacement/once-until-leave behavior unchanged; ordinary default Callable cannot authorize grounded finish.','Constructor WeakRefs, exact configured line object, unchanged live nativeBox RID/integer shape/data/frame and100µm native contact are required.','Genuine held-grind capture binds exact from/to/prior physics sample plus epoch/serial, age0..1 and intended target. Finish re-rays, consumes once; pause/restart/bail/end invalidate.','Fourfold bounds, line point limits and64-entry proof ring bound new data; ray count14 is helper-only, not pre-existing fixture/native query total or frame time.'],
+ 'current_composition_limit':{'native_private_controller':private_controller,'current_actual_controller':H((R/'game/player/skater.gd').read_bytes()),'finding':'Private positive/control/matched epochs use earlier4895 controller. Other GDScript runtime dependencies match current outside the six proposed files at review. Actual1ef/Visual1ba/current imported composition must be retested after integration.'},
+ 'fixture_scope':'Six separately initialized local WEST/EAST/direction/timing cases; after initial spawn/heading, natural fixtures use mapped inputs. Counterfactual native controls mutate and restore diagnostic eligibility/geometry; they are not natural parity evidence. Super-delegated observers and original driver queries remain explicit. No single six-run/interarea circuit claim.',
+ 'ledger_scope':'Independent integer replay uses call point/identity inputs, run-long repetition/hold/base/entry/bank/reset rules. Natural recorded kinds contain no spin/upgrade/drop; their implementation is not newly exercised by this ledger.',
+ 'proposal_manifest_sha256':H((P/'manifest.json').read_bytes()),'native_context_controls':controls}
+(O/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(__file__,O/'independent-audit.py.txt')
+print(json.dumps({'passed':report['passed'],'failed':report['failed'],'added_awards':added,'banks':{k:v['positive_banks'] for k,v in ledgers.items()},'native_private_controller':private_controller},indent=2))

@@ -1,0 +1,7 @@
+extends "res://.local/gap_policy_observer.gd"
+## PRIVATE A/B policy fixture: both worlds register the identical real provider.
+## Only the passed finish callable differs. This is an explicit test intervention,
+## not a read-only observer claim; no actor or native geometry state is assigned.
+var allow_native_finish:=true
+func update(position:Vector3,airborne:bool,delta:float,native_finish:Callable=Callable())->Array[Dictionary]:
+ return super.update(position,airborne,delta,native_finish if allow_native_finish else Callable())

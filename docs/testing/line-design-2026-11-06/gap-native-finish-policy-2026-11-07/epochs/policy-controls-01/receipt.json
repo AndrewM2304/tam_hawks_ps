@@ -1,0 +1,63 @@
+{
+  "start_utc": "2026-11-07T10:32:58.935657+00:00",
+  "end_utc": "2026-11-07T10:33:26.882165+00:00",
+  "wall_seconds": 27.946513470000355,
+  "epochs": [
+    {
+      "name": "parser",
+      "start_utc": "2026-11-07T10:32:58.935697+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--check-only",
+        "--script",
+        "res://.local/probe_controls.gd"
+      ],
+      "stage_bound_seconds": 15,
+      "aggregate_bound_seconds": 120,
+      "pid": 116484,
+      "process_group": 116484,
+      "end_utc": "2026-11-07T10:33:02.531222+00:00",
+      "exit_code": 0,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "a9912b85473f126d3f4f63ec824170c828df3473a292f866dde86cafda5b66da"
+    },
+    {
+      "name": "native",
+      "start_utc": "2026-11-07T10:33:02.531733+00:00",
+      "command": [
+        "./tools/run.sh",
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--script",
+        "res://.local/probe_controls.gd"
+      ],
+      "stage_bound_seconds": 105,
+      "aggregate_bound_seconds": 120,
+      "pid": 116497,
+      "process_group": 116497,
+      "end_utc": "2026-11-07T10:33:25.840862+00:00",
+      "exit_code": 1,
+      "stop": null,
+      "raw_error": false,
+      "log_sha256": "1dd031a0341515654e1eeb88c04e5c60fdab6684da7b5efc102171975b72c4f3"
+    }
+  ],
+  "source_count": 895,
+  "source_stable": true,
+  "imported_files": 252,
+  "resolved_actual_imports_stable": true,
+  "private_metadata_stable": true,
+  "result_summary": {
+    "passed": 102,
+    "failed": 1,
+    "gap_updates": 251,
+    "score_events": 15,
+    "samples": 251,
+    "shadow_mismatches": 0
+  },
+  "eligible": false,
+  "scope": "Current copied actual source, PRIVATE adversarial native-finish fixture; actual native/rider eligibility mutations restored, not natural physical-parity proof, super-delegated gap/score instrumentation. Shadow awards never fed game. No actual cache/source/profile changes, no rendering/native-query additions or FPS/M5 claim."
+}

@@ -1,0 +1,35 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time,sys
+O=Path(__file__).resolve().parent;P=O/'project';R=O.parents[1];MODE=sys.argv[1];assert MODE in ['off','on'];OUT=O/('policy-matched-'+MODE+'-01');OUT.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def sources():
+ f=[P/'project.godot',P/'export_presets.cfg',Path(__file__).resolve(),O/'prepare.py']
+ f +=[q for n in ['game','tests','tools','.local']for q in(P/n).rglob('*')if q.is_file()and'__pycache__'not in q.parts and not str(q.relative_to(P)).startswith('.local/data/') and not str(q.relative_to(P)).startswith('.local/config/') and not str(q.relative_to(P)).startswith('.local/cache/')]
+ return {str(q.relative_to(O)):sha(q)for q in sorted(set(f))}
+def imported():return{str(q.relative_to(P/'.godot/imported')):sha(q)for q in(P/'.godot/imported').rglob('*')if q.is_file()}
+def metadata():return{n:sha(P/'.godot'/n)for n in['global_script_class_cache.cfg','uid_cache.bin']if(P/'.godot'/n).is_file()}
+before=sources();ib=imported();mb=metadata();(OUT/'source-before.json').write_text(json.dumps(before,indent=2)+'\n');(OUT/'imported-before.json').write_text(json.dumps(ib,indent=2)+'\n');(OUT/'metadata-before.json').write_text(json.dumps(mb,indent=2)+'\n')
+for n in ['probe_matched.gd','gap_toggle_observer.gd','gap_policy_observer.gd','gap_tracker_legacy.gd','cable_timing_driver.gd','cable_east_driver.gd','score_observer.gd']: (OUT/(n+'.txt')).write_bytes((P/'.local'/n).read_bytes())
+(OUT/'run.py.txt').write_bytes(Path(__file__).read_bytes());(OUT/'prepare.py.txt').write_bytes((O/'prepare.py').read_bytes())
+env=dict(os.environ,GODOT_BIN='/usr/local/bin/godot',TAM_GAP_COMBO_OUTPUT=str(OUT/'native-result.json'),TAM_GAP_FINISH_MODE=MODE)
+start=utc();total=time.monotonic();epochs=[]
+for label,flags,cap in [('parser',['--check-only'],15),('native',['--fixed-fps','60'],105)]:
+ command=['./tools/run.sh','--headless',*flags,'--script','res://.local/probe_matched.gd'];log=OUT/(label+'.log');stop=None;record={'name':label,'start_utc':utc(),'command':command,'finish_mode':MODE,'stage_bound_seconds':cap,'aggregate_bound_seconds':120}
+ with log.open('wb')as stream:
+  proc=subprocess.Popen(command,cwd=P,env=env,stdout=stream,stderr=subprocess.STDOUT,start_new_session=True);record['pid']=proc.pid;record['process_group']=proc.pid;print(json.dumps(record),flush=True)
+  deadline=min(total+120,time.monotonic()+cap);offset=0;carry=b''
+  while proc.poll()is None:
+   with log.open('rb')as f:f.seek(offset);chunk=f.read();offset=f.tell()
+   data=carry+chunk;carry=data[-256:]
+   if re.search(rb'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',data):stop='first raw engine error';break
+   if time.monotonic()>=deadline:stop='automatic deadline';break
+   time.sleep(.05)
+  if proc.poll()is None:
+   os.killpg(proc.pid,signal.SIGTERM)
+   try:proc.wait(timeout=2)
+   except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait(timeout=2)
+ record.update(end_utc=utc(),exit_code=proc.returncode,stop=stop,raw_error=bool(re.search(r'SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:',log.read_text())),log_sha256=sha(log));epochs.append(record)
+ if record['exit_code']!=0 or record['raw_error']or stop:break
+after=sources();ia=imported();ma=metadata();(OUT/'source-after.json').write_text(json.dumps(after,indent=2)+'\n');(OUT/'imported-after.json').write_text(json.dumps(ia,indent=2)+'\n');(OUT/'metadata-after.json').write_text(json.dumps(ma,indent=2)+'\n');result=json.loads((OUT/'native-result.json').read_text())if(OUT/'native-result.json').is_file()else None
+receipt={'finish_mode':MODE,'start_utc':start,'end_utc':utc(),'wall_seconds':time.monotonic()-total,'epochs':epochs,'source_count':len(before),'source_stable':before==after,'imported_files':len(ib),'private_imported_stable':ib==ia,'private_metadata_stable':mb==ma,'result_summary':{'passed':result['passed'],'failed':result['failed'],'gap_updates':len(result['gap_updates']),'score_events':len(result['score_events']),'samples':len(result['samples']),'shadow_mismatches':len(result['shadow_mismatches'])}if result else None,'eligible':bool(len(epochs)==2 and all(e['exit_code']==0 and not e['stop']and not e['raw_error']for e in epochs)and before==after and ib==ia and mb==ma and result and result['failed']==0),'scope':'Current copied actual source, PRIVATE matched policy Callable selection via explicit env mode; identical six-case order and production provider/source in both modes; WEST/EASTsouthWAIT12 and originaltiming±driver, super-delegated gap/score instrumentation. Shadow awards never fed game. Owned imported cache by-value; no actual cache/source/profile changes, no observer spatial queries or draw additions; explicit bounded native-finish helper queries are logged. No FPS/M5 claim.'};(OUT/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2),flush=True);raise SystemExit(0 if receipt['eligible']else 1)

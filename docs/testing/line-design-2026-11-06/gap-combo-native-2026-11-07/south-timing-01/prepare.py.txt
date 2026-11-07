@@ -1,0 +1,21 @@
+from pathlib import Path
+import hashlib,json,shutil,datetime
+R=Path(__file__).resolve().parents[2];O=Path(__file__).resolve().parent;P=O/'project';P.mkdir(exist_ok=False)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def sources():
+ f=[R/'project.godot',R/'export_presets.cfg']
+ f += [q for n in ['game','tests','tools'] for q in (R/n).rglob('*')if q.is_file()and'__pycache__'not in q.parts]
+ return {str(q.relative_to(R)):sha(q)for q in f}
+before=sources()
+for n in before:
+ q=P/n;q.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(R/n,q)
+after=sources();assert before==after
+for n,v in before.items():assert sha(P/n)==v
+(P/'.local').mkdir();(P/'.godot').mkdir()
+for n in ['global_script_class_cache.cfg','uid_cache.bin']:
+ q=R/'.godot'/n
+ if q.is_file():shutil.copy2(q,P/'.godot'/n)
+(P/'.godot/imported').symlink_to(R/'.godot/imported',target_is_directory=True)
+imported={str(q.relative_to(R/'.godot/imported')):sha(q)for q in (R/'.godot/imported').rglob('*')if q.is_file()}
+(O/'copied-current-source.json').write_text(json.dumps(before,indent=2)+'\n');(O/'shared-imported.json').write_text(json.dumps(imported,indent=2)+'\n')
+d={'created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source_count':len(before),'actual_source_during_copy_stable':True,'copy_byte_exact':True,'metadata_copied_by_value':['global_script_class_cache.cfg','uid_cache.bin'],'shared_imported_files':len(imported),'shared_scope':'read-only runtime loads, no editor/import; exact resolved bytes before/after each epoch; actual metadata and sources never modified','no_engine_yet':True};(O/'copy-receipt.json').write_text(json.dumps(d,indent=2)+'\n');print(d)

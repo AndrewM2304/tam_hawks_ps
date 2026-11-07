@@ -1,0 +1,16 @@
+from pathlib import Path
+O=Path(__file__).resolve().parent;P=O/'project';E=O/'policy-controls-02/executed-policy-sources';E.mkdir(exist_ok=True)
+for n in ['game/main.gd','game/tricks/gap_tracker.gd','game/tricks/native_gap_finish.gd','game/levels/glasgow_square.gd','game/levels/outdoor_routes.gd','game/levels/clyde_cable_line.gd','.local/native_finish_control.gd']:
+ q=E/(n+'.txt');q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes((P/n).read_bytes())
+p=P/'game/levels/clyde_cable_line.gd';s=p.read_text();s=s.replace('var _gap_native_body:WeakRef\nvar _gap_native_shapes:Dictionary={"west":PackedInt32Array(),"east":PackedInt32Array()}\n','').replace('\t_gap_native_body=weakref(native)\n','').replace('\t\t\tvar gap_side:String="west" if side<0.0 else "east"\n\t\t\t_gap_native_shapes[gap_side].append(selected)\n','')
+s=s.replace('"radius":0.7,"points":500,"airborne_required":true,"finish_kind":"native_grind",\n\t\t\t"finish_destination":"clyde_cable_"+suffix})','"radius":0.7,"points":500,"airborne_required":true})')
+marker='\n\nfunc gap_grind_destinations()';assert s.count(marker)==1;s=s.split(marker,1)[0]+'\n';p.write_text(s)
+p=P/'game/levels/glasgow_square.gd';s=p.read_text().replace('\tif is_instance_valid(_clyde_cable_line):result.merge(_clyde_cable_line.gap_grind_destinations())\n','');p.write_text(s)
+p=P/'game/tricks/native_gap_finish.gd';s=p.read_text().replace('const MAX_TARGETS:=4','const MAX_TARGETS:=2').replace('# Retained existing source-crown authority: native cable tests already use2mm.\n# Named board contact\'s100um tolerance is unchanged and is not relaxed here.\nconst CABLE_CROWN_SOURCE_GAP:=0.002\n','')
+s=s.replace('var kind:String="cable"if id in["clyde_cable_west","clyde_cable_east"]else"handrail"if id in["clyde_safe_handrail_west","clyde_safe_handrail_east"]else""','var kind:String="handrail"if id in["clyde_safe_handrail_west","clyde_safe_handrail_east"]else""').replace('var source:String="res://game/levels/clyde_cable_line.gd"if kind=="cable"else"res://game/levels/outdoor_routes.gd"','var source:String="res://game/levels/outdoor_routes.gd"').replace('skin=0.005 if _targets[target].kind=="handrail"else 0.0','skin=0.005')
+a='''   if target.kind=="cable":
+    if absf(gap)>CABLE_CROWN_SOURCE_GAP:return {}
+   elif absf(gap-float(record.skin))>Style.CONTACT_TOLERANCE:return {}''';b='''   if absf(gap-float(record.skin))>Style.CONTACT_TOLERANCE:return {}''';assert a in s;s=s.replace(a,b);p.write_text(s)
+p=P/'.local/native_finish_control.gd';s=p.read_text();a=' var saved_shape:Shape3D=primitive.shape;primitive.shape=SphereShape3D.new()';b=' var saved_shape:Shape3D=primitive.shape\n var saved_native_data:Variant=PhysicsServer3D.shape_get_data(saved_shape.get_rid())\n primitive.shape=SphereShape3D.new()';assert a in s;s=s.replace(a,b)
+a=' PhysicsServer3D.body_set_shape_transform(owner.rid,old_index,body.global_transform.affine_inverse()*Transform3D(shape.frame))';assert a in s;s=s.replace(a,a+'\n PhysicsServer3D.shape_set_data(saved_shape.get_rid(),saved_native_data)');p.write_text(s)
+print('Private return-only scope ready: two legacy air entries unchanged, two native handrail returns, no cable provider/2mm branch. Native hold respected.')

@@ -1,0 +1,161 @@
+{
+  "status": "ACTUAL current runtime focused subset passes; full post-integration check and independent current review remain",
+  "base_commit": "305d037",
+  "production_six_exact_reviewed_payloads": true,
+  "actual_delta": [
+    "game/levels/clyde_cable_line.gd",
+    "game/levels/glasgow_square.gd",
+    "game/levels/outdoor_routes.gd",
+    "game/main.gd",
+    "game/tricks/gap_tracker.gd",
+    "game/tricks/native_gap_finish.gd",
+    "tests/cable_gap_input_driver.gd",
+    "tests/native_gap_finish_capture_controls.gd",
+    "tests/native_gap_finish_contract_tests.gd",
+    "tests/native_gap_finish_integration_tests.gd",
+    "tests/run_tests.gd"
+  ],
+  "old34_and_clyde_untouched": true,
+  "controller": "1ef6cdb7dfe2942d1d3aa8f025d89213e2f1f06500fcfb588b7d18734de27f84",
+  "visual": "1ba86edfd08930bee09df69cb477853c68bbd8fc59098bc6abc26e268a74fc05",
+  "passed": 134,
+  "failed": 0,
+  "stages": {
+    "contracts": {
+      "failed": 0,
+      "passed": 18
+    },
+    "legacy": {
+      "failed": 0,
+      "passed": 34
+    },
+    "native": {
+      "failed": 0,
+      "passed": 79
+    }
+  },
+  "source_inputs": 896,
+  "source_stable": true,
+  "actual_imported_files": 290,
+  "actual_imported_stable": true,
+  "actual_metadata_stable": true,
+  "gap_score_calls": [
+    {
+      "awarded": 500,
+      "identity": "gap:clyde_handrail_to_cable_west",
+      "physics": 110,
+      "points": 500,
+      "run": "west:1.0:12"
+    },
+    {
+      "awarded": 500,
+      "identity": "gap:clyde_cable_to_handrail_west",
+      "physics": 170,
+      "points": 500,
+      "run": "west:1.0:12"
+    },
+    {
+      "awarded": 500,
+      "identity": "gap:clyde_handrail_to_cable_east",
+      "physics": 358,
+      "points": 500,
+      "run": "east:1.0:12"
+    },
+    {
+      "awarded": 500,
+      "identity": "gap:clyde_cable_to_handrail_east",
+      "physics": 421,
+      "points": 500,
+      "run": "east:1.0:12"
+    },
+    {
+      "awarded": 500,
+      "identity": "gap:clyde_handrail_to_cable_west",
+      "physics": 607,
+      "points": 500,
+      "run": "west:1.0:0"
+    },
+    {
+      "awarded": 500,
+      "identity": "gap:clyde_handrail_to_cable_east",
+      "physics": 843,
+      "points": 500,
+      "run": "east:1.0:0"
+    }
+  ],
+  "banks": [
+    {
+      "physics": 228,
+      "run": "west:1.0:12",
+      "value": 14283
+    },
+    {
+      "physics": 477,
+      "run": "east:1.0:12",
+      "value": 14283
+    },
+    {
+      "physics": 713,
+      "run": "west:1.0:0",
+      "value": 8696
+    },
+    {
+      "physics": 949,
+      "run": "east:1.0:0",
+      "value": 8696
+    },
+    {
+      "physics": 1185,
+      "run": "west:-1.0:0",
+      "value": 4109
+    },
+    {
+      "physics": 1421,
+      "run": "east:-1.0:0",
+      "value": 4109
+    }
+  ],
+  "native_finish_events": [
+    {
+      "capture_frame": 169,
+      "frame": 170,
+      "gap_id": "clyde_cable_to_handrail_west",
+      "kind": "finish",
+      "sample_frame": 169,
+      "serial": 2,
+      "target": "clyde_safe_handrail_west"
+    },
+    {
+      "capture_frame": 420,
+      "frame": 421,
+      "gap_id": "clyde_cable_to_handrail_east",
+      "kind": "finish",
+      "sample_frame": 420,
+      "serial": 4,
+      "target": "clyde_safe_handrail_east"
+    }
+  ],
+  "native_control_contexts": [
+    {
+      "capture_frame": 169,
+      "capture_source_sample": 169,
+      "consuming_sample_frame": 169,
+      "diagnostic_only": "Fault matrix clones a genuine token into an independently configured test helper; only final original helper return feeds Main. Native body/flag mutations are restored in the same callback; this epoch is not physical parity evidence.",
+      "from": [
+        -28.28660774230957,
+        5.239235877990723,
+        101.83496856689453
+      ],
+      "native_rid": 12859132084508,
+      "native_shape": 0,
+      "sample_frame": 170,
+      "target": "clyde_safe_handrail_west",
+      "to": [
+        -28.850000381469727,
+        4.549999713897705,
+        101.95818328857422
+      ]
+    }
+  ],
+  "scope": "Current1ef/Visual1ba, actual Mac-compatible23 import composition, old City Tour world. Diagnostic native faults are restored synchronously. Does not promote old4895 private physical parity into a current1ef result; no full suite/new dense map/M5/performance/fullbody/visual/human acceptance."
+}

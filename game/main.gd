@@ -10,6 +10,7 @@ const Hud = preload("res://game/ui/hud.gd")
 const CareerProgressSource = preload("res://game/progression/career_progress.gd")
 const ObjectiveTrackerSource = preload("res://game/progression/objective_tracker.gd")
 const GapTrackerSource = preload("res://game/tricks/gap_tracker.gd")
+const NativeGapFinishSource=preload("res://game/tricks/native_gap_finish.gd")
 const SpecialMeterSource = preload("res://game/tricks/special_meter.gd")
 const TrickCatalog = preload("res://game/tricks/trick_catalog.gd")
 const SkateAudioSource = preload("res://game/audio/skate_audio.gd")
@@ -25,6 +26,7 @@ var playtest_recorder: CanvasLayer
 var score := ScoreSession.new()
 var career = CareerProgressSource.new()
 var gaps = GapTrackerSource.new()
+var native_gap_finish=NativeGapFinishSource.new()
 var special_meter = SpecialMeterSource.new()
 var _special_axis_held: Dictionary = {}
 var objectives: Node3D
@@ -97,7 +99,6 @@ func _ready() -> void:
 	objectives.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(objectives)
 	objectives.configure(world.get_goal_markers())
-	gaps.configure(world.get_gap_definitions())
 	encounters = GlasgowEncountersSource.new()
 	encounters.name = "GlasgowEncounters"
 	encounters.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -133,6 +134,8 @@ func _ready() -> void:
 	skater.reset_skater()
 	skater.set_grind_lines(world.get_grind_lines())
 	skater.set_transition_features(world.get_transition_features())
+	native_gap_finish.configure(world,skater)
+	gaps.configure(world.get_gap_definitions(),native_gap_finish.destination_ids())
 	market_encounter.set_carrier(skater.get_node("SkaterVisual/Rider"))
 	skater.trick_performed.connect(_on_trick)
 	skater.trick_upgraded.connect(_on_trick_upgraded)
@@ -214,6 +217,7 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if paused or run_finished:
 		return
+	native_gap_finish.refresh()
 	_feedback_timer = maxf(0.0, _feedback_timer - delta)
 	_caption_time = maxf(0.0, _caption_time - delta)
 	if world.has_method("get_recovery_position"):
@@ -259,6 +263,7 @@ func _physics_process(delta: float) -> void:
 	skater.set_trick_entries_enabled(free_skate_mode or time_remaining > 0.0)
 
 func restart_run() -> void:
+	native_gap_finish.invalidate()
 	paused = false
 	get_tree().paused = false
 	run_finished = false
@@ -291,6 +296,7 @@ func restart_run() -> void:
 	_refresh_hud()
 
 func toggle_pause() -> void:
+	native_gap_finish.invalidate()
 	if run_finished:
 		return
 	paused = not paused
@@ -391,6 +397,7 @@ func _combo_link_active() -> bool:
 func _on_grind_captured(rail_id: String) -> void:
 	if paused or run_finished or (not free_skate_mode and time_remaining <= 0.0):
 		return
+	native_gap_finish.remember_capture(rail_id,gaps._previous,gaps._previous_airborne,gaps._has_previous,gaps._previous_physics_frame)
 	cat_encounter.on_grind_capture(rail_id, skater.global_position)
 
 
@@ -419,6 +426,7 @@ func _on_combo_banked(banked: int) -> void:
 		audio.play_bark("landing")
 
 func _on_bailed() -> void:
+	native_gap_finish.invalidate()
 	score.drop_combo()
 	special_meter.on_bail()
 	if is_instance_valid(feature_hub): feature_hub.on_bail()
@@ -436,6 +444,7 @@ func _on_recovered() -> void:
 
 
 func _finish_run() -> void:
+	native_gap_finish.invalidate()
 	if run_finished:
 		return
 	run_finished = true
@@ -486,7 +495,7 @@ func _update_objectives(delta: float, district: String) -> void:
 		if event.kind == "interaction" and audio.has_method("play_bark"):
 			audio.play_bark("cone")
 		_save_profile()
-	for gap: Dictionary in gaps.update(skater.global_position, skater.airborne, delta):
+	for gap: Dictionary in gaps.update(skater.global_position, skater.airborne, delta,native_gap_finish.finish):
 		special_meter.earn_trick(score.add_trick(gap.name, gap.points, "gap:" + str(gap.id)))
 		market_encounter.on_gap(gap.id, skater.global_position)
 		completed.append_array(career.record_event("gap", gap.id))

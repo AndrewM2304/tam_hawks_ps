@@ -5,6 +5,7 @@ extends Node3D
 const Layout = preload("res://game/levels/clyde_layout.gd")
 const Surface = preload("res://game/levels/outdoors/surface_builder.gd")
 var _sunken_bowls: Array[Node3D] = []
+var _gap_safe_handrail_bodies: Dictionary = {}
 const Vegetation = preload("res://game/levels/outdoors/vegetation.gd")
 const ClydeLandmarks = preload("res://game/levels/art/clyde_landmarks.gd")
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
@@ -1461,6 +1462,9 @@ func _bridge_structure(points: PackedVector3Array, width: float, safe: bool) -> 
 			var b := points[i + 1] + Vector3(side * (width * 0.5 - 0.15), 0, 0)
 			_beam("BridgeEdgeGirder", a - Vector3.UP * 0.25, b - Vector3.UP * 0.25, 0.18, _material("iron"))
 			var handrail_body := _beam("BridgeHandrail", a + Vector3.UP * 1.05, b + Vector3.UP * 1.05, 0.045, _material("iron"), true) as StaticBody3D
+			if safe:
+				if not _gap_safe_handrail_bodies.has(grind_id): _gap_safe_handrail_bodies[grind_id] = []
+				_gap_safe_handrail_bodies[grind_id].append(weakref(handrail_body))
 			if not safe:
 				handrail_body.collision_layer = 1 | 2
 				handrail_body.collision_mask = 0
@@ -1636,3 +1640,13 @@ func _park_pavilion() -> void:
 		roof.add_to_group("pavilion_roofs")
 		roof.rotation.z = -side * 0.25
 	_bench(center + Vector3(0, 0, -0.8))
+
+
+func gap_grind_destinations() -> Dictionary:
+	var result:Dictionary={}
+	for id:String in _gap_safe_handrail_bodies:
+		var owners:Array=[]
+		for body:WeakRef in _gap_safe_handrail_bodies[id]:
+			owners.append({"body":body,"shape_indices":PackedInt32Array([0])})
+		result[id]={"kind":"handrail","provider":weakref(self),"owners":owners}
+	return result
