@@ -1,0 +1,101 @@
+"""Prepared actual Main author inventory/capture; obtain root's engine lease first."""
+from __future__ import annotations
+import argparse
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import signal
+import subprocess
+import time
+
+ROOT = Path(__file__).resolve().parents[2]
+BASE = ROOT/".local/architectural-fidelity"
+
+def utc():
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+def inputs():
+    paths = [ROOT/"project.godot",BASE/"main_probe.gd",Path(__file__).resolve()]
+    for directory in ("game","tools","tests"):
+        paths.extend(path for path in (ROOT/directory).rglob("*") if path.is_file())
+    return {str(path.relative_to(ROOT)):hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(set(paths))}
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("label")
+    parser.add_argument("mode",choices=["inventory","visual"])
+    args = parser.parse_args()
+    if not re.fullmatch(r"[A-Za-z0-9_-]+",args.label):
+        raise SystemExit("Use a fresh simple immutable label")
+    output = BASE/"main"/args.label
+    output.mkdir(parents=True,exist_ok=False)
+    before = inputs()
+    (output/"source-before.json").write_text(json.dumps(before,indent=2)+"\n")
+    started = utc()
+    xorg = engine = None
+    streams = []
+    command = ["./tools/run.sh","--audio-driver","Dummy","--fixed-fps","60"]
+    environment = dict(os.environ)
+    receipt = {"schema":1,"kind":"author_actual_Main_probe","started_utc":started,"mode":args.mode,
+        "source_scope":"Exact game/tools/tests/project and author wrapper/observer, including generated source UIDs present before launch. No Git or editor-import mutation.",
+        "limits":"Author Main structural/static-render evidence only; no pacing, physical route, final art or M5 certification."}
+    try:
+        if args.mode == "visual":
+            display_path = output/"display"
+            display_stream = display_path.open("w")
+            xlog = (output/"xorg-console.log").open("w")
+            streams.extend([display_stream,xlog])
+            xorg = subprocess.Popen(["/usr/lib/xorg/Xorg","-displayfd",str(display_stream.fileno()),
+                "-config",str(ROOT/"tools/xorg-dummy.conf"),"-logfile",str(output/"xorg.log"),"-noreset","-nolisten","tcp"],
+                cwd=ROOT,pass_fds=(display_stream.fileno(),),stdout=xlog,stderr=subprocess.STDOUT,start_new_session=True)
+            for attempt in range(50):
+                display = display_path.read_text().strip()
+                if display: break
+                if xorg.poll() is not None: raise RuntimeError("Private display failed")
+                time.sleep(.1)
+            if not display: raise RuntimeError("No private display")
+            environment.update(DISPLAY=":"+display,LIBGL_ALWAYS_SOFTWARE="1",LP_NUM_THREADS="4")
+            command += ["--rendering-method","gl_compatibility","--windowed","--resolution","1280x800","--disable-render-loop"]
+        else:
+            command += ["--headless"]
+        command += ["--script",".local/architectural-fidelity/main_probe.gd","--",str(output),args.mode]
+        receipt.update(command=command,engine_started_utc=utc(),environment={key:environment.get(key) for key in
+            ("DISPLAY","LIBGL_ALWAYS_SOFTWARE","LP_NUM_THREADS","VK_ICD_FILENAMES","VK_DRIVER_FILES")})
+        with (output/"engine.log").open("w") as log:
+            engine = subprocess.Popen(command,cwd=ROOT,env=environment,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+            receipt["engine_exit"] = engine.wait(timeout=int(os.environ.get("ARCHITECTURE_ENGINE_BOUND","600")))
+        receipt["engine_finished_utc"] = utc()
+        after = inputs()
+        (output/"source-after.json").write_text(json.dumps(after,indent=2)+"\n")
+        changed = sorted(key for key in before.keys()|after.keys() if before.get(key)!=after.get(key))
+        receipt.update(changed_inputs=changed,source_stable=not changed)
+        text = (output/"engine.log").read_text()
+        path = output/"architecture-main.json"
+        clean = not re.search(r"SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:",text)
+        report = json.loads(path.read_text()) if path.exists() else None
+        receipt.update(clean_engine_log=clean,checks=report.get("checks") if report else None,
+            failures=report.get("failures") if report else None,
+            images={str(path.relative_to(output)):hashlib.sha256(path.read_bytes()).hexdigest() for path in output.rglob("*.png")})
+        receipt["eligible_author_diagnostic"] = receipt["engine_exit"]==0 and clean and not changed and report is not None and report.get("failures")==0
+        if not receipt["eligible_author_diagnostic"]: raise RuntimeError("Rejected Main author diagnostic; exact failure log retained")
+    except Exception as error:
+        receipt["error"] = str(error)
+        receipt["eligible_author_diagnostic"] = False
+        raise
+    finally:
+        for process in (engine,xorg):
+            if process is not None and process.poll() is None:
+                os.killpg(process.pid,signal.SIGTERM)
+                try: process.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    os.killpg(process.pid,signal.SIGKILL)
+                    process.wait(timeout=10)
+        for stream in streams: stream.close()
+        receipt["finished_utc"] = utc()
+        (output/"receipt.json").write_text(json.dumps(receipt,indent=2)+"\n")
+        print(json.dumps(receipt,indent=2))
+
+if __name__ == "__main__": main()

@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-11-07T04:11:59.735184+00:00",
+  "status": "Correction to cache-transfer wording; original raw reports and source retained unchanged",
+  "affected_packets": [
+    "actual-main-water-01",
+    "river-basin-diagnosis-01",
+    "annular-basin-01"
+  ],
+  "incorrect_claim": "Private .godot copy was described as including compiled renderer shader caches. Those projects did not contain .godot/shader_cache.",
+  "actual_action": "Copied independent .godot imported resources/editor metadata. Did not transfer source .local XDG runtime cache folders into those private projects. Each graphical process created/warmed its own runtime shaders during startup/captures.",
+  "verified_runtime_paths": {
+    "launcher": "tools/run.sh sets independent per-project XDG_DATA_HOME and XDG_CACHE_HOME",
+    "godot": ".local/data/godot/app_userdata/Tam Hawks Pro Skater/shader_cache",
+    "mesa": ".local/cache/mesa_shader_cache_db"
+  },
+  "scope_effect": "No timing, cold-cache or exclusive-performance claim was made for these qualitative packets. Source/RGBA/camera/native-state evidence remains its original bounded scope. Cache-transfer wording alone is retracted; raw execution reports and observer strings are not rewritten.",
+  "next_paving_run": "Before actual-main-paving-01, actually copied only compiled Godot shader cache (30files) and Mesa database cache (102files) into independent destination XDG folders. Source .local/cache/mesa_shader_cache exists but has0files. No profile/save/Music/config copied. Separate exact policy receipt will accompany paving packet."
+}

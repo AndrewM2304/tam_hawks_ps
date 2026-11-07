@@ -1,9 +1,33 @@
 # Architectural fidelity pass — 7 November 2026
 
 Owner: environment architect; ticket FID-203; independent verifier: QE/BA.
-Status: offline prototype with a bounded [native author component](fidelity-2026-11-06/architecture/native-author-component/README.md);
-no new production geometry or visual acceptance yet. The observed six-area subset
-and remaining gaps are in the [placeholder inventory](ARCHITECTURAL-PLACEHOLDER-INVENTORY.md).
+Status: exact guarded [working-tree integration](fidelity-2026-11-06/architecture/actual-integration-01/README.md)
+after independent native/static visual-resource review; root's actual combined
+checks and commit/push remain pending. The older [native author component](fidelity-2026-11-06/architecture/native-author-component/README.md)
+retains its narrower source scope. The observed six-area subset and remaining
+gaps are in the [placeholder inventory](ARCHITECTURAL-PLACEHOLDER-INVENTORY.md).
+
+The newer [private actual-Main structural cohort](fidelity-2026-11-06/architecture/main-headless-01/README.md)
+measures **+65,854 world source triangles / −7 mesh nodes**, with unchanged native
+physics and route/terrain/grind/gap contracts; its independent audit passes22/0.
+The subsequent [native contract cohort](fidelity-2026-11-06/architecture/main-contracts-02/README.md)
+passes53/0→28/0→53/0 plus a separately reviewed private FacadeBay41/0, preserving
+all34 bound-map resources and the static-room/native-train glass split. Graphical
+views, actual GPU draw/allocation admission and production promotion remain open.
+
+The [21-frame private Main graphical cohort](fidelity-2026-11-06/architecture/main-graphics-03/README.md)
+now completes81/0→56/0→81/0. Matched total draw deltas are−7/+4/0/−16;
+RenderingServer buffer allocation adds250,160bytes in every view, with zero
+additional texture bytes. Original/restored counters agree exactly. Author
+integrity checks pass74/0; independent QA review and root production release
+remain pending. These static resource observations do not admit pacing, target
+M5, moving clearance or the whole architectural finish.
+
+Independent QA subsequently passes76/0 for the native contract packet and158/0
+for the graphical originals/resources. It personally reviews the eight original/
+candidate real-view images, computationally verifies all21 originals and supports
+the exact four art modules plus reviewed FacadeBay fixture for integration and
+fresh combined regression. No moving/culling/pacing/M5/AAA gate is closed.
 
 The architect inspected the original 1280×800 Compatibility and Forward+
 `exchange-shopfront.png` and Compatibility `ordinary-spawn.png` under
@@ -77,3 +101,9 @@ corrects only the column shaft/top-cap tangent handedness before future Main
 integration. The 502-sample analytic probe has zero opposed V derivatives after
 correction; native upload/shading and actual Main costs are still unrun. Earlier
 V1 component/rehearsal evidence is preserved with its original hashes.
+
+Root subsequently releases the exact five-file [actual integration](fidelity-2026-11-06/architecture/actual-integration-01/README.md),
+installed with original/candidate byte guards and backups at 05:00:28 UTC. The
+architect runs no actual engine or Git operation; root owns new helper UID import,
+combined focused verification, full required checks and main commit/push. Earlier
+private evidence remains source-scoped; actual integrated acceptance is pending.

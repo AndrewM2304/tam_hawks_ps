@@ -6,6 +6,7 @@ const Density=preload("res://tests/full_level_density_tests.gd")
 const Driver=preload("res://tests/pt24_flagship_runs_tests.gd")
 const BoundaryFaces=preload("res://tests/pt24_boundary_tests.gd")
 const EdgeTrial=preload("res://tests/edge_grind_integration_tests.gd")
+const AirController=preload("res://game/player/skater.gd")
 const FIRST="Grind_Edge_Bench_x800y244z5900_0_0"
 const SECOND="Grind_Edge_Bench_x7000y244z5900_0_0"
 
@@ -99,8 +100,25 @@ class AirWallWitness extends Node:
 	var offset_clear:=true
 	var capsule_clear:=true
 	var landing_clear:=true
-	var owner_only_clear:=true
+	var forecast_proven_or_zero:=true
 	var owner_only_frames:=0
+	var forecast_clear:=true
+	var forecast_frames:=0
+	var maximum_forecast_queries:=0
+	var forecast_foreign_ran:=false
+	var forecast_foreign_rejected:=false
+	var forecast_miss_ran:=false
+	var forecast_miss_rejected:=false
+	var forecast_samples: Array[Dictionary]=[]
+	var forecast_controls_ran:=false
+	var forecast_controls_clear:=true
+	var forecast_controls: Array[Dictionary]=[]
+	var owner_query_samples: Array[Dictionary]=[]
+	var forecast_query_counts: Array[int]=[]
+	var forecast_query_histogram: Dictionary={}
+	var independent_component_queries:=0
+	var independent_pose_queries:=0
+	var independent_face_rays:=0
 	var foreign_ran:=false
 	var foreign_rejected:=false
 	var foreign_hint: Dictionary={}
@@ -111,13 +129,13 @@ class AirWallWitness extends Node:
 	var previous_offset:=Vector3.ZERO
 	var failures: Array[Dictionary]=[]
 
-	func _physics_process(_delta: float) -> void:
+	func _physics_process(delta: float) -> void:
 		var offset: Vector3=rider._obstacle_visual_offset
 		var offset_step:=offset.distance_to(previous_offset)
 		previous_offset=offset
 		if not rider.airborne:
 			if saw_air and rider.is_on_floor():
-				landing_clear=landing_clear and rider._obstacle_air_wall.is_empty() and rider._obstacle_air_wall_owner.is_empty()
+				landing_clear=landing_clear and rider._obstacle_air_wall.is_empty() and rider._obstacle_air_wall_owner.is_empty() and rider._obstacle_air_forecast.is_empty()
 			return
 		saw_air=true
 		checked+=1
@@ -131,9 +149,24 @@ class AirWallWitness extends Node:
 		var finite_offset:=offset.is_finite() and absf(offset.y)<=0.000001 and offset.length()<=0.18 and offset_step<=0.18
 		offset_clear=offset_clear and finite_offset
 		var full_skin_clear:=true
+		# Fault controls may clear and replace the live dictionary; preserve the
+		# independently observed receipt for later query attribution this tick.
+		var forecast: Dictionary=rider._obstacle_air_forecast.duplicate()
+		var predicted_valid:=false
+		if not forecast.is_empty():
+			forecast_frames+=1
+			predicted_valid=_forecast_proof(forecast,actual,offset,delta)
+			forecast_clear=forecast_clear and predicted_valid
+			maximum_forecast_queries=maxi(maximum_forecast_queries,int(forecast.get("queries",0)))
+			full_skin_clear=_pose_skin_clear(Vector3.ZERO)
+			shoe_clear=shoe_clear and full_skin_clear
+			if predicted_valid and not forecast_controls_ran:_forecast_negatives(delta,actual)
+			if predicted_valid and not forecast_foreign_ran and rider.velocity.y<0 and not rider.is_on_wall():
+				_foreign_owner_negative(true)
 		if rider._obstacle_air_wall.is_empty() and not rider._obstacle_air_wall_owner.is_empty():
 			owner_only_frames+=1
-			owner_only_clear=owner_only_clear and offset==Vector3.ZERO
+			forecast_proven_or_zero=forecast_proven_or_zero and (offset==Vector3.ZERO or predicted_valid)
+			_record_forecast_queries(forecast)
 		if not rider._obstacle_air_wall.is_empty():
 			residual_frames+=1
 			# This helper rechecks the displayed convex board and both native
@@ -142,11 +175,317 @@ class AirWallWitness extends Node:
 			shoe_clear=shoe_clear and full_skin_clear
 			if not foreign_ran and rider.velocity.y<0 and not rider.is_on_wall() and offset!=Vector3.ZERO:
 				_foreign_owner_negative()
-		if (not sample_clear or not full_skin_clear or not finite_offset or not capsule_sample) and failures.size()<8:
+		if (not sample_clear or not full_skin_clear or not finite_offset or not capsule_sample or (not forecast.is_empty() and not predicted_valid)) and failures.size()<8:
 			failures.append({"physics":Engine.get_physics_frames(),"at":rider.global_position,"board":actual,
 				"components_clear":sample_clear,"capsule_clear":capsule_sample,"board_shoe_skin_clear":full_skin_clear,"offset":offset,"offset_step":offset_step,
-				"air_wall":rider._obstacle_air_wall.duplicate(),"is_on_wall":rider.is_on_wall(),"is_on_floor":rider.is_on_floor(),
+				"forecast":forecast.duplicate(),"forecast_valid":predicted_valid,"air_wall":rider._obstacle_air_wall.duplicate(),"is_on_wall":rider.is_on_wall(),"is_on_floor":rider.is_on_floor(),
 				"launch":rider._launch_id,"velocity":rider.velocity,"native_component_hits":_component_hits(actual)})
+
+
+	func _forecast_proof(receipt: Dictionary,actual: Transform3D,offset: Vector3,delta: float) -> bool:
+		# PRIVATE intent-forecast witness. Actual present-frame contacts remain
+		# unchanged; every nonzero anticipated move needs fresh finite evidence.
+		var owner: Dictionary=rider._obstacle_air_wall_owner
+		if owner.is_empty() or not rider._obstacle_air_wall.is_empty() or not rider.airborne:return false
+		if typeof(receipt.get("rid"))!=TYPE_RID or typeof(receipt.get("shape"))!=TYPE_INT \
+			or typeof(receipt.get("step"))!=TYPE_INT or not receipt.get("face") is Dictionary:return false
+		if not receipt.get("travel") is Vector3 or not receipt.get("endpoint") is Vector3 \
+			or not receipt.get("offset") is Vector3:return false
+		var face: Dictionary=receipt.face
+		var step: int=receipt.step
+		var horizon:=float(receipt.get("horizon",NAN))
+		var weight:=float(receipt.get("weight",NAN))
+		var travel: Vector3=receipt.travel
+		var endpoint: Vector3=receipt.endpoint
+		var measured: Vector3=receipt.offset
+		var queries:=int(receipt.get("queries",0))
+		var cap:=int(receipt.get("query_cap",0))
+		if not is_finite(delta) or delta<=0 or not is_finite(horizon) or horizon<=0 or horizon>.120000001 \
+			or step<1 or step>7 or absf(horizon-step*delta)>.000001:return false
+		if not is_finite(weight) or weight<0 or weight>1 or not travel.is_finite() \
+			or not endpoint.is_finite() or not measured.is_finite() or not offset.is_finite():return false
+		if queries<1 or cap!=AirController.AIR_FORECAST_QUERY_CAP or cap<1 or cap>192 or queries>cap:return false
+		if int(receipt.get("part_count",-1))!=rider._grind_clearance._parts.size():return false
+		if int(receipt.get("aabb_rejected_steps",-1))<0 or int(receipt.get("aabb_rejected_steps",-1))>=step:return false
+		if receipt.rid!=owner.get("rid") or receipt.shape!=owner.get("shape") \
+			or face.get("rid")!=receipt.rid or face.get("shape")!=receipt.shape:return false
+		var normal: Vector3=face.get("normal",Vector3.INF)
+		var point: Vector3=face.get("position",Vector3.INF)
+		var old_normal: Vector3=owner.get("normal",Vector3.INF)
+		if not normal.is_finite() or not point.is_finite() or not old_normal.is_finite() \
+			or absf(normal.y)>.001 or absf(normal.length_squared()-1)>.001 or normal.dot(old_normal)<.999:return false
+		if absf(endpoint.y)>.000001 or endpoint.length()>.18 \
+			or measured.distance_to(endpoint*weight)>.000001 or offset.distance_to(measured)>.000001:return false
+		var gravity: float=AirController.RAMP_AIR_GRAVITY if rider._ramp_air else (AirController.WEIGHTED_OLLIE_GRAVITY if rider._weighted_ollie_air else AirController.GRAVITY)
+		var expected: Vector3=rider.velocity*(delta*step)-Vector3.UP*(gravity*delta*delta*step*(step+1)*.5)
+		var expected_weight:=smoothstep(0.0,.120,.120-maxf(0.0,(step-1)*delta))
+		if travel.distance_to(expected)>.00001 or absf(weight-expected_weight)>.000001:return false
+		if not _finite_positive_frame(actual):return false
+		var future:=actual
+		future.origin+=travel-offset
+		var component:=_future_owner_component(future,receipt)
+		if component<0:return false
+		var ray:=PhysicsRayQueryParameters3D.create(point+normal*.03,point-normal*.03,rider.collision_mask,[rider.get_rid()])
+		independent_face_rays+=1
+		var hit: Dictionary=rider.get_world_3d().direct_space_state.intersect_ray(ray)
+		if hit.is_empty() or hit.rid!=receipt.rid or hit.shape!=receipt.shape \
+			or Vector3(hit.normal).dot(normal)<.999 or Vector3(hit.position).distance_to(point)>.002:return false
+		var corrected:=future
+		corrected.origin+=endpoint
+		if not _components_clear(corrected) or not _pose_skin_clear(travel-offset+endpoint):return false
+		if not forecast_miss_ran:
+			forecast_miss_ran=true
+			var miss:=future
+			miss.origin+=Vector3.UP*20.0
+			forecast_miss_rejected=_future_owner_component(miss,receipt)==-1
+		if forecast_samples.size()<12:
+			forecast_samples.append({"physics":Engine.get_physics_frames(),"step":step,"horizon":horizon,
+				"component":component,"rid":receipt.rid,"shape":receipt.shape,"point":hit.position,
+				"travel":travel,"endpoint":endpoint,"weight":weight,"offset":offset,"queries":queries,"cap":cap})
+		return true
+
+	func _finite_positive_frame(frame: Transform3D) -> bool:
+		var determinant:=frame.basis.determinant()
+		return frame.origin.is_finite() and frame.basis.is_finite() and is_finite(determinant) and determinant>0
+
+	func _future_owner_component(frame: Transform3D,receipt: Dictionary) -> int:
+		# Independent actual connected-component queries, never the controller's
+		# forecast helper or the whole-board envelope as contact authority.
+		if not _finite_positive_frame(frame):return -2
+		var query:=PhysicsShapeQueryParameters3D.new()
+		query.transform=frame
+		query.collision_mask=1|2|8
+		query.exclude=[rider.get_rid()]
+		query.margin=0.0
+		var space: PhysicsDirectSpaceState3D=rider.get_world_3d().direct_space_state
+		for index: int in rider._grind_clearance._parts.size():
+			query.shape=rider._grind_clearance._parts[index].shape
+			independent_component_queries+=1
+			var hits:=space.intersect_shape(query,16)
+			if hits.size()>=16:return -2
+			for hit: Dictionary in hits:
+				if hit.rid==receipt.rid and hit.shape==receipt.shape:return index
+		return -1
+
+	func _components_clear(frame: Transform3D) -> bool:
+		if not _finite_positive_frame(frame):return false
+		var query:=PhysicsShapeQueryParameters3D.new()
+		query.transform=frame
+		query.collision_mask=1|2|8
+		query.exclude=[rider.get_rid()]
+		query.margin=0.0
+		var space: PhysicsDirectSpaceState3D=rider.get_world_3d().direct_space_state
+		for part: Dictionary in rider._grind_clearance._parts:
+			query.shape=part.shape
+			independent_component_queries+=1
+			if not space.intersect_shape(query,1).is_empty():return false
+		return true
+
+	func _pose_skin_clear(translation: Vector3) -> bool:
+		if not translation.is_finite():return false
+		var query:=PhysicsShapeQueryParameters3D.new()
+		query.shape=rider._visual_rig.board_contact_geometry().convex_shape
+		query.transform=rider._board_visual.global_transform
+		query.transform.origin+=translation
+		if not _finite_positive_frame(query.transform):return false
+		query.collision_mask=rider.collision_mask
+		query.exclude=[rider.get_rid()]
+		query.margin=AirController.GROUND_PRESENTATION_SKIN-.00001
+		var space: PhysicsDirectSpaceState3D=rider.get_world_3d().direct_space_state
+		independent_pose_queries+=1
+		if not space.intersect_shape(query,1).is_empty():return false
+		var box:=BoxShape3D.new()
+		query.shape=box
+		for index: int in rider._visual_rig._legs.size():
+			var bounds: AABB=rider._obstacle_shoe_bounds[index]
+			box.size=bounds.size
+			query.transform=rider._visual_rig._legs[index].foot.global_transform*Transform3D(Basis.IDENTITY,bounds.get_center())
+			query.transform.origin+=translation
+			if not _finite_positive_frame(query.transform):return false
+			independent_pose_queries+=1
+			if not space.intersect_shape(query,1).is_empty():return false
+		return true
+
+	func _record_forecast_queries(receipt: Dictionary) -> void:
+		# Success includes the controller's reserved final current-pose upper
+		# bound. Refusal is the actual counted forecast calls. These exclude
+		# this observer's own independent native queries and the unchanged
+		# reactive entry path; they are query counts, never timing evidence.
+		var physics:=Engine.get_physics_frames()
+		var attempt: bool=rider._air_forecast_physics==physics
+		var success:=not receipt.is_empty()
+		var counter: int=rider._air_forecast_queries
+		var count: int=(int(receipt.get("queries",0)) if success else counter) if attempt else 0
+		if success and not attempt:forecast_clear=false
+		if attempt:
+			forecast_query_counts.append(count)
+			forecast_query_histogram[count]=int(forecast_query_histogram.get(count,0))+1
+			forecast_clear=forecast_clear and count>=0 and count<=AirController.AIR_FORECAST_QUERY_CAP
+		owner_query_samples.append({"physics":physics,"forecast_invocation_physics":rider._air_forecast_physics,
+			"actual_attempt":attempt,"success":success,"forecast_query_upper_bound":count,
+			"raw_counter":counter,"attribution":"successful_receipt" if success else ("current_refusal_counter" if attempt else "no_current_forecast_invocation"),
+			"independent_observer_queries_excluded":true})
+
+	func forecast_query_distribution() -> Dictionary:
+		var ordered:=forecast_query_counts.duplicate()
+		ordered.sort()
+		var accepted:=0
+		for sample: Dictionary in owner_query_samples:
+			if sample.actual_attempt and sample.success:accepted+=1
+		var result: Dictionary={"count":ordered.size(),"owner_only_air_frames":owner_query_samples.size(),
+			"accepted_attempts":accepted,"refused_attempts":ordered.size()-accepted,"histogram":forecast_query_histogram.duplicate(),
+			"kind":"incremental forecast query counts/accepted-current-guard upper bounds; no timing or FPS claim",
+			"refusal_attribution_complete":true,"percentile_method":"nearest rank; failed attempts and zero-query refusals included"}
+		for percentile: int in [50,95,99,100]:
+			result["p"+str(percentile)]=0 if ordered.is_empty() else ordered[clampi(ceili(ordered.size()*percentile/100.0)-1,0,ordered.size()-1)]
+		return result
+
+	func _forecast_negatives(delta: float,actual: Transform3D) -> void:
+		# These are explicitly adversarial synchronous probes after a real
+		# independently authenticated positive. No physics/input step occurs.
+		forecast_controls_ran=true
+		if foreign_hint.is_empty():
+			forecast_controls_clear=false
+			forecast_controls.append({"control":"real_foreign_floor_exists","matches":false})
+			return
+		var saved:=_save_forecast_fault_state()
+		var physics:=Engine.get_physics_frames()
+		var capsule: Transform3D=rider.global_transform
+		var unfitted:=actual
+		unfitted.origin-=Vector3(saved.offset)
+		var earned: Dictionary=saved.owner
+		var normal: Vector3=earned.normal
+		for label: String in ["no_owner_argument","no_earned_owner","foreign_argument_rid","foreign_argument_shape",
+			"foreign_argument_normal","foreign_argument_plane","mode_takeover","invalid_delta",
+			"upward_predicted_clear","away_predicted_clear"]:
+			_restore_forecast_fault_state(saved)
+			var owner: Dictionary=earned.duplicate()
+			var probe_delta:=delta
+			var zero_query:=true
+			var independent_miss:=true
+			match label:
+				"no_owner_argument":owner={}
+				"no_earned_owner":rider._obstacle_air_wall_owner={}
+				"foreign_argument_rid":owner.rid=foreign_hint.rid
+				"foreign_argument_shape":owner.shape=int(earned.shape)+1
+				"foreign_argument_normal":owner.normal=-normal
+				"foreign_argument_plane":owner.position=Vector3(earned.position)+normal*.01
+				"mode_takeover":rider._launch_id="wallie"
+				"invalid_delta":probe_delta=NAN
+				"upward_predicted_clear":
+					rider.velocity=Vector3.UP*40.0
+					zero_query=false
+					independent_miss=_all_future_components_miss(unfitted,owner,delta)
+				"away_predicted_clear":
+					rider.velocity=normal*40.0
+					zero_query=false
+					independent_miss=_all_future_components_miss(unfitted,owner,delta)
+			var result: Dictionary=rider._air_wall_forecast(owner,probe_delta)
+			var queries: int=rider._air_forecast_queries
+			var refused: bool=result.is_empty() and independent_miss and queries>=0 \
+				and queries<=AirController.AIR_FORECAST_QUERY_CAP and (not zero_query or queries==0)
+			forecast_controls_clear=forecast_controls_clear and refused
+			forecast_controls.append({"control":label,"physics":physics,"refused":refused,"queries":queries,
+				"zero_query_required":zero_query,"independent_future_miss":independent_miss})
+		_restore_forecast_fault_state(saved)
+		var malformed_origin:=Transform3D.IDENTITY
+		malformed_origin.origin=Vector3(NAN,0,0)
+		var malformed_basis:=Transform3D.IDENTITY
+		malformed_basis.basis.x=Vector3(NAN,0,0)
+		var singular:=Transform3D.IDENTITY
+		singular.basis.x=Vector3.ZERO
+		var mirrored:=Transform3D.IDENTITY
+		mirrored.basis.x=Vector3.LEFT
+		var overflow_determinant:=Transform3D(Basis.from_scale(Vector3.ONE*1.0e20),Vector3.ZERO)
+		var overflow:=Transform3D.IDENTITY
+		overflow.origin=Vector3(3.0e38,0,0)
+		var cases: Array[Dictionary]=[
+			{"label":"finite_frame_positive","frame":unfitted,"travel":Vector3.ZERO,"expected":true},
+			{"label":"nan_frame_origin","frame":malformed_origin,"travel":Vector3.ZERO,"expected":false},
+			{"label":"nan_frame_basis","frame":malformed_basis,"travel":Vector3.ZERO,"expected":false},
+			{"label":"singular_frame","frame":singular,"travel":Vector3.ZERO,"expected":false},
+			{"label":"mirrored_frame","frame":mirrored,"travel":Vector3.ZERO,"expected":false},
+			{"label":"nan_travel","frame":unfitted,"travel":Vector3(0,NAN,0),"expected":false},
+			{"label":"finite_basis_determinant_overflow","frame":overflow_determinant,"travel":Vector3.ZERO,"expected":false},
+			{"label":"finite_sum_overflow","frame":overflow,"travel":Vector3(3.0e38,0,0),"expected":false}]
+		for item: Dictionary in cases:
+			var queries_before: int=rider._air_forecast_queries
+			var accepted: bool=rider._air_forecast_frame_valid(item.frame,item.travel)
+			var matches: bool=accepted==bool(item.expected) and rider._air_forecast_queries==queries_before
+			forecast_controls_clear=forecast_controls_clear and matches
+			forecast_controls.append({"control":item.label,"physics":physics,"matches":matches,
+				"accepted":accepted,"expected":item.expected,"query_delta":rider._air_forecast_queries-queries_before})
+		_restore_forecast_fault_state(saved)
+		var reserved: int=3+rider._grind_clearance._parts.size()
+		var hard_limit: int=AirController.AIR_FORECAST_QUERY_CAP-reserved
+		rider._air_forecast_queries=hard_limit
+		rider._air_forecast_counting=true
+		var hardcap_refused: bool=not rider._air_forecast_query() \
+			and rider._air_forecast_queries==hard_limit and rider._air_forecast_counting \
+			and rider._air_forecast_physics==saved.invocation_physics
+		forecast_controls_clear=forecast_controls_clear and hardcap_refused
+		forecast_controls.append({"control":"reserved_current_pose_hardcap_refusal","physics":physics,
+			"refused":hardcap_refused,"counter_before":hard_limit,"counter_after":rider._air_forecast_queries,
+			"reserved_current_pose_queries":reserved,"query_cap":AirController.AIR_FORECAST_QUERY_CAP})
+		_restore_forecast_fault_state(saved)
+		var restored: bool=rider.global_transform==capsule and Engine.get_physics_frames()==physics \
+			and rider.velocity==saved.velocity and rider._launch_id==saved.launch \
+			and rider._visual.transform==saved.visual and rider._board_visual.global_transform==actual \
+			and rider._obstacle_air_wall==saved.active and rider._obstacle_air_wall_owner==saved.owner \
+			and rider._obstacle_air_forecast==saved.forecast and rider._obstacle_visual_offset==saved.offset \
+			and rider._air_forecast_queries==saved.queries and rider._air_forecast_counting==saved.counting \
+			and rider._air_forecast_physics==saved.invocation_physics \
+			and _query_state(rider._air_forecast_probe_query)==saved.probe \
+			and _query_state(rider._air_forecast_volume_query)==saved.volume \
+			and rider._air_forecast_shoe_box.size==saved.shoe_size
+		forecast_controls_clear=forecast_controls_clear and restored
+		forecast_controls.append({"control":"synchronous_complete_restore","physics":physics,"restored":restored})
+
+	func _all_future_components_miss(frame: Transform3D,owner: Dictionary,delta: float) -> bool:
+		var gravity: float=AirController.RAMP_AIR_GRAVITY if rider._ramp_air else (AirController.WEIGHTED_OLLIE_GRAVITY if rider._weighted_ollie_air else AirController.GRAVITY)
+		for step: int in range(1,mini(7,int(floor(.120/delta)))+1):
+			var future:=frame
+			future.origin+=rider.velocity*(delta*step)-Vector3.UP*(gravity*delta*delta*step*(step+1)*.5)
+			if _future_owner_component(future,owner)!=-1:return false
+		return true
+
+	func _save_forecast_fault_state() -> Dictionary:
+		return {"visual":rider._visual.transform,"offset":rider._obstacle_visual_offset,
+			"active":rider._obstacle_air_wall.duplicate(),"owner":rider._obstacle_air_wall_owner.duplicate(),
+			"forecast":rider._obstacle_air_forecast.duplicate(),"queries":rider._air_forecast_queries,
+			"invocation_physics":rider._air_forecast_physics,
+			"counting":rider._air_forecast_counting,"probe":_query_state(rider._air_forecast_probe_query),
+			"volume":_query_state(rider._air_forecast_volume_query),"shoe_size":rider._air_forecast_shoe_box.size,
+			"velocity":rider.velocity,"launch":rider._launch_id}
+
+	func _restore_forecast_fault_state(saved: Dictionary) -> void:
+		rider._visual.transform=saved.visual
+		rider._obstacle_visual_offset=saved.offset
+		rider._obstacle_air_wall=saved.active.duplicate()
+		rider._obstacle_air_wall_owner=saved.owner.duplicate()
+		rider._obstacle_air_forecast=saved.forecast.duplicate()
+		rider._air_forecast_queries=saved.queries
+		rider._air_forecast_physics=saved.invocation_physics
+		rider._air_forecast_counting=saved.counting
+		_restore_query(rider._air_forecast_probe_query,saved.probe)
+		_restore_query(rider._air_forecast_volume_query,saved.volume)
+		rider._air_forecast_shoe_box.size=saved.shoe_size
+		rider.velocity=saved.velocity
+		rider._launch_id=saved.launch
+
+	func _query_state(query: PhysicsShapeQueryParameters3D) -> Dictionary:
+		return {"shape":query.shape,"transform":query.transform,"margin":query.margin,"motion":query.motion,
+			"mask":query.collision_mask,"exclude":query.exclude.duplicate(),"areas":query.collide_with_areas,"bodies":query.collide_with_bodies}
+
+	func _restore_query(query: PhysicsShapeQueryParameters3D,saved: Dictionary) -> void:
+		query.shape=saved.shape
+		query.transform=saved.transform
+		query.margin=saved.margin
+		query.motion=saved.motion
+		query.collision_mask=saved.mask
+		query.exclude=saved.exclude
+		query.collide_with_areas=saved.areas
+		query.collide_with_bodies=saved.bodies
 
 	func _component_hits(actual: Transform3D) -> Array[Dictionary]:
 		var result: Array[Dictionary]=[]
@@ -164,16 +503,24 @@ class AirWallWitness extends Node:
 			if not hits.is_empty():result.append({"component":index,"hits":hits,"rest":space.get_rest_info(query)})
 		return result
 
-	func _foreign_owner_negative() -> void:
+	func _foreign_owner_negative(forecast_case: bool=false) -> void:
 		# A deliberate fault injection, never a successful-input fixture: swap
 		# only owner RID/shape to a real different floor while retaining the old
 		# wall hint. No native actor/input mutation or physics advance occurs.
 		if foreign_hint.is_empty():return
-		foreign_ran=true
+		if forecast_case:forecast_foreign_ran=true
+		else:foreign_ran=true
 		var saved_visual: Transform3D=rider._visual.transform
 		var saved_offset: Vector3=rider._obstacle_visual_offset
 		var saved_active: Dictionary=rider._obstacle_air_wall.duplicate()
 		var saved_owner: Dictionary=rider._obstacle_air_wall_owner.duplicate()
+		var saved_forecast: Dictionary=rider._obstacle_air_forecast.duplicate()
+		var saved_queries: int=rider._air_forecast_queries
+		var saved_physics: int=rider._air_forecast_physics
+		var saved_counting: bool=rider._air_forecast_counting
+		var saved_probe:=_query_state(rider._air_forecast_probe_query)
+		var saved_volume:=_query_state(rider._air_forecast_volume_query)
+		var saved_shoe_size: Vector3=rider._air_forecast_shoe_box.size
 		var wrong: Dictionary=saved_owner.duplicate()
 		wrong.rid=foreign_hint.rid
 		wrong.shape=foreign_hint.shape
@@ -185,14 +532,23 @@ class AirWallWitness extends Node:
 		rider._obstacle_air_wall={}
 		rider._obstacle_air_wall_owner=wrong
 		var accepted: bool=rider._place_air_wall_wheels(1.0/60.0)
-		foreign_rejected=not accepted and rider._obstacle_visual_offset==Vector3.ZERO \
-			and rider._visual.transform==unfitted
+		var refused: bool=not accepted and rider._obstacle_visual_offset==Vector3.ZERO \
+			and rider._visual.transform==unfitted and rider._obstacle_air_forecast.is_empty()
+		if forecast_case:forecast_foreign_rejected=refused
+		else:foreign_rejected=refused
 		# Restore the exact displayed native-supported presentation before the
 		# callback returns. The next physical/input step sees no injected state.
 		rider._visual.transform=saved_visual
 		rider._obstacle_visual_offset=saved_offset
 		rider._obstacle_air_wall=saved_active
 		rider._obstacle_air_wall_owner=saved_owner
+		rider._obstacle_air_forecast=saved_forecast
+		rider._air_forecast_queries=saved_queries
+		rider._air_forecast_physics=saved_physics
+		rider._air_forecast_counting=saved_counting
+		_restore_query(rider._air_forecast_probe_query,saved_probe)
+		_restore_query(rider._air_forecast_volume_query,saved_volume)
+		rider._air_forecast_shoe_box.size=saved_shoe_size
 
 
 static func run(tree: SceneTree,game: Node,check: Callable,observer: Callable=Callable()) -> void:
@@ -562,7 +918,7 @@ static func run_bank_jump_misses(tree: SceneTree,game: Node,check: Callable,obse
 			PhysicsRayQueryParameters3D.create(Vector3(66,2.2,73.5),Vector3(66,1.8,73.5),1))
 		air_model.process_physics_priority=100
 		game.add_child(air_model)
-		var reset_air_clear: bool=game.skater._obstacle_air_wall.is_empty() and game.skater._obstacle_air_wall_owner.is_empty()
+		var reset_air_clear: bool=game.skater._obstacle_air_wall.is_empty() and game.skater._obstacle_air_wall_owner.is_empty() and game.skater._obstacle_air_forecast.is_empty()
 		var physics_start:=Engine.get_physics_frames()
 		var charging:=false
 		var released:=false
@@ -662,7 +1018,11 @@ static func run_bank_jump_misses(tree: SceneTree,game: Node,check: Callable,obse
 			and air_model.checked>10 and air_model.clear and air_model.shoe_clear and air_model.offset_clear
 			and air_model.capsule_clear
 			and reset_air_clear and air_model.landing_clear
-			and air_model.owner_only_clear and (not air_model.foreign_ran or air_model.foreign_rejected)
+			and air_model.forecast_proven_or_zero and air_model.forecast_clear and air_model.forecast_controls_clear
+			and (not air_model.foreign_ran or air_model.foreign_rejected)
+			and (not air_model.forecast_miss_ran or air_model.forecast_miss_rejected)
+			and (not air_model.forecast_foreign_ran or air_model.forecast_foreign_rejected)
+			and (gate!=79.4 or (air_model.forecast_frames>0 and air_model.forecast_foreign_ran and air_model.forecast_miss_ran and air_model.forecast_controls_ran))
 			and (gate!=79.4 or (air_model.foreign_ran and floor_negatives))
 			and e.entries.size()==1 and e.entries[0].id=="ollie" and e.camera_clear,
 			"November bank: maximum-speed charged uphill pop stays natively contained with clear body/chase and real landing at gate"+str(gate))
@@ -671,7 +1031,16 @@ static func run_bank_jump_misses(tree: SceneTree,game: Node,check: Callable,obse
 			" capsule=",capsule_clear," camera=",e.camera_clear," bails=",e.bails," recoveries=",e.recoveries," entries=",e.entries,
 			" actual_air_physics=",air_model.checked," air_model_clear=",air_model.clear," air_capsule_clear=",air_model.capsule_clear," shoe_clear=",air_model.shoe_clear,
 			" reset_air_clear=",reset_air_clear," landing_air_clear=",air_model.landing_clear,
-			" owner_only_physics=",air_model.owner_only_frames," owner_only_zero_offset=",air_model.owner_only_clear,
+			" owner_only_physics=",air_model.owner_only_frames," forecast_proven_or_zero=",air_model.forecast_proven_or_zero,
+			" forecast_frames=",air_model.forecast_frames," forecast_clear=",air_model.forecast_clear,
+			" forecast_max_queries=",air_model.maximum_forecast_queries," forecast_samples=",air_model.forecast_samples,
+			" forecast_controls_ran=",air_model.forecast_controls_ran," forecast_controls_clear=",air_model.forecast_controls_clear,
+			" forecast_controls=",air_model.forecast_controls,
+			" forecast_owner_queries=",air_model.owner_query_samples," forecast_query_distribution=",air_model.forecast_query_distribution(),
+			" independent_component_queries=",air_model.independent_component_queries," independent_pose_queries=",air_model.independent_pose_queries,
+			" independent_face_rays=",air_model.independent_face_rays,
+			" forecast_foreign_ran=",air_model.forecast_foreign_ran," forecast_foreign_rejected=",air_model.forecast_foreign_rejected,
+			" forecast_miss_ran=",air_model.forecast_miss_ran," forecast_miss_rejected=",air_model.forecast_miss_rejected,
 			" foreign_owner_ran=",air_model.foreign_ran," foreign_owner_rejected=",air_model.foreign_rejected,
 			" loaded_contact_samples=",loaded_contact_samples," maximum_loaded_depth=",maximum_loaded_depth,
 			" wrong_floor_wall_deep_negatives=",floor_negatives,

@@ -1,0 +1,169 @@
+--- a/tests/facade_bay_tests.gd
++++ b/tests/facade_bay_tests.gd
+@@ -5,6 +5,7 @@
+ const World = preload("res://game/levels/glasgow_square.gd")
+ const Bay = preload("res://game/levels/art/facade_bay.gd")
+ const Batches = preload("res://game/levels/static_batches.gd")
++const Visibility = preload("res://game/levels/city_visibility.gd")
+ const EPS := 0.0001
+ 
+ 
+@@ -28,6 +29,8 @@
+ 	var original_frame := original_visual.transform
+ 	var original_material := original_visual.material_override
+ 	var original_occluders: int = baseline.solid_wall_occluders
++	var original_owner_identity := _closed_owner_identity(baseline)
++	_check_real_recess(original, check)
+ 	baseline.free()
+ 	await tree.physics_frame
+ 	await tree.process_frame
+@@ -50,9 +53,10 @@
+ 		"facade bay: physical entry threshold, turning ledge and lower bypass retain support/clearance")
+ 	_check_shell(building, check)
+ 	_check_shadows(building, original_frame, original_material, check)
+-	check.call(original_occluders == 23 and world.solid_wall_occluders == 22
++	check.call(original_occluders == 5 and world.solid_wall_occluders == 5
++		and original_owner_identity and _closed_owner_identity(world)
+ 		and not building.get_node("Facade").has_node("ClosedFacadeOccluder"),
+-		"facade bay: invisible shadow mass is excluded from actual visible-wall occluder candidates")
++		"facade bay: only the exact three arcades, civic mass and repair hall retain opaque Box occluders")
+ 	_check_front(building, old_records, old_labels, check)
+ 	_check_lods(building, check)
+ 	world.free()
+@@ -74,6 +78,7 @@
+ 	check.call(not transformed.has_meta(Bay.AUDIT_RECORDS),
+ 		"facade bay: ordinary runtime does not retain construction audit records")
+ 	fixture.free()
++	_check_bare_pilot_occluder(tree, check)
+ 
+ 
+ static func _world(tree: SceneTree, enabled: bool) -> Node3D:
+@@ -252,19 +257,17 @@
+ 		and report.get("baseline_front_records", 0) > records.size(),
+ 		"facade bay: one complete shop bay is removed and crossing continuous pieces are clipped")
+ 	var current := _emitted_records(building)
+-	check.call(_has_box(old_records, Vector3(-3.75, 1.825, 6.19), Vector3(1.05, 2.55, 0.17))
+-		and not _has_box(current, Vector3(-3.75, 1.825, 6.19), Vector3(1.05, 2.55, 0.17)),
+-		"facade bay: the old selected raised procedural door is actually removed")
+-	check.call(_has_box(current, Vector3(-9.59, 1.825, 6.19), Vector3(1.05, 2.55, 0.17))
+-		and _has_box(current, Vector3(2.09, 1.62, 6.19), Vector3(1.05, 2.55, 0.17)),
+-		"facade bay: adjacent real procedural doors remain with their original individual elevations")
++	check.call(_has_leaf(old_records, -3.75, 0.205) and not _has_leaf_piece(current, -3.75, 0.205),
++		"facade bay: every actual panelled raised leaf part is present originally and absent in the fitted shop")
++	check.call(_has_leaf(current, -9.59, 0.205) and _has_leaf(current, 2.09, 0.0),
++		"facade bay: adjacent constructed leaves retain all stiles, rails, panels, glass and hardware at their distinct elevations")
+ 	var closure := AABB(Vector3(-2.5, 0.2, 5.98), Vector3(0.12, 3.1, 0.66))
+ 	var old_covers := _covers(old_records, closure)
+ 	var new_covers := _covers(current, closure)
+ 	var neighbour_paint: Material
+ 	for record: Dictionary in current:
+ 		var bounds: AABB = record.bounds
+-		if bounds.get_center().distance_to(Vector3(2.09, 1.62, 6.19)) < 0.001 and bounds.size.distance_to(Vector3(1.05, 2.55, 0.17)) < 0.001:
++		if bounds.get_center().distance_to(Vector3(2.53, 1.62, 6.23)) < 0.001 and bounds.size.distance_to(Vector3(0.10, 2.55, 0.12)) < 0.001:
+ 			neighbour_paint = record.material
+ 	var closed_opaque := false
+ 	if new_covers.size() == 1:
+@@ -306,6 +309,103 @@
+ 		var bounds: AABB = record.bounds
+ 		if bounds.get_center().distance_to(center) < 0.001 and bounds.size.distance_to(size) < 0.001: return true
+ 	return false
++
++
++static func _leaf_parts(x: float, lift: float) -> Array:
++	# Concrete authored leaf bounds, independent of the facade implementation.
++	# The stone threshold retains its separate native support/clearance witness.
++	var parts: Array = [
++		[Vector3(x,1.62+lift,6.16),Vector3(1.05,2.55,0.045)],
++		[Vector3(x,2.04+lift,6.23),Vector3(0.79,1.42,0.025)],
++		[Vector3(x,0.83+lift,6.21),Vector3(0.79,0.69,0.045)],
++		[Vector3(x+0.34,1.48+lift,6.33),Vector3(0.035,0.32,0.05)],
++		[Vector3(x+0.34,1.48+lift,6.29),Vector3(0.09,0.38,0.018)]]
++	for side: float in [-1.0,1.0]:
++		parts.append([Vector3(x+side*0.44,1.62+lift,6.23),Vector3(0.10,2.55,0.12)])
++		parts.append([Vector3(x+side*0.34,0.83+lift,6.25),Vector3(0.035,0.62,0.03)])
++		parts.append([Vector3(x,0.83+lift+side*0.29,6.25),Vector3(0.70,0.035,0.03)])
++	for rail: Vector2 in [Vector2(0.40,0.11),Vector2(1.26,0.12),Vector2(2.82,0.14)]:
++		parts.append([Vector3(x,rail.x+lift,6.23),Vector3(0.98,rail.y,0.12)])
++	return parts
++
++
++static func _has_leaf(records: Array, x: float, lift: float) -> bool:
++	for part: Array in _leaf_parts(x,lift):
++		if not _has_box(records,part[0],part[1]): return false
++	return true
++
++
++static func _has_leaf_piece(records: Array, x: float, lift: float) -> bool:
++	for part: Array in _leaf_parts(x,lift):
++		if _has_box(records,part[0],part[1]): return true
++	return false
++
++
++static func _closed_owner_identity(world: Node3D) -> bool:
++	var expected: Array = [
++		[Vector3(-24,0,48),Vector3(18,15,13.2),"stone_light"],
++		[Vector3(0,0,48),Vector3(18,15,13.2),"stone_light"],
++		[Vector3(24,0,48),Vector3(18,15,13.2),"stone_light"],
++		[Vector3(0,6,-134),Vector3(62,28,12),"stone_light"],
++		[Vector3(56,0.65,7.5),Vector3(15,4.2,12),"warehouse_brick"]]
++	for node: OccluderInstance3D in world.find_children("*","OccluderInstance3D",true,false):
++		var body := node.get_parent() as Node3D
++		if body == null or not body.get_parent() is Node3D: return false
++		var building := body.get_parent() as Node3D
++		var index := -1
++		for candidate: int in expected.size():
++			if building.position.is_equal_approx(expected[candidate][0]): index = candidate
++		if index < 0 or not node.occluder is BoxOccluder3D: return false
++		var contract: Array = expected[index]
++		var matches := 0
++		for child: Node in body.get_children():
++			if not child is MeshInstance3D or not child.mesh is BoxMesh or not child.is_visible_in_tree(): continue
++			if child.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY: continue
++			var material := child.material_override as BaseMaterial3D
++			if material == null or material != world._materials[contract[2]] or material.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED: continue
++			if child.mesh.size.is_equal_approx(contract[1]) and node.transform.is_equal_approx(child.transform) \
++				and node.occluder.size.is_equal_approx(child.mesh.size-Vector3.ONE*0.2): matches += 1
++		if matches != 1: return false
++		expected.remove_at(index)
++	return expected.is_empty()
++
++
++static func _check_real_recess(building: Node3D, check: Callable) -> void:
++	var visual: MeshInstance3D = building.get_node("Facade").get_child(1)
++	var body: StaticBody3D = building.get_node("Facade")
++	var upper := _wall_hits(building,visual,5.25)
++	var lower := _wall_hits(building,visual,2.0)
++	check.call(visual.mesh is ArrayMesh and bool(visual.get_meta("architectural_recess_shell",false))
++		and visual.mesh.get_aabb().size.is_equal_approx(Vector3(30,16,12)) and upper == 0 and lower == 1,
++		"facade bay: ordinary west wall has a real upper aperture with closed lower wall and unchanged bounds")
++	check.call(body.get_child(0).shape is BoxShape3D and body.get_child(0).shape.size.is_equal_approx(Vector3(30,16,12)),
++		"facade bay: visual upper recess retains the complete native wall collider")
++
++
++static func _wall_hits(building: Node3D, visual: MeshInstance3D, y: float) -> int:
++	var a: Vector3 = visual.to_local(building.to_global(Vector3(0,y,6.5)))
++	var b: Vector3 = visual.to_local(building.to_global(Vector3(0,y,5.5)))
++	var faces := visual.mesh.get_faces()
++	var hits := 0
++	for index: int in range(0,faces.size(),3):
++		if Geometry3D.segment_intersects_triangle(a,b,faces[index],faces[index+1],faces[index+2]) != null: hits += 1
++	return hits
++
++
++static func _check_bare_pilot_occluder(tree: SceneTree, check: Callable) -> void:
++	for fitted: bool in [false,true]:
++		var fixture := Node3D.new()
++		tree.root.add_child(fixture)
++		var building := _bare_building(fixture)
++		var wall: StaticBody3D = building.get_node("Facade")
++		wall.get_child(1).material_override = StandardMaterial3D.new()
++		Visibility.register_closed_facade(wall)
++		var installed := Bay.install(building,wall) if fitted else true
++		var count := Visibility.build(fixture)
++		check.call(installed and count == (0 if fitted else 1)
++			and wall.has_node("ClosedFacadeOccluder") == (not fitted),
++			"facade bay: separate original bare-Box pilot retains the one-to-zero visible occluder control, fitted="+str(fitted))
++		fixture.free()
+ 
+ 
+ static func _labels(building: Node3D) -> Array:

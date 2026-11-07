@@ -1,0 +1,43 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS exact selected GLB hash
+PASS exact source semantic metadata hash
+PASS all actual native arrays/bindings/topology authenticate source identity
+PASS all100 actual waist edges and46 neck identities complete
+PASS actual multi-bone source seam remains within original limits {  }
+PASS actual multi-bone source seam remains within original limits { "look_direction": (-1.0, 0.0, 0.0) }
+PASS actual multi-bone source seam remains within original limits { "look_direction": (1.0, 0.0, 0.0) }
+PASS actual multi-bone source seam remains within original limits { "speed": 7.0, "push": true }
+PASS actual multi-bone source seam remains within original limits { "crouch": 1.0 }
+PASS actual multi-bone source seam remains within original limits { "airborne": true, "grab": true, "grab_id": "melon_grab" }
+PASS actual multi-bone source seam remains within original limits { "airborne": true, "grab": true, "grab_id": "method_grab" }
+PASS actual multi-bone source seam remains within original limits { "manual": true, "manual_balance": 0.9 }
+PASS actual multi-bone source seam remains within original limits { "bail": 1.0 }
+PASS actual named torso binding exists
+PASS same800mm torso corruption exceeds original80mm limit without node joint change
+PASS same800mm corruption retains pure upper-shirt over500mm sentinel
+PASS uniform250mm all-bind translation detected despite healthy control nodes
+PASS missing authenticated seam edge fails closed
+PASS wrong authenticated seam source identity fails closed
+PASS out-of-range actual native Skin binding fails before bone reads
+PASS actual decoded native nonunit UNORM16 witness exists
+PASS far-origin unequal mesh/skeleton model translation applied once with raw native weights
+PASS fresh fitted actual arm cache supports source geometry within512KiB
+PASS actual fitted arm incident endpoints remain inside native cached LBS envelopes
+FAIL per-leg sole: complete cached bounds follow this exact native Cupsole mesh and local transform side=-1.0
+FAIL per-leg sole: complete cached bounds follow this exact native Cupsole mesh and local transform side=1.0
+FAIL per-leg sole: real positive-mesh6.25mm asymmetry rejects the old shared negative-leg boundary
+PASS per-leg sole: source-cache refresh changes no actor/velocity/board/ankle or public SOLE/TOE marker
+FAIL per-leg sole: restored positive source rebuilds without stale transformed vertices
+PER_LEG_SOLE_CACHE { "left_count": 183, "right_count": 183, "fixture": "explicit positive native mesh translation; no live motion or source-asset substitution", "physical_and_markers_unchanged": true }
+FAIL full shoe support: compact native3Dhull contains every actual indexed transformed shoe vertex without invented support side=-1.0
+PASS full shoe support: real9.462mm upper overhang rejects the old sole-only wall envelope side=-1.0
+FAIL full shoe support: compact native3Dhull contains every actual indexed transformed shoe vertex without invented support side=1.0
+PASS full shoe support: real9.462mm upper overhang rejects the old sole-only wall envelope side=1.0
+FAIL full shoe support: declared two-leg raw XYZ hull payload stays within6KiB
+FAIL full shoe support: transformed actual upper invalidates the old cache while the rebuilt complete envelope follows it
+FAIL full shoe support: restoring actual geometry restores its complete source envelope
+PASS full shoe support: repeated startup-only cache refresh retains no growing temporary shape/mesh resource set
+PASS full shoe support: cache construction changes no capsule/body velocity/board/ankle/contact marker or physics time
+FULL_SHOE_SUPPORT_CACHE { "legs": [{ "side": -1.0, "source_unique_points": 1645, "cached_points": 277, "enclosure": { "enclosed": false, "native_source_vertices": true, "maximum_outside_m": 0.00001621094998, "maximum_cached_vertex_source_error_m": 0.0, "native_hull_triangles": 550 }, "overhang": { "maximum": 0.00942724943161, "normal": (0.987772, 0.0, 0.155902), "new_agreement": 0.0, "classification": "geometric wall support overhang, not wheel load or native collision proof" } }, { "side": 1.0, "source_unique_points": 1645, "cached_points": 285, "enclosure": { "enclosed": false, "native_source_vertices": true, "maximum_outside_m": 0.00008471054025, "maximum_cached_vertex_source_error_m": 0.0, "native_hull_triangles": 566 }, "overhang": { "maximum": 0.00942724943161, "normal": (-0.987772, 0.0, 0.155902), "new_agreement": 0.0, "classification": "geometric wall support overhang, not wheel load or native collision proof" } }], "raw_hull_XYZ_payload_bytes": 6744, "retained_resource_delta_after10refreshes": 0, "physical_and_markers_unchanged": true, "scope": "source enclosure/resource contract only; no Mac performance or final native skating certificate" }
+FITTED_PILOT_RESULT {"failures":["per-leg sole: complete cached bounds follow this exact native Cupsole mesh and local transform side=-1.0","per-leg sole: complete cached bounds follow this exact native Cupsole mesh and local transform side=1.0","per-leg sole: real positive-mesh6.25mm asymmetry rejects the old shared negative-leg boundary","per-leg sole: restored positive source rebuilds without stale transformed vertices","full shoe support: compact native3Dhull contains every actual indexed transformed shoe vertex without invented support side=-1.0","full shoe support: compact native3Dhull contains every actual indexed transformed shoe vertex without invented support side=1.0","full shoe support: declared two-leg raw XYZ hull payload stays within6KiB","full shoe support: transformed actual upper invalidates the old cache while the rebuilt complete envelope follows it","full shoe support: restoring actual geometry restores its complete source envelope"],"metrics":{"SkinnedJacket":{"native_vertices":4567,"source_vertices":4220,"triangles":8244},"SkinnedTrousers":{"native_vertices":4495,"source_vertices":4306,"triangles":8428},"UpperChest":{"native_vertices":315,"source_vertices":310,"triangles":520},"contact_cache":{"outside":0,"packed_bytes":66100,"scope":"cache geometry only; real wall trajectories and12query limits remain separate","vertices":[1202,1116]},"detachment800":{"joint_gap_unchanged":true,"pure_upper_shift_m":0.799999713897705,"waist_m":0.182424545288086},"head_import":{"compressed":true,"position_identity_bound_m":0.00000612049521349238,"uv_identity_bound":0.0000217795157148561},"mapping_errors":[],"neutral":{"finite":true,"joint_gap_m":0.0018873168155551,"maximum_neck_m":0.00000468022199129337,"maximum_waist_m":0.0,"neck_ids":46,"waist_edges":100},"pose_peaks":{"neck_m":0.00000535946946911281,"source":"direct visual-pose diagnostics; not controller trajectory or moving review","waist_m":0.0},"uniform250":{"finite":true,"joint_gap_m":0.0018873168155551,"maximum_neck_m":0.00000468022199129337,"maximum_waist_m":0.249997034668922,"neck_ids":46,"waist_edges":100}},"passes":29,"scope":"private native fitted mapping/seam/bind/cache pilot; original positive limits and corruption magnitudes preserved, no graphics/Main trajectory/M5 acceptance"}

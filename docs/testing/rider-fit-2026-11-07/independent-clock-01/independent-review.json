@@ -1,0 +1,541 @@
+{
+  "passed": 104,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "whole captured source inventories identical,732 entries",
+      "pass": true
+    },
+    {
+      "label": "launch zero exit and no failure/raw errors",
+      "pass": true
+    },
+    {
+      "label": "native clean log",
+      "pass": true
+    },
+    {
+      "label": "native exactly4pairs no failures",
+      "pass": true
+    },
+    {
+      "label": "archived executed launcher matches before-run identity",
+      "pass": true
+    },
+    {
+      "label": "observer matches before-run identity",
+      "pass": true
+    },
+    {
+      "label": "semantic native adapter matches before-run identity",
+      "pass": true
+    },
+    {
+      "label": "default60Hz configured",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high fractional outside physics callback",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high distinct policies",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high current physical/bone parity asserted by observer",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high retained current component matrices all equal",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high current native11-bone palettes exactly equal",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high actual camera/projection equal",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high actor velocity/air/bail/grab equal",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high only local rider/board modes differ",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high outer actor/visual rendered frames equal",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high both current semantic source seams finite and bounded",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high baseline original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high baseline native decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high baseline native384px buffer",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high baseline exactchangingCanvas stamp",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high baseline exact policy-ID pixel",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high baseline source/native-palette model result finite",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high baseline coherent model seam stays within existing50mm neck bound",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high coherent original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high coherent native decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high coherent native384px buffer",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high coherent exactchangingCanvas stamp",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high coherent exact policy-ID pixel",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high coherent source/native-palette model result finite",
+      "pass": true
+    },
+    {
+      "label": "0-post_grab-high coherent coherent model seam stays within existing50mm neck bound",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low fractional outside physics callback",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low distinct policies",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low current physical/bone parity asserted by observer",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low retained current component matrices all equal",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low current native11-bone palettes exactly equal",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low actual camera/projection equal",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low actor velocity/air/bail/grab equal",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low only local rider/board modes differ",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low outer actor/visual rendered frames equal",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low both current semantic source seams finite and bounded",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low baseline original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low baseline native decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low baseline native384px buffer",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low baseline exactchangingCanvas stamp",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low baseline exact policy-ID pixel",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low baseline source/native-palette model result finite",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low baseline coherent model seam stays within existing50mm neck bound",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low coherent original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low coherent native decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low coherent native384px buffer",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low coherent exactchangingCanvas stamp",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low coherent exact policy-ID pixel",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low coherent source/native-palette model result finite",
+      "pass": true
+    },
+    {
+      "label": "1-post_grab-low coherent coherent model seam stays within existing50mm neck bound",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low fractional outside physics callback",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low distinct policies",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low current physical/bone parity asserted by observer",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low retained current component matrices all equal",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low current native11-bone palettes exactly equal",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low actual camera/projection equal",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low actor velocity/air/bail/grab equal",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low only local rider/board modes differ",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low outer actor/visual rendered frames equal",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low both current semantic source seams finite and bounded",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low baseline original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low baseline native decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low baseline native384px buffer",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low baseline exactchangingCanvas stamp",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low baseline exact policy-ID pixel",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low baseline source/native-palette model result finite",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low baseline coherent model seam stays within existing50mm neck bound",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low coherent original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low coherent native decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low coherent native384px buffer",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low coherent exactchangingCanvas stamp",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low coherent exact policy-ID pixel",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low coherent source/native-palette model result finite",
+      "pass": true
+    },
+    {
+      "label": "2-recovery-low coherent coherent model seam stays within existing50mm neck bound",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high fractional outside physics callback",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high distinct policies",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high current physical/bone parity asserted by observer",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high retained current component matrices all equal",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high current native11-bone palettes exactly equal",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high actual camera/projection equal",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high actor velocity/air/bail/grab equal",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high only local rider/board modes differ",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high outer actor/visual rendered frames equal",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high both current semantic source seams finite and bounded",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high baseline original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high baseline native decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high baseline native384px buffer",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high baseline exactchangingCanvas stamp",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high baseline exact policy-ID pixel",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high baseline source/native-palette model result finite",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high baseline coherent model seam stays within existing50mm neck bound",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high coherent original encoded PNG hash",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high coherent native decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high coherent native384px buffer",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high coherent exactchangingCanvas stamp",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high coherent exact policy-ID pixel",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high coherent source/native-palette model result finite",
+      "pass": true
+    },
+    {
+      "label": "3-recovery-high coherent coherent model seam stays within existing50mm neck bound",
+      "pass": true
+    }
+  ],
+  "pairs": [
+    {
+      "id": 0,
+      "phase": "post_grab",
+      "band": "high",
+      "fraction": 0.737519999999986,
+      "physics_frame": 234,
+      "process_frame": 110,
+      "twins": [
+        {
+          "policy": "baseline",
+          "reported_native_vertex_model_estimate_m": 0.000142323115142062,
+          "independent_source_vertex_plus_native_palette_model_estimate_m": 0.00013958942045734697,
+          "difference_m": 2.733694684715042e-06,
+          "note": "Source Head coordinates precede native compressed import; this observed micrometre difference is not a changed contact tolerance. The actual GPU seam distance is not directly encoded by these images."
+        },
+        {
+          "policy": "coherent",
+          "reported_native_vertex_model_estimate_m": 4.9483523980598e-06,
+          "independent_source_vertex_plus_native_palette_model_estimate_m": 1.6097761121928473e-07,
+          "difference_m": 4.787374786840515e-06,
+          "note": "Source Head coordinates precede native compressed import; this observed micrometre difference is not a changed contact tolerance. The actual GPU seam distance is not directly encoded by these images."
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "phase": "post_grab",
+      "band": "low",
+      "fraction": 0.390739999999986,
+      "physics_frame": 244,
+      "process_frame": 113,
+      "twins": [
+        {
+          "policy": "baseline",
+          "reported_native_vertex_model_estimate_m": 0.0205688700079918,
+          "independent_source_vertex_plus_native_palette_model_estimate_m": 0.02056490351827998,
+          "difference_m": 3.9664897118207865e-06,
+          "note": "Source Head coordinates precede native compressed import; this observed micrometre difference is not a changed contact tolerance. The actual GPU seam distance is not directly encoded by these images."
+        },
+        {
+          "policy": "coherent",
+          "reported_native_vertex_model_estimate_m": 5.11941107106395e-06,
+          "independent_source_vertex_plus_native_palette_model_estimate_m": 1.240357569371029e-07,
+          "difference_m": 4.995375314126847e-06,
+          "note": "Source Head coordinates precede native compressed import; this observed micrometre difference is not a changed contact tolerance. The actual GPU seam distance is not directly encoded by these images."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "phase": "recovery",
+      "band": "low",
+      "fraction": 0.426979999999987,
+      "physics_frame": 376,
+      "process_frame": 190,
+      "twins": [
+        {
+          "policy": "baseline",
+          "reported_native_vertex_model_estimate_m": 7.26858124835417e-05,
+          "independent_source_vertex_plus_native_palette_model_estimate_m": 6.859341980984785e-05,
+          "difference_m": 4.092392673693841e-06,
+          "note": "Source Head coordinates precede native compressed import; this observed micrometre difference is not a changed contact tolerance. The actual GPU seam distance is not directly encoded by these images."
+        },
+        {
+          "policy": "coherent",
+          "reported_native_vertex_model_estimate_m": 5.6079070418491e-06,
+          "independent_source_vertex_plus_native_palette_model_estimate_m": 6.890540038056289e-07,
+          "difference_m": 4.918853038043471e-06,
+          "note": "Source Head coordinates precede native compressed import; this observed micrometre difference is not a changed contact tolerance. The actual GPU seam distance is not directly encoded by these images."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "phase": "recovery",
+      "band": "high",
+      "fraction": 0.591979999999984,
+      "physics_frame": 400,
+      "process_frame": 197,
+      "twins": [
+        {
+          "policy": "baseline",
+          "reported_native_vertex_model_estimate_m": 1.32902650875621e-05,
+          "independent_source_vertex_plus_native_palette_model_estimate_m": 1.1405158043127732e-05,
+          "difference_m": 1.8851070444343683e-06,
+          "note": "Source Head coordinates precede native compressed import; this observed micrometre difference is not a changed contact tolerance. The actual GPU seam distance is not directly encoded by these images."
+        },
+        {
+          "policy": "coherent",
+          "reported_native_vertex_model_estimate_m": 5.73274610360386e-06,
+          "independent_source_vertex_plus_native_palette_model_estimate_m": 1.092885653336728e-06,
+          "difference_m": 4.639860450267132e-06,
+          "note": "Source Head coordinates precede native compressed import; this observed micrometre difference is not a changed contact tolerance. The actual GPU seam distance is not directly encoded by these images."
+        }
+      ]
+    }
+  ],
+  "personally_opened_original_images": [
+    "0-post_grab-high-baseline.png",
+    "0-post_grab-high-coherent.png",
+    "1-post_grab-low-baseline.png",
+    "1-post_grab-low-coherent.png",
+    "2-recovery-low-baseline.png",
+    "2-recovery-low-coherent.png",
+    "3-recovery-high-baseline.png",
+    "3-recovery-high-coherent.png"
+  ],
+  "verdict": "Supports coherent Rider+Board local animation clocks with outer visual/actor interpolation retained, followed by original fitted/contact/moving regression. Whole fitted admission remains open.",
+  "limits": [
+    "First-in-band samples, not worst selection or consecutive motion.",
+    "Only20.569mm maximum captured native-palette/model seam estimate; no83mm or224mm native visible-gap claim.",
+    "Actual native pixels show relative Head position change most clearly in post_grab-low; other three pairs are subtle. No dramatic crack claimed.",
+    "Camera pose numeric; projection retained as Godot string rather than numeric matrix.",
+    "Current palettes and rendered model APIs combined by a source-identified CPU estimator; separate independent13/0 GPU MODEL witness validates OFF-child/ON-ancestor model authority, but these images do not encode seam distances directly.",
+    "Readbacks are synchronous in frame_post_draw with changing stamps, but this observer retains one counter sample rather than explicit before/after readback counters.",
+    "No full Main, wall/foot/clothes contact, actual target Mac, physical controls, human art, performance or AAA acceptance.",
+    "Source directories are explicit symlinks to private epoch07; captured inventories identical before/after, not a claim of repository-wide write exclusion."
+  ]
+}

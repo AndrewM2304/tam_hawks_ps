@@ -23,6 +23,12 @@ workers or published remote issues.
 
 ## Implemented candidate and source-bound results
 
+- Recessed windows, panelled shop joinery/displays and smoother gallery columns
+  are now integrated. [Independent native review](testing/fidelity-2026-11-06/architecture/main-graphics-03/README.md)
+  verifies21 matched originals, unchanged canonical collision/routes, at most+4
+  draws, +250,160 renderer buffer bytes and no added texture bytes. The source
+  increase is65,854 triangles. Static improvement does not close whole-city,
+  moving, pacing or M5 acceptance.
 - CC0 photographic paving, sandstone, asphalt, grass and timber now use physical
   scale, explicit PBR imports and reproducible source/derivative manifests. Exact
   static window-shader batching and native moving-train glass are independently
@@ -54,8 +60,9 @@ workers or published remote issues.
   bail. The 9.5-second/39-metre bypass return contains no tricks and is explicitly
   not a dense closed circuit. Four adverse charged bank jumps exposed a finite
   wall-crown escape; visible/native backing now reaches Y7 with the same one
-  body, four shape slots and mesh count. Airborne full-model clearance is under repair;
-  the latest integrated line cohort is not accepted yet.
+  body, four shape slots and mesh count. The short finite bank forecast now
+  passes independent normal-speed review and actual integrated controls; final
+  fitted-rider contacts and complete circuit acceptance remain open.
 - Fresh airborne manual requests last **less than 350 ms**; ground recovery stays
   120 ms. Actual W/S fore/aft correction follows board/travel stance; A/D steering
   remains separate and grinds retain lateral balance. The independent native sign/variant cohort has84 checks plus a CLI guard
@@ -67,6 +74,15 @@ workers or published remote issues.
   other resolutions, moving-risk/remapped-device review and full FID-304 stay open.
 
 ## Current defects and next integration
+
+The [actual integrated focused checkpoint](testing/fidelity-2026-11-06/integrated-focused-02/README.md)
+passes **392/0** with808 unchanged inputs, including the before-hashed executed
+observer and launcher. It covers standalone/default-Main motion, independent
+manual balance, all line/forecast controls, complete wall/arm and FacadeBay
+cohorts. Preparatory import is clean. This combines the short bank forecast,
+native name-first Skin resolver and architecture on the current procedural
+rider; the complete required regression below remains rejected on its older
+source and still needs a fresh integrated successor.
 
 The first November source checkpoint is an **in-progress trial**, not an accepted
 AAA build. Its complete required run below remains rejected; later focused
@@ -104,8 +120,12 @@ quay guide inside its new bank, and real coping/arm contact failures. Focused
 repairs are underway without reducing native, career, score or text-fit limits.
 The [actual32-frame bank film](testing/fidelity-2026-11-06/bank-crown-motion-01/README.md)
 separately proves a visible119.816mm correction snap (D015); its endpoint/capture
-integrity passes do not accept motion. A fresh finite same-owner swept forecast
-is being developed privately to spread the necessary correction. D014 exposed
+integrity passes do not accept motion. The integrated short same-owner finite
+forecast now has [35 independently inspected native frames](testing/motion-fidelity-2026-11-07/air-anticipation-moving-02/README.md):
+32 consecutive side frames and three separate chase frames. Both complete
+1,408-row physical traces match, the largest correction step is27.198mm and
+the observed abrupt pop is absent. Query-cap/foreign-owner/reset controls pass;
+whole-game/fitted geometry and M5 cost remain open. D014 exposed
 oversized original coping: 90 mm diameter/70 mm deck reveal. The primary-source
 [60 mm/12 mm/10 mm profile](research/COPING-PROPORTIONS.md) is now integrated
 after independent five-file source review. The complete actual ClydeSurface,
@@ -114,13 +134,19 @@ unchanged inputs; [the current receipt](testing/line-design-2026-11-06/coping-pr
 retains the original90/70 regression fixture and new native controls. The
 recorded penetration case is repaired in its scoped checks. Moving wheel
 support/flotation and final combined regression remain open; signed side-face
-proximity is not evidence of gravity-bearing contact. D015 remains open on
-actual source pending the forecast's moving review.
+proximity is not evidence of gravity-bearing contact. D015's recorded current
+procedural-rider case is repaired in its bounded scope; final fitted/moving
+regression and lateral panel transitions remain open.
 
 The continuous fitted rider is still private. Its production admission must
 exercise the new cached native-Skin envelope, semantically correct seam tests,
 real per-leg sole geometry and all NPC clothing/accessories. The passing current
 procedural-rider contact gate does not certify the pending fitted outfit.
+Independent native palette/GPU work also exposed a rigid-head/skinned-clothes
+pose-clock mismatch. [The fitted clock comparison](testing/rider-fit-2026-11-07/independent-clock-02/README.md)
+supports coherent local Rider/Board interpolation policy with outer motion
+retained; this policy and the continuous outfit remain private pending the full
+fitted attachment/contact/movement gate. No83/224mm native GPU gap is claimed.
 
 Next: complete focused repairs and fitted-rider/helper admission, take a new
 source freeze, pass the complete required check, inspect current motion and verify

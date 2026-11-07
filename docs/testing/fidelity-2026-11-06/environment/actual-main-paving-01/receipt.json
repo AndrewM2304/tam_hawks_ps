@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T04:11:10.982158+00:00",
+  "finished_utc": "2026-11-07T04:15:19.330227+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--script",
+      "tools/environment_main_paving_capture.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/main-paving-source/.local/environment-water/actual-main-paving-01"
+    ]
+  ],
+  "git_head": "9b91dbcfbecd147b4dc2eef6444596585390bd19",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_main_paving_capture.gd",
+  "process_timeout_seconds": 360,
+  "workload": "actual-main-paving-ABA-1280x800",
+  "concurrent_headless_authorised_pid": null,
+  "other_godot_at_start": [],
+  "timing_measured": false,
+  "source_inventory_sha256": "4160054e1bf4b395414c2f861ae3e039b87a5d9bfd69018b11f28ae79ded27a5",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "before-a-close-ground.png": "9bc1878f88edd0e7eb62c91a7694534e1854dbf922a27b4bd7d3276c0b654f2d",
+    "before-a-court-readability.png": "1d33d807d2c73af51d184ce58097e5cd36fd35c38fb5eb304396ea166fdc9f5c",
+    "before-a-ordinary-spawn.png": "448938375913e1451d5d03f27e5b40e8584075d0dae19b2f56c4e79c21dcbef5",
+    "before-b-close-ground.png": "b99990f59e724e447a951243f84a4b4b389f5f8584a02a6a8a5023af973778db",
+    "before-b-court-readability.png": "5ab2ecb9ac57ccc98f2dfb7dd724711f4e38a32f3331f095890c9bb1739f9e30",
+    "before-b-ordinary-spawn.png": "c7723b8604df626689d15a88f4d45df8bcc03e0e7a134153818232d9f6cbfeaf",
+    "setts-candidate-close-ground.png": "2bc6dd20cb00a2c282bfc2deecb84e5ec4cab2089da3afd1a90a05892a14ab1a",
+    "setts-candidate-court-readability.png": "2c39acc452c1c367f79d8e41ff05753c239a1ef11d8a6d7959f0af8a8fc3e87b",
+    "setts-candidate-ordinary-spawn.png": "885aeb9ad72298f7ac63f715867b5f6333ae4646c13b5ae901990e247165ccde",
+    "synchronization/first_contact_inspection.png": "c4bda4fa2317c9cc0ef43e42f6bd81f5c90581011e56217d336b5cbcb5eace33",
+    "synchronization/overview_before_contact.png": "b9881c70a83a587f5fc8691aa8ec89a0013ae2d8625d6f6fd81fb876ac212fda",
+    "synchronization/return_to_production_chase.png": "34e99ad9af40fe1774d28c99f54b2bf9cf14793149d578f5fa13ecce3dc13faa"
+  },
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

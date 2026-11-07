@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "kind": "author_actual_Main_probe",
+  "started_utc": "2026-11-07T03:52:31.557543+00:00",
+  "mode": "inventory",
+  "source_scope": "Exact game/tools/tests/project and author wrapper/observer, including generated source UIDs present before launch. No Git or editor-import mutation.",
+  "limits": "Author Main structural/static-render evidence only; no pacing, physical route, final art or M5 certification.",
+  "command": [
+    "./tools/run.sh",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--headless",
+    "--script",
+    ".local/architectural-fidelity/main_probe.gd",
+    "--",
+    "/workspace/tam_hawks_ps/.local/architectural-fidelity/phase2-20261107T035050Z/source/.local/architectural-fidelity/main/baseline-01",
+    "inventory"
+  ],
+  "engine_started_utc": "2026-11-07T03:52:31.557636+00:00",
+  "environment": {
+    "DISPLAY": null,
+    "LIBGL_ALWAYS_SOFTWARE": null,
+    "LP_NUM_THREADS": null,
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null
+  },
+  "engine_exit": 1,
+  "engine_finished_utc": "2026-11-07T03:52:49.401836+00:00",
+  "changed_inputs": [],
+  "source_stable": true,
+  "clean_engine_log": false,
+  "checks": 3,
+  "failures": 1,
+  "images": {},
+  "eligible_author_diagnostic": false,
+  "error": "Rejected Main author diagnostic; exact failure log retained",
+  "finished_utc": "2026-11-07T03:52:49.571300+00:00"
+}

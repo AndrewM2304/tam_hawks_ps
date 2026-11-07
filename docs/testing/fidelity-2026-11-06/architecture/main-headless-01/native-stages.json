@@ -1,0 +1,86 @@
+[
+  {
+    "label": "import",
+    "command": [
+      "./tools/run.sh",
+      "--headless",
+      "--editor",
+      "--import"
+    ],
+    "started_utc": "2026-11-07T03:52:17.412853+00:00",
+    "finished_utc": "2026-11-07T03:52:31.302740+00:00",
+    "exit": 0
+  },
+  {
+    "label": "baseline",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "baseline-01",
+      "inventory"
+    ],
+    "started_utc": "2026-11-07T03:52:31.303918+00:00",
+    "finished_utc": "2026-11-07T03:52:49.602143+00:00",
+    "exit": 1
+  },
+  {
+    "label": "baseline-02",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "baseline-02",
+      "inventory"
+    ],
+    "started_utc": "2026-11-07T03:53:42.656257+00:00",
+    "exit": 0,
+    "finished_utc": "2026-11-07T03:54:02.120120+00:00"
+  },
+  {
+    "label": "install-private",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/controlled_install_v2.py",
+      "install",
+      "--production"
+    ],
+    "started_utc": "2026-11-07T03:54:02.120530+00:00",
+    "exit": 0,
+    "finished_utc": "2026-11-07T03:54:02.261587+00:00"
+  },
+  {
+    "label": "candidate-01",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "candidate-01",
+      "inventory"
+    ],
+    "started_utc": "2026-11-07T03:54:02.261975+00:00",
+    "exit": 0,
+    "finished_utc": "2026-11-07T03:54:21.227285+00:00"
+  },
+  {
+    "label": "guarded-revert-private",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/controlled_install_v2.py",
+      "revert",
+      "--production"
+    ],
+    "started_utc": "2026-11-07T03:54:21.227804+00:00",
+    "exit": 0,
+    "finished_utc": "2026-11-07T03:54:21.320522+00:00"
+  },
+  {
+    "label": "control-01",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "control-01",
+      "inventory"
+    ],
+    "started_utc": "2026-11-07T03:54:21.321192+00:00",
+    "exit": 0,
+    "finished_utc": "2026-11-07T03:54:40.716926+00:00"
+  }
+]

@@ -1,0 +1,30 @@
+from pathlib import Path
+import subprocess,os,signal,time,json,hashlib,datetime
+R=Path('/workspace/tam_hawks_ps');P=R/'.local/qa-fidelity/bind-name-witness-source';O=R/'.local/qa-fidelity/bind-name-witness-01';O.mkdir(exist_ok=True)
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def inv():return {**{str(p.relative_to(P)):sha(p) for p in P.glob('*') if p.is_file()},'EXTERNAL_WRAPPER':sha(Path(__file__)),'XORG_CONFIG':sha(R/'tools/xorg-dummy.conf')}
+def stop(p):
+ if p and p.poll() is None:
+  os.killpg(p.pid,signal.SIGTERM)
+  try:p.wait(timeout=2)
+  except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait()
+b=inv();(O/'source-before.json').write_text(json.dumps(b,indent=2)+'\n');start=now();t=time.monotonic();x=g=None;failure=None;code=None;cmd=[];gpu_start=None
+try:
+ with (O/'display').open('w') as df,(O/'xorg-console.log').open('w') as xl:
+  x=subprocess.Popen(['/usr/lib/xorg/Xorg','-displayfd',str(df.fileno()),'-config',str(R/'tools/xorg-dummy.conf'),'-logfile',str(O/'xorg.log'),'-noreset','-nolisten','tcp'],pass_fds=[df.fileno()],stdout=xl,stderr=subprocess.STDOUT,start_new_session=True)
+  end=time.monotonic()+5
+  while time.monotonic()<end and not (O/'display').read_text().strip():time.sleep(.05)
+  display=(O/'display').read_text().strip()
+  if not display:raise RuntimeError('Xorg startup failed')
+  env={**os.environ,'DISPLAY':':'+display,'LIBGL_ALWAYS_SOFTWARE':'1','LP_NUM_THREADS':'2',**{'XDG_'+k+'_HOME':str(O/k.lower()) for k in ['DATA','CACHE','CONFIG']}}
+  cmd=['godot','--path',str(P),'--rendering-method','gl_compatibility','--audio-driver','Dummy','--windowed','--resolution','64x64','--script',str(P/'witness.gd'),'--',str(O)]
+  with (O/'engine.log').open('w') as log:
+   g=subprocess.Popen(cmd,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True);gpu_start=now();print(json.dumps({'started':gpu_start,'godot_pid':g.pid,'xorg_pid':x.pid}),flush=True)
+   try:code=g.wait(timeout=25)
+   except subprocess.TimeoutExpired:failure='25s native witness timeout'
+except Exception as e:failure=repr(e)
+finally:stop(g);stop(x)
+a=inv();(O/'source-after.json').write_text(json.dumps(a,indent=2)+'\n');log=(O/'engine.log').read_text();errors=any(s in log for s in ['ERROR:','SCRIPT ERROR:','Parse Error:'])
+r={'schema':1,'started_utc':start,'engine_started_utc':gpu_start,'finished_utc':now(),'seconds':time.monotonic()-t,'argv':cmd,'godot_pid':g.pid if g else None,'xorg_pid':x.pid if x else None,'engine_exit':code,'failure':failure,'engine_errors':errors,'source_stable':a==b,'source_count':len(a),'scope':'Independent real Skeleton3D SkinReference/RenderingServer native palette plus native64px GPU pixel witness. Own XDG/Xorg. No Main or performance claim.'};r['eligible']=code==0 and not errors and a==b and failure is None
+(O/'receipt.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r));print(log)

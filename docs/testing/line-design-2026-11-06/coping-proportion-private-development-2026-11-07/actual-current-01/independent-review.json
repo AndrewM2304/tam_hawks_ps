@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "reviewer": "/root/independent_qa",
+  "count": 20,
+  "failures": [],
+  "checks": [
+    {
+      "pass": true,
+      "label": "original preserved byte hash entrypoint-post-preservation.json"
+    },
+    {
+      "pass": true,
+      "label": "original preserved byte hash source-before.json"
+    },
+    {
+      "pass": true,
+      "label": "original preserved byte hash observer.gd"
+    },
+    {
+      "pass": true,
+      "label": "original preserved byte hash README.md"
+    },
+    {
+      "pass": true,
+      "label": "original preserved byte hash wrapper.py.txt"
+    },
+    {
+      "pass": true,
+      "label": "original preserved byte hash receipt.json"
+    },
+    {
+      "pass": true,
+      "label": "original preserved byte hash native.log"
+    },
+    {
+      "pass": true,
+      "label": "original preserved byte hash source-after.json"
+    },
+    {
+      "pass": true,
+      "label": "all792 inventoried source inputs unchanged"
+    },
+    {
+      "pass": true,
+      "label": "all190 native PASS lines independently counted"
+    },
+    {
+      "pass": true,
+      "label": "native final footer agrees"
+    },
+    {
+      "pass": true,
+      "label": "raw native engine log clean"
+    },
+    {
+      "pass": true,
+      "label": "recorded native wrapper result exit0/no deadline/error markers"
+    },
+    {
+      "pass": true,
+      "label": "two executed entrypoint post-preservation records"
+    },
+    {
+      "pass": true,
+      "label": "post-preserved exact entrypoint .local/root_coping_current.gd"
+    },
+    {
+      "pass": true,
+      "label": "entrypoint absent from before/after inventory .local/root_coping_current.gd"
+    },
+    {
+      "pass": true,
+      "label": "entrypoint identity limitation explicitly stated .local/root_coping_current.gd"
+    },
+    {
+      "pass": true,
+      "label": "post-preserved exact entrypoint .local/run-root-coping.py"
+    },
+    {
+      "pass": true,
+      "label": "entrypoint absent from before/after inventory .local/run-root-coping.py"
+    },
+    {
+      "pass": true,
+      "label": "entrypoint identity limitation explicitly stated .local/run-root-coping.py"
+    }
+  ],
+  "scope": "Actual-source190/0 complete four-module Clyde/Bowl/Feature/Connected scoped regression. Native process/result receipt retained; sourcebefore/after authenticates792 inventoried inputs. Two ignored entrypoint bytes were preserved after execution only, so no before-run entrypoint identity or whole-game/moving/force-bearing/Mac acceptance is invented."
+}

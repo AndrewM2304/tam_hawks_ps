@@ -1,0 +1,47 @@
+from pathlib import Path
+import json,hashlib,gzip,math
+from PIL import Image
+p=Path(__file__).resolve().parent
+sha=lambda b:hashlib.sha256(b).hexdigest()
+files=json.loads((p/'retained-files.json').read_text())
+for name,r in files.items():
+ raw=(p/name).read_bytes()
+ if name.endswith('.gz'):
+  assert sha(raw)==r['gzip_sha256'],name
+  assert sha(gzip.decompress(raw))==r['source_sha256'],name
+ else:assert sha(raw)==r['sha256'],name
+before=json.loads((p/'source-before.json').read_text());after=json.loads((p/'source-after.json').read_text());assert before==after and len(before)==732
+for orig,retained in [('WRAPPER','executed-launcher.py.txt'),('clock.gd','observer.gd.txt'),('tests/fitted_adapter.gd','fitted_adapter.gd.txt'),('project.godot','project.godot.txt')]:assert sha((p/retained).read_bytes())==before[orig],orig
+receipt=json.loads((p/'native-receipt.json').read_text());report=json.loads((p/'independent-review.json').read_text());ref=json.loads(gzip.decompress((p/'fitted-reference.json.gz').read_bytes()))
+assert receipt['capture_pairs']==4 and not receipt['failures'] and report['failed']==0
+mv=lambda m,v:[sum(m[i][k]*v[k] for k in range(4)) for i in range(4)]
+for r in receipt['candidate_records']:
+ review=next(x for x in report['pairs'] if x['id']==r['id'])
+ for t,derived in zip(r['twins'],review['twins']):
+  im=Image.open(p/Path(t['png']).name).convert('RGBA');assert sha(im.tobytes())==t['raw_rgba_sha256'];assert im.getpixel((18,6))[:3]==tuple(r['expected_stamp_rgb'])
+  expected=(255,64,0) if t['policy']=='baseline' else (0,255,64);assert im.getpixel((6,6))[:3]==expected
+  ch=ref['parts']['UpperChest'];attrs=ch['attributes'];gaps=[]
+  for rim in ref['head_rim']:
+   for i,sid in enumerate(ch['source_ids']):
+    if sid!=rim['source_id']:continue
+    local=[0.,0.,0.,0.]
+    for bind,w in zip(attrs['JOINTS_0'][i],attrs['WEIGHTS_0'][i]):
+     if w>0:
+      q=mv(t['native_palette'][bind],attrs['POSITION'][i]+[1])
+      for k in range(4):local[k]+=w*q[k]
+    local[3]=1;world=mv(t['components']['chest']['rendered'],local);head=mv(t['components']['head']['rendered'],rim['local']+[1])
+    gaps.append(math.sqrt(sum((world[k]-head[k])**2 for k in range(3))))
+  assert abs(max(gaps)-derived['independent_source_vertex_plus_native_palette_model_estimate_m'])<1e-12
+import numpy as np
+for selected in receipt['records']:
+ candidates=[r for r in receipt['candidate_records'] if (r['phase'],r['band'])==(selected['phase'],selected['band'])]
+ assert selected==max(candidates,key=lambda r:r['twins'][0]['rendered_estimate']['maximum_neck_m'])
+for r in receipt['candidate_records']:
+ for t in r['twins']:
+  camera=np.array(t['camera']);projection=np.array(t['projection']);inverse=np.linalg.inv(camera);errors=[];distances=[]
+  for endpoint in t['native_neck_endpoint_projections']:
+   distances.append(math.sqrt(sum((endpoint['skin_world'][i]-endpoint['head_world'][i])**2 for i in range(3))))
+   for kind in ['skin','head']:
+    clip=projection@inverse@np.array(endpoint[kind+'_world']+[1]);ndc=clip[:3]/clip[3];pixel=np.array([(ndc[0]+1)*192,(1-ndc[1])*192]);errors.append(float(np.linalg.norm(pixel-np.array(endpoint[kind+'_pixel']))))
+  assert max(errors)<.001 and abs(max(distances)-t['native_palette_neck_max_m'])<2e-6
+print('PASS retained hashes,18native RGBA/stamp buffers,732-source equality,18 independent source/palette/model estimates and all retained numerical endpoint projections; original review300/0.')

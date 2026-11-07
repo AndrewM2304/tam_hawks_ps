@@ -1,0 +1,512 @@
+{
+	"checks": [
+		{
+			"label": "same native readback counters/fraction native-model-0.png",
+			"pass": true
+		},
+		{
+			"label": "OFF visiblechild with ONancestor native-model-0.png",
+			"pass": true
+		},
+		{
+			"label": "actual native GPU MODEL_MATRIX matches rendered API native-model-0.png",
+			"pass": true
+		},
+		{
+			"label": "actual native GPU MODEL_MATRIX differs from current global native-model-0.png",
+			"pass": true
+		},
+		{
+			"label": "same native readback counters/fraction native-model-1.png",
+			"pass": true
+		},
+		{
+			"label": "OFF visiblechild with ONancestor native-model-1.png",
+			"pass": true
+		},
+		{
+			"label": "actual native GPU MODEL_MATRIX matches rendered API native-model-1.png",
+			"pass": true
+		},
+		{
+			"label": "actual native GPU MODEL_MATRIX differs from current global native-model-1.png",
+			"pass": true
+		},
+		{
+			"label": "same native readback counters/fraction native-model-2.png",
+			"pass": true
+		},
+		{
+			"label": "OFF visiblechild with ONancestor native-model-2.png",
+			"pass": true
+		},
+		{
+			"label": "actual native GPU MODEL_MATRIX matches rendered API native-model-2.png",
+			"pass": true
+		},
+		{
+			"label": "actual native GPU MODEL_MATRIX differs from current global native-model-2.png",
+			"pass": true
+		},
+		{
+			"label": "three distinct native physics epochs with nontrivial fractional interpolation",
+			"pass": true
+		}
+	],
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": [],
+	"physics_ticks_per_second": 10,
+	"project_physics_interpolation": true,
+	"renderer": "gl_compatibility",
+	"samples": [
+		{
+			"after": {
+				"fraction": 0.224109999999999,
+				"in_physics_frame": false,
+				"physics": 3,
+				"process": 1
+			},
+			"before": {
+				"fraction": 0.224109999999999,
+				"in_physics_frame": false,
+				"physics": 3,
+				"process": 1
+			},
+			"center_rgba": [
+				0.61176472902298,
+				0.196078434586525,
+				0.301960796117783,
+				1.0
+			],
+			"child_interpolation_enabled": false,
+			"child_local": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0500000007450581,
+					0.0,
+					0.0
+				]
+			},
+			"current_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0300000011920929,
+					0.0,
+					0.0
+				]
+			},
+			"file": "native-model-0.png",
+			"gpu_model_x_from_rgb8": 0.061176472902298,
+			"parent_current_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					-0.0199999995529652,
+					0.0,
+					0.0
+				]
+			},
+			"parent_interpolation_enabled": true,
+			"parent_rendered_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.01103559974581,
+					0.0,
+					0.0
+				]
+			},
+			"png_sha256": "ee86a7ac07fb4fd624359b164b3a2e20bb6797956dfa0a9b755bba4bf14fc34f",
+			"rendered_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0610355995595455,
+					0.0,
+					0.0
+				]
+			},
+			"rgba8_sha256": "3b1eaf72868f5a659efdb76d148957cb225c9307760797c1fd75e2c82b01d6b7"
+		},
+		{
+			"after": {
+				"fraction": 0.210499999999999,
+				"in_physics_frame": false,
+				"physics": 4,
+				"process": 114
+			},
+			"before": {
+				"fraction": 0.210499999999999,
+				"in_physics_frame": false,
+				"physics": 4,
+				"process": 114
+			},
+			"center_rgba": [
+				0.384313732385635,
+				0.196078434586525,
+				0.301960796117783,
+				1.0
+			],
+			"child_interpolation_enabled": false,
+			"child_local": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0500000007450581,
+					0.0,
+					0.0
+				]
+			},
+			"current_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0700000002980232,
+					0.0,
+					0.0
+				]
+			},
+			"file": "native-model-1.png",
+			"gpu_model_x_from_rgb8": 0.0384313732385635,
+			"parent_current_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0199999995529652,
+					0.0,
+					0.0
+				]
+			},
+			"parent_interpolation_enabled": true,
+			"parent_rendered_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					-0.0115799997001886,
+					0.0,
+					0.0
+				]
+			},
+			"png_sha256": "42e42e7680aa67779dcb4b8e36bd86addb63cd094a6f68cbef5f29a1201ce855",
+			"rendered_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0384199991822243,
+					0.0,
+					0.0
+				]
+			},
+			"rgba8_sha256": "6e1e07d2efc2774c5bdf83b512ff34aaede1a5204055686583b3a30c1e83b1b4"
+		},
+		{
+			"after": {
+				"fraction": 0.203509999999998,
+				"in_physics_frame": false,
+				"physics": 5,
+				"process": 234
+			},
+			"before": {
+				"fraction": 0.203509999999998,
+				"in_physics_frame": false,
+				"physics": 5,
+				"process": 234
+			},
+			"center_rgba": [
+				0.619607865810394,
+				0.196078434586525,
+				0.301960796117783,
+				1.0
+			],
+			"child_interpolation_enabled": false,
+			"child_local": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0500000007450581,
+					0.0,
+					0.0
+				]
+			},
+			"current_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0300000011920929,
+					0.0,
+					0.0
+				]
+			},
+			"file": "native-model-2.png",
+			"gpu_model_x_from_rgb8": 0.0619607865810394,
+			"parent_current_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					-0.0199999995529652,
+					0.0,
+					0.0
+				]
+			},
+			"parent_interpolation_enabled": true,
+			"parent_rendered_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0118595995008945,
+					0.0,
+					0.0
+				]
+			},
+			"png_sha256": "8833cd340ffd05015c56b3fd5c8baeb5269508abc5f2a20aaa20f29787cd2fd7",
+			"rendered_global": {
+				"basis": [
+					[
+						1.0,
+						0.0,
+						0.0
+					],
+					[
+						0.0,
+						1.0,
+						0.0
+					],
+					[
+						0.0,
+						0.0,
+						1.0
+					]
+				],
+				"origin": [
+					0.0618596002459526,
+					0.0,
+					0.0
+				]
+			},
+			"rgba8_sha256": "b92d45dde599e449d9ddf3ab1c5edadd6d94bdc468ec9aef08b9f82ff33bc640"
+		}
+	],
+	"schema": 1
+}

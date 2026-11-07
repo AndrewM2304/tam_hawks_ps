@@ -1,0 +1,26 @@
+from pathlib import Path
+import collections,json,math,re,sys
+packet=Path(sys.argv[1])
+trace=json.loads((packet/'native-trace.json').read_text())
+frames=trace['frames']
+def vector(value):
+ if isinstance(value,list):return value
+ return [float(n) for n in re.findall(r'[-+]?(?:[0-9]*\.)?[0-9]+(?:[eE][-+]?[0-9]+)?',value)]
+def at(physics):
+ return min(frames,key=lambda r:abs(int(r['physics'])-physics))
+events=list(trace['prefix_events'])+list(trace['events'])
+events.sort(key=lambda row:int(row['physics']))
+report=[]
+for first,last in zip(events,events[1:]):
+ start,end=int(first['physics']),int(last['physics'])
+ middle=[r for r in frames if start<=int(r['physics'])<=end]
+ report.append({'from':first['event'],'to':last['event'],'start_physics':start,'end_physics':end,'physics_steps':end-start,'seconds_at_60hz':(end-start)/60,'actual_path_m':float(at(end)['path_m'])-float(at(start)['path_m']),'observed_modes':dict(collections.Counter(r['mode'] for r in middle)),'minimum_abs_speed':min([abs(float(r['speed'])) for r in middle],default=None),'maximum_abs_speed':max([abs(float(r['speed'])) for r in middle],default=None)})
+meaningful={'first_catch','manual_landing','second_catch','paving_landing','native_landward_wall_entry','earned_landward_wallie','wallie_manual_landing','first_bearing_native_return_catch'}
+choices=[e for e in events if e['event'] in meaningful]
+feature_intervals=[]
+for first,last in zip(choices,choices[1:]):
+ start,end=int(first['physics']),int(last['physics'])
+ feature_intervals.append({'from':first['event'],'to':last['event'],'physics_steps':end-start,'seconds_at_60hz':(end-start)/60,'actual_path_m':float(at(end)['path_m'])-float(at(start)['path_m']),'exceeds_3s_review_trigger':end-start>180})
+out={'kind':'derived actual-physics intervals, not independent fun or circuit acceptance','native_input':'native-trace.json','initial_resets':trace['initial_resets'],'actual_events':events,'all_event_intervals':report,'feature_intervals':feature_intervals,'scope':'Manual duration is a real held skill, but its frame count is not a count of new choices. Preparation events are omitted from feature intervals. A missing return endpoint remains missing.','complete_named_return':trace['captures']==['Grind_Edge_Bench_x800y244z5900_0_0','Grind_Edge_Bench_x7000y244z5900_0_0','Grind_Edge_Bench_x800y244z5900_0_0']}
+(packet/'opportunity-intervals.json').write_text(json.dumps(out,indent=2)+'\n')
+print(json.dumps({'feature_intervals':feature_intervals,'complete_named_return':out['complete_named_return']},indent=2))

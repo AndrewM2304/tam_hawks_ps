@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "downloaded_utc": "2026-11-07T04:22:01.741614+00:00",
+  "status": "OFFLINE SOURCE CANDIDATE ONLY; no import/native/allocation/readability acceptance",
+  "recommended_source": "concrete_pavement_02",
+  "creator": {
+    "Charlotte Baglioni": "All"
+  },
+  "licence": "CC0-1.0; official provider licence page preserved",
+  "official_asset_page": "https://polyhaven.com/a/concrete_pavement_02",
+  "official_licence_page": "https://polyhaven.com/license",
+  "info_url": "https://api.polyhaven.com/info/concrete_pavement_02",
+  "files_url": "https://api.polyhaven.com/files/concrete_pavement_02",
+  "proposed_tile_size_m": 1.8,
+  "scale_note": "Official asset page visible text explicitly displays1.8m wide; API dimensions\u22481800mm agree. Saved unchanged page/API source is retained.",
+  "maps": [
+    {
+      "channel": "albedo",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/concrete_pavement_02/concrete_pavement_02_diff_2k.jpg",
+      "file": "concrete_pavement_02-albedo-2k.jpg",
+      "sha256": "a634f169ef1bb928585340f7feac69375b2bbbdfc0448e316dbaebe03bd5bf89",
+      "bytes": 4215026,
+      "dimensions_px": [
+        2048,
+        2048
+      ],
+      "mode": "RGB"
+    },
+    {
+      "channel": "normal_opengl",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/concrete_pavement_02/concrete_pavement_02_nor_gl_2k.jpg",
+      "file": "concrete_pavement_02-normal_opengl-2k.jpg",
+      "sha256": "5bd05a222f82cceb6001847dcdf3b75b623ddb38b9cd00acbf4663299553c366",
+      "bytes": 5429141,
+      "dimensions_px": [
+        2048,
+        2048
+      ],
+      "mode": "RGB"
+    },
+    {
+      "channel": "arm",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/concrete_pavement_02/concrete_pavement_02_arm_2k.jpg",
+      "file": "concrete_pavement_02-arm-2k.jpg",
+      "sha256": "31db270fb5f33732bd2099086c292f30d891485cb18505a0780f93812e608f24",
+      "bytes": 2717807,
+      "dimensions_px": [
+        2048,
+        2048
+      ],
+      "mode": "RGB"
+    }
+  ],
+  "budget": "Replace current three paving maps only; retain five source groups/fifteen live maps,2Kcolour/1Knormal+ARM imports. Same-format native allocation still requires a fresh check; do not infer admission from JPEG bytes.",
+  "visual_review": "This unchanged albedo has restrained grey aggregate, shallow dark seams and no fan arcs. Prefer it for a matched native trial over dark high-contrast raw cobbles. Other inspected options pavement_02 and precast_stone_paving have larger contrasting repairs/stains/joints.",
+  "provider_dimensions_mm": [
+    1800.0000715255737,
+    1800.0000715255737
+  ],
+  "official_page_scale_excerpt": "fline Access Author : Charlotte Baglioni Copied email to clipboard! CC0 License 1.8m wide 45.5 px/cm Downloads : 24034 Sponsored by: No one yet :( Category : Brick & Block Concrete",
+  "official_page_sha256": "7f194983c056765c3d1feac5f22cc8f12c560d98c2cb68c4bf496db6a93132d0",
+  "licence_page_sha256": "46158a6b319ae8ef55acd18bd96d986c9261fb0cc8086124e97bcbefe779a623",
+  "source_rights_and_scale_verified": true
+}

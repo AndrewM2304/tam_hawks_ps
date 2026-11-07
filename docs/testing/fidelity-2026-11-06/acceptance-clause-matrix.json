@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "reviewer": "independent_qa",
-  "reviewed_utc": "2026-11-07T02:07:05.175947+00:00",
+  "reviewed_utc": "2026-11-07T05:05:10.020479+00:00",
   "overall_result": "Fail / incomplete",
   "scope": "Independent checkpoint, not final candidate acceptance. Production is mutable. Fail refers to directly inspected source-bound baseline or candidate evidence; later unreviewed production changes do not inherit a positive or negative current-source certification. Pass is only the bounded exact evidence stated; Unmeasured means missing independent complete-clause evidence.",
-  "head": "0b620358767c9c647dde66945377d99702c85d0b",
+  "head": "736a4df",
   "source_documents": {
     "docs/planning/FIDELITY_TICKETS.md": "4a814d519ae7078dcc6ddac816776e61315ebe6666955bfc7c22e7266719935f",
     "docs/product/AAA_BENCHMARK.md": "31c28af085056ffd664bdfe7ba5f7f3e161b8a246c212400c8e62d51b4424b1b"
@@ -33,7 +33,35 @@
     "water_two_wave": "environment/two-wave-48warm-01/independent-review.json",
     "rigging_structure": "studio-structure-audit-rigging-extension.json",
     "asset_BA": "../FIDELITY-BA.md",
-    "research": "../../research/THPS-LINE-DESIGN.md"
+    "research": "../../research/THPS-LINE-DESIGN.md",
+    "manual_body_axis": "../manual-body-axis-2026-11-07/README.md",
+    "fitted_rider14": "../rider-fit-2026-11-07/independent-v9-fourteen/README.md",
+    "paving_native": "environment/paving-native-01/independent-review.json",
+    "water_main": "environment/actual-main-water-01/independent-review.json",
+    "water_river_basin": "environment/river-basin-diagnosis-01/independent-review.json",
+    "coping_design": "../../research/COPING-PROPORTIONS.md",
+    "coping_component": "../line-design-2026-11-06/coping-proportion-private-development-2026-11-07/independent-review.json",
+    "coping_family": "../line-design-2026-11-06/coping-proportion-private-development-2026-11-07/profile-family-01/independent-review.json",
+    "coping_main": "../motion-fidelity-2026-11-07/coping-researched-profile-main/independent-review.json",
+    "coping_physics": "../motion-fidelity-2026-11-07/coping-researched-profile-physics/independent-review.json",
+    "forecast_private": "../motion-fidelity-2026-11-07/air-anticipation-finite-native/independent-review.json",
+    "native_skinning": "skinning-operation-order-01/README.md",
+    "wrist_cap": "../deformed-contact-2026-11-07/independent-wrist-cap-review/independent-review.json",
+    "wrist_actual": "../deformed-contact-2026-11-07/current-02/README.md",
+    "forecast_192": "../motion-fidelity-2026-11-07/air-anticipation-192-native/independent-review.json",
+    "architecture_main": "architecture/main-headless-01/independent-structural-review.json",
+    "coping_bundle": "../line-design-2026-11-06/coping-proportion-private-development-2026-11-07/independent-promotion-review.json",
+    "forecast_moving": "../motion-fidelity-2026-11-07/air-anticipation-moving-02/README.md",
+    "native_bind_precedence": "native-bind-precedence-01/README.md",
+    "coping_actual190": "../line-design-2026-11-06/coping-proportion-private-development-2026-11-07/actual-current-01/independent-review.json",
+    "architecture_contracts2": "architecture/main-contracts-02/independent-review.json",
+    "architecture_graphics3": "architecture/main-graphics-03/independent-review.json",
+    "rider_v12_hand_sleeve": "../rider-fit-2026-11-07/independent-v12-hand-sleeve/README.md",
+    "rendered_model_clock": "rendered-model-clock-01/README.md",
+    "fitted_clock1": "../rider-fit-2026-11-07/independent-clock-01/README.md",
+    "contact_studio_extension": "studio-structure-audit-contact-extension.json",
+    "fitted_clock2": "../rider-fit-2026-11-07/independent-clock-02/README.md",
+    "common_leg_plane": "../rider-fit-2026-11-07/independent-common-leg-plane-01/README.md"
   },
   "benchmark": [
     {
@@ -44,7 +72,7 @@
           "name": "Continuous believable forms",
           "criterion": "At normal chase distance and a two-metre close view, the head, neck, shoulders, elbows, hands, hips, knees and ankles have anatomically credible silhouettes. No visible cuboid limbs, primitive joint balls, separated sleeves, open seams, inverted surfaces or visibly faceted face. Hidden simple collision is appropriate.",
           "result": "Fail",
-          "evidence_or_limit": "D001; older GL still angular, final garment changes unreviewed.",
+          "evidence_or_limit": "D001 remains in actual procedural rider. Private fitted V9 fourteen-view integrity175/0 and raw-GLB27/0 improve continuity; faceted grabbed knee and26 internal folded-lapel crossings remain. Later V10 private NPC hi-vis/apron/vest and hat penetration independently observed. No Main fitted-avatar acceptance.",
           "next_action": "Review final front/side/rear/three-quarter close and chase."
         },
         {
@@ -60,7 +88,7 @@
           "name": "Character surfaces",
           "criterion": "Clothing reads as cloth through its shape, seams, folds, thickness and restrained material response. Skin, hair, soles, grip tape, deck wood, trucks and wheels have distinct believable responses. Detail must survive the ordinary camera rather than exist only in an asset preview.",
           "result": "Fail",
-          "evidence_or_limit": "D001 surfaces; GL skin improves but cloth/angular finish remains.",
+          "evidence_or_limit": "Private fitted rider still shows soft footwear/hairline finish gaps. Current procedural rider and world materials have not met the full ordinary-camera surface gate.",
           "next_action": "Inspect final ordinary camera material/form quality."
         },
         {
@@ -68,7 +96,7 @@
           "name": "Deformation",
           "criterion": "Crouch, deepest landing, push extension, grab and both specials show no collapsed crotch, broken elbow/knee, detached wrists or visible clothing/body penetration. Deformation is reviewed in motion and in the frame at the worst bend.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Full worst-bend candidate motion absent.",
+          "evidence_or_limit": "Fourteen private authored poses including crouch/landing/push/grab/Pogo/Casper/handplant inspected; integrity175/0. These are not input-driven Main or motion; V10 NPC overlay penetration remains a candidate blocker.",
           "next_action": "Review crouch/landing/push/grab/special bends."
         },
         {
@@ -97,7 +125,7 @@
           "name": "Readable physical materials",
           "criterion": "Paving, concrete, sandstone, brick, asphalt, slate, painted steel, glass, grass and water have coherent scale and response under the same lighting. Large route-facing surfaces cannot remain featureless flat colours. Normal and roughness detail support the material rather than produce noisy sparkle.",
           "result": "Fail",
-          "evidence_or_limit": "D002/D004; improved paving but inspected repeated stone/bright glass remain.",
+          "evidence_or_limit": "D002/D004 remain broad material requirements. Private paving115/0 integrity/allocation passes but bright mortar grid needs actual Main readability. Actual-Main river/basin causal controls137/0 isolate fine-band causes without installing a repair or accepting realism.",
           "next_action": "Enumerate and finish actual materials in ordinary views."
         },
         {
@@ -129,7 +157,7 @@
           "name": "Light and contact",
           "criterion": "One coherent daylight treatment; wheels, rails and building bases read as grounded. Bright stone retains detail and shaded landings remain readable. No artificial bloom, excessive saturation or crushed blacks conceal missing detail.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Final shaded/bright grounding pair absent.",
+          "evidence_or_limit": "Actual-Main water controls retain sunlight/receiving shadows; river bands isolate to water casting and fountain to basin casting. This is a bounded cause test, not complete bright/shaded landing grounding.",
           "next_action": "Review final shadows, bright stone detail and landing clarity."
         },
         {
@@ -166,23 +194,23 @@
           "name": "Action coherence 2",
           "criterion": "Ordinary state transitions must have no single-frame pose pops, unexplained body rotation or camera cuts. Instrument discontinuities and distinguish the physical event from cosmetic smoothing. A camera may resolve collision promptly, but must not oscillate or cut through scenery.",
           "result": "Fail",
-          "evidence_or_limit": "D015 native full-world side sequence independently exposes a 28.627-pixel rider/deck step at the bank crown; 119.816 mm physical-frame presentation offset.",
-          "next_action": "Repair earned finite wall anticipation, then repeat exact source-bound frames/video and the wider transition cohort."
+          "evidence_or_limit": "Old D015 native full-world pop is source-bound historicalfailure. Corrected192 private fullprefix32side+3chase frames independently inspected: recorded abruptsnap removed, native maxoffsetstep27.198mm, each1408physicaltrace equal reactive. Production integration and wider transitions remain open.",
+          "next_action": "Integrate exact admitted privateforecast then repeat affected/wider transitions on combined current source."
         },
         {
           "id": "V3.4",
           "name": "Action coherence 3",
           "criterion": "The board and shoes agree in grounded poses; push-foot ground contact follows the support height. Grabs meet the deck within 50 mm at full extension. These are measurable targets; no \u201csmooth\u201d status is awarded from source inspection.",
           "result": "Fail",
-          "evidence_or_limit": "D014 current grounded tyre penetrates finite coping by 35.716 mm with a mesh/camera obstruction. Native push improves, but all-action contact is not accepted.",
-          "next_action": "Rerun final contact checks and actual normal-speed action."
+          "evidence_or_limit": "Old actual Main D014 failed5/1. Researched coping Main10/0 clears complete cached board/tyre volumes in seven physics ticks; actual installed four-module190/0 independently reviewed20/0 with792 unchanged inputs. Signed near-face gaps are not force-bearing; final moving/all-action support remains open.",
+          "next_action": "Review actual moving support/floatation and complete integrated contact gate."
         },
         {
           "id": "V3.5",
           "name": "Action coherence 4",
           "criterion": "Wheel/ground response, skater lean and landing compression must support the movement. Do not disguise physics defects by sliding an independent visible model over them.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Actual wheel/lean/compression all-action review incomplete.",
+          "evidence_or_limit": "Independent body-axis A/B gives old100/4 vs proposed104/0 across10 actual-input styles, fixing Pogo/HangTen reversed W/S torso response. Lateral/hip/compression, plausible near20cm arm correction and all-action natural moving review remain open.",
           "next_action": "Inspect native event versus model without cosmetic state drift."
         },
         {
@@ -222,7 +250,7 @@
           "name": "Balance feedback",
           "criterion": "Balance feedback reads the authoritative state and shows its actual correction axis and direction. Ordinary and nose manuals must actually correct fore/aft with W/S or Up/Down and map nose/tail/stance correctly; relabelling an unchanged lateral control does not meet the owner's request. Grinds use lateral correction/display, and special balance variants follow their modelled support/axis with documented controls. Neutral/risk/bail endpoints and both correction signs must map correctly with current remaps/device prompts. Do not correct balance and unintentionally carve or accelerate with the same control. Keep the moving rider/landing clear, use non-colour risk cues, and clear stale meters at mode exit/restart. UI fixture checks supplement actual-input moving play; they cannot replace it.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Actual W/S direction passes10 variants; clean native34/0 retest fixes D011 glyph and rider/approach interference at1280x800/UI1.0+1.4. Full moving/risk/remap/lateral scope remains open.",
+          "evidence_or_limit": "Actual board/control signs pass the84 original checks and20 new world-torso assertions in private104/0 epoch; root applied exact visual hunk. Native34/0 HUD correction remains source-bound. Full moving/risk/remap/lateral review remains open.",
           "next_action": "Inspect final integrated normal-speed feedback and body lean, endpoints, remaps and lateral modes."
         }
       ]
@@ -344,7 +372,7 @@
           "name": "Evidence 4",
           "criterion": "Run `./tools/check.sh` for GDScript changes after integration. Count and nonzero failure status must be retained. Focused tests, full regression, visual review, hardware performance and human acceptance receive separate results. Extend the existing native full-fidelity capture/receipt pipeline instead of creating a weaker replacement; its 78-trick catalogue, actual contacts, fixture disclosure and render/pixel synchronization proofs remain valuable.",
           "result": "Fail",
-          "evidence_or_limit": "Current required-01 already contains native/integration failures including D014; the final count/exit/source-after receipt remains root-owned. Earlier focused passes do not replace it.",
+          "evidence_or_limit": "Complete required-01 is6311 passing/25 failing, exit1,800 unchanged source inputs; later CLI Music did not execute. Subsequent scoped repairs do not replace a new combined gate.",
           "next_action": "Repair actual failures and validate legitimate changed oracles independently, then rerun the entire stable-source gate."
         },
         {
@@ -352,7 +380,7 @@
           "name": "Evidence 5",
           "criterion": "Log defects with reproduction, expected/actual behaviour, evidence, severity, owner, affected ticket and retest. A count of passing assertions cannot cancel a visible failed frame.",
           "result": "Pass",
-          "evidence_or_limit": "D001\u2013015 and separate D801\u2013803 have source/repro/owners/retest; rejected seat/bank witnesses remain explicit.",
+          "evidence_or_limit": "D001\u2013017 plus separateD801\u2013803 have source/repro/owners/retest. Historical rejected contact, water-cost and capture epochs remain retained. D017 old100/4/proposed104/0 torso signs are separately documented.",
           "next_action": "Update final retests while retaining failed epochs."
         },
         {
@@ -544,7 +572,7 @@
           "id": "FID-101.A",
           "criterion": "Meet benchmark V1 continuous adult silhouette and measured proportions in front/side/rear/three-quarter close views.",
           "result": "Fail",
-          "evidence_or_limit": "Baseline D001; inspected renderer-GL epoch still has angular torso/hip silhouette. Later garment topology has not been independently rendered.",
+          "evidence_or_limit": "Actual D001 remains. Private fitted V9 fourteen-view continuity improves; faceted grabbed knee and later V10 NPC wardrobe/hair clipping block broad candidate acceptance. Native Main/fitted scale and moving visuals remain open.",
           "next_action": "RA: repeat final chase/front/side/rear/three-quarter close views and measure proportions."
         },
         {
@@ -558,7 +586,7 @@
           "id": "FID-101.C",
           "criterion": "Review deepest crouch, push, grab and special deformation without open seams, detached joints or severe penetration.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Final deepest crouch/push/grab/special deformation not independently reviewed in motion.",
+          "evidence_or_limit": "Fourteen private selected authored poses independently inspected with175/0 integrity checks;26 internal folded-lapel pairs and later NPC garment intersections remain. Real Main moving deformation is unmeasured.",
           "next_action": "Inspect natural-frame worst bends with source/pixel proofs; resolve D803 evidence gap."
         },
         {
@@ -626,14 +654,14 @@
           "id": "FID-201.A",
           "criterion": "Meet V2's physical scale/response across paving, concrete, sandstone, brick, asphalt, slate, metal, glass, grass and water, or enumerate precise unfinished materials.",
           "result": "Fail",
-          "evidence_or_limit": "D002/D004 baseline material deficiencies; candidate paving/stone improve, but repeated paving and flat bright windows persist in inspected GL.",
+          "evidence_or_limit": "Selected photo materials improve. Private paving115/0 removes fan arcs but stronger bright mortar grid remains to inspect in actual chase/court. Water137/0 causal controls remove fine bands only through private caster interventions; whole material realism remains incomplete.",
           "next_action": "EA: enumerate unfinished materials and inspect complete final moving bright/shaded set."
         },
         {
           "id": "FID-201.B",
           "criterion": "Record actual texture sources, licence, included maps, source resolution and metres per repeat.",
           "result": "Pass",
-          "evidence_or_limit": "Independent raw asset BA plus derivative rebuild/reflection audit verify sources, dimensions, imports, licence and physical repeat metadata.",
+          "evidence_or_limit": "Independent raw asset/rebuild/derivative audits plus private paving source licence/rebuild/native allocation scope verify provenance, dimensions, imports and metres per repeat. Actual visual and cost admission remain distinct.",
           "next_action": "Recheck any final material/import changes and actual resident allocation."
         },
         {
@@ -667,7 +695,7 @@
           "id": "FID-202.A",
           "criterion": "Wheels/rails/buildings read as grounded in normal play.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Flat wheel gap is about8mm; a visible unsupported hover is not established. All wheels/rails/building bases not accepted.",
+          "evidence_or_limit": "Flat wheels approximately8mm are bounded. Coping private seven-frame native board/tyre volumes clear, but near-face signed gaps are not actual weight-bearing;19 near-band samples include two side normalsY0.194653 with37.608/107.194mm vertical separation. Moving loaded/unloaded realism remains open.",
           "next_action": "Inspect final ordinary motion/contact shadows at all support types."
         },
         {
@@ -708,7 +736,7 @@
           "id": "FID-203.A",
           "criterion": "Inventory all visible placeholders on each primary line.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Baseline facade defects identified; no complete primary-line placeholder inventory independently verified.",
+          "evidence_or_limit": "Private actual-Main A/V2/A independently22/0:16real aperture shells, source triangles+65,854, all1755native shape records/other routes-grinds-gaps-terrain preserved, exact controlled restore. Graphical ordinary/close/shoulder resource admission remains open.",
           "next_action": "EA: enumerate route-facing placeholders by primary line."
         },
         {
@@ -756,8 +784,8 @@
           "id": "FID-301.B",
           "criterion": "Fix the identified discontinuities while preserving eligible input timing, takeoff momentum, rail release and combo deadlines.",
           "result": "Fail",
-          "evidence_or_limit": "Native sign/contact subsets pass, but current D014 finite coping penetration and D015 rendered crown pop show remaining discontinuities. The combined required-01 already records failures.",
-          "next_action": "Repair exact native mixed support and finite wall anticipation; repeat affected neighbours and the complete integrated gate."
+          "evidence_or_limit": "Private corrected192forecast native40/0 plus35independently inspected fullprefix images removes recorded crown snap; all1408physicalrows equal reactive, maxoffsetstep27.198mm. Actual researched coping190/0 source/logaudit20/0 passes narrow four-module scope. Final integrated regression/other discontinuities remain open.",
+          "next_action": "Integrate exact forecast; run combined current regression and inspect remaining action transitions."
         },
         {
           "id": "FID-301.C",
@@ -770,7 +798,7 @@
           "id": "FID-301.D",
           "criterion": "Full rider/board and landing remain framed through the benchmark camera sequence.",
           "result": "Unmeasured",
-          "evidence_or_limit": "No independent final30-second natural wall/undercroft/turn camera framing result.",
+          "evidence_or_limit": "Actual helper complete native139/0 independently source/receipt-verified10/0,797stable inputs. Body/clothing/contact moving acceptance and full integrated regression remain open.",
           "next_action": "Verify complete rider/board/immediate landing throughout the prescribed route."
         },
         {
@@ -804,8 +832,8 @@
           "id": "FID-302.C",
           "criterion": "No ordinary transition contains a single-frame pose pop or angular joint collapse.",
           "result": "Fail",
-          "evidence_or_limit": "D015 immutable full-world 32-frame side sequence shows a 28.627-pixel connected rider/deck step around a 119.816 mm offset change. Capture integrity passes 492/0; motion criterion fails.",
-          "next_action": "Repair finite earned-wall contact anticipation, then inspect the exact native sequence and the remaining action/interruptions."
+          "evidence_or_limit": "Corrected192privateforecast native40/0 and fullprefix32side+3chase review support narrowintegration: recordedpop absent, all35images inspected, all1408physicalfields equal reactive. Querymax152 under192, offsetmaxstep27.198mm. Ordinaryall-action/jointcollapse criterion remains incomplete.",
+          "next_action": "Integrate exact source-bound forecast then review remaining native actions/interruptions."
         },
         {
           "id": "FID-302.D",
@@ -893,14 +921,14 @@
           "id": "FID-304.C",
           "criterion": "The meter reads the authoritative balance state and actual model axis, maps centre/risk/failed endpoints correctly and shows effective correction direction with remapped/current-device prompts. **Ordinary and nose manuals require actual fore/aft W/S or Up/Down correction with nose/tail/stance mapping; relabelling the old lateral A/D control is insufficient.** Grinds use lateral correction/display; special balance variants follow their modelled support/axis and explicitly documented controls.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Independent85/0 physical signs and clean34/0 native HUD retest pass bounded scopes: complete forward/back glyphs, true vertical track and state visible. Full endpoint/remap/lateral/variant/moving review remains open.",
+          "evidence_or_limit": "Original84 board/control assertions plus20 independent world-torso direction assertions pass private104/0; old100/4 confirms actual Pogo/HangTen body reversal. Root applied exact visual hunk. HUD34/0 native static correction is separate; full moving/remap/risk/lateral coverage stays open.",
           "next_action": "Inspect final effective prompts, all risk endpoints, remaps, lateral modes and actual body lean in normal-speed motion."
         },
         {
           "id": "FID-304.D",
           "criterion": "Balance correction never silently doubles as unintended carving/acceleration; deliberate steering remains accessible and documented.",
           "result": "Pass",
-          "evidence_or_limit": "Independent actual-world sign cohort: W/S change board pitch with identical coast loss/no heading change; A/D steer opposite independently in10 cases.",
+          "evidence_or_limit": "Independent real-Main104/0 candidate preserves original84 board/steering checks: W/S balance without carving/acceleration, opposite A/D steering across10 cases. Exact physical control subset passes; human feel is separate.",
           "next_action": "Re-run integrated source; physical-device feel remains separate."
         },
         {
@@ -1016,8 +1044,8 @@
           "id": "FID-403.B",
           "criterion": "Both directions, failed takeoff, lateral miss and landing/runout behave deliberately.",
           "result": "Fail",
-          "evidence_or_limit": "D012 now passes a bounded four-input native containment/contact retest. Current D014 coping penetration and D015 rendered bank snap still undermine deliberate runout and recovery; full bidirectional/miss scope remains incomplete.",
-          "next_action": "Preserve the four-input safety pass while fixing exact coping support and wall contact continuity; replay both directions, miss and runout neighbours."
+          "evidence_or_limit": "D012 four-input containment and private corrected192fullprefix moving crown review pass narrow scopes. Actual researched coping complete Clyde/Bowl/Feature/Connected190/0 independentlysource/logverified20/0,792stableinputs. Full bothdirections/misses/movingrunout remains open.",
+          "next_action": "Preserve finite safety and replay complete bidirectional/miss/runout neighbours on combined source."
         },
         {
           "id": "FID-403.C",
@@ -1030,8 +1058,8 @@
           "id": "FID-403.D",
           "criterion": "No forced speed, score, position or event injection creates the claimed success.",
           "result": "Unmeasured",
-          "evidence_or_limit": "Independent baseline/sign inputs contain no per-tick injection; final advertised line drivers still require audit.",
-          "next_action": "Inspect exact driver and trace for source-bound actual-input run."
+          "evidence_or_limit": "Researched coping bundle independently19/0; actual four-module190/0 independently20/0,792inventoriedinputs unchanged. Two ignored entrypoints preserved AFTER execution only, not before-run authenticated. Forecast actual-input1408physicaltrace remains exact. Signed bands are proximity, not force-bearing; full moving/current-source gate remains open.",
+          "next_action": "Bind future wrapper/observer before execution and complete moving source-bound actual-input run."
         },
         {
           "id": "FID-403.E",
@@ -1064,8 +1092,8 @@
           "id": "FID-404.C",
           "criterion": "Added boundary/set-piece geometry has understandable misses and recovery.",
           "result": "Fail",
-          "evidence_or_limit": "D012 upper-boundary containment now passes its four native inputs, but D015 visibly snaps during crown recovery and D014 fails loaded coping clearance. These do not establish coherent added-set-piece recovery.",
-          "next_action": "Retain native safety while repairing rendered contact response and finite coping support; review misses and supported recovery on current source."
+          "evidence_or_limit": "D012 native containment passes fourinputs. Corrected192privateforecast removes recorded crown snap in32side+3chase frames with1408exactphysicalrows; actual researched coping fourmodules190/0 independently20/0. Broader current combined setpiece recovery remains unmeasured.",
+          "next_action": "Integrate exact forecast then review all advertised misses/recovery and actual moving support."
         },
         {
           "id": "FID-404.D",
@@ -1274,9 +1302,10 @@
     "active_tickets": 20,
     "ticket_clauses": 104,
     "results": {
-      "Pass": 29,
       "Fail": 22,
-      "Unmeasured": 97
+      "Unmeasured": 97,
+      "Pass": 29
     }
-  }
+  },
+  "head_scope": "Review repository checkpoint only; individual evidence retains its own exact source/asset manifests. This is not certification of every current input or final combined source."
 }

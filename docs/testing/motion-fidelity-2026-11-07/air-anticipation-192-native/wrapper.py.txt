@@ -1,0 +1,24 @@
+from pathlib import Path
+import json,hashlib,os,subprocess,time,shutil,gzip
+root=Path('/workspace/tam_hawks_ps');src=root/'.local/motion-sweep-source';out=root/'docs/testing/motion-fidelity-2026-11-07/air-anticipation-192-native';out.mkdir(exist_ok=True)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def inv():return {p.relative_to(src).as_posix():sha(p) for d in ['game','tests','tools'] for p in sorted((src/d).rglob('*')) if p.is_file() and '__pycache__' not in p.parts}|{'project.godot':sha(src/'project.godot')}
+before=inv();(out/'source-before.json').write_text(json.dumps(before,sort_keys=True,indent=2)+'\n')
+env=dict(os.environ,XDG_DATA_HOME=str(src/'.local/data'),XDG_CONFIG_HOME=str(src/'.local/config'),XDG_CACHE_HOME=str(src/'.local/cache'))
+trace=src/'.local/air-worst-frame.json'
+if trace.exists():trace.rename(src/'.local/air-worst-frame.before-192.json')
+start=time.monotonic();records=[]
+commands=[['godot','--headless','--path',str(src),'--check-only','--script','.local/motion_air_sweep_runner.gd'],['godot','--headless','--path',str(src),'--fixed-fps','60','--script','.local/motion_air_sweep_runner.gd']]
+for i,cmd in enumerate(commands):
+ with (out/('parse.log' if i==0 else 'engine.log')).open('w') as stream:
+  try:code=subprocess.run(cmd,env=env,stdout=stream,stderr=subprocess.STDOUT,timeout=max(1,60-(time.monotonic()-start))).returncode
+  except subprocess.TimeoutExpired:code=124
+ records.append({'command':cmd,'exit':code})
+ if code:break
+after=inv();(out/'source-after.json').write_text(json.dumps(after,sort_keys=True,indent=2)+'\n')
+for source,name in [(src/'game/player/skater.gd','controller.gd.txt'),(src/'tests/line_design_tests.gd','independent-observer.gd.txt'),(src/'.local/motion_air_sweep_runner.gd','runner.gd')]:shutil.copy2(source,out/name)
+trace=src/'.local/air-worst-frame.json'
+if len(records)==2 and trace.exists():
+ with gzip.open(out/'trace.json.gz','wb') as stream:stream.write(trace.read_bytes())
+receipt={'source_stable':before==after,'source_count':len(before),'commands':records,'wall_seconds':time.monotonic()-start,'private_only':True,'visual_acceptance':False,'Mac_M5_performance':False,'overlap':'Root-authorized untimed diagnostic overlap only; observer native queries separately attributed in test output.'}
+(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(json.dumps(receipt,indent=2),flush=True)

@@ -1,0 +1,36 @@
+{
+  "private_only": true,
+  "applied_to_actual": false,
+  "status": "candidate02-unparsed-unrun; originalepoch05rejected29pass9fail preserved under fitted-rig-admission/epoch-05",
+  "base_visual_sha256": "0e7409dd7aa1330f0e6e43a0bd76836a0900ae3bc796dd78645ae55de418e70b",
+  "base_controller_sha256": "f04253f745780ce8793828a9e6414c5e7f72617b8f235319eefc54574c093ab3",
+  "controller_leg_loops": 4,
+  "purpose": "Actual indexed per-leg sole buffers and source-indexed exact3Dshoe startup support hull",
+  "warnings": "Apply surgical patches only; preserve incoming fittedbuild5thsidearg/finalpose_head and actualManualtorso-axis hunk",
+  "wall_getter": "shoe_support_points(leg)",
+  "sole_getter": "sole_contact_points(leg)",
+  "new_runtime_helper": "game/player/shoe_support_hull.gd copied from this proposal",
+  "budget_declared_before_candidate02_native": {
+    "max_hull_points_per_leg": 512,
+    "raw_XYZ_support_payload_bytes_player_upper_bound": 12288,
+    "max_unique_source_snapshot_points_per_leg": 4096,
+    "raw_XYZ_source_snapshot_bytes_player_upper_bound": 98304,
+    "total_raw_source_plus_support_XYZ_upper_bound": 110592,
+    "retained_temporary_shape_or_mesh_resources": 0,
+    "per_physics_new_mesh_or_array_allocations": 0,
+    "allocation_or_total_M5_cost_acceptance": "unmeasured",
+    "scope": "per-leg one-entry exact source snapshot bounds invalidation; geometry changes replace it instead of accumulating historical caches"
+  },
+  "candidate_sha256": {
+    "skater_visual.gd.patch": "b0d00e39ea4a98a6326a38fc9bf956173a5fb00eace1cd73cd423cb425068ff2",
+    "shoe_support_hull.gd": "417a3e641b7ab5cab5bce2a3f7430faaf287058203ffc657b89dcc13fcc1b95f",
+    "skater_visual.gd": "62a6ac9fbf7ac10105125c75beb2c5cc4256f49084d217278ef414e7322cedba",
+    "skater.gd.patch": "3166bf41f4c623bbf9cf2c0bd750fe88c7de851de83673a22a3bf100ae14ff98",
+    "per_leg_sole_contract.gd": "f4d7c2e0e78e37d56e46d99ffba8ca558ebd46cda3410ba9ff10ac34814abb35",
+    "verify_shoe_support_certificate.py": "382b099be0dc018a23b1d159360b33eff27ce656560f52d6979aedfc5a39ae48",
+    "full_shoe_support_contract.gd": "dba11ade9593eba01e5982605077d8fd38abbc873cc06126a0008a5f62dbf860",
+    "skater.gd": "269d7c08802e3f231c7c3563acb1d482d221e9add77d34704e91f9e2f299927a"
+  },
+  "independent_certificate": "verify_shoe_support_certificate.py reads project/.local/shoe-support-certificate.json full_precision; exact Python integer orientations, closed oriented manifold, exact sourceprovenance; separate from native shared robust predicate checks",
+  "source_geometry_assumption_check": "shoe-upper-overhang-source.json"
+}

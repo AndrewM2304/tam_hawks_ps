@@ -1,0 +1,551 @@
+{
+  "schema": 1,
+  "reviewer": "/root/independent_qa",
+  "checks": 102,
+  "failures": 0,
+  "checks_detail": [
+    {
+      "pass": true,
+      "label": "all exact epoch pins v10-v12-hand-control",
+      "actual": 107
+    },
+    {
+      "pass": true,
+      "label": "native source stable and no observer failures v10-v12-hand-control",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all raw import/native/console logs clean v10-v12-hand-control",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v10-v12-hand-control//idle-hand",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v10-v12-hand-control/idle-hand.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v10-v12-hand-control/synchronization/idle-hand",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v10-v12-hand-control/synchronization/idle-hand.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all actualcamera/head/rider/bone brackets exact v10-v12-hand-control/idle-hand",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "no physics/process advance within either readback v10-v12-hand-control/idle-hand",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v10-v12-hand-control/idle-hand/0",
+      "actual": 0.001419167076298278
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v10-v12-hand-control/idle-hand/0",
+      "actual": 9.999999997489795e-05
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v10-v12-hand-control/idle-hand/1",
+      "actual": 0.0011752873491899117
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v10-v12-hand-control/idle-hand/1",
+      "actual": 0.11191764705881724
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v10-v12-hand-control/idle-hand/2",
+      "actual": 0.0012447012770957385
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v10-v12-hand-control/idle-hand/2",
+      "actual": 0.11494086113559443
+    },
+    {
+      "pass": true,
+      "label": "all exact epoch pins v12-six",
+      "actual": 147
+    },
+    {
+      "pass": true,
+      "label": "native source stable and no observer failures v12-six",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all raw import/native/console logs clean v12-six",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six//idle-front",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/idle-front.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six/synchronization/idle-front",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/synchronization/idle-front.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all actualcamera/head/rider/bone brackets exact v12-six/idle-front",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "no physics/process advance within either readback v12-six/idle-front",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/idle-front/0",
+      "actual": 3.741725740145165e-05
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/idle-front/0",
+      "actual": 9.999999997489795e-05
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/idle-front/1",
+      "actual": 8.764598525861853e-05
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/idle-front/1",
+      "actual": 0.11191764705881724
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/idle-front/2",
+      "actual": 3.680471143860761e-05
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/idle-front/2",
+      "actual": 0.08529906332474639
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six//idle-feet",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/idle-feet.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six/synchronization/idle-feet",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/synchronization/idle-feet.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all actualcamera/head/rider/bone brackets exact v12-six/idle-feet",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "no physics/process advance within either readback v12-six/idle-feet",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/idle-feet/0",
+      "actual": 1.9450483233167987e-05
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/idle-feet/0",
+      "actual": 0.0
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/idle-feet/1",
+      "actual": 0.0001687980850424136
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/idle-feet/1",
+      "actual": 0.11201764705879214
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/idle-feet/2",
+      "actual": 0.00020063250172478876
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/idle-feet/2",
+      "actual": 0.11490898348442179
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six//idle-hand",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/idle-hand.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six/synchronization/idle-hand",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/synchronization/idle-hand.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all actualcamera/head/rider/bone brackets exact v12-six/idle-hand",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "no physics/process advance within either readback v12-six/idle-hand",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/idle-hand/0",
+      "actual": 0.001419167076298278
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/idle-hand/0",
+      "actual": 9.999999997489795e-05
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/idle-hand/1",
+      "actual": 0.0011752873491899117
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/idle-hand/1",
+      "actual": 0.11191764705881724
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/idle-hand/2",
+      "actual": 0.0012447012770957385
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/idle-hand/2",
+      "actual": 0.11494086113559443
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six//npc-steward",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/npc-steward.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six/synchronization/npc-steward",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/synchronization/npc-steward.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all actualcamera/head/rider/bone brackets exact v12-six/npc-steward",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "no physics/process advance within either readback v12-six/npc-steward",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/npc-steward/0",
+      "actual": 0.00013049592076121844
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/npc-steward/0",
+      "actual": 9.999999997489795e-05
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/npc-steward/1",
+      "actual": 0.00016520562417246748
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/npc-steward/1",
+      "actual": 0.11191764705881724
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/npc-steward/2",
+      "actual": 0.00014806951754370052
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/npc-steward/2",
+      "actual": 0.11201769169466425
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six//npc-market",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/npc-market.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six/synchronization/npc-market",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/synchronization/npc-market.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all actualcamera/head/rider/bone brackets exact v12-six/npc-market",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "no physics/process advance within either readback v12-six/npc-market",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/npc-market/0",
+      "actual": 4.530601883604279e-05
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/npc-market/0",
+      "actual": 9.999999997489795e-05
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/npc-market/1",
+      "actual": 6.88498164155948e-05
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/npc-market/1",
+      "actual": 0.11191764705881724
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/npc-market/2",
+      "actual": 0.00023857197759734694
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/npc-market/2",
+      "actual": 0.06792522307886902
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six//npc-drummer",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/npc-drummer.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "exact nativePNG/RGBA v12-six/synchronization/npc-drummer",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "lossless archived nativeRGBA v12-six/synchronization/npc-drummer.webp",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all actualcamera/head/rider/bone brackets exact v12-six/npc-drummer",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "no physics/process advance within either readback v12-six/npc-drummer",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/npc-drummer/0",
+      "actual": 3.340950107558959e-05
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/npc-drummer/0",
+      "actual": 0.39122245589950155
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/npc-drummer/1",
+      "actual": 4.039923935623006e-05
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/npc-drummer/1",
+      "actual": 0.263913451127282
+    },
+    {
+      "pass": true,
+      "label": "independentnumeric worldprojection v12-six/npc-drummer/2",
+      "actual": 0.00018099715482040402
+    },
+    {
+      "pass": true,
+      "label": "actual independent3Dmarker pixels v12-six/npc-drummer/2",
+      "actual": 0.11494086113559443
+    },
+    {
+      "pass": true,
+      "label": "matched original1024/candidate packed512 actual camera_global",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matched original1024/candidate packed512 actual camera_projection_columns",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matched original1024/candidate packed512 actual camera_near",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matched original1024/candidate packed512 actual camera_far",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matched original1024/candidate packed512 actual viewport_pixels",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matched original1024/candidate packed512 actual head_global",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matched original1024/candidate packed512 actual rider_global",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matched original1024/candidate packed512 actual skeleton_global",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matched original1024/candidate packed512 actual bone_global_pose_in_skeleton",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all native contact meshes/transforms/curls match; materialUV intentionally differs",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "actual native positive uniform packed handUV /root/@Node3D@2/@CharacterBody3D@9/@Node3D@10/Rider/LeftAnatomicalHand/HandAndFingers",
+      "actual": {
+        "texture_repeat": true,
+        "uv1_offset": [
+          -1.22185754776001,
+          -2.74593997001648,
+          0.0
+        ],
+        "uv1_scale": [
+          3.45000004768372,
+          3.45000004768372,
+          1.0
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "label": "actual native positive uniform packed handUV /root/@Node3D@2/@CharacterBody3D@9/@Node3D@10/Rider/RightAnatomicalHand/HandAndFingers",
+      "actual": {
+        "texture_repeat": true,
+        "uv1_offset": [
+          -1.94244182109833,
+          -2.74761319160461,
+          0.0
+        ],
+        "uv1_scale": [
+          3.45000004768372,
+          3.45000004768372,
+          1.0
+        ]
+      }
+    }
+  ],
+  "visual_scope": "Personally inspected exact native original1024hand, packed512V12hand, V12drummer andV12steward; all7clean/proof pairs receive computational integrity checks, not an all-poses visual claim.",
+  "verdict": "Bounded hand-detail recovery and sleeve-mask improvement: V12 hand shows comparable visible knuckle/nail/finger detail at identical camera/nativepose, unlike rejected global512 reduction. Drummer veststripe no longer covers sleeves. Steward vestleftside remains ragged/blackfragments; finalwardrobe/AAA/fittedMain/contact remain open.",
+  "limits": [
+    "Private authored studios are not actualinput/Main/motion/targetMac.",
+    "Native per-process texture/counters are not certifiedMacVRAM/performance.",
+    "Uniform positive materialUV transform and nativeRepeat are measured; this is not an independent every-source-texel/UVchart packing proof.",
+    "All14nativeclean/proof images losslessly re-encodedWebP, fullnativeRGBAhashes retained in rawgz receipts; four selected originalPNGs retained verbatim.",
+    "Native renderer errors elsewhere do not inherit acceptance from this privateart packet."
+  ]
+}

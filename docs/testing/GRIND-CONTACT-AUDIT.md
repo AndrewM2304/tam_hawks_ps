@@ -60,3 +60,35 @@ Then perform a bounded actual-input inspection, preserving strict assertions:
 2. Pick representative remaining unverified thin-seat, broad planter/cap, counter and changing-grade beam families from the actual inventory. Rank observed board burial/hover, shoe separation, discontinuous turns and blocked approaches; do not label all generic guides defective by inference.
 3. For each reproduced defect, retain the real mapped-input witness and actual rendered GLB component/finite owner measurements. Author support only from inspected native geometry. Test a clear positive plus broad-ledge/board-obstacle negatives, preserve historical IDs and ordinary approaches, then obtain independent QA and normal-speed visual review.
 4. Keep unverified or visually unreviewed families explicitly open under FID-102/G01-06 until their individual evidence is complete. Source inspection and inventory are audit progress, not contact acceptance.
+
+## Current bounded follow-up status
+
+The real active cylindrical Main snapshot now passes4/0, recorded separately in
+[capture-cylindrical-active-native](motion-fidelity-2026-11-07/capture-cylindrical-active-native/README.md).
+It verifies observer metadata, not grind presentation. The first four-family
+generic-contact observer attempt is rejected after a tooling reference to a
+nonexistent Main bail counter; it supplies no generic-contact result. The repaired
+private observer uses actual Skater `bailed`/`recovered` signals, perphysics
+`bail_active`/`recovery_fade`, actual indexed GLB positions, finite native Box/Cylinder
+geometry and fullprecision numeric records. It remains unparsed/unexecuted after
+those corrections and needs a fresh current-source native epoch.
+
+Its declared one-start airborne/momentum fixtures then use mapped Grind for24ticks
+per representative seat, planter, counter and changing-grade bridge rail. It
+records actual captured identity, component/native RID+shape, real vertex intrusion
+over1mm, bounded signed/vertical hanger/tyre rays and completed-frame camera checks.
+Those setup fixtures cannot establish an ordinary approach or wheel load, and a
+convex hit alone does not prove actual material penetration. Saturated/unsupported
+queries remain unknown. No family is accepted from a missing catch or an observer
+exit code. Root queues the corrected bounded native audit after the active source
+integration/contact work.
+
+The subsequent fresh-current-source [native four-family epoch](motion-fidelity-2026-11-07/legacy-generic-native-01/README.md)
+executes cleanly with803stable inputs and24physics samples per family. No actual
+skateboard component overlap or bail is found, but last-eight public hanger gaps
+are about55mm over native bench/planter/counter UPfaces and15.34–15.46mm signed
+over the graded bridge. The native tyre ray distributions and missing-ray unknowns
+are retained. This identifies a grounding follow-up rather than accepting generic
+presentation. The raw camera field has a documented phase-label correction:
+two initial counter rays hit the awning before the camera process update; this
+does not certify a rendered ordinary-play obstruction. No runtime fix is included.

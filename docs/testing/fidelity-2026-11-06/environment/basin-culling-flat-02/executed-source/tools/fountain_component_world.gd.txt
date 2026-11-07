@@ -1,0 +1,9 @@
+extends "res://game/levels/glasgow_square.gd"
+## Explicit component fixture: skip full city assembly, keep source methods.
+func _ready() -> void:
+	pass
+
+func get_ground_height(_world_position: Vector3) -> float:
+	# Actual fountain neighbourhood is flat Y0; only its existing support-post
+	# construction uses this fixture query. No whole-map/contact claim follows.
+	return 0.0

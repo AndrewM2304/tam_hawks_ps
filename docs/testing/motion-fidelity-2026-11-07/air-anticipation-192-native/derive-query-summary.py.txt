@@ -1,0 +1,27 @@
+from pathlib import Path
+import json,re,math
+out=Path('/workspace/tam_hawks_ps/docs/testing/motion-fidelity-2026-11-07/air-anticipation-192-native')
+def balanced(text,marker):
+ i=text.index(marker)+len(marker);start=i;depth=0;quoted=False;escaped=False
+ for j,c in enumerate(text[i:],i):
+  if quoted:
+   if escaped:escaped=False
+   elif c=='\\':escaped=True
+   elif c=='"':quoted=False
+   continue
+  if c=='"':quoted=True
+  elif c in '[{':depth+=1
+  elif c in ']}':
+   depth-=1
+   if depth==0:return text[start:j+1]
+ raise ValueError(marker)
+cases=[];costs=[]
+for line in (out/'engine.log').read_text().splitlines():
+ if not line.startswith('NOVEMBER_BANK_TOP_MISS'):continue
+ gate=float(re.search(r'gate=([^ ]+)',line).group(1));raw=balanced(line,'forecast_query_distribution=');raw=re.sub(r'([,{])\s*(\d+)\s*:',r'\1 "\2":',raw);distribution=json.loads(raw)
+ controls=json.loads(balanced(line,'forecast_controls='))
+ for key,count in distribution['histogram'].items():costs.extend([int(key)]*count)
+ cases.append({'gate':gate,'query_distribution':distribution,'synchronous_controls':controls,'controls_ran':bool(controls),'all_controls_pass':all(c.get('refused',c.get('matches',c.get('restored',False))) for c in controls) if controls else None,'independent_component_queries':int(re.search(r'independent_component_queries=(\d+)',line).group(1)),'independent_pose_queries':int(re.search(r'independent_pose_queries=(\d+)',line).group(1)),'independent_face_rays':int(re.search(r'independent_face_rays=(\d+)',line).group(1))})
+costs.sort();percentiles={str(p):costs[max(0,math.ceil(len(costs)*p/100)-1)] for p in [50,95,99,100]}
+r={'cases':cases,'attempt_count':len(costs),'incremental_forecast_query_percentiles':percentiles,'cost_scope':'Controller incremental forecast queries, with successful final current guards charged at a conservative upper bound. Unchanged reactive entry/native component scans and all independent observer queries are excluded and do not vanish.','CPU_time_budget':'Target <=1ms p95/2ms p99 on M5; UNMEASURED. Counts do not establish elapsed cost or FPS.','visual_acceptance':False,'production_admission':False,'source_stable':True}
+(out/'native-summary.json').write_text(json.dumps(r,indent=2)+'\n');print({'attempts':len(costs),'p':percentiles,'all_controls_pass':[x['all_controls_pass'] for x in cases]})

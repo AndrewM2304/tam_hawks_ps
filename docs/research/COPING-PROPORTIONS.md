@@ -128,13 +128,29 @@ classification or sunken-port/civic/park gameplay.
 The separate [original-defect contact witness](../testing/motion-fidelity-2026-11-07/coping-researched-profile-physics/README.md)
 then passes **10/0** with the same controller and 790 unchanged production inputs.
 All seven consecutive physics ticks 179–185 clear all 32 actual board components
-and four tyre volumes. Independent per-vertex native rays record loaded gaps of
-7.320–20.865 mm on actual paving/steel. Bounded ray misses remain unknown rather
-than invented support; not every wheel is labelled loaded. All 503 trajectory
-rows match the preceding same-profile Main replay. This covers the original
-defect envelope before authored attachment, not every later curved tick.
+and four tyre volumes. Independent per-vertex native rays record signed face
+gaps of 7.320–20.865 mm on actual paving/steel. The packet's original `loaded`
+label means only that signed near-contact band: two steel normals have Y≈0.195,
+with vertical separations about 37.608/107.194 mm, so these are not certificates
+of weight bearing or absence of flotation. Bounded ray misses remain unknown.
+All 503 trajectory rows match the preceding same-profile Main replay. This
+covers the original defect envelope before authored attachment, not every later
+curved tick. Physical loading and moving flotation review remain open.
 
 The candidate has **not been rendered or promoted**, and the remaining wider
 contact/route, whole-source and visual gates above remain open. Root owns
 admission/integration. The actual 70 mm production profile stays unchanged until
 that evidence is reviewed.
+
+
+The later [reconciled contact cohort](../testing/line-design-2026-11-06/coping-proportion-private-development-2026-11-07/README.md#reconciled-historicalcurrent-contact-cohort)
+passes **68/0**, exit0 with 806 unchanged exact inputs. It retains the original
+pipe-specific controls on explicit native/display/guide-consistent historical
+90/70 geometry and verifies the current clear phase without demanding an
+unnecessary corrective-fit return. The seven current static snapshots preserve
+unknown rays and signed face proximity rather than claiming physical loading.
+The actual controller and production geometry remain unchanged; the precise
+three-constructor/two-test bundle awaits final QA review and root integration.
+The Clyde crown expectation is prepared but its ordinary full suite has not run
+on that bundle. This focused result does not close full regression, wider routes,
+matched moving visuals or physical loading.

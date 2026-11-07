@@ -1,0 +1,68 @@
+[
+  {
+    "label": "parse-observer",
+    "command": [
+      "./tools/run.sh",
+      "--headless",
+      "--check-only",
+      "--script",
+      ".local/architectural-fidelity/main_probe.gd"
+    ],
+    "start_utc": "2026-11-07T04:34:30.404815+00:00",
+    "engine_bound_seconds": 10,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:34:33.431720+00:00"
+  },
+  {
+    "label": "original",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "graphics-original-01",
+      "visual"
+    ],
+    "start_utc": "2026-11-07T04:34:33.432417+00:00",
+    "engine_bound_seconds": 571,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:37:32.169422+00:00"
+  },
+  {
+    "label": "private-install",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/controlled_install_v2.py",
+      "install",
+      "--production"
+    ],
+    "start_utc": "2026-11-07T04:37:32.175615+00:00",
+    "engine_bound_seconds": 10,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:37:32.344015+00:00"
+  },
+  {
+    "label": "candidate",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "graphics-candidate-01",
+      "visual"
+    ],
+    "start_utc": "2026-11-07T04:37:32.344618+00:00",
+    "engine_bound_seconds": 393,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:40:03.245173+00:00"
+  },
+  {
+    "label": "restored-control",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "graphics-control-01",
+      "visual"
+    ],
+    "start_utc": "2026-11-07T04:40:03.344603+00:00",
+    "engine_bound_seconds": 242,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:42:57.160001+00:00"
+  }
+]

@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T05:04:36.449494+00:00",
+  "finished_utc": "2026-11-07T05:04:55.038674+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "640x400",
+      "--script",
+      "tools/environment_basin_cull_component.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/basin-cull-flat-source/.local/environment-water/basin-culling-flat-02"
+    ]
+  ],
+  "git_head": "736a4df43718ce7a81c1d7f15bf587eb9c17ba3f",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_basin_cull_component.gd",
+  "process_timeout_seconds": 120,
+  "workload": "basin-shadow-cull-component-flat640x400",
+  "concurrent_headless_authorised_pid": null,
+  "other_godot_at_start": [],
+  "timing_measured": false,
+  "source_inventory_sha256": "da656f7205233c3f053aac4820be3fef4546078ba2c82e54374b8afaec3913aa",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "annular-double-sided.png": "978a2c5b58f3d52a2859e220887d90227ad2665eb8e0410d597863d0349c9644",
+    "annular-one-sided.png": "f565934f532a7215253a536a7aad5f3329c61147b6c4fa2e500449ca14c4f05c",
+    "solid-original.png": "6e0abaaf6c1b616841f266b70630dfdb6d98c5204cd1f0a6b1fa4e4f26e7ba98",
+    "solid-restored.png": "803cbb4e52cce0ca2ed604ab88199f205d6531ee58a86484d7d57d5f971cbe01"
+  },
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

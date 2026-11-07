@@ -14,9 +14,12 @@ required run was rejected (6,311/25); separate subsequent repairs are recorded i
 STATUS. Current actual-Skin contact passes139/0 and the independent manual-body
 comparison104/0. Researched coping is now integrated with an actual current
 ClydeSurface/BowlContact/FeatureTransition/Connected190/0 gate; moving support
-and complete regression stay open. Continuous fitted assets, swept bank forecast,
-annular fountain/restricted water casting and recessed architecture remain private
-until their own admission. Inspect Git and exact source receipts before continuing;
+and complete regression stay open. Short finite bank forecast, native name-first
+Skin resolver and recessed architecture are now integrated with the actual
+392/0 combined focused gate (808 unchanged inputs, executed launcher/observer
+included). Continuous fitted assets/coherent pose clock, exact per-leg shoe
+cache and fountain/water/paving successors remain private until their admission.
+Inspect Git and exact source receipts before continuing;
 do not infer global success from these focused checks. Commit/push is a checkpoint,
 then continue the accepted independent queue.
 The first checkpoint is **`9b91dbc`**, pushed to origin/main; newer changes may

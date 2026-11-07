@@ -1,0 +1,60 @@
+from pathlib import Path
+from PIL import Image
+import gzip,hashlib,json,re,math,collections,shutil
+R=Path('/workspace/tam_hawks_ps');ROOT=R/'docs/testing/fidelity-2026-11-06/architecture';results={}
+sha=lambda b:hashlib.sha256(b).hexdigest()
+def read(p):return json.loads(p.read_text())
+def normalize(s):
+ end=s.index('\",');return re.sub(r'@([A-Za-z_][A-Za-z_0-9]*)@\d+',r'@\1@',s[:end])+s[end:]
+for packet,epochs in [('main-contracts-02',['baseline-materials-03','candidate-materials-01','control-materials-01']),('main-graphics-03',['graphics-original-01','graphics-candidate-01','graphics-control-01'])]:
+ P=ROOT/packet;checks=[];datasets=[];sources=[]
+ def ck(ok,label,actual=None):checks.append({'pass':bool(ok),'label':label,'actual':actual})
+ for name,digest in read(P/'preservation.json')['files'].items():ck(sha((P/name).read_bytes())==digest,'original archived SHA '+name)
+ ids=read(P/'archive-identities.json')
+ for epoch in epochs:
+  Q=P/epoch;z=(Q/'architecture-main.json.gz').read_bytes();raw=gzip.decompress(z);d=json.loads(raw);datasets.append(d);before=read(Q/'source-before.json');after=read(Q/'source-after.json');sources.append(before);receipt=read(Q/'receipt.json')
+  ck(sha(z)==ids[epoch]['gzip_sha256'] and sha(raw)==ids[epoch]['uncompressed_sha256'] and len(raw)==ids[epoch]['uncompressed_bytes'],'losslessly recovered native result '+epoch)
+  ck(before==after and receipt['source_stable'] and receipt['clean_engine_log'] and receipt['engine_exit']==0 and not d['failures'],'clean source-stable native result '+epoch)
+  ck(not re.search(r'SCRIPT ERROR:|ERROR:|Parse Error:',(Q/'engine.log').read_text()),'independently clean raw engine log '+epoch)
+  if packet=='main-graphics-03':
+   ck(len(d['frames'])==4 and len(d['sync_proofs'])==3,'four real views and3sync images '+epoch)
+   for f in d['frames']+d['sync_proofs']:
+    im=Image.open(Q/f['file']).convert('RGBA');ck(im.size==(1280,800) and sha(im.tobytes())==f['pixels']['rgba8_sha256'],'native decoded RGBA '+epoch+'/'+f['file'])
+    ck(sha((Q/f['file']).read_bytes())==receipt['images'][f['file']],'original native PNG SHA '+epoch+'/'+f['file'])
+   for proof in d['sync_proofs']:
+    im=Image.open(Q/proof['file']).convert('RGBA');ck(tuple(proof['canvas_expected'])==im.getpixel(tuple(proof['canvas_pixel'])) and proof['same_native_frame'],'actual current Canvas pixels '+epoch+'/'+proof['id'])
+    for marker in proof['markers']:
+     x,y=marker['projected_pixel'];points=[]
+     for py in range(max(0,int(y)-12),min(800,int(y)+13)):
+      for px in range(max(0,int(x)-12),min(1280,int(x)+13)):
+       red,green,blue,_=im.getpixel((px,py));chosen=red>191.25 and red-green>51 and red-blue>51 if marker['color_channel']=='red' else green>191.25 and green-red>51 and green-blue>51
+       if chosen:points.append((px+.5,py+.5))
+     error=math.dist((sum(v[0] for v in points)/len(points),sum(v[1] for v in points)/len(points)),(x,y)) if points else math.inf
+     ck(len(points)==marker['count'] and error<=2.5,'independently decoded world marker '+epoch+'/'+proof['id']+'/'+marker['kind'],error)
+ a,b,c=datasets
+ ck(a['world_inventory']==c['world_inventory'] and a['world_contracts']==c['world_contracts'] and sources[0]==sources[2],'exact original/restored whole source/native inventory')
+ changed=[k for k in sources[0].keys()|sources[1].keys() if sources[0].get(k)!=sources[1].get(k)];ck(len(changed)==4,'candidate only four architecture inputs',changed)
+ for field,values in a['world_contracts'].items():
+  actual=b['world_contracts'][field]
+  ck(sorted(map(normalize,values))==sorted(map(normalize,actual)) if field=='collision_records' else values==actual,'independent complete native contract '+field)
+ delta={k:b['world_inventory'][k]-a['world_inventory'][k] for k,v in a['world_inventory'].items() if isinstance(v,int)}
+ ck(delta['source_triangle_instances']==65854 and delta['mesh_draw_nodes']==-7 and delta['unique_materials']==-1 and delta['native_bodies']==delta['native_shapes']==0,'actual complete source/native inventory delta',delta)
+ maps=[]
+ for d in datasets:maps.append(sorted((x['path'],x['class'],x['width'],x['height']) for x in d['material_contract']['bound_maps']))
+ ck(len(maps[0])==34 and maps[0]==maps[1]==maps[2],'all34 actual bound map identity/dimensions/multiplicities equal')
+ ck(all(d['material_contract']['moving_train_glass_bindings']==1 and d['material_contract']['moving_train_static_room_bindings']==0 for d in datasets),'moving train retains native glass distinct from static shader')
+ box=b['closed_box_contract'];expected=[(56,.65,7.5),(-24,0,48),(0,0,48),(24,0,48),(0,6,-134)]
+ ck(len(box)==5 and all(math.dist(x['building_origin'],pos)<1e-6 and x['mesh_class']=='BoxMesh' and x['exact_transform_and_inset'] for x,pos in zip(box,expected)),'five exact native visible Box owners/material/inset records')
+ if packet=='main-contracts-02':
+  ck([(d['checks'],d['failures']) for d in datasets]==[(53,0),(28,0),(53,0)],'actual53/28/53native checks')
+  f=read(P/'facade-contract-result.json');ck(f.get('checks')==41 and f.get('failures')==0,'precise FacadeBay41/0native result',f)
+ else:
+  ck([(d['checks'],d['failures']) for d in datasets]==[(81,0),(56,0),(81,0)],'actual81/56/81native checks')
+  for old,new,control in zip(a['frames'],b['frames'],c['frames']):
+   ck(all(old[k]==new[k]==control[k] for k in ['file','camera_position','camera_forward','camera_fov','player_position']),'matched retained actual camera/player fields '+old['file'])
+   fields=['draw_calls','visible_draws','shadow_draws','primitives','buffer_bytes','texture_bytes'];ck(all(old[k]==control[k] for k in fields),'all original/restored process renderer counters exact '+old['file'])
+   rd={k:new[k]-old[k] for k in fields};ck(rd['buffer_bytes']==250160 and rd['texture_bytes']==0 and rd['draw_calls']<=16,'independently derived native resource budget '+old['file'],rd)
+  ck(max(n['draw_calls']-o['draw_calls'] for o,n in zip(a['frames'],b['frames']))==4,'actual maximum incremental total draws4')
+ out={'schema':1,'reviewer':'/root/independent_qa','checks':len(checks),'failures':sum(not x['pass'] for x in checks),'checks_detail':checks,'verdict':'Bounded private native architecture admission; supports exact four-file integration plus precise reviewed FacadeBay fixture. Fresh combined regression remains required.','visual_scope':'Eight original/candidate real-view PNGs personally inspected for main-graphics-03: shopfront depth/recognisable sparse stock, recessed upper-window silhouette, smoother gallery columns/join and ordinary chase foreground improve. Control/proof images authenticated computationally; this statement does not claim all21 visually viewed by independentQA.','limits':['Static authored views do not cover moving shoulders/culling/all doorways, sustained pacing, actualMac or AAA.','Source triangles are separate from all-pass rendered primitives; native process buffers are separate from GPUhostVRAM.','SHADOWdraw counter0 is not absence of shadows; no separate shadow primitive samples retained.','Main camera retained position/forward/FOV fields match; complete per-real-view projection/basis matrices are not present in this observer.','Permitted qualitative overlap disclosed; native64px QA witness actually started after architecture lease stopped. No timing or process-exclusivity acceptance.']}
+ (P/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n');shutil.copyfile(__file__,P/'independent-verify.py.txt');index={str(p.relative_to(P)):sha(p.read_bytes()) for p in P.rglob('*') if p.is_file() and not p.name.startswith('independent-')};(P/'independent-preservation.json').write_text(json.dumps(index,indent=2)+'\n');results[packet]={'checks':len(checks),'failures':[x for x in checks if not x['pass']]}
+print(json.dumps(results,indent=2))

@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "status": "COMPONENT_CULLING_CONTRIBUTION_SUPPORTED; NOT_MAIN_OR_FULL_SHADOW_FINISH",
+  "checks": 55,
+  "failures": 0,
+  "source_inputs": 800,
+  "source_stable": true,
+  "images": 4,
+  "scope": "Exact-source fountain/light/finalsky; flat native grey diagnostic receiver/displays remove photographic samplers, preserving verified source opaque cull/reception flags. Native640x400, same world/camera/currentframe/projection/marker/Canvas methods. No Main instantiated.",
+  "contact_roi": [
+    505,
+    177,
+    560,
+    208
+  ],
+  "comparison_to_solid": {
+    "annular_one_sided": {
+      "maximum_rgb8_delta": 110,
+      "mean_absolute_rgb8_delta": 8.527077223851418,
+      "changed_pixels": 220
+    },
+    "annular_double_sided": {
+      "maximum_rgb8_delta": 43,
+      "mean_absolute_rgb8_delta": 0.4172043010752688,
+      "changed_pixels": 37
+    },
+    "solid_restored": {
+      "maximum_rgb8_delta": 0,
+      "mean_absolute_rgb8_delta": 0.0,
+      "changed_pixels": 0
+    }
+  },
+  "interpretation": "Changing only cast flag1to2 on the exact same annular mesh/material fills most of the detached crescent. Native double-sided shadow flag disables culling in inspected Godot4.6.3GLESsource. Residual37pixels remain versus solid; do not claim this is the entire cause or promote double-sided workaround. A credible closed inwardwall/floor mesh needs actual Main validation.",
+  "process_scope": "Run05:04:36.449494\u201305:04:55.038674UTC. No otherGodot atstartup. Rooteditor began05:05:19.199438UTC afterward, so no overlap with that reportedwindow. No continuoushostobserver/timing/exclusivity/M5 claim.",
+  "native_cache": "Independent actualprivate XDGcompiledshader caches copied; no profiles/saves/Music/config.",
+  "preserved_files_sha256": {
+    "annular-double-sided.png": "978a2c5b58f3d52a2859e220887d90227ad2665eb8e0410d597863d0349c9644",
+    "annular-one-sided.png": "f565934f532a7215253a536a7aad5f3329c61147b6c4fa2e500449ca14c4f05c",
+    "basin-cull-report.json": "437829d946871a2189e07e99641ccf104efd1094c9d054440fd52329fd80d72e",
+    "display": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "engine.log": "ac4196d3e728fff1919c30cd22b3faaccc78e042c8e75639195f49dadc5feeb4",
+    "executed-source/game/levels/art/fountain_basin_mesh.gd.txt": "c61921d5055b2a023a80ee2ccd3deba411a588e88b16b78d69249e3ededda0b0",
+    "executed-source/game/levels/glasgow_square.gd.txt": "b4c14e92a3c91b9ae86e25c0ebfa0342ecb0054f2df01332a536171803dedc6d",
+    "executed-source/tools/environment_basin_cull_component.gd.txt": "5778ebf1464ad492b3adc5f5bc587bb19acb3f8ef74e4b7430da7fc47a9e41ac",
+    "executed-source/tools/environment_main_water_base.gd.txt": "e599f32f153c2b3294ab72bd9fe00e15f881b6a2b17f8964aa336b335cf81e10",
+    "executed-source/tools/environment_main_water_shadow_capture.gd.txt": "5808f306f1044cf23928a8e0d95abca5f5effde622309b822825d5dea97580d9",
+    "executed-source/tools/environment_water_probe.py.txt": "d5dd755d36d0b6cae3393f5cfd3a70587b38ea5529975b3b57d0e1474c020572",
+    "executed-source/tools/fountain_component_world.gd.txt": "b019b426f61eb97fb7c37c16112f63bab1b2d2deba945053e090fdc5817d83b7",
+    "executed-source/tools/full_fidelity_capture.gd.txt": "5cb7c12ec634519e1b52d9375af663e2d5a588f0f84b615f76d1af81e4ffc388",
+    "receipt.json": "966d1f51524e7a1550a8e02fa1b29c859ceaa3956a5fb84407fabf40e315b7b4",
+    "solid-original.png": "6e0abaaf6c1b616841f266b70630dfdb6d98c5204cd1f0a6b1fa4e4f26e7ba98",
+    "solid-restored.png": "803cbb4e52cce0ca2ed604ab88199f205d6531ee58a86484d7d57d5f971cbe01",
+    "source-after.json": "da656f7205233c3f053aac4820be3fef4546078ba2c82e54374b8afaec3913aa",
+    "source-before.json": "da656f7205233c3f053aac4820be3fef4546078ba2c82e54374b8afaec3913aa",
+    "xorg-console.log": "d2a120e47d8d3745d5e2e7ee9448b1dfa8ffcbb88accc181257bef06662e89b6",
+    "xorg.log": "96fa8a1128b7d4cdbc715339a4e33959af27a67dcf41ac5f22ded82b89d1feb4"
+  }
+}

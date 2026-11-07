@@ -1,0 +1,73 @@
+extends "res://tools/environment_texture_probe.gd"
+## Reuse the admitted fresh native allocation observer's twelve-frame fence.
+## Unlike the visual A/B/A, create the candidate only after the baseline record,
+## replace the sole mesh and release the original before measuring its delta.
+const BasinMesh = preload("res://game/levels/art/fountain_basin_mesh.gd")
+var _display: MeshInstance3D
+
+func _run() -> void:
+	var args:=OS.get_cmdline_user_args()
+	if args.size()!=1 or DisplayServer.get_name()=="headless":quit(2);return
+	var output: String=args[0]
+	if not (ProjectSettings.globalize_path(output).simplify_path()+"/").begins_with(ProjectSettings.globalize_path("res://.local/").simplify_path()+"/"):
+		quit(2);return
+	root.size=Vector2i(1280,800)
+	root.content_scale_size=root.size
+	var camera:=Camera3D.new()
+	camera.position=Vector3(9,5,12)
+	root.add_child(camera)
+	camera.look_at(Vector3(0,0.275,0))
+	camera.current=true
+	var light:=DirectionalLight3D.new()
+	light.rotation_degrees=Vector3(-42,-32,0)
+	light.shadow_enabled=false
+	root.add_child(light)
+	var material:=StandardMaterial3D.new()
+	material.albedo_color=Color(0.6,0.6,0.6)
+	material.normal_enabled=true
+	var flat:=Image.create(1,1,false,Image.FORMAT_RGB8)
+	flat.fill(Color(0.5,0.5,1.0))
+	material.normal_texture=ImageTexture.create_from_image(flat)
+	material.roughness=0.8
+	_display=MeshInstance3D.new()
+	_display.position.y=0.275
+	_display.material_override=material
+	_display.mesh=_source()
+	root.add_child(_display)
+	await _warm()
+	var before:=_buffer_record()
+	var retired: WeakRef=weakref(_display.mesh)
+	_display.mesh=BasinMesh.create(_display.mesh as CylinderMesh,5.960000038146973)
+	await _warm()
+	var after:=_buffer_record()
+	var released: bool=retired.get_ref()==null
+	_check(released,"original cylinder resource is released before candidate allocation record")
+	_check(before.triangles==256 and after.triangles==512 and before.surface_count==1 and after.surface_count==1,"native sole displayed mesh changes256to512triangles with one surface")
+	_check(before.draws==1 and after.draws==1 and before.primitives==256 and after.primitives==512,"same sole native draw presents the exact baseline/candidate primitive counts")
+	_check(before.texture_bytes==after.texture_bytes,"no native texture allocation changes")
+	_check(before.buffer_bytes>0 and after.buffer_bytes>0,"native rendering buffer monitor is active")
+	var delta: int=int(after.buffer_bytes)-int(before.buffer_bytes)
+	var budget_pass: bool=delta>=0 and delta<=65536
+	_check(budget_pass,"actual additional native rendering buffers fit64KiB ceiling")
+	var report: Dictionary={"schema":1,"complete":true,"failures":_failures,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),"adapter":RenderingServer.get_video_adapter_name(),
+		"before":before,"after":after,"original_resource_released":released,"additional_native_buffer_bytes":delta,"buffer_ceiling_bytes":65536,"budget_pass":budget_pass,"timing_measured":false,
+		"limits":"Fresh native process resource delta only. Same sole MeshInstance/material/camera/light/1280x800viewport and inherited twelve natural rendered frames per state. Candidate is created after baseline; original resource weakref is null before after-record. Same flat1pixel normal texture forces conventional vertex frame attributes; no production textures or Main instantiated. Source class preloads can hold unrelated constant resources equally in both states. Public Performance.RENDER_BUFFER_MEM_USED measures renderer buffers, not targetMacVRAM or whole-game cost. No timing, cold, visual-shadow, final-fidelity orM5 acceptance."}
+	var file:=FileAccess.open(output.path_join("basin-buffer-report.json"),FileAccess.WRITE)
+	_check(file!=null,"native buffer report writable")
+	if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	print("BASIN_BUFFER_RESULT failures=",_failures," delta_bytes=",delta)
+	quit(1 if _failures else 0)
+
+func _source() -> CylinderMesh:
+	var source:=CylinderMesh.new()
+	source.top_radius=6.2
+	source.bottom_radius=6.2
+	source.height=0.55
+	source.radial_segments=64
+	source.rings=0
+	return source
+
+func _buffer_record() -> Dictionary:
+	return {"buffer_bytes":int(Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED)),"texture_bytes":int(Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED)),
+		"draws":int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)),"primitives":int(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)),
+		"mesh_id":_display.mesh.get_instance_id(),"mesh_class":_display.mesh.get_class(),"triangles":_display.mesh.get_faces().size()/3,"surface_count":_display.mesh.get_surface_count(),"material_id":_display.material_override.get_instance_id()}

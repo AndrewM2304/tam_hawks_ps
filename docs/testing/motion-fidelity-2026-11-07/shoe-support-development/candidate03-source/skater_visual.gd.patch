@@ -1,0 +1,154 @@
+--- a/game/player/skater_visual.gd
++++ b/game/player/skater_visual.gd
+@@ -7,6 +7,8 @@
+ const Anatomy = preload("res://game/player/skater_anatomy.gd")
+ const Skateboard = preload("res://game/art/assets/tam_skateboard/tam_skateboard.glb")
+ const TrickAnimation = preload("res://game/player/trick_animation.gd")
++const ShoeSupportHull=preload("res://game/player/shoe_support_hull.gd")
++const SHOE_SUPPORT_POINT_BUDGET := 512 # <=12KiB/player raw XYZ payload; admission gate.
+ const PLANTED_FOOT_Z := 0.220
+ const PLANTED_FOOT_Y := 0.0784
+ static var _hang_ten_support: Dictionary = {}
+@@ -678,7 +680,7 @@
+ 			var floor_at: Vector3 = _board.get_parent().global_position
+ 			var ankle := _rider.to_global(target)
+ 			var lowest := INF
+-			for point: Vector3 in _sole_points:
++			for point: Vector3 in sole_contact_points(leg):
+ 				lowest = minf(lowest, (ankle + shoe_basis * point - floor_at).dot(floor_up))
+ 			if lowest < 0.001: target = _rider.to_local(ankle + floor_up * (0.001 - lowest))
+ 		if hang_ten > 0.0001 or maxf(_front_foot_lift, _rear_foot_lift) > 0.0001 or helper_catch:
+@@ -687,7 +689,7 @@
+ 			var ankle := _board.to_local(_rider.to_global(target))
+ 			var local_shoe := _board.global_basis.inverse() * shoe_basis
+ 			var lowest := INF
+-			for point: Vector3 in _sole_points:
++			for point: Vector3 in sole_contact_points(leg):
+ 				var sample := ankle + local_shoe * point
+ 				var height := _deck_top_height_at(sample)
+ 				if is_finite(height): lowest = minf(lowest, sample.y - height)
+@@ -710,7 +712,7 @@
+ 				and not transition \
+ 				and maxf(_push_blend, _brake_blend) > 0.0001:
+ 			var loaded := maxf(_brake_blend, _push_blend if _push_phase < 0.60 else 0.0)
+-			var contact := _drag_foot_contact(target, shoe_basis, loaded)
++			var contact := _drag_foot_contact(target, shoe_basis, loaded, sole_contact_points(leg))
+ 			target = contact.target
+ 			shoe_basis = contact.basis
+ 			grounded_drag = bool(contact.supported)
+@@ -858,7 +860,7 @@
+ 	return hit
+ 
+ 
+-func _drag_foot_contact(target: Vector3, shoe_basis: Basis, loaded: float) -> Dictionary:
++func _drag_foot_contact(target: Vector3, shoe_basis: Basis, loaded: float,sole_points:PackedVector3Array) -> Dictionary:
+ 	var ankle := _rider.to_global(target)
+ 	var ground := _native_foot_ground(ankle + shoe_basis * Footwear.SOLE_CONTACT)
+ 	var supported := not ground.is_empty()
+@@ -872,7 +874,7 @@
+ 	# Check its actual outline against each finite native surface, rather than
+ 	# extending the board's tangent plane underneath the entire stroke.
+ 	var correction := 0.0
+-	for point: Vector3 in _sole_points:
++	for point: Vector3 in sole_points:
+ 		if point.y > -0.0604: continue
+ 		var sole := ankle + shoe_basis * point
+ 		var support := _native_foot_ground(sole)
+@@ -929,11 +931,69 @@
+ 	_wood_faces = _native_board_cache.wood
+ 	_wheel_surfaces.assign(_native_board_cache.wheels)
+ 	_board_support_points = _native_board_cache.support
+-	var sole: MeshInstance3D = _legs[0].foot.get_node("Cupsole")
+-	var unique: Dictionary = {}
+-	for point: Vector3 in sole.mesh.get_faces(): unique[point] = true
+-	_sole_points.clear()
+-	for point: Vector3 in unique: _sole_points.append(point)
++	for leg:Dictionary in _legs:
++		var sole:MeshInstance3D=leg.foot.get_node("Cupsole")
++		var unique:Dictionary={}
++		for point:Vector3 in _indexed_shoe_points(sole.mesh):unique[sole.transform*point]=true
++		var points:=PackedVector3Array()
++		for point:Vector3 in unique:points.append(point)
++		leg["sole_points"]=points
++		_cache_shoe_support_points(leg)
++	# Keep the established negative-leg field for historical fixture callers;
++	# contact solves below use the actual leg instead of mirroring this mesh.
++	_sole_points=sole_contact_points(_legs[0]).duplicate()
++
++
++func sole_contact_points(leg:Dictionary)->PackedVector3Array:
++	return leg.sole_points
++
++
++func shoe_support_points(leg:Dictionary)->PackedVector3Array:
++	return leg.shoe_support_points
++
++
++func _cache_shoe_support_points(leg:Dictionary)->void:
++	# Startup-only support extrema from every actual indexed shoe surface.
++	# The authored upper can overhang its sole; a tilted horizontal wall must
++	# test the complete shoe in3D, not a flattenedXZ outline or mirrored side.
++	var foot:Node3D=leg.foot
++	var unique:Dictionary={}
++	for mesh:MeshInstance3D in foot.find_children("*","MeshInstance3D",true,false):
++		if mesh.mesh==null or not mesh.visible:continue
++		# Compose native local transforms to avoid subtracting large city coordinates.
++		var local:=Transform3D.IDENTITY
++		var cursor:Node=mesh
++		while cursor!=foot and cursor!=null:
++			if cursor is Node3D:local=cursor.transform*local
++			cursor=cursor.get_parent()
++		for point:Vector3 in _indexed_shoe_points(mesh.mesh):unique[local*point]=true
++	var actual:=PackedVector3Array()
++	for point:Vector3 in unique:actual.append(point)
++	leg["shoe_support_source_vertex_count"]=actual.size()
++	# One exact source snapshot per leg invalidates on a real mesh/transform
++	# change. Repeated startup preparation reuses the hull; no shape resource,
++	# world position, lossy hash or unbounded historical cache owns this proof.
++	if leg.has("shoe_support_cached_source") and leg.shoe_support_cached_source==actual:return
++	var hull:Dictionary=ShoeSupportHull.build(actual)
++	var support:=PackedVector3Array()
++	for index:int in hull.indices:support.append(actual[index])
++	# Never substitute debug-mesh simplification for actual support extrema.
++	# Malformed sources fall back to complete points; admission still rejects
++	# invalid geometry or an exceeded budget instead of dropping real vertices.
++	leg["shoe_support_points"]=support if hull.valid else actual
++	leg["shoe_support_cached_source"]=actual
++
++
++func _indexed_shoe_points(mesh:Mesh)->PackedVector3Array:
++	var result:=PackedVector3Array()
++	for surface:int in mesh.get_surface_count():
++		var arrays:Array=mesh.surface_get_arrays(surface)
++		var positions:PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
++		var indices:PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
++		if indices.is_empty():result.append_array(positions)
++		else:
++			for index:int in indices:result.append(positions[index])
++	return result
+ 
+ 
+ func _cache_deck_surface_grid() -> void:
+@@ -987,18 +1047,18 @@
+ 			var at := Vector3(side * 0.066, 0, -0.240)
+ 			var pitch := 0.08
+ 			for iteration in 4:
+-				var limits := _hang_ten_limits(at, Basis(Vector3.RIGHT, pitch), rest)
++				var limits := _hang_ten_limits(at, Basis(Vector3.RIGHT, pitch), rest, side)
+ 				pitch = clampf(pitch + (limits.x - limits.y) / 0.265, 0.0, 0.22)
+ 			var basis := Basis(Vector3.RIGHT, pitch)
+-			var limits := _hang_ten_limits(at, basis, rest)
++			var limits := _hang_ten_limits(at, basis, rest, side)
+ 			at.y = maxf(limits.x, maxf(limits.y, limits.z)) + 0.00015
+ 			_hang_ten_support[Vector2(side, 1.0 if rest > 0.0 else 0.0)] = {"position": at, "basis": basis}
+ 
+ 
+-func _hang_ten_limits(at: Vector3, basis: Basis, rest: float) -> Vector3:
++func _hang_ten_limits(at: Vector3, basis: Basis, rest: float,side:float) -> Vector3:
+ 	var result := Vector3(-INF, -INF, -INF)
+ 	var stance := Basis(Vector3.UP, -rest)
+-	for point: Vector3 in _sole_points:
++	for point: Vector3 in sole_contact_points(_legs[0] if side<0.0 else _legs[1]):
+ 		if point.y > -0.0604: continue
+ 		var rotated := basis * point
+ 		var sample := stance * (at + rotated)

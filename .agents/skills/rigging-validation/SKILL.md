@@ -23,7 +23,9 @@ durable plan until the director explicitly releases that stage.
    when all its corners are masked; preserve that quad rule before triangulation.
    Do not replace authored coverage with guessed X/Y cuts or painted holes.
 2. Deform each actual indexed native vertex with its own weights, resolved Skin
-   bind name/index and Skeleton3D global bone pose. Include the real skeleton/root
+   binding and Skeleton3D global bone pose. Godot gives a nonempty bind name
+   precedence over its index; a missing nonempty name must fail closed rather than
+   fall back to a valid index. Include the real skeleton/root
    transform and correct interpolated render frame. Do not substitute hips-only
    deformation for multi-bone trouser triangles or average witnesses for a seam.
    Proxy mappings can reference fitting-cage helper vertices outside the rendered
@@ -35,6 +37,10 @@ durable plan until the director explicitly releases that stage.
    identical source endpoint IDs, rest positions, weights, normals and posed world
    positions. Importer vertex reordering/UV splits require explicit identity mapping;
    ambiguity must fail rather than choose the nearest convenient point.
+   Native Head seam vertices must be referenced by real indices and form every
+   authenticated boundary edge; unused/orphan matches are not rendered coverage.
+   Check finite UV/normal attributes and directed triangle identity. Derive source
+   matching error from the actual import format, separately from contact limits.
 4. Preserve all existing attachment, limb length, grab, shoe, tyre, board and finite
    native support tolerances. Keep corrupt torso inverse-bind and uniformly
    translated jacket negative controls. Add a wrong semantic mapping and a missing
@@ -51,6 +57,9 @@ durable plan until the director explicitly releases that stage.
    Relative skeleton paths must be refreshed if the Head is reparented. Verify
    immediate pose getters as well as end-of-tick results: queued transform
    notifications can delay the override, especially in synchronous pose tests.
+   For rendered observations, use the actual interpolated model API even for an
+   OFF descendant, since its ancestors may still interpolate. Check current native
+   Skin palettes and rigid node clocks together before changing interpolation.
    A coincident point seam and copied normals are insufficient. Check actual
    adjacent triangle winding, dihedral and coverage of every outer crop boundary;
    the November fitted-neck investigation found two 180-degree folds hidden by

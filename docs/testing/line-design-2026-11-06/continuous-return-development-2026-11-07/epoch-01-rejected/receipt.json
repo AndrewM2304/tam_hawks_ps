@@ -1,0 +1,48 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source/.local/connected_return_probe.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+  "started_utc": "2026-11-07T05:16:07.156061+00:00",
+  "os_deadline_seconds": 120,
+  "source_inputs": 1018,
+  "engine_pid": 67400,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "finished_utc": "2026-11-07T05:16:28.225336+00:00",
+  "wall_seconds": 21.06927100900066,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: continuous return: connected prefix earns native30-tick/3m wallride and mapped Wallie",
+    "FAIL: continuous return: earned Wallie lands a real supported Manual without reset or recovery",
+    "FAIL: continuous return local chain: independently calculated catalog/repetition/hold receipt banks once without bail or hidden rider",
+    "FAIL: continuous return: every observed actual physics state retains native board/capsule/shoe and finite wall proof"
+  ],
+  "result": [
+    6,
+    4
+  ],
+  "other_engine_observed": false,
+  "overlap_authorized_untimed": true,
+  "preserved_sha256": {
+    "native-process-observer.json": "ccbcccbf79c4d962eafc8450ec0a340abf6ac136efdc63483b37896d8ea413a0",
+    "source-before.json": "6afd76209ad9ee24760051c076aacef65fa90092693e4271aa663e11310a7c07",
+    "observer.gd": "33eaaee32570276286dd93f108260b5e00e4d6ae333a105da2b9296d84523eea",
+    "native-trace.json": "7e85956a9717d55cb717af755bd65405684f61fe396bce935ae01a5fd42d88a5",
+    "wrapper.py.txt": "b474cf8c78171ee1a0c16549ac559fd6155a33ced8543c87fd676b829d6f0372",
+    "native.log": "6007c0812f96952c25364844874f43503c16b65a97ee75ec029e443f52bf4232",
+    "source-after.json": "6afd76209ad9ee24760051c076aacef65fa90092693e4271aa663e11310a7c07"
+  }
+}

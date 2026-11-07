@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "checks": [
+    {
+      "pass": true,
+      "label": "all six executable/observer/wrapper/config source hashes unchanged"
+    },
+    {
+      "pass": true,
+      "label": "native engine exit0 clean receipt"
+    },
+    {
+      "pass": true,
+      "label": "all18 native assertions pass"
+    },
+    {
+      "pass": true,
+      "label": "same-readback native RGBA conflicting_valid_name_and_index.png"
+    },
+    {
+      "pass": true,
+      "label": "original PNG SHA conflicting_valid_name_and_index.png"
+    },
+    {
+      "pass": true,
+      "label": "actual native center red conflicting_valid_name_and_index.png"
+    },
+    {
+      "pass": true,
+      "label": "no readback frame advance conflicting_valid_name_and_index.png"
+    },
+    {
+      "pass": true,
+      "label": "same-readback native RGBA empty_name_valid_index.png"
+    },
+    {
+      "pass": true,
+      "label": "original PNG SHA empty_name_valid_index.png"
+    },
+    {
+      "pass": true,
+      "label": "actual native center red empty_name_valid_index.png"
+    },
+    {
+      "pass": true,
+      "label": "no readback frame advance empty_name_valid_index.png"
+    },
+    {
+      "pass": true,
+      "label": "same-readback native RGBA named_with_negative_index.png"
+    },
+    {
+      "pass": true,
+      "label": "original PNG SHA named_with_negative_index.png"
+    },
+    {
+      "pass": true,
+      "label": "actual native center red named_with_negative_index.png"
+    },
+    {
+      "pass": true,
+      "label": "no readback frame advance named_with_negative_index.png"
+    }
+  ],
+  "count": 15,
+  "failures": [],
+  "native_checks": 18,
+  "scope": "Independent wrapper/hash/native-pixel audit; no canonical fitted/Main/contact/performance admission."
+}

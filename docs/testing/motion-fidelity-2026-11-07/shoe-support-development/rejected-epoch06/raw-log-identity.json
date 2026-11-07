@@ -1,0 +1,8 @@
+{
+  "raw_bytes": 246534896,
+  "raw_sha256": "28ad32047d9111b7e87661616287811604eca32c4772897ebb287344777bf499",
+  "gzip_lossless": true,
+  "verdict": "wholeepochREJECTED runtimeerrors;53/4countsinvalid",
+  "cause": "_product declared Array[float] but conditional literal returned untyped Array; parser doesnotexecute dynamic return",
+  "correction_status": "candidate03explicit typedArray+actualmath smoke prepared; unexecuted"
+}

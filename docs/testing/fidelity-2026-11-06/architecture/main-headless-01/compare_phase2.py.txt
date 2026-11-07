@@ -1,0 +1,34 @@
+"""Compare exact native Main structural receipts, retaining raw runtime paths."""
+import gzip,json,re,sys
+from pathlib import Path
+
+def load(path):
+    data=path.read_bytes()
+    return json.loads(gzip.decompress(data) if path.suffix=='.gz' else data)
+
+def canonical_collision(record):
+    # Only Godot's automatically generated name suffix in the first path field.
+    # All native transform/layer/shape/property bytes after that stay untouched.
+    prefix,remainder=record.split('\", ',1)
+    prefix=re.sub(r'@([A-Za-z0-9_]+)@[0-9]+',r'@\1@<runtime>',prefix)
+    return prefix+'\", '+remainder
+
+def compare(a,b,c):
+    checks=[]
+    for key in a['world_contracts']:
+        av,bv,cv=(r['world_contracts'][key] for r in (a,b,c))
+        if key=='collision_records':
+            aa,bb,cc=(sorted(canonical_collision(value) for value in values) for values in (av,bv,cv))
+        else:aa,bb,cc=av,bv,cv
+        checks.append({'contract':key,'raw_original_candidate_equal':av==bv,'raw_original_control_equal':av==cv,
+            'canonical_original_candidate_equal':aa==bb,'canonical_original_control_equal':aa==cc})
+    return {'kind':'author_actual_Main_headless_structural_comparison','contracts':checks,
+        'inventory_delta':{key:b['world_inventory'][key]-a['world_inventory'][key] for key in a['world_inventory'] if isinstance(a['world_inventory'][key],(int,float))},
+        'baseline_control_inventory_identical':a['world_inventory']==c['world_inventory'],
+        'all_canonical_contracts_unchanged':all(row['canonical_original_candidate_equal'] and row['canonical_original_control_equal'] for row in checks),
+        'limits':'Headless geometry/resource inventory only. Raw runtime paths retained; only first-field @Class@digits path suffixes normalized. Serialized arrays/48B instance estimates are not GPU allocation. Draw/visual/timing/M5 open.'}
+
+if __name__=='__main__':
+    result=compare(*(load(Path(value)) for value in sys.argv[1:4]))
+    print(json.dumps(result,indent=2))
+    if not result['all_canonical_contracts_unchanged'] or not result['baseline_control_inventory_identical']:raise SystemExit(1)

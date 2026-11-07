@@ -1,0 +1,15 @@
+from pathlib import Path
+import json,hashlib,re,shutil
+R=Path('/workspace/tam_hawks_ps');D=R/'docs/testing/line-design-2026-11-06/coping-proportion-private-development-2026-11-07/actual-current-01';checks=[]
+def c(ok,label):checks.append({'pass':bool(ok),'label':label})
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+for name,digest in json.loads((D/'sha256.json').read_text()).items():c(sha(D/name)==digest,'original preserved byte hash '+name)
+b=json.loads((D/'source-before.json').read_text());a=json.loads((D/'source-after.json').read_text());r=json.loads((D/'receipt.json').read_text());c(b==a and len(b)==792,'all792 inventoried source inputs unchanged')
+log=(D/'native.log').read_text();c(len(re.findall(r'^PASS ',log,re.M))==190 and not re.search(r'^FAIL ',log,re.M),'all190 native PASS lines independently counted');c('ROOT COPING CURRENT: 190 passed, 0 failed' in log,'native final footer agrees');c(not any(x in log for x in ['ERROR:','SCRIPT ERROR:','Parse Error:']),'raw native engine log clean');c(r['result']=={'passed':190,'failed':0} and r['exit_code']==0 and not r['timed_out'] and not r['error_markers'],'recorded native wrapper result exit0/no deadline/error markers')
+post=json.loads((D/'entrypoint-post-preservation.json').read_text());c(len(post['files'])==2,'two executed entrypoint post-preservation records')
+for source,record in post['files'].items():
+ c(sha(D/record['archived_as'])==record['sha256'],'post-preserved exact entrypoint '+source)
+ c(source not in b and source not in a,'entrypoint absent from before/after inventory '+source)
+ c('Post-run preservation only' in record['preservation_scope'],'entrypoint identity limitation explicitly stated '+source)
+report={'schema':1,'reviewer':'/root/independent_qa','count':len(checks),'failures':[x for x in checks if not x['pass']],'checks':checks,'scope':'Actual-source190/0 complete four-module Clyde/Bowl/Feature/Connected scoped regression. Native process/result receipt retained; sourcebefore/after authenticates792 inventoried inputs. Two ignored entrypoint bytes were preserved after execution only, so no before-run entrypoint identity or whole-game/moving/force-bearing/Mac acceptance is invented.'}
+(D/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(__file__,D/'independent-verify.py.txt');index={p.name:sha(p) for p in D.iterdir() if p.is_file() and p.name!='independent-preservation.json'};(D/'independent-preservation.json').write_text(json.dumps(index,indent=2)+'\n');print({'count':len(checks),'failures':report['failures']})

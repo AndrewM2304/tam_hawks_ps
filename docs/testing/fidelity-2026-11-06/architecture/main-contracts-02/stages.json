@@ -1,0 +1,96 @@
+[
+  {
+    "label": "parse-main",
+    "command": [
+      "./tools/run.sh",
+      "--headless",
+      "--check-only",
+      "--script",
+      ".local/architectural-fidelity/main_probe.gd"
+    ],
+    "start_utc": "2026-11-07T04:20:20.499281+00:00",
+    "bound_seconds": 5,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:20:26.140398+00:00",
+    "changed_inputs": [],
+    "clean_log": true
+  },
+  {
+    "label": "parse-facade",
+    "command": [
+      "./tools/run.sh",
+      "--headless",
+      "--check-only",
+      "--script",
+      ".local/architectural-fidelity/facade_contract_runner.gd"
+    ],
+    "start_utc": "2026-11-07T04:20:26.141596+00:00",
+    "bound_seconds": 5,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:20:28.093948+00:00",
+    "changed_inputs": [],
+    "clean_log": true
+  },
+  {
+    "label": "baseline",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "baseline-materials-03",
+      "inventory"
+    ],
+    "start_utc": "2026-11-07T04:20:28.094881+00:00",
+    "bound_seconds": 35,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:20:47.923754+00:00",
+    "changed_inputs": [],
+    "clean_log": true
+  },
+  {
+    "label": "candidate",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "candidate-materials-01",
+      "inventory"
+    ],
+    "start_utc": "2026-11-07T04:20:48.024759+00:00",
+    "bound_seconds": 35,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:21:06.748902+00:00",
+    "changed_inputs": [],
+    "clean_log": true
+  },
+  {
+    "label": "facade",
+    "command": [
+      "./tools/run.sh",
+      "--headless",
+      "--fixed-fps",
+      "60",
+      "--script",
+      ".local/architectural-fidelity/facade_contract_runner.gd"
+    ],
+    "start_utc": "2026-11-07T04:21:06.749897+00:00",
+    "bound_seconds": 40,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:21:27.397120+00:00",
+    "changed_inputs": [],
+    "clean_log": true
+  },
+  {
+    "label": "control",
+    "command": [
+      "python3",
+      ".local/architectural-fidelity/run_main_probe.py",
+      "control-materials-01",
+      "inventory"
+    ],
+    "start_utc": "2026-11-07T04:21:27.473179+00:00",
+    "bound_seconds": 35,
+    "exit": 0,
+    "finish_utc": "2026-11-07T04:21:47.964214+00:00",
+    "changed_inputs": [],
+    "clean_log": true
+  }
+]

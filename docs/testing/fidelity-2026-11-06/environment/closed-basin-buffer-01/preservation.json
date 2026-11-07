@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "status": "BOUNDED_FRESH_NATIVE_BUFFER_ALLOCATION_PASS_ONLY",
+  "eligible": true,
+  "source_stable": true,
+  "source_inputs": 799,
+  "failures": 0,
+  "additional_native_buffer_bytes": 10580,
+  "ceiling_bytes": 65536,
+  "method": "Baseline recorded before candidatecreation. Replaces sole mesh and releases original; WeakRef null after inherited twelve natural rendered frames. Same one surface/draw/material/light/camera/viewport and texture allocation. Native per-process Performance.RENDER_BUFFER_MEM_USED; no Main or timing.",
+  "observations": "Actual buffer7452376\u21927462956bytes (+10580), draw1both, primitive256\u2192512, texture25478846bytes unchanged. This isolates mesh-resource allocation in LinuxGL, not whole-game or targetMacmemory.",
+  "limits": "No images or visual acceptance claimed for this allocation-only process. Source class preloads may hold unrelated constants equally in both states. Original and candidate are not retained together when measuring, unlike the earlier visualA/B/A.",
+  "preserved_files_sha256": {
+    "basin-buffer-report.json": "caddee7cfc0fe3a160cd167150afc8159aad4ebd54a6655cf89bed8481553cb8",
+    "display": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "engine.log": "29945cc1a787f134d04cfc73b68cfb36ef1f8a4d8d01902e7b6485a019d4debd",
+    "executed-source/game/levels/art/fountain_basin_mesh.gd.txt": "f569accb1a2fa3443005f6d51edcfb0ef67110cfaa9837456b972da64a1d6f02",
+    "executed-source/tools/environment_basin_buffer_probe.gd.txt": "b0db5e79c5541c38303052b9ae3fda059c980bf11f055a53c41c457edff0293f",
+    "executed-source/tools/environment_texture_probe.gd.txt": "e0dabfc2643f35ff330c0da6eea56d5db375c6dee8a70680740dfedfbd7378bf",
+    "executed-source/tools/environment_water_probe.py.txt": "9a0bf64807d17502c18b00ed2bbc351609d3ba46f482a8130ef75319c67db6cc",
+    "receipt.json": "c38bb37176050168f7f58c1a728ba01cdc34ae54900734ff3595723188576389",
+    "source-after.json": "305d675066426b6e31bf6f59ad3adae2285c4b922153e3981eb99ddd6c82d4cf",
+    "source-before.json": "305d675066426b6e31bf6f59ad3adae2285c4b922153e3981eb99ddd6c82d4cf",
+    "xorg-console.log": "fbda53d738d33b17c50f482d008f7d15f1cdddaf3d9f93fd4cb13a89fec3a25f",
+    "xorg.log": "e85877704a8c68fffb42e71dd6ed372407b1a4953aecb8839bd573274dac89e3"
+  }
+}

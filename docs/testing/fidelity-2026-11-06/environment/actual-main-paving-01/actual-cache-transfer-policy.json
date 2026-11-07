@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "copied_utc": "2026-11-07T04:11:10.548290+00:00",
+  "source_project": "/workspace/tam_hawks_ps/.local/environment-phase2/basin-topology-source",
+  "destination_project": "/workspace/tam_hawks_ps/.local/environment-phase2/main-paving-source",
+  "actual_cache_subdirectories": [
+    {
+      "relative_path": ".local/data/godot/app_userdata/Tam Hawks Pro Skater/shader_cache",
+      "source_exists": true,
+      "files": 30
+    },
+    {
+      "relative_path": ".local/cache/mesa_shader_cache",
+      "source_exists": true,
+      "files": 0
+    },
+    {
+      "relative_path": ".local/cache/mesa_shader_cache_db",
+      "source_exists": true,
+      "files": 102
+    }
+  ],
+  "policy": "Copied only compiled Godot/Mesa shader caches into independent private XDG directories. No profile/save/Music or config state copied. Source/assets/import records unchanged. Warm qualitative images only; no cold/timing/exclusivity claim.",
+  "correction": "Earlier .godot/shader_cache assumption was false: runtime shader caches live under tools/run.sh per-project XDG paths. Earlier projects copied imported .godot data, not cross-run compiled shader caches; original raw statements preserved with a later scope addendum."
+}

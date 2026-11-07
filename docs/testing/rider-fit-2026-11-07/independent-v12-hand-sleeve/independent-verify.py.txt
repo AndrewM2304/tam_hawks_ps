@@ -1,0 +1,45 @@
+from pathlib import Path
+import json,hashlib,gzip,re,math,shutil
+from PIL import Image
+import numpy as np
+R=Path('/workspace/tam_hawks_ps');H=R/'.local/rider-fit-staging';D=R/'docs/testing/rider-fit-2026-11-07/independent-v12-hand-sleeve';D.mkdir(exist_ok=True);checks=[];reports=[]
+sha=lambda b:hashlib.sha256(b).hexdigest()
+def c(ok,label,actual=None):checks.append({'pass':bool(ok),'label':label,'actual':actual})
+def vector(s):return np.array([float(x) for x in re.findall(r'[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?',s)])
+for epoch in ['v10-v12-hand-control','v12-six']:
+ P=H/'epochs'/epoch;T=D/epoch;T.mkdir(exist_ok=True);data=json.loads((P/'output/receipt.json').read_text());reports.append(data)
+ index=json.loads((P/'index.json').read_text())['files'];c(all(sha((P/k).read_bytes())==v['sha256'] and (P/k).stat().st_size==v['bytes'] for k,v in index.items()),'all exact epoch pins '+epoch,len(index))
+ c(data['source_sha256']==data['source_after_sha256'] and data['source_stable'] and data['failures']==0,'native source stable and no observer failures '+epoch)
+ c(not any(e in (P/name).read_text() for name in ['native.log','import.log','console.log'] for e in ['ERROR:','SCRIPT ERROR:','Parse Error:']),'all raw import/native/console logs clean '+epoch)
+ for name in ['receipt.json']:(T/(name+'.gz')).write_bytes(gzip.compress((P/'output'/name).read_bytes(),mtime=0))
+ for name in ['native.log','import.log','console.log','index.json']:shutil.copyfile(P/name,T/name)
+ for f in data['frames']:
+  ims=[]
+  for folder,key,encodedkey in [('', 'native_rgba_sha256','png_sha256'),('synchronization','synchronization_native_rgba_sha256','sync_png_sha256')]:
+   p=P/'output'/folder/(f['label']+'.png');im=Image.open(p).convert('RGBA');ims.append(im);c(sha(im.tobytes())==f[key] and sha(p.read_bytes())==f[encodedkey],'exact nativePNG/RGBA '+epoch+'/'+folder+'/'+f['label'])
+   q=T/folder/(f['label']+'.webp');q.parent.mkdir(exist_ok=True);im.save(q,format='WEBP',lossless=True,exact=True,method=3);c(Image.open(q).convert('RGBA').tobytes()==im.tobytes(),'lossless archived nativeRGBA '+str(q.relative_to(D)))
+  pose=f['native_state'];c(all(f[k]==pose for k in ['pose_before_proof_readback','pose_after_proof_readback','pose_before_clean_readback','pose_after_clean_readback']),'all actualcamera/head/rider/bone brackets exact '+epoch+'/'+f['label'])
+  c(all(pair[0]==pair[1] for pair in [f['proof_readback_counter_bracket'],f['clean_readback_counter_bracket']]),'no physics/process advance within either readback '+epoch+'/'+f['label'])
+  camera=np.array(pose['camera_global'],dtype=float);projection=np.array(pose['camera_projection_columns'],dtype=float).T
+  for channel,marker in enumerate(f['synchronization']):
+   world=vector(marker['world']);clip=projection@np.linalg.inv(camera)@np.r_[world,1];uv=np.array([(clip[0]/clip[3]*.5+.5)*1280,(.5-clip[1]/clip[3]*.5)*800]);stated=vector(marker['projected']);c(float(np.linalg.norm(uv-stated))<.02,'independentnumeric worldprojection '+epoch+'/'+f['label']+'/'+str(channel),float(np.linalg.norm(uv-stated)))
+   points=[]
+   for y in range(max(0,int(stated[1])-12),min(800,int(stated[1])+13)):
+    for x in range(max(0,int(stated[0])-12),min(1280,int(stated[0])+13)):
+     rgb=ims[1].getpixel((x,y))[:3];clean=ims[0].getpixel((x,y))[:3]
+     if sum(abs(rgb[k]-clean[k]) for k in range(3))>30.6 and rgb[channel]>191.25 and all(rgb[channel]-rgb[k]>51 for k in range(3) if k!=channel):points.append((x+.5,y+.5))
+   error=math.dist(np.mean(points,axis=0),stated) if points else math.inf;c(len(points)==marker['count'] and error<2.5,'actual independent3Dmarker pixels '+epoch+'/'+f['label']+'/'+str(channel),error)
+control=next(f for f in reports[0]['frames'] if f['label']=='idle-hand');candidate=next(f for f in reports[1]['frames'] if f['label']=='idle-hand')
+for key in ['camera_global','camera_projection_columns','camera_near','camera_far','viewport_pixels','head_global','rider_global','skeleton_global','bone_global_pose_in_skeleton']:
+ c(control['native_state'][key]==candidate['native_state'][key],'matched original1024/candidate packed512 actual '+key)
+a=control['native_state']['actual_hand_foot_mesh_transforms_and_blend_shapes'];b=candidate['native_state']['actual_hand_foot_mesh_transforms_and_blend_shapes'];c(a.keys()==b.keys() and all(a[k]['global_transform']==b[k]['global_transform'] and a[k]['blend_shape_values']==b[k]['blend_shape_values'] for k in a),'all native contact meshes/transforms/curls match; materialUV intentionally differs')
+for key,value in b.items():
+ if not key.endswith('HandAndFingers'):continue
+ for material in value['native_materials']:
+  uv=material['native_uv1'];c(all(abs(x-3.45)<1e-6 for x in uv['uv1_scale'][:2]) and uv['texture_repeat'] and all(math.isfinite(x) for x in uv['uv1_offset']),'actual native positive uniform packed handUV '+key,uv)
+for epoch,labels in [('v10-v12-hand-control',['idle-hand']),('v12-six',['idle-hand','npc-drummer','npc-steward'])]:
+ for label in labels:
+  p=H/'epochs'/epoch/'output'/(label+'.png');q=D/epoch/'selected-original-png'/p.name;q.parent.mkdir(exist_ok=True);shutil.copyfile(p,q)
+shutil.copyfile(H/'v12-matched-comparison.json',D/'author-matched-comparison.json');shutil.copyfile(H/'epochs/v12-six/source/preview.gd',D/'executed-candidate-observer.gd.txt');shutil.copyfile(H/'epochs/v10-v12-hand-control/source/preview.gd',D/'executed-control-observer.gd.txt');shutil.copyfile(H/'epochs/v12-six/source/game/art/rider/hand-atlas-layout.json',D/'hand-atlas-layout.json');shutil.copyfile(__file__,D/'independent-verify.py.txt')
+report={'schema':1,'reviewer':'/root/independent_qa','checks':len(checks),'failures':sum(not x['pass'] for x in checks),'checks_detail':checks,'visual_scope':'Personally inspected exact native original1024hand, packed512V12hand, V12drummer andV12steward; other7clean/proof pairs receive computational integrity checks, not an all-poses visual claim.','verdict':'Bounded hand-detail recovery and sleeve-mask improvement: V12 hand shows comparable visible knuckle/nail/finger detail at identical camera/nativepose, unlike rejected global512 reduction. Drummer veststripe no longer covers sleeves. Steward vestleftside remains ragged/blackfragments; finalwardrobe/AAA/fittedMain/contact remain open.','limits':['Private authored studios are not actualinput/Main/motion/targetMac.','Native per-process texture/counters are not certifiedMacVRAM/performance.','Uniform positive materialUV transform and nativeRepeat are measured; this is not an independent every-source-texel/UVchart packing proof.','All14nativeclean/proof images losslessly re-encodedWebP, fullnativeRGBAhashes retained in rawgz receipts; four selected originalPNGs retained verbatim.','Native renderer errors elsewhere do not inherit acceptance from this privateart packet.']}
+(D/'independent-review.json').write_text(json.dumps(report,indent=2)+'\n');index={str(p.relative_to(D)):sha(p.read_bytes()) for p in D.rglob('*') if p.is_file() and p.name!='preservation.json'};(D/'preservation.json').write_text(json.dumps(index,indent=2)+'\n');print({'checks':len(checks),'failures':[x for x in checks if not x['pass']]})

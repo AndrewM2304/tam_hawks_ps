@@ -1,21 +1,179 @@
 {
-  "schema": 2,
-  "reviewer": "independent_qa",
-  "reviewed_utc": "2026-11-07T02:26:34.467029+00:00",
-  "scope": "Independent process extension audit. Twelve-role/skill structure and new deformed-contact role/skill cold-read pass; no game implementation/art acceptance.",
-  "documents": 30,
-  "links": 160,
-  "broken": [],
-  "roles": 12,
-  "skills": 12,
-  "detailed_tickets": 20,
-  "missing_fields": [],
-  "source_documents": {
+  "schema": 1,
+  "reviewer": "/root/independent_qa",
+  "reviewed_utc": "2026-11-07T05:11:29.218851+00:00",
+  "checks": 31,
+  "failures": 0,
+  "checks_detail": [
+    {
+      "pass": true,
+      "label": "twelve actual persistent role briefs",
+      "actual": 12
+    },
+    {
+      "pass": true,
+      "label": "twelve actual persistent skill entrypoints",
+      "actual": 12
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster ba-verifier.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster combo-engineer.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster contact-rigging-engineer.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster environment-architect.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster environment-artist.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster level-designer.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster motion-engineer.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster rendering-engineer.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster rider-artist.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster rigging-engineer.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster studio-director.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "role discoverable from roster technical-qe.md",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata architectural-fidelity",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata combo-usability",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata deformed-contact",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata environment-fidelity",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata gameplay-qa",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata quality-verification",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata renderer-evaluation",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata rider-fidelity",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata rigging-validation",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata skate-level-design",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata skating-motion",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "matching named skill metadata studio-production",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "all local durable role/skill/entrypoint links resolve",
+      "actual": {
+        "count": 137,
+        "broken": []
+      }
+    },
+    {
+      "pass": true,
+      "label": "contact specialist preserves native binding/model/contact authority",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "contact skill declares actual CPU/cache and unmeasuredM5budgets",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "roster honestly distinguishes persistent instructions from runtime agents",
+      "actual": null
+    },
+    {
+      "pass": true,
+      "label": "studio reconciles role count/contact ownership",
+      "actual": null
+    }
+  ],
+  "scope": "Independent contact-rigging role/skill cold-read and complete12role/12skill entrypoint/link/metadata discovery audit. FID002 setup component only; not feature/ticket/AAA acceptance.",
+  "limits": [
+    "QA authored the gameplay-qa skill and its recent native clock/capture additions; this link/metadata audit does not independently accept those semantic additions.",
+    "Earlier independent BA/role extension scopes retain their exact original claims.",
+    "No future automatic spawning/runtime registration, unattended agent or measuredM5 result is implied."
+  ],
+  "source_sha256": {
     "AGENTS.md": "53f45f39d5e1b12ade4b41d9a06fae856259828aeca0ae84fc748e3610b355f9",
-    "docs/planning/RESUME.md": "6cc47f025f6af237112e46a97898bfb8c7ece30fccec9468e374da21bb1b1338",
+    "docs/planning/RESUME.md": "d8991e8a79a84f7b82aae14475d3073877c38cd0fdfc9d0b5affd72021db24b6",
     "docs/planning/STUDIO.md": "cd451aae580e322ea3ce975aa012d53f7a675d189de3e4ebc9d28229f1e5d44f",
-    "docs/product/AAA_BENCHMARK.md": "31c28af085056ffd664bdfe7ba5f7f3e161b8a246c212400c8e62d51b4424b1b",
-    "docs/planning/FIDELITY_TICKETS.md": "4a814d519ae7078dcc6ddac816776e61315ebe6666955bfc7c22e7266719935f",
     ".agents/agents/README.md": "dffcd0e7f30ea75e478876e45b59947a74c6a385a7d6801bb77b77ef2e88ef05",
     ".agents/agents/ba-verifier.md": "169b86933adab70edb5000b0b6539e7f7762d7b52ebd9322f42715904742aa6c",
     ".agents/agents/combo-engineer.md": "d01389f86917b02d6fd7ba2180361e1360053da7b8500b663eb53846490a10ec",
@@ -29,18 +187,17 @@
     ".agents/agents/rigging-engineer.md": "d50b8bbba3636952a38eee652c3f3872052bb13341fcb32a4784131289fe33ff",
     ".agents/agents/studio-director.md": "66472843690141cdf626d2a4d25dd0eef2f77cc0240691cf4aa1d4a17b12bf4b",
     ".agents/agents/technical-qe.md": "c97a6faf5412ff83fe112180b7406840ed2b76c7055776427316f3176eb9ea5e",
-    ".agents/skills/architectural-fidelity/SKILL.md": "68f65c8d0706944ed418b364f58074061f1674d92b8f2d4b80a99a138e128424",
+    ".agents/skills/architectural-fidelity/SKILL.md": "320340bd6cc03cbc7fe54bce68677547eb8f0fccbe2eadff670c8d04d70c9b14",
     ".agents/skills/combo-usability/SKILL.md": "e61ee2d2317c50f483948fb7c940fcf14aceee071b53fefc5d82437109d8f19a",
-    ".agents/skills/deformed-contact/SKILL.md": "7b7d3f4c40eb573e902ab0dd7f9fc3b45849f87fb2cfc252053a05a6050c918f",
-    ".agents/skills/environment-fidelity/SKILL.md": "4b59f95798c57cde8411fc3a4649d01613091a255ca7f20adcc43a8c20ecb058",
-    ".agents/skills/gameplay-qa/SKILL.md": "4f493e45f6f58037dca89772f3e426a27d9eafef5d008101b7a2292b666ac650",
+    ".agents/skills/deformed-contact/SKILL.md": "075cf448ac9d47090c55109e85706e8fbe165bbd1d50708b269c399b64fedf28",
+    ".agents/skills/environment-fidelity/SKILL.md": "8c8c6f4852af061a0c9d5b42e1ebe53a64cf0ce989f716d99a2c8581b20e6bc1",
+    ".agents/skills/gameplay-qa/SKILL.md": "41624fe8e140fc96e0c1509a5f1558afc7bbe965ae884e38d2c6760ce3b5c469",
     ".agents/skills/quality-verification/SKILL.md": "1a436c34c9407cbe80bd338c3f606d33c14d9513049aa37aa56a933479f1307b",
     ".agents/skills/renderer-evaluation/SKILL.md": "8293ff95b5e27b0f4126f262227daca9ca2326a9a044fc58ccb3a6aa605273ae",
-    ".agents/skills/rider-fidelity/SKILL.md": "c23bf79e0442394a6a887b702acc2f87efe1151260eb97f86621ae5084411536",
-    ".agents/skills/rigging-validation/SKILL.md": "e802ac5a64c13daff39a1f1fadaf5c0cc97b84a84aca01e116cd6a5743722c83",
-    ".agents/skills/skate-level-design/SKILL.md": "342438494adfdaac5857f92cf4b4ac02c9438ba943b0f8f463528322ac524bed",
-    ".agents/skills/skating-motion/SKILL.md": "3eba34afbcc4032cbe733186a6c4840d2e1fd946a377aa2435fc012622783d5b",
+    ".agents/skills/rider-fidelity/SKILL.md": "bd0d29c2de1159d338bafdae6aba0cfe737f45f250b35e1a65248b01d59b0f22",
+    ".agents/skills/rigging-validation/SKILL.md": "4c98de2b50135a316f7c4a6b7a03184fa5085d26eb5cd87adb88f96256f57953",
+    ".agents/skills/skate-level-design/SKILL.md": "75b6f85cf98f13fd9d6e1991047d0be6feb488d708366837b6dd09c5e6739304",
+    ".agents/skills/skating-motion/SKILL.md": "42bc053a5aca56636d6c1154fba266ce05069389ee7aed6a376970787b23b2d3",
     ".agents/skills/studio-production/SKILL.md": "abfed78c327d48550bc0b2ac3c89bb298c0ed473f5ac95e6d8a99a0dcf1ca5bf"
-  },
-  "independence": "Architecture, rigging and deformed-contact roles and skills authored by other specialists; gameplay-qa skill authored by this reviewer and independently reviewed by studio_production. Prior nine-, ten- and eleven-role audits remain historical."
+  }
 }

@@ -1,0 +1,18 @@
+from pathlib import Path
+import json,hashlib,gzip,math
+from PIL import Image
+p=Path(__file__).resolve().parent;sha=lambda b:hashlib.sha256(b).hexdigest();files=json.loads((p/'retained-files.json').read_text())
+for name,r in files.items():
+ raw=(p/name).read_bytes();assert sha(raw)==r['sha256'],name
+ if 'uncompressed_sha256' in r:assert sha(gzip.decompress(raw))==r['uncompressed_sha256'],name
+receipts={}
+for role in ['control','candidate']:
+ j=json.loads(gzip.decompress((p/(role+'-receipt.json.gz')).read_bytes()));receipts[role]=j;assert j['failures']==0 and j['source_sha256']==j['source_after_sha256']
+ for f in j['frames']:
+  for suffix,key in [('', 'native_rgba_sha256'),('-proof','synchronization_native_rgba_sha256')]:assert sha(Image.open(p/(role+'-'+f['label']+suffix+'.png')).convert('RGBA').tobytes())==f[key]
+for a,b in zip(receipts['control']['frames'],receipts['candidate']['frames']):
+ c=a['native_state'];d=b['native_state'];assert all(c[k]==d[k] for k in c if k!='bone_global_pose_in_skeleton')
+ for name in ['left_thigh','right_thigh','left_calf','right_calf']:
+  length=.43 if name.endswith('thigh') else .41;x=c['bone_global_pose_in_skeleton'][name];y=d['bone_global_pose_in_skeleton'][name]
+  delta=math.sqrt(sum((x[k][3]+x[k][1]*length-y[k][3]-y[k][1]*length)**2 for k in range(3)));assert delta<1e-6
+print('PASS retained8buffers/source receipts and current endpoints. Original independent integrity57/0; promotion remains rejected for missing temporal continuity.')

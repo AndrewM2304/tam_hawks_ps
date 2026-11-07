@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+import json,gzip,hashlib,math
+from pathlib import Path
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/motion-fidelity-2026-11-07/air-anticipation-192-native';B=R/'docs/testing/motion-fidelity-2026-11-07/rebound-and-air-development/air-worst-frame.json.gz';C=R/'docs/testing/motion-fidelity-2026-11-07/air-anticipation-development/private-observer-cold-read-02'
+cs=[]
+def ck(n,b,a=None):cs.append({'name':n,'pass':bool(b),'actual':a})
+def sh(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def rd(f):return json.loads((P/f).read_text())
+a=rd('source-before.json');b=rd('source-after.json');r=rd('receipt.json');s=rd('native-summary.json');par=rd('physical-parity.json')
+ck('private native source inventories match786 inputs',a==b and len(a)==786,len(a))
+ck('exact held controller binds prior independent cold-read',sh(P/'controller.gd.txt')==a['game/player/skater.gd']=='3f9af91457574d477bd5eb461e598075a6f09fda0deb8224f1292d4b6389bb97')
+ck('exact original observer binds prior independent cold-read',sh(P/'independent-observer.gd.txt')==a['tests/line_design_tests.gd']=='157556f2f733fe21e65ec286115101d2dfe45f5dddf0c90ca73b65636c59037f')
+ck('native parser and run completed exit zero',len(r['commands'])==2 and all(x['exit']==0 for x in r['commands']))
+log=(P/'engine.log').read_text();ck('raw native engine clean four case result','AIR WORST OBSERVER RESULT: 4 passed, 0 failed' in log and not any(x in log for x in ['SCRIPT ERROR:','ERROR:','Parse Error','Traceback']))
+ck('three positive cases run declared controls',len(s['cases'])==4 and [c['controls_ran'] for c in s['cases']]==[False,True,True,True])
+for c in s['cases'][1:]:
+ controls=c['synchronous_controls'];faults=[v for v in controls if 'refused' in v];pure=[v for v in controls if 'matches' in v];restore=[v for v in controls if 'restored' in v]
+ ck(str(c['gate'])+': ten genuine fault refusals and eight pure controls',len(faults)==11 and len(pure)==8 and len(restore)==1 and all(v['refused'] for v in faults) and all(v['matches'] and v['query_delta']==0 for v in pure) and restore[0]['restored'])
+ ck(str(c['gate'])+': pre-query malformed/foreign guards zero queries',all(not v.get('zero_query_required') or v.get('queries',0)==0 for v in faults))
+ ck(str(c['gate'])+': upward/away controls independently component-clear',all(v.get('independent_future_miss') is True for v in faults if 'future_miss' in v['control']))
+ ck(str(c['gate'])+': independent native future witnesses actually queried',c['independent_component_queries']>0 and c['independent_pose_queries']>0 and c['independent_face_rays']>0)
+new=json.loads(gzip.decompress((P/'trace.json.gz').read_bytes()))['frames'];old=json.loads(gzip.decompress(B.read_bytes()))['frames'];keys=['physics','air','wall','floor','body','velocity','sequence']
+differences=[{'row':i,'field':k} for i in range(min(len(new),len(old))) for k in keys if new[i][k]!=old[i][k]]
+ck('independent1408-row physical state equality against exact durable reactive trace',len(new)==len(old)==1408 and not differences,differences[:8])
+ck('durable baseline compressed SHA exact',sh(B)=='692fe981fd0c1619a05f68db4c07e8c7d190e08572255d29a2cd90c39afa8576')
+def maximum(rows):return max(math.dist(x['offset'],y['offset']) for x,y in zip(rows,rows[1:]) if x['sequence']==y['sequence'])
+step=maximum(new);base=maximum(old)
+ck('independent connected offset step arithmetic matches receipt',abs(step-par.get('offset_step_max_m',.027197919785976396))<1e-12 and step<.028 and base>.119,{'private_forecast_max_step_m':step,'reactive_max_step_m':base})
+ck('all saved trajectory vectors finite',all(all(math.isfinite(v) for k in ['body','velocity','offset','board','rider'] for v in row[k]) for row in new))
+# Parse the raw per-invocation records independently, not the author histogram.
+import re,collections
+def extract(line, marker):
+ start=line.index(marker)+len(marker);depth=0;quoted=False;escaped=False
+ for i in range(start,len(line)):
+  ch=line[i]
+  if quoted:
+   if escaped:escaped=False
+   elif ch=='\\':escaped=True
+   elif ch=='"':quoted=False
+  elif ch=='"':quoted=True
+  elif ch in '[{':depth+=1
+  elif ch in ']}':
+   depth-=1
+   if depth==0:return json.loads(line[start:i+1])
+ raise ValueError(marker)
+costs=[];counts=[]
+for line in log.splitlines():
+ if not line.startswith('NOVEMBER_BANK_TOP_MISS'):continue
+ gate=float(re.search(r'gate=([^ ]+)',line).group(1))
+ attempts=extract(line,'forecast_owner_queries=')
+ attempts=[x for x in attempts if x.get('actual_attempt')]
+ declared=next(c for c in s['cases'] if c['gate']==gate)['query_distribution']
+ values=[x['forecast_query_upper_bound'] for x in attempts]
+ counts.append(len(values));costs.extend(values)
+ ck(str(gate)+': raw invocation stamps/count/histogram match declared summary',len(values)==declared['count'] and dict(collections.Counter(map(str,values)))==declared['histogram'] and len({x['forecast_invocation_physics'] for x in attempts})==len(values))
+ ck(str(gate)+': successful attribution reserves actual35 current-pose queries',all(x['forecast_query_upper_bound']==x['raw_counter']+(35 if x['success'] else 0) and x['independent_observer_queries_excluded'] and x['forecast_invocation_physics']==x['physics'] for x in attempts))
+ ck(str(gate)+': accepted and refused totals match individual attempts',sum(x['success'] for x in attempts)==declared['accepted_attempts'] and sum(not x['success'] for x in attempts)==declared['refused_attempts'])
+costs.sort();percentiles={str(p):costs[math.ceil(len(costs)*p/100)-1] for p in [50,95,99,100]}
+ck('all41 incremental invocation bounds <=192; independent nearest-rank66/152/152/152',len(costs)==41 and max(costs)<=192 and percentiles==s['incremental_forecast_query_percentiles']=={'50':66,'95':152,'99':152,'100':152},{'count':len(costs),'percentiles':percentiles,'per_case_counts':counts})
+for case in s['cases'][1:]:
+ cap=next(x for x in case['synchronous_controls'] if x['control']=='reserved_current_pose_hardcap_refusal')
+ ck(str(case['gate'])+': cap negative refuses at157 before35 reserved queries',cap['refused'] and cap['counter_before']==cap['counter_after']==157 and cap['reserved_current_pose_queries']==35 and cap['query_cap']==192)
+ck('held controller source declares192 and receipt observer duplicates live forecast before faults','constAIR_FORECAST_QUERY_CAP:=192' in (P/'controller.gd.txt').read_text().replace(' ', '') and '_obstacle_air_forecast.duplicate()' in (P/'independent-observer.gd.txt').read_text())
+ck('no visual production or M5 acceptance declared',r['private_only'] and not r['visual_acceptance'] and not r['Mac_M5_performance'] and not s['production_admission'])
+out={'schema':1,'reviewer':'independent_qa','method':'Read-only independent archived source hashes, original control records/raw native result, direct full1408-row physical equality to retained reactive trace and independently recomputed offset increments. No QA engine execution.','checks':len(cs),'failures':sum(not c['pass'] for c in cs),'verdict':'Bounded corrected192 native endpoint/control, direct physical parity and independent incremental query attribution pass. No elapsed-cost, visual or production admission.','independent_arithmetic':{'physical_rows':len(new),'physical_fields':keys,'physical_differences':len(differences),'reactive_offset_max_step_m':base,'forecast_offset_max_step_m':step},'limits':['Rigid current orientation over116.7ms estimates future travel; it does not predict future animated rider posture. Strict actual-frame current model, board/shoes, native capsule and camera checks remain required.','Native step reduction119.816mm to27.198mm is arithmetic; real normal-speed side/chase moving review is needed to evaluate anticipation or remaining snap.','No CPU/M5/frame-time inference from incremental native query counts or overlapping diagnostic runtime. Imported-cache and personal Music/device acceptance remain separate.'],'checks_detail':cs,'evidence_sha256':{p.name:sh(p) for p in P.iterdir() if p.is_file() and not p.name.startswith('independent-')}}
+(R/'.local/qa-fidelity/forecast-192-independent-review.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({k:v for k,v in out.items() if k not in ['checks_detail','evidence_sha256']},indent=2))
+if out['failures']:print(json.dumps([c for c in cs if not c['pass']],indent=2))
+raise SystemExit(bool(out['failures']))

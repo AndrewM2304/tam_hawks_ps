@@ -16,7 +16,7 @@ Load docs/product/AAA_BENCHMARK.md, docs/planning/FIDELITY_TICKETS.md and the cu
 
 Default file ownership: game/player/skater_anatomy.gd, skater_garments.gd, skater_footwear.gd, skater_visual.gd; game/art/rider; tools/rider_asset*. Do not commit/merge during a shared swarm; report to orchestrator.
 
-Asset reproduction: tools/rider_asset_acquire.py verifies the exact CC0 skin pack members; tools/rider_asset_bake.py masks the retained anatomical UV islands and paints original garment maps; tools/rider_asset_hair.py builds the original short crop. Read game/art/rider/SKIN-NOTICE.md and both manifests first. Keep full source body atlases in ignored local storage. Write generated outputs atomically, coordinate a single editor import lease, and never bake maps while another agent imports or captures. Preserve explicit VRAM compression, normal-map modes and mipmaps in each tracked .import file. A valid PNG with invalid import metadata still fails runtime loading.
+Asset reproduction: read game/art/rider/SKIN-NOTICE.md and the actual current manifests before selecting a pipeline. The admitted phase1 pipeline and private fitted candidate differ; do not copy rejected staging resources into main. The fitted pipeline verifies original BODY/morph pins, selected CC0 source members and explicit licence headers, then builds only selected derivatives with its declared generator chain. It replaces the old procedural crop/maps only after native admission. Keep full source body atlases in ignored local storage. Write generated outputs atomically and coordinate a single editor import lease. Never mutate source resources during another agent's import or source-bound capture. Preserve explicit VRAM compression, normal-map modes and mipmaps in each tracked .import file. A valid PNG with invalid import metadata still fails runtime loading.
 
 Current provisional scope budget: at most 65,000 actual rider source triangles and 64 MiB conservative unique RGBA mip texture estimate. Report actual mesh/surface counts too. These limits do not establish target GPU performance. Shared immutable anatomy surfaces may be cached once; hand blend values remain per MeshInstance3D. Never claim zero runtime mesh construction when startup copies exist.
 
@@ -49,12 +49,21 @@ independently reviewed rejected and bounded-positive epochs):
 - Classify source shoe socks by authenticated connected UV islands, not height.
   A35mm triangle-height crop removed real vamp faces and created visible holes.
   Cache each side's actual native Cupsole vertices; preserve toe/palm contracts.
+  A real upper can overhang its outsole: floor/grip contacts use the actual sole,
+  while horizontal walls need the actual full shoe support geometry. Do not
+  distort source footwear to satisfy an obsolete sole-encloses-upper assumption.
 - Geometric clipping plus interpolated weights does not preserve a source
   triangle's deformed surface. Prefer exact source vertices/weights with authored
   UV coverage for garment overlays, or measure and validate a new binding.
 - Preserve caller-owned shirt/denim material identity and live colour changes.
   Footwear must duplicate shared caller materials before changing their maps.
   Exercise actual NPC constructors and their hats, vests, aprons and instruments.
+- A smaller full hand atlas visibly lost nail/knuckle detail. Pack authenticated
+  palm/nail UV islands with a positive uniform material UV transform when useful;
+  original hand vertex streams, blend shapes and contact geometry stay intact.
+  Verify repeat tiles, padding, source sampling and actual bound UV properties,
+  then compare matched native hand closeups. Texture dimensions alone prove
+  neither preserved detail nor native allocation.
 - Capture native RGBA and PNG hashes, full numeric camera/projection and all
   actual bone/model matrices, proof/clean pose and tick brackets, source inventories
   before AND after, and raw engine logs. Archive only receipt-listed current

@@ -16,7 +16,9 @@ weights and rejecting more than 32 groups cannot support it. Do not retune old
 procedural cylinder rows or weaken contact tolerances to fit a replacement mesh.
 
 1. Cache real indexed native geometry and resolve every nonzero influence through
-   its actual Skin binding and Skeleton bone. Include every endpoint of each arm
+   its actual Skin binding and Skeleton bone. Match native name-first binding
+   resolution: any nonempty name takes precedence, and a missing name fails closed
+   without falling back to a valid index. Include every endpoint of each arm
    incident triangle, not synthetic radius witnesses. The convex hull of the
    deformed triangle endpoints encloses the rendered triangle.
 2. Bound the actual per-vertex linear blend using current native inverse binds and

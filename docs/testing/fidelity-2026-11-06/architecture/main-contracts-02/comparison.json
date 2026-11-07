@@ -1,0 +1,64 @@
+{
+  "kind": "author_actual_Main_headless_structural_comparison",
+  "contracts": [
+    {
+      "contract": "collision_records",
+      "raw_original_candidate_equal": false,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "gap_records",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "grind_records",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "route_records",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "terrain_patches",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "terrain_polygons",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    }
+  ],
+  "inventory_delta": {
+    "geometry_instances": 3347,
+    "mesh_array_serialized_bytes": 142720,
+    "mesh_draw_nodes": -7,
+    "multimesh_transform_estimate_bytes": 160656,
+    "native_bodies": 0,
+    "native_shapes": 0,
+    "recess_shells": 16,
+    "source_triangle_instances": 65854,
+    "unique_materials": -1,
+    "unique_meshes": 1
+  },
+  "baseline_control_inventory_identical": true,
+  "all_canonical_contracts_unchanged": true,
+  "limits": "Headless geometry/resource inventory only. Raw runtime paths retained; only first-field @Class@digits path suffixes normalized. Serialized arrays/48B instance estimates are not GPU allocation. Draw/visual/timing/M5 open.",
+  "bound_map_resource_metadata_multisets_equal": true,
+  "first_consumer_note": "Three shared sandstone maps are first encountered on stone_light rather than stone in candidate; same path/class/native dimensions and multiplicity."
+}

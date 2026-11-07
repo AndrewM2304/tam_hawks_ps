@@ -1,0 +1,46 @@
+"""Author integrity/budget check for exact private Main21-frame originals."""
+from pathlib import Path
+import gzip,hashlib,json,math
+from PIL import Image
+ROOT=Path(__file__).resolve().parents[2]
+PACKET=ROOT/'docs/testing/fidelity-2026-11-06/architecture/main-graphics-03'
+checks=[]
+def check(ok,label):
+    checks.append({'pass':bool(ok),'message':label})
+    if not ok:raise AssertionError(label)
+reports=[]
+for label in ('graphics-original-01','graphics-candidate-01','graphics-control-01'):
+    folder=PACKET/label;raw=gzip.decompress((folder/'architecture-main.json.gz').read_bytes());report=json.loads(raw);reports.append(report)
+    archives=json.loads((PACKET/'archive-identities.json').read_text())[label]
+    check(hashlib.sha256(raw).hexdigest()==archives['uncompressed_sha256'],'Exact recovered raw engine JSON: '+label)
+    receipt=json.loads((folder/'receipt.json').read_text());before=json.loads((folder/'source-before.json').read_text());after=json.loads((folder/'source-after.json').read_text())
+    check(before==after and receipt['source_stable'] and receipt['clean_engine_log'] and receipt['engine_exit']==0 and report['failures']==0,'Clean native exit and exact stable inputs: '+label)
+    check(len(report['frames'])==4 and len(report['sync_proofs'])==3,'Exactly4real views and3separate synchronization proofs: '+label)
+    for record in report['frames']+report['sync_proofs']:
+        image=Image.open(folder/record['file']).convert('RGBA')
+        check(image.size==(1280,800) and hashlib.sha256(image.tobytes()).hexdigest()==record['pixels']['rgba8_sha256'],'Full native RGBA8 identity: '+label+'/'+record['file'])
+    for proof in report['sync_proofs']:
+        image=Image.open(folder/proof['file']).convert('RGBA');pixels=image.load()
+        check(proof['same_native_frame'],'Same native readback frame: '+label+'/'+proof['file'])
+        check(list(pixels[tuple(proof['canvas_pixel'])])==proof['canvas_expected'],'Actual current Canvas pixels: '+label+'/'+proof['file'])
+        for marker in proof['markers']:
+            px,py=marker['projected_pixel'];points=[]
+            for y in range(max(0,int(py)-12),min(800,int(py)+13)):
+                for x in range(max(0,int(px)-12),min(1280,int(px)+13)):
+                    r,g,b,_=pixels[x,y];r/=255;g/=255;b/=255
+                    found=r>.75 and r-g>.20 and r-b>.20 if marker['color_channel']=='red' else g>.75 and g-r>.20 and g-b>.20
+                    if found:points.append((x+.5,y+.5))
+            centroid=tuple(sum(point[i] for point in points)/len(points) for i in (0,1)) if points else (0,0)
+            check(len(points)==marker['count'] and len(points)>=4 and math.dist(centroid,(px,py))<=2.5,'Independent projected marker pixels: '+label+'/'+proof['file']+'/'+marker['kind'])
+for a,b,c in zip(*(report['frames'] for report in reports)):
+    check(a['file']==b['file']==c['file'] and all(a[key]==b[key]==c[key] for key in ('camera_position','camera_forward','camera_fov','player_position')),'Matched actual cameras/player: '+a['file'])
+    fields=('draw_calls','visible_draws','shadow_draws','primitives','buffer_bytes','texture_bytes')
+    check(all(a[key]==c[key] for key in fields),'Restored original renderer counters exactly: '+a['file'])
+    check(b['draw_calls']-a['draw_calls']<=16 and b['buffer_bytes']-a['buffer_bytes']<=4*1048576 and b['texture_bytes']==a['texture_bytes'],'Declared per-view draw/native buffer/texture limits: '+a['file'])
+comparison=json.loads((PACKET/'comparison.json').read_text())
+check(comparison['all_canonical_contracts_unchanged'] and comparison['baseline_control_inventory_identical'],'All native physics/layout contracts and original/control inventories restored')
+check(comparison['inventory_delta']['source_triangle_instances']==65854 and comparison['inventory_delta']['mesh_draw_nodes']==-7,'Exact world source geometry/node delta within declaration')
+result={'kind':'author_integrity_and_declared_static_Main_resource_checks','checks':checks,'passed':len(checks),'failed':0,
+    'limits':'Author verification only, independentQA/promotion pending.21static frames are not motion, finalAAA, frame-time or M5 acceptance. RenderingServer allocations are process-local software-backend observations, not host VRAM.'}
+(PACKET/'author-verification.json').write_text(json.dumps(result,indent=2)+'\n');(PACKET/'author-verifier.py.txt').write_bytes(Path(__file__).read_bytes())
+print('AUTHOR_GRAPHICS_VERIFICATION',len(checks),'passed,0failed; independentQA pending')

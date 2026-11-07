@@ -1,0 +1,46 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/line-continuous-return-source/.local/connected_return_probe_v2.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/line-continuous-return-source",
+  "started_utc": "2026-11-07T05:23:17.711001+00:00",
+  "os_deadline_seconds": 120,
+  "source_inputs": 1018,
+  "engine_pid": 68756,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "finished_utc": "2026-11-07T05:23:41.774755+00:00",
+  "wall_seconds": 24.063610854002036,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: continuous return: two seats\u2192manual turn\u2192wallride/Wallie/manual\u2192finite named first-bearing catch uses one reset",
+    "FAIL: continuous return: every observed actual physics state retains native board/capsule/shoe and finite wall proof"
+  ],
+  "result": [
+    9,
+    2
+  ],
+  "other_engine_observed": false,
+  "overlap_authorized_untimed": true,
+  "preserved_sha256": {
+    "native-process-observer.json": "3c902876e4544767d7b2c6894d9a82ad1ecfe7089907543a81b5aa77c927d964",
+    "source-before.json": "2fa1856b327cbd027c0f40dea2dd787db2712d0b6bbf34886ee83584a2199509",
+    "observer.gd": "73027a8c37ffa4d627d9cf57647904016e4b82834a4bf31fd2ff50fa5986c208",
+    "native-trace.json": "33edca739b3245568312a7f76a16bb1a80b5557ff3c00fcef78cee498a53367b",
+    "wrapper.py.txt": "b474cf8c78171ee1a0c16549ac559fd6155a33ced8543c87fd676b829d6f0372",
+    "native.log": "2d08ae64809ca6569d610ec6c9840a9cdb39504454aff7af0eb555858f06e479",
+    "source-after.json": "2fa1856b327cbd027c0f40dea2dd787db2712d0b6bbf34886ee83584a2199509"
+  }
+}

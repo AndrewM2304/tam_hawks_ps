@@ -43,5 +43,18 @@ Coordinate manual request/buffer/physical-balance/HUD edits with the specialist
 using `../combo-usability/SKILL.md`. When asymmetric authored footwear is adopted,
 cache actual sole vertices/bounds per leg rather than reusing one mirrored side;
 preserve the public SOLE/TOE/contact API and rerun the detailed native matrix.
+Do not assume the sole's horizontal outline encloses an authored upper. Measure
+actual indexed faces: OBJ vertex tables can retain unused vertices. Keep sole
+support separate from complete-shoe3D wall extrema, cache compact native convex
+support once during loading, and declare point/resource budgets. Revalidate mesh
+transforms, side assignment, invalidation and final whole-shoe native guards;
+never resize an authentic shoe to preserve an obsolete envelope assumption.
+`Mesh.get_faces()` and native debug hulls can weld/simplify imported source; read
+actual rendered position/index buffers for an exact support cache. A debug-hull
+vertex subset does not prove enclosure. For a compact source-indexed replacement,
+verify closed oriented manifold, exact source provenance and all-source plane
+signs independently using exact binary-rational arithmetic on the native export.
+Keep numerical ambiguity separate from contact tolerances and declare both cached
+support and source-invalidation memory, not only the compact XYZ payload.
 
 Completion benchmark: satisfy current AAA_BENCHMARK V1/V3 and all existing detailed native finite-contact tolerances without relaxing them. New planted push-slip checks target under 5 mm per 60 Hz tick on real stationary support in both travel directions against the actual native sole-support plane, a visibly lifted return, a supporting sole within 5 mm of actual griptape triangles, and no connected head step above 220 mm relative to body travel. Preserve physical input/trajectory/scoring checks and native interpolation. Full action/camera coverage, performance and owner acceptance remain separate gates; a focused push check cannot close them.

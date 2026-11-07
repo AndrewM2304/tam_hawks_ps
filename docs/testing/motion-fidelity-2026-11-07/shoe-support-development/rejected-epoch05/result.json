@@ -1,0 +1,73 @@
+{
+	"failures": [
+		"per-leg sole: complete cached bounds follow this exact native Cupsole mesh and local transform side=-1.0",
+		"per-leg sole: complete cached bounds follow this exact native Cupsole mesh and local transform side=1.0",
+		"per-leg sole: real positive-mesh6.25mm asymmetry rejects the old shared negative-leg boundary",
+		"per-leg sole: restored positive source rebuilds without stale transformed vertices",
+		"full shoe support: compact native3Dhull contains every actual indexed transformed shoe vertex without invented support side=-1.0",
+		"full shoe support: compact native3Dhull contains every actual indexed transformed shoe vertex without invented support side=1.0",
+		"full shoe support: declared two-leg raw XYZ hull payload stays within6KiB",
+		"full shoe support: transformed actual upper invalidates the old cache while the rebuilt complete envelope follows it",
+		"full shoe support: restoring actual geometry restores its complete source envelope"
+	],
+	"metrics": {
+		"SkinnedJacket": {
+			"native_vertices": 4567,
+			"source_vertices": 4220,
+			"triangles": 8244
+		},
+		"SkinnedTrousers": {
+			"native_vertices": 4495,
+			"source_vertices": 4306,
+			"triangles": 8428
+		},
+		"UpperChest": {
+			"native_vertices": 315,
+			"source_vertices": 310,
+			"triangles": 520
+		},
+		"contact_cache": {
+			"outside": 0,
+			"packed_bytes": 66100,
+			"scope": "cache geometry only; real wall trajectories and12query limits remain separate",
+			"vertices": [
+				1202,
+				1116
+			]
+		},
+		"detachment800": {
+			"joint_gap_unchanged": true,
+			"pure_upper_shift_m": 0.799999713897705,
+			"waist_m": 0.182424545288086
+		},
+		"head_import": {
+			"compressed": true,
+			"position_identity_bound_m": 0.00000612049521349238,
+			"uv_identity_bound": 0.0000217795157148561
+		},
+		"mapping_errors": [],
+		"neutral": {
+			"finite": true,
+			"joint_gap_m": 0.0018873168155551,
+			"maximum_neck_m": 0.00000468022199129337,
+			"maximum_waist_m": 0.0,
+			"neck_ids": 46,
+			"waist_edges": 100
+		},
+		"pose_peaks": {
+			"neck_m": 0.00000535946946911281,
+			"source": "direct visual-pose diagnostics; not controller trajectory or moving review",
+			"waist_m": 0.0
+		},
+		"uniform250": {
+			"finite": true,
+			"joint_gap_m": 0.0018873168155551,
+			"maximum_neck_m": 0.00000468022199129337,
+			"maximum_waist_m": 0.249997034668922,
+			"neck_ids": 46,
+			"waist_edges": 100
+		}
+	},
+	"passes": 29,
+	"scope": "private native fitted mapping/seam/bind/cache pilot; original positive limits and corruption magnitudes preserved, no graphics/Main trajectory/M5 acceptance"
+}

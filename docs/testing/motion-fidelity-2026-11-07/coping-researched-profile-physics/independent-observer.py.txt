@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+import json,hashlib,math,re
+from pathlib import Path
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/motion-fidelity-2026-11-07/coping-researched-profile-physics';B=R/'docs/testing/motion-fidelity-2026-11-07/coping-researched-profile-main';checks=[]
+def ck(n,b,a=None):checks.append({'name':n,'pass':bool(b),'actual':a})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def rd(p):return json.loads(p.read_text())
+a=rd(P/'source-before.json');b=rd(P/'source-after.json');r=rd(P/'receipt.json');d=rd(P/'profile-native-contact.json');s=rd(P/'native-summary.json');base=rd(B/'source-before.json')
+ck('790 exact source inputs stable',a==b and len(a)==790)
+ck('same790 source inputs as independent original6/0 epoch',a==base)
+ck('controller remains exact unmodified actualf042',a['game/player/skater.gd']==r['controller_sha256']=='f04253f745780ce8793828a9e6414c5e7f72617b8f235319eefc54574c093ab3')
+ck('actual read-only observer binds receipt',sha(P/'clyde_profile_contacts.gd')==r['observer_sha256'])
+for name in ['transition_feature.gd','bowl_feature.gd','sunken_bowl_feature.gd']:
+ ck(name+': exact previously inspected native geometry candidate',sha(P/(name+'.txt'))==sha(B/(name+'.txt'))==a['game/levels/'+name])
+ck('raw native clean10/0 process result','CLYDE CURRENT MAIN RESULT: 10 passed, 0 failed' in (P/'engine.log').read_text() and not any(x in (P/'engine.log').read_text() for x in ['SCRIPT ERROR:','ERROR:','Parse Error','Traceback']))
+ck('original parser/native commands exit zero with source stable',len(r['commands'])==2 and all(x['exit']==0 for x in r['commands']) and r['source_stable'] and not r['errors'])
+rows=d['rows'];ck('seven consecutive actual physics samples cover179..185',[x['physics'] for x in rows]==list(range(179,186)))
+ck('each actual candidate native volume query passed',all(x['full_native_model_and_four_tyre_volumes_clear'] for x in rows) and d['all_model_clear'])
+ck('old deeply tilted negative rejected with read-only actor proof',d['negative_rejected'] and d['read_only'] and d['rim_gaps_safe'])
+loaded=[];unknown=0;unloaded=[];owners={};normal_min=1
+for row in rows:
+ statuses=[]
+ for rim in row['rims']:
+  gap=rim['minimum_gap'];status=rim['classification'];statuses.append(status)
+  if gap is None:
+   ck(str(row['physics'])+' wheel'+str(rim['wheel'])+': bounded miss explicitly unknown',status=='no_native_hit_in_bounded_vertex_rays' and rim['support']=={})
+   unknown+=1;continue
+  ck(str(row['physics'])+' wheel'+str(rim['wheel'])+': independently recomputed classification',math.isfinite(gap) and (status=='loaded' if .004<=gap<=.030 else status=='unloaded' if gap>.030 else status=='penetration' if gap<-.001 else status=='near_contact'))
+  support=rim['support'];ck(str(row['physics'])+' wheel'+str(rim['wheel'])+': actual support identity recorded',isinstance(support['rid'],int) and support['rid']>0 and isinstance(support['shape'],int) and support['shape']>=0 and bool(support['path']))
+  n=[float(x) for x in re.findall(r'-?\d+(?:\.\d+)?(?:e[-+]?\d+)?',support['normal'])];normal_min=min(normal_min,n[1]);ck(str(row['physics'])+' wheel'+str(rim['wheel'])+': native normal is finite unit and upward, without a load claim',len(n)==3 and all(math.isfinite(x) for x in n) and n[1]>0.0 and abs(sum(x*x for x in n)-1)<2e-6)
+  owners[support['path']]=owners.get(support['path'],0)+1
+  if status=='loaded':loaded.append(gap)
+  elif status=='unloaded':unloaded.append(gap)
+ ck(str(row['physics'])+': classification counts conserve four actual wheels',len(statuses)==4 and row['loaded']==statuses.count('loaded') and row['unloaded']==statuses.count('unloaded') and row['ray_missing']==statuses.count('no_native_hit_in_bounded_vertex_rays'))
+ck('independent loaded extrema and support counts agree with native summary', [min(loaded),max(loaded)]==s['loaded_gap_range_m'] and owners==s['native_support_owner_sample_counts'],{'loaded_points':len(loaded),'unknown_ray_misses':unknown,'unloaded_gaps_m':unloaded,'geometric_near_contact_min_signed_gap_m':min(loaded),'geometric_near_contact_max_signed_gap_m':max(loaded),'owners':owners})
+ck('all503 recorded native trajectory rows match same-geometry original route exactly',rd(P/'clyde-trajectory.json')==rd(B/'clyde-trajectory.json') and len(rd(P/'clyde-trajectory.json'))==503)
+obs=(P/'clyde_profile_contacts.gd').read_text();ck('current native volume witness uses zero added margin, not an8mm claim','rider._native_rim_frame_clear(frame,0.0)' in obs)
+ck('no visual or M5 acceptance claimed',r['visual_acceptance'] is False and r['M5_performance'] is False)
+out={'schema':1,'reviewer':'independent_qa','method':'Read-only exact source/observer/constructor hashes, native raw result, independent seven-frame/four-wheel classification/normal/extrema arithmetic and exact503 recorded-row parity against previously inspected same-geometry original Main. No QA engine invocation.','checks':len(checks),'failures':sum(not c['pass'] for c in checks),'verdict':'No blocker in the researched geometry original-defect-envelope contact proof. Seven actual physics samples replace old penetrating pose with clear cached skateboard-component/four-tyre volumes and explicitly classified positive or unknown support. Together with separate family/component/route scopes this supports root-controlled geometry integration, followed by current combined regression and visuals.','native_contact':{'physics':list(range(179,186)),'reported_loaded_gap_samples':len(loaded),'unknown_bounded_ray_misses':unknown,'unloaded_gaps_m':unloaded,'geometric_near_contact_min_signed_gap_m':min(loaded),'geometric_near_contact_max_signed_gap_m':max(loaded),'minimum_recorded_native_normal_y':normal_min,'signed_gap_band_is_not_physical_loading':True,'low_normal_steel_vertical_separation_m':[.037608,.107194],'support_owners':owners},'limits':['Raw loaded status means only4–30mm signed normal-gap band. Both low-normal steel samples haveY0.194653 and actual vertical separation37.608/107.194mm; no wheel force or weight-bearing is established. Plausible loaded/unloaded movement still needs visible review.','Native clearance scope is cached skateboard component hulls plus four tyre volumes at zero extra margin. It is not all tyres at8mm skin, all actual rider clothes/shoes or rendered attachment.','All ready-cache components are iterated by actual source. This observer does not separately record/assert native part and shape counts;32 is not independently measured by this epoch.','Window is seven grounded actor ticks in original defect envelope before authored attachment; missing bounded vertex rays remain unknown support, never a loaded contact or a lower-plane proof. Later curved traversal has completed-frame camera checks, not this full-volume observer.','503 trajectory records are identical Godot strings, with their original printed precision. This proves exact recorded parity, not a newly invented full-precision numerical trajectory.','Source inventory excludes import cache and observer; separate observer SHA binds retained exact code. Missing actual PID/individual absolute process timestamps are not reconstructed from aggregate command/duration receipt.','First failed parser epoch remains rejected separately. No extra native result is inherited from its copied old outputs.','Shared-family/route/current-source combined checks and matched visible/native coping/moving rider frames remain required; Linux elapsed diagnostic is not frame-time/M5/AAA acceptance.'],'checks_detail':checks,'evidence_sha256':{p.name:sha(p) for p in P.iterdir() if p.is_file() and not p.name.startswith('independent-')}}
+(R/'.local/qa-fidelity/coping-physics-independent-review.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({k:v for k,v in out.items() if k not in ['checks_detail','evidence_sha256']},indent=2))
+if out['failures']:print(json.dumps([c for c in checks if not c['pass']],indent=2))
+raise SystemExit(bool(out['failures']))

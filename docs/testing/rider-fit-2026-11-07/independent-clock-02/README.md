@@ -1,0 +1,15 @@
+# Independent fitted neck clock maximum subset
+
+**300 independent checks pass.** This separate prospective epoch selects the largest observed baseline seam estimate in each eligible post-grab/recovery low/high interpolation band. All nine improving candidate pairs/eighteen exact original384×384 PNGs are preserved; eight selected originals were personally inspected. The earlier first-in-band epoch remains unchanged.
+
+At four selected fractions0.192/0.774/0.328/0.887, baseline native-palette/rendered-model separations are2.656/13.876/36.672/11.962mm; coherent local clocks yield4.84–7.18µm. Independently applying retained native palette matrices to source-identified chest/Head vertices reproduces the maximum as36.671mm. Full-precision camera/projection arithmetic independently reproduces every retained endpoint's projected coordinates within0.001px. These are palette/model and projection measurements, not a pixel encoding of a physical gap length.
+
+The recovery-low pair visibly changes the Head's placement relative to the shirt/chest; post-grab-high also changes it. This does not show a dramatic open crack, establish the earlier83/224mm estimates, or prove temporal continuity from a few selected stills. Object-ID Head/chest colours are disclosed. The [independent native GPU MODEL witness](../../fidelity-2026-11-06/rendered-model-clock-01/README.md) establishes that OFF descendants still inherit an ON ancestor's interpolation; current-only globals would be an invalid rendered oracle.
+
+The captured current actor/component poses, native11-bone palettes, camera, velocity and outer rendered actor/visual matrices match exactly between twins. The only policy change is local `Rider` and `Board` OFF. This supports that coherent policy followed by the original fitted body/contact/moving regression. Garment/foot/hand collisions, all-pose quality, ordinary Main, final motion, human art, target Mac and M5 cost remain open.
+
+`independent-review.json` lists the300 checks and all numeric results. Source inventories contain732 unchanged inputs, including exact executed observer/adapter/launcher; the archived original launcher matches its before-run hash. Both source directories are explicit symlinks to private epoch07; the full game/import tree is not duplicated. Native engine exit0/raw log clean,05:20:10.007–05:20:39.855UTC. Possible authorised qualitative overlap carries no exclusivity or timing claim.
+
+Unlike the first epoch, projection is retained numerically and every actual neck endpoint is recorded. The observer still has one synchronous `frame_post_draw` counter sample rather than explicit before/after readback brackets; exact changing Canvas/policy stamps are independently checked. Selection covers this bounded phase/fraction experiment, not all game frames or hardware worst cases.
+
+Run `python3 verify.py.txt` here for read-only retained hash,18native RGBA/stamp buffer, palette/model and projection verification. Pillow and NumPy are required. Full original project remains `.local/fitted-rig-admission/clock-02`.

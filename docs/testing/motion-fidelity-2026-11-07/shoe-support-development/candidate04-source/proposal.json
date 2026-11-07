@@ -1,0 +1,44 @@
+{
+  "private_only": true,
+  "applied_to_actual": false,
+  "status": "candidate04-unparsed-unrun; priorcandidate03shoe subset15controls+exactnativeintegercertificate pass, fullcombined54/4 stillneckfail",
+  "base_visual_sha256": "0e7409dd7aa1330f0e6e43a0bd76836a0900ae3bc796dd78645ae55de418e70b",
+  "base_controller_sha256": "45f20c28a810960fb10ba32e87cfafa8e9f2e3c2da2d7497922df24e1daa145e",
+  "controller_leg_loops": 4,
+  "purpose": "Actual indexed per-leg sole buffers and source-indexed exact3Dshoe startup support hull",
+  "warnings": "Apply surgical patches only; preserve incoming fittedbuild5thsidearg/finalpose_head and actualManualtorso-axis hunk",
+  "wall_getter": "shoe_support_points(leg)",
+  "sole_getter": "sole_contact_points(leg)",
+  "new_runtime_helper": "game/player/shoe_support_hull.gd copied from this proposal",
+  "budget_declared_before_candidate02_native": {
+    "max_hull_points_per_leg": 512,
+    "raw_XYZ_support_payload_bytes_player_upper_bound": 12288,
+    "max_unique_source_snapshot_points_per_leg": 4096,
+    "raw_XYZ_source_snapshot_bytes_player_upper_bound": 98304,
+    "total_raw_source_plus_support_XYZ_upper_bound": 110592,
+    "retained_temporary_shape_or_mesh_resources": 0,
+    "per_physics_new_mesh_or_array_allocations": 0,
+    "allocation_or_total_M5_cost_acceptance": "unmeasured",
+    "scope": "per-leg one-entry exact source snapshot bounds invalidation; geometry changes replace it instead of accumulating historical caches"
+  },
+  "candidate_sha256": {
+    "skater_visual.gd.patch": "3a9bc3210de22f5bd404f79901bf24a6dafb545d001ed2a020979e18612dc926",
+    "shoe_support_hull.gd": "be43636bb0967dcb4689f7bc8a2da0d5f95a0f47feddcdc970145f423b21b3b8",
+    "skater_visual.gd": "c42dab045b1ed78d49bb2ffd0ea9cfc0cc8e20aa5d4ca4a5eadd98c3a958ed8c",
+    "skater.gd.patch": "ca18cf7e5b36ca5f5c851ef0c7543071ad43aa1a195de30073d01987f9590a3c",
+    "per_leg_sole_contract.gd": "f4d7c2e0e78e37d56e46d99ffba8ca558ebd46cda3410ba9ff10ac34814abb35",
+    "shoe_support_math_smoke.gd": "9538433aa566bd13f2841e92c0d96fbc539c3e78ac7a28869384235078934b11",
+    "verify_shoe_support_certificate.py": "747d774931e8e931faecf5cb138a595184d9fecc3bbe75c663e6877df5627df7",
+    "full_shoe_support_contract.gd": "961c8b62af4924f8780b6cfc74f563172b6a217f4473bf67ff90d853d77afef3",
+    "skater.gd": "56787e0752e8465318f4d3e718f86a6bd330e7badaa497f2aa4345d741bc22d8"
+  },
+  "independent_certificate": "verify_shoe_support_certificate.py reads project/.local/shoe-support-certificate.json full_precision; exact Python integer orientations, closed oriented manifold, exact sourceprovenance; separate from native shared robust predicate checks",
+  "source_geometry_assumption_check": "shoe-upper-overhang-source.json",
+  "required_first_native": "check-only helper+smoke; then actualshoe_support_math_smoke with <=5s hardbound before anyfittedMain pilot",
+  "coordinate_guard": {
+    "max_global_nonzero_coordinate_ratio": 16777216,
+    "unsupported_behavior": "no compactauthority; completeactualsourceendpoints retained; admissionbudget rejects excessivefallback",
+    "new_native_controls": "11mathsmoke incl extremefiniteexponents; actualindexedtrianglemutation demonstrates fullsourcefallback+restoration"
+  },
+  "rebase_note": "candidate04controller composed from actual45f reviewedforecast, onlyfoursole-to-fullshoe getter loops andobsoletecomment changed; do not replacef042 wholecontroller"
+}

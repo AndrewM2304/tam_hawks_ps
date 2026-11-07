@@ -1,0 +1,70 @@
+extends RefCounted
+## Visual-only replacement of a solid cylinder's water-covered top disk.
+## Outer side/bottom streams and annular coping retain their native material,
+## bounds and casting. The authoritative world collider is never accessed.
+
+static func create(source: CylinderMesh, inner_radius: float) -> ArrayMesh:
+	assert(source != null and source.get_surface_count() == 1)
+	assert(is_equal_approx(source.top_radius,source.bottom_radius))
+	assert(inner_radius > 0.0 and inner_radius < source.top_radius)
+	var arrays: Array=source.surface_get_arrays(0)
+	var vertices: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+	var normals: PackedVector3Array=arrays[Mesh.ARRAY_NORMAL]
+	var tangents: PackedFloat32Array=arrays[Mesh.ARRAY_TANGENT]
+	var uvs: PackedVector2Array=arrays[Mesh.ARRAY_TEX_UV]
+	var original_indices: PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
+	assert(tangents.size()==vertices.size()*4 and uvs.size()==vertices.size())
+	var indices:=PackedInt32Array()
+	var removed:=0
+	for offset: int in range(0,original_indices.size(),3):
+		var a:=original_indices[offset]
+		var b:=original_indices[offset+1]
+		var c:=original_indices[offset+2]
+		if normals[a].y>0.9999 and normals[b].y>0.9999 and normals[c].y>0.9999:
+			removed+=1
+			continue
+		indices.append_array(PackedInt32Array([a,b,c]))
+	assert(removed==source.radial_segments)
+	var rim:=top_boundary(source)
+	assert(rim.size()==source.radial_segments)
+	var first:=vertices.size()
+	for point: Vector3 in rim:
+		for radius: float in [source.top_radius,inner_radius]:
+			var position:=Vector3(point.x*radius/source.top_radius,point.y,point.z*radius/source.top_radius)
+			# Reuse the exact native exterior boundary, without recomputing angles.
+			if radius==source.top_radius:position=point
+			vertices.append(position)
+			normals.append(Vector3.UP)
+			tangents.append_array(PackedFloat32Array([1.0,0.0,0.0,-1.0]))
+			uvs.append(Vector2(position.x,position.z))
+	for segment: int in rim.size():
+		var current:=first+segment*2
+		var following:=first+((segment+1)%rim.size())*2
+		# Clockwise native front faces, normal UP. The hole boundary shares the
+		# water's regular polygon; no hidden top triangles span the water area.
+		indices.append_array(PackedInt32Array([current,following,current+1,current+1,following,following+1]))
+	arrays[Mesh.ARRAY_VERTEX]=vertices
+	arrays[Mesh.ARRAY_NORMAL]=normals
+	arrays[Mesh.ARRAY_TANGENT]=tangents
+	arrays[Mesh.ARRAY_TEX_UV]=uvs
+	arrays[Mesh.ARRAY_INDEX]=indices
+	var mesh:=ArrayMesh.new()
+	mesh.resource_name="FountainAnnularCoping"
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+	mesh.surface_set_material(0,source.surface_get_material(0))
+	return mesh
+
+static func top_boundary(source: CylinderMesh) -> PackedVector3Array:
+	var arrays: Array=source.surface_get_arrays(0)
+	var vertices: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
+	var normals: PackedVector3Array=arrays[Mesh.ARRAY_NORMAL]
+	var points: Array[Vector3]=[]
+	for index: int in vertices.size():
+		var point:=vertices[index]
+		if normals[index].y<=0.9999 or Vector2(point.x,point.z).length()<source.top_radius*0.99:continue
+		var repeated:=false
+		for existing: Vector3 in points:
+			if existing.distance_to(point)<0.00001:repeated=true;break
+		if not repeated:points.append(point)
+	points.sort_custom(func(a: Vector3,b: Vector3):return atan2(a.z,a.x)<atan2(b.z,b.x))
+	return PackedVector3Array(points)

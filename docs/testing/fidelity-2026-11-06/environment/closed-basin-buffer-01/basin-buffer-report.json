@@ -1,0 +1,46 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"additional_native_buffer_bytes": 10580,
+	"after": {
+		"buffer_bytes": 7462956,
+		"draws": 1,
+		"material_id": -9223372002125937211,
+		"mesh_class": "ArrayMesh",
+		"mesh_id": -9223372001723284004,
+		"primitives": 512,
+		"surface_count": 1,
+		"texture_bytes": 25478846,
+		"triangles": 512
+	},
+	"before": {
+		"buffer_bytes": 7452376,
+		"draws": 1,
+		"material_id": -9223372002125937211,
+		"mesh_class": "CylinderMesh",
+		"mesh_id": -9223372002058828331,
+		"primitives": 256,
+		"surface_count": 1,
+		"texture_bytes": 25478846,
+		"triangles": 256
+	},
+	"budget_pass": true,
+	"buffer_ceiling_bytes": 65536,
+	"complete": true,
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"limits": "Fresh native process resource delta only. Same sole MeshInstance/material/camera/light/1280x800viewport and inherited twelve natural rendered frames per state. Candidate is created after baseline; original resource weakref is null before after-record. Same flat1pixel normal texture forces conventional vertex frame attributes; no production textures or Main instantiated. Source class preloads can hold unrelated constant resources equally in both states. Public Performance.RENDER_BUFFER_MEM_USED measures renderer buffers, not targetMacVRAM or whole-game cost. No timing, cold, visual-shadow, final-fidelity orM5 acceptance.",
+	"original_resource_released": true,
+	"renderer": "gl_compatibility",
+	"schema": 1,
+	"timing_measured": false
+}

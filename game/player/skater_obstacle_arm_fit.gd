@@ -296,8 +296,12 @@ func apply(_delta: float) -> void:
 	_runtime_counting=false
 
 func _bone(bind: int) -> int:
+	if bind<0 or bind>=jacket.skin.get_bind_count():return -1
+	# Skeleton3D gives every nonempty bind name precedence over its index.
+	var name:=String(jacket.skin.get_bind_name(bind))
+	if not name.is_empty():return skeleton.find_bone(name)
 	var bone:=jacket.skin.get_bind_bone(bind)
-	return skeleton.find_bone(String(jacket.skin.get_bind_name(bind))) if bone<0 else bone
+	return bone if bone>=0 and bone<skeleton.get_bone_count() else -1
 
 func _envelope_face(query: PhysicsShapeQueryParameters3D,ray: PhysicsRayQueryParameters3D) -> Dictionary:
 	# This axis belongs to the final freshly validated board/shoe fit, not a

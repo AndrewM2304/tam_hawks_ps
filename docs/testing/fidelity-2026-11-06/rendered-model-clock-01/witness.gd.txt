@@ -1,0 +1,49 @@
+extends SceneTree
+class MovingParent:
+	extends Node3D
+	var steps:=0
+	func _physics_process(_delta:float)->void:
+		steps+=1;position.x=.02 if steps%2==0 else -.02
+var output:String
+var result:Dictionary={"schema":1,"checks":[],"failures":[],"samples":[]}
+func _initialize()->void:_run.call_deferred()
+func _v(v:Vector3)->Array:return [v.x,v.y,v.z]
+func _t(t:Transform3D)->Dictionary:return {"origin":_v(t.origin),"basis":[_v(t.basis.x),_v(t.basis.y),_v(t.basis.z)]}
+func _hash(b:PackedByteArray)->String:
+	var h:=HashingContext.new();h.start(HashingContext.HASH_SHA256);h.update(b);return h.finish().hex_encode()
+func _check(ok:bool,label:String)->void:
+	result.checks.append({"pass":ok,"label":label})
+	if not ok:result.failures.append(label)
+func _save()->void:
+	var f:=FileAccess.open(output.path_join("report.json"),FileAccess.WRITE);f.store_string(JSON.stringify(result,"\t")+"\n");f.close()
+func _run()->void:
+	output=OS.get_cmdline_user_args()[0];DirAccess.make_dir_recursive_absolute(output)
+	result.engine=Engine.get_version_info();result.renderer=RenderingServer.get_current_rendering_method();result.project_physics_interpolation=ProjectSettings.get_setting("physics/common/physics_interpolation");result.physics_ticks_per_second=Engine.physics_ticks_per_second
+	var world:=Node3D.new();root.add_child(world)
+	var environment:=WorldEnvironment.new();environment.environment=Environment.new();environment.environment.background_mode=Environment.BG_COLOR;environment.environment.background_color=Color.BLACK;world.add_child(environment)
+	var parent:=MovingParent.new();parent.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_ON;world.add_child(parent)
+	var arrays:Array=[];arrays.resize(Mesh.ARRAY_MAX);arrays[Mesh.ARRAY_VERTEX]=PackedVector3Array([Vector3(-1,-1,0),Vector3(1,-1,0),Vector3(0,1,0)]);arrays[Mesh.ARRAY_NORMAL]=PackedVector3Array([Vector3.BACK,Vector3.BACK,Vector3.BACK])
+	var mesh:=ArrayMesh.new();mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
+	var node:=MeshInstance3D.new();node.name="VisibleOffChildUnderOnAncestor";node.mesh=mesh;node.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF;node.position.x=.05;parent.add_child(node)
+	var shader:=Shader.new();shader.code="shader_type spatial; render_mode unshaded, fog_disabled, shadows_disabled, cull_disabled; varying float model_x; void vertex(){model_x=MODEL_MATRIX[3].x;} void fragment(){ALBEDO=vec3(model_x*10.0,0.2,0.3);}"
+	var material:=ShaderMaterial.new();material.shader=shader;node.material_override=material
+	var camera:=Camera3D.new();camera.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF;camera.projection=Camera3D.PROJECTION_ORTHOGONAL;camera.size=3.0;camera.near=.05;camera.far=10;world.add_child(camera);camera.position=Vector3(0,0,3);camera.current=true
+	parent.reset_physics_interpolation()
+	var seen:Dictionary={};var deadline:=Time.get_ticks_msec()+8000
+	while result.samples.size()<3 and Time.get_ticks_msec()<deadline:
+		await RenderingServer.frame_post_draw
+		var fraction:=Engine.get_physics_interpolation_fraction();var tick:=Engine.get_physics_frames()
+		if parent.steps<3 or seen.has(tick) or fraction<.2 or fraction>.8:continue
+		var current:=node.global_transform;var rendered:=node.get_global_transform_interpolated()
+		if absf(current.origin.x-rendered.origin.x)<.006:continue
+		var before:Dictionary={"physics":tick,"process":Engine.get_process_frames(),"fraction":fraction,"in_physics_frame":Engine.is_in_physics_frame()}
+		var image:=root.get_texture().get_image();image.convert(Image.FORMAT_RGBA8);var pixel:Color=image.get_pixel(32,32)
+		var after:Dictionary={"physics":Engine.get_physics_frames(),"process":Engine.get_process_frames(),"fraction":Engine.get_physics_interpolation_fraction(),"in_physics_frame":Engine.is_in_physics_frame()}
+		var gpu_model_x:=pixel.r/10.0;var file:="native-model-"+str(result.samples.size())+".png";image.save_png(output.path_join(file));seen[tick]=true
+		_check(before==after,"same native readback counters/fraction "+file)
+		_check(not node.is_physics_interpolated_and_enabled() and parent.is_physics_interpolated_and_enabled(),"OFF visiblechild with ONancestor "+file)
+		_check(absf(gpu_model_x-rendered.origin.x)<=1.1/255.0/10.0,"actual native GPU MODEL_MATRIX matches rendered API "+file)
+		_check(absf(gpu_model_x-current.origin.x)>.005,"actual native GPU MODEL_MATRIX differs from current global "+file)
+		result.samples.append({"file":file,"current_global":_t(current),"rendered_global":_t(rendered),"parent_current_global":_t(parent.global_transform),"parent_rendered_global":_t(parent.get_global_transform_interpolated()),"child_local":_t(node.transform),"child_interpolation_enabled":node.is_physics_interpolated_and_enabled(),"parent_interpolation_enabled":parent.is_physics_interpolated_and_enabled(),"before":before,"after":after,"center_rgba":[pixel.r,pixel.g,pixel.b,pixel.a],"gpu_model_x_from_rgb8":gpu_model_x,"rgba8_sha256":_hash(image.get_data()),"png_sha256":FileAccess.get_sha256(output.path_join(file))});_save()
+	_check(result.samples.size()==3,"three distinct native physics epochs with nontrivial fractional interpolation")
+	_save();print("Independent native rendered model clock: "+str(result.checks.size())+" checks, "+str(result.failures.size())+" failures");quit(0 if result.failures.is_empty() else 1)

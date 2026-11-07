@@ -37,6 +37,10 @@ environment-fidelity skill. Agree exact production paths with the orchestrator.
    natural frame_post_draw capture and pixel synchronization proofs. Inspect
    silhouette/recess at actual output size, not only enlarged crops. Preserve
    failed frames and all exact-source receipts.
+   Check observer-supplied overrides before Main enters the tree: normal Main
+   sets its own default trial metadata during startup. Refresh a separate graphics
+   copy if unrelated production geometry changes after the headless snapshot;
+   keep that earlier evidence and its exact source intact.
 7. Count actual native resources and unchanged collision/layout, then obtain
    uncontended p50/p95/p99/long-frame and draw/primitive/memory comparisons. Bound
    isolated architectural component results explicitly; they do not certify Main

@@ -1,0 +1,175 @@
+{
+  "schema": 1,
+  "reviewer": "independent_qa",
+  "checks": 22,
+  "failures": 0,
+  "checks_detail": [
+    {
+      "name": "baseline-02: compressed and losslessly recovered original identities",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "baseline-02: clean native command/receipt/complete unchanged source",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "baseline-02: actual default Main headless source inventory only",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-01: compressed and losslessly recovered original identities",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-01: clean native command/receipt/complete unchanged source",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate-01: actual default Main headless source inventory only",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "control-01: compressed and losslessly recovered original identities",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "control-01: clean native command/receipt/complete unchanged source",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "control-01: actual default Main headless source inventory only",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "actual5/7/5 checks, no native failures",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "baseline/restored entire contracts and source inventory byte equal",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "all1755 native shape records preserve every nonpath byte",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "gap_records: original/native candidate exactly equal",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "grind_records: original/native candidate exactly equal",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "route_records: original/native candidate exactly equal",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "terrain_patches: original/native candidate exactly equal",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "terrain_polygons: original/native candidate exactly equal",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "independent source triangle/node/material and complete collision deltas",
+      "pass": true,
+      "actual": {
+        "geometry_instances": 3347,
+        "mesh_array_serialized_bytes": 142720,
+        "mesh_draw_nodes": -7,
+        "multimesh_transform_estimate_bytes": 160656,
+        "native_bodies": 0,
+        "native_shapes": 0,
+        "recess_shells": 16,
+        "source_triangle_instances": 65854,
+        "unique_materials": -1,
+        "unique_meshes": 1
+      }
+    },
+    {
+      "name": "real16 upper aperture shells/west real triangle opening",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "native502 correct-handed vertices/eight batch instances/eight CPU authored transforms",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "exact5 native occluder owner paths without pretending visibleBox proof",
+      "pass": true,
+      "actual": null
+    },
+    {
+      "name": "candidate mutates only4 architecture modules; guarded revert restores every source",
+      "pass": true,
+      "actual": [
+        "game/levels/art/exchange_gallery.gd",
+        "game/levels/art/gallery_column.gd",
+        "game/levels/art/facade_kit.gd",
+        "game/levels/art/facade_shell.gd"
+      ]
+    }
+  ],
+  "verdict": "Bounded actual-Main headless native structural A/V2/A proof; no GPU draw/allocation, physical route or visual admission.",
+  "limits": [
+    "No graphics ran: source triangle/node/material inventory and serialized bytes are not GPU submission/allocation or performance measurements.",
+    "Collision normalization removes only generated suffixes from the first path string; transforms,shape properties,layers and every remaining byte stay authoritative.",
+    "Exact five occluder native owner paths are not a direct visible opaque Box/material eligibility test; private adapted fixture/next cohort owns that check.",
+    "Real moving route/camera, new facade glyph/geometry quality, actual material/map resource ceilings and targetMac remain open."
+  ],
+  "evidence_sha256": {
+    "run_main_probe.py.txt": "068cba0f66dda9a93e2d20b7a9dcdb0a7626fdc9b53f595237ec2bcebf23d63c",
+    "occluder-owner-witness.json": "69bf30c2dfb564305a1f8b1a9572aa798f34ba438ced6fe2ba01e7700b642128",
+    "main_probe.gd.txt": "a3889f4819764a913c53805dcb91c717193e5c3f58b4be289166e426f60ee727",
+    "README.md": "b5568e6e06bd45a7ff0750270c54ddfa90784d0cc70e3c550b1073e4e2f6ddfc",
+    "archive-identities.json": "280c5e7bc65c3abb7250cd970b1901fef9579bf81d58c965e4a21385c844ed73",
+    "production-before.json": "482910b00df93313efa7b6cb9a73efe09b0330550b8a38f2b97dae3b900563c5",
+    "native-stages.json": "9840e844c4c1956932df6ef0bf6331fda1c1e3a7c5b8ac1104957e9938f33caa",
+    "snapshot.json": "3592fce001f1806eb75ad298cda54fddc90c2c7f4a6cb795fe07f1605f0f6895",
+    "compare_phase2.py.txt": "9bee2ae65b26711aac05ca3935198163b897bc6e4546d92fa55cc34588008dd4",
+    "production-after-copy.json": "482910b00df93313efa7b6cb9a73efe09b0330550b8a38f2b97dae3b900563c5",
+    "preservation.json": "f2e813920a2ebe7e099d9159c71ec095b1127123c7bbed7b6157d6805a43d496",
+    "structural-comparison.json": "4849b50dd68546b9c06781a4bb5caab6289f0a064dfd9d9add6351eda95f0733",
+    "control-01/source-before.json": "cbec5d060ab2c5ac367191b804936e5d60dab64953ddaf82ff59e970335ac5ca",
+    "control-01/engine.log": "03eb5de1d81893c8199e8429099233264545fd57af7bd08bb4bfb9c495ea3499",
+    "control-01/architecture-main.json.gz": "c2dd57a49ba6aa6c67b4cbd7efb7e95d460dfd9ed61365af4b915eec6e602f3e",
+    "control-01/receipt.json": "d7945da8abda4970006bf458ab86d380ded1f5d5f8bf78e2189dcf659afc4c2b",
+    "control-01/source-after.json": "cbec5d060ab2c5ac367191b804936e5d60dab64953ddaf82ff59e970335ac5ca",
+    "candidate-01/source-before.json": "7b9e228f96f3bcf30dec37ee8009011bcb3f6c4e14fd944b1a943d00349ce1c4",
+    "candidate-01/engine.log": "ef0fe3eba43a3c8fe50e2601b144c97dd45e79a0d61c6491f975be6ea98ba72c",
+    "candidate-01/architecture-main.json.gz": "57319cbdc616bb1ad49c4a72adcc1b3f5b5e4df8b91dffa023a0f431f5b916a8",
+    "candidate-01/receipt.json": "d2bf548fe25414a7e602b48b15d916991d6b77c080f6cb4f81656c3ee527d270",
+    "candidate-01/source-after.json": "7b9e228f96f3bcf30dec37ee8009011bcb3f6c4e14fd944b1a943d00349ce1c4",
+    "baseline-01/source-before.json": "058d9c91a505d1154b377abf0e7771dcbbdfb0632e61d56da8cca0afd40532ec",
+    "baseline-01/engine.log": "340f4674f0be9c9b84b798d3c63b373fe7d7653bc91fa55e6a0b41831b84230c",
+    "baseline-01/architecture-main.json.gz": "88b690e50675f1facbc5d6f6007b0ecee30eeb5f43481ac221c4b2a521fca9f3",
+    "baseline-01/receipt.json": "2274acdac2f7a1f8add9abe2c874b944ff2bada0e2239bfb81b1a3374edf5207",
+    "baseline-01/source-after.json": "058d9c91a505d1154b377abf0e7771dcbbdfb0632e61d56da8cca0afd40532ec",
+    "baseline-02/source-before.json": "cbec5d060ab2c5ac367191b804936e5d60dab64953ddaf82ff59e970335ac5ca",
+    "baseline-02/engine.log": "03eb5de1d81893c8199e8429099233264545fd57af7bd08bb4bfb9c495ea3499",
+    "baseline-02/architecture-main.json.gz": "c2dd57a49ba6aa6c67b4cbd7efb7e95d460dfd9ed61365af4b915eec6e602f3e",
+    "baseline-02/receipt.json": "b36330adcfdefad26936ad9df54c8d55febe5e707301571961911a8a004e34b5",
+    "baseline-02/source-after.json": "cbec5d060ab2c5ac367191b804936e5d60dab64953ddaf82ff59e970335ac5ca"
+  }
+}

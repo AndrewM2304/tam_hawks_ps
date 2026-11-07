@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "preserved_utc": "2026-11-07T04:09:26.971442+00:00",
+  "status": "CAPTURE_AND_NATIVE_GEOMETRY_PASS; EXTERIOR_SHADOW_FINISH_REJECTED; production unchanged",
+  "capture": {
+    "checks": 88,
+    "failures": 0,
+    "eligible": true,
+    "stable_inputs": 798,
+    "source_stable": true,
+    "original_images": 12,
+    "per_view_proofs": "Full camera projection/basis/tick brackets, two world markers and Canvas in each of nine later images; three startup proofs separate."
+  },
+  "native_geometry_guard": {
+    "annular_top_triangles": 128,
+    "baseline_maximum_tangent_dot": 0.000151097774505615,
+    "baseline_resource_bounds": "[P: (-6.2, -0.275, -6.2), S: (12.4, 0.55, 12.4)]",
+    "baseline_triangles": 256,
+    "bounds": "[P: (-6.2, -0.275, -6.2), S: (12.4, 0.55, 12.4)]",
+    "candidate_computed_bounds": "[P: (-6.2, -0.275, -6.2), S: (12.4, 0.55, 12.4)]",
+    "candidate_custom_render_bounds": "[P: (-6.2, -0.275, -6.2), S: (12.4, 0.55, 12.4)]",
+    "candidate_triangles": 320,
+    "checks": 13,
+    "engine": {
+      "build": "official",
+      "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+      "hex": 263683,
+      "major": 4,
+      "minor": 6,
+      "patch": 3,
+      "status": "stable",
+      "string": "4.6.3-stable (official)",
+      "timestamp": 0
+    },
+    "failures": 0,
+    "limits": "Native component topology/stream/seam and mesh-only collision guards. Production unchanged; actual Main shadows/appearance and full regression remain separate. Water side and rim meet on a shared64sector boundary; pre-existing water top remains5mmabove rim, explicitly not a new coplanar hidden backer.",
+    "maximum_normal_error": 1.19209289550781e-07,
+    "maximum_preserved_normal_delta_degrees": 0.00336058688156249,
+    "maximum_preserved_position_delta_m": 0.0,
+    "maximum_preserved_tangent_delta_degrees": 0.00336058688156249,
+    "maximum_preserved_uv_delta": 0.0,
+    "maximum_seam_error_m": 4.76837158203125e-07,
+    "maximum_tangent_dot": 0.000151097774505615,
+    "minimum_triangle_area_square_m": 0.0701017081737518,
+    "native_packed_prefix_byte_value_exact": false,
+    "new_vertices": 128,
+    "preserved_tangent_signs_match": true,
+    "removed_hidden_top": 64,
+    "retained_side_bottom": 192,
+    "top_water_footprint_overlap_square_m": 0.0,
+    "water_top_above_rim_m": 0.005
+  },
+  "review": {
+    "banding": "Candidate removes fine fountain radial bands in wide and close stills while basin casting remains ON and materials still receive shadows.",
+    "exterior": "Outer wall/coping are visibly retained. Candidate versus restoredB exterior ground below y440 is byte-identical. However the right near contact shadow becomes lighter/detached:772pixels change in ROI(1010,355)-(1120,415), maximum88RGB8. This fails complete exterior-shadow preservation. Missing inward-facing walls and one-sided shadow culling are a hypothesis, not yet a controlled cause.",
+    "seam": "Native64-sector water boundary matches within0.477micrometres; measured projected top/water footprint overlap0m\u00b2. Existing water is5mmabove the original hidden cap plane; the separate raised decorative/grind coping remains untouched.",
+    "counter_limits": "Candidate versus restoredB has equal draws at all3views and+64shadow primitives. OriginalcontrolA includes extra draws/primitives (warm/culling transient); do not claim whole-bracket draw invariance or cost acceptance.",
+    "packing_corrections": "Earlier guard rejected exact resource-bound and packed-vector-byte assumptions. Final candidate explicitly uses original custom render bounds; positions/UV/handedness and192side/bottom triangle indices remain exact. Native normal/tangent repacking changes at most0.00336degree, bounded by0.005degree (existing ornament uses0.02degree). Retained rejected reports disclose this correction."
+  },
+  "pixel_observations": [
+    {
+      "name": "exterior-ground",
+      "box": [
+        0,
+        440,
+        1280,
+        800
+      ],
+      "maximum_rgb8_delta": 0,
+      "mean_absolute_rgb8_delta": 0.0,
+      "changed_pixels": 0
+    },
+    {
+      "name": "outer-contact-shadow",
+      "box": [
+        1010,
+        355,
+        1120,
+        415
+      ],
+      "maximum_rgb8_delta": 88,
+      "mean_absolute_rgb8_delta": 4.912373737373738,
+      "changed_pixels": 772,
+      "changed_pixels_all_lighter": true
+    },
+    {
+      "name": "exterior-wall",
+      "box": [
+        330,
+        378,
+        970,
+        420
+      ],
+      "maximum_rgb8_delta": 33,
+      "mean_absolute_rgb8_delta": 0.031956845238095236,
+      "changed_pixels": 112
+    }
+  ],
+  "overlap_limits": "Root-authorized short ME/LD headless diagnostics may overlap. No continuous host observer, uncontended timing, cold-cache, normal-speed, target-Mac or final-water claim. Warm independent cache was copied between completed runs. Three-wave cost remains separate and open.",
+  "next": "Root authorizes private diagnosis before a credible hollow-wall/floor topology, revised maximum512total source triangles (+256),\u226464KiB added native buffers,zero new mesh nodes/materials/maps/lights/collision changes. No promotion of this top-only candidate.",
+  "preserved_files_sha256": {
+    "actual-main-water-report.json": "1b0c7e6b386926bcbd3dce6d2adc31bd8bb72e06d4e31e4ca34ae5a4b7f4b334",
+    "annular-coping-exterior-shadow.png": "becd1fa51d578c5fe3caf433e284bb6ffff5049965b2c2650b9d0337950fcb93",
+    "annular-coping-fountain-wide.png": "70ddc151ed18f6fc925fb16c1167b7e17af6023163a6c026f5cce868fae86152",
+    "annular-coping-water-rim-close.png": "8f38bfc8192ababbd0732dff1932d847e33823240edb54b2c71c4b39ed123aec",
+    "before-a-exterior-shadow.png": "a5bf7878e99cf05d89b15e8dbd9c4061f104f99b9d1c6d6e50557f2dbdb3ae92",
+    "before-a-fountain-wide.png": "3184ca7ce605b91fe0b35e09a63f43dd9bbebbe82de31453fdfe792eb669e351",
+    "before-a-water-rim-close.png": "26d32cde7da4771cb3934d1475ecd2177b099204bb3d53f824517e9a0e6b8fad",
+    "before-b-exterior-shadow.png": "3cce203df007f91d1ffb6daa9b5c18e90bb5f1663f080505a7f0af82c8f31ba7",
+    "before-b-fountain-wide.png": "c10ff932f73e628bdd1c4ef86628babd6944ba52bf4dd544359a7ae57a384f41",
+    "before-b-water-rim-close.png": "90d73d71d701a1f6a025190e6bf07e7b11252205d2681f1a7e45dceb85b6343f",
+    "display": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "engine.log": "f62d882d365949cdd72707fcac95a47a2ee1bc4502b8446f540e56f0065e01ae",
+    "executed-source/game/levels/art/fountain_basin_mesh.gd.txt": "c61921d5055b2a023a80ee2ccd3deba411a588e88b16b78d69249e3ededda0b0",
+    "executed-source/game/levels/glasgow_square.gd.txt": "b4c14e92a3c91b9ae86e25c0ebfa0342ecb0054f2df01332a536171803dedc6d",
+    "executed-source/game/levels/water_shadow_policy.gd.txt": "5eb47aae515824b26637cec1b388db9b7c2038647037ae1a75705a146197f696",
+    "executed-source/tools/environment_main_basin_topology_capture.gd.txt": "49e43d52b954caf521d53dbe1229929069a94fcde70d7a2a68bd2f26ed2b106e",
+    "executed-source/tools/environment_main_water_base.gd.txt": "e599f32f153c2b3294ab72bd9fe00e15f881b6a2b17f8964aa336b335cf81e10",
+    "executed-source/tools/environment_main_water_shadow_capture.gd.txt": "5808f306f1044cf23928a8e0d95abca5f5effde622309b822825d5dea97580d9",
+    "executed-source/tools/environment_water_probe.py.txt": "6554021ed3831dac8bf002a8062c8060418a35a5458966a656686166da26f8ba",
+    "executed-source/tools/fountain_basin_geometry_guard.gd.txt": "cc462ce6432194cf25c71daff53fc8d03a4598035a82ec71b9517d55e20c3f3a",
+    "executed-source/tools/full_fidelity_capture.gd.txt": "5cb7c12ec634519e1b52d9375af663e2d5a588f0f84b615f76d1af81e4ffc388",
+    "native-geometry-guard.json": "e22166ee62a2dad9af13186d6ae6f330a0852cddeda2c79b5deee5485af7eb5e",
+    "private-copy-and-budget.json": "6f15ff26bda1328ab079af24b4b0e73f854a1c2a13dfe19ea8170dc0c56e90f6",
+    "receipt.json": "8cdfb0a2d6b5ac9add5415f1ebdbb1ce3c68908de6c66748efd2e2c46e435e62",
+    "rejected-first-guard/basin-topology-guard.json": "d0a686b4424a9097378cde901b35b3481e1d8d6f5746b04f8c55daaf56ac6a75",
+    "rejected-first-guard/fountain_basin_geometry_guard.gd": "a2e1442a50c394c30b8e88b27af1b34bb56ded8b851313ee017ebb4c583bb584",
+    "rejected-first-guard/fountain_basin_mesh.gd": "94949408e490102b70a7c8d17f2c79f933939d598c9d41fdbc7de41230803ce3",
+    "rejected-packed-identity-guard/basin-topology-guard.json": "682026c4d05bc1f70a72f8a73256b7e8f3f9226799933c5bba6d61aecf9e1f4e",
+    "rejected-packed-identity-guard/fountain_basin_geometry_guard.gd": "0d8151fe8b05a04a8b86e595780b90f5f49aa2dd68d9d44ee552a873dd28f5ff",
+    "source-after.json": "17f6978cde33f9a2fdeaf9f43439295113b98bddf1d5d1500b314fc862b0b80d",
+    "source-before.json": "17f6978cde33f9a2fdeaf9f43439295113b98bddf1d5d1500b314fc862b0b80d",
+    "synchronization/first_contact_inspection.png": "0f1a339c97958d4ccc090a82ba7a57a5a17d0e4d21e7add6274b647568faaf0f",
+    "synchronization/overview_before_contact.png": "b9881c70a83a587f5fc8691aa8ec89a0013ae2d8625d6f6fd81fb876ac212fda",
+    "synchronization/return_to_production_chase.png": "b6909d82308a106e55781001da124bd2ab447f7b2604ee1dfd580e65b3cce073",
+    "xorg-console.log": "d44b1b62748837b608b53d9ed8e060b31809474de94db65e03853d94ee39a640",
+    "xorg.log": "d73b25ca5e62a5542057c38a5d6a7f300f653bb1774b3be295d21bc48bc83dda"
+  }
+}

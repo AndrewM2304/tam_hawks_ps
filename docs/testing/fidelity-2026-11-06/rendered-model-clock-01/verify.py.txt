@@ -1,0 +1,30 @@
+from pathlib import Path
+from PIL import Image
+import hashlib, json, sys
+
+p = Path(sys.argv[1])
+sha = lambda b: hashlib.sha256(b).hexdigest()
+for name, expected in json.loads((p / 'preservation.json').read_text()).items():
+    assert sha((p / name).read_bytes()) == expected, name
+before = json.loads((p / 'source-before.json').read_text())
+after = json.loads((p / 'source-after.json').read_text())
+assert before == after and len(before) == 4
+for source in ['project.godot', 'witness.gd']:
+    assert sha((p / (source + '.txt')).read_bytes()) == before[source]
+assert sha((p / 'wrapper.py.txt').read_bytes()) == before['EXTERNAL_WRAPPER']
+assert sha((p / 'xorg-dummy.conf.txt').read_bytes()) == before['XORG_CONFIG']
+report = json.loads((p / 'report.json').read_text())
+assert len(report['checks']) == 13 and not report['failures']
+ticks = set()
+for sample in report['samples']:
+    image = Image.open(p / sample['file']).convert('RGBA')
+    assert sha(image.tobytes()) == sample['rgba8_sha256']
+    assert sha((p / sample['file']).read_bytes()) == sample['png_sha256']
+    gpu = image.getpixel((32, 32))[0] / 255 / 10
+    assert abs(gpu - sample['rendered_global']['origin'][0]) <= 1.1 / 255 / 10
+    assert abs(gpu - sample['current_global']['origin'][0]) > .005
+    assert sample['before'] == sample['after']
+    assert not sample['child_interpolation_enabled'] and sample['parent_interpolation_enabled']
+    ticks.add(sample['before']['physics'])
+assert len(ticks) == 3
+print('All3 native GPU MODEL_MATRIX readbacks and actual interpolation authority verified.')

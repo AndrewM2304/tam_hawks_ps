@@ -1,0 +1,42 @@
+{
+  "oracle_self_test": {
+    "valid_tetra": true,
+    "sub_femtometre_outside_rejected": true,
+    "open_hull_rejected": true,
+    "invented_vertex_rejected": true,
+    "flipped_face_rejected": true
+  },
+  "input_sha256": "db55585f90b331c5010f20a12f253a8fd397b493536f5ba691e3c71352b5947d",
+  "legs": [
+    {
+      "passed": true,
+      "failures": [],
+      "source_unique_points": 1645,
+      "support_points": 288,
+      "faces": 572,
+      "positive_exact_orientation_count": 0,
+      "first_outside": null,
+      "bad_directed_edges": 0,
+      "degenerate_faces": 0,
+      "euler_characteristic": 2,
+      "all_support_vertices_exact_source": true,
+      "arithmetic": "unbounded Python integer determinants over exact binary native float coordinates; zero geometry tolerance"
+    },
+    {
+      "passed": true,
+      "failures": [],
+      "source_unique_points": 1645,
+      "support_points": 294,
+      "faces": 584,
+      "positive_exact_orientation_count": 0,
+      "first_outside": null,
+      "bad_directed_edges": 0,
+      "degenerate_faces": 0,
+      "euler_characteristic": 2,
+      "all_support_vertices_exact_source": true,
+      "arithmetic": "unbounded Python integer determinants over exact binary native float coordinates; zero geometry tolerance"
+    }
+  ],
+  "raw_XYZ_payload_bytes": 6984,
+  "passed": true
+}

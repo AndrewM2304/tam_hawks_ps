@@ -1,0 +1,646 @@
+{
+  "input_sha256": "6e1d65017e5a229c76cae8cc8fbb5256671602f03d0ddd379a97dee74456199f",
+  "scope": "offline arithmetic over immutable native result; no newengine or gameplay",
+  "camera_phase_correction": "Historical raw key completed_frame_camera actually samples SceneTree.process_frame signal BEFORE camera._process; first2counterfailures are pre-camera observations, not rendered occlusion certification",
+  "cases": [
+    {
+      "requested_id": "Grind_Edge_StreetBenchSeat_x2900y0z2700_0_0",
+      "guide_verified": false,
+      "guide_source": "",
+      "captured_ids": [
+        "Grind_Edge_StreetBenchSeat_x2900y0z2700_2_0"
+      ],
+      "native_physics_samples": 24,
+      "bails": 0,
+      "camera_preupdate_failure_physics": [],
+      "steady_last8_physics": [
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65
+      ],
+      "unsupported_native_hit_pairs": 0,
+      "saturated_native_frames": 0,
+      "all": {
+        "native_hanger_bearing_gap_samples": {
+          "slots": 48,
+          "missing_ray_slots_unknown": 0,
+          "signed": {
+            "count": 48,
+            "minimum_m": 0.017351865768432617,
+            "median_m": 0.0545579195022583,
+            "p95_m": 0.05498915910720825,
+            "maximum_m": 0.05499255657196045
+          },
+          "vertical": {
+            "count": 48,
+            "minimum_m": 0.017351865768432617,
+            "median_m": 0.0545579195022583,
+            "p95_m": 0.05498915910720825,
+            "maximum_m": 0.05499255657196045
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/@StaticBody3D@3594"
+          ]
+        },
+        "native_tyre_vertex_minimum_gap_samples": {
+          "slots": 96,
+          "missing_ray_slots_unknown": 44,
+          "signed": {
+            "count": 52,
+            "minimum_m": 0.00035184621810913086,
+            "median_m": 0.038375675678253174,
+            "p95_m": 0.040179669857025146,
+            "maximum_m": 0.04029887914657593
+          },
+          "vertical": {
+            "count": 52,
+            "minimum_m": 0.00035184621810913086,
+            "median_m": 0.038375675678253174,
+            "p95_m": 0.040179669857025146,
+            "maximum_m": 0.04029887914657593
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/@StaticBody3D@3594"
+          ]
+        }
+      },
+      "last8": {
+        "native_hanger_bearing_gap_samples": {
+          "slots": 16,
+          "missing_ray_slots_unknown": 0,
+          "signed": {
+            "count": 16,
+            "minimum_m": 0.05489957332611084,
+            "median_m": 0.0549771785736084,
+            "p95_m": 0.05499255657196045,
+            "maximum_m": 0.05499255657196045
+          },
+          "vertical": {
+            "count": 16,
+            "minimum_m": 0.05489957332611084,
+            "median_m": 0.0549771785736084,
+            "p95_m": 0.05499255657196045,
+            "maximum_m": 0.05499255657196045
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/@StaticBody3D@3594"
+          ]
+        },
+        "native_tyre_vertex_minimum_gap_samples": {
+          "slots": 32,
+          "missing_ray_slots_unknown": 16,
+          "signed": {
+            "count": 16,
+            "minimum_m": 0.03942781686782837,
+            "median_m": 0.03994089365005493,
+            "p95_m": 0.04029887914657593,
+            "maximum_m": 0.04029887914657593
+          },
+          "vertical": {
+            "count": 16,
+            "minimum_m": 0.03942781686782837,
+            "median_m": 0.03994089365005493,
+            "p95_m": 0.04029887914657593,
+            "maximum_m": 0.04029887914657593
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/@StaticBody3D@3594"
+          ]
+        }
+      },
+      "last_actual_body": {
+        "basis": [
+          [
+            -4.371138828673793e-08,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            -4.371138828673793e-08
+          ]
+        ],
+        "origin": [
+          29.296958923339844,
+          0.6000000238418579,
+          27.260000228881836
+        ]
+      },
+      "last_actual_board": {
+        "basis": [
+          [
+            -4.370107475892837e-08,
+            -0.021719656884670258,
+            0.999764084815979
+          ],
+          [
+            -9.493963393225613e-10,
+            0.999764084815979,
+            0.021719656884670258
+          ],
+          [
+            -1.0,
+            0.0,
+            -4.371138828673793e-08
+          ]
+        ],
+        "origin": [
+          29.29697036743164,
+          0.7029682397842407,
+          27.262205123901367
+        ]
+      }
+    },
+    {
+      "requested_id": "Grind_Edge_Planter_x-2900y40z1300_0_0",
+      "guide_verified": false,
+      "guide_source": "",
+      "captured_ids": [
+        "Grind_Edge_Planter_x-2900y40z1300_0_0"
+      ],
+      "native_physics_samples": 24,
+      "bails": 0,
+      "camera_preupdate_failure_physics": [],
+      "steady_last8_physics": [
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129
+      ],
+      "unsupported_native_hit_pairs": 0,
+      "saturated_native_frames": 0,
+      "all": {
+        "native_hanger_bearing_gap_samples": {
+          "slots": 48,
+          "missing_ray_slots_unknown": 0,
+          "signed": {
+            "count": 48,
+            "minimum_m": 0.055018603801727295,
+            "median_m": 0.05658537149429321,
+            "p95_m": 0.1193627119064331,
+            "maximum_m": 0.1482146978378296
+          },
+          "vertical": {
+            "count": 48,
+            "minimum_m": 0.055018603801727295,
+            "median_m": 0.05658537149429321,
+            "p95_m": 0.1193627119064331,
+            "maximum_m": 0.1482146978378296
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/Planter"
+          ]
+        },
+        "native_tyre_vertex_minimum_gap_samples": {
+          "slots": 96,
+          "missing_ray_slots_unknown": 48,
+          "signed": {
+            "count": 48,
+            "minimum_m": 0.03532940149307251,
+            "median_m": 0.0383986234664917,
+            "p95_m": 0.102261483669281,
+            "maximum_m": 0.1312146782875061
+          },
+          "vertical": {
+            "count": 48,
+            "minimum_m": 0.03532940149307251,
+            "median_m": 0.0383986234664917,
+            "p95_m": 0.102261483669281,
+            "maximum_m": 0.1312146782875061
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/Planter"
+          ]
+        }
+      },
+      "last8": {
+        "native_hanger_bearing_gap_samples": {
+          "slots": 16,
+          "missing_ray_slots_unknown": 0,
+          "signed": {
+            "count": 16,
+            "minimum_m": 0.055018603801727295,
+            "median_m": 0.05508190393447876,
+            "p95_m": 0.05524885654449463,
+            "maximum_m": 0.05524885654449463
+          },
+          "vertical": {
+            "count": 16,
+            "minimum_m": 0.055018603801727295,
+            "median_m": 0.05508190393447876,
+            "p95_m": 0.05524885654449463,
+            "maximum_m": 0.05524885654449463
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/Planter"
+          ]
+        },
+        "native_tyre_vertex_minimum_gap_samples": {
+          "slots": 32,
+          "missing_ray_slots_unknown": 16,
+          "signed": {
+            "count": 16,
+            "minimum_m": 0.03532940149307251,
+            "median_m": 0.03592032194137573,
+            "p95_m": 0.0364648699760437,
+            "maximum_m": 0.0364648699760437
+          },
+          "vertical": {
+            "count": 16,
+            "minimum_m": 0.03532940149307251,
+            "median_m": 0.03592032194137573,
+            "p95_m": 0.0364648699760437,
+            "maximum_m": 0.0364648699760437
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/Planter"
+          ]
+        }
+      },
+      "last_actual_body": {
+        "basis": [
+          [
+            -4.371138828673793e-08,
+            0.0,
+            1.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            -1.0,
+            0.0,
+            -4.371138828673793e-08
+          ]
+        ],
+        "origin": [
+          -28.811016082763672,
+          0.8550000190734863,
+          11.5
+        ]
+      },
+      "last_actual_board": {
+        "basis": [
+          [
+            -4.370107475892837e-08,
+            -0.021719656884670258,
+            0.999764084815979
+          ],
+          [
+            -9.493963393225613e-10,
+            0.999764084815979,
+            0.021719656884670258
+          ],
+          [
+            -1.0,
+            0.0,
+            -4.371138828673793e-08
+          ]
+        ],
+        "origin": [
+          -28.811016082763672,
+          0.9579943418502808,
+          11.502237319946289
+        ]
+      }
+    },
+    {
+      "requested_id": "Grind_Edge_MarketCounter_x10800y60z200_0_0",
+      "guide_verified": false,
+      "guide_source": "",
+      "captured_ids": [
+        "Grind_Edge_MarketCounter_x10800y60z200_0_0"
+      ],
+      "native_physics_samples": 24,
+      "bails": 0,
+      "camera_preupdate_failure_physics": [
+        170,
+        171
+      ],
+      "steady_last8_physics": [
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193
+      ],
+      "unsupported_native_hit_pairs": 0,
+      "saturated_native_frames": 0,
+      "all": {
+        "native_hanger_bearing_gap_samples": {
+          "slots": 48,
+          "missing_ray_slots_unknown": 0,
+          "signed": {
+            "count": 48,
+            "minimum_m": 0.05501854419708252,
+            "median_m": 0.05658531188964844,
+            "p95_m": 0.11936259269714355,
+            "maximum_m": 0.14821457862854004
+          },
+          "vertical": {
+            "count": 48,
+            "minimum_m": 0.05501854419708252,
+            "median_m": 0.05658531188964844,
+            "p95_m": 0.11936259269714355,
+            "maximum_m": 0.14821457862854004
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/MarketStall/StallCounter"
+          ]
+        },
+        "native_tyre_vertex_minimum_gap_samples": {
+          "slots": 96,
+          "missing_ray_slots_unknown": 48,
+          "signed": {
+            "count": 48,
+            "minimum_m": 0.035329341888427734,
+            "median_m": 0.0383986234664917,
+            "p95_m": 0.10226130485534668,
+            "maximum_m": 0.13121461868286133
+          },
+          "vertical": {
+            "count": 48,
+            "minimum_m": 0.035329341888427734,
+            "median_m": 0.0383986234664917,
+            "p95_m": 0.10226130485534668,
+            "maximum_m": 0.13121461868286133
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/MarketStall/StallCounter"
+          ]
+        }
+      },
+      "last8": {
+        "native_hanger_bearing_gap_samples": {
+          "slots": 16,
+          "missing_ray_slots_unknown": 0,
+          "signed": {
+            "count": 16,
+            "minimum_m": 0.05501854419708252,
+            "median_m": 0.055081844329833984,
+            "p95_m": 0.05524873733520508,
+            "maximum_m": 0.05524873733520508
+          },
+          "vertical": {
+            "count": 16,
+            "minimum_m": 0.05501854419708252,
+            "median_m": 0.055081844329833984,
+            "p95_m": 0.05524873733520508,
+            "maximum_m": 0.05524873733520508
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/MarketStall/StallCounter"
+          ]
+        },
+        "native_tyre_vertex_minimum_gap_samples": {
+          "slots": 32,
+          "missing_ray_slots_unknown": 16,
+          "signed": {
+            "count": 16,
+            "minimum_m": 0.035329341888427734,
+            "median_m": 0.03592026233673096,
+            "p95_m": 0.036464810371398926,
+            "maximum_m": 0.036464810371398926
+          },
+          "vertical": {
+            "count": 16,
+            "minimum_m": 0.035329341888427734,
+            "median_m": 0.03592026233673096,
+            "p95_m": 0.036464810371398926,
+            "maximum_m": 0.036464810371398926
+          },
+          "minimum_normal_y": 1.0,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/MarketStall/StallCounter"
+          ]
+        }
+      },
+      "last_actual_body": {
+        "basis": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "origin": [
+          106.5,
+          1.2549999952316284,
+          3.251016616821289
+        ]
+      },
+      "last_actual_board": {
+        "basis": [
+          [
+            0.999764084815979,
+            -0.021719656884670258,
+            0.0
+          ],
+          [
+            0.021719656884670258,
+            0.999764084815979,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "origin": [
+          106.50223541259766,
+          1.3579943180084229,
+          3.251016616821289
+        ]
+      }
+    },
+    {
+      "requested_id": "clyde_bridge_rail",
+      "guide_verified": false,
+      "guide_source": "",
+      "captured_ids": [
+        "clyde_bridge_rail"
+      ],
+      "native_physics_samples": 24,
+      "bails": 0,
+      "camera_preupdate_failure_physics": [],
+      "steady_last8_physics": [
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257
+      ],
+      "unsupported_native_hit_pairs": 0,
+      "saturated_native_frames": 0,
+      "all": {
+        "native_hanger_bearing_gap_samples": {
+          "slots": 48,
+          "missing_ray_slots_unknown": 0,
+          "signed": {
+            "count": 48,
+            "minimum_m": 0.015339857898652554,
+            "median_m": 0.016145657747983932,
+            "p95_m": 0.048456933349370956,
+            "maximum_m": 0.06330616772174835
+          },
+          "vertical": {
+            "count": 48,
+            "minimum_m": 0.01535940170288086,
+            "median_m": 0.016166210174560547,
+            "p95_m": 0.048517465591430664,
+            "maximum_m": 0.0633852481842041
+          },
+          "minimum_normal_y": 0.9987523555755615,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/OutdoorRoutes/clyde_bridge_railNativeBeam"
+          ]
+        },
+        "native_tyre_vertex_minimum_gap_samples": {
+          "slots": 96,
+          "missing_ray_slots_unknown": 96,
+          "signed": {
+            "count": 0,
+            "unknown": "no native ray in declared range; not clear/support/load proof"
+          },
+          "vertical": {
+            "count": 0,
+            "unknown": "no native ray in declared range; not clear/support/load proof"
+          },
+          "minimum_normal_y": null,
+          "actual_owners": []
+        }
+      },
+      "last8": {
+        "native_hanger_bearing_gap_samples": {
+          "slots": 16,
+          "missing_ray_slots_unknown": 0,
+          "signed": {
+            "count": 16,
+            "minimum_m": 0.015339857898652554,
+            "median_m": 0.0153726227581501,
+            "p95_m": 0.015458918176591396,
+            "maximum_m": 0.015458918176591396
+          },
+          "vertical": {
+            "count": 16,
+            "minimum_m": 0.01535940170288086,
+            "median_m": 0.015391826629638672,
+            "p95_m": 0.01547861099243164,
+            "maximum_m": 0.01547861099243164
+          },
+          "minimum_normal_y": 0.9987523555755615,
+          "actual_owners": [
+            "/root/@Node3D@2/GlasgowSquare/OutdoorRoutes/clyde_bridge_railNativeBeam"
+          ]
+        },
+        "native_tyre_vertex_minimum_gap_samples": {
+          "slots": 32,
+          "missing_ray_slots_unknown": 32,
+          "signed": {
+            "count": 0,
+            "unknown": "no native ray in declared range; not clear/support/load proof"
+          },
+          "vertical": {
+            "count": 0,
+            "unknown": "no native ray in declared range; not clear/support/load proof"
+          },
+          "minimum_normal_y": null,
+          "actual_owners": []
+        }
+      },
+      "last_actual_body": {
+        "basis": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "origin": [
+          21.600000381469727,
+          3.5245554447174072,
+          83.88249206542969
+        ]
+      },
+      "last_actual_board": {
+        "basis": [
+          [
+            0.999764084815979,
+            -0.021692559123039246,
+            0.001084627932868898
+          ],
+          [
+            0.021719656884670258,
+            0.9985167384147644,
+            -0.04992583766579628
+          ],
+          [
+            0.0,
+            0.049937617033720016,
+            0.9987523555755615
+          ]
+        ],
+        "origin": [
+          21.602237701416016,
+          3.6274123191833496,
+          83.87734985351562
+        ]
+      }
+    }
+  ]
+}

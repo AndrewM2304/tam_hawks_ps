@@ -1,0 +1,130 @@
+extends "res://tools/environment_main_water_shadow_capture.gd"
+const Fixture = preload("res://tools/fountain_component_world.gd")
+const City = preload("res://game/levels/city_art.gd")
+const ContextSky = preload("res://game/levels/horizon_background.gd")
+const BasinMesh = preload("res://game/levels/art/fountain_basin_mesh.gd")
+var _fixture: Node3D
+var _cull_images: Array[Dictionary] = []
+var _original_mesh: CylinderMesh
+var _annular_mesh: ArrayMesh
+
+func _run() -> void:
+	var args:=OS.get_cmdline_user_args()
+	if args.size()!=1 or DisplayServer.get_name()=="headless":quit(2);return
+	output=args[0]
+	if not (ProjectSettings.globalize_path(output).simplify_path()+"/").begins_with(ProjectSettings.globalize_path("res://.local/").simplify_path()+"/"):
+		quit(2);return
+	root.size=Vector2i(640,400)
+	root.content_scale_size=root.size
+	RenderingServer.set_render_loop_enabled(false)
+	_fixture=Fixture.new()
+	root.add_child(_fixture)
+	_fixture._city_art=City.new()
+	_fixture.add_child(_fixture._city_art)
+	_fixture._make_materials()
+	_fixture._build_lighting()
+	var environment: WorldEnvironment=_fixture.find_children("*","WorldEnvironment",false,false)[0]
+	var panorama:=ShaderMaterial.new()
+	panorama.shader=ContextSky.SKY_SHADER
+	panorama.set_shader_parameter("context_sky",ContextSky.SKY_CUBE)
+	environment.environment.sky.sky_material=panorama
+	environment.environment.sky.process_mode=Sky.PROCESS_MODE_QUALITY
+	_fixture._fountain(Vector3(0,0,10),6.2)
+	_basin=_fixture.get_node("ExchangeFountain/FountainBasin")
+	_original_mesh=_basin.mesh as CylinderMesh
+	var water: MeshInstance3D=_fixture.get_node("ExchangeFountain/FountainWater")
+	var material:=ShaderMaterial.new()
+	material.shader=Policy.WATER
+	water.material_override=material
+	water.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_annular_mesh=BasinMesh.create(_original_mesh,water.mesh.top_radius)
+	var ground:=MeshInstance3D.new()
+	var plane:=PlaneMesh.new()
+	plane.size=Vector2(40,40)
+	ground.mesh=plane
+	ground.position=Vector3(0,0,10)
+	ground.material_override=_fixture._materials.paving
+	ground.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_fixture.add_child(ground)
+	# Cause-only material control: remove photographic sampling from receiver
+	# and stone/bronze displays, keeping the native opaque cull/receive settings.
+	var flat:=StandardMaterial3D.new()
+	flat.albedo_color=Color(0.55,0.55,0.55)
+	flat.roughness=0.85
+	flat.metallic_specular=0.28
+	flat.cull_mode=BaseMaterial3D.CULL_BACK
+	for geometry: GeometryInstance3D in _fixture.find_children("*","GeometryInstance3D",true,false):
+		if geometry.material_override is StandardMaterial3D:
+			_check(geometry.material_override.cull_mode==flat.cull_mode and not geometry.material_override.disable_receive_shadows,"source opaque cull/reception flags match flat diagnostic control")
+			geometry.material_override=flat
+	_inspection=Camera3D.new()
+	_inspection.fov=68
+	_inspection.far=220
+	_inspection.position=Vector3(9,1.4,17)
+	_fixture.add_child(_inspection)
+	_inspection.look_at(Vector3(4.8,0.3,13.8))
+	_inspection.current=true
+	_create_pixel_proofs()
+	_fixture.process_mode=Node.PROCESS_MODE_DISABLED
+	var modes: Array[Dictionary]=[{"id":"solid-original","mesh":_original_mesh,"cast":GeometryInstance3D.SHADOW_CASTING_SETTING_ON},
+		{"id":"annular-one-sided","mesh":_annular_mesh,"cast":GeometryInstance3D.SHADOW_CASTING_SETTING_ON},
+		{"id":"annular-double-sided","mesh":_annular_mesh,"cast":GeometryInstance3D.SHADOW_CASTING_SETTING_DOUBLE_SIDED},
+		{"id":"solid-restored","mesh":_original_mesh,"cast":GeometryInstance3D.SHADOW_CASTING_SETTING_ON}]
+	for mode_index: int in modes.size():
+		var mode: Dictionary=modes[mode_index]
+		_basin.mesh=mode.mesh
+		_basin.cast_shadow=mode.cast
+		_position_proofs(mode_index,0)
+		# Native settling draws use the same inherited post-draw fence. They are
+		# discarded, not timed or silently substituted for retained originals.
+		for warm: int in 3:
+			await process_frame
+			await create_timer(0.0,true).timeout
+			await _render_current_frame()
+		await process_frame
+		await create_timer(0.0,true).timeout
+		var physics_before:=Engine.get_physics_frames()
+		var process_before:=Engine.get_process_frames()
+		var image: Image=await _render_current_frame()
+		var proof:=_verify_pixel_proofs(image)
+		var projection: Projection=_inspection.get_camera_projection()
+		var filename: String=mode.id+".png"
+		var stored:=_store_frame(image,filename)
+		_cull_images.append({"file":filename,"mode":mode.id,"pixels":stored,"basin_cast_flag":_basin.cast_shadow,"mesh_id":_basin.mesh.get_instance_id(),"material_id":_basin.material_override.get_instance_id(),"surface_count":_basin.mesh.get_surface_count(),"triangles":_basin.mesh.get_faces().size()/3,
+			"physics_before":physics_before,"physics_after":Engine.get_physics_frames(),"process_before":process_before,"process_after":Engine.get_process_frames(),"pixel_proofs":proof,
+			"camera_position":_v(_inspection.global_position),"camera_basis":[_v(_inspection.global_basis.x),_v(_inspection.global_basis.y),_v(_inspection.global_basis.z)],
+			"projection_columns":[_v4(projection.x),_v4(projection.y),_v4(projection.z),_v4(projection.w)],"keep_aspect":_inspection.keep_aspect,"near":_inspection.near,"far":_inspection.far,"fov":_inspection.fov,"viewport_size":[root.size.x,root.size.y],"counters":_native_counters()})
+		_write_cull_report(false)
+	_check(_cull_images.size()==4,"four original/annular single-sided/double-sided/restored component images completed")
+	_write_cull_report(true)
+	print("BASIN_CULL_COMPONENT checks=",checks," failures=",failures," images=",_cull_images.size())
+	quit(1 if failures else 0)
+
+func _write_cull_report(complete: bool) -> void:
+	var sun: DirectionalLight3D=_fixture.get_node("LateAfternoonSun")
+	var report: Dictionary={"schema":1,"complete":complete,"checks":checks,"failures":failures,"images":_cull_images,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),"timing_measured":false,
+		"sun_shadow_enabled":sun.shadow_enabled,"sun_reverse_cull_face":sun.shadow_reverse_cull_face,"water_cast_shadow":0,"actual_main_constructed":false,
+		"limits":"Component cause diagnosis only, not actual Main or final exterior-shadow acceptance. Exact source _fountain and _build_lighting called on a fixture subclass that explicitly bypasses full _ready; flatY0support matches fountain neighbourhood. Native original solid vs same annular mesh casterON vs DOUBLE_SIDED vs restored original; only shadow culling flag changes between annular states. Actual source final horizon sky material retained. Flat native grey diagnostic receiver/displays replace photographic samplers consistently in all modes; same source opaque cull/reception flags verified. Native640x400, three settling draws per mode; full current camera/tick/independent marker/Canvas proofs for all4originals. No timing, cold-cache, sole-engine, gameplay, moving-shadow, water-realism orM5 claim."}
+	var file:=FileAccess.open(output.path_join("basin-cull-report.json"),FileAccess.WRITE)
+	if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	else:_check(false,"component culling report writable")
+
+func _render_current_frame() -> Image:
+	# Let the engine flush current Node3D, Skeleton and Canvas notifications in
+	# its normal render pass. Manual force_draw immediately after changing the
+	# camera can read the previous camera, even when metadata is already current.
+	var native_tick := Engine.get_physics_frames()
+	var process_tick := Engine.get_process_frames()
+	var started := Time.get_ticks_usec()
+	RenderingServer.set_render_loop_enabled(true)
+	await RenderingServer.frame_post_draw
+	RenderingServer.set_render_loop_enabled(false)
+	_check(Engine.get_physics_frames() == native_tick and Engine.get_process_frames() == process_tick,
+		"natural readback completes the current frame without another physics/process tick")
+	var image := root.get_texture().get_image()
+	image.convert(Image.FORMAT_RGBA8)
+	_check(image.get_width() == 640 and image.get_height() == 400,
+		"native capture retains the declared640by400 diagnostic viewport")
+	image.set_meta("draw_and_read_microseconds", Time.get_ticks_usec() - started)
+	return image
+

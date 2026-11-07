@@ -48,7 +48,7 @@ Persistent specialist workflow: [skating-motion skill](../../.agents/skills/skat
 
 `tools/full_fidelity_capture.sh` keeps its default complete78-trick coverage and exact native RGBA/decoded PNG, camera/Canvas synchronization, source-freeze and full movie-decode proofs. Optional `--cohort push-contact --push-view front|side|chase` captures only the seven ordinary Main push/brake/pop cases at native60Hz and encodes normal-speed60fps. Its manifest explicitly marks complete repertoire coverage false. Each view publishes to a separate `screenshots/push-contact-VIEW` directory; it cannot overwrite the default full-fidelity packet. Restarts/setup settling are omitted from clips. Authored front/side inspection cameras are labelled; chase uses the production camera and HUD.
 
-An independent six-frame meter probe found an inherited dynamic `_snapshot` bug already present in baseline HEAD: it accessed `TransitionRide.state` and treated that helper's Dictionary feature as a Node. Its packet was rejected despite completed assertions. The tool now reads authored-feature state/Node from `_feature_transition`, and separately records the real cylindrical helper's active flag, Dictionary ID/body and theta. A new `tools/full_fidelity_capture_smoke.gd` constructs actual Main and calls `_snapshot` before costly rendering; parser-only checks cannot catch this dynamic misuse. The wrapper preserves its smoke log with the capture. Actual inactive-Main smoke passes3/0 with a clean engine log. Independent QA cold-read confirms both real helper contracts; full active-contact/capture verification remains separate.
+An independent six-frame meter probe found an inherited dynamic `_snapshot` bug already present in baseline HEAD: it accessed `TransitionRide.state` and treated that helper's Dictionary feature as a Node. Its packet was rejected despite completed assertions. The tool now reads authored-feature state/Node from `_feature_transition`, and separately records the real cylindrical helper's active flag, Dictionary ID/body and theta. A new `tools/full_fidelity_capture_smoke.gd` constructs actual Main and calls `_snapshot` before costly rendering; parser-only checks cannot catch this dynamic misuse. The wrapper preserves its smoke log with the capture. Actual inactive-Main smoke passes3/0 with a clean engine log. A subsequent [actual cylindrical-active Main witness](motion-fidelity-2026-11-07/capture-cylindrical-active-native/README.md) passes4/0: initial spawn/heading plus42 mapped Push ticks earn the real clyde_half_east contact and snapshot ID/native body/theta without helper-state injection. The original Clyde route separately exercises an active authored helper. Independent QA cold-read confirms both real contracts; complete rendered capture verification remains separate.
 
 Commands (after a clean, coordinated source/import freeze):
 
@@ -86,3 +86,37 @@ Subsequent primary construction evidence identifies the inherited coping itself 
 The strengthened PRIVATE air forecast now parses and passes its [four native bank cases](motion-fidelity-2026-11-07/air-anticipation-finite-native/README.md) with1408 exactly equal physical trajectory rows versus the durable reactive trace, all current/future strict clearance guards, and10forecast-fault plus8pure frame controls at three positive cases. Maximum presentation step is27.198mm; normal-speed moving acceptance is still required. LD subsequently finds an observer Dictionary alias at one injected foreign-owner probe, incorrectly labelling an accepted120-query forecast as an85-query refusal. This rejects that packet's query-attribution subsection; the corrected observer is held for rerun. The native contact/physical proofs retain their narrower source scope. Actual production remains reactive.
 
 The researched profile's separate [actual-physics contact replay](motion-fidelity-2026-11-07/coping-researched-profile-physics/README.md) passes10/0. All seven consecutive original-edge ticks179–185 retain native clearance for all cached skateboard components and four tyre volumes; independently measured gaps in the4–30mm band are7.320–20.865mm. These are geometric near-contacts, not measured wheel loads; some steel normals haveY0.194653. Mixed paving/steel ray ownership and missing bounded native rays are recorded explicitly. The old deeply tilted model remains rejected. All503 trajectory rows exactly equal the preceding same-geometry Main route, and queries change no actor, velocity, board or physics time. Shared-family98/0 and primitive24/0 are separate scopes. This does not claim full-bowl per-physics coverage, final moving acceptance or Mac performance; actual profile promotion remains root-controlled.
+
+The separate [corrected192-query forecast epoch](motion-fidelity-2026-11-07/air-anticipation-192-native/README.md) passes parser/four native cases with786 unchanged inputs. All1408 physical rows still exactly equal the reactive baseline. The independently owned observer now snapshots its receipt before faults, requires the exact192 cap and passes a reserved-current-pose refusal at157queries, leaving35 final checks. Its41 stamped attempts have query upper-bound p50/p95/p99/max66/152/152/152, with the formerly mislabelled gate78.7 success correctly retained. These bounded counts are not measured CPU cost. The27.198mm maximum offset step and131.497mm total correction still require a new source-bound normal-speed Main side/chase review. Production remains reactive; the failed earlier attribution packet is preserved.
+
+
+The independent [corrected moving review](motion-fidelity-2026-11-07/air-anticipation-moving-02/README.md)
+now supports narrow forecast integration: all32consecutive side frames and three
+separate production-chase frames are inspected, both complete1408physical traces
+equal the reactive baseline, and each788-input source corpus is unchanged. The
+recorded connected crown pop is absent; largest observed silhouette displacement
+is9.607pixels and maximum presentation-offset step27.198mm. The32@60Hz video is
+a fully decoded review artifact, not human ordinary-play acceptance. The previous
+double-readback observer epoch remains rejected. A [surgical promotion bundle](motion-fidelity-2026-11-07/air-forecast-promotion-source/manifest.json)
+retains144other current controller functions byte-for-byte, including the newer
+coping recovery, and leaves the actual Manual torso-axis visual repair untouched.
+Root controls guarded installation and fresh combined regression; fitted-shoe
+contact, panel-crossing coverage and target-M5 cost remain separate open gates.
+
+Authentic shoe integration exposed a [source-cache under-enclosure](motion-fidelity-2026-11-07/shoe-support-development/README.md):
+`get_faces` differs from rendered indexed buffers and native debug-hull reduction
+omits real extrema. Source-indexed sole/full-shoe caches remain private while exact
+native/integer enclosure, invalidation and whole-contact admission are corrected.
+The failed native epochs are retained rather than inheriting semantic or source-only
+passes as fitted contact acceptance.
+
+
+A fresh45f20-source [generic grind diagnostic](motion-fidelity-2026-11-07/legacy-generic-native-01/README.md)
+now records four24physics-step generic captures with no native skateboard component
+overlap or bail and803stable inputs. Positive clearance coexists with about55mm
+settled public hanger-to-native-plane separation on the three flat families.
+Their missing tyre rays remain unknown; no physical load or named-contact
+certificate is inferred. Two initial market-counter camera rays are explicitly
+pre-camera-process observations, so a post-camera/draw test is required before
+claiming a rendered obstruction. Actual native support authoring and visual contact
+remain open; no global generic pose offset is applied.

@@ -1,0 +1,18 @@
+from pathlib import Path
+import json,hashlib,re
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/deformed-contact-2026-11-07/current-02';cs=[]
+def sh(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(n,b,a=None):cs.append({'name':n,'pass':bool(b),'actual':a})
+r=json.loads((P/'receipt.json').read_text());result=json.loads((P/'result.json').read_text());files=json.loads((P/'sha256.json').read_text());log=(P/'native.log').read_text()
+ck('all9original packet identities exact',len(files)==9 and all(sh(P/n)==v for n,v in files.items()))
+ck('797actual source inputs unchanged through complete native cohort',r['source_stable'] and r['source_before']==r['source_after'] and len(r['source_before'])==797)
+ck('native command exited zero without timeout/raw engine errors',r['returncode']==0 and not r['timed_out'] and not r['raw_engine_error'] and not re.search(r'SCRIPT ERROR:|ERROR:|Parse Error:|FAIL:',log))
+ck('complete modules91WallManual and48ObstacleArm exactly139/0',result['passes']==139 and not result['failures'] and [(x['passes'],x['failures']) for x in result['modules']]==[(91,0),(48,0)])
+ck('observer binds exact recorded source',sh(P/'observer.gd')==r['observer_sha256'])
+for name in ['skater_obstacle_arm_fit.gd','skater_wall_manual_tests.gd','skater_obstacle_arm_tests.gd']:
+ key=('game/player/' if name=='skater_obstacle_arm_fit.gd' else 'tests/')+name
+ ck(name+': exact executed source witness identity',sh(P/name)==r['source_before'][key])
+ck('actualhelper exact independently coldread clean cappedseed candidate',sh(P/'skater_obstacle_arm_fit.gd')=='ff779d03537f86a879fde2aab49c5b342970ab80c432b8c2f22e79af099de3ca')
+ck('actualfixture exact independently reviewed8mm phase adjustment',sh(P/'skater_wall_manual_tests.gd')=='3c3c917aea4284493dab9c0e5ec24f5e803aa625b72ccd08c4e9b7110ef34d2c')
+out={'schema':1,'reviewer':'independent_qa','checks':len(cs),'failures':sum(not x['pass'] for x in cs),'checks_detail':cs,'verdict':'Bounded actual-source complete two-module clean native execution accepted; no fitted avatar, moving naturalness, whole regression or Mac acceptance.','limits':['Wrapper records UTC start and measured wall duration but no native PID or independently sampled process observer; no invented PID/exclusivity/timing performance claim.','This separately verifies clean execution of exact promoted helper/fixtures; the older instrumented private139/0 remains separate.','The unchanged20cm wrist and220mm world/common-root contact bounds approach their caps; static numerical pass does not establish natural moving pose.']}
+(P/'independent-review.json').write_text(json.dumps(out,indent=2)+'\n');print({k:out[k] for k in ['checks','failures','verdict']});print([x for x in cs if not x['pass']]);raise SystemExit(bool(out['failures']))

@@ -1,0 +1,45 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/line-return-v2-root-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/line-return-v2-root-source/.local/return_probe_v2.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/line-return-v2-root-source",
+  "started_utc": "2026-11-07T04:52:27.116757+00:00",
+  "os_deadline_seconds": 60,
+  "source_inputs": 1010,
+  "engine_pid": 63896,
+  "engine_exit": 1,
+  "eligible": false,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "finished_utc": "2026-11-07T04:52:47.133674+00:00",
+  "wall_seconds": 20.016885807999643,
+  "changed_inputs": [],
+  "errors": [
+    "FAIL: prototype actual glancing native masonry ride spans >=30 physics steps/3m and mapped Wallie",
+    "FAIL: prototype actual supported Manual landing with strict chase"
+  ],
+  "result": [
+    2,
+    2
+  ],
+  "other_engine_observed": true,
+  "overlap_authorized_untimed": true,
+  "preserved_sha256": {
+    "native-process-observer.json": "e75b1af92059ec94c0702ba81618f5e7693fd17a05f960365bee3a50c366d6cc",
+    "source-before.json": "73d061e2ea77e7cdd4b9c0c72dede03201b941dacbe434e3ec2346e7ec09dd41",
+    "observer.gd": "d3369ad3a5a08577e85a9df4938ec1ca841251c6b00b6dec4cab6e998728bf35",
+    "wrapper.py.txt": "1dd70710f56bf5fa497cfef6ccbebb5cc00106f3d618af284ab476836df204b6",
+    "native.log": "a863e0fe6d20b11a0b6a4c75c9b5dd93b712f3d2fd297be1b58897949b115dc3",
+    "source-after.json": "73d061e2ea77e7cdd4b9c0c72dede03201b941dacbe434e3ec2346e7ec09dd41"
+  }
+}

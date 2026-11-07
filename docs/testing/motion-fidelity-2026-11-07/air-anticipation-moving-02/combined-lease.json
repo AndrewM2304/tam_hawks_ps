@@ -1,0 +1,36 @@
+{
+  "started_monotonic": 18919.601070631,
+  "deadline_monotonic": 19279.601070631,
+  "elapsed_seconds": 232.7154853639986,
+  "commands": [
+    {
+      "view": "side",
+      "command": [
+        "python3",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/run_forecast_motion_review.py",
+        "forecast-192-side-02",
+        "capture",
+        "side"
+      ],
+      "start_utc": "2026-11-07T04:28:19.140283+00:00",
+      "exit": 0,
+      "finish_utc": "2026-11-07T04:31:12.949558+00:00"
+    },
+    {
+      "view": "chase",
+      "command": [
+        "python3",
+        "/workspace/tam_hawks_ps/.local/qa-fidelity/run_forecast_motion_review.py",
+        "forecast-192-chase-02",
+        "capture",
+        "chase"
+      ],
+      "start_utc": "2026-11-07T04:31:12.953841+00:00",
+      "exit": 0,
+      "finish_utc": "2026-11-07T04:32:11.855527+00:00"
+    }
+  ],
+  "complete": true,
+  "integrity_pass": true,
+  "scope": "Root-approved fresh combined\u2264360s qualitative side32/chase3. Known rigging pilot may overlap; all native process rows retained in individual packets; no timing/performance or AAA claim."
+}

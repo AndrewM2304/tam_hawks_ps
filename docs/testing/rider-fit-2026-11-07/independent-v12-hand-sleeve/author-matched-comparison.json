@@ -1,0 +1,75 @@
+{
+  "scope": "Matched actual native V10original1024hand vs V12packed512 material transform; intentionalUV/material difference, geometry/camera/nativepose identical. Visual acceptance separate.",
+  "exact_native_matches": {
+    "camera_global": true,
+    "camera_projection_columns": true,
+    "camera_near": true,
+    "camera_far": true,
+    "viewport_pixels": true,
+    "head_global": true,
+    "rider_global": true,
+    "skeleton_global": true,
+    "bone_global_pose_in_skeleton": true,
+    "contact_mesh_transforms_and_curls": true
+  },
+  "control_native_counters": {
+    "buffer_bytes": 9463256,
+    "draw_calls": 20,
+    "primitives": 76702,
+    "scope": "Actual native clean-frame process/driver monitors; includes viewport, stage, shadows and preloaded resources. Not target Mac allocation or performance; no frame-time claim.",
+    "texture_bytes": 38336386,
+    "video_bytes": 47799642
+  },
+  "candidate_native_counters": {
+    "buffer_bytes": 9659056,
+    "draw_calls": 20,
+    "primitives": 76702,
+    "scope": "Actual native clean-frame process/driver monitors; includes viewport, stage, shadows and preloaded resources. Not target Mac allocation or performance; no frame-time claim.",
+    "texture_bytes": 38511202,
+    "video_bytes": 48170258
+  },
+  "bound_candidate_hand_materials": {
+    "/root/@Node3D@2/@CharacterBody3D@9/@Node3D@10/Rider/LeftAnatomicalHand/HandAndFingers": [
+      {
+        "albedo_texture": "res://game/art/rider/right_hand_albedo.png",
+        "native_uv1": {
+          "texture_repeat": true,
+          "uv1_offset": [
+            -1.22185754776001,
+            -2.74593997001648,
+            0.0
+          ],
+          "uv1_scale": [
+            3.45000004768372,
+            3.45000004768372,
+            1.0
+          ]
+        },
+        "normal_texture": "res://game/art/rider/right_hand_normal.png",
+        "roughness_texture": "res://game/art/rider/right_hand_roughness.png",
+        "surface": 0
+      }
+    ],
+    "/root/@Node3D@2/@CharacterBody3D@9/@Node3D@10/Rider/RightAnatomicalHand/HandAndFingers": [
+      {
+        "albedo_texture": "res://game/art/rider/left_hand_albedo.png",
+        "native_uv1": {
+          "texture_repeat": true,
+          "uv1_offset": [
+            -1.94244182109833,
+            -2.74761319160461,
+            0.0
+          ],
+          "uv1_scale": [
+            3.45000004768372,
+            3.45000004768372,
+            1.0
+          ]
+        },
+        "normal_texture": "res://game/art/rider/left_hand_normal.png",
+        "roughness_texture": "res://game/art/rider/left_hand_roughness.png",
+        "surface": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+"""Independent read-only annular-basin receipt/pixel review; invokes no engine."""
+from pathlib import Path
+import hashlib,json,math
+from PIL import Image
+import numpy as np
+ROOT=Path(__file__).resolve().parents[2]
+PACKET=ROOT/'docs/testing/fidelity-2026-11-06/environment/annular-basin-01'
+checks=[]
+def check(ok,label):
+    checks.append({'pass':bool(ok),'message':label})
+    if not ok:raise AssertionError(label)
+report=json.loads((PACKET/'actual-main-water-report.json').read_text())
+analysis=json.loads((PACKET/'analysis.json').read_text())
+before=json.loads((PACKET/'source-before.json').read_text());after=json.loads((PACKET/'source-after.json').read_text())
+check(before==after and len(before)==798,'All798 inventoried inputs agree before/after')
+check(report['checks']==88 and report['failures']==0 and report['complete'],'Recorded native88/0 is complete, with no interpretation as exterior acceptance')
+for name,digest in analysis['preserved_files_sha256'].items():
+    check(hashlib.sha256((PACKET/name).read_bytes()).hexdigest()==digest,'Retained exact file hash: '+name)
+images={}
+for frame in report['images']+report['synchronization_proofs']:
+    image=Image.open(PACKET/frame['file']).convert('RGBA')
+    check(image.size==(1280,800) and hashlib.sha256(image.tobytes()).hexdigest()==frame['pixels']['rgba8_sha256'],
+        'Decoded native RGBA8 identity/dimensions: '+frame['file'])
+    images[frame['file']]=np.array(image)
+projection_errors=[];centroid_errors=[]
+for frame in report['images']:
+    check(frame['physics_before']==frame['physics_after'] and frame['process_before']==frame['process_after'],
+        'Logical frame unchanged through natural readback: '+frame['file'])
+    check(frame['basin_cast_flag']==1,'Basin casting remains ON: '+frame['file'])
+    pixels=images[frame['file']];proof=frame['pixel_proofs'];x,y=proof['canvas_sample_xy']
+    check(max(abs(pixels[y,x,i]/255-proof['canvas_expected_rgb'][i]) for i in range(3))<=2/255,
+        'Independent Canvas pixels agree: '+frame['file'])
+    for marker in proof['markers']:
+        delta=[a-b for a,b in zip(marker['world_position'],frame['camera_position'])]
+        view=[sum(a*b for a,b in zip(axis,delta)) for axis in frame['camera_basis']]+[1]
+        clip=[sum(frame['projection_columns'][column][row]*view[column] for column in range(4)) for row in range(4)]
+        projected=((clip[0]/clip[3]*.5+.5)*1280,(-clip[1]/clip[3]*.5+.5)*800)
+        error=math.dist(projected,marker['projected_xy']);projection_errors.append(error)
+        check(error<.001,'Independent matrix/world projection agrees: '+frame['file']+'/'+marker['color'])
+        px,py=marker['projected_xy'];found=[]
+        for yy in range(max(0,int(py)-10),min(800,int(py)+11)):
+            for xx in range(max(0,int(px)-10),min(1280,int(px)+11)):
+                r,g,b=(int(value)/255 for value in pixels[yy,xx,:3])
+                hit=r>.75 and r-g>.20 and r-b>.20 if marker['color']=='red' else g>.75 and g-r>.20 and g-b>.20
+                if hit:found.append((xx+.5,yy+.5))
+        centroid=tuple(sum(point[i] for point in found)/len(found) for i in (0,1)) if found else (0,0)
+        centroid_error=math.dist(centroid,(px,py));centroid_errors.append(centroid_error)
+        check(len(found)==marker['pixel_count'] and centroid_error<=2,'Independent coloured pixel count/centroid agrees: '+frame['file']+'/'+marker['color'])
+base=report['inventory_before'];basin='ExchangeFountain/FountainBasin'
+for mode,inventory in report['mode_inventories'].items():
+    check(all(inventory[key]==base[key] for key in ('collisions','sun','water')),'Exact actual collider/sun/water resources/state: '+mode)
+    check([row for row in inventory['nonwater'] if row['path']!=basin]==[row for row in base['nonwater'] if row['path']!=basin],
+        'All non-basin non-water geometry/material states exact: '+mode)
+    current=next(row.copy() for row in inventory['nonwater'] if row['path']==basin);original=next(row.copy() for row in base['nonwater'] if row['path']==basin)
+    current.pop('mesh_id');original.pop('mesh_id');check(current==original,'Basin node/render/material/bounds record differs only by mesh identity: '+mode)
+candidate=images['annular-coping-exterior-shadow.png'][:,:,:3].astype(int);control=images['before-b-exterior-shadow.png'][:,:,:3].astype(int)
+def roi(box):
+    x0,y0,x1,y1=box;delta=candidate[y0:y1,x0:x1]-control[y0:y1,x0:x1];changed=np.any(delta!=0,axis=2)
+    return {'box':list(box),'changed_pixels':int(changed.sum()),'maximum_rgb8_delta':int(np.abs(delta).max()),
+        'all_changed_pixels_lighter':bool(np.all(delta[changed]>=0)) if changed.any() else None}
+ground=roi((0,440,1280,800));contact=roi((1010,355,1120,415));wall=roi((330,378,970,420))
+check(ground['changed_pixels']==0,'Declared distant exterior ground is byte-identical')
+check(contact['changed_pixels']==772 and contact['maximum_rgb8_delta']==88 and contact['all_changed_pixels_lighter'],
+    'Independently reproduce exterior-shadow failure:772 changed pixels, max88RGB8, all lighter')
+counter_pairs=[]
+for view in ('fountain-wide','water-rim-close','exterior-shadow'):
+    rows={frame['mode']:frame['counters'] for frame in report['images'] if frame['view']==view}
+    check(rows['annular-coping']['draws']==rows['before-b']['draws'] and rows['annular-coping']['shadow_primitives']-rows['before-b']['shadow_primitives']==64,
+        'RestoredB/candidate equal draws and+64 shadow primitives, limited pair: '+view)
+    counter_pairs.append({'view':view,'counters':rows})
+result={'reviewer':'architectural_fidelity','kind':'independent source/pixel/inventory review; zero engines','checks':checks,'passed':len(checks),'failed':0,
+    'personally_inspected_originals':[row['file'] for row in report['images']+report['synchronization_proofs']],
+    'maximum_independent_projection_error_px':max(projection_errors),'maximum_marker_centroid_error_px':max(centroid_errors),
+    'pixel_regions':{'ground':ground,'contact_shadow':contact,'exterior_wall':wall},'counter_pairs':counter_pairs,
+    'native_geometry_scope':'Author13/0 corroborates exact positions/UV/handedness and192side/bottom indices; native normal/tangent packing differs up to0.0033605869degree, not byte-exact. New annular UP normal/+X tangent/UVXZ requireW−1, as implemented. No innerwall/upwardfloor exists.',
+    'decision':'Top-only candidate improves bands but FAILS exterior shadow finish; no production promotion.',
+    'causal_hypothesis':'Light entering opening can exit outward-wall backfaces because inward wall/upward floor are absent.128innerwall+64floor triangles make512total; prove controlled closed-volume shadow recovery without a hidden top backer or changed outer geometry.',
+    'limits':'No engine/native rerun, temporal/water realism, whole-bracket cost, uncontended timing or M5 acceptance. InitialA warm/culling draw transient retained; only candidate/restoredB pair is equal.'}
+out=ROOT/'docs/testing/fidelity-2026-11-06/environment/annular-basin-independent-01';out.mkdir(exist_ok=True)
+(out/'review.json').write_text(json.dumps(result,indent=2)+'\n');(out/'verifier.py.txt').write_bytes(Path(__file__).read_bytes())
+(out/'preservation.json').write_text(json.dumps({'files':{name:hashlib.sha256((out/name).read_bytes()).hexdigest() for name in ('review.json','verifier.py.txt')}},indent=2)+'\n')
+print('INDEPENDENT_ANNULAR_REVIEW',len(checks),'integrity/source/pixel checks, exterior finish REJECTED')

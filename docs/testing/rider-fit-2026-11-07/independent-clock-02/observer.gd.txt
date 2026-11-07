@@ -1,0 +1,213 @@
+extends SceneTree
+const Skater=preload("res://game/player/skater.gd")
+const Classic=preload("res://tests/classic_tricks_integration_tests.gd")
+const Adapter=preload("res://tests/fitted_adapter.gd")
+var twins:Array[Dictionary]=[]
+var records:Array=[]
+var selected:Dictionary={}
+var phase:="warmup"
+var capture_busy:=false
+var capture_count:=0
+var failures:Array[String]=[]
+var proof_color:=Color.BLACK
+var finished:=false
+
+func _initialize()->void:
+ _run.call_deferred()
+
+func _run()->void:
+ root.size=Vector2i(32,32)
+ Engine.max_fps=144
+ Classic.Setup.register_actions()
+ DirAccess.make_dir_recursive_absolute("res://output")
+ var reference:Dictionary=JSON.parse_string(FileAccess.get_file_as_string("res://tests/fitted-reference.json"))
+ for coherent:bool in [false,true]:
+  var viewport:=SubViewport.new()
+  viewport.size=Vector2i(384,384)
+  viewport.own_world_3d=true
+  viewport.render_target_update_mode=SubViewport.UPDATE_ALWAYS
+  root.add_child(viewport)
+  var stage:=Node3D.new()
+  viewport.add_child(stage)
+  var env:=WorldEnvironment.new()
+  env.environment=Environment.new()
+  env.environment.background_mode=Environment.BG_COLOR
+  env.environment.background_color=Color("20252d")
+  env.environment.ambient_light_source=Environment.AMBIENT_SOURCE_COLOR
+  env.environment.ambient_light_color=Color.WHITE
+  env.environment.ambient_light_energy=1.0
+  stage.add_child(env)
+  var floor:=StaticBody3D.new()
+  var shape:=CollisionShape3D.new()
+  var box:=BoxShape3D.new()
+  box.size=Vector3(300,.4,300)
+  shape.shape=box
+  floor.add_child(shape)
+  floor.position.y=-.2
+  stage.add_child(floor)
+  var actor:=Skater.new()
+  actor.spawn_position=Vector3(0,.8,12)
+  stage.add_child(actor)
+  var rig:RefCounted=actor._visual_rig
+  if coherent:
+   rig._rider.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
+   rig._board.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
+  for pair:Array in [[rig._head.get_node("AnatomicalHead"),Color("67ffda")],[rig._rider.get_node("UpperChest"),Color("ff54d5")]]:
+   var material:=StandardMaterial3D.new()
+   material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
+   material.albedo_color=pair[1]
+   pair[0].material_override=material
+  actor._camera.current=false
+  var camera:=Camera3D.new()
+  camera.projection=Camera3D.PROJECTION_ORTHOGONAL
+  camera.size=.72
+  camera.near=.01
+  camera.far=20
+  camera.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
+  stage.add_child(camera)
+  camera.current=true
+  var canvas:=CanvasLayer.new()
+  viewport.add_child(canvas)
+  var identity:=ColorRect.new()
+  identity.position=Vector2(4,4)
+  identity.size=Vector2(8,8)
+  identity.color=Color(0,1,.25) if coherent else Color(1,.25,0)
+  canvas.add_child(identity)
+  var stamp:=ColorRect.new()
+  stamp.position=Vector2(16,4)
+  stamp.size=Vector2(8,8)
+  canvas.add_child(stamp)
+  var data:Dictionary=Adapter.prepare(rig,reference)
+  if not data.errors.is_empty():failures.append("source mapping "+str(data.errors))
+  twins.append({"viewport":viewport,"stage":stage,"actor":actor,"rig":rig,"camera":camera,"stamp":stamp,"data":data,"coherent":coherent})
+ process_frame.connect(_prepare_draw)
+ RenderingServer.frame_post_draw.connect(_after_draw)
+ await _frames(50)
+ for cycle:int in 2:
+  phase="push"
+  Input.action_press("push")
+  await _frames(30)
+  Input.action_release("push")
+  phase="crouch"
+  Input.action_press("ollie")
+  await _frames(18)
+  Input.action_release("ollie")
+  await _frames(3)
+  phase="grab"
+  Classic._direction(Vector2.LEFT)
+  Classic._key(KEY_K,true)
+  await _frames(10)
+  phase="post_grab"
+  Classic._key(KEY_K,false)
+  Classic._direction(Vector2.ZERO)
+  await _frames(80)
+  phase="recovery"
+  for twin:Dictionary in twins:
+   twin.actor.begin_bail("clock_grab_recovery")
+   twin.actor.recover_to(twin.actor.global_position)
+  await _frames(140)
+  if selected.size()==4:break
+ phase="end"
+ await _frames(3)
+ _finish()
+
+func _frames(count:int)->void:
+ for i:int in count:
+  await physics_frame
+  await process_frame
+
+func _prepare_draw()->void:
+ if twins.size()!=2:return
+ var rig:RefCounted=twins[0].rig
+ var target:Vector3=rig._head.to_global(Vector3(0,-.03,0))
+ var at:Vector3=target-rig._head.global_basis.z*.90+rig._head.global_basis.x*.18
+ for twin:Dictionary in twins:
+  twin.camera.global_position=at
+  twin.camera.look_at(target,Vector3.UP)
+  twin.camera.current=true
+ proof_color=Color(float(Engine.get_process_frames()%251)/255.0,float(Engine.get_physics_frames()%251)/255.0,float(((capture_count+1)*37)%251)/255.0)
+ for twin:Dictionary in twins:twin.stamp.color=proof_color
+
+func _after_draw()->void:
+ if capture_busy or finished or phase not in ["post_grab","recovery"]:return
+ var fraction:=Engine.get_physics_interpolation_fraction()
+ var band:="low" if fraction>=.15 and fraction<=.45 else ("high" if fraction>=.55 and fraction<=.90 else "")
+ if band.is_empty():return
+ var key:String=phase+"-"+band
+ var estimate:Dictionary=Adapter.sample(twins[0].data,true)
+ if selected.has(key) and estimate.maximum_neck_m<=selected[key].twins[0].rendered_estimate.maximum_neck_m:return
+ capture_busy=true
+ var item:Dictionary={"id":capture_count,"phase":phase,"band":band,"fraction":fraction,"physics_frame":Engine.get_physics_frames(),"process_frame":Engine.get_process_frames(),"inside_physics_frame":Engine.is_in_physics_frame(),"expected_stamp_rgb":[roundi(proof_color.r*255),roundi(proof_color.g*255),roundi(proof_color.b*255)],"twins":[]}
+ var physical_parity:bool=twins[0].actor.global_transform==twins[1].actor.global_transform and twins[0].actor.velocity==twins[1].actor.velocity
+ for twin:Dictionary in twins:
+  var rig:RefCounted=twin.rig
+  var data:Dictionary=twin.data
+  var current:Dictionary=Adapter.sample(data,false)
+  var rendered:Dictionary=Adapter.sample(data,true)
+  var chest:MeshInstance3D=data.parts.UpperChest.mesh
+  var skeleton:Skeleton3D=data.skeleton
+  var refskin:SkinReference=skeleton.register_skin(chest.skin)
+  var palettes:Array=[]
+  var native_transforms:Array[Transform3D]=[]
+  for bind:int in chest.skin.get_bind_count():
+   var native_transform:Transform3D=RenderingServer.skeleton_bone_get_transform(refskin.get_skeleton(),bind)
+   native_transforms.append(native_transform)
+   palettes.append(Adapter._rows(native_transform))
+  var projections:Array=[]
+  var native_seam_max:=0.0
+  var chest_model:Transform3D=chest.get_global_transform_interpolated()
+  var head_model:Transform3D=data.head.mesh.get_global_transform_interpolated()
+  for id:int in data.neck_ids:
+   for native_index:int in data.parts.UpperChest.by_source[id]:
+    var vertex:Dictionary=data.parts.UpperChest.records[native_index]
+    var local:=Vector3.ZERO
+    for k:int in vertex.bones.size():local+=(native_transforms[vertex.bones[k]]*Vector3(vertex.point))*float(vertex.weights[k])
+    var native_world:Vector3=chest_model*local
+    for q:Vector3 in data.head.by_source[id]:
+     var rigid_world:Vector3=head_model*q
+     var skin_pixel:Vector2=twin.camera.unproject_position(native_world)
+     var head_pixel:Vector2=twin.camera.unproject_position(rigid_world)
+     native_seam_max=maxf(native_seam_max,native_world.distance_to(rigid_world))
+     projections.append({"source_id":id,"skin_world":Adapter._xyz(native_world),"head_world":Adapter._xyz(rigid_world),"skin_pixel":[skin_pixel.x,skin_pixel.y],"head_pixel":[head_pixel.x,head_pixel.y]})
+  var components:Dictionary={}
+  for pair:Array in [["head",data.head.mesh],["chest",chest],["skeleton",skeleton],["rider",rig._rider],["board",rig._board],["outer_visual",twin.actor.get_node("SkaterVisual")],["actor",twin.actor]]:
+   var node:Node3D=pair[1]
+   components[pair[0]]={"current":Adapter._rows(node.global_transform),"rendered":Adapter._rows(node.get_global_transform_interpolated()),"mode":node.physics_interpolation_mode}
+  var feet:Array=[]
+  for leg:Dictionary in rig._legs:
+   var sole:MeshInstance3D=leg.foot.get_node("Cupsole")
+   feet.append({"side":leg.side,"current":Adapter._rows(sole.global_transform),"rendered":Adapter._rows(sole.get_global_transform_interpolated())})
+  var image:Image=twin.viewport.get_texture().get_image()
+  var label:String="coherent" if twin.coherent else "baseline"
+  var path:String="res://output/"+str(capture_count)+"-"+phase+"-"+band+"-"+label+".png"
+  var err:=image.save_png(path)
+  if err!=OK:failures.append("native PNG save "+path)
+  item.twins.append({"policy":label,"png":path,"png_sha256":FileAccess.get_sha256(path),"raw_rgba_sha256":_hash_bytes(image.get_data()),"current":current,"rendered_estimate":rendered,"native_palette":palettes,"native_palette_neck_max_m":native_seam_max,"native_neck_endpoint_projections":projections,"components":components,"feet":feet,"camera":Adapter._rows(twin.camera.global_transform),"projection":_projection_rows(twin.camera.get_camera_projection()),"actor_velocity":Adapter._xyz(twin.actor.velocity),"actor_airborne":twin.actor.airborne,"actor_bailing":twin.actor.bailing,"grab_blend":rig._grab_blend,"palm_sole_board_authority":"unchanged source; no wall/arm admission inferred"})
+ for bone:int in twins[0].rig._garments.skeleton.get_bone_count():
+  physical_parity=physical_parity and twins[0].rig._garments.skeleton.get_bone_global_pose(bone)==twins[1].rig._garments.skeleton.get_bone_global_pose(bone)
+ item["physical_pose_parity"]=physical_parity
+ if not physical_parity:failures.append("twin current physical or bone pose differs")
+ records.append(item)
+ selected[key]=item
+ capture_count+=1
+ print("CLOCK_CAPTURE ",capture_count," phase=",phase," fraction=",fraction," physical_parity=",physical_parity," baseline_gap=",item.twins[0].rendered_estimate.maximum_neck_m," coherent_gap=",item.twins[1].rendered_estimate.maximum_neck_m)
+ capture_busy=false
+
+func _finish()->void:
+ finished=true
+ Classic._release()
+ if selected.size()<4:failures.append("missing four fractional postgrab/recovery matched pairs")
+ var file:=FileAccess.open("res://output/receipt.json",FileAccess.WRITE)
+ file.store_string(JSON.stringify({"records":selected.values(),"candidate_records":records,"failures":failures,"capture_pairs":selected.size(),"scope":"Private actual fitted twin worlds; ordinary inputs/default60Hz; only Rider+Board local interpolation policy differs. Object-ID Head/chest materials disclosed. No Main/trajectory/visual-quality/M5 acceptance."},"\t"))
+ file.close()
+ print("CLOCK_RESULT selected_pairs=",selected.size()," native_candidate_pairs=",capture_count," failures=",failures)
+ quit(0 if failures.is_empty() else 1)
+
+func _hash_bytes(bytes:PackedByteArray)->String:
+ var context:=HashingContext.new()
+ context.start(HashingContext.HASH_SHA256)
+ context.update(bytes)
+ return context.finish().hex_encode()
+
+func _projection_rows(p:Projection)->Array:
+ return [[p.x.x,p.y.x,p.z.x,p.w.x],[p.x.y,p.y.y,p.z.y,p.w.y],[p.x.z,p.y.z,p.z.z,p.w.z],[p.x.w,p.y.w,p.z.w,p.w.w]]

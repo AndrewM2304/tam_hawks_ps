@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T04:53:23.620918+00:00",
+  "finished_utc": "2026-11-07T04:55:29.544311+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--script",
+      "tools/environment_basin_cull_component.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/basin-cull-source/.local/environment-water/basin-culling-01"
+    ]
+  ],
+  "git_head": "736a4df43718ce7a81c1d7f15bf587eb9c17ba3f",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": null,
+  "engine_errors": false,
+  "abort_reason": "TimeoutExpired: Command '['./tools/run.sh', '--rendering-method', 'gl_compatibility', '--audio-driver', 'Dummy', '--windowed', '--resolution', '1280x800', '--script', 'tools/environment_basin_cull_component.gd', '--', '/workspace/tam_hawks_ps/.local/environment-phase2/basin-cull-source/.local/environment-water/basin-culling-01']' timed out after 120 seconds",
+  "last_stage": "tools/environment_basin_cull_component.gd",
+  "process_timeout_seconds": 120,
+  "workload": "basin-shadow-cull-component-1280x800",
+  "concurrent_headless_authorised_pid": null,
+  "other_godot_at_start": [],
+  "timing_measured": false,
+  "source_inventory_sha256": "033c85756322d3facc2945d4dc7570a5c76025645359ad37c6ae360d516613a7",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "annular-one-sided.png": "3836e6d7a37ccf3d956a9781a73dac8e8937b1f17339d46466ce29e52457988b",
+    "solid-original.png": "f685075dcfe4ff7aa901d9ca63b36ee3f435ec18c8705f80d3a0d7b4c9d8daa3"
+  },
+  "eligible": false,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

@@ -1,0 +1,26 @@
+from pathlib import Path
+import gzip, hashlib, json, sys
+from PIL import Image
+
+p = Path(sys.argv[1])
+sha = lambda b: hashlib.sha256(b).hexdigest()
+for name, expected in json.loads((p / 'preservation.json').read_text()).items():
+    assert sha((p / name).read_bytes()) == expected, name
+count = 0
+for epoch in ['v10-v12-hand-control', 'v12-six']:
+    q = p / epoch
+    report = json.loads(gzip.decompress((q / 'receipt.json.gz').read_bytes()))
+    assert report['source_stable'] and report['source_sha256'] == report['source_after_sha256']
+    for frame in report['frames']:
+        for folder, key in [('', 'native_rgba_sha256'), ('synchronization', 'synchronization_native_rgba_sha256')]:
+            image = Image.open(q / folder / (frame['label'] + '.webp')).convert('RGBA')
+            assert image.size == (1280, 800)
+            assert sha(image.tobytes()) == frame[key]
+            count += 1
+        original = q / 'selected-original-png' / (frame['label'] + '.png')
+        if original.exists():
+            assert sha(original.read_bytes()) == frame['png_sha256']
+assert count == 14
+review = json.loads((p / 'independent-review.json').read_text())
+assert review['checks'] == 102 and review['failures'] == 0
+print('All14 native clean/proof buffers and four selected original PNGs verified.')

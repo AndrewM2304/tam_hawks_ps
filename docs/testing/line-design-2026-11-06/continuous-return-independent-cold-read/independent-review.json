@@ -1,0 +1,35 @@
+{
+  "reviewer": "independent_qa",
+  "reviewed_utc": "2026-11-07T05:20:58.926714+00:00",
+  "scope": "Read-only source contract review of private input-only local continuous-return feasibility observer. No QA engine run, no native acceptance and no whole-map/second-distinct-line claim.",
+  "source": ".local/line-continuous-return-source/.local/connected_return_probe.gd",
+  "source_sha256": "33eaaee32570276286dd93f108260b5e00e4d6ae333a105da2b9296d84523eea",
+  "source_binding": "After-read preservation only; not a before/after execution identity claim.",
+  "sound_structure": [
+    "Only one initial Driver._reset; subsequent intended route is mapped inputs.",
+    "Existing actual named two-seat prefix and finite release witness preserved.",
+    "Late physics trace retains actual transforms/inputs/contacts and real physics counters.",
+    "Reciprocal first-bearing catch is a return in the same local sequence, not a second distinct line."
+  ],
+  "actionable_findings": [
+    {
+      "id": "CONT-01",
+      "severity": "test-contract",
+      "finding": "NativeTrace applies runtime proposal8mm board/shoe skin to all ordinary air frames. Source _obstacle_air_clear describes earned/proposed wall-related clearance. A safe near-floor prelanding frame may fail8mm expansion while actual volumes remain disjoint.",
+      "required": "Keep universal native component zero-margin overlap and strict actual capsule guards. Retain concrete margin0/7.99mm board/shoe hits with native RID/shape/face; assert expanded skin only for an independently authenticated active wall/forecast/proposal contract. Outside that contract keep it diagnostic, never discard actual overlap/floor identities."
+    },
+    {
+      "id": "CONT-02",
+      "severity": "score-contract",
+      "finding": "Driver._check_receipt assumes exactly one bank with a multiplier over all entries. Honest Manual termination followed by Push/coast may exceed native350ms link and bank before wall entry.",
+      "required": "First measure real native bank events and elapsed physics. Preserve single-combo criterion when claimed. If the result is a spatially continuous multi-combo line, explicitly label it and independently recompute each bank, without weakening or passing the original one-bank check."
+    },
+    {
+      "id": "CONT-03",
+      "severity": "measurement",
+      "finding": "Thirty Driver wall observations do not necessarily equal thirty actual physics ticks because Driver._step can await an extra timer frame.",
+      "required": "Derive durations and event-to-event intervals from captured Engine.get_physics_frames values and actual ordered opportunities, retaining the return leg."
+    }
+  ],
+  "handoff": "All three points sent to level_design; private author first native6/4 remains rejected, no production observer alteration by QA."
+}

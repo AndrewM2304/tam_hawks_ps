@@ -1,0 +1,248 @@
+{
+  "kind": "author_actual_Main_headless_structural_comparison",
+  "contracts": [
+    {
+      "contract": "collision_records",
+      "raw_original_candidate_equal": false,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "gap_records",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "grind_records",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "route_records",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "terrain_patches",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    },
+    {
+      "contract": "terrain_polygons",
+      "raw_original_candidate_equal": true,
+      "raw_original_control_equal": true,
+      "canonical_original_candidate_equal": true,
+      "canonical_original_control_equal": true
+    }
+  ],
+  "inventory_delta": {
+    "geometry_instances": 3347,
+    "mesh_array_serialized_bytes": 142720,
+    "mesh_draw_nodes": -7,
+    "multimesh_transform_estimate_bytes": 160656,
+    "native_bodies": 0,
+    "native_shapes": 0,
+    "recess_shells": 16,
+    "source_triangle_instances": 65854,
+    "unique_materials": -1,
+    "unique_meshes": 1
+  },
+  "baseline_control_inventory_identical": true,
+  "all_canonical_contracts_unchanged": true,
+  "limits": "Headless geometry/resource inventory only. Raw runtime paths retained; only first-field @Class@digits path suffixes normalized. Serialized arrays/48B instance estimates are not GPU allocation. Draw/visual/timing/M5 open.",
+  "native_frame_counters": [
+    {
+      "view": "ordinary-spawn.png",
+      "original": {
+        "draw_calls": 1480,
+        "visible_draws": 1464,
+        "shadow_draws": 0,
+        "primitives": 1048744,
+        "buffer_bytes": 28797978,
+        "texture_bytes": 95006369
+      },
+      "candidate": {
+        "draw_calls": 1473,
+        "visible_draws": 1457,
+        "shadow_draws": 0,
+        "primitives": 1145316,
+        "buffer_bytes": 29048138,
+        "texture_bytes": 95006369
+      },
+      "restored_control": {
+        "draw_calls": 1480,
+        "visible_draws": 1464,
+        "shadow_draws": 0,
+        "primitives": 1048744,
+        "buffer_bytes": 28797978,
+        "texture_bytes": 95006369
+      },
+      "candidate_delta": {
+        "draw_calls": -7,
+        "visible_draws": -7,
+        "shadow_draws": 0,
+        "primitives": 96572,
+        "buffer_bytes": 250160,
+        "texture_bytes": 0
+      },
+      "control_delta": {
+        "draw_calls": 0,
+        "visible_draws": 0,
+        "shadow_draws": 0,
+        "primitives": 0,
+        "buffer_bytes": 0,
+        "texture_bytes": 0
+      }
+    },
+    {
+      "view": "exchange-shopfront.png",
+      "original": {
+        "draw_calls": 894,
+        "visible_draws": 894,
+        "shadow_draws": 0,
+        "primitives": 732100,
+        "buffer_bytes": 30928170,
+        "texture_bytes": 95006369
+      },
+      "candidate": {
+        "draw_calls": 898,
+        "visible_draws": 898,
+        "shadow_draws": 0,
+        "primitives": 770476,
+        "buffer_bytes": 31178330,
+        "texture_bytes": 95006369
+      },
+      "restored_control": {
+        "draw_calls": 894,
+        "visible_draws": 894,
+        "shadow_draws": 0,
+        "primitives": 732100,
+        "buffer_bytes": 30928170,
+        "texture_bytes": 95006369
+      },
+      "candidate_delta": {
+        "draw_calls": 4,
+        "visible_draws": 4,
+        "shadow_draws": 0,
+        "primitives": 38376,
+        "buffer_bytes": 250160,
+        "texture_bytes": 0
+      },
+      "control_delta": {
+        "draw_calls": 0,
+        "visible_draws": 0,
+        "shadow_draws": 0,
+        "primitives": 0,
+        "buffer_bytes": 0,
+        "texture_bytes": 0
+      }
+    },
+    {
+      "view": "west-upper-oblique.png",
+      "original": {
+        "draw_calls": 793,
+        "visible_draws": 793,
+        "shadow_draws": 0,
+        "primitives": 243566,
+        "buffer_bytes": 30928170,
+        "texture_bytes": 95006369
+      },
+      "candidate": {
+        "draw_calls": 793,
+        "visible_draws": 793,
+        "shadow_draws": 0,
+        "primitives": 272078,
+        "buffer_bytes": 31178330,
+        "texture_bytes": 95006369
+      },
+      "restored_control": {
+        "draw_calls": 793,
+        "visible_draws": 793,
+        "shadow_draws": 0,
+        "primitives": 243566,
+        "buffer_bytes": 30928170,
+        "texture_bytes": 95006369
+      },
+      "candidate_delta": {
+        "draw_calls": 0,
+        "visible_draws": 0,
+        "shadow_draws": 0,
+        "primitives": 28512,
+        "buffer_bytes": 250160,
+        "texture_bytes": 0
+      },
+      "control_delta": {
+        "draw_calls": 0,
+        "visible_draws": 0,
+        "shadow_draws": 0,
+        "primitives": 0,
+        "buffer_bytes": 0,
+        "texture_bytes": 0
+      }
+    },
+    {
+      "view": "gallery-column-join.png",
+      "original": {
+        "draw_calls": 1043,
+        "visible_draws": 1043,
+        "shadow_draws": 0,
+        "primitives": 854566,
+        "buffer_bytes": 30928170,
+        "texture_bytes": 95006369
+      },
+      "candidate": {
+        "draw_calls": 1027,
+        "visible_draws": 1027,
+        "shadow_draws": 0,
+        "primitives": 899308,
+        "buffer_bytes": 31178330,
+        "texture_bytes": 95006369
+      },
+      "restored_control": {
+        "draw_calls": 1043,
+        "visible_draws": 1043,
+        "shadow_draws": 0,
+        "primitives": 854566,
+        "buffer_bytes": 30928170,
+        "texture_bytes": 95006369
+      },
+      "candidate_delta": {
+        "draw_calls": -16,
+        "visible_draws": -16,
+        "shadow_draws": 0,
+        "primitives": 44742,
+        "buffer_bytes": 250160,
+        "texture_bytes": 0
+      },
+      "control_delta": {
+        "draw_calls": 0,
+        "visible_draws": 0,
+        "shadow_draws": 0,
+        "primitives": 0,
+        "buffer_bytes": 0,
+        "texture_bytes": 0
+      }
+    }
+  ],
+  "declared_budget": {
+    "source_triangles": 80000,
+    "mesh_nodes": 16,
+    "draws_per_matched_view": 16,
+    "additional_native_buffer_bytes": 4194304,
+    "added_texture_bytes": 0
+  },
+  "counter_scope": "Godot process-local RenderingServer allocation counters; software OpenGL renderer, not host VRAM or M5. No exclusive or frame-time claim. GLES VIEWPORT_VISIBLE draws include shadow passes; SHADOW draw category0 is not no-shadows evidence.",
+  "maximum_positive_draw_delta": 4,
+  "maximum_buffer_delta": 250160,
+  "maximum_texture_delta": 0,
+  "rendered_primitives_limit": "All-pass submitted primitive deltas are separately retained; +96572ordinary is not the+65854source triangle count."
+}

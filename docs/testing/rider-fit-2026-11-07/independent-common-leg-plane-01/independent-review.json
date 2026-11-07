@@ -1,0 +1,270 @@
+{
+  "passed": 57,
+  "failed": 0,
+  "checks": [
+    {
+      "label": "control native source120 unchanged",
+      "pass": true
+    },
+    {
+      "label": "control native two frames no errors",
+      "pass": true
+    },
+    {
+      "label": "control raw log no engine errors",
+      "pass": true
+    },
+    {
+      "label": "control grab clean original PNG hash",
+      "pass": true
+    },
+    {
+      "label": "control grab clean decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "control grab clean native1280x800",
+      "pass": true
+    },
+    {
+      "label": "control grab synchronization original PNG hash",
+      "pass": true
+    },
+    {
+      "label": "control grab synchronization decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "control grab synchronization native1280x800",
+      "pass": true
+    },
+    {
+      "label": "control grab clean readback pose unchanged",
+      "pass": true
+    },
+    {
+      "label": "control grab proof readback pose unchanged",
+      "pass": true
+    },
+    {
+      "label": "control grab both native readback counters stable",
+      "pass": true
+    },
+    {
+      "label": "control grab three native sync checks small",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch clean original PNG hash",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch clean decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch clean native1280x800",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch synchronization original PNG hash",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch synchronization decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch synchronization native1280x800",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch clean readback pose unchanged",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch proof readback pose unchanged",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch both native readback counters stable",
+      "pass": true
+    },
+    {
+      "label": "control deepest-crouch three native sync checks small",
+      "pass": true
+    },
+    {
+      "label": "candidate native source120 unchanged",
+      "pass": true
+    },
+    {
+      "label": "candidate native two frames no errors",
+      "pass": true
+    },
+    {
+      "label": "candidate raw log no engine errors",
+      "pass": true
+    },
+    {
+      "label": "candidate grab clean original PNG hash",
+      "pass": true
+    },
+    {
+      "label": "candidate grab clean decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "candidate grab clean native1280x800",
+      "pass": true
+    },
+    {
+      "label": "candidate grab synchronization original PNG hash",
+      "pass": true
+    },
+    {
+      "label": "candidate grab synchronization decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "candidate grab synchronization native1280x800",
+      "pass": true
+    },
+    {
+      "label": "candidate grab clean readback pose unchanged",
+      "pass": true
+    },
+    {
+      "label": "candidate grab proof readback pose unchanged",
+      "pass": true
+    },
+    {
+      "label": "candidate grab both native readback counters stable",
+      "pass": true
+    },
+    {
+      "label": "candidate grab three native sync checks small",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch clean original PNG hash",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch clean decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch clean native1280x800",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch synchronization original PNG hash",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch synchronization decoded RGBA hash",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch synchronization native1280x800",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch clean readback pose unchanged",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch proof readback pose unchanged",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch both native readback counters stable",
+      "pass": true
+    },
+    {
+      "label": "candidate deepest-crouch three native sync checks small",
+      "pass": true
+    },
+    {
+      "label": "only garment source and authored harness metadata differ",
+      "pass": true
+    },
+    {
+      "label": "grab authored pose exact",
+      "pass": true
+    },
+    {
+      "label": "grab matched current camera/fov",
+      "pass": true
+    },
+    {
+      "label": "grab all retained nonbone native state exact",
+      "pass": true
+    },
+    {
+      "label": "grab exact11bones and only4leg changes",
+      "pass": true
+    },
+    {
+      "label": "grab current joint endpoint preservation within1um",
+      "pass": true
+    },
+    {
+      "label": "deepest-crouch authored pose exact",
+      "pass": true
+    },
+    {
+      "label": "deepest-crouch matched current camera/fov",
+      "pass": true
+    },
+    {
+      "label": "deepest-crouch all retained nonbone native state exact",
+      "pass": true
+    },
+    {
+      "label": "deepest-crouch exact11bones and only4leg changes",
+      "pass": true
+    },
+    {
+      "label": "deepest-crouch current joint endpoint preservation within1um",
+      "pass": true
+    }
+  ],
+  "numeric_comparison": [
+    {
+      "label": "grab",
+      "maximum_bone_origin_difference_m": 0.0,
+      "maximum_segment_endpoint_difference_m": 8.205602831749819e-08,
+      "note": "Bone transform identity check; not a changed contact tolerance."
+    },
+    {
+      "label": "deepest-crouch",
+      "maximum_bone_origin_difference_m": 0.0,
+      "maximum_segment_endpoint_difference_m": 5.498528467416818e-08,
+      "note": "Bone transform identity check; not a changed contact tolerance."
+    }
+  ],
+  "changed_source_records": [
+    "res://capture-load.json",
+    "res://game/player/skater_garments.gd",
+    "res://preview.gd"
+  ],
+  "personally_viewed_originals": [
+    "control grab",
+    "candidate grab",
+    "control deepest-crouch",
+    "candidate deepest-crouch"
+  ],
+  "verdict": "Visible static far-thigh slab improves; reject promotion pending continuous-frame transport/near-straight tests and original fitted/contact/moving gate.",
+  "source_findings": [
+    "pose_leg flips shared axis sign when axis.dot(reference) crosses0; smooth bend-plane travel can create180degree frame reversal.",
+    "Near-straight fallback has no transported previous-frame continuity.",
+    "No source mesh/weight/UV/texture change is present in the120source inventories; only4leg native palette rotations differ."
+  ],
+  "limits": [
+    "Private authored poses/static floor, not actual Main or ordinary input replay.",
+    "Two still poses do not prove temporal continuity or natural knee motion.",
+    "Source and object metadata/counters establish bounded capture integrity, not human realism or M5 performance."
+  ]
+}

@@ -1,0 +1,37 @@
+from pathlib import Path
+import datetime,hashlib,json,os,re,signal,subprocess,time
+BASE=Path(__file__).resolve().parent
+info=json.loads((BASE/'phase2-current.json').read_text());ROOT=Path(info['private_root']);EPOCH=Path(info['epoch']);OUT=EPOCH/('contracts-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'));OUT.mkdir();START=time.monotonic();EVENTS=[]
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def inputs():
+    paths=[ROOT/'project.godot',ROOT/'.local/architectural-fidelity/main_probe.gd',ROOT/'.local/architectural-fidelity/run_main_probe.py',ROOT/'.local/architectural-fidelity/facade_contract_runner.gd']
+    for name in ('game','tools','tests'):paths.extend(p for p in (ROOT/name).rglob('*') if p.is_file())
+    return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths))}
+def run(label,command,max_seconds=35):
+    remaining=116-(time.monotonic()-START)
+    if remaining<2:raise RuntimeError('Global lease exhausted before '+label)
+    bound=max(1,int(min(max_seconds,remaining)));env=dict(os.environ,ARCHITECTURE_ENGINE_BOUND=str(bound));event={'label':label,'command':command,'start_utc':utc(),'bound_seconds':bound};EVENTS.append(event);before=inputs();(OUT/(label+'-source-before.json')).write_text(json.dumps(before,indent=2)+'\n')
+    with (OUT/(label+'.log')).open('w') as log:
+        process=subprocess.Popen(command,cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+        try:code=process.wait(timeout=min(bound+1,remaining))
+        except subprocess.TimeoutExpired:
+            os.killpg(process.pid,signal.SIGTERM)
+            try:process.wait(timeout=2)
+            except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait()
+            code=124
+    after=inputs();(OUT/(label+'-source-after.json')).write_text(json.dumps(after,indent=2)+'\n');log=(OUT/(label+'.log')).read_text();event.update(exit=code,finish_utc=utc(),changed_inputs=[p for p in before.keys()|after.keys() if before.get(p)!=after.get(p)],clean_log=not bool(re.search(r'SCRIPT ERROR:|Parse Error:|ERROR:|FAIL:',log)));(OUT/'stages.json').write_text(json.dumps(EVENTS,indent=2)+'\n');print(label,code,flush=True)
+    if code or not event['clean_log']:raise RuntimeError(label+' rejected')
+run('parse-main',['./tools/run.sh','--headless','--check-only','--script','.local/architectural-fidelity/main_probe.gd'],5)
+run('parse-facade',['./tools/run.sh','--headless','--check-only','--script','.local/architectural-fidelity/facade_contract_runner.gd'],5)
+run('baseline',['python3','.local/architectural-fidelity/run_main_probe.py','baseline-materials-03','inventory'])
+install=subprocess.run(['python3','.local/architectural-fidelity/controlled_install_v2.py','install','--production'],cwd=ROOT,stdout=(OUT/'install.log').open('w'),stderr=subprocess.STDOUT);assert install.returncode==0
+error=None
+try:
+    run('candidate',['python3','.local/architectural-fidelity/run_main_probe.py','candidate-materials-01','inventory'])
+    run('facade',['./tools/run.sh','--headless','--fixed-fps','60','--script','.local/architectural-fidelity/facade_contract_runner.gd'],40)
+except Exception as failure:error=str(failure)
+finally:
+    restored=subprocess.run(['python3','.local/architectural-fidelity/controlled_install_v2.py','revert','--production'],cwd=ROOT,stdout=(OUT/'revert.log').open('w'),stderr=subprocess.STDOUT);assert restored.returncode==0
+run('control',['python3','.local/architectural-fidelity/run_main_probe.py','control-materials-01','inventory'])
+summary={'started_utc':EVENTS[0]['start_utc'],'finished_utc':utc(),'elapsed_seconds':time.monotonic()-START,'error':error,'source_private':str(ROOT),'production_writes':0,'timing_claim':False,'known_qualitative_graphics_overlap_authorized':True};(OUT/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary,indent=2),flush=True)
+if error:raise SystemExit(1)

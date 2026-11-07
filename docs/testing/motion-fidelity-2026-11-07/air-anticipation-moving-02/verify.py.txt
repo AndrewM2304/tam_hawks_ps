@@ -1,0 +1,34 @@
+from pathlib import Path
+from PIL import Image
+import gzip, hashlib, json, subprocess, sys
+
+p = Path(sys.argv[1])
+sha = lambda b: hashlib.sha256(b).hexdigest()
+for name, digest in json.loads((p / 'preservation.json').read_text()).items():
+    assert sha((p / name).read_bytes()) == digest, name
+frames = json.loads((p / 'frame-preservation.json').read_text())['frames']
+assert len(frames) == 66
+for frame in frames:
+    image = Image.open(p / frame['webp']).convert('RGBA')
+    assert image.size == (frame['width'], frame['height']) == (1280, 800)
+    assert sha(image.tobytes()) == frame['native_rgba8_sha256']
+    assert sha((p / frame['webp']).read_bytes()) == frame['webp_sha256']
+    if frame['selected_original_png']:
+        assert sha((p / frame['selected_original_png']).read_bytes()) == frame['source_png_sha256']
+for record in json.loads((p / 'gzip-preservation.json').read_text()):
+    encoded = (p / record['archive']).read_bytes()
+    raw = gzip.decompress(encoded)
+    assert sha(encoded) == record['gzip_sha256']
+    assert len(raw) == record['raw_bytes'] and sha(raw) == record['raw_sha256']
+for name, count in [('side', 32), ('chase', 3)]:
+    manifest = json.loads(gzip.decompress((p / name / 'manifest.json.gz').read_bytes()))
+    before = gzip.decompress((p / name / 'source-before.json.gz').read_bytes())
+    after = gzip.decompress((p / name / 'source-after.json.gz').read_bytes())
+    assert before == after
+    receipt = json.loads(gzip.decompress((p / name / 'receipt.json.gz').read_bytes()))
+    assert receipt['eligible'] and manifest['complete'] and not manifest['failures']
+    assert len(manifest['frames']) == count
+rejected = json.loads(gzip.decompress((p / 'rejected-double-readback-01' / 'receipt.json.gz').read_bytes()))
+assert not rejected['eligible']
+subprocess.run(['ffmpeg', '-v', 'error', '-i', str(p / 'forecast-side-60fps.mp4'), '-f', 'null', '-'], check=True)
+print('All66 native image records, original selections, exact compressed metadata and32-frame movie verified.')

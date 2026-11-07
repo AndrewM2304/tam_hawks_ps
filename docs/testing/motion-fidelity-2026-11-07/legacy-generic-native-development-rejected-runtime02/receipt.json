@@ -1,0 +1,56 @@
+{
+  "started_utc": "2026-11-07T04:17:41.649079+00:00",
+  "wall_seconds": 35.18489865199808,
+  "source_count": 790,
+  "source_stable": true,
+  "observer_before": {
+    "legacy_generic_grind_probe.gd": "decbe031b0ac258c930e494b27140093f4614690cd6b4673c5cdf706f6c68ba2",
+    "capture_cylindrical_smoke.gd": "3ea597c7ed94bf6d678419c14fbc970789ddb98622fe0befb42b856cfb66816f"
+  },
+  "observer_after": {
+    "legacy_generic_grind_probe.gd": "decbe031b0ac258c930e494b27140093f4614690cd6b4673c5cdf706f6c68ba2",
+    "capture_cylindrical_smoke.gd": "3ea597c7ed94bf6d678419c14fbc970789ddb98622fe0befb42b856cfb66816f"
+  },
+  "observer_stable": true,
+  "commands": [
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/legacy-native-source",
+        "--check-only",
+        "--script",
+        ".local/capture_cylindrical_smoke.gd"
+      ],
+      "pid": 58024,
+      "exit": 0,
+      "concurrent_godot_at_start": [],
+      "log": "0-parse-capture_cylindrical_smoke.gd.log"
+    },
+    {
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/tam_hawks_ps/.local/legacy-native-source",
+        "--fixed-fps",
+        "60",
+        "--script",
+        ".local/legacy_generic_grind_probe.gd"
+      ],
+      "pid": 58046,
+      "exit": -15,
+      "concurrent_godot_at_start": [],
+      "log": "1-legacy_generic_grind_probe.gd.log"
+    }
+  ],
+  "errors": [
+    "SCRIPT ERROR: Invalid access to property or key 'bail_count' on a base object of type 'Node3D (main.gd)'."
+  ],
+  "actual_source_promoted": false,
+  "diagnostic_only": true,
+  "M5_performance": false,
+  "visual_acceptance": false,
+  "overlap_authorization": "Root-approved EA/RA qualitative private graphics, if present; exact observed Godot PIDs recorded per command. No timing claim."
+}

@@ -1,0 +1,58 @@
+"""Matched21-frame private Main A/V2/A; run only during root's explicit lease."""
+from pathlib import Path
+import datetime,hashlib,json,os,signal,subprocess,time
+BASE=Path(__file__).resolve().parent
+INFO=json.loads((BASE/'graphics-current.json').read_text());ROOT=Path(INFO['private_root']);EPOCH=Path(INFO['epoch']);OUT=EPOCH/('graphics-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'));OUT.mkdir();START=time.monotonic();EVENTS=[]
+def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+def stage(label,command,engine=True):
+    remaining=600-(time.monotonic()-START)
+    # Reserve time for wrapper-owned Godot/Xorg process-group cleanup and revert.
+    bound=max(1,int(remaining-25)) if engine else 10
+    if engine and remaining<=27:raise RuntimeError('Global600s bound prevents another engine launch')
+    event={'label':label,'command':command,'start_utc':utc(),'engine_bound_seconds':bound};EVENTS.append(event)
+    with (OUT/(label+'.log')).open('w') as log:
+        env=dict(os.environ,ARCHITECTURE_ENGINE_BOUND=str(bound))
+        process=subprocess.Popen(command,cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+        try:code=process.wait(timeout=min(remaining-2,bound+22) if engine else 10)
+        except subprocess.TimeoutExpired:
+            # Kill only this wrapper's descendants, including its separate Godot/Xorg sessions.
+            try:
+                rows=subprocess.check_output(['ps','-eo','pid=,ppid='],text=True).splitlines();parents={int(row.split()[0]):int(row.split()[1]) for row in rows};owned={process.pid}
+                for _ in range(8):owned.update(pid for pid,parent in parents.items() if parent in owned)
+                for pid in sorted(owned,reverse=True):
+                    if pid!=process.pid:
+                        try:os.kill(pid,signal.SIGTERM)
+                        except ProcessLookupError:pass
+            except Exception:pass
+            os.killpg(process.pid,signal.SIGTERM)
+            try:process.wait(timeout=2)
+            except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait()
+            code=124
+    event.update(exit=code,finish_utc=utc());(OUT/'stages.json').write_text(json.dumps(EVENTS,indent=2)+'\n');print(label,code,flush=True)
+    if code:raise RuntimeError(label+' rejected; exact partial receipt/log retained')
+
+def restore():
+    command=['python3','.local/architectural-fidelity/controlled_install_v2.py','revert','--production']
+    with (OUT/'guarded-revert.log').open('w') as log:code=subprocess.run(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT).returncode
+    if code:raise RuntimeError('Guarded private restore refused; inspect exact journal, do not clobber')
+    print('guarded-revert',code,flush=True)
+
+error=None;installed=False
+try:
+    stage('parse-observer',['./tools/run.sh','--headless','--check-only','--script','.local/architectural-fidelity/main_probe.gd'],False)
+    stage('original',['python3','.local/architectural-fidelity/run_main_probe.py','graphics-original-01','visual'])
+    stage('private-install',['python3','.local/architectural-fidelity/controlled_install_v2.py','install','--production'],False);installed=True
+    try:stage('candidate',['python3','.local/architectural-fidelity/run_main_probe.py','graphics-candidate-01','visual'])
+    finally:
+        restore();installed=False
+    stage('restored-control',['python3','.local/architectural-fidelity/run_main_probe.py','graphics-control-01','visual'])
+except Exception as failure:error=str(failure)
+finally:
+    if installed:
+        try:restore()
+        except Exception as failure:error=(error or '')+'; '+str(failure)
+    summary={'started_utc':EVENTS[0]['start_utc'],'finished_utc':utc(),'elapsed_seconds':time.monotonic()-START,'error':error,
+        'production_writes':0,'private_root':str(ROOT),'intended_saved_frames':21,'timing_claim':False,
+        'authorized_qualitative_headless_overlap_possible':True,'source_scope':'Fresh797-input current-production snapshot with reviewed private FacadeBay adapter;4art-module V2 delta only between phases.'}
+    (OUT/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary,indent=2),flush=True)
+if error:raise SystemExit(1)

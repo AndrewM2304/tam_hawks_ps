@@ -1,0 +1,582 @@
+{
+	"actual_main_constructed": false,
+	"checks": 55,
+	"complete": true,
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"images": [
+		{
+			"basin_cast_flag": 1,
+			"camera_basis": [
+				[
+					0.606043219566345,
+					0.0,
+					-0.795431733131409
+				],
+				[
+					-0.162227228283882,
+					0.978981614112854,
+					-0.123601697385311
+				],
+				[
+					0.778713047504425,
+					0.203948646783829,
+					0.593305170536041
+				]
+			],
+			"camera_position": [
+				9.0,
+				1.39999997615814,
+				17.0
+			],
+			"counters": {
+				"buffer_bytes": 7764440,
+				"draws": 15,
+				"primitives": 20116,
+				"shadow_primitives": 9760,
+				"texture_bytes": 56767331
+			},
+			"far": 220.0,
+			"file": "solid-original.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_id": -9223371942952696030,
+			"mesh_id": -9223371945486055794,
+			"mode": "solid-original",
+			"near": 0.0500000007450581,
+			"physics_after": 20,
+			"physics_before": 20,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							225.111114501953,
+							128.777770996094
+						],
+						"color": "red",
+						"error_pixels": 0.0595052167773247,
+						"pixel_count": 36,
+						"projected_xy": [
+							225.116104125977,
+							128.837066650391
+						],
+						"world_position": [
+							3.94209289550781,
+							1.55503475666046,
+							15.1578426361084
+						]
+					},
+					{
+						"centroid_xy": [
+							408.899993896484,
+							152.66667175293
+						],
+						"color": "green",
+						"error_pixels": 0.121167331933975,
+						"pixel_count": 30,
+						"projected_xy": [
+							408.953643798828,
+							152.558029174805
+						],
+						"world_position": [
+							5.88571786880493,
+							1.16344213485718,
+							12.7414455413818
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 1024000,
+				"draw_and_read_microseconds": 36345,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 41428,
+				"rgba8_sha256": "09201426cd6914fa862452ebe8eba749177e8b47dc9ec78e32533f03cd27a275"
+			},
+			"process_after": 3,
+			"process_before": 3,
+			"projection_columns": [
+				[
+					0.926600635051727,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.48256099224091,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00045466423035,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100022733211517,
+					0.0
+				]
+			],
+			"surface_count": 1,
+			"triangles": 256,
+			"viewport_size": [
+				640,
+				400
+			]
+		},
+		{
+			"basin_cast_flag": 1,
+			"camera_basis": [
+				[
+					0.606043219566345,
+					0.0,
+					-0.795431733131409
+				],
+				[
+					-0.162227228283882,
+					0.978981614112854,
+					-0.123601697385311
+				],
+				[
+					0.778713047504425,
+					0.203948646783829,
+					0.593305170536041
+				]
+			],
+			"camera_position": [
+				9.0,
+				1.39999997615814,
+				17.0
+			],
+			"counters": {
+				"buffer_bytes": 7764440,
+				"draws": 15,
+				"primitives": 20244,
+				"shadow_primitives": 9824,
+				"texture_bytes": 56767331
+			},
+			"far": 220.0,
+			"file": "annular-one-sided.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_id": -9223371942952696030,
+			"mesh_id": -9223371943003027681,
+			"mode": "annular-one-sided",
+			"near": 0.0500000007450581,
+			"physics_after": 32,
+			"physics_before": 32,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							230.941177368164,
+							128.823532104492
+						],
+						"color": "red",
+						"error_pixels": 0.106046073138714,
+						"pixel_count": 34,
+						"projected_xy": [
+							231.046356201172,
+							128.837066650391
+						],
+						"world_position": [
+							4.00269746780396,
+							1.55503475666046,
+							15.0782995223999
+						]
+					},
+					{
+						"centroid_xy": [
+							409.100006103516,
+							145.33332824707
+						],
+						"color": "green",
+						"error_pixels": 0.18215037882328,
+						"pixel_count": 30,
+						"projected_xy": [
+							408.953643798828,
+							145.441757202148
+						],
+						"world_position": [
+							5.86625051498413,
+							1.28091979026794,
+							12.7266130447388
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 1024000,
+				"draw_and_read_microseconds": 43950,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 42220,
+				"rgba8_sha256": "2ba82608a2e08cf96f3fc9ec0b11b8eb7c61a676ddf68666de6ae330009a7f7d"
+			},
+			"process_after": 7,
+			"process_before": 7,
+			"projection_columns": [
+				[
+					0.926600635051727,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.48256099224091,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00045466423035,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100022733211517,
+					0.0
+				]
+			],
+			"surface_count": 1,
+			"triangles": 320,
+			"viewport_size": [
+				640,
+				400
+			]
+		},
+		{
+			"basin_cast_flag": 2,
+			"camera_basis": [
+				[
+					0.606043219566345,
+					0.0,
+					-0.795431733131409
+				],
+				[
+					-0.162227228283882,
+					0.978981614112854,
+					-0.123601697385311
+				],
+				[
+					0.778713047504425,
+					0.203948646783829,
+					0.593305170536041
+				]
+			],
+			"camera_position": [
+				9.0,
+				1.39999997615814,
+				17.0
+			],
+			"counters": {
+				"buffer_bytes": 7764440,
+				"draws": 15,
+				"primitives": 20244,
+				"shadow_primitives": 9824,
+				"texture_bytes": 56767331
+			},
+			"far": 220.0,
+			"file": "annular-double-sided.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_id": -9223371942952696030,
+			"mesh_id": -9223371943003027681,
+			"mode": "annular-double-sided",
+			"near": 0.0500000007450581,
+			"physics_after": 47,
+			"physics_before": 47,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.666666686534882,
+					0.156862750649452,
+					0.509803950786591
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							236.928573608398,
+							128.728576660156
+						],
+						"color": "red",
+						"error_pixels": 0.118648253381252,
+						"pixel_count": 35,
+						"projected_xy": [
+							236.976608276367,
+							128.837066650391
+						],
+						"world_position": [
+							4.06330156326294,
+							1.55503475666046,
+							14.9987564086914
+						]
+					},
+					{
+						"centroid_xy": [
+							409.086212158203,
+							138.224136352539
+						],
+						"color": "green",
+						"error_pixels": 0.166837587952614,
+						"pixel_count": 29,
+						"projected_xy": [
+							408.953674316406,
+							138.325469970703
+						],
+						"world_position": [
+							5.84678363800049,
+							1.398397564888,
+							12.7117805480957
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 1024000,
+				"draw_and_read_microseconds": 47227,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 36487,
+				"rgba8_sha256": "2f888dd58a87f19ba6b27504e9cdc347e011c60a9e7b32c5ba2b175158434be1"
+			},
+			"process_after": 11,
+			"process_before": 11,
+			"projection_columns": [
+				[
+					0.926600635051727,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.48256099224091,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00045466423035,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100022733211517,
+					0.0
+				]
+			],
+			"surface_count": 1,
+			"triangles": 320,
+			"viewport_size": [
+				640,
+				400
+			]
+		},
+		{
+			"basin_cast_flag": 1,
+			"camera_basis": [
+				[
+					0.606043219566345,
+					0.0,
+					-0.795431733131409
+				],
+				[
+					-0.162227228283882,
+					0.978981614112854,
+					-0.123601697385311
+				],
+				[
+					0.778713047504425,
+					0.203948646783829,
+					0.593305170536041
+				]
+			],
+			"camera_position": [
+				9.0,
+				1.39999997615814,
+				17.0
+			],
+			"counters": {
+				"buffer_bytes": 7764440,
+				"draws": 15,
+				"primitives": 20116,
+				"shadow_primitives": 9760,
+				"texture_bytes": 56767331
+			},
+			"far": 220.0,
+			"file": "solid-restored.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_id": -9223371942952696030,
+			"mesh_id": -9223371945486055794,
+			"mode": "solid-restored",
+			"near": 0.0500000007450581,
+			"physics_after": 61,
+			"physics_before": 61,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.941176474094391,
+					0.156862750649452,
+					0.39215686917305
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.941176474094391,
+					0.156862750649452,
+					0.39215686917305
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							242.928573608398,
+							128.728576660156
+						],
+						"color": "red",
+						"error_pixels": 0.11064450442791,
+						"pixel_count": 35,
+						"projected_xy": [
+							242.906845092773,
+							128.837066650391
+						],
+						"world_position": [
+							4.12390613555908,
+							1.55503475666046,
+							14.9192132949829
+						]
+					},
+					{
+						"centroid_xy": [
+							409.080657958984,
+							131.048385620117
+						],
+						"color": "green",
+						"error_pixels": 0.204898521304131,
+						"pixel_count": 31,
+						"projected_xy": [
+							408.953643798828,
+							131.209167480469
+						],
+						"world_position": [
+							5.82731628417969,
+							1.51587545871735,
+							12.696949005127
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 1024000,
+				"draw_and_read_microseconds": 47318,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 44968,
+				"rgba8_sha256": "cfa4982e555cb840f39d6884b5ba2c2ff803ac36fce3de0cfb1f2fe8f2755215"
+			},
+			"process_after": 15,
+			"process_before": 15,
+			"projection_columns": [
+				[
+					0.926600635051727,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.48256099224091,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00045466423035,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100022733211517,
+					0.0
+				]
+			],
+			"surface_count": 1,
+			"triangles": 256,
+			"viewport_size": [
+				640,
+				400
+			]
+		}
+	],
+	"limits": "Component cause diagnosis only, not actual Main or final exterior-shadow acceptance. Exact source _fountain and _build_lighting called on a fixture subclass that explicitly bypasses full _ready; flatY0support matches fountain neighbourhood. Native original solid vs same annular mesh casterON vs DOUBLE_SIDED vs restored original; only shadow culling flag changes between annular states. Actual source final horizon sky material retained. Flat native grey diagnostic receiver/displays replace photographic samplers consistently in all modes; same source opaque cull/reception flags verified. Native640x400, three settling draws per mode; full current camera/tick/independent marker/Canvas proofs for all4originals. No timing, cold-cache, sole-engine, gameplay, moving-shadow, water-realism orM5 claim.",
+	"renderer": "gl_compatibility",
+	"schema": 1,
+	"sun_reverse_cull_face": false,
+	"sun_shadow_enabled": true,
+	"timing_measured": false,
+	"water_cast_shadow": 0
+}

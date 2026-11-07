@@ -1,0 +1,39 @@
+from pathlib import Path
+from PIL import Image
+import json,hashlib,gzip,shutil,subprocess,datetime
+R=Path('/workspace/tam_hawks_ps');BASE=R/'.local/qa-fidelity/native-review';D=R/'docs/testing/motion-fidelity-2026-11-07/air-anticipation-moving-02';D.mkdir(parents=True,exist_ok=True)
+sha=lambda b:hashlib.sha256(b).hexdigest()
+records=[];copies=[];checks=[]
+def check(ok,label):checks.append({'pass':bool(ok),'label':label})
+def copy(p,q):
+ q.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,q);check(p.read_bytes()==q.read_bytes(),'exact copy '+str(q.relative_to(D)))
+def gz(p,q):
+ raw=p.read_bytes();q.parent.mkdir(parents=True,exist_ok=True);encoded=gzip.compress(raw,mtime=0);q.write_bytes(encoded);check(gzip.decompress(encoded)==raw,'exact gzip '+str(q.relative_to(D)));copies.append({'archive':str(q.relative_to(D)),'original_path':str(p.relative_to(R)),'raw_sha256':sha(raw),'raw_bytes':len(raw),'gzip_sha256':sha(encoded)})
+for epoch,label in [('forecast-192-side-02','side'),('forecast-192-chase-02','chase'),('forecast-192-native-motion-01','rejected-double-readback-01')]:
+ S=BASE/epoch;T=D/label;T.mkdir(exist_ok=True);manifest=json.loads((S/'manifest.json').read_text());frames=manifest['frames']
+ check(len(frames)==len(list((S/'frames').glob('*.png'))),'all original PNGs enumerated '+label)
+ for frame in frames:
+  p=S/frame['file'];im=Image.open(p).convert('RGBA');raw=im.tobytes();native=frame['pixels']['rgba8_sha256'];check(sha(raw)==native,'native original RGBA '+label+'/'+p.name)
+  q=T/'frames'/p.with_suffix('.webp').name;q.parent.mkdir(exist_ok=True);im.save(q,format='WEBP',lossless=True,exact=True,method=3)
+  restored=Image.open(q).convert('RGBA');check(restored.size==im.size and restored.tobytes()==raw,'lossless WebP exact RGBA '+label+'/'+p.name)
+  original=None
+  if label=='chase' or (label=='side' and p.stem in ['side-009','side-010','side-011']):
+   png=T/'selected-original-png'/p.name;copy(p,png);original=str(png.relative_to(D))
+  records.append({'epoch':label,'source_png_path':str(p.relative_to(R)),'source_png_sha256':sha(p.read_bytes()),'source_png_bytes':p.stat().st_size,'width':im.width,'height':im.height,'native_rgba8_sha256':native,'webp':str(q.relative_to(D)),'webp_sha256':sha(q.read_bytes()),'webp_bytes':q.stat().st_size,'selected_original_png':original,'encoding_note':'Lossless WebP re-encoding, exact native RGBA8 pixels; not original encoded PNG.'})
+ for p in sorted(S.iterdir()):
+  if not p.is_file() or p.suffix in ['.mp4','.png'] or p.name=='display':continue
+  if p.name.endswith('.json') or p.name.endswith('.log'):gz(p,T/(p.name+'.gz'))
+  else:copy(p,T/p.name)
+for name in ['forecast_motion_capture.gd','run_forecast_motion_review.py','run_forecast_combined.py','analyze_forecast_motion.py','forecast-copy-receipt-01.json']:
+ copy(R/'.local/qa-fidelity'/name,D/'sources'/name)
+copy(Path(__file__),D/'sources'/'preserve_forecast_motion.py.txt')
+copy(BASE/'forecast-192-retake-02-lease.json',D/'combined-lease.json')
+video=BASE/'forecast-192-side-02'/'forecast-side-60fps.mp4';copy(video,D/video.name)
+probe=subprocess.run(['ffprobe','-v','error','-count_frames','-show_entries','stream=width,height,r_frame_rate,nb_read_frames','-of','json',str(video)],text=True,capture_output=True,check=True)
+decode=subprocess.run(['ffmpeg','-v','error','-i',str(video),'-f','null','-'],capture_output=True,text=True)
+v={'probe':json.loads(probe.stdout),'decode_exit':decode.returncode,'decode_stderr':decode.stderr,'scope':'Lossy h264 review movie, exactly32 native consecutive images replayed at60Hz; not a native realtime-performance measurement or lossless pixel archive.'}
+(D/'video-verification.json').write_text(json.dumps(v,indent=2)+'\n');check(decode.returncode==0 and v['probe']['streams'][0]['nb_read_frames']=='32','all32 movie frames independently decoded')
+(D/'frame-preservation.json').write_text(json.dumps({'schema':1,'method':'All66 original native PNGs decoded RGBA8, compared with same-readback native SHA256, losslessly re-encoded WebP then decoded and independently compared byte-for-byte. No resize/crop/altered pixels. Exact original PNG epochs retained ignored.','frames':records},indent=2)+'\n')
+(D/'gzip-preservation.json').write_text(json.dumps(copies,indent=2)+'\n')
+report={'schema':1,'completed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'checks':checks,'count':len(checks),'failures':[x for x in checks if not x['pass']],'images':len(records),'positive_images':sum(x['epoch']!='rejected-double-readback-01' for x in records),'rejected_images':sum(x['epoch']=='rejected-double-readback-01' for x in records),'webp_bytes':sum(x['webp_bytes'] for x in records),'original_png_bytes':sum(x['source_png_bytes'] for x in records)}
+(D/'preservation-review.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items() if k not in ['checks']}),flush=True)

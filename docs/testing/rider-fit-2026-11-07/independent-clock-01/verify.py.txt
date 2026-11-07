@@ -1,0 +1,35 @@
+from pathlib import Path
+import json,hashlib,gzip,math
+from PIL import Image
+p=Path(__file__).resolve().parent
+sha=lambda b:hashlib.sha256(b).hexdigest()
+files=json.loads((p/'retained-files.json').read_text())
+for name,r in files.items():
+ raw=(p/name).read_bytes()
+ if name.endswith('.gz'):
+  assert sha(raw)==r['gzip_sha256'],name
+  assert sha(gzip.decompress(raw))==r['source_sha256'],name
+ else:assert sha(raw)==r['sha256'],name
+before=json.loads((p/'source-before.json').read_text());after=json.loads((p/'source-after.json').read_text());assert before==after and len(before)==732
+for orig,retained in [('WRAPPER','executed-launcher.py.txt'),('clock.gd','observer.gd.txt'),('tests/fitted_adapter.gd','fitted_adapter.gd.txt'),('project.godot','project.godot.txt')]:assert sha((p/retained).read_bytes())==before[orig],orig
+receipt=json.loads((p/'native-receipt.json').read_text());report=json.loads((p/'independent-review.json').read_text());ref=json.loads(gzip.decompress((p/'fitted-reference.json.gz').read_bytes()))
+assert receipt['capture_pairs']==4 and not receipt['failures'] and report['failed']==0
+mv=lambda m,v:[sum(m[i][k]*v[k] for k in range(4)) for i in range(4)]
+for r,review in zip(receipt['records'],report['pairs']):
+ assert r['id']==review['id']
+ for t,derived in zip(r['twins'],review['twins']):
+  im=Image.open(p/Path(t['png']).name).convert('RGBA');assert sha(im.tobytes())==t['raw_rgba_sha256'];assert im.getpixel((18,6))[:3]==tuple(r['expected_stamp_rgb'])
+  expected=(255,64,0) if t['policy']=='baseline' else (0,255,64);assert im.getpixel((6,6))[:3]==expected
+  ch=ref['parts']['UpperChest'];attrs=ch['attributes'];gaps=[]
+  for rim in ref['head_rim']:
+   for i,sid in enumerate(ch['source_ids']):
+    if sid!=rim['source_id']:continue
+    local=[0.,0.,0.,0.]
+    for bind,w in zip(attrs['JOINTS_0'][i],attrs['WEIGHTS_0'][i]):
+     if w>0:
+      q=mv(t['native_palette'][bind],attrs['POSITION'][i]+[1])
+      for k in range(4):local[k]+=w*q[k]
+    local[3]=1;world=mv(t['components']['chest']['rendered'],local);head=mv(t['components']['head']['rendered'],rim['local']+[1])
+    gaps.append(math.sqrt(sum((world[k]-head[k])**2 for k in range(3))))
+  assert abs(max(gaps)-derived['independent_source_vertex_plus_native_palette_model_estimate_m'])<1e-12
+print('PASS retained hashes,8native RGBA/proof buffers,732-source equality and8 independent source/palette/rendered-model estimates; original review104/0.')

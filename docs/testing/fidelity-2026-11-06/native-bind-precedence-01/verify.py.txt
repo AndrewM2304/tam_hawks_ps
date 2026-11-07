@@ -1,0 +1,30 @@
+from pathlib import Path
+import hashlib, json, sys
+from PIL import Image
+
+p = Path(sys.argv[1])
+sha = lambda data: hashlib.sha256(data).hexdigest()
+index = json.loads((p / 'preservation.json').read_text())
+for name, expected in index.items():
+    assert sha((p / name).read_bytes()) == expected, name
+before = json.loads((p / 'source-before.json').read_text())
+after = json.loads((p / 'source-after.json').read_text())
+assert before == after and len(before) == 6
+for source in ['old.gd', 'candidate.gd', 'project.godot', 'witness.gd']:
+    assert sha((p / (source + '.txt')).read_bytes()) == before[source]
+assert sha((p / 'wrapper.py.txt').read_bytes()) == before['EXTERNAL_WRAPPER']
+assert sha((p / 'xorg-dummy.conf.txt').read_bytes()) == before['XORG_CONFIG']
+receipt = json.loads((p / 'receipt.json').read_text())
+assert receipt['eligible'] and receipt['engine_exit'] == 0
+report = json.loads((p / 'report.json').read_text())
+assert len(report['checks']) == 18 and not report['failures']
+for case in report['cases']:
+    image = Image.open(p / case['file']).convert('RGBA')
+    assert image.size == (64, 64)
+    assert sha(image.tobytes()) == case['rgba8_sha256']
+    assert sha((p / case['file']).read_bytes()) == case['png_sha256']
+    assert case['before'] == case['after']
+assert report['cases'][0]['old_resolver'] == 0
+assert report['cases'][0]['candidate_resolver'] == 1
+assert abs(report['cases'][0]['native_palette']['origin'][2] - .003) < 1e-8
+print('Native Skin precedence preservation, source binding and three native pixel hashes verified.')

@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "started_utc": "2026-11-07T03:57:06.673815+00:00",
+  "finished_utc": "2026-11-07T04:02:36.080360+00:00",
+  "commands": [
+    [
+      "./tools/run.sh",
+      "--rendering-method",
+      "gl_compatibility",
+      "--audio-driver",
+      "Dummy",
+      "--windowed",
+      "--resolution",
+      "1280x800",
+      "--script",
+      "tools/environment_main_basin_topology_capture.gd",
+      "--",
+      "/workspace/tam_hawks_ps/.local/environment-phase2/basin-topology-source/.local/environment-water/actual-main-annular-basin-01"
+    ]
+  ],
+  "git_head": "9b91dbcfbecd147b4dc2eef6444596585390bd19",
+  "source_stable": true,
+  "changed_inputs": [],
+  "engine_exit": 0,
+  "engine_errors": false,
+  "abort_reason": null,
+  "last_stage": "tools/environment_main_basin_topology_capture.gd",
+  "process_timeout_seconds": 360,
+  "workload": "actual-main-basin-topology-ABA-1280x800",
+  "concurrent_headless_authorised_pid": null,
+  "other_godot_at_start": [],
+  "timing_measured": false,
+  "source_inventory_sha256": "17f6978cde33f9a2fdeaf9f43439295113b98bddf1d5d1500b314fc862b0b80d",
+  "environment": {
+    "DISPLAY": ":0",
+    "LIBGL_ALWAYS_SOFTWARE": "1",
+    "LP_NUM_THREADS": "4",
+    "VK_ICD_FILENAMES": null,
+    "VK_DRIVER_FILES": null,
+    "LD_LIBRARY_PATH": null
+  },
+  "images": {
+    "annular-coping-exterior-shadow.png": "becd1fa51d578c5fe3caf433e284bb6ffff5049965b2c2650b9d0337950fcb93",
+    "annular-coping-fountain-wide.png": "70ddc151ed18f6fc925fb16c1167b7e17af6023163a6c026f5cce868fae86152",
+    "annular-coping-water-rim-close.png": "8f38bfc8192ababbd0732dff1932d847e33823240edb54b2c71c4b39ed123aec",
+    "before-a-exterior-shadow.png": "a5bf7878e99cf05d89b15e8dbd9c4061f104f99b9d1c6d6e50557f2dbdb3ae92",
+    "before-a-fountain-wide.png": "3184ca7ce605b91fe0b35e09a63f43dd9bbebbe82de31453fdfe792eb669e351",
+    "before-a-water-rim-close.png": "26d32cde7da4771cb3934d1475ecd2177b099204bb3d53f824517e9a0e6b8fad",
+    "before-b-exterior-shadow.png": "3cce203df007f91d1ffb6daa9b5c18e90bb5f1663f080505a7f0af82c8f31ba7",
+    "before-b-fountain-wide.png": "c10ff932f73e628bdd1c4ef86628babd6944ba52bf4dd544359a7ae57a384f41",
+    "before-b-water-rim-close.png": "90d73d71d701a1f6a025190e6bf07e7b11252205d2681f1a7e45dceb85b6343f",
+    "synchronization/first_contact_inspection.png": "0f1a339c97958d4ccc090a82ba7a57a5a17d0e4d21e7add6274b647568faaf0f",
+    "synchronization/overview_before_contact.png": "b9881c70a83a587f5fc8691aa8ec89a0013ae2d8625d6f6fd81fb876ac212fda",
+    "synchronization/return_to_production_chase.png": "b6909d82308a106e55781001da124bd2ab447f7b2604ee1dfd580e65b3cce073"
+  },
+  "eligible": true,
+  "limits": "Linux diagnostic. Source stability plus no engine errors establishes capture integrity, not visual benefit, target-Mac performance or final material acceptance. Read water-report.json and inspect before/candidate sequences. An aborted epoch remains rejected; completed subsets require separate explicit review."
+}

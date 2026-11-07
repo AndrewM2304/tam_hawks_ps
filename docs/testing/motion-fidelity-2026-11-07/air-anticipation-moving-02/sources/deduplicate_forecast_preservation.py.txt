@@ -1,0 +1,14 @@
+from pathlib import Path
+from PIL import Image
+import json,hashlib,shutil
+D=Path('/workspace/tam_hawks_ps/docs/testing/motion-fidelity-2026-11-07/air-anticipation-moving-02');p=D/'frame-preservation.json';d=json.loads(p.read_text());seen={};removed=[];checks=[]
+for f in d['frames']:
+ current=D/f['webp'];key=f['native_rgba8_sha256']
+ if key not in seen:seen[key]=f;continue
+ original=seen[key];canonical=D/original['webp'];assert Image.open(current).convert('RGBA').tobytes()==Image.open(canonical).convert('RGBA').tobytes()
+ removed.append({'former_duplicate':f['webp'],'canonical':original['webp'],'rgba8_sha256':key,'removed_redundant_encoded_bytes':current.stat().st_size});current.unlink();f['webp']=original['webp'];f['webp_sha256']=original['webp_sha256'];f['webp_bytes']=original['webp_bytes'];f['deduplication_note']='This exact native image is shared with another captured frame. Each original PNG hash and native frame metadata remains separate.'
+for f in d['frames']:
+ raw=Image.open(D/f['webp']).convert('RGBA').tobytes();assert hashlib.sha256(raw).hexdigest()==f['native_rgba8_sha256'];checks.append(f['epoch']+'/'+Path(f['source_png_path']).name)
+d['method']+=' Byte-identical native images share one lossless WebP by verified native RGBA hash; distinct original encoded PNG hashes and runtime frame records remain separate.';p.write_text(json.dumps(d,indent=2)+'\n')
+r={'schema':1,'frames_verified':len(checks),'unique_native_images':len(seen),'duplicates_deduplicated':len(removed),'encoded_bytes_saved':sum(x['removed_redundant_encoded_bytes'] for x in removed),'unique_webp_bytes':sum((D/f['webp']).stat().st_size for f in seen.values()),'mapping':removed,'all66_final_decoded_native_hashes_pass':True}
+(D/'deduplication-review.json').write_text(json.dumps(r,indent=2)+'\n');shutil.copyfile(__file__,D/'sources'/'deduplicate_forecast_preservation.py.txt');print({k:v for k,v in r.items() if k!='mapping'})

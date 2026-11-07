@@ -1,0 +1,304 @@
+{
+	"actual_main_constructed": false,
+	"checks": 24,
+	"complete": false,
+	"engine": {
+		"build": "official",
+		"hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+		"hex": 263683,
+		"major": 4,
+		"minor": 6,
+		"patch": 3,
+		"status": "stable",
+		"string": "4.6.3-stable (official)",
+		"timestamp": 0
+	},
+	"failures": 0,
+	"images": [
+		{
+			"basin_cast_flag": 1,
+			"camera_basis": [
+				[
+					0.606043219566345,
+					0.0,
+					-0.795431733131409
+				],
+				[
+					-0.162227228283882,
+					0.978981614112854,
+					-0.123601697385311
+				],
+				[
+					0.778713047504425,
+					0.203948646783829,
+					0.593305170536041
+				]
+			],
+			"camera_position": [
+				9.0,
+				1.39999997615814,
+				17.0
+			],
+			"counters": {
+				"buffer_bytes": 7764440,
+				"draws": 15,
+				"primitives": 20116,
+				"shadow_primitives": 9760,
+				"texture_bytes": 75199331
+			},
+			"far": 220.0,
+			"file": "solid-original.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_id": -9223371950032681509,
+			"mesh_id": -9223371945486055794,
+			"mode": "solid-original",
+			"near": 0.0500000007450581,
+			"physics_after": 32,
+			"physics_before": 32,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.117647059261799,
+					0.156862750649452,
+					0.745098054409027
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							450.239440917969,
+							257.605621337891
+						],
+						"color": "red",
+						"error_pixels": 0.0688926726579666,
+						"pixel_count": 142,
+						"projected_xy": [
+							450.232208251953,
+							257.674133300781
+						],
+						"world_position": [
+							3.94209289550781,
+							1.55503475666046,
+							15.1578426361084
+						]
+					},
+					{
+						"centroid_xy": [
+							817.870056152344,
+							305.129913330078
+						],
+						"color": "green",
+						"error_pixels": 0.0397258214652538,
+						"pixel_count": 127,
+						"projected_xy": [
+							817.907287597656,
+							305.116058349609
+						],
+						"world_position": [
+							5.88571786880493,
+							1.16344213485718,
+							12.7414455413818
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 8503426,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 783436,
+				"rgba8_sha256": "f56249c91cc9bb53c9b312aea5000e63a3c2bde473c5beb82edcee2b5044fd60"
+			},
+			"process_after": 3,
+			"process_before": 3,
+			"projection_columns": [
+				[
+					0.926600635051727,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.48256099224091,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00045466423035,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100022733211517,
+					0.0
+				]
+			],
+			"surface_count": 1,
+			"triangles": 256,
+			"viewport_size": [
+				1280,
+				800
+			]
+		},
+		{
+			"basin_cast_flag": 1,
+			"camera_basis": [
+				[
+					0.606043219566345,
+					0.0,
+					-0.795431733131409
+				],
+				[
+					-0.162227228283882,
+					0.978981614112854,
+					-0.123601697385311
+				],
+				[
+					0.778713047504425,
+					0.203948646783829,
+					0.593305170536041
+				]
+			],
+			"camera_position": [
+				9.0,
+				1.39999997615814,
+				17.0
+			],
+			"counters": {
+				"buffer_bytes": 7764440,
+				"draws": 15,
+				"primitives": 20244,
+				"shadow_primitives": 9824,
+				"texture_bytes": 75199331
+			},
+			"far": 220.0,
+			"file": "annular-one-sided.png",
+			"fov": 68.0,
+			"keep_aspect": 1,
+			"material_id": -9223371950032681509,
+			"mesh_id": -9223371943003027681,
+			"mode": "annular-one-sided",
+			"near": 0.0500000007450581,
+			"physics_after": 64,
+			"physics_before": 64,
+			"pixel_proofs": {
+				"canvas_actual_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_error": 0.0,
+				"canvas_expected_rgb": [
+					0.39215686917305,
+					0.156862750649452,
+					0.627451002597809
+				],
+				"canvas_sample_xy": [
+					10,
+					10
+				],
+				"markers": [
+					{
+						"centroid_xy": [
+							462.055541992188,
+							257.576385498047
+						],
+						"color": "red",
+						"error_pixels": 0.104576632380486,
+						"pixel_count": 144,
+						"projected_xy": [
+							462.092712402344,
+							257.674133300781
+						],
+						"world_position": [
+							4.00269746780396,
+							1.55503475666046,
+							15.0782995223999
+						]
+					},
+					{
+						"centroid_xy": [
+							817.892333984375,
+							290.838470458984
+						],
+						"color": "green",
+						"error_pixels": 0.0474612228572369,
+						"pixel_count": 130,
+						"projected_xy": [
+							817.907287597656,
+							290.883514404297
+						],
+						"world_position": [
+							5.86625051498413,
+							1.28091979026794,
+							12.7266130447388
+						]
+					}
+				]
+			},
+			"pixels": {
+				"bytes": 4096000,
+				"draw_and_read_microseconds": 5862854,
+				"encoding": "Godot lossless PNG",
+				"format": "RGBA8",
+				"hash_and_store_microseconds": 519729,
+				"rgba8_sha256": "8012936d5c54361c4565062f072667f64970f5c056c11264a7e62d4755f53444"
+			},
+			"process_after": 7,
+			"process_before": 7,
+			"projection_columns": [
+				[
+					0.926600635051727,
+					0.0,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					1.48256099224091,
+					0.0,
+					0.0
+				],
+				[
+					0.0,
+					0.0,
+					-1.00045466423035,
+					-1.0
+				],
+				[
+					0.0,
+					0.0,
+					-0.100022733211517,
+					0.0
+				]
+			],
+			"surface_count": 1,
+			"triangles": 320,
+			"viewport_size": [
+				1280,
+				800
+			]
+		}
+	],
+	"limits": "Component cause diagnosis only, not actual Main or final exterior-shadow acceptance. Exact source _fountain and _build_lighting called on a fixture subclass that explicitly bypasses full _ready; flatY0support matches fountain neighbourhood. Native original solid vs same annular mesh casterON vs DOUBLE_SIDED vs restored original; only shadow culling flag changes between annular states. Actual source final horizon sky material retained. Three native settling draws per mode; full current camera/tick/independent marker/Canvas proofs for all4originals. No timing, cold-cache, sole-engine, gameplay, moving-shadow, water-realism orM5 claim.",
+	"renderer": "gl_compatibility",
+	"schema": 1,
+	"sun_reverse_cull_face": false,
+	"sun_shadow_enabled": true,
+	"timing_measured": false,
+	"water_cast_shadow": 0
+}

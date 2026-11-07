@@ -1,0 +1,24 @@
+from pathlib import Path
+import re,json,hashlib,datetime,shutil
+R=Path('/workspace/tam_hawks_ps');D=R/'docs/testing/fidelity-2026-11-06';checks=[]
+def c(ok,label,actual=None):checks.append({'pass':bool(ok),'label':label,'actual':actual})
+roles=sorted(p for p in (R/'.agents/agents').glob('*.md') if p.name!='README.md');skills=sorted((R/'.agents/skills').glob('*/SKILL.md'));c(len(roles)==12,'twelve actual persistent role briefs',len(roles));c(len(skills)==12,'twelve actual persistent skill entrypoints',len(skills))
+roster=(R/'.agents/agents/README.md').read_text()
+for role in roles:c('('+role.name+')' in roster,'role discoverable from roster '+role.name)
+for skill in skills:
+ text=skill.read_text();match=re.search(r'^name:\s*(.+)$',text,re.M);c(bool(match) and match.group(1).strip()==skill.parent.name and bool(re.search(r'^description:\s*\S',text,re.M)),'matching named skill metadata '+skill.parent.name)
+files=[R/'AGENTS.md',R/'docs/planning/RESUME.md',R/'docs/planning/STUDIO.md',R/'.agents/agents/README.md']+roles+skills;broken=[];total=0
+for p in files:
+ for link in re.findall(r'\]\(([^)]+)\)',p.read_text()):
+  if link.startswith(('http:','https:','mailto:','plugin:','app:','#')):continue
+  link=link.split('#',1)[0]
+  if not link:continue
+  total+=1
+  if not (p.parent/link).resolve().exists():broken.append([str(p.relative_to(R)),link])
+c(not broken,'all local durable role/skill/entrypoint links resolve',{'count':total,'broken':broken})
+text=(R/'.agents/skills/deformed-contact/SKILL.md').read_text();c(all(term in text for term in ['name-first','20-cm','12 native-query','8-mm','UNORM16','model once']),'contact specialist preserves native binding/model/contact authority')
+c(all(term in text for term in ['512 KiB','16,000','p95 <=1 ms','unmeasured']),'contact skill declares actual CPU/cache and unmeasuredM5budgets')
+c('do not create continuously running agents' in roster and 'twelve logical roles' in roster,'roster honestly distinguishes persistent instructions from runtime agents')
+c('twelve logical roles' in (R/'docs/planning/STUDIO.md').read_text() and 'Contact rigging engineer' in (R/'docs/planning/STUDIO.md').read_text(),'studio reconciles role count/contact ownership')
+report={'schema':1,'reviewer':'/root/independent_qa','reviewed_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'checks':len(checks),'failures':sum(not x['pass'] for x in checks),'checks_detail':checks,'scope':'Independent contact-rigging role/skill cold-read and complete12role/12skill entrypoint/link/metadata discovery audit. FID002 setup component only; not feature/ticket/AAA acceptance.','limits':['QA authored the gameplay-qa skill and its recent native clock/capture additions; this link/metadata audit does not independently accept those semantic additions.','Earlier independent BA/role extension scopes retain their exact original claims.','No future automatic spawning/runtime registration, unattended agent or measuredM5 result is implied.'],'source_sha256':{str(p.relative_to(R)):hashlib.sha256(p.read_bytes()).hexdigest() for p in files}}
+(D/'studio-structure-audit-contact-extension.json').write_text(json.dumps(report,indent=2)+'\n');shutil.copyfile(__file__,D/'studio-structure-audit-contact-extension.py.txt');print({'checks':len(checks),'failures':[x for x in checks if not x['pass']]})

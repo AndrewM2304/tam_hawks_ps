@@ -1,0 +1,297 @@
+--- a/game/player/skater.gd
++++ b/game/player/skater.gd
+@@ -123,6 +123,14 @@
+ var _graded_obstacle_floor_shape := -1
+ var _obstacle_air_wall: Dictionary = {}
+ var _obstacle_air_wall_owner: Dictionary = {}
++var _obstacle_air_forecast: Dictionary = {}
++const AIR_FORECAST_QUERY_CAP:=192
++var _air_forecast_queries:=0
++var _air_forecast_physics:int=-1
++var _air_forecast_counting:=false
++var _air_forecast_probe_query:=PhysicsShapeQueryParameters3D.new()
++var _air_forecast_volume_query:=PhysicsShapeQueryParameters3D.new()
++var _air_forecast_shoe_box:=BoxShape3D.new()
+ var _obstacle_ollie_continuation := false
+ var _obstacle_manual_continuation := false
+ var _obstacle_shoe_bounds: Array[AABB] = []
+@@ -515,6 +523,7 @@
+ 	_graded_obstacle_floor_shape = -1
+ 	_obstacle_air_wall.clear()
+ 	_obstacle_air_wall_owner.clear()
++	_obstacle_air_forecast.clear()
+ 	_obstacle_ollie_continuation = false
+ 	_obstacle_manual_continuation = false
+ 	transition_normal = Vector3.UP
+@@ -2793,6 +2802,7 @@
+ 			or _flip_remaining>0.0 or _grab_remaining>0.0:
+ 		_obstacle_air_wall.clear()
+ 		_obstacle_air_wall_owner.clear()
++		_obstacle_air_forecast.clear()
+ 	if manual_pose or airborne or not _native_floor_valid or not is_on_floor() \
+ 			or _native_floor_normal().y>=0.999 or _force_air_tick \
+ 			or transition_active or grinding or wallriding or bail_active or setup_active \
+@@ -2919,6 +2929,7 @@
+ 
+ 
+ func _place_air_wall_wheels(delta: float) -> bool:
++	_obstacle_air_forecast.clear()
+ 	# Arm only on BOTH a current capsule wall contact and an actual connected
+ 	# model component hitting that exact finite shape. The actor, its velocity
+ 	# and the figure's vertical position stay entirely native.
+@@ -2970,6 +2981,19 @@
+ 		if not model_face.is_empty():faces.append(model_face)
+ 	if faces.is_empty():
+ 		_obstacle_air_wall.clear()
++		if not _obstacle_air_wall_owner.is_empty():
++			var forecast:=_air_wall_forecast(_obstacle_air_wall_owner,delta)
++			if not forecast.is_empty():
++				var candidate:Vector3=forecast.offset
++				var board:=_board_visual.global_transform
++				board.origin+=candidate
++				if candidate.is_finite() and candidate.length()<=0.18 and absf(candidate.y)<=0.000001 \
++						and _obstacle_air_clear(candidate) and _manual_model_frame_clear(board):
++					_visual.position+=global_basis.inverse()*candidate
++					_obstacle_visual_offset=candidate
++					forecast["queries"]+=3+_grind_clearance._parts.size()
++					_obstacle_air_forecast=forecast
++					return true
+ 		return false
+ 	var prior:=_obstacle_visual_offset if prior_live else Vector3.ZERO
+ 	if not prior.is_finite() or prior.length()>0.18 or absf(prior.y)>0.000001:
+@@ -3031,10 +3055,19 @@
+ 
+ 
+ func _air_wall_model_face(face: Dictionary) -> Dictionary:
++	return _air_wall_model_face_at(face,_board_visual.global_transform)
++
++
++func _air_wall_model_face_at(face:Dictionary,frame:Transform3D) -> Dictionary:
++	var face_normal:Vector3=face.get("normal",Vector3.INF)
++	if not frame.origin.is_finite() or not frame.basis.is_finite() or frame.basis.determinant()<=0.0 \
++			or not face_normal.is_finite() or absf(face_normal.y)>0.001 \
++			or absf(face_normal.length_squared()-1.0)>0.001 \
++			or not Vector3(face.get("position",Vector3.INF)).is_finite():return {}
+ 	# A whole-board convex envelope may bridge empty truck space. Require a
+ 	# real cached connected component hit before creating any new air fit.
+ 	var query:=PhysicsShapeQueryParameters3D.new()
+-	query.transform=_board_visual.global_transform
++	query.transform=frame
+ 	query.collision_mask=collision_mask
+ 	query.exclude=[get_rid()]
+ 	query.margin=0.0
+@@ -3042,8 +3075,10 @@
+ 	var face_rays:=0
+ 	for part:Dictionary in _grind_clearance._parts:
+ 		query.shape=part.shape
++		if not _air_forecast_query():return {}
+ 		for hit:Dictionary in space.intersect_shape(query,8):
+ 			if hit.rid!=face.rid or int(hit.shape)!=int(face.shape):continue
++			if not _air_forecast_query():return {}
+ 			var rest:=space.get_rest_info(query)
+ 			var normal:Vector3=face.normal
+ 			var ray:=PhysicsRayQueryParameters3D.create(Vector3.ZERO,Vector3.ZERO,collision_mask,[get_rid()])
+@@ -3052,6 +3087,7 @@
+ 				var point:Vector3=rest.point
+ 				ray.from=point+normal*0.03
+ 				ray.to=point-normal*0.03
++				if not _air_forecast_query():return {}
+ 				finite=space.intersect_ray(ray)
+ 				if not finite.is_empty() and finite.rid==face.rid and int(finite.shape)==int(face.shape) \
+ 						and Vector3(finite.normal).dot(normal)>0.999:return finite
+@@ -3067,10 +3103,185 @@
+ 				at-=normal*distance
+ 				ray.from=at+normal*0.03
+ 				ray.to=at-normal*0.03
++				if not _air_forecast_query():return {}
+ 				finite=space.intersect_ray(ray)
+ 				if not finite.is_empty() and finite.rid==face.rid and int(finite.shape)==int(face.shape) \
+ 						and Vector3(finite.normal).dot(normal)>0.999:return finite
+ 	return {}
++
++
++func _air_forecast_query()->bool:
++	if not _air_forecast_counting:return true
++	# Reserve the final current-pose board, two shoes and actual components.
++	if _air_forecast_queries>=AIR_FORECAST_QUERY_CAP-3-_grind_clearance._parts.size():return false
++	_air_forecast_queries+=1
++	return true
++
++
++func _air_wall_forecast(owner:Dictionary,delta:float) -> Dictionary:
++	_air_forecast_physics=Engine.get_physics_frames()
++	_air_forecast_queries=0
++	_air_forecast_counting=true
++	var forecast:=_air_wall_forecast_impl(owner,delta)
++	_air_forecast_counting=false
++	if not forecast.is_empty():
++		forecast["queries"]=_air_forecast_queries
++		forecast["query_cap"]=AIR_FORECAST_QUERY_CAP
++	return forecast
++
++
++func _air_forecast_owner_bounds(owner:Dictionary)->AABB:
++	# Debug meshes are cached by the native Shape3D resource and invalidated
++	# when it changes. Bounds are only a conservative cull, never authority.
++	var body:=owner.get("collider") as CollisionObject3D
++	var index:int=int(owner.get("shape",-1))
++	if not is_instance_valid(body) or body.get_rid()!=owner.get("rid") \
++			or (body.collision_layer&collision_mask)==0 or index<0 \
++			or index>=PhysicsServer3D.body_get_shape_count(body.get_rid()):return AABB()
++	var owner_id:int=body.shape_find_owner(index)
++	if body.is_shape_owner_disabled(owner_id):return AABB()
++	var count:int=body.shape_owner_get_shape_count(owner_id)
++	if count>8:return AABB()
++	var shape:Shape3D
++	for local:int in count:
++		if body.shape_owner_get_shape_index(owner_id,local)==index:
++			shape=body.shape_owner_get_shape(owner_id,local)
++			break
++	if not (shape is BoxShape3D or shape is ConvexPolygonShape3D or shape is ConcavePolygonShape3D):return AABB()
++	var pose:Transform3D=body.global_transform*body.shape_owner_get_transform(owner_id)
++	if not pose.origin.is_finite() or not pose.basis.is_finite():return AABB()
++	var bounds:AABB=pose*shape.get_debug_mesh().get_aabb()
++	if not bounds.position.is_finite() or not bounds.size.is_finite() or not bounds.has_volume():return AABB()
++	return bounds.grow(GROUND_PRESENTATION_SKIN)
++
++
++func _air_forecast_frame_valid(frame:Transform3D,travel:Vector3)->bool:
++	# Pure guard permits malformed-input negatives without setting a live Node
++	# transform to NaN or entering native collision queries.
++	var determinant:=frame.basis.determinant()
++	return frame.origin.is_finite() and frame.basis.is_finite() \
++		and is_finite(determinant) and determinant>0.0 and travel.is_finite() \
++		and (frame.origin+travel).is_finite()
++
++
++func _air_wall_forecast_impl(owner:Dictionary,delta:float) -> Dictionary:
++	# PRIVATE candidate: a same-epoch owner is identity only. Every nonzero
++	# anticipation needs a NEW actual connected component/native finite hit
++	# inside a <=120ms ballistic forecast, never an extrapolated wall plane.
++	if owner.is_empty() or _obstacle_air_wall_owner.is_empty() or not is_finite(delta) or delta<=0.0 or delta>0.120:return {}
++	if not airborne or _launch_id!="ollie" or manual_active or _visual_rig._manual_blend>0.0001 \
++			or grinding or transition_active or wallriding or bail_active or setup_active or skitching \
++			or lip_active or powersliding or _special_remaining>0.0 or _flip_remaining>0.0 \
++			or _grab_remaining>0.0 or _obstacle_ollie_continuation:return {}
++	if owner.get("rid")!=_obstacle_air_wall_owner.get("rid") or owner.get("shape")!=_obstacle_air_wall_owner.get("shape"):return {}
++	var normal:Vector3=owner.get("normal",Vector3.INF)
++	var earned_normal:Vector3=_obstacle_air_wall_owner.get("normal",Vector3.INF)
++	var earned_point:Vector3=_obstacle_air_wall_owner.get("position",Vector3.INF)
++	var owner_point:Vector3=owner.get("position",Vector3.INF)
++	if not normal.is_finite() or absf(normal.y)>0.001 or absf(normal.length_squared()-1.0)>0.001 \
++			or not earned_normal.is_finite() or not earned_point.is_finite() or not owner_point.is_finite() \
++			or earned_normal.dot(normal)<0.999 or absf((owner_point-earned_point).dot(normal))>0.001:return {}
++	for leg:Dictionary in _visual_rig._legs:
++		var foot:Transform3D=leg.foot.global_transform
++		if not _air_forecast_frame_valid(foot,Vector3.ZERO):return {}
++	var geometry:Dictionary=_visual_rig.board_contact_geometry()
++	var hull:Shape3D=geometry.get("convex_shape")
++	if hull==null:return {}
++	var frame:=_board_visual.global_transform
++	if not _air_forecast_frame_valid(frame,Vector3.ZERO) or not velocity.is_finite():return {}
++	var owner_bounds:=_air_forecast_owner_bounds(owner)
++	if not owner_bounds.has_volume():return {}
++	var board_bounds:AABB=hull.get_debug_mesh().get_aabb()
++	var aabb_rejected:=0
++	var query:=_air_forecast_probe_query
++	query.shape=hull
++	query.collision_mask=collision_mask
++	query.exclude=[get_rid()]
++	query.margin=0.0
++	var space:=get_world_3d().direct_space_state
++	var gravity:=RAMP_AIR_GRAVITY if _ramp_air else (WEIGHTED_OLLIE_GRAVITY if _weighted_ollie_air else GRAVITY)
++	var count:=mini(7,int(floor(0.120/delta)))
++	for step:int in range(1,count+1):
++		var travel:=velocity*(delta*step)-Vector3.UP*(gravity*delta*delta*step*(step+1)*0.5)
++		if not travel.is_finite():return {}
++		var future:=frame
++		future.origin+=travel
++		if not _air_forecast_frame_valid(frame,travel):return {}
++		query.transform=future
++		if not (future*board_bounds).grow(GROUND_PRESENTATION_SKIN).intersects(owner_bounds):
++			aabb_rejected+=1
++			continue
++		# Finite native broad phase, followed by real component authentication.
++		# Holding the current rigid orientation is an explicit intent forecast;
++		# no animated node or physical actor is advanced to test it.
++		if not _air_forecast_query():return {}
++		if space.intersect_shape(query,1).is_empty():continue
++		var face:=_air_wall_model_face_at(owner,future)
++		if face.is_empty():continue
++		var axis:Vector3=face.normal
++		axis=Vector3(axis.x,0,axis.z).normalized()
++		if not axis.is_finite() or axis.length_squared()<0.99:return {}
++		var gap:=INF
++		for vertex:Vector3 in geometry.support_points:
++			gap=minf(gap,(future*vertex-Vector3(face.position)).dot(axis))
++		for index:int in _visual_rig._legs.size():
++			var bounds:AABB=_obstacle_shoe_bounds[index]
++			var foot:Transform3D=_visual_rig._legs[index].foot.global_transform
++			for x:float in [bounds.position.x,bounds.end.x]:
++				for y:float in [bounds.position.y,bounds.end.y]:
++					for z:float in [bounds.position.z,bounds.end.z]:
++						gap=minf(gap,(foot*Vector3(x,y,z)+travel-Vector3(face.position)).dot(axis))
++		if not is_finite(gap) or gap>=GROUND_PRESENTATION_SKIN:return {}
++		var ceiling:=axis*(GROUND_PRESENTATION_SKIN-gap)
++		if ceiling.length()>0.18 or not _air_wall_forecast_clear(ceiling,travel):return {}
++		var low:=0.0
++		var high:=1.0
++		for iteration:int in 8:
++			var middle:float=(low+high)*0.5
++			if _air_wall_forecast_clear(ceiling*middle,travel):high=middle
++			else:low=middle
++		var endpoint:=ceiling*high
++		if not _air_wall_forecast_clear(endpoint,travel):return {}
++		var complete:=frame
++		complete.origin+=travel+endpoint
++		if not _manual_model_frame_clear(complete):return {}
++		# Reach the complete finite endpoint one native tick before the first
++		# predicted overlap; this keeps the existing8mm skin clear at arrival.
++		var lead:float=maxf(0.0,(step-1)*delta)
++		var weight:=smoothstep(0.0,0.120,0.120-lead)
++		return {"rid":face.rid,"shape":int(face.shape),"face":face,
++			"step":step,"horizon":step*delta,"travel":travel,
++			"aabb_rejected_steps":aabb_rejected,"part_count":_grind_clearance._parts.size(),
++			"endpoint":endpoint,"weight":weight,"offset":endpoint*weight}
++	return {}
++
++
++func _air_wall_forecast_clear(offset:Vector3,travel:Vector3) -> bool:
++	if not offset.is_finite() or not travel.is_finite():return false
++	var hull:Shape3D=_visual_rig.board_contact_geometry().get("convex_shape")
++	if hull==null:return false
++	var query:=_air_forecast_volume_query
++	query.collision_mask=collision_mask
++	query.exclude=[get_rid()]
++	query.margin=GROUND_PRESENTATION_SKIN-0.00001
++	query.shape=hull
++	query.transform=_board_visual.global_transform
++	query.transform.origin+=offset+travel
++	if not query.transform.origin.is_finite() or not query.transform.basis.is_finite():return false
++	var space:=get_world_3d().direct_space_state
++	if not _air_forecast_query():return false
++	if not space.intersect_shape(query,1).is_empty():return false
++	var box:=_air_forecast_shoe_box
++	query.shape=box
++	for index:int in _visual_rig._legs.size():
++		var bounds:AABB=_obstacle_shoe_bounds[index]
++		box.size=bounds.size
++		query.transform=_visual_rig._legs[index].foot.global_transform*Transform3D(Basis.IDENTITY,bounds.get_center())
++		query.transform.origin+=offset+travel
++		if not query.transform.origin.is_finite() or not query.transform.basis.is_finite():return false
++		if not _air_forecast_query():return false
++		if not space.intersect_shape(query,1).is_empty():return false
++	return true
+ 
+ 
+ func _place_graded_obstacle_wheels(delta: float) -> void:
+@@ -3898,6 +4109,9 @@
+ 	var clear:=true
+ 	for part: Dictionary in _grind_clearance._parts:
+ 		_grind_board_query.shape=part.shape
++		if not _air_forecast_query():
++			clear=false
++			break
+ 		if not get_world_3d().direct_space_state.intersect_shape(_grind_board_query,1).is_empty():
+ 			clear=false
+ 			break

@@ -1,0 +1,32 @@
+from pathlib import Path
+import json,gzip,hashlib,re
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/fidelity-2026-11-06/architecture/main-headless-01';cs=[]
+def ck(n,b,a=None):cs.append({'name':n,'pass':bool(b),'actual':a})
+def sh(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def rd(p):return json.loads(p.read_text())
+ids=rd(P/'archive-identities.json');datasets=[]
+for name in ['baseline-02','candidate-01','control-01']:
+ q=P/name;compressed=q/'architecture-main.json.gz';raw=gzip.decompress(compressed.read_bytes());r=rd(q/'receipt.json');a=rd(q/'source-before.json');b=rd(q/'source-after.json');d=json.loads(raw);datasets.append(d)
+ ck(name+': compressed and losslessly recovered original identities',sh(compressed)==ids[name]['gzip_sha256'] and hashlib.sha256(raw).hexdigest()==ids[name]['uncompressed_sha256'] and len(raw)==ids[name]['uncompressed_bytes'])
+ ck(name+': clean native command/receipt/complete unchanged source',r['engine_exit']==0 and r['clean_engine_log'] and r['source_stable'] and a==b and r['eligible_author_diagnostic'] and not r['failures'] and not re.search(r'SCRIPT ERROR:|ERROR:|FAIL:',(q/'engine.log').read_text()))
+ ck(name+': actual default Main headless source inventory only',d['production_main'] and d['mode']=='inventory' and not d['frames'] and not d['sync_proofs'])
+a,b,c=datasets
+ck('actual5/7/5 checks, no native failures',[(d['checks'],d['failures']) for d in datasets]==[(5,0),(7,0),(5,0)])
+ck('baseline/restored entire contracts and source inventory byte equal',a['world_contracts']==c['world_contracts'] and a['world_inventory']==c['world_inventory'])
+for field,av in a['world_contracts'].items():
+ bv=b['world_contracts'][field]
+ if field=='collision_records':
+  def normalize(s):
+   # Strictly only first quoted runtime path before first comma.
+   end=s.index('",');prefix=s[:end];return re.sub(r'@([A-Za-z_][A-Za-z_0-9]*)@\d+',r'@\1@',prefix)+s[end:]
+  ck('all1755 native shape records preserve every nonpath byte',len(av)==len(bv)==1755 and sorted(map(normalize,av))==sorted(map(normalize,bv)))
+ else:ck(field+': original/native candidate exactly equal',av==bv)
+delta={k:b['world_inventory'][k]-a['world_inventory'][k] for k in a['world_inventory'] if isinstance(a['world_inventory'][k],int)}
+ck('independent source triangle/node/material and complete collision deltas',delta['source_triangle_instances']==65854 and delta['source_triangle_instances']<80000 and delta['mesh_draw_nodes']==-7 and delta['unique_materials']==-1 and delta['native_shapes']==delta['native_bodies']==0,delta)
+ck('real16 upper aperture shells/west real triangle opening',b['world_inventory']['recess_shells']-a['world_inventory']['recess_shells']==16 and a['west_upper_aperture']['triangle_hits_through_upper_opening']==1 and b['west_upper_aperture']['triangle_hits_through_upper_opening']==0 and b['west_upper_aperture']['cut_shell'])
+co=b['column_contract'];ck('native502 correct-handed vertices/eight batch instances/eight CPU authored transforms',co['correct_uv_handedness'] and co['vertices']==502 and co['runtime_instances']==co['cpu_authored_records']==8 and co['runtime_batches']==1)
+ck('exact5 native occluder owner paths without pretending visibleBox proof',len(b['world_inventory']['occluder_owners'])==5)
+sourceA=rd(P/'baseline-02/source-before.json');sourceB=rd(P/'candidate-01/source-before.json');sourceC=rd(P/'control-01/source-before.json');changed=[k for k in sourceA.keys()|sourceB.keys() if sourceA.get(k)!=sourceB.get(k)]
+ck('candidate mutates only4 architecture modules; guarded revert restores every source',len(changed)==4 and sourceA==sourceC,changed)
+out={'schema':1,'reviewer':'independent_qa','checks':len(cs),'failures':sum(not v['pass'] for v in cs),'checks_detail':cs,'verdict':'Bounded actual-Main headless native structural A/V2/A proof; no GPU draw/allocation, physical route or visual admission.','limits':['No graphics ran: source triangle/node/material inventory and serialized bytes are not GPU submission/allocation or performance measurements.','Collision normalization removes only generated suffixes from the first path string; transforms,shape properties,layers and every remaining byte stay authoritative.','Exact five occluder native owner paths are not a direct visible opaque Box/material eligibility test; private adapted fixture/next cohort owns that check.','Real moving route/camera, new facade glyph/geometry quality, actual material/map resource ceilings and targetMac remain open.'],'evidence_sha256':{str(p.relative_to(P)):sh(p) for p in P.rglob('*') if p.is_file() and not p.name.startswith('independent-')}}
+(P/'independent-structural-review.json').write_text(json.dumps(out,indent=2)+'\n');print({k:out[k] for k in ['checks','failures','verdict']});print([c for c in cs if not c['pass']]);raise SystemExit(bool(out['failures']))

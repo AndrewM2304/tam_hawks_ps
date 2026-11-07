@@ -1,0 +1,139 @@
+extends "res://tools/full_fidelity_capture.gd"
+## Actual default Main, fixed inspection cameras and frozen actors. Not a route,
+## normal-speed movie, performance benchmark or hardware acceptance.
+const Policy = preload("res://game/levels/water_shadow_policy.gd")
+var _water_frames: Array[Dictionary] = []
+var _water_before: Dictionary = {}
+var _candidate_policy := {}
+var _original_flags: Dictionary = {}
+var _mode_inventories: Dictionary = {}
+
+func _run() -> void:
+	var ready: bool=await _start_actual_main()
+	if not ready:return
+	_water_before=_inventory()
+	for row: Dictionary in _water_before.water:
+		_original_flags[row.path]=row.cast_shadow
+	_check(_water_before.water.size()==3,"native actual Main has exactly river, fountain and pond using shared water shader")
+	_write_water_report(false,"startup")
+	for mode: String in ["before-a","caster-off","before-b"]:
+		if mode=="caster-off":
+			_candidate_policy=Policy.apply(game.world)
+			_check(_candidate_policy.matched_count==3 and _candidate_policy.unsupported.is_empty(),"policy selects all three pure shared-water instances and no unsupported surface")
+		else:
+			for path: String in _original_flags:game.world.get_node(NodePath(path)).cast_shadow=_original_flags[path]
+		var inventory:=_inventory()
+		_mode_inventories[mode]=inventory
+		_check(inventory.nonwater==_water_before.nonwater,"all non-water native geometry resource/render/transform states remain identical")
+		_check(inventory.collisions==_water_before.collisions,"all native collision resources and transforms remain identical")
+		_check(inventory.sun==_water_before.sun,"sunlight/shadow reception settings remain unchanged")
+		_check(inventory.water.size()==3,"all three water instances remain resident")
+		for view: Dictionary in _water_views():
+			_inspection.global_position=view.at
+			_inspection.look_at(view.target)
+			_inspection.current=true
+			await process_frame
+			await create_timer(0.0,true).timeout
+			var image: Image=await _render_current_frame()
+			var filename: String=mode+"-"+str(view.id)+".png"
+			var stored:=_store_frame(image,filename)
+			_water_frames.append({"file":filename,"mode":mode,"view":view.id,"pixels":stored,
+				"camera_position":_v(_inspection.global_position),"camera_forward":_v(-_inspection.global_basis.z),"fov":_inspection.fov,
+				"inventory_mode":mode,"water_inventory":inventory.water,"counters":_native_counters()})
+			_write_water_report(false,"actual-main-views")
+	_check(_water_frames.size()==9,"all nine actual Main A/B/A water originals completed")
+	_write_water_report(true,"complete")
+	print("ACTUAL_MAIN_WATER_RESULT checks=",checks," failures=",failures," images=",_water_frames.size())
+	quit(1 if failures else 0)
+
+func _start_actual_main() -> bool:
+	var args:=OS.get_cmdline_user_args()
+	if args.size()!=1 or DisplayServer.get_name()=="headless":quit(2);return false
+	output=args[0]
+	if not (ProjectSettings.globalize_path(output).simplify_path()+"/").begins_with(ProjectSettings.globalize_path("res://.local/").simplify_path()+"/"):
+		quit(2);return false
+	root.size=Vector2i(1280,800)
+	root.content_scale_size=root.size
+	RenderingServer.set_render_loop_enabled(false)
+	game=Main.new()
+	game.persistence_enabled=false
+	root.add_child(game)
+	_check(not game.music._can_control and not game.music._persist,"actual Main capture isolates personal Music/profile writes")
+	game.start_mode(true)
+	for tick: int in 40:
+		await physics_frame
+		await process_frame
+	_inspection=Camera3D.new()
+	_inspection.name="DeclaredActualMainWaterShadowInspection"
+	_inspection.fov=68
+	_inspection.far=220
+	game.add_child(_inspection)
+	await _synchronization_probe()
+	_inspection.fov=68
+	game.skater.set_controls_enabled(false)
+	game.skater.set_process(false)
+	game.skater.set_physics_process(false)
+	game.skater._camera.set_process(false)
+	game.set_process(false)
+	game.set_physics_process(false)
+	game.world.process_mode=Node.PROCESS_MODE_DISABLED
+	game.hud.visible=false
+	_check(game.world._station_railway!=null and game.world._park_pond!=null,"ordinary Main retains enabled station/train and pond")
+	return true
+
+func _water_views() -> Array[Dictionary]:
+	var centre: Vector3=game.world.get_node("ExchangeFountain").global_position
+	return [{"id":"river","at":Vector3(18,3,74),"target":Vector3(35,-2,98)},
+		{"id":"fountain","at":centre+Vector3(5,2.5,6),"target":centre+Vector3(0,0.55,0)},
+		{"id":"pond","at":Vector3(-173,3.5,-13),"target":Vector3(-184,0.12,-21)}]
+
+func _inventory() -> Dictionary:
+	var water: Array[Dictionary]=[]
+	var nonwater: Array[Dictionary]=[]
+	var collisions: Array[Dictionary]=[]
+	for node: GeometryInstance3D in game.world.find_children("*","GeometryInstance3D",true,false):
+		var material_id:=node.material_override.get_instance_id() if node.material_override else 0
+		var row: Dictionary={"path":str(game.world.get_path_to(node)),"instance_id":node.get_instance_id(),"class":node.get_class(),
+			"cast_shadow":node.cast_shadow,"material_id":material_id,"overlay_id":node.material_overlay.get_instance_id() if node.material_overlay else 0,
+			"visible":node.visible,"layers":node.layers,"transform":str(node.transform),"gi_mode":node.gi_mode,
+			"range_begin":node.visibility_range_begin,"range_end":node.visibility_range_end,"ignore_occlusion":node.ignore_occlusion_culling}
+		if node is MeshInstance3D:row.mesh_id=node.mesh.get_instance_id() if node.mesh else 0
+		if node is MultiMeshInstance3D:
+			row.multimesh_id=node.multimesh.get_instance_id() if node.multimesh else 0
+			row.mesh_id=node.multimesh.mesh.get_instance_id() if node.multimesh and node.multimesh.mesh else 0
+		var native_mesh: Mesh=null
+		if node is MeshInstance3D:native_mesh=node.mesh
+		elif node is MultiMeshInstance3D and node.multimesh:native_mesh=node.multimesh.mesh
+		if native_mesh:
+			row.mesh_aabb=str(native_mesh.get_aabb())
+			row.surface_material_ids=[]
+			row.surface_override_material_ids=[]
+			for surface: int in native_mesh.get_surface_count():
+				var embedded: Material=native_mesh.surface_get_material(surface)
+				row.surface_material_ids.append(embedded.get_instance_id() if embedded else 0)
+				var replacement: Material=node.get_surface_override_material(surface) if node is MeshInstance3D else null
+				row.surface_override_material_ids.append(replacement.get_instance_id() if replacement else 0)
+		if Policy.classify(node).eligible:
+			var mesh: Mesh=native_mesh
+			row.surface_count=mesh.get_surface_count()
+			row.triangles=mesh.get_faces().size()/3
+			row.shader_id=node.material_override.shader.get_instance_id()
+			row.shader_source_sha256=FileAccess.get_sha256(node.material_override.shader.resource_path)
+			water.append(row)
+		else:nonwater.append(row)
+	for node: CollisionShape3D in game.world.find_children("*","CollisionShape3D",true,false):
+		collisions.append({"path":str(game.world.get_path_to(node)),"shape_id":node.shape.get_instance_id() if node.shape else 0,"disabled":node.disabled,"transform":str(node.transform)})
+	var sun: DirectionalLight3D=game.world.get_node("LateAfternoonSun")
+	return {"water":water,"nonwater":nonwater,"collisions":collisions,"sun":{"shadow_enabled":sun.shadow_enabled,"bias":sun.shadow_bias,"normal_bias":sun.shadow_normal_bias,"specular":sun.light_specular,"energy":sun.light_energy,"color":str(sun.light_color),"shadow_mode":sun.directional_shadow_mode,"shadow_max_distance":sun.directional_shadow_max_distance,"shadow_opacity":sun.shadow_opacity,"rotation_degrees":_v(sun.rotation_degrees),"light_cull_mask":sun.light_cull_mask}}
+
+func _native_counters() -> Dictionary:
+	return {"draws":int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)),"primitives":int(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)),
+		"shadow_primitives":root.get_render_info(Viewport.RENDER_INFO_TYPE_SHADOW,Viewport.RENDER_INFO_PRIMITIVES_IN_FRAME),"texture_bytes":int(Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED)),"buffer_bytes":int(Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED))}
+
+func _write_water_report(complete: bool,phase: String) -> void:
+	var report: Dictionary={"schema":1,"complete":complete,"phase":phase,"checks":checks,"failures":failures,"engine":Engine.get_version_info(),"renderer":RenderingServer.get_current_rendering_method(),
+		"images":_water_frames,"synchronization_proofs":_sync_proofs,"inventory_before":_water_before,"mode_inventories":_mode_inventories,"policy":_candidate_policy,"timing_measured":false,
+		"limits":"Actual default Main enabled content, no persistence or personal Music.40settled native ticks then inherited full-fidelity current-camera/Canvas marker proofs. Actors/controls/world processing frozen for matched authored1280x800 river/fountain/pond A/B/A inspections; not a gameplay route, ordinary moving view or60fps reel. Native water shader TIME remains active; phases can differ. Only exact shared-water casting flags change; receiving shadows, all other geometry/material/collision resources and sun flags retained and inventoried. No frame-time/sole-engine/M5 acceptance claim."}
+	var file:=FileAccess.open(output.path_join("actual-main-water-report.json"),FileAccess.WRITE)
+	if file:file.store_string(JSON.stringify(report,"\t")+"\n");file.close()
+	else:_check(false,"actual Main report writable")

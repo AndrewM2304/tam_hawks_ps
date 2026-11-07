@@ -1,0 +1,8 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ERROR: FAIL: architecture probe uses normal default Main with station and pond
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tools/full_fidelity_capture.gd:420)
+       [1] _run (res://.local/architectural-fidelity/main_probe.gd:34)
+ARCHITECTURE_MAIN checks=4 failures=1 source_triangles=1121071 nodes=1727
