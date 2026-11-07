@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import json,hashlib,re
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/line-design-2026-11-06/coping-proportion-private-development-2026-11-07/profile-family-01';B=P.parent/'profile-geometry-02';S=R/'.local/coping-proportion-source';c=[]
+def ck(n,b,a=None):c.append({'name':n,'pass':bool(b),'actual':a})
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+a=json.loads((P/'source-before.json').read_text());b=json.loads((P/'source-after.json').read_text());base=json.loads((B/'source-before.json').read_text());r=json.loads((P/'receipt.json').read_text());log=(P/'native.log').read_text()
+ck('806 source/dependency inputs unchanged',a==b and len(a)==806)
+ck('actual production corpus exact vs component candidate',all(a[k]==v for k,v in base.items() if not k.startswith('.local/')))
+for f,v in r['preserved_sha256'].items():ck('original receipt binds '+f,sha(P/f)==v)
+ck('actual native wrapper completed clean98/0',r['engine_exit']==0 and r['eligible'] and not r['errors'] and not r['changed_inputs'] and r['result']==[98,0] and r['wall_seconds']<r['os_deadline_seconds'])
+ck('independent raw assertion count agrees',len(re.findall(r'^PASS ',log,re.M))==98 and not re.search(r'^FAIL ',log,re.M) and 'RESULT: 98 passed, 0 failed' in log and not any(x in log for x in ['SCRIPT ERROR:','ERROR:','Parse Error','Traceback']))
+for file in ['tests/feature_transition_ride_tests.gd','tests/connected_transition_tests.gd']:
+ ck('unchanged existing module '+file,a[file]==base[file] and sha(S/file)==a[file])
+for file in ['game/levels/transition_feature.gd','game/levels/bowl_feature.gd','game/levels/sunken_bowl_feature.gd']:
+ ck('same independently inspected proposed constructor '+file,a[file]==base[file])
+obs=(P/'observer.gd').read_text();ck('runner invokes complete existing Feature and Connected modules','await Feature.run(self,_check)' in obs and 'await Connected.run(self,_check)' in obs)
+ck('visual/performance acceptance absent',r['visual_acceptance'] is False and r['performance_acceptance'] is False)
+out={'schema':1,'reviewer':'independent_qa','method':'Read-only exact native receipt/preservation/source hashes, independent raw assertion count and complete unchanged module invocation/corpus comparison. No QA Godot execution.','checks':len(c),'failures':sum(not x['pass'] for x in c),'verdict':'Private unchanged shared-family98/0 is valid source-bound regression evidence for the proposed three constructor scripts. Root-controlled geometry integration has no blocker from this cohort; old-profile-specific contact failures and final current combined/moving gates remain separate.','scope':['Existing feature_transition_ride_tests and connected_transition_tests execute fully with their original thresholds, refusal/lap/access/rollback/transform, native guide/grind, opposing halfpipe and spine transfer assertions.','All recorded production inputs equal the independently inspected component candidate. Only private observer/wrapper paths differ between component and family manifests.'],'limits':['This is a private constructor-family cohort, not normal default Main or a complete route/career/score/camera/full-game pass.','The separately reported coping helper45/4 must be diagnosed and precise historical/current-profile fixture expectations reconciled independently;98/0 does not erase it.','No new visible profile, rendered moving contact, deformed clothes/shoes, target timing, M5 or AAA acceptance.','Sampled host observer and elapsed metadata are not a whole-run exclusivity or frame-time proof.'],'checks_detail':c,'evidence_sha256':{x.name:sha(x) for x in P.iterdir() if x.is_file() and not x.name.startswith('independent-')}}
+(R/'.local/qa-fidelity/coping-family-independent-review.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({k:v for k,v in out.items() if k not in ['checks_detail','evidence_sha256']},indent=2))
+if out['failures']:print(json.dumps([x for x in c if not x['pass']],indent=2))
+raise SystemExit(bool(out['failures']))

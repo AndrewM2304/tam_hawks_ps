@@ -178,7 +178,7 @@ func get_grind_lines() -> Array:
 	for i in count+1:
 		var phi := PI+port_half_angle()+float(i)*TAU/AROUND_SEGMENTS
 		# The track bears on the actual torus crown, matching lip_frame().
-		points.append(sample(PI*0.5,phi*floor_radius).point+Vector3.UP*0.070)
+		points.append(lip_frame(phi*floor_radius).point)
 	return [_native_coping_line("Grind_Coping_"+feature_id,points,"coping")]
 
 func get_feature_definitions() -> Array:

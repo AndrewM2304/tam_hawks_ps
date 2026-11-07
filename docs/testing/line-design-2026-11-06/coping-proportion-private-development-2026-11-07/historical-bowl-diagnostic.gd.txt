@@ -1,0 +1,22 @@
+extends "res://game/levels/bowl_feature.gd"
+## Explicit historical contact fixture, not a product option. Original constructors
+## are retained in the source-bound development packet. All pipe datums agree.
+func build() -> void:
+	if _built:return
+	super.build()
+	var steel:MeshInstance3D=get_node("ContinuousBowlCoping")
+	var torus:TorusMesh=steel.mesh
+	var concrete_lip:float=floor_radius+radius
+	torus.inner_radius=concrete_lip-.045
+	torus.outer_radius=concrete_lip+.045
+	steel.position.y=radius+.025
+	_native_steel_coping.transform=steel.transform
+	var collision:CollisionShape3D=_native_steel_coping.get_child(0)
+	collision.shape.set_faces(torus.get_faces())
+func lip_frame(lateral:float) -> Dictionary:
+	var frame:Dictionary=sample(PI*.5,lateral)
+	frame.face_normal=frame.normal
+	frame.point+=Vector3.UP*.070
+	frame.normal=Vector3.UP
+	frame.coping_tangent=frame.lateral
+	return frame

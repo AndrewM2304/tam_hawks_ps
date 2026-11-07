@@ -1,0 +1,318 @@
+--- a/game/levels/transition_feature.gd
++++ b/game/levels/transition_feature.gd
+@@ -3,6 +3,11 @@
+ ## Local toe is zero; approach along -Z. Yaw/translation supported, scale must be 1.
+ 
+ const GrindLineSource = preload("res://game/tricks/grind_line.gd")
++# PRIVATE physical-proportion prototype: construction sources document these
++# dimensions independently of contact-test outcomes. No production admission.
++const COPING_RADIUS := 0.030
++const COPING_DECK_REVEAL := 0.012
++const COPING_FACE_REVEAL := 0.010
+ static var _shared_concrete: StandardMaterial3D
+ var radius := 2.4
+ var width := 10.0
+@@ -96,13 +101,13 @@
+ 	var coping := MeshInstance3D.new()
+ 	coping.name = "ContinuousSteelCoping"
+ 	var cylinder := CylinderMesh.new()
+-	cylinder.top_radius = 0.045
+-	cylinder.bottom_radius = 0.045
++	cylinder.top_radius = COPING_RADIUS
++	cylinder.bottom_radius = COPING_RADIUS
+ 	cylinder.height = width
+ 	cylinder.radial_segments = 12
+ 	coping.mesh = cylinder
+ 	coping.material_override = steel
+-	coping.position = Vector3(0, radius + 0.025, -radius)
++	coping.position = Vector3(0, radius + COPING_DECK_REVEAL - COPING_RADIUS, -radius - COPING_RADIUS + COPING_FACE_REVEAL)
+ 	coping.rotation.z = PI * 0.5
+ 	add_child(coping)
+ 	var coping_body := StaticBody3D.new()
+@@ -115,7 +120,7 @@
+ 	coping_body.set_meta("surface_audio","metal")
+ 	add_child(coping_body)
+ 	var coping_shape := CylinderShape3D.new()
+-	coping_shape.radius = 0.045
++	coping_shape.radius = COPING_RADIUS
+ 	coping_shape.height = width
+ 	var coping_collision := CollisionShape3D.new()
+ 	coping_collision.shape = coping_shape
+@@ -197,7 +202,7 @@
+ func lip_frame(lateral: float) -> Dictionary:
+ 	var frame := sample(PI * 0.5, lateral)
+ 	frame.face_normal = frame.normal
+-	frame.point += Vector3.UP * 0.070
++	frame.point += Vector3.UP * COPING_DECK_REVEAL - frame.face_normal * (COPING_RADIUS - COPING_FACE_REVEAL)
+ 	frame.normal = Vector3.UP
+ 	frame.coping_tangent = frame.lateral
+ 	return frame
+@@ -218,8 +223,8 @@
+ 
+ func get_grind_lines() -> Array:
+ 	var points := PackedVector3Array([
+-		to_global(Vector3(-width * 0.5, radius + 0.070, -radius)),
+-		to_global(Vector3(width * 0.5, radius + 0.070, -radius))])
++		lip_frame(-width * 0.5).point,
++		lip_frame(width * 0.5).point])
+ 	return [_native_coping_line("Grind_" + feature_id + "_Coping", points)]
+ 
+ 
+--- a/game/levels/bowl_feature.gd
++++ b/game/levels/bowl_feature.gd
+@@ -105,8 +105,8 @@
+ 	var coping := MeshInstance3D.new()
+ 	coping.name = "ContinuousBowlCoping"
+ 	var torus := TorusMesh.new()
+-	torus.inner_radius = inner-0.045
+-	torus.outer_radius = inner+0.045
++	torus.inner_radius = inner+COPING_RADIUS-COPING_FACE_REVEAL-COPING_RADIUS
++	torus.outer_radius = inner+COPING_RADIUS-COPING_FACE_REVEAL+COPING_RADIUS
+ 	torus.rings = AROUND_SEGMENTS
+ 	torus.ring_segments = 16
+ 	coping.mesh = torus
+@@ -115,7 +115,7 @@
+ 	steel.metallic = 0.75
+ 	steel.roughness = 0.4
+ 	coping.material_override = steel
+-	coping.position.y = radius+0.025
++	coping.position.y = radius+COPING_DECK_REVEAL-COPING_RADIUS
+ 	add_child(coping)
+ 	var coping_body := StaticBody3D.new()
+ 	_native_steel_coping=coping_body
+@@ -185,7 +185,7 @@
+ func get_grind_lines() -> Array:
+ 	var points := PackedVector3Array()
+ 	for i in AROUND_SEGMENTS+1:
+-		points.append(sample(PI*0.5,float(i)/AROUND_SEGMENTS*width).point+Vector3.UP*0.070)
++		points.append(lip_frame(float(i)/AROUND_SEGMENTS*width).point)
+ 	return [_native_coping_line("Grind_Coping_"+feature_id,points,"coping")]
+ 
+ func get_feature_definitions() -> Array:
+--- a/game/levels/sunken_bowl_feature.gd
++++ b/game/levels/sunken_bowl_feature.gd
+@@ -178,7 +178,7 @@
+ 	for i in count+1:
+ 		var phi := PI+port_half_angle()+float(i)*TAU/AROUND_SEGMENTS
+ 		# The track bears on the actual torus crown, matching lip_frame().
+-		points.append(sample(PI*0.5,phi*floor_radius).point+Vector3.UP*0.070)
++		points.append(lip_frame(phi*floor_radius).point)
+ 	return [_native_coping_line("Grind_Coping_"+feature_id,points,"coping")]
+ 
+ func get_feature_definitions() -> Array:
+--- a/tests/pt24_bowl_contact_tests.gd
++++ b/tests/pt24_bowl_contact_tests.gd
+@@ -18,6 +18,49 @@
+ 		"board":Transform3D(Basis(Vector3(-0.269851,0.199638,0.941979),Vector3(-0.757272,0.560236,-0.335671),Vector3(-0.594743,-0.803916,0.0)),Vector3(-1.913025,1.093058,136.8025)),
+ 		"vertex":Vector3(0.14,-0.092282,-0.256401)},
+ ]
++
++
++# Rounded source-bound transforms from the seven actual Main defect-edge frames.
++# Static geometry witnesses supplement, not replace, that separate input replay.
++const CURRENT_EDGE_FRAMES := [
++	{"physics":179,"actor":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.0,1.0,0.0),Vector3(-1.0,0.0,-0.0)),Vector3(-11.03528,2.01381,139.5002)),
++		"board":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.001796,0.999998,0.0),Vector3(-0.999998,0.001796,-0.0)),Vector3(-11.03528,2.128458,139.5002)),"near_face":4,"far_face":0,"unknown":0},
++	{"physics":180,"actor":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.0,1.0,0.0),Vector3(-1.0,0.0,-0.0)),Vector3(-10.8177,2.01381,139.5002)),
++		"board":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.001376,0.999999,0.0),Vector3(-0.999999,0.001376,-0.0)),Vector3(-10.8177,2.128351,139.5002)),"near_face":4,"far_face":0,"unknown":0},
++	{"physics":181,"actor":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.0,1.0,0.0),Vector3(-1.0,0.0,-0.0)),Vector3(-10.60112,2.01381,139.5002)),
++		"board":Transform3D(Basis(Vector3(0.000273,-0.024594,0.999698),Vector3(-0.010034,0.999647,0.024595),Vector3(-0.99995,-0.010038,0.000026)),Vector3(-10.60246,2.135467,139.5031)),"near_face":4,"far_face":0,"unknown":0},
++	{"physics":182,"actor":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.0,1.0,0.0),Vector3(-1.0,0.0,-0.0)),Vector3(-10.38555,2.01381,139.5002)),
++		"board":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.000807,1.0,0.0),Vector3(-1.0,0.000807,-0.0)),Vector3(-10.38555,2.128206,139.5002)),"near_face":3,"far_face":0,"unknown":1},
++	{"physics":183,"actor":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.0,1.0,0.0),Vector3(-1.0,0.0,-0.0)),Vector3(-10.17096,2.01381,139.5002)),
++		"board":Transform3D(Basis(Vector3(0.000038,-0.0078,0.99997),Vector3(-0.004322,0.99996,0.0078),Vector3(-0.999991,-0.004322,0.000005)),Vector3(-10.17158,2.139633,139.5011)),"near_face":3,"far_face":0,"unknown":1},
++	{"physics":184,"actor":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.0,1.0,0.0),Vector3(-1.0,0.0,-0.0)),Vector3(-9.957256,1.992015,139.5002)),
++		"board":Transform3D(Basis(Vector3(0.056214,0.302138,0.951605),Vector3(0.174528,0.935464,-0.307323),Vector3(-0.983046,0.183358,-0.000146)),Vector3(-9.936348,2.104393,139.4633)),"near_face":0,"far_face":1,"unknown":3},
++	{"physics":185,"actor":Transform3D(Basis(Vector3(-0.0,0.0,1.0),Vector3(0.0,1.0,0.0),Vector3(-1.0,0.0,-0.0)),Vector3(-9.750462,1.934972,139.5078)),
++		"board":Transform3D(Basis(Vector3(0.22893,0.527465,0.818152),Vector3(0.326069,0.750367,-0.575002),Vector3(-0.917208,0.398409,-0.000209)),Vector3(-9.711343,2.025103,139.4387)),"near_face":1,"far_face":0,"unknown":3},
++]
++
++class HistoricalCopingBowl extends "res://game/levels/bowl_feature.gd":
++	# Explicit original 90mm OD /70mm crown regression geometry; never used
++	# by the game. Native, display and guide/lip datums remain atomic.
++	func build() -> void:
++		if _built:return
++		super.build()
++		var steel:MeshInstance3D=get_node("ContinuousBowlCoping")
++		var torus:TorusMesh=steel.mesh
++		var concrete_lip:float=floor_radius+radius
++		torus.inner_radius=concrete_lip-.045
++		torus.outer_radius=concrete_lip+.045
++		steel.position.y=radius+.025
++		_native_steel_coping.transform=steel.transform
++		var collision:CollisionShape3D=_native_steel_coping.get_child(0)
++		collision.shape.set_faces(torus.get_faces())
++	func lip_frame(lateral:float) -> Dictionary:
++		var frame:Dictionary=sample(PI*.5,lateral)
++		frame.face_normal=frame.normal
++		frame.point+=Vector3.UP*.070
++		frame.normal=Vector3.UP
++		frame.coping_tangent=frame.lateral
++		return frame
+ 
+ class LocomotionLimitSkater extends "res://game/player/skater.gd":
+ 	# Preserve the former eligibility boundary without adding a product switch.
+@@ -61,13 +104,12 @@
+ 			"maximum":contact.maximum,"material_gap":material.gap,"legacy_minimum":old_contact.minimum,
+ 			"misses":contact.misses})
+ 	check.call(negative==3,"PT24 native bowl: all three recorded old-frame controls independently reproduce real tyre penetration")
+-	_native_footprint_phase_controls(fixture,check)
+-	_native_footprint_authentication_controls(fixture,check)
++	await _historical_coping_controls(tree,check)
++	_current_profile_controls(fixture,check)
+ 	await _controls(tree,fixture,check)
+ 	await _buried_air_landing_controls(tree,fixture,check)
+ 	await _air_landing_controls(tree,fixture,check)
+ 	await _air_offset_controls(tree,fixture,check)
+-	await _feature_air_coping_controls(tree,fixture,check)
+ 	_ramp_air_pose_handoff_controls(fixture,check)
+ 	fixture.viewport.queue_free()
+ 	await tree.process_frame
+@@ -520,7 +562,7 @@
+ 	return (point-Vector3(hit.position)).dot(hit.normal)
+ 
+ 
+-static func _fixture(tree: SceneTree) -> Dictionary:
++static func _fixture(tree: SceneTree,historical_coping:bool=false) -> Dictionary:
+ 	var viewport := SubViewport.new()
+ 	viewport.own_world_3d=true
+ 	viewport.size=Vector2i(640,480)
+@@ -528,7 +570,7 @@
+ 	tree.root.add_child(viewport)
+ 	var root := Node3D.new()
+ 	viewport.add_child(root)
+-	var bowl := Bowl.new()
++	var bowl:Node3D=HistoricalCopingBowl.new() if historical_coping else Bowl.new()
+ 	bowl.radius=2.4
+ 	bowl.floor_radius=3.5
+ 	bowl.deck_length=1.8
+@@ -603,3 +645,115 @@
+ 	check.call(rider._native_footprint_contact(space,clear_query,malformed).is_empty()
+ 		and rider._native_footprint_contact(space,clear_query,nonfinite).is_empty() and _state(rider)==before,
+ 		"PT24 footprint authentication: malformed/nonfinite points cannot expand the30mm ray and leave physical state unchanged")
++
++
++
++static func _historical_coping_controls(tree:SceneTree,check:Callable)->void:
++	var fixture:Dictionary=await _fixture(tree,true)
++	var bowl:Node3D=fixture.bowl
++	var visual:MeshInstance3D=bowl.get_node("ContinuousBowlCoping")
++	var torus:TorusMesh=visual.mesh
++	var collision:CollisionShape3D=bowl._native_steel_coping.get_child(0)
++	var inner:float=bowl.floor_radius+bowl.radius
++	var old_datums:bool=absf(torus.outer_radius-torus.inner_radius-.090)<.000001 \
++		and absf((torus.outer_radius+torus.inner_radius)*.5-inner)<.000001 \
++		and absf(visual.position.y-bowl.radius-.025)<.000001 \
++		and visual.transform==bowl._native_steel_coping.transform \
++		and collision.shape.get_faces()==visual.mesh.get_faces() \
++		and absf(Vector3(bowl.lip_frame(0).point).y-2.070)<.000001
++	for point:Vector3 in bowl.get_grind_lines()[0].points:
++		var local:Vector3=bowl.to_local(point)
++		old_datums=old_datums and absf(local.y-bowl.radius-.070)<.00001 \
++			and absf(Vector2(local.x,local.z).length()-inner)<.00001
++	check.call(old_datums,"PT24 historical coping: original90mm section/70mm crown has matching actual native/display/lip/guide datums")
++	var historical_check:=func(ok:bool,label:String):check.call(ok,"Historical90/70 fixture: "+label)
++	_native_footprint_phase_controls(fixture,historical_check)
++	_native_footprint_authentication_controls(fixture,historical_check)
++	await _feature_air_coping_controls(tree,fixture,historical_check)
++	fixture.viewport.queue_free()
++	await tree.process_frame
++
++
++static func _current_profile_controls(fixture:Dictionary,check:Callable)->void:
++	var rider:CharacterBody3D=fixture.rider
++	var bowl:Node3D=fixture.bowl
++	var visual:MeshInstance3D=bowl.get_node("ContinuousBowlCoping")
++	var torus:TorusMesh=visual.mesh
++	check.call(absf(torus.outer_radius-torus.inner_radius-.060)<.000001 \
++		and absf(visual.position.y-bowl.radius+.018)<.000001 \
++		and absf(Vector3(bowl.lip_frame(0).point).y-2.012)<.000001,
++		"PT24 current coping: actual60mm pipe section and12mm crown match the researched fixture")
++	# At the old exact phase the thinner pipe needs no overlap correction.
++	# Empty correction is not an invented support plane or a successful fit.
++	rider.reset_skater()
++	rider.global_transform=Transform3D(Basis(Vector3.UP,-PI*.5),Vector3(-10.647394,2.014172,139.5004))
++	var before:Dictionary=_state(rider)
++	var native:Dictionary=rider._native_floor_hit(Vector3.UP)
++	var no_correction:Dictionary=rider._native_board_floor()
++	var plane_clear:=false
++	if not native.is_empty() and native.collider==bowl._native_annular_deck and native.normal==Vector3.UP:
++		var floor_point:Vector3=Vector3(rider.global_position.x,Vector3(native.position).y,rider.global_position.z)
++		var candidate:=Transform3D(rider.global_basis,floor_point+Vector3.UP*.008+rider.global_basis*rider._visual_rig._board_rest_position)
++		plane_clear=rider._native_rim_frame_clear(candidate,0.0) and _volumes_clear(rider,candidate) \
++			and rider._manual_model_frame_clear(candidate)
++		for wheel:Dictionary in rider._visual_rig.board_contact_geometry().wheels:
++			var bearing:Vector3=candidate*(wheel.center)
++			var support:Dictionary=rider._native_board_wheel_support(rider.get_world_3d().direct_space_state,bearing,bowl)
++			plane_clear=plane_clear and not support.is_empty() and support.collider==bowl._native_annular_deck \
++				and support.normal==Vector3.UP
++		var penetrating:=candidate
++		penetrating.origin.y-=.020
++		check.call(not rider._native_rim_frame_clear(penetrating,0.0),
++			"PT24 current coping: genuine20mm downward penetration still rejects at the old phase")
++	check.call(no_correction.is_empty() and plane_clear and _state(rider)==before,
++		"PT24 current coping: old exact phase has four native flat supports and clear actual model/tyres without a manufactured correction")
++	for sample:Dictionary in CURRENT_EDGE_FRAMES:
++		rider.reset_skater()
++		rider.global_transform=sample.actor
++		var pose:Transform3D=sample.board
++		pose.basis=pose.basis.orthonormalized()
++		rider._board_visual.global_transform=pose
++		var physical:Dictionary=_state(rider)
++		var physics:int=Engine.get_physics_frames()
++		var observed:Dictionary=_current_native_face_bands(rider,bowl,pose)
++		check.call(rider._native_rim_frame_clear(pose,0.0) and _volumes_clear(rider,pose) \
++			and rider._manual_model_frame_clear(pose) and observed.owners_valid and observed.minimum_signed>=-.001 \
++			and observed.near_face==sample.near_face and observed.far_face==sample.far_face and observed.unknown==sample.unknown,
++			"PT24 current coping: recorded Main frame retains exact native model/tyre clearance and honest signed-face bands "+str(sample.physics))
++		check.call(_state(rider)==physical and rider._board_visual.global_transform==pose and Engine.get_physics_frames()==physics,
++			"PT24 current coping: static native witness changes no physical/board/time state "+str(sample.physics))
++		print("PT24_CURRENT_COPING_FACE_BANDS ",{"source_physics":sample.physics,"observed":observed,
++			"weight_bearing_claim":false,"rounded_static_fixture":true})
++	var old_deep:=Transform3D(Basis(Vector3(.139809,-.400391,.905616),Vector3(-.297786,.855257,.424098),Vector3(-.944339,-.328973,.000342)),Vector3(-10.41023,2.108346,139.5383))
++	check.call(not rider._manual_model_frame_clear(old_deep),
++		"PT24 current coping: the retained deeply tilted actual old model remains rejected")
++
++
++static func _current_native_face_bands(rider:CharacterBody3D,bowl:Node3D,pose:Transform3D)->Dictionary:
++	# Signed proximity is not a tyre-load certificate. Preserve native normals,
++	# vertical separations and every bounded miss; never manufacture support.
++	var result:Dictionary={"near_face":0,"far_face":0,"unknown":0,"owners_valid":true,"minimum_signed":INF,"wheels":[]}
++	var space:PhysicsDirectSpaceState3D=rider.get_world_3d().direct_space_state
++	for wheel_index:int in rider._visual_rig.board_contact_geometry().wheels.size():
++		var wheel:Dictionary=rider._visual_rig.board_contact_geometry().wheels[wheel_index]
++		var minimum:float=INF
++		var closest:Dictionary={}
++		var misses:=0
++		for vertex:Vector3 in wheel.points:
++			var at:Vector3=pose*vertex
++			var hit:Dictionary=space.intersect_ray(PhysicsRayQueryParameters3D.create(at+Vector3.UP*.15,at-Vector3.UP*.35,1|8,[rider.get_rid()]))
++			if hit.is_empty():misses+=1;continue
++			result.owners_valid=result.owners_valid and rider._native_bowl_hit_owned(hit,bowl)
++			var signed_gap:float=(at-Vector3(hit.position)).dot(Vector3(hit.normal))
++			if signed_gap<minimum:
++				minimum=signed_gap
++				closest={"vertex":at,"point":hit.position,"normal":hit.normal,"rid":hit.rid,"shape":hit.shape,
++					"signed_face_gap":signed_gap,"vertical_separation":at.y-Vector3(hit.position).y}
++		var label:="unknown_no_native_ray_hit"
++		if is_finite(minimum):
++			result.minimum_signed=minf(result.minimum_signed,minimum)
++			if minimum>=.004 and minimum<=.030:result.near_face+=1;label="near_native_face"
++			elif minimum>.030 and minimum<=.10:result.far_face+=1;label="far_native_face"
++		else:result.unknown+=1
++		result.wheels.append({"wheel":wheel_index,"classification":label,"missed_vertex_rays":misses,"closest":closest})
++	return result
+--- a/tests/clyde_surface_tests.gd
++++ b/tests/clyde_surface_tests.gd
+@@ -241,7 +241,10 @@
+ 	var coping_solid: bool = (native_coping.collision_layer & (1|2)) == (1|2) \
+ 		and native_coping.get_meta("coping_feature", null) == bowl
+ 	for phi: float in [0.17,1.41,3.97,5.22]:
+-		var crown: Vector3 = bowl.sample(PI*0.5,phi*bowl.floor_radius).point + Vector3.UP*0.070
++		# Independent construction specification:12mm above deck,20mm behind
++		# the concrete tangent; do not infer this datum from the guide under test.
++		var concrete: Dictionary = bowl.sample(PI*0.5,phi*bowl.floor_radius)
++		var crown: Vector3 = concrete.point + Vector3.UP*0.012 - Vector3(concrete.normal)*0.020
+ 		var hit := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+ 			crown+Vector3.UP*0.1,crown-Vector3.UP*0.2,1))
+ 		coping_solid = coping_solid and not hit.is_empty() and hit.collider == native_coping \

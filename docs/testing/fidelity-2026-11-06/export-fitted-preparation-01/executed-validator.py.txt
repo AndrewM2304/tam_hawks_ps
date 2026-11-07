@@ -1,0 +1,20 @@
+fitted_manifest_path = root / 'game/art/rider/fitted-manifest.json'
+if fitted_manifest_path.exists():
+    fitted = json.loads(fitted_manifest_path.read_text())
+    if fitted['schema'] != 1 or not fitted['outputs'] or not fitted['generator_sha256']:
+        raise SystemExit('Unsupported or empty fitted-rider provenance.')
+    if fitted['source_manifest_sha256'] != entries.get('game/art/rider/fitted-source-pins.json'):
+        raise SystemExit('Fitted rider source selection differs from its reviewed provenance.')
+    if fitted['original_body_manifest_sha256'] != entries.get('game/art/assets/makehuman_hm08/manifest.json'):
+        raise SystemExit('Fitted rider original anatomy provenance differs.')
+    for name, record in fitted['outputs'].items():
+        relative = 'game/art/rider/' + name
+        if pathlib.Path(name).name != name or not name or name in ('.', '..'):
+            raise SystemExit('Invalid fitted-rider output name.')
+        if entries.get(relative) != record['sha256'] or (root / relative).stat().st_size != record['bytes']:
+            raise SystemExit('Fitted rider output differs from reviewed provenance: ' + name)
+    for name, expected in fitted['generator_sha256'].items():
+        if pathlib.Path(name).name != name or not name.startswith('rider_asset_') or not name.endswith('.py'):
+            raise SystemExit('Invalid fitted-rider generator name.')
+        if entries.get('tools/' + name) != expected:
+            raise SystemExit('Fitted rider generator differs from reviewed provenance: ' + name)

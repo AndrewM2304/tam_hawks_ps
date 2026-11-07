@@ -1,0 +1,47 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source/.local/bowl_reconciled_runner.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+  "started_utc": "2026-11-07T04:14:27.975683+00:00",
+  "os_deadline_seconds": 30,
+  "source_inputs": 806,
+  "engine_pid": 57465,
+  "engine_exit": 0,
+  "eligible": true,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "authorized_overlap": "Root explicitly authorizes untimed contact cohort beside EA qualitative actual-Main paving PID57117 only; no performance claim",
+  "preflight_processes": [
+    "57117 godot --path /workspace/tam_hawks_ps/.local/environment-phase2/main-paving-source --rendering-method gl_compatibility --audio-driver Dummy --windowed --resolution 1280x800 --script tools/environment_main_paving_capture.gd -- /workspace/tam_hawks_ps/.local/environment-phase2/main-paving-source/.local/environment-water/actual-main-paving-01"
+  ],
+  "finished_utc": "2026-11-07T04:14:34.605174+00:00",
+  "wall_seconds": 6.62948138000138,
+  "changed_inputs": [],
+  "errors": [],
+  "result": [
+    68,
+    0
+  ],
+  "other_engine_observed": true,
+  "unknown_other_engine_observed": false,
+  "known_authorized_engine_pid": 57117,
+  "preserved_sha256": {
+    "native-process-observer.json": "1afd3903a9fc7ebea4b382dfc18b6b5609262ece7cb0b189d72535507d32303b",
+    "source-before.json": "1b459d2d33ef26b2cc3c799127f068ca3a6513da8510402326e371f5bb13665c",
+    "observer.gd": "26d0afa3d4aa15295528a6f381b4cd9fbc4f3f124c9d6b59594bf31d23dab2d7",
+    "wrapper.py.txt": "c8cac0ed449c79f1d84dbee18c8f75206d5bf0b0ccd8aab9c7b43fbacf133b63",
+    "native.log": "25c7e823e0e5b6884ac3c34266ac9a49f4dda5c787fbf6a25f24b44690125823",
+    "source-after.json": "1b459d2d33ef26b2cc3c799127f068ca3a6513da8510402326e371f5bb13665c"
+  }
+}

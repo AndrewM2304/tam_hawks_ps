@@ -12,11 +12,15 @@ Music isolation retained. Work directly on main and push without force.
 November checkpoint: current actual source is an in-progress trial. The complete
 required run was rejected (6,311/25); separate subsequent repairs are recorded in
 STATUS. Current actual-Skin contact passes139/0 and the independent manual-body
-comparison104/0. Continuous fitted assets, researched coping, swept bank forecast,
+comparison104/0. Researched coping is now integrated with an actual current
+ClydeSurface/BowlContact/FeatureTransition/Connected190/0 gate; moving support
+and complete regression stay open. Continuous fitted assets, swept bank forecast,
 annular fountain/restricted water casting and recessed architecture remain private
 until their own admission. Inspect Git and exact source receipts before continuing;
 do not infer global success from these focused checks. Commit/push is a checkpoint,
 then continue the accepted independent queue.
+The first checkpoint is **`9b91dbc`**, pushed to origin/main; newer changes may
+still be in progress. Native fitted export/resource acceptance remains pending.
 
 Continue the owner's realism/line-design programme, including the explicit
 forward-facing natural push pose, then manual combo links and correctly oriented

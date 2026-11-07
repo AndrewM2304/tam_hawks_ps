@@ -105,8 +105,8 @@ func build() -> void:
 	var coping := MeshInstance3D.new()
 	coping.name = "ContinuousBowlCoping"
 	var torus := TorusMesh.new()
-	torus.inner_radius = inner-0.045
-	torus.outer_radius = inner+0.045
+	torus.inner_radius = inner+COPING_RADIUS-COPING_FACE_REVEAL-COPING_RADIUS
+	torus.outer_radius = inner+COPING_RADIUS-COPING_FACE_REVEAL+COPING_RADIUS
 	torus.rings = AROUND_SEGMENTS
 	torus.ring_segments = 16
 	coping.mesh = torus
@@ -115,7 +115,7 @@ func build() -> void:
 	steel.metallic = 0.75
 	steel.roughness = 0.4
 	coping.material_override = steel
-	coping.position.y = radius+0.025
+	coping.position.y = radius+COPING_DECK_REVEAL-COPING_RADIUS
 	add_child(coping)
 	var coping_body := StaticBody3D.new()
 	_native_steel_coping=coping_body
@@ -185,7 +185,7 @@ func air_return_frame(world_point: Vector3, _lateral: float) -> Dictionary:
 func get_grind_lines() -> Array:
 	var points := PackedVector3Array()
 	for i in AROUND_SEGMENTS+1:
-		points.append(sample(PI*0.5,float(i)/AROUND_SEGMENTS*width).point+Vector3.UP*0.070)
+		points.append(lip_frame(float(i)/AROUND_SEGMENTS*width).point)
 	return [_native_coping_line("Grind_Coping_"+feature_id,points,"coping")]
 
 func get_feature_definitions() -> Array:

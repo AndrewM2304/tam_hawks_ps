@@ -3,6 +3,11 @@ extends Node3D
 ## Local toe is zero; approach along -Z. Yaw/translation supported, scale must be 1.
 
 const GrindLineSource = preload("res://game/tricks/grind_line.gd")
+# Coping proportions follow the primary construction references recorded in
+# docs/research/COPING-PROPORTIONS.md; native/display/guide datums stay atomic.
+const COPING_RADIUS := 0.030
+const COPING_DECK_REVEAL := 0.012
+const COPING_FACE_REVEAL := 0.010
 static var _shared_concrete: StandardMaterial3D
 var radius := 2.4
 var width := 10.0
@@ -96,13 +101,13 @@ func build() -> void:
 	var coping := MeshInstance3D.new()
 	coping.name = "ContinuousSteelCoping"
 	var cylinder := CylinderMesh.new()
-	cylinder.top_radius = 0.045
-	cylinder.bottom_radius = 0.045
+	cylinder.top_radius = COPING_RADIUS
+	cylinder.bottom_radius = COPING_RADIUS
 	cylinder.height = width
 	cylinder.radial_segments = 12
 	coping.mesh = cylinder
 	coping.material_override = steel
-	coping.position = Vector3(0, radius + 0.025, -radius)
+	coping.position = Vector3(0, radius + COPING_DECK_REVEAL - COPING_RADIUS, -radius - COPING_RADIUS + COPING_FACE_REVEAL)
 	coping.rotation.z = PI * 0.5
 	add_child(coping)
 	var coping_body := StaticBody3D.new()
@@ -115,7 +120,7 @@ func build() -> void:
 	coping_body.set_meta("surface_audio","metal")
 	add_child(coping_body)
 	var coping_shape := CylinderShape3D.new()
-	coping_shape.radius = 0.045
+	coping_shape.radius = COPING_RADIUS
 	coping_shape.height = width
 	var coping_collision := CollisionShape3D.new()
 	coping_collision.shape = coping_shape
@@ -197,7 +202,7 @@ func advance_lateral(_theta: float, lateral: float, metres: float) -> float:
 func lip_frame(lateral: float) -> Dictionary:
 	var frame := sample(PI * 0.5, lateral)
 	frame.face_normal = frame.normal
-	frame.point += Vector3.UP * 0.070
+	frame.point += Vector3.UP * COPING_DECK_REVEAL - frame.face_normal * (COPING_RADIUS - COPING_FACE_REVEAL)
 	frame.normal = Vector3.UP
 	frame.coping_tangent = frame.lateral
 	return frame
@@ -218,8 +223,8 @@ func get_feature_definitions() -> Array:
 
 func get_grind_lines() -> Array:
 	var points := PackedVector3Array([
-		to_global(Vector3(-width * 0.5, radius + 0.070, -radius)),
-		to_global(Vector3(width * 0.5, radius + 0.070, -radius))])
+		lip_frame(-width * 0.5).point,
+		lip_frame(width * 0.5).point])
 	return [_native_coping_line("Grind_" + feature_id + "_Coping", points)]
 
 

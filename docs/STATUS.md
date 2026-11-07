@@ -11,6 +11,8 @@ preserved, origin fetched and main fast-forwarded to `0b62035` before accepting
 production changes. Obsolete cross-bank/interpolation patches were discarded.
 Work remains directly on main, with non-force integration, no hosted CI, no
 spending and no release publication. October evidence below keeps its own scope.
+The in-progress November checkpoint **`9b91dbc` is pushed to origin/main**.
+It is available for ordinary trial while the remaining implementation continues.
 
 Start with [STUDIO](planning/STUDIO.md), [persistent roles/skills](../.agents/agents/README.md),
 [AAA_BENCHMARK](product/AAA_BENCHMARK.md), [FIDELITY_TICKETS](planning/FIDELITY_TICKETS.md),
@@ -104,12 +106,16 @@ The [actual32-frame bank film](testing/fidelity-2026-11-06/bank-crown-motion-01/
 separately proves a visible119.816mm correction snap (D015); its endpoint/capture
 integrity passes do not accept motion. A fresh finite same-owner swept forecast
 is being developed privately to spread the necessary correction. D014 exposed
-oversized original coping: 90 mm diameter/70 mm deck reveal. A primary-source
-[60 mm/12 mm/10 mm profile](research/COPING-PROPORTIONS.md) is still private.
-Its component, shared-feature, original Main and per-physics contact checks pass
-in separate recorded scopes; old-profile fixtures and independent admission
-must be reconciled before production promotion. Both defects remain open on
-the current actual source.
+oversized original coping: 90 mm diameter/70 mm deck reveal. The primary-source
+[60 mm/12 mm/10 mm profile](research/COPING-PROPORTIONS.md) is now integrated
+after independent five-file source review. The complete actual ClydeSurface,
+BowlContact, FeatureTransition and Connected cohorts pass **190/0** on792
+unchanged inputs; [the current receipt](testing/line-design-2026-11-06/coping-proportion-private-development-2026-11-07/actual-current-01/README.md)
+retains the original90/70 regression fixture and new native controls. The
+recorded penetration case is repaired in its scoped checks. Moving wheel
+support/flotation and final combined regression remain open; signed side-face
+proximity is not evidence of gravity-bearing contact. D015 remains open on
+actual source pending the forecast's moving review.
 
 The continuous fitted rider is still private. Its production admission must
 exercise the new cached native-Skin envelope, semantically correct seam tests,
@@ -122,6 +128,11 @@ cold source launch and fresh unsigned Linux/universal-Mac packages. Commit/push
 reviewable checkpoints on main without force while continuing this work.
 Official Godot4.6.3 export templates/notices are
 locally hash-verified; no November package or actual Mac launch is claimed yet.
+The [fitted-export preparation](testing/fidelity-2026-11-06/export-fitted-preparation-01/README.md)
+passes eight exact-validator source cases, including deliberate missing/changed
+assets and escaping paths, with55 unchanged watched inputs. The current procedural
+resource-load smoke also succeeds. Actual fitted/empty-project pack inspection
+remains required after integration; this is not a new package or hardware pass.
 
 Continue into the continuous fitted rider, recessed facades/shop joinery,
 representative actual-GLB grind-contact audit, cheaper water and genuinely distinct

@@ -1,0 +1,26 @@
+from pathlib import Path
+import json,hashlib,re
+R=Path('/workspace/tam_hawks_ps');P=R/'docs/testing/line-design-2026-11-06/coping-proportion-private-development-2026-11-07';M=json.loads((P/'promotion-manifest.json').read_text());Q=P/'bowl-reconciled-02';cs=[]
+def sh(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def ck(n,b,a=None):cs.append({'name':n,'pass':bool(b),'actual':a})
+ck('exactfive-file bundle, threegeometry and two explicit test migrations',set(M['files'])=={'game/levels/transition_feature.gd','game/levels/bowl_feature.gd','game/levels/sunken_bowl_feature.gd','tests/pt24_bowl_contact_tests.gd','tests/clyde_surface_tests.gd'})
+for n,v in M['files'].items():ck(n+': exact preserved candidate/current baseline',sh(P/v['preserved_text'])==v['candidate_sha256'] and sh(R/n)==v['actual_baseline_sha256'])
+r=json.loads((Q/'receipt.json').read_text());a=json.loads((Q/'source-before.json').read_text());b=json.loads((Q/'source-after.json').read_text());log=(Q/'native.log').read_text()
+ck('recorded native68/0 exitzero within30sec deadline',r['engine_exit']==0 and r['eligible'] and r['wall_seconds']<r['os_deadline_seconds']==30 and r['result']==[68,0],r['result'])
+ck('complete806source inputs unchanged and raw native log clean',a==b and len(a)==806 and not r['errors'] and not re.search(r'SCRIPT ERROR:|ERROR:|Parse Error:|FAIL:',log))
+ck('knownEA57117 qualitative overlap only, no performance/visual claim',not r['unknown_other_engine_observed'] and r['known_authorized_engine_pid']==57117 and not r['performance_acceptance'] and not r['visual_acceptance'])
+for n,v in M['files'].items():
+ if n!='tests/clyde_surface_tests.gd':ck(n+': native cohort exact candidate source binding',a[n]==v['candidate_sha256'])
+ else:ck('ordinaryClydeSurface candidate remains outside completed68 contact execution',a[n]==v['actual_baseline_sha256'] and a[n]!=v['candidate_sha256'])
+old=(R/'tests/pt24_bowl_contact_tests.gd').read_text();new=(P/M['files']['tests/pt24_bowl_contact_tests.gd']['preserved_text']).read_text()
+def functions(s):
+ matches=list(re.finditer(r'^static func ([A-Za-z_0-9]+)\(',s,re.M));return {m.group(1):s[m.start():matches[i+1].start() if i+1<len(matches) else len(s)].rstrip() for i,m in enumerate(matches)}
+x=functions(old);y=functions(new);unchanged=[n for n in x if n not in ['run','_fixture','_native_footprint_authentication_controls']]
+# Last old function now precedes additions; compare its own exact body separately.
+ck('original common and footprint phase/contact test function bodies retained',all(x[n]==y[n] for n in unchanged),unchanged)
+ck('original last authentication function retained before appended new helpers',y['_native_footprint_authentication_controls'].startswith(x['_native_footprint_authentication_controls']))
+ck('historical native/display/lip/guide datums checked before unchanged old controls','PT24 historical coping: original90mm section/70mm crown has matching actual native/display/lip/guide datums' in new and 'Historical90/70 fixture: ' in new)
+ck('current unknown native misses explicitly grant no support; proximity not physical loading','unknown_no_native_ray_hit' in new and 'Signed proximity is not a tyre-load certificate' in new and 'weight_bearing_claim' in new)
+ck('ordinaryClydeSurface expectation explicitly remains unrun',not M['actual_install_performed'] and 'not rerun' in M['clyde_surface_expectation_status'])
+out={'schema':1,'reviewer':'independent_qa','checks':len(cs),'failures':sum(not x['pass'] for x in cs),'checks_detail':cs,'verdict':'Exact five-file private bundle has no source-review blocker for root-controlled integration. Native68/0 current/historical contact scope independently source-bound; actual ordinaryClydeSurface, visible moving support and final whole-source gate remain open.','limits':['Original90/70 negative witnesses remain explicit historical native geometry, not a current-world support claim. Current60/12 snapshots are rounded static geometry fixtures and supplement the separate original Main input replay.','Signed4–30mm native face proximity is not gravity bearing. Steep-normal vertical separation/flotation remains a moving-review gate.','No threshold,controller,whole-game,CPU/GPU cost,Mac or AAA pass follows from complementary component/family/Main scopes.','ClydeSurface crown expectation uses independent12mm up/20mm back construction specification; ordinary suite execution is pending after controlled integration.']}
+(P/'independent-promotion-review.json').write_text(json.dumps(out,indent=2)+'\n');print({k:out[k] for k in ['checks','failures','verdict']});print([x for x in cs if not x['pass']]);raise SystemExit(bool(out['failures']))

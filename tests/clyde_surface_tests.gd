@@ -241,7 +241,10 @@ static func _check_sunken_bowl(world: Node3D, check: Callable) -> void:
 	var coping_solid: bool = (native_coping.collision_layer & (1|2)) == (1|2) \
 		and native_coping.get_meta("coping_feature", null) == bowl
 	for phi: float in [0.17,1.41,3.97,5.22]:
-		var crown: Vector3 = bowl.sample(PI*0.5,phi*bowl.floor_radius).point + Vector3.UP*0.070
+		# Independent construction specification:12mm above deck,20mm behind
+		# the concrete tangent; do not infer this datum from the guide under test.
+		var concrete: Dictionary = bowl.sample(PI*0.5,phi*bowl.floor_radius)
+		var crown: Vector3 = concrete.point + Vector3.UP*0.012 - Vector3(concrete.normal)*0.020
 		var hit := world.get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
 			crown+Vector3.UP*0.1,crown-Vector3.UP*0.2,1))
 		coping_solid = coping_solid and not hit.is_empty() and hit.collider == native_coping \

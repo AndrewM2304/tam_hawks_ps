@@ -103,7 +103,8 @@ python3 - <<'PY'
 import hashlib, json, os, pathlib, subprocess
 root = pathlib.Path.cwd()
 paths = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
-paths += [root / 'tools' / name for name in ('rider_asset_bake.py', 'rider_asset_acquire.py', 'rider_asset_hair.py', 'fetch_environment_materials.py', 'build_environment_derivatives.py')]
+paths += list((root / 'tools').glob('rider_asset_*.py'))
+paths += [root / 'tools' / name for name in ('fetch_environment_materials.py', 'build_environment_derivatives.py')]
 paths += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
 entries = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
 fingerprint = hashlib.sha256(json.dumps(entries, sort_keys=True).encode()).hexdigest()
@@ -147,6 +148,26 @@ for name, image in rider_manifest['maps'].items():
         raise SystemExit('Rider surface differs from reviewed provenance: ' + name)
 if entries.get(rider_manifest['generator']) != rider_manifest['generator_sha256']:
     raise SystemExit('Rider surface generator differs from reviewed provenance.')
+fitted_manifest_path = root / 'game/art/rider/fitted-manifest.json'
+if fitted_manifest_path.exists():
+    fitted = json.loads(fitted_manifest_path.read_text())
+    if fitted['schema'] != 1 or not fitted['outputs'] or not fitted['generator_sha256']:
+        raise SystemExit('Unsupported or empty fitted-rider provenance.')
+    if fitted['source_manifest_sha256'] != entries.get('game/art/rider/fitted-source-pins.json'):
+        raise SystemExit('Fitted rider source selection differs from its reviewed provenance.')
+    if fitted['original_body_manifest_sha256'] != entries.get('game/art/assets/makehuman_hm08/manifest.json'):
+        raise SystemExit('Fitted rider original anatomy provenance differs.')
+    for name, record in fitted['outputs'].items():
+        relative = 'game/art/rider/' + name
+        if pathlib.Path(name).name != name or not name or name in ('.', '..'):
+            raise SystemExit('Invalid fitted-rider output name.')
+        if entries.get(relative) != record['sha256'] or (root / relative).stat().st_size != record['bytes']:
+            raise SystemExit('Fitted rider output differs from reviewed provenance: ' + name)
+    for name, expected in fitted['generator_sha256'].items():
+        if pathlib.Path(name).name != name or not name.startswith('rider_asset_') or not name.endswith('.py'):
+            raise SystemExit('Invalid fitted-rider generator name.')
+        if entries.get('tools/' + name) != expected:
+            raise SystemExit('Fitted rider generator differs from reviewed provenance: ' + name)
 manifest = {'git_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
             'working_tree_dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
             'runtime_source_sha256': fingerprint, 'source_files_sha256': entries,
@@ -242,9 +263,15 @@ func _initialize() -> void:
 		if not _fidelity_texture("res://game/art/assets/environment_pbr/derived/" + name, cap, report):
 			quit(1)
 			return
-	var hair := load("res://game/art/rider/short_crop.obj") as ArrayMesh
+	var fitted_path := "res://game/art/rider/fitted-manifest.json"
+	var has_fitted := FileAccess.file_exists(fitted_path)
+	var hair_path := "res://game/art/rider/fitted_hair.obj" if has_fitted else "res://game/art/rider/short_crop.obj"
+	var hair := load(hair_path) as ArrayMesh
 	if hair == null or hair.get_surface_count() != 1 or hair.surface_get_array_len(0) < 1000:
 		push_error("Pack is missing its single-surface cropped hair mesh.")
+		quit(1)
+		return
+	if has_fitted and not _fitted_resources(fitted_path, report):
 		quit(1)
 		return
 	var output := FileAccess.open(OS.get_cmdline_user_args()[0], FileAccess.WRITE)
@@ -268,6 +295,50 @@ func _fidelity_texture(path: String, cap: int, report: Dictionary) -> bool:
 		return false
 	report.textures[path] = {"width": texture.get_width(), "height": texture.get_height(), "mipmaps": image.get_mipmap_count()}
 	return true
+
+func _fitted_resources(manifest_path: String, report: Dictionary) -> bool:
+	var manifest: Variant = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+	if not manifest is Dictionary or int(manifest.get("schema", -1)) != 1:
+		push_error("Pack is missing readable fitted-rider provenance.")
+		return false
+	report.fitted_resources = {}
+	for name: String in manifest.outputs:
+		var path := "res://game/art/rider/" + name
+		if name.ends_with(".json"):
+			var parser := JSON.new()
+			if not FileAccess.file_exists(path) or parser.parse(FileAccess.get_file_as_string(path)) != OK:
+				push_error("Pack is missing readable fitted-rider metadata: " + path)
+				return false
+			report.fitted_resources[name] = {"kind": "json"}
+		elif name.ends_with(".obj"):
+			var mesh := load(path) as ArrayMesh
+			if mesh == null or mesh.get_surface_count() == 0 or mesh.surface_get_array_len(0) < 3:
+				push_error("Pack is missing an imported fitted-rider mesh: " + path)
+				return false
+			report.fitted_resources[name] = {"kind": "mesh", "surfaces": mesh.get_surface_count(), "vertices": mesh.surface_get_array_len(0)}
+		elif name.ends_with(".glb"):
+			var scene := load(path) as PackedScene
+			if scene == null:
+				push_error("Pack is missing an imported fitted-rider scene: " + path)
+				return false
+			var actor := scene.instantiate()
+			var meshes := actor.find_children("*", "MeshInstance3D", true, false)
+			var skeletons := actor.find_children("*", "Skeleton3D", true, false)
+			var valid := not meshes.is_empty()
+			var skinned := 0
+			for node: MeshInstance3D in meshes:
+				valid = valid and node.mesh != null and node.mesh.get_surface_count() > 0
+				if node.skin != null and node.skin.get_bind_count() >= 11:
+					skinned += 1
+			if name == "fitted_outfit.glb":
+				valid = valid and skinned >= 2 and not skeletons.is_empty()
+			if not valid:
+				actor.free()
+				push_error("Pack contains an incomplete fitted-rider scene: " + path)
+				return false
+			report.fitted_resources[name] = {"kind": "scene", "mesh_nodes": meshes.size(), "skeletons": skeletons.size(), "skinned_meshes": skinned}
+			actor.free()
+	return true
 GDSCRIPT
 for TASK_PLATFORM in linux macos; do
   if [[ ! -d "$TASK_BUILD/$TASK_PLATFORM" ]]; then continue; fi
@@ -286,7 +357,8 @@ root = pathlib.Path.cwd()
 build = pathlib.Path(os.environ['TASK_BUILD'])
 metadata = json.loads((build / 'BUILD-METADATA.json').read_text())
 current_inputs = [root / 'project.godot', root / 'export_presets.cfg', root / 'tools/export.sh', root / 'docs/PLAYER-GUIDE.md']
-current_inputs += [root / 'tools' / name for name in ('rider_asset_bake.py', 'rider_asset_acquire.py', 'rider_asset_hair.py', 'fetch_environment_materials.py', 'build_environment_derivatives.py')]
+current_inputs += list((root / 'tools').glob('rider_asset_*.py'))
+current_inputs += [root / 'tools' / name for name in ('fetch_environment_materials.py', 'build_environment_derivatives.py')]
 current_inputs += [p for folder in ('game', 'docs/licences') for p in (root / folder).rglob('*') if p.is_file()]
 if {str(p.relative_to(root)) for p in current_inputs} != set(metadata['source_files_sha256']):
     raise SystemExit('Source files were added or removed during export. Rebuild a stable checkpoint.')
@@ -328,6 +400,9 @@ for platform in ('linux', 'macos'):
     shutil.copy2(root / 'game/art/assets/environment_pbr/derived/manifest.json', notices / 'ENVIRONMENT-DERIVATIVES.json')
     shutil.copy2(root / 'game/art/rider/manifest.json', notices / 'RIDER-SURFACE-PROVENANCE.json')
     shutil.copy2(root / 'game/art/rider/SKIN-NOTICE.md', notices / 'SKIN-NOTICE.md')
+    for name in ('fitted-manifest.json', 'fitted-source-pins.json', 'fitted-licence-headers.json', 'FITTED-NOTICE.md'):
+        source = root / 'game/art/rider' / name
+        if source.exists(): shutil.copy2(source, notices / name)
     shutil.copy2(root / 'docs/licences/ENVIRONMENT-FIDELITY.md', notices / 'ENVIRONMENT-FIDELITY.md')
     shutil.copy2(root / 'docs/PLAYER-GUIDE.md', package / 'PLAYER-GUIDE.md')
     shutil.copy2(build / 'BUILD-METADATA.json', package / 'BUILD-METADATA.json')
@@ -370,6 +445,10 @@ for platform in ('linux', 'macos'):
         for name, source in provenance_sources.items():
             if z.read('NOTICES/' + name) != source.read_bytes():
                 raise SystemExit('Packaged provenance differs from reviewed source: ' + name)
+        for name in ('fitted-manifest.json', 'fitted-source-pins.json', 'fitted-licence-headers.json', 'FITTED-NOTICE.md'):
+            source = root / 'game/art/rider' / name
+            if source.exists() and z.read('NOTICES/' + name) != source.read_bytes():
+                raise SystemExit('Packaged fitted-rider provenance differs from reviewed source: ' + name)
         if hashlib.sha256(z.read(resource_report['pack_path'])).hexdigest() != resource_report['pack_sha256']:
             raise SystemExit('ZIP data pack differs from the inspected resource pack.')
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()

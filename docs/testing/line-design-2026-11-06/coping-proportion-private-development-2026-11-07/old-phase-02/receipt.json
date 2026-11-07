@@ -1,0 +1,43 @@
+{
+  "record_kind": "native process wrapper receipt",
+  "command": [
+    "godot",
+    "--headless",
+    "--path",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+    "--audio-driver",
+    "Dummy",
+    "--fixed-fps",
+    "60",
+    "--script",
+    "/workspace/tam_hawks_ps/.local/coping-proportion-source/.local/old_phase_diagnostic.gd"
+  ],
+  "cwd": "/workspace/tam_hawks_ps/.local/coping-proportion-source",
+  "started_utc": "2026-11-07T04:03:45.926327+00:00",
+  "os_deadline_seconds": 20,
+  "source_inputs": 807,
+  "engine_pid": 56145,
+  "engine_exit": 0,
+  "eligible": true,
+  "performance_acceptance": false,
+  "visual_acceptance": false,
+  "authorized_overlap": "Root-authorized old/new phase native diagnostic may overlap EA qualitative basin graphics; neither is timing evidence",
+  "preflight_processes": [],
+  "finished_utc": "2026-11-07T04:03:49.483435+00:00",
+  "wall_seconds": 3.5571037190020434,
+  "changed_inputs": [],
+  "errors": [],
+  "result": [
+    8,
+    0
+  ],
+  "other_engine_observed": false,
+  "preserved_sha256": {
+    "native-process-observer.json": "ff1e02490b45a0ce902de9efed36cd24790d4e5c2f945c4f632b97156cd9538b",
+    "source-before.json": "d9f4d10fb1bafbbf54b89d680434850a62c257e2993bc4fb9ed144d584300e5e",
+    "observer.gd": "e8a8d7dd3e2a250015df2d0355ff5047e01560548c0618c80ef943b9d213324a",
+    "wrapper.py.txt": "62f71e22bc55bcbe98199bf3c018561c21565b3f6d9565385c0b12b1552c8d09",
+    "native.log": "5aa1e8d4c95c5af4ad43f7e95ce39aa9a0fdd99eee03ed1328658781ac6504af",
+    "source-after.json": "d9f4d10fb1bafbbf54b89d680434850a62c257e2993bc4fb9ed144d584300e5e"
+  }
+}
