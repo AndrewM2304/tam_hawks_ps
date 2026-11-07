@@ -3816,6 +3816,22 @@
             -16.5,
             44.0
           ]
+        },
+        {
+          "face": "east",
+          "start_xz": [
+            -16.0,
+            44.0
+          ],
+          "end_xz": [
+            -16.0,
+            56.0
+          ],
+          "exposed_length_m": 12.0,
+          "centre_xz": [
+            -16.0,
+            50.0
+          ]
         }
       ],
       "primary_front_centre_xz": [
@@ -3830,49 +3846,10 @@
       "roof_native": true,
       "type": "sandstone_tenement",
       "new_market_framing": false,
-      "material_key": "sandstone"
-    },
-    {
-      "id": "street_block_26_part0_unit2_0",
-      "source_mass": "street_block_26",
-      "bounds_xz": [
-        -16.0,
-        44.0,
-        -8.0,
-        56.0
-      ],
-      "front_face": "north",
-      "front_faces": [
-        {
-          "face": "north",
-          "start_xz": [
-            -16.0,
-            44.0
-          ],
-          "end_xz": [
-            -8.0,
-            44.0
-          ],
-          "exposed_length_m": 8.0,
-          "centre_xz": [
-            -12.0,
-            44.0
-          ]
-        }
-      ],
-      "primary_front_centre_xz": [
-        -12.0,
-        44.0
-      ],
-      "storeys": 3,
-      "ground_floor_height_m": 3.6,
-      "upper_floor_height_m": 3.0,
-      "roof_axis": "x",
-      "roof_rise_m": 4.199999999999999,
-      "roof_native": true,
-      "type": "sandstone_tenement",
-      "new_market_framing": false,
-      "material_key": "sandstone"
+      "material_key": "sandstone",
+      "blank_top_faces": [
+        "east"
+      ]
     },
     {
       "id": "street_block_26_part0_unit3_0",
@@ -3916,6 +3893,22 @@
             0.0,
             46.0
           ]
+        },
+        {
+          "face": "west",
+          "start_xz": [
+            -8.0,
+            44.0
+          ],
+          "end_xz": [
+            -8.0,
+            56.0
+          ],
+          "exposed_length_m": 12.0,
+          "centre_xz": [
+            -8.0,
+            50.0
+          ]
         }
       ],
       "primary_front_centre_xz": [
@@ -3930,7 +3923,10 @@
       "roof_native": true,
       "type": "sandstone_tenement",
       "new_market_framing": false,
-      "material_key": "sandstone"
+      "material_key": "sandstone",
+      "blank_top_faces": [
+        "west"
+      ]
     },
     {
       "id": "street_block_27_part0_unit0_0",
@@ -3939,7 +3935,7 @@
         0.0,
         48.0,
         8.0,
-        58.666666666666664
+        56.0
       ],
       "front_face": "north",
       "front_faces": [
@@ -3967,12 +3963,12 @@
           ],
           "end_xz": [
             8.0,
-            52
+            56.0
           ],
-          "exposed_length_m": 4.0,
+          "exposed_length_m": 8.0,
           "centre_xz": [
             8.0,
-            50.0
+            52.0
           ]
         }
       ],
@@ -3984,7 +3980,7 @@
       "ground_floor_height_m": 3.6,
       "upper_floor_height_m": 3.0,
       "roof_axis": "x",
-      "roof_rise_m": 3.733333333333332,
+      "roof_rise_m": 2.8,
       "roof_native": true,
       "type": "sandstone_tenement",
       "new_market_framing": false,
@@ -4097,7 +4093,7 @@
         8.0,
         52.0,
         12.0,
-        61.333333333333336
+        56.0
       ],
       "front_face": "north",
       "front_faces": [
@@ -4125,7 +4121,7 @@
           ],
           "end_xz": [
             12.0,
-            56
+            56.0
           ],
           "exposed_length_m": 4.0,
           "centre_xz": [
@@ -4142,7 +4138,7 @@
       "ground_floor_height_m": 3.6,
       "upper_floor_height_m": 3.0,
       "roof_axis": "x",
-      "roof_rise_m": 3.2666666666666675,
+      "roof_rise_m": 1.4,
       "roof_native": true,
       "type": "service_annex",
       "new_market_framing": false,
@@ -4153,7 +4149,7 @@
       "source_mass": "street_block_30",
       "bounds_xz": [
         12.0,
-        56.0,
+        62.0,
         16.0,
         68.0
       ],
@@ -4163,44 +4159,44 @@
           "face": "north",
           "start_xz": [
             12.0,
-            56.0
+            62.0
           ],
           "end_xz": [
             16.0,
-            56.0
+            62.0
           ],
           "exposed_length_m": 4.0,
           "centre_xz": [
             14.0,
-            56.0
+            62.0
           ]
         },
         {
           "face": "east",
           "start_xz": [
             16.0,
-            56.0
+            62.0
           ],
           "end_xz": [
             16.0,
-            60
+            68.0
           ],
-          "exposed_length_m": 4.0,
+          "exposed_length_m": 6.0,
           "centre_xz": [
             16.0,
-            58.0
+            65.0
           ]
         }
       ],
       "primary_front_centre_xz": [
         14.0,
-        56.0
+        62.0
       ],
       "storeys": 2,
       "ground_floor_height_m": 3.6,
       "upper_floor_height_m": 3.0,
       "roof_axis": "x",
-      "roof_rise_m": 4.199999999999999,
+      "roof_rise_m": 2.0999999999999996,
       "roof_native": true,
       "type": "service_annex",
       "new_market_framing": false,
@@ -5060,6 +5056,22 @@
             14.0,
             18.0
           ]
+        },
+        {
+          "face": "south",
+          "start_xz": [
+            14.0,
+            22.0
+          ],
+          "end_xz": [
+            22.0,
+            22.0
+          ],
+          "exposed_length_m": 8.0,
+          "centre_xz": [
+            18.0,
+            22.0
+          ]
         }
       ],
       "primary_front_centre_xz": [
@@ -5070,64 +5082,6 @@
       "ground_floor_height_m": 3.6,
       "upper_floor_height_m": 3.0,
       "roof_axis": "x",
-      "roof_rise_m": 2.8,
-      "roof_native": true,
-      "type": "sandstone_tenement",
-      "new_market_framing": true,
-      "material_key": "sandstone"
-    },
-    {
-      "id": "md_market_east_shop_unit0_1",
-      "source_mass": "md_market_east_shop",
-      "bounds_xz": [
-        14.0,
-        22.0,
-        22.0,
-        30.0
-      ],
-      "front_face": "east",
-      "front_faces": [
-        {
-          "face": "east",
-          "start_xz": [
-            22.0,
-            22.0
-          ],
-          "end_xz": [
-            22.0,
-            30.0
-          ],
-          "exposed_length_m": 8.0,
-          "centre_xz": [
-            22.0,
-            26.0
-          ]
-        },
-        {
-          "face": "west",
-          "start_xz": [
-            14.0,
-            22.0
-          ],
-          "end_xz": [
-            14.0,
-            30.0
-          ],
-          "exposed_length_m": 8.0,
-          "centre_xz": [
-            14.0,
-            26.0
-          ]
-        }
-      ],
-      "primary_front_centre_xz": [
-        22.0,
-        26.0
-      ],
-      "storeys": 3,
-      "ground_floor_height_m": 3.6,
-      "upper_floor_height_m": 3.0,
-      "roof_axis": "z",
       "roof_rise_m": 2.8,
       "roof_native": true,
       "type": "sandstone_tenement",
@@ -5175,6 +5129,22 @@
           "centre_xz": [
             14.0,
             34.0
+          ]
+        },
+        {
+          "face": "north",
+          "start_xz": [
+            14.0,
+            30.0
+          ],
+          "end_xz": [
+            22.0,
+            30.0
+          ],
+          "exposed_length_m": 8.0,
+          "centre_xz": [
+            18.0,
+            30.0
           ]
         }
       ],
@@ -5811,10 +5781,22 @@
       "roof_native": false
     },
     {
-      "id": "street_block_26_part0_rear0",
+      "id": "street_block_26_part0_rear0_west",
       "bounds_xz": [
         -32.0,
         56.0,
+        -16.0,
+        80.0
+      ],
+      "type": "rear_service_mass",
+      "height_above_local_ground_m": 7.2,
+      "roof_native": false
+    },
+    {
+      "id": "street_block_26_part0_rear0_south",
+      "bounds_xz": [
+        -16.0,
+        62.0,
         0.0,
         80.0
       ],
@@ -5826,7 +5808,7 @@
       "id": "street_block_27_part0_rear0",
       "bounds_xz": [
         0.0,
-        58.666666666666664,
+        62.0,
         8.0,
         80.0
       ],
@@ -5850,7 +5832,7 @@
       "id": "street_block_29_part0_rear0",
       "bounds_xz": [
         8.0,
-        61.333333333333336,
+        62.0,
         12.0,
         80.0
       ],
@@ -5951,14 +5933,24 @@
           18
         ],
         [
-          -42,
+          -58,
           4,
-          30
+          24
         ],
         [
-          -24,
+          -46,
           4,
           34
+        ],
+        [
+          -36,
+          4,
+          36
+        ],
+        [
+          -22,
+          4,
+          36
         ],
         [
           -6,
@@ -5966,13 +5958,18 @@
           32
         ],
         [
+          8,
+          4,
+          27
+        ],
+        [
           16,
           4,
-          28
+          27
         ],
         [
           30,
-          4,
+          2.5,
           27
         ]
       ]
@@ -6023,7 +6020,7 @@
     {
       "id": "depot_bowls",
       "label": "Depot to Foundry street",
-      "width": 10,
+      "width": 4,
       "points": [
         [
           80,
@@ -6053,17 +6050,32 @@
         [
           44,
           4,
-          64
+          62
         ],
         [
-          24,
+          28,
           4,
-          52
+          58
         ],
         [
-          8,
+          18,
           4,
-          40
+          58
+        ],
+        [
+          18,
+          4,
+          59
+        ],
+        [
+          -12,
+          4,
+          59
+        ],
+        [
+          -12,
+          4,
+          42
         ],
         [
           -6,
@@ -6145,6 +6157,11 @@
           30,
           4,
           27
+        ],
+        [
+          38,
+          2.5,
+          27
         ]
       ]
     }
@@ -6157,10 +6174,10 @@
       35
     ],
     "market_south_mouth": [
-      -17,
+      -16,
       36,
-      -7,
-      46
+      -8,
+      62
     ],
     "underpass_4m_lane": [
       28,
@@ -6211,6 +6228,12 @@
         30,
         30
       ]
+    ],
+    "market_service_street": [
+      -16,
+      56,
+      16,
+      62
     ]
   }
 }

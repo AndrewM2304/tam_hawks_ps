@@ -111,6 +111,29 @@ These overlays sharpen the requested outcome and BA gates; they do not replace t
 - **Physical follow-up, still open:** The [private construction study](../testing/board-fidelity-2026-11-07/construction-study/README.md) now supplies an attributable 10.25 mm / 55 mm truck / retained 64 mm wheel / 3/8 in riser design, finite grip-mounted bolts and explicit runtime datums. Its first pad is rejected at 24/1; the finite-face-conforming revision passes 25/0 source arithmetic but is unadmitted. Actual assembly reveals a phantom welded convex bridge beneath the deck. Board artist owns source construction; contact engineering must authenticate native semantic triangle membership and migrate all dependent datums; independent BA/QE must reject the old fused-hull witness, malformed/stale ownership and incomplete native contact/moving evidence. The source-only positive does not close acceptance C/E/F or authorize any runtime change.
 
 
+FID-103 continuation: [native construction02](../testing/board-fidelity-2026-11-07/native-construction-02/README.md)
+preserves native25/0 and matched static22/0 per side, with all rejected epochs.
+The thinner asset remains private:29.225mm datum migration, a rendered grip
+fragment and complete ordinary pose/cache/package acceptance are unresolved.
+The separate [released-board cost03](../testing/board-fidelity-2026-11-07/loose-collision-cost-03/README.md)
+proves source closure and preserves32/23-shape trials. Their native monitor is
+stale, and complete drop workloads show substantial added cost; no collider or
+solver setting is adopted. Ordinary bail/recovery/cone and independent BA remain
+open. Do not turn these component results into completed V1/V3 acceptance.
+
+The [private LOD04 diagnosis](../testing/board-fidelity-2026-11-07/grip-lod-04/README.md)
+now isolates the bright grip fragment to native LOD selection: four22/0 matched
+epochs; bias2 clears the close view at unchanged draws/buffers/textures but adds
+1,300 submitted primitives. No all-distance, Main, frame-time or physical datum
+acceptance follows. The actual-source Main/cooked-ownership migration remains
+private and starts from current dependencies, not the older retained controller.
+
+[Actual Main migration05](../testing/board-fidelity-2026-11-07/actual-main-migration-05/README.md)
+now preserves the complete944-input current rebase, clean native import and
+4/0+4/0 setup/authentication cohorts. The asset-only preimage hovers37.225mm;
+cache-only ownership restores32 pieces and clears the retained phantom proxy.
+Datums, real detach/remount recovery and all-action contact/cost remain open.
+
 ## FID-201 — Replace poor route-facing surface textures
 
 - **Priority / milestone / owner / verifier:** P0 · F1 · EA · independent BA/QE.

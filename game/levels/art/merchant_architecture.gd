@@ -1,14 +1,15 @@
 extends Node3D
-## PRIVATE original Glasgow composite; startup-only art, never gameplay geometry.
-## Declared ceiling: +145k source triangles /48 submitted batches /4MiB native
+## Original Glasgow composite; startup-only art, never gameplay geometry.
+## Declared ceiling: +155k net source triangles /51 submitted batches /4MiB native
 ## mesh+instance buffers, zero added maps/material objects/lights/colliders.
 ## Exact shared materials are supplied by the selected world, not created here.
 const Shell = preload("res://game/levels/art/facade_shell.gd")
 const Arch = preload("res://game/levels/art/arch_mesh.gd")
 const Batches = preload("res://game/levels/static_batches.gd")
+const CivicClock = preload("res://game/levels/art/merchant_clock.gd")
 const PAINT: Array[String] = ["shop_green","shop_burgundy","shop_navy","shop_umber"]
 const SHOP_NAMES: Array[String] = ["CLOSE RECORDS","MERCHANT BOOKS","CROSS GROCER","EAST END REPAIRS"]
-var report: Dictionary = {"scope":"Private geometry prototype; no final visual, pacing or M5 acceptance", "frontages":[], "shells":[], "openings":[], "labels":[], "errors":[], "batch_instances":0}
+var report: Dictionary = {"scope":"Fidelity work in progress; no final visual, pacing or M5 acceptance", "frontages":[], "shells":[], "openings":[], "labels":[], "errors":[], "batch_instances":0}
 var _materials: Dictionary
 var _batches: Dictionary = {}
 var _meshes: Dictionary = {}
@@ -374,7 +375,7 @@ func _flush() -> void:
 		add_child(instance)
 		if not Batches.register(instance,spec.transforms): report.errors.append("Batch registration rejected: "+family)
 
-# V5 OFFLINE PROFILE PROTOTYPE. Not yet wired to LD's new native unit contract.
+# Shared profiles bound to the current native unit construction contract.
 # Shared real joinery replaces the intersecting per-window box collection.
 # At canonical size: stone60tri /timber56tri /glazing2tri. No new materials/maps.
 static var _window_kit_cache: Dictionary = {}
@@ -550,10 +551,14 @@ func _compose_units(units: Array) -> void:
 				for row: int in rows:
 					var upper_base: float = float(unit.ground_floor_height_m)+row*floor_height
 					var last: bool = row==rows-1
+					# Service-facing blind upper masonry is authored per native unit;
+					# main street sash rows and the complete wall/roof stay intact.
+					if last and face_name in unit.get("blank_top_faces",[]):continue
 					var window_height: float = minf(2.05 if not last else 1.85,floor_height-.9)
 					if str(unit.type)=="brick_industrial":window_height=minf(2.65,floor_height-.8)
 					var sill: float = upper_base+(.60 if last else .70)
 					for column: int in columns:
+						if str(unit.id)=="md_market_west_shop_unit0_1" and face_name=="east" and row==1:continue
 						var x: float = -width*.5+step*(column+.5)
 						var window_width: float = minf(1.30,step*.48)
 						var outer := Rect2(x-window_width*.60715,sill-window_height*.075,
@@ -562,6 +567,14 @@ func _compose_units(units: Array) -> void:
 						for bay_rect: Rect2 in bay_holes:
 							if outer.intersects(bay_rect):covered=true
 						if not covered:_unit_window(frame,x,sill+window_height*.5,window_width,window_height,holes,material)
+				if str(unit.id)=="md_market_west_shop_unit0_1" and face_name=="east":
+					var clock_meshes:Dictionary=CivicClock.make()
+					for piece:String in ["stone","dial","metal"]:
+						var kind:String="civic_clock_"+piece
+						_meshes[kind]=clock_meshes[piece]
+						var key:String={"stone":"stone_light","dial":"iron","metal":"brass"}[piece]
+						_primitive(kind,key,Vector3.ONE,Vector3(0,8.2,0),frame)
+					report["civic_clock"]={"unit":unit.id,"frame":frame,"centre":frame*Vector3(0,8.2,0),"diameter_m":2.68,"projection_m":.12,"time":"10:08","original_design_inference":true}
 				var segment_index := 0
 				for front: Dictionary in active[face_name]:
 					var segment_frame: Transform3D = front.frame

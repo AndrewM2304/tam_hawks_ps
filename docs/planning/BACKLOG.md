@@ -23,6 +23,17 @@ circuits, final AAA art/motion and actual M5 performance remain accepted work,
 not passed gates. Specialist usage exhaustion prevents new independent reviews;
 root's available implementation/verification continues.
 
+Current continuation over aa3f7fe: [portal/clock work](../testing/merchant-district-2026-11-07/portals-clock-01/README.md)
+opens the blocked west bank and south rear-service dogleg, with24/0 component
+cohorts, one-rider8/0 and production focused31/0. The clock/current enclosure
+passes native static8/0 at279,452 total/154,802 net triangles and51 batches;
+five service views31/0 are inspected. Required08 is interrupted, not passed;
+required09 now passes6,740/0 plus CLI2/0,Book65/0,lifecycle22/0 and parsed31/0,
+all945 inputs exact, raw eligibletrue. Fresh cold03 source launch8/0
+passes on947 exact copied/observer inputs. Zero returned lines/circuits remain
+accepted. Complete current package admission, then continue capture/board
+fidelity and actual scored returns; current ordinary Mac/M5 gates stay open.
+
 FID-103 continuation is sealed in the [native board packet](../testing/board-fidelity-2026-11-07/native-construction-02/README.md).
 Private native25/0 and static22/0 per candidate/control do not authorize the
 29.225mm datum migration or close its visible grip-fragment defect. Next concrete

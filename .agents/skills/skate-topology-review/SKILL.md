@@ -62,3 +62,10 @@ When findings uncover a new production defect, preserve exact reproduction
 state, component/frame, finite shape owner/ID and actual query result before
 suggesting a repair. Bounded failure logs need a first sample of each query
 class so repeated capsule contacts cannot hide a later model collision.
+
+Do not infer GPU placement from headless MultiMesh.get_instance_transform():
+the dummy renderer can return identity. For a CPU indexed-face diagnostic use
+the exact registered authored transforms and explicitly retain that narrower
+scope. Inspect actual GL pixels separately. A view inside a still-solid old
+building can resemble a floating room; locate real native/source faces before
+diagnosing a window shader. Preserve failed camera and query epochs.

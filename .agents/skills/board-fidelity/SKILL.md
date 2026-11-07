@@ -92,3 +92,11 @@ tyre-ground datums before mounting a reconstruction. Whole-board convex hulls
 can bridge real under-deck voids; reuse authenticated component shapes and
 validate actual solver contact. Global solver settings also affect the festival
 cone, not only the rider's loose board.
+
+Inspect generated LODs on thin layered surfaces: a clean full-resolution source
+ray can coexist with a native LOD fragment. A matched private instance-lod_bias
+control can isolate selection without editing source, imports or materials.
+Keep full source triangles, submitted primitives, allocated buffers and frame
+cost separate. A higher bias can remove an artifact while adding drawn work;
+it is not a zero-cost or all-distance fix. Retain wrong-pixel/rim diagnostics as
+rejected witnesses and preserve the original captures without retouching them.

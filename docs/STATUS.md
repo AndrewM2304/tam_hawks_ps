@@ -6,6 +6,46 @@ appropriate balance controls/meters. Target: **MacBook Air M5**; an engine rewri
 is authorised if necessary. **AAA fidelity, final integrated regression and actual
 Mac performance are not claimed.** Work continues after production checkpoints.
 
+Current working source over pushed **aa3f7fe** repairs the actual Foundry-west
+shop obstruction and the blocked south frontage/rear service return. The
+[portal/clock packet](testing/merchant-district-2026-11-07/portals-clock-01/README.md)
+preserves valid native negative preimages12/12 and18/6, both repaired24/0,
+same-rider mapped-input dogleg8/0 and production focused31/0. Three real visible
+retaining faces close the exposed street underside; route heights use constructed
+terrain and all eight runtime IDs are unique.706 other native records are exact.
+The original civic clock adds a useful Market landmark. Final native static8/0
+retains279,452 total/154,802 net triangles,51 art batches and805 windows without
+raising the original geometry ceilings; two earlier over-budget variants remain
+rejected. Root inspected five current service views31/0, with source/pixel/camera
+proofs. This improves real links and Glasgow enclosure; final art and returned
+combo routes remain open.
+
+Current [required09](testing/merchant-district-2026-11-07/required09-portals-complete/README.md)
+passes **6,740/0 game,2/0 CLI,65/0 Book,22/0 lifecycle and31/0 parsed-menu** checks,
+exit0, raw eligibletrue, all945 inputs exact,1,959.823466s. Required08 was
+deliberately interrupted after the newly proved south obstruction:509.242724s,
+engine−15, no final game result, raw eligiblefalse and945 exact inputs; its
+complete Git/gzip source closure is retained. A fresh cache-free ordinary source
+[cold03 launch](testing/merchant-district-2026-11-07/cold-source-03/README.md)
+passes8/0 in34.892232s with947 exact copied/observer inputs,944 matching full09's
+production preimage. Fresh current packages follow this gate; Main timing and
+actual M5 acceptance remain open. Source is ready for the next main checkpoint.
+
+The private [board LOD diagnosis](testing/board-fidelity-2026-11-07/grip-lod-04/README.md)
+passes22/0 at each bias1/2/4/16. Bias2 removes the close-view grip fragment with
+unchanged draws/buffers/textures but1,300 more submitted primitives in that view;
+it does not prove all-distance or Main acceptance and is unadopted. The separate
+[released-board cost study](testing/board-fidelity-2026-11-07/loose-collision-cost-03/README.md)
+rejects stale monitor data and substantial32/23-component native drop overhead;
+no collider or solver setting changes. A current-source private Main rebase for
+the physical board [now reproduces](testing/board-fidelity-2026-11-07/actual-main-migration-05/README.md)
+37.225mm tyre hover and a phantom clearance
+volume; a private cache-only stage restores32 logical parts and clears that
+phantom, with datums/recovery still incomplete. The matching native/rendered
+[cone prototype](testing/merchant-district-2026-11-07/cone-prototype-01/README.md)
+passes native9/0, mapped actual Main8/0 and matched19/0+19/0 views within declared
+component resource budgets. Neither prototype is installed or independently accepted.
+
 The checkout initially held historical `315d245`. Early specialist work was
 preserved, origin fetched and main fast-forwarded to `0b62035` before accepting
 production changes. Obsolete cross-bank/interpolation patches were discarded.

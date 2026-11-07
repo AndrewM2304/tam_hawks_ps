@@ -492,7 +492,7 @@ func _build_street_choices() -> void:
 	_patch("MD_Lower_Corner_Bank",Rect2(18,48,8,8),Vector4(4,5.4,5.4,4))
 	_features.append({"id":"md_arcade_wall","kind":"wallride","position":Vector3(43,5.5,68),"length":18.0,"height":3.0})
 
-func _panel(id: String,faces: PackedVector3Array,material: Material) -> StaticBody3D:
+func _panel(id: String,faces: PackedVector3Array,material: Material,vertical_uv := false) -> StaticBody3D:
 	var body := StaticBody3D.new()
 	body.name = id
 	body.set_meta("surface_audio","stone")
@@ -507,7 +507,7 @@ func _panel(id: String,faces: PackedVector3Array,material: Material) -> StaticBo
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for vertex: Vector3 in faces:
-		surface.set_uv(Vector2(vertex.x,vertex.z)*.2)
+		surface.set_uv(Vector2(vertex.x,vertex.y)*.2 if vertical_uv else Vector2(vertex.x,vertex.z)*.2)
 		surface.add_vertex(vertex)
 	surface.generate_normals()
 	var mesh := MeshInstance3D.new()
@@ -611,6 +611,17 @@ func _build_basin() -> void:
 	_patch("MD_Foundry_North_East_Deck",Rect2(58,20,20,4),Vector4.ONE*4.0)
 	_patch("MD_Foundry_North_Bank",PORT_BANK,Vector4(4,4,2.5,2.5))
 	_patch("MD_Foundry_West_Bank",WEST_ENTRY,Vector4(4,2.5,2.5,4))
+	# The street top is thin terrain. Close its exposed drop to the bank with
+	# real native/displayed retaining faces, without narrowing the six-metre mouth.
+	for z: float in [WEST_ENTRY.position.y,WEST_ENTRY.end.y]:
+		var cheek := PackedVector3Array([Vector3(20,4,z),Vector3(30,4,z),Vector3(30,2.5,z)])
+		if z==WEST_ENTRY.end.y:cheek.reverse()
+		var retaining := _panel("MD_Foundry_West_Cheek_"+("North" if z==WEST_ENTRY.position.y else "South"),cheek,_materials.warehouse_brick,true)
+		retaining.set_meta("wallrideable",true)
+	var south_face := PackedVector3Array([Vector3(30,2.5,30),Vector3(78,2.5,30),Vector3(78,4,30),
+		Vector3(30,2.5,30),Vector3(78,4,30),Vector3(30,4,30)])
+	var south_retaining := _panel("MD_Foundry_Lower_South_Retaining",south_face,_materials.warehouse_brick,true)
+	south_retaining.set_meta("wallrideable",true)
 	for interval: Vector2 in [Vector2(30,48),Vector2(58,78)]:
 		_box("MD_Foundry_North_Retaining",Vector3((interval.x+interval.y)*.5,3.25,23.925),
 			Vector3(interval.y-interval.x,1.5,.15),_materials.warehouse_brick,true)
@@ -634,13 +645,13 @@ func _build_routes() -> void:
 	for road: Dictionary in _layout.street_corridors:
 		var points := PackedVector3Array()
 		for p: Array in road.points:
-			points.append(Vector3(p[0],_ground(p[0],p[2]),p[2]))
+			# Resolve bank/deck datums after their native terrain is built.
+			points.append(Vector3(p[0],get_ground_height(Vector3(p[0],0,p[2])),p[2]))
 		_routes.append({"id":"md_"+str(road.id),"label":str(road.label) if road.has("label") else str(road.id).replace("_"," "),
 			"points":points,"requires_jump":false,"design_guide_only":true})
 	_routes.append({"id":"md_foundry_north","label":"Foundry north bank","requires_jump":false,
 		"points":PackedVector3Array([Vector3(53,4,14),Vector3(53,2.5,24),Vector3(53,2.5,27)])})
-	_routes.append({"id":"md_foundry_west","label":"Foundry west bank","requires_jump":false,
-		"points":PackedVector3Array([Vector3(20,4,27),Vector3(30,2.5,27),Vector3(38,2.5,27)])})
+	# The authored foundry_west corridor above owns the single west-bank ID.
 
 func get_level_manifest() -> Dictionary:
 	return {"schema_version":1,"id":Catalog.DEFAULT_LEVEL,"label":"Merchant District",

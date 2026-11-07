@@ -48,6 +48,17 @@ curve-baked routes. Independently check unique IDs and fixed registry coverage.
 Preserve the initial source draft when later providers change; add a dated
 currentness/native-snapshot layer rather than silently upgrading old evidence.
 
+Check the full front AND rear building volumes against every protected mouth.
+A correctly exposed shop face can still conceal a rear mass across the return.
+Before a negative native run, prove its initial capsule is outside all original
+and revised expanded volumes. An actor spawned inside a building can fall through
+the world; that is an invalid fixture, not an ordinary approach reproduction.
+Verify both directions, centre/shoulders and the same rider steering through
+the complete dogleg. Keep these ground connections distinct from scored lines.
+Navigation IDs must be unique and route heights must resolve the constructed
+bank/deck providers, not just the base terrain. Whole-route footprint audits are
+source observations, not clearance or native combo certificates.
+
 Review every gap as approach → launch → real landing/runout → next meaningful
 trick → useful return. Main's actual scoring position/state may differ from a
 tracker header; inspect its caller. Keep one-way award direction, trigger-sphere

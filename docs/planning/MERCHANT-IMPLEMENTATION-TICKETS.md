@@ -10,9 +10,9 @@ own current contracts. These are repository tickets, not published remote issues
 
 | Ticket / priority | Implementation owner | Independent verifier | Current state |
 | --- | --- | --- | --- |
-| MD-101 / P0 — Four adjoining skating spaces | Level designer | Skate topology reviewer / BA | Installed four-space03a default; canonical native50/0 bypass cohort and actual required06 pass; moving grade/whole-map line acceptance remains open |
+| MD-101 / P0 — Four adjoining skating spaces | Level designer | Skate topology reviewer / BA | Installed four-space03a default; west/south actual building obstructions repaired, component24/0 each and same-rider dogleg8/0; production focused31/0 and complete full09; moving grade/whole-map line acceptance remains open |
 | MD-102 / P0 — Selected world and compatible progress | Root + world integration engineer | Technical QE | Actual required06: Book65/0, lifecycle/recorder22/0, parsed keyboard/pad31/0 and full6,709/0; ordinary rendered13/0 and cold8/0; actual Mac save/relaunch unmeasured |
-| MD-103 / P0 — Recognisable Glasgow architecture | Environment architect | Technical QE + BA | Installed stepped sandstone/bays/closes/shops and photographic ground; final static8/0/rendered65/0 within declared geometry/buffer cost; repetitive facades/plain ground/landmarks and independent final review remain open |
+| MD-103 / P0 — Recognisable Glasgow architecture | Environment architect | Technical QE + BA | Civic clock and real retained street faces added; current static8/0 at279,452 total/154,802 net triangles and51 batches; five current service views31/0; repetitive facades/plain ground/props and independent final review remain open |
 | MD-104 / P0 — Eight returned lines and three circuits | Level designer + combo engineer | Skate topology reviewer / BA | Current two-rail Market open link18/0: one root-derived4,459-point bank per run; capture discontinuity open; zero returned lines/circuits accepted |
 | MD-105 / P0 — Believable rider and continuous contact | Rider artist + motion engineer; board artist as needed | Rigging/technical QE + BA | Forward-push film technically verified; arm carrier installed with independent176/0 and full regression; knee, capture and ground-transition fidelity remain open |
 | MD-106 / P0 — Ordinary launch, cooked delivery and M5 cost | Root + rendering engineer | Technical QE; owner for actual Mac | Current source cold8/0; unsigned Linux/universal-Mac exports and native PCK resource checks pass; ordinary release headless startup passes; rendered title/Free Skate observed but full timing/exit/pushing trial rejected; actual M5 cost/play unmeasured |
@@ -42,6 +42,17 @@ Acceptance:
 Verification: exact-source native static/negative probes and ordinary input runs,
 with initial fixtures explicitly labelled. Later landing alone cannot pass the
 no-jump bypass. Add moving rendered views before promotion.
+
+Current [portal/service evidence](../testing/merchant-district-2026-11-07/portals-clock-01/README.md)
+retains the real west wall12/12 negative and corrected south18/6 negative before
+their24/0 component repairs. Six west centre/shoulder runs remain grounded with
+about37.1mm maximum per-tick body-height step. The complete south dogleg succeeds
+both ways on one rider with mapped steering,8/0. Ground routes are not returned
+combo lines. Eight runtime route IDs are now unique; all seven source street
+centrelines avoid front/rear building footprints, without claiming native
+whole-route/prop/shoulder/camera acceptance.706 other native records stay exact.
+Required08 is deliberately interrupted/eligiblefalse. [Full09](../testing/merchant-district-2026-11-07/required09-portals-complete/README.md)
+passes6,740/0 plus CLI2/0,Book65/0,lifecycle22/0 and parsed31/0 on945 exact inputs.
 
 ## MD-102 — Integrate selection and safe per-level progress
 
